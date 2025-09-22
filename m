@@ -2,86 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720C7B9249E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 18:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31789B926A7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 19:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B1C10E4A1;
-	Mon, 22 Sep 2025 16:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6879410E4D0;
+	Mon, 22 Sep 2025 17:27:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oU7hJRsU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d9jsUu8I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3783510E4A5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 16:46:11 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-45f2b062b86so30812205e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 09:46:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1758559570; x=1759164370; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=DmEFxgmAVEtk875jgss2XO8XYozo00AgTRJPnU2LJXM=;
- b=oU7hJRsU5xwr2ucwKg5gqOheZ5WjXrl5n3XecVRyTgj+Bnqh1CcjkhoUiRcxAyIEbD
- +SnFcagClCRisEQY27HHJTf7n+uTc4mOulrqJLmX8SFJXtg3ay4+CNUartzveeP9pSov
- /+Dt8igQxUHo7zOHavuQEqTp/BRU1tf1v9KlxyPeuzQPXNDt0fVD7C+4ne7LaSewCx1W
- Cq/C2o/aChTJgR8n0DHEtTWd+NKpsQGFYaEVn40pLDEmIV90+3yiD0bgASj3QHQBmyEU
- leDAfK+3sH6KgB/ypAcM5MvS719TekN7JCn5ilID/AB+TGTH6120WxjcC+kl2MBSGPwQ
- ycPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758559570; x=1759164370;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DmEFxgmAVEtk875jgss2XO8XYozo00AgTRJPnU2LJXM=;
- b=Vc2iRbgTFSfxDvUlzb8NbSaESf1VqnamlCXKmm4oizYfywOlAtpwCay3+dWYKLunoo
- w6QUIZ/cmAZXEIx2R6MKj/rLNbMY90uwT3JLr/iuFXH6BdJDDimggLU7bjguDOAKGKPE
- R96bMVHXptvKP5SwXeGH1f9rwuQD6Rv2jL6mM0rHcukVnt/oB6AJPZsSvwZg51dL1xBR
- tfIXZ65jbna4frU6T9Epod3OYIXe1+KkB7f3+KYaHPOfMwgmQIHR2q6wgMC8HJFNjgDs
- p2yyis8oc7T4v31y2pgl+82iw/9zWZxw86rHiNZD/CbcOMJT60CvArVegk6HL/2KjQaq
- jk1g==
-X-Gm-Message-State: AOJu0Yys/527075YyNcFVb1bQo10QdjP8oB+DwXrNLW07RsvoS6zgw3P
- jVQn4w/XLlTXb6qFlJ8gsln6enNR/kYtQG5C69l5O9+4EldqrOY+Nd8vMw4LhaOWDxs=
-X-Gm-Gg: ASbGncsJYbEPjLvyIXvCeuTWpzBll9higA/CRqQsAyOis6Nw5AAvZ8jce4P6ubLmMwY
- r8DQSOASuBDLsKUBCoa1lrUKLXloqQa05z8Epyyqz9HXAZJcPKkPokJBIueyUaBvsPn9bAxrqTx
- sZPd+/jVAXvzSfsxbtIrOU7Y8OqV2Q5zoZ84WevUt9oUsPh2sbn+tbjLNrXVEOKEPeIPKavEBm3
- Nd366mD7YhxftIdWeOBJd4JhiFKePyzjYtzdZz/xgI250xpwYpKV51miwgYC2GWnF+AG6NidZpR
- 0bXUg5i5rYlHiu5iVibq0IKLEAcDSpU4w4jjGOoYXoGRsgNyDIP3JkWMjVbYrPpmbnTh0/YfK20
- 7FneAr6t96pyddlokMPm6rSeC/vNgk8im
-X-Google-Smtp-Source: AGHT+IE14D5RfFWl+3oDwrEhrCSGb1LSkUa2XB++wA+FYelbyDuYa/J5IyH+Xp5w/aqOs5vNNITGdw==
-X-Received: by 2002:a05:600c:314f:b0:45d:d353:a491 with SMTP id
- 5b1f17b1804b1-467ee305903mr111154085e9.1.1758559569503; 
- Mon, 22 Sep 2025 09:46:09 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:30:ae58:9ec8:1ac6:e1a6])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45f325cec0fsm145956135e9.4.2025.09.22.09.46.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 09:46:08 -0700 (PDT)
-Date: Mon, 22 Sep 2025 18:46:04 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Rob Clark <rob.clark@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] drm/msm: Fix refcnt underflow in error path
-Message-ID: <aNF9TGkEfYqfegrR@linaro.org>
-References: <20250723190852.18394-1-robin.clark@oss.qualcomm.com>
- <20250723190852.18394-2-robin.clark@oss.qualcomm.com>
- <aNF6N8u1VIFSTaRM@linaro.org>
- <CACSVV033oJodLUS2cwTVeMc9Y3o4np3UgDyX=T8caspRk3--4g@mail.gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4428810E4D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 17:27:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8EA7B60218;
+ Mon, 22 Sep 2025 17:27:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9950C4CEF0;
+ Mon, 22 Sep 2025 17:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758562070;
+ bh=yKJaAmyEUj6hfg2Wi/c+GfF4r+OUMiAWTtRJ4AOyhsY=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=d9jsUu8ISkmgl9vuYDCPazTMv9KseEzUkLR1u6Huuav+aVAYr6rWRocAaqM/nFw39
+ Wf2hwBQJXfUzSgY9M0V3scvPCXJieS7culoGJ6zIp9VTKYCf4AuGju8oshgiidPu0g
+ wiYvbX/FS/w93EcnX4kvIy1Zlb0Na6Qrzufxlsyl2iO3XCqGWgtUFcBpZq1v7a8Kie
+ uboN+g+QriCO8KkwwtDYMrf7/UypAEVk27Ipb52xEaj7ndxx2Ivmi8Vu/tgZoNFx+/
+ kKqGdz5g63E6tdWAVERyP6bKUWrmTp2Esti7If4qDg2CvuJNmEOQNME6EgVGFSXsFJ
+ JE3e74QN36E2A==
+Date: Mon, 22 Sep 2025 12:27:44 -0500
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACSVV033oJodLUS2cwTVeMc9Y3o4np3UgDyX=T8caspRk3--4g@mail.gmail.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Diederik de Haas <didi.debian@cknow.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Dragan Simic <dsimic@manjaro.org>, dri-devel@lists.freedesktop.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Peter Robinson <pbrobinson@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Amit Sunil Dhamne <amitsd@google.com>, Maxime Ripard <mripard@kernel.org>, 
+ Andy Yan <andy.yan@rock-chips.com>, linux-phy@lists.infradead.org, 
+ linux-usb@vger.kernel.org, Frank Wang <frank.wang@rock-chips.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Yubing Zhang <yubing.zhang@rock-chips.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Heiko Stuebner <heiko@sntech.de>, Johan Jonker <jbx6244@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Vinod Koul <vkoul@kernel.org>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+To: Chaoyi Chen <kernel@airkyi.com>
+In-Reply-To: <20250922012039.323-1-kernel@airkyi.com>
+References: <20250922012039.323-1-kernel@airkyi.com>
+Message-Id: <175856183997.499955.3596561052820030372.robh@kernel.org>
+Subject: Re: [PATCH v4 0/7] Add Type-C DP support for RK3399 EVB IND board
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,109 +76,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 22, 2025 at 09:41:07AM -0700, Rob Clark wrote:
-> On Mon, Sep 22, 2025 at 9:33 AM Stephan Gerhold
-> <stephan.gerhold@linaro.org> wrote:
-> > On Wed, Jul 23, 2025 at 12:08:49PM -0700, Rob Clark wrote:
-> > > If we hit an error path in GEM obj creation before msm_gem_new_handle()
-> > > updates obj->resv to point to the gpuvm resv object, then obj->resv
-> > > still points to &obj->_resv.  In this case we don't want to decrement
-> > > the refcount of the object being freed (since the refcnt is already
-> > > zero).  This fixes the following splat:
-> > >
-> > >    ------------[ cut here ]------------
-> > >    refcount_t: underflow; use-after-free.
-> > >    WARNING: CPU: 9 PID: 7013 at lib/refcount.c:28 refcount_warn_saturate+0xf4/0x148
-> > >    Modules linked in: uinput snd_seq_dummy snd_hrtimer aes_ce_ccm snd_soc_wsa884x regmap_sdw q6prm_clocks q6apm_lpass_da>
-> > >     qcom_pil_info i2c_hid drm_kms_helper qcom_common qcom_q6v5 phy_snps_eusb2 qcom_geni_serial drm qcom_sysmon pinctrl_s>
-> > >    CPU: 9 UID: 1000 PID: 7013 Comm: deqp-vk Not tainted 6.16.0-rc4-debug+ #25 PREEMPT(voluntary)
-> > >    Hardware name: LENOVO 83ED/LNVNB161216, BIOS NHCN53WW 08/02/2024
-> > >    pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-> > >    pc : refcount_warn_saturate+0xf4/0x148
-> > >    lr : refcount_warn_saturate+0xf4/0x148
-> > >    sp : ffff8000a2073920
-> > >    x29: ffff8000a2073920 x28: 0000000000000010 x27: 0000000000000010
-> > >    x26: 0000000000000042 x25: ffff000810e09800 x24: 0000000000000010
-> > >    x23: ffff8000a2073b94 x22: ffff000ddb22de00 x21: ffff000ddb22dc00
-> > >    x20: ffff000ddb22ddf8 x19: ffff0008024934e0 x18: 000000000000000a
-> > >    x17: 0000000000000000 x16: ffff9f8c67d77340 x15: 0000000000000000
-> > >    x14: 00000000ffffffff x13: 2e656572662d7265 x12: 7466612d65737520
-> > >    x11: 3b776f6c66726564 x10: 00000000ffff7fff x9 : ffff9f8c67506c70
-> > >    x8 : ffff9f8c69fa26f0 x7 : 00000000000bffe8 x6 : c0000000ffff7fff
-> > >    x5 : ffff000f53e14548 x4 : ffff6082ea2b2000 x3 : ffff0008b86ab080
-> > >    x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0008b86ab080
-> > >    Call trace:
-> > >     refcount_warn_saturate+0xf4/0x148 (P)
-> > >     msm_gem_free_object+0x248/0x260 [msm]
-> > >     drm_gem_object_free+0x24/0x40 [drm]
-> > >     msm_gem_new+0x1c4/0x1e0 [msm]
-> > >     msm_gem_new_handle+0x3c/0x1a0 [msm]
-> > >     msm_ioctl_gem_new+0x38/0x70 [msm]
-> > >     drm_ioctl_kernel+0xc8/0x138 [drm]
-> > >     drm_ioctl+0x2c8/0x618 [drm]
-> > >     __arm64_sys_ioctl+0xac/0x108
-> > >     invoke_syscall.constprop.0+0x64/0xe8
-> > >     el0_svc_common.constprop.0+0x40/0xe8
-> > >     do_el0_svc+0x24/0x38
-> > >     el0_svc+0x54/0x1d8
-> > >     el0t_64_sync_handler+0x10c/0x138
-> > >     el0t_64_sync+0x19c/0x1a0
-> > >    irq event stamp: 3698694
-> > >    hardirqs last  enabled at (3698693): [<ffff9f8c675021dc>] __up_console_sem+0x74/0x90
-> > >    hardirqs last disabled at (3698694): [<ffff9f8c68ce8164>] el1_dbg+0x24/0x90
-> > >    softirqs last  enabled at (3697578): [<ffff9f8c6744ec5c>] handle_softirqs+0x454/0x4b0
-> > >    softirqs last disabled at (3697567): [<ffff9f8c67360244>] __do_softirq+0x1c/0x28
-> > >    ---[ end trace 0000000000000000 ]---
-> > >
-> > > Fixes: b58e12a66e47 ("drm/msm: Add _NO_SHARE flag")
-> > > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> > > ---
-> > >  drivers/gpu/drm/msm/msm_gem.c | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> > > index 33d3354c6102..958bac4e2768 100644
-> > > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > > @@ -1114,10 +1114,12 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
-> > >               put_pages(obj);
-> > >       }
-> > >
-> > > -     if (msm_obj->flags & MSM_BO_NO_SHARE) {
-> > > +     if (obj->resv != &obj->_resv) {
-> > >               struct drm_gem_object *r_obj =
-> > >                       container_of(obj->resv, struct drm_gem_object, _resv);
-> > >
-> > > +             WARN_ON(!(msm_obj->flags & MSM_BO_NO_SHARE));
-> > > +
-> > >               /* Drop reference we hold to shared resv obj: */
-> > >               drm_gem_object_put(r_obj);
-> > >       }
-> >
-> > This patch seems to break something for direct IRIS/video playback using
-> > dmabuf. I use a simple GStreamer test pipeline for testing IRIS on X1E
-> > (on GNOME, in case that matters):
-> >
-> >  $ gst-launch-1.0 filesrc location=bbb_sunflower_2160p_60fps_normal.mp4 \
-> >    ! qtdemux name=d d.video_0 ! h264parse ! v4l2h264dec \
-> >    ! capture-io-mode=dmabuf ! waylandsink
-> >
-> > The video plays fine, but if I try to exit (CTRL+C) the display hangs
-> > for a few seconds and then the console is spammed with pretty much
-> > exactly the messages that you tried to fix here. If I revert this patch,
-> > everything is fine again. It feels like your patch does exactly the
-> > opposite for this use case. :-)
-> >
-> > It seems to run into the WARN_ON you added.
+
+On Mon, 22 Sep 2025 09:20:32 +0800, Chaoyi Chen wrote:
+> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > 
-> Hmm, are we allocating from drm and importing into v4l2, or the other direction?
+> This series focuses on adding Type-C DP support for USBDP PHY and DP
+> driver. The USBDP PHY and DP will perceive the changes in cable status
+> based on the USB PD and Type-C state machines provided by TCPM. Before
+> this, the USBDP PHY and DP controller of RK3399 sensed cable state
+> changes through extcon, and devices such as the RK3399 Gru-Chromebook
+> rely on them. This series should not break them.
+> 
+> ====
+> 1. DisplayPort HPD status notify
+> 
+> Before v4, I implemented a variety of DP HPD status notify. However,
+> they all had various problems and it was difficult to become a common
+> solution.
+> 
+> Under Dmitry's guidance, I try to add default DRM AUX HPD device when
+> register DisplayPort altmode in patch 1. That makes it redundant for
+> each Type-C chip driver to implement a similar registration process
+> in embedded scenarios.
+> 
+> I'm not certain if the current implementation is appropriate.
+> Please let me know if there's a better way.
+> 
+> ====
+> 2. Altmode switching and orientation switching for USBDP PHY
+> 
+> For USB Type-C interfaces, an external Type-C controller chip assists
+> by detecting cable attachment, determining plug orientation, and
+> reporting USB PD message. The USB/DP combo PHY supports software
+> configurable pin mapping and DisplayPort lane assignment. Based on
+> these message, the combo PHY can perform both altmode switching and
+> orientation switching via software.
+> 
+> The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
+> fusb302 chip as Type-C controller. The connection diagram is shown below:
+> 
+> fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
+>              |
+>              +---> USB/DP PHY0 +--> CDN-DP controller
+>                                |
+>                                +--> DWC3 USB controller
+> 
+> ====
+> 3. Multiple bridge model for RK3399 CDN-DP
+> 
+> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+> the CDN-DP can be switched to output to one of the PHYs.
+> 
+> USB/DP PHY0 ---+
+>                | <----> CDN-DP controller
+> USB/DP PHY1 ---+
+> 
+> In previous versions, if both PHY ports were connected to DP,
+> the CDN-DP driver would select the first PHY port for output.
+> 
+> On Dmitry's suggestion, we introduced a multi-bridge model to support
+> flexible selection of the output PHY port. For each PHY port, a
+> separate encoder and bridge are registered.
+> 
+> The change is based on the DRM AUX HPD bridge, rather than the
+> extcon approach. This requires the DT to correctly describe the
+> connections between the PHY, USB connector, and DP controller.
+> And cdn_dp_parse_hpd_bridge_dt() will parses it and determines
+> whether to register one or two bridges.
+> 
+> ====
+> Patch1 add default HPD device when register Displayport altmode.
+> Patch2 add new Type-C mode switch for RK3399 USBDP phy binding.
+> Patch3 add typec_mux and typec_switch for RK3399 USBDP PHY.
+> Patch4 drops CDN-DP's extcon dependency when Type-C is present.
+> Patch5 add multiple bridges to support PHY port selection.
+> Patch6 add missing dp_out port for RK3399 CDN-DP.
+> Patch7 add Type-C DP support for RK3399 EVB IND board.
+> 
+> Changes in v4:
+> - Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
+> - Add default HPD device for DisplayPort altmode.
+> - Introduce multiple bridges for CDN-DP.
+> - ...
+> 
+> Changes in v3:
+> - Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
+> - Add more descriptions to clarify the role of the PHY in switching.
+> - Fix wrong vdo value.
+> - Fix port node in usb-c-connector.
+> 
+> Changes in v2:
+> - Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
+> - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+> - Fix compile error when CONFIG_TYPEC is not enabled.
+> - Notify DP HPD state by USB/DP PHY.
+> - Ignore duplicate HPD events.
+> - Add endpoint to link DP PHY and DP controller.
+> - Fix devicetree coding style.
+> 
+> Chaoyi Chen (7):
+>   usb: typec: Add default HPD device when register DisplayPort altmode
+>   dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+>   phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+>   drm/rockchip: cdn-dp: Support handle lane info without extcon
+>   drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
+>     selection
+>   arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+>   arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
+> 
+>  .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
+>  arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
+>  .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++
+>  drivers/gpu/drm/rockchip/Kconfig              |   1 +
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c        | 423 +++++++++++++++---
+>  drivers/gpu/drm/rockchip/cdn-dp-core.h        |  23 +-
+>  drivers/phy/rockchip/phy-rockchip-typec.c     | 365 ++++++++++++++-
+>  drivers/usb/typec/altmodes/displayport.c      |  27 ++
+>  drivers/usb/typec/altmodes/displayport.h      |   2 +
+>  drivers/usb/typec/class.c                     |   8 +
+>  include/linux/usb/typec_altmode.h             |   2 +
+>  11 files changed, 932 insertions(+), 81 deletions(-)
+> 
+> --
+> 2.49.0
+> 
+> 
 > 
 
-Is there an easy way to check?
 
-I would need to study the code to be sure, you probably know more about
-this than I do. I just run this command and it always worked so far
-somehow. :-)
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Thanks,
-Stephan
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20250922 (best guess, 10/11 blobs matched)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/rockchip/' for 20250922012039.323-1-kernel@airkyi.com:
+
+arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
+arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
+	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
+arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
+arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
+
+
+
+
+
