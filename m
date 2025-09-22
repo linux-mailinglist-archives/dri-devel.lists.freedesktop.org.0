@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D31B9117C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 14:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0893FB91176
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 14:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D9610E452;
-	Mon, 22 Sep 2025 12:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92BB410E45B;
+	Mon, 22 Sep 2025 12:19:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=topic.nl header.i=@topic.nl header.b="vW7L8SYI";
+	dkim=pass (2048-bit key; unprotected) header.d=topic.nl header.i=@topic.nl header.b="dekn5Lal";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11021113.outbound.protection.outlook.com [52.101.70.113])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA11D10E45B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 12:19:21 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11023097.outbound.protection.outlook.com
+ [52.101.83.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2462110E454
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 12:19:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=klT1fApj3TsxTRzvN+EYsTAFEL1i7XhAjK5Xy+zvf90xUSLFdpji0bpRX1nwAkGlPTEgkfPG5RXiD+fhyJ5KOCybouoajLELiDC/Y7JgVTXNKss6SwTxGW0du/rbvM0Q3mRLzkzbUDvRiV5KK8WZJG54wT8vNk7fQw9tOZYlCdEaZ7sQ0r/EhGe5QA/bCIUVKcd1elbBn9p4qyGPJX6sSYThf0owEM7HdEu/84k248YrRj4yTsXp90hyOYeAZTWBQP57kLxiU+iXV013fn5R9O+pDHUG4sX4t4EIxzAT6cramNStCKZXRhJXRK/xKaCT81PNJESQIWzpYW5013Ya0w==
+ b=QkvLZpCC79WnbJ6QziaPeJ5fDvqSUMtHJ6fBtLfEUPRWjkWSyDpIROzt3QgX4PfcRpSwerW/Y9mdyRs+Wj9hWyWgXmLUIZLwl3eyZ4f8YONiHKujrAGH25w1acQXT3ZgQBGRDt2xUwZ41VAKb+GJnNSwnPGLjw20gNxIW2B5CNskmSaqufhpUlyfguyPe8oR5iPG0ZQfI64x1cnXDbxb9rR0EKBL5RdsK4+k6aGpJBGEO5vQYkh4yJ0B2bcSsj+r++30FAd3U/1XgoRAxgKnwrvEDQdt3W0X18qlUNUbwpoArb3QCSX5QTyVis0kJXCqTjNvc+mpd4cJyr/q7P3rWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2OP9HZchA+ZgNUDnBUKoC3gdue3U24OGWKgFDLRodIk=;
- b=bVKgOS1efcDKJTXuq/Sa6ZPRT1Aeapzy1evojk4vW4omi18Q22l295EMHiT2dSZopG0rbrACgyNJ5WH6cUBBLlLiPpaGXmieblOi4w0HVEIG+7ehZMdQE0lesSXiH6RTVROZn9rSEzOjpyEVE5dHpVLdjKQ9KOM2wHyEyhfAHljJ27kxCUBa4crQuurzrN5oL1WKPP22vO5DqbkyofHlrko3NnuugA/SoBiyfvFoDvfUjiZeSnR8mcwiaFbXsbuXpYv2jAIAOjdrWvwgI8NbMxIn7SXOV6J+cp1um92itOewQScB6b/ctqMMRseOLRe/gm4LzEszyjFY2AVn2UWu1Q==
+ bh=hBD36ODcGZCQRXi6+h3HVPGCYYNyN3HxdPv3/GaY3lE=;
+ b=ofxlWNLp3482L1yaUyLOfOVZOJUijqSt3u2ngw7L2jLPuxU3PK3lZK6u+qoGcaudNTf2NAK64XMK7gWWmVu+Qup9IomqiCcXs/ZTpnXaV9flaIwn7NmJx63YktJQDuU1VayUoNjM4TCYgdonldUAe91CrsSmzP3UsT8P3VOG89LWs7Fxsmh3wqFsKZYQdPSungb/yqg/HAoAoyHaEmZvKif3hakk0PJMQUi40VjXTkAfvJss0n+mbgkp3/e7PqZ6UOIPux5d0H5CDE9xQn1749QfrKFi45kjR+kfbinSA2Jr+KA7g/In6Zdkf1BY+usJAhwQmtmlfqqtdQuL3jCgog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  13.93.42.39) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=topic.nl;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=topic.nl; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2OP9HZchA+ZgNUDnBUKoC3gdue3U24OGWKgFDLRodIk=;
- b=vW7L8SYIRDqZNeCdXco6qtos4rONkzgQC8JJUm6WxtnWmuxCrYSfwz2MR+fMwjc8Yo2QsJ3bTB5QUiA9+bwwELBudyxmVzdm4kTJeyrrNRT6YUUG6hjSk9VS6KZiuhEmYOuZ1YrPL9P4LT334bKpx+Zwh7bOkO0/xDoAwGjn4ttFbV9sqHL7xFAr+9whGlnpcPgpTymvNOTtCFuXNoix+hEaQpL0bO3SH0KR7eoqYC6vZ2DUI+XffhYQEmEr8Vrx7xyIBm8jUr2iFhaXN72qWG5KHEfjTo/UZQXNihYPRKJflLGqdYzMQ/D1FCDpVVRQ7Pqx2k11Q0zmel+T+KLdDw==
-Received: from AM8P191CA0003.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::8)
- by VI0PR04MB10589.eurprd04.prod.outlook.com (2603:10a6:800:25f::14) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=hBD36ODcGZCQRXi6+h3HVPGCYYNyN3HxdPv3/GaY3lE=;
+ b=dekn5Lal49GQRVBnRlesNB7zpJGFPfeDH0ZM4FPg70zufveUyokKbBJegmnrSv32eImf3jE1ozhChhCOBmEbKCuhYhcdEeMd14SwwjOXwpFIVdPUsa5xYaeRQgAAcAPkj0lB8iNcRsmj3ksQqKrl5O5lN7lU2WHRsRXdHWSkGTagRGIg3p38qOD4b7cpwIl5OExwLPAtjiw4t50zX8tN3N025+E0Q7Ll8qIrb7VRTZ91am7OUVbN8nyHgSVrt3NI4RiLNwjKLZNMt++8Ry63Gh7oE+ohXw4R3k9zniwYCW4egs4Y047DhCCSoVrh7OYkogKTJ+vEhmTZJYW9xUh6cg==
+Received: from CWLP123CA0240.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19f::13)
+ by DB8PR04MB7177.eurprd04.prod.outlook.com (2603:10a6:10:127::23)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Mon, 22 Sep
- 2025 12:19:17 +0000
-Received: from AMS0EPF0000019E.eurprd05.prod.outlook.com
- (2603:10a6:20b:21a:cafe::b6) by AM8P191CA0003.outlook.office365.com
- (2603:10a6:20b:21a::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.19 via Frontend Transport; Mon,
- 22 Sep 2025 12:19:16 +0000
+ 2025 12:19:15 +0000
+Received: from AM4PEPF00027A65.eurprd04.prod.outlook.com
+ (2603:10a6:400:19f:cafe::7) by CWLP123CA0240.outlook.office365.com
+ (2603:10a6:400:19f::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.20 via Frontend Transport; Mon,
+ 22 Sep 2025 12:19:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 13.93.42.39)
  smtp.mailfrom=topic.nl; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=topic.nl;
@@ -48,12 +49,12 @@ Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
  13.93.42.39 as permitted sender) receiver=protection.outlook.com;
  client-ip=13.93.42.39; helo=westeu12-emailsignatures-cloud.codetwo.com; pr=C
 Received: from westeu12-emailsignatures-cloud.codetwo.com (13.93.42.39) by
- AMS0EPF0000019E.mail.protection.outlook.com (10.167.16.250) with Microsoft
+ AM4PEPF00027A65.mail.protection.outlook.com (10.167.16.86) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Mon, 22 Sep 2025 12:19:16 +0000
+ 15.20.9137.12 via Frontend Transport; Mon, 22 Sep 2025 12:19:14 +0000
 Received: from DUZPR08CU001.outbound.protection.outlook.com (40.93.64.71) by
  westeu12-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12)
- via SMTP; Mon, 22 Sep 2025 12:19:16 +0000
+ via SMTP; Mon, 22 Sep 2025 12:19:13 +0000
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=topic.nl;
 Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
@@ -68,116 +69,112 @@ Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
 From: Mike Looijmans <mike.looijmans@topic.nl>
 To: dri-devel@lists.freedesktop.org
 CC: Mike Looijmans <mike.looijmans@topic.nl>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v6 1/2] dt-bindings: drm/bridge: ti-tmds181: Add TI TMDS181
- and SN65DP159 bindings
-Date: Mon, 22 Sep 2025 14:18:44 +0200
-Message-ID: <20250922121902.88664-2-mike.looijmans@topic.nl>
+Subject: [PATCH v6 2/2] drm: bridge: Add TI tmds181 and sn65dp159 driver
+Date: Mon, 22 Sep 2025 14:18:45 +0200
+Message-ID: <20250922121902.88664-3-mike.looijmans@topic.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250922121902.88664-1-mike.looijmans@topic.nl>
 References: <20250922121902.88664-1-mike.looijmans@topic.nl>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.0c2f242e-bdcc-4862-a215-2a988591f8cc@emailsignatures365.codetwo.com>
+ <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.3ef2b90a-ff78-413f-b853-99ebea0afc4a@emailsignatures365.codetwo.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: AS4P190CA0007.EURP190.PROD.OUTLOOK.COM
  (2603:10a6:20b:5de::6) To AM8PR04MB7779.eurprd04.prod.outlook.com
  (2603:10a6:20b:24b::14)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|GV1PR04MB10560:EE_|AMS0EPF0000019E:EE_|VI0PR04MB10589:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a6d2430-deb9-481e-4c55-08ddf9d23ff6
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|GV1PR04MB10560:EE_|AM4PEPF00027A65:EE_|DB8PR04MB7177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18426ea9-b377-4369-e570-08ddf9d23eae
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;
  ARA:13230040|366016|1800799024|7416014|52116014|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?QCRRO1UxyLDY3UNX6jc6ILHHuI7EmYFEtGUsIYWs9k1rmNj7pAgk7pdVzcAX?=
- =?us-ascii?Q?e+67FYY5TXv4vlw6B57ay+aFHRUgSEzmzG84RslLFYSBP1n6C3RSjhs4dNAF?=
- =?us-ascii?Q?loXhkPXvX9i3yih0/YGNAKo92wqoUztSx36ddmBNATevVzn6rT0D1/VrEtVw?=
- =?us-ascii?Q?u4jWHFjkZ3xCAziRo0jbYS4pnlAgJ+8S8YJ4zkrjXeWWeOkBM4T/sM4r6cQ0?=
- =?us-ascii?Q?9z/NWlHZjZChqCHGIJZcAseEMiYCDFqp7VzNsDQz9I+Atu30pg2aWTc9xi+B?=
- =?us-ascii?Q?JTJaK0LEiJ0BxCvBxd/D7l1vUoI6iY6r9E+UPISbHFUfAKXHWX6WcRSqkLF7?=
- =?us-ascii?Q?WJWHcfVp9JfQJ5CBf7agKAQXsRU4taNN2E/z4hk94KTRvP5dpXUiKlHXV8z4?=
- =?us-ascii?Q?ZjXzOHpv+sdTjMXmIBJxOz7npSGqtrZZgyTF1j/nHkGXWutE/u5FojolE0VN?=
- =?us-ascii?Q?RqH5lK9O31qNIThOt7QHHryn7SgvF5R8hZjpxQ+tFr5cQbful/GXJh61PylW?=
- =?us-ascii?Q?aHV9Kfu8M6eCl6eO8j4F8a/CCx7q6BpxriFIBzMaY+hpkYSg3mP0W32fUSTb?=
- =?us-ascii?Q?q9sPGYz4p3k7ghblpFyJZfpxlXKNk3O1XDmo3oJIfb9ajo2/J7TxRrCqa94I?=
- =?us-ascii?Q?ptt7GGzidP9Zi08evvz0egKpDrsM7NNj05nEHg8xC7Ye1VUCGY9qA5mVZvEN?=
- =?us-ascii?Q?qvTUxr/7RNMqPLfOaTT3pk9BjRhFrAdbpANpRZQu3NsJvZEZY+nLjQzu8XyW?=
- =?us-ascii?Q?IIOCHFoGIUZhnGiGZnm93mbEEnHPLK28MssCvR7dt6fsg8C5DcgVSSCbetZy?=
- =?us-ascii?Q?KhhQiMBjQS+hKIIFJpiLiC4D8wBbQSdoEPflZMv3xxCITHUBI0lKUliwJh84?=
- =?us-ascii?Q?ZCpfmRtqK/3zsh7MlYUx8NwUxYNkqdM+qTsmyH0+yPt9hZsJN9WFWpFXHwV2?=
- =?us-ascii?Q?lV19mL6jNML3oDCmwlwLddd+1fKdnMUlhDPeeg5lwo1lXeWE943m3pumDClV?=
- =?us-ascii?Q?SRXMuCnI14ZBwnuGJIcCHS1jy660cVnRGuftYMm4U8sHPmOGeJiygM6KR1EC?=
- =?us-ascii?Q?HAhg4wemc2eFQimn0iLr1gh3sEOGtX6UX5IZhmWzgYq0gl6CvfsHAFob7IvQ?=
- =?us-ascii?Q?RU9OGrNrxwcYqd6ux1igdIdvR/dVBPezQIa1PSw5KVXAniVbxtD8hdfoAjlx?=
- =?us-ascii?Q?kNB7FpwUFfcQqG0Fp186kdW7iQT23lSw2H2cGKHSMjPBj0WzhPre3HQjMK1z?=
- =?us-ascii?Q?pu06DWfjXqxOZAOUaNhEHdOsBu/T9S4LHoKmykQImD9cYiTG5BFaidY0ax3w?=
- =?us-ascii?Q?LWUOud5h3VPqrGwE/XzFnLq5dV/2exZ22wuQDJbtaz4BlgoS2qpp0aGjtT2n?=
- =?us-ascii?Q?PEp05kVb1Tfw2AUQtFnvKFsLb21IS+hf5FKf0PKxhRRBAcbQBmcSFChhf9W1?=
- =?us-ascii?Q?JxdTL7xR0l0=3D?=
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?cpa1DHuhCFLmJdIdPdVrxx5m+pTo+U7logdARFEmAnnA5v04Ss1nrEaw0cZV?=
+ =?us-ascii?Q?U/ZK23qzyPfH6B94dALUYgpiqBTqeXtAqKTZhMa2z1Lo3dZO2zEgsrPdiXF+?=
+ =?us-ascii?Q?PjJI0SM7ewkJtxKHR8E0lkcnlaRLntTgIGw3+os5mTVFBB+qCJdJMpskxz+D?=
+ =?us-ascii?Q?dmXg03fPmfm/6QRhwCLEsrZYiwrgNgTzrXZ8ZsJmDrh0BDEbVcg9P6tnzSdu?=
+ =?us-ascii?Q?hNIXrqVqtfl+GYSnJjD17H4UvuAgOfIavWHi/ErKSZiDy+ra0K0um5BLWh9V?=
+ =?us-ascii?Q?RLBCYoC5jQJq7vHtKZKyES+4aahRcznWv+7XbyeAod8qfI68nJwhVNI+nDOg?=
+ =?us-ascii?Q?MzNp8unUXWSmSRlTqfZlgo6VlNavtBn+9J//0+8EL0VHbBUEFdpaLcN/ucxi?=
+ =?us-ascii?Q?LelDjE1kLM7hVMkHFvfzcjcT/dR3N96mRLuzyJyz0vdxEW5Oo18MuMAqMRla?=
+ =?us-ascii?Q?LhjKaqr2K9fxsLJy5sxDv3HuGNP57AAK5NNtIgOgQDpQTyzKIFoeTAsGGhdJ?=
+ =?us-ascii?Q?7zvmesBwnJpvdrKs2FSi3l/QdIBrJlFZgisNzrSsYKWPEbMuEQG3vMpZe2fT?=
+ =?us-ascii?Q?lmK/ymESNva8Elq8f+HBOTJllvV+CJAkFVpYi8sYPKXRJX1ikab/pmwyemYn?=
+ =?us-ascii?Q?tbN8cqwZC45J4R/GNiv9n1F9BokR3s4I0KFPyP5MggqNUj3xDwfCDIASLWLk?=
+ =?us-ascii?Q?9wo413Twvf8oybYUIf5ohwx0EwkwPB8ZKUAgnLfYPtXCuE9rTOx+VQMiV952?=
+ =?us-ascii?Q?P6tCohec5tplpx0IbH7HS/3IHvmyG0klXcQXhsuyI4mL3zqapwnsHUxrLvPo?=
+ =?us-ascii?Q?3A9qFDiyt29B6et+HHjIT91Hj/pttWZPjIGqawMmE1u92fR9h3EDfKs0drg5?=
+ =?us-ascii?Q?zZaqST1EV/AiPj9boNVuIBHVupoM5l6VzuDhzCR8pETLOQabDhdVR6smiwtu?=
+ =?us-ascii?Q?+BsL5O1chHbra7rNWlCNol9EXuOl4ORn0ooviduw49oai9nEgR3lu9PRX/t/?=
+ =?us-ascii?Q?w3muaXUcmAjQ6NVGp5QDIXgoIVh9UR/btoxpNGqIVx/yZK/rv3oJKKtdYiuA?=
+ =?us-ascii?Q?0MLAzBGWHCzNeKPIIyZlgOtJMqR7Wljfjvd+5+LnTN1IunnD+QmZUcCzyBfd?=
+ =?us-ascii?Q?vqgG4+ZH/0IlDDn69ihv6tibnjr5OEJOV9tHSPFHcIbbHzXnrW9ATicufbUH?=
+ =?us-ascii?Q?HV2tnORzIRUsqUJPzaRomignOydIi/JaSTRdPKglAe/fsSllroku0DSDUWB4?=
+ =?us-ascii?Q?v7ueCR2RIhlbnXVoKy2o/eMYcYJxjzR+1HW58qp+vW//+xDoHy+LqCSTypRq?=
+ =?us-ascii?Q?OGk2qvMcryL9YFhC/HELouUekgCNQagQVxJGEztyEXS3BMrBbNSMS/nt5fA/?=
+ =?us-ascii?Q?8qJOXTwAMnrJehJ1Mq6PxK+KuUimzOv3SBI2d6hTGa1smE3pKacW+qDlON0I?=
+ =?us-ascii?Q?MCD6UJSIdzI=3D?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM8PR04MB7779.eurprd04.prod.outlook.com;
  PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(7416014)(52116014)(376014)(38350700014);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10560
-X-CodeTwo-MessageID: b3e4fd7c-ae25-4605-a2c4-2ad9683ce60f.20250922121916@westeu12-emailsignatures-cloud.codetwo.com
+X-CodeTwo-MessageID: 06537611-596e-4fb7-b8bd-d0b2de8fecd2.20250922121913@westeu12-emailsignatures-cloud.codetwo.com
 X-CodeTwoProcessed: true
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF0000019E.eurprd05.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00027A65.eurprd04.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e4135cb5-23ae-4ff0-df94-08ddf9d23b18
+X-MS-Office365-Filtering-Correlation-Id-Prvs: f4713b92-a2f8-431e-ce95-08ddf9d23b7d
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|7416014|82310400026|35042699022|14060799003;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xVc9KoNhfCNqlKrNnghz1SlgQXJwLvolY3IUIuBwHpMbIPhbm9FFhco8/8xQ?=
- =?us-ascii?Q?bxnyTIF5oD6A3xTNlyxN46TRmyP6D2NKukp0ZOhOMph4PN4jM/VRFA8ou4OZ?=
- =?us-ascii?Q?KfDsyCFnMpxPI/KBrGm8IzJpn2E2lKJyTvizQmRhYzRn9ZOOytTnDnlQ+5h3?=
- =?us-ascii?Q?E8vNd7IYZeQ69YHj2BN2z/prclK9+rZpRRKf2PS3fH/lEmHIe6LGR2ZdMdJB?=
- =?us-ascii?Q?ixRWbD9PREGsKfzj70DLhXJX0GgmkMHwTd/InPqOQdPmW8ytIerwaApQrRx+?=
- =?us-ascii?Q?9Hl03T2cEv/Jzdfvj9+ZbziQzwfBFIxJrfmx9R+gEbNvlpLacYpLpZ+BEnhh?=
- =?us-ascii?Q?mvPNgI3ZyL47J2c+a3Cqu6pjfYlzmK9VXHmfP4e54n6EL9zfaB1E2R4M92Y7?=
- =?us-ascii?Q?iWtUsyhk5OC9sRcO5iGTFxQJF20/9ZfQIwY+R3YzBNLK4GXXI0angUVxxoXg?=
- =?us-ascii?Q?IgLV1D6zrNp011ekEdHaFCuJ/6ZFKXIDQeH3RP69ciHRDUGECoav4DnmjFIE?=
- =?us-ascii?Q?0qK+EVxzv2wwLPllifCVbZZjDzHPU9nXdCFsyoiwLVjUo8lnEG+fL1D9SIbn?=
- =?us-ascii?Q?cskHkV3FsUsWq32u168jXrhMMjhv6bDVXZ+tjBqhjeKT8UNg7MCpwqRk7zUg?=
- =?us-ascii?Q?baQmHuwY1eMDuNGeVrnCTY9eoEp9+2Ucueaj+LA2getIaPWHVraPBOFqW0yT?=
- =?us-ascii?Q?a4fffe5+hTMHz+h194K7SXANH2ePgGK5pt2ZKUw0gK62REMbhKD3Wn1Q5vXB?=
- =?us-ascii?Q?0qXGspROz0o5xxoTuXz66p3nkAyw/SGtp7wMt9yBWM2VuKXUF8oRlFx5t6WC?=
- =?us-ascii?Q?+MGN/0buWpmldIh09E/46gSMydf5yxNVvOUkG46Zh6S61E0FMo4N8O1Z+pAE?=
- =?us-ascii?Q?aTxE0NRSflfiC+MBfJplvKYjdK8Wcp5PpkGAzTyIqQGyc4T8MAJSphNpBKg+?=
- =?us-ascii?Q?qyn1QpYMwY6XAfEIbVYu52iKBUjwXGzgXJQMG/4wDxYxujq1q37EFQq4OIRS?=
- =?us-ascii?Q?8F29IrAtzMBmkwZo9LiDHZvVOWD0ThxG8i8H1/fUc3cCNdS1bej65mlEcu1N?=
- =?us-ascii?Q?MCInbuAXbdNnnlcUwDTWSTONPfDv7pYZSYTgTh406MSZjiPEtH+8sXoAta1U?=
- =?us-ascii?Q?UILJoMb6d7Bewyy8xM18mBg1YIjQnHDMWwpXGne5tWUVz3J52SFasQdFoNcW?=
- =?us-ascii?Q?8iPn97VJyywYz5nqg0OX8QhU083ITyt1a4M+1LkhIb0564Nnoyu5OcK29XN/?=
- =?us-ascii?Q?0DotAKhp8e0qYbSYygLaKd4vVrKZ1HA+HiYRCPRUpjVGblC0F2dJysY60Kwg?=
- =?us-ascii?Q?G9vkyNFMJRZvzzU8U9n5A6LS0HiZ6T6KxTy/ak4xra7HqDXCrX0sYEi+KZ0j?=
- =?us-ascii?Q?BjtQOpdZemR+itNT5/1G3YHkfBCUKzG6yPBrdgiaVABs9pC8+S6BNHRBp8O/?=
- =?us-ascii?Q?HXRR2YHqUDjitify1WssY8xHmmE3dGdNoZCQMFNrUcBWx35VpqWrSw=3D=3D?=
+ ARA:13230040|376014|7416014|35042699022|82310400026|36860700013|14060799003|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gUpw5Ppwzy8jFK6l46K9S2KJf0SSf4IpZFwMW6DcdbKKwVKLtD838WVP1FED?=
+ =?us-ascii?Q?fIjkEkMAl7C3nDFe0uAHzAdfnNodT1yFj9D/DE7dBPXs6SwIIKqPGfhrutzN?=
+ =?us-ascii?Q?4K9BRpayd94e9KzaujsqT5KSTDjcYvSLM5Rdkhjl+QMEL0Zeb7chzIREUWX9?=
+ =?us-ascii?Q?E1hGtz0cjoc63aeVYQlru8t4mwf1Jcqk7rKacGgztA8JATjKcFClH+wKrtmP?=
+ =?us-ascii?Q?hANWJDTpCZ2dy1gpW81rSW2cLPA7WMk1HimNP0SA/1UVUpPNe8WuaiMKC0JY?=
+ =?us-ascii?Q?BeWoCFNyhWVzoqV2VmzB3HV8I1z8KQznLHbsrc/4VVxL6TVTTgYkXa1Ia3mu?=
+ =?us-ascii?Q?JwBf0nLc/asrpPG1HhNxv5iKIQN7acnBVqBLOfS7ABdz+Ak6r2bDKL6dIn8j?=
+ =?us-ascii?Q?iIDahh9nLk6Y1iuN8eqoD65DGaDab1OSq4Hg6vBQignNik5nhN1TxCe1MzKw?=
+ =?us-ascii?Q?S34D7tPQK/z5jEBnLRfJNwIvqYCPfkrZMQ0NsgWMOyxzrd9gkYNZVnoVVUmX?=
+ =?us-ascii?Q?wLAnQvjk28lNqbbcTjmqB3Q6zxPdhC82TY99iMr32oOYrtxMTphtDojgx+Ns?=
+ =?us-ascii?Q?DPQpq9PrW0KxIjfN0+QWzqczV00Ujfrb3BogTplw8nigExeiL/2SUi831BMx?=
+ =?us-ascii?Q?P8xgSLZtDvBiHidkfe1BH+eDUA6wScVUisYGJIa7prj9y05OQ8cd4hay5clx?=
+ =?us-ascii?Q?zijvODlCFRrHaDb0dYSZbs4/kHP0yY38mTW32K9GnJRNUQ3J8rIqnLb3IcLE?=
+ =?us-ascii?Q?4g7Bum9EXKSKY8VyC1XGBy5ZZTYJLnjNU1WXmo19p6h5UVijYwrvnfLPyj4v?=
+ =?us-ascii?Q?HuW7hQ2LkHVhWnISxYysBq41lCMM4McY1Dd+L0SE8DaZJ4mWL6TDc9E5SLdQ?=
+ =?us-ascii?Q?OMlMhdrsqql7MuPAP/Vyx8MQ/9yaPcwiUonJEchJ128wQ2x8assAX/LUqffJ?=
+ =?us-ascii?Q?CTifjCUXm8BK2rV9qfexY2Mg37RLRJWlze2+ch8zC/mV6jeSQboJQUb684qK?=
+ =?us-ascii?Q?yueQatYkpM08DjTsX79RGztsIyHuRZMhp2MVL/q4x1WD2msESqbH4gsASyRf?=
+ =?us-ascii?Q?WAetjOhWT3SGogect02qrtMKqy30DP27S+1RBGE2gP2UsuSXm74APBvT+h6d?=
+ =?us-ascii?Q?GLVi4yVTWIuguz7tim+4ceUXFz6frR6azQFY9ycAXP9j1oFWILbT5Y6G+BmN?=
+ =?us-ascii?Q?OEc6+k4bw8VzSD7cLg3RpM4csv+MimgCn/INzFel2+oEPlt2WBZdXc8PnyxL?=
+ =?us-ascii?Q?rrwxk4St7Ypy6oRwZ+8fK3t8lIlmdLz/6+oib4PEIVvSYK57utzx5w9Feh36?=
+ =?us-ascii?Q?Dgdj/ITfMejXkL9GyMov0jbafBDKrWcnHPk0q6Q3LmgGXldklw0rA+4sGBJG?=
+ =?us-ascii?Q?DtpS4QS7CJz2Bvjj0wwdSqnx2GNkxCnZDfVDTmEQCm8P7CtmOC4nHltWC2ye?=
+ =?us-ascii?Q?BDLQ5ZesryAgK/4bwM3tL4q5oY3L4JCS?=
 X-Forefront-Antispam-Report: CIP:13.93.42.39; CTRY:NL; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:westeu12-emailsignatures-cloud.codetwo.com;
  PTR:westeu12-emailsignatures-cloud.codetwo.com; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(7416014)(82310400026)(35042699022)(14060799003);
+ SFS:(13230040)(376014)(7416014)(35042699022)(82310400026)(36860700013)(14060799003)(1800799024)(13003099007);
  DIR:OUT; SFP:1102; 
 X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 12:19:16.7422 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a6d2430-deb9-481e-4c55-08ddf9d23ff6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 12:19:14.5991 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18426ea9-b377-4369-e570-08ddf9d23eae
 X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3; Ip=[13.93.42.39];
  Helo=[westeu12-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF0000019E.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A65.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10589
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7177
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,221 +190,537 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DT binding document for TI TMDS181 and SN65DP159 HDMI retimers.
-
-The two chips have similar register maps, but different applications
-(source vs. sink).
+The tmds181 and sn65dp159 are "retimers" and hence can be considered
+HDMI-to-HDMI bridges. Typical usage is to convert the output of an
+FPGA into a valid HDMI signal, and it will typically be inserted
+between an encoder and hdmi-connector.
 
 Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-
 ---
 
 Changes in v6:
-Rename ti,mode to ti,retimer-mode
+Add DRM_DISPLAY_HDMI_HELPER to Kconfig
+Change "ti,mode" to "ti,retimer-mode"
 
 Changes in v5:
-ti,equalizer and ti,mode changed to enum
-Rename ti,slew-rate to slew-rate
-Make properties conditional for DP159/TMDS181
-Remove ti,dvi-mode (always set to avoid conflict)
+Really added vcc/vdd regulator support
+"oe" gpio is now "reset" (reversed logic)
+devicetree enums ti,equalizer and ti,mode
+Always disable HDMI_SEL (formerly "dvi-mode")
 
 Changes in v4:
+dev_err_probe, this_module, of_match_ptr
 Use fallback compatible
+Add vcc-supply and vdd-supply
 
 Changes in v3:
-Fix duplicate links
-Add vcc-supply and vdd-supply
-Fix missing type for ti,slew-rate
+Lower-case hex values and use defines for EYESCAN registers
+Remove equalizer code (unlikely to be used)
+Remove attributes (no longer useful, undocumented)
+Fix build for 6.17 kernel
+Use devm_drm_bridge_alloc
+Sort includes and add linux/bitfield.h
+Check chip type and complain on mismatch
 
 Changes in v2:
-Document driver specific bindings like slew-rate and threshold
+Use atomic_enable/disable
+Use #defines for bit fields in registers
+Allow HDMI 2 compliance
+Filter modes on clock range
+Use cross-over pixel frequency instead of manual overides
+Devicetree bindings according to standards
 
- .../bindings/display/bridge/ti,tmds181.yaml   | 170 ++++++++++++++++++
- 1 file changed, 170 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,tmd=
-s181.yaml
+ drivers/gpu/drm/bridge/Kconfig      |  12 +
+ drivers/gpu/drm/bridge/Makefile     |   1 +
+ drivers/gpu/drm/bridge/ti-tmds181.c | 427 ++++++++++++++++++++++++++++
+ 3 files changed, 440 insertions(+)
+ create mode 100644 drivers/gpu/drm/bridge/ti-tmds181.c
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tmds181.ya=
-ml b/Documentation/devicetree/bindings/display/bridge/ti,tmds181.yaml
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfi=
+g
+index b9e0ca85226a..d679180b05b1 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -430,6 +430,18 @@ config DRM_TI_SN65DSI86
+ 	help
+ 	  Texas Instruments SN65DSI86 DSI to eDP Bridge driver
+=20
++config DRM_TI_TMDS181
++        tristate "TI TMDS181 and SN65DP159 HDMI retimer bridge driver"
++	depends on OF
++	select DRM_KMS_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
++	select REGMAP_I2C
++	help
++	  Enable this to support the TI TMDS181 and SN65DP159 HDMI retimers.
++	  The SN65DP159 provides output into a cable (source) whereas the
++	  TMDS181 is meant to forward a cable signal into a PCB (sink). Either
++	  can be set up as source or sink though.
++
+ config DRM_TI_TPD12S015
+ 	tristate "TI TPD12S015 HDMI level shifter and ESD protection"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makef=
+ile
+index 245e8a27e3fc..f4b5089e903c 100644
+--- a/drivers/gpu/drm/bridge/Makefile
++++ b/drivers/gpu/drm/bridge/Makefile
+@@ -39,6 +39,7 @@ obj-$(CONFIG_DRM_TI_SN65DSI83) +=3D ti-sn65dsi83.o
+ obj-$(CONFIG_DRM_TI_SN65DSI86) +=3D ti-sn65dsi86.o
+ obj-$(CONFIG_DRM_TI_TDP158) +=3D ti-tdp158.o
+ obj-$(CONFIG_DRM_TI_TFP410) +=3D ti-tfp410.o
++obj-$(CONFIG_DRM_TI_TMDS181) +=3D ti-tmds181.o
+ obj-$(CONFIG_DRM_TI_TPD12S015) +=3D ti-tpd12s015.o
+ obj-$(CONFIG_DRM_NWL_MIPI_DSI) +=3D nwl-dsi.o
+ obj-$(CONFIG_DRM_ITE_IT66121) +=3D ite-it66121.o
+diff --git a/drivers/gpu/drm/bridge/ti-tmds181.c b/drivers/gpu/drm/bridge/t=
+i-tmds181.c
 new file mode 100644
-index 000000000000..9b23221634bb
+index 000000000000..cda2d20e4990
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,tmds181.yaml
-@@ -0,0 +1,170 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/ti,tmds181.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/bridge/ti-tmds181.c
+@@ -0,0 +1,427 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * TI tmds181 and sn65dp159 HDMI redriver and retimer chips
++ *
++ * Copyright (C) 2018 - 2025 Topic Embedded Products <www.topic.nl>
++ *
++ * based on code
++ * Copyright (C) 2007 Hans Verkuil
++ * Copyright (C) 2016, 2017 Leon Woestenberg <leon@sidebranch.com>
++ */
 +
-+title: TMDS181 and SN65DP159 HDMI retimer/redriver chips
++#include <linux/bitfield.h>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
++#include <linux/slab.h>
 +
-+maintainers:
-+  - Mike Looijmans <mike.looijmans@topic.nl>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_crtc.h>
++#include <drm/display/drm_hdmi_helper.h>
++#include <drm/drm_print.h>
++#include <drm/drm_probe_helper.h>
 +
-+description: |
-+  Texas Instruments TMDS181 and SN65DP159 retimer and redriver chips.
-+  https://www.ti.com/product/TMDS181
-+  https://www.ti.com/product/SN65DP159
-+  When I2C control is enabled, various pin strapping options like equalize=
-r and
-+  slew-rate are unavailable. These can be configured through I2C using the
-+  properties defined here.
-+  A common application for these chips is to convert AC coupled serdes out=
-puts
-+  from an FPGA or SoC into HDMI compliant signals.
++MODULE_DESCRIPTION("I2C device driver for DP159 and TMDS181 redriver/retim=
+er");
++MODULE_AUTHOR("Mike Looijmans");
++MODULE_LICENSE("GPL");
 +
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: ti,tmds181
-+      - items:
-+          - const: ti,sn65dp159
-+          - const: ti,tmds181
++#define TMDS181_REG_ID		0
++#define TMDS181_REG_REV		0x8
++#define TMDS181_REG_CTRL9	0x9
++/* Registers A and B have a volatile bit, but we don't use it, so cache is=
+ ok */
++#define TMDS181_REG_CTRLA	0xa
++#define TMDS181_REG_CTRLB	0xb
++#define TMDS181_REG_CTRLC	0xc
++#define TMDS181_REG_EQUALIZER	0xd
++/* EYESCAN registers don't appear to deserve separate names */
++#define TMDS181_REG_EYESCAN_E	0xe
++#define TMDS181_REG_EYESCAN_F	0xf
++#define TMDS181_REG_EYESCAN_15	0x15
++#define TMDS181_REG_EYESCAN_17	0x17
++#define TMDS181_REG_EYESCAN_1F	0x1f
++#define TMDS181_REG_AUX		0x20
 +
-+  reg:
-+    enum:
-+      - 0x5b
-+      - 0x5c
-+      - 0x5d
-+      - 0x5e
 +
-+  reset-gpios:
-+    maxItems: 1
-+    description: GPIO specifier for OE pin which acts as active low reset.
++#define TMDS181_CTRL9_SIG_EN			BIT(4)
++#define TMDS181_CTRL9_PD_EN			BIT(3)
++#define TMDS181_CTRL9_HPD_AUTO_PWRDWN_DISABLE	BIT(2)
++#define TMDS181_CTRL9_I2C_DR_CTL		GENMASK(1, 0)
 +
-+  vdd-supply:
-+    description: Core power supply, 1.1V
++#define TMDS181_CTRLA_MODE_SINK			BIT(7)
++#define TMDS181_CTRLA_HPDSNK_GATE_EN		BIT(6)
++#define TMDS181_CTRLA_EQ_ADA_EN			BIT(5)
++#define TMDS181_CTRLA_EQ_EN			BIT(4)
++#define TMDS181_CTRLA_AUX_BRG_EN		BIT(3)
++#define TMDS181_CTRLA_APPLY			BIT(2)
++#define TMDS181_CTRLA_DEV_FUNC_MODE		GENMASK(1, 0)
 +
-+  vcc-supply:
-+    description: IO power supply, 3.3V
++#define TMDS181_CTRLB_SLEW_CTL			GENMASK(7, 6)
++#define TMDS181_CTRLB_HDMI_SEL_DVI		BIT(5)
++#define TMDS181_CTRLB_TX_TERM_CTL		GENMASK(4, 3)
++#define TMDS181_CTRLB_DDC_DR_SEL		BIT(2)
++#define TMDS181_CTRLB_TMDS_CLOCK_RATIO_STATUS	BIT(1)
++#define TMDS181_CTRLB_DDC_TRAIN_SET		BIT(0)
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
++#define TMDS181_CTRLB_TX_TERM_150_300_OHMS	1
++#define TMDS181_CTRLB_TX_TERM_75_150_OHMS	3
 +
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: Video port for HDMI (ish) input
++#define TMDS181_CTRLC_VSWING_DATA		GENMASK(7, 5)
++#define TMDS181_CTRLC_VSWING_CLK		GENMASK(4, 2)
++#define TMDS181_CTRLC_HDMI_TWPST1		GENMASK(1, 0)
 +
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
++#define TMDS181_EQ_DATA_LANE			GENMASK(5, 3)
++#define TMDS181_EQ_CLOCK_LANE			GENMASK(2, 1)
++#define TMDS181_EQ_DIS_HDMI2_SWG		BIT(0)
 +
-+      port@1:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: Video port for HDMI output (panel or bridge)
++/* Above this data rate HDMI2 standards apply (TX termination) */
++#define HDMI2_PIXEL_RATE_KHZ	340000
 +
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
++enum tmds181_chip {
++	tmds181,
++	dp159,
++};
 +
-+    required:
-+      - port@0
-+      - port@1
++struct tmds181_data {
++	struct i2c_client *client;
++	struct regmap *regmap;
++	struct drm_bridge *next_bridge;
++	struct drm_bridge bridge;
++	u32 retimer_threshold_khz;
++};
 +
-+  ti,retimer-mode:
-+    enum:
-+      - source
-+      - sink
-+    description:
-+      Force chip to operate in "source" or "sink" mode.
++static inline struct tmds181_data *
++drm_bridge_to_tmds181_data(struct drm_bridge *bridge)
++{
++	return container_of(bridge, struct tmds181_data, bridge);
++}
 +
-+  ti,retimer-threshold-hz:
-+    minimum: 25000000
-+    maximum: 600000000
-+    default: 200000000
-+    description:
-+      Cross-over point. Up until this pixel clock frequency the chip remai=
-ns in
-+      the low-power redriver mode. Above the threshold the chip should ope=
-rate
-+      in retimer mode.
++static int tmds181_attach(struct drm_bridge *bridge, struct drm_encoder *e=
+ncoder,
++			  enum drm_bridge_attach_flags flags)
++{
++	struct tmds181_data *data =3D drm_bridge_to_tmds181_data(bridge);
 +
-+  slew-rate:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 3
-+    default: 3
-+    description: Set slew rate, 0 is slowest, 3 is fastest.
++	return drm_bridge_attach(encoder, data->next_bridge, bridge, flags);
++}
 +
-+  ti,equalizer:
-+    enum:
-+      - adaptive
-+      - disabled
-+      - fixed
-+    default: adaptive
-+    description: Configure the equalizer
++static enum drm_mode_status
++tmds181_mode_valid(struct drm_bridge *bridge, const struct drm_display_inf=
+o *info,
++		   const struct drm_display_mode *mode)
++{
++	unsigned long long rate;
 +
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: ti,sn65dp159
++	rate =3D drm_hdmi_compute_mode_clock(mode, 8, HDMI_COLORSPACE_RGB);
 +
-+then:
-+  properties:
-+    ti,retimer-mode:
-+      default: source
++	/* Minimum clock rate is 25MHz */
++	if (rate < 25000000)
++		return MODE_CLOCK_LOW;
 +
-+else:
-+  properties:
-+    ti,retimer-mode:
-+      default: sink
-+    slew-rate: false
++	/*
++	 * When in HDMI 2 mode, the clock is 1/40th of the bitrate. The limit is
++	 * then the data rate of 6Gbps, which would use a 600MHz pixel clock.
++	 */
++	if (rate > 600000000)
++		return MODE_CLOCK_HIGH;
 +
-+required:
-+  - compatible
-+  - reg
-+  - ports
++	return MODE_OK;
++}
 +
-+additionalProperties: false
++static void tmds181_enable(struct drm_bridge *bridge, struct drm_atomic_st=
+ate *state)
++{
++	struct tmds181_data *data =3D drm_bridge_to_tmds181_data(bridge);
++	const struct drm_crtc_state *crtc_state;
++	const struct drm_display_mode *mode;
++	struct drm_connector *connector;
++	struct drm_crtc *crtc;
++	unsigned int val;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++	/*
++	 * Retrieve the CRTC adjusted mode. This requires a little dance to go
++	 * from the bridge to the encoder, to the connector and to the CRTC.
++	 */
++	connector =3D drm_atomic_get_new_connector_for_encoder(state,
++							     bridge->encoder);
++	crtc =3D drm_atomic_get_new_connector_state(state, connector)->crtc;
++	crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
++	mode =3D &crtc_state->adjusted_mode;
 +
-+    i2c {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
++	/* Set retimer/redriver mode based on pixel clock */
++	val =3D mode->clock > data->retimer_threshold_khz ? TMDS181_CTRLA_DEV_FUN=
+C_MODE : 0;
++	regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
++			   TMDS181_CTRLA_DEV_FUNC_MODE, val);
 +
-+        bridge@5b {
-+            compatible =3D "ti,sn65dp159", "ti,tmds181";
-+            reg =3D <0x5b>;
-+            vdd-supply =3D <&vcc_1v1_reg>;
-+            vcc-supply =3D <&vcc_3v3_reg>;
-+            reset-gpios =3D <&gpio2 1 GPIO_ACTIVE_LOW>;
-+            slew-rate =3D <2>;
-+            ti,retimer-threshold-hz =3D <350000000>;
-+            ti,retimer-mode =3D "source";
-+            ti,equalizer =3D "disabled";
++	/* Configure TX termination based on pixel clock */
++	val =3D mode->clock > HDMI2_PIXEL_RATE_KHZ ?
++				TMDS181_CTRLB_TX_TERM_75_150_OHMS :
++				TMDS181_CTRLB_TX_TERM_150_300_OHMS;
++	regmap_update_bits(data->regmap, TMDS181_REG_CTRLB,
++			   TMDS181_CTRLB_TX_TERM_CTL,
++			   FIELD_PREP(TMDS181_CTRLB_TX_TERM_CTL, val));
 +
-+            ports {
-+                #address-cells =3D <1>;
-+                #size-cells =3D <0>;
++	regmap_update_bits(data->regmap, TMDS181_REG_CTRL9,
++			   TMDS181_CTRL9_PD_EN, 0);
++}
 +
-+                port@0 {
-+                    reg =3D <0>;
++static void tmds181_disable(struct drm_bridge *bridge, struct drm_atomic_s=
+tate *state)
++{
++	struct tmds181_data *data =3D drm_bridge_to_tmds181_data(bridge);
 +
-+                    endpoint {
-+                        remote-endpoint =3D <&encoder_out>;
-+                    };
-+                };
++	/* Set the PD_EN bit */
++	regmap_update_bits(data->regmap, TMDS181_REG_CTRL9,
++			   TMDS181_CTRL9_PD_EN, TMDS181_CTRL9_PD_EN);
++}
 +
-+                port@1 {
-+                    reg =3D <1>;
++static const struct drm_bridge_funcs tmds181_bridge_funcs =3D {
++	.attach		=3D tmds181_attach,
++	.mode_valid	=3D tmds181_mode_valid,
++	.atomic_enable	=3D tmds181_enable,
++	.atomic_disable	=3D tmds181_disable,
 +
-+                    endpoint {
-+                        remote-endpoint =3D <&hdmi_connector_in>;
-+                    };
-+                };
-+            };
-+        };
-+    };
++	.atomic_reset =3D drm_atomic_helper_bridge_reset,
++	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
++};
++
++static const u8 tmds181_id_tmds181[8] __nonstring =3D "TMDS181 ";
++static const u8 tmds181_id_dp159[8]   __nonstring =3D "DP159   ";
++
++static int tmds181_check_id(struct tmds181_data *data, enum tmds181_chip *=
+chip)
++{
++	int ret;
++	int retry;
++	u8 buffer[8];
++
++	for (retry =3D 0; retry < 20; ++retry) {
++		ret =3D regmap_bulk_read(data->regmap, TMDS181_REG_ID, buffer,
++				       sizeof(buffer));
++		if (!ret)
++			break;
++
++		/* Compensate for very long OE power-up delays due to the cap */
++		usleep_range(5000, 10000);
++	}
++
++	if (ret) {
++		dev_err(&data->client->dev, "I2C read ID failed\n");
++		return ret;
++	}
++
++	if (memcmp(buffer, tmds181_id_tmds181, sizeof(buffer)) =3D=3D 0) {
++		dev_info(&data->client->dev, "Detected: TMDS181\n");
++		*chip =3D tmds181;
++		return 0;
++	}
++
++	if (memcmp(buffer, tmds181_id_dp159, sizeof(buffer)) =3D=3D 0) {
++		dev_info(&data->client->dev, "Detected: DP159\n");
++		*chip =3D dp159;
++		return 0;
++	}
++
++	dev_err(&data->client->dev, "Unknown ID: %*pE\n", (int)sizeof(buffer), bu=
+ffer);
++
++	return -ENODEV;
++}
++
++static bool tmds181_regmap_is_volatile(struct device *dev, unsigned int re=
+g)
++{
++	switch (reg) {
++	/* IBERT result and status registers, not used yet */
++	case TMDS181_REG_EYESCAN_15:
++	case TMDS181_REG_EYESCAN_17 ... TMDS181_REG_EYESCAN_1F:
++		return true;
++	default:
++		return false;
++	}
++}
++
++static const struct regmap_config tmds181_regmap_config =3D {
++	.reg_bits =3D 8,
++	.val_bits =3D 8,
++	.cache_type =3D REGCACHE_RBTREE,
++	.max_register =3D TMDS181_REG_AUX,
++	.volatile_reg =3D tmds181_regmap_is_volatile,
++};
++
++static const char * const tmds181_supplies[] =3D {
++	"vdd", "vcc"
++};
++
++static int tmds181_probe(struct i2c_client *client)
++{
++	struct tmds181_data *data;
++	struct gpio_desc *reset_gpio;
++	enum tmds181_chip chip;
++	const char *str;
++	int ret;
++	u32 param;
++	u8 val;
++
++	/* Check if the adapter supports the needed features */
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
++		return -EIO;
++
++	data =3D devm_drm_bridge_alloc(&client->dev, struct tmds181_data, bridge,
++				     &tmds181_bridge_funcs);
++	if (IS_ERR(data))
++		return PTR_ERR(data);
++
++	data->client =3D client;
++	i2c_set_clientdata(client, data);
++	data->regmap =3D devm_regmap_init_i2c(client, &tmds181_regmap_config);
++	if (IS_ERR(data->regmap))
++		return PTR_ERR(data->regmap);
++
++	/* The "OE" pin acts as a reset */
++	reset_gpio =3D devm_gpiod_get_optional(&client->dev, "reset",
++					     GPIOD_OUT_HIGH);
++	if (IS_ERR(reset_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(reset_gpio),
++				     "failed to acquire 'reset' gpio\n");
++
++	/* Enable power supplies while reset is active */
++	ret =3D devm_regulator_bulk_get_enable(&client->dev,
++					     ARRAY_SIZE(tmds181_supplies),
++					     tmds181_supplies);
++	if (ret)
++		return dev_err_probe(&client->dev, ret,
++				     "Failed to enable power supplies\n");
++
++	if (reset_gpio) {
++		/* Need at least 100us reset pulse */
++		usleep_range(100, 200);
++		gpiod_set_value_cansleep(reset_gpio, 0);
++	}
++
++	/* Reading the ID also provides time for the reset */
++	ret =3D tmds181_check_id(data, &chip);
++	if (ret)
++		return ret;
++
++	/*
++	 * We take care of power control, so disable the chips PM functions, and
++	 * allow the DDC to run at 400kHz
++	 */
++	regmap_update_bits(data->regmap, TMDS181_REG_CTRL9,
++			TMDS181_CTRL9_SIG_EN | TMDS181_CTRL9_PD_EN |
++			TMDS181_CTRL9_HPD_AUTO_PWRDWN_DISABLE |
++			TMDS181_CTRL9_I2C_DR_CTL,
++			TMDS181_CTRL9_PD_EN |
++			TMDS181_CTRL9_HPD_AUTO_PWRDWN_DISABLE |
++			TMDS181_CTRL9_I2C_DR_CTL);
++
++	/* Apply configuration changes */
++	if (!of_property_read_string(client->dev.of_node, "ti,retimer-mode", &str=
+)) {
++		if (!strcmp(str, "source"))
++			val =3D 0;
++		else if (!strcmp(str, "sink"))
++			val =3D TMDS181_CTRLA_MODE_SINK;
++		else
++			return -EINVAL;
++		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
++				   TMDS181_CTRLA_MODE_SINK, val);
++	}
++
++	/*
++	 * Using the automatic modes of the chip uses considerable power as it
++	 * will keep the PLL running at all times. So instead, define our own
++	 * threshold for the pixel rate. This also allows to use a sane default
++	 * of 200MHz pixel rate for the redriver-retimer crossover point, as the
++	 * modes below 3k don't show any benefit from the retimer.
++	 */
++	data->retimer_threshold_khz =3D 200000;
++	if (!of_property_read_u32(client->dev.of_node,
++				  "ti,retimer-threshold-hz", &param))
++		data->retimer_threshold_khz =3D param / 1000;
++
++	/* Default to low-power redriver mode */
++	regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
++			   TMDS181_CTRLA_DEV_FUNC_MODE, 0);
++
++	/* Default is adaptive equalizer */
++	val =3D TMDS181_CTRLA_EQ_EN | TMDS181_CTRLA_EQ_ADA_EN;
++	if (!of_property_read_string(client->dev.of_node, "ti,equalizer", &str)) =
+{
++		if (!strcmp(str, "disabled"))
++			val =3D 0;
++		else if (!strcmp(str, "fixed"))
++			val =3D TMDS181_CTRLA_EQ_EN;
++		else if (!strcmp(str, "adaptive"))
++			val =3D TMDS181_CTRLA_EQ_EN | TMDS181_CTRLA_EQ_ADA_EN;
++		else
++			return -EINVAL;
++		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
++				   TMDS181_CTRLA_EQ_EN | TMDS181_CTRLA_EQ_ADA_EN,
++				   val);
++	}
++
++	switch (chip) {
++	case dp159:
++		/*
++		 * Disable the "Adaptor ID block" on the DDC interface, which
++		 * could conflict with this driver.
++		 */
++		val =3D TMDS181_CTRLB_HDMI_SEL_DVI;
++		if (!of_property_read_u32(client->dev.of_node, "slew-rate",
++					  &param)) {
++			if (param > 3)
++				return dev_err_probe(&client->dev, -EINVAL,
++						     "invalid slew-rate\n");
++			/* Implement 0 =3D slow, 3 =3D fast slew rate */
++			val |=3D FIELD_PREP(TMDS181_CTRLB_SLEW_CTL, (3 - param));
++		}
++		break;
++	default:
++		val =3D TMDS181_CTRLB_DDC_DR_SEL;
++		break;
++	}
++
++	/* Default to low-speed termination */
++	val |=3D FIELD_PREP(TMDS181_CTRLB_TX_TERM_CTL, TMDS181_CTRLB_TX_TERM_150_=
+300_OHMS);
++
++	ret =3D regmap_write(data->regmap, TMDS181_REG_CTRLB, val);
++	if (ret < 0) {
++		dev_err(&client->dev, "regmap_write(B) failed\n");
++		return ret;
++	}
++
++	/* Find next bridge in chain */
++	data->next_bridge =3D devm_drm_of_get_bridge(&client->dev, client->dev.of=
+_node, 1, 0);
++	if (IS_ERR(data->next_bridge))
++		return dev_err_probe(&client->dev, PTR_ERR(data->next_bridge),
++				     "Failed to find next bridge\n");
++
++	/* Register the bridge. */
++	data->bridge.of_node =3D client->dev.of_node;
++
++	return devm_drm_bridge_add(&client->dev, &data->bridge);
++}
++
++static const struct i2c_device_id tmds181_id[] =3D {
++	{ "tmds181", },
++	{}
++};
++MODULE_DEVICE_TABLE(i2c, tmds181_id);
++
++#if IS_ENABLED(CONFIG_OF)
++static const struct of_device_id tmds181_of_match[] =3D {
++	{ .compatible =3D "ti,tmds181", },
++	{}
++};
++MODULE_DEVICE_TABLE(of, tmds181_of_match);
++#endif
++
++static struct i2c_driver tmds181_driver =3D {
++	.driver =3D {
++		.name	=3D "tmds181",
++		.of_match_table =3D tmds181_of_match,
++	},
++	.probe		=3D tmds181_probe,
++	.id_table	=3D tmds181_id,
++};
++
++module_i2c_driver(tmds181_driver);
 --=20
 2.43.0
 
