@@ -2,84 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC28B914B4
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 15:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246C3B915D5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 15:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 572BE10E49C;
-	Mon, 22 Sep 2025 13:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF5010E1BB;
+	Mon, 22 Sep 2025 13:19:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="q7XVwUX/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LG/BtI+1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic305-20.consmr.mail.gq1.yahoo.com
- (sonic305-20.consmr.mail.gq1.yahoo.com [98.137.64.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAD6410E49D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 13:07:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1758546450; bh=0EfXqbK4DHTE0Z8e3N5vogNx54gJngPVVQY62jODgAo=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=q7XVwUX/3uV6Rs+CP6Wm+HUOtA8AptmDwmrDBNnyhL8HcfiX6IapcuXqCcmzjGbXNpDJpEDx2bOCGIPbKKKLzDzsCSfewpbHfeBVZqfWjjCYIQIYkukPHq4omF4a0lauZUfTxT+jTY7Lt+6+z/51awJ23j2U08lEcsFuk77zpbQ9G/LTPMDqVYhW5i1JmW8GXBHvKtDHx33vyEkLuJY9v2VhIJXJk7z+HGkiPtwnbBYegpr1/ZOCKLu0tMUxbuu/9mSKpbrDqSbKOK7uGIvlphK7HTP2hHVd4vgmTosQkkjMFW0K9X9/jp2H3QA4XtxvEVot9ZquvyIv/hFjVbgepQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1758546450; bh=8nUHS3jqYhkBkL3t6jmEcWY2pa09EtZEaXjaisrZ/A8=;
- h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
- b=IMZUBXgW3Vm6Zvjd8Mo6WMoQtOPaY9al2ufjMxEahZahiMNGY+0lTKnt/A3nw3tQoYyj8XhhtaqEP9vpCzw6vhM1t7c4iYIP+tUlgAz4wIucbzNukCE5fcPh9uRTZ/EF3KoOrR9l2vA2wacGwwoCMZshhfgwcsFaRauxzgjWX/PUD9tL4Z9BUTi/QZArU/yud2j9bMG6gAbAnbThlaRRDHPyXIeSWQCPjMCXiLbYFKRGECkV2C3BMcLOsG1SSx1mK7XqEXlSzldfSqUDFsshzvrjdeBF3d8i2k8BEax/GV8iExKYLqfx3a2tQzLCaMrFQXSkRiSbLZuq0wPnCUYfIQ==
-X-YMail-OSG: uMjTQtAVM1kdo9eTdXKhlDzDjODgp6IjVE_Etyc3FC08mABxKOmkS0XCR0tnT5i
- 75uGz58sIL2nshhxnKeFHqkwLkoAiIghJbLwMJ6_Je5C5nai2iam.OsDWnj42iI94_HITYi9FiRg
- hRyV3Dkk5vEppKQAhf3E77EIVhrKtbaLVRJhlWQGwbo1bq3zPxGQDqxQeuZkcGgMx0WRdhrBQN5r
- JdwuAoe3xLWLZgJOYSCJJi5_9FYJ8ou4q55uBPQ0QFq7JuBc9TrZNno_YoCqTj91qnMPf1kjYQxb
- UMXTJbJ0i34VSF6wV81CEhhRqDBiHuKQL9rQIu_W84H73RQpaR5Xt8f0BQiyJ1cbXLWB2Sk.fkEE
- wgycRvvIR6J5oGjOXCxL0Oshk778xfNTZX6Wmy2.q3VjZH250PwliqhEe71JujeBkKTa_8hc5wWZ
- zJ5yRx4U9kicXkPQjW.S6MJl5dBIRy5S7YDSVAnikDLgKbAAsueBIe.9E4SAk9I71nI7.IFY4m3q
- dPkzQnEQtn3aH_rGZrj_w2ovl.eMWvYZZhiw4OV9MOWuKu1xVpps3OYRrKrhZtjVDc_UURihhpGa
- nqJY2TZlQZBaA6g_4xBwVPGeldhtuOnWOxlZDVCk2a5muoIkk_NamNghMj7aCg7n3LNZVxmyCLax
- hIAilW.ckS2lnWfUd4upoqvCaLO9vRC.qttqq36HFvu0k86GEbS3N3ZMV3mdQiP1SGy46i.L9qda
- lTJfWVRKczjsEkIif.eaLMpKnsFzJh.ntgFWFCwDe1JE6M___HTZlKn5Xm_wtfBRO2pyiw1iRrQp
- J9f81m5VgJSMt69oefJWtlc5KrNiR4TavtFpm73WzNE3iuMusw0ZH7VlCi0p0YQs_rfvX1drnRpf
- cmzVtxQDjeQJtSIKyxGW5AUg36OFwd_IcI5gsHb.ke7M9g4YdUA7q_oOhCEn2AMGYDmuEQTHFy2f
- Gh2RBi5UufKqOwyjnbweYxUH_zR7ZPUFu9VEYbTMGi5jR_97FwjQCEpi8VJuZ7I.Ru9LzhT1OCRE
- .dLLK6WBYC8g0_n0FIHe7PXYHVJ3pit5nDvJDC9tWv1_1vyfgbRCzwA6FHG90QbHLALosl.NHmg7
- ojAcpgHTM2qi5GM2_i_O2.QZ_ysUwh0Ky2YGvF.i1JFQUVZmrK1kPoz8mGniSHGShtN833L0dgCQ
- EKepclSvvRvINplmIddvoXa.qUyC8kDSn93KFR1wjmkyoHEYoD2hi2SQ6wJ1jaTKhNjFTsi8nnq_
- QWpAdETMAmHEQjYdKZ.FIMFX9SAIbT6dJ0827NZa2FWWjRu65DKzw3S3aP4943.Gp6Kk6PwFleZR
- R_q20FxBec9Dx4s2o6bV1SbznqNVEKF3Sohjc30p1PnpD3ZimjbYg2_a6Sj0b9gTKq4BATZxxqRD
- ovC48RIEvKoEx6WinM9z25BvFOIk54P8flFJyDOi0iE2gG6b_foQBD5VChD4qc1Q2uEHw2FtG3bj
- SQ9JER9e65ggaPTRE.sSV.H0L_iun23.GQMqPHpcrQfF76g8CKaudNTREVPS0bxWvoxhPVUCmOoh
- FPEqVim5arNSdhLbuh43iBuzJ4wsY3WJnZr3hHEWCKSN.cehZa._AukzbqT14sfd2TloC95laect
- _lgJxgW90JWvOUr8b696qHbR3NPI5QN9bxnNqkEI39B9VpPVHDNHLTk6TKcK42nQ6toEGDbMkzxx
- j2XAF4nd6SA.3Rv1tpq9kX9rMo9dIi7g_E3vQKItY4MCYwKoUkX0Zy9Svtz.mRhnpIK9sKlrumE4
- uHr3BkQlR._GMBhzKPpgW3OwabgKLENNSA.yONqTN7dkuo1hPYsv77eMoyWZWzQquFsLRDOyMlCu
- oo5ifLT126E9kzb4sFzeFR3_GF34CdeCM.TG9Bm9VGwlPW687PL6N7C_OWhJ5h25FUQqm9OQoBKX
- HO2JmMAW1RRjlAfUqJZuJLy5w5QHJtU4qbfep46r7VSJ_5Dt8JBXvEPPNx4qSKmzOrysllotDjf7
- cGXKPntGHCuDJ977527BkfVm1uafp1J99Sjg7SDMPrZGcCGPcwUXA6rWH44f7jgfNlD_z4tTHaAD
- 9yf1GkmjWwsWR25wR7R.Dkc4z6V2mNmm0YaN0dL.UQ8ggeKnzxAksoJWdkmLxqShkBY32O1liG29
- E9KKgK1IfiRRipPKrCIYFouseQd9jJvWkj40SG0aLJeE3FGuNoAQC30pR4TkCD2Gjg8LezrlrJH1
- ttKxVRxTKlTp_12foPKIhl.FkQYZ.13vI4QfAfKY0b_YOr.xCPUTiNLSQHg--
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: fa94e19c-8fce-4d91-8c55-ef4cb44f0a34
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic305.consmr.mail.gq1.yahoo.com with HTTP; Mon, 22 Sep 2025 13:07:30 +0000
-Received: by hermes--production-ir2-74585cff4f-6d9mc (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID a37f67a5b94ace5596a44b3048a74291; 
- Mon, 22 Sep 2025 13:07:24 +0000 (UTC)
-Message-ID: <b87337baa6bdb69354f368a5526a68f1cc5f701c.camel@aol.com>
-Subject: Re: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-From: Ruben Wauters <rubenru09@aol.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann	 <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Mon, 22 Sep 2025 14:07:22 +0100
-In-Reply-To: <202509212215.c8v3RKmL-lkp@intel.com>
-References: <202509212215.c8v3RKmL-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD55D10E1BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 13:19:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 06A76601D9;
+ Mon, 22 Sep 2025 13:19:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1236AC4CEF0;
+ Mon, 22 Sep 2025 13:19:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758547162;
+ bh=/2BPc+qmrsh2DgallaqxgQi03F/iwjA/IqFzKaKywSw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LG/BtI+1o28ZEPga/55ETInxWu6RoXLXJhRGIZVOknyJhj1fvYNbUGyqjdViU14CO
+ 4NIo1Jz6kugezCY7caieIF2+gm0DpIGu0imUPyECzH5W5gjFvs+rKgKtukthw/N8/Q
+ bx4CYhN1uy747NgWfTZfngQEIkc2GPyBY9J0mZY0HaOASfnHY5clIBprv22ChzIZj3
+ hKO4LsUXrEUbB0a/IvFsk22pJgFcLigRkGNYe1tlsXWnGf4ePzKGilQsBvmaFTdN2p
+ pmxKoTFv5oCMqFO4lxCEB6HHmgrRyqKU0WLl9jxgYm47kGQwuADxiJgjSfXq0IuDjP
+ fPKTXU7AI/kMQ==
+Date: Mon, 22 Sep 2025 15:19:14 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 05/10] mailbox: add MediaTek GPUEB IPI mailbox
+Message-ID: <aNFM0oWk5S38KBRC@finisterre.sirena.org.uk>
+References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
+ <20250917-mt8196-gpufreq-v3-5-c4ede4b4399e@collabora.com>
+ <CABb+yY0_TZC0Dd3Rue=6Am4=Urs8hdkaa6RE=42t58SYUsLV0w@mail.gmail.com>
+ <1933660.tdWV9SEqCh@workhorse>
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.24425
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hWOioVe/sP5fgiHB"
+Content-Disposition: inline
+In-Reply-To: <1933660.tdWV9SEqCh@workhorse>
+X-Cookie: Filmed before a live audience.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,118 +81,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-09-22 at 08:47 +0300, Dan Carpenter wrote:
-> Hi Ruben,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Ruben-Wauters/drm-gud-repl=
-ace-WARN_ON-WARN_ON_ONCE-with-drm-versions/20250914-235627
-> base:=C2=A0=C2=A0 git://anongit.freedesktop.org/drm/drm-misc drm-misc-nex=
-t
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20250914155308.2144-1-rubenru09%40aol.com
-> patch subject: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with
-> drm versions
-> config: x86_64-randconfig-161-20250921
-> (https://download.01.org/0day-ci/archive/20250921/202509212215.c8v3RK
-> mL-lkp@intel.com/config)
-> compiler: clang version 20.1.8
-> (https://github.com/llvm/llvm-project=C2=A087f0227cb60147a26a1eeb4fb06e3b=
-5
-> 05e9c7261)
 
-Hi,
+--hWOioVe/sP5fgiHB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you for catching this, I completely missed it. Since the patch
-has already been applied to drm-misc-next I will send another patch to
-fix this issue.
+On Mon, Sep 22, 2025 at 02:59:43PM +0200, Nicolas Frattaroli wrote:
+> On Sunday, 21 September 2025 07:00:59 Central European Summer Time Jassi Brar wrote:
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Closes:
-> > https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/gpu/drm/gud/gud_connector.c:597
-> gud_connector_fill_properties() warn: passing a valid pointer to
-> 'PTR_ERR'
->=20
-> vim +/PTR_ERR +597 drivers/gpu/drm/gud/gud_connector.c
->=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 580=C2=A0 int
-> gud_connector_fill_properties(struct drm_connector_state
-> *connector_state,
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 581=C2=A0=C2=A0				=C2=A0 struct gud_property_req *properties)
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 582=C2=A0 {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 583=C2=A0=C2=A0	struc=
-t gud_connector
-> *gconn =3D to_gud_connector(connector_state->connector);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 584=C2=A0=C2=A0	unsig=
-ned int i;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 585=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 586=C2=A0=C2=A0	for (=
-i =3D 0; i <
-> gconn->num_properties; i++) {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 587=C2=A0=C2=A0		u16 =
-prop =3D
-> gconn->properties[i];
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 588=C2=A0=C2=A0		u64 =
-val;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 589=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 590=C2=A0=C2=A0		if (=
-prop =3D=3D
-> GUD_PROPERTY_BACKLIGHT_BRIGHTNESS) {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 591=C2=A0=C2=A0			val
-> =3D connector_state->tv.brightness;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 592=C2=A0=C2=A0		} el=
-se {
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 593=C2=A0=C2=A0			unsigned int *state_val;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 594=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 595=C2=A0=C2=A0			state_val =3D gud_connector_tv_state_val(prop, &connect=
-or_state->tv);
-> d00e57106c0d0c Ruben Wauters=C2=A0 2025-09-14=C2=A0 596=C2=A0=C2=A0			if
-> (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
->=20
-> You accidentally deleted the IS_ERR() check so now this function is
-> badly broken.
+> > > +#define MBOX_FULL              BIT(0) /* i.e. we've received data */
+> > > +#define MBOX_CLOGGED           BIT(1) /* i.e. the channel is shutdown */
 
-What I think happened was that on replacing WARN_ON_ONCE with
-drm_WARN_ON_ONCE I had to find a drm device for the first parameter.
-Since there was not one readily available I believe I ended up re-
-writing this line, and accidentally left out the IS_ERR(). I will fix
-this.
+> > This is confusing. CLOGGED usually means malfunction, but it seems you
+> > want to call it STOPPED or UNINIT?
 
-> 	if (drm_WARN_ON_ONCE(connector_state->connector->dev,
-> IS_ERR(state_val)))
->=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13
-> @597=C2=A0=C2=A0				return PTR_ERR(state_val);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 598=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 599=C2=A0=C2=A0			val
-> =3D *state_val;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 600=C2=A0=C2=A0		}
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 601=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 602=C2=A0=C2=A0		properties[i].prop =3D cpu_to_le16(prop);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
-> 603=C2=A0=C2=A0		properties[i].val =3D cpu_to_le64(val);
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 604=C2=A0=C2=A0	}
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 605=C2=A0=20
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 606=C2=A0=C2=A0	retur=
-n gconn-
-> >num_properties;
-> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 607=C2=A0 }
+> I don't agree that "CLOGGED usually means malfunction". To clog something
+> is to impede its flow, which in this case is the correct terminology to
+> refer to what's happened to the channel. "UNINIT" is wrong, it's initialised
+> properly. "STOPPED" is also wrong, it's not stopped, it still sends, it just
+> won't pass it on through.
 
-Thank you for reporting this
+As a native English speaker I'd say that clogged has heavy overtones of
+broken and malfunction, like Jassi says it'd usually describe a fault
+condition.  Something like "blocked" might be more neutral.
 
-Ruben Wauters
+--hWOioVe/sP5fgiHB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjRTMsACgkQJNaLcl1U
+h9BSwgf/UbyytmfMXNaOBq0OXuzH3MlTUpvtouJsg45qiXcqEzcGY0k6+RBIUbc6
+zI4fw9IG0Lv8B4Yrt1hanJqBJ/sKvd/eq065FqSbGMiG9Wyvivn0OGdw9IIP3Wxi
+4TpYVqVul1GtYt3Gp5D4HJbNOaeEZeaOsEUqU0EFD1X5NCviWF7atKprxkvd/e9k
+ZPOQdFVmh48Ln2hsCQ621I8Wemmu+gSVB1aSvD1awF36hp+cCvWz7vSus4z3nX5D
+71oUm+zLms7LtKb9Voz3ReEEmIKjbhG7dUF/xHul+Qg8FQqMxwcBPAyjFzl3g92I
+ZQuum9Wn2rVplW7pwOwJ5YvsRh8BdQ==
+=0rmc
+-----END PGP SIGNATURE-----
+
+--hWOioVe/sP5fgiHB--
