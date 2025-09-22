@@ -2,95 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76941B8F4F8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 09:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADB7B8F51A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 09:41:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E800510E3C7;
-	Mon, 22 Sep 2025 07:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB27910E3CD;
+	Mon, 22 Sep 2025 07:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jki+L+9y";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Uj4O+7gW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XwMwUnB3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JsJsfHP8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nZGfpgDx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE6A910E3C7
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:36:55 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3fc36b99e92so457900f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 00:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758526614; x=1759131414; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SQTiutALUjkpQjQ6uKKs077crH4fXFWsk2vBwe4NujY=;
- b=jki+L+9ydTonGvSPLZms7WxZ6dheNfqb0VOtnbl5H/XQw6cqHzJT3HqGHiv/PgSdqh
- IMdPIMm/7GAaVw0QOFKA9QN2/GaXZ1uaOcOS/fGNlcpOScFtGz+1lJZpefY8tfHph7zl
- qNZh2iaFjYtPcJ6GtMmbmNkv9QAZXVaWjPcxfT7Ju2NZQPdZutTBurlAt3z/LSH8Qe/E
- DHr82225wFU6T1Yybhu2uqce4YLfDa4w8kxomzp9BNRrlQL3HC0a+1K07gZfJCw6Ai/b
- 6biyq5o1nj6iiGjvKZWo5x3fkuh9FRt4xBlXjJtv9yvUvv9qehoBxE89CKTGe+S32Smq
- 527A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758526614; x=1759131414;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SQTiutALUjkpQjQ6uKKs077crH4fXFWsk2vBwe4NujY=;
- b=F0iqefpDGioXt2N0UkeaNIWy1sSvLFVI5JM9vqLF3YSL620zhv0cXRrY7L3vLCuIJ7
- b+uxlYwrJvTno+w2wLzeTI52LpgA5XJLcFY5rEW/FPpYxFefG2McGgn7Z81aEQbFbEeG
- fOaCdmGi1MlPglqiUn80FwOe9P/JMjBfoxjWE/DG3r1PtHprURinUmD+eKP1PMcmMRPA
- aR++i2H2ERMkc2aQmvblke0tZCBwz8YYarise85DiUFjT8HXlF1gnRFMeLlWDsGWTzHj
- exhq/KI53Cgk/lGc8kszKwBNvjhM39Uf1bYdW4aVebmcfRKdjbjCb38UCFuDVJAQ+gBR
- 6fww==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3y88XN7kb3IDbK5JHtjo+tbBRvgqHFtnN3HIFs+bPC48gEKjtPqHad0HZFelUdkYgEkuSNJ37jxY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyyjYmsT1HfPJ1TZCCKKxhWu7VpyUzGt1o7coO7Z4st7ILV6voY
- ada4FoihMMrK/Tq9F6ZsUiuyp2W8NX9RwGavKySrrxly752/PxuPKbEpv5fCQs4UEzf5whYGcAl
- MHzchh7VqCfFPWg6831XDz4CK4aWH1EA=
-X-Gm-Gg: ASbGncv5PNloC5B4LVkgnkGFCrC+aO/SN1G13xw0Hso/XLTDVt4WXIhBiXTMAQnWCiu
- aYwxXze2s0LV0fNG3Xl1vepPdlxxB3Ip+hiDSs5m9pIXM2UweHI6+clJ7WVZswVmSKSQu/ztStE
- xCZNgnaxN733qHmdKcfsEm7ytbEJOSDJ2EvYgVVRL/B9JWjKVWqTb5y4QdUENdoVNJykh7ntXoi
- Z5mu7HM
-X-Google-Smtp-Source: AGHT+IG2SLbXARRu0t168HLsZz/v53XcB1wJ8Ft52VtbeB5V4oYB8nfGA5hMzmF2UiZq9koPPs+A0RRL4rJK+tjvmts=
-X-Received: by 2002:a5d:5f87:0:b0:3ec:42f9:953e with SMTP id
- ffacd0b85a97d-3edd43b5c0dmr15773738f8f.7.1758526613972; Mon, 22 Sep 2025
- 00:36:53 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40D810E175
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:41:32 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A25AB22254;
+ Mon, 22 Sep 2025 07:41:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758526891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
+ b=Uj4O+7gWe5leIxruI6yWGjSc/WnN6epJtluxSvF9J8HGKYTXrXkTTh7dp/6Lw2lN2IvglR
+ 52fsJisziItag/dtDPkgZxW4XMkuGVNR0CE/sPpcTb3+qYSjNgu9MCU6FsozzEwE7SGrHr
+ hf/b0T/amS2VIf4m4ktuGGqyejkPikk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758526891;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
+ b=XwMwUnB30IcN14pIq9ftmcujRnKPKMyIrGYvbX83P542s+F3rrBic6YUdslvCtneEYrUFL
+ ksGaX4RqYPNdIjCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JsJsfHP8;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nZGfpgDx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758526890; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
+ b=JsJsfHP8Ei9U8vqlSFJ5E1iiQ4BzkbFOA97ydeYZQMbzc9bNib7Fe3Yx3MlXWZoxrE4D7D
+ fJxHbI9zCW4TbAtIn0AEbpad0bkICTsgfLOczRwWbzO2+4IYUQTvRLrHb905u2Br6Q6f0z
+ ft6eKzPHn0q0oRphT9hWTQmgw0jBnlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758526890;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
+ b=nZGfpgDx2IFD/T5VgVQ6wLgkloAxMf49xNKAW+TzSP1BK0ud/loANj6s8LubNY0fvqsDVq
+ yNVvc5gmTohjCQDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A3A21388C;
+ Mon, 22 Sep 2025 07:41:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 1wz1EKr90GjVAgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 07:41:30 +0000
+Message-ID: <e9c42e99-87d7-4f78-bb7d-5e0574815eb9@suse.de>
+Date: Mon, 22 Sep 2025 09:41:29 +0200
 MIME-Version: 1.0
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <4198615.hdfAi7Kttb@senjougahara>
- <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com>
- <3074302.Sgy9Pd6rRy@senjougahara>
-In-Reply-To: <3074302.Sgy9Pd6rRy@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 22 Sep 2025 10:36:42 +0300
-X-Gm-Features: AS18NWCN3qDh6Art7Go1S1L6w234Yc5WBRcSNsroEE7Na7Xcr_-CeAzzooRElaI
-Message-ID: <CAPVz0n1ozJ13MB4eFMAJzESe8iQ7SKjMApZCLFAZ_eubCFs0tg@mail.gmail.com>
-Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
- format align calculations
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>, 
- =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] drm: revert the remaining commits about dma_buf
+ handling
+To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20250919155519.1104256-1-mwen@igalia.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250919155519.1104256-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: A25AB22254
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[igalia.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.de:email]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,226 +155,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 10:27 Mikk=
-o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+Hi
+
+Am 19.09.25 um 17:54 schrieb Melissa Wen:
+> Hi all,
 >
-> On Monday, September 22, 2025 3:30=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:23 =
-Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07=
-:44 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > >
-> > > > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel =
-wrote:
-> > > > > > Simplify format align calculations by slightly modifying suppor=
-ted formats
-> > > > > > structure.
-> > > > > >
-> > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++-----=
---------
-> > > > > >  1 file changed, 16 insertions(+), 25 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/driv=
-ers/staging/media/tegra-video/tegra20.c
-> > > > > > index 6e0b3b728623..781c4e8ec856 100644
-> > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_=
-pix_format *pix, unsigned int bpp)
-> > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TE=
-GRA20_MAX_WIDTH);
-> > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TE=
-GRA20_MAX_HEIGHT);
-> > > > > >
-> > > > > > -     switch (pix->pixelformat) {
-> > > > > > -     case V4L2_PIX_FMT_UYVY:
-> > > > > > -     case V4L2_PIX_FMT_VYUY:
-> > > > > > -     case V4L2_PIX_FMT_YUYV:
-> > > > > > -     case V4L2_PIX_FMT_YVYU:
-> > > > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
-> > > > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * p=
-ix->height;
-> > > > > > -             break;
-> > > > > > -     case V4L2_PIX_FMT_YUV420:
-> > > > > > -     case V4L2_PIX_FMT_YVU420:
-> > > > > > -             pix->bytesperline =3D roundup(pix->width, 8);
-> > > > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->=
-height * 3 / 2;
-> > > > > > -             break;
-> > > > > > -     }
-> > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
-> > > > >
-> > > > > Assuming the bpp is coming from the format table below, this chan=
-ges the value of bytesperline for planar formats. With this it'll be (width=
- * 12) / 8 i.e. width * 3/2, which doesn't sound right.
-> > > > >
-> > > >
-> > > > Downstream uses soc_mbus_bytes_per_line for this calculation which =
-was
-> > > > deprecated some time ago, here is a fragment
-> > > >
-> > > > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelf=
-mt *mf)
-> > > > {
-> > > >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
-> > > >  return 0;
-> > > >
-> > > >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
-> > > >  return width * mf->bits_per_sample / 8;
-> > > >
-> > > >  switch (mf->packing) {
-> > > >  case SOC_MBUS_PACKING_NONE:
-> > > >   return width * mf->bits_per_sample / 8;
-> > > >  case SOC_MBUS_PACKING_2X8_PADHI:
-> > > >  case SOC_MBUS_PACKING_2X8_PADLO:
-> > > >  case SOC_MBUS_PACKING_EXTEND16:
-> > > >   return width * 2;
-> > > >  case SOC_MBUS_PACKING_1_5X8:
-> > > >   return width * 3 / 2;
-> > > >  case SOC_MBUS_PACKING_VARIABLE:
-> > > >   return 0;
-> > > >  }
-> > > >    return -EINVAL;
-> > > > }
-> > > >
-> > > > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
-> > > > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
-> > >
-> > > Googling this brings up the entry
-> > >
-> > > {
-> > >         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
-> > >         .fmt =3D {
-> > >                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
-> > >                 .name                   =3D "YUYV 4:2:0",
-> > >                 .bits_per_sample                =3D 8,
-> > >                 .packing                        =3D SOC_MBUS_PACKING_=
-1_5X8,
-> > >                 .order                  =3D SOC_MBUS_ORDER_LE,
-> > >                 .layout                 =3D SOC_MBUS_LAYOUT_PACKED,
-> > >         },
-> > > }
-> > >
-> > > which matches that you're describing. It doesn't make sense to me, si=
-nce it at the same time specifies PIX_FMT_YUV420 (which is planar with 3 pl=
-anes, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACKED
-> > >
-> > > /**
-> > >  * enum soc_mbus_layout - planes layout in memory
-> > >  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
-> > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in 3 pl=
-anes (4:2:2)
-> > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in a lu=
-ma and a
-> > >  *                                      chroma plane (C plane is half=
- the size
-> > >  *                                      of Y plane)
-> > >  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in a lu=
-ma and a
-> > >  *                                      chroma plane (C plane is the =
-same size
-> > >  *                                      as Y plane)
-> > >  */
-> > > enum soc_mbus_layout {
-> > >         SOC_MBUS_LAYOUT_PACKED =3D 0,
-> > >         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
-> > >         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
-> > >         SOC_MBUS_LAYOUT_PLANAR_Y_C,
-> > > };
-> > >
-> > > i.e. non-planar. The code in the driver is handling it as three plane=
-s as well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_ADDR=
-ESS_V. Since the planes are separate, there should be no need to have more =
-than 'width' samples per line.
-> > >
-> >
-> > I did not invent this, I have just simplified this calculation from
-> > downstream, output values remain same. I have no cameras which can
-> > output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test if
-> > this works either. Other YUV and RAW formats were tested on real HW
-> > and work perfectly fine.
+> I just talked with Thomas that these two patches are preventing amdgpu
+> driver to be unloaded:
 >
-> My understanding from the code was, that the MEDIA_BUS_FMT_ formats liste=
-d in the video format table refer to the input formats from the camera, and=
- the V4L2_PIX_FMT_ formats to output formats from VI. Hence VI could input =
-UYVY8_2X8 and write to memory in YUV420. The code dealing with V4L2_PIX_FMT=
-_ values seems to be related to the output to memory. Is it possible to tes=
-t this (your camera -> VI converts to YUV420) or am I mistaken?
+> `modprobe: FATAL: Module amdgpu is in use.`
+>
+> and there is no process using the driver.
+>
+> We agreed that the best approach now is to completely revert the work
+> done for improving DMA bug handling to avoid any loose ends. With these
+> reverts we are just back to the old behavior and amdgpu loading and
+> unloading will return to normal.
+
+For both patches
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+If no complains come in, I'll send them out with this week's 
+drm-misc-next-fixes.
+
+Best regards
+Thomas
+
+>
+> Best Regards,
+>
+> Melissa
+>
+> Melissa Wen (2):
+>    Revert "drm/framebuffer: Acquire internal references on GEM handles"
+>    Revert "drm/gem: Acquire references on GEM handles for framebuffers"
+>
+>   drivers/gpu/drm/drm_framebuffer.c | 31 +--------------
+>   drivers/gpu/drm/drm_gem.c         | 64 +++++--------------------------
+>   drivers/gpu/drm/drm_internal.h    |  2 -
+>   include/drm/drm_framebuffer.h     |  7 ----
+>   4 files changed, 11 insertions(+), 93 deletions(-)
 >
 
-Camera I am testing with has no YUV420 options available and from what
-I can tell there is no way to force VI to output in YUV420 unless
-camera supports it. Any format manipulations should requite hooking up
-ISP, or am I missing smth?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> It's certainly possible that the current code is functional -- if bytespe=
-rline is set to a too large value and that information flows to userspace, =
-it could still read the buffer. It would just waste memory.
->
-> >
-> > > >
-> > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
-> > > > > >  }
-> > > > > >
-> > > > > >  /*
-> > > > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegra20_=
-vi_ops =3D {
-> > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
-> > > > > >  };
-> > > > > >
-> > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
-> > > > > > -{                                                    \
-> > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
-> > > > > > -     .bpp     =3D BPP,                                 \
-> > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
-> > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP=
-, FOURCC)      \
-> > > > > > +{                                                             =
-       \
-> > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,          =
-         \
-> > > > > > +     .bit_width      =3D BIT_WIDTH,                           =
-         \
-> > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,           =
-         \
-> > > > > > +     .bpp            =3D BPP,                                 =
-         \
-> > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,               =
-         \
-> > > > > >  }
-> > > > > >
-> > > > > >  static const struct tegra_video_format tegra20_video_formats[]=
- =3D {
-> > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-> > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-> > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-> > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-> > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-> > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-> > > > > > +     /* YUV422 */
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
-> > > > > >  };
-> > > > > >
-> > > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
-> > > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > >
-> > >
-> > >
-> > >
->
->
->
->
+
