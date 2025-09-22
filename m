@@ -2,126 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEBBB9395F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 01:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437EFB939C2
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 01:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 448FF10E025;
-	Mon, 22 Sep 2025 23:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B765A10E00E;
+	Mon, 22 Sep 2025 23:39:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E1FLgZPW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RyxQCKkW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C71210E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:34:07 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MImbIY029818
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:34:07 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C7510E00E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:39:00 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MG4iQv015502
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:38:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=m6ztTUa1Nhe291Dt3QY6n7
- qVtvRxyg0bpRvNd5kITc0=; b=E1FLgZPWQQqKCbHet7mgc23S2YPAxqBgIGCBo7
- F8/N7a7T7hM5JZCCHceCUCUCn1aiKp4j88BwNktkH4QSRgSImNJVq/Lh1btO32yi
- hne1s3ewJn1fmmf2lX7j9W2AoZcdKrwtw5WIv2bK8SLfK8KdR4FVajZ/BEI7xyW3
- liePs0S7WY/McEcJMSBlnh1nJTgGiHoX8dxGuKORiybg85TLFj1zuuvCBl+v4i7F
- VAKnuVvN+IZeQjBT7FnegKWgvXK9z715oG+2zU5YD77A8Wt2hfEV9okr1Tb1WGTc
- OPiyKP+ISTYladpR0urdkVEQhZB1hXgWOtpgeBSFcRVlvfoA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499mg36fhs-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ e5TvOCaHalM32QUUJdndPnHbjMULpv/tXt4BpcYo4Xw=; b=RyxQCKkW5kWPhVUt
+ 3GGAY8PcspEk4oILlwudowluIi8Z+6u5eKYlLEEOiSyDdqlvsabyObnFBMoYp+jL
+ BJ8AAQT8WKgG9Uzm96aqnEXEYTYa3u239R27+K8kwxscKc9zu3RgSH4HoFLDqax3
+ Q/LQ9lp3tVXTQBlra5ArxzWujzbmK/+JTQ3DjamvAon3Mjc0NNTGD4GwAC4wZmHP
+ 0SNNkIA+al9Ygp4mObCquxSfIE8E09jYVPbnW1BDiV88K/+B02ArWbkPp7C5CnlG
+ /ClpR6MGV2fyjJTKtxZgtiaxubK3uzdgkuYQUdF+XVMFdHRJKXKiyl3HZOToD23s
+ 1HfR6Q==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1fee6u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:34:06 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-2699ebc0319so54164725ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 16:34:06 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:38:59 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-78e30eaca8eso41118006d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 16:38:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758584046; x=1759188846;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m6ztTUa1Nhe291Dt3QY6n7qVtvRxyg0bpRvNd5kITc0=;
- b=Um9JqfdudSG2bLl5l+OLuR8sHDvW2kXnThUFlRTJtEtt++fENgxBgdV8M5dYKbegI5
- M25gzR9Sz5bfGNigfvu/mw2ubrmyLihMzajxomRasM7VbkGPelobuaPHfF8sCTeLJtI0
- gcB7CiqMiuqKBsxqQvxOrik/DOkm30wn2uWzL2MaENHjBp2dSpihVBSMqZWazV/edP4g
- mqLw8HAXSCEUewOwHHsilbC6B/9FVDI5Udw8Qb2mqu8DMEA3p8tTvLLZHPGiSGDjLutK
- +cyPU6S9WzJ5PysWEQZmzL93AklmEqB6MsQYU11KXgbUUGMXsX/A5hHGCsgAZGbgdo3b
- OG2Q==
+ d=1e100.net; s=20230601; t=1758584338; x=1759189138;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=e5TvOCaHalM32QUUJdndPnHbjMULpv/tXt4BpcYo4Xw=;
+ b=uodcsdxejyPQisyvHUwh2AQtPIOK16gwLGCBsKY4x2wqutBRbHWL1AclXzd6ae3lk7
+ dHMuKHMwQBHo05DBvJLpt1KMyYnaOJf19wEEsbVogvRp91KJWPERcdzzKBz4rJ27DHKH
+ lgn9DK0c2zSQPLG6oWBZacgX2QHGaFNr5dHO+URb2UkyF+uRfIKHW95UUdkgrDY4gtT5
+ wb4DSlpH0PNvGObD1nRC6/3p1PWVnWRZUnvYcqAWL1au/5Wq0iZ5/IvAIyxt+hLxcqu7
+ Yqn9Kuwo29XTv7zpEvl8MOVnmfa3o+KVp8uNBHhbNTWz+Vb34vQ8/JS2/8gCBd70hU43
+ qbsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWA1rGbyBXMtO+Z4E9XU/wMKZAOmtjGwGaO+hZlHr3So6F1KUdyYH5QeYsQyGM3CthrRyO6FdsxB0s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyNGjGSR3hdknzPqNbYIy+QWGHwKpIP0qHEmiIWloMSjeJHaecP
- 3mh/KNBMuS3C/hbEyE2/0GSC9PuSQJjF1VQeZswAcIpyxny3JvIuzmBZoHWH+NHiy1vO8ZIen4C
- REYPkNq9H46u3NToL7wLse2Z0RyfMPVz4EKFt8ngsrhecj1I+6EQTvZRrGSFnDfKKzFA/BlVvcJ
- wk/Fw=
-X-Gm-Gg: ASbGnctuV/a+PpWmHjevi9LnPv2UGhr379bJ1dooQ0TOn0LrYcYyhLbLPjCaKNO+WDg
- hRevCeue+E5o9DZj+bryGUMncOdJsol6PVtNHwx2sUnTSHlAWhxS3b93cyyKnDBaa58X1eMKnd5
- 2EOtITD0BL3MRsfztFC4ie/T3hmJd2z5drybVegsHhxcPXnENBR6OjzZjkURXA08utKSI7P2svf
- 9+UxGTB588YWVjK9RTO+6RbqPsYxLysZ+cwxJLDMI3htXFO6IRc91gBzpBj9A7dbSPbgwVHV54w
- eu/FdXHQM99FYD/xYxRr1xLfR2qYsvHC66z/Be9fAJiUwZn0Y5XuHI/V/eGzUeHK+hctZZ7I20I
- 9hPVVATmMMeDJozk30nrsDPwJ
-X-Received: by 2002:a17:902:d58f:b0:278:704:d6d0 with SMTP id
- d9443c01a7336-27cc41d1be3mr6027415ad.19.1758584045849; 
- Mon, 22 Sep 2025 16:34:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGSbin/PIvKVcn/OXuhCk/5eExOX31UGaUEM1vyKmkyPKW8/DOkrYdu+4YvFnTtODfyJdb6Qw==
-X-Received: by 2002:a17:902:d58f:b0:278:704:d6d0 with SMTP id
- d9443c01a7336-27cc41d1be3mr6027095ad.19.1758584045367; 
- Mon, 22 Sep 2025 16:34:05 -0700 (PDT)
-Received: from jesszhan-linux.qualcomm.com (i-global254.qualcomm.com.
- [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2698019821dsm143706275ad.64.2025.09.22.16.34.04
+ AJvYcCUrmsIVJqdqkLfCq9QKGAiOtxgu4TVQDqDglum0/JsthQureIu5HpXGvQ9qGYJEzr3UHvvh1OG2ZTM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFkGR0O4q7Phy0JZoQYtH2VRCJNWlvRcOPIrbodMrRNw/9K/UU
+ KiWxRpQvPyycHI9y76TA41XVhG/ILl0hSUfNmvgT8jqjbEj/hbKrTX5GpUz4NfVYfLQ0k2eDPrP
+ TjLHU2GmOg30yk5xMYtxKrE2N/qocUzbiKptoNUejxSuBR1cwnvqRCuZPZr642SpH/9UNYWw=
+X-Gm-Gg: ASbGncu2C43P9IBrIDNfoQO1mrbP70f+XS6ZqTaLjiE18QjMewFxgqsO1bAKOnTZNXE
+ ZhI3xJvJ6PvsGe5XG338o6SYe6NEs09uIR4XVDA2UXOZdbRtP76G9Ntn9Bf2oBpOAaeXqhnVH9R
+ xC9ZqjM7OoNC7Fw9SjF7/iuwlSmoHiHq3RIZsfnER6eY7LhiPETZCFhCoqgcTTWalKyzkCAGhCb
+ OveZmOD0pfe31IbDoei7aS1xrY2XdY4G/gCFzv8er0mRE5qIFSGkWLcC/I91N1iwu4L7htISwv9
+ XzAwlPOhSfE7q4R52BrJAZu9sEhML+EE/m878VrdQWxiOqFSAbMk9BLnRZJmHBH4ZVlULSgaJMz
+ CGL0+NwJ5dpj7IN5jXzf2GAWXmggOz0cFKS+s6qcfE06F1Vtx5f0z
+X-Received: by 2002:ad4:4eed:0:b0:79c:f4b0:6813 with SMTP id
+ 6a1803df08f44-7e70381f0aemr8294956d6.21.1758584338157; 
+ Mon, 22 Sep 2025 16:38:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGUSFjg5iWYzh+WxjwkEqcZf3xV54AJeAPRjTMWZAiNEPSIO65hMhienoOLDZE1fB+/IhMYg==
+X-Received: by 2002:ad4:4eed:0:b0:79c:f4b0:6813 with SMTP id
+ 6a1803df08f44-7e70381f0aemr8294756d6.21.1758584337686; 
+ Mon, 22 Sep 2025 16:38:57 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-57b7e33b78bsm2117111e87.45.2025.09.22.16.38.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 16:34:05 -0700 (PDT)
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Date: Mon, 22 Sep 2025 16:32:39 -0700
-Subject: [PATCH] drm/msm/dpu: Don't adjust mode clock if 3d merge is supported
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250922-modeclk-fix-v1-1-a9b8faec74f8@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAJbc0WgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDSyMj3dz8lNTknGzdtMwK3UQLcwNjc9MUS0szAyWgjoKiVKAw2LTo2Np
- aADo2laBdAAAA
-X-Change-ID: 20250922-modeclk-fix-a870375d9960
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Mon, 22 Sep 2025 16:38:56 -0700 (PDT)
+Date: Tue, 23 Sep 2025 02:38:55 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abel Vesa <abel.vesa@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-X-Mailer: b4 0.15-dev-a9b2a
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758584044; l=1310;
- i=jessica.zhang@oss.qualcomm.com; s=20230329; h=from:subject:message-id;
- bh=NO6OCdz9v3Tc/Ktiqg3Wh+gypiA56gt1Z/XEzJOevmM=;
- b=FqqpcegGZLXcfSidwXQSnQCKvesciEyokTB8ipKxsrgPjY51xArxNhIg82ImuTocCxHkuuPGw
- VJFOYqL/PstDdIHfGPlZ+Z8RwhNoeEAsIRRkKI74iPOGYZqxpsIOTuW
-X-Developer-Key: i=jessica.zhang@oss.qualcomm.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzMiBTYWx0ZWRfX2BPqs31lAYQ3
- 60H5YUAOZuaTSOK062BD16pdhT0BnT6lGrZIdbW2LD/K9GTQcn/yjuMsvuE2hjgJKYHi5rC0k7f
- 2+z6lKiVsTS2SotgoT1KZpx6qt24ZjiY+Yzzwkom3Yf1uwjm+eTo04NcFzEh8aR83jl/ZAZaScd
- UhWzQfYAyJb0xBlxlD7uaDkRkkpXHPgW9wrSn7M0xZ4L3wWXS4ScynGe2ptb/oCahX4lpKO8Ut7
- jHNf/xKTlqaRiaJGMXCg8A494m2RL3Tzp0rA9xexHQh4hICGpA8X1/SJZZ/70cu5KoTzwjS5iNZ
- bJD4kM9/fSvhJ+lFBuc+133iQ/Gd1ffZ7eEs5jaNRpDnBQx8/A50ANxkcCJFLhLRomwy+Ov93zg
- I78zEy2p
-X-Proofpoint-GUID: Feea0BjB9mQ2tU4Ruuy-VVW21999HpHS
-X-Authority-Analysis: v=2.4 cv=UvtjN/wB c=1 sm=1 tr=0 ts=68d1dcee cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=NBkOncM4Jvnk2V6n248A:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: Feea0BjB9mQ2tU4Ruuy-VVW21999HpHS
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v5 12/14] phy: qcom: qmp-usbc: Add QCS615 USB/DP PHY
+ config and DP mode support
+Message-ID: <bonlc3rnfizezrobyuazv2cmyu3hqqck7tbk2g5ryln24eiwno@jxsz2rg2dyex>
+References: <20250919-add-displayport-support-for-qcs615-platform-v5-0-eae6681f4002@oss.qualcomm.com>
+ <20250919-add-displayport-support-for-qcs615-platform-v5-12-eae6681f4002@oss.qualcomm.com>
+ <bfpgktxgo2hb6dpzy3i7jdr6w4de5boorx4n6qeapct2vre4sn@4z2mnppridn5>
+ <14cdf3a4-714c-4136-8c1d-99392e7911f5@oss.qualcomm.com>
+ <2ewxoe76rrii4w3n5b6wl32vmatcp2boj75o65cuq5nx4f2a55@7cn6m7oxzu6c>
+ <28eef277-c778-4ffe-94c6-2e90d58633de@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <28eef277-c778-4ffe-94c6-2e90d58633de@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: 4Ntzczifn2Y3LGYA82JapJKbGXa4EFj7
+X-Proofpoint-GUID: 4Ntzczifn2Y3LGYA82JapJKbGXa4EFj7
+X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d1de13 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=W0oVTkMUdJ9i6-1frqUA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfX4LwaWAai9HRf
+ dPATRc0ulxAM13F93Em9o1ApL205+bx1iO266AhRH6yjmmCSesvKM0siroKAa9vl08LDfpCCDJT
+ tzQI7Xlmx7OTvYGanrfkzoWFFD7MFxTw9FDgj680FSONnlIWvDkPvZqBeWig7SKvQoJ1dQ+aqJ+
+ saPxXPdqLqRNmLISVQuANQNfmDTO4zTJvIDBDUKyvgSDaguMG/2553JUREQIzUYiQalLnmf8ark
+ 2B7gDKCUCc7NY7Nh9QAbx1gW3ZCHpKmMM0J4GYG8iNfavfCZ0QiBMJ/tFxNHk96irEf31hoo43q
+ 6e+syO0ZSNU/rM7kTihN2evQiiZT6rA2/AMaGKritay/5CT5tWAozS1cLyRFiy86Jzm6k48DT5g
+ ovzjQjIm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-22_05,2025-09-22_05,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200032
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,37 +143,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since 3D merge allows for higher mode clocks to be supported across
-multiple layer mixers, filter modes based on adjusted mode clocks
-only if 3D merge isn't supported.
+On Mon, Sep 22, 2025 at 07:28:17PM +0800, Xiangxu Yin wrote:
+> 
+> On 9/22/2025 5:45 PM, Dmitry Baryshkov wrote:
+> > On Mon, Sep 22, 2025 at 02:58:17PM +0800, Xiangxu Yin wrote:
+> >> On 9/20/2025 2:41 AM, Dmitry Baryshkov wrote:
+> >>> On Fri, Sep 19, 2025 at 10:24:29PM +0800, Xiangxu Yin wrote:
+> >>>> Add QCS615-specific configuration for USB/DP PHY, including DP init
+> >>>> routines, voltage swing tables, and platform data. Add compatible
+> >>>> "qcs615-qmp-usb3-dp-phy".
+> >>>>
+> >>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> >>>> ---
+> >>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 395 +++++++++++++++++++++++++++++++
+> >>>>  1 file changed, 395 insertions(+)
+> >>>>
+> >>>> +
+> >>>> +	writel(0x3f, qmp->dp_tx + QSERDES_V2_TX_TRANSCEIVER_BIAS_EN);
+> >>>> +	writel(0x10, qmp->dp_tx + QSERDES_V2_TX_HIGHZ_DRVR_EN);
+> >>>> +	writel(0x0a, qmp->dp_tx + QSERDES_V2_TX_TX_POL_INV);
+> >>>> +	writel(0x3f, qmp->dp_tx2 + QSERDES_V2_TX_TRANSCEIVER_BIAS_EN);
+> >>>> +	writel(0x10, qmp->dp_tx2 + QSERDES_V2_TX_HIGHZ_DRVR_EN);
+> >>>> +	writel(0x0a, qmp->dp_tx2 + QSERDES_V2_TX_TX_POL_INV);
+> >>> Are you sure that these don't need to be adjusted based on
+> >>> qmp->orientation or selected lanes count?
+> >>>
+> >>> In fact... I don't see orientation handling for DP at all. Don't we need
+> >>> it?
+> >>
+> >> Thanks for the review.
+> >>
+> >> I agree with your reasoning and compared talos 14nm HPG with hana/kona
+> >> 7nm PHY HPG; the 7nm COMBO PHY series has orientation/lane-count dependent
+> >> configs, but the 14nm PHY series does not. On QCS615 (talos), the TX_*
+> >> registers you pointed to are programmed with constant values regardless
+> >> of orientation or lane count. This has been confirmed from both the HPG
+> >> and the downstream reference driver.
+> > Thanks for the confirmation.
+> >
+> >> For orientation, from reference the only difference is DP_PHY_MODE, which
+> >> is set by qmp_usbc_configure_dp_mode(). The DP PHY does have an
+> >> SW_PORTSELECT-related register, but due to talos lane mapping from the
+> >> DP controller to the PHY not being the standard <0 1 2 3> sequence, it
+> >> cannot reliably handle orientation flip. Also, QCS615 is a fixed-
+> >> orientation platform (not DP-over-TypeC), so there is no validated hardware
+> >> path for orientation flip on this platform.
+> > Wait... I thought that the the non-standard lane order is handled by the
+> > DP driver, then we should be able to handle the orientation inside PHY
+> > driver as usual.
+> 
+> 
+> Yes, I have confirmed this with our verification team.
+> 
+> For the non-standard lane order, handling flip requires swapping mapped 
+> lane 0 ↔ lane 3 and lane 1 ↔ lane 2 in the logical2physical mapping.
+> This is a hardware limitation, and with the current PHY driver we cannot
+> propagate orientation status to dp_ctrl for processing.
 
-Reported-by: Abel Vesa <abel.vesa@linaro.org>
-Fixes: 62b7d6835288 ("drm/msm/dpu: Filter modes based on adjusted mode clock")
-Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This might mean that we might need to make DP host receive mux
+messages...
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 4b970a59deaf..5ac51863a189 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1549,7 +1549,8 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
- 	 * The given mode, adjusted for the perf clock factor, should not exceed
- 	 * the max core clock rate
- 	 */
--	if (dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
-+	if (!dpu_kms->catalog->caps->has_3d_merge &&
-+	    dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
- 		return MODE_CLOCK_HIGH;
- 
- 	/*
+> 
+> 
+> > Anyway, please add a FIXME comment into the source file and a note to
+> > the commit message that SW_PORTSELECT should be handled, but it's not a
+> > part of this patch for the stated reasons.
+> 
+> 
+> OK, I will add a |FIXME| comment in |qmp_usbc_dp_power_on| and update the
+> related commit message.
 
----
-base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
-change-id: 20250922-modeclk-fix-a870375d9960
+Thanks!
 
-Best regards,
---  
-Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-
+-- 
+With best wishes
+Dmitry
