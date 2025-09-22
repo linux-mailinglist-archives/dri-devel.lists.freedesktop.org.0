@@ -2,187 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97128B8F9FD
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 10:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCCFB8FBAC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 11:20:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3ACC10E3FA;
-	Mon, 22 Sep 2025 08:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A799910E183;
+	Mon, 22 Sep 2025 09:20:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="b8ATZj9a";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4XofRM30";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010030.outbound.protection.outlook.com [52.101.56.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E589A10E3D4;
- Mon, 22 Sep 2025 08:46:17 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012018.outbound.protection.outlook.com [52.101.53.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ABFA10E01F;
+ Mon, 22 Sep 2025 09:20:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x/sq9PdOhrfrhLqqx4F8u+fjPHfhQJY5fpeU5A/gRmoNb+QAaXrJeztpK+Sl6sIfQej1FTMg5M+HcxqAe9xVLy2OhZYiAOPv7/ufYfPCdOQafvYmHaP13at00EdBqAFqdNdIHZttaoyoGEVzjPkDdskCE4vncFE0JmFCS177VpUgClfs0EtUI3Fbqgcb0+Auv+hHJCtMh3md2NicjseWuVmWXWdmE+UhB6qkWGV1UCPHRIO9NjjxX2B6zL5bKb6Umz0QEaRxogEmmErC7mq7E2lsXYM4FzmIgWLlE4pOrP1W3Ros68x/0Th8ncYnL73FHRAzjEvARxeVwbnQQ21Rww==
+ b=re19/W8/X4dIu0Y/X1E7rWFVF7aLYUe7dNUXhePYgF/m+lpUgPFwJCRmDIOv/V0oKvs8DMo+fr+7ay/lLvp5PyKYWgBei68Ls4lLDBjAXz8Vmdg+WvIWBKe3FGB3EJwl/dwmWDGG12gnMXNKRggC+YGPLxfRQIrX0dbyAehNy3Nkw8VD8CYP/5Lqx5Jm3F5UM7ROraWQ6FEbgODZskvM6fKnKei0LjyId5O6E1BQx64/GFn3ysH8tB2Konz1Z7bjMbBEzCSBKhCZsT3++wL2Z1Qz8Y1BuEZ2yNxJE6I0Lb29tDbRaJmVsIqNO7BqFesu85bhTVpFJguRQAGJVM44NQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8kcFklthVCxvrFCUz6khfhQXv2P0CQA7xbpE28i0RXU=;
- b=Y3m4h80R/5LIaWW+FxnVgkQQqn/ZOnUcIly+7zLmLEPCIn3TknoJHSVOUmkimHzTXJIzUOtZpwuoWlqMiDIvsU0O15jaFmbYzwe5G08thhlMpHNSM1Nx7qU+cJh0Iozw89oFtWGod4Ek4qEbBAxlSDy92hLsalxRpBeRd3u2mgkR4nsQS2SFzIjupPiV7XEeWGkAkJVeAiOmGFdA/bOnVIHD2yIYVUL2YYVwcR9j5fDSSFVQfz5nNEC6O7aiHf57WZodUxbsOsV2HstI9u67LDDK9qnt4Ax38iTaxPuyQnWtw1BXWYO6hamN69PgdTn89kRSZr1jSfa4V0zk4iuQ1Q==
+ bh=xyl5VNr69pkoL2jwJv3Q4s4SWgZbJ4LOQwZ/3g9wOzI=;
+ b=oNFB3FCgJCpm4pMP8RjS4lUr9SBhSTb8liWJrWTdsKQr0sWieXrD82iCujqRc/dY9ZdUOek9ar6QHy+skkpxTYg7Q/TyspxjDw6N7zlL30eFSIi/WLVaeoSJIa5R+z14niqe7EugENjM6t/HExV39+qn5yx8+0sIfa9NNexoa0U02zBdLkxuyRMruGC/xJyszF1vVf+i6/Wg6jOST+ls7/fhQhDfR9paQDZHKzz0bVXI7k0DzquPMSXpny+dkciHD72w6Iyg1sNxo2dRSfvf5xKKmkc+SN1IqO2orjyF0GNDDV6c+DsEA+LvMQUYvdDYGwPRwKNFyTH52sjOgCPjeQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8kcFklthVCxvrFCUz6khfhQXv2P0CQA7xbpE28i0RXU=;
- b=b8ATZj9ayPIIiSkaqkUPoKUkaWWT1dbtQ7YvxmKyoTg+MdT2e32pQ1yhmuBmwdMjRhIjGQ2pQSbreEXB5d6RQtAw+xhG4XCOjr+rjY4d6COaJ/E9RFNmFdQQ2VotgP+i3Vjrn6FDVwBlb5/TWFEFiPZ/Hh7b6o9gDnZU2dqOJVs=
+ bh=xyl5VNr69pkoL2jwJv3Q4s4SWgZbJ4LOQwZ/3g9wOzI=;
+ b=4XofRM307B++2cvzLvtsGfTFLpvO0I4gvLZcSyhRxM/32oijz8VHvfuE9hq9yhj1e1fHwFT7Pb708G1HPQQD47sxL5W/7gJgR1wipB+2b4dPxmGc12hb0aVxykjb0IPik2NlIKznugri9V+PXZ2jNzS+ZxAC1Q5W2ebXxazWvGg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH0PR12MB7790.namprd12.prod.outlook.com (2603:10b6:510:289::17)
+ by CH3PR12MB8308.namprd12.prod.outlook.com (2603:10b6:610:131::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 08:46:13 +0000
+ 2025 09:20:51 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 08:46:13 +0000
-Message-ID: <98c8f8f1-8261-4e28-855f-f26e0780030c@amd.com>
-Date: Mon, 22 Sep 2025 10:45:46 +0200
+ 09:20:51 +0000
+Message-ID: <7b8008d6-4ffc-42fe-a6bf-f2ef708fa534@amd.com>
+Date: Mon, 22 Sep 2025 11:20:46 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-To: David Laight <david.laight.linux@gmail.com>
-Cc: linux@armlinux.org.uk, jdike@addtoit.com,
- anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
- peterz@infradead.org, tglx@linutronix.de, x86@kernel.org, hpa@zytor.com,
- tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
- james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, evan.quan@amd.com, james.qian.wang@arm.com,
- liviu.dudau@arm.com, mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robdclark@gmail.com, sean@poorly.run, dmitry.torokhov@gmail.com,
- agk@redhat.com, snitzer@redhat.com, dm-devel@redhat.com, rajur@chelsio.com,
- davem@davemloft.net, kuba@kernel.org, peppe.cavallaro@st.com,
- alexandre.torgue@st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
- malattia@linux.it, hdegoede@redhat.com, mgross@linux.intel.com,
- intel-linux-scu@intel.com, artur.paszkiewicz@intel.com, jejb@linux.ibm.com,
- martin.petersen@oracle.com, sakari.ailus@linux.intel.com,
- gregkh@linuxfoundation.org, dushistov@mail.ru, luc.vanoostenryck@gmail.com,
- rostedt@goodmis.org, pmladek@suse.com, sergey.senozhatsky@gmail.com,
- andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
- akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
- pablo@netfilter.org, kadlec@netfilter.org, jmaloy@redhat.com,
- ying.xue@windriver.com, willy@infradead.org, sashal@kernel.org,
- ruanjinjie@huawei.com, David.Laight@ACULAB.COM, herve.codina@bootlin.com,
- Jason@zx2c4.com, bvanassche@acm.org, keescook@chromium.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-mm@kvack.org, netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- tipc-discussion@lists.sourceforge.net, stable@vger.kernel.org,
- jonnyc@amazon.com
-References: <20250919101727.16152-1-farbere@amazon.com>
- <184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
- <20250920111904.6d9ecb17@pumpkin>
+Subject: Re: [PATCH 2/2] Revert "drm/gem: Acquire references on GEM handles
+ for framebuffers"
+To: Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20250919155519.1104256-1-mwen@igalia.com>
+ <20250919155519.1104256-3-mwen@igalia.com>
+ <4762e5ef-8427-4fdc-ab22-da2dbcb7b8ac@amd.com>
+ <aa9ee6a7-81ea-46d3-8043-fcdcbfad882c@suse.de>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250920111904.6d9ecb17@pumpkin>
+In-Reply-To: <aa9ee6a7-81ea-46d3-8043-fcdcbfad882c@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAP220CA0028.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::33) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0249.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::19) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB7790:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef34fb17-e740-4382-7f03-08ddf9b47c6e
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8308:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae38bad5-0a8b-49ea-cce3-08ddf9b952ab
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cG1RZ1J0eVBnMzFFNXNyRmN4cXlUSUt1aUltb21TcXBvemZiWnF4L2lWRDFY?=
- =?utf-8?B?a0l5dkt3V013VFQwQ1BJTXUwcTFzWmkrd3NKWlBVV1BZS3ZCa3o2ZG5nMjNj?=
- =?utf-8?B?RnNCYkRYOGpiTTFRTi9ZbkVTcGFxZStocEFFUE1yK2d6WUI5Z3ppRFI3K09K?=
- =?utf-8?B?NHF6V1h4WWpGOU1nVjdKYWZLZEpXVE1WN1pRdkx6RWhQWWxKcWxwZGRaNjdr?=
- =?utf-8?B?OWFmcjdlbGRSTHJGZ204V2lFbTg4ZFhMaGZDWUZ1T2NUUUZLTlo3MEx6N2ZF?=
- =?utf-8?B?ZTBFTXhtbXQ4SWROVTEvblF6cytkaFNhM2NXV2dvNjljelpWR2JBU1o5azB0?=
- =?utf-8?B?eTQwcWNiS3VTMWVTaE81QmM3TXh4UWl6dmhKS0lLODRtWmtWUWpFYzJXUlRP?=
- =?utf-8?B?ay9IaHNEWjBORU5hajNvOEV0c3VydmNHRGlENnZFenBOMTliQmlOQloyc3FH?=
- =?utf-8?B?aXFORDBjY2pacFJCVi9BMHlaS29xOWtxY2hnRStXbi90UjRyVGdTK3UyRU9D?=
- =?utf-8?B?aFZEdDRhT2VaTW5vY3NTMzZkeEV5dTRhY2IvdEw0WlNMaGdhQVZ4N0ZlQldx?=
- =?utf-8?B?Qm4vWUhocXZjV0FHbmxqdlRkeVI3M2VUeG9kRlYzRnlWaTd4UDlYZkU0VnNO?=
- =?utf-8?B?Zm8xMHZXOGJJT2FiTFI5SzR6MnlVS1RGWEFHWkMyVERBeDNxbzZtMWlIQkVa?=
- =?utf-8?B?QU9kN3BzY3VMY2JKL2k1NDR4VEFpUC9DcmZLRjkrMlNidVI2Rlp0em8wazNz?=
- =?utf-8?B?V3BZbi84VG9aNXZRU1VJRVpvMXBCSmthMURQNTcrZnNhWnFaNUNhbysvclVs?=
- =?utf-8?B?czVkeXNITDZjT3pXbWRXOUU4WjhiLzlPcnVrS2RxdVNjaTZnc3NKRmk2MTA5?=
- =?utf-8?B?M1o1UUwwdXhzaFE5MEkrMkU1cHBSSjc5d1RndjAwT2MvZnJqaE9aSmZ2djBw?=
- =?utf-8?B?cDd5aFcwclYzU3NKc2s2THYvNGtvalJKVVVGc1AzNE9LSnFkSllGNldyazg5?=
- =?utf-8?B?U0tueGhqQStWeHFzbmRBMDBBRmFNcjlNU1hUNW9tVjNmNUFhTXpvNlducnpC?=
- =?utf-8?B?WDBrMEFlMGFmMndpejdTamw3YlRjSVRYS3BYV2JySmNXS1FOVm1xN0daYnZ0?=
- =?utf-8?B?WVMzVDN5ZTNLUG1rNk5tTFluSUt0aGw3NHhmSUdCbjMyc3JXQkliZmFZSXB6?=
- =?utf-8?B?dU9EeVpsOG5KWVFDWXluYW00dGhZek9nbDVKSVdJTDkraDQzSjRYc0Q4RU9P?=
- =?utf-8?B?dXJHajBLVXIwNFg5S2FZUERQOVR4TVVtQ1hKN2NpS3JKWFZwbk5mN01Bb1N2?=
- =?utf-8?B?NUZTMEpXVXp1TkZBdWh1cTRCejVTdmRCS0srYUlxcjhXeHVuQWw2YVEzRXl5?=
- =?utf-8?B?WWY3ZlRJUG1DemFMQm9aYmhGbWNTZnBPa0hqbVVDT2dDZmpZSGNlcCtMY2FP?=
- =?utf-8?B?OElJdXE5UHNSNGVqVjc0b2xiNjhWQnRMR05sOVloYlVtM0pNbG9vN1M4aXVq?=
- =?utf-8?B?NkNnbXl2TnVtdUxBakZsdlpWWHBwN01TNmduZWpYTkQxNllOOXBrY0VoRTZP?=
- =?utf-8?B?cHVxcHRjdnJ0UUhIc3JmMGtJS0d0QWR0aTdMeEFnNlpGYVZZR0Z5a0J2K1ZY?=
- =?utf-8?B?QlJ5SkdheEVXNnRZeGdaQktXM1poMmJQVll0NENCMmVGcjI2OElpOXhRdlRG?=
- =?utf-8?B?ay9WRm9ibGhhb2Q3cGtibmRhaDlzTGtZcDFvT0RqYnhkMlRIVEcxeGppaElz?=
- =?utf-8?B?ZEZscGN5S291TVBwb0pOVnJYc1h5S09lWmEzMnZFUDEvSHFuMmxwNUM2TGMz?=
- =?utf-8?B?NnVCV1RocE1pYjlNUnExVEZma0xVaE1xTDRvYmZNTEFOZmY2RkRCZkxOcXpq?=
- =?utf-8?B?Z21iSW14SXdkRys5OHRscFhvekpMRzJxQ0k0UlVaV212TVE9PQ==?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZTVjU0UrL0ZVK3pyVmc5TUU3RDRncHM1aHFqSG5ya205VURQVzNldk9JeENY?=
+ =?utf-8?B?THdoYWprMnd0VFdCTWxzRVZHVmg4by91SEMzVzJkWUxxYWE1TEJCMmllNzZp?=
+ =?utf-8?B?Wi9FdTRVWVAzRkcxQzhBbHJpYnMyRjRJZ3J6aXg3cjgrbDduT1lvbW4vdGF3?=
+ =?utf-8?B?ZTJkckFrYmdtUytQRWZJdm05ZVJEU3NmdjV1Y3hqdkg4Qkg2YS9vUzRFTFB5?=
+ =?utf-8?B?SytlMU80bDlKRitTdE5iN2VMVUlKalZTTmtwYkhXU3Q3Qk5JRFFLeTREdDZP?=
+ =?utf-8?B?MXpnNlAxUzlSMG1sK2Z6d1gzOEttTzhpR0pBbzl4T1dacWFEVFlNNEwrU3VC?=
+ =?utf-8?B?TEdKdlNyc2ZWYTl0OG1nU2NqM2lWVHNqUXFycnliZmh0ZGJpY3llYWxRQWU1?=
+ =?utf-8?B?d2srSE1kUDAvakRvSEV3N3ppeVlDUzF2OWhTQit6Z3BsTkNrWlIwelNaRVg2?=
+ =?utf-8?B?SE81SHBZWjZPaW9aQ0VQY0ZqZDFxYWgrNFpEaHdqZTZUYWJwVVVyL3p6OTIy?=
+ =?utf-8?B?OUFyN0pLbTVxS3FtVGtXcC80SkRHTHBRTWh2MlZXcG8vUnJpdzU2WjdzZGNa?=
+ =?utf-8?B?MUl1dGMxNWlxWUtnYTJ6YjF0K1JmNDMxV1h0S2Fwb21NTi95U3E0NmVIeS9G?=
+ =?utf-8?B?MjgvZzRra1ZsVFpLTVpJbytzL0pXR1E5VWxwd29XbW03L0xEOENEVEVTM2lB?=
+ =?utf-8?B?cG5HQ1NhMitaeVlQdUtrbnBNVHVuVEhheHRwL3p1NFdlWXJhUWVjYTNRQUhp?=
+ =?utf-8?B?OW51NXZHZjhwL2d1TEZPTXVwcnI3cVo4S2dqa3dIYTZRMFhyWlRWWFZERWY1?=
+ =?utf-8?B?ZmdhMmo3S1NuOVhMVEV6MEpTNmtzSnNzSWFGQ0FUZjJtb3RNR2lrU0J4TmlB?=
+ =?utf-8?B?MHpoNVl2Mkp3NVd6REFmWkhVMTcrM0I0RSs2WnlZUzFCZ283VzhMR2VRRHNF?=
+ =?utf-8?B?cXdqOVY0MUVPalg2QktiQzdSTk9udHdkSE1wYVRiQ1JpUkw5WEV0YnRtQnNw?=
+ =?utf-8?B?R0lFOFlnZkROYXZ3VFdkejZSamJIaUZMcnFwTkQxV2NSTTFVN1dHWTQveGZR?=
+ =?utf-8?B?Wnl3SGlESHk3NE1neTBrUTF1K2RNRUNmdG5FTmM3TkorQTlzMkxjd0JWd2s3?=
+ =?utf-8?B?WkF2YTh4MlFia3N3aVl4VUhuNGN1bjR5Wkg0aDVtaWpJUklQaXAvRnFDb1ZY?=
+ =?utf-8?B?KzI4cUNzdm5xKzh2Mk5HQlIvMUhmSUVGRUJPeWY4aG0zSzFhdHNCcUc2QjEz?=
+ =?utf-8?B?a0xnZUJ2b0FzY2VtakZuNTRmWHJ3SExsVlV1NlE3cWZGZWFyRDhKWWx5QzBh?=
+ =?utf-8?B?bFU0cVJIT0dTdlhqVnIzY2J1enFROVdhdERGRmdtcjd3UjlrSFJEcTRZZCta?=
+ =?utf-8?B?TS9PeXZud2tqa2RzQ2Q4bTZ2U1o0TFpjNVdXMHR3Z2hGRVlMYzBud0VjblRy?=
+ =?utf-8?B?MU5TOGcwMHIxZkhPMzlmZ2pHTW9ZamE0UXUyTG16SVcxN1BPT2FLSlRnamhO?=
+ =?utf-8?B?OHZkL1hsWlV0Nk15SkFWcmZ2MUsxOGFHM3BPbmFaa1loYTFKb2k5ZysxNjZ5?=
+ =?utf-8?B?aVVodDhyWndDSitqdzFQWXpnVTlBYmJYU1VTNnpzMHdhUlJrRjV1N2d6UGE1?=
+ =?utf-8?B?SHpiUE1hU3lTSThvZVdESXFXeTIwOUJ0QkNLYTV5NS9CdUh1OTRNMDlvaFJH?=
+ =?utf-8?B?TG0wYWhvWWlUTGNRSVQvSzZWWkpYdXlIdEl6cUhRcWlJYTFoMGlneXdaNTMr?=
+ =?utf-8?B?VFVueFRUZWloYmRBQkdxbWdJV0xaU2xLYjNhRHpBSi9wL2FGRUNMZkFkSkd3?=
+ =?utf-8?B?d0xEUzJqZGRiMGtxcFR2THF1cmVSNzZXSjEydUZkK3ZxQ1RvRkxucXZOSlhN?=
+ =?utf-8?B?TzBwbXc5cDFicUdBcHNTdTM3N1Fib1dHWVJkaTU5TlgvN3k3TmpjOFpzcDI4?=
+ =?utf-8?Q?PRlwKMdlWi4=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cnpWR3VZSWc4UDRoYW0xVitXSnVlRnVQR0c0Vlh2aXhJc3NmRksxU01TQlMv?=
- =?utf-8?B?Q0tKaUpNZmIwaXNzRk14SU1tclpsUjJiazRJK1BsYkRuRG5CTmFOSU5tWUZi?=
- =?utf-8?B?SzlFaW0xa1g3UitJd0d3Z240b3lZenJub291VXV4ek5MbzF0cXNmaW1Mc042?=
- =?utf-8?B?ODZ3ODJtUE01UEJJbEJHK0dNd3RGVEo2aFBlZWxuRitXSmJwam1WZktVWjlO?=
- =?utf-8?B?TitaK0pueUJaOVM1a1lwb2RXdGNDRjJ3Q0E4UDlpMHkyWmpRMVpla3p1ZEwy?=
- =?utf-8?B?N2oyTldrcXFtNFhmRFovenBKNTNKdGd3UDVzbHExWkllaGxGSTR2Sk5OSmQ4?=
- =?utf-8?B?Q2NlNnBLSGRTU0JWdnYzQ1BlNVg0MW9PQ0wyaUVmWG1reHRuVWpKR05zVXYw?=
- =?utf-8?B?ZCs5VXlLMG4wK0xRK1RiMTdxQmc3L0tsajNEOGFFQWF1aHNsZHVFSU5aMmdj?=
- =?utf-8?B?eUcrOFNIR2xWQm5DRm5pbThMZnprR1A2bmJid3hGNnowVi9tWlgzc055U1hm?=
- =?utf-8?B?Tk91Y1E2ZGQwYUVIMFQyc3RJd1FmZnpmdEhpWFczalJQMitBYWswTGlSMVhw?=
- =?utf-8?B?WVlsZGlyZ3hiMkRzOEd0WHZyemtvL3gxUmlQT2g5UkhpeFo1SjAxSENjdjFZ?=
- =?utf-8?B?OHdQQUZIbE1TMzlRc21MQ1BFU1B2SjFYdmZ6czJ2RnZ5Y05RZ0FVNXVHTzRF?=
- =?utf-8?B?MytPU00xdTVSalR5aitoT0hWVk54QWdGVjM4d1lZZXA2Z0dCVTVLYTgzeXAz?=
- =?utf-8?B?YTluaU43MGtrWGhnTzNLdHB3bDZTb0pqTGhqb1hOdFdZWWM1b3VpUFlHUTRF?=
- =?utf-8?B?a2tWaVBlZndXUXc2MHdHck9Tb2x3eWpqWmZ0LzhBQzJPTGVqV2lEeUZrTnMy?=
- =?utf-8?B?V2hIYkpzQ0tUd2duVGc1WnJ6TEZVV0FJZVk5M0dlOUhHai9FVW5KT3VVWVI1?=
- =?utf-8?B?UDljaWtrZXhaWmdnS0ZHV1RoTUlBRFdMMUptclV3Vk9Wcnljcnh5bEZNMDlk?=
- =?utf-8?B?MzllRXIxNzZxMkpEajF6Sk13QnlLbkg0c3R4ejFGb3I3VE8yQ1lHa0l2N3ow?=
- =?utf-8?B?QmtvcmE4Yk9OOHA5K2RQU1VBUFlYdEVJMUJmZERsTVU3WDBsazNjdHgyajNi?=
- =?utf-8?B?dGVoUVVseE9TbTYvTFA2aDE0Y3JtNWp4TEN2a052SktlcDk5NzdCc3Z5NDgy?=
- =?utf-8?B?Ylo1WjdUMlRucVQwWEVRUVhVWFpndm03T2p3azVZckRYaWdzMHRoTU1kYWdH?=
- =?utf-8?B?Nmc2MVBnM09NOTd5Zi9Gc2JIYVhIVmY5bnVsbkQwOURCVkdtN1ZqVnFlb2F0?=
- =?utf-8?B?cy9JTHZNdDNZMGIvZnc3ZTk4OHBqcllRUkdOQXExOTFYYmJjdnN1S3NvS280?=
- =?utf-8?B?QVBSMkZCQnFnd0VvRTF3SmJteWUrdFAwM0NON0F2MmxjWTRiaEw4N2wrampi?=
- =?utf-8?B?Zm5JbGVLaFNhNTFmSkFpb09yNTRXMTZDcGpaOG1SSTlWQnRIcSt2VmNhdXV6?=
- =?utf-8?B?bkQ0QzBGTTBnZGJBOTNBSEdDZVpKazhvUW5rcjZpTUk1RTNqVW13QTBhMDNy?=
- =?utf-8?B?WE93bHlpaU5xckk2ejV3eld0OGIwNlNuV1NJbHpiMXBiU21EaVZINHBtRFgv?=
- =?utf-8?B?bXRab1RSaWdtZ2V1SGlEakVXSi9YUGNvc1N6RlNMeTV2UW9ETC93bVJydU9R?=
- =?utf-8?B?OGRmSjYxK3ppMU1URzV2QVU5a1J4YjBSZlFUcjloS1JxSDg2UytiaVFIWUU2?=
- =?utf-8?B?VS9ZQllsY0xJODFvc3RTMjcrSmtNL1RpUEdpYitFZUJQUnFqWENmSXRUcU1i?=
- =?utf-8?B?akxxRlh6aFM3V1hmV2k3QW9qdEJLVTZRUCtuVjZLN0g3Sm1YYkhhbjduVXly?=
- =?utf-8?B?TldobmdpWDEvYy9YUlBlM1hqRzNiOFZFQ21yY2V1ZFJFV04xYjhVbzVHd0FP?=
- =?utf-8?B?b3VSRjR2UWVIaTNobm5GSCthcmx6UEE3a2JPTmFJSVo0MmVsN2gySkZncjZB?=
- =?utf-8?B?ZnJ3R3U1bDZLTDR0djcrSHo4aFV2UlFRWjVWVkF2d1pXU1pWRHRQNTVBRDJL?=
- =?utf-8?B?Y1llTUh4dlcxYXNQWnVXRnJIMGFOYmwzSEFVQmhUbnhYWmFlU1ZvOVpkMm56?=
- =?utf-8?Q?Zqrwr8uR4YeZSte3ehEFJmFuL?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmpQZTE3SndOT0FpWmJ0dmdHWU10c09FSkkxZTZSRmFDWXp3Wk53SWNxVkFQ?=
+ =?utf-8?B?WENMbjY1MWNVUHpsN2JUaGRUdHliUUdsc2syTEUybmdEY0FFT3RXSS9VSjNp?=
+ =?utf-8?B?VGFWK0NXRnlIbStHTjh0ZHZ5Z0FXVzZubjF2RVNPZ0IreTRqQW1QU0lxQ04y?=
+ =?utf-8?B?ZXhKakNQeThxS0JoY1A1UlQyem5oNjROcWpzM0pKQ3VLVTNnbDV4OXBsRXhV?=
+ =?utf-8?B?MFRKb01Wa1pJWDdxRmdVTWlab1BlS1hiT3dIb3pYaEZ1MXRpaVV1V1hSSVow?=
+ =?utf-8?B?QmVzTkh0RnhBemhpOHQvTnBUc2lCNFE5TVRPQnVnRTNHemdUMGxOSU8rSGRw?=
+ =?utf-8?B?Z1MrWFJNSTZBaXNGNFZPbWthdmF3cmRUQlVjcnl1WE43MTI1YkJNTWZscmpR?=
+ =?utf-8?B?VTlHeXI1ZHV1YjY4TkNJNGJLRUZiYXRacDc2OUVNd2FBcE9QakxXVDV0alV3?=
+ =?utf-8?B?VXFseWMrc2NUZjVXNkt0TlRCQXF3NG1sbERGcnBpRVJRWDluSHVjdWVRR0c0?=
+ =?utf-8?B?N1F3aWhOUFB1djNITndaY3NqVmlxeGIxK280MDNFRVpUaFBXSHJ5eFFTM2RH?=
+ =?utf-8?B?UytEdUpnaWRKUUZoQWNOQmU4MG5NQkZMUVNhYWxBd1N2NThsVHFzaUl4bTFK?=
+ =?utf-8?B?Ni9ab2xDNWZZNDVXbVpQSVRPK25Pak9kcmJUdTNwTVVoNG8vYnBhY1JKR21w?=
+ =?utf-8?B?S2M1OHFpQVI3ZUVIYVRWRTZxR3RwZFBCSXdtTE9kbEV0S0kzMkw1Q2YzUWdV?=
+ =?utf-8?B?R2JNZ1ZFSy9ENUhIaGw5cm03K0l0Q2pjckpFYmp2SUYvdjdtR3JKMWYrYmRu?=
+ =?utf-8?B?dSs4NkNBRldFaWltZFduV1hyeXhVeExONUp3eDA1YTgyaWJiOU9UMDJJL3Bz?=
+ =?utf-8?B?YzR3MWlGYXJoUmhTSHpnM25tTDh6amREc29aeWpvU0U2QU1oTnlSMGR1TFh2?=
+ =?utf-8?B?UHpOUUY1aStlbHZkdk9XeWVHU2Izd2Zma1R6bzh0b3pUZDJBUmFLR2lISm1H?=
+ =?utf-8?B?YXpNZnVKRUlpbEhLWEdFOFZ3NkhDYnkwdlY4K0ozczZ5ckt0MmhtRGIxaTFp?=
+ =?utf-8?B?bjBpcFlPRjcwZTJUQWVYNFQ5aExoQmNqSmt0Mjk4UjVJSGJocTNlSi9uak5h?=
+ =?utf-8?B?RHFQUFZwTUx4alhuNUo1a1FlWWVpTThxREMzSFlYL05vTlIraWE3eS9ManZH?=
+ =?utf-8?B?eWpnSEVZWWs4MWRmWVJ5Rzk2Vndnc2VrR1JGVlRONTY4Q1E1aExlSEVNZC80?=
+ =?utf-8?B?Q1paOVNjNGpmc2xYSlpSWlgrVXI2elA2K2k2RmN5QjNiYk93cW1sQmgzcjNy?=
+ =?utf-8?B?VTBYdkc4a09NU0xHTVdab3JCSWJjUTdNZkdtK29wc0JDTENYNTJBcW83dWs5?=
+ =?utf-8?B?MnRoMDZveEpKYkR4YUw0NkhWUGVQWEFJZTlMOWtteDVYSDM2TGh1SFBIdFZX?=
+ =?utf-8?B?MFE3WE5VSHNYMEVNaDU2RnBNWCthaElOUUpvOVdXdWgwS1BtK3VteEJHTGZs?=
+ =?utf-8?B?b3FlNHJpTXF2Ky92ZGk2dVRZOExyaHdlcUl6SnRtTTdEU2RuTk5JZ0daVlh3?=
+ =?utf-8?B?MEhyZUxxSnVLNHFkNW83d2VvRndhazBVN1RTYlRlNDRaOWRuSWlpaERsbzFw?=
+ =?utf-8?B?WTg0eVpWa2xiYTV3N3FqWU5sQUEyZG5NakhqWm5CK3BPeEh5MjNaZnpTbUhq?=
+ =?utf-8?B?MGpQTnlWcWJRcWhzMEZZL0lmVEMxd3NDV0lzZmk2REpDOHlrK3pYck02a2o3?=
+ =?utf-8?B?YWZhdC85eU5QNTllanM0YnlzT0RHOXhaNXBON3p3bU1HSGFnMFQ2NXRLNU9Y?=
+ =?utf-8?B?aXplanJIZnY5NEpHM0pjRjR1dUhFUWo0MjhGZEJXa01rMlhyMDMwWGkrdXhP?=
+ =?utf-8?B?NjgwUXFaMnNzWWJISkl0elc2bzFVd0dxMGtoU1dPc053cTRzMjNZR2t5VjU2?=
+ =?utf-8?B?c0RmSlJvTCtCYmVqenptSXErQ29LL2ZYQUZicVJnYkxmSm1CWU9JKzNUeVVV?=
+ =?utf-8?B?OC9pUzR3aUNBS21DbUxBSHA3Vm1UNDVWRFUzN2VlSGU1blFwa0RHbk4xbzU0?=
+ =?utf-8?B?MFUzMGlNWmt5UFFrdjJQcTlRcVNzVU0wVlZFa3dROWVnN2thU1ZlR1RVOHho?=
+ =?utf-8?Q?/eps=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef34fb17-e740-4382-7f03-08ddf9b47c6e
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae38bad5-0a8b-49ea-cce3-08ddf9b952ab
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 08:46:13.5482 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 09:20:51.0675 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oetdwlSlScsefrZU9ffzTGm7uqrLuTCKLiCpWlTi75F7bvsTR/lg3QeYk3Ei0bQc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7790
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0SYDywe1KmOMNgRScBr9n9S5sCGtOkJOXd1c5wIjuV2d8KXxk/i2UbvvCJUTxepw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8308
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,194 +169,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20.09.25 12:21, David Laight wrote:
-> On Fri, 19 Sep 2025 14:11:37 +0200
-> Christian König <christian.koenig@amd.com> wrote:
+On 22.09.25 10:40, Thomas Zimmermann wrote:
+> Hi
 > 
->> On 19.09.25 12:17, Eliav Farber wrote:
->>> This series includes a total of 27 patches, to align minmax.h of
->>> v5.15.y with v6.17-rc6.
+> Am 22.09.25 um 10:34 schrieb Christian König:
+>> On 19.09.25 17:54, Melissa Wen wrote:
+>>> This reverts commit 5307dce878d4126e1b375587318955bd019c3741.
 >>>
->>> The set consists of 24 commits that directly update minmax.h:
->>> 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
->>>    once")
->>> 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
->>> 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
->>>    comparison")
->>> 4) f9bff0e31881 ("minmax: add in_range() macro")
->>> 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
->>> 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
->>> 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
->>> 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
->>>    have the same signedness.")
->>> 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
->>>    __clamp_once()")
->>> 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
->>>     char/short'")
->>> 11) 867046cc7027 ("minmax: relax check to allow comparison between
->>>     unsigned arguments and signed constants")
->>> 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
->>>     expressions in VM code")
->>> 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
->>>     implementation")
->>> 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
->>>     available everywhere")
->>> 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
->>>     implementation")
->>> 19) 22f546873149 ("minmax: improve macro expansion and type
->>>     checking")
->>> 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
->>> 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
->>>     commas")
->>> 22) 10666e992048 ("minmax.h: update some comments")
->>> 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
->>>     max() and clamp()")
->>> 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
->>>     test in clamp()")
->>> 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
->>>     min/max() ones")
->>> 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
->>> 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
->>>     expanded once")
->>>
->>> 2 prerequisite commits that adjust users of MIN and MAX macros (to
->>> prevent compilation issues):
->>> 13) 4477b39c32fd ("minmax: add a few more MIN_T/MAX_T users")
->>> 17) cb04e8b1d2f2 ("minmax: don't use max() in situations that want a C
->>>     constant expression")
->>>
->>> 1 additional commit introduced to resolve a build failures during the
->>> backport:
->>> 16) lib: zstd: drop local MIN/MAX macros in favor of generic ones
->>>
->>> The primary motivation is to bring in commit (8).
->>> In mainline, this change allows min()/max()/clamp() to accept mixed
->>> argument types when both share the same signedness.
->>> Backported patches to v5.10.y that use such forms trigger compiler
->>> warnings, which in turn cause build failures when -Werror is enabled.
->>>
->>> Originaly I aligned 5.10.y to 5.15.y, but David Laight commented that I
->>> need to pick up the later changes (from Linus) as well.
->>>
->>> Andy Shevchenko (2):
->>>   minmax: deduplicate __unconst_integer_typeof()
->>>   minmax: fix header inclusions
->>>
->>> Bart Van Assche (1):
->>>   overflow, tracing: Define the is_signed_type() macro once
->>>
->>> David Laight (11):
->>>   minmax: allow min()/max()/clamp() if the arguments have the same
->>>     signedness.
->>>   minmax: fix indentation of __cmp_once() and __clamp_once()
->>>   minmax: allow comparisons of 'int' against 'unsigned char/short'
->>>   minmax: relax check to allow comparison between unsigned arguments and
->>>     signed constants
->>>   minmax.h: add whitespace around operators and after commas
->>>   minmax.h: update some comments
->>>   minmax.h: reduce the #define expansion of min(), max() and clamp()
->>>   minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
->>>   minmax.h: move all the clamp() definitions after the min/max() ones
->>>   minmax.h: simplify the variants of clamp()
->>>   minmax.h: remove some #defines that are only expanded once
->>>
->>> Eliav Farber (1):
->>>   lib: zstd: drop local MIN/MAX macros in favor of generic ones
->>>
->>> Herve Codina (1):
->>>   minmax: Introduce {min,max}_array()
->>>
->>> Jason A. Donenfeld (2):
->>>   minmax: sanity check constant bounds when clamping
->>>   minmax: clamp more efficiently by avoiding extra comparison
->>>
->>> Linus Torvalds (8):
->>>   minmax: avoid overly complicated constant expressions in VM code
->>>   minmax: add a few more MIN_T/MAX_T users
->>>   minmax: simplify and clarify min_t()/max_t() implementation
->>>   minmax: make generic MIN() and MAX() macros available everywhere
->>>   minmax: don't use max() in situations that want a C constant
->>>     expression
->>>   minmax: simplify min()/max()/clamp() implementation
->>>   minmax: improve macro expansion and type checking
->>>   minmax: fix up min3() and max3() too
->>>
->>> Matthew Wilcox (Oracle) (1):
->>>   minmax: add in_range() macro
->>>
->>>  arch/arm/mm/pageattr.c                        |   6 +-
->>>  arch/um/drivers/mconsole_user.c               |   2 +
->>>  arch/x86/mm/pgtable.c                         |   2 +-  
+>>> We've already reverted all other commits related to dma_bug handling and
+>>> there is still something wrong with this approach that does not allow
+>>> unloading a driver. By reverting this commit, we'd just go back ot the
+>>> old behavior.
+>> I don't think we want to do this.
 >>
->>>  drivers/edac/sb_edac.c                        |   4 +-
->>>  drivers/edac/skx_common.h                     |   1 -
->>>  .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
->>>  .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
->>>  .../drm/arm/display/include/malidp_utils.h    |   2 +-
->>>  .../display/komeda/komeda_pipeline_state.c    |  24 +-
->>>  drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
->>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
->>>  drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
->>>  drivers/hwmon/adt7475.c                       |  24 +-
->>>  drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
->>>  drivers/md/dm-integrity.c                     |   2 +-
->>>  drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
->>>  .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
->>>  .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
->>>  drivers/net/fjes/fjes_main.c                  |   4 +-
->>>  drivers/nfc/pn544/i2c.c                       |   2 -
->>>  drivers/platform/x86/sony-laptop.c            |   1 -
->>>  drivers/scsi/isci/init.c                      |   6 +-  
->>
->> I do see the value to backport the infrastructure, but why are driver specific changes backported as well?
+>> Keeping the backing store alive for DMA-bufs while they are used for scanout is actually a really important bug fix.
 > 
-> They will be about removing local definitions of MIN() and MAX() freeing
-> them up for simple implementations (usable as constant initialisers) and then
-> using them in places where the compound statements in min() and max() can't
-> be used.
-> 
-> Linus did all those changes - so he didn't have to wait for the maintainers
-> to apply the changes (etc).
+> That bug has rarely seen seen in practice. At least I'm not aware of any such report. And it's also just half of the fix IIRC. Not being able to unload the module is a regression OTOH. I'd rather go back to the old status quo than now having to deal with two problems.
 
-Sounds reasonable, feel free to add my acked-by for radeon and amdgpu driver changes.
+Yeah wait a second, not being able to unload the module is potentially the right thing to do.
+
+So were is that module reference actually coming from? And why do we have it now and didn't had it previously?
 
 Regards,
 Christian.
 
 > 
-> 	David
->  
->>
->> I mean the changes are most likely correct but also not valuable in anyway as bug fix.
+> Best regards
+> Thomas
+> 
 >>
 >> Regards,
 >> Christian.
 >>
->>>  .../pci/hive_isp_css_include/math_support.h   |   5 -
->>>  fs/btrfs/misc.h                               |   2 -
->>>  fs/btrfs/tree-checker.c                       |   2 +-
->>>  fs/ext2/balloc.c                              |   2 -
->>>  fs/ext4/ext4.h                                |   2 -
->>>  fs/ufs/util.h                                 |   6 -
->>>  include/linux/compiler.h                      |  15 +
->>>  include/linux/minmax.h                        | 267 ++++++++++++++----
->>>  include/linux/overflow.h                      |   1 -
->>>  include/linux/trace_events.h                  |   2 -
->>>  kernel/trace/preemptirq_delay_test.c          |   2 -
->>>  lib/btree.c                                   |   1 -
->>>  lib/decompress_unlzma.c                       |   2 +
->>>  lib/logic_pio.c                               |   3 -
->>>  lib/vsprintf.c                                |   2 +-
->>>  lib/zstd/zstd_internal.h                      |   2 -
->>>  mm/zsmalloc.c                                 |   1 -
->>>  net/ipv4/proc.c                               |   2 +-
->>>  net/ipv6/proc.c                               |   2 +-
->>>  net/netfilter/nf_nat_core.c                   |   6 +-
->>>  net/tipc/core.h                               |   2 +-
->>>  net/tipc/link.c                               |  10 +-
->>>  44 files changed, 306 insertions(+), 164 deletions(-)
->>>   
->>
->>
+>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_gem.c                    | 44 ++------------------
+>>>   drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 ++++---
+>>>   drivers/gpu/drm/drm_internal.h               |  2 -
+>>>   3 files changed, 11 insertions(+), 51 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>> index 09f80a84d61a..12efc04fb896 100644
+>>> --- a/drivers/gpu/drm/drm_gem.c
+>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>> @@ -213,35 +213,6 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
+>>>   }
+>>>   EXPORT_SYMBOL(drm_gem_private_object_fini);
+>>>   -static void drm_gem_object_handle_get(struct drm_gem_object *obj)
+>>> -{
+>>> -    struct drm_device *dev = obj->dev;
+>>> -
+>>> -    drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
+>>> -
+>>> -    if (obj->handle_count++ == 0)
+>>> -        drm_gem_object_get(obj);
+>>> -}
+>>> -
+>>> -/**
+>>> - * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
+>>> - * @obj: GEM object
+>>> - *
+>>> - * Acquires a reference on the GEM buffer object's handle. Required
+>>> - * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
+>>> - * to release the reference.
+>>> - */
+>>> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
+>>> -{
+>>> -    struct drm_device *dev = obj->dev;
+>>> -
+>>> -    guard(mutex)(&dev->object_name_lock);
+>>> -
+>>> -    drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
+>>> -    drm_gem_object_handle_get(obj);
+>>> -}
+>>> -EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
+>>> -
+>>>   /**
+>>>    * drm_gem_object_handle_free - release resources bound to userspace handles
+>>>    * @obj: GEM object to clean up.
+>>> @@ -272,14 +243,8 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
+>>>       }
+>>>   }
+>>>   -/**
+>>> - * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
+>>> - * @obj: GEM object
+>>> - *
+>>> - * Releases a reference on the GEM buffer object's handle. Possibly releases
+>>> - * the GEM buffer object and associated dma-buf objects.
+>>> - */
+>>> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>>> +static void
+>>> +drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>>>   {
+>>>       struct drm_device *dev = obj->dev;
+>>>       bool final = false;
+>>> @@ -304,7 +269,6 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>>>       if (final)
+>>>           drm_gem_object_put(obj);
+>>>   }
+>>> -EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+>>>     /*
+>>>    * Called at device or object close to release the file's
+>>> @@ -434,8 +398,8 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
+>>>       int ret;
+>>>         WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+>>> -
+>>> -    drm_gem_object_handle_get(obj);
+>>> +    if (obj->handle_count++ == 0)
+>>> +        drm_gem_object_get(obj);
+>>>         /*
+>>>        * Get the user-visible handle using idr.  Preload and perform
+>>> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+>>> index e364fa36ee36..4bc89d33df59 100644
+>>> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+>>> @@ -101,7 +101,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+>>>       unsigned int i;
+>>>         for (i = 0; i < fb->format->num_planes; i++)
+>>> -        drm_gem_object_handle_put_unlocked(fb->obj[i]);
+>>> +        drm_gem_object_put(fb->obj[i]);
+>>>         drm_framebuffer_cleanup(fb);
+>>>       kfree(fb);
+>>> @@ -179,10 +179,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+>>>           if (!objs[i]) {
+>>>               drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+>>>               ret = -ENOENT;
+>>> -            goto err_gem_object_handle_put_unlocked;
+>>> +            goto err_gem_object_put;
+>>>           }
+>>> -        drm_gem_object_handle_get_unlocked(objs[i]);
+>>> -        drm_gem_object_put(objs[i]);
+>>>             min_size = (height - 1) * mode_cmd->pitches[i]
+>>>                + drm_format_info_min_pitch(info, i, width)
+>>> @@ -192,22 +190,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+>>>               drm_dbg_kms(dev,
+>>>                       "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+>>>                       objs[i]->size, min_size, i);
+>>> -            drm_gem_object_handle_put_unlocked(objs[i]);
+>>> +            drm_gem_object_put(objs[i]);
+>>>               ret = -EINVAL;
+>>> -            goto err_gem_object_handle_put_unlocked;
+>>> +            goto err_gem_object_put;
+>>>           }
+>>>       }
+>>>         ret = drm_gem_fb_init(dev, fb, info, mode_cmd, objs, i, funcs);
+>>>       if (ret)
+>>> -        goto err_gem_object_handle_put_unlocked;
+>>> +        goto err_gem_object_put;
+>>>         return 0;
+>>>   -err_gem_object_handle_put_unlocked:
+>>> +err_gem_object_put:
+>>>       while (i > 0) {
+>>>           --i;
+>>> -        drm_gem_object_handle_put_unlocked(objs[i]);
+>>> +        drm_gem_object_put(objs[i]);
+>>>       }
+>>>       return ret;
+>>>   }
+>>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+>>> index ec1bf58e5714..5265eac81077 100644
+>>> --- a/drivers/gpu/drm/drm_internal.h
+>>> +++ b/drivers/gpu/drm/drm_internal.h
+>>> @@ -163,8 +163,6 @@ void drm_sysfs_lease_event(struct drm_device *dev);
+>>>     /* drm_gem.c */
+>>>   int drm_gem_init(struct drm_device *dev);
+>>> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
+>>> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+>>>   int drm_gem_handle_create_tail(struct drm_file *file_priv,
+>>>                      struct drm_gem_object *obj,
+>>>                      u32 *handlep);
 > 
 
