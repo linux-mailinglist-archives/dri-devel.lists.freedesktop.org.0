@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD5CB9051C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 13:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF59CB90504
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 13:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82EAE10E41B;
-	Mon, 22 Sep 2025 11:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B39E510E420;
+	Mon, 22 Sep 2025 11:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFCF910E420
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF93310E41F
  for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 11:11:19 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=ratatoskr.trumtrar.info)
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <s.trumtrar@pengutronix.de>)
- id 1v0eRl-0002HM-Uk; Mon, 22 Sep 2025 13:11:06 +0200
+ id 1v0eRn-0002HM-Dz; Mon, 22 Sep 2025 13:11:07 +0200
 From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Mon, 22 Sep 2025 13:10:52 +0200
-Subject: [PATCH v2 1/5] dt-bindings: vendor-prefixes: Add JuTouch
- Technology Co, Ltd
+Date: Mon, 22 Sep 2025 13:10:53 +0200
+Subject: [PATCH v2 2/5] dt-bindings: display: simple: Add JuTouch
+ JT101TM023 panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250922-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v2-1-abbb759cf8ef@pengutronix.de>
+Message-Id: <20250922-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v2-2-abbb759cf8ef@pengutronix.de>
 References: <20250922-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v2-0-abbb759cf8ef@pengutronix.de>
 In-Reply-To: <20250922-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v2-0-abbb759cf8ef@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -64,31 +64,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-JuTouch is a chinese touch screen supplier dedicated to manufacturing
-high-end touch display products for the global industrial market.
-(www.jutouch.com)
-
-Add a vendor prefix for it.
+Add the JuTouch Technology Co. 10" JT101TM023 LVDS panel.
 
 Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 77160cd47f54079a39f35b570d69f7c4c2274724..074e2ce9025dfa5ff76f7df3a743c2dd2f9ccd93 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -799,6 +799,8 @@ patternProperties:
-     description: JOZ BV
-   "^jty,.*":
-     description: JTY
-+  "^jutouch,.*":
-+    description: JuTouch Technology Co., Ltd.
-   "^kam,.*":
-     description: Kamstrup A/S
-   "^karo,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 1ac1f02190790cbff00c9f977d5c1a4420ed9f27..8107dc60e19695d56cd7302e7af7c808575df491 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -182,6 +182,8 @@ properties:
+       - innolux,n156bge-l21
+         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
+       - innolux,zj070na-01p
++        # JuTouch Technology Co.. 10" JT101TM023 WXGA (1280 x 800) LVDS panel
++      - jutouch,jt101tm023
+         # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
+       - koe,tx14d24vm1bpa
+         # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
 
 -- 
 2.49.0
