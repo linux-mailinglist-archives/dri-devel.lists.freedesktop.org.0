@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2950B8FE23
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 11:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867F2B8FE3D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE11D10E3DC;
-	Mon, 22 Sep 2025 09:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A986810E400;
+	Mon, 22 Sep 2025 10:01:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qq4XOYHG";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="M7Yzv5JW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B61010E3DC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 09:58:46 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M8ikRq018290
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 09:58:45 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B513D10E400
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:01:51 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M9BDLq029336
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:01:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=IW9nZTpAUTWb9o/++g/7GLgt
- nAqVsaz6ptGNBZO+z5Y=; b=Qq4XOYHGcj5UjpfNhhWI+pS57JToMKI3A3wZj8UI
- e8VxbtMbKQqcnO3vgHJjiI1PtRXRLcdpXP8THPDyHLUVRfVFCnbLkmNwHpu89D86
- Tmx+/g5eHlLvK5Y+fdgcwQV9Hd0yvJ9Dm2vPkwNP6Eb3iblyKwO533H97yiCsNT5
- DjFscqzWPziW45E7jsvjglu4Eh0VVhx833W3X1UJFtZy7TbNCNrv0zXds+vCOiF0
- 6OVB6ZsjxP+3gY5A2r3OnsuUzzWhe2z6In7YHB8EI9fzhifCEfeBHGnDJHLgswT3
- 4DVBAqOwZYt0Rmw69CVPr681jEzwGz1pS0tM9EmEUndu8g==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1fc7g6-1
+ :references:subject:to; s=qcppdkim1; bh=XiYvYz09Ku6t3DKDC+/4pI6q
+ fS4bj3bJjEj9wOzslhA=; b=M7Yzv5JW0kzo5jqhfuTrRAr2NwtyCdfXVTLVHncP
+ tYI97i8LcDHQB5HgXes9kVdNM0fTPrfKEikVW5TvqhegrojVEAyu1/H2qs8MNc1Q
+ VoGZZ2bvd/2C2225s7s7U2IXWuu/zxXLD83t1PfAVQ3Ex8YzYzw0wNK9XuifolUL
+ qqRXE5YC0eTFuK2tGjUDYH6nA6ORf7KuA9VYoRVFUXn0VWb7pzvJvozCpd3h5gtV
+ /REIvnhJ0oIMAcL7e/3p4yZFYBjUDllStnUmYL2t9DGEVn5PNJv3j6oZfV4pORIB
+ 3OJcgmPs9kjwgyNQzEhh7tJjyNTuVaYGLy7e3Tuz6HfQTA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49b3kk05hf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 09:58:45 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4ca4eeb9b06so15475761cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 02:58:45 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:01:50 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-84e6256b06dso20750585a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:01:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758535124; x=1759139924;
+ d=1e100.net; s=20230601; t=1758535309; x=1759140109;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IW9nZTpAUTWb9o/++g/7GLgtnAqVsaz6ptGNBZO+z5Y=;
- b=VNOGztqUMADVhz2LUHTDsoNiXMeTjunWxddMQvNGv8ebqSNeuGRz1XwxF+8nJ5B7NO
- CqEaY7rXkW0TJS/j0EqpjqfrK4x+1D9/HABOJU01AxOkJ2T0Hal0lgveqGILdIZogN36
- iUMYRL0vrZ6eFTYvJ4vansBePmYpKBc6cGrzYmch5xEvPuuveL9nq72Hi84WUMnaNBSO
- bcWb551S40ggfOFdoaecsEVvaEBW9mOnnZXWFGHy4Ek2D1UGki3oDCuQ4RU9uqsSMtvz
- FYq/MR9j779li2pHv7836dXxR2IaWZaQut9LRFr2g0HxgzMdKgMqdxCJmiElGfxWS1CK
- 2sLw==
+ bh=XiYvYz09Ku6t3DKDC+/4pI6qfS4bj3bJjEj9wOzslhA=;
+ b=hUG0BJoGqxCUHcVgdV7uKEzGCwegLJ1Ho9mCNqQruhd7qjmJMmvrmntic5JNmhvIHI
+ pRPlJI7M2Bj4ctC+mxR7U40m5/MnRLHvFz8Ikz9FFuEA/zSMLgEZwF6GGXay/4ZsErNe
+ IcS4rahkvRifl0rDph5Oxs0/kvAl/Rj+JItM0BV5qOOj0n+nDpBl4Vq4SKZ/soX4535y
+ 1AtRWkfrubTX+QbJo87wQUBDGClokw10gW8XM41Q5HQpVta9p3LEW25M2p2he5E1JrVd
+ qzPSSmU0ukX+A3uOegOOw0mE12cT3rkMmVRVgawdrhCRng0WKU/CVeDhMbI3xwMWct1c
+ Zb5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWsMV6vHM8c5bqfziEp5PGLeeDrleufZf9xi/3KT0vzE/cpKJ7TOqjm5ugcSr3rh97aYaS6/TLfu88=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPbN43rMCpK7E+WEBeqgtqy0OJJNpL9wew4gs4gB8lNRBNrQE2
- 7bC/+tVuLkqTLt1SG9YQlfW3i1DfRLyrPmQOLneUq594gify23K4W9CMnlaptVB8b+sAjK0mwID
- EurGIBmP+MGtV5xBghUWqND9sLRasAGyUhv/dvZQvUWMlDrKcAK7xslrE3yiu915Jn6rDZwo=
-X-Gm-Gg: ASbGnct/mpVCZ66rPqXVOYOqQ4DKLk06OzngpKy2XbP3eRlrIdWDHe7UdCS/V8+nt1I
- TpP150b7MQb32T9/v1QbiHIaJk+4WkcW172zZULpNEt7uw4eq7rEY1qQVya+SDCETHMwvUcCHFk
- GB9bK2lZMACC6wDpT+makWADS8RyG8PZICIoYl3rM9y1PpBCaX5+wKmmgoH5qke8fpZInonOZCm
- XMsFdlI7zLIXwCjVMPnxXyky/lBFB79unlOSUmVtWYWF2c6vdsDihSCV6rtv0WwwLN0kif5oJw1
- bD273EWT3Poej7phtU+dX+/58GNn3csEnsnX0i5tv8ihCrO8oZMQoQsC9sE4NiCj3R1vWFKKisI
- ZmhXxhx+njsmOKkaBP8x5XS4xUZWo/tIKM8OmwS7JodzIB1HqJtW+
-X-Received: by 2002:a05:622a:5c17:b0:4b0:edba:5a47 with SMTP id
- d75a77b69052e-4c073e88e08mr153125061cf.53.1758535124063; 
- Mon, 22 Sep 2025 02:58:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZrkbJMOE8oi3lEYxkgH7mxWyV4vRf+Ti294a6hd808l4xFyp1mQDl/IreW2vbGpM6xLJBJA==
-X-Received: by 2002:a05:622a:5c17:b0:4b0:edba:5a47 with SMTP id
- d75a77b69052e-4c073e88e08mr153124541cf.53.1758535123374; 
- Mon, 22 Sep 2025 02:58:43 -0700 (PDT)
+ AJvYcCXbGG1CaXbzADxRSCDYGYTgTUoEO0fCZa/aBr7KNWxNrhclQ6GOQLt4YRmU5pog8vt8+rmZQXr3e8Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6ejcldsXwmnE9LIUoJ+FwinGnAPWROmCmOEpipz50aaqG6H5f
+ 9Fzr7N8r2uQ8Dfy/CC4X/aR8DmNjYLAauZ6WmWjNlJtDe5VMO7KcqLS4eldsAqczWhIb2lkdRoZ
+ s/6vyM0sR1haLUiG4DhU7LCVfAQzPoIsXqptQKwRTVEnB/J9lxubDbBu2io0Fd4J5rVR9Fio=
+X-Gm-Gg: ASbGncs86u1DV05Amj2/2iB0an59iDvAAFRTKPa8rr83aLK2PLjlrdnOH+oKKqoAlCz
+ gY44YWIQ2+ppw2mTv0edQvk5Tl2eMsoWBRb3RWXxMeO0aGmyu2acBbAnwfpbVgBrQFjmp+FFCW5
+ ufjgQqsYXDPcTWGzuKOIbSRlwNI6JRv+OJT5hGSUGsBNDNsJqhOl4WIRouxZLJHHOekJQNmr4Qt
+ i1HHb/sTsPJ53424nocjl647bCngyXrKV3E406wgLWS5YYQ8xvYloxSxwJ/ziDsaB0Rk58FSp/u
+ WcVfV57ePuiyT4So9J2HCnqwc01ZhD7EPKO69ornwA9MRj8lwqDPAKIDkIRCL3cJmvG3lo3q4Xs
+ GQdNXlbvtTXjQqd5WRiEt/s60MclAdVMTGIpEdo8OsRW37TxdTc3X
+X-Received: by 2002:a05:6214:2129:b0:77e:dd3e:a0c9 with SMTP id
+ 6a1803df08f44-79911fe849emr152956956d6.14.1758535309210; 
+ Mon, 22 Sep 2025 03:01:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3dwdmnAT8Ej8kna6zU+1gThqQvOHecwhWI8VJSZtuu94b0HchIuEq9o+Du143hQaVFqG97w==
+X-Received: by 2002:a05:6214:2129:b0:77e:dd3e:a0c9 with SMTP id
+ 6a1803df08f44-79911fe849emr152956006d6.14.1758535308504; 
+ Mon, 22 Sep 2025 03:01:48 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-578a5f44b29sm3181298e87.24.2025.09.22.02.58.42
+ 38308e7fff4ca-361a1e077d0sm29027191fa.9.2025.09.22.03.01.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 02:58:42 -0700 (PDT)
-Date: Mon, 22 Sep 2025 12:58:40 +0300
+ Mon, 22 Sep 2025 03:01:47 -0700 (PDT)
+Date: Mon, 22 Sep 2025 13:01:44 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Chaoyi Chen <kernel@airkyi.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -97,36 +97,36 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 3/7] phy: rockchip: phy-rockchip-typec: Add
- typec_mux/typec_switch support
-Message-ID: <75xs2vy4pt7c6qtc4tmk6j7jdh6hdmbz73pkbv5e2ndid2gj63@nla3q6qdb43h>
+Subject: Re: [PATCH v4 4/7] drm/rockchip: cdn-dp: Support handle lane info
+ without extcon
+Message-ID: <gcgiszrrpqkoi3mhajn4i72awbffqv6mayahmnyswoitxxmrgd@nr2z4cpurbwq>
 References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-4-kernel@airkyi.com>
+ <20250922012039.323-5-kernel@airkyi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922012039.323-4-kernel@airkyi.com>
-X-Proofpoint-ORIG-GUID: qQZ9Xag4VGbt13KKxrZk3_JiH8yLn1As
-X-Proofpoint-GUID: qQZ9Xag4VGbt13KKxrZk3_JiH8yLn1As
-X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d11dd5 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=E19HVUzDLkS-Nl9glC0A:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=jGH_LyMDp9YhSvY-UuyI:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfX6A18DtQjR2yC
- ElUMDFQamGEUFJaeR55sbK+DB3/yrg0yd6T7BEn1pCV2MGWSvEGyl35VPBtrjKpoAF6QvJIe/FP
- vTet15HvwTMc0z76pYCn2cgj6QInC1xTnKeBzxKQokxW8aF2bui0T5xh3gGJG4mkgoUgp+/29Do
- IgNVbvoVelKq/WZ/YNRjFMQv4ILj03XI9bV02NLZ5dl4RjzB40ZH8BAb+pVoRjiN0Jc+baDwz/G
- 7J7pgRhsYbTiV5tySshfm8x9LJ/GZx1sCot0qhfNXN2PH5mpmBTrwHKnxLefyJ2euz03dTdht42
- JREAnEwSTGh2PZdC0V3UXgCCLgrXX8WWG65NZqQxYuQ7Rv99Hm26sQnkX56usmwe/75lAc/JaIJ
- nGmuop7E
+In-Reply-To: <20250922012039.323-5-kernel@airkyi.com>
+X-Proofpoint-GUID: lAVHyO8DuzkYOdA80AjSHxzdKqC4h3dj
+X-Proofpoint-ORIG-GUID: lAVHyO8DuzkYOdA80AjSHxzdKqC4h3dj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIyMDA4OSBTYWx0ZWRfX9IIx11Z8jB1e
+ puNzyA+3xgOIDe98Q1Blv1YypNHNvB0gPwuWg8AxiHv4r+RFHzsLmAwMBP1CIvdzemh9ulOdogu
+ wZk2zfn4ZHcFULDJ7fFDY87ZmUvq3LSmt9grn3O+8O5NImnX5wamAjgCyIg9Ili3JXRmlX4qjaY
+ TpLoerZVTUPEoQwHQbyoQDdsJqXT47P9zVevLumqWQWHdO9gQCxIjYWpO0+k1Y+PwL1l1gitBjo
+ kJdb3doJBFKfuFJfYcZgAjZF4NzmL/4mT/Gy2+XvQT2wUroRIhZusnJXOHFfIbfiAqKyXnerwh+
+ pWIsvRYE3jKwQYdNEgB9yqfRRFmUeIOGP3YN9Fo5IvOU1PusMdzAb/BBctpauK7aOiusExcGh4D
+ jhMvIdSo
+X-Authority-Analysis: v=2.4 cv=BabY0qt2 c=1 sm=1 tr=0 ts=68d11e8e cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=k09sBhBf5rVv_DnywOQA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-22_01,2025-09-19_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 malwarescore=0 spamscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509220089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,68 +142,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 22, 2025 at 09:20:35AM +0800, Chaoyi Chen wrote:
+On Mon, Sep 22, 2025 at 09:20:36AM +0800, Chaoyi Chen wrote:
 > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > 
-> This patch add support for Type-C Port Controller Manager. Each PHY
-> will register typec_mux and typec_switch when external Type-C
-> controller is present. Type-C events are handled by TCPM without
-> extcon.
+> This patch add support for get PHY lane info without help of extcon.
 > 
-> The extcon device should still be supported.
+> There is no extcon needed if the Type-C controller is present. In this
+> case, the lane info can be get from PHY instead of extcon.
+> 
+> The extcon device should still be supported if Type-C controller is
+> not present.
 > 
 > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > ---
 > 
 > Changes in v4:
-> - Remove notify DP HPD state by USB/DP PHY.
+> - Remove cdn_dp_hpd_notify().
 > 
 > (no changes since v3)
 > 
 > Changes in v2:
-> - Fix compile error when CONFIG_TYPEC is not enabled.
-> - Notify DP HPD state by USB/DP PHY.
+> - Ignore duplicate HPD events.
 > 
->  drivers/phy/rockchip/phy-rockchip-typec.c | 365 +++++++++++++++++++++-
->  1 file changed, 349 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
 > 
-> @@ -850,6 +998,72 @@ static int tcphy_get_mode(struct rockchip_typec_phy *tcphy)
->  	return mode;
->  }
+> @@ -1120,14 +1129,14 @@ static int cdn_dp_probe(struct platform_device *pdev)
+>  		    PTR_ERR(phy) == -EPROBE_DEFER)
+>  			return -EPROBE_DEFER;
 >  
-> +#if IS_ENABLED(CONFIG_TYPEC)
-> +static int tcphy_orien_sw_set(struct typec_switch_dev *sw,
-> +			      enum typec_orientation orien)
-> +{
-> +	struct rockchip_typec_phy *tcphy = typec_switch_get_drvdata(sw);
-> +
-> +	mutex_lock(&tcphy->lock);
-> +
-> +	if (orien == TYPEC_ORIENTATION_NONE) {
-> +		tcphy->new_mode = MODE_DISCONNECT;
-> +		goto unlock_ret;
-> +	}
-> +
-> +	tcphy->flip = (orien == TYPEC_ORIENTATION_REVERSE) ? true : false;
-> +	tcphy->new_mode = MODE_DFP_USB;
+> -		if (IS_ERR(extcon) || IS_ERR(phy))
+> +		if (IS_ERR(phy) || PTR_ERR(extcon) != -ENODEV)
+>  			continue;
 
-I don't think it is correct. Orientation defines only the cable (plug)
-orientation. You should be getting the mux events for the mode
-selection.
+This will break the case when the extcon is present. It should be
+(IS_ERR(extcon) && PTR_ERR(extcon) != -ENODEV)
 
-> +
-> +unlock_ret:
-> +	mutex_unlock(&tcphy->lock);
-> +	return 0;
-> +}
-> +
-> +static void udphy_orien_switch_unregister(void *data)
-> +{
-> +	struct rockchip_typec_phy *tcphy = data;
-> +
-> +	typec_switch_unregister(tcphy->sw);
-> +}
-> +
+>  
+>  		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+>  		if (!port)
+>  			return -ENOMEM;
+>  
+> -		port->extcon = extcon;
+> +		port->extcon = IS_ERR(extcon) ? NULL : extcon;
+>  		port->phy = phy;
+>  		port->dp = dp;
+>  		port->id = i;
+> -- 
+> 2.49.0
+> 
 
 -- 
 With best wishes
