@@ -2,124 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D573FB8F803
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 10:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D80CB8F8C9
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 10:34:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F03E610E3DB;
-	Mon, 22 Sep 2025 08:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF2DD10E3EE;
+	Mon, 22 Sep 2025 08:34:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="V4EoD8dV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="21IsPcLk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E012610E3D8;
- Mon, 22 Sep 2025 08:27:25 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id C4D97C01FAB;
- Mon, 22 Sep 2025 08:27:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id B924060634;
- Mon, 22 Sep 2025 08:27:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id EA0E5102F1934; 
- Mon, 22 Sep 2025 10:27:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758529642; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=IYxzjYFNevPGJLgGBcqkKKFsTUyGw534BikPAk42Fb8=;
- b=V4EoD8dV/SHw72Gs4Os9R7LvToiiYwyL7LUZxybr1xUIIX35L4+AfLIyCONm4+48tq0rym
- 1RYqZ9mT80EJGL4VZ25Nu8xrHMswM0LPHXYK02dDsjig20BzjxWs8J06VpSXG7RMzs9Nwd
- m/MxWmGGlxDqWIkIenPaPad8rcHH4ME1SwQvh4P2Px4smT0Tok6GQpJ5d8YiXMPVyASGpU
- W7Dz8bxjKoOZC0DFhTb52ZuZhRFvq7+F/pCmtaecL4xo1rzD9AblsGvfdjST3Afvww78uC
- 5w+umnIgVIq/YT4+r/b09zpZhcJoJLGB3BjCUwPfOeX44D9BeqHAKsm4Jf3KFg==
-Message-ID: <7902a706-1c1b-40a2-afcf-94ee556e3125@bootlin.com>
-Date: Mon, 22 Sep 2025 10:27:12 +0200
-MIME-Version: 1.0
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010042.outbound.protection.outlook.com [52.101.56.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C5710E3D9;
+ Mon, 22 Sep 2025 08:34:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j8lf1ord3/rwW+zjAcq1W+gyDHVjP4RePTUQ76RSHGTPsA5PL1VnH5j0BTKjfByPiAlHfMzyU32vJ+dIicUvnTOeHTb9Fr0uboEw/LXFEtiN1yflA2dDhgVCEbNU/CdjmiJd6U9x5KNRkfLcHO6h81QVQcC3ikvgHyvLwUS/nYtqAUoMglLHAUMTbzxAyd0urynnRVKDdLumPHlRQoVwH/xDXIeSVEBZQjohDVYEdpwXbptqWv+qW5jic2FnQNkfSpmHCm3BFxe8MnjZF9kNmwTheEso6BHjWdfzzM0J3HHh1tKB7SUpcFeEMHdxQdfeMb32g/pan7xabi/r4k7pAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pM2iRIyZg5E78yJjK8P24wj7I5/atg3bfKWkc/BRj5Y=;
+ b=wtXOsjtb9jXe4JZ2r0hnA335NKsy1Dll++LERvk3HzBvQIdt7nJR3H7IUbG1Zhr+kNqzLhFFRmACAs+YIEtx95qhthxZ7UhDqQu6lo4NVQzlzU8/aP0YVksqOzFw4BmifkF1wLeO50UXnwELVWDMYQkAI9GlwxpSaLnEJT0+9RXPnRCeibVvDE85bNSw6v9BwMh1ZiE7+MHMVn7EBXRXEdmGfcUniNrd4Jgv8eDjDqrs6QxxDwcY3P7UuzlWjGpPkub0Jmb4CYvpDduppXBSVcDBVs9QPiEd4K5z3CiO7tkOtKMCO+HjAzq/53bfVwEmVvr5ZxIGeS5M565nHE2hTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pM2iRIyZg5E78yJjK8P24wj7I5/atg3bfKWkc/BRj5Y=;
+ b=21IsPcLk/xwCmK/Zd2WEep+bV2GYlCFRcRd3me9tw53ERJCcuyyzcdim3gEuVfSbKe+PCFQcxz5J3c9MK16Kp2Z5K9fMVSf1qQmmvXVXQMed3Xd6GG/ryz+eJPnPCTscqZeaqcrEBjYX09UK+sH+RqvHwmaYFABplThxs36WU8c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
+ 2025 08:34:39 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 08:34:34 +0000
+Message-ID: <4762e5ef-8427-4fdc-ab22-da2dbcb7b8ac@amd.com>
+Date: Mon, 22 Sep 2025 10:34:29 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V11 14/47] drm/vkms: Add enumerated 1D curve colorop
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Simon Ser <contact@emersion.fr>,
- harry.wentland@amd.com, =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?=
- <nfraprado@collabora.com>
-Cc: wayland-devel@lists.freedesktop.org, leo.liu@amd.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
- mwen@igalia.com, jadahl@redhat.com, sebastian.wick@redhat.com,
- shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
- mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
- victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, mcanal@igalia.com,
- Daniel Stone <daniels@collabora.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-15-alex.hung@amd.com>
- <87a2f6ca-c398-4222-8b23-d683c5fe6024@bootlin.com>
- <c1a1044e-dd05-4bf0-a903-9e13bfbf0de6@amd.com>
- <3fecacf2e1ea9b9e071cbb95e315a75a1cfb3b3d.camel@collabora.com>
- <73f01810-df2d-4e39-a20b-fc1cec2c5e12@amd.com>
- <034cd9c9-807a-4c9d-a6b9-a75ed0b350d5@bootlin.com>
- <a0fd839d-c3b4-4f73-982a-b40bf993d566@amd.com>
-Content-Language: en-US, fr
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <a0fd839d-c3b4-4f73-982a-b40bf993d566@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Re: [PATCH 2/2] Revert "drm/gem: Acquire references on GEM handles
+ for framebuffers"
+To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de
+Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20250919155519.1104256-1-mwen@igalia.com>
+ <20250919155519.1104256-3-mwen@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250919155519.1104256-3-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0308.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82693da9-6c60-4bb4-864c-08ddf9b2db76
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?elBWYkhLTHJQMUpRSXJqeVk5S1BDbHcvVW1PT0NGNUw1c0FpZ0lpVlUwQ1Vq?=
+ =?utf-8?B?MU0yV2g1c1luOVdXb0ZZSVRxTm4wZHNCVHZ1aTVmMWlKbTY0OU9UWktkYlpq?=
+ =?utf-8?B?R0NPMkJJZTBwVWV2T0RkRUkza2FBbDJjTzBweXE5c0JESEdBZWtjV0FCOE9o?=
+ =?utf-8?B?cE9FOU9OVE84NmlndndBbUtocDkvYi9lYng2RVQyVXRVb3pkMEpkY3hmSGEw?=
+ =?utf-8?B?VE9FZDZYNGxMOGVQWEJaWXk3QlpUVFczSW9nSllseDFqbTRvbjc3b3E0M2pn?=
+ =?utf-8?B?T3N5ekwvZFZkUVhoSjJaSnZvdEZzUXY2bnVLVkJWakR2UUNpRVlXTDNHeVRT?=
+ =?utf-8?B?U2hSbm00ckdSeGFzRVBXRm5HeGRPaDk1TlR3NXhtdGRpNkVHeXFMSFNWT041?=
+ =?utf-8?B?V2lBdW9hbWhlZlZRSTFPdTZPeXk0elIwZzBtYUFGaVZuUUlxRWI3anMya2xW?=
+ =?utf-8?B?bjgzcnROb2o5Um0wL3dXYzRBa0lKbmgzZmQyMXlWcVpyT3lkZ1pKZGFsZHBs?=
+ =?utf-8?B?ZnlDRXd4dlBjSzVBTC9lV3Q0bG9KMnNNdHpTN0J6WG1KajRVVXhXUGl2amZa?=
+ =?utf-8?B?SjJIQ0llaytKdnhtSDQwcW1PRDFmVk5KdlFIZi9BUjNSSWxLWHY0RWp1K0ZE?=
+ =?utf-8?B?VTgraDh2bDR5Rm9rSUhmQzhBTHF5MWRMVWsrZmlzNHlyS2ZoekxUNHQ1R1NV?=
+ =?utf-8?B?YmhCcUl1NE44WExKKzVxZmNGSnI3UnlMSURsaHV5R2xncC9qN3VXYnhsVG45?=
+ =?utf-8?B?Q1JkYnZENjYrWGZvdnVvaGpmcHFOa01ENGxsRjRFK1lrOEgrSWg4anU1NCtm?=
+ =?utf-8?B?ekx6eU5ueDV3WVF1WFNDbmN5b3JNYTR5c3VJQXJXRlBkcHVBVlBoYUlnWjM1?=
+ =?utf-8?B?TDhPUjlRK2JIZ2RmK3BJWFl2OG0wWlRsYm8wYS9ydVVsQXowRDZ3Z2JGbjJi?=
+ =?utf-8?B?b01SWS9yNTI0N3VBejVGMGd4SUZSU21wY1JEQXo4Qm94dXJlV3Jsa1lSZ0lL?=
+ =?utf-8?B?TGgwcEx2dDVrVGlTSEx4M1psYnJDYk1jZmszZ1JSQ1VqRWczN1lYZ1JYd25p?=
+ =?utf-8?B?R2k1ZTJhLzh0MjlFWkxaV091MzJxbmdKUlUvcGl6aDh1ejZmb2xQOGo0aWVO?=
+ =?utf-8?B?blhiSHZEV2hhd283WC9Cb05DTVlsMDlEbjUxMk1LQnIzcFp1T1lsZWphSmN6?=
+ =?utf-8?B?b0ljRFd6SldQY013REY4dGk1N2pzbGlnRzNVYytyUklpYm5vWmFlYVpWZVkx?=
+ =?utf-8?B?NTVTNlZQdUdmRUh5ZVBYemVNUmgyMS9ZVyt6VXJPL1ZBQ2lNZDl6cFJBRTRS?=
+ =?utf-8?B?Um5PL29KcG5aTlFJL0RHM2crcnBiV3h5ZUREa2Y2SVdhdmk4NlJOL1lPOW1k?=
+ =?utf-8?B?V2lSOGZXSXNqN2hzZ1lZeXBJL2NyeXFkVnJnQXBCRGVMOHhRb1hXVXpTWE1U?=
+ =?utf-8?B?WlNhUXBHUDU3Vmc3R003dVcrL0xLU1EwWHJZMFYxV2tZeGJWczI2OWtibENn?=
+ =?utf-8?B?R2ZSdGlsbEQ2d1VvQzhWZkhzMG9wNjhBYVFtckp1VHc4emJQZW80T0puYlpX?=
+ =?utf-8?B?TTZSNkd0eUdxQndVOUZnTFM5ZXdhMzg3c1U3Y3VEMWwyUGFQYnlWUEFxcGxN?=
+ =?utf-8?B?L2lsMVFPckVuWmFIRFdlOEhXaldwTEY0WGx2Yy9HQStyUkxGZmRqRy9LZ1lF?=
+ =?utf-8?B?NVFBZlZsU1ovWXZac1hmNU1sSDNtOStSb0lXODE2RnpSaXl3Z1FpMll6WWFX?=
+ =?utf-8?B?ZTdtQmQ5dWNQQ0wrT1hQQmpXNEhHcytHZ0wvaFBCYmN0dkh1V3RFZ2FWMkww?=
+ =?utf-8?B?Y1BwU0ViUlQwTi9ML0x6MHZnZy9BZXpSbnY0NjFZTFczZ29scE9kUCt4L1R5?=
+ =?utf-8?B?YWcyL1FRRmk1U2NldGJMR0dPMjhURTZ2Z1V2aTkwdWNWeXN0MGFUUUV1YlpH?=
+ =?utf-8?Q?SNvIQgb6cFc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVhwc2VsNkowK3JiT25nbzJWcW9VSit1YzVQVk1QN2hTK2gxV0JvMHBTbnpK?=
+ =?utf-8?B?WUZFRlEySDRnbDdzaGRqS3pmTUNEZDZQWWxtNWs3bG00dE1nRUNtc3JzLysy?=
+ =?utf-8?B?V2xJMkY2a05UNWdkZVE1WG1UeTJsaEtsU1FMbFJ6ZmNoUlZzbXh5ZnA1TVhP?=
+ =?utf-8?B?WUhaNlNYcndPNzdzVXFOY0lEUzRmaDhreWZLTFlrMUt6RjE3MkR1WDBLc1dr?=
+ =?utf-8?B?U1J3Q3hPcGN2MmxKams3QmhIKzlIdVN6S3ZpOCt0RUltaXN5NnErZE5yK1Fr?=
+ =?utf-8?B?M2l4TSt6eTJTRm1XUU5JMzR0MVNKeS9zeGQ0U1RsMUlENmd3U0pydEJlamFZ?=
+ =?utf-8?B?TjFwQnhYbG9vMlpvYkVjKzF4U0Z0OXNJekIxS3lMUDJCUm9oa2U3ZGYxZExw?=
+ =?utf-8?B?Z3o4R0YxT1BlLzhlNkIrOFN1bE9JMjh6NXBjbVJlTVM0bTFMcUgrMWI2Wnlh?=
+ =?utf-8?B?eEh2bS9ISlFpTGVJTDNreitEZ3MvZEwvMXVBNkVxc20yWlZRbWNEQnFkMGFL?=
+ =?utf-8?B?cyt6NW55NVhORktnYmJ3OG05bEZRY3h4amFLc1V3OC9yRlNsQnByRmdmNDJE?=
+ =?utf-8?B?WGRycmhLTDZoT3RSOHI2MCt1ZVVBNTduY1doV3R1SGd4Umo5QmhlTmhLeWVm?=
+ =?utf-8?B?RG0xaEYzSCtwVGFEbWlTeDZWaktQNmlqL09RMFpzcW15L21RN1FtdW1xR3lC?=
+ =?utf-8?B?U1NlakN3V29xYitRdDNCZ3lFb0M0QTFyUWJvRkxKMlFmMHJ3ODNyZCs3VG5G?=
+ =?utf-8?B?VTBjVVpEOWxsYmNsdVdZa3ZiUWVwOUY2a21hRWNRUng0TWVTK29ISm9UWVBi?=
+ =?utf-8?B?TUQ5R1cvcm8ra3BEOFladDlrOTJIdGJjWEpLc2trNTk1WFBhWkg4cm5uY3FI?=
+ =?utf-8?B?cW1ZZzRPc0h5UlUvOGxXUnBxM1ZIa3hwekprOWNQZ1c2QTBicHBkZVU4Nmps?=
+ =?utf-8?B?TC93UEwweGV2N1RMSUhWNTJsRTJFK3I3djBvNzZWeHNuWElaL3hoRitMdTYw?=
+ =?utf-8?B?K3lsRWJNYUw4dWJxQnVtSjV4a1hnN01MYkJkUkQ0dnZuVWtwWitON2dTSEFk?=
+ =?utf-8?B?QkNoaGJKSkRHdXd2NG4vQWloVlZ3VUVocW9tc0JCOGZVbkpEdHAxbEw4em1k?=
+ =?utf-8?B?VEFTelpvcG5ieEtpaktkaGI2alBNbnI0NVpoU0hDU3NJdXFqQXV4T2U1aXcz?=
+ =?utf-8?B?aUZVNVp5Y2YrTUszbDBLS2JIakdzUWc5U1hReXlsbnNkVXh6aTUzbGdNeDd2?=
+ =?utf-8?B?eUc3c3NWZzBjZjdjQTBtNnBzQjNnNFcwcVpBelhQYVNtL0xjRkN5VkczVWp6?=
+ =?utf-8?B?S2FCU3lWbG84MHR3aWtFekJwNEE0QWM4WEsxcEM5aTFxS1E2c1V0aHZhQTRU?=
+ =?utf-8?B?bkVoQkdwTi93RjYzUEVNTTJoVUMyMVdZeWtZbW93SXgvb3YwQWZzYTFVYlRQ?=
+ =?utf-8?B?TnM5Y3JZL3o4dmp5Y2xmQitVQjlUazZPS2tHUHRQNUpaWnhCcjl2TXVxUmV3?=
+ =?utf-8?B?SnZmeUM4YmxiN2h5Y09ONU9OMDQ2ZlZZaXBUTXIrQ01CTEhxN05Uc0pjb1NG?=
+ =?utf-8?B?QmF0azd1dUc1WW0yaFQzMHJFdGFSRno5WW5SY2Y1YVJvQkFkV3BkSkQ0ZnBo?=
+ =?utf-8?B?ays3M0lPeDFwc0VWQTRrUkZVb1RGOUpFbENDdXdVL2RXN1ZyTnVTUG02VU84?=
+ =?utf-8?B?dG11SmhTamhnNi9jUlFITUVERERFSFR3ZGxVSnp6MHdrVjAxRWs5dDhISE1D?=
+ =?utf-8?B?a0l3RGVYd2pRNkJlVEtKZzNZWEVRYzdMY2crMzZ5WGhWTVFnR0l2ZUdJNCs5?=
+ =?utf-8?B?T2FZRFJDdnhwZnpZNjkxZzU5VjIzVk5CY1UrYUN5QXBnKzg0Z1EyMVArazBx?=
+ =?utf-8?B?dTFhaEVkNkRsNWxMVGxpYVUzTCt3WEJ1bEkrdEVMeHlVQ1NtQWxsbWhxMk9z?=
+ =?utf-8?B?L1ZZY25DcWV2MVlXRnBiTUNVazZQcWZJaElpM2RFTERQY2JNd2M1MDFKajlY?=
+ =?utf-8?B?S2VVOXNpOEFqN0wwVlBIdFV5K29YSC9KTkVmRFV2TjJIbVp1YTVZRWc0RzhE?=
+ =?utf-8?B?Z0Z3YjM2Mk5XL1BockovWlRtbitEbG41cVowSkJFUFpva0dBczFxNElRM3lQ?=
+ =?utf-8?Q?5+qO5n1Y83mXIorpiUzb1mcPT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82693da9-6c60-4bb4-864c-08ddf9b2db76
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 08:34:34.0296 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vhA/A/ef29bNF4SwBZETvH8MOWnXlmsTjIY2aZGZIAwZ9neh+QRMIhpRIgk4TiOl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5685
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,307 +167,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 19.09.25 17:54, Melissa Wen wrote:
+> This reverts commit 5307dce878d4126e1b375587318955bd019c3741.
+> 
+> We've already reverted all other commits related to dma_bug handling and
+> there is still something wrong with this approach that does not allow
+> unloading a driver. By reverting this commit, we'd just go back ot the
+> old behavior.
 
+I don't think we want to do this.
 
-Le 20/09/2025 à 05:31, Alex Hung a écrit :
-> 
-> 
-> On 9/19/25 06:49, Louis Chauvet wrote:
->>
->>
->> Le 18/09/2025 à 02:45, Alex Hung a écrit :
->>>
->>>
->>> On 9/17/25 08:47, Nícolas F. R. A. Prado wrote:
->>>> On Tue, 2025-09-16 at 19:54 -0600, Alex Hung wrote:
->>>>>
->>>>>
->>>>> On 9/5/25 11:12, Louis Chauvet wrote:
->>>>>>
->>>>>>
->>>>>> Le 15/08/2025 à 05:50, Alex Hung a écrit :
->>>>>>> From: Harry Wentland <harry.wentland@amd.com>
->>>>>>>
->>>>>>> This patch introduces a VKMS color pipeline that includes two
->>>>>>> drm_colorops for named transfer functions. For now the only ones
->>>>>>> supported are sRGB EOTF, sRGB Inverse EOTF, and a Linear TF.
->>>>>>> We will expand this in the future but I don't want to do so
->>>>>>> without accompanying IGT tests.
->>>>>>>
->>>>>>> We introduce a new vkms_luts.c file that hard-codes sRGB EOTF,
->>>>>>> sRGB Inverse EOTF, and a linear EOTF LUT. These have been
->>>>>>> generated with 256 entries each as IGT is currently testing
->>>>>>> only 8 bpc surfaces. We will likely need higher precision
->>>>>>> but I'm reluctant to make that change without clear indication
->>>>>>> that we need it. We'll revisit and, if necessary, regenerate
->>>>>>> the LUTs when we have IGT tests for higher precision buffers.
->>>>>>>
->>>>>>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
->>>>>>> Signed-off-by: Alex Hung <alex.hung@amd.com>
->>>>>>> Reviewed-by: Daniel Stone <daniels@collabora.com>
->>>>>>> ---
->>>>>>> v11:
->>>>>>>      - Update drm_colorop_pipeline_destroy from plane to dev
->>>>>>> (Nícolas Prado)
->>>>>>>      - Fix undefined errors by EXPORT_SYMBOL symbols (kernel test
->>>>>>> robot)
->>>>>>>
->>>>>>> v9:
->>>>>>>      - Replace cleanup code by drm_colorop_pipeline_destroy (Simon
->>>>>>> Ser)
->>>>>>>      - Update function names by _plane_ (Chaitanya Kumar Borah)
->>>>>>>
->>>>>>> v8:
->>>>>>>      - Replace DRM_ERROR by drm_err (Louis Chauvet)
->>>>>>>      - Replace DRM_WARN_ONCE by drm_WARN_ONCE (Louis Chauvet)
->>>>>>>      - Fix conflicts with upstream VKMS (Louis Chauvet)
->>>>>>>      - Add comments for drm_color_lut linear_array (Louis Chauvet)
->>>>>>>
->>>>>>> v7:
->>>>>>>      - Fix checkpatch warnings (Louis Chauvet)
->>>>>>>       - Change kzalloc(sizeof(struct drm_colorop) ...) to
->>>>>>> kzalloc(sizeof(*ops[i]) ...)
->>>>>>>       - Remove if (ops[i]) before kfree(ops[i])
->>>>>>>       - Fix styles by adding and removing spaces (new lines, tabs
->>>>>>> and so on)
->>>>>>>
->>>>>>> v6:
->>>>>>>      - drop 'len' var (Louis Chauvet)
->>>>>>>      - cleanup if colorop alloc or init fails (Louis Chauvet)
->>>>>>>      - switch loop in pre_blend_transform (Louis Chauvet)
->>>>>>>      - drop extraneous if (colorop) inside while (colorop) (Louis
->>>>>>> Chauvet)
->>>>>>>
->>>>>>> v5:
->>>>>>>      - Squash with "Pull apply_colorop out of
->>>>>>> pre_blend_color_transform"
->>>>>>>        (Sebastian)
->>>>>>>      - Fix warnings
->>>>>>>      - Fix include
->>>>>>>      - Drop TODOs
->>>>>>>
->>>>>>> v4:
->>>>>>>      - Drop _tf_ from color_pipeline init function
->>>>>>>      - Pass supported TFs into colorop init
->>>>>>>      - Create bypass pipeline in DRM helper (Pekka)
->>>>>>>
->>>>>>> v2:
->>>>>>>      - Add commit description
->>>>>>>      - Fix sRGB EOTF LUT definition
->>>>>>>      - Add linear and sRGB inverse EOTF LUTs
->>>>>>>
->>>>>>>      drivers/gpu/drm/vkms/Makefile        |   4 +-
->>>>>>>      drivers/gpu/drm/vkms/vkms_colorop.c  |  81 +++
->>>>>>>      drivers/gpu/drm/vkms/vkms_composer.c |  51 +-
->>>>>>>      drivers/gpu/drm/vkms/vkms_drv.h      |   3 +
->>>>>>>      drivers/gpu/drm/vkms/vkms_luts.c     | 811
->>>>>>> +++++++++++++++++++++++++++
->>>>>>>      drivers/gpu/drm/vkms/vkms_luts.h     |  12 +
->>>>>>>      drivers/gpu/drm/vkms/vkms_plane.c    |   2 +
->>>>>>>      7 files changed, 962 insertions(+), 2 deletions(-)
->>>>>>>      create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
->>>>>>>      create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
->>>>>>>      create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/vkms/Makefile
->>>>>>> b/drivers/gpu/drm/vkms/
->>>>>>> Makefile
->>>>>>> index d657865e573f..0b8936674f69 100644
->>>>>>> --- a/drivers/gpu/drm/vkms/Makefile
->>>>>>> +++ b/drivers/gpu/drm/vkms/Makefile
->>>>>>> @@ -8,7 +8,9 @@ vkms-y := \
->>>>>>>          vkms_composer.o \
->>>>>>>          vkms_writeback.o \
->>>>>>>          vkms_connector.o \
->>>>>>> -    vkms_config.o
->>>>>>> +    vkms_config.o \
->>>>>>> +    vkms_colorop.o \
->>>>>>> +    vkms_luts.o
->>>>>>>      obj-$(CONFIG_DRM_VKMS) += vkms.o
->>>>>>>      obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += tests/
->>>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c
->>>>>>> b/drivers/gpu/drm/
->>>>>>> vkms/vkms_colorop.c
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..f955ffb0ac84
->>>>>>> --- /dev/null
->>>>>>> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
->>>>>>> @@ -0,0 +1,81 @@
->>>>>>> +// SPDX-License-Identifier: GPL-2.0+
->>>>>>> +
->>>>>>> +#include <linux/slab.h>
->>>>>>> +#include <drm/drm_colorop.h>
->>>>>>> +#include <drm/drm_print.h>
->>>>>>> +#include <drm/drm_property.h>
->>>>>>> +#include <drm/drm_plane.h>
->>>>>>> +
->>>>>>> +#include "vkms_drv.h"
->>>>>>> +
->>>>>>> +static const u64 supported_tfs =
->>>>>>> +    BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
->>>>>>> +    BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
->>>>>>> +
->>>>>>> +#define MAX_COLOR_PIPELINE_OPS 2
->>>>>>> +
->>>>>>> +static int vkms_initialize_color_pipeline(struct drm_plane
->>>>>>> *plane,
->>>>>>> struct drm_prop_enum_list *list)
->>>>>>> +{
->>>>>>> +    struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
->>>>>>> +    struct drm_device *dev = plane->dev;
->>>>>>> +    int ret;
->>>>>>> +    int i = 0;
->>>>>>> +
->>>>>>> +    memset(ops, 0, sizeof(ops));
->>>>>>> +
->>>>>>> +    /* 1st op: 1d curve */
->>>>>>> +    ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
->>>>>>> +    if (!ops[i]) {
->>>>>>> +        drm_err(dev, "KMS: Failed to allocate colorop\n");
->>>>>>> +        ret = -ENOMEM;
->>>>>>> +        goto cleanup;
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
->>>>>>> supported_tfs);
->>>>>>> +    if (ret)
->>>>>>> +        goto cleanup;
->>>>>>> +
->>>>>>> +    list->type = ops[i]->base.id;
->>>>>>> +    list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d",
->>>>>>> ops[i]-
->>>>>>>> base.id);
->>>>>>> +
->>>>>>> +    i++;
->>>>>>> +
->>>>>>> +    /* 2nd op: 1d curve */
->>>>>>> +    ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
->>>>>>> +    if (!ops[i]) {
->>>>>>> +        drm_err(dev, "KMS: Failed to allocate colorop\n");
->>>>>>> +        ret = -ENOMEM;
->>>>>>> +        goto cleanup;
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
->>>>>>> supported_tfs);
->>>>>>> +    if (ret)
->>>>>>> +        goto cleanup;
->>>>>>> +
->>>>>>> +    drm_colorop_set_next_property(ops[i - 1], ops[i]);
->>>>>>> +
->>>>>>> +    return 0;
->>>>>>> +
->>>>>>> +cleanup:
->>>>>>> +    drm_colorop_pipeline_destroy(dev);
->>>>>>
->>>>>> If it take a device, it means that it deletes everything, which is
->>>>>> not
->>>>>> what I would expect here: you are curently allocating a specific
->>>>>> plane
->>>>>> pipeline, and deleting all colorop for other planes because of one
->>>>>> failure is counterintuitive.
->>>>>> In this situation I would expect either:
->>>>>> - error propagation to vkms_create or vkms_output_init (it is
->>>>>> already
->>>>>> the case) and "device-wide" cleanup in
->>>>>> vkms_create/vkms_output_init;
->>>>>> - "local" cleanup (i.e only this specific pipeline)
->>>
->>> the colorop are now in dev->mode_config->colorop_list, so we can use
->>> "drm_colorop_cleanup" (assuming it is changed to be available here) for
->>> cleanup if removing entire colorop_list by
->>> drm_colorop_pipeline_destroy(dev) is not desireable in vkms. Does the
->>> following code make sense?
->>>
->>> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c
->>> b/drivers/gpu/drm/vkms/vkms_colorop.c
->>> index 0191ac44dec0..d263e3593ad5 100644
->>> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
->>> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
->>> @@ -19,7 +19,7 @@ static int vkms_initialize_color_pipeline(struct
->>> drm_plane *plane, struct drm_pr
->>>         struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
->>>         struct drm_device *dev = plane->dev;
->>>         int ret;
->>> -    int i = 0;
->>> +    int i = 0, j = 0;
->>>
->>>         memset(ops, 0, sizeof(ops));
->>>
->>> @@ -91,7 +91,10 @@ static int vkms_initialize_color_pipeline(struct
->>> drm_plane *plane, struct drm_pr
->>>         return 0;
->>>
->>>     cleanup:
->>> -    drm_colorop_pipeline_destroy(dev);
->>> +    for (j = 0; j < i; j++) {
->>> +        if (ops[j])
->>> +            drm_colorop_cleanup(ops[j]);
->>> +    }
->>>
->>>         return ret;
->>>     }
->>
->> Yes, that could work!
->>
->> I think you need to add a kfree for ops[j], but this code is better: it
->> only destroy what was allocated in this function, no more.
->>
->> BTW, while reviewing this series + post_blend, I noticed that the
->> pipeline is never freed on device destruction. Did I miss something in
->> the colorop core? If no, I think it should be added in vkms_destroy or
->> using automagic drmm_add_action_or_reset in vkms_output_init.
-> 
-> drm_colorop_pipeline_destroy cal be called in vkms_destroy.
-> 
-> @@ -240,6 +240,7 @@ static void vkms_destroy(struct vkms_config *config)
-> 
->           fdev = config->dev->faux_dev;
-> 
-> +       drm_colorop_pipeline_destroy(&config->dev->drm);
->           drm_dev_unregister(&config->dev->drm);
->           drm_atomic_helper_shutdown(&config->dev->drm);
->           devres_release_group(&fdev->dev, NULL);
-> 
+Keeping the backing store alive for DMA-bufs while they are used for scanout is actually a really important bug fix.
 
-Seems ok!
+Regards,
+Christian.
 
->>
->>>>>
->>>>> Hi Louis,
->>>>>
->>>>> Does it make sense to make drm_colorop_pipeline_destroy(drm_plane),
->>>>> i.e.
->>>>> in PATCH 13 as in previously V10?
->>>>>
->>>>> and then drm_colorop_pipeline_destroy should limit to the pipeline in
->>>>> a
->>>>> drm_plane and should do something like
->>>>>
->>>>>       drm_colorop_cleanup(colorop);
->>>>>       free(colorop)
->>>>>       drm_plane->colorop = NULL;
->>>>>
->>>
->>> This doesn't seem right after digging into it.
->>>
->>>>> We can have same behaviours accross device drivers like amdgpu too.
->>>>>
->>>>> Hi Simon and Nicolas,
->>>>>
->>>>> Do you have comments on above proposal?
->>>>
->>>> Hi,
->>>>
->>>> indeed that would make more sense to me.
->>>>
->>>
->>
 > 
-
--- 
---
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c                    | 44 ++------------------
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 ++++---
+>  drivers/gpu/drm/drm_internal.h               |  2 -
+>  3 files changed, 11 insertions(+), 51 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 09f80a84d61a..12efc04fb896 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -213,35 +213,6 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
+>  }
+>  EXPORT_SYMBOL(drm_gem_private_object_fini);
+>  
+> -static void drm_gem_object_handle_get(struct drm_gem_object *obj)
+> -{
+> -	struct drm_device *dev = obj->dev;
+> -
+> -	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
+> -
+> -	if (obj->handle_count++ == 0)
+> -		drm_gem_object_get(obj);
+> -}
+> -
+> -/**
+> - * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
+> - * @obj: GEM object
+> - *
+> - * Acquires a reference on the GEM buffer object's handle. Required
+> - * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
+> - * to release the reference.
+> - */
+> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
+> -{
+> -	struct drm_device *dev = obj->dev;
+> -
+> -	guard(mutex)(&dev->object_name_lock);
+> -
+> -	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
+> -	drm_gem_object_handle_get(obj);
+> -}
+> -EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
+> -
+>  /**
+>   * drm_gem_object_handle_free - release resources bound to userspace handles
+>   * @obj: GEM object to clean up.
+> @@ -272,14 +243,8 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
+>  	}
+>  }
+>  
+> -/**
+> - * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
+> - * @obj: GEM object
+> - *
+> - * Releases a reference on the GEM buffer object's handle. Possibly releases
+> - * the GEM buffer object and associated dma-buf objects.
+> - */
+> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+> +static void
+> +drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>  {
+>  	struct drm_device *dev = obj->dev;
+>  	bool final = false;
+> @@ -304,7 +269,6 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>  	if (final)
+>  		drm_gem_object_put(obj);
+>  }
+> -EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+>  
+>  /*
+>   * Called at device or object close to release the file's
+> @@ -434,8 +398,8 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
+>  	int ret;
+>  
+>  	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+> -
+> -	drm_gem_object_handle_get(obj);
+> +	if (obj->handle_count++ == 0)
+> +		drm_gem_object_get(obj);
+>  
+>  	/*
+>  	 * Get the user-visible handle using idr.  Preload and perform
+> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> index e364fa36ee36..4bc89d33df59 100644
+> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> @@ -101,7 +101,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+>  	unsigned int i;
+>  
+>  	for (i = 0; i < fb->format->num_planes; i++)
+> -		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+> +		drm_gem_object_put(fb->obj[i]);
+>  
+>  	drm_framebuffer_cleanup(fb);
+>  	kfree(fb);
+> @@ -179,10 +179,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+>  		if (!objs[i]) {
+>  			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+>  			ret = -ENOENT;
+> -			goto err_gem_object_handle_put_unlocked;
+> +			goto err_gem_object_put;
+>  		}
+> -		drm_gem_object_handle_get_unlocked(objs[i]);
+> -		drm_gem_object_put(objs[i]);
+>  
+>  		min_size = (height - 1) * mode_cmd->pitches[i]
+>  			 + drm_format_info_min_pitch(info, i, width)
+> @@ -192,22 +190,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+>  			drm_dbg_kms(dev,
+>  				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+>  				    objs[i]->size, min_size, i);
+> -			drm_gem_object_handle_put_unlocked(objs[i]);
+> +			drm_gem_object_put(objs[i]);
+>  			ret = -EINVAL;
+> -			goto err_gem_object_handle_put_unlocked;
+> +			goto err_gem_object_put;
+>  		}
+>  	}
+>  
+>  	ret = drm_gem_fb_init(dev, fb, info, mode_cmd, objs, i, funcs);
+>  	if (ret)
+> -		goto err_gem_object_handle_put_unlocked;
+> +		goto err_gem_object_put;
+>  
+>  	return 0;
+>  
+> -err_gem_object_handle_put_unlocked:
+> +err_gem_object_put:
+>  	while (i > 0) {
+>  		--i;
+> -		drm_gem_object_handle_put_unlocked(objs[i]);
+> +		drm_gem_object_put(objs[i]);
+>  	}
+>  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index ec1bf58e5714..5265eac81077 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -163,8 +163,6 @@ void drm_sysfs_lease_event(struct drm_device *dev);
+>  
+>  /* drm_gem.c */
+>  int drm_gem_init(struct drm_device *dev);
+> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
+> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+>  int drm_gem_handle_create_tail(struct drm_file *file_priv,
+>  			       struct drm_gem_object *obj,
+>  			       u32 *handlep);
 
