@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F2FB92B16
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 20:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26706B92B2B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 20:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7AB310E4E0;
-	Mon, 22 Sep 2025 18:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75E7310E4E6;
+	Mon, 22 Sep 2025 18:58:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="OWQZu+PF";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DVKse5z/";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="A5afV8z3";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="n6ZZq1Ph";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8F410E4E0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 18:58:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8A1910E4E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 18:58:37 +0000 (UTC)
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cVsp13nFHz9tJ0;
- Mon, 22 Sep 2025 20:58:33 +0200 (CEST)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cVsp43b0bz9t8x;
+ Mon, 22 Sep 2025 20:58:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758567513;
+ s=mail20150812; t=1758567516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=olBMBwycnsfoPL4HVBt9aW1g5X2GmB84qj+MFFxhCYE=;
- b=OWQZu+PF6Hz/T5mqOiUcbdPkvdNRZiLHtfVugJdafB0KYLVR4WThDk28M2e790t2J7jfZP
- pNM8EpVObHvqeJg9LcDZxvgKfGeEJIGuWdswsB2gJt3HImI2UAXscipCzOSmRUTTgO1eR7
- 6/pwmPoffHP1qZ5BwCr80heazpvWrvzuhie/PfJEOGG4QYOtNqX0gwnk9iBYSCaBujJhU6
- hFFNtGEtj9tRtE4Lmcn0Fdd5zlNA7r8SWclsp38bzc6pm42/DdBC17koJ8k9r4prrkJ84h
- pEScLBWBCt/TaZU2o3a/C23PFgLov1TBAOoT/HnhD3zzwIV5gcfj6KDc0sv2FA==
+ bh=CFLkeaRfQ2y/QwzU/hD60WB1fNZa+S53HgIUZExkr4I=;
+ b=A5afV8z3hFYQaCHgZHdWjOTrB08Yei5XEk3UGdCsmZV84QXVpWwP032JjJQePPCmH+Oi5w
+ EgpogXRzkX5woIVS5uWRDOFJjo18OVXVowjrjFrGw1EWzREaBJ4jPNyXQhuHEFezgmfj7Y
+ qtHLZgN+mU7pOew+vCWMBz4R6rbYUD60uaUjRwt1OIdQudwEiboCeuRqLOaN1ipmEr3nBG
+ 1tbgQsMGXnWzfHIK6koqMApG2K/6g8Wzq58Uegw3mkgvgDkIxtfnF0dr36ZsZAcJBeT5+9
+ HORkuk3GOoc2pUiQsrBGbYORegPxqGiw/Nu6wSNNFpt/9E0PeZkbVcE1icdl9w==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758567511;
+ s=mail20150812; t=1758567514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=olBMBwycnsfoPL4HVBt9aW1g5X2GmB84qj+MFFxhCYE=;
- b=DVKse5z/X7GhSHfmbZxK44HUqpNtpQhrJcLMnrqDVtiK8b/HYGfNwkNoIgT8KQ392J8tPJ
- y0spBam7gF+y4yRZKRS814W/PpfNDI3kqfQp4eNG5ZjTBR7kpnNLt+vehndMcXTqsIWfKs
- DyedQQuHnNpdJoRg6o96lRcqCsrjyP3cgy33+AXMlwyEqvkewe5pZKQljDOYUed9ny0npo
- VOWFmjjBSGSolsbz8+VZKnALoHLbuqFYycwjGuzp/b7Fdl0r4w6TOIMMVPkyamf4YD9uz+
- BoiD0eXMnuoFt8P5hpqp4uQdZEuNvUcWm3eVVvNvc2cFUB9wGv1cyXxfs2vDKA==
+ bh=CFLkeaRfQ2y/QwzU/hD60WB1fNZa+S53HgIUZExkr4I=;
+ b=n6ZZq1PhAqYn5FLV0+ToTanxkQd6C8M4oOVOooLfDe+RNm6VZSMJCR711CkuThv/GQVMHn
+ awKf0P4IbXYLGwD9wbeUDnYJVbIbB1IN2IaR9O+tq7QX8vpM5hgCN18/poKWwym4oTtoe1
+ LZJQkpXiGrYIiRHIpK6TvUz7lrQMiLUxH6LmbaQkLCh7wfAFO7+IUxstqiZhBfDw4vqbo1
+ l7l0ZGCeytewDYbRNiSW8ijU1c4I//Wu31KhpgEx9FFS4CaXdb067LF0TAEeYNwtlmE/oS
+ +/l/vYnAwzvSkF2yxjikUYbqs5F8Nj4xdqFbNB5vj15423Wd0hSH1u1Wn6wE8w==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  David Airlie <airlied@gmail.com>,
@@ -58,15 +58,15 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 6/9] drm/rcar-du: dsi: Respect DSI mode flags
-Date: Mon, 22 Sep 2025 20:55:02 +0200
-Message-ID: <20250922185740.153759-7-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 7/9] drm/rcar-du: dsi: Clean up handling of DRM mode flags
+Date: Mon, 22 Sep 2025 20:55:03 +0200
+Message-ID: <20250922185740.153759-8-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
 References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: eunyfqynsfmqq41hto6bxm5heonh66qb
-X-MBO-RS-ID: f8e5e2357553566c492
+X-MBO-RS-ID: 6d20f3f886adba1ec75
+X-MBO-RS-META: jkey1ymouqjq3aepa95k9y97b64oi4bn
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,14 +82,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cache DSI mode flags in new mode_flags member of struct rcar_mipi_dsi .
-Configure TXVMSETR register based on the content of DSI mode flags in
-case the controller operates in video mode.
+Introduce TXVMVPRMSET0R_BPP_MASK macro and use FIELD_PREP() to generate
+appropriate bitfield from mask and value without bitshift, assign this
+value into vprmset0r. Remove TXVMVPRMSET0R_CSPC_RGB which is never used,
+replace it with code comment next to TXVMVPRMSET0R_CSPC_YCbCr.
 
-Rename TXVMSETR_H..BPEN_EN to TXVMSETR_H..BPEN and drop TXVMSETR_H..BPEN_DIS
-which resolves to 0. Update TXVMSETR_VSEN in the same manner. Replace
-TXVMSETR_SYNSEQ_PULSES with a code comment next to TXVMSETR_SYNSEQ_EVENTS
-because TXVMSETR_SYNSEQ_PULSES resolves to 0.
+Replace (mode->flags & DRM_MODE_FLAG_P.SYNC) test with inverted conditional
+(mode->flags & DRM_MODE_FLAG_N.SYNC) and bitwise orr vprmset0r with either
+or both TXVMVPRMSET0R_HSPOL_LOW and TXVMVPRMSET0R_VSPOL_LOW if conditional
+matches.
 
 Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
 consisten with the current style. Conversion to BIT() and GENMASK()
@@ -110,81 +111,65 @@ Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    | 18 +++++++++++++++---
- .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   | 15 +++++----------
- 2 files changed, 20 insertions(+), 13 deletions(-)
+NOTE: No functional change expected, this is a preparatory patch which
+partly removes macros which evaluate to zeroes from rcar_mipi_dsi_regs.h .
+The other patches in this series proceed with that job, piece by piece,
+to make it all reviewable.
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c  | 12 ++++++------
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 16 +++++++---------
+ 2 files changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 1591837ff472c..36bd9de61ce05 100644
+index 36bd9de61ce05..f91cc35423758 100644
 --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
 +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -71,6 +71,7 @@ struct rcar_mipi_dsi {
- 	} clocks;
+@@ -489,12 +489,12 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
  
- 	enum mipi_dsi_pixel_format format;
-+	unsigned long mode_flags;
- 	unsigned int num_data_lanes;
- 	unsigned int lanes;
- };
-@@ -473,9 +474,19 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
- 	}
- 
- 	/* Configuration for Blanking sequence and Input Pixel */
--	setr = TXVMSETR_HSABPEN_EN | TXVMSETR_HBPBPEN_EN
--	     | TXVMSETR_HFPBPEN_EN | TXVMSETR_SYNSEQ_PULSES
--	     | TXVMSETR_PIXWDTH | TXVMSETR_VSTPM;
-+	setr = TXVMSETR_PIXWDTH | TXVMSETR_VSTPM;
-+
-+	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
-+		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE))
-+			setr |= TXVMSETR_SYNSEQ_EVENTS;
-+		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP))
-+			setr |= TXVMSETR_HFPBPEN;
-+		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP))
-+			setr |= TXVMSETR_HBPBPEN;
-+		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA))
-+			setr |= TXVMSETR_HSABPEN;
-+	}
-+
  	rcar_mipi_dsi_write(dsi, TXVMSETR, setr);
  
- 	/* Configuration for Video Parameters */
-@@ -916,6 +927,7 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+-	/* Configuration for Video Parameters */
+-	vprmset0r = (mode->flags & DRM_MODE_FLAG_PVSYNC ?
+-		     TXVMVPRMSET0R_VSPOL_HIG : TXVMVPRMSET0R_VSPOL_LOW)
+-		  | (mode->flags & DRM_MODE_FLAG_PHSYNC ?
+-		     TXVMVPRMSET0R_HSPOL_HIG : TXVMVPRMSET0R_HSPOL_LOW)
+-		  | TXVMVPRMSET0R_CSPC_RGB | TXVMVPRMSET0R_BPP_24;
++	/* Configuration for Video Parameters, input is always RGB888 */
++	vprmset0r = FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, TXVMVPRMSET0R_BPP_24);
++	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
++		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
++	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
++		vprmset0r |= TXVMVPRMSET0R_HSPOL_LOW;
  
- 	dsi->lanes = device->lanes;
- 	dsi->format = device->format;
-+	dsi->mode_flags = device->mode_flags;
- 
- 	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
- 						  1, 0);
+ 	vprmset1r = TXVMVPRMSET1R_VACTIVE(mode->vdisplay)
+ 		  | TXVMVPRMSET1R_VSA(mode->vsync_end - mode->vsync_start);
 diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index 1a8d377ea85fc..99a88ea35aacd 100644
+index 99a88ea35aacd..48c3b679b2663 100644
 --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -140,18 +140,13 @@
-  * Video Mode Register
-  */
- #define TXVMSETR			0x180
--#define TXVMSETR_SYNSEQ_PULSES		(0 << 16)
--#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16)
-+#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16) /* 0:Pulses 1:Events */
- #define TXVMSETR_VSTPM			(1 << 15)
- #define TXVMSETR_PIXWDTH		(1 << 8)
--#define TXVMSETR_VSEN_EN		(1 << 4)
--#define TXVMSETR_VSEN_DIS		(0 << 4)
--#define TXVMSETR_HFPBPEN_EN		(1 << 2)
--#define TXVMSETR_HFPBPEN_DIS		(0 << 2)
--#define TXVMSETR_HBPBPEN_EN		(1 << 1)
--#define TXVMSETR_HBPBPEN_DIS		(0 << 1)
--#define TXVMSETR_HSABPEN_EN		(1 << 0)
--#define TXVMSETR_HSABPEN_DIS		(0 << 0)
-+#define TXVMSETR_VSEN			(1 << 4)
-+#define TXVMSETR_HFPBPEN		(1 << 2)
-+#define TXVMSETR_HBPBPEN		(1 << 1)
-+#define TXVMSETR_HSABPEN		(1 << 0)
+@@ -170,15 +170,13 @@
+ #define TXVMPSPHSETR_DT_YCBCR16		0x2c
  
- #define TXVMCR				0x190
- #define TXVMCR_VFCLR			(1 << 12)
+ #define TXVMVPRMSET0R			0x1d0
+-#define TXVMVPRMSET0R_HSPOL_HIG		(0 << 17)
+-#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17)
+-#define TXVMVPRMSET0R_VSPOL_HIG		(0 << 16)
+-#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16)
+-#define TXVMVPRMSET0R_CSPC_RGB		(0 << 4)
+-#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4)
+-#define TXVMVPRMSET0R_BPP_16		(0 << 0)
+-#define TXVMVPRMSET0R_BPP_18		(1 << 0)
+-#define TXVMVPRMSET0R_BPP_24		(2 << 0)
++#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17) /* 0:High 1:Low */
++#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16) /* 0:High 1:Low */
++#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4) /* 0:RGB 1:YCbCr */
++#define TXVMVPRMSET0R_BPP_MASK		(7 << 0)
++#define TXVMVPRMSET0R_BPP_16		0
++#define TXVMVPRMSET0R_BPP_18		1
++#define TXVMVPRMSET0R_BPP_24		2
+ 
+ #define TXVMVPRMSET1R			0x1d4
+ #define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
 -- 
 2.51.0
 
