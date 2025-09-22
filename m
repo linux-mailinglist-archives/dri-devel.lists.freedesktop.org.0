@@ -2,136 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73587B91076
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 14:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30637B9109D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 14:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2F9610E44C;
-	Mon, 22 Sep 2025 12:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A728E10E44E;
+	Mon, 22 Sep 2025 12:04:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="aYjMuL2g";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A7aw9AVS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GzVjtvPa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zsi+/xKl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IUFfhLHl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8750210E44B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 12:01:15 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5C30421D12;
- Mon, 22 Sep 2025 12:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758542474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+9SERwwdEBiPtI0iuN0fS5sQCvWtAi/eS2q++dbjXrk=;
- b=aYjMuL2gLaQ4gGAtSxfzlOws4XGYltSt4NSzqNQzRiydtY3x0hllfeD0Xj8BRtAMzKTrs5
- ZsqACO2Zz8GQd39S+w01nUvf3DI8BA63gXmFuK/sg9N7zaKD/DzPwuGVSYrKck6sCNDYua
- I5U6THn5zbV8mmNm1TIxBFLeeqkJ5ic=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758542474;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+9SERwwdEBiPtI0iuN0fS5sQCvWtAi/eS2q++dbjXrk=;
- b=A7aw9AVSevs6QwZwC4BrN7pofe+t6EaMWUKPgSgVt8GAoP5lpuhm7RD5qqzk1S7aqYenHz
- s27+DV2wNAXzEsBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758542469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+9SERwwdEBiPtI0iuN0fS5sQCvWtAi/eS2q++dbjXrk=;
- b=GzVjtvPaTjLHR6jYAJOOZLctmXlU4L2h+tYtpqlCALrRRb+/7StppEwbPq4rTgYb7maI97
- p8XE/cr4WJ4NuP6X2qDwXNhxq3848SBsaX4TadIjr2YR+QTlo1EX8D9lx4yibmkGNv2s2p
- bziLyFNj3wv753IIeWUvgjeS8HAFg/w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758542469;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+9SERwwdEBiPtI0iuN0fS5sQCvWtAi/eS2q++dbjXrk=;
- b=zsi+/xKlWODkpS9+HLqza++1mDBwoqmbzqePY2wa1bLbPp+iSoL8rC6AzqsqRQwWLV0Gsd
- EQOrxQsIyqUGe8AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06DA113A63;
- Mon, 22 Sep 2025 12:01:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4FQ8AIU60Wg+XAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 12:01:09 +0000
-Message-ID: <0e71e8ec-ac0c-4bb4-9f96-707c55b65fe3@suse.de>
-Date: Mon, 22 Sep 2025 14:01:08 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E092F10E44D;
+ Mon, 22 Sep 2025 12:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758542650; x=1790078650;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=CpEQla+RaHq/h9AtWdTfjtus9FxZ1QKaIdNkR5z2xQA=;
+ b=IUFfhLHlb9A0Mje+IYK1AXr2YKYjHle7MpcTl/hdCmD0YwFficYsehdk
+ no0h9655kp9qld1KyS5zyuElDITT7lHHovuZyCRjZYavepOuwYtU7231C
+ 2P5i9qlT86c2qExGik8UXI4/SQXL8SvGwMellxJPLaU90cr1hj1lEL0go
+ tniJPgrPxSmXd9zUUFAioio8yb0N5FRlcWfRpTasibb5heRb+NPCzAhqI
+ bCRxqsPrzwcsDRnvIlMcdqO9ZunPF3AF6b5wowOJiPQvcIy9ZjxC3drD7
+ X26Dtn2JWhSNK/jfgJFy/dS7gn6RylPpYwFFBEH5+KyITblMG6KqLlhVD w==;
+X-CSE-ConnectionGUID: vAXMjhhwTW+swX+iSJfIwg==
+X-CSE-MsgGUID: r4Lv2u//RLGqk8IKQth5Dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="72227152"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; d="scan'208";a="72227152"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2025 05:04:09 -0700
+X-CSE-ConnectionGUID: n1b6bT6WRNCWt0rKk1Xdqw==
+X-CSE-MsgGUID: iS9J6X1gT7KG974hpU863A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; d="scan'208";a="200174887"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.244.135])
+ ([10.245.244.135])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2025 05:04:05 -0700
+Message-ID: <83089cef-9981-450d-b7ab-239fb16672c5@linux.intel.com>
+Date: Mon, 22 Sep 2025 14:04:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: revert the remaining commits about dma_buf
- handling
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
+Subject: Re: [PATCH 2/2] Revert "drm/gem: Acquire references on GEM handles
+ for framebuffers"
+To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com, mripard@kernel.org,
+ simona@ffwll.ch, tzimmermann@suse.de
 Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
 References: <20250919155519.1104256-1-mwen@igalia.com>
- <6da0bdd3-0b93-45d8-a178-1fc202bd49c7@suse.de>
- <9ebc8b23-1724-4566-a774-117d735b86b3@amd.com>
+ <20250919155519.1104256-3-mwen@igalia.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <9ebc8b23-1724-4566-a774-117d735b86b3@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[amd.com,igalia.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_SEVEN(0.00)[11];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20250919155519.1104256-3-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,67 +76,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey,
 
+On 2025-09-19 17:54, Melissa Wen wrote:
+> This reverts commit 5307dce878d4126e1b375587318955bd019c3741.
+> 
+> We've already reverted all other commits related to dma_bug handling and
+> there is still something wrong with this approach that does not allow
+> unloading a driver. By reverting this commit, we'd just go back ot the
+> old behavior.
 
-Am 22.09.25 um 13:55 schrieb Christian König:
-> On 22.09.25 13:54, Thomas Zimmermann wrote:
->> Hi Melissa
->>
->> Am 19.09.25 um 17:54 schrieb Melissa Wen:
->>> Hi all,
->>>
->>> I just talked with Thomas that these two patches are preventing amdgpu
->>> driver to be unloaded:
->>>
->>> `modprobe: FATAL: Module amdgpu is in use.`
->>>
->>> and there is no process using the driver.
-> Melissa could it be that you have a console loaded?
+This is actually important to keep. i915 and xe already do this for similar reasons, so I'm glad it's enforced across all drivers.
+Without this you can do this:
+- CreateFB
+- destroy gem object
+- Have random memory being scanout.
 
-FTR I can also do 'rmmod amdgpu' from amdgpu's fbcon successfully.
+I'd rather keep it. If amd no longer unloads, figure out why. I know there are igt tests for module load, do those work?
 
->
-> Regards,
-> Christian.
->
->> What's the exact STR for this problem? After Christian's comments, I tried to reproduce the issue, but it works on my system. I do
->>
->> - boot up with amdgpu in text mode (multiuser.target)
->> - login by serial console
->> - 'rmmod amdgpu'
->>
->> That last step turns my test system's display off and unloads amdgpu. The kernel is a recent drm-tip at v6.17-rc6.
->>
->> Best regards
->> Thomas
->>
->>> We agreed that the best approach now is to completely revert the work
->>> done for improving DMA bug handling to avoid any loose ends. With these
->>> reverts we are just back to the old behavior and amdgpu loading and
->>> unloading will return to normal.
->>>
->>> Best Regards,
->>>
->>> Melissa
->>>
->>> Melissa Wen (2):
->>>     Revert "drm/framebuffer: Acquire internal references on GEM handles"
->>>     Revert "drm/gem: Acquire references on GEM handles for framebuffers"
->>>
->>>    drivers/gpu/drm/drm_framebuffer.c | 31 +--------------
->>>    drivers/gpu/drm/drm_gem.c         | 64 +++++--------------------------
->>>    drivers/gpu/drm/drm_internal.h    |  2 -
->>>    include/drm/drm_framebuffer.h     |  7 ----
->>>    4 files changed, 11 insertions(+), 93 deletions(-)
->>>
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+Best regards,
+~Maarten
