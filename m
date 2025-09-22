@@ -2,172 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34162B8F220
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 08:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DE1B8F258
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 08:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA5D10E3B4;
-	Mon, 22 Sep 2025 06:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE98D10E3B7;
+	Mon, 22 Sep 2025 06:31:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="b8GXEjfP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C/9laVEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011041.outbound.protection.outlook.com [52.101.62.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0947910E3B4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 06:25:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CRDwYMvVq+uSOsphY9NRFVCO8WZnGyJxxfWUXOA42FNpR+E5L8BjKNSWyJ+xcnwDg7tirm/NxqfHhekFCg2hdlOxOGuwfruNPAiLgBnNKkpe8bPKJg7XnDyK0mzEhYBvRAI+UkIh4iitDeTEMa5mSD99oGAe7d0MM0tBaOyGLa3EZCPMvHj41xctv6TCa4JhO6oEkWmueQB1yGvnmdVrttcKtVdceWDU3BR4ZZl/EOD7FlCsrzeKAXUItIKneP2PMgBg2JJFrEsqaqpx7D/N8B9Fto4PaMQ1I2OINGo+XFE6PlK86Khj6H9YOpreRK92JKnnQlg9D8OkBN/oBqPdbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Aadm65t2BsPvJUcPHIyMVDiIVbF0iIbdDmqj8wSmElA=;
- b=avI/f3qmJ6cNk90V128ACWWStNj4t/1+TO3b/WpTznWnvCx4BBr1hLnFJ0ccuZ8/LihSrv//FnWRcw+hqmIw3Q4K8bKHrYxAraUwdG2ygNySZ5jgdQhe2XJseVNk7FXi0/NINeXR0+WCLY0RJORVcDckwXmK8yO7EBo73zOu1zATxdO7AYaHpc2R1jGWWj3IObCSs026W8x3FhcmRKdnkLvZIK7PAWUav9yiRZi8pYKa6ByXxSe/0vhkY68MFb2zcT+TLbsQSEt4Nl8na3l0lzbQ1C3qF6MVBQWFSD9pi9OskFegUSAZrtcFvGwCi8bc9tqHeM8JJM9d0CVI0+Zm/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Aadm65t2BsPvJUcPHIyMVDiIVbF0iIbdDmqj8wSmElA=;
- b=b8GXEjfPnX5STVtHNurQGvZ3IT2WJxva83fl2lP8q05O4WgUGF+a4TQ2J7/u2Wc+D4nKbfVMJZjIBrk4oYLfcQ3RnvP/NH/xl683TpeHuVnPFLUlhRXFT3axbG+CDbMzotlo7g1dm5RmefbSGz3T2ScFXaf0HMvja3vEyVdomyXNXMho7PT1ZYJpMh4cxh5tGBA5v4xHilPKc+UvCcALqHcAfuAJBz56j4knUDWY/YgWc9B1dV23+F94R33OacbFNKeu+CLnWdDN5yOKP83wcaHxP6OYHTIfJU/PbDMdt+q3LoPURc0AuI3j36swOONXBKwaHw+9fFqmCdKnqn01Zw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SJ2PR12MB9191.namprd12.prod.outlook.com (2603:10b6:a03:55a::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 06:25:04 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 06:25:04 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Sep 2025 15:25:00 +0900
-Message-Id: <DCZ44OA67SLZ.HKORUXU2L9K2@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH] rust: io: use const generics for read/write offsets
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Benno Lossin"
- <lossin@kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250918-write-offset-const-v1-1-eb51120d4117@google.com>
- <20250918181357.GA1825487@joelbox2> <DCWBCL9U0IY4.NFNUMLRULAWM@kernel.org>
- <752F0825-6F2E-4AC0-BEBD-2E285A521A22@nvidia.com>
- <DCWO3V7WQP0G.127BYBORGE85H@kernel.org> <20250919205314.GA1884303@joelbox2>
-In-Reply-To: <20250919205314.GA1884303@joelbox2>
-X-ClientProxiedBy: TYCP286CA0209.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:385::12) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 739F210E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 06:31:00 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-45b4d89217aso29680585e9.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 23:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758522659; x=1759127459; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JBI7ozwg7DTSQ24O2TuFL4d84hmFpnF5vS3hSbCRd3Q=;
+ b=C/9laVEfNbPgRk9RmodkGeXqenTbiMJ7uVAkbi3TLAxleWpDXEUystOdfCfp1454rn
+ 1ao7KSlnWR3XKXNl6P+HMyacsf95ulpP7j/pfCQLeyWV7qGvshTPpJWuFR4XACfM3MnG
+ Ps6XFZAomlBXeECfYVPA+l/YTFFz9Fv9rFyXq/j5f+aZq1mfZZtZNvkvyCRbjK0Obbev
+ kqOIrdI/K4/S/Z1ZhFgsoRnWV7cwQqWLIdSXxr7rY1NzpD76P+IB+d+GkTX3oEavBGYz
+ YsE8m8Hliglzm5cwslcC1xGHVC1gm9/M+uJoWwy+5gmCSshwFEv3oBgnlaTI5BgaAini
+ UHeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758522659; x=1759127459;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JBI7ozwg7DTSQ24O2TuFL4d84hmFpnF5vS3hSbCRd3Q=;
+ b=ppK9G+HOy1yS3tIeADHdkBgNi+JwBEvX49S16jD8Zeb3ZPl3EGjO6ktUOB5If4P6v1
+ KHMW1DvJvkvGnqNiIpKKuCuUvBX8e0XA28VlVsJK0pnku5tAtMhh8AJi0roDwH9IvUTW
+ X6a0gBJAITcRu+zr3Gixs0o5tRJ+LNA1vJgQryiPGk47uY5+4ER1k+gR0+Yiw+fGwVbC
+ IIB2UEnVtMByI+sTpIGNebrXixVSZtUAT0c3Huscmt+WErd73dCb/JuADKVXyVzXBiFX
+ GIj4e5a0ba3/TYFSfC5pjNmd31aFY+iefJxmWoSc84ahIh3LblMMfXsfGyohkxxFM5P1
+ HVbw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZCa3YCc6VHjBW32yPsV64zqdxez85xnEciBYsDryDJITM1Ig270cdlp/o3xJdOxOoCdlkTqDmFFQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTroHToYHCjg9/tvd2YBreyW7TvYfiyFZYhrspIPJ3HF6DHZUJ
+ R+ZymIJaVspAwdIGU4dGjLHH81ez3Nqp07lyvxfehMdul3RFBc5kYsQ4ZC4yOMygOjaiheRwfzq
+ t83esUfuUe228tNRh1pGUffy6NfY+i/w=
+X-Gm-Gg: ASbGncvIRnxDGXfj0bqCG7m6y6kKtYLzAYeK4qRqM/5x4G/xkbWJg+YozMDfTRY/png
+ 8SGzDgS/iwvCsWCsMMyBq9XUZnFNsL2i6ZJik6v05SJsvzmqDoEkp38jXqrKfJhNury2Fd/J/4E
+ 74M1bIwO5y0Sc0fvhEIm39Jg9eZ50P058Htva+MvQb8Z8A5+EZ8OuEks7nnQmlHu2ff+YMHRcnh
+ 23Ur1EW
+X-Google-Smtp-Source: AGHT+IEgRyr03+K3nP1v4RFDAaB2T/dukNJX/7fSxSDXqoenOtbaJwHE6abGnYzKvIAOsR+BBjFG+VRT8nGt6XTXdf4=
+X-Received: by 2002:a05:600c:1554:b0:45d:f7ca:4f07 with SMTP id
+ 5b1f17b1804b1-467efb04520mr94891755e9.18.1758522658794; Sun, 21 Sep 2025
+ 23:30:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ2PR12MB9191:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca1c99aa-f3f2-405e-8cb2-08ddf9a0c414
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|10070799003|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WXBkRHozNlRKNDZMNmljK3NkazhtbDZXNWdGd0FIMXI3aFhjNEZhb1BPYVdV?=
- =?utf-8?B?UWR3VnVyZXFhZlVPZ0srWjRwOFBJYkV3bjJ0V2pTSFdMS1Y1bE9mZDRabDds?=
- =?utf-8?B?ZysxOHZvS1Jhb1A0TkJWVzZxSUNzbG9WTnd3ZjBxejJ4YktibS9mMHlHZnVr?=
- =?utf-8?B?cXlFQzZKN3NnaEFJc2o0ZXl6VkpFYXRlby9oeTYza1JldzZXQnQ0cDJhS3Fr?=
- =?utf-8?B?YW1wZGM0U0R6SnFwWFNxR0VGbEsvaVdpSmdCZzNNM0tGNVAwWVpBWjFvTU9F?=
- =?utf-8?B?Q2hKbitYNzU3bERnZi9kVkdQeUJRZng2MmM2aVNvaHE3OXlaS1hNaTd0V0gx?=
- =?utf-8?B?b1BxWW5nVVNROVNnT2VJZzk1bUN0NTYyM2Vra2hQVmQrVm9kcHNhYmVhMkFn?=
- =?utf-8?B?VWllSmVKR3prKzZhbWRYZWhzVlpZWnluaDlYNGo5RllmeXVoMXFyZVdwTDZY?=
- =?utf-8?B?d093NldBZFFRbkp4R2s1bDg3TlZlcjZUUk84Ymd5RjA0ZGU1TDVJYUQreDVp?=
- =?utf-8?B?aWhGVW1PUmdocU1YT3JscUF1YjlOazV0VExTaHlaM21JK1hwVExnelVWd08x?=
- =?utf-8?B?TkhCLzhRVlhUUGYvZ0tZMEpnbXpvTHdZT2pOdWxBY3pQSUgxL0s2d21BK1pP?=
- =?utf-8?B?clRiczU0MHVXQm5iVC9iMEZTck9ueHhhQVIxcEQ1Ymw1UmZCdkNwNGJyNllI?=
- =?utf-8?B?a3lQVUFHeElVNnFTYVlJL3V1ZFgrL1dHcHFqcGRQcU9KRDJONUg2V2Nzc3dr?=
- =?utf-8?B?ZXpLcWRsQUNDQ2UxcEllNGlFWTExOTRHWTIzakJ1bHB4b2U3OVd3OWJZNERp?=
- =?utf-8?B?ZDRuTUZ6SkU0a3NXbHpmY0REYmhVWWNMVUFDUUJYS3c2ZXRZNmZYUDB0cHNm?=
- =?utf-8?B?VFE0UDhJUXI4VVJCdkVUNUVCYXR1R1FxSkxMSTI4Zk9hallHamZRV1lBemF1?=
- =?utf-8?B?My92d2g4R0VmaTNZcXlFK1ZJM0hDZDhWTHhadGpMOFhybmd2ckxpbllJeU02?=
- =?utf-8?B?OUorY1JGNTJMZ3ZvVjRuQ2tsNDlhZHpRVGxSbnZrOENrcTJ3UFU4ekV2MXFW?=
- =?utf-8?B?eGpHVk1SdlVndWFFRUU3SFpXZFAxaml2bE16U3hXVHBFeU5VRXpqR0VNVmU5?=
- =?utf-8?B?SUdwUEx3dEp0d01uT0VvbHI4MGRxWDE0WXQrQVhWT0FIM2NvZ1YrcG55SEJU?=
- =?utf-8?B?WnZoWkUwSlVEZWZ0WmVsUERTNUFBNU1GOG05ckMxM3puQ3ZuRGNVSU9WZUY2?=
- =?utf-8?B?bkVVcDc2dm1BSkxVYXdpRmU4YWhybkhzS2VycXhsc0lxSFRDem0zcEFIYnh2?=
- =?utf-8?B?KzlHZ2VmNC96VXRNTkk2OTZmbXBpek9ZYlJyNHpKMEdCM1VZWXJSR1BHZkJM?=
- =?utf-8?B?OTAxMEpkMzN6ODkwNWlCcFRlK0lFc3VOMTFxU2wwbWRFd0s4STRIK3RWcHN5?=
- =?utf-8?B?WnlCQXRwMHBVWmZvRnBnSzRwRmYrMzJSUERXcGJrN3d4K2RnMG5PWmdoZDFE?=
- =?utf-8?B?Z3J1U0JXeDZiM05hWnVyVEQyODdTdlZFTTZ1R1Eyc1FzSE5YT1Fsc3plZkwx?=
- =?utf-8?B?dzhzNWVNY3dXM3ZOV2w0SXpaNnZWVGZCMG5QMGlIdkhvSlZlZFdSWHVnL3R2?=
- =?utf-8?B?Z0QzQ2ZsZE00dnNXWjNQUGY3cEhDRmgvUkRvRDRhVWh3bDFqUDh2bE01YzJQ?=
- =?utf-8?B?c0gyQjF4VDVuMG41L2Rqb0JqekhVczQyYVdLT0ZLM2ZDNnluL1ZMSFJXSDFE?=
- =?utf-8?B?V0d4aDQ1OWJ5RHNSNXFTYWozYmJLbVZqV2RFMFpMMDk4ZnFJTmIzRGRiaERZ?=
- =?utf-8?B?dDYzZVhwT0RVdDhpbU1acWxQblJPZE8zdmh0SUFEWDB3eUUyc0lDenlnUVFH?=
- =?utf-8?B?bWNwMHhZUEZxZDlxQ0M1N0NiZURiUHVzam10MU5keE1XSHFxd1dFM3BkZ1RD?=
- =?utf-8?Q?zK6QTOF+H1Y=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VktxNEs2c3p2Tk5BemNBcDk2WWN6cUQwaUcyMUxweXJsTExPWTcvRjFSeklX?=
- =?utf-8?B?bHFweG4wWld1b3MzQkpnNVlUamZVRkxnNmMvemp5amhWRGt3eHhLYnBTS2lL?=
- =?utf-8?B?Z0lyaGFlT1V0YWJuOUwvK2laYkRLVFdCcS95RTlnd09WZ2h0a1ZUZm1MQ1dZ?=
- =?utf-8?B?c0dqM2RCUGtYandWa0JYeVoxZGZUVzJrSWZ3VkdhQjFYdmo0NkRxZEFNdkV6?=
- =?utf-8?B?N0MwUnJ5M0o3UE5sQ2MyckNHaFVLU2lFNUd2Zjh0dHpySE1sNmcxZ0c3Uzc0?=
- =?utf-8?B?eUpwK3NJMXdUUW0vMjkrZ1E1cFdnUVdKczVSdXY5blh2eWc4N0FwZ2tKUG9h?=
- =?utf-8?B?QUFPWFBvcHBGQ2Y4SDdENXMwS1dDTzl6Y0h4bUZaaEgwZktiRUE3QWw3dmN0?=
- =?utf-8?B?cm5Ld0tjUXl1NEdYWVlMQzJaanJSKytSaDVOREZsTy90dllUbFNETWU1aDh0?=
- =?utf-8?B?Si83SGZhRWhBUnlBb1pxMnVqMTZuQ0xUdHJEL3pJbm9uYTRlMmRRZ3VFZDB1?=
- =?utf-8?B?TDIzSzg3bndFSVFEd09waDRxN1BoNnltd2p6WGtiTTIyR1dGMFJGSkZUdUxO?=
- =?utf-8?B?aXBpbnFoRmxIMFNNREhOTkFhUXBOYlNlektyVzhkY0pwSFo1WkhZM3c2aDJh?=
- =?utf-8?B?UEphNWlnUjVxNUtCbSs3dm1YdWZhTDRJWkJna1B2bDFKRWRBYlEzMWtFMDMy?=
- =?utf-8?B?Y1pDRkRBQUJqRTVOTksvbHdUay9UVXh6U3NETHJXTGU3YUE1ZHBJRW9vb2lh?=
- =?utf-8?B?d1hpL1BIOUJXTVAyN3hzdXJTb0t0aDVCS0ZkYTBlVVR5QjczREduNFU2V0tQ?=
- =?utf-8?B?RzNPRmU3NEFNUnE3Z3dmTktFUlhzTHhFVFZ3c1NGOUJ5ZDBER2l3NStyanpa?=
- =?utf-8?B?UUtHWlpRQkVBWUhNWW1sOUY5VldzNXpiTEluWUJYbitaREQ2VWpXM1lVSmVs?=
- =?utf-8?B?VGVmdGdvcXJUNnZ4bGRLa2FkQ1BSclhDdFphMzNZZE1XazFUT0x6SEh5eDJq?=
- =?utf-8?B?N28vY2RrdTV1WFI4czRJSUxrOWZhNEtrdU0yVm9STlJPSFNvTWVyR3dOdFlt?=
- =?utf-8?B?NXo2Slk3V3cxOG1Rdi9TRVE5VlBxTjdnR2JwRFREUzdnZFFYTVJKMlJjNTZt?=
- =?utf-8?B?U0hZUzFkdW53M1NiMHExWEJQaDRkYlVUVFRScERPU09BSlp4QlhUcFZtejBo?=
- =?utf-8?B?NHlMWVlhWmR1V0FWN05obGIwR2l4NXR3LzJzSVVCOEJqdDZlWDEyQWRhTW1R?=
- =?utf-8?B?UHVpV3A0VTlsTDl3MEhmRGZBa01kT2xuT3pxRDBIQnFRMlZBeXBTSHNOVUhF?=
- =?utf-8?B?aUVwS2tmNVlFS1ZMbUV5K09PMU9PTVhOVjFFNzBuRkw4cm9yWXRzcHdsenRV?=
- =?utf-8?B?SVVYWjdMcDg2Q3RDbm5LeG1ueS9LSFI4YkVNZXY1OUE5WlIrMU5scnBFaEFt?=
- =?utf-8?B?TDg2WklTVnZQeHRNcHl0ZG1FNllJRXJ4YTdCS1NneW1EM2R4SytLOS8vMEF3?=
- =?utf-8?B?WkltUzF4UDJ5ck43RllCWEdiSkNWWit5VzEzbThjZ3pTZmZrczJ0YklUMURn?=
- =?utf-8?B?RVcxMTJwQnZJZ2xwZkZmdytBeUZsZnlRTE5jT3FkSzFScW9xVEJCaVdlRFZX?=
- =?utf-8?B?bXd2MzQwSVdmNXk0S294L3dOcVJqZy8vMkFRVGY5SHZCTkJRWmd2LzE0RDUv?=
- =?utf-8?B?SkZDNWVnRFZ1QWZGN08xRTBYYm43dHpvSTk3SHFLQUtqdWUzZUFSQjdsNjds?=
- =?utf-8?B?cjdGcjgxQnFhWUV5VkNUYWJJRTdtRHFFUGk5bUFQWW1uZlVCN3p2cHVJUW1i?=
- =?utf-8?B?RkNpM2QrT1hvdERtVWcrbVA0ZTdGdTJCd0t4RVBaME01OGw3NUFaeEc2OSsr?=
- =?utf-8?B?dS9adVhtSW82MTNkcHByNDJhcU5sK2lEak11SmlGSEVZVXZxRHBiUmxtaU8x?=
- =?utf-8?B?VEtoSGhTc0hSRm1RS3R3Ukdta1VQZC9FMzBqYjllbzdzdjhma0UwYUdMaHkw?=
- =?utf-8?B?dlRYRWdDbnVxeVNldFdZRnBaWXpWVVkwVEJFdllTWjk4Vnl1dHJRdy94TWJk?=
- =?utf-8?B?KzFONTl5aTNsZTBIMmR1bWdoNjJHRUZIN0NETlFvUnBSeFM2ZGJrQVhvWW1K?=
- =?utf-8?B?L080TzIvZ0ZCOG5HVEoxd0RXY2dPVmNNVnd5OVd2cmh1YmVxRUZiQVVuejNB?=
- =?utf-8?Q?tFaPRdunpn8IAGb+fHXm2ssPlzLAJLIdDT8Z7fqHvZC7?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca1c99aa-f3f2-405e-8cb2-08ddf9a0c414
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 06:25:04.2712 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3tRJamJ19cycGsOF3wm534UUEm/2mRrvshgihHb6t7EB512vN/viHJtZ/jW7W+hveQKKKePu2+fKkfxxOlsgTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9191
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <25240767.ouqheUzb2q@senjougahara>
+ <CAPVz0n1Tur0YY7yOYAyUFvyTxie4OteyzGhzv487L+aA-YY+wQ@mail.gmail.com>
+ <4198615.hdfAi7Kttb@senjougahara>
+In-Reply-To: <4198615.hdfAi7Kttb@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Mon, 22 Sep 2025 09:30:47 +0300
+X-Gm-Features: AS18NWDVc75UgxzKXU9wjmggqvC2LNOMRXXeLZ6ybXXuZrOg-NHyYp0QsvZuWLs
+Message-ID: <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com>
+Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, 
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,70 +106,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat Sep 20, 2025 at 5:53 AM JST, Joel Fernandes wrote:
-> On Fri, Sep 19, 2025 at 11:26:19AM +0200, Benno Lossin wrote:
->> On Fri Sep 19, 2025 at 9:59 AM CEST, Joel Fernandes wrote:
->> > Hello, Danilo,
->> >
->> >> On Sep 19, 2025, at 1:26=E2=80=AFAM, Danilo Krummrich <dakr@kernel.or=
-g> wrote:
->> >>=20
->> >> On Thu Sep 18, 2025 at 8:13 PM CEST, Joel Fernandes wrote:
->> >>>> On Thu, Sep 18, 2025 at 03:02:11PM +0000, Alice Ryhl wrote:
->> >>>> Using build_assert! to assert that offsets are in bounds is really
->> >>>> fragile and likely to result in spurious and hard-to-debug build
->> >>>> failures. Therefore, build_assert! should be avoided for this case.
->> >>>> Thus, update the code to perform the check in const evaluation
->> >>>> instead.
->> >>>=20
->> >>> I really don't think this patch is a good idea (and nobody I spoke t=
-o
->> >>> thinks so). Not only does it mess up the user's caller syntax
->> >>> completely, it is also
->> >>=20
->> >> I appreacite you raising the concern,
->> >> but I rather have other people speak up
->> >> themselves.
->> >
->> > I did not mean to speak for others, sorry it came across like that
->> > (and that is certainly not what I normally do). But I discussed the
->> > patch in person since we are at a conference and discussing it in
->> > person, and I did not get a lot of consensus on this. That is what I
->> > was trying to say. If it was a brilliant or great idea, I would have
->> > hoped for at least one person to tell me that this is exactly how we
->> > should do it.
->>=20
->> I'm also not really thrilled to see lots more turbofish syntax. However,
->> if we can avoid the nasty build_assert errors then in my opinion it's
->> better. (yes we do have Gary's cool klint tool to handle them correctly,
+=D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:23 Mikk=
+o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> Yes, thanks. Also I tried to apply this patch and it doesn't always work
-> because of array indexing usecase in nova, where we compute the offset ba=
-sed
-> on a runtime register index  (**/nova-core/**/macros.rs). Here idx is not=
- a
-> constant:
+> On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:44 =
+Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrot=
+e:
+> > > > Simplify format align calculations by slightly modifying supported =
+formats
+> > > > structure.
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++---------=
+----
+> > > >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/=
+staging/media/tegra-video/tegra20.c
+> > > > index 6e0b3b728623..781c4e8ec856 100644
+> > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pix_=
+format *pix, unsigned int bpp)
+> > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA2=
+0_MAX_WIDTH);
+> > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA2=
+0_MAX_HEIGHT);
+> > > >
+> > > > -     switch (pix->pixelformat) {
+> > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix->=
+height;
+> > > > -             break;
+> > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->heig=
+ht * 3 / 2;
+> > > > -             break;
+> > > > -     }
+> > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
+> > >
+> > > Assuming the bpp is coming from the format table below, this changes =
+the value of bytesperline for planar formats. With this it'll be (width * 1=
+2) / 8 i.e. width * 3/2, which doesn't sound right.
+> > >
+> >
+> > Downstream uses soc_mbus_bytes_per_line for this calculation which was
+> > deprecated some time ago, here is a fragment
+> >
+> > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt *=
+mf)
+> > {
+> >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+> >  return 0;
+> >
+> >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
+> >  return width * mf->bits_per_sample / 8;
+> >
+> >  switch (mf->packing) {
+> >  case SOC_MBUS_PACKING_NONE:
+> >   return width * mf->bits_per_sample / 8;
+> >  case SOC_MBUS_PACKING_2X8_PADHI:
+> >  case SOC_MBUS_PACKING_2X8_PADLO:
+> >  case SOC_MBUS_PACKING_EXTEND16:
+> >   return width * 2;
+> >  case SOC_MBUS_PACKING_1_5X8:
+> >   return width * 3 / 2;
+> >  case SOC_MBUS_PACKING_VARIABLE:
+> >   return 0;
+> >  }
+> >    return -EINVAL;
+> > }
+> >
+> > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
+> > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
 >
->             /// Read the array register at index `idx` from its address i=
-n `io`.
->             #[inline(always)]
->             pub(crate) fn read<const SIZE: usize, T>(
->                 io: &T,
->                 idx: usize,
->             ) -> Self where
->                 T: ::core::ops::Deref<Target =3D ::kernel::io::Io<SIZE>>,
+> Googling this brings up the entry
 >
-> In **/ga102.rs, we have the following usage where ucode_idx cannot be con=
-st:
+> {
+>         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
+>         .fmt =3D {
+>                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
+>                 .name                   =3D "YUYV 4:2:0",
+>                 .bits_per_sample                =3D 8,
+>                 .packing                        =3D SOC_MBUS_PACKING_1_5X=
+8,
+>                 .order                  =3D SOC_MBUS_ORDER_LE,
+>                 .layout                 =3D SOC_MBUS_LAYOUT_PACKED,
+>         },
+> }
 >
-> regs::NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION::read(bar, ucode_idx).data()
+> which matches that you're describing. It doesn't make sense to me, since =
+it at the same time specifies PIX_FMT_YUV420 (which is planar with 3 planes=
+, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACKED
 >
-> So I am afraid this wont work. Also even if it did work, it means now we =
-have
-> to also put idx as a const generic (turbofish syntax).
+> /**
+>  * enum soc_mbus_layout - planes layout in memory
+>  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
+>  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in 3 planes=
+ (4:2:2)
+>  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in a luma a=
+nd a
+>  *                                      chroma plane (C plane is half the=
+ size
+>  *                                      of Y plane)
+>  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in a luma a=
+nd a
+>  *                                      chroma plane (C plane is the same=
+ size
+>  *                                      as Y plane)
+>  */
+> enum soc_mbus_layout {
+>         SOC_MBUS_LAYOUT_PACKED =3D 0,
+>         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+>         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+>         SOC_MBUS_LAYOUT_PLANAR_Y_C,
+> };
+>
+> i.e. non-planar. The code in the driver is handling it as three planes as=
+ well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_ADDRESS_=
+V. Since the planes are separate, there should be no need to have more than=
+ 'width' samples per line.
+>
 
-We could always use the `try_read*` variant for these, but that would
-introduce runtime checking for errors that can't happen. We have been
-pretty successful in avoiding using `try_read*` in Nova so far, and I
-think that's something we should try to preserve as it brings confidence
-that our register accesses are correct.
+I did not invent this, I have just simplified this calculation from
+downstream, output values remain same. I have no cameras which can
+output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test if
+this works either. Other YUV and RAW formats were tested on real HW
+and work perfectly fine.
+
+> >
+> > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > >  }
+> > > >
+> > > >  /*
+> > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegra20_vi_o=
+ps =3D {
+> > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > >  };
+> > > >
+> > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > -{                                                    \
+> > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > -     .bpp     =3D BPP,                                 \
+> > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FO=
+URCC)      \
+> > > > +{                                                                 =
+   \
+> > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,              =
+     \
+> > > > +     .bit_width      =3D BIT_WIDTH,                               =
+     \
+> > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,               =
+     \
+> > > > +     .bpp            =3D BPP,                                     =
+     \
+> > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                   =
+     \
+> > > >  }
+> > > >
+> > > >  static const struct tegra_video_format tegra20_video_formats[] =3D=
+ {
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > +     /* YUV422 */
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > >  };
+> > > >
+> > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > >
+> > >
+> > >
+> > >
+> > >
+>
+>
+>
+>
