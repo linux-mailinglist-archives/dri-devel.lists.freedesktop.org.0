@@ -2,87 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4956B9193F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 16:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2762DB91A3A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 16:21:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04DC410E4B3;
-	Mon, 22 Sep 2025 14:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2279D10E4BC;
+	Mon, 22 Sep 2025 14:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="1mN8uBTT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aUYNPz08";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85D4F10E4B3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 14:07:49 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-62ec5f750f7so7487739a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:07:49 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C85410E4BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 14:21:24 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-3ecdf2b1751so2603572f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1758550068; x=1759154868; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2gKCZnS8Y0kw7LI52aPWPye+cd/qPIjBzxQKuWEn6pk=;
- b=1mN8uBTTUJD8A5oQ99k/NdGG8kWnw1uBxolFoqLGOHFHQhS1yKdxcXEfQVNk42ZZPX
- IIjo9DCFx+Rpb/qMqQtfMrPbXcl5Q2yB3eMz7zR+w0dRD7e175Vk8pSFwHZw/fHEz8fe
- 5erVpEkIvSUHjkllgxjLc6CBfyoDz1fjn8HHyv3f67xD8kck/8zfVCBGMXLnjjnaNXs7
- 0U7Sl686w0HsNHgWnOkDcz4d2UzVcLRbtxyKAeFjqS9DIkvkApe/owW/gc7vL559iaag
- el6WdNXHm71oKVZz1MUMvOeMoB03p5LvDQG4bHNi19HSAIkNRYoWpiuJ5zA+99gXBeWk
- wn/g==
+ d=linaro.org; s=google; t=1758550883; x=1759155683; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ee6b65LXU1FZHCCb5W7Ktsx19CyxUeRFxdlgW2AOYMM=;
+ b=aUYNPz086/Ek4+9HhRTEJE2quJbXtRhtLPJcFqglcVxcJxKKSJdAOEaDindb/+nzQ1
+ onfs2XcZbv6i3sjaVKWqHCQIMBTGEytv18amXAIIdASKu0oI8m5wjHEYVAmVgHlu9tPP
+ CZ698gHpLqN3O289HLXRys8A8ryzIip6xiusq11P7bFoHJbpwZ3qTjZsbu/wDmywptJM
+ Bjb6T0UFO+K0TPa+9IGj9l7Od/BKFxIsxITXLUU0T8RDVzeAt0OejkWFh8IzkiiqUFaP
+ gHAf5Dzu4nfhzCTZL7AOI+VTzzxzSjYgQw1H+ByK2nNoMbKvpgn5PJy1q1FUrheiraEn
+ ciqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758550068; x=1759154868;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=2gKCZnS8Y0kw7LI52aPWPye+cd/qPIjBzxQKuWEn6pk=;
- b=dM/Cd1Td9ne4q2l3eB9gavG/vftv0Q5gHyqX3KLOmxkk5jLLiHNDbSstsx3dkA21J5
- Fy5EoFmViUOxd/62DAvL6VF69Blfsz4FU23NPqKp99j3TJq+tKQ49QQk26loZej0m1b/
- W3zSYubA5gIQ5QCaD6scVQJ25UpmnC7WptHk35igmDR7dihBIk3ClJQQyEx4Pocv0y1r
- T9jdCPT+dW008kS4Vt2I83tKVZMgTe5AvHINVgFXvVB/xPknpzoBq2jUPhQWbGSLenAV
- /jtAyhDd2/8BKFgr8GY3BMwxh9km36dvPY+W/z70iyIepOEuBvAnUPT34Eh/BshPY257
- QU0A==
+ d=1e100.net; s=20230601; t=1758550883; x=1759155683;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ee6b65LXU1FZHCCb5W7Ktsx19CyxUeRFxdlgW2AOYMM=;
+ b=pJhKfvy5uE2J0w/jUQLxi2K/cYreCo8MsixMhi02lbEPfg7TFM1bQTBlt3cr1OyG68
+ U0/53RHb4FXi7gm0OMgsEQYK4qm8/S/HE3v4hFiBMf8u8agTk5DrONwBrU4zZVn86dDZ
+ LIus1Njunpd2gwTmfKlsoarbSoRPTBp2djdHN0lRhS2MXZJsuOL5pa+kBLhuMJ2RbFEj
+ DBW67ZHF/zCxm4M/7HCG3j02ZqKqnJ/b66a6k3dIgPG1dAa5F2YeBNhIo6Q9qyzgtI80
+ k+rYrhJ5O5lxbD8FwuHQXPYg2zUjm0JNa6tsG+73I/5CNmIS/pdI4alS0Gpwq4KbmS17
+ NXNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2UV15VH26O6SbKsn0sSbJR6wJuJMxHpupJI0CFsfI8IZZmi0nEW72qorHwHK3TZ/MYLN8sCJr7So=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzqcuWzTcjO4gNFQgcZoGd2Mlo9tziomdDvg/47f2SLMObvUBii
- GP8iJ8I1eqWzK0860C6rvWFUXqq4jWmz+3VSHr15UlIGDcjOEEnmYyGfiO2a545TnGw=
-X-Gm-Gg: ASbGncvDSdOvbvZQdHDkSUL3NE9+23D8YsBygErvfanm+QeYReZkNtAPONip1Ua+77W
- W+lnOPJDqGnX0hhoJga98Yk+Pz50AjQNkPaFekwPeP+dd0yCZukgdsczHu2sEWyhNU4Y3deS9MG
- HkFQQtbhGcAtQyibuammnkPikURMx5JzBtDimsIP96xI4EnO83ETwV3DRfFMAYMVGqvtSCAdK39
- rU8Y4i5zQgjdDbgKrSWFm4ktL+PSt1RWGzeclNT0KbCuYB7nQowVmkREzDfuUIXMEHKw7vxYjAr
- j1w8qAlAI3r3cdR7sw/dBipPJy0CKXdznLBubDMV2CWh8zuz97sMYVG5UMABg74D5mlP1eaJbpm
- ZNImjLSye540ZlGPOVSeOv3F3aHgFRBwfJjAWqLcSC675x2gwUTuHE75BsHQ+9e4/OZTw
-X-Google-Smtp-Source: AGHT+IG2LQi+1Jve61dJzJPf3p6C4wK2oRc2C6Ic3zD7ZHI0AKL2Y3hhz823ekZ6+r+8VVvfemU3qw==
-X-Received: by 2002:a17:907:972a:b0:b04:4046:db6b with SMTP id
- a640c23a62f3a-b24f567c816mr1300784166b.45.1758550067866; 
- Mon, 22 Sep 2025 07:07:47 -0700 (PDT)
-Received: from localhost (144-178-202-139.static.ef-service.nl.
- [144.178.202.139]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b29b80eaec6sm484442766b.87.2025.09.22.07.07.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Sep 2025 07:07:47 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Sep 2025 16:07:47 +0200
-Message-Id: <DCZDZ037P56C.3MS3HI55IN41J@fairphone.com>
-Cc: <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 4/5] fbdev/simplefb: Sort headers correctly
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Javier Martinez Canillas" <javierm@redhat.com>, "Luca Weiss"
- <luca.weiss@fairphone.com>, "Hans de Goede" <hdegoede@redhat.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Helge Deller" <deller@gmx.de>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-4-f69b86cd3d7d@fairphone.com>
- <87o6u9d3kg.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87o6u9d3kg.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCXlRuRM/+Eoc8bN4B1VHvOHq4bEApyDjclin5BhO6DiSkt4yH5U/JgpEABGw2XBHWBZb9QHSFKqyQE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwORp/lUU6M0XI8MalgRAo1BvNiOBPV62MKpe4TzN8yLgUTOMCh
+ cmXftBVrod1ItCcUb0F5c/VYtKoYjOo21IWuSiPV0TxXDZxc+EPY0M/duk3DKXUiBQE=
+X-Gm-Gg: ASbGncv6tm8XuFiBwcl2SivE/Lf9aiXwQvgEAubkPNNJppmDqs0WoFUWiWW5WtfXFDy
+ gNMtF9KsKy/EZPo3cd+chM705ifdiYtKC8fjpysI1cPPoex7E2BlrZE6VF4nC/+J/eh/j+gPBis
+ LZBYwaG+ggc3/O9T+r7V+fNqoOiabOII35lfJ3hMfN0RqTnmIXPrEXpXc9CIFTdhPB5Gf8o30CY
+ qjy0VuzG5q+rXBAWWnxU0bYmH4wEbfHK3mDMVWwtN2Dr7BzRnXobgtPDPllibno9TyFCQj42sWx
+ dmlYPDJlJyCYPX+7Yxl5gXY3huZBcrola4oD6VU/bWcHmKadAkA2zpL6bk2//eKBoD0i66uXQhx
+ Hb35bfl8Svy77hmxwc6oeUL6iXhLO
+X-Google-Smtp-Source: AGHT+IGVth8Rkr+N0aKIQlgQTtQX/JETqm+y/O8LvhGk2/XDYb7EWMJGIyQGkoAosRAyxrZyAS0nOg==
+X-Received: by 2002:a05:6000:2010:b0:3d6:212b:9ae2 with SMTP id
+ ffacd0b85a97d-3ee88b04e25mr11499266f8f.63.1758550882470; 
+ Mon, 22 Sep 2025 07:21:22 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3f9c62d083esm7771062f8f.32.2025.09.22.07.21.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Sep 2025 07:21:22 -0700 (PDT)
+Date: Mon, 22 Sep 2025 17:21:18 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [bug report] drm/scheduler: fix
+ drm_sched_job_add_implicit_dependencies harder
+Message-ID: <aNFbXq8OeYl3QSdm@stanley.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,23 +86,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hello Rob Clark,
 
-On Fri Jun 27, 2025 at 9:52 AM CEST, Javier Martinez Canillas wrote:
-> Luca Weiss <luca.weiss@fairphone.com> writes:
->
->> Make sure the headers are sorted alphabetically to ensure consistent
->> code.
->>
->> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->> ---
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Commit 963d0b356935 ("drm/scheduler: fix
+drm_sched_job_add_implicit_dependencies harder") from Nov 16, 2021
+(linux-next), leads to the following Smatch static checker warning:
 
-While there's still some open questions surrounding dt-bindings and how
-exactly to do that, I think it would be good to pick up the two
-"Sort headers correctly" patches so that they already get in. They're
-good to have in any case in my opinion.
+	drivers/gpu/drm/scheduler/sched_main.c:972 drm_sched_job_add_resv_dependencies()
+	warn: passing freed memory 'fence' (line 970)
 
-Regards
-Luca
+drivers/gpu/drm/scheduler/sched_main.c
+    962         struct dma_fence *fence;
+    963         int ret;
+    964 
+    965         dma_resv_assert_held(resv);
+    966 
+    967         dma_resv_for_each_fence(&cursor, resv, usage, fence) {
+    968                 /* Make sure to grab an additional ref on the added fence */
+    969                 dma_fence_get(fence);
+    970                 ret = drm_sched_job_add_dependency(job, fence);
+    971                 if (ret) {
+--> 972                         dma_fence_put(fence);
+
+drm_sched_job_add_dependency() consumes the fence whether or not it
+succeeds, so calling dma_fence_put() seems like a double free.  I
+don't think the dma_resv_for_each_fence() loop takes a reference does it?
+
+    973                         return ret;
+    974                 }
+    975         }
+    976         return 0;
+    977 }
+
+regards,
+dan carpenter
