@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4BFB901D9
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:39:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C05B9021B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:40:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E1710E413;
-	Mon, 22 Sep 2025 10:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A8A10E414;
+	Mon, 22 Sep 2025 10:39:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SK8+hF3v";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kaREty9V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2B4510E412
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:39:04 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M8xMwk009803
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:39:04 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8D410E414
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:39:57 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M92Fb8031309
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:39:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- //qK6wXZg3VBUfn/3y6cWL6qPfASe+TuJHYX2mofcCE=; b=SK8+hF3vd7O8Lkok
- QQzy0rGVxV80rkqb0+J65HgOtyQdcWLlD3vOxhhv10WZuEgLf3R3m/X32WC0JCjJ
- JgwHbMi5MCiP3W4t6183/UiCst1mplMxm5Gb53dPvydfSOjI/9ks13DF+VmtOTCS
- +yzH/r+Q9spXyOp4u6fmjGvm9be3Hs/dbqpAoHnrtzFUBc78NTGM+Iv9LCYpYX4k
- Foi88/C9kPkuJ7t+t2xERB/IwsFFjA2Fpzamllt+yLQDM8pV69utChBW0fAPpW2d
- W1/jEzh2xNRf9J8D9mo1LaVjT2R8z1ympQlmyUaBvIkkq/q7Oj0uErnGq3LtlHpl
- 6PfKbA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499mn7cepw-1
+ S/sA8nAMeAFMELZqIPjuLjJ4XtaKTMC4EnJ3WDadUqo=; b=kaREty9VXGeciDLI
+ tCvv1KCyLhUfKm/djj2m4hnm9nMrsHRkwQzZgWImpLtgW00/4d39/gq+ziey5ral
+ QSHeBxAucErWvK23cbWyWyvXCLMWdjufjUHvB0bGfHWcY2QaLk6QCTi3ReNYrTiR
+ DJkmfa100TLfOC5xs5R+m3qOmLXAg6RfKqWRo3LlUGS3Q8ixL6C4tdba4NLLFS4v
+ 0yffZl8J5fGt178CwkdUL2tJpUwed5Y+/wAuOWw2sDaS+lrtPHx0tZuum52E3MIQ
+ S8ih2sgoJweK4CzFWVrznjiSBOOB/l60gbOu2vx5X2mUhz286H1xsFLitauhQMg5
+ 2AMvNw==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499mg34dtn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:39:03 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-244582e9d17so14783045ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:39:03 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:39:56 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id
+ 41be03b00d2f7-b5506a5fa7cso363178a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:39:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758537543; x=1759142343;
+ d=1e100.net; s=20230601; t=1758537596; x=1759142396;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
  :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=//qK6wXZg3VBUfn/3y6cWL6qPfASe+TuJHYX2mofcCE=;
- b=X8p4AEJB3R+aewbbSnKbDGKd3g7vmUvr4kDJXvzsMlBaNfgXnsblOgZ9UpqHGQXncZ
- L4P5KsgaF+t2wOrCM5hw05iCh2b6/CF5GpprJ782sAqh7XuseIKr0O69Z9+pJgMhSBvr
- B+GkdBmWgkike4Xk6Y/7NM08AckBS+AvJlF1T5R87PxPdYqXLr4+FqljnuoCeHGtOon4
- Q7yveAw168tCBtmBsFNtt972AyLS3RQY5BreSCcw1Ps3pb01QwwLf7fvwaT1GvpMAhpU
- mlrHsRmIxZMskZYzo0giOy+vfeSEkwAgnIiT8KSRzYKQr/8O+T92vY2yEe2fYeG7Bct2
- 99+w==
+ bh=S/sA8nAMeAFMELZqIPjuLjJ4XtaKTMC4EnJ3WDadUqo=;
+ b=YqLcaG0W20Z62k/hxI8uc/oZhuKV+NMOvHUt2uKK6QGZ8FXoDVbAvzLJ5qzJPqwk56
+ kBzJvvppQAyVqhLomyjdl3W7QfaMmYiaRPrRZFLCuboZFHlSO1IOq3Hul30K49Fo8hI7
+ lVeivoHZtFaSogambp4AX7EZogP4GVRnw2Q1f4l8fnUXhK1LpfyZd3H2IB4QQBdfTkR4
+ IlsGCQZ9kEhS9oFqYe0lSBuhnqWIkFm4L7vcuVxKZpFpSHrnHORF5nrk9Vzols6i57Pq
+ MfDUSQonej7l18bWnltMr9FrFiKEp0WjOXa4fA060nGo7thV8J7QAn2MEyP6FvWzWfin
+ mlOg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV60KsUJOdkfjgljWHwexHpWp/x73qL9YvCUaEsCKzobHaichVyEeaJ5CSzHrwXziM3xQhYmIVAWQc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJqThmJXVQSpi9tu9AR/sSh1vilL3NScXJhf0UKBuG0FS/3c52
- z2oyaxIiGERT5o7CQfUPF+a/LZOaZY5oKXrMdxa8IZvGCQ79paQzLxxqFGzz82rv7jC+jNpYqib
- E33RT8iPsPK9m3P7+28C/lVmH0lMSZvzeW+JRYbl2eKuAiyPVPS5rUmwqfU6gtjVNLwbO4pA=
-X-Gm-Gg: ASbGncvr1jyd35+pTmqcju191R5fEeeKS3iYJ6rOWE1FOPtzNn+wnz+zD/tunUxjssV
- c8q4x1PeCau9PgHhO1M7SqqFh7u7/awoqwGEcuZe3zwrVhuKoth7QZfS8xP8t53vrqZ+04QAMjP
- eIX6Vde+3dxnNGWRQrCrH1QjqjWcsTKdHVK4IzfouqCu18ayyXQwvB1B7LzHNV+J779BnFVpXzq
- FA0D/UrPY03RQaQ4JUeSm/JGT1QTV5VyfBu51zY/adAprqyNCrs/yEJhags26E+60RdBX/FnnRK
- hdCo064EVVLgi68V3EuNJ0JWzPd4pqZKaIYHjRDksZrbEwSdWYrWi5DM9ZAxkCteMw==
-X-Received: by 2002:a17:903:338c:b0:267:af07:652f with SMTP id
- d9443c01a7336-269ba5443fbmr57182835ad.10.1758537542547; 
- Mon, 22 Sep 2025 03:39:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZ8EgA46Cot4VHvbFVkU1N3hyNZvluBxUAUjIVdbYP7UL9NYQ0X80HJxHmx6fYBf4OwquS4w==
-X-Received: by 2002:a17:903:338c:b0:267:af07:652f with SMTP id
- d9443c01a7336-269ba5443fbmr57182785ad.10.1758537542098; 
- Mon, 22 Sep 2025 03:39:02 -0700 (PDT)
+ AJvYcCVQ31Na+cj5lUbSDUgVWwE39mF/Qpqxp/tFmVz5zMIXJGOp+IJrlVEod25Qxq/GmsYRu7u0WRHn+Js=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yya+KdpC189jp+K0dO/3GrzfMvFlNV1vzQ9NIrgvw60VnepEknt
+ FT55ab1epOGc1XF6mc+vdxabolJDKUwipfBiX4V8XpLT7yYo5xhHa+KP7Tzf6sCbSbs2jVP0fKe
+ BF2cYjTVMpbrRE/p+5xqMXIH8zQqVDZP+vje0GIlOuXEg1/+jZ2ka1TLR40LBtIfr4VSLHO8=
+X-Gm-Gg: ASbGncsdbVtCe7D3NRIZ6k2Gmy1P9qjunvSahdn3rrUkIcDoN+M9RNpMc4Ho//wESYq
+ aBH2VFA6nHX6JzUa0gIzpfZZVfFw4G17+6qN7NpJ9jzKYdhIOMyhsojR8JcsrzBz8h5NV5UZApi
+ 6ewk2+EMZbVo9uht9vwQvceGYagkTAG0m6hyBdp0ejjrPNZGILzSYsAML/bFybkgYoJaZvfMCar
+ nFbE9AgocXdqY/SOJ2VpJlTpaikibltsx7znJNAZZVcdHP3X2MeHjZIyVXma7njxSx8ylflp60U
+ PIq7ReRT9Yo8JG6RTadd0/6h382TUBlownMoxxF94FUMeLASt3lzSEAdWZ1UO7S5NA==
+X-Received: by 2002:a05:6a00:1894:b0:77f:1a6a:e72b with SMTP id
+ d2e1a72fcca58-77f3126ad87mr2512341b3a.5.1758537595661; 
+ Mon, 22 Sep 2025 03:39:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGzeuarlsbMfcKnTGM+3OHSIOvq4mUD5eYqtObyzudC9HyNv9RqGfR6ipfD9BvwEsV1pOsHsw==
+X-Received: by 2002:a05:6a00:1894:b0:77f:1a6a:e72b with SMTP id
+ d2e1a72fcca58-77f3126ad87mr2512307b3a.5.1758537595213; 
+ Mon, 22 Sep 2025 03:39:55 -0700 (PDT)
 Received: from [10.64.16.135] ([114.94.8.21]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-269803611d7sm129020115ad.143.2025.09.22.03.38.55
+ d2e1a72fcca58-77cfc2473d0sm12066251b3a.27.2025.09.22.03.39.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Sep 2025 03:39:01 -0700 (PDT)
-Message-ID: <c95870e8-e481-4d3a-ba4b-b990381b3d45@oss.qualcomm.com>
-Date: Mon, 22 Sep 2025 18:38:53 +0800
+ Mon, 22 Sep 2025 03:39:54 -0700 (PDT)
+Message-ID: <bf823249-18e3-48af-a291-63b89bf83163@oss.qualcomm.com>
+Date: Mon, 22 Sep 2025 18:39:47 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 05/14] phy: qcom: qmp-usbc: Move reset config into PHY
@@ -94,34 +94,32 @@ Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>
 References: <20250919-add-displayport-support-for-qcs615-platform-v5-0-eae6681f4002@oss.qualcomm.com>
  <20250919-add-displayport-support-for-qcs615-platform-v5-5-eae6681f4002@oss.qualcomm.com>
- <z3phuuokrhonbukct2siz3ujear5ymtnoviea2epxzvjdmsvkj@w4puf4c44tmk>
- <83b5a265-1c5f-49f5-a89e-22f466df3304@oss.qualcomm.com>
- <ysxjabaah6rcbsjlreteo32zdljjcd547vgqeoxototwicjj74@rwovxeg6rnli>
+ <z6x3bwb7izywozeran5aq64uw4tiwlbwx4kekoy3vv3vt7qyip@2ibiat5focw2>
 From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <ysxjabaah6rcbsjlreteo32zdljjcd547vgqeoxototwicjj74@rwovxeg6rnli>
+In-Reply-To: <z6x3bwb7izywozeran5aq64uw4tiwlbwx4kekoy3vv3vt7qyip@2ibiat5focw2>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzMyBTYWx0ZWRfX+7dyAz/cYrrt
- XjIpfxrbPN1HZNZp7YZ5g98jqBZEnnyZUgeN4POaWrjKwkqqTtKjfcxQEaETK2E9KWcP5wQOcgA
- 8rNUiSuPf+pLzw7/aNXPMxM51rOvQr4wLtFoLfzZanG97E9LWBtbKiHq7CiBz6plZ/Wh8rJUofP
- 4uqxwIKcQzpVIFxIrSDPFGtHqgFeD70CU6p1LYzLyT9MbD/dJMbP0a0rDGp3zGh0+5DX3x+p/U3
- psE4gZUolVGfr39kAi7WJ1Dc7atiVnNFF0ZmM+vzScrDlcofEZN1qO1OyNdLrphnakvTNup2/q5
- RdxV8XglFcvCXIIglkaGDXlGIDI6CmDyKsVCzlqYUMr/ELgwRY2tz64pt+gfx519OOH+8LL3cV5
- cawdRihI
-X-Proofpoint-GUID: RI4kbJOW6pd7o3OCliGPYdd5G-tjcbXu
-X-Proofpoint-ORIG-GUID: RI4kbJOW6pd7o3OCliGPYdd5G-tjcbXu
-X-Authority-Analysis: v=2.4 cv=EZrIQOmC c=1 sm=1 tr=0 ts=68d12747 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=F9smdMtuN0WkDBw8KqUA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzMiBTYWx0ZWRfX8eNly9foARq1
+ q4I+IFXeGnXyZF54F+bnNToF5ZTC/UkPK6OW1Y5VhV/cnPVQtV1XUAvrT2JzJst9hm/jMMYP0gq
+ DsIH/D6jK7Q4xZoMbzisOKn45sUxR2Y9yeUAUJu1KueRTzvPsS3hhGgqU49S3LjZ4p4VM6VV0P4
+ /LOD4SSnF/wRicN3nCS9QMyXfcCqO1Ht6eoXVypVbg1j3GHa2Q2hfm+3qMuA3rIwVOJYYufP/KO
+ oy9UCQ2sqquevGZ5sNgbYI2LP9LNgPb5v1ieu5KWsPLwZs4T+RvmiQHqRpuWul6hoDVEetZoa2t
+ JNwPSuM/SGuNErBp57z5r4w2YTSYjiNZ7areJWP5zYS4SVBdtSiPwxNUiSPk0BSKAzYDJ5pvGA9
+ Okli1xeu
+X-Proofpoint-GUID: RJUjMUHbkXbkJq-yKj8PCcGIAUYbZTLj
+X-Authority-Analysis: v=2.4 cv=UvtjN/wB c=1 sm=1 tr=0 ts=68d1277c cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=kiRbvkIhkhXhhATYQ8oA:9
+ a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-ORIG-GUID: RJUjMUHbkXbkJq-yKj8PCcGIAUYbZTLj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-22_01,2025-09-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 phishscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509200033
+ spamscore=0 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,32 +136,95 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 9/22/2025 5:40 PM, Dmitry Baryshkov wrote:
-> On Mon, Sep 22, 2025 at 04:04:42PM +0800, Xiangxu Yin wrote:
->> On 9/20/2025 12:45 AM, Dmitry Baryshkov wrote:
->>> On Fri, Sep 19, 2025 at 10:24:22PM +0800, Xiangxu Yin wrote:
->>>> Move resets to qmp_phy_cfg for per-PHY customization. Keep legacy DT
->>>> path on the old hardcoded list; non-legacy path uses cfg->reset_list.
->>> Why? Start your commit messages with the description of the issue that
->>> you are trying to solve.
+On 9/22/2025 5:39 PM, Dmitry Baryshkov wrote:
+> On Fri, Sep 19, 2025 at 10:24:22PM +0800, Xiangxu Yin wrote:
+>> Move resets to qmp_phy_cfg for per-PHY customization. Keep legacy DT
+>> path on the old hardcoded list; non-legacy path uses cfg->reset_list.
 >>
->> The original reset list only works for USB-only PHYs. USB3DP PHYs need different
->> reset names like "dp_phy", so they use a separate list. Moving resets to
->> qmp_phy_cfg enables per-PHY config without special-case logic in DT parsing.
->> I will update commit msg with issue description.
+>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>> ---
+>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 18 +++++++++++++++---
+>>  1 file changed, 15 insertions(+), 3 deletions(-)
 >>
->> Or do you suggest using (offs->dp_serdes != 0) to choose the reset list instead
->> using new attributes?
-> You can't because othe DP PHYs supported by this driver will use 3
-> resets: phy, phy_phy and dp_phy.
+>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>> index 3b48c69f9c3cb7daec495ebc281b83fe34e56881..3d228db9ef0882eb76e7ab9e82f8122fa9cfe314 100644
+>> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>> @@ -335,7 +335,8 @@ struct qmp_phy_cfg {
+>>  	int (*configure_dp_phy)(struct qmp_usbc *qmp);
+>>  	int (*calibrate_dp_phy)(struct qmp_usbc *qmp);
+>>  
+>> -	/* regulators to be requested */
+>> +	const char * const *reset_list;
+>> +	int num_resets;
+>>  	const struct regulator_bulk_data *vreg_list;
+>>  	int num_vregs;
+>>  
+>> @@ -428,6 +429,10 @@ static const char * const usb3phy_reset_l[] = {
+>>  	"phy_phy", "phy",
+>>  };
+>>  
+>> +static const char * const usb3dpphy_reset_l[] = {
+>> +	"phy_phy", "dp_phy",
+>> +};
+> This is unused in this patch. It should go to the patch adding QCS615 DP
+> PHY compatible and the rest of the config data.
 
 
-Ok, then I will update commit msg with issue description.
+Ok, will move in next patch.
 
 
+>> +
+>>  static const struct regulator_bulk_data qmp_phy_msm8998_vreg_l[] = {
+>>  	{ .supply = "vdda-phy", .init_load_uA = 68600 },
+>>  	{ .supply = "vdda-pll", .init_load_uA = 14200 },
+>> @@ -464,6 +469,8 @@ static const struct qmp_phy_cfg msm8998_usb3phy_cfg = {
+>>  	.rx_tbl_num             = ARRAY_SIZE(msm8998_usb3_rx_tbl),
+>>  	.pcs_tbl                = msm8998_usb3_pcs_tbl,
+>>  	.pcs_tbl_num            = ARRAY_SIZE(msm8998_usb3_pcs_tbl),
+>> +	.reset_list		= usb3phy_reset_l,
+>> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
+>>  	.vreg_list              = qmp_phy_msm8998_vreg_l,
+>>  	.num_vregs              = ARRAY_SIZE(qmp_phy_msm8998_vreg_l),
+>>  	.regs                   = qmp_v3_usb3phy_regs_layout,
+>> @@ -480,6 +487,8 @@ static const struct qmp_phy_cfg qcm2290_usb3phy_cfg = {
+>>  	.rx_tbl_num		= ARRAY_SIZE(qcm2290_usb3_rx_tbl),
+>>  	.pcs_tbl		= qcm2290_usb3_pcs_tbl,
+>>  	.pcs_tbl_num		= ARRAY_SIZE(qcm2290_usb3_pcs_tbl),
+>> +	.reset_list		= usb3phy_reset_l,
+>> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
+>>  	.vreg_list		= qmp_phy_sm2290_vreg_l,
+>>  	.num_vregs		= ARRAY_SIZE(qmp_phy_sm2290_vreg_l),
+>>  	.regs			= qmp_v3_usb3phy_regs_layout_qcm2290,
+>> @@ -496,6 +505,8 @@ static const struct qmp_phy_cfg sdm660_usb3phy_cfg = {
+>>  	.rx_tbl_num		= ARRAY_SIZE(sdm660_usb3_rx_tbl),
+>>  	.pcs_tbl		= qcm2290_usb3_pcs_tbl,
+>>  	.pcs_tbl_num		= ARRAY_SIZE(qcm2290_usb3_pcs_tbl),
+>> +	.reset_list		= usb3phy_reset_l,
+>> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
+>>  	.vreg_list		= qmp_phy_msm8998_vreg_l,
+>>  	.num_vregs		= ARRAY_SIZE(qmp_phy_msm8998_vreg_l),
+>>  	.regs			= qmp_v3_usb3phy_regs_layout_qcm2290,
+>> @@ -512,6 +523,8 @@ static const struct qmp_phy_cfg qcs615_usb3phy_cfg = {
+>>  	.rx_tbl_num		= ARRAY_SIZE(qcm2290_usb3_rx_tbl),
+>>  	.pcs_tbl		= qcm2290_usb3_pcs_tbl,
+>>  	.pcs_tbl_num		= ARRAY_SIZE(qcm2290_usb3_pcs_tbl),
+>> +	.reset_list		= usb3phy_reset_l,
+>> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
+>>  	.vreg_list		= qmp_phy_qcs615_vreg_l,
+>>  	.num_vregs		= ARRAY_SIZE(qmp_phy_qcs615_vreg_l),
+>>  	.regs			= qmp_v3_usb3phy_regs_layout_qcm2290,
+>> @@ -1051,8 +1064,7 @@ static int qmp_usbc_parse_dt(struct qmp_usbc *qmp)
+>>  				     "failed to get pipe clock\n");
+>>  	}
+>>  
+>> -	ret = qmp_usbc_reset_init(qmp, usb3phy_reset_l,
+>> -				 ARRAY_SIZE(usb3phy_reset_l));
+>> +	ret = qmp_usbc_reset_init(qmp, cfg->reset_list, cfg->num_resets);
+>>  	if (ret)
+>>  		return ret;
+>>  
 >>
->>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>>> ---
->>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 18 +++++++++++++++---
->>>>  1 file changed, 15 insertions(+), 3 deletions(-)
->>>>
+>> -- 
+>> 2.34.1
+>>
