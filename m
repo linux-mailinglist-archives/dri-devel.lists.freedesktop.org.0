@@ -2,158 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCCFB8FBAC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 11:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACD1B8FC22
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 11:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A799910E183;
-	Mon, 22 Sep 2025 09:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81BA410E18E;
+	Mon, 22 Sep 2025 09:31:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4XofRM30";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UVj18FQl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012018.outbound.protection.outlook.com [52.101.53.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ABFA10E01F;
- Mon, 22 Sep 2025 09:20:54 +0000 (UTC)
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012015.outbound.protection.outlook.com
+ [40.107.200.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7A4210E18D;
+ Mon, 22 Sep 2025 09:31:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=re19/W8/X4dIu0Y/X1E7rWFVF7aLYUe7dNUXhePYgF/m+lpUgPFwJCRmDIOv/V0oKvs8DMo+fr+7ay/lLvp5PyKYWgBei68Ls4lLDBjAXz8Vmdg+WvIWBKe3FGB3EJwl/dwmWDGG12gnMXNKRggC+YGPLxfRQIrX0dbyAehNy3Nkw8VD8CYP/5Lqx5Jm3F5UM7ROraWQ6FEbgODZskvM6fKnKei0LjyId5O6E1BQx64/GFn3ysH8tB2Konz1Z7bjMbBEzCSBKhCZsT3++wL2Z1Qz8Y1BuEZ2yNxJE6I0Lb29tDbRaJmVsIqNO7BqFesu85bhTVpFJguRQAGJVM44NQ==
+ b=ZU90DcjeYHNPtOXOIPAqWPqTrRg0kxP/DP+F5+ZfDqiQShF5o4zyrwpKnYjQIA+UkINqL4QRjQFNJbHk/nsXxbTP4cY1twDAO7VY51n0a+ATVNgXNiGEo7S8Emkt9UEjlpwnBANpehhzJuDAxFsluh+r9j5Ltta7Y4VFD8VwCDTOAsceGq+0c5cXt2ZpObZXmY9pVvunHj0y0PTKFVX9T2ZhECjezqtRANYDUZCE9oqjDuGSrp0I7J/mI3Zv6z9N8ZEt8IwF7eJnegvt+crOEDVrTV07mCRtq3w5x17+Fb8JFxhw95m9Vgkej/ebdPiFsF1BZYQr+qT7rUgge+U0/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xyl5VNr69pkoL2jwJv3Q4s4SWgZbJ4LOQwZ/3g9wOzI=;
- b=oNFB3FCgJCpm4pMP8RjS4lUr9SBhSTb8liWJrWTdsKQr0sWieXrD82iCujqRc/dY9ZdUOek9ar6QHy+skkpxTYg7Q/TyspxjDw6N7zlL30eFSIi/WLVaeoSJIa5R+z14niqe7EugENjM6t/HExV39+qn5yx8+0sIfa9NNexoa0U02zBdLkxuyRMruGC/xJyszF1vVf+i6/Wg6jOST+ls7/fhQhDfR9paQDZHKzz0bVXI7k0DzquPMSXpny+dkciHD72w6Iyg1sNxo2dRSfvf5xKKmkc+SN1IqO2orjyF0GNDDV6c+DsEA+LvMQUYvdDYGwPRwKNFyTH52sjOgCPjeQ==
+ bh=UXceOb/P8J3/8NgUqUOVDsLZyHdz54U0uol/6P22zCI=;
+ b=b6yCOecaox5X1fCyreBbIMULs+9OOy79PlhNx0lFUahchsB0HLD6Ct0gKk658GHzKFZDkfarb0OkI2RpSrmMu6/8AmXBsfZCQvbwYEfva0aKSkECFQNS18CS/nnC6er8eQuxXAzfOGhb/ZDe4YpeVRobX80dwdibCRxaxJ64E1hgkHD/1Ujtb2+dRlYj3hZsM2pKlHL8T7Ux1YidVVCbvwLns8WeGjfQWxQY++CbSDxxDXWH+b/PaxYwRy9eSW8dD/HyERr7kGDFLWWib0iFuFVWZ1g5pzv+d9L4yrhqZ1KLKEnOPaHrzy9QwGsRQhAGX2OyeJWX/U8wgXwtmp77Wg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xyl5VNr69pkoL2jwJv3Q4s4SWgZbJ4LOQwZ/3g9wOzI=;
- b=4XofRM307B++2cvzLvtsGfTFLpvO0I4gvLZcSyhRxM/32oijz8VHvfuE9hq9yhj1e1fHwFT7Pb708G1HPQQD47sxL5W/7gJgR1wipB+2b4dPxmGc12hb0aVxykjb0IPik2NlIKznugri9V+PXZ2jNzS+ZxAC1Q5W2ebXxazWvGg=
+ bh=UXceOb/P8J3/8NgUqUOVDsLZyHdz54U0uol/6P22zCI=;
+ b=UVj18FQlowEhXi1ucldtS4wJY2pOZR2bA5ItjrfIokkCSMgnGodJZHaNy06LedeKYIbzr73mKNjg9J/9eh+tknZAclcVrG5fOUYxjQM+tNc7WmhFXv1pjkjB+/fL71LwwhJQXcppn6isaaXQGJraFgvcAJYfKTeyxd0nGt0AO3U=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB8308.namprd12.prod.outlook.com (2603:10b6:610:131::8)
+ by IA0PR12MB8715.namprd12.prod.outlook.com (2603:10b6:208:487::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 09:20:51 +0000
+ 2025 09:31:37 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 09:20:51 +0000
-Message-ID: <7b8008d6-4ffc-42fe-a6bf-f2ef708fa534@amd.com>
-Date: Mon, 22 Sep 2025 11:20:46 +0200
+ 09:31:37 +0000
+Message-ID: <febddc1a-afed-4c32-912a-38f465d11ce0@amd.com>
+Date: Mon, 22 Sep 2025 11:31:32 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Revert "drm/gem: Acquire references on GEM handles
- for framebuffers"
-To: Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250919155519.1104256-1-mwen@igalia.com>
- <20250919155519.1104256-3-mwen@igalia.com>
- <4762e5ef-8427-4fdc-ab22-da2dbcb7b8ac@amd.com>
- <aa9ee6a7-81ea-46d3-8043-fcdcbfad882c@suse.de>
+Subject: Re: [RFC 1/2] drm/ttm: Allow drivers to specify maximum beneficial
+ TTM pool size
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+References: <20250919131127.90932-1-tvrtko.ursulin@igalia.com>
+ <20250919131127.90932-2-tvrtko.ursulin@igalia.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aa9ee6a7-81ea-46d3-8043-fcdcbfad882c@suse.de>
+In-Reply-To: <20250919131127.90932-2-tvrtko.ursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0249.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f5::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL6PEPF00016415.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1004:0:d) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8308:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae38bad5-0a8b-49ea-cce3-08ddf9b952ab
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB8715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0cabd29b-e842-40ea-d013-08ddf9bad3c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZTVjU0UrL0ZVK3pyVmc5TUU3RDRncHM1aHFqSG5ya205VURQVzNldk9JeENY?=
- =?utf-8?B?THdoYWprMnd0VFdCTWxzRVZHVmg4by91SEMzVzJkWUxxYWE1TEJCMmllNzZp?=
- =?utf-8?B?Wi9FdTRVWVAzRkcxQzhBbHJpYnMyRjRJZ3J6aXg3cjgrbDduT1lvbW4vdGF3?=
- =?utf-8?B?ZTJkckFrYmdtUytQRWZJdm05ZVJEU3NmdjV1Y3hqdkg4Qkg2YS9vUzRFTFB5?=
- =?utf-8?B?SytlMU80bDlKRitTdE5iN2VMVUlKalZTTmtwYkhXU3Q3Qk5JRFFLeTREdDZP?=
- =?utf-8?B?MXpnNlAxUzlSMG1sK2Z6d1gzOEttTzhpR0pBbzl4T1dacWFEVFlNNEwrU3VC?=
- =?utf-8?B?TEdKdlNyc2ZWYTl0OG1nU2NqM2lWVHNqUXFycnliZmh0ZGJpY3llYWxRQWU1?=
- =?utf-8?B?d2srSE1kUDAvakRvSEV3N3ppeVlDUzF2OWhTQit6Z3BsTkNrWlIwelNaRVg2?=
- =?utf-8?B?SE81SHBZWjZPaW9aQ0VQY0ZqZDFxYWgrNFpEaHdqZTZUYWJwVVVyL3p6OTIy?=
- =?utf-8?B?OUFyN0pLbTVxS3FtVGtXcC80SkRHTHBRTWh2MlZXcG8vUnJpdzU2WjdzZGNa?=
- =?utf-8?B?MUl1dGMxNWlxWUtnYTJ6YjF0K1JmNDMxV1h0S2Fwb21NTi95U3E0NmVIeS9G?=
- =?utf-8?B?MjgvZzRra1ZsVFpLTVpJbytzL0pXR1E5VWxwd29XbW03L0xEOENEVEVTM2lB?=
- =?utf-8?B?cG5HQ1NhMitaeVlQdUtrbnBNVHVuVEhheHRwL3p1NFdlWXJhUWVjYTNRQUhp?=
- =?utf-8?B?OW51NXZHZjhwL2d1TEZPTXVwcnI3cVo4S2dqa3dIYTZRMFhyWlRWWFZERWY1?=
- =?utf-8?B?ZmdhMmo3S1NuOVhMVEV6MEpTNmtzSnNzSWFGQ0FUZjJtb3RNR2lrU0J4TmlB?=
- =?utf-8?B?MHpoNVl2Mkp3NVd6REFmWkhVMTcrM0I0RSs2WnlZUzFCZ283VzhMR2VRRHNF?=
- =?utf-8?B?cXdqOVY0MUVPalg2QktiQzdSTk9udHdkSE1wYVRiQ1JpUkw5WEV0YnRtQnNw?=
- =?utf-8?B?R0lFOFlnZkROYXZ3VFdkejZSamJIaUZMcnFwTkQxV2NSTTFVN1dHWTQveGZR?=
- =?utf-8?B?Wnl3SGlESHk3NE1neTBrUTF1K2RNRUNmdG5FTmM3TkorQTlzMkxjd0JWd2s3?=
- =?utf-8?B?WkF2YTh4MlFia3N3aVl4VUhuNGN1bjR5Wkg0aDVtaWpJUklQaXAvRnFDb1ZY?=
- =?utf-8?B?KzI4cUNzdm5xKzh2Mk5HQlIvMUhmSUVGRUJPeWY4aG0zSzFhdHNCcUc2QjEz?=
- =?utf-8?B?a0xnZUJ2b0FzY2VtakZuNTRmWHJ3SExsVlV1NlE3cWZGZWFyRDhKWWx5QzBh?=
- =?utf-8?B?bFU0cVJIT0dTdlhqVnIzY2J1enFROVdhdERGRmdtcjd3UjlrSFJEcTRZZCta?=
- =?utf-8?B?TS9PeXZud2tqa2RzQ2Q4bTZ2U1o0TFpjNVdXMHR3Z2hGRVlMYzBud0VjblRy?=
- =?utf-8?B?MU5TOGcwMHIxZkhPMzlmZ2pHTW9ZamE0UXUyTG16SVcxN1BPT2FLSlRnamhO?=
- =?utf-8?B?OHZkL1hsWlV0Nk15SkFWcmZ2MUsxOGFHM3BPbmFaa1loYTFKb2k5ZysxNjZ5?=
- =?utf-8?B?aVVodDhyWndDSitqdzFQWXpnVTlBYmJYU1VTNnpzMHdhUlJrRjV1N2d6UGE1?=
- =?utf-8?B?SHpiUE1hU3lTSThvZVdESXFXeTIwOUJ0QkNLYTV5NS9CdUh1OTRNMDlvaFJH?=
- =?utf-8?B?TG0wYWhvWWlUTGNRSVQvSzZWWkpYdXlIdEl6cUhRcWlJYTFoMGlneXdaNTMr?=
- =?utf-8?B?VFVueFRUZWloYmRBQkdxbWdJV0xaU2xLYjNhRHpBSi9wL2FGRUNMZkFkSkd3?=
- =?utf-8?B?d0xEUzJqZGRiMGtxcFR2THF1cmVSNzZXSjEydUZkK3ZxQ1RvRkxucXZOSlhN?=
- =?utf-8?B?TzBwbXc5cDFicUdBcHNTdTM3N1Fib1dHWVJkaTU5TlgvN3k3TmpjOFpzcDI4?=
- =?utf-8?Q?PRlwKMdlWi4=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U2lXc0dMRDR4S2RLOVB0aVZ2SXQ3U0dsNDVQdWdCYmdEdFRMZzV0UVZJRGdT?=
+ =?utf-8?B?TGs3UFNORFdNREtaS01ZanNjekNud1ViQlcxY3VPTHhMRjllT0FCUkNuUHhi?=
+ =?utf-8?B?V2ZMWUp6d2NxREFhMGhZU3lTZDVJS3czbFNVRGdTSmFwenNrSzNFTHRLWFBz?=
+ =?utf-8?B?djQ4bkh0cW9LMENSY3Z3Z0lhM2dDR2puM3lDekllY2VLUE9GNG9jT0RRREZ2?=
+ =?utf-8?B?Q3FRZS9LanRQWG9xQ3RDS09reFd5SW9KZXhNeGJ0SHNEN1EyUktpMGM2WHk5?=
+ =?utf-8?B?a0M2YnNkNEdQVWZlOUhIQ0ljTTdkMkkyRTRSQUQwbXlDZW5yOTNJYzdWbWJ5?=
+ =?utf-8?B?RmNLNUpIUUxmUlBoV3VwNnMyNkFsSDhVTnRva3RVMWhhMHFYRVlFV1YzcWdE?=
+ =?utf-8?B?eWFaVHJpUW9pNzZuSzl0VnQ1WGpWZjZhYmNSV0kxK0o2NkVTVEoxZFdWblB0?=
+ =?utf-8?B?c0pzVjJyNkl0V2lFUEZRTmQyOUJuMHVsbWhJRm5ldDF6Z3dFRjV0WVBleXZ6?=
+ =?utf-8?B?SjVqVFNMU3o0V3FMOTE4dUQ3TDdXVGhRckNUTmw4TTRoaTRTTnE4SWNOdmg1?=
+ =?utf-8?B?ZjNqaFV4SHh0K3hXUUtCOWVoaU5xMnVjcGwyS01nWGhUaXNZTlc0ZGFvLzFp?=
+ =?utf-8?B?VElubkF1Yk5wMnluekc5ZjQyZnVUSUV3blBGNnExRmora09vdk5xMGw1UzNj?=
+ =?utf-8?B?UXBrK0RKOWhVWFJKcjZGekRDWUF2K1cyaGxZNWI3VGxydzJYbFVERU93a0lX?=
+ =?utf-8?B?eUg4TUZ5UkVaQzlQd0lGYjhBeGFsNWVsU1R3U0dhdWh4a0twdmJFWlNWeHph?=
+ =?utf-8?B?RHVIUnhiSHJMTUpURlhZUE9KNVdXRU1zQUxVWFpaMUl5RGhLZlVnaUJNS3R1?=
+ =?utf-8?B?bExWa2NnNHNCV1NMSE83TXdqNzNxaEZZS2FFMnEzRnF4c0tvcS9sdU40b0VE?=
+ =?utf-8?B?ZS9wTTcreXEvL3RORVJGbjh0QXVXM1VNTUtSVW9NNy96OHNZYlpnSVNoWHlm?=
+ =?utf-8?B?dTJFbDBuc3dVME5wSnRUTHIya05tMS9oVUMycTc0eHUydGxaOUF6SmF2TVhw?=
+ =?utf-8?B?d3NhZThQejFIT2NZWWlnRTEzSzEyQm5GVWlGZ2M0bko4V3g1VGhuTVJlMDhD?=
+ =?utf-8?B?ekRxckxHQ2dKeGE2UExSTmQ1WnJMUjhiajh1RnUydE1zN1Q4QjRRcXNvVmtX?=
+ =?utf-8?B?UGVUVmR4czEyK2p0NHZGaDVVZHdmQ2NhSThnQ0tPVlZnSkNiWllJcjY0d25X?=
+ =?utf-8?B?dkpidTFBQk12TEZYbCtaY21NNVZFa3k1UHhnNjdJL1c2UjMvUVkzRlRjL1BO?=
+ =?utf-8?B?czJSdURzVjV6ZlorNkYrQ1VMMldHWUVjbFVtaEFTekxVSHM2OWV6RktsQVhD?=
+ =?utf-8?B?bElKUjNmSisvbmFJaXJzZjRsMElzTGdoT2g1N3hDbHovME5kR0licGxCT2N6?=
+ =?utf-8?B?T0UxQld1ZzhNU1BtVmxZSkN1OWVEWWpMOFQ2c2xvaVR6eVRpMU9PTGtxTmkx?=
+ =?utf-8?B?eEJYU0tvSzNrKzdPeStGR3UwUDVsUGJ5SFdJbHBDOG9Bdmk0UTllOE0wSWY2?=
+ =?utf-8?B?UU9PUlJ4VGFOeXdscS9Mb0hWTThTNERtVCs4MjJBUFlXM3N0NTk4THlEbU5J?=
+ =?utf-8?B?NmtiTGdGQ2VDZHA3MmtJcGovZ1d0MFdlaWdWMFFqR0hZSkdCUkxvMlBQREtN?=
+ =?utf-8?B?UjhKeTZVVlJSdWt3TzVZaW9vUCtnM2hRNFpyam5zcVBrK3hkMFE2eCthT25z?=
+ =?utf-8?B?dEJ3bU0wZFJhdmk0MU5wMXdYN0didzNUM1p6NHJNcXltNm9DN0JQZDdGNEt1?=
+ =?utf-8?B?T3VnQ1g5Z3JNUndQZzlUamZCQkM5UndEZUFBVnovRDBKZ0ExOUNhVzhMejl3?=
+ =?utf-8?B?MWxqWjQwWmdBdmtYVXU1MFV2SkxJakxia2VoY3JDZlVza0E9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmpQZTE3SndOT0FpWmJ0dmdHWU10c09FSkkxZTZSRmFDWXp3Wk53SWNxVkFQ?=
- =?utf-8?B?WENMbjY1MWNVUHpsN2JUaGRUdHliUUdsc2syTEUybmdEY0FFT3RXSS9VSjNp?=
- =?utf-8?B?VGFWK0NXRnlIbStHTjh0ZHZ5Z0FXVzZubjF2RVNPZ0IreTRqQW1QU0lxQ04y?=
- =?utf-8?B?ZXhKakNQeThxS0JoY1A1UlQyem5oNjROcWpzM0pKQ3VLVTNnbDV4OXBsRXhV?=
- =?utf-8?B?MFRKb01Wa1pJWDdxRmdVTWlab1BlS1hiT3dIb3pYaEZ1MXRpaVV1V1hSSVow?=
- =?utf-8?B?QmVzTkh0RnhBemhpOHQvTnBUc2lCNFE5TVRPQnVnRTNHemdUMGxOSU8rSGRw?=
- =?utf-8?B?Z1MrWFJNSTZBaXNGNFZPbWthdmF3cmRUQlVjcnl1WE43MTI1YkJNTWZscmpR?=
- =?utf-8?B?VTlHeXI1ZHV1YjY4TkNJNGJLRUZiYXRacDc2OUVNd2FBcE9QakxXVDV0alV3?=
- =?utf-8?B?VXFseWMrc2NUZjVXNkt0TlRCQXF3NG1sbERGcnBpRVJRWDluSHVjdWVRR0c0?=
- =?utf-8?B?N1F3aWhOUFB1djNITndaY3NqVmlxeGIxK280MDNFRVpUaFBXSHJ5eFFTM2RH?=
- =?utf-8?B?UytEdUpnaWRKUUZoQWNOQmU4MG5NQkZMUVNhYWxBd1N2NThsVHFzaUl4bTFK?=
- =?utf-8?B?Ni9ab2xDNWZZNDVXbVpQSVRPK25Pak9kcmJUdTNwTVVoNG8vYnBhY1JKR21w?=
- =?utf-8?B?S2M1OHFpQVI3ZUVIYVRWRTZxR3RwZFBCSXdtTE9kbEV0S0kzMkw1Q2YzUWdV?=
- =?utf-8?B?R2JNZ1ZFSy9ENUhIaGw5cm03K0l0Q2pjckpFYmp2SUYvdjdtR3JKMWYrYmRu?=
- =?utf-8?B?dSs4NkNBRldFaWltZFduV1hyeXhVeExONUp3eDA1YTgyaWJiOU9UMDJJL3Bz?=
- =?utf-8?B?YzR3MWlGYXJoUmhTSHpnM25tTDh6amREc29aeWpvU0U2QU1oTnlSMGR1TFh2?=
- =?utf-8?B?UHpOUUY1aStlbHZkdk9XeWVHU2Izd2Zma1R6bzh0b3pUZDJBUmFLR2lISm1H?=
- =?utf-8?B?YXpNZnVKRUlpbEhLWEdFOFZ3NkhDYnkwdlY4K0ozczZ5ckt0MmhtRGIxaTFp?=
- =?utf-8?B?bjBpcFlPRjcwZTJUQWVYNFQ5aExoQmNqSmt0Mjk4UjVJSGJocTNlSi9uak5h?=
- =?utf-8?B?RHFQUFZwTUx4alhuNUo1a1FlWWVpTThxREMzSFlYL05vTlIraWE3eS9ManZH?=
- =?utf-8?B?eWpnSEVZWWs4MWRmWVJ5Rzk2Vndnc2VrR1JGVlRONTY4Q1E1aExlSEVNZC80?=
- =?utf-8?B?Q1paOVNjNGpmc2xYSlpSWlgrVXI2elA2K2k2RmN5QjNiYk93cW1sQmgzcjNy?=
- =?utf-8?B?VTBYdkc4a09NU0xHTVdab3JCSWJjUTdNZkdtK29wc0JDTENYNTJBcW83dWs5?=
- =?utf-8?B?MnRoMDZveEpKYkR4YUw0NkhWUGVQWEFJZTlMOWtteDVYSDM2TGh1SFBIdFZX?=
- =?utf-8?B?MFE3WE5VSHNYMEVNaDU2RnBNWCthaElOUUpvOVdXdWgwS1BtK3VteEJHTGZs?=
- =?utf-8?B?b3FlNHJpTXF2Ky92ZGk2dVRZOExyaHdlcUl6SnRtTTdEU2RuTk5JZ0daVlh3?=
- =?utf-8?B?MEhyZUxxSnVLNHFkNW83d2VvRndhazBVN1RTYlRlNDRaOWRuSWlpaERsbzFw?=
- =?utf-8?B?WTg0eVpWa2xiYTV3N3FqWU5sQUEyZG5NakhqWm5CK3BPeEh5MjNaZnpTbUhq?=
- =?utf-8?B?MGpQTnlWcWJRcWhzMEZZL0lmVEMxd3NDV0lzZmk2REpDOHlrK3pYck02a2o3?=
- =?utf-8?B?YWZhdC85eU5QNTllanM0YnlzT0RHOXhaNXBON3p3bU1HSGFnMFQ2NXRLNU9Y?=
- =?utf-8?B?aXplanJIZnY5NEpHM0pjRjR1dUhFUWo0MjhGZEJXa01rMlhyMDMwWGkrdXhP?=
- =?utf-8?B?NjgwUXFaMnNzWWJISkl0elc2bzFVd0dxMGtoU1dPc053cTRzMjNZR2t5VjU2?=
- =?utf-8?B?c0RmSlJvTCtCYmVqenptSXErQ29LL2ZYQUZicVJnYkxmSm1CWU9JKzNUeVVV?=
- =?utf-8?B?OC9pUzR3aUNBS21DbUxBSHA3Vm1UNDVWRFUzN2VlSGU1blFwa0RHbk4xbzU0?=
- =?utf-8?B?MFUzMGlNWmt5UFFrdjJQcTlRcVNzVU0wVlZFa3dROWVnN2thU1ZlR1RVOHho?=
- =?utf-8?Q?/eps=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TlVOdEc1b2UrVHFRdkE4Y0lKQTRSOTg5M0ZqYmF6NjBzZzhsWXo2WGE1c29t?=
+ =?utf-8?B?U2FZa0hGZmlPdEd4MlRnbFNZMGFGWmd0cE0zbitldmFpK1BoamMvZ25DYW0v?=
+ =?utf-8?B?ejJYQmNuRVp0d0t5VmNIaVl1TmNpWGFLbTYxVzZmUkx4WCtOWWVlMEFtem5x?=
+ =?utf-8?B?cWlmTDBydnVkdytnQ3U3Z0pvc2JQbFczaHAxNk5hU2dDNTdEcGMrRFIvaGIv?=
+ =?utf-8?B?ZWkwaDFlZUNFSXkvODNsVjBwMFJsenhLbkF0M0xtcFF0YVhWWlU0cG9HcG1E?=
+ =?utf-8?B?V1FVMUcvYVhkSHVucEd6dXhrWkRBbnZWQmx2VjgrK0xiZHR5ekRoNmFrQTdE?=
+ =?utf-8?B?VUxGMy9yM1pjUU5LYncraW9Wa0N4LzZPN0JDZHYzNlNtWkg0K2RMUTMxdUdq?=
+ =?utf-8?B?cFd0c0RrV1h6WjNoWVBXTkVoQWUwWnhNK2kvNHhYQUd4cVpwVXFRQ056YzBU?=
+ =?utf-8?B?ZlBaMTZFVXJLbTF5cGZRL213TUVmS3pJZTdIWnVtanVGTlZmRnZkWVJrcncz?=
+ =?utf-8?B?RkpUTDJTVStTWERwakhCVXhrdU91RjhvTzNWczdFM0l2RFdndXExUVF2aFpn?=
+ =?utf-8?B?L0dRS0FjU21PRlA5ZUJKVFRTcy83ME9uaXlVUis0U2tTbHVXNFpLaXlvWDNS?=
+ =?utf-8?B?bWVHYUFYcjd0NDF5UXF5TFRZN1crM3lERTNhSzhGYXlTV1N1cjJvMFlWUVd4?=
+ =?utf-8?B?TkMyOHhpYjdMT3cxUzY0K3g3bUp2MmJDa1FzcmdMaHhSRkpxUVhvZ1V3elBl?=
+ =?utf-8?B?MzFpYWV1QUszNFRHTGxKOE1FSEswODRRakR2NHd6NFowQW5rODRiV0FuRWFI?=
+ =?utf-8?B?TjNTaks4V09qaWttbUVobWVxRVdjSkdYc1dORnJ4Zzk2amh2Q3FMdXRKVElL?=
+ =?utf-8?B?a1FKV295Qk40Z1orQ0h1ejJveU5NckdkQ0Zmbk9HRWcremlPdGxMRXkxM3JK?=
+ =?utf-8?B?SjJvVFk2dVBLcVA0RUZOTmhDT0xDaFlPc1V6b0FKNVBsL2R6Y0lYVjVMUG9h?=
+ =?utf-8?B?ckgrN0RSaklhZGZBTHBRVThhVWJNcFZqUkJteit3bmkxZ3Y5WGtWc24xbDN4?=
+ =?utf-8?B?VDZhTWw3ZkdHcUE4SDIxUkRKM1lQOVZZQUdOQjlMT3VITEFuN0hMMm15Z3M4?=
+ =?utf-8?B?Z2ZkU1BOYjJIS2dYKzZXdG0wWjlzOXJHV2M5V1R2V09vY1hhdzRqck9LQVJI?=
+ =?utf-8?B?akgwRnc0S0NQSEIrOFc4eVpVQWVaWk43aTdMQ21qcHhxMkk5ZzJycVR4K1dC?=
+ =?utf-8?B?Yk52dGd4bTV0QS9aUExLRTRoR2FUY2FOSkNGaldJZ1lVbVVVeEc4dGpFRDVr?=
+ =?utf-8?B?VGFLeEd0RUMyOGJ0ZzdJT29Na2xwYVVZREZ0SXBZSHBPdUp4eVFnNTFjWTRy?=
+ =?utf-8?B?YllHaG9TamROQ053VVhmVU1pMVJMUUlhQkx1cTRxak44dC9ydERsdXNQL3h0?=
+ =?utf-8?B?RlRIYUFSOUxzWlNBZjlvMlU1cTRvVUxySHBPbzQ3VnhTdENKS3ZnNk1JSFJU?=
+ =?utf-8?B?NnJrTjdpVGpOT1RCL0M5NWZoUW14ZldtN1U2bkNYTkN6azFBRGhLeWl6dEl1?=
+ =?utf-8?B?ZTBFVGQ1eUdYZ0xrMFZTeXJzWTlRa3lFTVBmSDZXNngxY3VEc0cwbEQxdkRu?=
+ =?utf-8?B?akx2alRjdWpRRmxQMFBTWC9qZ3hhczl1c1VRZSthUVdWWDU5enhqQ2NvczJH?=
+ =?utf-8?B?WXBQYXI3ejZPakIydWFUNG84Q2h0WXdzcDVwVVErOGlhb0wzQzdWWjFlcndv?=
+ =?utf-8?B?WEdDOHBtMDRNOXRZZFRTL2xjSm15MjRtbnQ0QW1LTG5CLzkvUS9tN0ZoUlNw?=
+ =?utf-8?B?Wm56NUdpRFFIWmYzSndHQ003UG9qdUJWNkJ1Z1JRaVJrUTRydjhsbE0zdW5L?=
+ =?utf-8?B?Qk91b1hGWS90SWx0UVFseFNLclNMc2NTUEladzllR1V5Z09jSU1MUGlmV2dM?=
+ =?utf-8?B?VVBJRjdiTHhuQjd4K0c1NjdWTGUxNkFLUTY1L2ordWtsdUFYV3JBQ2xLSnVq?=
+ =?utf-8?B?NjJHbEVjRTFQd3lTNXpPUmFsdmc0cGlYOTZOQUV4SFlxb25sdm52NDF6RGl5?=
+ =?utf-8?B?alAxVHNiN0VCUGVpcHU0TGFkMEdSc1Vad3pkU3U2SFBOTWU4N0NqZ0c4ellY?=
+ =?utf-8?Q?5AfE=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae38bad5-0a8b-49ea-cce3-08ddf9b952ab
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cabd29b-e842-40ea-d013-08ddf9bad3c8
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 09:20:51.0675 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 09:31:37.0408 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0SYDywe1KmOMNgRScBr9n9S5sCGtOkJOXd1c5wIjuV2d8KXxk/i2UbvvCJUTxepw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8308
+X-MS-Exchange-CrossTenant-UserPrincipalName: /+iH67FH5R9AEhgebWcP04mEkY76B6trR5ZewEX9lJEXlqg+Gr1SnvOBVtgvfL64
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8715
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,174 +164,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.09.25 10:40, Thomas Zimmermann wrote:
-> Hi
+
+
+On 19.09.25 15:11, Tvrtko Ursulin wrote:
+> GPUs typically benefit from contiguous memory via reduced TLB pressure and
+> improved caching performance, where the maximum size of contiguous block
+> which adds a performance benefit is related to hardware design.
 > 
-> Am 22.09.25 um 10:34 schrieb Christian König:
->> On 19.09.25 17:54, Melissa Wen wrote:
->>> This reverts commit 5307dce878d4126e1b375587318955bd019c3741.
->>>
->>> We've already reverted all other commits related to dma_bug handling and
->>> there is still something wrong with this approach that does not allow
->>> unloading a driver. By reverting this commit, we'd just go back ot the
->>> old behavior.
->> I don't think we want to do this.
->>
->> Keeping the backing store alive for DMA-bufs while they are used for scanout is actually a really important bug fix.
+> TTM pool allocator by default tries (hard) to allocate up to the system
+> MAX_PAGE_ORDER blocks. This varies by the CPU platform and can also be
+> configured via Kconfig.
 > 
-> That bug has rarely seen seen in practice. At least I'm not aware of any such report. And it's also just half of the fix IIRC. Not being able to unload the module is a regression OTOH. I'd rather go back to the old status quo than now having to deal with two problems.
+> If that limit was set to be higher than the GPU can make an extra use of,
+> lets allow the individual drivers to let TTM know over which allocation
+> order can the pool allocator afford to make a little bit less effort with.
+> 
+> We implement this by disabling direct reclaim for those allocations, which
+> reduces the allocation latency and lowers the demands on the page
+> allocator, in cases where expending this effort is not critical for the
+> GPU in question.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_pool.c | 15 +++++++++++++--
+>  include/drm/ttm/ttm_pool.h     | 10 ++++++++++
+>  2 files changed, 23 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index c5eb2e28ca9d..3bf7b6bd96a3 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -726,8 +726,16 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  
+>  	page_caching = tt->caching;
+>  	allow_pools = true;
+> -	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+> -	     alloc->remaining_pages;
+> +
+> +	order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+> +	/*
+> +	 * Do not add latency to the allocation path for allocations orders
+> +	 * device tolds us do not bring additional performance gains.
+> +	 */
+> +	if (order > pool->max_beneficial_order)
+> +		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
+> +
+> +	for (; alloc->remaining_pages;
 
-Yeah wait a second, not being able to unload the module is potentially the right thing to do.
+Move that into ttm_pool_alloc_page(), the other code to adjust the gfp_flags based on the order is there as well.
 
-So were is that module reference actually coming from? And why do we have it now and didn't had it previously?
+>  	     order = ttm_pool_alloc_find_order(order, alloc)) {
+>  		struct ttm_pool_type *pt;
+>  
+> @@ -745,6 +753,8 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  		if (!p) {
+>  			page_caching = ttm_cached;
+>  			allow_pools = false;
+> +			if (order <= pool->max_beneficial_order)
+> +				gfp_flags |= __GFP_DIRECT_RECLAIM;
 
-Regards,
+That makes this superfluous as well.
+
+>  			p = ttm_pool_alloc_page(pool, gfp_flags, order);
+>  		}
+>  		/* If that fails, lower the order if possible and retry. */
+> @@ -1076,6 +1086,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+>  	pool->nid = nid;
+>  	pool->use_dma_alloc = use_dma_alloc;
+>  	pool->use_dma32 = use_dma32;
+> +	pool->max_beneficial_order = MAX_PAGE_ORDER;
+>  
+>  	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+>  		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 54cd34a6e4c0..24d3285c9aad 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -66,6 +66,7 @@ struct ttm_pool_type {
+>   * @nid: which numa node to use
+>   * @use_dma_alloc: if coherent DMA allocations should be used
+>   * @use_dma32: if GFP_DMA32 should be used
+> + * @max_beneficial_order: allocations above this order do not bring performance gains
+>   * @caching: pools for each caching/order
+>   */
+>  struct ttm_pool {
+> @@ -74,6 +75,7 @@ struct ttm_pool {
+>  
+>  	bool use_dma_alloc;
+>  	bool use_dma32;
+> +	unsigned int max_beneficial_order;
+>  
+>  	struct {
+>  		struct ttm_pool_type orders[NR_PAGE_ORDERS];
+> @@ -88,6 +90,14 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+>  		   int nid, bool use_dma_alloc, bool use_dma32);
+>  void ttm_pool_fini(struct ttm_pool *pool);
+>  
+> +static inline unsigned int
+> +ttm_pool_set_max_beneficial_order(struct ttm_pool *pool, unsigned int order)
+> +{
+> +	pool->max_beneficial_order = min(MAX_PAGE_ORDER, order);
+> +
+> +	return pool->max_beneficial_order;
+> +}
+> +
+
+Just make that a parameter to ttm_pool_init(), it should be static for all devices I know about anyway.
+
+Apart from that looks good to me,
 Christian.
 
-> 
-> Best regards
-> Thomas
-> 
->>
->> Regards,
->> Christian.
->>
->>> Signed-off-by: Melissa Wen <mwen@igalia.com>
->>> ---
->>>   drivers/gpu/drm/drm_gem.c                    | 44 ++------------------
->>>   drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 ++++---
->>>   drivers/gpu/drm/drm_internal.h               |  2 -
->>>   3 files changed, 11 insertions(+), 51 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>> index 09f80a84d61a..12efc04fb896 100644
->>> --- a/drivers/gpu/drm/drm_gem.c
->>> +++ b/drivers/gpu/drm/drm_gem.c
->>> @@ -213,35 +213,6 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
->>>   }
->>>   EXPORT_SYMBOL(drm_gem_private_object_fini);
->>>   -static void drm_gem_object_handle_get(struct drm_gem_object *obj)
->>> -{
->>> -    struct drm_device *dev = obj->dev;
->>> -
->>> -    drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
->>> -
->>> -    if (obj->handle_count++ == 0)
->>> -        drm_gem_object_get(obj);
->>> -}
->>> -
->>> -/**
->>> - * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
->>> - * @obj: GEM object
->>> - *
->>> - * Acquires a reference on the GEM buffer object's handle. Required
->>> - * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
->>> - * to release the reference.
->>> - */
->>> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
->>> -{
->>> -    struct drm_device *dev = obj->dev;
->>> -
->>> -    guard(mutex)(&dev->object_name_lock);
->>> -
->>> -    drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
->>> -    drm_gem_object_handle_get(obj);
->>> -}
->>> -EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
->>> -
->>>   /**
->>>    * drm_gem_object_handle_free - release resources bound to userspace handles
->>>    * @obj: GEM object to clean up.
->>> @@ -272,14 +243,8 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
->>>       }
->>>   }
->>>   -/**
->>> - * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
->>> - * @obj: GEM object
->>> - *
->>> - * Releases a reference on the GEM buffer object's handle. Possibly releases
->>> - * the GEM buffer object and associated dma-buf objects.
->>> - */
->>> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
->>> +static void
->>> +drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
->>>   {
->>>       struct drm_device *dev = obj->dev;
->>>       bool final = false;
->>> @@ -304,7 +269,6 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
->>>       if (final)
->>>           drm_gem_object_put(obj);
->>>   }
->>> -EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
->>>     /*
->>>    * Called at device or object close to release the file's
->>> @@ -434,8 +398,8 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
->>>       int ret;
->>>         WARN_ON(!mutex_is_locked(&dev->object_name_lock));
->>> -
->>> -    drm_gem_object_handle_get(obj);
->>> +    if (obj->handle_count++ == 0)
->>> +        drm_gem_object_get(obj);
->>>         /*
->>>        * Get the user-visible handle using idr.  Preload and perform
->>> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->>> index e364fa36ee36..4bc89d33df59 100644
->>> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->>> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->>> @@ -101,7 +101,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
->>>       unsigned int i;
->>>         for (i = 0; i < fb->format->num_planes; i++)
->>> -        drm_gem_object_handle_put_unlocked(fb->obj[i]);
->>> +        drm_gem_object_put(fb->obj[i]);
->>>         drm_framebuffer_cleanup(fb);
->>>       kfree(fb);
->>> @@ -179,10 +179,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
->>>           if (!objs[i]) {
->>>               drm_dbg_kms(dev, "Failed to lookup GEM object\n");
->>>               ret = -ENOENT;
->>> -            goto err_gem_object_handle_put_unlocked;
->>> +            goto err_gem_object_put;
->>>           }
->>> -        drm_gem_object_handle_get_unlocked(objs[i]);
->>> -        drm_gem_object_put(objs[i]);
->>>             min_size = (height - 1) * mode_cmd->pitches[i]
->>>                + drm_format_info_min_pitch(info, i, width)
->>> @@ -192,22 +190,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
->>>               drm_dbg_kms(dev,
->>>                       "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
->>>                       objs[i]->size, min_size, i);
->>> -            drm_gem_object_handle_put_unlocked(objs[i]);
->>> +            drm_gem_object_put(objs[i]);
->>>               ret = -EINVAL;
->>> -            goto err_gem_object_handle_put_unlocked;
->>> +            goto err_gem_object_put;
->>>           }
->>>       }
->>>         ret = drm_gem_fb_init(dev, fb, info, mode_cmd, objs, i, funcs);
->>>       if (ret)
->>> -        goto err_gem_object_handle_put_unlocked;
->>> +        goto err_gem_object_put;
->>>         return 0;
->>>   -err_gem_object_handle_put_unlocked:
->>> +err_gem_object_put:
->>>       while (i > 0) {
->>>           --i;
->>> -        drm_gem_object_handle_put_unlocked(objs[i]);
->>> +        drm_gem_object_put(objs[i]);
->>>       }
->>>       return ret;
->>>   }
->>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
->>> index ec1bf58e5714..5265eac81077 100644
->>> --- a/drivers/gpu/drm/drm_internal.h
->>> +++ b/drivers/gpu/drm/drm_internal.h
->>> @@ -163,8 +163,6 @@ void drm_sysfs_lease_event(struct drm_device *dev);
->>>     /* drm_gem.c */
->>>   int drm_gem_init(struct drm_device *dev);
->>> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
->>> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
->>>   int drm_gem_handle_create_tail(struct drm_file *file_priv,
->>>                      struct drm_gem_object *obj,
->>>                      u32 *handlep);
-> 
+>  int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m);
+>  
+>  void ttm_pool_drop_backed_up(struct ttm_tt *tt);
 
