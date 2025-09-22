@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A05B92B07
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 20:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F5FB92B13
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 20:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B8010E4E4;
-	Mon, 22 Sep 2025 18:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A727010E4E5;
+	Mon, 22 Sep 2025 18:58:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="PRdtemEv";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aR4HnhIq";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Ao4LSDt5";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yLcipGPD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 272EB10E4E1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 18:58:29 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2D7110E4E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 18:58:31 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cVsnv6MD3z9scD;
- Mon, 22 Sep 2025 20:58:27 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cVsny3vzQz9v4c;
+ Mon, 22 Sep 2025 20:58:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758567507;
+ s=mail20150812; t=1758567510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZDY1goVSq/HGSZ7D/4+pOEjofQvXjXnmRYkYcRTvD1M=;
- b=PRdtemEvWdToMYDMNUFPCAtkKLwzVSOHirtUiEWz6wF/BtHO5Q6J4uqdtEs9kbxPsJ5up0
- KYXnzmiXWpK4orNJbyNl3rpsR2JbZRthmTqD9lxavXcQGEFISbf5cejcbyOiGYgyJcak3c
- NUs+C8qvHPhWiTj+AxHzM/evwOjHFbDUvdZaKp9C5/HOt1p9P9l3aMT4nTMTUcH5rF6XPF
- UPLNhvtoRMSr9q5nqhyDz2KSUeW/l/dXixbL7rwUI6b7ViOX6Mxea95Gga7cUSi5KtHeJz
- Y0Kv+0wskqKdaxSjrM4HeA70NW5ty6jBvwYIblQGktZrfBAJwmtq+TDjEiHUlQ==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=aR4HnhIq;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
- designates 2001:67c:2050:b231:465::102 as permitted sender)
- smtp.mailfrom=marek.vasut+renesas@mailbox.org
+ bh=Lu6QOsxsEGNJowrglhuO3L3z5CGmbCRhNZVVoOmxS88=;
+ b=Ao4LSDt5/R7/wQi3NB26HvT5vK8s8/4F/QZdvshfcnQfsbXJxT5EZCoR8RUFw8eUNQh5UB
+ mWpUNvtIqxCzZ43+feJORuPgS759uY9i+VSh/7WRrN32alppwaOtlFkBGVEn3VbS4E08z7
+ 42Nc5PhQ7Lt76xS9s9fRznZEMf5+J9/DN9wbvXz4i6mA9wEhhH4gj/U1dRNM4sUy+j2QP4
+ WXMY9M6OV9qngbR0cMaQn+o4l8OQXYbnWkFEBea20m8z2uJQIDGhKJlU2Rbc2wgrncwg4k
+ x1N3xaUA8dN46q6o9UtnJFRloEJb6oLyduHq5ljynuKYOC6eSNIPg9H1NWqHjg==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758567505;
+ s=mail20150812; t=1758567508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZDY1goVSq/HGSZ7D/4+pOEjofQvXjXnmRYkYcRTvD1M=;
- b=aR4HnhIq1d7ZZDhDuJ4oKTu9Yd/e3pKdi+AXLGePmcL9O6yXXkXfkMOpM7GxqJp68uWZEZ
- XBR+F9D8t4pOD39c+Kxn0TBdvBZEOt8cQxyF6bG15vzSBZdNZ0qNFveepk8E8OcB97qsJm
- 3rAwTL9m3pvpnHaswwCLucCPTE3qBXv5pe3XBG4pE9ERvj/bI1qqonUh6XkTeFWNDKVze3
- evybKrEF3JzE/zjH8xjiBaspTrjsN7tIKH5Bu4g+yb9C59w8H6ZhifF4ylBzAmwtgtlQhr
- FK7qLeKY/737R6iNOv+UGfZpTbIRfgF1KgcvyoIRwR6ZpOVu2lzOf2f2vKqDJQ==
+ bh=Lu6QOsxsEGNJowrglhuO3L3z5CGmbCRhNZVVoOmxS88=;
+ b=yLcipGPDNwbQlFuIn4C2TW8g6bIuJt2swfLe/cPhpvPF6Q6759xHPJoTL8XK9ripzuMA71
+ hlOZD7mJPIsdvvMsWZtNaYLlvh8TqNKNWy581b8s6TjZbHh13TK8YR8H7d67ofP0PxEzGC
+ PyntKvRcpkyw0x7I7UeWonBRWtHS7+7kUPcJMA3Gmi68TeNelOQhSlmBCsMeelSBtFOW6v
+ HVKv0IRXW6KQM0ONFBWBQnjRMG4SIxo4uwtIXnKku2+bO23kZS6I3+femErnPx/JC8laaz
+ gulhuEOtA9ODNto4MdeLo/6BddB+aYNlfIuHK281xkRx92XguXDaAO9tath0FA==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  David Airlie <airlied@gmail.com>,
@@ -64,16 +58,15 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 4/9] drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
-Date: Mon, 22 Sep 2025 20:55:00 +0200
-Message-ID: <20250922185740.153759-5-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 5/9] drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+Date: Mon, 22 Sep 2025 20:55:01 +0200
+Message-ID: <20250922185740.153759-6-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
 References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: eprupd3mckgpjmjb1iaaohehfm9mspmw
-X-MBO-RS-ID: ec67f5f24f237e89bec
-X-Rspamd-Queue-Id: 4cVsnv6MD3z9scD
+X-MBO-RS-ID: f06b6c57a0c94e03da6
+X-MBO-RS-META: 1r7sdszccc6eg165y3ym4rip8yzubpc5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,9 +82,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce CLOCKSET1_CLKINSEL_MASK macro and remove bitshift from
-values to make this bitfield usable with FIELD_PREP(). There are
-no users of this bitfield, hence no updates to the DSI driver.
+Introduce TXVMPSPHSETR_DT_MASK macro and use FIELD_PREP() to generate
+appropriate bitfield from mask and value without bitshift.
 
 Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
 consisten with the current style. Conversion to BIT() and GENMASK()
@@ -117,27 +109,60 @@ partly removes macros which evaluate to zeroes from rcar_mipi_dsi_regs.h .
 The other patches in this series proceed with that job, piece by piece,
 to make it all reviewable.
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 17 ++++++++++-------
+ .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h    | 11 ++++++-----
+ 2 files changed, 16 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 2374cbe3768f2..1591837ff472c 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -458,13 +458,16 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
+ 	u32 vprmset4r;
+ 
+ 	/* Configuration for Pixel Stream and Packet Header */
+-	if (dsibpp == 24)
+-		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB24);
+-	else if (dsibpp == 18)
+-		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB18);
+-	else if (dsibpp == 16)
+-		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB16);
+-	else {
++	if (dsibpp == 24) {
++		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR,
++				    FIELD_PREP(TXVMPSPHSETR_DT_MASK, TXVMPSPHSETR_DT_RGB24));
++	} else if (dsibpp == 18) {
++		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR,
++				    FIELD_PREP(TXVMPSPHSETR_DT_MASK, TXVMPSPHSETR_DT_RGB18));
++	} else if (dsibpp == 16) {
++		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR,
++				    FIELD_PREP(TXVMPSPHSETR_DT_MASK, TXVMPSPHSETR_DT_RGB16));
++	} else {
+ 		dev_warn(dsi->dev, "unsupported format");
+ 		return;
+ 	}
 diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index c2cb06ef144ed..808861aaf3bfe 100644
+index 808861aaf3bfe..1a8d377ea85fc 100644
 --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -268,9 +268,10 @@
- #define CLOCKSET1			0x101c
- #define CLOCKSET1_LOCK_PHY		(1 << 17)
- #define CLOCKSET1_CLKSEL		(1 << 8)
--#define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
--#define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
--#define CLOCKSET1_CLKINSEL_DU		(1 << 3)
-+#define CLOCKSET1_CLKINSEL_MASK		(3 << 2)
-+#define CLOCKSET1_CLKINSEL_EXTAL	0
-+#define CLOCKSET1_CLKINSEL_DIG		1
-+#define CLOCKSET1_CLKINSEL_DU		2
- #define CLOCKSET1_SHADOW_CLEAR		(1 << 1)
- #define CLOCKSET1_UPDATEPLL		(1 << 0)
+@@ -167,11 +167,12 @@
+ #define TXVMSCR_STR			(1 << 16)
  
+ #define TXVMPSPHSETR			0x1c0
+-#define TXVMPSPHSETR_DT_RGB16		(0x0e << 16)
+-#define TXVMPSPHSETR_DT_RGB18		(0x1e << 16)
+-#define TXVMPSPHSETR_DT_RGB18_LS	(0x2e << 16)
+-#define TXVMPSPHSETR_DT_RGB24		(0x3e << 16)
+-#define TXVMPSPHSETR_DT_YCBCR16		(0x2c << 16)
++#define TXVMPSPHSETR_DT_MASK		(0x3f << 16)
++#define TXVMPSPHSETR_DT_RGB16		0x0e
++#define TXVMPSPHSETR_DT_RGB18		0x1e
++#define TXVMPSPHSETR_DT_RGB18_LS	0x2e
++#define TXVMPSPHSETR_DT_RGB24		0x3e
++#define TXVMPSPHSETR_DT_YCBCR16		0x2c
+ 
+ #define TXVMVPRMSET0R			0x1d0
+ #define TXVMVPRMSET0R_HSPOL_HIG		(0 << 17)
 -- 
 2.51.0
 
