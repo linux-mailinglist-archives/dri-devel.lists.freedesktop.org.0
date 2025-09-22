@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C100B8EB13
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 03:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE58B8EB07
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 03:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 542E110E36F;
-	Mon, 22 Sep 2025 01:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB25810E16B;
+	Mon, 22 Sep 2025 01:29:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="h5DoXAle";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="OXdzJ6AZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
- Mon, 22 Sep 2025 01:30:21 UTC
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6479910E36F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 01:30:21 +0000 (UTC)
+X-Greylist: delayed 502 seconds by postgrey-1.36 at gabe;
+ Mon, 22 Sep 2025 01:29:45 UTC
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.58.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA3F10E16B
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 01:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1758504619;
- bh=nXCBtUA+m9scr2xmpRaIuBuOlGHEVWl3gOWkOzJl1I0=;
+ s=altu2504; t=1758504580;
+ bh=LOGwnycc8Wj8KsW4WQRnp4T1oakm2MKzkiW7+jimOy4=;
  h=From:To:Subject:Date:Message-Id;
- b=h5DoXAleLXBQ4uyjH9g+5r1NorQ5SNwah398u2m75y9wxu1zXhqeljylZQ2OpQfbD
- sVVkiUJBFYeAZd5juVLpjn5G91r5ZB8oSeRSThvnG+ygAydF2vaG6bvqVPUarA/To7
- hnPrsvTDIYwL9ekkrBnR8PUXjYwZivEwg+1fLBrs=
-X-QQ-mid: zesmtpgz1t1758504048tb13996bb
-X-QQ-Originating-IP: zyZxvz1kW6DoY+Ykz8VGYNjxDxOh/OBcK7J8ECz/sP0=
+ b=OXdzJ6AZqS3bBLH8e0LnmkS3BMwrKe7MrHjHxOzcCk7FU/oOQjKGaR/dO+npXZe3j
+ Ts7MTeoV3oA+E0a/XE+bfu8RQz8S4QMkkumiGlLw97/L1bMspgTo3+L0AEm6gFXBJE
+ ZFELnBHPz7Vtt3a/FxNfX+4xyjo+m/kzKPViuMZI=
+X-QQ-mid: zesmtpgz1t1758504052td7dec9e0
+X-QQ-Originating-IP: s3BHummt2O6hkB4Do51eRbWReEkBQZAIDj91AtlHJKk=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 22 Sep 2025 09:20:45 +0800 (CST)
+ id ; Mon, 22 Sep 2025 09:20:50 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2099483455769991136
+X-BIZMAIL-ID: 2496768016836932
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -55,28 +55,31 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 0/7] Add Type-C DP support for RK3399 EVB IND board
-Date: Mon, 22 Sep 2025 09:20:32 +0800
-Message-Id: <20250922012039.323-1-kernel@airkyi.com>
+Subject: [PATCH v4 1/7] usb: typec: Add default HPD device when register
+ DisplayPort altmode
+Date: Mon, 22 Sep 2025 09:20:33 +0800
+Message-Id: <20250922012039.323-2-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20250922012039.323-1-kernel@airkyi.com>
+References: <20250922012039.323-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: NbLMjDNEDlGte7MF1grJAi5GK4VZ2IHX8I8qJoAC8obTVnX4VR9aL429
- SwhG0Bw3Q8ldzJ945qc3Pjy7SOjO/EncrxR7pqmeBJhWCU6QYQmtAicANT8mEEEvkYslGGD
- gF1HbCsAKvo8ua17BBaKKiPM92D7uBkY5t7mXavFLIXRzqJRkmkl49LaUaSDeLzqF4wCcwd
- hSvcz0c1qVgFP4fl3qmq1IiNmlk0V8SxSQkAr0l3ftmQiMDLodNV6pb4MWNzg8/3cIymW0E
- eWIHNnJ5KwmN/h7oafEKjhHUVbssbK+Q8NQLvdUFKCD/Qp2DULPxk44rgGgm7pPEnXRSo0m
- nBzfN631zwjPkyxogDkrO4dbx6W/9tRAnuPoBvu/9eGrNg6UQ9oeeZNpn89bEBLT4OYip1B
- burjGdwkWBkghe4BAqCQ+j2SZ+9dhF4iYv6ywkDlHKWRjJsGxhI5vo/aHo78LRhS5B4B4Ty
- i/GCV5V3qeAArXsi1dE3hU5/5fAjqJf2Fncs+TBx7BP+TzJaRf1j5eXopz2cyjKwruNiLqu
- xRlLx5QMIGTel1IYo9h0D2a72tiLAyzgSy2ayrzdgIzsPOT4WmhRBz4i/N9Qr7ZfHNRDl2Z
- bBBdv0BjbamAYV6OMvFfpYmI0N7OmjeD6/PtaBThqMLi2D2N9Ig8jvlEWFotEVNX9148hw2
- XwiepIMNb5U7gBsPNbVfJLEBzbHIiLYDOiRMxJrcKx+VSOdMQuz1xXeCPGcGLwG8t2d6Fje
- SpfsheFxFa7N/52llDoQG7kVhGThds5GjxtPOB9mpQLCzxGeH8LaPLsBSDA2tca0V7NhNoD
- Bt+9lTBz5/489tr/Hr9rV09+DojFcfckBGQ/E2B3aKuyhh1PpzZzwUWkIBGNDuy5XN9FVTS
- 55STH/U4ML+TGoLW1ptjjA2JXZTVtc7wiJPmiFTK49QoWV4iB8+4XZ8W3jFtsejVHdPCIPZ
- lVmlBTWhvDj+9EsOozljaVNe6oS3JyfkjkCSE1dON8HERQp5DITrODWeZpgwcIP++gBg=
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-XMAILINFO: MZQHZNohqAr1d4b3kIdpe+C4sr2v02+KydlclYn3kPXkX9QWriwA44sZ
+ tl6NjNtKounHPNhLPSgaBIec2LFNh3ZmJJtulRIlkzvCdAwxI5u3RspZ/EMJMZmzDZ6s+JK
+ Us4iS1f3K21HNGZbVeTdh3ugbmCFdUHxqR85ZysIWazqHwUb6jo/a0gZPfEHlFxbFrHz8UD
+ I8WzgpWaGSTdAi/CgA1KhpfPk0qKKQWBdhbz9sai/J2Ip7JDa6txxuKC3XP3UHQX9iqxdqt
+ 0f6vZOIGljM75WywhPC8iBEs18/t6NM8EP82XyUBp6eU8+L7CrLRAqUYadN2bb+JdB1gNks
+ C64UQoNCcYsMAlU/yS4rcfY3cOwXuqqpT5j9Cw4m0xJpHW+I0QNTUw/TepDP9YusbA26q0j
+ W+JFXZPPGhAPA+u7PXAeBAI7ae9uJAEi6rlUJ0vi2AroTXruDhGrm4CcsT/TW6T+kLyVHq7
+ 7Rd0D56UiB9hOcsuTvCB4nKZHkKc6F3yRq1h7jxoFeSty6c6zoS/Z/jrwjaZuwPDCrBkjTs
+ zDuv/P+0PlcuCE4CQvdkpmnUcb4sm9HYKil0XR225xIqzEdVTuPnDp8JFqmHLOEYGQhccFQ
+ l0wr5XGmemBzfu69c7h7j9CRIbOx3D8+zBlzL+NA6YwRz0VwJhwPjb0trMByPnvfacB0Sa0
+ Oy2gY+8jzEqwA+X5TFfh5aiVeMIFyvUfJAagvBK277oxbWOhBBGBUX7m9dJKUlmUz+ncMjG
+ 4ZcsscGqxsE70Gr6ZfgPmFtyK/7EsCxxRQxhT1XV9ma9c85lsLpg0mbpr0n7uBwjojQbQQE
+ +qh9vlOK2RhfJeKWgFOGR5fwSHynsDSpDdu89SPwvl3IfF5J+EoevaJlPa5EyHV427SwsvK
+ gKHoNXL2qzWcdMBu+/E3hc3wqERWB9debQVmNRyUwf49s2SueY1OJSseiitEK4wLSYYK7wm
+ SUK6sd+acr/gosoIG5X/R3WLzyMT70RcoQ2Fszg0M8eqXFQ==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,123 +98,151 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-This series focuses on adding Type-C DP support for USBDP PHY and DP
-driver. The USBDP PHY and DP will perceive the changes in cable status
-based on the USB PD and Type-C state machines provided by TCPM. Before
-this, the USBDP PHY and DP controller of RK3399 sensed cable state
-changes through extcon, and devices such as the RK3399 Gru-Chromebook
-rely on them. This series should not break them.
+Add default DRM AUX HPD bridge device when register DisplayPort
+altmode. That makes it redundant for each Type-C driver to implement
+a similar registration process in embedded scenarios.
 
-====
-1. DisplayPort HPD status notify
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ drivers/usb/typec/altmodes/displayport.c | 27 ++++++++++++++++++++++++
+ drivers/usb/typec/altmodes/displayport.h |  2 ++
+ drivers/usb/typec/class.c                |  8 +++++++
+ include/linux/usb/typec_altmode.h        |  2 ++
+ 4 files changed, 39 insertions(+)
 
-Before v4, I implemented a variety of DP HPD status notify. However,
-they all had various problems and it was difficult to become a common
-solution.
-
-Under Dmitry's guidance, I try to add default DRM AUX HPD device when
-register DisplayPort altmode in patch 1. That makes it redundant for
-each Type-C chip driver to implement a similar registration process
-in embedded scenarios.
-
-I'm not certain if the current implementation is appropriate.
-Please let me know if there's a better way.
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index 1dcb77faf85d..e026dc6e5430 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -14,6 +14,7 @@
+ #include <linux/property.h>
+ #include <linux/usb/pd_vdo.h>
+ #include <linux/usb/typec_dp.h>
++#include <drm/bridge/aux-bridge.h>
+ #include <drm/drm_connector.h>
+ #include "displayport.h"
  
-====
-2. Altmode switching and orientation switching for USBDP PHY
-
-For USB Type-C interfaces, an external Type-C controller chip assists
-by detecting cable attachment, determining plug orientation, and
-reporting USB PD message. The USB/DP combo PHY supports software
-configurable pin mapping and DisplayPort lane assignment. Based on
-these message, the combo PHY can perform both altmode switching and
-orientation switching via software.
-
-The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
-fusb302 chip as Type-C controller. The connection diagram is shown below:
-
-fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
-             |
-             +---> USB/DP PHY0 +--> CDN-DP controller
-                               |
-                               +--> DWC3 USB controller
-
-====
-3. Multiple bridge model for RK3399 CDN-DP
-
-The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
-the CDN-DP can be switched to output to one of the PHYs.
-
-USB/DP PHY0 ---+
-               | <----> CDN-DP controller
-USB/DP PHY1 ---+
-
-In previous versions, if both PHY ports were connected to DP,
-the CDN-DP driver would select the first PHY port for output.
-
-On Dmitry's suggestion, we introduced a multi-bridge model to support
-flexible selection of the output PHY port. For each PHY port, a
-separate encoder and bridge are registered.
-
-The change is based on the DRM AUX HPD bridge, rather than the
-extcon approach. This requires the DT to correctly describe the
-connections between the PHY, USB connector, and DP controller.
-And cdn_dp_parse_hpd_bridge_dt() will parses it and determines
-whether to register one or two bridges.
-
-====
-Patch1 add default HPD device when register Displayport altmode.
-Patch2 add new Type-C mode switch for RK3399 USBDP phy binding.
-Patch3 add typec_mux and typec_switch for RK3399 USBDP PHY.
-Patch4 drops CDN-DP's extcon dependency when Type-C is present.
-Patch5 add multiple bridges to support PHY port selection. 
-Patch6 add missing dp_out port for RK3399 CDN-DP.
-Patch7 add Type-C DP support for RK3399 EVB IND board.
-
-Changes in v4:
-- Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
-- Add default HPD device for DisplayPort altmode.
-- Introduce multiple bridges for CDN-DP.
-- ...
-
-Changes in v3:
-- Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
-- Add more descriptions to clarify the role of the PHY in switching.
-- Fix wrong vdo value.
-- Fix port node in usb-c-connector.
-
-Changes in v2:
-- Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
-- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
-- Fix compile error when CONFIG_TYPEC is not enabled.
-- Notify DP HPD state by USB/DP PHY.
-- Ignore duplicate HPD events.
-- Add endpoint to link DP PHY and DP controller.
-- Fix devicetree coding style.
-
-Chaoyi Chen (7):
-  usb: typec: Add default HPD device when register DisplayPort altmode
-  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
-  phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
-  drm/rockchip: cdn-dp: Support handle lane info without extcon
-  drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
-    selection
-  arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
-  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
-
- .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
- arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++
- drivers/gpu/drm/rockchip/Kconfig              |   1 +
- drivers/gpu/drm/rockchip/cdn-dp-core.c        | 423 +++++++++++++++---
- drivers/gpu/drm/rockchip/cdn-dp-core.h        |  23 +-
- drivers/phy/rockchip/phy-rockchip-typec.c     | 365 ++++++++++++++-
- drivers/usb/typec/altmodes/displayport.c      |  27 ++
- drivers/usb/typec/altmodes/displayport.h      |   2 +
- drivers/usb/typec/class.c                     |   8 +
- include/linux/usb/typec_altmode.h             |   2 +
- 11 files changed, 932 insertions(+), 81 deletions(-)
-
+@@ -182,6 +183,10 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+ 				dp->pending_irq_hpd = true;
+ 		}
+ 	} else {
++		if (dp->port->hpd_dev)
++			drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
++						  hpd ? connector_status_connected :
++							connector_status_disconnected);
+ 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
+ 						hpd ? connector_status_connected :
+ 						      connector_status_disconnected);
+@@ -206,6 +211,9 @@ static int dp_altmode_configured(struct dp_altmode *dp)
+ 	 * configuration is complete to signal HPD.
+ 	 */
+ 	if (dp->pending_hpd) {
++		if (dp->port->hpd_dev)
++			drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
++						  connector_status_connected);
+ 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
+ 						connector_status_connected);
+ 		sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
+@@ -391,6 +399,9 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
+ 			dp->data.status = 0;
+ 			dp->data.conf = 0;
+ 			if (dp->hpd) {
++				if (dp->port->hpd_dev)
++					drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
++								  connector_status_disconnected);
+ 				drm_connector_oob_hotplug_event(dp->connector_fwnode,
+ 								connector_status_disconnected);
+ 				dp->hpd = false;
+@@ -751,6 +762,18 @@ static const struct attribute_group *displayport_groups[] = {
+ 	NULL,
+ };
+ 
++void dp_altmode_hpd_device_register(struct typec_altmode *alt)
++{
++	if (alt->svid != USB_TYPEC_DP_SID)
++		return;
++
++	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
++						  dev_of_node(alt->dev.parent->parent));
++	if (IS_ERR(alt->hpd_dev))
++		alt->hpd_dev = NULL;
++}
++EXPORT_SYMBOL_GPL(dp_altmode_hpd_device_register);
++
+ int dp_altmode_probe(struct typec_altmode *alt)
+ {
+ 	const struct typec_altmode *port = typec_altmode_get_partner(alt);
+@@ -812,6 +835,10 @@ void dp_altmode_remove(struct typec_altmode *alt)
+ 	cancel_work_sync(&dp->work);
+ 	typec_altmode_put_plug(dp->plug_prime);
+ 
++	if (dp->port->hpd_dev)
++		drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
++					  connector_status_disconnected);
++
+ 	if (dp->connector_fwnode) {
+ 		drm_connector_oob_hotplug_event(dp->connector_fwnode,
+ 						connector_status_disconnected);
+diff --git a/drivers/usb/typec/altmodes/displayport.h b/drivers/usb/typec/altmodes/displayport.h
+index e120364da9fd..9f3483ec10fb 100644
+--- a/drivers/usb/typec/altmodes/displayport.h
++++ b/drivers/usb/typec/altmodes/displayport.h
+@@ -2,7 +2,9 @@
+ #if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
+ int dp_altmode_probe(struct typec_altmode *alt);
+ void dp_altmode_remove(struct typec_altmode *alt);
++void dp_altmode_hpd_device_register(struct typec_altmode *alt);
+ #else
+ int dp_altmode_probe(struct typec_altmode *alt) { return -ENOTSUPP; }
+ void dp_altmode_remove(struct typec_altmode *alt) { }
++void dp_altmode_hpd_device_register(struct typec_altmode *alt) { }
+ #endif /* CONFIG_TYPEC_DP_ALTMODE */
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 67a533e35150..95732b6d9a95 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -15,6 +15,7 @@
+ #include <linux/usb/typec_mux.h>
+ #include <linux/usb/typec_retimer.h>
+ #include <linux/usb.h>
++#include "altmodes/displayport.h"
+ 
+ #include "bus.h"
+ #include "class.h"
+@@ -600,6 +601,13 @@ typec_register_altmode(struct device *parent,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	/*
++	 * It is too late to register the HPD device when the DisplayPort
++	 * altmode device becomes ready. If the current altmode is DP,
++	 * register a static HPD device.
++	 */
++	dp_altmode_hpd_device_register(&alt->adev);
++
+ 	return &alt->adev;
+ }
+ 
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index b3c0866ea70f..acb0af1b9d5d 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -21,6 +21,7 @@ struct typec_altmode_ops;
+  * @desc: Optional human readable description of the mode
+  * @ops: Operations vector from the driver
+  * @cable_ops: Cable operations vector from the driver.
++ * @hpd_dev: HPD device for DisplayPort
+  */
+ struct typec_altmode {
+ 	struct device			dev;
+@@ -32,6 +33,7 @@ struct typec_altmode {
+ 	char				*desc;
+ 	const struct typec_altmode_ops	*ops;
+ 	const struct typec_cable_ops	*cable_ops;
++	struct device			*hpd_dev;
+ };
+ 
+ #define to_typec_altmode(d) container_of(d, struct typec_altmode, dev)
 -- 
 2.49.0
 
