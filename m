@@ -2,55 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA996B91780
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 15:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7261BB91822
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 15:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C067510E492;
-	Mon, 22 Sep 2025 13:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D376710E4AE;
+	Mon, 22 Sep 2025 13:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fGiHjBm3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="V4olzZ1s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jb4G78GC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V4olzZ1s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jb4G78GC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A1D10E47B;
- Mon, 22 Sep 2025 13:43:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lBRNeatQ8GsKGcgsGMDKNH9WeRh2EhN4RgXkh6irPNg=; b=fGiHjBm39wS3dYVx1FGashf7bA
- LYGvo8OXqUsUS8IFrputdEj2jOPCeIungfnm+9DKnQM6SJW1hLiCQieBRh8tqscKxAQv/t2YXeFwz
- SgN7GDn/xrhLjGfVqpP1KMnALPitNqFIChE4bTAz07ntR/ZdYr2NerCtKWIb21WvEmfGxQHb7lCyh
- r8lPZnFSqpW9TgTDcp6HRIuxkun5gJzcjNNEd9/dIEbL3vOjmbHA/Dnm2UOXRCxyOvsZ76Ywv9PTx
- SAGUHXigZeyg+wdBqIRPMF3fJFEX4tMmJTySfGNOYD+YWiHaYWfqYrMlOsZPd9LOSJcLOXa+VGZo+
- pFEQ/99w==;
-Received: from [193.52.24.5] (helo=[10.40.32.26])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v0goq-00FleW-Ry; Mon, 22 Sep 2025 15:43:04 +0200
-Message-ID: <9c150f20-71d1-4af3-ba90-02a0a5b98330@igalia.com>
-Date: Mon, 22 Sep 2025 10:42:58 -0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D686A10E4AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 13:49:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 349621F79A;
+ Mon, 22 Sep 2025 13:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758548949; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7TzD8bMv0gdipWLQ/wOu3P08SLqKkylmdgnKiucqS+8=;
+ b=V4olzZ1sVE6zlzQYJ9cqO2/GPIzc9f3v/C2WFa3nzC07/9UtK46eNSkp5Q+ZODqBIcq7km
+ VxYXSBdkebX8PDURYy9lLZwtWInJuB8+7hav0DHWYEpCDNcaQOhJ/5cWcuQLGVOUdgfu0I
+ 2zCXR0pnzQPp4LmEf8mhpKM+JwofUU8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758548949;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7TzD8bMv0gdipWLQ/wOu3P08SLqKkylmdgnKiucqS+8=;
+ b=Jb4G78GCOKJ7HMid6++qn5pfiNCZTNmUiXh/eihDkAn76Kw5FJyRTcWWt9V5qNxyIgl0A2
+ vgE6apw3X4EBX/Bw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=V4olzZ1s;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jb4G78GC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758548949; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7TzD8bMv0gdipWLQ/wOu3P08SLqKkylmdgnKiucqS+8=;
+ b=V4olzZ1sVE6zlzQYJ9cqO2/GPIzc9f3v/C2WFa3nzC07/9UtK46eNSkp5Q+ZODqBIcq7km
+ VxYXSBdkebX8PDURYy9lLZwtWInJuB8+7hav0DHWYEpCDNcaQOhJ/5cWcuQLGVOUdgfu0I
+ 2zCXR0pnzQPp4LmEf8mhpKM+JwofUU8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758548949;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7TzD8bMv0gdipWLQ/wOu3P08SLqKkylmdgnKiucqS+8=;
+ b=Jb4G78GCOKJ7HMid6++qn5pfiNCZTNmUiXh/eihDkAn76Kw5FJyRTcWWt9V5qNxyIgl0A2
+ vgE6apw3X4EBX/Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C067313A63;
+ Mon, 22 Sep 2025 13:49:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id uN1KLdRT0WguAgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 13:49:08 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jani.nikula@linux.intel.com, samasth.norway.ananda@oracle.com,
+ simona@ffwll.ch, deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Qianqiang Liu <qianqiang.liu@163.com>,
+ Shixiong Ou <oushixiong@kylinos.cn>, Kees Cook <kees@kernel.org>,
+ stable@vger.kernel.org, Zsolt Kajtar <soci@c64.rulez.org>
+Subject: [PATCH] fbcon: Fix OOB access in font allocation
+Date: Mon, 22 Sep 2025 15:45:54 +0200
+Message-ID: <20250922134619.257684-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: revert the remaining commits about dma_buf
- handling
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250919155519.1104256-1-mwen@igalia.com>
- <6da0bdd3-0b93-45d8-a178-1fc202bd49c7@suse.de>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <6da0bdd3-0b93-45d8-a178-1fc202bd49c7@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[16]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[linux.intel.com,oracle.com,ffwll.ch,gmx.de];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmx.de]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,suse.de,oracle.com,linuxfoundation.org,linux.intel.com,ravnborg.org,163.com,kylinos.cn,kernel.org,c64.rulez.org];
+ RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim, suse.de:email,
+ intel.com:email, imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 349621F79A
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +128,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Commit 1a194e6c8e1e ("fbcon: fix integer overflow in fbcon_do_set_font")
+introduced an out-of-bounds access by storing data and allocation sizes
+in the same variable. Restore the old size calculation and use the new
+variable 'alloc_size' for the allocation.
 
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 1a194e6c8e1e ("fbcon: fix integer overflow in fbcon_do_set_font")
+Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15020
+Cc: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: George Kennedy <george.kennedy@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Qianqiang Liu <qianqiang.liu@163.com>
+Cc: Shixiong Ou <oushixiong@kylinos.cn>
+Cc: Kees Cook <kees@kernel.org>
+Cc: <stable@vger.kernel.org> # v5.9+
+Cc: Zsolt Kajtar <soci@c64.rulez.org>
+---
+ drivers/video/fbdev/core/fbcon.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 22/09/2025 08:54, Thomas Zimmermann wrote:
-> Hi Melissa
->
-> Am 19.09.25 um 17:54 schrieb Melissa Wen:
->> Hi all,
->>
->> I just talked with Thomas that these two patches are preventing amdgpu
->> driver to be unloaded:
->>
->> `modprobe: FATAL: Module amdgpu is in use.`
->>
->> and there is no process using the driver.
->
-> What's the exact STR for this problem? After Christian's comments, I 
-> tried to reproduce the issue, but it works on my system. I do
->
-> - boot up with amdgpu in text mode (multiuser.target)
-> - login by serial console
-> - 'rmmod amdgpu'
->
-> That last step turns my test system's display off and unloads amdgpu. 
-> The kernel is a recent drm-tip at v6.17-rc6.
-
-- I booted up in graphical.target;
-- Connected via ssh, dropped the graphical interface to text mode 
-(multiuser.target), and tried to remove the module with `modprobe -r amdgpu`
-
-The issue happened in the latest 6.16 kernel version from Debian (I 
-don't have the machine with me atm to check the exact version), but also 
-with mainline kernel from last week.
-
-I bisected kernel from 6.16 and 6.15 and IIRC git bisect pointed to 
-`drm/framebuffer: Acquire internal references on GEM handles`, but as it 
-triggers another trace and AFAIU fixes `drm/gem: Acquire references on 
-GEM handles for framebuffers`, I reverted both pacthes and amdgpu 
-loaded/unloaded as expected.
-
-IGT amdgpu-specific tests for loading and unloading are also failing 
-because it's not able to unload the module.
-I didn't run the generic test.
-
-I'm using an AMD Cezanne laptop with a touch-screen capable display (hp 
-envy x360 convertible) with Debian + Gnome.
-I looked for process using the modules, but I didn't find any.
-
-BTW, I don't discard that this work uncovered a preexist problem, for 
-example.
-Since those patches are addressing other issues, as mentioned by 
-Maarten, I'll debug the amdgpu driver further and check the points raised.
-
-Best Regards,
-
-Melissa
-
->
-> Best regards
-> Thomas
->
->>
->> We agreed that the best approach now is to completely revert the work
->> done for improving DMA bug handling to avoid any loose ends. With these
->> reverts we are just back to the old behavior and amdgpu loading and
->> unloading will return to normal.
->>
->> Best Regards,
->>
->> Melissa
->>
->> Melissa Wen (2):
->>    Revert "drm/framebuffer: Acquire internal references on GEM handles"
->>    Revert "drm/gem: Acquire references on GEM handles for framebuffers"
->>
->>   drivers/gpu/drm/drm_framebuffer.c | 31 +--------------
->>   drivers/gpu/drm/drm_gem.c         | 64 +++++--------------------------
->>   drivers/gpu/drm/drm_internal.h    |  2 -
->>   include/drm/drm_framebuffer.h     |  7 ----
->>   4 files changed, 11 insertions(+), 93 deletions(-)
->>
->
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 5fade44931b8..c1c0cdd7597c 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2518,7 +2518,7 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
+ 	unsigned charcount = font->charcount;
+ 	int w = font->width;
+ 	int h = font->height;
+-	int size;
++	int size, alloc_size;
+ 	int i, csum;
+ 	u8 *new_data, *data = font->data;
+ 	int pitch = PITCH(font->width);
+@@ -2551,10 +2551,10 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
+ 		return -EINVAL;
+ 
+ 	/* Check for overflow in allocation size calculation */
+-	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &size))
++	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &alloc_size))
+ 		return -EINVAL;
+ 
+-	new_data = kmalloc(size, GFP_USER);
++	new_data = kmalloc(alloc_size, GFP_USER);
+ 
+ 	if (!new_data)
+ 		return -ENOMEM;
+-- 
+2.51.0
 
