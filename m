@@ -2,83 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E0AB8F0B5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 07:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E82B8F0F4
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 07:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6983310E069;
-	Mon, 22 Sep 2025 05:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B882E10E3AC;
+	Mon, 22 Sep 2025 05:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="B7h+TFWD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Fs5tQfPc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7o97hV/s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pLudh/Qi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2O8npJVl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C017510E069
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 05:47:48 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-46b303f7469so8805965e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 22:47:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1758520067; x=1759124867; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PgF8X/QknqlL8yTU3Gny95ANJR22ql/Nmd198jD0198=;
- b=B7h+TFWDRA50bcIi4yXB84NI0jahw0ygn38ke6qlQn7Zy1EQ8p79cMhimdH6HBewpr
- VDCaNLqPxluLTBMhuwOAmfzJX0WfrCGrbACX4WHIj+IWHH/xNnQrYrKKt1GfyxIJmgsE
- 0vp7qFP4BrWp/lnRp5fjzvy1qQ5GN21Sd6UxfAw7QW6B90mgYQOFjlUFF/ZH0Hyzq8Xe
- Oam+gEmrsQgRLot9MqiIvwZvMY+auiGwUiBwnSo2bSiXEhHJUn+HdsOVHBEsrtZGVM/M
- 55+8S8LqYNajbxuYYT6qgTWwFsqbbS2045JsM4ITF9Gn2DPYRXP/+CP88w4p23e6HSMR
- h6SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758520067; x=1759124867;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PgF8X/QknqlL8yTU3Gny95ANJR22ql/Nmd198jD0198=;
- b=Vj3U6smTSEcs8ssJfC8YYECS76VnCuazOI2Kx67E8YUNtCrG7OdbW7SvNLt9y59ZeX
- u2b4T+L8nCRypN17nF9+KA98b7tF/cEfaRtBM7FY1LgfkHEVUTvUO2kvW93qvxwIPO5m
- 0Xul18kNiX6EeraaCDBQLjsRTG5CKHxCRX4UwGaAWyRuiEiSN/PW8VZfwX9BdMJ/Vhhd
- GApL4+oo93CNZzHc6T8KgoCUAGdNTwRBu98aCBmoyDUY8FOXEp2C6UV4834xjRbXIVfB
- OEQXOZcKSoy9wFDZbOvMJJbqeOUn/mpM69QBOEX0wksX90p9rH28CU4jv2ylEQrCXldA
- 61nA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVb8lXLiO7GQ2hqUCWW12NtLWKBdq04swsaz8AdeOws5yC/U3WGM7BmiJ5GRuhzmYLh8ySoF6u0RO0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsPwAktjr4Yd1Q4MABqgY/XKPOGUVre2ZK1y+dtMIfjZTRCGM9
- O19zXecG0yK7VuKvTQsXlxLtPclBUYms2RhvIjQXYskevQ5xrR85ZTHDar3zgC2OuqQ=
-X-Gm-Gg: ASbGnct3zzUnrkoJq3egzUH2snRiiY5jkDINCqDvfqTXGppBIXKj6K9LqzocW0DGkTm
- 0gK8obTinocU3oN9JwawvOnwwvLs4F7lUOi6tWnq10A5siu2j3+rxkwt+/NypH958QtLrkNlY9d
- vCKpwHkhmtul3DhTZWFjL1kXSEQbDhL/A6U4H1J6YdJlR+3TkstZ/a54YVFRDZXA1Cq9mPItPAv
- Bxm8ggmycuBtBdKBnL1vnE4DtMQLxtqOffbobG6D9g1pya+AiG5R/IWpUWK5zps2FBJjCaWcaj/
- LE2HATjtm/uk8VQHQ0IsU7Fbw3DNJPkUI9DvLHchx1TYzhvDNrRh/uHigW383PkLjrYyitY1zeJ
- dduFWzUCyxYs0rRfHekgTMlTqiRNPZDwVPPh29S8=
-X-Google-Smtp-Source: AGHT+IGLJaZqA8B6N5lCxrnKQqccvunxcRo/0Al2H98KlFFEySPCueUYtQV4CEaHF676873fabSWPQ==
-X-Received: by 2002:a05:600c:1f85:b0:45b:79fd:cb3d with SMTP id
- 5b1f17b1804b1-467ec45ff4amr92308585e9.36.1758520067060; 
- Sun, 21 Sep 2025 22:47:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-46d1f3e1b03sm32067045e9.23.2025.09.21.22.47.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Sep 2025 22:47:46 -0700 (PDT)
-Date: Mon, 22 Sep 2025 08:47:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-Message-ID: <202509212215.c8v3RKmL-lkp@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6302C10E3AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 05:57:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C8B611F8B9;
+ Mon, 22 Sep 2025 05:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758520678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
+ b=Fs5tQfPci0a+Jw35Cj2Lfww9fpxaVviqDYWN4O8YjHD71pGyPCvO3MTjupSE2iPRTTBdHx
+ 1JYsA3NN9mOrO7fjYV+jhA/HiSHGn6sbQRnbqFM/4VL4nxhZSlS1HhsYE5WCY/b8cYbp0r
+ OPjdvedwtGeXnHOXGE87K0YbXtxYwik=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758520678;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
+ b=7o97hV/sel56lX3iFmE+RtbRoImY0aqaQ4MSPuJm/z1hqhJdrMH4F290wfVyRxgebQD7nb
+ SI51Bj6hWqGM0pAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758520676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
+ b=pLudh/QibDB09pUHmYYRhEmcNtDal8EpQ3h7AuiT7P/ZiI3f2plZRwzEuepWwjswC4wIxM
+ 088qyKVZvpJ5mWe8+WzBf0XMS0YSkzjLPN8IMTijEazoj2lL43SAZ/IE9syDwN7j0806fi
+ 1M4ErxviDFKs9+J8QhPtBnjKzq938AM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758520676;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
+ b=2O8npJVlA9VHEZbrKFk1vRoiG4Zp/lGajxuc6YQVlQPLQtJ4qSCmhq6U0Z0WIW9asxfurN
+ erE3JgVD3gjK3bCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86D8E1388C;
+ Mon, 22 Sep 2025 05:57:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Mq70HmTl0GgaYwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 05:57:56 +0000
+Message-ID: <4a24f449-5f40-4169-9c19-4840fec81f4b@suse.de>
+Date: Mon, 22 Sep 2025 07:57:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250914155308.2144-1-rubenru09@aol.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tiny: pixpaper: Fix missing dependency on
+ DRM_GEM_SHMEM_HELPER
+To: LiangCheng Wang <zaq14760@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+References: <20250922-bar-v1-1-b2a1f54ace82@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250922-bar-v1-1-b2a1f54ace82@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[8];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, suse.de:email, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,66 +146,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ruben,
 
-kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Am 22.09.25 um 04:57 schrieb LiangCheng Wang:
+> The driver uses drm_gem_shmem_prime_import_no_map() and
+> drm_gem_shmem_dumb_create(), but the Kconfig currently selects
+> DRM_GEM_DMA_HELPER instead of DRM_GEM_SHMEM_HELPER. This causes
+> link failures when DRM_GEM_SHMEM_HELPER is not enabled.
+>
+> Select DRM_GEM_SHMEM_HELPER to fix the build.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202509220320.gfFZjmyg-lkp@intel.com/
+> Fixes: c9e70639f591 ("drm: tiny: Add support for Mayqueen Pixpaper e-ink panel")
+>
+> Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ruben-Wauters/drm-gud-replace-WARN_ON-WARN_ON_ONCE-with-drm-versions/20250914-235627
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250914155308.2144-1-rubenru09%40aol.com
-patch subject: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-config: x86_64-randconfig-161-20250921 (https://download.01.org/0day-ci/archive/20250921/202509212215.c8v3RKmL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/gud/gud_connector.c:597 gud_connector_fill_properties() warn: passing a valid pointer to 'PTR_ERR'
-
-vim +/PTR_ERR +597 drivers/gpu/drm/gud/gud_connector.c
-
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  580  int gud_connector_fill_properties(struct drm_connector_state *connector_state,
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  581  				  struct gud_property_req *properties)
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  582  {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  583  	struct gud_connector *gconn = to_gud_connector(connector_state->connector);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  584  	unsigned int i;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  585  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  586  	for (i = 0; i < gconn->num_properties; i++) {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  587  		u16 prop = gconn->properties[i];
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  588  		u64 val;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  589  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  590  		if (prop == GUD_PROPERTY_BACKLIGHT_BRIGHTNESS) {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  591  			val = connector_state->tv.brightness;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  592  		} else {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  593  			unsigned int *state_val;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  594  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  595  			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
-d00e57106c0d0c Ruben Wauters  2025-09-14  596  			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
-
-You accidentally deleted the IS_ERR() check so now this function is
-badly broken.
-
-	if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
-
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13 @597  				return PTR_ERR(state_val);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  598  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  599  			val = *state_val;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  600  		}
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  601  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  602  		properties[i].prop = cpu_to_le16(prop);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  603  		properties[i].val = cpu_to_le64(val);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  604  	}
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  605  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  606  	return gconn->num_properties;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  607  }
+> ---
+> This patch fixes a build failure in the Pixpaper DRM tiny driver caused by
+> a missing dependency on DRM_GEM_SHMEM_HELPER. The driver calls
+> drm_gem_shmem_prime_import_no_map() and drm_gem_shmem_dumb_create(), which
+> require CONFIG_DRM_GEM_SHMEM_HELPER to be enabled.
+>
+> The issue was reported by the 0-day kernel test robot. This patch updates
+> the Kconfig to select DRM_GEM_SHMEM_HELPER instead of DRM_GEM_DMA_HELPER.
+> ---
+>   drivers/gpu/drm/tiny/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index 94a5bf61a115929640022128e20c723ab7c0e735..7d9e85e932d7fd7bdb6ad7a4c6ba0f835841f623 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -86,7 +86,7 @@ config DRM_PIXPAPER
+>           tristate "DRM support for PIXPAPER display panels"
+>           depends on DRM && SPI
+>           select DRM_CLIENT_SELECTION
+> -        select DRM_GEM_DMA_HELPER
+> +        select DRM_GEM_SHMEM_HELPER
+>           select DRM_KMS_HELPER
+>           help
+>   	  DRM driver for the Mayqueen Pixpaper e-ink display panel.
+>
+> ---
+> base-commit: 846bd2225ec3cfa8be046655e02b9457ed41973e
+> change-id: 20250922-bar-cd1f3e834e78
+>
+> Best regards,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
