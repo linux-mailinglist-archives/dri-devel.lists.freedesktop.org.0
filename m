@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E85B9012E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830CDB90125
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:36:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61C3F10E40F;
-	Mon, 22 Sep 2025 10:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7BC10E192;
+	Mon, 22 Sep 2025 10:36:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Px1Frq8O";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gXBB7JAZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8234310E40F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:36:40 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-77f2077d1c8so1144365b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:36:40 -0700 (PDT)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38F3D10E192
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:36:38 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-77f343231fcso313778b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758537400; x=1759142200; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=O4rjMybAXAfa9QQnXjs8aGz45/fsypTonY048qW3FBs=;
- b=Px1Frq8OxpwG1GJxxeR4iMuspl8pOK+tSBJtv88zBrbr5fWo5yEIFPmePGipdhagIG
- fb9JRTQIL3LlZ6ErsEhHjFJF24b3l9loKdKrF6pXacgkQazZRZSb5DnTEcfpxPrmWSpr
- u/MGwaGfxtRPtlfbCdIBsJltqL8zOZ+FdoB8i+MGkJre6i90m21qv5jbta84uY7ndOe1
- cTrAgsRLs/NJyNviu9ETEZJxl0QQO96jRz+PCdaNni67RnW6GcVwSIlbhIPr3mpqBETN
- rPihoFEZxG8O9JfkPrUc7mTH6Hg9c+Kp312j5E5QXRrDKAMtvRklHIGlwX5ExkrxuM6m
- wPZQ==
+ d=gmail.com; s=20230601; t=1758537398; x=1759142198; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ja79xQC+jV0B6iDYhE4odk4g+YamsPvZ5MHaPQIPNoM=;
+ b=gXBB7JAZiyLVIKSmsvKHJjr3i/18BCnwY2PQ4u4gaAgZrs9otbz+cjQUu6UnID4pLa
+ Zhn3IU2KUgEJwefKWIs2KyvcyiwTphxlU3GOK6t4k5NkH3MxSBu9qy9oHJxZ8BQiDQ/0
+ aNouOtlGdLWXost4EfyID8shZAcJfFEQs9brPINMEbAetKqcBMK47Ducjv0f9r0AJ/zo
+ l76sgsBamf2XUXIGGK2B1vqvihaMYZ2jmKjivyH2GdaNTnQdMA67237gev/8AX/mqdbd
+ QKjQDb3Xyx3zxFTRf3ANoXaZrsVYFP8e5dxZ1ztIccBxdVR6Y7ImFptPyLd6cIRT+CUR
+ gLAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758537400; x=1759142200;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=O4rjMybAXAfa9QQnXjs8aGz45/fsypTonY048qW3FBs=;
- b=jdp//HXTGB0MYqhiQpE8KGfY8kqLWwZEh7WSIBjaZJEHrkDgq4NSqYjfHlkZbV438+
- 7Js1T/OVHIdrYQWRf31Mq/8I78MOLJs/oR7C/se235H2FyZG8qhH2ly3NYEjbSsArIbl
- LDSwkInPyLXIAsdpPd3RFLlsu3ndtF2LOfNhJo+joYNdRNvI68zgepk3TLXIa7h8fiKG
- TWf6c8L/URInnuH4rhMhEssrJo1GIqyvL7aUnohcVEIpkyEkNp3PotXUB25tfXJuF/0j
- E0UHUyIqn47Zj/VnZMuVQA2ojBEGOXf7siml63eW5u/iJK08B/0SPLSZEN21INzqqTVu
- vDtg==
+ d=1e100.net; s=20230601; t=1758537398; x=1759142198;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ja79xQC+jV0B6iDYhE4odk4g+YamsPvZ5MHaPQIPNoM=;
+ b=TFDGJUip0n8SjxuyG2KJRi7IK1V0Xk6o6ks9h0tXIkagWoN8IP05zu3EsdCkROEr8B
+ JHkKjT+t41sba9wifw6ufbpMhm9wgWk2NSfOlwHa4vs6RATu52fZQ137OdPH6zfHpNL5
+ UbXgq53AvXpLGP1ge6+Ih3FJMh4f1pWSrJd/0iBsxU1U6ufUGRZSrNrAofUlo7SqBpAr
+ sbqLfsgcZJZelokuQwUfzoXwXem+Wm4gAOFiKPwLn0sLgWbmF703OhbjtYeZZd0I2LWG
+ O1Y4kLDawck2s7DGYCwnKe3TluOcwrr+UbJqPM6PnPhy74vGb67+dlo0Eva2Q+9PLes1
+ XgNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW+VVJaznCtSR8+OBktKA3sZCd/ix7zhB8PidfCIqgu4NECW/y73HmxXuVNPtaeohL6GrhFdBqnzm4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxT3N64pqNCgsXLPCs89b6hjHBO/jTGezqX7NjUsP+zLS5QML00
- DGWQS0EKvjBdRXsKQaV+yXPLEbuSSwgaztyEGYsNwDK+SjbykFOC+3mt
-X-Gm-Gg: ASbGnct/nP8jNswAmdLzAoG9eF6n5+ImPtIGuRiea3hCyekA0uJF/LZoPeDVP1RS7nW
- 1Md88D/jQhJm0nH7xmvnGF0GEV4u59WT0l0HEF1alCPJ89+/2drW9JYGLqYfRRGvlUL5DIpKnsX
- 7aXoXnM1Qah9D0EY1jpMOizWBosN+2B+9JVfy5aQAjMCowgsRtCJ5v6l8q+Ywx0LGe0ndkfNgN/
- rkjttL3iSFopEtE6yBKjrq9zoX0CwEpTb8zxRUl5dWow2ZAbED681SataNUo7xZr1hgB16nIyze
- GCnaRkFOo1TFVqwO9KyLzeYPkJFYcKgrOv2faNO/tKFlAViOrMS/MQBiBJW6e6J73/yxlqBKnne
- b3lC4ujwhPzV5yKI9+EkDbQ==
-X-Google-Smtp-Source: AGHT+IGx/AbAeHF8PEb0Q776W6z+sCUlCf72y7lCKvvsiZcqlsNVtOnkt+abaAy0lE0qaFDfobwBLA==
-X-Received: by 2002:a05:6a21:e081:b0:248:86a1:a242 with SMTP id
- adf61e73a8af0-2920104846amr16819940637.4.1758537399897; 
- Mon, 22 Sep 2025 03:36:39 -0700 (PDT)
+ AJvYcCWFf7rK4Y694MYDqhBzy+RPUG/TKwPOBlT4t9fayxT2oHA7KiXLyD7GpxlrkZkpxRVFSRLzQzQEz7k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydqYMaq7UVwaB+t8xM2yPHstZGzihJ+dHst2G+mma1prZeVPap
+ BptatpNUE3SmH/duqrQ45pcwmHz9Cw9Y4M+5sAMMq7pHZ6+11SRYFxPV
+X-Gm-Gg: ASbGncuWSl61NMSJJ9lcWeN3rqGR7gnM/MCJT25J5QOSlSkMMuCmMeOC4dJMmDVr5fZ
+ zNPwf5qbWtEqH5+KOVc8OJCQrewZ1vmNsd3s0C8u5jTbYxphocpx0VCFiGqGbykMJraRjoUDgvp
+ ftGKxfgT2s7UJUOkd9PE6m28tSMxjNLBqU8HsQrvMPNK5vGO3sBsBin7w7OM/Kqc3j3Ei2mmVJx
+ nS19tvrMDovSutKVD+9XPhv45tyKhzavt0w5aHsBbLcISb0+B8ZglJA82+EtuKJZNnWMMjSyqGS
+ J9+r9udqpetmIiR4c/CfbBl/5g4OEwUMCf6sNoMBpl29EPglM/bAHRkEvKjDEjY+Fxo2Pj9jQV/
+ KES5ThYBGvbthFqPXWhvKWA==
+X-Google-Smtp-Source: AGHT+IFjbk1Ge/dq+0OQP8qlAA9psarcE8O7P0zDwLh4eJYft0zHWrPMxSR3ke/HuW5RGmagj5p9LA==
+X-Received: by 2002:a05:6a20:6325:b0:2b5:769f:254a with SMTP id
+ adf61e73a8af0-2b5769f2904mr3892589637.6.1758537397559; 
+ Mon, 22 Sep 2025 03:36:37 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-32ed27612b3sm15751320a91.22.2025.09.22.03.36.36
+ d2e1a72fcca58-77f43b6f6afsm1391686b3a.65.2025.09.22.03.36.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Sep 2025 03:36:36 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id 4A87A423FA7F; Mon, 22 Sep 2025 17:36:34 +0700 (WIB)
+ id 8D31D4266764; Mon, 22 Sep 2025 17:36:34 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -73,18 +74,21 @@ Cc: Helge Deller <deller@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
  Bernie Thompson <bernie@plugable.com>,
  Bagas Sanjaya <bagasdotme@gmail.com>,
  Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Arvind Sankar <nivedita@alum.mit.edu>
-Subject: [PATCH v2 0/3] framebuffer docs toctree index refactoring
-Date: Mon, 22 Sep 2025 17:36:13 +0700
-Message-ID: <20250922103615.42925-2-bagasdotme@gmail.com>
+ Ard Biesheuvel <ardb@kernel.org>, Arvind Sankar <nivedita@alum.mit.edu>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2 1/3] Documentation: fb: ep93xx: Demote section headings
+Date: Mon, 22 Sep 2025 17:36:14 +0700
+Message-ID: <20250922103615.42925-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250922103615.42925-2-bagasdotme@gmail.com>
+References: <20250922103615.42925-2-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1333; i=bagasdotme@gmail.com;
- h=from:subject; bh=RXgkduA9t/iaVUetjSaNFmeGS+3ycNLeNR6/iqQUeUo=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX1QJvvc6sv/jO0nqfj0DYtUu7tRW/7X70Km37Ao3pJ
- 2LZSxfwdZSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAis4sYGfb4Ctjv/7f6iW73
- x8VKe54ssFz3ZU+RvmW++9oU7lMvrBQZGeYFbvq87d5V56gezZPWqSeFNr56/O5c3UIm2SlTH65
- 24GUHAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1404; i=bagasdotme@gmail.com;
+ h=from:subject; bh=5AEGBnus0Qpin8vE8E3VJOLKJlPJziaZtjsBzVOmbM0=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX1QLfr+8rFNv9puHYSc34IO/K7k2cE549Xpo+tULlQ
+ 0oDe3JeRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACbiGsnwz9w0YcmvlaXnjLN1
+ 9yqKHxcS3Hx0B8+XW6usP5+SLeKd/Ifhf9INZrngmfMshXZ+kV68wfn1zFd6m9ZkZ1ZZHT3xm0V
+ 7AwMA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -103,44 +107,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Section headings are formatted the same as title heading, thus
+increasing number of entries in framebuffer toctree. Demote them.
 
-Here is simple toctree refactoring for framebuffer documentation,
-based on docs-next tree. Simple because it only splits the toctree
-in patch [3/3] into two sections.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/fb/ep93xx-fb.rst | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Enjoy!
-
-Changes since v1 [1]:
-
-  * Apply proofreading suggestions (Randy, [2/3])
-  * Add review tags (Randy)
-
-[1]: https://lore.kernel.org/linux-doc/20250919003640.14867-1-bagasdotme@gmail.com/
-
-Bagas Sanjaya (3):
-  Documentation: fb: ep93xx: Demote section headings
-  Documentation: fb: Retitle driver docs
-  Documentation: fb: Split toctree
-
- Documentation/fb/aty128fb.rst  |  8 ++--
- Documentation/fb/efifb.rst     |  6 +--
- Documentation/fb/ep93xx-fb.rst |  4 --
- Documentation/fb/gxfb.rst      |  8 ++--
- Documentation/fb/index.rst     | 80 +++++++++++++++++++---------------
- Documentation/fb/lxfb.rst      |  9 ++--
- Documentation/fb/matroxfb.rst  |  9 ++--
- Documentation/fb/pvr2fb.rst    |  6 +--
- Documentation/fb/sa1100fb.rst  |  9 ++--
- Documentation/fb/sisfb.rst     |  6 +--
- Documentation/fb/sm712fb.rst   |  6 +--
- Documentation/fb/tgafb.rst     |  6 +--
- Documentation/fb/udlfb.rst     |  6 +--
- Documentation/fb/vesafb.rst    |  6 +--
- 14 files changed, 81 insertions(+), 88 deletions(-)
-
-
-base-commit: 348011753d99b146c190aae262ee361d03cb0c5e
+diff --git a/Documentation/fb/ep93xx-fb.rst b/Documentation/fb/ep93xx-fb.rst
+index 1dd67f4688c751..93b3494f530979 100644
+--- a/Documentation/fb/ep93xx-fb.rst
++++ b/Documentation/fb/ep93xx-fb.rst
+@@ -41,7 +41,6 @@ your board initialisation function::
+ 
+ 	ep93xx_register_fb(&some_board_fb_info);
+ 
+-=====================
+ Video Attribute Flags
+ =====================
+ 
+@@ -79,7 +78,6 @@ EP93XXFB_USE_SDCSN2		Use SDCSn[2] for the framebuffer.
+ EP93XXFB_USE_SDCSN3		Use SDCSn[3] for the framebuffer.
+ =============================== ======================================
+ 
+-==================
+ Platform callbacks
+ ==================
+ 
+@@ -101,7 +99,6 @@ obtained as follows::
+ 		/* Board specific framebuffer setup */
+ 	}
+ 
+-======================
+ Setting the video mode
+ ======================
+ 
+@@ -119,7 +116,6 @@ set when the module is installed::
+ 
+ 	modprobe ep93xx-fb video=320x240
+ 
+-==============
+ Screenpage bug
+ ==============
+ 
 -- 
 An old man doll... just what I always wanted! - Clara
 
