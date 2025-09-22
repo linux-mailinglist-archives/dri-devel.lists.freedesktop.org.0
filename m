@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437EFB939C2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 01:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002CCB939D1
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 01:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B765A10E00E;
-	Mon, 22 Sep 2025 23:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6201210E02A;
+	Mon, 22 Sep 2025 23:39:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RyxQCKkW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D3W6ofxA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23C7510E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:39:00 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MG4iQv015502
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:38:59 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4AB10E03A
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:39:56 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MHZVdY008232
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:39:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- e5TvOCaHalM32QUUJdndPnHbjMULpv/tXt4BpcYo4Xw=; b=RyxQCKkW5kWPhVUt
- 3GGAY8PcspEk4oILlwudowluIi8Z+6u5eKYlLEEOiSyDdqlvsabyObnFBMoYp+jL
- BJ8AAQT8WKgG9Uzm96aqnEXEYTYa3u239R27+K8kwxscKc9zu3RgSH4HoFLDqax3
- Q/LQ9lp3tVXTQBlra5ArxzWujzbmK/+JTQ3DjamvAon3Mjc0NNTGD4GwAC4wZmHP
- 0SNNkIA+al9Ygp4mObCquxSfIE8E09jYVPbnW1BDiV88K/+B02ArWbkPp7C5CnlG
- /ClpR6MGV2fyjJTKtxZgtiaxubK3uzdgkuYQUdF+XVMFdHRJKXKiyl3HZOToD23s
- 1HfR6Q==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1fee6u-1
+ nyhMdld3iRwlOfrrEDiEApYehLCv9Ntzp5VmwS0Yvcc=; b=D3W6ofxAWgqgKf9U
+ ektTvLlg9+CI08ZNS9v2rTbGb4dWAJZr4z5TO6J+XBcpEFCJyZU09pZ7SPaqpNtj
+ Oq/wybhLS+QOt2Zly/SnQpdbDVtdvDtXGiyWuh5cN9/OT8qx3H6h++ZllUAIaKy8
+ i6ND3+wi0UMs9UxFX1uDEZ9oknTZWREMtrm3T5KAyZeWHT+qRbqA3SrB1ChAoII5
+ Ikt16RUh1dsBoIRh4NY1DSzbzs6FfCFeqrCHf9tzMevSzA4fyDA/f0eZHhZwKpXR
+ ECE1TgkJxCqtDZAqeF6sRHfAnqwGi0n9H6KRQcgGqDPwBMiwoMsgleo44NNYJ6D0
+ XGGRcw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bb07gvv2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:38:59 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-78e30eaca8eso41118006d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 16:38:59 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:39:55 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-79390b83c48so93116106d6.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 16:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758584338; x=1759189138;
+ d=1e100.net; s=20230601; t=1758584394; x=1759189194;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e5TvOCaHalM32QUUJdndPnHbjMULpv/tXt4BpcYo4Xw=;
- b=uodcsdxejyPQisyvHUwh2AQtPIOK16gwLGCBsKY4x2wqutBRbHWL1AclXzd6ae3lk7
- dHMuKHMwQBHo05DBvJLpt1KMyYnaOJf19wEEsbVogvRp91KJWPERcdzzKBz4rJ27DHKH
- lgn9DK0c2zSQPLG6oWBZacgX2QHGaFNr5dHO+URb2UkyF+uRfIKHW95UUdkgrDY4gtT5
- wb4DSlpH0PNvGObD1nRC6/3p1PWVnWRZUnvYcqAWL1au/5Wq0iZ5/IvAIyxt+hLxcqu7
- Yqn9Kuwo29XTv7zpEvl8MOVnmfa3o+KVp8uNBHhbNTWz+Vb34vQ8/JS2/8gCBd70hU43
- qbsQ==
+ bh=nyhMdld3iRwlOfrrEDiEApYehLCv9Ntzp5VmwS0Yvcc=;
+ b=WELOCW5FPQ9FFmLvwClvFNpc7sWTOY8MdeNhGL5ThOVqwVdqrRmKYPAw0eRn+eS5XB
+ 66hFfm4YkYbHSzul0ILBd/yuwrunaD5Sn1GC2hOg6MhBmNQ6Xyy2u6TjWCyOxn4DeGCp
+ rYafRKPs7yksdbacR/HLiAHhY2JWGWvWJdVFRLLwPfRWIwfh9/3rDkpmXg/LKxzSUo7P
+ oVeafsFziy33rFoZbeKDYiQnmu+LyY0A+fjY6GnURRk4jquhbB2nYJBEdrq9q59oWr9b
+ uNejeeVfUpWQrJu3kx+jI8fKuNP0ix+9FDR3A7U5sgwwZntb6FtWI6O6UW1ufxpVE1Gs
+ UhPQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrmsIVJqdqkLfCq9QKGAiOtxgu4TVQDqDglum0/JsthQureIu5HpXGvQ9qGYJEzr3UHvvh1OG2ZTM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFkGR0O4q7Phy0JZoQYtH2VRCJNWlvRcOPIrbodMrRNw/9K/UU
- KiWxRpQvPyycHI9y76TA41XVhG/ILl0hSUfNmvgT8jqjbEj/hbKrTX5GpUz4NfVYfLQ0k2eDPrP
- TjLHU2GmOg30yk5xMYtxKrE2N/qocUzbiKptoNUejxSuBR1cwnvqRCuZPZr642SpH/9UNYWw=
-X-Gm-Gg: ASbGncu2C43P9IBrIDNfoQO1mrbP70f+XS6ZqTaLjiE18QjMewFxgqsO1bAKOnTZNXE
- ZhI3xJvJ6PvsGe5XG338o6SYe6NEs09uIR4XVDA2UXOZdbRtP76G9Ntn9Bf2oBpOAaeXqhnVH9R
- xC9ZqjM7OoNC7Fw9SjF7/iuwlSmoHiHq3RIZsfnER6eY7LhiPETZCFhCoqgcTTWalKyzkCAGhCb
- OveZmOD0pfe31IbDoei7aS1xrY2XdY4G/gCFzv8er0mRE5qIFSGkWLcC/I91N1iwu4L7htISwv9
- XzAwlPOhSfE7q4R52BrJAZu9sEhML+EE/m878VrdQWxiOqFSAbMk9BLnRZJmHBH4ZVlULSgaJMz
- CGL0+NwJ5dpj7IN5jXzf2GAWXmggOz0cFKS+s6qcfE06F1Vtx5f0z
-X-Received: by 2002:ad4:4eed:0:b0:79c:f4b0:6813 with SMTP id
- 6a1803df08f44-7e70381f0aemr8294956d6.21.1758584338157; 
- Mon, 22 Sep 2025 16:38:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGUSFjg5iWYzh+WxjwkEqcZf3xV54AJeAPRjTMWZAiNEPSIO65hMhienoOLDZE1fB+/IhMYg==
-X-Received: by 2002:ad4:4eed:0:b0:79c:f4b0:6813 with SMTP id
- 6a1803df08f44-7e70381f0aemr8294756d6.21.1758584337686; 
- Mon, 22 Sep 2025 16:38:57 -0700 (PDT)
+ AJvYcCUCdc9BZiJedhB6iOpEJGWTYRch2AuCAm/YK96VoGX4FhImR3yD1xmkh1rwTRhqCDgNAGRBk2d47hI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywe4uFXPl3pjQP3/l6iouSN0GdH3yOaKMVQzWzHBbDoAzLGTSZd
+ 3LFSr7NMobpurDoZK+2jqQInenP1HP0Z3EEtvvN6z4Ri1dcWk0oCggFbR2DP6vzEVMao4H20yLf
+ IslFG3tllWlK6O93ZyJeBuYsXZdqe7eAUz4E9QuzDZbrtrSmWaJzp4XpQ+ojIJ6lIUSG5rrs=
+X-Gm-Gg: ASbGncvCU+6Tirsn9X2hkLGI9Wvk6z3L1Q6lvFuq0veI1kTV8pNv7GCR7TVtZCS14RI
+ 9cHGnTWS/oc7SgF8d6uJNlvibI0t35FmTHZxjL0kG1lHK65N1218N9uV8TeBfk8yzVaIGg2a92y
+ CgYH6hgXYgmTrIFNQwQ1Pq/BCv/Qbx6kXJZc1CoOlS6J6008B/6hT9vw3itybn9lRiE7eXj/4eA
+ 4+967aE1B9EIpMjeUHMVeInV6AI20WYk2z9zRjSnT8SrzyKEX3fVjJbin/5G7i2Xe2X4SEPLz3l
+ kbdWCIui6p9Wi1abxxJGIfewskIP+9GHV1nguipX/ma2c9P/ZvSxT7djvBcLofs2AmnK4iD9kBi
+ ECmomnydvz9iiN3DWHW1iWdHbaXHRYk2Gsx3UbOdgL78uk8Q90FE/
+X-Received: by 2002:a05:6214:d62:b0:783:aeed:f591 with SMTP id
+ 6a1803df08f44-7e6ff32ee4fmr9470216d6.11.1758584394108; 
+ Mon, 22 Sep 2025 16:39:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGjwGj4dPuDuQgAOpaSc71GX0OUwUXDROsU0ay7TcyRk+yHVyKF7m4w7U22p4wZjnkRg5+6gg==
+X-Received: by 2002:a05:6214:d62:b0:783:aeed:f591 with SMTP id
+ 6a1803df08f44-7e6ff32ee4fmr9469836d6.11.1758584393538; 
+ Mon, 22 Sep 2025 16:39:53 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-57b7e33b78bsm2117111e87.45.2025.09.22.16.38.56
+ 2adb3069b0e04-57c5687103fsm1861749e87.52.2025.09.22.16.39.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 16:38:56 -0700 (PDT)
-Date: Tue, 23 Sep 2025 02:38:55 +0300
+ Mon, 22 Sep 2025 16:39:52 -0700 (PDT)
+Date: Tue, 23 Sep 2025 02:39:49 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
+To: Rob Clark <rob.clark@oss.qualcomm.com>
+Cc: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Sean Paul <sean@poorly.run>,
@@ -93,41 +92,39 @@ Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
  li.liu@oss.qualcomm.com, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>
-Subject: Re: [PATCH v5 12/14] phy: qcom: qmp-usbc: Add QCS615 USB/DP PHY
- config and DP mode support
-Message-ID: <bonlc3rnfizezrobyuazv2cmyu3hqqck7tbk2g5ryln24eiwno@jxsz2rg2dyex>
+Subject: Re: [PATCH v5 14/14] drm/msm/dp: Add support for lane mapping
+ configuration
+Message-ID: <t4x7okzjvh5ltyoniwlreoyy76735igtnxpeohpbojn4hkqk4q@v3ayfjrkez3e>
 References: <20250919-add-displayport-support-for-qcs615-platform-v5-0-eae6681f4002@oss.qualcomm.com>
- <20250919-add-displayport-support-for-qcs615-platform-v5-12-eae6681f4002@oss.qualcomm.com>
- <bfpgktxgo2hb6dpzy3i7jdr6w4de5boorx4n6qeapct2vre4sn@4z2mnppridn5>
- <14cdf3a4-714c-4136-8c1d-99392e7911f5@oss.qualcomm.com>
- <2ewxoe76rrii4w3n5b6wl32vmatcp2boj75o65cuq5nx4f2a55@7cn6m7oxzu6c>
- <28eef277-c778-4ffe-94c6-2e90d58633de@oss.qualcomm.com>
+ <20250919-add-displayport-support-for-qcs615-platform-v5-14-eae6681f4002@oss.qualcomm.com>
+ <j7ooyi5vih6ofnjigdgj6uk3ycutugunpm5pu5zf55pu5ua6r2@agg73zakjicn>
+ <CACSVV00Bat6LE=joM+Wh3HnC1=c3_Y=crxUGdhLQWxxpZ17Q3g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <28eef277-c778-4ffe-94c6-2e90d58633de@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: 4Ntzczifn2Y3LGYA82JapJKbGXa4EFj7
-X-Proofpoint-GUID: 4Ntzczifn2Y3LGYA82JapJKbGXa4EFj7
-X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d1de13 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=W0oVTkMUdJ9i6-1frqUA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfX4LwaWAai9HRf
- dPATRc0ulxAM13F93Em9o1ApL205+bx1iO266AhRH6yjmmCSesvKM0siroKAa9vl08LDfpCCDJT
- tzQI7Xlmx7OTvYGanrfkzoWFFD7MFxTw9FDgj680FSONnlIWvDkPvZqBeWig7SKvQoJ1dQ+aqJ+
- saPxXPdqLqRNmLISVQuANQNfmDTO4zTJvIDBDUKyvgSDaguMG/2553JUREQIzUYiQalLnmf8ark
- 2B7gDKCUCc7NY7Nh9QAbx1gW3ZCHpKmMM0J4GYG8iNfavfCZ0QiBMJ/tFxNHk96irEf31hoo43q
- 6e+syO0ZSNU/rM7kTihN2evQiiZT6rA2/AMaGKritay/5CT5tWAozS1cLyRFiy86Jzm6k48DT5g
- ovzjQjIm
+In-Reply-To: <CACSVV00Bat6LE=joM+Wh3HnC1=c3_Y=crxUGdhLQWxxpZ17Q3g@mail.gmail.com>
+X-Authority-Analysis: v=2.4 cv=HJnDFptv c=1 sm=1 tr=0 ts=68d1de4b cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=yZMGBzM-AMQHzKZg3z0A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: JoNZ30F3NdbfQMMwTkrROJLneysRFza1
+X-Proofpoint-GUID: JoNZ30F3NdbfQMMwTkrROJLneysRFza1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIyMDE3MiBTYWx0ZWRfX9b8R1TQk2/p3
+ RpoAUvQP9+4/zP+OUb8mhJsYGuPiRtGtCgVMNYTpx/TGSKOg2l+CVSobvVPvQNkQHIStmEo4xdh
+ 90eED54drpqLzUECDIETjgHHug+IAr6vwaMQzUrFMBh0rZh/feSHbCpZvyvRNAzjyeYsOJiH2Vx
+ Z2RkNL0spbYJhahbJDc5DXTctTytGsQkJCaBoF7C8zY/jbDx10DIsdjLm/901Y4s1w7X/v5/hiO
+ X3baq7Kt6Kj1zrzJwShrqEKPUj6nvRGiv7IIfMtEuI6AHld1XCmI+cArFiCQ5DkUFOiD0JHaEHI
+ QRytQ0wY9KMn+jdeE6DB5woWbejD6WHRhSHYtczz6trxv94eSeIQubSGbYugUOK+WUTF9wqxXCz
+ 2ETjsDKi
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-22_05,2025-09-22_05,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ impostorscore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509220172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,77 +140,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 22, 2025 at 07:28:17PM +0800, Xiangxu Yin wrote:
-> 
-> On 9/22/2025 5:45 PM, Dmitry Baryshkov wrote:
-> > On Mon, Sep 22, 2025 at 02:58:17PM +0800, Xiangxu Yin wrote:
-> >> On 9/20/2025 2:41 AM, Dmitry Baryshkov wrote:
-> >>> On Fri, Sep 19, 2025 at 10:24:29PM +0800, Xiangxu Yin wrote:
-> >>>> Add QCS615-specific configuration for USB/DP PHY, including DP init
-> >>>> routines, voltage swing tables, and platform data. Add compatible
-> >>>> "qcs615-qmp-usb3-dp-phy".
-> >>>>
-> >>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> >>>> ---
-> >>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 395 +++++++++++++++++++++++++++++++
-> >>>>  1 file changed, 395 insertions(+)
-> >>>>
-> >>>> +
-> >>>> +	writel(0x3f, qmp->dp_tx + QSERDES_V2_TX_TRANSCEIVER_BIAS_EN);
-> >>>> +	writel(0x10, qmp->dp_tx + QSERDES_V2_TX_HIGHZ_DRVR_EN);
-> >>>> +	writel(0x0a, qmp->dp_tx + QSERDES_V2_TX_TX_POL_INV);
-> >>>> +	writel(0x3f, qmp->dp_tx2 + QSERDES_V2_TX_TRANSCEIVER_BIAS_EN);
-> >>>> +	writel(0x10, qmp->dp_tx2 + QSERDES_V2_TX_HIGHZ_DRVR_EN);
-> >>>> +	writel(0x0a, qmp->dp_tx2 + QSERDES_V2_TX_TX_POL_INV);
-> >>> Are you sure that these don't need to be adjusted based on
-> >>> qmp->orientation or selected lanes count?
-> >>>
-> >>> In fact... I don't see orientation handling for DP at all. Don't we need
-> >>> it?
-> >>
-> >> Thanks for the review.
-> >>
-> >> I agree with your reasoning and compared talos 14nm HPG with hana/kona
-> >> 7nm PHY HPG; the 7nm COMBO PHY series has orientation/lane-count dependent
-> >> configs, but the 14nm PHY series does not. On QCS615 (talos), the TX_*
-> >> registers you pointed to are programmed with constant values regardless
-> >> of orientation or lane count. This has been confirmed from both the HPG
-> >> and the downstream reference driver.
-> > Thanks for the confirmation.
+On Mon, Sep 22, 2025 at 08:13:00AM -0700, Rob Clark wrote:
+> On Fri, Sep 19, 2025 at 11:35 AM Dmitry Baryshkov
+> <dmitry.baryshkov@oss.qualcomm.com> wrote:
 > >
-> >> For orientation, from reference the only difference is DP_PHY_MODE, which
-> >> is set by qmp_usbc_configure_dp_mode(). The DP PHY does have an
-> >> SW_PORTSELECT-related register, but due to talos lane mapping from the
-> >> DP controller to the PHY not being the standard <0 1 2 3> sequence, it
-> >> cannot reliably handle orientation flip. Also, QCS615 is a fixed-
-> >> orientation platform (not DP-over-TypeC), so there is no validated hardware
-> >> path for orientation flip on this platform.
-> > Wait... I thought that the the non-standard lane order is handled by the
-> > DP driver, then we should be able to handle the orientation inside PHY
-> > driver as usual.
+> > On Fri, Sep 19, 2025 at 10:24:31PM +0800, Xiangxu Yin wrote:
+> > > QCS615 platform requires non-default logical-to-physical lane mapping due
+> > > to its unique hardware routing. Unlike the standard mapping sequence
+> > > <0 1 2 3>, QCS615 uses <3 2 0 1>, which necessitates explicit
+> > > configuration via the data-lanes property in the device tree. This ensures
+> > > correct signal routing between the DP controller and PHY.
+> > >
+> > > For partial definitions, fill remaining lanes with unused physical lanes
+> > > in ascending order.
+> > >
+> > > Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> > > ---
+> > >  drivers/gpu/drm/msm/dp/dp_ctrl.c | 10 +++----
+> > >  drivers/gpu/drm/msm/dp/dp_link.c | 60 ++++++++++++++++++++++++++++++++++++++++
+> > >  drivers/gpu/drm/msm/dp/dp_link.h |  1 +
+> > >  3 files changed, 66 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+> > > index 2aeb3ecf76fab2ee6a9512b785ca5dceebfc3964..34a91e194a124ef5372f13352f7b3513aa88da2a 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_link.c
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+> > > @@ -1236,6 +1236,61 @@ static u32 msm_dp_link_link_frequencies(struct device_node *of_node)
+> > >       return frequency;
+> > >  }
+> > >
+> > > +/*
+> > > + * Always populate msm_dp_link->lane_map with 4 lanes.
+> > > + * - Use DTS "data-lanes" if present; otherwise fall back to default mapping.
+> > > + * - For partial definitions, fill remaining entries with unused lanes in
+> > > + *   ascending order.
+> > > + */
+> > > +static int msm_dp_link_lane_map(struct device *dev, struct msm_dp_link *msm_dp_link)
+> > > +{
+> > > +     struct device_node *of_node = dev->of_node;
+> > > +     struct device_node *endpoint;
+> > > +     int cnt = msm_dp_link->max_dp_lanes;
+> > > +     u32 tmp[DP_MAX_NUM_DP_LANES];
+> > > +     u32 map[DP_MAX_NUM_DP_LANES] = {0, 1, 2, 3}; /* default 1:1 mapping */
+> > > +     bool used[DP_MAX_NUM_DP_LANES] = {false};
+> > > +     int i, j = 0, ret = -EINVAL;
+> > > +
+> > > +     endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
+> > > +     if (endpoint) {
+> > > +             ret = of_property_read_u32_array(endpoint, "data-lanes", tmp, cnt);
+> > > +             if (ret)
+> > > +                     dev_dbg(dev, "endpoint data-lanes read failed (ret=%d)\n", ret);
+> > > +     }
+> > > +
+> > > +     if (ret) {
+> > > +             ret = of_property_read_u32_array(of_node, "data-lanes", tmp, cnt);
+> > > +             if (ret) {
+> > > +                     dev_info(dev, "data-lanes not defined, set to default\n");
+> > > +                     goto out;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     for (i = 0; i < cnt; i++) {
+> > > +             if (tmp[i] >= DP_MAX_NUM_DP_LANES) {
+> > > +                     dev_err(dev, "data-lanes[%d]=%u out of range\n", i, tmp[i]);
+> > > +                     return -EINVAL;
+> > > +             }
+> > > +             used[tmp[i]] = true;
+> > > +             map[i] = tmp[i];
+> > > +     }
+> > > +
+> > > +     /* Fill the remaining entries with unused physical lanes (ascending) */
+> > > +     for (i = cnt; i < DP_MAX_NUM_DP_LANES && j < DP_MAX_NUM_DP_LANES; j++) {
+> >
+> > Nit: i = cnt, j = 0; Don't init loop variables at the top of the
+> > function.
 > 
-> 
-> Yes, I have confirmed this with our verification team.
-> 
-> For the non-standard lane order, handling flip requires swapping mapped 
-> lane 0 ↔ lane 3 and lane 1 ↔ lane 2 in the logical2physical mapping.
-> This is a hardware limitation, and with the current PHY driver we cannot
-> propagate orientation status to dp_ctrl for processing.
+> These days we can party like it's c99 and declare loop variables
+> inside the for(), instead of at the top of the function.  My
+> preference is to do so, unless the loop variable is used after the
+> loop.
 
-This might mean that we might need to make DP host receive mux
-messages...
-
-> 
-> 
-> > Anyway, please add a FIXME comment into the source file and a note to
-> > the commit message that SW_PORTSELECT should be handled, but it's not a
-> > part of this patch for the stated reasons.
-> 
-> 
-> OK, I will add a |FIXME| comment in |qmp_usbc_dp_power_on| and update the
-> related commit message.
-
-Thanks!
+Ack, works for me too. I think I'm not used for having theese parts of
+C99 allowed in the kernel.
 
 -- 
 With best wishes
