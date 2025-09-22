@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD18B8F95E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 10:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230E7B8F967
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 10:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC08D10E3E9;
-	Mon, 22 Sep 2025 08:40:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9841610E3EC;
+	Mon, 22 Sep 2025 08:40:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LBEUKlrY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UY9BLwHh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LBEUKlrY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UY9BLwHh";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Slf42qV5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7MoLUhtY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Slf42qV5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7MoLUhtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D332710E3E4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 08:40:10 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B606E10E3E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 08:40:18 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0908022047;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4C6F21F8CC;
  Mon, 22 Sep 2025 08:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1758530401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lnWpGAvgCyFcs85TeyQX1OYiomwqojdN5OBn/6hzukE=;
- b=LBEUKlrYEzorpqtYRqxs1WpgVwuvwzJCApNDpYji5XGCoOmfUPCsSljRgj6+xcKEmihSh+
- ujmyust591prs7/c3qt/2lopUjCectkLkdjSBx8CY2KcDO00aSQc4/mrNpUH5XaQoT7mU/
- sjQkJJSRinwJiPnYfi7hSaugQrQuTUg=
+ bh=MTVyhBDFr5dbPmDjcxOYluyeF0G4N6tX//bP5DXsqy8=;
+ b=Slf42qV5NXQdCfqCjQTiXpV/yrGYqGwPihRxGDaof8MMfijMr8UdafE7LPSkuo4FAVinud
+ yblsA7tmoXS+tqtRqvS/DI9EeZbuR0xlZJwfO7YVhMgzd3Qb8qscgE/a3lNbw+H+mpG4EP
+ PLNPg/b3sNi4xH+hiX4CWVx4iGatJiw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1758530401;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lnWpGAvgCyFcs85TeyQX1OYiomwqojdN5OBn/6hzukE=;
- b=UY9BLwHhqj6/h/H4T7lix3KWN1U5fVz4bfS2X44SGu3aSDtZqejbUgocAqZHQwJRhqBhMt
- VBMAFeNAVlctF5DA==
-Authentication-Results: smtp-out1.suse.de;
+ bh=MTVyhBDFr5dbPmDjcxOYluyeF0G4N6tX//bP5DXsqy8=;
+ b=7MoLUhtYEvyF2iKlmKx7pRXLhI8p4pCCUe9T4xEjPC9P3IDl/hXY8cD2x3ESc6socHH73t
+ ljljN46JBvz/bYDg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1758530401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lnWpGAvgCyFcs85TeyQX1OYiomwqojdN5OBn/6hzukE=;
- b=LBEUKlrYEzorpqtYRqxs1WpgVwuvwzJCApNDpYji5XGCoOmfUPCsSljRgj6+xcKEmihSh+
- ujmyust591prs7/c3qt/2lopUjCectkLkdjSBx8CY2KcDO00aSQc4/mrNpUH5XaQoT7mU/
- sjQkJJSRinwJiPnYfi7hSaugQrQuTUg=
+ bh=MTVyhBDFr5dbPmDjcxOYluyeF0G4N6tX//bP5DXsqy8=;
+ b=Slf42qV5NXQdCfqCjQTiXpV/yrGYqGwPihRxGDaof8MMfijMr8UdafE7LPSkuo4FAVinud
+ yblsA7tmoXS+tqtRqvS/DI9EeZbuR0xlZJwfO7YVhMgzd3Qb8qscgE/a3lNbw+H+mpG4EP
+ PLNPg/b3sNi4xH+hiX4CWVx4iGatJiw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1758530401;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lnWpGAvgCyFcs85TeyQX1OYiomwqojdN5OBn/6hzukE=;
- b=UY9BLwHhqj6/h/H4T7lix3KWN1U5fVz4bfS2X44SGu3aSDtZqejbUgocAqZHQwJRhqBhMt
- VBMAFeNAVlctF5DA==
+ bh=MTVyhBDFr5dbPmDjcxOYluyeF0G4N6tX//bP5DXsqy8=;
+ b=7MoLUhtYEvyF2iKlmKx7pRXLhI8p4pCCUe9T4xEjPC9P3IDl/hXY8cD2x3ESc6socHH73t
+ ljljN46JBvz/bYDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C32B91388C;
- Mon, 22 Sep 2025 08:40:00 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1167813A63;
+ Mon, 22 Sep 2025 08:40:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aFw1LmAL0WikFwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 08:40:00 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4ILgAmEL0WikFwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 08:40:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 06/12] drm/ast: Move Gen2 device initialization into
+Subject: [PATCH v2 07/12] drm/ast: Move Gen3 device initialization into
  separate helper
-Date: Mon, 22 Sep 2025 10:36:06 +0200
-Message-ID: <20250922083708.45564-7-tzimmermann@suse.de>
+Date: Mon, 22 Sep 2025 10:36:07 +0200
+Message-ID: <20250922083708.45564-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250922083708.45564-1-tzimmermann@suse.de>
 References: <20250922083708.45564-1-tzimmermann@suse.de>
@@ -118,56 +118,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split off device initialization for Gen2 hardware into the helpers
-ast_2100_device_create() and ast_2100_detect_wide_screen(). The new
+Split off device initialization for Gen3 hardware into the helpers
+ast_2200_device_create() and ast_2200_detect_wide_screen(). The new
 functions are duplicates of their counterparts in ast_main.c, but
-stripped from most non-Gen2 support.
+stripped from most non-Gen3 support.
 
 Simplifies maintenance as the driver's number of supported hardware
 generations grows.
 
 v2:
-- simplify widescreen-detection logic (Jocelyn)
+- simplify widescreen-detection logic
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/ast/ast_2100.c | 54 ++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/ast/ast_drv.c  |  4 +++
- drivers/gpu/drm/ast/ast_drv.h  |  7 +++++
- 3 files changed, 65 insertions(+)
+ drivers/gpu/drm/ast/Makefile   |  1 +
+ drivers/gpu/drm/ast/ast_2200.c | 85 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/ast/ast_drv.c  |  4 ++
+ drivers/gpu/drm/ast/ast_drv.h  |  9 ++++
+ 4 files changed, 99 insertions(+)
+ create mode 100644 drivers/gpu/drm/ast/ast_2200.c
 
-diff --git a/drivers/gpu/drm/ast/ast_2100.c b/drivers/gpu/drm/ast/ast_2100.c
-index 16a279ec8351..540972daec52 100644
---- a/drivers/gpu/drm/ast/ast_2100.c
-+++ b/drivers/gpu/drm/ast/ast_2100.c
-@@ -27,6 +27,9 @@
-  */
- 
- #include <linux/delay.h>
+diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
+index 2547613155da..a7a13b6d526e 100644
+--- a/drivers/gpu/drm/ast/Makefile
++++ b/drivers/gpu/drm/ast/Makefile
+@@ -6,6 +6,7 @@
+ ast-y := \
+ 	ast_2000.o \
+ 	ast_2100.o \
++	ast_2200.o \
+ 	ast_2300.o \
+ 	ast_2500.o \
+ 	ast_2600.o \
+diff --git a/drivers/gpu/drm/ast/ast_2200.c b/drivers/gpu/drm/ast/ast_2200.c
+new file mode 100644
+index 000000000000..4795966dc2a7
+--- /dev/null
++++ b/drivers/gpu/drm/ast/ast_2200.c
+@@ -0,0 +1,85 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright 2012 Red Hat Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ */
++/*
++ * Authors: Dave Airlie <airlied@redhat.com>
++ */
++
 +#include <linux/pci.h>
 +
 +#include <drm/drm_drv.h>
- 
- #include "ast_drv.h"
- #include "ast_post.h"
-@@ -417,3 +420,54 @@ bool __ast_2100_detect_wuxga(struct ast_device *ast)
- 
- 	return false;
- }
 +
-+static void ast_2100_detect_widescreen(struct ast_device *ast)
++#include "ast_drv.h"
++
++static void ast_2200_detect_widescreen(struct ast_device *ast)
 +{
 +	if (__ast_2100_detect_wsxga_p(ast)) {
 +		ast->support_wsxga_p = true;
-+		if (ast->chip == AST2100)
++		if (ast->chip == AST2200)
 +			ast->support_fullhd = true;
 +	}
 +	if (__ast_2100_detect_wuxga(ast))
 +		ast->support_wuxga = true;
 +}
 +
-+struct drm_device *ast_2100_device_create(struct pci_dev *pdev,
++struct drm_device *ast_2200_device_create(struct pci_dev *pdev,
 +					  const struct drm_driver *drv,
 +					  enum ast_chip chip,
 +					  enum ast_config_mode config_mode,
@@ -198,7 +233,7 @@ index 16a279ec8351..540972daec52 100644
 +	if (ret)
 +		return ERR_PTR(ret);
 +
-+	ast_2100_detect_widescreen(ast);
++	ast_2200_detect_widescreen(ast);
 +
 +	ret = ast_mode_config_init(ast);
 +	if (ret)
@@ -206,39 +241,42 @@ index 16a279ec8351..540972daec52 100644
 +
 +	return dev;
 +}
++
 diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 3fecdc0fc7f7..bcf0b318b495 100644
+index bcf0b318b495..caf41c31cc9d 100644
 --- a/drivers/gpu/drm/ast/ast_drv.c
 +++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -386,6 +386,10 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		drm = ast_2000_device_create(pdev, &ast_driver, chip, config_mode,
+@@ -390,6 +390,10 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		drm = ast_2100_device_create(pdev, &ast_driver, chip, config_mode,
  					     regs, ioregs, need_post);
  		break;
-+	case 2:
-+		drm = ast_2100_device_create(pdev, &ast_driver, chip, config_mode,
++	case 3:
++		drm = ast_2200_device_create(pdev, &ast_driver, chip, config_mode,
 +					     regs, ioregs, need_post);
 +		break;
  	default:
  		drm = ast_device_create(pdev, &ast_driver, chip, config_mode, regs, ioregs,
  					need_post);
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 369abdd81bbf..8f52ac3b0f45 100644
+index 8f52ac3b0f45..8a27835fd09c 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -439,6 +439,13 @@ struct drm_device *ast_2000_device_create(struct pci_dev *pdev,
- int ast_2100_post(struct ast_device *ast);
- bool __ast_2100_detect_wsxga_p(struct ast_device *ast);
- bool __ast_2100_detect_wuxga(struct ast_device *ast);
-+struct drm_device *ast_2100_device_create(struct pci_dev *pdev,
+@@ -447,6 +447,15 @@ struct drm_device *ast_2100_device_create(struct pci_dev *pdev,
+ 					  void __iomem *ioregs,
+ 					  bool need_post);
+ 
++/* ast_2200.c */
++struct drm_device *ast_2200_device_create(struct pci_dev *pdev,
 +					  const struct drm_driver *drv,
 +					  enum ast_chip chip,
 +					  enum ast_config_mode config_mode,
 +					  void __iomem *regs,
 +					  void __iomem *ioregs,
 +					  bool need_post);
- 
++
  /* ast_2300.c */
  int ast_2300_post(struct ast_device *ast);
+ void ast_2300_detect_tx_chip(struct ast_device *ast);
 -- 
 2.51.0
 
