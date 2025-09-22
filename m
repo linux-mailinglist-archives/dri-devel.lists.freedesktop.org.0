@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FBEB905EC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 13:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EA9B905F2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 13:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3E4310E435;
-	Mon, 22 Sep 2025 11:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1B710E437;
+	Mon, 22 Sep 2025 11:31:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CdzV/aYe";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="divlisP1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11012026.outbound.protection.outlook.com
- [40.93.195.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36CD210E42D;
- Mon, 22 Sep 2025 11:31:00 +0000 (UTC)
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011058.outbound.protection.outlook.com [40.107.208.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBFE10E42D;
+ Mon, 22 Sep 2025 11:31:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x222M7pWcXx0cX+yulXwgYvgnZDaObGniqtk/syscsmxRcE2TS7OXYjoLybiLJlSuwfEb3Lp3UQmusaxiDDHS4ZO1PiCeP1ChS0kSE6YqtEPUlwzZA8GDmHGIVEDMdnmUDtAG2Chw0uDJSQT+wgmsTt+HHts99KgDXSrquoM34N2exdGK++RE5xsXl9DasI13qs9LJseZKWeTZ8Csi9E5EhD2gqjif2Aqi37VnO+SKMibtpz6eVgmIoRMsUheIPvWX61D4aeDA+1dVwMcDs6NAGjGK70vj7+QC+CtzNar6c8NdvdUU6d2yzP1SubXZZYqLBniHu9HabqLMGaG1MDbA==
+ b=jwGFlqE6u0Mp2ya2D31Y8mts5OGFTH4U89NN/JGFYb55se4z6OhovodE5JZgkR9WSlYIubrU+gG4rAn9AUSCCwUSCxk6XafhK7pJRQNIRBhE1Hi/9OHzcatFoaMs9hzCRTZkwS5Wb+IFxJVwdqWSrnoqmrnjGxMOyRtFyEeuWz5eRah0A8Cc8PdbK1hlg6sSWnSzytV6Y10acQtp8bDOMq3EgjMHFElUM4obi0lm+ItGhGekoYQcz4xM/DR6Xsti9eQn1OvIcHiuHfDUQpBPaHGzKOWLUwTn+dVJmj2YxXG1eeqr9JN9hmJnrWkCnCkuNR8W34VXyiow7OXQVyHqkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qgHBP9cr9orfracRgK2VXKOddPliLzKMujCMLrspxwQ=;
- b=TcTUcqhfLcPcy2pxKJK0tmel38M+xivr8HFnvmU2rdtTq4v5I8+4sE5lT1yumIn18UIgSicvyxrg+KPVQidoRUQq2a4xmaBssiccTEIERxDUefV70OBntGdbISs87BcTOz3uv58IWTBsBAStqIG8063ah6dm98EalXZCEkekedJlID40/yl4jXW7cnjIOYVUmfFc+uemac0vFYbGK9h2wE8mrD9QSxRWWd/S65Y6JIbMhScPU4gj6nuOCO4cM77RHWt4rVSTCL6r8wwGOMZ4uGhI0jfdi+DCrPNnufMtN/ti8g9cPdw3tTOUDX3FzSHrAtR8YrRrBA8qnn8jp9E4dw==
+ bh=vcdEJqIL8VHbUL+30B4c3JRBOLB3BGwLxWSvbfzmWIM=;
+ b=FZueBs1SADC/rQsQ9cMiLm3GoZtUjc2BHomtUFRqVCViukj6PAbkTjyar8e6GalPn1SkuYDC+FwTi8eMtthI9Qn+qMpxdPlLtQdP+ul1k1RdlFYYsr7wjCuXFpkpZi+fVVWdKZLj5qjo5yOTWC43DOf7TDW0ryvXZ/b94pdsOglYp5FrMGueNPruFJ7VELe99PQBK6FTC0EGxaRjt0YN4TGbykDbFnGsrfi3Lv1s44rQM0DJrIdmdkooVlJoijOct+kxkpFKwE7IGpWy71X5BOozjSFfS4Vf7ucSoJYYZ9A/sGkE9dmFSZ60t6m8HYAR3OnpTX3ZitWi7aZWUwXi6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qgHBP9cr9orfracRgK2VXKOddPliLzKMujCMLrspxwQ=;
- b=CdzV/aYeNQNMrOeQx/vyjQ6h8bjjkpr5rcqq6pEvPlmoynWI+cTp8l6VvFZiJ3aYUuWrA+Afyq4uSFFEZEopVG6SYomIoJN5uVAFb5BkcKMPDJ0PU5HsbkkAc5Cv0mpLkWraXKyLC8v+2OHx/6nY84IXjDpvsktCUS9a8N5p5/rqURgLFrbGyedmcTVDcPU6J/pyR+w1NSmUlFckeSPgK+2WRJ7YxLFWjNVDqJmo3yYiOi0xtcnM6pPOzybvTlZzVsU0FKhDBXs4HJB9ppHVpjsMkVZAzBDuEu/N8Mi4A4aD7PctAA6GXkWNdN5/SgY+rxS/0q5hC9lpZSIubjNIuQ==
+ bh=vcdEJqIL8VHbUL+30B4c3JRBOLB3BGwLxWSvbfzmWIM=;
+ b=divlisP18pk1elIv+mlSLj6IDR/X2dj/imdPRXWryWnRFrXA2Z9vGvMat14OipGghUuqGocIIZRuItX8ukycEP3PO0oStd0KupffKMB9Mf/T3JVwXYAxag006HR/WNXolZLqi06sgiGEdlmC0U9w70vIO3CtLj03xkG5a+Z5xJ4MpSonDx60caDhllfGf9mc+gQq7AECvpoHRRcV6UtmpvCvzvtneAAd7NRtWZRRnlsKYBLQajUbhxxZL0sL16ngAHCU1GEXcO60o+had7NknAftVMDDyI1lg5U2X/wFRka2J9S/OcdFZlR3oKUc5TQ05NbcNQpEFGx7lmhFLgJfjg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
  PH0PR12MB5679.namprd12.prod.outlook.com (2603:10b6:510:14f::6) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.19; Mon, 22 Sep 2025 11:30:54 +0000
+ 15.20.9137.19; Mon, 22 Sep 2025 11:30:59 +0000
 Received: from DS0PR12MB7726.namprd12.prod.outlook.com
  ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
  ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 11:30:54 +0000
+ 11:30:59 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  dakr@kernel.org, acourbot@nvidia.com
@@ -59,87 +58,88 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
  Timur Tabi <ttabi@nvidia.com>, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org
-Subject: [PATCH v2 02/10] gpu: nova-core: Create initial Gsp
-Date: Mon, 22 Sep 2025 21:30:18 +1000
-Message-ID: <20250922113026.3083103-3-apopple@nvidia.com>
+Subject: [PATCH v2 03/10] gpu: nova-core: gsp: Create wpr metadata
+Date: Mon, 22 Sep 2025 21:30:19 +1000
+Message-ID: <20250922113026.3083103-4-apopple@nvidia.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250922113026.3083103-1-apopple@nvidia.com>
 References: <20250922113026.3083103-1-apopple@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SYAPR01CA0021.ausprd01.prod.outlook.com (2603:10c6:1::33)
- To DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6)
+X-ClientProxiedBy: SY6PR01CA0079.ausprd01.prod.outlook.com
+ (2603:10c6:10:110::12) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|PH0PR12MB5679:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88a2b837-24c6-4b94-2409-08ddf9cb7da6
+X-MS-Office365-Filtering-Correlation-Id: 662d259f-18d3-42d1-902e-08ddf9cb80b2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?altn/fV22i82SgCZt1DzaFDp+b15v5Qqh3jQ5hgwhXcbum2TvZrOVpFmtFNc?=
- =?us-ascii?Q?6JUwpFXLhP4e8KA5gJlEVp7YBJ3GpkHaxwNDAlLqWLKXfCehL1ZH2vn7YvJ4?=
- =?us-ascii?Q?Mi3DKnfbMPscZ2NXhMQBedVFWi0m5uF7bDATLXkieLjXQG9w41JAOM7/RILj?=
- =?us-ascii?Q?Fw7XK37XLN2Dqo1BCCZeU7yMjL1wOvoGVsBlVCulkgC8ZwZuCdEG4IkHh0r+?=
- =?us-ascii?Q?vveDJXO9iogcCIiwVB72DD2erahEFkwJS8RwmurbJaEpoZQmVRtSO1ygOEKi?=
- =?us-ascii?Q?PwI9o+WaDgkKJItJwarT9/39451ahE9usVePjTRvmJTVMA0+rmwlJloLSmBP?=
- =?us-ascii?Q?4qD6b5vAc2dPftnR0+AFhJZL1pm1I5puO1/o8T990Uoila+HdgzKvOwDRaZn?=
- =?us-ascii?Q?XvTUDyplJCF1iBq8PIJk4MDPuSlWFpAr1ZEg60PxhCxknf/QayjFKplrN9JN?=
- =?us-ascii?Q?3QwufA51nAQAxj2vZ0luO7dPqsUfzlyljZL6Tx1lTsbf1rdS17BYpO4gfGJE?=
- =?us-ascii?Q?M1j+OGLyY/znBvh57EmTJqddW3BV7cw87I7IAOnrRW/gCGJrO4squghyFwbj?=
- =?us-ascii?Q?m0uqH8NdzDWmHZoH+LjLT3b9bvE543p3PWk7QZTizTPy55tTQrcNMIo9GEJw?=
- =?us-ascii?Q?+pip5xwLi9QlP6EMOuTnOuWLvSAQ7P3RCT1tFk8l5O7JudoRZic1Jk9ICAiN?=
- =?us-ascii?Q?wKeKNQIFgxUbrCBRxNqr1Tp5z0NBEIdZDrID5Hl6CYMt4iy2OB9SbcNRkRWC?=
- =?us-ascii?Q?1NTeMOOX59DcS1dCuLRuTR8yjxaXxmgQZQDBqsk+vBP0oXYaVOx3pvHu3uz2?=
- =?us-ascii?Q?hQ9erjPlvuKjie0oBYhs5I+tj9Xr2kPzKoijUnBG2SfMeT/X2Doi0sUEYJgl?=
- =?us-ascii?Q?Bm9IEgIHd5q/kwPjdX5gzKXacVOh9NiKDz7ypdSfD65MS3BpnsM7Nz0Qbsff?=
- =?us-ascii?Q?NEVYLvNe+jKVEr/pQwILiQevpuDSmtdGISNJEbztTfiELM5KEPORbZ1iv0H+?=
- =?us-ascii?Q?KlC+gRA4uhc7OwyhxISvVhK60gc+Qdoyyu3Uu5c0wW+zgjK7kMg6tfVmYOt0?=
- =?us-ascii?Q?AUA12Y0NA63iK9skrsLCyRv3lPepKm/dMr7DI3ouKtAORblHfYdsvsrDN2As?=
- =?us-ascii?Q?iZSmJVWmoJcec4sXEMsnLBFqshRz4eRYnKXNWOliB48H1KkjtNlLdKLSeUC5?=
- =?us-ascii?Q?BNwkLEtshZRZ1SYML2BqZP68DvIfxWZOpJwP2RTlr3WcW+s0tCQv+L2bkw/J?=
- =?us-ascii?Q?2WtBnLyw/eHiKAEA82YOAIIPZxQAhh2K3HYPyYvnbaUuegV2loQ4QgiE8oGb?=
- =?us-ascii?Q?Fex7LhcLIVIA3u0/ePgSthDUrgBEsSFTBgjEVbyEYHoNev2F8nnAC5Sk6oC2?=
- =?us-ascii?Q?5l+R5GdKUjAf6JtLZybfPSoXUuKH0d9WnwVkiO57IWp2C8kFkg=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?udIzNw2XkAfkw8nnhFcrkCFlTCcAD2mBL830S3hkg1h5Nl5yMPFUnxqHUo/o?=
+ =?us-ascii?Q?qPTmyBq89jXqzu26rZD2pZqecTOXZyF4u1aMYkjYXwYPeEkaD0ALDHsxPgh1?=
+ =?us-ascii?Q?WE0p/WY5zOobl+sDu+mpEree0pPb23j1qun2NPE29MaGRRiYenzvgha0Lxxj?=
+ =?us-ascii?Q?VtZ7FiMcrsXDvWC9u24+wlzelcmm1DWvZmXY6p3pbG+CZKj169HHel8gXQAO?=
+ =?us-ascii?Q?YGbjs78nnwG8n2hLKdN/uCzt3+AwnW43y+QtmviO5dMBMR/aLAVKY3YGviD+?=
+ =?us-ascii?Q?uxF/vh5Spmm6+uIjRL34/DH4EpXmOWzeazefHYqneURbIy0EZlVZJrtGSIKn?=
+ =?us-ascii?Q?SkUlE66Hut6GjOr2YP1NwpPsmBOzZZMydHi6evVXKmqMMMySVNhMLgZJoN83?=
+ =?us-ascii?Q?UpPEqHWRYqgwu4mH6ayLtKR2hcTbz0dczbJUBUfovhhBjUhf5g0II5jlnD1m?=
+ =?us-ascii?Q?ctORObqtZ6jEww6tm1LeTaOtIc14bzmPfDR/7d/j1p7ldlzwGIlWX+Y9vov4?=
+ =?us-ascii?Q?XOByvgAo0KhtLCLbAOfpz9GXaCW3YX8zQrgkMfDsrr8yBBLDFGG3OLEoNY3M?=
+ =?us-ascii?Q?XQqz4Ab9i4fFwRo6Kwsq0rn767FMPMlQfTqoBjvz1ZXkUVFOQWCA11ojXkeO?=
+ =?us-ascii?Q?+0np5EtoCgFA4bOcR/FhaDWKL0/OlEtTSy1YtCWEmnGHruvYrocR1MALQhnr?=
+ =?us-ascii?Q?fJUpJEyv+Uzyd3q/xEDufz7PEVyfKz4/Mnmd9KR1+bV7qbhAOPrSnbcUparF?=
+ =?us-ascii?Q?ROne69HBIiIBTCjEy/AYJlTJuqB1RPZKZVRc4UmBZvMqkn1jnun5pUPmibOB?=
+ =?us-ascii?Q?U2qG8E6d9+TjP/4cMeAf7peOQzHAYnqwsFYE7SKfRyFex+2PgkfbpVBXt6sh?=
+ =?us-ascii?Q?opayQ5fz3OwifgDsFAaDMSLP1ijq+7qrDyg6OY7AgvIHC6JTE1JJ0rrumX/E?=
+ =?us-ascii?Q?R769xp8PwOf9JzmiafPUvW0y9mzY23JQFOeQO+78vGktAySS2R1naFmVu4XS?=
+ =?us-ascii?Q?x9EWDevyQnDzdymQKD9xThQB70hMmRz/MFtTVnnyb6a/hJ4vXD5L7Z89aSsO?=
+ =?us-ascii?Q?BImHvRIb5x/FY5shoDFKd9HZDbNagOGAxqEf5JeVubC+c6RK9uifQVeFISMR?=
+ =?us-ascii?Q?dXNr/BhSPlZ97RtmVi6le63BeNpV9g+gLuVuHCzN6ifXhl5k+uOwypYOK8Er?=
+ =?us-ascii?Q?CPKcL0WQZNH1E9JsxWmCiZ4yNjAeV+YYxM7hirdDItRNpAkru6NSiMfmPm4V?=
+ =?us-ascii?Q?ylAOi6aFK5uw0zfW0g17Vq1Ed6M7nz+JTW7sgpQexHFNBgiXjx/uC9ecnCzn?=
+ =?us-ascii?Q?XjhMJAbgtNMX+HbpsFys/ManHGtSUrW1l9/5R7CMdTi9ZPsnvKmAcPK9B1jC?=
+ =?us-ascii?Q?V6RLxecWnmGFMUANvPXucY877TaQrLkC/9px4XaekBBDiOhMUA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?D8IYpXh+JOSJmpCKfFlBQq3SSdAr3/ecigu7r9x6W1TYXQOgwhSMZhBZhqlw?=
- =?us-ascii?Q?Y3Irq62b3Rd8zy0ZhJT74MR8B8OEZsrM/5PMo/DfHnzzXJaCfuSsN5/BdxaH?=
- =?us-ascii?Q?RgAPTgxoV3yFw4Huu0GzPchsHjGIImNabQZsFCe15Bht0L9fZc4Q70DihD+5?=
- =?us-ascii?Q?H+EtBmJloL5yVGi05Jwob4mvT0px8iSdHmbWpYQuZYm+FnPYTxQ9qAHY9EWU?=
- =?us-ascii?Q?HGPjm1/v1Q+/hXMHSm2t2vzrTzPHaeVAyeLdygWd658YSBUdGQUAQaD5h+h7?=
- =?us-ascii?Q?Wafg3KoWrHRK93QfsGpZFd9fLXTuDOLU0Bv29PcKxMzFKnsLv3INMkamPgjt?=
- =?us-ascii?Q?vyWnXt1rchF7oU5qEBbWXMZSdOQrV6t7Ytory7S8uZKq9F3/2Ba6hVBJlZmP?=
- =?us-ascii?Q?X+0cWNUgF8vNTyxbfRpKUads16hQkWvrfbCF8LWB91NVRbF5Jtp3o6rLKBI+?=
- =?us-ascii?Q?83APzJ7RO2DVcVviJJHaEozAzQKCINK959Nw0Oo8h/9U1uGuMtFmUcBugpDY?=
- =?us-ascii?Q?Z5AkRxGvMo9rEEVqz7WPuumOhjgiph26PAQhTOVYLmA0m322MYvbKwv0XXFW?=
- =?us-ascii?Q?2CCix4WdiCI5F6apMrG1ZbNv6sLUP6/1ts/pXg2w+ol9Vl9EZUdmF5vWezjG?=
- =?us-ascii?Q?vV4YZqRYgDatJKL9iOKjIsmTcZ/6SUunXYPSYIGThDC6e4QCUik0dIPyZ58f?=
- =?us-ascii?Q?P7y6Q0xcwVcOL1xCNmleiNJ3m3anhZBaJBAVYpP/f3tIO20paW/+Nz9rgpv5?=
- =?us-ascii?Q?aKNbzt6cXjexekRB0v1rJhaWvlKoHIw860DletjOFwbhPe8dTwG+RRJdmYEA?=
- =?us-ascii?Q?e9NS0esIW5nu9VN8jMd6puxEfazJsnnZHzjGfGs+eBWhFsleoQMlLxq1Q7y5?=
- =?us-ascii?Q?W6mbBCqHqFtqsUSDW73jHXHlQDigaED2Ysvt1RKZTuDyCq/VyiYJkVxGKvDI?=
- =?us-ascii?Q?1vU76kr2bN4Yt2ZcK+IGAuxAJhrpUC881uMlrOQiMbeVnvQ8imFs4H6FyUYo?=
- =?us-ascii?Q?Y/AUQ/AuPNIpb3hzAXPIdCcESxoPBsYnnG3O1cDW39PPawq63HZ9jwOcduBD?=
- =?us-ascii?Q?C3xds2gSvocooGQXn/yWyJ58Yssj3okSxqxoUUP4Wm5TV0S14d1eD9ifm5RA?=
- =?us-ascii?Q?3GA/oG/YKfg9a03jEANzt/vMNUkpqAFeMVOizs+Y3kOFBXFlWX76dEBoM+KI?=
- =?us-ascii?Q?nIgpNefBtPakIBRTpX62RRYyJ/pgXo1Fpuq8hkjkdwayAwQ2f1C4KkAjpU6I?=
- =?us-ascii?Q?/mCWPlYcbnMRqe+CmPU53nTQ2DZdOVRojBs4Q5mh7TU4guhtONESU9CNOx6O?=
- =?us-ascii?Q?p9P8L8Fm31kStoouxyPTvVdWD4KKnBlLDpo34ak0yaNovqFWZwzKiBbJdUEk?=
- =?us-ascii?Q?+J7Zs5j3CjHoRYDGvdCkHMLxQdM3oT4ZAjJSAE6m/BndeJ3+KFxEAtWLMVM6?=
- =?us-ascii?Q?y2pjBI3CSn+fREgTyjyPfFIE+v0pSE/g9keF6Y9aQpWBsg22Ct7wHteSCYTc?=
- =?us-ascii?Q?IEH1bDjdNpMrTx5VFc0XCwiJRpnpEmQwqWjQn8Sm3Us1D+2wToSrwDxfwi51?=
- =?us-ascii?Q?t4MT66Ak2HthbD122fRyq8wHcicpdLuqpA1wl2vJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?I3bBv345025raRN9xrXSjWWDY8CxlBVVqXiGRUNcHvBSvEzeCDZbxDYpTTau?=
+ =?us-ascii?Q?hvN6NQ5/9052eVy44Gw661ysYsI0DD0kb+iuDsEKkd03QgziAyLkJPLkS0UY?=
+ =?us-ascii?Q?3+Q/bayWIvHBu9LGVVTO8jcJAKoqnDdEce+FAeMWjKzMN3sC555H7wsWhbWL?=
+ =?us-ascii?Q?Bu3IXCa54ll9cqq+ZdJKlwfr/UT2FNmdzxjAlEEE17KvD3oCS9MCgDjRR6S6?=
+ =?us-ascii?Q?VVrnZnyJpevTTXFTv8jJtpDDQpLPGSqEVPvrqkhG7YHwENQunTllArfm+0GU?=
+ =?us-ascii?Q?XFFyCboy0y70XH2u5y8gPVPU0Qvb4XN3vZA1OfSF9EbKgaEXPWXuL7AIL1Uf?=
+ =?us-ascii?Q?gPwvJoY1lIOJH010Y3AK2CutLHtKUyu7cM/zoImdHMnNc6jhv9aF5Q9yH0wH?=
+ =?us-ascii?Q?svZnZmAg5sVK45X9nIjRhRQfr3AKnZ9rt8iMb/OexVWCNO5k1gAlCCmmQZJz?=
+ =?us-ascii?Q?54kudcec7bFO/aa6QLTgbtMYhz8SmDFqljXLi79KEPxMaKkQt4+KGoZwyAxy?=
+ =?us-ascii?Q?oVS9zAtpmD9l7hCCktCdNG1jbBQZGxxERHdeEFetOG8dPoc24MsmFD1HnqO9?=
+ =?us-ascii?Q?EwlmvYtltRoeqPIavil/Ii4mflSwCxD39LOBjej9tZCmQeJPHCA5S5+KB5Lf?=
+ =?us-ascii?Q?OY5MMqqYITbGiLOzRierd9qQVntcyqri10qcatKAXj6CKhISMpQXRy/L3G6A?=
+ =?us-ascii?Q?aevrT1u2WMJHcy+0Fc2urrXKt/n+CMSzeMtbUU59yMRUvkZQg00Etg+dRrxX?=
+ =?us-ascii?Q?h8aYo/kZP2+usY3cx0A5INXYFZxncTcwrJiHg78p98Icdj6QNu229Veo5bEp?=
+ =?us-ascii?Q?6Uc9W7GRmYHnEBvv4aqOOgnYTQ5d/73fcrW9Ss5h1btdquGMjfOZoZ4qoyWI?=
+ =?us-ascii?Q?K7BWkqYKW1te7cJy49S16FaobbCnB/FFTiHnCXPY1D9x58tPas45fWMmFRo3?=
+ =?us-ascii?Q?BlyxFA5zd8J3+fudklYofMa0ILE10b1x/LIPHlAhjSnwjDq4ZMEpaRsk0Qjh?=
+ =?us-ascii?Q?shoZq3ynmjt9dyTHh7HWXsl6mXdqBD1ElSciC1mfxfhfmC+PTs8BFOZDLarQ?=
+ =?us-ascii?Q?/mnbqAn5xjlV22vU+zwWZ0KMIN8m1XF79ooNwmwYRIhpylps9px5TCUCBq98?=
+ =?us-ascii?Q?/AhizdshaNTZAX0eRR1/EdLvQJSlX3GsrjrgtAf+KO0p49E4sFGP7LWmubay?=
+ =?us-ascii?Q?B7KlfF5eVTEAlJfVDHQjml+SEQ7QtzFowROwsnBGwQoghsZCiNF4NOotRrPq?=
+ =?us-ascii?Q?NCq7AREBKT0ZcCQ2N6K4cLJt/71kXC0d5vTYbAAz6o3ixPzt1E1tFIHfJFnp?=
+ =?us-ascii?Q?FYPR4tjUy8yqZWQpTajDKyOInbLTTY88QG0HC1baVvtEFY8lZlCHWR4Wp/u6?=
+ =?us-ascii?Q?wxDwvAZnAyy7pQd2tHTZ6kg6VbWhSWrCZ2AA0wlR6anxzvTe4O1JO7qnlKX/?=
+ =?us-ascii?Q?0sTfM5+P4nX0CKG8xnPoKxNg+lFLu2Av8jUMLDZt1MUkND/NZJwKGUD5fuf+?=
+ =?us-ascii?Q?AdrVUmpbDezYAz822l8rZOXPZ9WkpfO9UW1zMABrVhbhIOuYDGxIwHn9Exdt?=
+ =?us-ascii?Q?kvhcsS7NaPf/yOU2cBsgCWUXqQCzV0UL3JSFdPco?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88a2b837-24c6-4b94-2409-08ddf9cb7da6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 662d259f-18d3-42d1-902e-08ddf9cb80b2
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 11:30:53.9639 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 11:30:59.1125 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xvy/9GBtr+KYe7gtukqlQb6Hp3LcRtDsIcKUxQxJrbb+RZvwDrUES6pt7cRkUOU6ZUW7RKHAdqclF55oucgu4g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: MiRoCxQPugMsnYTxXlLlfgXf6WTHRmk7JtaQAc8BLQGR7iqdSvoUN2DL6GopK8wucBhzUD2WRGFClRhVGGsPzA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5679
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,226 +156,220 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GSP requires several areas of memory to operate. Each of these have
-their own simple embedded page tables. Set these up and map them for DMA
-to/from GSP using CoherentAllocation's. Return the DMA handle describing
-where each of these regions are for future use when booting GSP.
+The GSP requires some pieces of metadata to boot. These are passed in a
+struct which the GSP transfers via DMA. Create this struct and get a
+handle to it for future use when booting the GSP.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
 
 ---
 
 Changes for v2:
-
- - Renamed GspMemOjbects to Gsp as that is what they are
- - Rebased on Alex's latest series
+ - Rebased on Alex's latest version
 ---
- drivers/gpu/nova-core/gpu.rs                  |  2 +-
- drivers/gpu/nova-core/gsp.rs                  | 80 +++++++++++++++++--
- drivers/gpu/nova-core/gsp/fw.rs               | 39 +++++++++
- .../gpu/nova-core/gsp/fw/r570_144/bindings.rs | 19 +++++
- 4 files changed, 131 insertions(+), 9 deletions(-)
+ drivers/gpu/nova-core/fb.rs                   |  1 -
+ drivers/gpu/nova-core/firmware/gsp.rs         |  3 +-
+ drivers/gpu/nova-core/firmware/riscv.rs       |  6 +-
+ drivers/gpu/nova-core/gsp.rs                  |  1 +
+ drivers/gpu/nova-core/gsp/boot.rs             |  7 +++
+ drivers/gpu/nova-core/gsp/fw.rs               | 63 ++++++++++++++++++-
+ .../gpu/nova-core/gsp/fw/r570_144/bindings.rs |  2 +
+ 7 files changed, 75 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 5da9ad726483..c939b3868271 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -221,7 +221,7 @@ pub(crate) fn new<'a>(
+diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
+index 4d6a1f452183..5580498ba2fb 100644
+--- a/drivers/gpu/nova-core/fb.rs
++++ b/drivers/gpu/nova-core/fb.rs
+@@ -87,7 +87,6 @@ pub(crate) fn unregister(&self, bar: &Bar0) {
+ ///
+ /// Contains ranges of GPU memory reserved for a given purpose during the GSP boot process.
+ #[derive(Debug)]
+-#[expect(dead_code)]
+ pub(crate) struct FbLayout {
+     /// Range of the framebuffer. Starts at `0`.
+     pub(crate) fb: Range<u64>,
+diff --git a/drivers/gpu/nova-core/firmware/gsp.rs b/drivers/gpu/nova-core/firmware/gsp.rs
+index 9654810834d9..67b85e1db27d 100644
+--- a/drivers/gpu/nova-core/firmware/gsp.rs
++++ b/drivers/gpu/nova-core/firmware/gsp.rs
+@@ -127,7 +127,7 @@ pub(crate) struct GspFirmware {
+     /// Size in bytes of the firmware contained in [`Self::fw`].
+     pub size: usize,
+     /// Device-mapped GSP signatures matching the GPU's [`Chipset`].
+-    signatures: DmaObject,
++    pub signatures: DmaObject,
+     /// GSP bootloader, verifies the GSP firmware before loading and running it.
+     pub bootloader: RiscvFirmware,
+ }
+@@ -212,7 +212,6 @@ pub(crate) fn new<'a, 'b>(
+         }))
+     }
  
-             sec2_falcon: Falcon::new(pdev.as_ref(), spec.chipset, bar, true)?,
- 
--            gsp <- Gsp::new(),
-+            gsp <- Gsp::new(pdev)?,
- 
-             _: { gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falcon)? },
- 
+-    #[expect(unused)]
+     /// Returns the DMA handle of the radix3 level 0 page table.
+     pub(crate) fn radix3_dma_handle(&self) -> DmaAddress {
+         self.level0.dma_handle()
+diff --git a/drivers/gpu/nova-core/firmware/riscv.rs b/drivers/gpu/nova-core/firmware/riscv.rs
+index b90acfc81e78..dec33d2b631a 100644
+--- a/drivers/gpu/nova-core/firmware/riscv.rs
++++ b/drivers/gpu/nova-core/firmware/riscv.rs
+@@ -53,11 +53,11 @@ fn new(bin_fw: &BinFirmware<'_>) -> Result<Self> {
+ #[expect(unused)]
+ pub(crate) struct RiscvFirmware {
+     /// Offset at which the code starts in the firmware image.
+-    code_offset: u32,
++    pub code_offset: u32,
+     /// Offset at which the data starts in the firmware image.
+-    data_offset: u32,
++    pub data_offset: u32,
+     /// Offset at which the manifest starts in the firmware image.
+-    manifest_offset: u32,
++    pub manifest_offset: u32,
+     /// Application version.
+     app_version: u32,
+     /// Device-mapped firmware image.
 diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 503ce8ee0420..0185f66971ff 100644
+index 0185f66971ff..2daa46f2a514 100644
 --- a/drivers/gpu/nova-core/gsp.rs
 +++ b/drivers/gpu/nova-core/gsp.rs
-@@ -1,27 +1,91 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- mod boot;
--
--use kernel::prelude::*;
--
- mod fw;
- 
- pub(crate) use fw::{GspFwWprMeta, LibosParams};
- 
-+use kernel::device;
-+use kernel::dma::CoherentAllocation;
-+use kernel::dma_write;
-+use kernel::pci;
-+use kernel::prelude::*;
+@@ -13,6 +13,7 @@
  use kernel::ptr::Alignment;
-+use kernel::transmute::{AsBytes, FromBytes};
-+
-+use fw::LibosMemoryRegionInitArgument;
+ use kernel::transmute::{AsBytes, FromBytes};
+ 
++use crate::fb::FbLayout;
+ use fw::LibosMemoryRegionInitArgument;
  
  pub(crate) const GSP_PAGE_SHIFT: usize = 12;
- pub(crate) const GSP_PAGE_SIZE: usize = 1 << GSP_PAGE_SHIFT;
- pub(crate) const GSP_HEAP_ALIGNMENT: Alignment = Alignment::new::<{ 1 << 20 }>();
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index fb22508128c4..1d2448331d7a 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -1,6 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
  
- /// GSP runtime data.
--///
--/// This is an empty pinned placeholder for now.
- #[pin_data]
--pub(crate) struct Gsp {}
-+pub(crate) struct Gsp {
-+    libos: CoherentAllocation<LibosMemoryRegionInitArgument>,
-+    pub loginit: CoherentAllocation<u8>,
-+    pub logintr: CoherentAllocation<u8>,
-+    pub logrm: CoherentAllocation<u8>,
-+}
-+
-+/// Creates a self-mapping page table for `obj` at its beginning.
-+fn create_pte_array(obj: &mut CoherentAllocation<u8>) {
-+    let num_pages = obj.size().div_ceil(GSP_PAGE_SIZE);
-+    let handle = obj.dma_handle();
-+
-+    // SAFETY:
-+    //  - By the invariants of the CoherentAllocation ptr is non-NULL.
-+    //  - CoherentAllocation CPU addresses are always aligned to a
-+    //    page-boundary, satisfying the alignment requirements for
-+    //    from_raw_parts_mut()
-+    //  - The allocation size is at least as long as 8 * num_pages as
-+    //    GSP_PAGE_SIZE is larger than 8 bytes.
-+    let ptes = unsafe {
-+        let ptr = obj.start_ptr_mut().cast::<u64>().add(1);
-+        core::slice::from_raw_parts_mut(ptr, num_pages)
-+    };
-+
-+    for (i, pte) in ptes.iter_mut().enumerate() {
-+        *pte = handle + ((i as u64) << GSP_PAGE_SHIFT);
-+    }
-+}
-+
-+/// Creates a new `CoherentAllocation<A>` with `name` of `size` elements, and
-+/// register it into the `libos` object at argument position `libos_arg_nr`.
-+fn create_coherent_dma_object<A: AsBytes + FromBytes>(
-+    dev: &device::Device<device::Bound>,
-+    name: &'static str,
-+    size: usize,
-+    libos: &mut CoherentAllocation<LibosMemoryRegionInitArgument>,
-+    libos_arg_nr: usize,
-+) -> Result<CoherentAllocation<A>> {
-+    let obj = CoherentAllocation::<A>::alloc_coherent(dev, size, GFP_KERNEL | __GFP_ZERO)?;
-+
-+    dma_write!(libos[libos_arg_nr] = LibosMemoryRegionInitArgument::new(name, &obj))?;
-+
-+    Ok(obj)
-+}
+ use kernel::device;
++use kernel::dma::CoherentAllocation;
++use kernel::dma_write;
+ use kernel::pci;
+ use kernel::prelude::*;
  
- impl Gsp {
--    pub(crate) fn new() -> impl PinInit<Self> {
--        pin_init!(Self {})
-+    pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl PinInit<Self, Error>> {
-+        let dev = pdev.as_ref();
-+        let mut libos = CoherentAllocation::<LibosMemoryRegionInitArgument>::alloc_coherent(
-+            dev,
-+            GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>(),
-+            GFP_KERNEL | __GFP_ZERO,
-+        )?;
-+        let mut loginit = create_coherent_dma_object::<u8>(dev, "LOGINIT", 0x10000, &mut libos, 0)?;
-+        create_pte_array(&mut loginit);
-+        let mut logintr = create_coherent_dma_object::<u8>(dev, "LOGINTR", 0x10000, &mut libos, 1)?;
-+        create_pte_array(&mut logintr);
-+        let mut logrm = create_coherent_dma_object::<u8>(dev, "LOGRM", 0x10000, &mut libos, 2)?;
-+        create_pte_array(&mut logrm);
+@@ -14,6 +16,7 @@
+     FIRMWARE_VERSION,
+ };
+ use crate::gpu::Chipset;
++use crate::gsp::GspFwWprMeta;
+ use crate::regs;
+ use crate::vbios::Vbios;
+ 
+@@ -132,6 +135,10 @@ pub(crate) fn boot(
+             bar,
+         )?;
+ 
++        let wpr_meta =
++            CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
++        dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
 +
-+        Ok(try_pin_init!(Self {
-+            libos,
-+            loginit,
-+            logintr,
-+            logrm,
-+        }))
+         Ok(())
      }
  }
 diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/fw.rs
-index 181baa401770..dd1e7fc85d85 100644
+index dd1e7fc85d85..7f4fe684ddaf 100644
 --- a/drivers/gpu/nova-core/gsp/fw.rs
 +++ b/drivers/gpu/nova-core/gsp/fw.rs
-@@ -7,8 +7,10 @@
- 
+@@ -8,12 +8,14 @@
  use core::ops::Range;
  
-+use kernel::dma::CoherentAllocation;
- use kernel::ptr::Alignable;
- use kernel::sizes::SZ_1M;
-+use kernel::transmute::{AsBytes, FromBytes};
+ use kernel::dma::CoherentAllocation;
+-use kernel::ptr::Alignable;
+-use kernel::sizes::SZ_1M;
++use kernel::ptr::{Alignable, Alignment};
++use kernel::sizes::{SZ_128K, SZ_1M};
+ use kernel::transmute::{AsBytes, FromBytes};
  
++use crate::firmware::gsp::GspFirmware;
  use crate::gpu::Chipset;
  use crate::gsp;
-@@ -99,3 +101,40 @@ pub(crate) fn wpr_heap_size(&self, chipset: Chipset, fb_size: u64) -> u64 {
- /// addresses of the GSP bootloader and firmware.
++use crate::gsp::FbLayout;
+ 
+ /// Dummy type to group methods related to heap parameters for running the GSP firmware.
+ pub(crate) struct GspFwHeapParams(());
+@@ -102,6 +104,63 @@ pub(crate) fn wpr_heap_size(&self, chipset: Chipset, fb_size: u64) -> u64 {
  #[repr(transparent)]
  pub(crate) struct GspFwWprMeta(bindings::GspFwWprMeta);
-+
-+#[repr(transparent)]
-+pub(crate) struct LibosMemoryRegionInitArgument(bindings::LibosMemoryRegionInitArgument);
-+
+ 
 +// SAFETY: Padding is explicit and will not contain uninitialized data.
-+unsafe impl AsBytes for LibosMemoryRegionInitArgument {}
++unsafe impl AsBytes for GspFwWprMeta {}
 +
 +// SAFETY: This struct only contains integer types for which all bit patterns
 +// are valid.
-+unsafe impl FromBytes for LibosMemoryRegionInitArgument {}
++unsafe impl FromBytes for GspFwWprMeta {}
 +
-+impl LibosMemoryRegionInitArgument {
-+    pub(crate) fn new<A: AsBytes + FromBytes>(
-+        name: &'static str,
-+        obj: &CoherentAllocation<A>,
-+    ) -> Self {
-+        /// Generates the `ID8` identifier required for some GSP objects.
-+        fn id8(name: &str) -> u64 {
-+            let mut bytes = [0u8; core::mem::size_of::<u64>()];
++type GspFwWprMetaBootResumeInfo = r570_144::GspFwWprMeta__bindgen_ty_1;
++type GspFwWprMetaBootInfo = r570_144::GspFwWprMeta__bindgen_ty_1__bindgen_ty_1;
 +
-+            for (c, b) in name.bytes().rev().zip(&mut bytes) {
-+                *b = c;
-+            }
-+
-+            u64::from_ne_bytes(bytes)
-+        }
-+
-+        Self(bindings::LibosMemoryRegionInitArgument {
-+            id8: id8(name),
-+            pa: obj.dma_handle(),
-+            size: obj.size() as u64,
-+            kind: bindings::LibosMemoryRegionKind_LIBOS_MEMORY_REGION_CONTIGUOUS as u8,
-+            loc: bindings::LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_SYSMEM as u8,
++impl GspFwWprMeta {
++    pub(crate) fn new(gsp_firmware: &GspFirmware, fb_layout: &FbLayout) -> Self {
++        Self(bindings::GspFwWprMeta {
++            magic: GSP_FW_WPR_META_MAGIC as u64,
++            revision: u64::from(GSP_FW_WPR_META_REVISION),
++            sysmemAddrOfRadix3Elf: gsp_firmware.radix3_dma_handle(),
++            sizeOfRadix3Elf: gsp_firmware.size as u64,
++            sysmemAddrOfBootloader: gsp_firmware.bootloader.ucode.dma_handle(),
++            sizeOfBootloader: gsp_firmware.bootloader.ucode.size() as u64,
++            bootloaderCodeOffset: u64::from(gsp_firmware.bootloader.code_offset),
++            bootloaderDataOffset: u64::from(gsp_firmware.bootloader.data_offset),
++            bootloaderManifestOffset: u64::from(gsp_firmware.bootloader.manifest_offset),
++            __bindgen_anon_1: GspFwWprMetaBootResumeInfo {
++                __bindgen_anon_1: GspFwWprMetaBootInfo {
++                    sysmemAddrOfSignature: gsp_firmware.signatures.dma_handle(),
++                    sizeOfSignature: gsp_firmware.signatures.size() as u64,
++                },
++            },
++            gspFwRsvdStart: fb_layout.heap.start,
++            nonWprHeapOffset: fb_layout.heap.start,
++            nonWprHeapSize: fb_layout.heap.end - fb_layout.heap.start,
++            gspFwWprStart: fb_layout.wpr2.start,
++            gspFwHeapOffset: fb_layout.wpr2_heap.start,
++            gspFwHeapSize: fb_layout.wpr2_heap.end - fb_layout.wpr2_heap.start,
++            gspFwOffset: fb_layout.elf.start,
++            bootBinOffset: fb_layout.boot.start,
++            frtsOffset: fb_layout.frts.start,
++            frtsSize: fb_layout.frts.end - fb_layout.frts.start,
++            gspFwWprEnd: fb_layout
++                .vga_workspace
++                .start
++                .align_down(Alignment::new::<SZ_128K>()),
++            gspFwHeapVfPartitionCount: fb_layout.vf_partition_count,
++            fbSize: fb_layout.fb.end - fb_layout.fb.start,
++            vgaWorkspaceOffset: fb_layout.vga_workspace.start,
++            vgaWorkspaceSize: fb_layout.vga_workspace.end - fb_layout.vga_workspace.start,
 +            ..Default::default()
 +        })
 +    }
 +}
++
++pub(crate) use r570_144::{
++    // GSP firmware constants
++    GSP_FW_WPR_META_MAGIC,
++    GSP_FW_WPR_META_REVISION,
++};
++
+ #[repr(transparent)]
+ pub(crate) struct LibosMemoryRegionInitArgument(bindings::LibosMemoryRegionInitArgument);
+ 
 diff --git a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-index 0407000cca22..6a14cc324391 100644
+index 6a14cc324391..392b25dc6991 100644
 --- a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
 +++ b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-@@ -124,3 +124,22 @@ fn default() -> Self {
-         }
-     }
- }
-+pub type LibosAddress = u64_;
-+pub const LibosMemoryRegionKind_LIBOS_MEMORY_REGION_NONE: LibosMemoryRegionKind = 0;
-+pub const LibosMemoryRegionKind_LIBOS_MEMORY_REGION_CONTIGUOUS: LibosMemoryRegionKind = 1;
-+pub const LibosMemoryRegionKind_LIBOS_MEMORY_REGION_RADIX3: LibosMemoryRegionKind = 2;
-+pub type LibosMemoryRegionKind = ffi::c_uint;
-+pub const LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_NONE: LibosMemoryRegionLoc = 0;
-+pub const LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_SYSMEM: LibosMemoryRegionLoc = 1;
-+pub const LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_FB: LibosMemoryRegionLoc = 2;
-+pub type LibosMemoryRegionLoc = ffi::c_uint;
-+#[repr(C)]
-+#[derive(Debug, Default, Copy, Clone)]
-+pub struct LibosMemoryRegionInitArgument {
-+    pub id8: LibosAddress,
-+    pub pa: LibosAddress,
-+    pub size: LibosAddress,
-+    pub kind: u8_,
-+    pub loc: u8_,
-+    pub __bindgen_padding_0: [u8; 6usize],
-+}
+@@ -9,6 +9,8 @@
+ pub const GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB: u32 = 256;
+ pub const GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS3_BAREMETAL_MIN_MB: u32 = 88;
+ pub const GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS3_BAREMETAL_MAX_MB: u32 = 280;
++pub const GSP_FW_WPR_META_REVISION: u32 = 1;
++pub const GSP_FW_WPR_META_MAGIC: i64 = -2577556379034558285;
+ pub type __u8 = ffi::c_uchar;
+ pub type __u16 = ffi::c_ushort;
+ pub type __u32 = ffi::c_uint;
 -- 
 2.50.1
 
