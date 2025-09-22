@@ -2,131 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8189DB8F219
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 08:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34162B8F220
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 08:25:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C880710E3B3;
-	Mon, 22 Sep 2025 06:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA5D10E3B4;
+	Mon, 22 Sep 2025 06:25:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="f0jHHcJB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kWDOcKQY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f0jHHcJB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kWDOcKQY";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="b8GXEjfP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22AD110E3B3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 06:24:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A0C5B2208F;
- Mon, 22 Sep 2025 06:24:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758522292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3b6oPreLHVuP1TLZTBXluyZeWHzbyJKf4sc68/j9yto=;
- b=f0jHHcJBTk7pq0I8vnEHTF67b2U7zyK8idrzbE7MyW3yHJouliFWcVWz7v869q/xqfdEZk
- 1q4Wm4kfCt7TCzzetJM+/sJf3LpfsC5g1QZ0+vQD6czBT0mubYl3FMmzsUDjg9F6nbmAu3
- wFstqMDmYQoCWmG5tBfxqVYVi22Sqhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758522292;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3b6oPreLHVuP1TLZTBXluyZeWHzbyJKf4sc68/j9yto=;
- b=kWDOcKQYK+H6kIr9dpH3LsHHiQf1DFYVs0+HttSuZQRFtCJRtrnyk6Xu4zwAh+Jjm6Iciq
- 4wBYUdK0uimxQLAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758522292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3b6oPreLHVuP1TLZTBXluyZeWHzbyJKf4sc68/j9yto=;
- b=f0jHHcJBTk7pq0I8vnEHTF67b2U7zyK8idrzbE7MyW3yHJouliFWcVWz7v869q/xqfdEZk
- 1q4Wm4kfCt7TCzzetJM+/sJf3LpfsC5g1QZ0+vQD6czBT0mubYl3FMmzsUDjg9F6nbmAu3
- wFstqMDmYQoCWmG5tBfxqVYVi22Sqhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758522292;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3b6oPreLHVuP1TLZTBXluyZeWHzbyJKf4sc68/j9yto=;
- b=kWDOcKQYK+H6kIr9dpH3LsHHiQf1DFYVs0+HttSuZQRFtCJRtrnyk6Xu4zwAh+Jjm6Iciq
- 4wBYUdK0uimxQLAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E6B51388C;
- Mon, 22 Sep 2025 06:24:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id SU3EGbTr0GhgagAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 06:24:52 +0000
-Message-ID: <dfc5f39f-7743-400c-a602-55a569da7411@suse.de>
-Date: Mon, 22 Sep 2025 08:24:52 +0200
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011041.outbound.protection.outlook.com [52.101.62.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0947910E3B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 06:25:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CRDwYMvVq+uSOsphY9NRFVCO8WZnGyJxxfWUXOA42FNpR+E5L8BjKNSWyJ+xcnwDg7tirm/NxqfHhekFCg2hdlOxOGuwfruNPAiLgBnNKkpe8bPKJg7XnDyK0mzEhYBvRAI+UkIh4iitDeTEMa5mSD99oGAe7d0MM0tBaOyGLa3EZCPMvHj41xctv6TCa4JhO6oEkWmueQB1yGvnmdVrttcKtVdceWDU3BR4ZZl/EOD7FlCsrzeKAXUItIKneP2PMgBg2JJFrEsqaqpx7D/N8B9Fto4PaMQ1I2OINGo+XFE6PlK86Khj6H9YOpreRK92JKnnQlg9D8OkBN/oBqPdbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Aadm65t2BsPvJUcPHIyMVDiIVbF0iIbdDmqj8wSmElA=;
+ b=avI/f3qmJ6cNk90V128ACWWStNj4t/1+TO3b/WpTznWnvCx4BBr1hLnFJ0ccuZ8/LihSrv//FnWRcw+hqmIw3Q4K8bKHrYxAraUwdG2ygNySZ5jgdQhe2XJseVNk7FXi0/NINeXR0+WCLY0RJORVcDckwXmK8yO7EBo73zOu1zATxdO7AYaHpc2R1jGWWj3IObCSs026W8x3FhcmRKdnkLvZIK7PAWUav9yiRZi8pYKa6ByXxSe/0vhkY68MFb2zcT+TLbsQSEt4Nl8na3l0lzbQ1C3qF6MVBQWFSD9pi9OskFegUSAZrtcFvGwCi8bc9tqHeM8JJM9d0CVI0+Zm/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Aadm65t2BsPvJUcPHIyMVDiIVbF0iIbdDmqj8wSmElA=;
+ b=b8GXEjfPnX5STVtHNurQGvZ3IT2WJxva83fl2lP8q05O4WgUGF+a4TQ2J7/u2Wc+D4nKbfVMJZjIBrk4oYLfcQ3RnvP/NH/xl683TpeHuVnPFLUlhRXFT3axbG+CDbMzotlo7g1dm5RmefbSGz3T2ScFXaf0HMvja3vEyVdomyXNXMho7PT1ZYJpMh4cxh5tGBA5v4xHilPKc+UvCcALqHcAfuAJBz56j4knUDWY/YgWc9B1dV23+F94R33OacbFNKeu+CLnWdDN5yOKP83wcaHxP6OYHTIfJU/PbDMdt+q3LoPURc0AuI3j36swOONXBKwaHw+9fFqmCdKnqn01Zw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SJ2PR12MB9191.namprd12.prod.outlook.com (2603:10b6:a03:55a::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
+ 2025 06:25:04 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 06:25:04 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Sep 2025 15:25:00 +0900
+Message-Id: <DCZ44OA67SLZ.HKORUXU2L9K2@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH] rust: io: use const generics for read/write offsets
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Benno Lossin"
+ <lossin@kernel.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250918-write-offset-const-v1-1-eb51120d4117@google.com>
+ <20250918181357.GA1825487@joelbox2> <DCWBCL9U0IY4.NFNUMLRULAWM@kernel.org>
+ <752F0825-6F2E-4AC0-BEBD-2E285A521A22@nvidia.com>
+ <DCWO3V7WQP0G.127BYBORGE85H@kernel.org> <20250919205314.GA1884303@joelbox2>
+In-Reply-To: <20250919205314.GA1884303@joelbox2>
+X-ClientProxiedBy: TYCP286CA0209.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::12) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbcon: fix integer overflow in fbcon_do_set_font
-To: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>,
- simona@ffwll.ch, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250912170023.3931881-1-samasth.norway.ananda@oracle.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250912170023.3931881-1-samasth.norway.ananda@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[oracle.com,ffwll.ch,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; FROM_EQ_ENVFROM(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ2PR12MB9191:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca1c99aa-f3f2-405e-8cb2-08ddf9a0c414
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|10070799003|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WXBkRHozNlRKNDZMNmljK3NkazhtbDZXNWdGd0FIMXI3aFhjNEZhb1BPYVdV?=
+ =?utf-8?B?UWR3VnVyZXFhZlVPZ0srWjRwOFBJYkV3bjJ0V2pTSFdMS1Y1bE9mZDRabDds?=
+ =?utf-8?B?ZysxOHZvS1Jhb1A0TkJWVzZxSUNzbG9WTnd3ZjBxejJ4YktibS9mMHlHZnVr?=
+ =?utf-8?B?cXlFQzZKN3NnaEFJc2o0ZXl6VkpFYXRlby9oeTYza1JldzZXQnQ0cDJhS3Fr?=
+ =?utf-8?B?YW1wZGM0U0R6SnFwWFNxR0VGbEsvaVdpSmdCZzNNM0tGNVAwWVpBWjFvTU9F?=
+ =?utf-8?B?Q2hKbitYNzU3bERnZi9kVkdQeUJRZng2MmM2aVNvaHE3OXlaS1hNaTd0V0gx?=
+ =?utf-8?B?b1BxWW5nVVNROVNnT2VJZzk1bUN0NTYyM2Vra2hQVmQrVm9kcHNhYmVhMkFn?=
+ =?utf-8?B?VWllSmVKR3prKzZhbWRYZWhzVlpZWnluaDlYNGo5RllmeXVoMXFyZVdwTDZY?=
+ =?utf-8?B?d093NldBZFFRbkp4R2s1bDg3TlZlcjZUUk84Ymd5RjA0ZGU1TDVJYUQreDVp?=
+ =?utf-8?B?aWhGVW1PUmdocU1YT3JscUF1YjlOazV0VExTaHlaM21JK1hwVExnelVWd08x?=
+ =?utf-8?B?TkhCLzhRVlhUUGYvZ0tZMEpnbXpvTHdZT2pOdWxBY3pQSUgxL0s2d21BK1pP?=
+ =?utf-8?B?clRiczU0MHVXQm5iVC9iMEZTck9ueHhhQVIxcEQ1Ymw1UmZCdkNwNGJyNllI?=
+ =?utf-8?B?a3lQVUFHeElVNnFTYVlJL3V1ZFgrL1dHcHFqcGRQcU9KRDJONUg2V2Nzc3dr?=
+ =?utf-8?B?ZXpLcWRsQUNDQ2UxcEllNGlFWTExOTRHWTIzakJ1bHB4b2U3OVd3OWJZNERp?=
+ =?utf-8?B?ZDRuTUZ6SkU0a3NXbHpmY0REYmhVWWNMVUFDUUJYS3c2ZXRZNmZYUDB0cHNm?=
+ =?utf-8?B?VFE0UDhJUXI4VVJCdkVUNUVCYXR1R1FxSkxMSTI4Zk9hallHamZRV1lBemF1?=
+ =?utf-8?B?My92d2g4R0VmaTNZcXlFK1ZJM0hDZDhWTHhadGpMOFhybmd2ckxpbllJeU02?=
+ =?utf-8?B?OUorY1JGNTJMZ3ZvVjRuQ2tsNDlhZHpRVGxSbnZrOENrcTJ3UFU4ekV2MXFW?=
+ =?utf-8?B?eGpHVk1SdlVndWFFRUU3SFpXZFAxaml2bE16U3hXVHBFeU5VRXpqR0VNVmU5?=
+ =?utf-8?B?SUdwUEx3dEp0d01uT0VvbHI4MGRxWDE0WXQrQVhWT0FIM2NvZ1YrcG55SEJU?=
+ =?utf-8?B?WnZoWkUwSlVEZWZ0WmVsUERTNUFBNU1GOG05ckMxM3puQ3ZuRGNVSU9WZUY2?=
+ =?utf-8?B?bkVVcDc2dm1BSkxVYXdpRmU4YWhybkhzS2VycXhsc0lxSFRDem0zcEFIYnh2?=
+ =?utf-8?B?KzlHZ2VmNC96VXRNTkk2OTZmbXBpek9ZYlJyNHpKMEdCM1VZWXJSR1BHZkJM?=
+ =?utf-8?B?OTAxMEpkMzN6ODkwNWlCcFRlK0lFc3VOMTFxU2wwbWRFd0s4STRIK3RWcHN5?=
+ =?utf-8?B?WnlCQXRwMHBVWmZvRnBnSzRwRmYrMzJSUERXcGJrN3d4K2RnMG5PWmdoZDFE?=
+ =?utf-8?B?Z3J1U0JXeDZiM05hWnVyVEQyODdTdlZFTTZ1R1Eyc1FzSE5YT1Fsc3plZkwx?=
+ =?utf-8?B?dzhzNWVNY3dXM3ZOV2w0SXpaNnZWVGZCMG5QMGlIdkhvSlZlZFdSWHVnL3R2?=
+ =?utf-8?B?Z0QzQ2ZsZE00dnNXWjNQUGY3cEhDRmgvUkRvRDRhVWh3bDFqUDh2bE01YzJQ?=
+ =?utf-8?B?c0gyQjF4VDVuMG41L2Rqb0JqekhVczQyYVdLT0ZLM2ZDNnluL1ZMSFJXSDFE?=
+ =?utf-8?B?V0d4aDQ1OWJ5RHNSNXFTYWozYmJLbVZqV2RFMFpMMDk4ZnFJTmIzRGRiaERZ?=
+ =?utf-8?B?dDYzZVhwT0RVdDhpbU1acWxQblJPZE8zdmh0SUFEWDB3eUUyc0lDenlnUVFH?=
+ =?utf-8?B?bWNwMHhZUEZxZDlxQ0M1N0NiZURiUHVzam10MU5keE1XSHFxd1dFM3BkZ1RD?=
+ =?utf-8?Q?zK6QTOF+H1Y=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VktxNEs2c3p2Tk5BemNBcDk2WWN6cUQwaUcyMUxweXJsTExPWTcvRjFSeklX?=
+ =?utf-8?B?bHFweG4wWld1b3MzQkpnNVlUamZVRkxnNmMvemp5amhWRGt3eHhLYnBTS2lL?=
+ =?utf-8?B?Z0lyaGFlT1V0YWJuOUwvK2laYkRLVFdCcS95RTlnd09WZ2h0a1ZUZm1MQ1dZ?=
+ =?utf-8?B?c0dqM2RCUGtYandWa0JYeVoxZGZUVzJrSWZ3VkdhQjFYdmo0NkRxZEFNdkV6?=
+ =?utf-8?B?N0MwUnJ5M0o3UE5sQ2MyckNHaFVLU2lFNUd2Zjh0dHpySE1sNmcxZ0c3Uzc0?=
+ =?utf-8?B?eUpwK3NJMXdUUW0vMjkrZ1E1cFdnUVdKczVSdXY5blh2eWc4N0FwZ2tKUG9h?=
+ =?utf-8?B?QUFPWFBvcHBGQ2Y4SDdENXMwS1dDTzl6Y0h4bUZaaEgwZktiRUE3QWw3dmN0?=
+ =?utf-8?B?cm5Ld0tjUXl1NEdYWVlMQzJaanJSKytSaDVOREZsTy90dllUbFNETWU1aDh0?=
+ =?utf-8?B?Si83SGZhRWhBUnlBb1pxMnVqMTZuQ0xUdHJEL3pJbm9uYTRlMmRRZ3VFZDB1?=
+ =?utf-8?B?TDIzSzg3bndFSVFEd09waDRxN1BoNnltd2p6WGtiTTIyR1dGMFJGSkZUdUxO?=
+ =?utf-8?B?aXBpbnFoRmxIMFNNREhOTkFhUXBOYlNlektyVzhkY0pwSFo1WkhZM3c2aDJh?=
+ =?utf-8?B?UEphNWlnUjVxNUtCbSs3dm1YdWZhTDRJWkJna1B2bDFKRWRBYlEzMWtFMDMy?=
+ =?utf-8?B?Y1pDRkRBQUJqRTVOTksvbHdUay9UVXh6U3NETHJXTGU3YUE1ZHBJRW9vb2lh?=
+ =?utf-8?B?d1hpL1BIOUJXTVAyN3hzdXJTb0t0aDVCS0ZkYTBlVVR5QjczREduNFU2V0tQ?=
+ =?utf-8?B?RzNPRmU3NEFNUnE3Z3dmTktFUlhzTHhFVFZ3c1NGOUJ5ZDBER2l3NStyanpa?=
+ =?utf-8?B?UUtHWlpRQkVBWUhNWW1sOUY5VldzNXpiTEluWUJYbitaREQ2VWpXM1lVSmVs?=
+ =?utf-8?B?VGVmdGdvcXJUNnZ4bGRLa2FkQ1BSclhDdFphMzNZZE1XazFUT0x6SEh5eDJq?=
+ =?utf-8?B?N28vY2RrdTV1WFI4czRJSUxrOWZhNEtrdU0yVm9STlJPSFNvTWVyR3dOdFlt?=
+ =?utf-8?B?NXo2Slk3V3cxOG1Rdi9TRVE5VlBxTjdnR2JwRFREUzdnZFFYTVJKMlJjNTZt?=
+ =?utf-8?B?U0hZUzFkdW53M1NiMHExWEJQaDRkYlVUVFRScERPU09BSlp4QlhUcFZtejBo?=
+ =?utf-8?B?NHlMWVlhWmR1V0FWN05obGIwR2l4NXR3LzJzSVVCOEJqdDZlWDEyQWRhTW1R?=
+ =?utf-8?B?UHVpV3A0VTlsTDl3MEhmRGZBa01kT2xuT3pxRDBIQnFRMlZBeXBTSHNOVUhF?=
+ =?utf-8?B?aUVwS2tmNVlFS1ZMbUV5K09PMU9PTVhOVjFFNzBuRkw4cm9yWXRzcHdsenRV?=
+ =?utf-8?B?SVVYWjdMcDg2Q3RDbm5LeG1ueS9LSFI4YkVNZXY1OUE5WlIrMU5scnBFaEFt?=
+ =?utf-8?B?TDg2WklTVnZQeHRNcHl0ZG1FNllJRXJ4YTdCS1NneW1EM2R4SytLOS8vMEF3?=
+ =?utf-8?B?WkltUzF4UDJ5ck43RllCWEdiSkNWWit5VzEzbThjZ3pTZmZrczJ0YklUMURn?=
+ =?utf-8?B?RVcxMTJwQnZJZ2xwZkZmdytBeUZsZnlRTE5jT3FkSzFScW9xVEJCaVdlRFZX?=
+ =?utf-8?B?bXd2MzQwSVdmNXk0S294L3dOcVJqZy8vMkFRVGY5SHZCTkJRWmd2LzE0RDUv?=
+ =?utf-8?B?SkZDNWVnRFZ1QWZGN08xRTBYYm43dHpvSTk3SHFLQUtqdWUzZUFSQjdsNjds?=
+ =?utf-8?B?cjdGcjgxQnFhWUV5VkNUYWJJRTdtRHFFUGk5bUFQWW1uZlVCN3p2cHVJUW1i?=
+ =?utf-8?B?RkNpM2QrT1hvdERtVWcrbVA0ZTdGdTJCd0t4RVBaME01OGw3NUFaeEc2OSsr?=
+ =?utf-8?B?dS9adVhtSW82MTNkcHByNDJhcU5sK2lEak11SmlGSEVZVXZxRHBiUmxtaU8x?=
+ =?utf-8?B?VEtoSGhTc0hSRm1RS3R3Ukdta1VQZC9FMzBqYjllbzdzdjhma0UwYUdMaHkw?=
+ =?utf-8?B?dlRYRWdDbnVxeVNldFdZRnBaWXpWVVkwVEJFdllTWjk4Vnl1dHJRdy94TWJk?=
+ =?utf-8?B?KzFONTl5aTNsZTBIMmR1bWdoNjJHRUZIN0NETlFvUnBSeFM2ZGJrQVhvWW1K?=
+ =?utf-8?B?L080TzIvZ0ZCOG5HVEoxd0RXY2dPVmNNVnd5OVd2cmh1YmVxRUZiQVVuejNB?=
+ =?utf-8?Q?tFaPRdunpn8IAGb+fHXm2ssPlzLAJLIdDT8Z7fqHvZC7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca1c99aa-f3f2-405e-8cb2-08ddf9a0c414
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 06:25:04.2712 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3tRJamJ19cycGsOF3wm534UUEm/2mRrvshgihHb6t7EB512vN/viHJtZ/jW7W+hveQKKKePu2+fKkfxxOlsgTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,65 +183,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 12.09.25 um 19:00 schrieb Samasth Norway Ananda:
-> Fix integer overflow vulnerabilities in fbcon_do_set_font() where font
-> size calculations could overflow when handling user-controlled font
-> parameters.
+On Sat Sep 20, 2025 at 5:53 AM JST, Joel Fernandes wrote:
+> On Fri, Sep 19, 2025 at 11:26:19AM +0200, Benno Lossin wrote:
+>> On Fri Sep 19, 2025 at 9:59 AM CEST, Joel Fernandes wrote:
+>> > Hello, Danilo,
+>> >
+>> >> On Sep 19, 2025, at 1:26=E2=80=AFAM, Danilo Krummrich <dakr@kernel.or=
+g> wrote:
+>> >>=20
+>> >> On Thu Sep 18, 2025 at 8:13 PM CEST, Joel Fernandes wrote:
+>> >>>> On Thu, Sep 18, 2025 at 03:02:11PM +0000, Alice Ryhl wrote:
+>> >>>> Using build_assert! to assert that offsets are in bounds is really
+>> >>>> fragile and likely to result in spurious and hard-to-debug build
+>> >>>> failures. Therefore, build_assert! should be avoided for this case.
+>> >>>> Thus, update the code to perform the check in const evaluation
+>> >>>> instead.
+>> >>>=20
+>> >>> I really don't think this patch is a good idea (and nobody I spoke t=
+o
+>> >>> thinks so). Not only does it mess up the user's caller syntax
+>> >>> completely, it is also
+>> >>=20
+>> >> I appreacite you raising the concern,
+>> >> but I rather have other people speak up
+>> >> themselves.
+>> >
+>> > I did not mean to speak for others, sorry it came across like that
+>> > (and that is certainly not what I normally do). But I discussed the
+>> > patch in person since we are at a conference and discussing it in
+>> > person, and I did not get a lot of consensus on this. That is what I
+>> > was trying to say. If it was a brilliant or great idea, I would have
+>> > hoped for at least one person to tell me that this is exactly how we
+>> > should do it.
+>>=20
+>> I'm also not really thrilled to see lots more turbofish syntax. However,
+>> if we can avoid the nasty build_assert errors then in my opinion it's
+>> better. (yes we do have Gary's cool klint tool to handle them correctly,
 >
-> The vulnerabilities occur when:
-> 1. CALC_FONTSZ(h, pitch, charcount) performs h * pith * charcount
->     multiplication with user-controlled values that can overflow.
-> 2. FONT_EXTRA_WORDS * sizeof(int) + size addition can also overflow
-> 3. This results in smaller allocations than expected, leading to buffer
->     overflows during font data copying.
+> Yes, thanks. Also I tried to apply this patch and it doesn't always work
+> because of array indexing usecase in nova, where we compute the offset ba=
+sed
+> on a runtime register index  (**/nova-core/**/macros.rs). Here idx is not=
+ a
+> constant:
 >
-> Add explicit overflow checking using check_mul_overflow() and
-> check_add_overflow() kernel helpers to safety validate all size
-> calculations before allocation.
+>             /// Read the array register at index `idx` from its address i=
+n `io`.
+>             #[inline(always)]
+>             pub(crate) fn read<const SIZE: usize, T>(
+>                 io: &T,
+>                 idx: usize,
+>             ) -> Self where
+>                 T: ::core::ops::Deref<Target =3D ::kernel::io::Io<SIZE>>,
 >
-> Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks a lot for the patch.
-
-> ---
->   drivers/video/fbdev/core/fbcon.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
+> In **/ga102.rs, we have the following usage where ucode_idx cannot be con=
+st:
 >
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 55f5731e94c3..a507d05f8fea 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2531,9 +2531,16 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
->   	if (fbcon_invalid_charcount(info, charcount))
->   		return -EINVAL;
->   
-> -	size = CALC_FONTSZ(h, pitch, charcount);
-> +	/* Check for integer overflow in font size calculation */
-> +	if (check_mul_overflow(h, pitch, &size) ||
-> +	    check_mul_overflow(size, charcount, &size))
-> +		return -EINVAL;
-> +
-> +	/* Check for overflow in allocation size calculation */
-> +	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &size))
-> +		return -EINVAL;
->   
-> -	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
-> +	new_data = kmalloc(size, GFP_USER);
->   
->   	if (!new_data)
->   		return -ENOMEM;
+> regs::NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION::read(bar, ucode_idx).data()
+>
+> So I am afraid this wont work. Also even if it did work, it means now we =
+have
+> to also put idx as a const generic (turbofish syntax).
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+We could always use the `try_read*` variant for these, but that would
+introduce runtime checking for errors that can't happen. We have been
+pretty successful in avoiding using `try_read*` in Nova so far, and I
+think that's something we should try to preserve as it brings confidence
+that our register accesses are correct.
