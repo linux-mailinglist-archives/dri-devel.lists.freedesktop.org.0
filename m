@@ -2,150 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A2AB92BAB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 21:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24832B92BF3
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 21:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87CBE10E13A;
-	Mon, 22 Sep 2025 19:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 714C310E4E9;
+	Mon, 22 Sep 2025 19:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="W5s/vKkP";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="PYlRxL0N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010034.outbound.protection.outlook.com [52.101.85.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339B710E13A
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 19:06:25 +0000 (UTC)
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011040.outbound.protection.outlook.com
+ [40.93.194.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31EA210E4E7;
+ Mon, 22 Sep 2025 19:10:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ALXfPlqFyA1FJa8DXO7u+xa8bZLcB616BLUtVjEZDlt4VeUC04Vz9tDxs0kjreoqg/aiDXNJjkxlbiSGqoZIdaOv+yEhTOLHdIgV1a4rTCI/HfhDZ/qzvZq4gtxUQcZNOeQ1Kxv5E5jO0D+ubaqeuK08fYcaf9ee80qtdda/j4w9IdCZLLygciu36vxtgWsITwk7O/khrPD4zZR2PFyaW6tEC5QqhNk9sRsHyVzsxYS9uQskwC5I3u+RQzyxDg8toZxw2Pe3RjCSVUYACf7qnSDudidZD/v7VaXjGoEHTislf1H5YSAaige7GlgfRLeePr7vH0fXhdH1RBZ4eCmKTg==
+ b=ZP7o6Du0XV3HXHPjlxpGgwehpcvoRXpze0dug/B7wNJygrevxABLXbH2W8jgXP5/b9MtIszi157UO6vv/pUWN7hJ3oLGS9FL/c09oI4lrP8YpHEnKQ0h/JX4keGBYxzTsyIQxUx7coiDW/zUOmBPhrm+y4wwrm4ZZUh/mXZ9vDBSMFuZRkGLuwF+UgsouDAncnoUSAZh9sQVBZEA+N4/116sKlUztGpas9l/QoIeWZqiu5jqLwzly0kRo+1gombnBmTwhxPylfcGRjOgt1vyR9MYpYV1tNjuwkK0xmvRohV1Z0aS+qSVVIb7cGti3J8ey3lKdZE9QxpqlXb3lZrbhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PiSgg/kCh2xM4au7focgl2o3pldeQ1gyZY/bb9MxM8c=;
- b=zLtDdHKnXqTUMWNzuv2Sy/pJUoU64pBp/Oy2JJQJPDw9WgVX0LhfB4elAh8a91tAqdjKSPsBemjKaRDvyACtC3rVVwDKNnoJK4AiB8qndCUl9jTBAfjxSxefvvFJircrBj5rGmx0/Xw6xoPhBreHdX5OEta362FBwVxKnBBujX5sROo5RT0BzDQW0fosWspwn4lZZvIlrV1fIIRoGYtIxLEMusjF9KElZ06ZzsezoU83Te41yBA2gr73p8MpQtiF1GlcIraGBBkYIN5aaA2sxioj5T28Np9cQ2ETaua0wliggNmOCrI27D1WDmZQMwLI/bG9Rb3ejFdImP9trE9+CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=collabora.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=ThJrZL/r09pYyHNf59iC9BV2wxfBog2+LDi3a0PvqkM=;
+ b=srEf/G5BKAso2HOkJgbrU5QupOllDzmxEvLNBoVOGDjufBBuZVJKqYR8R35uOUQtCc4TVXMvbcdYqyr9T+sh1szRAmEVwPycnMqEJZeDjttDbBIG8wAisjC7a1HMI4J6gTJSu4bj0MrhKJtIOmrbZ+5ZezlUfK//vsxYYXalv77RLiRRf5LVpCua2AiXWCjnjl0LM2eMnVxqtbPEpdNSSFbFaAMP2hep16mfs4tPBC5ojK4how92MccvjtfQg2inRLF1I8Lgc6U9lX8hhbuiaH+v0Cl4a1BqVvb/yCtA0BWmooEgjKzLrcS1bDSsa6qaItLgJjRE8vlbhkUbkcZkVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PiSgg/kCh2xM4au7focgl2o3pldeQ1gyZY/bb9MxM8c=;
- b=W5s/vKkPU4ZCCAL+NzbtuyN4K9ja4eMj5Ae3pNsUSTwNJJvfL2/k9PhS+J+KDWYRTIbMtTZyz4rIQhtCCnhkSvXAkIEMAgnIl0hnWC1luYq9E6xbuHDXQhKwJKpij3tW+ZrhoJq3WLXp7D8MQ9a3MFr6WqdO3V8wEKraApeyg5U=
-Received: from DM6PR03CA0076.namprd03.prod.outlook.com (2603:10b6:5:333::9) by
- PH0PR12MB8125.namprd12.prod.outlook.com (2603:10b6:510:293::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.19; Mon, 22 Sep 2025 19:06:18 +0000
-Received: from DS3PEPF000099D8.namprd04.prod.outlook.com
- (2603:10b6:5:333:cafe::50) by DM6PR03CA0076.outlook.office365.com
- (2603:10b6:5:333::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.20 via Frontend Transport; Mon,
- 22 Sep 2025 19:06:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- DS3PEPF000099D8.mail.protection.outlook.com (10.167.17.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Mon, 22 Sep 2025 19:06:18 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Mon, 22 Sep
- 2025 12:06:17 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 22 Sep
- 2025 14:06:17 -0500
-Received: from [10.254.37.98] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 22 Sep 2025 12:06:16 -0700
-Message-ID: <508d9810-1e42-4439-b1f5-e213892975c0@amd.com>
-Date: Mon, 22 Sep 2025 15:06:16 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/uapi: Indroduce a VRR Range Control Interface
-To: "Tseng, Chuan Yu (Max)" <ChuanYu.Tseng@amd.com>, Derek Foreman
- <derek.foreman@collabora.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-CC: "Wentland, Harry" <Harry.Wentland@amd.com>, "Limonciello, Mario"
- <Mario.Limonciello@amd.com>, "victoria@system76.com" <victoria@system76.com>, 
- "seanpaul@google.com" <seanpaul@google.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20250912073305.209777-1-Chuanyu.Tseng@amd.com>
- <010201993e2cb26f-089ce007-9e30-4b79-b487-c16c360309fd-000000@eu-west-1.amazonses.com>
- <d8694d69-62b3-4418-9fcb-d37c1daa1f9f@mailbox.org>
- <010201994e05ce63-85ad5afd-fc09-48fc-bd6e-f3716c8ba09f-000000@eu-west-1.amazonses.com>
- <d52ec8d7-cc5e-4801-bc04-096504a131b7@mailbox.org>
- <CAFZQkGzWUK5BP_f=zyOM8_pzvv6xYOaVdqN4RAULArvEmD4wUg@mail.gmail.com>
- <01020199583bf42e-4a08777d-554c-42b7-a42c-5162f4459a72-000000@eu-west-1.amazonses.com>
- <CY1PR12MB9583E829ED2AF17A77A3EE7DE516A@CY1PR12MB9583.namprd12.prod.outlook.com>
+ bh=ThJrZL/r09pYyHNf59iC9BV2wxfBog2+LDi3a0PvqkM=;
+ b=PYlRxL0NmBc3Sw5nkdlNXsy7RcwJc0Hci96uJlD+xm3i3KBzBTD46XtZFan12YuVh0AzlpKuXKjXOISaj49zkzaf2MVBDp7dciDcd+PDGIafsIMEsu+GHmoo0S8Mip4ap8cZDbSnmS2bD6ZbJ2C4ZI3T7oamEgrX7rsn4pC+tnE08QaZ/rhnyb6mDhiKnPSnMJaqhd/D7fmR018aZzPpHgY09rQa+wB+LfiNrB0f3yrR8hhoEZI1qmFNEVxCNb2jPohAmdF1oQJdcH9LfgiE3lQrRzGfS58Fma17UBkOKd/lBCVeKg0m7Z5oYeMeRarESYqfbJJYn1JRaM7jrdeYPw==
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
+ by PH7PR12MB7426.namprd12.prod.outlook.com (2603:10b6:510:201::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.18; Mon, 22 Sep
+ 2025 19:10:53 +0000
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::d620:1806:4b87:6056]) by CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::d620:1806:4b87:6056%3]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 19:10:53 +0000
+From: Timur Tabi <ttabi@nvidia.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Alexandre Courbot
+ <acourbot@nvidia.com>, "dakr@kernel.org" <dakr@kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>
+CC: "lossin@kernel.org" <lossin@kernel.org>, "ojeda@kernel.org"
+ <ojeda@kernel.org>, "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "tmgross@umich.edu" <tmgross@umich.edu>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "mripard@kernel.org" <mripard@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, John Hubbard
+ <jhubbard@nvidia.com>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "bjorn3_gh@protonmail.com"
+ <bjorn3_gh@protonmail.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "aliceryhl@google.com" <aliceryhl@google.com>, Joel Fernandes
+ <joelagnelf@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>
+Subject: Re: [PATCH v2 07/10] gpu: nova-core: gsp: Create RM registry and
+ sysinfo commands
+Thread-Topic: [PATCH v2 07/10] gpu: nova-core: gsp: Create RM registry and
+ sysinfo commands
+Thread-Index: AQHcK7RsIIrl+YrTDEmIrany5za9zrSfkdEA
+Date: Mon, 22 Sep 2025 19:10:52 +0000
+Message-ID: <d87bff0c64fb2a549920354c8b09f764e145a492.camel@nvidia.com>
+References: <20250922113026.3083103-1-apopple@nvidia.com>
+ <20250922113026.3083103-8-apopple@nvidia.com>
+In-Reply-To: <20250922113026.3083103-8-apopple@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <CY1PR12MB9583E829ED2AF17A77A3EE7DE516A@CY1PR12MB9583.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB05.amd.com: sunpeng.li@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D8:EE_|PH0PR12MB8125:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b98522e-7190-44d4-90c7-08ddfa0b1c6d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|42112799006|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VVZrMDFkRlhSRmdwWkVUN2syWWRvN1NSZnpyZldiQit2VXhJSndHOUpvb3o5?=
- =?utf-8?B?TjAxRzZuZHd1ZU9sQStiVGN1R1RPWEdGdVQ2dVgvcVNJc2tCaHVYUDNQY1dQ?=
- =?utf-8?B?cXByKzAxVXM5U2R5WmRNTm1uNEhzU1MxZHF0Rm5yUWROQU13MU9YUTZHQlln?=
- =?utf-8?B?SlQrbE04VmhjYmRPVUYza1QyVW9vZlFmaE4vZlhjbDVmTFFpeEVpcGpDM3Vv?=
- =?utf-8?B?eWFraEhrNVg5ZjQ1cktPelBrVzJ5VmZTZXJkdVVJeFlFdXpZK01TNzJxWnB1?=
- =?utf-8?B?REFjMlRkU2JRNXJUL0U2akhNZnpaa3oyUUpibExqT2R4elhhR0hRL2tJQU85?=
- =?utf-8?B?TTcwNjNGa3NWSkhBK2FVRmhQZllOSXNseFZjZ0JoeFJPVmcxK0JBaW5ONndl?=
- =?utf-8?B?ZnEyM0tzazNOb3BjcThmZjd4UE9nRmJFRHArOVZhL2dSNVcvZGo0SEw1Mkth?=
- =?utf-8?B?YXpCNlZPMk42UGVQZE02cGVBVk1CbEFFT1IySkVyaXE1ejFhckpabC9PSUdk?=
- =?utf-8?B?YVNMdUhiZWZpV3ZlZVlRdmZuVExEWHJaeTB2S3QrUmw3UHRvaXJRc1RsRVZ4?=
- =?utf-8?B?ZUgzbHhWWCs5WG9lakVzVThQc2dNVWVQckN1bWxiRUFvRHFaZlRwbk1odTA3?=
- =?utf-8?B?RVM1RHZ3d1FHT0s0bVJUVkd0T1JLZFFBV2ZuajNHY056dnl6SytKZnF6T0E2?=
- =?utf-8?B?SDRCWlNsTTM5cjhQNS9saGxqcmhCSE1CVjBWOWRLL1c3VHhpYmttd3p0cGhq?=
- =?utf-8?B?VE5jd0hQa3ZJK015TjdySFlpb0pQdEdSZHlBdDVuQXVHWXlCSXdtdklyKytx?=
- =?utf-8?B?Z0lkSEJwMFZIbGQ4T094dzhwYzBCNVpORHdOdWhyQ3NCcVBlZ1NHMlVzeDBV?=
- =?utf-8?B?ZVd0RU9WRXJ6d2s3b3BIbzlTaVVxZzNMeWF2eDBEK3dmVTNtMXhBRmZtVi9u?=
- =?utf-8?B?L01ZNkFzeWdVU0FSR1l6OTBvc29vN0dXQVdEYjJTektXMFZScEU2eU1hd1pu?=
- =?utf-8?B?NG1URFA4M1Irbm9Yd1V4cENpcGk0SkhCSXpER1N5TmlGVlZVVmhyV01mMnMx?=
- =?utf-8?B?endoSTkzeUF3c3lPcWxHRlgvejVMREorbGs1ZlpSdVl6Z3g4dWxodVpVQXRp?=
- =?utf-8?B?LzBGWDNENjYrNEo4VHpHYlh5TXE0Q3ZLVzdacCtkVjJFclI3d05HekFvbFNT?=
- =?utf-8?B?a1RiVHY5OXJlL0tpZXg2L1pOQzltbEltZWRCZEFZY2lSZ2R2c2VueFZhWkRX?=
- =?utf-8?B?VXBLZkFzKzluSHdzN2cwclhLY1haTlBoenNuR21RZk1oaVlZYVRoRWZ5SU1i?=
- =?utf-8?B?dDc2SnNLZGp0c0JvS2FJb2xHTlM3Z0ovU28yNzhLVHl1eG5mZmM2cDRrYmxn?=
- =?utf-8?B?TXJQcDVFcDA4Ty9OU2Z3c1JNNFQxNmU4VlQ1WURaZDJUeDhXdmNsSlBNRkFz?=
- =?utf-8?B?aUUrR2NoTXQ1eW5MaWhwejZ6NnhBNnB1MU1McERUK3lsS01leEdHM1BXNkVM?=
- =?utf-8?B?TXFrdFVYczdLNW53VjRzcWtsdndHTnIwRkFWeS80a0ZoelJiRC9rZ3NOdEti?=
- =?utf-8?B?UnhzaWtlOHZqWUFUdkZ3cTJFRTB3NVVLUk9HTk9EbTZDblpPYjdINm5oNE43?=
- =?utf-8?B?ejFxUU9jdTNQR01UaVViZVUrNm8zdVBzMS9zcnNhM09yZDcwR0dvd29sNWdj?=
- =?utf-8?B?QWRJVDM5YjdBdEdiWitaMzg4K0s1ak1mYWNDNTFmaDRkeUVlbk45bE9CZGd1?=
- =?utf-8?B?eGgzanFmQ3h3aXUzNFZHZmIvRHNLY0JrOG1LbXFOZFBCMTNxNWtwRVdkSzVD?=
- =?utf-8?B?Y3IvOGtSVnAxb2dMTkU0Qkp2WFVZUzFWWDBCcUxVSE1uU2VqMkp4Wmd1VWVJ?=
- =?utf-8?B?UWhEZFZDMi94K1plOURLRWVwL2tvK2V3Q3FUOTgrU3l0Y1ZLdzhMNjF6SmtS?=
- =?utf-8?B?UUl0ZFBSWWh5cDZ1b21mMXZRaEdJUUJxVGxqTTRSTUsxNndQUXVzZ3M0aVpm?=
- =?utf-8?B?a0ZiT0pCRFR2OHRZeDFZcXByYnlwZHBlSkkvOTV3a3ZwbUJ4WVd4dEdTZjhs?=
- =?utf-8?Q?s+tWRd?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(42112799006)(36860700013);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 19:06:18.4198 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b98522e-7190-44d4-90c7-08ddfa0b1c6d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D8.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8125
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|PH7PR12MB7426:EE_
+x-ms-office365-filtering-correlation-id: a4f82c77-34c3-4687-dd27-08ddfa0bc003
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?bmxRcjRER1I5Vkx1blJDRVVxbWlLdkVFKzcyL3hHalJQZWZYcUFTblhEWVFM?=
+ =?utf-8?B?N3V4WWUySHpjUVFueUpqTWhxbEZQWmFPZUhKMTdRYmFRWVgwZ0N3Zko1aW5m?=
+ =?utf-8?B?SFNSQVF5RytnVy9UUXZlWmdKWmNpTlc2TDMxdnNBaGtGMURybTh1N2drRC9l?=
+ =?utf-8?B?MmRHYjJMeEtJbTNRSUtjVFhIYlMzYm9sUTFXQVpFN2MwWk0vL2N0Q21MUkZS?=
+ =?utf-8?B?M0I2a0xpOGZWc0JIejhTWGNEUVluZit6YW9hZ2dXNU04WkJSWmRtRjRuZ0hk?=
+ =?utf-8?B?VjAxSkRraTZwajNUY2g2TzIxMHlsdTRpZEJZL2tJQWVJRkpxTnBVNFFmc2Zw?=
+ =?utf-8?B?eDZlS2Zha1ZvZTV0aEhvaDhna0VwY3UvTVRKL0tzbXJpQjdIdlhLaytNY1gr?=
+ =?utf-8?B?QnhTMVkxL3VrOW9SM1JJS3BLMWtpcGRYQWhGTGEwSTV6T1N2dys3SVVHVEgz?=
+ =?utf-8?B?TnQ0d1ZtaWt6aCtaWGdCU29Hb0VibTltcWtwSUVLYU4wbmhVUytNbXRWRTJV?=
+ =?utf-8?B?aFQ2Z01oKzdIYS9Za3R6VU5zcGdwUHZwQU9YUXNDNDJlRytTODhQOTZtTmF0?=
+ =?utf-8?B?TE9aZmk2MWVDenhPQWpwRHJsQWsrRVpYVHlmdnV6b0JuTHZMUmorMngyYlls?=
+ =?utf-8?B?WnROMEZhNFhnajk5MGlYWGpYQ092bFpiTm84STYrSDFIS084cXBBUW1iTkhu?=
+ =?utf-8?B?Sm53U2NSSlVycmNLQWdkS21rQWFmcVRBVUZGWGJERDBJQ01TbDM2dkZPbmFr?=
+ =?utf-8?B?M3FDeVM4RjJTano2azgvckZLYWJGTGhjYkJqcWxCT3FmTXJ5RmY2NzZFQUpm?=
+ =?utf-8?B?WEF1OEFtTDd1VnY4a3ZiL0V3QWRCMGNUc3R5dGRuUU1MejdUS2dYN2MzdlFn?=
+ =?utf-8?B?T0w2dVRDM0pXWlVCK054K2hJN2J6MGV6SHQzMkt4TkhZYTJzMlYydDRjcFRF?=
+ =?utf-8?B?elZaS0dNUGdacGNwOU1GbjlXOWJUR09XUXB5cWNxNHBaRXUrcmFHbmhmc0xk?=
+ =?utf-8?B?MFBXdnZ3amQ2bEdZbHFtenlmaTYwYjlaZFFsWkZka21paVN0VTNhZVQ2T2x4?=
+ =?utf-8?B?SGE3Q2hBOVl3RVZabEl5UU5qRC9qZlZLY2JQeVcyemhWS0piZ29ZejRDWUZE?=
+ =?utf-8?B?MFA0YU1BRzAvQUNNaUVOTW1CVTg5ZDBsUW5wS0Y0bnN1a3RJdzdzT283cmQx?=
+ =?utf-8?B?VVh6ZEpLdlo5UnJTMDkzT3cySjkvOS90clc2SVFBTDJTWGRLeWxqTXBjZE9N?=
+ =?utf-8?B?Z2ZuUTVONER5T2grZTdtL1lWcDlOcWxxUHhoM1Z6d3hzUVlTbklySmoyejI5?=
+ =?utf-8?B?WVpnUzdMcEd3b0NyaHJXRkh5UjlFb0dpekUyeXRqa1lscGZJRHd3SXQ1ZE9Z?=
+ =?utf-8?B?SlBjLzZBMUJsUXN2L2phcTNzUEpjWVlERHExUXgrL29vZjNtUzdoZTZUUmI0?=
+ =?utf-8?B?QS8zRVFUSEE3diszTmg4WjU4OHBBNDRhL0tBcXpia2kyYjA3WVp1eVdBTmJC?=
+ =?utf-8?B?d01LT0JPWjVsL05xVVQ5SXIrTVhPY3BySHZWcFhtRjFrcjZFQ2hHakliNmpR?=
+ =?utf-8?B?L3JWbG9KQ1A2OWJlc2JBbXpZN1ZkbFRiSzA2TmpUZkRkNU5NdEtlSmVuOE9H?=
+ =?utf-8?B?emRvM1hDOWszTDkwQ1VEYU5GQXpYL29ScSs4L2NucWFyL0h4UENDQ0RHeFk5?=
+ =?utf-8?B?Nzl1cXBZSTB1dk93d1pnSTJQTmJJd05VYmtNNTdkWEkwS25wQmJxMkRXczZp?=
+ =?utf-8?B?TDFMUFloZXJrUmRydnZ3WExnZnh6dUFOZ2NKSDdaWFpQbFY0cXhjV2R1MTZl?=
+ =?utf-8?B?Rmc1Tnhpek5iSHZLMmFlaVFselJvZjhXWC9EamIwYjdYeTd5QkhlVFJjb1Bj?=
+ =?utf-8?B?bk9ic1JrdFdYTFhVcERaT0I1dEM1Ny9aMGxycHhPSzJUdkpnL1BZUm9VQjJv?=
+ =?utf-8?B?ZHArL0tkRG1CR0p2WnVYRDkvRFNzdnJCalNLUnVjb25XOTN4SXNTYXkxOHhm?=
+ =?utf-8?Q?xQcC4HYkGJjiCIavAyy7kMEZiBqXv4=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR12MB6526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eFFFL0FaejgxOGtnb2R4Q1lBeXpXUjZsRHFaSTdBYWY4cE9VLzJBc2RRMUJs?=
+ =?utf-8?B?MW9pNHRqdGltRDh3MzJqUW1pc1cxRTRxY0dzZyt3cG5ncTUwYSsvWFl1WmtC?=
+ =?utf-8?B?aXRyUzJLc2R2MDl5OTFoTWdDR1AyNmdjSnViZzNhRDRrSnhIZXpvam45OG9u?=
+ =?utf-8?B?R2w3Tnk5eC80RWZtWnl1U1ZOQjZOSXRhRVB0V2xQaUhKTzVRN1VmZW5QSldI?=
+ =?utf-8?B?bFd6dkFzc1VWTWpvalY3dSszKzhFVVlmRHd1aDZvT2REK3hYdnJBR25UUWRH?=
+ =?utf-8?B?MkF4V1BjRzE5K0o1NlJSbldHRDc3M2JJeSsvZ1I2QTVwM0ZXUXdYQ2U5aU5k?=
+ =?utf-8?B?Z1lzTW1SQXdRei9xNDI1Vzd5eldicFhmNnVWMmxLNG5FRFlCdWRKQjNnOXpO?=
+ =?utf-8?B?WVVrK0toMG10UjhXc3pUU0lxbHB2WWhrMFp3QzJ0RWFreTBkaUdUeXBtU1Zh?=
+ =?utf-8?B?QXJ0dFVOSU54L0hXbDVwUVQzSmR3NHlPWjB1dmFPMkk2YllvbGtBZlhHaGk2?=
+ =?utf-8?B?OHlIOXdWY1Fob2JVV1FUUXRBOG0zeGovandTeWVFUEFPbll2by9wTVFTbjlH?=
+ =?utf-8?B?TXZqMUFQelArSWg3eGlUR2NMRnIzRktwVlRNbUU0V0doNFJSeVpKVmJhKzEz?=
+ =?utf-8?B?VUJkaTZYeTJDOWJvSzllczU2bTZtTUxEKzFYbThHZWtDZ2JkMk9ram9QMm8x?=
+ =?utf-8?B?cEpneW5jUWpya3JuSkZ5azcvamtsU2FMb01ZY05HdmRtRjY3dU16K0lESmN1?=
+ =?utf-8?B?YVdBVTNZdm9WSEpud1ZFbnhsSnhqVG1xSHU3WHlZZyt6b29BMkFOOWVLQVE2?=
+ =?utf-8?B?c1BpRk9LYTBDbjd3YjQzTVpIZEVSUlFVS1BrZHJKOEdZNlgrK2NCNUtWUG5R?=
+ =?utf-8?B?VEpuYitJdGZrSkZLRTJHcEhJQVQ3Tzg2dmRyOVZTQ3l6OHBDUnd1WDhiMGkv?=
+ =?utf-8?B?NzRDM0VaWXBtRFIrWEgvc2pKK0dPMGMxekdqc2dkTU9nM2NsRkMvSzBsTGRk?=
+ =?utf-8?B?dHduNTZiTlMxL3B5Zy9aWWUxVW5wMlRxUWlUTlFMS1A4cjczSTZPQjhWZ1Rl?=
+ =?utf-8?B?Zi9MQVNlcmVHK2Z0WkR1dXhmcmxieGFIVE1MeUNwc3Q5TWNkNUM0Y0lGYkd6?=
+ =?utf-8?B?TlF0V1BkRk1ZMm91WHB5aFlXWXpuNUFFN1Y0bnZGSzFLVE85QTZhN1NGQ0Ju?=
+ =?utf-8?B?MTROM2ViUVZ3enJ5cmd5VHhuT0NST2JKNEloYXV2Nk5RY3VSamdlLzg4bnJt?=
+ =?utf-8?B?bkdQWFp6dDBybmRFV1ZLY3I4cVluTDlKMkhsTFZXSkp6RVdjTnJLY0NxbHBO?=
+ =?utf-8?B?UzBybEVRR2hRNVludXU5R0FqUmZhalpUR2ZkRmN2RnZkQnlVZld6SUEvV2Jq?=
+ =?utf-8?B?dllBQjRIOFN1WGNBcVV5cDh0RU9BK1liUGRzOWdZTS8wTXYyMURZK2YwU0JM?=
+ =?utf-8?B?cFJ5VDVMRnpoYUdJNVoydVdFb0hRcWROWVNTaC90T0ZFTGdhdXl1OVJrZisw?=
+ =?utf-8?B?YnlIU0lrN01CNkZWb1NnZEZoZmJXQnpCUGgrck1PemZUV0lUN2JDdWdTdEJp?=
+ =?utf-8?B?NHFURFdPSjE4QkJkSzlRRDEydjVPUksxRi9qN0RsaTIrdVBjU3N5b0FUcHdp?=
+ =?utf-8?B?YWM0SnlEanBiMWQ3d2R4MTBJV3J2RTNSa2Uvd2hLNWZKR0h1U3FhUGgvbDJW?=
+ =?utf-8?B?SmRzVkNoTVhsRUZ3OTNKdVVwZzdRWStOUDhKdnpLVVF6blM1TkRmU0l2ckZr?=
+ =?utf-8?B?akV1WXEzSWxISnBZVnVXYzU4dHdPbm9sSU8xL3lkaHZZaFQxM1lFMm5UU0Nz?=
+ =?utf-8?B?d2xMYXNlOFF3d25LTEFQa0U4a1NKN2QyMnhHOGVoQ0NOcG1Pd1RjWVRxVGRV?=
+ =?utf-8?B?VURzeXRqOVJQaFM4SGpPdEZCeEpaNkZHYkJXZGd2WWFrT0IxclA3Yitqako0?=
+ =?utf-8?B?WWZjdUNqaE50RHRnZzhhTDVKRjVmZjdSVldPS3U2K0hPS3YrWVQxMmNZQUZW?=
+ =?utf-8?B?b2VvT0Z1OTVQSG5FSXg5d042dEZJN2N0UjNlYmJVcWdRYVJJVHM5T1ZyLzc2?=
+ =?utf-8?B?cEQrUE15SzA2L1VSSnZjYkVRYzh5MU9OQ3VzNjhvUVBZOUI4dlBoMGtZMk1q?=
+ =?utf-8?Q?6/egLpJ01JcWKPoJ5GTqf38jc?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <69A11DF411AA7F43AC2F879624681B9D@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4f82c77-34c3-4687-dd27-08ddfa0bc003
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2025 19:10:52.9422 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3p44Be+aiXYJjPaggergE3J5bs06XHNNqFu1zGaFBBJRZWIOFFlo1WE8wrbPkdEC7+8+oBcV8qMk4y6ae4l90w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7426
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,78 +187,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2025-09-18 04:33, Tseng, Chuan Yu (Max) wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
-> 
-> On 9/16/25 4:56 PM, Xaver Hugl wrote:
->> Am Mo., 15. Sept. 2025 um 17:49 Uhr schrieb Michel Dänzer
->> <michel.daenzer@mailbox.org>:
->>> On 15.09.25 17:37, Derek Foreman wrote:
->>>> On 9/15/25 5:01 AM, Michel Dänzer wrote:
->>>>> On 12.09.25 15:45, Derek Foreman wrote:
->>>>>> On 9/12/25 2:33 AM, Chuanyu Tseng wrote:
->>>>>>> Introduce a DRM interface for DRM clients to further restrict the
->>>>>>> VRR Range within the panel supported VRR range on a per-commit
->>>>>>> basis.
->>>>>>>
->>>>>>> The goal is to give DRM client the ability to do frame-doubling/
->>>>>>> ramping themselves, or to set lower static refresh rates for
->>>>>>> power savings.
->>>>>> I'm interested in limiting the range of VRR to enable HDMI's QMS/CinemaVRR features - ie: switching to a fixed rate for media playback without incurring screen blackouts/resyncs/"bonks" during the switch.
->>>>>>
->>>>>> I could see using an interface such as this to do the frame rate limiting, by setting the lower and upper bounds both to a media file's framerate. However for that use case it's not precise enough, as video may have a rate like 23.9760239... FPS.
->>>>>>
->>>>>> Would it be better to expose the limits as a numerator/denominator pair so a rate can be something like 24000/1001fps?
->>>>> I was thinking the properties could allow directly specifying the minimum and maximum number of total scanlines per refresh cycle, based on the assumption the driver needs to program something along those lines.
->>>> Surprisingly, this would also not be precise enough for exact media playback, as the exact intended framerate might not result in an integer number of scan lines. When that happens a QMS/CinemaVRR capable HDMI source is expected to periodically post a frame with a single extra scan line to minimize the error.
->>> Interesting, maybe your suggestion of numerator / denominator properties is better then.
->> API wise, I'd much prefer just using nanoseconds instead of two
->> properties that compositors will in practice just use the same way.
-> 
->> Yeah, I hear you. Period is generally much nicer than frequency, and every other time I'd unconditionally agree, but QMS is awkward in this regard.
->>
->> The media file I start with will have a fraction specified in integers for the rate, eg: something like 24000/1001 fps. That will map to an index in an array of QMS blessed target framerates (24000/1001, 24, 25, 48/1001, 48...) and the index ends up in a bitfield in the HDMI QMS infoframe. That infoframe also has a bit to indicate that the framerate is currently constant, with constant defined as "constant number of scanlines but may be exactly 1 scanline longer occasionally".
->>
->> In the constant state we'd need to maintain that fixed rate within that constraint, and the integer math to do that needs to start from 24000/1001.
->>
->> So if we used a nanosecond period for the interface, we'd need to take the media file's values and convert them to nanoseconds, then in the kernel convert back to something like milliframes per second (so we could get something near 23976), then look that up in the QMS accepted rates array, have some manner of epsilon to decide if we're close enough to one of them to use it, and then use the integer representation (back to 24000/1001) to setup the scanline temporal dithering algorithm to do the +1 extra line every few frames to hit the exact rate.
->>
->> In effect we'd throw away the precise values we started with and try to reconstruct them later.
->>
->> QMS also has the added strange feature of being able to set a fixed rate below the display's normal VRR minimum, so I'm undecided as to whether this range control interface is an ideal match for setting up QMS anyway, or whether I should propose a separate fixed rate property later. I just don't want to ignore this discussion and show up proposing another non-orthogonal property later.
-
-Static video/desktop frame rates was indeed one of the motivations for proposing this API, so it is worth discussing.
-
-For amdgpu (and I think most HW are like this), hardware VRR granularity is at # of total vertical scanlines (vtotal). So if that isn't precise enough, then the driver will have to do record-keeping to alternate between some vtotal and vtotal+1 to avoid drift.
-
-It's not impossible to do, though I'm not sure at what point the driver is considered to be doing "unexpected adjustments of refresh rate", which was something we were also trying to address with this new API. Today, drivers are free to do unexpected things with the vtotal, such as frame-doubling to handle rates below the supported vrr min, and frame-ramping to prevent panel flicker. We discussed at the display hackfest that this was not something compositors liked, and that compositors would like to handle that themselves.
-
-Now, memory fails me, and I don't remember the exact motivation for why compositors want transparent vrr control. Was it because of unexpected driver-reported vblank timestamps messing with compositor internal record keeping? Or something else entirely?
-
-Another way of putting it: Would the compositor rather:
-
-1. Specify a min_vtotal + 1 == max_vtotal so driver doesn't do any unexpected adjustments out of the specified range, or
-2. Specify a min_frame_ns == max_frame_ns (or some other highly-precise unit), and have driver correct for drift by alternating between two vtotals, and hence adjust refresh rate beyond the specified range?
-
->>
->> Sorry to be speaking in hypotheticals, I do have a working QMS implementation to share soonish, it's just not quite ready for review yet...
-> 
-> Thanks for the input. For the QMS support, it's related to HDMI 2.1 spec. From my knowledge, it's not open to everyone.
-> We might sperate this QMS support into different discussions.
-> 
-> To support FPS/1.001, I think we can augment 1 more property in this patch, once it's set, we can divide this FPS with 1.001, vise versa.
-
-I think whether we want a separate thing for QMS also depends on what unit we use for specifying the min/max.
-
-Thanks,
-Leo
-
-> 
-> Thanks,
-> --
-> Chuanyu.
-> 
-> 
-
+T24gTW9uLCAyMDI1LTA5LTIyIGF0IDIxOjMwICsxMDAwLCBBbGlzdGFpciBQb3BwbGUgd3JvdGU6
+CgoKPiArY29uc3QgR1NQX1JFR0lTVFJZX05VTV9FTlRSSUVTOiB1c2l6ZSA9IDI7Cj4gK3N0cnVj
+dCBSZWdpc3RyeUVudHJ5IHsKPiArICAgIGtleTogJidzdGF0aWMgc3RyLAo+ICsgICAgdmFsdWU6
+IHUzMiwKPiArfQoKUHJvYmFibHkgc2hvdWxkIGFkZCBhIGNvbW1lbnQgc2F5aW5nIHRoYXQgYWx0
+aG91Z2ggR1NQLVJNIHRlY2huaWNhbGx5IHN1cHBvcnRzIHN0cmluZ3MgYXMgdmFsdWVzLCB3ZQpk
+b24ndCBpbnRlbmQgdG8gdXNlIHRoYXQgZmVhdHVyZS4gIFlvdSBqdXN0IGhhdmUgUkVHSVNUUllf
+VEFCTEVfRU5UUllfVFlQRV9EV09SRCBkZWZpbmVkIHdpdGhvdXQgYW55CmV4cGxhbmF0aW9uIHRo
+YXQgdGhlcmUgYXJlIG90aGVyIGVudHJ5IHR5cGVzLiAgCgpNYXliZSBSRUdJU1RSWV9UQUJMRV9F
+TlRSWV9UWVBFX0RXT1JEIHNob3VsZCBiZSBhbiBlbnVtIGluc3RlYWQgb2YgYSBjb25zdC4KCj4g
+K3B1YihjcmF0ZSkgZm4gYnVpbGRfcmVnaXN0cnkoY21kcTogJm11dCBHc3BDbWRxLCBiYXI6ICZC
+YXIwKSAtPiBSZXN1bHQgewo+ICvCoMKgwqAgbGV0IHJlZ2lzdHJ5ID0gUmVnaXN0cnlUYWJsZSB7
+Cj4gK8KgwqDCoMKgwqDCoMKgIGVudHJpZXM6IFsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBS
+ZWdpc3RyeUVudHJ5IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGtleTogIlJN
+U2VjQnVzUmVzZXRFbmFibGUiLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdmFs
+dWU6IDEsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfSwKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBSZWdpc3RyeUVudHJ5IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGtl
+eTogIlJNRm9yY2VQY2llQ29uZmlnU2F2ZSIsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCB2YWx1ZTogMSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9LAo+ICvCoMKgwqDCoMKg
+wqDCoCBdLAo+ICvCoMKgwqAgfTsKCllvdSBtaWdodCB3YW50IHRvIGFkZCBhbm90aGVyIGZpZWxk
+IHRvIFJlZ2lzdHJ5RW50cnkgdGhhdCBhZGRzIGRvY3VtZW50YXRpb24gZm9yIGVhY2ggb2YgdGhl
+c2UKZmlsZXM/ICBOb3V2ZWF1IGRvY3VtZW50cyB0aGVtIGFzIGNvbW1lbnRzLgoKQWxzbywgeW91
+J3JlIG1pc3NpbmcgUk1EZXZpZENoZWNrSWdub3JlLiAgU2VlCmh0dHBzOi8vbG9yZS1rZXJuZWwu
+Z251d2VlYi5vcmcvbm91dmVhdS9jMzRjY2MyMy01NTUwLTRmMjYtYWY2Ni00Nzk3OWFmZDE5N2VA
+a2VybmVsLm9yZy9ULwo=
