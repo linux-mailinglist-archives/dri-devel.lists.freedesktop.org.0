@@ -2,161 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D645B931EF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 21:48:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2685DB93204
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 21:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8134F10E4F6;
-	Mon, 22 Sep 2025 19:48:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="IMvdEOaM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E1810E501;
+	Mon, 22 Sep 2025 19:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [3.65.3.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B57510E415;
- Mon, 22 Sep 2025 10:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1758537940; x=1790073940;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=jHPTQZFCaC0QVf/rAslU2rF+GKEtXGi5htBMXx8M8BI=;
- b=IMvdEOaMe0FP+IRiNewRyRaabx48iIkR6MASuvWpSUyJRCz4No1zsMj3
- JJkx18PvOX4VxXtT7+b/z+LHjF4zoySj64sfRjKGuYAYCqZG5hejOE9YA
- qQQlCJiQNG/xRUtkvVoeVq8NS7PNXApOfYn82/PzS4izkM+75VP4Om2LH
- qMW0Ohj/UlUx5cqki//gorCp/4bnAhxNPQnnc/PkoX3Ann3pMdXYB6N4i
- CQ8JRm8d78O41hqV4swQq0KdQj4zidPRvKsqbCobiE9s6b4Zoz1mUNqaO
- EGo/8/s2hD32Nbtg5CNo7SsAufXeENVgMkX/8b9vziSIfI+feCNVcgScO Q==;
-X-CSE-ConnectionGUID: 6hOHCxAKSfC6e+p5CvVdZw==
-X-CSE-MsgGUID: YBSxBrJDRxalvxjSB5/Ebw==
-X-IronPort-AV: E=Sophos;i="6.18,285,1751241600"; 
-   d="scan'208";a="2482713"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO
- smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
- by internal-fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 10:45:38 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:29409]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.10.226:2525]
- with esmtp (Farcaster)
- id f47c06f5-2d15-4c95-af11-de6ff2958513; Mon, 22 Sep 2025 10:45:38 +0000 (UTC)
-X-Farcaster-Flow-ID: f47c06f5-2d15-4c95-af11-de6ff2958513
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 22 Sep 2025 10:45:38 +0000
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 22 Sep 2025 10:45:37 +0000
-Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
- EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
- 15.02.2562.020; Mon, 22 Sep 2025 10:45:37 +0000
-From: "Farber, Eliav" <farbere@amazon.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "jdike@addtoit.com"
- <jdike@addtoit.com>, "richard@nod.at" <richard@nod.at>,
- "anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "luto@kernel.org" <luto@kernel.org>, "peterz@infradead.org"
- <peterz@infradead.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "tony.luck@intel.com" <tony.luck@intel.com>, "qiuxu.zhuo@intel.com"
- <qiuxu.zhuo@intel.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
- "james.morse@arm.com" <james.morse@arm.com>, "rric@kernel.org"
- <rric@kernel.org>, "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>, "alexander.deucher@amd.com"
- <alexander.deucher@amd.com>, "christian.koenig@amd.com"
- <christian.koenig@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com" <evan.quan@amd.com>, 
- "james.qian.wang@arm.com" <james.qian.wang@arm.com>, "liviu.dudau@arm.com"
- <liviu.dudau@arm.com>, "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>, 
- "brian.starkey@arm.com" <brian.starkey@arm.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
- "sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>, 
- "linux@roeck-us.net" <linux@roeck-us.net>, "fery@cypress.com"
- <fery@cypress.com>, "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
- "agk@redhat.com" <agk@redhat.com>, "snitzer@redhat.com" <snitzer@redhat.com>, 
- "dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
- <rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
- "kuba@kernel.org" <kuba@kernel.org>, "peppe.cavallaro@st.com"
- <peppe.cavallaro@st.com>, "alexandre.torgue@st.com"
- <alexandre.torgue@st.com>, "joabreu@synopsys.com" <joabreu@synopsys.com>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, "malattia@linux.it"
- <malattia@linux.it>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "mgross@linux.intel.com" <mgross@linux.intel.com>,
- "intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
- "artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
- "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>, "sakari.ailus@linux.intel.com"
- <sakari.ailus@linux.intel.com>, "clm@fb.com" <clm@fb.com>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
- <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
- <tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
- <luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "pmladek@suse.com" <pmladek@suse.com>, "sergey.senozhatsky@gmail.com"
- <sergey.senozhatsky@gmail.com>, "andriy.shevchenko@linux.intel.com"
- <andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
- <linux@rasmusvillemoes.dk>, "minchan@kernel.org" <minchan@kernel.org>,
- "ngupta@vflare.org" <ngupta@vflare.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>, "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
- "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "pablo@netfilter.org"
- <pablo@netfilter.org>, "kadlec@netfilter.org" <kadlec@netfilter.org>,
- "fw@strlen.de" <fw@strlen.de>, "jmaloy@redhat.com" <jmaloy@redhat.com>,
- "ying.xue@windriver.com" <ying.xue@windriver.com>, "willy@infradead.org"
- <willy@infradead.org>, "sashal@kernel.org" <sashal@kernel.org>,
- "ruanjinjie@huawei.com" <ruanjinjie@huawei.com>, "David.Laight@aculab.com"
- <David.Laight@aculab.com>, "herve.codina@bootlin.com"
- <herve.codina@bootlin.com>, "Jason@zx2c4.com" <Jason@zx2c4.com>,
- "bvanassche@acm.org" <bvanassche@acm.org>, "keescook@chromium.org"
- <keescook@chromium.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
- <linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
- <linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
- <linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
- <linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
- <linux-input@vger.kernel.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
- <netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
- <coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>, "stable@vger.kernel.org"
- <stable@vger.kernel.org>, "Chocron, Jonathan" <jonnyc@amazon.com>
-Subject: RE: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Thread-Topic: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Thread-Index: AQHcK64HHJftfGNvN0Cy23wGYTG5SQ==
-Date: Mon, 22 Sep 2025 10:45:37 +0000
-Message-ID: <df8d65b372864d149035eb1f016f08ae@amazon.com>
-References: <20250919101727.16152-1-farbere@amazon.com>
- <2025092136-unelected-skirt-d91d@gregkh>
- <4f497306c58240a88c0bb001786c3ad2@amazon.com>
- <2025092203-untreated-sloppily-23b5@gregkh>
-In-Reply-To: <2025092203-untreated-sloppily-23b5@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.85.143.178]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+ [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341A110E430
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 11:42:23 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4cVh6c53xlzYQtth
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 19:42:16 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+ by mail.maildlp.com (Postfix) with ESMTP id E4CD51A0D76
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 19:42:20 +0800 (CST)
+Received: from [10.174.176.88] (unknown [10.174.176.88])
+ by APP4 (Coremail) with SMTP id gCh0CgAXKWEYNtFoiYXFAQ--.64696S3;
+ Mon, 22 Sep 2025 19:42:18 +0800 (CST)
+Message-ID: <394c720f-d23e-4208-b1d6-e0b98b03fc91@huaweicloud.com>
+Date: Mon, 22 Sep 2025 19:42:16 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: Delay the setting of fbcon_ops to fix KASAN issues
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, lee@kernel.org,
+ jani.nikula@intel.com, oushixiong@kylinos.cn, soci@c64.rulez.org
+Cc: linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yangerkun@huawei.com
+References: <20250905024340.337521-1-wozizhi@huaweicloud.com>
+ <97658279-73a4-4d30-817b-6dcd47a11d6b@suse.de>
+From: Zizhi Wo <wozizhi@huaweicloud.com>
+In-Reply-To: <97658279-73a4-4d30-817b-6dcd47a11d6b@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgAXKWEYNtFoiYXFAQ--.64696S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKFyrtFykur4UKFy3GF43trb_yoWxGrWDpF
+ 10yryUtFy5Crn5Jw17Xr4UXFy5XwnrJa4DW397ta4YyFW5AF1jqw4UXF1qgFW8Grs7Jr18
+ Xw1DJrWxuF47Ar7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkEb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+ 6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+ x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+ wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+ xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+ MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+ 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+ JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UAwI
+ DUUUUU=
+X-CM-SenderInfo: pzr2x6tkl6x35dzhxuhorxvhhfrp/
 X-Mailman-Approved-At: Mon, 22 Sep 2025 19:47:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -173,50 +71,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Sun, Sep 21, 2025 at 09:37:02PM +0000, Farber, Eliav wrote:
-> > > On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
-> > > > This series includes a total of 27 patches, to align minmax.h of=20
-> > > > v5.15.y with v6.17-rc6.
-> > > >
-> > > > The set consists of 24 commits that directly update minmax.h:
-> > > > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() ma=
-cro
-> > > >    once")
-> > >
-> > > But this isn't in 5.15.y, so how is this syncing things up?
-> > >
-> > > I'm all for this, but I got confused here, at the first commit :)
-> >
-> > It's a typo.
-> > It should be 5.10.y and not 5.15.y.
-> >
-> > > Some of these are also only in newer kernels, which, as you know, is=
-=20
-> > > generally a bad thing (i.e. I can't take patches only for older
-> > > kernels.)
-> > >
-> > > I want these changes, as they are great, but can you perhaps provide=
-=20
-> > > patch series for newer kernels first so that I can then take these?
-> >
-> > So you'd first like first to align 6.16 with 6.17, then 6.15 with=20
-> > 6.16, then 6.12 with 6.15, then 6.6 with 6.12, and so on until we=20
-> > eventually align 5.10 and even 5.4?
->
-> Yes please!
 
-Stable 6.16.8 didn't require any changs.
 
-I pulled the changes for 6.12.48:
-https://lore.kernel.org/stable/20250922103123.14538-1-farbere@amazon.com/T/=
-#t
-and 6.6.107:
-https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/=
-#t
+在 2025/9/22 14:31, Thomas Zimmermann 写道:
+> Hi
+> 
+> Am 05.09.25 um 04:43 schrieb Zizhi Wo:
+>> [BUG]
+>> Recently, we encountered a KASAN warning as follows:
+>>
+>> kasan_report+0xaf/0xe0 mm/kasan/report.c:588
+>> fb_pad_aligned_buffer+0x12f/0x150 drivers/video/fbdev/core/fbmem.c:116
+>> ccw_putcs_aligned drivers/video/fbdev/core/fbcon_ccw.c:119 [inline]
+>> ccw_putcs+0x9ac/0xbb0 drivers/video/fbdev/core/fbcon_ccw.c:175
+>> fbcon_putcs+0x329/0x3f0 drivers/video/fbdev/core/fbcon.c:1297
+>> do_update_region+0x3de/0x670 drivers/tty/vt/vt.c:623
+>> invert_screen+0x1de/0x600 drivers/tty/vt/vt.c:748
+>> highlight drivers/tty/vt/selection.c:57 [inline]
+>> clear_selection+0x5e/0x70 drivers/tty/vt/selection.c:81
+>> vc_do_resize+0xc8e/0xf40 drivers/tty/vt/vt.c:1206
+>> fbcon_modechanged+0x489/0x7a0 drivers/video/fbdev/core/fbcon.c:2705
+>> fbcon_set_all_vcs+0x1e0/0x600 drivers/video/fbdev/core/fbcon.c:2752
+>> fbcon_rotate_all drivers/video/fbdev/core/fbcon.c:250 [inline]
+>> ...
+>>
+>> reproduce[probabilistic, depending on the width and height of vc_font, as
+>> well as the value of "p" in do_update_region()]:
+> 
+> Which font sizes trigger the bug?
 
-Once approved, I'll continue with other longterm branches.
+As far as I can remember, op.width = 32 and op.height = 12;
 
----
-Regards, Eliav
+And I also do the TIOCL_SETSEL ioctl to set vc_sel.start && vc_sel.end
 
+> 
+>> 1) echo 2 > /sys/devices/virtual/graphics/fbcon/rotate_all
+>> 2) echo 3 > /sys/devices/virtual/graphics/fbcon/rotate_all
+>>
+>> [CAUSE]
+>> The root cause is that fbcon_modechanged() first sets the current 
+>> rotate's
+>> corresponding ops. Subsequently, during vc_resize(), it may trigger
+>> clear_selection(), and in fbcon_putcs->ccw_putcs[rotate=3], this can 
+>> result
+>> in an out-of-bounds access to "src". This happens because ops->fontbuffer
+>> is reallocated in fbcon_rotate_font():
+>> 1) When rotate=2, its size is (width + 7) / 8 * height
+>> 2) When rotate=3, its size is (height + 7) / 8 * width
+>>
+>> And the call to fbcon_rotate_font() occurs after clear_selection(). In
+>> other words, the fontbuffer is allocated using the size calculated 
+>> from the
+>> previous rotation[2], but before reallocating it with the new size,
+>> con_putcs is already using the new rotation[3]:
+> 
+> We recently reworked the way rotation callbacks are set. [1] Does the 
+> bug still happen with [1] applied?
+> 
+> [1] https://patchwork.freedesktop.org/series/153056/#rev2
+
+Sorry, my reproduction script has been cleaned up because some time has
+passed. But the root cause of the issue is still setting ops too early,
+which leads to vc_resize() calling clear_selection(), then eventually
+.putcs. This uses the updated rotation-related functions on the previous
+region, which may cause out-of-bounds access.
+
+If this patch series does not ensure that the old putcs is used in the
+context of clear_selection() during vc_resize(), the problem may still 
+exist?
+
+Thanks,
+Zizhi Wo
+
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> rotate_all_store
+>>   fbcon_rotate_all
+>>    fbcon_set_all_vcs
+>>     fbcon_modechanged
+>>     ...
+>>      fbcon_set_rotate
+>>       fbcon_rotate_ccw
+>>        ops->putcs = ccw_putcs // set rotate 3 ops
+>>      vc_resize
+>>      ...
+>>       clear_selection
+>>        highlight
+>>        ...
+>>         do_update_region
+>>     fbcon_putcs
+>>      ccw_putcs_aligned
+>>       src = ops->fontbuffer + (scr_readw(s--) & charmask)*cellsize
+>>       fb_pad_aligned_buffer----[src KASAN!!!]
+>>         update_screen
+>>          redraw_screen
+>>      fbcon_switch
+>>       fbcon_rotate_font
+>>        dst = kmalloc_array(len, d_cellsize, GFP_KERNEL)
+>>        ops->fontbuffer = dst
+>>
+>> [FIX]
+>> Considering that when the rotation changes, clear_selection() should 
+>> clear
+>> the previously selected region and not consider the new rotation yet.
+>> Therefore, the assignment to fbcon_ops for the newly set rotate can be
+>> postponed to fbcon_rotate_font(), since the fontbuffer is regenerated
+>> there. To avoid affecting other code paths, fbcon_set_rotate() will
+>> temporarily continue assigning fbcon_ops based on cur_rotate not rotate.
+>>
+>> Signed-off-by: Zizhi Wo <wozizhi@huaweicloud.com>
+>> ---
+>>   drivers/video/fbdev/core/fbcon_rotate.c | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/video/fbdev/core/fbcon_rotate.c 
+>> b/drivers/video/fbdev/core/fbcon_rotate.c
+>> index ec3c883400f7..d76446da24d4 100644
+>> --- a/drivers/video/fbdev/core/fbcon_rotate.c
+>> +++ b/drivers/video/fbdev/core/fbcon_rotate.c
+>> @@ -70,6 +70,7 @@ static int fbcon_rotate_font(struct fb_info *info, 
+>> struct vc_data *vc)
+>>               src += s_cellsize;
+>>               dst += d_cellsize;
+>>           }
+>> +        fbcon_rotate_ud(ops);
+>>           break;
+>>       case FB_ROTATE_CW:
+>>           for (i = len; i--; ) {
+>> @@ -78,6 +79,7 @@ static int fbcon_rotate_font(struct fb_info *info, 
+>> struct vc_data *vc)
+>>               src += s_cellsize;
+>>               dst += d_cellsize;
+>>           }
+>> +        fbcon_rotate_cw(ops);
+>>           break;
+>>       case FB_ROTATE_CCW:
+>>           for (i = len; i--; ) {
+>> @@ -86,6 +88,7 @@ static int fbcon_rotate_font(struct fb_info *info, 
+>> struct vc_data *vc)
+>>               src += s_cellsize;
+>>               dst += d_cellsize;
+>>           }
+>> +        fbcon_rotate_ccw(ops);
+>>           break;
+>>       }
+>> @@ -97,7 +100,7 @@ void fbcon_set_rotate(struct fbcon_ops *ops)
+>>   {
+>>       ops->rotate_font = fbcon_rotate_font;
+>> -    switch(ops->rotate) {
+>> +    switch (ops->cur_rotate) {
+>>       case FB_ROTATE_CW:
+>>           fbcon_rotate_cw(ops);
+>>           break;
+> 
 
