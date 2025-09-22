@@ -2,117 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA61B8FF21
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E064B8FF9B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 12:21:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAED110E41A;
-	Mon, 22 Sep 2025 10:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09B010E409;
+	Mon, 22 Sep 2025 10:21:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YAA3KIOQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OZJoguHu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA9B110E407
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:14:16 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58M8wqZ3006272
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:14:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=WsA+eTQiYoHebD0DNWYyXYRm
- Qjuc3bf4Ma1PwAwHwE4=; b=YAA3KIOQX+f9Jop2DuHAWi47L1TewNbOG7mtb3b8
- WEwTZfkQjhcngNg6Qp6Rp4OhranQpodohh7/tVMWAzN835igyp/sQWpwM8WJ7aPG
- F3H8fJLJeGLoH/20C5NcHhLa2W1M9ihgwpv5VDkqRGCPtJB0f56LDpudDPQDFEP+
- YlhoAEdZFNKatUeF1zm8JcMvR67314lOGxp+6r8yBeJJiBxzLaAuqnLUgzU8XTST
- xSXUoXnNoQ6XwGXCczo2Q/Dee5/vhrN4dopBZ+Z9NwUT4Mbge69OEmIs+8C2XhFL
- 6LsNbnsInNDeo6yGLTG554oYkwOCwMGuP1UKbmUQXtjBdQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499hyemmnf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:14:16 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b7ad72bc9fso93302631cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:14:16 -0700 (PDT)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 632FD10E409
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 10:21:56 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-32bb1132c11so4143855a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 03:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758536516; x=1759141316; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qgzrsKFjkdOHqZq8z9KJvQRmwrFpRxJTot1VKAx98R8=;
+ b=OZJoguHuDtkNhjLmIkF+V1C/+TNcKOyxY52+nSDOYOEcEOwrERoTJnh7idIH+2GfOO
+ 7+UPsdRfGNCDp0pAUwkAuJlxyfFi47oOMdso2rvMTZ+zJCHRgmpkTqyOI3JmXQiAy0o8
+ 15mv3rc5YJe5dnVu1IenRPxDBi2jIwL1k9iWHjc2+fIPFIp85OIqBqDBAqIW5dE1efkp
+ R4BeuZfJ53N6yNmwzWXM7Q1tsrARdx8cNwQt8OlkdhvF6mvdCANbWiudKNo63VTh7u+q
+ jr54RFD6oOCwnw0Q3N5WSRgoSD+RkgfNANiqWKkVfGwL2oQ0wceIM8Jr2UbDm31jnxq1
+ hKzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758536055; x=1759140855;
+ d=1e100.net; s=20230601; t=1758536516; x=1759141316;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WsA+eTQiYoHebD0DNWYyXYRmQjuc3bf4Ma1PwAwHwE4=;
- b=AuvXlXIz9I15FXfURhXCDqvDUOT8SEAlFf2hDO8mCq/ypzwHMBRI3RNgazlM4RnSQ4
- uySYPAs8JZzBpCBpXhWgbMqWSbiiJnNpuEjoXzoomdaEz9NqCbH2gduvdbN71TxG0qjj
- C4k3Y+v/YW8cK9ytBTF1zQDw0F/uKZ6kDZQ7L0A1eSKiNorVOO0MU9+QJwWEi358bzeX
- 1f+6evrezRMl8+DBAegXZGEET/dVtH2DDizi5BQOGkRO6wYNaQJe8bADZgOEGsiOIrMs
- 0vasPcHICqx+nolB6ygDQMkrQp8bKZzhRytA7rsHcuiTz8rHwM/jNNzkUOZZq8BCEUjr
- HaqA==
+ bh=qgzrsKFjkdOHqZq8z9KJvQRmwrFpRxJTot1VKAx98R8=;
+ b=Jr8m9Bzjr543MQseupFR5BYdqMnZtxohK0L1t/woZPKa+KXo1zrZrocMNUwRQAPmre
+ cnUZ5QmuPljKLND7UI/BuDkrMW8+YrwaKAOl6iiHEzV8EpcJxzHgIt6uqiKAtVwXL1sI
+ 1FV7ziyp7aCJwcFlFUhl5XVt/sQ26V/Nm9kaidz5jGf2PbAybbKM/PgBEAzyvdSE3AeG
+ QvTZmo4un3Y40hXJ+Bz8lEpZn+bL5EHULfT3fG1KIy1wOfiiIFGKT1m0EB+1w703yCng
+ 6FOPXyoVzh00G8ELuouOZhX6fQ4fRQIZfNdD8c5taY26+1HV2lVl55pJWFwOKjWRTiQv
+ ZJXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHDGwwG/wbqL9XIL5TynNu1wz07pJAmmuwouRWuLc9Mw9QjGepd4WOEvpZURiUllXmz6wucxJmx5k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1GM0U0yh5o4D3zQo42FsLcJE6sRgIfCBj3YG60JnKlBTM7tq8
- b61senAYBvwPeGz9hhgRpLbgEnLeRQc0grkUe47D78zarLjTvDT8pbP8dJ56Xidpz4z58F8vzVG
- mNfGSBGMQjwlgnO1j+YTEIxoo4JrIQmlVwi7JtBLuJArKb1HwXSw7dWP6k1E6GfF6hebZwIc=
-X-Gm-Gg: ASbGncv5M4jQYClUqEYC+i/um/X6eW54om0AOXCEc0vgh4fpNJ6tzjjzpnNkVBPM6Kp
- FDpIZqkDgeXRQr266+SmrwUI6Y6Cb6hlzThKqVHwdvjFMIkxZhzA7BXxXcZNmXx2nhgO+5FeaZz
- p2bCdtn34irASDSHS6YEA8RNHpafc6RCOQo7a2EpnqjGTy+ahyaA15RlcQst3zAANW1AOdaQ8nG
- PG7TrHcESzJVBZ3++aYo7kFUPftG7Hmnj+uCrgbQemdlc7FYfEiLZ+V7GDx/HpnTogh/0GLlqcE
- C6tIgsxnT2itcRsDJQr1wBBmOuHzr4BHK3cUjzERuOVQqTfvVdL4av8gmprAd/cZqPmbWDmf/9U
- FRG+LWQJQjLE+jV3N14YUN4A5oeNrwQT32G+Httq3oIwVrfLyWWsB
-X-Received: by 2002:ac8:5754:0:b0:4b7:a885:9659 with SMTP id
- d75a77b69052e-4c0720ad96fmr147008511cf.41.1758536054793; 
- Mon, 22 Sep 2025 03:14:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEVqtW+0DIkgD31REMewxJTdsREhOwOU+TUqANZpY+KqSiKJ3RVtbsYl6C/4x3Vg0NOXJdtqA==
-X-Received: by 2002:ac8:5754:0:b0:4b7:a885:9659 with SMTP id
- d75a77b69052e-4c0720ad96fmr147008291cf.41.1758536054304; 
- Mon, 22 Sep 2025 03:14:14 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-578a5f45364sm3233734e87.15.2025.09.22.03.14.13
+ AJvYcCXV93wU6qvsu+pT+XhRNotmxzLlBXDmQRoGPq7YUDxeZZ2YPLQdcXcihaeWDL2NcmjY4zkEKqGxe18=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyT7z/GRdf2i7Q3UzFJWXaVoGwZnaE2nEvLhu/rsOWsJKZLQ2RZ
+ n+l1qjrl6A/o0VvYaUEV8+0EIrI+DvoZiTKWcJU6HzI5v2v/4P+R1RI7
+X-Gm-Gg: ASbGncsG0YhbL+5CoNjq/M+Ggc0QBaUM3QF/33E7IrD+fyuYOOews6pFuV5SJqshHKp
+ OwI3Csp3K7TeQKoVjUtLx5a4tlOmo4bUH0g2JWKzUNCsDUQMyYyrxDp3Pj15JC5SsLhgNVfc4i9
+ 2SyQDr8eBTp+2+qYzoFJpaO7EMBv/8IKkb2TgHlewmjkc/2i/ezNEe7UlyJ5d5Tv6f50JPjApA6
+ 7rBMmxa5AsLmiCXjZUMOWTAOJ4nKNATGAQuD7mTz8I4V8IBkKhQrQkiD83Vwvf4ZCY14X7zAmHD
+ HON1wF59eDTu5/QugpvjE8fFwf1o80TUgGpUii6NA+d0I1yObymdWTjV5HluWOQZ63Ufvvu7aTN
+ 1T5TlK/ULX9aN/0Xa8Zs17OQPt6T8tzeZ
+X-Google-Smtp-Source: AGHT+IFKvuB8nQ7chq/pZQMYgIgXJUcMFLs1cyYqPT9bIL5ygOY6/yTLZdyMi8zHSlQUMW4v/IZp4A==
+X-Received: by 2002:a17:90a:e509:b0:32e:dcc6:cd3f with SMTP id
+ 98e67ed59e1d1-3305c6d8db1mr15617472a91.14.1758536515713; 
+ Mon, 22 Sep 2025 03:21:55 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-77e70c06ba1sm9402454b3a.67.2025.09.22.03.21.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 03:14:13 -0700 (PDT)
-Date: Mon, 22 Sep 2025 13:14:11 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
- kong.kongxinwei@hisilicon.com, liangjian010@huawei.com,
- chenjianmin@huawei.com, fengsheng5@huawei.com, libaihan@huawei.com,
- shenjian15@huawei.com, shaojijie@huawei.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 drm-dp 1/4] drm/hisilicon/hibmc: fix dp
- probabilistical detect errors after HPD irq
-Message-ID: <4vtis3tmlxhmxjmzhi4jdfriexidtr5u2jdcpmfegyyc5gkznu@mpzganc4k5gp>
-References: <20250922024943.311947-1-shiyongbang@huawei.com>
- <20250922024943.311947-2-shiyongbang@huawei.com>
+ Mon, 22 Sep 2025 03:21:54 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 98E2B423FA7F; Mon, 22 Sep 2025 17:21:52 +0700 (WIB)
+Date: Mon, 22 Sep 2025 17:21:52 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Framebuffer <linux-fbdev@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Helge Deller <deller@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Teddy Wang <teddy.wang@siliconmotion.com>,
+ Bernie Thompson <bernie@plugable.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Arvind Sankar <nivedita@alum.mit.edu>
+Subject: Re: [PATCH 2/3] Documentation: fb: Retitle driver docs
+Message-ID: <aNEjQEY5J5DBTF8P@archie.me>
+References: <20250919003640.14867-1-bagasdotme@gmail.com>
+ <20250919003640.14867-3-bagasdotme@gmail.com>
+ <222d551c-fb01-4a8c-9b83-daef019b6795@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pyPpSPV0lzt8YzEF"
 Content-Disposition: inline
-In-Reply-To: <20250922024943.311947-2-shiyongbang@huawei.com>
-X-Proofpoint-GUID: 3ismon0H-sFHx4mXfMDrRv02lqjss1he
-X-Authority-Analysis: v=2.4 cv=YMOfyQGx c=1 sm=1 tr=0 ts=68d12178 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=i0EeH86SAAAA:8 a=NrH-iARweJuqf9unkBcA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAwNCBTYWx0ZWRfX4fDuNRk65js6
- 0ETjs6CR3AT8R0Druie6PCgOts/mdgV6c3viOt4Ilry5/7WyD2BUajzDtQhKGw3bzFMQ9RsxKP9
- 0pGYRJIlLjU8LLTYagFLjeEX1MZDVTLtLhdSyr3iR6TcP0gsoS4Co4lQ8ukjwYJysJLhjPku9Sv
- FXozk8Qy9PJkbgGN1vXdAo3YFsezR4PC9ebhPzkeZ7i57SMwSCfyo3Csjt+N4Z9U/dopNFxYrn3
- D76Jz8rwPJVM9jrmpWuEIRwVQzenBv1ESXEURG3Y0qbduG4hxAfF3eHRtShpOi3GHp4d2gv8Qud
- w1xsJVFZMKET9Ua10rfdPiRc1lkwLNMvCkwvbvP/vsYlJbuWb3rSxDBU7mZwzRTCk92O6FogFVf
- +3wfOIef
-X-Proofpoint-ORIG-GUID: 3ismon0H-sFHx4mXfMDrRv02lqjss1he
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-22_01,2025-09-19_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200004
+In-Reply-To: <222d551c-fb01-4a8c-9b83-daef019b6795@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,144 +100,254 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 22, 2025 at 10:49:40AM +0800, Yongbang Shi wrote:
-> From: Baihan Li <libaihan@huawei.com>
-> 
-> The issue is that drm_connector_helper_detect_from_ddc() returns wrong
-> status when plugging or unplugging the monitor. Use HPD pin status in
-> DP's detect_ctx() for real physcal monitor in/out, and keep using
-> detect_frome_ddc() if it's the first time to call detect because of
-> insmoding driver.
 
-If I understand correct, this is not quite right. Consider DP-to-HDMI or
-DP-to-DVI dongle being plugged without an actual monitor and then the
-monitor being plugged later on.
+--pyPpSPV0lzt8YzEF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
-> Signed-off-by: Baihan Li <libaihan@huawei.com>
-> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-> ---
-> ChangeLog:
-> v5 -> v6:
->   - use HPD status in DP detect_ctx(), suggested by Dmitry Baryshkov.
-> v4 -> v5:
->   - fix the commit message and DP detect_ctx(), suggested by Dmitry Baryshkov.
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c     | 12 ++++++++++++
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h     |  7 +++++++
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h    |  3 +++
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c | 13 +++++++++++--
->  4 files changed, 33 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> index 8f0daec7d174..4d8d3e4d4f84 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> @@ -2,6 +2,7 @@
->  // Copyright (c) 2024 Hisilicon Limited.
->  
->  #include <linux/io.h>
-> +#include <linux/iopoll.h>
->  #include <linux/delay.h>
->  #include "dp_config.h"
->  #include "dp_comm.h"
-> @@ -305,3 +306,14 @@ void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg)
->  	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(0), cfg->enable);
->  	writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
->  }
-> +
-> +void hibmc_dp_update_hpd_status(struct hibmc_dp *dp)
-> +{
-> +	int status;
-> +
-> +	readl_poll_timeout(dp->dp_dev->base + HIBMC_DP_HPD_STATUS, status,
-> +			   FIELD_GET(HIBMC_DP_HPD_CUR_STATE, status) != dp->hpd_status,
-> +			   1000, 100000); /* DP spec says 100ms */
-> +
-> +	dp->hpd_status = FIELD_GET(HIBMC_DP_HPD_CUR_STATE, status);
-> +}
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> index 665f5b166dfb..8348ad9e34a8 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> @@ -14,6 +14,11 @@
->  
->  struct hibmc_dp_dev;
->  
-> +enum hibmc_hpd_status {
-> +	HIBMC_HPD_OUT,
-> +	HIBMC_HPD_IN,
-> +};
-> +
->  enum hibmc_dp_cbar_pattern {
->  	CBAR_COLOR_BAR,
->  	CBAR_WHITE,
-> @@ -50,6 +55,7 @@ struct hibmc_dp {
->  	struct drm_dp_aux aux;
->  	struct hibmc_dp_cbar_cfg cfg;
->  	u32 irq_status;
-> +	int hpd_status;
->  };
->  
->  int hibmc_dp_hw_init(struct hibmc_dp *dp);
-> @@ -60,5 +66,6 @@ void hibmc_dp_reset_link(struct hibmc_dp *dp);
->  void hibmc_dp_hpd_cfg(struct hibmc_dp *dp);
->  void hibmc_dp_enable_int(struct hibmc_dp *dp);
->  void hibmc_dp_disable_int(struct hibmc_dp *dp);
-> +void hibmc_dp_update_hpd_status(struct hibmc_dp *dp);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-> index 394b1e933c3a..64306abcd986 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-> @@ -24,6 +24,9 @@
->  #define HIBMC_DP_CFG_AUX_READY_DATA_BYTE	GENMASK(16, 12)
->  #define HIBMC_DP_CFG_AUX			GENMASK(24, 17)
->  
-> +#define HIBMC_DP_HPD_STATUS			0x98
-> +#define HIBMC_DP_HPD_CUR_STATE		GENMASK(7, 4)
-> +
->  #define HIBMC_DP_PHYIF_CTRL0			0xa0
->  #define HIBMC_DP_CFG_SCRAMBLE_EN		BIT(0)
->  #define HIBMC_DP_CFG_PAT_SEL			GENMASK(7, 4)
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> index d06832e62e96..48c9c97eef0e 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> @@ -34,9 +34,16 @@ static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->  static int hibmc_dp_detect(struct drm_connector *connector,
->  			   struct drm_modeset_acquire_ctx *ctx, bool force)
->  {
-> -	mdelay(200);
-> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
-> +
-> +	/* if no HPD just probe DDC */
-> +	if (!dp->irq_status)
-> +		return drm_connector_helper_detect_from_ddc(connector, ctx, force);
->  
-> -	return drm_connector_helper_detect_from_ddc(connector, ctx, force);
-> +	if (dp->hpd_status == HIBMC_HPD_IN)
-> +		return connector_status_connected;
-> +
-> +	return connector_status_disconnected;
->  }
->  
->  static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
-> @@ -128,6 +135,8 @@ irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
->  		hibmc_dp_reset_link(&priv->dp);
->  	}
->  
-> +	hibmc_dp_update_hpd_status(&priv->dp);
-> +
->  	if (dev->registered)
->  		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
->  
-> -- 
-> 2.33.0
-> 
+On Sat, Sep 20, 2025 at 09:08:57PM -0700, Randy Dunlap wrote:
+> > diff --git a/Documentation/fb/aty128fb.rst b/Documentation/fb/aty128fb.=
+rst
+> > index 3f107718f933fc..0da8070a552165 100644
+> > --- a/Documentation/fb/aty128fb.rst
+> > +++ b/Documentation/fb/aty128fb.rst
+> > @@ -1,8 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is aty128fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/matroxfb]
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +aty128fb - ATI Rage128 framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for a graphic framebuffer for ATI Rage128 based devic=
+es
+> >  on Intel and PPC boxes.
+> > diff --git a/Documentation/fb/efifb.rst b/Documentation/fb/efifb.rst
+> > index 6badff64756f49..3d4aab406dee0a 100644
+> > --- a/Documentation/fb/efifb.rst
+> > +++ b/Documentation/fb/efifb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is efifb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +efifb - Generic EFI platform driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a generic EFI platform driver for systems with UEFI firmware. =
+The
+> >  system must be booted via the EFI stub for this to be usable. efifb su=
+pports
+> > diff --git a/Documentation/fb/gxfb.rst b/Documentation/fb/gxfb.rst
+> > index 5738709bccbbf3..3fda485606bdc1 100644
+> > --- a/Documentation/fb/gxfb.rst
+> > +++ b/Documentation/fb/gxfb.rst
+> > @@ -1,8 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is gxfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/aty128fb]
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +gxfb - AMD Geode GX2 framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a graphics framebuffer driver for AMD Geode GX2 based processo=
+rs.
+> > =20
+> > diff --git a/Documentation/fb/lxfb.rst b/Documentation/fb/lxfb.rst
+> > index 863e6b98fbae55..0a176ab376e30e 100644
+> > --- a/Documentation/fb/lxfb.rst
+> > +++ b/Documentation/fb/lxfb.rst
+> > @@ -1,9 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is lxfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/aty128fb]
+> > -
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +lxfb - AMD Geode LX framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a graphics framebuffer driver for AMD Geode LX based processor=
+s.
+> > =20
+> > diff --git a/Documentation/fb/matroxfb.rst b/Documentation/fb/matroxfb.=
+rst
+> > index 6158c49c857148..34cafaa00bab19 100644
+> > --- a/Documentation/fb/matroxfb.rst
+> > +++ b/Documentation/fb/matroxfb.rst
+> > @@ -1,9 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is matroxfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB. Thanks go to Gerd Knorr]
+> > -
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +matroxfb driver for Matrox devices
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Add a '-' after matroxfb
+>=20
+> > =20
+> >  This is a driver for a graphic framebuffer for Matrox devices on
+> >  Alpha, Intel and PPC boxes.
+> > diff --git a/Documentation/fb/pvr2fb.rst b/Documentation/fb/pvr2fb.rst
+> > index fcf2c21c8fcfeb..315ce085a5855b 100644
+> > --- a/Documentation/fb/pvr2fb.rst
+> > +++ b/Documentation/fb/pvr2fb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is pvr2fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +pvr2fb - PowerVR 2 graphics frame buffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for PowerVR 2 based graphics frame buffers, such as t=
+he
+> >  one found in the Dreamcast.
+> > diff --git a/Documentation/fb/sa1100fb.rst b/Documentation/fb/sa1100fb.=
+rst
+> > index 67e2650e017d12..c5ca019b361a94 100644
+> > --- a/Documentation/fb/sa1100fb.rst
+> > +++ b/Documentation/fb/sa1100fb.rst
+> > @@ -1,9 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is sa1100fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/matroxfb]
+> > -
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > +sa1100fb - SA-1100 LCD graphic framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > =20
+> >  This is a driver for a graphic framebuffer for the SA-1100 LCD
+> >  controller.
+> > diff --git a/Documentation/fb/sisfb.rst b/Documentation/fb/sisfb.rst
+> > index 8f4e502ea12ea7..9982f5ee05601b 100644
+> > --- a/Documentation/fb/sisfb.rst
+> > +++ b/Documentation/fb/sisfb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is sisfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +sisfb - SiS framebuffer device driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  sisfb is a framebuffer device driver for SiS (Silicon Integrated Syste=
+ms)
+> >  graphics chips. Supported are:
+> > diff --git a/Documentation/fb/sm712fb.rst b/Documentation/fb/sm712fb.rst
+> > index 8e000f80b5bc6d..abbc6efae25f46 100644
+> > --- a/Documentation/fb/sm712fb.rst
+> > +++ b/Documentation/fb/sm712fb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is sm712fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +sm712fb - Silicon Motion SM712 graphics framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a graphics framebuffer driver for Silicon Motion SM712 based p=
+rocessors.
+> > =20
+> > diff --git a/Documentation/fb/tgafb.rst b/Documentation/fb/tgafb.rst
+> > index 0c50d2134aa433..f0944da1ea5ef1 100644
+> > --- a/Documentation/fb/tgafb.rst
+> > +++ b/Documentation/fb/tgafb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is tgafb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +tgafb - TGA graphics framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for DECChip 21030 based graphics framebuffers, a.k.a.=
+ TGA
+> >  cards, which are usually found in older Digital Alpha systems. The
+> > diff --git a/Documentation/fb/udlfb.rst b/Documentation/fb/udlfb.rst
+> > index 99cfbb7a192238..9e75ac6b07c36a 100644
+> > --- a/Documentation/fb/udlfb.rst
+> > +++ b/Documentation/fb/udlfb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is udlfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +udlfb - DisplayLink USB 2.0 driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for DisplayLink USB 2.0 era graphics chips.
+> > =20
+> > diff --git a/Documentation/fb/vesafb.rst b/Documentation/fb/vesafb.rst
+> > index f890a4f5623b45..5ffb35efd4538a 100644
+> > --- a/Documentation/fb/vesafb.rst
+> > +++ b/Documentation/fb/vesafb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is vesafb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Generic graphic framebuffer driver (vesafb)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> vesafb - Generic graphic framebuffer driver
+>=20
 
--- 
-With best wishes
-Dmitry
+I'll apply your suggestions in v2.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--pyPpSPV0lzt8YzEF
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaNEjPAAKCRD2uYlJVVFO
+o0xBAPsF+0ID1n8HvR0EkLu/NKqM0MGLm6ptctFnkIuLD3On3wD2KyiCl8y52YFV
+tV983e3Znmh0verqBnsd7h+R1jzQAA==
+=h3sz
+-----END PGP SIGNATURE-----
+
+--pyPpSPV0lzt8YzEF--
