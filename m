@@ -2,148 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F913B9193C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 16:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4956B9193F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 16:07:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE7410E1C3;
-	Mon, 22 Sep 2025 14:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04DC410E4B3;
+	Mon, 22 Sep 2025 14:07:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Np3zle+J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IDmpkH5D";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Np3zle+J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IDmpkH5D";
+	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="1mN8uBTT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D206010E242
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 14:06:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 439FC1F395;
- Mon, 22 Sep 2025 14:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758550005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wg8QKqVwcWDgvlT/Tn58yEZTvY+u7wbclS/fzC/Gn5I=;
- b=Np3zle+J0+SWyCsJTS0G+Z5VmUYtE8JTsaFuYb4TRc2Wsfsv12PuZXn5orTaVxCpnKRsOu
- Soc7TJP0RAJ4hsIIfnwELVlSNcK+rGMo5xFZifAAznvONpnOIMpyKowF9I1mdaJ8rZ0a+W
- /du2Mo0EtlK1RhWgsXfV/cPJsIB3Wu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758550005;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wg8QKqVwcWDgvlT/Tn58yEZTvY+u7wbclS/fzC/Gn5I=;
- b=IDmpkH5DihOzUf351t+Tl3AvPODhkkJtm+k0vGOumex50mYzY3/wffaE0H3AOKmxLKWvlC
- 2GmzuaBfNcTXk+Aw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Np3zle+J;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IDmpkH5D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758550005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wg8QKqVwcWDgvlT/Tn58yEZTvY+u7wbclS/fzC/Gn5I=;
- b=Np3zle+J0+SWyCsJTS0G+Z5VmUYtE8JTsaFuYb4TRc2Wsfsv12PuZXn5orTaVxCpnKRsOu
- Soc7TJP0RAJ4hsIIfnwELVlSNcK+rGMo5xFZifAAznvONpnOIMpyKowF9I1mdaJ8rZ0a+W
- /du2Mo0EtlK1RhWgsXfV/cPJsIB3Wu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758550005;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wg8QKqVwcWDgvlT/Tn58yEZTvY+u7wbclS/fzC/Gn5I=;
- b=IDmpkH5DihOzUf351t+Tl3AvPODhkkJtm+k0vGOumex50mYzY3/wffaE0H3AOKmxLKWvlC
- 2GmzuaBfNcTXk+Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E694113A78;
- Mon, 22 Sep 2025 14:06:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6PDsNvRX0Wh/CAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 14:06:44 +0000
-Message-ID: <f0f9d363-975e-48fe-b74c-3abeeb24a188@suse.de>
-Date: Mon, 22 Sep 2025 16:06:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: revert the remaining commits about dma_buf
- handling
-To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250919155519.1104256-1-mwen@igalia.com>
- <6da0bdd3-0b93-45d8-a178-1fc202bd49c7@suse.de>
- <9c150f20-71d1-4af3-ba90-02a0a5b98330@igalia.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <9c150f20-71d1-4af3-ba90-02a0a5b98330@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[igalia.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 439FC1F395
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D4F10E4B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 14:07:49 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-62ec5f750f7so7487739a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fairphone.com; s=fair; t=1758550068; x=1759154868; darn=lists.freedesktop.org;
+ h=in-reply-to:references:to:from:subject:cc:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2gKCZnS8Y0kw7LI52aPWPye+cd/qPIjBzxQKuWEn6pk=;
+ b=1mN8uBTTUJD8A5oQ99k/NdGG8kWnw1uBxolFoqLGOHFHQhS1yKdxcXEfQVNk42ZZPX
+ IIjo9DCFx+Rpb/qMqQtfMrPbXcl5Q2yB3eMz7zR+w0dRD7e175Vk8pSFwHZw/fHEz8fe
+ 5erVpEkIvSUHjkllgxjLc6CBfyoDz1fjn8HHyv3f67xD8kck/8zfVCBGMXLnjjnaNXs7
+ 0U7Sl686w0HsNHgWnOkDcz4d2UzVcLRbtxyKAeFjqS9DIkvkApe/owW/gc7vL559iaag
+ el6WdNXHm71oKVZz1MUMvOeMoB03p5LvDQG4bHNi19HSAIkNRYoWpiuJ5zA+99gXBeWk
+ wn/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758550068; x=1759154868;
+ h=in-reply-to:references:to:from:subject:cc:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=2gKCZnS8Y0kw7LI52aPWPye+cd/qPIjBzxQKuWEn6pk=;
+ b=dM/Cd1Td9ne4q2l3eB9gavG/vftv0Q5gHyqX3KLOmxkk5jLLiHNDbSstsx3dkA21J5
+ Fy5EoFmViUOxd/62DAvL6VF69Blfsz4FU23NPqKp99j3TJq+tKQ49QQk26loZej0m1b/
+ W3zSYubA5gIQ5QCaD6scVQJ25UpmnC7WptHk35igmDR7dihBIk3ClJQQyEx4Pocv0y1r
+ T9jdCPT+dW008kS4Vt2I83tKVZMgTe5AvHINVgFXvVB/xPknpzoBq2jUPhQWbGSLenAV
+ /jtAyhDd2/8BKFgr8GY3BMwxh9km36dvPY+W/z70iyIepOEuBvAnUPT34Eh/BshPY257
+ QU0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2UV15VH26O6SbKsn0sSbJR6wJuJMxHpupJI0CFsfI8IZZmi0nEW72qorHwHK3TZ/MYLN8sCJr7So=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqcuWzTcjO4gNFQgcZoGd2Mlo9tziomdDvg/47f2SLMObvUBii
+ GP8iJ8I1eqWzK0860C6rvWFUXqq4jWmz+3VSHr15UlIGDcjOEEnmYyGfiO2a545TnGw=
+X-Gm-Gg: ASbGncvDSdOvbvZQdHDkSUL3NE9+23D8YsBygErvfanm+QeYReZkNtAPONip1Ua+77W
+ W+lnOPJDqGnX0hhoJga98Yk+Pz50AjQNkPaFekwPeP+dd0yCZukgdsczHu2sEWyhNU4Y3deS9MG
+ HkFQQtbhGcAtQyibuammnkPikURMx5JzBtDimsIP96xI4EnO83ETwV3DRfFMAYMVGqvtSCAdK39
+ rU8Y4i5zQgjdDbgKrSWFm4ktL+PSt1RWGzeclNT0KbCuYB7nQowVmkREzDfuUIXMEHKw7vxYjAr
+ j1w8qAlAI3r3cdR7sw/dBipPJy0CKXdznLBubDMV2CWh8zuz97sMYVG5UMABg74D5mlP1eaJbpm
+ ZNImjLSye540ZlGPOVSeOv3F3aHgFRBwfJjAWqLcSC675x2gwUTuHE75BsHQ+9e4/OZTw
+X-Google-Smtp-Source: AGHT+IG2LQi+1Jve61dJzJPf3p6C4wK2oRc2C6Ic3zD7ZHI0AKL2Y3hhz823ekZ6+r+8VVvfemU3qw==
+X-Received: by 2002:a17:907:972a:b0:b04:4046:db6b with SMTP id
+ a640c23a62f3a-b24f567c816mr1300784166b.45.1758550067866; 
+ Mon, 22 Sep 2025 07:07:47 -0700 (PDT)
+Received: from localhost (144-178-202-139.static.ef-service.nl.
+ [144.178.202.139]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b29b80eaec6sm484442766b.87.2025.09.22.07.07.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Sep 2025 07:07:47 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Sep 2025 16:07:47 +0200
+Message-Id: <DCZDZ037P56C.3MS3HI55IN41J@fairphone.com>
+Cc: <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/5] fbdev/simplefb: Sort headers correctly
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Javier Martinez Canillas" <javierm@redhat.com>, "Luca Weiss"
+ <luca.weiss@fairphone.com>, "Hans de Goede" <hdegoede@redhat.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Helge Deller" <deller@gmx.de>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
+ <20250623-simple-drm-fb-icc-v2-4-f69b86cd3d7d@fairphone.com>
+ <87o6u9d3kg.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87o6u9d3kg.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,126 +98,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi all,
 
-Am 22.09.25 um 15:42 schrieb Melissa Wen:
+On Fri Jun 27, 2025 at 9:52 AM CEST, Javier Martinez Canillas wrote:
+> Luca Weiss <luca.weiss@fairphone.com> writes:
 >
->
-> On 22/09/2025 08:54, Thomas Zimmermann wrote:
->> Hi Melissa
+>> Make sure the headers are sorted alphabetically to ensure consistent
+>> code.
 >>
->> Am 19.09.25 um 17:54 schrieb Melissa Wen:
->>> Hi all,
->>>
->>> I just talked with Thomas that these two patches are preventing amdgpu
->>> driver to be unloaded:
->>>
->>> `modprobe: FATAL: Module amdgpu is in use.`
->>>
->>> and there is no process using the driver.
->>
->> What's the exact STR for this problem? After Christian's comments, I 
->> tried to reproduce the issue, but it works on my system. I do
->>
->> - boot up with amdgpu in text mode (multiuser.target)
->> - login by serial console
->> - 'rmmod amdgpu'
->>
->> That last step turns my test system's display off and unloads amdgpu. 
->> The kernel is a recent drm-tip at v6.17-rc6.
+>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>> ---
 >
-> - I booted up in graphical.target;
-> - Connected via ssh, dropped the graphical interface to text mode 
-> (multiuser.target), and tried to remove the module with `modprobe -r 
-> amdgpu`
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-I do
+While there's still some open questions surrounding dt-bindings and how
+exactly to do that, I think it would be good to pick up the two
+"Sort headers correctly" patches so that they already get in. They're
+good to have in any case in my opinion.
 
-- boot into graphical
-- ssh into the test system
-- via ssh: sudo systemctl isolate multi-user.target
-- via ssh: sudo modprobe -r amdgpu
-
-Works as expected.
-
->
-> The issue happened in the latest 6.16 kernel version from Debian (I 
-> don't have the machine with me atm to check the exact version), but 
-> also with mainline kernel from last week.
->
-> I bisected kernel from 6.16 and 6.15 and IIRC git bisect pointed to 
-> `drm/framebuffer: Acquire internal references on GEM handles`, but as 
-> it triggers another trace and AFAIU fixes `drm/gem: Acquire references 
-> on GEM handles for framebuffers`, I reverted both pacthes and amdgpu 
-> loaded/unloaded as expected.
->
-> IGT amdgpu-specific tests for loading and unloading are also failing 
-> because it's not able to unload the module.
-> I didn't run the generic test.
->
-> I'm using an AMD Cezanne laptop with a touch-screen capable display 
-> (hp envy x360 convertible) with Debian + Gnome.
-> I looked for process using the modules, but I didn't find any.
-
-After you switched to multi-user, what is in /sys/kernel/debug/dri/<YOUR 
-DRM DEV>/
-framebuffer ?
-
-There should only be a single fb allocated by fbcon.
-
->
-> BTW, I don't discard that this work uncovered a preexist problem, for 
-> example.
-> Since those patches are addressing other issues, as mentioned by 
-> Maarten, I'll debug the amdgpu driver further and check the points 
-> raised.
-
-Thanks
-
-Best regards
-Thomas
-
-
->
-> Best Regards,
->
-> Melissa
->
->>
->> Best regards
->> Thomas
->>
->>>
->>> We agreed that the best approach now is to completely revert the work
->>> done for improving DMA bug handling to avoid any loose ends. With these
->>> reverts we are just back to the old behavior and amdgpu loading and
->>> unloading will return to normal.
->>>
->>> Best Regards,
->>>
->>> Melissa
->>>
->>> Melissa Wen (2):
->>>    Revert "drm/framebuffer: Acquire internal references on GEM handles"
->>>    Revert "drm/gem: Acquire references on GEM handles for framebuffers"
->>>
->>>   drivers/gpu/drm/drm_framebuffer.c | 31 +--------------
->>>   drivers/gpu/drm/drm_gem.c         | 64 
->>> +++++--------------------------
->>>   drivers/gpu/drm/drm_internal.h    |  2 -
->>>   include/drm/drm_framebuffer.h     |  7 ----
->>>   4 files changed, 11 insertions(+), 93 deletions(-)
->>>
->>
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+Regards
+Luca
