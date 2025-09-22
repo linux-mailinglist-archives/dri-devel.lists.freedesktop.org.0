@@ -2,165 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05F3B911AC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 14:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44799B911BE
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 14:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A78610E458;
-	Mon, 22 Sep 2025 12:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9118B10E45D;
+	Mon, 22 Sep 2025 12:27:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="17HWzpV9";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yfqpe51j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012008.outbound.protection.outlook.com [52.101.53.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8AA10E1B3;
- Mon, 22 Sep 2025 12:25:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oDtHFwgAGe5HF5yof3SldPekIYn3eD/UoBf+KZK4nKCkD3GqkXs9C1RvfD6ButHTdH4b0pD3uf05uwKUBbesujWpUPl48wye56OAX9JWZFk1LwZ27qU+71k9J6Dfp53IuBQ4eg7Ccs3C2cYrrIE1veeNpwG6ghx4KNQTF829vuVsg8IFpaRGzIrJRDL6erThiFbJDcPURAqFDyCA0Ev7xWCT4mw63yRT5JQBjUkSlNXJRapI88UTW9YPThckWTUBgR9Vux67lQRF4W6Mpc29OHMcqY/lmXeTR5RRN4LutrOaiufOfskOF4mqchToc0IuB4+juMzZUGhx42A4Jf5gmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uFaEUDxFP9bajxIYMyfRP9pOOb+7t7gDEGbvHfXKKD0=;
- b=pcE2yqp4azjztYWHcBnB7CDtJXHFheHX0z6G8eJoFNsjsEPOrGoT2+g8oYQMqyg85C2Kt/zECm8o/ocPTuFdLs8qKmW2e7eQgbzYSCoRWr2PoE/Sqz8au+Ip4CYcvldr9qWJ4UmjZDKwYsgakJ3Z4vB9bw+VzcEAZfpCr7av3O4dh61SdQRF7kkWXRm4NcZb32uppxackui5wJB7L9qR8jB0vvYgm1KJtoLjPFnOqPgebthnMDHfWVNDMsm1vOvwKduKZTsFIELs/Kcc1Pa/If9aEAIernqbleYbgScytd1nHjB3aRt+QgnNxZ2ZSRoDEHRESzFgfNr7NvtM/njGOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uFaEUDxFP9bajxIYMyfRP9pOOb+7t7gDEGbvHfXKKD0=;
- b=17HWzpV9osx98qS1fY3Hcg56eb0mR9zOQ5tuuu6Z33h9nIq3tOVLyxVfIqRrKhzk7hB/2WH6gbHr6nGfMMdOYwy9QBJ5eQXR+KrkHNmebEwgkrsCa7Kv/wCgYViFTYvDQYF6pdZ2ISHVR9SJtH0b2CH8y/YM/qtqmVApzfpDXJ0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB5949.namprd12.prod.outlook.com (2603:10b6:510:1d8::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 12:25:20 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 12:25:20 +0000
-Message-ID: <4e3919c3-3d1b-4f34-a1e4-5e9e7a5e6e14@amd.com>
-Date: Mon, 22 Sep 2025 14:25:15 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
- functions of Intel GPUs
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-References: <20250915072428.1712837-1-vivek.kasireddy@intel.com>
- <20250915072428.1712837-2-vivek.kasireddy@intel.com>
- <20250916175709.GA1324871@nvidia.com>
- <IA0PR11MB7185186F6AB160AA7F8F0FF3F816A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250918120431.GL1391379@nvidia.com>
- <IA0PR11MB7185C96268ADB5530B343ABBF811A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250919122931.GR1391379@nvidia.com>
- <IA0PR11MB718504F59BFA080EC0963E94F812A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
- <20250922122018.GU1391379@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250922122018.GU1391379@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0013.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::23) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D93B110E1B3;
+ Mon, 22 Sep 2025 12:27:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C7B506021D;
+ Mon, 22 Sep 2025 12:27:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D6EC4CEF0;
+ Mon, 22 Sep 2025 12:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1758544023;
+ bh=xiUh1J9UQXNTnI2lGZhy5P5VMsOMixvNygGiduLod8o=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=Yfqpe51j1Oxd6OVCe4gaU9NrSSTPt0fCKcmKbD2t14pKJhHg80s5S9kKbPAlJ9Wa8
+ zWQjuJ3ud+OrF55xVic6wSDiMjBwhnf4ivhaC3sVrQpdlEQ7bHrvbVouIdimz6nJPd
+ XPvcQnFrb+/gwTGAgufNqkGIjE+ZAkve0ikMeXMw=
+Subject: Patch "minmax: add a few more MIN_T/MAX_T users" has been added to
+ the 6.6-stable tree
+To: David.Laight@ACULAB.COM, David.Laight@aculab.com,
+	Rodrigo.Siqueira@amd.com, Xinhui.Pan@amd.com, agk@redhat.com,
+	airlied@gmail.com, akpm@linux-foundation.org,
+	alexander.deucher@amd.com, alexandre.torgue@foss.st.com,
+	amd-gfx@lists.freedesktop.org, andriy.shevchenko@linux.intel.com,
+	anton.ivanov@cambridgegreys.com, arnd@kernel.org,
+	artur.paszkiewicz@intel.com, bp@alien8.de, christian.koenig@amd.com,
+	clm@fb.com, daniel@ffwll.ch, dave.hansen@linux.intel.com,
+	davem@davemloft.net, dm-devel@lists.linux.dev,
+	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
+	dsahern@kernel.org, dsterba@suse.com, edumazet@google.com,
+	evan.quan@amd.com, farbere@amazon.com, gregkh@linuxfoundation.org,
+	harry.wentland@amd.com, hdegoede@redhat.com, hpa@zytor.com,
+	ilpo.jarvinen@linux.intel.com, james.morse@arm.com,
+	jdelvare@suse.com, jejb@linux.ibm.com, jernej.skrabec@gmail.com,
+	joabreu@synopsys.com, johannes@sipsolutions.net,
+	josef@toxicpanda.com, keescook@chromium.org,
+	krzysztof.kozlowski@linaro.org, kuba@kernel.org,
+	linus.walleij@linaro.org, l@freedesktop.org,
+	inux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+	linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-um@lists.infradead.org,
+	linux@rasmusvillemoes.dk, linux@roeck-us.net,
+	lorenzo.stoakes@oracle.com, luc.vanoostenryck@gmail.com,
+	luto@kernel.org, maarten.lankhorst@linux.intel.com,
+	mailhol.vincent@wanadoo.fr, malattia@linux.it, markgross@kernel.org,
+	martin.petersen@oracle.com, mchehab@kernel.org,
+	mcoquelin.stm32@gmail.com, mhiramat@kernel.org, minchan@kernel.org,
+	mingo@redhat.com, mkl@pengutronix.de, mripard@kernel.org,
+	pabeni@redhat.com, peterz@infradead.org, pmladek@suse.com,
+	qiuxu.zhuo@intel.com, richard@nod.at, rostedt@goodmis.org,
+	rric@kernel.org, sakari.ailus@linux.intel.com, samuel@sholland.org,
+	senozhatsky@chromium.org, shuah@kernel.org, snitzer@kernel.org,
+	sunpeng.li@amd.com, tglx@linutronix.de, tony.luck@intel.com,
+	torvalds@linux-foundation.org, tzimmermann@suse.de, wad@chromium.org,
+	wens@csie.org, wg@grandegger.com, x86@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 22 Sep 2025 14:26:59 +0200
+In-Reply-To: <20250922103241.16213-4-farbere@amazon.com>
+Message-ID: <2025092259-swimwear-glorious-ec5f@gregkh>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5949:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f50787f-fd2d-4f93-dec8-08ddf9d31858
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RUdtRXJRSTRXNkZISC8rZDQ1dS81TVVING1lV3RpMjFXOUd6M1pzMkpyZXdy?=
- =?utf-8?B?ZWpNVEt5SkJtcHlRSTRMRVB3Q2lxTWhXQXFBZjJobW1OYU5JYUtGbDZRRXUx?=
- =?utf-8?B?dnZqOW1ZUi9UaTlVdlE3RjhkR05UbjkyLy9rSTFpQlRGbmplWEZ2YktEU2Yy?=
- =?utf-8?B?Nm5QT0k1ZDh6QUtLSWMrRHBsOENMVFptUkMwdTcrZnh6QmIwZnRzYzY5Y0l3?=
- =?utf-8?B?UldBSko1RHBLYXBMYUNTSUsyZnY4dzVDdXV6eGxXZUE3a3NMcmpYRUhBSmd3?=
- =?utf-8?B?SldaN2xZMXRpQzdvUHliaTVuaHlqUm83SXg5MmpsL3hMT0xXS2IrWVhEQWk4?=
- =?utf-8?B?UjJUdzN1MVRhaGw3c1R0eEphRUVzWmh1TlNKSEF5WnYxdjVvS3hWYXRIeHg1?=
- =?utf-8?B?V3c2TGdRaisySW05b0oxN0VQaVV5V3J0WFp3SHFxK3NQSTQ1K09MUmt5QTlo?=
- =?utf-8?B?ZW5zWFppUGl5QXBDUVdXcHNpd2FzL0VoOVQrU0lFN1hONU5YdU5Id1c4K2lV?=
- =?utf-8?B?KzF5UHhTcTBWckRqU1BjM053WjJBcEpaZFduQTR5UE5wU2w5TFlsOVIyVUgz?=
- =?utf-8?B?bmdMWUk5RWtOejFob2phTUZucHhGcVBJamRraHFVMWFVRi91MEFRZEx1OVNZ?=
- =?utf-8?B?NnI4UVM1WmoxSUdNKzhiQXFSbjF3MFRuNm9hcUZYcDNKc1JYUy9wenZVa3pu?=
- =?utf-8?B?R1lrRXUrZ3Z5VmpsNEFMNmxrUmFjUWdnaFNDZ1Eza3NzMmkrN3JNMm8yc0w0?=
- =?utf-8?B?WUdHeXd3Q2k0SldXaE8rUHd4UTlUdkd0cUNoVzNXRHp1ZFl1NGhLUFp6VG92?=
- =?utf-8?B?akEyd1lzTUpLd2cxTlZVQ050S0V1UkE1SGE4VGJLV2RVTk10ZVdkNTYrTWhi?=
- =?utf-8?B?WWl6b05UUXFXNzBuWmpYWEIrQWNteTNLRTN3QlV3MlNpelgvaUt2MXBmem4w?=
- =?utf-8?B?VGdZUWFYcnFrQUpuSWN1bkpDcGdQZms2MHFMUGdGYnBhNWRzTzF6eW9oeEZz?=
- =?utf-8?B?QXlZMEFMZDNzQStzeFVqTHU5cVFvVkFsWUM3enNiNGhqWnFneDJISEgwVU80?=
- =?utf-8?B?REtjYlAyMy8wOG53eWZ0T0d3MkdnU1lJM3RvdWtSV093NS82S2JkVGlUVkNz?=
- =?utf-8?B?YTAwTG0vZFNWODUySnQxQjBsNThFaTZVRlBwWVVBK3RIRFI4d0xUY1R1anRC?=
- =?utf-8?B?Y0ZPSlNqSCswVTNIU3QzZVFSQkJvRzREWEVIYW9tU0Juc2JmNStyR2pkN21U?=
- =?utf-8?B?OEpNYVFBMTRlVytVdVZ1MjBhbHc0VFpyeVpqK0Y1ZjR3R0U3UmU3NXBTOGxI?=
- =?utf-8?B?TXB3M0Zid3lGSVR4VlFvTXh3Tml2emRVc3UxS0l2SkJqZUE4RzdHaDFlMisz?=
- =?utf-8?B?dGhQbzYyQzB3Rjl2Z25nVzJJREdLZllnSyttVG5pTTZxUGFMN1BKT2V3dHpP?=
- =?utf-8?B?N0Z3WmV4eG1FcFBxK2pUeVQvVGRYaURzSVpYLzVSWkxpdE9kczNiOVVPK2VR?=
- =?utf-8?B?SSsvd3lVL3ZnVmtQUGVTNVVqNmlwdmtoNlhTTDZ6MlU2cklCWGl1YzFCSkwy?=
- =?utf-8?B?cEdkd3dUVmtyb21nTmdCRFNjM3pRNGQyWjdiVDludVNEN2lrSVBqenAxY0RC?=
- =?utf-8?B?ZlVQUmlVN2tqZy82QWxMY05WWTQyYjBURWpzZUNaNnBnSnJaUFBpSnB2Y0l2?=
- =?utf-8?B?d0orVGpleXI3aGZBWlZ4L21qaXh0NStZV1AySWNOQnFFK3VGdWZhQ3FueWt1?=
- =?utf-8?B?cHdYWkdoOUR2b1ZIaUlSYTg1ajJNWXlQOG5kdmtjL2Y5a0FWSDZmMHNUQjNK?=
- =?utf-8?B?V1pYUnBndGlSU3dtanl1WlVsRVp2WXJvckVDNXUyL1lIQm10ZERlV2JOK1Bo?=
- =?utf-8?B?OUFJMlhIL2xXT3JaUHZNQWFZRWdjQm5QdVFIREpBWEFLYWdPc095RTltS3p1?=
- =?utf-8?Q?vYX6JvlG+LU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVNlazlJTDBCZ1pxZmhnV1VMVklsWS95T3lhTEN5OVNmUXJuNjJMcnFVYW1l?=
- =?utf-8?B?dE5aY1NhSnhONzcxMlQ5NlVnN3kxMlVPNGFrVFNzQ2ZWQ3daVXhNejNLOERY?=
- =?utf-8?B?dVhzYTljUzBrb3VQL05wK0M0NFFwdkVlU0RjMjBaS0FWUDJwSTYyV1p0TXZs?=
- =?utf-8?B?Q0xyUVNMMnBqRDNRY1ZZV29xU0tMbjE0Qm16UjhRVXZJQXBtWWlsOWM0QmVs?=
- =?utf-8?B?cWFlcmpmcGF6M3IrSmpEUGxwcnZQSTV6c2ROczJwSVBXclpoSnY2UGlRblk0?=
- =?utf-8?B?cDczODc4b25XaVdJTGQxNTBhaVgvUjdRYWVBSmU1UytUdFNJaWdlVzB0S1hz?=
- =?utf-8?B?c3VJWUhUR2NIeWx6UFJ6dVdZZnA2ak4wSldWVTBpUStCcE5xMVBRN3liWW90?=
- =?utf-8?B?RENEVVArNDVBOEwrZmJ3N0N4ZDBTYTdyam1yRDJBK2pvOTBmUFM1cGNYMm9q?=
- =?utf-8?B?Vy8wcHZuaVJ0NUVOdnBtbVZVMjFEbUhmUU0xT3lST3Z1OUJ5V0JoVkhkQ3dT?=
- =?utf-8?B?Z2NLeElLcVgzTVorbXhkcFFpK1k2SHpOLzhValZGUFFscGZNNVVJYzluU0Z6?=
- =?utf-8?B?cmNielVNT2tRTkc0YzlnZWdXaGdrbUpBWlRaaTZyQzFWZzlwU3FBdUp4cVJn?=
- =?utf-8?B?YnVNQk9jT0VTTFBsNzN1RlRqYU16dXNsR0FKWXc1ZFJxVkRkVmh0NjZJZ3lP?=
- =?utf-8?B?ZEtEdEZmanhRS0tnbEFuZWlOWlAxOVU0elVzeFgzeXA3dFltVkNZdm9tY1VI?=
- =?utf-8?B?bUY0bTBHZXFMR2hEMlRRMUlBREpMY1VQZkFQakJoN0d6OFZCa3cvbERueTYy?=
- =?utf-8?B?YTI4L3d3bGhpQU50YlpFeTB6UStsVkRVZTN4SFlOYVhuSWFrdStXdHBiaHlW?=
- =?utf-8?B?cFYrM1IrMU44QUhLQmdQL3Bqc3h3TU9QK00zRXB3VnR3MEpxMUNwVmpvdEVo?=
- =?utf-8?B?U1FITmRJUmRJYmc4cGFicnBVR2hJeW4zUUZuNHN0WGNOL3EzcnBYemhHclBi?=
- =?utf-8?B?eEthNTY2OXFVamdsVDhEWCtCZDkvdmNGN3BmUkVpWGs5OWJWcGo3M0N3YzdT?=
- =?utf-8?B?ck5wUHNqbHJtZkllWmhzTzJaSkR3cmxKT2d5a3lyaU5LWDRXSzJPbElpWHZZ?=
- =?utf-8?B?VDFXd1FGckhFVkphaTQ1TWVHUys4WEhTdDZoZUhWT2JuV3VOdGc1OFhtN3ly?=
- =?utf-8?B?RUc4OUlJemh4RkluMzg0UGhpaGJtSEMvaDNaUUdYSnFlQm1zREhadGFNbTNH?=
- =?utf-8?B?dkJyTzBQa3puVzkyNEFUS21rUE1wMENCUU9yd1FnZE9OUFFEY3M0V1p3QjFC?=
- =?utf-8?B?SUpOd2tmaW0zZGkrTmYxaTcza1pGTE9zYlNSNlhWNU5qeG9sSHdIUTJjajh6?=
- =?utf-8?B?d2I0N0IrM0duM1NjaTJzTTlQb1lYSmNrdzFNcFpwc2JqWThyaXdPU3l2ZS8r?=
- =?utf-8?B?aDNLSnlMNzRpV2NUayt2NjlXZUJrakJTbC84Ync2MlcyYkVFKzR0MFpFZW0v?=
- =?utf-8?B?aDVOL0xXbzE0RXFRbWUxZWFGTGxESGx2a3pxTDlLN2lYUGd1YmFsdjVsbVN4?=
- =?utf-8?B?aC9YNStrZGJHa3FDU1A1RGYzbUM3SjNkQ0NVdzNBTmpoRDRDY1NLNXA4cVBS?=
- =?utf-8?B?Z3JlQmloWXlWSlVKWU5qSDdjWUQremlwdkhzYkJwT2s0cks1MEQvUUZkdDJB?=
- =?utf-8?B?bkIzSVd5elUya1ozNEliRi9JMnBOdVNPZTR2V05XNVVTZ05TZXY0RWNVd3JC?=
- =?utf-8?B?SHZUVmFWSEpBNWRjUVdQVS9WY0ZTY3hIaS9nNUs5eWNGNEhVaDhadExMRWE3?=
- =?utf-8?B?R2JpUnc0WHNTMEcxNEVBMkR2MTFjZFEzVmc2aXRZOEFTNjM3SGU3cVQvQi93?=
- =?utf-8?B?d3VEVXN1b0VySjNkYjRmQVh6NmR0R1JCNFV2NXBLc2xLY2dHRVJMZEhVeDZE?=
- =?utf-8?B?OXBNT2p1b1NPSVl4VTRJNDFENkxFRzl3ODNlaW5nemlGVmFIS1E3cjRDSTNq?=
- =?utf-8?B?MWNwOGxZSVVKRklRdnZpeVRuZnJZTEE2N1pneTNiYi9WUWxFSFVoNG1aSExv?=
- =?utf-8?B?NkNBTlpKbjl3UFpuOEYyQyt3ZElvbFNYU2hNWjlFdXpKeFdLM0E1SkpBTFRl?=
- =?utf-8?Q?izSevj38H9M6kM+4SLMPDJkzX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f50787f-fd2d-4f93-dec8-08ddf9d31858
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 12:25:20.0764 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lAWxb36GPoOnMQNYPMLCzSfdTxPZu2QXyHh0P6oBysqa03Mhc9T7zZHPRCfFDxbx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5949
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,40 +91,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.09.25 14:20, Jason Gunthorpe wrote:
-> On Mon, Sep 22, 2025 at 01:22:49PM +0200, Christian König wrote:
-> 
->> Well what exactly is happening here? You have a PF assigned to the
->> host and a VF passed through to a guest, correct?
->>
->> And now the PF (from the host side) wants to access a BAR of the VF?
-> 
-> Not quite.
-> 
-> It is a GPU so it has a pool of VRAM. The PF can access all VRAM and
-> the VF can access some VRAM.
-> 
-> They want to get a DMABUF handle for a bit of the VF's reachable VRAM
-> that the PF can import and use through it's own funciton.
 
-Yeah, where's the problem? We do that all the time.
+This is a note to let you know that I've just added the patch titled
 
-> The use of the VF's BAR in this series is an ugly hack. The PF never
-> actually uses the VF BAR, it just hackily converts the dma_addr_t back
-> to CPU physical and figures out where it is in the VRAM pool and then
-> uses a PF centric address for it.
+    minmax: add a few more MIN_T/MAX_T users
 
-Oh my, please absolutely don't do that!
+to the 6.6-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-If you have a device internal connection then you need special handling between your PF and VF driver.
+The filename of the patch is:
+     minmax-add-a-few-more-min_t-max_t-users.patch
+and it can be found in the queue-6.6 subdirectory.
 
-But I still don't have the full picture of who is using what here, e.g. who is providing the DMA-buf handle and who is using it?
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-Regards,
-Christian.
 
-> 
-> All they want is either the actual VRAM address or the CPU physical.
-> 
-> Jason
+From prvs=353d6d59a=farbere@amazon.com Mon Sep 22 12:34:49 2025
+From: Eliav Farber <farbere@amazon.com>
+Date: Mon, 22 Sep 2025 10:32:29 +0000
+Subject: minmax: add a few more MIN_T/MAX_T users
+To: <richard@nod.at>, <anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>, <dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>, <mchehab@kernel.org>, <rric@kernel.org>, <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>, <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>, <evan.quan@amd.com>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>, <dmitry.torokhov@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>, <agk@redhat.com>, <snitzer@kernel.org>, <dm-devel@lists.linux.dev>, <mailhol.vincent@wanadoo.fr>, <wg@grandegger.com>, <mkl@pengutronix.de>, <davem@davemloft.net>, <edu
+ mazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>, <alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@linaro.org>, <malattia@linux.it>, <hdegoede@redhat.com>, <ilpo.jarvinen@linux.intel.com>, <markgross@kernel.org>, <artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>, <clm@fb.com>, <josef@toxicpanda.com>, <dsterba@suse.com>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>, <pmladek@suse.com>, <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>, <senozhatsky@chromium.org>, <minchan@kernel.org>, <akpm@linux-foundation.org>, <dsahern@kernel.org>, <shuah@kernel.org>, <keescook@chromium.org>, <wad@chromium.org>, <farbere@amazon.com>, <David.Laight@ACULAB.COM>, <arnd@kernel.org>, <linux-um@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>, <amd-gfx@lists.freedeskto
+ p.org>, <dri-devel@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>, <linux-can@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>, <linux-sparse@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>, <linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>, <bpf@vger.kernel.org>, <stable@vger.kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, David Laight <David.Laight@aculab.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Message-ID: <20250922103241.16213-4-farbere@amazon.com>
 
+From: Linus Torvalds <torvalds@linux-foundation.org>
+
+[ Upstream commit 4477b39c32fdc03363affef4b11d48391e6dc9ff ]
+
+Commit 3a7e02c040b1 ("minmax: avoid overly complicated constant
+expressions in VM code") added the simpler MIN_T/MAX_T macros in order
+to avoid some excessive expansion from the rather complicated regular
+min/max macros.
+
+The complexity of those macros stems from two issues:
+
+ (a) trying to use them in situations that require a C constant
+     expression (in static initializers and for array sizes)
+
+ (b) the type sanity checking
+
+and MIN_T/MAX_T avoids both of these issues.
+
+Now, in the whole (long) discussion about all this, it was pointed out
+that the whole type sanity checking is entirely unnecessary for
+min_t/max_t which get a fixed type that the comparison is done in.
+
+But that still leaves min_t/max_t unnecessarily complicated due to
+worries about the C constant expression case.
+
+However, it turns out that there really aren't very many cases that use
+min_t/max_t for this, and we can just force-convert those.
+
+This does exactly that.
+
+Which in turn will then allow for much simpler implementations of
+min_t()/max_t().  All the usual "macros in all upper case will evaluate
+the arguments multiple times" rules apply.
+
+We should do all the same things for the regular min/max() vs MIN/MAX()
+cases, but that has the added complexity of various drivers defining
+their own local versions of MIN/MAX, so that needs another level of
+fixes first.
+
+Link: https://lore.kernel.org/all/b47fad1d0cf8449886ad148f8c013dae@AcuMS.aculab.com/
+Cc: David Laight <David.Laight@aculab.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Eliav Farber <farbere@amazon.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ arch/x86/mm/pgtable.c                             |    2 +-
+ drivers/edac/sb_edac.c                            |    4 ++--
+ drivers/gpu/drm/drm_color_mgmt.c                  |    2 +-
+ drivers/md/dm-integrity.c                         |    6 +++---
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |    2 +-
+ net/ipv4/proc.c                                   |    2 +-
+ net/ipv6/proc.c                                   |    2 +-
+ 7 files changed, 10 insertions(+), 10 deletions(-)
+
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -107,7 +107,7 @@ static inline void pgd_list_del(pgd_t *p
+ #define UNSHARED_PTRS_PER_PGD				\
+ 	(SHARED_KERNEL_PMD ? KERNEL_PGD_BOUNDARY : PTRS_PER_PGD)
+ #define MAX_UNSHARED_PTRS_PER_PGD			\
+-	max_t(size_t, KERNEL_PGD_BOUNDARY, PTRS_PER_PGD)
++	MAX_T(size_t, KERNEL_PGD_BOUNDARY, PTRS_PER_PGD)
+ 
+ 
+ static void pgd_set_mm(pgd_t *pgd, struct mm_struct *mm)
+--- a/drivers/edac/sb_edac.c
++++ b/drivers/edac/sb_edac.c
+@@ -109,8 +109,8 @@ static const u32 knl_interleave_list[] =
+ 	0x104, 0x10c, 0x114, 0x11c,   /* 20-23 */
+ };
+ #define MAX_INTERLEAVE							\
+-	(max_t(unsigned int, ARRAY_SIZE(sbridge_interleave_list),	\
+-	       max_t(unsigned int, ARRAY_SIZE(ibridge_interleave_list),	\
++	(MAX_T(unsigned int, ARRAY_SIZE(sbridge_interleave_list),	\
++	       MAX_T(unsigned int, ARRAY_SIZE(ibridge_interleave_list),	\
+ 		     ARRAY_SIZE(knl_interleave_list))))
+ 
+ struct interleave_pkg {
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -532,7 +532,7 @@ int drm_plane_create_color_properties(st
+ {
+ 	struct drm_device *dev = plane->dev;
+ 	struct drm_property *prop;
+-	struct drm_prop_enum_list enum_list[max_t(int, DRM_COLOR_ENCODING_MAX,
++	struct drm_prop_enum_list enum_list[MAX_T(int, DRM_COLOR_ENCODING_MAX,
+ 						       DRM_COLOR_RANGE_MAX)];
+ 	int i, len;
+ 
+--- a/drivers/md/dm-integrity.c
++++ b/drivers/md/dm-integrity.c
+@@ -1794,7 +1794,7 @@ static void integrity_metadata(struct wo
+ 		struct bio *bio = dm_bio_from_per_bio_data(dio, sizeof(struct dm_integrity_io));
+ 		char *checksums;
+ 		unsigned int extra_space = unlikely(digest_size > ic->tag_size) ? digest_size - ic->tag_size : 0;
+-		char checksums_onstack[max_t(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
++		char checksums_onstack[MAX_T(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
+ 		sector_t sector;
+ 		unsigned int sectors_to_process;
+ 
+@@ -2073,7 +2073,7 @@ retry_kmap:
+ 				} while (++s < ic->sectors_per_block);
+ #ifdef INTERNAL_VERIFY
+ 				if (ic->internal_hash) {
+-					char checksums_onstack[max_t(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
++					char checksums_onstack[MAX_T(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
+ 
+ 					integrity_sector_checksum(ic, logical_sector, mem + bv.bv_offset, checksums_onstack);
+ 					if (unlikely(memcmp(checksums_onstack, journal_entry_tag(ic, je), ic->tag_size))) {
+@@ -2638,7 +2638,7 @@ static void do_journal_write(struct dm_i
+ 				    unlikely(from_replay) &&
+ #endif
+ 				    ic->internal_hash) {
+-					char test_tag[max_t(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
++					char test_tag[MAX_T(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
+ 
+ 					integrity_sector_checksum(ic, sec + ((l - j) << ic->sb->log2_sectors_per_block),
+ 								  (char *)access_journal_data(ic, i, l), test_tag);
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -2841,7 +2841,7 @@ static void stmmac_dma_interrupt(struct
+ 	u32 channels_to_check = tx_channel_count > rx_channel_count ?
+ 				tx_channel_count : rx_channel_count;
+ 	u32 chan;
+-	int status[max_t(u32, MTL_MAX_TX_QUEUES, MTL_MAX_RX_QUEUES)];
++	int status[MAX_T(u32, MTL_MAX_TX_QUEUES, MTL_MAX_RX_QUEUES)];
+ 
+ 	/* Make sure we never check beyond our status buffer. */
+ 	if (WARN_ON_ONCE(channels_to_check > ARRAY_SIZE(status)))
+--- a/net/ipv4/proc.c
++++ b/net/ipv4/proc.c
+@@ -43,7 +43,7 @@
+ #include <net/sock.h>
+ #include <net/raw.h>
+ 
+-#define TCPUDP_MIB_MAX max_t(u32, UDP_MIB_MAX, TCP_MIB_MAX)
++#define TCPUDP_MIB_MAX MAX_T(u32, UDP_MIB_MAX, TCP_MIB_MAX)
+ 
+ /*
+  *	Report socket allocation statistics [mea@utu.fi]
+--- a/net/ipv6/proc.c
++++ b/net/ipv6/proc.c
+@@ -27,7 +27,7 @@
+ #include <net/ipv6.h>
+ 
+ #define MAX4(a, b, c, d) \
+-	max_t(u32, max_t(u32, a, b), max_t(u32, c, d))
++	MAX_T(u32, MAX_T(u32, a, b), MAX_T(u32, c, d))
+ #define SNMP_MIB_MAX MAX4(UDP_MIB_MAX, TCP_MIB_MAX, \
+ 			IPSTATS_MIB_MAX, ICMP_MIB_MAX)
+ 
+
+
+Patches currently in stable-queue which might be from farbere@amazon.com are
+
+queue-6.6/minmax-don-t-use-max-in-situations-that-want-a-c-constant-expression.patch
+queue-6.6/minmax-make-generic-min-and-max-macros-available-everywhere.patch
+queue-6.6/minmax-fix-up-min3-and-max3-too.patch
+queue-6.6/minmax-add-a-few-more-min_t-max_t-users.patch
+queue-6.6/minmax-improve-macro-expansion-and-type-checking.patch
+queue-6.6/minmax-avoid-overly-complicated-constant-expressions-in-vm-code.patch
+queue-6.6/minmax-simplify-min-max-clamp-implementation.patch
+queue-6.6/minmax-simplify-and-clarify-min_t-max_t-implementation.patch
