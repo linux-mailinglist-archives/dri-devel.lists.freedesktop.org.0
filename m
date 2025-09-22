@@ -2,144 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADB7B8F51A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 09:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36833B8F52B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 09:42:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB27910E3CD;
-	Mon, 22 Sep 2025 07:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95BFA10E3CE;
+	Mon, 22 Sep 2025 07:42:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Uj4O+7gW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XwMwUnB3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JsJsfHP8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nZGfpgDx";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="EoZ34g1q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E40D810E175
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:41:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A25AB22254;
- Mon, 22 Sep 2025 07:41:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758526891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
- b=Uj4O+7gWe5leIxruI6yWGjSc/WnN6epJtluxSvF9J8HGKYTXrXkTTh7dp/6Lw2lN2IvglR
- 52fsJisziItag/dtDPkgZxW4XMkuGVNR0CE/sPpcTb3+qYSjNgu9MCU6FsozzEwE7SGrHr
- hf/b0T/amS2VIf4m4ktuGGqyejkPikk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758526891;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
- b=XwMwUnB30IcN14pIq9ftmcujRnKPKMyIrGYvbX83P542s+F3rrBic6YUdslvCtneEYrUFL
- ksGaX4RqYPNdIjCQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JsJsfHP8;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nZGfpgDx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758526890; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
- b=JsJsfHP8Ei9U8vqlSFJ5E1iiQ4BzkbFOA97ydeYZQMbzc9bNib7Fe3Yx3MlXWZoxrE4D7D
- fJxHbI9zCW4TbAtIn0AEbpad0bkICTsgfLOczRwWbzO2+4IYUQTvRLrHb905u2Br6Q6f0z
- ft6eKzPHn0q0oRphT9hWTQmgw0jBnlI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758526890;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WMiDR+fRSE4QfehhdJrQsm87n6Jxxbhp/nLCiamoGOU=;
- b=nZGfpgDx2IFD/T5VgVQ6wLgkloAxMf49xNKAW+TzSP1BK0ud/loANj6s8LubNY0fvqsDVq
- yNVvc5gmTohjCQDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A3A21388C;
- Mon, 22 Sep 2025 07:41:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 1wz1EKr90GjVAgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 07:41:30 +0000
-Message-ID: <e9c42e99-87d7-4f78-bb7d-5e0574815eb9@suse.de>
-Date: Mon, 22 Sep 2025 09:41:29 +0200
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED01F10E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 07:42:37 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58M7g6SQ735091;
+ Mon, 22 Sep 2025 02:42:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1758526926;
+ bh=aO2LzmOjhosxt9azbVbxxXomsetXJgHol6XZ8UGPR7k=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=EoZ34g1q3+ZTn+DC6DUOCzO916pCtWETOGIaequ1Yem4qtHj9AmbG4wYehQ48P28Q
+ w6P6CB2cHBAQKXv4xmN0vxtIcV8sQaURjE+1BnwL8KShz7NngS8X4sJwTbJA4sr8c7
+ N///I1netzgd13445l/Wp22+Jf2Ljt6TKGLquueU=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58M7g6cU133343
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 22 Sep 2025 02:42:06 -0500
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 22
+ Sep 2025 02:42:05 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 22 Sep 2025 02:42:05 -0500
+Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208] (may be
+ forged))
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58M7fvAS2140361;
+ Mon, 22 Sep 2025 02:41:58 -0500
+Content-Type: multipart/alternative;
+ boundary="------------OH0AgMhyWsRrvVHGonSWrgyY"
+Message-ID: <d2367789-6b54-4fc2-bb7c-609c0fe084d3@ti.com>
+Date: Mon, 22 Sep 2025 13:11:56 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: revert the remaining commits about dma_buf
- handling
-To: Melissa Wen <mwen@igalia.com>, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250919155519.1104256-1-mwen@igalia.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
+ changes for DSC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <sjakhade@cadence.com>, <yamonkar@cadence.com>,
+ <lumag@kernel.org>, <dianders@chromium.org>, <jani.nikula@intel.com>,
+ <luca.ceresoli@bootlin.com>, <andy.yan@rock-chips.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <u-kumar1@ti.com>,
+ <s-jain1@ti.com>, <tomi.valkeinen@ideasonboard.com>
+References: <20250915103041.3891448-1-h-shenoy@ti.com>
+ <20250915103041.3891448-2-h-shenoy@ti.com>
+ <20250918-dandelion-guan-of-storm-fa2051@kuoka>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250919155519.1104256-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: A25AB22254
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[igalia.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.de:email]
-X-Spam-Score: -4.51
+From: Harikrishna Shenoy <h-shenoy@ti.com>
+In-Reply-To: <20250918-dandelion-guan-of-storm-fa2051@kuoka>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,56 +83,336 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 19.09.25 um 17:54 schrieb Melissa Wen:
-> Hi all,
->
-> I just talked with Thomas that these two patches are preventing amdgpu
-> driver to be unloaded:
->
-> `modprobe: FATAL: Module amdgpu is in use.`
->
-> and there is no process using the driver.
->
-> We agreed that the best approach now is to completely revert the work
-> done for improving DMA bug handling to avoid any loose ends. With these
-> reverts we are just back to the old behavior and amdgpu loading and
-> unloading will return to normal.
-
-For both patches
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-If no complains come in, I'll send them out with this week's 
-drm-misc-next-fixes.
-
-Best regards
-Thomas
-
->
-> Best Regards,
->
-> Melissa
->
-> Melissa Wen (2):
->    Revert "drm/framebuffer: Acquire internal references on GEM handles"
->    Revert "drm/gem: Acquire references on GEM handles for framebuffers"
->
->   drivers/gpu/drm/drm_framebuffer.c | 31 +--------------
->   drivers/gpu/drm/drm_gem.c         | 64 +++++--------------------------
->   drivers/gpu/drm/drm_internal.h    |  2 -
->   include/drm/drm_framebuffer.h     |  7 ----
->   4 files changed, 11 insertions(+), 93 deletions(-)
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+--------------OH0AgMhyWsRrvVHGonSWrgyY
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 9/18/25 07:00, Krzysztof Kozlowski wrote:
+> On Mon, Sep 15, 2025 at 04:00:40PM +0530, Harikrishna Shenoy wrote:
+>> From: Swapnil Jakhade<sjakhade@cadence.com>
+>>
+>> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
+>> DPI/DP bridge.
+>>
+>> Signed-off-by: Swapnil Jakhade<sjakhade@cadence.com>
+>> Signed-off-by: Harikrishna Shenoy<h-shenoy@ti.com>
+>> ---
+>>   .../display/bridge/cdns,mhdp8546.yaml         | 24 ++++++++++++-------
+>>   1 file changed, 15 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+>> index c2b369456e4e..2a05a7d5847f 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+>> @@ -27,13 +27,12 @@ properties:
+>>             Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+>>         - description:
+>>             Register block of mhdptx sapb registers.
+>> +      - description:
+>> +          Register block for mhdptx DSC encoder registers.
+>>   
+>>     reg-names:
+>> -    minItems: 1
+>> -    items:
+>> -      - const: mhdptx
+>> -      - const: j721e-intg
+>> -      - const: mhdptx-sapb
+>> +    description:
+>> +      Names corresponding to entries in the reg property.
+> No, top-level should have broadest constraints. In your case it is
+> min/maxItems.
+>
+> Description is completely redundant. Wasn't here before, so why adding
+> it?
+>
+Noted, will remove description and add minItems:1.
+>>   
+>>     clocks:
+>>       maxItems: 1
+>> @@ -100,18 +99,25 @@ allOf:
+>>         properties:
+>>           reg:
+>>             minItems: 2
+>> -          maxItems: 3
+>> +          maxItems: 4
+>>           reg-names:
+>>             minItems: 2
+>> -          maxItems: 3
+>> +          items:
+>> +            - const: mhdptx
+>> +            - const: j721e-intg
+>> +            - const: mhdptx-sapb
+>> +            - const: dsc
+>>       else:
+>>         properties:
+>>           reg:
+>>             minItems: 1
+>> -          maxItems: 2
+>> +          maxItems: 3
+>>           reg-names:
+>>             minItems: 1
+>> -          maxItems: 2
+>> +          items:
+>> +            - const: mhdptx
+>> +            - const: mhdptx-sapb
+> This is wrong. Previously CDNS variant had two items means it had
+> "j721e-intg". Now it's something else.
+>
+> First, this is an ABI break.
+>
+> Second, there is no explanation at all for it in the commit msg! Looks
+> like random change.
+>
+> Read carefully writing-bindings doc.
+>
+> Best regards,
+> Krzysztof
+>
+
+Hi Krzysztof,
+
+
+Keeping this patch series aside, The existing binding-docs clearly have 
+a bug.
+
+Since even for cadence specific compatible "cdns,mhdp8546" it 
+compulsorily expects "j721e-intg" register space
+
+which is NOT part of the cadence IP block mhdp8546 and hence not 
+applicable to "cdns,mhdp8546".
+
+This was also discussed here [1] and can also be referred in this TRM 
+section [2],
+
+which clearly show that "j721e-intg" is part of TI wrapper IP block and 
+should be
+
+applicable to "ti,j721e-mhdp8546" compatible.
+
+Yes agreed it breaks the ABI but it also fixes a bug and I don't see any 
+one using only "cdns,mhdp8546" yet.
+
+so I am thinking it's more appropriate to fix this as a separate patch 
+independent of this series.
+
+Kindly let me know if I should submit a separate patch to fix this bug 
+or I should just ignore this bug.
+
+Depending on your suggestion, if it's agreed upon to send the bug fix 
+patch first, I will send out an independent
+
+bug fix to remove "j721e-intg" for compatible "cdns,mhdp8546" and then 
+rebase the series for adding DSC reg blocks
+
+on top of bug fix.
+
+[1]: 
+https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/ 
+<https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/>
+[2]: Link to TRM ZIP:https://www.ti.com/lit/zip/spruil1 
+<https://www.ti.com/lit/zip/spruil1>
+Table 2-1. MAIN Domain Memory Map
+DSS_EDP0_V2A_CORE_VP_REGS_APB are EDP core register identified by name 
+mhdptx in DT.
+DSS_EDP0_INTG_CFG_VP identified by j721e-intg in DT.
+
+Section 12.6.6.16.4: EDP_CFG Registers
+
+Driver use: TI j721e Cadence MHDP8546 DP 
+wrapper(drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c)
+
+
+Regards.
+
+--------------OH0AgMhyWsRrvVHGonSWrgyY
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 9/18/25 07:00, Krzysztof Kozlowski
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20250918-dandelion-guan-of-storm-fa2051@kuoka">
+      <pre wrap="" class="moz-quote-pre">On Mon, Sep 15, 2025 at 04:00:40PM +0530, Harikrishna Shenoy wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">From: Swapnil Jakhade <a class="moz-txt-link-rfc2396E" href="mailto:sjakhade@cadence.com">&lt;sjakhade@cadence.com&gt;</a>
+
+Add binding changes for DSC(Display Stream Compression) in the MHDP8546
+DPI/DP bridge.
+
+Signed-off-by: Swapnil Jakhade <a class="moz-txt-link-rfc2396E" href="mailto:sjakhade@cadence.com">&lt;sjakhade@cadence.com&gt;</a>
+Signed-off-by: Harikrishna Shenoy <a class="moz-txt-link-rfc2396E" href="mailto:h-shenoy@ti.com">&lt;h-shenoy@ti.com&gt;</a>
+---
+ .../display/bridge/cdns,mhdp8546.yaml         | 24 ++++++++++++-------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+index c2b369456e4e..2a05a7d5847f 100644
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+@@ -27,13 +27,12 @@ properties:
+           Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+       - description:
+           Register block of mhdptx sapb registers.
++      - description:
++          Register block for mhdptx DSC encoder registers.
+ 
+   reg-names:
+-    minItems: 1
+-    items:
+-      - const: mhdptx
+-      - const: j721e-intg
+-      - const: mhdptx-sapb
++    description:
++      Names corresponding to entries in the reg property.
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+No, top-level should have broadest constraints. In your case it is
+min/maxItems.
+
+Description is completely redundant. Wasn't here before, so why adding
+it?
+
+</pre>
+    </blockquote>
+    Noted, will remove description and add minItems:1.<br>
+    <blockquote type="cite"
+      cite="mid:20250918-dandelion-guan-of-storm-fa2051@kuoka">
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre"> 
+   clocks:
+     maxItems: 1
+@@ -100,18 +99,25 @@ allOf:
+       properties:
+         reg:
+           minItems: 2
+-          maxItems: 3
++          maxItems: 4
+         reg-names:
+           minItems: 2
+-          maxItems: 3
++          items:
++            - const: mhdptx
++            - const: j721e-intg
++            - const: mhdptx-sapb
++            - const: dsc
+     else:
+       properties:
+         reg:
+           minItems: 1
+-          maxItems: 2
++          maxItems: 3
+         reg-names:
+           minItems: 1
+-          maxItems: 2
++          items:
++            - const: mhdptx
++            - const: mhdptx-sapb
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+This is wrong. Previously CDNS variant had two items means it had
+"j721e-intg". Now it's something else.
+
+First, this is an ABI break.
+
+Second, there is no explanation at all for it in the commit msg! Looks
+like random change.
+
+Read carefully writing-bindings doc.
+
+Best regards,
+Krzysztof
+
+</pre>
+    </blockquote>
+    <br>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Hi
+      <span style="white-space: pre-wrap">Krzysztof,<span
+      style="white-space: normal"> </span>
+</span></p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br>
+      Keeping this patch series aside, The existing binding-docs clearly
+      have a bug. </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Since
+      even for cadence specific compatible "cdns,mhdp8546" it
+      compulsorily expects "j721e-intg" register space </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">which
+      is NOT part of the cadence IP block mhdp8546 and hence not
+      applicable to "cdns,mhdp8546". </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This
+      was also discussed here [1] and can also be referred in this TRM
+      section [2], </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">which
+      clearly show that "j721e-intg" is part of TI wrapper IP block and
+      should be </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">applicable
+      to "ti,j721e-mhdp8546" compatible.<br>
+      <br>
+      Yes agreed it breaks the ABI but it also fixes a bug and I don't
+      see any one using only "cdns,mhdp8546" yet. </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">so
+      I am thinking it's more appropriate to fix this as a separate
+      patch independent of this series. </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kindly
+      let me know if I should submit a separate patch to fix this bug or
+      I should just ignore this bug.</p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Depending
+      on your suggestion, if it's agreed upon to send the bug fix patch
+      first, I will send out an independent </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">bug
+      fix to remove "j721e-intg" for compatible "cdns,mhdp8546" and then
+      rebase the series for adding DSC reg blocks</p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">on
+      top of bug fix.<br>
+      <br>
+      [1]: <a
+href="https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/"><span
+style=" text-decoration: underline; color:#64b4fa; background-color:transparent;">https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/</span></a><br>
+      [2]: Link to TRM ZIP:<a href="https://www.ti.com/lit/zip/spruil1"><span
+style=" text-decoration: underline; color:#64b4fa; background-color:transparent;">https://www.ti.com/lit/zip/spruil1</span></a><br>
+      Table 2-1. MAIN Domain Memory Map<br>
+      DSS_EDP0_V2A_CORE_VP_REGS_APB are EDP core register identified by
+      name mhdptx in DT.<br>
+      DSS_EDP0_INTG_CFG_VP identified by j721e-intg in DT.</p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Section
+      12.6.6.16.4: EDP_CFG Registers </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Driver
+      use: TI j721e Cadence MHDP8546 DP
+      wrapper(drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c)</p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br>
+    </p>
+    <p
+style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Regards.<br>
+    </p>
+  </body>
+</html>
+
+--------------OH0AgMhyWsRrvVHGonSWrgyY--
