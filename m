@@ -2,167 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76FAB9413E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 05:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE8BB94142
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 05:17:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 489AC10E538;
-	Tue, 23 Sep 2025 03:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92C8710E53C;
+	Tue, 23 Sep 2025 03:17:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ma9ZBRH4";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XHGnxezE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010040.outbound.protection.outlook.com [52.101.56.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96CE10E092;
- Tue, 23 Sep 2025 03:16:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c79WUqkC8b5ozX9YBDeVbQ8eUqpy7DrLtCLrNi9d3Nadw6EUEWRQa14t/AnTXnqQ1+5wWTitXZAd8rQ3tdglEKLrjSsJGm8E6TpG1Dr7HsbQa8snO5YAvOPzvrNWW/54XF/nmtH27f0B56ZuZqXkPQFqenX+6dvY2p5eraZLfqFL7ckSohdhoJJ7WDqro0lculhPtp0ZwIb8IrAllQduC4MVzbSeIRTC8s/KZa5A7YES0HXPTg1YWXISRvAnlvqioGPElhcYo5+MvAjlhcUSwx6aTLqZYFxVFtsNly4cvrxbup+ml80G6KSSrU/Lam8iB6yTYN3cjrApRA2ZJ8lmBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mvm75nW8F7YysBXbtSREXD53/BvLwBjoj5VU7PE9E7M=;
- b=QiLrlHIb42JawBejWngK0J78hzEodRyDh4pKQbN5VDKWk+oXe2O3mPNAmWaE4hHUt+hcHn4vBt98Ex6/ik/KI/+TZNCuzMorpiJuvcWy/563LH3cRk5aq+kiMvoa5PIYAi02ONOz9VfJoQiAbEvJbmtZlxGXlVrHHhX4J0vWFiajw5Sn07HYrVsQfJNORgWPbRGKakrpdja9sP+Qbrx4KEdRsjU3JVN1ebVu8Cof/1mMvnBeuyuuQrwjoK5ekeOHESAsPpvHu9bD8ecF9h+OYbjzoi6A+2DP5gs/AqEbol4ihD3rHDHjGVHgm/uuQ26nzqK873jH5odBmYKGiGxnww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mvm75nW8F7YysBXbtSREXD53/BvLwBjoj5VU7PE9E7M=;
- b=ma9ZBRH4HF3T7G5FzqHd9F3SrentIJ8gMGv5ZBpIoZXhHv0QhWg805kj7z4eyWPVBhM1wuN+uBe7ti9VntSIFleCo8pX1GFA72CKeZBhiCXEuFFsLCxbpc5mUN4kPw56dw2cBqooLrIxlmLrAf31GNkUCsOV6cWRpFfGJQsl5UA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by PH0PR12MB7982.namprd12.prod.outlook.com (2603:10b6:510:28d::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Tue, 23 Sep
- 2025 03:16:49 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%7]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 03:16:49 +0000
-Message-ID: <7abe9596-1d85-4b14-94ab-97bd4dfe0977@amd.com>
-Date: Mon, 22 Sep 2025 21:16:45 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V11 06/47] drm/colorop: Add 1D Curve subtype
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Xaver Hugl <xaver.hugl@gmail.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
- contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com,
- shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
- mdaenzer@redhat.com, aleixpol@kde.org, victoria@system76.com,
- daniel@ffwll.ch, uma.shankar@intel.com, quic_naseer@quicinc.com,
- quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, marcan@marcan.st,
- Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
- mcanal@igalia.com, nfraprado@collabora.com,
- Daniel Stone <daniels@collabora.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-7-alex.hung@amd.com>
- <DC6I12RMKGXL.1L8KAEE0UBNNW@redhat.com>
- <CAFZQkGyXbD_x0V6KBdR4vaunF+bG+HKOYAA7y6aVWfeTQ3cLzA@mail.gmail.com>
- <4eef4157-cad5-4399-9bc9-c5c2f005d472@amd.com>
- <20250826120306.618c275f@eldfell>
- <610215a0-50ad-45b8-b60a-a52441619c73@amd.com>
- <20250918114036.454735e9@eldfell>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20250918114036.454735e9@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0352.namprd03.prod.outlook.com
- (2603:10b6:303:dc::27) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8729C10E53C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:17:18 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MG6ACM027509
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:17:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bMb7C2zDppeQTKGSH4djX/sY8FExMuELVy1N+D87Fjg=; b=XHGnxezEa/2Uh3/5
+ AlxnmfeU39uhBRTepsSKDOYGtjOv65Batzfrkr5rmyt64pqUM8zQ0v7jXcgUDnEW
+ wdfpN6ICL/zvfPpPg7+UBoPUXeuvVpWime1N7Q7zbvD2/PN9JFNg9fimXQ1Y1erK
+ 2DxwsfMFlQNsdSseVlu8JduF1Ir67zt3vRoejAPo5UCmAfmcp5RniBb5ci9PxE8d
+ mr1yz7bSUjfZYsaTjrW3eqLFq16DnEHnEQeFN1dTSPOw+0ukSVH/irHkqNc0NoNZ
+ OICwCifD1C2LCAXl9vlgNMz48sO8ULSNl9geCp54SMI8jQ6O03h6LDXHxZnGONrd
+ uhmynA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kkhq1uj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:17:17 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-773e990bda0so104014256d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 20:17:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758597436; x=1759202236;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bMb7C2zDppeQTKGSH4djX/sY8FExMuELVy1N+D87Fjg=;
+ b=ACAy5v1y1v0wKE3wM1Ye+si8JCGUiKpRYUQmkqQHh9dTglDXHKh+9eVJT3iYtUIYQO
+ CSl7/7f/C0XVZg3OiEvveBa+1ESqNlymq1wB4r3B3CamgGle+s9ZAuZcloy/FiS7xXov
+ GwZcy3e05BYaWKLfWe3QyuZs7iPCjqzW437KCdGdoKjIuXG8+kNCKieEXObYO29/UAGr
+ 0E3HRQaNDSVNj5UlztythmpDhzIM8VN1bGQlGrJfItNpG7FsIAl3O4tyvKq1VLIKyZi/
+ 5L/cwCSk+HwtUUYV8/49DX+KmiyWHAobL5kp/KKuIMsTuQ1L7NLktJ9rcmYw1VCDS+Zd
+ cGFw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXtgYNoVdkHYivdBYluIT6c8DVMmg+qluI0pgifoEoZycQosSj4Pl4pUw9gyQOkNWBJBBOl0z+VDg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhkELg7Ey6Lbyt1CpRvMgjYFk+x/o2AzCNAvKkMtltBkM5cmZb
+ aScB0I2446vAjOPsZ2/RBUPdtluCCHF2ZiLwP6qkvagjZN0PvkNRd7Rx4CLlHsCPBJShHkLmFvQ
+ OPBeLjIMVBVqTurUsm1vD+5aAJq1xXI3UhnC/tBTdfwoMvlVaFuJiDRDMflQe24TJU64V2e4=
+X-Gm-Gg: ASbGncuJZ4HI0mIdxFWy1c6Lbo+LQkrWGrSMPRCTbGb/hQ/f+B/IhR+OxwSMSTjU3V2
+ LMpIJPU1oIjC3hxafF06ZXIFg8cvRXpvrn466n0AgEqwVJ99fC+OdbKm+/oFk3XEcPs/Sj10Klq
+ A+FlpFzsASs62E5zAl8yt/kd64CFjbLzZflWyps6iWYW7V9TKPMkB5UUHvufpZnd3bI4B0M4RL1
+ srN0wm6mkTl4HKVaKTUCy2l5hVgPIeSBvU5d29mCmy68Eyr4N7JBX20XVCGniJHFQZ9Xq3I5nir
+ GTGUteN8qBJ0nXrhtZy9r7zct+Rkbn7WQmlSWY/TRY4Qz/g4CohW1Tai4P3DNSgmpnQEuufVK9r
+ Qy8YjNFl7wuFUQBt5Hl11382OFqoyPhyyJd8csekpjOGyrdv9zC24
+X-Received: by 2002:a05:6214:2a8f:b0:741:52cf:a104 with SMTP id
+ 6a1803df08f44-7e70169a36amr13294436d6.5.1758597436487; 
+ Mon, 22 Sep 2025 20:17:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFn0eBFPbnW3yR2CGZz8WEuSgYw6bETDind9f429+o4fUJgBVTohgVWJzPvbfpV811TCcIXOQ==
+X-Received: by 2002:a05:6214:2a8f:b0:741:52cf:a104 with SMTP id
+ 6a1803df08f44-7e70169a36amr13294086d6.5.1758597435854; 
+ Mon, 22 Sep 2025 20:17:15 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-57a9a81f52asm2678963e87.124.2025.09.22.20.17.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Sep 2025 20:17:13 -0700 (PDT)
+Date: Tue, 23 Sep 2025 06:17:12 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 2/7] dt-bindings: phy: rockchip: rk3399-typec-phy:
+ Support mode-switch
+Message-ID: <mpyfe63tzxzxyyqf4vxwmrewzeosnaftlkko7pq2ynld6u3lcz@wlpixckov4hg>
+References: <20250922012039.323-1-kernel@airkyi.com>
+ <20250922012039.323-3-kernel@airkyi.com>
+ <eb6ogrepo5acwcj5gpdolxxyg3xrx7kz6zrbizzseqyavvitfd@cnzurelqeh4t>
+ <533d41bd-9293-4808-85f3-8fb6dc8bcda7@rock-chips.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|PH0PR12MB7982:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6f7038d-6aad-4e70-fac0-08ddfa4fa228
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?K0x0S0dwejlBTEtxUEtqcnFQd2VRaU82Si8rVGRwNndKVE9iZTFvZlZ1UTJY?=
- =?utf-8?B?UzJIUUZNeVM3L3NkVnUxVG02OVh6bUNvQ3RhYWFzVXdEWUdCT2RvTUZjZ295?=
- =?utf-8?B?b08rRzNVZHp0Ky9zdEg2ZGVTU0dyNlk5bmRVRXlIMEVGcUNzVzRnL1ByMDJW?=
- =?utf-8?B?ZzZFM3JHWklXQ0JNZjBXRUFlQWZvenRRaFpXOW9mZ0VRNk9FT0JneGtYSmpi?=
- =?utf-8?B?UGtrQU0yaUgzMHZWMFlreEN4anVsS3M1UVR2bVZXRlduSElHM3RPajlFZzJC?=
- =?utf-8?B?djA0NHFDUDFsV2ZEMzR1V2w2SnhpdEVBRXFCemtQNGRnQUtNdVArbW9aUWg2?=
- =?utf-8?B?T2pSRzZXVk4yQ2RDQTZHRkVCMmdDaG81S2gwS2ZyS0UvOUVOV245SEx1TUd0?=
- =?utf-8?B?aytZNTR0QVJyNnM2LzRHRFJOd1hrU1c0cnJBUUNFWkRMNWRXSFQxb1FSSXEv?=
- =?utf-8?B?RlZxNWluY0t1Rmc1Y2xKMnRnRDNoWld4L1l4ZzZnVGdjQWF5YmJqUU41bnI1?=
- =?utf-8?B?RnhMOTV4L2FpWG5FU3ExNnVGRXoyTTk5YThqYzJ6ZnRNUVA2VG10UTI2Q2FL?=
- =?utf-8?B?VWF4VDBtbjVOVFIzZmM3MXZYM1RHR1ZRZU5HOGppTDRzcXlJMmc2Tkt0ZzZ1?=
- =?utf-8?B?SmZ6bzBLRkZSQTFLWFMvemhKVi9aMnZXV2JjbWpoaVUyN3ZNNDFtYTFET0hr?=
- =?utf-8?B?QmtZbElTYTMvaHlRNUhweUxaTlVURmp3THZzdWR4Tlg1SkFYa3plUW44YTFi?=
- =?utf-8?B?M1A0RGF0NkRKbGp0MTNtVWhueHVpRjl2dURyRGdaa3JqT1cxbzB4YllHeGh3?=
- =?utf-8?B?VXNZU0dmaUUvNG1aZmd3dWN2Vmw1NnlBQUFQTEdzZkc4RktPV0NuK0tJaCs4?=
- =?utf-8?B?b01jNkFXY0pZN05HR3pQQXZjejk3RG1vdVc3Z3hmZHRxYkFLTGMrNHZGZUNS?=
- =?utf-8?B?ZEszZ3VFZzhHb250NlNkU045Q2M4OHJEakRuWjBtUnVxUVpHc3U1SllBb1pn?=
- =?utf-8?B?UlhjOGdyRzY2UWp5WnFkNFNad1Q5RHhzMmE2ZU41YnFDMnFVWUY4NkVSODQx?=
- =?utf-8?B?YXA0c3pBVlcvSVdQUGxlOTdmcjJORytMOGU1WFJJdmRsSzZRaDZRaWllbWdr?=
- =?utf-8?B?UnZKRHhTQjdEQjludHB0c0lZTlZzWExjN2F0eEpjaS9zTEFsekV0QjVTQWo2?=
- =?utf-8?B?emc1QklXRUtvbERlbGhDKzIxNzZuRElwUWxWMkZFUDBsa21MdGlKSTF2WXAv?=
- =?utf-8?B?dDUxRFp5M204VXNoWU9JU2o2WHhZZi9najJVc3ZlSk5tSC9taS9zMzJ4OVZz?=
- =?utf-8?B?eHlDSDlQRmpxYmttczE4Vng0V1N4aE0zN2tjbmh4UHZ3ZkhRdnRmVnhiWTJN?=
- =?utf-8?B?TklaQjVrSGVYaDRtbVBMUkdiTGZPRitkOW02QnBhS1UzTHZLZUZ6Wk9aMWVY?=
- =?utf-8?B?SFJpa3lyeTRwQmZHVy9PekZOb215aTNRRnk1ZFFZZjVRVEwwWEIyRlNBMzRs?=
- =?utf-8?B?YVBsblMyZEpPeW9OZzdoMWg2cFlMV2FuVDAyLzhhODlnU2RDaWEwQ21jTzdI?=
- =?utf-8?B?NkIzZEVFNzZGTFBLd0JORmJuZkNDTWM0U3F5T2VhK0VVZFZwSXVRTlJxQzZG?=
- =?utf-8?B?cHFKQTV0SDQzWVUwaGRoK2ZVdlFPN3o3OVoyVS85SmtKVE9rUGlsejdqWFVJ?=
- =?utf-8?B?cFhJd0I1Z0RTYUZXdVNGbkZldnRTOTdlVGQvTzRHdUtvZC90UzNBaFpTS2FS?=
- =?utf-8?B?eVZPa3NDbk9tTGdRQ21VY09WUkI5VEg5bE1KMWV4QnMyZEFYbzhEcExpdVIx?=
- =?utf-8?Q?3O4Mf/mvdrMA81God+KgRC1vljv/29NZhy5S8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OFE0WnV4UFZEcXEwdlNNMU1TZ3FoTmZwMUNUb29JWG04WU1EL0Q1ZGpVczNp?=
- =?utf-8?B?WExJelFnV2hFaEpiMEhjYmVZRVhHK3V6SVhzd3VMajdVQ0s2cE5VQTQ5Rkor?=
- =?utf-8?B?TStuZ2pEUXZVNW9NbElrc3JKLy9vNUdab2xra3dKN29XK0ZGb1Y0Y1ZKUERt?=
- =?utf-8?B?dTNzTldrNEl6RkFMbHZxY3pYd0ZMVmtqS3pIOUpnOEhwU0Y0T1VmQmsrb1px?=
- =?utf-8?B?QnJxRGI1WWxuVFNHZ1JIUWdHeFM5RlFPLy9DS0J3QVhCSzMzSDFzRFl1Mys3?=
- =?utf-8?B?ZHA0azQ4SHBoOTBXZEpsampaZGE3Q2c3VTM0ZW1aQkxtZTdJaS9LbENZYTVr?=
- =?utf-8?B?ZGhXV1o0ZEdqUE1majNCS21yTnhjYjdCQkE2TjdnMmpQNHExSis4MWZURXhh?=
- =?utf-8?B?ZHd5dmJtVFBZZlNhYmtXZDJ0SHlrRVZheWlOWDVhUXFNRUlFOWpOUEF6U3Ra?=
- =?utf-8?B?TXRBN3dnb01MUHZva1g0WUVMSXRoZXNCYTBIbGVGV2FUVzR2T1drVUtjdW5G?=
- =?utf-8?B?VkFUYUkwTEFFTTdzcCtRMUw3SEN4a09EdVNyT1JzN2FwRGZJM2Qwd2hUdGMy?=
- =?utf-8?B?SkJwUkJJdEZzMEo5Ly93MHpockppSld6b2ZjRWY0RThvY1JXZzlOcy9nejFH?=
- =?utf-8?B?c1A5QXpqeURWeTRacTFYWFpUMmpvNkUrN3hHNkxZVEh2eC9TbUw2SzJ2enN3?=
- =?utf-8?B?UnZBd2k1TU9Fc0JTdVA5WGhPRE01RHdJellWUkJobm0zcGJ6Q0phU2VxZ29v?=
- =?utf-8?B?VkJPOEtnVzluSXN5WFZtdnY5dDY4ZGdzN3BxMmFCc2QrVWwyZGdEMkgvQURy?=
- =?utf-8?B?RFB0c0JNb0U3NmY0MmlWcnJIN0JEK21QbUFlTHB4T2lMcEN2ZE5Pc0RqNVdq?=
- =?utf-8?B?dDFFbEJaVVZVa3crSHQyeUswelcyb0pBZ3lENU9PNHVlajFVcDBpekVrM3A2?=
- =?utf-8?B?dXpkYnZWYTlKK2hZdHVSVnFVTk1jbGJiV2VxYWQ4Z2FaNDBSN3M5cDE2RVU0?=
- =?utf-8?B?Ylo2T2RCMXpoZTF3am14elVlNGd1WWtSeTNua2U3R3M4WUt2YjVLYnBYaFZt?=
- =?utf-8?B?RnNnakFZZS9oSUIwUUM3VUFNYm1pREg2RGlDc2FGOFEzM29hS1dKVG5RTGdn?=
- =?utf-8?B?UGRKZHBybUFaRkk2SDBNVWxvUWJTOUl1aTFraFNyRUtBQmlpTVRkMkdDRFdV?=
- =?utf-8?B?eG9KbElyUEdQOGROUmltbUViVDFzWDl2MWF5bGZHSWNwT1l2enhpWTArVitU?=
- =?utf-8?B?ejJsZHplWTU3cTlVVHNnNklaSEJkUGl4d1lXcWtZb1h4dkNURVJoOEFFV2Rh?=
- =?utf-8?B?NEhSZFRiU2lWTGRwQTlSOUtyN3pRdk1rdUk2Yk4rYUVTRllMRmxSenQrSzEw?=
- =?utf-8?B?REtlb0xLdWtWUzhFTmVSWFVjNXgwSzNjc2RML2hxbS9UNmhBYVVNM0FqOGQx?=
- =?utf-8?B?ckhIMGZUWDg0UmkzOHMrVmZqYWxVMlRDc08yR0Eycys3Z1VXQ0NqRkNpMXlx?=
- =?utf-8?B?WjB5TWpHZ3ltcm4reUNNVGk0MHhMOG1vY2tQWmVCeGFHSUppenlIWGVGdE4x?=
- =?utf-8?B?V2xSRlB1QVVhdHhvMUtiT083aXMzVG90dkdPNmlLQVRGOXpBblVsbGFnT0VB?=
- =?utf-8?B?dG9hdVVXMjdRMFVWR2c4bXlacGZTc0ZNL3dBUW1PamRoNFV5eUVnU0p5QlBL?=
- =?utf-8?B?eGg2dWpaVlB5WjlwTTFVa3BsNWE0aEJvNTh0d0cvYjJvRmFLWFpOcURJcjE3?=
- =?utf-8?B?bkd3TzBEbHF2Nm5lbE1VSnhhTmkwbnNIUlI0cS9LSHRmR1pwOTlwTHV2eGNR?=
- =?utf-8?B?d3YyWG8wdHRpN3FTOElpQnprZ1ZyMUVPa3ZHM1RON3lveFFTNEdScUhTNDFR?=
- =?utf-8?B?Rm5MNXJFa3pVTVQzWkxrSzgvbXEvMm9peFV2eFBIMTJQaWZEdFVFNHBsVXRr?=
- =?utf-8?B?bDloSUNLM0Q4TkhwOWdFR04vQ0U2NS9TOTVNZzFCYjAzcGprTTBDTzVYbFhY?=
- =?utf-8?B?V3c3VXNLaXFlUjc1Q3RjZllKNStwMFc4RFk0NFhJYStLRlM1aUpxeHN3RzYv?=
- =?utf-8?B?a2dnWGpOK3RwMEJicXE2bGlMR2x6U0dLd3ZTeFp0MnZRV21xZEkxR240RVlE?=
- =?utf-8?Q?B7dtnHuV4Z+Ia51Y8NP0nuZua?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6f7038d-6aad-4e70-fac0-08ddfa4fa228
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 03:16:48.9045 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dUHg0/5li2O/lC8rtnSWa+D48d75P0zBn/pV4w2RFePUN/64Mj0vq6YvvM1+Ho3QgPGkRGZ8Y+qxJ5qOeDSBsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7982
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <533d41bd-9293-4808-85f3-8fb6dc8bcda7@rock-chips.com>
+X-Proofpoint-ORIG-GUID: 3iV8mteLUMLB3Qz3j3QBjNEYJSbBq8Jk
+X-Proofpoint-GUID: 3iV8mteLUMLB3Qz3j3QBjNEYJSbBq8Jk
+X-Authority-Analysis: v=2.4 cv=JMo7s9Kb c=1 sm=1 tr=0 ts=68d2113d cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=KKAkSRfTAAAA:8 a=uIhu009UdGQP6qFfJxgA:9
+ a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+ a=jGH_LyMDp9YhSvY-UuyI:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyMiBTYWx0ZWRfX/0e6dw5sj8eJ
+ GCK2ZnkyW2oG8r7y9cp0r2KayGMb7upeR7KecVTTnzBP5IiAqzZZQ4gDuqX8uUXf231TSyoI8vO
+ arQYjAWcYrS7wLQrZTS2d7AnCQPove7tULhIxnTUQzzAYmeW5iW33HHe1bsmWdo0wQWnP1ZpPUW
+ N8Odu0MVdUzwdUPdX4lx6mFo12VreQUL7QpkpqxHcTKmZIiLqgDj5/K2mlTYYTSoyI9UkY3aM9t
+ bHEbMdG2pWsFW6EP4fkmIXtny8po9Wj/KWOXp/q1upnnQ9Rf34YGJDAL4jeXhfGN2MUSzc+3cb+
+ dU7PwvRw+jUQ+mTzvIK6BbFeOIdJ84fJALTAEhZG2FDLE39Jn5qfCP93dTsSQIodidWGyxrYY1X
+ w99PcZc4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509200022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,150 +147,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/18/25 02:40, Pekka Paalanen wrote:
-> On Tue, 16 Sep 2025 17:01:07 -0600
-> Alex Hung <alex.hung@amd.com> wrote:
+On Tue, Sep 23, 2025 at 09:53:06AM +0800, Chaoyi Chen wrote:
+> Hi Dmitry,
 > 
->> On 8/26/25 03:03, Pekka Paalanen wrote:
->>> On Thu, 21 Aug 2025 11:54:32 -0600
->>> Alex Hung <alex.hung@amd.com> wrote:
->>>    
->>>> On 8/21/25 06:23, Xaver Hugl wrote:
->>>>>> We user space folks have been convinced at this point that the sRGB EOTF
->>>>>> is actually gamma 2.2, and not the piece-wise function. Now, if the
->>>>>> hardware is actually the piece-wise, then that's what should be exposed,
->>>>>> but I'm a bit unsure if we should do that under the name sRGB EOTF.
->>>>> Maybe simply rename the enum string to "sRGB piece-wise EOTF"? In
->>>>> hindsight, the naming of "srgb" in the Wayland protocol caused a lot
->>>>> of confusion, it's better to be explicit about it where possible.
->>>>
->>>> I will leave this to Harry to comment. He is taking a few days off so I
->>>> will check with him later.
->>>>   
->>>
->>> "sRGB inverse OETF"?
->>>
->>> Strictly speaking "sRGB piece-wise EOTF" is not a thing AFAIU.
->>>
->>>
->>> Thanks,
->>> pq
->>
->> If an extension in future after this proposal is merged, can it be GAMMA
->> 2.2 to be [DRM_COLOROP_1D_CURVE_GAMMA22] = "GAMMA 2.2" so it won't
->> conflict with current name?
->>
->> Meanwhile, do we agree to change "sRGB EOTF" as "sRGB Inverse OETF" as
->> the following? or do we still want to add "piece-wise"?
+> On 9/23/2025 9:12 AM, Dmitry Baryshkov wrote:
+> > On Mon, Sep 22, 2025 at 09:20:34AM +0800, Chaoyi Chen wrote:
+> > > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> > > 
+> > > The RK3399 SoC integrates two USB/DP combo PHYs, each of which
+> > > supports software-configurable pin mapping and DisplayPort lane
+> > > assignment. These capabilities enable the PHY itself to handle both
+> > > mode switching and orientation switching, based on the Type-C plug
+> > > orientation and USB PD negotiation results.
+> > > 
+> > > While an external Type-C controller is still required to detect cable
+> > > attachment and report USB PD events, the actual mode and orientation
+> > > switching is performed internally by the PHY through software
+> > > configuration. This allows the PHY to act as a Type-C multiplexer for
+> > > both data role and DP altmode configuration.
+> > > 
+> > > To reflect this hardware design, this patch introduces a new
+> > > "mode-switch" property for the dp-port node in the device tree bindings.
+> > > This property indicates that the connected PHY is capable of handling
+> > > Type-C mode switching itself.
+> > > 
+> > > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> > > 
+> > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > ---
+> > > 
+> > > Changes in v4:
+> > > - Remove "|" in description.
+> > > 
+> > > Changes in v3:
+> > > - Add more descriptions to clarify the role of the PHY in switching.
+> > > 
+> > > Changes in v2:
+> > > - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+> > > 
+> > >   .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
+> > >   1 file changed, 6 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+> > > index 91c011f68cd0..83ebcde096ea 100644
+> > > --- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+> > > +++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+> > > @@ -51,6 +51,12 @@ properties:
+> > >         '#phy-cells':
+> > >           const: 0
+> > > +      mode-switch:
+> > Having the mode-switch here is a bit strange. I think the whole PHY
+> > device should be an orientation-switch and mode-switch. Otherwise it
+> > feels weird to me.
 > 
-> Hi Alex,
-> 
-> since my previous comment, things have muddied further again. FWIW, we
-> intend to remove the use of the name "srgb" transfer function
-> completely from the Wayland protocol as confusing:
-> 
-> https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/442
-> 
-> I would recommend the KMS UAPI to similarly avoid the term. I would
-> recommend "gamma 2.2" or even "power 2.2" and "compound power 2.4" or
-> such. These names would hopefully not trigger intuition and make people
-> look at the definition harder. Or any other name you can come up with.
-> 
-> I agree that "piece-wise sRGB EOTF" would be intuitively clear, but it
-> may provoke people debating what does IEC 61966-2-1 actually define.
-> We've had these kind of discussions for Wayland already, and it was
-> suggested that it is better to define the actual mathematical function
-> in our specification that to leave it for interpretation from standards.
-> 
-> For KMS, this should be even easier than for Wayland, because the
-> hardware implements a specific mathematical function regardless of
-> where it might have originated or what it is being used for.
-> 
+> I think this is a difference in practice. In the previous binding, there was already an orientation-switch under the usb-port. I trying to add both an orientation-switch and a mode-switch to the top-level device in v2. And Krzysztof reminded me that adding a mode-switch under the dp-port would be better, so I changed it to the current form :)
 
-Do you mean the following changes? Userspace use Gamma 2.2, and display 
-driver can decide to use either sRGB piece-wise EOTF or Gamma 2.2 itself.
-
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index e1b2b446faf2..3a6c64285d9c 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -71,7 +71,7 @@ static const struct drm_prop_enum_list 
-drm_colorop_type_enum_list[] = {
-  };
-
-  static const char * const colorop_curve_1d_type_names[] = {
--       [DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
-+       [DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "Gamma 2.2",
-         [DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
-         [DRM_COLOROP_1D_CURVE_PQ_125_EOTF] = "PQ 125 EOTF",
-         [DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] = "PQ 125 Inverse EOTF",
-diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index 3e70f66940e0..e39379f1a61c 100644
---- a/include/drm/drm_colorop.h
-+++ b/include/drm/drm_colorop.h
-@@ -48,7 +48,8 @@ enum drm_colorop_curve_1d_type {
-          * sRGB piece-wise electro-optical transfer function. Transfer
-          * characteristics as defined by IEC 61966-2-1 sRGB. Equivalent
-          * to H.273 TransferCharacteristics code point 13 with
--        * MatrixCoefficients set to 0.
-+        * MatrixCoefficients set to 0. This can also be approximated as
-+        * Gamma 2.2.
-          */
-         DRM_COLOROP_1D_CURVE_SRGB_EOTF,
-
-
-It is also possible to add GAMMA 2.2 in addition to sRGB piece-wise 
-EOTF. But if I understand correctly, DRM_COLOROP_1D_CURVE_SRGB_EOTF may 
-not be used at all, right?
-
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -77,6 +77,7 @@ static const char * const 
-colorop_curve_1d_type_names[] = {
-         [DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
-         [DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] = "PQ 125 Inverse EOTF",
-         [DRM_COLOROP_1D_CURVE_BT2020_INV_OETF] = "BT.2020 Inverse OETF",
-         [DRM_COLOROP_1D_CURVE_BT2020_OETF] = "BT.2020 OETF",
-+       [DRM_COLOROP_1D_CURVE_GAMMA22] = "Gamma 2.2",
-  };
-
-Does anyone have comments or concerns if we use the first option?
-
-Alex H.
+I couldn't find the comment on lore. Could you please point it out?
 
 > 
-> Thanks,
-> pq
 > 
->> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
->> index 1551b86471ce..90a216c0b6ac 100644
->> --- a/drivers/gpu/drm/drm_colorop.c
->> +++ b/drivers/gpu/drm/drm_colorop.c
->> @@ -71,7 +71,7 @@ static const struct drm_prop_enum_list
->> drm_colorop_type_enum_list[] = {
->>    };
->>
->>    static const char * const colorop_curve_1d_type_names[] = {
->> -	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
->> +	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB Inverse OETF",
->>    	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
->>    	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] = "PQ 125 EOTF",
->>    	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] = "PQ 125 Inverse EOTF",
->> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
->> index e4250b7d8de8..ce85c52c60c8 100644
->> --- a/include/drm/drm_colorop.h
->> +++ b/include/drm/drm_colorop.h
->> @@ -43,7 +43,7 @@ enum drm_colorop_curve_1d_type {
->>    	/**
->>    	 * @DRM_COLOROP_1D_CURVE_SRGB_EOTF:
->>    	 *
->> -	 * enum string "sRGB EOTF"
->> +	 * enum string "sRGB Inverse OETF"
->>    	 *
->>    	 * sRGB piece-wise electro-optical transfer function. Transfer
->>    	 * characteristics as defined by IEC 61966-2-1 sRGB. Equivalent
->>
+> 
+> > 
+> > > +        description:
+> > > +          Indicates the PHY can handle altmode switching. In this case,
+> > > +          requires an external USB Type-C controller to report USB PD message.
+> > > +        type: boolean
+> > > +
+> > >         port:
+> > >           $ref: /schemas/graph.yaml#/properties/port
+> > >           description: Connection to USB Type-C connector
+> > > -- 
+> > > 2.49.0
+> > > 
+> -- 
+> Best,
+> Chaoyi
 > 
 
+-- 
+With best wishes
+Dmitry
