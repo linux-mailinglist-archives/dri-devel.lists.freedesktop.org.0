@@ -2,57 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD56B954E1
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDC0B9552C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21FF10E0F2;
-	Tue, 23 Sep 2025 09:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF86C10E04F;
+	Tue, 23 Sep 2025 09:51:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e7N6PqgJ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FyTqFo59";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46E0C10E0F2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:45:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B1FA360203;
- Tue, 23 Sep 2025 09:45:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD32DC4CEF5;
- Tue, 23 Sep 2025 09:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758620752;
- bh=F9M0nCaoB2hujHNonYH+GW8C0tt9Z9Zca54kRKpXrWY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e7N6PqgJ3KBALgJSFJS+mCAMfLaNchEROf9hbPnxw6FYIMLRrJgOOsdJ1EUL6Tsg7
- eHQJ6iTT3SPl2qjfZgFIPwXhYUQo1/0hN+vtEmpEV55S66+srMm+/h5KrLg7hE3Qhv
- jpHMV4M7ApZBLaxcRROkrJkycInr4RMAChbIp/Y6u0S+3gJDBx6vdsla3jevMeEeg0
- OMgVfmOBjWXOMXUiTuI5CwLg5taRwPLoRwoSWB+u3adF0ZQHgsuTAbM4mVSEiwjiIO
- EV9up7cem0OcEKpYPYw57Kcd1+KNme2Cy11WDjA7Vhxtw05WC520PXbUXlg4gHacK3
- h10dlycTlVSmw==
-Date: Tue, 23 Sep 2025 11:45:49 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/29] drm/atomic: Add atomic_state_readout infrastructure
-Message-ID: <20250923-rigorous-tamarin-of-cookies-2f1a25@penduick>
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-10-14ad5315da3f@kernel.org>
- <zvqtehg66dbrrdmik6ylo2kdk74umfzo5hbfkizwsb352nlyqv@jgouvmbfwa4x>
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54D9310E04F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:51:12 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-b523fb676efso4629856a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1758621072; x=1759225872; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=ujUSntEdEB2Zj8RW3cXBNzPb5lb7mNEARj7gYfxpl6o=;
+ b=FyTqFo59LR881O8bttoiJQAwYYxYL6jDUsrfJMd+3alFfFPvYIucMYLOtzgxC3ldIA
+ +w9a6mfM8C7It7K7A2OnQCgw9MdiTZiUw5Y0Zwwn9JSznoc2FuzBZQ8q1Rx5Lh7VSDpO
+ UHmH5X+3cw30kP4riy330UWuisgviH5bWXHra9Dg+tp5a4SpjO6ei5GsnZ9QC+AVGQIG
+ QL6lIv3uyfiEPPtaR3uI5+fROleylB6XfrKRAoaFtllnbiLs20jTLJYhDin1Lq3jdJUJ
+ xHu1/n2Z4mqaGv4ASqVbJ+enJsaMwHEgR47exmvcY2XVqCUkjaRMWlUrDy7WkDUs6zzn
+ qTIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758621072; x=1759225872;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ujUSntEdEB2Zj8RW3cXBNzPb5lb7mNEARj7gYfxpl6o=;
+ b=pxOSnkvgNpx8iWURba5/jybv9qgkW0hPkqBon7hKGpjfh/zs1ZvRMjdiC9XiNOpqvF
+ tNOVk9j0X7BmKu49iKPiTBczRbRclB22TfAJuspabLEveeRmCaGmbIUS5KUwsENvdyyo
+ oYai8hXvVM40oWQM294mLaHFy6UzEl0ljGMoPPdzkd5cvollKXBxzn6xc1bdxzuTr18c
+ J1IyafFq46L3BIB3cMSg/527mJDuCpBE7FTd8dZdqf8GYRRQkUQxCIl1qFEfJUQOYQwX
+ B+VoV4+i/YXIvkhKIPg3EUQbxjxjS0wz8v6ho8MEjm5wRLFjAo2n9YtpfKPNINrm9Hce
+ mMzw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUF8IvjEKMEUjT5T/pxUQuRwgM9uZWQkOQ46MWQcClheEc7B8KrpzVs4hgTYZED5Pebj4916TIXao8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCQw15pq1h+UbI12SLLOIy80kUCoRiLhqoCZv9g5tOqbaGjhZA
+ 7RLcuch6zdV8flgOoi6+HMJraT5qnpXTxBXykWzaBofaCssKOXhUvh9oRTvjI/HqHs5t3mSH57h
+ Ms5SSrnNk7/8vC1ja1DdZC1s2ZI6lU2Daqpg4dceK2+82x0euI8LBe/7EYA==
+X-Gm-Gg: ASbGncvgV/UJR0cr/M/75UyU/vmC/D3lTiW4fe7RPaefvD5WFQzid73vi4zdf4TT53H
+ FjUg6r+v+u8hvfzw11Qd4/ivG2YuTJTxFzt36gJyxnXHEy1Ikv+M9/5iQ9hjOExMNBtBHTY94WR
+ +ltv8dWm//ulpkusDLffOPDBN64e7vanNXwM5I/8coycbZ2Ask3h9HzkQkKUcRt8pL9a39cWUHz
+ pSdN4mI+uxFHqEc0aTtz9wRFZ3sK3lIDQi3+KBlVKYhJ0aszC0=
+X-Google-Smtp-Source: AGHT+IFHus42Ak5ruWRhTAyg3xMfr+guDvkTkhHI6eHQ3GvPvUzkyf4uNtM2sp4MCW+8IQd4OjacMuEUwlCpUIFW7h0=
+X-Received: by 2002:a17:902:ecc5:b0:264:c886:8188 with SMTP id
+ d9443c01a7336-27cc2c98b42mr26887555ad.24.1758621071785; Tue, 23 Sep 2025
+ 02:51:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="pzzstkbdyxc2j6ic"
-Content-Disposition: inline
-In-Reply-To: <zvqtehg66dbrrdmik6ylo2kdk74umfzo5hbfkizwsb352nlyqv@jgouvmbfwa4x>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Tue, 23 Sep 2025 15:21:00 +0530
+X-Gm-Features: AS18NWCTfgTcnoVtFJ38FtxMSy0NvoryOqAycB2FQR-fdtYRDlc0bdIbrsPkR5s
+Message-ID: <CA+G9fYuZZUQq=7qPavXnHZtX9oQ=amfYVeYRZu3SHfD0ReD6nQ@mail.gmail.com>
+Subject: next-20250922: xe_device_sysfs.c:300:25: error: label 'cleanup' used
+ but not defined
+To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org, 
+ Linux Regressions <regressions@lists.linux.dev>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Lukasz Laguna <lukasz.laguna@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>, 
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>, 
+ Anders Roxell <anders.roxell@linaro.org>,
+ Ben Copeland <benjamin.copeland@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,76 +89,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The arm64 and x86_64 builds failed on the Linux next-20250922 tag build due
+to following build warnings / errors with gcc and clang toolchain.
 
---pzzstkbdyxc2j6ic
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 10/29] drm/atomic: Add atomic_state_readout infrastructure
-MIME-Version: 1.0
+First seen on next-20250922
+Good: next-20250919
+Bad: next-20250922
 
-On Mon, Sep 15, 2025 at 09:40:57PM +0300, Dmitry Baryshkov wrote:
-> On Tue, Sep 02, 2025 at 10:32:38AM +0200, Maxime Ripard wrote:
-> > In order to enable drivers to fill their initial state from the hardware
-> > state, we need to provide an alternative atomic_reset helper.
-> >=20
-> > This helper relies on each state having its own atomic_state_readout()
-> > hooks. Each component will thus be able to fill the initial state based
-> > on what they can figure out from the hardware.
-> >=20
-> > It also allocates a dummy drm_atomic_state to glue the whole thing
-> > together so atomic_state_readout implementations can still figure out
-> > the state of other related entities.
-> >=20
-> > Link: https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5R=
-a8CxPvJ=3D9BwmvfU-O0gg@mail.gmail.com/
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 382 ++++++++++++++++++++++++++++=
-++++++++
-> >  drivers/gpu/drm/drm_mode_config.c   |   1 +
-> >  include/drm/drm_atomic_helper.h     |   1 +
-> >  include/drm/drm_bridge.h            |  21 ++
-> >  include/drm/drm_connector.h         |  26 +++
-> >  include/drm/drm_crtc.h              |  19 ++
-> >  include/drm/drm_plane.h             |  27 +++
-> >  7 files changed, 477 insertions(+)
-> >=20
-> > +	drm_for_each_encoder(encoder, dev) {
-> > +		struct drm_connector_state *enc_conn_state;
-> > +		struct drm_crtc_state *enc_crtc_state;
-> > +		struct drm_bridge *bridge;
-> > +
-> > +		/*
-> > +		 * It works a bit differently for bridges. Because they are
-> > +		 * using a drm_private_state, and because
-> > +		 * drm_atomic_private_obj_init() asks for its initial state when
-> > +		 * initializing, instead of doing it later on through a reset
-> > +		 * call like the other entities, we can't have reset xor
-> > +		 * readout.
->=20
-> Would it make sense to unify the way the bridges / priv_obj handle the
-> state with the rest of the object types?
+Regression Analysis:
+- New regression? yes
+- Reproducibility? yes
 
-I would be all for it, but I think this is pretty much the same
-conversation we had in my recent bridge improvement series. Aren't
-bridges not assumed to have atomic support and thus we can't really do
-something better here?
+Test regression: next-20250922: xe_device_sysfs.c:300:25: error: label
+'cleanup' used but not defined
 
-Or should we move all bridges to be atomic?
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-Maxime
+## Build error
+drivers/gpu/drm/xe/xe_device_sysfs.c: In function 'xe_device_sysfs_init':
+drivers/gpu/drm/xe/xe_device_sysfs.c:300:25: error: label 'cleanup'
+used but not defined
+  300 |                         goto cleanup;
+      |                         ^~~~
 
---pzzstkbdyxc2j6ic
-Content-Type: application/pgp-signature; name="signature.asc"
+## Source
+* Kernel version: 6.17.0-rc7
+* Git tree: https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next.git
+* Git describe: 6.17.0-rc6-next-20250922
+* Git commit: bf2602a3cb2381fb1a04bf1c39a290518d2538d1
+* Architectures: arm64, x86_64
+* Toolchains: gcc-13 and clang-20
+* Kconfigs: allyesconfig
 
------BEGIN PGP SIGNATURE-----
+## Build
+* Build log: https://qa-reports.linaro.org/api/testruns/29968978/log_file/
+* Build details:
+https://regressions.linaro.org/lkft/linux-next-master/next-20250922/log-parser-build-gcc/gcc-compiler-drivers_gpu_drm_xe_xe_device_sysfs_c-error-label-cleanup-used-but-not-defined/
+* Build plan: https://tuxapi.tuxsuite.com/v1/groups/linaro/projects/lkft/builds/333Idt9y0485dJThIiCgCMB7ehs
+* Build link: https://storage.tuxsuite.com/public/linaro/lkft/builds/333Idt9y0485dJThIiCgCMB7ehs/
+* Kernel config:
+https://storage.tuxsuite.com/public/linaro/lkft/builds/333Idt9y0485dJThIiCgCMB7ehs/config
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNJsTAAKCRAnX84Zoj2+
-dpKWAYCEcJRa7+2tDeUz0y2h/VWhc6ILKt/pSvSoEUwyz3VdpHRGDOfCRVxIEUFE
-EAEymiwBfR0dymG4bar7yy2532TPLF/3iQXZX5VD0gMrUGQ5CngXPYacZGW2NXHD
-/NfI2CcdZw==
-=5AuG
------END PGP SIGNATURE-----
-
---pzzstkbdyxc2j6ic--
+--
+Linaro LKFT
