@@ -2,186 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE42B94877
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577EBB94824
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:11:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5274D10E569;
-	Tue, 23 Sep 2025 06:16:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3B410E567;
+	Tue, 23 Sep 2025 06:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ym+VI7q4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YYdX2Css";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C19110E569;
- Tue, 23 Sep 2025 06:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758608209; x=1790144209;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=5iODTsWa2qbLTWDhM1DUTa5gBRUjZH+sN9Pfw6SQ/dM=;
- b=Ym+VI7q4Rvvr3rR1HqedxNybotujTRuBsYcT7VqV88fkDTtKZhFxPo06
- zrOsRpLvLzY+kEuWMlMQidOy8Pwea2tPb3XqyPIkDXQ+KhP1zk3+rzKzA
- PhVy4hmR/65kFkYN+E8+fSQQowKAk1RsocVVLPne6M+1efIUTeyPSmEBr
- 4w5+1Kme7Jzdgp/fZrGCvzVNeWAiAuySvXSPfkx9SdbLHQPz/jczM7MrE
- UkVO5ZhnzyOnh3FDuYfqTGwOe6OMlEyzo4BqxirvoMBRwLfpOCqRDPnHx
- teUYsGXey7uFfjRbe7jZrjANeBhOaJH5ujfsyfok4F03kxpq+kZ1MG/El w==;
-X-CSE-ConnectionGUID: kjDSu36yQAqS/KQjCDnn2w==
-X-CSE-MsgGUID: R83THyLuQU+WdAXx1fpuFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60796579"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="60796579"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2025 23:16:48 -0700
-X-CSE-ConnectionGUID: M9fIrzfPQP+yzWw4ORQK8g==
-X-CSE-MsgGUID: UCWRY+yaSM+bCO6eDEIvLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; d="scan'208";a="177053955"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2025 23:16:48 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 22 Sep 2025 23:16:47 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 22 Sep 2025 23:16:47 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.42) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 22 Sep 2025 23:16:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BoI0g5bux+DXQqnz9iYJ+pE0A4aKbr536OoJlANkLUiQdVbxN4n7IcZn/eGRjCQntCAZfOnc+eCXHtMhWujaNGp7RrdZ/H2k3LO1LkcVFgiFNRF01bXy+xbEfSy+tgNkodWr2NUA1pX2+atJoWiliY2CmYwxlSH8Xi8V6qyxhWAncdgIQKtOmg2uBySwIKQPEN5jPf1X7Lvc/e5DC+NFWZvxtuFsfS4WStK0cGhoQj1p/R82YiK0jbdSeCZ23NoOGtJT7s/hWoSLaqptzfcZJarue+wTGcjCn06hRUGEi83ezby401MtZZVLAKlp7a9Uud+RDdyCsbv0WN3w3TFwcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5iODTsWa2qbLTWDhM1DUTa5gBRUjZH+sN9Pfw6SQ/dM=;
- b=q2SfnZIjdrPSd7U61hlD4wj9sxO073Vpm2ImqzTlR6/tFJb+BOJY5GA4RVmpIYXRWd5zOOW1unRkTfQU0sdkpdqOSLJvKWF9FVAeTXQSQgMgCykZVTkI2/LNxBn1dns1qiWGY9geC1IfMmM4/co6Uye06HX5ezOWwDoxZMvfJxJXipbSUieVFcFJnvuzU0w7XFET5lG8ETrQi0H91nc7y3YFNiK5RmS9/9S61ZDLEtWWL3T/r5Plbt2D/tegWTI4JAK+BVg/i1I87Nx+DXg0KrfmAX0oYxIYbv7PePHqi8RsIYENljNWgzOtzj8/ZByK4lcJrACt1KeNAlWr6g9ycw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by PH8PR11MB6853.namprd11.prod.outlook.com (2603:10b6:510:22e::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
- 2025 06:01:34 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 06:01:34 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, "Jason
- Gunthorpe" <jgg@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Bjorn
- Helgaas" <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- =?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- "Brost, Matthew" <matthew.brost@intel.com>
-Subject: RE: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
- functions of Intel GPUs
-Thread-Topic: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
- functions of Intel GPUs
-Thread-Index: AQHcJhH5Hi/XzGn7NEC5e+4cxcvJFLSWGoCAgAIWItCAAKwBgIAASuAwgAFOcYCAAGQ08IAEQCiAgACVwZA=
-Date: Tue, 23 Sep 2025 06:01:34 +0000
-Message-ID: <IA0PR11MB7185067FA8CE8A95419D06F5F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20250915072428.1712837-1-vivek.kasireddy@intel.com>
- <20250915072428.1712837-2-vivek.kasireddy@intel.com>
- <20250916175709.GA1324871@nvidia.com>
- <IA0PR11MB7185186F6AB160AA7F8F0FF3F816A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250918120431.GL1391379@nvidia.com>
- <IA0PR11MB7185C96268ADB5530B343ABBF811A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250919122931.GR1391379@nvidia.com>
- <IA0PR11MB718504F59BFA080EC0963E94F812A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
-In-Reply-To: <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|PH8PR11MB6853:EE_
-x-ms-office365-filtering-correlation-id: ced5488c-fb5f-4106-7428-08ddfa66a6a0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?CstptbxbLxqyHl8B+oOzjrWEA0p8E/H1yWdF0Toq0kDV+9n4Mphse6JKHO?=
- =?iso-8859-1?Q?6NvcUKu7pokIVb8VDY0SxoSLs2RAyITkc9CK1yvD13z2INwtqR9MbSRW4U?=
- =?iso-8859-1?Q?fxuUjcgjDCdYXUixJvr52KlFDDEXuMTKTf6vRJNPVbSd1FKujRRETMX9z7?=
- =?iso-8859-1?Q?XU5+HY14kp746ubYjIhkqC+K6vpfAoYOUUTRv4pIWXYTZaM4Yx8h+f+Gxn?=
- =?iso-8859-1?Q?ltx3W0NJZtFCKbhXvM/c9QTZ/ImgfR7//EkdN1BMzvlJCV6gYUSspOw14l?=
- =?iso-8859-1?Q?/iFK7uK2utNoYdtcI+fIHlCj6AatoqXUJD62HWt+QqpONtteh1Osi2HNZ0?=
- =?iso-8859-1?Q?Mib6YfBUBtpFNU4IJ6C4DL7tjscaQigAbXAVf9UaaGA06Y2aQ9QKnItMQW?=
- =?iso-8859-1?Q?CT24KZ/vOTbWxxRDzqEH3f6TWBUBmFsDZYgBnTIW9OsJdegpmyJllf34Z1?=
- =?iso-8859-1?Q?G6n4l/RXa0nYIzNHouk9mA+9gYzaGEzF2YX4730UVEuX7057iX87Clkhe7?=
- =?iso-8859-1?Q?h95DiTvfhpukJ0WPYZNPLSBh6tmnqBYhB0cJN01DEAnPTibF1asOQJa30R?=
- =?iso-8859-1?Q?N1RDm47RI5h7L3a37/SZFj3Z/GhA1GJle0zV+aMGSZ+AkqelIcIH7pMLAw?=
- =?iso-8859-1?Q?Bqv/PQx+1NncPruea5kIRWbCLN4z2jhdoh0o3eMCZKmJ5GGLJoVl+pMUKT?=
- =?iso-8859-1?Q?5Ntif2gFHQ9ksBQuiTtCULFRBhHcDlwbKpVvRWatbUyPonhIQKOVFMYB/p?=
- =?iso-8859-1?Q?x5Wp2Eft7Q9eodBOl1DA1PUPB5z8xPl9dy+zMx5AjRdiYfUsbic997UgtD?=
- =?iso-8859-1?Q?7nx4n4tb5uiAoWfqSv1dUWw1bkDm7j+o8JtxKLKAJ1gMLvae7mJ9lTdYOo?=
- =?iso-8859-1?Q?rIiDItJ6OzKEbbFJoSHDctwIHT850jnKr7aYV8tyd1HiLhxucApXl/sZgF?=
- =?iso-8859-1?Q?DLLxTeY01Tn3h36A9af9lIHVw3/IHQgcpr8NC9ImjGc+mVu+1CfRQlbUDh?=
- =?iso-8859-1?Q?FVkqEHhepriyDVIpsv8UylHkz65gWSgE8iZUkQTBCu2gYoZ+NHHGgyfuVM?=
- =?iso-8859-1?Q?fQTlecuP9LXXgYiXJyrJRg0G3vAQrgiv3P/Gg/F+tMfrMXyd+OPDZy4JZd?=
- =?iso-8859-1?Q?Qjm8uUAh+nEmMWZ9Cz2tE0d0S2HIpzbkZT6PhiFZjckZMFwVBzoKyDATsD?=
- =?iso-8859-1?Q?2l+K11XyoG0hJoL2iuZZbyXHQh477Uzz364aGQFJaj8FWrPjko90f7JEOM?=
- =?iso-8859-1?Q?eNV0Oz6lCMhJsp+vYRd86JKR2N8qeweOe7UNuvSRaxWaah8SsbHNG1i2ji?=
- =?iso-8859-1?Q?aFWR9IomWBwcyqnmPkptY7p4OLx1TrQfrKCoR3vP0Ie3mND0gZuW5a4hYp?=
- =?iso-8859-1?Q?hLOSUsFw9hQj1QsNynqKQdcZvAhSL4q4o5RIuMQ4QmgEP7xCPmr50zZNIK?=
- =?iso-8859-1?Q?xGvtQN9aXeA7Czhp8Il8djI9qx+PZiJ3lEIZlUKaSQ6oel6tth64KkIdIP?=
- =?iso-8859-1?Q?EUKl8zuV5SoRY4G7roNXKQuoXdW9/bMg6n/boZwTY0+gmAYlysqlRyL8iB?=
- =?iso-8859-1?Q?DVQ1AkY=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700021); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?lOQE4OeuuImMkCulji2zYeWDFEQOXubOGtrEyjfStGtg2/00s46uAsgz4R?=
- =?iso-8859-1?Q?clSXTsr0+0RgoboOtxhCjDn7bxgVWvKBynGU+A20X0bKZ5NsG45l0vRv8n?=
- =?iso-8859-1?Q?ki8H4aFNI601rPWQ3VyvsN2SUCDQoAdiGcg55sTatH/F2e6mr3GkphSr+5?=
- =?iso-8859-1?Q?p2S1dejvhxsKAS9CJ30ZDlMP+5qoCPmIaMYZElxXG1ipoIHSN/1CI5dEGV?=
- =?iso-8859-1?Q?CEWBzjH7YvV7dhTPiPGOh1rR7LDCkTmXgmxT8PEFPTyAWhM+DBcoOiJgR7?=
- =?iso-8859-1?Q?Tb+A1ZR4cgjFIjSrz8iPOX3FqS8erN/6fl9EiEiwjPtMN3paHrHrd+T/jU?=
- =?iso-8859-1?Q?UULWHxPz7t0dkoOLivRU3Q8/z37vsfBlftzbsvdnAkh/N56ZUqH6odpB1A?=
- =?iso-8859-1?Q?WDia5cCoZ9y3VZh1qd8X1hTNCRrSJHV/dlufUNTwEPiiKtCkmf5eWgAOmT?=
- =?iso-8859-1?Q?pnUn8vVVyCsngu7sYGjGmgFs1tmGGGntZCauXD/4eUaEqBlEKKoeb3KB+d?=
- =?iso-8859-1?Q?pc9WAqZynGK8rMAdndPnLaaFnFQawtalWZLqHz0UDPkxIy6Y3BGt3H1BKl?=
- =?iso-8859-1?Q?bA9bz2pwpvrq3L5JvoGcXiYdiTrix5yOyV+nPUlx+opcC/q3/NrXSae08N?=
- =?iso-8859-1?Q?lPC6sOI7o+NJEF0oX5cR262At7lIwR7Z4DfSgr17+BvUt01jvFyX2foQJt?=
- =?iso-8859-1?Q?jn4mJkshJDwPypJPjfd7xvCpd6DwGd4BZdcAlGpFsGtlgQrS/951q0m+fW?=
- =?iso-8859-1?Q?bn/cuU0JlyYrkGKAvYz32xNrobMXQZ/VFN7PHfKx2oWc4LBZfJ0ujFtXgI?=
- =?iso-8859-1?Q?4SxHcl2eFRP7efHOCeXZYvRatgz6jNHVyXKprfbCpEifyk4riE+lh3KW0f?=
- =?iso-8859-1?Q?08MtMWaRzTxtATgIZbxGFh3VnYNPLVjQpj+binya5bF6obsWhGajGko3lH?=
- =?iso-8859-1?Q?w3uLA0iCwGVBpAnvPAcX5ASyJbYCHSTsZywzMWvPCEsEGJVZ/BWU8Fd5ey?=
- =?iso-8859-1?Q?+5XE8N5LlsB1LAP3PKHlPRGQwcBmYWQN0Nffmpw3XIJK+PU+JvVwCDCBQi?=
- =?iso-8859-1?Q?6wKkq+T5oXh/qKLkJc9FaG4oDWqkNWTsQv0TawdObesrGcCVq6zuj6101w?=
- =?iso-8859-1?Q?vYSgQ3QaU/r3bgzxSxN4zwg7UqJJL+EISk3oiy+DkxjqcD0LNkrWkYKsVm?=
- =?iso-8859-1?Q?1kfJlqe4bzMeNyFfDROYLG+X/YE8/BpYDCRBZQ/topfxadWAzfr5ltBgHe?=
- =?iso-8859-1?Q?Vs9HKHnmRlGHJEVfgMme1YC2vBQF6X11temoAV67cW7IsVGbfed+baSxwu?=
- =?iso-8859-1?Q?ET69juJBLn88r4+jbvNzPMuKBFrdpWhQuJZlBucWnl0xvY7KrKbBUCsRJs?=
- =?iso-8859-1?Q?D9Upmc8b+L4jUGtLg+C00hvQrfQmIRP9sjbbtd2axj7ywzAu5eR4Z201hS?=
- =?iso-8859-1?Q?ywWe+zvu5gP7Znr6qJ82OzKp/HKUZASl+7X6RLltumLX2QnOB21Dr3DJia?=
- =?iso-8859-1?Q?Iie6VoMX2mPl3mmrKYAFGkDrvaGcrfRhXDQsuD15EZgr3XoXmJGBTrRRSb?=
- =?iso-8859-1?Q?nRKnD/h3IhGIi0AHDb6MzZ5O/L00l12HQLe0K0Zyr9sXWmzzFERQH1vf6C?=
- =?iso-8859-1?Q?804hy+ASxNrS/oYwB/kKX2h8lcPJukNdJ8?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE3F610E567
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 06:11:25 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-46d25f99d5aso11992155e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758607884; x=1759212684; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=df0O5cfEZsPuYIfSKJgwSBHv7jw65fDKH5euNcKl0U8=;
+ b=YYdX2CssMSTvDv4gz66Hfo+ljclrin9xjI03v/I/mnwDdJHCNuPiNhn5hC1V5QobwL
+ rJEgTmG9wHWUdJirFdDAzqjKRDYgj4rSKHij45yCWVcXD2s+osEh7dAtAYFz9luv3v3g
+ DuUUo6zBgDq5Y6eT+4g/e7w9u1X6pdY5jGXI0/Cm8SEbLxWKnf2BRQHKM2OVCuWaKMcT
+ PgF6g5xjRrlDd1If+xlOrkEHe+mKm2cD5lK+VaD+/nolLqyoG24CQUKmHVdZyP3maxJc
+ paKFm7+Z+1ThobZrhpFX98Es86NQ9LpNSw74TA2ol6g7UadX2QCsAsF5DDHsfKI77tEV
+ T96A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758607884; x=1759212684;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=df0O5cfEZsPuYIfSKJgwSBHv7jw65fDKH5euNcKl0U8=;
+ b=dbd9AArKkcvV/OwGPN5cSnEClm/VnGSlHbC/Xu3sEVKsLyuvAQ19T3AfEL+SXI5NEE
+ Mxwm51vfo9KkziCjbiWErOR8bxB7Rg2OZ5Tdfnk1yNHN5QXdqIrtwj+LLfFKoLyP4al0
+ yGe6Tu2lehwb4nV52HBRRHfKs73scAZ8h6Xo9XOv19K7zWiSftd3wGFEQzyZ9ykuY6dE
+ oQxnaUapcmoqiG990aqYTeYYYAUuHT2vaUtw5OnsxhXmINr8lrU75KbUn02pROILx/vM
+ 47dtk4/9uw2wmgltGqXBMaI5r+zseM45dh3IXZcp38xcZGe2ZD1pNKrpeNqv6P6W6nhp
+ ATmw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVsuMLZXjA9cQfVLc5MlEpiG957uMuJsGxqSeqi5iy+14amE89mcMRT3n5EvM7Vc9u8/RIakVjtmYY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh+0pnPcO9Lmy69hm41WT5BJRdQfsz3DECl6bdPSVMGXqA/VAA
+ hyG/uMuU9KckQ4orGteXSfwpzMHUITZirvnqTizs2nHCPscp/Kyb1HI4IzrP+FKDBPL93BCdh8d
+ oLTlSI22BPwEiQNYW5RsHXl57Q99OmJs=
+X-Gm-Gg: ASbGncvwOeayNMM+J/WV4Hs4rYFanvshB+fBqAOg2hRdMWK3TNZVIVzS7kiaanRKv1k
+ dUKbhEZopmD7LJl498LJkTpn8Hp7L60m4pvjXeE+Jw6LkC4NDlVMDUwfCxiwVnF2l8X4nB4CR6p
+ tFT8G8VJlwooq1Jr4He9N9opoTfMgqf6Z16hVl3bFJs3bgjf6g3voqcRxs8+cyn007nKFJYZ47M
+ z4Nw+6H
+X-Google-Smtp-Source: AGHT+IHBSpjHfy2Q6q3z9LYXbKVWlYO8Qx27BR2vb+eB7bqLChBlxXgoI1PiDjykMrE3rras4dWInJgZFxiyTNggXpE=
+X-Received: by 2002:a05:600c:6305:b0:46e:1a60:c995 with SMTP id
+ 5b1f17b1804b1-46e1e1122e4mr10672545e9.2.1758607883820; Mon, 22 Sep 2025
+ 23:11:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ced5488c-fb5f-4106-7428-08ddfa66a6a0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2025 06:01:34.5246 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: E5jAkapFU9TTb7IKQprrOMC+nNSZihR81VHSWL3f1J1iT9+JPzDXun2LTazlyIub54g0hXAwbsOVkYlIRmtywjbHAg6Sks2BRb7ScdYLeaU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6853
-X-OriginatorOrg: intel.com
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <3074302.Sgy9Pd6rRy@senjougahara>
+ <CAPVz0n1ozJ13MB4eFMAJzESe8iQ7SKjMApZCLFAZ_eubCFs0tg@mail.gmail.com>
+ <7680340.18pcnM708K@senjougahara>
+In-Reply-To: <7680340.18pcnM708K@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 23 Sep 2025 09:11:12 +0300
+X-Gm-Features: AS18NWBVjttzeBZfLbhRARnUraFXXX8nh5TTiRUlvy0pbzFRoAj4ko8xGSDHW9w
+Message-ID: <CAPVz0n2iRVBf0+BwdV6Le2FhY8xERqbtsyeff26Dh44mKsTy6A@mail.gmail.com>
+Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, 
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -197,235 +106,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
->=20
-> Hi guys,
->=20
-> On 22.09.25 08:59, Kasireddy, Vivek wrote:
-> > Hi Jason,
+=D0=B2=D1=82, 23 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:04 Mikk=
+o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Monday, September 22, 2025 4:36=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 10:27 =
+Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Monday, September 22, 2025 3:30=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09=
+:23 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > > >
+> > > > > On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wr=
+ote:
+> > > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=
+=BE 07:44 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > > > > >
+> > > > > > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ry=
+hel wrote:
+> > > > > > > > Simplify format align calculations by slightly modifying su=
+pported formats
+> > > > > > > > structure.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > > > > ---
+> > > > > > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++-=
+------------
+> > > > > > > >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > > > > > > >
+> > > > > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/=
+drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > > index 6e0b3b728623..781c4e8ec856 100644
+> > > > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v=
+4l2_pix_format *pix, unsigned int bpp)
+> > > > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,=
+  TEGRA20_MAX_WIDTH);
+> > > > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT=
+, TEGRA20_MAX_HEIGHT);
+> > > > > > > >
+> > > > > > > > -     switch (pix->pixelformat) {
+> > > > > > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > > > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > > > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > > > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > > > > > -             pix->bytesperline =3D roundup(pix->width, 2) =
+* 2;
+> > > > > > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2=
+ * pix->height;
+> > > > > > > > -             break;
+> > > > > > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > > > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > > > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > > > > > -             pix->sizeimage =3D roundup(pix->width, 8) * p=
+ix->height * 3 / 2;
+> > > > > > > > -             break;
+> > > > > > > > -     }
+> > > > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, =
+8);
+> > > > > > >
+> > > > > > > Assuming the bpp is coming from the format table below, this =
+changes the value of bytesperline for planar formats. With this it'll be (w=
+idth * 12) / 8 i.e. width * 3/2, which doesn't sound right.
+> > > > > > >
+> > > > > >
+> > > > > > Downstream uses soc_mbus_bytes_per_line for this calculation wh=
+ich was
+> > > > > > deprecated some time ago, here is a fragment
+> > > > > >
+> > > > > > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pi=
+xelfmt *mf)
+> > > > > > {
+> > > > > >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+> > > > > >  return 0;
+> > > > > >
+> > > > > >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
+> > > > > >  return width * mf->bits_per_sample / 8;
+> > > > > >
+> > > > > >  switch (mf->packing) {
+> > > > > >  case SOC_MBUS_PACKING_NONE:
+> > > > > >   return width * mf->bits_per_sample / 8;
+> > > > > >  case SOC_MBUS_PACKING_2X8_PADHI:
+> > > > > >  case SOC_MBUS_PACKING_2X8_PADLO:
+> > > > > >  case SOC_MBUS_PACKING_EXTEND16:
+> > > > > >   return width * 2;
+> > > > > >  case SOC_MBUS_PACKING_1_5X8:
+> > > > > >   return width * 3 / 2;
+> > > > > >  case SOC_MBUS_PACKING_VARIABLE:
+> > > > > >   return 0;
+> > > > > >  }
+> > > > > >    return -EINVAL;
+> > > > > > }
+> > > > > >
+> > > > > > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
+> > > > > > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
+> > > > >
+> > > > > Googling this brings up the entry
+> > > > >
+> > > > > {
+> > > > >         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
+> > > > >         .fmt =3D {
+> > > > >                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
+> > > > >                 .name                   =3D "YUYV 4:2:0",
+> > > > >                 .bits_per_sample                =3D 8,
+> > > > >                 .packing                        =3D SOC_MBUS_PACK=
+ING_1_5X8,
+> > > > >                 .order                  =3D SOC_MBUS_ORDER_LE,
+> > > > >                 .layout                 =3D SOC_MBUS_LAYOUT_PACKE=
+D,
+> > > > >         },
+> > > > > }
+> > > > >
+> > > > > which matches that you're describing. It doesn't make sense to me=
+, since it at the same time specifies PIX_FMT_YUV420 (which is planar with =
+3 planes, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACK=
+ED
+> > > > >
+> > > > > /**
+> > > > >  * enum soc_mbus_layout - planes layout in memory
+> > > > >  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
+> > > > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in =
+3 planes (4:2:2)
+> > > > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in =
+a luma and a
+> > > > >  *                                      chroma plane (C plane is =
+half the size
+> > > > >  *                                      of Y plane)
+> > > > >  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in =
+a luma and a
+> > > > >  *                                      chroma plane (C plane is =
+the same size
+> > > > >  *                                      as Y plane)
+> > > > >  */
+> > > > > enum soc_mbus_layout {
+> > > > >         SOC_MBUS_LAYOUT_PACKED =3D 0,
+> > > > >         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+> > > > >         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+> > > > >         SOC_MBUS_LAYOUT_PLANAR_Y_C,
+> > > > > };
+> > > > >
+> > > > > i.e. non-planar. The code in the driver is handling it as three p=
+lanes as well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_=
+ADDRESS_V. Since the planes are separate, there should be no need to have m=
+ore than 'width' samples per line.
+> > > > >
+> > > >
+> > > > I did not invent this, I have just simplified this calculation from
+> > > > downstream, output values remain same. I have no cameras which can
+> > > > output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test =
+if
+> > > > this works either. Other YUV and RAW formats were tested on real HW
+> > > > and work perfectly fine.
+> > >
+> > > My understanding from the code was, that the MEDIA_BUS_FMT_ formats l=
+isted in the video format table refer to the input formats from the camera,=
+ and the V4L2_PIX_FMT_ formats to output formats from VI. Hence VI could in=
+put UYVY8_2X8 and write to memory in YUV420. The code dealing with V4L2_PIX=
+_FMT_ values seems to be related to the output to memory. Is it possible to=
+ test this (your camera -> VI converts to YUV420) or am I mistaken?
+> > >
 > >
-> >> Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for
-> device
-> >> functions of Intel GPUs
-> >>
-> >> On Fri, Sep 19, 2025 at 06:22:45AM +0000, Kasireddy, Vivek wrote:
-> >>>> In this case messing with ACS is completely wrong. If the intention =
-is
-> >>>> to convay a some kind of "private" address representing the physical
-> >>>> VRAM then you need to use a DMABUF mechanism to do that, not
-> >> deliver a
-> >>>> P2P address that the other side cannot access.
-> >>
-> >>> I think using a PCI BAR Address works just fine in this case because =
-the
-> Xe
-> >>> driver bound to PF on the Host can easily determine that it belongs t=
-o
-> one
-> >>> of the VFs and translate it into VRAM Address.
-> >>
-> >> That isn't how the P2P or ACS mechansim works in Linux, it is about
-> >> the actual address used for DMA.
-> > Right, but this is not dealing with P2P DMA access between two random,
-> > unrelated devices. Instead, this is a special situation involving a GPU=
- PF
-> > trying to access the VRAM of a VF that it provisioned and holds a
-> reference
-> > on (note that the backing object for VF's VRAM is pinned by Xe on Host
-> > as part of resource provisioning). But it gets treated as regular P2P D=
-MA
-> > because the exporters rely on pci_p2pdma_distance() or
-> > pci_p2pdma_map_type() to determine P2P compatibility.
+> > Camera I am testing with has no YUV420 options available and from what
+> > I can tell there is no way to force VI to output in YUV420 unless
+> > camera supports it. Any format manipulations should requite hooking up
+> > ISP, or am I missing smth?
+>
+> From a quick look at the spec it looks to me like for YUV422 packed input=
+ formats specifically, VI should be able to convert to YUV420. If that were=
+ not the case, e.g. 'TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420)=
+,' would not make sense anyway as it's talking about both YUV422 packed inp=
+ut data and then also YUV420.
+>
+
+After additional checking you are correct, VI should be able to
+perform YUV442 to YUV440. One of the reasons why VI is not exposing
+YUV440 may be video-centric nature of the driver, so that it exposes
+only formats supported by camera and VI. I will double check which
+formats video device exposes. What should I test exactly?
+
 > >
-> > In other words, I am trying to look at this problem differently: how ca=
-n the
-> > PF be allowed to access the VF's resource that it provisioned, particul=
-arly
-> > when the VF itself requests the PF to access it and when a hardware pat=
-h
-> > (via PCIe fabric) is not required/supported or doesn't exist at all?
->=20
-> Well what exactly is happening here? You have a PF assigned to the host
-> and a VF passed through to a guest, correct?
-Yes, correct.
-
->=20
-> And now the PF (from the host side) wants to access a BAR of the VF?
-Yes, that is indeed the use-case, except that the PF cannot access a buffer
-located in VF's VRAM portion via the BAR because this path is likely not
-supported by our hardware. Therefore, my proposal (via this patch series)
-is to translate the BAR addresses into VRAM addresses in Xe driver (on the =
-Host).
-
-Here are some more details about the use-case (copied from an earlier reply
-to Jason):
-- Xe Graphics driver, bound to GPU PF on the Host provisions its resources
-including VRAM among all the VFs.
-
-- A GPU VF device is bound to vfio-pci and assigned to a Linux VM which
-is launched via Qemu.
-
-- The Xe Graphics driver running inside the Linux VM creates a buffer
-(Gnome Wayland compositor's framebuffer) in the VF's portion (or share)
-of the VRAM and this buffer is shared with Qemu. Qemu then requests
-vfio-pci driver to create a dmabuf associated with this buffer.
-
-- Next, Qemu (UI layer) requests the GPU PF (via the Xe driver) to import
-the dmabuf (for display purposes) located in VF's portion of the VRAM. This
-is where two problems occur:=20
-
-1) The exporter (vfio-pci driver in this case) calls pci_p2pdma_map_type()
-to determine the mapping type (or check P2P compatibility) between both
-devices (GPU VF and PF) but it fails due to the ACS enforcement check becau=
-se
-the PCIe upstream bridge is not whitelisted, which is a common problem on
-workstations/desktops/laptops.
-
-2) Assuming that pci_p2pdma_map_type() did not fail (likely on server syste=
-ms
-with whitelisted PCIe bridges), based on my experiments, the GPU PF is unab=
-le
-to access the buffer located in VF's VRAM portion directly because it is re=
-presented
-using PCI BAR addresses. (note that, the PCI BAR address is the DMA address
-here which seems to be a common practice among GPU drivers including Xe and
-Amdgpu when exporting dmabufs to other devices).
-
-The only way this seems to be work at the moment is if the BAR addresses
-are translated into VRAM addresses that the GPU PF understands (this is don=
-e
-done inside Xe driver on the Host using provisioning data). Note that this =
-buffer
-is accessible by the CPU using BAR addresses but it is very slow.
-
-So, in summary, given that the GPU PF does not need to use PCIe fabric in
-order to access the buffer located in GPU VF's portion of the VRAM in this
-use-case, I figured adding a quirk (to not enforce ACS check) would solve 1=
-)
-and implementing the BAR to VRAM address translation in Xe driver on the
-Host would solve 2) above.
-
-Also, Jason suggested that using dmabuf private address mechanism would
-help with my use-case. Could you please share details about how it can be
-used here?
-
-Thanks,
-Vivek
-
->=20
-> Regards,
-> Christian.
->=20
-> >
-> > Furthermore, note that on a server system with a whitelisted PCIe
-> upstream
-> > bridge, this quirk would not be needed at all as pci_p2pdma_map_type()
-> > would not have failed and this would have been a purely Xe driver speci=
-fic
-> > problem to solve that would have required just the translation logic an=
-d
-> no
-> > further changes anywhere. But my goal is to fix it across systems like
-> > workstations/desktops that do not typically have whitelisted PCIe
-> upstream
-> > bridges.
-> >
-> >>
-> >> You can't translate a dma_addr_t to anything in the Xe PF driver
-> >> anyhow, once it goes through the IOMMU the necessary information is
-> lost.
-> > Well, I already tested this path (via IOMMU, with your earlier vfio-pci=
- +
-> > dmabuf patch that used dma_map_resource() and also with Leon's latest
-> > version) and found that I could still do the translation in the Xe PF d=
-river
-> > after first calling iommu_iova_to_phys().
-> >
-> >> This is a fundamentally broken design to dma map something and
-> >> then try to reverse engineer the dma_addr_t back to something with
-> >> meaning.
-> > IIUC, I don't think this is a new or radical idea. I think the concept =
-is
-> slightly
-> > similar to using bounce buffers to address hardware DMA limitations
-> except
-> > that there are no memory copies and the CPU is not involved. And, I don=
-'t
-> see
-> > any other way to do this because I don't believe the exporter can provi=
-de
-> a
-> > DMA address that the importer can use directly without any translation,
-> which
-> > seems unavoidable in this case.
-> >
-> >>
-> >>>> Christian told me dmabuf has such a private address mechanism, so
-> >>>> please figure out a way to use it..
-> >>>
-> >>> Even if such as a mechanism exists, we still need a way to prevent
-> >>> pci_p2pdma_map_type() from failing when invoked by the exporter
-> (vfio-
-> >> pci).
-> >>> Does it make sense to move this quirk into the exporter?
-> >>
-> >> When you export a private address through dmabuf the VFIO exporter
-> >> will not call p2pdma paths when generating it.
-> > I have cc'd Christian and Simona. Hopefully, they can help explain how
-> > the dmabuf private address mechanism can be used to address my
-> > use-case. And, I sincerely hope that it will work, otherwise I don't se=
-e
-> > any viable path forward for what I am trying to do other than using thi=
-s
-> > quirk and translation. Note that the main reason why I am doing this
-> > is because I am seeing at-least ~35% performance gain when running
-> > light 3D/Gfx workloads.
-> >
-> >>
-> >>> Also, AFAICS, translating BAR Address to VRAM Address can only be
-> >>> done by the Xe driver bound to PF because it has access to provisioni=
-ng
-> >>> data. In other words, vfio-pci would not be able to share any other
-> >>> address other than the BAR Address because it wouldn't know how to
-> >>> translate it to VRAM Address.
-> >>
-> >> If you have a vfio varient driver then the VF vfio driver could call
-> >> the Xe driver to create a suitable dmabuf using the private
-> >> addressing. This is probably what is required here if this is what you
-> >> are trying to do.
-> > Could this not be done via the vendor agnostic vfio-pci (+ dmabuf) driv=
-er
-> > instead of having to use a separate VF/vfio variant driver?
-> >
-> >>
-> >>>> No, don't, it is completely wrong to mess with ACS flags for the
-> >>>> problem you are trying to solve.
-> >>
-> >>> But I am not messing with any ACS flags here. I am just adding a quir=
-k to
-> >>> sidestep the ACS enforcement check given that the PF to VF access doe=
-s
-> >>> not involve the PCIe fabric in this case.
-> >>
-> >> Which is completely wrong. These are all based on fabric capability,
-> >> not based on code in drivers to wrongly "translate" the dma_addr_t.
-> > I am not sure why you consider translation to be wrong in this case
-> > given that it is done by a trusted entity (Xe PF driver) that is bound =
-to
-> > the GPU PF and provisioned the resource that it is trying to access.
-> > What limitations do you see with this approach?
-> >
-> > Also, the quirk being added in this patch is indeed meant to address a
-> > specific case (GPU PF to VF access) to workaround a potential hardware
-> > limitation (non-existence of a direct PF to VF DMA access path via the
-> > PCIe fabric). Isn't that one of the main ideas behind using quirks -- t=
-o
-> > address hardware limitations?
-> >
-> > Thanks,
-> > Vivek
-> >
-> >>
-> >> Jason
-
+> > > It's certainly possible that the current code is functional -- if byt=
+esperline is set to a too large value and that information flows to userspa=
+ce, it could still read the buffer. It would just waste memory.
+> > >
+> > > >
+> > > > > >
+> > > > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > >  /*
+> > > > > > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegr=
+a20_vi_ops =3D {
+> > > > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > > > > > >  };
+> > > > > > > >
+> > > > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > > > > > -{                                                    \
+> > > > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > > > > > -     .bpp     =3D BPP,                                 \
+> > > > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE,=
+ BPP, FOURCC)      \
+> > > > > > > > +{                                                         =
+           \
+> > > > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,      =
+             \
+> > > > > > > > +     .bit_width      =3D BIT_WIDTH,                       =
+             \
+> > > > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,       =
+             \
+> > > > > > > > +     .bpp            =3D BPP,                             =
+             \
+> > > > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,           =
+             \
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > >  static const struct tegra_video_format tegra20_video_forma=
+ts[] =3D {
+> > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > > > > > +     /* YUV422 */
+> > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420=
+),
+> > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420=
+),
+> > > > > > > >  };
+> > > > > > > >
+> > > > > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > >
+> > > > >
+> > > > >
+> > > > >
+> > >
+> > >
+> > >
+> > >
+>
+>
+>
+>
