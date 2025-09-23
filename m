@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B14DB95038
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 10:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B979B95050
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 10:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E8510E594;
-	Tue, 23 Sep 2025 08:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B5A10E598;
+	Tue, 23 Sep 2025 08:36:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="fHApz0RV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QLr+VwpE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch
- [79.135.106.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D20910E5AC
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 08:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1758616572; x=1758875772;
- bh=36wGYpuu29aWoxY4/k1QrrP8i5Y0zUpVWuiRxXPR8fY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=fHApz0RVITdZg1tf9qnyf0aw2LS9nBnWe0dZJSTvAO/7tupXU8gAnmmkA4DFQKZdG
- F0LBghPLHLvZLiT8VKqkz++c1FgZrgs6YuFBZXdvF5PbhFUHVjm7+k+/4whxxXT1w/
- 0dulULVJlDsb3yYotkQUTraHEiEdOhFheppQonoMtqAxrNWrCAMm75UlmxYgkd6A+W
- ASY3D0FhstmBDoVZSvxIUVkGwcuqlJo2DfPY1g6OUPAPLHzQWMj0OmSEHWih7ddYA5
- g92BzUzdx1aC8w0iNvVq6RR7AQfW3uz2AJ7eu4epnsq8C2KyUQKjx9eKk73/QDCmWO
- TRx4oT/M35f2g==
-Date: Tue, 23 Sep 2025 08:36:08 +0000
-To: Lee Jones <lee@kernel.org>
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, threeway@gmail.com,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v5 3/4] leds: led-class: Add devicetree support to
- led_get()
-Message-ID: <L7z33cG0mE3y_WEFhvHRJ-wbjg2kxIBVMV0C9qCifJx1DTAyMYyokyKWErFXEuzra3Kjt4pcUZ1VtzRWLBbKVNewDvJtyqPdcHMXUp4h0G0=@vinarskis.com>
-In-Reply-To: <20250916160707.GA3893363@google.com>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
- <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
- <20250911081540.GD9224@google.com>
- <b875f811-6371-4ff4-9cc2-a0a2c82a569c@kernel.org>
- <g7xkdervsknmcwjg4qgloj643b4itjlfeyiipvsrborszgrhlg@zrp65nvfueqk>
- <20250916160707.GA3893363@google.com>
-Feedback-ID: 158356072:user:proton
-X-Pm-Message-ID: 9fddac5264039b46b6df9b51ab3c5969c12c32b0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92B210E597
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 08:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1758616598;
+ bh=qXLGFJtWA0bcjUsV5e/5U8pdxtyjza/sg2DcO2RRSrk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QLr+VwpECld3UJOrRzeldNxkSsLgf/yb/J1WD/m7Wsj1lgkLVw1wwsbP0CydeSihd
+ SuQtO7QmkH9323SojocMfc8Va9x69ppqReMEnP7N08JVzm5qSdqEzA9iMsOZ1q1z03
+ 7/SNZ8E8yP7zLZWuekyrMZguTma/82smMqmwasW5capqodTtZErlK7n4LwmrDPdNnU
+ 4keYA6dEJnETiH2pYhqqVaq+D513PyGd3HmDdJAF+p4aiJW0ycM89i0rGpRIP3H2jF
+ HtrAbJwC+HZ1H4fBqXrL4WOeRykI4ywrQeEOCWYBkhSYaVQ2swO9Krd5a9Bpr0fStF
+ uSn0ecMXEa1BA==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:2f08:ed09:4100:c764:4bdb:9a32:9b45])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B06A317E0A2B;
+ Tue, 23 Sep 2025 10:36:37 +0200 (CEST)
+From: Marius Vlad <marius.vlad@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniel.stone@collabora.com, dmitry.baryshkov@oss.qualcomm.com,
+ jani.nikula@linux.intel.com, tzimmermann@suse.de, simona.vetter@ffwll.ch,
+ derek.foreman@collabora.com
+Subject: [PATCH v3 0/2] Pass down hot plug CONNECTOR ID to user-space
+Date: Tue, 23 Sep 2025 11:36:34 +0300
+Message-ID: <20250923083636.4749-1-marius.vlad@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +59,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Patch series addresses a shortcoming where we're sending a hot plug event
+without passing the actual CONNECTOR that caused it. This takes into
+consideration both the polling path and the HPD (Hot Plug Detect) path.
 
+v3: Address comments from Dmitry
 
+- guard connector status write with mode_config.mutex
+- avoid setting up the connector status and immediately unset it. Do the
+  unset in drm_kms_helper_hotplug_event/drm_kms_helper_connector_hotplug_event
 
+v2: Address comments from Daniel
 
+- split patch into 2, one that introduces a bool to track connector
+  connection status change and a patch that uses that to be able to send
+  hot plug events with the proper CONNECTOR ID to udev and further pass
+  that down to user-space
+- nuke out mutex when iterating connector list
+- fix typo
 
-On Tuesday, September 16th, 2025 at 18:07, Lee Jones <lee@kernel.org> wrote=
-:
+v2 is at https://lore.kernel.org/dri-devel/20250729165708.9947-1-marius.vlad@collabora.com/
 
->=20
->=20
-> On Tue, 16 Sep 2025, Bjorn Andersson wrote:
->=20
-> > On Thu, Sep 11, 2025 at 11:01:00AM +0200, Hans de Goede wrote:
-> >=20
-> > > Hi Lee,
-> > >=20
-> > > On 11-Sep-25 10:15 AM, Lee Jones wrote:
-> > >=20
-> > > > On Wed, 10 Sep 2025, Aleksandrs Vinarskis wrote:
-> > > >=20
-> > > > > From: Hans de Goede hansg@kernel.org
-> > > > >=20
-> > > > > Add 'name' argument to of_led_get() such that it can lookup LEDs =
-in
-> > > > > devicetree by either name or index.
-> > > > >=20
-> > > > > And use this modified function to add devicetree support to the g=
-eneric
-> > > > > (non devicetree specific) [devm_]led_get() function.
-> > > > >=20
-> > > > > This uses the standard devicetree pattern of adding a -names stri=
-ng array
-> > > > > to map names to the indexes for an array of resources.
-> > > > >=20
-> > > > > Reviewed-by: Andy Shevchenko andy.shevchenko@gmail.com
-> > > > > Reviewed-by: Lee Jones lee@kernel.org
-> > > >=20
-> > > > Remind me why this can't go in through LED again?
-> > >=20
-> > > I don't think anyone has discussed how to merge this yet.
-> > >=20
-> > > I believe that the LED tree is the correct tree to merge this
-> > > entire series through, once the DT bits have been reviewed.
-> >=20
-> > Unless there are some strong reasons (that I'm failing to spot), we
-> > should merge the DeviceTree binding and implementation through the LED
-> > tree. Then I merge the DTS change through the Qualcomm DT tree once the
-> > bindings are available in linux-next.
+Marius Vlad (2):
+  drm: Introduce a new connector status
+  drm: Propagate connector status change
 
-Hi Bjorn,
+ drivers/gpu/drm/drm_connector.c    |  1 +
+ drivers/gpu/drm/drm_probe_helper.c | 40 ++++++++++++++++++++++++++----
+ drivers/gpu/drm/drm_sysfs.c        |  1 +
+ include/drm/drm_connector.h        |  3 +++
+ 4 files changed, 40 insertions(+), 5 deletions(-)
 
-The bindings are now in linux-next. Could you please pick the DTS change?
+-- 
+2.47.2
 
-Thanks,
-Alex
-
->=20
->=20
-> 1-3 have been applied to the LED tree already.
->=20
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
