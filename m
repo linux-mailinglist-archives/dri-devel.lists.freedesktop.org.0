@@ -2,153 +2,199 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B727B97B56
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 00:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CA0B97C42
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 01:03:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D649610E1E0;
-	Tue, 23 Sep 2025 22:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6A910E667;
+	Tue, 23 Sep 2025 23:03:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LC3+T3Rh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zd8jnv0D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013042.outbound.protection.outlook.com
- [40.107.201.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C65710E1E0;
- Tue, 23 Sep 2025 22:24:41 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3755110E663;
+ Tue, 23 Sep 2025 23:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758668586; x=1790204586;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=7IBpSh/OTUEDWHZs/hhKy8V8tOIeLqdvSoFKbzrH70k=;
+ b=Zd8jnv0DOD5+kMjyVe+5BME3Krwk0TjH21+YqceytIygvETYTvvccwKS
+ mzjAStQKqSLkU1IsrtYgkBDCifxmsC5j4/6AYWQGg4n7e/rlL/z9s2rqm
+ oVeRysM8YZNQiXbYqIphS7xemqM0My3aUWtkr2tVJNJAVIldSTi+ifhuG
+ wL1YDcMdpsMQwgnGkEvXP3qSfp6dQGa2YINZneJByQvoJ86U4tK8uESoQ
+ YNr5n3hFGI683KhQdtyM4b+6Rop7KYUe4lrsYIs+pCc7ZPb3GjmJrZzWg
+ 1kzb8eLCfCxw7jzbIkkUoz6fKEgBTkXUkYlvyi1na4smzplVlUlQtY9v2 Q==;
+X-CSE-ConnectionGUID: y7OFm6SCQHeno0kDSJ3ftw==
+X-CSE-MsgGUID: OVjAXyXQT3aFmU7nUFHJHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60174634"
+X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; d="scan'208";a="60174634"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2025 16:03:05 -0700
+X-CSE-ConnectionGUID: IwLCMbbwQEi3mjxzI5/e1g==
+X-CSE-MsgGUID: cdp1YH4PQ7adKR2qhlixDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; d="scan'208";a="177323544"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2025 16:03:05 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 23 Sep 2025 16:03:03 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 23 Sep 2025 16:03:03 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.61)
+ by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 23 Sep 2025 16:03:02 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WCYfPNcyvuUiv5l4kUCyyu43M/5JMV4gfBz0AHKt1kcGPmcDtEsq5hIV5bW1XNCxqi64JnQVAGElVIc0X6odCxIIYoBUl2vnAPfKh6GTNDxv/Qv7puCQqOuzPJ61UzL8lR0nq0cwckz1yyNq4A6Lg9oUl9MCFYN0yiOUgG3kSITbqXH+D4NbzXS5uU4LwCfOurp6jXvoqdvGwAk5ymA4hcpKmEiK1Hpz4VAPeSn2/oNDBP6h7xVQz27QB9PEaNW4Ma4t4FoSbTK3s2xc3Bngim6TzSzUYdepnoIGRJ6Lt/rpa08xyIm0wdjUd5TgYiQZSBRSD0ClriX1dOppqrt4tw==
+ b=Lj0B2zdaqadOVgurc0UzBOHX1igZ4T8/febjk5JfIBvnGjLSyuwlmht5k2v7wUmQTdjN9ahnrwkCKJislmUZRdCTWUn1g8bArf0N//rUoChXHIDTnYfMsLkdX4IsFwdZRX2mXJ7hRSoFnbZL0Knj9zK2sDMHhE0Xu5pM48an8eCmbVfumpSPRRXDJMALTpcWtmzc2di7wC+11mO8+375peOnXeTB2dW/5SLqqSLrukj9szgLz6SQ/fx/JyFjczE42/nkJjppYNNYF5e97KJCYBNEKNH8923gJalAPYCZ62tbOc50sjOnEWYueBxkWPs4WYo39yarLe8SlOE/OC5yuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pd3M27roUi8nRJ6CgQ0KqkLijot+AokPQHpICI5k8FM=;
- b=N3eawoKDOL7x5ORyE3VMyQ7hWKad3QtKUU423JmKhEl3z7rd/Pn20FRZCDPSZ6VnFmjQyVodrFkldPxo3QIsOJkaP3D5Oxfzc6U/HjsE7Irvpehfc9sXLIZ2EoANt1nm0wqV3Zt7ehNkL+i+zQYvoTmu/Yve3EKRlADyHo/g0VGRnGSrPMJlA0iI9IX9wdAfju2yhelGyIUmnO6PBYO2YFFPYAVPtmgxQB6GD561Tl+NbBFm8JowK1qwWP9Z8Ac28xlfNjRjl8h1iGCdLZhC5NzrZgHAtEoSFMCM8R+8VWNadqkeKao8vbG5SVkEqBYhkOsmOlxL/rd9/uwN1SZcPw==
+ bh=XViuGrmDRtaH3pUv0t6me+iMIDUg7pX897ypyj2YrLI=;
+ b=tYgJ2X1rnlzS/KEv+JNqEouSpTqTFhbMA4DipPh/KTzJCB+yB3aM+3s9Z6EypAUqHQrxBmRGxwVAzbCWcaETQUdtWpCX3AFYhNv9UyLPMo1V6nIVxxWUBTEcu7OxBKzpx12VY3Qs56+5jS+AdUTH791pE0vTdKHVPjpGZXm8wcpy635AH231pSJ7nio21BHgstKH8BCZ08D+/JgXgsPtL/9k5NTd7HdeQq4fWzls2NOdCKuF+hyPzuLfC25gS05QS5b+m3p8pNuJbmhnpEqDu+7Of6CSF/QsWzevlNlLL1VCBMsXxQQRkcj4RotHWz4wIYsTAEFNG+HDbsUYX8PwiA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pd3M27roUi8nRJ6CgQ0KqkLijot+AokPQHpICI5k8FM=;
- b=LC3+T3RhzyiR1dc4yC3prNK/5yp53QxCjO40EBJscpY3HMuV3/jQj5RftNXAfHDABz53PEPQYeIe5vf5ZFfX0ou2kkBWFP0VijmhHuuqedPnfm7P8GLMlfUG/c1Ls9DzAxjKLseUvitwtuoKGqMzd6CfY6zOfcqg3GjDGKyQuUbiyMi0VOVjJsgC8oI2RJ0el9lb69axkb7NkWi2XJckLBrQOsBw/OQ+qOLloPDrooQE+0r7tJtiWR9mjOx5leYluVxniTULWWob+6CGCG8qNYnmwWfKjgqVL3pIM/19O4oOvvYTrZuY7ogxDLQx3WPmDHOUy2Y4NqgDh5DAD1swpg==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by LV8PR12MB9716.namprd12.prod.outlook.com (2603:10b6:408:2a1::10)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW3PR11MB4570.namprd11.prod.outlook.com (2603:10b6:303:5f::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
- 2025 22:24:36 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 22:24:36 +0000
-Date: Tue, 23 Sep 2025 18:24:34 -0400
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Yury Norov <yury.norov@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v4 1/6] nova-core: bitfield: Move bitfield-specific code
- from register! into new macro
-Message-ID: <20250923222434.GA2479829@joelbox2>
-References: <20250920182232.2095101-1-joelagnelf@nvidia.com>
- <20250920182232.2095101-2-joelagnelf@nvidia.com>
- <2025092157-pauper-snap-aad1@gregkh>
- <DCYHCLM67KRZ.366VS9PDKLYKY@kernel.org>
- <2025092125-urban-muppet-1c2f@gregkh>
-Content-Type: text/plain; charset=us-ascii
+ 2025 23:02:55 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 23:02:55 +0000
+Date: Tue, 23 Sep 2025 16:02:52 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>, "Kasireddy, Vivek"
+ <vivek.kasireddy@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+ functions of Intel GPUs
+Message-ID: <aNMnHJwWfFPgGYbW@lstrano-desk.jf.intel.com>
+References: <IA0PR11MB718580B723FA2BEDCFAB71E9F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
+ <aNJB1r51eC2v2rXh@lstrano-desk.jf.intel.com>
+ <80d2d0d1-db44-4f0a-8481-c81058d47196@amd.com>
+ <20250923121528.GH1391379@nvidia.com>
+ <522d3d83-78b5-4682-bb02-d2ae2468d30a@amd.com>
+ <20250923131247.GK1391379@nvidia.com>
+ <8da25244-be1e-4d88-86bc-5a6f377bdbc1@amd.com>
+ <20250923133839.GL1391379@nvidia.com>
+ <5f9f8cb6-2279-4692-b83d-570cf81886ab@amd.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <2025092125-urban-muppet-1c2f@gregkh>
-X-ClientProxiedBy: MN2PR19CA0036.namprd19.prod.outlook.com
- (2603:10b6:208:178::49) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f9f8cb6-2279-4692-b83d-570cf81886ab@amd.com>
+X-ClientProxiedBy: MW4PR04CA0362.namprd04.prod.outlook.com
+ (2603:10b6:303:81::7) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|LV8PR12MB9716:EE_
-X-MS-Office365-Filtering-Correlation-Id: 636de200-35e9-40ee-6022-08ddfaeffa44
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW3PR11MB4570:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d9e19bd-8afd-4636-ab07-08ddfaf554df
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+N3uTNEQbLkzKuMBrwa0dGkIQmWJQJMCuT51UpT4YNOx9tKSlYvrFXazWV7q?=
- =?us-ascii?Q?4bqpq1zP35CsPjyJdxLKCsJPCDJUcfDoheYU5X2OJoY6rB3YTj3CmZf4pKbn?=
- =?us-ascii?Q?cBZohKpBtLDDVsd1k/s7GyfvvHS/WkhT8hRkohlJtC0lwfbFU4INY+w6yxd9?=
- =?us-ascii?Q?rxtbnHRZPwSXOKzfANPYvV65q4zh/ooOM8Gyi6qRi3wFZSFoPTJa09Hi/37l?=
- =?us-ascii?Q?Y6cWpIl/n3L/BockmXpoq85kWM4lJlxuh7plVSG/81q5omgJOZFRDK4fnn1u?=
- =?us-ascii?Q?wh0TWrfyPObXNzrip7JlQRnJycOzzZlVFI1JtAwUYjsAHOJthyzjc1uT7OOM?=
- =?us-ascii?Q?uZIZRGFijPSBKtbTcOQYVY5NoAy2yqmfF19Ufb55o932PzRQn25tgILJ3fqW?=
- =?us-ascii?Q?3D/KnQq423chGG464Uj2VnwLPYOfGjCB4Kq1KVRjN7Ba4JMUobPZOHmaog5j?=
- =?us-ascii?Q?7ivl3e3uAesgOUiJWBVFgBRpeRf0I6C8JV6ZL/Ud0ZjWdtrO1rhc7ATq8oF+?=
- =?us-ascii?Q?TI3g8fU2oDF846W5ikKX9zQhdlXdtxdf3sXLMkDNy1+SAg0K+nX8hsB97O7L?=
- =?us-ascii?Q?lsTP8jRNOLTqEDIBeEDd97A4QgspeuYbZ+Npbsa4YNr94zcZ1KnXdVpWiNJe?=
- =?us-ascii?Q?pPq2bBppO0OXGbRgzljJU5B+FF2/N6P9frk6btkPECfQLOjzyJy8oYVP/0cu?=
- =?us-ascii?Q?XBQ31+2SspnTPJNEqbSGdnul/eZi5eymhiOduGNWqlo1nCZZF0d9EhJ8e+Gb?=
- =?us-ascii?Q?pb0xgFFRnWDGnjhQZF0TxHTV4/DYscn+4tiW11ozLEC8ufn9gjYjZwbcP3g6?=
- =?us-ascii?Q?xtzczvt18CZpfAXCmL2GnppvGN41i/WNDPiXSeOsBpBZNJ18qidBWaL12i4w?=
- =?us-ascii?Q?B5fUXgy094iAbRAaxGeWzlO+Pq7tnTEt0O6pwWgJg0lA3Qo0s7dSyPNrd3yc?=
- =?us-ascii?Q?mvrM/xNl4HkwIXQDo1Ga8uQcG9qOM71OqAFjKifSuO0j2LaAfinjOeORadhm?=
- =?us-ascii?Q?tzzCTD5REScIcH2W4rj3EFumXR2AwxWPXQQhMA+TjXIEF6JkD7c5zx7Neyv6?=
- =?us-ascii?Q?gT0gAwcoEvLq4Pwnrhgir8J4mJ6gBMBgpQqQLuox5SsKifqRF9hS7OuiauFC?=
- =?us-ascii?Q?nqUl7rCe44ib6Bq/go4SNAUMsIMdVbse20uZnUaFC1GqBK0iOPCHtz3fjgTk?=
- =?us-ascii?Q?UZr6XNcXxbD/A3XFQzPey3O2HLip+NCxkTUSADVygFGJqDUK/HP4+l3ZRbw6?=
- =?us-ascii?Q?RNNBqG9bv4dTxbBjvdr6cdY5q8uhNbsTL99R7YRZgw73ucHWgtCLC/xijQop?=
- =?us-ascii?Q?02W7+THjKhA8V+vbuWaWNPmCd255QIdTcyffZo3zcDSmqNWtL/1tqpNT+n5C?=
- =?us-ascii?Q?Eh8KqIcPZkzgQNY5OTwKLcgYr8hPLXpx6ApxRqx+KjRISd08scovmRXdTe0o?=
- =?us-ascii?Q?cOCdadVxPAo=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmRJWjNtM011ZENWbW44MWdIZUlUcUxQOXU2eHJNUlRWV1JNSUh3RWk1Ymw1?=
+ =?utf-8?B?eEpFWDU2SEdrSlh0ajhoS2xubzMrcVpmeEdYUTJUUE90OGhiNENOQ0NZWFdL?=
+ =?utf-8?B?UjhKNnF5UnpuQUdPVXc5a0F6U2hLZ21MY0dmK0FKY241ZkVqMXI1dVlNOEJW?=
+ =?utf-8?B?ak5YcFBxSG9vMGUvS0N5SlRScmFJYnVOYVM5RGpkaTl3WnF4bTY2UStEa1JO?=
+ =?utf-8?B?UTBkNHpxZU1yRHRaKzhmSDN5WGpKSjZzdHJPZWZkYndLeTRUYnhnbkV0SGNh?=
+ =?utf-8?B?R3k2RXZnaS93UnN4OTl3ODBJdjRwWHRRay9qUExDbG5VQmFsTWxpdFZNMnlO?=
+ =?utf-8?B?Y3hPV2hrYmswR3FhZi8vWWhyL3ppcXJyd3ZZd3N5djN2QUFmQjlyNXU1UVRv?=
+ =?utf-8?B?ZUVZWGZOV0cyNmducXRlaHljaVFhQXVUcHRaTFVlaXp6Kzl6Q2pVRlFkN2Yr?=
+ =?utf-8?B?UnJXZGNrV1dwNFcxWm1BbTRNWlM2RHJvNFJ3RXJCbmQrSlF6Y2R6L05TcG5x?=
+ =?utf-8?B?UXJSVEZMSUgvRDN5VnZHc05KMFNCWk94RGo3K0R3blYwSGxCNW1iNUxtWDZJ?=
+ =?utf-8?B?b2hOa01kVWVQc3VnWFVScnFHb09FSTFyQU9UanlVYytwS2szSjNOcllYdkZh?=
+ =?utf-8?B?WHFMYi8wc0llU2ZYakJ1M1dFRy9SRmRhS3M1bkcvRTlWaDJjYXJrN2V1dWY1?=
+ =?utf-8?B?QTBxQnU4RjlLdlNQS1Rrd0JoaW0veVFCUUp5dE1CSmNzK3RRNGNRRXE4dTV6?=
+ =?utf-8?B?V295TkdZdzk0a3pqZUpYYUh0UzBJSC8wL1FXRGl3MXZsbnMvNFZjQW5RUkRT?=
+ =?utf-8?B?M0RWeFNzYUFNOGpkUTJFNmZYSSt4dHpnQWpjNWZQMlh2QkpyYjFjK0F3emw4?=
+ =?utf-8?B?Rld3WG53VGJXcmhSNTgzVXRya2tvbXJ6RDRoREc1bGRiMksyNm5QSGlJR2dS?=
+ =?utf-8?B?VlZ1dkNtZlRSSFBCRTM1eEtod1ZwWnZ4RXpsY1dJUmIrdmRhV1JMeW9QZFJ6?=
+ =?utf-8?B?WHU2NkE0QTI2TStWVTlkU016T2c2VGVCUU9Ya3I1VlVwejUvK2dkS1NJTE1s?=
+ =?utf-8?B?UUZ2WUY2dVFOQWFWckFub3grTTgwMFQwdTdhY2l4amJVazFaOWJNbXgwc0kw?=
+ =?utf-8?B?ODZVLzJJYkZkSjJiTk9LVUF3c0hTNUFxVkhVRHhkRWw2Sk5qUUZkWmQ5ODJY?=
+ =?utf-8?B?R2lLeGlzbmR1Uk8wNk1zYVUvak1FT211QmtlY0RSZkd6Z2RwVFE2amVoZnJB?=
+ =?utf-8?B?NUViZkhPUGN4M05UcVNRSkZTbGtBOXdOeFUyOGhZNnJaV0hDZXJ2WklHWXhm?=
+ =?utf-8?B?eTh6dkFZNHV3ZkdwS3NwUXJQL1pHb05KRDZJdWF6UU16RlltZ2lFRWtka0VX?=
+ =?utf-8?B?K1UxTVlpOVY0WDdIOHAwRjg1U1dLTUxMS2ZVb2hMdFJieW5ia2xMN204Sk5a?=
+ =?utf-8?B?MllwWkc2eXFNS2dveXVoeEhGeVl5MjlvaDV3TytNVXloYS81aThreDVsT2hQ?=
+ =?utf-8?B?RUJyUVZlL3ZUZUZ3UTV4eXJYVWRNWm5vRnZreWZzaGMyY3BxU2xFOHNSdURv?=
+ =?utf-8?B?a0M5NjA3eVNlbzlOQmhXa3hYRkpnc1prODJ0UEtLNHJjeDJlS2puRnE5V3g2?=
+ =?utf-8?B?ZStuYWdDK1E3TkZmZkZZZjB5RmhDVnJPRk9FenMvMFNuY1ByOFZYTUlWOTgv?=
+ =?utf-8?B?N2lCU1MrNUFQRFYyTXNNNmVkUmNWaE1PcGFuTzZLdW5ablJKNi9vWjdhUGJi?=
+ =?utf-8?B?aUZJN2ZYVnRRbnM2UHlJVHJxajB3S0lCQm0zSHZTeDMxb2RRQ2FWay9BdXdZ?=
+ =?utf-8?B?czFwaHpiREY3TkVkMUVPN1hOTE9rUVo4ZEZUd3BWR0F6c2ovY2NBWG5ianVO?=
+ =?utf-8?B?dUFuejJQMVBWK25hU1RSSSt0ekQwbjVwM2NlRnNUaVozeHFtWjJ1WDUwWG1K?=
+ =?utf-8?Q?ZMkmwQuNoD8=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dDYG5/y8GKMlcOe4JG0PAhAf423UFhzlvYYLLcpGdi/6AZ/rCECVNduXGpW5?=
- =?us-ascii?Q?S0yPWEVmgGxCI2549M1a5LBkFAuNeI3VqrpVP9bCDYQODVv9hSj3XnkD/ZwO?=
- =?us-ascii?Q?zym0xoOAvyafwwDavroJvDWQSNhqwZ2N5J4DvNMSrvfv/7v2ptdrRhSFLlQO?=
- =?us-ascii?Q?7/3dppUmNRr0u5hfwB70BQq1J9BUFid8qHx+MuksKHoch8cQmAfxFuLnl4y0?=
- =?us-ascii?Q?HV2eKtSGIC/2HhEw9ohwppKjE9tuC8wF/hR6pb/hbn+9lfhPNYZ8fxnrXvF5?=
- =?us-ascii?Q?jkL1RO8yaUvaU5BCDEjsk/R4Dwo2eIKsL3hG3L65+kzQQ7JtUK7MVYEGu7w/?=
- =?us-ascii?Q?urswJPFgL2rPkp3zMYv02LM42nO+FzFD/QLRqj5oH56OxHwbFluAkxTzEK+M?=
- =?us-ascii?Q?WbOBExj4ogNVPXCO0Z3q2BIv+Bnk934SWS5Fu56X1Cap5SBUBFADClkVynQN?=
- =?us-ascii?Q?/Nfhk7Uocz8g1yUy9pUoR/lR+oD2LwKCKDl50YQ2zz091KtFDBc9L5z11np+?=
- =?us-ascii?Q?lAzcJdInOoa+VYqj+nwDKBYlx9WfxPranhde7dvRfvxXZCK3RBNYP0qc9b0m?=
- =?us-ascii?Q?Mdjyot2HZqwbnf+YgCBNSLzC55QuGPWmOmTEzbyt13FLAga9OsLmJSNxrzxX?=
- =?us-ascii?Q?vdU05ZWXdJSstxh8M0cwmtUEtgUmhdrbmVkAHtpzjmLLnduh4KnjtSnPafGZ?=
- =?us-ascii?Q?hcJu15kMdjovzypTN4+SwiuAC/pA6BBCUSN/pRd8lt2raGBxMO2Flco5EeeJ?=
- =?us-ascii?Q?UbDWWl6CaUAVZK1C3AcxJuU2K+h8duDiMh3RJw3d/Ci15a4avWSble+OkwHg?=
- =?us-ascii?Q?AlI+VmOsx1nXDKjve+JvE45lPNhH0W3kcZBLH7Yd6vPIWqPWyYO8c+O9eyU3?=
- =?us-ascii?Q?rOQM/UjC6SQdWTK7NwI3jETsX6EGgKKWXh+6uEUgrN4xOUxP0BrFqFc930/X?=
- =?us-ascii?Q?3P87ByWkDYE6qnPcLmIsVYW2LlpPsgGLDvg4w4k9y8AXMqvg+ifGa0vipfXG?=
- =?us-ascii?Q?zyiGO270mYa6oCcVXDrnTAsh87j3HfMv9YBsLCWCj8YyAA7dDDQGgj190nU8?=
- =?us-ascii?Q?N9FCHZ203MvBr08zGPZOndBM+eB3glwMc9i9fagQOSGkCcZOkleM6zbZg7di?=
- =?us-ascii?Q?GL2jIbwXinBXsCVjVlELbOx1RWM8OLlsKaIkLqc/KaouydSX47xhtY++eGiV?=
- =?us-ascii?Q?jBw3Z7nOdhvfwWhtk+5zIHnM5laNk0I5LjmgCjzpCFDjHHWbeyFxAGmUTAST?=
- =?us-ascii?Q?sVZdSloBzgo1U8tBNXZ8mb/+k6QlaQHjhmb+zQWPajH15ZdQz2dnNrR8Y51Y?=
- =?us-ascii?Q?/wMxFybAtwnMOx+C/0vWI/kX495rBdjDY/82vP5PTh+tbhKEo5VXiUbyIqJO?=
- =?us-ascii?Q?NAD5WNCMN3KyznIJz38CH4sKqZhCKWZCCqG1pGmVyGTxEZDyzzSi3u/vnY67?=
- =?us-ascii?Q?8+6Yv6vhOxxd0c7tJ16o3vWDD62y0x/7IFu7z1daawfutJAvJ228tNqgxTUf?=
- =?us-ascii?Q?OFVdgiIc0n/f1f5D9Ju1JpHHvuWf+AkLfaBfSYuf5CSk2g/qmFJremP/G7bS?=
- =?us-ascii?Q?5FPe31XZSDal+ksaeUfhUT8UM6u8fliZOIMdMk+J?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 636de200-35e9-40ee-6022-08ddfaeffa44
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzRIeDZPQ0FXWDU2dE1mU0g3aUxPYjRtZXNnREVRYUdyV2FscmM3eEFzd2I2?=
+ =?utf-8?B?RHdkNVVDVUR2TlNVdEt5WUxYVGlIRGNHZFdNa3M0d2xJQXpidEZyTFdNWTN1?=
+ =?utf-8?B?dXE0c0xpVlc3K0RnbW90eTk4aW9Pd0hlNlQ4MlpYUDRmUGNRVHhVeHFSY3Fn?=
+ =?utf-8?B?VFByN0tNTFJTL2VoRzdESm5HRWFVY0ZKR1lGNzV3djk2RVNRRk5nQmZ6QTgw?=
+ =?utf-8?B?ZmpQdFNoMWlLRktlRWFsd2dhOUR4RjFreDl6WFhwRjg5RjhOaUt2YjNEcExm?=
+ =?utf-8?B?VmNZRmhvYVNndWx0M3lJcXJmbFhSa2dWSEkrSy9JWTNsS0hRTDZ4RlByMGdG?=
+ =?utf-8?B?ZVlUelNSVnU5WTV1WDBQYytVQy8vNlBHSWp5VEtZOHpRS1g2SjNkUW1Eb2Zu?=
+ =?utf-8?B?MnZyMllFdElOUjdDcUJkNllTNXJoZWxvUHZ2cys0YVVMOXFVbUtpS0dQRElY?=
+ =?utf-8?B?MndkMUx2MFp0a1BmOVFxaUpuTmlxNkx0S09qVkI3NTR3aURIMTZrNHRHY2Jl?=
+ =?utf-8?B?ZFlSZDBHYWdKWm9VZjFwMTRTMzFoczlaV0FOZFgyRDNuUkFqb2N3RDlhT2d6?=
+ =?utf-8?B?K1VheGdwUkhZcGpjcVU0bytjSnZ5MFBybFF6QktHZWZ6UUN4N1pjVzU0RVQ5?=
+ =?utf-8?B?QllUN2VjMUw1dndJMTBxckJwZ05iU3UySi9UVC91WCs3MnlCbWtFWE5JaGZI?=
+ =?utf-8?B?bXZUUGN6aFJuREVQeWp5MmFnVy9meGt1Q0pkb2tRUDBKRXV1UnRua2c3aFlY?=
+ =?utf-8?B?N0RaeTRHMXMwWm96ejkzaUIzUEJzeDIxbGc2UzZKSnNYdHJIMjhmSXdnZlF1?=
+ =?utf-8?B?VVh2bWdCWHk3LzEzMlE1ODZUZ09Vdy85aTRBaEVNTGFYbTc2bUdmb2JobkZB?=
+ =?utf-8?B?OW00UkxWb2FsV3VFK3MvS0FXaG9ldnBkQ3FucXRLdVNsS1JNS2NaUGhnSXk3?=
+ =?utf-8?B?MXVHczl1VUFWTmFPRlZrWnJ6OU9GUC9jZmdtbzhFOUV0VmpRbDhTaHlqL3lw?=
+ =?utf-8?B?TVpQTUs4SHF1TzF2TGZFL1YxWnhCT2JzNXZtS2RjOEtCaHUzTS8vSVMxaEs1?=
+ =?utf-8?B?M3E4aGoyRktZSTNtVmh3VzNwVjJqQ0kxc1NzQU1ZcnZUV2hYTER1QXQwR1Ri?=
+ =?utf-8?B?dHp1WGdyVDhwYjJzNDF4WVRrSEUreUtzWWEzNUdYbHV2VWV0Q2lrWEFtSG5E?=
+ =?utf-8?B?WWZ0dEN4emdrMCtpYzZ0V2g5bnYxYUs4Z1NHVy9XQzU0MElPUm9lSVhzdHhS?=
+ =?utf-8?B?M25DQ0tyeVBmTW5maUR1N0FKenpvZldLSDdHc096bS9XRnEwZkZFenIvUkZz?=
+ =?utf-8?B?WVZNcGExbkk5akZtVTNFOWpIVjVLQkw4V3hoNFpMaXA4ZHBocmJyVDg3SE9O?=
+ =?utf-8?B?eXJOOWxTYWxlK0FJaUZTZGl2VVVoVVlPaHNqaDZTamNLRlVoN3BvTUdEMW1U?=
+ =?utf-8?B?YkNlYkh5MVRwL3FFQVNPdGhHM2I3WnpnL3lHTkhHNmhpOTR0MFB4akhIaHdD?=
+ =?utf-8?B?RXZ1L3BsR3BwenU4VTJDVnAyWUFqTS9hbGxyZm8zRmZpUGpBU0MwekZicGRn?=
+ =?utf-8?B?RFFJcWduaFZ4WGlXdytPM0lGOUh2aWIzTWt6cWtWcDlzQzE3bHZjTlJ2OTNF?=
+ =?utf-8?B?cGFRdzh6NXhQRUxncjB5KzIxakVHbGR6RE5haUljWFhBejYxbTZjOTZaSVJH?=
+ =?utf-8?B?Q28yZzhLTmp3WENIdGFLQTV3QkhZOTVmOW8rRHI1SjJPVEtwVWFPTHZyYXBU?=
+ =?utf-8?B?WHBJL21LZXBkTkdJTm9QWTNLeTltb08yMDBPNFNsT2JlcVcwQ20yQmRCY0hV?=
+ =?utf-8?B?TXhUL2crbWFadEhTcER1VHFnMkpzQVdJQkJtWHVyVnF2MGZNS0RuWXVTN0dH?=
+ =?utf-8?B?MU1oVnoxdHV5T0p6S01DTExXNXVNaUxmYnBwNDF4Q2xVQlRQbnVEQ2JBRDRK?=
+ =?utf-8?B?K3lxZFpRUStTZVBGQ3pvd3lJaFBYRGJ2WFlNRUxzUWZiWm5hY2xLM2l4UnU4?=
+ =?utf-8?B?UE40VTNGcEorbkxEbXg5Ym40TlNVdDZUaURTWDdNTEVBRXNOUlJPL2tnbmM1?=
+ =?utf-8?B?UGY2UTRrR3ovR3pvNUtrTldjOEZtajlMQWNiOE9CMHdLc25RMFBvd2U0WDlt?=
+ =?utf-8?B?c08xbElTMTEvR3RSb3NZMXJRamViMnJJNlFYbnJleVlZL1JPYVVEbzBzN1Bl?=
+ =?utf-8?B?MFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d9e19bd-8afd-4636-ab07-08ddfaf554df
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 22:24:36.1097 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 23:02:55.6249 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BOCkBQj9/zeVx+Ux6ZqaNNCN/IioRX1zfrWlJ2f5DAnlGgEU09FN8q55hGjCtdntCw0rO0qsMv0EJGWA+Hi8Ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9716
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7k8XRBVaLm3+XVdf4ISVHoUh8R9mDErcRQo2ao0BLP1szcpJO9IwaRa3j5ktFb1vnNnUXMiDFWN7knTOf8pfkw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4570
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,180 +210,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
-
-On Sun, Sep 21, 2025 at 02:45:27PM +0200, Greg KH wrote:
-> On Sun, Sep 21, 2025 at 02:33:56PM +0200, Benno Lossin wrote:
-> > On Sun Sep 21, 2025 at 11:36 AM CEST, Greg KH wrote:
-> > > On Sat, Sep 20, 2025 at 02:22:27PM -0400, Joel Fernandes wrote:
-> > >> The bitfield-specific into new macro. This will be used to define
-> > >> structs with bitfields, similar to C language.
-> > >> 
-> > >> Reviewed-by: Elle Rhumsaa <elle@weathered-steel.dev>
-> > >> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> > >> ---
-> > >>  drivers/gpu/nova-core/bitfield.rs    | 314 +++++++++++++++++++++++++++
-> > >>  drivers/gpu/nova-core/nova_core.rs   |   3 +
-> > >>  drivers/gpu/nova-core/regs/macros.rs | 259 +---------------------
-> > >>  3 files changed, 327 insertions(+), 249 deletions(-)
-> > >>  create mode 100644 drivers/gpu/nova-core/bitfield.rs
-> > >> 
-> > >> diff --git a/drivers/gpu/nova-core/bitfield.rs b/drivers/gpu/nova-core/bitfield.rs
-> > >> new file mode 100644
-> > >> index 000000000000..ba6b7caa05d9
-> > >> --- /dev/null
-> > >> +++ b/drivers/gpu/nova-core/bitfield.rs
-> > >> @@ -0,0 +1,314 @@
-> > >> +// SPDX-License-Identifier: GPL-2.0
-> > >> +
-> > >> +//! Bitfield library for Rust structures
-> > >> +//!
-> > >> +//! Support for defining bitfields in Rust structures. Also used by the [`register!`] macro.
-> > >> +//!
-> > >> +//! # Syntax
-> > >> +//!
-> > >> +//! ```rust
-> > >> +//! #[derive(Debug, Clone, Copy)]
-> > >> +//! enum Mode {
-> > >> +//!     Low = 0,
-> > >> +//!     High = 1,
-> > >> +//!     Auto = 2,
-> > >> +//! }
-> > >> +//!
-> > >> +//! impl TryFrom<u8> for Mode {
-> > >> +//!     type Error = u8;
-> > >> +//!     fn try_from(value: u8) -> Result<Self, Self::Error> {
-> > >> +//!         match value {
-> > >> +//!             0 => Ok(Mode::Low),
-> > >> +//!             1 => Ok(Mode::High),
-> > >> +//!             2 => Ok(Mode::Auto),
-> > >> +//!             _ => Err(value),
-> > >> +//!         }
-> > >> +//!     }
-> > >> +//! }
-> > >> +//!
-> > >> +//! impl From<Mode> for u32 {
-> > >> +//!     fn from(mode: Mode) -> u32 {
-> > >> +//!         mode as u32
-> > >> +//!     }
-> > >> +//! }
-> > >> +//!
-> > >> +//! #[derive(Debug, Clone, Copy)]
-> > >> +//! enum State {
-> > >> +//!     Inactive = 0,
-> > >> +//!     Active = 1,
-> > >> +//! }
-> > >> +//!
-> > >> +//! impl From<bool> for State {
-> > >> +//!     fn from(value: bool) -> Self {
-> > >> +//!         if value { State::Active } else { State::Inactive }
-> > >> +//!     }
-> > >> +//! }
-> > >> +//!
-> > >> +//! impl From<State> for u32 {
-> > >> +//!     fn from(state: State) -> u32 {
-> > >> +//!         state as u32
-> > >> +//!     }
-> > >> +//! }
-> > >> +//!
-> > >> +//! bitfield! {
-> > >> +//!     struct ControlReg {
-> > >> +//!         3:0       mode        as u8 ?=> Mode;
-> > >> +//!         7         state       as bool => State;
-> > >> +//!     }
-> > >> +//! }
-> > >
-> > > As discussed at the conference this week, I do object to this as it
-> > > will allow the same mistakes to happen that we used to do in the kernel
-> > > for a long time before the regmap() api happened, along with GENMASK().
+On Tue, Sep 23, 2025 at 03:48:59PM +0200, Christian König wrote:
+> On 23.09.25 15:38, Jason Gunthorpe wrote:
+> > On Tue, Sep 23, 2025 at 03:28:53PM +0200, Christian König wrote:
+> >> On 23.09.25 15:12, Jason Gunthorpe wrote:
+> >>>> When you want to communicate addresses in a device specific address
+> >>>> space you need a device specific type for that and not abuse
+> >>>> phys_addr_t.
+> >>>
+> >>> I'm not talking about abusing phys_addr_t, I'm talking about putting a
+> >>> legitimate CPU address in there.
+> >>>
+> >>> You can argue it is hack in Xe to reverse engineer the VRAM offset
+> >>> from a CPU physical, and I would be sympathetic, but it does allow
+> >>> VFIO to be general not specialized to Xe.
+> >>
+> >> No, exactly that doesn't work for all use cases. That's why I'm
+> >> pushing back so hard on using phys_addr_t or CPU addresses.
+> >>
+> >> See the CPU address is only valid temporary because the VF BAR is
+> >> only a window into the device memory.
 > > 
-> > Have you read the following macro arm of the implementation?
+> > I know, generally yes.
 > > 
-> >     // Generates the accessor methods for a single field.
-> >     (
-> >         @leaf_accessor $name:ident $hi:tt:$lo:tt $field:ident
-> >             { $process:expr } $to_type:ty => $res_type:ty $(, $comment:literal)?;
-> >     ) => {
-> >         ::kernel::macros::paste!(
-> >         const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<u8> = $lo..=$hi;
-> >         const [<$field:upper _MASK>]: u32 = ((((1 << $hi) - 1) << 1) + 1) - ((1 << $lo) - 1);
-> >         const [<$field:upper _SHIFT>]: u32 = Self::[<$field:upper _MASK>].trailing_zeros();
-> >         );
-> >     
-> >         $(
-> >         #[doc="Returns the value of this field:"]
-> >         #[doc=$comment]
-> >         )?
-> >         #[inline(always)]
-> >         pub(crate) fn $field(self) -> $res_type {
-> >             ::kernel::macros::paste!(
-> >             const MASK: u32 = $name::[<$field:upper _MASK>];
-> >             const SHIFT: u32 = $name::[<$field:upper _SHIFT>];
-> >             );
-> >             let field = ((self.0 & MASK) >> SHIFT);
+> > But there should be no way that a VFIO VF driver in the hypervisor
+> > knows what is currently mapped to the VF's BAR. The only way I can
+> > make sense of what Xe is doing here is if the VF BAR is a static
+> > aperture of the VRAM..
 > > 
-> > Here you can see that it's just a mask + shift operation internally to
-> > access the field.
-> >     
-> >             $process(field)
-> >         }
-> >     
-> >         ::kernel::macros::paste!(
-> >         $(
-> >         #[doc="Sets the value of this field:"]
-> >         #[doc=$comment]
-> >         )?
-> >         #[inline(always)]
-> >         pub(crate) fn [<set_ $field>](mut self, value: $to_type) -> Self {
-> >             const MASK: u32 = $name::[<$field:upper _MASK>];
-> >             const SHIFT: u32 = $name::[<$field:upper _SHIFT>];
-> >             let value = (u32::from(value) << SHIFT) & MASK;
-> >             self.0 = (self.0 & !MASK) | value;
-> >     
-> >             self
-> >         }
-> >         );
-> >     };
+> > Would be nice to know the details.
 > 
-> Yes, that's great, but that is all done in "native cpu" endian, and
-> might not actually represent what the hardware does at all, which is
-> what I was trying to get at here, sorry for not being more specific.
+> Yeah, that's why i asked how VFIO gets the information which parts of the it's BAR should be part of the DMA-buf?
 > 
-> > Now I too would like to see how exactly this will be used to read data
-> > from hardware. But at least in theory if the conversion from hardware
-> > endianness to native endianness is done correctly, this will do the
-> > right thing :)
+
+Vivek can confirm for sure, but I believe the VF knows the size of its
+VRAM space and simply wants to pass along the offset and allocation
+order within that space. The PF knows where the VF's VRAM is located in
+the BAR, and the combination of the VF base offset and the individual
+allocation offset is what gets programmed into the PF page tables.
+
+> That would be really interesting to know.
 > 
-> That's great, so we are close, but it's not quite correct.  How about
-> something like:
+> Regards,
+> Christian.
 > 
-> 	0:7	reg_X	as __le32
-> 	8:15	reg_y	as __le32
+> >  
+> >> What Simona agreed on is exactly what I proposed as well, that you
+> >> get a private interface for exactly that use case.
 
-I don't think we should force endianness requirements within specific fields in
-the bitfield rust library itself, it is upto the user. bitfields are not only
-for registers even in C. If you see on the C side, we have rcu_special union
-which uses 'u32' and does not enforce endianness within the fields or bytes
-of the struct with respect to the fields. Its all native CPU endian and works
-fine. You're basically saying in terms of C that, the designers of the C
-bitfield in C standard force the C language to use endianness in the types, no
-they can't / shouldn't be forced to.
+Do you have a link to the conversation with Simona? I'd lean towards a
+kernel-wide generic interface if possible.
 
-For the separate issue of enforcing endianness with respect to (across)
-multiple fields, I agree with you that if the user's backend (the consumer of
-the data) is not doing such conversion, say via regmap, then that becomes a
-problem. But that problem is orthogonal/different and cannot be solved here.  
+Regarding phys_addr_t vs. dma_addr_t, I don't have a strong opinion. But
+what about using an array of unsigned long with the order encoded
+similarly to HMM PFNs? Drivers can interpret the address portion of the
+data based on their individual use cases.
 
-> and the like.  There has to be a way to actually specify the
-> representation here and for C, that is using the "__" types that express
-> the endianness (i.e. __le32, __be32, and so on).  Then we have type
-> checks that enforce accesses to those variables to always turn the data
-> into "native" values when the cpu accesses them.
+Also, to make this complete—do you think we'd need to teach TTM to
+understand this new type of dma-buf, like we do for SG list dma-bufs? It
+would seem a bit pointless if we just had to convert this new dma-buf
+back into an SG list to pass it along to TTM.
 
-Sure, it is upto the user, they can decide to use whatever types they want.
-In fact we also support conversion to enums, not just integer types :)
+The scope of this seems considerably larger than the original series. It
+would be good for all stakeholders to reach an agreement so Vivek can
+move forward.
 
-thanks,
+Matt
 
- - Joel
-
+> > 
+> > A "private" interface to exchange phys_addr_t between at least
+> > VFIO/KVM/iommufd - sure no complaint with that.
+> > 
+> > Jason
+> 
