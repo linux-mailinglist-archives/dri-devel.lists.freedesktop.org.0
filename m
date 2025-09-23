@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C07AB93CB4
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C32B93CC3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A215210E032;
-	Tue, 23 Sep 2025 01:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B60C10E1E3;
+	Tue, 23 Sep 2025 01:11:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="hdWSNbwL";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="V2QIHfNn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF6F10E032
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:10:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758589838; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BB010E1E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:11:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758589905; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=IosEg6RVxeijm6ZJOilnsicJW6WuliyxWdpIaRLclQ9iZ2G2AcrZV/Ddr1BUVe0Ej39nFmBeYLiTYl2C+siw6rVR0kAhF6VJHlyziKbLJugK+8iwmOJ6z9jw5aLk6FPIMVrInBzKeNUvoh5ciJ7YRRvQ1BNRwVcck7coeiQQaZ4=
+ b=NFg3LQWxA1UmU7Ak8jKz+fooj5egjX9HHWX4GoSgSa5uwpaUn0MBmjbXLYy5QsVT7yuYF9Nf62XhpT7xGVEdheqBf1Ef9UULW8+8p30Z6yCHrmvyomrwkesu5oHcFHzYBrgrsY2lBNeLyR2obl6v+7xvcda4nmEQ0Z7N64r1wjE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758589838;
+ s=zohoarc; t=1758589905;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=qF2nZ5xXD8M7//4j8CsRtdESwyvRIsXReu7sMyceWdA=; 
- b=kw01shzN6u2kuECV/7hhlSYeSc9U32BadnkGcT/VHE8TLk6HSt1NYjqUYQldsn/uiOL6qF56n4YLR2kCztVJC9Quaxc7UbJkFCpzYbD+ahulIt3HCVZpGVHQwAbU9U1occ3R5cUNSJxXADXdXV8yt8a85PsrI4pwVr0YvnWGjeM=
+ bh=G3BTeKbCEo6cpwHUel1neO0iH1pphQDlpTU10jPnRBM=; 
+ b=XQicDcPi6TLj1SxUJWdmldwnslfj7OfQCw6srU8CFF0Qa2/21xHDOMf2eVd4UeWYYQgWql0DBORRTuhDQNV9kEM0abigHnbubMXpz5pnNyk+ZLQm+CcWw2Pb1QQyhVN5NS9kGsqURm0ohkQd6vxKtjYaxnZDOsMX2ynE5weEGSI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=icenowy.me;
  spf=pass  smtp.mailfrom=uwu@icenowy.me;
  dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758589838; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758589905; 
  s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
  h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=qF2nZ5xXD8M7//4j8CsRtdESwyvRIsXReu7sMyceWdA=;
- b=hdWSNbwLXaX6FtokMHC+aL9Dr8qw5HvNX/pj+OaC6JLlUwnCGO41ewyxKubGSqVW
- 2pdRvKMFteFpR8zD/jcSsmBSAp4OpSGXF0ffH6LMrZTIYbQQFucM5woPpB+wwCaup/v
- X4OtD5wesD5Lx0hQqKky2HMcdirIO/Kc5810Q+dpALpbMQOjCvIJYC7QavkiAZukDhH
- jlz8+qViQn7yYrI8V1czhk3TEELd2WxeYBabVhsEmWHIfW10AAp4WT8WfoGTws0AWvU
- awchLc5fkKPHBvkFSrSD3vZiSHQIuB09pMI4EvEOrNrxNWDBcHsUICIzfsEWcXAsOVl
- sO+MOJE/EA==
-Received: by mx.zohomail.com with SMTPS id 1758589835573470.71641897735583;
- Mon, 22 Sep 2025 18:10:35 -0700 (PDT)
-Message-ID: <dacdfabb30fae413949d8bde28a709096ecda4c7.camel@icenowy.me>
-Subject: Re: [PATCH v2 3/8] drm: verisilicon: add a driver for Verisilicon
- display controllers
+ bh=G3BTeKbCEo6cpwHUel1neO0iH1pphQDlpTU10jPnRBM=;
+ b=V2QIHfNnz44bR3+FgF2gcRZL6iVu83JSTiusr7TzOAPg+7NdjNAUX2H3EwfPgnTm
+ 4J0y6qBODWIs0fZoNyUB/pBjMBhBcnvFMpOAcC0rH3/Tn2KTN9HNKQzANZZwgeBWp++
+ vHNev3hs/6DfpY8n6ulXEKRmKUBL0z0M82VZAlGFqutXnDgqoLEJc/XZUl65DiWJ6za
+ smP5x0QcvJHt1MB+ye5DiQ5pwwSanuNk4RyXpIGZS93nBM50Kdg2iKh5leehmRjTYaG
+ v+e+i2S78Qpy4vnoApVwLdvHMbHg1+j+bKK1M/9naLDQF/LUAlxnldt4urxEPfztBXD
+ kVC5zXDsAw==
+Received: by mx.zohomail.com with SMTPS id 1758589902265666.4484766540672;
+ Mon, 22 Sep 2025 18:11:42 -0700 (PDT)
+Message-ID: <d8240b212b9557878a12ee835a1c8b4840236580.camel@icenowy.me>
+Subject: Re: [PATCH v2 5/8] drm/bridge: add a driver for T-Head TH1520 HDMI
+ controller
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
@@ -60,14 +60,14 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-riscv@lists.infradead.org
-Date: Tue, 23 Sep 2025 09:10:28 +0800
-In-Reply-To: <a46szgmjrwgqhv5issuijyvih4tof3xa45tdhxv4qjplekszpz@55tgbkeby7zr>
+Date: Tue, 23 Sep 2025 09:11:35 +0800
+In-Reply-To: <yy57lh5rmbubtqscpquoy3np65tm465cqbtmjw5pqiwxjnecsh@d4qbxe3d4sc5>
 References: <20250921083446.790374-1-uwu@icenowy.me>
- <20250921083446.790374-4-uwu@icenowy.me>
- <a46szgmjrwgqhv5issuijyvih4tof3xa45tdhxv4qjplekszpz@55tgbkeby7zr>
+ <20250921083446.790374-6-uwu@icenowy.me>
+ <yy57lh5rmbubtqscpquoy3np65tm465cqbtmjw5pqiwxjnecsh@d4qbxe3d4sc5>
 Organization: Anthon Open-Source Community
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
 X-ZohoMailClient: External
@@ -86,142 +86,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5ZyoIDIwMjUtMDktMjPmmJ/mnJ/kuoznmoQgMDM6NTMgKzAzMDDvvIxEbWl0cnkgQmFyeXNoa292
-5YaZ6YGT77yaCj4gT24gU3VuLCBTZXAgMjEsIDIwMjUgYXQgMDQ6MzQ6NDFQTSArMDgwMCwgSWNl
-bm93eSBaaGVuZyB3cm90ZToKPiA+IFRoaXMgaXMgYSBmcm9tLXNjcmF0Y2ggZHJpdmVyIHRhcmdl
-dGluZyBWZXJpc2lsaWNvbiBEQy1zZXJpZXMKPiA+IGRpc3BsYXkKPiA+IGNvbnRyb2xsZXJzLCB3
-aGljaCBmZWF0dXJlIHNlbGYtaWRlbnRpZmljYXRpb24gZnVuY3Rpb25hbGl0eSBsaWtlCj4gPiB0
-aGVpcgo+ID4gR0Mtc2VyaWVzIEdQVXMuCj4gPiAKPiA+IE9ubHkgREM4MjAwIGlzIGJlaW5nIHN1
-cHBvcnRlZCBub3csIGFuZCBvbmx5IHRoZSBtYWluIGZyYW1lYnVmZmVyCj4gPiBpcyBzZXQKPiA+
-IHVwIChhcyB0aGUgRFJNIHByaW1hcnkgcGxhbmUpLiBTdXBwb3J0IGZvciBtb3JlIERDIG1vZGVs
-cyBhbmQgbW9yZQo+ID4gZmVhdHVyZXMgaXMgbXkgZnVydGhlciB0YXJnZXRzLgo+ID4gCj4gPiBB
-cyB0aGUgZGlzcGxheSBjb250cm9sbGVyIGlzIGRlbGl2ZXJlZCB0byBTb0MgdmVuZG9ycyBhcyBh
-IHdob2xlCj4gPiBwYXJ0LAo+ID4gdGhpcyBkcml2ZXIgZG9lcyBub3QgdXNlIGNvbXBvbmVudCBm
-cmFtZXdvcmsgYW5kIGV4dHJhIGJyaWRnZXMKPiA+IGluc2lkZSBhCj4gPiBTb0MgaXMgZXhwZWN0
-ZWQgdG8gYmUgaW1wbGVtZW50ZWQgYXMgZGVkaWNhdGVkIGJyaWRnZXMgKHRoaXMgZHJpdmVyCj4g
-PiBwcm9wZXJseSBzdXBwb3J0cyBicmlkZ2UgY2hhaW5pbmcpLgo+ID4gCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBJY2Vub3d5IFpoZW5nIDx1d3VAaWNlbm93eS5tZT4KPiA+IC0tLQo+ID4gQ2hhbmdlcyBp
-biB2MjoKPiA+IC0gQ2hhbmdlZCBzb21lIENvbnRyb2wgZmxvd3MgYWNjb3JkaW5nIHRvIHByZXZp
-b3VzIHJldmlld3MuCj4gPiAtIEFkZGVkIG1pc3Npbmcgb2Zfbm9kZV9wdXQgd2hlbiBjaGVja2lu
-ZyBvZiBlbmRwb2ludHMgZm9yIG91dHB1dAo+ID4gdHlwZS4KPiA+IC0gU3dpdGNoZWQgYWxsIHVz
-ZXJzcGFjZS12aXNpYmxlIG1vZGVzZXQgb2JqZWN0cyB0byBiZSBtYW5hZ2VkIGJ5Cj4gPiBkcm1t
-Cj4gPiDCoCBpbnN0ZWFkIG9mIGRldm0uCj4gPiAtIFV0aWxpemUgZGV2bV9kcm1fYnJpZGdlX2Fs
-bG9jKCkgaW4gaW50ZXJuYWwgYnJpZGdlLgo+ID4gLSBQcmV2ZW50ZWQgdGhlIHVzYWdlIG9mIHNp
-bXBsZSBlbmNvZGVyIGhlbHBlcnMgYnkgcGFzc2luZyBhIE5VTEwKPiA+IGZ1bmNzIHBvaW50ZXIu
-Cj4gPiAtIExldCBkZXZtIGVuYWJsZSBjbG9ja3Mgd2hlbiBnZXR0aW5nIHRoZW0uCj4gPiAtIFJl
-bW92ZWQgZXhwbGljaXQgYC5jYWNoZV90eXBlID0gUkVHQ0FDSEVfTk9ORWAgaW4gcmVnbWFwIGNv
-bmZpZy4KPiA+IC0gRml4ZWQgYSBkZWJ1ZyBwcmludCB1c2luZyBhIHZhcmlhYmxlIGJlZm9yZSBp
-bml0aWFsaXphdGlvbi4KPiA+IC0gRml4ZWQgYSB3cm9uZyBpbmRleCB3aGVuIHVzaW5nIGJ1bGsg
-dG8gaGFuZGxlIHJlc2V0cy4KPiA+IC0gQWRkZWQgbWlzc2luZyBjb25maWd1cmF0aW9uIGZvciBE
-UEkgZm9ybWF0IChjdXJyZW50bHkgZml4ZWQKPiA+IFJHQjg4OCkuCj4gPiAKPiA+IMKgZHJpdmVy
-cy9ncHUvZHJtL0tjb25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB8wqDCoCAyICsKPiA+IMKgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDEgKwo+ID4gwqBkcml2ZXJzL2dw
-dS9kcm0vdmVyaXNpbGljb24vS2NvbmZpZ8KgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxNSArCj4g
-PiDCoGRyaXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi9NYWtlZmlsZcKgwqDCoMKgwqDCoMKgwqDC
-oCB8wqDCoCA1ICsKPiA+IMKgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2JyaWRnZS5j
-wqDCoMKgwqDCoMKgIHwgMzMwCj4gPiArKysrKysrKysrKysrKysrKysKPiA+IMKgZHJpdmVycy9n
-cHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2JyaWRnZS5owqDCoMKgwqDCoMKgIHzCoCA0MCArKysKPiA+
-IMKgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2JyaWRnZV9yZWdzLmjCoCB8wqAgNTQg
-KysrCj4gPiDCoGRyaXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19jcnRjLmPCoMKgwqDCoMKg
-wqDCoMKgIHwgMjE3ICsrKysrKysrKysrKwo+ID4gwqBkcml2ZXJzL2dwdS9kcm0vdmVyaXNpbGlj
-b24vdnNfY3J0Yy5owqDCoMKgwqDCoMKgwqDCoCB8wqAgMjkgKysKPiA+IMKgZHJpdmVycy9ncHUv
-ZHJtL3ZlcmlzaWxpY29uL3ZzX2NydGNfcmVncy5owqDCoMKgIHzCoCA2MCArKysrCj4gPiDCoGRy
-aXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19kYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAy
-MDUgKysrKysrKysrKysKPiA+IMKgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2RjLmjC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMzkgKysrCj4gPiDCoGRyaXZlcnMvZ3B1L2RybS92ZXJp
-c2lsaWNvbi92c19kY190b3BfcmVncy5owqAgfMKgIDI3ICsrCj4gPiDCoGRyaXZlcnMvZ3B1L2Ry
-bS92ZXJpc2lsaWNvbi92c19kcm0uY8KgwqDCoMKgwqDCoMKgwqDCoCB8IDE3NyArKysrKysrKysr
-Cj4gPiDCoGRyaXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19kcm0uaMKgwqDCoMKgwqDCoMKg
-wqDCoCB8wqAgMjkgKysKPiA+IMKgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2h3ZGIu
-Y8KgwqDCoMKgwqDCoMKgwqAgfCAxNTAgKysrKysrKysKPiA+IMKgZHJpdmVycy9ncHUvZHJtL3Zl
-cmlzaWxpY29uL3ZzX2h3ZGIuaMKgwqDCoMKgwqDCoMKgwqAgfMKgIDI5ICsrCj4gPiDCoGRyaXZl
-cnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19wbGFuZS5jwqDCoMKgwqDCoMKgwqAgfCAxMDIgKysr
-KysrCj4gPiDCoGRyaXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19wbGFuZS5owqDCoMKgwqDC
-oMKgwqAgfMKgIDY4ICsrKysKPiA+IMKgLi4uL2dwdS9kcm0vdmVyaXNpbGljb24vdnNfcHJpbWFy
-eV9wbGFuZS5jwqDCoMKgIHwgMTU3ICsrKysrKysrKwo+ID4gwqAuLi4vZHJtL3ZlcmlzaWxpY29u
-L3ZzX3ByaW1hcnlfcGxhbmVfcmVncy5owqDCoCB8wqAgNTMgKysrCj4gPiDCoDIxIGZpbGVzIGNo
-YW5nZWQsIDE3ODkgaW5zZXJ0aW9ucygrKQo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
-cy9ncHUvZHJtL3ZlcmlzaWxpY29uL0tjb25maWcKPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
-aXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi9NYWtlZmlsZQo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2
-NDQgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2JyaWRnZS5jCj4gPiDCoGNyZWF0ZSBt
-b2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmVyaXNpbGljb24vdnNfYnJpZGdlLmgKPiA+IMKg
-Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19icmlkZ2Vf
-cmVncy5oCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmVyaXNpbGlj
-b24vdnNfY3J0Yy5jCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmVy
-aXNpbGljb24vdnNfY3J0Yy5oCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
-cm0vdmVyaXNpbGljb24vdnNfY3J0Y19yZWdzLmgKPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
-aXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19kYy5jCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL2dwdS9kcm0vdmVyaXNpbGljb24vdnNfZGMuaAo+ID4gwqBjcmVhdGUgbW9kZSAx
-MDA2NDQgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2RjX3RvcF9yZWdzLmgKPiA+IMKg
-Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19kcm0uYwo+
-ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3ZlcmlzaWxpY29uL3ZzX2Ry
-bS5oCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmVyaXNpbGljb24v
-dnNfaHdkYi5jCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdmVyaXNp
-bGljb24vdnNfaHdkYi5oCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
-dmVyaXNpbGljb24vdnNfcGxhbmUuYwo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
-cHUvZHJtL3ZlcmlzaWxpY29uL3ZzX3BsYW5lLmgKPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
-aXZlcnMvZ3B1L2RybS92ZXJpc2lsaWNvbi92c19wcmltYXJ5X3BsYW5lLmMKPiA+IMKgY3JlYXRl
-IG1vZGUgMTAwNjQ0Cj4gPiBkcml2ZXJzL2dwdS9kcm0vdmVyaXNpbGljb24vdnNfcHJpbWFyeV9w
-bGFuZV9yZWdzLmgKPiA+IAo+ID4gKwo+ID4gK3N0YXRpYyBpbnQgdnNfYnJpZGdlX2F0b21pY19j
-aGVjayhzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9i
-cmlkZ2Vfc3RhdGUKPiA+ICpicmlkZ2Vfc3RhdGUsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2Ny
-dGNfc3RhdGUKPiA+ICpjcnRjX3N0YXRlLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9jb25uZWN0
-b3Jfc3RhdGUKPiA+ICpjb25uX3N0YXRlKQo+ID4gK3sKPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVj
-dCB2c19icmlkZ2UgKnZicmlkZ2UgPQo+ID4gZHJtX2JyaWRnZV90b192c19icmlkZ2UoYnJpZGdl
-KTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGlmICh2YnJpZGdlLT5pbnRmID09IFZTRENfT1VU
-UFVUX0lOVEVSRkFDRV9EUCAmJgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgICF2c19icmlkZ2Vf
-b3V0X2RwX2ZtdF9zdXBwb3J0ZWQoYnJpZGdlX3N0YXRlLQo+ID4gPm91dHB1dF9idXNfY2ZnLmZv
-cm1hdCkpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FSU5WQUw7
-Cj4gCj4gSSBzdGlsbCB0aGluayB0aGF0IGl0J3MgYmV0dGVyIHRvIGhhdmUgcGVyLWludGVyZmFj
-ZSB0eXBlIGJyaWRnZQo+IGZ1bmNzCj4gcmF0aGVyIHRoYW4gY2hlY2tpbmcgZm9yIHRoZSBpbnRl
-cmZhY2UgdHlwZSBpbnNpZGUgdGhlIGZ1bmN0aW9uLgo+IAo+ID4gKwo+ID4gK8KgwqDCoMKgwqDC
-oMKgdmJyaWRnZS0+b3V0cHV0X2J1c19mbXQgPSBicmlkZ2Vfc3RhdGUtCj4gPiA+b3V0cHV0X2J1
-c19jZmcuZm9ybWF0Owo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gPiArfQo+
-ID4gKwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgYnJpZGdlID0gZGV2bV9kcm1fYnJpZGdlX2Fs
-bG9jKGRybV9kZXYtPmRldiwgc3RydWN0Cj4gPiB2c19icmlkZ2UsIGJhc2UsCj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgJnZzX2JyaWRnZV9mdW5jcyk7Cj4gPiArwqDCoMKgwqDCoMKgwqBpZiAoIWJy
-aWRnZSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gRVJSX1BUUigt
-RU5PTUVNKTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGJyaWRnZS0+Y3J0YyA9IGNydGM7Cj4g
-PiArwqDCoMKgwqDCoMKgwqBicmlkZ2UtPmludGYgPSBpbnRmOwo+ID4gK8KgwqDCoMKgwqDCoMKg
-YnJpZGdlLT5uZXh0ID0gbmV4dDsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChpbnRmID09
-IFZTRENfT1VUUFVUX0lOVEVSRkFDRV9EUEkpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgZW5jdHlwZSA9IERSTV9NT0RFX0VOQ09ERVJfRFBJOwo+ID4gK8KgwqDCoMKgwqDCoMKg
-ZWxzZQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGVuY3R5cGUgPSBEUk1fTU9E
-RV9FTkNPREVSX05PTkU7Cj4gCj4gTml0OiBEUk1fTU9ERV9FTkNPREVSX1RNRFMgPwoKVGhlIERD
-IGl0IHNlbGYgbmV2ZXIgZW5jb2RlcyBUTURTLCBhbmQgYWx0aG91Z2ggbW9zdCBTb0MgY29ubmVj
-dCB0aGUgRFAKaW50ZXJmYWNlIHRvIEhETUkgVFggY29udHJvbGxlcnMsIGl0J3MgdGhlb3J0aWNh
-bGx5IHRvIHVzZSBvdGhlcgpicmlkZ2VzIGhlcmUgKGUuZy4gRFAgVFggY29udHJvbGxlcnMpLgoK
-PiAKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGJyaWRnZS0+ZW5jID0gZHJtbV9wbGFpbl9lbmNv
-ZGVyX2FsbG9jKGRybV9kZXYsIE5VTEwsCj4gPiBlbmN0eXBlLCBOVUxMKTsKPiA+ICvCoMKgwqDC
-oMKgwqDCoGlmIChJU19FUlIoYnJpZGdlLT5lbmMpKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgZGV2X2Vycihkcm1fZGV2LT5kZXYsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCJDYW5ub3QgaW5pdGlhbGl6ZSBlbmNvZGVyIGZv
-ciBvdXRwdXQKPiA+ICV1XG4iLCBvdXRwdXQpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHJldCA9IFBUUl9FUlIoYnJpZGdlLT5lbmMpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoHJldHVybiBFUlJfUFRSKHJldCk7Cj4gPiArwqDCoMKgwqDCoMKgwqB9Cj4g
-PiArCj4gPiArwqDCoMKgwqDCoMKgwqBicmlkZ2UtPmVuYy0+cG9zc2libGVfY3J0Y3MgPSBkcm1f
-Y3J0Y19tYXNrKCZjcnRjLT5iYXNlKTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoHJldCA9IGRy
-bV9icmlkZ2VfYXR0YWNoKGJyaWRnZS0+ZW5jLCAmYnJpZGdlLT5iYXNlLCBOVUxMLAo+ID4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9SKTsKPiA+ICvCoMKgwqDCoMKgwqDCoGlm
-IChyZXQpIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZfZXJyKGRybV9k
-ZXYtPmRldiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIkNhbm5vdCBhdHRhY2ggYnJpZGdlIGZvciBvdXRwdXQgJXVcbiIsCj4gPiBvdXRwdXQpOwo+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBFUlJfUFRSKHJldCk7Cj4g
-PiArwqDCoMKgwqDCoMKgwqB9Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqBicmlkZ2UtPmNvbm4g
-PSBkcm1fYnJpZGdlX2Nvbm5lY3Rvcl9pbml0KGRybV9kZXYsIGJyaWRnZS0KPiA+ID5lbmMpOwo+
-ID4gK8KgwqDCoMKgwqDCoMKgaWYgKElTX0VSUihicmlkZ2UtPmNvbm4pKSB7Cj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2X2Vycihkcm1fZGV2LT5kZXYsCj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCJDYW5ub3QgY3JlYXRlIGNv
-bm5lY3RvciBmb3Igb3V0cHV0ICV1XG4iLAo+ID4gb3V0cHV0KTsKPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZXQgPSBQVFJfRVJSKGJyaWRnZS0+Y29ubik7Cj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIEVSUl9QVFIocmV0KTsKPiA+ICvCoMKgwqDC
-oMKgwqDCoH0KPiA+ICvCoMKgwqDCoMKgwqDCoGRybV9jb25uZWN0b3JfYXR0YWNoX2VuY29kZXIo
-YnJpZGdlLT5jb25uLCBicmlkZ2UtPmVuYyk7Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqByZXR1
-cm4gYnJpZGdlOwo+ID4gK30KPiAKPiBPdGhlciB0aGFuIHRoYXQgTEdUTS4KPiAKCg==
+=E5=9C=A8 2025-09-23=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 04:00 +0300=EF=BC=
+=8CDmitry Baryshkov=E5=86=99=E9=81=93=EF=BC=9A
+> On Sun, Sep 21, 2025 at 04:34:43PM +0800, Icenowy Zheng wrote:
+> > T-Head TH1520 SoC contains a Synopsys DesignWare HDMI controller
+> > (paired
+> > with DesignWare HDMI TX PHY Gen2) that takes the "DP" output from
+> > the
+> > display controller.
+> >=20
+> > Add a driver for this controller utilizing the common DesignWare
+> > HDMI
+> > code in the kernel.
+> >=20
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > ---
+> > Changes in v2:
+> > - Created a new function to set PHY parameters and refactored the
+> > =C2=A0 control flow of the configure_phy callback.
+> >=20
+> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0drivers/gpu/drm/bridge/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 ++
+> > =C2=A0drivers/gpu/drm/bridge/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > =C2=A0drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 173
+> > ++++++++++++++++++++++++
+> > =C2=A04 files changed, 185 insertions(+)
+> > =C2=A0create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f6206963efbf0..98af9dd3664f5 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -21759,6 +21759,7 @@
+> > F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Documentation/devicetree/bindings=
+/reset/thead,th1520-
+> > reset.yaml
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0arch/riscv/boot/dts/thead/
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/clk/thead/clk-th1520-ap.c
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/firmware/thead,th1520-aon=
+.c
+> > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/bridge/th1520-dw-hdmi.=
+c
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/mailbox/mailbox-th1520.c
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/net/ethernet/stmicro/stmm=
+ac/dwmac-thead.c
+> > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/pinctrl/pinctrl-th1520.c
+> > diff --git a/drivers/gpu/drm/bridge/Kconfig
+> > b/drivers/gpu/drm/bridge/Kconfig
+> > index b9e0ca85226a6..f75e6ad04179f 100644
+> > --- a/drivers/gpu/drm/bridge/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > @@ -322,6 +322,16 @@ config DRM_THINE_THC63LVD1024
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0help
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Thine THC63LVD10=
+24 LVDS/parallel converter driver.
+> > =C2=A0
+> > +config DRM_THEAD_TH1520_DW_HDMI
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tristate "T-Head TH1520 Desi=
+gnWare HDMI bridge"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on OF
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on COMMON_CLK
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on ARCH_THEAD || COM=
+PILE_TEST
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select DRM_DW_HDMI
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0help
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Choose this to enable=
+ support for the internal HDMI
+> > bridge found
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 on the T-Head TH1520 =
+SoC.
+> > +
+> > =C2=A0config DRM_TOSHIBA_TC358762
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tristate "TC358762 DSI/=
+DPI bridge"
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on OF
+> > diff --git a/drivers/gpu/drm/bridge/Makefile
+> > b/drivers/gpu/drm/bridge/Makefile
+> > index 245e8a27e3fc5..421e445ff1cd9 100644
+> > --- a/drivers/gpu/drm/bridge/Makefile
+> > +++ b/drivers/gpu/drm/bridge/Makefile
+> > @@ -27,6 +27,7 @@ obj-$(CONFIG_DRM_SIL_SII8620) +=3D sil-sii8620.o
+> > =C2=A0obj-$(CONFIG_DRM_SII902X) +=3D sii902x.o
+> > =C2=A0obj-$(CONFIG_DRM_SII9234) +=3D sii9234.o
+> > =C2=A0obj-$(CONFIG_DRM_SIMPLE_BRIDGE) +=3D simple-bridge.o
+> > +obj-$(CONFIG_DRM_THEAD_TH1520_DW_HDMI) +=3D th1520-dw-hdmi.o
+> > =C2=A0obj-$(CONFIG_DRM_THINE_THC63LVD1024) +=3D thc63lvd1024.o
+> > =C2=A0obj-$(CONFIG_DRM_TOSHIBA_TC358762) +=3D tc358762.o
+> > =C2=A0obj-$(CONFIG_DRM_TOSHIBA_TC358764) +=3D tc358764.o
+> > diff --git a/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > new file mode 100644
+> > index 0000000000000..efb27d37ff652
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > @@ -0,0 +1,173 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
+> > + *
+> > + * Based on rcar_dw_hdmi.c, which is:
+> > + *=C2=A0=C2=A0 Copyright (C) 2016 Renesas Electronics Corporation
+> > + * Based on imx8mp-hdmi-tx.c, which is:
+> > + *=C2=A0=C2=A0 Copyright (C) 2022 Pengutronix, Lucas Stach
+> > <kernel@pengutronix.de>
+> > + */
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/reset.h>
+> > +
+> > +#include <drm/bridge/dw_hdmi.h>
+> > +#include <drm/drm_modes.h>
+> > +
+> > +#define TH1520_HDMI_PHY_OPMODE_PLLCFG=C2=A0=C2=A00x06=C2=A0=C2=A0=C2=
+=A0=C2=A0/* Mode of
+> > operation and PLL dividers */
+> > +#define TH1520_HDMI_PHY_CKSYMTXCTRL=C2=A0=C2=A0=C2=A0=C2=A00x09=C2=A0=
+=C2=A0=C2=A0=C2=A0/* Clock Symbol and
+> > Transmitter Control Register */
+> > +#define TH1520_HDMI_PHY_VLEVCTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A00x0e=C2=A0=C2=A0=C2=A0=C2=A0/* Voltage Level
+> > Control Register */
+> > +#define TH1520_HDMI_PHY_PLLCURRGMPCTRL=C2=A00x10=C2=A0=C2=A0=C2=A0=C2=
+=A0/* PLL current and
+> > Gmp (conductance) */
+> > +#define TH1520_HDMI_PHY_PLLDIVCTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x11=
+=C2=A0=C2=A0=C2=A0=C2=A0/* PLL dividers */
+> > +#define TH1520_HDMI_PHY_TXTERM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A00x19=C2=A0=C2=A0=C2=A0=C2=A0/* Transmission
+> > Termination Register */
+> > +
+> > +struct th1520_hdmi_phy_params {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned long mpixelclock;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 opmode_pllcfg;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 pllcurrgmpctrl;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 plldivctrl;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 cksymtxctrl;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 vlevctrl;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 txterm;
+> > +};
+> > +
+> > +static const struct th1520_hdmi_phy_params
+> > th1520_hdmi_phy_params[] =3D {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 35500000,=C2=A0 0x0003, 0x=
+0283, 0x0628, 0x8088, 0x01a0, 0x0007
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 44900000,=C2=A0 0x0003, 0x=
+0285, 0x0228, 0x8088, 0x01a0, 0x0007
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 71000000,=C2=A0 0x0002, 0x=
+1183, 0x0614, 0x8088, 0x01a0, 0x0007
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 90000000,=C2=A0 0x0002, 0x=
+1142, 0x0214, 0x8088, 0x01a0, 0x0007
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 121750000, 0x0001, 0x20c0,=
+ 0x060a, 0x8088, 0x01a0, 0x0007
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 165000000, 0x0001, 0x2080,=
+ 0x020a, 0x8088, 0x01a0, 0x0007
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 198000000, 0x0000, 0x3040,=
+ 0x0605, 0x83c8, 0x0120, 0x0004
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 297000000, 0x0000, 0x3041,=
+ 0x0205, 0x81dc, 0x0200, 0x0005
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 371250000, 0x0640, 0x3041,=
+ 0x0205, 0x80f6, 0x0140, 0x0000
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 495000000, 0x0640, 0x3080,=
+ 0x0005, 0x80f6, 0x0140, 0x0000
+> > },
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 594000000, 0x0640, 0x3080,=
+ 0x0005, 0x80fa, 0x01e0, 0x0004
+> > },
+> > +};
+> > +
+> > +struct th1520_hdmi {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dw_hdmi_plat_data pla=
+t_data;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dw_hdmi *dw_hdmi;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct clk *pixclk;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct reset_control *mainrs=
+t, *prst;
+> > +};
+> > +
+> > +static enum drm_mode_status
+> > +th1520_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_=
+display_info *info,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_=
+display_mode *mode)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The maximum supported clo=
+ck frequency is 594 MHz, as
+> > shown in the PHY
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * parameters table.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (mode->clock > 594000)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0return MODE_CLOCK_HIGH;
+>=20
+> Is it the limitation for the pixel clock or for the TMDS char clock
+> (the
+> difference makes sense for non-8-bpc modes.
+
+I have no idea, the BSP driver didn't consider non-8bpc modes, and I
+have no non-8bpc devices to test.
+
+>=20
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return MODE_OK;
+> > +}
+> > +
+>=20
 
