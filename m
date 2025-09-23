@@ -2,90 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7B8B94917
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EA1B9495F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8E610E0D5;
-	Tue, 23 Sep 2025 06:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6B010E1EC;
+	Tue, 23 Sep 2025 06:38:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rX9Bcab6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rrSD3D1v";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rX9Bcab6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rrSD3D1v";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rjHXCTMJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bu9ELGvi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fLJywFKC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y25WnlxJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0729A10E0D5
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 06:34:17 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6305710E1EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 06:38:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4F34F22407;
- Tue, 23 Sep 2025 06:34:15 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E3DB8224E6;
+ Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758609255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1758609532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
- b=rX9Bcab65XoEVPqanK6+jjBXCMFJRD3chYLJAzI87QsOBuK+vd+uYnleOZJDycOIg23Rmj
- LKswo/zYFXHo82deEKKjxMDDXAP2ZdEjjSJY9ZC0VSRoC7IdwFzXNzzsX909QyZHB+F6H9
- l36ElIXhU5LGrIHShdSajLB6hfL6/Lo=
+ bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+ b=rjHXCTMJ6WqW0SndCHqWDfgtfvrFcmJmxUvtdLXCYPVU7CqFjxkKipUB218v27sLye0NTp
+ coyx/PBWzJTPKjtTyAPNAfcsw6asuoCcaPoWnLAWQw2MQrKWq1S9Dty0/7FylgLPUHieki
+ yNDLsmV2cpWYmOfO8dZC/u2mACNx3Hw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758609255;
+ s=susede2_ed25519; t=1758609532;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
- b=rrSD3D1v6yW2jERvfRQ0qU1PutFACQgsCq7wjRczvD5IUR9JI0fnBbS/C//PXoFi88O+xw
- a4BcaiFOoenbTiCQ==
+ bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+ b=Bu9ELGvijHyU2/96UJ3hTvFZxr11r5YmaRa/wVYng/DmjFd72DoTZ6U7bSo/pgOLZHwou0
+ yE460Bm9KI/NZfAA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rX9Bcab6;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rrSD3D1v
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758609255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1758609531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
- b=rX9Bcab65XoEVPqanK6+jjBXCMFJRD3chYLJAzI87QsOBuK+vd+uYnleOZJDycOIg23Rmj
- LKswo/zYFXHo82deEKKjxMDDXAP2ZdEjjSJY9ZC0VSRoC7IdwFzXNzzsX909QyZHB+F6H9
- l36ElIXhU5LGrIHShdSajLB6hfL6/Lo=
+ bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+ b=fLJywFKC8Fgr3hEw2YlaziV56e1DqWmjzIDgra6DMRBXlJEO/QZ/kZMCSsk69ulWNWNZg7
+ hk9xMKjpmUbbX/6fmXwqJMnE69IzoJA4wIJUnh1YopTOr4wbp9qEC6+lpCzoU0XyqpaHFr
+ jE2ktpeIAfUp5z33LRwp1odK8YViT+g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758609255;
+ s=susede2_ed25519; t=1758609531;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wz3AXAlF5GjIw3jAlJPvdawMg5eEHvjgJbMIezsSt5c=;
- b=rrSD3D1v6yW2jERvfRQ0qU1PutFACQgsCq7wjRczvD5IUR9JI0fnBbS/C//PXoFi88O+xw
- a4BcaiFOoenbTiCQ==
+ bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+ b=y25WnlxJCvce3z4cXbYTANV62uHo1NKTZGxkCq30sBj4aMd4Ur88dNKKsIssUXDjNDNNef
+ WHFB1zW+Pa3S9lBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E421F132C9;
- Tue, 23 Sep 2025 06:34:14 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C961132C9;
+ Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id SRc3NmY/0mhhHAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:34:14 +0000
-Message-ID: <063fbed8-915e-47e5-99fd-ffae22cfb6fa@suse.de>
-Date: Tue, 23 Sep 2025 08:34:14 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ndUHJXtA0mj4HQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:38:51 +0000
+Message-ID: <53d8dd21-2c46-4c3c-b7f9-30696c6f6412@suse.de>
+Date: Tue, 23 Sep 2025 08:38:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gud: Use kmalloc_array() instead of kmalloc()
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, jfalempe@redhat.com,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Ruben Wauters <rubenru09@aol.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com>
+Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
+To: Ruben Wauters <rubenru09@aol.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
+ oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250922173836.5608-1-rubenru09.ref@aol.com>
+ <20250922173836.5608-1-rubenru09@aol.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -112,39 +111,28 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <20250922173836.5608-1-rubenru09@aol.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 4F34F22407
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,linutronix.de,redhat.com,linuxfoundation.org,aol.com];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[14];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
  MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[];
  FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- TAGGED_RCPT(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid]
-X-Spam-Score: -3.01
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[11];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,31 +148,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cc Ruben
 
-Am 22.09.25 um 19:43 schrieb Mehdi Ben Hadj Khelifa:
-> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
-> calculation inside kmalloc is dynamic "width * height" and added
-> u_char as the size of each element.
+
+Am 22.09.25 um 19:32 schrieb Ruben Wauters:
+> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+> 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
+> versions"), the IS_ERR check was accidentally removed, breaking the
+> gud_connector_add_properties() function, as any valid pointer in
+> state_val would produce an error.
 >
-> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+> The warning was reported by kernel test robot, and is fixed in this patch.
+>
+> Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
->   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>   drivers/gpu/drm/gud/gud_connector.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-> index 8d548d08f127..eeea0cb4c7aa 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
->   	height = drm_rect_height(rect);
->   	len = drm_format_info_min_pitch(format, 0, width) * height;
+> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
+> index 62e349b06dbe..1726a3fadff8 100644
+> --- a/drivers/gpu/drm/gud/gud_connector.c
+> +++ b/drivers/gpu/drm/gud/gud_connector.c
+> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
+>   			unsigned int *state_val;
 >   
-> -	buf = kmalloc(width * height, GFP_KERNEL);
-> +	buf = kmalloc_array(width * height, sizeof(u_char), GFP_KERNEL);
->   	if (!buf)
->   		return 0;
+>   			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
+> -			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
+> +			if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
+>   				return PTR_ERR(state_val);
 >   
+>   			val = *state_val;
 
 -- 
 --
