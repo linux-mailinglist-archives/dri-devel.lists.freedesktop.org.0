@@ -2,100 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539F9B96AE3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 17:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2C2B96B41
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 18:03:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D34410E1F7;
-	Tue, 23 Sep 2025 15:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965BA10E1F9;
+	Tue, 23 Sep 2025 16:03:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b4TV0txA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cQnQINMT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98D3F10E1F7
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 15:56:44 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-45cb5e5e71eso36697225e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 08:56:44 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F7510E1F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 16:03:14 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-26816246a0aso12714505ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:03:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758643003; x=1759247803; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=RAZ4THQUhLp/jCSZc6k8pRe3JJ30LyWIBv7Rdm7k38s=;
- b=b4TV0txAWPrl73fP16gcqysxKXnncbeAgVLoxsHqtDYVEJ3Osc++TDVA1y/zhtNMk6
- hMGOI89izasKhPAQiwaen0qvgp86LnUOPDIxLBDB+cxLFRnSQSJ1QFCICXNse7mRYSU/
- NqMpb+CoSN4+MPur74AoU/kGNWHQ9v9Fj4OVCJcHTL1O5kLJEz12Z1TciYnEuSfXtG/w
- NZRgJva2htdV7e7qglo+F98wLVbJBc2OfoQQR8CoQXXxcdkNryTcs0FCp2XCTMv+TzxE
- 5nNNqsNz7wxTfFiBXxzZnQJgzJ1G1jJNng09mc2g0PJ/OhxxDXJMaeLbJo83K8oigJFL
- qTPw==
+ d=gmail.com; s=20230601; t=1758643394; x=1759248194; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m2ROfUbxr/KN7oAi0rJA/6LeNf8GF4G0Z/s0Uz4C+7I=;
+ b=cQnQINMT35kC4OEFg1l0Wlml95pnORR9JTa0OU8Fmxxq6MwfWRSSaQbZudrhnBjO5V
+ X6J0EGpi/waZ5Yf5fHsPJOL7dFm0d5DeKsiJqYxcNHjqoMV5nt/3IZ3HT0Rn21+yKvam
+ FdO9Pnf+a04QidVDYg969rIPwk2FvBpuTCCJjRJquScokKW/kHC7rfjJE0hFSkegXn7Y
+ IdbkxeMYJb42g4W/pJYSmB+7fnbslbByJlSg3b9MhKuj+mP+docAUaWlSwaxftRevkcv
+ c7oBAGjd/grIou3RI6T2ONG8Cq+h2ELxCCAguORrqGGCW9fWwKcazHjD5KHb7uEBY+yG
+ b/Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758643003; x=1759247803;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RAZ4THQUhLp/jCSZc6k8pRe3JJ30LyWIBv7Rdm7k38s=;
- b=J9OXKLD7rb5ahdEmFTg/hfBR7ihSH+RDKjwT97QFCTs17prw70jLooEo47wrsAQZN1
- ulnmtMYpjvbBk9r8j9qpaQED7kTLIYR1NM2mJZWl1I+8+7DxGchwfPlpiEg99KQV7myX
- rgYbgZXscc/JTCFWPsDtVKTxkede1y7L1Y/XnhWrW/CxvxxdSlYbf63XY6myLp0oRP2D
- ULdn7N0Mr8i8r/mS8D8fSi4KN9jlgvQ176WcvJjBOfT3o8JRo4Kf/jFJT9I4J+jWZL2E
- vHAq5EMCmLWvI0Ndb57Oc+V8onWGpyNKt5VqkaFYHsYu0mQOEVpio+fV3MqvTNRljKHc
- GwnQ==
+ d=1e100.net; s=20230601; t=1758643394; x=1759248194;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=m2ROfUbxr/KN7oAi0rJA/6LeNf8GF4G0Z/s0Uz4C+7I=;
+ b=boLc7x1AWzC6TO+fIuLBgzpjLsXbw2Hr48u00A3L6pKpIrvSfBXhzH5j3d5uNTJngf
+ +d9EwlDmUC3QPBRLcX5jGLbSI1+EmMwez9Wxn2Q6ymaj1ni6KCfEX+bTdfKun5gGXQlO
+ 5ZboG3IFDOsUxsd4c/2pCOydU3RoBzL69Z6lRfvTkxydEA24gAcsvdPWMX4WMlX+r6Dv
+ cwFrRh+XInESOymBjOBR0BmOJJKpuWFd0ufdXV7SwBMuSKi8JxpWdLeOWUA3/29XUBt/
+ Rtfqnrv/LyeXT1W/SkJNzWDn6L8lEzbx7fK1pGMXX+TSw2fJ+M2ogAiPQupbMY66rzqM
+ vHng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVy3pA8K+X4SVCbO0PxubiBg2mqGiFHQ1IfNUwJsPKfrO9o8/h/OdU3hnrb+LIXor+Qzt3xOqqZ/Yc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwfDlGnbMTGw28g/cgcHGW0dBevEzhwACOWa00StBEzkv0ds/nW
- wm0k+6VHpKzzpSVkejcXrEym31EiGzLqgYBGpwLbTdg32mu9c9zhpxJE
-X-Gm-Gg: ASbGnctE3wwb3EY1B/vOJWpi7rjle1FRkNTfHXIQ7ywRVwblqv/oWflAeHZ+Gf0Bj55
- /IPS2mP5vw0gRyXx67B4ecluRsO2OJkj0K6E7+aqIFer2JATQMDB2WKfXqti3DDvZbi6/PNKTOb
- eyPBb4jodnEVdfYFq8yib8jL+jBYj6PKGR8iItaNKJedG27/shoFOl1t0o7CYdJ2MtI3IAiPoly
- H8HdBthmIVOl3lsdihFVlenRi2rWxBooGRICrD+zya2EdsfeCbjIriWBsQUr/YYLEnZEclSRRVK
- Br8kYSIhmey2JXs1DoqSEyEZt+9TdV2Gr/wZBn53m1/VYyLAeONNd8mRA2qzX46Np7ht/aufTE/
- X4oFafZsfswo2hUJqDXZFDJyW62uU0BnEQ63spor3PJLTdZjEL/L16gCNnyaO5RxHSnhn
-X-Google-Smtp-Source: AGHT+IF0O7ehdqAB1QQAuoqY6m+j/Uj2ZkmlzqIVAVJm6bomKNVnwhf+M+9Mh3XvnYTFUDYTzupMzQ==
-X-Received: by 2002:a05:600c:3b93:b0:468:7a5a:725 with SMTP id
- 5b1f17b1804b1-46e1d975205mr31719315e9.1.1758643002051; 
- Tue, 23 Sep 2025 08:56:42 -0700 (PDT)
-Received: from localhost (dhcp-91-156.inf.ed.ac.uk. [129.215.91.156])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-464f0aac439sm284469705e9.5.2025.09.23.08.56.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Sep 2025 08:56:41 -0700 (PDT)
-Date: Tue, 23 Sep 2025 16:56:40 +0100
-From: Karim Manaouil <kmanaouil.dev@gmail.com>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: Zi Yan <ziy@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- David Hildenbrand <david@redhat.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Mika =?utf-8?B?UGVudHRpbMOk?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [v6 05/15] mm/migrate_device: handle partially mapped folios
- during collection
-Message-ID: <20250923155640.lbtvyi54ueyv2tjb@wrangler>
-References: <20250916122128.2098535-1-balbirs@nvidia.com>
- <20250916122128.2098535-6-balbirs@nvidia.com>
- <3FE3F2B9-86F9-4EED-863A-093FE3959B1A@nvidia.com>
- <62fb7aca-cd30-4058-bfd1-d08f78d5c38d@nvidia.com>
+ AJvYcCVRAKekWROqtbbk2pi2cWMYDm5bklLXSqAfyAYMWf0pSln9RLLfItEUfRd40JWSoTjOfUW+qK887ck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4fcZUOfTvOdSm/AQWWrD+UgNKmSJfTe+uo6dGngJJHe/KuOkH
+ Nv9IRobdDtVcwpZIxR7ZPV2LLbRp9ttVEAiNNsG5//hg2/V3fObCrzvtmG4StmHyJUoiIc3G2JZ
+ /W4uXSriQAzUjGHij+ldameM0p6aUhgQ=
+X-Gm-Gg: ASbGnctsiUZlfleMz/o40afKHDGpGYuJZ7zYaEIBVHVUwpfQr9fqCmeKmPTXSfFoiQX
+ GTeD1jaG7WSahazBVLoyrdd6tOQSzzvevAFhoambHC9v/Hz4i1Q9qyE80JJ0ZunLepRlu3sT8/j
+ upJRAupmaIBj/SMMN7N5VAD+B1jkSgbL1tpVIMWt2OV2/4Hcjud9l469sTZ2TGtHpeDBJtt3x4G
+ UAdmbc=
+X-Google-Smtp-Source: AGHT+IGBbiHkgD0/2labtH1NeFTzXLVqipenHtdKCLOlRtkUCqCDTMEK1XiJMTv9TX8U0v9Y4TZdy6Zkg1xfbYYFpBI=
+X-Received: by 2002:a17:902:b695:b0:264:cda8:7fd3 with SMTP id
+ d9443c01a7336-27cc712154dmr18207895ad.6.1758643394109; Tue, 23 Sep 2025
+ 09:03:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62fb7aca-cd30-4058-bfd1-d08f78d5c38d@nvidia.com>
-X-Mailman-Approved-At: Tue, 23 Sep 2025 15:57:48 +0000
+References: <20250923084157.11582-1-hsukrut3@gmail.com>
+ <9fe75192-9260-44f7-8f13-e024e2bbd731@suse.de>
+In-Reply-To: <9fe75192-9260-44f7-8f13-e024e2bbd731@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 23 Sep 2025 12:03:02 -0400
+X-Gm-Features: AS18NWDnCIuE4uDg0qpAn-RzVENplvgl1AQzC-tA5opkGWF7-LN_yd6zTJ3mypY
+Message-ID: <CADnq5_NHu5=esJZrgy_S80jF68ZapRRYX4_L70DwDDSN3VXitQ@mail.gmail.com>
+Subject: Re: [PATCH] fbdev/radeon: Update stale product link in
+ Kconfig/FB_RADEON
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sukrut Heroorkar <hsukrut3@gmail.com>, Helge Deller <deller@gmx.de>,
+ Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>, 
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, 
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,155 +92,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 01:44:20PM +1000, Balbir Singh wrote:
-> On 9/23/25 12:23, Zi Yan wrote:
-> > On 16 Sep 2025, at 8:21, Balbir Singh wrote:
-> > 
-> >> Extend migrate_vma_collect_pmd() to handle partially mapped large folios
-> >> that require splitting before migration can proceed.
-> >>
-> >> During PTE walk in the collection phase, if a large folio is only
-> >> partially mapped in the migration range, it must be split to ensure the
-> >> folio is correctly migrated.
-> >>
-> >> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
-> >> Cc: David Hildenbrand <david@redhat.com>
-> >> Cc: Zi Yan <ziy@nvidia.com>
-> >> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
-> >> Cc: Rakie Kim <rakie.kim@sk.com>
-> >> Cc: Byungchul Park <byungchul@sk.com>
-> >> Cc: Gregory Price <gourry@gourry.net>
-> >> Cc: Ying Huang <ying.huang@linux.alibaba.com>
-> >> Cc: Alistair Popple <apopple@nvidia.com>
-> >> Cc: Oscar Salvador <osalvador@suse.de>
-> >> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> >> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> >> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-> >> Cc: Nico Pache <npache@redhat.com>
-> >> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> >> Cc: Dev Jain <dev.jain@arm.com>
-> >> Cc: Barry Song <baohua@kernel.org>
-> >> Cc: Lyude Paul <lyude@redhat.com>
-> >> Cc: Danilo Krummrich <dakr@kernel.org>
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: Simona Vetter <simona@ffwll.ch>
-> >> Cc: Ralph Campbell <rcampbell@nvidia.com>
-> >> Cc: Mika Penttilä <mpenttil@redhat.com>
-> >> Cc: Matthew Brost <matthew.brost@intel.com>
-> >> Cc: Francois Dugast <francois.dugast@intel.com>
-> >> ---
-> >>  mm/migrate_device.c | 82 +++++++++++++++++++++++++++++++++++++++++++++
-> >>  1 file changed, 82 insertions(+)
-> >>
-> >> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> >> index abd9f6850db6..70c0601f70ea 100644
-> >> --- a/mm/migrate_device.c
-> >> +++ b/mm/migrate_device.c
-> >> @@ -54,6 +54,53 @@ static int migrate_vma_collect_hole(unsigned long start,
-> >>  	return 0;
-> >>  }
-> >>
-> >> +/**
-> >> + * migrate_vma_split_folio() - Helper function to split a THP folio
-> >> + * @folio: the folio to split
-> >> + * @fault_page: struct page associated with the fault if any
-> >> + *
-> >> + * Returns 0 on success
-> >> + */
-> >> +static int migrate_vma_split_folio(struct folio *folio,
-> >> +				   struct page *fault_page)
-> >> +{
-> >> +	int ret;
-> >> +	struct folio *fault_folio = fault_page ? page_folio(fault_page) : NULL;
-> >> +	struct folio *new_fault_folio = NULL;
-> >> +
-> >> +	if (folio != fault_folio) {
-> >> +		folio_get(folio);
-> >> +		folio_lock(folio);
-> >> +	}
-> >> +
-> >> +	ret = split_folio(folio);
-> >> +	if (ret) {
-> >> +		if (folio != fault_folio) {
-> >> +			folio_unlock(folio);
-> >> +			folio_put(folio);
-> >> +		}
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	new_fault_folio = fault_page ? page_folio(fault_page) : NULL;
-> >> +
-> >> +	/*
-> >> +	 * Ensure the lock is held on the correct
-> >> +	 * folio after the split
-> >> +	 */
-> >> +	if (!new_fault_folio) {
-> >> +		folio_unlock(folio);
-> >> +		folio_put(folio);
-> >> +	} else if (folio != new_fault_folio) {
-> >> +		folio_get(new_fault_folio);
-> >> +		folio_lock(new_fault_folio);
-> >> +		folio_unlock(folio);
-> >> +		folio_put(folio);
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >>  				   unsigned long start,
-> >>  				   unsigned long end,
-> >> @@ -136,6 +183,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >>  			 * page table entry. Other special swap entries are not
-> >>  			 * migratable, and we ignore regular swapped page.
-> >>  			 */
-> >> +			struct folio *folio;
-> >> +
-> >>  			entry = pte_to_swp_entry(pte);
-> >>  			if (!is_device_private_entry(entry))
-> >>  				goto next;
-> >> @@ -147,6 +196,23 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
-> >>  			    pgmap->owner != migrate->pgmap_owner)
-> >>  				goto next;
-> >>
-> >> +			folio = page_folio(page);
-> >> +			if (folio_test_large(folio)) {
-> >> +				int ret;
-> >> +
-> >> +				pte_unmap_unlock(ptep, ptl);
-> >> +				ret = migrate_vma_split_folio(folio,
-> >> +							  migrate->fault_page);
-> >> +
-> >> +				if (ret) {
-> >> +					ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
-> >> +					goto next;
-> >> +				}
-> >> +
-> >> +				addr = start;
-> >> +				goto again;
-> >> +			}
-> > 
-> > This does not look right to me.
-> > 
-> > The folio here is device private, but migrate_vma_split_folio()
-> > calls split_folio(), which cannot handle device private folios yet.
-> > Your change to split_folio() is in Patch 10 and should be moved
-> > before this patch.
-> > 
-> 
-> Patch 10 is to split the folio in the middle of migration (when we have
-> converted the entries to migration entries). This patch relies on the
-> changes in patch 4. I agree the names are confusing, I'll reword the
-> functions
+On Tue, Sep 23, 2025 at 11:29=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+>
+> Hi
+>
+> Am 23.09.25 um 10:41 schrieb Sukrut Heroorkar:
+> > The previous Radeon product page link was no longer valid. Repalce
+> > it with the current working link.
+> >
+> > Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+> > ---
+> >   drivers/video/fbdev/Kconfig | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> > index c21484d15f0c..3037455adf48 100644
+> > --- a/drivers/video/fbdev/Kconfig
+> > +++ b/drivers/video/fbdev/Kconfig
+> > @@ -949,7 +949,7 @@ config FB_RADEON
+> >         don't need to choose this to run the Radeon in plain VGA mode.
+> >
+> >         There is a product page at
+> > -       https://products.amd.com/en-us/GraphicCardResult.aspx
+> > +       https://www.amd.com/en/products/specifications/graphics.html
+>
+> May I suggest to remove this URL entirely?
 
-Hi Balbir,
+Yes, agreed.  I doubt any of the chips listed there actually work with rade=
+onfb.
 
-I am still reviewing the patches, but I think I agree with Zi here.
+Alex
 
-split_folio() will replace the PMD mappings of the huge folio with PTE
-mappings, but will also split the folio into smaller folios. The former
-is ok with this patch, but the latter is probably not correct if the folio
-is a zone device folio. The driver needs to know about the change, as
-usually the driver will have some sort of mapping between GPU physical
-memory chunks and their corresponding zone device pages.
-
+>
+> Best regards
+> Thomas
+>
+> >
+> >   config FB_RADEON_I2C
+> >       bool "DDC/I2C for ATI Radeon support"
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
+>
