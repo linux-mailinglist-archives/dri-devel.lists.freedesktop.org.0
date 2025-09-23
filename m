@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD51B97334
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 20:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9216B9733F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 20:32:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85BF710E15E;
-	Tue, 23 Sep 2025 18:31:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D9C310E17E;
+	Tue, 23 Sep 2025 18:32:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="cNF80G2q";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="C6qrgRWa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com
- (mail-swedencentralazon11013025.outbound.protection.outlook.com
- [52.101.83.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA73910E15E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 18:31:14 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11011059.outbound.protection.outlook.com [52.101.65.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688A410E17E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 18:32:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t41qyBiFzzGmWMi6GmwQED+GBYjp5Yh9iwSmGT6nAD0uaMiNhIBUh0ddozzCqKKTfqjjuxILwmYiud1CIRXQSqMUQwbn6Sq17RV1iNREjAr/IxY+HUVH2+huDckOmcMa7+xz2GfnUqKcMd9n9SClqDg56Kk4dfc/5nlcwjdbenwEKIfPz0ZvBlqhKrdrqCfM0vk1o4zhJlXVKZzTOmKm19OhV3Cw+8p3bCGYYMWQFwEumZ+vK5sA5JXRXA/lOTy3837OTcd5BIX0q3CQqOoN8JUModLCxfXzKhZvRrlHzN3/DduKYxY/J/8CXyQFWQOj2pHgYpgXOGiRZGBBmsR6oQ==
+ b=y7g/WU714y2RYw6MZB5fCFKiEKHaKCUXIUHTb0nU+HeLkpXUijPIBzyoM4svgo9mEmxRCnSqbSFhDjOJYNEzUCYIHp+4vJN8eMBKXhX9dTitBRCwkt6rCV33eHotpv+VHX0QWD6IFCoJrlgAOLgRGdeFRpGGNDhR5SGULgQJfBymzdx2/BvaODCzxvwBR4/6lQkfd81RDlPOqbYtRPZlAPWGgUDOY1GO6iTbx+ZjvgmUAtWMioIl2+XQedK/jf6EJ22kDdYMqi/lNw3N5/9fDWZ7lCaw84mR0YOy1//5Q+KSlXC16pQFWkciC2s4qLMjG+/IcHtkwUui1F6lzBwp1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AVPXPvOL28Rx5pSTJl/yehdM6XrHvmr9bqeIUgtVTMk=;
- b=Od+vMY3Ec96qadPYu3mMIkifvwN3iB3ABhn/uHPyQxgPMw3sqWqdAF564JJclwHjPT/DWgliMEjH66s/WX7ILRzR5Ohb1lgYpIrRhqmvGDv/WnVtek41CuI2PITm8C8YoxDzkNRiYhQIxrtLyHXuxpZQrMMccq5e7inhYEucowhvHIdKv0904W3BxoK9pgRtvRwPThMZ7ehYf5d3VlO1msGdT6TSA8OzLLxFDjv8tD21Zv0Om5gCJ4xTQDqMTirHQwlVcYtDvweXu23Y9yyvChQFPZwXSCq2BoYHJ82N8TrtBU2hmyGZNs8AN2DQX5G5fnS6Aqg9qDQmvzZysvPmcg==
+ bh=5VhY5vmvdXYFemfSsW9xAc4DQGbFGm0ze/vVzaVLl9A=;
+ b=VyICbhAV/1ikSid570JV3Hu5rZerbL0LKmUaOTiS++bo/5s5jV0eoGl47MJ0kQ3U0vUKnbiiemAtZK77mWBjWnD4xU99eF6W/9S1kwhtMSD/O9UvV00w55shMVCftohjaawATJOC5YG1mXR9SxBXvyhM7zyJVuCCQMavXBfmQVZ+4TYazZ0dx65FS0sQkfyoCrmQ9HJrC3QbSi3tbwFteR1h0zxABWD+T4/ZTpdULd9ajznJ9TzhasNuJlCiD2ndNjiPVLuWSwWoNtOm9LGHIKhw1Q8F5Z5V/nUsKOWvxj0VBvnDxR4Y79GdrkwLTW7MnLk2BRvVISdtsNYgES/ihQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AVPXPvOL28Rx5pSTJl/yehdM6XrHvmr9bqeIUgtVTMk=;
- b=cNF80G2qjld+Yo6Lnt6b5ErFT+cn7UgBYVeMYT0d2FvidY3BabUtzTSzOBTnmiVQi+08S2etmKZRmqIV4r8xSYQvXkxf8NFonw5Pl+Mg2b5Cshlo+OeyxQr+OvUk23RhsLyD9HGc7+CiGdS5W8Ypa0fxytxHl6eE7tIMQnOzQZL8XrzQ4QPDLfTDtdStGKwp8TrEGOhz8XH43G77LjUxEmHyseI8o13FVUJCEExiY7c/NCR5NYgUIVcpHR8UrYwFnhwHksxkyKJwF4SKRzAC98daJvuZHvQ+KaZAddbmwJqtXzNAqcOzD6687afg/5RtxoII30vUiIdh4vSN5j7unw==
+ bh=5VhY5vmvdXYFemfSsW9xAc4DQGbFGm0ze/vVzaVLl9A=;
+ b=C6qrgRWauKMhER19HmNqbCfhhXN3VlAB2qjZUTZgwfImC7flBSjsXyy1pK2tAXYvEjKsu/CabuUOFB+OXutuw3y7eGJ2uriBSXJ0liUfofx4Q17FsX2NdD7txYEPLUro0XGO3CzV0S3Kr6OoO+ZjObKHj9zLsO2Q1SXzw+ELxG1BlkZK1BGfVrLKPlUIiIvKZDCR5sdwcFp7pT+z5wUjTrSkrEDvTFDInSw3ER4xAdNQH7VQdltG6hQWPBdbFj5HZeW+2J6B+rvFnWbN8KW/y5tvItJMiyUYGTwgkfgH7Lq+MzpCXGFsQ4PPk3TaMFTepBR8bI1qJRGB21sF4hCivw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
  by GV4PR04MB11851.eurprd04.prod.outlook.com (2603:10a6:150:2d7::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
- 2025 18:31:11 +0000
+ 2025 18:32:11 +0000
 Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
  ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
  ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9160.008; Tue, 23 Sep 2025
- 18:31:11 +0000
-Date: Tue, 23 Sep 2025 14:30:59 -0400
+ 18:32:11 +0000
+Date: Tue, 23 Sep 2025 14:32:01 -0400
 From: Frank Li <Frank.li@nxp.com>
 To: Liu Ying <victor.liu@nxp.com>
 Cc: Philipp Zabel <p.zabel@pengutronix.de>,
@@ -58,90 +57,90 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/14] drm/imx: dc: Use TCON operation mode
-Message-ID: <aNLnY+MWdHmSHIFh@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH v2 14/14] drm/imx: dc: Use prefetch engine
+Message-ID: <aNLnoZsMiWNogUEB@lizhi-Precision-Tower-5810>
 References: <20250923-imx8-dc-prefetch-v2-0-5d69dc9ac8b5@nxp.com>
- <20250923-imx8-dc-prefetch-v2-8-5d69dc9ac8b5@nxp.com>
+ <20250923-imx8-dc-prefetch-v2-14-5d69dc9ac8b5@nxp.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923-imx8-dc-prefetch-v2-8-5d69dc9ac8b5@nxp.com>
-X-ClientProxiedBy: BY3PR05CA0028.namprd05.prod.outlook.com
- (2603:10b6:a03:254::33) To AS4PR04MB9621.eurprd04.prod.outlook.com
+In-Reply-To: <20250923-imx8-dc-prefetch-v2-14-5d69dc9ac8b5@nxp.com>
+X-ClientProxiedBy: BY3PR10CA0012.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::17) To AS4PR04MB9621.eurprd04.prod.outlook.com
  (2603:10a6:20b:4ff::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|GV4PR04MB11851:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64079a73-3f46-4bd9-f38c-08ddfacf5e4d
+X-MS-Office365-Filtering-Correlation-Id: 4b726374-1021-42bb-6a0d-08ddfacf8287
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|19092799006|376014|52116014|7416014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yrOxNe75PnjI5AteQR83CY2KdHjNeEYj8Ix1dqr7j6f+Y8cWWJeArJ0Me5uY?=
- =?us-ascii?Q?b+F11LzMXHVwYXSa1+c5O9QrIeUnX3LC6YsXXeWyKXXOXVEGHQd1eji5AC3t?=
- =?us-ascii?Q?f74jBcAjJ8LCHlukXD8cWU0SzfR7vwVyVBsnGkBbzVK4zJoGlpgSIwlPsDmc?=
- =?us-ascii?Q?HGt0JIKNAYTNh57uyOhdjGUoyv8uue5otMzzmvZObNFwK95EdkHOsBkErOn4?=
- =?us-ascii?Q?a/RUJxF03SemhS0YoSIoXJR/WBXz/YVZb93bEtVENy/IX5UfcUgDnmQBd+lK?=
- =?us-ascii?Q?LMpr/Q18C15iVoYkoHW9yXx5yhFlSBdJqpYhJLXyxIn4sEaPPFyv7yJvQDbo?=
- =?us-ascii?Q?ew/txkwMmsRxj5pFNXFnOBoEOl6oiOp3o9oZ7bZi52SsqcMrpo9u+xr3qkaE?=
- =?us-ascii?Q?zxDTfcz8aXl/80sg4rrldxUHKygHpxMtJzy4fieFWGuuI7sYcJBEpF7p7PbN?=
- =?us-ascii?Q?btZaINdYHYbnmuVsXwRC98lU+0hTWZe26k+VsDJP/PzlWn/g5MfSNj+TZEXt?=
- =?us-ascii?Q?8qdvkY25F5/ok/m87T0dOSI/xyNvS+2tdPbzPapm3p6z0UtgIuGThd88co0l?=
- =?us-ascii?Q?lchveIEKry+KQxl8F6g2ruTjPu2AMLTw1+y8BmIzmN9jVDxekgB8+MzCASFt?=
- =?us-ascii?Q?lV8SEsuPki7HCuTlUPPNCBWUiIDgGYuTKmBJ1lvvfj0HaS/j0piuMUHFijBS?=
- =?us-ascii?Q?hm1HF+h0VOlL3S1Wnj/GMWRf5fR5VGDyPcpnqrEcAsBCE6S/K31gNOByxreb?=
- =?us-ascii?Q?m/I9swi+XKp9HSiHNRxNf5ylXzRSnVlnKf7wqMRvSd96kjsXrHc7ozoszscY?=
- =?us-ascii?Q?hNKlRZwZ+327zsVVNx2Jk/kPnUAq6UyO/Vx/N8Utko4wBdM7zsRnOOBlDAOZ?=
- =?us-ascii?Q?SEAY9V2+Dbu0OdAtlR0uk6TMZySfbgJ8VR+yN/eB9OGVD0edmAnggDeSBinw?=
- =?us-ascii?Q?4SGKgq1GptAw6Yl2A6EjcD0Fy43i86YL9xzrKw18Dv451nQKwzKbJfvaMntZ?=
- =?us-ascii?Q?wEnrXPnJGXXQNfPsaW0IM+a6KNpKalw1N3Kt6jCw/og4309Zeje+C+tTdC/1?=
- =?us-ascii?Q?jbR4Nj9CTwksFbORJ3i7sxmwH990Hh07cY+KRmxd2ohcVzAGeqk0dMW/ZR2a?=
- =?us-ascii?Q?ytT6yLxaT5ibIGZxRPIFpDEznPUww9EY1bEuCE9b7yPGTlC6jwh2W0X44MCI?=
- =?us-ascii?Q?XxD0Sj91TIEPZOzt3cPWRaONuH02uaIqzJ9T0U9WdFGtunFh1tzt95PMPUcB?=
- =?us-ascii?Q?vEg3CSVGWq9fjpPysSH/LrEcbRkgwOAebrDLHEIgL3bG/+WZGCY+vJMDpu8C?=
- =?us-ascii?Q?Lq5sEmBOkEJKbt+zNqfCjKuC6FkSJHzzuPKOFROnaSJHnCUiAyH3fhCfAklp?=
- =?us-ascii?Q?vc5fb9KuaftWoFt7cKb8x35p5jpl83OnWaNB21UO75wV+r2iV+C8L5gayBgD?=
- =?us-ascii?Q?0t2nw8d6lFe6Uzz8XTxzFcHVorg2hB20+t1L8fBSRProutU+1SSRtw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BkxWfcxL5DBqkGIY/XQ8ITcgD09Uun7Qn5osHabv4k6t2tir5GKkfs6kzldx?=
+ =?us-ascii?Q?MchfLMP/qUKcos2KW8YyODWPgNv3f3/ObsO7GuZgxHbchPH0O6H5wJxntM91?=
+ =?us-ascii?Q?WGEdOiE9ni60CaxjWxVz6mX7hyuBA/pQLTMqjQYPPqmCwhWQwZe+fKKhGHPV?=
+ =?us-ascii?Q?rtmXNbKmsurfMgcexFYztRalEyEJELuNXhYIWN6kcLmYt73YciW0shnRQNYw?=
+ =?us-ascii?Q?53ZRnuOmeSwTV4ZZkDDgidJEgEv86055DqLYIfOSz7e70jpmd6tbeudnGTK2?=
+ =?us-ascii?Q?RKS4mKshaYFDrNoYxjc2Wmt2wDoyGUWTPw3C3Xg4uO69e3dvBURS/BFbERVC?=
+ =?us-ascii?Q?9K4W40UTpyWqfcEuWn6J9i/H/7U1mV0kWRtyO/PujQFtDQsv5rmrFTnO9jAV?=
+ =?us-ascii?Q?NgsDf9M5z0xMw6jofye+7xEiVl4eOeRFo/ehjI+CGb5Euj9/0rvA1wlDdtFq?=
+ =?us-ascii?Q?L77MA4M/TQsr732hXDIk/eI7x1fk2wq/FAcv+NtdiAkuu828znoA7RwLw8xw?=
+ =?us-ascii?Q?GhJkZXvXVLAC9Cg5OsWGNzCymUmaj+ko3+C6NWwCdWwGsX8u9ZGdBd827AsK?=
+ =?us-ascii?Q?+3HdOScEMt+F2zsUQH1EQ5uzedUHnSQVS/EeDL56Avi95MyZ56w6HfZk0cyx?=
+ =?us-ascii?Q?w+L1bBfJVV80PkM/+Q7JsUgjxP+eWtpt2VV943J0/+L7jG71nG5Mi2d0J63d?=
+ =?us-ascii?Q?/DTZ0YqWWwOaNZn3m9fPfgFgxbvPNb6/Ad0TyHaXzwEwmgzbnlokNWugbCV7?=
+ =?us-ascii?Q?W+I3dxzFKHjTUDoc7fkIzy8V84XKer8424YLvxBgcI1RkKV5KxMKjjnEI6FC?=
+ =?us-ascii?Q?/LUGFErVfLzYNNvQiP+VQ1ZecHCV3YaNZyagrl3UUds+yJl25YkabzIDyZzO?=
+ =?us-ascii?Q?TFlx/vGn2l2P5xSDYlhoeIK/UZYaFvNl2/RlvhR2XoaK7gGNJ25ScS2joGZR?=
+ =?us-ascii?Q?tvb8XHBrocwB32pA3aXTmPY4b3eG9Esv7rfmNz7tEub9zM3eJYjRngYpOOWt?=
+ =?us-ascii?Q?2DmLXUIicD6vTLQCea65PgkjcW/s4cLhR/4GnmSJWfzvhiyx6tZvL1fR9EkQ?=
+ =?us-ascii?Q?DoY2XB5XxZSahMPcOKWA2DfTlREWLRyzhGpVJmoxZL+hmLOYvH14qGg9km1N?=
+ =?us-ascii?Q?0XoFH+XN+hIDo1k65zvmnNQIIqktrMLlldsPb3/UgGwP4usMrANniyT6NBEE?=
+ =?us-ascii?Q?ZdR4arM42m48fQDsBFystO/NJgQHEI7ubssp788mlkYh/SKu1rqyfaiAugKj?=
+ =?us-ascii?Q?ghrRoDNjm5GUJx8bhWJ2oi3UrRx9NXLrKUq+XjJuXxjGp03/OdA/IVZWkuO9?=
+ =?us-ascii?Q?EdwnDaLKGk4bUHGTrhukZjS17lloSegTKv+Jerkl69yp+Jy1DgWA2nyHA+CM?=
+ =?us-ascii?Q?hbpoqHZtbX1LllqagwlhKNhshLAfY83CT2swIzR5vj2ej6ns3NFDwI6dPqXH?=
+ =?us-ascii?Q?rt0Mi/irwQoVZe1vN+53YOzN4tzgihVsnI0TZAcvcDTakx/o/5PqyQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(19092799006)(376014)(52116014)(7416014)(1800799024)(366016)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Bt4KbyCOos2j1YCMsbDoSMo0f0LPZrHkpWe9roJsFEG41Uo50v7qTgUlv7/2?=
- =?us-ascii?Q?WmHRK2vBTOJK/9ly45DBtawp/HsKeUktaHI8Ug8xaT6HgBaEwS8gWCfIJuBD?=
- =?us-ascii?Q?dwSXJFwsJ3C0BN7TlaM5JBrMI7O7mebiJMU7PsiToBOeOk7iTglIrEXxXXPa?=
- =?us-ascii?Q?kNRzJwp4pO8FrB6vUMX4Vwj2qcM/WsuZYjgdSQC+NhEp+h5iVxdtPxxWa5mt?=
- =?us-ascii?Q?tp3lL6pjmyUoMI7NmXXss7LQIvQpI6HSZVkW5U/DguKSFqwynkEzqi8XXKg/?=
- =?us-ascii?Q?lRS1EmiPp4CWuQj0H4N6xGFRVO9FDrVltV/sDvg/3tiL8xwomUbLytgzLAGI?=
- =?us-ascii?Q?kZgPmJz4saBAP42eIPz/JIvJ+1xU1BNLUZkUiEr1moe62h+SkEaCPTvDSTX0?=
- =?us-ascii?Q?OgkPNYKj9duo1uAUyA/9fmI7tU/zynHSucpQcOZLWRJRbj8yXd3pHP/81zaw?=
- =?us-ascii?Q?I2QA5hYhKgwsz1Vpyf2p/+3c44IfSmqsh11YYgu5MxoX/NGeolcyvV2sQiYg?=
- =?us-ascii?Q?X7TzXW3KJuByKAfkIiM5ZKl+IlmKmJ0NmiZsODplh434w5qYEG7njnEcUV4S?=
- =?us-ascii?Q?7iDoqlPdG978W0bKPbbH9rq4ggGLcd75SlJVHieCbt9NekRbH8j3vLkaGRxJ?=
- =?us-ascii?Q?YiGOYA+kFuuOWAcfNzZ0tCYVNfbtmxeIrzRTxTfBcI9AkOGbEZRZP+aLPfmj?=
- =?us-ascii?Q?z6tONnmB+TjQ6k979VOflM7Dup68ZK/Ryddet8KMhS75/Va+HbJ+AiNvku/m?=
- =?us-ascii?Q?yzxG/O3qpdoacCfKKSv6vkZv4DJyBUBq6rKDTOBvTQ/l88iE9aOHpr0zmK2+?=
- =?us-ascii?Q?G5Z6ufNw3jHytbTRSPBKuBhlMJhyeWzmRD+7itga4ZV3rvhNAli+6m5vWv4V?=
- =?us-ascii?Q?2p/HvqZ042kZbNb8BxrdbdDnWYyUwCHXs3XkOD4g3ckLeC4Mqn8CDrKv/5cL?=
- =?us-ascii?Q?59/tY21S+KHFs4LMdTnbB3GfDNX3/etqQMtDji7sK6Nc7O+yUY9YvswR/BZb?=
- =?us-ascii?Q?m+dkhYIgHlzgT3QBxt001Sjk7fdnF+22uqq3ofNG28FE9TJ5akSgMpm2ffXM?=
- =?us-ascii?Q?pzTLwAEZSNtKrxeMOqs4EclLYcYJOwiUg6t1K8SrH1jmxyyVK013Sys7twyv?=
- =?us-ascii?Q?zefyNfegfsbNXVIgk++63ZXe+fDTJACthNXITawK0PivZlVra3L3PGAurrQU?=
- =?us-ascii?Q?aN/CfUaA87Gem54jShLEU1vxmQyaHZz1j9MfDtPKvHkvJsZS0dFrAEzYCROT?=
- =?us-ascii?Q?eaBF5d7EV+E2NT4K6s44Szcio69IBL9VKfvGe1OWVSqHo8ELhrcIMycHfK9y?=
- =?us-ascii?Q?0EQ6Gg5kGhbPDm0tQzVq8dXJI44T1CnfX0tcyY69z7gHvob6v945Dh4yFDgO?=
- =?us-ascii?Q?LIOmeNZQXBG0B3Iu2vp43Gd7++N46lA21kQkzm22Oo2Sft2meBlDqtq2qTQK?=
- =?us-ascii?Q?ulU4NFnKXBU0OqJPbKWQevNoCnRfHMTYFo3CKr4qPIdJ5vaTqpIVR2xl6DJ4?=
- =?us-ascii?Q?GdPNanezXsQa6mNEJepBvnNQzNKikg+gbh5XzAP3d3DkMUSbzDx2/SHNK9Wb?=
- =?us-ascii?Q?QlpkbNHQOTQfgE/SVMM=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MqdU3HX+Mc2ty7DQRej0HpnZEiA+5xi4WPKDH9D7LA36Bo6MxAOwVJ7DKBK6?=
+ =?us-ascii?Q?iRqVZ8tpaOmsHQfQ/zmkNjXZUMKBBuBTCj9mz18y6+cmySKpA6J8qDK6G//j?=
+ =?us-ascii?Q?DwcamJ2S7GurK0IpqtSIPNjajko7TVhyMyGhKKZ9ipVPa5uX3VDQw8yPZFKE?=
+ =?us-ascii?Q?K5DL0HyciBq+3imtScgePpO/2P0PG1wKSE0X9i1ArlNhuASfRxqhOLrmv3F0?=
+ =?us-ascii?Q?XeCkr9k/YahC1UfyA9gN1je/zZ0teddu4oKrC6Rk+v0CB5iT9IwXmvrKzQnQ?=
+ =?us-ascii?Q?Y1ePLk50fNbXQBZQ0e/dWXLTGdZfRjBSzM23X6cUhnAiEDA+mggX6h5Nmodh?=
+ =?us-ascii?Q?9gnKSlFqGX1uhQ5Hkt89B0ZvjTcpPRuDnnGGChoSxk03B4cri8wQyu+SnHii?=
+ =?us-ascii?Q?pJcGVhN4zXv4n9q8UBcbaV4hxfCVuIWmP39M1xLWVuPQ0ACHGiqlVTcPwoFu?=
+ =?us-ascii?Q?T0jnygWd4j7nQd++J/k55fl0dyrst7Agolm/aPtTPkWJvIfOdIMqX31qazsu?=
+ =?us-ascii?Q?zquzdIGrFyUyBb8Rda3p/PqFvDRvzropTYmllh9CO5RmlqpWZ+TtPHww01cM?=
+ =?us-ascii?Q?t7/33awgny+VkztTWiAjktXwTcJkF4ZplJcfbnPkRmYskL6uhn74VRmIBSDT?=
+ =?us-ascii?Q?UdjxlX4eP2FL6VQF+wy9gq/mgMkwuKWPM/GAUk5cYH26buOSGVY5Ow06lrfW?=
+ =?us-ascii?Q?KIbSgcxMdKnkj9aYVVvtRKNmYYTfGvPHVnC16YTRHdWELDcl4jDOlItYADDC?=
+ =?us-ascii?Q?ZrSdJKDUUCVLmSYUtdfWP7+dc5JGB6o1QAv7Ut+j2X9sjKs3GmxDUNUpT4pS?=
+ =?us-ascii?Q?+ef8DeRtGi58geh9zcRjMZOkCu9AfZUTngP1ibBcCkKf/1J2IN0nzQtmo3vz?=
+ =?us-ascii?Q?6u7Yk+UTSEIPqQYLPE9xzb4cC6HzLnovoV6MXcrXi1kmB8woyWLYpN/DIZMn?=
+ =?us-ascii?Q?9Cr3S8oNCsHSUmwSIk+N90bmlFNp/uzENmMmD+ga6FCIaULTrw8WBHE+TYFq?=
+ =?us-ascii?Q?BZTeSIxILjULoZ1oWSgWDR8DwzXU5Mqit1Btm8Jqbcs6kNczLNqYwFZgVwHQ?=
+ =?us-ascii?Q?vjrB1IO9YTB2aj5SjWTcpa+DpORQWb3c089JVhC74bSgd+6JJxhCTTMEdHwc?=
+ =?us-ascii?Q?HxFK4eiGeIzK9gLguhhJRUXco7JFf6ID4BVIT/PejdtFfoFGJ5HTaHlbpa5z?=
+ =?us-ascii?Q?YDca/brsxEwtzH4+4j1L40DPjSWnBIxMtdS4hUQSzS6CaY0UPF7pTAskSzgD?=
+ =?us-ascii?Q?HxXuOrAxXrpBtqD5fogBkijmndCbht3bRnsCIkWmPuiA9iXhA1u/iGTEdyHF?=
+ =?us-ascii?Q?cy4o6NDVYFDc/w+vSS2KEdLE3E9Rifd1W5FGDkFOLOYWgtd+Zkt+aTR0hKQA?=
+ =?us-ascii?Q?pyC/WgdYrarkOSEieHsVIznOQwxYKwQeTSbdBeuUHNqh4ARsYhuuPmm/soAV?=
+ =?us-ascii?Q?DQObDQD2QWwsFWAvN1BVYWKPQ/dgx1gm+gH4ZjbOPbrYRDjObkxR2imEkqLh?=
+ =?us-ascii?Q?jyRlRZCLmwMdT9r8zCs4yn3DEhNd0JilJDHexWDRnIuJfyk+hADKaRO7AiJu?=
+ =?us-ascii?Q?Hi7V6HvIgahLW4svGog=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64079a73-3f46-4bd9-f38c-08ddfacf5e4d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b726374-1021-42bb-6a0d-08ddfacf8287
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 18:31:10.9495 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 18:32:11.4792 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jXigq0C9dnUrooRbIMI9eX99H/KcmFUHciwj1df7wJuOOFI6ba6hNO89Q1cCu1h+y5BwC170Ax3sZiJrWOfiAQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: mZYJ9YyZCZ2lgbZ181Ww/RMG7QgqnY2SvF8752R8p5bS/PD7QG8bRlw0mNZPijabVanKbC8m2x3c8o97pLgMzg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR04MB11851
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -158,295 +157,426 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 10:07:58AM +0800, Liu Ying wrote:
-> In TCON operation mode, sync signals from FrameGen are ignored, but
-> a much more customized output timing can be generated by the TCON
-> module.  By using TCON operaton mode, generate KACHUNK signal along
-> with HSYNC/VSYNC/data enable signals.  The KACHUNK signal is used as
-> a synchronization signal inside the prefetch engine(DPRC + PRG(s),
-> attached to FetchUnit(s)).  Carefully switch TCON bypass mode to TCON
-> operation mode when CRTC is being enabled so that the prefetch engine
-> may evade the first dumb frame generated by the display controller.
->
-> Since TCON BYPASS bit is controlled by KMS driver when doing atomic
-> commits, drop the bit setting when initializing TCON.  This also
-> avoids accidentally initializing TCON BYPASS bit to 1 when driver
-> module removing and re-installing where an upcoming patch would
-> disable a CRTC at boot in TCON operation mode if needed.
+On Tue, Sep 23, 2025 at 10:08:04AM +0800, Liu Ying wrote:
+> One prefetch engine consists of one DPR channel and one or two PRGs.
+> Each PRG handles one planar in a pixel format.  Every FetchUnit used
+> by KMS may attach to a PRG and hence use a prefetch engine.  So, to
+> simplify driver code, always use prefetch engines for FetchUnits in
+> KMS driver and avoid supporting bypassing them.  Aside from configuring
+> and disabling a prefetch engine along with a FetchUnit for atomic
+> commits, properly disable the prefetch engine at boot and adapt burst
+> size/stride fixup requirements from PRG in FetchUnit driver.
 >
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
- ---
->  drivers/gpu/drm/imx/dc/dc-crtc.c |  28 ++++++++++
->  drivers/gpu/drm/imx/dc/dc-de.h   |   2 +
->  drivers/gpu/drm/imx/dc/dc-kms.h  |   2 +
->  drivers/gpu/drm/imx/dc/dc-tc.c   | 114 +++++++++++++++++++++++++++++++++++++--
->  4 files changed, 142 insertions(+), 4 deletions(-)
+> ---
+>  drivers/gpu/drm/imx/dc/dc-crtc.c  | 139 +++++++++++++++++++++++++++++++++++---
+>  drivers/gpu/drm/imx/dc/dc-fu.c    |  27 +++++++-
+>  drivers/gpu/drm/imx/dc/dc-fu.h    |   2 +-
+>  drivers/gpu/drm/imx/dc/dc-kms.h   |   5 ++
+>  drivers/gpu/drm/imx/dc/dc-plane.c |  46 +++++++++++--
+>  5 files changed, 197 insertions(+), 22 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/imx/dc/dc-crtc.c b/drivers/gpu/drm/imx/dc/dc-crtc.c
-> index 45a87df1ad6a8bd768aa5ed38d6f03f14052b3d7..9e9e86cd5202bcb0bb4d5627dbcefcc3f4e2ead0 100644
+> index 9e9e86cd5202bcb0bb4d5627dbcefcc3f4e2ead0..4c7aab360616cb1c84c31c83f16df703b1c2c6d7 100644
 > --- a/drivers/gpu/drm/imx/dc/dc-crtc.c
 > +++ b/drivers/gpu/drm/imx/dc/dc-crtc.c
-> @@ -6,8 +6,10 @@
->  #include <linux/completion.h>
->  #include <linux/container_of.h>
->  #include <linux/interrupt.h>
-> +#include <linux/irqflags.h>
->  #include <linux/irqreturn.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/preempt.h>
->  #include <linux/spinlock.h>
+> @@ -25,6 +25,7 @@
+>  #include <drm/drm_vblank.h>
 >
->  #include <drm/drm_atomic.h>
-> @@ -68,6 +70,14 @@ do {									\
->  							__func__);	\
->  } while (0)
->
-> +#define DC_CRTC_WAIT_FOR_FRAMEGEN_FRAME_INDEX_MOVING(fg)		\
-> +do {									\
-> +	if (!dc_fg_wait_for_frame_index_moving(fg))			\
-> +		dc_crtc_err(crtc,					\
-> +			"%s: FrameGen frame index isn't moving\n",	\
-> +							__func__);	\
-> +} while (0)
-> +
->  static inline struct dc_crtc *to_dc_crtc(struct drm_crtc *crtc)
->  {
->  	return container_of(crtc, struct dc_crtc, base);
-> @@ -229,6 +239,7 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->  	struct drm_display_mode *adj = &new_crtc_state->adjusted_mode;
+>  #include "dc-de.h"
+> +#include "dc-dprc.h"
+>  #include "dc-drv.h"
+>  #include "dc-kms.h"
+>  #include "dc-pe.h"
+> @@ -204,7 +205,13 @@ dc_crtc_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>  				drm_atomic_get_old_crtc_state(state, crtc);
+>  	struct drm_crtc_state *new_crtc_state =
+>  				drm_atomic_get_new_crtc_state(state, crtc);
+> +	struct drm_plane_state *old_plane_state =
+> +			drm_atomic_get_old_plane_state(state, crtc->primary);
+> +	struct drm_plane_state *new_plane_state =
+> +			drm_atomic_get_new_plane_state(state, crtc->primary);
+> +	struct dc_plane *dc_plane = to_dc_plane(crtc->primary);
 >  	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
->  	enum dc_link_id cf_link;
-> +	unsigned long flags;
->  	int idx, ret;
+> +	bool disabling_plane;
+>  	int idx;
 >
->  	dc_crtc_dbg(crtc, "mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(adj));
-> @@ -249,6 +260,7 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->  	enable_irq(dc_crtc->irq_ed_safe_shdload);
+>  	if (drm_atomic_crtc_needs_modeset(new_crtc_state) ||
+> @@ -216,13 +223,40 @@ dc_crtc_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *state)
 >
->  	dc_fg_cfg_videomode(dc_crtc->fg, adj);
-> +	dc_tc_cfg_videomode(dc_crtc->tc, adj);
+>  	enable_irq(dc_crtc->irq_ed_cont_shdload);
 >
->  	dc_cf_framedimensions(dc_crtc->cf_cont,
->  			      adj->crtc_hdisplay, adj->crtc_vdisplay);
-> @@ -273,7 +285,22 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->  	dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
->  	dc_ed_pec_sync_trigger(dc_crtc->ed_safe);
->  	dc_fg_shdtokgen(dc_crtc->fg);
+> -	/* flush plane update out to display */
+> -	dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
+> +	disabling_plane = drm_atomic_plane_disabling(old_plane_state,
+> +						     new_plane_state);
 > +
-> +	/* Don't relinquish CPU until TCON is set to operation mode. */
+> +	if (disabling_plane) {
+> +		unsigned long flags;
+> +
+> +		dc_crtc_dbg(crtc, "disabling plane\n");
+> +
+> +		/*
+> +		 * Don't relinquish CPU until DPRC REPEAT_EN is disabled and
+> +		 * sync is triggered.
+> +		 */
+> +		local_irq_save(flags);
+> +		preempt_disable();
+> +
+> +		DC_CRTC_WAIT_FOR_FRAMEGEN_FRAME_INDEX_MOVING(dc_crtc->fg);
+> +		dc_dprc_disable_repeat_en(dc_plane->fu->dprc);
+> +		/* flush plane update out to display */
+> +		dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
+> +
+> +		local_irq_restore(flags);
+> +		preempt_enable();
+> +	} else {
+> +		/* flush plane update out to display */
+> +		dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
+> +	}
+>
+>  	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdload_done);
+>
+>  	disable_irq(dc_crtc->irq_ed_cont_shdload);
+>
+> +	if (disabling_plane)
+> +		dc_dprc_disable(dc_plane->fu->dprc);
+> +
+>  	DC_CRTC_CHECK_FRAMEGEN_FIFO(dc_crtc->fg);
+>
+>  	drm_dev_exit(idx);
+> @@ -320,14 +354,33 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>  	dc_crtc_queue_state_event(new_crtc_state);
+>  }
+>
+> -static inline void __dc_crtc_disable_fg(struct drm_crtc *crtc)
+> +static inline void
+> +__dc_crtc_disable_fg_along_with_dprc_repeat_en(struct drm_crtc *crtc)
+>  {
+> +	struct dc_plane *dc_plane = to_dc_plane(crtc->primary);
+>  	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> +	unsigned long flags;
+>
+> -	enable_irq(dc_crtc->irq_dec_seqcomplete);
+> +	/* Don't relinquish CPU until DPRC REPEAT_EN is disabled. */
 > +	local_irq_save(flags);
 > +	preempt_disable();
 > +
->  	dc_fg_enable(dc_crtc->fg);
 > +	/*
-> +	 * Turn TCON into operation mode as soon as the first dumb
-> +	 * frame is generated by DC(we don't relinquish CPU to ensure
-> +	 * this).  This makes DPR/PRG be able to evade the frame.
+> +	 * Sync to FrameGen frame index moving so that
+> +	 * FrameGen can be disabled in the next frame.
 > +	 */
 > +	DC_CRTC_WAIT_FOR_FRAMEGEN_FRAME_INDEX_MOVING(dc_crtc->fg);
-> +	dc_tc_set_operation_mode(dc_crtc->tc);
+>  	dc_fg_disable(dc_crtc->fg);
+> -	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_seqcomplete_done);
+> -	disable_irq(dc_crtc->irq_dec_seqcomplete);
+> +	/*
+> +	 * There is one frame leftover after FrameGen disablement.
+> +	 * Sync to FrameGen frame index moving so that DPRC REPEAT_EN
+> +	 * can be disabled in the next frame.
+> +	 */
+> +	DC_CRTC_WAIT_FOR_FRAMEGEN_FRAME_INDEX_MOVING(dc_crtc->fg);
+> +	dc_dprc_disable_repeat_en(dc_plane->fu->dprc);
 > +
 > +	local_irq_restore(flags);
 > +	preempt_enable();
+>  }
 >
->  	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_safe_shdload_done);
->  	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdload_done);
-> @@ -561,6 +588,7 @@ int dc_crtc_init(struct dc_drm_device *dc_drm, int crtc_index)
->  	dc_crtc->ed_cont = pe->ed_cont[crtc_index];
->  	dc_crtc->ed_safe = pe->ed_safe[crtc_index];
->  	dc_crtc->fg = de->fg;
-> +	dc_crtc->tc = de->tc;
+>  static void
+> @@ -335,14 +388,29 @@ dc_crtc_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>  {
+>  	struct drm_crtc_state *new_crtc_state =
+>  				drm_atomic_get_new_crtc_state(state, crtc);
+> +	struct drm_crtc_state *old_crtc_state =
+> +				drm_atomic_get_old_crtc_state(state, crtc);
+>  	struct dc_drm_device *dc_drm = to_dc_drm_device(crtc->dev);
+> +	struct dc_plane *dc_plane = to_dc_plane(crtc->primary);
+>  	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+>  	int idx, ret;
 >
->  	dc_crtc->irq_dec_framecomplete = de->irq_framecomplete;
->  	dc_crtc->irq_dec_seqcomplete = de->irq_seqcomplete;
-> diff --git a/drivers/gpu/drm/imx/dc/dc-de.h b/drivers/gpu/drm/imx/dc/dc-de.h
-> index 211f3fcc1a9ad642617d3b22e35ea923f75e645b..c39f2ef5eea98c3eb6ae9b5392f9bf9f7e33e7c5 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-de.h
-> +++ b/drivers/gpu/drm/imx/dc/dc-de.h
-> @@ -54,6 +54,8 @@ enum drm_mode_status dc_fg_check_clock(struct dc_fg *fg, int clk_khz);
->  void dc_fg_init(struct dc_fg *fg);
+>  	if (!drm_dev_enter(crtc->dev, &idx))
+>  		goto out;
 >
->  /* Timing Controller Unit */
-> +void dc_tc_set_operation_mode(struct dc_tc *tc);
-> +void dc_tc_cfg_videomode(struct dc_tc *tc, struct drm_display_mode *m);
->  void dc_tc_init(struct dc_tc *tc);
+> -	__dc_crtc_disable_fg(crtc);
+> +	enable_irq(dc_crtc->irq_dec_seqcomplete);
+> +
+> +	if (old_crtc_state->plane_mask)
+> +		__dc_crtc_disable_fg_along_with_dprc_repeat_en(crtc);
+> +	else
+> +		dc_fg_disable(dc_crtc->fg);
+> +
+> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_seqcomplete_done);
+> +	disable_irq(dc_crtc->irq_dec_seqcomplete);
+> +
+> +	if (old_crtc_state->plane_mask)
+> +		dc_dprc_disable(dc_plane->fu->dprc);
+> +
+>  	dc_fg_disable_clock(dc_crtc->fg);
 >
->  #endif /* __DC_DISPLAY_ENGINE_H__ */
+>  	/* request pixel engine power-off as plane is off too */
+> @@ -373,7 +441,10 @@ dc_crtc_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>  void dc_crtc_disable_at_boot(struct drm_crtc *crtc)
+>  {
+>  	struct dc_drm_device *dc_drm = to_dc_drm_device(crtc->dev);
+> +	struct dc_plane *dc_plane = to_dc_plane(crtc->primary);
+>  	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> +	enum dc_link_id ed_src, lb_sec;
+> +	bool disable_dprc = false;
+>  	int ret;
+>
+>  	ret = pm_runtime_resume_and_get(dc_crtc->de->dev);
+> @@ -383,13 +454,53 @@ void dc_crtc_disable_at_boot(struct drm_crtc *crtc)
+>  		return;
+>  	}
+>
+> +	ret = pm_runtime_resume_and_get(dc_drm->pe->dev);
+> +	if (ret) {
+> +		dc_crtc_err(crtc, "failed to get DC pixel engine RPM: %d\n",
+> +			    ret);
+> +		goto out1;
+> +	}
+> +
+>  	if (!dc_fg_wait_for_frame_index_moving(dc_crtc->fg)) {
+>  		dc_crtc_dbg(crtc, "FrameGen frame index isn't moving\n");
+> -		goto out;
+> +		goto out2;
+> +	}
+> +
+> +	ret = dc_ed_pec_src_sel_get(dc_crtc->ed_cont, &ed_src);
+> +	if (ret) {
+> +		dc_crtc_err(crtc, "failed to get content ExtDst's source\n");
+> +		goto out2;
+> +	}
+> +
+> +	if (ed_src == LINK_ID_CONSTFRAME0 || ed_src == LINK_ID_CONSTFRAME1)
+> +		goto disable;
+> +
+> +	ret = dc_lb_pec_dynamic_sec_sel_get(dc_plane->lb, &lb_sec);
+> +	if (ret) {
+> +		dc_crtc_err(crtc,
+> +			    "failed to get primary plane LayerBlend secondary source\n");
+> +		goto out2;
+>  	}
+>
+> -	dc_crtc_dbg(crtc, "disabling at boot\n");
+> -	__dc_crtc_disable_fg(crtc);
+> +	disable_dprc = true;
+> +
+> +disable:
+> +	enable_irq(dc_crtc->irq_dec_seqcomplete);
+> +
+> +	if (disable_dprc) {
+> +		dc_crtc_dbg(crtc, "disabling along with DPRC REPEAT_EN at boot\n");
+> +		__dc_crtc_disable_fg_along_with_dprc_repeat_en(crtc);
+> +	} else {
+> +		dc_crtc_dbg(crtc, "disabling at boot\n");
+> +		dc_fg_disable(dc_crtc->fg);
+> +	}
+> +
+> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_seqcomplete_done);
+> +	disable_irq(dc_crtc->irq_dec_seqcomplete);
+> +
+> +	if (disable_dprc)
+> +		dc_dprc_disable_at_boot(dc_plane->fu->dprc);
+> +
+>  	dc_fg_disable_clock(dc_crtc->fg);
+>
+>  	if (!dc_drm->pe_clk_axi_disabled) {
+> @@ -397,7 +508,13 @@ void dc_crtc_disable_at_boot(struct drm_crtc *crtc)
+>  		dc_drm->pe_clk_axi_disabled = true;
+>  	}
+>
+> -out:
+> +out2:
+> +	ret = pm_runtime_put(dc_drm->pe->dev);
+> +	if (ret)
+> +		dc_crtc_err(crtc, "failed to put DC pixel engine RPM: %d\n",
+> +			    ret);
+> +
+> +out1:
+>  	ret = pm_runtime_put(dc_crtc->de->dev);
+>  	if (ret < 0)
+>  		dc_crtc_err(crtc, "failed to put DC display engine RPM: %d\n",
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fu.c b/drivers/gpu/drm/imx/dc/dc-fu.c
+> index 47d436abb65157de7cab74565e44b199be76de52..bc439c3520d45f894c0afab5b3d52f2f3309c2e2 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fu.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-fu.c
+> @@ -124,13 +124,28 @@ static inline void dc_fu_set_numbuffers(struct dc_fu *fu, unsigned int num)
+>  			  SETNUMBUFFERS_MASK, SETNUMBUFFERS(num));
+>  }
+>
+> -static void dc_fu_set_burstlength(struct dc_fu *fu, dma_addr_t baddr)
+> +static unsigned int dc_fu_burst_size_fixup(dma_addr_t baddr)
+>  {
+> -	unsigned int burst_size, burst_length;
+> +	unsigned int burst_size;
+>
+>  	burst_size = 1 << __ffs(baddr);
+>  	burst_size = round_up(burst_size, 8);
+>  	burst_size = min(burst_size, 128U);
+> +
+> +	return burst_size;
+> +}
+> +
+> +static unsigned int
+> +dc_fu_stride_fixup(unsigned int stride, unsigned int burst_size)
+> +{
+> +	return round_up(stride, burst_size);
+> +}
+> +
+> +static void dc_fu_set_burstlength(struct dc_fu *fu, dma_addr_t baddr)
+> +{
+> +	unsigned int burst_size, burst_length;
+> +
+> +	burst_size = dc_fu_burst_size_fixup(baddr);
+>  	burst_length = burst_size / 8;
+>
+>  	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT,
+> @@ -150,8 +165,14 @@ void dc_fu_set_src_bpp(struct dc_fu *fu, enum dc_fu_frac frac, unsigned int bpp)
+>  }
+>
+>  static void dc_fu_set_src_stride(struct dc_fu *fu, enum dc_fu_frac frac,
+> -				 unsigned int stride)
+> +				 unsigned int width, int bpp, dma_addr_t baddr)
+>  {
+> +	unsigned int burst_size = dc_fu_burst_size_fixup(baddr);
+> +	unsigned int stride;
+> +
+> +	stride = width * (bpp / 8);
+> +	stride = dc_fu_stride_fixup(stride, burst_size);
+> +
+>  	regmap_write_bits(fu->reg_cfg, fu->reg_sourcebufferattributes[frac],
+>  			  STRIDE_MASK, STRIDE(stride));
+>  }
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fu.h b/drivers/gpu/drm/imx/dc/dc-fu.h
+> index 44b9497e53580589a05bcb180eb2312ea4449da4..09570955a5b92105ef7010f71fa615a1cefc9b7e 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fu.h
+> +++ b/drivers/gpu/drm/imx/dc/dc-fu.h
+> @@ -87,7 +87,7 @@ struct dc_fu_ops {
+>  	void (*set_baseaddress)(struct dc_fu *fu, enum dc_fu_frac frac,
+>  				dma_addr_t baddr);
+>  	void (*set_src_stride)(struct dc_fu *fu, enum dc_fu_frac frac,
+> -			       unsigned int stride);
+> +			       unsigned int width, int bpp, dma_addr_t baddr);
+>  	void (*set_src_buf_dimensions)(struct dc_fu *fu, enum dc_fu_frac frac,
+>  				       int w, int h);
+>  	void (*set_fmt)(struct dc_fu *fu, enum dc_fu_frac frac,
 > diff --git a/drivers/gpu/drm/imx/dc/dc-kms.h b/drivers/gpu/drm/imx/dc/dc-kms.h
-> index cd7860eff986a272f6983ad0f3cc87dbf40c2851..a25d47eebd28792e4b53b4ecc89907ce00430c2c 100644
+> index a25d47eebd28792e4b53b4ecc89907ce00430c2c..8b45b21a6f8a7e6e6ed2563499753200bdd42ebc 100644
 > --- a/drivers/gpu/drm/imx/dc/dc-kms.h
 > +++ b/drivers/gpu/drm/imx/dc/dc-kms.h
-> @@ -50,6 +50,8 @@ struct dc_crtc {
->  	struct dc_ed *ed_safe;
->  	/** @fg: framegen */
->  	struct dc_fg *fg;
-> +	/** @tc: tcon */
-> +	struct dc_tc *tc;
->  	/**
->  	 * @irq_dec_framecomplete:
->  	 *
-> diff --git a/drivers/gpu/drm/imx/dc/dc-tc.c b/drivers/gpu/drm/imx/dc/dc-tc.c
-> index 0bfd381b2cea15444c399f3ad261e2d061ea1c9f..6f1dc71f1b40cb4d99ca177172bd0066f39e8314 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-tc.c
-> +++ b/drivers/gpu/drm/imx/dc/dc-tc.c
-> @@ -9,11 +9,30 @@
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
+> @@ -130,4 +130,9 @@ struct dc_plane {
+>  	struct dc_ed *ed;
+>  };
 >
-> +#include <drm/drm_modes.h>
+> +static inline struct dc_plane *to_dc_plane(struct drm_plane *plane)
+> +{
+> +	return container_of(plane, struct dc_plane, base);
+> +}
 > +
+>  #endif /* __DC_KMS_H__ */
+> diff --git a/drivers/gpu/drm/imx/dc/dc-plane.c b/drivers/gpu/drm/imx/dc/dc-plane.c
+> index d8b946fb90de638da2bf4667307f11b06f4e77f5..8ef754492b2dcb5d986a63f516328f8d2512c7b6 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-plane.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-plane.c
+> @@ -17,6 +17,7 @@
+>  #include <drm/drm_plane_helper.h>
+>  #include <drm/drm_print.h>
+>
+> +#include "dc-dprc.h"
 >  #include "dc-drv.h"
->  #include "dc-de.h"
->
->  #define TCON_CTRL	0x410
-> -#define  CTRL_RST_VAL	0x01401408
-> +#define  SPLITPOSITION_MASK	GENMASK(29, 16)
-> +#define  SPLITPOSITION(n)	FIELD_PREP(SPLITPOSITION_MASK, (n))
-> +#define  DUAL_SWAP	BIT(15)
-> +#define  MINILVDS_OPCODE_MASK	GENMASK(14, 12)
-> +#define  MODE_4PAIRS	FIELD_PREP(MINILVDS_OPCODE_MASK, 0x1)
-> +#define  LVDS_CLOCK_INV	BIT(11)
-> +#define  LVDS_BALANCE	BIT(10)
-> +#define  LVDSMODE	BIT(9)
-> +#define  ENLVDS		BIT(8)
-> +#define  INV_CTRL_MASK	GENMASK(7, 4)
-> +#define  BYPASS		BIT(3)
-> +#define  TCON_SYNC	BIT(2)
-> +#define  CHANNELMODE_MASK	GENMASK(1, 0)
-> +#define  CTRL_RST_MASK	\
-> +		(SPLITPOSITION_MASK | DUAL_SWAP | MINILVDS_OPCODE_MASK | \
-> +		 LVDS_CLOCK_INV | LVDS_BALANCE | LVDSMODE | ENLVDS | \
-> +		 INV_CTRL_MASK | TCON_SYNC | CHANNELMODE_MASK)
-> +#define  CTRL_RST_VAL  (SPLITPOSITION(0x140) | MODE_4PAIRS | LVDS_BALANCE)
->
->  /* red: MAPBIT 29-20, green: MAPBIT 19-10, blue: MAPBIT 9-0 */
->  #define MAPBIT3_0	0x418
-> @@ -25,6 +44,16 @@
->  #define MAPBIT27_24	0x430
->  #define MAPBIT31_28	0x434
->
-> +#define SPGPOSON(n)	(0x460 + (n) * 16)
-> +#define SPGMASKON(n)	(0x464 + (n) * 16)
-> +#define SPGPOSOFF(n)	(0x468 + (n) * 16)
-> +#define SPGMASKOFF(n)	(0x46c + (n) * 16)
-> +#define  X(n)		FIELD_PREP(GENMASK(30, 16), (n))
-> +#define  Y(n)		FIELD_PREP(GENMASK(14, 0), (n))
-> +
-> +#define SMXSIGS(n)	(0x520 + (n) * 8)
-> +#define SMXFCTTABLE(n)	(0x524 + (n) * 8)
-> +
->  static const struct dc_subdev_info dc_tc_info[] = {
->  	{ .reg_start = 0x5618c800, .id = 0, },
->  	{ .reg_start = 0x5618e400, .id = 1, },
-> @@ -33,6 +62,8 @@ static const struct dc_subdev_info dc_tc_info[] = {
->  static const struct regmap_range dc_tc_regmap_ranges[] = {
->  	regmap_reg_range(TCON_CTRL, TCON_CTRL),
->  	regmap_reg_range(MAPBIT3_0, MAPBIT31_28),
-> +	regmap_reg_range(SPGPOSON(0), SPGMASKOFF(4)),
-> +	regmap_reg_range(SMXSIGS(0), SMXFCTTABLE(3)),
+>  #include "dc-fu.h"
+>  #include "dc-kms.h"
+> @@ -44,11 +45,6 @@ static const struct drm_plane_funcs dc_plane_funcs = {
+>  	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
 >  };
 >
->  static const struct regmap_access_table dc_tc_regmap_access_table = {
-> @@ -47,7 +78,7 @@ static const struct regmap_config dc_tc_regmap_config = {
->  	.fast_io = true,
->  	.wr_table = &dc_tc_regmap_access_table,
->  	.rd_table = &dc_tc_regmap_access_table,
-> -	.max_register = MAPBIT31_28,
-> +	.max_register = SMXFCTTABLE(3),
->  };
->
->  /*
-> @@ -60,10 +91,85 @@ static const u32 dc_tc_mapbit[] = {
->  	0x13121110, 0x03020100, 0x07060504, 0x00000908,
->  };
->
-> +void dc_tc_set_operation_mode(struct dc_tc *tc)
-> +{
-> +	regmap_write_bits(tc->reg, TCON_CTRL, BYPASS, 0);
-> +}
-> +
-> +void dc_tc_cfg_videomode(struct dc_tc *tc, struct drm_display_mode *m)
-> +{
-> +	int hdisplay, hsync_start, hsync_end;
-> +	int vdisplay, vsync_start, vsync_end;
-> +	int y;
-> +
-> +	hdisplay = m->hdisplay;
-> +	vdisplay = m->vdisplay;
-> +	hsync_start = m->hsync_start;
-> +	vsync_start = m->vsync_start;
-> +	hsync_end = m->hsync_end;
-> +	vsync_end = m->vsync_end;
-> +
-> +	/*
-> +	 * Turn TCON into operation mode later after the first dumb frame is
-> +	 * generated by DC.  This makes DPR/PRG be able to evade the frame.
-> +	 */
-> +	regmap_write_bits(tc->reg, TCON_CTRL, BYPASS, BYPASS);
-> +
-> +	/* dsp_control[0]: HSYNC */
-> +	regmap_write(tc->reg, SPGPOSON(0), X(hsync_start));
-> +	regmap_write(tc->reg, SPGMASKON(0), 0xffff);
-> +
-> +	regmap_write(tc->reg, SPGPOSOFF(0), X(hsync_end));
-> +	regmap_write(tc->reg, SPGMASKOFF(0), 0xffff);
-> +
-> +	regmap_write(tc->reg, SMXSIGS(0), 0x2);
-> +	regmap_write(tc->reg, SMXFCTTABLE(0), 0x1);
-> +
-> +	/* dsp_control[1]: VSYNC */
-> +	regmap_write(tc->reg, SPGPOSON(1), X(hsync_start) | Y(vsync_start - 1));
-> +	regmap_write(tc->reg, SPGMASKON(1), 0x0);
-> +
-> +	regmap_write(tc->reg, SPGPOSOFF(1), X(hsync_start) | Y(vsync_end - 1));
-> +	regmap_write(tc->reg, SPGMASKOFF(1), 0x0);
-> +
-> +	regmap_write(tc->reg, SMXSIGS(1), 0x3);
-> +	regmap_write(tc->reg, SMXFCTTABLE(1), 0x1);
-> +
-> +	/* dsp_control[2]: data enable */
-> +	/* horizontal */
-> +	regmap_write(tc->reg, SPGPOSON(2), 0x0);
-> +	regmap_write(tc->reg, SPGMASKON(2), 0xffff);
-> +
-> +	regmap_write(tc->reg, SPGPOSOFF(2), X(hdisplay));
-> +	regmap_write(tc->reg, SPGMASKOFF(2), 0xffff);
-> +
-> +	/* vertical */
-> +	regmap_write(tc->reg, SPGPOSON(3), 0x0);
-> +	regmap_write(tc->reg, SPGMASKON(3), 0x7fff0000);
-> +
-> +	regmap_write(tc->reg, SPGPOSOFF(3), Y(vdisplay));
-> +	regmap_write(tc->reg, SPGMASKOFF(3), 0x7fff0000);
-> +
-> +	regmap_write(tc->reg, SMXSIGS(2), 0x2c);
-> +	regmap_write(tc->reg, SMXFCTTABLE(2), 0x8);
-> +
-> +	/* dsp_control[3]: KACHUNK */
-> +	y = vdisplay + 1;
-> +
-> +	regmap_write(tc->reg, SPGPOSON(4), X(0x0) | Y(y));
-> +	regmap_write(tc->reg, SPGMASKON(4), 0x0);
-> +
-> +	regmap_write(tc->reg, SPGPOSOFF(4), X(0x20) | Y(y));
-> +	regmap_write(tc->reg, SPGMASKOFF(4), 0x0);
-> +
-> +	regmap_write(tc->reg, SMXSIGS(3), 0x6);
-> +	regmap_write(tc->reg, SMXFCTTABLE(3), 0x2);
-> +}
-> +
->  void dc_tc_init(struct dc_tc *tc)
+> -static inline struct dc_plane *to_dc_plane(struct drm_plane *plane)
+> -{
+> -	return container_of(plane, struct dc_plane, base);
+> -}
+> -
+>  static int dc_plane_check_max_source_resolution(struct drm_plane_state *state)
 >  {
-> -	/* reset TCON_CTRL to POR default so that TCON works in bypass mode */
-> -	regmap_write(tc->reg, TCON_CTRL, CTRL_RST_VAL);
-> +	/* reset TCON_CTRL to POR default except for touching BYPASS bit */
-> +	regmap_write_bits(tc->reg, TCON_CTRL, CTRL_RST_MASK, CTRL_RST_VAL);
+>  	int src_h = drm_rect_height(&state->src) >> 16;
+> @@ -88,6 +84,28 @@ static int dc_plane_check_fb(struct drm_plane_state *state)
+>  	return 0;
+>  }
 >
->  	/* set format */
->  	regmap_bulk_write(tc->reg, MAPBIT3_0, dc_tc_mapbit,
+> +static int dc_plane_check_dprc(struct drm_plane_state *state)
+> +{
+> +	struct dc_plane *dplane = to_dc_plane(state->plane);
+> +	struct drm_framebuffer *fb = state->fb;
+> +	dma_addr_t baseaddr = drm_fb_dma_get_gem_addr(fb, state, 0);
+> +	struct dc_dprc *dprc = dplane->fu->dprc;
+> +	u32 src_w = drm_rect_width(&state->src) >> 16;
+> +
+> +	if (!dc_dprc_rtram_width_supported(dprc, src_w)) {
+> +		dc_plane_dbg(state->plane, "bad RTRAM width for DPRC\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!dc_dprc_stride_supported(dprc, fb->pitches[0], src_w, fb->format,
+> +				      baseaddr)) {
+> +		dc_plane_dbg(state->plane, "fb bad pitches[0] for DPRC\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int
+>  dc_plane_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state)
+>  {
+> @@ -123,7 +141,11 @@ dc_plane_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state)
+>  	if (ret)
+>  		return ret;
+>
+> -	return dc_plane_check_fb(plane_state);
+> +	ret = dc_plane_check_fb(plane_state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return dc_plane_check_dprc(plane_state);
+>  }
+>
+>  static void
+> @@ -131,6 +153,12 @@ dc_plane_atomic_update(struct drm_plane *plane, struct drm_atomic_state *state)
+>  {
+>  	struct drm_plane_state *new_state =
+>  				drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_plane_state *old_state =
+> +				drm_atomic_get_old_plane_state(state, plane);
+> +	struct drm_crtc_state *new_crtc_state =
+> +				drm_atomic_get_new_crtc_state(state, new_state->crtc);
+> +	bool needs_modeset = drm_atomic_crtc_needs_modeset(new_crtc_state);
+> +	bool prefetch_start = needs_modeset || !old_state->fb;
+>  	struct dc_plane *dplane = to_dc_plane(plane);
+>  	struct drm_framebuffer *fb = new_state->fb;
+>  	const struct dc_fu_ops *fu_ops;
+> @@ -152,7 +180,8 @@ dc_plane_atomic_update(struct drm_plane *plane, struct drm_atomic_state *state)
+>
+>  	fu_ops->set_layerblend(fu, lb);
+>  	fu_ops->set_burstlength(fu, baseaddr);
+> -	fu_ops->set_src_stride(fu, DC_FETCHUNIT_FRAC0, fb->pitches[0]);
+> +	fu_ops->set_src_stride(fu, DC_FETCHUNIT_FRAC0, src_w,
+> +			       fb->format->cpp[0] * 8, baseaddr);
+>  	fu_ops->set_src_buf_dimensions(fu, DC_FETCHUNIT_FRAC0, src_w, src_h);
+>  	fu_ops->set_fmt(fu, DC_FETCHUNIT_FRAC0, fb->format);
+>  	fu_ops->set_framedimensions(fu, src_w, src_h);
+> @@ -161,6 +190,9 @@ dc_plane_atomic_update(struct drm_plane *plane, struct drm_atomic_state *state)
+>
+>  	dc_plane_dbg(plane, "uses %s\n", fu_ops->get_name(fu));
+>
+> +	dc_dprc_configure(fu->dprc, new_state->crtc->index, src_w, src_h,
+> +			  fb->pitches[0], fb->format, baseaddr, prefetch_start);
+> +
+>  	dc_lb_pec_dynamic_prim_sel(lb, dc_cf_get_link_id(dplane->cf));
+>  	dc_lb_pec_dynamic_sec_sel(lb, fu_ops->get_link_id(fu));
+>  	dc_lb_mode(lb, LB_BLEND);
 >
 > --
 > 2.34.1
