@@ -2,141 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC7CB957B0
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 12:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D4B95876
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 12:56:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5590710E5E1;
-	Tue, 23 Sep 2025 10:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9DC10E002;
+	Tue, 23 Sep 2025 10:56:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TCT5YuN5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bh590CJN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78CA310E5E3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 10:45:45 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N8HG1L006717
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 10:45:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- QliD1n9xy/2XCUdFKu8941e4ETR46EUUmd/ECFnedT0=; b=TCT5YuN5yyg6V5lP
- +oPpau14OqQ5ZlUfTkPDvNWoBDr2ZTf6SP0fcIUFURx7R5Irl044q0/EBTDc8bAX
- Jt/xhkAUFIQFLBDJqprwVtOllYO17qb0yr7h4X9zF/pxBFRcTsfpqTo5G2sLI4LN
- TfFkaoStJuEIYuqLxKsxlWJnu74ZEYCceuG6t7xnV32CmD3gbzqjJMHTwi3Hhcqh
- Yf19nlw13fF7+H7IBkz8DOMa5xJKkAdAS1w/qJ3qiFKxRRqamdbiDdwGWV7UDORI
- BBCdohVva9tBmBSEg8i7U0BY3oyDEWauOfC+TO8cTeblrrmjpT+8zH1V9TiUplec
- QN8wjw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kkhraqn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 10:45:44 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4d38dbc0e29so11970861cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:45:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758624343; x=1759229143;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QliD1n9xy/2XCUdFKu8941e4ETR46EUUmd/ECFnedT0=;
- b=Bk3AxBIif02d7YknYE2aK0Sscf61LDz+Ut22Bq2zqYP5OOEV/Jp8QADRopOoz2/OlA
- zIxQgnlqvfywBU/pMMzGxVddQgvZAO2LJHiPyn9Vu+xxD2zXOiu3SC5q7RQL/06IYlXY
- 1Z4sD+D9hI2u/EGvNU849f5QHzfdpTqATQOOmNguU4IlZN/QhG3m+KbogfGyjB9PtvNs
- vrmQIn/gnRHfIl0v3CcUx4jVCc/FlvD8zCc7dZTAnWEgcUQfRGQBiK3Vn6kqK5Bs0NNe
- oi0kNNE3VYl1pJgipvjicz6oMa88L+9e1t+8XGLbRbSmBUDVEpjWP7fFnS3um0sQF64m
- GkEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6jGtTzNg/T0LTmVrmePukErQng1MoAhzLyKIQYgtgGtsODu87RcsJ3gu7Z9ZINGgdGFtoUod9BwI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7TUtF1CyjzDfKnT1kMcXLPT+hqSZSDvntprbzHMd6hV2WR78x
- bJwZX0dKeuZiCECVylfHJIdnRVvYikrLqWVphtm1NMVEH8aN7MOOjzfsmLu+SeMpt3NLjajPRXy
- cbM4Pu2Yss0vqLe9WCJxMuL3abAF/efjxgjccR+bV0iDmHZf3Jnb8XF1bWmsA2ZwRC1giesk=
-X-Gm-Gg: ASbGnct4Tx4Fv+9uNENy3xDay0eYdnw+62zfy8zzq3RPVrentCD0PZBnjABkA3t52Bu
- eRQYtC4Vc8HWgY0vsZDNap+RhMZ7SphzwalwHBCCri8Blb9EbatCR/oNYzoRMLXLyuhR0vpJc3F
- aQAEK2gKO4RJVrcjdg2NeWWxHbNi/oyYWVKPkYn3ABjDPqQKS6bXL6G0DuO8pzeaPK5thvMjg6S
- YmsmGYOi4w8eVZYLfCqUGT1LshWwVQQ76ZyZ/7yNYJ20t6FaZ1KffaiGQ+dR1F9UFC9CjWYK5Kc
- jgd2x559GSLGaMonmQS+Lg2/YPR0qmKIeoAUa408zg3sOwMfYzLvBFVI48s8XM8JNC7KEVoWZLP
- /L0u/popEAp/A/OwCKjU8sv0+ohnn/rJ2034i43RwJkH56ZWHmszp
-X-Received: by 2002:a05:622a:553:b0:4b7:90e2:40df with SMTP id
- d75a77b69052e-4d36708263amr20612721cf.1.1758624343337; 
- Tue, 23 Sep 2025 03:45:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGiYj54pkLfQJi4mBKnM8awsCwLOK/0GZu894Y6oYBprrn+tmmkltO3sOFH+V8iuDnCGbKBNQ==
-X-Received: by 2002:a05:622a:553:b0:4b7:90e2:40df with SMTP id
- d75a77b69052e-4d36708263amr20612281cf.1.1758624342548; 
- Tue, 23 Sep 2025 03:45:42 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-57c56d475a7sm2237990e87.42.2025.09.23.03.45.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Sep 2025 03:45:41 -0700 (PDT)
-Date: Tue, 23 Sep 2025 13:45:39 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 2/7] dt-bindings: phy: rockchip: rk3399-typec-phy:
- Support mode-switch
-Message-ID: <p3kgqn3euumhysckh4yyqavqv5y6any5zcrgkrcg3j5a7z7cyw@lfpkla5p3put>
-References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-3-kernel@airkyi.com>
- <eb6ogrepo5acwcj5gpdolxxyg3xrx7kz6zrbizzseqyavvitfd@cnzurelqeh4t>
- <533d41bd-9293-4808-85f3-8fb6dc8bcda7@rock-chips.com>
- <mpyfe63tzxzxyyqf4vxwmrewzeosnaftlkko7pq2ynld6u3lcz@wlpixckov4hg>
- <8396dd15-9111-4ceb-a561-6ed57727546f@rock-chips.com>
- <jm32ujhxslsx5snes4o66t2grb5uxhsaapjqahektfck66g6hb@fx6f53yojlcr>
- <dc554831-4368-43f0-b92b-896fd920e239@rock-chips.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3397310E002
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 10:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758624999; x=1790160999;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sT3vgUDU0c3clXA/MDtOYnbu+aKn0UgX7PxB7xPmn8g=;
+ b=bh590CJNIVXm9kSZJnPzpSTrw9FenePzB/z05CDragh7u1nDMl1fU++f
+ PhchWgUHB0tBDYaRu2oOWYafl70gTdE50tfyzy+2dr+JZT6n/pKZv1f31
+ u6qIdFspfJnxk+WeOzlXrOxrcfkGt1ggHv/xKNDqlR+msvcNSYPwnRDxk
+ hLNrFAtl+l3gDDMx36VFAjCRLDbYiNigp0l3Kp1rUMByHavMdLUfSPWp2
+ i8aJYpzpiBRqAXiCbZUkV/vCqCxGsQZ1Hb30+DBgFBlhmjyomU2+6Aut/
+ b35czqxVnF1KmTOacQlRmsu8gBBiRwwJy4p7j+1BneVxRPcEFXoj3l3U+ w==;
+X-CSE-ConnectionGUID: 0jtuP4qaR36pfQajTp1v2w==
+X-CSE-MsgGUID: cwSreoE6RQ+EdiBDZbmNJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60956015"
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; d="scan'208";a="60956015"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2025 03:56:39 -0700
+X-CSE-ConnectionGUID: smowSuxjQtOPU3sDA1McpQ==
+X-CSE-MsgGUID: t+u5JT6cSTyhwJEgPv6zcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; d="scan'208";a="200438927"
+Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2025 03:56:37 -0700
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ Karol Wachowski <karol.wachowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Split FW runtime and global memory buffers
+Date: Tue, 23 Sep 2025 12:56:22 +0200
+Message-ID: <20250923105622.1108989-1-karol.wachowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <dc554831-4368-43f0-b92b-896fd920e239@rock-chips.com>
-X-Proofpoint-ORIG-GUID: wxPFTW9DVHWnCR-sTafuMBhdJ06ryiLf
-X-Proofpoint-GUID: wxPFTW9DVHWnCR-sTafuMBhdJ06ryiLf
-X-Authority-Analysis: v=2.4 cv=JMo7s9Kb c=1 sm=1 tr=0 ts=68d27a58 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=ePr-TV-LAAAA:8 a=JfrnYn6hAAAA:8
- a=s8YR1HE3AAAA:8 a=KKAkSRfTAAAA:8 a=Y8DisfNwMWTW2FRaHhwA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=dawVfQjAaf238kedN5IG:22 a=uGDpjx9DKq9E8W49yboe:22
- a=1CNFftbPRP8L7MoqJWF3:22 a=jGH_LyMDp9YhSvY-UuyI:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyMiBTYWx0ZWRfX2cs8ZapLVoS0
- r8Z1cQzr/rtpJ01yDoSHhGfrepGFWGP3COa+NEajCbchN5meTYVOkTItkYYmeix0NWZh1mbZzmh
- mL6cHkCbTm+3dFJAFuZaGmsv5OoCzTO83fMNwLhfywxN+UH2yE3U/e4UL0RrKIHRDkxAI2OGPoC
- jCisfhgoACO9rBdpkLXBZiHnp2UNLj8rZetaR3TPMtO5dgUxsVyv4igpFJ+5P/9l4dtFxuo3D5Z
- KBqmMxtOUKd1I8+f3s65LSBlT7R1MXToVIeRnnOLsWZZimvQvL1n7ybUvPhQ8qbo/lP3V+sbPqS
- 6smt7nri9r/SozytjuhOKLYVEzB7Oslee44h5p0leBiqcLvr1EBb/mq1ftit4h19vk0A007PI6R
- 7M00nqq0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_02,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509200022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,154 +67,519 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 03:17:20PM +0800, Chaoyi Chen wrote:
-> On 9/23/2025 12:51 PM, Dmitry Baryshkov wrote:
-> 
-> > On Tue, Sep 23, 2025 at 11:40:33AM +0800, Chaoyi Chen wrote:
-> > > On 9/23/2025 11:17 AM, Dmitry Baryshkov wrote:
-> > > 
-> > > > On Tue, Sep 23, 2025 at 09:53:06AM +0800, Chaoyi Chen wrote:
-> > > > > Hi Dmitry,
-> > > > > 
-> > > > > On 9/23/2025 9:12 AM, Dmitry Baryshkov wrote:
-> > > > > > On Mon, Sep 22, 2025 at 09:20:34AM +0800, Chaoyi Chen wrote:
-> > > > > > > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> > > > > > > 
-> > > > > > > The RK3399 SoC integrates two USB/DP combo PHYs, each of which
-> > > > > > > supports software-configurable pin mapping and DisplayPort lane
-> > > > > > > assignment. These capabilities enable the PHY itself to handle both
-> > > > > > > mode switching and orientation switching, based on the Type-C plug
-> > > > > > > orientation and USB PD negotiation results.
-> > > > > > > 
-> > > > > > > While an external Type-C controller is still required to detect cable
-> > > > > > > attachment and report USB PD events, the actual mode and orientation
-> > > > > > > switching is performed internally by the PHY through software
-> > > > > > > configuration. This allows the PHY to act as a Type-C multiplexer for
-> > > > > > > both data role and DP altmode configuration.
-> > > > > > > 
-> > > > > > > To reflect this hardware design, this patch introduces a new
-> > > > > > > "mode-switch" property for the dp-port node in the device tree bindings.
-> > > > > > > This property indicates that the connected PHY is capable of handling
-> > > > > > > Type-C mode switching itself.
-> > > > > > > 
-> > > > > > > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> > > > > > > 
-> > > > > > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > > > > > ---
-> > > > > > > 
-> > > > > > > Changes in v4:
-> > > > > > > - Remove "|" in description.
-> > > > > > > 
-> > > > > > > Changes in v3:
-> > > > > > > - Add more descriptions to clarify the role of the PHY in switching.
-> > > > > > > 
-> > > > > > > Changes in v2:
-> > > > > > > - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
-> > > > > > > 
-> > > > > > >     .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
-> > > > > > >     1 file changed, 6 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> > > > > > > index 91c011f68cd0..83ebcde096ea 100644
-> > > > > > > --- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> > > > > > > +++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> > > > > > > @@ -51,6 +51,12 @@ properties:
-> > > > > > >           '#phy-cells':
-> > > > > > >             const: 0
-> > > > > > > +      mode-switch:
-> > > > > > Having the mode-switch here is a bit strange. I think the whole PHY
-> > > > > > device should be an orientation-switch and mode-switch. Otherwise it
-> > > > > > feels weird to me.
-> > > > > I think this is a difference in practice. In the previous binding, there was already an orientation-switch under the usb-port. I trying to add both an orientation-switch and a mode-switch to the top-level device in v2. And Krzysztof reminded me that adding a mode-switch under the dp-port would be better, so I changed it to the current form :)
-> > > > I couldn't find the comment on lore. Could you please point it out?
-> > > Sorry, it is v1. I added an orientation-switch and a mode-switch in the top-level PHY [0]. Comment is here: [1]
-> > My interpretation of [1] doesn't quite match yours. It doesn't say
-> > anything about moving mode-switch to dp-port. It basically pointed out
-> > that you already have two ports.
-> 
-> Yes, I think this can be easily changed, as long as the issue you mentioned below is resolved.
-> 
-> 
-> > 
-> > Also, I'm not sure how the current construction works: you register
-> > switch and mux for the dev_fwnode(tcphy->dev), however the lookfup
-> > functions should be looking for a device corresponding to the port OF
-> > node (which doesn't exist).
-> 
-> In v1, that is fwnode = dev_fwnode(tcphy->dev) .  And dt like is:
-> 
-> 
-> &tcphy {
->     port {
->         tcphy0_orientation_switch: endpoint@0 { ... };
->         tcphy_dp_altmode_switch: endpoint@1 { ... };
->     };
-> };
-> 
-> 
-> Since the binding already includes a "usb3-port" and a "dp-port", it can not add another new port.
-> 
-> So after v1, that is fwnode = device_get_named_child_node(tcphy->dev, "usb3-port") . And dt like this:
+Split firmware boot parameters (4KB) and FW version (4KB) into dedicated
+buffer objects, separating them from the FW runtime memory buffer. This
+creates three distinct buffers with independent allocation control.
 
-I see it now, I was probably looking at the different revision, sorry
-about it.
+This enables future modifications, particularly allowing the FW
+image memory to be moved into a read-only buffer.
 
-> 
-> 
-> &tcphy0_dp {
->     port { ... };
-> };
-> 
-> &tcphy0_usb3 {
->     port { ... };
-> };
-> 
-> 
-> Sorry, this looks a bit hacky. Do you have a better idea? Thank you.
+Fix user range starting address from incorrect 0x88000000 (2GB + 128MB)
+overlapping global aperture on 37XX to intended 0xa0000000 (2GB + 512MB).
+This caused no issues as FW aligned this range to 512MB anyway, but
+corrected for consistency.
 
-No, it's fine from my POV now.
+Convert ivpu_hw_range_init() from inline helper to function with overflow
+validation to prevent potential security issues from address range
+arithmetic overflows.
 
-> 
-> 
-> > 
-> > > 
-> > > [0] https://lore.kernel.org/all/20250715112456.101-4-kernel@airkyi.com/
-> > > 
-> > > [1] https://lore.kernel.org/all/4dfed94c-665d-4e04-b527-ddd34fd3db8f@kernel.org/
-> > > 
-> > > 
-> > > 
-> > > > > 
-> > > > > > > +        description:
-> > > > > > > +          Indicates the PHY can handle altmode switching. In this case,
-> > > > > > > +          requires an external USB Type-C controller to report USB PD message.
-> > > > > > > +        type: boolean
-> > > > > > > +
-> > > > > > >           port:
-> > > > > > >             $ref: /schemas/graph.yaml#/properties/port
-> > > > > > >             description: Connection to USB Type-C connector
-> > > > > > > -- 
-> > > > > > > 2.49.0
-> > > > > > > 
-> > > > > -- 
-> > > > > Best,
-> > > > > Chaoyi
-> > > > > 
-> > > -- 
-> > > Best,
-> > > Chaoyi
-> > > 
-> > > 
-> > > -- 
-> > > linux-phy mailing list
-> > > linux-phy@lists.infradead.org
-> > > https://lists.infradead.org/mailman/listinfo/linux-phy
-> 
-> -- 
-> Best,
-> Chaoyi
-> 
+Improve readability of ivpu_fw_parse() function, remove unrelated constant
+defines and validate firmware header values based on vdev->hw->ranges.
 
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_drv.c         |   3 +-
+ drivers/accel/ivpu/ivpu_fw.c          | 151 ++++++++++++++++----------
+ drivers/accel/ivpu/ivpu_fw.h          |   7 ++
+ drivers/accel/ivpu/ivpu_gem.c         |  16 +++
+ drivers/accel/ivpu/ivpu_gem.h         |   1 +
+ drivers/accel/ivpu/ivpu_hw.c          |  39 +++++--
+ drivers/accel/ivpu/ivpu_hw.h          |   9 +-
+ drivers/accel/ivpu/ivpu_mmu_context.c |   2 +-
+ drivers/accel/ivpu/ivpu_pm.c          |   2 +-
+ 9 files changed, 155 insertions(+), 75 deletions(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index a08f99c3ba4a..1792d0bbec71 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -380,8 +380,7 @@ int ivpu_boot(struct ivpu_device *vdev)
+ 	drm_WARN_ON(&vdev->drm, atomic_read(&vdev->job_timeout_counter));
+ 	drm_WARN_ON(&vdev->drm, !xa_empty(&vdev->submitted_jobs_xa));
+ 
+-	/* Update boot params located at first 4KB of FW memory */
+-	ivpu_fw_boot_params_setup(vdev, ivpu_bo_vaddr(vdev->fw->mem));
++	ivpu_fw_boot_params_setup(vdev, ivpu_bo_vaddr(vdev->fw->mem_bp));
+ 
+ 	ret = ivpu_hw_boot_fw(vdev);
+ 	if (ret) {
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 32f513499829..812e1948a8c0 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -17,14 +17,7 @@
+ #include "ivpu_ipc.h"
+ #include "ivpu_pm.h"
+ 
+-#define FW_GLOBAL_MEM_START	(2ull * SZ_1G)
+-#define FW_GLOBAL_MEM_END	(3ull * SZ_1G)
+-#define FW_SHARED_MEM_SIZE	SZ_256M /* Must be aligned to FW_SHARED_MEM_ALIGNMENT */
+-#define FW_SHARED_MEM_ALIGNMENT	SZ_128K /* VPU MTRR limitation */
+-#define FW_RUNTIME_MAX_SIZE	SZ_512M
+ #define FW_SHAVE_NN_MAX_SIZE	SZ_2M
+-#define FW_RUNTIME_MIN_ADDR	(FW_GLOBAL_MEM_START)
+-#define FW_RUNTIME_MAX_ADDR	(FW_GLOBAL_MEM_END - FW_SHARED_MEM_SIZE)
+ #define FW_FILE_IMAGE_OFFSET	(VPU_FW_HEADER_SIZE + FW_VERSION_HEADER_SIZE)
+ #define FW_PREEMPT_BUF_MIN_SIZE SZ_4K
+ #define FW_PREEMPT_BUF_MAX_SIZE SZ_32M
+@@ -133,9 +126,14 @@ ivpu_fw_check_api_ver_lt(struct ivpu_device *vdev, const struct vpu_firmware_hea
+ 	return false;
+ }
+ 
+-static bool is_within_range(u64 addr, size_t size, u64 range_start, size_t range_size)
++bool ivpu_is_within_range(u64 addr, size_t size, struct ivpu_addr_range *range)
+ {
+-	if (addr < range_start || addr + size > range_start + range_size)
++	u64 addr_end;
++
++	if (!range || check_add_overflow(addr, size, &addr_end))
++		return false;
++
++	if (addr < range->start || addr_end > range->end)
+ 		return false;
+ 
+ 	return true;
+@@ -198,7 +196,11 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_fw_info *fw = vdev->fw;
+ 	const struct vpu_firmware_header *fw_hdr = (const void *)fw->file->data;
+-	u64 runtime_addr, image_load_addr, runtime_size, image_size;
++	struct ivpu_addr_range fw_image_range;
++	u64 boot_params_addr, boot_params_size;
++	u64 fw_version_addr, fw_version_size;
++	u64 runtime_addr, runtime_size;
++	u64 image_load_addr, image_size;
+ 
+ 	if (fw->file->size <= FW_FILE_IMAGE_OFFSET) {
+ 		ivpu_err(vdev, "Firmware file is too small: %zu\n", fw->file->size);
+@@ -210,18 +212,37 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	runtime_addr = fw_hdr->boot_params_load_address;
+-	runtime_size = fw_hdr->runtime_size;
+-	image_load_addr = fw_hdr->image_load_address;
+-	image_size = fw_hdr->image_size;
++	boot_params_addr = fw_hdr->boot_params_load_address;
++	boot_params_size = SZ_4K;
+ 
+-	if (runtime_addr < FW_RUNTIME_MIN_ADDR || runtime_addr > FW_RUNTIME_MAX_ADDR) {
+-		ivpu_err(vdev, "Invalid firmware runtime address: 0x%llx\n", runtime_addr);
++	if (!ivpu_is_within_range(boot_params_addr, boot_params_size, &vdev->hw->ranges.runtime)) {
++		ivpu_err(vdev, "Invalid boot params address: 0x%llx\n", boot_params_addr);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (runtime_size < fw->file->size || runtime_size > FW_RUNTIME_MAX_SIZE) {
+-		ivpu_err(vdev, "Invalid firmware runtime size: %llu\n", runtime_size);
++	fw_version_addr = fw_hdr->firmware_version_load_address;
++	fw_version_size = ALIGN(fw_hdr->firmware_version_size, SZ_4K);
++
++	if (fw_version_size != SZ_4K) {
++		ivpu_err(vdev, "Invalid firmware version size: %u\n",
++			 fw_hdr->firmware_version_size);
++		return -EINVAL;
++	}
++
++	if (!ivpu_is_within_range(fw_version_addr, fw_version_size, &vdev->hw->ranges.runtime)) {
++		ivpu_err(vdev, "Invalid firmware version address: 0x%llx\n", fw_version_addr);
++		return -EINVAL;
++	}
++
++	runtime_addr = fw_hdr->image_load_address;
++	runtime_size = fw_hdr->runtime_size - boot_params_size - fw_version_size;
++
++	image_load_addr = fw_hdr->image_load_address;
++	image_size = fw_hdr->image_size;
++
++	if (!ivpu_is_within_range(runtime_addr, runtime_size, &vdev->hw->ranges.runtime)) {
++		ivpu_err(vdev, "Invalid firmware runtime address: 0x%llx and size %llu\n",
++			 runtime_addr, runtime_size);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -230,23 +251,25 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (image_load_addr < runtime_addr ||
+-	    image_load_addr + image_size > runtime_addr + runtime_size) {
+-		ivpu_err(vdev, "Invalid firmware load address size: 0x%llx and size %llu\n",
++	if (!ivpu_is_within_range(image_load_addr, image_size, &vdev->hw->ranges.runtime)) {
++		ivpu_err(vdev, "Invalid firmware load address: 0x%llx and size %llu\n",
+ 			 image_load_addr, image_size);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (fw_hdr->shave_nn_fw_size > FW_SHAVE_NN_MAX_SIZE) {
+-		ivpu_err(vdev, "SHAVE NN firmware is too big: %u\n", fw_hdr->shave_nn_fw_size);
++	fw_image_range.start = image_load_addr;
++	fw_image_range.end = image_load_addr + image_size;
++
++	if (!ivpu_is_within_range(fw_hdr->entry_point, 0, &fw_image_range)) {
++		ivpu_err(vdev, "Invalid entry point: 0x%llx\n", fw_hdr->entry_point);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (fw_hdr->entry_point < image_load_addr ||
+-	    fw_hdr->entry_point >= image_load_addr + image_size) {
+-		ivpu_err(vdev, "Invalid entry point: 0x%llx\n", fw_hdr->entry_point);
++	if (fw_hdr->shave_nn_fw_size > FW_SHAVE_NN_MAX_SIZE) {
++		ivpu_err(vdev, "SHAVE NN firmware is too big: %u\n", fw_hdr->shave_nn_fw_size);
+ 		return -EINVAL;
+ 	}
++
+ 	ivpu_dbg(vdev, FW_BOOT, "Header version: 0x%x, format 0x%x\n",
+ 		 fw_hdr->header_version, fw_hdr->image_format);
+ 
+@@ -260,6 +283,10 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ 	if (IVPU_FW_CHECK_API_COMPAT(vdev, fw_hdr, JSM, 3))
+ 		return -EINVAL;
+ 
++	fw->boot_params_addr = boot_params_addr;
++	fw->boot_params_size = boot_params_size;
++	fw->fw_version_addr = fw_version_addr;
++	fw->fw_version_size = fw_version_size;
+ 	fw->runtime_addr = runtime_addr;
+ 	fw->runtime_size = runtime_size;
+ 	fw->image_load_offset = image_load_addr - runtime_addr;
+@@ -282,10 +309,9 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ 	ivpu_dbg(vdev, FW_BOOT, "Mid-inference preemption %s supported\n",
+ 		 ivpu_fw_preempt_buf_size(vdev) ? "is" : "is not");
+ 
+-	if (fw_hdr->ro_section_start_address && !is_within_range(fw_hdr->ro_section_start_address,
+-								 fw_hdr->ro_section_size,
+-								 fw_hdr->image_load_address,
+-								 fw_hdr->image_size)) {
++	if (fw_hdr->ro_section_start_address &&
++	    !ivpu_is_within_range(fw_hdr->ro_section_start_address, fw_hdr->ro_section_size,
++				  &fw_image_range)) {
+ 		ivpu_err(vdev, "Invalid read-only section: start address 0x%llx, size %u\n",
+ 			 fw_hdr->ro_section_start_address, fw_hdr->ro_section_size);
+ 		return -EINVAL;
+@@ -294,12 +320,18 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ 	fw->read_only_addr = fw_hdr->ro_section_start_address;
+ 	fw->read_only_size = fw_hdr->ro_section_size;
+ 
+-	ivpu_dbg(vdev, FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
+-		 fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
+-	ivpu_dbg(vdev, FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
+-		 fw->runtime_addr, image_load_addr, fw->entry_point);
++	ivpu_dbg(vdev, FW_BOOT, "Boot params: address 0x%llx, size %llu\n",
++		 fw->boot_params_addr, fw->boot_params_size);
++	ivpu_dbg(vdev, FW_BOOT, "FW version:  address 0x%llx, size %llu\n",
++		 fw->fw_version_addr, fw->fw_version_size);
++	ivpu_dbg(vdev, FW_BOOT, "Runtime:     address 0x%llx, size %u\n",
++		 fw->runtime_addr, fw->runtime_size);
++	ivpu_dbg(vdev, FW_BOOT, "Image load offset: 0x%llx, size %u\n",
++		 fw->image_load_offset, fw->image_size);
+ 	ivpu_dbg(vdev, FW_BOOT, "Read-only section: address 0x%llx, size %u\n",
+ 		 fw->read_only_addr, fw->read_only_size);
++	ivpu_dbg(vdev, FW_BOOT, "FW entry point: 0x%llx\n", fw->entry_point);
++	ivpu_dbg(vdev, FW_BOOT, "SHAVE NN size: %u\n", fw->shave_nn_size);
+ 
+ 	return 0;
+ }
+@@ -326,39 +358,33 @@ ivpu_fw_init_wa(struct ivpu_device *vdev)
+ 	IVPU_PRINT_WA(disable_d0i3_msg);
+ }
+ 
+-static int ivpu_fw_update_global_range(struct ivpu_device *vdev)
+-{
+-	struct ivpu_fw_info *fw = vdev->fw;
+-	u64 start = ALIGN(fw->runtime_addr + fw->runtime_size, FW_SHARED_MEM_ALIGNMENT);
+-	u64 size = FW_SHARED_MEM_SIZE;
+-
+-	if (start + size > FW_GLOBAL_MEM_END) {
+-		ivpu_err(vdev, "No space for shared region, start %lld, size %lld\n", start, size);
+-		return -EINVAL;
+-	}
+-
+-	ivpu_hw_range_init(&vdev->hw->ranges.global, start, size);
+-	return 0;
+-}
+-
+ static int ivpu_fw_mem_init(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_fw_info *fw = vdev->fw;
+-	struct ivpu_addr_range fw_range;
+ 	int log_verb_size;
+ 	int ret;
+ 
+-	ret = ivpu_fw_update_global_range(vdev);
+-	if (ret)
+-		return ret;
++	fw->mem_bp = ivpu_bo_create_runtime(vdev, fw->boot_params_addr, fw->boot_params_size,
++					    DRM_IVPU_BO_WC | DRM_IVPU_BO_MAPPABLE);
++	if (!fw->mem_bp) {
++		ivpu_err(vdev, "Failed to create firmware boot params memory buffer\n");
++		return -ENOMEM;
++	}
+ 
+-	fw_range.start = fw->runtime_addr;
+-	fw_range.end = fw->runtime_addr + fw->runtime_size;
+-	fw->mem = ivpu_bo_create(vdev, &vdev->gctx, &fw_range, fw->runtime_size,
+-				 DRM_IVPU_BO_WC | DRM_IVPU_BO_MAPPABLE);
++	fw->mem_fw_ver = ivpu_bo_create_runtime(vdev, fw->fw_version_addr, fw->fw_version_size,
++						DRM_IVPU_BO_WC | DRM_IVPU_BO_MAPPABLE);
++	if (!fw->mem_fw_ver) {
++		ivpu_err(vdev, "Failed to create firmware version memory buffer\n");
++		ret = -ENOMEM;
++		goto err_free_bp;
++	}
++
++	fw->mem = ivpu_bo_create_runtime(vdev, fw->runtime_addr, fw->runtime_size,
++					 DRM_IVPU_BO_WC | DRM_IVPU_BO_MAPPABLE);
+ 	if (!fw->mem) {
+ 		ivpu_err(vdev, "Failed to create firmware runtime memory buffer\n");
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto err_free_fw_ver;
+ 	}
+ 
+ 	ret = ivpu_mmu_context_set_pages_ro(vdev, &vdev->gctx, fw->read_only_addr,
+@@ -407,6 +433,10 @@ static int ivpu_fw_mem_init(struct ivpu_device *vdev)
+ 	ivpu_bo_free(fw->mem_log_crit);
+ err_free_fw_mem:
+ 	ivpu_bo_free(fw->mem);
++err_free_fw_ver:
++	ivpu_bo_free(fw->mem_fw_ver);
++err_free_bp:
++	ivpu_bo_free(fw->mem_bp);
+ 	return ret;
+ }
+ 
+@@ -422,10 +452,14 @@ static void ivpu_fw_mem_fini(struct ivpu_device *vdev)
+ 	ivpu_bo_free(fw->mem_log_verb);
+ 	ivpu_bo_free(fw->mem_log_crit);
+ 	ivpu_bo_free(fw->mem);
++	ivpu_bo_free(fw->mem_fw_ver);
++	ivpu_bo_free(fw->mem_bp);
+ 
+ 	fw->mem_log_verb = NULL;
+ 	fw->mem_log_crit = NULL;
+ 	fw->mem = NULL;
++	fw->mem_fw_ver = NULL;
++	fw->mem_bp = NULL;
+ }
+ 
+ int ivpu_fw_init(struct ivpu_device *vdev)
+@@ -598,6 +632,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+ 		return;
+ 	}
+ 
++	memset(boot_params, 0, sizeof(*boot_params));
+ 	vdev->pm->is_warmboot = false;
+ 
+ 	boot_params->magic = VPU_BOOT_PARAMS_MAGIC;
+diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+index 6fe2917abda6..00945892b55e 100644
+--- a/drivers/accel/ivpu/ivpu_fw.h
++++ b/drivers/accel/ivpu/ivpu_fw.h
+@@ -19,10 +19,16 @@ struct ivpu_fw_info {
+ 	const struct firmware *file;
+ 	const char *name;
+ 	char version[FW_VERSION_STR_SIZE];
++	struct ivpu_bo *mem_bp;
++	struct ivpu_bo *mem_fw_ver;
+ 	struct ivpu_bo *mem;
+ 	struct ivpu_bo *mem_shave_nn;
+ 	struct ivpu_bo *mem_log_crit;
+ 	struct ivpu_bo *mem_log_verb;
++	u64 boot_params_addr;
++	u64 boot_params_size;
++	u64 fw_version_addr;
++	u64 fw_version_size;
+ 	u64 runtime_addr;
+ 	u32 runtime_size;
+ 	u64 image_load_offset;
+@@ -42,6 +48,7 @@ struct ivpu_fw_info {
+ 	u64 last_heartbeat;
+ };
+ 
++bool ivpu_is_within_range(u64 addr, size_t size, struct ivpu_addr_range *range);
+ int ivpu_fw_init(struct ivpu_device *vdev);
+ void ivpu_fw_fini(struct ivpu_device *vdev);
+ void ivpu_fw_load(struct ivpu_device *vdev);
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index 59cfcf3eaded..cceb07232e12 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -15,6 +15,7 @@
+ #include <drm/drm_utils.h>
+ 
+ #include "ivpu_drv.h"
++#include "ivpu_fw.h"
+ #include "ivpu_gem.h"
+ #include "ivpu_hw.h"
+ #include "ivpu_mmu.h"
+@@ -391,6 +392,21 @@ ivpu_bo_create(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
+ 	return NULL;
+ }
+ 
++struct ivpu_bo *ivpu_bo_create_runtime(struct ivpu_device *vdev, u64 addr, u64 size, u32 flags)
++{
++	struct ivpu_addr_range range;
++
++	if (!ivpu_is_within_range(addr, size, &vdev->hw->ranges.runtime)) {
++		ivpu_err(vdev, "Invalid runtime BO address 0x%llx size %llu\n", addr, size);
++		return NULL;
++	}
++
++	if (ivpu_hw_range_init(vdev, &range, addr, size))
++		return NULL;
++
++	return ivpu_bo_create(vdev, &vdev->gctx, &range, size, flags);
++}
++
+ struct ivpu_bo *ivpu_bo_create_global(struct ivpu_device *vdev, u64 size, u32 flags)
+ {
+ 	return ivpu_bo_create(vdev, &vdev->gctx, &vdev->hw->ranges.global, size, flags);
+diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
+index 3ee996d503b2..3a208f3bf0a6 100644
+--- a/drivers/accel/ivpu/ivpu_gem.h
++++ b/drivers/accel/ivpu/ivpu_gem.h
+@@ -31,6 +31,7 @@ struct drm_gem_object *ivpu_gem_create_object(struct drm_device *dev, size_t siz
+ struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
+ struct ivpu_bo *ivpu_bo_create(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
+ 			       struct ivpu_addr_range *range, u64 size, u32 flags);
++struct ivpu_bo *ivpu_bo_create_runtime(struct ivpu_device *vdev, u64 addr, u64 size, u32 flags);
+ struct ivpu_bo *ivpu_bo_create_global(struct ivpu_device *vdev, u64 size, u32 flags);
+ void ivpu_bo_free(struct ivpu_bo *bo);
+ 
+diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+index 08dcc31b56f4..02a927748c25 100644
+--- a/drivers/accel/ivpu/ivpu_hw.c
++++ b/drivers/accel/ivpu/ivpu_hw.c
+@@ -20,6 +20,8 @@ module_param_named_unsafe(fail_hw, ivpu_fail_hw, charp, 0444);
+ MODULE_PARM_DESC(fail_hw, "<interval>,<probability>,<space>,<times>");
+ #endif
+ 
++#define FW_SHARED_MEM_ALIGNMENT	SZ_512K /* VPU MTRR limitation */
++
+ static char *platform_to_str(u32 platform)
+ {
+ 	switch (platform) {
+@@ -147,19 +149,42 @@ static void priority_bands_init(struct ivpu_device *vdev)
+ 	vdev->hw->hws.process_quantum[VPU_JOB_SCHEDULING_PRIORITY_BAND_REALTIME] = 200000;
+ }
+ 
++int ivpu_hw_range_init(struct ivpu_device *vdev, struct ivpu_addr_range *range, u64 start, u64 size)
++{
++	u64 end;
++
++	if (!range || check_add_overflow(start, size, &end)) {
++		ivpu_err(vdev, "Invalid range: start 0x%llx size %llu\n", start, size);
++		return -EINVAL;
++	}
++
++	range->start = start;
++	range->end = end;
++
++	return 0;
++}
++
+ static void memory_ranges_init(struct ivpu_device *vdev)
+ {
+ 	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX) {
+-		ivpu_hw_range_init(&vdev->hw->ranges.global, 0x80000000, SZ_512M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.user,   0x88000000, 511 * SZ_1M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.shave, 0x180000000, SZ_2G);
+-		ivpu_hw_range_init(&vdev->hw->ranges.dma,   0x200000000, SZ_128G);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.global,  0x90000000, SZ_256M);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.user,    0xa0000000, 511 * SZ_1M);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.shave,  0x180000000, SZ_2G);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.dma,    0x200000000, SZ_128G);
+ 	} else {
+-		ivpu_hw_range_init(&vdev->hw->ranges.global, 0x80000000, SZ_512M);
+-		ivpu_hw_range_init(&vdev->hw->ranges.shave,  0x80000000, SZ_2G);
+-		ivpu_hw_range_init(&vdev->hw->ranges.user,  0x100000000, SZ_256G);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.global,  0x90000000, SZ_256M);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.shave,   0x80000000, SZ_2G);
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.user,   0x100000000, SZ_256G);
+ 		vdev->hw->ranges.dma = vdev->hw->ranges.user;
+ 	}
++
++	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.runtime, 0x84800000, SZ_64M);
++	else
++		ivpu_hw_range_init(vdev, &vdev->hw->ranges.runtime, 0x80000000, SZ_64M);
++
++	drm_WARN_ON(&vdev->drm, !IS_ALIGNED(vdev->hw->ranges.global.start,
++					    FW_SHARED_MEM_ALIGNMENT));
+ }
+ 
+ static int wp_enable(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+index d79668fe1609..511a1a29f7f6 100644
+--- a/drivers/accel/ivpu/ivpu_hw.h
++++ b/drivers/accel/ivpu/ivpu_hw.h
+@@ -21,6 +21,7 @@ struct ivpu_hw_info {
+ 		bool (*ip_irq_handler)(struct ivpu_device *vdev, int irq);
+ 	} irq;
+ 	struct {
++		struct ivpu_addr_range runtime;
+ 		struct ivpu_addr_range global;
+ 		struct ivpu_addr_range user;
+ 		struct ivpu_addr_range shave;
+@@ -51,6 +52,8 @@ struct ivpu_hw_info {
+ };
+ 
+ int ivpu_hw_init(struct ivpu_device *vdev);
++int ivpu_hw_range_init(struct ivpu_device *vdev, struct ivpu_addr_range *range, u64 start,
++		       u64 size);
+ int ivpu_hw_power_up(struct ivpu_device *vdev);
+ int ivpu_hw_power_down(struct ivpu_device *vdev);
+ int ivpu_hw_reset(struct ivpu_device *vdev);
+@@ -71,12 +74,6 @@ static inline u32 ivpu_hw_ip_irq_handler(struct ivpu_device *vdev, int irq)
+ 	return vdev->hw->irq.ip_irq_handler(vdev, irq);
+ }
+ 
+-static inline void ivpu_hw_range_init(struct ivpu_addr_range *range, u64 start, u64 size)
+-{
+-	range->start = start;
+-	range->end = start + size;
+-}
+-
+ static inline u64 ivpu_hw_range_size(const struct ivpu_addr_range *range)
+ {
+ 	return range->end - range->start;
+diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
+index f0267efa55aa..4ffc783426be 100644
+--- a/drivers/accel/ivpu/ivpu_mmu_context.c
++++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+@@ -568,7 +568,7 @@ void ivpu_mmu_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ct
+ 	mutex_init(&ctx->lock);
+ 
+ 	if (!context_id) {
+-		start = vdev->hw->ranges.global.start;
++		start = vdev->hw->ranges.runtime.start;
+ 		end = vdev->hw->ranges.shave.end;
+ 	} else {
+ 		start = min_t(u64, vdev->hw->ranges.user.start, vdev->hw->ranges.shave.start);
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 475ddc94f1cf..7514f580eef4 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -54,7 +54,7 @@ static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
+ static void ivpu_pm_prepare_warm_boot(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_fw_info *fw = vdev->fw;
+-	struct vpu_boot_params *bp = ivpu_bo_vaddr(fw->mem);
++	struct vpu_boot_params *bp = ivpu_bo_vaddr(fw->mem_bp);
+ 
+ 	if (!bp->save_restore_ret_address) {
+ 		ivpu_pm_prepare_cold_boot(vdev);
 -- 
-With best wishes
-Dmitry
+2.43.0
+
