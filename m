@@ -2,139 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A012B9440A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 06:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0459EB94666
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 07:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 401AA10E557;
-	Tue, 23 Sep 2025 04:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71BF710E090;
+	Tue, 23 Sep 2025 05:30:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Bl+LV8UH";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="jQrx9rLd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC9C710E557
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 04:52:02 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N4W1AT015626
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 04:52:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1ysyyR+HSBxqCI8FuQWOZHxXbhAf2dscJgNWIhtU+ys=; b=Bl+LV8UHw8nBOeNg
- NQIkWQ/9ghyTSiJpE5s3ltpVJJsx54k2D57hFQg0RSns3glajhRuY9DHDsdHNr7z
- 8/Iun4mHhE1YK7M8Y743Mh9rZilV7wAynsNrbt/ATzPy0BNYMzi0plv+VFySLZl0
- YDo+hK6a/y7hmmRc+2AuKr8RmiPAME+hyuztfZbtK6us+/K4HW+XfwSqRqAS8F+h
- +pqyfOw1pcveSMNnazD3JxfhKfPmeutiJFyK6UCOOa040okTLj6ULcvLTiuWqd69
- 41Iome+o+KiZfvuPyASZP5AkD/ztoycFxi+7hmuWQpFYAvFedC2EB9xxeFbVMbAH
- 8+zQLw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kkhq8nc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 04:52:01 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-82968fe9e8cso1426333585a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 21:52:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758603120; x=1759207920;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1ysyyR+HSBxqCI8FuQWOZHxXbhAf2dscJgNWIhtU+ys=;
- b=bC5+GR4wkYTzaN7ZR3Cu7NsbjqYvVd3jJEMzAMynrpJL6V2acUff8A9+b9ZJfcFWl/
- yTbEKyHGf5/hDwAY7RSvqBN53yAjdo7saowo75Y9ALVe6R8ybFJ0G5uYySjxJAH0XLrm
- rjpv0Kn5T4S0nxvpBszEv+Qq2BN4UOOOVBO67SrV2R/FrcwI4RX+EsVSOekHlyh0bWUq
- CLEQa3wJ1zEk0FpIkjoY/2Eunv8dG3oY5MBeFh4CeNdmlWQGhE6k+R0jQw6B+1cVFOMI
- gC1o9/x8DowBxdttiDTmHecC0EBZLj0+LSNdCqz4BDT3upzwoH1B4TBNmsDO388AjN4L
- cG9w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMqMBRuHgOMkV3+J2oXhYEzjcbRVFDJkZkjuNek62ymTV/lTV8SqlPKnGhrreuqYs3209ixJUwMcM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwI4LHNLOt13pIjgwYWyGWjpt4uJI23r6NwC65lgwOpfIlskqag
- mqe5A3RHkCYLmNIMlIfky/3TjN81AMaAsUO0/+qbHkM0990hJaqXnFxcuNvjYmIFkXrI5uVyup+
- vwgtnuB8hAEFYxCDXPplJ8JRK2a+vdLWnyzMh4cV6YK78bKxaIwPZBqDUQdY6VwgwVGk+/5I=
-X-Gm-Gg: ASbGncuK3KAS7N9qcdAev9f9fhoh1gqb2HZufphnrL5yNfMxy+BhA5AcqYdryn0YpKa
- 02ehZUpon+xCtez/qxJfleeDcj7QDRMIewWoN3euq5cNXOJXzln1cHP1uOLAd1zDQ5dMvnRYoEr
- JBg/61EOmJKsWVZRNtjZOILaJB/ocSDIQNjz+lyP1SacLy8aLG4XGSWvB8/Fzt/GI+0BJtuEcdh
- DdR3SQFrSzCousSgltoZXGC2OH2umSaSHl/Qh671kRfEJoxwMoAx3KT9JnqvO1yU0/Txp3PRnNx
- lXZdBCqs7jsuOIjmuVyI6wFqBaAtmleHdFO6dgkrtjik3dqnJbRpc+9Adkm5c/1CrlruWZLM64m
- NrE3HWHeZx54zO+Y8ya67T5DUSyjvsmG9r91KGxe3JgmMVQmiX0wt
-X-Received: by 2002:a05:620a:1923:b0:812:48b9:2eb0 with SMTP id
- af79cd13be357-8516a8202bamr136830385a.19.1758603120280; 
- Mon, 22 Sep 2025 21:52:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHKxvB+ebtnxiMgBizv494obsHW1ZlzjCI32T27z/Odi7Kl2wEkCUAGK1+a+EPj6Wq2e5gDkQ==
-X-Received: by 2002:a05:620a:1923:b0:812:48b9:2eb0 with SMTP id
- af79cd13be357-8516a8202bamr136828685a.19.1758603119745; 
- Mon, 22 Sep 2025 21:51:59 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-365694f1be4sm23536661fa.17.2025.09.22.21.51.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 21:51:58 -0700 (PDT)
-Date: Tue, 23 Sep 2025 07:51:55 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 2/7] dt-bindings: phy: rockchip: rk3399-typec-phy:
- Support mode-switch
-Message-ID: <jm32ujhxslsx5snes4o66t2grb5uxhsaapjqahektfck66g6hb@fx6f53yojlcr>
-References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-3-kernel@airkyi.com>
- <eb6ogrepo5acwcj5gpdolxxyg3xrx7kz6zrbizzseqyavvitfd@cnzurelqeh4t>
- <533d41bd-9293-4808-85f3-8fb6dc8bcda7@rock-chips.com>
- <mpyfe63tzxzxyyqf4vxwmrewzeosnaftlkko7pq2ynld6u3lcz@wlpixckov4hg>
- <8396dd15-9111-4ceb-a561-6ed57727546f@rock-chips.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from AM0PR02CU008.outbound.protection.outlook.com
+ (mail-westeuropeazon11013029.outbound.protection.outlook.com [52.101.72.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7D4810E090
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 05:30:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ye2dG++68/CggHb7/jM9aTkWkUimljz5hYo9RMvgiMeKHyY5BaGy7AoBMvF7mCqE49xWsR1DW0kYfaZlbpS9JCnSsjTNJ58/SyUS5qU/DzP61BTPn71D6dcfVFeHB9ND2X6JxM2kzW49BI0JNUU5x2tSKV1brC2QWErDdkaXOHauaryTMI05FNFmHDtm9uoUxuZq5jZ6RO7zqgicX5LlVk7ShLIZgLCDZ3y6xDvzodzcvPwrUJzwK32Hn6ZWPMokZuZsij26rPIIxkdT6KI0bHatC6yhGahmFBujPSaFajxj7ADa7dAhvWBajqHF7oovUuiB1r+OGGcRoLZ//M10Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zBGN5dLImOiCT6+4mHdC1DnIyujxrylEbe3QbW9x8To=;
+ b=YraEm3Jhy6jvEgPZPJVwBO/LgSy8EOo6IKHlY5x+IHsfCfheRAktIqocs6AndwXxyRq/IO1On4D6zjcritrO857HdWkwX+uJ0W7WGuZWaV+7jVvxEIglr3Q1cWxUoyEA9qq7uZeCEI9fRJPG5aPXhkC1+UQgj5U2YnfiplHR5Ihmhspac6Zw3/RiuVWOluivVg0O2qyPj8WpavYFdh7k5RJBL7cc3g4i8RNV3WbtsGg5vkqE7rxvTCGJvCz9T9TYA2vj9WFwZQ1HekiBOKpiVQbasA62qDEOAXEKocYqij0ZCXp5pkzIEcxUTIBOow/2F9CQZbyJ4MVwHfHFE1X/sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zBGN5dLImOiCT6+4mHdC1DnIyujxrylEbe3QbW9x8To=;
+ b=jQrx9rLdqmMWZhu/waUgtN+WMQ+rDzok11LGJKFx6SzTsDvw5au+tBxUuRFIkJfJ2vPLRXt7gvIrgjaUrPmRmnBmawi+5xdKu9j4sk25q4GkTM+hw5zmMFdMSWoaa+J2Oln8i6fbXfgXgoYPklJxMYiz/KCo+sFFktQMUHHWx25HnhVrHYPm4lRRFvaHzQstKAnFWVKC4Zk95456A9cysVf9Qy6TPOrPme4nhMYMIZl/F+f4ya/my2T9pOPstnRpRzJMmrD/ZNkNhDbzj4uhpvpoCzsoTLf3QGpTZmvmz6PgzMEZlR9ITjvJLVXhuULZ7DtvMTgTIHVi0K7zY4UdqA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by PA4PR04MB7920.eurprd04.prod.outlook.com (2603:10a6:102:c4::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
+ 2025 05:30:31 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9160.008; Tue, 23 Sep 2025
+ 05:30:31 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
+ cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+ l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
+ tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+Date: Tue, 23 Sep 2025 13:29:54 +0800
+Message-Id: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8396dd15-9111-4ceb-a561-6ed57727546f@rock-chips.com>
-X-Proofpoint-ORIG-GUID: _LkPDgkg3QRxirsKBhLi1GbHFiMofrgg
-X-Proofpoint-GUID: _LkPDgkg3QRxirsKBhLi1GbHFiMofrgg
-X-Authority-Analysis: v=2.4 cv=JMo7s9Kb c=1 sm=1 tr=0 ts=68d22771 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=ePr-TV-LAAAA:8 a=JfrnYn6hAAAA:8
- a=s8YR1HE3AAAA:8 a=KKAkSRfTAAAA:8 a=SBpjGD6abgB5dFENKZUA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=uGDpjx9DKq9E8W49yboe:22
- a=1CNFftbPRP8L7MoqJWF3:22 a=jGH_LyMDp9YhSvY-UuyI:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyMiBTYWx0ZWRfX6nB7MgHQYffS
- KHAiZXOuajD1pRWULw5jM79f16YYpq57xDXfuWd4gJuHg2yuZe4KhrTqGlz3YQCf2jwIGZF0sOv
- ZOIGCkux5QDs/RM+4XfufSsosqkkg3fnqEejjCE0rMCUqfMvjHd6MMwzMvcMb92B7X1I0cE8Xz/
- y6gx1HD2owUKHuyJ9lAGrIExWiiXiUIBGDtgSJiPb00qiHDJp5vf3CGV3fKeWhAHAVF8wB95V3h
- oTcA9Vz41u0ipNSPnIRznuhPyoWQXR0SjMzMzNEm1jj1oGEZELYJDPMeBzFV7cLgWSzyf8ge2Wr
- +tEU0zud/7hcJ1Xrmc1sopW/Z2NiKqZwP+8lQPmpBH6taGsQCaPxlsgyFG1K9+2wCPZ/2AflJGx
- fLio7h0i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509200022
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR04CA0010.apcprd04.prod.outlook.com
+ (2603:1096:4:197::11) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PA4PR04MB7920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34de0a9d-8273-45dc-45ca-08ddfa624feb
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|52116014|376014|7416014|366016|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YBXnhyBquJlthqW9RB9FYSOswahCCzWLUYwHjpGh4PwUWtgOa9XLA9uKj7Y9?=
+ =?us-ascii?Q?j2Fkz8pF0NAZ73J8jClV/vCBHcalkFZVW2NSB1+Ekx8IMC4Oxs+iN9eq3Z77?=
+ =?us-ascii?Q?9old26seflrjzHVHx82PNQ735Tlqn1mhJ1HZlwEieU3ABwI5UFvDzD3WRVDd?=
+ =?us-ascii?Q?ujqhFdMv9GCJcHS4x4AqYadB48SMiQkzdoutz4yeC+d7xZj+KkraPDmRQmwa?=
+ =?us-ascii?Q?B8UQh5BrHY5yongsqO44h9dHP2YCNeQXzHDwNCf3fh2BDwm5HyNdSiJZQWCu?=
+ =?us-ascii?Q?tr6l1CNTnfxlBHGz9kcG/CDATMkkkaFd5b9ksVguC4K6jfC+JusbnhYtdTG8?=
+ =?us-ascii?Q?Nzf6ywA0iO7mPfB4ExCC+NrulTNsjAc2EjOH+MNPTVPs6V2i1jxPAjvk/dbh?=
+ =?us-ascii?Q?6bJiHhQLGCs101FHjSb4Vt76Vkdyo0epoRS1+E/AwT6Hbbd2vpHkZFvvxVzY?=
+ =?us-ascii?Q?xIb2Pw8R2UINYAIuW4F4eHTg35+AQEAXXR41pMJ+Qny6JjetgrfRaMDole3W?=
+ =?us-ascii?Q?DP+1OW2UImiYuyfRjXD2BdTJelmxu0THanbfiJ3w9FC1ujt8dBG8DC6bnxsa?=
+ =?us-ascii?Q?j3uAPehRSiP6eiQljy61mnQfCYJ9xUZPVHwF5RC+vO3UBH4wHrsWwIBqD5Es?=
+ =?us-ascii?Q?lEIKrSTaMLSurhs9ub+EIfIjsf1Ffd/Nx/CHsNIQEL1b8yDZDHNT7cCdAOCo?=
+ =?us-ascii?Q?rlyLtox1r21tkaciaAl0V1+utmoiRsxweoR03+OcrfO2Es6sSiHlUvuQK+Hs?=
+ =?us-ascii?Q?Y86dFaYAU5LoPVZk1Zi6h/NuLMs3joeIT0f17XKTAb4N1eU+iLVwoXWOAY3w?=
+ =?us-ascii?Q?WAPEFQDeP3uU2Xv3t49HsuqVfZiZyU1tKGYeMM0kdZ7JQCMQruFQVBAI6Cmv?=
+ =?us-ascii?Q?RWYTNO2MBQ7TXlHCLHa1bdbpZ0jscWljr/Xj7Y6swOHA+W9R5iLeIL091lOT?=
+ =?us-ascii?Q?C484B0aRJrRTfzBrYBqG3vuTWMNOS3Zj9h2ZyBtCE7Pxfoa03enV8NYuMeLk?=
+ =?us-ascii?Q?Od2rI8MzkLRWuJaBzTwURhY3qmpw0RF3650pwx2jif9Q12RBHX2y65zfEodt?=
+ =?us-ascii?Q?x5zEsNvxnO3r8tbI6p4nrmIA5E4X4zUm7a4jF1jh3+iajFJ9pGQ4A0d6itYQ?=
+ =?us-ascii?Q?NpZ3NWxz0CTdScsTc3XwC+1h7ZzQKaE3b3WUiAiczJqr34e/AEI7eO1CApFG?=
+ =?us-ascii?Q?zOOSMFFxV92+Y9QcvsxtxEvP0RGMs30QZV8hcSVo26kCzl0e5sagsubimwVF?=
+ =?us-ascii?Q?ujVpYmZe0ydSW8LX2PVtOvkP+l1le5TGVJ+TWJ1f3NRD1dRvg6ozXocH1Ase?=
+ =?us-ascii?Q?BJ5JYmvFPjtGsqCfEISwp41GIPCTJghK55kv9JhdEe0FZghqSv29/nfS6YGL?=
+ =?us-ascii?Q?18eLYyjanNaQPpuRqtHgK7wkeyl+xzqtM3YjQAwWQDwVkHfwm6X83A2cfSf+?=
+ =?us-ascii?Q?SpYi8bVvf1FNqHOdTS3S2M+VdhfC+5DaQNPgviPfgf8BSdUts0OenWI8r4hX?=
+ =?us-ascii?Q?ZjQzlXBJMY2VlWo=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR04MB7044.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(19092799006)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ulU9jbiIAvTh0o9Q+y/QEphMK7hczuZ++CVNyj8/Hs0rENm/NEPUZxqWYKAp?=
+ =?us-ascii?Q?B1c3/w/SLFvT6osOXSnG7c48JgX7cwI1aKHOsh9/ASTON5gSU7vepqw0DckK?=
+ =?us-ascii?Q?yuyAqnhCLkEiRT1sILPeduTEmfWvhURB3SHd6ZuZP54+KO6L7SaZhAkhEGj5?=
+ =?us-ascii?Q?0QU7N0c75Qcs63gDp6tPEdgva3L0VPPEIPpRe2528BB0UWjh1Csi8UfsHyTl?=
+ =?us-ascii?Q?PztmnxA5DKdT/t+VTSN2hR9DZRseIJip6wGi3m2wVrXwErL4XrPEuFC3AHtD?=
+ =?us-ascii?Q?kU05y9Ky4PrvaN5fsKqrJAiY6x5w8YVsrH8gSw6YuUTHrNUdXg4kw61mQNlH?=
+ =?us-ascii?Q?OM1y6QuVqJpcX7QPQL41voePPlP626D+nn/rwzdsIy8f2WOIGy61uYJpr8Mp?=
+ =?us-ascii?Q?2/j6M1SLSMBVowtOXus50MTihXdNE55C30KATcvu+erzSHg5WON65ngH+Wsm?=
+ =?us-ascii?Q?8Oj8YWrHunc6o3GrlrGha44Yj2D4zpIPrYgKZOcmQBTt3cMalx+8h3ELYtPd?=
+ =?us-ascii?Q?wCFc2TC+UbYbIwPoVPUJ2n3O19s1tbzqug+tv2Y9TTDrbds5hi51n3BssU5P?=
+ =?us-ascii?Q?1h7Q/VIAyXT2KJiEV1WsVidGWHVTKGAxsygPbWTFoN1lJf6exs4+Y7ah8RpL?=
+ =?us-ascii?Q?aRqoqQunG2dXc5zB/ycog3zAqJUbBi9sjS7yClGyE7OiE/TNNChuc00mxQzA?=
+ =?us-ascii?Q?OVQd65iYKoKMBvMIlthFCBuofDUcaaWcdBM8t+RgGHLUMa9zh3H4sDvnM0Gg?=
+ =?us-ascii?Q?VyIMh9KEAE6xyBaGGyr6UfwhNWQYtTqjRnIrl3GWfzWjowrhb+5HkUwMtbpK?=
+ =?us-ascii?Q?Qya1EbQDIQFBYaiNPCbumjQzDkFU+7kFZ446VkpJYrKtqEMYy2Pqi+d7O2FY?=
+ =?us-ascii?Q?QZ70d7MISNhLSxSQ4yKwvod7VuQvuAhUqDtNLHn034tPF1HNaRAmj3gQhy/K?=
+ =?us-ascii?Q?kWfkMGCkyVVcZAyiDMz79Czo7TsHssxVKpfRuTlMuUD2YHprg9FvMfTXdJIr?=
+ =?us-ascii?Q?N78eydrMnZFZStNaqQlWdBep8cgWEuuDadfj/4pzwK3VZ+Cow7Fy5RMsRqmy?=
+ =?us-ascii?Q?hA+b1iRQm3PrHgLIbSICIMGkpodRutyd6p/a33V/FSN47IEeMuQLcmco/Bn6?=
+ =?us-ascii?Q?19rDY5wOkC3KoNLzzo+o81BDd+4hgvi67Ib8LrAYRVFpMLJIaPDGBONEGti9?=
+ =?us-ascii?Q?y8kK+EAwGzBda8fUiiZBF1IsHdt00SpfrknFtmhFTdp1pFW+/47K13TCbE1p?=
+ =?us-ascii?Q?MLZ73G+7f3sWhVhLi+GOR//5Jsgb2PBljgL+fm3PgzeyKdOBk3wGilhrmJkv?=
+ =?us-ascii?Q?7/O4Z701vRWm9mdIZA/QL/rddPoCj6f8jyoRBEtXiFw6KSrRWlyUXdm7eIv7?=
+ =?us-ascii?Q?e9YvUQXBzDDqpCRccwg2E/M/EXOak2OLc/vSrBOZPanHsevkg+T0Xkv4KfZV?=
+ =?us-ascii?Q?SQyT5zihSx8MsTyOmHPFSeyJBM2c4ZE1GNTPOYpad+1HrLXjAl/dC/x8E8k8?=
+ =?us-ascii?Q?zp1sg5xhpy6X8Hb7EbVd9rMU/ucNZmLETz3IVR9ZnYfyNbpi8DJO/0AsKUGc?=
+ =?us-ascii?Q?3zYYC8ZdsJS9AqSev6k3YdKPjjJcf//5KlZf57bF?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34de0a9d-8273-45dc-45ca-08ddfa624feb
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 05:30:31.4373 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TwXfhy58HA98SId4THQZwpW767NIVVcZJ0ujrRpBBxqeI/ZrSm/U3AiQDoOATICUFSy9dqJbqnaLhVncmfuuQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7920
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,110 +156,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 11:40:33AM +0800, Chaoyi Chen wrote:
-> On 9/23/2025 11:17 AM, Dmitry Baryshkov wrote:
-> 
-> > On Tue, Sep 23, 2025 at 09:53:06AM +0800, Chaoyi Chen wrote:
-> > > Hi Dmitry,
-> > > 
-> > > On 9/23/2025 9:12 AM, Dmitry Baryshkov wrote:
-> > > > On Mon, Sep 22, 2025 at 09:20:34AM +0800, Chaoyi Chen wrote:
-> > > > > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> > > > > 
-> > > > > The RK3399 SoC integrates two USB/DP combo PHYs, each of which
-> > > > > supports software-configurable pin mapping and DisplayPort lane
-> > > > > assignment. These capabilities enable the PHY itself to handle both
-> > > > > mode switching and orientation switching, based on the Type-C plug
-> > > > > orientation and USB PD negotiation results.
-> > > > > 
-> > > > > While an external Type-C controller is still required to detect cable
-> > > > > attachment and report USB PD events, the actual mode and orientation
-> > > > > switching is performed internally by the PHY through software
-> > > > > configuration. This allows the PHY to act as a Type-C multiplexer for
-> > > > > both data role and DP altmode configuration.
-> > > > > 
-> > > > > To reflect this hardware design, this patch introduces a new
-> > > > > "mode-switch" property for the dp-port node in the device tree bindings.
-> > > > > This property indicates that the connected PHY is capable of handling
-> > > > > Type-C mode switching itself.
-> > > > > 
-> > > > > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> > > > > 
-> > > > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > > > ---
-> > > > > 
-> > > > > Changes in v4:
-> > > > > - Remove "|" in description.
-> > > > > 
-> > > > > Changes in v3:
-> > > > > - Add more descriptions to clarify the role of the PHY in switching.
-> > > > > 
-> > > > > Changes in v2:
-> > > > > - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
-> > > > > 
-> > > > >    .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
-> > > > >    1 file changed, 6 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> > > > > index 91c011f68cd0..83ebcde096ea 100644
-> > > > > --- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> > > > > @@ -51,6 +51,12 @@ properties:
-> > > > >          '#phy-cells':
-> > > > >            const: 0
-> > > > > +      mode-switch:
-> > > > Having the mode-switch here is a bit strange. I think the whole PHY
-> > > > device should be an orientation-switch and mode-switch. Otherwise it
-> > > > feels weird to me.
-> > > I think this is a difference in practice. In the previous binding, there was already an orientation-switch under the usb-port. I trying to add both an orientation-switch and a mode-switch to the top-level device in v2. And Krzysztof reminded me that adding a mode-switch under the dp-port would be better, so I changed it to the current form :)
-> > I couldn't find the comment on lore. Could you please point it out?
-> 
-> Sorry, it is v1. I added an orientation-switch and a mode-switch in the top-level PHY [0]. Comment is here: [1]
+The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
 
-My interpretation of [1] doesn't quite match yours. It doesn't say
-anything about moving mode-switch to dp-port. It basically pointed out
-that you already have two ports.
+Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
 
-Also, I'm not sure how the current construction works: you register
-switch and mux for the dev_fwnode(tcphy->dev), however the lookfup
-functions should be looking for a device corresponding to the port OF
-node (which doesn't exist).
+changes in v7:
+- add back the mutex which removed in v6
+- add Tested-by tag from Alexander.
 
-> 
-> 
-> [0] https://lore.kernel.org/all/20250715112456.101-4-kernel@airkyi.com/
-> 
-> [1] https://lore.kernel.org/all/4dfed94c-665d-4e04-b527-ddd34fd3db8f@kernel.org/
-> 
-> 
-> 
-> > > 
-> > > 
-> > > > > +        description:
-> > > > > +          Indicates the PHY can handle altmode switching. In this case,
-> > > > > +          requires an external USB Type-C controller to report USB PD message.
-> > > > > +        type: boolean
-> > > > > +
-> > > > >          port:
-> > > > >            $ref: /schemas/graph.yaml#/properties/port
-> > > > >            description: Connection to USB Type-C connector
-> > > > > -- 
-> > > > > 2.49.0
-> > > > > 
-> > > -- 
-> > > Best,
-> > > Chaoyi
-> > > 
-> -- 
-> Best,
-> Chaoyi
-> 
-> 
-> -- 
-> linux-phy mailing list
-> linux-phy@lists.infradead.org
-> https://lists.infradead.org/mailman/listinfo/linux-phy
+changes in v6:
+- remove mutex in dw_hdmi_set_sample_iec958()
+
+changes in v5:
+- add empty line commit message for patch 7
+- remove blank line in dts node
+- add component_unbind_all when dw_hdmi_probe return error
+
+changes in v4:
+- separate dts for soc and board
+- bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
+- add "select DRM_DW_HDMI" to fix build error reported by test robot
+- remove unnecessary code/definition in pai driver
+
+changes in v3:
+- add space and 'U' in asoundef.h
+- add more commit message for binding doc commit
+- add bitfield.h header for fixing build error
+
+changes in v2:
+- address some comments on commit messages
+- add two more commits:
+  add definitions for the bits in IEC958 subframe
+  add API dw_hdmi_set_sample_iec958() for iec958 format
+- use component helper in hdmi_pai and hdmi_tx driver
+- use regmap in hdmi_pai driver.
+- add clocks in binding doc
+
+Shengjiu Wang (7):
+  dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+  ALSA: Add definitions for the bits in IEC958 subframe
+  drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+  drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
+    format
+  drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
+  arm64: dts: imx8mp: Add hdmi parallel audio interface node
+  arm64: dts: imx8mp-evk: enable hdmi_pai device
+
+ .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
+ .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
+ drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
+ drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
+ .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
+ include/drm/bridge/dw_hdmi.h                  |  11 +-
+ include/sound/asoundef.h                      |   9 +
+ 12 files changed, 382 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
 
 -- 
-With best wishes
-Dmitry
+2.34.1
+
