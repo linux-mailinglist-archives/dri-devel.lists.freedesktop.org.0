@@ -2,81 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0908B978B6
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 23:02:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BA5B9795C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 23:37:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D578010E32C;
-	Tue, 23 Sep 2025 21:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF89910E04A;
+	Tue, 23 Sep 2025 21:37:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QcVUiynb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a55I2Dre";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A50E10E1CD
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 21:02:00 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2698d47e6e7so12970565ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 14:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758661319; x=1759266119; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IiShayob+wMbBulEHfowX58N88DexQXEmp0Our0Q2Vg=;
- b=QcVUiynb+UcZP7Juu7185igt5HkIOj93agJPhP8oToZSXdGA29OWn2f8TF4kHeFUPo
- XkHsyp/L1VSZzAcmO/pQYKbnFuvFG6V56zoTB7tusL3s3eh+1JVaGvqD+wiXskwgYk/O
- jBxKh7vaTsFtwgHnzArUCtgtEqH2/hJItuQTBZZ2mS1xNk7D35Iem3gf7Of4sj1215iY
- sb2ksMb6c+Tr4PJcc0r2uEVposkcF4av514Ur8F5jRc8wG710dKsaQjIu8M1QVs0Itzd
- wX9VSAiY1SYVvzJv6mwGnbnZgoocN6A7UMXUI7Rj0NIZTDp4h+A+KNWtcqCSFpoGUVAx
- TJuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758661319; x=1759266119;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IiShayob+wMbBulEHfowX58N88DexQXEmp0Our0Q2Vg=;
- b=U9QToSr8kdaQuz8YOq1KjfejmM/JGPCMTlrNcLgZVd3KIEi7BvX4ojRZKzbiGm+pDb
- LkGkw+Gt++GUh3nejOkU4HbRawMFoFgdWI33IYjaSozXAy2iutnzpEZscbl8SkPhA/Jq
- HjAtcHjd9Q6fPBoXJhueBuySPdCSYG1LoSWmAlC9PS35eNcsrHv3owNSat0KRUJpbqN+
- dJFNeo94iminEKPCu2d8EsayBAATuqm9kjt1Oig9DxVi19NEHb3Mn8ild9AteRsGrNDL
- VKeCt3F1ggVtklKeL0AT72yA1Jl96uKcKhLmp+Bji15tn7t+gIPMcU4ACXIbZS62qskH
- V2rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLobLwL06/qBGij+3rB16jZVH3R+4iv7SdAhb8Wtl8ym30qA71X5hgqz/UjgOfB+dBll8qZdG1jck=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOKL7lIgCCnbH0uAhOFF8ibFqnueUers6x1gbQPrJJibADXW1O
- 8dol1v/AD/ywlhAZWYO9TzpaZ9VMAO7oMSinrSqLfbdq0j4e2T0CEV/77JRVS+kI6RFGZz81xRY
- eZwZKl4jmYxM3rEb2+lJSgr1AFh6OGXs=
-X-Gm-Gg: ASbGncvX9IqAdA8uqPSJ9yopJSM32kAbYs+VrrT4XeNLrg+YATi3kg9rfFkZCXMXePZ
- 6le/Gv+TQFZ1xgn2CGC8jJEe+syIer52GkVkxZwtO1FWmnul7qRm1zprrb/bFa1WGC94wmkxyQO
- iBmvIgPADjAeevGjcKbelnye9MTotSVfmKSxj8UcNXkVxhWzhOq+qCCz/VAa54bt/MemvNBA7h/
- oKQAk6PWPfAfEtGyg==
-X-Google-Smtp-Source: AGHT+IGBIpx9mrFyDSaaGSwsEdyPQMz8HXLpGnW+28xc1uhmMzsInV1+Wy3g/FV+hkJat3S8a2AqMq6CslP7cPKpxFE=
-X-Received: by 2002:a17:902:ec8d:b0:269:67e9:4c20 with SMTP id
- d9443c01a7336-27cc41d582fmr27553505ad.5.1758661319381; Tue, 23 Sep 2025
- 14:01:59 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1310010E04A
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 21:37:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D620B6028C;
+ Tue, 23 Sep 2025 21:37:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE44C4CEF5;
+ Tue, 23 Sep 2025 21:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758663443;
+ bh=AmT7pTT/bQK4h7VloFIIhchliPgyZojTf54MF0QHREo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=a55I2Drexre9bmk9zOM6IHzQLXlQLZh5HwWP9Px8aa/1hUS7J58IX7JJ3YDzCuSEM
+ PAS3UJCrtAIueVROmkX4i4/LE8CnJ4xggv/HzM6XkXuZUCxXuwrOA/v6g8Y2f0uku/
+ f0ijwgCPwX5/BC3M3TGHhGSBZsK1PD0rxU7lsZr5CX9FWDXzMlOrlUQMTXiYaxcO0D
+ skyJYWG9BJlwnI2a0btE2FNr6ra9N0dWRB6zll1TTr5tpxaUDyhp6C6gLAYOk8Mmtl
+ jxKtO5V+Vycuwt7yWcI4UnHje3zc3L22NfIckDsJKK8yanMDnkXkmCavEDVeL+Tcsl
+ 68jmOmlZAVZmQ==
+Date: Tue, 23 Sep 2025 16:37:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, herbert@gondor.apana.org.au,
+ davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org,
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
+ mchehab@kernel.org, matthias.bgg@gmail.com,
+ chunfeng.yun@mediatek.com, vkoul@kernel.org, kishon@kernel.org,
+ sean.wang@kernel.org, linus.walleij@linaro.org, lgirdwood@gmail.com,
+ broonie@kernel.org, andersson@kernel.org,
+ mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
+ tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
+ ck.hu@mediatek.com, houlong.wei@mediatek.com,
+ kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
+ tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
+ shane.chien@mediatek.com, olivia.wen@mediatek.com,
+ granquet@baylibre.com, eugen.hristev@linaro.org, arnd@arndb.de,
+ sam.shih@mediatek.com, jieyy.yang@mediatek.com,
+ frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com,
+ linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/38] MediaTek devicetree/bindings warnings sanitization
+Message-ID: <20250923213721.GA91441-robh@kernel.org>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-References: <20250923171409.25927-1-hsukrut3@gmail.com>
-In-Reply-To: <20250923171409.25927-1-hsukrut3@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 23 Sep 2025 17:01:48 -0400
-X-Gm-Features: AS18NWAaDRkmma0nmJvOC0wFTTFBrD_CmBl8W6TTz0Z5Vyhfubp9ivnudhX4kc0
-Message-ID: <CADnq5_P-UsY-uCYaTU5nA9jioCaL5jNPQHFn9YdtsBEVC_4aVw@mail.gmail.com>
-Subject: Re: [PATCH v2] fbdev/radeon: Remove stale product link in
- Kconfig/FB_RADEON
-To: Sukrut Heroorkar <hsukrut3@gmail.com>
-Cc: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, 
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>, 
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, 
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, 
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +78,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 4:19=E2=80=AFPM Sukrut Heroorkar <hsukrut3@gmail.co=
-m> wrote:
->
-> The product page referenced in the FB_RADEON is no longer valid.
-> Remove it to avoid pointing to an invalid link.
->
-> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+On Thu, Jul 24, 2025 at 10:38:36AM +0200, AngeloGioacchino Del Regno wrote:
+> As Rob pointed out, MediaTek devicetrees are *poor* in the dtbs_check
+> tests, and got an infinite load of warnings.
+> 
+> This series starts attacking this situation.
+> 
+> I didn't really count how many warnings I have resolved - it's a lot
+> of them anyway - and I think that this is a good start in any case.
+> 
+> More will come, but I'll be on a long holiday soon, so not from me
+> (or anyway not before I come back anyway), but most probably from
+> someone else (in August...!).
+> 
+> Cheers!
+> Angelo
+> 
+> AngeloGioacchino Del Regno (38):
+>   dt-bindings: display: mediatek: dpi: Allow specifying resets
+>   dt-bindings: display: mediatek,dp: Allow DisplayPort AUX bus
+>   dt-bindings: mailbox: mediatek,gce-mailbox: Make clock-names optional
+>   ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and clock-names
+>   dt-bindings: crypto: inside-secure,safexcel: Mandate only ring IRQs
+>   dt-bindings: timer: mediatek: Add compatible for MT6795 GP Timer
+>   dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing pwm_ch7_2
+>   dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing base reg
+>   dt-bindings: pinctrl: mt6779: Allow common MediaTek pinctrl node names
+>   dt-bindings: regulator: mediatek,mt6332-regulator: Add missing
+>     compatible
+>   dt-bindings: regulator: mediatek,mt6331: Fix various regulator names
+>   dt-bindings: regulator: mediatek,mt6331: Add missing compatible
+>   dt-bindings: remoteproc: mediatek: Remove l1tcm MMIO from MT8188 dual
+>   dt-bindings: media: mediatek,mt8195-jpeg: Allow range number in node
+>     address
+>   dt-bindings: phy: mediatek,hdmi-phy: Fix clock output names for MT8195
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+As we are close to the merge window, I applied patches 1, 3, 6, 7, 8, 
+10, 11, 12 and 14.
 
-> ---
-> Changes since v1:
-> - Dropped the link entirely as suggested
-> (See: https://lore.kernel.org/all/CADnq5_NHu5=3DesJZrgy_S80jF68ZapRRYX4_L=
-70DwDDSN3VXitQ@mail.gmail.com/)
->
->  drivers/video/fbdev/Kconfig | 3 ---
->  1 file changed, 3 deletions(-)
->
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index c21484d15f0c..27639b2590d8 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -948,9 +948,6 @@ config FB_RADEON
->           a framebuffer device.  There are both PCI and AGP versions.  Yo=
-u
->           don't need to choose this to run the Radeon in plain VGA mode.
->
-> -         There is a product page at
-> -         https://products.amd.com/en-us/GraphicCardResult.aspx
-> -
->  config FB_RADEON_I2C
->         bool "DDC/I2C for ATI Radeon support"
->         depends on FB_RADEON
-> --
-> 2.43.0
->
+Rob
