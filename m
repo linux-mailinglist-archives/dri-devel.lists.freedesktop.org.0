@@ -2,69 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A707B93E7A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CDAB93D78
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F4010E51A;
-	Tue, 23 Sep 2025 01:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5582F10E093;
+	Tue, 23 Sep 2025 01:27:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="COY5I7jk";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="lvjxcrcj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49194.qiye.163.com (mail-m49194.qiye.163.com
- [45.254.49.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAAFC10E51A
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:50:27 +0000 (UTC)
-Received: from [172.16.12.153] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 23b3334ac;
- Tue, 23 Sep 2025 09:15:15 +0800 (GMT+08:00)
-Message-ID: <5d078df4-4e0b-464b-9c2f-28b9a2669c5c@rock-chips.com>
-Date: Tue, 23 Sep 2025 09:15:13 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] drm/rockchip: cdn-dp: Support handle lane info
- without extcon
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6169410E093
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
+ Content-Type; bh=PqEYUudwG18jHMViGLX/jZq1TAjXJhfWsdIZilzljnk=;
+ b=lvjxcrcjr4Vpxk9cLwZBp33jsJzsOaMgA98UdPTdegAAvpWFzXIs+FiJo37HRI
+ iv7b32cfDz5FgzvUjb9VMPF57VBrskT9SxDw0uYgyscshgiL9L0lNez9kUByoZex
+ pC3c3W3y6+CCV/Hyyrf8Xn7kMvumCXPLXAGTLNf3t+oJA=
+Received: from localhost (unknown [])
+ by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDnN4th99FosHheDA--.434S2;
+ Tue, 23 Sep 2025 09:26:58 +0800 (CST)
+Date: Tue, 23 Sep 2025 09:26:57 +0800
+From: Qianqiang Liu <qianqiang.liu@163.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jani.nikula@linux.intel.com, samasth.norway.ananda@oracle.com,
+ simona@ffwll.ch, deller@gmx.de, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ George Kennedy <george.kennedy@oracle.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-5-kernel@airkyi.com>
- <gcgiszrrpqkoi3mhajn4i72awbffqv6mayahmnyswoitxxmrgd@nr2z4cpurbwq>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <gcgiszrrpqkoi3mhajn4i72awbffqv6mayahmnyswoitxxmrgd@nr2z4cpurbwq>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9974239f4c03abkunmb38508cda8da5
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0JDSlZDGBhCH0NKQ09DT0JWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=COY5I7jkTU/zXnYTeQOMUc3ZPuGFmr7/r/7qdm6w5dIx4BIwgxKuHNnKEw48qSuL2b7I94/K+LtFixhilqgXOiMbji0L+k7o+/ueZ9uLqIghKjY/fF4rNBK3sPFb4H4n910b157/pQHZiPerd1v1I9xllp6XzfHxWzaziQqdB9A=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=TnzpHwo3q7997FFkEs8jwSh1z9SSMeRB7M3+4Ac9o8k=;
- h=date:mime-version:subject:message-id:from;
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Shixiong Ou <oushixiong@kylinos.cn>, Kees Cook <kees@kernel.org>,
+ stable@vger.kernel.org, Zsolt Kajtar <soci@c64.rulez.org>
+Subject: Re: [PATCH] fbcon: Fix OOB access in font allocation
+Message-ID: <aNH3YWKc7ZF7-clL@debian.debian.local>
+References: <20250922134619.257684-1-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250922134619.257684-1-tzimmermann@suse.de>
+X-CM-TRANSID: _____wDnN4th99FosHheDA--.434S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kry8GF1rtFWDuw4fXr1kZrb_yoW5JFyrpF
+ WUGF13Wrs5tw43Ga1jgrWDZFy8Ww1kJryjgay2g3W5Zr9agwnxW34jkFWYga4fCr1DCry0
+ yFyqqFya9as8uFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UcvtZUUUUU=
+X-Originating-IP: [60.166.103.111]
+X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiER7RamjR73-r6wAAsd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,61 +66,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/22/2025 6:01 PM, Dmitry Baryshkov wrote:
+On Mon, Sep 22, 2025 at 03:45:54PM +0200, Thomas Zimmermann wrote:
+> Commit 1a194e6c8e1e ("fbcon: fix integer overflow in fbcon_do_set_font")
+> introduced an out-of-bounds access by storing data and allocation sizes
+> in the same variable. Restore the old size calculation and use the new
+> variable 'alloc_size' for the allocation.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 1a194e6c8e1e ("fbcon: fix integer overflow in fbcon_do_set_font")
+> Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15020
+> Cc: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: George Kennedy <george.kennedy@oracle.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Qianqiang Liu <qianqiang.liu@163.com>
+> Cc: Shixiong Ou <oushixiong@kylinos.cn>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: <stable@vger.kernel.org> # v5.9+
+> Cc: Zsolt Kajtar <soci@c64.rulez.org>
+> ---
+>  drivers/video/fbdev/core/fbcon.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 5fade44931b8..c1c0cdd7597c 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -2518,7 +2518,7 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
+>  	unsigned charcount = font->charcount;
+>  	int w = font->width;
+>  	int h = font->height;
+> -	int size;
+> +	int size, alloc_size;
+>  	int i, csum;
+>  	u8 *new_data, *data = font->data;
+>  	int pitch = PITCH(font->width);
+> @@ -2551,10 +2551,10 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
+>  		return -EINVAL;
+>  
+>  	/* Check for overflow in allocation size calculation */
+> -	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &size))
+> +	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &alloc_size))
+>  		return -EINVAL;
+>  
+> -	new_data = kmalloc(size, GFP_USER);
+> +	new_data = kmalloc(alloc_size, GFP_USER);
+>  
+>  	if (!new_data)
+>  		return -ENOMEM;
+> -- 
+> 2.51.0
 
-> On Mon, Sep 22, 2025 at 09:20:36AM +0800, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> This patch add support for get PHY lane info without help of extcon.
->>
->> There is no extcon needed if the Type-C controller is present. In this
->> case, the lane info can be get from PHY instead of extcon.
->>
->> The extcon device should still be supported if Type-C controller is
->> not present.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
->>
->> Changes in v4:
->> - Remove cdn_dp_hpd_notify().
->>
->> (no changes since v3)
->>
->> Changes in v2:
->> - Ignore duplicate HPD events.
->>
->>   drivers/gpu/drm/rockchip/cdn-dp-core.c | 25 +++++++++++++++++--------
->>   1 file changed, 17 insertions(+), 8 deletions(-)
->>
->> @@ -1120,14 +1129,14 @@ static int cdn_dp_probe(struct platform_device *pdev)
->>   		    PTR_ERR(phy) == -EPROBE_DEFER)
->>   			return -EPROBE_DEFER;
->>   
->> -		if (IS_ERR(extcon) || IS_ERR(phy))
->> +		if (IS_ERR(phy) || PTR_ERR(extcon) != -ENODEV)
->>   			continue;
-> This will break the case when the extcon is present. It should be
-> (IS_ERR(extcon) && PTR_ERR(extcon) != -ENODEV)
+Reviewed-by: Qianqiang Liu <qianqiang.liu@163.com>
 
-Yes, will fix in v5
-
-
->
->>   
->>   		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
->>   		if (!port)
->>   			return -ENOMEM;
->>   
->> -		port->extcon = extcon;
->> +		port->extcon = IS_ERR(extcon) ? NULL : extcon;
->>   		port->phy = phy;
->>   		port->dp = dp;
->>   		port->id = i;
->> -- 
->> 2.49.0
->>
 -- 
 Best,
-Chaoyi
+Qianqiang Liu
 
