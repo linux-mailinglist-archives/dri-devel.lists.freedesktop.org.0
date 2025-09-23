@@ -2,127 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B78B951FD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C274B951D0
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE0ED10E5B8;
-	Tue, 23 Sep 2025 09:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8DED10E5B1;
+	Tue, 23 Sep 2025 09:03:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Ud5072bY";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JrEuqHn3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011011.outbound.protection.outlook.com [40.107.208.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2C410E5B3;
- Tue, 23 Sep 2025 09:04:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c8sdMk81QrJ52VGHUyS6+IPw02nOxy9ne8BnEfKNoRn4h0wuHLTyEibsbsW5SvftHtnGFwI5aPuJQ+/OkDAyeXWrYwr9AjkibS5csKmxsXCN5epLPpixpu+jauFaHUBPDzz/P6Tm4p8N5W+XLTnoBq53znBlS8X9IeW0DIvTO1KE3PTvNIoCNkAY2xQf9MmHqzhT1shuNCfSJUeFr78uVFVbnPrhFDYTgsFMlKsqXYg4atw4bT/B4vgiRFxKf8gqVcx401pQReKNErMbe1sYfARbHfPGQY9JbWxrlEwH1nZt72RETr0kLAA+HEml0O5DtLlTstdUeeOaraFhxy1Saw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AaO2TSbV2cSfE+O6WnDquomBLyaI6Cp/1o1rrMiZ/ls=;
- b=PgHQcT2f3RoIeoLmIUDLcgdYwSL1QjozhxKEu+tx2hIhgI5JezvOLpsTvRCWjDQLMGxbVIfPVkAXc3gL7bbCCusCTcFThCCsBKdUe1Snl8JfUj8x6b5syx3xH7ndUo29wzr17wHnAawObp8MZkVJWP3zRAcfZFI/enmCOCr3zGLjjRUFEFXdl8eHIlLklhBHQXfx779A93OXkb4yPdXbtPdunPS3m2yzdlHxsBzk7FPbxTcpwfKCP0HXniECUGoyfq9n3xzKa0KO7HZdQFew4VN8iCNodASR5VCHqD+2VBTPpP8bpH8OCJDPsbsf7B00Y0W+OjA2TWIjoiw31v9Rzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaO2TSbV2cSfE+O6WnDquomBLyaI6Cp/1o1rrMiZ/ls=;
- b=Ud5072bY91KpsCLdYvFf5/k6X9PP0b7PZuw9ZI170FFvl9PDQwBVwteaTIClTt3Ch3TYb0W8zpejYhDIIwH7kg9z0GlH8Hb+BZWCQ/6GbVToIFWfCL0bmTu87b+bW5jD7Df44j2oE8VzX0l5HOulc6dspmrgZfNvY8Upcv2QKBg=
-Received: from BN0PR03CA0060.namprd03.prod.outlook.com (2603:10b6:408:e7::35)
- by CH3PR12MB9342.namprd12.prod.outlook.com (2603:10b6:610:1cb::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
- 2025 09:04:49 +0000
-Received: from BL6PEPF0001AB58.namprd02.prod.outlook.com
- (2603:10b6:408:e7:cafe::32) by BN0PR03CA0060.outlook.office365.com
- (2603:10b6:408:e7::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.20 via Frontend Transport; Tue,
- 23 Sep 2025 09:04:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB58.mail.protection.outlook.com (10.167.241.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Tue, 23 Sep 2025 09:04:49 +0000
-Received: from arun-nv33.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 23 Sep
- 2025 02:04:40 -0700
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <christian.koenig@amd.com>, <matthew.auld@intel.com>,
- <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
-CC: <alexander.deucher@amd.com>, <jani.nikula@linux.intel.com>,
- <peterz@infradead.org>, <samuel.pitoiset@gmail.com>, Arunpravin Paneer Selvam
- <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH v7 3/3] drm/buddy: Add KUnit tests for allocator performance
- under fragmentation
-Date: Tue, 23 Sep 2025 14:32:42 +0530
-Message-ID: <20250923090242.60649-3-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250923090242.60649-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20250923090242.60649-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F8F10E5B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:03:58 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N8H9Qr001850
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:03:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=N9VvJiiEfuibCwd3WFX3PUUK
+ 4AoEriLzCqFcQqEJWTo=; b=JrEuqHn3/6Loax1achA80FK+eU7UAK/Ud72aUpM7
+ 9yT3MMY3Sz/AShAkhxdCK375zi/vZpaNL+eh2BpW5uRleNHFBzXbnBMnLsyu+6Om
+ vXGyBTPNIBG0ty6XaS/nOwkjp44nLe6hj+LUOtrEQ2pppI9Zagvrw4MAmj0FtGCo
+ j2Nv+lx8fpAUO/2DuoEvP9rFxmROOq1At0s65GteKcQdBQkg9E9s9KE8yQyLejV2
+ i7ap2tuuKoU+w+uPaCNmUfihvLiVrQRFol+niSlvP50kMpGKCdY1qRKOo1zbyIEU
+ bbVxTXwsoCuc5OqlFxe/SIJ5baElNRMvs4DZL+fW4PmUfw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1fft54-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:03:57 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-792f273fd58so93978896d6.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:03:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758618237; x=1759223037;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N9VvJiiEfuibCwd3WFX3PUUK4AoEriLzCqFcQqEJWTo=;
+ b=TOtZl0QVJXWH1+Cd03rtUVWbSWn1db01SSJ+qyExcg+SpSePkA9Np3uMbLhwvWIiKF
+ cucspdI9+WHorS8PTU3pNn2ldsMb6ndoi2hhTAWlsEqNaPL8PKc5jmjIGEFvFmVoyOpC
+ hKVg7IQlbkJxI5/D68py9YZ8t3yyzOnhlyHfXGXDUwlzQu0G1plRstc4QkPPYUKsvIXk
+ jbXu6u4ry9YNMqW7oOwePtAi3ZxccWR/PavS0hhxgObMWvq3mYIcVbgn6bTaIYKZUD6l
+ zl+iZkbrrqBCw1u+HdhzrH0BVbUfe+Wx9erB/Tj9xXikeyCuLiHPiV+W37UFIvowyO8U
+ jkCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsIuGsK1AUpbGUGyzgTsI4f3sC1BeZvsZ8r0qDMzXgTlCmlyESey8DKZWss7m8k0SBTajuvhaDdRs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsCmTLI8vI0AJ1xra3ImPQxO2JjC/1ar9QTSl10/M2VvU7/JdY
+ oGCQRKsS3WJHJR0zjaxWAWNJ7A5VCujO5LYjKZBw5zv3Gx51UZdfhAg+1BkAPmZqcBKTqJnQHht
+ Gkd3uztPsyAb6ylDqJwr3QoREzfrNFhtq2mgh5WE0NI8GIU0I6/VtXeInevMwFka5Zqjw/VY=
+X-Gm-Gg: ASbGncukcaFkZmBN3uE3w5FUv/UNykACEvo/Ci5BpVsl9dkCjRXj6Yj2sc2DG8Q0QL/
+ fFp8jxaIKGDpixcppqGRCgtfoBuMjwTu7dibqYwNJUwKePr5QUWgTCTMV88tqQDcC6YZcsPbaLF
+ D1Pmdufiz06gt4KLcjcCLdTgseTUAiqX8/QHEgI+YkH3AWR0VnOJvxuz6P2RKwZCrKtt3ATGNXf
+ EZSZ/lFlfZ05wvcTiQx9WZj4H0ESwPpZ9XfqaTibVzXO0ynByUNJhSY1q/yKINrdFbXZ5AciMVV
+ 5DZ4jq5zMNZVSOKY0FIF0V5k+MRc2TwhXHGrk6K4zrYH5Yzdz2XbCFuwFa9zEnDmo7lo1Jekviv
+ Qp/iwna85Q8K5xxvRHbF5ATX7pzDL0txWWBON/htoxlxHsfrcu2RY
+X-Received: by 2002:a05:6214:2129:b0:7ad:179b:6472 with SMTP id
+ 6a1803df08f44-7e71bcbeb77mr20144256d6.53.1758618236549; 
+ Tue, 23 Sep 2025 02:03:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGXtyN7kZQLjCpjvBStXoTFCJzTiR6gRbqkzv7uy9Rmgc2Siqdmrlmy6eFmsWYX/A81wP5zjQ==
+X-Received: by 2002:a05:6214:2129:b0:7ad:179b:6472 with SMTP id
+ 6a1803df08f44-7e71bcbeb77mr20143976d6.53.1758618236091; 
+ Tue, 23 Sep 2025 02:03:56 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-57b9592e6c3sm2402073e87.46.2025.09.23.02.03.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Sep 2025 02:03:55 -0700 (PDT)
+Date: Tue, 23 Sep 2025 12:03:53 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Hermes.wu@ite.com.tw
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Pet.Weng@ite.com.tw,
+ Kenneth.Hung@ite.com.tw, treapking@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] drm/bridge: it6505: add INT status check while
+ link auto training
+Message-ID: <pzwwlv4epiy36t7k66ymhbcetyz47tzvx2kxwmbqzdn7kygori@gwwxchq52mkw>
+References: <20250923-fix-link-training-v4-0-7c18f5d3891e@ite.com.tw>
+ <20250923-fix-link-training-v4-2-7c18f5d3891e@ite.com.tw>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB58:EE_|CH3PR12MB9342:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1644f8ce-c5b5-48b0-1e04-08ddfa80403f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xcrHgyy+baPjmH1vaSum+ouxM8yG8umc6b+wziDvY+3sK3TkubAN5FAykYSm?=
- =?us-ascii?Q?PKPyOCf+zfAjBvSDnkPG7fC1CPnCCg1znRFX0TQcuR2Rth1nvRGq4/jPT/po?=
- =?us-ascii?Q?WkmZLcGFsYZuSWw3C0c5JxLhlg83dWJFoc6oPbUHNsUaQWHkxEazEfNQzUBC?=
- =?us-ascii?Q?EQklc+MbwCaKlLUQgapzuHyFbNF2iNEzHaIRT1wf57EjDHDSzqvug1oRaMmu?=
- =?us-ascii?Q?wx9elduwwjczYHeEGepA4ND+q4EYdoK2BAqA5A4MulfQFfRgkP5KPdgjul1v?=
- =?us-ascii?Q?SF54sI0hQJNjWtIwctpLcZDnE594BQr7ZEFN+ROvymWS5LKK1vFblWB8ilV3?=
- =?us-ascii?Q?7roZTbkSzLLXnoDr+Ye2Qq/AgTzfdlqbQU0NYOv/EaAMXhqfWyo93aE2PqsB?=
- =?us-ascii?Q?4oaBfVzoP8w1isjWDYEZy35EZrBZBz53/O0l6r6jUmbhh8HUaX5lVeJMldNX?=
- =?us-ascii?Q?NFaOW6i8tvjjX/jt2wUJBnPmkmmEDMZSkfYO+AuPGYh/URFnCnzZUcjRC5sY?=
- =?us-ascii?Q?fBURRCTRJMTn7gj4XzMtv/bn2TbeXWM2M4SzVPR1I2KUvOulzxFpXZdCMCnh?=
- =?us-ascii?Q?Jz7sCWP2yiVpvAW1Eliyy5EUgYir5Cpd5t2xqcXNIj8YQq2GCSHAlI4M81pb?=
- =?us-ascii?Q?N477p9gVZMrOc3qGEBA/BVhg6pAN60l9zta0BqDegPL3PCcEwsSfH8M02lc0?=
- =?us-ascii?Q?cm5RydjKkzd47EFC+M+H9FHyx/1RU7ax8RYpIw+bPAKBdb8V1dbBAIB0Tdot?=
- =?us-ascii?Q?FPxDYI3repk/DIsQvbzPKPNQTN6fG9XUIDkU+dItPz9YGmNE/X0potdwseQJ?=
- =?us-ascii?Q?nYk12udLQtBdpDcJDmPTj1EV4/QE8F4XVyxjHlFa34tcdQrOx+UVAZJbbVNp?=
- =?us-ascii?Q?jbOCcgTRAX4licWNAOYpz5J9FBqdVRYInqUAahiegmfqMndpxFFKHKlepkAs?=
- =?us-ascii?Q?D0otZARS++W2E6raXu2257yRHpejxvw8iR6iG9r2ZehZUms4H4oqD78pOa1K?=
- =?us-ascii?Q?wwy/JxNsVp2ep4QW7sqtMzvVy41wnQY3SHF4u9rAKvAqPxJSX6SppaEOD0N3?=
- =?us-ascii?Q?qHF24Ky/qtyyWi6qEqz6vlUPb76vdIhNuVOybO4Pp/ETOdwUJICU1Re0YaOq?=
- =?us-ascii?Q?fQ0TE7gL852V31K1668HrDzQh/QCszb2z14wrrlrPYY8Yd5kvqe6/QjS/JzM?=
- =?us-ascii?Q?pwVCYbI8mih/g6rgnvRTW0hZ7nDg5h5fggDyQINbB0TlN6esp0AX9hQ6i3lI?=
- =?us-ascii?Q?4PTf/zHBJMs9SytxAC2VBNXw6qrl+Sp4fLPqcsCS6QCXlUn1qSqpavtRQKmr?=
- =?us-ascii?Q?+9VGeTd9scYFjPVAJJjvhB6wcWy1pXekFXhvIc+S3/DLp5p4heh+MpG5bHZf?=
- =?us-ascii?Q?nySvtN7kY7h4KBzmsw25QKfhBbQmPWsl4mq5h/jM3StLPOqE+scGerME3jYg?=
- =?us-ascii?Q?chgXW4vbybnATtpnEdUSGVeJTAkrC15N5r/vgddoe4ARCJAQN/TZUSVysP94?=
- =?us-ascii?Q?mjUzKiFbgjnSqdKwyTEuQDt+hcp9yprO6M4q?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 09:04:49.6689 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1644f8ce-c5b5-48b0-1e04-08ddfa80403f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB58.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9342
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923-fix-link-training-v4-2-7c18f5d3891e@ite.com.tw>
+X-Proofpoint-ORIG-GUID: MU2tcbyOtjzFHZGdyR7D1YUzMXtsR9UY
+X-Proofpoint-GUID: MU2tcbyOtjzFHZGdyR7D1YUzMXtsR9UY
+X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d2627e cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=Ns9eNvu6AAAA:8 a=EUspDBNiAAAA:8 a=YJcEIqG2WBgLaOaGd_8A:9
+ a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=LZLx1i01EnjtqRv10NxV:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfX7V58rZDII/8/
+ psCKuPnb68klbWp3A2PjUiBHbtR9UO0xDCQlnMciLU7uadOqIbFDTQ9c0rDGb21qI4Jc2rJyuqh
+ UVbGVOg3TAy83+YizahgfOFJ2cAB1f3NyXp6JEzK1hj8u6gf8vAnSS/eByqk6Iy22chmowlCTvI
+ JLZtBF+MfSp7jHy0Pr6S49808S15ihVNcKx5M37LUka+Q1QpnqZxCHsn2DYCosFPX5XnMrCOUzV
+ 3WTVbUC36YEN5NF1RDZ5As+Fo+m4WMTjd3Kzr3Sx3MznZ+tHRHA1KIvNUIXMOOrqJQNc3t+u426
+ WRpuJcuQ1vcvPWiFSGvESEqdLulEcvLPcO4BjuZ18jwfFY5lNW2e5Y9nfDbvJKDuuD1a3SOf1ju
+ 9s5WWyN3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,157 +133,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add KUnit test cases that create severe memory fragmentation and
-measure allocation/free performance.
+On Tue, Sep 23, 2025 at 02:23:42PM +0800, Hermes Wu via B4 Relay wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> 
+> When start link training, interrupt status INT_LINK_TRAIN_FAIL can use to
+> check link training fail and no need to wait until timeout.
+> 
+> it6505_irq_link_train_fail() remove from interrupt and no longer used.
+> 
+> IT6505 HW auto link training which will write DPCD and check training
+> status automatically.
+> 
+> In the case that driver set link rate at 2.7G and HW fail to training,
+> it will change link configuration and try 1.65G. And this will cause
+> INT_VID_FIFO_ERROR triggered when link clock is changed.
+> 
+> When video error occurs, video logic is reset and link training restart,
+> this will cause endless auto link training.
+> 
+> when start  link auto training, disable INT_VID_FIFO_ERROR to avoid loop
+> and check INT_LINK_TRAIN_FAIL event to abort wait training done.
+> 
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 38 ++++++++++++++++++++++++++-----------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
+> 
 
-The tests simulate two scenarios -
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-1. Allocation under severe fragmentation
-   - Allocate the entire 4 GiB space as 8 KiB blocks with 64 KiB alignment,
-     split them into two groups and free with mixed flags to block coalescing.
-   - Repeatedly allocate and free 64 KiB blocks while timing the loop.
-   - Freelist runtime: 76475 ms(76.5 seconds), soft-lockup triggered.
-     RB-tree runtime: 186 ms.
 
-2. Reverse free order under fragmentation
-   - Create a similarly fragmented space, free half the blocks, reverse
-     the order of the remainder, and release them with the cleared flag.
-   - Freelist runtime: 85620 ms(85.6 seconds).
-     RB-tree runtime: 114 ms.
-
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/tests/drm_buddy_test.c | 110 +++++++++++++++++++++++++
- 1 file changed, 110 insertions(+)
-
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index 7a0e523651f0..19b49fb6ec19 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -21,6 +21,115 @@ static inline u64 get_size(int order, u64 chunk_size)
- 	return (1 << order) * chunk_size;
- }
- 
-+static void drm_test_buddy_fragmentation_performance(struct kunit *test)
-+{
-+	const unsigned long max_acceptable_time_ms = 1000;
-+	struct drm_buddy_block *block, *tmp;
-+	int num_blocks, i, ret, count = 0;
-+	LIST_HEAD(allocated_blocks);
-+	unsigned long elapsed_ms;
-+	LIST_HEAD(reverse_list);
-+	LIST_HEAD(test_blocks);
-+	LIST_HEAD(clear_list);
-+	LIST_HEAD(dirty_list);
-+	LIST_HEAD(free_list);
-+	struct drm_buddy mm;
-+	u64 mm_size = SZ_4G;
-+	ktime_t start, end;
-+
-+	/*
-+	 * Allocation under severe fragmentation
-+	 *
-+	 * Create severe fragmentation by allocating the entire 4 GiB address space
-+	 * as tiny 8 KiB blocks but forcing a 64 KiB alignment. The resulting pattern
-+	 * leaves many scattered holes. Split the allocations into two groups and
-+	 * return them with different flags to block coalescing, then repeatedly
-+	 * allocate and free 64 KiB blocks while timing the loop. This stresses how
-+	 * quickly the allocator can satisfy larger, aligned requests from a pool of
-+	 * highly fragmented space.
-+	 */
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, SZ_4K),
-+			       "buddy_init failed\n");
-+
-+	num_blocks = mm_size / SZ_64K;
-+
-+	start = ktime_get();
-+	/* Allocate with maximum fragmentation - 8K blocks with 64K alignment */
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_64K,
-+								    &allocated_blocks, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_8K);
-+
-+	list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
-+		if (count % 4 == 0 || count % 4 == 3)
-+			list_move_tail(&block->link, &clear_list);
-+		else
-+			list_move_tail(&block->link, &dirty_list);
-+		count++;
-+	}
-+
-+	/* Free with different flags to ensure no coalescing */
-+	drm_buddy_free_list(&mm, &clear_list, DRM_BUDDY_CLEARED);
-+	drm_buddy_free_list(&mm, &dirty_list, 0);
-+
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_64K, SZ_64K,
-+								    &test_blocks, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_64K);
-+	drm_buddy_free_list(&mm, &test_blocks, 0);
-+
-+	end = ktime_get();
-+	elapsed_ms = ktime_to_ms(ktime_sub(end, start));
-+	/* Performance validation */
-+	KUNIT_EXPECT_LT_MSG(test, elapsed_ms, max_acceptable_time_ms,
-+			    "Fragmented allocation took %lu ms (max acceptable: %lu ms)",
-+			    elapsed_ms, max_acceptable_time_ms);
-+	drm_buddy_fini(&mm);
-+
-+	/*
-+	 * Reverse free order under fragmentation
-+	 *
-+	 * Construct a fragmented 4 GiB space by allocating every 8 KiB block with
-+	 * 64 KiB alignment, creating a dense scatter of small regions. Half of the
-+	 * blocks are selectively freed to form sparse gaps, while the remaining
-+	 * allocations are preserved, reordered in reverse, and released back with
-+	 * the cleared flag. This models a pathological reverse-ordered free pattern
-+	 * and measures how quickly the allocator can merge and reclaim space when
-+	 * deallocation occurs in the opposite order of allocation, exposing the
-+	 * cost difference between a linear freelist scan and an ordered tree lookup.
-+	 */
-+	ret = drm_buddy_init(&mm, mm_size, SZ_4K);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	start = ktime_get();
-+	/* Allocate maximum fragmentation */
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_64K,
-+								    &allocated_blocks, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_8K);
-+
-+	list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
-+		if (count % 2 == 0)
-+			list_move_tail(&block->link, &free_list);
-+		count++;
-+	}
-+	drm_buddy_free_list(&mm, &free_list, DRM_BUDDY_CLEARED);
-+
-+	list_for_each_entry_safe_reverse(block, tmp, &allocated_blocks, link)
-+		list_move(&block->link, &reverse_list);
-+	drm_buddy_free_list(&mm, &reverse_list, DRM_BUDDY_CLEARED);
-+
-+	end = ktime_get();
-+	elapsed_ms = ktime_to_ms(ktime_sub(end, start));
-+
-+	/* Performance validation */
-+	KUNIT_EXPECT_LT_MSG(test, elapsed_ms, max_acceptable_time_ms,
-+			    "Reverse-ordered free took %lu ms (max acceptable: %lu ms)",
-+			    elapsed_ms, max_acceptable_time_ms);
-+
-+	drm_buddy_fini(&mm);
-+}
-+
- static void drm_test_buddy_alloc_range_bias(struct kunit *test)
- {
- 	u32 mm_size, size, ps, bias_size, bias_start, bias_end, bias_rem;
-@@ -772,6 +881,7 @@ static struct kunit_case drm_buddy_tests[] = {
- 	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
- 	KUNIT_CASE(drm_test_buddy_alloc_clear),
- 	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
-+	KUNIT_CASE(drm_test_buddy_fragmentation_performance),
- 	{}
- };
- 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
