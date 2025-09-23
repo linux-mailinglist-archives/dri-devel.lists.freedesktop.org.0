@@ -2,137 +2,199 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EA1B9495F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DA3B94980
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:44:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6B010E1EC;
-	Tue, 23 Sep 2025 06:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E027A10E56D;
+	Tue, 23 Sep 2025 06:44:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rjHXCTMJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bu9ELGvi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fLJywFKC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y25WnlxJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dBBWg7Ge";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6305710E1EC
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 06:38:53 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E3DB8224E6;
- Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758609532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
- b=rjHXCTMJ6WqW0SndCHqWDfgtfvrFcmJmxUvtdLXCYPVU7CqFjxkKipUB218v27sLye0NTp
- coyx/PBWzJTPKjtTyAPNAfcsw6asuoCcaPoWnLAWQw2MQrKWq1S9Dty0/7FylgLPUHieki
- yNDLsmV2cpWYmOfO8dZC/u2mACNx3Hw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758609532;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
- b=Bu9ELGvijHyU2/96UJ3hTvFZxr11r5YmaRa/wVYng/DmjFd72DoTZ6U7bSo/pgOLZHwou0
- yE460Bm9KI/NZfAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758609531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
- b=fLJywFKC8Fgr3hEw2YlaziV56e1DqWmjzIDgra6DMRBXlJEO/QZ/kZMCSsk69ulWNWNZg7
- hk9xMKjpmUbbX/6fmXwqJMnE69IzoJA4wIJUnh1YopTOr4wbp9qEC6+lpCzoU0XyqpaHFr
- jE2ktpeIAfUp5z33LRwp1odK8YViT+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758609531;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
- b=y25WnlxJCvce3z4cXbYTANV62uHo1NKTZGxkCq30sBj4aMd4Ur88dNKKsIssUXDjNDNNef
- WHFB1zW+Pa3S9lBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C961132C9;
- Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ndUHJXtA0mj4HQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:38:51 +0000
-Message-ID: <53d8dd21-2c46-4c3c-b7f9-30696c6f6412@suse.de>
-Date: Tue, 23 Sep 2025 08:38:51 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D4D10E0E3;
+ Tue, 23 Sep 2025 06:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758609890; x=1790145890;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=zZnymWBhLcJw621v0GRyr8LHfppwoh5IykDEUE/usDk=;
+ b=dBBWg7GeTpjodfujEzkRlSjvK08bInyIpEFHLb+QDharJHNPNEBEnLF8
+ JrnLIttOnPzRmtOdWF+nRz1wIJko+eWCqp9YIkZSvQQ7qhCsbXqeQUPtP
+ PUL/j0L3SqsCnawBHqKqsoGxk6hm/5BTUy01zyq6eFIKuyIJZL/6X1Dbr
+ X8h1vbsw9VExWST1QRaWXU1swRR3i8YlkW547M5UqS3/feCPwSEqZJi1L
+ /VD+oFqzy5q5tqNbxgp7aZ6Ca5HpMV+V/i/1Q8XCqgkB1q9GVpvOY3oTj
+ 82jJ+X5o8cz6a+ioSfscb+2R6oCBiWlGIYbTN/GgZMlKpsSCeejTFi3RX A==;
+X-CSE-ConnectionGUID: EyzoEQF2R2u/qULVF0myAA==
+X-CSE-MsgGUID: swqEB9AfSPafhBmO9SVohA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="64706739"
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; d="scan'208";a="64706739"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2025 23:44:50 -0700
+X-CSE-ConnectionGUID: FkJFF6C9TMSiStcS2aBkng==
+X-CSE-MsgGUID: t4k7a6oCT2qf4D3rYTQxWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; d="scan'208";a="180980124"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2025 23:44:50 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 22 Sep 2025 23:44:49 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Mon, 22 Sep 2025 23:44:49 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.28) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 22 Sep 2025 23:44:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PGAoawHXJd2+d0jayQ6L+30D+1qQlVx2pBQDYpM7X2geWoEKaNL5EqOEiQVCG/qi+r7bthWnGAEan95uSz/tDy2+/wPG19A1AZXMICEja4tbPNcLFv3kIz5xm4UJEkW5dATxShJDltGJG+bwNuEIr2MEVCQhMpR8Ay6VpVEn8QyMM0Exsy7pABokakwvrJl1emBT/HsFqpRZ8jVmthRg+f1h9tBzha9D/WykiK15/qss66SAuBa0SrYOrhQwzSLLFlWHhIAktIv3LPaQ5cUodI2t8BP4j9Gd0uovZJ2I073o5e785u/SgUY6anASWb59LLXP5B3+N5aaDz18q4+JvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G/omdZgOnqBd9Bj15Ts1lnZHa2aO0t0KF8SsV+CjU8M=;
+ b=ZAsl+P4h/uKMj+SxTVytccMbWPSXyOFTXLb+pqlAwcXqybIK4qfzFZll/qbSSuLHzzDsMJVjv758U7cukuDpS1u+MOqliWnvEHfk+L0WbgzoXXHvVW+QoaStz9vV4fRWrdE+jn50z7JrKwYgxSdNOOHidtb4utpZPISGURE9D5s+knn4UShxjL2yuYk52mTKBFcLRFDf2Iw+P6jE64tSoow2EEMRhgVzETHFPLzP9e7wfLrsShvEBwQpQ1AKQ0Eau+QanXVRAGL6cwUDDcSbO8/1/UvjHxTSB9SR0RlJkmRH0s7Rg+ZmztlcYs0ZSWYkeUwVG0dHD8eAFAoMODJLqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by CY8PR11MB7083.namprd11.prod.outlook.com (2603:10b6:930:51::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
+ 2025 06:44:42 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 06:44:41 +0000
+Date: Mon, 22 Sep 2025 23:44:38 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+ functions of Intel GPUs
+Message-ID: <aNJB1r51eC2v2rXh@lstrano-desk.jf.intel.com>
+References: <20250916175709.GA1324871@nvidia.com>
+ <IA0PR11MB7185186F6AB160AA7F8F0FF3F816A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <20250918120431.GL1391379@nvidia.com>
+ <IA0PR11MB7185C96268ADB5530B343ABBF811A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <20250919122931.GR1391379@nvidia.com>
+ <IA0PR11MB718504F59BFA080EC0963E94F812A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
+ <20250922122018.GU1391379@nvidia.com>
+ <IA0PR11MB718580B723FA2BEDCFAB71E9F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
+X-ClientProxiedBy: MW4P221CA0030.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::35) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
- oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250922173836.5608-1-rubenru09.ref@aol.com>
- <20250922173836.5608-1-rubenru09@aol.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250922173836.5608-1-rubenru09@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[11];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, suse.de:mid, suse.de:email,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY8PR11MB7083:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81db4c22-eea4-4a3c-e284-08ddfa6cacb8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dVp3STBjV1FwcXUreWFjcyttOGttcmY1dkM1OWV3alh6Q09tVTVEZWYyQk1I?=
+ =?utf-8?B?Z05xUWpoY0o3UEJzQ2VJQWNUYVZGbUxxNm1pU1VpN2QyeU9KTVZIVzNaUi8x?=
+ =?utf-8?B?Y0gxQmN1dXJ1UUdzSTNXTHQ3Z1QyVXJnREhzblZHcFFGdjVRckFSMkpHU0Nk?=
+ =?utf-8?B?ckdDVUVMQkN5R2pWK1ZuL3AyNW1WbFBtalZKcmtnSWtzUVpHNjhYYUpVbW9B?=
+ =?utf-8?B?YTEvZFNzYWRoN29Xb1FkSXNmdHN4OCtaSlQ1cFlRMkdpUXgzdC9WRUZ3dk9a?=
+ =?utf-8?B?eU1ONzc2WmdaUzFQMG5sK1RUSW03amxoS2RJcG0rV1FkZmtyVEppOGdidVRl?=
+ =?utf-8?B?R0J4MGphUys4UFhyTDB1NVhZN3U5c25GTUJ0dHNISGFieHRMR2lWTHpXbVYy?=
+ =?utf-8?B?bWpxQUlrN2YwRUMvbHg2Z1JzaHA4VXUwVlZtNDFaenpOMk5jK0JwMWh1WEM5?=
+ =?utf-8?B?aXBKdGlmazhJR0wrTTlUcEdHNjZpaklEU21UNnFuaTVQNGxtWkp5VlNhVUl4?=
+ =?utf-8?B?dGdaaUxrWi96NVdOOU1sb0pPdkpPUmxFWkxxbS8wbmlWZ3RjQmFpbzBsMFp2?=
+ =?utf-8?B?WXhpMldYQWhRMGNHZUpyVENMWDdrUlFZV0tycURpQldBRXNjamhTS0tQd28v?=
+ =?utf-8?B?NXlrcTZtQlRWeGg0ZzZZR25iSjg5a0RqWTF2US9PamI1c2Fpb1IybjlVN1Qz?=
+ =?utf-8?B?TTdGWndrVk1XTkZJQnNDdHVBWEZ1NzllZ0NXUWUrM1ZkaEMzb1YySHE1VDN2?=
+ =?utf-8?B?bjcrOW1RMmtjYnJ1UXUrTHZYQWE0STJPdkx1SU1uNTVVdjFzZEVyR1ZrREVO?=
+ =?utf-8?B?TjI2VU1mMTJhS3g0WWRER3ZvU09BcXhLejF5UnRJTmorTGs5MHc2L3dHUy9p?=
+ =?utf-8?B?OVN6NXlrOThsNFR2QVFRWTdwdWRWRmx5YllKSkF0ZHhLWFlkQ0EwUlZ0aFZG?=
+ =?utf-8?B?L1Y2amgycU1tYVRoVlhSOTBqdGJoUUxNeWpSWERYOU83cG5mM3R5TDhudmNa?=
+ =?utf-8?B?ZDF2S0E2N1RneERHRWNkQjNYaFJEU0FmNUVDVnFlL0RpRkJyUEl2a2ZJeVQ4?=
+ =?utf-8?B?QVVXYkwyek00UjNDZTVDUzdROVl5UWdZQlJtM3NVTHh5Q0MrUGNiTHAwMnZG?=
+ =?utf-8?B?ZlRXYWg3RklydWZIQlc5TG4vdHZqT3V2RkJ0Z2pEY1Q5eExmN1JkLzRUSTNk?=
+ =?utf-8?B?aVN3ZlowWE5ldm9ibXBYNWVNczZpZHJPSmhWbDBSYnVpaVVCSTRrNVlXR1ZM?=
+ =?utf-8?B?TFA4MTFGbVF0M2NiZGYwVVF4cDdaK2JVYWU3cTh1TUtTZkF0SmhkM3o1emxj?=
+ =?utf-8?B?cEp3NFBRNDRXUWZFOU0va1RqSGpqeUdhN3RhVHNiMUpJdmRDd0dneE56WjdL?=
+ =?utf-8?B?Q2N6OWJpQllkeUpualpYK3FkeUx2TVVETE5jdUJMUHNEUHROVk54YlB4eFFS?=
+ =?utf-8?B?c1RTU0dtYXU2MGsvSEtMbzJsT0pyZytza0ZMWkFTQS9sdXpNNlNFeis5enpu?=
+ =?utf-8?B?WExZVWJyUFN6SllHSDJkN1owZVROZHNURmFpYlhkY1RKMlhKK1ZvZ3psRW50?=
+ =?utf-8?B?dkZ5UEl3RElmMWRzajRSbUlFWHZGcnNXZUlFbUtCTU1TUW9UWmZoYnZOQ25T?=
+ =?utf-8?B?bUdXT01GMmM2bUo1dnozR0tLQ1IrQzRGb0swNVFzU1pwckNnN0toVloyK1Vz?=
+ =?utf-8?B?bkg1NEtTMGFrYzFZekpvdjA1SWNLTDhpTjRrdG4yWjBDeHNHVi95YW5wMWph?=
+ =?utf-8?B?Z3g3a1VOdFMyMk1GWExUQStrdWNGaGJpbjJ1bWpJNHhmUGRQbEdGYUcrZmtT?=
+ =?utf-8?B?NlYvY21UN0dSUU1RTURnY0ZMTERXYjRSdmFaWStRK0hHbkc1TW5UdDhkS0di?=
+ =?utf-8?B?ejRaSSs2VlUyRm5HdWdvaUo3eGQ1dVVqWDFGaWNILyswNTlINFpoMWVGdjhj?=
+ =?utf-8?Q?A0lMDaLYIhs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFlGMi91VDhxVU1Na0xjekRQeWlmbzk3ajZCVXJiaXJBWlYrSVBCbERtQUQx?=
+ =?utf-8?B?dDhHclhteXI1Q2tnTmhCYkpPS0JpVGtGYlhzbEtXWmRPazFVY0pmK1Vuc0lE?=
+ =?utf-8?B?UEtaZUl0WCs5ekczU1U2RXg2LzQ2aVp3MTdyMjhLeTArL0c3V3VNczF2V1Nn?=
+ =?utf-8?B?N0t3TzRLZi82MXE0Y0g1NWc3RFNyeDFhdlQyWXVlN1BmN2UzbmlKaXp0cGFp?=
+ =?utf-8?B?U2RVQkQ0NEx3bmNYMjcyZGluTk5BazFINnBsVHN6WUFnaWhudzdrVThhNkZ3?=
+ =?utf-8?B?OGplQjhXWWIrRU4xVmoxRGkya0c0c0dTT0hVV25pM1lBcEJaNWwvanBiSTZV?=
+ =?utf-8?B?bjNoSEwzZDdQRG9QS056c3FpY3poN0ZhaUdOTVNBdGVtaVdNdVZ5SEN2N0hO?=
+ =?utf-8?B?a1h3ejhMUlBtRURrd2t1MkJQdVRJWDNQMWhXcjhHODFDbWt1L2h6QVhGWHdZ?=
+ =?utf-8?B?WkNHcktsd00yOTNDVEx1cU1rMG0zY0Y2Qnh5aEdVWjR3RjVnZW5mTUFpSDE3?=
+ =?utf-8?B?TzZweU1pNWwyc3RGMG42cEpFUkI3RldnSjJQTUVFUU9JQlBCQjZSZXg1QU0w?=
+ =?utf-8?B?OTFic3M3blRqSnJBZnpyWldlUUtTZTgzY0NMa1VlN0lIRDdpR0ZhUm9lMHN6?=
+ =?utf-8?B?cWNEREltZjV5ZVRldGlvWnpHUzcxalBTSFZKVG9kbWVYOFFWU0FSK3ZKYnlx?=
+ =?utf-8?B?cmJvQXBCK09tMFkrSEswRnJMbXV5OFM0bW9CdUJjUnJqbWdISUNLWHc5Vnht?=
+ =?utf-8?B?Y1p0VUtLR3RVVVc0OGp4WXpJUTUzVi9YYkUwQVJqT24wSmtIK0NPZVF4YjhQ?=
+ =?utf-8?B?MGxJeHd0NWNTWElBZVZBWmthSmkvMWVDdXZ2emxRcFk5MTA4c21jb1dGQWhO?=
+ =?utf-8?B?OUVIeXhZN0NhcmVOaFlxbzlPdzVzY09pYmRqQUpLdytVUnNUUDVJZUVCaHpq?=
+ =?utf-8?B?R2VsR1ZLakp4REdOQ3lWY0NuczJvV0Z5RGl1QWtESFl2cnM5bk9xZjc3eXRJ?=
+ =?utf-8?B?MFBhdWVCRTV1dlhJT0ROSG4rNmZQc09NUlAzZVdJczE4NTZsdEF5dEdZUnJB?=
+ =?utf-8?B?MjZPVVBINDFraTVZWWl2blkwZU5kRnl4ZlFCcUZiWjdLTVZlVFpsSFVjbUc4?=
+ =?utf-8?B?NXFKN0VHV2hXVTRTR1JWRjk4dS9ZWHJ6UWMvVFBZUkxwV3J2UDJXbjNCUXIz?=
+ =?utf-8?B?cVpIU0lnYXdVK1lQVjN0aks1eGVLMUtSNDIrNEtOcVlWQU1ueUg0U2wwaXVG?=
+ =?utf-8?B?SWpJeXZUZ05CcC9EMGlXcnJSTkEzMElaV0k4K1RVeWpJc0FDWEpONVA0U3hP?=
+ =?utf-8?B?RjE5WGI1QUZHY3hxOWlrNFl4M2JhSlFFRFNhSWpxQjF6ZFZYSkY0ejVERHlh?=
+ =?utf-8?B?R0dHNXJURmVnYUlKNjVOYVZrWXpsWFpDK0RmdFFGaG9RcVBBM2dwdmwycjRp?=
+ =?utf-8?B?R05oODRwUGFsSmo1RHpTMmxZMTZhUEFaVlE5K2xmV0cwL3dnUk8vZDlMTlc0?=
+ =?utf-8?B?NUNCeXdpZ2NBNUt1cnpXVkczMzlQRUNBa2Jsa3NjY2U0eWNTT3pZTHQvc0hO?=
+ =?utf-8?B?VkRxL2M5clFNcndNaFhkVG1EOUllQlBzNVFNbjN3NjdnUmExRnk4M2tsc2gz?=
+ =?utf-8?B?eU04NjhUMDFPSmt3b1QxdGlIQkMybU0yRmY5RkNHeU9QeUROVFFVbHhoeW4y?=
+ =?utf-8?B?T2ZBL1c2a3BJNC81SlIrdVVyZzJ4MnR1ZjRNbzV2Q2RKcm9DaTgzQVRhUUtP?=
+ =?utf-8?B?SkJuUWpvN1o3bjdaLyt4dnNsODU1dW1IYTJMeWJ6bFlmbG5kVThCd2dqYTd4?=
+ =?utf-8?B?Z2lNU3VaOVY4ZHRjS2lwUVdQdjBMWVR0Y1dER05TK3REK2hLS1N0aTU0UUFW?=
+ =?utf-8?B?Umsva25lVTBJbWZEQ2t6dXpiVEpBa3g0ZVFmQTRreEo3a21nc0ZWMDhVcGRk?=
+ =?utf-8?B?N09pbmw0WFArb1JvQ1hzT2krZzF1RHVzdk12Tk5xajZIcDlPdnhyUXdkWFJW?=
+ =?utf-8?B?OEw3TS9wS2lkVWhvTVpGL2ZqWkZOUy9XWnFFbHNNN1VuZlZPRDRQQjVEL0Zs?=
+ =?utf-8?B?ZU9LZWdhcjlBQ3FhaXI5OURkYVY2dFhWS2F6SHNKZCtKaU4xaHRhM0VFVjF0?=
+ =?utf-8?B?b3hhb0p5QS9FVmV6dUk1R3JaVVRhTlJjclVVNnAwbTJKZTladEFQS0M2R0Vv?=
+ =?utf-8?B?bUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81db4c22-eea4-4a3c-e284-08ddfa6cacb8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 06:44:41.8649 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QzsBe/W5zM6OJ6GRJkQsGsQa/q1XHnT5IOhilmv4Bw6UVz9RYtkrL6xoZ2bU17PV39odDanLbgD5+Tq1jKxzJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7083
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,50 +210,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 22, 2025 at 11:25:47PM -0700, Matthew Brost wrote:
+> On Mon, Sep 22, 2025 at 11:53:06PM -0600, Kasireddy, Vivek wrote:
+> > Hi Jason,
+> > 
+> > > Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+> > > functions of Intel GPUs
+> > > 
+> > > On Mon, Sep 22, 2025 at 01:22:49PM +0200, Christian König wrote:
+> > > 
+> > > > Well what exactly is happening here? You have a PF assigned to the
+> > > > host and a VF passed through to a guest, correct?
+> > > >
+> > > > And now the PF (from the host side) wants to access a BAR of the VF?
+> > > 
+> > > Not quite.
+> > > 
+> > > It is a GPU so it has a pool of VRAM. The PF can access all VRAM and
+> > > the VF can access some VRAM.
+> > > 
+> > > They want to get a DMABUF handle for a bit of the VF's reachable VRAM
+> > > that the PF can import and use through it's own funciton.
+> > > 
+> > > The use of the VF's BAR in this series is an ugly hack.
+> > IIUC, it is a common practice among GPU drivers including Xe and Amdgpu
+> > to never expose VRAM Addresses and instead have BAR addresses as DMA
+> > addresses when exporting dmabufs to other devices. Here is the relevant code
+> > snippet in Xe:
+> >                 phys_addr_t phys = cursor.start + xe_vram_region_io_start(tile->mem.vram);             
+> >                 size_t size = min_t(u64, cursor.size, SZ_2G);                         
+> >                 dma_addr_t addr;                                                      
+> >                                                                                       
+> >                 addr = dma_map_resource(dev, phys, size, dir,                         
+> >                                         DMA_ATTR_SKIP_CPU_SYNC);
+> > 
+> > And, here is the one in amdgpu:
+> >         for_each_sgtable_sg((*sgt), sg, i) {
+> >                 phys_addr_t phys = cursor.start + adev->gmc.aper_base;
+> >                 unsigned long size = min(cursor.size, AMDGPU_MAX_SG_SEGMENT_SIZE);
+> >                 dma_addr_t addr;
+> > 
+> >                 addr = dma_map_resource(dev, phys, size, dir,
+> >                                         DMA_ATTR_SKIP_CPU_SYNC);
+> > 
+> 
+> I've read through this thread—Jason, correct me if I'm wrong—but I
+> believe what you're suggesting is that instead of using PCIe P2P
+> (dma_map_resource) to communicate the VF's VRAM offset to the PF, we
+> should teach dma-buf to natively understand a VF's VRAM offset. I don't
+> think this is currently built into dma-buf, but it probably should be,
+> as it could benefit other use cases as well (e.g., UALink, NVLink,
+> etc.).
+> 
+> In both examples above, the PCIe P2P fabric is used for communication,
+> whereas in the VF→PF case, it's only using the PCIe P2P address to
+> extract the VF's VRAM offset, rather than serving as a communication
+> path. I believe that's Jason's objection. Again, Jason, correct me if
+> I'm misunderstanding here.
+> 
+> Assuming I'm understanding Jason's comments correctly, I tend to agree
+> with him.
+> 
+> > And, AFAICS, most of these drivers don't see use the BAR addresses directly
+> > if they import a dmabuf that they exported earlier and instead do this:
+> > 
+> >         if (dma_buf->ops == &xe_dmabuf_ops) {
 
+Sorry - double reply but the above check would also fail on the VF→PF path.
 
-Am 22.09.25 um 19:32 schrieb Ruben Wauters:
-> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
-> 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
-> versions"), the IS_ERR check was accidentally removed, breaking the
-> gud_connector_add_properties() function, as any valid pointer in
-> state_val would produce an error.
->
-> The warning was reported by kernel test robot, and is fixed in this patch.
->
-> Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
-> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+Matt
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/gpu/drm/gud/gud_connector.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-> index 62e349b06dbe..1726a3fadff8 100644
-> --- a/drivers/gpu/drm/gud/gud_connector.c
-> +++ b/drivers/gpu/drm/gud/gud_connector.c
-> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
->   			unsigned int *state_val;
->   
->   			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
-> -			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
-> +			if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
->   				return PTR_ERR(state_val);
->   
->   			val = *state_val;
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+> >                 obj = dma_buf->priv;
+> >                 if (obj->dev == dev &&
+> >                     !XE_TEST_ONLY(test && test->force_different_devices)) {
+> >                         /*
+> >                          * Importing dmabuf exported from out own gem increases
+> >                          * refcount on gem itself instead of f_count of dmabuf.
+> >                          */
+> >                         drm_gem_object_get(obj);
+> >                         return obj;
+> >                 }
+> >         }
+> 
+> This code won't be triggered on the VF→PF path, as obj->dev == dev will
+> fail.
+> 
+> > 
+> > >The PF never actually uses the VF BAR
+> > That's because the PF can't use it directly, most likely due to hardware limitations.
+> > 
+> > >it just hackily converts the dma_addr_t back
+> > > to CPU physical and figures out where it is in the VRAM pool and then
+> > > uses a PF centric address for it.
+> > > 
+> > > All they want is either the actual VRAM address or the CPU physical.
+> > The problem here is that the CPU physical (aka BAR Address) is only
+> > usable by the CPU. Since the GPU PF only understands VRAM addresses,
+> > the current exporter (vfio-pci) or any VF/VFIO variant driver cannot provide
+> > the VRAM addresses that the GPU PF can use directly because they do not
+> > have access to the provisioning data.
+> >
+> 
+> Right, we need to provide the offset within the VRAM provisioning, which
+> the PF can resolve to a physical address based on the provisioning data.
+> The series already does this—the problem is how the VF provides
+> this offset. It shouldn't be a P2P address, but rather a native
+> dma-buf-provided offset that everyone involved in the attachment
+> understands.
+>  
+> > However, it is possible that if vfio-pci or a VF/VFIO variant driver had access
+> > to the VF's provisioning data, then it might be able to create a dmabuf with
+> > VRAM addresses that the PF can use directly. But I am not sure if exposing
+> > provisioning data to VFIO drivers is ok from a security standpoint or not.
+> > 
+> 
+> I'd prefer to leave the provisioning data to the PF if possible. I
+> haven't fully wrapped my head around the flow yet, but it should be
+> feasible for the VF → VFIO → PF path to pass along the initial VF
+> scatter-gather (SG) list in the dma-buf, which includes VF-specific
+> PFNs. The PF can then use this, along with its provisioning information,
+> to resolve the physical address.
+> 
+> Matt
+> 
+> > Thanks,
+> > Vivek
+> > 
+> > > 
+> > > Jason
