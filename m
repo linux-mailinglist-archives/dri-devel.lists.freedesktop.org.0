@@ -2,73 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8093B952DB
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38961B9522D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:07:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF18110E5C0;
-	Tue, 23 Sep 2025 09:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9E410E5B6;
+	Tue, 23 Sep 2025 09:07:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="UnY0x8ew";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q3m+U6KH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Tue, 23 Sep 2025 09:12:32 UTC
-Received: from mail-m32101.qiye.163.com (mail-m32101.qiye.163.com
- [220.197.32.101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E3610E5CE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:12:32 +0000 (UTC)
-Received: from [172.16.12.153] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 23c505336;
- Tue, 23 Sep 2025 17:07:26 +0800 (GMT+08:00)
-Message-ID: <18f55fe7-7c68-4982-916d-11752325c667@rock-chips.com>
-Date: Tue, 23 Sep 2025 17:07:25 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/7] usb: typec: Add default HPD device when register
- DisplayPort altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6191E10E5B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:07:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 77CBE60280;
+ Tue, 23 Sep 2025 09:07:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF76C116B1;
+ Tue, 23 Sep 2025 09:07:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758618461;
+ bh=kkCA8SAuPlhfPf3erMCajqMN5ix6aRl7bFBdFcZEqRM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q3m+U6KH9WiE7acahlltWpsy+84oMewDE/TQ5owV4ijWPp5icWn03RwVcgUjBc5gS
+ zXTUDNGiHIbCrbV9C/iYOeNGz+M5m+BGWUKgHcgqvv+2CaTkbDZWIDq0WK2sLlOxCE
+ 04yk/Pq7o+L4cbjk8HtcVEYXpt+N5+caHnL1x8r5637Ith7QRC0JdwIcHlYLwobVwe
+ IYN9qboRdoRAb5DO5lcPXnQF1CHt0GCSThptzuNU91oOFv6Q+R543hdrSjlgilb6kk
+ Rw9QTdfe0ovaIqYnaLZWrp8YFhj3KlVeQtqH/vCyGPkiJ4b/auE+cDvm3tcNEhMsfJ
+ muJVgYi9XANYQ==
+Date: Tue, 23 Sep 2025 11:07:38 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Kevin Hilman <khilman@kernel.org>
+Cc: Michael Walle <mwalle@kernel.org>, 
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-2-kernel@airkyi.com>
- <mygbqhiom6pkwsadzz2bqf5bth3ogsbd6iku5a7r5swxrakein@fjhz7udnkcks>
- <e9cf0aa8-ed32-4ffb-a755-150742455808@rock-chips.com>
- <sgvrzhbhkzxbuybmws44kyenhfyppm3blijkarypcin4fiscvx@mnajrlmicyxi>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <sgvrzhbhkzxbuybmws44kyenhfyppm3blijkarypcin4fiscvx@mnajrlmicyxi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9975d3e93303abkunm8ca4981716a2df
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0gaQlYeHU1LGkoaSUIeTh1WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=UnY0x8ewyFrxCkRivPth9p+Zl0CdPssh9KDioUgHEl094n0HZ+9pTSLZFY59zOaJdprHdBf7fU2I29XmF7SyPPKTw+K0GYeC8PyJ2j51y0bvpzUZl+70r0Q37Np7Qa+3PWdrnujNiON1rcCOg62YDFABAiIG2g7QPODrOmCn6Lc=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=HuXLsMMpc578ltmXayFqyQKez4+ZRrpty5hbaJUkQks=;
- h=date:mime-version:subject:message-id:from;
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Nishanth Menon <nm@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
+ Santosh Shilimkar <ssantosh@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Andrew Davis <afd@ti.com>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 2/3] clk: keystone: don't cache clock rate
+Message-ID: <20250923-brave-zebu-of-growth-a6426b@penduick>
+References: <20250915143440.2362812-1-mwalle@kernel.org>
+ <20250915143440.2362812-3-mwalle@kernel.org>
+ <7hv7lhp0e8.fsf@baylibre.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="3iw34lfkiliihfo7"
+Content-Disposition: inline
+In-Reply-To: <7hv7lhp0e8.fsf@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,148 +73,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/23/2025 11:11 AM, Dmitry Baryshkov wrote:
 
-> On Tue, Sep 23, 2025 at 09:34:39AM +0800, Chaoyi Chen wrote:
->> On 9/23/2025 9:10 AM, Dmitry Baryshkov wrote:
->>
->>> On Mon, Sep 22, 2025 at 09:20:33AM +0800, Chaoyi Chen wrote:
->>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>>
->>>> Add default DRM AUX HPD bridge device when register DisplayPort
->>>> altmode. That makes it redundant for each Type-C driver to implement
->>>> a similar registration process in embedded scenarios.
->>>>
->>>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>> ---
->>>>    drivers/usb/typec/altmodes/displayport.c | 27 ++++++++++++++++++++++++
->>>>    drivers/usb/typec/altmodes/displayport.h |  2 ++
->>>>    drivers/usb/typec/class.c                |  8 +++++++
->>>>    include/linux/usb/typec_altmode.h        |  2 ++
->>>>    4 files changed, 39 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
->>>> index 1dcb77faf85d..e026dc6e5430 100644
->>>> --- a/drivers/usb/typec/altmodes/displayport.c
->>>> +++ b/drivers/usb/typec/altmodes/displayport.c
->>>> @@ -14,6 +14,7 @@
->>>>    #include <linux/property.h>
->>>>    #include <linux/usb/pd_vdo.h>
->>>>    #include <linux/usb/typec_dp.h>
->>>> +#include <drm/bridge/aux-bridge.h>
->>>>    #include <drm/drm_connector.h>
->>>>    #include "displayport.h"
->>>> @@ -182,6 +183,10 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
->>>>    				dp->pending_irq_hpd = true;
->>>>    		}
->>>>    	} else {
->>>> +		if (dp->port->hpd_dev)
->>>> +			drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
->>>> +						  hpd ? connector_status_connected :
->>>> +							connector_status_disconnected);
->>> There should be no need for these calls. Once the HPD bridge is added to
->>> a correct fwnode, the drm_connector_oob_hotplug_event() calls should
->>> deliver the signal as expected.
->> It seems that only drm_bridge_connector can do this. I'm not sure if I remember correctly. I'll give it a try.
-> Other connectors can implement the .oob_hotplug_event call. Calling
-> drm_bridge_hpd_notify() also depends on the connector setting the
-> callbacks via drm_bridge_hpd_enable(), a step which is done by only a
-> few drivers.
+--3iw34lfkiliihfo7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/3] clk: keystone: don't cache clock rate
+MIME-Version: 1.0
 
-Hmm, let's go over this again. First, drm_connector_oob_hotplug_event() requires a connector fwnode.
+On Wed, Sep 17, 2025 at 08:24:47AM -0700, Kevin Hilman wrote:
+> Michael Walle <mwalle@kernel.org> writes:
+>=20
+> > The TISCI firmware will return 0 if the clock or consumer is not
+> > enabled although there is a stored value in the firmware. IOW a call to
+> > set rate will work but at get rate will always return 0 if the clock is
+> > disabled.
+> > The clk framework will try to cache the clock rate when it's requested
+> > by a consumer. If the clock or consumer is not enabled at that point,
+> > the cached value is 0, which is wrong.
+>=20
+> Hmm, it also seems wrong to me that the clock framework would cache a
+> clock rate when it's disabled.  On platforms with clocks that may have
+> shared management (eg. TISCI or other platforms using SCMI) it's
+> entirely possible that when Linux has disabled a clock, some other
+> entity may have changed it.
 
-On the Qualcomm platforms, the fwnode corresponds to the USB-C controller device node, so
+It doesn't really help that the CCF doesn't seem to agree on if it
+should do that in the first place :)
 
-drm_connector_oob_hotplug_event(dp->connector_fwnode, ..) can handle them directly.
+In the original clk API definition, you're not supposed to call
+clk_get_rate() when the clock is disabled.
 
-But our platform doesn't use the USB-C controller device node as drm connector fwnode :(
+https://elixir.bootlin.com/linux/v6.16.8/source/include/linux/clk.h#L746
 
-So I use drm_dp_hpd_bridge_register() and drm_aux_hpd_bridge_notify() here, I think it just create a simple hpd bridge to bridge_list.
+However, it's been allowed by the CCF since forever:
 
-But drm_connector_oob_hotplug_event() use connector_list instead of bridge_list.
+https://elixir.bootlin.com/linux/v6.16.8/source/drivers/clk/clk.c#L1986
 
+But then, some drivers will return 0 as a valid value, and not an error
+code (whatever 0Hz for a clock means).
 
+It's kind of a mess, and very regression prone, so I don't really expect
+it to change anytime soon.
 
->
->>
->>>>    		drm_connector_oob_hotplug_event(dp->connector_fwnode,
->>>>    						hpd ? connector_status_connected :
->>>>    						      connector_status_disconnected);
->>>> @@ -206,6 +211,9 @@ static int dp_altmode_configured(struct dp_altmode *dp)
->>>>    	 * configuration is complete to signal HPD.
->>>>    	 */
->>>>    	if (dp->pending_hpd) {
->>>> +		if (dp->port->hpd_dev)
->>>> +			drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
->>>> +						  connector_status_connected);
->>>>    		drm_connector_oob_hotplug_event(dp->connector_fwnode,
->>>>    						connector_status_connected);
->>>>    		sysfs_notify(&dp->alt->dev.kobj, "displayport", "hpd");
->>>> @@ -391,6 +399,9 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
->>>>    			dp->data.status = 0;
->>>>    			dp->data.conf = 0;
->>>>    			if (dp->hpd) {
->>>> +				if (dp->port->hpd_dev)
->>>> +					drm_aux_hpd_bridge_notify(dp->port->hpd_dev,
->>>> +								  connector_status_disconnected);
->>>>    				drm_connector_oob_hotplug_event(dp->connector_fwnode,
->>>>    								connector_status_disconnected);
->>>>    				dp->hpd = false;
->>>> @@ -751,6 +762,18 @@ static const struct attribute_group *displayport_groups[] = {
->>>>    	NULL,
->>>>    };
->>>> +void dp_altmode_hpd_device_register(struct typec_altmode *alt)
->>>> +{
->>>> +	if (alt->svid != USB_TYPEC_DP_SID)
->>>> +		return;
->>>> +
->>>> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
->>>> +						  dev_of_node(alt->dev.parent->parent));
->>> This needs at least a comment, what is dev.parent->parent. Also, the
->>> of_node is not correct here. It should be a node of the connector,
->>> rather than the device itself. Consider USB-C controllers which handle
->>> several USB-C connectors (e.g. UCSI). The DRM core won't be able to
->>> identify the correct bridge.
->> I think  alt.dev->parent->parent is the connector device. Am I missing something?
-> As I wrote, it needs a comment (in the source file). No, it's not a
-> connector device, it's a USB-C controller device. There is no guarantee
-> that there is a separate struct device for the USB-C connector. On
-> Qualcomm platforms, the device will point to the USB-C controller (TCPM
-> or UCSI), which contain usb-c-connector(s) as child node(s) in DT.
+Maxime
 
-Thanks for the clarification.
+--3iw34lfkiliihfo7
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNJjVAAKCRAnX84Zoj2+
+ds0nAX9cnO1qMu1gRrt93wqZ3E7heejWdZkXiLTOlsXu2u9hW0VAjJeUYt9/k6vh
+40iU+joBf0oNZk2TNHK5NY8d4PR+uru6sGDJqMFK0BBGGGWdlzNH5mgiIfgwVMdV
+1rDRIy6m2g==
+=8+3Q
+-----END PGP SIGNATURE-----
 
->
->>
->>
->>>> +	if (IS_ERR(alt->hpd_dev))
->>>> +		alt->hpd_dev = NULL;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(dp_altmode_hpd_device_register);
->>> Having the function here will bring a typec -> displayport dependency
->>> between drivers (which you didn't document). It means it won't be
->>> possible to build typec core into the kernel, having the DP AltMode
->>> driver in the module (which also doesn't sound like a good idea).
->> It make sense. Perhaps moving it into class.c would be a good idea.
->>
->>
->>>> +
->>>>    int dp_altmode_probe(struct typec_altmode *alt)
->>>>    {
->>>>    	const struct typec_altmode *port = typec_altmode_get_partner(alt);
->> -- 
->> Best,
->> Chaoyi
->>
->>
->> -- 
->> linux-phy mailing list
->> linux-phy@lists.infradead.org
->> https://lists.infradead.org/mailman/listinfo/linux-phy
-
--- 
-Best,
-Chaoyi
-
+--3iw34lfkiliihfo7--
