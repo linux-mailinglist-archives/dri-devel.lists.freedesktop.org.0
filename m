@@ -2,137 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66453B94E32
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 09:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515B7B94E41
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 09:59:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7894010E586;
-	Tue, 23 Sep 2025 07:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8D110E58E;
+	Tue, 23 Sep 2025 07:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ug5kf7vC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cjB69hDh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ug5kf7vC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cjB69hDh";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="D+MPi2/7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9770410E586
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 07:57:13 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9A2F10E58E;
+ Tue, 23 Sep 2025 07:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1758614387;
+ bh=3ua7MjVN60F0PornDgkO2tRMSlC4RwSl7hiGmcZHIHU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=D+MPi2/74E1PxTZ7NBaZ/UWssh05hNgAzY6Zzx7o8TLwpTvZjh0A1bP7K+037T5+v
+ rf/mprmVvU/2P8PrCX1TAmWyQoOXd7VXqcAqNnicSUTtsbTjD9RXoFrC2JRcixjcSF
+ zIqmVGbkyYnMLEVdP3OXJWVqEOi8Uy0uiCTNidvtAGEmzW4eBHW8tCTlMlJx5e4Nb0
+ 12LK8v6tKE6Xr+nlwBTL/uXQN+oO8z+x3glFcsE1Q42xrytAJgAjDOQf+zBVlMcNqf
+ 37CCGeKNCiVb6MhEb86ca+0ccVpKh/tdAcpZSAiU71RUEIGCOewNwE4mdbgP/Sejdv
+ CuIkCC0ioBc8Q==
+Received: from eldfell (unknown [194.136.85.206])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0CDA821247;
- Tue, 23 Sep 2025 07:57:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758614232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SRa0oo56Nc1/wXkI28v5M+pP/sqU1f7eNCaLPFfU8wo=;
- b=ug5kf7vCFGhOELgJv7r0kRmEEUqmsVRZFz6v3NTJiM+gRqAVvGkf+qEcUtoEgD5pwjcWQk
- WFm9Ssx38qBoxLw6ttMIBD4LqiLPsJC73RoFTnOkqGQva0PXuM1x8IOaDz3BZFq7YebngK
- +Ayw3RnbU7+V67wmEeXsiTXJ+cKQByU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758614232;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SRa0oo56Nc1/wXkI28v5M+pP/sqU1f7eNCaLPFfU8wo=;
- b=cjB69hDhj52fQzrLtHZeDfrdNasqn+FSWRJhwNdi6EW94UD7OzeP0kLSWbRAktrDQ88G3O
- SEwBxQ5AQmEjECDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758614232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SRa0oo56Nc1/wXkI28v5M+pP/sqU1f7eNCaLPFfU8wo=;
- b=ug5kf7vCFGhOELgJv7r0kRmEEUqmsVRZFz6v3NTJiM+gRqAVvGkf+qEcUtoEgD5pwjcWQk
- WFm9Ssx38qBoxLw6ttMIBD4LqiLPsJC73RoFTnOkqGQva0PXuM1x8IOaDz3BZFq7YebngK
- +Ayw3RnbU7+V67wmEeXsiTXJ+cKQByU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758614232;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SRa0oo56Nc1/wXkI28v5M+pP/sqU1f7eNCaLPFfU8wo=;
- b=cjB69hDhj52fQzrLtHZeDfrdNasqn+FSWRJhwNdi6EW94UD7OzeP0kLSWbRAktrDQ88G3O
- SEwBxQ5AQmEjECDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB21A132C9;
- Tue, 23 Sep 2025 07:57:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0DdrKNdS0mj9NgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 07:57:11 +0000
-Message-ID: <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
-Date: Tue, 23 Sep 2025 09:57:11 +0200
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E466C17E00A3;
+ Tue, 23 Sep 2025 09:59:45 +0200 (CEST)
+Date: Tue, 23 Sep 2025 10:59:18 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Alex Hung <alex.hung@amd.com>
+Cc: Xaver Hugl <xaver.hugl@gmail.com>, Sebastian Wick
+ <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com,
+ shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
+ mdaenzer@redhat.com, aleixpol@kde.org, victoria@system76.com,
+ daniel@ffwll.ch, uma.shankar@intel.com, quic_naseer@quicinc.com,
+ quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, marcan@marcan.st,
+ Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ mcanal@igalia.com, nfraprado@collabora.com, Daniel Stone
+ <daniels@collabora.com>
+Subject: Re: [PATCH V11 06/47] drm/colorop: Add 1D Curve subtype
+Message-ID: <20250923105918.41f832c2@eldfell>
+In-Reply-To: <7abe9596-1d85-4b14-94ab-97bd4dfe0977@amd.com>
+References: <20250815035047.3319284-1-alex.hung@amd.com>
+ <20250815035047.3319284-7-alex.hung@amd.com>
+ <DC6I12RMKGXL.1L8KAEE0UBNNW@redhat.com>
+ <CAFZQkGyXbD_x0V6KBdR4vaunF+bG+HKOYAA7y6aVWfeTQ3cLzA@mail.gmail.com>
+ <4eef4157-cad5-4399-9bc9-c5c2f005d472@amd.com>
+ <20250826120306.618c275f@eldfell>
+ <610215a0-50ad-45b8-b60a-a52441619c73@amd.com>
+ <20250918114036.454735e9@eldfell>
+ <7abe9596-1d85-4b14-94ab-97bd4dfe0977@amd.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
- oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250922173836.5608-1-rubenru09.ref@aol.com>
- <20250922173836.5608-1-rubenru09@aol.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250922173836.5608-1-rubenru09@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_SEVEN(0.00)[11];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
- linaro.org:email, intel.com:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Content-Type: multipart/signed; boundary="Sig_/A_KO/Wzkq0uRXNO=EUKd.ld";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,60 +80,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FYI I got the following warnings. I'll fix them when I merge the patch.
+--Sig_/A_KO/Wzkq0uRXNO=EUKd.ld
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
--:6: ERROR:GIT_COMMIT_ID: Please use git commit description style 
-'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 2d2f1dc74cfb 
-("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")'
-#6:
-During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+On Mon, 22 Sep 2025 21:16:45 -0600
+Alex Hung <alex.hung@amd.com> wrote:
 
--:15: WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be immediately 
-followed by Closes: with a URL to the report
-#15:
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> On 9/18/25 02:40, Pekka Paalanen wrote:
+> > On Tue, 16 Sep 2025 17:01:07 -0600
+> > Alex Hung <alex.hung@amd.com> wrote:
+> >  =20
+> >> On 8/26/25 03:03, Pekka Paalanen wrote: =20
+> >>> On Thu, 21 Aug 2025 11:54:32 -0600
+> >>> Alex Hung <alex.hung@amd.com> wrote:
+> >>>     =20
+> >>>> On 8/21/25 06:23, Xaver Hugl wrote: =20
+> >>>>>> We user space folks have been convinced at this point that the sRG=
+B EOTF
+> >>>>>> is actually gamma 2.2, and not the piece-wise function. Now, if the
+> >>>>>> hardware is actually the piece-wise, then that's what should be ex=
+posed,
+> >>>>>> but I'm a bit unsure if we should do that under the name sRGB EOTF=
+. =20
+> >>>>> Maybe simply rename the enum string to "sRGB piece-wise EOTF"? In
+> >>>>> hindsight, the naming of "srgb" in the Wayland protocol caused a lot
+> >>>>> of confusion, it's better to be explicit about it where possible. =
+=20
+> >>>>
+> >>>> I will leave this to Harry to comment. He is taking a few days off s=
+o I
+> >>>> will check with him later.
+> >>>>    =20
+> >>>
+> >>> "sRGB inverse OETF"?
+> >>>
+> >>> Strictly speaking "sRGB piece-wise EOTF" is not a thing AFAIU.
+> >>>
+> >>>
+> >>> Thanks,
+> >>> pq =20
+> >>
+> >> If an extension in future after this proposal is merged, can it be GAM=
+MA
+> >> 2.2 to be [DRM_COLOROP_1D_CURVE_GAMMA22] =3D "GAMMA 2.2" so it won't
+> >> conflict with current name?
+> >>
+> >> Meanwhile, do we agree to change "sRGB EOTF" as "sRGB Inverse OETF" as
+> >> the following? or do we still want to add "piece-wise"? =20
+> >=20
+> > Hi Alex,
+> >=20
+> > since my previous comment, things have muddied further again. FWIW, we
+> > intend to remove the use of the name "srgb" transfer function
+> > completely from the Wayland protocol as confusing:
+> >=20
+> > https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_reques=
+ts/442
+> >=20
+> > I would recommend the KMS UAPI to similarly avoid the term. I would
+> > recommend "gamma 2.2" or even "power 2.2" and "compound power 2.4" or
+> > such. These names would hopefully not trigger intuition and make people
+> > look at the definition harder. Or any other name you can come up with.
+> >=20
+> > I agree that "piece-wise sRGB EOTF" would be intuitively clear, but it
+> > may provoke people debating what does IEC 61966-2-1 actually define.
+> > We've had these kind of discussions for Wayland already, and it was
+> > suggested that it is better to define the actual mathematical function
+> > in our specification that to leave it for interpretation from standards.
+> >=20
+> > For KMS, this should be even easier than for Wayland, because the
+> > hardware implements a specific mathematical function regardless of
+> > where it might have originated or what it is being used for.
+> >  =20
+>=20
+> Do you mean the following changes? Userspace use Gamma 2.2, and display=20
+> driver can decide to use either sRGB piece-wise EOTF or Gamma 2.2 itself.
+
+Sorry, the driver cannot choose. The UAPI needs to define the curves
+explicitly, and the drivers need to implement those curves exactly(*) or
+not at all. What I propose is, let's not use "sRGB" in any of the names
+for the curves, because that name triggers different assumptions in
+different people.
+
+(*) "Exactly" is a little vague here. I assume some error tolerance
+needs to be allowed, e.g 1 bit on the electrical value. The maximum
+difference between the two-piece and power-2.2 curves is several code
+points for 8-bit electrical quantization, and that's too much error.
+
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index e1b2b446faf2..3a6c64285d9c 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -71,7 +71,7 @@ static const struct drm_prop_enum_list=20
+> drm_colorop_type_enum_list[] =3D {
+>   };
+>=20
+>   static const char * const colorop_curve_1d_type_names[] =3D {
+> -       [DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
+> +       [DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "Gamma 2.2",
+>          [DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
+>          [DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
+>          [DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 3e70f66940e0..e39379f1a61c 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -48,7 +48,8 @@ enum drm_colorop_curve_1d_type {
+>           * sRGB piece-wise electro-optical transfer function. Transfer
+>           * characteristics as defined by IEC 61966-2-1 sRGB. Equivalent
+>           * to H.273 TransferCharacteristics code point 13 with
+> -        * MatrixCoefficients set to 0.
+> +        * MatrixCoefficients set to 0. This can also be approximated as
+> +        * Gamma 2.2.
+
+The problem is that "H.273 TransferCharacteristics code point 13" a.k.a
+the sRGB curve means different things for different people (two-piece
+vs. power-2.2).
+
+The difference is minor but visible, and therefore I would not make
+two-piece and power-2.2 equivalent nor have one approximated by the
+other.
+
+They both need their own entries in the enum. Let's leave any decision
+about whether substituting one for the other is ok to the userspace.
+
+>           */
+>          DRM_COLOROP_1D_CURVE_SRGB_EOTF,
+>=20
+>=20
+> It is also possible to add GAMMA 2.2 in addition to sRGB piece-wise=20
+> EOTF. But if I understand correctly, DRM_COLOROP_1D_CURVE_SRGB_EOTF may=20
+> not be used at all, right?
+
+If hardware implements the two-piece curve, then there is reason to
+expose it, especially when it does not implement power-2.2. Userspace
+can choose to use it as an approximation when that is appropriate.
 
 
-Am 22.09.25 um 19:32 schrieb Ruben Wauters:
-> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
-> 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
-> versions"), the IS_ERR check was accidentally removed, breaking the
-> gud_connector_add_properties() function, as any valid pointer in
-> state_val would produce an error.
->
-> The warning was reported by kernel test robot, and is fixed in this patch.
->
-> Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
-> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
-> ---
->   drivers/gpu/drm/gud/gud_connector.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-> index 62e349b06dbe..1726a3fadff8 100644
-> --- a/drivers/gpu/drm/gud/gud_connector.c
-> +++ b/drivers/gpu/drm/gud/gud_connector.c
-> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
->   			unsigned int *state_val;
->   
->   			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
-> -			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
-> +			if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
->   				return PTR_ERR(state_val);
->   
->   			val = *state_val;
+Thanks,
+pq
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -77,6 +77,7 @@ static const char * const=20
+> colorop_curve_1d_type_names[] =3D {
+>          [DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
+>          [DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
+>          [DRM_COLOROP_1D_CURVE_BT2020_INV_OETF] =3D "BT.2020 Inverse OETF=
+",
+>          [DRM_COLOROP_1D_CURVE_BT2020_OETF] =3D "BT.2020 OETF",
+> +       [DRM_COLOROP_1D_CURVE_GAMMA22] =3D "Gamma 2.2",
+>   };
+>=20
+> Does anyone have comments or concerns if we use the first option?
+>=20
+> Alex H.
+>=20
+> >=20
+> > Thanks,
+> > pq
+> >  =20
+> >> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_color=
+op.c
+> >> index 1551b86471ce..90a216c0b6ac 100644
+> >> --- a/drivers/gpu/drm/drm_colorop.c
+> >> +++ b/drivers/gpu/drm/drm_colorop.c
+> >> @@ -71,7 +71,7 @@ static const struct drm_prop_enum_list
+> >> drm_colorop_type_enum_list[] =3D {
+> >>    };
+> >>
+> >>    static const char * const colorop_curve_1d_type_names[] =3D {
+> >> -	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
+> >> +	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB Inverse OETF",
+> >>    	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
+> >>    	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
+> >>    	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
+> >> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> >> index e4250b7d8de8..ce85c52c60c8 100644
+> >> --- a/include/drm/drm_colorop.h
+> >> +++ b/include/drm/drm_colorop.h
+> >> @@ -43,7 +43,7 @@ enum drm_colorop_curve_1d_type {
+> >>    	/**
+> >>    	 * @DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> >>    	 *
+> >> -	 * enum string "sRGB EOTF"
+> >> +	 * enum string "sRGB Inverse OETF"
+> >>    	 *
+> >>    	 * sRGB piece-wise electro-optical transfer function. Transfer
+> >>    	 * characteristics as defined by IEC 61966-2-1 sRGB. Equivalent
+> >> =20
+> >  =20
+>=20
 
 
+--Sig_/A_KO/Wzkq0uRXNO=EUKd.ld
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmjSU1YACgkQI1/ltBGq
+qqer0RAAiaoVlQ5QYTphtzDeCCIf0oK2APfCl/E1oqjxA3+yHMccAIx1kzktyJFx
+gO577wO5nbYoA3T3a9pQ2Nq2Kw3ejdwp3+jl+iQeYWJy2mbkWyceJXg7VB2f9KI5
+ei/9tDBfp0bHzZnmoPCrdwGE6ad+ulq8AjQAbsd717oslPhNkfIgz1Jdbj+71dGn
+KySgJmLKxhkn0WZmuJSWRDOEHtLhAy9NkUjCxlDEczqTg+PEjhZAV3uDoKFkh2/a
+zLvnkJXjnX+NRZPkF7ovlSx2d3oMCgXJ5BA5RQjuETjUWOu0LDh1/H+Vz45keV13
+BlEufQiWmFhbMgO8ebj8gTGZskBJ6wTsbqGoT7f+BO8A/LrPwLGYF+OohLyGLxTz
+cLthxIdcH1nnzrMZbP1/Ex5a4zDSNHVtswdIdT/QSes2CrMQbsihyUOughZeRW33
+XUye2paFyasnRoW8zdU+pihSGWtVkOwpsxvslE2YcIGU0XfZ9p4cfxz4wxQJ98yM
+16YEEakd1uwn5zfDZU9yeh9AWIwlvrS6BUEZwz87oVe9xpVofaTVSrmVGgii1usK
+OAGzVv776qXucKmAWTGhiIWwlThVOmohmeJQnf8zs3Z+7An9xAe0qvK3yJZOA/ZO
+bIW4TviCIsCl//mSsUiqo7xqlICxy3ZL3pf3oQMKTdQzCXQPfFc=
+=fek9
+-----END PGP SIGNATURE-----
+
+--Sig_/A_KO/Wzkq0uRXNO=EUKd.ld--
