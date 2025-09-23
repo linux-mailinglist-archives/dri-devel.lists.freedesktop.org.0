@@ -2,155 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A9CB9505D
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD4BB9505F
 	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 10:37:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63B2210E59A;
-	Tue, 23 Sep 2025 08:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC8210E59B;
+	Tue, 23 Sep 2025 08:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="R0DbxG2S";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="I/7/8MJm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 676FA10E59A
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 08:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1758616628;
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B860710E59B
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 08:37:14 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cWCyb2B6lz9ssD;
+ Tue, 23 Sep 2025 10:37:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1758616631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0FichtJezjG8Fw3oNsREz7KtXAArVifFDdwv8D/TDyo=;
- b=R0DbxG2S1/TmUh2Zg6uGZ9y8eXX9JHNN/2bWJhuMsfBfptS4c4v9vbsLPB5hYAw2dJeJ+p
- uTQVXYthIDxQN/gGX9M7F84dSQJ0YAk65ZFF9zhhArnUClTO8rqCkEcDtMgB8MmsRFaePQ
- lGFVAEXnJSTxyPKdhtEBAx5BBLmQ0kQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-475-nYAgTWnfMWqu_xjhh0Wplw-1; Tue, 23 Sep 2025 04:37:06 -0400
-X-MC-Unique: nYAgTWnfMWqu_xjhh0Wplw-1
-X-Mimecast-MFC-AGG-ID: nYAgTWnfMWqu_xjhh0Wplw_1758616625
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-45e05ff0b36so9553865e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:37:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758616625; x=1759221425;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0FichtJezjG8Fw3oNsREz7KtXAArVifFDdwv8D/TDyo=;
- b=YsRE99dsu1Af1Li3POwZqnTPm4RfDePSmTLMfIQcJ8YdxOhiC7nBQibz2Fq+uZuGVt
- gAdfPI0d3wOwIQrHmSsN4CZWfejOFRO1/YrJnxqJs5d0qEazldTpB6+XxDcv2d7c3MvP
- iHMuGILpFzsUNodtRtfO3cmH5M2dYSN07wk59MxhxEgVF56bQQoGn9FlBEVNRrTdCRQJ
- UHV0pIIYIvOT0lSUcas13ZBGmQnCzzbDgFEmMA3Gi630v9FsBQHpMb4BIDZ9s6Lhzrg7
- 5TPbRUKWAkdbVPzVPu8Sh/j1HhEhy7SmUxhvK4ZHR8TRtx1+8pZ6lSs/HbmeGle9W+Nf
- 1ITA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsL9Mag8qt+w0fD8JORAstet9EVTm14eMASfAe4vx+EUZ67jPPVrHsxuVMAu6aOzRwe8TvYjYR3lc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxy36ybbu3JudqUF4cfRKIlSNjz+jsyygFAgX9Yd0ifKunu3oMO
- p2iHsdoFwmfA/rFjkE5i134l+ECQrek+J/llrg13LlKlSJ24V0L9s1ec3l/NYmLCdjEgHDqVVqI
- MHrhiho3SziFq5hBSeJp2BHEXFm/U2B4spMXAwcJzvE6lWdR3I7+IiDW8GeLzmqZaDZUZUQ==
-X-Gm-Gg: ASbGnctJjNAVXrn1Si2cK6tP8Xucx2UTcYYvEIzmFZOP08+7BOWrlzHdfMC+hrIm8l2
- mIr/9DTK6sCjfeGyZbebc4pYPTQGiY6cvnrQQb5Z0cKnJ3etiRakoqurI661/qGiM7uOg4byXQY
- Sx2huPO+fwhz2tbKMlOywfHaBi79RlMQQQnMqQ/9HyDLcZ0ldn3GlOVSc1/qodaTVA/DW9Z0Q/v
- pSIkirthKGulwcwHs6hbMCYaKzcZE/Yr80O1RsGGMcOdVb8Mo94IFhDmAERF+PvU9HgoKle76Tv
- U7cueCMKscUxQf646mEYCJP/LjY8/Umb6oZtsjFX+SDE7ioaBHs1GfdmrE++E1YYShrKNZoItVU
- 6nvhbrMupFAmacRyNHOgN3GiPqhzaMDhsEi1/d6Viyevui7z8iC9touQ86TOl+AU+BA==
-X-Received: by 2002:a05:6000:184b:b0:401:c55d:2d20 with SMTP id
- ffacd0b85a97d-405d26c213dmr1225231f8f.26.1758616624912; 
- Tue, 23 Sep 2025 01:37:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEawPPWnpwt5rFwfd2DqihY1bzY492tZVIfX1f84FZQOvJccOmfH7DP+skjktE9t2ycA3257g==
-X-Received: by 2002:a05:6000:184b:b0:401:c55d:2d20 with SMTP id
- ffacd0b85a97d-405d26c213dmr1225200f8f.26.1758616624459; 
- Tue, 23 Sep 2025 01:37:04 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4f:700:c9db:579f:8b2b:717c?
- (p200300d82f4f0700c9db579f8b2b717c.dip0.t-ipconnect.de.
- [2003:d8:2f4f:700:c9db:579f:8b2b:717c])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3f829e01a15sm11575843f8f.57.2025.09.23.01.37.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Sep 2025 01:37:03 -0700 (PDT)
-Message-ID: <bfede7e3-5295-4453-928f-8e7c0bf8f2cd@redhat.com>
-Date: Tue, 23 Sep 2025 10:37:01 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=uDUJwINIpUo2Pw7vNCyDhN8XunXiGBGufnT8n0Am3lA=;
+ b=I/7/8MJm5Xg7yv5pGKkLaNYN+CBjL0bEk/IknHrLp9ptos3OyC4Df8RiB/RcG6+AS9qH+V
+ voxMQGybEvUngWb9rdtvRwMXYA9l4gCKZqIAl5zzFBuZFRGWo4WWAsXcPv7hvHlOACryo9
+ jvMhTuE2hJDFU//gDMM5kGJnP5PMiyJeWrejbefkCCiep0i9Rn0n5CYHxoS5Vu+c2jpTBw
+ ZdFxVfhFi/675ofxIBgZH5pTL13wjkC1w3dgF9Da6pyRWRtfGYBsFEJZ36vNo1N7ueNA1r
+ k+x1pMN5bou6O3oQceuRdc6pwl7//IufreYXdvSvp7KeYxoHf+eK4GRJZIexcA==
+Message-ID: <c3474514-7f2a-4443-a152-e035af7e0379@mailbox.org>
+Date: Tue, 23 Sep 2025 10:37:08 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v6 02/15] mm/huge_memory: add device-private THP support to PMD
- operations
-To: Balbir Singh <balbirs@nvidia.com>, Zi Yan <ziy@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, damon@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20250916122128.2098535-1-balbirs@nvidia.com>
- <20250916122128.2098535-3-balbirs@nvidia.com>
- <2A0E854D-0B0B-48A8-A87F-E9D38C6823EF@nvidia.com>
- <5b9da42e-49a2-4229-81ce-625ce00ed7b2@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <5b9da42e-49a2-4229-81ce-625ce00ed7b2@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: IuYFHP8whLed-a5G0uKtviGqN2LvNHifWQ1Msd2oEow_1758616625
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH] drm/uapi: Indroduce a VRR Range Control Interface
+To: Leo Li <sunpeng.li@amd.com>, "Tseng, Chuan Yu (Max)"
+ <ChuanYu.Tseng@amd.com>, Derek Foreman <derek.foreman@collabora.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>
+Cc: "Wentland, Harry" <Harry.Wentland@amd.com>,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ "victoria@system76.com" <victoria@system76.com>,
+ "seanpaul@google.com" <seanpaul@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20250912073305.209777-1-Chuanyu.Tseng@amd.com>
+ <010201993e2cb26f-089ce007-9e30-4b79-b487-c16c360309fd-000000@eu-west-1.amazonses.com>
+ <d8694d69-62b3-4418-9fcb-d37c1daa1f9f@mailbox.org>
+ <010201994e05ce63-85ad5afd-fc09-48fc-bd6e-f3716c8ba09f-000000@eu-west-1.amazonses.com>
+ <d52ec8d7-cc5e-4801-bc04-096504a131b7@mailbox.org>
+ <CAFZQkGzWUK5BP_f=zyOM8_pzvv6xYOaVdqN4RAULArvEmD4wUg@mail.gmail.com>
+ <01020199583bf42e-4a08777d-554c-42b7-a42c-5162f4459a72-000000@eu-west-1.amazonses.com>
+ <CY1PR12MB9583E829ED2AF17A77A3EE7DE516A@CY1PR12MB9583.namprd12.prod.outlook.com>
+ <508d9810-1e42-4439-b1f5-e213892975c0@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <508d9810-1e42-4439-b1f5-e213892975c0@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: m9rgdcqysjdk56t7w6qm8tstz9c9wtwh
+X-MBO-RS-ID: 639731ac1ec05544afa
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,18 +76,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
+On 22.09.25 21:06, Leo Li wrote:
+> On 2025-09-18 04:33, Tseng, Chuan Yu (Max) wrote:
+>> On 9/16/25 4:56 PM, Xaver Hugl wrote:
+>>> Am Mo., 15. Sept. 2025 um 17:49 Uhr schrieb Michel Dänzer
+>>> <michel.daenzer@mailbox.org>:
+>>>> On 15.09.25 17:37, Derek Foreman wrote:
+>>>>> On 9/15/25 5:01 AM, Michel Dänzer wrote:
+>>>>>> On 12.09.25 15:45, Derek Foreman wrote:
+>>>>>>> On 9/12/25 2:33 AM, Chuanyu Tseng wrote:
+>>>>>>>> Introduce a DRM interface for DRM clients to further restrict the
+>>>>>>>> VRR Range within the panel supported VRR range on a per-commit
+>>>>>>>> basis.
+>>>>>>>>
+>>>>>>>> The goal is to give DRM client the ability to do frame-doubling/
+>>>>>>>> ramping themselves, or to set lower static refresh rates for
+>>>>>>>> power savings.
+>>>>>>> I'm interested in limiting the range of VRR to enable HDMI's QMS/CinemaVRR features - ie: switching to a fixed rate for media playback without incurring screen blackouts/resyncs/"bonks" during the switch.
+>>>>>>>
+>>>>>>> I could see using an interface such as this to do the frame rate limiting, by setting the lower and upper bounds both to a media file's framerate. However for that use case it's not precise enough, as video may have a rate like 23.9760239... FPS.
+>>>>>>>
+>>>>>>> Would it be better to expose the limits as a numerator/denominator pair so a rate can be something like 24000/1001fps?
+>>>>>> I was thinking the properties could allow directly specifying the minimum and maximum number of total scanlines per refresh cycle, based on the assumption the driver needs to program something along those lines.
+>>>>> Surprisingly, this would also not be precise enough for exact media playback, as the exact intended framerate might not result in an integer number of scan lines. When that happens a QMS/CinemaVRR capable HDMI source is expected to periodically post a frame with a single extra scan line to minimize the error.
+>>>> Interesting, maybe your suggestion of numerator / denominator properties is better then.
+>>> API wise, I'd much prefer just using nanoseconds instead of two
+>>> properties that compositors will in practice just use the same way.
 >>
->> non_present seems too vague. Maybe just open code it.
+>>> Yeah, I hear you. Period is generally much nicer than frequency, and every other time I'd unconditionally agree, but QMS is awkward in this regard.
+>>>
+>>> The media file I start with will have a fraction specified in integers for the rate, eg: something like 24000/1001 fps. That will map to an index in an array of QMS blessed target framerates (24000/1001, 24, 25, 48/1001, 48...) and the index ends up in a bitfield in the HDMI QMS infoframe. That infoframe also has a bit to indicate that the framerate is currently constant, with constant defined as "constant number of scanlines but may be exactly 1 scanline longer occasionally".
+>>>
+>>> In the constant state we'd need to maintain that fixed rate within that constraint, and the integer math to do that needs to start from 24000/1001.
+>>>
+>>> So if we used a nanosecond period for the interface, we'd need to take the media file's values and convert them to nanoseconds, then in the kernel convert back to something like milliframes per second (so we could get something near 23976), then look that up in the QMS accepted rates array, have some manner of epsilon to decide if we're close enough to one of them to use it, and then use the integer representation (back to 24000/1001) to setup the scanline temporal dithering algorithm to do the +1 extra line every few frames to hit the exact rate.
+>>>
+>>> In effect we'd throw away the precise values we started with and try to reconstruct them later.
+>>>
+>>> QMS also has the added strange feature of being able to set a fixed rate below the display's normal VRR minimum, so I'm undecided as to whether this range control interface is an ideal match for setting up QMS anyway, or whether I should propose a separate fixed rate property later. I just don't want to ignore this discussion and show up proposing another non-orthogonal property later.
 > 
-> This was David's suggestion from the previous posting, there is is_swap_pfn_entry()
-> but it's much larger than we would like for our use case.
+> Static video/desktop frame rates was indeed one of the motivations for proposing this API, so it is worth discussing.
+> 
+> For amdgpu (and I think most HW are like this), hardware VRR granularity is at # of total vertical scanlines (vtotal). So if that isn't precise enough, then the driver will have to do record-keeping to alternate between some vtotal and vtotal+1 to avoid drift.
+> 
+> It's not impossible to do, though I'm not sure at what point the driver is considered to be doing "unexpected adjustments of refresh rate", which was something we were also trying to address with this new API. Today, drivers are free to do unexpected things with the vtotal, such as frame-doubling to handle rates below the supported vrr min, and frame-ramping to prevent panel flicker. We discussed at the display hackfest that this was not something compositors liked, and that compositors would like to handle that themselves.
+> 
+> Now, memory fails me, and I don't remember the exact motivation for why compositors want transparent vrr control. Was it because of unexpected driver-reported vblank timestamps messing with compositor internal record keeping? Or something else entirely?
 
-Right. If we can find a better name, great, but open coding this turned 
-out nasty.
+AFAIR it's mostly about the compositor being able to control the refresh rate in general (e.g. keeping it low to save power) and allowing it to handle LFC & ramping without interference by the kernel's corresponding handling.
+
+
+> Another way of putting it: Would the compositor rather:
+> 
+> 1. Specify a min_vtotal + 1 == max_vtotal so driver doesn't do any unexpected adjustments out of the specified range, or
+> 2. Specify a min_frame_ns == max_frame_ns (or some other highly-precise unit), and have driver correct for drift by alternating between two vtotals, and hence adjust refresh rate beyond the specified range?
+
+FWIW, I'd be fine with option 2.
+
 
 -- 
-Cheers
-
-David / dhildenb
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
