@@ -2,130 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B607CB93EAB
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA43B93ED3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 04:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E915610E51D;
-	Tue, 23 Sep 2025 01:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B3E10E51E;
+	Tue, 23 Sep 2025 02:06:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UqevwbKu";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="JX0ji54i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067D210E51E
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:58:28 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MHtSdS029332
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:58:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- wjZBpcuck2b3wq2R80w3BXiH3NCwuHgMqXfKHFPCfUw=; b=UqevwbKuVrII/QtV
- nwG11NVaZ1R6HuGxJB/01OGjPm2+eEpRGoK+UolPuBI21JvO3GbVEISDIWjZKeLS
- BPENgATFfm/GL+JUgAFomijvrXZennRbZFnnHvbk937sIebZrXINrxRg6WIyt+Fx
- vLVxw5PKkSGAOif2n2Dpx93ljmphbhm1V9aoLMq8LUWysIZJ1L6bjS5+unjePSQS
- amv4yZDARGHBEzXfLp7u6kZWmkOcJkM9gyGFG1I8d5sofY5PdckFzlCeOn/DyDgZ
- NJlahtyP157t1jxmC/a2AjY+9MwqXgrQo4fZO5EBHqCobtwgW/HAXaLyzaedJuLA
- 0iwkeQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49b3kk2mwe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:58:27 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-798ab08dde5so65463746d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 18:58:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758592707; x=1759197507;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wjZBpcuck2b3wq2R80w3BXiH3NCwuHgMqXfKHFPCfUw=;
- b=D1SSMiFwxYFISTrl5WW9mDGT9WCCjUoyyDw5ip/v75ExWbFESAQRkVnlknY2mmhx3O
- nYcfMGfvOEET+YAnc1Ltqs+W75JgylH5HRnmH4p5fbpgW8MUfaQOUxyGNjCXJ5tN3AAr
- ysEjaQoAjnqyNbYnUfM/h1oOk89lM7SP6tCA7LF3yOnpxLmA+O94iJeoyZHD8V9/eUCy
- 7usINn1ghxLwntVuCm0R8uFnsUPnss6/pu8zcq4xNkA28Rwn4zqQ7rK2xa7CwK443tNy
- E/mgk1oCXMwtSOenh609HoBajzsQ6sG3XHiPes7KpfT/R76/xjgXGIGZdtU/lOhEeYZl
- i5hw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWaXJltkdfGMlnxQ56TVDXu9MYxiy+s9BVkBqEOw/koa5/CNLUAvOHRMCb9tnO22JqFUJKsv03QRU0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtGOhVI+Gsc6o33A0pxDW4zTby0ZjAMfZa7CpFxMFnF9XxCOWp
- whXKiIWA982iEuU8MDq4cP5Tg6yTQemNEZOk8Im61dmiFBpj2cJPGYqEmSGeTR3V9tQaItoOusH
- k/Uiu/EqPEV12roazbajhbNVhzthQZKZdeLwS1u8DViPIicY7SIg9lEqiUtakw5EJdkDtyRE=
-X-Gm-Gg: ASbGnct7T3W5PLbBN8L4V175ODRifhaLH88+uEeWACW6C9sr3tdmp2F2rIPlG/9csNG
- yozwKZmseJmCi/bay0YwiLYZbQn3F2tnRaqgXDtEomkCVtR29J5xqOOBR3z8uYRSh270FFdTpNm
- 0e/7oLkHVd6MiJFtttTSut5FBBnJzZToFu9LRgdkIyIhM5iFxtGWmuO1q4cQO3zA56iTDpWmzp/
- nwx3IVO+f1clfN2fvElq/CtpHoxhr4/Hrmten7ZGeQUIuwdtY2DU4gUFCfXOgPAqzLn3j5KZhy1
- 0mY2Vc/6EEbjm62HLQ072gH6xA9H6zuAwQqM4oKSe3ITpd5CROWt99+Qc0V8XsdJtFv1MCtdybs
- UMN21yZXuAfZxQk/adbcxNBhvEOkS48jlRQqamThNp2r/VlV7FXUB
-X-Received: by 2002:a05:6214:f6c:b0:78e:ea84:768f with SMTP id
- 6a1803df08f44-7e705d7bf47mr11043186d6.30.1758592706941; 
- Mon, 22 Sep 2025 18:58:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG2UHfHXJZyQ10p2X6Fpt5TanjCh8LeDMIwT7ePmjsHI9tTKDN1phKB8vhk3eST38TyWHjFsw==
-X-Received: by 2002:a05:6214:f6c:b0:78e:ea84:768f with SMTP id
- 6a1803df08f44-7e705d7bf47mr11042766d6.30.1758592706397; 
- Mon, 22 Sep 2025 18:58:26 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-57e80683e89sm1357059e87.95.2025.09.22.18.58.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 18:58:25 -0700 (PDT)
-Date: Tue, 23 Sep 2025 04:58:23 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 3/8] drm: verisilicon: add a driver for Verisilicon
- display controllers
-Message-ID: <7zswcrcfsypbd36mddslreeli2zbrn33nyqkxmwdufakhl2vgm@bb6i6zfgeznh>
-References: <20250921083446.790374-1-uwu@icenowy.me>
- <20250921083446.790374-4-uwu@icenowy.me>
- <a46szgmjrwgqhv5issuijyvih4tof3xa45tdhxv4qjplekszpz@55tgbkeby7zr>
- <dacdfabb30fae413949d8bde28a709096ecda4c7.camel@icenowy.me>
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11013045.outbound.protection.outlook.com
+ [52.101.83.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2858010E51E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:06:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F5x5hJ4wee1/Bb2OTO5phNP8TwZGk1HCX9XzuMnLG4c+TsG97c9gEef76kSq/xo3wjYbyRICgJsfiA/1cit5ep10XGjqYK2rjbErca8+N9ObMdSRrbArZ486PMz+XKODDqR1VrNHpWgYxNhwMsgkZoPShG58Nu0uDMgZB/BXRLPc9IWC8h2Gc61ib8Nnn1yQrbJaA4ysd5c1PGpHQ4Vqkry+zhWNYlfvxh8xqSI8jQjwOqiY/k4ALBcxe7Bb2f4ksZs3tNnYqBVVx2bra6525Ono3LvQEm74kz42OGA1OH3UGvt4sT40FcUKsCXYI7vIwyNC0kW64CsLLQ1z9+DGqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DrFrvz+Ies7mZbN92cpbGU0k/obq+KolyisaEJ93Fmg=;
+ b=n+c5t3qHlxclMLP4r+4ftvDTjBeQe6KZt8TeeGGq///qx7V70WMb5jfHYymo3qYktPgeFVPjzNeZNB3NX0jCzZwcoHKDyngao+81SxBwY+F7hXXaqCF+HR3P++qNVmA5I0y2WK2rcQiz/Ob/rCJ6Lsvq9lpbyilQttIB3KnyhK/MGmF3ESwC/EzTc6VQV72nFv97PoEW+AskJKpDjav7X8iKngW/PP4UZDtl1h+7mSALjadseL8hKH1671aW1Vs5u6uj+7S2dVNLW1Wxorycaw662YaeYWpgSN1dhlFV1OIyzbgYkjOFq1bW1pxQNRs1jgQI+Y/5wIStB0ixMeHNqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DrFrvz+Ies7mZbN92cpbGU0k/obq+KolyisaEJ93Fmg=;
+ b=JX0ji54idZJKv9c38s1l/le3+BtdOM5dJz4JcJeV8NbqMOilvqzBrvWE/9csm7imSZohdiElR5F1otXSDQ/MaHuYJZYx3QC7QG+dDCwQMM77hmw7OGBHKlE3My0UEnfuPEREmKzsBKxagdWYp57PL3adqQF7rp55UFNHI+CipE+GnAT2nMSJGMI/ggc7weiI41YR+JoKWMoKha/6FmbXerrSsV6uCcs7TxKNMrcPfmIaWBUW0PcAt+Oq/yysVtCMuSloKT/UVJSDGbrOb1/FNocV4Tco1I8sa8O1p1rflqcKcvC0bbc3vzjICEigr7jB20IR5O4jHKuAVE0quneEqQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by VI0PR04MB10854.eurprd04.prod.outlook.com (2603:10a6:800:25f::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
+ 2025 02:06:46 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9160.008; Tue, 23 Sep 2025
+ 02:06:46 +0000
+From: Liu Ying <victor.liu@nxp.com>
+Subject: [PATCH v2 00/14] drm/imx: dc: Use prefetch engine
+Date: Tue, 23 Sep 2025 10:07:50 +0800
+Message-Id: <20250923-imx8-dc-prefetch-v2-0-5d69dc9ac8b5@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPYA0mgC/2WNOw6DMBBEr4K2zkaLwYakyj0iisis4y34yEYWE
+ eLuMUipUr4ZzZsNIgfhCPdig8BJokxjBnUpwPrX+GaUPjMoUpoaqlCGtcXe4hzY8WI9kmq5IqN
+ vpTWQZ0ch66l8dpm9xGUKn/MhlUf6k9X/slQiYdPWlirXm1q7x7jOVzsN0O37/gU6kaxKrgAAA
+ A==
+X-Change-ID: 20250703-imx8-dc-prefetch-028e306591c6
+To: Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>, 
+ Frank Li <Frank.Li@nxp.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: SGXP274CA0014.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::26)
+ To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dacdfabb30fae413949d8bde28a709096ecda4c7.camel@icenowy.me>
-X-Proofpoint-GUID: a_tGj3bn8QSxiW-_LCKtU7i12AMjK2Ey
-X-Proofpoint-ORIG-GUID: a_tGj3bn8QSxiW-_LCKtU7i12AMjK2Ey
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIyMDA4OSBTYWx0ZWRfXxqwbwYRWKXxm
- AwJ0kW/w8w2jH4YimdO1en3BUUGNiuhCIpc0QXEbMox1JwrfwYdu8bvU6g8fePtbdGQnO+hN0Eu
- wL6k+P/IUL+kiEObFnzYTYvajDKRtg1lSh3Moun9K/iLkaIdOrPbHT9Ar9BUjpNjoa++Ghpb9ab
- gKh29DbhAtscXF4fhru5p2kBuD2xcL8kAM0JrhjsUmQXDbXh51bLMvzbQ+VimPCc0IGHbW6pfdv
- 1QbD8QrGtEx9t2K3/RrSpFzEPVQoTcmj5M+PPIH8owvoXXaGGwzygLu+4uC624rFKCVZ2vYgIfS
- na8v7Efvvlh+QzhXoS240wBQZysZlAzDaORSDHkcOx7+J4yr0Did1/ZRnDOxAEeBTOkEbNnqTpk
- KBziT2mf
-X-Authority-Analysis: v=2.4 cv=BabY0qt2 c=1 sm=1 tr=0 ts=68d1fec3 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=ZNbfwUPgZe5FKaAedJYA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
- adultscore=0 malwarescore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509220089
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB10854:EE_
+X-MS-Office365-Filtering-Correlation-Id: 511645c3-a666-4b76-74ec-08ddfa45d900
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|19092799006|376014|52116014|7416014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NFNqMmx6aDNpTTBDRHdrOHR1UzVlODM5MEI3UTBDZjlDMTBiMHVvQWpxZ0pa?=
+ =?utf-8?B?dGljUzliWUo3bVVBTEZZQWFxSTVTdGgzSElSNHpyL1J3ODMveXZBT3Iyd1l4?=
+ =?utf-8?B?NGg4K0RmdE4ybXloRU56OEdVSzgzVjNIU2ExbWJPcS9oUmxJRUZJOFpDWWtE?=
+ =?utf-8?B?aHpZRzY0K1A3RVJTSUtPOHk2SHV1NFZFNlpubGZOZ2JXRi9GeGorampScHFW?=
+ =?utf-8?B?azFKQk5vRUQyUTcvRXFocW5DT0dTQThhbXBIUnZtczY2UmdtQWF6blJsQnZO?=
+ =?utf-8?B?Q0lEWWE4UTE5cWNGWG44N2MzMHp6QnUzMXFQWGEyQzlDQVN2a0ZJd0xHTjRT?=
+ =?utf-8?B?WmFBNktYc1VVR21LcEdLdGhKSm44OFJuRXpGL21WQVBsS1FIUExsR04yR1BM?=
+ =?utf-8?B?Ry9nTmRlUnB2S1JVMXBlVGZsa25PMzN1VkY4dk9KRUtRYkpjZDdiaTM3L0x4?=
+ =?utf-8?B?K3BaZExtRmlQSDJRNnV4by83b29Mc1ZtZzRkV1hFUXFoNTZpWFVFVlhOeU54?=
+ =?utf-8?B?NFZJZFYwam50SjRpWG9CbkNKd0NLU2trTHNGSThSMlVmVzA0TjVLZWljZUpx?=
+ =?utf-8?B?RUlQalRwczJiNFk1dHBPT3l6TXY4NlBrbHVsT2dJNDNuQjdPK0QwdVNYSXZp?=
+ =?utf-8?B?aW4xV3NNeGJZU0dnMGdCcFBvdHNDcEJxd0F6TnZhSjFwSHNQMHVaUW5VT3RD?=
+ =?utf-8?B?aGYyYkd1d3R0TlNrck1KNFNNa2FuRVBjd3Y3YU9DSytKMlRQZzN0b0RMRU85?=
+ =?utf-8?B?OG0ycE5nZFZKZEVLbkhsb28yd1dzVmR2TTY3UitrNDljT2YzcmlzVDZremFL?=
+ =?utf-8?B?ZmlvMHZFWmR4RnZvTjdQbkpjTmlNZExNM2d6T084YlhSOU5mYzVzUGt4Yysv?=
+ =?utf-8?B?MHI2Tm85QVRBS1c4d1ptU2NCM2IxTCtZUlNOSnZoUUppNzlzVC9tVXU5T2FE?=
+ =?utf-8?B?K3JCTEtUQ3dHWmpud0xHQTRRRllsVWFwelFzOVUyRXhOTmxibFU1QkRvbDNt?=
+ =?utf-8?B?clVMZjRFL01kc2VrODhKa1VPVjdBQjVMQ0tqcWl6QnVUZ3B1ZUlNeWRiUDZw?=
+ =?utf-8?B?V01nUUhTb0k3SWozTTVVMHFYVVQ3anROYTdWTkxCTkhMZzQwVjhkYWhUMmpu?=
+ =?utf-8?B?V0pwSCsxNjR3U01aSG1jTjF6ZWErcDNuRldONDV3UVdwNWZTNm5DU3ZXQUtZ?=
+ =?utf-8?B?eVNnNzJZeDB6Z2R6SUYySHJQQ2R4c2J1RnphQXVYOXhFL2dQNVhTdzRpdkxq?=
+ =?utf-8?B?VjdGOUF5d0tvUHl5K3BUMUZNbGk5VHFDVEE2TE1KRUxPTmdiS2JMbXpTbndM?=
+ =?utf-8?B?Z2hweTBDd1VSY29nV0xKbGZXVFRsdXF6TmlzWmQ3V1BOcWlibS9LQi9NK0E5?=
+ =?utf-8?B?ZDZ1Sm1UNlNIeHZhTmhRY2xjVk44ZzV4V05XUUcwOEVaUk9VV21PVVBZN0lM?=
+ =?utf-8?B?cmM0Z0RUV2tOVnRoS2gvQUJRSFo4cklIV2M5Tmt3MFdDUVZ2YlJoUFdEMzBX?=
+ =?utf-8?B?N0szdXA2TFlGNnlabHdOSE8rRkxTQWF6L01NSndGV2duYVFCREQ2ZUJxTnRH?=
+ =?utf-8?B?L3lFYXdTU0syNVlFTndEbTcyTHZTdXhvdzQ4aHU2V2dzY0FGUTVZNXBGVk1X?=
+ =?utf-8?B?RW5lR1JuWVByN3M3K3diZVlXV0JKQW44OGJyYUdONFZiL2lpVWdxWUtvNU5X?=
+ =?utf-8?B?Skg0ZHFuSVFISTVab09OYzByTjZjL0NUWjZuMngwK2dHZ1pOem1kL0lFSGl3?=
+ =?utf-8?B?Q2lDN0dGT3I2TjZxOVlxWFVTL1NqcEo2d3h3aDIxUWI0dnNBRDhEZnhUUkxF?=
+ =?utf-8?B?NzlObVA0SG5SYmF3VGt3MUtpbWVFcWEzcHozdU5Tb1EvSlZGNVJUNzdsWTNQ?=
+ =?utf-8?B?SytSa0xXUGd4TzJyZ1A3WWFQUG1ZT2l4UXV2bGRzdXUrczR2NmJpR0pKb2l1?=
+ =?utf-8?Q?eyF+mNRpzNkZLCDey8X/2aNG0v0D+VBO?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(19092799006)(376014)(52116014)(7416014)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0FhMWhJUyttMCt3YWoxRmRHYU1MdnpZT09XK3FtQjFUVmxseUN2TmpVaG9J?=
+ =?utf-8?B?MjdaY211OHRQYjRBSUd1WXUvdjBWMWt5dkJPcENvTTQvWGsvajd3U2xFallw?=
+ =?utf-8?B?MzV1cHd3aVZ6bStjeEs2ck92SWN6N2UxMkZnYWthb2RMUVdFNDJEQmtSdlpL?=
+ =?utf-8?B?R0cxOHJqS0Fyekg1dXdST3FiTFhkcHV6RExXSGxmd1hCdklqaXMzT2lESWxW?=
+ =?utf-8?B?TDF6K0VqY000MUxyZXVmeDY0Y1B0MG1BUzZGREZXSVdFMGNkQnE3S051VDNl?=
+ =?utf-8?B?YjZFSGFMV1Z5S2NsbHp1SjZDSTFSbEI2SnJGMVZlZ08vaWdMdkE2YXVOYzRy?=
+ =?utf-8?B?MGlpdW42Zm1tZnRoQkxCZFpic1hHM01aQzlTejZlRlQvcjBOdC9iQ0hxNVhS?=
+ =?utf-8?B?M3BCbzYrWlNEcU1KYlZsMHQ5Tk9yTVdQaEVVbXV5V3d3QUdaeHliZE5YSXdr?=
+ =?utf-8?B?QnQrS2hPTGxTelpMY2w2R2VJRFZnWlBWYlJESGQxUENYT0VnbEduQVB3aDZS?=
+ =?utf-8?B?ako1cVFIRkRjbjJtTlBSSmFBc2oxUFlKZXZtQVpKTzhzZzEvV2lNbE52aStN?=
+ =?utf-8?B?enQrbWFSQy9NZ2x5YkFMY0NhVTl0dU01T21VWWM5WTZMaWV1enoxOFZPdHNo?=
+ =?utf-8?B?Y1FMekQzTkpOSUtpeGdLTmR0MkZUeVZLTEViSzVnQnZnTUhmU2VxQStORU8z?=
+ =?utf-8?B?Tll5emFteEVZODN5a25jS0pqdDVsSFk0L09lQjlzazlEWmZnbklyQnB2Qkwx?=
+ =?utf-8?B?dU1Yb2VHWFNYaWxEc0xwbzhYMktHc00za3FCemVzMStvV0s4L2phVTNJdk5a?=
+ =?utf-8?B?Q2ZVWVVVcEF0b0xkaytBWFJMOHN2K0ZycXUzWjJZVnRGN05QN0RvMDJwZ0Fl?=
+ =?utf-8?B?SEhSZmI4REd4NWpWS1Q3d2pWOHdKWGcwb2taRDgxTyswcEtQaTBFc1BEd3Z3?=
+ =?utf-8?B?dEU2VXBkSkIyT05LYmtURVB1VzlqZGNremZ3LzVibEpLVVU4UGxWSEZUanB0?=
+ =?utf-8?B?NDRuSmVjZmdEWlZ3SUJ1VVNIWHJpa0g5TVIzSW11R1ZPUDJBT0psb1BTbUNL?=
+ =?utf-8?B?SzNJTW0rWi83eHB1QUZIZ0crdWdzdHJNcU1hLzhvRURtandQb05SWjYyRU0w?=
+ =?utf-8?B?SGlhTzFyQzFieCtQMjdhejI2bE9CRXR5ZVJBMnp0RTBiSFVBMDVhcmIxTTJG?=
+ =?utf-8?B?RVBUZXZydVZSRlR4c2ZSdXpmUGFFa3M3RjJrU1lla3o5TFRUUFJkZStFeTQ0?=
+ =?utf-8?B?UU5SUVFENUlYTWMvL0dic2xHMG14QWIxY2VUdFBLM0JSbmY0ZUJ4N0lYY0xn?=
+ =?utf-8?B?RStSdGtNN0ZWT2hpRHg0UC9PSFVRUnR2WmM4Nmhwc3d5UXRpcDU3bzhFK3NO?=
+ =?utf-8?B?U3RWWUg5RnJhb1VvejNSaFdkNkxCREZRZ1FVaGhDemFoMHh6OWozd0FBb01s?=
+ =?utf-8?B?SjlVeXVtakZrMXp6WTBDdjhHb3UrUnJUR3pDZ3lBQm50YVdDNXhuREVmVlhC?=
+ =?utf-8?B?R0R2aFVqbTYzVndRWXlIZXpIZWxDRkxhdkVFNVhITVVJR2cyZGlhSFAraXBL?=
+ =?utf-8?B?SWZ1OFd2V1BlVnJocXk4VHhleGp1ZExPRlRWTkdsb1ZENlpURDRLZzUxZ2sw?=
+ =?utf-8?B?SEw2YlJob2t4Y0JmRnZVNTQyNWY2eHdFWXQ0NHZDNUVYWHo2OXF5cHZOT3Bx?=
+ =?utf-8?B?b2RtdU5yd3ZtSUFnc3RwSm5QQS8vM1JXUUJaNUZ3akgrNXo0ZGt2bEVIY05H?=
+ =?utf-8?B?Z2JTVDY2NjZ2b1dNWHczSndUQTBwb0d4ZkJBVHZhU1IwenpyeTRoTXIvOFox?=
+ =?utf-8?B?THFvMlFETVppSTRoZFF5dEFsQXlkcmthb1BZNkUxTUxpOHJ5bTl0dXBMV3Mz?=
+ =?utf-8?B?OGZsZmJ6RWxSUVJ6VkRNQ2Q3by9TaTd4a0tQYktwUHZiWml1T3pjRkVYUUVQ?=
+ =?utf-8?B?SzdpWkxqODZzQnlQMk9ocGRSVktjUytwR2xFNjlrWExNa3lQTGtnUHNyMDRo?=
+ =?utf-8?B?Y3U2R1NOZndKM1AzTEpNQ3o0aXlHOVM1eHBFODBIRy8zcHhnTDBMY05lUFN3?=
+ =?utf-8?B?M0FWUU8zNmxrQTB1d2RkclFWdGQ0WXI5WFNacDNESmZZOTRkL3lHZEhIeFpE?=
+ =?utf-8?Q?zL6hNdrqhEgTi2rua0kHD9b/x?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 511645c3-a666-4b76-74ec-08ddfa45d900
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 02:06:45.8609 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8WvZ8bucn3kpBPL9OxdY3NF9fTC637ifVAAWn9oUQy0rZbHpV6h9X/9NuBsjiplFYCfg/KMndIWjYpZDvSvC3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10854
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,185 +178,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 09:10:28AM +0800, Icenowy Zheng wrote:
-> 在 2025-09-23星期二的 03:53 +0300，Dmitry Baryshkov写道：
-> > On Sun, Sep 21, 2025 at 04:34:41PM +0800, Icenowy Zheng wrote:
-> > > This is a from-scratch driver targeting Verisilicon DC-series
-> > > display
-> > > controllers, which feature self-identification functionality like
-> > > their
-> > > GC-series GPUs.
-> > > 
-> > > Only DC8200 is being supported now, and only the main framebuffer
-> > > is set
-> > > up (as the DRM primary plane). Support for more DC models and more
-> > > features is my further targets.
-> > > 
-> > > As the display controller is delivered to SoC vendors as a whole
-> > > part,
-> > > this driver does not use component framework and extra bridges
-> > > inside a
-> > > SoC is expected to be implemented as dedicated bridges (this driver
-> > > properly supports bridge chaining).
-> > > 
-> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > ---
-> > > Changes in v2:
-> > > - Changed some Control flows according to previous reviews.
-> > > - Added missing of_node_put when checking of endpoints for output
-> > > type.
-> > > - Switched all userspace-visible modeset objects to be managed by
-> > > drmm
-> > >   instead of devm.
-> > > - Utilize devm_drm_bridge_alloc() in internal bridge.
-> > > - Prevented the usage of simple encoder helpers by passing a NULL
-> > > funcs pointer.
-> > > - Let devm enable clocks when getting them.
-> > > - Removed explicit `.cache_type = REGCACHE_NONE` in regmap config.
-> > > - Fixed a debug print using a variable before initialization.
-> > > - Fixed a wrong index when using bulk to handle resets.
-> > > - Added missing configuration for DPI format (currently fixed
-> > > RGB888).
-> > > 
-> > >  drivers/gpu/drm/Kconfig                       |   2 +
-> > >  drivers/gpu/drm/Makefile                      |   1 +
-> > >  drivers/gpu/drm/verisilicon/Kconfig           |  15 +
-> > >  drivers/gpu/drm/verisilicon/Makefile          |   5 +
-> > >  drivers/gpu/drm/verisilicon/vs_bridge.c       | 330
-> > > ++++++++++++++++++
-> > >  drivers/gpu/drm/verisilicon/vs_bridge.h       |  40 +++
-> > >  drivers/gpu/drm/verisilicon/vs_bridge_regs.h  |  54 +++
-> > >  drivers/gpu/drm/verisilicon/vs_crtc.c         | 217 ++++++++++++
-> > >  drivers/gpu/drm/verisilicon/vs_crtc.h         |  29 ++
-> > >  drivers/gpu/drm/verisilicon/vs_crtc_regs.h    |  60 ++++
-> > >  drivers/gpu/drm/verisilicon/vs_dc.c           | 205 +++++++++++
-> > >  drivers/gpu/drm/verisilicon/vs_dc.h           |  39 +++
-> > >  drivers/gpu/drm/verisilicon/vs_dc_top_regs.h  |  27 ++
-> > >  drivers/gpu/drm/verisilicon/vs_drm.c          | 177 ++++++++++
-> > >  drivers/gpu/drm/verisilicon/vs_drm.h          |  29 ++
-> > >  drivers/gpu/drm/verisilicon/vs_hwdb.c         | 150 ++++++++
-> > >  drivers/gpu/drm/verisilicon/vs_hwdb.h         |  29 ++
-> > >  drivers/gpu/drm/verisilicon/vs_plane.c        | 102 ++++++
-> > >  drivers/gpu/drm/verisilicon/vs_plane.h        |  68 ++++
-> > >  .../gpu/drm/verisilicon/vs_primary_plane.c    | 157 +++++++++
-> > >  .../drm/verisilicon/vs_primary_plane_regs.h   |  53 +++
-> > >  21 files changed, 1789 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge_regs.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc_regs.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
-> > >  create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane.c
-> > >  create mode 100644
-> > > drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
-> > > 
-> > > +
-> > > +static int vs_bridge_atomic_check(struct drm_bridge *bridge,
-> > > +                                 struct drm_bridge_state
-> > > *bridge_state,
-> > > +                                 struct drm_crtc_state
-> > > *crtc_state,
-> > > +                                 struct drm_connector_state
-> > > *conn_state)
-> > > +{
-> > > +       struct vs_bridge *vbridge =
-> > > drm_bridge_to_vs_bridge(bridge);
-> > > +
-> > > +       if (vbridge->intf == VSDC_OUTPUT_INTERFACE_DP &&
-> > > +           !vs_bridge_out_dp_fmt_supported(bridge_state-
-> > > >output_bus_cfg.format))
-> > > +               return -EINVAL;
-> > 
-> > I still think that it's better to have per-interface type bridge
-> > funcs
-> > rather than checking for the interface type inside the function.
-> > 
-> > > +
-> > > +       vbridge->output_bus_fmt = bridge_state-
-> > > >output_bus_cfg.format;
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +
-> > > +       bridge = devm_drm_bridge_alloc(drm_dev->dev, struct
-> > > vs_bridge, base,
-> > > +                                      &vs_bridge_funcs);
-> > > +       if (!bridge)
-> > > +               return ERR_PTR(-ENOMEM);
-> > > +
-> > > +       bridge->crtc = crtc;
-> > > +       bridge->intf = intf;
-> > > +       bridge->next = next;
-> > > +
-> > > +       if (intf == VSDC_OUTPUT_INTERFACE_DPI)
-> > > +               enctype = DRM_MODE_ENCODER_DPI;
-> > > +       else
-> > > +               enctype = DRM_MODE_ENCODER_NONE;
-> > 
-> > Nit: DRM_MODE_ENCODER_TMDS ?
-> 
-> The DC it self never encodes TMDS, and although most SoC connect the DP
-> interface to HDMI TX controllers, it's theortically to use other
-> bridges here (e.g. DP TX controllers).
+Hi,
 
-But NONE also doesn't sound completely correct here. Anyway, this is
-really a minor thing, so feel free to ignore this comment.
+This patch series aims to use prefetch engine in imx8-dc KMS driver.
 
-> 
-> > 
-> > > +
-> > > +       bridge->enc = drmm_plain_encoder_alloc(drm_dev, NULL,
-> > > enctype, NULL);
-> > > +       if (IS_ERR(bridge->enc)) {
-> > > +               dev_err(drm_dev->dev,
-> > > +                       "Cannot initialize encoder for output
-> > > %u\n", output);
-> > > +               ret = PTR_ERR(bridge->enc);
-> > > +               return ERR_PTR(ret);
-> > > +       }
-> > > +
-> > > +       bridge->enc->possible_crtcs = drm_crtc_mask(&crtc->base);
-> > > +
-> > > +       ret = drm_bridge_attach(bridge->enc, &bridge->base, NULL,
-> > > +                               DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > > +       if (ret) {
-> > > +               dev_err(drm_dev->dev,
-> > > +                       "Cannot attach bridge for output %u\n",
-> > > output);
-> > > +               return ERR_PTR(ret);
-> > > +       }
-> > > +
-> > > +       bridge->conn = drm_bridge_connector_init(drm_dev, bridge-
-> > > >enc);
-> > > +       if (IS_ERR(bridge->conn)) {
-> > > +               dev_err(drm_dev->dev,
-> > > +                       "Cannot create connector for output %u\n",
-> > > output);
-> > > +               ret = PTR_ERR(bridge->conn);
-> > > +               return ERR_PTR(ret);
-> > > +       }
-> > > +       drm_connector_attach_encoder(bridge->conn, bridge->enc);
-> > > +
-> > > +       return bridge;
-> > > +}
-> > 
-> > Other than that LGTM.
-> > 
-> 
+One prefetch engine consists of one DPR Channel(DPRC) and one or two
+Display Prefetch Resolve Gaskets(PRGs).  It prefetches data from
+DDR, resolves data in tile formats if needed and outputs the result
+data to FetchUnit(s).  When one PRG is used, a prefetch engine supports
+processing pixel formats with one planar, e.g., RGB formats.  When two
+are used, pixel formats with two planars are supported, e.g., NV12.
 
+For now, this patch series only supports prefetch engines with one PRG
+because it is enough for XRGB8888 which is the only pixel format
+supported by imx8-dc plane driver.  Two PRGs would be supported by
+future patches.
+
+Patch 1 and 2 add dt-bindings for DPRC and PRG.  They were reviewed
+by Rob[1][2].  I slightly modified the patches' commit message to use
+imperative mood.
+
+Patch 3 adds DPRC and PRG dt-binding files to MAINTAINERS.
+
+Patch 4 fixes FetchUnit dimensions as related to prefetch engine function.
+
+Patch 5 disables CRTC at boot if needed to support prefetch engine better.
+
+Patch 6 and 7 add PRG and DPRC drivers.
+
+Patch 8 to 13 do preparations before using prefetch engine in imx8-dc KMS
+driver.
+
+Patch 14 uses prefetch engine in imx8-dc KMS driver.
+
+[1] https://lore.kernel.org/lkml/20201207165945.GA430214@robh.at.kernel.org/
+[2] https://lore.kernel.org/lkml/20201207170206.GA434964@robh.at.kernel.org/
+
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+Changes in v2:
+- Rebase the patch series onto next-20250922.
+- Collect Alexander's and Frank's R-b tags.
+- Manage PRG's and DPRC's clocks with bulk interfaces in patch 6&7.  (Frank)
+- Sort variables in probe function in reverse Christmas tree fashion in patch 7.  (Frank)
+- Link to v1: https://lore.kernel.org/r/20250704-imx8-dc-prefetch-v1-0-784c03fd645f@nxp.com
+
+---
+Liu Ying (14):
+      dt-bindings: display: imx: Add i.MX8qxp/qm PRG binding
+      dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel binding
+      MAINTAINERS: Add i.MX8qxp prefetch engine DT binding files
+      drm/imx: dc-fu: Fix dimensions
+      drm/imx: dc-crtc: Disable at boot
+      drm/imx: dc: Add PRG support
+      drm/imx: dc: Add DPR channel support
+      drm/imx: dc: Use TCON operation mode
+      drm/imx: dc-ed: Support getting source selection
+      drm/imx: dc-lb: Support getting secondary input selection
+      drm/imx: dc-ed: Drop initial source selection
+      drm/imx: dc-lb: Drop initial primary and secondary input selections
+      drm/imx: dc-fu: Get DPR channel
+      drm/imx: dc: Use prefetch engine
+
+ .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     | 100 +++++
+ .../bindings/display/imx/fsl,imx8qxp-prg.yaml      |  60 +++
+ MAINTAINERS                                        |   2 +
+ drivers/gpu/drm/imx/dc/Kconfig                     |   1 +
+ drivers/gpu/drm/imx/dc/Makefile                    |   6 +-
+ drivers/gpu/drm/imx/dc/dc-crtc.c                   | 191 ++++++++-
+ drivers/gpu/drm/imx/dc/dc-de.h                     |   2 +
+ drivers/gpu/drm/imx/dc/dc-dprc.c                   | 465 +++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-dprc.h                   |  35 ++
+ drivers/gpu/drm/imx/dc/dc-drv.c                    |   7 +
+ drivers/gpu/drm/imx/dc/dc-drv.h                    |   5 +
+ drivers/gpu/drm/imx/dc/dc-ed.c                     |  27 +-
+ drivers/gpu/drm/imx/dc/dc-fl.c                     |   7 +-
+ drivers/gpu/drm/imx/dc/dc-fu.c                     |  49 ++-
+ drivers/gpu/drm/imx/dc/dc-fu.h                     |  11 +-
+ drivers/gpu/drm/imx/dc/dc-fw.c                     |   7 +-
+ drivers/gpu/drm/imx/dc/dc-kms.h                    |   7 +
+ drivers/gpu/drm/imx/dc/dc-lb.c                     |  23 +-
+ drivers/gpu/drm/imx/dc/dc-pe.h                     |   2 +
+ drivers/gpu/drm/imx/dc/dc-plane.c                  |  46 +-
+ drivers/gpu/drm/imx/dc/dc-prg.c                    | 320 ++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-prg.h                    |  39 ++
+ drivers/gpu/drm/imx/dc/dc-tc.c                     | 114 ++++-
+ 23 files changed, 1496 insertions(+), 30 deletions(-)
+---
+base-commit: bf2602a3cb2381fb1a04bf1c39a290518d2538d1
+change-id: 20250703-imx8-dc-prefetch-028e306591c6
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Liu Ying <victor.liu@nxp.com>
+
