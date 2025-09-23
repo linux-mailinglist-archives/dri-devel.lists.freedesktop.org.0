@@ -2,51 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA53B962BC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 16:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0A7B9630A
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 16:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B8F10E0A2;
-	Tue, 23 Sep 2025 14:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A18F510E1CF;
+	Tue, 23 Sep 2025 14:20:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EIr2t3Jw";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="RKm4GZpo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1393C10E0A2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 14:17:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 567D4606;
- Tue, 23 Sep 2025 16:15:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1758636940;
- bh=dk+w7GRKuyHJZDHPQMYhc/Zn0Rcn3budkb2GGiwLAcM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EIr2t3JwzYIUjncx/qAyz3kCFAL7RGpOwUjxhjOmkn+wUn0ioOSE0lMNQA8roNFbI
- apmXXsSOzNmQiF1HH6PAWz8yfUN+CDKBJbXDlfbZh5EnOfNX5lNGh4xty4xrhRIPBv
- vFxp/JjqY0PGyh0w1B836TNucLyEVxnKRyr47aTI=
-Date: Tue, 23 Sep 2025 17:16:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 8/9] drm/rcar-du: dsi: Convert register bits to BIT() macro
-Message-ID: <20250923141631.GJ20765@pendragon.ideasonboard.com>
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
- <20250922185740.153759-9-marek.vasut+renesas@mailbox.org>
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013029.outbound.protection.outlook.com
+ [40.93.196.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960ED10E1CF;
+ Tue, 23 Sep 2025 14:20:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=emSaLy4qJytwq/01dK6SkrGGlhtHORZmtFEbfFW4tVVbNEayvUEBnsK7onABOi60vXCDiyOOc6yKEAYOlqdYzz4pNaJYhAPGIrmm9LRgqB1yV4K083BG/PTiyhwLg9dRCOeUdChtA9C1q4rC21+qFSgPzTnssJTK5CbtDmUXeoEBHcWPo2df5MXw0lSWc/77M1yP5xgCMrKqLYOoB0hpBj5sRpkbf6/BXJRoiTXZ4hhsM+ltzv2OlNDASfqSoiRNWWIxPkMO9TnVRWPyanznmtadB4MWJspENLgIDkOK/fvcnKpvuwu0ZS4p5K2bPK7G/z1K6eqxQn0SQddyZnUFFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tL2eLZrvjk7C6KwuBE33OUu0LyZDibXLdemZQezc+J8=;
+ b=kfj9gqui8LRA2+E8cI2FwReKkh5lhKWjD0U6Y788iPxfLj4tiVaUK2j5nRFCZ8c6CgzQMUZFcBaiXJN2bACJzpANCblxBUbRptZ+0qh0y9iKaVAFJ80SHaDOvQkpvXqzMjM92YpqzurAGFMKTDo4gKUgWUaqya+tIZQSFvTQrzAitarhZXWel2kzNicD25pqWExKryEpY1Xu3P2b0DJOE8oCv1BRVzT2bDZBEOvHZtVfrWjHD5H5m9OdBx80Kg/ovpIRwuqtmAU2SeBfl26T5z9azdi7sSJ7RmIan+fqhg7u6X54nZ69uX4VFEAUwbBEESEpDSlkgdkiaXeC0x50eg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tL2eLZrvjk7C6KwuBE33OUu0LyZDibXLdemZQezc+J8=;
+ b=RKm4GZpod1DxFfUovxBon4IwxPAtgk5f83BD2LU70qDtlv/8eLCx3nvgSjsa4KnG3spbH/otcVp+/PF6qPOyioV3cLi5UM6dJ+3veFaPxmjuCy2I0qznp7yELAWf1A7MABpyDRzVqdBpGXhYMRMZOkmhBCc61jXAeG5+orylq9O0L9D6xzf1hVDozP7kHu9gawN0AOKfT3W34G/8Y2OVSLA0S3lzVgEsYPz6xnt46XQFcHECZMHeCJgT3HnCYYy7mjDc6T45GSdyKFtVQgU3/IYa02uePUGsZC/Xp9w40op9jEzrReZu+YzRoxH2Mw0lQg1mRexCWf7dIBRSdEtAgw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by LV8PR12MB9230.namprd12.prod.outlook.com (2603:10b6:408:186::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Tue, 23 Sep
+ 2025 14:20:42 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 14:20:42 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 23 Sep 2025 23:20:37 +0900
+Message-Id: <DD08VDPA45X8.2VXMD1RJBAJER@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v2 02/10] gpu: nova-core: Create initial Gsp
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Alistair Popple" <apopple@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <dakr@kernel.org>, <acourbot@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250922113026.3083103-1-apopple@nvidia.com>
+ <20250922113026.3083103-3-apopple@nvidia.com>
+In-Reply-To: <20250922113026.3083103-3-apopple@nvidia.com>
+X-ClientProxiedBy: TY4PR01CA0073.jpnprd01.prod.outlook.com
+ (2603:1096:405:36c::9) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250922185740.153759-9-marek.vasut+renesas@mailbox.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV8PR12MB9230:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f6256f4-a56d-4d3f-f31b-08ddfaac5fe2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|7416014|366016|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TVNSWTlqM3hkT2pSWmFCMXJTckl5Z2JQSURKL3ZNeXV4T2czOWhZeW9lL2pZ?=
+ =?utf-8?B?TmVYdkVzV3kzYSs4ZkFreEdoNkZVU0tuYTE1emg5a2d2Zy9IUjZsenpqU0NS?=
+ =?utf-8?B?NDZPVmMzY2ZqSHFkSGxLTXhvbDA3OElNS1E3QnNTUDRNaWllVzllVFNUeVRs?=
+ =?utf-8?B?bUUveHBMVlBrdzU1bGRlK09VVHZVSlZtU3hWY0xYRWdUYmI0NWVPSWdCU2U5?=
+ =?utf-8?B?R3Rkb0R5SURXdTRHZ3d5T05VZzVEcHhsR2Zzck83K1dkSURyNEY1bDhnTXZL?=
+ =?utf-8?B?OEFJY0QxRFI1SmI5MzdLMGlOa2FvYnowWmVIQ214bmNsR3A1YVR5MWhtaWNP?=
+ =?utf-8?B?YTZLUysyQVhNdDQ1dkV1OXpRTXpxOHJqTlo0RHdONGtsVEVwajRSYUlLS2Nm?=
+ =?utf-8?B?MmZmMCt5Z254VVlaRktlMlVKWCsxY0NQbk1qMkVNRi9McHY5VW9KeHhOUThF?=
+ =?utf-8?B?L3NJRnkwVnFmemxETVZMY3MrUDMydTdzQ0NDaFhqcTNiYS9FOFlQWDJ1K05p?=
+ =?utf-8?B?TitQbmJUa2NrbnRvSEFMTkNIcm0xUW12SUoxdFIxNXVHNDI5T1IrT2pxNytz?=
+ =?utf-8?B?d0tkM0NPNU5vM0c1TmhaczdmV3JiNVdZdUhBcHdKY1VQbWJsTTZEU0dTQ1Er?=
+ =?utf-8?B?T0JuakpqT0hpSEdaQWc4eE5EZCtSdzhvSlV3NVdZZW1pNWFVWjhtVXkwYksv?=
+ =?utf-8?B?MzU1TVJUbHF6ZmZtMHlFUEU1SG5LUWxXN2NHVncwQ2RBTVlYMlMzOHRyaEJJ?=
+ =?utf-8?B?aEhXcmJWa1FaZXNHWXJ5TzZqMlljb1FzNzg1aktVNlA5MzViL2h0ZkxKQ3BU?=
+ =?utf-8?B?QWkva0J3SVRsQytDREkza1ZDT3FTQ2x4d25Da2l4bWROLzRiZG9mSGxEK08r?=
+ =?utf-8?B?a212RWVZV3lmejJzTUFrNEpaMlAzc1BlQXhiNitUMTJLYXZyRUsxNkVrRHZv?=
+ =?utf-8?B?ZnRqV2cyRDNEdm4rU0ZiMDhQZ0RsUXFJOERQd3BUWnFudHBITWR3WEsrczdP?=
+ =?utf-8?B?dHpIOVJaWnFsNDUxWjdJNThtS2hPZitlU2dMbDkzZkoyMU1XK2I1WnVrcTd6?=
+ =?utf-8?B?WWloK2syMDFJVkd2SGFQaTdTMXI2SThxMm9SMlJUNXFoVE1NcDBCUHIrbGpz?=
+ =?utf-8?B?UUl1UXQvTlIvMHlyd1BOd0dzZytjZUd2V1NRQmJ1RjhIQjliUDJ5VWhJc3dS?=
+ =?utf-8?B?VHErcmFPRkRnczBPVkd5bjRkckZKWDdmZlhncXpFRkRKK3dndGY4b3FzNEZk?=
+ =?utf-8?B?U3hTTDZnQ0ppYUwrYkFrdFViaE8vMUJDd3p1TWVlWStZajlubVpIcVBqNitO?=
+ =?utf-8?B?aWxoRW93TjRHKzVET0w1RnRWT2RvNUYyM01naTQ3Z20yRjRiN0dpY0pDUWdW?=
+ =?utf-8?B?S2x0N3ZrQTlpTzV4cWRHeTZYd2ZHZUxQVUdpVXhEdmptNUlaUmROMVJ6WVg1?=
+ =?utf-8?B?TFJJRXkwbzN5TWdDM0NqK1cxUDhEVzdKS1ZMS05WdXhzdS9FQ0hndm9nclln?=
+ =?utf-8?B?SDBSLzRjVEczaWVVZFlPcm9HYnEzU2lXdVNCdE9aalEzWENNbU5xRWtkTTFT?=
+ =?utf-8?B?VGxsQmZCMWFWZkdjY0tYWm5xaHlNSEhKc1VpeUorWDFVenM3OXNIRHZaYVpQ?=
+ =?utf-8?B?bUxqdnhqYy92b0N4MEcyakZleHR2ZkFZQkVwVksyY3dxU0hoUmU0ZGxKY3Y2?=
+ =?utf-8?B?ckxDcVdlM3RJQzBmdnIyS1Zxd0FkSDJZc20zS3ZYcFJuYjIxbHErTnVrUzNv?=
+ =?utf-8?B?dlZWY202Zm8zajUwVXVkUjdhYVFTOVo2VUxnK3BNZ2ZaMWcvK3VFSk1ERTla?=
+ =?utf-8?B?WlpUY3o2SVhtSlBJVEgxVnFTamt2VDE4VEw4U1RGWWZYR2NDM2s0ZHJXZDJL?=
+ =?utf-8?B?YWJZZ1llSjRJWFB0WDlsdktHMVU3TThGbStSYU4zS0U4bUluZ09zNGR4MVF6?=
+ =?utf-8?Q?6LpValaxHkQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(7416014)(366016)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1lkYmRmcXk5YTcvZERpRVdoWnkyZXhIY210Skt3Tm1WOW8vbjhqbFgwN0Zv?=
+ =?utf-8?B?eXI4d3dPbkRCbndCTW9OcnJVZ1FpVmlxZWN2bDNjOVF2cUhCVmNsaENvcERN?=
+ =?utf-8?B?TjRYOStEalV1UjZrWXBXWmx4UWpUY3FjOEloaVIvbFVaWlBqMm1VeURQWDFp?=
+ =?utf-8?B?ZVl5aWk0cEE0ekVwTEM1Y0t3ZFpnaXFydHdZZklEMWhCWnNhcEpjMXN4UjJN?=
+ =?utf-8?B?aFMxOUVzYUkxQUVIZlROQmdWck9YWnZWelVMaFlZSk1PWWkyNzNMQVdpeGZN?=
+ =?utf-8?B?R1VzWi94Ri9CRjRGMkdkNjlGRXh0OGVKZkUyQ2hwMjkxZ1prbzJITWFqSUpV?=
+ =?utf-8?B?QTkxbUhiMWU1cUtObE1KN3VCa0hNSTV2Vk9BR01vMmkyeitYWkh1Smdwd0ha?=
+ =?utf-8?B?NVVFWWFhWjZmbi91YWZEUm9OOXdzbkNjQjlQK1dkM3JsUTRXQXVLZHRxUit5?=
+ =?utf-8?B?NVUyTVlPbDBOdmtzK0FPUFNNQktNWXVkT2ZPL2pBR2ZKRWJQeWFOU2RXMWYy?=
+ =?utf-8?B?TDc3c1M2U2JHRFZhOXI4cHBmRE5JazdGb1lZN1VFUm9zU1c2RExpbjVmaG5q?=
+ =?utf-8?B?MFpoYkJHQ2oraDFCSTJHb2NxVlNjbmk2dmVneGI1ZGU3MDJsVWI4cllpK2Vi?=
+ =?utf-8?B?c05USURsMVdiWW1pNWszOGpIRXI5QnZNQmtXVS9RZGVvQnQ4aVlYV0QzcVpS?=
+ =?utf-8?B?NnhHSm14WWVqZktSTHhTMTVIMmMrbXNGT25QM2I4WXFkSk0veExXK2ZpUDlV?=
+ =?utf-8?B?UEc4UlRMS3R0YUcrOEdHS05QWVlwaFdIQnpwbVVqRnBIY29UVVNwVDZwRzJw?=
+ =?utf-8?B?Zlc3TXRBYzhmdTh4aHFHRTU0Z0xmYjNkMmNVaDRMejB4TDloRDJvYnYxRW96?=
+ =?utf-8?B?OGRqT2U2VEhDQVJzOWJQc2VnOU1PbFpNNnZBcjhtZVlWOWxEclRFMTVCMHN4?=
+ =?utf-8?B?QndBeU1vNkRTODVUeENoWENOZ2loNUdDUUJQOFhCamxSUEc0ODRKUGF0Wjcr?=
+ =?utf-8?B?Tm11RWl1SEVUeCtMb3JuK0wra1lRak9rQ2hXSTMwaVJrUURmU3g4dUg2TmVP?=
+ =?utf-8?B?ZVBLRjhoblpGYUwxTUxwbThSc3lORlR0T1U2c05lQUFDTDFYMEJTc2Jhb3p1?=
+ =?utf-8?B?YklaYjdjMlBJZzFXWGJXeWN5TmdJL25EQ0VtcG4zeVFTdEhSazRPczNSM1kw?=
+ =?utf-8?B?YmF0V2dmUFBNcTljRzArMFVSVlhUUURSeVUxdWJtS2pXU2l3YjVYOEMwLzNk?=
+ =?utf-8?B?azlBRUNnQ3B0a3RIakR6NmFoT1RTQ2FuYWlyWFZIYzc2cnBkOTRqamx6YXBj?=
+ =?utf-8?B?RlVsdkdyeHd6MGNKT0JHdUJzTHJDQ0J4MFEyVkd5d0wvYms4U01QVnNRbG9p?=
+ =?utf-8?B?cmpHak1MbU1OUWt0WFgyczFFV0ZSbGxIVTN1TCtOOUltdEc1WW9RUUd6L0F1?=
+ =?utf-8?B?clBGYUFtUkhiYWY5MmxadWFFWnNaTE4xM2FSaXJZZmx5SlhDM01ONklzSTlE?=
+ =?utf-8?B?Q0htRzlhcXIrT0tVNk5ZT25sNTh0eDRQaG5hRU9Wd3h4Y0xXNnM3dnBadFZx?=
+ =?utf-8?B?M1ByNkt6VSt3VTdLNWRKR3dDblJhRllZOUtaTVlaa1ZSZ3BsaXpIQmZiSnBz?=
+ =?utf-8?B?djBhYTQyYmUyWVMwT29GYkxzQ29wZnhWUmI5NDM3dStTRUhqbVk5d3JhcmJq?=
+ =?utf-8?B?VUt2VVVqQWErc1NIU3dVWGJYNjQwVTJMTFNGMThEWE9OdCtXa25rb2liWWo4?=
+ =?utf-8?B?M0d0WDUwZTduY3NEK01DVVhIVUhxVUFjd0Zuazc3cStOWDlJcTlvVmVlUVJm?=
+ =?utf-8?B?ZDJZY3lDUnVhNUdxRWUxRVNVdUV2c1o5SldhN1k5NFhaMFpSeEZoTXpDcnBO?=
+ =?utf-8?B?SWk5N1lTUFM0cUwzN29uQ05RVWJpZGZBTDNSdXRHZ1FtbHpFL3lZN0Zha2ZI?=
+ =?utf-8?B?QzVTeklvcUVObDFiZTJxakxJeEtQL2NudlpRU1hWVTJwNCsxS3ZpbTdsQWFz?=
+ =?utf-8?B?eE9UWTJVV1FUYWl0b2pIQzQyWUc0bndrNGV0L3lOMjM3bEp2RHJrL01TU3du?=
+ =?utf-8?B?Wmxta3BaMXJxT1JWVHJDYkQ2V29WQVJ1aXpzUlVPYzZjWTJiL2RxT1RId2R5?=
+ =?utf-8?B?QklYNm1Gd0FmYzdpU2lzZTBPUEUvQ0hPbmhjNnRzRkxXbitlV05SenZNKzFm?=
+ =?utf-8?Q?pHi0fDUZfuGbAR56iG336zuWS1ui99d1+kjWO+dZWU5H?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f6256f4-a56d-4d3f-f31b-08ddfaac5fe2
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 14:20:41.9369 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pwCV3yk1qGvcMAOozRoPiuDIRSDYwmGK68JKr6rdFP5eP2tMgmDm2zPfds6RsVG0ir+IMkoHt6RoVtDEkA2hFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,420 +179,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 22, 2025 at 08:55:04PM +0200, Marek Vasut wrote:
-> Convert register bits to BIT() macro where applicable. This is done
-> automatically using regex 's@(1 << \([0-9]\+\))@BIT(\1)', except for
-> bitfields which are manually updated to use GENMASK().
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Hi Alistair,
+
+On Mon Sep 22, 2025 at 8:30 PM JST, Alistair Popple wrote:
+> The GSP requires several areas of memory to operate. Each of these have
+> their own simple embedded page tables. Set these up and map them for DMA
+> to/from GSP using CoherentAllocation's. Return the DMA handle describing
+> where each of these regions are for future use when booting GSP.
+>
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>
 > ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
+>
+> Changes for v2:
+>
+>  - Renamed GspMemOjbects to Gsp as that is what they are
+>  - Rebased on Alex's latest series
 > ---
->  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 248 +++++++++---------
->  1 file changed, 124 insertions(+), 124 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index 48c3b679b2663..29c806cae3557 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -9,37 +9,37 @@
->  #define __RCAR_MIPI_DSI_REGS_H__
->  
->  #define LINKSR				0x010
-> -#define LINKSR_LPBUSY			(1 << 1)
-> -#define LINKSR_HSBUSY			(1 << 0)
-> +#define LINKSR_LPBUSY			BIT(1)
-> +#define LINKSR_HSBUSY			BIT(0)
->  
->  #define TXSETR				0x100
-> -#define TXSETR_LANECNT_MASK		(0x3 << 0)
-> +#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
->  
->  /*
->   * DSI Command Transfer Registers
->   */
->  #define TXCMSETR			0x110
-> -#define TXCMSETR_SPDTYP			(1 << 8)	/* 0:HS 1:LP */
-> -#define TXCMSETR_LPPDACC		(1 << 0)
-> +#define TXCMSETR_SPDTYP			BIT(8)	/* 0:HS 1:LP */
-> +#define TXCMSETR_LPPDACC		BIT(0)
->  #define TXCMCR				0x120
-> -#define TXCMCR_BTATYP			(1 << 2)
-> -#define TXCMCR_BTAREQ			(1 << 1)
-> -#define TXCMCR_TXREQ			(1 << 0)
-> +#define TXCMCR_BTATYP			BIT(2)
-> +#define TXCMCR_BTAREQ			BIT(1)
-> +#define TXCMCR_TXREQ			BIT(0)
->  #define TXCMSR				0x130
-> -#define TXCMSR_CLSNERR			(1 << 18)
-> -#define TXCMSR_AXIERR			(1 << 16)
-> -#define TXCMSR_TXREQEND			(1 << 0)
-> +#define TXCMSR_CLSNERR			BIT(18)
-> +#define TXCMSR_AXIERR			BIT(16)
-> +#define TXCMSR_TXREQEND			BIT(0)
->  #define TXCMSCR				0x134
-> -#define TXCMSCR_CLSNERR			(1 << 18)
-> -#define TXCMSCR_AXIERR			(1 << 16)
-> -#define TXCMSCR_TXREQEND		(1 << 0)
-> +#define TXCMSCR_CLSNERR			BIT(18)
-> +#define TXCMSCR_AXIERR			BIT(16)
-> +#define TXCMSCR_TXREQEND		BIT(0)
->  #define TXCMIER				0x138
-> -#define TXCMIER_CLSNERR			(1 << 18)
-> -#define TXCMIER_AXIERR			(1 << 16)
-> -#define TXCMIER_TXREQEND		(1 << 0)
-> +#define TXCMIER_CLSNERR			BIT(18)
-> +#define TXCMIER_AXIERR			BIT(16)
-> +#define TXCMIER_TXREQEND		BIT(0)
->  #define TXCMADDRSET0R			0x140
->  #define TXCMPHDR			0x150
-> -#define TXCMPHDR_FMT			(1 << 24)	/* 0:SP 1:LP */
-> +#define TXCMPHDR_FMT			BIT(24)	/* 0:SP 1:LP */
->  #define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
->  #define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
->  #define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
-> @@ -53,63 +53,63 @@
->  #define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
->  #define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
->  #define RXPSETR				0x210
-> -#define RXPSETR_LPPDACC			(1 << 0)
-> +#define RXPSETR_LPPDACC			BIT(0)
->  #define RXPSR				0x220
-> -#define RXPSR_ECCERR1B			(1 << 28)
-> -#define RXPSR_UEXTRGERR			(1 << 25)
-> -#define RXPSR_RESPTOERR			(1 << 24)
-> -#define RXPSR_OVRERR			(1 << 23)
-> -#define RXPSR_AXIERR			(1 << 22)
-> -#define RXPSR_CRCERR			(1 << 21)
-> -#define RXPSR_WCERR			(1 << 20)
-> -#define RXPSR_UEXDTERR			(1 << 19)
-> -#define RXPSR_UEXPKTERR			(1 << 18)
-> -#define RXPSR_ECCERR			(1 << 17)
-> -#define RXPSR_MLFERR			(1 << 16)
-> -#define RXPSR_RCVACK			(1 << 14)
-> -#define RXPSR_RCVEOT			(1 << 10)
-> -#define RXPSR_RCVAKE			(1 << 9)
-> -#define RXPSR_RCVRESP			(1 << 8)
-> -#define RXPSR_BTAREQEND			(1 << 0)
-> +#define RXPSR_ECCERR1B			BIT(28)
-> +#define RXPSR_UEXTRGERR			BIT(25)
-> +#define RXPSR_RESPTOERR			BIT(24)
-> +#define RXPSR_OVRERR			BIT(23)
-> +#define RXPSR_AXIERR			BIT(22)
-> +#define RXPSR_CRCERR			BIT(21)
-> +#define RXPSR_WCERR			BIT(20)
-> +#define RXPSR_UEXDTERR			BIT(19)
-> +#define RXPSR_UEXPKTERR			BIT(18)
-> +#define RXPSR_ECCERR			BIT(17)
-> +#define RXPSR_MLFERR			BIT(16)
-> +#define RXPSR_RCVACK			BIT(14)
-> +#define RXPSR_RCVEOT			BIT(10)
-> +#define RXPSR_RCVAKE			BIT(9)
-> +#define RXPSR_RCVRESP			BIT(8)
-> +#define RXPSR_BTAREQEND			BIT(0)
->  #define RXPSCR				0x224
-> -#define RXPSCR_ECCERR1B			(1 << 28)
-> -#define RXPSCR_UEXTRGERR		(1 << 25)
-> -#define RXPSCR_RESPTOERR		(1 << 24)
-> -#define RXPSCR_OVRERR			(1 << 23)
-> -#define RXPSCR_AXIERR			(1 << 22)
-> -#define RXPSCR_CRCERR			(1 << 21)
-> -#define RXPSCR_WCERR			(1 << 20)
-> -#define RXPSCR_UEXDTERR			(1 << 19)
-> -#define RXPSCR_UEXPKTERR		(1 << 18)
-> -#define RXPSCR_ECCERR			(1 << 17)
-> -#define RXPSCR_MLFERR			(1 << 16)
-> -#define RXPSCR_RCVACK			(1 << 14)
-> -#define RXPSCR_RCVEOT			(1 << 10)
-> -#define RXPSCR_RCVAKE			(1 << 9)
-> -#define RXPSCR_RCVRESP			(1 << 8)
-> -#define RXPSCR_BTAREQEND		(1 << 0)
-> +#define RXPSCR_ECCERR1B			BIT(28)
-> +#define RXPSCR_UEXTRGERR		BIT(25)
-> +#define RXPSCR_RESPTOERR		BIT(24)
-> +#define RXPSCR_OVRERR			BIT(23)
-> +#define RXPSCR_AXIERR			BIT(22)
-> +#define RXPSCR_CRCERR			BIT(21)
-> +#define RXPSCR_WCERR			BIT(20)
-> +#define RXPSCR_UEXDTERR			BIT(19)
-> +#define RXPSCR_UEXPKTERR		BIT(18)
-> +#define RXPSCR_ECCERR			BIT(17)
-> +#define RXPSCR_MLFERR			BIT(16)
-> +#define RXPSCR_RCVACK			BIT(14)
-> +#define RXPSCR_RCVEOT			BIT(10)
-> +#define RXPSCR_RCVAKE			BIT(9)
-> +#define RXPSCR_RCVRESP			BIT(8)
-> +#define RXPSCR_BTAREQEND		BIT(0)
->  #define RXPIER				0x228
-> -#define RXPIER_ECCERR1B			(1 << 28)
-> -#define RXPIER_UEXTRGERR		(1 << 25)
-> -#define RXPIER_RESPTOERR		(1 << 24)
-> -#define RXPIER_OVRERR			(1 << 23)
-> -#define RXPIER_AXIERR			(1 << 22)
-> -#define RXPIER_CRCERR			(1 << 21)
-> -#define RXPIER_WCERR			(1 << 20)
-> -#define RXPIER_UEXDTERR			(1 << 19)
-> -#define RXPIER_UEXPKTERR		(1 << 18)
-> -#define RXPIER_ECCERR			(1 << 17)
-> -#define RXPIER_MLFERR			(1 << 16)
-> -#define RXPIER_RCVACK			(1 << 14)
-> -#define RXPIER_RCVEOT			(1 << 10)
-> -#define RXPIER_RCVAKE			(1 << 9)
-> -#define RXPIER_RCVRESP			(1 << 8)
-> -#define RXPIER_BTAREQEND		(1 << 0)
-> +#define RXPIER_ECCERR1B			BIT(28)
-> +#define RXPIER_UEXTRGERR		BIT(25)
-> +#define RXPIER_RESPTOERR		BIT(24)
-> +#define RXPIER_OVRERR			BIT(23)
-> +#define RXPIER_AXIERR			BIT(22)
-> +#define RXPIER_CRCERR			BIT(21)
-> +#define RXPIER_WCERR			BIT(20)
-> +#define RXPIER_UEXDTERR			BIT(19)
-> +#define RXPIER_UEXPKTERR		BIT(18)
-> +#define RXPIER_ECCERR			BIT(17)
-> +#define RXPIER_MLFERR			BIT(16)
-> +#define RXPIER_RCVACK			BIT(14)
-> +#define RXPIER_RCVEOT			BIT(10)
-> +#define RXPIER_RCVAKE			BIT(9)
-> +#define RXPIER_RCVRESP			BIT(8)
-> +#define RXPIER_BTAREQEND		BIT(0)
->  #define RXPADDRSET0R			0x230
->  #define RXPSIZESETR			0x238
->  #define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
->  #define RXPHDR				0x240
-> -#define RXPHDR_FMT			(1 << 24)	/* 0:SP 1:LP */
-> +#define RXPHDR_FMT			BIT(24)	/* 0:SP 1:LP */
->  #define RXPHDR_VC(n)			(((n) & 0x3) << 22)
->  #define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
->  #define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
-> @@ -128,38 +128,38 @@
->  #define TASCR				0x514
->  #define TAIER				0x518
->  #define TOSR				0x610
-> -#define TOSR_TATO			(1 << 2)
-> -#define TOSR_LRXHTO			(1 << 1)
-> -#define TOSR_HRXTO			(1 << 0)
-> +#define TOSR_TATO			BIT(2)
-> +#define TOSR_LRXHTO			BIT(1)
-> +#define TOSR_HRXTO			BIT(0)
->  #define TOSCR				0x614
-> -#define TOSCR_TATO			(1 << 2)
-> -#define TOSCR_LRXHTO			(1 << 1)
-> -#define TOSCR_HRXTO			(1 << 0)
-> +#define TOSCR_TATO			BIT(2)
-> +#define TOSCR_LRXHTO			BIT(1)
-> +#define TOSCR_HRXTO			BIT(0)
->  
->  /*
->   * Video Mode Register
->   */
->  #define TXVMSETR			0x180
-> -#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16) /* 0:Pulses 1:Events */
-> -#define TXVMSETR_VSTPM			(1 << 15)
-> -#define TXVMSETR_PIXWDTH		(1 << 8)
-> -#define TXVMSETR_VSEN			(1 << 4)
-> -#define TXVMSETR_HFPBPEN		(1 << 2)
-> -#define TXVMSETR_HBPBPEN		(1 << 1)
-> -#define TXVMSETR_HSABPEN		(1 << 0)
-> +#define TXVMSETR_SYNSEQ_EVENTS		BIT(16) /* 0:Pulses 1:Events */
-> +#define TXVMSETR_VSTPM			BIT(15)
-> +#define TXVMSETR_PIXWDTH		BIT(8)
+>  drivers/gpu/nova-core/gpu.rs                  |  2 +-
+>  drivers/gpu/nova-core/gsp.rs                  | 80 +++++++++++++++++--
+>  drivers/gpu/nova-core/gsp/fw.rs               | 39 +++++++++
+>  .../gpu/nova-core/gsp/fw/r570_144/bindings.rs | 19 +++++
+>  4 files changed, 131 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+> index 5da9ad726483..c939b3868271 100644
+> --- a/drivers/gpu/nova-core/gpu.rs
+> +++ b/drivers/gpu/nova-core/gpu.rs
+> @@ -221,7 +221,7 @@ pub(crate) fn new<'a>(
+> =20
+>              sec2_falcon: Falcon::new(pdev.as_ref(), spec.chipset, bar, t=
+rue)?,
+> =20
+> -            gsp <- Gsp::new(),
+> +            gsp <- Gsp::new(pdev)?,
+> =20
+>              _: { gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falc=
+on)? },
+> =20
+> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+> index 503ce8ee0420..0185f66971ff 100644
+> --- a/drivers/gpu/nova-core/gsp.rs
+> +++ b/drivers/gpu/nova-core/gsp.rs
+> @@ -1,27 +1,91 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> =20
+>  mod boot;
+> -
+> -use kernel::prelude::*;
+> -
 
-This is a 3 bits field according to the documentation.
+Oops, not sure why I put that here but thanks for fixing this.
 
-> +#define TXVMSETR_VSEN			BIT(4)
-> +#define TXVMSETR_HFPBPEN		BIT(2)
-> +#define TXVMSETR_HBPBPEN		BIT(1)
-> +#define TXVMSETR_HSABPEN		BIT(0)
->  
->  #define TXVMCR				0x190
-> -#define TXVMCR_VFCLR			(1 << 12)
-> -#define TXVMCR_EN_VIDEO			(1 << 0)
-> +#define TXVMCR_VFCLR			BIT(12)
-> +#define TXVMCR_EN_VIDEO			BIT(0)
->  
->  #define TXVMSR				0x1a0
-> -#define TXVMSR_STR			(1 << 16)
-> -#define TXVMSR_VFRDY			(1 << 12)
-> -#define TXVMSR_ACT			(1 << 8)
-> -#define TXVMSR_RDY			(1 << 0)
-> +#define TXVMSR_STR			BIT(16)
-> +#define TXVMSR_VFRDY			BIT(12)
-> +#define TXVMSR_ACT			BIT(8)
-> +#define TXVMSR_RDY			BIT(0)
->  
->  #define TXVMSCR				0x1a4
-> -#define TXVMSCR_STR			(1 << 16)
-> +#define TXVMSCR_STR			BIT(16)
->  
->  #define TXVMPSPHSETR			0x1c0
->  #define TXVMPSPHSETR_DT_MASK		(0x3f << 16)
-> @@ -170,10 +170,10 @@
->  #define TXVMPSPHSETR_DT_YCBCR16		0x2c
->  
->  #define TXVMVPRMSET0R			0x1d0
-> -#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17) /* 0:High 1:Low */
-> -#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16) /* 0:High 1:Low */
-> -#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4) /* 0:RGB 1:YCbCr */
-> -#define TXVMVPRMSET0R_BPP_MASK		(7 << 0)
-> +#define TXVMVPRMSET0R_HSPOL_LOW		BIT(17) /* 0:High 1:Low */
-> +#define TXVMVPRMSET0R_VSPOL_LOW		BIT(16) /* 0:High 1:Low */
-> +#define TXVMVPRMSET0R_CSPC_YCbCr	BIT(4) /* 0:RGB 1:YCbCr */
+>  mod fw;
+> =20
+>  pub(crate) use fw::{GspFwWprMeta, LibosParams};
+> =20
+> +use kernel::device;
+> +use kernel::dma::CoherentAllocation;
+> +use kernel::dma_write;
+> +use kernel::pci;
+> +use kernel::prelude::*;
+>  use kernel::ptr::Alignment;
+> +use kernel::transmute::{AsBytes, FromBytes};
+> +
+> +use fw::LibosMemoryRegionInitArgument;
+> =20
+>  pub(crate) const GSP_PAGE_SHIFT: usize =3D 12;
+>  pub(crate) const GSP_PAGE_SIZE: usize =3D 1 << GSP_PAGE_SHIFT;
+>  pub(crate) const GSP_HEAP_ALIGNMENT: Alignment =3D Alignment::new::<{ 1 =
+<< 20 }>();
+> =20
+>  /// GSP runtime data.
+> -///
+> -/// This is an empty pinned placeholder for now.
+>  #[pin_data]
+> -pub(crate) struct Gsp {}
+> +pub(crate) struct Gsp {
+> +    libos: CoherentAllocation<LibosMemoryRegionInitArgument>,
+> +    pub loginit: CoherentAllocation<u8>,
+> +    pub logintr: CoherentAllocation<u8>,
+> +    pub logrm: CoherentAllocation<u8>,
 
-This is a 2 bits field.
+These don't need to be public for now.
 
-> +#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
->  #define TXVMVPRMSET0R_BPP_16		0
->  #define TXVMVPRMSET0R_BPP_18		1
->  #define TXVMVPRMSET0R_BPP_24		2
-> @@ -198,51 +198,51 @@
->   * PHY-Protocol Interface (PPI) Registers
->   */
->  #define PPISETR				0x700
-> -#define PPISETR_DLEN_MASK		(0xf << 0)
-> -#define PPISETR_CLEN			(1 << 8)
-> +#define PPISETR_DLEN_MASK		GENMASK(3, 0)
-> +#define PPISETR_CLEN			BIT(8)
+> +}
+> +
+> +/// Creates a self-mapping page table for `obj` at its beginning.
+> +fn create_pte_array(obj: &mut CoherentAllocation<u8>) {
+> +    let num_pages =3D obj.size().div_ceil(GSP_PAGE_SIZE);
+> +    let handle =3D obj.dma_handle();
+> +
+> +    // SAFETY:
+> +    //  - By the invariants of the CoherentAllocation ptr is non-NULL.
+> +    //  - CoherentAllocation CPU addresses are always aligned to a
+> +    //    page-boundary, satisfying the alignment requirements for
+> +    //    from_raw_parts_mut()
+> +    //  - The allocation size is at least as long as 8 * num_pages as
+> +    //    GSP_PAGE_SIZE is larger than 8 bytes.
+> +    let ptes =3D unsafe {
+> +        let ptr =3D obj.start_ptr_mut().cast::<u64>().add(1);
+> +        core::slice::from_raw_parts_mut(ptr, num_pages)
+> +    };
 
-While at it I'd swap those two lines, to sort fields by decreasing bit
-position as in the rest of the file.
+I think we also need to provide the same guarantees as
+`CoherentAllocation::as_slice_mut`:=20
 
->  
->  #define PPICLCR				0x710
-> -#define PPICLCR_TXREQHS			(1 << 8)
-> -#define PPICLCR_TXULPSEXT		(1 << 1)
-> -#define PPICLCR_TXULPSCLK		(1 << 0)
-> +#define PPICLCR_TXREQHS			BIT(8)
-> +#define PPICLCR_TXULPSEXT		BIT(1)
-> +#define PPICLCR_TXULPSCLK		BIT(0)
->  
->  #define PPICLSR				0x720
-> -#define PPICLSR_HSTOLP			(1 << 27)
-> -#define PPICLSR_TOHS			(1 << 26)
-> -#define PPICLSR_STPST			(1 << 0)
-> +#define PPICLSR_HSTOLP			BIT(27)
-> +#define PPICLSR_TOHS			BIT(26)
-> +#define PPICLSR_STPST			BIT(0)
->  
->  #define PPICLSCR			0x724
-> -#define PPICLSCR_HSTOLP			(1 << 27)
-> -#define PPICLSCR_TOHS			(1 << 26)
-> +#define PPICLSCR_HSTOLP			BIT(27)
-> +#define PPICLSCR_TOHS			BIT(26)
->  
->  #define PPIDL0SR			0x740
-> -#define PPIDL0SR_DIR			(1 << 10)
-> -#define PPIDL0SR_STPST			(1 << 6)
-> +#define PPIDL0SR_DIR			BIT(10)
-> +#define PPIDL0SR_STPST			BIT(6)
->  
->  #define PPIDLSR				0x760
-> -#define PPIDLSR_STPST			(0xf << 0)
-> +#define PPIDLSR_STPST			GENMASK(3, 0)
->  
->  /*
->   * Clocks registers
->   */
->  #define LPCLKSET			0x1000
-> -#define LPCLKSET_CKEN			(1 << 8)
-> +#define LPCLKSET_CKEN			BIT(8)
->  #define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
->  
->  #define CFGCLKSET			0x1004
-> -#define CFGCLKSET_CKEN			(1 << 8)
-> +#define CFGCLKSET_CKEN			BIT(8)
->  #define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
->  
->  #define DOTCLKDIV			0x1008
-> -#define DOTCLKDIV_CKEN			(1 << 8)
-> +#define DOTCLKDIV_CKEN			BIT(8)
->  #define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
->  
->  #define VCLKSET				0x100c
-> -#define VCLKSET_CKEN			(1 << 16)
-> -#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
-> +#define VCLKSET_CKEN			BIT(16)
-> +#define VCLKSET_COLOR_YCC		BIT(8) /* 0:RGB 1:YCbCr */
->  #define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
->  #define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
-> -#define VCLKSET_BPP_MASK		(3 << 2)
-> +#define VCLKSET_BPP_MASK		GENMASK(3, 2)
->  #define VCLKSET_BPP_16			0
->  #define VCLKSET_BPP_18			1
->  #define VCLKSET_BPP_18L			2
-> @@ -250,24 +250,24 @@
->  #define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
->  
->  #define VCLKEN				0x1010
-> -#define VCLKEN_CKEN			(1 << 0)
-> +#define VCLKEN_CKEN			BIT(0)
->  
->  #define PHYSETUP			0x1014
->  #define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
-> -#define PHYSETUP_HSFREQRANGE_MASK	(0x7f << 16)
-> +#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
->  #define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
-> -#define PHYSETUP_SHUTDOWNZ		(1 << 1)
-> -#define PHYSETUP_RSTZ			(1 << 0)
-> +#define PHYSETUP_SHUTDOWNZ		BIT(1)
-> +#define PHYSETUP_RSTZ			BIT(0)
->  
->  #define CLOCKSET1			0x101c
-> -#define CLOCKSET1_LOCK_PHY		(1 << 17)
-> -#define CLOCKSET1_CLKSEL		(1 << 8)
-> -#define CLOCKSET1_CLKINSEL_MASK		(3 << 2)
-> +#define CLOCKSET1_LOCK_PHY		BIT(17)
-> +#define CLOCKSET1_CLKSEL		BIT(8)
+* Callers must ensure that the device does not read/write to/from memory
+  while the returned slice is live.
+* Callers must ensure that this call does not race with a read or write
+  to the same region while the returned slice is live.
 
-This is a two bits field.
+Unfortunately I don't think these are covered by this function alone -
+it could perfectly be called on an allocation that is currently in use
+by the hardware. So technically `create_pte_arrays` in its present form
+should be unsafe, but that also would be overkill here since it is a
+local function and we control the conditions into which it is called.
 
-> +#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
->  #define CLOCKSET1_CLKINSEL_EXTAL	0
->  #define CLOCKSET1_CLKINSEL_DIG		1
->  #define CLOCKSET1_CLKINSEL_DU		2
-> -#define CLOCKSET1_SHADOW_CLEAR		(1 << 1)
-> -#define CLOCKSET1_UPDATEPLL		(1 << 0)
-> +#define CLOCKSET1_SHADOW_CLEAR		BIT(1)
-> +#define CLOCKSET1_UPDATEPLL		BIT(0)
->  
->  #define CLOCKSET2			0x1020
->  #define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
-> @@ -281,15 +281,15 @@
->  #define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
->  
->  #define PHTW				0x1034
-> -#define PHTW_DWEN			(1 << 24)
-> +#define PHTW_DWEN			BIT(24)
->  #define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
-> -#define PHTW_CWEN			(1 << 8)
-> +#define PHTW_CWEN			BIT(8)
->  #define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
->  
->  #define PHTR				0x1038
-> -#define PHTR_TEST			(1 << 16)
-> +#define PHTR_TEST			BIT(16)
+This PTE business, where we are taking any coherent allocation and
+reinterpreting its bytes to create a page table, does not look very
+clean to me anyway, so maybe we can solve this with a redesign. I'd
+rather have that part of the object explicitly laid out, as it is for
+`GspMem` later in this series (albeit with `u8` instead of `u64`):
 
-And this is a 8 bits field.
+    struct GspMem {
+        ptes: [u8; GSP_PAGE_SIZE],
+        ...
 
->  
->  #define PHTC				0x103c
-> -#define PHTC_TESTCLR			(1 << 0)
-> +#define PHTC_TESTCLR			BIT(0)
->  
->  #endif /* __RCAR_MIPI_DSI_REGS_H__ */
+What would work best here IMHO would be to have a dedicated type for the
+array of PTEs, which is placed at the beginning of each object
+requesting one. Then we could have an init generic method for it that
+takes a reference to any object and `dma_write!`s its entries, avoiding
+the slice and having a guarantee that we have exclusive access to the
+object since we just created it one line above. I need to think a bit
+more about this but this should be a solid basis.
 
--- 
-Regards,
+As it happens, loginit, logintr and logrm all have the same size, so we
+should be able to declare a new type for these 3.
 
-Laurent Pinchart
+> +
+> +    for (i, pte) in ptes.iter_mut().enumerate() {
+> +        *pte =3D handle + ((i as u64) << GSP_PAGE_SHIFT);
+> +    }
+> +}
+> +
+> +/// Creates a new `CoherentAllocation<A>` with `name` of `size` elements=
+, and
+> +/// register it into the `libos` object at argument position `libos_arg_=
+nr`.
+> +fn create_coherent_dma_object<A: AsBytes + FromBytes>(
+> +    dev: &device::Device<device::Bound>,
+> +    name: &'static str,
+> +    size: usize,
+> +    libos: &mut CoherentAllocation<LibosMemoryRegionInitArgument>,
+> +    libos_arg_nr: usize,
+> +) -> Result<CoherentAllocation<A>> {
+> +    let obj =3D CoherentAllocation::<A>::alloc_coherent(dev, size, GFP_K=
+ERNEL | __GFP_ZERO)?;
+> +
+> +    dma_write!(libos[libos_arg_nr] =3D LibosMemoryRegionInitArgument::ne=
+w(name, &obj))?;
+
+Once we have a dedicated type for DMA objects with PTEs, I suggest to
+move this `dma_write` outside of this function. It doesn't bring any
+value to have it here, and that way we can remove
+`create_coherent_dma_object` altogether. Let me clarify below.
+
+> +
+> +    Ok(obj)
+> +}
+> =20
+>  impl Gsp {
+> -    pub(crate) fn new() -> impl PinInit<Self> {
+> -        pin_init!(Self {})
+> +    pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl =
+PinInit<Self, Error>> {
+> +        let dev =3D pdev.as_ref();
+> +        let mut libos =3D CoherentAllocation::<LibosMemoryRegionInitArgu=
+ment>::alloc_coherent(
+> +            dev,
+> +            GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>(),
+> +            GFP_KERNEL | __GFP_ZERO,
+> +        )?;
+> +        let mut loginit =3D create_coherent_dma_object::<u8>(dev, "LOGIN=
+IT", 0x10000, &mut libos, 0)?;
+> +        create_pte_array(&mut loginit);
+> +        let mut logintr =3D create_coherent_dma_object::<u8>(dev, "LOGIN=
+TR", 0x10000, &mut libos, 1)?;
+> +        create_pte_array(&mut logintr);
+> +        let mut logrm =3D create_coherent_dma_object::<u8>(dev, "LOGRM",=
+ 0x10000, &mut libos, 2)?;
+> +        create_pte_array(&mut logrm);
+
+So with the proper PTE-prefixed type, this code would become:
+
+    let loginit =3D PteDmaObject::new(dev)?;
+    let logintr =3D PteDmaObject::new(dev)?;
+    let logrm =3D PteDmaObject::new(dev)?;
+
+    dma_write!(libos[0] =3D LibosMemoryRegionInitArgument::new("LOGINIT", &=
+loginit))?;
+    dma_write!(libos[1] =3D LibosMemoryRegionInitArgument::new("LOGINTR", &=
+logintr))?;
+    dma_write!(libos[2] =3D LibosMemoryRegionInitArgument::new("LOGRM", &lo=
+grm))?;
+
+Note how loginit and friends now don't need to be mutable anymore.
+
+It's getting late here so let me continue the review tomorrow. :)
