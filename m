@@ -2,51 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C19B96022
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 15:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89342B9602B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 15:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0D710E182;
-	Tue, 23 Sep 2025 13:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC0510E610;
+	Tue, 23 Sep 2025 13:29:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hDcYRamG";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="flRW5P8I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49AD510E182
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 13:26:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 93226346;
- Tue, 23 Sep 2025 15:25:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1758633925;
- bh=hgUEqnkw5EjDs7V414pyGoHX4/BPaE5zj68fHVMXxGc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hDcYRamGEiPlbcyAO9bsJk7t0z4s6x75k8tf8LaHIGNWFKMtCN65VKK55OxVvdN6q
- QYN7E1zcUWVaud8Jkp7y8uHg71CVCCFmcLZv68L09NiT9eg7AZJxEzwd1wRe1slKpk
- 5BiLnVUkqieS4TiLfrxorY78NV/C1pHvaWVG338k=
-Date: Tue, 23 Sep 2025 16:26:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH 7/9] drm/rcar-du: dsi: Clean up handling of DRM mode flags
-Message-ID: <20250923132616.GH20765@pendragon.ideasonboard.com>
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
- <20250922185740.153759-8-marek.vasut+renesas@mailbox.org>
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012070.outbound.protection.outlook.com [52.101.43.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5D410E60F;
+ Tue, 23 Sep 2025 13:29:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dq3xUt9ntkPxTFRQQT6Ttq6/xDVe5jZb2JsPbaUPi+ZPu5DookBVK8saUWzt4w99jsBXL5L50LTMlxo0rOjJ/nN0aBSvqs4/uhw/xzMaS7JKZPvUxu+1erOokPGKYfgHv+pEIA9EVP1txignW6cqWImzcnXeMqZ39rUUQ5i2gIALIdmc+wms+vabVadxTDdOU8k2SJTgUkPt7z60TI87DWRHULl5DC6RkLXE7klUtDVIxsYv4Gzrg+PGntxjFTliuwwYio+82GIHu8qgjgBLLa/TZqvEJfN9cJBCTuKZ9I4KGbuGSFeTD1PZyBUPPnXIEFuDEyhn/rBV+Ehuj2rZ+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+LUybMtmP2hhxSfIFWvgsGfL4/MHXM5EsMukoQ7uvbo=;
+ b=xb/zosXPag2QQQUhumE4FPQJ9qoIC638LoXxgj+kXBsrEV1wCpZPsNAPxGr1qvhCO+IgWO02obL9KK01a9BiEXvMrY4qtSvqsHNeAr27I3Baq3r0/gN8FIXqJNOG7FQ9ajUZZfXTlyAhg6Ov/WXdFZubmx4yWOjao4bgT2r4senA/FLGgSAbWhX77YjApUnEZSaMkZErq+MQORBisap10GvBIb925rZrSrjElzPzFgO65MkRWZib8gS3ktdSxUAYBFiGCsxx63VeCX6/uTLfmxCV5PJKJcbJ5QOOnF2qUXKsN9tcHmginsHt3kcQapsUgNGNwVRe6/KfSVdvXHrB6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+LUybMtmP2hhxSfIFWvgsGfL4/MHXM5EsMukoQ7uvbo=;
+ b=flRW5P8IbEvaTknmpbPJnqBcUughV8nCXL6uODLrYEZ+Z70Sc8gYgYQA3XRgonKI0HM9olsGLy5+fHx3+IUzNWW5QbWJ9VD0yFe45TOi1tsqkWaR1Od9nBpmeEsBtuV6/4K/W63y4ggcAfzadFkPRQjZFnjIufMGGKjuchc6VBI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB7764.namprd12.prod.outlook.com (2603:10b6:610:14e::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
+ 2025 13:29:00 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 13:28:59 +0000
+Message-ID: <8da25244-be1e-4d88-86bc-5a6f377bdbc1@amd.com>
+Date: Tue, 23 Sep 2025 15:28:53 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+ functions of Intel GPUs
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+References: <20250919122931.GR1391379@nvidia.com>
+ <IA0PR11MB718504F59BFA080EC0963E94F812A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
+ <20250922122018.GU1391379@nvidia.com>
+ <IA0PR11MB718580B723FA2BEDCFAB71E9F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
+ <aNJB1r51eC2v2rXh@lstrano-desk.jf.intel.com>
+ <80d2d0d1-db44-4f0a-8481-c81058d47196@amd.com>
+ <20250923121528.GH1391379@nvidia.com>
+ <522d3d83-78b5-4682-bb02-d2ae2468d30a@amd.com>
+ <20250923131247.GK1391379@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250923131247.GK1391379@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0349.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fc::24) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250922185740.153759-8-marek.vasut+renesas@mailbox.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7764:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28d79140-1fce-41ca-440b-08ddfaa5276d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VktCMnM2VUsxLzhYakMwK2MxUGt6QW1mVGRCb1plMmJudFJiNmNMYVQwdEdZ?=
+ =?utf-8?B?MVViMStjUnBwejlwK3l6ajBJMVJtNmFFdGROWHFjb1RxQWd4NGVmMGIzYkNw?=
+ =?utf-8?B?RzcwSFhOaG56Znc0bjA4cFlnYjVMdk1YMXBSOTVobkVVcE1aekNpTXg0UHBl?=
+ =?utf-8?B?cFVnNFpuMC9NNHNFMXo4aVh6RCtWNCs0UGs0MTNHTWMwcnVjcXB3UW5VOU5m?=
+ =?utf-8?B?UWNkZy9WOW1uSlA3UTZmOXd1MkdkM0llM2tBYm5rZDZZUFlsR21GN0tBYzZr?=
+ =?utf-8?B?M1pFTDhpVmcrNnBoTWhSMGNrdzlSVXN3ZDZ4NFZrcXcyV3o0WXQvSExjUHlG?=
+ =?utf-8?B?MkU0UUgvbkJJOCtVRjBvaXhEQjJOM3Z2QUhHZWxNWTl0WThNTy9rekhYMVNy?=
+ =?utf-8?B?TnlNYkV3Q0RBck4wcWNNa1lvbldoaVVkd3VXRFNCZmRkN004a2lvUlFlOCsz?=
+ =?utf-8?B?clJUTVdJM1J2OEl6T2ZxQnFHSVVaSi9YRWg2VkMvKzZPRG5xV1pMaFR3ajdw?=
+ =?utf-8?B?UTBGeXZ0MUcvNTdreGYyUlh5UmxIT0kwRmw3c2lYU1ROVWtzNERoM2FxTWNs?=
+ =?utf-8?B?WGNMUHYrK1lEWlJoVXlCTnVHZXZ4T201cXR4MWlua1N4L3ZLREo1cS9QdzFL?=
+ =?utf-8?B?K21RVU44QlozcmY4a0tUd2lNNllZWG5GdGhYZytndzZLelFieXZkRjdMaGNC?=
+ =?utf-8?B?dUcxQUZkNEMvM2lCTnlRRXJORUFiSkJPTHNNSnlTYnFGb05ZZlVRZ0c4bHhx?=
+ =?utf-8?B?c0FOMlRzSENuTGtNK0VwL3VQa0ZCQzQyZGxscWpSLzkzVHFENFpWMnpzTnlZ?=
+ =?utf-8?B?eGx5NnBJQ21zdGk1djdKTHNEOXlOTUExek00NmZaS01ZMGd0NFFld3g1VmVO?=
+ =?utf-8?B?Vk9pN2piT3NhRytHajNWd1RpSzJnMHN5VWxheEdNNVVZODgwNjVnMSs3NXYz?=
+ =?utf-8?B?RDVvVm5XSGQ4b09QNkZRME85eHNyWDh5LzhyWWsrdWM4VWs2RmsyMFZsWUxu?=
+ =?utf-8?B?Nng1bGE2dkMrOEtrMXVOSjdvOHpxMjBSZkhKUUFpZi8yR3pKR0lHTGNmaTl1?=
+ =?utf-8?B?ckFoNkJpeWlzQkFpOGRUZEZkbWU3MGcxTGRUdEJzclVWZ0lBbnZjV2M2SUln?=
+ =?utf-8?B?ampwWlBLdHlIaERCWG13WEw4V3pqRjA5aG9SdjAwcHFDVktMZUxpVWQ0Lys4?=
+ =?utf-8?B?WTc2M21RK0E1eUxmMm9rRE5ZdFVZOUNjT2dBaU1TT0N0VUF4bU5mbTF0U1BE?=
+ =?utf-8?B?U3VpelFHdFl5N1pGc1pqNGZFTXJVYjAxZjBRVnp5QVEvRU9tLzJJd2h5SW1N?=
+ =?utf-8?B?aStrU01YUStsb0Vtbmx2cXhJMW84QWhSdEJTWmlLNFBxb3VWV0pyODFwZWt1?=
+ =?utf-8?B?MnI3VGlubURuWm0yY0N2MXdSVlJjREZUS1dBWGtqbzEwbHFWbVlSRTVFNmxj?=
+ =?utf-8?B?YisrdE1COHBXWTY5WnVyTkZSb1dtZVZBcnhvVnExWHpGUHlYbDdtK0crK05B?=
+ =?utf-8?B?YVd2ZUZMVVI5R0J2YVZ3MkMrMHZ1eDJjUWVQV0NsQ2VrRWlUSlVyc1U0bDRU?=
+ =?utf-8?B?SGYxTzVoeEloaXBodmdZakdiTTlMVXM0dDlabzU0VUdWaTlHU1lRNWcySFFH?=
+ =?utf-8?B?VmpGaFo2ZUg0dVMvNHVQWUtjMGNxbG95ZUtaWWZQWG00ekV2dU1MUkFWcXBl?=
+ =?utf-8?B?NDlJMHhTWlROU0pUbGx0MU1vQ2h0dml0cjZzOTdoN1N5Z1NLQy9MUCtqTTA3?=
+ =?utf-8?B?WktOWC9WQWNXY09HQTM1aW52cEpNQUdPMm5YLzBSbm56ay9vYVU4QURTVXox?=
+ =?utf-8?B?SU1BR1dXNGpEZ2EwcDRIVXgwajhzL2hmTzlIajR2NXF4Mld2bkNsL0hSL1pJ?=
+ =?utf-8?B?eUZ4Z2psOXNITmVKQXB2V3VaZkErcGQ0alUzc2VkNUYxOFluZ1VRWFZTemRM?=
+ =?utf-8?Q?6Eb6rS45pak=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2swRWFQbXE4UFJlR295RWVkSFJ1MmczR3FIc1ZpaDVCMm1rQUpEZFpyY0hl?=
+ =?utf-8?B?MVI3MFpxck9reE1GVXNTRzNTSWVqUWd6dXRFN3FjR05ST1B6c3NjUDdGY0FQ?=
+ =?utf-8?B?SUtCelljcW1ENVQ5bTBTQSsyYkxESlJuSE4vdjlhOFh5YVdDa3kzRmZzNmhW?=
+ =?utf-8?B?SUlmc1RVYXlqUFVOL3hNSG9TbTZxOGg5OEd1SUlwSDFIVmtsMWZic3M4V3lO?=
+ =?utf-8?B?VTZRV1NCdi9lZ29kUzRBMHVSZlZyRTF3L0w1SWNkUmtQZmZFWFZRekNJeUhZ?=
+ =?utf-8?B?YndPQzRrS1FRcjQ1bWFyQ2NiTU9STVVyYVVCSkdFUk5Ba1FaWEl4MEplQ2Fs?=
+ =?utf-8?B?RVMwRXpkTFBLZXdManZBNmx2WG5RTE15ZXZQK3VaTEZQcVZSeWJtaVpkKzk1?=
+ =?utf-8?B?Tjc2WTVHUjJWaXB6Y3BTdjZDWC9sVWJCbURMb2M1LzlNTnV6VHZRVzB0TlFH?=
+ =?utf-8?B?UEZkeUpYQTgrY2RSL2M3cnhBeCtSNXVsMGo1c1pYb2JnMm9WU2N3SlFQYjRy?=
+ =?utf-8?B?enNxOGV1czBMa1cwcm5zM0x5MTBDVTRwbk9TZWkvdnBOZjU1b3Y2anB4bW9i?=
+ =?utf-8?B?OWtHVFZnbnF6UVlmbEpjTFc1MThBRUN1S0d0bEJDUEV2anJ4OCtEWTZqQlNG?=
+ =?utf-8?B?MkxJWG83eEZPVWVEWEZrMVRTdFJFTEdmTnVkUUtnOUR0UUhlQnJmZ0YrU3ZZ?=
+ =?utf-8?B?Y0UvTHVkSXg4NmRKTU1OZW9pKytYQktOVHN2SGxvUE5rQnNHMi9pVU9Pcjhp?=
+ =?utf-8?B?elFmYkI5ajluMXU0NkxpYUVKMTl1Zkxna3JnRXR5VkZ1UVl4Y0ZsazNXSkV2?=
+ =?utf-8?B?NHZDU2tRdTBZb2FlUTJvMkdRTnpob0V0VHZ3OWxnME1VRHFLcmNhNm40ZHc4?=
+ =?utf-8?B?YWRWdkdpQjFxcWwxUHoyQ1lGMHJrNTA5RUxrNisreTdldk5hckt0RDJoZjA3?=
+ =?utf-8?B?YnowSCt3ZGV3NEJwYmluNk9YNlhyQUNJZ3JDQkUyMHp2VXpoTVRQbHZiUVlj?=
+ =?utf-8?B?WkNrckhqWkxsUk9RZVBMRlNuR0kwTFFuSS95ME5wSUNqeUkzQ3QvQWxXZ1Zq?=
+ =?utf-8?B?d28vTjg3VkJyTUhmcUUvZEM1U1A5ZDN0N2tNRXozWUpsVWlDNkd1aWh6dkFl?=
+ =?utf-8?B?RkdIZ3I3MzFOd09IZlhtc2hmdHh2Sld4aTdXbGhPSTQvK1RoamQ4cHhHcDV1?=
+ =?utf-8?B?cm5MN2dNRFFjdEplNzVBODJhOFBCOVQ2eXhKTU9KZ0J5NnFYanNwZFlQRTls?=
+ =?utf-8?B?MXhFS2JudWg4SCsxVzJIRUlscnVJWTRTOTl2RDVDakU2S2ZBYWlqSkJQekpJ?=
+ =?utf-8?B?eTlzZy9nbnVHOHJreHdxL2NRWU9DY1FXNk5aalQyWFV5SGZOQkYyd1RPR0xw?=
+ =?utf-8?B?U2I2cXBJbFlBdzJ0UFA0MXdtd2ltbm5tdHh4ejFGa1VnUUNKYXorWkhwTklr?=
+ =?utf-8?B?eVhJQ1RMNW1aNUxBeElFMThPYnBtRGs2bHlVUG5vaDY0TlQvanlWNTJyamYz?=
+ =?utf-8?B?RDI4UXk4UjFsTnJ1cXV5NTFIM3lTNnV1UUMvVEdJMFkwd242NnJSQ3AzRjZI?=
+ =?utf-8?B?RzRZZWsyU0pEUFcyMnhjalJVV3NqdVRPMFpLWnYweG1qV1dwQVhmd2gvTHFP?=
+ =?utf-8?B?aGJTa09UNFdleXZCU1c5Um1Jb2ZkTDVhZU1QcS9iM04zYkdwb2QwV0tLN0pJ?=
+ =?utf-8?B?NUd3WG94TmgxdGZmSVdRUzJZZk45dnowRVh3d2RuZlYwNzVBcjlVbGlaZ3hH?=
+ =?utf-8?B?dWJuWWpWbzM2RStZcER3VjhrcHd5U1VuQTcvYWFINnZXa0ZiQ0FCOGxTZFBt?=
+ =?utf-8?B?K0ZwM2xhbnBxUy8vUDdzWlg0NHdlV2ZMLzYzc29uN1ZXbEhyaktEVXQ3ejRq?=
+ =?utf-8?B?WWlyVXQvMDNpVCsrUE8ySHMzWDJ5RXJzaUpOTG5HVlRXNHJpZGtEMmxoQ0xL?=
+ =?utf-8?B?UHhMbmhZYmNoNzFESkhTVElJTFliL00xNFhBY1B4U0QvazNtYXpIVzU3cXJq?=
+ =?utf-8?B?OW52Z01YUmJReXRkSFJSMnFIV1hZSGdXaGFob3M4QmZzWXR5SnpaMGdoV1Zz?=
+ =?utf-8?B?TFR6VjFZVzF1bHZQdkxZNmhLK3UwclRpdGMvRWgzdVJIM0hDeHJWc2E4SkZS?=
+ =?utf-8?Q?BmdGsJO4/xBrTsBMiw59lMWsp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28d79140-1fce-41ca-440b-08ddfaa5276d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 13:28:59.6025 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /kBA6l5BTJL1Loe6Pd7AZwOe2n7ThbUy1IAh1lxnCf9GOdAM13QmRCmblHubeGIP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7764
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,114 +179,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-On Mon, Sep 22, 2025 at 08:55:03PM +0200, Marek Vasut wrote:
-> Introduce TXVMVPRMSET0R_BPP_MASK macro and use FIELD_PREP() to generate
-> appropriate bitfield from mask and value without bitshift, assign this
-> value into vprmset0r. Remove TXVMVPRMSET0R_CSPC_RGB which is never used,
-> replace it with code comment next to TXVMVPRMSET0R_CSPC_YCbCr.
+On 23.09.25 15:12, Jason Gunthorpe wrote:
+>> When you want to communicate addresses in a device specific address
+>> space you need a device specific type for that and not abuse
+>> phys_addr_t.
 > 
-> Replace (mode->flags & DRM_MODE_FLAG_P.SYNC) test with inverted conditional
-> (mode->flags & DRM_MODE_FLAG_N.SYNC) and bitwise orr vprmset0r with either
-
-I wonder if the DRM_MODE_FLAG_P[HV]SYNC flags are always the exact
-opposite of DRM_MODE_FLAG_N[HV]SYNC. It's probably fine to assume that
-here. A quick grep showed one panel driver setting both the N and P
-flags (drivers/gpu/drm/panel/panel-sitronix-st7789v.c, see
-t28cp45tn89_mode, which I assume is a bug - Sebastian, could you check
-that ?).
-
-> or both TXVMVPRMSET0R_HSPOL_LOW and TXVMVPRMSET0R_VSPOL_LOW if conditional
-> matches.
+> I'm not talking about abusing phys_addr_t, I'm talking about putting a
+> legitimate CPU address in there.
 > 
-> Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
-> consisten with the current style. Conversion to BIT() and GENMASK()
-> macros is done at the very end of this series in the last two patches.
+> You can argue it is hack in Xe to reverse engineer the VRAM offset
+> from a CPU physical, and I would be sympathetic, but it does allow
+> VFIO to be general not specialized to Xe.
+
+No, exactly that doesn't work for all use cases. That's why I'm pushing back so hard on using phys_addr_t or CPU addresses.
+
+See the CPU address is only valid temporary because the VF BAR is only a window into the device memory.
+
+This window is open as long as the CPU is using it, but as soon as that is not the case any more that window might close creating tons of lifetime issues.
+
+>> The real question is where does the VFIO gets the necessary
+>> information which parts of the BAR to expose?
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> NOTE: No functional change expected, this is a preparatory patch which
-> partly removes macros which evaluate to zeroes from rcar_mipi_dsi_regs.h .
-> The other patches in this series proceed with that job, piece by piece,
-> to make it all reviewable.
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c  | 12 ++++++------
->  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 16 +++++++---------
->  2 files changed, 13 insertions(+), 15 deletions(-)
+> It needs a varaint driver that understands to reach into the PF parent
+> and extract this information.
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 36bd9de61ce05..f91cc35423758 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -489,12 +489,12 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
+> There is a healthy amount of annoyance to building something like this.
 >  
->  	rcar_mipi_dsi_write(dsi, TXVMSETR, setr);
->  
-> -	/* Configuration for Video Parameters */
-> -	vprmset0r = (mode->flags & DRM_MODE_FLAG_PVSYNC ?
-> -		     TXVMVPRMSET0R_VSPOL_HIG : TXVMVPRMSET0R_VSPOL_LOW)
-> -		  | (mode->flags & DRM_MODE_FLAG_PHSYNC ?
-> -		     TXVMVPRMSET0R_HSPOL_HIG : TXVMVPRMSET0R_HSPOL_LOW)
-> -		  | TXVMVPRMSET0R_CSPC_RGB | TXVMVPRMSET0R_BPP_24;
-> +	/* Configuration for Video Parameters, input is always RGB888 */
-> +	vprmset0r = FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, TXVMVPRMSET0R_BPP_24);
-> +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-> +		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
-> +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-> +		vprmset0r |= TXVMVPRMSET0R_HSPOL_LOW;
+>>> From this thread I think if VFIO had the negotiated option to export a
+>>> CPU phys_addr_t then the Xe PF driver can reliably convert that to a
+>>> VRAM offset.
+>>>
+>>> We need to add a CPU phys_addr_t option for VFIO to iommufd and KVM
+>>> anyhow, those cases can't use dma_addr_t.
+>>
+>> Clear NAK to using CPU phys_addr_t. This is just a horrible idea.
+> 
+> We already talked about this, Simona agreed, we need to get
+> phys_addr_t optionally out of VFIO's dmabuf for a few importers. We
+> cannot use dma_addr_t.
 
-Looks good.
+Not saying that we should use dma_addr_t, but using phys_addr_t is as equally broken and I will certainly NAK any approach using this as general interface between drivers.
 
->  
->  	vprmset1r = TXVMVPRMSET1R_VACTIVE(mode->vdisplay)
->  		  | TXVMVPRMSET1R_VSA(mode->vsync_end - mode->vsync_start);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index 99a88ea35aacd..48c3b679b2663 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -170,15 +170,13 @@
->  #define TXVMPSPHSETR_DT_YCBCR16		0x2c
->  
->  #define TXVMVPRMSET0R			0x1d0
-> -#define TXVMVPRMSET0R_HSPOL_HIG		(0 << 17)
-> -#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17)
-> -#define TXVMVPRMSET0R_VSPOL_HIG		(0 << 16)
-> -#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16)
-> -#define TXVMVPRMSET0R_CSPC_RGB		(0 << 4)
-> -#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4)
-> -#define TXVMVPRMSET0R_BPP_16		(0 << 0)
-> -#define TXVMVPRMSET0R_BPP_18		(1 << 0)
-> -#define TXVMVPRMSET0R_BPP_24		(2 << 0)
-> +#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17) /* 0:High 1:Low */
-> +#define TXVMVPRMSET0R_VSPOL_LOW		(1 << 16) /* 0:High 1:Low */
-> +#define TXVMVPRMSET0R_CSPC_YCbCr	(1 << 4) /* 0:RGB 1:YCbCr */
-> +#define TXVMVPRMSET0R_BPP_MASK		(7 << 0)
-> +#define TXVMVPRMSET0R_BPP_16		0
-> +#define TXVMVPRMSET0R_BPP_18		1
-> +#define TXVMVPRMSET0R_BPP_24		2
+What Simona agreed on is exactly what I proposed as well, that you get a private interface for exactly that use case.
 
-Same comment as in previous patches regarding usage of FIELD_PREP().
-The rest looks fine.
-
->  
->  #define TXVMVPRMSET1R			0x1d4
->  #define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
-
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+> 
+> Jason
+
