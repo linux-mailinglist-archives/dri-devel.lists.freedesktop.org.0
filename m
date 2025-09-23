@@ -2,168 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61E7B95DD5
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 14:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0840B95EBC
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 15:01:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA7DD10E11E;
-	Tue, 23 Sep 2025 12:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5318010E11F;
+	Tue, 23 Sep 2025 13:01:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="t8YtKf2j";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="DFc8y+2Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010013.outbound.protection.outlook.com [52.101.46.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 864F110E011;
- Tue, 23 Sep 2025 12:45:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j0CZTvVDrMxG8geC+/nL5TTx17/PeeAOblchtE6KPUhJ34xkyRFlyZl3VNp2F7qvmd2q2D/q0NIKg7KXJn1uR8YLpYJhrXniQZ247hMqTvW739UlcVMh3sBKtHsDej1NsWCilw97S4UZSid9iitzhjKSYTv6TeisNf/zFVtXPb0a2sfmpprcIXgIxFsSBNjEkaRWUgczf5n9EAZjPMyC8rNX6pJnAsmPZ2ZBjqEhM3aXyv2Y4VSsjrsVNkcQxvlTTFW54jBnx3/4F18J7CQlW9AmTKG53Dm3cKCGw0Mzvy6eh40bup768Iw5TCu43wq2QEQa5sAUfqC9SAlW33bLCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=loJ8eFnru7Z+p0gz9mVJYD9OonC5X86F0Tu1HqFr+EU=;
- b=xO4+uE7dJEhx8a7kwie9ur/JuDCD5BP23P0CqgLCPS8tGMqKy1Axb9FLf0pN6jJ6f04Ig7LhkpU9u9khqHbSfuOGGoRdMByFlwS5tD7Z3mubtg7AgOIiXHpcCZk0RmVxflBSn5DfyJdNnET8gEmzvc00it5557H6MqHwjBmAjC3589dmxkynLthhRdDrNESpYqkwUOacNrJOp/fM1KVnj35T9sClBqtWJ7rnpTBUHFGJDRpgaSLSAmrQ1oXxi1ZIU+8rmmKY/IPUdrh2zRLJ1qOG3ot6tmrgnkcJuyGLcXAif0vg4J4IvzvdlEQ0uhZuJxg3nZMuM2EDQQ+K1gl0oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=loJ8eFnru7Z+p0gz9mVJYD9OonC5X86F0Tu1HqFr+EU=;
- b=t8YtKf2jI9mv6jRbjiJmmlzljf6/peiIpqWqApmpDUAB7lT4f1ddOXa6oohI+F0+AnCXCxtFiYZHrCjiZCfLxk/DnaOcOdLF2Ieb0Da/3gjOsOLdzNhPv6jGCLJSGYHHlgTd35M/O+L1f57L+aHPphidwzu8SdAkrrSapul0EcY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB9079.namprd12.prod.outlook.com (2603:10b6:610:1a1::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Tue, 23 Sep
- 2025 12:45:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 12:45:16 +0000
-Message-ID: <522d3d83-78b5-4682-bb02-d2ae2468d30a@amd.com>
-Date: Tue, 23 Sep 2025 14:45:10 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
- functions of Intel GPUs
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-References: <20250918120431.GL1391379@nvidia.com>
- <IA0PR11MB7185C96268ADB5530B343ABBF811A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250919122931.GR1391379@nvidia.com>
- <IA0PR11MB718504F59BFA080EC0963E94F812A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
- <20250922122018.GU1391379@nvidia.com>
- <IA0PR11MB718580B723FA2BEDCFAB71E9F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
- <aNJB1r51eC2v2rXh@lstrano-desk.jf.intel.com>
- <80d2d0d1-db44-4f0a-8481-c81058d47196@amd.com>
- <20250923121528.GH1391379@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250923121528.GH1391379@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0053.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2e::22) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93B6589F35;
+ Tue, 23 Sep 2025 13:01:18 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cWKqH3FmSz9tLJ;
+ Tue, 23 Sep 2025 15:01:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1758632475; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dRDeMSap27+z/eNpDe7Tuc7bdUEnsZ4fotL1hWW8w4A=;
+ b=DFc8y+2YWgvO0lMY+yyCECIgG04gVdZhLqKqw0pU4dTGWHBtB3SSgpWsBgnZ7+tqivQyTV
+ V7KgB71ka0MSCHCLNF4wkspG+zDZ0L01+MPQlWAx8AFrEx+fDg9tWHzqZ3zDTkH/XC7vzt
+ j8ce6F1URU0pyBBeU+cb9Bad/rEczAIXUOJFT1BQoxd0cI+4mw40s+EF0v9RsC76bvfk+W
+ u8sp9e7oICG9vk/kquAKdfIXT/TAcNvh3sMNx1AsLi1PYaXdlio3cQ90UkZ7IMb7A2r58j
+ pJHr/OOIZgbx9zs0OdccwuI18cDN1SuetOX05sLENkF73OKmjKi1w4rLhOrwFg==
+Message-ID: <9bfd7f644ce9d94ece95970c326afab53b6a7ff8.camel@mailbox.org>
+Subject: Re: [RFC v8 01/12] drm/sched: Add some scheduling quality unit tests
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>
+Date: Tue, 23 Sep 2025 15:01:10 +0200
+In-Reply-To: <20250903101820.63032-2-tvrtko.ursulin@igalia.com>
+References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
+ <20250903101820.63032-2-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9079:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6d6dab3-ecfd-4122-82ce-08ddfa9f0b95
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RlNFVGJCWjFheDRnMVZtK0diS2p5TzRKbUxHVk5lcDRiSEFKellxLzV6eFNP?=
- =?utf-8?B?c29lN3pTUmtyZUw1bmx1U3lPSGl1WGJieUlReFUrQVJVN2xNSlFvOGlwS1M3?=
- =?utf-8?B?UFRMWGlpam4zTVR4REZHSTN1ektzdHI2cXZtcUkzTVhPalN3emRjQ1lOSy8x?=
- =?utf-8?B?T1QxT3BqcXpwb05PRWFMOVM5SkFyUVVjZzNtekQ4UEQ0a2Z1RVFTUlB6LzlQ?=
- =?utf-8?B?VURoMEVtdnZlK0Y0WnoxdEZPTWJiT0JabytnbXBTd3FwVS9LL2ZSdXduSjRu?=
- =?utf-8?B?QzRVeS95WS83aWlNSHlwRzFBNms5OS9ad0RxcnhJZ0p4NEkzZlljWEg3d3VD?=
- =?utf-8?B?RkdPRUEyTjFyNWVsWGsvZFllVUZDNDVnMG1udi9FSzVuWWQrMkxDWlVTUmk3?=
- =?utf-8?B?NjZBem5RNVZJamFLcjNTbHREblJyV2wvd0NuUlJYYUdWZTdzcDA2dzl4UG93?=
- =?utf-8?B?QWZiMldyT3RqelAybXd5WDFjTHZuNWZlTkhmdDNkcWNsOWc1ZVNXMzRQYUdv?=
- =?utf-8?B?MVU2RWFuYjZScVRQaDRPRlh1UlBONmN0ZHJYTkZ3bFMvcy9HSUdrUDk4Y1ds?=
- =?utf-8?B?VXl3aG5GSmZDYWFicEhDcFBsa3ZkNGNKNTNHb1N5Yms3QTFHanlFdXYrR1M0?=
- =?utf-8?B?ZFVyajduMnRsemZMa09XSEpHN3FrVVdTM1d1dkwrZzdNTG9zUWxkclpmU0dE?=
- =?utf-8?B?ek93N0NsVUVpSENSMUkrdm01dk1vVDlzNnFoZTJSRS9USDhsVEN0UkZWVTBO?=
- =?utf-8?B?bUNaeXE4T0ZpV1VPZ3Bmek4ya2I0M2NKNU5xVmszYWZOYWlNMXhCZEpCTzJJ?=
- =?utf-8?B?TXhUUlRBWDY0OWEycm9SVWNSc1lBVmMyKzlCSUhkN28xRDZzdDRaVlg1K2lT?=
- =?utf-8?B?R3BPNk5DTzJ1SzUzN0gxNWVkSUNLdDdaTWEvaXE1Y3RVdlBPMDZaenJhck9y?=
- =?utf-8?B?UTlsVHhiQVVqb0RNMHROQTFYR2lHckRPTzlLVlBFcEtFYWUxZXk4cTFwR2ZT?=
- =?utf-8?B?OG0vaWI4aEdQK3FsdGw2TlkxUmxiTytWMFgvd3lFaTA3T1NTQUh4dGhjWDdS?=
- =?utf-8?B?U1B5clVyUTZ1NVVHTzF0TW1YTm1uczJPRU5XYjRDRXE0dElyMkN0aUd5T0d4?=
- =?utf-8?B?cFpKb0pubGEwRTJPc0Q5VDU2U0t2eUtzS0NTZ0NQeVNCYXVUSDF0ZFVFYlIx?=
- =?utf-8?B?QSttaHhrRUowY1pnQUJkZ2IrSXcyKzlRODFiNHVXT1BwTERhMWYvdFpFY0hy?=
- =?utf-8?B?UExJbnMzQzJUc0RtTVVqY09UWThydVNHWHQ4bHFXZmgwdTY5bXJyT1VBVVRG?=
- =?utf-8?B?bm0vRG9RMmpTZ1ZjOUhzclBGMlhEWk9xRXM5M3ZYZ2xQbzNHYSswclc0TU5K?=
- =?utf-8?B?NjFmQm5VY3ZyYWhYQ1IyM1RwclZhUVR4cTl2QXRYZm5zcWN0Z1NrbGkwTFBj?=
- =?utf-8?B?UWlMSXltMXl2emFpZVBKZkJCOEpqZjYrMzZTRFNpZ24valp6RWlmbTFxdHBw?=
- =?utf-8?B?Nm1YNFdWUExnRm0yeHFhcUZFNEl1aEQ2a1U2RStVZjJFd3NmYkRyZUx5bjZV?=
- =?utf-8?B?dnFmU3BOM0h0MnZNbVZIVWJCcEVEL2VvTjBxR3RDZmdlY1JsUktQejFZOVpl?=
- =?utf-8?B?cHk1cm51Q29XTmt3M2RZQ0FCVnRNVHlCQ0lFM1RHYml2UGRrcFBvWGNndzNS?=
- =?utf-8?B?UGhrdmhMdUdVL2ZqMFM5QnpuaVZKRmVXYmswUnNveTBXTnJxRXRaMjVmd1gy?=
- =?utf-8?B?cnNjNFJvU1UxVXBOUDBlWi8wLzVZWG9nSlM5ZE5rcTlCTFJvUGQySHNCbnEv?=
- =?utf-8?B?bllQT3hIdXc0cUgxeTdqMC8rTEtnakdzdlRKSkhJUzVPcFdjOTdVTVNQUHRx?=
- =?utf-8?B?TWI1dzNZcW4wVnBuMFJjQmdvTnVyT3BucjlRMGViQ05HR3VLOUtSUDJWMVg5?=
- =?utf-8?Q?PXPP1n4Fwkw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akw4a2lBVGNoZjVnbnd1aFpTSWlFVkwvSk5nNUphRzYvMlRRQzVXbDg3ZnYx?=
- =?utf-8?B?eUxTeEFMVXhPQWpVNFVkSGt1ZWFRZEZoMTVJb3kzdnJra3g4Q21tY25tc3lZ?=
- =?utf-8?B?aUc4R2YwRFVPbWNRRGVmM1JWMVZlK1M4SThFcnVXaEt1dCsyRmk0Nng2c1px?=
- =?utf-8?B?RTV6YTFWdHNjZVhZZVdOWFhveTBjZzNHdjUxanFpZC8rVWNIems2TkxqYW9C?=
- =?utf-8?B?OVE5ejNzNkVaN1Z0blN5UFFsVlVLY1grVUx5ZkRSUEl5cng1OU10NjlPTjBa?=
- =?utf-8?B?b2dlVmFManNZYnN1bXpwYXp0SUtuM3lBMXFLeTY4OCtCOGtJeUYySXhzVmFI?=
- =?utf-8?B?SXFQQWZMNDJnYkVZay9YYlhMVHVEVHVmYUVYSzVySmlPRXFyYWtHa0E4ZXov?=
- =?utf-8?B?clgzaWNFTUplSWp5b09SODR0Njd2V0hMc1V2cldzb204RjRrNE4xOGVEMG84?=
- =?utf-8?B?dEw2REZjVW9qeTFVZmdOQVZabllmZG1nUlRJTFlzWTU3MmJjQ1FRdTZTQWpP?=
- =?utf-8?B?SU4zV2VXd2FucVRlRE9sNlQ0ZElDN3Z1SG5qQ1F3aHRwa3RJd0gzbDNTWnJK?=
- =?utf-8?B?aGEvVWVzclJwdlIvd05NVE9kdWdxTzY5S1l5N1lPMTVJby9lb1hCK2RkS1R2?=
- =?utf-8?B?UDRvZkxwRFFZZWtuWmtKUHNibmpEaUVKbmNvUFJabFR5aDRpREIvdjdpQ1VK?=
- =?utf-8?B?MHg2MGcxZ3YzL0NIN2tyVEtTOVpQWnhaZWUyb0RzdHpjSXJ4aHF5Z2lpa0Mv?=
- =?utf-8?B?MDZhVVBHUlliWWdielBncXBDWU5mamNlbFNTWlgrYi9wYWE2bmk0dHJJM29D?=
- =?utf-8?B?Zk01aFg5NFdYZ0xZSkg0ZE1VcnVhVnNaL1JEWUorY0tKRlhDODBXWGdrOG9j?=
- =?utf-8?B?RFpjaXZkZ2Q4amZIYzBZOExoOXZrSVlrdkFWUDN3d2JxWVFOZVdOc3NHcWxq?=
- =?utf-8?B?ZU5URDRmNXdzUHRJeHJHT0Y3YjVhQWIrUmFnK0kyS2RwV0VON2ZHaTRtL1VT?=
- =?utf-8?B?K2UyVWJadnI3TnlUcnFoV1o0VmVKVEdmSDdYQnIvLzFzVWpNSS9xZmxvMVc3?=
- =?utf-8?B?aVR3SjNvZFdZS2RUVi81REt1djN1VFNhbCtMdjc1eUlYaXByQkRuQUtVditG?=
- =?utf-8?B?SEpyeTl5SDB6MkF5ZGxFSVova1ZlbThYNno2Um5UT25NY1NWYU1ncWUrMUhw?=
- =?utf-8?B?cmN5ZGdJbjZCQkh5NnU5TmhVVmpEeE5WN1pDaktJMlc5bTg4ejFVR3R0SGZj?=
- =?utf-8?B?RlB0TGh2VUZHK1RoMExRa3MrZnFCeGY3M0kwTjdiSjF0QkFmTUZjTFVvV1M2?=
- =?utf-8?B?MHNsMTVvVTJYbmo0Wlg4bVNLS0d4WXVmWk1yYis3UDdwMm9jSjR5NzZXbSsy?=
- =?utf-8?B?azFYdENPM2NOYTV2VWJyWG15eWZVYjQzdjRBVUVjZzhBUDRiRzdtbVJndjVl?=
- =?utf-8?B?d3c5OXJ0c2Z0RUZEd0Nha3EvemJlUkZVRm9jNVFOdFF6QVFSZVp5cnBOSzkr?=
- =?utf-8?B?RzNWV2ExVHZpMlBTOURHQ0h3N0xPSUlGaVJUU21UYmZoN2E4c1NqUkxjdHRm?=
- =?utf-8?B?dE4rUmNPSUhFS3dPTTBTbnFFbTM2NWFmRlVyWFNZNkZFWGlYVmNiaE5ZM0pj?=
- =?utf-8?B?eTVXbERqdCtCejQrNFAyQzZiZzM2ckkyVjFYQWJrcWY5YjhocEdZbTQ4UVZ3?=
- =?utf-8?B?ZlJ4UGlvOHlTQUhicURPcVU3KzZqaTBNd3c3NWw5Z01SYU9xMmRFV2N4LzBw?=
- =?utf-8?B?K3ZGN0ZGcUJLU3dnY3RMSm5pU2xJZlI5TVY0YXJhbDdlc21PRmRBaGNoY3h2?=
- =?utf-8?B?dHdYUjNJWUlKSk5mU1hGcmkrN0ZYZDM0eVhvRmhFSDVSaXJxSTRrWFlPOXFI?=
- =?utf-8?B?NmdXT2lCOEdBNkErVzRDaUdpTUtQNG81dURlV1RRL1RlTXJ0TXBhUHNlQWla?=
- =?utf-8?B?M0hRV3drRmd5RXRWSEozOWFWK0tZNkZzUGxSdmF4ZFQzN0YxUjlPcyt5ckpC?=
- =?utf-8?B?T2Rab1daV2c1Snl1S0QxeVVvK1JZRzhkT2xjWEJGdzA4ZW4zMDRhVEwrS1JX?=
- =?utf-8?B?N2FSQmNPNG9IVm1uWjBQb0JSaFE2Y3RaOHY1TmxuekxaOGJXMmw4eUNEckRq?=
- =?utf-8?Q?JTFtmGguj3Z3+gr0t6Srq1vSs?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6d6dab3-ecfd-4122-82ce-08ddfa9f0b95
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 12:45:15.9165 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BxI/HHIvDRo1jkWOXGYQXYaE9L3mMBHyrEiRt5stNipbenPY5n1Kl+PxavySh8Qa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9079
+X-MBO-RS-META: jd1dn97ee3xjuzt5o77rp5ug8t7nxcor
+X-MBO-RS-ID: a3c8985a14c685624fb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,100 +65,999 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23.09.25 14:15, Jason Gunthorpe wrote:
-> On Tue, Sep 23, 2025 at 09:52:04AM +0200, Christian König wrote:
->> For example the ISP driver part of amdgpu provides the V4L2
->> interface and when we interchange a DMA-buf with it we recognize that
->> it is actually the same device we work with.
-> 
-> One of the issues here is the mis-use of dma_map_resource() to create
-> dma_addr_t for PCI devices. This was never correct.
+On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
+> To make evaluating different scheduling policies easier (no need for
+> external benchmarks) and perfectly repeatable, lets add some synthetic
+> workloads built upon mock scheduler unit test infrastructure.
+>=20
+> Focus is on two parallel clients (two threads) submitting different job
+> patterns and logging their progress and some overall metrics. This is
+> repeated for both scheduler credit limit 1 and 2.
+>=20
+> Example test output:
+>=20
+> =C2=A0 Normal and low:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pct1 cps1 qd1;=C2=A0 pct2 cps2 q=
+d2
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0 0ms:=
+=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 0;=C2=A0=C2=A0 0=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 104ms: 100=C2=A0=
+ 1240=C2=A0 112; 100=C2=A0 1240=C2=A0 125
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 209ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 99; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 313ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 86; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 419ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 73; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 524ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 60; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 628ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 47; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 731ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 34; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 836ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 21; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 12=
+5
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 939ms: 100=C2=A0=
+=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 8; 100=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=
+=A0 125
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1043ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 120
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1147ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0 107
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1252ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 94
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1355ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 81
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1459ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 68
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1563ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 55
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1667ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 42
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1771ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 29
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1875ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0 16
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1979ms:=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; 100=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 3
+> =C2=A0=C2=A0=C2=A0 0: prio=3Dnormal sync=3D0 elapsed_ms=3D1015ms (ideal_m=
+s=3D1000ms) cycle_time(min,avg,max)=3D134,222,978 us latency_time(min,avg,m=
+ax)=3D134,222,978
+> us
+> =C2=A0=C2=A0=C2=A0 1: prio=3Dlow sync=3D0 elapsed_ms=3D2009ms (ideal_ms=
+=3D1000ms) cycle_time(min,avg,max)=3D134,215,806 us latency_time(min,avg,ma=
+x)=3D134,215,806 us
+>=20
+> There we have two clients represented in the two respective columns, with
+> their progress logged roughly every 100 milliseconds. The metrics are:
+>=20
+> =C2=A0- pct - Percentage progress of the job submit part
+> =C2=A0- cps - Cycles per second
+> =C2=A0- qd=C2=A0 - Queue depth - number of submitted unfinished jobs
+>=20
+> The cycles per second metric is inherent to the fact that workload
+> patterns are a data driven cycling sequence of:
+>=20
+> =C2=A0- Submit 1..N jobs
+> =C2=A0- Wait for Nth job to finish (optional)
+> =C2=A0- Sleep (optional)
+> =C2=A0- Repeat from start
+>=20
+> In this particular example we have a normal priority and a low priority
+> clients both spamming the scheduler with 8ms jobs with no sync and no
+> sleeping. Hence they build a very deep queues and we can see how the low
+> priority client is completely starved until the normal finishes.
+>=20
+> Note that the PCT and CPS metrics are irrelevant for "unsync" clients
+> since they manage to complete all of their cycles instantaneously.
+>=20
+> A different example would be:
+>=20
+> =C2=A0 Heavy and interactive:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pct1 cps1 qd1;=C2=A0 pct2 cps2 q=
+d2
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0 0ms:=
+=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 0;=C2=A0=C2=A0 0=
+=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 106ms:=C2=A0=C2=
+=A0 5=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 3;=C2=A0=C2=A0 5=C2=A0=C2=A0=
+=C2=A0 40=C2=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 209ms:=C2=A0=C2=
+=A0 9=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0=C2=A0 9=C2=A0=C2=A0=
+=C2=A0 40=C2=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 314ms:=C2=A0 14=
+=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 3;=C2=A0 14=C2=A0=C2=A0=C2=A0 50=C2=
+=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 417ms:=C2=A0 18=
+=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0 18=C2=A0=C2=A0=C2=A0 40=C2=
+=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 522ms:=C2=A0 23=
+=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 3;=C2=A0 23=C2=A0=C2=A0=C2=A0 50=C2=
+=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 625ms:=C2=A0 27=
+=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0 27=C2=A0=C2=A0=C2=A0 40=C2=
+=A0=C2=A0=C2=A0 1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 729ms:=C2=A0 32=
+=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 0;=C2=A0 32=C2=A0=C2=A0=C2=A0 50=C2=
+=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 833ms:=C2=A0 36=
+=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 1;=C2=A0 36=C2=A0=C2=A0=C2=A0 40=C2=
+=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0=C2=A0 937ms:=C2=A0 40=
+=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0 40=C2=A0=C2=A0=C2=A0 40=C2=
+=A0=C2=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1041ms:=C2=A0 45=C2=A0=
+=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 0;=C2=A0 45=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1146ms:=C2=A0 49=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 1;=C2=A0 49=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1249ms:=C2=A0 54=C2=A0=
+=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 0;=C2=A0 54=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1353ms:=C2=A0 58=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 1;=C2=A0 58=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1457ms:=C2=A0 62=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0 62=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1561ms:=C2=A0 67=C2=A0=
+=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 0;=C2=A0 67=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1665ms:=C2=A0 71=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 1;=C2=A0 71=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1772ms:=C2=A0 76=C2=A0=
+=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 0;=C2=A0 76=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1877ms:=C2=A0 80=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 1;=C2=A0 80=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 1981ms:=C2=A0 84=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0 84=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 2085ms:=C2=A0 89=C2=A0=
+=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0 0;=C2=A0 89=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 2189ms:=C2=A0 93=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 1;=C2=A0 93=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=C2=A0 2293ms:=C2=A0 97=C2=A0=
+=C2=A0=C2=A0 40=C2=A0=C2=A0=C2=A0 0;=C2=A0 97=C2=A0=C2=A0=C2=A0 40=C2=A0=C2=
+=A0=C2=A0 1
+>=20
+> In this case client one is submitting 3x 2.5ms jobs, waiting for the 3rd
+> and then sleeping for 2.5ms (in effect causing 75% GPU load, minus the
+> overheads). Second client is submitting 1ms jobs, waiting for each to
+> finish and sleeping for 9ms (effective 10% GPU load). Here we can see
+> the PCT and CPS reflecting real progress.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/tests/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 3 +-
+> =C2=A0.../gpu/drm/scheduler/tests/tests_scheduler.c | 640 +++++++++++++++=
++++
+> =C2=A02 files changed, 642 insertions(+), 1 deletion(-)
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.=
+c
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/tests/Makefile b/drivers/gpu/drm/s=
+cheduler/tests/Makefile
+> index 5bf707bad373..9ec185fbbc15 100644
+> --- a/drivers/gpu/drm/scheduler/tests/Makefile
+> +++ b/drivers/gpu/drm/scheduler/tests/Makefile
+> @@ -2,6 +2,7 @@
+> =C2=A0
+> =C2=A0drm-sched-tests-y :=3D \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mock_scheduler.o \
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tests_basic.o
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tests_basic.o \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tests_scheduler.o
+> =C2=A0
+> =C2=A0obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D drm-sched-tests.o
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_scheduler.c b/drivers/=
+gpu/drm/scheduler/tests/tests_scheduler.c
+> new file mode 100644
+> index 000000000000..15c898966ef0
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+> @@ -0,0 +1,640 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright (c) 2025 Valve Corporation */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/kthread.h>
+> +#include <linux/ktime.h>
+> +#include <linux/math64.h>
+> +
+> +#include "sched_tests.h"
+> +
+> +/*
+> + * DRM scheduler scheduler tests exercise load balancing decisions ie. e=
+ntity
+> + * selection logic.
+> + */
+> +
+> +static int drm_sched_scheduler_init(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched;
+> +
+> +	sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
+> +	sched->base.credit_limit =3D 1;
+> +
+> +	test->priv =3D sched;
+> +
+> +	return 0;
+> +}
+> +
+> +static int drm_sched_scheduler_init2(struct kunit *test)
 
-That is not a mis-use at all but rather exactly what dma_map_resource() was created for.
+I'm not very convinced of the naming prefixes in this file. They're all
+static, but people might find them through Bootlin or similar and be
+confused.
 
-If dma_map_resource() is not ACS aware than we should add that.
+in tests_basic.c we call all functions drm_sched_basic.
 
-> VFIO is using a new correct ACS aware DMA mapping API that I would
-> expect all the DMABUF world to slowly migrate to. This API prevents
-> mappings in cases that don't work in HW.
-> 
-> So a design where you have to DMA map something then throw away the
-> DMA map after doing some "shortcut" check isn't going to work.
-> 
-> We need some way for the importer/exporter to negotiate what kind of
-> address they want to exchange without forcing a dma mapping.
+So I'd propose to go for drm_sched_quality here.
 
-That is already in place. We don't DMA map anything in those use cases.
+> +{
+> +	struct drm_mock_scheduler *sched;
+> +
+> +	sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
+> +	sched->base.credit_limit =3D 2;
+> +
+> +	test->priv =3D sched;
+> +
+> +	return 0;
+> +}
+> +
+> +static void drm_sched_scheduler_exit(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +
+> +	drm_mock_sched_fini(sched);
+> +}
+> +
+> +static void drm_sched_scheduler_queue_overhead(struct kunit *test)
 
->>>> I've read through this thread—Jason, correct me if I'm wrong—but I
->>>> believe what you're suggesting is that instead of using PCIe P2P
->>>> (dma_map_resource) to communicate the VF's VRAM offset to the PF, we
->>>> should teach dma-buf to natively understand a VF's VRAM offset. I don't
->>>> think this is currently built into dma-buf, but it probably should be,
->>>> as it could benefit other use cases as well (e.g., UALink, NVLink,
->>>> etc.).
->>>>
->>>> In both examples above, the PCIe P2P fabric is used for communication,
->>>> whereas in the VF→PF case, it's only using the PCIe P2P address to
->>>> extract the VF's VRAM offset, rather than serving as a communication
->>>> path. I believe that's Jason's objection. Again, Jason, correct me if
->>>> I'm misunderstanding here.
-> 
-> Yes, this is my point.
-> 
-> We have many cases now where a dma_addr_t is not the appropriate way
-> to exchange addressing information from importer/exporter and we need
-> more flexibility.
-> 
-> I also consider the KVM and iommufd use cases that must have a
-> phys_addr_t in this statement.
+What queue's overhead is this, actually? Seems to me that it's more the
+scheduler overhead for processing jobs in general.
 
-Abusing phys_addr_t is also the completely wrong approach in that moment.
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	const unsigned int job_us =3D 1000;
+> +	const unsigned int jobs =3D 1000;
+> +	const unsigned int total_us =3D jobs * job_us;
+> +	struct drm_mock_sched_job *job, *first;
+> +	ktime_t start, end;
+> +	bool done;
+> +	int i;
+> +
+> +	/*
+> +	 * Deep queue job at a time processing (single credit).
 
-When you want to communicate addresses in a device specific address space you need a device specific type for that and not abuse phys_addr_t.
+"Measure job-by-job processing overhead time"?
 
->> What you can do is to either export the DMA-buf from the driver who
->> feels responsible for the PF directly (that's what we do in amdgpu
->> because the VRAM is actually not fully accessible through the BAR).
-> 
-> Again, considering security somehow as there should not be uAPI to
-> just give uncontrolled access to VRAM.
-> 
-> From a security side having the VF create the DMABUF is better as you
-> get that security proof that it is permitted to access the VRAM.
+> +	 *
+> +	 * This measures the overhead of picking and processing a job at a time
+> +	 * by comparing the ideal total "GPU" time of all submitted jobs versus
+> +	 * the time actually taken.
+> +	 */
+> +
+> +	KUNIT_ASSERT_EQ(test, sched->base.credit_limit, 1);
+> +
+> +	entity =3D drm_mock_sched_entity_new(test,
+> +					=C2=A0=C2=A0 DRM_SCHED_PRIORITY_NORMAL,
+> +					=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i <=3D jobs; i++) {
+> +		job =3D drm_mock_sched_job_new(test, entity);
+> +		if (i =3D=3D 0)
+> +			first =3D job; /* Extra first job blocks the queue */
 
-Well the VF is basically just a window into the HW of the PF.
+"Extra"?
 
-The real question is where does the VFIO gets the necessary information which parts of the BAR to expose?
+> +		else
+> +			drm_mock_sched_job_set_duration_us(job, job_us);
+> +		drm_mock_sched_job_submit(job);
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_scheduled(first, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	start =3D ktime_get();
+> +	i =3D drm_mock_sched_advance(sched, 1); /* Release the queue */
+> +	KUNIT_ASSERT_EQ(test, i, 1);
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job,
+> +						usecs_to_jiffies(total_us) * 5);
 
-> From this thread I think if VFIO had the negotiated option to export a
-> CPU phys_addr_t then the Xe PF driver can reliably convert that to a
-> VRAM offset.
-> 
-> We need to add a CPU phys_addr_t option for VFIO to iommufd and KVM
-> anyhow, those cases can't use dma_addr_t.
+Why 5?
 
-Clear NAK to using CPU phys_addr_t. This is just a horrible idea.
+> +	end =3D ktime_get();
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	pr_info("Expected %uus, actual %lldus\n",
+> +		total_us,
+> +		ktime_to_us(ktime_sub(end, start)));
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+> +static void drm_sched_scheduler_ping_pong(struct kunit *test)
 
-Regards,
-Christian.
+Interesting idea for a test!
 
-> 
->>>> I'd prefer to leave the provisioning data to the PF if possible. I
->>>> haven't fully wrapped my head around the flow yet, but it should be
->>>> feasible for the VF → VFIO → PF path to pass along the initial VF
->>>> scatter-gather (SG) list in the dma-buf, which includes VF-specific
->>>> PFNs. The PF can then use this, along with its provisioning information,
->>>> to resolve the physical address.
->>
->> Well don't put that into the sg_table but rather into an xarray or
->> similar, but in general that's the correct idea.
-> 
-> Yes, please lets move away from re-using dma_addr_t to represent
-> things that are not created by the DMA API.
-> 
-> Jason
+> +{
+> +	struct drm_mock_sched_job *job, *first, *prev =3D NULL;
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity[2];
+
+Setting a define saves you the ARRAY_SIZE. But I don't have a strong
+opinion on that.
+
+> +	const unsigned int job_us =3D 1000;
+> +	const unsigned int jobs =3D 1000;
+> +	const unsigned int total_us =3D jobs * job_us;
+> +	ktime_t start, end;
+> +	bool done;
+> +	int i;
+> +
+> +	/*
+> +	 * Two entitites in inter-dependency chain.
+> +	 *
+> +	 * This measures the overhead of picking and processing a job at a time=
+,
+> +	 * where each job depends on the previous one from the diffferent
+> +	 * entity, by comparing the ideal total "GPU" time of all submitted job=
+s
+> +	 * versus the time actually taken.
+> +	 */
+> +
+> +	KUNIT_ASSERT_EQ(test, sched->base.credit_limit, 1);
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		entity[i] =3D drm_mock_sched_entity_new(test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_NORMAL,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i <=3D jobs; i++) {
+> +		job =3D drm_mock_sched_job_new(test, entity[i & 1]);
+> +		if (i =3D=3D 0)
+> +			first =3D job; /* Extra first job blocks the queue */
+> +		else
+> +			drm_mock_sched_job_set_duration_us(job, job_us);
+> +		if (prev)
+> +			drm_sched_job_add_dependency(&job->base,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0 dma_fence_get(&prev->base.s_fence->finish=
+ed));
+> +		drm_mock_sched_job_submit(job);
+> +		prev =3D job;
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_scheduled(first, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	start =3D ktime_get();
+> +	i =3D drm_mock_sched_advance(sched, 1); /* Release the queue */
+> +	KUNIT_ASSERT_EQ(test, i, 1);
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job,
+> +						usecs_to_jiffies(total_us) * 5);
+
+Same. I guess 5 is just "long enough to be finished for sure".
+
+
+> +	end =3D ktime_get();
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	pr_info("Expected %uus, actual %lldus\n",
+> +		total_us,
+> +		ktime_to_us(ktime_sub(end, start)));
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		drm_mock_sched_entity_free(entity[i]);
+> +}
+> +
+> +static struct kunit_case drm_sched_scheduler_overhead_tests[] =3D {
+> +	KUNIT_CASE_SLOW(drm_sched_scheduler_queue_overhead),
+> +	KUNIT_CASE_SLOW(drm_sched_scheduler_ping_pong),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite drm_sched_scheduler_overhead =3D {
+> +	.name =3D "drm_sched_scheduler_overhead_tests",
+> +	.init =3D drm_sched_scheduler_init,
+> +	.exit =3D drm_sched_scheduler_exit,
+> +	.test_cases =3D drm_sched_scheduler_overhead_tests,
+> +};
+> +
+> +struct drm_sched_client_params {
+> +	enum drm_sched_priority priority;
+> +	unsigned int job_cnt;
+> +	unsigned int job_us;
+> +	unsigned int wait_us;
+> +	bool sync;
+> +};
+
+Struct documentation would be neat. cnt is obvious.. job_us is the
+"payload time" and "wait_us" is.. the time you wait until submitting a
+job? And sync is whether you submit synchronously? Doesn't that then
+imply wait_us =3D=3D 0?
+
+I'm reading as I write; I guess it gets clearer below. But you get the
+point, a few words of docu would help new programmers / reviewers.
+
+> +
+> +struct drm_sched_test_params {
+> +	const char *description;
+> +	struct drm_sched_client_params client[2];
+> +};
+> +
+> +static const struct drm_sched_test_params drm_sched_cases[] =3D {
+> +	{
+> +		.description =3D "Normal and normal",
+
+s/normal/normal prio/
+
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "Normal and low",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_LOW,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "High and normal",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_HIGH,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "High and low",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_HIGH,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_LOW,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 8000,
+> +			.wait_us =3D 0,
+> +			.sync =3D false,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "50 and 50",
+
+Hm? 50 normal and 50 normal?
+
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 1500,
+> +			.wait_us =3D 1500,
+> +			.sync =3D true,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 2500,
+> +			.wait_us =3D 2500,
+> +			.sync =3D true,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "50 and 50 low",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 1500,
+> +			.wait_us =3D 1500,
+> +			.sync =3D true,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_LOW,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 2500,
+> +			.wait_us =3D 2500,
+> +			.sync =3D true,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "50 high and 50",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_HIGH,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 1500,
+> +			.wait_us =3D 1500,
+> +			.sync =3D true,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 2500,
+> +			.wait_us =3D 2500,
+> +			.sync =3D true,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "Low hog and interactive",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_LOW,
+> +			.job_cnt =3D 3,
+> +			.job_us =3D 2500,
+> +			.wait_us =3D 500,
+> +			.sync =3D false,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 500,
+> +			.wait_us =3D 10000,
+> +			.sync =3D true,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "Heavy and interactive",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 3,
+> +			.job_us =3D 2500,
+> +			.wait_us =3D 2500,
+> +			.sync =3D true,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 1000,
+> +			.wait_us =3D 9000,
+> +			.sync =3D true,
+> +		},
+> +	},
+> +	{
+> +		.description =3D "Very heavy and interactive",
+> +		.client[0] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 4,
+> +			.job_us =3D 50000,
+> +			.wait_us =3D 1,
+> +			.sync =3D true,
+> +		},
+> +		.client[1] =3D {
+> +			.priority =3D DRM_SCHED_PRIORITY_NORMAL,
+> +			.job_cnt =3D 1,
+> +			.job_us =3D 1000,
+> +			.wait_us =3D 9000,
+> +			.sync =3D true,
+> +		},
+> +	},
+> +};
+> +
+> +static void
+> +drm_sched_desc(const struct drm_sched_test_params *params, char *desc)
+> +{
+> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(drm_sched_scheduler_two_clients,
+> +		=C2=A0 drm_sched_cases,
+> +		=C2=A0 drm_sched_desc);
+> +
+> +struct test_client_stats {
+> +	unsigned int min_us;
+> +	unsigned int max_us;
+> +	unsigned long tot_us;
+> +};
+> +
+> +struct test_client {
+> +	struct kunit *test;
+> +
+> +	struct drm_mock_sched_entity	*entity;
+> +
+> +	struct kthread_worker	*worker;
+> +	struct kthread_work	work;
+> +
+> +	unsigned int id;
+> +	ktime_t duration;
+> +
+> +	struct drm_sched_client_params params;
+> +
+> +	ktime_t ideal_duration;
+> +	unsigned int cycles;
+> +	unsigned int cycle;
+> +	ktime_t	start;
+> +	ktime_t	end;
+> +	bool done;
+> +
+> +	struct test_client_stats cycle_time;
+> +	struct test_client_stats latency_time;
+> +};
+
+Same here, docu would be helpful. Especially regarding "cycles". It
+seems to be "cycles per second", if I read the code below correctly.
+
+> +
+> +static void
+> +update_stats(struct test_client_stats *stats, unsigned int us)
+> +{
+> +	if (us > stats->max_us)
+> +		stats->max_us =3D us;
+> +	if (us < stats->min_us)
+
+Won't min_us be initialized to 0? So how could 'us' ever be smaller?
+
+> +		stats->min_us =3D us;
+> +	stats->tot_us +=3D us;
+> +}
+> +
+> +static unsigned int
+> +get_stats_avg(struct test_client_stats *stats, unsigned int cycles)
+> +{
+> +	return div_u64(stats->tot_us, cycles);
+> +}
+> +
+> +static void drm_sched_client_work(struct kthread_work *work)
+
+Why's this called "client_work"? Is it representing the userspace
+client?
+
+> +{
+> +	struct test_client *client =3D container_of(work, typeof(*client), work=
+);
+> +	const long sync_wait =3D MAX_SCHEDULE_TIMEOUT;
+> +	unsigned int cycle, work_us, period_us;
+> +	struct drm_mock_sched_job *job =3D NULL;
+> +
+> +	work_us =3D client->params.job_cnt * client->params.job_us;
+> +	period_us =3D work_us + client->params.wait_us;
+> +	client->cycles =3D
+> +		DIV_ROUND_UP((unsigned int)ktime_to_us(client->duration),
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 period_us);
+> +	client->ideal_duration =3D us_to_ktime(client->cycles * period_us);
+> +
+> +	client->start =3D ktime_get();
+> +
+> +	for (cycle =3D 0; cycle < client->cycles; cycle++) {
+> +		unsigned int batch;
+> +		unsigned long us;
+> +		ktime_t t;
+
+'t' is used at a couple of places below, including when firing the
+WARN_ON_ONCE. I think the name should reveal more clearly what time is
+actually measured here, so that it gets more obvious for what
+conditions you're checking below.
+
+> +
+> +		if (READ_ONCE(client->done))
+> +			break;
+> +
+> +		t =3D ktime_get();
+> +		for (batch =3D 0; batch < client->params.job_cnt; batch++) {
+> +			job =3D drm_mock_sched_job_new(client->test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0 client->entity);
+> +			drm_mock_sched_job_set_duration_us(job,
+> +							=C2=A0=C2=A0 client->params.job_us);
+> +			drm_mock_sched_job_submit(job);
+> +		}
+> +
+> +		if (client->params.sync)
+> +			drm_mock_sched_job_wait_finished(job, sync_wait);
+> +
+> +		t =3D ktime_sub(ktime_get(), t);
+> +		us =3D ktime_to_us(t);
+> +		update_stats(&client->cycle_time, us);
+> +		if (ktime_to_us(t) >=3D (long)work_us)
+> +			us =3D ktime_to_us(t) - work_us;
+> +		else if (WARN_ON_ONCE(client->params.sync))
+
+See above. For me as a new reader it reads like this:
+
+"if it did not take longer than it should have taken, and if this is
+synchronous, then that's a bug"
+
+> +			us =3D 0;
+> +		update_stats(&client->latency_time, us);
+> +		WRITE_ONCE(client->cycle, cycle);
+> +
+> +		if (READ_ONCE(client->done))
+> +			break;
+> +
+> +		if (client->params.wait_us)
+> +			fsleep(client->params.wait_us);
+> +		else
+> +			cond_resched();
+
+This if-else definitely needs a comment explaining what is being done
+and why. Why do you volunteer the CPU here? The function is about to
+end anyways.
+
+> +	}
+> +
+> +	client->done =3D drm_mock_sched_job_wait_finished(job, sync_wait);
+> +	client->end =3D ktime_get();
+> +}
+> +
+> +static const char *prio_str(enum drm_sched_priority prio)
+> +{
+> +	switch (prio) {
+> +	case DRM_SCHED_PRIORITY_KERNEL:
+> +		return "kernel";
+> +	case DRM_SCHED_PRIORITY_LOW:
+> +		return "low";
+> +	case DRM_SCHED_PRIORITY_NORMAL:
+> +		return "normal";
+> +	case DRM_SCHED_PRIORITY_HIGH:
+> +		return "high";
+> +	default:
+> +		return "???";
+
+s/???/INVALID
+
+> +	}
+> +}
+> +
+> +static void drm_sched_scheduler_two_clients_test(struct kunit *test)
+> +{
+> +	const struct drm_sched_test_params *params =3D test->param_value;
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct test_client client[2] =3D { };
+> +	unsigned int prev_cycle[2] =3D { };
+> +	unsigned int i, j;
+> +	ktime_t start;
+> +
+> +	/*
+> +	 * Same job stream from from two clients.
+
+Typo, "from from"
+
+btw it's not super clear what's being tested here by the description /
+names alone. You did test with two entities above in the ping-pong
+example already. So I suppose a "client" is a party owning multiple
+entities?
+
+> +	 */
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(client); i++)
+> +		client[i].entity =3D
+> +			drm_mock_sched_entity_new(test,
+> +						=C2=A0 params->client[i].priority,
+> +						=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(client); i++) {
+> +		client[i].test =3D test;
+> +		client[i].id =3D i;
+> +		client[i].duration =3D ms_to_ktime(1000);
+> +		client[i].params =3D params->client[i];
+> +		client[i].cycle_time.min_us =3D ~0U;
+> +		client[i].latency_time.min_us =3D ~0U;
+> +		client[i].worker =3D
+> +			kthread_create_worker(0, "%s-%u", __func__, i);
+> +		if (IS_ERR(client[i].worker)) {
+> +			for (j =3D 0; j < i; j++)
+> +				kthread_destroy_worker(client[j].worker);
+> +			KUNIT_FAIL(test, "Failed to create worker!\n");
+> +		}
+> +
+> +		kthread_init_work(&client[i].work, drm_sched_client_work);
+> +	}
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(client); i++)
+> +		kthread_queue_work(client[i].worker, &client[i].work);
+> +
+> +	/*
+> +	 * The clients (workers) can be a mix of async (deep submission queue),
+> +	 * sync (one job at a time), or something in between. Therefore it is
+> +	 * difficult to display a single metric representing their progress.
+> +	 *
+> +	 * Each struct drm_sched_client_params describes the actual submission
+> +	 * pattern which happens in the following steps:
+> +	 *=C2=A0 1. Submit N jobs
+> +	 *=C2=A0 2. Wait for last submitted job to finish
+> +	 *=C2=A0 3. Sleep for U micro-seconds
+> +	 *=C2=A0 4. Goto 1. for C cycles
+
+OK, so this is simulating clients submitting in a burst-like pattern.
+Could it make sense to name the test something with "burst"?
+
+> +	 *
+> +	 * Where number of cycles is calculated to match the target client
+> +	 * duration from the respective struct drm_sched_test_params.
+> +	 *
+> +	 * To asses scheduling behaviour what we output for both clients is:
+> +	 *=C2=A0 - pct: Percentage progress of the jobs submitted
+> +	 *=C2=A0 - cps: "Cycles" per second (where one cycle is one 1.-4. above=
+)
+
+"is one complete submission pattern from the list above"
+
+> +	 *=C2=A0 -=C2=A0 qd: Number of outstanding jobs in the client/entity
+> +	 */
+> +
+> +	start =3D ktime_get();
+> +	pr_info("%s:\n\t=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 pct1 cps1 qd1;=C2=A0 pct2 cps2 qd2\n",
+> +		params->description);
+> +	while (!READ_ONCE(client[0].done) || !READ_ONCE(client[1].done)) {
+
+You probably want write in the documentation of struct test_client what
+'done' does and who sets and reads it. Then it becomes more obvious why
+a READ_ONCE is necessary.
+
+> +		unsigned int pct[2], qd[2], cycle[2], cps[2];
+> +
+> +		for (i =3D 0; i < ARRAY_SIZE(client); i++) {
+> +			qd[i] =3D spsc_queue_count(&client[i].entity->base.job_queue);
+> +			cycle[i] =3D READ_ONCE(client[i].cycle);
+> +			cps[i] =3D DIV_ROUND_UP(1000 * (cycle[i] - prev_cycle[i]),
+
+Now you've lost me. All numbers so far always were microseconds (us).
+To get the cycles per second, don't you have to multiply by 1,000,000?
+
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 100);
+> +			if (client[i].cycles)
+> +				pct[i] =3D DIV_ROUND_UP(100 * (1 + cycle[i]),
+
+Why 100 (here and above) and why +1?
+
+
+--
+
+I want to go through the other patches this week, too. I guess I'll get
+up to speed with the code better in general.
+
+
+P.
+
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 client[i].cycles);
+> +			else
+> +				pct[i] =3D 0;
+> +			prev_cycle[i] =3D cycle[i];
+> +		}
+> +
+> +		if (READ_ONCE(client[0].done))
+> +			pr_info("\t+%6lldms:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ; %3u %5u %4u\n",
+> +				ktime_to_ms(ktime_sub(ktime_get(), start)),
+> +				pct[1], cps[1], qd[1]);
+> +		else if (READ_ONCE(client[1].done))
+> +			pr_info("\t+%6lldms: %3u %5u %4u;\n",
+> +				ktime_to_ms(ktime_sub(ktime_get(), start)),
+> +				pct[0], cps[0], qd[0]);
+> +		else
+> +			pr_info("\t+%6lldms: %3u %5u %4u; %3u %5u %4u\n",
+> +				ktime_to_ms(ktime_sub(ktime_get(), start)),
+> +				pct[0], cps[0], qd[0],
+> +				pct[1], cps[1], qd[1]);
+> +		msleep(100);
+> +	}
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(client); i++) {
+> +		kthread_flush_work(&client[i].work);
+> +		kthread_destroy_worker(client[i].worker);
+> +	}
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(client); i++)
+> +		KUNIT_ASSERT_TRUE(test, client[i].done);
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(client); i++) {
+> +		pr_info("=C2=A0=C2=A0=C2=A0 %u: prio=3D%s sync=3D%u elapsed_ms=3D%lldm=
+s (ideal_ms=3D%lldms) cycle_time(min,avg,max)=3D%u,%u,%u us latency_time(mi=
+n,avg,max)=3D%u,%u,%u us",
+> +			i,
+> +			prio_str(params->client[i].priority),
+> +			params->client[i].sync,
+> +			ktime_to_ms(ktime_sub(client[i].end, client[i].start)),
+> +			ktime_to_ms(client[i].ideal_duration),
+> +			client[i].cycle_time.min_us,
+> +			get_stats_avg(&client[i].cycle_time, client[i].cycles),
+> +			client[i].cycle_time.max_us,
+> +			client[i].latency_time.min_us,
+> +			get_stats_avg(&client[i].latency_time, client[i].cycles),
+> +			client[i].latency_time.max_us);
+> +		drm_mock_sched_entity_free(client[i].entity);
+> +	}
+> +}
+> +
+> +static const struct kunit_attributes drm_sched_scheduler_two_clients_att=
+r =3D {
+> +	.speed =3D KUNIT_SPEED_SLOW,
+> +};
+> +
+> +static struct kunit_case drm_sched_scheduler_two_clients_tests[] =3D {
+> +	KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_scheduler_two_clients_gen_pa=
+rams,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_scheduler_two_clients_attr),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite drm_sched_scheduler_two_clients1 =3D {
+> +	.name =3D "drm_sched_scheduler_two_clients_one_credit_tests",
+> +	.init =3D drm_sched_scheduler_init,
+> +	.exit =3D drm_sched_scheduler_exit,
+> +	.test_cases =3D drm_sched_scheduler_two_clients_tests,
+> +};
+> +
+> +static struct kunit_suite drm_sched_scheduler_two_clients2 =3D {
+> +	.name =3D "drm_sched_scheduler_two_clients_two_credits_tests",
+> +	.init =3D drm_sched_scheduler_init2,
+> +	.exit =3D drm_sched_scheduler_exit,
+> +	.test_cases =3D drm_sched_scheduler_two_clients_tests,
+> +};
+> +
+> +kunit_test_suites(&drm_sched_scheduler_overhead,
+> +		=C2=A0 &drm_sched_scheduler_two_clients1,
+> +		=C2=A0 &drm_sched_scheduler_two_clients2);
 
