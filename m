@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8415DB95AFB
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 13:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D51B95B01
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 13:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8F3F10E5EA;
-	Tue, 23 Sep 2025 11:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8BA310E5EE;
+	Tue, 23 Sep 2025 11:41:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="SjDTYPMl";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="AD6C5rBC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B06CD10E5EA
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 11:40:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758627640; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2E910E5EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 11:41:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758627648; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=Rgp8McNENZzRnj2r1cNqPvFh2g+a6ag6snGvabEghvVvFrIi37mqpGzlV0mznEZE0xI5/uIOAGdYvefreSxRaCX3vSwuFYvn7XjKIdRs2O3NvYUlMJDOMYBIiA/qMPFIKOs5HjJXXBZgo2QZpKWphMLhhKkbtnQVE6QpcbKXifo=
+ b=KWnyYstbYsqu77K0d6sbxLmGRGRAIaUQsQqMFjBgzeyqmWN2geANGC23t15HjFjgupdKgkZzzb3b/EX5HPQlekzjQGYq7oEprZTpoNW70u2WalKmoa4u1DoNHrzPI67qItMM5zEzDv1s00NyuGvAIZqvPyZM9/L6gl/+2sareHo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758627640;
+ s=zohoarc; t=1758627648;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=SbWzV2vPE++u109IpxS5OpTrsMRMsUHWUjB2MEW5hF8=; 
- b=bHzkaqSxeXNfUSm+xRWZGbDUIWj7tlo6MBlwWas8rDDCDISr6Wmn287VB1io7qqQdfuxVFk9REWnWttaEZG1IYetaY6G2RPbJ4U7JjQK9lxiw/54J820WTzhcTVXIrNSPWphmxmU1mRfAcqHe9RQ2naC+X/rg7L/dHKh3b67dI4=
+ bh=ZFDG+wvs2WG93zhT44NWUOfN2GowDDjPuUl1CMypSmk=; 
+ b=Lw5xSCfPH3ZqD+AR9NKK1N13JOiGO4QYs5gjfBEF1O4JZUEiXai2QhAmYbObi3VT8z1w/k0aDAngJcbzbs2FZwoOk6HTv5Qd38cyKQNRNXglSBEjypDRb8S1s+LMoLtHrYASPqbp1HlrVVQKSUAiPkpKfvCQMIay0q68bnjuZs0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758627640; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758627648; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=SbWzV2vPE++u109IpxS5OpTrsMRMsUHWUjB2MEW5hF8=;
- b=SjDTYPMlppu83vvOIAFjFcZiwoAhoT3OHvazmZAM5Huv7Mf3qKtr9piqiMREAbjO
- iPH2nKg7ONERCDhI/NBvmf28158Ui4a1h6wZGjeiETmAHzVqUCV1pGMP6GtWaYYAfMB
- tPKb0ZABwnFZqYBYDnz2y1IYWIY0jUWlZ1dvzhBk=
-Received: by mx.zohomail.com with SMTPS id 1758627638907817.5750146025789;
- Tue, 23 Sep 2025 04:40:38 -0700 (PDT)
+ bh=ZFDG+wvs2WG93zhT44NWUOfN2GowDDjPuUl1CMypSmk=;
+ b=AD6C5rBCb111C5q6cIOOqoSnnFCKHixwxfdqLbn/jSVTfCqY0Kw4/fMqIrCzW4pP
+ ZHO9i+ofc3uI+YR+cOfnveSw6TL47Km5Qul1R+gMxX3UDCPB/hMbOU6LMXTC9+f7i4w
+ YffG3l4P7cvp2uEw5PsXV+KlgXqdRLC3x2ca5aBI=
+Received: by mx.zohomail.com with SMTPS id 1758627645320914.7659430893929;
+ Tue, 23 Sep 2025 04:40:45 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 23 Sep 2025 13:39:56 +0200
-Subject: [PATCH v4 3/8] dt-bindings: sram: Add compatible for
- mediatek,mt8196-gpufreq-sram
+Date: Tue, 23 Sep 2025 13:39:57 +0200
+Subject: [PATCH v4 4/8] dt-bindings: mailbox: Add MT8196 GPUEB Mailbox
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250923-mt8196-gpufreq-v4-3-6cd63ade73d6@collabora.com>
+Message-Id: <20250923-mt8196-gpufreq-v4-4-6cd63ade73d6@collabora.com>
 References: <20250923-mt8196-gpufreq-v4-0-6cd63ade73d6@collabora.com>
 In-Reply-To: <20250923-mt8196-gpufreq-v4-0-6cd63ade73d6@collabora.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
@@ -81,32 +80,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This compatible is used for an SRAM section that's shared between the
-MT8196's application processor cores and the embedded GPUEB MCU that
-controls the GPU frequency.
+The MediaTek MT8196 SoC includes an embedded MCU referred to as "GPUEB",
+acting as glue logic to control power and frequency of the Mali GPU.
+This MCU runs special-purpose firmware for this use, and the main
+application processor communicates with it through a mailbox.
 
-Through this SRAM section, things about the GPU frequency controller
-like the OPP table can be read.
+Add a binding that describes this mailbox.
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- Documentation/devicetree/bindings/sram/sram.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../mailbox/mediatek,mt8196-gpueb-mbox.yaml        | 64 ++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
-index 7c1337e159f2371401ae99313375656fff014ed4..6ba0dd6a66def11f56a1d5276d7397b655bff11e 100644
---- a/Documentation/devicetree/bindings/sram/sram.yaml
-+++ b/Documentation/devicetree/bindings/sram/sram.yaml
-@@ -89,6 +89,7 @@ patternProperties:
-             - arm,juno-scp-shmem
-             - arm,scmi-shmem
-             - arm,scp-shmem
-+            - mediatek,mt8196-gpufreq-sram
-             - renesas,smp-sram
-             - rockchip,rk3066-smp-sram
-             - samsung,exynos4210-sysram
+diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,mt8196-gpueb-mbox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,mt8196-gpueb-mbox.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..ab5b780cb83a708a3897ca1a440131d97b56c3a6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mailbox/mediatek,mt8196-gpueb-mbox.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mailbox/mediatek,mt8196-gpueb-mbox.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek MFlexGraphics GPUEB Mailbox Controller
++
++maintainers:
++  - Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8196-gpueb-mbox
++
++  reg:
++    items:
++      - description: mailbox data registers
++      - description: mailbox control registers
++
++  reg-names:
++    items:
++      - const: data
++      - const: ctl
++
++  clocks:
++    items:
++      - description: main clock of the GPUEB MCU
++
++  interrupts:
++    items:
++      - description: fires when a new message is received
++
++  "#mbox-cells":
++    const: 1
++    description:
++      The number of the mailbox channel.
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - interrupts
++  - "#mbox-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mediatek,mt8196-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    mailbox@4b09fd80 {
++        compatible = "mediatek,mt8196-gpueb-mbox";
++        reg = <0x4b09fd80 0x280>,
++              <0x4b170000 0x7c>;
++        reg-names = "data", "ctl";
++        clocks = <&topckgen CLK_TOP_MFG_EB>;
++        interrupts = <GIC_SPI 608 IRQ_TYPE_LEVEL_HIGH 0>;
++        #mbox-cells = <1>;
++    };
 
 -- 
 2.51.0
