@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D93B948B1
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AA2B948BA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 08:23:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346A910E56A;
-	Tue, 23 Sep 2025 06:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D0310E0AB;
+	Tue, 23 Sep 2025 06:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SRLpyUmJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eysGKJ+D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A881110E0A9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD2410E56A
  for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 06:23:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 276A444CC8;
+ by sea.source.kernel.org (Postfix) with ESMTP id 308BF44CCC;
  Tue, 23 Sep 2025 06:23:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F2122C4CEF7;
- Tue, 23 Sep 2025 06:23:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 07BBBC16AAE;
+ Tue, 23 Sep 2025 06:23:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1758608599;
- bh=3T0yczr8TB2m6N5nAkwbEWrdKvje7HKixCcAVKSkNIc=;
+ bh=xyeGddU8HV7f9Dpf8HpwJptt9/1K5HGt8xU0CjdPxEo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=SRLpyUmJfbFEdJQu2EdCKiIaSKV5WaYmnmHgGHXkZDEfoGLx+mlo4GGTCfxMVOhHk
- XwvlmlLx13lcxeUacbSklXVhwGrS8J9XNJ6i+YcRXMJkWJAYsfDKFR8n3E3lwa5BTp
- 1dJCYzs5O9DAr9udNycHCswGrhPETXDgmzAk2G4GEbja5mXK1CsO8z1SHwoNVXeYdk
- BMvWFTR9Mo3kwiVHsvoQdR9Kmh82n6IEWBF91IC9EhAGc2phQm+DanuPMnSINo7axR
- qL5ZyJx/ugBQWyfV22JpZCh/ji9lPjT69q+7RUpui+36QYM6IWP4seC/4i8c+RqwtO
- 4IvFs2oNOxkNQ==
+ b=eysGKJ+Dif31eN5di0SzH+oLsEtzZB/QToH+b1p1N87ZED7fAfyLbIfXxSOLi/6Uk
+ dx/222siDfJKNgZFpSX5Pj+E02qQrIlLcjuGMWU2e2khysL5N/YVn6Uce1sEwGylAf
+ NJWXlgrZUd/3KHmS+fTN0wvBtaevF9AdpIbn51GP55Pm8YXwY0gEBjlg7dZd+9FJ0E
+ KGk4dlU6pmhghtIiclJAStLoTZG/koBAN+AyO+tXTcNOpQGH3WkpHMvkS+ilOW+woO
+ KB+L8TTJq/n9l07qonwMavHWfP/rRISP43HcS6+33G+2TVOcgn0VBrMvW0vn4I/9Rz
+ DtCFHfw8ucXmg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id E2572CAC5B1;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id F155ACAC5A7;
  Tue, 23 Sep 2025 06:23:18 +0000 (UTC)
 From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Tue, 23 Sep 2025 14:23:42 +0800
-Subject: [PATCH v4 2/4] drm/bridge: it6505: add INT status check while link
- auto training
+Date: Tue, 23 Sep 2025 14:23:43 +0800
+Subject: [PATCH v4 3/4] drm/bridge: it6505: modify DP link training work
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250923-fix-link-training-v4-2-7c18f5d3891e@ite.com.tw>
+Message-Id: <20250923-fix-link-training-v4-3-7c18f5d3891e@ite.com.tw>
 References: <20250923-fix-link-training-v4-0-7c18f5d3891e@ite.com.tw>
 In-Reply-To: <20250923-fix-link-training-v4-0-7c18f5d3891e@ite.com.tw>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -55,13 +54,14 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Allen Chen <allen.chen@ite.com.tw>, Hermes Wu <hermes.wu@ite.com.tw>
 Cc: Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Hermes Wu <Hermes.wu@ite.com.tw>
+ Hermes Wu <Hermes.wu@ite.com.tw>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758608643; l=4260;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758608643; l=4440;
  i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=rwRZdmFdmrU1FhWpEwDA7kOBSoYE4/nfSqSQTPeMCi0=;
- b=poEtWQy7mhu+Z/LCibk4wk/XwpT46+hYyVohtyt7gXykgRDGyxHCH7RoU8Uf6WtyHklIdvt5K
- F6fC4MKcmWcD+4Zn/NZR567H3L+Qq4Zyn0kYTfI+213JaVCue4FDU6L
+ bh=aNgX8ku/g4Npw+XBkXl6a6rbjnMD1KIDhBrcFoowf7Q=;
+ b=6iVQ3WRxt+eduB8Aurtfy0iGusCK+mvOmhDQaMiHl/MtO2YAKGgPSj8I1Xfrg0QQIRtYvRosp
+ WeeGBqdS13uAbsu1YcQsIhxQNFvqz072WTmbo1PAspPMggcV5L+6+e3
 X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
  pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
 X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
@@ -85,115 +85,126 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-When start link training, interrupt status INT_LINK_TRAIN_FAIL can use to
-check link training fail and no need to wait until timeout.
+The DP link training work start with auto training and after auto
+training failed "AUTO_TRAIN_RETRY" times, it switch to step training
+mode.
 
-it6505_irq_link_train_fail() remove from interrupt and no longer used.
+It will more efficiency that finish link tranining without re-schedule
+train work when each training fail.
 
-IT6505 HW auto link training which will write DPCD and check training
-status automatically.
+Drop auto_train_retry from it6505 structure, and it6505_dump() is remove
+from link trainig work, it takes too much time to read all register area,
+and is not necessary.
 
-In the case that driver set link rate at 2.7G and HW fail to training,
-it will change link configuration and try 1.65G. And this will cause
-INT_VID_FIFO_ERROR triggered when link clock is changed.
-
-When video error occurs, video logic is reset and link training restart,
-this will cause endless auto link training.
-
-when start  link auto training, disable INT_VID_FIFO_ERROR to avoid loop
-and check INT_LINK_TRAIN_FAIL event to abort wait training done.
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 38 ++++++++++++++++++++++++++-----------
- 1 file changed, 27 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 40 ++++++++++++++-----------------------
+ 1 file changed, 15 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index b47042dc06bb1e1dfd92bc0dc6d69dc918a140ba..f9b99c70789eea6beb3c6513155c9a4ca103d219 100644
+index f9b99c70789eea6beb3c6513155c9a4ca103d219..bff5f18fb5ae7192242308f034b60af9807c192c 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -821,8 +821,8 @@ static void it6505_int_mask_enable(struct it6505 *it6505)
- 	it6505_write(it6505, INT_MASK_02, BIT(INT_AUX_CMD_FAIL) |
- 		     BIT(INT_HDCP_KSV_CHECK) | BIT(INT_AUDIO_FIFO_ERROR));
- 
--	it6505_write(it6505, INT_MASK_03, BIT(INT_LINK_TRAIN_FAIL) |
--		     BIT(INT_VID_FIFO_ERROR) | BIT(INT_IO_LATCH_FIFO_OVERFLOW));
-+	it6505_write(it6505, INT_MASK_03, BIT(INT_VID_FIFO_ERROR) |
-+		     BIT(INT_IO_LATCH_FIFO_OVERFLOW));
+@@ -467,7 +467,6 @@ struct it6505 {
+ 	struct delayed_work hdcp_work;
+ 	struct work_struct hdcp_wait_ksv_list;
+ 	struct completion extcon_completion;
+-	u8 auto_train_retry;
+ 	bool hdcp_desired;
+ 	bool is_repeater;
+ 	u8 hdcp_down_stream_count;
+@@ -666,7 +665,7 @@ static int it6505_get_dpcd(struct it6505 *it6505, int offset, u8 *dpcd, int num)
+ 	return 0;
  }
  
- static void it6505_int_mask_disable(struct it6505 *it6505)
-@@ -1802,8 +1802,17 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
+-static void it6505_dump(struct it6505 *it6505)
++static void __maybe_unused it6505_dump(struct it6505 *it6505)
  {
- 	int timeout = 500, link_training_state;
- 	bool state = false;
-+	int int03;
-+	struct device *dev = it6505->dev;
+ 	unsigned int i, j;
+ 	u8 regs[16];
+@@ -1399,7 +1398,6 @@ static void it6505_variable_config(struct it6505 *it6505)
+ 	it6505->lane_count = MAX_LANE_COUNT;
+ 	it6505->link_state = LINK_IDLE;
+ 	it6505->hdcp_desired = HDCP_DESIRED;
+-	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+ 	it6505->audio.select = AUDIO_SELECT;
+ 	it6505->audio.sample_rate = AUDIO_SAMPLE_RATE;
+ 	it6505->audio.channel_count = AUDIO_CHANNEL_COUNT;
+@@ -2467,7 +2465,7 @@ static void it6505_link_training_work(struct work_struct *work)
+ {
+ 	struct it6505 *it6505 = container_of(work, struct it6505, link_works);
+ 	struct device *dev = it6505->dev;
+-	int ret;
++	int ret, retry;
  
- 	mutex_lock(&it6505->aux_lock);
-+
-+	/* Disable FIFO error interrupt trigger  */
-+	/* to prevent training fail loop issue   */
-+	it6505_set_bits(it6505, INT_MASK_03, BIT(INT_VID_FIFO_ERROR), 0);
-+
-+	it6505_write(it6505, INT_STATUS_03,
-+		     BIT(INT_LINK_TRAIN_FAIL) | BIT(INT_VID_FIFO_ERROR));
- 	it6505_set_bits(it6505, REG_TRAIN_CTRL0,
- 			FORCE_CR_DONE | FORCE_EQ_DONE, 0x00);
- 	/* reset link state machine and re start training*/
-@@ -1814,6 +1823,19 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
- 	while (timeout > 0) {
- 		usleep_range(1000, 2000);
- 		link_training_state = it6505_read(it6505, REG_LINK_TRAIN_STS);
-+		int03 = it6505_read(it6505, INT_STATUS_03);
-+		if (int03 & BIT(INT_LINK_TRAIN_FAIL)) {
-+			/* Ignore INT_VID_FIFO_ERROR when auto training fail*/
-+			it6505_write(it6505, INT_STATUS_03,
-+				     BIT(INT_LINK_TRAIN_FAIL) |
-+				     BIT(INT_VID_FIFO_ERROR));
-+
-+			DRM_DEV_DEBUG_DRIVER(dev,
-+					     "INT_LINK_TRAIN_FAIL(%x)!",
-+					      int03);
-+
-+			break;
+ 	DRM_DEV_DEBUG_DRIVER(dev, "it6505->sink_count: %d",
+ 			     it6505->sink_count);
+@@ -2475,27 +2473,22 @@ static void it6505_link_training_work(struct work_struct *work)
+ 	if (!it6505_get_sink_hpd_status(it6505))
+ 		return;
+ 
+-	it6505_link_training_setup(it6505);
+-	it6505_reset_hdcp(it6505);
+-	it6505_aux_reset(it6505);
+-
+-	if (it6505->auto_train_retry < 1) {
+-		it6505_link_step_train_process(it6505);
+-		return;
+-	}
+-
+-	ret = it6505_link_start_auto_train(it6505);
+-	DRM_DEV_DEBUG_DRIVER(dev, "auto train %s, auto_train_retry: %d",
+-			     ret ? "pass" : "failed", it6505->auto_train_retry);
++	for (retry = AUTO_TRAIN_RETRY; retry > 0; retry--) {
++		it6505_link_training_setup(it6505);
++		it6505_reset_hdcp(it6505);
++		it6505_aux_reset(it6505);
+ 
+-	if (ret) {
+-		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+-		it6505_link_train_ok(it6505);
+-	} else {
+-		it6505->auto_train_retry--;
+-		it6505_dump(it6505);
++		ret = it6505_link_start_auto_train(it6505);
++		DRM_DEV_DEBUG_DRIVER(dev, "auto train %s,",
++				     ret ? "pass" : "failed");
++		if (ret) {
++			it6505_link_train_ok(it6505);
++			return;
 +		}
- 
- 		if (link_training_state > 0 &&
- 		    (link_training_state & LINK_STATE_NORP)) {
-@@ -1824,6 +1846,9 @@ static bool it6505_link_start_auto_train(struct it6505 *it6505)
- 		timeout--;
  	}
- unlock:
-+	/* recover interrupt trigger*/
-+	it6505_set_bits(it6505, INT_MASK_03,
-+			BIT(INT_VID_FIFO_ERROR), BIT(INT_VID_FIFO_ERROR));
- 	mutex_unlock(&it6505->aux_lock);
  
- 	return state;
-@@ -2693,14 +2718,6 @@ static void it6505_irq_audio_fifo_error(struct it6505 *it6505)
- 		it6505_enable_audio(it6505);
++	/*After HW auto training fail, try link training step by step*/
++	it6505_link_step_train_process(it6505);
  }
  
--static void it6505_irq_link_train_fail(struct it6505 *it6505)
--{
--	struct device *dev = it6505->dev;
--
--	DRM_DEV_DEBUG_DRIVER(dev, "link training fail interrupt");
--	schedule_work(&it6505->link_works);
--}
--
- static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
- {
- 	return 1 & (addr[bit / BITS_PER_BYTE] >> (bit % BITS_PER_BYTE));
-@@ -2765,7 +2782,6 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 		{ BIT_INT_AUX_CMD_FAIL, it6505_irq_aux_cmd_fail },
- 		{ BIT_INT_HDCP_KSV_CHECK, it6505_irq_hdcp_ksv_check },
- 		{ BIT_INT_AUDIO_FIFO_ERROR, it6505_irq_audio_fifo_error },
--		{ BIT_INT_LINK_TRAIN_FAIL, it6505_irq_link_train_fail },
- 	};
- 	int int_status[3], i;
+ static void it6505_plugged_status_to_codec(struct it6505 *it6505)
+@@ -2576,7 +2569,6 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
+ 			     (int)ARRAY_SIZE(link_status), link_status);
  
+ 	if (!drm_dp_channel_eq_ok(link_status, it6505->lane_count)) {
+-		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+ 		it6505_video_reset(it6505);
+ 	}
+ 
+@@ -2602,7 +2594,6 @@ static void it6505_irq_hpd(struct it6505 *it6505)
+ 			it6505_variable_config(it6505);
+ 			it6505_parse_link_capabilities(it6505);
+ 		}
+-		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+ 
+ 		it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
+ 					     DP_SET_POWER_D0);
+@@ -2739,7 +2730,6 @@ static void it6505_irq_video_handler(struct it6505 *it6505, const int *int_statu
+ 			     (unsigned int *)int_status)) ||
+ 	    (it6505_test_bit(BIT_INT_VID_FIFO_ERROR,
+ 			     (unsigned int *)int_status))) {
+-		it6505->auto_train_retry = AUTO_TRAIN_RETRY;
+ 		flush_work(&it6505->link_works);
+ 		it6505_stop_hdcp(it6505);
+ 		it6505_video_reset(it6505);
 
 -- 
 2.34.1
