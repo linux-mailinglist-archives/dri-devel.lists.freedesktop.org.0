@@ -2,149 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D21CB96851
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 17:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBACB968AD
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 17:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E4910E0C1;
-	Tue, 23 Sep 2025 15:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03EFA89B30;
+	Tue, 23 Sep 2025 15:20:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="KHvRw8bv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="80EE6Pgp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KHvRw8bv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="80EE6Pgp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ldyAkNfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED44510E0C1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 15:14:57 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C0FDD220E3;
- Tue, 23 Sep 2025 15:14:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758640495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Qrap3zrlwqq38JIujBy9Py/9DHRcj3SDYEx6STNCrfg=;
- b=KHvRw8bvKL/8WRpMnptQYXOkPL0AmR82qkzIOVlrugKRbeh6i8KtBMNGZDcFak5IQiWyrX
- dXoWPMG7dkXyC1CvOrQzNW3+1NlFBJQvkfLGZUCqLNGo24CLyOdfL6jIn/rdYDoTJswYCJ
- rCXQGg3oxo56pqzDehn7AslZqQwgeqk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758640495;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Qrap3zrlwqq38JIujBy9Py/9DHRcj3SDYEx6STNCrfg=;
- b=80EE6Pgpmemu6XiDuZoIBg/jWhlibon0RdbmrJLoCYTZiZaxGj9QgQzEDBP9Nqcwe9qWgz
- t5ZeufHqZhaNQnDw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KHvRw8bv;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=80EE6Pgp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758640495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Qrap3zrlwqq38JIujBy9Py/9DHRcj3SDYEx6STNCrfg=;
- b=KHvRw8bvKL/8WRpMnptQYXOkPL0AmR82qkzIOVlrugKRbeh6i8KtBMNGZDcFak5IQiWyrX
- dXoWPMG7dkXyC1CvOrQzNW3+1NlFBJQvkfLGZUCqLNGo24CLyOdfL6jIn/rdYDoTJswYCJ
- rCXQGg3oxo56pqzDehn7AslZqQwgeqk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758640495;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Qrap3zrlwqq38JIujBy9Py/9DHRcj3SDYEx6STNCrfg=;
- b=80EE6Pgpmemu6XiDuZoIBg/jWhlibon0RdbmrJLoCYTZiZaxGj9QgQzEDBP9Nqcwe9qWgz
- t5ZeufHqZhaNQnDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A7C81388C;
- Tue, 23 Sep 2025 15:14:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id fop9HG+50mhBVQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 15:14:55 +0000
-Message-ID: <9fe75192-9260-44f7-8f13-e024e2bbd731@suse.de>
-Date: Tue, 23 Sep 2025 17:14:55 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177FA89B30
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 15:20:04 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58NFJuMe003440
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 15:20:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=gCV/pb1tLRPYyn0K5UOzS+G9
+ Vkwx7WfFeF/hb+u94DI=; b=ldyAkNfQrUkEvks9ymiBA3QcOdW917vdOVB5XnsG
+ b9GruvWrlk/VOcPP0a1Tu9lpjaFCSQT/5zF/6BCkH3IsYu8/FoWkXReUu0VxrvVd
+ b5wlXiQEzrrd6hdxswN586AvYOmqKdVUYZKEpL5s4IlJ7N0pN5N1B933makkDA1X
+ PzEqLw33ItTUvvDqMDKyn8eXlO/urKu9zmFu5iqIl0/GbhOI6vJP+vpmT41EJ6OU
+ U4Qr9JKVlYQZBNg4xgh9p9z89bdfEF/MGLJr7+W712KWiIHMTU2BCpEiQ8glVZxC
+ pqpjOdGlXmckYlLRYSsqNmOjCU2TBeBkECtKOuh31xnNMQ==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kv114a9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 15:20:03 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b302991816so115730261cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 08:20:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758640802; x=1759245602;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gCV/pb1tLRPYyn0K5UOzS+G9Vkwx7WfFeF/hb+u94DI=;
+ b=LlTg5zDcs5wyfOL3OKYefVKmt08kfTa2unydFRF8wiUHWGfE7iIFJ266sVEx8FRfwN
+ wx830JAILVjBMiXgWscSj1cicUeblzJwJGGlIfSOjqHJLcjDX62D5J+Kr7Yl5IttYJnG
+ HV5FiHsgZfQ+75clTg8GhSa9ZYeB/cNJ2gKrsibPTSk2gqSnEZ0/KlWYOE4Cil4TW+8+
+ nHQxz1ff4m0dXhXyF8UjGEw2erPGq4cHjcueoJzt/cZoH03iC4c6OLi7P0K9P9+in8yA
+ NtQou4rAwRQFVjVS5G1g2Woa4HY3ONveojyXd4DX0gQaJErxIFTWwY1jepZM3K28Lbfv
+ L7kw==
+X-Gm-Message-State: AOJu0Yw1+49reaVJPuInOaeR3Vftfd+N6KPCLDAqU8wS7wDpd+jR2LWJ
+ CVyOg4OwWJuGQje+DbGmYYLgkgnBk0pPpZIRfIjBemW0J3fsE+A4yfZyvq+CJ4MtwyDSNzrPj2a
+ 6NmVqW8+2iz1B05JLSflyiGEQ2crxt/2wy86bxJIsHPbU2EvAgPjQShT5xkbAWDzeh8q5+y4=
+X-Gm-Gg: ASbGnctalTR4SSoCjAevKd7wJ60yfXCmQU/h4W8xUBE4DTb8CfYdC8XwvQ7aMLg2OzA
+ ElHyk3rMob2Os49iS1KIQtJr1YHsms92oYGLulkgbM86YwEVocEsUnGtykjSZ6PbleJuxHNkrnG
+ tDd3GHAk7pFJ6Rx8S0qcR9/A0Mx8l2IMqZd1x8L//tl1WiKNQtBB9KpNyU30c5qTTVcOJOg4pLi
+ b5v20VcuCAmb81UlnxrZ94w3W/pZBP98dlrU75e2GF4Nj5mJPNbz2eWt7WETAxDQd7cXnc6WIbl
+ jn5J+xDvcvNtgft4JsknjzgN231emhlmGHbYzcdW5G/xKW3SkLz1uRjRKwmeywoCGtDOeOQVnQA
+ JCIPzTTa3oU9Uhab5IZ9sRV5ACQAU/cJnFqC32+wlrqPl1yAlFyEV
+X-Received: by 2002:ad4:4e02:0:b0:7e8:bea3:7d9d with SMTP id
+ 6a1803df08f44-7e8bea3811amr17896126d6.16.1758640801859; 
+ Tue, 23 Sep 2025 08:20:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGVS0rRmacZYHN6WFNAxnIrqqRssTUR1psPn8W9m/1docVP1AnD3wRfk3EM0Xor1zFPDzdpPw==
+X-Received: by 2002:ad4:4e02:0:b0:7e8:bea3:7d9d with SMTP id
+ 6a1803df08f44-7e8bea3811amr17895876d6.16.1758640801239; 
+ Tue, 23 Sep 2025 08:20:01 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-361a8e61bf5sm38486321fa.44.2025.09.23.08.19.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Sep 2025 08:20:00 -0700 (PDT)
+Date: Tue, 23 Sep 2025 18:19:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniel.stone@collabora.com,
+ jani.nikula@linux.intel.com, tzimmermann@suse.de,
+ simona.vetter@ffwll.ch, derek.foreman@collabora.com
+Subject: Re: [PATCH] drm/connector: hdmi: Add a link bpc property
+Message-ID: <zyu6reelu7yhthjx27qpoconyrp3x4jg6ppiih7tcm44h77gs7@n5zx5izcoozr>
+References: <20250801101750.1726-1-marius.vlad@collabora.com>
+ <l6s63vlxu2lrsxcbwrxt5shcn6rnldwjdevggmipstjmluxnyn@7ynu3iygwvxf>
+ <aNKNQ8MWPGMyNf63@xpredator>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/radeon: Update stale product link in
- Kconfig/FB_RADEON
-To: Sukrut Heroorkar <hsukrut3@gmail.com>, Helge Deller <deller@gmx.de>,
- Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20250923084157.11582-1-hsukrut3@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250923084157.11582-1-hsukrut3@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: C0FDD220E3
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,gmx.de,arndb.de,infradead.org,linaro.org,vger.kernel.org,lists.freedesktop.org];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linuxfoundation.org,gmail.com];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCPT_COUNT_SEVEN(0.00)[11];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:url, imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid]
-X-Spam-Score: -3.01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aNKNQ8MWPGMyNf63@xpredator>
+X-Proofpoint-GUID: GKPIeGaU2fmmDjOIHHTYUJgmYVIT7xol
+X-Authority-Analysis: v=2.4 cv=RO2zH5i+ c=1 sm=1 tr=0 ts=68d2baa3 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=QX4gbG5DAAAA:8 a=xVN2UeT8ZDlc9s_1JQMA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyNSBTYWx0ZWRfX70SoM38CA8SA
+ /Uhv3FMSKXkqjbs5g5anLLUxMW/qkxDTxw6S3Lown3or+1Lv8qQ5YwnQj6KGu9htwq5I5929LPu
+ 40Qwn0CRXZsX971fNlaPqgTM4GIBzY1sqN9rhkCmJ40RzXp94XLGdSNS0/pbh+Iz/13R/0t9Vv3
+ Bh+6M5u1Yu13CpVEB2Q/oHfCzMeJn/h2OBrB9DIKj1yU0zVsiq1Ls2CbAe+TA04sO995haaY5B5
+ K0QO3EylVeDLMuJAa4zaBrBWOdeZU14NH2nuZ5T3I7TzMRmlLbAK9CupQi3jD2+UhaEe4cyVU6k
+ SXyxKa248TtdkdO4Htv8dw6rGDMBuYzydotyIC9WY0UA7X2bBIu00z5N6Nt0IlMgeIcOngbQOCC
+ dJBFdxPN
+X-Proofpoint-ORIG-GUID: GKPIeGaU2fmmDjOIHHTYUJgmYVIT7xol
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_03,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,44 +122,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Tue, Sep 23, 2025 at 03:06:27PM +0300, Marius Vlad wrote:
+> Hi Dmitry,
+> On Fri, Aug 01, 2025 at 05:09:06PM +0300, Dmitry Baryshkov wrote:
+> > On Fri, Aug 01, 2025 at 01:17:50PM +0300, Marius Vlad wrote:
+> > > From: Derek Foreman <derek.foreman@collabora.com>
+> > > 
+> > > Add a way to know the actual bpc of a running link.
+> > > 
+> > > Drivers might change the current bpc link value due to changes in mode
+> > > line or refresh rates. For example when enabling VRR the underlying
+> > > hardware might not be able sustain the same bandwidth for a particular
+> > > mode line, and it might attempt to lower the bpc. Another example can be
+> > > found when switching the color output format, part of YUV420 fallback.
+> > > 
+> > > This means we might be displaying a stale bpc value although it was
+> > > modified for different reasons -- like a refresh rate or an output
+> > > color format.
+> > > 
+> > > This patch introduces a new property 'link bpc' that user-space can
+> > > use to get the current bpc value of a running link. In the same
+> > > time this would allow user-space set up bpc using 'max_bpc' property.
+> > 
+> > Could you please point out the userspace implementation which uses this
+> > property?
+> I'll be adding a MR for Weston for retriving this property. It will compare
+> it with 'max bpc' and inform the users that we've noticed a link change.
 
-Am 23.09.25 um 10:41 schrieb Sukrut Heroorkar:
-> The previous Radeon product page link was no longer valid. Repalce
-> it with the current working link.
->
-> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
-> ---
->   drivers/video/fbdev/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index c21484d15f0c..3037455adf48 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -949,7 +949,7 @@ config FB_RADEON
->   	  don't need to choose this to run the Radeon in plain VGA mode.
->   
->   	  There is a product page at
-> -	  https://products.amd.com/en-us/GraphicCardResult.aspx
-> +	  https://www.amd.com/en/products/specifications/graphics.html
+Thanks!
 
-May I suggest to remove this URL entirely?
+> > 
+> > > 
+> > > Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+> > > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_atomic_uapi.c |  5 +++++
+> > >  drivers/gpu/drm/drm_connector.c   | 26 ++++++++++++++++++++++++++
+> > >  include/drm/drm_connector.h       |  8 ++++++++
+> > >  3 files changed, 39 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> > > index ecc73d52bfae..3a2ffb957ade 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > > @@ -776,6 +776,9 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+> > >  						   fence_ptr);
+> > >  	} else if (property == connector->max_bpc_property) {
+> > >  		state->max_requested_bpc = val;
+> > > +	} else if (property == connector->link_bpc_property) {
+> > > +		drm_dbg_kms(dev, "only drivers can set link bpc property. Use max_bpc instead\n");
+> > > +		return -EINVAL;
+> > >  	} else if (property == connector->privacy_screen_sw_state_property) {
+> > >  		state->privacy_screen_sw_state = val;
+> > >  	} else if (property == connector->broadcast_rgb_property) {
+> > > @@ -861,6 +864,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+> > >  		*val = 0;
+> > >  	} else if (property == connector->max_bpc_property) {
+> > >  		*val = state->max_requested_bpc;
+> > > +	} else if (property == connector->link_bpc_property) {
+> > > +		*val = state->hdmi.output_bpc;
+> > >  	} else if (property == connector->privacy_screen_sw_state_property) {
+> > >  		*val = state->privacy_screen_sw_state;
+> > >  	} else if (property == connector->broadcast_rgb_property) {
+> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > > index 272d6254ea47..7ed27aec0ccc 100644
+> > > --- a/drivers/gpu/drm/drm_connector.c
+> > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > @@ -542,6 +542,28 @@ int drmm_connector_init(struct drm_device *dev,
+> > >  }
+> > >  EXPORT_SYMBOL(drmm_connector_init);
+> > >  
+> > > +static int
+> > > +drm_connector_attach_link_bpc_property(struct drm_connector *connector,
+> > > +				       int min, int max)
+> > > +{
+> > > +	struct drm_device *dev = connector->dev;
+> > > +	struct drm_property *prop;
+> > > +
+> > > +	prop = connector->link_bpc_property;
+> > > +	if (prop)
+> > > +		return 0;
+> > 
+> > Shouldn't it be:
+> > 
+> > if (connector->link_bpc_property)
+> > 	return -EBUSY;
+> Yeah.
+> > 
+> > > +
+> > > +	prop = drm_property_create_range(dev, 0, "link bpc", min, max);
+> > > +	if (!prop)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	connector->link_bpc_property = prop;
+> > > +
+> > > +	drm_object_attach_property(&connector->base, prop, max);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  /**
+> > >   * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+> > >   * @dev: DRM device
+> > > @@ -618,6 +640,10 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+> > >  	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+> > >  	connector->max_bpc = max_bpc;
+> > >  
+> > > +	ret = drm_connector_attach_link_bpc_property(connector, 8, max_bpc);
+> > > +	if (ret)
+> > > +		return ret;
+> > 
+> > Is there a code which sets this property?
+> Hmm, the idea is/was that userspace will just read out this property and
+> compare with the 'max bpc' one. In my mind it should be immutable. Is
+> that what you're implying here?
 
-Best regards
-Thomas
+Yes. Also plese point out the IGT tests for the prop.
 
->   
->   config FB_RADEON_I2C
->   	bool "DDC/I2C for ATI Radeon support"
+> > 
+> > > +
+> > >  	if (max_bpc > 8)
+> > >  		drm_connector_attach_hdr_output_metadata_property(connector);
+> > >  
+> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > index 8f34f4b8183d..4a50198aa7c0 100644
+> > > --- a/include/drm/drm_connector.h
+> > > +++ b/include/drm/drm_connector.h
+> > > @@ -2079,6 +2079,14 @@ struct drm_connector {
+> > >  	 */
+> > >  	struct drm_property *max_bpc_property;
+> > >  
+> > > +	/**
+> > > +	 * @link_bpc_property: Current connector link bpc set by the driver
+> > > +	 *
+> > > +	 * This property can be used to retrieve the current link bpc from
+> > > +	 * connector_state::hdmi:output_bpc
+> > > +	 */
+> > > +	struct drm_property *link_bpc_property;
+> > > +
+> > >  	/** @privacy_screen: drm_privacy_screen for this connector, or NULL. */
+> > >  	struct drm_privacy_screen *privacy_screen;
+> > >  
+> > > -- 
+> > > 2.47.2
+> > > 
+> > 
+> > -- 
+> > With best wishes
+> > Dmitry
+
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+With best wishes
+Dmitry
