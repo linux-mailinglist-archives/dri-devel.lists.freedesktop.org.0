@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F70BB95595
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:57:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB738B9568C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 12:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB6B10E5D8;
-	Tue, 23 Sep 2025 09:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7586310E320;
+	Tue, 23 Sep 2025 10:15:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eoSoaQgv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B1I7etC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE6D10E5D7
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:57:29 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5C410E320
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 10:15:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CBEBC60007;
- Tue, 23 Sep 2025 09:57:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11446C116C6;
- Tue, 23 Sep 2025 09:57:27 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E2260435AB;
+ Tue, 23 Sep 2025 10:15:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67AE4C4CEF5;
+ Tue, 23 Sep 2025 10:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758621448;
- bh=PmQj01fq68gwRFtG9+hBxQriDoWRfOd2B6z14pQfHtI=;
+ s=k20201202; t=1758622529;
+ bh=ZKeHLMCxFfMj54KKUsRxVMsUCENcLZ4thfkV5gL3HRU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eoSoaQgvD07Ya3O1XBoSovaJEKnjj/DOYJxgjDCOT29Y0FfNB/JeVkXnhDVRU8Ipk
- 3AiuTyKT3jdWLmPnc/BIuiWejajczlw53lueX+5W6Zl6H364xc35EXF9RsqmbejjKa
- 3NV5iEKHEwCR3Sm5icxulcbt9H4HW6So8A/Ynv7AcjvszjK2e9Oqjey7SoIuy8RUa4
- pQUKseLCsaH9duLZaqIlKcjrR5p8okEX2nUQKjhtfQJyp9v4j9ZAfhzpgfcUPOhAYC
- gdxK7DFD1MdW+D1mWuYmrQVBzljzIOVa+TS9JcjYCnTRR2LmM8wo5zV2aFnHDzzzrW
- 9wNSWoy9z2YfA==
-Date: Tue, 23 Sep 2025 11:57:25 +0200
+ b=B1I7etC5hrtOTSLHVLJi9j735HzbbgAlxFXlNeYw55HrVVgGDgsLztbtdrz4aqvM7
+ 9SDHKjuixSucK9JNShan/XxpcmX+mEvFLD1da6Bjl5p1iaHBdDPc8PMFQCQY34cAFL
+ E7M5/CiOPOWEqkNCy3njqLusIyxM1QIaRUPxDB9bRRtu7qUXeLCRVz3bF2MNAt6TuQ
+ 317VjMmuOF/oQGXB8SBkL2IBBiWrNg74PmFX21huwqcNIgvz9UcRaEqTKlPomjfmWL
+ PLFL9B7nEhsUPvIo5Zsu0wu/KtoMF8StfP22zAleCmwaYV23ehegm+zSVZS2FZ7gTd
+ /8t2EjGe2tt6A==
+Date: Tue, 23 Sep 2025 12:15:26 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Jocelyn Falempe <jfalempe@redhat.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, Javier Martinez Canillas <javierm@redhat.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/3] drm/panic: Add kunit tests for drm_panic
-Message-ID: <20250923-silent-mole-of-luxury-9feabc@penduick>
+Subject: Re: [PATCH v2 3/3] drm/panic: Add a drm_panic/draw_test in debugfs
+Message-ID: <20250923-smart-curly-muskrat-9acae7@penduick>
 References: <20250908090341.762049-1-jfalempe@redhat.com>
- <20250908090341.762049-3-jfalempe@redhat.com>
- <20250910-fascinating-hungry-lemur-1d9f49@houat>
- <5e9dc5b5-9671-4a72-b926-8b526ebf9059@redhat.com>
+ <20250908090341.762049-4-jfalempe@redhat.com>
+ <20250910-astute-vole-of-kindness-c6f6ce@houat>
+ <5af10ddf-26a4-4022-9bf3-ade739fe0f78@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="fd6k3xj7eipdo577"
+ protocol="application/pgp-signature"; boundary="iyz3knbqty3vryra"
 Content-Disposition: inline
-In-Reply-To: <5e9dc5b5-9671-4a72-b926-8b526ebf9059@redhat.com>
+In-Reply-To: <5af10ddf-26a4-4022-9bf3-ade739fe0f78@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,240 +64,140 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---fd6k3xj7eipdo577
+--iyz3knbqty3vryra
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 2/3] drm/panic: Add kunit tests for drm_panic
+Subject: Re: [PATCH v2 3/3] drm/panic: Add a drm_panic/draw_test in debugfs
 MIME-Version: 1.0
 
-On Wed, Sep 10, 2025 at 05:16:49PM +0200, Jocelyn Falempe wrote:
-> On 10/09/2025 10:33, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, Sep 08, 2025 at 11:00:30AM +0200, Jocelyn Falempe wrote:
-> > > Add kunit tests for drm_panic.
-> > > They check that drawing the panic screen doesn't crash, but they
-> > > don't check the correctness of the resulting image.
+On Thu, Sep 11, 2025 at 02:00:42PM +0200, Jocelyn Falempe wrote:
+> On 10/09/2025 12:49, Maxime Ripard wrote:
+> > On Mon, Sep 08, 2025 at 11:00:31AM +0200, Jocelyn Falempe wrote:
+> > > This adds a new drm_panic/draw_test file in debugfs.
+> > > This file allows to test the panic screen rendering at different
+> > > resolution and pixel format.
+> > > It's useful only for kernel developers that want to create or
+> > > customize a panic screen.
+> > >=20
+> > > If you want to check the result at 1024x768 using XRGB8888:
+> > >=20
+> > > cd /sys/kernel/debug/drm_panic/
+> > > exec 3<> draw_test
+> > > echo 1024x768:XR24 >&3
+> > > cat <&3 > ~/panic_screen.raw
+> > > exec 3<&-
 > > >=20
 > > > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> > > ---
-> > >=20
+> >=20
+> > I see what you meant in your previous version, and I misunderstood what
+> > you were saying, sorry.
+> >=20
 > > > v2:
-> > >   * Add a few checks, and more comments in the kunit tests. (Maxime R=
-ipard).
+> > >   * Use debugfs instead of sending the framebuffer through the kunit =
+logs. (Thomas Zimmermann).
 > > >=20
-> > >   MAINTAINERS                            |   1 +
-> > >   drivers/gpu/drm/drm_panic.c            |   4 +
-> > >   drivers/gpu/drm/tests/drm_panic_test.c | 198 ++++++++++++++++++++++=
+> > >   drivers/gpu/drm/Kconfig     |   2 +
+> > >   drivers/gpu/drm/drm_panic.c | 117 +++++++++++++++++++++++++++++++++=
 +++
-> > >   3 files changed, 203 insertions(+)
-> > >   create mode 100644 drivers/gpu/drm/tests/drm_panic_test.c
+> > >   2 files changed, 119 insertions(+)
 > > >=20
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 402fe14091f1..e9be893d6741 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -8480,6 +8480,7 @@ T:	git https://gitlab.freedesktop.org/drm/misc/=
-kernel.git
-> > >   F:	drivers/gpu/drm/drm_draw.c
-> > >   F:	drivers/gpu/drm/drm_draw_internal.h
-> > >   F:	drivers/gpu/drm/drm_panic*.c
-> > > +F:	drivers/gpu/drm/tests/drm_panic_test.c
-> > >   F:	include/drm/drm_panic*
-> > >   DRM PANIC QR CODE
+> > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > > index f7ea8e895c0c..0d3146070d9c 100644
+> > > --- a/drivers/gpu/drm/Kconfig
+> > > +++ b/drivers/gpu/drm/Kconfig
+> > > @@ -83,6 +83,8 @@ config DRM_PANIC_DEBUG
+> > >   	  Add dri/[device]/drm_panic_plane_x in the kernel debugfs, to for=
+ce the
+> > >   	  panic handler to write the panic message to this plane scanout b=
+uffer.
+> > >   	  This is unsafe and should not be enabled on a production build.
+> > > +	  Also adds a drm_panic/draw_test file in debugfs, to easily test t=
+he
+> > > +	  panic screen rendering.
+> > >   	  If in doubt, say "N".
+> > >   config DRM_PANIC_SCREEN
 > > > diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> > > index 1e06e3a18d09..d89812ff1935 100644
+> > > index d89812ff1935..0c01d6067eab 100644
 > > > --- a/drivers/gpu/drm/drm_panic.c
 > > > +++ b/drivers/gpu/drm/drm_panic.c
-> > > @@ -986,3 +986,7 @@ void drm_panic_exit(void)
-> > >   {
-> > >   	drm_panic_qr_exit();
+> > > @@ -873,6 +873,7 @@ static void drm_panic(struct kmsg_dumper *dumper,=
+ struct kmsg_dump_detail *detai
+> > >    */
+> > >   #ifdef CONFIG_DRM_PANIC_DEBUG
+> > >   #include <linux/debugfs.h>
+> > > +#include <linux/vmalloc.h>
+> > >   static ssize_t debugfs_trigger_write(struct file *file, const char =
+__user *user_buf,
+> > >   				     size_t count, loff_t *ppos)
+> > > @@ -901,8 +902,122 @@ static void debugfs_register_plane(struct drm_p=
+lane *plane, int index)
+> > >   	debugfs_create_file(fname, 0200, plane->dev->debugfs_root,
+> > >   			    plane, &dbg_drm_panic_ops);
 > > >   }
 > > > +
-> > > +#ifdef CONFIG_DRM_KUNIT_TEST
-> > > +#include "tests/drm_panic_test.c"
-> > > +#endif
-> > > diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm=
-/tests/drm_panic_test.c
-> > > new file mode 100644
-> > > index 000000000000..d5d20dd2aa7c
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/tests/drm_panic_test.c
-> > > @@ -0,0 +1,198 @@
-> > > +// SPDX-License-Identifier: GPL-2.0 or MIT
 > > > +/*
-> > > + * Copyright (c) 2025 Red Hat.
-> > > + * Author: Jocelyn Falempe <jfalempe@redhat.com>
-> > > + *
-> > > + * KUNIT tests for drm panic
+> > > + * Draw test interface
+> > > + * This can be used to check the panic screen at any resolution/pixe=
+l format.
+> > > + * The framebuffer memory is freed when the file is closed, so use t=
+his sh
+> > > + * script to write the parameters and read the result without closin=
+g the file.
+> > > + * cd /sys/kernel/debug/drm_panic/
+> > > + * exec 3<> draw_test
+> > > + * echo 1024x768:XR24 >&3
+> > > + * cat <&3 > ~/panic_screen.raw
+> > > + * exec 3<&-
 > > > + */
-> > > +
-> > > +#include <drm/drm_fourcc.h>
-> > > +#include <drm/drm_panic.h>
-> > > +
-> > > +#include <kunit/test.h>
-> > > +
-> > > +#include <linux/units.h>
-> > > +#include <linux/vmalloc.h>
-> > > +
-> > > +/* Check the framebuffer color only if the panic colors are the defa=
-ult */
-> > > +#if (CONFIG_DRM_PANIC_BACKGROUND_COLOR =3D=3D 0 && \
-> > > +	CONFIG_DRM_PANIC_FOREGROUND_COLOR =3D=3D 0xffffff)
-> > > +#define DRM_PANIC_CHECK_COLOR
-> > > +#endif
-> > > +
-> > > +struct drm_test_mode {
-> > > +	const int width;
-> > > +	const int height;
-> > > +	const u32 format;
-> > > +	void (*draw_screen)(struct drm_scanout_buffer *sb);
-> > > +	const char *fname;
-> > > +};
-> > > +
-> > > +/*
-> > > + * Run all tests for the 3 panic screens: user, kmsg and qr_code
-> > > + */
-> > > +#define DRM_TEST_MODE_LIST(func) \
-> > > +	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_XRGB8888, func) \
-> > > +	DRM_PANIC_TEST_MODE(300, 200, DRM_FORMAT_XRGB8888, func) \
-> > > +	DRM_PANIC_TEST_MODE(1920, 1080, DRM_FORMAT_XRGB8888, func) \
-> > > +	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB565, func) \
-> > > +	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB888, func) \
-> > > +
-> > > +#define DRM_PANIC_TEST_MODE(w, h, f, name) { \
-> > > +	.width =3D w, \
-> > > +	.height =3D h, \
-> > > +	.format =3D f, \
-> > > +	.draw_screen =3D draw_panic_screen_##name, \
-> > > +	.fname =3D #name, \
-> > > +	}, \
-> > > +
-> > > +static const struct drm_test_mode drm_test_modes_cases[] =3D {
-> > > +	DRM_TEST_MODE_LIST(user)
-> > > +	DRM_TEST_MODE_LIST(kmsg)
-> > > +	DRM_TEST_MODE_LIST(qr_code)
-> > > +};
-> > > +#undef DRM_PANIC_TEST_MODE
-> > > +
-> > > +static int drm_test_panic_init(struct kunit *test)
-> > > +{
-> > > +	struct drm_scanout_buffer *priv;
-> > > +
-> > > +	priv =3D kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-> > > +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> > > +
-> > > +	test->priv =3D priv;
-> > > +
-> > > +	drm_panic_set_description("Kunit testing");
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +/*
-> > > + * Test drawing the panic screen, using a memory mapped framebuffer
-> > > + * Set the whole buffer to 0xa5, and then check that all pixels have=
- been
-> > > + * written.
-> > > + */
-> > > +static void drm_test_panic_screen_user_map(struct kunit *test)
-> > > +{
-> > > +	struct drm_scanout_buffer *sb =3D test->priv;
-> > > +	const struct drm_test_mode *params =3D test->param_value;
-> > > +	char *fb;
-> > > +	int fb_size;
-> > > +
-> > > +	sb->format =3D drm_format_info(params->format);
-> > > +	fb_size =3D params->width * params->height * sb->format->cpp[0];
-> > > +
-> > > +	fb =3D vmalloc(fb_size);
-> > > +	KUNIT_ASSERT_NOT_NULL(test, fb);
-> > > +
-> > > +	memset(fb, 0xa5, fb_size);
-> > > +
-> > > +	iosys_map_set_vaddr(&sb->map[0], fb);
-> > > +	sb->width =3D params->width;
-> > > +	sb->height =3D params->height;
-> > > +	sb->pitch[0] =3D params->width * sb->format->cpp[0];
-> > > +
-> > > +	params->draw_screen(sb);
-> > > +
-> > > +#ifdef DRM_PANIC_CHECK_COLOR
-> > > +	{
-> > > +		int i;
-> > > +
-> > > +		for (i =3D 0; i < fb_size; i++)
-> > > +			KUNIT_ASSERT_TRUE(test, fb[i] =3D=3D 0 || fb[i] =3D=3D 0xff);
-> > > +	}
-> > > +#endif
 > >=20
-> > I'm not really fond of the ifdef here. Could you turn this into a
-> > function, and return that it's valid if the colors don't match what you
-> > expect?
+> > This should be documented properly, and I'm also kind of wondering how
+> > that would fit in the larger testing ecosystem.
+> >=20
+> > Ie, how can someone that just starts contributing to Linux, or is
+> > setting up a CI platform, can have that test running.
+> >=20
+> > kunit is great for that, kselftests to some extent too, but I'm not sure
+> > an ad-hoc interface is.
 >=20
-> Yes, I can rework this.
-> >=20
-> > > +	vfree(fb);
-> > > +}
-> > > +
-> > > +/*
-> > > + * Test drawing the panic screen, using a list of pages framebuffer
-> > > + * No checks are performed
-> >=20
-> > What are you testing then if you aren't checking anything?
->=20
-> It tests that there are no access to an unmapped page.
-> But I can add the same check that with the "map" case.
-> It just requires more work to map the pages.
+> It's a bit harder to setup, but also allows to do some useful things.
 
-I wasn't really arguing about adding more stuff, just that the
-documentation didn't really explain what was going on. Just saying "I'm
-checking that doing this succeeds" is definitely enough for me.
+I'm not saying that the original test has no use. I'm saying a test that
+can't be discovered and run automatically is a lot less useful, and even
+more so when it's using an ad-hoc interface.
 
-> >=20
-> > > + */
-> > > +static void drm_test_panic_screen_user_page(struct kunit *test)
-> > > +{
-> > > +	struct drm_scanout_buffer *sb =3D test->priv;
-> > > +	const struct drm_test_mode *params =3D test->param_value;
-> > > +	int fb_size;
-> > > +	struct page **pages;
-> > > +	int i;
-> > > +	int npages;
-> > > +
-> > > +	sb->format =3D drm_format_info(params->format);
-> > > +	fb_size =3D params->width * params->height * sb->format->cpp[0];
-> > > +	npages =3D DIV_ROUND_UP(fb_size, PAGE_SIZE);
-> > > +
-> > > +	pages =3D kmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
-> > > +	KUNIT_ASSERT_NOT_NULL(test, pages);
-> > > +
-> > > +	for (i =3D 0; i < npages; i++) {
-> > > +		pages[i] =3D alloc_page(GFP_KERNEL);
-> > > +		KUNIT_ASSERT_NOT_NULL(test, pages[i]);
-> >=20
-> > KUNIT_ASSERT_* return immediately, so you're leaking the pages array
-> > here.
-> >=20
-> yes, I can fix that, but is it important to not leak when the test fails?
+Because that means that CI, all the other devs, etc. probably won't know
+anything about it and you'll end up being the only one running the test.
 
-kunit tests can be compiled as module and run on live systems, so yes.
-It can also lead to subsequent test failures if you deplete the system
-of a resource the next test will need.
+That's why I've been insisting on a standard solution, because that
+would solve that problem.
+
+I still believe that your use-case is legit, and the test can be useful,
+but it needs to be somewhat standard. Getting the opinion from the kunit
+maintainers would be a great first step for example.
+
+> I've written a small GUI application which displays the contents of the
+> debugfs drm_panic/draw_test file in a window.
+> The displayed content is automatically refreshed whenever the window is
+> resized, making it easy to inspect the DRM panic output at any screen
+> resolution.
+> https://gitlab.com/kdj0c/panicviewer
+
+And I'm sure that part is useful to you, I wonder if it's something that
+should be upstream.
 
 Maxime
 
---fd6k3xj7eipdo577
+--iyz3knbqty3vryra
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNJvBQAKCRAnX84Zoj2+
-dkl0AYCFocQZV3tvBiS0pm45PzS1/533CR/f6PAxB5IP8nHjkqphFpxzo1LZwDSP
-P9ccxFcBfj4Nd/Ct/8HOkqjgkeyuSMLKGKA+zEeKfBrawg4Cfb7ZMWaLo+s1F9rH
-SdVl80I4cg==
-=2e15
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNJzPgAKCRAnX84Zoj2+
+dnenAYDvugDqSH/vSd4uCFNH2CHMWv+X+/b5k0Y4ywNBmz7zTFuDy3LQIUvvLrtz
+4gnABSMBfjMOK0BCb/f1bZvVztgKh5rVjwXPpdZGNZJuHxSIH1VRH4O9z1FD+0rb
+XX8x3wgXnw==
+=yfrk
 -----END PGP SIGNATURE-----
 
---fd6k3xj7eipdo577--
+--iyz3knbqty3vryra--
