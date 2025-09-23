@@ -2,117 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05073B93A2E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 01:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D416B93B0B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 02:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382C110E047;
-	Mon, 22 Sep 2025 23:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2397B10E05D;
+	Tue, 23 Sep 2025 00:33:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RsOPHmQd";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="QNX/AYlC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C79910E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:50:30 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MHZVe0008232
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:50:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=akMAt+oUQPKktf6eCkzkJKDk
- y5jxsD9+xpwyL5NmVEo=; b=RsOPHmQdKbQ3dBaKvEywzLEP+FiPkKnG3iD4rNA4
- OIWMW57/5T42PZ7wMGPXSNSjQ4GRdI9T2kZeIbOas3NxKhb6RhAieuW3NKJKRrs0
- qFa7w0HOMc1f6g6DY8+HKvOVXMxyBYvuhKPhQEzOL5Wrb9Qi1Hb7+JQGpBZpnSO/
- kAri0Q2HXXQkg6F3TRzjQBpFSftZMF4VrnfoXpPdn+w7BRF8ielQCAErj2ZkgPx4
- l088QfuGTuEDub7g1i2pVXsYZp/apHuxYuzWl/9VHYu/09B1HI+X98xOBoUQX4C4
- MmM/JJAZrwTSD9sRYpB22vgcFoXHjlErEtsntgYh77u4Tw==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bb07gwf2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 23:50:29 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-773e990bda0so101607756d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 16:50:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758585028; x=1759189828;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=akMAt+oUQPKktf6eCkzkJKDky5jxsD9+xpwyL5NmVEo=;
- b=cNn9Q+uysi6C+XrpQi3+LFDRLm0uRGUDFYTADrqRxcIJxXG/wiA94QPMa6lCNIi4ip
- j+JJSDRpJcXWD0Hi6DCimxTo02CB+LzBOZ6gcSpBFN5pnTALWNPawICGscw0JfoAnD//
- k2vu3Uvid0yzKBHu/6epk0w2SonfXozmWxgoVCKkjUljYJL8eBbfz+sq55AmUh1UsI5E
- eJFusXblBLgpqOZ7y9gQogALDmSpP+MBwAnnefA2jioeRu5S/r7iVWG0EnAtvzCR1QYT
- zdhLUOlXIECy4RNXapvSD/TXiYuaVUfpJBtWDzZz1E8yDyq+YaxkcyntUSO0OAKhz0BG
- chEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnO90pC5Tm0Zg8qlXAWN9pL4qKfa0zsWO/qZ8D9+N1VjiONywrWURyOumUw8Ib9xnNgQmJMJ4O1lk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJROalboXd8sX0hQ8B4BH41UG5jYuovf2OoeFOfq3iql5i33+b
- 0zZ+hQLJoTqBw8ganF4UVBiQzOWV/Ra/eZk4tsoB16nujsLmO/zS8MpMs3W16XEB3c/rttc6tyY
- 5DczVi+1sZtbGAqmoxBnrwCJGGt6mPu0ZFoMcWoMImzN5/KCrMLPEqFnSbAD7S90VfBrU7Po=
-X-Gm-Gg: ASbGncuISaSxjJ3ud/UtD7hALxod1Ma1OiMhHWH9yO6qpqZupHJKbX6cas0JbXWkJrh
- b4Z78zs6XH6ofUUEnxgkiEsLKxTTrtw2lPSflIk+397Elw4wy6fXfwAjnElvHhTRH/LsUTvqpXw
- h30z5cD5AVzQna10UMYa37+cYvErlop4qetz/I8GMjFzFb91hu90+oi2AKfcGdpCHS6rlV2ln1B
- nqolRDYLQHcgvoz1+kUljezFG9HRBBRxPzhaLCLXS+/MQSazj7tR3C4CVlTQGkgaadWBnzWIRAk
- YbPs2VFVgE0mpgpKGo3esARH9BtNSdS/0JG2Z5kXlcMGgDYRXx920Vu7U0Vj1n+jwnAZYwMQK9J
- iuGMRyljrW9FWK7S1QiUts+oa3ro+7brYzOhqdR09DmHz0w1BwQks
-X-Received: by 2002:a05:6214:1c0c:b0:782:1086:f659 with SMTP id
- 6a1803df08f44-7e707846c97mr7811316d6.26.1758585028065; 
- Mon, 22 Sep 2025 16:50:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG8SQsuqffPmbCFgiG+W9BrKws9UQB4tVnyo8wnkCaikEbrcZDprsLMa2pYefWv8Aef414ssQ==
-X-Received: by 2002:a05:6214:1c0c:b0:782:1086:f659 with SMTP id
- 6a1803df08f44-7e707846c97mr7811116d6.26.1758585027602; 
- Mon, 22 Sep 2025 16:50:27 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-57b5da082b0sm2121692e87.54.2025.09.22.16.50.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 16:50:26 -0700 (PDT)
-Date: Tue, 23 Sep 2025 02:50:25 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abel Vesa <abel.vesa@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu: Don't adjust mode clock if 3d merge is
- supported
-Message-ID: <cjoxzwkvzjv7pqelcxcepafanauxjt7p5b3qevjdr5bsomifce@i67l2hzavctj>
-References: <20250922-modeclk-fix-v1-1-a9b8faec74f8@oss.qualcomm.com>
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7AAF10E05D
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 00:33:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758587604; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GWHXx3RaYCl2YIghMtUCSjmz4roPUsaty/jxCKGWFWlNtkqaeiVz3cuIFUnpTFUGGl274P6mp7xQ5tR0l6Noayh0+WA4q/L+DfpC0eYu77M4q+0J0GtSubzVJ7KOSpX8xGMyqrCPlAVBIig2x4aPwQ0llckeGHsVSJCVfrbOs38=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1758587604;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HbeO3YBWGox60Objn3VTwIIdB/sw8pCdIL68T2WMvZ8=; 
+ b=P4hkCu2agr9ueQW9vQ9QG3YvCu42BtIzdmWPSdyEVQiXG7w5A0RqmtsnqY0/ymWSD6g34vFcyRxudOWyMRz1j/3rGuk9fe7Xxpnb95CwgZ80KFYS9dZJkFnqf5ybfZDbve42haPw92RVg4LzywoX2J9LdQxd4ZfUFX/zh/vIHGI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758587604; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=HbeO3YBWGox60Objn3VTwIIdB/sw8pCdIL68T2WMvZ8=;
+ b=QNX/AYlCXbXIryRoqPJCaF+o1qiW2eD+EvqNE7Jn+ak2jfVpIzM8UiRfMxn7cyp1
+ kCFFmazDp1VxXDIdlY3Xqr3mLPCqbrYPIKZwptRrsUGGdGFQaAMbxt3q1rgQB7Xe/QK
+ Hmy2NI1TP2Lc3EyXq84/nOSDBBSngpxUJC0V04//noXHKXKo030QbhB1sz5stU1gbzr
+ eCT/cT8RkP6q6fR9v8Pz4imYvlb7MmvEaQbCR1VpNsKLfylPWgLp4Txqd7aMSWN2upa
+ j84xg8idpAwmiEVzn9gd93Lzvpt9Tz6mNmWu6vx3lb7nY8iaU0qqcW+tFIF7wc1gs0e
+ 5qfmdDIpXQ==
+Received: by mx.zohomail.com with SMTPS id 1758587601439456.5502364685383;
+ Mon, 22 Sep 2025 17:33:21 -0700 (PDT)
+Message-ID: <1ac8c72206abf9f3e0a13e1fcf44be5c605f6372.camel@icenowy.me>
+Subject: Re: [PATCH v2 2/8] dt-bindings: display: add verisilicon,dc
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Drew Fustini
+ <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>,  Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner
+ <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michal
+ Wilczynski <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao
+ Zi <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Tue, 23 Sep 2025 08:33:14 +0800
+In-Reply-To: <20250922204349.GA1290045-robh@kernel.org>
+References: <20250921083446.790374-1-uwu@icenowy.me>
+ <20250921083446.790374-3-uwu@icenowy.me>
+ <20250922204349.GA1290045-robh@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250922-modeclk-fix-v1-1-a9b8faec74f8@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=HJnDFptv c=1 sm=1 tr=0 ts=68d1e0c5 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=Gz_hOIZ2IhTx4crym2oA:9
- a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: Xi0R4QtL_nzHiFJoXMPvEGePrqBBtoN6
-X-Proofpoint-GUID: Xi0R4QtL_nzHiFJoXMPvEGePrqBBtoN6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIyMDE3MiBTYWx0ZWRfX8t0fOcrlLY7D
- l/nid+3edw1uzLvU+PvYJhcMCQIVMGFBc3PRIv9d/zFASq25Otue+t4/IrSB59oPEsGwVRxCmKC
- s0pNXJQOUrTkB0TqqlI0y6EqTEGcMLB28cXtk/sDh8bqmb8z+RDvy4sFnuXrVJ/Ysl7uN2TBOeg
- NY6wP+xNcM5iyqk/+Bl/cXJ8TAKfK/8AjEHsIYGXsbJcR3pUkh2WjS6VQK8oih+iUHjHNctfgTl
- KvD9PLu6yMaz/janNgSkLApMiUo01bm58B2ZzqV5brbxBa/LOAgkUB/cMHpcm1CM4xRRAOI4UGb
- rWOOtQqX5YUkFpBtk8mwc7ql3mhwptjzGTFpjsFUAKblufW/TE5EF5SwuNC3aNpbhZvcngwli3x
- vDUA4z/a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-22_05,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
- adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509220172
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,47 +84,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 22, 2025 at 04:32:39PM -0700, Jessica Zhang wrote:
-> Since 3D merge allows for higher mode clocks to be supported across
-> multiple layer mixers, filter modes based on adjusted mode clocks
-> only if 3D merge isn't supported.
-> 
-> Reported-by: Abel Vesa <abel.vesa@linaro.org>
-> Fixes: 62b7d6835288 ("drm/msm/dpu: Filter modes based on adjusted mode clock")
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 4b970a59deaf..5ac51863a189 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1549,7 +1549,8 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
->  	 * The given mode, adjusted for the perf clock factor, should not exceed
->  	 * the max core clock rate
->  	 */
-> -	if (dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
-> +	if (!dpu_kms->catalog->caps->has_3d_merge &&
+5ZyoIDIwMjUtMDktMjLmmJ/mnJ/kuIDnmoQgMTU6NDMgLTA1MDDvvIxSb2IgSGVycmluZ+WGmemB
+k++8mgo+IE9uIFN1biwgU2VwIDIxLCAyMDI1IGF0IDA0OjM0OjQwUE0gKzA4MDAsIEljZW5vd3kg
+Wmhlbmcgd3JvdGU6Cj4gPiBWZXJpc2lsaWNvbiBoYXMgYSBzZXJpZXMgb2YgZGlzcGxheSBjb250
+cm9sbGVycyBwcmVmaXhlZCB3aXRoIERDCj4gPiBhbmQKPiA+IHdpdGggc2VsZi1pZGVudGlmaWNh
+dGlvbiBmYWNpbGl0eSBsaWtlIHRoZWlyIEdDIHNlcmllcyBHUFVzLgo+ID4gCj4gPiBBZGQgYSBk
+ZXZpY2UgdHJlZSBiaW5kaW5nIGZvciBpdC4KPiA+IAo+ID4gRGVwZW5kcyBvbiB0aGUgc3BlY2lm
+aWMgREMgbW9kZWwsIGl0IGNhbiBoYXZlIGVpdGhlciBvbmUgb3IgdHdvCj4gPiBkaXNwbGF5Cj4g
+PiBvdXRwdXRzLCBhbmQgZWFjaCBkaXNwbGF5IG91dHB1dCBjb3VsZCBiZSBzZXQgdG8gRFBJIHNp
+Z25hbCBvciAiRFAiCj4gPiBzaWduYWwgKHdoaWNoIHNlZW1zIHRvIGJlIHNvbWUgcGxhaW4gcGFy
+YWxsZWwgYnVzIHRvIEhETUkKPiA+IGNvbnRyb2xsZXJzKS4KPiA+IAo+ID4gU2lnbmVkLW9mZi1i
+eTogSWNlbm93eSBaaGVuZyA8dXd1QGljZW5vd3kubWU+Cj4gPiAtLS0KPiA+IENoYW5nZXMgaW4g
+djI6Cj4gPiAtIEZpeGVkIG1pc3NwZWx0ICJ2ZXJzaWxpY29uIiBpbiB0aXRsZS4KPiA+IC0gTW92
+ZWQgbWluSXRlbXMgaW4gY2xvY2sgcHJvcGVydGllcyB0byBiZSBlYXJsaWVyIHRoYW4gaXRlbXMu
+Cj4gPiAtIFJlLWFsaWduZWQgbXVsdGktbGluZSBjbG9ja3MgYW5kIHJlc2V0cyBpbiBleGFtcGxl
+Lgo+ID4gCj4gPiDCoC4uLi9iaW5kaW5ncy9kaXNwbGF5L3ZlcmlzaWxpY29uLGRjLnlhbWzCoMKg
+wqDCoMKgIHwgMTI3Cj4gPiArKysrKysrKysrKysrKysrKysKPiA+IMKgMSBmaWxlIGNoYW5nZWQs
+IDEyNyBpbnNlcnRpb25zKCspCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NAo+ID4gRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvdmVyaXNpbGljb24sZGMueWFtbAo+ID4g
+Cj4gPiBkaWZmIC0tZ2l0Cj4gPiBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L3ZlcmlzaWxpY29uLGRjLnlhbWwKPiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2Rpc3BsYXkvdmVyaXNpbGljb24sZGMueWFtbAo+ID4gbmV3IGZpbGUgbW9kZSAx
+MDA2NDQKPiA+IGluZGV4IDAwMDAwMDAwMDAwMDAuLjA3ZmVkYzRjN2NjMTMKPiA+IC0tLSAvZGV2
+L251bGwKPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5
+L3ZlcmlzaWxpY29uLGRjLnlhbWwKPiA+IEBAIC0wLDAgKzEsMTI3IEBACj4gPiArIyBTUERYLUxp
+Y2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAgT1IgQlNELTItQ2xhdXNlKQo+ID4gKyVZQU1MIDEu
+Mgo+ID4gKy0tLQo+ID4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxh
+eS92ZXJpc2lsaWNvbixkYy55YW1sIwo+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9y
+Zy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIwo+ID4gKwo+ID4gK3RpdGxlOiBWZXJpc2lsaWNvbiBE
+Qy1zZXJpZXMgZGlzcGxheSBjb250cm9sbGVycwo+ID4gKwo+ID4gK21haW50YWluZXJzOgo+ID4g
+K8KgIC0gSWNlbm93eSBaaGVuZyA8dXd1QGljZW5vd3kubWU+Cj4gPiArCj4gPiArcHJvcGVydGll
+czoKPiA+ICvCoCAkbm9kZW5hbWU6Cj4gPiArwqDCoMKgIHBhdHRlcm46ICJeZGlzcGxheUBbMC05
+YS1mXSskIgo+ID4gKwo+ID4gK8KgIGNvbXBhdGlibGU6Cj4gPiArwqDCoMKgIGNvbnN0OiB2ZXJp
+c2lsaWNvbixkYwo+IAo+IFRoaXMgbmVlZHMgYW4gU29DIHNwZWNpZmljIGNvbXBhdGlibGUuIEdl
+bmVyYWxseSBsaWNlbnNlZCBJUAo+IGNvbXBhdGlibGVzIAo+IGFyZSB1c2VsZXNzIGJlY2F1c2Ug
+dGhlIHNwZWNzIGFyZW4ndCBwdWJsaWMgYW5kIHRoZXJlJ3MgYWx3YXlzIAo+IGludGVncmF0aW9u
+IHF1aXJrcy4KClRoaXMgbWltaWNzIHRoZSBHUFUgSVBzIGJ5IHRoZSBzYW1lIHZlbmRvciwgc2Vl
+IGdwdS92aXZhbnRlLGdjLnlhbWwgLAp3aGljaCBjb250YWluIHRoZSBleGFjdCBzYW1lIHNldCBv
+ZiBpZGVudGlmaWNhdGlvbiByZWdpc3RlcnMgKGluY2x1ZGluZwphICJjdXN0b21lciBpZCIgb25l
+IHRoYXQgY2FuIGRpZmZlcmllbmF0ZSB0aGUgc2FtZSBjb25maWd1cmVkIElQIG9uClN0YXJGaXZl
+IEpINzExMCBhbmQgVC1IZWFkIFRIMTUyMCkuCgpJZiB3ZSBjYW4gZ2V0IHZpdmFudGUsZ2MgdG8g
+d29yayB3L28gU29DIHNwZWNpZmljIGNvbXBhdGlibGUsIHRoZW4gd2UKc2hvdWxkIGJlIGFibGUg
+dG8gZ2V0IHZlcmlzaWxpY29uLGRjIHRvIHdvcmsgdG9vLgoKPiAKPiA+ICsKPiA+ICvCoCByZWc6
+Cj4gPiArwqDCoMKgIG1heEl0ZW1zOiAxCj4gPiArCj4gPiArwqAgaW50ZXJydXB0czoKPiA+ICvC
+oMKgwqAgbWF4SXRlbXM6IDEKPiA+ICsKPiA+ICvCoCBjbG9ja3M6Cj4gPiArwqDCoMKgIG1pbkl0
+ZW1zOiA0Cj4gPiArwqDCoMKgIGl0ZW1zOgo+ID4gK8KgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjog
+REMgQ29yZSBjbG9jawo+ID4gK8KgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogRE1BIEFYSSBidXMg
+Y2xvY2sKPiA+ICvCoMKgwqDCoMKgIC0gZGVzY3JpcHRpb246IENvbmZpZ3VyYXRpb24gQUhCIGJ1
+cyBjbG9jawo+ID4gK8KgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogUGl4ZWwgY2xvY2sgb2Ygb3V0
+cHV0IDAKPiA+ICvCoMKgwqDCoMKgIC0gZGVzY3JpcHRpb246IFBpeGVsIGNsb2NrIG9mIG91dHB1
+dCAxCj4gPiArCj4gPiArwqAgY2xvY2stbmFtZXM6Cj4gPiArwqDCoMKgIG1pbkl0ZW1zOiA0Cj4g
+PiArwqDCoMKgIGl0ZW1zOgo+ID4gK8KgwqDCoMKgwqAgLSBjb25zdDogY29yZQo+ID4gK8KgwqDC
+oMKgwqAgLSBjb25zdDogYXhpCj4gPiArwqDCoMKgwqDCoCAtIGNvbnN0OiBhaGIKPiA+ICvCoMKg
+wqDCoMKgIC0gY29uc3Q6IHBpeDAKPiA+ICvCoMKgwqDCoMKgIC0gY29uc3Q6IHBpeDEKPiA+ICsK
+PiA+ICvCoCByZXNldHM6Cj4gPiArwqDCoMKgIGl0ZW1zOgo+ID4gK8KgwqDCoMKgwqAgLSBkZXNj
+cmlwdGlvbjogREMgQ29yZSByZXNldAo+ID4gK8KgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogRE1B
+IEFYSSBidXMgcmVzZXQKPiA+ICvCoMKgwqDCoMKgIC0gZGVzY3JpcHRpb246IENvbmZpZ3VyYXRp
+b24gQUhCIGJ1cyByZXNldAo+ID4gKwo+ID4gK8KgIHJlc2V0LW5hbWVzOgo+ID4gK8KgwqDCoCBp
+dGVtczoKPiA+ICvCoMKgwqDCoMKgIC0gY29uc3Q6IGNvcmUKPiA+ICvCoMKgwqDCoMKgIC0gY29u
+c3Q6IGF4aQo+ID4gK8KgwqDCoMKgwqAgLSBjb25zdDogYWhiCj4gPiArCj4gPiArwqAgcG9ydHM6
+Cj4gPiArwqDCoMKgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwjL3Byb3BlcnRpZXMvcG9ydHMK
+PiA+ICsKPiA+ICvCoMKgwqAgcHJvcGVydGllczoKPiA+ICvCoMKgwqDCoMKgIHBvcnRAMDoKPiA+
+ICvCoMKgwqDCoMKgwqDCoCAkcmVmOiAvc2NoZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0aWVzL3Bv
+cnQKPiA+ICvCoMKgwqDCoMKgwqDCoCBkZXNjcmlwdGlvbjogVGhlIGZpcnN0IG91dHB1dCBjaGFu
+bmVsLCBlbmRwb2ludCAwIHNob3VsZAo+ID4gYmUKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqAgdXNl
+ZCBmb3IgRFBJIGZvcm1hdCBvdXRwdXQgYW5kIGVuZHBvaW50IDEgc2hvdWxkIGJlIHVzZWQKPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIERQIGZvcm1hdCBvdXRwdXQuCj4gPiArCj4gPiArwqDC
+oMKgwqDCoCBwb3J0QDE6Cj4gPiArwqDCoMKgwqDCoMKgwqAgJHJlZjogL3NjaGVtYXMvZ3JhcGgu
+eWFtbCMvcHJvcGVydGllcy9wb3J0Cj4gPiArwqDCoMKgwqDCoMKgwqAgZGVzY3JpcHRpb246IFRo
+ZSBzZWNvbmQgb3V0cHV0IGNoYW5uZWwgaWYgdGhlIERDIHZhcmlhbnQKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqAgc3VwcG9ydHMgYW5kIHVzZWQuIEZvbGxvdyB0aGUgc2FtZSBlbmRwb2ludCBhZGRy
+ZXNzaW5nCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgIHJ1bGUgd2l0aCB0aGUgZmlyc3QgcG9ydC4K
+PiA+ICsKPiA+ICvCoMKgwqAgcmVxdWlyZWQ6Cj4gPiArwqDCoMKgwqDCoCAtIHBvcnRAMAo+ID4g
+Kwo+ID4gK3JlcXVpcmVkOgo+ID4gK8KgIC0gY29tcGF0aWJsZQo+ID4gK8KgIC0gcmVnCj4gPiAr
+wqAgLSBpbnRlcnJ1cHRzCj4gPiArwqAgLSBjbG9ja3MKPiA+ICvCoCAtIGNsb2NrLW5hbWVzCj4g
+PiArwqAgLSBwb3J0cwo+ID4gKwo+ID4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQo+ID4g
+Kwo+ID4gK2V4YW1wbGVzOgo+ID4gK8KgIC0gfAo+ID4gK8KgwqDCoCAjaW5jbHVkZSA8ZHQtYmlu
+ZGluZ3MvaW50ZXJydXB0LWNvbnRyb2xsZXIvaXJxLmg+Cj4gPiArwqDCoMKgICNpbmNsdWRlIDxk
+dC1iaW5kaW5ncy9jbG9jay90aGVhZCx0aDE1MjAtY2xrLWFwLmg+Cj4gPiArwqDCoMKgICNpbmNs
+dWRlIDxkdC1iaW5kaW5ncy9yZXNldC90aGVhZCx0aDE1MjAtcmVzZXQuaD4KPiA+ICvCoMKgwqAg
+c29jIHsKPiA+ICvCoMKgwqDCoMKgICNhZGRyZXNzLWNlbGxzID0gPDI+Owo+ID4gK8KgwqDCoMKg
+wqAgI3NpemUtY2VsbHMgPSA8Mj47Cj4gPiArCj4gPiArwqDCoMKgwqDCoCBkaXNwbGF5QGZmZWY2
+MDAwMDAgewo+ID4gK8KgwqDCoMKgwqDCoMKgIGNvbXBhdGlibGUgPSAidmVyaXNpbGljb24sZGMi
+Owo+ID4gK8KgwqDCoMKgwqDCoMKgIHJlZyA9IDwweGZmIDB4ZWY2MDAwMDAgMHgwIDB4MTAwMDAw
+PjsKPiA+ICvCoMKgwqDCoMKgwqDCoCBpbnRlcnJ1cHRzID0gPDkzIElSUV9UWVBFX0xFVkVMX0hJ
+R0g+Owo+ID4gK8KgwqDCoMKgwqDCoMKgIGNsb2NrcyA9IDwmY2xrX3ZvIENMS19EUFVfQ0NMSz4s
+Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPCZjbGtfdm8gQ0xLX0RQVV9B
+Q0xLPiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA8JmNsa192byBDTEtf
+RFBVX0hDTEs+LAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDwmY2xrX3Zv
+IENMS19EUFVfUElYRUxDTEswPiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCA8JmNsa192byBDTEtfRFBVX1BJWEVMQ0xLMT47Cj4gPiArwqDCoMKgwqDCoMKgwqAgY2xvY2st
+bmFtZXMgPSAiY29yZSIsICJheGkiLCAiYWhiIiwgInBpeDAiLCAicGl4MSI7Cj4gPiArwqDCoMKg
+wqDCoMKgwqAgcmVzZXRzID0gPCZyc3QgVEgxNTIwX1JFU0VUX0lEX0RQVV9DT1JFPiwKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA8JnJzdCBUSDE1MjBfUkVTRVRfSURfRFBV
+X0FYST4sCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPCZyc3QgVEgxNTIw
+X1JFU0VUX0lEX0RQVV9BSEI+Owo+ID4gK8KgwqDCoMKgwqDCoMKgIHJlc2V0LW5hbWVzID0gImNv
+cmUiLCAiYXhpIiwgImFoYiI7Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqAgcG9ydHMgewo+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoCAjYWRkcmVzcy1jZWxscyA9IDwxPjsKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqAgI3NpemUtY2VsbHMgPSA8MD47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgIHBvcnRA
+MCB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZWcgPSA8MD47Cj4gPiArwqDCoMKgwqDC
+oMKgwqDCoMKgIH07Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgIHBvcnRAMSB7Cj4gPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZWcgPSA8MT47Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAjYWRkcmVzcy1jZWxscyA9IDwxPjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICNz
+aXplLWNlbGxzID0gPDA+Owo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZHB1X291
+dF9kcDE6IGVuZHBvaW50QDEgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlZyA9
+IDwxPjsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZW1vdGUtZW5kcG9pbnQgPSA8
+JmhkbWlfaW4+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfTsKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqAgfTsKPiA+ICvCoMKgwqDCoMKgwqDCoCB9Owo+ID4gK8KgwqDCoMKgwqAgfTsKPiA+
+ICvCoMKgwqAgfTsKPiA+IC0tIAo+ID4gMi41MS4wCj4gPiAKCg==
 
-Well, not quite. If 3D merge is available, we should allow 2x of the
-clock, instead of skipping the check completely. I don't think that we
-should allow 8k or 16k just because the platform has 3D Mux.
-
-> +	    dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
->  		return MODE_CLOCK_HIGH;
->  
->  	/*
-> 
-> ---
-> base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
-> change-id: 20250922-modeclk-fix-a870375d9960
-> 
-> Best regards,
-> --  
-> Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> 
-
--- 
-With best wishes
-Dmitry
