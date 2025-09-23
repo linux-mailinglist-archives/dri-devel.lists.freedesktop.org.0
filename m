@@ -2,51 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2D8B95C09
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 13:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A813B95C1E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 13:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69FD610E609;
-	Tue, 23 Sep 2025 11:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D61F10E5F8;
+	Tue, 23 Sep 2025 11:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fDa718dg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="15RibvYB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4rFEEYur";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="15RibvYB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4rFEEYur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E261010E609
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 11:55:28 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5A0FD6DC;
- Tue, 23 Sep 2025 13:54:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1758628444;
- bh=Z9kWH3wS2DoMhemDdxgsqIpBUFbCyqpOqjEiPS15H8s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fDa718dgTNN5rFg71An2WVIcSgY/lUJQu6avj3aqO4ceQMDIFs9ELd0dQTlXFbk/y
- mTpbtq9n/RhjcD6RWZtSfpr7XCPW2xPpv8Bv9sI9PS4fW14I9UvRkjJAe+rjQB11m8
- e+DtklMlNpfvJw0MGQvvKjnGDdDzDXu7RC8oCvS4=
-Date: Tue, 23 Sep 2025 14:54:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 6/9] drm/rcar-du: dsi: Respect DSI mode flags
-Message-ID: <20250923115455.GG20765@pendragon.ideasonboard.com>
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
- <20250922185740.153759-7-marek.vasut+renesas@mailbox.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB5910E5F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 11:59:39 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 638E122107;
+ Tue, 23 Sep 2025 11:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758628778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ezd7pEn3OLsOjh4y72ootzPibASJYulr8ehtGRhqKFo=;
+ b=15RibvYBGkMB6inzA+Kv9CqRSz+ZLNupASlQWueBe9oN4N1a4F8I6IMTHK66rQHTE0ARSp
+ M9FJSgIw+s/Fi89uD1mt0AQetdK11M8e/zxP8QQKrfhbhiYbCkylOwNahi4eD2H1AbmWKd
+ La98mGRscObIkdC3oJmZ4/Irh4JuAzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758628778;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ezd7pEn3OLsOjh4y72ootzPibASJYulr8ehtGRhqKFo=;
+ b=4rFEEYurQ7P4gZAn9j5DlqBIapj7Hxi/Vf5qbtw4PS3V0NOCDze6lsuUBEVwusbyLSK3FA
+ hfaeqd6lwGMLM/Bw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758628778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ezd7pEn3OLsOjh4y72ootzPibASJYulr8ehtGRhqKFo=;
+ b=15RibvYBGkMB6inzA+Kv9CqRSz+ZLNupASlQWueBe9oN4N1a4F8I6IMTHK66rQHTE0ARSp
+ M9FJSgIw+s/Fi89uD1mt0AQetdK11M8e/zxP8QQKrfhbhiYbCkylOwNahi4eD2H1AbmWKd
+ La98mGRscObIkdC3oJmZ4/Irh4JuAzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758628778;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ezd7pEn3OLsOjh4y72ootzPibASJYulr8ehtGRhqKFo=;
+ b=4rFEEYurQ7P4gZAn9j5DlqBIapj7Hxi/Vf5qbtw4PS3V0NOCDze6lsuUBEVwusbyLSK3FA
+ hfaeqd6lwGMLM/Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CD24132C9;
+ Tue, 23 Sep 2025 11:59:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CkyVBaqL0mi6DQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 11:59:38 +0000
+Message-ID: <43972b5a-8bf7-4bfd-be14-45bd47a57d2c@suse.de>
+Date: Tue, 23 Sep 2025 13:59:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250922185740.153759-7-marek.vasut+renesas@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
+To: Ruben Wauters <rubenru09@aol.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
+ oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250922173836.5608-1-rubenru09.ref@aol.com>
+ <20250922173836.5608-1-rubenru09@aol.com>
+ <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
+ <9625a9e34aee0157e57ca5b6a6bfeeeceba5ed38.camel@aol.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <9625a9e34aee0157e57ca5b6a6bfeeeceba5ed38.camel@aol.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_SEVEN(0.00)[11];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email, intel.com:email,
+ imap1.dmz-prg2.suse.org:helo, suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,119 +150,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi
 
-Thank you for the patch.
+Am 23.09.25 um 11:38 schrieb Ruben Wauters:
+> On Tue, 2025-09-23 at 09:57 +0200, Thomas Zimmermann wrote:
+>> FYI I got the following warnings. I'll fix them when I merge the
+>> patch.
+>>
+>> -:6: ERROR:GIT_COMMIT_ID: Please use git commit description style
+>> 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit
+>> 2d2f1dc74cfb
+>> ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")'
+>> #6:
+>> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+> I'm not 100% sure why it's complaining about this one, the format
+> matches. I assume it's a problem with the line break in it? but I'm not
+> 100% sure.
+>
+>> -:15: WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be
+>> immediately
+>> followed by Closes: with a URL to the report
+>> #15:
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> I believe it's intentional to have two reported bys in a row, as both
+> of them are followed by a Closes tag at the end.
 
-On Mon, Sep 22, 2025 at 08:55:02PM +0200, Marek Vasut wrote:
-> Cache DSI mode flags in new mode_flags member of struct rcar_mipi_dsi .
-> Configure TXVMSETR register based on the content of DSI mode flags in
-> case the controller operates in video mode.
-> 
-> Rename TXVMSETR_H..BPEN_EN to TXVMSETR_H..BPEN and drop TXVMSETR_H..BPEN_DIS
-> which resolves to 0. Update TXVMSETR_VSEN in the same manner. Replace
-> TXVMSETR_SYNSEQ_PULSES with a code comment next to TXVMSETR_SYNSEQ_EVENTS
-> because TXVMSETR_SYNSEQ_PULSES resolves to 0.
-> 
-> Do not convert bits and bitfields to BIT() and GENMASK() yet, to be
-> consisten with the current style. Conversion to BIT() and GENMASK()
-> macros is done at the very end of this series in the last two patches.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Neither warning is really your fault. As you say the script doesn't like 
+line breaks in certain places. It also only wants pairs of Closes/R-b tags.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Best regards
+Thomas
 
-> ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    | 18 +++++++++++++++---
->  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   | 15 +++++----------
->  2 files changed, 20 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 1591837ff472c..36bd9de61ce05 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -71,6 +71,7 @@ struct rcar_mipi_dsi {
->  	} clocks;
->  
->  	enum mipi_dsi_pixel_format format;
-> +	unsigned long mode_flags;
->  	unsigned int num_data_lanes;
->  	unsigned int lanes;
->  };
-> @@ -473,9 +474,19 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
->  	}
->  
->  	/* Configuration for Blanking sequence and Input Pixel */
-> -	setr = TXVMSETR_HSABPEN_EN | TXVMSETR_HBPBPEN_EN
-> -	     | TXVMSETR_HFPBPEN_EN | TXVMSETR_SYNSEQ_PULSES
-> -	     | TXVMSETR_PIXWDTH | TXVMSETR_VSTPM;
-> +	setr = TXVMSETR_PIXWDTH | TXVMSETR_VSTPM;
-> +
-> +	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE))
-> +			setr |= TXVMSETR_SYNSEQ_EVENTS;
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP))
-> +			setr |= TXVMSETR_HFPBPEN;
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP))
-> +			setr |= TXVMSETR_HBPBPEN;
-> +		if (!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA))
-> +			setr |= TXVMSETR_HSABPEN;
-> +	}
-> +
->  	rcar_mipi_dsi_write(dsi, TXVMSETR, setr);
->  
->  	/* Configuration for Video Parameters */
-> @@ -916,6 +927,7 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  
->  	dsi->lanes = device->lanes;
->  	dsi->format = device->format;
-> +	dsi->mode_flags = device->mode_flags;
->  
->  	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
->  						  1, 0);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index 1a8d377ea85fc..99a88ea35aacd 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -140,18 +140,13 @@
->   * Video Mode Register
->   */
->  #define TXVMSETR			0x180
-> -#define TXVMSETR_SYNSEQ_PULSES		(0 << 16)
-> -#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16)
-> +#define TXVMSETR_SYNSEQ_EVENTS		(1 << 16) /* 0:Pulses 1:Events */
->  #define TXVMSETR_VSTPM			(1 << 15)
->  #define TXVMSETR_PIXWDTH		(1 << 8)
-> -#define TXVMSETR_VSEN_EN		(1 << 4)
-> -#define TXVMSETR_VSEN_DIS		(0 << 4)
-> -#define TXVMSETR_HFPBPEN_EN		(1 << 2)
-> -#define TXVMSETR_HFPBPEN_DIS		(0 << 2)
-> -#define TXVMSETR_HBPBPEN_EN		(1 << 1)
-> -#define TXVMSETR_HBPBPEN_DIS		(0 << 1)
-> -#define TXVMSETR_HSABPEN_EN		(1 << 0)
-> -#define TXVMSETR_HSABPEN_DIS		(0 << 0)
-> +#define TXVMSETR_VSEN			(1 << 4)
-> +#define TXVMSETR_HFPBPEN		(1 << 2)
-> +#define TXVMSETR_HBPBPEN		(1 << 1)
-> +#define TXVMSETR_HSABPEN		(1 << 0)
->  
->  #define TXVMCR				0x190
->  #define TXVMCR_VFCLR			(1 << 12)
+>
+> Thanks
+>
+>> Am 22.09.25 um 19:32 schrieb Ruben Wauters:
+>>> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+>>> 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
+>>> versions"), the IS_ERR check was accidentally removed, breaking the
+>>> gud_connector_add_properties() function, as any valid pointer in
+>>> state_val would produce an error.
+>>>
+>>> The warning was reported by kernel test robot, and is fixed in this
+>>> patch.
+>>>
+>>> Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with
+>>> drm versions")
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>> Closes:
+>>> https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+>>> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+>>> ---
+>>>    drivers/gpu/drm/gud/gud_connector.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/gud/gud_connector.c
+>>> b/drivers/gpu/drm/gud/gud_connector.c
+>>> index 62e349b06dbe..1726a3fadff8 100644
+>>> --- a/drivers/gpu/drm/gud/gud_connector.c
+>>> +++ b/drivers/gpu/drm/gud/gud_connector.c
+>>> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct
+>>> drm_connector_state *connector_state,
+>>>    			unsigned int *state_val;
+>>>    
+>>>    			state_val =
+>>> gud_connector_tv_state_val(prop, &connector_state->tv);
+>>> -			if (drm_WARN_ON_ONCE(connector_state-
+>>>> connector->dev, state_val))
+>>> +			if (drm_WARN_ON_ONCE(connector_state-
+>>>> connector->dev, IS_ERR(state_val)))
+>>>    				return PTR_ERR(state_val);
+>>>    
+>>>    			val = *state_val;
 
 -- 
-Regards,
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Laurent Pinchart
+
