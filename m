@@ -2,78 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDC0B9552C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365F6B95565
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 11:55:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF86C10E04F;
-	Tue, 23 Sep 2025 09:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4014010E5D6;
+	Tue, 23 Sep 2025 09:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FyTqFo59";
+	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="3sSIBJSx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54D9310E04F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:51:12 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-b523fb676efso4629856a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:51:12 -0700 (PDT)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF3CA10E5DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 09:55:43 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id
+ 4fb4d7f45d1cf-62fc0b7bf62so6051057a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1758621072; x=1759225872; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ujUSntEdEB2Zj8RW3cXBNzPb5lb7mNEARj7gYfxpl6o=;
- b=FyTqFo59LR881O8bttoiJQAwYYxYL6jDUsrfJMd+3alFfFPvYIucMYLOtzgxC3ldIA
- +w9a6mfM8C7It7K7A2OnQCgw9MdiTZiUw5Y0Zwwn9JSznoc2FuzBZQ8q1Rx5Lh7VSDpO
- UHmH5X+3cw30kP4riy330UWuisgviH5bWXHra9Dg+tp5a4SpjO6ei5GsnZ9QC+AVGQIG
- QL6lIv3uyfiEPPtaR3uI5+fROleylB6XfrKRAoaFtllnbiLs20jTLJYhDin1Lq3jdJUJ
- xHu1/n2Z4mqaGv4ASqVbJ+enJsaMwHEgR47exmvcY2XVqCUkjaRMWlUrDy7WkDUs6zzn
- qTIA==
+ d=fairphone.com; s=fair; t=1758621342; x=1759226142; darn=lists.freedesktop.org;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rJ4iR0ikwChD7GAZnfT4r7240QnDqgcDQ/DHGsIuO5k=;
+ b=3sSIBJSx2cc/Jy60MFk86rBWbaJp3FJwq7PgFk9CQAJjN4cw9vAvYy2aISD1WEsr7v
+ oH/6B6J2BDPYbCKOq0sqgWMYRMIlvvDN+qC8FEtqrCMXGPADmZPbi/3EgFJb0fAQKIoz
+ 036qAGntpGxmFNSW4ix2GJQVYx7GmZxGfLLlRaJbL/O0pZSK0fDJxgX7J2oav3JxF67j
+ wHnYpZTZKZBnTSnx+Bvxgnm0/NplYInyrsmEXLb0sFNy4Yt3dQPOeOluV6lXM9uCG3yT
+ 3tCs1pnHRQEPnLGYy3RjSbeO3jeusvsqwJtkGPqnW1gLFMCfgUerJHszTrEdWaPTnyxG
+ mt6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758621072; x=1759225872;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ujUSntEdEB2Zj8RW3cXBNzPb5lb7mNEARj7gYfxpl6o=;
- b=pxOSnkvgNpx8iWURba5/jybv9qgkW0hPkqBon7hKGpjfh/zs1ZvRMjdiC9XiNOpqvF
- tNOVk9j0X7BmKu49iKPiTBczRbRclB22TfAJuspabLEveeRmCaGmbIUS5KUwsENvdyyo
- oYai8hXvVM40oWQM294mLaHFy6UzEl0ljGMoPPdzkd5cvollKXBxzn6xc1bdxzuTr18c
- J1IyafFq46L3BIB3cMSg/527mJDuCpBE7FTd8dZdqf8GYRRQkUQxCIl1qFEfJUQOYQwX
- B+VoV4+i/YXIvkhKIPg3EUQbxjxjS0wz8v6ho8MEjm5wRLFjAo2n9YtpfKPNINrm9Hce
- mMzw==
+ d=1e100.net; s=20230601; t=1758621342; x=1759226142;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rJ4iR0ikwChD7GAZnfT4r7240QnDqgcDQ/DHGsIuO5k=;
+ b=E2hg8c05ZiAKb8QaXHFAD0grxqvZOecdMbAPqjLQqd/u91sXZWEuyTw1BlsQnhs24h
+ 5oOSK7toRwOFcMA+Wvirn0I0CRvsQJMayW5CHTIg4OUJEHwE2gYxGdXQnolwEw05YV2p
+ 7ZEDQJWbUuJ+B08j+7Zd2q81f9ves3Vgg5tiJVbfEabWsVRMj6Y3e9uSk2XH/7HVkIO+
+ BYV6dY7alE8PQv2BfpiaTK8Iuy8EECqOjzk849zDTmyXabvr+45K0YTHuNhLozk0e5r1
+ EM4jPdEeLoCZQS0XHvcLQTeKHLjHR9klgQtg9661tDK4yw0cPm5/7n8PePjomkJlcNUw
+ zFnw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUF8IvjEKMEUjT5T/pxUQuRwgM9uZWQkOQ46MWQcClheEc7B8KrpzVs4hgTYZED5Pebj4916TIXao8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCQw15pq1h+UbI12SLLOIy80kUCoRiLhqoCZv9g5tOqbaGjhZA
- 7RLcuch6zdV8flgOoi6+HMJraT5qnpXTxBXykWzaBofaCssKOXhUvh9oRTvjI/HqHs5t3mSH57h
- Ms5SSrnNk7/8vC1ja1DdZC1s2ZI6lU2Daqpg4dceK2+82x0euI8LBe/7EYA==
-X-Gm-Gg: ASbGncvgV/UJR0cr/M/75UyU/vmC/D3lTiW4fe7RPaefvD5WFQzid73vi4zdf4TT53H
- FjUg6r+v+u8hvfzw11Qd4/ivG2YuTJTxFzt36gJyxnXHEy1Ikv+M9/5iQ9hjOExMNBtBHTY94WR
- +ltv8dWm//ulpkusDLffOPDBN64e7vanNXwM5I/8coycbZ2Ask3h9HzkQkKUcRt8pL9a39cWUHz
- pSdN4mI+uxFHqEc0aTtz9wRFZ3sK3lIDQi3+KBlVKYhJ0aszC0=
-X-Google-Smtp-Source: AGHT+IFHus42Ak5ruWRhTAyg3xMfr+guDvkTkhHI6eHQ3GvPvUzkyf4uNtM2sp4MCW+8IQd4OjacMuEUwlCpUIFW7h0=
-X-Received: by 2002:a17:902:ecc5:b0:264:c886:8188 with SMTP id
- d9443c01a7336-27cc2c98b42mr26887555ad.24.1758621071785; Tue, 23 Sep 2025
- 02:51:11 -0700 (PDT)
-MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Tue, 23 Sep 2025 15:21:00 +0530
-X-Gm-Features: AS18NWCTfgTcnoVtFJ38FtxMSy0NvoryOqAycB2FQR-fdtYRDlc0bdIbrsPkR5s
-Message-ID: <CA+G9fYuZZUQq=7qPavXnHZtX9oQ=amfYVeYRZu3SHfD0ReD6nQ@mail.gmail.com>
-Subject: next-20250922: xe_device_sysfs.c:300:25: error: label 'cleanup' used
- but not defined
-To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org, 
- Linux Regressions <regressions@lists.linux.dev>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Lukasz Laguna <lukasz.laguna@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Anders Roxell <anders.roxell@linaro.org>,
- Ben Copeland <benjamin.copeland@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ AJvYcCU8F96JbYTcsWTOgpIOMc0Q63E8ufOp/wRDx2lg1JETrh4NVybf1gtg/46G/J2VzLagwjj0QsN2NWw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsLhe9coSW5VkZ9A6zJdbUgqEsTJWEkFjRno/1jXpQJxcRGIgM
+ uBR4wfLIiw1gGBl8NQQS0A/8yjzwtRUZIotquCHuLir4VS2L0BGlvX9Ez/mRiGbPROs=
+X-Gm-Gg: ASbGncuhojCI8FeWNoaUpZbGGmtwZ3xPuvEe95kfH8Px42f2Y60Efj3z0GcnpOYLK5K
+ DIK7jhBB8U67KaUoOOieymlNQW7X2VcIJwLlDN8A0PD0X39TlCqsYaDmSXQH9CyLzFh7uV7ZWV8
+ 8bO0eQILslHXenes+wlCcPn9G7J2odNeUR7ngCQqt4KBa/wf6V1YVEtB4BTcITc8upZpZcn1FSg
+ E9mWtIGnoNUwrPbGn25xIpaiSsPzp0BDgK7ZTU8z1V+/h5pda2wKewJzcZrZjotiNy2ZPNRwbCk
+ TjXCW70cQ8w13eoAEDCPZOeTj+nvVdHAfb8bzfytnE3zSI45W32dsggaPX0GNkO2EA3hlHdkXVx
+ eEeKZYSPwbO1jXDQJRMuYzFyiPl63a/oxd5HOD3+0pOB4U/slAPXK2YgVbZD5bQ889lJg
+X-Google-Smtp-Source: AGHT+IF4qTxhg5Hb9sQ/tJAzBa4Ees7FfG50FOAI9GBuf35fyxLYwKPlFRuv+uHkCbA78L9NSJbk0w==
+X-Received: by 2002:a05:6402:4389:b0:634:4e0:8360 with SMTP id
+ 4fb4d7f45d1cf-6346779a012mr1708846a12.2.1758621342052; 
+ Tue, 23 Sep 2025 02:55:42 -0700 (PDT)
+Received: from localhost (144-178-202-139.static.ef-service.nl.
+ [144.178.202.139]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-62fa5cfa6f2sm10771105a12.6.2025.09.23.02.55.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Sep 2025 02:55:41 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 23 Sep 2025 11:55:41 +0200
+Message-Id: <DD038IVOWESM.24X3EZZXH3UE@fairphone.com>
+To: "Pavel Machek" <pavel@ucw.cz>, <barnabas.czeman@mainlining.org>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Stephan Gerhold" <stephan@gerhold.net>,
+ =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Lee Jones" <lee@kernel.org>, "Joerg Roedel"
+ <joro@8bytes.org>, "Will Deacon" <will@kernel.org>, "Robin Murphy"
+ <robin.murphy@arm.com>, "Konrad Dybcio" <konradybcio@kernel.org>, "Sean
+ Paul" <sean@poorly.run>, "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
+ "Marijn Suijten" <marijn.suijten@somainline.org>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dmitry Baryshkov"
+ <lumag@kernel.org>, "Adam Skladowski" <a_skl39@protonmail.com>, "Sireesh
+ Kodali" <sireeshkodali@protonmail.com>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Abhinav Kumar" <abhinav.kumar@linux.dev>,
+ "Jessica Zhang" <jessica.zhang@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <iommu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <phone-devel@vger.kernel.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <linux@mainlining.org>, "Konrad
+ Dybcio" <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v7 6/6] arm64: dts: qcom: Add Xiaomi Redmi 3S
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250831-msm8937-v7-0-232a9fb19ab7@mainlining.org>
+ <20250831-msm8937-v7-6-232a9fb19ab7@mainlining.org>
+ <aNGLPdmOyh/pfroq@duo.ucw.cz>
+ <97ee369f6ffbe42c72c57ebd72887b23@mainlining.org>
+ <aNJKniJ46YuUsbQ+@duo.ucw.cz>
+In-Reply-To: <aNJKniJ46YuUsbQ+@duo.ucw.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,46 +116,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The arm64 and x86_64 builds failed on the Linux next-20250922 tag build due
-to following build warnings / errors with gcc and clang toolchain.
+Hi Pavel and Barnabas,
 
-First seen on next-20250922
-Good: next-20250919
-Bad: next-20250922
+On Tue Sep 23, 2025 at 9:22 AM CEST, Pavel Machek wrote:
+> Hi!
+>> > Hi!
+>> >=20
+>> > > +	led-controller@45 {
+>> > > +		compatible =3D "awinic,aw2013";
+>> > > +		reg =3D <0x45>;
+>> > > +		#address-cells =3D <1>;
+>> > > +		#size-cells =3D <0>;
+>> > > +
+>> > > +		vcc-supply =3D <&pm8937_l10>;
+>> > > +		vio-supply =3D <&pm8937_l5>;
+>> > > +
+>> > > +		led@0 {
+>> > > +			reg =3D <0>;
+>> > > +			function =3D LED_FUNCTION_STATUS;
+>> > > +			led-max-microamp =3D <5000>;
+>> > > +			color =3D <LED_COLOR_ID_RED>;
+>> > > +		};
+>> > > +
+>> > > +		led@1 {
+>> > > +			reg =3D <1>;
+>> > > +			function =3D LED_FUNCTION_STATUS;
+>> > > +			led-max-microamp =3D <5000>;
+>> > > +			color =3D <LED_COLOR_ID_GREEN>;
+>> > > +		};
+>> > > +
+>> > > +		led@2 {
+>> > > +			reg =3D <2>;
+>> > > +			function =3D LED_FUNCTION_STATUS;
+>> > > +			led-max-microamp =3D <5000>;
+>> > > +			color =3D <LED_COLOR_ID_BLUE>;
+>> > > +		};
+>> > > +	};
+>> > > +};
+>> >=20
+>> > That's single, 3-color LED, right? Please see LED multicolor support.
+>> As far as i know aw2013 driver does not have multicolor support.
+>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree=
+/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
+>
+> I believe that needs to be fixed before more bugs are added on top to
+> work around that problem...
+>
+> ...and before that bug is cemented in the ABI.
 
-Regression Analysis:
-- New regression? yes
-- Reproducibility? yes
+Honestly I don't think it's reasonable to expect people contributing dts
+to then first start patching existing LED drivers and adding support for
+x y or z to it, and block dts addition on that.
 
-Test regression: next-20250922: xe_device_sysfs.c:300:25: error: label
-'cleanup' used but not defined
+At least in postmarketOS the user space components we have (e.g.
+feedbackd) detect the LED things (and most others) automatically since
+various devices have various different setups. So once/if aw2013 gets
+multicolor support, the dts can be updated without problems.
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Sure, maybe today changing something on the N900 which would change
+sysfs paths is not the best idea because people will probably have 10+
+years of random shell scripts lying around, but nowadays we usually have
+better ways of abstraction that can handle that.
 
-## Build error
-drivers/gpu/drm/xe/xe_device_sysfs.c: In function 'xe_device_sysfs_init':
-drivers/gpu/drm/xe/xe_device_sysfs.c:300:25: error: label 'cleanup'
-used but not defined
-  300 |                         goto cleanup;
-      |                         ^~~~
+Regards
+Luca
 
-## Source
-* Kernel version: 6.17.0-rc7
-* Git tree: https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next.git
-* Git describe: 6.17.0-rc6-next-20250922
-* Git commit: bf2602a3cb2381fb1a04bf1c39a290518d2538d1
-* Architectures: arm64, x86_64
-* Toolchains: gcc-13 and clang-20
-* Kconfigs: allyesconfig
+>
+> Best regards,
+> 								Pavel
 
-## Build
-* Build log: https://qa-reports.linaro.org/api/testruns/29968978/log_file/
-* Build details:
-https://regressions.linaro.org/lkft/linux-next-master/next-20250922/log-parser-build-gcc/gcc-compiler-drivers_gpu_drm_xe_xe_device_sysfs_c-error-label-cleanup-used-but-not-defined/
-* Build plan: https://tuxapi.tuxsuite.com/v1/groups/linaro/projects/lkft/builds/333Idt9y0485dJThIiCgCMB7ehs
-* Build link: https://storage.tuxsuite.com/public/linaro/lkft/builds/333Idt9y0485dJThIiCgCMB7ehs/
-* Kernel config:
-https://storage.tuxsuite.com/public/linaro/lkft/builds/333Idt9y0485dJThIiCgCMB7ehs/config
-
---
-Linaro LKFT
