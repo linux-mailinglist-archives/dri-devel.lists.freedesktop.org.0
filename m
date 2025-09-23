@@ -2,126 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE7BB93C5C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EACB93C95
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 03:07:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B880510E055;
-	Tue, 23 Sep 2025 01:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B4810E08F;
+	Tue, 23 Sep 2025 01:07:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FU5DxpuV";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="KP/HyCKl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C202910E055
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:00:49 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58MGgBpp008593
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:00:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=uKwfwovsK6G+XL2gFR+D9Aio
- +yl6faNqELg+9kMUYj8=; b=FU5DxpuV37CkXQyWkySBCmzbs18Spc9at4WnukhN
- uyXildLccMzUTPhgNIZw/uixB/awta7Ci9TraV2ibFRX4BF7K6saJBVBOsPIPMO9
- OgHqLCI1V5b66skApMGvg65cvrcPvAMiXyHwEu5Oaj9Da1HYpB/L2r1tn7pU8US+
- yOsIDIbXTpJuepKpfNHq8T1/qHCF5/r5hc3xJ/pg9i+OFj2XdQwTxh1lXc+iQtlo
- WaqSowIxWmcW4u6r7pzP4Gc8H8i4Q/YgU6Uosg3eBBUEbrgpVW302ed37gcRn01y
- J3zBbJ3BDcHCUq592W7+IfcBI0ENUTmd3t49fb9vZrlMgA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kkhpqmd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 01:00:48 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-78f2b1bacfcso81723256d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 18:00:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758589247; x=1759194047;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uKwfwovsK6G+XL2gFR+D9Aio+yl6faNqELg+9kMUYj8=;
- b=xNvw+ZgKMIZAfUij4IX8P5HvxzokETDhgju1393rlxaFhDIIKwzH98jvufkA9Gkldp
- 7U5v0g2YLugHfzGMraK35HMd8301JmwaK6Dq95rO7A8Uazgs4PyqP31Tr23WnLOFsK5Q
- ifaIPXx9IZ+A1Q/zby+AIF7Dfb8bJJoJ89VWn5IUDgaXQrhS+T2VoIpVBDi0DHagnfP+
- bG/FXVWqwNPxP/DEQScJq5J+fxkbyTbf1uzyct6Jlk/0m6PFi9NvjGVSFI4SjIzIhHfn
- v0iEuyxKwKM3SYmOPyDiUCI6DRqF6TUSdn6OuewfJwajEagomMwVjBnVb6ydem1Ps6QF
- jMVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXcLuB3eCDqh517rm8KiXleFS/10quNDNkFnmOipTyLvwiNXdYnfxMUBZu7QBITaYY2G6N9vshTRdA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwqALzgSDqcbhSr1UoqhEDVXdtzvmp7RP715mhL4RClfqFjfdnG
- gKCiJcmy31Wx9ATfNGlBLaPe32EY8xjplzi1YDGUU5Mmh9sl22bBQ4KWpNPp4ZIMv8CJjYPQgh0
- VIeOtf8X/HVXG19Bayci1eUxzRRlV/1kuraPZKy7tE4yVe/UZrwDtqjPyO7scQX4SP6BYgQk=
-X-Gm-Gg: ASbGnctq/4G5aNKTB8co8JAdxQDwR3Rdf2s3rX4nwxma/1JtsBTN3EdHBZwWbA5amMh
- 4ywwSOunaR4F5ZOHFjc2CKi2VhVpC72VvgSpbRGqBd8s9lj59JMI5gNpiHrAY5n2/wCUtr2IZ85
- EdYIbB0L0EpqzSHnLzY0C0upS5ueXy5bF5epYzj/FtVrkNhw+xMp5eOhJ169F0ymklhKlFUCWgm
- 8pqnnaIOrAQM2+foTLXH9aNxvfK1aQex7TKr62VW11iY6N0JBayUDE+J7+RVmI6PdqVcxwxKKNA
- ZPIigH0cZk8rKyJJ0iAJW9CqukBBEqhJzNGboXgtpGwxwlQUCp3S02q8eewogJRdmfU/9uIIHs0
- GPqIxYre5UKDOPi+E3HdR+FphjA68HlBP28QzenFl4DAKjeqJKHh6
-X-Received: by 2002:a05:6214:252b:b0:782:952a:9e45 with SMTP id
- 6a1803df08f44-7e71b334514mr6962876d6.65.1758589247160; 
- Mon, 22 Sep 2025 18:00:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEPtrX3MUMDF+zqwBkLntyAXDXaG6LVnWCjk6aDDU12rLApl7ZW7ISuHZVgo/gt3eoT+zOpZg==
-X-Received: by 2002:a05:6214:252b:b0:782:952a:9e45 with SMTP id
- 6a1803df08f44-7e71b334514mr6962196d6.65.1758589246311; 
- Mon, 22 Sep 2025 18:00:46 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-36a98532a74sm13994211fa.29.2025.09.22.18.00.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Sep 2025 18:00:45 -0700 (PDT)
-Date: Tue, 23 Sep 2025 04:00:42 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 5/8] drm/bridge: add a driver for T-Head TH1520 HDMI
- controller
-Message-ID: <yy57lh5rmbubtqscpquoy3np65tm465cqbtmjw5pqiwxjnecsh@d4qbxe3d4sc5>
-References: <20250921083446.790374-1-uwu@icenowy.me>
- <20250921083446.790374-6-uwu@icenowy.me>
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012014.outbound.protection.outlook.com [52.101.43.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9242710E08F;
+ Tue, 23 Sep 2025 01:07:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RT4as51lHwJOjsXsrrXQqfxSNq/pM+z1yk+xe0CAUd/QcJWhFfghKTyEOSBEtz0rjYqW82WzlKM/uWxb7ILc3K3BRqzLwxkOj5MXz6oppuUbNW+/VJYE6XgWl5gBi9gxAhRqdr2h/gexPRBfHG1Gb92taHdEbBqyJMhmYp5JOWZtyaZwSUgEZO9fzvvrhNq5X0RFKE9+DSEGQRj7jfHL1zdE2NgWDxxSSLPv7iMKZXJcbLP9SvX8BXtI5MknppKm/IBnrpJ+1ZxhJ4bOlSrzlSz8vfuBOxwk2mj/+1WnUxkKPpdtDQgFqWMyCdBADqxGetOaA6CtKZkh9Cmben3PUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aFqVfvuMIVTD6EOenxbIgfN/tvId5690+vLfqY+nbS0=;
+ b=birbhArYPVjU6wFTwjaHQ/9xt1biInrMgkM5dAa4bBD3G60FdD+r3kXgbpFTYQ/8Pc5a7rQkKTjEHUDieqyF7AtVY0RnaT0b233SIsOcEVg/MvTuZymN1AZ60CP5RFJjyC+2NsWdVW/o2pwhU3Kk18MJ3EHBIM7Kv5FkiLHKU08wC8S96hXFMTK8wwFJt4S/C6bDfI9sEmBUSCdRVixfFM7YlbO+chZUmwscPBaHv/+RoKktycx+viDitu202PhvMzou3O/O99fm3xRwoNctrIqt101vv79VbNJCwYgnIbbVt5Slv5Cjoul5+BG2qbpEdZ5THrByL64Lpl8k0RrAig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aFqVfvuMIVTD6EOenxbIgfN/tvId5690+vLfqY+nbS0=;
+ b=KP/HyCKlT0Qk2nTql993lXePJyEo0Q/hmXwiA7iG2N2CxabFApzjSOTAHSLtkgB6fTn9Ro8g6ii1VpC0oZFtqlOE+7A1qwdpFqWt/R8ORKltJQRDVmGu4qtl9DPCtDERzfa605FR2WFPfk27PSV4eOkghUW8YGzCSRZdSM8/W5NtpByC+1p8R/bLfNtydWtz2HpKblNW1gtfzn8DzVLZYE3Je7NgKhoVE8EkW4KSyrp4ntiYkX/90m9JbhuBM/6Gif+iXtmv3r6wKb2xrvOWYH17JpSvp04ks8l/TKP4hQAvSL9QBTXsAC50/fT4FrvPxGZJeTbPoezOexs4+CYuUw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
+ by DS0PR12MB8441.namprd12.prod.outlook.com (2603:10b6:8:123::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Tue, 23 Sep
+ 2025 01:07:38 +0000
+Received: from BY5PR12MB4116.namprd12.prod.outlook.com
+ ([fe80::81b6:1af8:921b:3fb4]) by BY5PR12MB4116.namprd12.prod.outlook.com
+ ([fe80::81b6:1af8:921b:3fb4%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 01:07:37 +0000
+Message-ID: <be96c39c-4ac5-4a4c-b5fc-6b1c1026db30@nvidia.com>
+Date: Mon, 22 Sep 2025 18:07:18 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/10] nova-core: falcon: Add support to check if
+ RISC-V is active
+To: Timur Tabi <ttabi@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Alexandre Courbot
+ <acourbot@nvidia.com>, "dakr@kernel.org" <dakr@kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>
+Cc: "lossin@kernel.org" <lossin@kernel.org>,
+ "ojeda@kernel.org" <ojeda@kernel.org>,
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "tmgross@umich.edu" <tmgross@umich.edu>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "aliceryhl@google.com" <aliceryhl@google.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>
+References: <20250922113026.3083103-1-apopple@nvidia.com>
+ <20250922113026.3083103-9-apopple@nvidia.com>
+ <38bbcbbb7bdf88f3a06ed9925d4fa058d6352d51.camel@nvidia.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <38bbcbbb7bdf88f3a06ed9925d4fa058d6352d51.camel@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR08CA0018.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::31) To BY5PR12MB4116.namprd12.prod.outlook.com
+ (2603:10b6:a03:210::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250921083446.790374-6-uwu@icenowy.me>
-X-Proofpoint-ORIG-GUID: aru0gjMjSSkA_6jKZV1Yg7lF2k7thaEo
-X-Proofpoint-GUID: aru0gjMjSSkA_6jKZV1Yg7lF2k7thaEo
-X-Authority-Analysis: v=2.4 cv=JMo7s9Kb c=1 sm=1 tr=0 ts=68d1f140 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=kiC7nBRpPsduyw9UZ3oA:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyMiBTYWx0ZWRfXwSaSc/Ot4xwS
- cLAVl+PyfFXLnzemgkT4OygAu3pt8ZyM/xX96wCHMGFqzUsc7EpAl9CyueE9qMYYxHShHfS8Ugv
- F8YC05+MzVbIi8y4+/upJITlCBk1Ib9zQXUyYaRb89lsN9El5pghOZbrfXsxKLKhYcQwlYQlSlP
- 9iBpY8pECsbCMgC7A0k+fEY5shmG7Iq8GEKEnABBb6cT45fGZwCFdQSHydmrV+199lf4oa8Dhah
- ujTSdB9vyJSQLYmdB2uPOgH1A8tDLnSrCStS8xuQCXmouq3FYGNTEVW9jI+4T+bmYgi1KPAjWiL
- CNetHGiVUxyIOzv7PrI6tcIabv2KHNmPJxJLgAivttpqDAWuQ+8C0sVtf9Th6qnq6396nDlWKYc
- Rd8awnwt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-22_05,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509200022
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4116:EE_|DS0PR12MB8441:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c6ef8b5-6081-490f-ffa3-08ddfa3d963e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0MxQmdyb0VZbFBHWWRjMFd4REVVbElKMjZUM0ZlckM1bXJKZ3FENXI0SklB?=
+ =?utf-8?B?V1FIUU1FM1RwaU04YStvUWhBcXBWMHBIRGlCS0pjWnJjb3hpZlNwU045UDNV?=
+ =?utf-8?B?TllGM1hzNjBjYUZBRmNSZXhnOENSbk56TUc3Vk9aMjhCY2V5cjF6bXM1RlVj?=
+ =?utf-8?B?akdVY3RRODlsTXFKbGJOV0dzSkRSTVBEck5rVEZ2SUwrWjF0eEg3Ti9tUllC?=
+ =?utf-8?B?Wi9CcUJyV0t3SkxyTkRHRFpXMVdha2E3a3hQZFlwWXVrcDhIOXNTemdaVkly?=
+ =?utf-8?B?RWRpb1RiWkdhRUUwbFJ0QnVvc09SUGlZaFZxOFB0dkxKMkF0UlZTQWwyTnpC?=
+ =?utf-8?B?L0lXbmVxaXh1RzNPTkkvd1RwQnMyVlZhMjkwQkNTemRTMlBMK1oxZFlJanMy?=
+ =?utf-8?B?cFFZTFZHQkw1Y0wzZ2tTb1FydUdla3lFNmJkTXNmM1Fwc2dKcXgrdytMMys5?=
+ =?utf-8?B?SEErM3o0OUtyNWNpb2o0dDJjK2ZiRmoyK1d4REJxUnZFZFlzTEp3WThEU3Vx?=
+ =?utf-8?B?RmFzQzlUWVBOanR3bzZ3bkprUUtVc09aOWRtYzh0aVRQRXRhN0x4V2xQRHcw?=
+ =?utf-8?B?T1RaZnBYREVFT0pHRkxDQ1l0ZWthV0owNFlyTDdRVUJIN2d2SjA0TmRGbGFj?=
+ =?utf-8?B?c01OZFJoSTdMUnNQZDIyR3BjMnpsRTErUUFtcFNzNElRWFo4elAwbFJTQzl1?=
+ =?utf-8?B?NWdzajJkZFdkbGhlQ2lJRGhIV2JpZVY3OHRMV2JaajlaWU5mR0txaytvSWdP?=
+ =?utf-8?B?dUpabjNzdThacURsaFRWc2pVZE1OS2h6bkVob2N0Z3piQTdGKzNoNUJRcnpD?=
+ =?utf-8?B?TERtU256NVBpcnNmZlVTcWxkOEZwSW9QUitnOXYzVnduZUdKK2toYXE3N25L?=
+ =?utf-8?B?V2dSUDVoa0hKU1B4RWVzcFU4djZmMzFhTTIrT0k4MEtnNkpOR2hJcDBWemQr?=
+ =?utf-8?B?REoyajgvRnZkUDhzSkxQMThGK0pJZ0E1bFFVZWhsSWtuYW5wZXoxeUNWenFJ?=
+ =?utf-8?B?blZnTk5tbjFOeFBuZzZlVi9pVHkrb3ordWZmSWpPOWZhd1BSOUNTa3ZsSEg3?=
+ =?utf-8?B?enVrYU4vems1QlpCVkt1NFNKNHkrRnB6aWx6UVJWQmRIbjc2blhCeWM4VmJ1?=
+ =?utf-8?B?T3lYU1JwQ1VtS2lVaGRFajZzcnhBZW5DUGRqcjAyRjJUZ2MxTURUR0dVbTEx?=
+ =?utf-8?B?SC95UGtpOVdFbzFiV2RneHk0L2xwL0NRZFhweDFjbkgvQXh5R3ZZYXNzQkUr?=
+ =?utf-8?B?b3l4OENMc01KVS9FaG1XWlNSM2Z6bmFjdHhhTjJma1F5eWhnTVJsekU4Q2NW?=
+ =?utf-8?B?alV6R3pHQUxSR2IzQnpjV0NRN09kaHVUbDA1MVpoaC9JeFZFZlNoT2tYaWl1?=
+ =?utf-8?B?UklBM1dzSS80RDJ2NTVteEdlNGZURDdLa2RpdzRhNmJMZlE0WkVOZHh1bUtw?=
+ =?utf-8?B?KytuRW1tcDRmOW9RYkNENzNvOXIxSjBpSzZRbUU3d01aSHZzTnVVejBaWE1l?=
+ =?utf-8?B?Y3VOS2taMi85ekEyY1AvWFVpUHZLTXg4MGRqT0FzbUJ6TlExYnNPa201RDZq?=
+ =?utf-8?B?amtyY0NPdXRTcXlVNFhaK0lsb2c0dEhZam5UMGVubHl4dFJTd3d5Mk5CNWJD?=
+ =?utf-8?B?a1dMRkY1MlBaamZGOG1LZGwzVUY2anZpSGJONXg4ZUxGcXpzK2JJeDl6R0xs?=
+ =?utf-8?B?Ni9sVENDMVhHbmZFUjljVjR0d0FabVAxUWo2VU1zdDg4TTlkUTlVVGZKQlRX?=
+ =?utf-8?B?VEdTbzNMNnVPSWFNaWdzY2hSRmYwTmtlYXhyTmQwSSsxa29Ec3NOS0JZUlRH?=
+ =?utf-8?B?MHFvRnlrUlFqSmo5YnNYUTJlOFpraFZ0aE1LSEJiZGZwNUhUVlBxNGswRTR2?=
+ =?utf-8?B?WDNGV0ZlaUlWQjBwTHJwMmJTOTkrYldPMkxrZWhlY2wxUkE9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4116.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RlN4by9UYUtYY0lHc0JZcGxEdEZob3NNcXVSRU1tZTlnZmJnR28xdUhIb0M1?=
+ =?utf-8?B?YjQ2YTZlSkZzVmtNUHZTSmtuUEZsSm9hV0hHWTBsUnRzTHBtR0YzaWk5cFFX?=
+ =?utf-8?B?TkJBLzRjWmZwVlB0dDU0a2NwK1gzSXBJcUUxd1RhQVZZNURITTNFcmd6K3d2?=
+ =?utf-8?B?ZVZYQnFvZThyaGVmbEJjVGEvazNIYkh3dnBNQkpRQ25rUFBsUEU0TUV5K243?=
+ =?utf-8?B?TWlnMTRXTXRIL2lSM3Rya29PNUpYUVg1UGkrVjUxMUdnWTAweGhxcWk3YWRQ?=
+ =?utf-8?B?TTJMQ1lJdFNkVFVDeEtWaEVSMHN5ZmJsMkZrWWJyTnhsTHMxQkNndll6RVJw?=
+ =?utf-8?B?NzJBdlpiWUdic0tKdnRUOUlyWS9ZSEM4TWdXZTlNbXJ3b1ZiUzgyUDZPTEdC?=
+ =?utf-8?B?MUU0WDZja0JnYlNwVXhob3JPRUNGd2lJamNiazY3NGFSbUtqeEZSalNmRDBi?=
+ =?utf-8?B?VE5BSEF1S3J6QXM2RlZaYytlZ0R4U1IvWlBUOXZLQi9oY0NwS3ZtdVlFbnpN?=
+ =?utf-8?B?ZTZYaFNJNEQrN3J1OVl3WVJZeURUZEE0eWZpN29WZ1drMzdBNFNaNUZuMCta?=
+ =?utf-8?B?RU9va3IvREo0NGxsS0h3NUwrRytkZFg4RGphbDFoVDN4U1Frb09BN0J6ZWlK?=
+ =?utf-8?B?Ykg0bVFmeUY1RzVkUjVhZVJnb3djbXBzaEtRR2RnRkQ4QTM0TnBPMHFnTUJl?=
+ =?utf-8?B?YzVBQmRLSGFRLzBaTnFBak10QkdEUzFleDBTOC9YVUdpeGNERlVTWVF3TUFm?=
+ =?utf-8?B?QndMejFodW9sRmVmcmd5RjBRVmhTRS85S0cxTUlSa0x3aTNKSW5wcjlsczhs?=
+ =?utf-8?B?dWcvcmVzdk1UN3hrK01sNWRFTFo4blppUmlBSHZZNVZpcHFzKzJBUnp4TnVi?=
+ =?utf-8?B?a0lYUEFyTUN0TndIbTVTNlMzWDlKeEtXN0orQUhISWdPTnNKRDF0ckNLbCt1?=
+ =?utf-8?B?VjdpKzhUa2l3Q1JENHVsNTkybVYyYWRZZFR6V3ZIVlhhaFFYYk5ud0RZaHdy?=
+ =?utf-8?B?MmJiUU05eEh6dlgvVVBPejdxZjhMZjM0eUtrc2FrRkxBbE1XeVJiUDlNMngw?=
+ =?utf-8?B?d2dDWkVuWGY3NVRpUWNwUkUyTjYzMThBRm5CWGJlNkxxL3ZTc29CZjFvRHJv?=
+ =?utf-8?B?cmN6bTNuak55VytpQXZmTElSZ01sVWdSeERBTmhxMlBDazZGUkFFc3hNVHZn?=
+ =?utf-8?B?UjMwMXpPazFvdGFVMStnQmlKcURxNndtTXhER2daTGdqdjc5Z2JZNFh0TUFX?=
+ =?utf-8?B?UmZ6aDMzR0xHZHIwMy94d3cySEsxTERJQ0ZyZkx2cXJOK2RocUNnNUNhbzdF?=
+ =?utf-8?B?S3lNQ2hMSDkzYjFaeWJ5cmdqb2xlbXJ3cENEVVF5VFZNMS9TaVJiZHlXWUJl?=
+ =?utf-8?B?ck54cHlPUy80ZVltclFNU2o3d2t4MzRuclpqZ3BxMmw5dDRLUXhXeEtCRmMv?=
+ =?utf-8?B?QWtBbS9PUENacVQ3eE1FTCt1VXh3bFFvV3RXaGd2NjZ3bHBPUkgzTU5EU0NQ?=
+ =?utf-8?B?N1NBR2xsa3YybnZxUWw3TnpaajlPek1PWWdSNWlQdElaWWh5TUp5Tkp6UkVB?=
+ =?utf-8?B?TnRWY0tFNHBNNXNBM3NJanRnSXpLL01FbGRtT3ZaUlE2a0lXeks5YmxkdVZK?=
+ =?utf-8?B?SGI2ZmJxaHRMa05yeUZQRDVxdDRhNVc2eGZ3TFpQZVQrUlg3anVXS01QRVIx?=
+ =?utf-8?B?eUc2YXA5eWdvUUVFdSsyQWNJTHd3Ynd2aUJIOTF0aytTcXg4Y0F4V041RmU5?=
+ =?utf-8?B?V2w1UUFaQUN2SlhEZmFqMHlVdmF0VmhIOEcvWTQzMnlSbDhZRlJMUGNsRnho?=
+ =?utf-8?B?bXoxazlHNHV1RzdBVGtuWVZOVmVoanBRMUw3YXFIbUFWRU9MaHE3eThyRVJl?=
+ =?utf-8?B?a0RDWWhtc3FXUUVtNW9FeXpvT3BoWHY5cnRIa1U3OERuMVhaSEwyQkttT0M4?=
+ =?utf-8?B?RjNsWEtKbUw5Rmk1RGhUaWNCVStjMXRmMzVYZWc3VzE3YVpJanhqbTNKS285?=
+ =?utf-8?B?ZFNXdEZXR1RqSHVIcjB6Uzh0cnkveWpuSDBLSy9qcW5YdWkwZ1lTRzd0eEpO?=
+ =?utf-8?B?Wm93bVhCdml4M0x3WWxlMU9iTDhXYVd2NzczMzdTaStKTFIvb2FpSU5Cekgx?=
+ =?utf-8?Q?s8XEA69Ml2fM83UgV4PeWH2Nq?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c6ef8b5-6081-490f-ffa3-08ddfa3d963e
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 01:07:37.8537 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: orOyfF5EGxwGc/x+1EBmZZoHyb8DJfrF16BUlTuBWRvW17R8OKiPQ8c84jv1m5WePaJ5FBGXtT0Qadip30D16Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8441
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,155 +183,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 21, 2025 at 04:34:43PM +0800, Icenowy Zheng wrote:
-> T-Head TH1520 SoC contains a Synopsys DesignWare HDMI controller (paired
-> with DesignWare HDMI TX PHY Gen2) that takes the "DP" output from the
-> display controller.
+On 9/22/25 12:12 PM, Timur Tabi wrote:
+> On Mon, 2025-09-22 at 21:30 +1000, Alistair Popple wrote:
+>> +
+>> +    /// Check if the RISC-V core is active.
+>> +    ///
+>> +    /// Returns `true` if the RISC-V core is active, `false` otherwise.
+>> +    #[expect(unused)]
+>> +    pub(crate) fn is_riscv_active(&self, bar: &Bar0) -> Result<bool> {
+>> +        let cpuctl = regs::NV_PRISCV_RISCV_CPUCTL::read(bar, &E::ID);
+>> +        Ok(cpuctl.active_stat())
+>> +    }
 > 
-> Add a driver for this controller utilizing the common DesignWare HDMI
-> code in the kernel.
+> This should be part of the HAL, because a different register is used on Turing.
 > 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
-> Changes in v2:
-> - Created a new function to set PHY parameters and refactored the
->   control flow of the configure_phy callback.
-> 
->  MAINTAINERS                             |   1 +
->  drivers/gpu/drm/bridge/Kconfig          |  10 ++
->  drivers/gpu/drm/bridge/Makefile         |   1 +
->  drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 173 ++++++++++++++++++++++++
->  4 files changed, 185 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f6206963efbf0..98af9dd3664f5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -21759,6 +21759,7 @@ F:	Documentation/devicetree/bindings/reset/thead,th1520-reset.yaml
->  F:	arch/riscv/boot/dts/thead/
->  F:	drivers/clk/thead/clk-th1520-ap.c
->  F:	drivers/firmware/thead,th1520-aon.c
-> +F:	drivers/gpu/drm/bridge/th1520-dw-hdmi.c
->  F:	drivers/mailbox/mailbox-th1520.c
->  F:	drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
->  F:	drivers/pinctrl/pinctrl-th1520.c
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index b9e0ca85226a6..f75e6ad04179f 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -322,6 +322,16 @@ config DRM_THINE_THC63LVD1024
->  	help
->  	  Thine THC63LVD1024 LVDS/parallel converter driver.
->  
-> +config DRM_THEAD_TH1520_DW_HDMI
-> +	tristate "T-Head TH1520 DesignWare HDMI bridge"
-> +	depends on OF
-> +	depends on COMMON_CLK
-> +	depends on ARCH_THEAD || COMPILE_TEST
-> +	select DRM_DW_HDMI
-> +	help
-> +	  Choose this to enable support for the internal HDMI bridge found
-> +	  on the T-Head TH1520 SoC.
-> +
->  config DRM_TOSHIBA_TC358762
->  	tristate "TC358762 DSI/DPI bridge"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 245e8a27e3fc5..421e445ff1cd9 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -27,6 +27,7 @@ obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
->  obj-$(CONFIG_DRM_SII902X) += sii902x.o
->  obj-$(CONFIG_DRM_SII9234) += sii9234.o
->  obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += simple-bridge.o
-> +obj-$(CONFIG_DRM_THEAD_TH1520_DW_HDMI) += th1520-dw-hdmi.o
->  obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
->  obj-$(CONFIG_DRM_TOSHIBA_TC358762) += tc358762.o
->  obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
-> diff --git a/drivers/gpu/drm/bridge/th1520-dw-hdmi.c b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> new file mode 100644
-> index 0000000000000..efb27d37ff652
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> @@ -0,0 +1,173 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on rcar_dw_hdmi.c, which is:
-> + *   Copyright (C) 2016 Renesas Electronics Corporation
-> + * Based on imx8mp-hdmi-tx.c, which is:
-> + *   Copyright (C) 2022 Pengutronix, Lucas Stach <kernel@pengutronix.de>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> +
-> +#include <drm/bridge/dw_hdmi.h>
-> +#include <drm/drm_modes.h>
-> +
-> +#define TH1520_HDMI_PHY_OPMODE_PLLCFG	0x06	/* Mode of operation and PLL dividers */
-> +#define TH1520_HDMI_PHY_CKSYMTXCTRL	0x09	/* Clock Symbol and Transmitter Control Register */
-> +#define TH1520_HDMI_PHY_VLEVCTRL	0x0e	/* Voltage Level Control Register */
-> +#define TH1520_HDMI_PHY_PLLCURRGMPCTRL	0x10	/* PLL current and Gmp (conductance) */
-> +#define TH1520_HDMI_PHY_PLLDIVCTRL	0x11	/* PLL dividers */
-> +#define TH1520_HDMI_PHY_TXTERM		0x19	/* Transmission Termination Register */
-> +
-> +struct th1520_hdmi_phy_params {
-> +	unsigned long mpixelclock;
-> +	u16 opmode_pllcfg;
-> +	u16 pllcurrgmpctrl;
-> +	u16 plldivctrl;
-> +	u16 cksymtxctrl;
-> +	u16 vlevctrl;
-> +	u16 txterm;
-> +};
-> +
-> +static const struct th1520_hdmi_phy_params th1520_hdmi_phy_params[] = {
-> +	{ 35500000,  0x0003, 0x0283, 0x0628, 0x8088, 0x01a0, 0x0007 },
-> +	{ 44900000,  0x0003, 0x0285, 0x0228, 0x8088, 0x01a0, 0x0007 },
-> +	{ 71000000,  0x0002, 0x1183, 0x0614, 0x8088, 0x01a0, 0x0007 },
-> +	{ 90000000,  0x0002, 0x1142, 0x0214, 0x8088, 0x01a0, 0x0007 },
-> +	{ 121750000, 0x0001, 0x20c0, 0x060a, 0x8088, 0x01a0, 0x0007 },
-> +	{ 165000000, 0x0001, 0x2080, 0x020a, 0x8088, 0x01a0, 0x0007 },
-> +	{ 198000000, 0x0000, 0x3040, 0x0605, 0x83c8, 0x0120, 0x0004 },
-> +	{ 297000000, 0x0000, 0x3041, 0x0205, 0x81dc, 0x0200, 0x0005 },
-> +	{ 371250000, 0x0640, 0x3041, 0x0205, 0x80f6, 0x0140, 0x0000 },
-> +	{ 495000000, 0x0640, 0x3080, 0x0005, 0x80f6, 0x0140, 0x0000 },
-> +	{ 594000000, 0x0640, 0x3080, 0x0005, 0x80fa, 0x01e0, 0x0004 },
-> +};
-> +
-> +struct th1520_hdmi {
-> +	struct dw_hdmi_plat_data plat_data;
-> +	struct dw_hdmi *dw_hdmi;
-> +	struct clk *pixclk;
-> +	struct reset_control *mainrst, *prst;
-> +};
-> +
-> +static enum drm_mode_status
-> +th1520_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +		       const struct drm_display_info *info,
-> +		       const struct drm_display_mode *mode)
-> +{
-> +	/*
-> +	 * The maximum supported clock frequency is 594 MHz, as shown in the PHY
-> +	 * parameters table.
-> +	 */
-> +	if (mode->clock > 594000)
-> +		return MODE_CLOCK_HIGH;
+> You can leave it here if you want, and I'll move into a HAL when I post Turing support.  Your
+> choice.
 
-Is it the limitation for the pixel clock or for the TMDS char clock (the
-difference makes sense for non-8-bpc modes.
+Yes, it's similar to the DMA mask patch in that regard (Hopper/Blackwell needs
+a different value).
 
-> +
-> +	return MODE_OK;
-> +}
-> +
+In the spirit of the current "soul" of patchsets, which is "get
+GPU firmware running on Ampere/Ada"), I think let's defer the HALs
+until the first patchset that needs them.
 
+thanks,
 -- 
-With best wishes
-Dmitry
+John Hubbard
+
