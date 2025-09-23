@@ -2,71 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA91DB941BD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 05:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D828B941E9
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 05:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9743810E53D;
-	Tue, 23 Sep 2025 03:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F226910E544;
+	Tue, 23 Sep 2025 03:38:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="SlPVi1oS";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KFz4IHVW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49251.qiye.163.com (mail-m49251.qiye.163.com
- [45.254.49.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8027310E53D
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:33:26 +0000 (UTC)
-Received: from [172.16.12.153] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 23b8da0fb;
- Tue, 23 Sep 2025 11:33:21 +0800 (GMT+08:00)
-Message-ID: <ccaa0f30-6b18-4d44-bda5-e90e1b087ecc@rock-chips.com>
-Date: Tue, 23 Sep 2025 11:33:19 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E74910E544
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:38:51 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N2Klt8000755
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:38:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 8Y+UxxpE5WuCRJKuL0hvK4qAyKZPxGwcP6Rwn7/3joE=; b=KFz4IHVWkCAuM+Gr
+ ihh3zMOk3sz7yyPuq6meqSBY7YiXu9sJ3Ovl8LYI61cfbz09oYecTiJe/lyjqVDG
+ KEzyoIpj/5TgH/SsGYfYwYD7zQIQWJC8qOPQoNYsrjJDPIbpNkVOn+KXq+DXYAW9
+ y3CO1VYETWVuyFcDyAqLjhdHY8TbVuZA5F1G/ClJBVyqz+l+v+BDQsPZrEWehj5+
+ uR0MMK0F2cfTQzQmaoioJKQmVrq1s1+8cZkEF1f9ICprkjT3PLKdm4e1oybwON9c
+ S/MYHMgSWrU1SY9zq+nOOo9Q9q30ORUfz8qlA7MwxCFU4ipWeBlzFBjJtnLrKzqp
+ Zl/9Bw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bjpdr5v0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 03:38:50 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-244582e9d17so17217895ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 20:38:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758598730; x=1759203530;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=8Y+UxxpE5WuCRJKuL0hvK4qAyKZPxGwcP6Rwn7/3joE=;
+ b=R/cEADYzNH4nUPbju8r9yvwhXNMv0yZXfJs6BomU8LNTOSBlDtpEgNcBzjnJKnq/7W
+ frF2eMit+4UpoBe4c5yVhv51cvLdS7tn2dDeF5MDDc5YzvYY7edds9Ta3LjNMsdKPRsv
+ 6oBFa2hSu/+BDruyg69aOoajkaoX4UTE0L/L0Z36VPUr6f2DRR92LrUIV7TW3/ruxWDZ
+ QBpadJFhWS+nmVSoHCHAMYxMFcXH0XrzQsxunWh4+Rcy+G1oLZkbZdkv4uBMOdlfLKbS
+ NRWJDYPAYMlvXU/k8q/cAWCqBzS5+s3YvwAP5K1gef7T5kbUQ8hFvNwUj4GWg42nDwpU
+ l6tg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU85eLlSHzVB754iL1KiPYPQH/QVvtCrmVOr7l0YcjHm/rvALliBpNvD+jh+k52PohDNyNozm0V5qM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzz4F7ZkMZN0kWZ5OMPD8LIg9a4hiCDpbwVdo4s8R8SVuEihSIb
+ 8RhrR5mT85tZjQdo49l/g1LDC6Xd8l2+hS0yUUU+nfPj/1K+/yRdbQBAruQDKfm2Nx8IayF/7eh
+ hP6AoJbXgLs+ZAaQh4HWzdcB7cQJPMIS2bF/yM4t33F5X5q9EVt+psLMaM4qlqSVkttJ2tMU=
+X-Gm-Gg: ASbGnctnuvFiO7Br1gZLcNaWbLcvhN1seay4W/9STwp/quSyk6FCl93nnhs+6l8nilR
+ 7W+ycrPYVNzMo0iYySoe6E5OytaM2T9yZcY1dNyvCos0KATzohkzWVORhpefyAfUjKML/ifw13g
+ H7UovbQMnz0XZlrkbGxGyixGk6H3+fAhS3TwNWtwNLUYVmczyKgrknoOR+/m7fzHObwzLqMAogf
+ 9V8zoRfPo8a2EwzXiy972eLgnNZ/D1tRk8ZIzofSUQ4wqqKYsb4EZsbt40RlqYV8K3jhEiRb+lB
+ emKGKCJV9c5UhB7SjwunfdRNWrltL5WEjrbijgwpjNFMRZFbqZs547UIk2YiPqLgcp0aK7PhHls
+ fKQ+OUFPelJdNEfGzsDwWkPva+y4IRzdKDNA=
+X-Received: by 2002:a05:6a00:1828:b0:77f:3f06:1f78 with SMTP id
+ d2e1a72fcca58-77f537a8173mr828270b3a.2.1758598729787; 
+ Mon, 22 Sep 2025 20:38:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5W8YAPrrchgMVeHplJ5Ln5bt4yZvCXn/JchjMJMX2nlmqazlCN5vnpvVhSh9oEhVk8Z5oRg==
+X-Received: by 2002:a05:6a00:1828:b0:77f:3f06:1f78 with SMTP id
+ d2e1a72fcca58-77f537a8173mr828234b3a.2.1758598729324; 
+ Mon, 22 Sep 2025 20:38:49 -0700 (PDT)
+Received: from [10.133.33.111] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-77f41b85e84sm3439351b3a.86.2025.09.22.20.38.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Sep 2025 20:38:48 -0700 (PDT)
+Message-ID: <d7b2a904-97de-4716-b179-4ad8d3ecbe58@oss.qualcomm.com>
+Date: Tue, 23 Sep 2025 11:38:40 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/7] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH v5 14/14] drm/msm/dp: Add support for lane mapping
+ configuration
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <rob.clark@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20250922012039.323-1-kernel@airkyi.com>
- <20250922012039.323-6-kernel@airkyi.com>
- <idyrlzhd5sotg3ylr7vbwmczimglffc75nafxbnhhm3ot2jn4w@ixerm6elfmre>
- <e10484e2-fafb-4e50-866f-f409c12259a5@rock-chips.com>
- <3n6gvt2lcf24smt6njiqoqt5h4733z36hwvc2zfyft62d25uu5@vwl26mmsfzbz>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <3n6gvt2lcf24smt6njiqoqt5h4733z36hwvc2zfyft62d25uu5@vwl26mmsfzbz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+References: <20250919-add-displayport-support-for-qcs615-platform-v5-0-eae6681f4002@oss.qualcomm.com>
+ <20250919-add-displayport-support-for-qcs615-platform-v5-14-eae6681f4002@oss.qualcomm.com>
+ <j7ooyi5vih6ofnjigdgj6uk3ycutugunpm5pu5zf55pu5ua6r2@agg73zakjicn>
+ <CACSVV00Bat6LE=joM+Wh3HnC1=c3_Y=crxUGdhLQWxxpZ17Q3g@mail.gmail.com>
+ <t4x7okzjvh5ltyoniwlreoyy76735igtnxpeohpbojn4hkqk4q@v3ayfjrkez3e>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <t4x7okzjvh5ltyoniwlreoyy76735igtnxpeohpbojn4hkqk4q@v3ayfjrkez3e>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9974a20c3803abkunmdfc552bfe7f27
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk5JT1ZPGh5ISxgYTkoeH0hWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=SlPVi1oSXf0cIDR90Gbl+WHVoEiSBgo/rezRMw1ZUjKfpSHz1UnY+sIXOOZrJPeGg4fHewcX/QApxVfWX35I0knqL4JTlhgJbWI3kVYHwzv+KXNfumqhePewOGGBuAq4ZTr4jrTvcKoPs/6xS+A5nqnloqTsSH6n8gM3BROQ29w=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=6j251N+TTWj2dwg/qF59bibn6Pq6K+CmCvwfdrpKx7o=;
- h=date:mime-version:subject:message-id:from;
+X-Proofpoint-ORIG-GUID: SICU8Zv4yKq0FcbjXTysoRz8i7JLwuNh
+X-Authority-Analysis: v=2.4 cv=Pc//hjhd c=1 sm=1 tr=0 ts=68d2164a cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=gP3TSUq4Lgg7EeaY2V8A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-GUID: SICU8Zv4yKq0FcbjXTysoRz8i7JLwuNh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDAyMCBTYWx0ZWRfX4nFdhK4rIynu
+ U3sUbd6avN4LxKuUT/5sPIQ3ZZ2DhTkX6NMiSBIOlMSwQ59TOa1tDLmPUBYBFKUNJmqZoqYCWYB
+ b3xVKkJS3z6Mg1vndk6/1zHJiB5UBLHGxoDy8I1WEEWv57UGi65rw9f4Cz/WbIIUfNxFnJa/hPo
+ LKZeYgz45ASluJHlzaP/0t0iUQJKwOOHdsqoSufSBouC0P6N5ALzJv+Ncc2TalIKczG22oRtfIb
+ pv966JGQ+5XInfUNlfnbsNMz7d6tpVm6PUJIbqDGU3YQq0srgT+rJrtBfKhA/CdeLa6J7g0gA7Z
+ sYMaKdVELyatSYDK1qmjYQ1HDn0qRdF05vdYWXP0FqGovmEz9QoDFVd4gHdU31Fgde/pgP3UGBv
+ sS5jp1Hl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509230020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,175 +139,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/23/2025 11:22 AM, Dmitry Baryshkov wrote:
 
-> On Tue, Sep 23, 2025 at 10:09:38AM +0800, Chaoyi Chen wrote:
->> On 9/23/2025 9:50 AM, Dmitry Baryshkov wrote:
->>
->>> On Mon, Sep 22, 2025 at 09:20:37AM +0800, Chaoyi Chen wrote:
->>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On 9/23/2025 7:39 AM, Dmitry Baryshkov wrote:
+> On Mon, Sep 22, 2025 at 08:13:00AM -0700, Rob Clark wrote:
+>> On Fri, Sep 19, 2025 at 11:35 AM Dmitry Baryshkov
+>> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+>>> On Fri, Sep 19, 2025 at 10:24:31PM +0800, Xiangxu Yin wrote:
+>>>> QCS615 platform requires non-default logical-to-physical lane mapping due
+>>>> to its unique hardware routing. Unlike the standard mapping sequence
+>>>> <0 1 2 3>, QCS615 uses <3 2 0 1>, which necessitates explicit
+>>>> configuration via the data-lanes property in the device tree. This ensures
+>>>> correct signal routing between the DP controller and PHY.
 >>>>
->>>> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->>>> the CDN-DP can be switched to output to one of the PHYs. If both ports
->>>> are plugged into DP, DP will select the first port for output.
+>>>> For partial definitions, fill remaining lanes with unused physical lanes
+>>>> in ascending order.
 >>>>
->>>> This patch adds support for multiple bridges, enabling users to flexibly
->>>> select the output port. For each PHY port, a separate encoder and bridge
->>>> are registered.
->>>>
->>>> The change is based on the DRM AUX HPD bridge, rather than the
->>>> extcon approach. This requires the DT to correctly describe the
->>>> connections between the PHY, USB connector, and DP controller.
->>>> And cdn_dp_parse_hpd_bridge_dt() will parses it and determines
->>>> whether to register one or two bridges.
->>>>
->>>> Since there is only one DP controller, only one of the PHY ports can
->>>> output at a time. The key is how to switch between different PHYs,
->>>> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->>>>
->>>> There are two cases:
->>>>
->>>> 1. Neither bridge is enabled. In this case, both bridges can
->>>> independently read the EDID, and the PHY port may switch before
->>>> reading the EDID.
->>>>
->>>> 2. One bridge is already enabled. In this case, other bridges are not
->>>> allowed to read the EDID.
->>>>
->>>> Since the scenario of two ports plug in at the same time is rare,
->>>> I don't have a board which support two TypeC connector to test this.
->>>> Therefore, I tested forced switching on a single PHY port, as well as
->>>> output using a fake PHY port alongside a real PHY port.
->>>>
->>>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 >>>> ---
->>>>    drivers/gpu/drm/rockchip/Kconfig       |   1 +
->>>>    drivers/gpu/drm/rockchip/cdn-dp-core.c | 398 +++++++++++++++++++++----
->>>>    drivers/gpu/drm/rockchip/cdn-dp-core.h |  23 +-
->>>>    3 files changed, 366 insertions(+), 56 deletions(-)
+>>>>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 10 +++----
+>>>>  drivers/gpu/drm/msm/dp/dp_link.c | 60 ++++++++++++++++++++++++++++++++++++++++
+>>>>  drivers/gpu/drm/msm/dp/dp_link.h |  1 +
+>>>>  3 files changed, 66 insertions(+), 5 deletions(-)
 >>>>
->>>> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
->>>> index faf50d872be3..3a6266279323 100644
->>>> --- a/drivers/gpu/drm/rockchip/Kconfig
->>>> +++ b/drivers/gpu/drm/rockchip/Kconfig
->>>> @@ -55,6 +55,7 @@ config ROCKCHIP_CDN_DP
->>>>    	select DRM_DISPLAY_HELPER
->>>>    	select DRM_BRIDGE_CONNECTOR
->>>>    	select DRM_DISPLAY_DP_HELPER
->>>> +	select DRM_AUX_HPD_BRIDGE
->>>>    	help
->>>>    	  This selects support for Rockchip SoC specific extensions
->>>>    	  for the cdn DP driver. If you want to enable Dp on
->>>> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>> index 1e27301584a4..784f5656fcc4 100644
->>>> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
->>>> @@ -27,16 +27,17 @@
->>>>    #include "cdn-dp-core.h"
->>>>    #include "cdn-dp-reg.h"
->>>> -static inline struct cdn_dp_device *bridge_to_dp(struct drm_bridge *bridge)
->>>> +static int cdn_dp_switch_port(struct cdn_dp_device *dp, struct cdn_dp_port *prev_port,
->>>> +			      struct cdn_dp_port *port);
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+>>>> index 2aeb3ecf76fab2ee6a9512b785ca5dceebfc3964..34a91e194a124ef5372f13352f7b3513aa88da2a 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_link.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+>>>> @@ -1236,6 +1236,61 @@ static u32 msm_dp_link_link_frequencies(struct device_node *of_node)
+>>>>       return frequency;
+>>>>  }
+>>>>
+>>>> +/*
+>>>> + * Always populate msm_dp_link->lane_map with 4 lanes.
+>>>> + * - Use DTS "data-lanes" if present; otherwise fall back to default mapping.
+>>>> + * - For partial definitions, fill remaining entries with unused lanes in
+>>>> + *   ascending order.
+>>>> + */
+>>>> +static int msm_dp_link_lane_map(struct device *dev, struct msm_dp_link *msm_dp_link)
+>>>> +{
+>>>> +     struct device_node *of_node = dev->of_node;
+>>>> +     struct device_node *endpoint;
+>>>> +     int cnt = msm_dp_link->max_dp_lanes;
+>>>> +     u32 tmp[DP_MAX_NUM_DP_LANES];
+>>>> +     u32 map[DP_MAX_NUM_DP_LANES] = {0, 1, 2, 3}; /* default 1:1 mapping */
+>>>> +     bool used[DP_MAX_NUM_DP_LANES] = {false};
+>>>> +     int i, j = 0, ret = -EINVAL;
 >>>> +
->>>> +static inline struct cdn_dp_bridge *bridge_to_dp_bridge(struct drm_bridge *bridge)
->>>>    {
->>>> -	return container_of(bridge, struct cdn_dp_device, bridge);
->>>> +	return container_of(bridge, struct cdn_dp_bridge, bridge);
->>>>    }
->>>> -static inline struct cdn_dp_device *encoder_to_dp(struct drm_encoder *encoder)
->>>> +static inline struct cdn_dp_device *bridge_to_dp(struct drm_bridge *bridge)
->>>>    {
->>>> -	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
->>>> -
->>>> -	return container_of(rkencoder, struct cdn_dp_device, encoder);
->>>> +	return bridge_to_dp_bridge(bridge)->parent;
->>>>    }
->>>>    #define GRF_SOC_CON9		0x6224
->>>> @@ -191,14 +192,27 @@ static int cdn_dp_get_sink_count(struct cdn_dp_device *dp, u8 *sink_count)
->>>>    static struct cdn_dp_port *cdn_dp_connected_port(struct cdn_dp_device *dp)
->>>>    {
->>>>    	struct cdn_dp_port *port;
->>>> -	int i, lanes;
->>>> +	int i, lanes[MAX_PHY];
->>>>    	for (i = 0; i < dp->ports; i++) {
->>>>    		port = dp->port[i];
->>>> -		lanes = cdn_dp_get_port_lanes(port);
->>>> -		if (lanes)
->>>> +		lanes[i] = cdn_dp_get_port_lanes(port);
->>>> +		if (!dp->hpd_bridge_valid)
->>>>    			return port;
->>>>    	}
+>>>> +     endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
+>>>> +     if (endpoint) {
+>>>> +             ret = of_property_read_u32_array(endpoint, "data-lanes", tmp, cnt);
+>>>> +             if (ret)
+>>>> +                     dev_dbg(dev, "endpoint data-lanes read failed (ret=%d)\n", ret);
+>>>> +     }
 >>>> +
->>>> +	if (dp->hpd_bridge_valid) {
->>>> +		/* If more than one port is available, pick the last active port */
->>>> +		if (dp->active_port > 0 && lanes[dp->active_port])
->>>> +			return dp->port[dp->active_port];
+>>>> +     if (ret) {
+>>>> +             ret = of_property_read_u32_array(of_node, "data-lanes", tmp, cnt);
+>>>> +             if (ret) {
+>>>> +                     dev_info(dev, "data-lanes not defined, set to default\n");
+>>>> +                     goto out;
+>>>> +             }
+>>>> +     }
 >>>> +
->>>> +		/* If the last active port is not available, pick an available port in order */
->>>> +		for (i = 0; i < dp->bridge_count; i++) {
->>>> +			if (lanes[i])
->>>> +				return dp->port[i];
->>>> +		}
->>>> +	}
+>>>> +     for (i = 0; i < cnt; i++) {
+>>>> +             if (tmp[i] >= DP_MAX_NUM_DP_LANES) {
+>>>> +                     dev_err(dev, "data-lanes[%d]=%u out of range\n", i, tmp[i]);
+>>>> +                     return -EINVAL;
+>>>> +             }
+>>>> +             used[tmp[i]] = true;
+>>>> +             map[i] = tmp[i];
+>>>> +     }
 >>>> +
->>>>    	return NULL;
->>>>    }
->>>> @@ -239,10 +253,11 @@ static enum drm_connector_status
->>>>    cdn_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
->>>>    {
->>>>    	struct cdn_dp_device *dp = bridge_to_dp(bridge);
->>>> +	struct cdn_dp_bridge *dp_bridge = bridge_to_dp_bridge(bridge);
->>>>    	enum drm_connector_status status = connector_status_disconnected;
->>>>    	mutex_lock(&dp->lock);
->>>> -	if (dp->connected)
->>>> +	if (dp_bridge->connected && dp->connected)
->>>>    		status = connector_status_connected;
->>>>    	mutex_unlock(&dp->lock);
->>>> @@ -253,10 +268,36 @@ static const struct drm_edid *
->>>>    cdn_dp_bridge_edid_read(struct drm_bridge *bridge, struct drm_connector *connector)
->>>>    {
->>>>    	struct cdn_dp_device *dp = bridge_to_dp(bridge);
->>>> -	const struct drm_edid *drm_edid;
->>>> +	struct cdn_dp_bridge *dp_bridge = bridge_to_dp_bridge(bridge);
->>>> +	struct cdn_dp_port *port = dp->port[dp_bridge->id];
->>>> +	struct cdn_dp_port *prev_port;
->>>> +	const struct drm_edid *drm_edid = NULL;
->>>> +	int i, ret;
->>>>    	mutex_lock(&dp->lock);
->>>> +
->>>> +	/* More than one port is available */
->>>> +	if (dp->bridge_count > 1 && !port->phy_enabled) {
->>>> +		for (i = 0; i < dp->bridge_count; i++) {
->>>> +			/* Another port already enable */
->>>> +			if (dp->bridge_list[i] != dp_bridge && dp->bridge_list[i]->enabled)
->>>> +				goto unlock;
->>>> +			/* Find already enabled port */
->>>> +			if (dp->port[i]->phy_enabled)
->>>> +				prev_port = dp->port[i];
->>>> +		}
->>>> +
->>>> +		/* Switch to current port */
->>>> +		if (prev_port) {
->>>> +			ret = cdn_dp_switch_port(dp, prev_port, port);
->>>> +			if (ret)
->>>> +				goto unlock;
->>>> +		}
->>>> +	}
->>>> +
->>>>    	drm_edid = drm_edid_read_custom(connector, cdn_dp_get_edid_block, dp);
->>> So... If I try reading EDID for the PHY 2 while PHY 1 is enabled, will
->>> it return NULL, even if there is a monitor there? It totally feels like
->>> this is one of the rare cases when caching EDIDs might make sense.
->> Of course. I did consider using cache, but if the monitor changes, then caching the EDID doesn't seem to be of much use…
-> Yes... It might still be better to invalidate the cache on the plug
-> event rather than always reporting empty EDID when another monitor is
-> enabled.
-
-Hmm, I will add cache in v5.
+>>>> +     /* Fill the remaining entries with unused physical lanes (ascending) */
+>>>> +     for (i = cnt; i < DP_MAX_NUM_DP_LANES && j < DP_MAX_NUM_DP_LANES; j++) {
+>>> Nit: i = cnt, j = 0; Don't init loop variables at the top of the
+>>> function.
+>> These days we can party like it's c99 and declare loop variables
+>> inside the for(), instead of at the top of the function.  My
+>> preference is to do so, unless the loop variable is used after the
+>> loop.
+> Ack, works for me too. I think I'm not used for having theese parts of
+> C99 allowed in the kernel.
 
 
->
--- 
-Best,
-Chaoyi
+Got it. j is only used in that for loop, so I'll update it to use C99-style declaration as suggested.
+
 
