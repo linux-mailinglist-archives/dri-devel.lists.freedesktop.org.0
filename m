@@ -2,165 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD23B93FA5
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 04:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BEFB93FD0
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Sep 2025 04:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA3310E249;
-	Tue, 23 Sep 2025 02:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43BB610E531;
+	Tue, 23 Sep 2025 02:22:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NUfgTOo8";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Dva4qX74";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11012057.outbound.protection.outlook.com
- [40.93.195.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A908F10E249;
- Tue, 23 Sep 2025 02:16:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uuaLn22fgvMhtOZxZD3DEwqRN3oAGpOxrXo0Hkx9KMQulhGrmoSCignSz+cWQ4zLHFhhCw0wzrjmmL7RbP5q+hVFskzTHAhtx6y8i/+Iwe9vITF+3Ry9p/+i8kyyiYU6BsefTVlkg7i7uBUExWWvpAv4vy/HNukwGrI+nBN0q5yU7fYa1SFtw2+Z30GdsrhePhrQrQKgdWj8VhNIRF6pg46H3eXPXB+8wUUqNJhHi3OH4QcCVVoHyhkpZl99h2MK7xVtT4gG6m2+vKOWjMVkhQ3nt+xlELr7c54pbMv5umNl3q+A3fQpnYF+cjA80Rpg/ifmF4uRHX6ymcx+L/uioA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yJb01jWSIVv2wB4B6amSkY2zkPduVvhChqoKsk0M/GA=;
- b=bJv6/TBn7YjS99SRr9lIY5NlyoGL/GkHQjq93yrBeIS9Jq8VLZTfkbJt2Px56lctdCMBUl2eR1KGXZomGDFi+AKBUYkH3docBoFxS4KxC68VuGr3hll4tdAUGNejNXbm1SP8ekBMzREiofEnITwu8UYa5JqUPrHkyY1779tAVk3hQ/GvNpoMZjdQp/p3E6/gLrDTXyz38ky4y1uGluQYsLwuCsPLUyEHrJ8spB0VA/qpS/XfcFf/PT5OUDFhpyHtis7hJIcf9nlQ9VQA0uPB1C6zQ2FP84l0dqSWPclFmK610TTUUG67HRWHKd9XuRF17vhW7Fus0m8mrJswCgTE/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yJb01jWSIVv2wB4B6amSkY2zkPduVvhChqoKsk0M/GA=;
- b=NUfgTOo8QsFije8PkKJy9KkpYw6qFbaTCppifdp7LxoaGEdcq6dHtTbOZh+CudPYR+d14Y3ILW5eKUwScLoB4xxVLAnrv7wBg+5IQ3npL29LTwhcO5DpguOwq9PpnOOv5gdkG0ptqyncsXMkxGc7/D51vKAkB1CmOdyP6/fy07pBXP+FexW7NmnfqMW5wy5dSXR6FI91INU9BEhqDRNAeBn1K+M0nf1N/FER0SMsL+8m6UVWAH/6cTW4x8bmjWStuQhMv+g1MSYY4YaRSLo7h5fx7e0KHXt8QP4K8CMQtfCPYibxk7RoGYWP2WwX10QrR+71N5Hyvs+e7zzyZPJN1A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
- by MN2PR12MB4175.namprd12.prod.outlook.com (2603:10b6:208:1d3::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
- 2025 02:16:56 +0000
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::81b6:1af8:921b:3fb4]) by BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::81b6:1af8:921b:3fb4%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
- 02:16:56 +0000
-Message-ID: <0dbc8f78-5cee-4741-8d33-df3358dd5383@nvidia.com>
-Date: Mon, 22 Sep 2025 19:16:53 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/10] gpu: nova-core: Set correct DMA mask
-To: Danilo Krummrich <dakr@kernel.org>, Alistair Popple <apopple@nvidia.com>
-Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- acourbot@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org
-References: <20250922113026.3083103-1-apopple@nvidia.com>
- <20250922113026.3083103-2-apopple@nvidia.com>
- <7fb081e9-e607-401b-937f-f4e3a78a2874@kernel.org>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <7fb081e9-e607-401b-937f-f4e3a78a2874@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0009.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::14) To BY5PR12MB4116.namprd12.prod.outlook.com
- (2603:10b6:a03:210::13)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5A410E531
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:22:44 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N2KlkB000755
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:22:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ KYZdiDOC5bv4MOoPW35JMcR2jYyqaiNntVfeN1yqhgg=; b=Dva4qX74c4VcO2Z1
+ MwUph+vRGW8LYXbbTJHY/ay2/UDlewSudstSxvlrbo2R0ODnnANAAR9krUH0LjMJ
+ qrRf7LxQFpOUGx4B5t7019JTOI2bNwrPL8V0RSH68W+2CZVcB1tPC2COxSybdhmy
+ LQzxHEHqE5/v9Tn8BvDH8o0ITdd7DEYc3FuNQjXT/gx4GzVpk0eJaIX9iVVMMmis
+ Z4jw7XdWU28r73v1eyrukNOJGhR3XXTXAWrIAkyN9bfU+CF8gLcwJ8VCgqIPn3Fc
+ EGPJWKXFmBEzXQr8Me7Hjb2dicbpjfy0yNEKWdMyu+sx1828FMnxYJ5QNsYiVppZ
+ zQ/b4Q==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bjpdr056-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 02:22:43 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-78e831e5a42so126024976d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 19:22:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758594162; x=1759198962;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KYZdiDOC5bv4MOoPW35JMcR2jYyqaiNntVfeN1yqhgg=;
+ b=vmR7ZuxtbFLr4eRd0E8A+bgnFRkBIEq693bU5TiEnbnSiO1m7ntrqtV4UMNITu9NeM
+ WaJH7Ok1p7ckxD5SCkv27NjwRKfaBAgQouTCIVBHx8HyQcgoW3uAcEShQUp6znypUmB2
+ tFn9UwdCQ2ioxQG5Qz/nj4Fb0ZDZhU/KG+8ypuCvHV6i0okBv9VHN9eq+pucp40RLGo2
+ 3YOOVYDSSTn6cxJNGo5C1GSnKS0szhqMNlkNl2Tasg5jcDR+A9JoAQ76XCupNA9+t771
+ EpQR/vHHEkL5lHTuY9RlJqVAr+5kcMqeL4thvI9IIwhcqCDOb+wbhkUDQc0NTNQBIao6
+ q+Wg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXKXgJn6EXPCk8+dVSAFZCoFxoK4AhGGjPvB6ZAXBXD77irF4mMkSJw75/T/84lUbHCQkCSXn2xjPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz65iOlXBjb4SeWjfGLJ2UQTjHDBjk0Nwp30a7heZcPgv16H1X6
+ pBDaa4ecj0qzCjOEkXyy38APY5OaDegEABq3LbtmrF5SkRG8r6FAcIMLDfnV7xJxPbChmVKADcl
+ UGFEN1YY+dDhdqiRIuyP+Njo0Odh8JWSzn8pSV01Qs5kxbu0JVEKQu+XPwUC5pKkYuV01dIE=
+X-Gm-Gg: ASbGncuZ41yDYMP8f80UBHWoQEIKqlp1l6mc5VDFNK/liHWgkGfnA8iWlVOSKxYOD2w
+ Ne0CjmH0lWYl5io5TSbG1TH2N5AM0D2+lSc44iustADyuf62qzRtd7BQKw6yV8QPmNr9R45LQoj
+ F+Pu0+oOqYFOBUB50naBorI6BHIPV/VhewcDICRiDhWCHjNI6uxIFDSeMa6y8A6gC/51KNN+hHl
+ 39H1I2/+QmmlTlaBR2MuC0TBd2Su6j9ZRa3v/VRNx1Vz6SfMmleJ5ND3cd963LVVdjKxR17xr11
+ HOGjLGGtVdz3Ik4HbKoBmcTbD49hmRAzMtnrCxczD4VY9IJbwGlipmX6Ale8SA0LhnHLSwaxx92
+ swBfzuA3hI0k75XunDExE5iUmzUPxerDatqigD9f4b8T26dQLHsU4
+X-Received: by 2002:a05:6214:b6e:b0:781:a369:ef8c with SMTP id
+ 6a1803df08f44-7e7037282f6mr11557216d6.16.1758594162166; 
+ Mon, 22 Sep 2025 19:22:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGGMFcPFMs9tf/BLVuoml4neszEVGYIRwTOalLcM6zhPAy5PO9HwGdTChfgqLduK9x1pWRJPw==
+X-Received: by 2002:a05:6214:b6e:b0:781:a369:ef8c with SMTP id
+ 6a1803df08f44-7e7037282f6mr11557046d6.16.1758594161644; 
+ Mon, 22 Sep 2025 19:22:41 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-578a957396esm3767822e87.107.2025.09.22.19.22.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Sep 2025 19:22:40 -0700 (PDT)
+Date: Tue, 23 Sep 2025 05:22:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 5/8] drm/bridge: add a driver for T-Head TH1520 HDMI
+ controller
+Message-ID: <gqsj4ikfwqpt26axmz2omvi36xavyxjvslhepsr2czvnjse7in@5yqzg6o7r3mh>
+References: <20250921083446.790374-1-uwu@icenowy.me>
+ <20250921083446.790374-6-uwu@icenowy.me>
+ <yy57lh5rmbubtqscpquoy3np65tm465cqbtmjw5pqiwxjnecsh@d4qbxe3d4sc5>
+ <d8240b212b9557878a12ee835a1c8b4840236580.camel@icenowy.me>
+ <201a9bb7732d51f4807b3b3644e91333f1b746d6.camel@icenowy.me>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4116:EE_|MN2PR12MB4175:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38f01e30-0dfb-42fe-72d8-08ddfa474496
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VFFGbVpXL3pzNktiZ2JpbC9tYnFiQlFnNm5FQ2wxNEZrc2JvR3hsSTR2TmVV?=
- =?utf-8?B?dE1nYmY3RkR2dkgyZXpYKzZlR09mb1VUVjkzT1V5UWdIL3RCVEFRWG93WG1x?=
- =?utf-8?B?VmdwM1k5U3dDbW5uRTZJaW1hYUZFcm9QVzJaWGtEZUM1RFRDdW5zdmZRa0Ri?=
- =?utf-8?B?U1pxcXJ1Ti9BQ1JHTmU3Zm5nY2M4V2VxWkdISmNCNUY3cHlPYkpzcUZkcmpw?=
- =?utf-8?B?eVhkeUNCYWZuRDRVN2hlek1SQi9rR1lESXRtL1FZZy84N25zd0VjV2gwWmZp?=
- =?utf-8?B?dEZDZTVoby9xRzlUYmN5V20vSFJQNlpJSkdTbVgwVVhoVUdLcnZTNVJDcnho?=
- =?utf-8?B?dFVtVXYvdmpPVEJLajNXYTBnRlVmWitzWVg0dDhMcklibTViMWtKUG5uVVVF?=
- =?utf-8?B?V25XL2ZCNlY3T0tsbnliUnRwMUJLM0FXWU1scXAyamFmbXZpdlV2SytWMU16?=
- =?utf-8?B?OENjbFZxdFoyY0tKZUwyR1VFRjdCdDNhRXl6QTUwdUt4bEp0eDdCRjZzenc0?=
- =?utf-8?B?T3ZQUVllSXdaUGlMYzh5Qm80ZW0vbVFPdThtdjM5OC9ydnZkR1V0MDlzd0hx?=
- =?utf-8?B?RTJpeDNBSHdzYXFsQWtDcmZubzBMYVJWbjZUeDlWWjc2cnBvdXNxUU1MNTlL?=
- =?utf-8?B?empDRW1UdXJNeHIydzFxSlFCTEtOczl1dHpaeTBxVWpLV054VFFaMzdNYkVh?=
- =?utf-8?B?dkdTaWJTa3pxQzBEZUtaSFpPWnJDWjNvY1drQ0dvMFhpWUJqcVA2Vi8weEov?=
- =?utf-8?B?dEFHRE8vQjNWQ0F4RXN1aXB4YUdzQng2Q05xWmh0Z3EzVzhoaWZHaHdmZzRq?=
- =?utf-8?B?VXdtMnVSVzk1Si9RY2xQTmg1SkRWbWM3eTB3VzNJZTAvaUFyVjlCeTltK3c0?=
- =?utf-8?B?RVNkdWlqaGYyNzNjTVlVWVlRSkpvaFdkT2w3b1U3NmFjN0F5RGpaMWhwZytx?=
- =?utf-8?B?eTltWWV6WlkxOUM5WjU5aEcwYUo5L3dGY3FIZjYvVjV5WWxvUGRUMXkvNUwy?=
- =?utf-8?B?M0swLytaeGtQZE9aa1BMd1Fnc1Nwa3c0QkliZ25VSUd0NzQzQkJocUFhbklY?=
- =?utf-8?B?aTB3MkVLR1NibXNKYkZ0Vzh0aHl6T3FyYVpCMTUwazJtazI2bzRNMURvVk96?=
- =?utf-8?B?N2hMQ2kzdHp1RU1QNERxWEN4ZmNXbURSb2ZQdlZNQlFUN0U1czhCMm56WGdD?=
- =?utf-8?B?NFZuMHRjNXZSbzZRMHNqTFA2a3ZIVW5GeFZSK2NLUnFhbFB2TE5kNXlPcmIv?=
- =?utf-8?B?VG9rVlhjUWpSc0FDcVpuQkowb0NBTjhBUXgvWFlwUlQ1UUJrT1V6V1ErdjQ0?=
- =?utf-8?B?cnE2RXgzcXZGd0J5a01YZEdWNTk2REVabW1NQzV1S3FhTjVPK3Rrcm1RdnE4?=
- =?utf-8?B?d0xiR2R3RE85Q3R0RU9ZKzVLVHZDb2lVam41Yk1JRStoeHczZzE3aktjc1du?=
- =?utf-8?B?enFYSFpYYjRvSm5jNVJ6cm1OV0xKNVkya0hybUVKRGtSa3cvU0JEa2xLMENR?=
- =?utf-8?B?QVhjbmxSNWRJWTNxMnBYZWIyVGVMbkV5ZmhibXU4TXVOMTJYcGx0SHprc2lJ?=
- =?utf-8?B?UzhJSlRiL1hKZ3B3a0dUMW1EWVZKa3RKVnNBWFBRWkdadVJjaFBuWStrZnYr?=
- =?utf-8?B?bnJ4a0JYM3NaRmhpZlFxbzJoY3RQQXBldHY0NW4zcUdWSmd4YXdlQWwyVVFw?=
- =?utf-8?B?RkNxdWJVS0dDb0xYZk5PcG1NaDVVbXdWbXY1VnJKNFl2MmNVUTM2VUg3WFJ1?=
- =?utf-8?B?NHJxZElLS0RLU21YOUlURkpIbmpSMXY1Rk5uYzRIWEZPRGhsV1NXeWlUaVlz?=
- =?utf-8?B?cGZFY20rVWhnL2VMMXc0VTVGYUFFYkt6RXNGcnFlRnNFeWZMcU82dWd6UXJV?=
- =?utf-8?B?dFNvUFpWZlpxOGtaeTVhd3FIWFdLWTFsMUM5YW1TNWJ4L1VYazlUb1RXWDRl?=
- =?utf-8?Q?CJvqtY85dG0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB4116.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkxucW13cUVXZXQybk1zV1lHZEFKZzVaWUV4ZEllaFVaRGZwTGQ2bGFzbndi?=
- =?utf-8?B?QWpYOTdJVDVxVG1WKzh5STRLWjFVS1UxMlJLOEVmTFIvZjlNZjZkVjdnNmlH?=
- =?utf-8?B?RVZsRjNSMU1VTUtPWGMwZ0JVWkw2WHpDYWhjT2Zlb3J0dVhDOGovUmhWenB4?=
- =?utf-8?B?VEo1WDd6UEFrTnVWU0g4QTNmNFpCSHR2MWhDM3pGSTMycmZYTU9zWDQ0cUhr?=
- =?utf-8?B?UitwRFp3TUdvSTE5S0hvN1hkWERrazg1SXpEeWQ3N2ZpKzRYUDVZVWFVaDlE?=
- =?utf-8?B?di9BbnpCeDRjQVdDcHlqMkNQZWJOeXZBSlpQU0dUQWhVbzBZR05oakZGSkpv?=
- =?utf-8?B?S2tZVGlQMUJ1bHpGMlFtQkhNdkIxOXhEbUlSQkZ5YzMrMHlIazZmNmJkUE1U?=
- =?utf-8?B?MEgvSldIRW5VaGNCSElFaUhpcS9FYTRsc3J0MTAvUGhDR3Vua0NlWlFVQ1ow?=
- =?utf-8?B?ZGZtS3k0SjZhWHE2TFpKTU5lekRQUmxocTN6U0loUDFUQXFjTjdRcTVYcGY1?=
- =?utf-8?B?ZUp1TmJET21SZXU5ekZ5UlU3NVdYQ2lXUy9lZGRCREJQaEVZMEhkRzlQYlYr?=
- =?utf-8?B?dWhueEt4WFJpczlaVVpjcnZQQUlDanRjbGtDc2JHdkJzbTBaSXJPUEs1R2Ux?=
- =?utf-8?B?ZDBSQkZTTU9rTjFJM2xCckVYeUNNVEtJalBnM1V2NVZBcEl3eWlEQ3U0RGd0?=
- =?utf-8?B?T094djdBMVJIeWNYTlJ4MmRXRjJCYWNubEQ2UmhrUVJaZUVSQ0JwUG9DanNP?=
- =?utf-8?B?YjFDZUJoOFVQRW9oVXh6aFhPbjU5RlRkdXdtNmRGQ000czdGT1ZTT1UzOFJ2?=
- =?utf-8?B?UkQyNDR3UnlFQ2FzMlFDaVg4UVgxaEtubENZS2hUblBndSsvczIxeDgvNHRV?=
- =?utf-8?B?R21mUWpNZWJnYkVjMUlISVA3YngzVXZObUZIZWkzM3g2QUxkblJadmZZMXR4?=
- =?utf-8?B?b0FJLy81VEpydVEraEdXUnd1UTdEU21QYm84R0ZFMVZXMXR5ei81YTkvODJn?=
- =?utf-8?B?bWJYcmE4S0tWT2NDbG0xQzFBRHFMTDkxVlRjTDEyTnBFOExkSDVUeG5aMFJ2?=
- =?utf-8?B?STZObTg1TGlYZ1RYUWVNSmZLcVJIdkdmWllqUHhkanE5cFRBaXl4NmloVnQ0?=
- =?utf-8?B?K2J0T1hLR0pFQTFicXBBZWVHRXQ4RHpZYkxWblNzdzRJRmh4a1c5aDVDWDc4?=
- =?utf-8?B?dFdZMEZCaFRlTGlNUzBDTlN5NlpiMERVYjIrcjRoWkF6aU1FaFJURmw3Z2xD?=
- =?utf-8?B?a0V6YUYvUlZWTEcyQU5yUTdMZVM0MWE4OVdOWjd1SExpdllTdlVYT09qRncy?=
- =?utf-8?B?OUh3Ym5YbHloTFlKLzRkVkgwY2k3S1V5R2lLOExBVzJjVzR2UE1DRW5Dc1R1?=
- =?utf-8?B?aVNzWnora085cnFJRTJ6UXdhVE9DMDg2Sk9SUkJ3dmZpRHF2RGdUN1pZc0RJ?=
- =?utf-8?B?ZlN5ZXFVNHdWZThpNU5oWFd3RzFOUnFFWURCLzlJcXNDMFErOG5oODlMbnlx?=
- =?utf-8?B?WjdESWZCOTk2TWw5b1RTSDJhR0lTU3laMVVITms5dEt6SHF5UUl5QW1nSUtU?=
- =?utf-8?B?aVI2aHhLOG84N2JxZXVTVGtvT3diMWw4WU5CSXNIUnRIVzZDZDM4THhXRGRJ?=
- =?utf-8?B?bWpvMzFHZWtVcVBnUUdFRVNvd0xCREFlb1NaL3d6SG5aR2pSdUFZRkkwLzZv?=
- =?utf-8?B?RUp5czNwdjE3MEtSaUEyL0g2WEFYZ29YMWxtd3JpbjZyUW5LTnJGMklXbnpY?=
- =?utf-8?B?OG9XY0JMQXlESUVMV0dwTnBRbDhiL3BDTWUwbk9wZ3Bpb3F2OVc4WHZubHhX?=
- =?utf-8?B?bjd3Ni9hVGFrcSs2cnBudjdtM1ZBQ3J0L25SU0NZUkZocHhsUHoyTHRuSVFN?=
- =?utf-8?B?VkxaNm1vaVRnNWhpMXJ0eHhYUWk2SDMwL1EwNjQ0SUQvRk84eHIveklhQzhG?=
- =?utf-8?B?Q0plTjIzK0xJRUwwM3NVcXovck4wOXJoMHJCVkJ6ZGFDTldyUU1PQUpFU0Zl?=
- =?utf-8?B?ZFVTSjJzb3YycnZYUjc5Ukphdk56YnJReUg2M0gyRWlkSE9ZS1E4dHUwVnd6?=
- =?utf-8?B?cVB3b3ptWFBmL0tNQm1vRGlMOFlnOE9jWUFKOXZBSzYrZitVSXA2VG83blNQ?=
- =?utf-8?Q?Gu1eCQzN128qkYGqoW7GmCGg1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38f01e30-0dfb-42fe-72d8-08ddfa474496
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 02:16:55.9147 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 271acqqkhf4EFpH4q4gNq6E+YkQAzkAdQ2r9nNiB0fr1kn/ejhSsN/QcHjuFNJmQRpoocGB2atjVkr/nhw7VQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4175
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <201a9bb7732d51f4807b3b3644e91333f1b746d6.camel@icenowy.me>
+X-Proofpoint-ORIG-GUID: 4oGRlknBwSYQOHDelNyA9N31yia2in4-
+X-Authority-Analysis: v=2.4 cv=Pc//hjhd c=1 sm=1 tr=0 ts=68d20473 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=YJUo16DlFZw7r3sCiXcA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: 4oGRlknBwSYQOHDelNyA9N31yia2in4-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDAyMCBTYWx0ZWRfX1pkN/UphCZw+
+ jrVncaysmQgDhJwntXxf2A46ckdVennszSBqKgZpGimk/dtOv6D/FgNUWF/8UowNHV/J5tE8xXy
+ mqCeLY3uQ8LfvWR1CRfNBfY056+1EFovv19pJZ8rXiwTbm+ujBzkrO6toyeU0LWJjqyCIQxIOoy
+ 1ZYhxarfe3pb5OJx8GAe9N7ofnLAItdYsg0xJx8Xf/b0tEdkni6q9c/zipVlvHINR+wZBfo7ttY
+ urk1veDjjGYJioLBsAEchMG98WLpHo7ozp6gujcq2pSU7jqPFd4kCjXDf4Rl3yw4BWphTgLQ3ZA
+ e44X6vcppzUBuzkrLuMSdk4D11S4z/dhs8doIgrWHjStnAngn6OqS+oma85fYYsBGxf5CHPBIGa
+ Dvc/cz/W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509230020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,36 +142,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/22/25 9:08 AM, Danilo Krummrich wrote:
-> On 9/22/25 1:30 PM, Alistair Popple wrote:
->> +        // SAFETY: No DMA allocations have been made yet
+On Tue, Sep 23, 2025 at 09:30:05AM +0800, Icenowy Zheng wrote:
+> 在 2025-09-23星期二的 09:11 +0800，Icenowy Zheng写道：
+> > 在 2025-09-23星期二的 04:00 +0300，Dmitry Baryshkov写道：
+> > > On Sun, Sep 21, 2025 at 04:34:43PM +0800, Icenowy Zheng wrote:
+> > > > T-Head TH1520 SoC contains a Synopsys DesignWare HDMI controller
+> > > > (paired
+> > > > with DesignWare HDMI TX PHY Gen2) that takes the "DP" output from
+> > > > the
+> > > > display controller.
+> > > > 
+> > > > Add a driver for this controller utilizing the common DesignWare
+> > > > HDMI
+> > > > code in the kernel.
+> > > > 
+> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > > ---
+> > > > Changes in v2:
+> > > > - Created a new function to set PHY parameters and refactored the
+> > > >   control flow of the configure_phy callback.
+> > > > 
+> > > >  MAINTAINERS                             |   1 +
+> > > >  drivers/gpu/drm/bridge/Kconfig          |  10 ++
+> > > >  drivers/gpu/drm/bridge/Makefile         |   1 +
+> > > >  drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 173
+> > > > ++++++++++++++++++++++++
+> > > >  4 files changed, 185 insertions(+)
+> > > >  create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > 
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index f6206963efbf0..98af9dd3664f5 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -21759,6 +21759,7 @@
+> > > > F:      Documentation/devicetree/bindings/reset/thead,th1520-
+> > > > reset.yaml
+> > > >  F:     arch/riscv/boot/dts/thead/
+> > > >  F:     drivers/clk/thead/clk-th1520-ap.c
+> > > >  F:     drivers/firmware/thead,th1520-aon.c
+> > > > +F:     drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > >  F:     drivers/mailbox/mailbox-th1520.c
+> > > >  F:     drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
+> > > >  F:     drivers/pinctrl/pinctrl-th1520.c
+> > > > diff --git a/drivers/gpu/drm/bridge/Kconfig
+> > > > b/drivers/gpu/drm/bridge/Kconfig
+> > > > index b9e0ca85226a6..f75e6ad04179f 100644
+> > > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > > @@ -322,6 +322,16 @@ config DRM_THINE_THC63LVD1024
+> > > >         help
+> > > >           Thine THC63LVD1024 LVDS/parallel converter driver.
+> > > >  
+> > > > +config DRM_THEAD_TH1520_DW_HDMI
+> > > > +       tristate "T-Head TH1520 DesignWare HDMI bridge"
+> > > > +       depends on OF
+> > > > +       depends on COMMON_CLK
+> > > > +       depends on ARCH_THEAD || COMPILE_TEST
+> > > > +       select DRM_DW_HDMI
+> > > > +       help
+> > > > +         Choose this to enable support for the internal HDMI
+> > > > bridge found
+> > > > +         on the T-Head TH1520 SoC.
+> > > > +
+> > > >  config DRM_TOSHIBA_TC358762
+> > > >         tristate "TC358762 DSI/DPI bridge"
+> > > >         depends on OF
+> > > > diff --git a/drivers/gpu/drm/bridge/Makefile
+> > > > b/drivers/gpu/drm/bridge/Makefile
+> > > > index 245e8a27e3fc5..421e445ff1cd9 100644
+> > > > --- a/drivers/gpu/drm/bridge/Makefile
+> > > > +++ b/drivers/gpu/drm/bridge/Makefile
+> > > > @@ -27,6 +27,7 @@ obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
+> > > >  obj-$(CONFIG_DRM_SII902X) += sii902x.o
+> > > >  obj-$(CONFIG_DRM_SII9234) += sii9234.o
+> > > >  obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += simple-bridge.o
+> > > > +obj-$(CONFIG_DRM_THEAD_TH1520_DW_HDMI) += th1520-dw-hdmi.o
+> > > >  obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
+> > > >  obj-$(CONFIG_DRM_TOSHIBA_TC358762) += tc358762.o
+> > > >  obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
+> > > > diff --git a/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > new file mode 100644
+> > > > index 0000000000000..efb27d37ff652
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > @@ -0,0 +1,173 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
+> > > > + *
+> > > > + * Based on rcar_dw_hdmi.c, which is:
+> > > > + *   Copyright (C) 2016 Renesas Electronics Corporation
+> > > > + * Based on imx8mp-hdmi-tx.c, which is:
+> > > > + *   Copyright (C) 2022 Pengutronix, Lucas Stach
+> > > > <kernel@pengutronix.de>
+> > > > + */
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/mod_devicetable.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/reset.h>
+> > > > +
+> > > > +#include <drm/bridge/dw_hdmi.h>
+> > > > +#include <drm/drm_modes.h>
+> > > > +
+> > > > +#define TH1520_HDMI_PHY_OPMODE_PLLCFG  0x06    /* Mode of
+> > > > operation and PLL dividers */
+> > > > +#define TH1520_HDMI_PHY_CKSYMTXCTRL    0x09    /* Clock Symbol
+> > > > and
+> > > > Transmitter Control Register */
+> > > > +#define TH1520_HDMI_PHY_VLEVCTRL       0x0e    /* Voltage Level
+> > > > Control Register */
+> > > > +#define TH1520_HDMI_PHY_PLLCURRGMPCTRL 0x10    /* PLL current
+> > > > and
+> > > > Gmp (conductance) */
+> > > > +#define TH1520_HDMI_PHY_PLLDIVCTRL     0x11    /* PLL dividers
+> > > > */
+> > > > +#define TH1520_HDMI_PHY_TXTERM         0x19    /* Transmission
+> > > > Termination Register */
+> > > > +
+> > > > +struct th1520_hdmi_phy_params {
+> > > > +       unsigned long mpixelclock;
+> > > > +       u16 opmode_pllcfg;
+> > > > +       u16 pllcurrgmpctrl;
+> > > > +       u16 plldivctrl;
+> > > > +       u16 cksymtxctrl;
+> > > > +       u16 vlevctrl;
+> > > > +       u16 txterm;
+> > > > +};
+> > > > +
+> > > > +static const struct th1520_hdmi_phy_params
+> > > > th1520_hdmi_phy_params[] = {
+> > > > +       { 35500000,  0x0003, 0x0283, 0x0628, 0x8088, 0x01a0,
+> > > > 0x0007
+> > > > },
+> > > > +       { 44900000,  0x0003, 0x0285, 0x0228, 0x8088, 0x01a0,
+> > > > 0x0007
+> > > > },
+> > > > +       { 71000000,  0x0002, 0x1183, 0x0614, 0x8088, 0x01a0,
+> > > > 0x0007
+> > > > },
+> > > > +       { 90000000,  0x0002, 0x1142, 0x0214, 0x8088, 0x01a0,
+> > > > 0x0007
+> > > > },
+> > > > +       { 121750000, 0x0001, 0x20c0, 0x060a, 0x8088, 0x01a0,
+> > > > 0x0007
+> > > > },
+> > > > +       { 165000000, 0x0001, 0x2080, 0x020a, 0x8088, 0x01a0,
+> > > > 0x0007
+> > > > },
+> > > > +       { 198000000, 0x0000, 0x3040, 0x0605, 0x83c8, 0x0120,
+> > > > 0x0004
+> > > > },
+> > > > +       { 297000000, 0x0000, 0x3041, 0x0205, 0x81dc, 0x0200,
+> > > > 0x0005
+> > > > },
+> > > > +       { 371250000, 0x0640, 0x3041, 0x0205, 0x80f6, 0x0140,
+> > > > 0x0000
+> > > > },
+> > > > +       { 495000000, 0x0640, 0x3080, 0x0005, 0x80f6, 0x0140,
+> > > > 0x0000
+> > > > },
+> > > > +       { 594000000, 0x0640, 0x3080, 0x0005, 0x80fa, 0x01e0,
+> > > > 0x0004
+> > > > },
+> > > > +};
+> > > > +
+> > > > +struct th1520_hdmi {
+> > > > +       struct dw_hdmi_plat_data plat_data;
+> > > > +       struct dw_hdmi *dw_hdmi;
+> > > > +       struct clk *pixclk;
+> > > > +       struct reset_control *mainrst, *prst;
+> > > > +};
+> > > > +
+> > > > +static enum drm_mode_status
+> > > > +th1520_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
+> > > > +                      const struct drm_display_info *info,
+> > > > +                      const struct drm_display_mode *mode)
+> > > > +{
+> > > > +       /*
+> > > > +        * The maximum supported clock frequency is 594 MHz, as
+> > > > shown in the PHY
+> > > > +        * parameters table.
+> > > > +        */
+> > > > +       if (mode->clock > 594000)
+> > > > +               return MODE_CLOCK_HIGH;
+> > > 
+> > > Is it the limitation for the pixel clock or for the TMDS char clock
+> > > (the
+> > > difference makes sense for non-8-bpc modes.
+> > 
+> > I have no idea, the BSP driver didn't consider non-8bpc modes, and I
+> > have no non-8bpc devices to test.
 > 
-> It's not really about DMA allocations that have been made previously, there is
-> no unsafe behavior in that.
-> 
-> It's about the method must not be called concurrently with any DMA allocation or
-> mapping primitives.
-> 
-> Can you please adjust the comment correspondingly?
-> 
->> +        unsafe { pdev.dma_set_mask_and_coherent(DmaMask::new::<47>())? };
-> 
-> As Boqun mentioned, we shouldn't have a magic number for this. I don't know if
-> it will change for future chips, but maybe we should move this to gpu::Spec to
+> Should I reject non-8bpc modes here because of lack of information?
 
-It changes to 52 bits for GH100+ (Hopper/Blackwell+). When I post those
-patches, I'll use a HAL to select the value.
+No need to, they won't be used anyway.
 
-> be safe.
 > 
-> At least, create a constant for it (also in gpu::Spec?); in Nouveau I named this
-> NOUVEAU_VA_SPACE_BITS back then. Not a great name, if you have a better idea,
-> please go for it. :)
+> > 
+> > > 
+> > > > +
+> > > > +       return MODE_OK;
+> > > > +}
+> > > > +
+> > > 
+> > 
+> 
 
-GPU_DMA_BIT_WIDTH, for now?
-
-
-thanks,
 -- 
-John Hubbard
-
+With best wishes
+Dmitry
