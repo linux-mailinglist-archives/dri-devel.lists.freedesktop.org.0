@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A716BB9DE6D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C5AB9DE64
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7AE110E871;
-	Thu, 25 Sep 2025 07:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7323210E86F;
+	Thu, 25 Sep 2025 07:47:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="oWiNSFun";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="XDZ2TNxN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [3.74.81.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6502F10E7D3;
- Wed, 24 Sep 2025 20:26:44 +0000 (UTC)
+Received: from fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ (fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ [63.178.132.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAFB10E7D5;
+ Wed, 24 Sep 2025 20:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1758745605; x=1790281605;
+ t=1758745655; x=1790281655;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4vb6NSqQR6ex3kWRbhDvcIC1XoiVTA7hMRv6Rl9gJRM=;
- b=oWiNSFunpRuUoTyTICyEQxu9ECqlE/6kaF78UxDkssYaZwTl5DmCMYdZ
- 61Er8cPn3/Hd8Y0Y3dU5953hvwaP8onx/A235BR5hGCXVn3w/4mucpOK+
- FaeU0/mjLj2DA0GbZ6dZCAlc07pxJomlHN6JeF6ex3UMxRbonA6LrYcJL
- j6Dhw2zS0Pqu/0gMqyN5yqs+RST+5+qFcKviCgYT499voBjK1eZYv2D43
- aw91fCvk8UbmSyoMwDqeVMc9P1916kMlFszM6SJFlN6fCzjr+MTpIjk6W
- AT6IyZ396gY0VLZoTOak3pMknlZ40+sMe/7BmiVHBPEguaoaUhtzGN8rH g==;
-X-CSE-ConnectionGUID: KSlroWQQSc+ihUiRUBJ+3g==
-X-CSE-MsgGUID: gfCEb1glRTqGoP173mso+w==
+ bh=c6qNB5bioMyGZXC3i2nj3ypKww+g+8GorxmNDFQZFEw=;
+ b=XDZ2TNxNuYGNXuVca0xGfN3gEAwLBSk1Oif3vqdshh9m115SqXS47NzG
+ MByO7xFJ6FjIos8gfoCiPhn3kruAhgKAKJci1dWclQ4iG7XEtb1ZI2Fy2
+ QH52nk3HE1eoZm6uTME2sYmpwT2HMBsCeJzRVdcQ5OmxsGWwwHyT+DSzw
+ kwsJgkY6RRTPBM8vWpIOBlwsBHw0D3fVYcQ0vCa6sUxjNCEbaCixMqEwn
+ TYaAK2tlDHb67MXdljmMIYgjUtFncwnkBMldhoNtiALni51XmOchtP0Mu
+ tiLDMMUcpSl9Q2J7ygnZqoIDPgntjt7868yjsRTUY4BspJIs6Cj4Fm+zu g==;
+X-CSE-ConnectionGUID: 2hR36KhpRXyNIwqF5REn3A==
+X-CSE-MsgGUID: z5cz6NKiSYCpHW+AhiLuYg==
 X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
-   d="scan'208";a="2630045"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO
- smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
- by internal-fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:26:42 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [54.240.197.225:14599]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.33.43:2525]
+   d="scan'208";a="2527347"
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO
+ smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+ by internal-fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:27:24 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:18302]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.45.166:2525]
  with esmtp (Farcaster)
- id c9fcc3bd-0233-4b5f-b450-8b9bff97bf11; Wed, 24 Sep 2025 20:26:42 +0000 (UTC)
-X-Farcaster-Flow-ID: c9fcc3bd-0233-4b5f-b450-8b9bff97bf11
+ id 3aa99308-e149-4cef-9488-f6523614d113; Wed, 24 Sep 2025 20:27:24 +0000 (UTC)
+X-Farcaster-Flow-ID: 3aa99308-e149-4cef-9488-f6523614d113
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Wed, 24 Sep 2025 20:26:34 +0000
+ Wed, 24 Sep 2025 20:27:10 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
- 20:25:59 +0000
+ 20:26:34 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
@@ -108,12 +108,12 @@ To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
  <bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
  <stable@vger.kernel.org>
-CC: Christoph Hellwig <hch@infradead.org>, "Jason A. Donenfeld"
- <Jason@zx2c4.com>, Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH 04/19 v6.1.y] minmax: fix indentation of __cmp_once() and
- __clamp_once()
-Date: Wed, 24 Sep 2025 20:23:05 +0000
-Message-ID: <20250924202320.32333-5-farbere@amazon.com>
+CC: Linus Torvalds <torvalds@linux-foundation.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, David Laight <David.Laight@aculab.com>
+Subject: [PATCH 05/19 v6.1.y] minmax: avoid overly complicated constant
+ expressions in VM code
+Date: Wed, 24 Sep 2025 20:23:06 +0000
+Message-ID: <20250924202320.32333-6-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250924202320.32333-1-farbere@amazon.com>
 References: <20250924202320.32333-1-farbere@amazon.com>
@@ -139,73 +139,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Laight <David.Laight@ACULAB.COM>
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit f4b84b2ff851f01d0fac619eadef47eb41648534 ]
+[ Upstream commit 3a7e02c040b130b5545e4b115aada7bacd80a2b6 ]
 
-Remove the extra indentation and align continuation markers.
+The minmax infrastructure is overkill for simple constants, and can
+cause huge expansions because those simple constants are then used by
+other things.
 
-Link: https://lkml.kernel.org/r/bed41317a05c498ea0209eafbcab45a5@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+For example, 'pageblock_order' is a core VM constant, but because it was
+implemented using 'min_t()' and all the type-checking that involves, it
+actually expanded to something like 2.5kB of preprocessor noise.
+
+And when that simple constant was then used inside other expansions:
+
+  #define pageblock_nr_pages      (1UL << pageblock_order)
+  #define pageblock_start_pfn(pfn)  ALIGN_DOWN((pfn), pageblock_nr_pages)
+
+and we then use that inside a 'max()' macro:
+
+	case ISOLATE_SUCCESS:
+		update_cached = false;
+		last_migrated_pfn = max(cc->zone->zone_start_pfn,
+			pageblock_start_pfn(cc->migrate_pfn - 1));
+
+the end result was that one statement expanding to 253kB in size.
+
+There are probably other cases of this, but this one case certainly
+stood out.
+
+I've added 'MIN_T()' and 'MAX_T()' macros for this kind of "core simple
+constant with specific type" use.  These macros skip the type checking,
+and as such need to be very sparingly used only for obvious cases that
+have active issues like this.
+
+Reported-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Link: https://lore.kernel.org/all/36aa2cad-1db1-4abf-8dd2-fb20484aabc3@lucifer.local/
+Cc: David Laight <David.Laight@aculab.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- include/linux/minmax.h | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ include/linux/minmax.h          | 7 +++++++
+ include/linux/pageblock-flags.h | 2 +-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 62b0c0a3cf30..2ec559284a9f 100644
+index 2ec559284a9f..a7ef65f78933 100644
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -46,11 +46,11 @@
- #define __cmp(op, x, y)	((x) __cmp_op_##op (y) ? (x) : (y))
+@@ -270,4 +270,11 @@ static inline bool in_range32(u32 val, u32 start, u32 len)
+ #define swap(a, b) \
+ 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
  
- #define __cmp_once(op, x, y, unique_x, unique_y) ({	\
--		typeof(x) unique_x = (x);		\
--		typeof(y) unique_y = (y);		\
--		static_assert(__types_ok(x, y),		\
--			#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
--		__cmp(op, unique_x, unique_y); })
-+	typeof(x) unique_x = (x);			\
-+	typeof(y) unique_y = (y);			\
-+	static_assert(__types_ok(x, y),			\
-+		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
-+	__cmp(op, unique_x, unique_y); })
++/*
++ * Use these carefully: no type checking, and uses the arguments
++ * multiple times. Use for obvious constants only.
++ */
++#define MIN_T(type,a,b) __cmp(min,(type)(a),(type)(b))
++#define MAX_T(type,a,b) __cmp(max,(type)(a),(type)(b))
++
+ #endif	/* _LINUX_MINMAX_H */
+diff --git a/include/linux/pageblock-flags.h b/include/linux/pageblock-flags.h
+index 5f1ae07d724b..ccec17a67af8 100644
+--- a/include/linux/pageblock-flags.h
++++ b/include/linux/pageblock-flags.h
+@@ -41,7 +41,7 @@ extern unsigned int pageblock_order;
+  * Huge pages are a constant size, but don't exceed the maximum allocation
+  * granularity.
+  */
+-#define pageblock_order		min_t(unsigned int, HUGETLB_PAGE_ORDER, MAX_ORDER - 1)
++#define pageblock_order		MIN_T(unsigned int, HUGETLB_PAGE_ORDER, MAX_ORDER - 1)
  
- #define __careful_cmp(op, x, y)					\
- 	__builtin_choose_expr(__is_constexpr((x) - (y)),	\
-@@ -60,16 +60,16 @@
- #define __clamp(val, lo, hi)	\
- 	((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+ #endif /* CONFIG_HUGETLB_PAGE_SIZE_VARIABLE */
  
--#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({	\
--		typeof(val) unique_val = (val);				\
--		typeof(lo) unique_lo = (lo);				\
--		typeof(hi) unique_hi = (hi);				\
--		static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
--				(lo) <= (hi), true),					\
--			"clamp() low limit " #lo " greater than high limit " #hi);	\
--		static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
--		static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
--		__clamp(unique_val, unique_lo, unique_hi); })
-+#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({		\
-+	typeof(val) unique_val = (val);						\
-+	typeof(lo) unique_lo = (lo);						\
-+	typeof(hi) unique_hi = (hi);						\
-+	static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
-+			(lo) <= (hi), true),					\
-+		"clamp() low limit " #lo " greater than high limit " #hi);	\
-+	static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
-+	static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
-+	__clamp(unique_val, unique_lo, unique_hi); })
- 
- #define __careful_clamp(val, lo, hi) ({					\
- 	__builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),	\
 -- 
 2.47.3
 
