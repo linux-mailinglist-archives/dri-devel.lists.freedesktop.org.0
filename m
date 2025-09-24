@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BB6B9DE6E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06508B9DE7C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA1610E873;
-	Thu, 25 Sep 2025 07:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7286710E879;
+	Thu, 25 Sep 2025 07:47:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="MCM8fXCA";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="MqwCqPTX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [63.178.132.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 077F310E7CC;
- Wed, 24 Sep 2025 20:30:02 +0000 (UTC)
+Received: from fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ (fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ [35.158.23.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67F1510E7CC;
+ Wed, 24 Sep 2025 20:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1758745803; x=1790281803;
+ t=1758745837; x=1790281837;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xkEPvUKyQPfYOtTnd+JXsEAKoNLEM/0U49oHM5nqIDU=;
- b=MCM8fXCA28NO2OlRr1OD4sHcnGpITUu5DjMOeZRMnfY1HhlogK3+VxB7
- GsSlhmTMqtqmRy6PApvKDfLYM0+Kej88209pfwtN6ga9w8kJ+usHKDuW6
- TF7jKJbG9JjqCLHi5Rw/9ybaIhlI3ppgaYc2cwnv52n18NJevOFDsTdvg
- BIuhZqPtnmktueHCgHX4YweBqOEzqtTaUaKejXfSS2VCxqeUnrnHnQTob
- pQCA6X29EwX6s1J9+u+OMC0IsBaAPCZzWEMlphNOpaD4TlMMbKv57VGLr
- 7KQPdVwOvj9vvI/lR7h0Mk6cLIzstZ/OGJG/KsbH/fG3J9W2bsq9bYr24 g==;
-X-CSE-ConnectionGUID: OWQgjqe0Tey+2wpOyu+v+Q==
-X-CSE-MsgGUID: a27kEkJCTkmqTzUlsk6I/w==
+ bh=ToVPFfAmijgFkPXuC9UXKvHeG3XAoNk6zHMcSv2Lxjo=;
+ b=MqwCqPTXA/8DByvzoyKG/+XmPqsTknhoTTVe2PPQCKP3zl1O0LGN2yeJ
+ EbryF+hJCyckLO4lOXhEJJHYrCtKNp2xgh1u4zjmrGcaMa1FmSYAg6qrU
+ 6QUomuOcuZGlGrws7jxwAvs/ZjchuUHx9Z7CZi6vV6V/SCOwNGS7hnZ32
+ GUaQ7xWg7/CPsAH6rGB8Urz1V30/Q+eBvIB7Qg/yEyLITs6mNkNZGDJhM
+ ecqLfvn7y0O8BG3MmndtJVQ433IZaKkHWNDbQ9MipjHRBNnKkNfZbwgx+
+ +MFGWy+UAbf0/jLgID5TRYInXhM+wQKcjWKNoacETovmw3jwsncX5ipQO A==;
+X-CSE-ConnectionGUID: whQs5I+6RPuEkQo+yiylwg==
+X-CSE-MsgGUID: zAkb8LYyRg601Cbp7tJfdw==
 X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
-   d="scan'208";a="2527427"
+   d="scan'208";a="2631986"
 Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO
  smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
- by internal-fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:30:01 +0000
-Received: from EX19MTAEUA001.ant.amazon.com [54.240.197.233:13910]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.5.254:2525]
+ by internal-fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:30:25 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:8635]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.9.61:2525]
  with esmtp (Farcaster)
- id 25476354-055d-4b75-9ff9-00d994d9a122; Wed, 24 Sep 2025 20:30:01 +0000 (UTC)
-X-Farcaster-Flow-ID: 25476354-055d-4b75-9ff9-00d994d9a122
+ id c1f88da4-53d2-47a7-88a6-131beb406856; Wed, 24 Sep 2025 20:30:25 +0000 (UTC)
+X-Farcaster-Flow-ID: c1f88da4-53d2-47a7-88a6-131beb406856
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.192) with Microsoft SMTP Server
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Wed, 24 Sep 2025 20:29:48 +0000
+ Wed, 24 Sep 2025 20:30:22 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
- 20:29:13 +0000
+ 20:29:47 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
@@ -110,10 +110,10 @@ To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <stable@vger.kernel.org>
 CC: Linus Torvalds <torvalds@linux-foundation.org>, David Laight
  <David.Laight@aculab.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Subject: [PATCH 09/19 v6.1.y] minmax: simplify min()/max()/clamp()
- implementation
-Date: Wed, 24 Sep 2025 20:23:10 +0000
-Message-ID: <20250924202320.32333-10-farbere@amazon.com>
+Subject: [PATCH 10/19 v6.1.y] minmax: don't use max() in situations that want
+ a C constant expression
+Date: Wed, 24 Sep 2025 20:23:11 +0000
+Message-ID: <20250924202320.32333-11-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250924202320.32333-1-farbere@amazon.com>
 References: <20250924202320.32333-1-farbere@amazon.com>
@@ -141,137 +141,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit dc1c8034e31b14a2e5e212104ec508aec44ce1b9 ]
+[ Upstream commit cb04e8b1d2f24c4c2c92f7b7529031fc35a16fed ]
 
-Now that we no longer have any C constant expression contexts (ie array
-size declarations or static initializers) that use min() or max(), we
-can simpify the implementation by not having to worry about the result
-staying as a C constant expression.
+We only had a couple of array[] declarations, and changing them to just
+use 'MAX()' instead of 'max()' fixes the issue.
 
-So now we can unconditionally just use temporary variables of the right
-type, and get rid of the excessive expansion that used to come from the
-use of
-
-   __builtin_choose_expr(__is_constexpr(...), ..
-
-to pick the specialized code for constant expressions.
-
-Another expansion simplification is to pass the temporary variables (in
-addition to the original expression) to our __types_ok() macro.  That
-may superficially look like it complicates the macro, but when we only
-want the type of the expression, expanding the temporary variable names
-is much simpler and smaller than expanding the potentially complicated
-original expression.
-
-As a result, on my machine, doing a
-
-  $ time make drivers/staging/media/atomisp/pci/isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.i
-
-goes from
-
-	real	0m16.621s
-	user	0m15.360s
-	sys	0m1.221s
-
-to
-
-	real	0m2.532s
-	user	0m2.091s
-	sys	0m0.452s
-
-because the token expansion goes down dramatically.
-
-In particular, the longest line expansion (which was line 71 of that
-'ia_css_ynr.host.c' file) shrinks from 23,338kB (yes, 23MB for one
-single line) to "just" 1,444kB (now "only" 1.4MB).
-
-And yes, that line is still the line from hell, because it's doing
-multiple levels of "min()/max()" expansion thanks to some of them being
-hidden inside the uDIGIT_FITTING() macro.
-
-Lorenzo has a nice cleanup patch that makes that driver use inline
-functions instead of macros for sDIGIT_FITTING() and uDIGIT_FITTING(),
-which will fix that line once and for all, but the 16-fold reduction in
-this case does show why we need to simplify these helpers.
+This will allow us to simplify our min/max macros enormously, since they
+can now unconditionally use temporary variables to avoid using the
+argument values multiple times.
 
 Cc: David Laight <David.Laight@aculab.com>
 Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- include/linux/minmax.h | 43 ++++++++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c   | 2 +-
+ drivers/input/touchscreen/cyttsp4_core.c | 2 +-
+ drivers/irqchip/irq-sun6i-r.c            | 2 +-
+ fs/btrfs/tree-checker.c                  | 2 +-
+ lib/vsprintf.c                           | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index fc384714da45..e3e4353df983 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -35,10 +35,10 @@
- #define __is_noneg_int(x)	\
- 	(__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+index 768b6e7dbd77..fd1faa840ec0 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c
+@@ -700,7 +700,7 @@ static const char *smu_get_feature_name(struct smu_context *smu,
+ size_t smu_cmn_get_pp_feature_mask(struct smu_context *smu,
+ 				   char *buf)
+ {
+-	int8_t sort_feature[max(SMU_FEATURE_COUNT, SMU_FEATURE_MAX)];
++	int8_t sort_feature[MAX(SMU_FEATURE_COUNT, SMU_FEATURE_MAX)];
+ 	uint64_t feature_mask;
+ 	int i, feature_index;
+ 	uint32_t count = 0;
+diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
+index dccbcb942fe5..936d69da3bda 100644
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -871,7 +871,7 @@ static void cyttsp4_get_mt_touches(struct cyttsp4_mt_data *md, int num_cur_tch)
+ 	struct cyttsp4_touch tch;
+ 	int sig;
+ 	int i, j, t = 0;
+-	int ids[max(CY_TMA1036_MAX_TCH, CY_TMA4XX_MAX_TCH)];
++	int ids[MAX(CY_TMA1036_MAX_TCH, CY_TMA4XX_MAX_TCH)];
  
--#define __types_ok(x, y) 					\
--	(__is_signed(x) == __is_signed(y) ||			\
--		__is_signed((x) + 0) == __is_signed((y) + 0) ||	\
--		__is_noneg_int(x) || __is_noneg_int(y))
-+#define __types_ok(x, y, ux, uy) 				\
-+	(__is_signed(ux) == __is_signed(uy) ||			\
-+	 __is_signed((ux) + 0) == __is_signed((uy) + 0) ||	\
-+	 __is_noneg_int(x) || __is_noneg_int(y))
+ 	memset(ids, 0, si->si_ofs.tch_abs[CY_TCH_T].max * sizeof(int));
+ 	for (i = 0; i < num_cur_tch; i++) {
+diff --git a/drivers/irqchip/irq-sun6i-r.c b/drivers/irqchip/irq-sun6i-r.c
+index a01e44049415..99958d470d62 100644
+--- a/drivers/irqchip/irq-sun6i-r.c
++++ b/drivers/irqchip/irq-sun6i-r.c
+@@ -270,7 +270,7 @@ static const struct irq_domain_ops sun6i_r_intc_domain_ops = {
  
- #define __cmp_op_min <
- #define __cmp_op_max >
-@@ -51,34 +51,31 @@
- #define __cmp_once(op, type, x, y) \
- 	__cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+ static int sun6i_r_intc_suspend(void)
+ {
+-	u32 buf[BITS_TO_U32(max(SUN6I_NR_TOP_LEVEL_IRQS, SUN6I_NR_MUX_BITS))];
++	u32 buf[BITS_TO_U32(MAX(SUN6I_NR_TOP_LEVEL_IRQS, SUN6I_NR_MUX_BITS))];
+ 	int i;
  
--#define __careful_cmp_once(op, x, y) ({			\
--	static_assert(__types_ok(x, y),			\
-+#define __careful_cmp_once(op, x, y, ux, uy) ({		\
-+	__auto_type ux = (x); __auto_type uy = (y);	\
-+	static_assert(__types_ok(x, y, ux, uy),		\
- 		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
--	__cmp_once(op, __auto_type, x, y); })
-+	__cmp(op, ux, uy); })
+ 	/* Wake IRQs are enabled during system sleep and shutdown. */
+diff --git a/fs/btrfs/tree-checker.c b/fs/btrfs/tree-checker.c
+index bf3822b25c58..cb76feac94a4 100644
+--- a/fs/btrfs/tree-checker.c
++++ b/fs/btrfs/tree-checker.c
+@@ -608,7 +608,7 @@ static int check_dir_item(struct extent_buffer *leaf,
+ 		 */
+ 		if (key->type == BTRFS_DIR_ITEM_KEY ||
+ 		    key->type == BTRFS_XATTR_ITEM_KEY) {
+-			char namebuf[max(BTRFS_NAME_LEN, XATTR_NAME_MAX)];
++			char namebuf[MAX(BTRFS_NAME_LEN, XATTR_NAME_MAX)];
  
--#define __careful_cmp(op, x, y)					\
--	__builtin_choose_expr(__is_constexpr((x) - (y)),	\
--		__cmp(op, x, y), __careful_cmp_once(op, x, y))
-+#define __careful_cmp(op, x, y) \
-+	__careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+ 			read_extent_buffer(leaf, namebuf,
+ 					(unsigned long)(di + 1), name_len);
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index fa1c19701855..2b0b5f08b8fc 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1082,7 +1082,7 @@ char *resource_string(char *buf, char *end, struct resource *res,
+ #define FLAG_BUF_SIZE		(2 * sizeof(res->flags))
+ #define DECODED_BUF_SIZE	sizeof("[mem - 64bit pref window disabled]")
+ #define RAW_BUF_SIZE		sizeof("[mem - flags 0x]")
+-	char sym[max(2*RSRC_BUF_SIZE + DECODED_BUF_SIZE,
++	char sym[MAX(2*RSRC_BUF_SIZE + DECODED_BUF_SIZE,
+ 		     2*RSRC_BUF_SIZE + FLAG_BUF_SIZE + RAW_BUF_SIZE)];
  
- #define __clamp(val, lo, hi)	\
- 	((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
- 
--#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({		\
--	typeof(val) unique_val = (val);						\
--	typeof(lo) unique_lo = (lo);						\
--	typeof(hi) unique_hi = (hi);						\
-+#define __clamp_once(val, lo, hi, uval, ulo, uhi) ({				\
-+	__auto_type uval = (val);						\
-+	__auto_type ulo = (lo);							\
-+	__auto_type uhi = (hi);							\
- 	static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
- 			(lo) <= (hi), true),					\
- 		"clamp() low limit " #lo " greater than high limit " #hi);	\
--	static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
--	static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
--	__clamp(unique_val, unique_lo, unique_hi); })
--
--#define __careful_clamp(val, lo, hi) ({					\
--	__builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),	\
--		__clamp(val, lo, hi),					\
--		__clamp_once(val, lo, hi, __UNIQUE_ID(__val),		\
--			     __UNIQUE_ID(__lo), __UNIQUE_ID(__hi))); })
-+	static_assert(__types_ok(uval, lo, uval, ulo), "clamp() 'lo' signedness error");	\
-+	static_assert(__types_ok(uval, hi, uval, uhi), "clamp() 'hi' signedness error");	\
-+	__clamp(uval, ulo, uhi); })
-+
-+#define __careful_clamp(val, lo, hi) \
-+	__clamp_once(val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
- 
- /**
-  * min - return minimum of two values of the same or compatible types
+ 	char *p = sym, *pend = sym + sizeof(sym);
 -- 
 2.47.3
 
