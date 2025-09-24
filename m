@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6663B9DE58
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCCDB9DE97
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:48:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA87610E86C;
-	Thu, 25 Sep 2025 07:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF93E10E888;
+	Thu, 25 Sep 2025 07:48:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="iKl7Yx0j";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="d3SMJo+B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [52.28.197.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3C710E7D3;
- Wed, 24 Sep 2025 20:24:12 +0000 (UTC)
+Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ [63.176.194.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68AA10E7D3;
+ Wed, 24 Sep 2025 20:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1758745452; x=1790281452;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=KzVc5pQt1xJae1laTHwFTkgfsVttwXUFIKNqt4L9XFg=;
- b=iKl7Yx0j8trtbJHYCUBM26/WGsW6y0WFt3RtbrEyyz8KfTRBQVXiIl9m
- QDcIXTFdt+XkiqzNhNri8NDhwVSO1mohXIhvOLCpXn1BQtvsqATwhkaWB
- ctvfLoDRxjZfm2a4VUbalZeN50ecubOJWB161l3dZceAVQoIT22+1icP5
- 09ramX30wmj9yw2mFtVwzdZo/8Nw2kKptzZNiDWZkMwroepFdis3m5AKx
- ODJx+YTZQ0j+Mj6C0E/CCCSB0vfSQvN7zrHtwjTRI80aTjdysJ/nrWrgf
- oqnv5p/olt45hBErGgq9cdD8h3C5H4lZ/NNKQ04Z/JypwZKVrzXwkvJ+G g==;
-X-CSE-ConnectionGUID: +bpb7ezGQtmV8E8VA8qXRA==
-X-CSE-MsgGUID: SFde7s01RFKi6zh/6W6ZSQ==
+ t=1758745488; x=1790281488;
+ h=from:to:subject:date:message-id:in-reply-to:references:
+ mime-version:content-transfer-encoding;
+ bh=8YxqVAstefiwEeBBwXrOji/xXNmlzL5LR2jr+zgZ2zI=;
+ b=d3SMJo+BG/rEaXLkjOEN+08eS8GQYkapzwJN9k4He/Nw6QxLlSXFuQgr
+ 3io0Io05G3iqrpP+bpxHmdN51rkYAdXAQs+bFlGUCNslCiEDt8UPGChgv
+ OEsPEP16EsD7xtNKwkgdZMWC/Ftf7cYyK19AqYOR/kJcEWHNB8GtoWBTN
+ FlVRAaQGyHQYQ0VQMG2giyB6JUuZxli0qJP0sCtwndFexsXE8AbtkHQys
+ Tn33k9W40AXLt0rDH2Xjxf3bQpcEDSp4LM8YLDB8WqbsYVVAIlua80yWo
+ xgwb2wpZvS9UOzlvhMJrkDRP8sOKRSpiOQEnQ4LXQDV9XRH4CckOPDqqC Q==;
+X-CSE-ConnectionGUID: 9AKs/HdNQWKNk5hR/pm0MQ==
+X-CSE-MsgGUID: wEFGQccoS+SNl0ASxCSO6Q==
 X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
-   d="scan'208";a="2525915"
+   d="scan'208";a="2630729"
 Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO
  smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
- by internal-fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:24:01 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:12397]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.5.254:2525]
+ by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:24:37 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:5085]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.27.71:2525]
  with esmtp (Farcaster)
- id d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f; Wed, 24 Sep 2025 20:24:01 +0000 (UTC)
-X-Farcaster-Flow-ID: d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f
+ id faa8ed04-2e91-468a-ba97-699cdaebd778; Wed, 24 Sep 2025 20:24:37 +0000 (UTC)
+X-Farcaster-Flow-ID: faa8ed04-2e91-468a-ba97-699cdaebd778
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Wed, 24 Sep 2025 20:24:00 +0000
+ Wed, 24 Sep 2025 20:24:34 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
- 20:23:26 +0000
+ 20:24:00 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
@@ -108,10 +108,12 @@ To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
  <bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
  <stable@vger.kernel.org>
-Subject: [PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7
-Date: Wed, 24 Sep 2025 20:23:01 +0000
-Message-ID: <20250924202320.32333-1-farbere@amazon.com>
+Subject: [PATCH 01/19 v6.1.y] minmax: add in_range() macro
+Date: Wed, 24 Sep 2025 20:23:02 +0000
+Message-ID: <20250924202320.32333-2-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250924202320.32333-1-farbere@amazon.com>
+References: <20250924202320.32333-1-farbere@amazon.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -134,106 +136,504 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series backports 19 patches to update minmax.h in the 6.1.y branch,
-aligning it with v6.17-rc7.
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 
-The ultimate goal is to synchronize all longterm branches so that they
-include the full set of minmax.h changes.
+[ Upstream commit f9bff0e31881d03badf191d3b0005839391f5f2b ]
 
-Previous work to update 6.12.48:
-https://lore.kernel.org/stable/20250922103123.14538-1-farbere@amazon.com/T/#t
-and 6.6.107:
-https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/#t
+Patch series "New page table range API", v6.
 
-The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
-min()/max()/clamp() if the arguments have the same signedness"), which
-is missing in older kernels.
+This patchset changes the API used by the MM to set up page table entries.
+The four APIs are:
 
-In mainline, this change enables min()/max()/clamp() to accept mixed
-argument types, provided both have the same signedness. Without it,
-backported patches that use these forms may trigger compiler warnings,
-which escalate to build failures when -Werror is enabled.
+    set_ptes(mm, addr, ptep, pte, nr)
+    update_mmu_cache_range(vma, addr, ptep, nr)
+    flush_dcache_folio(folio)
+    flush_icache_pages(vma, page, nr)
 
-Andy Shevchenko (1):
-  minmax: deduplicate __unconst_integer_typeof()
+flush_dcache_folio() isn't technically new, but no architecture
+implemented it, so I've done that for them.  The old APIs remain around
+but are mostly implemented by calling the new interfaces.
 
-David Laight (8):
-  minmax: fix indentation of __cmp_once() and __clamp_once()
-  minmax.h: add whitespace around operators and after commas
-  minmax.h: update some comments
-  minmax.h: reduce the #define expansion of min(), max() and clamp()
-  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
-  minmax.h: move all the clamp() definitions after the min/max() ones
-  minmax.h: simplify the variants of clamp()
-  minmax.h: remove some #defines that are only expanded once
+The new APIs are based around setting up N page table entries at once.
+The N entries belong to the same PMD, the same folio and the same VMA, so
+ptep++ is a legitimate operation, and locking is taken care of for you.
+Some architectures can do a better job of it than just a loop, but I have
+hesitated to make too deep a change to architectures I don't understand
+well.
 
-Herve Codina (1):
-  minmax: Introduce {min,max}_array()
+One thing I have changed in every architecture is that PG_arch_1 is now a
+per-folio bit instead of a per-page bit when used for dcache clean/dirty
+tracking.  This was something that would have to happen eventually, and it
+makes sense to do it now rather than iterate over every page involved in a
+cache flush and figure out if it needs to happen.
 
-Linus Torvalds (8):
-  minmax: avoid overly complicated constant expressions in VM code
-  minmax: simplify and clarify min_t()/max_t() implementation
-  minmax: make generic MIN() and MAX() macros available everywhere
-  minmax: add a few more MIN_T/MAX_T users
-  minmax: simplify min()/max()/clamp() implementation
-  minmax: don't use max() in situations that want a C constant
-    expression
-  minmax: improve macro expansion and type checking
-  minmax: fix up min3() and max3() too
+The point of all this is better performance, and Fengwei Yin has measured
+improvement on x86.  I suspect you'll see improvement on your architecture
+too.  Try the new will-it-scale test mentioned here:
+https://lore.kernel.org/linux-mm/20230206140639.538867-5-fengwei.yin@intel.com/
+You'll need to run it on an XFS filesystem and have
+CONFIG_TRANSPARENT_HUGEPAGE set.
 
-Matthew Wilcox (Oracle) (1):
-  minmax: add in_range() macro
+This patchset is the basis for much of the anonymous large folio work
+being done by Ryan, so it's received quite a lot of testing over the last
+few months.
 
- arch/arm/mm/pageattr.c                        |   6 +-
- arch/um/drivers/mconsole_user.c               |   2 +
- arch/x86/mm/pgtable.c                         |   2 +-
- drivers/edac/sb_edac.c                        |   4 +-
- drivers/edac/skx_common.h                     |   1 -
- .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
- .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c        |   2 +-
- .../drm/arm/display/include/malidp_utils.h    |   2 +-
- .../display/komeda/komeda_pipeline_state.c    |  24 +-
- drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
- drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
- drivers/hwmon/adt7475.c                       |  24 +-
- drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
- drivers/irqchip/irq-sun6i-r.c                 |   2 +-
- drivers/md/dm-integrity.c                     |   2 +-
- drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
- .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
- .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
- drivers/net/fjes/fjes_main.c                  |   4 +-
- drivers/nfc/pn544/i2c.c                       |   2 -
- drivers/platform/x86/sony-laptop.c            |   1 -
- drivers/scsi/isci/init.c                      |   6 +-
- .../pci/hive_isp_css_include/math_support.h   |   5 -
- drivers/virt/acrn/ioreq.c                     |   4 +-
- fs/btrfs/misc.h                               |   2 -
- fs/btrfs/tree-checker.c                       |   2 +-
- fs/ext2/balloc.c                              |   2 -
- fs/ext4/ext4.h                                |   2 -
- fs/ufs/util.h                                 |   6 -
- include/linux/compiler.h                      |   9 +
- include/linux/minmax.h                        | 264 +++++++++++++-----
- include/linux/pageblock-flags.h               |   2 +-
- kernel/trace/preemptirq_delay_test.c          |   2 -
- lib/btree.c                                   |   1 -
- lib/decompress_unlzma.c                       |   2 +
- lib/logic_pio.c                               |   3 -
- lib/vsprintf.c                                |   2 +-
- mm/zsmalloc.c                                 |   1 -
- net/ipv4/proc.c                               |   2 +-
- net/ipv6/proc.c                               |   2 +-
- net/netfilter/nf_nat_core.c                   |   6 +-
- net/tipc/core.h                               |   2 +-
- net/tipc/link.c                               |  10 +-
- .../selftests/bpf/progs/get_branch_snapshot.c |   4 +-
- tools/testing/selftests/seccomp/seccomp_bpf.c |   2 +
- tools/testing/selftests/vm/mremap_test.c      |   2 +
- 48 files changed, 290 insertions(+), 184 deletions(-)
+This patch (of 38):
 
+Determine if a value lies within a range more efficiently (subtraction +
+comparison vs two comparisons and an AND).  It also has useful (under some
+circumstances) behaviour if the range exceeds the maximum value of the
+type.  Convert all the conflicting definitions of in_range() within the
+kernel; some can use the generic definition while others need their own
+definition.
+
+Link: https://lkml.kernel.org/r/20230802151406.3735276-1-willy@infradead.org
+Link: https://lkml.kernel.org/r/20230802151406.3735276-2-willy@infradead.org
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Eliav Farber <farbere@amazon.com>
+---
+ arch/arm/mm/pageattr.c                        |  6 ++---
+ .../drm/arm/display/include/malidp_utils.h    |  2 +-
+ .../display/komeda/komeda_pipeline_state.c    | 24 ++++++++---------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |  6 -----
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   | 18 ++++++-------
+ drivers/virt/acrn/ioreq.c                     |  4 +--
+ fs/btrfs/misc.h                               |  2 --
+ fs/ext2/balloc.c                              |  2 --
+ fs/ext4/ext4.h                                |  2 --
+ fs/ufs/util.h                                 |  6 -----
+ include/linux/minmax.h                        | 27 +++++++++++++++++++
+ lib/logic_pio.c                               |  3 ---
+ net/netfilter/nf_nat_core.c                   |  6 ++---
+ net/tipc/core.h                               |  2 +-
+ net/tipc/link.c                               | 10 +++----
+ .../selftests/bpf/progs/get_branch_snapshot.c |  4 +--
+ 16 files changed, 65 insertions(+), 59 deletions(-)
+
+diff --git a/arch/arm/mm/pageattr.c b/arch/arm/mm/pageattr.c
+index c3c34fe714b0..064ad508c149 100644
+--- a/arch/arm/mm/pageattr.c
++++ b/arch/arm/mm/pageattr.c
+@@ -25,7 +25,7 @@ static int change_page_range(pte_t *ptep, unsigned long addr, void *data)
+ 	return 0;
+ }
+ 
+-static bool in_range(unsigned long start, unsigned long size,
++static bool range_in_range(unsigned long start, unsigned long size,
+ 	unsigned long range_start, unsigned long range_end)
+ {
+ 	return start >= range_start && start < range_end &&
+@@ -63,8 +63,8 @@ static int change_memory_common(unsigned long addr, int numpages,
+ 	if (!size)
+ 		return 0;
+ 
+-	if (!in_range(start, size, MODULES_VADDR, MODULES_END) &&
+-	    !in_range(start, size, VMALLOC_START, VMALLOC_END))
++	if (!range_in_range(start, size, MODULES_VADDR, MODULES_END) &&
++	    !range_in_range(start, size, VMALLOC_START, VMALLOC_END))
+ 		return -EINVAL;
+ 
+ 	return __change_memory_common(start, size, set_mask, clear_mask);
+diff --git a/drivers/gpu/drm/arm/display/include/malidp_utils.h b/drivers/gpu/drm/arm/display/include/malidp_utils.h
+index 49a1d7f3539c..9f83baac6ed8 100644
+--- a/drivers/gpu/drm/arm/display/include/malidp_utils.h
++++ b/drivers/gpu/drm/arm/display/include/malidp_utils.h
+@@ -35,7 +35,7 @@ static inline void set_range(struct malidp_range *rg, u32 start, u32 end)
+ 	rg->end   = end;
+ }
+ 
+-static inline bool in_range(struct malidp_range *rg, u32 v)
++static inline bool malidp_in_range(struct malidp_range *rg, u32 v)
+ {
+ 	return (v >= rg->start) && (v <= rg->end);
+ }
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+index e200decd00c6..f4e76b46ca32 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+@@ -305,12 +305,12 @@ komeda_layer_check_cfg(struct komeda_layer *layer,
+ 	if (komeda_fb_check_src_coords(kfb, src_x, src_y, src_w, src_h))
+ 		return -EINVAL;
+ 
+-	if (!in_range(&layer->hsize_in, src_w)) {
++	if (!malidp_in_range(&layer->hsize_in, src_w)) {
+ 		DRM_DEBUG_ATOMIC("invalidate src_w %d.\n", src_w);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!in_range(&layer->vsize_in, src_h)) {
++	if (!malidp_in_range(&layer->vsize_in, src_h)) {
+ 		DRM_DEBUG_ATOMIC("invalidate src_h %d.\n", src_h);
+ 		return -EINVAL;
+ 	}
+@@ -452,14 +452,14 @@ komeda_scaler_check_cfg(struct komeda_scaler *scaler,
+ 	hsize_out = dflow->out_w;
+ 	vsize_out = dflow->out_h;
+ 
+-	if (!in_range(&scaler->hsize, hsize_in) ||
+-	    !in_range(&scaler->hsize, hsize_out)) {
++	if (!malidp_in_range(&scaler->hsize, hsize_in) ||
++	    !malidp_in_range(&scaler->hsize, hsize_out)) {
+ 		DRM_DEBUG_ATOMIC("Invalid horizontal sizes");
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!in_range(&scaler->vsize, vsize_in) ||
+-	    !in_range(&scaler->vsize, vsize_out)) {
++	if (!malidp_in_range(&scaler->vsize, vsize_in) ||
++	    !malidp_in_range(&scaler->vsize, vsize_out)) {
+ 		DRM_DEBUG_ATOMIC("Invalid vertical sizes");
+ 		return -EINVAL;
+ 	}
+@@ -574,13 +574,13 @@ komeda_splitter_validate(struct komeda_splitter *splitter,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!in_range(&splitter->hsize, dflow->in_w)) {
++	if (!malidp_in_range(&splitter->hsize, dflow->in_w)) {
+ 		DRM_DEBUG_ATOMIC("split in_w:%d is out of the acceptable range.\n",
+ 				 dflow->in_w);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!in_range(&splitter->vsize, dflow->in_h)) {
++	if (!malidp_in_range(&splitter->vsize, dflow->in_h)) {
+ 		DRM_DEBUG_ATOMIC("split in_h: %d exceeds the acceptable range.\n",
+ 				 dflow->in_h);
+ 		return -EINVAL;
+@@ -624,13 +624,13 @@ komeda_merger_validate(struct komeda_merger *merger,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!in_range(&merger->hsize_merged, output->out_w)) {
++	if (!malidp_in_range(&merger->hsize_merged, output->out_w)) {
+ 		DRM_DEBUG_ATOMIC("merged_w: %d is out of the accepted range.\n",
+ 				 output->out_w);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!in_range(&merger->vsize_merged, output->out_h)) {
++	if (!malidp_in_range(&merger->vsize_merged, output->out_h)) {
+ 		DRM_DEBUG_ATOMIC("merged_h: %d is out of the accepted range.\n",
+ 				 output->out_h);
+ 		return -EINVAL;
+@@ -866,8 +866,8 @@ void komeda_complete_data_flow_cfg(struct komeda_layer *layer,
+ 	 * input/output range.
+ 	 */
+ 	if (dflow->en_scaling && scaler)
+-		dflow->en_split = !in_range(&scaler->hsize, dflow->in_w) ||
+-				  !in_range(&scaler->hsize, dflow->out_w);
++		dflow->en_split = !malidp_in_range(&scaler->hsize, dflow->in_w) ||
++				  !malidp_in_range(&scaler->hsize, dflow->out_w);
+ }
+ 
+ static bool merger_is_available(struct komeda_pipeline *pipe,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 9156e673d360..cd1d11104607 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -680,12 +680,6 @@ struct block_header {
+ 	u32 data[];
+ };
+ 
+-/* this should be a general kernel helper */
+-static int in_range(u32 addr, u32 start, u32 size)
+-{
+-	return addr >= start && addr < start + size;
+-}
+-
+ static bool fw_block_mem(struct a6xx_gmu_bo *bo, const struct block_header *blk)
+ {
+ 	if (!in_range(blk->addr, bo->iova, bo->size))
+diff --git a/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c b/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
+index 9b84c8d8d309..d117022d15d7 100644
+--- a/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
++++ b/drivers/net/ethernet/chelsio/cxgb3/cxgb3_main.c
+@@ -2126,7 +2126,7 @@ static const struct ethtool_ops cxgb_ethtool_ops = {
+ 	.set_link_ksettings = set_link_ksettings,
+ };
+ 
+-static int in_range(int val, int lo, int hi)
++static int cxgb_in_range(int val, int lo, int hi)
+ {
+ 	return val < 0 || (val <= hi && val >= lo);
+ }
+@@ -2162,19 +2162,19 @@ static int cxgb_siocdevprivate(struct net_device *dev,
+ 			return -EINVAL;
+ 		if (t.qset_idx >= SGE_QSETS)
+ 			return -EINVAL;
+-		if (!in_range(t.intr_lat, 0, M_NEWTIMER) ||
+-		    !in_range(t.cong_thres, 0, 255) ||
+-		    !in_range(t.txq_size[0], MIN_TXQ_ENTRIES,
++		if (!cxgb_in_range(t.intr_lat, 0, M_NEWTIMER) ||
++		    !cxgb_in_range(t.cong_thres, 0, 255) ||
++		    !cxgb_in_range(t.txq_size[0], MIN_TXQ_ENTRIES,
+ 			      MAX_TXQ_ENTRIES) ||
+-		    !in_range(t.txq_size[1], MIN_TXQ_ENTRIES,
++		    !cxgb_in_range(t.txq_size[1], MIN_TXQ_ENTRIES,
+ 			      MAX_TXQ_ENTRIES) ||
+-		    !in_range(t.txq_size[2], MIN_CTRL_TXQ_ENTRIES,
++		    !cxgb_in_range(t.txq_size[2], MIN_CTRL_TXQ_ENTRIES,
+ 			      MAX_CTRL_TXQ_ENTRIES) ||
+-		    !in_range(t.fl_size[0], MIN_FL_ENTRIES,
++		    !cxgb_in_range(t.fl_size[0], MIN_FL_ENTRIES,
+ 			      MAX_RX_BUFFERS) ||
+-		    !in_range(t.fl_size[1], MIN_FL_ENTRIES,
++		    !cxgb_in_range(t.fl_size[1], MIN_FL_ENTRIES,
+ 			      MAX_RX_JUMBO_BUFFERS) ||
+-		    !in_range(t.rspq_size, MIN_RSPQ_ENTRIES,
++		    !cxgb_in_range(t.rspq_size, MIN_RSPQ_ENTRIES,
+ 			      MAX_RSPQ_ENTRIES))
+ 			return -EINVAL;
+ 
+diff --git a/drivers/virt/acrn/ioreq.c b/drivers/virt/acrn/ioreq.c
+index d75ab3f66da4..d3d800a5cbe1 100644
+--- a/drivers/virt/acrn/ioreq.c
++++ b/drivers/virt/acrn/ioreq.c
+@@ -351,7 +351,7 @@ static bool handle_cf8cfc(struct acrn_vm *vm,
+ 	return is_handled;
+ }
+ 
+-static bool in_range(struct acrn_ioreq_range *range,
++static bool acrn_in_range(struct acrn_ioreq_range *range,
+ 		     struct acrn_io_request *req)
+ {
+ 	bool ret = false;
+@@ -389,7 +389,7 @@ static struct acrn_ioreq_client *find_ioreq_client(struct acrn_vm *vm,
+ 	list_for_each_entry(client, &vm->ioreq_clients, list) {
+ 		read_lock_bh(&client->range_lock);
+ 		list_for_each_entry(range, &client->range_list, list) {
+-			if (in_range(range, req)) {
++			if (acrn_in_range(range, req)) {
+ 				found = client;
+ 				break;
+ 			}
+diff --git a/fs/btrfs/misc.h b/fs/btrfs/misc.h
+index f9850edfd726..cadd3fb48769 100644
+--- a/fs/btrfs/misc.h
++++ b/fs/btrfs/misc.h
+@@ -8,8 +8,6 @@
+ #include <linux/math64.h>
+ #include <linux/rbtree.h>
+ 
+-#define in_range(b, first, len) ((b) >= (first) && (b) < (first) + (len))
+-
+ static inline void cond_wake_up(struct wait_queue_head *wq)
+ {
+ 	/*
+diff --git a/fs/ext2/balloc.c b/fs/ext2/balloc.c
+index d2eb4d291985..e8d5869682b2 100644
+--- a/fs/ext2/balloc.c
++++ b/fs/ext2/balloc.c
+@@ -36,8 +36,6 @@
+  */
+ 
+ 
+-#define in_range(b, first, len)	((b) >= (first) && (b) <= (first) + (len) - 1)
+-
+ struct ext2_group_desc * ext2_get_group_desc(struct super_block * sb,
+ 					     unsigned int block_group,
+ 					     struct buffer_head ** bh)
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 903bb01e6dd2..87e223fa4ebd 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -3804,8 +3804,6 @@ static inline void set_bitmap_uptodate(struct buffer_head *bh)
+ 	set_bit(BH_BITMAP_UPTODATE, &(bh)->b_state);
+ }
+ 
+-#define in_range(b, first, len)	((b) >= (first) && (b) <= (first) + (len) - 1)
+-
+ /* For ioend & aio unwritten conversion wait queues */
+ #define EXT4_WQ_HASH_SZ		37
+ #define ext4_ioend_wq(v)   (&ext4__ioend_wq[((unsigned long)(v)) %\
+diff --git a/fs/ufs/util.h b/fs/ufs/util.h
+index 4931bec1a01c..89247193d96d 100644
+--- a/fs/ufs/util.h
++++ b/fs/ufs/util.h
+@@ -11,12 +11,6 @@
+ #include <linux/fs.h>
+ #include "swab.h"
+ 
+-
+-/*
+- * some useful macros
+- */
+-#define in_range(b,first,len)	((b)>=(first)&&(b)<(first)+(len))
+-
+ /*
+  * functions used for retyping
+  */
+diff --git a/include/linux/minmax.h b/include/linux/minmax.h
+index dd52969698f7..d4bc394b449e 100644
+--- a/include/linux/minmax.h
++++ b/include/linux/minmax.h
+@@ -5,6 +5,7 @@
+ #include <linux/build_bug.h>
+ #include <linux/compiler.h>
+ #include <linux/const.h>
++#include <linux/types.h>
+ 
+ /*
+  * min()/max()/clamp() macros must accomplish three things:
+@@ -192,6 +193,32 @@
+  */
+ #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+ 
++static inline bool in_range64(u64 val, u64 start, u64 len)
++{
++	return (val - start) < len;
++}
++
++static inline bool in_range32(u32 val, u32 start, u32 len)
++{
++	return (val - start) < len;
++}
++
++/**
++ * in_range - Determine if a value lies within a range.
++ * @val: Value to test.
++ * @start: First value in range.
++ * @len: Number of values in range.
++ *
++ * This is more efficient than "if (start <= val && val < (start + len))".
++ * It also gives a different answer if @start + @len overflows the size of
++ * the type by a sufficient amount to encompass @val.  Decide for yourself
++ * which behaviour you want, or prove that start + len never overflow.
++ * Do not blindly replace one form with the other.
++ */
++#define in_range(val, start, len)					\
++	((sizeof(start) | sizeof(len) | sizeof(val)) <= sizeof(u32) ?	\
++		in_range32(val, start, len) : in_range64(val, start, len))
++
+ /**
+  * swap - swap values of @a and @b
+  * @a: first value
+diff --git a/lib/logic_pio.c b/lib/logic_pio.c
+index 07b4b9a1f54b..2ea564a40064 100644
+--- a/lib/logic_pio.c
++++ b/lib/logic_pio.c
+@@ -20,9 +20,6 @@
+ static LIST_HEAD(io_range_list);
+ static DEFINE_MUTEX(io_range_mutex);
+ 
+-/* Consider a kernel general helper for this */
+-#define in_range(b, first, len)        ((b) >= (first) && (b) < (first) + (len))
+-
+ /**
+  * logic_pio_register_range - register logical PIO range for a host
+  * @new_range: pointer to the IO range to be registered.
+diff --git a/net/netfilter/nf_nat_core.c b/net/netfilter/nf_nat_core.c
+index e29e4ccb5c5a..6b683ff015b9 100644
+--- a/net/netfilter/nf_nat_core.c
++++ b/net/netfilter/nf_nat_core.c
+@@ -242,7 +242,7 @@ static bool l4proto_in_range(const struct nf_conntrack_tuple *tuple,
+ /* If we source map this tuple so reply looks like reply_tuple, will
+  * that meet the constraints of range.
+  */
+-static int in_range(const struct nf_conntrack_tuple *tuple,
++static int nf_in_range(const struct nf_conntrack_tuple *tuple,
+ 		    const struct nf_nat_range2 *range)
+ {
+ 	/* If we are supposed to map IPs, then we must be in the
+@@ -291,7 +291,7 @@ find_appropriate_src(struct net *net,
+ 				       &ct->tuplehash[IP_CT_DIR_REPLY].tuple);
+ 			result->dst = tuple->dst;
+ 
+-			if (in_range(result, range))
++			if (nf_in_range(result, range))
+ 				return 1;
+ 		}
+ 	}
+@@ -523,7 +523,7 @@ get_unique_tuple(struct nf_conntrack_tuple *tuple,
+ 	if (maniptype == NF_NAT_MANIP_SRC &&
+ 	    !(range->flags & NF_NAT_RANGE_PROTO_RANDOM_ALL)) {
+ 		/* try the original tuple first */
+-		if (in_range(orig_tuple, range)) {
++		if (nf_in_range(orig_tuple, range)) {
+ 			if (!nf_nat_used_tuple(orig_tuple, ct)) {
+ 				*tuple = *orig_tuple;
+ 				return;
+diff --git a/net/tipc/core.h b/net/tipc/core.h
+index 0a3f7a70a50a..7eccd97e0609 100644
+--- a/net/tipc/core.h
++++ b/net/tipc/core.h
+@@ -197,7 +197,7 @@ static inline int less(u16 left, u16 right)
+ 	return less_eq(left, right) && (mod(right) != mod(left));
+ }
+ 
+-static inline int in_range(u16 val, u16 min, u16 max)
++static inline int tipc_in_range(u16 val, u16 min, u16 max)
+ {
+ 	return !less(val, min) && !more(val, max);
+ }
+diff --git a/net/tipc/link.c b/net/tipc/link.c
+index d6a8f0aa531b..6c6d8546c578 100644
+--- a/net/tipc/link.c
++++ b/net/tipc/link.c
+@@ -1624,7 +1624,7 @@ static int tipc_link_advance_transmq(struct tipc_link *l, struct tipc_link *r,
+ 					  last_ga->bgack_cnt);
+ 			}
+ 			/* Check against the last Gap ACK block */
+-			if (in_range(seqno, start, end))
++			if (tipc_in_range(seqno, start, end))
+ 				continue;
+ 			/* Update/release the packet peer is acking */
+ 			bc_has_acked = true;
+@@ -2252,12 +2252,12 @@ static int tipc_link_proto_rcv(struct tipc_link *l, struct sk_buff *skb,
+ 		strncpy(if_name, data, TIPC_MAX_IF_NAME);
+ 
+ 		/* Update own tolerance if peer indicates a non-zero value */
+-		if (in_range(peers_tol, TIPC_MIN_LINK_TOL, TIPC_MAX_LINK_TOL)) {
++		if (tipc_in_range(peers_tol, TIPC_MIN_LINK_TOL, TIPC_MAX_LINK_TOL)) {
+ 			l->tolerance = peers_tol;
+ 			l->bc_rcvlink->tolerance = peers_tol;
+ 		}
+ 		/* Update own priority if peer's priority is higher */
+-		if (in_range(peers_prio, l->priority + 1, TIPC_MAX_LINK_PRI))
++		if (tipc_in_range(peers_prio, l->priority + 1, TIPC_MAX_LINK_PRI))
+ 			l->priority = peers_prio;
+ 
+ 		/* If peer is going down we want full re-establish cycle */
+@@ -2300,13 +2300,13 @@ static int tipc_link_proto_rcv(struct tipc_link *l, struct sk_buff *skb,
+ 		l->rcv_nxt_state = msg_seqno(hdr) + 1;
+ 
+ 		/* Update own tolerance if peer indicates a non-zero value */
+-		if (in_range(peers_tol, TIPC_MIN_LINK_TOL, TIPC_MAX_LINK_TOL)) {
++		if (tipc_in_range(peers_tol, TIPC_MIN_LINK_TOL, TIPC_MAX_LINK_TOL)) {
+ 			l->tolerance = peers_tol;
+ 			l->bc_rcvlink->tolerance = peers_tol;
+ 		}
+ 		/* Update own prio if peer indicates a different value */
+ 		if ((peers_prio != l->priority) &&
+-		    in_range(peers_prio, 1, TIPC_MAX_LINK_PRI)) {
++		    tipc_in_range(peers_prio, 1, TIPC_MAX_LINK_PRI)) {
+ 			l->priority = peers_prio;
+ 			rc = tipc_link_fsm_evt(l, LINK_FAILURE_EVT);
+ 		}
+diff --git a/tools/testing/selftests/bpf/progs/get_branch_snapshot.c b/tools/testing/selftests/bpf/progs/get_branch_snapshot.c
+index a1b139888048..511ac634eef0 100644
+--- a/tools/testing/selftests/bpf/progs/get_branch_snapshot.c
++++ b/tools/testing/selftests/bpf/progs/get_branch_snapshot.c
+@@ -15,7 +15,7 @@ long total_entries = 0;
+ #define ENTRY_CNT 32
+ struct perf_branch_entry entries[ENTRY_CNT] = {};
+ 
+-static inline bool in_range(__u64 val)
++static inline bool gbs_in_range(__u64 val)
+ {
+ 	return (val >= address_low) && (val < address_high);
+ }
+@@ -31,7 +31,7 @@ int BPF_PROG(test1, int n, int ret)
+ 	for (i = 0; i < ENTRY_CNT; i++) {
+ 		if (i >= total_entries)
+ 			break;
+-		if (in_range(entries[i].from) && in_range(entries[i].to))
++		if (gbs_in_range(entries[i].from) && gbs_in_range(entries[i].to))
+ 			test1_hits++;
+ 		else if (!test1_hits)
+ 			wasted_entries++;
 -- 
 2.47.3
 
