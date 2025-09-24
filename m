@@ -2,69 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC50DB9B9E1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 21:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6961B9BAC9
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 21:21:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292D910E7C3;
-	Wed, 24 Sep 2025 19:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2B510E7C7;
+	Wed, 24 Sep 2025 19:21:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="gizke4Ey";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OYt3irBd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4A810E7C3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 19:11:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758741100; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QaedpyvNWTm3ZyznWbct9XcTO3uyB+R10rhzjIfFZlOg7KJGXAJZZzEfBpfH+jG80Am+sQEvS9nCd1i1Ja0zm9jXFbOR83QP+rqGozhNhTL1cUAK2Qp3bSt4DHLSqdhR72GCR8JY3HTwfFWLSNNrVP7hwAbNmY6NulRfLMiORoM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758741100;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=MP5auDUMxEYh7gEFpW+fTsgkWPRs0id0KEIy7AhJUyY=; 
- b=Wj01iXE+yaT1qmASXvtr4YBqwc+M3+/wbukdfVD4VsA4otCqxQby7YRIlV7l+sCZHpoIagC/EWBVyVgBLnf3R+CAj+LVXu10NhowVdaOZvdDKMPwfmi/yik3p/gTe26bs83Rl04dP01yTfOPxWjgajSRo00WybIM8g5GMx+f53E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758741100; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=MP5auDUMxEYh7gEFpW+fTsgkWPRs0id0KEIy7AhJUyY=;
- b=gizke4EylmQRwo1ox82aCREvOiJDAToCi9ZbGcQEgrGbRZEcyE0439huHBBt2Sqo
- L4/TMMpxSx5Lqcz4me5aZQ0TwnmWUGBzJ9GRFa+TgZW+WxqbI6AFCHX8yuCd9wsEKUo
- FTNb5CvC++cr/b3ciCE/g03i7JrtSDOHC1kJkjNU=
-Received: by mx.zohomail.com with SMTPS id 1758741097995233.96426730070766;
- Wed, 24 Sep 2025 12:11:37 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Chia-I Wu <olvaffe@gmail.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F33A510E7C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 19:21:51 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58OD8TOP027477
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 19:21:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=0iu1Wjnwv+f5AYYfHw58qhf/
+ bG3HYMyGpWsuOD72KVE=; b=OYt3irBdhpx9aAiIMdbkqDlTw+/XKF7xO+0lhAON
+ cEPYRnzCWanMF+8BQc0OnILdjgc9xSUkvQpbkXk+z8XSJ77l131fsYU6AaDvzqtd
+ K4XSBQX5yz3mnzO8w9FBT6U0j1end7RQjLG5622rl8qYnGY6qUlMXuYoOQ8sl981
+ yltphA8af1Bqh0PoOlEykCKHpJ+8v52Gjb859XYpOaAS0O67NWPIhBpvxDgGSGC3
+ ewau2muRbr95q2NycC1Bwu806tZaERN4Ic8ZraY/bGk0sGhzc4Sc5OvJZuEr/Xpa
+ P6kbDBGpUeoR+/x2jiBwU4o8BhxZAejcnzf+cy/IRrvW7g==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kv15jdt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 19:21:50 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4d413127749so3974211cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 12:21:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758741710; x=1759346510;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0iu1Wjnwv+f5AYYfHw58qhf/bG3HYMyGpWsuOD72KVE=;
+ b=B18JeSE6I0DgbGO98XsZ9piftyqNfIdUjC4HzVrIixODsEfMCk+TNoUFbvUHnqL2Zi
+ Ylk+z937edA0GMiqrPNnIf0kbtoDc1Ttu7P2Ft2c9mMnupkqx+V3DqrztMxcxGp61h1z
+ Ho1FekTFI+tTnQxdWuzVIHl9bRVDIIcmO6STQrrcy7hieZSVqr5xodIKejP+X/mUC3nv
+ BS0GBOVqGRpc0WjR6DjtlWBHNSsWzvR+wPZRWGrCAkI1xYdsNVqSKX8C5tuheMJzqk2A
+ 0TTgZAQgCYODngEKLx8R8zwK97p4Cb4nladaOo39spz1izoB5dQPw13JeuZ8A/PvTpTn
+ 4Z1A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmSVpwI/FmJ6A2A1qFAjFQCQ9DWK0OgnzDdTDNYEmU2jB92MCsFOZLM6V/1v3HaCjUIzSC9bzwanU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzj39wrXv8Ib6cqEjN7ADC+K0dnpv7v6UMoG33V5eRr1bBJK8Dw
+ Pi879lwFoQI/LpPY/40gZyOvT/5f1YVhUNEc34OlLxvgflJUoYePea981qz3HDkUptfBiD6v2tg
+ RcR6xsnFtCC2QGp0D/1SdBqysFn60oUGuc0JRsXpFEMKQMJz0wSCwHMdcJ0HMLms8+5HR3eA=
+X-Gm-Gg: ASbGncvq0Kh2oF0ioyWYJB5F4eq4bhP2FMOclWmgVT+o1FMBEfabOdJh+4ChvF4+ip+
+ GquLa1NTtts8bVpE+Nsp3CEsGD3cSDHWpryV0j6UgQDV/3A7nQr2FC7iyWeoE8mN1vaJQnlf8a/
+ L2nAiBqr8HU1nWqiz7HD8bKh6n6cWGyvJz01Riwm2k0zptdQVPTsHYrVDiH4FYIATNf2AKCMGgs
+ XKbFBsQcMn0z4TacaEzBTcB4+ZscfrLGNlQ60Hgpy8HyokuhD71I61YcBFjYSwR5t/0/wrV8QGK
+ si+hf2gF923xgsulyWNS2aKIpZwQwXuffAN4ABdS12MZ37hr7yZR2GbnGEp72cXqASRWAXj/+LD
+ CkmxwtIJ/GEv+DWmf91zlX8kbsRJ7itpMUxGr68n3FrccgKt6GGQg
+X-Received: by 2002:ac8:7c42:0:b0:4c7:e39a:388b with SMTP id
+ d75a77b69052e-4da4b428df9mr11723661cf.47.1758741709954; 
+ Wed, 24 Sep 2025 12:21:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFaFsspAyH/V3Y+WNKmm+luXg2sxoUJuUxgT3PD4jQ2JdvLW6f6tdlPbuRxY0RMCgn1FJCFVg==
+X-Received: by 2002:ac8:7c42:0:b0:4c7:e39a:388b with SMTP id
+ d75a77b69052e-4da4b428df9mr11723151cf.47.1758741709377; 
+ Wed, 24 Sep 2025 12:21:49 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-57f477153bdsm2419549e87.29.2025.09.24.12.21.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Sep 2025 12:21:48 -0700 (PDT)
+Date: Wed, 24 Sep 2025 22:21:46 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-hardening@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 8/8] pmdomain: mediatek: Add support for MFlexGraphics
-Date: Wed, 24 Sep 2025 21:11:31 +0200
-Message-ID: <13851204.uLZWGnKmhe@workhorse>
-In-Reply-To: <673af008-04a8-432d-9517-ca2255e6b35f@collabora.com>
-References: <20250923-mt8196-gpufreq-v4-0-6cd63ade73d6@collabora.com>
- <20250923-mt8196-gpufreq-v4-8-6cd63ade73d6@collabora.com>
- <673af008-04a8-432d-9517-ca2255e6b35f@collabora.com>
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] drm/msm/dsi: Support dual panel use case with
+ single CRTC
+Message-ID: <v3tfzspjck2oqppelx7bmi5uflhs47ixw6tjmq2d7inauzfo7k@gxebj3buyuni>
+References: <20250924-dsi-dual-panel-upstream-v3-0-6927284f1098@linaro.org>
+ <20250924-dsi-dual-panel-upstream-v3-3-6927284f1098@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250924-dsi-dual-panel-upstream-v3-3-6927284f1098@linaro.org>
+X-Proofpoint-GUID: Fbb_qIwVX8IRXjY-ooo2Lss5zoefdkD_
+X-Authority-Analysis: v=2.4 cv=RO2zH5i+ c=1 sm=1 tr=0 ts=68d444cf cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8 a=BVByBJJp0cfCRiHu0pEA:9
+ a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyNSBTYWx0ZWRfX4t3o+H8Pd2KG
+ AuFuJQ4eBucBuXf1mcrBtP1VH4BvTErD0uKX7bSM4juqOeCj8yeQVS3a6PgYKLqSS9ZYwe2sEUi
+ l4td94rGVEVJ+C70fbmD0nJFJ2K00HFqoQhFgfgUu4nCn1Lz6vjIQxb9hArvtjsDcL+8JZfZ82+
+ 1OQRVYyfMW8UzgyhosG/bhe/3nSuFzemp5Sv0+nnECFoZDfnkJYkWBHhV4TtrgR7astwUFhlgqz
+ 6n9zMhj8ZY6ERIcEeV8fjLS8OzAiFDToE637+zil0WwKR00Ga2C5QQaMNoqxAvaqnhsLdO3RtdN
+ cagV0Jjad3LrYxf0nVuAg5V8owlnIEdCHNx9Y9mhFnrR/vQ/Dv8nZJNgAazQHW0FBvWL6mBEU+Q
+ v/1HNR+W
+X-Proofpoint-ORIG-GUID: Fbb_qIwVX8IRXjY-ooo2Lss5zoefdkD_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-24_06,2025-09-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,300 +136,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 23 September 2025 18:25:53 Central European Summer Time AngeloGioacchino Del Regno wrote:
-> Il 23/09/25 13:40, Nicolas Frattaroli ha scritto:
-> > Various MediaTek SoCs use GPU integration silicon named "MFlexGraphics"
-> > by MediaTek. On the MT8196 and MT6991 SoCs, interacting with this
-> > integration silicon is required to power on the GPU.
-> > 
-> > This glue silicon is in the form of an embedded microcontroller running
-> > special-purpose firmware, which autonomously adjusts clocks and
-> > regulators.
-> > 
-> > Implement a driver, modelled as a pmdomain driver with a
-> > set_performance_state operation, to support these SoCs.
-> > 
-> > The driver also exposes the actual achieved clock rate, as read back
-> > from the MCU, as common clock framework clocks, by acting as a clock
-> > provider as well.
-> > 
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >   drivers/pmdomain/mediatek/Kconfig            |  16 +
-> >   drivers/pmdomain/mediatek/Makefile           |   1 +
-> >   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c | 928 +++++++++++++++++++++++++++
-> >   3 files changed, 945 insertions(+)
-> > 
-> > diff --git a/drivers/pmdomain/mediatek/Kconfig b/drivers/pmdomain/mediatek/Kconfig
-> > index 0e34a517ab7d5a867bebaab11c0d866282a15e45..2abf78c85d017b1e3526b41c81f274f78d581fd0 100644
-> > [ ... snip ...]
-> > +
-> > +/*
-> > + * This enum is part of the ABI of the GPUEB firmware. Don't change the
-> > + * numbering, as you would wreak havoc.
-> > + */
-> > +enum mtk_mfg_ipi_cmd {
-> > +	CMD_INIT_SHARED_MEM		= 0,
-> > +	CMD_GET_FREQ_BY_IDX		= 1,
-> > +	CMD_GET_POWER_BY_IDX		= 2,
-> > +	CMD_GET_OPPIDX_BY_FREQ		= 3,
-> > +	CMD_GET_LEAKAGE_POWER		= 4,
-> > +	CMD_SET_LIMIT			= 5,
-> > +	CMD_POWER_CONTROL		= 6,
-> > +	CMD_ACTIVE_SLEEP_CONTROL	= 7,
-> > +	CMD_COMMIT			= 8,
-> > +	CMD_DUAL_COMMIT			= 9,
-> > +	CMD_PDCA_CONFIG			= 10,
-> > +	CMD_UPDATE_DEBUG_OPP_INFO	= 11,
-> > +	CMD_SWITCH_LIMIT		= 12,
-> > +	CMD_FIX_TARGET_OPPIDX		= 13,
-> > +	CMD_FIX_DUAL_TARGET_OPPIDX	= 14,
-> > +	CMD_FIX_CUSTOM_FREQ_VOLT	= 15,
-> > +	CMD_FIX_DUAL_CUSTOM_FREQ_VOLT	= 16,
-> > +	CMD_SET_MFGSYS_CONFIG		= 17,
-> > +	CMD_MSSV_COMMIT			= 18,
-> > +	CMD_NUM				= 19,
+On Wed, Sep 24, 2025 at 11:08:12PM +0800, Jun Nie wrote:
+> Support a hardware configuration where two independent DSI panels are
+> driven by a single, synchronous CRTC. This configuration uses a bonded
+> DSI link to provide a unified vblank for both displays.
 > 
-> I don't really like seeing index assignments to enumeration, especially when there
-> are no holes... and you have also clearly written that this is ABI-do-not-touch so
-> I'm not sure that having those numbers here is improving anything.
-> 
-> I also haven't got strong opinions about that, anyway.
+> This allows application software to treat the two displays as a single,
+> wide framebuffer with a synchronized refresh cycle, simplifying rendering
+> logic for side-by-side panel arrangements.
 
-My main worry is that someone comes by and alphabetically sorts them
-with either some style linter script and does not think to read the
-comment, and it's either an overworked maintainer or get acked by
-an overworked maintainer.
-
-> [... snip ...]
-> > +
-> > +static int mtk_mfg_eb_off(struct mtk_mfg *mfg)
-> > +{
-> > +	struct device *dev = &mfg->pdev->dev;
-> > +	struct mtk_mfg_ipi_sleep_msg msg = {
-> 
-> Can this be constified?
-
-No :( mbox_send_message's msg parameter is not const, so it'd discard
-the qualifier, and instead of explicitly discarding the qualifier
-(which would be a very stinky code smell) we would have to look into
-whether the mailbox subsystem is cool with const void* for messages,
-and whether all the mailbox drivers are fine with that too.
-
-> > +		.event = 0,
-> > +		.state = 0,
-> > +		.magic = GPUEB_SLEEP_MAGIC
-> > +	};
-> > +	u32 val;
-> > +	int ret;
-> > +
-> > +	ret = mbox_send_message(mfg->slp_mbox->ch, &msg);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "Cannot send sleep command: %pe\n", ERR_PTR(ret));
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-> > +				 !(val & PWR_ACK_M), GPUEB_POLL_US,
-> > +				 GPUEB_TIMEOUT_US);
-> > +
-> > +	if (ret)
-> > +		dev_err(dev, "timed out waiting for EB to power off, val=0x%08X\n",
-> > +			val);
-> 
-> 90 columns is fine, one line please.
-> 
-> > +
-> > +	return ret;
-> > +}
-> > +
-> [... snip ...]
-> > +
-> > +static int mtk_mfg_attach_dev(struct generic_pm_domain *pd, struct device *dev)
-> > +{
-> > +	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-> > +	struct dev_pm_opp_data *opps = mfg->gpu_opps;
-> > +	int i, ret;
-> > +
-> > +	for (i = mfg->num_opps - 1; i >= 0; i--) {
-> > +		if ((i == mfg->num_opps - 1) || (opps[i].freq != opps[i + 1].freq)) {
-> 
-> 		/* Add a comment here, because you're using a trick, and it's not
-> 		 * very fast to read, as in, if you skim through that, you're most
-> 		 * probably losing the fact that the first OPP is always added
-> 		 * regardless of anything.
-> 		 */
-> 		if ((i != mfg->num_opps - 1) || (opps[i].freq == opps[i + 1].freq))
-> 			continue;
-> 
-> 		/* Reduced indentation :-) */
-> 		ret = dev_pm_opp_add_dynamic(.....) etc
-> 
-
-Sure, but not before properly applying De Morgan's law here ;) It
-should be the following as far as I can tell:
-
-    if ((i != mfg->num_opps - 1) && (opps[i].freq == opps[i + 1].freq))
-			    continue;
-
-> > +			ret = dev_pm_opp_add_dynamic(dev, &opps[i]);
-> > +			if (ret) {
-> > +				dev_err(dev, "Failed to add OPP level %u from PD %s\n",
-> > +					opps[i].level, pd->name);
-> > +				dev_pm_opp_remove_all_dynamic(dev);
-> > +				return ret;
-> > +			}
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> [... snip ...]
-> > +
-> > +static int mtk_mfg_probe(struct platform_device *pdev)
-> > +{
-> [... snip ...]
-> > +
-> > +	ret = clk_prepare_enable(mfg->clk_eb);
-> > +	if (ret)
-> > +		return dev_err_probe(dev, ret, "failed to turn on EB clock\n");
-> 
-> What happens if the `gpu_regs` regulator(s) is/are not enabled at boot?
-> 
-> I am guessing that the EB doesn't depend at all on these being enabled, as it
-> should be powered by the internal vscp or sspm - but still asking to make sure
-> that this wasn't an overlook.
-
-Yeah, the EB doesn't need those regulators on. After somewhat fixing module
-unload and reload on my side, I can now confirm that it doesn't appear to
-need them during probe.
+I'd like to understand how is it framed on the overall system design
+level. If it's a panel controlled over the DSI interface, it's fine
+since we can broadcast commands over two DSI links. What if the panel
+(or bridge) is controlled via I2C / SPI?
 
 > 
-> > +	mfg->ipi_magic = readl(mfg->gpr + GPR_IPI_MAGIC);
-> > +	/* Downstream does this, don't know why. */
-> 
-> Preventing reinitialization?
-> Did you try to avoid that write? What happens in that case?
-> 
-> Also, if you unload this module and reload it, are you able to reinitialize the EB,
-> or are you reading zero in GPR_IPI_MAGIC (preventing you from correctly reinit this
-> driver again)?
-
-Okay so this led me down a deep rabbit hole and I realised that so far, we
-could only read the IPI magic because the bootloader helpfully left MFG on
-for us. So on second probe, we'd get a magic number of 0, and all IPI comms
-that use it would fail.
-
-Fix is simple though, just read the magic in power_on. I also left out the
-0 write but I might experimentally add it back in to see if it changes any
-of the other behaviour I'm currently chasing.
+> At the DSI host level, the frame width for each link must be that of an
+> individual panel. The driver therefore halves the CRTC's horizontal
+> resolution before configuring the DSI host and any DSC encoders, ensuring
+> each panel receives the correct half of the framebuffer.
 
 > 
-> > +	writel(0x0, mfg->gpr + GPR_IPI_MAGIC);
-> > +
-> > +	ret = mtk_mfg_init_mbox(mfg);
-> > +	if (ret) {
-> > +		ret = dev_err_probe(dev, ret, "Couldn't initialise mailbox\n");
-> > +		goto out;
-> > +	}
-> > +
-> > +	mfg->last_opp = -1;
-> > +
-> > +	ret = mtk_mfg_power_on(&mfg->pd);
-> > +	clk_disable_unprepare(mfg->clk_eb);
-> > +	if (ret)
-> > +		return dev_err_probe(dev, ret, "Failed to power on MFG\n");
-> > +
-> > +	ret = mtk_mfg_init_shared_mem(mfg);
-> > +	if (ret) {
-> > +		dev_err(dev, "Couldn't initialize EB SRAM: %pe\n", ERR_PTR(ret));
-> > +		goto out;
-> > +	}
-> > +
-> > +	ret = mtk_mfg_read_opp_tables(mfg);
-> > +	if (ret) {
-> > +		dev_err(dev, "Error reading OPP tables from EB: %pe\n",
-> > +			ERR_PTR(ret));
-> > +		goto out;
-> > +	}
-> > +
-> > +	ret = mtk_mfg_init_clk_provider(mfg);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +	ret = of_genpd_add_provider_simple(pdev->dev.of_node, &mfg->pd);
-> > +	if (ret) {
-> > +		ret = dev_err_probe(dev, ret, "Failed to add pmdomain provider\n");
-> > +		goto out;
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +out:
-> > +	mtk_mfg_power_off(&mfg->pd);
-> > +	return ret;
-> > +}
+> While the DSI panel driver should manage two panels togehter.
+> 1. During probe, the driver finds the sibling dsi host via device tree
+> phandle and register the 2nd panel to get another mipi_dsi_device.
+> 2. Set dual_panel flag on both mipi_dsi_device.
+> 3. Prepare DSC data per requirement from single panel.
+> 4. All DSI commands should be send on every DSI link.
+> 5. Handle power supply for 2 panels in one shot, the same is true to
+>    brightness.
+> 6. From the CRTC's perspective, the two panels appear as one wide display.
+>    The driver exposes a DRM mode where the horizontal timings (hdisplay,
+>    hsync_start, etc.) are doubled, while the vertical timings remain those
+>    of a single panel. Because 2 panels are expected to be mounted in
+>    left/right position.
 > 
-> static void mtk_mfg_remove(struct platform_device *pdev)
-> {
-> 	struct mtk_mfg *mfg = dev_get_drvdata(&pdev->dev);
+> To maintain synchronization, both DSI links are configured to share a
+> single clock source, with the DSI1 controller using the clock provided
+> to DSI0 as below.
 > 
-> 	of_genpd_del_provider(....)
-> 
-> 	pm_genpd_remove(....)
-> 
-> 	mtk_mfg_power_off(...)
-
-Unconditional power_off will go poorly if the thing isn't powered
-on at removal time, so I need to figure out something more clever.
-
-Unfortunately, that something more clever isn't "dev_pm_genpd_is_on"
-because that has a case where it will return false and then devres
-kicks in and says hey you left your regulators on that's not cool.
-
-I'll have to spend another day at the debug print factory until
-I can figure out what's wrong there, and if I can't, then I guess
-we'll add our own pd_on counting.
-
-> 
-> 	mbox_free_channel(mfg->gf_mbox->ch);
-> 	mfg->gf_mbox->ch = NULL;
-> 
-> 	mbox_free_channel(mfg->slp_mbox->ch);
-> 	mfg->slp_mbox->ch = NULL;
-> 
-> 
+> &mdss_dsi1 {
+>    assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
+> 		     <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
+>    assigned-clock-parents = <&mdss_dsi0_phy 0>, <&mdss_dsi0_phy 1>;
 > }
 > 
-> > +
-> > +static struct platform_driver mtk_mfg_driver = {
-> > +	.driver = {
-> > +		.name = "mtk-mfg-pmdomain",
-> > +		.of_match_table = mtk_mfg_of_match,
-> > +	},
-> > +	.probe = mtk_mfg_probe,
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> 	.remove = mtk_mfg_remove,
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index de51cb02f267205320c5a94fc4188413e05907e6..1fddcea7f86547258be18a51a0a3e3f96f6c3838 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -177,6 +177,7 @@ struct msm_dsi_host {
+>  	bool registered;
+>  	bool power_on;
+>  	bool enabled;
+> +	bool is_dual_panel;
+>  	int irq;
+>  };
+>  
+> @@ -935,7 +936,10 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  			return;
+>  		}
+>  
+> -		dsc->pic_width = mode->hdisplay;
+> +		if (msm_host->is_dual_panel)
+> +			dsc->pic_width = hdisplay;
+> +		else
+> +			dsc->pic_width = mode->hdisplay;
+>  		dsc->pic_height = mode->vdisplay;
+>  		DBG("Mode %dx%d\n", dsc->pic_width, dsc->pic_height);
+>  
+> @@ -1609,6 +1613,7 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
+>  	if (dsi->lanes > msm_host->num_data_lanes)
+>  		return -EINVAL;
+>  
+> +	msm_host->is_dual_panel = dsi->dual_panel;
+>  	msm_host->channel = dsi->channel;
+>  	msm_host->lanes = dsi->lanes;
+>  	msm_host->format = dsi->format;
+> @@ -2492,6 +2497,9 @@ enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
+>  	if (!msm_host->dsc)
+>  		return MODE_OK;
+>  
+> +	if (msm_host->is_dual_panel)
+> +		pic_width = mode->hdisplay / 2;
+> +
+>  	if (pic_width % dsc->slice_width) {
+>  		pr_err("DSI: pic_width %d has to be multiple of slice %d\n",
+>  		       pic_width, dsc->slice_width);
 > 
-> > +};
-> > +module_platform_driver(mtk_mfg_driver);
-> > +
-> > +MODULE_AUTHOR("Nicolas Frattaroli <nicolas.frattaroli@collabora.com>");
-> > +MODULE_DESCRIPTION("MediaTek MFlexGraphics Power Domain Driver");
-> > +MODULE_LICENSE("GPL");
-> > 
-> 
-> There might be more, but for now, I'm done with this review round :-)
-> 
-> Cheers,
-> Angelo
+> -- 
+> 2.34.1
 > 
 
-Thanks for the review. Assume all comments I didn't reply to (including
-the big one) are acknowledged and will be addressed.
-
-Kind regards,
-Nicolas Frattaroli
-
-
+-- 
+With best wishes
+Dmitry
