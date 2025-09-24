@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCAFB9DE52
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E4EB9DE5E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 09:47:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A889D10E86A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCF5110E86E;
 	Thu, 25 Sep 2025 07:47:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="WNv3YcW0";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="YLJPYFsA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com
  (fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com
  [63.178.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD5B10E7D3;
- Wed, 24 Sep 2025 20:25:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F33E110E7D5;
+ Wed, 24 Sep 2025 20:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1758745524; x=1790281524;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=CCU0o8wSJQJX56U4+pnGKdTopFZ/0WcuCtYzGhhpTrQ=;
- b=WNv3YcW0nZM835IEu0Fycuze4C3Sk8z+1pIHLPq9dKM9qEwnR2sALL8P
- WVl6lm4cFJb2LNPT/QlKx3SAFKE/onZ14NHh6CfZziG6ReYepvGsn9mfH
- N2FF+OEdS5y7w1vrVG/juv94HvAfsEJFeLXdxLhtp6A2MlfuUrFEsZnFe
- 4XmzMjBMoRQK9sixVVNx5O8UVjjMOZDLkMIDpsHPd9KdHUIfWkT2dCFfT
- gnylqnxxz99lmxDzVfOyNDZSxNo4GINPeptGMjozndfDn0DcFu+M6rgM6
- ZVcI3hE53rjscDER1ve8jeXRlZYHj9cDLDoSsWgncP1E+DAKqr/F9Ht/a g==;
-X-CSE-ConnectionGUID: a1kayFJLT9+jylO1cmhIAQ==
-X-CSE-MsgGUID: /W5k3uF9SZ+FoDr6+hyF9A==
+ t=1758745548; x=1790281548;
+ h=from:to:subject:date:message-id:in-reply-to:references:
+ mime-version:content-transfer-encoding;
+ bh=/92zpxyjeHvGlOVhJoOGNENC+jRdBRPJKKvWmFCfMhU=;
+ b=YLJPYFsAQ2oP4/1OP0d9us45Wuv7YF5PrQQDRZvG60F20zDm2fnHWxRC
+ XAbhN5klhdNfuVtee6D/UJmCtDExMPYI2XMrtH8neFReIBvvPKA6nLmeb
+ D4Tmt2JixtOvN643itgfatBhbw8RgIvK21JvETfeJ+4HObARz/1fe1GiA
+ BZaafaVpZa16pRX/bZMzlZM/rNUwyDL86Z3AUFxH74UPxcEinciJ/e8vi
+ Bdc84aJejeAGWZcuo9Vu1rYzss4ukekwGMJe/UGH2slRfcrKKGk7Qoku/
+ ZR+mMY+66Y0booyRnLyn+1GFHV8D0uwUYd6tSSCrJc52mbRT+6trDIKmV w==;
+X-CSE-ConnectionGUID: oouYGm3aRoqGoHtWUGdqSw==
+X-CSE-MsgGUID: EOnuYXiASKiRqlUO40vVig==
 X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
-   d="scan'208";a="2525115"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO
- smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+   d="scan'208";a="2525132"
+Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO
+ smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:25:20 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:17421]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.23.230:2525]
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:25:44 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:23628]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.10.226:2525]
  with esmtp (Farcaster)
- id a321c2e3-9dbb-42fe-8549-d22fc4426b03; Wed, 24 Sep 2025 20:25:20 +0000 (UTC)
-X-Farcaster-Flow-ID: a321c2e3-9dbb-42fe-8549-d22fc4426b03
+ id dcc177e1-9bc7-482f-9822-8d08804a2071; Wed, 24 Sep 2025 20:25:44 +0000 (UTC)
+X-Farcaster-Flow-ID: dcc177e1-9bc7-482f-9822-8d08804a2071
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Wed, 24 Sep 2025 20:25:09 +0000
+ Wed, 24 Sep 2025 20:25:43 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
- 20:24:34 +0000
+ 20:25:09 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
@@ -108,11 +108,9 @@ To: <linux@armlinux.org.uk>, <richard@nod.at>,
  <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
  <bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
  <stable@vger.kernel.org>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>
-Subject: [PATCH 02/19 v6.1.y] minmax: Introduce {min,max}_array()
-Date: Wed, 24 Sep 2025 20:23:03 +0000
-Message-ID: <20250924202320.32333-3-farbere@amazon.com>
+Subject: [PATCH 03/19 v6.1.y] minmax: deduplicate __unconst_integer_typeof()
+Date: Wed, 24 Sep 2025 20:23:04 +0000
+Message-ID: <20250924202320.32333-4-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250924202320.32333-1-farbere@amazon.com>
 References: <20250924202320.32333-1-farbere@amazon.com>
@@ -138,98 +136,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Herve Codina <herve.codina@bootlin.com>
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-[ Upstream commit c952c748c7a983a8bda9112984e6f2c1f6e441a5 ]
+[ Upstream commit 5e57418a2031cd5e1863efdf3d7447a16a368172 ]
 
-Introduce min_array() (resp max_array()) in order to get the
-minimal (resp maximum) of values present in an array.
+It appears that compiler_types.h already have an implementation of the
+__unconst_integer_typeof() called __unqual_scalar_typeof().  Use it
+instead of the copy.
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Link: https://lore.kernel.org/r/20230623085830.749991-8-herve.codina@bootlin.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://lkml.kernel.org/r/20230911154913.4176033-1-andriy.shevchenko@linux.intel.com
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Herve Codina <herve.codina@bootlin.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- include/linux/minmax.h | 64 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+ include/linux/minmax.h | 25 ++-----------------------
+ 1 file changed, 2 insertions(+), 23 deletions(-)
 
 diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index d4bc394b449e..aac0b7d23768 100644
+index aac0b7d23768..62b0c0a3cf30 100644
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -168,6 +168,70 @@
+@@ -168,27 +168,6 @@
   */
  #define max_t(type, x, y)	__careful_cmp(max, (type)(x), (type)(y))
  
-+/*
-+ * Remove a const qualifier from integer types
-+ * _Generic(foo, type-name: association, ..., default: association) performs a
-+ * comparison against the foo type (not the qualified type).
-+ * Do not use the const keyword in the type-name as it will not match the
-+ * unqualified type of foo.
-+ */
-+#define __unconst_integer_type_cases(type)	\
-+	unsigned type:  (unsigned type)0,	\
-+	signed type:    (signed type)0
-+
-+#define __unconst_integer_typeof(x) typeof(			\
-+	_Generic((x),						\
-+		char: (char)0,					\
-+		__unconst_integer_type_cases(char),		\
-+		__unconst_integer_type_cases(short),		\
-+		__unconst_integer_type_cases(int),		\
-+		__unconst_integer_type_cases(long),		\
-+		__unconst_integer_type_cases(long long),	\
-+		default: (x)))
-+
-+/*
-+ * Do not check the array parameter using __must_be_array().
-+ * In the following legit use-case where the "array" passed is a simple pointer,
-+ * __must_be_array() will return a failure.
-+ * --- 8< ---
-+ * int *buff
-+ * ...
-+ * min = min_array(buff, nb_items);
-+ * --- 8< ---
-+ *
-+ * The first typeof(&(array)[0]) is needed in order to support arrays of both
-+ * 'int *buff' and 'int buff[N]' types.
-+ *
-+ * The array can be an array of const items.
-+ * typeof() keeps the const qualifier. Use __unconst_integer_typeof() in order
-+ * to discard the const qualifier for the __element variable.
-+ */
-+#define __minmax_array(op, array, len) ({				\
-+	typeof(&(array)[0]) __array = (array);				\
-+	typeof(len) __len = (len);					\
-+	__unconst_integer_typeof(__array[0]) __element = __array[--__len]; \
-+	while (__len--)							\
-+		__element = op(__element, __array[__len]);		\
-+	__element; })
-+
-+/**
-+ * min_array - return minimum of values present in an array
-+ * @array: array
-+ * @len: array length
-+ *
-+ * Note that @len must not be zero (empty array).
-+ */
-+#define min_array(array, len) __minmax_array(min, array, len)
-+
-+/**
-+ * max_array - return maximum of values present in an array
-+ * @array: array
-+ * @len: array length
-+ *
-+ * Note that @len must not be zero (empty array).
-+ */
-+#define max_array(array, len) __minmax_array(max, array, len)
-+
- /**
-  * clamp_t - return a value clamped to a given range using a given type
-  * @type: the type of variable to use
+-/*
+- * Remove a const qualifier from integer types
+- * _Generic(foo, type-name: association, ..., default: association) performs a
+- * comparison against the foo type (not the qualified type).
+- * Do not use the const keyword in the type-name as it will not match the
+- * unqualified type of foo.
+- */
+-#define __unconst_integer_type_cases(type)	\
+-	unsigned type:  (unsigned type)0,	\
+-	signed type:    (signed type)0
+-
+-#define __unconst_integer_typeof(x) typeof(			\
+-	_Generic((x),						\
+-		char: (char)0,					\
+-		__unconst_integer_type_cases(char),		\
+-		__unconst_integer_type_cases(short),		\
+-		__unconst_integer_type_cases(int),		\
+-		__unconst_integer_type_cases(long),		\
+-		__unconst_integer_type_cases(long long),	\
+-		default: (x)))
+-
+ /*
+  * Do not check the array parameter using __must_be_array().
+  * In the following legit use-case where the "array" passed is a simple pointer,
+@@ -203,13 +182,13 @@
+  * 'int *buff' and 'int buff[N]' types.
+  *
+  * The array can be an array of const items.
+- * typeof() keeps the const qualifier. Use __unconst_integer_typeof() in order
++ * typeof() keeps the const qualifier. Use __unqual_scalar_typeof() in order
+  * to discard the const qualifier for the __element variable.
+  */
+ #define __minmax_array(op, array, len) ({				\
+ 	typeof(&(array)[0]) __array = (array);				\
+ 	typeof(len) __len = (len);					\
+-	__unconst_integer_typeof(__array[0]) __element = __array[--__len]; \
++	__unqual_scalar_typeof(__array[0]) __element = __array[--__len];\
+ 	while (__len--)							\
+ 		__element = op(__element, __array[__len]);		\
+ 	__element; })
 -- 
 2.47.3
 
