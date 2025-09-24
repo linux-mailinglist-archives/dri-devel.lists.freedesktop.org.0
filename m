@@ -2,185 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3716B9A97A
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 17:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0026B9A9DA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 17:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E384810E755;
-	Wed, 24 Sep 2025 15:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F41310E762;
+	Wed, 24 Sep 2025 15:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cz9rFz37";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="k7NcxqOx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E221410E759;
- Wed, 24 Sep 2025 15:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758727453; x=1790263453;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=+g4JKeFCRLOtpOwQP5y99FmL05j2yjxbgym0IWzbrvo=;
- b=cz9rFz375ifEpkjkOxj3LtBOFN3Qa8u/IkmAyZQrH9M+7+yoZpBu+iLm
- MurWPpqlbjtdu2vjSUu+0F4GJoP0v/oNARnnkKgs5a1hdJL098WyyqsaV
- a6SBqAxV0uTR699jyrc3PkbtteUvkPhjMlk2pIqsLYYy1M0oxJ1IH8gYa
- RQu3XxxtyMD4gVq11v7bST5sne3uww9R1y98YODqeuy32yyeB9yiBpj0S
- fukXMNZ0PQSe+fFvz6U4IaEczr1EYY4h9EY+RwyVUhvgBMjpqotKUg4I1
- ZthBPNeOmkGl2bSkwJVV9EFs2Z4mOkGH3svNgGWonOvFPOoSsNa2Ktn/6 A==;
-X-CSE-ConnectionGUID: GPvYyQ/CSRap+DBQAGM9/A==
-X-CSE-MsgGUID: g1f8o/YIRK+rmbzQWbPLvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="71706754"
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="71706754"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2025 08:24:07 -0700
-X-CSE-ConnectionGUID: PsYz6lpcR/+rmPn7R8DO0g==
-X-CSE-MsgGUID: 6cJ4FFJsQVG+jf3y6hKGCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="176653270"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2025 08:24:07 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 24 Sep 2025 08:24:06 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 24 Sep 2025 08:24:06 -0700
-Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.54) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 24 Sep 2025 08:24:05 -0700
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011067.outbound.protection.outlook.com [52.101.70.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76F4110E75D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 15:26:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yuaSfgUnf9iTbfnF4weA2PdX2ekrPzCE8AKTyGKMgg7VV4h0vm86fwoW8EVUowjN+idizwOLproxtj84z/0akpVzTSAfAdSdohENYHS52Q80kxrx+vPouES+7N5ZBklOftSHMXgjzrtc1xZ/IThL44dLf7xFXzrJ5lMNhM5h2L2/y9oWp80+DeMJapwoPdvvvji4YiffsZf66yIJgsELpmwbHtB0QmJN/TkPjioArzTB7imqPzhw6P6e1zcSt6oq4aSpnSg1DRrw0/Byp/iVwo1CqnvdF66gdmCn8sK9P1webNH9siz+vEY3n0NmbJsBROd2HsoI2qmvbbLupE1Eaw==
+ b=n3grI31IiVM0MKj8lKlb8UETnrxx4MQKDfIoUhwKiH/LgTZJ7BpWMjFC9cFgsNxYLwz3v6gIx1LwnyXBL2oXlR6OuSgd3IV1AzjMU3r28aCaQwIcuaMC422PHsa44i7BWY2ubJdim9iQH1qYfU4+dGRe2DZ23OfQ79JoPgNj560Vk/kaXz88ol71nPAA26n95/eLNH9SPUQV222ff06ZhlUJK526pKQuK56GDOBjWnmliyQhj4QMY8eDXLAFOaWFJCabG7sYpLYVtJOG+RFl2B22cMhs2Zw0evbLKbVrVKr9b820yV8+GNicd/njf+bsByE5LYz0F4MspV2XY+Rqcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mrWxuUg+6sI85fIEESGbjs3OyPkpq5b/DprcvJqGNCE=;
- b=bfnKBDVPL4LSWON/CrKN6SzwGfyYTfJs4Zb84/h4w4+wGkMcjFv0DfUN//9SWl0NOYd8Fm2sXKCeTupBCGiZS9EO543WA2IUDB5N44hLuonqBey008n7W8Mb43cx0Zp+3TQ8/7UPqnDJjQbrL9U5RDxG7MkeZQ08TMU4QERfvMjy75MrbixS3c0yQp2huYt2sEmM/J3Hi/WP2UkqIjU2oYu+P0LZrJtiiVTiWeYZIqHzzjEYHmiiL7XbaBMjpgvAtS8K7I8c4NGwHxKSh2mwzbst0A5ktaYjKcYdCdY6+NcOHZh/THlog4pPZsbbH55NicHwpFUZ3Y0ulbRNMuZorw==
+ bh=O35FdvNapGxZEI2iE+ZPIiuheh1ek48XnOHhldQ7K9k=;
+ b=VwUP8urxPFBM0Dos+0ef1ALrMPnUyeGdVIRRzjhkVedARDUUnKEn1BwNxaAj1Q3K8C3eZoAa/szXWjMZu9Ls3hOgQIMJ+VWw/Nwd5YqMX+hFarJSG5lcNHbl53haKxYNtTBS9iw+KceD/nDmXzmNC5YJTxMX9+daSUdxg8yiwiy3nDd6KQLOkcdOue18JTUXlmYQntXlz1vkQ30vvFWV+zSMGqtZzrbXSlgSubLNawkLILMHVJMd4sKHQfulqzXzL/ugjpexcpSCxQDa5HWnKVewMt0OgAFzdHBVlYQp0dZDGiRTGs0qXgfAbiInxE/pxYJYedcRxBL3hace2tzlkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O35FdvNapGxZEI2iE+ZPIiuheh1ek48XnOHhldQ7K9k=;
+ b=k7NcxqOx5/CIdDxKVAxrRZh96Ij6mZYzzRFRUxNPA1fqp6AJHrK9fneF/b5IMi+Lh5F7fb8GdtNJGcm3ksCI97SpvW5R8Ors4dru5umDaFNlbzhWsXR7WXIVWLoSkrb9TbbnoRM7MY9UUjDCVsWxYFJ95knQ1fblqd0KSdf8LDvr/l8P5hXlqGkRHvYCztQK8/sSOizm9NAXNlCJwb4QMj862j4rYbWmteFj7fT36rEMVraevlelb12nijSonNZss7RzbcPe2mF7lUjhhfoTPdFdazhqnd69C7gnuy/OkAw6EAObGudu000n/U0J8RO1RgpDFUGy207WwH22UeHNwg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- by BN9PR11MB5306.namprd11.prod.outlook.com (2603:10b6:408:137::14)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
+ by AS8PR04MB8996.eurprd04.prod.outlook.com (2603:10a6:20b:42f::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Wed, 24 Sep
- 2025 15:23:59 +0000
-Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
- ([fe80::8900:d137:e757:ac9f%3]) with mapi id 15.20.9160.008; Wed, 24 Sep 2025
- 15:23:59 +0000
-From: Imre Deak <imre.deak@intel.com>
-To: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
-CC: <dri-devel@lists.freedesktop.org>, =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=
- <ville.syrjala@linux.intel.com>
-Subject: [PATCH v3 2/6] drm/dp: Add helpers to query the branch DSC max
- throughput/line-width
-Date: Wed, 24 Sep 2025 18:23:28 +0300
-Message-ID: <20250924152332.359768-3-imre.deak@intel.com>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20250924152332.359768-1-imre.deak@intel.com>
-References: <20250924152332.359768-1-imre.deak@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P302CA0030.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c1::16) To SJ0PR11MB4845.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Wed, 24 Sep
+ 2025 15:26:33 +0000
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9160.008; Wed, 24 Sep 2025
+ 15:26:33 +0000
+Date: Wed, 24 Sep 2025 11:26:23 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 07/14] drm/imx: dc: Add DPR channel support
+Message-ID: <aNQNn9EwZzCjapB6@lizhi-Precision-Tower-5810>
+References: <20250923-imx8-dc-prefetch-v2-0-5d69dc9ac8b5@nxp.com>
+ <20250923-imx8-dc-prefetch-v2-7-5d69dc9ac8b5@nxp.com>
+ <aNLnBbSr5BGDvmsG@lizhi-Precision-Tower-5810>
+ <eb070dbc-1e8e-437a-b519-69709b3feae4@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb070dbc-1e8e-437a-b519-69709b3feae4@nxp.com>
+X-ClientProxiedBy: BY5PR13CA0011.namprd13.prod.outlook.com
+ (2603:10b6:a03:180::24) To AS4PR04MB9621.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4ff::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|BN9PR11MB5306:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7fcf5435-4478-4477-b3ff-08ddfb7e6265
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|AS8PR04MB8996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b7c21bf-faf1-4357-0483-08ddfb7ebe68
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|10070799003|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cm0vamZIT0FJSmlQS1BaZmxvbDk5U29IT2g1N3lyTVlCWHNsU1pENFRBdGtU?=
- =?utf-8?B?QW0relB0QzIwSngrWm9pTzlMMGpyNHoxOU4xYlFrYmlIb2wzNWNod0VrRHZR?=
- =?utf-8?B?UVBrSU43bGVCMndpdDNoU01seGRJVGhwazRNZmM4RmVwenlaTjVscWRYYzhr?=
- =?utf-8?B?ZktUWDlYV2tyMFZkcFptRVp1ZG9WVURHR2VRc0FjUXlacXltdlNhWXFEUE1w?=
- =?utf-8?B?aVpHM2x0b1RJSUZjbGZZNHdaNG9BMTh0dkw1K0ViUUV6V3AyaWRBQm1WSVoy?=
- =?utf-8?B?K1JHQ0x1ZEpDc0VsakNuRlBoM0ZlSEs4bGVibHZXZDVPcmJjdEE5UFhycmd0?=
- =?utf-8?B?T1Q2bHVJcGU4OXorTVl4Z1NjdXREc0lHMmdLRWtTakk1VU9nVCt6ZlJUTjJQ?=
- =?utf-8?B?eHd6Y2UyOVpqSjU1NzMzYU9SNGdRQXVLUllsOUhWZXpLSnBTOEdSQ1RoLzlW?=
- =?utf-8?B?WnlBeEFUUTFvNDB4L1BnZERiaStnSkFlbitkMnR4NW9wQ091NktvT3V4UFVZ?=
- =?utf-8?B?T1d0QjI1Q3FqM1YzSGhKeEFXTm9Nb2x4ZHZ2bG5OMEpGdFByVmt3b2E5cWlk?=
- =?utf-8?B?aGQxRVJtVDVsVEtnYmRHU05CRis3YURuank2eWNwWWIwZTROQnFtcnAyMURx?=
- =?utf-8?B?WTViRTZTUmlZc3BqRzNwYU1CZ0cwcG1aeUJhYWd1T0lIU28ycFlKRHRzbXNX?=
- =?utf-8?B?Tm1KUVVoQ0JZRHUvei9sSnZzVDE5RUZRZk50ZERIUllWS2lGZHBlYlY2UU5D?=
- =?utf-8?B?WTc4ZUVhNzJDY2hMNFpmT3o4TnRId3NUeXFLZmZtd2tNMkphemh2bnVJOE1r?=
- =?utf-8?B?QkVsVVAreE5tWDMzZWxPbi9CdDB5MzZkM04rck53QUhuYXc5UGJmMUFUaVB0?=
- =?utf-8?B?NU5QYlBjMmtZczNodjFIclQ5SzRkN3pMNk41d1FRT0pFOGhFQy9PdFJ2NnJD?=
- =?utf-8?B?Q2xqZmVmU1cxSWZGL1pud1Z0UlpSTmRSNGhwUnFLaXdtMHNuUVRnM0huR0tT?=
- =?utf-8?B?RjY4dGtBczNjalVZTGkzOWhpMjRXZi9PcjM0Z3lJcURvZDhUOURtSDRhWk16?=
- =?utf-8?B?UnVhUXg1S0hwMmxEUTJvQ0lHeklaU3VnOVpiazBGdlREdUVWd1lwTmtPcXE3?=
- =?utf-8?B?NnFGV2FEKzlDSnE3ZlNTQlpvTkRKMVhvS2V2aFNDRjRvWFZmeGlBMG9VYjdr?=
- =?utf-8?B?M2hrSlhNcXFDSWlvWUwwbFpTbG9oNVJRV1RMTkc1Z2RjcDVrVUtGc1R0NlVr?=
- =?utf-8?B?bVp4c3ZQbm5ET0RhTlVjbzgzMXkwOGtaME1TVFB3N3paMWc0L3lIeW1QY1o4?=
- =?utf-8?B?UzRTWGhnWCtObld1L0xBNUdsYXZRWS9OcU9uOGdvZUtrQVdRTlRuU0NDUEUx?=
- =?utf-8?B?eU1NTE94M05jUk00R3VWaEs4YXU0YmovQUFjUkxhdGVCcUdoQmx1V0xCT25Z?=
- =?utf-8?B?ZXJOUEZ4amdSREhNRVJwTEgzeWJsNTFrOEYzS0NPbHh2ZTNHS1lYUXZvOGl3?=
- =?utf-8?B?dW9kWmk2VHdHQU1CdlBTS25EZDZZcC9yRGx1SHNxWXo5SkE5c0RRUHIxNUFk?=
- =?utf-8?B?U2t1OFZRc0tVWHVROUV6dklvMHFHZVVsRWllbEV0MWM3am02WjRBbTFtT2c4?=
- =?utf-8?B?RHk4ZU5RUk1ITkwzSmkwN1I0a2s2eFQya0YyeGROZlIyUFVUTTBRK2luanB6?=
- =?utf-8?B?UVVWcFF0NDkrUDdMYncwK3dmck9IZEtoSVR5Q2pRdmZvby9ORXYvMzczZG5n?=
- =?utf-8?B?aTEvTEFycVpPSW0wUXdCUUwrSllLRTh5M0l4aE14OGRCVDZZNFp6dS9uQzFy?=
- =?utf-8?B?aXF6NHBtM0t4bnVLa2ZNeWJkRXpBVVB3Uno0cWZnQUpFd3ZOcGovZ0RDRjlq?=
- =?utf-8?B?b1F0QUtUZVV1VVhUdHN6bWZhU1BoeGpDZDU5c1puejRtN3ZjVWl3aU9vU0dB?=
- =?utf-8?Q?vqagadDJZ48=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|19092799006|376014|7416014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?CpapovHm3xpBTKs5eL06tGMEB/u6WH8WngATz7/BXlXJNYW/Q+DXr+S6hIBC?=
+ =?us-ascii?Q?YUxwI70fpGch6LeoDc9pYuiPlEMOYx4hx+1hhtAwwhHGYpBp7shX/CVyc6ZE?=
+ =?us-ascii?Q?XnDG50yamS2VK/wMk7hbeidBWfzqL8kTPe+4vjdtO2GsiOXnbjJE9zvAIOAT?=
+ =?us-ascii?Q?Kfi6DU2Yc+XYw4E1tLGxvBwvMhk7E863DjD27e1wZgYbSDYneGHwf07wjBj/?=
+ =?us-ascii?Q?nU8xWRVN9QQxr7IgGDqiKGl7Nk9mZOS4ZcwI73PebRA/81+naHwryISuH4X9?=
+ =?us-ascii?Q?lXsG0znlNVtVGMHWljFdvAqSJff6r16NRE/298I7f96kj9caJjFpWt1qfn5H?=
+ =?us-ascii?Q?i1XNmP5I1kGsCWuboDXF99jU9MbIjPp/6EjFouw3PnOI9ebGL6MxX2zENbRi?=
+ =?us-ascii?Q?reOyy5Wch7gQtfbEdyVfu7DgeBfcBo3KwTZKQSYuD/g4xMqtu0PaAG5lz965?=
+ =?us-ascii?Q?u8+cGRYnupVO9LVgYP2ucL4RWJ7Jxa6b98veixaTOwJM+Fo6YvYxjYVXpawz?=
+ =?us-ascii?Q?qUmm2imj2ko6ZacujLn3Onp+ZJaebbWc6A5XFp4np96aN1XUQn93IQ6AynA9?=
+ =?us-ascii?Q?IcCtyE0FzGj2wN27hpau5yKA5M4Y63nOULpvCTWaqWducGq7jWHYbZyQ4o6/?=
+ =?us-ascii?Q?eaDT9OPquKbn5IKfOScxkawGHYx/BpZ3uoebk42O4ULVgNozyFDR3f368pwN?=
+ =?us-ascii?Q?XH7hBpBoiPkwcmQR6hn+9qS+jdVwbA7M4k8EZ0cRAWJHRpAre23y8t127Ncx?=
+ =?us-ascii?Q?1TdhtgrxpZzn6dTY+rAoKlwi7DeydY/wLGkZ6GZj/0SSTj5W+DdyL5j4m1jK?=
+ =?us-ascii?Q?2oMpzIibOIdVPKGAKYnYBvAch4E7S1uJfw7EPvVCBd56JfChYrgGggPfD5Sb?=
+ =?us-ascii?Q?HU1bKkfMs4YBgifWbcFKHXvUoNYOJO4YX5f8KIvh4OCrAiGGY+L9WYLQsNU4?=
+ =?us-ascii?Q?ybxKKvkQjjW/mtZB5Tk4a+dY9TBblv9xsss7OX9IipXNgNxYsAlrJrfC4xP0?=
+ =?us-ascii?Q?hD7qOh9yJmgAjTCl6ShT7VhAxWkv6zuNDiGAXyrRJmKfRy0x6hYZ15/KRwhd?=
+ =?us-ascii?Q?5Hv1vwCsXqEBG8ZJGpOpWttu6bH/By6I3xX6RuKXpPhxsDMrB2H0g6XKAfgl?=
+ =?us-ascii?Q?nPxJo+slbggj2cWQLtncFm9pN8fYtrzCBlJlw9J+WYignOeCwPb7BAWPFTJ8?=
+ =?us-ascii?Q?EyCjJqLjP/qSywq/jFW9Ot1wisBp8iomGvjg0L+J0BAPY7HElgr0T7U0BLQC?=
+ =?us-ascii?Q?emG2s4x0I36hGfTEEKhkK3y2OFwWXMij2TgvnaKxgSP7bPb7HXQOMosM2+U9?=
+ =?us-ascii?Q?Hsei5HE4znbDntzWzEPqZfk+8MJVPH6Mibd56HD+CZLTyrxcLJwQ6HV7FpWp?=
+ =?us-ascii?Q?YJ4+3a6+DrRkxIhITumqVKWJ895uyC/gKc4nsjmq/wJoy6ceqUEAu35X+u1O?=
+ =?us-ascii?Q?4vu+sOTFVxSmSksTcgrMsUIoiQJcnHLuRMm15tOQ3uwlV3V0NWvL1w=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(10070799003)(1800799024)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(19092799006)(376014)(7416014)(52116014)(38350700014);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K09tMyswVWR2MlBqSkRINGFWY0pQSnl4VlBTZit0TENsZVZIZGZuM2ZCVmds?=
- =?utf-8?B?c0J3dUZqS0Z0Y25DQXRmU3hkMFJWUERXNHFpUzFsc2k1L0RDamFlWVdXMkFp?=
- =?utf-8?B?UDUxbVVEVG8vV1ptdDFFek5tMG9vMk5yZ21aVHFrZ0NxM1RWanJYSDcrT213?=
- =?utf-8?B?UXZIV0dUT3YzamJxd3RVam1OMUcvVEVIeU1uWUxXNSs0QU1QWHR5OCs3WVEv?=
- =?utf-8?B?dUFIeWZYdFRCRUs1R005Mkh6M3lJTnp4YXFHRkd2TFA1Ni82bjd4ek01UEtu?=
- =?utf-8?B?VVJMK2wvdXQ1STRBN3R2SVdOaGtITzBpN2ttN0dJUHFuQWpEQkNWajVsOVUv?=
- =?utf-8?B?bzIrZFBBdE94R3JkM3pUd1A4TUppWlRVUkZCOVBXMXpiRE5rQm9sU1ZJOGQv?=
- =?utf-8?B?aXJJcXdZbkVYZGRxbW1kNCtGU0Fsb09TVTJMcjNsL20xeVkzOHA5OURZU0dz?=
- =?utf-8?B?REFIRXFGWVJjMGoydUpQMnFzakNzNE1zTVdqaTllNE42Z2VHNk1Na3lUeHlK?=
- =?utf-8?B?VXYxK2tpVGoreHpRbmgvc2hJMVZuM2Y2ZnMyR3pOSWFicGoweUhIcVlWWHly?=
- =?utf-8?B?dmd1WjZIdjJ5WGtHWmRIeExsY2hMTzlEdytWeWc2bHE3VTlqckQyNEtxZ3Mz?=
- =?utf-8?B?M242QXYxMkkxZXVmRW5UY0dwRDZRbTB5eGx4TjdoaXAxemtGWkMyNDB2QzJq?=
- =?utf-8?B?N1hVcU9aNUR0RitqaDdsQ1VhWlYyVE9DaFRkdTRnSzFZamFsOTQ0NS9OQXI5?=
- =?utf-8?B?RS9IY2hvcm0zUzhWR2V4OE9YMkJocHJSdDdicjVKYzhCLy9HNnUvT1pKNkxt?=
- =?utf-8?B?QTRrQnJJYi9DcVc0NmtaQkxCbmhzd3FqVGVxbG9qVkMzd000V1hlWmR2R3N3?=
- =?utf-8?B?TllzM0l5V0YyTlViSWtSK01jM214aUlrSVdkSnlCR2dUb0lpWUN0bUZVdlRZ?=
- =?utf-8?B?WnhkTk15eUpyUldieVUyUllCUnFBeVNENjJSU29YQW5VUmNIcEJMM2NUMW1W?=
- =?utf-8?B?dnZ2WWhkZmdYQkhQZXNGMWZpYmpjdGdVTzhEUjNYeWszSHhyRUN1NU1Da2xy?=
- =?utf-8?B?SGdrc2NKdUFuOTgvY1QxTHhvdWZoVXpnWVZVWDNiWi8yKzhsUDJ3Mkt5V1VX?=
- =?utf-8?B?Ymk1TWVoVFFtbGUwd2lHNWNxb2twaCtIamhsdDJLajBUTGZUQ1JOMmpXYXpQ?=
- =?utf-8?B?WHZEdTZyOUFMelk2SjNrSm11Q0NzdnlGanVLQVZSSFFkdmc3UGE5WERZV1Z1?=
- =?utf-8?B?dVFhSERhTzNYZnpFZFpiaFpjY3JESTZQdFB4U3ZTZTRGVWVHc2tlZEU2VHEw?=
- =?utf-8?B?K2dqSWM0S1c2VEVhNW4zdWZIdFRiNGtzV0oxM0MyZ3d2RDlhOGVqcWZrWWk1?=
- =?utf-8?B?T3hBZm5WSjlDa3gzMHlHQlpDNVp1aWVXcklqVmFDRk83RjQ3bHRoUXJUcmhz?=
- =?utf-8?B?TzVlRURvT2hSa1lDWlkvT04rT1ZvQy9MdHZXd2pDNWNVUHY0VTJmOVBLS0V5?=
- =?utf-8?B?M2VKeGhSVDdYc1VEK0lzOEQ1MFNRd1BSNHRGdmdJbzRLSXdsRklhd2JqVU55?=
- =?utf-8?B?N1RSRW40V29iSHMxdFFwcG56S2ZnNldPdGtoeDM2eVM2bjBRc2FuWTBwNzNV?=
- =?utf-8?B?NVE0eW1IR3FGOEdqcWZ2cS9zeVpOZUJEMTZnODBnUDVGV0hmbG5kZU1MK2FE?=
- =?utf-8?B?bFBIcDB0YjUzRVl4L3owaW1Yb2EyQW8zdEdYbmZrVDYzd2hQOEU4dXgxaXRB?=
- =?utf-8?B?MEdIdVVjUU56cm9NeGxTeUxkZjBlOERpbzBOK1o5NDNHMy9ZcmRjSjB5V01B?=
- =?utf-8?B?VEd3c3VKZUZvNkJabURrb3NOVjQ0UzB0dm40bUxZRzZieXI5VFJGMldzdmg4?=
- =?utf-8?B?bFJSb29nN2NLbHhPanRlVDhxdXBMUEoxQmJxOFZOdUduY1pSMlhXelVWMHRz?=
- =?utf-8?B?aTZWbEdtZVphaTBURVJMMys5YlRsTjF2dnRkZjJ5bnQrQzdXTnRSaFhVUXVo?=
- =?utf-8?B?NEMxYjNZNjZWUzBINWtWNCtIOXpBallXbnNPQklHTy93eWQrd2tvendZNFR2?=
- =?utf-8?B?L1NwaThTZVJIeFpuRG82c095bHZQRWdnODBid0Z2ZE5XZjdoQmZqeXlWWlkx?=
- =?utf-8?B?QUVLOUl5VTljbzZ0akd6R2lPTW4ydGcxcjNyenFTS1hYRmhnZXM1aW5wT3Bi?=
- =?utf-8?Q?Kd6xDSY+vlyN2z4Hww9aj6xfzDddgCEcKkMsi50PhRKZ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fcf5435-4478-4477-b3ff-08ddfb7e6265
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cX9hbmOr5Bxh3oLfPyR1mFECo1LbIPcYczxzjuEYvuUP7bB0etWjq6q/NOJC?=
+ =?us-ascii?Q?gDYO9+YaTMPHDtRXnJjD/l99RG8xzHgKjk1y7JFfVHahfMxkfBksDnDusOHM?=
+ =?us-ascii?Q?5Ia7F46bFrc8Pd659FnEIGPqEeSa8ZEAw921PrTPaXyXWfK6trXqZSauZyha?=
+ =?us-ascii?Q?BekZ1S5DDKhxblrzAXD7pe4oTXy5R3oNyfWWB07T0BldgX6dr296MfSBWiZ4?=
+ =?us-ascii?Q?zifZhQUiX4D6FjCrntLX6tzjJwxkRzIm6vNAR5eVQmqouARI3ZXYFZgx4md6?=
+ =?us-ascii?Q?UD7XZvnmpUQqpAWlsyirXRMwNQuwm9NJ3UdliJKGd+bfTk0aS0pbUzbArxpw?=
+ =?us-ascii?Q?6JI7Xa9ZSAirpf0MOv3MbPCUMXRs8XEbxcowSzqeON0vIO5rzEeADbqZieRo?=
+ =?us-ascii?Q?NRguj00+HO4wkasvX7nqLdco18d3Dge35iTuIMA0O107YhKpvfcAlCtrdV08?=
+ =?us-ascii?Q?5z9TE6KMq/d3HegsLBgY5/9MIm2d4yMnk9F3mA3eVHbJ274nSWiyQChM7S+Y?=
+ =?us-ascii?Q?Jf2aHuYA2h6M61OVZIh/pjpiSSqCesZ+UX3V9Knq88OW0UYvMmSLJwr5ru+5?=
+ =?us-ascii?Q?aL2cZ3VvS6Vz3ueIL2+GwYgsDrnQ0KTHqKXXkW2FHHr6oPwB4ZYL5ObtVpUT?=
+ =?us-ascii?Q?tkLTpijccWqlt76KJoAMzJ5h5+iGwhcyHTdljjTyITZncBDbe+inWO5e4vWP?=
+ =?us-ascii?Q?r6fgyDv5BWRwvMfJWbgEJF602R6UGQOG/ZaikJ6GzB9x+UMPoDAk7ZhFWHW2?=
+ =?us-ascii?Q?udKL1UCifHkmuVxA39STYxZrCkwwsy1maHrtz35uNO4igxglNWy0zt9Uz/bq?=
+ =?us-ascii?Q?v7NZpKB0BaxhJkHkSXR2W5pwnf4v1fLNJ5Jq3scw8utymlUgRbbYe/fQ0skO?=
+ =?us-ascii?Q?zvSnEKwHNOOUK/SOjrIY6agAhQgoK6mylxlQyFG3JSwt23M6dw0Bh3d73O7t?=
+ =?us-ascii?Q?aDXtaWUwuU0O5IsnYcx1slfEMDrfW5FQQYQRKEaCgsSvDq/hIPEiZS3Na+56?=
+ =?us-ascii?Q?sAnQAFHtc81Q7J7+MojwgFUN875nahC4TM54cCPrCscW2NIGNYubqZ0FjVkK?=
+ =?us-ascii?Q?sntG7TE4Cy4i/MdWQuPr4Ng/MXzrp3PuwOPG3aLD+AGBX+5at1zDfzILYizu?=
+ =?us-ascii?Q?D4YJLx8I9EU36KaZHjvFCE5Isg/Ti3NszTz7hSKk/LRPHNwKLDfji7rYfRoo?=
+ =?us-ascii?Q?5FEacWMcSxaUPZ9GoOukIXcpaeGUBcmfeu80ObcQsmzwsfPpihswMh61jIB0?=
+ =?us-ascii?Q?BudZQNUPkWJmLblc039ZVuZhGYrOUXZn+QUoY0xW+PrYAcv4DWRRp90GQEqE?=
+ =?us-ascii?Q?VPRTPrVp4ToX6XuvjeMR9GDkG5Jp62saVg2TH8DLqaLVLEE9GviuVJ6Y8Ddd?=
+ =?us-ascii?Q?i9jUWgfFe9gLG6OYIBzWBl2BMt2kMu5tpC06hSNcTvjQuwQmQmREAc5SEaw9?=
+ =?us-ascii?Q?6nwJjrKxikWl9E3LrwIbA+DfukKq+jQlsdcdm+mdNGWp+TLNR8mZf4w+WDys?=
+ =?us-ascii?Q?YSXbDGFAPA4P7ekmp5LTm/7iyXER731G3cjdjbPdo9O1lmErbOOA9sD3JNKk?=
+ =?us-ascii?Q?gcopXbKSYSM4qHFDRc+RnycVl2hRA4Zl08vsnC3M?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b7c21bf-faf1-4357-0483-08ddfb7ebe68
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 15:23:59.4293 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 15:26:33.6866 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SJe5Q0y8gKBBPtGPfNL6ngUwdOs20TM/jhZGJenNK0p2zQrBuGeHORsDZk3idysa9VYCf4c+wFgoDpoPeXIGsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5306
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: hWlrF0cBgHAMd1aVZ8p0kGHLifVm0mhHKPsrZVyKIOD/NUYOyx9/ibiZpicF7fPinYwktMLO/2LSSYNrtwd9gA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8996
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -196,190 +159,422 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add helpers to query the DP branch device's per-slice throughput as well
-as overall throughput and line-width capabilities.
+On Wed, Sep 24, 2025 at 02:41:50PM +0800, Liu Ying wrote:
+> On 09/23/2025, Frank Li wrote:
+> > On Tue, Sep 23, 2025 at 10:07:57AM +0800, Liu Ying wrote:
+> >> Display Prefetch Resolve Channel(DPRC) is a part of a prefetch engine.
+> >> It fetches display data, transforms it to linear format and stores it
+> >> to DPRC's RTRAM.  PRG, as the other part of a prefetch engine, acts as
+> >> a gasket between the RTRAM controller and a FetchUnit.  Add a platform
+> >> driver to support the DPRC.
+> >>
+> >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >> ---
+> >> v2:
+> >> - Manage clocks with bulk interfaces.  (Frank)
+> >> - Sort variables in probe function in reverse Christmas tree fashion.  (Frank)
+> >> ---
+> >>  drivers/gpu/drm/imx/dc/Kconfig   |   1 +
+> >>  drivers/gpu/drm/imx/dc/Makefile  |   6 +-
+> >>  drivers/gpu/drm/imx/dc/dc-dprc.c | 465 +++++++++++++++++++++++++++++++++++++++
+> >>  drivers/gpu/drm/imx/dc/dc-dprc.h |  35 +++
+> >>  drivers/gpu/drm/imx/dc/dc-drv.c  |   1 +
+> >>  drivers/gpu/drm/imx/dc/dc-drv.h  |   1 +
+> >>  drivers/gpu/drm/imx/dc/dc-prg.c  |  12 +
+> >>  drivers/gpu/drm/imx/dc/dc-prg.h  |   4 +
+> >>  8 files changed, 522 insertions(+), 3 deletions(-)
+> >>
+> > ...
+> >> +
+> >> +static void dc_dprc_reset(struct dc_dprc *dprc)
+> >> +{
+> >> +	regmap_write(dprc->reg, SYSTEM_CTRL0 + SET, SOFT_RESET);
+> >> +	fsleep(20);
+> >> +	regmap_write(dprc->reg, SYSTEM_CTRL0 + CLR, SOFT_RESET);
+> >> +	fsleep(20);
+> >> +}
+> >> +
+> >> +static void dc_dprc_enable(struct dc_dprc *dprc)
+> >> +{
+> >> +	dc_prg_enable(dprc->prg);
+> >> +}
+> >> +
+> >> +static void dc_dprc_reg_update(struct dc_dprc *dprc)
+> >> +{
+> >> +	dc_prg_reg_update(dprc->prg);
+> >> +}
+> >> +
+> >> +static void dc_dprc_enable_ctrl_done_irq(struct dc_dprc *dprc)
+> >> +{
+> >> +	guard(spinlock_irqsave)(&dprc->lock);
+> >> +	regmap_write(dprc->reg, IRQ_MASK + CLR, IRQ_DPR_CRTL_DONE);
+> >> +}
+> >> +
+> >> +void dc_dprc_configure(struct dc_dprc *dprc, unsigned int stream_id,
+> >> +		       unsigned int width, unsigned int height,
+> >> +		       unsigned int stride,
+> >> +		       const struct drm_format_info *format,
+> >> +		       dma_addr_t baddr, bool start)
+> >> +{
+> >> +	unsigned int prg_stride = width * format->cpp[0];
+> >> +	unsigned int bpp = format->cpp[0] * 8;
+> >> +	struct device *dev = dprc->dev;
+> >> +	unsigned int p1_w, p1_h;
+> >> +	u32 val;
+> >> +	int ret;
+> >> +
+> >> +	if (start) {
+> >> +		ret = pm_runtime_resume_and_get(dev);
+> >> +		if (ret < 0) {
+> >> +			dev_err(dev, "failed to get RPM: %d\n", ret);
+> >> +			return;
+> >> +		}
+> >> +
+> >> +		dc_dprc_set_stream_id(dprc, stream_id);
+> >> +	}
+> >> +
+> >> +	p1_w = round_up(width, format->cpp[0] == 2 ? 32 : 16);
+> >> +	p1_h = round_up(height, 4);
+> >> +
+> >> +	regmap_write(dprc->reg, FRAME_CTRL0, PITCH(stride));
+> >> +	regmap_write(dprc->reg, FRAME_1P_CTRL0, BYTE_1K);
+> >> +	regmap_write(dprc->reg, FRAME_1P_PIX_X_CTRL, NUM_X_PIX_WIDE(p1_w));
+> >> +	regmap_write(dprc->reg, FRAME_1P_PIX_Y_CTRL, NUM_Y_PIX_HIGH(p1_h));
+> >> +	regmap_write(dprc->reg, FRAME_1P_BASE_ADDR_CTRL0, baddr);
+> >> +	regmap_write(dprc->reg, FRAME_PIX_X_ULC_CTRL, CROP_ULC_X(0));
+> >> +	regmap_write(dprc->reg, FRAME_PIX_Y_ULC_CTRL, CROP_ULC_Y(0));
+> >> +
+> >> +	regmap_write(dprc->reg, RTRAM_CTRL0, THRES_LOW(3) | THRES_HIGH(7));
+> >
+> > Is it okay to access register if start is false since
+> > pm_runtime_resume_and_get() have not called.
+>
+> Yes, it is okay, because dc_dprc_configure() is supposed to be called
+> continously for multiple times(OFC, fine for only once as well).  For
+> the first time, start is true in order to enable the DPRC.  After the
+> first time(DPRC is running), it is called with start == false to do
+> things like page-flip(update frame buffer address).
+>
+> >
+> >> +
+> >> +	val = LINE4 | BUF2;
+> >> +	switch (format->format) {
+> >> +	case DRM_FORMAT_XRGB8888:
+> >> +		/*
+> >> +		 * It turns out pixel components are mapped directly
+> >> +		 * without position change via DPR processing with
+> >> +		 * the following color component configurations.
+> >> +		 * Leave the pixel format to be handled by the
+> >> +		 * display controllers.
+> >> +		 */
+> >> +		val |= A_COMP_SEL(3) | R_COMP_SEL(2) |
+> >> +		       G_COMP_SEL(1) | B_COMP_SEL(0);
+> >> +		val |= PIX_SIZE_32BIT;
+> >> +		break;
+> >> +	default:
+> >> +		dev_err(dev, "unsupported format 0x%08x\n", format->format);
+> >> +		return;
+> >> +	}
+> >> +	regmap_write(dprc->reg, MODE_CTRL0, val);
+> >> +
+> >> +	if (start) {
+> >> +		/* software shadow load for the first frame */
+> >> +		val = SW_SHADOW_LOAD_SEL | SHADOW_LOAD_EN;
+> >> +		regmap_write(dprc->reg, SYSTEM_CTRL0, val);
+> >> +
+> >> +		/* and then, run... */
+> >> +		val |= RUN_EN | REPEAT_EN;
+> >> +		regmap_write(dprc->reg, SYSTEM_CTRL0, val);
+> >> +	}
+> >> +
+> >> +	dc_prg_configure(dprc->prg, width, height, prg_stride, bpp, baddr, start);
+> >> +
+> >> +	dc_dprc_enable(dprc);
+> >> +
+> >> +	dc_dprc_reg_update(dprc);
+> >> +
+> >> +	if (start)
+> >> +		dc_dprc_enable_ctrl_done_irq(dprc);
+> >> +
+> >> +	dev_dbg(dev, "w: %u, h: %u, s: %u, fmt: 0x%08x\n",
+> >> +		width, height, stride, format->format);
+> >> +}
+> >> +
+> >> +void dc_dprc_disable_repeat_en(struct dc_dprc *dprc)
+> >> +{
+> >> +	regmap_write(dprc->reg, SYSTEM_CTRL0 + CLR, REPEAT_EN);
+> >> +	dev_dbg(dprc->dev, "disable REPEAT_EN\n");
+> >> +}
+> >> +
+> >> +void dc_dprc_disable(struct dc_dprc *dprc)
+> >> +{
+> >> +	dc_prg_disable(dprc->prg);
+> >> +
+> >> +	pm_runtime_put(dprc->dev);
+> >
+> > You call pm_runtime_put() in dc_dprc_disable(), but not call
+> > pm_runtime_resume_and_get() at dc_dprc_enable().
+>
+> Yes, dc_dprc_configure()(start == true) is designed to get RPM and
+> dc_dprc_disable() to put RPM.
+>
+> dc_dprc_enable() just sets PRG to non-bypass mode.
+>
+> >
+> > Is it more reasonable to call pm_runtime_resume_and_get() in dc_dprc_enable()
+> >
+> > dc_dprc_enable()
+> > {
+> > 	...
+> > 	pm_runtime_resume_and_get();
+> > }
+> >
+> > dc_dprc_configure()
+> > {
+> > 	unconditional call
+> > 	pm_runtime_resume_and_get()
+> > 	...
+> > 	pm_runtime_put()
+>
+> Here, as RPM is put, it's possible to actually disable the power domain,
+> hence possibly lose all the DPRC configuration done between RPM get and
+> RPM put.  So, this doesn't make sense.
+>
 
-Cc: dri-devel@lists.freedesktop.org
-Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_helper.c | 133 ++++++++++++++++++++++++
- include/drm/display/drm_dp.h            |   1 +
- include/drm/display/drm_dp_helper.h     |   5 +
- 3 files changed, 139 insertions(+)
+Okay,
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 1c74fe9459ad9..9d9928daaab59 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2844,6 +2844,139 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
- }
- EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
- 
-+/*
-+ * See DP Standard v2.1a 2.8.4 Minimum Slices/Display, Table 2-159 and
-+ * Appendix L.1 Derivation of Slice Count Requirements.
-+ */
-+static int dsc_branch_min_slice_throughput(int pixel_clock)
-+{
-+	if (pixel_clock >= 4800000)
-+		return 600000;
-+	else if (pixel_clock >= 2700000)
-+		return 400000;
-+	else
-+		return 340000;
-+}
-+
-+/**
-+ * drm_dp_dsc_branch_max_slice_throughput() - Branch device's max DSC pixel throughput per slice
-+ * @dsc_dpcd: DSC capabilities from DPCD
-+ * @pixel_clock: Pixel clock of mode in kHz
-+ * @is_rgb_yuv444: The mode is either RGB or YUV444
-+ *
-+ * Return the branch device's maximum per slice DSC pixel throughput, based on
-+ * the device's DPCD DSC capabilities, @pixel_clock and whether the output
-+ * format @is_rgb_yuv444 or yuv422/yuv420.
-+ *
-+ * Returns:
-+ * The maximum DSC pixel throughput per slice supported by the branch device
-+ * in kPixels/sec.
-+ */
-+int drm_dp_dsc_branch_max_slice_throughput(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
-+					   int pixel_clock, bool is_rgb_yuv444)
-+{
-+	int throughput;
-+
-+	throughput = dsc_dpcd[DP_DSC_PEAK_THROUGHPUT - DP_DSC_SUPPORT];
-+
-+	if (is_rgb_yuv444)
-+		throughput = (throughput & DP_DSC_THROUGHPUT_MODE_0_MASK) >>
-+			     DP_DSC_THROUGHPUT_MODE_0_SHIFT;
-+	else
-+		throughput = (throughput & DP_DSC_THROUGHPUT_MODE_1_MASK) >>
-+			     DP_DSC_THROUGHPUT_MODE_1_SHIFT;
-+
-+	switch (throughput) {
-+	case 0:
-+		return dsc_branch_min_slice_throughput(pixel_clock);
-+	case 1:
-+		return 340000;
-+	case 2 ... 14:
-+		return 400000 + 50000 * (throughput - 2);
-+	case 15:
-+		return 170000;
-+	default:
-+		WARN(1, "Missing case %d\n", throughput);
-+		return 340000;
-+	}
-+}
-+EXPORT_SYMBOL(drm_dp_dsc_branch_max_slice_throughput);
-+
-+static u8 dsc_branch_dpcd_cap(const u8 dpcd[DP_DSC_BRANCH_CAP_SIZE], int reg)
-+{
-+	return dpcd[reg - DP_DSC_BRANCH_OVERALL_THROUGHPUT_0];
-+}
-+
-+/**
-+ * drm_dp_dsc_branch_max_overall_throughput() - Branch device's max overall DSC pixel throughput
-+ * @dsc_branch_dpcd: DSC branch capabilities from DPCD
-+ * @is_rgb_yuv444: The mode is either RGB or YUV444
-+ *
-+ * Return the branch device's maximum overall DSC pixel throughput, based on
-+ * the device's DPCD DSC branch capabilities, and whether the output
-+ * format @is_rgb_yuv444 or yuv422/yuv420.
-+ *
-+ * Returns:
-+ * - 0:   The maximum overall throughput capability is not indicated by
-+ *        the device separately and it must be determined from the per-slice
-+ *        max throughput (see @drm_dp_dsc_branch_slice_max_throughput())
-+ *        and the maximum slice count supported by the device.
-+ * - > 0: The maximum overall DSC pixel throughput supported by the branch
-+ *        device in kPixels/sec.
-+ */
-+int drm_dp_dsc_branch_max_overall_throughput(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE],
-+					     bool is_rgb_yuv444)
-+{
-+	int throughput;
-+
-+	if (is_rgb_yuv444)
-+		throughput = dsc_branch_dpcd_cap(dsc_branch_dpcd,
-+						 DP_DSC_BRANCH_OVERALL_THROUGHPUT_0);
-+	else
-+		throughput = dsc_branch_dpcd_cap(dsc_branch_dpcd,
-+						 DP_DSC_BRANCH_OVERALL_THROUGHPUT_1);
-+
-+	switch (throughput) {
-+	case 0:
-+		return 0;
-+	case 1:
-+		return 680000;
-+	default:
-+		return 600000 + 50000 * throughput;
-+	}
-+}
-+EXPORT_SYMBOL(drm_dp_dsc_branch_max_overall_throughput);
-+
-+/**
-+ * drm_dp_dsc_branch_max_line_width() - Branch device's max DSC line width
-+ * @dsc_branch_dpcd: DSC branch capabilities from DPCD
-+ *
-+ * Return the branch device's maximum overall DSC line width, based on
-+ * the device's @dsc_branch_dpcd capabilities.
-+ *
-+ * Returns:
-+ * - 0:        The maximum line width is not indicated by the device
-+ *             separately and it must be determined from the maximum
-+ *             slice count and slice-width supported by the device.
-+ * - %-EINVAL: The device indicates an invalid maximum line width
-+ *             (< 2560 pixels).
-+ * - >= 2560:  The maximum line width in pixels.
-+ */
-+int drm_dp_dsc_branch_max_line_width(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE])
-+{
-+	int line_width = dsc_branch_dpcd_cap(dsc_branch_dpcd, DP_DSC_BRANCH_MAX_LINE_WIDTH);
-+
-+	switch (line_width) {
-+	case 0:
-+		return 0;
-+	case 1 ... 7:
-+		return -EINVAL;
-+	default:
-+		return line_width * 320;
-+	}
-+}
-+EXPORT_SYMBOL(drm_dp_dsc_branch_max_line_width);
-+
- static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux,
- 				  const u8 dpcd[DP_RECEIVER_CAP_SIZE], int address,
- 				  u8 *buf, int buf_size)
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index cf318e3ddb5c5..43978ddd15056 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -1686,6 +1686,7 @@ enum drm_dp_phy {
- #define DP_BRANCH_OUI_HEADER_SIZE	0xc
- #define DP_RECEIVER_CAP_SIZE		0xf
- #define DP_DSC_RECEIVER_CAP_SIZE        0x10 /* DSC Capabilities 0x60 through 0x6F */
-+#define DP_DSC_BRANCH_CAP_SIZE		3
- #define EDP_PSR_RECEIVER_CAP_SIZE	2
- #define EDP_DISPLAY_CTL_CAP_SIZE	5
- #define DP_LTTPR_COMMON_CAP_SIZE	8
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index e438c44409952..cb0cd13d632d2 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -211,6 +211,11 @@ u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
- u8 drm_dp_dsc_sink_line_buf_depth(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE]);
- int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpc[DP_DSC_RECEIVER_CAP_SIZE],
- 					 u8 dsc_bpc[3]);
-+int drm_dp_dsc_branch_max_slice_throughput(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
-+					   int mode_clock, bool is_rgb_yuv444);
-+int drm_dp_dsc_branch_max_overall_throughput(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE],
-+					     bool is_rgb_yuv444);
-+int drm_dp_dsc_branch_max_line_width(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE]);
- 
- static inline bool
- drm_dp_sink_supports_dsc(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
--- 
-2.49.1
+dc_dprc_enable()
+{
+	...
+	pm_runtime_resume_and_get();
+}
 
+dc_dpdr_disable()
+{
+	pm_runtime_put();
+}
+
+dc_dprc_configure()
+{
+	pm_runtime_resume_and_get();
+
+	if (start)
+		dc_dprc_enable(dprc);
+
+	pm_runtime_put();
+}
+
+Look more reasonable for pair get()/put().  after first start, ref count
+will not reduce 0 by pm_runtime_put();.
+
+> >
+> > 	if (start) //look like only need enable when start is true
+>
+> I may add this check in next version.
+>
+> > 		dc_dprc_enable(dprc);
+> > }
+> >
+> >> +
+> >> +	dev_dbg(dprc->dev, "disable\n");
+> >> +}
+> >> +
+> >> +void dc_dprc_disable_at_boot(struct dc_dprc *dprc)
+> >> +{
+> >> +	dc_prg_disable_at_boot(dprc->prg);
+> >> +
+> >> +	clk_bulk_disable_unprepare(dprc->num_clks, dprc->clks);
+> >> +
+> >
+> > you have runtime functions dc_dprc_runtime_suspend()
+> >
+> > If runtime pm status is correct, needn't call clk_bulk_disable_unprepare().
+> >
+> > Look like call pm_runtime_put() here to let runtime pm management clks.
+> >
+> > otherwise, runtime pm state will not match clock enable/disable state.
+> >
+> >> +	dev_dbg(dprc->dev, "disable at boot\n");
+> >> +}
+> >> +
+> >> +static void dc_dprc_ctrl_done_handle(struct dc_dprc *dprc)
+> >> +{
+> >> +	regmap_write(dprc->reg, SYSTEM_CTRL0, REPEAT_EN);
+> >> +
+> >> +	dc_prg_shadow_enable(dprc->prg);
+> >> +
+> >> +	dev_dbg(dprc->dev, "CTRL done handle\n");
+> >> +}
+> >> +
+> > ...
+> >> +
+> >> +static int dc_dprc_probe(struct platform_device *pdev)
+> >> +{
+> >> +	struct device *dev = &pdev->dev;
+> >> +	struct device_node *np = dev->of_node;
+> >> +	struct resource *res;
+> >> +	struct dc_dprc *dprc;
+> >> +	void __iomem *base;
+> >> +	int ret, wrap_irq;
+> >> +
+> >> +	dprc = devm_kzalloc(dev, sizeof(*dprc), GFP_KERNEL);
+> >> +	if (!dprc)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	ret = imx_scu_get_handle(&dprc->ipc_handle);
+> >> +	if (ret)
+> >> +		return dev_err_probe(dev, ret, "failed to get SCU ipc handle\n");
+> >> +
+> >> +	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> >> +	if (IS_ERR(base))
+> >> +		return PTR_ERR(base);
+> >> +
+> >> +	dprc->reg = devm_regmap_init_mmio(dev, base, &dc_dprc_regmap_config);
+> >> +	if (IS_ERR(dprc->reg))
+> >> +		return PTR_ERR(dprc->reg);
+> >> +
+> >> +	wrap_irq = platform_get_irq_byname(pdev, "dpr_wrap");
+> >> +	if (wrap_irq < 0)
+> >> +		return -ENODEV;
+> >> +
+> >> +	dprc->num_clks = devm_clk_bulk_get_all(dev, &dprc->clks);
+> >> +	if (dprc->num_clks < 0)
+> >> +		return dev_err_probe(dev, dprc->num_clks, "failed to get clocks\n");
+> >> +
+> >> +	ret = of_property_read_u32(np, "fsl,sc-resource", &dprc->sc_resource);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "failed to get SC resource %d\n", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	dprc->prg = dc_prg_lookup_by_phandle(dev, "fsl,prgs", 0);
+> >> +	if (!dprc->prg)
+> >> +		return dev_err_probe(dev, -EPROBE_DEFER,
+> >> +				     "failed to lookup PRG\n");
+> >> +
+> >> +	dc_prg_set_dprc(dprc->prg, dprc);
+> >> +
+> >> +	dprc->dev = dev;
+> >> +	spin_lock_init(&dprc->lock);
+> >> +
+> >> +	ret = devm_request_irq(dev, wrap_irq, dc_dprc_wrap_irq_handler,
+> >> +			       IRQF_SHARED, dev_name(dev), dprc);
+> >> +	if (ret < 0) {
+> >> +		dev_err(dev, "failed to request dpr_wrap IRQ(%d): %d\n",
+> >> +			wrap_irq, ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	dev_set_drvdata(dev, dprc);
+> >> +
+> >> +	ret = devm_pm_runtime_enable(dev);
+> >> +	if (ret)
+> >> +		return dev_err_probe(dev, ret, "failed to enable PM runtime\n");
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int dc_dprc_runtime_suspend(struct device *dev)
+> >> +{
+> >> +	struct dc_dprc *dprc = dev_get_drvdata(dev);
+> >> +
+> >> +	clk_bulk_disable_unprepare(dprc->num_clks, dprc->clks);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int dc_dprc_runtime_resume(struct device *dev)
+> >> +{
+> >> +	struct dc_dprc *dprc = dev_get_drvdata(dev);
+> >> +	int ret;
+> >> +
+> >> +	ret = clk_bulk_prepare_enable(dprc->num_clks, dprc->clks);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "failed to enable clocks: %d\n", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	dc_dprc_reset(dprc);
+> >> +
+> >> +	/* disable all control IRQs and enable all error IRQs */
+> >> +	guard(spinlock_irqsave)(&dprc->lock);
+> >> +	regmap_write(dprc->reg, IRQ_MASK, IRQ_CTRL_MASK);
+> >
+> > write one 32bit register is atomic, look like needn't spinlock.
+> >
+> > Only other place use dprc->lock is in dc_dprc_enable_ctrl_done_irq(), which
+> > write 32bit clr register.
+>
+> No, dc_dprc_wrap_irq_handler() uses the lock to protect register access too,
+> so it's needed.
+
+guard only protect after it.
+
+in dc_dprc_runtime_resume()
+
++	/* disable all control IRQs and enable all error IRQs */
++	guard(spinlock_irqsave)(&dprc->lock);
++	regmap_write(dprc->reg, IRQ_MASK, IRQ_CTRL_MASK);
++
++	return 0;
+
++static void dc_dprc_enable_ctrl_done_irq(struct dc_dprc *dprc)
++{
++	guard(spinlock_irqsave)(&dprc->lock);
++	regmap_write(dprc->reg, IRQ_MASK + CLR, IRQ_DPR_CRTL_DONE);
++}
+
+How spin lock protect register access?
+
+1: IRQ_MASK <= IRQ_CTRL_MASK;
+2: IRQ_MASK + CLR <= IRQ_DPR_CRTL_DONE;
+
+2 possilbe result:
+	1 happen after 2
+	2 happen after 1
+
+Frank
+
+>
+> >
+> > Frank
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> > ...
+> >> +void dc_prg_set_dprc(struct dc_prg *prg, struct dc_dprc *dprc)
+> >> +{
+> >> +	prg->dprc = dprc;
+> >> +}
+> >> +
+> >> +struct dc_dprc *dc_prg_get_dprc(struct dc_prg *prg)
+> >> +{
+> >> +	return prg->dprc;
+> >> +}
+> >> +
+> >>  static int dc_prg_probe(struct platform_device *pdev)
+> >>  {
+> >>  	struct device *dev = &pdev->dev;
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-prg.h b/drivers/gpu/drm/imx/dc/dc-prg.h
+> >> index 6fd9b050bfa12334720f83ff9ceaf337e3048a54..f29d154f7de597b9d20d5e71303049f6f8b022d6 100644
+> >> --- a/drivers/gpu/drm/imx/dc/dc-prg.h
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-prg.h
+> >> @@ -32,4 +32,8 @@ bool dc_prg_stride_supported(struct dc_prg *prg,
+> >>  struct dc_prg *
+> >>  dc_prg_lookup_by_phandle(struct device *dev, const char *name, int index);
+> >>
+> >> +void dc_prg_set_dprc(struct dc_prg *prg, struct dc_dprc *dprc);
+> >> +
+> >> +struct dc_dprc *dc_prg_get_dprc(struct dc_prg *prg);
+> >> +
+> >>  #endif
+> >>
+> >> --
+> >> 2.34.1
+> >>
+>
+>
+> --
+> Regards,
+> Liu Ying
