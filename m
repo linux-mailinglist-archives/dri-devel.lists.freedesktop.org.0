@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889D7B99215
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 11:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8893BB991FA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 11:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6CC510E6D2;
-	Wed, 24 Sep 2025 09:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E97F10E6CB;
+	Wed, 24 Sep 2025 09:28:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bogVNTk/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NZCIgqoL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADC910E6D3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 09:28:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFABA10E6CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 09:28:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 824454085F;
- Wed, 24 Sep 2025 09:28:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581DAC2BCB2;
+ by sea.source.kernel.org (Postfix) with ESMTP id 84EB044A7D;
+ Wed, 24 Sep 2025 09:28:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B625C2BCB3;
  Wed, 24 Sep 2025 09:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1758706101;
- bh=47f3TxVSb5XBlK+7j3tmWOP9WWwsUxqEELtzzZHVOso=;
- h=From:To:Cc:Subject:Date:From;
- b=bogVNTk/cEiqP2mS+0+T+MLtpf4sOtySUsCQGN38IEf1lojp+iwQxRwHgRo0FJZCp
- jVLOiFJ9wtUsXxHe8rstJ3ilLZ4J05ywrxFIIXW2ODs/vGELtp3vP/SOgP2TqQt73R
- Wimu93Xj30m9pYrJU6guLk5DNSn6uQDIu73zXBQrMAMmo6dpyfL5gh69f0nQpiOSKU
- SiRxWv9Jhz172m0vXKsAccJ6PX2+KbhGzI2K1cBmHTBWpOnHLqaygErEAk13MzqJO2
- 72tJVtrtK9lpTsstnaNk5i3YGky2PJyYG2k8S+S3u/VU/+dYwXUQMI8zE85+mlPz4X
- AHe2bnxt9MTBQ==
+ bh=JeezoGPCvEL1Rw85QMPh7l/F/95kWKSx8wcoS1htAp0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=NZCIgqoLG1XHzeMxN/G3cqWiZYOdv2EGfdQf2DmDdvBcpt2s+EXpWnG+Q2a6V0SM4
+ PyzfhC/LrR7DQemCzDd3qD/l5IGFu9eIpiqYj9H1bJsJlu7h1QDjfxTFf3D5CBuUEy
+ Qbx7/kHyiVFKpBi+m21BaCfpAbDrTLsto0Y0yUrrh0jcC55cUImiQuwKeOlzvpGbU+
+ cA+//VtNY0fZys9gaG8SzAwyjtuowFy+fqM+2cw6xgjJMEczQZSEn7XcEkcJNHzUI4
+ +rtOgPjC8bGPMVYNIJsKEB3tuBJN5oTkL8pLIQX4SAD1TTEhycOdD9V69azevVcK9u
+ vOb1a1TmgfTqg==
 Received: from johan by xi.lan with local (Exim 4.98.2)
- (envelope-from <johan@kernel.org>) id 1v1LnK-000000006p0-2BWm;
+ (envelope-from <johan@kernel.org>) id 1v1LnL-000000006p8-1OmT;
  Wed, 24 Sep 2025 11:28:15 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>
@@ -42,10 +42,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-kernel@vger.kernel.org,
  Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/4] drm/imx: drop unused module aliases
-Date: Wed, 24 Sep 2025 11:26:39 +0200
-Message-ID: <20250924092643.26113-1-johan@kernel.org>
+Subject: [PATCH 1/4] drm/imx/dw-hdmi: drop unused module alias
+Date: Wed, 24 Sep 2025 11:26:40 +0200
+Message-ID: <20250924092643.26113-2-johan@kernel.org>
 X-Mailer: git-send-email 2.49.1
+In-Reply-To: <20250924092643.26113-1-johan@kernel.org>
+References: <20250924092643.26113-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,25 +65,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When fixing up a device reference leak in the tve drivers I noticed it
-had an unused platform alias. This series drops unused aliases from the
-imx drm drivers.
+The driver has never supported anything but OF probe so drop the unused
+platform module alias which was incorrectly added by commit 3d1b35a3d9f3
+("drm: imx: imx-hdmi: convert imx-hdmi to drm_bridge mode").
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-
-Johan Hovold (4):
-  drm/imx/dw-hdmi: drop unused module alias
-  drm/imx/ldb: drop unused module alias
-  drm/imx/tve: drop unused module alias
-  drm/imx/parallel-display: drop unused module alias
-
- drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c      | 1 -
- drivers/gpu/drm/imx/ipuv3/imx-ldb.c          | 1 -
- drivers/gpu/drm/imx/ipuv3/imx-tve.c          | 1 -
- drivers/gpu/drm/imx/ipuv3/parallel-display.c | 1 -
- 4 files changed, 4 deletions(-)
-
+diff --git a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+index 8333c4bf7369..07e5f96202d4 100644
+--- a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
++++ b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+@@ -278,4 +278,3 @@ MODULE_AUTHOR("Andy Yan <andy.yan@rock-chips.com>");
+ MODULE_AUTHOR("Yakir Yang <ykk@rock-chips.com>");
+ MODULE_DESCRIPTION("IMX6 Specific DW-HDMI Driver Extension");
+ MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:dwhdmi-imx");
 -- 
 2.49.1
 
