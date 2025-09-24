@@ -2,140 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE797B9A529
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 16:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F21FB9A6F2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 17:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E334710E73C;
-	Wed, 24 Sep 2025 14:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0316D10E733;
+	Wed, 24 Sep 2025 15:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="chJSUAaT";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bZdLtKrB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011028.outbound.protection.outlook.com [52.101.70.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9871E10E73C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 14:46:12 +0000 (UTC)
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012050.outbound.protection.outlook.com [40.107.209.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDF810E733
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 15:02:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UN0qjMPQyqW5NSyJSN+u1bIs3SJlAKwjYtrkuBtRscEkCrbGYMX765ZwZCz13uX1or7+vnNUtndN5icmRxiVhegJ8grq7PrYdZp0sWIp9C+iam8kI6b5l2aU19oN0xdhYXVw4dTRWSL0RPW76pyRUOoi6pMCbWR9EbFfACD5vfsOfmYTWuR8fZsubfLswxz4Swb3SRb03A3++SLawSOkv6JNOxpggOypvWLwFCM1Mnnnoym9VPEfx6QqwuDGxWmuaLontMe/D9PlTJXjcyLFB7B1f5m9mlWFP9aF9M5MecDyhJvOOcCsXhyOeGFFlFRvFSuCpD2KiEr2BIEl/RGeuQ==
+ b=EZtgvUB1KpSxAuyGX6nng0xCbbZJM6qeoJD5M79UnqyVMm/DLZqTlw/P08Y9sRNsnZU5d5EGlLHjAhbRO2GEtnVSJyXWTc8M54qxWQoNLYeYDa8wqoBeLpgvgitJvY/Tc9xdhM9yqa+Gr3XKWA8dz6Q0etB1s2NRauWc1x+7Soo4iCtNR67I8nBpp/dpdDOsmqXmEt3jcRpi1/46WqTd8+ZaqKw+qL//qev7H5wUpkvAsdZP+xb/KtkOzam5lKK//F1xq5ziFYvFYTfV5hyjn/W0h5ZjHS2FLupkdxEc5HEjb4okj99ZHZ9dJHcsT4XpfHOtk4d/fkkD8xZOGzr36w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HXSpbhwLUDDkDaRiWjoicUT5N2T/HZgomzMDNR8yQLI=;
- b=SxMnx1sAxgmlJcI/fp0NFZX6ftMRt3lBa3Y1hU13UrVCKQ/+SOL9e7Iu8OJ0LaA/Wah8aPBPU+64v6inFwwYUA5DW7kjkhEe5YLnbxhja61p4KNuy8uobdSjK96wIdk94rEcM4Aekhrm2tm5e9YStTbDtF0euTfuYBlPsnXX5E/vI1Srp0/wuUEbWPmeYOlnhK/r7+z7H8zMWb5O847FUA5C9aOyXAlx99f2yyzspc8S8sN06ueZ/B5Xx+7LSoRtDpKC4aX3TVuOY86IlMS01VimSXRIrIzVw/W91/ZTgKRzAY4ZSres7TxK7e7fayxmfq/TLlW92hpDqQyFDwwpIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ bh=xHDCmrOUfEGTo0Mft19+4E0kL6HZd3HUgZl98CWz+AE=;
+ b=lfIcr0Dosir1aQ8k8Knpd1c7AVM3HGn7/TNaR3FdMDwwVTa/P6Pek/PkRs2HsygcX+7zLlKz+/F7iMSHWYK1hLT6YrHsRY27No1W/t31CqgjeCbh/MbU5A72b0cE8rfDNti5oFv6SspMHXGIDgSkTV45rNPxcygHf3LFqfTI+oNqZdfbhIKQkmxPvGsWLXXyJ2ZI9p1HE7zFQPZqrn77nQVKk6RaHJ1blqpZsyu7YpcEqGkR+R3rn0VmfuDinbcNEgdXksDt1e4muXLZYiCS+srm6ThMfxVFrsT0xIKuF+v6TZtEfSy9pbZGVSzcGyDWZc+QKMMXz+oTprm/ak75gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=mailbox.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HXSpbhwLUDDkDaRiWjoicUT5N2T/HZgomzMDNR8yQLI=;
- b=chJSUAaTOSl4/ledBqap/br5sKGp0zD8s+dYXiwJ4/5ZL1QITiQzEGUzEA9XdLJi52mEGgKZLQBCuQUeApxODl38wsKAjFaFpDomDOmCcs9phKkzkbe8EIgkTdvcEgvffDnvnL4pjWjATKkB7ILnS3MUQBdCYIq7ctSE+Uiq/Gm5TsBicFblal871CbPbKvKE8SpBkIcQnzjpK4q95St79ni1tgu9kCaxZtUG9SUiEmgJYMzdQxz2uwYSzeVrHA2vM45OgmKtH5cmf/YPluktpdPtv6kh2M4u7QEEg68YATnDOx9B3rx9LFXFkxIAD/HGuofyAC12HQsxrpake29fg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by AM9PR04MB8522.eurprd04.prod.outlook.com (2603:10a6:20b:431::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Wed, 24 Sep
- 2025 14:46:10 +0000
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9160.008; Wed, 24 Sep 2025
- 14:46:09 +0000
-Date: Wed, 24 Sep 2025 10:46:01 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] drm/imx: drop unused module aliases
-Message-ID: <aNQEKc+7500FA/dj@lizhi-Precision-Tower-5810>
-References: <20250924092643.26113-1-johan@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250924092643.26113-1-johan@kernel.org>
-X-ClientProxiedBy: SJ0PR05CA0200.namprd05.prod.outlook.com
- (2603:10b6:a03:330::25) To AS4PR04MB9621.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ff::22)
+ bh=xHDCmrOUfEGTo0Mft19+4E0kL6HZd3HUgZl98CWz+AE=;
+ b=bZdLtKrBZBxiuSjX737R9/896Ea9tXn8L9GVv5WGe1jaK5eqGGXZW2IEeisN+JZxCgMMlZ9SkYGi935jz2IdCAvVHDC5eltRBM3vKxou+tBOSv76qxXvGMNA2hrWVzyebIwRHlIxsL8iuI/cDFycunXlhYnGn/nipdj/e7m5v2o=
+Received: from SJ0PR13CA0172.namprd13.prod.outlook.com (2603:10b6:a03:2c7::27)
+ by DM6PR12MB4091.namprd12.prod.outlook.com (2603:10b6:5:222::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Wed, 24 Sep
+ 2025 15:01:59 +0000
+Received: from SJ5PEPF00000203.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c7:cafe::eb) by SJ0PR13CA0172.outlook.office365.com
+ (2603:10b6:a03:2c7::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.9 via Frontend Transport; Wed,
+ 24 Sep 2025 15:01:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SJ5PEPF00000203.mail.protection.outlook.com (10.167.244.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9160.9 via Frontend Transport; Wed, 24 Sep 2025 15:01:59 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 24 Sep
+ 2025 08:01:51 -0700
+Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 24 Sep
+ 2025 10:01:49 -0500
+Received: from [10.254.37.133] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 24 Sep 2025 08:01:48 -0700
+Message-ID: <1b09ec41-0f82-49c2-9adf-66f4fd537b9f@amd.com>
+Date: Wed, 24 Sep 2025 11:01:48 -0400
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm/uapi: Indroduce a VRR Range Control Interface
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, Derek Foreman
+ <derek.foreman@collabora.com>, Chuanyu Tseng <Chuanyu.Tseng@amd.com>
+CC: <harry.wentland@amd.com>, <Mario.Limonciello@amd.com>,
+ <xaver.hugl@gmail.com>, <victoria@system76.com>, <seanpaul@google.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20250912073305.209777-1-Chuanyu.Tseng@amd.com>
+ <010201993e2cb26f-089ce007-9e30-4b79-b487-c16c360309fd-000000@eu-west-1.amazonses.com>
+ <d8694d69-62b3-4418-9fcb-d37c1daa1f9f@mailbox.org>
+ <58a6e042-1890-4d1c-88cc-29f500b0a407@mailbox.org>
+Content-Language: en-US
+From: Leo Li <sunpeng.li@amd.com>
+In-Reply-To: <58a6e042-1890-4d1c-88cc-29f500b0a407@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|AM9PR04MB8522:EE_
-X-MS-Office365-Filtering-Correlation-Id: d18fb006-89fa-4a23-429e-08ddfb7919a6
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000203:EE_|DM6PR12MB4091:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20253957-713b-439f-4d8a-08ddfb7b4fa8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|52116014|7416014|376014|19092799006|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zMaD0zgPcQccc3K6W+Ep+L9ZXZiTfxI8ztAXnlb7CCvTS4uP0J2U1i2l/vRF?=
- =?us-ascii?Q?mrFK1+bL5TcCABQ8upYlRzf/D5LqgzLhhlkTbK965lS0R7a7WisxT57us420?=
- =?us-ascii?Q?AAh0h6Xh+hNM32jZzLdXmuJv0JiLp2OR0Aui0OhYlc4/xokCInhZPxkr2rCu?=
- =?us-ascii?Q?OYog5QXlz0ZSVp8m4Jvct/LOxpXlqrVZos8dkx3g5+l2bBEMTWGGwXYhaU2B?=
- =?us-ascii?Q?9p76dq3dBpUPZuTPiu75msh76upmX0SRYtE3D735gCBdo3+2ZznT1TyPVmr/?=
- =?us-ascii?Q?sm6Z7zukZ5wmEnj0Cf5aB2nVBuMKtNOVXjc+cH+sUj1hGkJIcqoX3dy4A24A?=
- =?us-ascii?Q?Tq9tbilxmsA67jG0womZVIXNV0l318qTVCygPTIS6IuyeWBs8/w9BkfS3DXF?=
- =?us-ascii?Q?ay+Wh+E7u/y8Y7bITXr/HCNK6k/U5mtLiqZjxYT05KHQdtTYV8F7tlwwkifE?=
- =?us-ascii?Q?c7lJifS8sVLR1HUqOv1qOnpn79HbfDeC8m1bR37le/8C4XkmWand0PS4C9ZN?=
- =?us-ascii?Q?3WSF36+cOkyviYbkH3SlTBucOe9priLMIihLxwbnXBW5a63Wkc4c7DGFT+M3?=
- =?us-ascii?Q?aNU6IQUnOwTH050EkDQ6B85VEy3eyKz8FWwSVrRS41Mbl3t17r76pO3EEC6m?=
- =?us-ascii?Q?B+yx2lwr4TEIR+y2fvEZE+joFk2zaVtSGEogVwElDSYhmNb4IXxN/jQRfBNZ?=
- =?us-ascii?Q?M1SSkZCTBYShrb/CL8f+O6rsvWbGqyuNKWs+SOu5mmnwKPOrOwSKDoZZkCEO?=
- =?us-ascii?Q?9uz0JcKIvKAQfIiibXFTcHFsfiRfMj4ypJEmbNi+9D3NOXYlXzIHYHviodTs?=
- =?us-ascii?Q?ctyrnFC8GvhMyprDziU/BkFiImKB6pefUZFMHpfVeanamZguRUHRF+i/QfPJ?=
- =?us-ascii?Q?MkdT+pe7Gpoe4qBrI45rxR86gP00Gdh4jxS1S9nXU8G6J2ZKy+GwGMo8+GLr?=
- =?us-ascii?Q?bxOrnN4vjq86d1iF8teJpxeHhuYgnQ66b/oZlzlS5mOF6Qw2lN9QiRnn2M1E?=
- =?us-ascii?Q?r3WAMllEU8HbJCSgdNw1NH9obJxjYupu5Q6bPzsMofGVBDXXjRhtL1y9I1G7?=
- =?us-ascii?Q?1SMKH5yLT0FAIYBMTM6jMa9Y6VifMpZ5wmV9/qGXDqLD5SC3HbBf0yGPfVSO?=
- =?us-ascii?Q?qWcdQbYIOrgxqfWFXv98HSlWWNpw9JeZyJ6pJib3SqIekiI4ninebELRlhel?=
- =?us-ascii?Q?L5GsmW8WTeSBdfRBgCHs+BXAYj8j48GzLpMHY/jLcwOI+981Ncu/mJkSBaG9?=
- =?us-ascii?Q?IMDtHeybtHy740ugu5BJ2f9NLeAESaXP/ied9rJIeJ01H/X4iHZA3qBLQ6HV?=
- =?us-ascii?Q?fgO12W6W+6GY4kB0Qf6ISZxop2Nrqp8TY7PI3otKERFoFw4XbCsaF76JXpIE?=
- =?us-ascii?Q?4R0xTvv1GU+5rkVLnOT5+lZcIgXPgcYdGor0fYGJ44PykLlA1WcI/hUGxvPl?=
- =?us-ascii?Q?7calRKpjYS6hUhEKHly0jEP28dp7uqPviQy8INpqfsIG5VDeV9lS8Q=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(52116014)(7416014)(376014)(19092799006)(1800799024)(38350700014);
+ ARA:13230040|82310400026|36860700013|1800799024|42112799006|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NDQyWlhmR2V1bkxGclRBQVI5dlZlUzlEYU9WcEc0VXJ5bTZmbCtKQ2Z0eG53?=
+ =?utf-8?B?N0ljcG9XOWlZNGtaR3IvTFptangwN0dKQjBQUlo2TTF1bDNsR01CMGpPdTZH?=
+ =?utf-8?B?WTQwRkI0VVpqL3VPK0tVOG5HeStWcEdINlNic0pnTlFYVm8vSVA5cHdoa1R3?=
+ =?utf-8?B?a0xVMStoM2xvUlU3Rkl6NWFzS2NWQXhGN3VyeDJGZ2NpMW9zTVJOaTNHYlYy?=
+ =?utf-8?B?b2tROStvL1BnSmllaUhjNHk0eXNyZW1veUhZa3k1blcxUlYrcENaZVlYSGlk?=
+ =?utf-8?B?eGlML3NXVWdOaDg5M3pIeFB6Y01tN0c0OExPZ2tHL3ZSVFVsSWhDSWZqTUJt?=
+ =?utf-8?B?cnJ0c3hFMnhjQVNZVEU5NkxwRjMxV1Q3MHpTRG1CQTIvbm9EaUVwMnJHTWpv?=
+ =?utf-8?B?WkpwZnUrVkJJVUlWWVB3QlczUHNONVZZWDlEazdiVnduN2Zad1pJL1dlWWdM?=
+ =?utf-8?B?amlvN2tWUDZNNHFKRzcxdW5hd2ZGZUY0QjlQWGx2RzdDbUFpc1cwVGlCK2M4?=
+ =?utf-8?B?TTA4RHB1ZUJWQXJlYWNIL0EyYlFEQng2clMwYVZmSUZvVTZhSmQ3Q3pKVUFz?=
+ =?utf-8?B?QUJnUFRvQlQ2c0hlYk5EMGVxNmV4L2V1ZVVPWnJTQWhhbzlXU3V2K1lyVHc1?=
+ =?utf-8?B?RjhaRVBpd2xhOUJXU0RYYktXSHBueC9yUTBQbWVxTllNbmZNOVVPanQyczIr?=
+ =?utf-8?B?emJKL3I3bjVabFVHNEhBS0xmNWtjNngydGJCQWZwcXNCN1N1RU9FSk9BWGF6?=
+ =?utf-8?B?SFBBMU5HM0dWb1dQbDhRRDR0YzFRYS9Hdzd2RUM3dythRGdZY1kzbWhIUmpQ?=
+ =?utf-8?B?MFlGKzlrM1ppdTk5a05xOUdqSmNyMnVKU1hGWHZKRGdoVWFWZEVXK0R2VlJp?=
+ =?utf-8?B?blZuTVhya3pxVGZyRjBFNzAyTGhrcGNmSDNqMHRnSFZlRG9qZHlFOElPeVNp?=
+ =?utf-8?B?QlpSNHRGZnhtd3NlK2pOeVZ1UFU3R2FPOGNYVXhua215dlM5eEZrcThvekFZ?=
+ =?utf-8?B?ZHBkU3BoNGQzeDF6OFd5a2pSMTBoby91Y1JybERscWg4YmU1eklyY2lRYlU5?=
+ =?utf-8?B?ZG9Ha1RXVzZOK09YdVFaVVpGZGQyTFFiMTVoNGdRR213aFIrSjkyODZDRU10?=
+ =?utf-8?B?ZmpCb2IzSk11M1p1UEFHUllvS3ZOUmZaaUNTWWtZaUFIdkxla2FqN0hpU2JT?=
+ =?utf-8?B?enNJVVdUUFo3ZkQvaENpTDZxMnZzWDlOcE93OTl5SGVISHNFTFJpOHFueURD?=
+ =?utf-8?B?Vy9ZZUNDbWpFbTYxTXg0dlZVdGx5eGZGeXUyU004SE9kSzRGenloTXJHWWsw?=
+ =?utf-8?B?aUNTMUFuUnBGT3lGZEwrZXAxc2FkYml2YVRhMy9GRUx0eDByM3E2eHhPRWFN?=
+ =?utf-8?B?RUY1ZkRMcGNDbVM3TVVTWjdMSmowVTk1WkFDYzk3alpueVlrSWpYUTA1bURx?=
+ =?utf-8?B?cUxrMVVRNDdWRHVyUGVEV01VQUNkcytPWG4zVzBqZWg5ZzArK0lqdmJ5eDE1?=
+ =?utf-8?B?NzZpUUMvbXI2bk5aNUZja2RZMW1lUTZJSHRkUWVvRXBUeXhDK1FlaTBHeVhq?=
+ =?utf-8?B?Nm5XeFprb0tDWG5RdnJPYS9YSWV1VXA5QVIzckcyRjZrTE5xTGVIOFkzcWNW?=
+ =?utf-8?B?bnN3NFYxOXh2eHArdTJDUmg2TjdaWFg1S0VtYjViRGVzT3pIMWlwbUdhY3pK?=
+ =?utf-8?B?S2ZycHVCRVZHZEtqbzNEazhtb3VnTXI2WEZSVmpBMVkzZEVtTHFjTzJQTWc4?=
+ =?utf-8?B?Y0Jrd0EvN0hDREtLcHRWUmdUa1htREpReWs1ZjZCdHNRT0l1UUkvLzdWVlpC?=
+ =?utf-8?B?SXJMMmVIY1cxOW1ndGNFTlRkcWMzRWRrQ0tucy9kN01OaGM0SFQ2MVdWdlNS?=
+ =?utf-8?B?VEh4SDNCOFRjVGM1MndCVVhyUVluNUFkWUVnTm1ycE9OeVNPMnN2S2JZOTVa?=
+ =?utf-8?B?MkJTaDlQUEVyU2I3N3FzemRIYVd4ODVncTUzbnJ2bFhUeWtsUjl5WHFXWkx3?=
+ =?utf-8?B?dUJZdG5mYXNnPT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(36860700013)(1800799024)(42112799006)(376014);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tyDZ4j/eK46z/sWMENq8LowLOYHhCYC734LGtN1zZtx7MktrpY8m1AssSa8H?=
- =?us-ascii?Q?2HD0pexBY7uVwMmOUSF7ar43Ug0bv27HZP/R6ahEbUMTSR5Lf2pwNkJ9bK7k?=
- =?us-ascii?Q?bdz7YZu9uYo4fO5sCz09epOWcochcrbHvFSqY138SDpD1v5Kx8WeGr0NoPgi?=
- =?us-ascii?Q?cv+CxXdC+4WfzHfH5xZpux6NFUVwqBuJ2fD4o5DPYurQsgtd0tS9wZTkbLZI?=
- =?us-ascii?Q?5GVMPu2kCnixBh+x7c3nzDkvE9sj1YrdBdBu2Y8rilwJ7FlPmF6QvkfxgbMy?=
- =?us-ascii?Q?41O2tQXFJdHiMqoUUaAV99eecX6mcLS22iCLSotiKqAMmDUDo/yjZoPEbRbI?=
- =?us-ascii?Q?McM2/gIZ1l5SoG1NZUpUaLAZcRxXOj6QtFYSvi/RG99MuuQidGJFqI9E9QGz?=
- =?us-ascii?Q?l2s3wmhFvyjFASLtVbkkbgSX844n+ht5QFA+r995whJOd4+56T8dgMh183Vn?=
- =?us-ascii?Q?M/hpDXtvoHy2WEprusPGSLHHvdLtSHz/XCg95lRdMeNYMSUZM6F0QpKW5+Qd?=
- =?us-ascii?Q?JEu8usxRRfD8LvgtLnYcEQskQXDStNhhUm6BfbjZQzTdBp4SO1b+Tz8X30/a?=
- =?us-ascii?Q?WCGQEp0Ui1iBWVTtMlnFhxDgfUeV4k0wr2/zr/KsIrsiXL8INNbx81MJqFRX?=
- =?us-ascii?Q?lxW4mHsfJJQmiZCgLjPgND+/gQys7hD88OqWvc+1O0Y+oEmrrtc/Fil6Gofd?=
- =?us-ascii?Q?EkGW0KD5XmsMNtWqY1Qz5a3Q0HXPVi+nmuL3B18pNCAqvhi2Uf0xCgE5sYah?=
- =?us-ascii?Q?cxqkCDKRVDrhgsYzEt+m5I5AS9Ra+pn6CmQtk/Wm7oIgg/QLrmJF3jA6m99b?=
- =?us-ascii?Q?tpieU17RIs7299kgdBIxOL6ry7wJpEC4Iqz6qDuyvjb1Mil2K3/46XPmlXc3?=
- =?us-ascii?Q?yCp6ga4aNs4GXRachESPdXmYexg4n3lA3pdTxCWjbW+k3uap8ku8WoZmyjZr?=
- =?us-ascii?Q?UR7L47riwtOJ/RRSyNUXMpr3XnU1ddxys+NAW22CW9AO8jtB7KFYdbJQOxrl?=
- =?us-ascii?Q?VfYPD5VcmRHQGGe+xFA9OskzIM6Z4n6ow93Ph9a83lvqzsq+/9eoOHY+4WDJ?=
- =?us-ascii?Q?KXKy2yPqfbpx/3jMNrGhDNEhp+v4xPW2ckVzOMlbaYEF86r/+nUC1NTheVjU?=
- =?us-ascii?Q?6Eq5mhJb0cjBgIKdrw7I9dKYSZOWiAe1iHSlsm5RmT2spY8TjhNvDuH1dt0s?=
- =?us-ascii?Q?U0qCP4n9F/Qn6QkGKcF2HpT7oNA5FyABKVwCNiXM+9OWhZk7nxou/+edOh3T?=
- =?us-ascii?Q?Ii6Oy+q6xlShZjhpDtVnYb1McSP2Lbn1XXrkQqZQSQjA2lbgXbM9zwbxBw4r?=
- =?us-ascii?Q?Q7qYxDBgrEBWmvIOH5m2Dgs/jhcMUn0x1kn55wDrQlDaD6GdjnZMzin23H1r?=
- =?us-ascii?Q?6ZN+0CnwYJrDZ1vQDX1nAD3/StB0we1aOCCxNpOH24Uzq/PsVq4qQm36Yy6H?=
- =?us-ascii?Q?aci532bZ2ASSFnm5x8qWjcq02ryneoj6eFXf5ud/uaUyeKKJEI1xPCb8Tc8Y?=
- =?us-ascii?Q?tTWJyoBjHetjXN2XOn6LiK+qu4FE3Ol2rigH29HjN35Bp/fgyNYTpRITtkEK?=
- =?us-ascii?Q?mY2yL1fxLQYrulHEIu9Ecami1KIg5Gyxm8slGHp/?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d18fb006-89fa-4a23-429e-08ddfb7919a6
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 14:46:09.9051 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/JpA8ZA54/KMoSm4Cc52dhklhPfKRGgmsBA+6Le9Ko6GbCH8Y+NqzVTLU647HyjIWgg3JKgf7eDhxZPtLAShw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8522
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 15:01:59.1102 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20253957-713b-439f-4d8a-08ddfb7b4fa8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF00000203.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,28 +152,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 24, 2025 at 11:26:39AM +0200, Johan Hovold wrote:
-> When fixing up a device reference leak in the tve drivers I noticed it
-> had an unused platform alias. This series drops unused aliases from the
-> imx drm drivers.
->
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-> Johan
->
->
-> Johan Hovold (4):
->   drm/imx/dw-hdmi: drop unused module alias
->   drm/imx/ldb: drop unused module alias
->   drm/imx/tve: drop unused module alias
->   drm/imx/parallel-display: drop unused module alias
->
->  drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c      | 1 -
->  drivers/gpu/drm/imx/ipuv3/imx-ldb.c          | 1 -
->  drivers/gpu/drm/imx/ipuv3/imx-tve.c          | 1 -
->  drivers/gpu/drm/imx/ipuv3/parallel-display.c | 1 -
->  4 files changed, 4 deletions(-)
->
-> --
-> 2.49.1
->
+
+On 2025-09-24 03:50, Michel Dänzer wrote:
+> On 15.09.25 12:01, Michel Dänzer wrote:
+>> On 12.09.25 15:45, Derek Foreman wrote:
+>>> On 9/12/25 2:33 AM, Chuanyu Tseng wrote:
+>>>>
+>>>> This is done through 2 new CRTC properties, along with a client
+>>>> cap. See the docstrings in patch for details.
+>>
+>> Not sure why a client cap would be needed for this.
+> 
+> According to https://hwentland.github.io/work/2025hackfest-notes.html#vrr-for-desktop-use-cases the client cap was intended for disabling LFC & ramping in the kernel driver. It's not really needed for that though:
+> 
+> If the min/max property values differ, the kernel driver can vary the effective refresh range between the limits and perform ramping, otherwise it can't.
+> 
+> If the effective maximum value is at least twice the effective minimum value, the kernel driver can perform LFC, otherwise it can't.
+
+In this case, would the kernel be handling LFC and ramping still? Or would it be a team effort between compositor and kernel?
+
+For example, say the compositor wishes to adjust (min, max) from (48, 48) to (60, 120), and we're using FPS as the unit. I could imagine the following scenarios:
+
+1) Compositor does LFC/ramping
+------------------------------
+
+The compositor can make a sequence of atomic commits where (min, max) is set to (50, 60), (60, 75), ..., (100, 120). The difference between (min_1, max_1) itself and subsequent (min_2, max_2) will have to be small enough to avoid panel flicker. IOW, setting (60, 120) is bad because the range is too wide and may cause flicker, and going from (48, 48) to (120, 120) is also bad for the same reason. The compositor has to be fully aware of ramping here.
+
+For LFC, compositor has to be fully aware too, and ramp to the calculated LFC fps. IOW if going from 24fps to 30fps and the panel supports a min of 48hz, the compositor has to ramp from (48, 48) to (60, 60). Setting a (min, max) outside of the panel supported range would be rejected.
+
+2) Kernel does LFC/ramping
+--------------------------
+
+The compositor can request a change from (48, 48) to (60, 120) directly. There will be a period of a few frames where FPS would ramp up to the requested range. IOW, the requested (min, max) is not guaranteed to be applied immediately. Since the kernel handles ramping, we would have the same challenges as prior to this API if the (min, max) range is large. Though that might be ok, as long as the compositor is aware.
+
+If the requested min happens to be below the panel supported rate, then kernel can enable LFC, but only if the calculated LFC fps is within the requested (min, max) range. I guess if it happens that the requested min is not possible, i.e.:
+* min or max is < min_panel_supported, and
+* max is < an int multiple of min,
+Then the kernel would have to reject that commit?
+
+3) Team effort
+--------------
+
+The compositor can make a sequence of atomic commits where (min, max) is set to (50, 60), (55, 75), ... (60, 120). The kernel will apply the new range immediately, but still apply ramping within the requested (min, max) values. Also, the same challenge mentioned in 2) applies here.
+
+For LFC, I guess it would be the same as 2). The compositor has to know when the min < min_panel_supported, and make sure max is set to be at least double that, and within the panel supported range. The compositor would have to ramp to that target though.
+
+--------
+
+I suppose either 2) or 3) aligns with your thought Michel, but I'm undecided on which is best. Or maybe there's another method of operation that I haven't thought of.
+
+Thanks,
+Leo
+
+> 
+> 
+
