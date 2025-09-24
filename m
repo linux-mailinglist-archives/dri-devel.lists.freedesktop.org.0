@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A94B98F70
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 10:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0268B99028
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 10:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2C610E6BC;
-	Wed, 24 Sep 2025 08:46:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A2710E081;
+	Wed, 24 Sep 2025 08:59:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Lmh5blB2";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="kQHyoH/x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03AC10E6B8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 08:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758703597; x=1790239597;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5zURv/VkwJ7uwftpG82eT/JkNOOOUKHmFDMlNcbtWEg=;
- b=Lmh5blB23I9h4mP3HsZ6ZX/hSiXZvrFu/MEwuKgrx/812r1c2xZv2Ih/
- hON1kAgruZCcxPFUqV2D6Q+f13mp9La2hmd1mIakQc0XuTReEpXcrcWT8
- +8R4ueB6Ba/yrsUmTJOcnHDOTfAYpttQpw8XZv/isw9Begg/NdZnnAp4w
- P7kYJ/wQvXsFumfy1Pmd7EpPzTx4/HmCqT/HdSYoU5Tn8OxSwrFK3ASSN
- g5VEU506v0EuAUqvLDB2leBiK0Zd+zOzYU+6C8lMHGcSxqRznAEEApxsc
- tdz6rXJBq/S/f/+OAz12aqYDa9RoAPyR0N+EOLS/K5syjK00brGvAbw02 g==;
-X-CSE-ConnectionGUID: dY5gor0KTUCr+//PL0qe3Q==
-X-CSE-MsgGUID: zdS+snzoRZ6E6Enzwq8Irg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="71618215"
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="71618215"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2025 01:46:36 -0700
-X-CSE-ConnectionGUID: 75A3mkAlQkO7AvUCGYr9YQ==
-X-CSE-MsgGUID: 0VYw90Z7QwWqmMgwo+Gqmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="177762293"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
- by fmviesa010.fm.intel.com with ESMTP; 24 Sep 2025 01:46:34 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1v1L8y-0003xJ-1K;
- Wed, 24 Sep 2025 08:46:32 +0000
-Date: Wed, 24 Sep 2025 16:45:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
-Subject: Re: [PATCH] drm/shmem-helper: Add huge page fault handler
-Message-ID: <202509241654.qJk1H5kr-lkp@intel.com>
-References: <20250923095634.50051-1-loic.molinari@collabora.com>
+X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Sep 2025 08:59:31 UTC
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
+ [91.218.175.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE71510E081
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 08:59:31 +0000 (UTC)
+Message-ID: <32f3c69f-707e-4aa9-b194-fe3ec03b238e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1758703934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZYNC1rG2t0+kQP3BUDxKLt1f8D62AXnHOOQELNROhqQ=;
+ b=kQHyoH/xlyE5JnXsy1fFqWBnUuXHhW08+TE2uVOpsBnouPSj7apW1bzFZOlt0TIrwGuHQm
+ rtI/BRtTxpH5S26xB88ypGI4JaPimWZ/yzZJxkkzEV8NV1/34VU69lLI+iX0o874C8OG0u
+ 7PFhd8YlpVGj0bIOloCPC7ylKBzecPg=
+Date: Wed, 24 Sep 2025 16:52:08 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250923095634.50051-1-loic.molinari@collabora.com>
+Subject: Re: drm/lsdc: Use drm_gem_dumb_map_offset() helper
+To: 15620332615@163.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Zhuoheng Li <lizhuoheng@kylinos.cn>
+References: <20250812124418.30914-1-15620332615@163.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20250812124418.30914-1-15620332615@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,53 +60,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Loïc,
+Hi,
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.17-rc7 next-20250923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-shmem-helper-Add-huge-page-fault-handler/20250923-175753
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250923095634.50051-1-loic.molinari%40collabora.com
-patch subject: [PATCH] drm/shmem-helper: Add huge page fault handler
-config: alpha-randconfig-r073-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241654.qJk1H5kr-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241654.qJk1H5kr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509241654.qJk1H5kr-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_huge_fault':
->> drivers/gpu/drm/drm_gem_shmem_helper.c:594:2: error: label at end of compound statement
-     default:
-     ^~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:548:21: warning: unused variable 'paddr' [-Wunused-variable]
-     unsigned long pfn, paddr;
-                        ^~~~~
+On 2025/8/12 20:44, 15620332615@163.com wrote:
+> From: Zhuoheng Li <lizhuoheng@kylinos.cn>
+>
+> Replace the open-coded mmap offset calculation in the LSDC
+> driver with the drm_gem_dumb_map_offset() helper. This avoids
+> code duplication and ensures consistency with other DRM
+> drivers.
 
 
-vim +594 drivers/gpu/drm/drm_gem_shmem_helper.c
+OK, thank you.
 
-   593	
- > 594		default:
-   595		}
-   596	
-   597	 out:
-   598		dma_resv_unlock(shmem->base.resv);
-   599	
-   600		return ret;
-   601	}
-   602	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> No functional changes intended.
+
+
+There is a *small* functional change though.
+
+The drm_gem_dumb_map_offset() don't allow imported objects
+to be mapped. While, our driver could, in theory, import
+a dmabuf and create a GTT object base on it. Then, we
+could do some software rendering with the CPU.
+
+
+> Signed-off-by: Zhuoheng Li <lizhuoheng@kylinos.cn>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/loongson/lsdc_drv.c |  2 +-
+>   drivers/gpu/drm/loongson/lsdc_gem.c | 16 ----------------
+>   drivers/gpu/drm/loongson/lsdc_gem.h |  5 -----
+>   3 files changed, 1 insertion(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+> index 12193d2a301a..7638cb6dd9b2 100644
+> --- a/drivers/gpu/drm/loongson/lsdc_drv.c
+> +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+> @@ -44,7 +44,7 @@ static const struct drm_driver lsdc_drm_driver = {
+>   
+>   	.debugfs_init = lsdc_debugfs_init,
+>   	.dumb_create = lsdc_dumb_create,
+> -	.dumb_map_offset = lsdc_dumb_map_offset,
+> +	.dumb_map_offset = drm_gem_dumb_map_offset,
+>   	.gem_prime_import_sg_table = lsdc_prime_import_sg_table,
+>   	DRM_FBDEV_TTM_DRIVER_OPS,
+>   };
+> diff --git a/drivers/gpu/drm/loongson/lsdc_gem.c b/drivers/gpu/drm/loongson/lsdc_gem.c
+> index a720d8f53209..107efd240756 100644
+> --- a/drivers/gpu/drm/loongson/lsdc_gem.c
+> +++ b/drivers/gpu/drm/loongson/lsdc_gem.c
+> @@ -246,22 +246,6 @@ int lsdc_dumb_create(struct drm_file *file, struct drm_device *ddev,
+>   	return 0;
+>   }
+>   
+> -int lsdc_dumb_map_offset(struct drm_file *filp, struct drm_device *ddev,
+> -			 u32 handle, uint64_t *offset)
+> -{
+> -	struct drm_gem_object *gobj;
+> -
+> -	gobj = drm_gem_object_lookup(filp, handle);
+> -	if (!gobj)
+> -		return -ENOENT;
+> -
+> -	*offset = drm_vma_node_offset_addr(&gobj->vma_node);
+> -
+> -	drm_gem_object_put(gobj);
+> -
+> -	return 0;
+> -}
+> -
+>   void lsdc_gem_init(struct drm_device *ddev)
+>   {
+>   	struct lsdc_device *ldev = to_lsdc(ddev);
+> diff --git a/drivers/gpu/drm/loongson/lsdc_gem.h b/drivers/gpu/drm/loongson/lsdc_gem.h
+> index 92cbb10e6e13..f79f06874286 100644
+> --- a/drivers/gpu/drm/loongson/lsdc_gem.h
+> +++ b/drivers/gpu/drm/loongson/lsdc_gem.h
+> @@ -14,11 +14,6 @@ lsdc_prime_import_sg_table(struct drm_device *ddev,
+>   			   struct dma_buf_attachment *attach,
+>   			   struct sg_table *sg);
+>   
+> -int lsdc_dumb_map_offset(struct drm_file *file,
+> -			 struct drm_device *dev,
+> -			 u32 handle,
+> -			 uint64_t *offset);
+> -
+>   int lsdc_dumb_create(struct drm_file *file,
+>   		     struct drm_device *ddev,
+>   		     struct drm_mode_create_dumb *args);
