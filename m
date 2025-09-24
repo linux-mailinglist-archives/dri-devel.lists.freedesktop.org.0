@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500EBB99BDD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 14:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBBAB99C0A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 14:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258DC10E714;
-	Wed, 24 Sep 2025 12:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B00610E723;
+	Wed, 24 Sep 2025 12:05:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QjMXdBQg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dX1LFLeF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE7610E714;
- Wed, 24 Sep 2025 12:04:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AE6A660007;
- Wed, 24 Sep 2025 12:04:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7DF9C4CEE7;
- Wed, 24 Sep 2025 12:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1758715458;
- bh=WkKWSTKQK3ER2Y4tGyeGlKZjke1YkCrFXEV5CaatahE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QjMXdBQgx/x1h/za5phJQCEeSYjcj+UkrV7fK0KhNTuOix7QnyxRgr/dbnha9vSd9
- zdsd6ZvlYBePWju+YtvQKlxSAwrg12fLt0mCCh0F/Ue4NMqcRTXbuCih7Hd1u2XqYI
- zqZCxjtSSyjfAVIL0y7H+sT9mHMOZ771oEjotlPU=
-Date: Wed, 24 Sep 2025 14:04:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Benno Lossin <lossin@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, acourbot@nvidia.com,
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA3A10E723
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 12:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758715546; x=1790251546;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=68IQ4FrRPsz3bY1pAcUSrZwRXLdD31aIPnDFe/lu+3Y=;
+ b=dX1LFLeFgaMRxe9WzDDk/V57hh/LMh9TEgOKdFdaZKnoLZ+sp5yZ7Ysm
+ wZaB2iJEVH5nrDaspKtl17YC4Y7Za1JjiT2SKzRmwaBSuCvM04qLyyFxN
+ UmNvJuB2OgDVPM/lcAPmLjgxM6oNWjE3/29i+N3c3XOFk8eXCkFDmmOze
+ pyjz0AyuOJeO52HOmj8u2DkeFGsN7zUd6kAneQZP/bzVXZI2aoIDW4BpP
+ LLqDq0SCssvoSWQYhct8tGiBDGaZxpXvrHfePcJZf4CI6Op46GzecLzih
+ LnDUK/W9thR/9VEzidwx6ZQxyAAlJ8PCobTognsbdlOX8IgtipTMBvkm2 g==;
+X-CSE-ConnectionGUID: w4cj5ZE4TCuiTBHpp2Pl/g==
+X-CSE-MsgGUID: 2wPQbBrRRMeywImh+dJOgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="61122039"
+X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="61122039"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2025 05:05:46 -0700
+X-CSE-ConnectionGUID: pz0FWlU5RZKgOdyPv+6K1g==
+X-CSE-MsgGUID: eaMjggc0Q2q0BiLkznbf9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="176141533"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+ by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 05:05:43 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v1OFh-00047V-0V;
+ Wed, 24 Sep 2025 12:05:41 +0000
+Date: Wed, 24 Sep 2025 20:04:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Yury Norov <yury.norov@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v4 1/6] nova-core: bitfield: Move bitfield-specific code
- from register! into new macro
-Message-ID: <2025092433-bakeshop-derail-28a7@gregkh>
-References: <20250920182232.2095101-1-joelagnelf@nvidia.com>
- <20250920182232.2095101-2-joelagnelf@nvidia.com>
- <2025092157-pauper-snap-aad1@gregkh>
- <DCYHCLM67KRZ.366VS9PDKLYKY@kernel.org>
- <2025092125-urban-muppet-1c2f@gregkh>
- <DCYIX8URVIWM.2ZK3GHH3J82XQ@kernel.org>
- <2025092432-entrust-citizen-0232@gregkh>
- <DD0ZTZM8S84H.1YDWSY7DF14LM@kernel.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
+Subject: Re: [PATCH] drm/shmem-helper: Add huge page fault handler
+Message-ID: <202509241920.PtSEkfd4-lkp@intel.com>
+References: <20250923095634.50051-1-loic.molinari@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <DD0ZTZM8S84H.1YDWSY7DF14LM@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250923095634.50051-1-loic.molinari@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +76,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 24, 2025 at 01:28:18PM +0200, Danilo Krummrich wrote:
-> On Wed Sep 24, 2025 at 12:52 PM CEST, Greg KH wrote:
-> > Ok, great, but right now it's not doing that from what I am seeing when
-> > reading the code.  Shouldn't IoMem::new() take that as an argument?
-> 
-> That's correct, neither IoMem nor pci::Bar do consider it yet; it's on the list
-> of things that still need to be done.
-> 
-> > But, that feels odd as our current iomem api in C doesn't care about
-> > endian issues at all because it "assumes" that the caller has already
-> > handle this properly and all that the caller "wants" is to write/read to
-> > some memory chunk and not twiddle bits.
-> 
-> Yet it seems to be the correct place to deal with it. As mentioned below, regmap
-> could just become part of an I/O backend implementation to do exactly that.
-> 
-> >> (Actually, we could even implement an I/O backend that uses regmap.)
-> >
-> > That would probably be best to do eventually as most platform drivers
-> > use regmap today as it's the sanest api we have at the moment.
-> 
-> I agree it's what we should do eventually.
-> 
-> >> So, I think the register!() stuff is rather orthogonal.
-> >
-> > I think it's very relevant as people seem to just be "assuming" that all
-> > the world (hardware and cpus) are little-endian, while in reality, they
-> > are anything but.  As proof, the code that uses this register!() logic
-> > today totally ignores endian issues and just assumes that it is both
-> > running on a little-endian system, AND the hardware is little-endian.
-> >
-> > As a crazy example, look at the USB host controllers that at runtime,
-> > have to be queried to determine what endian they are running on and the
-> > kernel drivers have to handle this "on the fly".  Yes, one can argue
-> > that the hardware developers who came up with that should be forced to
-> > write the drivers as penance for such sins, but in the end, it's us that
-> > has to deal with it...
-> >
-> > So ignoring it will get us quite a ways forward with controlling sane
-> > hardware on sane systems, but when s390 finally realizes they can be
-> > writing their drivers in rust, we are going to have to have these
-> > conversations again :)
-> 
-> I think it's not really that anyone is ignoring it (intentionally). It's two
-> different things that should be addressed here; yet they are related:
-> 
->   (1) Implementation of an abstract representation of a register that drivers
->       can interact with.
-> 
->   (2) The I/O layer that lays out the raw data on the physcial bus.
-> 
-> The register!() macro intends to provide an abstract representation of a
-> register for drivers to interact with. Think of it as an abstract box, where the
-> memory layout does not matter at all -- could be anything.
-> 
-> Theoretically, this abstraction could even store every single field of a
-> register in its own u32 or u64, etc. Of course, that's a waste of memory, which
-> is why we're using this bitfield thing instead.
-> 
-> The only thing that matters is that there is a contract between the struct
-> representing a register (generated by the register!() macro) and the I/O backend
-> layer that lays out the raw value on the bus.
-> 
-> This works attempts to address (1), whereas you are (rightfully) asking for (2).
-> And I think the answer for (2) simply is, we still have to address it.
+Hi Loïc,
 
-Ok, fair enough, you've convinced me, I'll let you all argue which side
-the "0" should be on (left or right) :)
+kernel test robot noticed the following build warnings:
 
-Let's wait for the first platform drivers to start showing up that want
-to use regmap, hopefully that will be soon as almost all of the pieces
-are there to do so.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.17-rc7 next-20250923]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-shmem-helper-Add-huge-page-fault-handler/20250923-175753
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250923095634.50051-1-loic.molinari%40collabora.com
+patch subject: [PATCH] drm/shmem-helper: Add huge page fault handler
+config: arm64-randconfig-r111-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241920.PtSEkfd4-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241920.PtSEkfd4-lkp@intel.com/reproduce)
 
-greg k-h
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509241920.PtSEkfd4-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/drm_gem_shmem_helper.c:595:9: sparse: sparse: statement expected after case label
+
+vim +595 drivers/gpu/drm/drm_gem_shmem_helper.c
+
+2194a63a818db7 Noralf Trønnes  2019-03-12  593  
+16bf6748ef6aaf Loïc Molinari   2025-09-23  594  	default:
+d611b4a0907cec Neil Roberts    2021-02-23 @595  	}
+d611b4a0907cec Neil Roberts    2021-02-23  596  
+16bf6748ef6aaf Loïc Molinari   2025-09-23  597   out:
+21aa27ddc58269 Dmitry Osipenko 2023-05-30  598  	dma_resv_unlock(shmem->base.resv);
+d611b4a0907cec Neil Roberts    2021-02-23  599  
+d611b4a0907cec Neil Roberts    2021-02-23  600  	return ret;
+2194a63a818db7 Noralf Trønnes  2019-03-12  601  }
+2194a63a818db7 Noralf Trønnes  2019-03-12  602  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
