@@ -2,123 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA93FB9CB4A
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 01:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58D0B9CC0C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 01:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF4710E25F;
-	Wed, 24 Sep 2025 23:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8B710E814;
+	Wed, 24 Sep 2025 23:58:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="N6F5zZiS";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lA47BRtb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6D2F10E25F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 23:46:46 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58OCYChN017470
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 23:46:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- d+QcUnwPoU8KIc/SQDuBGNhNOG1Bw7UbC8jOgEUWCMo=; b=N6F5zZiSIkqJzRWt
- A/LaRsykqpstVZ3XsPrMX08CDVxWYvkcjnguA0vWFJrDRkyQE48m13UT13mz72o2
- HYCH9bt+SZDcPGiInpjRNY8M3JqmNqhJo+zi+FsmTpvG2GAxGvt95YidwrBRBJ+A
- o+fgVxmIYwinETNk9aeNG0CU4xpBsjfnz+PBrSctMzcNJE2s+LubSZNigpQ5nA+5
- cBQWakdfRK6IeC5SyCWj1IY7s0uTF9cEOINHqGaoFUJJB5xWYYcquojlfWtoPe+P
- IYC3vrF0QNjnnQpRQf+RkYIMbuZdfWAND8cy85aDO+7Rc1zZBIwOrcmU/XMZ0hHI
- Fnq91A==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bhvjydhm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 23:46:46 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-24458274406so7069625ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 16:46:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758757605; x=1759362405;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=d+QcUnwPoU8KIc/SQDuBGNhNOG1Bw7UbC8jOgEUWCMo=;
- b=k3aKN39HIqNVRyoorSIy4tP6Ah4ilKsKOkdOfN5Bq4udtOdU/M9v23A6VLTZAPCtaq
- ArTjL5js/D1m/UB1OfVVifLJltSMSW4cfRbjLQ4fsqy6yrW1xpgWZpKYSRDTt6DqKP3F
- 9Otg7wsg+vrYXAFv62eCxPFp95+Nti7cfpDRR0QWS69VUwt+GfsWypDyrz9ORSHD32s5
- nLyJK7ZUvGzvAAhlCFQeY1tTZq1qj1J+byApJXK+dGN1jMf/aiXj37HOlcaoRZLg2cuA
- +yTmWQdVOwjqNz/N3JPEQRxR5jGU5U+6DNaPhj6DH7/SYtA87f3N/rjEP2Iol0QCTL0F
- CReA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVIIjazyud8yw/JyBhmzncPLQpOnEwLg8fFLP3YWdWPy2BnJxomKLAZAS42YxISXATYGM5RqPylCDY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwggmVuy/By0YGzB/ItiLKBIklD35PhZUNViIGpn1ZqKDcs7PYs
- pQImOlVah34l8sQM3k4CweYCtXVnSX9Q8JqaJk8BRml+YRwTW7EPeGWL1IgkAcg+ul17Tp0pdx/
- 3dMSyccZY1zmCktlgV0Hw5qXAkqAxPutbbN8NG4Y4DBOUmjM7UBbyR6RzW3oho2emTxmbFLY=
-X-Gm-Gg: ASbGncvNxpcqf89NJ412bbKcbOz9HlwLKJYIviWvHvz9nXVEl7Qb2GuUaS/e/CSBTle
- 9fMqYG5z6mGmlMXR5C5zjKVRcgrvoPBVjXMJufkFL8vZo9w8HuUNScupzQHbw7CL1fMPS7XfPgA
- Kwh/2yTSGeQwbSH5RtxErazT3J9Urn57zw1joPRc4vaY6vdlf1uXheyuiCWx1pGgqXHXRtQ3SO+
- d9ScPOBfMCT3/DA/UNKfpDj/t+bWXz1UIJqdeoWaTE6PZVk6jNKfzw6frVggBSTa5+K+ku7ucTY
- BSo1EquB7vsrF9yzvG1uOPaeXwzqbWjML4wvzqUU8k+Nptjanrp+GiSiRj+8cN3j4tFjcAP9jon
- FIApOuX0Dhcfdqp4=
-X-Received: by 2002:a17:903:2b0c:b0:275:6baa:d9 with SMTP id
- d9443c01a7336-27ed4a56b08mr14021455ad.40.1758757605304; 
- Wed, 24 Sep 2025 16:46:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGsZkCilV3B1P9UXHL4Cpdv9AoCXLxr71gZLjA1+Y/7WWXoQtNBIflcG5OnRE5Cpm3vDOfvAg==
-X-Received: by 2002:a17:903:2b0c:b0:275:6baa:d9 with SMTP id
- d9443c01a7336-27ed4a56b08mr14021195ad.40.1758757604846; 
- Wed, 24 Sep 2025 16:46:44 -0700 (PDT)
-Received: from hu-jingyw-lv.qualcomm.com (Global_NAT1.qualcomm.com.
- [129.46.96.20]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-27ed69959e1sm4318405ad.103.2025.09.24.16.46.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Sep 2025 16:46:44 -0700 (PDT)
-From: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
-Date: Wed, 24 Sep 2025 16:46:37 -0700
-Subject: [PATCH 2/2] misc: fastrpc: Update dma_mask for CDSP support on
- Kaanapali SoC
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012061.outbound.protection.outlook.com [52.101.48.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B719D10E814
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 23:58:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=utYF3A0nWxTlRQ2KTGFYlPecHHKsuHDjQjVlzIDhodi9IsKLkT9Siffe7jJYl0hZycFus54Vf3hbncbQGuT+YBSqpYQGKy7STk7NHvE+WTP5zOQSyKyHNjtsXDiLIi/yCvW/tXk4zBIzmmwUAT2xJyLmVf40CSEKr9iuoJvxcqah4lQ4hjOqHAAlimpcFoxIjktVgfe8WBOayc6XdfsVQeIyWRd9CkbjYZDQ9PDiRMmJmV56Q4zjZJUzFKulqJ0hxj5XcgDkl/agcLsQHf954WaN7CTOSoakW6shG8Vwo2USfUqT2/w9uCH1ofYTCvz2Y0Ut7ussr45sPBOqlHNOJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FsIIUb806c+T5cntPv6rxoLfn1dZz4Vn6ejtwuI4bQI=;
+ b=bqS1q7lB8Jjw+aRJWoyfvfZ8JFBH7KP+X+f0hlXraJwjkUm7aurTNQ4pUNwnW5qCoWsr8OjU5xtwyBeBiLEofbnIZ4qobPyEjHLUKr9NCMfGJlXaZbtpvfonVUXdmcFngNI/CacAqhsTnXa1cePptgun+PL0MtA1uMxiGWv//pdL4DGLxcBqH5BU/u32gZ6KMAxRTTcHxwmFBoe1wWG4rQbd3zvdnFmKQbdTYprL+ZJvrJlqzsh8GHk8BTgTZWYm64Op9G9BCx+6Pb8WWox0iZwQu1svPxoN1py8MiDd8m71nRhuDBLaw8OXPFre52ch/0GMS1ACW7EzvE9yXldlpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FsIIUb806c+T5cntPv6rxoLfn1dZz4Vn6ejtwuI4bQI=;
+ b=lA47BRtbWN6S6FWO1CPH94yi5L2oqJJRi4HyARIUtKKQsAsbIVyA6pgRJln4Op6qr4wk5hFzwY4/EEoR9VO4GILgjpyZlOU1uAt9LZ+Ldba1FrqtghBULJgIG4mQUfPLJcEhcnHZvZnyN/uMq80iNwFC8gi6bN+zv5oJ3wRapZX0kraAB9H9LygenM2vdHo1h6sCs0bV6KBMc5zVRLDTsOhCXZx7I/eJ29zu+iZzYVvA7ltD5ULx/slfjPolpVAxP3KoPOXLQVt1MeEFTUw9Kjr83kW85XKIDWmp+B/r1Huj5BC4UPcrMSjOFe3fz79ABZBiIWdjsr4i7gq/RT7U3g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ DS0PR12MB7802.namprd12.prod.outlook.com (2603:10b6:8:145::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9160.10; Wed, 24 Sep 2025 23:58:42 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9160.008; Wed, 24 Sep 2025
+ 23:58:42 +0000
+Date: Thu, 25 Sep 2025 09:58:37 +1000
+From: Alistair Popple <apopple@nvidia.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@redhat.com>, 
+ Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, 
+ damon@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, 
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>, 
+ Mika =?utf-8?B?UGVudHRpbMOk?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ Francois Dugast <francois.dugast@intel.com>
+Subject: Re: [v6 01/15] mm/zone_device: support large zone device private
+ folios
+Message-ID: <lcuuqa3e3txmhb55c5q3s6unugde4hp2wsmvkahgddeicyn2tp@xdx2zqjmd4ol>
+References: <20250916122128.2098535-1-balbirs@nvidia.com>
+ <20250916122128.2098535-2-balbirs@nvidia.com>
+ <882D81FA-DA40-4FF9-8192-166DBE1709AF@nvidia.com>
+ <9c263334-c0f3-4af0-88a8-8ed19ef6b83d@redhat.com>
+ <66A59A5C-B54E-484F-9EB8-E12F6BD1CD03@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <66A59A5C-B54E-484F-9EB8-E12F6BD1CD03@nvidia.com>
+X-ClientProxiedBy: SYBPR01CA0037.ausprd01.prod.outlook.com
+ (2603:10c6:10:4::25) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250924-knp-fastrpc-v1-2-4b40f8bfce1d@oss.qualcomm.com>
-References: <20250924-knp-fastrpc-v1-0-4b40f8bfce1d@oss.qualcomm.com>
-In-Reply-To: <20250924-knp-fastrpc-v1-0-4b40f8bfce1d@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-X-Mailer: b4 0.15-dev-99b12
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758757601; l=3165;
- i=jingyi.wang@oss.qualcomm.com; s=20250911; h=from:subject:message-id;
- bh=eD8yAx/YuKqA7+Hjy0aKSPReaieqfN7YL0zc+4CHM6c=;
- b=/zkxGlXtFzMJUQCd4c/1ySUM3PnK4HaXPCbz5JL74xjuvqJyZ9b1hM66HPlL8U0UGPZM0ezj7
- sofz7Cx6pHwBOjEujFDJaS7Pr1KskcN0mvAxmFk9s//g0LjiHrtrW5W
-X-Developer-Key: i=jingyi.wang@oss.qualcomm.com; a=ed25519;
- pk=PSoHZ6KbUss3IW8FPRVMHMK0Jkkr/jV347mBYJO3iLo=
-X-Proofpoint-ORIG-GUID: g_NR7q7fYKZGfYDzQjlpcOAhFcznn4b0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDAxMSBTYWx0ZWRfX2SbuPoEYWD1b
- JvYywtPgqmPqmWy2Oah/E2+5cWoGvE5b3oUKN/O/LMX9CiKmj1VGfYMbN9jAs2nSjU7wkAy46Sm
- 4DccKJ3226hwDmLKJfFD2Diqqi4KgJq1khEIXTuuzQYh6DmjvyiVvgKjnNnIduspBbs4w4sUR9U
- iKfjMxioUIxe64WBikgj+CBkufeFio3UK8mviYXBb+99sTNx0tltiJDAeaPQ4BRt8rzVp4mR90B
- /CoT55rT0kY1OUax+g1pLBD2g6sq49yGO6f85rhFGRlfO2y9p0dm3FqSbeuanH9njSmh6f/2E/u
- wvTmYRrXyYb5bPOId1I5tZT2lyPRENHRjIMEQ6U3lUebVUkpz7Go3m73BoNm5Ct7LCSFk7/laE5
- V+tDNGpu
-X-Proofpoint-GUID: g_NR7q7fYKZGfYDzQjlpcOAhFcznn4b0
-X-Authority-Analysis: v=2.4 cv=Csq/cm4D c=1 sm=1 tr=0 ts=68d482e6 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=v5czcFVHhVNKnq2DKJgA:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 phishscore=0
- clxscore=1015 spamscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509230011
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|DS0PR12MB7802:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b807ab5-7595-4dad-6756-08ddfbc64a12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OE9DWlFuWUExeFkvYmlxL3BZOXhDRm5YbCtYeTF2ZWFNUEZRcVNpQ3JSYjkz?=
+ =?utf-8?B?cHpyem5CRDJScUFjbHhvWm11b0tFSnVjeHVsVk42aDFlZzNNcHRqbnMrVEhC?=
+ =?utf-8?B?YXBtUHlnOEtJTmcxbW5IdE5QSGZ3dlhNbEJpZHgvQ2FSMDAxa096U0FraGhM?=
+ =?utf-8?B?OUZ4WFB5NWlWY2crZlFnTGJ4VnFOb0wxTGVaMVZRa2lpSVA5RmN1aDdiNmFQ?=
+ =?utf-8?B?RTVuMThLYWQ5SWpwdmhDeFBTM1dZTEZJemF5ci9HbDJaZVhQaHlXN05NcmZV?=
+ =?utf-8?B?d0RUa2RNeGtSd1VrYTNna2ZyNkQ0Y2ZVYlpCUkY5SWp6WGZSYWhkcU1KczFo?=
+ =?utf-8?B?RTQ1bG5ZZnpOazBZSmxMeUhyQjZTTS8yeXgvWXdMMzMzWWpLTUxzaHRLcVVJ?=
+ =?utf-8?B?K1NFajVuRmhNMmh2VXBjYzhFU2NYYzhqUWRCU2FRUnVnRy83OUFGeVpmUTd3?=
+ =?utf-8?B?ZWdicFc3VFlUalYwOG5LMVYxcllIMVRVSktyMmhLUk9JSUZMWjRYSHBNeWZi?=
+ =?utf-8?B?Vi85Zkt2dnZDM21aYnRMb2lxTG5qSE8vVEJ1Y1FZeTJvVC9TNnV1RHNzeXZI?=
+ =?utf-8?B?cTBBMUdQOCtpQTNMRkxmZkxoVUhnM2tRenZIUlNYVGVxQlBFc3FjMS9hSVM4?=
+ =?utf-8?B?TGVvNUFDTmE2cGZRSUxHL3RoOWY1NEVzVnZ2cS8zMkUyMmZhYzBoSDdxOVhW?=
+ =?utf-8?B?Wm1vK2h2bzE2ZTBnaytLYWkxd1VBZTY0VmZoMmNrUGtpTXYyK1ludXlYUzRq?=
+ =?utf-8?B?MVMxdWpOc0trSlF6VHAyNk5VVUJXUFV1S0tIUTloc25OZkF5STVvNktlWEYy?=
+ =?utf-8?B?eHhvQTJqMGVWbWF2bTlMa2J3Q1RucTF1ajU3WU1YK203THlORyt6K2RzUUpF?=
+ =?utf-8?B?Y0tqaTM2cFA0Wi9WclBTbXpqdk1qaFlONzNpUks5ZGNTdzYrNkcrblNaNk5O?=
+ =?utf-8?B?RVA3US9hSllpNTVrVkVRZ2JWZG83WGNsZ1NGYlJCZEtDdHZVdFN5YmJmRGY0?=
+ =?utf-8?B?Tk90Y0ZlOEtYSTlLbkIwSE5iOTFMbnBZYVF6ZDFiVHkzbk9IenFnYlU0UE80?=
+ =?utf-8?B?THRPQ211NFpWa21aUWRHU3M3b0QwM1BXYnFzaTQ4c2FSUUY5S1Y1NXF0QUEx?=
+ =?utf-8?B?TjdxNmJoeHEwczg3UkNvcGZ5b20xOTRzQXMwMC9qdUxRa0MyaXQ0cnhjNk81?=
+ =?utf-8?B?UXlUUzdxUklDZVBsLzFkWG04V2k4d0w3RzJVeWF3NUpGaDNDMnc1ME43M3Uy?=
+ =?utf-8?B?SzJpTVhKSGV2QllMeURjdXZTTUR2QVZveW8vdnRteVhZMThNK2FaTUk3WVRF?=
+ =?utf-8?B?S2QvQkdrNHFaNmM1Y0pSN1QrTm9JZ2p4NStuZHRETmlnN2M3MFR4ZjZyRVB5?=
+ =?utf-8?B?WlI3MjBTWDVqQWFxWmFveXZPTlNVYkh6bCs0a1FlMjNyTUJ2M1BoUnZ5MThX?=
+ =?utf-8?B?SEVzL3c0U0gzVFYrZWFrelJKSEhpU0FMQVAxcVU1N3JkQTBueG83ajRPYkVV?=
+ =?utf-8?B?R0RQTGNDaFUvRWtXYnVsRDBHVkFkVTNlNEo1aTBpZkROeVIzNnZsWDh5OFhZ?=
+ =?utf-8?B?Z3ZrYUJ0N0xBVGdjT0hlbWY0bWhWdDBTNURjeU9DU2hLMk5KYVp4Qk5VQVNp?=
+ =?utf-8?B?RzZpTnNLRzRlaGV0bThVKzBuZCtqbG5HbTM3cU1LUUw2b2JHaVdsa08yRDFX?=
+ =?utf-8?B?eXZzRFV0Z0xXWTRhKy9ac0c1RHlxdlh4K1ZOUEY3c2RyM29Fam5RQ3ZUbEx5?=
+ =?utf-8?B?NWgvWDBaaDZkbC9KTm9zUGVDVWQ5ZzROTCtGMDFBRC9KN09ta1IyZkZ4Mm92?=
+ =?utf-8?B?RjUvWmxrVGZNcUt3amVEb2M0MXhSekhmSXNjQmR6V0J2TGtnOXRmNGMxb1kz?=
+ =?utf-8?B?UndCUk1FTExOeUdMUGtmblp0aWpwTzBUWjQrb3ppQ0kyb0dtVk01ZkM0TjA1?=
+ =?utf-8?Q?cCq7de9XCyg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmNkbEVSTml2RzBlcHg3MEJRSkszeXJLM1BwTkhmRUVoYVFqUGl6RmhFQXNC?=
+ =?utf-8?B?Q2hjSWdmNTVkOXgyblBUbzhhc2RVdG1JTmhaalk4eVI4aVAwOVhxclJvbTFX?=
+ =?utf-8?B?RFhBaGZuWURrZnhvUG5WdmQyKzNrQ0Jsc09heGpBT2piK2s4N0hnZmt0VnJv?=
+ =?utf-8?B?bFB3NkphTERUVC9paXBTdCtlNkJSSm5nYUNnL2NYYUhIV0QxUndFVDE1QVd2?=
+ =?utf-8?B?bGxrd3RvSlNMbmN0bE5COUNPYjkxY3dvcnFqSkRyZVNkZEt5SDlLb3psUmtx?=
+ =?utf-8?B?b1ZjbzltZ2RHK3NPZGdieGtQQzdUSkIzcmRndzdpVXJPZmJ2cFJhbFNDOUJl?=
+ =?utf-8?B?NWcxaWwvUWNYdEhkdCtRNGZDdURHbmttbklBeEdRZU5QZjRCRWtRVDN5QnFC?=
+ =?utf-8?B?bFcxQk9naXRwdzhmMjh2dEJZVEpDZzYraFhoYi9Bd25xM0NIMXJmVW5INzBr?=
+ =?utf-8?B?ZU1tU2dEZnFVdzhMVUVuVlplVDQ2N1JlZ21IV1dydkt4dmFlTlpqUXljU25K?=
+ =?utf-8?B?V1ZjUVp0NDBzeHZHZ0p6NGF6ZEZ2YUpaT0dYa3A3N2JWMXZlWXdCOEZQWEFF?=
+ =?utf-8?B?ekc3R2tiaVBta3ZXSDRkM3E4T05oU3MwOGlhVG8yTWVob00xNzQ3dkk1c3Bx?=
+ =?utf-8?B?MXowQ2ZlNmtPL21DcDNXMGVlVkdaQmQvREh4K00xVUR4Qkc1ODNsWHU5US85?=
+ =?utf-8?B?RHNZVEltRnI1YzNOUUxBVzROdXpJeHRqOVVxVHBvOWxKSitmWUMreE9rUy93?=
+ =?utf-8?B?SittNXlMdmR2ZEpGYTJ3eTE0RGxKcVlHMTMyckl4NlpWeEZDRVpWSHFvTlNW?=
+ =?utf-8?B?LzlRK2FuTG1wa2FhbGpNejdaY2dBY0VKT1RPOVJFK3VSSmRqeml0MWhTdi9J?=
+ =?utf-8?B?Y3Y4bC9tbVFndURaSHhSd054MmtpOVhRUGlYZEFPSVAyOXNWclpqMFNIaVhU?=
+ =?utf-8?B?ZFo4QzNUL05HRk9JbmRKL0NvVVZkUGt2S29EUzF6dXExTWhWNUg3TWw0ZFkz?=
+ =?utf-8?B?Y1YwNlJIcXBmMVlBOS9LVDVDZUMzQ0ZrN2lYT1J2Q2R6SVdiNi9YRWtTdkJo?=
+ =?utf-8?B?VEpHV0orVWhFLzhlanVWRHMrbklkd0dpRlNPM1hPVWNONGh1Q21Qb2o5VnJY?=
+ =?utf-8?B?ang3YVYrMDA5dmFWZm5YM0c5WW9mZ2xXTkx6dFNaNlljejdtVkRlUkQ2VlBn?=
+ =?utf-8?B?WVlOVG9iOXRyb1lzMjQwTGNGSlpiYi9pTFM5YmtwV3VLNE5iamNJTUdGdDJy?=
+ =?utf-8?B?SWx6OVVHWXdLS05wR3dXUTloelU5ZG04cVAvWEllQU9QVU9jdEk5MVBqZGJL?=
+ =?utf-8?B?QkJXVU9JY3pOTjNFM0xYdTRvamRHQ0k2ZElRa3VObmFObWtad2FPaEJxeXBn?=
+ =?utf-8?B?RTRxaytNckIvaFMzd1dtVWpSYllCVG5GWHpuZVdNNkxleWZZQ0Q0am14Unlk?=
+ =?utf-8?B?cUd3MUEzV3p5N3FrN2J2L1R2dEJIQkh0ckNlek9OZ1YxOXFLV1dTd3ZXWnp0?=
+ =?utf-8?B?ejl4TlRMUnVrSldZSHhLZlNxOUxBZk1tdHVjSDU2N2wwRzRQeWhqSFNGRTVo?=
+ =?utf-8?B?dXYvV3UyUFdDYkl0N2tUSU5ocThWYUtxRkVNSFVrenE0WHZTLytPRlVHelRP?=
+ =?utf-8?B?allmS3MyQWpDa21vZVV4RWZTNUJFT3g0Y28zTE5XL3RyTXZHQUpiaTlITlQz?=
+ =?utf-8?B?TEJpSmN2VUduK2RLTnFiNi9UbDN5NWtJN2tvajQ1OW5zSFEzVUpUdlBOQUtj?=
+ =?utf-8?B?TW9nSFp3djNaaEZ3cE5BQjY0clQrRlFraExrdHJ5MlliTDJuL0QzTlExYjky?=
+ =?utf-8?B?S1V6aEltYnR5U2EyWER4bXFBUUdtVWhTRE8xZ09yMFkwa3IvKzJEUk85VUpQ?=
+ =?utf-8?B?UFZLK0N1UTM2cVlkYjVTbkhBZ0hsZ0QvTHBTMWttNlVaSmhFL2N2TDJOdHcv?=
+ =?utf-8?B?V0NXZWVLa0tJay80bTdMT1VGa2FHc2RaWHF1UGIzTklta0JMbk9oc1lJRzlM?=
+ =?utf-8?B?UzNXb3BBcGxKU1ZOcnY5ODFXY3E3Y2R0Ky9HL3lCUFhrQWh2RTU2MG5paCtj?=
+ =?utf-8?B?RlkvcEs4RmdkNkthaGlJRVp2WGM5MWdBeGcxZnhPaWQ4ZFRLNHc3VFZyTm1n?=
+ =?utf-8?Q?7a8UN9ki4YxJmUL55eKwMOTLs?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b807ab5-7595-4dad-6756-08ddfbc64a12
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 23:58:42.3147 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xvNNXOOY5iVo7HadBdQa8+nzkXPuj0Lld6FQpZoYmklfY4jvCVlYoLxY+Eglz5OCfE8w6X69C/rGAgTkn4ljuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7802
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,96 +186,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+On 2025-09-25 at 03:36 +1000, Zi Yan <ziy@nvidia.com> wrote...
+> On 24 Sep 2025, at 6:55, David Hildenbrand wrote:
+> 
+> > On 18.09.25 04:49, Zi Yan wrote:
+> >> On 16 Sep 2025, at 8:21, Balbir Singh wrote:
+> >>
+> >>> Add routines to support allocation of large order zone device folios
+> >>> and helper functions for zone device folios, to check if a folio is
+> >>> device private and helpers for setting zone device data.
+> >>>
+> >>> When large folios are used, the existing page_free() callback in
+> >>> pgmap is called when the folio is freed, this is true for both
+> >>> PAGE_SIZE and higher order pages.
+> >>>
+> >>> Zone device private large folios do not support deferred split and
+> >>> scan like normal THP folios.
+> >>>
+> >>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+> >>> Cc: David Hildenbrand <david@redhat.com>
+> >>> Cc: Zi Yan <ziy@nvidia.com>
+> >>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+> >>> Cc: Rakie Kim <rakie.kim@sk.com>
+> >>> Cc: Byungchul Park <byungchul@sk.com>
+> >>> Cc: Gregory Price <gourry@gourry.net>
+> >>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+> >>> Cc: Alistair Popple <apopple@nvidia.com>
+> >>> Cc: Oscar Salvador <osalvador@suse.de>
+> >>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> >>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> >>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> >>> Cc: Nico Pache <npache@redhat.com>
+> >>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> >>> Cc: Dev Jain <dev.jain@arm.com>
+> >>> Cc: Barry Song <baohua@kernel.org>
+> >>> Cc: Lyude Paul <lyude@redhat.com>
+> >>> Cc: Danilo Krummrich <dakr@kernel.org>
+> >>> Cc: David Airlie <airlied@gmail.com>
+> >>> Cc: Simona Vetter <simona@ffwll.ch>
+> >>> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> >>> Cc: Mika Penttilä <mpenttil@redhat.com>
+> >>> Cc: Matthew Brost <matthew.brost@intel.com>
+> >>> Cc: Francois Dugast <francois.dugast@intel.com>
+> >>> ---
+> >>>   include/linux/memremap.h | 10 +++++++++-
+> >>>   mm/memremap.c            | 34 +++++++++++++++++++++-------------
+> >>>   mm/rmap.c                |  6 +++++-
+> >>>   3 files changed, 35 insertions(+), 15 deletions(-)
+> >>>
+> >>> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> >>> index e5951ba12a28..9c20327c2be5 100644
+> >>> --- a/include/linux/memremap.h
+> >>> +++ b/include/linux/memremap.h
+> >>> @@ -206,7 +206,7 @@ static inline bool is_fsdax_page(const struct page *page)
+> >>>   }
+> >>>
+> >>>   #ifdef CONFIG_ZONE_DEVICE
+> >>> -void zone_device_page_init(struct page *page);
+> >>> +void zone_device_folio_init(struct folio *folio, unsigned int order);
+> >>>   void *memremap_pages(struct dev_pagemap *pgmap, int nid);
+> >>>   void memunmap_pages(struct dev_pagemap *pgmap);
+> >>>   void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
+> >>> @@ -215,6 +215,14 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn);
+> >>>   bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
+> >>>
+> >>>   unsigned long memremap_compat_align(void);
+> >>> +
+> >>> +static inline void zone_device_page_init(struct page *page)
+> >>> +{
+> >>> +	struct folio *folio = page_folio(page);
+> >>> +
+> >>> +	zone_device_folio_init(folio, 0);
+> >>
+> >> I assume it is for legacy code, where only non-compound page exists?
+> >>
+> >> It seems that you assume @page is always order-0, but there is no check
+> >> for it. Adding VM_WARN_ON_ONCE_FOLIO(folio_order(folio) != 0, folio)
+> >> above it would be useful to detect misuse.
+> >>
+> >>> +}
+> >>> +
+> >>>   #else
+> >>>   static inline void *devm_memremap_pages(struct device *dev,
+> >>>   		struct dev_pagemap *pgmap)
+> >>> diff --git a/mm/memremap.c b/mm/memremap.c
+> >>> index 46cb1b0b6f72..a8481ebf94cc 100644
+> >>> --- a/mm/memremap.c
+> >>> +++ b/mm/memremap.c
+> >>> @@ -416,20 +416,19 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+> >>>   void free_zone_device_folio(struct folio *folio)
+> >>>   {
+> >>>   	struct dev_pagemap *pgmap = folio->pgmap;
+> >>> +	unsigned long nr = folio_nr_pages(folio);
+> >>> +	int i;
+> >>>
+> >>>   	if (WARN_ON_ONCE(!pgmap))
+> >>>   		return;
+> >>>
+> >>>   	mem_cgroup_uncharge(folio);
+> >>>
+> >>> -	/*
+> >>> -	 * Note: we don't expect anonymous compound pages yet. Once supported
+> >>> -	 * and we could PTE-map them similar to THP, we'd have to clear
+> >>> -	 * PG_anon_exclusive on all tail pages.
+> >>> -	 */
+> >>>   	if (folio_test_anon(folio)) {
+> >>> -		VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
+> >>> -		__ClearPageAnonExclusive(folio_page(folio, 0));
+> >>> +		for (i = 0; i < nr; i++)
+> >>> +			__ClearPageAnonExclusive(folio_page(folio, i));
+> >>> +	} else {
+> >>> +		VM_WARN_ON_ONCE(folio_test_large(folio));
+> >>>   	}
+> >>>
+> >>>   	/*
+> >>> @@ -456,8 +455,8 @@ void free_zone_device_folio(struct folio *folio)
+> >>>   	case MEMORY_DEVICE_COHERENT:
+> >>>   		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
+> >>>   			break;
+> >>> -		pgmap->ops->page_free(folio_page(folio, 0));
+> >>> -		put_dev_pagemap(pgmap);
+> >>> +		pgmap->ops->page_free(&folio->page);
+> >>> +		percpu_ref_put_many(&folio->pgmap->ref, nr);
+> >>>   		break;
+> >>>
+> >>>   	case MEMORY_DEVICE_GENERIC:
+> >>> @@ -480,14 +479,23 @@ void free_zone_device_folio(struct folio *folio)
+> >>>   	}
+> >>>   }
+> >>>
+> >>> -void zone_device_page_init(struct page *page)
+> >>> +void zone_device_folio_init(struct folio *folio, unsigned int order)
+> >>>   {
+> >>> +	struct page *page = folio_page(folio, 0);
+> >>
+> >> It is strange to see a folio is converted back to page in
+> >> a function called zone_device_folio_init().
+> >>
+> >>> +
+> >>> +	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+> >>> +
+> >>>   	/*
+> >>>   	 * Drivers shouldn't be allocating pages after calling
+> >>>   	 * memunmap_pages().
+> >>>   	 */
+> >>> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
+> >>> -	set_page_count(page, 1);
+> >>> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
+> >>> +	folio_set_count(folio, 1);
+> >>>   	lock_page(page);
+> >>> +
+> >>> +	if (order > 1) {
+> >>> +		prep_compound_page(page, order);
+> >>> +		folio_set_large_rmappable(folio);
+> >>> +	}
+> >>
+> >> OK, so basically, @folio is not a compound page yet when zone_device_folio_init()
+> >> is called.
+> >>
+> >> I feel that your zone_device_page_init() and zone_device_folio_init()
+> >> implementations are inverse. They should follow the same pattern
+> >> as __alloc_pages_noprof() and __folio_alloc_noprof(), where
+> >> zone_device_page_init() does the actual initialization and
+> >> zone_device_folio_init() just convert a page to folio.
+> >>
+> >> Something like:
+> >>
+> >> void zone_device_page_init(struct page *page, unsigned int order)
+> >> {
+> >> 	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+> >>
+> >> 	/*
+> >> 	 * Drivers shouldn't be allocating pages after calling
+> >> 	 * memunmap_pages().
+> >> 	 */
+> >>
+> >>      WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
+> >> 	
+> >> 	/*
+> >> 	 * anonymous folio does not support order-1, high order file-backed folio
+> >> 	 * is not supported at all.
+> >> 	 */
+> >> 	VM_WARN_ON_ONCE(order == 1);
+> >>
+> >> 	if (order > 1)
+> >> 		prep_compound_page(page, order);
+> >>
+> >> 	/* page has to be compound head here */
+> >> 	set_page_count(page, 1);
+> >> 	lock_page(page);
+> >> }
+> >>
+> >> void zone_device_folio_init(struct folio *folio, unsigned int order)
+> >> {
+> >> 	struct page *page = folio_page(folio, 0);
+> >>
+> >> 	zone_device_page_init(page, order);
+> >> 	page_rmappable_folio(page);
+> >> }
+> >>
+> >> Or
+> >>
+> >> struct folio *zone_device_folio_init(struct page *page, unsigned int order)
+> >> {
+> >> 	zone_device_page_init(page, order);
+> >> 	return page_rmappable_folio(page);
+> >> }
+> >
+> > I think the problem is that it will all be weird once we dynamically allocate "struct folio".
+> >
+> > I have not yet a clear understanding on how that would really work.
+> >
+> > For example, should it be pgmap->ops->page_folio() ?
+> >
+> > Who allocates the folio? Do we allocate all order-0 folios initially, to then merge them when constructing large folios? How do we manage the "struct folio" during such merging splitting?
+> 
+> Right. Either we would waste memory by simply concatenating all “struct folio”
+> and putting paddings at the end, or we would free tail “struct folio” first,
+> then allocate tail “struct page”. Both are painful and do not match core mm’s
+> memdesc pattern, where “struct folio” is allocated when caller is asking
+> for a folio. If “struct folio” is always allocated, there is no difference
+> between “struct folio” and “struct page”.
 
-DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-both Q6 and user DMA (uDMA) access. This is being upgraded to
-34-bit PA + 4-bit SID due to a hardware revision in CDSP for
-Kaanapali SoC, which expands the DMA addressable range.
-Update DMA mask configuration in the driver to support CDSP on
-Kaanapali SoC. Set the default `dma_mask` to 32-bit and update
-it to 34-bit based on CDSP and SoC-specific compatible string.
+As mentioned in my other reply I need to investigate this some more, but I
+don't think we _need_ to always allocate folios (or pages for that matter).
+The ZONE_DEVICE code just uses folios/pages for interacting with the core mm,
+not for managing the device memory itself, so we should be able to make it more
+closely match the memdesc pattern. It's just I'm still a bit unsure what that
+pattern will actually look like.
 
-Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
----
- drivers/misc/fastrpc.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+> >
+> > With that in mind, I don't really know what the proper interface should be today.
+> >
+> >
+> > zone_device_folio_init(struct page *page, unsigned int order)
+> >
+> > looks cleaner, agreed.
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index db396241b8ce..e019163eb265 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -275,6 +275,7 @@ struct fastrpc_session_ctx {
- 	bool used;
- 	bool valid;
- 	u32 sid_pos;
-+	u32 pa_bits;
- };
- 
- struct fastrpc_channel_ctx {
-@@ -2179,9 +2180,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 	sess->used = false;
- 	sess->valid = true;
- 	sess->dev = dev;
-+	sess->pa_bits = cctx->dma_mask;
- 	/* Configure where sid will be prepended to pa */
--	sess->sid_pos =
--		(cctx->iova_format ? SID_POS_IN_IOVA : DSP_DEFAULT_BUS_WIDTH);
-+	sess->sid_pos = (cctx->iova_format ? SID_POS_IN_IOVA : sess->pa_bits);
- 
- 	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
- 		dev_info(dev, "FastRPC Session ID not specified in DT\n");
-@@ -2198,9 +2199,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		}
- 	}
- 	spin_unlock_irqrestore(&cctx->lock, flags);
--	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
-+	rc = dma_set_mask(dev, DMA_BIT_MASK(sess->pa_bits));
- 	if (rc) {
--		dev_err(dev, "32-bit DMA enable failed\n");
-+		dev_err(dev, "%u-bit DMA enable failed\n", sess->pa_bits);
- 		return rc;
- 	}
- 
-@@ -2287,10 +2288,12 @@ static int fastrpc_get_domain_id(const char *domain)
- 
- struct fastrpc_soc_data {
- 	u32 dsp_iova_format;
-+	u32 cdsp_dma_mask;
- };
- 
- static const struct fastrpc_soc_data kaanapali_soc_data = {
- 	.dsp_iova_format = 1,
-+	.cdsp_dma_mask = 34,
- };
- 
- static const struct of_device_id qcom_soc_match_table[] = {
-@@ -2310,6 +2313,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 	const struct of_device_id *match;
- 	const struct fastrpc_soc_data *soc_data = NULL;
- 	u32 iova_format = 0;
-+	u32 ubs = DSP_DEFAULT_BUS_WIDTH;
- 
- 	root = of_find_node_by_path("/");
- 	if (!root)
-@@ -2322,6 +2326,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 	} else {
- 		soc_data = match->data;
- 		iova_format = soc_data->dsp_iova_format;
-+		ubs = soc_data->cdsp_dma_mask;
- 	}
- 
- 	err = of_property_read_string(rdev->of_node, "label", &domain);
-@@ -2404,6 +2409,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 	}
- 	/* determine where sid needs to be prepended to pa based on iova_format */
- 	data->iova_format = iova_format;
-+	data->dma_mask = (domain_id == CDSP_DOMAIN_ID ? ubs : DSP_DEFAULT_BUS_WIDTH);
- 	kref_init(&data->refcount);
- 
- 	dev_set_drvdata(&rpdev->dev, data);
+Agreed.
 
--- 
-2.25.1
+> >>
+> >>
+> >> Then, it comes to free_zone_device_folio() above,
+> >> I feel that pgmap->ops->page_free() should take an additional order
+> >> parameter to free a compound page like free_frozen_pages().
 
+Where would the order parameter come from? Presumably
+folio_order(compound_head(page)) in which case shouldn't the op actually just be
+pgmap->ops->folio_free()?
+
+ - Alistair
+
+> >>
+> >
+> > IIRC free_frozen_pages() does not operate on compound pages. If we know that we are operating on a compound page (or single page) then passing in the page (or better the folio) should work.
+> 
+> free_pages_prepare() in __free_frozen_pages(), called by free_frozen_pages(),
+> checks if compound_order(page) matches the given order, in case folio field
+> corrupts. I suppose it is useful. But I do not have a strong opinion about
+> this one.
+> 
+> 
+> 
+> Best Regards,
+> Yan, Zi
