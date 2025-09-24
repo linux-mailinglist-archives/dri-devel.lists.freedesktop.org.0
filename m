@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9A8B9AC5E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 17:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D53B9AD24
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 18:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7E810E245;
-	Wed, 24 Sep 2025 15:53:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tZoCn+M1";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 644A710E76C;
+	Wed, 24 Sep 2025 16:13:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBFF710E245;
- Wed, 24 Sep 2025 15:53:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A084160097;
- Wed, 24 Sep 2025 15:53:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 480A0C4CEE7;
- Wed, 24 Sep 2025 15:53:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758729227;
- bh=H0LzwzgZoZdJZXsbobQBWIXxDAEPRUzEukhvOfTHsTU=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=tZoCn+M1nDTPC4DtPmwe/lKdjF8Woieav5sRVNGyZTM2JrGjxVqN618SrmB4JTl49
- g99lo+52UHv9MnBSgQB+bDJgIaZ+KYGvV6SWJe/HaEaow514yxY76/DN8mFlHNiw04
- hukCM2xZ89278hrbRZn1Bbc8RpYazFxqS3KoDH6/uvVjrov9I7WatFowRR/tkrqQq8
- yDZ/yF8I6GYjSRdMzZFuzTIwBczC4wqE6C74NrOpSa/mKRrlVOyIQA474nDlmrvFZz
- bS5mD9rzTO01BqdDsa61m3zUluT2CK5QI9E15j51yu+bWkY0qmLvhG4yC+FtMto05T
- gy9kfKmahym5g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 24 Sep 2025 17:53:40 +0200
-Message-Id: <DD15H63RK1KJ.1J584C1QC4L28@kernel.org>
-Subject: Re: [PATCH v4 1/6] nova-core: bitfield: Move bitfield-specific code
- from register! into new macro
-Cc: "Greg KH" <gregkh@linuxfoundation.org>, "Benno Lossin"
- <lossin@kernel.org>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <acourbot@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor
- Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- <nouveau@lists.freedesktop.org>
-To: "Yury Norov" <yury.norov@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250920182232.2095101-1-joelagnelf@nvidia.com>
- <20250920182232.2095101-2-joelagnelf@nvidia.com>
- <2025092157-pauper-snap-aad1@gregkh>
- <DCYHCLM67KRZ.366VS9PDKLYKY@kernel.org>
- <2025092125-urban-muppet-1c2f@gregkh>
- <DCYIX8URVIWM.2ZK3GHH3J82XQ@kernel.org>
- <2025092432-entrust-citizen-0232@gregkh> <aNQCVslEIHHSm8f5@yury>
-In-Reply-To: <aNQCVslEIHHSm8f5@yury>
+Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 098F110E140;
+ Wed, 24 Sep 2025 16:13:58 +0000 (UTC)
+Received: by psionic.psi5.com (Postfix, from userid 1002)
+ id 12B8C3F1BA; Wed, 24 Sep 2025 18:13:56 +0200 (CEST)
+Date: Wed, 24 Sep 2025 18:13:56 +0200
+From: Simon Richter <Simon.Richter@hogyros.de>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Jason Gunthorpe <jgg@nvidia.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+ functions of Intel GPUs
+Message-ID: <20250924161356.GA3273841@psionic12.psi5.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250922121253.GT1391379@nvidia.com>
+ <IA0PR11MB7185067FA8CE8A95419D06F5F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <aNKiXTGs75fldDYS@infradead.org>
+ <1d9065f3-8784-4497-b92c-001ae0e78b63@amd.com>
+ <IA0PR11MB71855457D1061D0A2344A5CFF81CA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <aNMnHJwWfFPgGYbW@lstrano-desk.jf.intel.com>
+ <5f9f8cb6-2279-4692-b83d-570cf81886ab@amd.com>
+ <20250923133839.GL1391379@nvidia.com>
+ <8da25244-be1e-4d88-86bc-5a6f377bdbc1@amd.com>
+ <20250923131247.GK1391379@nvidia.com>
+ <522d3d83-78b5-4682-bb02-d2ae2468d30a@amd.com>
+ <20250923121528.GH1391379@nvidia.com>
+ <80d2d0d1-db44-4f0a-8481-c81058d47196@amd.com>
+ <aNJB1r51eC2v2rXh@lstrano-desk.jf.intel.com>
+ <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
+ <IA0PR11MB718580B723FA2BEDCFAB71E9F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <20250922140024.GZ1391379@nvidia.com>
+ <42f45fa2-6ea3-44c7-870a-dc1973894a87@amd.com>
+ <20250922132720.GY1391379@nvidia.com>
+ <fbb6bbe7-8141-4532-812e-2b93cc2fcb1b@amd.com>
+ <20250922122900.GV1391379@nvidia.com>
+ <4e3919c3-3d1b-4f34-a1e4-5e9e7a5e6e14@amd.com>
+ <20250922122018.GU1391379@nvidia.com>
+ <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
+ <IA0PR11MB718504F59BFA080EC0963E94F812A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <20250919122931.GR1391379@nvidia.com>
+ <IA0PR11MB7185C96268ADB5530B343ABBF811A@IA0PR11MB7185.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,159 +71,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Sep 24, 2025 at 4:38 PM CEST, Yury Norov wrote:
-> I didn't ask explicitly, and maybe it's a good time to ask now: Joel,
-> Danilo and everyone, have you considered adopting this project in
-> kernel?
->
-> The bitfield_struct builds everything into the structure:
->
->         use bitfield_struct::bitfield;
->        =20
->         #[bitfield(u8, order =3D Msb)]
->         struct MyMsbByte {
->             /// The first field occupies the *most* significant bits
->             #[bits(4)]
->             kind: usize,
->             system: bool,
->             #[bits(2)]
->             level: usize,
->             present: bool
->         }
->         let my_byte_msb =3D MyMsbByte::new()
->             .with_kind(10)
->             .with_system(false)
->             .with_level(2)
->             .with_present(true);
->        =20
->         //                          .- kind
->         //                          |    .- system
->         //                          |    | .- level
->         //                          |    | |  .- present
->         assert_eq!(my_byte_msb.0, 0b1010_0_10_1);
->
-> Here MSB is not BE. For BE you'd specify:
->
->         #[bitfield(u16, repr =3D be16, from =3D be16::from_ne, into =3D b=
-e16::to_ne)]
->         struct MyBeBitfield {
->             #[bits(4)]
->             first_nibble: u8,
->             #[bits(12)]
->             other: u16,
->         }
->
-> The "from =3D be16::from_ne",  is seemingly the same as cpu_to_be32() her=
-e.
->
-> It looks like bitfield_struct tries to resolve hw access problems
-> by outsourcing them to 'from' and 'to' callbacks, and that looks
-> similar to what regmap API does (is that correct?).
->
-> Greg, Is that what you're asking about?
->
-> This is another bitfield crate with the similar approach=20
->
-> https://crates.io/crates/bitfield
->
-> So we're not the first, and we need to discuss what is already done.
->
-> As far as I understand, Joel decided to go in the other direction:
-> bitfields are always native in terms of endianess and not designed to
-> be mapped on registers directly. Which means they don't specify order
-> of accesses, number of accesses, access timing, atomicity, alignment,
-> cacheability and whatever else I/O related.
->
-> I discussed with Joel about the hw register access and he confirmed
-> that the idea of his bitfields is to be a simple wrapper around logical
-> ops, while the I/O is a matter of 'backbone', which is entirely different
-> thing:
+Hi,
 
-When I was working on initial Rust driver support about a year ago, I also
-thought about how Rust drivers can deal with registers and added the TODO i=
-n
-[1]. This was picked up by Alex, who came up with a great implementation fo=
-r the
-register!() macro, which Joel splitted up into separate register!() and bit=
-field
-parts in the context of moving it from a nova internal implementation into =
-a
-core kernel API.
+since I'm late to the party I'll reply to the entire thread in one go.
 
-As also described in [2], the idea is to have a macro, register!(), that cr=
-eates
-an abstract representation of a register, in order to remove the need for
-drivers to manually construct values through shift operations, masks, etc.
+On Fri, Sep 19, 2025 at 06:22:45AM +0000, Kasireddy, Vivek wrote:
 
-At the same time the idea also is to get proper documentation of the hardwa=
-re
-registers in the kernel; the register!() macro encourages that, by its
-definition trying to come close to how registers are typically documented i=
-n
-datasheets, i.e. get rid of thousands of lines of auto-generated #defines f=
-or
-base addresses, shift and masks with cryptic names and provide something li=
-ke
+> I think using a PCI BAR Address works just fine in this case because the Xe
+> driver bound to PF on the Host can easily determine that it belongs to one
+> of the VFs and translate it into VRAM Address.
 
-	register!(NV_PMC_BOOT_0 @ 0x00000000, "Basic revision information about th=
-e GPU" {
-	    28:24   architecture_0 as u8, "Lower bits of the architecture";
-	    23:20   implementation as u8, "Implementation version of the architect=
-ure";
-	    8:8     architecture_1 as u8, "MSB of the architecture";
-	    7:4     major_revision as u8, "Major revision of the chip";
-	    3:0     minor_revision as u8, "Minor revision of the chip";
-	});
+There are PCIe bridges that support address translation, and might apply
+different translations for different PASIDs, so this determination would
+need to walk the device tree on both guest and host in a way that does
+not confer trust to the guest or allows it to gain access to resources
+through race conditions.
 
-instead.
+The difficulty here is that you are building a communication mechanism
+that bypasses a trust boundary in the virtualization framework, so it
+becomes part of the virtualization framework. I believe we can avoid
+that to some extent by exchanging handles instead of raw pointers.
 
-(It has quite some more features that also allow you to directly derive com=
-plex
-types from primitives and define arrays of registers, such as in
+I can see the point in using the dmabuf API, because it integrates well
+with existing 3D APIs in userspace, although I don't quite understand
+what the VK_KHR_external_memory_dma_buf extension actually does, besides
+defining a flag bit -- it seems the heavy lifting is done by the
+VK_KHR_external_memory_fd extension anyway. But yes, we probably want
+the interface to be compatible to existing sharing APIs on the host side
+at least, to allow the guest's "on-screen" images to be easily imported.
 
-	register!(NV_PFALCON_FBIF_TRANSCFG @ PFalconBase[0x00000600[8]] {
-	    1:0     target as u8 ?=3D> FalconFbifTarget;
-	    2:2     mem_type as bool =3D> FalconFbifMemType;
-	});
+There is some potential for a shortcut here as well, giving these
+buffers directly to the host's desktop compositor instead of having an
+application react to updates by copying the data from the area shared
+with the VF to the area shared between the application and the
+compositor -- that would also be a reason to remain close to the
+existing interface.
 
-which makes dealing with such registers in drivers way less error prone.
+It's not entirely necessary for this interface to be a dma_buf, as long
+as we have a conversion between a file descriptor and a BO.  On the
+other hand, it may be desirable to allow re-exporting it as a dma_buf if
+we want to access it from another device as well.
 
-Here's one example of how it looks like to alter a single field within a
-register:
+I'm not sure that is a likely use case though, even the horrible
+contraption I'm building here that has a Thunderbolt device send data
+directly to VRAM does not require that, because the guest would process
+the data and then send a different buffer to the host. Still would be
+nice for completeness.
 
-	// `bar` is the `pci::Bar` I/O backend.
-	regs::NV_PFALCON_FALCON_ENGINE::alter(bar, |v| v.set_reset(true));
+The other thing that seems to be looming on the horizon is that dma_buf
+is too limited for VRAM buffers, because once it's imported, it is
+pinned as well, but we'd like to keep it moveable (there was another
+thread on the xe mailing list about that). That might even be more
+important if we have limited BAR space, because then we might not want
+to make the memory accessible through the BAR unless imported by
+something that needs access through the BAR, which we've established the
+main use case doesn't (because it doesn't even need any kind of access).
 
-Of course you could also alter multiple fields at once by doing more change=
-s
-within the closure.)
+I think passing objects between trust domains should take the form of an
+opaque handle that is not predictable, and refers to an internal data
+structure with the actual parameters (so we pass these internally as
+well, and avoid all the awkwardness of host and guest having different
+world views. It doesn't matter if that path is slow, it should only be
+used rather seldom (at VM start and when the VM changes screen
+resolution).
 
-It intentionally avoids encoding hardware bus specific endianness, because
-otherwise we'd need to define this for every single register definition, wh=
-ich
-also falls apart when the device can sit on top of multiple different busse=
-s.
+For VM startup, we probably want to provision guest "on-screen" memory
+and semaphores really early -- maybe it makes sense to just give each VF
+a sensible shared mapping like 16 MB (rounded up from 2*1080p*32bit) by
+default, and/or present a ROM with EFI and OpenFirmware drivers -- can
+VFs do that on current hardware?
 
-Instead, the only thing that matters is that there is a contract between th=
-e
-abstract register representation and the I/O backends, such that the data c=
-an be
-correctly layed out by the I/O backend, which has to be aware of the actual
-hardware bus instead.
+On Tue, Sep 23, 2025 at 05:53:06AM +0000, Kasireddy, Vivek wrote:
 
-As mentioned in another thread, one option for that is to use regmap within=
- the
-I/O backends, but that still needs to be addressed.
+> IIUC, it is a common practice among GPU drivers including Xe and Amdgpu
+> to never expose VRAM Addresses and instead have BAR addresses as DMA
+> addresses when exporting dmabufs to other devices.
 
-So, for the register!() macro, I think we should keep it an abstract
-representation and deal with endianness in the I/O backend.
+Yes, because that is how the other devices access that memory.
 
-However, that's or course orthogonal to the actual feature set of the bitfi=
-eld
-macro itself.
+> The problem here is that the CPU physical (aka BAR Address) is only
+> usable by the CPU.
 
-- Danilo
+The address you receive from mapping a dma_buf for a particular device
+is not a CPU physical address, even if it is identical on pretty much
+all PC hardware because it is uncommon to configure the root bridge with
+a translation there.
 
-[1] https://docs.kernel.org/gpu/nova/core/todo.html#generic-register-abstra=
-ction-rega
-[2] https://lore.kernel.org/lkml/DD0ZTZM8S84H.1YDWSY7DF14LM@kernel.org/
+On my POWER9 machine, the situation is a bit different: a range in the
+lower 4 GB is reserved for 32-bit BARs, the memory with those physical
+addresses is remapped so it appears after the end of physical RAM from
+the point of view of PCIe devices, and the 32 bit BARs appear at the
+base of the PCIe bus (after the legacy ports).
+
+So, as an example (reality is a bit more complex :> ) the memory map
+might look like
+
+0000000000000000..0000001fffffffff    RAM
+0060000000000000..006001ffffffffff    PCIe domain 1
+0060020000000000..006003ffffffffff    PCIe domain 2
+...
+
+and the phys_addr_t I get on the CPU refers to this mapping. However, a
+device attached to PCIe domain 1 would see
+
+0000000000000000..000000000000ffff    Legacy I/O in PCIe domain 1
+0000000000010000..00000000000fffff    Legacy VGA mappings
+0000000000100000..000000007fffffff    32-bit BARs in PCIe domain 1
+0000000080000000..00000000ffffffff    RAM (accessible to 32 bit devices)
+0000000100000000..0000001fffffffff    RAM (requires 64 bit addressing)
+0000002000000000..000000207fffffff    RAM (CPU physical address 0..2GB)
+0060000080000000..006001ffffffffff    64-bit BARs in PCIe domain 1
+0060020000000000..006003ffffffffff    PCIe domain 2
+
+This allows 32 bit devices to access other 32 bit devices on the same
+bus, and (some) physical memory, but we need to sacrifice the 1:1
+mapping for host memory. The actual mapping is a bit more complex,
+because 64 bit BARs get mapped into the "32 bit" space to keep them
+accessible for 32 bit cards in the same domain, and this would also be a
+valid reason not to extend the BAR size even if we can.
+
+The default 256 MB aperture ends up in the "32 bit" range, so unless the
+BAR is resized and reallocated, the CPU and DMA addresses for the
+aperture *will* differ.
+
+So when a DMA buffer is created that ends up in the first 2 GB of RAM,
+the dma_addr_t returned for this device will have 0x2000000000 added to
+it, because that is the address that the device will have to use, and
+DMA buffers for 32 bit devices will be taken from the 2GB..4GB range
+because neither the first 2 GB nor anything beyond 4 GB are accessible
+to this device.
+
+If there is a 32 bit BAR at 0x10000000 in domain 1, then the CPU will
+see it at 0x60000010000000, but mapping it from another device in the
+same domain will return a dma_addr_t of 0x10000000 -- because that is
+the address that is routeable in the PCIe fabric, this is the BAR
+address configured into the device so it will actually respond, and the
+TLP will not leave the bus because it is downstream of the root bridge,
+so it does not affect the physical RAM.
+
+Actual numbers will be different to handle even more corner cases and I
+don't remember exactly how many zeroes are in each range, but you get
+the idea -- and this is before we've even started creating virtual
+machines with a different view of physical addresses.
+
+On Tue, Sep 23, 2025 at 06:01:34AM +0000, Kasireddy, Vivek wrote:
+
+> - The Xe Graphics driver running inside the Linux VM creates a buffer
+> (Gnome Wayland compositor's framebuffer) in the VF's portion (or share)
+> of the VRAM and this buffer is shared with Qemu. Qemu then requests
+> vfio-pci driver to create a dmabuf associated with this buffer.
+
+That's a bit late. What is EFI supposed to do?
+
+   Simon
