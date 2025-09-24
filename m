@@ -2,82 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14949B9B26E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 19:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED20CB9B277
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 19:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3A8510E7A5;
-	Wed, 24 Sep 2025 17:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4935F10E7A6;
+	Wed, 24 Sep 2025 17:59:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JnaA0N5I";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LPxt7aTm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52CFE10E7A5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 17:58:49 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-62fb48315ddso95017a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 10:58:49 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D264B10E7A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 17:59:10 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2698d47e6e7so120745ad.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 10:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758736728; x=1759341528; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GKqJP+48MmB6+CsLCrP4WRsLC5jZbjywV4JQAy5jU3Y=;
- b=JnaA0N5ImtjKC/tlEl28u7xddAZR2Pe0ixY41qai0i+eLI0BASngXOqD++Jf0u7Fja
- sxVVCkZVIYFQpiXlIto25Ggvry17fCyCKFmSC3OXFcmumiBODUyO78nC99/VUBWZwHAE
- FUrtDF7GfjPUQNIYYZZ5pyUwydWwA7G/W46aZteX0vUmwFmDYfZK4KQd+X+70hbNg1op
- xiLX+7Z0kE1FvaMU8YJ4iMsLXr/eIlpjtMQao3HTZh8lVD9fAr7zNTS8csIjyfV1y1z9
- 3q7N8GV2NOswHYQBtdAWPZw2cmnwpiEuI/0k8BsJEQkxUP9QkGisSX8KTCEzM7XHwfUw
- 4Osg==
+ d=gmail.com; s=20230601; t=1758736750; x=1759341550; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qYxzPl4txcDtBsDgUFMQiABFR95EJgZY6ii1JhXVVI8=;
+ b=LPxt7aTm2alTEcvD2E9PKlCiYu5XoV3fkdmxsl1JFPrxBHwca34UmzFWBPFW0ChYFk
+ F+ln9/xl1WlsMOdug4BICiae2J1AcnK0AGPQ/IBqpTVSWWjj3wUzoPIOmYTZXA+qFuf9
+ HMSCN8b5XsW2jHlEcuzhGubMV8XN16BUCu02A5A5zBh3P8V41+dCYkCj09xz69K0+Iq8
+ eNNG8AZuljnIRIJeXNezSmXh8/0T3M+lzBxEObXXjQUxkalkkfTsARKoodVlczF5Ngt/
+ 3bJBY0Kiw9xa6zcojyxTfiPkpxmduA1TEPiNrt5c77RLCpWyt9qykccBeaEwahI+zyau
+ 01pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758736728; x=1759341528;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GKqJP+48MmB6+CsLCrP4WRsLC5jZbjywV4JQAy5jU3Y=;
- b=Kod86OH7sIfULG3Gj12kz/XCgcnl4o1+TI//tOdMQjomYceVKE2aVfDpZNFKkLjQR+
- dTGZcSzs5Fu129i8w64pLY2XX9dVrWVfDlq19n3n1kE3d1Ylgz1d4qK1bRXbomWCQDPL
- D335lHxKkNvAlPasqQOZN5KKA0V1ZewKDOnkmUYHiFs8M7RnzZfEjXi1v6YK3kAYQsMX
- s74ba/te+Qp0gHAGsM4scEV5qcOLXmdvhpRmUtbnjQuzRxY9/Dk/xR6wu1O+tHqXviII
- Q34ZFqNF8kWa6azgYN8kVceDyXSxjSPBDCI2zKdAqCaUQik5/qcwWB0eaRrXpF6iD0Cf
- 150w==
+ d=1e100.net; s=20230601; t=1758736750; x=1759341550;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qYxzPl4txcDtBsDgUFMQiABFR95EJgZY6ii1JhXVVI8=;
+ b=FMuRfgBrk0+BsT8tF5xXhEJENi4Ca/jhqv7BTL/pJyjiIrFMeE+y8ip92uvhFDPTmY
+ 9Og4yNj/xs/TWzXD1WkvTecb/lbOL1SjQPcQNXdqfkye+AEXE3sKUwPdrhy7fPwXbhli
+ GMERKOxCCPLjxabkF+UVd28kofcWX5negiX4tcY2U8yINhEiR6N5pBtIn+3WKJ/72AFj
+ 3pdWOQQOKV97qSfWDiRpErZ7FwkCXhtzbwWUP3oKXRqmxttIYgLJOt5lrpSxgTcQ3ZlU
+ S39CdCHewy7Ywf9bmGCeo1m9czskZTfAK3mBFdRSoViveq6anEW6dsB2xkjLp7I77Eko
+ uUZQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXz5/VOs0nrFyrkS9MCLd2MiONFE+OwmKNPGIpUwGVg2XrQDD74jxdh6hq81VQYsCxuFJ0W82h9mtM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2Gv/vejRc1lJ1cVAirC42d7dbNzPLDf+LZDcSZzimPjZW608q
- LiPNx6yKJJMQlrtdFcS05/dr2MhyoHzE/2pVrHYFwyU6PLZ3lJUh5iwK
-X-Gm-Gg: ASbGncsM0O2wqfnwVBhKXaMMI3syhAripXBvh4L17EblqkPig8qFjC5X5n4SqR2HQJE
- FiIU9lNs8oWxZ5KVtqqYMLERAMNyLGcHvQ+ibaRJim9rfs2BW/AheNMHzfxZZBMSrbDAQLUtpUh
- bNLHCxq5aM3401/McxhQXcfvvxbsJMU7QWbO88fM2fzXZhMO12s9ScO64LLn6/kyKz/DwGs6wsv
- MSYJEyZ9k5bn82MUUcR5QlMFx41OfG1mMacL0bfuwKtlfaJKC57NPWstKlD/lX6q7OtxCi5QBI4
- Cm8bd+x39zGsBuh2HH2QaP10tK9a2uPnYrGAcCKY9ai8U1LBHuBNjHoSLVSNps541kqsAtcHRt9
- oZMFKrnRKHPQbgdQ=
-X-Google-Smtp-Source: AGHT+IGK48eDiJPLwUG6CwWCcjw8mwwOjz0+lrph0QUuGNIzekpn8VliJE1l3jHE+fdBUys0/PFSAA==
-X-Received: by 2002:a05:6402:180d:b0:62f:9cfb:7d34 with SMTP id
- 4fb4d7f45d1cf-6349fa97d25mr223912a12.38.1758736726861; 
- Wed, 24 Sep 2025 10:58:46 -0700 (PDT)
-Received: from hsukr3.. ([141.70.88.200]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6316acdfe14sm9080057a12.52.2025.09.24.10.58.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Sep 2025 10:58:46 -0700 (PDT)
-From: Sukrut Heroorkar <hsukrut3@gmail.com>
-To: Helge Deller <deller@gmx.de>, Bernie Thompson <bernie@plugable.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Randy Dunlap <rdunlap@infradead.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Sukrut Heroorkar <hsukrut3@gmail.com>, Zsolt Kajtar <soci@c64.rulez.org>,
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
- dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
- linux-kernel@vger.kernel.org (open list)
-Cc: skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com
-Subject: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-Date: Wed, 24 Sep 2025 19:57:38 +0200
-Message-ID: <20250924175743.6790-1-hsukrut3@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ AJvYcCUPXzvEFXpMlhTPMq8R4PvJqVILhdDzFBgoU6mO0NnX8DG+5dun7Cs43aeha6Dlr1YaiOPcPxIkYdU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMdO5YbLv+/U639hcMJHIm9eFKpY8bZlzfQ13AEnqXoYMB85rN
+ P2OTDcVOO9dS+x953TbAz14gmYYFMz+bE1NzexFX1L9OspnuuVKzVUp4qyA8Eld2JW/5j/j5zGm
+ 40ypd0HItGNqzPmbahJY+wTQ0frgNR6Y=
+X-Gm-Gg: ASbGncsyf/YQfSoGWzuyOtolpn1MeK2+/+wnE/l+M/Q807NNSyLeOui9kruFTZGPlYI
+ FlBiYF5LUcQQMtlDDZBnq5WNbHImy22JFQqzW9wRDLDIGaapyJ33xH885Jmdar3ohs5xGBS0j8R
+ TYuwpnzHMCsKjPMSLriNk7OQnHFARd+GgHtGKOsz3uhS2NrC+lw9dUQlPk9O2liL678haFsReQN
+ hrtXyvdjJMaXKJuZQ==
+X-Google-Smtp-Source: AGHT+IHtmTWOHSGgYcdz8PkfFJmwvin/TwYsBXRKFtdnnBmyjBC8YY/e52r2/3CWmsd7o/0M3YI4RSTRvcUs/JavpQ0=
+X-Received: by 2002:a17:902:d508:b0:269:96d2:9c96 with SMTP id
+ d9443c01a7336-27ed5b0a538mr1060065ad.0.1758736750323; Wed, 24 Sep 2025
+ 10:59:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <tencent_A8BB4A0E44BDCF1DEC33942D2144C521AF07@qq.com>
+In-Reply-To: <tencent_A8BB4A0E44BDCF1DEC33942D2144C521AF07@qq.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 24 Sep 2025 13:58:59 -0400
+X-Gm-Features: AS18NWABn1U1ZnqDyt6w4crHZgXq-GwZsjSJiYpEOu3bz9xtozY2P_noK06Meps
+Message-ID: <CADnq5_PCGv7a4azG+mhv+=Jmp74-O73iUnZctLkNYKabRGcwMg@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Solve the problem of the audio options not
+ disappearing promptly after unplugging the HDMI audio.
+To: 2564278112@qq.com
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Wang Jiang <jiangwang@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,97 +87,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The udlfb driver exposes sysfs attributes thus depends upon
-CONFIG_FB_DEVICE. This patch work wraps relavent code blocks
-with #ifdef CONFIG_FB_DEVICE so that the driver can still be
-built even when CONFIG_FB_DEVICE is not selected.
+On Wed, Sep 24, 2025 at 7:44=E2=80=AFAM <2564278112@qq.com> wrote:
+>
+> From: Wang Jiang <jiangwang@kylinos.cn>
+>
+> The audio detection process in the Radeon driver is as follows:
+> radeon_dvi_detect/radeon_dp_detect -> radeon_audio_detect -> radeon_audio=
+_enable -> radeon_audio_component_notify -> radeon_audio_component_get_eld
+> When HDMI is unplugged, radeon_dvi_detect is triggered.
+> At this point, radeon_audio_detect is triggered before radeon_dvi_detect =
+has finished (which also means the new state of the connector has not been =
+reported).
+> In this scenario, radeon_audio_detect can detect that the connector is di=
+sconnected (because the parameter is passed down),
+>  but it is very likely that the audio callback function radeon_audio_comp=
+onent_get_eld cannot detect the disconnection of the connector.
+> As a result, when the audio component (radeon_audio_component_get_eld) pe=
+rforms detection, the connector's state is not shown as disconnected,
+> and connector->eld is not zero, causing the audio component to think the =
+audio driver is still working.
+> I have added a new member (enable_mask) to the audio structure to record =
+the audio enable status.
+> Only when radeon_audio_component_get_eld detects that enable_mask is not =
+zero will it continue to work.
+> There might be other solutions, such as placing radeon_audio_detect/radeo=
+n_audio_component_notify after the completion of radeon_XX_detect.
+> However, I found that this would require significant changes (or perhaps =
+it's just my limited coding skills?).
 
-This addresses an item in Documentation/gpu/TODO.rst.
+This still looks like a race.  I think the get_eld() callback can get
+called whenever.  The proper fix is probably to hold the
+connector->eld_mutex in radeon_audio_detect().
 
-Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
----
-Note: this change has only been compile-tested.
+Alex
 
- drivers/video/fbdev/Kconfig | 1 -
- drivers/video/fbdev/udlfb.c | 8 ++++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 1500dca8c416..40442b80de17 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1596,7 +1596,6 @@ config FB_SMSCUFX
- config FB_UDL
- 	tristate "Displaylink USB Framebuffer support"
- 	depends on FB && USB
--	depends on FB_DEVICE
- 	select FB_MODE_HELPERS
- 	select FB_SYSMEM_HELPERS_DEFERRED
- 	help
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index ccede85df1e1..de2e310054d4 100644
---- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -1382,6 +1382,7 @@ static int dlfb_setup_modes(struct dlfb_data *dlfb,
- 	return result;
- }
- 
-+#ifdef CONFIG_FB_DEVICE
- static ssize_t metrics_bytes_rendered_show(struct device *fbdev,
- 				   struct device_attribute *a, char *buf) {
- 	struct fb_info *fb_info = dev_get_drvdata(fbdev);
-@@ -1413,6 +1414,7 @@ static ssize_t metrics_cpu_kcycles_used_show(struct device *fbdev,
- 	return sysfs_emit(buf, "%u\n",
- 			atomic_read(&dlfb->cpu_kcycles_used));
- }
-+#endif
- 
- static ssize_t edid_show(
- 			struct file *filp,
-@@ -1486,6 +1488,7 @@ static const struct bin_attribute edid_attr = {
- 	.write = edid_store
- };
- 
-+#ifdef CONFIG_FB_DEVICE
- static const struct device_attribute fb_device_attrs[] = {
- 	__ATTR_RO(metrics_bytes_rendered),
- 	__ATTR_RO(metrics_bytes_identical),
-@@ -1493,6 +1496,7 @@ static const struct device_attribute fb_device_attrs[] = {
- 	__ATTR_RO(metrics_cpu_kcycles_used),
- 	__ATTR(metrics_reset, S_IWUSR, NULL, metrics_reset_store),
- };
-+#endif
- 
- /*
-  * This is necessary before we can communicate with the display controller.
-@@ -1702,6 +1706,7 @@ static int dlfb_usb_probe(struct usb_interface *intf,
- 		goto error;
- 	}
- 
-+#ifdef CONFIG_FB_DEVICE
- 	for (i = 0; i < ARRAY_SIZE(fb_device_attrs); i++) {
- 		attr = &fb_device_attrs[i];
- 		retval = device_create_file(info->dev, attr);
-@@ -1710,6 +1715,7 @@ static int dlfb_usb_probe(struct usb_interface *intf,
- 				 "failed to create '%s' attribute: %d\n",
- 				 attr->attr.name, retval);
- 	}
-+#endif
- 
- 	retval = device_create_bin_file(info->dev, &edid_attr);
- 	if (retval)
-@@ -1753,9 +1759,11 @@ static void dlfb_usb_disconnect(struct usb_interface *intf)
- 	/* this function will wait for all in-flight urbs to complete */
- 	dlfb_free_urb_list(dlfb);
- 
-+#ifdef CONFIG_FB_DEVICE
- 	/* remove udlfb's sysfs interfaces */
- 	for (i = 0; i < ARRAY_SIZE(fb_device_attrs); i++)
- 		device_remove_file(info->dev, &fb_device_attrs[i]);
-+#endif
- 	device_remove_bin_file(info->dev, &edid_attr);
- 
- 	unregister_framebuffer(info);
--- 
-2.43.0
-
+>
+> Signed-off-by: Wang Jiang <jiangwang@kylinos.cn>
+> ---
+>  drivers/gpu/drm/radeon/radeon.h       | 1 +
+>  drivers/gpu/drm/radeon/radeon_audio.c | 5 +++++
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/rad=
+eon.h
+> index 63c47585afbc..2d0a411e3ed6 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -1745,6 +1745,7 @@ struct r600_audio_pin {
+>         u32                     offset;
+>         bool                    connected;
+>         u32                     id;
+> +       u8                      enable_mask;
+>  };
+>
+>  struct r600_audio {
+> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/rade=
+on/radeon_audio.c
+> index 8d64ba18572e..a0717895cc8a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_audio.c
+> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
+> @@ -212,6 +212,7 @@ static void radeon_audio_enable(struct radeon_device =
+*rdev,
+>         if (rdev->audio.funcs->enable)
+>                 rdev->audio.funcs->enable(rdev, pin, enable_mask);
+>
+> +       rdev->audio.pin[pin->id].enable_mask =3D enable_mask;
+>         radeon_audio_component_notify(rdev, pin->id);
+>  }
+>
+> @@ -274,6 +275,7 @@ int radeon_audio_init(struct radeon_device *rdev)
+>                 rdev->audio.pin[i].connected =3D false;
+>                 rdev->audio.pin[i].offset =3D pin_offsets[i];
+>                 rdev->audio.pin[i].id =3D i;
+> +               rdev->audio.pin[i].enable_mask =3D 0;
+>         }
+>
+>         radeon_audio_interface_init(rdev);
+> @@ -760,6 +762,9 @@ static int radeon_audio_component_get_eld(struct devi=
+ce *kdev, int port,
+>         if (!rdev->audio.enabled || !rdev->mode_info.mode_config_initiali=
+zed)
+>                 return 0;
+>
+> +       if (rdev->audio.pin[port].enable_mask =3D=3D 0)
+> +               return 0;
+> +
+>         list_for_each_entry(connector, &dev->mode_config.connector_list, =
+head) {
+>                 const struct drm_connector_helper_funcs *connector_funcs =
+=3D
+>                                 connector->helper_private;
+> --
+> 2.25.1
+>
