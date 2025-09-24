@@ -2,141 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F21FB9A6F2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 17:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1186FB9A76B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 17:08:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0316D10E733;
-	Wed, 24 Sep 2025 15:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5166710E742;
+	Wed, 24 Sep 2025 15:08:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bZdLtKrB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lC5yQ43p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012050.outbound.protection.outlook.com [40.107.209.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDF810E733
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 15:02:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EZtgvUB1KpSxAuyGX6nng0xCbbZJM6qeoJD5M79UnqyVMm/DLZqTlw/P08Y9sRNsnZU5d5EGlLHjAhbRO2GEtnVSJyXWTc8M54qxWQoNLYeYDa8wqoBeLpgvgitJvY/Tc9xdhM9yqa+Gr3XKWA8dz6Q0etB1s2NRauWc1x+7Soo4iCtNR67I8nBpp/dpdDOsmqXmEt3jcRpi1/46WqTd8+ZaqKw+qL//qev7H5wUpkvAsdZP+xb/KtkOzam5lKK//F1xq5ziFYvFYTfV5hyjn/W0h5ZjHS2FLupkdxEc5HEjb4okj99ZHZ9dJHcsT4XpfHOtk4d/fkkD8xZOGzr36w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xHDCmrOUfEGTo0Mft19+4E0kL6HZd3HUgZl98CWz+AE=;
- b=lfIcr0Dosir1aQ8k8Knpd1c7AVM3HGn7/TNaR3FdMDwwVTa/P6Pek/PkRs2HsygcX+7zLlKz+/F7iMSHWYK1hLT6YrHsRY27No1W/t31CqgjeCbh/MbU5A72b0cE8rfDNti5oFv6SspMHXGIDgSkTV45rNPxcygHf3LFqfTI+oNqZdfbhIKQkmxPvGsWLXXyJ2ZI9p1HE7zFQPZqrn77nQVKk6RaHJ1blqpZsyu7YpcEqGkR+R3rn0VmfuDinbcNEgdXksDt1e4muXLZYiCS+srm6ThMfxVFrsT0xIKuF+v6TZtEfSy9pbZGVSzcGyDWZc+QKMMXz+oTprm/ak75gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=mailbox.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xHDCmrOUfEGTo0Mft19+4E0kL6HZd3HUgZl98CWz+AE=;
- b=bZdLtKrBZBxiuSjX737R9/896Ea9tXn8L9GVv5WGe1jaK5eqGGXZW2IEeisN+JZxCgMMlZ9SkYGi935jz2IdCAvVHDC5eltRBM3vKxou+tBOSv76qxXvGMNA2hrWVzyebIwRHlIxsL8iuI/cDFycunXlhYnGn/nipdj/e7m5v2o=
-Received: from SJ0PR13CA0172.namprd13.prod.outlook.com (2603:10b6:a03:2c7::27)
- by DM6PR12MB4091.namprd12.prod.outlook.com (2603:10b6:5:222::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Wed, 24 Sep
- 2025 15:01:59 +0000
-Received: from SJ5PEPF00000203.namprd05.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::eb) by SJ0PR13CA0172.outlook.office365.com
- (2603:10b6:a03:2c7::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.9 via Frontend Transport; Wed,
- 24 Sep 2025 15:01:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ5PEPF00000203.mail.protection.outlook.com (10.167.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.9 via Frontend Transport; Wed, 24 Sep 2025 15:01:59 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 24 Sep
- 2025 08:01:51 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 24 Sep
- 2025 10:01:49 -0500
-Received: from [10.254.37.133] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Wed, 24 Sep 2025 08:01:48 -0700
-Message-ID: <1b09ec41-0f82-49c2-9adf-66f4fd537b9f@amd.com>
-Date: Wed, 24 Sep 2025 11:01:48 -0400
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 677DC10E742
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 15:08:27 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-267fac63459so64756885ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 08:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1758726507; x=1759331307; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4cPuMIb0mZC5xOmyRNwA38vJPNTs1ammKswmchiIKuo=;
+ b=lC5yQ43pAnN8S8v0otAtWLwqhVrz/O8N/Y+Vq41+7zpc2vJ/xZJdojXpF2v7jN46yW
+ QnreeFYxdskMqlhWN4zOqRwimeNn7DDCzYooUsFuaQ8w/Mszs2tEBKFjWYgvfV7x5S4t
+ Q9KGP1GURL2mOcg8pJmUxmnZSanRHNbrk+GRjM8t+HvPG1ydie+MVV4Y6ruFFuZmhlmF
+ tJDOWE2glBUzJdL4sHRq7zt1pxz3/poZYTIWnxi+GMk8yNinuLGvhGY6QXTAUi7Tdxuj
+ x5lNIWcmfGNSH7eegkEpUCmRpWGQPYM7MyPvPt6Rd+m5fcd46qV6OqS3mnyKwyNKcbE8
+ QUaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758726507; x=1759331307;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4cPuMIb0mZC5xOmyRNwA38vJPNTs1ammKswmchiIKuo=;
+ b=sD8fWnJFLJVuzzr/eKzqDWSxUfTcnIIt7z7qDR/47W3/0R/W/vNbFf1aMuxw52aYfU
+ YaWV48KT99dnvbQMVzFufrtqYNgGpo1qyG2R/GjV8q0qhGM6Edenx+mwVKqcQ+MYpM/a
+ oIsvtVvsAZlVoK6gDZ/sE9q662IF7T8hYR3CTJIzqsoqU+MOy5yz2yTT1aaJoQy8xGun
+ quhx4pbD+bhdDnV98QUe5ad/ktHVkuu6L/wuBtV7z1C+nWzPAvVjEAFHVPaaChxX3MDI
+ TEWznlGAw5nhZWbmCF1M8NozhPLL/XGUNql/ygSduRYERRr0sNycCf6c0ax4xfxlwnpq
+ kdbQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVfwuuVHJFFwflYvYYGZ4EhSvZOb4h22hDdqVZJgqAo3Kg2bh9+DzC/af3nw//yKSXZdBezzgf20/Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYq0joWuRDJ+vibvBKiDfxjpxbkr5pmEQqJi1sxMw8a6TQCAiH
+ k4zl/7lqmrdGn4jYtJkaOnPzKrnUXsoJY0FAoEbRcofghv9e2Nu5HJT9HGFiSPCXAAc=
+X-Gm-Gg: ASbGncvz3it164OS7FN7RvANBPAT9QseN3HT19gEYNPq1o3/NANA47aCw3Vq7jsj0bF
+ vT624SfFXKK2Jcd1SfWxIxKOevi4L3CGsaGF9KjLV1VHEcD6bKgiyjiaiww1yeKkoQdeOPXyNF8
+ msdzcmcfnuLn0hyYqsbeTAdfpqq0evDUa+itwPutagAzs3GFQBke+ktmeUZCNHPNAg2wcA0NvD0
+ 897xUpXiJHEucSpXEwXq+Grm5iPabA35mtwAuiFpoL27YfxHATQ1DslyGwWVCwvBd15Q9Pxg7me
+ 81DbCBaEC4CidHjmUPkuLSqZPgk7DkD7PArCHlMA+zsgvMETy5CS+DQGRhSQaCkSLI8DW2lMKmC
+ mbAnVlKvT0pDRzXqF
+X-Google-Smtp-Source: AGHT+IGdO7AHe6Adr0JVRoWrxVhan7hdmVuVEYOGDB1J6Z6YlniOSroTOkT9XhR+htou4GY59pzHXg==
+X-Received: by 2002:a17:903:244a:b0:25c:d4b6:f117 with SMTP id
+ d9443c01a7336-27ed4a3de3cmr643585ad.35.1758726506852; 
+ Wed, 24 Sep 2025 08:08:26 -0700 (PDT)
+Received: from [127.0.1.1] ([112.64.61.5]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-26b59d6538bsm158717445ad.82.2025.09.24.08.08.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Sep 2025 08:08:26 -0700 (PDT)
+From: Jun Nie <jun.nie@linaro.org>
+Subject: [PATCH v3 0/3] drm/msm/dsi: Add support to 2 panels in bonded-DSI mode
+Date: Wed, 24 Sep 2025 23:08:09 +0800
+Message-Id: <20250924-dsi-dual-panel-upstream-v3-0-6927284f1098@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/uapi: Indroduce a VRR Range Control Interface
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, Derek Foreman
- <derek.foreman@collabora.com>, Chuanyu Tseng <Chuanyu.Tseng@amd.com>
-CC: <harry.wentland@amd.com>, <Mario.Limonciello@amd.com>,
- <xaver.hugl@gmail.com>, <victoria@system76.com>, <seanpaul@google.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20250912073305.209777-1-Chuanyu.Tseng@amd.com>
- <010201993e2cb26f-089ce007-9e30-4b79-b487-c16c360309fd-000000@eu-west-1.amazonses.com>
- <d8694d69-62b3-4418-9fcb-d37c1daa1f9f@mailbox.org>
- <58a6e042-1890-4d1c-88cc-29f500b0a407@mailbox.org>
-Content-Language: en-US
-From: Leo Li <sunpeng.li@amd.com>
-In-Reply-To: <58a6e042-1890-4d1c-88cc-29f500b0a407@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000203:EE_|DM6PR12MB4091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20253957-713b-439f-4d8a-08ddfb7b4fa8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|1800799024|42112799006|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NDQyWlhmR2V1bkxGclRBQVI5dlZlUzlEYU9WcEc0VXJ5bTZmbCtKQ2Z0eG53?=
- =?utf-8?B?N0ljcG9XOWlZNGtaR3IvTFptangwN0dKQjBQUlo2TTF1bDNsR01CMGpPdTZH?=
- =?utf-8?B?WTQwRkI0VVpqL3VPK0tVOG5HeStWcEdINlNic0pnTlFYVm8vSVA5cHdoa1R3?=
- =?utf-8?B?a0xVMStoM2xvUlU3Rkl6NWFzS2NWQXhGN3VyeDJGZ2NpMW9zTVJOaTNHYlYy?=
- =?utf-8?B?b2tROStvL1BnSmllaUhjNHk0eXNyZW1veUhZa3k1blcxUlYrcENaZVlYSGlk?=
- =?utf-8?B?eGlML3NXVWdOaDg5M3pIeFB6Y01tN0c0OExPZ2tHL3ZSVFVsSWhDSWZqTUJt?=
- =?utf-8?B?cnJ0c3hFMnhjQVNZVEU5NkxwRjMxV1Q3MHpTRG1CQTIvbm9EaUVwMnJHTWpv?=
- =?utf-8?B?WkpwZnUrVkJJVUlWWVB3QlczUHNONVZZWDlEazdiVnduN2Zad1pJL1dlWWdM?=
- =?utf-8?B?amlvN2tWUDZNNHFKRzcxdW5hd2ZGZUY0QjlQWGx2RzdDbUFpc1cwVGlCK2M4?=
- =?utf-8?B?TTA4RHB1ZUJWQXJlYWNIL0EyYlFEQng2clMwYVZmSUZvVTZhSmQ3Q3pKVUFz?=
- =?utf-8?B?QUJnUFRvQlQ2c0hlYk5EMGVxNmV4L2V1ZVVPWnJTQWhhbzlXU3V2K1lyVHc1?=
- =?utf-8?B?RjhaRVBpd2xhOUJXU0RYYktXSHBueC9yUTBQbWVxTllNbmZNOVVPanQyczIr?=
- =?utf-8?B?emJKL3I3bjVabFVHNEhBS0xmNWtjNngydGJCQWZwcXNCN1N1RU9FSk9BWGF6?=
- =?utf-8?B?SFBBMU5HM0dWb1dQbDhRRDR0YzFRYS9Hdzd2RUM3dythRGdZY1kzbWhIUmpQ?=
- =?utf-8?B?MFlGKzlrM1ppdTk5a05xOUdqSmNyMnVKU1hGWHZKRGdoVWFWZEVXK0R2VlJp?=
- =?utf-8?B?blZuTVhya3pxVGZyRjBFNzAyTGhrcGNmSDNqMHRnSFZlRG9qZHlFOElPeVNp?=
- =?utf-8?B?QlpSNHRGZnhtd3NlK2pOeVZ1UFU3R2FPOGNYVXhua215dlM5eEZrcThvekFZ?=
- =?utf-8?B?ZHBkU3BoNGQzeDF6OFd5a2pSMTBoby91Y1JybERscWg4YmU1eklyY2lRYlU5?=
- =?utf-8?B?ZG9Ha1RXVzZOK09YdVFaVVpGZGQyTFFiMTVoNGdRR213aFIrSjkyODZDRU10?=
- =?utf-8?B?ZmpCb2IzSk11M1p1UEFHUllvS3ZOUmZaaUNTWWtZaUFIdkxla2FqN0hpU2JT?=
- =?utf-8?B?enNJVVdUUFo3ZkQvaENpTDZxMnZzWDlOcE93OTl5SGVISHNFTFJpOHFueURD?=
- =?utf-8?B?Vy9ZZUNDbWpFbTYxTXg0dlZVdGx5eGZGeXUyU004SE9kSzRGenloTXJHWWsw?=
- =?utf-8?B?aUNTMUFuUnBGT3lGZEwrZXAxc2FkYml2YVRhMy9GRUx0eDByM3E2eHhPRWFN?=
- =?utf-8?B?RUY1ZkRMcGNDbVM3TVVTWjdMSmowVTk1WkFDYzk3alpueVlrSWpYUTA1bURx?=
- =?utf-8?B?cUxrMVVRNDdWRHVyUGVEV01VQUNkcytPWG4zVzBqZWg5ZzArK0lqdmJ5eDE1?=
- =?utf-8?B?NzZpUUMvbXI2bk5aNUZja2RZMW1lUTZJSHRkUWVvRXBUeXhDK1FlaTBHeVhq?=
- =?utf-8?B?Nm5XeFprb0tDWG5RdnJPYS9YSWV1VXA5QVIzckcyRjZrTE5xTGVIOFkzcWNW?=
- =?utf-8?B?bnN3NFYxOXh2eHArdTJDUmg2TjdaWFg1S0VtYjViRGVzT3pIMWlwbUdhY3pK?=
- =?utf-8?B?S2ZycHVCRVZHZEtqbzNEazhtb3VnTXI2WEZSVmpBMVkzZEVtTHFjTzJQTWc4?=
- =?utf-8?B?Y0Jrd0EvN0hDREtLcHRWUmdUa1htREpReWs1ZjZCdHNRT0l1UUkvLzdWVlpC?=
- =?utf-8?B?SXJMMmVIY1cxOW1ndGNFTlRkcWMzRWRrQ0tucy9kN01OaGM0SFQ2MVdWdlNS?=
- =?utf-8?B?VEh4SDNCOFRjVGM1MndCVVhyUVluNUFkWUVnTm1ycE9OeVNPMnN2S2JZOTVa?=
- =?utf-8?B?MkJTaDlQUEVyU2I3N3FzemRIYVd4ODVncTUzbnJ2bFhUeWtsUjl5WHFXWkx3?=
- =?utf-8?B?dUJZdG5mYXNnPT0=?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(1800799024)(42112799006)(376014);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 15:01:59.1102 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20253957-713b-439f-4d8a-08ddfb7b4fa8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF00000203.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4091
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFkJ1GgC/x3MwQrCMAyA4VcpOS9Q2k5wryIeookaqF1pNhHK3
+ t3i8Tv8fweTpmKwuA5NPmq6loE4Obi/qDwFlYch+DD7c0jIpsg7ZaxUJONebWtCb0zEwqd448A
+ zjLo2eej3f75cj+MHs2l9smkAAAA=
+X-Change-ID: 20250924-dsi-dual-panel-upstream-4aded63bd2d5
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Jun Nie <jun.nie@linaro.org>, 
+ Jonathan Marek <jonathan@marek.ca>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758726499; l=1682;
+ i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
+ bh=iNszQabvn/lRi8yKKlr/FXddBVqjWQ7NUr1nerkkTZw=;
+ b=R2JXFonK7pFkgd4mj9wIsv4DU1DOmzP4CuuDG3BZ/JK6k5rr3gcqHOzQEIW1nXqyTrVMHMRSN
+ vZyLYGivB+2CKc7hjk474vCOrc4Ysh6AtEp/hbcX0DDEj6SpaIaO1sL
+X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
+ pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,59 +109,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The 2 DSI interfaces may be connected to 2 independent panels in bonded-DSI
+mode. Horizontal timing and DSC configuration are adjusted per individual
+panel in DSI host side. Support to multiple slice per packet is added for
+the device setup to test the usage case.
 
+Changes vs v2:
+- Polish commit message to describe usage case and requirements to
+  panel driver.
+- Remove changes in device tree and add dual_panel flag in mipi_dsi_device
+  to pass information from panel to dsi host.
+- Drop the register programming to DSI_VBIF_CTRL, as no issue is seen
+  in latest test.
+- Link to v2: https://lore.kernel.org/r/20250220-dual-dsi-v2-0-6c0038d5a2ef@linaro.org
 
-On 2025-09-24 03:50, Michel Dänzer wrote:
-> On 15.09.25 12:01, Michel Dänzer wrote:
->> On 12.09.25 15:45, Derek Foreman wrote:
->>> On 9/12/25 2:33 AM, Chuanyu Tseng wrote:
->>>>
->>>> This is done through 2 new CRTC properties, along with a client
->>>> cap. See the docstrings in patch for details.
->>
->> Not sure why a client cap would be needed for this.
-> 
-> According to https://hwentland.github.io/work/2025hackfest-notes.html#vrr-for-desktop-use-cases the client cap was intended for disabling LFC & ramping in the kernel driver. It's not really needed for that though:
-> 
-> If the min/max property values differ, the kernel driver can vary the effective refresh range between the limits and perform ramping, otherwise it can't.
-> 
-> If the effective maximum value is at least twice the effective minimum value, the kernel driver can perform LFC, otherwise it can't.
+Change vs v1:
+- Add device tree binding for dual panel case in handling frame width for
+  DSC to avoid breaking existing dual-DSI case.
+- Leverage Marijn's patch to configure proper slice per interface in
+  dsi_update_dsc_timing().
+- Polish commit comments.
+- Link to v1: https://lore.kernel.org/all/20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org/
 
-In this case, would the kernel be handling LFC and ramping still? Or would it be a team effort between compositor and kernel?
+Signed-off-by: Jun Nie <jun.nie@linaro.org>
+---
+Jun Nie (3):
+      drm/msm/dsi: support DSC configurations with slice_per_pkt > 1
+      drm/mipi-dsi: Add flag to support dual-panel configurations
+      drm/msm/dsi: Support dual panel use case with single CRTC
 
-For example, say the compositor wishes to adjust (min, max) from (48, 48) to (60, 120), and we're using FPS as the unit. I could imagine the following scenarios:
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 35 +++++++++++++++++++----------------
+ include/drm/drm_mipi_dsi.h         |  4 ++++
+ 2 files changed, 23 insertions(+), 16 deletions(-)
+---
+base-commit: a3306041f55d0f86c40d06eaad1d4e8f06e4483d
+change-id: 20250924-dsi-dual-panel-upstream-4aded63bd2d5
 
-1) Compositor does LFC/ramping
-------------------------------
-
-The compositor can make a sequence of atomic commits where (min, max) is set to (50, 60), (60, 75), ..., (100, 120). The difference between (min_1, max_1) itself and subsequent (min_2, max_2) will have to be small enough to avoid panel flicker. IOW, setting (60, 120) is bad because the range is too wide and may cause flicker, and going from (48, 48) to (120, 120) is also bad for the same reason. The compositor has to be fully aware of ramping here.
-
-For LFC, compositor has to be fully aware too, and ramp to the calculated LFC fps. IOW if going from 24fps to 30fps and the panel supports a min of 48hz, the compositor has to ramp from (48, 48) to (60, 60). Setting a (min, max) outside of the panel supported range would be rejected.
-
-2) Kernel does LFC/ramping
---------------------------
-
-The compositor can request a change from (48, 48) to (60, 120) directly. There will be a period of a few frames where FPS would ramp up to the requested range. IOW, the requested (min, max) is not guaranteed to be applied immediately. Since the kernel handles ramping, we would have the same challenges as prior to this API if the (min, max) range is large. Though that might be ok, as long as the compositor is aware.
-
-If the requested min happens to be below the panel supported rate, then kernel can enable LFC, but only if the calculated LFC fps is within the requested (min, max) range. I guess if it happens that the requested min is not possible, i.e.:
-* min or max is < min_panel_supported, and
-* max is < an int multiple of min,
-Then the kernel would have to reject that commit?
-
-3) Team effort
---------------
-
-The compositor can make a sequence of atomic commits where (min, max) is set to (50, 60), (55, 75), ... (60, 120). The kernel will apply the new range immediately, but still apply ramping within the requested (min, max) values. Also, the same challenge mentioned in 2) applies here.
-
-For LFC, I guess it would be the same as 2). The compositor has to know when the min < min_panel_supported, and make sure max is set to be at least double that, and within the panel supported range. The compositor would have to ramp to that target though.
-
---------
-
-I suppose either 2) or 3) aligns with your thought Michel, but I'm undecided on which is best. Or maybe there's another method of operation that I haven't thought of.
-
-Thanks,
-Leo
-
-> 
-> 
+Best regards,
+-- 
+Jun Nie <jun.nie@linaro.org>
 
