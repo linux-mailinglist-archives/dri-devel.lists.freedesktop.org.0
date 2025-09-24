@@ -2,93 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81ABFB97F89
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 03:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC145B97FD9
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 03:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2807510E211;
-	Wed, 24 Sep 2025 01:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6584710E6B4;
+	Wed, 24 Sep 2025 01:18:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EMHxJx/S";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="ML+SdNKB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C763210E211
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 01:09:31 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-3635bd94f3eso48684321fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Sep 2025 18:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758676170; x=1759280970; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lll/ssUUyzpdCEieMHN7OfODTvGl3B3jSAMJ3V0c2x4=;
- b=EMHxJx/SUV1mJSlN6BXCoh5amhIRd/gOZdSXelrR135P2afS6E0sgOKyWZJd7aKeAi
- m9mwU+PskOQLRf/egaRhgJqeP3EMpJqxoaAE6DtUNJHqFQUJVxJceHlR4eZnjefY3aOi
- vOhgOP0u+PX3OkD4AzE3TqR8Idr8gH9VH6KU496UpwRdTfxGt1pEz4TXbaOzNIhMZnck
- /UUIwUP/TVIX69iNx6l40nw5sI23S41QI7v0mUkjwv82mwgNPa1hZ3dt8y10FATWItNl
- ptN6ALNI6codSGtChRRgOAANySvZK2xniRFhKqgA41n05S/rVOqzg9O87NBYSdbcWx+p
- Y0qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758676170; x=1759280970;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Lll/ssUUyzpdCEieMHN7OfODTvGl3B3jSAMJ3V0c2x4=;
- b=Fd39rbg28Fnxa7ocsRjLXfRMe0IWchW9ByfYOzkju/aJHYJ3/hLhZvbAVi/3ADkSQX
- jjMSvltz/8vKGaNmcN0mUMgzpgZe1O6ZHDcggGm5JdMDfY+Yj4PUtRhaGFX5s+EjiYos
- JWbySmsDWUchCXoaBBZ6puIfe9CqO+L4f0sKvIWEyawkIPSDcp+WQU3dyF19iVqczXiu
- WI06xebHhGWDIVMOjBYO4k+CWszVAVmTyMRkweSXRnqECoECia8PaEco5B3Lsndmet9d
- c4GAOE/nOvnmuaQCyajcMhxHdItKNZEz13zhIVBwLrlnI0hA3n6DDw0Xi3AL7W/obi7s
- dZrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhWB6w3spYu84nZhpji9wAES6HPBJhPZf8FFQyE59NhJYo3zXkIRSDryntQbS9xLSwSxTo1zTYvM4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTJo1Mp4jGzeGV9lTipbpNLW8BZr4pUDApVLS/fRtplNbGZMc8
- 3FtCqbjzOeBEPn4XdwctHXdQoKKG1PMw4mIaZrEQcPkHCaNYwB+SHa/SQWbBSgPVLxJFyJWHy6g
- BRXpXhm5rhqtPiPqC5q6CQNMx48bYIMI=
-X-Gm-Gg: ASbGncuhxrPZcEVMuOP9koeZyzMpnZQ6bjJMbRBq0cilWsiTX0CT3OaakwVozgo2hcB
- bJl3MvWzWGD/LDLIoqCni963bHsTVActQGcBlMDGzyefOlIR4Pyyrrc+KXs6dIcXUUDoU7FxaTs
- RFZ1LVyrK/s9opVI8AmqfFyCdsZ/sm7JafL3fKZ7/6851k39y+zRuEoHNYElURDdEwGE/DX37Of
- 0XdHkt4CpzZJJuGm3kYFgJclkjg1Wj4g9TENi3x5ubCq0ZfwBVqVdDre+1fCgneyWF/Xsi1Oz++
- NnueHlLuOvffScXWTniJMA==
-X-Google-Smtp-Source: AGHT+IHbXAiH1s8VtlmDbsaNP/syoKVWdCeZZCRV8zDEN53vF6lttuESXWuJKlJaexy/SVsmDvyy4M/m2cASKJkmK3E=
-X-Received: by 2002:a05:651c:4088:b0:338:bb4:6d6f with SMTP id
- 38308e7fff4ca-36d177d8cf8mr8960551fa.44.1758676169573; Tue, 23 Sep 2025
- 18:09:29 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5303A10E6B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 01:18:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758676727; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=C4JGt68VKhkqF0hHIdGcgHHErhwE2rbQXTrkUcoEn6M0GbZiZmU62/G3ok1iYGAV7JrRzpoGY/M7O85eaitSAgckqeAl4zeGkPl/Hs9flvTFlxQhOO2FXm/6CO+Cl03zKNPdPl9ycm6G/d5n5jpkkZ2XE7lV8ba2BmvXpPsp05g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1758676727;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=BtUXS5AMg6rbebPn+VN1bB/cy5dWvzmKCUX4JG76wiU=; 
+ b=PTCO0IX2Y2YF3bukkmLHycwlgPPnhHeQiBB/Pzocu2xjLghk4VVrqnI4MzLJOhyY/YXz544AFl19f53AcF2CyX2+cEd18LeG9QOlP8Q2YtKMSvZ49w4GLpRRsrmw6qukhENq/qYykWxh8h3HSVIBkmgNu+ab81kBnC8KNhdkH1M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758676727; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=BtUXS5AMg6rbebPn+VN1bB/cy5dWvzmKCUX4JG76wiU=;
+ b=ML+SdNKBJw5//MPo6uiTzpWfWsHN0dS+2wlr2yP3DG0MmaTuuPscNAV6JRwQzQcM
+ tjzqslrSLZF28H6NxgFzZqZN+anRPHc35a4AKJPjHHYdtndICmLzMgTUbQB1YIXexjO
+ 3CAwFjvke5edmEDkTRvhdfXI6mRjxitvgn1uHSWs=
+Received: by mx.zohomail.com with SMTPS id 1758676724769722.0610885859841;
+ Tue, 23 Sep 2025 18:18:44 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+ id 6CD671805CF; Wed, 24 Sep 2025 03:18:21 +0200 (CEST)
+Date: Wed, 24 Sep 2025 03:18:21 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 7/9] drm/rcar-du: dsi: Clean up handling of DRM mode flags
+Message-ID: <lzimjanf6sajxusigstmc7lpeujcq63yff5gyw22hh2bnsbt4h@cbpoc3u257wg>
+References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
+ <20250922185740.153759-8-marek.vasut+renesas@mailbox.org>
+ <20250923132616.GH20765@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20250813-core-cstr-fanout-1-v3-0-a15eca059c51@gmail.com>
- <20250813-core-cstr-fanout-1-v3-9-a15eca059c51@gmail.com>
- <DC1ZLP61HJAL.3I2YF82Y4T7L9@kernel.org>
-In-Reply-To: <DC1ZLP61HJAL.3I2YF82Y4T7L9@kernel.org>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 24 Sep 2025 10:08:53 +0900
-X-Gm-Features: AS18NWB5wsxS2a7jxyLos1K4bMIsLFjDF8Ocsoy_wDtXVwMvZmga8KSuS7D7hNE
-Message-ID: <CAJ-ks9=9V5Ex-VuSV7Er-jTLHyMCyVWYOiWF7wpYB9V_F=+QQg@mail.gmail.com>
-Subject: Re: [PATCH v3 9/9] rust: device: use `kernel::{fmt,prelude::fmt!}`
-To: Benno Lossin <lossin@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Jens Axboe <axboe@kernel.dk>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Uladzislau Rezki <urezki@gmail.com>, Alexandre Courbot <acourbot@nvidia.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bqp2giz7qhg3q6f4"
+Content-Disposition: inline
+In-Reply-To: <20250923132616.GH20765@pendragon.ideasonboard.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.3/258.614.82
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,37 +81,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 14, 2025 at 4:54=E2=80=AFPM Benno Lossin <lossin@kernel.org> wr=
-ote:
->
-> On Wed Aug 13, 2025 at 5:39 PM CEST, Tamir Duberstein wrote:
-> > Reduce coupling to implementation details of the formatting machinery b=
-y
-> > avoiding direct use for `core`'s formatting traits and macros.
-> >
-> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
->
-> Reviewed-by: Benno Lossin <lossin@kernel.org>
->
-> > ---
-> >  rust/kernel/device/property.rs | 23 ++++++++++++-----------
-> >  1 file changed, 12 insertions(+), 11 deletions(-)
->
-> > @@ -413,9 +414,9 @@ fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> =
-core::fmt::Result {
-> >                  // SAFETY: `fwnode_get_name_prefix` returns null or a
-> >                  // valid C string.
-> >                  let prefix =3D unsafe { CStr::from_char_ptr(prefix) };
-> > -                write!(f, "{prefix}")?;
-> > +                fmt::Display::fmt(prefix, f)?;
-> >              }
-> > -            write!(f, "{}", fwnode.display_name())?;
->
-> So we're not able to use `write!` with our `Display` or did you also
-> write a `FmtAdapter` wrapper for that? (don't think we need it now, just
-> wanted to know if we have this issue possibly in the future)
 
-Correct; we cannot use `write!` with our `Display`.
+--bqp2giz7qhg3q6f4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 7/9] drm/rcar-du: dsi: Clean up handling of DRM mode flags
+MIME-Version: 1.0
 
-Apologies for the late reply - I had sent this back in August but was
-still being throttled by gmail :(
+Hi,
+
+On Tue, Sep 23, 2025 at 04:26:16PM +0300, Laurent Pinchart wrote:
+> I wonder if the DRM_MODE_FLAG_P[HV]SYNC flags are always the exact
+> opposite of DRM_MODE_FLAG_N[HV]SYNC. It's probably fine to assume that
+> here. A quick grep showed one panel driver setting both the N and P
+> flags (drivers/gpu/drm/panel/panel-sitronix-st7789v.c, see
+> t28cp45tn89_mode, which I assume is a bug - Sebastian, could you check
+> that ?).
+
+Yeah, it was supposed to be=20
+
+static const struct drm_display_mode t28cp45tn89_mode =3D {
+    ...
+    .flags =3D DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NHSYNC
+};
+
+The driver works with the panel, because the driver defaults to
+DRM_MODE_FLAG_N[HV]SYNC and ignores the related flags, so just the
+DRM_MODE_FLAG_P[HV]SYNC one is applied:
+
+static int st7789v_prepare(struct drm_panel *panel)
+{
+    ...
+
+	if (ctx->info->mode->flags & DRM_MODE_FLAG_PVSYNC)
+		polarity |=3D ST7789V_RGBCTRL_VSYNC_HIGH;
+	if (ctx->info->mode->flags & DRM_MODE_FLAG_PHSYNC)
+		polarity |=3D ST7789V_RGBCTRL_HSYNC_HIGH;
+
+    ...
+}
+
+Greetings and thanks for the bug report,
+
+-- Sebastian
+
+--bqp2giz7qhg3q6f4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmjTRtQACgkQ2O7X88g7
++po7ow/+Ia4UEQmcU8ZcxnP1OMCDvIQGiCowcnDP/9wvnS1RcxzrpdfMfkCY/z41
+PYFu9dx1f9QXfIXzk+76DIDopBjWGaPTp4Sv3Y9HqCGK7jxwWyf4eAX3zEi4VD5V
+LLlkvadDomLYFIREuVYeE59eDSuc873Ok1EorLLs+HuqGohek6hLDPyPaGKakSzK
+GGafjFx0kVZippqaiFlp0QxgmDCuV+j+IPOO5x/NyCZnc7MqQL6bmHx4YzJDghGf
+aU9Z6c03xMHniJVVkBf5308iDCrqk0hV8cJRzsRX/nifEQz8QBaK5xNUbbPVqFlM
+XiXbjJJnAUeq28iksQ+KMvoUkHzwScXVaEOFJ/F6Wvt0CoKM9/CnUnvHMVu9Cpm7
+9I9V82Ps3/7LDplDFjUZKGwxpxL6oh9UYKhqyXQeiNTj3jR9BCroD8+lGZ3TB+42
+JMWDM3hhHyJlhObW5AY8ZtAphq7YbImXvhc/1dyb0r4COWmIahCBNI+MabrTPTqh
+19Caq5+epBbawV9E4UJpwJts+6GfP+9t0WOB66xksXi3dEF4LNTRTCwANobdN1jK
+NSj3Mo6iqFrg/tn1W+KjnXgsVcOuDiAFG2XMPAJyY2l++wnDwVM9mezEatH5Uw1Q
+KapZVn32fxdIf2C6DimMByCeEnwc1OIYZ+u4x62aGLBtj7tjmbc=
+=HNGX
+-----END PGP SIGNATURE-----
+
+--bqp2giz7qhg3q6f4--
