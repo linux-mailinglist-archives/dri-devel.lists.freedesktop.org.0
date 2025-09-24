@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8D7B990A1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 11:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D51B990C4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 11:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B199210E6C2;
-	Wed, 24 Sep 2025 09:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 635A210E6C3;
+	Wed, 24 Sep 2025 09:11:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K1313W5G";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="TSmx1LoF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8101410E6C2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 09:08:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758704930; x=1790240930;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1MgvMv9h0OriM8gy/nKKNmpK7QrgpGGKXgdUP3eVUDc=;
- b=K1313W5GT+BAR4kGlbj5nn4z/0SocqPe0rZgehkZx64WLdDRigH0WUWH
- WReTE7jIq3w2+GYoKuKcIMPpV/q9dOXK+/KYMc7xMsR5pV9u3XcpbNAW8
- TwNAJUTXNz9bmhpE9nLWODg+eVVbDQmoyXSy0FtqWdbUi56fC1Snm/8X3
- /gwXLaoiTWmHMDN30Yu1Wlxvm26FyDDAQLOK3g0F1O7J8QuMOoF2bc/1z
- RJBmWfFF9rUPgxh4DoGHIk6MPfTLuJRklJ+xCq+pUIxWKWNpaK3IznsNQ
- Vh/71pgjJgklXdXRfxIOi2F8XyQ5jTvtYB1SOI/K5mXaw/LNO/Gq1NMmQ Q==;
-X-CSE-ConnectionGUID: 5fNBT37qRkCdyuIT87cCVQ==
-X-CSE-MsgGUID: uzL5fU5jSqGuZB7OTPqGGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61049647"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61049647"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2025 02:08:50 -0700
-X-CSE-ConnectionGUID: gSc+gX5rSHiKkn8wJCBsQg==
-X-CSE-MsgGUID: flb32M3vRO6n+Dq+IpWMGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; d="scan'208";a="182266182"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
- by fmviesa004.fm.intel.com with ESMTP; 24 Sep 2025 02:08:45 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1v1LUR-0003y9-1T;
- Wed, 24 Sep 2025 09:08:43 +0000
-Date: Wed, 24 Sep 2025 17:08:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com,
- dmitry.baryshkov@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, liangjian010@huawei.com,
- chenjianmin@huawei.com, fengsheng5@huawei.com,
- shiyongbang@huawei.com, libaihan@huawei.com, shenjian15@huawei.com,
- shaojijie@huawei.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 drm-dp 1/4] drm/hisilicon/hibmc: fix dp
- probabilistical detect errors after HPD irq
-Message-ID: <202509241625.o4mNleVb-lkp@intel.com>
-References: <20250923130411.2522339-2-shiyongbang@huawei.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ACB10E6C3;
+ Wed, 24 Sep 2025 09:11:36 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cWrgm2X9Fz9tBF;
+ Wed, 24 Sep 2025 11:11:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1758705092; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XwEskpjIn5D22Nu1O3GezZNjLkrMB3AoiTZaoemM8/8=;
+ b=TSmx1LoFJx3v3vfZdmoIk4Iqt5ZdZE21vuRgXNnib7jJZjwpB/NqrZoWaxfBtwOFLh8x0G
+ parD0re5mTyhCWbTA2+tqccKNmbYqSNMeGCV6hW1LcG9GtDSfwr63f0TREemQNN7BD7sEt
+ yn/3iGzLnUTchTN97ph5JnXSBhht7CyRmzfF2OS2JjqlwNO9phzi3OXnghej9NV7mo5TaE
+ LZAyUDUw2hgUedKvit/JYz4g7ti9S03llZAjiPpkVwaoLkugZ+nDiNBeVo2DXzpoRDUJPr
+ H5n+5tne8l2L7SQGmf+hxL2Yx9YkVpJ3w8oeG2TTCJVA2qzIT3CtWJ/e3PJy9g==
+Message-ID: <6d5be3ab8413d44a360ebe7a34771ead6687c989.camel@mailbox.org>
+Subject: Re: [RFC v8 07/12] drm/sched: Account entity GPU time
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>
+Date: Wed, 24 Sep 2025 11:11:24 +0200
+In-Reply-To: <20250903101820.63032-8-tvrtko.ursulin@igalia.com>
+References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
+ <20250903101820.63032-8-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250923130411.2522339-2-shiyongbang@huawei.com>
+X-MBO-RS-META: iz1e3iw1xqfgcxkyam9k3gfqmyr1s38z
+X-MBO-RS-ID: 6d1e5c485274634c9d3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,79 +65,305 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yongbang,
+On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
+> To implement fair scheduling we need a view into the GPU time consumed by
+> entities. Problem we have is that jobs and entities objects have decouple=
+d
+> lifetimes, where at the point we have a view into accurate GPU time, we
+> cannot link back to the entity any longer.
+>=20
+> Solve this by adding a light weight entity stats object which is referenc=
+e
+> counted by both entity and the job and hence can safely be used from
+> either side.
+>=20
+> With that, the only other thing we need is to add a helper for adding the
+> job's GPU time into the respective entity stats object, and call it once
+> the accurate GPU time has been calculated.
 
-kernel test robot noticed the following build warnings:
+This in general also looks reasonable and clean to me. Some comments
+below.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.17-rc7 next-20250923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+btw I've got many nit-comments for all patches, but will wait with
+those until a v1 is posted.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-fix-dp-probabilistical-detect-errors-after-HPD-irq/20250923-211652
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250923130411.2522339-2-shiyongbang%40huawei.com
-patch subject: [PATCH v7 drm-dp 1/4] drm/hisilicon/hibmc: fix dp probabilistical detect errors after HPD irq
-config: s390-randconfig-001-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241625.o4mNleVb-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241625.o4mNleVb-lkp@intel.com/reproduce)
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0 | 39 +++++++++=
+++++
+> =C2=A0drivers/gpu/drm/scheduler/sched_internal.h | 66 +++++++++++++++++++=
++++
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 6 +-
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ++++
+> =C2=A04 files changed, 122 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 7a0a52ba87bf..04ce8b7d436b 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -32,6 +32,39 @@
+> =C2=A0
+> =C2=A0#include "gpu_scheduler_trace.h"
+> =C2=A0
+> +
+> +/**
+> + * drm_sched_entity_stats_release - Entity stats kref release function
+> + *
+> + * @kref: Entity stats embedded kref pointer
+> + */
+> +void drm_sched_entity_stats_release(struct kref *kref)
+> +{
+> +	struct drm_sched_entity_stats *stats =3D
+> +		container_of(kref, typeof(*stats), kref);
+> +
+> +	kfree(stats);
+> +}
+> +
+> +/**
+> + * drm_sched_entity_stats_alloc - Allocate a new struct drm_sched_entity=
+_stats object
+> + *
+> + * Returns: Pointer to newly allocated struct drm_sched_entity_stats obj=
+ect.
+> + */
+> +static struct drm_sched_entity_stats *drm_sched_entity_stats_alloc(void)
+> +{
+> +	struct drm_sched_entity_stats *stats;
+> +
+> +	stats =3D kzalloc(sizeof(*stats), GFP_KERNEL);
+> +	if (!stats)
+> +		return NULL;
+> +
+> +	kref_init(&stats->kref);
+> +	spin_lock_init(&stats->lock);
+> +
+> +	return stats;
+> +}
+> +
+> =C2=A0/**
+> =C2=A0 * drm_sched_entity_init - Init a context entity used by scheduler =
+when
+> =C2=A0 * submit to HW ring.
+> @@ -65,6 +98,11 @@ int drm_sched_entity_init(struct drm_sched_entity *ent=
+ity,
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> =C2=A0	memset(entity, 0, sizeof(struct drm_sched_entity));
+> +
+> +	entity->stats =3D drm_sched_entity_stats_alloc();
+> +	if (!entity->stats)
+> +		return -ENOMEM;
+> +
+> =C2=A0	INIT_LIST_HEAD(&entity->list);
+> =C2=A0	entity->rq =3D NULL;
+> =C2=A0	entity->guilty =3D guilty;
+> @@ -338,6 +376,7 @@ void drm_sched_entity_fini(struct drm_sched_entity *e=
+ntity)
+> =C2=A0
+> =C2=A0	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true))=
+;
+> =C2=A0	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+> +	drm_sched_entity_stats_put(entity->stats);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_sched_entity_fini);
+> =C2=A0
+> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm=
+/scheduler/sched_internal.h
+> index 703ee48fbc58..27c8460a3601 100644
+> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> @@ -3,6 +3,22 @@
+> =C2=A0#ifndef _DRM_GPU_SCHEDULER_INTERNAL_H_
+> =C2=A0#define _DRM_GPU_SCHEDULER_INTERNAL_H_
+> =C2=A0
+> +#include <linux/ktime.h>
+> +#include <linux/kref.h>
+> +#include <linux/spinlock.h>
+> +
+> +/**
+> + * struct drm_sched_entity_stats - execution stats for an entity.
+> + *
+> + * @kref: reference count for the object.
+> + * @lock: lock guarding the @runtime updates.
+> + * @runtime: time entity spent on the GPU.
+> + */
+> +struct drm_sched_entity_stats {
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509241625.o4mNleVb-lkp@intel.com/
+Cool docu.
 
-All warnings (new ones prefixed by >>):
+Though, considering that awkward refcounting patterns are one of the
+more relevant scheduler problems, I believe it makes sense to add to
+the docu here a sentence or two about who refcounts this object for
+what reason.
 
-   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c: In function 'hibmc_dp_detect':
->> drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c:61:18: warning: array subscript 128 is above array bounds of 'u8[15]' {aka 'unsigned char[15]'} [-Warray-bounds]
-         dp_dev->dpcd[DP_DOWNSTREAM_PORT_0] & DP_DS_PORT_HPD) {
-         ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+> +	struct kref	kref;
+> +	spinlock_t	lock;
+> +	ktime_t		runtime;
+> +};
+> =C2=A0
+> =C2=A0/* Used to choose between FIFO and RR job-scheduling */
+> =C2=A0extern int drm_sched_policy;
+> @@ -93,4 +109,54 @@ drm_sched_entity_is_ready(struct drm_sched_entity *en=
+tity)
+> =C2=A0	return true;
+> =C2=A0}
+> =C2=A0
+> +void drm_sched_entity_stats_release(struct kref *kref);
+> +
+> +/**
+> + * drm_sched_entity_stats_get - Obtain a reference count on struct drm_s=
+ched_entity_stats object
+> + *
+> + * @stats: struct drm_sched_entity_stats pointer
+> + *
+> + * Returns: struct drm_sched_entity_stats pointer
+> + */
+> +static inline struct drm_sched_entity_stats *
+> +drm_sched_entity_stats_get(struct drm_sched_entity_stats *stats)
+> +{
+> +	kref_get(&stats->kref);
+> +
+> +	return stats;
+> +}
+> +
+> +/**
+> + * drm_sched_entity_stats_put - Release a reference count on struct drm_=
+sched_entity_stats object
+> + *
+> + * @stats: struct drm_sched_entity_stats pointer
+> + */
+> +static inline void
+> +drm_sched_entity_stats_put(struct drm_sched_entity_stats *stats)
+> +{
+> +	kref_put(&stats->kref, drm_sched_entity_stats_release);
+> +}
+> +
+> +/**
+> + * drm_sched_entity_stats_job_add_gpu_time - Account job execution time =
+to entity
+> + *
+> + * @job: Scheduler job to account.
+> + *
+> + * Accounts the execution time of @job to its respective entity stats ob=
+ject.
+> + */
+> +static inline void
+> +drm_sched_entity_stats_job_add_gpu_time(struct drm_sched_job *job)
+> +{
+> +	struct drm_sched_entity_stats *stats =3D job->entity_stats;
+> +	struct drm_sched_fence *s_fence =3D job->s_fence;
+> +	ktime_t start, end;
+> +
+> +	start =3D dma_fence_timestamp(&s_fence->scheduled);
+> +	end =3D dma_fence_timestamp(&s_fence->finished);
+> +
+> +	spin_lock(&stats->lock);
+> +	stats->runtime =3D ktime_add(stats->runtime, ktime_sub(end, start));
+> +	spin_unlock(&stats->lock);
+> +}
+> +
+> =C2=A0#endif
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 9411676e772a..a5d7706efbea 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -658,6 +658,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+> =C2=A0
+> =C2=A0	job->sched =3D sched;
+> =C2=A0	job->s_priority =3D entity->priority;
+> +	job->entity_stats =3D drm_sched_entity_stats_get(entity->stats);
+> =C2=A0
+> =C2=A0	drm_sched_fence_init(job->s_fence, job->entity);
+> =C2=A0}
+> @@ -846,6 +847,7 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
+> =C2=A0		 * been called.
+> =C2=A0		 */
+> =C2=A0		dma_fence_put(&job->s_fence->finished);
+> +		drm_sched_entity_stats_put(job->entity_stats);
+> =C2=A0	} else {
+> =C2=A0		/* The job was aborted before it has been committed to be run;
+> =C2=A0		 * notably, drm_sched_job_arm() has not been called.
+> @@ -997,8 +999,10 @@ static void drm_sched_free_job_work(struct work_stru=
+ct *w)
+> =C2=A0		container_of(w, struct drm_gpu_scheduler, work_free_job);
+> =C2=A0	struct drm_sched_job *job;
+> =C2=A0
+> -	while ((job =3D drm_sched_get_finished_job(sched)))
+> +	while ((job =3D drm_sched_get_finished_job(sched))) {
+> +		drm_sched_entity_stats_job_add_gpu_time(job);
+> =C2=A0		sched->ops->free_job(job);
+> +	}
+
+The biggest question I'm wondering about is whether the reference
+should be put in drm_sched_job_cleanup() or drm_sched_free_job_work().
+The primer is semantically more correct, probably, but the latter is
+always controlled by the scheduler.
+
+Hypothetically a driver could just not call drm_sched_job_cleanup() in
+its free_job() callback =E2=80=93 but then other stuff would leak as well a=
+nd
+everything would be broken anyways.
+
+I probably should change the docu for drm_sched_job_cleanup(), which
+currently says drivers "should" call it in free_job(), instead of
+"must".
 
 
-vim +61 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+P.
 
-    34	
-    35	static int hibmc_dp_detect(struct drm_connector *connector,
-    36				   struct drm_modeset_acquire_ctx *ctx, bool force)
-    37	{
-    38		struct hibmc_dp *dp = to_hibmc_dp(connector);
-    39		struct hibmc_dp_dev *dp_dev = dp->dp_dev;
-    40		int ret;
-    41	
-    42		if (dp->irq_status) {
-    43			if (dp_dev->hpd_status != HIBMC_HPD_IN)
-    44				return connector_status_disconnected;
-    45		}
-    46	
-    47		ret = drm_dp_read_dpcd_caps(dp_dev->aux, dp_dev->dpcd);
-    48		if (ret)
-    49			return connector_status_disconnected;
-    50	
-    51		dp_dev->is_branch = drm_dp_is_branch(dp_dev->dpcd);
-    52	
-    53		ret = drm_dp_read_desc(dp_dev->aux, &dp_dev->desc, dp_dev->is_branch);
-    54		if (ret)
-    55			return connector_status_disconnected;
-    56	
-    57		if (!dp_dev->is_branch)
-    58			return connector_status_connected;
-    59	
-    60		if (drm_dp_read_sink_count_cap(connector, dp_dev->dpcd, &dp_dev->desc) &&
-  > 61		    dp_dev->dpcd[DP_DOWNSTREAM_PORT_0] & DP_DS_PORT_HPD) {
-    62			ret = drm_dp_read_sink_count(dp_dev->aux);
-    63			if (ret > 0)
-    64				return connector_status_connected;
-    65		}
-    66	
-    67		return connector_status_disconnected;
-    68	}
-    69	
+> =C2=A0
+> =C2=A0	drm_sched_run_job_queue(sched);
+> =C2=A0}
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 802a0060db55..f33c78473867 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -71,6 +71,8 @@ enum drm_sched_priority {
+> =C2=A0	DRM_SCHED_PRIORITY_COUNT
+> =C2=A0};
+> =C2=A0
+> +struct drm_sched_entity_stats;
+> +
+> =C2=A0/**
+> =C2=A0 * struct drm_sched_entity - A wrapper around a job queue (typicall=
+y
+> =C2=A0 * attached to the DRM file_priv).
+> @@ -110,6 +112,11 @@ struct drm_sched_entity {
+> =C2=A0	 */
+> =C2=A0	struct drm_sched_rq		*rq;
+> =C2=A0
+> +	/**
+> +	 * @stats: Stats object reference held by the entity and jobs.
+> +	 */
+> +	struct drm_sched_entity_stats	*stats;
+> +
+> =C2=A0	/**
+> =C2=A0	 * @sched_list:
+> =C2=A0	 *
+> @@ -365,6 +372,11 @@ struct drm_sched_job {
+> =C2=A0	struct drm_sched_fence		*s_fence;
+> =C2=A0	struct drm_sched_entity=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 *entity;
+> =C2=A0
+> +	/**
+> +	 * @entity_stats: Stats object reference held by the job and entity.
+> +	 */
+> +	struct drm_sched_entity_stats	*entity_stats;
+> +
+> =C2=A0	enum drm_sched_priority		s_priority;
+> =C2=A0	u32				credits;
+> =C2=A0	/** @last_dependency: tracks @dependencies as they signal */
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
