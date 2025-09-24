@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC91B97E24
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 02:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97907B97E1E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 02:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972FE10E67B;
-	Wed, 24 Sep 2025 00:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A9410E67D;
+	Wed, 24 Sep 2025 00:30:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Rh48T4zG";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FAboYhBg";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="oHuU4aoC";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Sh8Kcr6u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88ED10E67A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 00:30:30 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A83910E67B
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 00:30:33 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cWd6Y4dPmz9v4j;
- Wed, 24 Sep 2025 02:30:29 +0200 (CEST)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cWd6b65Pqz9t6L;
+ Wed, 24 Sep 2025 02:30:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758673829;
+ s=mail20150812; t=1758673831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JmVFN47DwARmnLYvZ+rKM/tY4O4wE0Hv5VPnyYTDKpI=;
- b=Rh48T4zG7GEtv9AIxQgsO3yxn4Irf8M72MdgounWcNJ1Vz3Px+LUg62jJOkWHxk0FnyRfw
- hg4P5R+GTbmARG9BGv0cPIx4rLl26Ts891FkG5TxrcaGzJh+o5Mv8q0nfXhd+KmoF5eo5v
- /6/PzhWfUdRnRFKv/glQffNGDB4NtuHNLE81keknb1TiFsIC2TvzgWmYZqbY0KULSBf/NV
- tUi/1WmICP8Q510tC1B1zKAH3dXs6gtoZzf+LBEgBpgIlQgWSAIVP8q/c2YPP9GmbmkxH9
- T6DW8KWfh2UDgktsEcbiXwf8kfbuPPy46M3jxfCTt9e0y5PCzxHGWY9Sw6v0LQ==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=FAboYhBg;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
- designates 2001:67c:2050:b231:465::1 as permitted sender)
- smtp.mailfrom=marek.vasut+renesas@mailbox.org
+ bh=F2RSWnit31I6NMsRqpV8Iw0xDAcb8Rf+LvvjhC8ER4s=;
+ b=oHuU4aoC7aSqVJiaT3NP1Drms3Qi75CMo7dV9Fa8SL6B3zFVlas4mamgsNknlN9KSJ9P7a
+ 95pP7UiXhyWXlCwbNq7qdFQkHq8rMrBhkHxzIfaqLO7amtP8cJ7rsE5VIoYDzcLHfjCIRb
+ nUHJ50QOYAxABf4dVb/4x2KJ4rIqaE2moona+9H4eYDOYaOAjVkQdz0qZhjRCfey74lsvd
+ HEjeBBcHGvEhwellXHO+SFUnB8a/4U06EGXFZGCGexf7remjlrpfxep5G5s1nN37GOw+QC
+ p+eBXiiZBNCoXwhNh6esuW/qR73WwZZArkUnSxbGm1vNBmRvu50PYtV7SjLUWw==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758673827;
+ s=mail20150812; t=1758673830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JmVFN47DwARmnLYvZ+rKM/tY4O4wE0Hv5VPnyYTDKpI=;
- b=FAboYhBgZla2XalNk8MjUKShmPY+izQnwlWBGZEVIbNRs4cGDo9O/yZxxPB6PxK8060OKQ
- U2yf1tXXwl9aG2NWmrfFEndr5BM4JG2QS+Yt4FRJFOhOpufqm42k75KyXavRQEFWFKMuGr
- n8lqwDuT+frdgSTdI8wpB+xkvKpOQ9GjtiodHUBuBsDNJm9QM8QCdr9yKzNg2irqzeK5u6
- kJQpvAlbvYojPZ4zKP+aqvLt4oDobqFSSXRuP+DMxms1LXUod+wbZT89GtDufcHq11D8ZG
- laEaNah9A5D0eyccbnVfd4ALacDEQ6n6mwUALfnWGN32pQ8u5ahoo15QEDI0bg==
+ bh=F2RSWnit31I6NMsRqpV8Iw0xDAcb8Rf+LvvjhC8ER4s=;
+ b=Sh8Kcr6uypb40EjHDLRcTqZPJ2HI5vnqn0kChcVwfUAm7yesuvHd8GhqY+krFnOeYP/j/0
+ DAISRAjEVNCZQG8I2/sVUp+qg5Kkyzzq0eEckelBuO55DfpXgC793nCx+VYxPUUfyppuLO
+ jlWNqFWx2PiPLH8WpeMHUtTInn4nfGoUF091nYlukn47WoXNE048kXf5bfPVX7mxSEAFNi
+ 2ZGfZfl5X2YKEX23ddw+StWRTTA7GbEZL63C+RHbUqJ1HWb3/trYdji+xchRUK1+JVXztS
+ qJ6q908eYaO/w7AjFj4C5OyRqYy2rKtfECVDUobVIFBnOWVMoBTPaNJ2tYzfJw==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  David Airlie <airlied@gmail.com>,
@@ -64,17 +58,16 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 02/10] drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as
- bitfield
-Date: Wed, 24 Sep 2025 02:28:19 +0200
-Message-ID: <20250924003003.91039-3-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v2 03/10] drm/rcar-du: dsi: Deduplicate
+ mipi_dsi_pixel_format_to_bpp() usage
+Date: Wed, 24 Sep 2025 02:28:20 +0200
+Message-ID: <20250924003003.91039-4-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20250924003003.91039-1-marek.vasut+renesas@mailbox.org>
 References: <20250924003003.91039-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: dd16d6306ea9359dfa7
-X-MBO-RS-META: d687hpkiozo663xc3tws8p8kofwe5ney
-X-Rspamd-Queue-Id: 4cWd6Y4dPmz9v4j
+X-MBO-RS-META: b7pw9tqueshh3jjtkkpa3su6is96yb65
+X-MBO-RS-ID: 9c7fd88e51813e66a98
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,9 +83,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The register TXVMSETR bitfield PIXWDTH is not a single bit, but a
-bitfield. Add a MASK macro and document that the only allowed value
-that can ever be written into the bitfield is the current value, 1.
+Call mipi_dsi_pixel_format_to_bpp() once in rcar_mipi_dsi_set_display_timing()
+and store the value into a variable. This slightly simplifies the code.
+
 No functional change.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
@@ -110,25 +103,37 @@ Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
-V2: New patch
+V2: Use switch-case statement
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index dd871e17dcf53..b8a719a13c006 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -143,7 +143,8 @@
- #define TXVMSETR_SYNSEQ_PULSES		(0 << 16)
- #define TXVMSETR_SYNSEQ_EVENTS		(1 << 16)
- #define TXVMSETR_VSTPM			(1 << 15)
--#define TXVMSETR_PIXWDTH		(1 << 8)
-+#define TXVMSETR_PIXWDTH_MASK		(7 << 8)
-+#define TXVMSETR_PIXWDTH		(1 << 8) /* Only allowed value */
- #define TXVMSETR_VSEN_EN		(1 << 4)
- #define TXVMSETR_VSEN_DIS		(0 << 4)
- #define TXVMSETR_HFPBPEN_EN		(1 << 2)
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 5c73a513f678e..ff182a69fc67c 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -457,13 +457,17 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
+ 	u32 vprmset4r;
+ 
+ 	/* Configuration for Pixel Stream and Packet Header */
+-	if (mipi_dsi_pixel_format_to_bpp(dsi->format) == 24)
++	switch (mipi_dsi_pixel_format_to_bpp(dsi->format)) {
++	case 24:
+ 		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB24);
+-	else if (mipi_dsi_pixel_format_to_bpp(dsi->format) == 18)
++		break;
++	case 18:
+ 		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB18);
+-	else if (mipi_dsi_pixel_format_to_bpp(dsi->format) == 16)
++		break;
++	case 16:
+ 		rcar_mipi_dsi_write(dsi, TXVMPSPHSETR, TXVMPSPHSETR_DT_RGB16);
+-	else {
++		break;
++	default:
+ 		dev_warn(dsi->dev, "unsupported format");
+ 		return;
+ 	}
 -- 
 2.51.0
 
