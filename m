@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6763FB97D93
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 02:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A71B97E0F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 02:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4E810E66F;
-	Wed, 24 Sep 2025 00:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2FE10E21A;
+	Wed, 24 Sep 2025 00:30:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hXvGrFbX";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="H9ocnDvO";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="L/vv/1gj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACF610E66F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 00:13:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9734B10E21A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 00:30:26 +0000 (UTC)
 Received: from smtp1.mailbox.org (smtp1.mailbox.org
  [IPv6:2001:67c:2050:b231:465::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cWckM3wfFz9v1T;
- Wed, 24 Sep 2025 02:12:59 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cWd6T1SPQz9v4j;
+ Wed, 24 Sep 2025 02:30:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758672779;
+ s=mail20150812; t=1758673825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RkwsfrWFijrTMkqrvyuobCGTWoBCwmeED3SJNQLA3xE=;
- b=hXvGrFbXzJlEEYtymgUy0Q5qwceghDt3oVCzViQ0bPvRSta2Y0J/YEx4lvyoCTGWbTyA6P
- OKl5IfSO8PCeBiLTHdWIwRjaP2gxeeKgicXsyG+qQgmqq5/AdrG7ejZkIycqhd8aBwWyYt
- ogsbNzemkad8vUfh3IHsxJPBiz46n2mQBJAfoNk0ojoa1rdNQsC5JW0zPxbGZfyHlZLuL5
- 7yY0f6tUnmNRCku6/9KWpRq6Oj2pYBGpdK/X/FKIIgXWKR4php2grGVTTY++qIyvHobkij
- 8LhgiMk8bPlARXjtHEkIob4qNBcJYPX8Weia5A3ioyUxT5LkSK1OXzutAtVO4g==
-Message-ID: <e4e07d4d-2b9b-4ec5-a013-5415472b12b6@mailbox.org>
-Date: Wed, 24 Sep 2025 02:12:56 +0200
-MIME-Version: 1.0
-Subject: Re: [PATCH 7/9] drm/rcar-du: dsi: Clean up handling of DRM mode flags
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X6VxG/kJ43ATyVWbxbsgmf3xhmgUEuW7w9KwzYA3zdk=;
+ b=H9ocnDvOdoerxNMdY8KDJI8LsFlYFjH6r3T7EgrOtQTrITXI+ZWV21o+AdUHXckHShe/7b
+ ZTXzCVWlZI6jAeMSQUNWxhQCAf0X8yGF8FLwXwoh/oi/V1FPQPEGz0UGJEXsyqN7EsXwdA
+ /t1AbShYsghArA3uXKl5H5MISyeVRbCCKdnGNRtdS6RFerAOldspqeL40kHj6qWtuwZRoT
+ JvJeTSXWermPbgL5ieJpxBZ+ExAU8wIZx2van9JJ4lLTFODmspKQ7o7UjRzmRiuWNG9eGI
+ 3eL0sHax5MrVlBKNExXK/6s8JSMBXhXuV4Fy5KyoVyPo/4/5td3UM2RVMt7FSA==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="L/vv/1gj";
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
+ designates 2001:67c:2050:b231:465::1 as permitted sender)
+ smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1758673823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X6VxG/kJ43ATyVWbxbsgmf3xhmgUEuW7w9KwzYA3zdk=;
+ b=L/vv/1gjBbXehz9ge9t0lFWAkH1yBZ9BbGlHLq8hSsNO53BsB34oCkIpnQKTx94T9jp2Wr
+ oAvq5wPJeUtfEHKfxo5CBzA9Dk5f9UYueURVBumnj0Te2b5H1caaelcrQ26bz1npszygPG
+ B3+knJxZrpCpmQVVCrFvZPFiN4t+icCO8Rlln2Rt+Tq2OtyjI8R/WJAI7ANkryz7Faum5l
+ ZeAdKNcMhVspITF8rhz90o9mzgi3PUwlKk0nEuJ+EO6xV66JuAOg1LIDypqwwRq/ZJwd/3
+ optwbW6nE7prOFY6wdvgUdDQVsKESgJa1HtRKGm6SLjG0BzoQwE5SGiNEKD2gg==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ David Airlie <airlied@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
-References: <20250922185740.153759-1-marek.vasut+renesas@mailbox.org>
- <20250922185740.153759-8-marek.vasut+renesas@mailbox.org>
- <20250923132616.GH20765@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20250923132616.GH20765@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: zg17zs4tz9g9ko8oyroaodfsnus9cqbw
-X-MBO-RS-ID: 97bbbd742b2de6ece61
+ linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 00/10] drm/rcar-du: dsi: Convert register bits to
+ BIT()/GENMASK() macros
+Date: Wed, 24 Sep 2025 02:28:17 +0200
+Message-ID: <20250924003003.91039-1-marek.vasut+renesas@mailbox.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 64c41aa1d380a547297
+X-MBO-RS-META: g1nrycrnqoy4jb6crd4e73fpmwnm6c6c
+X-Rspamd-Queue-Id: 4cWd6T1SPQz9v4j
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,35 +86,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/23/25 3:26 PM, Laurent Pinchart wrote:
-> Hi Marek,
+Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+Most of this patchset is boring mechanical conversion.
 
-Hello Laurent,
+Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
+and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+should not have any adverse effect on existing hardware.
 
-> On Mon, Sep 22, 2025 at 08:55:03PM +0200, Marek Vasut wrote:
->> Introduce TXVMVPRMSET0R_BPP_MASK macro and use FIELD_PREP() to generate
->> appropriate bitfield from mask and value without bitshift, assign this
->> value into vprmset0r. Remove TXVMVPRMSET0R_CSPC_RGB which is never used,
->> replace it with code comment next to TXVMVPRMSET0R_CSPC_YCbCr.
->>
->> Replace (mode->flags & DRM_MODE_FLAG_P.SYNC) test with inverted conditional
->> (mode->flags & DRM_MODE_FLAG_N.SYNC) and bitwise orr vprmset0r with either
-> 
-> I wonder if the DRM_MODE_FLAG_P[HV]SYNC flags are always the exact
-> opposite of DRM_MODE_FLAG_N[HV]SYNC. It's probably fine to assume that
-> here.
+Marek Vasut (10):
+  drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+  drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+  drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+  drm/rcar-du: dsi: Clean up VCLKSET register macros
+  drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+  drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+  drm/rcar-du: dsi: Respect DSI mode flags
+  drm/rcar-du: dsi: Clean up handling of DRM mode flags
+  drm/rcar-du: dsi: Convert register bits to BIT() macro
+  drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
 
-Maybe not _exact_ opposite.
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  89 +++--
+ .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 363 +++++++++---------
+ 2 files changed, 232 insertions(+), 220 deletions(-)
 
-DRM_MODE_FLAG_P[HV]SYNC set -- devices with HVsync pulse active high
-DRM_MODE_FLAG_N[HV]SYNC set -- devices with HVsync pulse active low
-Neither flag set -- devices without HVsync pulse, like DE panels or so
-Both flags set -- invalid
+---
+Cc: David Airlie <airlied@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
 
-> A quick grep showed one panel driver setting both the N and P
-> flags (drivers/gpu/drm/panel/panel-sitronix-st7789v.c, see
-> t28cp45tn89_mode, which I assume is a bug - Sebastian, could you check
-> that ?).
-This looks like a bug indeed. Also, the ST77xx are DSI-to-TCON chips, 
-they directly drive the TFT matrix, I don't think they have a concept of 
-sync signal polarity at all.
+-- 
+2.51.0
+
