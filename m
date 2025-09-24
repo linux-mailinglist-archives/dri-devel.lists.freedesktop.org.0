@@ -2,93 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3188B9B55F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 20:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E175EB9B9A5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 21:10:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B27E10E7B0;
-	Wed, 24 Sep 2025 18:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6572B10E22D;
+	Wed, 24 Sep 2025 19:10:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N+s+9hBn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R9cPG0dM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6756410E7B0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 18:15:59 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-3304dd2f119so103736a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 11:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758737759; x=1759342559; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JcbuWi+Io8bnFro7IRwuS3doRGB03OgebBpyHP3b0As=;
- b=N+s+9hBnPeHTkDK+mV/v5IM3jeAztNWUJElXMAfu/iSe1eKFMnxyT27LUwid7gs61x
- qHkAcp51nysClS7ZqTqSjdvY9KrOEokdqxFP94OPZm33+Da3XgOsMOS6hkeU2FC74HkI
- PdnKxkKn4Gm7v5SzuMmERJjgIkz/SYl/VQQy3fN7fXBXDtgAZwThpqplCL8Qnqkz0M/b
- G3iR9BsP0OkSLPTCnIvebKzoMdlpluy/8QL9JspYCR5K/lJh+sEAhihn9eONVKG9zjkS
- EG/jFb6Ea6R+ZhA83HCLEYrHdCGk3djQ0tIjwhSrWXWwnyiixJ9KqaF/H7YenKGcUGjq
- +fwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758737759; x=1759342559;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JcbuWi+Io8bnFro7IRwuS3doRGB03OgebBpyHP3b0As=;
- b=YyjGRjtxorUjd2dU3pYQiepujATdDFfVsVPycH4rwOK1g8Oe6ssLZGfbmFJr1IF+P5
- S9hpOlBZ6wscZO+c4GPnMRnOwsMe15jiT01P3vmjV8gbDQL/9tbbjbsMCXkLGu4hwIAR
- AxIglWDv2Es1ZUI8d1AiQ9DZTOASWxgcVEaQfZKK8U0BH71PEdAeEAzghVD/C58KooYg
- EgcsvLMMOJAlZkSVlrs7ADnW/qm8K+FX2075BSqUPHB4Xnvq3Kzc0YjEEhbuv2piz/Ea
- cIvfR1YHG0ViOLQF5JeH+JoC1hZQozDLDwarR1gqyO+bjqODhYu+M3N/IM21vjJzg2Ll
- zr2w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVzKplmGbMRWl6obv8AJ6N43OCMTf2Q8MN3kyfCuGS2nkXjl4AMkleU0wSmsoW1rc660jOEeofm7WQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxoSxE1GbsJ64bPXdZD00t9PNZ8MtOOD38Gu+v5Z8rq+85IwCnk
- SmGQsqT2WtVFl4KbfYSoczXkZ0k92wb19zGB+HxHnN40ZS/QoePSa5whYOQoEKhy6yIdOtBnioe
- piCxDAqoijtrmxMTuyfCMBqaVD3K9mBM=
-X-Gm-Gg: ASbGncvC1mHlJiHGkDd2w8IDqs9UE+/F+qFLvyYh0VlBurW924KvP0qclX64flHTsco
- G0KJGIX/2Bu9BYo26SNVRmtqS4Lh64GWatrdOxHsXn+r63ag/IMiW1x9vonsvdWyOFC17FFDZYg
- DYZ8Sz7J1djmIRG++y551DAyqn4/+XVyKMqIWGTlJWweOUA0wFQduOA54AJPjQDKDcNSYZXKKEv
- r6WAg==
-X-Google-Smtp-Source: AGHT+IHrp5tqgdua1ITAPTFT5OarXplhOLiXY7sra+HIubTWu73xvhsas1hF0kW3xyrfI+mCZzmHvrcV1fNmRv3INHM=
-X-Received: by 2002:a17:90b:2786:b0:327:e59d:2cc2 with SMTP id
- 98e67ed59e1d1-3342a24776cmr760319a91.10.1758737758707; Wed, 24 Sep 2025
- 11:15:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250921083446.790374-1-uwu@icenowy.me>
- <20250921083446.790374-3-uwu@icenowy.me>
- <20250922204349.GA1290045-robh@kernel.org>
- <1ac8c72206abf9f3e0a13e1fcf44be5c605f6372.camel@icenowy.me>
- <36040a0a40311cb1e871075f0c5ad175342ed5db.camel@icenowy.me>
-In-Reply-To: <36040a0a40311cb1e871075f0c5ad175342ed5db.camel@icenowy.me>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 24 Sep 2025 20:15:46 +0200
-X-Gm-Features: AS18NWCvbmWm8Uh8k0eTkgon1YhYqcVgJtn1frt8RyZne-mAquU2_sGmtRcjlzM
-Message-ID: <CAH9NwWdx-Ut35RvhmNsdQbC4vfm3rH1VPN7H2uDBRsmsFjZU_Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] dt-bindings: display: add verisilicon,dc
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Rob Herring <robh@kernel.org>, Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- moderated for non-subscribers <etnaviv@lists.freedesktop.org>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 149F210E22D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 19:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758741046; x=1790277046;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=EG8x2jtizeJG3yiW42c2IdRC9fQ9/O2UIX7L2gZFaC0=;
+ b=R9cPG0dMN4AZ1/hzfGnCuWXHyMq7OHO6u+azM/4uqWdXtq4havELCBcs
+ DZRZw1BvH7ktkuc3vi2hfGVHwOEEpMNr9Jrq30yxcc8gcmH0MSH4fuB/t
+ MGGYUceroFlswlFhcp/U/5Xp/4cciTqGOvi7YPJJhVn2Adr4T6VM4Mutf
+ /W5vUmeWAyxD4ktVJd5zlKZGyX5VgPBgLKw11DkRsaDR27EGuerN8+Byr
+ O3XSMc7GMwCDzDYXdOH0lDpSwUJva69PjNHsnjnoj+G+VVWgLPd9rsTkU
+ LhLtLKzyXsRudRgTUAsrwb6oKWeKLA+vfUMKf0k/JJDQN7fU1syJHD3zH w==;
+X-CSE-ConnectionGUID: OwAE9wDtRmGJIhvEfwxBrg==
+X-CSE-MsgGUID: mV5jKFdSRB2Px9Er+kiGtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="64691011"
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; d="scan'208";a="64691011"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2025 12:10:46 -0700
+X-CSE-ConnectionGUID: tTzMU4ERT2OiRhRmFfQFvw==
+X-CSE-MsgGUID: 6M9s9B2dQ6+OqQ4iPDW7lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; d="scan'208";a="176242884"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+ by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 12:10:42 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v1Usx-0004SD-2i;
+ Wed, 24 Sep 2025 19:10:39 +0000
+Date: Thu, 25 Sep 2025 03:10:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, 
- Yao Zi <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+ Magnus Damm <magnus.damm@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 04/10] drm/rcar-du: dsi: Clean up VCLKSET register
+ macros
+Message-ID: <202509250233.QOpzRcHv-lkp@intel.com>
+References: <20250924003003.91039-5-marek.vasut+renesas@mailbox.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250924003003.91039-5-marek.vasut+renesas@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,94 +82,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > > Verisilicon has a series of display controllers prefixed with DC
-> > > > and
-> > > > with self-identification facility like their GC series GPUs.
-> > > >
-> > > > Add a device tree binding for it.
-> > > >
-> > > > Depends on the specific DC model, it can have either one or two
-> > > > display
-> > > > outputs, and each display output could be set to DPI signal or
-> > > > "DP"
-> > > > signal (which seems to be some plain parallel bus to HDMI
-> > > > controllers).
-> > > >
-> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > > ---
-> > > > Changes in v2:
-> > > > - Fixed misspelt "versilicon" in title.
-> > > > - Moved minItems in clock properties to be earlier than items.
-> > > > - Re-aligned multi-line clocks and resets in example.
-> > > >
-> > > >  .../bindings/display/verisilicon,dc.yaml      | 127
-> > > > ++++++++++++++++++
-> > > >  1 file changed, 127 insertions(+)
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/display/verisilicon,dc.yaml
-> > > >
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
-> > > > b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
-> > > > new file mode 100644
-> > > > index 0000000000000..07fedc4c7cc13
-> > > > --- /dev/null
-> > > > +++
-> > > > b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
-> > > > @@ -0,0 +1,127 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/display/verisilicon,dc.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Verisilicon DC-series display controllers
-> > > > +
-> > > > +maintainers:
-> > > > +  - Icenowy Zheng <uwu@icenowy.me>
-> > > > +
-> > > > +properties:
-> > > > +  $nodename:
-> > > > +    pattern: "^display@[0-9a-f]+$"
-> > > > +
-> > > > +  compatible:
-> > > > +    const: verisilicon,dc
-> > >
-> > > This needs an SoC specific compatible. Generally licensed IP
-> > > compatibles
-> > > are useless because the specs aren't public and there's always
-> > > integration quirks.
-> >
-> > This mimics the GPU IPs by the same vendor, see gpu/vivante,gc.yaml ,
-> > which contain the exact same set of identification registers
-> > (including
-> > a "customer id" one that can differienate the same configured IP on
-> > StarFive JH7110 and T-Head TH1520).
-> >
-> > If we can get vivante,gc to work w/o SoC specific compatible, then we
-> > should be able to get verisilicon,dc to work too.
->
-> Well maybe I should add etnaviv people to the recipient list, to allow
-> them to tell us the magic behind vivante,gc .
->
+Hi Marek,
 
-Vivante GPUs are special because they contain registers that allow them to
-be fully identified - see etnaviv_hw_identify(..).
+kernel test robot noticed the following build errors:
 
-We can read out the following information:
- - model
- - revision
- - product_id
- - customer_id
- - eco_id
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-tip/drm-tip next-20250924]
+[cannot apply to linus/master v6.17-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This information, in combination with a hardware database (hwdb) in
-kernel/userspace, is enough to support these GPUs/NPUs across
-different SoC vendors.
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Fix-missing-parameter-in-RXSETR_-EN-macros/20250924-083415
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250924003003.91039-5-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH v2 04/10] drm/rcar-du: dsi: Clean up VCLKSET register macros
+config: arc-randconfig-002-20250924 (https://download.01.org/0day-ci/archive/20250925/202509250233.QOpzRcHv-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250233.QOpzRcHv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509250233.QOpzRcHv-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:29:
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c: In function 'rcar_mipi_dsi_startup':
+>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h:256:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     256 | #define VCLKSET_BPP_24                  FIELD_PREP(VCLKSET_BPP_MASK, 3)
+         |                                         ^~~~~~~~~~
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:629:28: note: in expansion of macro 'VCLKSET_BPP_24'
+     629 |                 vclkset |= VCLKSET_BPP_24;
+         |                            ^~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +256 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+
+   246	
+   247	#define VCLKSET				0x100c
+   248	#define VCLKSET_CKEN			(1 << 16)
+   249	#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
+   250	#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+   251	#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+   252	#define VCLKSET_BPP_MASK		(3 << 2)
+   253	#define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
+   254	#define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
+   255	#define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
+ > 256	#define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
+   257	#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+   258	
 
 -- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
