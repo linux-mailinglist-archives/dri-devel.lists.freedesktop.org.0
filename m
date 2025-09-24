@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC4FB99F79
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 15:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BF7B99FB2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Sep 2025 15:11:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 008F310E721;
-	Wed, 24 Sep 2025 13:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B569410E722;
+	Wed, 24 Sep 2025 13:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1597D10E721
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 13:05:33 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-ea5b96d2488so5068609276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 06:05:33 -0700 (PDT)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+ [209.85.217.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A11510E722
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 13:11:32 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id
+ ada2fe7eead31-5997f407c85so1547427137.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 06:11:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758719132; x=1759323932;
+ d=1e100.net; s=20230601; t=1758719491; x=1759324291;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Dt3FE+JEfBgU4GvIduSmfD+mr673puEsHTiT0sBkYwI=;
- b=m+ONfWyzB7YEPeFYxMbvAxQxrUHmRr3UOt099BPHgIUYGttZU7eCW8mxLcrwKjg0Yh
- aPGCwoESJHVYWeKBTL1CwwNR2qfVzeEoftkDWJrtU/snOLAiOUdpjeckooNzTfantsOL
- ZUnBKAcLLLgvfRkiu/VWBBBNhOGBCSnzeQDNxF1TSnYdr68YcDUf53uKB5s03/akhFcq
- Z4K6kUghmKPfnmr/cmx9mSkRaqQHQhZvbF56sA2GdAiNjBRY7rEejGSaJwl+PG7zOjkA
- N10OvnFTy9PJ168k1EOTu7zDQUAzJwRmsjd08qDBJp5NuUcFCmVi6GzZEq99wXlXdR+L
- a17g==
+ bh=tIlYzxGhD3l9eBjwM++AWTKEOipfMDPpBnbYVK8JQsQ=;
+ b=hDwoJJRw/qTqX67dEoco3VJhaZ79EbolZxFIJ8WK91GkLLbrshQlAyJyGbe3nd/wp1
+ bAYVX7AS8O6j0Zxm3iUihc3D692Q1PzdBuXPKnsflVA68Go/OOZA/1vJG2cVQbhSsp+g
+ xtiFNuymbAaN1g4ZJdgmNZuCQ/Ni9CBwPJd3oGclZDFPSVT9IhrnREQEPKoLqupvjjqY
+ VHtFCmoCsxW0Nc6Ei7TaBX9n3XjgfWyMBW3rmTkd6hF1Cqi8+beKhXkSSMd+2543UFo6
+ ry+rTmSf/+OfphLB7GMuApCcwsQp3VM85F8WnINNEJ/gp1ZEEpuVowEQBErU9EWn/Sb7
+ KAWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjUGSnCYdOOwO0iPi6xDR8fPA6MddENuf0T8hpAZajEZH8LbRwKttcOv/RTytXYZ1FUdr0HLecKNk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzPMic4Jbagk3HzFOqN01xAPUMSu2W3UiUZwxOVOujLaIcTUuiI
- com5ogqhja1jL3MqpytPVL5eKN9p0TIdkhDSmgk0balRtFsSG4kiDA0tn1i3/VV8
-X-Gm-Gg: ASbGncvmuLP22wrZYhhh29r5wWPAV6QjjOCFT7xKx67ksWAg2mlGAytAf9MTina+IXv
- QY9C0m9tXOHZY43tNGYlEslZI+HWtdyxi44r7tXjhxl7ZEaZnkIKF9W2+vi2exr/rNkwuu5Vap8
- 308iZyKEiBrH7E+xcoj70TtH13kY6MrFveIfPdUjlkR6+8AJ/+z1ySjlbdiyNi8+g/lGMSq9Vn8
- tPL8HF9H4UyO2Pt202EV2GZWFuynxYV0i8cq0WygBu74WMNffB2BoA+gMUQHi9PO0Dv+dVFIYWn
- OVWmkO+Oa3k/9NzM1GHAgKDSpRjPKdNN5DQ/DgNM+W30Ifj0fZEbpNfUwr9MRMCBFtZ229ElA/c
- gLVtFnU37uB8JXMzTQDG6V54YRuBeTg3LyyduypyexKLUdRIuYeRM5B8vRbKvSgV5Bym3Kq8=
-X-Google-Smtp-Source: AGHT+IE0DySLezadOsaDGNhe7UykEoYj50NnStCZLDrv26iCj3KttSPXTvbcIVI255V9oC5MUFePxQ==
-X-Received: by 2002:a05:6902:f85:b0:eae:87da:feee with SMTP id
- 3f1490d57ef6-eb32e82aaddmr5185812276.20.1758719131705; 
- Wed, 24 Sep 2025 06:05:31 -0700 (PDT)
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com.
- [74.125.224.50]) by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-ea5ce7275ddsm5904964276.8.2025.09.24.06.05.30
+ AJvYcCXB2znrTmwNkOOoZJ0erL8duLzayW78I0Mg9qpXWvqf3hBfCmd/q9YpdoOhYAfW48tw45XQHGYQHoQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNl/0hhPBQTlu7C47kPk0blwCDTqgplaJqjWmsCc7lI3zB7AzZ
+ 8/Ylrjxk50LsJMoQMkO9eaN5d4TjWVNGBaVj/2CqH6q8xALr0pI4sdnANSlLyq+4
+X-Gm-Gg: ASbGncv8NJx1E1FAaczjr4B/oqbusebaNL4/atqBnL8ihR/SyKIfQc+qUrQb2pDi8tL
+ vGa6/0Jr+4dPH/RLiosCHFkflJABdWWgtOcggS+dcwIhU/0xWco0/CkqgUlGQ2caiRtwg8YiX9p
+ tCA9+rC+DlTXNHB5zuWXfh1X1vUmngSeNU/x2EPsjWB0753F1U8Q1HoogJbo2l9M4FLrJq7T+/V
+ h5psuUhhYbJPONWo1gvLt86XlSpcQr8/j04JvUi6rgavcqm2A/3bNVaPFJYwYvNKzN/CjNR0Zcv
+ 7mXGAKs675QzZSijl9M+DuveHOQlf0Pshdn+uj/LIkK1Asa8gUCrFB8jCkOk1tFc1xmLK+Zg1nB
+ cIdGkLrQS/A8XeqDJsZjbBbdUsUz9YiTQ/X0ErJC+usQjmYmvwFQvh6dyRnXz
+X-Google-Smtp-Source: AGHT+IGT/d6VjhOBVGGrj/yPo0b8uTeXCzidNGo3/9Wch11/qg5PJjOXcH2QvvoP4vuqIuBXScnHDA==
+X-Received: by 2002:a05:6102:548b:b0:4de:d08f:6727 with SMTP id
+ ada2fe7eead31-5a575a9cb29mr2305358137.13.1758719490781; 
+ Wed, 24 Sep 2025 06:11:30 -0700 (PDT)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com.
+ [209.85.217.47]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-8e3e58e736csm3008294241.1.2025.09.24.06.11.29
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Sep 2025 06:05:30 -0700 (PDT)
-Received: by mail-yx1-f50.google.com with SMTP id
- 956f58d0204a3-6353f2937f3so2022290d50.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 06:05:30 -0700 (PDT)
+ Wed, 24 Sep 2025 06:11:30 -0700 (PDT)
+Received: by mail-vs1-f47.google.com with SMTP id
+ ada2fe7eead31-580e7811ae2so945450137.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 06:11:29 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRKxf0PrMRsJDROzOdezRUeHoM6p8qJ3y27Vad9zBvUWGqkSsGjl9dgHs4FkIZvr7+yOl2N1J4hGw=@lists.freedesktop.org
-X-Received: by 2002:a05:690e:2593:b0:5fc:53ab:a49c with SMTP id
- 956f58d0204a3-636045f7a94mr3388326d50.11.1758719130471; Wed, 24 Sep 2025
- 06:05:30 -0700 (PDT)
+ AJvYcCUoS92cYPkbPviEUxJ5vrYFZ3wiyJZG1znkc7CkEnWUOmzPM1swPKjSk819VKgo5312nGQWk/wJoDo=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:4426:b0:5a1:17e3:ea9d with SMTP id
+ ada2fe7eead31-5a578c96363mr2082608137.25.1758719489139; Wed, 24 Sep 2025
+ 06:11:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250903161718.180488-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250903161718.180488-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250903161718.180488-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250903161718.180488-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250903161718.180488-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Sep 2025 15:05:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUacF5UfiLTXuWOXAZZvEJ-St5+awkWML_HDp9b38=sXw@mail.gmail.com>
-X-Gm-Features: AS18NWC94EGYcxjMXs4Deenf7S5F9QjlUjLF0OPIzRnfMxCF0EhsIC5PeV3xDXg
-Message-ID: <CAMuHMdUacF5UfiLTXuWOXAZZvEJ-St5+awkWML_HDp9b38=sXw@mail.gmail.com>
-Subject: Re: [PATCH v8 2/6] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+Date: Wed, 24 Sep 2025 15:11:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUT2Nv9cEw1VsSeRQfNsK7-CxWqDN+S=Txkv6DXMDdCOQ@mail.gmail.com>
+X-Gm-Features: AS18NWB3LiRE7h2GD3dAO4aR_IhRpZe13Ufoocoh6CaSUdYv9A8x5d9icvSRroc
+Message-ID: <CAMuHMdUT2Nv9cEw1VsSeRQfNsK7-CxWqDN+S=Txkv6DXMDdCOQ@mail.gmail.com>
+Subject: Re: [PATCH v8 6/6] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -108,62 +109,81 @@ Hi Prabhakar,
 On Wed, 3 Sept 2025 at 18:17, Prabhakar <prabhakar.csengg@gmail.com> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add support for PLLDSI and PLLDSI divider clocks.
+> Add MIPI DSI support for the Renesas RZ/V2H(P) SoC. Compared to the
+> RZ/G2L family, the RZ/V2H(P) requires dedicated D-PHY PLL programming,
+> different clock configuration, and additional timing parameter handling.
+> The driver introduces lookup tables and helpers for D-PHY timings
+> (TCLK*, THS*, TLPX, and ULPS exit) as specified in the RZ/V2H(P) hardware
+> manual. ULPS exit timing depends on the LPCLK rate and is now handled
+> explicitly.
 >
-> Introduce the `renesas-rzv2h-cpg-pll.h` header to centralize and share
-> PLLDSI related data structures, limits, and algorithms between the
-> RZ/V2H(P) CPG and DSI drivers.
+> The implementation also adds support for 16 bpp RGB format, updates the
+> clock setup path to use the RZ/V2H PLL divider limits, and provides new
+> .dphy_init, .dphy_conf_clks, and .dphy_startup_late_init callbacks to
+> match the RZ/V2H sequence.
 >
-> The DSI PLL is functionally similar to the CPG's PLLDSI, but has slightly
-> different parameter limits and omits the programmable divider present in
-> CPG. To ensure precise frequency calculations, especially for milliHz-level
-> accuracy needed by the DSI driver, the shared algorithm allows both drivers
-> to compute PLL parameters consistently using the same logic and input
-> clock.
+> With these changes, the RZ/V2H(P) can operate the MIPI DSI interface in
+> compliance with its hardware specification while retaining support for
+> existing RZ/G2L platforms.
 >
 > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/drivers/clk/renesas/rzv2h-cpg.c
-> +++ b/drivers/clk/renesas/rzv2h-cpg.c
+Thanks for your patch!
 
-> +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
-> +                                              struct clk_rate_request *req)
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+
+> +/**
+> + * rzv2h_dphy_find_timings_val - Find timing parameter value from lookup tables
+> + * @freq: Input frequency in Hz
+> + * @index: Index to select timing parameter table (see enum rzv2h_dsi_timing_idx)
+> + *
+> + * Selects the timing table for the requested parameter, finds the
+> + * frequency range entry and returns the register value to program:
+> + *
+> + *   register_value = timings->base_value + table_index
+> + *
+> + * Note: frequency table entries are stored as small integers (units of 10):
+> + *       threshold_in_hz = (unsigned long)table_entry * 10 * MEGA
+> + *
+> + * Return: timing register value to be programmed into hardware
+> + */
+> +static u16 rzv2h_dphy_find_timings_val(unsigned long freq, u8 index)
 > +{
-> +       struct rzv2h_plldsi_div_clk *dsi_div = to_plldsi_div_clk(hw);
-> +       struct pll_clk *pll_clk = to_pll(clk_hw_get_parent(hw));
-> +       struct rzv2h_cpg_priv *priv = dsi_div->priv;
-> +       struct rzv2h_pll_div_pars *dsi_params;
-> +       struct rzv2h_pll_dsi_info *dsi_info;
-> +       u64 rate_millihz;
+> +       const struct rzv2h_mipi_dsi_timings *timings;
+> +       u16 i;
 > +
-> +       dsi_info = &priv->pll_dsi_info[pll_clk->pll.instance];
-> +       dsi_params = &dsi_info->pll_dsi_parameters;
+> +       /* Get the timing table structure for the requested parameter */
+> +       timings = &rzv2h_dsi_timings_tables[index];
 > +
-> +       rate_millihz = mul_u32_u32(req->rate, MILLI);
-> +       if (rate_millihz == dsi_params->div.error_millihz + dsi_params->div.freq_millihz)
-> +               goto exit_determine_rate;
+> +       /*
+> +        * Search through frequency table to find appropriate range
+> +        * timings->hsfreq[i] contains frequency values from HW manual
+> +        * Convert to Hz by multiplying by 10 * MEGA.
+> +        */
+> +       for (i = 0; i < timings->len; i++) {
+> +               unsigned long hsfreq = timings->hsfreq[i] * 10 * MEGA;
 > +
-> +       if (!rzv2h_get_pll_dtable_pars(dsi_info->pll_dsi_limits, dsi_params, dsi_div->dtable,
-> +                                      rate_millihz)) {
-> +               dev_err(priv->dev,
-> +                       "failed to determine rate for req->rate: %lu\n",
-> +                       req->rate);
-> +               return -EINVAL;
+> +               if (freq <= hsfreq)
+> +                       break;
 > +       }
 > +
-> +exit_determine_rate:
-> +       req->rate = DIV_ROUND_CLOSEST_ULL(dsi_params->div.freq_millihz, MILLI);
-> +       req->best_parent_rate = req->rate * dsi_params->div.divider_value;
-> +       dsi_info->req_pll_dsi_rate = req->best_parent_rate;
+> +       /* If frequency exceeds table range, use the last entry */
+> +       if (i == timings->len)
+> +               i--;
 > +
-> +       return 0;
+> +       /*
+> +        * Calculate final register value:
+> +        * - timings->base_value: base value for this timing parameter
+> +        * - i: index into frequency table (0-based)
+> +        * Combined they give the exact register value to program
+> +        */
+> +       return timings->base_value + i;
 > +};
 
-Unneeded semicolon (there are three more below).
+Unneeded semicolon.
 
 Gr{oetje,eeting}s,
 
