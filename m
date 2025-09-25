@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423C5B9F7F6
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCEEB9F7F9
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:19:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A101E10E923;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C558A10E926;
 	Thu, 25 Sep 2025 13:18:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Nyyiardu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ifN8f/b7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 419C910E925
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:18:53 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A6E10E926
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:18:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B58F26058A;
- Thu, 25 Sep 2025 13:18:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDB3C4CEF7;
- Thu, 25 Sep 2025 13:18:51 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 257B543B3F;
+ Thu, 25 Sep 2025 13:18:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87DBCC4CEF7;
+ Thu, 25 Sep 2025 13:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758806332;
- bh=J3JcsAko8zSIGuiXV9DflNw5AuJmzcXfJS1bY+J5d1Y=;
+ s=k20201202; t=1758806336;
+ bh=KyvoIVO5yd9BSrcJftqBm+1vYzNbuC1mO8MyRdzIYcg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nyyiardu2Jm2P99Ky9DPkc45OpBK6VXC2cDJ2ntyOymvqcGgd7qxrLq7aOKcpmvrB
- 5XtWc3qlZGvSsKGzKNx+xxbBh9eXebQcre8M4Bb/SEeFez1GqGCqP9IYRto9erX4mA
- xMbo23J/F/gS9OYPIVigsvaRVXoubU6we02xEUbwHPq2xk6hXv4kjVijzWspwlc1DQ
- i35RE92E6sbTQMb59F66xvBBp/vg5DYOswYfaxASsoGs62yrjSwe8ELTEJGw6PkZ4a
- C+Bv9QieZeKuF7wRH7Mb2kELbArKXalgOTpImh/q8etNoCarPsndtLwMReFQauTWd0
- bwvkCQ5iBtzuQ==
+ b=ifN8f/b7xNvXk4yklfFciNbhLhFDN2pkIXiduF42mX7McmhVOTROAIJh6sdHzyR7I
+ IgdkvMQHVN0FjSppxopIVWhetGWpoc7kqFpxnE+6X8JlNiiR4kNGHaBlnLHPqV+PPZ
+ LOWF7+YNsb2VWjaT9ndJ/3LA6FJNOMYmVy49i8vb0YVcC4GME3GFK294j6S/HWUFN5
+ kcpF1JjtOTynLslV5scuGLfXWpLz9sFkXFYp3MulpMtWLJRadTHqkH3RxVyANqRyKW
+ uoJCxqeEv5HGx32G2ndbHij44kNTxzyNHZzLt4Vc3ZrDCB3RgHP7gHcSs7FXaQlGdX
+ dl7ukQUm8QdXQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Alex Williamson <alex.williamson@redhat.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
@@ -46,9 +46,10 @@ Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Robin Murphy <robin.murphy@arm.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v3 07/10] vfio/pci: Add dma-buf export config for MMIO regions
-Date: Thu, 25 Sep 2025 16:14:35 +0300
-Message-ID: <b3b718403b85e792ddc8a8a1c47ff214b416eb7b.1758804980.git.leon@kernel.org>
+Subject: [PATCH v3 08/10] vfio/pci: Enable peer-to-peer DMA transactions by
+ default
+Date: Thu, 25 Sep 2025 16:14:36 +0300
+Message-ID: <79ffd43cd22763a376a3abc75fc7f9ed89ec9a9d.1758804980.git.leon@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758804980.git.leon@kernel.org>
 References: <cover.1758804980.git.leon@kernel.org>
@@ -71,45 +72,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Add new kernel config which indicates support for dma-buf export
-of MMIO regions, which implementation is provided in next patches.
+Make sure that all VFIO PCI devices have peer-to-peer capabilities
+enables, so we would be able to export their MMIO memory through DMABUF,
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/Kconfig | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/vfio/pci/vfio_pci_core.c | 11 +++++++++++
+ include/linux/vfio_pci_core.h    |  3 +++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-index 2b0172f546652..55ae888bf26ae 100644
---- a/drivers/vfio/pci/Kconfig
-+++ b/drivers/vfio/pci/Kconfig
-@@ -55,6 +55,26 @@ config VFIO_PCI_ZDEV_KVM
+diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+index 7dcf5439dedc9..356a0e2fd3780 100644
+--- a/drivers/vfio/pci/vfio_pci_core.c
++++ b/drivers/vfio/pci/vfio_pci_core.c
+@@ -28,6 +28,9 @@
+ #include <linux/nospec.h>
+ #include <linux/sched/mm.h>
+ #include <linux/iommufd.h>
++#ifdef CONFIG_VFIO_PCI_DMABUF
++#include <linux/pci-p2pdma.h>
++#endif
+ #if IS_ENABLED(CONFIG_EEH)
+ #include <asm/eeh.h>
+ #endif
+@@ -2085,6 +2088,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
+ {
+ 	struct vfio_pci_core_device *vdev =
+ 		container_of(core_vdev, struct vfio_pci_core_device, vdev);
++	int __maybe_unused i;
  
- 	  To enable s390x KVM vfio-pci extensions, say Y.
+ 	vdev->pdev = to_pci_dev(core_vdev->dev);
+ 	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+@@ -2094,6 +2098,13 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
+ 	INIT_LIST_HEAD(&vdev->dummy_resources_list);
+ 	INIT_LIST_HEAD(&vdev->ioeventfds_list);
+ 	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
++#ifdef CONFIG_VFIO_PCI_DMABUF
++	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
++		vdev->provider[i] = pcim_p2pdma_provider(vdev->pdev, i);
++		if (IS_ERR(vdev->provider[i]))
++			return PTR_ERR(vdev->provider[i]);
++	}
++#endif
+ 	init_rwsem(&vdev->memory_lock);
+ 	xa_init(&vdev->ctx);
  
-+config VFIO_PCI_DMABUF
-+	bool "VFIO PCI extensions for DMA-BUF"
-+	depends on VFIO_PCI_CORE
-+	depends on PCI_P2PDMA && DMA_SHARED_BUFFER
-+	default y
-+	help
-+	  Enable support for VFIO PCI extensions that allow exporting
-+	  device MMIO regions as DMA-BUFs for peer devices to access via
-+	  peer-to-peer (P2P) DMA.
-+
-+	  This feature enables a VFIO-managed PCI device to export a portion
-+	  of its MMIO BAR as a DMA-BUF file descriptor, which can be passed
-+	  to other userspace drivers or kernel subsystems capable of
-+	  initiating DMA to that region.
-+
-+	  Say Y here if you want to enable VFIO DMABUF-based MMIO export
-+	  support for peer-to-peer DMA use cases.
-+
-+	  If unsure, say N.
-+
- source "drivers/vfio/pci/mlx5/Kconfig"
+diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+index f541044e42a2a..2184ba65348b8 100644
+--- a/include/linux/vfio_pci_core.h
++++ b/include/linux/vfio_pci_core.h
+@@ -94,6 +94,9 @@ struct vfio_pci_core_device {
+ 	struct vfio_pci_core_device	*sriov_pf_core_dev;
+ 	struct notifier_block	nb;
+ 	struct rw_semaphore	memory_lock;
++#ifdef CONFIG_VFIO_PCI_DMABUF
++	struct p2pdma_provider  *provider[PCI_STD_NUM_BARS];
++#endif
+ };
  
- source "drivers/vfio/pci/hisilicon/Kconfig"
+ /* Will be exported for vfio pci drivers usage */
 -- 
 2.51.0
 
