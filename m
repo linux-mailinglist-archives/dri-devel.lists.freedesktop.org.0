@@ -2,99 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C86BA073C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 17:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC05FBA07C3
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 17:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A6E10E083;
-	Thu, 25 Sep 2025 15:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F40410E998;
+	Thu, 25 Sep 2025 15:55:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OYrYCmdz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DPK5+rv2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0D110E083
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 15:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1758815452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6RjxFh7v91T99kL52zo94RvBCcAm3O2bx/ycpMxare0=;
- b=OYrYCmdzKBClBFCbG35goyTOQErDP+e2fQ7Re5N2t/JGalQvQBOvxNf1eGe9ufcaGdgTzM
- 63uTyPlgKfr4v2rkTznYvAfD+7xrUSSU1lhMvIdnYq531ESIgT2Jvb9/MtCIHGT2cskPqJ
- QWTXOIdWVcUDyN1Sru2h9y9ANny5JVE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-R56bjpbbMQq7ailzy21_Ug-1; Thu, 25 Sep 2025 11:50:50 -0400
-X-MC-Unique: R56bjpbbMQq7ailzy21_Ug-1
-X-Mimecast-MFC-AGG-ID: R56bjpbbMQq7ailzy21_Ug_1758815450
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-45b990eb77cso7193405e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 08:50:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758815449; x=1759420249;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6RjxFh7v91T99kL52zo94RvBCcAm3O2bx/ycpMxare0=;
- b=q1fQqlMKMK7SIu2KAi93WeiUemoPUtXyT+s7acl2CzqpLqVYsUbt0rBDBLHOzU83gc
- KkWDuv396xtPG7UZ6I05TNl9Gr4rqXV4eEQlIcic2k35s9UmPNJo5aVXnDcu7azLSlRJ
- fF6GHoYkyu9fFnUcaZ4LEPjYNZoixfLsS+0Uc1xboG++bTApcG4GhqOGJZqk8NmxBQ4s
- JIpUqdmfqu3Awex8aMW9ZSTJSJPKQLY+5zkhWdBIw7p08oHLtjNOo/dJhGqG8951zSS0
- 8Zv01TJmIJzDkKFH7cljqqOKYbqJ9tGL8hQYjFmdFJGEsWpYkZ3PgiFwZo1bnkgHPrqY
- vlOw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNR6bhMg/1dlOqmNEl9D/qAoP0nTJZ24q7SCKjdRGnBqOTNe4Rse2dhUq9ufBpZz16z+rNPGGXeF0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwQZUvrhN6L3pTFazgdp4jokhkT2szntRryqDDDKUyHvWhH4B5
- FYbCHIP+deJKvWbKjKL/fZLqOSJnBkBnx5PSBkRcXhlPiwT4Jki3AOwFc+TPeS/RQZGpzaF0Lxc
- t8hh6w58jAPG6hzIi368uQXKURAWayHzrb/N3TEWkWleSRfp3y6mPYNMXRE4SdDrowWhO8w==
-X-Gm-Gg: ASbGnct5eucBSRbVx9ykcRPBQoMion8cY8l9ObELV6d1a3oUQ2NkAqMyR0+zoEFgVLg
- wzReeGkm6b+KUkzCz/+e/jLVp9jH3HB0DAOGg5Xv/hc7wS1KMl+528rkSLCy0DEsf6Nfa1zpVyz
- HbYPAeUQGExGGR4HTgIzt2+vyRW/Cx+XzzSITWmjl1cx9FDPhRp7cNj1dtSEAfLtqjOG3JTjIa/
- Ai4dcpZNBtnmnLO/MSxCeaaTjCP0dr2znGPHj1DXRoRxNMAGO+JFYA8/fCWiwxid85VxpIlu0mK
- jZV9QmTj4+rItOVd+v4wjTvUob12m7x+ZijE2HbAcJr/ZCWZFy5TZiPKgHk6ha9Xy05zzdzunUH
- bepLA
-X-Received: by 2002:a05:600c:c05a:b0:46e:24a4:c247 with SMTP id
- 5b1f17b1804b1-46e33c37045mr27726495e9.5.1758815449342; 
- Thu, 25 Sep 2025 08:50:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH42p5wF1MbXLgLRLpmMdmx3fmatgjwkfbDLkTnb0zUzAZiwpeDhVqHHmRs7ZpOiR0kwuKXgg==
-X-Received: by 2002:a05:600c:c05a:b0:46e:24a4:c247 with SMTP id
- 5b1f17b1804b1-46e33c37045mr27726145e9.5.1758815448852; 
- Thu, 25 Sep 2025 08:50:48 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46e2a996da2sm96398255e9.5.2025.09.25.08.50.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Sep 2025 08:50:48 -0700 (PDT)
-Message-ID: <d2b91aea-02d6-4fbf-9ada-ef831936c773@redhat.com>
-Date: Thu, 25 Sep 2025 17:50:47 +0200
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECBCF10E98D;
+ Thu, 25 Sep 2025 15:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758815723; x=1790351723;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=E5dZNl5HwNBzZ5O9iYn5kHUsz9N1J3REBO6P6lg7n4A=;
+ b=DPK5+rv2CUCDGOwv7BvpbRSQM7QRUeOzw8kTPE/GNufP9QTbgfPP1FYV
+ RlHvi+C5gLU40XtV0i8v21MhIbtVJCwx5fNEZtbQmcAZllCqnnEkhNNac
+ LlRCtw2Q7Yih9ztgd5T8Mj1Rt4a30zb5IeR2ZnUtgaO6B22ux50M0mawl
+ HMvsawtSn14n1TW4mpDb7obaB7s5xE8mBxZ7AfJFT2+6Nyl6Q7miIqZVD
+ pC+j7mCzBonIoYt1X9JiudQVDhuFmPzNB/kpdwH+9c718dPYAIuvGgvJt
+ zfzzj2NCtghgzGaJACIsUi9cFg6m1oBzpZI3A/8NLcs2GLk6xelMn7JWN g==;
+X-CSE-ConnectionGUID: j91uJTTdSxqqLa23j7IvIg==
+X-CSE-MsgGUID: l3mjW+egQruX7wpObMgXgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78781165"
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; d="scan'208";a="78781165"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 08:55:22 -0700
+X-CSE-ConnectionGUID: Gcwm05PtRW6CczeapPyGyw==
+X-CSE-MsgGUID: Q8f+P3f1R8O1OBPd155ncw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; d="scan'208";a="181662550"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 08:55:23 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 25 Sep 2025 08:55:21 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 25 Sep 2025 08:55:21 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.40) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 25 Sep 2025 08:55:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DvuUDRWAGdxAtX+OIdkBcw5UdMANDd95U3SkA95B5BfzhwcmfIwKGzq5yuao4Xogz1dkqKTcTNMPmQz0QtZSS/yj0atK/9YoSZfBNnyMf9YDZtX7ripeSjZDCekjaS9vWTL+SojpC096pzvQymjlIEoMPZXWk0KR6/KIchUZIMOJEhc8pjnfhJRRKzmcVdmY/x5O4AkEwhG4BV7xPmrNWn3EEHUd7C6rG0N02vwq0Z8zIfTVmjzq35SPGy2qrgZeBx+txcy3aJdbD1f1IliTuX7KYcKL1OMgIvwfEl+oSkIiAaO0faG/oOh32SFyiNTC8MLY/Snjp5Z8YvY7lCTArQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RS5J4PttHNx6yiCwUPMG0QVoP3IwTS3NuFKYxvPWSmg=;
+ b=kSc/imPsZf9j0cXWgHP8ZasgjefUULtecQLxxpvG7fzjesAB9uyU9Zu2eZezJuK4A99V08nY3N0mXcn8p01OzsNuW3K7yxmv5jkJNIOH4xdJb5LKLyI6LdUcbMUq31sP6zd/DQFs8VjOL6j005NQOF1N/WCqscOl1EFNjmeoAMjZXEZlRq+ipFfXhsAeQpsxdti4isSKFEvkSnk769pUY+XGYl0lVznMhkbajrurYeIy6KR+BAhBafk3q+DTp3Z8p7nd68lCakMqSz8JMna4LDiuB2aG4LEVridH35ny7tlI16ZsgXGnhUb0E5sFbNRaOboVdUacN+VSssw+IJDZRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB7757.namprd11.prod.outlook.com (2603:10b6:8:103::22)
+ by CO1PR11MB4802.namprd11.prod.outlook.com (2603:10b6:303:94::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
+ 2025 15:55:17 +0000
+Received: from DM4PR11MB7757.namprd11.prod.outlook.com
+ ([fe80::60c9:10e5:60f0:13a1]) by DM4PR11MB7757.namprd11.prod.outlook.com
+ ([fe80::60c9:10e5:60f0:13a1%2]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
+ 15:55:17 +0000
+Message-ID: <83599443-dd90-4c89-acde-989c500e85ee@intel.com>
+Date: Thu, 25 Sep 2025 08:55:15 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] drm/panic: Add kunit tests for drm_panic
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250908090341.762049-1-jfalempe@redhat.com>
- <20250908090341.762049-3-jfalempe@redhat.com>
- <20250910-fascinating-hungry-lemur-1d9f49@houat>
- <5e9dc5b5-9671-4a72-b926-8b526ebf9059@redhat.com>
- <20250923-silent-mole-of-luxury-9feabc@penduick>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250923-silent-mole-of-luxury-9feabc@penduick>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sfPGPCuFVLO7aNZrsekXFo6cLcYcoomMyzaSy1QQ_ag_1758815450
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3] drm/i915/guc: Skip communication warning on reset in
+ progress
+To: Zhanjun Dong <zhanjun.dong@intel.com>, <intel-gfx@lists.freedesktop.org>, 
+ <dri-devel@lists.freedesktop.org>
+CC: <michal.wajdeczko@intel.com>, <daniele.ceraolospurio@intel.com>
+References: <20250916001618.2138901-1-zhanjun.dong@intel.com>
+Content-Language: en-US
+From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+In-Reply-To: <20250916001618.2138901-1-zhanjun.dong@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0091.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::6) To DM4PR11MB7757.namprd11.prod.outlook.com
+ (2603:10b6:8:103::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB7757:EE_|CO1PR11MB4802:EE_
+X-MS-Office365-Filtering-Correlation-Id: b81f5991-4057-4369-3b68-08ddfc4bec12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OFhlZ1ZqS1VSdmFSN0cwL09wNVBicWFHV0NOVWlyemJ3ZWRha2NNakZodnNz?=
+ =?utf-8?B?Q0tubm5EQmtWeWFIKzZNRG9IQlpEN1FVNmZpbjlLWGJBTjV0RmJOUlRRRk56?=
+ =?utf-8?B?QUJJSE9BZnRYWVZGMThRWUEwSmlaU0xMZmF3N0hoSmhCUFBFK3BFU0xrVFBZ?=
+ =?utf-8?B?ai9BeGxPVlBMZmQ2N2U2cG1CM2xvNXNmb1pwbVZQV3dKNWVCcWdmUDhxQkx6?=
+ =?utf-8?B?ejlCVldwVWI5TVB2M2VKRStYRDZtYSs1VEJOZTR1KzRINEEzQVJVZUFXR2l1?=
+ =?utf-8?B?YVYxa3VvaENLS0xkc0pIdFd6YnovUzdFc1hFNGt4N0RNSENvMFNWaDVvSFFO?=
+ =?utf-8?B?UnI4WSs4akZnNjA4ajg5bk4yNTZYOFZjanlSang5UmhZV3BBa2RZUTAvdmRh?=
+ =?utf-8?B?aWhSb0xyQkp0NjZLTDdhdng4OEFGeWFHQWVaM0pwbTlCRUlkSjAvREJCTWlu?=
+ =?utf-8?B?YXAyU0xvWHVHcENTVWJYbERhcHhudGZUbktxWjZoOWpuZEJadmZaVFgyUnQ5?=
+ =?utf-8?B?WnpVdXJoR0JrMzNwb1dnYm5FdUUrZ0R1NTlXRFpOSFR1NDIrV1dlSGIrY0Vy?=
+ =?utf-8?B?ZWJVb2tGWC9zRnJ0SVdmN0l5WTZHZm5QR0JjdEtraUNkRzBSdk4zM2NadVJh?=
+ =?utf-8?B?TUFpdHU4dFpCQkx5dFY1eUVHaDkweHlPK0kycnFNK01NV2xURFVqK2h1bXdj?=
+ =?utf-8?B?SFlnNTJsMnRmRy96aXRacWtQWmVDQmNTWGFYbHllUkFNcXduYkhoUGhoSzlY?=
+ =?utf-8?B?VmpJb1lYQ2xMQmNYMCtwOFhqVkk2cmVKVXJPUmhKOHN1bHkyWG8rYkxVNTh0?=
+ =?utf-8?B?Y3FVQm1idGxwWloyMUtiLzEwTVlqWnhObU0wT3NoZTJmME80UWEzS0M0SWor?=
+ =?utf-8?B?cUh3WE82ajBhOEQ3RzR6bHVFZlRKTWRNemRSZmZUR1VieHU2eGd2REdHTkll?=
+ =?utf-8?B?bDUxVUliNHBmVExaeWhCbktkTGZtejlLeDNCT2s2YjVqbXRzSGtyYmJEVmpk?=
+ =?utf-8?B?M0hidWZ5MnV4OXBmTjd4Z29ObmREU2UyRlFsVHoyQ3V3emhqL1FwMjhxUnZh?=
+ =?utf-8?B?b002aFRGdzU4T1pLOXBWcXQ1Q1hhYS9od2FQZHZHaForbzZabUNxNkdxaG1j?=
+ =?utf-8?B?c0ZQcDdzaUUzak1Qald3L1hMd1pjbEVXWU84VE5ReEUvaXIxeFNOTklaMXYy?=
+ =?utf-8?B?bUUvRTVXcTFLTXVlSSs1L0lwV0RjRXF0ZGQyY0RhSXBWUXI2eE5say9wVE9O?=
+ =?utf-8?B?NTdlb1Q2bDB0RFVlSDZVbU5xMUVLeHlrUE12aXE5UVlPdlhFQStiTTQzb2Z6?=
+ =?utf-8?B?ZHp4TDBSZDladnVDVFBxWDV1NjlHKzR5VkIvWU9QamxEK1ludTFrVjRxNE9N?=
+ =?utf-8?B?Y2pKUEtpWFllcGpNUnhJbWtxRXBOYmg2WDU0K05OOXpPWW4vdDV2UmdwNDlN?=
+ =?utf-8?B?Vk11eEo1OU41aWw4ZFZZWDZQMTAyNlVWYVUva3JrZ1VaclYxSWQ0MVppTEpW?=
+ =?utf-8?B?bUJxSW02M0piOWVWTVJTSWtDWTdPNU14dHJsLzRWZVhZQjZtczVwQlV1VGZ1?=
+ =?utf-8?B?VDI4MnljcU4xeG5RRVdCdTRHWkU0UlRVT3diY3UwQ1dORThtRm4wMW5GNDJJ?=
+ =?utf-8?B?d3NDSk82dytpTXEyZXZtRERQVDhqK0NWTWVBZE9rUzNlb3p6TEpOMGFQWUtz?=
+ =?utf-8?B?bFphRmpLS254bkp5RllxUnJFS0lnTVVYTEV5NjVNV05BVHlhUlVNdTRpZTdz?=
+ =?utf-8?B?UytmUkVVaHpIRG42akVhd2EzMVRNSjA5RWZrTlNxZDd3akZZTE9McUtqU2g5?=
+ =?utf-8?Q?tpS1QUxD/cXQaHkEKIE/wa29iJGvTZ3ax5tUw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB7757.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cXA1Nm93c3R6cmRQVmhPMUpudjlJRUpIK0F6OXlnWlloaGR1TTk5cllVdHg3?=
+ =?utf-8?B?SU8xcEI3M3F2bm82cUMzeVlYNGFvQko2aXJSdXJFUHVuMVcxUHRydWREdEE1?=
+ =?utf-8?B?SEZBYUJZdTVUQ08vMEtpL2ZMU2VwdDhVQVVROHpjSEw2YURRckZULzg0WUEv?=
+ =?utf-8?B?RmNFSGJhQ2dQK3I5WkNnS1BkN0ZsTmxEanBPN0Via01XWmx5UDUxdmhZekUx?=
+ =?utf-8?B?TldBRmlMay9EQzV0NGVsVTQ2Qlc4aHVhckFQd29wTnpwSTYzcDY4bUt3dVVw?=
+ =?utf-8?B?ZFRjQ0pDc20vNmNsRk1uQWNsLy96UG11dFFGT2Fvb3p0U0xEZCtmNHBITng4?=
+ =?utf-8?B?QjQ4bm0vc0hvbWlmekRDSXhhRkdVZEo5THhZRHZybTJGTGMyTncxVEhxTGE4?=
+ =?utf-8?B?R3BEV1p3TytTMWl2MlBMWEwzNnJ2YzFqTjUwU2ttbTV4NGpGd002Q0dCYk85?=
+ =?utf-8?B?M2ZlZ1Rwdm5GWUF2U2luTFVNbzBIeG1GeVc1UHdiNCtZWkFGZjNvVzMrcUd5?=
+ =?utf-8?B?V1AwSDRmM2s1QzB3SVBPeXpEOEtZUTRlYVAyNGk5RDhSc3hYUUREN1hBQ3FF?=
+ =?utf-8?B?Sk9TdlZiSFJsQ25CZWYrRm5IWE5nTE90NHJjbVFERkJVZHpEbWtrQXJTbUp4?=
+ =?utf-8?B?RHR3NFVla0dyeTIwTDBLelVlRnlaeEFrcEpKSmpEWExqZmJ6T0piU3o3dGY3?=
+ =?utf-8?B?SE1xaFVxR2dpcXVmWGJjOXB5ZHFxT0xNWGZjQml4U1pnK1RhU01nUGIyL2Ez?=
+ =?utf-8?B?enZ3UDRWcjdaMUNacmFPdUJVUzBENFJiNjFpSjJQVkFqenJvMW03cGQwdW9I?=
+ =?utf-8?B?aEZBaDFwV2xkb28xdVd6ZE05dlpFV2Vjd3RCREZUaUp1a2JsYzJBRTFQTnBv?=
+ =?utf-8?B?Y1lEekx1NEdWSUVwQ3kwMEFkZUtxUit5QTFFLzZnK2d2M2gzMC9JWE5VbEJ6?=
+ =?utf-8?B?RWFVbEpXUmlDMEZjQlhPbVBtRmdvZ3RhelEzazJJbzdWNTlBMWlTTnRGLzV3?=
+ =?utf-8?B?dHcwdTl5SmsyaEJCYXlURnM4cW9wQ2Mxd29wbUp2enNqREdZajFPUzdJa1RH?=
+ =?utf-8?B?K0pvMENMZXFxSk9OVWRRZjJSZFJSdmY2WE5ER3U0WmZMN0lrMFRXbm9Kc3JK?=
+ =?utf-8?B?dTZYVFNMWXlBaVpHbllXR25GcEY2NmszNU9zbVdzSlFFSjgzSWliYis1KzA2?=
+ =?utf-8?B?TWxJeGhJMmt2R3BDa2JENDNrT2dyUmxrK0FuRzN0NDBpbThCYU4va053ck9t?=
+ =?utf-8?B?VjNFUkpWaXVNd3RGUzgzeWl3YlNjSnN6WnJjOW1EV2ltZ0hPaG5lOFR5QWRQ?=
+ =?utf-8?B?OEZic1U2WEd3Rkc1RFVWNTkvS0xpenhtQ1JZS3p1UUtVVld2SWZsaUtIU0pz?=
+ =?utf-8?B?a05UYVZKamtLSnJBbDh2TU96NW8xS1RiOUJYZXdOc1RKMjlJTmZkb25Jamdl?=
+ =?utf-8?B?Zkdlc0YrQm0ybWVyY0o1YTlpUTlxS3RYUWxQSW1OYTRRanQycStLQjlqT0c4?=
+ =?utf-8?B?S3U5b0lvVlNLMExWVkVqcWhBVzA3OGY3NzQ2WkRHeTVaUzdBSStpUlBVRm9X?=
+ =?utf-8?B?WTYrWGNRWW4ya2FoZjNuYVpQaWR3NlNmRVhrUXFpU1FtYUt3TFl5d1cxQWFS?=
+ =?utf-8?B?M2VTZGROOWNPV0dpRDBwZGVZbW02UzU1ZGhGWnlOZk41dENqVG4yL2o4NERj?=
+ =?utf-8?B?Y3FCYmdaNGRUT1VWbEZrb280ckRQWWpBYWxDRlNwSHdBVkpQeHV4bzVvNVFq?=
+ =?utf-8?B?S3J6dzdWd2hnUk9keTR5SnQydnhqdFVEWHZ6dm42ZnUrb1JDS1VHelZ1dnFz?=
+ =?utf-8?B?OERaUWd2RzErSE5tSjYveTBud3RXZHJka0kwNXU5L0M4dGh2TzNOWE1ZdWth?=
+ =?utf-8?B?a0tqZU5kU3MzM3lWanp3MlRuS2RDSEVEL1FtSHlSQjZWRWhKTGwwS3JNWWJv?=
+ =?utf-8?B?dUVIV2Rwa2NEeGdCRHl2WHZ4NG56SDJBazROWkRhN3VuUG9TTStLeW5odENR?=
+ =?utf-8?B?NndzY1lySFFjck82MmZEUzNLR3htemNqSGRuS0Z5ZUNEUkE2elFLQW90VWJU?=
+ =?utf-8?B?RExDay9xN3dNL21KTDRTYXBhcGFHNG5IUVNwWkFFUXJXNkowNUtjWTI1UWpN?=
+ =?utf-8?B?REI2STRuQmFmSGtZMjN3WTRzT3B5djN1VnpJdllIWjVrQWNlT3NFWkYzY2Qw?=
+ =?utf-8?B?MXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b81f5991-4057-4369-3b68-08ddfc4bec12
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7757.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 15:55:17.2590 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yfWd1c57aQ3/to+zRSVA+Rcm/e50FIi8/pqI1vx8o1HphhFJPKAjCKXsnvUHAXtnWV24hlvL/YaNLv9qHft+6VqMySX11zFPkX2jHaSs1UM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4802
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,224 +195,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/09/2025 11:57, Maxime Ripard wrote:
-> On Wed, Sep 10, 2025 at 05:16:49PM +0200, Jocelyn Falempe wrote:
->> On 10/09/2025 10:33, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Mon, Sep 08, 2025 at 11:00:30AM +0200, Jocelyn Falempe wrote:
->>>> Add kunit tests for drm_panic.
->>>> They check that drawing the panic screen doesn't crash, but they
->>>> don't check the correctness of the resulting image.
->>>>
->>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>>> ---
->>>>
->>>> v2:
->>>>    * Add a few checks, and more comments in the kunit tests. (Maxime Ripard).
->>>>
->>>>    MAINTAINERS                            |   1 +
->>>>    drivers/gpu/drm/drm_panic.c            |   4 +
->>>>    drivers/gpu/drm/tests/drm_panic_test.c | 198 +++++++++++++++++++++++++
->>>>    3 files changed, 203 insertions(+)
->>>>    create mode 100644 drivers/gpu/drm/tests/drm_panic_test.c
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 402fe14091f1..e9be893d6741 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -8480,6 +8480,7 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->>>>    F:	drivers/gpu/drm/drm_draw.c
->>>>    F:	drivers/gpu/drm/drm_draw_internal.h
->>>>    F:	drivers/gpu/drm/drm_panic*.c
->>>> +F:	drivers/gpu/drm/tests/drm_panic_test.c
->>>>    F:	include/drm/drm_panic*
->>>>    DRM PANIC QR CODE
->>>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
->>>> index 1e06e3a18d09..d89812ff1935 100644
->>>> --- a/drivers/gpu/drm/drm_panic.c
->>>> +++ b/drivers/gpu/drm/drm_panic.c
->>>> @@ -986,3 +986,7 @@ void drm_panic_exit(void)
->>>>    {
->>>>    	drm_panic_qr_exit();
->>>>    }
->>>> +
->>>> +#ifdef CONFIG_DRM_KUNIT_TEST
->>>> +#include "tests/drm_panic_test.c"
->>>> +#endif
->>>> diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
->>>> new file mode 100644
->>>> index 000000000000..d5d20dd2aa7c
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/tests/drm_panic_test.c
->>>> @@ -0,0 +1,198 @@
->>>> +// SPDX-License-Identifier: GPL-2.0 or MIT
->>>> +/*
->>>> + * Copyright (c) 2025 Red Hat.
->>>> + * Author: Jocelyn Falempe <jfalempe@redhat.com>
->>>> + *
->>>> + * KUNIT tests for drm panic
->>>> + */
->>>> +
->>>> +#include <drm/drm_fourcc.h>
->>>> +#include <drm/drm_panic.h>
->>>> +
->>>> +#include <kunit/test.h>
->>>> +
->>>> +#include <linux/units.h>
->>>> +#include <linux/vmalloc.h>
->>>> +
->>>> +/* Check the framebuffer color only if the panic colors are the default */
->>>> +#if (CONFIG_DRM_PANIC_BACKGROUND_COLOR == 0 && \
->>>> +	CONFIG_DRM_PANIC_FOREGROUND_COLOR == 0xffffff)
->>>> +#define DRM_PANIC_CHECK_COLOR
->>>> +#endif
->>>> +
->>>> +struct drm_test_mode {
->>>> +	const int width;
->>>> +	const int height;
->>>> +	const u32 format;
->>>> +	void (*draw_screen)(struct drm_scanout_buffer *sb);
->>>> +	const char *fname;
->>>> +};
->>>> +
->>>> +/*
->>>> + * Run all tests for the 3 panic screens: user, kmsg and qr_code
->>>> + */
->>>> +#define DRM_TEST_MODE_LIST(func) \
->>>> +	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_XRGB8888, func) \
->>>> +	DRM_PANIC_TEST_MODE(300, 200, DRM_FORMAT_XRGB8888, func) \
->>>> +	DRM_PANIC_TEST_MODE(1920, 1080, DRM_FORMAT_XRGB8888, func) \
->>>> +	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB565, func) \
->>>> +	DRM_PANIC_TEST_MODE(1024, 768, DRM_FORMAT_RGB888, func) \
->>>> +
->>>> +#define DRM_PANIC_TEST_MODE(w, h, f, name) { \
->>>> +	.width = w, \
->>>> +	.height = h, \
->>>> +	.format = f, \
->>>> +	.draw_screen = draw_panic_screen_##name, \
->>>> +	.fname = #name, \
->>>> +	}, \
->>>> +
->>>> +static const struct drm_test_mode drm_test_modes_cases[] = {
->>>> +	DRM_TEST_MODE_LIST(user)
->>>> +	DRM_TEST_MODE_LIST(kmsg)
->>>> +	DRM_TEST_MODE_LIST(qr_code)
->>>> +};
->>>> +#undef DRM_PANIC_TEST_MODE
->>>> +
->>>> +static int drm_test_panic_init(struct kunit *test)
->>>> +{
->>>> +	struct drm_scanout_buffer *priv;
->>>> +
->>>> +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
->>>> +	KUNIT_ASSERT_NOT_NULL(test, priv);
->>>> +
->>>> +	test->priv = priv;
->>>> +
->>>> +	drm_panic_set_description("Kunit testing");
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +/*
->>>> + * Test drawing the panic screen, using a memory mapped framebuffer
->>>> + * Set the whole buffer to 0xa5, and then check that all pixels have been
->>>> + * written.
->>>> + */
->>>> +static void drm_test_panic_screen_user_map(struct kunit *test)
->>>> +{
->>>> +	struct drm_scanout_buffer *sb = test->priv;
->>>> +	const struct drm_test_mode *params = test->param_value;
->>>> +	char *fb;
->>>> +	int fb_size;
->>>> +
->>>> +	sb->format = drm_format_info(params->format);
->>>> +	fb_size = params->width * params->height * sb->format->cpp[0];
->>>> +
->>>> +	fb = vmalloc(fb_size);
->>>> +	KUNIT_ASSERT_NOT_NULL(test, fb);
->>>> +
->>>> +	memset(fb, 0xa5, fb_size);
->>>> +
->>>> +	iosys_map_set_vaddr(&sb->map[0], fb);
->>>> +	sb->width = params->width;
->>>> +	sb->height = params->height;
->>>> +	sb->pitch[0] = params->width * sb->format->cpp[0];
->>>> +
->>>> +	params->draw_screen(sb);
->>>> +
->>>> +#ifdef DRM_PANIC_CHECK_COLOR
->>>> +	{
->>>> +		int i;
->>>> +
->>>> +		for (i = 0; i < fb_size; i++)
->>>> +			KUNIT_ASSERT_TRUE(test, fb[i] == 0 || fb[i] == 0xff);
->>>> +	}
->>>> +#endif
->>>
->>> I'm not really fond of the ifdef here. Could you turn this into a
->>> function, and return that it's valid if the colors don't match what you
->>> expect?
->>
->> Yes, I can rework this.
->>>
->>>> +	vfree(fb);
->>>> +}
->>>> +
->>>> +/*
->>>> + * Test drawing the panic screen, using a list of pages framebuffer
->>>> + * No checks are performed
->>>
->>> What are you testing then if you aren't checking anything?
->>
->> It tests that there are no access to an unmapped page.
->> But I can add the same check that with the "map" case.
->> It just requires more work to map the pages.
-> 
-> I wasn't really arguing about adding more stuff, just that the
-> documentation didn't really explain what was going on. Just saying "I'm
-> checking that doing this succeeds" is definitely enough for me.
-> 
-Ok, I will update the documentation accordingly.
 
->>>
->>>> + */
->>>> +static void drm_test_panic_screen_user_page(struct kunit *test)
->>>> +{
->>>> +	struct drm_scanout_buffer *sb = test->priv;
->>>> +	const struct drm_test_mode *params = test->param_value;
->>>> +	int fb_size;
->>>> +	struct page **pages;
->>>> +	int i;
->>>> +	int npages;
->>>> +
->>>> +	sb->format = drm_format_info(params->format);
->>>> +	fb_size = params->width * params->height * sb->format->cpp[0];
->>>> +	npages = DIV_ROUND_UP(fb_size, PAGE_SIZE);
->>>> +
->>>> +	pages = kmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
->>>> +	KUNIT_ASSERT_NOT_NULL(test, pages);
->>>> +
->>>> +	for (i = 0; i < npages; i++) {
->>>> +		pages[i] = alloc_page(GFP_KERNEL);
->>>> +		KUNIT_ASSERT_NOT_NULL(test, pages[i]);
->>>
->>> KUNIT_ASSERT_* return immediately, so you're leaking the pages array
->>> here.
->>>
->> yes, I can fix that, but is it important to not leak when the test fails?
-> 
-> kunit tests can be compiled as module and run on live systems, so yes.
-> It can also lead to subsequent test failures if you deplete the system
-> of a resource the next test will need.
+On 9/15/2025 5:16 PM, Zhanjun Dong wrote:
+> GuC IRQ and tasklet handler receive just single G2H message, and let other
+> messages to be received from next tasklet. During this chained tasklet
+> process, if reset process started, communication will be disabled.
+> Skip warning for this condition.
+>
+> Fixes: 65dd4ed0f4e1 ("drm/i915/guc: Don't receive all G2H messages in irq handler")
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14834
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> ---
+> History:
+> v3: Add skip on interrupt disabled case
+> v2: Update subject text, removed fixup
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index 3e7e5badcc2b..78308ff00d68 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -1325,9 +1325,15 @@ static int ct_receive(struct intel_guc_ct *ct)
+>   
+>   static void ct_try_receive_message(struct intel_guc_ct *ct)
+>   {
+> +	struct intel_guc *guc = ct_to_guc(ct);
+>   	int ret;
+>   
+> -	if (GEM_WARN_ON(!ct->enabled))
+> +	if (!ct->enabled) {
+> +		GEM_WARN_ON(!guc_to_gt(guc)->uc.reset_in_progress);
+> +		return;
+> +	}
+> +
+> +	if (!guc->interrupts.enabled)
 
-ok, understood, I will fix the leaks in those tests.
+Is it possible there are some messages in the CT buffer even though 
+interrupts are disabled?
 
-> Maxime
+Thanks,
 
+Vinay.
 
--- 
-
-Jocelyn
-
+>   		return;
+>   
+>   	ret = ct_receive(ct);
