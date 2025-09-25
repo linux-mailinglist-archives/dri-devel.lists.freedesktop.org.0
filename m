@@ -2,46 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88279BA1BF4
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 00:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C86DBA1C11
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 00:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D6F10E9CC;
-	Thu, 25 Sep 2025 22:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D7310E9C4;
+	Thu, 25 Sep 2025 22:12:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JTWBqhfZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UheZZzsD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDB7D10E9C4;
- Thu, 25 Sep 2025 22:12:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41AE810E9BE;
+ Thu, 25 Sep 2025 22:12:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 502F14383F;
- Thu, 25 Sep 2025 22:12:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34ABBC4CEF0;
- Thu, 25 Sep 2025 22:12:08 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0E1A644607;
+ Thu, 25 Sep 2025 22:12:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2E0C4CEF0;
+ Thu, 25 Sep 2025 22:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758838339;
- bh=c7108jwqpOV4+pWr+PhgmM1iKDmFVdJiyCtcy1mN2cY=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=JTWBqhfZxOwUEuDpU8HMg9wskI7rQ2bhGgOMM5JaFNn7OZZFkUYF4DgZwGNQkmdSW
- uUwJNNV218XJp0cK8cfwzwLs7Y7nccd+DXiv+vZwJwGkE0zT8ajUaBaFMKgRE9gt3J
- 9wJxt7DaG1GR5DAVStev5fRHal9v7CCXed3tI99B/OCRd4Hn5VB67ZOu9Qx6V2G49c
- ygdytilAIcB13MK2jUDvK/mgpCE2ElRi29eO4U51HhfN/tOS9AdZ7GDL4qtZp63cLK
- RRkdPTmB5EafZ3qqXa1AHfBZRax0WxluH7Pa0aPnnXhrY9IMZpWhF2xxg8bk9Nq1xl
- ctKy2Ch/HdHxA==
+ s=k20201202; t=1758838356;
+ bh=EhzcAQQNefG/rpYum9YccukxD+KTEFef1Ilrcnpn4P0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UheZZzsDqVS/T1S0NHm17iuakVk3H2l9brDM9QIXLAuY0wKGMLmRiYjpp89q0C8X/
+ 2FzvAozPaMetlj/nSrxpYLGI5rromLbcpcX1lERjrDEbKnkp/jZDf4aHlR8iGLmTFy
+ xZVJvNmF2OJH8ZoU1jzrfE0p0nk9jqKeq53Z8ntPzAczsETq7DoxaudpFpPCx11Mog
+ x1IpQgfvMft+m4pH+d+daW6Kiz4zdidGcDJHPvJr9Yvxc9uOz15ZlCmhTmYp4qRmKx
+ aISM7Bq7GZlncnq5sETnKuNKp99a58hU/m1fHpK0s69q0B4rxh1xK8d9sBQV9eKMfj
+ CHAMGigKTh34Q==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Sep 2025 00:12:06 +0200
-Message-Id: <DD285GJWLA78.10DN8N20YVHQI@kernel.org>
-Cc: <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <netdev@vger.kernel.org>,
- <linux-clk@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
- <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v2 18/19] rust: io: replace `kernel::c_str!` with C-Strings
+Date: Fri, 26 Sep 2025 00:12:24 +0200
+Message-Id: <DD285OOFRWDT.PCU1N6M0XNJ4@kernel.org>
 From: "Benno Lossin" <lossin@kernel.org>
 To: "Tamir Duberstein" <tamird@gmail.com>, "Rafael J. Wysocki"
  <rafael@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>, "Miguel
@@ -70,10 +63,18 @@ To: "Tamir Duberstein" <tamird@gmail.com>, "Rafael J. Wysocki"
  "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
  <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, "Liam Girdwood"
  <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>
+Cc: <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <netdev@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+ <linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH v2 19/19] rust: regulator: replace `kernel::c_str!` with
+ C-Strings
 X-Mailer: aerc 0.21.0
 References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
- <20250925-core-cstr-cstrings-v2-18-78e0aaace1cd@gmail.com>
-In-Reply-To: <20250925-core-cstr-cstrings-v2-18-78e0aaace1cd@gmail.com>
+ <20250925-core-cstr-cstrings-v2-19-78e0aaace1cd@gmail.com>
+In-Reply-To: <20250925-core-cstr-cstrings-v2-19-78e0aaace1cd@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,5 +103,5 @@ Cheers,
 Benno
 
 > ---
->  rust/kernel/io/mem.rs | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  rust/kernel/regulator.rs | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
