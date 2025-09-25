@@ -2,114 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5E4B9F0F3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8B2B9F129
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:02:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF5C110E8E7;
-	Thu, 25 Sep 2025 12:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F0810E2BC;
+	Thu, 25 Sep 2025 12:02:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KQd5RTU0";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="sPl5l0vc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E96E10E8E7
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:01:07 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P9tCqN018069
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:01:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=V5Y/1hDv/kk
- whStoArQzbwxZMpsCaPsP3PcuweIKGKM=; b=KQd5RTU0OCqSYbA43dZVLV3JTs4
- jPaYCGg+CdtSPzBqIUsysFroSkKtfrv4OQIcUYd9dy4eoLMVeGqkzOdjd7jb5Wan
- /dQ3lsiu1T3Tqm0eIuVf1iKQCGphZ0qVgVNvO6SOkWV5JC2f4dQkqOwumUJbNeii
- aK52A+q297HKtLA6xY8pAI/R3i2T4n0JCxMmwEFTg6eaRa1dZkIOa5tXll/ZTbCL
- 0eegsQ6es0OVUQC6kuaynoKwg+4KNyMxNHcfv9ugIdiYcdYTL4VX6jS1YQ7ryHxV
- VYkmsUEUhw+2Yorkej22OcJQ7upJkJIDtoeseTvZc9Z7ZIp3LCbMhmrTc9Q==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49b3kkbxk7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:01:05 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-244570600a1so11355495ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 05:01:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758801664; x=1759406464;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V5Y/1hDv/kkwhStoArQzbwxZMpsCaPsP3PcuweIKGKM=;
- b=EPLCFJolE3f4vRfYcBQwnn6qYshfmhdguDHjcL55yLEXxLmK/kTuMUjs7v2Kr4h+fS
- /AdZf1AijJagHYJG85wCEQ4mV6qKcvWYD26YqQZCdEsv2WzS8hSbm0AF0t8F/atfotXm
- fiFJF0uSgvHEYCMwLUvnfZ+KC7LAZLQHPH9LJq4SXVcc+r5Et4VoWrfqvbeawRhcJaM1
- 4i/XG5JF8QsvoFnIcgo32AQ4fZ2zMh5+81/PdA2iu6jS1s5x56YtV9KzK2aRpCqyD8j6
- BVZ6rqrMq5VSjucaOUmcXN/WYU+TmLK9wPOQsMw6fGYETItS2vE3XzC3w4MgR/je5XUp
- oisg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV64c2fw9e8eDsTJeDuXZB06wrxDg6+JML55jz1JLG7kEmvNWoz90WrmfjGkaaw9MmxborDxMTfJww=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmOZdXz88Vwd+YDtC4o+BU/VDq2FBsA+gMbbr8Js5HMxGpV5ux
- ZxuVGVMAesNS8if4sRcnaM1vpftGbdTa0KjgMClhoPWjtGbN2xR+/iIi6snzyODvRrnKyOzndAU
- Q0lvGyjcF126N1w9syJ34nnBq+O67s+OUe5/BoEXxhxXieA5o2BpMF10M7iWRCV3nGQ5eFMw=
-X-Gm-Gg: ASbGncs+iPSJ+t7XXsa3ISe2fAtOAml6v1iLQSDYMGCWLAhxhInLnMiFDEU8na+MdL8
- yvOu/GDEQCH8WcCoqG5QlPDGb4uUODmmRUSLEiLFLo/KqRh9h2mswg+Z3EeQqdDIS1fdjsHvmQ1
- S0j7nQO9EkaZ5zbkvrHxnrPIuotd9CqYCyqLpdiT6rY4syzFPjboywhdQ8Hsmfb9hej8PqK/d6N
- FJcH9pniDcG0mI53FBZm6hcI+i5Lzq6romJ1iF8J8VxjINI+uOu/EN/05OIw+b9bSCJG5ufhekZ
- WoJ8ADXB8lr7WSWidqm9plhaBfDobsxwvI9+B/pv6AKfHE9+sHcXOfrGmRs3a4PvJVrjdvjIy+c
- =
-X-Received: by 2002:a17:903:41ca:b0:265:e815:fcdf with SMTP id
- d9443c01a7336-27ed722bb4amr25788895ad.17.1758801663739; 
- Thu, 25 Sep 2025 05:01:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFEJvZUQFeB94qKQ4oxw3IjetCCgf2TPwA7CQNnsNMgmh4dfmt6RK+z1AGXQJSv6/UtlX0GfA==
-X-Received: by 2002:a17:903:41ca:b0:265:e815:fcdf with SMTP id
- d9443c01a7336-27ed722bb4amr25787385ad.17.1758801661502; 
- Thu, 25 Sep 2025 05:01:01 -0700 (PDT)
-Received: from hu-jseerapu-hyd.qualcomm.com ([202.46.22.19])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-27ed69a9668sm22266585ad.112.2025.09.25.05.00.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Sep 2025 05:01:01 -0700 (PDT)
-From: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>
-To: Vinod Koul <vkoul@kernel.org>,
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
- Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: [PATCH v8 2/2] i2c: i2c-qcom-geni: Add Block event interrupt support
-Date: Thu, 25 Sep 2025 17:30:35 +0530
-Message-Id: <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
-References: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
-MIME-Version: 1.0
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010037.outbound.protection.outlook.com
+ [52.101.193.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB97B10E2BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:02:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kV2sKJoKHwYckhegfhKmny/CwfpvqhjtLCnSyLFDmzPzKht/mNZOsYuk0UyE53EdNrdgW+zVJaXNNMoVeZpoDPokc1iNFmXCMCVp1B9Kcsq/Ktl/tj0drEgJttJeRByNj+G8fausMaNaTHDi/TGwDAcIc2s/6YxMAQnrf0EOGontfVjMMomhkmkrhqT7gQMvoksJsSL4DgtGD7zL9erKIFdp+MLsa/PPCQiR4u1fR+dx0MPpKOZ2i1zsA244aav+oRTriJpH9qeNlWlnhOa9X0XtgGvN3VahZZbP0GQivVXL7UpniKhuUs37moFJYbm/Zb/aVbzjsK/iNzQo8+doZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mXp9hEvgAhql/qmowNbSIAM8P7cT1c5Vc/bQB0ARNl4=;
+ b=X5bDYUXI13DdgKrGKED4OM0eTQBbldfz7QSCXCgVdKzMsU5fEtuyQCY3H3uc3pXF8IZsLhQyTtASmSJtKdh1IQVIUCG2JzLkFiYzoTV8X1vKr989GclXujRzndQj4jKsY1OQLFCVqP1LBJj7dRV0rL0Wy+0IU8Bu9421iVpcDrLIpy38MXI5A5CZ/EmXgS1bdP2SZmAqdFqa0O9si1kU/BdkeQGKtp9Ducu4dV+H07yV9tKVXihPvnHBiuSR+t0JT4TBNZgWn0m09ehaac4FXqmJv4P8E7ChBOFpSXl0CUaCpHO3YH9JD+68LSeiJIqFZI9Y3fbdCaZZHdklsHIYbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mXp9hEvgAhql/qmowNbSIAM8P7cT1c5Vc/bQB0ARNl4=;
+ b=sPl5l0vcW87nymyk6s0iFxGR6yX1Py8GbgtPxg0j1Qi1xZ9inpgED0XXuRlALq6vWSxhNwOoloOiRSsmVvY2IipQwiXRYBb+QRs56z2MTihY/lUroBOoe6j9kQaPGnwDjMOIuOuEYdoyIMhwnFlQvL5VWkNLbJ8bgVVPWP4gpyxZfd4ac5WEXZajA1BA24YOeSDNPjvO4O91NAQuVzL2U18/gK4bm/4McmPQJ5zLL+37v87X/oHGWYXv3Y9EjtfIGHR57Hd90EbIKsMt59Qv4SznTPuDX4CQPVvxiXbd2DxB3hj3f1Yx7UkafwNZtcW3q0lpRPnB42/KRdlPFlRK7g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by PH8PR12MB6723.namprd12.prod.outlook.com (2603:10b6:510:1ce::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
+ 2025 12:02:09 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
+ 12:02:09 +0000
+Message-ID: <ba054cb5-33f4-478d-8005-799e8dcd7b0c@nvidia.com>
+Date: Thu, 25 Sep 2025 22:02:00 +1000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v6 01/15] mm/zone_device: support large zone device private
+ folios
+To: David Hildenbrand <david@redhat.com>, Alistair Popple
+ <apopple@nvidia.com>, Zi Yan <ziy@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, damon@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20250916122128.2098535-1-balbirs@nvidia.com>
+ <20250916122128.2098535-2-balbirs@nvidia.com>
+ <882D81FA-DA40-4FF9-8192-166DBE1709AF@nvidia.com>
+ <9c263334-c0f3-4af0-88a8-8ed19ef6b83d@redhat.com>
+ <66A59A5C-B54E-484F-9EB8-E12F6BD1CD03@nvidia.com>
+ <lcuuqa3e3txmhb55c5q3s6unugde4hp2wsmvkahgddeicyn2tp@xdx2zqjmd4ol>
+ <1b6741fe-20ed-4a47-8e9b-24bd199f23f4@redhat.com>
+Content-Language: en-US
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <1b6741fe-20ed-4a47-8e9b-24bd199f23f4@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: J4xhNZ4Ko4xrK4_VCJpKCkwMBZ0aIY5n
-X-Proofpoint-ORIG-GUID: J4xhNZ4Ko4xrK4_VCJpKCkwMBZ0aIY5n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIyMDA4OSBTYWx0ZWRfX9B+7WgUKbGzz
- H7j9XD7ARIB+an4RmXwv/1K0j0/fP2urVWrrVxI4CjCRLpoONHfCQj33Z6OAxxJUKYdPsrbTVyu
- ip2n04rqAqZwtjoY244cAJZ6PMa9LQQc5GKhmyGb3wrptRTiq4eDLbOz8sbzLAwP8VzuY4/VSN0
- nhC1Vb/uoVlfxfGvT8AdDgveVKQ00Te0kTYqxZNGTqWKh6OnH4zF3hCCqHXjKOy795qxyia39VY
- SWpivBsvyGEgjfzqAgjmbHrrqwofO++xuWhpU0/rIrqu/VnTdnyKW7xRtz+84tzBfwI7+nIJAZZ
- 5BM2BSfGNoQDrpNgGC+Q1NNh8t2nDcpGEZ9y9e+Fl8gGzK0ozYExX+xLeM7ZrF/Kq9RbLK8S249
- JW85RtJ1
-X-Authority-Analysis: v=2.4 cv=BabY0qt2 c=1 sm=1 tr=0 ts=68d52f01 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=B7k2eyGBTX8o-6-HIN8A:9
- a=uG9DUKGECoFWVXl0Dc02:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-25_01,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0 priorityscore=1501
- adultscore=0 malwarescore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509220089
+X-ClientProxiedBy: BY3PR05CA0011.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::16) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|PH8PR12MB6723:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4661a99a-dfed-4960-22f8-08ddfc2b5a77
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|10070799003|1800799024|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eE5HR3FvS1hWbmRwRHg3MW5QNXhtc2dCdDl5eEk0RUpaUXNuRlpBMFVsd2tx?=
+ =?utf-8?B?dHJaeWptREhyTTRPT3p6eElYczU5NFZyVnFmaThBU3FSTkhZQWZpbWdBdDlk?=
+ =?utf-8?B?ZmNpYmg5a2lYWThxWEZ2Y1VXZURsOGxEU0JpU2lTQy94RWNocnllanVTT0c3?=
+ =?utf-8?B?WnpTNHdOdEJqZjgrcHJxYzZneGdHMXVXdTI5YWJ2QWtUdkZ3aFVPejF2UHRX?=
+ =?utf-8?B?SE81MjdjZ3h6RzZwdmtWNG1QRWFYYTduYUxDbnFxS0NJRElMVlZ3Y2g0dXN4?=
+ =?utf-8?B?YTVuR3lQRnE2ak9MQXBkblFqSEpBY2JnNmFzRnFxWEZRb3FHQUw2YnhpajBz?=
+ =?utf-8?B?cTI5N3d4ekdSMFQrekMvV2VnWXM5cW1DOTVKWVdaME5YQUpSZmp5Umc4QzJv?=
+ =?utf-8?B?dC9HNmwzRExsb0JzWTJKWkVFK2lMNkhqUW5wOWltNDY0VXgrbkRzb2xNWjhO?=
+ =?utf-8?B?ckhJQmFQYmhxL216bHZHMlFNRWhSd0hpUmhLajBET3dWY2FTZVRaOXpOc3Ni?=
+ =?utf-8?B?SHFQdDZtbXZjb1FraEpwc3Era2hBeDBzU2tWd0RCTHc3dzRvOWF3YUVvdkhZ?=
+ =?utf-8?B?bDRHOGloMWZqRUUySm85dng2SGttYjhZK2lDTzY2ZHJvQ0RybWxjcGI3TVE3?=
+ =?utf-8?B?Z3Bkc0tqYm0yOXdaZEx4RHRFblgwUG81NEdtTGoxNmZSQnZXUGVjNHVJdHIx?=
+ =?utf-8?B?S2F6cVYxREVCcnJBMmZoMUlNcHJmdURoeG44MHQ5RTlEM2h6c24zWk9YOUZ5?=
+ =?utf-8?B?NVNKUHUvMnpWZGJreHFlYUE3YUhsZENRWkVHWTBQVDZQcm1tOWM4N3U2WGl2?=
+ =?utf-8?B?MTAvUzNRUlkrZnVwMnBMdkZnbERHY3VhUEhlc2pMaklFWjZUSmMzUUtxa0NW?=
+ =?utf-8?B?VStUcCsrSHNRYUNQSXIrTXo5T1FvYzFBY052VS9lcC9MSUcrdW9TWndlbUt1?=
+ =?utf-8?B?NTA5K1piQ1IzdXhFb2Z5bVRuam1WV1dFdm1CazBpeW54emtmMVIwYWZVN25s?=
+ =?utf-8?B?UWhxMnp1b3pJKzlmZVhBVUZNWWtpdGFnSENLUDR5TTZZbm9NNFBqQ3hzNEhJ?=
+ =?utf-8?B?SmkxZkVZZEZIZEVodlJaTUdNT2ZYRnZlT3Erc0MzNTQyZ3lXWGNHN2lXUGtz?=
+ =?utf-8?B?TzVkc1BzZXFSa2ViUnhWcDBxUzVIQXdQNWxTMXMyVGZIblJvYmFaZ2tKdkt0?=
+ =?utf-8?B?YmVFOWJCK292WkkzY1kxZjVTQytEdnZsR0JBbGlnR3hrTEVwcXlKV28vVWlv?=
+ =?utf-8?B?OWhSbENrdjVqU1JtNERmTVF4d3EweGo0dVorK0lQQ3pxY0JSQmhJcDcycEx1?=
+ =?utf-8?B?OHZVanJXdGZqV0dKQkxVdmtUSVNkWkhKQnEvdjVSdG00UDRiUXNzS3ZMWFpt?=
+ =?utf-8?B?S1VDZVpEMFpYT2hnbHNnOUc5VS9rK2hMU3RqbWJpZVlmYWZGVENKU1BzUzhn?=
+ =?utf-8?B?NTllbGIxbXdXMGt4SDFhbUdINmgvVzcxbnNOK2lZZThMQ2ZxT0hUZTV0SytX?=
+ =?utf-8?B?NHJQQW82Mlo3OGtaZER1aEtOSXRPWmVGdWcwYkFZaUpweGFHNkFkdXpJbnJ5?=
+ =?utf-8?B?ZzVjZElFOUp3dTV3amFDYTZwdE0vTkdKOFM3b3d0WjFPZzJEQmo4MERPeWtB?=
+ =?utf-8?B?NjBENUV4TThEODV4ZWUreTJXaDZnb013MlhreXBsUUdhbXh1YmhJTjh5Y2lR?=
+ =?utf-8?B?YzV0blhkd3Q0R1VFOWZOR1dDYTFCdmJnSnVYYUVyY05vNUpYSmloMTRaRVdk?=
+ =?utf-8?B?anZ6dkx6N0JXYWREWGF6WU1aTFYyRlQ3ZkpVVDRZVVNpbkU5cDFOaFNNRFpK?=
+ =?utf-8?B?SXlvMGNPbzBlV3QvbWtaODRSdk9Jejc4eUtHbW5GN1ZqeE5DZlVuc1RPQzR5?=
+ =?utf-8?B?TjN0WFRWV0N6dVhSRFVya00xNWlIcFp0ZkI1RXB5dGU2VjUyR1hjSkt5WCtR?=
+ =?utf-8?Q?3gkUUY0vawc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(7416014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXBXc3Vib0k4WC9JRFZ4YkxsdUd6U240TElPbmpUYTIvQkFSTVB1ZkZxbkxU?=
+ =?utf-8?B?YUZLcWN5QTIycUxUT3g1b1lMNUpSNlRncWRqKzBQUUpFc1dYNTM0UmlFcU5X?=
+ =?utf-8?B?d1FmcEJpRE5VdG5sVWhmZlZnbWFrWXhFc0dsZUpsbnVNdFhjT3N4RkdFVk1V?=
+ =?utf-8?B?cFpHS2M2WHRTQmZOVGpGTEhYeGVSYUlTT2JEcDROcFZuU3ViYVFqdVVYaFBr?=
+ =?utf-8?B?Uk1IQlVtS2dFT25XUjdraVZGeEdHQnZxZlc5a3BVWHMxUXJFMFFrLzc0WHVs?=
+ =?utf-8?B?blNPUitPajBzUGoxVnJjVXIrVVRIY2FrK2NOWkJSRzNJY053SHZTbVdSWTg5?=
+ =?utf-8?B?T1puR1ZRREk3NjhHcjNUM3lrYzJOZ2dvRzdjZEpucUt2ekZ5MzlUcUZDMTA2?=
+ =?utf-8?B?bVA1amVoY1BwVmdPVHhzeS9RaDRyU3FXaWRxMkptc2hIZWYvclVOKzlQeU1B?=
+ =?utf-8?B?VHFZNzFTY1E4ZG85eG41Vk9TT0V1MjNTNWhpTk5EMVN0eWp6TmRXc1dkblJu?=
+ =?utf-8?B?bEc3Sm9BMXVSZ1FmL0VVV1NSSHNPT1VTNjFNT3kyZkVySVJuZU5wb2lObE1p?=
+ =?utf-8?B?Lzh0bXRnc29rRUFGMjBlZEVmbk5naDV0blhhU2ZwU2NLUjlnY2tnQXVRK2Vk?=
+ =?utf-8?B?aU52eldPa1hSMDEzcGRib3EvcXZPR0I5cCt1NFQxeHpUQXIvSStleDFZMExO?=
+ =?utf-8?B?L3pLNlBRUXV5QWVZcyt4TUNhKzFNZVRVTHNvUUt0bWZuU0NkK2QvRC91Nmh1?=
+ =?utf-8?B?dmRNMzN2d25SbkR6ak94K0pBUjRRcWVzVXcvekt5aUNpN2JISzhRTngyQ05W?=
+ =?utf-8?B?MnR0dEUxWlRQbzNBTFVJeEllS0trTnltSnRvLzduRFY5TEthNTJleHRtNnhv?=
+ =?utf-8?B?WEpaSC9KbzB3UjBzMkdzWldqUXRQQXk0TjNTMmVkaUt1OGxYUmZIZThhazNW?=
+ =?utf-8?B?OGRlQjd0TmpLdEFpMHRpclgyOHljdmFaejBHL1RGSmxXelFFbEpualVoS3Rt?=
+ =?utf-8?B?aWZHYnJGVzdtdUJxZG04R0c4Z1hkd2VXazgzWXpYR3dFQ3N6NUhPMEJmcytS?=
+ =?utf-8?B?Rm5XdEVsQlk3NjhWQVRha1lWTUpranZKVE5NWmo2QmdqeERPQWtXclhxMU4r?=
+ =?utf-8?B?emIxMGt3UUtSdUZudEZ1WkhQNmFNOXRRWndUTkdGL3EwWStxNWRCUSs3QkRy?=
+ =?utf-8?B?UWc1eXBqUnZHaXRyUm9WUENuUGtLUmhJVVFKVHpXTXMwOVIyb2xxbmxiT05T?=
+ =?utf-8?B?Y3FMUGUzd0JqdHZFNnBobk1UWG8vU0dEei8vYzhPOW8wbjN4UVViQTdRZlJF?=
+ =?utf-8?B?eUxXVnBTTldwdVRnNFl2UFZ6ZmwzaXY1QTdhSU9BbWxmRktpemI3aHFvOWc5?=
+ =?utf-8?B?VDgxbkF3TjBoYis3KzR4UDg1ek5MdFY0cTNLUXFjSWRmeW0wOE8vWjgwaGc3?=
+ =?utf-8?B?eHJ4cjlPZGZ2M1VJQTlQNFJ5OFQ5dnArM3pwRU9OVGlKdzkzMG13TlhCWHY1?=
+ =?utf-8?B?aWFBenVXRjQzREcybFp1TmoxcU0reTNlM2RBWUwyQlhybjlkUi9DNDdnZ3J1?=
+ =?utf-8?B?UFMxY2RCWUhpVDVlYUtMeHJOZUxZdlUveHZrdlNkMkcvS0dtZWJKa2UybUlL?=
+ =?utf-8?B?QkY3SjlYU2VmR3JpQlozUEFIamNIZWdhZHJjRS9JSExSV1N0Vk5rMktnNFNB?=
+ =?utf-8?B?eHdjMThhMk14a0QyWE5iU1BsUk5KSHdpa2NUTWFKVFlBWlBVU0FSYzcwLzh4?=
+ =?utf-8?B?bmZCRE9rZmEwZlgrU1JwU3VQNEd2WDRmOW0yc3k4MVdPcEJHTWR5YWlsdXI2?=
+ =?utf-8?B?R0xUZFk5b1gzdnR2Qkwva0p5dGJQMnd1LzV3ZGxPYWNvNmVNSXhwUGszLzFw?=
+ =?utf-8?B?UWh6bHBxL09DWlVOeVlkM0hZNnVyOHRtUXJ6U2FWV0s0elR4Nml4Rk9pVjNT?=
+ =?utf-8?B?VUpWZm9aV2VtQkQ3ZGxKRSs3cUxFblo1L09Gdmo5U25hcnBYWm9SaDBBTTU1?=
+ =?utf-8?B?dENkLzVWVEk1YjBSYUpUS01tQmd6Z1M3VFcyTmE2QzZyNUErWjd5RHpQa3k0?=
+ =?utf-8?B?SkZqazkrTW1vMmlhanBGenFXRXRUeFNkZ2RXTlNSWGFIUjdvTjNsNk4xQXhD?=
+ =?utf-8?B?TW1CWWdkSEI4TjNXSVhpQnRUY1lzcDhHYXc2bmY5dTdoNEhLbXhSdk16TUxH?=
+ =?utf-8?Q?Rg3G2/qNpIdF3E0AiJnTLr8gvdWiMOQqCzLnt7LXmAqC?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4661a99a-dfed-4960-22f8-08ddfc2b5a77
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 12:02:09.1429 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hFF3MqjUy2FVsMkYmS6CG5eSK/oureFUbzh4DyLNR1aPhP3lEqkBShjrVZXx8aH7C+IJdL+AM2bFx0ZWG9BXJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6723
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,459 +188,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+On 9/25/25 19:43, David Hildenbrand wrote:
+> On 25.09.25 01:58, Alistair Popple wrote:
+>> On 2025-09-25 at 03:36 +1000, Zi Yan <ziy@nvidia.com> wrote...
+>>> On 24 Sep 2025, at 6:55, David Hildenbrand wrote:
+>>>
+>>>> On 18.09.25 04:49, Zi Yan wrote:
+>>>>> On 16 Sep 2025, at 8:21, Balbir Singh wrote:
+>>>>>
+>>>>>> Add routines to support allocation of large order zone device folios
+>>>>>> and helper functions for zone device folios, to check if a folio is
+>>>>>> device private and helpers for setting zone device data.
+>>>>>>
+>>>>>> When large folios are used, the existing page_free() callback in
+>>>>>> pgmap is called when the folio is freed, this is true for both
+>>>>>> PAGE_SIZE and higher order pages.
+>>>>>>
+>>>>>> Zone device private large folios do not support deferred split and
+>>>>>> scan like normal THP folios.
+>>>>>>
+>>>>>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+>>>>>> Cc: David Hildenbrand <david@redhat.com>
+>>>>>> Cc: Zi Yan <ziy@nvidia.com>
+>>>>>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+>>>>>> Cc: Rakie Kim <rakie.kim@sk.com>
+>>>>>> Cc: Byungchul Park <byungchul@sk.com>
+>>>>>> Cc: Gregory Price <gourry@gourry.net>
+>>>>>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+>>>>>> Cc: Alistair Popple <apopple@nvidia.com>
+>>>>>> Cc: Oscar Salvador <osalvador@suse.de>
+>>>>>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>>>>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+>>>>>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+>>>>>> Cc: Nico Pache <npache@redhat.com>
+>>>>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+>>>>>> Cc: Dev Jain <dev.jain@arm.com>
+>>>>>> Cc: Barry Song <baohua@kernel.org>
+>>>>>> Cc: Lyude Paul <lyude@redhat.com>
+>>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>>>> Cc: David Airlie <airlied@gmail.com>
+>>>>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>>>>> Cc: Ralph Campbell <rcampbell@nvidia.com>
+>>>>>> Cc: Mika Penttilä <mpenttil@redhat.com>
+>>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>>>> Cc: Francois Dugast <francois.dugast@intel.com>
+>>>>>> ---
+>>>>>>    include/linux/memremap.h | 10 +++++++++-
+>>>>>>    mm/memremap.c            | 34 +++++++++++++++++++++-------------
+>>>>>>    mm/rmap.c                |  6 +++++-
+>>>>>>    3 files changed, 35 insertions(+), 15 deletions(-)
+>>>>>>
+>>>>>> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+>>>>>> index e5951ba12a28..9c20327c2be5 100644
+>>>>>> --- a/include/linux/memremap.h
+>>>>>> +++ b/include/linux/memremap.h
+>>>>>> @@ -206,7 +206,7 @@ static inline bool is_fsdax_page(const struct page *page)
+>>>>>>    }
+>>>>>>
+>>>>>>    #ifdef CONFIG_ZONE_DEVICE
+>>>>>> -void zone_device_page_init(struct page *page);
+>>>>>> +void zone_device_folio_init(struct folio *folio, unsigned int order);
+>>>>>>    void *memremap_pages(struct dev_pagemap *pgmap, int nid);
+>>>>>>    void memunmap_pages(struct dev_pagemap *pgmap);
+>>>>>>    void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
+>>>>>> @@ -215,6 +215,14 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn);
+>>>>>>    bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
+>>>>>>
+>>>>>>    unsigned long memremap_compat_align(void);
+>>>>>> +
+>>>>>> +static inline void zone_device_page_init(struct page *page)
+>>>>>> +{
+>>>>>> +    struct folio *folio = page_folio(page);
+>>>>>> +
+>>>>>> +    zone_device_folio_init(folio, 0);
+>>>>>
+>>>>> I assume it is for legacy code, where only non-compound page exists?
+>>>>>
+>>>>> It seems that you assume @page is always order-0, but there is no check
+>>>>> for it. Adding VM_WARN_ON_ONCE_FOLIO(folio_order(folio) != 0, folio)
+>>>>> above it would be useful to detect misuse.
+>>>>>
+>>>>>> +}
+>>>>>> +
+>>>>>>    #else
+>>>>>>    static inline void *devm_memremap_pages(struct device *dev,
+>>>>>>            struct dev_pagemap *pgmap)
+>>>>>> diff --git a/mm/memremap.c b/mm/memremap.c
+>>>>>> index 46cb1b0b6f72..a8481ebf94cc 100644
+>>>>>> --- a/mm/memremap.c
+>>>>>> +++ b/mm/memremap.c
+>>>>>> @@ -416,20 +416,19 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+>>>>>>    void free_zone_device_folio(struct folio *folio)
+>>>>>>    {
+>>>>>>        struct dev_pagemap *pgmap = folio->pgmap;
+>>>>>> +    unsigned long nr = folio_nr_pages(folio);
+>>>>>> +    int i;
+>>>>>>
+>>>>>>        if (WARN_ON_ONCE(!pgmap))
+>>>>>>            return;
+>>>>>>
+>>>>>>        mem_cgroup_uncharge(folio);
+>>>>>>
+>>>>>> -    /*
+>>>>>> -     * Note: we don't expect anonymous compound pages yet. Once supported
+>>>>>> -     * and we could PTE-map them similar to THP, we'd have to clear
+>>>>>> -     * PG_anon_exclusive on all tail pages.
+>>>>>> -     */
+>>>>>>        if (folio_test_anon(folio)) {
+>>>>>> -        VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
+>>>>>> -        __ClearPageAnonExclusive(folio_page(folio, 0));
+>>>>>> +        for (i = 0; i < nr; i++)
+>>>>>> +            __ClearPageAnonExclusive(folio_page(folio, i));
+>>>>>> +    } else {
+>>>>>> +        VM_WARN_ON_ONCE(folio_test_large(folio));
+>>>>>>        }
+>>>>>>
+>>>>>>        /*
+>>>>>> @@ -456,8 +455,8 @@ void free_zone_device_folio(struct folio *folio)
+>>>>>>        case MEMORY_DEVICE_COHERENT:
+>>>>>>            if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
+>>>>>>                break;
+>>>>>> -        pgmap->ops->page_free(folio_page(folio, 0));
+>>>>>> -        put_dev_pagemap(pgmap);
+>>>>>> +        pgmap->ops->page_free(&folio->page);
+>>>>>> +        percpu_ref_put_many(&folio->pgmap->ref, nr);
+>>>>>>            break;
+>>>>>>
+>>>>>>        case MEMORY_DEVICE_GENERIC:
+>>>>>> @@ -480,14 +479,23 @@ void free_zone_device_folio(struct folio *folio)
+>>>>>>        }
+>>>>>>    }
+>>>>>>
+>>>>>> -void zone_device_page_init(struct page *page)
+>>>>>> +void zone_device_folio_init(struct folio *folio, unsigned int order)
+>>>>>>    {
+>>>>>> +    struct page *page = folio_page(folio, 0);
+>>>>>
+>>>>> It is strange to see a folio is converted back to page in
+>>>>> a function called zone_device_folio_init().
+>>>>>
+>>>>>> +
+>>>>>> +    VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+>>>>>> +
+>>>>>>        /*
+>>>>>>         * Drivers shouldn't be allocating pages after calling
+>>>>>>         * memunmap_pages().
+>>>>>>         */
+>>>>>> -    WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
+>>>>>> -    set_page_count(page, 1);
+>>>>>> +    WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
+>>>>>> +    folio_set_count(folio, 1);
+>>>>>>        lock_page(page);
+>>>>>> +
+>>>>>> +    if (order > 1) {
+>>>>>> +        prep_compound_page(page, order);
+>>>>>> +        folio_set_large_rmappable(folio);
+>>>>>> +    }
+>>>>>
+>>>>> OK, so basically, @folio is not a compound page yet when zone_device_folio_init()
+>>>>> is called.
+>>>>>
+>>>>> I feel that your zone_device_page_init() and zone_device_folio_init()
+>>>>> implementations are inverse. They should follow the same pattern
+>>>>> as __alloc_pages_noprof() and __folio_alloc_noprof(), where
+>>>>> zone_device_page_init() does the actual initialization and
+>>>>> zone_device_folio_init() just convert a page to folio.
+>>>>>
+>>>>> Something like:
+>>>>>
+>>>>> void zone_device_page_init(struct page *page, unsigned int order)
+>>>>> {
+>>>>>     VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+>>>>>
+>>>>>     /*
+>>>>>      * Drivers shouldn't be allocating pages after calling
+>>>>>      * memunmap_pages().
+>>>>>      */
+>>>>>
+>>>>>       WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
+>>>>>     
+>>>>>     /*
+>>>>>      * anonymous folio does not support order-1, high order file-backed folio
+>>>>>      * is not supported at all.
+>>>>>      */
+>>>>>     VM_WARN_ON_ONCE(order == 1);
+>>>>>
+>>>>>     if (order > 1)
+>>>>>         prep_compound_page(page, order);
+>>>>>
+>>>>>     /* page has to be compound head here */
+>>>>>     set_page_count(page, 1);
+>>>>>     lock_page(page);
+>>>>> }
+>>>>>
+>>>>> void zone_device_folio_init(struct folio *folio, unsigned int order)
+>>>>> {
+>>>>>     struct page *page = folio_page(folio, 0);
+>>>>>
+>>>>>     zone_device_page_init(page, order);
+>>>>>     page_rmappable_folio(page);
+>>>>> }
+>>>>>
+>>>>> Or
+>>>>>
+>>>>> struct folio *zone_device_folio_init(struct page *page, unsigned int order)
+>>>>> {
+>>>>>     zone_device_page_init(page, order);
+>>>>>     return page_rmappable_folio(page);
+>>>>> }
+>>>>
+>>>> I think the problem is that it will all be weird once we dynamically allocate "struct folio".
+>>>>
+>>>> I have not yet a clear understanding on how that would really work.
+>>>>
+>>>> For example, should it be pgmap->ops->page_folio() ?
+>>>>
+>>>> Who allocates the folio? Do we allocate all order-0 folios initially, to then merge them when constructing large folios? How do we manage the "struct folio" during such merging splitting?
+>>>
+>>> Right. Either we would waste memory by simply concatenating all “struct folio”
+>>> and putting paddings at the end, or we would free tail “struct folio” first,
+>>> then allocate tail “struct page”. Both are painful and do not match core mm’s
+>>> memdesc pattern, where “struct folio” is allocated when caller is asking
+>>> for a folio. If “struct folio” is always allocated, there is no difference
+>>> between “struct folio” and “struct page”.
+>>
+>> As mentioned in my other reply I need to investigate this some more, but I
+>> don't think we _need_ to always allocate folios (or pages for that matter).
+>> The ZONE_DEVICE code just uses folios/pages for interacting with the core mm,
+>> not for managing the device memory itself, so we should be able to make it more
+>> closely match the memdesc pattern. It's just I'm still a bit unsure what that
+>> pattern will actually look like.
+> 
+> I think one reason might be that in contrast to ordinary pages, zone-device memory is only ever used to be used for folios, right?
+> 
+> Would there be a user that just allocates pages and not wants a folio associated with it?
+> 
 
-The I2C driver gets an interrupt upon transfer completion.
-When handling multiple messages in a single transfer, this
-results in N interrupts for N messages, leading to significant
-software interrupt latency.
+A non-THP aware driver use case would be a potential use case for zero order folios (also pages at the moment). 
 
-To mitigate this latency, utilize Block Event Interrupt (BEI)
-mechanism. Enabling BEI instructs the hardware to prevent interrupt
-generation and BEI is disabled when an interrupt is necessary.
+> It's a good question of that would look like when we have dynamically allocated struct folio ...
 
-Large I2C transfer can be divided into chunks of messages internally.
-Interrupts are not expected for the messages for which BEI bit set,
-only the last message triggers an interrupt, indicating the completion of
-N messages. This BEI mechanism enhances overall transfer efficiency.
+I think for dynamically allocated folios we could probably do away with pages, but not 100% sure at the moment.
 
-BEI optimizations are currently implemented for I2C write transfers only,
-as there is no use case for multiple I2C read messages in a single transfer
-at this time.
+> 
+>>
+>>>>
+>>>> With that in mind, I don't really know what the proper interface should be today.
+>>>>
+>>>>
+>>>> zone_device_folio_init(struct page *page, unsigned int order)
+>>>>
+>>>> looks cleaner, agreed.
+>>
+>> Agreed.
+>>
+>>>>>
+>>>>>
+>>>>> Then, it comes to free_zone_device_folio() above,
+>>>>> I feel that pgmap->ops->page_free() should take an additional order
+>>>>> parameter to free a compound page like free_frozen_pages().
+>>
+>> Where would the order parameter come from? Presumably
+>> folio_order(compound_head(page)) in which case shouldn't the op actually just be
+>> pgmap->ops->folio_free()?
+> 
+> Yeah, that's also what I thought.
+> 
 
-Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
----
-
-v7 -> v8:
-   - Updated with proper types when calling geni_i2c_gpi_unmap() inside
-     geni_i2c_gpi_multi_desc_unmap().
-
-v6 -> v7:
-   - The design has been modified to configure BEI for interrupt
-     generation either:
-     After the last I2C message, if sufficient TREs are available, or
-     After a specific I2C message, when no further TREs are available.
-   - dma_buf and dma_addr for multi descriptor support is changed from
-     static allocation to dynmic allocation.
-   - In i2c_gpi_cb_result function, for multi descriptor case, instead of invoking
-     complete for everry 8 messages completions, changed the logic to Invoke 'complete'
-     for every I2C callback (for submitted I2C messages).
-   - For I2C multi descriptor case, updated 'gi2c_gpi_xfer->dma_buf' and
-     'gi2c_gpi_xfer->dma_addr' for unmappping in geni_i2c_gpi_multi_desc_unmap.
-   - Updated documentation removed for "struct geni_i2c_dev" as per the review comments.
-
-v5 -> v6:
-  - Instead of using bei_flag, moved the logic to use with DMA
-    supported flags like DMA_PREP_INTERRUPT.
-  - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
-    function documentation.
-
-v4 -> v5:
-  - Block event interrupt flag naming changed from flags to bei_flag.
-  - Documentation added for "struct geni_i2c_dev".
-
-v3 -> v4:
-  - API's added for Block event interrupt with multi descriptor support for
-    I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
-  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
-    I2C driver.
-  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
-    struct geni_i2c_dev.
-
-v2 -> v3:
-   - In i2c_gpi_cb_result function, moved the logic of
-    "!is_tx_multi_xfer" to else.
-   - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
-   - Updated commit description
-
-v1 -> v2:
-   - Moved gi2c_gpi_xfer->msg_idx_cnt to separate local variable.
-   - Updated goto labels for error scenarios in geni_i2c_gpi function
-   - memset tx_multi_xfer to 0.
-   - Removed passing current msg index to geni_i2c_gpi
-   - Fixed kernel test robot reported compilation issues.
-
- drivers/i2c/busses/i2c-qcom-geni.c | 248 ++++++++++++++++++++++++++---
- 1 file changed, 224 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index ff2289b52c84..ddddf9530ace 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -77,6 +77,25 @@ enum geni_i2c_err_code {
- #define XFER_TIMEOUT		HZ
- #define RST_TIMEOUT		HZ
- 
-+#define QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC	2
-+
-+/**
-+ * struct geni_i2c_gpi_multi_desc_xfer - Structure for multi transfer support
-+ *
-+ * @msg_idx_cnt: Current message index being processed in the transfer
-+ * @unmap_msg_cnt: Number of messages that have been unmapped
-+ * @irq_cnt: Number of transfer completion interrupts received
-+ * @dma_buf: Array of virtual addresses for DMA-safe buffers
-+ * @dma_addr: Array of DMA addresses corresponding to the buffers
-+ */
-+struct geni_i2c_gpi_multi_desc_xfer {
-+	u32 msg_idx_cnt;
-+	u32 unmap_msg_cnt;
-+	u32 irq_cnt;
-+	void **dma_buf;
-+	dma_addr_t *dma_addr;
-+};
-+
- struct geni_i2c_dev {
- 	struct geni_se se;
- 	u32 tx_wm;
-@@ -99,6 +118,9 @@ struct geni_i2c_dev {
- 	struct dma_chan *rx_c;
- 	bool gpi_mode;
- 	bool abort_done;
-+	bool is_tx_multi_desc_xfer;
-+	u32 num_msgs;
-+	struct geni_i2c_gpi_multi_desc_xfer i2c_multi_desc_config;
- };
- 
- struct geni_i2c_desc {
-@@ -499,6 +521,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- {
- 	struct geni_i2c_dev *gi2c = cb;
-+	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
- 
- 	if (result->result != DMA_TRANS_NOERROR) {
- 		dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
-@@ -507,6 +530,11 @@ static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- 		dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", result->residue);
- 	}
- 
-+	if (gi2c->is_tx_multi_desc_xfer) {
-+		tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-+		tx_multi_xfer->irq_cnt++;
-+	}
-+
- 	complete(&gi2c->done);
- }
- 
-@@ -525,7 +553,72 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	}
- }
- 
--static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-+/**
-+ * geni_i2c_gpi_multi_desc_unmap() - Unmaps DMA buffers post multi message TX transfers
-+ * @gi2c: I2C dev handle
-+ * @msgs: Array of I2C  messages
-+ * @peripheral: Pointer to gpi_i2c_config
-+ */
-+static void geni_i2c_gpi_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-+					  struct gpi_i2c_config *peripheral)
-+{
-+	u32 msg_xfer_cnt, wr_idx = 0;
-+	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-+
-+	msg_xfer_cnt = gi2c->err ? tx_multi_xfer->msg_idx_cnt : tx_multi_xfer->irq_cnt;
-+
-+	/* Unmap the processed DMA buffers based on the received interrupt count */
-+	for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-+		wr_idx = tx_multi_xfer->unmap_msg_cnt;
-+		geni_i2c_gpi_unmap(gi2c, &msgs[wr_idx],
-+				   tx_multi_xfer->dma_buf[wr_idx],
-+				   tx_multi_xfer->dma_addr[wr_idx],
-+				   NULL, 0);
-+
-+		if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs - 1) {
-+			kfree(tx_multi_xfer->dma_buf);
-+			kfree(tx_multi_xfer->dma_addr);
-+			break;
-+		}
-+	}
-+}
-+
-+/**
-+ * geni_i2c_gpi_multi_xfer_timeout_handler() - Handles multi message transfer timeout
-+ * @dev: Pointer to the corresponding dev node
-+ * @multi_xfer: Pointer to the geni_i2c_gpi_multi_desc_xfer
-+ * @transfer_timeout_msecs: Timeout value in milliseconds
-+ * @transfer_comp: Completion object of the transfer
-+ *
-+ * This function waits for the completion of each processed transfer messages
-+ * based on the interrupts generated upon transfer completion.
-+ *
-+ * Return: On success returns 0, -ETIMEDOUT on timeout.
-+ */
-+static int geni_i2c_gpi_multi_xfer_timeout_handler(struct device *dev,
-+						   struct geni_i2c_gpi_multi_desc_xfer *multi_xfer,
-+						   u32 transfer_timeout_msecs,
-+						   struct completion *transfer_comp)
-+{
-+	int i;
-+	u32 time_left;
-+
-+	for (i = 0; i < multi_xfer->msg_idx_cnt - 1; i++) {
-+		reinit_completion(transfer_comp);
-+
-+		if (multi_xfer->msg_idx_cnt != multi_xfer->irq_cnt) {
-+			time_left = wait_for_completion_timeout(transfer_comp,
-+								transfer_timeout_msecs);
-+			if (!time_left) {
-+				dev_err(dev, "%s: Transfer timeout\n", __func__);
-+				return -ETIMEDOUT;
-+			}
-+		}
-+	}
-+	return 0;
-+}
-+
-+static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
- 			struct dma_slave_config *config, dma_addr_t *dma_addr_p,
- 			void **buf, unsigned int op, struct dma_chan *dma_chan)
- {
-@@ -537,26 +630,45 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	enum dma_transfer_direction dma_dirn;
- 	struct dma_async_tx_descriptor *desc;
- 	int ret;
-+	struct geni_i2c_gpi_multi_desc_xfer *gi2c_gpi_xfer;
-+	dma_cookie_t cookie;
-+	u32 msg_idx;
- 
- 	peripheral = config->peripheral_config;
-+	gi2c_gpi_xfer = &gi2c->i2c_multi_desc_config;
-+	msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
- 
--	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
--	if (!dma_buf)
--		return -ENOMEM;
-+	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
-+	if (!dma_buf) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
- 
- 	if (op == I2C_WRITE)
- 		map_dirn = DMA_TO_DEVICE;
- 	else
- 		map_dirn = DMA_FROM_DEVICE;
- 
--	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-+	addr = dma_map_single(gi2c->se.dev->parent, dma_buf,
-+			      msgs[msg_idx].len, map_dirn);
- 	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
--		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
--		return -ENOMEM;
-+		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	if (gi2c->is_tx_multi_desc_xfer) {
-+		flags = DMA_CTRL_ACK;
-+
-+		/* BEI bit to be cleared for last TRE */
-+		if (msg_idx == gi2c->num_msgs - 1)
-+			flags |= DMA_PREP_INTERRUPT;
-+	} else {
-+		flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
- 	}
- 
- 	/* set the length as message for rx txn */
--	peripheral->rx_len = msg->len;
-+	peripheral->rx_len = msgs[msg_idx].len;
- 	peripheral->op = op;
- 
- 	ret = dmaengine_slave_config(dma_chan, config);
-@@ -567,14 +679,21 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 
- 	peripheral->set_config = 0;
- 	peripheral->multi_msg = true;
--	flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
- 
- 	if (op == I2C_WRITE)
- 		dma_dirn = DMA_MEM_TO_DEV;
- 	else
- 		dma_dirn = DMA_DEV_TO_MEM;
- 
--	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-+	desc = dmaengine_prep_slave_single(dma_chan, addr, msgs[msg_idx].len,
-+					   dma_dirn, flags);
-+	if (!desc && !(flags & DMA_PREP_INTERRUPT)) {
-+		/* Retry with interrupt if not enough TREs */
-+		flags |= DMA_PREP_INTERRUPT;
-+		desc = dmaengine_prep_slave_single(dma_chan, addr, msgs[msg_idx].len,
-+						   dma_dirn, flags);
-+	}
-+
- 	if (!desc) {
- 		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
- 		ret = -EIO;
-@@ -584,15 +703,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	desc->callback_result = i2c_gpi_cb_result;
- 	desc->callback_param = gi2c;
- 
--	dmaengine_submit(desc);
--	*buf = dma_buf;
--	*dma_addr_p = addr;
-+	if (!((msgs[msg_idx].flags & I2C_M_RD) && op == I2C_WRITE))
-+		gi2c_gpi_xfer->msg_idx_cnt++;
- 
-+	cookie = dmaengine_submit(desc);
-+	if (dma_submit_error(cookie)) {
-+		dev_err(gi2c->se.dev,
-+			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-+		ret = -EINVAL;
-+		goto err_config;
-+	}
-+
-+	if (gi2c->is_tx_multi_desc_xfer) {
-+		gi2c_gpi_xfer->dma_buf[msg_idx] = dma_buf;
-+		gi2c_gpi_xfer->dma_addr[msg_idx] = addr;
-+
-+		dma_async_issue_pending(gi2c->tx_c);
-+
-+		if ((msg_idx == (gi2c->num_msgs - 1)) || flags & DMA_PREP_INTERRUPT) {
-+			ret = geni_i2c_gpi_multi_xfer_timeout_handler(gi2c->se.dev, gi2c_gpi_xfer,
-+								      XFER_TIMEOUT, &gi2c->done);
-+			if (ret) {
-+				dev_err(gi2c->se.dev,
-+					"I2C multi write msg transfer timeout: %d\n",
-+					ret);
-+				gi2c->err = ret;
-+				return ret;
-+			}
-+		}
-+	} else {
-+		/* Non multi descriptor message transfer */
-+		*buf = dma_buf;
-+		*dma_addr_p = addr;
-+	}
- 	return 0;
- 
- err_config:
--	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
--	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-+	dma_unmap_single(gi2c->se.dev->parent, addr,
-+			 msgs[msg_idx].len, map_dirn);
-+	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-+
-+out:
-+	gi2c->err = ret;
- 	return ret;
- }
- 
-@@ -604,6 +756,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	unsigned long time_left;
- 	dma_addr_t tx_addr, rx_addr;
- 	void *tx_buf = NULL, *rx_buf = NULL;
-+	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
- 	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
- 
- 	config.peripheral_config = &peripheral;
-@@ -617,6 +770,41 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	peripheral.set_config = 1;
- 	peripheral.multi_msg = false;
- 
-+	gi2c->num_msgs = num;
-+	gi2c->is_tx_multi_desc_xfer = false;
-+
-+	tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-+	memset(tx_multi_xfer, 0, sizeof(struct geni_i2c_gpi_multi_desc_xfer));
-+
-+	/*
-+	 * If number of write messages are two and higher then
-+	 * configure hardware for multi descriptor transfers with BEI.
-+	 */
-+	if (num >= QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC) {
-+		gi2c->is_tx_multi_desc_xfer = true;
-+		for (i = 0; i < num; i++) {
-+			if (msgs[i].flags & I2C_M_RD) {
-+				/*
-+				 * Multi descriptor transfer with BEI
-+				 * support is enabled for write transfers.
-+				 * TODO: Add BEI optimization support for
-+				 * read transfers later.
-+				 */
-+				gi2c->is_tx_multi_desc_xfer = false;
-+				break;
-+			}
-+		}
-+	}
-+
-+	if (gi2c->is_tx_multi_desc_xfer) {
-+		tx_multi_xfer->dma_buf = kcalloc(num, sizeof(void *), GFP_KERNEL);
-+		tx_multi_xfer->dma_addr = kcalloc(num, sizeof(dma_addr_t), GFP_KERNEL);
-+		if (!tx_multi_xfer->dma_buf || !tx_multi_xfer->dma_addr) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
-+	}
-+
- 	for (i = 0; i < num; i++) {
- 		gi2c->cur = &msgs[i];
- 		gi2c->err = 0;
-@@ -627,14 +815,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			peripheral.stretch = 1;
- 
- 		peripheral.addr = msgs[i].addr;
-+		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-+			peripheral.multi_msg = false;
- 
--		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+		ret =  geni_i2c_gpi(gi2c, msgs, &config,
- 				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
- 		if (ret)
- 			goto err;
- 
- 		if (msgs[i].flags & I2C_M_RD) {
--			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+			ret =  geni_i2c_gpi(gi2c, msgs, &config,
- 					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
- 			if (ret)
- 				goto err;
-@@ -642,18 +832,24 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			dma_async_issue_pending(gi2c->rx_c);
- 		}
- 
--		dma_async_issue_pending(gi2c->tx_c);
--
--		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
--		if (!time_left)
--			gi2c->err = -ETIMEDOUT;
-+		if (!gi2c->is_tx_multi_desc_xfer) {
-+			dma_async_issue_pending(gi2c->tx_c);
-+			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-+			if (!time_left) {
-+				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-+				gi2c->err = -ETIMEDOUT;
-+			}
-+		}
- 
- 		if (gi2c->err) {
- 			ret = gi2c->err;
- 			goto err;
- 		}
- 
--		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		if (!gi2c->is_tx_multi_desc_xfer)
-+			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		else if (tx_multi_xfer->unmap_msg_cnt != tx_multi_xfer->irq_cnt)
-+			geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
- 	}
- 
- 	return num;
-@@ -662,7 +858,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
- 	dmaengine_terminate_sync(gi2c->rx_c);
- 	dmaengine_terminate_sync(gi2c->tx_c);
--	geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+	if (gi2c->is_tx_multi_desc_xfer)
-+		geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-+	else
-+		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+
- 	return ret;
- }
- 
--- 
-2.34.1
-
+Balbir
