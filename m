@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EC3BA0CD7
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 19:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FF3BA0EF6
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 19:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E7310E94E;
-	Thu, 25 Sep 2025 17:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3102310E2CE;
+	Thu, 25 Sep 2025 17:47:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QA8pCY8/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aSD2/Mgb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22AD910E94E
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 17:20:16 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id B5E734E40DD6;
- Thu, 25 Sep 2025 17:20:14 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 87FD560665;
- Thu, 25 Sep 2025 17:20:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id BE065102F18A1; 
- Thu, 25 Sep 2025 19:20:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758820813; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=0sMYzovaJDmQt5RrIh8C89vIF4dc6AtroV+cbqJJWgU=;
- b=QA8pCY8/lmMejdNVj6KIydE8Qkk4gdDe8/XOJjLefAcgEAkBdflA+weSm/6Vu8r6wqpf49
- o64OyAmPuNTMwzTli/wwq1g+CbhuHtMI4arIp3Hgv23mncEJx1H8MlkP7PCEMkd+2TbsA2
- 7HWkI0RcaEgMNiknk26vYc4ljZc5+Nudfn0QopkQEpf9WgG4GRMPS8O4WsW5R/90SW1JTT
- +eqTHTi+zLt5iDkGEbrm1/oZDxmUlWfSE3Xgp1H4O9rJBMGs/x+MFL4gSDhbd8TaiNDWVK
- R875WN1DDIuVoSbJ0ihc8txc5auR1k5L4yQp4/mCBTKDrhiiXE8os8olQ1tcRw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 25 Sep 2025 19:19:50 +0200
-Subject: [PATCH 2/2] drm/display: bridge-connector: get/put the stored bridges
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0989310E00B;
+ Thu, 25 Sep 2025 17:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758822426; x=1790358426;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=a2G4qyoniP9ulaXALRSUSrsDIbDfUQSDEOaTOuBVYQE=;
+ b=aSD2/MgbxRhdBo74r3E01Wrkxy1soLe/IwIE1qoYokx8bWs36t+KBnJs
+ KE/3vpmpzsIXjDRaEUXLU+c1XzNlapTgq99FHSXd5XrC+2S1qSVaQJK55
+ q0o+X6n6loauf2bpDxzcQXbBcY9ldIutgeyelZRf5y+wZdowmshtKOM1h
+ pkydmCPEIpYDhm1nG2SBbORUF8EjPoqoLEf7kMr2mKA6OEWYleP0fdfti
+ U5HbytyDqlA/K+ZGqrV3PABY+Mdigj7/pKPwl/R5HgommFt0zowRAayUh
+ P3TWo/siUv0IfSpUSE79+Uhrm/Jc0g1dBhlY/v84wJhkAKZkhroBGlBPI g==;
+X-CSE-ConnectionGUID: OlWUQfMtTmm1GiQDB1oSYQ==
+X-CSE-MsgGUID: 6WM0UMPJSd23ueShpC54eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78586696"
+X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="78586696"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 10:47:06 -0700
+X-CSE-ConnectionGUID: ncrM+PzyQm+vAkKDLm7FWw==
+X-CSE-MsgGUID: XiOc6nwWTp+Ue38AaXXRvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="208124087"
+Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.211.136.201])
+ by orviesa002-auth.jf.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 10:47:01 -0700
+Date: Thu, 25 Sep 2025 19:46:45 +0200
+From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: adrinael@adrinael.net, arek@hiler.eu, juhapekka.heikkila@gmail.com,
+ bhanuprakash.modem@gmail.com, ashutosh.dixit@intel.com,
+ karthik.b.s@intel.com, boris.brezillon@collabora.com,
+ liviu.dudau@arm.com, steven.price@arm.com, aliceryhl@google.com,
+ jeffv@google.com, intel-gfx@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH i-g-t v2 3/3] tests/panthor: add panthor tests
+Message-ID: <20250925174645.lnx2tok2hwi5qf3e@kamilkon-DESK.igk.intel.com>
+Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ adrinael@adrinael.net, arek@hiler.eu, juhapekka.heikkila@gmail.com,
+ bhanuprakash.modem@gmail.com, ashutosh.dixit@intel.com,
+ karthik.b.s@intel.com, boris.brezillon@collabora.com,
+ liviu.dudau@arm.com, steven.price@arm.com, aliceryhl@google.com,
+ jeffv@google.com, intel-gfx@lists.freedesktop.org,
+ igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250912181931.3738444-1-daniel.almeida@collabora.com>
+ <20250912181931.3738444-4-daniel.almeida@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-2-f0736e1c73ee@bootlin.com>
-References: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-0-f0736e1c73ee@bootlin.com>
-In-Reply-To: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-0-f0736e1c73ee@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250912181931.3738444-4-daniel.almeida@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,277 +81,720 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_bridge_connector_init() takes eight pointers to various bridges, some
-of which can be identical, and stores them in pointers inside struct
-drm_bridge_connector. Get a reference to each of the taken bridges and put
-it on cleanup.
+Hi Daniel,
+On 2025-09-12 at 15:19:30 -0300, Daniel Almeida wrote:
+> Add an initial test suit covering query device properties, allocating
+> memory, binding and unbinding VA ranges through VM_BIND and submitting a
+> simple piece of work through GROUP_SUBMIT.
 
-This is tricky because the pointers are currently stored directly in the
-drm_bridge_connector in the loop, but there is no nice and clean way to put
-those pointers on error return paths. To overcome this, store all pointers
-in temporary local variables with a cleanup action, and only on success
-copy them into struct drm_bridge_connector (getting another ref while
-copying).
+One more nit on top of Daniel Stone review, see below.
 
-Additionally four of these pointers (edid, hpd, detect and modes) can be
-written in multiple loop iterations, in order to eventually store the last
-matching bridge. However when one of those pointers is overwritten once we
-need to put the reference that we got during the previous assignment. Add a
-drm_bridge_put() before writing them to handle this.
+> 
+> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> ---
+>  lib/igt_panthor.c             | 188 +++++++++++++++++++++++
+>  lib/igt_panthor.h             |  18 +++
+>  tests/panthor/meson.build     |   5 +-
+>  tests/panthor/panthor_gem.c   |  66 ++++++++
+>  tests/panthor/panthor_group.c | 276 ++++++++++++++++++++++++++++++++++
+>  tests/panthor/panthor_vm.c    |  80 ++++++++++
+>  6 files changed, 632 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/panthor/panthor_gem.c
+>  create mode 100644 tests/panthor/panthor_group.c
+>  create mode 100644 tests/panthor/panthor_vm.c
+> 
+> diff --git a/lib/igt_panthor.c b/lib/igt_panthor.c
+> index 0b690f796..5d3b572b4 100644
+> --- a/lib/igt_panthor.c
+> +++ b/lib/igt_panthor.c
+> @@ -39,3 +39,191 @@ void igt_panthor_query(int fd, int32_t type, void *data, size_t size, int err)
+>  	else
+>  		do_ioctl(fd, DRM_IOCTL_PANTHOR_DEV_QUERY, &query);
+>  }
+> +
+> +/**
+> + * igt_panthor_vm_create:
+> + * @fd: device file descriptor
+> + * @vm_id: pointer to store the created VM ID
+> + * @err: expected error code, or 0 for success
+> + *
+> + * Creates a VM.
+> + */
+> +void igt_panthor_vm_create(int fd, uint32_t *vm_id, int err)
+> +{
+> +	struct drm_panthor_vm_create vm_create = {};
+> +
+> +	if (err) {
+> +		do_ioctl_err(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create, err);
+> +	} else {
+> +		do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create);
+> +		*vm_id = vm_create.id;
+> +	}
+> +}
+> +
+> +/**
+> + * igt_panthor_vm_destroy:
+> + * @fd: device file descriptor
+> + * @vm_id: VM ID to destroy
+> + * @err: expected error code, or 0 for success
+> + *
+> + * Destroys a VM.
+> + */
+> +void igt_panthor_vm_destroy(int fd, uint32_t vm_id, int err)
+> +{
+> +	struct drm_panthor_vm_destroy vm_destroy = {
+> +		.id = vm_id,
+> +	};
+> +
+> +	if (err)
+> +		do_ioctl_err(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy, err);
+> +	else
+> +		do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy);
+> +}
+> +
+> +/**
+> + * igt_panthor_vm_bind:
+> + * @fd: device file descriptor
+> + * @vm_id: VM ID to bind the buffer to
+> + * @bo_handle: buffer object handle to bind
+> + * @va: virtual address to bind at
+> + * @size: size of the binding
+> + * @flags: binding flags
+> + * @err: expected error code, or 0 for success
+> + *
+> + * Bind a buffer object to a virtual address in the specified VM.
+> + */
+> +void igt_panthor_vm_bind(int fd, uint32_t vm_id, uint32_t bo_handle,
+> +			 uint64_t va, uint64_t size, uint32_t flags, int err)
+> +{
+> +	struct drm_panthor_vm_bind_op bind_op = {
+> +		.flags = flags,
+> +		.bo_handle = bo_handle,
+> +		.va = va,
+> +		.size = size,
+> +	};
+> +
+> +	struct drm_panthor_vm_bind vm_bind = {
+> +		.vm_id = vm_id,
+> +		.flags = 0,
+> +		.ops = DRM_PANTHOR_OBJ_ARRAY(1, &bind_op),
+> +	};
+> +
+> +	if (err)
+> +		do_ioctl_err(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind, err);
+> +	else
+> +		do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind);
+> +}
+> +
+> +/**
+> + * igt_panthor_bo_create:
+> + * @fd: device file descriptor
+> + * @bo: pointer to panthor_bo structure to initialize
+> + * @size: requested buffer size in bytes
+> + * @flags: buffer object creation flags
+> + * @err: expected error code, or 0 for success
+> + *
+> + * Creates a new buffer object
+> + */
+> +void igt_panthor_bo_create(int fd, struct panthor_bo *bo,
+> +			   uint64_t size, uint32_t flags, int err)
+> +{
+> +	struct drm_panthor_bo_create bo_create = {
+> +		.size = size,
+> +		.flags = flags,
+> +	};
+> +
+> +	if (err)
+> +		do_ioctl_err(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create, err);
+> +	else
+> +		do_ioctl(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create);
+> +
+> +	bo->handle = bo_create.handle;
+> +	bo->size = bo_create.size;
+> +	bo->offset = 0;
+> +	bo->map = NULL;
+> +}
+> +
+> +/**
+> + * igt_panthor_bo_mmap_offset:
+> + * @fd: device file descriptor
+> + * @handle: buffer object handle
+> + * @err: expected error code, or 0 for success
+> + *
+> + * Get the mmap offset for a buffer object.
+> + *
+> + * Returns: the mmap offset for the buffer object
+> + */
+> +uint64_t igt_panthor_bo_mmap_offset(int fd, uint32_t handle, int err)
+> +{
+> +	struct drm_panthor_bo_mmap_offset bo_mmap_offset = {
+> +		.handle = handle,
+> +	};
+> +
+> +	if (err)
+> +		do_ioctl_err(fd, DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET, &bo_mmap_offset, err);
+> +	else
+> +		do_ioctl(fd, DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET, &bo_mmap_offset);
+> +
+> +	return bo_mmap_offset.offset;
+> +}
+> +
+> +/**
+> + * igt_panthor_mmap_bo:
+> + * @fd: device file descriptor
+> + * @handle: buffer object handle
+> + * @size: size of the buffer to map
+> + * @prot: memory protection flags (e.g., PROT_READ | PROT_WRITE)
+> + * @offset: mmap offset for the buffer object
+> + *
+> + * Map a buffer object into the process address space.
+> + *
+> + * Returns: pointer to the mapped memory, or NULL on failure
+> + */
+> +void *igt_panthor_mmap_bo(int fd, uint32_t handle, uint64_t size,
+> +			  unsigned int prot, uint64_t offset)
+> +{
+> +	void *ptr;
+> +
+> +	ptr = mmap(0, size, prot, MAP_SHARED, fd, offset);
+> +	if (ptr == MAP_FAILED)
+> +		return NULL;
+> +	return ptr;
+> +}
+> +
+> +/**
+> + * igt_panthor_bo_create_mapped:
+> + * @fd: device file descriptor
+> + * @bo: pointer to panthor_bo structure to initialize
+> + * @size: requested buffer size in bytes
+> + * @flags: buffer object creation flags
+> + * @err: expected error code, or 0 for success
+> + *
+> + * Create a new buffer object on the panthor device and map it into
+> + * the process address space.
+> + */
+> +void igt_panthor_bo_create_mapped(int fd, struct panthor_bo *bo, uint64_t size,
+> +				  uint32_t flags, int err)
+> +{
+> +	igt_panthor_bo_create(fd, bo, size, flags, err);
+> +	bo->offset = igt_panthor_bo_mmap_offset(fd, bo->handle, err);
+> +	bo->map = igt_panthor_mmap_bo(fd, bo->handle, bo->size,
+> +				      PROT_READ | PROT_WRITE, bo->offset);
+> +}
+> +
+> +/**
+> + * igt_panthor_free_bo:
+> + * @fd: panthor device file descriptor
+> + * @bo: pointer to panthor_bo structure to free
+> + *
+> + * Free a buffer object and unmap it if it was mapped.
+> + */
+> +void igt_panthor_free_bo(int fd, struct panthor_bo *bo)
+> +{
+> +	if (!bo)
+> +		return;
+> +
+> +	if (bo->map)
+> +		munmap(bo->map, bo->size);
+> +
+> +	gem_close(fd, bo->handle);
+> +}
+> diff --git a/lib/igt_panthor.h b/lib/igt_panthor.h
+> index a99b7102d..275ad54d6 100644
+> --- a/lib/igt_panthor.h
+> +++ b/lib/igt_panthor.h
+> @@ -7,6 +7,24 @@
+>  #include <stddef.h>
+>  #include <stdint.h>
+>  
+> +struct panthor_bo {
+> +	int handle;
+> +	uint64_t offset;
+> +	uint64_t size;
+> +	void *map;
+> +};
+> +
+>  void igt_panthor_query(int fd, int32_t type, void *data, size_t size, int err);
+> +void igt_panthor_vm_create(int fd, uint32_t *vm_id, int err);
+> +void igt_panthor_vm_destroy(int fd, uint32_t vm_id, int err);
+> +void igt_panthor_vm_bind(int fd, uint32_t vm_id, uint32_t bo_handle,
+> +			  uint64_t va, uint64_t size, uint32_t flags, int err);
+> +void igt_panthor_bo_create(int fd, struct panthor_bo *bo, uint64_t size, uint32_t flags, int err);
+> +uint64_t igt_panthor_bo_mmap_offset(int fd, uint32_t handle, int err);
+> +void igt_panthor_free_bo(int fd, struct panthor_bo *bo);
+> +void igt_panthor_bo_create_mapped(int fd, struct panthor_bo *bo, uint64_t size,
+> +				  uint32_t flags, int err);
+> +void *igt_panthor_mmap_bo(int fd, uint32_t handle, uint64_t size,
+> +			  unsigned int prot, uint64_t offset);
+>  
+>  #endif /* IGT_PANTHOR_H */
+> diff --git a/tests/panthor/meson.build b/tests/panthor/meson.build
+> index ce13aebaa..42a46e993 100644
+> --- a/tests/panthor/meson.build
+> +++ b/tests/panthor/meson.build
+> @@ -1,5 +1,8 @@
+>  panthor_progs = [
+> -	'panthor_query'
+> +	'panthor_gem',
+> +	'panthor_group',
+> +	'panthor_query',
+> +	'panthor_vm',
+>  ]
+>  
+>  foreach prog : panthor_progs
+> diff --git a/tests/panthor/panthor_gem.c b/tests/panthor/panthor_gem.c
+> new file mode 100644
+> index 000000000..7e8e2084d
+> --- /dev/null
+> +++ b/tests/panthor/panthor_gem.c
+> @@ -0,0 +1,66 @@
+> +// SPDX-License-Identifier: MIT
+> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
+> +
+> +#include "igt.h"
+> +#include "igt_core.h"
+> +#include "igt_panthor.h"
+> +
+> +igt_main {
+> +	int fd;
+> +
+> +	igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
+> +
+> +	igt_describe("Create a buffer object");
+> +	igt_subtest("bo_create") {
+> +		struct panthor_bo bo;
+> +
+> +		igt_panthor_bo_create(fd, &bo, 4096, 0, 0);
+> +		igt_assert(bo.handle != 0);
+> +
+> +		igt_panthor_free_bo(fd, &bo);
+> +	}
+> +
+> +	igt_describe("Create a fake mmap offset for a buffer object");
+> +	igt_subtest("bo_mmap_offset") {
+> +		struct panthor_bo bo;
+> +		uint64_t mmap_offset;
+> +
+> +		igt_panthor_bo_create(fd, &bo, 4096, 0, 0);
+> +		igt_assert(bo.handle != 0);
+> +
+> +		mmap_offset = igt_panthor_bo_mmap_offset(fd, bo.handle, 0);
+> +		igt_assert(mmap_offset != 0);
+> +
+> +		igt_panthor_free_bo(fd, &bo);
+> +	}
+> +
+> +	igt_describe("Same as bo_mmap_offset but with an invalid handle");
+> +	igt_subtest("bo_mmap_offset_invalid_handle") {
+> +		struct panthor_bo bo;
+> +		uint64_t mmap_offset;
+> +
+> +		igt_panthor_bo_create(fd, &bo, 4096, 0, 0);
+> +		igt_assert(bo.handle != 0);
+> +
+> +		mmap_offset = igt_panthor_bo_mmap_offset(fd, 0xdeadbeef, ENOENT);
+> +		igt_assert(mmap_offset == 0);
+> +
+> +		igt_panthor_free_bo(fd, &bo);
+> +	}
+> +
+> +	igt_describe_f("Create a buffer object whose size is not page-aligned, and check "
+> +		"that the allocated size is rounded up to the next page size %lu.",
+> +		8192UL);
+> +	igt_subtest("bo_create_round_size") {
+> +		struct panthor_bo bo;
+> +		uint64_t expected_size = 8192;
+> +
+> +		igt_panthor_bo_create(fd, &bo, 5000, 0, 0);
+> +		igt_assert(bo.handle != 0);
+> +		igt_assert(bo.size == expected_size);
+> +
+> +		igt_panthor_free_bo(fd, &bo);
+> +	}
+> +
+> +	igt_fixture { drm_close_driver(fd); }
+> +}
+> diff --git a/tests/panthor/panthor_group.c b/tests/panthor/panthor_group.c
+> new file mode 100644
+> index 000000000..0a3b746d8
+> --- /dev/null
+> +++ b/tests/panthor/panthor_group.c
+> @@ -0,0 +1,276 @@
+> +// SPDX-License-Identifier: MIT
+> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
+> +
+> +#include <stdint.h>
+> +#include <sys/mman.h>
+> +#include <endian.h> // For htole64
+> +#include <unistd.h>
+> +
+> +#include "drm.h"
+> +#include "igt.h"
+> +#include "igt_core.h"
+> +#include "igt_panthor.h"
+> +#include "panthor_drm.h"
+> +
+> +static void
+> +issue_store_multiple(u8 *command_stream, uint64_t kernel_va, uint32_t constant)
+> +{
+> +		uint64_t opcode, reg_num, mov48, store_multiple, flush;
 
-Finally, there is also a function-local panel_bridge pointer taken inside
-the loop and used after the loop. Due to the various return points, use a
-__free() cleanup action to ensure it is put on return.
+Why two tabs here?
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 112 +++++++++++++++++--------
- 1 file changed, 76 insertions(+), 36 deletions(-)
+> +		uint64_t sr, src0, register_bitmap, offset;
+> +
+> +		// MOV48: Load the source register ([r68; r69]) with the kernel address
+> +		opcode = 0x1;
+> +		reg_num = 68;
+> +		mov48 = (opcode << 56) | (reg_num << 48) | kernel_va;
+> +		mov48 = htole64(mov48);
+> +		memcpy(&command_stream[0], &mov48, sizeof(mov48));
+> +
+> +		// MOV48: Load a known constant into r70
+> +		opcode = 0x1;
+> +		reg_num = 70;
+> +		mov48 = (opcode << 56) | (reg_num << 48) | constant;
+> +		mov48 = htole64(mov48);
+> +		memcpy(&command_stream[8], &mov48, sizeof(mov48));
+> +
+> +		// STORE_MULTIPLE: Store the first register to the address pointed to by [r68; r69]
+> +		opcode = 0x15; // STORE_MULTIPLE
+> +		sr = 70; // Starting from register r70
+> +		src0 = 68; // Address pointed to by [r68; r69]
+> +		register_bitmap = 1; // Store the first register
+> +		offset = 0; // Offset
+> +		store_multiple = (opcode << 56) | (sr << 48) | (src0 << 40) |
+> +										 (register_bitmap << 16) | offset;
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index a5bdd6c1064399ece6b19560f145b877c9e0680e..4bcebbb8c9935fa55010a9d317f3d9e70b2ff7a3 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -268,11 +268,27 @@ static void drm_bridge_connector_reset(struct drm_connector *connector)
- 							 connector->state);
- }
- 
-+static void drm_bridge_connector_destroy(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+
-+	drm_bridge_put(bridge_connector->bridge_edid);
-+	drm_bridge_put(bridge_connector->bridge_hpd);
-+	drm_bridge_put(bridge_connector->bridge_detect);
-+	drm_bridge_put(bridge_connector->bridge_modes);
-+	drm_bridge_put(bridge_connector->bridge_hdmi);
-+	drm_bridge_put(bridge_connector->bridge_hdmi_audio);
-+	drm_bridge_put(bridge_connector->bridge_dp_audio);
-+	drm_bridge_put(bridge_connector->bridge_hdmi_cec);
-+}
-+
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
- 	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_bridge_connector_destroy,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- 	.debugfs_init = drm_bridge_connector_debugfs_init,
-@@ -638,7 +654,15 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	struct drm_bridge_connector *bridge_connector;
- 	struct drm_connector *connector;
- 	struct i2c_adapter *ddc = NULL;
--	struct drm_bridge *panel_bridge = NULL;
-+	struct drm_bridge *panel_bridge      __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_edid       __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_hpd        __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_detect     __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_modes      __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_hdmi       __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_hdmi_audio __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_dp_audio   __free(drm_bridge_put) = NULL;
-+	struct drm_bridge *bridge_hdmi_cec   __free(drm_bridge_put) = NULL;
- 	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
- 	unsigned int max_bpc = 8;
- 	bool support_hdcp = false;
-@@ -672,22 +696,30 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 		if (!bridge->ycbcr_420_allowed)
- 			connector->ycbcr_420_allowed = false;
- 
--		if (bridge->ops & DRM_BRIDGE_OP_EDID)
--			bridge_connector->bridge_edid = bridge;
--		if (bridge->ops & DRM_BRIDGE_OP_HPD)
--			bridge_connector->bridge_hpd = bridge;
--		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
--			bridge_connector->bridge_detect = bridge;
--		if (bridge->ops & DRM_BRIDGE_OP_MODES)
--			bridge_connector->bridge_modes = bridge;
-+		if (bridge->ops & DRM_BRIDGE_OP_EDID) {
-+			drm_bridge_put(bridge_edid);
-+			bridge_edid = drm_bridge_get(bridge);
-+		}
-+		if (bridge->ops & DRM_BRIDGE_OP_HPD) {
-+			drm_bridge_put(bridge_hpd);
-+			bridge_hpd = drm_bridge_get(bridge);
-+		}
-+		if (bridge->ops & DRM_BRIDGE_OP_DETECT) {
-+			drm_bridge_put(bridge_detect);
-+			bridge_detect = drm_bridge_get(bridge);
-+		}
-+		if (bridge->ops & DRM_BRIDGE_OP_MODES) {
-+			drm_bridge_put(bridge_modes);
-+			bridge_modes = drm_bridge_get(bridge);
-+		}
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI) {
--			if (bridge_connector->bridge_hdmi)
-+			if (bridge_hdmi)
- 				return ERR_PTR(-EBUSY);
- 			if (!bridge->funcs->hdmi_write_infoframe ||
- 			    !bridge->funcs->hdmi_clear_infoframe)
- 				return ERR_PTR(-EINVAL);
- 
--			bridge_connector->bridge_hdmi = bridge;
-+			bridge_hdmi = drm_bridge_get(bridge);
- 
- 			if (bridge->supported_formats)
- 				supported_formats = bridge->supported_formats;
-@@ -696,10 +728,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI_AUDIO) {
--			if (bridge_connector->bridge_hdmi_audio)
-+			if (bridge_hdmi_audio)
- 				return ERR_PTR(-EBUSY);
- 
--			if (bridge_connector->bridge_dp_audio)
-+			if (bridge_dp_audio)
- 				return ERR_PTR(-EBUSY);
- 
- 			if (!bridge->hdmi_audio_max_i2s_playback_channels &&
-@@ -710,14 +742,14 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			    !bridge->funcs->hdmi_audio_shutdown)
- 				return ERR_PTR(-EINVAL);
- 
--			bridge_connector->bridge_hdmi_audio = bridge;
-+			bridge_hdmi_audio = drm_bridge_get(bridge);
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_DP_AUDIO) {
--			if (bridge_connector->bridge_dp_audio)
-+			if (bridge_dp_audio)
- 				return ERR_PTR(-EBUSY);
- 
--			if (bridge_connector->bridge_hdmi_audio)
-+			if (bridge_hdmi_audio)
- 				return ERR_PTR(-EBUSY);
- 
- 			if (!bridge->hdmi_audio_max_i2s_playback_channels &&
-@@ -728,7 +760,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			    !bridge->funcs->dp_audio_shutdown)
- 				return ERR_PTR(-EINVAL);
- 
--			bridge_connector->bridge_dp_audio = bridge;
-+			bridge_dp_audio = drm_bridge_get(bridge);
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI_CEC_NOTIFIER) {
-@@ -739,10 +771,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI_CEC_ADAPTER) {
--			if (bridge_connector->bridge_hdmi_cec)
-+			if (bridge_hdmi_cec)
- 				return ERR_PTR(-EBUSY);
- 
--			bridge_connector->bridge_hdmi_cec = bridge;
-+			bridge_hdmi_cec = drm_bridge_get(bridge);
- 
- 			if (!bridge->funcs->hdmi_cec_enable ||
- 			    !bridge->funcs->hdmi_cec_log_addr ||
-@@ -762,7 +794,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			ddc = bridge->ddc;
- 
- 		if (drm_bridge_is_panel(bridge))
--			panel_bridge = bridge;
-+			panel_bridge = drm_bridge_get(bridge);
- 
- 		if (bridge->support_hdcp)
- 			support_hdcp = true;
-@@ -771,13 +803,13 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
- 		return ERR_PTR(-EINVAL);
- 
--	if (bridge_connector->bridge_hdmi) {
-+	if (bridge_hdmi) {
- 		if (!connector->ycbcr_420_allowed)
- 			supported_formats &= ~BIT(HDMI_COLORSPACE_YUV420);
- 
- 		ret = drmm_connector_hdmi_init(drm, connector,
--					       bridge_connector->bridge_hdmi->vendor,
--					       bridge_connector->bridge_hdmi->product,
-+					       bridge_hdmi->vendor,
-+					       bridge_hdmi->product,
- 					       &drm_bridge_connector_funcs,
- 					       &drm_bridge_connector_hdmi_funcs,
- 					       connector_type, ddc,
-@@ -793,15 +825,14 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			return ERR_PTR(ret);
- 	}
- 
--	if (bridge_connector->bridge_hdmi_audio ||
--	    bridge_connector->bridge_dp_audio) {
-+	if (bridge_hdmi_audio || bridge_dp_audio) {
- 		struct device *dev;
- 		struct drm_bridge *bridge;
- 
--		if (bridge_connector->bridge_hdmi_audio)
--			bridge = bridge_connector->bridge_hdmi_audio;
-+		if (bridge_hdmi_audio)
-+			bridge = bridge_hdmi_audio;
- 		else
--			bridge = bridge_connector->bridge_dp_audio;
-+			bridge = bridge_dp_audio;
- 
- 		dev = bridge->hdmi_audio_dev;
- 
-@@ -815,9 +846,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			return ERR_PTR(ret);
- 	}
- 
--	if (bridge_connector->bridge_hdmi_cec &&
--	    bridge_connector->bridge_hdmi_cec->ops & DRM_BRIDGE_OP_HDMI_CEC_NOTIFIER) {
--		struct drm_bridge *bridge = bridge_connector->bridge_hdmi_cec;
-+	if (bridge_hdmi_cec &&
-+	    bridge_hdmi_cec->ops & DRM_BRIDGE_OP_HDMI_CEC_NOTIFIER) {
-+		struct drm_bridge *bridge = bridge_hdmi_cec;
- 
- 		ret = drmm_connector_hdmi_cec_notifier_register(connector,
- 								NULL,
-@@ -826,9 +857,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			return ERR_PTR(ret);
- 	}
- 
--	if (bridge_connector->bridge_hdmi_cec &&
--	    bridge_connector->bridge_hdmi_cec->ops & DRM_BRIDGE_OP_HDMI_CEC_ADAPTER) {
--		struct drm_bridge *bridge = bridge_connector->bridge_hdmi_cec;
-+	if (bridge_hdmi_cec &&
-+	    bridge_hdmi_cec->ops & DRM_BRIDGE_OP_HDMI_CEC_ADAPTER) {
-+		struct drm_bridge *bridge = bridge_hdmi_cec;
- 
- 		ret = drmm_connector_hdmi_cec_register(connector,
- 						       &drm_bridge_connector_hdmi_cec_funcs,
-@@ -841,9 +872,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 
- 	drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
- 
--	if (bridge_connector->bridge_hpd)
-+	if (bridge_hpd)
- 		connector->polled = DRM_CONNECTOR_POLL_HPD;
--	else if (bridge_connector->bridge_detect)
-+	else if (bridge_detect)
- 		connector->polled = DRM_CONNECTOR_POLL_CONNECT
- 				  | DRM_CONNECTOR_POLL_DISCONNECT;
- 
-@@ -854,6 +885,15 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	    IS_ENABLED(CONFIG_DRM_DISPLAY_HDCP_HELPER))
- 		drm_connector_attach_content_protection_property(connector, true);
- 
-+	bridge_connector->bridge_edid       = drm_bridge_get(bridge_edid);
-+	bridge_connector->bridge_hpd        = drm_bridge_get(bridge_hpd);
-+	bridge_connector->bridge_detect     = drm_bridge_get(bridge_detect);
-+	bridge_connector->bridge_modes      = drm_bridge_get(bridge_modes);
-+	bridge_connector->bridge_hdmi       = drm_bridge_get(bridge_hdmi);
-+	bridge_connector->bridge_hdmi_audio = drm_bridge_get(bridge_hdmi_audio);
-+	bridge_connector->bridge_dp_audio   = drm_bridge_get(bridge_dp_audio);
-+	bridge_connector->bridge_hdmi_cec   = drm_bridge_get(bridge_hdmi_cec);
-+
- 	return connector;
- }
- EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+Please align or make it one long line, so either
+	store_multiple = (opcode << 56) | (sr << 48) | (src0 << 40) |
+			 (register_bitmap << 16) | offset;
+or
+	store_multiple = (opcode << 56) | (sr << 48) | (src0 << 40) | (register_bitmap << 16) | offset;
 
--- 
-2.51.0
+Regards,
+Kamil
 
+> +		store_multiple = htole64(store_multiple);
+> +		memcpy(&command_stream[16], &store_multiple, sizeof(store_multiple));
+> +
+> +		opcode = 0x1;
+> +		reg_num = 68;
+> +		mov48 = (opcode << 56) | (reg_num << 48) | 0;
+> +		mov48 = htole64(mov48);
+> +		memcpy(&command_stream[24], &mov48, sizeof(mov48));
+> +
+> +		opcode = 36;
+> +		flush = opcode << 56 | 0ull << 48 | reg_num << 40 | 0ull << 16 | 0x233;
+> +		flush = htole64(flush);
+> +		memcpy(&command_stream[32], &flush, sizeof(flush));
+> +}
+> +
+> +igt_main {
+> +	int fd;
+> +
+> +	igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
+> +
+> +	igt_describe("Create and destroy a CSF group.");
+> +	igt_subtest("group_create") {
+> +		struct drm_panthor_gpu_info gpu_info = {};
+> +		struct drm_panthor_vm_create vm_create = {};
+> +		struct drm_panthor_group_create group_create = {};
+> +		struct drm_panthor_queue_create queue = {};
+> +		struct drm_panthor_obj_array queues = {};
+> +		struct drm_panthor_group_destroy group_destroy = {};
+> +		struct drm_panthor_vm_destroy vm_destroy = {};
+> +
+> +		igt_panthor_query(fd, DRM_PANTHOR_DEV_QUERY_GPU_INFO,
+> +				  &gpu_info, sizeof(gpu_info), 0);
+> +		igt_assert(gpu_info.gpu_id != 0);
+> +
+> +		vm_create.flags = 0;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create), 0);
+> +		igt_assert(vm_create.id != 0);
+> +
+> +		queue.priority = 0; // Low priority
+> +		queue.ringbuf_size = 4096; // Example size
+> +		queues = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &queue);
+> +
+> +		group_create.queues = queues;
+> +		group_create.max_compute_cores = 1;
+> +		group_create.max_fragment_cores = 1;
+> +		group_create.max_tiler_cores = 1;
+> +		group_create.priority = PANTHOR_GROUP_PRIORITY_MEDIUM;
+> +		group_create.compute_core_mask = gpu_info.shader_present & 0x1; // Use first core
+> +		group_create.fragment_core_mask = gpu_info.shader_present & 0x1; // Use first core
+> +		group_create.tiler_core_mask = gpu_info.tiler_present & 0x1; // Use first tiler
+> +		group_create.vm_id = vm_create.id;
+> +
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &group_create), 0);
+> +		igt_assert(group_create.group_handle != 0);
+> +
+> +		// Cleanup: Destroy the group and VM
+> +		group_destroy = (struct drm_panthor_group_destroy){
+> +			.group_handle = group_create.group_handle
+> +		};
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_DESTROY, &group_destroy), 0);
+> +
+> +		vm_destroy = (struct drm_panthor_vm_destroy) { .id = vm_create.id };
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy), 0);
+> +	}
+> +
+> +	igt_describe("Submit a job to a group and wait for completion. "
+> +							 "The job writes a known value to a buffer object that is then "
+> +							 "mmaped and checked.");
+> +	igt_subtest("group_submit") {
+> +		struct drm_panthor_gpu_info gpu_info = {};
+> +		struct drm_panthor_vm_create vm_create = {};
+> +		struct drm_panthor_group_create group_create = {};
+> +		struct drm_panthor_queue_create queue = {};
+> +		struct drm_panthor_obj_array queues = {};
+> +		struct drm_panthor_group_submit group_submit = {};
+> +		struct drm_panthor_queue_submit queue_submit = {};
+> +		struct drm_panthor_group_destroy group_destroy = {};
+> +		struct drm_panthor_obj_array queue_submits = {};
+> +		struct drm_panthor_vm_destroy vm_destroy = {};
+> +		struct drm_panthor_bo_create bo_create = {};
+> +		struct drm_panthor_vm_bind vm_bind = {};
+> +		struct drm_panthor_vm_bind_op vm_bind_op = {};
+> +		struct drm_syncobj_wait wait = {};
+> +		struct drm_syncobj_create syncobj_create = {};
+> +		struct drm_panthor_sync_op sync_op = {};
+> +		struct drm_gem_close gem_close = {};
+> +		struct drm_syncobj_destroy syncobj_destroy = {};
+> +		uint64_t command_stream_gpu_addr;
+> +		uint32_t command_stream_size;
+> +		uint64_t result_gpu_addr;
+> +		uint32_t cmd_buf_bo_handle;
+> +		uint32_t result_bo_handle;
+> +		uint32_t syncobj_handle;
+> +		uint8_t command_stream[64] = {0};
+> +		uint8_t *bo_cpu_addr;
+> +		uint8_t *result_cpu_addr;
+> +		const int INITIAL_VA = 0x1000000;
+> +		uint64_t bo_mmap_offset;
+> +
+> +		igt_panthor_query(fd, DRM_PANTHOR_DEV_QUERY_GPU_INFO,
+> +				  &gpu_info, sizeof(gpu_info), 0);
+> +		igt_assert(gpu_info.gpu_id != 0);
+> +
+> +		vm_create.flags = 0;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create), 0);
+> +		igt_assert(vm_create.id != 0);
+> +
+> +		bo_create.size = 4096;
+> +		bo_create.flags = 0;
+> +		bo_create.exclusive_vm_id = vm_create.id;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create), 0);
+> +		igt_assert(bo_create.handle != 0);
+> +		cmd_buf_bo_handle = bo_create.handle;
+> +
+> +		vm_bind_op.flags = DRM_PANTHOR_VM_BIND_OP_TYPE_MAP;
+> +		vm_bind_op.bo_handle = cmd_buf_bo_handle;
+> +		vm_bind_op.bo_offset = 0;
+> +		vm_bind_op.va = INITIAL_VA;
+> +		vm_bind_op.size = bo_create.size;
+> +		vm_bind.ops = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &vm_bind_op);
+> +		vm_bind.vm_id = vm_create.id;
+> +		vm_bind.flags = 0;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind), 0);
+> +
+> +		command_stream_gpu_addr = vm_bind_op.va;
+> +		command_stream_size = sizeof(command_stream);
+> +
+> +		bo_mmap_offset = igt_panthor_bo_mmap_offset(fd, cmd_buf_bo_handle, 0);
+> +		bo_cpu_addr = igt_panthor_mmap_bo(fd, cmd_buf_bo_handle,
+> +						  bo_create.size, PROT_READ | PROT_WRITE,
+> +							bo_mmap_offset);
+> +		igt_assert(bo_cpu_addr);
+> +
+> +		// Create the BO to receive the result of the store.
+> +		memset(&bo_create, 0, sizeof(bo_create));
+> +		bo_create.size = 4096;
+> +		bo_create.flags = 0;
+> +		bo_create.exclusive_vm_id = vm_create.id;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create), 0);
+> +		igt_assert(bo_create.handle != 0);
+> +		result_bo_handle = bo_create.handle;
+> +
+> +		// Also bind the result BO.
+> +		vm_bind_op.flags = DRM_PANTHOR_VM_BIND_OP_TYPE_MAP;
+> +		vm_bind_op.bo_handle = result_bo_handle;
+> +		vm_bind_op.bo_offset = 0;
+> +		vm_bind_op.va = INITIAL_VA + 4096;
+> +		vm_bind_op.size = bo_create.size;
+> +		vm_bind.ops = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &vm_bind_op);
+> +		vm_bind.vm_id = vm_create.id;
+> +		vm_bind.flags = 0;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind), 0);
+> +		result_gpu_addr = vm_bind_op.va;
+> +
+> +		issue_store_multiple(command_stream, result_gpu_addr, 0xdeadbeef);
+> +		memcpy(bo_cpu_addr, command_stream, command_stream_size);
+> +		munmap(bo_cpu_addr, bo_create.size);
+> +
+> +		queue.priority = 0;
+> +		queue.ringbuf_size = 4096;
+> +		queues = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &queue);
+> +
+> +		group_create.queues = queues;
+> +		group_create.max_compute_cores = 1;
+> +		group_create.max_fragment_cores = 1;
+> +		group_create.max_tiler_cores = 1;
+> +		group_create.priority = PANTHOR_GROUP_PRIORITY_MEDIUM;
+> +		group_create.compute_core_mask = gpu_info.shader_present & 0x1;
+> +		group_create.fragment_core_mask = gpu_info.shader_present & 0x1;
+> +		group_create.tiler_core_mask = gpu_info.tiler_present & 0x1;
+> +		group_create.vm_id = vm_create.id;
+> +
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &group_create), 0);
+> +		igt_assert(group_create.group_handle != 0);
+> +
+> +		syncobj_create = (struct drm_syncobj_create){
+> +				.flags = 0,
+> +		};
+> +
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_SYNCOBJ_CREATE, &syncobj_create), 0);
+> +		syncobj_handle = syncobj_create.handle;
+> +
+> +		sync_op = (struct drm_panthor_sync_op) {
+> +				.handle = syncobj_handle,
+> +				.flags = DRM_PANTHOR_SYNC_OP_SIGNAL,
+> +		};
+> +
+> +		queue_submit.syncs = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &sync_op);
+> +
+> +		queue_submit.queue_index = 0;
+> +		queue_submit.stream_size = command_stream_size;
+> +		queue_submit.stream_addr = command_stream_gpu_addr;
+> +		queue_submit.latest_flush = 0;
+> +		queue_submits = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &queue_submit);
+> +
+> +		group_submit.group_handle = group_create.group_handle;
+> +		group_submit.queue_submits = queue_submits;
+> +
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_SUBMIT, &group_submit), 0);
+> +
+> +		wait = (struct drm_syncobj_wait) {
+> +			.handles = (uint64_t)&syncobj_handle,
+> +			.count_handles = 1,
+> +			.timeout_nsec = INT64_MAX,
+> +			.flags = 0,
+> +		};
+> +
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_SYNCOBJ_WAIT, &wait), 0);
+> +
+> +		bo_mmap_offset = igt_panthor_bo_mmap_offset(fd, result_bo_handle, 0);
+> +		result_cpu_addr = igt_panthor_mmap_bo(fd, result_bo_handle,
+> +						      bo_create.size, PROT_READ | PROT_WRITE, bo_mmap_offset);
+> +
+> +		igt_assert(*(uint32_t *)result_cpu_addr == 0xdeadbeef);
+> +		munmap(result_cpu_addr, bo_create.size);
+> +
+> +		syncobj_destroy.handle = syncobj_handle;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_SYNCOBJ_DESTROY, &syncobj_destroy), 0);
+> +
+> +		group_destroy.group_handle = group_create.group_handle;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_DESTROY, &group_destroy), 0);
+> +
+> +		vm_destroy.id = vm_create.id;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy), 0);
+> +
+> +		gem_close.handle = cmd_buf_bo_handle;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_GEM_CLOSE, &gem_close), 0);
+> +
+> +		gem_close.handle = result_bo_handle;
+> +		igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_GEM_CLOSE, &gem_close), 0);
+> +}
+> +
+> +	igt_fixture { drm_close_driver(fd); }
+> +}
+> diff --git a/tests/panthor/panthor_vm.c b/tests/panthor/panthor_vm.c
+> new file mode 100644
+> index 000000000..1b641b601
+> --- /dev/null
+> +++ b/tests/panthor/panthor_vm.c
+> @@ -0,0 +1,80 @@
+> +// SPDX-License-Identifier: MIT
+> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
+> +
+> +#include "igt.h"
+> +#include "igt_core.h"
+> +#include "igt_panthor.h"
+> +#include "panthor_drm.h"
+> +
+> +igt_main {
+> +	int fd;
+> +
+> +	igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
+> +
+> +	igt_describe("Create and destroy a VM");
+> +	igt_subtest("vm_create_destroy") {
+> +		uint32_t vm_id;
+> +
+> +		igt_panthor_vm_create(fd, &vm_id, 0);
+> +		igt_assert(vm_id != 0);
+> +
+> +		igt_panthor_vm_destroy(fd, vm_id, 0);
+> +	}
+> +
+> +	igt_subtest("vm_destroy_invalid") {
+> +		igt_panthor_vm_destroy(fd, 0xdeadbeef, EINVAL);
+> +	}
+> +
+> +	igt_describe("Test the VM_BIND API synchronously");
+> +	igt_subtest("vm_bind") {
+> +		uint32_t vm_id;
+> +		struct panthor_bo bo;
+> +		uint64_t bo_size = 0x1000;
+> +
+> +		igt_panthor_vm_create(fd, &vm_id, 0);
+> +		igt_assert(vm_id != 0);
+> +
+> +		igt_panthor_bo_create(fd, &bo, bo_size, 0, 0);
+> +		igt_panthor_vm_bind(fd, vm_id, bo.handle,
+> +				    0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_MAP, 0);
+> +
+> +		igt_panthor_vm_destroy(fd, vm_id, 0);
+> +	}
+> +
+> +	igt_describe("Test unbinding a previously bound range");
+> +	igt_subtest("vm_unbind") {
+> +		uint32_t vm_id;
+> +		struct panthor_bo bo;
+> +		uint64_t bo_size = 0x1000;
+> +
+> +		igt_panthor_vm_create(fd, &vm_id, 0);
+> +		igt_assert(vm_id != 0);
+> +
+> +		igt_panthor_bo_create(fd, &bo, bo_size, 0, 0);
+> +		igt_panthor_vm_bind(fd, vm_id, bo.handle,
+> +				    0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_MAP, 0);
+> +		igt_panthor_vm_bind(fd, vm_id, 0,
+> +				    0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP, 0);
+> +
+> +		igt_panthor_vm_destroy(fd, vm_id, 0);
+> +	}
+> +
+> +	igt_describe("Test unbinding an address range that was not previously bound");
+> +	igt_subtest("vm_unbind_invalid_address") {
+> +		uint32_t vm_id;
+> +		struct panthor_bo bo;
+> +		uint64_t bo_size = 0x1000;
+> +
+> +		igt_panthor_vm_create(fd, &vm_id, 0);
+> +		igt_assert(vm_id != 0);
+> +
+> +		igt_panthor_bo_create(fd, &bo, bo_size, 0, 0);
+> +
+> +		/* This was not bound previously*/
+> +		igt_panthor_vm_bind(fd, vm_id, bo.handle,
+> +				    0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP, EINVAL);
+> +		igt_panthor_vm_destroy(fd, vm_id, 0);
+> +	}
+> +
+> +	igt_fixture { drm_close_driver(fd); }
+> +}
+> -- 
+> 2.51.0
+> 
