@@ -2,174 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2B0B9F0C2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 13:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FCEB9F0EA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:01:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C3510E27D;
-	Thu, 25 Sep 2025 11:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FFFD10E2B6;
+	Thu, 25 Sep 2025 12:00:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="Z3wGdH2F";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="i9KKXRdI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11021105.outbound.protection.outlook.com
- [52.101.65.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E0F10E27D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 11:58:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ybMd0H2RoE3cS55qi1Sq9kORJAtGHG+vYdJ1SpJFBXdVmXDdaH3n6jfUP975F//R0MHG1u71EEROJiLoXbvgNNn8wiiNSzaHEPc/D1W9mWTC9QJMZ4HzZIAxVqnI7hjMniAJcsAd/fAnhLrKoFKq0YLcCrfcBfouiB0djy+o3r2YmJElNmoGA6NgKPM67psz3cDjBg5gWy1yqiBHLhQKA/DAN4nuXlRShIMDcX4FlPim1safnvWERrpGfTV/R2yEfECe3gkePqYQY5rluLPmGD93kh6miWIaTPekPwXVfoNKWhtyRR3rEiEjCijaDwgGlil0m1M43h7R6+SOm/KwRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A07kNrobvLfP0Xsb8shg4regBg7OXHLjrdu2+mavTsA=;
- b=aqW+Z1tJuJrtH5KMU4mYke1LGO3wfviGaCmouDXwrqdPht9qicFTsJ/9VO8Kkhf7pJuur930BI0YD7Dftzv0g9R6y7jJMjsi4LiQuM1cv2lNo8Hj5wUMSaRJyEI9fbefuC53BxX3KIYznaY8yn9Ei51WNgpAXojxGNPmVdoURx6feB6jpNp6Wqm7MW7HB40+wt14rIMjJTeQseavDrzIXX9hyUyS1Uk1cs9F5sjEQm29WC3U9oiGAgoVIe+DCqEeM7XoEZhDfXf2m8L83qrXAHzElQyOLzFUxdbN9uB4ct5FIlIOlyscbaZgIcU9CkXZZOtL8YE5oDf/pkZbUNRJgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=phytec.de; dmarc=pass action=none header.from=phytec.de;
- dkim=pass header.d=phytec.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A07kNrobvLfP0Xsb8shg4regBg7OXHLjrdu2+mavTsA=;
- b=Z3wGdH2FcCmEcSFNBpJbtV0rzQXk786TdzI2JN3mIJ6sViQDq2NEP6P/Koq1TkZTM+zctO/B0uon8Ln43/ASY035oWBAwM9MPGkXgiwP6yezNmI8vo6/pTxPmsYaJjBEJ+PpJDuUM7aYYQgIu0aL56+lUgyfeltE3Q80EOId6A1wxifiKcXyuQQUiMYnQpn+KtCOGtN8gVw5h8Xoppwe3ipIaPH3Z4JlGpBeOB9qoxd7ubbmWffXZUERFHSKevgnT49SgBK6N5+gnUgnaSbp8otWcAt4Hg7ar+9JHIcDymdqmUHSgcYz33zI0hOsKt3PVVCB0YxxfKv6wfQSf6YDlw==
-Received: from DU0P195MB2325.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:425::22)
- by AM4P195MB3108.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:6e2::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Thu, 25 Sep
- 2025 11:58:22 +0000
-Received: from DU0P195MB2325.EURP195.PROD.OUTLOOK.COM
- ([fe80::ce58:6abc:a395:f7c4]) by DU0P195MB2325.EURP195.PROD.OUTLOOK.COM
- ([fe80::ce58:6abc:a395:f7c4%7]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
- 11:58:21 +0000
-From: Jan Remmet <J.Remmet@phytec.de>
-To: Marek Szyprowski <m.szyprowski@samsung.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
- Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Aradhya
- Bhatia <aradhya.bhatia@linux.dev>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, Dmitry
- Baryshkov <lumag@kernel.org>, Alexander Sverdlin
- <alexander.sverdlin@gmail.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "upstream@lists.phytec.de"
- <upstream@lists.phytec.de>
-Subject: Re: [PATCH RFC 2/2] drm/bridge: samsung-dsim: move clk setup to enable
-Thread-Topic: [PATCH RFC 2/2] drm/bridge: samsung-dsim: move clk setup to
- enable
-Thread-Index: AQHcLhCfEKqot/mr/kKB6aO0piyuFrSjyFEAgAAC7oA=
-Date: Thu, 25 Sep 2025 11:58:21 +0000
-Message-ID: <9f3b697a-b4eb-452e-b6fe-fa7cfef2a3be@phytec.de>
-References: <20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-0-94f9f775ee62@phytec.de>
- <CGME20250925113632eucas1p2c49ddb268d3e4e9d3ae226b87bd89c03@eucas1p2.samsung.com>
- <20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-2-94f9f775ee62@phytec.de>
- <6c7cdef8-f912-4147-a4a2-641070a478e8@samsung.com>
-In-Reply-To: <6c7cdef8-f912-4147-a4a2-641070a478e8@samsung.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=phytec.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU0P195MB2325:EE_|AM4P195MB3108:EE_
-x-ms-office365-filtering-correlation-id: 9cf60314-ae61-4cf4-c4ec-08ddfc2ad334
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|921020|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?VTRibGk1ZEpHSWVEejZVTGhycVJPWmNveFVpVFdqYXV6MkYza3JWcElBNUhQ?=
- =?utf-8?B?L1lMd1JJRGtYQVlpL0VyYmgxbGR5bDlJOFh0L0srOSt4RjFiVTVnRzRtMUtn?=
- =?utf-8?B?RmVzYm5QQ3FORGFuOU1YVFExaDlQaWZRT2RVallFcDBEZFpGK3BQZzdjc2FU?=
- =?utf-8?B?VFV6NU9PVnUrZFlYaEFpbXVyYkhDSWF0NHZGTWxaWUhBL0xJYXhoZzFEZ1pl?=
- =?utf-8?B?WHlEV2QrSlQ2SWRQUDg3UFFvYkxHTTFjUGh4bHRrMk5XVDV0UkpYMis4K0Vp?=
- =?utf-8?B?RnJWM1lUN2pMQUF4K2k1cG1sK29DZWE5V3V1MDJabnV2bytFZkZ0ZEM4MGhk?=
- =?utf-8?B?ZzJXMkVYTUtaTCtuR0lMckJMQUZ2VjZkQnpWMGJud2hmdUtwdXNNdDRZUVVi?=
- =?utf-8?B?NnpGdDBMVHRNNkNwaEQwQ0p4emRqTTdTWGtqQzNSalQzaVFLSXNmUS9Kampw?=
- =?utf-8?B?ajg1TmQ0bm14ZlkyL0J4NEVEdGNGWHFxSFdNdVJ6R3l6Qm1jZ0t0WmJocFZm?=
- =?utf-8?B?NGlaNkpuc0xxalhmajBQWmhZZHhxOTViZWdUQlBINjB2Skp4ME1tVDFFaXBV?=
- =?utf-8?B?cXRhVEFRQUg1UzhiKzBEa1JRU2FEVnJWM0hqdWdYM2p4SW9PYkl2RStqeDF3?=
- =?utf-8?B?SmZIb2NvdmR6NFAzUTkwbFlrTnhPR2NhNTBvaDB4WlZVTmtyY3cwdlZ5Wlhy?=
- =?utf-8?B?dXNqS0dNOXhUc2Y3Zk02aEREVTVMYnE5R0NNb3RmMDdhalUrMldwcmx6U1FC?=
- =?utf-8?B?Nkxvc3AxNmlYaXAwWlVwMExxNDloZzQzUTZIWm9UWHVCeTl6NXZvK29tdTNS?=
- =?utf-8?B?aldwbFg2OHpQaTRsUVNSYlNISUQrRXBCNTBOUy92WG1vMk12QUx2bEpnNXB2?=
- =?utf-8?B?NUVZcmlDcnNEc2lTdG9LWEhoZ210L3Fwcy8xa2FibnVkMVBKK1l5Nkg2U1Yy?=
- =?utf-8?B?RmlsSGFNWGdIaG5VcnExUUdFeDBDYURvUXJ2Q3ZxclBPbUJtRUNaYktHMGpo?=
- =?utf-8?B?eEVuZWhkamJYVUcyV2x4aHJnNk1HOXRXajVoc1U4S2hBRnNWYkx1Q0NoSzdQ?=
- =?utf-8?B?d3J5cDc0aGxVUW1kRGZTOGRnZWpPU1dMN00rdVpDNGxZcmI1VWVNVWtCcnVB?=
- =?utf-8?B?TDdqblA5NGtJYnpRTkxVbFpmQnZVSWM1RzRHb2NBUDRhRGJBVERWVFFzRUZj?=
- =?utf-8?B?R01JdTE0ci96aGVkRllLVExlSEkvS3E2WTRPS1ZjYzBua3h4TE5TTm9NOHRV?=
- =?utf-8?B?Qk05WVdyZ04yNjlpZzAvbUhCWXhqZDhDckhhWVNqb2ZqNjNxVnFqY2VheW9W?=
- =?utf-8?B?US82U09wa1BHRnpnb01PbmJYanlVajVlZDNGUm83OUZhOGNBVGNmbDBPbmxY?=
- =?utf-8?B?dUlma21PTXVaOHZWM0lZQlpmcFgyTStHUFc3Y3hWeVJPL2F6d01UM3ZTaURl?=
- =?utf-8?B?VWVLd3dRM0ZHTVVpa1N0ck5CUmFpeW9IOHFRc01hQ0tDbTloMmhSd2pGcUZY?=
- =?utf-8?B?L3QvUG1IR056VVU3S3FHY1NoeTV2SHkxSDA2Y0REckovcU1kYWpFSEl5b2FE?=
- =?utf-8?B?UzdYblJEZG5jeUlxR1FTVnAyVlIxOXVhZlhRbDBJbUNEYWg2akdkRGNYK1Ar?=
- =?utf-8?B?SFMvWnYxK0xzSUlKR0dWeUQ0dzVCMzBiT2ZHRTBrMTFIdTZiNG9wRitZMWVV?=
- =?utf-8?B?YkNqaTc5Q3l5UzNwOWlvWHVQUnpZcTZTTlcwb1E2SmxTU0d6TUdham9vQWN3?=
- =?utf-8?B?YjZDNWl3MUpFMHBHdmJpaGFuOXJhMU9XQ3JSdUlMaGp3djBNTHVWUjg5VzIy?=
- =?utf-8?B?RnUwZHA4bzExYUNraVZFOWRFVGFVbTV2dHQ3N1YxWDF5ZDhXTGNrd2JpM1oy?=
- =?utf-8?B?Vi9lUTErK0VNbUpTMHF4OTJTTXh0SklnMUNORUNid0h1L1lxQ3JDSHdtK041?=
- =?utf-8?Q?wuBGZaBpAnEre9SbFJp4pXSGGKdQ9Eav?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU0P195MB2325.EURP195.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(38070700021);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WG16bStBUDM3bE1YbFZ1bTJjQ1RPZGsvVU5BNkowUUErK2Nhc1haOW84SnNP?=
- =?utf-8?B?cjZhV0xJMkhhUjh1RjkyVjF1OFM5c3BuVGx3Z3NxbE1tcDNidG1IcisvbVdv?=
- =?utf-8?B?STFLRG5XcUVjN09KQlVuelMzQTk3K2RzMHdaRExOWCtGblV1RkZuQWJWU01D?=
- =?utf-8?B?aWY3WVcxNHFJQ3c0VURNSDVHZEQ3Ly9GMkFoZ05YeGhtRk9rTmdqR05qZmRh?=
- =?utf-8?B?NEpRc1pBa0NUYjVuaUpqckxJLzFEcmJnSVlIZlFkYVdZb01FdUJNQVlyOEY4?=
- =?utf-8?B?dHdXUi95OEd3a2hFWmxTTks4U3F6cURiMXpTWnhFalFZRXd0TVBYblZ2RkQ4?=
- =?utf-8?B?UVdJWXVlYm5nWkl6Y0dNRUxrcEQ0bnpGekg2VUlvcDkvK2JBZ0FlNStudm13?=
- =?utf-8?B?VmNKYmdvdThuMWRwSzJSSGZxdEZiNEVxQ1lDRVBla3pYZU5sQmEvOW85ZVgz?=
- =?utf-8?B?RTczMDMwZlRWR2FhbTZrN0NVbEhPYW5RaXNkSm84T2hWa0NoYWEyNkxxSkZt?=
- =?utf-8?B?TS9yVzVORHA2NW9Nem81OWRNdkxRdUs3UTN1L0I5QTVHVXpwR2N6SDVKVXpQ?=
- =?utf-8?B?eUViajZlMGltanlJcVFKc2ZqUTI1LytzK1o4WERFWXZUWDZ2b1RLNzVodEF0?=
- =?utf-8?B?SEN2RXpuUEFZaVZDL2NqMWRDZmFubmZuUC9XUFdhNTBMNmtOL0JXa0tkSWk5?=
- =?utf-8?B?WjE4MUdCVjcyNERrdFJzZFM0RVl6L3g5OThpNERCTll0amVLNEFncVlUYVYr?=
- =?utf-8?B?bDAwRkN5UlNwT0ZoTTdsbmcxZ2NrQ1JRayt2VEI5MXVSMFhzUVloRkRpOWZj?=
- =?utf-8?B?bE9CZVpsU01tU0V1WURiaGw5MUs5cjJ5MnRPbGFwMkg4aHJDZ1V4bnhhK0VX?=
- =?utf-8?B?R0VuK0lnRnlwdFZER2ZTaEF1UWZhUXYxZ3JiVEg1bm1USGtuQktSWEVrRjVm?=
- =?utf-8?B?WVdsUzh0TnN1NUZtb1RuWGpjU3F1UloxYTRTd3hQZ1hvOElPNzZhOHluckln?=
- =?utf-8?B?dGY4YXVYVmR1bi9ML29DNXZDRFdIWWR5enVEcmNlWkJsMGtZNnYwQzBUbmxD?=
- =?utf-8?B?S3FCVm1CVUErRWtsak8xa2FUWDkveUpHWm9hOStTOXFVOWowUlhXR3pKMHlS?=
- =?utf-8?B?aUZqQzAyVnJsOWNkVHc5V1VhQ3NJanhvUlJSeDFZTnB3eG9vczlZQllxelQ1?=
- =?utf-8?B?RVp3S3pkNDhFVmdZd1RtbzIxVmlwVmFtUGdZT2tmMkk1MjN5d0gwY21rdm9U?=
- =?utf-8?B?UUcrN3ljZkIxNzZsM2xjazJEdkRoZWFYbHN3T1BZVU5iT1krSUh4M0hPZ2lh?=
- =?utf-8?B?YnlldnkyRnA3MGNmMHJ3VmVrZlJteFNYMm1TaUZVUEdSSmZuaERremxwWnRF?=
- =?utf-8?B?dHpxZ3FOZGlZUG1FSk1MR29heU1CNjNLSEJlWVdBaGFYa3pUUDdMV3QrZ3hL?=
- =?utf-8?B?b0xWd3F2WklDNXhhTnk0RGcvTTJ2cCtSaHluaSthSlZMZWp0RmxFajhXUk50?=
- =?utf-8?B?V1NkQS8walVyaXFON3JQSWY2eGJBZmhCcVNFWVcrQ2J0NndpemswRHR2SXVj?=
- =?utf-8?B?NmxVbzJNbGdFQmZtMWRsc0xXdi9YdGk5UUdjTjFTeFJtZkc0Z0lPdHg3aWJZ?=
- =?utf-8?B?YytlZ1ZuekV1M2ptTy9OcWVrb3JrdXFWTEt3ZlQ1bEZQdEJReklvcW1xb29l?=
- =?utf-8?B?anVDc2NYNmlCVkM1SWkzUkJUVWtYeVFOQWl0bmh3eXhDaHUzVHV5WUQ2cGE4?=
- =?utf-8?B?dUQ1ZUlXTXlKbTA1MzVWYmlKam8rNTVWbTZENDZxREpBVHU5NHA5YXBLOGFL?=
- =?utf-8?B?UDZmbTlrK2t1Vk1ZVFZSY3NkWGMzODN6VUVuTXE1K2xKWllkWDk5emtkRlJI?=
- =?utf-8?B?VjNHV25NVythWlUvQy9IRTdnZEkwNkNqbnBwYkpZb3pucUtuc1pCUVprTXJq?=
- =?utf-8?B?N3dlaUdVR20vWXAyZGFhY2NMd2hZZlVPTjUyOXlNc2J5R2gwM2F0Uk5SSGs3?=
- =?utf-8?B?V25TeHhKekcvbmVzQk1hUDQ5TjFuVjdJRUVJT2k1cGMyeTFheVNNRklYRVdH?=
- =?utf-8?B?YWM5NjM1dEMvc3g1Ykp3VjhtaDZwWFRqVmRxMnBaTzhQaXJ4WUF4VG9BWGNU?=
- =?utf-8?Q?isdfVRWLjdxExW88MowhXxrAk?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9A6A962111B87148ABE3C4198D7F987E@EURP195.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2917510E2B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:00:58 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P9jkNU023773
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:00:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=Ibi4SnoGMV8sI9OUOF4j1A9snxHLAbs/hnY
+ dDBg+Vjw=; b=i9KKXRdI58COK8vJctc3V1u2NMDiPYXT/9aK84O7uzmmbrZW7+u
+ I0HdUNw274w8+Hae2C+FWKbMlHMhFf7hrXRxNu7mzdcbUQtq7tmoxrDPcqe5iig0
+ azgg2YxMyUDw3+7vrl/k0tcQac2fmgT+H0zrxKw45GAM/FKStn+CFBx2zItqmsNS
+ 37bbWBK0YzqCNkPXDm1CJoDT12pJOlrc6nZoA1fazHzv9wmcAlmPYkWbEA7sz9sv
+ ujslBadeGgcRq9OorZZUDgVBskSJHL2YQohthCtEwEFrocnU4Ubm/EO5i7cuhHC2
+ XkthclIt4srpiby65SNo7RjZwqBi5xRDg6A==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bwp0f0qc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 12:00:56 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-277f0ea6fbaso11099275ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 05:00:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758801655; x=1759406455;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ibi4SnoGMV8sI9OUOF4j1A9snxHLAbs/hnYdDBg+Vjw=;
+ b=fLefnzo2ikhlasZ5BUz6idn7FKI39lGgEYVkA63V33JqjHieijBBn2k7Lom8IYcLtF
+ MHJgg3sB+5BltVwYJfme3FO0cZ0z67Ef+3AEwJ4t0/7yxAgDWvVuLn0WdrF0q9s6nlxh
+ pn2ADfzP1jn8+e9WBzDITE6yy7zUK0ssYIXQ1lvC4DENMYpRtvSqyvOjvOwS8iZFp1HU
+ WXgnp1pu6lrNlm0UEOX4krE8MPkqz78zpJO90icXpoU9b0cXsAd12iv9npjsCkjNq/E3
+ RG2OEw3KWdU0LYd1usxy+o5Dhaia10t8UEYdRSy/v3pFayJIaXrfdjtCzTrDRWfYujlo
+ 8ffg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXzQuFzvrlNls8ft0XO6ManXU2fwgpvlR8b3M/IwIJhaOxuFkzEeheUtdBXTpORKbZiQcT17XSGQIs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYjnEtPMMQhuDyPZX7KNF5djhjKB2dUq8gVXa/JdBL6Pc84BV5
+ 7vwT98Cz8TBQcAupOZMFDJLhJhJlVZuP7gRvSXU5L6sNPAnlxA0pkDJs7116FiYAhCGNT6jJnMM
+ kBwVtvMvVzj9vKobzv+xdCCo124d94ilJ0VF7g7CDiyoZaPQYnLqJW1VSBw2QKdgtNbFjBpnjwm
+ LKM4w=
+X-Gm-Gg: ASbGnctSHmHlsyA9z5EdKDF2k9bCN5yHIB2HvQZldhuwA6i0N6wasHq3CHThF3xhT3z
+ AMVfTK4Ww1aoodEDutOHdj1zAXRKFT0a4AuIwTcLZyvCZxk7+g558YPwdIu+H5jT1eAkBbWYNh0
+ Rsc7Xg9zIkZMsOtHEb9VrL9HZVEiEd+Oc89EN6j84B37J0xEwtTLc0xWtTBDa3bPG+NGaQOU3cV
+ mnnVK0Ai1wn/+9rZRTHzjN1UyTx9AGnybaZGK21JidMt4bAB/uGC3gnivWnap+DHaEkmJr6ymKh
+ +jNlyXkLy7VOcgEnzernxdKj9/NXlMQTPv8lc/xMKxhOBfwDDbzsa0oAcY2YCRQxGM0knwh+NSc
+ =
+X-Received: by 2002:a17:902:ecc3:b0:269:4759:904b with SMTP id
+ d9443c01a7336-27ed4ade041mr36647765ad.58.1758801654956; 
+ Thu, 25 Sep 2025 05:00:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEnXD2mZAewf9zy3BLbepfrjU+YGJ4Cp4RyCyDnMr5leVblOCnWiw4Ra971I5AdyuLPIQ+vrw==
+X-Received: by 2002:a17:902:ecc3:b0:269:4759:904b with SMTP id
+ d9443c01a7336-27ed4ade041mr36646315ad.58.1758801653319; 
+ Thu, 25 Sep 2025 05:00:53 -0700 (PDT)
+Received: from hu-jseerapu-hyd.qualcomm.com ([202.46.22.19])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-27ed69a9668sm22266585ad.112.2025.09.25.05.00.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Sep 2025 05:00:53 -0700 (PDT)
+From: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>
+To: Vinod Koul <vkoul@kernel.org>,
+ Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+ Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+Subject: [PATCH v8 0/2] i2c: i2c-qcom-geni: Add Block event interrupt support
+Date: Thu, 25 Sep 2025 17:30:33 +0530
+Message-Id: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0P195MB2325.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cf60314-ae61-4cf4-c4ec-08ddfc2ad334
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2025 11:58:21.8387 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PuY6laNEdDtm8My49RNMbtF+k/rhDJAQ8J7EserZqx5QI0pRkoByI+iYb7ma7xpjTdXA2xG8m5QxG4FmMqvgag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4P195MB3108
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=KNxaDEFo c=1 sm=1 tr=0 ts=68d52ef8 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=AcHsLZsjNhMhd8_3HEgA:9
+ a=GvdueXVYPmCkWapjIL-Q:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: IZ1L4LcYx4ZyS8zUCZ7pt7d-xbjfuQoJ
+X-Proofpoint-ORIG-GUID: IZ1L4LcYx4ZyS8zUCZ7pt7d-xbjfuQoJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDEzOCBTYWx0ZWRfXyRHm2g8he8t5
+ YsFx2Ftx2BZ4Lzvg3F2ZBCNujq99bjYmQyk6MJIMaQ0/1fqz0Ca4C3OErlxJ2a8xCJEa/ZoHWsx
+ 6Dr++vZr9fPzbkfTUk/Ua1VZA0P2LEId618pBg2E8JUffxMRPrYmdfIDc9WCsV/1x85rBPC7K7S
+ ffuM+S7rTOYLmJcabwrYD+cJQhvlblPZHLQszti8jprSTDHrodaDIqurgfYEy9EtT08BpAvqps3
+ wss1sg/W/QM8jZbOZOfR/rgW0mRoNotanCEX5fHqbHMmTiVRkSrOVobLcevCw3ATfBttfCpp7Ba
+ Z1//oLCWBJBruxJU3HFUeeqW6ox0EEKErmuqLzFaUupSwwk1j3XIpKu95gQwNkWA09qbEiesTaQ
+ WwL1iOQM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-25_01,2025-09-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 phishscore=0 suspectscore=0
+ adultscore=0 bulkscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509230138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,44 +124,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjUuMDkuMjUgdW0gMTM6NDcgc2NocmllYiBNYXJlayBTenlwcm93c2tpOg0KPiBPbiAyNS4w
-OS4yMDI1IDEzOjM1LCBKYW4gUmVtbWV0IHdyb3RlOg0KPj4gTW92ZSB0aGUgc2Ftc3VuZ19kc2lt
-X2luaXQgYW5kIHNvIHNhbXN1bmdfZHNpbV9lbmFibGVfY2xvY2sgdG8NCj4+IHNhbXN1bmdfZHNp
-bV9hdG9taWNfZW5hYmxlLg0KPj4NCj4+IFRoZSBiYXNlIGNsb2NrcyBtYXkgbm90IGJlIHJlYWR5
-IHdoZW4gcHJlX2VuYWJsZSBpcyBjYWxsZWQuDQo+Pg0KPj4gY29tbWl0IGM5YjExNTBhNjhkOSAo
-ImRybS9hdG9taWMtaGVscGVyOiBSZS1vcmRlciBicmlkZ2UgY2hhaW4gcHJlLWVuYWJsZQ0KPj4g
-YW5kIHBvc3QtZGlzYWJsZSIpIHBvaW50cyBvdXQgdGhhdCBwcmVfZW5hYmxlIGhvb2sgZGVmaW5p
-dGlvbiBzYXlzIHRoYXQNCj4+ICJUaGUgZGlzcGxheSBwaXBlIChpLmUuIGNsb2NrcyBhbmQgdGlt
-aW5nIHNpZ25hbHMpIGZlZWRpbmcgdGhpcyBicmlkZ2UNCj4+IHdpbGwgbm90IHlldCBiZSBydW5u
-aW5nIHdoZW4gdGhpcyBjYWxsYmFjayBpcyBjYWxsZWQiLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6
-IEphbiBSZW1tZXQgPGoucmVtbWV0QHBoeXRlYy5kZT4NCj4gDQo+IElzbid0IHRoaXMgc2ltaWxh
-ciB0b8KgdGhpcw0KPiBwYXRjaMKgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjUwNjE5
-LXNhbXN1bmctZHNpbS1maXgtdjEtMS02YjVkZTY4ZmIxMTVAaWRlYXNvbmJvYXJkLmNvbS8NCj4g
-Pw0KDQpJbmRlZWQgdGhhbmtzIGZvciBwb2ludGluZyB0byBpdC4gSSdsbCB0cnkgdGhpcyB0b2dl
-dGhlciB3aXRoIG15IA0KdGktc242NWRzaTgzIGNoYW5nZXMgYW5kIHNlbmQgYSBUZXN0ZWQtYnku
-DQpJIHdvbmRlciB3aHkgaXQgaXMgc3RpbGwgb24gdGhlIGxpc3QuDQoNCkphbg0KPiANCj4gDQo+
-PiAtLS0NCj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2Ftc3VuZy1kc2ltLmMgfCAxNCAr
-KysrKysrKy0tLS0tLQ0KPj4gICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNiBk
-ZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
-YW1zdW5nLWRzaW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2Ftc3VuZy1kc2ltLmMNCj4+
-IGluZGV4IGI1ZGQ3MWY2YTk5MDU3ZDk4Y2YxNTA5MGY2MDgxZDA0NjA4MzZlYzUuLjUzY2UzMjI4
-NTg2YWMwZjZhYmZhMjUyYjdjMTVkOWViYTQ1OWM5NmMgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3NhbXN1bmctZHNpbS5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL3NhbXN1bmctZHNpbS5jDQo+PiBAQCAtMTQ2MCw2ICsxNDYwLDE0IEBAIHN0YXRpYyB2
-b2lkIHNhbXN1bmdfZHNpbV9hdG9taWNfcHJlX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJp
-ZGdlLA0KPj4gICAgCX0NCj4+ICAgIA0KPj4gICAgCWRzaS0+c3RhdGUgfD0gRFNJTV9TVEFURV9F
-TkFCTEVEOw0KPj4gK30NCj4+ICsNCj4+ICtzdGF0aWMgdm9pZCBzYW1zdW5nX2RzaW1fYXRvbWlj
-X2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLA0KPj4gKwkJCQkgICAgICAgc3RydWN0
-IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQ0KPj4gK3sNCj4+ICsJcHJfZGVidWcoIiVzIGNhbGxl
-ZCBmcm9tICVwU1xuIiwgX19mdW5jX18sIF9fYnVpbHRpbl9yZXR1cm5fYWRkcmVzcygwKSk7DQo+
-PiArCXN0cnVjdCBzYW1zdW5nX2RzaW0gKmRzaSA9IGJyaWRnZV90b19kc2koYnJpZGdlKTsNCj4+
-ICsJaW50IHJldDsNCj4+ICAgIA0KPj4gICAgCS8qDQo+PiAgICAJICogRm9yIEV4eW5vcy1EU0lN
-IHRoZSBkb3duc3RyZWFtIGJyaWRnZSwgb3IgcGFuZWwgYXJlIGV4cGVjdGluZw0KPj4gQEAgLTE0
-NzAsMTIgKzE0NzgsNiBAQCBzdGF0aWMgdm9pZCBzYW1zdW5nX2RzaW1fYXRvbWljX3ByZV9lbmFi
-bGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwNCj4+ICAgIAkJaWYgKHJldCkNCj4+ICAgIAkJ
-CXJldHVybjsNCj4+ICAgIAl9DQo+PiAtfQ0KPj4gLQ0KPj4gLXN0YXRpYyB2b2lkIHNhbXN1bmdf
-ZHNpbV9hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsDQo+PiAtCQkJCSAg
-ICAgICBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpDQo+PiAtew0KPj4gLQlzdHJ1Y3Qg
-c2Ftc3VuZ19kc2ltICpkc2kgPSBicmlkZ2VfdG9fZHNpKGJyaWRnZSk7DQo+PiAgICANCj4+ICAg
-IAlzYW1zdW5nX2RzaW1fc2V0X2Rpc3BsYXlfbW9kZShkc2kpOw0KPj4gICAgCXNhbXN1bmdfZHNp
-bV9zZXRfZGlzcGxheV9lbmFibGUoZHNpLCB0cnVlKTsNCj4+DQo+IEJlc3QgcmVnYXJkcw0KDQo=
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
+
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
+
+Large I2C transfer can be divided into chunks of messages internally.
+Interrupts are not expected for the messages for which BEI bit set,
+only the last message triggers an interrupt, indicating the completion of
+N messages. This BEI mechanism enhances overall transfer efficiency.
+
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
+
+v7 -> v8:
+   - Removed duplicate sentence in patch1 commit description
+   - Updated with proper types when calling geni_i2c_gpi_unmap() inside
+     geni_i2c_gpi_multi_desc_unmap().
+
+v6 -> v7:
+   - The design has been modified to configure BEI for interrupt
+     generation either:
+     After the last I2C message, if sufficient TREs are available, or
+     After a specific I2C message, when no further TREs are available.
+   - dma_buf and dma_addr for multi descriptor support is changed from
+     static allocation to dynmic allocation.
+   - In i2c_gpi_cb_result function, for multi descriptor case, instead of invoking
+     complete for everry 8 messages completions, changed the logic to Invoke 'complete'
+     for every I2C callback (for submitted I2C messages).
+   - For I2C multi descriptor case, updated 'gi2c_gpi_xfer->dma_buf' and
+     'gi2c_gpi_xfer->dma_addr' for unmappping in geni_i2c_gpi_multi_desc_unmap.
+   - In the GPI driver, passed the flags argumnetr to the gpi_create_i2c_tre function and
+     so avoided using external variables for DMA_PREP_INTERRUPT status.
+   - Updated documentation removed for "struct geni_i2c_dev" as per the review comments.
+
+v5 -> v6:
+   - Instead of using bei_flag, moved the logic to use with DMA
+     supported flags like DMA_PREP_INTERRUPT.
+   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
+     function documentation.
+
+v4 -> v5:
+   -  BEI flag naming changed from flags to bei_flag.
+   -  QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+      file, and Block event support is checked with bei_flag.
+   -  Documentation added for "struct geni_i2c_dev".
+
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
+
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
+
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
+
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
+
+ drivers/dma/qcom/gpi.c             |  11 +-
+ drivers/i2c/busses/i2c-qcom-geni.c | 248 ++++++++++++++++++++++++++---
+ 2 files changed, 233 insertions(+), 26 deletions(-)
+
+-- 
+2.34.1
+
