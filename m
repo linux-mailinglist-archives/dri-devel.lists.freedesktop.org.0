@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46166BA0341
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 17:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84DCBA034A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 17:18:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E90310E973;
-	Thu, 25 Sep 2025 15:17:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23EA110E976;
+	Thu, 25 Sep 2025 15:18:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GZHLtZEG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hma8i0oM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B82B10E966
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 15:17:41 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-57b8fc6097fso1344459e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 08:17:41 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6A910E966
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 15:17:43 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-5797c8612b4so1479107e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 08:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758813460; x=1759418260; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758813461; x=1759418261; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Fx8+4vdRQ/UAxNBt+6HBXITvbdfxM4xzJ6LhrqnP1X8=;
- b=GZHLtZEGg3ORxzym3WAz/5nDKeBmyzp0cFM8beNJmn6JoRrobvaDCMF2XELzNKzsve
- eE+ruOQIa47/smiIoJDpCk5fudXCPsvsqSjnl16a/RRcP5Y1q5c2f/972Gy7atlXD2co
- uVNJ/isT8J70Ne88fJuQkSGuq1JFsOsBgBr0zTJovbH1OmcqjoMPcMTc1vJ2CKskVBB8
- UU71EeBNwcTpmXINPLZUtKdhOfC2J/GdABfcw1Eqsi8MGbBDtlNQmkKpCn69YRLktqcs
- L1KFAdUGyXqtvQj+WpxLp3pm5jAhsARY2VmTLB6cktbRlzJje2iafeobOCbNH9K7oS9k
- vhEw==
+ bh=PUp5v1UIpnZY/yoewRvmgW706IOEqdQHhaBwZbL9eqA=;
+ b=Hma8i0oM3WPjoPJF2c+9vPsDOkNYYss6EksfCjmyb0zAa4WPUD8E6aOnts6UufbA25
+ 4ifKE2/wqoey/q7mizlKk68KTqlzJwlu8YLljCQItPJ7ZOsaEDKBksBFXi5H32VZVl+e
+ w+i9TzYccs+6SVIkxKoVCW1okPFc+6JFZcGiusmR7SzWgSUqCieH+ZGfVzhkWpxJFtYp
+ keXQrDRFaYNj6lwee98cTDicuZSzUV5tygZHcJ3Hoo4kYiGUUCy+MqdUAh1LoOCnTzfm
+ lj4TqDL1sWzWPYjMYEijEAQgUGzNkLGkRzvWnu2z5il3QZyD/WQE1qo5vqDBJi3koypQ
+ rbEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758813460; x=1759418260;
+ d=1e100.net; s=20230601; t=1758813461; x=1759418261;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Fx8+4vdRQ/UAxNBt+6HBXITvbdfxM4xzJ6LhrqnP1X8=;
- b=FAugJB7ZzPJTG84a9rMCJM7rcOYZikhwCGolwqcuYBP5oDwAiK++BXIiNAjUL0LO2F
- HnSTnWTOZNa+Gyp2T6HjKUhSgOshdoz0pY0Fm46FOCICmUq6Khn3vPJdnaxdjHBmcrPZ
- tnlscoAGoTiHK91QOdZPD/d0FeOAdka7P1jEmSyEud6lHjucJmdmTpFX+ZzULoUyUUd4
- FDG6yeyuUV87Wmiam/1O2ra3nCOeRBCgIHTJ0Pf4kwqKczJHAHOFEwAjNw7HfHupBspu
- Iv/Z6iqsbcwwto6OX6ahcxW+PORuQV+APdhxKzq6eWXoiZuy+usL0D9zlHufi61mu0VK
- 7zHg==
-X-Gm-Message-State: AOJu0YzjRHmQtC6EbBBRJWaAqo7xMntqYlmc8HodtnKWart8GOdgAWRx
- 1jVc0UStp5ZteBVUuXbYd4jQ1hwgp9AO4o4hAxtJVhiLPnB1XA0VKGAz
-X-Gm-Gg: ASbGncvG9pTBoXVtHDOhma9SIS0taZsWzz/iVtY8ZFcWhge8iH9y5R9gNegzHS8wT4x
- pbRBjJN/MO89/vJG6+BaurwRcidAlknJnLQFmVib/2Gl9nya9iE+w00ntKBQk3WVmtzMi/3+7A+
- v2SpjpE4HjJ1Cq7tPT0BKXQQWZTdAg/pKBIwA74pLlzyzhJ3ow+m//z9K49TcYmAzFsu24Ceiyy
- seAZYJsLoyLOvH8d8y7pQh2EXxW8H+HLjXZ7n8wxjb4MxUCYwdsVsdZ9ZRjUplSIH/hZ3fzw4dm
- uuCSyDOK1/ukJ9Zpnw/a6W6ZL+Bz+px43W6Gkuf4JqzBIF94fOv7ocDRKNYs5GwOw5eSqtVADbF
- 70gx68ARWSbFz4zGvqliZ29Ow
-X-Google-Smtp-Source: AGHT+IEtsXlkJh4zDVIxsS8Hs/r9wYDKZCtJ2sfjXml1D1zv5EDl/W0Gpd3rSyCqcwLuY7gdFAOzVw==
-X-Received: by 2002:a05:6512:ea3:b0:57d:a69c:7083 with SMTP id
- 2adb3069b0e04-582d0c2a408mr1257970e87.24.1758813459477; 
- Thu, 25 Sep 2025 08:17:39 -0700 (PDT)
+ bh=PUp5v1UIpnZY/yoewRvmgW706IOEqdQHhaBwZbL9eqA=;
+ b=hP1rA5HcDTrmTnIyBNTyetel3e8SezMLfxtp9mwWxgCRjoYLCUGOJwUW2p0EO2gtAG
+ GMe5lotI5u2m9mQbZ3/Pk0d1qSSsk/SaxWPvj0SWHk+6flmgmwfzdoY2SPoeLZZj39o7
+ YiFMgGRaB62Kq99n6hfdJLVlphEOhLWiiawA01eueibQ/P9h3bhpgettDE/GCzhtAY8o
+ CGrLhIVZiaXd4kYh8TMUtwGgqFIq4m/GZ6+ohCdTtk5pap/8SvoxbOJf2gFHiYnN9/4h
+ /qKr8790v0yDo3/86DETo7FUI4DMamRPWNgVw0kFeA7KrdKKwKIvKeJUs/PbQeRupRDA
+ 2YOQ==
+X-Gm-Message-State: AOJu0YwozC3Zv5GZhRwEUJ96k7SpZAB+oKXy+lOrhJJHDXC1F7oXAW9O
+ GeE9owWy2/5p3Vmka68DmsgpxpY27cpjrI2e4S6IdrnAnfYmKLLD8HsZ
+X-Gm-Gg: ASbGncsXVHnAueq6T1WOGkiuEnqfUf6t7SaMcer7lKzKbTnw74fxFbpaRA0X2li0wmq
+ w5s6zsxTJEhWSznNYjqPc1IxJXn8knR0rRyj4ihRv67mnbva7R5sfZ4YuLAgznkl458dEHglNSE
+ cehbQBrXkX9OoiVC0y1EjE10m0y15r9lMq84rwVbjF/DG6Xdb+0E26CGJAJkzjIhox2JCF/WjTz
+ SsTRv2N10zM+FqHU7f7cS2zJQZprOjeEu8HIVX0/r5XWGc7ps1BPnEi7txzs+7IefiDJm8JqSFf
+ Q8p1wQgYdwBZmkx2A36YjdQCfm6DvO9ofNxVam8zOEXog58QKpI/+y/SH23pqt+V7BpUHqDw4Yw
+ ZZSuSRZ+N04J7fg==
+X-Google-Smtp-Source: AGHT+IHvquA0M+Xh1SpA+3oDLguKIe9WLFehMUyaGA/+DL5kSgZuWAoo44DRA7J3InsbPnIY3UchVw==
+X-Received: by 2002:a05:6512:2207:b0:570:b85:fa9 with SMTP id
+ 2adb3069b0e04-582d0c2a151mr1077864e87.13.1758813461247; 
+ Thu, 25 Sep 2025 08:17:41 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58313430496sm870084e87.27.2025.09.25.08.17.37
+ 2adb3069b0e04-58313430496sm870084e87.27.2025.09.25.08.17.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Sep 2025 08:17:39 -0700 (PDT)
+ Thu, 25 Sep 2025 08:17:40 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -86,10 +86,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v3 16/22] staging: media: tegra-video: tegra20: set VI HW
- revision
-Date: Thu, 25 Sep 2025 18:16:42 +0300
-Message-ID: <20250925151648.79510-17-clamor95@gmail.com>
+Subject: [PATCH v3 17/22] staging: media: tegra-video: tegra20: increase
+ maximum VI clock frequency
+Date: Thu, 25 Sep 2025 18:16:43 +0300
+Message-ID: <20250925151648.79510-18-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250925151648.79510-1-clamor95@gmail.com>
 References: <20250925151648.79510-1-clamor95@gmail.com>
@@ -110,27 +110,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to TRM Tegra20, Tegra30 and Tegra114 have VI revision 1,
-Tegra124 has revision 2 and Tegra210 has revision 3. Set correct revision
-in tegra20_vi_soc like tegra210 does.
+Increase maximum VI clock frequency to 450MHz to allow correct work with
+high resolution camera sensors.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/tegra-video/tegra20.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index b7a39723dfc2..4b69b556387c 100644
+index 4b69b556387c..43f545e6c45b 100644
 --- a/drivers/staging/media/tegra-video/tegra20.c
 +++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -589,6 +589,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
- 	.nformats = ARRAY_SIZE(tegra20_video_formats),
- 	.default_video_format = &tegra20_video_formats[0],
+@@ -591,7 +591,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
  	.ops = &tegra20_vi_ops,
-+	.hw_revision = 1,
+ 	.hw_revision = 1,
  	.vi_max_channels = 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
- 	.vi_max_clk_hz = 150000000,
+-	.vi_max_clk_hz = 150000000,
++	.vi_max_clk_hz = 450000000,
  	.has_h_v_flip = true,
+ };
+ 
 -- 
 2.48.1
 
