@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77D1B9FB4B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2520B9FB51
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2110210E943;
-	Thu, 25 Sep 2025 13:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 471E110E940;
+	Thu, 25 Sep 2025 13:55:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SoawMhH/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kpwuyibs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0EA10E943
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:55:50 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id
- 6a1803df08f44-78e9f48da30so6745386d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:55:50 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
+ [209.85.222.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A391610E945
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:55:55 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id
+ af79cd13be357-84d8e2587d6so68416885a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758808549; x=1759413349; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758808555; x=1759413355; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YGNwJdiqffAB8BrNoFOc3im0f57lc7sAudNYea1lra0=;
- b=SoawMhH/FXi+01MQv+smfCqyMiavadsEtRO16DrfOILOwYc60vqeIn4/uxNwMxe+5a
- G5f4LyEJ/DyW8YKY0I5qR4ktvMJR6DXIx98VFWvkRB29LmTZy1sCYu39X6pyn/s8MJoY
- 3LqIODUW938eMj/TJklz9oXLI0RghvHWBwZYqWIlUEfOW7OAv+AefQX/tNwApSxKm8yr
- 5sgVHP17FX4f9vlQlbfb6o2wRb++Fq+S4l+Go2UEfLdO01M1w0WsLWnkSRXOz3SHuj8f
- c9V3PYqm+rPKLPl5qrAmLzMd9i+yTAHz3yYSYhV9Rg5lkMlyQb34/ajXo/W4vXhuihaf
- wohg==
+ :reply-to; bh=IbRi9B/DaIaW8U9NAWZIVdIpXCsTnUCErxxV4ovxvuk=;
+ b=kpwuyibsEXTMkN1LEUhWg+qHsebR+OiXi++aOoIUgaDXBcZ+Eq7OnjS83pwgyWjdf8
+ gibFyHwbQMd+gbsxycUNtifWqURvGsF+M4nVOy0R39kmMy9mYvxVu329Z5nUUu0lhn5s
+ oUNtknSpiIlRaNCZ6zEeLAstazgDKdmsKsY6gYZeKS7QvmkMIE4WNCH6HtttSqzB1ZBA
+ 88wh3tMQRSExn98YrD7wAF7YXE1j+6CKT8gpjIjhxqXF/m7gN4YAx74tv9VSbpZcfLky
+ c6Lr24UoX3wlGvf97T5gSoWI6O7Xc9UAx7C55He/4sgZjBIbvspMmCBDqAab1eQ5UUmO
+ E5nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758808549; x=1759413349;
+ d=1e100.net; s=20230601; t=1758808555; x=1759413355;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YGNwJdiqffAB8BrNoFOc3im0f57lc7sAudNYea1lra0=;
- b=AZ+KMs19wnQ1souGArw9HLSnPHtmowvoTFgPZdI4maRUERRoRw1LEiRWGeKfipi2cj
- EmQXUc8HkwJWFZbi0O/c4/AEIdg37ZlXl6ljDYPeVulquGtnxGIs3SPioEHg93a472eJ
- r6RDnIreme6SI+iHg4dGvkazebnMtW6wFt5DCeccaLOlnPlZLxh78i+6QlttLnwjEHpm
- +ntEP0NA22ZvVkanf5JrqsKhBhpZcOe0tWDxSyonVZjUAaN2znx76ww2ZUXFhReTlQ1m
- S+/Zh+HSlNLAcXK59ObgLhNKthm3ZTxVlByVVW+ntCNnsza9zdiLKvbg2YJ9W4twRlGO
- PkIw==
+ bh=IbRi9B/DaIaW8U9NAWZIVdIpXCsTnUCErxxV4ovxvuk=;
+ b=Cica0axYYThRravhLmUIH9J6pk6CYA+tO73Wk8gbp5Uv1aMnvzRzVrb6yO7JtPxA6+
+ KiwsCnYvx8gyOsZV0zoZSTLDIlK+cqZCD3UrLoOgvhuApgi8o0tMf43TxfNoSs3g8Owc
+ eDg8NFjGuSjz+m1+qPkKiBfQkPBzm8CqW5TyOBWDYNgfqXFWkIXMnSVhw8aE1R5oXUFz
+ bBYok/2w/oFpdKuXynyEmm9zO54EOpp9A0u2CJzvBOBRAKFiU5DIxxZ2UQxc2ktHk9oe
+ kdcpMcb1NSmgHJOfZ2eRe4Uk2KUf63X+iBbTDdv7AlkomtDfs8acCI40crKl/Enw+bF9
+ bLHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXk288Iev9v+F+skg2/x8/Mwnle0imdX7vxsG2+y+JzdZBE67dWspyV0ZJLBgeCY+i91RYY2sL3BI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqPIcr9xrh7QADf/dzQRIN+qgo/BE8VK6ckQ13weuFefEpOMAQ
- lhgr52vkMqd5Ig5pzanXRsp3CzLYnocNamhdk/v67juYZzt4HDPJ1os8
-X-Gm-Gg: ASbGncuPbf2ZQhoGqTmIum/nTBS4V6VoM1mMpM567oJziYYuMqcLM3Y5UWbGLFhvYa0
- cYOfQCycsfKFNySWo1cgyoXia/X/qoRcdaFq0dwfesjZ5jMJG7DZtvQI9mydRQuBZ6iJyBxltkj
- vtp9Rh4Zl/maRdLm97TQRObujwdWOI1RKQ56CMYWwDYtxbdzjxb5/Gmt2C8n4U72uKWf7px+T6J
- Lje86YBQnV4+pi18mYNcUfk5ckFGP6+Xcr3IFHFf45Hk90prK9ljTuMWpV+c89mAmSGOoB/rLc2
- jVzFawIS85afjvUrLhWsPWnhn8Bd++ZUmzNW6Ge4RKPW2myAdNrOQi94gJTqlW9TevTPTtp0+35
- omzsNS8EaYziTOVHWXtIvX5XotaiZ2Z4Dxdyp4RZxilJHUqHwNdqZ5CysQbAz+AU479vLHmM/e1
- 3WVxIVI6/O6I1O6ffBojjt/WdaThQHagafu49A8c2vfchhI31yK88ypepcjjY0ES6lNb6k
-X-Google-Smtp-Source: AGHT+IHxxrN1qiYt8CkNZDH6mAY2ag9p3EBYWx12nFthYZnZa+rBx1Nas4oNQjITBFEWvlFgd3yNGw==
-X-Received: by 2002:a05:6214:27c3:b0:7f0:e84e:b2b2 with SMTP id
- 6a1803df08f44-7fc451680aemr56106776d6.57.1758808548877; 
- Thu, 25 Sep 2025 06:55:48 -0700 (PDT)
+ AJvYcCVzCubEoq8go9jzr8GEN48125h1ZlLReRkSAhjjzpl4zzeuulyPa5CTlzJtP52+AqNcy5cr+XENCqw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxo3BsRpdzS7kwAFSEr0av/UJqhN+tloBoFWdjvB9+/jGROxr2n
+ IrWwmaP/hh8b+yV4UDopdqi8l5q8JY8Ud81GE2ZJZKoNrAi3zbG8BBjN
+X-Gm-Gg: ASbGncv2M15i5ljHVDwEg7gLe6TgPZFFnKwyzun7LSiyRC39/U4xG11cUsVCP7PFaAw
+ tbqBTeja7eqpn49hD3hwI5mISeLUZqo52gLiIe8vFPcFPlMEN0PubD2Wx0IQ0Y7mA+qcmQCWzny
+ J4yjV/gEtHZZr29CHmG4+K3MuyCfoWsy8MJYH8BNTVCht+78U+qg+1b8fb0ZihfIf5n9UHeABl5
+ Oqkq0Ap5kbWH/rWwENansm2NgsNOQPfrlaRPmdWy2CX8/NasfPFGGnYLQ9ZPmIVijs7qV1T9Uzp
+ zdRtSy8U4k4/ooEoEOtcKboP780AKwNEV9lDwcJGrPuK116lageGPtSppfWz6AcTHNDkTtYiktG
+ ZCyL2xwOoxz51pPEj8p6M2EIgZbGaAQiKWscavzVBf1hY8ssatzLBPiQbtR5yEtZKumf0xx6q/w
+ HflQ0esRZ77zPqfhWJZv9BMZ4jMCQwK+Qg58KYyW2Mv7GnwXFxnueSmYmXP8tCdZyAFMB+
+X-Google-Smtp-Source: AGHT+IG7SCiSfqv22MjkqMAx69OdDcsv0d2XWfzHnQ58HqF/5wRLVKKYuW5rQhqneJzNL2eu5F8jIg==
+X-Received: by 2002:a05:6214:5198:b0:77f:4415:6d8b with SMTP id
+ 6a1803df08f44-7fc28076ae1mr36287846d6.8.1758808554316; 
+ Thu, 25 Sep 2025 06:55:54 -0700 (PDT)
 Received: from 137.1.168.192.in-addr.arpa
  ([2600:4808:6353:5c00:7c:b286:dba3:5ba8])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-80135968d5esm11536916d6.12.2025.09.25.06.55.43
+ 6a1803df08f44-80135968d5esm11536916d6.12.2025.09.25.06.55.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Sep 2025 06:55:48 -0700 (PDT)
+ Thu, 25 Sep 2025 06:55:53 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 25 Sep 2025 09:54:03 -0400
-Subject: [PATCH v2 15/19] rust: seq_file: replace `kernel::c_str!` with
+Date: Thu, 25 Sep 2025 09:54:04 -0400
+Subject: [PATCH v2 16/19] rust: str: replace `kernel::c_str!` with
  C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-core-cstr-cstrings-v2-15-78e0aaace1cd@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250925-core-cstr-cstrings-v2-16-78e0aaace1cd@gmail.com>
 References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
 In-Reply-To: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -110,13 +110,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1758808438; l=1328;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1758808438; l=1351;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=/zHlMKa0b7Nk9siO6gKcN+x/h82Zk8zkURVvpzNt6AA=;
+ bh=TE76Xl7EtGwiL3k522JoFNelrGIHYPV5uXDUZx193fk=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QAXSvElYTE8YxZCsGrWl/FvFn0PcrKAZK3BdoNzxQTxfQ/m2OpN47pZ17tScZDRCYR8bMK67o/2
- oeQSiKFoeSw0=
+ QNEkH2K217WCJVB+0mC1S+mvJu9BnNI6eCwPt0AKaTiMW7gojiLm71MaiB58vh7llyUCTN8zCSP
+ N0RCtgv8pDgg=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,31 +142,31 @@ Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/seq_file.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ rust/kernel/str.rs | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/seq_file.rs b/rust/kernel/seq_file.rs
-index 855e533813a6..518265558d66 100644
---- a/rust/kernel/seq_file.rs
-+++ b/rust/kernel/seq_file.rs
-@@ -4,7 +4,7 @@
- //!
- //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
- 
--use crate::{bindings, c_str, fmt, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
-+use crate::{bindings, fmt, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
- 
- /// A utility for generating the contents of a seq file.
- #[repr(transparent)]
-@@ -36,7 +36,7 @@ pub fn call_printf(&self, args: fmt::Arguments<'_>) {
-         unsafe {
-             bindings::seq_printf(
-                 self.inner.get(),
--                c_str!("%pA").as_char_ptr(),
-+                c"%pA".as_char_ptr(),
-                 core::ptr::from_ref(&args).cast::<crate::ffi::c_void>(),
-             );
-         }
+diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+index 624386cb07be..4203ce34ce98 100644
+--- a/rust/kernel/str.rs
++++ b/rust/kernel/str.rs
+@@ -272,15 +272,14 @@ impl fmt::Display for CStr {
+     /// Formats printable ASCII characters, escaping the rest.
+     ///
+     /// ```
+-    /// # use kernel::c_str;
+     /// # use kernel::prelude::fmt;
+     /// # use kernel::str::CStr;
+     /// # use kernel::str::CString;
+-    /// let penguin = c_str!("🐧");
++    /// let penguin = c"🐧";
+     /// let s = CString::try_from_fmt(fmt!("{penguin}"))?;
+     /// assert_eq!(s.to_bytes_with_nul(), "\\xf0\\x9f\\x90\\xa7\0".as_bytes());
+     ///
+-    /// let ascii = c_str!("so \"cool\"");
++    /// let ascii = c"so \"cool\"";
+     /// let s = CString::try_from_fmt(fmt!("{ascii}"))?;
+     /// assert_eq!(s.to_bytes_with_nul(), "so \"cool\"\0".as_bytes());
+     /// # Ok::<(), kernel::error::Error>(())
 
 -- 
 2.51.0
