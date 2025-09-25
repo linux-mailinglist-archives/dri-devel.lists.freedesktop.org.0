@@ -2,82 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A80B9D4EF
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 05:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92B5B9D516
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 05:37:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE2A10E264;
-	Thu, 25 Sep 2025 03:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0979110E26D;
+	Thu, 25 Sep 2025 03:37:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R2Tjy9W4";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UgTSuc6K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB23110E264
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:23:59 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-26e81c17d60so1039525ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 20:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758770639; x=1759375439; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6ALtdxioioVUPdZ249fa6+reQMnKejsflkFYaDtWyvw=;
- b=R2Tjy9W4LB4VdhwauxJOvMSEh4i3oxZlpP05H8jr0z92qFg+BgWR2BHkchJhFaWJJt
- 7iATSRHoLmu33yYoKosvfSqI6ckUX1G/b1Q+3EQMtrBlKvXMl4EYBp3Ul9JhueZ1t+WR
- +P4GpnDEHTdg4KzZMw8BirzWt/rIwLO9g+QPWMmUt3pOIZLVNNPvTzJRhFeNVWjMR0ck
- ej/sLMkaOv7UXZp1mlghzY3SNMk71+Hly6W+eHWVH2vi8G1Vv+PZJueaEzp8R0N7Rmab
- gLCUCfhakdxX4dsAh858SdyPDVOZTyamOkzlGIkYn0jb3Dm6lN5nRTEZ4tgcjRJ4CEfZ
- +hEg==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5DCE10E26D
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:37:51 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ONvBDi023770
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:37:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=n78nIIomQavWQosZYQPTeoTh
+ 4ytOcFS5L4hdEAU6XLI=; b=UgTSuc6KmCehqi8ARRkarzQ/yMYshdS5YZXikwc2
+ 7kEv0mWOqAoVbz2YicphPD1AnKPWlRK1yp+Fmhm3SFLF2E1yvaljAw4k8AtMELg6
+ inG7Gz+JOnDV0mhleHIvoHBYxyJFyI7901v6BlbPPK5iouwon9LWTXsbaCKBEIOH
+ eimYo1z8/aAmfxm60mIIoxRFz+QEjrkNqCiCRZ+GJ9ejdR8KsVANgS51pb2xPN7c
+ PxENgsIhvFIwfVK0cSmGzFd+nlsjppggHlen3kj+tEcsjeH6bQCmWkOlOu5d61Zi
+ ArtvXKWsEGrwwYRd1VJG9Jo9uQVCHTZDYJdJP3/srrRK0A==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bwp0dn28-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:37:50 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8589058c59bso175770185a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Sep 2025 20:37:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758770639; x=1759375439;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6ALtdxioioVUPdZ249fa6+reQMnKejsflkFYaDtWyvw=;
- b=CoAtc5aoYgvljZPXogV06j9wN3rVrWH5jCCgCHYcwRXyBZ8zfpi/sSPuU60mTJkL/1
- Hyg5CMtjrLwTS03cjXjE9/qo/TKQC1vZl67ws4bKcYKQuOPWtQdC28nEDhUhn6Uf2Tvm
- HFsT/BdFTjISGqMIksE29Rj7eX9BlJPV/JMhk013aPJeke9tYASj0c3KuroljGxvOAgA
- Og2s1xLm+lDyGc0Hl/fbXGmqBnXt4F6eTWhvJKQ+dK5L1IpBhL8KB101skdZvyYGkPUk
- ycNd5zC1cP59GxON8vA7W5V2ML/hD3aWshJFthwtPSshLJK+w381tdCMmk2rsoFi5PaK
- Zhmg==
+ d=1e100.net; s=20230601; t=1758771470; x=1759376270;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n78nIIomQavWQosZYQPTeoTh4ytOcFS5L4hdEAU6XLI=;
+ b=RIOXZsZ/QTujC+Gw0y6JvwZqG1HonQK9Q2/lYlIkBLpjhkxxmoAil8YZ4XuJ5eU/FO
+ Wrs7grWi3zMy28VFWKv0sr1w0Lgw/ZbEOUcIfYbCvMcpRAiRjwRCOWAVI/JtymkUqlxX
+ Erb1jHqnJfpj0Ur1eH7naCvMcPkv8XQIWz36KEY9QEePH5/Kc8NWr/YYQQ8xAaSwlo5Z
+ 9IOXjAils294lcQzEYWKkdG0Z6gr+TSAGKmmdaTdqQRiuNHcItPLBSidwC1h6ibPQEVH
+ Cubp/6Sqm592UcdqUQ20OQ42ps1zCdOiz2PQbyFDht0x/KsKYWJbsBu4P08dxP5LLR1c
+ A3Kw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVkkq5LMPWJRNc3LoKHAExeoRI+fLtkU2yy9KlaGkxy5SYQlDPEAZ9Ql3nzh0mMKyDWBRDqXdnbZ8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwoQPBov9yi3m/IkTJtCfD5QoNhZuyzpEL3AR2AisJh89HSz9E6
- KvVGLd2YcE4RuZDa79xoo5KnI7HESL0zPselbeDGukJfUTc3ceOHjbAs
-X-Gm-Gg: ASbGnctXCyc6CQXXr39HX6w1MGLy8K/FG1Kmv+0DoQvjV/iHX2CvfQPDL320KkGHUD0
- bJoPreNF7zKtua2LLeO4qXyGibJJg4h65PueG9S3nyrsUZstaeRFn8s4pGYtGPLPl3gcTpKwTfE
- YvWqvqQh2SY0DV/nRxxa3dJxCP+qEu56KddkE5jBXLV2l9FgZJVgT1EGC0cdmsqwyjFRCg1dppZ
- NfLdopEWkt8obbRNed+qASTxhVC1n1zJ7Mb4oCzvr3DPjm510WBksXSPDj6/LI87wVMf/Wljcby
- XX0m1I71lp2uqth40ich9iBjT+OYHajn0otpP+n9E3KHxKGqtoqj4U+UbpUVEtca9DwyJ8RB5ZO
- 74aYFKnjaPazGGdqDq+5pbHs=
-X-Google-Smtp-Source: AGHT+IExiuoke1BO1yKig9GT9/NXxGRxhsCiCsu8+WVeI+rNb6cIW7R9xXIvDy8Jo/2hG/yxkf2Ddw==
-X-Received: by 2002:a17:902:f551:b0:274:506d:7fe5 with SMTP id
- d9443c01a7336-27ed4a17347mr12353165ad.4.1758770639109; 
- Wed, 24 Sep 2025 20:23:59 -0700 (PDT)
-Received: from rock-5b.. ([45.32.55.39]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3342a3cab8fsm503548a91.1.2025.09.24.20.23.47
+ AJvYcCWjwL0UtMTUc+ZATEcqqPeaBiqAgp1cenptCjP0KWj5ca6chP3GSigLKfRtB7D0Mkk2Mb0CHjdanzM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2P20bsqY//NaEZa0z+tsz5OjaJgbjFztNklpHZO6s0dOwlLjw
+ kOT6X1+j5rIjsE8fSr2D4Gyjec4FNoG2//GMgnppDmK6nkcjJaV/dO8J4kpRvT3T3rlEaWVQ5if
+ Olg1rCLnNCpuVcX9yQm+ka0zKPD4FcOF8t8wrBFdzEO6NJx4Vx9QuVcPMZsWzPfc7uLfDHAM=
+X-Gm-Gg: ASbGnctKZDhqRrl+ryCnkJA/cZfL00Xuwv6B8RXMtdfp6alsjHcyfJBEUTY7ETduKMO
+ 1AtRXFQtFGerfLpwsHvF9xt4z6MR5/hnfBli6/Fr+ihuIzecQv0F4qxO+OKIEgHiZiH5k9aqw3q
+ H27C/C2NlHBTz7J6QJJhg+CmptsA1vBfyToKfmmKbmgQGc8Z2sDfku2w2FunMlp7Fv8QJ8LALxK
+ Wpdz3Eewm4Md4fAXlfzHFqK42UrOCUtfCEpTBwakFG+fMEFlEtZbixlA4RMiNeB4lMXTTSTAuft
+ GnCfX8iWfR6FFoW+Xp+yVNWGXLzm8V1jlJunhg8crXML8UytUi7kTzOG2PUWW9xqDjKquwovc2N
+ xdGqHw2C3Lep9sz4CuqQ/xh2JbymvOTHY1KxqXbV9QkVUK5UkjAY9
+X-Received: by 2002:a05:620a:2907:b0:80a:72d7:f0cd with SMTP id
+ af79cd13be357-85aed8cbc11mr225516385a.56.1758771469840; 
+ Wed, 24 Sep 2025 20:37:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE/Mkya6v8AWWGYf6q1L7jR77pkQxfEZnuvWyLMjPjoG8YIV9rwp0IrPi1ugpz+EuhpXNM8VQ==
+X-Received: by 2002:a05:620a:2907:b0:80a:72d7:f0cd with SMTP id
+ af79cd13be357-85aed8cbc11mr225513785a.56.1758771469267; 
+ Wed, 24 Sep 2025 20:37:49 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-36fb7bfb413sm2245821fa.56.2025.09.24.20.37.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Sep 2025 20:23:58 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: airlied@gmail.com, broonie@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- liujianfeng1994@gmail.com, lumag@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- quic_abhinavk@quicinc.com, simona@ffwll.ch, sophon@radxa.com,
- tzimmermann@suse.de
-Subject: Re: [PATCH] drm/display: add hw_params callback function to
- drm_connector_hdmi_audio_ops
-Date: Thu, 25 Sep 2025 11:23:38 +0800
-Message-ID: <20250925032338.20243-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <5au5p32oyouifgmqlnl7unm6n7tbxq45wpwpqx57xoepiucmxw@tjqlbh2a57yk>
-References: <5au5p32oyouifgmqlnl7unm6n7tbxq45wpwpqx57xoepiucmxw@tjqlbh2a57yk>
+ Wed, 24 Sep 2025 20:37:47 -0700 (PDT)
+Date: Thu, 25 Sep 2025 06:37:44 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, jingoohan1@gmail.com, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
+ alim.akhtar@samsung.com, hjc@rock-chips.com, heiko@sntech.de,
+ andy.yan@rock-chips.com, dianders@chromium.org,
+ m.szyprowski@samsung.com, luca.ceresoli@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 10/17] drm/bridge: analogix_dp: Apply
+ drm_bridge_connector helper
+Message-ID: <ykj7xrnpagbtftr7wt2vkyc4d4u4k5nmxsir433jzz7lhc3oq3@gaq4kicsrlpr>
+References: <20250912085846.7349-1-damon.ding@rock-chips.com>
+ <20250912085846.7349-11-damon.ding@rock-chips.com>
+ <tsgfxlkxty653crmzmwsr7p6slf27pxf6n6to5p7zvi6wsl444@525tz5uhbj44>
+ <2870c278-3c65-4d8f-ace3-1fd5b03af2b4@rock-chips.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2870c278-3c65-4d8f-ace3-1fd5b03af2b4@rock-chips.com>
+X-Authority-Analysis: v=2.4 cv=KNxaDEFo c=1 sm=1 tr=0 ts=68d4b90e cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=e-wIutcIwHs2mBw2ZVAA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-GUID: nAhRKLLgQ7_x5t7ZgtSSBiQyG-EQxMZ5
+X-Proofpoint-ORIG-GUID: nAhRKLLgQ7_x5t7ZgtSSBiQyG-EQxMZ5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDEzOCBTYWx0ZWRfXyUp8qJqFjZea
+ 2knTD1uGz10t/2OZhiNd9xFgRnpj2Wo6zvP6hYDwetYil0EX6VBZD1GxF/cj+b1EqowBUdWWlwo
+ eCMHcfpJQpNNqFBkZ0k5fVK4q7eXjQ95UA37YymIXfya9fwuEwQI2mdXKG1U0V2Achx222AMvkj
+ 51h2E0DhrCU83FRBYzp7qFnUI+5kc9rM1n0VAoqL+vMMdCXGwAOvdSQYXac3k02Fxu4Mi6e/Cuq
+ B9eOy80MwenHkrjXICKfkNOolZWjS8w3v3q5TCrE+4+U4FcNdtPpbwweoNp/Lab/NY4/UpKNa79
+ vOK1QAd3XHLRcwh44sprbq/bygEifQhU/yR4GIb+aC3ac0yu6IkoTrNlLgDPTaATxkUnDZuhsFK
+ Se7Sfwe6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 phishscore=0 suspectscore=0
+ adultscore=0 bulkscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509230138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,121 +135,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Sep 24, 2025 at 05:14:57PM +0800, Damon Ding wrote:
+> Hi Dmitry,
+> 
+> On 9/12/2025 7:03 PM, Dmitry Baryshkov wrote:
+> > On Fri, Sep 12, 2025 at 04:58:39PM +0800, Damon Ding wrote:
+> > > Apply drm_bridge_connector helper for Analogix DP driver.
+> > > 
+> > > The following changes have been made:
+> > > - Apply drm_bridge_connector helper to get rid of &drm_connector_funcs
+> > >    and &drm_connector_helper_funcs.
+> > > - Remove unnecessary parameter struct drm_connector* for callback
+> > >    &analogix_dp_plat_data.attach.
+> > > - Remove &analogix_dp_device.connector.
+> > > - Convert analogix_dp_atomic_check()/analogix_dp_detect() to
+> > >    &drm_bridge_funcs.atomic_check()/&drm_bridge_funcs.detect().
+> > > - Split analogix_dp_get_modes() into &drm_bridge_funcs.get_modes() and
+> > >    &drm_bridge_funcs.edid_read().
+> > > 
+> > > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> > > 
+> > > ------
+> > > 
+> > > Changes in v2:
+> > > - For &drm_bridge.ops, remove DRM_BRIDGE_OP_HPD and add
+> > >    DRM_BRIDGE_OP_EDID.
+> > > - Add analogix_dp_bridge_edid_read().
+> > > - Move &analogix_dp_plat_data.skip_connector deletion to the previous
+> > >    patches.
+> > > 
+> > > Changes in v3:
+> > > - Rebase with the new devm_drm_bridge_alloc() related commit
+> > >    48f05c3b4b70 ("drm/bridge: analogix_dp: Use devm_drm_bridge_alloc()
+> > >    API").
+> > > - Expand the commit message.
+> > > - Call drm_bridge_get_modes() in analogix_dp_bridge_get_modes() if the
+> > >    bridge is available.
+> > > - Remove unnecessary parameter struct drm_connector* for callback
+> > >    &analogix_dp_plat_data.attach.
+> > > - In order to decouple the connector driver and the bridge driver, move
+> > >    the bridge connector initilization to the Rockchip and Exynos sides.
+> > > 
+> > > Changes in v4:
+> > > - Expand analogix_dp_bridge_detect() parameters to &drm_bridge and
+> > >    &drm_connector.
+> > > - Rename the &analogix_dp_plat_data.bridge to
+> > >    &analogix_dp_plat_data.next_bridge.
+> > > 
+> > > Changes in v5:
+> > > - Set the flag fo drm_bridge_attach() to DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> > >    for next bridge attachment of Exynos side.
+> > > - Distinguish the &drm_bridge->ops of Analogix bridge based on whether
+> > >    the downstream device is a panel, a bridge or neither.
+> > > - Remove the calls to &analogix_dp_plat_data.get_modes().
+> > > ---
+> > >   .../drm/bridge/analogix/analogix_dp_core.c    | 151 ++++++++----------
+> > >   .../drm/bridge/analogix/analogix_dp_core.h    |   1 -
+> > >   drivers/gpu/drm/exynos/exynos_dp.c            |  25 +--
+> > >   .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  11 +-
+> > >   include/drm/bridge/analogix_dp.h              |   3 +-
+> > >   5 files changed, 95 insertions(+), 96 deletions(-)
+> > > 
+> > > @@ -1532,6 +1487,7 @@ EXPORT_SYMBOL_GPL(analogix_dp_resume);
+> > >   int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+> > >   {
+> > > +	struct drm_bridge *bridge = &dp->bridge;
+> > >   	int ret;
+> > >   	dp->drm_dev = drm_dev;
+> > > @@ -1545,7 +1501,23 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+> > >   		return ret;
+> > >   	}
+> > > -	ret = drm_bridge_attach(dp->encoder, &dp->bridge, NULL, 0);
+> > > +	if (dp->plat_data->panel)
+> > > +		/* If the next is a panel, the EDID parsing is checked by the panel driver */
+> > > +		bridge->ops = DRM_BRIDGE_OP_MODES | DRM_BRIDGE_OP_DETECT;
+> > > +	else if (dp->plat_data->next_bridge)
+> > > +		/* If the next is a bridge, the supported operations depend on the next bridge */
+> > > +		bridge->ops = 0;
+> > 
+> > And what if the next bridge is dp_connector without a separate HPD pin?
+> 
+> This case was indeed not taken into account.
+> 
+> If the next is a bridge, it should be better to set DRM_BRIDGE_OP_DETECT and
+> return connector_status_connected in analogix_dp_bridge_detect(). This
+> ensures the connection status remains connected for both the dp-connector
+> and the bridges without DRM_BRIDGE_OP_DETECT.
 
-On Thu, 25 Sep 2025 06:08:58 +0300, Dmitry Baryshkov wrote:
->> [   14.055198] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->> [   14.067225] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->> [   14.089925] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->> [   14.105988] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
->> [   14.106027] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->> [   14.122707] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_prepare() started
->
->From this log I don't see, why the function would fail in the way you've
->described. Could you please post (for comparison) a trace log without
->your patch?
+Maybe OP_EDID | OP_DETECT? I think, we need to fix drm_bridge_connector
+to stop preferring OP_EDID bridges over OP_MODES if the latter one is
+enountered later in the chain. In other words inside
+drm_bridge_connector_init() clear bridge_edid if OP_MODES is encountered
+and vice versa. This way you can always declare OP_EDID here (after
+converting to panel bridge) and then letting panel's OP_MODES take over
+mode declaration. Would you please include such a patch in the next
+iteration?
 
-Here is the trace log without mu patch:
+> 
+> > 
+> > > +	else
+> > > +		/* In DP mode, the EDID parsing and HPD detection should be supported */
+> > > +		bridge->ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
+> > > +
+> > > +	bridge->of_node = dp->dev->of_node;
+> > > +	bridge->type = DRM_MODE_CONNECTOR_eDP;
+> > > +	ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
+> > > +	if (ret)
+> > > +		goto err_unregister_aux;
+> > > +
+> > > +	ret = drm_bridge_attach(dp->encoder, bridge, NULL, 0);
+> > >   	if (ret) {
+> > >   		DRM_ERROR("failed to create bridge (%d)\n", ret);
+> > >   		goto err_unregister_aux;
+> > 
+> 
+> Best regards,
+> Damon
+> 
 
-[   14.093437] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   14.105285] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   14.127546] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   14.144819] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   14.144855] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   14.652233] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   14.659556] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   14.666326] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   14.677484] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   14.690897]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   14.699779] msm_dpu ae01000.display-controller: [drm:adreno_request_fw] loaded qcom/a660_gmu.bin from new location
-[   14.702160] [drm] Loaded GMU firmware v3.1.10
-[   14.714573] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   14.721910] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   14.721923] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   15.231216] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   15.238577] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   15.245323] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   15.256528] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   15.269943]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   15.279988] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   15.279997] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   15.785610] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   15.792908] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   15.799687] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   15.811261] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   15.825865]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   15.843283] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   15.843300] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   15.991449] rfkill: input handler disabled
-[   16.349109] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   16.356529] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   16.363279] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   16.374539] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   16.388835]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   16.399355] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   16.399371] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   16.905665] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   16.913032] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   16.919837] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   16.931141] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   16.946106]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   16.958230] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   16.958242] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   17.464922] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   17.472219] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   17.478985] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   17.490126] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   17.503539]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   17.513599] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   17.513606] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   18.019162] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   18.026682] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   18.033427] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   18.044729] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   18.058144]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   18.068168] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   18.068176] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   18.574028] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   18.581321] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   18.588086] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   18.599667] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   18.613127]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   18.646419] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   18.646443] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   19.152583] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   19.160139] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   19.166909] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   19.178407] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   19.191821]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   19.222661] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   19.222678] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   19.730557] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   19.738156] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   19.744933] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   19.756633] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   19.770042]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   19.789888] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   19.799242] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   19.799252] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   20.308857] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   20.316540] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   20.323280] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   20.334923] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   20.348392]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   20.358449] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   20.358456] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   20.865298] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   20.873431] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   20.880197] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   20.891777] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   20.905293]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-[   20.924421] hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-[   20.924455] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-[   21.431143] qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-[   21.439239] qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-[   21.445985] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-[   21.457877] q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[   21.471375]  MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-
-Best regards,
-Jianfeng
+-- 
+With best wishes
+Dmitry
