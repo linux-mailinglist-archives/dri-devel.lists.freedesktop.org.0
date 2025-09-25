@@ -2,166 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BE8BA27C2
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 08:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2F9BA2B23
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592EB10E326;
-	Fri, 26 Sep 2025 06:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D3810E348;
+	Fri, 26 Sep 2025 07:24:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="U5bYgu20";
+	dkim=pass (2048-bit key; unprotected) header.d=thegoodpenguin-co-uk.20230601.gappssmtp.com header.i=@thegoodpenguin-co-uk.20230601.gappssmtp.com header.b="e00DFmur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011063.outbound.protection.outlook.com [52.101.65.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEC010E326
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 06:01:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hSHfrwXiIuZFUIrJY3m+AmirIDH4gQI/8+apCgYPWOai42DKVZgN1J66DQBJ6wx99+In6du5x+7RoSDuVhBt8zEHCiiOi5SE9EL6bakIZqBkwPFAkKHE1pI/Qx5JyFISwiJ3OG7C2y9lAayjpiPOKVENLBUSGvg2sEjjIEXxjIReR7i2s3/oJttma2sp4DnJbTc0LXgPm3wugMEJfzPP9GAaXRHb3VpjyMVXaOAPpwqxZI+ixWdZKw69F1S5ApV991McGklNZqHmNM9b/8qQ90M+NtrCJWnDDxdUnlgHWzJ/MaPdiHht+ktFejUNniMNf5gb5rvMZGmYc7TTIf/hAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L5c+LJiA+ugaaokP5vVlHQ6LTm0BE2XRRyTHd1Jobls=;
- b=tiWshhbmBigheCLKa9C5lMc56GdnxTortF2W2v9RUuMUZnFr28w4KVe5hPlPJp0FXnrQj0b3MlTNjLqr88xAtG9ZBHY73jn9UNpYB1jay41mvRktIQPD/2dzE/out2DsDiEj98gK0eRtFOigOlthm3tSmmkZFWi4qVHNIGIyggv5CRMLijbNtgmMeYLHY/wLanSQr4Qs1terYSrLxY+3B/VC1e7WVaYdoSzwVe0y9qu6Ct9oE6D0er25tpzdjDnQOf1bijdnCOevRBtyVB8ZXpOxttmVAZdHfYSWGn2hFGlf8kuu/SbYrmzKUYnuV3Na4oqDwQDR5rzZjT3udfWf2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L5c+LJiA+ugaaokP5vVlHQ6LTm0BE2XRRyTHd1Jobls=;
- b=U5bYgu200xUW73RzsLcrY8XjfLZADg1r+7wrKmGe7I/Ali7rQXNFrCxp8DYc3hQV6JTQZEctJ7Jj2QzcpXfgJqaiNeafhfAjP05mIUH+7FvlNx76nwFiEfqujwtD2PIE8U+FWAUlP4TmrLl6cqxqfBCQtVc+zR+9c9/E9iUHMlL9wqO77x+fw0n53M33HbJNmZ1x1HHfDCvN8P6lzw4B5KJjEvv+Hx/w0Gjm3N8QO+6H0h3dnei38a5HH6vUiF1q73+xaReB1Qoj9uIpZ6GCv64t4l3vRKj+tIZq1YEr2y7rc4QNO2Qb8TX2bP+RKxDTSVFKr8lN5zMGzf2qsW6IAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DU2PR04MB8550.eurprd04.prod.outlook.com (2603:10a6:10:2d5::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Fri, 26 Sep
- 2025 06:01:49 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9160.008; Fri, 26 Sep 2025
- 06:01:49 +0000
-Message-ID: <d39bc215-5b67-4cf5-b9d5-6e1e9ab20159@nxp.com>
-Date: Fri, 26 Sep 2025 14:03:15 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
-From: Liu Ying <victor.liu@nxp.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
- luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-sound@vger.kernel.org
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
- <b411c188-b564-4ae8-9186-d0877880fa99@nxp.com>
-Content-Language: en-US
-In-Reply-To: <b411c188-b564-4ae8-9186-d0877880fa99@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0153.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::33) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7DC10E94A
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:58:24 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3ee1317b1f7so626220f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=thegoodpenguin-co-uk.20230601.gappssmtp.com; s=20230601; t=1758808703;
+ x=1759413503; darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mnVODjwy2deCiwdvb4Z2Vh0/TaoNB+VzQD5lG5PvCPU=;
+ b=e00DFmuriYR7e+9UAMwPcSog+ykw5gK1VrnSjnAmcBNhd1W6rLZWzAZSc1FEqr5gfm
+ yRUTS2sOr6YlrBmuCSz2d6kp1fUh68gRofuLT9U/rsi1A4A02atVgQYnLz8W7BNGOHPH
+ WLC31wMxjpdQmiokBAf6JveTh/haMQeW7K/6+rrRe69n88w3q8GAbLLuuvmFdF3tJqw/
+ R5mkBytkkRPM7rXITP5wc+Nd48Gj/i17KqeJ9cIhe4882fVxrmKv7JJBkYrBjl4dQL0r
+ 0jQn/dXgPgop0pilAOn4Su5RbH+bjyqSr/ei4qvb9/swqvy0c1Z3M6IZy/H65j70Rjpr
+ ydTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758808703; x=1759413503;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mnVODjwy2deCiwdvb4Z2Vh0/TaoNB+VzQD5lG5PvCPU=;
+ b=bf3aSKBuwBg+bKpMs/gluXBYGVNAepJf7IZlH1J8BlZMW2ghZCRXrpiQ/EJAT5QKxP
+ ZoVmXyPYPRGwYn6EGjJcTK7w/bGz4Q24sxm0XGWukI8WH5OEg/gkD4upJgYon0KS3YAT
+ 2/Im1fOymbySUPttB/xMtx18C0Fd0rDjVa70pDjfg5QVrEn9a6DLeu2AodUGUeOHeDJz
+ Pp2sE+zm9FSDDRFPTSQQyEHbvilsMfBk2GGHWTp4HRvgUt7qGebaHENSov7j5oYvbpWU
+ iqrhQDajR2N1gQ8ZGonrw1UlMTvbObGynQI9AK34+Vc8voFNUlx0iNoHM/xIzIUuE07P
+ +UWA==
+X-Gm-Message-State: AOJu0Yw9AtO/2Xv+f/E5UbrVatYwJ0cx9/IsW/GIxWdaCvRaW/SFwylv
+ f1z4mXc8F3UAUGZPGNlKD7nblBaaRkP4wOfxIOlaAexNNGF69Ll6DXNYYW3Apa2dnjI=
+X-Gm-Gg: ASbGncucJmaEDrbgv5VpTpx2bO6M32B+aY+knq9KoP8KaeuWvV0cEpI64ceT+AVYTsF
+ +KUnDbyy99g2dlXm3iXQatKIQP0nkWhrLA1tMVWMrtr0ImWNvLsA5nsaNfvt/5l2LE+gWIDAoMM
+ WYtpQkyulpeqDLrmVxHJtgfX7tea9uI/MSbXlrN+44gxkl7Uwfx67elcCKeMG1CGh8qTGb82wOa
+ 83+FieyYdxOCjlTJ2VbnIvVhHj4UgUVJq9nGHSgxdmAiYeTEb2CKtnE33/k2H2vCgJ5IZj4nMai
+ QR+WoDJsmI5WThBRYzR0cZ+ZIIuja0h+oyeD1U6PyUdpJLcXB2qDot39W0CwZjbtcJSKZ9U7CNG
+ DkGCWoIC3keKppFzWZlYsfT7adpRU9EP+HqOe
+X-Google-Smtp-Source: AGHT+IEiZzJwcJ162vj4+aB6VkB7CNh+rB8ry4i+6DBqAlJmINd3CbS8/jzQreIiFEvTB6PQhCdeqA==
+X-Received: by 2002:a5d:5d02:0:b0:3ec:1edb:97af with SMTP id
+ ffacd0b85a97d-40e4b9455e8mr3471455f8f.34.1758808703141; 
+ Thu, 25 Sep 2025 06:58:23 -0700 (PDT)
+Received: from [127.0.1.1] ([2a02:c7c:8a3e:8c00:a851:5f0e:8210:7d5d])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-410f2007372sm2274749f8f.16.2025.09.25.06.58.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Sep 2025 06:58:22 -0700 (PDT)
+From: Harrison Carter <hcarter@thegoodpenguin.co.uk>
+Date: Thu, 25 Sep 2025 14:57:58 +0100
+Subject: [PATCH] dt-bindings: leds: arc,arc2c0608: Convert to DT Schema
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8550:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a7f6fdf-5ae7-4881-531e-08ddfcc22e7b
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|19092799006|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NWhwOVEyTUtNcExiUC9xQTFEZlRBM0ZSb2FHSXdaRzdrZXNLa3N6dXMzNTk1?=
- =?utf-8?B?bGozOUt2dXBseXp4OU9NaGpDT3BoMzVpdmhiZ1ZpanF1L0FQY2ZVVFVPRkNL?=
- =?utf-8?B?c3VBallCOU5wMzRnaGVlUFJGUDlVOHRNendTNUZEb1A4S1ExWXplKzVZS0dW?=
- =?utf-8?B?eTRYOWFOMWRza1FTMTA1U3VxM3pxaDZ5OWNVWkxIb2MyOXN0V3Y3TnpQbElq?=
- =?utf-8?B?VmwvYitPaGJjNzlIU2VhMkkwN0sxWlB1Y0I2TjN2OFFHR2VjZEVmZ1FnbUxE?=
- =?utf-8?B?Y1h5bng2dWVVRlg5NTF1Z1E5V29XcTh6YnlrR1ZORmZiamZhdm5lRk4rM2Yx?=
- =?utf-8?B?RWZvWk9EUlBUOFJwajlvL2lZM1VudndhaXdtS0g2SzFFdHNFL3ZRamFXb1Fv?=
- =?utf-8?B?VHExQTdSemt2eTlSaUpDbS9QRW0wNmpxQVkwQXJzcDVVN1FYaG9NU1RhNGdO?=
- =?utf-8?B?VEtPSGRIaWRSWWo2VTVEaFNubUZxTmdMbHFuZ1lkOHNxOXFsL0NraTQ3aktU?=
- =?utf-8?B?UE5EaHEwNiswYm5kTTV0bS9zd3BNU1lLOExqNkhBYzE1RVEwZUJxQ0t3UUhn?=
- =?utf-8?B?L0ZkaTVabWRzZjNkRmJrYm1aN2NTOTNWdTBrTVZnYWV4M3dkbDVVNXdxVmNj?=
- =?utf-8?B?U1lLR2IvUVUyd3Y2eHc1UXk1S2RYSHBWdDVBOUhNR2F1ZHJZcVFyQ2hIRTl0?=
- =?utf-8?B?b3NiNGZ5R1hBS3RSVFpzUnRsL2dCdmUwS2dwM3IxY2JNOWc0bDQyaWNHblpI?=
- =?utf-8?B?V2VWMmxrOWo1WjZMdmdpa0pwWU9SQWJ1TFJaV3pqY29DQ2w3N0FDc1VXendt?=
- =?utf-8?B?NW5rUTNOak9yUm9saUEyZ2FoWWNyanZyb09na1pQZVd3RmE4NjBDT0JDWjMv?=
- =?utf-8?B?VVpyU21IaDFxMHNZT1cyZFJsZ3lpK2VML2tTeWNMQm9UemRVYlNMOFdwWWtk?=
- =?utf-8?B?ME04L2xvK2p2eXJxNHRVakp0T3hPa1pLai94NWx6NWFDTXkzaUZlcWdCQk5E?=
- =?utf-8?B?T1FRcEF5c20rVk56elFZSjFoRndZTHVzVUZBK3lGTDEyRDFMVVhueWhrYU5s?=
- =?utf-8?B?akMxbEZpRDlxTXBpYk9PMDlCVTNHbnBhZzNPb2xQUExtUDZMdFdTQlhBTktt?=
- =?utf-8?B?OXJPMnl5emNTWEJwcHMySzlGcWIreEcyWm5UeEtPMVdoaU9ROEl2YjA2RmEx?=
- =?utf-8?B?elU3UDI4MHBEbzJWM3JQWUw0VUNYVEJXN0Noc3d5RjRROU9vYkVtdDdYNnVX?=
- =?utf-8?B?NXcvWXRJNmZMbDQ4SWVGNHlFVDlJMi82aFNBZk1RUk8rdDljaVl1WTRPWVJ5?=
- =?utf-8?B?ckhkbmgxMDJCemxWK0dFUk4ySEIyS3BranFWNTFwSXI1NUJaS21PUnl5MFA1?=
- =?utf-8?B?NjJKaElsWUtiSGt3bE1acUx2QXBic0Ntd2NIUkVkMGYrYkhnRzQvSHVyaktL?=
- =?utf-8?B?aGdvd3RHdG9tQXN3NU5ub2dHV2t2Y2JiUURUQ1cyU3ZNRWFpZjJsWUV4aGJq?=
- =?utf-8?B?eDRtK2JMTlhGSmwwNEVTaGswM1FtR1hFSmp2dWg3SFZKUWpmQXhuZWYxSnVq?=
- =?utf-8?B?NTFOSjNZeERWeVRFa1lwdnJ6ZTEvcmt4TzBjRGlxUGZFU05OVkd6WVVVbXEz?=
- =?utf-8?B?N1NYU09FMkxEQmYvK1c3SGNMbGw4U2svL0lQSjdERjhKdE1SZEV2eUQ1SUJz?=
- =?utf-8?B?TzB2QXl6ZHkyamV0WHpFUlhwejZqVjg5MmJjblZGaE5TSHU4czVHVEdPTUJC?=
- =?utf-8?B?dGtiaXFCYnMycUFkZTlkWUZZN1RGZnVIVUFvd29mYlBmNVhpNDRPRUlLRFl3?=
- =?utf-8?B?UnJxT0JydFJ1eWhWL2pDMTdiVVJnNk40RGFEY0toSEJDQWNRNVFCQ0xnMGFZ?=
- =?utf-8?B?NEVBYjZPUXYxdk1QMFRpbjFocUpTdjlTM3JaUWhsVFNraUdYYXA4eWp5VG5u?=
- =?utf-8?B?VmM5K1dsdWpLS3FVMmJJdUxhWU5RUzRQOStwazNzSi9wUFFxNkJXdEVGWFB5?=
- =?utf-8?B?RjVoRTBGVVZBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wjh2cEhIeXl2U2M1VnIrd1VYcWVBTmNkZHl2NmcwamNXQXFXekg4SWo4MTN4?=
- =?utf-8?B?THpwNWRVdWJFOHhFd3A4OUttUUJmOUJUSHQvZWFFa3RvSUdYS1VtVUU2Lzhu?=
- =?utf-8?B?N01Gc0Eyc2FudWZHaXNzaGttZ2lxUCt5VTM5VDQzZmViSTlVZnhhYWNGU0d4?=
- =?utf-8?B?OHdvOW84L3Y2ckdMeUNDNW1YYUdHM3puRlU2VDlZU1ZBbWFtUFpickttbDB0?=
- =?utf-8?B?OVpKVkdtRzZhdENTT2VIVjRyWnN4c0FKbEVkZGhoODFyVUpueTVSTlVXMElV?=
- =?utf-8?B?MXlnWkt0RmtRY090V0xncXdpMGpWVWQxaTNtQVVVQ2kwVCt5dTh4R3JqQVNw?=
- =?utf-8?B?UXQvanFhVy9qb3U0ZzdOTXRjYmNqZTNkRVBhYlRSc3hSeG9VR3N5VGhHNmFC?=
- =?utf-8?B?S3I2dU1oWHBQcUIyamducDcwc2FzVGpseXowekFNc2xSUGFqNmt1L0R3bVZH?=
- =?utf-8?B?QThmUzRxa1BQUjAzVVNkQlY2Mld6QnYzOXJSZkVpa3ZmWi9pbzBoUzhxeGFv?=
- =?utf-8?B?QTBFa0tYeWFzNzBaM0ROalowbWFJd05WaFF2eGtFejdVZWE4WFQ3TVREa3hv?=
- =?utf-8?B?c1MyVUZxeW1YcEJ4Z05GaldXYktVQXhPQXZqV3RzOG13RlVDeURkcklQeWxa?=
- =?utf-8?B?Z25pckxYK2p6MC9DZkdONW05am1kL25iM05SdWMrRCt2bXNNZk1rY1lFK3hz?=
- =?utf-8?B?ZnZzRTFTU3ZaWFFzeFQ4RVMyYjBFQ3pOeEt2cUtxc3NUSmFCZDRmTDV5RmJu?=
- =?utf-8?B?VzFuSVpOVHhKUURkM000SmZVVjBrcTA5QVZlbEtCM2FKajRia2k5aW9WNU5Z?=
- =?utf-8?B?QWxmRmVQRm9GQ29STEd0ZDZCT0N4WDdDaGZDa3Y5WUd3Y2FTVXBSWGZCNS9C?=
- =?utf-8?B?Qk1ZVi9yYkN0cDJpWEJSYTJ0NDg0azNyODNEb3hUKzJTL2cyc3Exanp6aEZN?=
- =?utf-8?B?eENJaUN4UDJqN2hicVRZMGhXeDUrK3dubkNBSjdqaXRvcSs3Zzl5R0NPajdX?=
- =?utf-8?B?YTFyaUdMNENHSTJiVzI4emZvR0hyMlphdlV2WUhZYXE1ZzZCekM4NStkYTZv?=
- =?utf-8?B?RzdRTk5mK0pRVzRtOXNQOGc0eVBXanVqN05Ob3Z1QkllSWlJRHVwd280RkNQ?=
- =?utf-8?B?MmxNTGRScHJDOS96YjNFQ0Q0YVdUMlE3M0FxMG9Jem9HTEtkOW5mZTNFaGdj?=
- =?utf-8?B?K0dkdG9sWE1MSVZFV1JhWDUxeHg3NVpFODVDWGdxUFRZR2RjbWpNcFFvMWxt?=
- =?utf-8?B?WlR5WnFRL01nSDMyRVZYaTNQSGhPKy9xb3prajk0SUFhR0pwZnVuMmZURURO?=
- =?utf-8?B?VlhmN09jTU1EdnJKQzBUMU8vTlJIei82OGFqczR2WWlIbTkraWxxYWtZYmM1?=
- =?utf-8?B?ZnVkeVZyekJETUQzTHNIR3k1allzV0dMMm03aitQeDdWSjFkaTRaa1hDT1FV?=
- =?utf-8?B?UVZlL0NlZnYyTnM1NWQzOHp4UmwzMkhjeFc4dEhZa2hwQ2RUQ1UzTG51RHYr?=
- =?utf-8?B?YS9DRHNTbEFVQU9zRFVLdkJCWlhrcmlIeTZCTStVWHQ4SzVEbnBCVkUxUWZW?=
- =?utf-8?B?RUh4Z1paKzJjTUdRdU5OVGJEU0hyeTVqRXFySy9vUXllOFhMZ0dXVDhQR3hD?=
- =?utf-8?B?clBRaFovdE9VTjRQZkZJUDF6QVRLM2s4NC9UNkVHZFZRNVJvOStpdTg2Qmph?=
- =?utf-8?B?cmtnSjVwMCtkcVZTM2xJTDhYWmJENHNXS1BSUTVlUUVvN1Rkam9EUm94VWw0?=
- =?utf-8?B?QzkvYkZwNW1peUVEMmJ4OVFHdWt2ank3bksvZUhVZExjK1g5OWlaWCtWMWNI?=
- =?utf-8?B?SVRBTUZxVHRYTW1hdXRjTU9UQ0VzRGsxcUl1MDdaS3hyS3lHTlZDMWg5YXlt?=
- =?utf-8?B?QzVCQVBiSytETTBpSUZOOVhJVGZUR3NUM2hTTnFrWWJUODdyclp0QTVSbTFK?=
- =?utf-8?B?NUlGVXBLUThRRzNId0VKa21kWVYzakI3Qmp4SnVybGNlUDFJVUpKc0htMHhV?=
- =?utf-8?B?OTNBOS9tZXh4MWowbzVRTFpOQ1dMWmxCblhrd1BGREdiaTNiWGU5UXJkVHpP?=
- =?utf-8?B?WTFvZW50V0pHRzgwU05Xd1RsNU9XRFZKdzdiWGJaOVh0ak0yWDF0Y0RBcERR?=
- =?utf-8?Q?3sgl1emEfZKxfpNfi+aeIta9P?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a7f6fdf-5ae7-4881-531e-08ddfcc22e7b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 06:01:49.4844 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5A+OoQv++FJK374vrmR0LOymml7fMoOr1teXQfgt0fl8Db8PifID+FGJmZOUFU0jnFQn63isyIC0YRyXAf9rrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8550
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250925-arctic-sand-v1-1-735b5ed8faed@thegoodpenguin.co.uk>
+X-B4-Tracking: v=1; b=H4sIAGVK1WgC/x3MQQqAIBBA0avIrBPUCqqrRItJp5qNhRMRiHdPW
+ r7F/xmEEpPApDIkelj4jBW2UeAPjDtpDtXgjOvNaK3G5G/2WjAGHdAPtCK2oXNQiyvRxu9/m5d
+ SPsydUfhdAAAA
+X-Change-ID: 20250911-arctic-sand-dac8ebaa3d42
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Brian Dodge <bdodge@arcticsand.com>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Harrison Carter <hcarter@thegoodpenguin.co.uk>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758808702; l=5417;
+ i=hcarter@thegoodpenguin.co.uk; s=20250904; h=from:subject:message-id;
+ bh=GAZZENDznB+GquG1q9LwWecqHTx3QpoDJbBYfosmceU=;
+ b=oZCM47CC6gnSLN2v+Rabs689Vz6eGpmlSKE5B6fKMR+keJNY6FqbyCrledpStrF9MxyxbNQrw
+ IMYRul3m8u2Cj+ws8BRCsGqLGsNnKQ1U23CHn2omO+jVMVwhcJdYE2C
+X-Developer-Key: i=hcarter@thegoodpenguin.co.uk; a=ed25519;
+ pk=xn5ghTMMWQniDtZih4xwKCTAaBHDozflTmqNKtaKo6s=
+X-Mailman-Approved-At: Fri, 26 Sep 2025 07:24:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,25 +102,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jaroslav, Takashi,
+Convert the ArcticSand arc2c0608 LED driver to the dt-schema.
 
-On 09/23/2025, Liu Ying wrote:
-> On 09/23/2025, Shengjiu Wang wrote:
->> Shengjiu Wang (7):
->>   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
->>   ALSA: Add definitions for the bits in IEC958 subframe
->>   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
->>   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
->>     format
->>   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
->>   arm64: dts: imx8mp: Add hdmi parallel audio interface node
->>   arm64: dts: imx8mp-evk: enable hdmi_pai device
-> 
-> Jaroslav, Takashi, do you think it's ok to land patch 2 through drm-misc,
-> as that patch touches include/sound/asoundef.h?
+Signed-off-by: Harrison Carter <hcarter@thegoodpenguin.co.uk>
+---
+Maintainer set to the author of the arcxcnn_bl.c file
+---
+ .../bindings/leds/backlight/arc,arc2c0608.yaml     | 108 +++++++++++++++++++++
+ .../bindings/leds/backlight/arcxcnn_bl.txt         |  33 -------
+ 2 files changed, 108 insertions(+), 33 deletions(-)
 
-Can you please comment?
+diff --git a/Documentation/devicetree/bindings/leds/backlight/arc,arc2c0608.yaml b/Documentation/devicetree/bindings/leds/backlight/arc,arc2c0608.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..786beced5590bb38b9c864111f7b66302d4c63ec
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/arc,arc2c0608.yaml
+@@ -0,0 +1,108 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/arc,arc2c0608.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ArcticSand arc2c0608 LED driver
++
++description: |
++  The ArcticSand arc2c0608 LED driver provides ultra
++  efficient notebook backlighting. Optional properties not
++  specified will default to values in IC EPROM.
++
++  Datasheet:
++  https://www.murata.com/-/media/webrenewal/products/power/power-semiconductor/overview/lineup/led-boost/arc2/arc2c0608.ashx.
++
++maintainers:
++  - Brian Dodge <bdodge@arcticsand.com>
++
++allOf:
++  - $ref: /schemas/leds/common.yaml
++
++properties:
++  compatible:
++    const: arc,arc2c0608
++
++  reg:
++    maxItems: 1
++
++  default-brightness:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 4095
++
++  led-sources:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: List of enabled channels
++    items:
++      enum: [0, 1, 2, 3, 4, 5]
++    minItems: 1
++    uniqueItems: true
++
++  arc,led-config-0:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Fading speed (period between intensity
++      steps)
++
++  arc,led-config-1:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: If set, sets ILED_CONFIG register. Used for
++      fine tuning the maximum LED current.
++
++  arc,dim-freq:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: PWM mode frequency setting (bits [3:0] used)
++
++  arc,comp-config:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Setting for register CONFIG_COMP which
++      controls internal resitances, feed forward freqs,
++      and initial VOUT at startup. Consult the datasheet.
++
++  arc,filter-config:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: RC and PWM Filter settings.
++      Bit Assignment
++      7654 3    2    1    0
++      xxxx RCF1 RCF0 PWM1 PWM0
++      RCF statuses        PWM Filter Statues
++      00 = OFF (default)  00 = OFF (default)
++      01 = LOW            01 = 2 STEPS
++      10 - MEDIUM         10 = 4 STEPS
++      11 = HIGH           11 = 8 STEPS
++
++  arc,trim-config:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Sets percentage increase of Maximum LED
++      Current.
++      0x00 = 0% increase.
++      0x20 = 20.2%.
++      0x3F = 41.5%
++
++  label: true
++
++  linux,default-trigger: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@30 {
++            compatible = "arc,arc2c0608";
++            reg = <0x30>;
++            default-brightness = <500>;
++            label = "lcd-backlight";
++            linux,default-trigger = "backlight";
++            led-sources = <0 1 2 5>;
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+deleted file mode 100644
+index 230abdefd6e7be20b470c3790e74c4d26d084ee8..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Binding for ArcticSand arc2c0608 LED driver
+-
+-Required properties:
+-- compatible:		should be "arc,arc2c0608"
+-- reg:			slave address
+-
+-Optional properties:
+-- default-brightness:	brightness value on boot, value from: 0-4095
+-- label:		The name of the backlight device
+-			See Documentation/devicetree/bindings/leds/common.txt
+-- led-sources:		List of enabled channels from 0 to 5.
+-			See Documentation/devicetree/bindings/leds/common.txt
+-
+-- arc,led-config-0:	setting for register ILED_CONFIG_0
+-- arc,led-config-1:	setting for register ILED_CONFIG_1
+-- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used)
+-- arc,comp-config:	setting for register CONFIG_COMP
+-- arc,filter-config:	setting for register FILTER_CONFIG
+-- arc,trim-config:	setting for register IMAXTUNE
+-
+-Note: Optional properties not specified will default to values in IC EPROM
+-
+-Example:
+-
+-arc2c0608@30 {
+-	compatible = "arc,arc2c0608";
+-	reg = <0x30>;
+-	default-brightness = <500>;
+-	label = "lcd-backlight";
+-	linux,default-trigger = "backlight";
+-	led-sources = <0 1 2 5>;
+-};
+-
 
+---
+base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+change-id: 20250911-arctic-sand-dac8ebaa3d42
+
+Best regards,
 -- 
-Regards,
-Liu Ying
+Harrison Carter <hcarter@thegoodpenguin.co.uk>
+
