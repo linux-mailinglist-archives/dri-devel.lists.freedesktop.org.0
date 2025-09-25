@@ -2,54 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36A4B9F45C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663E3B9F474
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:36:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFD410E8FB;
-	Thu, 25 Sep 2025 12:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90AEC10E8FA;
+	Thu, 25 Sep 2025 12:36:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eiWPhAWT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XkvQ1go5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B40710E8F8;
- Thu, 25 Sep 2025 12:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8LBOteqxcSHPFM6DZlmnY+d3plsSTTNrTZFfHxGAd3I=; b=eiWPhAWTYj/x3lhMlWMJsSJzik
- boPTkg2lQ47d0ror+660YZ9sJjDzW4DG2eeQ4CcGq4Fl00Tm3jHHkCCJPl6vlITMuhRsPnjgh9Fqt
- Oq88yj8x/XMIBT3AkbWz/fUDRrbxFkSAPLaeSd3Iqav1eHQ1i2pPnAb2FWcJY7YzBHCoamcfgpY4r
- d6F/Jrx/hx/QZ+aCOMDculRPWkDltbATg7a0dIBJfnvVC7JL1foxPBc36EQPpAhGpSbZHpVZCwwv/
- 0X+sIsizrBuykK0CzWhXvjhRIPwn/sS7gm+72fs/Qvj9sBdSbulHNOo4b9ZXGhh/X9PK1XUv4Pi0N
- b+MHs2Cw==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v1lBB-00HLXB-C6; Thu, 25 Sep 2025 14:34:33 +0200
-Message-ID: <4dcbdaea-e4c6-4323-9311-5f977beb36d9@igalia.com>
-Date: Thu, 25 Sep 2025 13:34:32 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2920F10E2C7;
+ Thu, 25 Sep 2025 12:36:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 60A8C6013A;
+ Thu, 25 Sep 2025 12:36:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054A8C4CEF0;
+ Thu, 25 Sep 2025 12:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758803811;
+ bh=IBUAnul7b8BQqt3zLS4cohInRJ5Mx15MT7PNd8Nz5R4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XkvQ1go55VUCHLla+6DHun6ac9iHj597k6xHzW2ehbWZf1qu17advzm0DOfLaJdX2
+ CFK1pTszoqCLJrUFasnXEbhaA+1f/RSAgXuAlCqIPBFAunLcZSLWGiS/DqtgPo1lAz
+ vd59DiKljlaDbik78b3p69oUNn/NqxQnsAOZKEj9miVMPRGtAD7JdxnTW3ZYETd/id
+ 3l8YdBfhuJ0+fEQ/tfJEwaZ73jeDNCtDBWibnzrzLBuVvq+35kOG7RWoaJ9NZ0Zvhk
+ QMPN3eI4qbedD4PN9VBWseCLjfv6KabHrHPVkDmVcJZq2VK9elqC28msll8ZwXvERx
+ rJPYbUQBQg33g==
+Date: Thu, 25 Sep 2025 14:36:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <20250925-didactic-spiked-lobster-fefabe@penduick>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
+ <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v8 09/12] drm/sched: Add fair scheduling policy
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
- <20250903101820.63032-10-tvrtko.ursulin@igalia.com>
- <fa897fe1cb107b23d8ddf121105416780b727624.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <fa897fe1cb107b23d8ddf121105416780b727624.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="5gspsh2yhbs7pucv"
+Content-Disposition: inline
+In-Reply-To: <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,484 +84,173 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 24/09/2025 10:38, Philipp Stanner wrote:
-> On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
->> Fair scheduling policy is built upon the same concepts as the well known
->> CFS kernel scheduler - entity run queue is sorted by the virtual GPU time
->> consumed by entities in a way that the entity with least vruntime runs
->> first.
->>
->> It is able to avoid total priority starvation, which is one of the
->> problems with FIFO, and it also eliminates the need for per priority run
->> queues.
->>
-> 
-> If that's the case, then why are the runqueues removed in the
-> subsequent patches?
+--5gspsh2yhbs7pucv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+MIME-Version: 1.0
 
-I am not entirely sure what you mean here. Maybe you meant why removed 
-_only_ in the subsequent patches? Only when FIFO and RR are removed from 
-the code we can remove the multiple run queues.
+On Wed, Sep 10, 2025 at 06:16:25PM +0300, Dmitry Baryshkov wrote:
+> On Wed, Sep 10, 2025 at 01:03:47PM +0200, Maxime Ripard wrote:
+> > On Tue, Sep 09, 2025 at 05:51:59PM +0300, Dmitry Baryshkov wrote:
+> > > Currently DRM framework expects that the HDMI connector driver suppor=
+ts
+> > > all infoframe types: it generates the data as required and calls into
+> > > the driver to program all of them, letting the driver to soft-fail if
+> > > the infoframe is unsupported. This has a major drawback on userspace
+> > > API: the framework also registers debugfs files for all Infoframe typ=
+es,
+> > > possibly surprising the users when infoframe is visible in the debugfs
+> > > file, but it is not visible on the wire. Drivers are also expected to
+> > > return success even for unsuppoted InfoFrame types.
+> > >=20
+> > > Let drivers declare that they support only a subset of infoframes,
+> > > creating a more consistent interface. Make the affected drivers return
+> > > -EOPNOTSUPP if they are asked to program (or clear) InfoFrames which =
+are
+> > > not supported.
+> > >=20
+> > > Acked-by: Liu Ying <victor.liu@nxp.com>
+> > > Acked-by: Daniel Stone <daniels@collabora.com>
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >=20
+> > Again, I still believe that it's a bad idea, goes against what the spec
+> > states, and the framework was meant to be.
+>=20
+> Please correct me if I'm wrong. The specs (HDMI & CEA) define several
+> infoframes and whether we should be sending them. If I'm reading it
+> correctrly, CEA spec explicitly says 'If the Source supports the
+> transmission of [foo] InfoFrame..." (6.4 - AVI, 6.6 - Audio, 6.7 MPEG,
+> 6.9 - DRM). For other InfoFrames (6.5 SPD, 6.8 NTSC VBI) it just defines
+> that sending those frames is optional.
 
->>   As it scales the actual GPU runtime by an exponential factor as
->> the priority decreases, therefore the virtual runtime for low priority
->> entities grows faster than for normal priority, pushing them further down
->> the runqueue order for the same real GPU time spent.
->>
->> Apart from this fundamental fairness, fair policy is especially strong in
->> oversubscription workloads where it is able to give more GPU time to short
->> and bursty workloads when they are running in parallel with GPU heavy
->> clients submitting deep job queues.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c   |  28 ++--
->>   drivers/gpu/drm/scheduler/sched_internal.h |   7 +-
->>   drivers/gpu/drm/scheduler/sched_main.c     |  14 +-
->>   drivers/gpu/drm/scheduler/sched_rq.c       | 147 ++++++++++++++++++++-
->>   include/drm/gpu_scheduler.h                |  10 +-
->>   5 files changed, 186 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 04ce8b7d436b..58f51875547a 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -108,6 +108,8 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->>   	entity->guilty = guilty;
->>   	entity->num_sched_list = num_sched_list;
->>   	entity->priority = priority;
->> +	entity->rq_priority = drm_sched_policy == DRM_SCHED_POLICY_FAIR ?
->> +			      DRM_SCHED_PRIORITY_KERNEL : priority;
-> 
-> Hm, what do you do here? Why is CFS temporarily running with KERNEL
-> prio?
+SPD is indeed optional, but the HDMI spec, (HDMI 1.4b, Section 8.2.1 -
+Auxiliary Video information (AVI) InfoFrame) states that:
 
-At this point in the series we have two priorities associated with entities.
+  A Source shall always transmit an AVI InfoFrame at least once per two
+  Video Fields if the Source:
 
-The original priority is the userspace priority and the new rq_priority 
-is used to pick an actual run queue.
+   * is ever capable of transmitting an AVI InfoFrame or,
+   * is ever capable of transmitting YCBCR pixel encoding or,
+   * is ever capable of transmitting any colorimetry other than the
+     transmitted video format=E2=80=99s default colorimetry or,
+   * is ever capable of transmitting any xvYCC or future enhanced
+     colorimetry or,
+   * is ever capable of transmitting any Gamut Metadata packet or,
+   * is ever capable of transmitting any video format with multiple
+     allowed pixel repetitions or,
+   * is ever capable of transmitting Content Type other than =E2=80=9Cno da=
+ta=E2=80=9D or,
+   * is ever capable of transmitting YCC Quantization Range.
 
-For FIFO and RR priority == rq_priority. For FAIR rq_priority is a fixed 
-number. It can be any of the existing ones really, it is not about 
-priority, just selecting a run queue object to use.
+  The AVI InfoFrame shall be transmitted even while such a Source is
+  transmitting RGB and non-pixel-repeated video. When a Source is not
+  explicitly required to transmit AVI InfoFrames, it is recommended that
+  the Source transmit AVI InfoFrames.
 
-> AFAIU CFS eliminates the need for runqueues because there will be no
-> priorities anymore.
-> 
-> But with this patch, it's for now just a new scheduling policy next to
-> FIFO and RR and your plan is to then to remove those policies
-> altogether.
-> 
-> Priorities will be kept for users, but they will then set the scaling
-> factor.
-> 
-> Correct?
+So it's recommended in every case, and the list kind of makes it
+mandatory for how Linux uses HDMI.
 
-Yes.
+Also, did we ever encounter some hardware that couldn't send AVI?
 
-> I think I understand the series relatively well by now, but here at the
-> transition point some clarifications would be nice. Maybe the commit
-> message is what confuses me, since it says that runqueues should be
-> surplus in this patch already, which I don't think is true.
+Audio is mandatory when streaming audio, DRM when using HDR, and we
+don't support the others yet.
 
-This policy does not need the per priority run queues. Others still do. 
-I think I will reword the commit message to not use the word eliminate 
-but "does not need".
+So the only we support but don't have to send is SPD.
 
->>   	/*
->>   	 * It's perfectly valid to initialize an entity without having a valid
->>   	 * scheduler attached. It's just not valid to use the scheduler before it
->> @@ -124,17 +126,23 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->>   		 */
->>   		pr_warn("%s: called with uninitialized scheduler\n", __func__);
->>   	} else if (num_sched_list) {
->> -		/* The "priority" of an entity cannot exceed the number of run-queues of a
->> -		 * scheduler. Protect against num_rqs being 0, by converting to signed. Choose
->> -		 * the lowest priority available.
->> +		enum drm_sched_priority p = entity->priority;
->> +
->> +		/*
->> +		 * The "priority" of an entity cannot exceed the number of
->> +		 * run-queues of a scheduler. Protect against num_rqs being 0,
->> +		 * by converting to signed. Choose the lowest priority
->> +		 * available.
->>   		 */
->> -		if (entity->priority >= sched_list[0]->num_rqs) {
->> -			dev_err(sched_list[0]->dev, "entity has out-of-bounds priority: %u. num_rqs: %u\n",
->> -				entity->priority, sched_list[0]->num_rqs);
->> -			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
->> -						 (s32) DRM_SCHED_PRIORITY_KERNEL);
->> +		if (p >= sched_list[0]->num_user_rqs) {
->> +			dev_err(sched_list[0]->dev, "entity with out-of-bounds priority:%u num_user_rqs:%u\n",
->> +				p, sched_list[0]->num_user_rqs);
->> +			p = max_t(s32,
->> +				 (s32)sched_list[0]->num_user_rqs - 1,
->> +				 (s32)DRM_SCHED_PRIORITY_KERNEL);
->> +			entity->priority = p;
->>   		}
->> -		entity->rq = sched_list[0]->sched_rq[entity->priority];
->> +		entity->rq = sched_list[0]->sched_rq[entity->rq_priority];
->>   	}
->>   
->>   	init_completion(&entity->entity_idle);
->> @@ -567,7 +575,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->>   
->>   	spin_lock(&entity->lock);
->>   	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
->> -	rq = sched ? sched->sched_rq[entity->priority] : NULL;
->> +	rq = sched ? sched->sched_rq[entity->rq_priority] : NULL;
->>   	if (rq != entity->rq) {
->>   		drm_sched_rq_remove_entity(entity->rq, entity);
->>   		entity->rq = rq;
->> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
->> index 27c8460a3601..125aba70eda6 100644
->> --- a/drivers/gpu/drm/scheduler/sched_internal.h
->> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
->> @@ -18,13 +18,16 @@ struct drm_sched_entity_stats {
->>   	struct kref	kref;
->>   	spinlock_t	lock;
->>   	ktime_t		runtime;
->> +	ktime_t		prev_runtime;
->> +	u64		vruntime;
-> 
-> These two lack new documentation.
+> We can't even infer support for InfoFrames from the Source features.
+> E.g. CEA 6.6.1 defines a case when digital audio is allowed to be sent,
+> without sending Audio InfoFrame.
 
-Ack.
+HDMI 1.4 section 8.2.2 - Audio Infoframe states that:
 
->>   };
->>   
->>   /* Used to choose between FIFO and RR job-scheduling */
->>   extern int drm_sched_policy;
->>   
->> -#define DRM_SCHED_POLICY_RR    0
->> -#define DRM_SCHED_POLICY_FIFO  1
->> +#define DRM_SCHED_POLICY_RR	0
->> +#define DRM_SCHED_POLICY_FIFO	1
->> +#define DRM_SCHED_POLICY_FAIR	2
-> 
-> What's going on with the git diff here?
+  Whenever an active audio stream is being transmitted, an accurate
+  Audio InfoFrame shall be transmitted at least once per two Video
+  Fields.
 
-Looks like a tabs vs spaces snafu. Will fix.
+I'd say it takes precedence over CTA-861.
 
->>   bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
->>   			 struct drm_sched_entity *entity);
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index a5d7706efbea..e7726095c19a 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -84,13 +84,13 @@
->>   #define CREATE_TRACE_POINTS
->>   #include "gpu_scheduler_trace.h"
->>   
->> -int drm_sched_policy = DRM_SCHED_POLICY_FIFO;
->> +int drm_sched_policy = DRM_SCHED_POLICY_FAIR;
-> 
-> If you want to do that, the commit message should state explicitly that
-> you are changing the default policy in this patch. That's an important
-> change.
+> As we will be getting more and more features, some of the InfoFrames
+> or data packets will be 'good to have, but not required'.
 
-True. I will make it a separate patch.
+And drivers would be free to ignore those.
 
->>   
->>   /**
->>    * DOC: sched_policy (int)
->>    * Used to override default entities scheduling policy in a run queue.
->>    */
->> -MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO (default).");
->> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " = Round Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " = FIFO, " __stringify(DRM_SCHED_POLICY_FAIR) " = Fair (default).");
->>   module_param_named(sched_policy, drm_sched_policy, int, 0444);
->>   
->>   static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sched)
->> @@ -1132,11 +1132,15 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
->>   		sched->own_submit_wq = true;
->>   	}
->>   
->> -	sched->sched_rq = kmalloc_array(args->num_rqs, sizeof(*sched->sched_rq),
->> +	sched->num_user_rqs = args->num_rqs;
->> +	sched->num_rqs = drm_sched_policy != DRM_SCHED_POLICY_FAIR ?
->> +			 args->num_rqs : 1;
->> +	sched->sched_rq = kmalloc_array(sched->num_rqs,
->> +					sizeof(*sched->sched_rq),
->>   					GFP_KERNEL | __GFP_ZERO);
->>   	if (!sched->sched_rq)
->>   		goto Out_check_own;
->> -	sched->num_rqs = args->num_rqs;
->> +
->>   	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
->>   		sched->sched_rq[i] = kzalloc(sizeof(*sched->sched_rq[i]), GFP_KERNEL);
->>   		if (!sched->sched_rq[i])
->> @@ -1278,7 +1282,7 @@ void drm_sched_increase_karma(struct drm_sched_job *bad)
->>   	if (bad->s_priority != DRM_SCHED_PRIORITY_KERNEL) {
->>   		atomic_inc(&bad->karma);
->>   
->> -		for (i = DRM_SCHED_PRIORITY_HIGH; i < sched->num_rqs; i++) {
->> +		for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
->>   			struct drm_sched_rq *rq = sched->sched_rq[i];
->>   
->>   			spin_lock(&rq->lock);
->> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
->> index 67804815ca0d..b0cf7d2143c8 100644
->> --- a/drivers/gpu/drm/scheduler/sched_rq.c
->> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
->> @@ -16,6 +16,24 @@ drm_sched_entity_compare_before(struct rb_node *a, const struct rb_node *b)
->>   	return ktime_before(ea->oldest_job_waiting, eb->oldest_job_waiting);
->>   }
->>   
->> +static void drm_sched_rq_update_prio(struct drm_sched_rq *rq)
->> +{
->> +	enum drm_sched_priority prio = -1;
->> +	struct rb_node *rb;
->> +
->> +	lockdep_assert_held(&rq->lock);
->> +
->> +	rb = rb_first_cached(&rq->rb_tree_root);
->> +	if (rb) {
->> +		struct drm_sched_entity *entity =
->> +			rb_entry(rb, typeof(*entity), rb_tree_node);
->> +
->> +		prio = entity->priority; /* Unlocked read */
->> +	}
->> +
->> +	rq->head_prio = prio;
->> +}
->> +
->>   static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
->>   					    struct drm_sched_rq *rq)
->>   {
->> @@ -25,6 +43,7 @@ static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
->>   	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
->>   		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
->>   		RB_CLEAR_NODE(&entity->rb_tree_node);
->> +		drm_sched_rq_update_prio(rq);
->>   	}
->>   }
->>   
->> @@ -46,6 +65,7 @@ static void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>   
->>   	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
->>   		      drm_sched_entity_compare_before);
->> +	drm_sched_rq_update_prio(rq);
->>   }
->>   
->>   /**
->> @@ -63,6 +83,114 @@ void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
->>   	INIT_LIST_HEAD(&rq->entities);
->>   	rq->rb_tree_root = RB_ROOT_CACHED;
->>   	rq->sched = sched;
->> +	rq->head_prio = -1;
->> +}
->> +
->> +static ktime_t
->> +drm_sched_rq_get_min_vruntime(struct drm_sched_rq *rq)
->> +{
->> +	struct drm_sched_entity *entity;
->> +	struct rb_node *rb;
->> +
->> +	lockdep_assert_held(&rq->lock);
->> +
->> +	for (rb = rb_first_cached(&rq->rb_tree_root); rb; rb = rb_next(rb)) {
->> +		entity = rb_entry(rb, typeof(*entity), rb_tree_node);
->> +
->> +		return entity->stats->vruntime; /* Unlocked read */
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static void
->> +drm_sched_entity_save_vruntime(struct drm_sched_entity *entity,
->> +			       ktime_t min_vruntime)
->> +{
->> +	struct drm_sched_entity_stats *stats = entity->stats;
->> +	ktime_t vruntime;
->> +
->> +	spin_lock(&stats->lock);
->> +	vruntime = stats->vruntime;
->> +	if (min_vruntime && vruntime > min_vruntime)
->> +		vruntime = ktime_sub(vruntime, min_vruntime);
->> +	else
->> +		vruntime = 0;
->> +	stats->vruntime = vruntime;
->> +	spin_unlock(&stats->lock);
->> +}
->> +
->> +static ktime_t
->> +drm_sched_entity_restore_vruntime(struct drm_sched_entity *entity,
->> +				  ktime_t min_vruntime,
->> +				  enum drm_sched_priority rq_prio)
->> +{
->> +	struct drm_sched_entity_stats *stats = entity->stats;
->> +	enum drm_sched_priority prio = entity->priority;
->> +	ktime_t vruntime;
->> +
->> +	BUILD_BUG_ON(DRM_SCHED_PRIORITY_NORMAL < DRM_SCHED_PRIORITY_HIGH);
->> +
->> +	spin_lock(&stats->lock);
->> +	vruntime = stats->vruntime;
->> +
->> +	/*
->> +	 * Special handling for entities which were picked from the top of the
->> +	 * queue and are now re-joining the top with another one already there.
->> +	 */
->> +	if (!vruntime && min_vruntime) {
->> +		if (prio > rq_prio) {
->> +			/*
->> +			 * Lower priority should not overtake higher when re-
->> +			 * joining at the top of the queue.
->> +			 */
->> +			vruntime = us_to_ktime(prio - rq_prio);
->> +		} else if (prio < rq_prio) {
->> +			/*
->> +			 * Higher priority can go first.
->> +			 */
->> +			vruntime = -us_to_ktime(rq_prio - prio);
->> +		}
->> +	}
->> +
->> +	/*
->> +	 * Restore saved relative position in the queue.
->> +	 */
->> +	vruntime = ktime_add(min_vruntime, vruntime);
->> +
->> +	stats->vruntime = vruntime;
->> +	spin_unlock(&stats->lock);
->> +
->> +	return vruntime;
->> +}
->> +
->> +static ktime_t drm_sched_entity_update_vruntime(struct drm_sched_entity *entity)
->> +{
->> +	static const unsigned int shift[] = {
->> +		[DRM_SCHED_PRIORITY_KERNEL] = 1,
->> +		[DRM_SCHED_PRIORITY_HIGH]   = 2,
->> +		[DRM_SCHED_PRIORITY_NORMAL] = 4,
->> +		[DRM_SCHED_PRIORITY_LOW]    = 7,
->> +	};
->> +	struct drm_sched_entity_stats *stats = entity->stats;
->> +	ktime_t runtime, prev;
->> +
->> +	spin_lock(&stats->lock);
->> +	prev = stats->prev_runtime;
->> +	runtime = stats->runtime;
->> +	stats->prev_runtime = runtime;
->> +	runtime = ktime_add_ns(stats->vruntime,
->> +			       ktime_to_ns(ktime_sub(runtime, prev)) <<
->> +			       shift[entity->priority]);
->> +	stats->vruntime = runtime;
->> +	spin_unlock(&stats->lock);
->> +
->> +	return runtime;
->> +}
->> +
->> +static ktime_t drm_sched_entity_get_job_ts(struct drm_sched_entity *entity)
->> +{
->> +	return drm_sched_entity_update_vruntime(entity);
->>   }
->>   
->>   /**
->> @@ -99,8 +227,14 @@ drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts)
->>   		list_add_tail(&entity->list, &rq->entities);
->>   	}
->>   
->> -	if (drm_sched_policy == DRM_SCHED_POLICY_RR)
->> +	if (drm_sched_policy == DRM_SCHED_POLICY_FAIR) {
->> +		ts = drm_sched_rq_get_min_vruntime(rq);
->> +		ts = drm_sched_entity_restore_vruntime(entity, ts,
->> +						       rq->head_prio);
->> +	} else if (drm_sched_policy == DRM_SCHED_POLICY_RR) {
->>   		ts = entity->rr_ts;
->> +	}
->> +
->>   	drm_sched_rq_update_fifo_locked(entity, rq, ts);
->>   
->>   	spin_unlock(&rq->lock);
->> @@ -173,7 +307,9 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
->>   	if (next_job) {
->>   		ktime_t ts;
->>   
->> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> +		if (drm_sched_policy == DRM_SCHED_POLICY_FAIR)
->> +			ts = drm_sched_entity_get_job_ts(entity);
->> +		else if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>   			ts = next_job->submit_ts;
->>   		else
->>   			ts = drm_sched_rq_get_rr_ts(rq, entity);
->> @@ -181,6 +317,13 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
->>   		drm_sched_rq_update_fifo_locked(entity, rq, ts);
->>   	} else {
->>   		drm_sched_rq_remove_fifo_locked(entity, rq);
->> +
->> +		if (drm_sched_policy == DRM_SCHED_POLICY_FAIR) {
->> +			ktime_t min_vruntime;
->> +
->> +			min_vruntime = drm_sched_rq_get_min_vruntime(rq);
->> +			drm_sched_entity_save_vruntime(entity, min_vruntime);
->> +		}
->>   	}
->>   	spin_unlock(&rq->lock);
->>   	spin_unlock(&entity->lock);
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index f33c78473867..327b75a052c7 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -150,6 +150,11 @@ struct drm_sched_entity {
->>   	 */
->>   	enum drm_sched_priority         priority;
->>   
->> +	/**
->> +	 * @rq_priority: Run-queue priority
->> +	 */
->> +	enum drm_sched_priority         rq_priority;
->> +
->>   	/**
->>   	 * @rr_ts:
->>   	 *
->> @@ -254,10 +259,11 @@ struct drm_sched_entity {
->>    * struct drm_sched_rq - queue of entities to be scheduled.
->>    *
->>    * @sched: the scheduler to which this rq belongs to.
->> - * @lock: protects @entities, @rb_tree_root and @rr_ts.
->> + * @lock: protects @entities, @rb_tree_root, @rr_ts and @head_prio.
->>    * @rr_ts: monotonically incrementing fake timestamp for RR mode
->>    * @entities: list of the entities to be scheduled.
->>    * @rb_tree_root: root of time based priority queue of entities for FIFO scheduling
->> + * @head_prio: priority of the top tree element
->>    *
->>    * Run queue is a set of entities scheduling command submissions for
->>    * one specific ring. It implements the scheduling policy that selects
->> @@ -271,6 +277,7 @@ struct drm_sched_rq {
->>   	ktime_t				rr_ts;
->>   	struct list_head		entities;
->>   	struct rb_root_cached		rb_tree_root;
->> +	enum drm_sched_priority		head_prio;
->>   };
->>   
->>   /**
->> @@ -597,6 +604,7 @@ struct drm_gpu_scheduler {
->>   	long				timeout;
->>   	const char			*name;
->>   	u32                             num_rqs;
->> +	u32                             num_user_rqs;
-> 
-> Documentation missing.
+> > So, no, sorry. That's still a no for me. Please stop sending that patch
+>=20
+> Oops :-)
+>=20
+> > unless we have a discussion about it and you convince me that it's
+> > actually something that we'd need.
+>=20
+> My main concern is that the drivers should not opt-out of the features.
+> E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFrames
+> (yes, stupid examples), it should not be required to go through all the
+> drivers, making sure that they disable those. Instead the DRM framework
+> should be able to make decisions like:
+>=20
+> - The driver supports SPD and the VSDB defines SPD, enable this
+>   InfoFrame (BTW, this needs to be done anyway, we should not be sending
+>   SPD if it's not defined in VSDB, if I read it correctly).
+>=20
+> - The driver hints that the pixel data has only 10 meaninful bits of
+>   data per component (e.g. out of 12 for DeepColor 36), the Sink has
+>   HF-VSDB, send HF-VSIF.
+>=20
+> - The driver has enabled 3D stereo mode, but it doesn't declare support
+>   for HF-VSIF. Send only H14b-VSIF.
+>=20
+> Similarly (no, I don't have these on my TODO list, these are just
+> examples):
+> - The driver defines support for NTSC VBI, register a VBI device.
+>=20
+> - The driver defines support for ISRC packets, register ISRC-related
+>   properties.
+>=20
+> - The driver defines support for MPEG Source InfoFrame, provide a way
+>   for media players to report frame type and bit rate.
+>=20
+> - The driver provides limited support for Extended HDR DM InfoFrames,
+>   select the correct frame type according to driver capabilities.
+>=20
+> Without the 'supported' information we should change atomic_check()
+> functions to set infoframe->set to false for all unsupported InfoFrames
+> _and_ go through all the drivers again each time we add support for a
+> feature (e.g. after adding HF-VSIF support).
 
-Ack.
+=46rom what you described here, I think we share a similar goal and have
+somewhat similar concerns (thanks, btw, it wasn't obvious to me before),
+we just disagree on the trade-offs and ideal solution :)
 
-Regards,
+I agree that we need to sanity check the drivers, and I don't want to go
+back to the situation we had before where drivers could just ignore
+infoframes and take the easy way out.
 
-Tvrtko
+It should be hard, and easy to catch during review.
 
-> 
-> 
-> P.
-> 
->>   	struct drm_sched_rq             **sched_rq;
->>   	wait_queue_head_t		job_scheduled;
->>   	atomic64_t			job_id_count;
-> 
+I don't think bitflag are a solution because, to me, it kind of fails
+both.
 
+What if, just like the debugfs discussion, we split write_infoframe into
+write_avi_infoframe (mandatory), write_spd_infoframe (optional),
+write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) and
+write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc > 8)
+
+How does that sound?
+
+Maxime
+
+--5gspsh2yhbs7pucv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNU3XQAKCRAnX84Zoj2+
+duiWAYCEQHaNpq1acegbRGgnWK7idyco+oNyb5OKUdG2mSrF8iG51+HcmQ30rpWH
+OmNB+HsBf3AD+4uAstcClyYSies8sQ9MYWjuxdp67l9l23iryEuQM410hwJTA3iL
+XSaP3z9ISQ==
+=35Cr
+-----END PGP SIGNATURE-----
+
+--5gspsh2yhbs7pucv--
