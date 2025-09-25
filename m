@@ -2,90 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24F8B9E77F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 11:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4900BB9E827
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 11:53:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8310010E8C3;
-	Thu, 25 Sep 2025 09:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC8910E2A0;
+	Thu, 25 Sep 2025 09:53:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="e3h7yrpI";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="elbYzxQT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087F310E8B0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 09:43:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE7A10E2A0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 09:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1758793436;
+ s=mimecast20190719; t=1758794000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6vydMaXs1eVl1UKvh2REpAhtxjKBRH6HzbTsqKiDoNg=;
- b=e3h7yrpIeGmwQ/MyxSe7r02rpp2S0E+RzZ0dnD8kHadR0wutJguM76Tui9Ik0dvxJAoe1w
- th3op5MYPvl/t7TOOD3AexxwJgtps+Uz2BRJJ27qKRQkvjHFpUm5FFqb7HWwO7FgdU3gEE
- faVY5NBUzBRlPzIxMdeZ5Ls4o2smhDs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5IZ5ZyHPjVPn/a1sUZGku96Q30DI6b1ntIDJki2HPWc=;
+ b=elbYzxQT6+Ax5sYfhlHXMzEHiAOZVu/kujkHVLoayPff8eWHO+4zCyU4Kad5R4aJsW7sdp
+ OfqpeJZqJIkS402sSs3LHyIz0ksKijsiyrXRB6JOnLZLoMM4BKHZw3tH6lZEG3PuCaY+TM
+ Y1twZLIEb/JoEZhQKy8RipWS94MgTL4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-416-ZprO8EEyPH2nyy28AbDk-Q-1; Thu, 25 Sep 2025 05:43:53 -0400
-X-MC-Unique: ZprO8EEyPH2nyy28AbDk-Q-1
-X-Mimecast-MFC-AGG-ID: ZprO8EEyPH2nyy28AbDk-Q_1758793432
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-46e36686ca1so3493855e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 02:43:53 -0700 (PDT)
+ us-mta-308-d5OKc9fZOpuQgkQsWaKeLw-1; Thu, 25 Sep 2025 05:53:13 -0400
+X-MC-Unique: d5OKc9fZOpuQgkQsWaKeLw-1
+X-Mimecast-MFC-AGG-ID: d5OKc9fZOpuQgkQsWaKeLw_1758793992
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-46e375dab7dso1381005e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 02:53:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758793432; x=1759398232;
+ d=1e100.net; s=20230601; t=1758793992; x=1759398792;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=6vydMaXs1eVl1UKvh2REpAhtxjKBRH6HzbTsqKiDoNg=;
- b=aSKNXmU1c86L3wgp3Byfrh3Y6fopKwndrf/r/0U15i26bJ0D8T/9JfgllM406vXbjt
- 15prho/1PtzU6p6Zs6fv74TpH0tzBQWnub8x3F8sfcgbfpuEW0ZPqnhunBS9YbPirnJ8
- flxE4AVbfXYFAlwbjL7QYqogA4iNNUU4xWQLB6ocmxc0FvnZ9CUs/L1GrZtA6a+Dg2xU
- 9N5j54RLYBPwUb7HdDifYlEvQb6IBdhwhpokBdRR+l1zHk3pMaPPOoFGJ7j8iw1mMYut
- pfbOSL+w81eJcxUVLpjm6aEipVhNl3UZcqSCtBGpoDmmvUnz3xXYg/FFID9h/svBR4kX
- 7n+Q==
+ bh=5IZ5ZyHPjVPn/a1sUZGku96Q30DI6b1ntIDJki2HPWc=;
+ b=wkX5+1dJ/LdZuIYvxib1YaiVHwOuP/WyilPlBl/lZIqRcebVQjU5oZtV51sgtgLQHD
+ 9V80Z6wvusZwqL7t4IITJPiIvq0QkoJLRepTE98ek9iJovnBrzcMc0+mdqiraPCbDQn6
+ Se0dwtfeBUnOm9QLuUOSwcWTqPPvj8SEd4ko7knXTNTtjz2gSDOTVwnRE58rwzjkK0ch
+ 8DeFNphJd0rg/WWTCEGDA+dQn69kijh6iEQa6v3/pPqQUukrlYIEdAP8uUsooD/zYRN6
+ 6FlDvfSuOxzzKBtGzRIN3FvIxx53VCAfYT2AKGYr7rEQ6oGj2kBS/DCs+fPvy2aMYznG
+ I+WA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXdwXPj4zWknWeCKzUD1+i1YEArTznuk4tTNrem5oevHvkWnHtAkSok5V27JzZQWa3kDJOKhufB6gg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJ8uwr3QPjS4MT1MSDvFGP72DrS1upoZy+Oj4Q+V5NGEOr01ZI
- apQJRB0euDX4J7k6Wb9OQzJkngqqtrAsIL9dQUAel7mDGtYDdNcBY70zBp1sYPoB0lwydQMX6os
- Zwn5NvpUjtyFThe3JdKQ3NfMaKfdXamIOz9FVXhplQt9XGNiQZjeT42PSpA0AO3ln34HFTQ==
-X-Gm-Gg: ASbGncvDdj2dueKu/ZUHP3OkYKlV+J/CGMILkrhQLFTyBp94904aRdF/xBoQkv4I2e/
- tlVK3R4GXzoI7pQjOHOZB28OMZfHmS3/P9MmRDedEvCH/1pi+aaxEltfu1nDzCpYcu6/ZA35InL
- qn8tw/GPFUbiE7QlThcxtYaYzZBTo3jrc5oQlYT92ziPydHe4CtYTXfdCxMckBKwJGl8zjQCJZL
- JG0ztYRfYJw8Z+sr7ipPhN1R9MGsOatuQDvj/b+grSA7/WRWx0OS4ZmqymcZDS7hl/WabVQcOYX
- MYEnHccMaiY7N9oJu2qwAq+bkSu/gol8V7stq7eWtmGm8cWBKWbQac7j7g/QnS2FF1VjQJGv+lw
- CCXn/4bI0K3rYDXyfE7UpSShqsg8iVlBRNGKYL9a/I4WhK3MHHltsh/NiyqhFir/x2Qjh
-X-Received: by 2002:a05:600c:5296:b0:45f:2cd5:507c with SMTP id
- 5b1f17b1804b1-46e32a131admr24812815e9.36.1758793431939; 
- Thu, 25 Sep 2025 02:43:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWz4LdemSwADsOpu90+REN4fMccxBh2uGX6ZV9Mxd0bjbe/Oflr7dE6fLA/sZVqFh7dcnOWg==
-X-Received: by 2002:a05:600c:5296:b0:45f:2cd5:507c with SMTP id
- 5b1f17b1804b1-46e32a131admr24812405e9.36.1758793431361; 
- Thu, 25 Sep 2025 02:43:51 -0700 (PDT)
+ AJvYcCWZVM6ny7j0X7h1AlMMmD+kgmwn6CP944pBC0agV158Tq8dvYfu8/CEccS/juUfz7Rvm98fN5EXerc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqtcUkP3p7b+5E04/ZyWUSRiHz9tGl4wXm9vNWZa8lV6gwt4dY
+ 2JxfbWOe0z284RyC4DpGAm1xNdSdSbxC23vQl4+P728GhVvfUHvFEW7MXPIdLTYcR45DrJ21x/r
+ QRdEcFZC5L59cUXOFVcuql6Z1I2WIXqUP2p1bwYv8S26lws/GV5Ab1a1vDk0ndfPi8BN3MA==
+X-Gm-Gg: ASbGncuGuLMQESfdZET/91pe37trdJj5PTMC/yPABDfKlAEFXz6tTqwbjW1OVGxDwwl
+ +Bm6g+OwQob8GsIMsggp5hxs7nuIFVg5e1XRyFYR2t8Ea3a56yXhbDzjKeYG84ZdVoZ7MKDrv+C
+ GUMw320Toa3rZlEaCqiEOaCFOq8rOu4+V2rsbmLHD5DX82Sjqv3WI56usi4QinlsnUrt5A6kOSV
+ jbl38ETM2kNIf8wXc850ojyv9A1JOz5u6rOE7mVqOVHJ2MQM2FH6zITMwNf5TkjVUt5wuBr0lLu
+ qc4Yf8meCqq6oyaG19IM8xgjTQPyxvOZKi+trduv6tFFpZMO5z4xXcr1mG/wakOEjn2D6aKkyrB
+ H6PFlb1awzrYJMYoYEPjTNwpSZcxYofQbf5YYHxBEWRAFw0lDQRwGMCsaJR2tXXQWkrOJ
+X-Received: by 2002:a05:600c:8b71:b0:46e:2d0d:804c with SMTP id
+ 5b1f17b1804b1-46e329ae509mr28236085e9.11.1758793991635; 
+ Thu, 25 Sep 2025 02:53:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEQdx4XV7EntPUilqRyAJNwUvFZd26RTmvdykMXr/gjLo1hfbQKEF9ym8IJ49CBAyUk65IGGg==
+X-Received: by 2002:a05:600c:8b71:b0:46e:2d0d:804c with SMTP id
+ 5b1f17b1804b1-46e329ae509mr28235655e9.11.1758793991123; 
+ Thu, 25 Sep 2025 02:53:11 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08?
  (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de.
  [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46e33bf70dcsm26209145e9.23.2025.09.25.02.43.48
+ 5b1f17b1804b1-46e2a996d7dsm72815125e9.4.2025.09.25.02.53.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Sep 2025 02:43:50 -0700 (PDT)
-Message-ID: <1b6741fe-20ed-4a47-8e9b-24bd199f23f4@redhat.com>
-Date: Thu, 25 Sep 2025 11:43:48 +0200
+ Thu, 25 Sep 2025 02:53:10 -0700 (PDT)
+Message-ID: <df1e62e6-57ac-4a5f-bf62-71fea47481af@redhat.com>
+Date: Thu, 25 Sep 2025 11:53:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v6 01/15] mm/zone_device: support large zone device private
- folios
-To: Alistair Popple <apopple@nvidia.com>, Zi Yan <ziy@nvidia.com>
-Cc: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>, Oscar Salvador
- <osalvador@suse.de>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+Subject: Re: [v6 02/15] mm/huge_memory: add device-private THP support to PMD
+ operations
+To: Alistair Popple <apopple@nvidia.com>, Balbir Singh <balbirs@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, damon@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
+ Zi Yan <ziy@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
  Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
@@ -93,14 +94,10 @@ Cc: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
  Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
  =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
  Francois Dugast <francois.dugast@intel.com>
 References: <20250916122128.2098535-1-balbirs@nvidia.com>
- <20250916122128.2098535-2-balbirs@nvidia.com>
- <882D81FA-DA40-4FF9-8192-166DBE1709AF@nvidia.com>
- <9c263334-c0f3-4af0-88a8-8ed19ef6b83d@redhat.com>
- <66A59A5C-B54E-484F-9EB8-E12F6BD1CD03@nvidia.com>
- <lcuuqa3e3txmhb55c5q3s6unugde4hp2wsmvkahgddeicyn2tp@xdx2zqjmd4ol>
+ <20250916122128.2098535-3-balbirs@nvidia.com>
+ <azcaqmqwdslvoei7ma4obtpxcdv7jdqfdc3ny4sylgwelwhfvo@okwd6y2oq5q4>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -146,9 +143,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <lcuuqa3e3txmhb55c5q3s6unugde4hp2wsmvkahgddeicyn2tp@xdx2zqjmd4ol>
+In-Reply-To: <azcaqmqwdslvoei7ma4obtpxcdv7jdqfdc3ny4sylgwelwhfvo@okwd6y2oq5q4>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: eq7YXDQHV5mYG1EJ6eeoknvY8UCcOvXjryxmazAvJbI_1758793432
+X-Mimecast-MFC-PROC-ID: EF8B-L12s_dSInYlJnYa5CT4G9rDcFm9ndW7IJHRjX0_1758793992
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -168,268 +165,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.09.25 01:58, Alistair Popple wrote:
-> On 2025-09-25 at 03:36 +1000, Zi Yan <ziy@nvidia.com> wrote...
->> On 24 Sep 2025, at 6:55, David Hildenbrand wrote:
+On 25.09.25 02:25, Alistair Popple wrote:
+> On 2025-09-16 at 22:21 +1000, Balbir Singh <balbirs@nvidia.com> wrote...
+>> Extend core huge page management functions to handle device-private THP
+>> entries.  This enables proper handling of large device-private folios in
+>> fundamental MM operations.
 >>
->>> On 18.09.25 04:49, Zi Yan wrote:
->>>> On 16 Sep 2025, at 8:21, Balbir Singh wrote:
->>>>
->>>>> Add routines to support allocation of large order zone device folios
->>>>> and helper functions for zone device folios, to check if a folio is
->>>>> device private and helpers for setting zone device data.
->>>>>
->>>>> When large folios are used, the existing page_free() callback in
->>>>> pgmap is called when the folio is freed, this is true for both
->>>>> PAGE_SIZE and higher order pages.
->>>>>
->>>>> Zone device private large folios do not support deferred split and
->>>>> scan like normal THP folios.
->>>>>
->>>>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->>>>> Cc: David Hildenbrand <david@redhat.com>
->>>>> Cc: Zi Yan <ziy@nvidia.com>
->>>>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->>>>> Cc: Rakie Kim <rakie.kim@sk.com>
->>>>> Cc: Byungchul Park <byungchul@sk.com>
->>>>> Cc: Gregory Price <gourry@gourry.net>
->>>>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->>>>> Cc: Alistair Popple <apopple@nvidia.com>
->>>>> Cc: Oscar Salvador <osalvador@suse.de>
->>>>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>>>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->>>>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->>>>> Cc: Nico Pache <npache@redhat.com>
->>>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
->>>>> Cc: Dev Jain <dev.jain@arm.com>
->>>>> Cc: Barry Song <baohua@kernel.org>
->>>>> Cc: Lyude Paul <lyude@redhat.com>
->>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>> Cc: David Airlie <airlied@gmail.com>
->>>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>>> Cc: Ralph Campbell <rcampbell@nvidia.com>
->>>>> Cc: Mika Penttilä <mpenttil@redhat.com>
->>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>> Cc: Francois Dugast <francois.dugast@intel.com>
->>>>> ---
->>>>>    include/linux/memremap.h | 10 +++++++++-
->>>>>    mm/memremap.c            | 34 +++++++++++++++++++++-------------
->>>>>    mm/rmap.c                |  6 +++++-
->>>>>    3 files changed, 35 insertions(+), 15 deletions(-)
->>>>>
->>>>> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
->>>>> index e5951ba12a28..9c20327c2be5 100644
->>>>> --- a/include/linux/memremap.h
->>>>> +++ b/include/linux/memremap.h
->>>>> @@ -206,7 +206,7 @@ static inline bool is_fsdax_page(const struct page *page)
->>>>>    }
->>>>>
->>>>>    #ifdef CONFIG_ZONE_DEVICE
->>>>> -void zone_device_page_init(struct page *page);
->>>>> +void zone_device_folio_init(struct folio *folio, unsigned int order);
->>>>>    void *memremap_pages(struct dev_pagemap *pgmap, int nid);
->>>>>    void memunmap_pages(struct dev_pagemap *pgmap);
->>>>>    void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
->>>>> @@ -215,6 +215,14 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn);
->>>>>    bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
->>>>>
->>>>>    unsigned long memremap_compat_align(void);
->>>>> +
->>>>> +static inline void zone_device_page_init(struct page *page)
->>>>> +{
->>>>> +	struct folio *folio = page_folio(page);
->>>>> +
->>>>> +	zone_device_folio_init(folio, 0);
->>>>
->>>> I assume it is for legacy code, where only non-compound page exists?
->>>>
->>>> It seems that you assume @page is always order-0, but there is no check
->>>> for it. Adding VM_WARN_ON_ONCE_FOLIO(folio_order(folio) != 0, folio)
->>>> above it would be useful to detect misuse.
->>>>
->>>>> +}
->>>>> +
->>>>>    #else
->>>>>    static inline void *devm_memremap_pages(struct device *dev,
->>>>>    		struct dev_pagemap *pgmap)
->>>>> diff --git a/mm/memremap.c b/mm/memremap.c
->>>>> index 46cb1b0b6f72..a8481ebf94cc 100644
->>>>> --- a/mm/memremap.c
->>>>> +++ b/mm/memremap.c
->>>>> @@ -416,20 +416,19 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
->>>>>    void free_zone_device_folio(struct folio *folio)
->>>>>    {
->>>>>    	struct dev_pagemap *pgmap = folio->pgmap;
->>>>> +	unsigned long nr = folio_nr_pages(folio);
->>>>> +	int i;
->>>>>
->>>>>    	if (WARN_ON_ONCE(!pgmap))
->>>>>    		return;
->>>>>
->>>>>    	mem_cgroup_uncharge(folio);
->>>>>
->>>>> -	/*
->>>>> -	 * Note: we don't expect anonymous compound pages yet. Once supported
->>>>> -	 * and we could PTE-map them similar to THP, we'd have to clear
->>>>> -	 * PG_anon_exclusive on all tail pages.
->>>>> -	 */
->>>>>    	if (folio_test_anon(folio)) {
->>>>> -		VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
->>>>> -		__ClearPageAnonExclusive(folio_page(folio, 0));
->>>>> +		for (i = 0; i < nr; i++)
->>>>> +			__ClearPageAnonExclusive(folio_page(folio, i));
->>>>> +	} else {
->>>>> +		VM_WARN_ON_ONCE(folio_test_large(folio));
->>>>>    	}
->>>>>
->>>>>    	/*
->>>>> @@ -456,8 +455,8 @@ void free_zone_device_folio(struct folio *folio)
->>>>>    	case MEMORY_DEVICE_COHERENT:
->>>>>    		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
->>>>>    			break;
->>>>> -		pgmap->ops->page_free(folio_page(folio, 0));
->>>>> -		put_dev_pagemap(pgmap);
->>>>> +		pgmap->ops->page_free(&folio->page);
->>>>> +		percpu_ref_put_many(&folio->pgmap->ref, nr);
->>>>>    		break;
->>>>>
->>>>>    	case MEMORY_DEVICE_GENERIC:
->>>>> @@ -480,14 +479,23 @@ void free_zone_device_folio(struct folio *folio)
->>>>>    	}
->>>>>    }
->>>>>
->>>>> -void zone_device_page_init(struct page *page)
->>>>> +void zone_device_folio_init(struct folio *folio, unsigned int order)
->>>>>    {
->>>>> +	struct page *page = folio_page(folio, 0);
->>>>
->>>> It is strange to see a folio is converted back to page in
->>>> a function called zone_device_folio_init().
->>>>
->>>>> +
->>>>> +	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
->>>>> +
->>>>>    	/*
->>>>>    	 * Drivers shouldn't be allocating pages after calling
->>>>>    	 * memunmap_pages().
->>>>>    	 */
->>>>> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
->>>>> -	set_page_count(page, 1);
->>>>> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
->>>>> +	folio_set_count(folio, 1);
->>>>>    	lock_page(page);
->>>>> +
->>>>> +	if (order > 1) {
->>>>> +		prep_compound_page(page, order);
->>>>> +		folio_set_large_rmappable(folio);
->>>>> +	}
->>>>
->>>> OK, so basically, @folio is not a compound page yet when zone_device_folio_init()
->>>> is called.
->>>>
->>>> I feel that your zone_device_page_init() and zone_device_folio_init()
->>>> implementations are inverse. They should follow the same pattern
->>>> as __alloc_pages_noprof() and __folio_alloc_noprof(), where
->>>> zone_device_page_init() does the actual initialization and
->>>> zone_device_folio_init() just convert a page to folio.
->>>>
->>>> Something like:
->>>>
->>>> void zone_device_page_init(struct page *page, unsigned int order)
->>>> {
->>>> 	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
->>>>
->>>> 	/*
->>>> 	 * Drivers shouldn't be allocating pages after calling
->>>> 	 * memunmap_pages().
->>>> 	 */
->>>>
->>>>       WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
->>>> 	
->>>> 	/*
->>>> 	 * anonymous folio does not support order-1, high order file-backed folio
->>>> 	 * is not supported at all.
->>>> 	 */
->>>> 	VM_WARN_ON_ONCE(order == 1);
->>>>
->>>> 	if (order > 1)
->>>> 		prep_compound_page(page, order);
->>>>
->>>> 	/* page has to be compound head here */
->>>> 	set_page_count(page, 1);
->>>> 	lock_page(page);
->>>> }
->>>>
->>>> void zone_device_folio_init(struct folio *folio, unsigned int order)
->>>> {
->>>> 	struct page *page = folio_page(folio, 0);
->>>>
->>>> 	zone_device_page_init(page, order);
->>>> 	page_rmappable_folio(page);
->>>> }
->>>>
->>>> Or
->>>>
->>>> struct folio *zone_device_folio_init(struct page *page, unsigned int order)
->>>> {
->>>> 	zone_device_page_init(page, order);
->>>> 	return page_rmappable_folio(page);
->>>> }
->>>
->>> I think the problem is that it will all be weird once we dynamically allocate "struct folio".
->>>
->>> I have not yet a clear understanding on how that would really work.
->>>
->>> For example, should it be pgmap->ops->page_folio() ?
->>>
->>> Who allocates the folio? Do we allocate all order-0 folios initially, to then merge them when constructing large folios? How do we manage the "struct folio" during such merging splitting?
+>> The following functions have been updated:
 >>
->> Right. Either we would waste memory by simply concatenating all “struct folio”
->> and putting paddings at the end, or we would free tail “struct folio” first,
->> then allocate tail “struct page”. Both are painful and do not match core mm’s
->> memdesc pattern, where “struct folio” is allocated when caller is asking
->> for a folio. If “struct folio” is always allocated, there is no difference
->> between “struct folio” and “struct page”.
+>> - copy_huge_pmd(): Handle device-private entries during fork/clone
+>> - zap_huge_pmd(): Properly free device-private THP during munmap
+>> - change_huge_pmd(): Support protection changes on device-private THP
+>> - __pte_offset_map(): Add device-private entry awareness
+>>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+>> Cc: David Hildenbrand <david@redhat.com>
+>> Cc: Zi Yan <ziy@nvidia.com>
+>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+>> Cc: Rakie Kim <rakie.kim@sk.com>
+>> Cc: Byungchul Park <byungchul@sk.com>
+>> Cc: Gregory Price <gourry@gourry.net>
+>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+>> Cc: Alistair Popple <apopple@nvidia.com>
+>> Cc: Oscar Salvador <osalvador@suse.de>
+>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+>> Cc: Nico Pache <npache@redhat.com>
+>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+>> Cc: Dev Jain <dev.jain@arm.com>
+>> Cc: Barry Song <baohua@kernel.org>
+>> Cc: Lyude Paul <lyude@redhat.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Ralph Campbell <rcampbell@nvidia.com>
+>> Cc: Mika Penttilä <mpenttil@redhat.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Francois Dugast <francois.dugast@intel.com>
+>> ---
+>>   include/linux/swapops.h | 32 +++++++++++++++++++++++
+>>   mm/huge_memory.c        | 56 ++++++++++++++++++++++++++++++++++-------
+>>   mm/pgtable-generic.c    |  2 +-
+>>   3 files changed, 80 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/include/linux/swapops.h b/include/linux/swapops.h
+>> index 64ea151a7ae3..2687928a8146 100644
+>> --- a/include/linux/swapops.h
+>> +++ b/include/linux/swapops.h
+>> @@ -594,10 +594,42 @@ static inline int is_pmd_migration_entry(pmd_t pmd)
+>>   }
+>>   #endif  /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>>   
+>> +#if defined(CONFIG_ZONE_DEVICE) && defined(CONFIG_ARCH_ENABLE_THP_MIGRATION)
+>> +
+>> +/**
+>> + * is_pmd_device_private_entry() - Check if PMD contains a device private swap entry
+>> + * @pmd: The PMD to check
+>> + *
+>> + * Returns true if the PMD contains a swap entry that represents a device private
+>> + * page mapping. This is used for zone device private pages that have been
+>> + * swapped out but still need special handling during various memory management
+>> + * operations.
+>> + *
+>> + * Return: 1 if PMD contains device private entry, 0 otherwise
+>> + */
+>> +static inline int is_pmd_device_private_entry(pmd_t pmd)
+>> +{
+>> +	return is_swap_pmd(pmd) && is_device_private_entry(pmd_to_swp_entry(pmd));
+>> +}
+>> +
+>> +#else /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>> +
+>> +static inline int is_pmd_device_private_entry(pmd_t pmd)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +#endif /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>> +
+>>   static inline int non_swap_entry(swp_entry_t entry)
+>>   {
+>>   	return swp_type(entry) >= MAX_SWAPFILES;
+>>   }
+>>   
+>> +static inline int is_pmd_non_present_folio_entry(pmd_t pmd)
 > 
-> As mentioned in my other reply I need to investigate this some more, but I
-> don't think we _need_ to always allocate folios (or pages for that matter).
-> The ZONE_DEVICE code just uses folios/pages for interacting with the core mm,
-> not for managing the device memory itself, so we should be able to make it more
-> closely match the memdesc pattern. It's just I'm still a bit unsure what that
-> pattern will actually look like.
+> I can't think of a better name either although I am curious why open-coding it
+> was so nasty given we don't have the equivalent for pte entries. Will go read
+> the previous discussion.
 
-I think one reason might be that in contrast to ordinary pages, 
-zone-device memory is only ever used to be used for folios, right?
+I think for PTEs we just handle all cases (markers, hwpoison etc) 
+properly, manye not being supported yet on the PMD level. See 
+copy_nonpresent_pte() as an example.
 
-Would there be a user that just allocates pages and not wants a folio 
-associated with it?
+We don't even have helpers like is_pte_migration_entry().
 
-It's a good question of that would look like when we have dynamically 
-allocated struct folio ...
-
+>> diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+>> index 567e2d084071..0c847cdf4fd3 100644
+>> --- a/mm/pgtable-generic.c
+>> +++ b/mm/pgtable-generic.c
+>> @@ -290,7 +290,7 @@ pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
+>>   
+>>   	if (pmdvalp)
+>>   		*pmdvalp = pmdval;
+>> -	if (unlikely(pmd_none(pmdval) || is_pmd_migration_entry(pmdval)))
+>> +	if (unlikely(pmd_none(pmdval) || !pmd_present(pmdval)))
 > 
->>>
->>> With that in mind, I don't really know what the proper interface should be today.
->>>
->>>
->>> zone_device_folio_init(struct page *page, unsigned int order)
->>>
->>> looks cleaner, agreed.
-> 
-> Agreed.
-> 
->>>>
->>>>
->>>> Then, it comes to free_zone_device_folio() above,
->>>> I feel that pgmap->ops->page_free() should take an additional order
->>>> parameter to free a compound page like free_frozen_pages().
-> 
-> Where would the order parameter come from? Presumably
-> folio_order(compound_head(page)) in which case shouldn't the op actually just be
-> pgmap->ops->folio_free()?
+> Why isn't is_pmd_non_present_folio_entry() used here?
 
-Yeah, that's also what I thought.
 
+I thought I argued that
+
+	if (!pmd_present(pmdval)))
+
+Should be sufficient here in my last review?
+
+We want to detect page tables we can map after all.
 -- 
 Cheers
 
