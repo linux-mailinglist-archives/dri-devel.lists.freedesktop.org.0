@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3BBB9EF00
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 13:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E26B9EEF7
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 13:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481D810E8DF;
-	Thu, 25 Sep 2025 11:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045CD10E2AF;
+	Thu, 25 Sep 2025 11:36:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="RTzgVuPK";
+	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="V85qOgkf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com
- (mail-westeuropeazon11023083.outbound.protection.outlook.com [52.101.72.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 224D410E8CE
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 11:36:27 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com
+ (mail-westeuropeazon11020094.outbound.protection.outlook.com [52.101.69.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0BCF10E2AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 11:36:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qq0AHZi6+D0awpGSHdkFTXNhSLmPZSbcce820XDRci14A0flUpHdIxv5mPlIy/E/KiXJYb7bgbSS0yNtt/7FDblc9X253DhJjd29AHWr5DDpQRgNbR45/yZJezO61tz87xLI120eMkGgOQbvTOghJhAXAuTllWE0qcL5empwLNq4xSxvflUu17Hv3NW0YjNo5Pv5d+erSEzcJgr0t6A8jxd1mOi2TeRqML2cWbStCROO801bxGbfiyhogbwqIs5igruhM8Qw5QLEcO3UQ0rY6LcYmEcIB3fr9mkcmvMASKh2ReLwMPSynLWYbPqV3BUy22nT/Q1Rarawq5TLceSJPQ==
+ b=GpJB+h6dJKYIMP3S4iGWb/Vjyz59ZhBGcqkdPrCpLtzlb7vjD0QuFYHHFSbRDlRB5Tuj+ElCNS+7atLTr4gi9QrFYzbYdsKy3VFlu7IRAHsbrLSbROUDHrA/f50mLfyhvdi4gdJEPUEi/mTAJwSe9MP1HZGjhTdguLrH4n5BAwzuguwbcq8AUawDG1rviLZn0Ahat90PIHslbiDhv3Z7+j4Ouxtx1Xwv9dk/2XOfwkybVKzB1xO2lviG+4+ioUnuCLoH3PYYpYTfYmqBEoqiEYT+spNhh7jyYBMEw8VXGsmWPYCydB3vLHVgNlk3zIWFnyloU09SCjSy+kjH+6HlRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bzz2pumGmBcyNpxo1Y0oH17RGom+gBqHpqoSbnJ+NGU=;
- b=bs5GW4KPKwCDecYAtRMbO1au4ZyGzdqz6XitB0asUvT7ZnMUOxylqjiI7L4MsVGtAebnFWng4YVrxDsOtoNS11ads/DVNXZxMcQ8aXS1NlYf4VciYVeOGrKysXU4+lEchi78ULUvJ2vp3EpLJb/8eJX6mL8fnXLUoZVQyKyxT9vHbpvOfUOAqgwNt6RxGxAZCbU63CxXRPIa8G94QDFZP2zo5BynlwFvsNddOg1Vh6e0XDyYo5jsoQ0Jz3ksoFUjHlu6oB3bldYAUd6keYHe6kNg3sxlkqp4EJwYUyG2rQup43GR9abb5cz2D+wVAPIgp3iQpJUR5bpOkNO2vPlk2Q==
+ bh=f+lNgiGAau1ujpgeTuYy6ZTw0V3sv+QqO6E+rHxz3Zs=;
+ b=S6r1UmH/ITUBliXib8MuBpDclUXzuQjxvp4XAtNpLj754SJ+LfkpJkDEvB/Q2j1zcMpOi0q0jVTvOTy9+qHSEVHuJWIPSCDVvCeo2WDK7j7EF97bz8ZTRoiemmjpx5+bckt7NvFjJeTOkY/YQfQG8t5uRKeT0O/RdbhHnUHAw6p7YwbNQnwFQk/MOB8+ezxIwO9bNhSSLiBAKaPKAjtmL+er8u6bScHJivn20j08ySmDtRMeMkOpn7xGb10ENRWNLOx+OlX8TR3btkQlBXNos/tmTdyXz+SDEiPXW+zaEXM/g/E+SErKZLkhGGWkb4ro8LHFv86o678GYw51i/KOdg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 91.26.50.189) smtp.rcpttodomain=kernel.org smtp.mailfrom=phytec.de;
  dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
  header.from=phytec.de; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bzz2pumGmBcyNpxo1Y0oH17RGom+gBqHpqoSbnJ+NGU=;
- b=RTzgVuPK7DQsB9at4OAS6Y8bIaEMj9H7eYh0aOqCOIo2YSsoE3swc28qbWkc8I8PhIuOo6Mye7MvepGtubUqylWrPIrvtWo9BKzIRVLAq6aLN5ILtNZOEGyUBL6p/C3hX0aX3VH3qlpMzmUBzgiLOCVtVDvtkYCuEA2RVDBZSGwJ7pvXb5ea6Hz2TNSKQ6DQcpzgokEK60jkgIegPkGuaYCI3gaae5eAANTQaU15N4B+WSFYWwjF1H4Cl4SMO72CVvQYtyILn6MY8EtilfbMzdheqDVX+P/J7hm8yWGrqmAPmRrLniehapHu+o7YtKn8Yh+oSD+r2D6HJn2Wr7vFAA==
-Received: from AS4P191CA0037.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:657::16)
- by GV4P195MB3024.EURP195.PROD.OUTLOOK.COM (2603:10a6:150:2b3::13)
+ bh=f+lNgiGAau1ujpgeTuYy6ZTw0V3sv+QqO6E+rHxz3Zs=;
+ b=V85qOgkf4uTNV5ZD23gD3Pm8r6NUZ7Sx3Skb5lLdeYByF/kYGCuKg/OYrTiQRbUWCKSYfer6TGuEcbdomIlEccYDE3muXI5NjuJA7im/0k+2H8mvKm6VSNvOk5qJRckfjZMzKf48IXXLrByIwgB+J6N1LacoNgxe9VksZXBsY1N8ffg8sasM8enVPmMQRiADxdbwaSVq7RnHwpu1JzWXDqtSfTPHtFYY6/sx6qzull+2B9VX/7IK34bf6taT/K1RToyGFqprRh6fqYVdCu3mgUYrcb4RrgCuo4jtdCwvJ+NbvaOA4IevxJCoqRkm0dBk063mB9NVjYNHddjgmBAgRQ==
+Received: from AS4P191CA0048.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:657::17)
+ by AM0P195MB0500.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:161::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
  2025 11:36:21 +0000
 Received: from AMS0EPF000001A3.eurprd05.prod.outlook.com
- (2603:10a6:20b:657:cafe::88) by AS4P191CA0037.outlook.office365.com
- (2603:10a6:20b:657::16) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:20b:657:cafe::e0) by AS4P191CA0048.outlook.office365.com
+ (2603:10a6:20b:657::17) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.10 via Frontend Transport; Thu,
- 25 Sep 2025 11:36:20 +0000
+ 25 Sep 2025 11:36:22 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
  smtp.mailfrom=phytec.de;
  dkim=none (message not signed)
@@ -50,23 +50,20 @@ Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
 Received: from Postix.phytec.de (91.26.50.189) by
  AMS0EPF000001A3.mail.protection.outlook.com (10.167.16.228) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.9 via Frontend Transport; Thu, 25 Sep 2025 11:36:20 +0000
+ 15.20.9160.9 via Frontend Transport; Thu, 25 Sep 2025 11:36:21 +0000
 Received: from llp-jremmet.phytec.de (172.25.39.81) by Postix.phytec.de
  (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 25 Sep
- 2025 13:36:19 +0200
+ 2025 13:36:20 +0200
 From: Jan Remmet <j.remmet@phytec.de>
-Subject: [PATCH RFC 0/2] drm/bridge: re order of bridge chain causes
- flickering display
-Date: Thu, 25 Sep 2025 13:35:54 +0200
-Message-ID: <20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-0-94f9f775ee62@phytec.de>
+Date: Thu, 25 Sep 2025 13:35:55 +0200
+Subject: [PATCH RFC 1/2] drm/bridge: ti-sn65dsi83: move clk setup to enable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABop1WgC/x3NQQ6CMBBA0auQWTvJUK0UtyQewK0xTSmjjEmxa
- QlgCHeXuHyb/1fInIQzXIoVEk+S5TPsKA8F+N4NL0bpdoMipalWGmeJ+MbEIfCIsf+O7LFjbHO
- UsJiAR0Oljdyim7AkO8vYW+cV1UjauJbNqar8GfZ+TPyU5f++w+3awGPbfooO21OQAAAA
-X-Change-ID: 20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-058abe8477c6
+Message-ID: <20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-1-94f9f775ee62@phytec.de>
+References: <20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-0-94f9f775ee62@phytec.de>
+In-Reply-To: <20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-0-94f9f775ee62@phytec.de>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
  <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent Pinchart
  <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
@@ -87,60 +84,61 @@ X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
  (172.25.0.11)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001A3:EE_|GV4P195MB3024:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f216ea5-0cba-459a-e220-08ddfc27bfc6
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001A3:EE_|AM0P195MB0500:EE_
+X-MS-Office365-Filtering-Correlation-Id: 710e86dc-8501-44e5-812d-08ddfc27c078
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|30052699003|82310400026|36860700013|7416014|376014|13003099007|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Vm9VL01BNmpjWEVWSWNDT2cyclJTbitmWHpvV2tzNnQ1RktTK2gvU1JJeUVP?=
- =?utf-8?B?YVpCcnpiMEI3K2FwVjV6d09aNGpDODlTMCtiWGs0SjVXdEUvVTN3aDVxZmJX?=
- =?utf-8?B?OVNNTXdDOThHVG5zQmVwZ2tZY3V2SHVxV3cwSkNXMk05ZTZWK2I1ZXQ0d1Vx?=
- =?utf-8?B?SHR2WEo3aDRIZ1F4SWkxWFhqWkdNT0RkUmVPUUovMHdSbWkvcGpuYytlTHll?=
- =?utf-8?B?dTVBNlQ5RWF4WThhTGRoN2dMcVphUEVYK0ZJK1NpdDBVOVhEN3NTOGxVaGV2?=
- =?utf-8?B?WFZ6cVVLcjdRNzlDYTRuZjhYejRCN1Jnb0k3S3N1RzNSOVVmSjBGRVRKV2Uy?=
- =?utf-8?B?VUZyRlcreDJiSXpRckljRm4vU0FORkxPWndDRnB2b1FBQ21jM21sS3FOWjFS?=
- =?utf-8?B?Y2lJbXdsb2hYU2pDMHJCK21ZN3ZRSS91ZXpncTFSSm45NldhYzZzVWx0T1NB?=
- =?utf-8?B?U1E5SFB4cnhIWC9xVTBvN2pod2RjRnFBQ1JGNEV1N2Nlc05HMlUrQlB0SjQx?=
- =?utf-8?B?VHU5NGdSeHZycXBRYTFSZDVVbml1V1krS3oxOEVGRkVPcTNHcjdqcFp0K0gy?=
- =?utf-8?B?SGJsVDg2UzVubVJCaEwrWEFIWm5NS3ZXcFVwNloySmJRdWtzcS9xSXpYaTM2?=
- =?utf-8?B?Ulg4QWFhUTNXbTJnckVTQko0YnYrVS9vaSsxSW56clNSeXNRbXp3Z3p6aE84?=
- =?utf-8?B?NGROdnhFZlZ4dlFsVzdwejFXa1NLSnFqU3R1MlFCa3crSFJSR2liTW9rbE11?=
- =?utf-8?B?M1JRemZ5RkVIczdSRUZmcTFUNjlQY2J1dmJLZnBXRkRNWWc1Z29OSGhScEp0?=
- =?utf-8?B?OWRwWkxra0pMbEdXT1pLODAyamwwMHdoWnFvYnFWWTJHVEZ6NXZFeXJWN0p5?=
- =?utf-8?B?VVJDcGl6aGUxT1BLekhBRGJRL3VJQ21tYUxCTnF5NUhoUGtNTlNnZGdPQTZv?=
- =?utf-8?B?QXNLMTVZU3U3cWpxY1JCeERVMjZFcGtRakZZMXBKYm55cWlvMCtyZSttd2Rt?=
- =?utf-8?B?Q0RVbzJaQ1FYK1JVdkI0WXdUMGtSSmJ1TlFRdXhzelAxYUtxck9FMENFSnY2?=
- =?utf-8?B?bjREQlRPWExPZE5GcmkwQW9zUlAydFNuc1BUdXI2WmE5Zk9YN3huOThtdTd4?=
- =?utf-8?B?RFp0VVdMYWMzZEQyR1M4K1FROEtiUUpvNTZvQnVIM2x4RzFsc0JHTkJKSFE1?=
- =?utf-8?B?VGY3K0RzNWNGWUZhRkpCYmIxQXRUTVRiTy9mYVRLZEc1RldHOHNqR0FHa3Z4?=
- =?utf-8?B?N2FoRXFsd0xtTHAyUlpuY2RtV2ZENnpYOW5yZTA0d0xWSm9Ba2l3UGdwbVdn?=
- =?utf-8?B?N2RVYmZ1Z0xjZVlPaEgzQnVvV2ZVNWhkQ1ZQSCtYZ3psNXJFN3d5Qy9neldx?=
- =?utf-8?B?ektxemE1RHNrTkF6eWxOL0RjeDFjUG9NaXRaT1ZPOGI3b3VmekZDdmZFTWll?=
- =?utf-8?B?VWx6SWpaK0cxNFR1S1U3UlBvNlFZMTVoenlXaVJDeFg0a2tobjBCOHhDWGJq?=
- =?utf-8?B?YWZubThNYWNVdDBKeE9WbTVJa29RYVU4c3RnenZGQzFxc0JZUzByNlRZOVBS?=
- =?utf-8?B?cTdsQUJnckxCS1pHMWprWXdUdm5NYWRQTUpvUUVmZWp0aDcrMTFjVVZ0VWFa?=
- =?utf-8?B?QUd4WWY0OUk5N0JRMjRQajNnT0ZtUUg2VjhGVnVKb2lScHg4aVlqMXV0YlJM?=
- =?utf-8?B?OGkraEZ2TURwN01xc3BaQVQ4RG16V1lGa1Nmdm9QRFltbzFvWlpPNVEwc3c1?=
- =?utf-8?B?TjhFRHRnRy9hTGU3M3pCYkJjNnRlY1hlWFIrb3FpbE5BWXl5dG52eFM5eHhi?=
- =?utf-8?B?WUt6Z1lUNllHcTN1UG9KTVFSUUh4b1h2c1JZT0FodVdrcHc2Rmt4elFQZ2xQ?=
- =?utf-8?B?dHRzdGQxbE1hZzBYdDhOaUd4aCtweDJjaVZXMk1oTk80WHBmQ3NrcnRsRTAw?=
- =?utf-8?B?eHUrSkRvand3OCtib0hydzlxd2pXUnlDcDhSbUFBcldWZzJ6SWhBRlMwQ1Mr?=
- =?utf-8?Q?OMTGZgjYlyfPETy+Stuwxrq6OdhGSE=3D?=
+ ARA:13230040|82310400026|36860700013|376014|1800799024|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?THFzNUdHVnJDOEt6QXEraTdEUUJJQzJTVFFIeXBwTGxTMnVjM2lIMm5lOG1P?=
+ =?utf-8?B?aHdDOEgrVllKbk5TekZWM0pzM05TcGRodE9Ic01Lbk1WUW1GeDlkYVYyTlE4?=
+ =?utf-8?B?ZzNRaEExVUpWNnM3VW0zT0dvQlFRSzFHYTl2eHFBRXA5WU0wWHVEZ2NQSjhk?=
+ =?utf-8?B?VlhEUkJudzhzbTNlMEpDOE5DWm1jZjNKQlBSY2U1RmV6MGxGRGlTa0RaMFFW?=
+ =?utf-8?B?U0NtZHR0ZkpBb3VIM2Y4eUdMM3VEN2NOTVVBbzhKTGJDMjlPSm9QVzVxZCtZ?=
+ =?utf-8?B?d1hJWWUxZXBTT3dRaHl2eGdxWEZjZjY3d3ZwRitETmg1cExMYkdhbEdKTWJF?=
+ =?utf-8?B?TllKVFlhbE1qNk5KQUxpeThsZitZNDVhZFBFZzM4NU9IdFdpRVEwM0VtSHIz?=
+ =?utf-8?B?YXBWMmN5Q2haSUdPdWR4d01uR1dHaXhtZmIvNlBDU0VLeWkwYnVtbDlHVkdL?=
+ =?utf-8?B?dkZrNFFxYldFam1Udi85REVrM3BJOHY2VHh0WWY3cEFlTWhxMWZLdE9HZ0pw?=
+ =?utf-8?B?YWpLc20yYXRQdlBCWUdqYmJGUU9NTm9vS2JaaTNGcWVmRWtycFBNcVdyMzRl?=
+ =?utf-8?B?REswYkNKblAycm9abUQ3WkxCbGxZTW5KMjFuOUxBQ3cwU0dzOEtXVkswQVJ5?=
+ =?utf-8?B?ZkIwM25PY01zUEQvWGdIbmhKa2QxcEdnQ1FITlp4RTJieFIyRjdDU2ZSdDZS?=
+ =?utf-8?B?MEUvTzBhR1AreGxYbHpPREF3b01WK1ZtNURDRzhvbndMNDNTZDI3YS94OWVJ?=
+ =?utf-8?B?Wk90MXJIMUd0RSsxbXpEcUczaG1BMm1wTHYzN09SdXFvT2g3UmlXVWIydWxG?=
+ =?utf-8?B?WVlYcFlQaUJpTlpyZmxmUnRtNlRpRzNZODYyb3NoSk5RL1ozTEJqclJzeUpY?=
+ =?utf-8?B?enFQajdpRlNCdkx6SFNPcktHS1dROTdIQkpNTGx0bjJTZWZEa0N4ekhIdllG?=
+ =?utf-8?B?VENEaFJ5VnptcExUMlpKenpXOU9QcjVWc0dMNExHb1BDLytoRyt3U3F0MDdJ?=
+ =?utf-8?B?bmx0TkNHWnB5cU5lZDhlQXFyTndSY2RoVkcxYTZNM0R0WS9QeG5kUFplL3dj?=
+ =?utf-8?B?WjhqYVdnNE11UGY3SE1rcmtVa1ZvUGIrWFRoUFNhN0NvSlpScVBDVnpHaEMy?=
+ =?utf-8?B?dkYyWTRDQWlpN0hQQzBtc0tWcWs3WUJVNkh2eEpHcThKYzNCZHV3R2NuS2tR?=
+ =?utf-8?B?YjV0VnZLc3lXNnZQOWVjWldhWW5LWjNnK1BDK3ZxaTZaY0NvSlQ0MkFIV05j?=
+ =?utf-8?B?OW9kUDNOVU1hVjRDZmpFS25OcHFhaFF1bzhUaFdMczlCNDhaRDJYTktIenhn?=
+ =?utf-8?B?aGYzRjkvbTVpMTBwYW1LdHhHY1pFOHdUU04vNnQ2ZVk1VDEzbXk2dzhndU11?=
+ =?utf-8?B?aDROYklOc2pHWm1lU01tc3pNeHFLazdlek5MQUF2cm4rS2hybC85N2NXSjRB?=
+ =?utf-8?B?UWNxSUwvL3lYZS9SRmlZVkRDc3hHNTJrdlFuTTFkVjUvZnJ5YWNlb0JabFhj?=
+ =?utf-8?B?dkZIT0xSa0c3Wm4vOVhhdE43WGlZWDhYSloxR3E4bUhBbHlpbDRLK1hxWVhy?=
+ =?utf-8?B?VzUzNml3clhUcFpaYnlIcnFOMTF2VkZNM2dORDJNM2MrS2ZoS2wwL2pLS1VD?=
+ =?utf-8?B?UlNmQmM1VXhtUGZ0MjRsQkpuQUlGTW5BeXlKdGltTDhZNmNkNm5QUHZneWVF?=
+ =?utf-8?B?REtWSlp5QjhHUnpQYjQxUENKbHhtQm02ckFNNllHcFdYdzNveFFoalcvbDdk?=
+ =?utf-8?B?YmlDOGdmeW1YZHZIV1cvYVd6a3IveEF3TFZNNHhLV3FGRjdNOEhuenFkTzJR?=
+ =?utf-8?B?MnI3RW5mTzVidXA4OGFPODM1S3lqSXdxaFJzb0RvMVhUVUU5emN2YU5leUE4?=
+ =?utf-8?B?ZEFMKzhoS2srMDJrWUJGdWVVRlBpZkZXN1hES2FPKzNSVGFqRGtpekdQVkkw?=
+ =?utf-8?B?ZWNONTVyTEs4WE5UdDR3UXhLVFg4dzdDVi90RXFoSzNkWURJUERYcTI2WEVH?=
+ =?utf-8?B?akRVSzc0eUtUd2ljajlaLzRZb0dFMzF0YmxVOUZ6TmVrWElOWHU3TzlJMHU3?=
+ =?utf-8?B?b3A0UGhIb25laEl0R0piMlVOQWQzcHc1VjdsZz09?=
 X-Forefront-Antispam-Report: CIP:91.26.50.189; CTRY:DE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:Postix.phytec.de; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(30052699003)(82310400026)(36860700013)(7416014)(376014)(13003099007)(921020);
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024)(7416014)(921020);
  DIR:OUT; SFP:1102; 
 X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 11:36:20.7486 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f216ea5-0cba-459a-e220-08ddfc27bfc6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 11:36:21.9140 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 710e86dc-8501-44e5-812d-08ddfc27c078
 X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29; Ip=[91.26.50.189];
  Helo=[Postix.phytec.de]
 X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001A3.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P195MB3024
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P195MB0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,50 +154,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Move enable PLL from pre_enable to sn65dsi83_atomic_pre_enable.
+
+The base clocks may not be ready when pre_enable is called.
+
 commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
-and post-disable") caused our display [1] to flicker constantly.
-
-Our setup is
-i.MX8MM mxsfb -> samsung_dsim ->
- sn65dsi83 (MIPI to LVDS) -> ETML1010G3DRA (display)
-
-Reverting the commit [2] let the display work again.
-Only difference in clk_summary is the change of
-dsi_phy_ref from 72400000 (flickering) to 18100000 (working)
-
-The same behavior can be seen with a ph128800t006-zhc01 display
-and dsi_phy_ref from 66500000 (flickering) to 16625000 (working)
-
-The root cause seems to be that mxsfb_crtc_atomic_enable is called after
-samsung_dsim_atomic_pre_enable. This changes the parent clock after
-the PLL is already configured.
-
-According to the commit [2] pre_enable hooks should not rely on clocks.
-Both drivers used in our setup work with clocks in pre_enable.
-
-Moving the clock setup from pre_enable to enable fix the issue for
-our setup.
-
-Please note that I am not deeply familiar with the DRM subsystem internals,
-and there might be side effects of this change that I haven't considered.
-
-[1] arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
-[2] https://lore.kernel.org/all/20250605171524.27222-4-aradhya.bhatia@linux.dev/
+		and post-disable") points out that pre_enable hook definition says that
+"The display pipe (i.e. clocks and timing signals) feeding this bridge
+will not yet be running when this callback is called".
 
 Signed-off-by: Jan Remmet <j.remmet@phytec.de>
 ---
-Jan Remmet (2):
-      drm/bridge: ti-sn65dsi83: move clk setup to enable
-      drm/bridge: samsung-dsim: move clk setup to enable
-
- drivers/gpu/drm/bridge/samsung-dsim.c | 14 ++++++++------
  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 16 ++++++++--------
- 2 files changed, 16 insertions(+), 14 deletions(-)
----
-base-commit: bf40f4b87761e2ec16efc8e49b9ca0d81f4115d8
-change-id: 20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-058abe8477c6
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Best regards,
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 033c44326552ab167d4e8d9b74957c585e4c6fb7..4cbdbafc3e85821ef6fcd9f74bf07faf6b9f84ff 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -474,7 +474,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 	struct drm_crtc *crtc;
+ 	bool lvds_format_24bpp;
+ 	bool lvds_format_jeida;
+-	unsigned int pval;
+ 	__le16 le16val;
+ 	u16 val;
+ 	int ret;
+@@ -614,6 +613,14 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
+ 		     mode->vsync_start - mode->vdisplay);
+ 	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
++}
++
++static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
++				    struct drm_atomic_state *state)
++{
++	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
++	unsigned int pval;
++	int ret;
+ 
+ 	/* Enable PLL */
+ 	regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
+@@ -633,13 +640,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	/* Wait for 10ms after soft reset as specified in datasheet */
+ 	usleep_range(10000, 12000);
+-}
+-
+-static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+-				    struct drm_atomic_state *state)
+-{
+-	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+-	unsigned int pval;
+ 
+ 	/* Clear all errors that got asserted during initialization. */
+ 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+
 -- 
-Jan Remmet <j.remmet@phytec.de>
+2.43.0
 
