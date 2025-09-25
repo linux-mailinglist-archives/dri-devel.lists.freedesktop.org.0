@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB89CB9E881
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 12:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D4CB9E8E7
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 12:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D6610E184;
-	Thu, 25 Sep 2025 10:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD9F110E8B5;
+	Thu, 25 Sep 2025 10:06:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GKrXIzuv";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TuHO+6ur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3A1110E184
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 10:01:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8574810E8B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 10:06:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1758794503;
+ s=mimecast20190719; t=1758794784;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8GYfmE+k0d5YWbdZiC8QhNj3hq9CWQkLFh7lpDQVQfE=;
- b=GKrXIzuv/bLY9b1LfXfVPr5jKsZpPHgbboHiuCntH1Te/Evx3UalnCy/MdB/0ejx2EdrK6
- +ycCMmxs9yGzPYbemRYkEHDsyIyvYfdm9JsdsYk3w5DPSW21JCGaqIcZcyn62wrnYIu+GX
- obzluTB/52mY+lp7iUnXUKUWUqlJpFo=
+ bh=UQ1yIMrrwyU17r+tTnLpblX0dAaSzYGyBKLGlXcYZwI=;
+ b=TuHO+6urt6hJn3ze4poCZ3CLLNwR1YxLMijTAfvSWsiDQHwihRPlaixSpw0MLijNgEm9sv
+ gd76tehzjH+VnXrNbPZA3yxdkh88hIIIUC6Bc5CVXA0UOmDMhGWs32OTR/wjktKtWeHrs5
+ 851k1SSlBgIDK7IiYyn4rYUw07+zBc4=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-96--eB3kJd9NPGo99D8eurYAA-1; Thu, 25 Sep 2025 06:01:41 -0400
-X-MC-Unique: -eB3kJd9NPGo99D8eurYAA-1
-X-Mimecast-MFC-AGG-ID: -eB3kJd9NPGo99D8eurYAA_1758794501
+ us-mta-461-Msw0dO7ZOoSnh6uFwOjbOQ-1; Thu, 25 Sep 2025 06:06:23 -0400
+X-MC-Unique: Msw0dO7ZOoSnh6uFwOjbOQ-1
+X-Mimecast-MFC-AGG-ID: Msw0dO7ZOoSnh6uFwOjbOQ_1758794782
 Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-46e375dab7dso1420505e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:01:41 -0700 (PDT)
+ 5b1f17b1804b1-46e31191379so4948715e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:06:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758794500; x=1759399300;
+ d=1e100.net; s=20230601; t=1758794782; x=1759399582;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=8GYfmE+k0d5YWbdZiC8QhNj3hq9CWQkLFh7lpDQVQfE=;
- b=WMbOs+wQI84OK/oh0eX0I33HUi+SwulbcmOlSVueIW+5fz8NM0XQcZcHufSqIDs2/d
- eMXXX6x6IQ5W8MbxgN3Yt7MybRGkZG9f3pEA+08F+5kkEHDZjnWa2Bf/bOiWHF7bKrLe
- ueqJD+Vn1ft1SVQMEMdBKpbtV10vtVZIF35XYa6Q0cVNtWbkPfR60ZU+qAGVW9EslOd7
- oRswyrQUrkAL+JgNr02bP12k9GHxJFYHDcNfrSrL8uLYVPWAl+jTEzv0gi3QfedG30ZX
- OEq267ZAIcDYxa5xy20ePs35nySr5OJjzFFP6kdWyTFuAN/XzdT26z4inIfgbLv6VHz/
- atRw==
+ bh=UQ1yIMrrwyU17r+tTnLpblX0dAaSzYGyBKLGlXcYZwI=;
+ b=bODyrttJeRMJ7bPPDBAfURyeUqiKOkbftHmLOq8z6UhWG3ijK64g4l5Y8JFhopQC1e
+ uWVN+tQixJAr1KgoANSh6Vl5mayDZczz9cH/FDSFbWoUAQJcRQE74UI+hlFNwiMKIohi
+ B4kzMpWrfuHW7W6fbnlmJa2JFYBp4uro3vo8ecKv+gbfVBS00/9xEy+WQVvFzbuNX07l
+ uOBKZFTOFnVwRCLx19DIOLar31LD1LlRsBjLB7Y2YVO33AVMPBA61FGK4kcI47EqbcHR
+ Wq3K6JODxD5v+a+4D2+x7fPkborTeS9Ej1I97Vur1D6FosFsTx87nlzoP/WzLXMJdApX
+ l14Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAO8njNHmXH5LPex8YyTR0hI7B+1otYf0xdkcw60N9jMSihHxU6SK38u1+RCKcpnDfSUMyBHX9LgM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwUKSUZCxWua0i9HnzvtAYBf54nKhfcCnDBjQ5bnd83QtpbtIb
- xX1bh0ZJDcPi/KIRM8FluJCV1x4SEtTkkORKzqqzLQHSWhnZg4YRaNPsnVPmvyOsIt6/NVQZHI+
- XMGzuOk9G0Yort5FTV9qr5xBzkzcPXFy5geUOvQo/wzHoZhhQ/SXcoKeRE2Md/A7sYzwVJQ==
-X-Gm-Gg: ASbGnct+1blxtB1DkncMf6z5GyM+FSWSBj/dMfWcAJnGLmcmW3fMblYyF0GKtxkyAoM
- F0Huc0o3hJgFpIQByga5YuuhRCk8f13F1rS7TMFFy3UQ3AmdyUAyegbWtT+MGAuOrD50fV8QUMW
- F0ccp79s8JcBRNfV5YbzoublwJZskqpz0QRPkbuzIFomzmpnf23FD5aTg+LjvBS+m5HzLgJhtE6
- bZkR189qiOQTVX0SvQulH0DilHc8WEZ9RSm+UBqbb3nCil3OzYo5j9inVEmC0gBcaGNEqK/Y3iQ
- HUanlVRYAN/j/dxc5x20TdCA7rV1U6DFlgkNJ9JSs6pf77eFcdQG3cBCKBMI407iItaSFLvnTIv
- yOYSNJ/g7i1lJil14lAj1rFZDvftptiNRvSHpgAWSSgW5wVdlYNmjpkuMiXUUsA23MgnT
-X-Received: by 2002:a05:600c:1d07:b0:45f:2805:91df with SMTP id
- 5b1f17b1804b1-46e329eb016mr27720635e9.20.1758794500326; 
- Thu, 25 Sep 2025 03:01:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJBLgrscqxeUvK3zCTB81zQ03AZ8FMFwoE2WABAhafpLxL3o7HLyxi6RuvwKQYgGpl6h0/hw==
-X-Received: by 2002:a05:600c:1d07:b0:45f:2805:91df with SMTP id
- 5b1f17b1804b1-46e329eb016mr27719935e9.20.1758794499610; 
- Thu, 25 Sep 2025 03:01:39 -0700 (PDT)
+ AJvYcCW5GmoCgGexjpBMN965VZ8DcFyknkzUrfxNqABnghDJegPF7TvCW11IHPOmExQ3GeP+KsPYp6v0g+U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywy67kcuOuwfPsbNCk4RHmJ6pIF+AqnLU0wva03tJMZ+i0pojno
+ i/l7TRkb2YhrXcZpN31gMKED5RNwpxo1UcPowif541ZxwzPQ6Dp+kuyZXTwILEx2+KCv9ZZeNwn
+ YzZ8Q/mgf3JU2NyXob8R3eMcIy1XQDHAWWVKVkse/OiH0BxxJR7BjTKemT0aGCBnnKYAdZw==
+X-Gm-Gg: ASbGncsf7iuSK3SomhepRpDqLTrjsvXdTYW735PjbQoUFpGXi3qLCHZUEr8buGlysBi
+ 7gAhdpA7absLuT1j6yYaHmKWEtCOajJHSPBew7Sss4tDQq/4yYTmPL5ga+skDZD/wN8IOYAUpD2
+ fpVCmBqPsWtCmXMGyOgkedJvP1pAFqYlDhvKzvBdVHN66TKLTMf6sohTh2HntQA4ylKuA5ECvpp
+ Ebh4Ti7T0foDUEwpWysSHipYM+4/va8DVfqZfn8uZEaNOxOwIK69OJL6mv45m+/V9wfKNFw/GiM
+ yspVWlNrLZPTk/KBYbzh+iRd5J0DkQBAIHsrzAyjSfXk3lSpb1cw08heHTvXAyhj1fW3U54tSsX
+ fkn1QNvE3YBwDimrCrqElq4Goge5enKiJ3prKJUyUtrwy39xT2/Y/+EKl5yz1Q0FD/2MA
+X-Received: by 2002:a05:600c:1e87:b0:46e:27f7:80ce with SMTP id
+ 5b1f17b1804b1-46e329e51c2mr23724935e9.23.1758794781994; 
+ Thu, 25 Sep 2025 03:06:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEXJl4bhmMZAV2Ov8ckXqohzCkRtHDu295sdMoIicohDcdpvJzXAjcv+ktFKrVhD9D0sp0u6g==
+X-Received: by 2002:a05:600c:1e87:b0:46e:27f7:80ce with SMTP id
+ 5b1f17b1804b1-46e329e51c2mr23724515e9.23.1758794781570; 
+ Thu, 25 Sep 2025 03:06:21 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08?
  (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de.
  [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46e2ab48570sm68576145e9.16.2025.09.25.03.01.37
+ 5b1f17b1804b1-46e2ab31f1dsm70034495e9.13.2025.09.25.03.06.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Sep 2025 03:01:38 -0700 (PDT)
-Message-ID: <b0bd326a-0ef6-4c72-ae25-3faff1fd6eb7@redhat.com>
-Date: Thu, 25 Sep 2025 12:01:36 +0200
+ Thu, 25 Sep 2025 03:06:20 -0700 (PDT)
+Message-ID: <c9a0f531-bba6-48a1-bb50-639fb4f2dfb6@redhat.com>
+Date: Thu, 25 Sep 2025 12:06:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [v6 04/15] mm/huge_memory: implement device-private THP splitting
-To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Zi Yan <ziy@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+To: Zi Yan <ziy@nvidia.com>, Balbir Singh <balbirs@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, damon@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Joshua Hahn <joshua.hahnjy@gmail.com>,
  Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
  Gregory Price <gourry@gourry.net>, Ying Huang
  <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
@@ -98,6 +97,11 @@ Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
  Francois Dugast <francois.dugast@intel.com>
 References: <20250916122128.2098535-1-balbirs@nvidia.com>
  <20250916122128.2098535-5-balbirs@nvidia.com>
+ <7987AB89-4E80-4A0D-8736-E95F998698DA@nvidia.com>
+ <a77b03b8-508b-4bad-8913-fb825ecd8a0d@nvidia.com>
+ <F6F6DB2E-C08B-417A-A8CB-3E759FE2C3A7@nvidia.com>
+ <901c82e7-0442-4791-b249-b035f8ee428d@nvidia.com>
+ <B24E4F6A-F61B-4E9B-A2FE-4004C62A3DD2@nvidia.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -143,13 +147,13 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20250916122128.2098535-5-balbirs@nvidia.com>
+In-Reply-To: <B24E4F6A-F61B-4E9B-A2FE-4004C62A3DD2@nvidia.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yfIRZxiQwlFEpvfrz-gbWrg2bNzMDEdXGwtLMIT1sdE_1758794501
+X-Mimecast-MFC-PROC-ID: 2aKV5YRpc54h92RS2rvmILCYPTorBnQYZ2fIjDGdH6Y_1758794782
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,64 +169,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16.09.25 14:21, Balbir Singh wrote:
-> Add support for splitting device-private THP folios, enabling fallback
-> to smaller page sizes when large page allocation or migration fails.
+>>> Even if this is the only call site, there is no guarantee that
+>>> there will be none in the future. I am not sure why we want caller
+>>> to handle this special case. Who is going to tell the next user
+>>> of RMP_USE_SHARED_ZEROPAGE or caller to try_to_map_unused_to_zeropage()
+>>> that device private is incompatible with them?
+>>>
+>>
+>> I don't disagree, but the question was why are device private pages even making
+>> it to try_to_map_unused_to_zeropage()>>
 > 
-> Key changes:
-> - split_huge_pmd(): Handle device-private PMD entries during splitting
-> - Preserve RMAP_EXCLUSIVE semantics for anonymous exclusive folios
-> - Skip RMP_USE_SHARED_ZEROPAGE for device-private entries as they
->    don't support shared zero page semantics
+> Then, it could be done in remove_migration_pte():
 > 
-> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
-> Cc: Rakie Kim <rakie.kim@sk.com>
-> Cc: Byungchul Park <byungchul@sk.com>
-> Cc: Gregory Price <gourry@gourry.net>
-> Cc: Ying Huang <ying.huang@linux.alibaba.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Ralph Campbell <rcampbell@nvidia.com>
-> Cc: Mika Penttilä <mpenttil@redhat.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Francois Dugast <francois.dugast@intel.com>
-> ---
->   mm/huge_memory.c | 138 +++++++++++++++++++++++++++++++++--------------
->   1 file changed, 98 insertions(+), 40 deletions(-)
+> if (rmap_walk_arg->map_unused_to_zeropage &&
+> 	!folio_is_device_private(folio) &&
+> 	try_to_map_unused_to_zeropage(&pvmw, folio, idx))
+> 	continue;
 > 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 78166db72f4d..5291ee155a02 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -2872,16 +2872,18 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
->   	struct page *page;
->   	pgtable_t pgtable;
->   	pmd_t old_pmd, _pmd;
-> -	bool young, write, soft_dirty, pmd_migration = false, uffd_wp = false;
-> -	bool anon_exclusive = false, dirty = false;
-> +	bool soft_dirty, uffd_wp = false, young = false, write = false;
-> +	bool anon_exclusive = false, dirty = false, present = false;
->   	unsigned long addr;
->   	pte_t *pte;
->   	int i;
-> +	swp_entry_t swp_entry;
+> Maybe I am too hung up on this and someone else could pat on my back and
+> tell me it is OK to just do this at the only caller instead. :)
 
-Not renaming this variable avoids a lot of churn below. So please keep 
-it called "entry" in this patch.
+I think we shouldn't set a flag for a folio that does not make any 
+sense. Just like we don't set the flag for non-anon folios?
+
+In addition, we could add a 
+VM_WARN_ON_ONCE(folio_is_device_private(folio)) in 
+try_to_map_unused_to_zeropage(), to catch any future abuse.
 
 -- 
 Cheers
