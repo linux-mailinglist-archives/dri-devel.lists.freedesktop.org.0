@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20325B9FB63
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EC8B9FB75
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:56:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798D410E94B;
-	Thu, 25 Sep 2025 13:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB8410E947;
+	Thu, 25 Sep 2025 13:56:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S6Y+vaGU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="As5mJmRd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A166410E94D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:56:08 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id
- 6a1803df08f44-78f75b0a058so7330776d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:56:08 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFE210E947
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:56:14 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-4db385e046dso5461631cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758808568; x=1759413368; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758808573; x=1759413373; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Sq31dC2vDN2a94utvC/B02Ptv/MXvCOxOItQtZFE3ic=;
- b=S6Y+vaGUija8INOlgHOfyrQ72w9LLuyu3tjrXPybQ0idW0ypZFAIDxWk0WJ8EmjGjH
- neuXeN8oq9p2f85Za0PbotoZnRfhry6GmvCKB5ETfvSun/iBpd3YwzxUjSH/2gzZ7b7y
- f/te+xvEV+sfiqS+MF6x+swgYvJxHGC/TtPWTlu90MJ8DEVvAZxwUkfc4asx0Eq2rwKS
- bCWdbHl3c06bsGrRfU/Wp3MURTn/Rr/8Jd+VFYDToq1ZLTcuQ6SG1GUFRZyO2wJDexwg
- aoRCAhBsNs4leOUcIjjsJZ9m5i3E7UpQ9cvzpJx6zvjGCZRHE5XuJZBJt6N5Mw6S+lRv
- FZEw==
+ :reply-to; bh=67z28WQrX/ogTxUcpWCJ1GAunLtCBeF3o3dpHhKNjK8=;
+ b=As5mJmRdXP7fX7w0KoGwNoOFtm17ikMrEv/yA17JgGuUvT2fXlI1clOO4U6v7VTZqM
+ Ww+AtvdW87u9tLrfn7FCMRNoA0vKHf+ablCvdHz45rU9x0AL4xaAY3lrOhCLnV8jE9H9
+ FGm35tAPRVp5t2VBL8ee0qHkB23JQvx94Q+PzRsh2u0Tm/wSUn/YXnRHsYxoCDnUWFGj
+ WhorCzsogcjy3v7F3nETCn1n1bIJ/fGb0r8VrJyLFU5XPwWseuc+mDyw3ZWEaRFVuhjo
+ RwM/dr7mO9ov+fOpz5AjMo5UsUJvilo6VHeFxtgv0skk3PM55wj0XjJz9hv//esSY5kB
+ AJqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758808568; x=1759413368;
+ d=1e100.net; s=20230601; t=1758808573; x=1759413373;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Sq31dC2vDN2a94utvC/B02Ptv/MXvCOxOItQtZFE3ic=;
- b=mgdHMIW/w579sDYbe5cPXgeG2sfzhnm7YZ3Du5nUIUrycbCzOwABlJuIG7QRN+nQ6L
- HM2YafOtAylyvdBTnmun9TV0GGaS1XYi18HYvgNnJqUn5PrfX4S1oefgr95uMa5g2z3C
- pFPemOHKo4CmR5kqZeFZGYx2jWq/SiRJQL9YKZab7JeUv2GoPCp8DeazJK7ggYIUlmBB
- 0tXPpudWWzj6msjSfotaJSQoVKqR6H6isCOeoEhr8tgEgdoknTGkYHhrFE8vZOKQ8l2a
- DfvDKDm3ZYCIoVcYuO4FZ+O5uXGB1uNY5Hp6HxUczQiGSe/LdjFGgvu1ceqiE0PY4wTh
- u2Bg==
+ bh=67z28WQrX/ogTxUcpWCJ1GAunLtCBeF3o3dpHhKNjK8=;
+ b=laHuwFy9Ta2GhZ4AxeArIJvKv7781G2Clb519L9ZcdmT9AnlKKkwGjuBhUcAkRQ62K
+ YwQYoapdaXkZ7ml4BQcbWNuma+Urpx24wkdiLjBkvPUrOli+hFQddsZkUP9BtCtTaUIQ
+ w4/JI5amVb3dOQOI859zm+DH+WyCIQPJMzYj28j2PL1KphJfJs0H89GMSPhtcjbTnyLI
+ H5wW/FHdVmteajQxDCdp6mzFCimRCPUNZ33PpY/lWk0LdEjDBNxuqxjTdpQJcFRm5GOJ
+ A7s82qNaen+wAvUiwH4s6l3M1opxaYgqtxH4QiiqVPhz9JbwmblYFicaARVV+MfGmJjP
+ AIqQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDdottm4sVyx6IDQcJ0/TCA3TVWqOeMDDX5NnsW2obKfBrKxHtCxmBamVodDuigj0BwrYOLlcOQU8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyndO6O5DvcNECn2g2zd9/EWakbvMiwv7oz0JpWKv/73P0ccUXG
- k6Iz8QApnTrXR3xyj4IP+4Y06w9jCv+plokgE1g5xp3zuwEhJg2qWZoV
-X-Gm-Gg: ASbGncsJaYrLe2a947823bsLVY0YnlxePuUuUmo8QaQA4Hw0VcoHkUqajCnYsx4eRpN
- P57mYDBcQ1cj9Un0doOQceoKiYjIvW8e385ZZXUhJBpAwTYIJZXUUj9MRJIy/AgfxI8+h9m/4b2
- P8Ye7nqANR1u4vSUg/Pbdk+uROHH58IdXvk40KH5+XY8/vtmC7oiNNBLowqxa9VFz+lbbOSYTiC
- vXNIoV9ZFQiHS6gBlmF4ya6scPCWgEwN7qW5Hi4YAfD/phgt+Py+OdtTQGvz0wo8vKNB+I+tg4Y
- CMzQdsFZYI78kUdufz6YnHp8pJQvlCuY4j79pSgST4Hi9zzT+UgRnHHh59xj3fJGbhGLFbykmQ/
- 6aDb9UUxRIU74JrDpYkMtkxoEjRaG+wunGtPcE7Gw4HXNXOzeP+fD2xmuvcapfiCL3iIQ3BkhBh
- qUKBP0W93DVPAuaE6HIq6BJAn7KlGjwmBmfVfA3yVaQMcTYsjLyMcuJPWi1bVldvEYJKuAax0Mk
- OIJbqI=
-X-Google-Smtp-Source: AGHT+IEZhM30AGXNdbFILEQiyz/kr05nZm4O0BE8w754iMuzz8n1eM1enRH3Kra7C8BiuYUbQtPrdA==
-X-Received: by 2002:a05:6214:3014:b0:80e:4f6d:23be with SMTP id
- 6a1803df08f44-80e4f6d25a9mr15832686d6.62.1758808567133; 
- Thu, 25 Sep 2025 06:56:07 -0700 (PDT)
+ AJvYcCUcOralP1JtbkF/618xQ6B8l/He1aCvspuJq6HhHLLX1ZMIAowqUaDHo6sHZsxkfQ9VIw4yWzBkN0c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHwtEQ6AmTSbt2QIOPCC9+frhn1XAdhxKOdCA1E0SiEApvi5qO
+ U9eyM1r+nCBMl2hyMMMaekvtoAHoSRrIxmabqS6dmvrjPPjc8mDQJ7Ls
+X-Gm-Gg: ASbGncs6tZBHnC56cn9YSXzMdIHT8Om4aZTgNTrgMhT+RZdUxraxwBZ8rxL/3cAnEaC
+ 3NHcmDPAt2yPg5zmJpsHbBzTNDt4PaOV3jn+xU4+LmKvJxLjwlWsHp1AiuDTQmc8jZukhxshQKI
+ i50p0VZHpq18DnXpBPK5i+l1M2eA7SMeIWs1NHirIdYL0LSgWf2hJyOh7Oo4cVHxhZdOsoc+0hs
+ hPWQZ7dxog94kTF+aWQ6XA/+p48UcaC6AA/TLFecVQ3dxuOgLAL8pxRmVGxCwriVCx0OwiXW3OI
+ EU8OzlTH56nA5l4aH9H4z5z2ya+cX2THkSX5iP0nBpVnoL0XHOgTqd1xTK3bgrXJXHIcHLFRpW4
+ 24rZ/dZ/7y1LECkiw+hTAyXQnlBq83nSEXoBv5cLcho6KvoXZklIwcv3s5zbSIeWFegE9wXlQ1r
+ m4S3o+t+/n9n4/vFW5TuPQrQel8tSkVXs4ogyoiRpH2PIud6mlzwDuetox1Tb35jhxlYeg
+X-Google-Smtp-Source: AGHT+IFqm26OFmsSA0nKzITzw08x0KzoFRvLAeGfptjPnF7Ljbfyc5/369jW8FthqI8ZOsSRAhkw7g==
+X-Received: by 2002:a05:6214:1cc4:b0:786:e3b6:bb99 with SMTP id
+ 6a1803df08f44-7fc3128e0c3mr48349976d6.29.1758808572677; 
+ Thu, 25 Sep 2025 06:56:12 -0700 (PDT)
 Received: from 137.1.168.192.in-addr.arpa
  ([2600:4808:6353:5c00:7c:b286:dba3:5ba8])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-80135968d5esm11536916d6.12.2025.09.25.06.56.01
+ 6a1803df08f44-80135968d5esm11536916d6.12.2025.09.25.06.56.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Sep 2025 06:56:06 -0700 (PDT)
+ Thu, 25 Sep 2025 06:56:12 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 25 Sep 2025 09:54:06 -0400
-Subject: [PATCH v2 18/19] rust: io: replace `kernel::c_str!` with C-Strings
+Date: Thu, 25 Sep 2025 09:54:07 -0400
+Subject: [PATCH v2 19/19] rust: regulator: replace `kernel::c_str!` with
+ C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-core-cstr-cstrings-v2-18-78e0aaace1cd@gmail.com>
+Message-Id: <20250925-core-cstr-cstrings-v2-19-78e0aaace1cd@gmail.com>
 References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
 In-Reply-To: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -110,13 +110,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1758808438; l=1724;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1758808439; l=2550;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=cd10vY+LdNFm15kjf9buohLVZDsgfigdMJZaOhvjUZ4=;
+ bh=O/wu2Lf29nUdzSaspIKYEix0WPxikVmVfF3mQ9scbuU=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QNf162nJINfyau54ApOtSNUKBNqSEvAN/RUj/VaS1rCjXvJ9mtYy/yqZWgJQlP/HSnYEPjCYYdQ
- IPwDjgyMc4w4=
+ QFsLawjfMUC3xaiUohpUXzdZt822yLFxnKyQ3hJFQI3UAkDtLeyUoqZ2lgOdZhmeuCD54hWBgXN
+ /2qfobXSOOAA=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -139,48 +139,58 @@ C-String literals were added in Rust 1.77. Replace instances of
 
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/io/mem.rs | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ rust/kernel/regulator.rs | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-index 6f99510bfc3a..2e42eb906061 100644
---- a/rust/kernel/io/mem.rs
-+++ b/rust/kernel/io/mem.rs
-@@ -4,7 +4,6 @@
- 
- use core::ops::Deref;
- 
--use crate::c_str;
- use crate::device::Bound;
- use crate::device::Device;
- use crate::devres::Devres;
-@@ -44,7 +43,7 @@ pub(crate) unsafe fn new(device: &'a Device<Bound>, resource: &'a Resource) -> S
-     /// illustration purposes.
-     ///
-     /// ```no_run
--    /// use kernel::{bindings, c_str, platform, of, device::Core};
-+    /// use kernel::{bindings, platform, of, device::Core};
-     /// struct SampleDriver;
-     ///
-     /// impl platform::Driver for SampleDriver {
-@@ -102,7 +101,7 @@ pub fn iomap_exclusive_sized<const SIZE: usize>(
-     /// illustration purposes.
-     ///
-     /// ```no_run
--    /// use kernel::{bindings, c_str, platform, of, device::Core};
-+    /// use kernel::{bindings, platform, of, device::Core};
-     /// struct SampleDriver;
-     ///
-     /// impl platform::Driver for SampleDriver {
-@@ -164,7 +163,7 @@ impl<const SIZE: usize> ExclusiveIoMem<SIZE> {
-     fn ioremap(resource: &Resource) -> Result<Self> {
-         let start = resource.start();
-         let size = resource.size();
--        let name = resource.name().unwrap_or(c_str!(""));
-+        let name = resource.name().unwrap_or_default();
- 
-         let region = resource
-             .request_region(
+diff --git a/rust/kernel/regulator.rs b/rust/kernel/regulator.rs
+index 65f3a125348f..dff8fb00566f 100644
+--- a/rust/kernel/regulator.rs
++++ b/rust/kernel/regulator.rs
+@@ -98,12 +98,11 @@ pub struct Error<State: RegulatorState> {
+ ///
+ /// ```
+ /// # use kernel::prelude::*;
+-/// # use kernel::c_str;
+ /// # use kernel::device::Device;
+ /// # use kernel::regulator::{Voltage, Regulator, Disabled, Enabled};
+ /// fn enable(dev: &Device, min_voltage: Voltage, max_voltage: Voltage) -> Result {
+ ///     // Obtain a reference to a (fictitious) regulator.
+-///     let regulator: Regulator<Disabled> = Regulator::<Disabled>::get(dev, c_str!("vcc"))?;
++///     let regulator: Regulator<Disabled> = Regulator::<Disabled>::get(dev, c"vcc")?;
+ ///
+ ///     // The voltage can be set before enabling the regulator if needed, e.g.:
+ ///     regulator.set_voltage(min_voltage, max_voltage)?;
+@@ -142,12 +141,11 @@ pub struct Error<State: RegulatorState> {
+ ///
+ /// ```
+ /// # use kernel::prelude::*;
+-/// # use kernel::c_str;
+ /// # use kernel::device::Device;
+ /// # use kernel::regulator::{Voltage, Regulator, Enabled};
+ /// fn enable(dev: &Device) -> Result {
+ ///     // Obtain a reference to a (fictitious) regulator and enable it.
+-///     let regulator: Regulator<Enabled> = Regulator::<Enabled>::get(dev, c_str!("vcc"))?;
++///     let regulator: Regulator<Enabled> = Regulator::<Enabled>::get(dev, c"vcc")?;
+ ///
+ ///     // Dropping an enabled regulator will disable it. The refcount will be
+ ///     // decremented.
+@@ -193,7 +191,6 @@ pub struct Error<State: RegulatorState> {
+ ///
+ /// ```
+ /// # use kernel::prelude::*;
+-/// # use kernel::c_str;
+ /// # use kernel::device::Device;
+ /// # use kernel::regulator::{Regulator, Dynamic};
+ /// struct PrivateData {
+@@ -203,7 +200,7 @@ pub struct Error<State: RegulatorState> {
+ /// // A fictictious probe function that obtains a regulator and sets it up.
+ /// fn probe(dev: &Device) -> Result<PrivateData> {
+ ///     // Obtain a reference to a (fictitious) regulator.
+-///     let mut regulator = Regulator::<Dynamic>::get(dev, c_str!("vcc"))?;
++///     let mut regulator = Regulator::<Dynamic>::get(dev, c"vcc")?;
+ ///
+ ///     Ok(PrivateData { regulator })
+ /// }
 
 -- 
 2.51.0
