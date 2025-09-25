@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953D8B9FB39
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204DEB9FB3F
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0588110E941;
-	Thu, 25 Sep 2025 13:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C66210E942;
+	Thu, 25 Sep 2025 13:55:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h8NpW7Vy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BgggwUs8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 050EE10E941
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:55:31 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-84827ef386aso62932385a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:55:30 -0700 (PDT)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374DA10E940
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 13:55:38 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-78ed682e9d3so7151376d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 06:55:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758808530; x=1759413330; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758808537; x=1759413337; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ovaMuoVhmWcLonjnTl4MFtKaHR9pluhUoUKBZs6ASUY=;
- b=h8NpW7VyVjQieP7hfa0kDj6N4MTYWQ9zb9QkRpg0X69/RxTUBghzkwubTXLl04qGwF
- Q3en5a3DA34y7DFknmaoOJqE/kO6TuDSxW7m3wO1E9Z8MaJxFZoj5EdJRODPETFKElib
- p1Lou8dsncdvFc7whM040OPw+GV0NQ/WD78trtyB348LJu2i3qYg39agArN7YIckFUxx
- LJDyR0RKlD6xXJFECKMy4LDubSXj+V3VRlxYIJe+h12LkPC7pqtqShnSw/8jGOI1iqdI
- 2RBOAwNlC5R05zlQaj5L2Lgj3WyfujdjkbjQidad6c/3atUyYAQ4lQTempBtlXv/M4LK
- AlbA==
+ :reply-to; bh=mswzqg1rIlmw6HicVVCtXv0e5vufLTaFX3VKtK98wJ4=;
+ b=BgggwUs8L9wp138Fa7WyikZ43Q6RKEXjpDwPyl9+oNhPN3AjFKeO2ErtqHhfCpN+mK
+ E4NaVf9N7INfJzA8444HBzVDcmg/JQYrUWrU6qxcg4iG6mnqQBiZ1ijtDguu/uC8Z4Wn
+ riOfD/0q17+yH4PZ1wOqvNfKtEmYMPpIHH702PRZ2h1mhm5UyRyQ83tHVoFQYVL94oGo
+ N8yZSFvdxA1cmIqfEjYtjNHB84PAfXjWBSy7L7BMWaAQjhpwzSEVKN1LfFxrD316PR+o
+ zxQOWJvFzxXI2+hiZlmThBnIrl8pIE00W1zueT1VjwM4L6eelQfgK9OFn8BB4V0TFtIB
+ H1og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758808530; x=1759413330;
+ d=1e100.net; s=20230601; t=1758808537; x=1759413337;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ovaMuoVhmWcLonjnTl4MFtKaHR9pluhUoUKBZs6ASUY=;
- b=ZaDp5pfgZxbW+uHf4GdeT634gHrERpEKuuOzG9YHMZdQr3MHg+XpPHz/RbR2l74fBB
- dLuo/jvM3hFmMo61ps/YZBvcYtCUx3JgmANauRSMibxMcolJrkuSHmOGMcNBZz+Q0F4Q
- SdOGGK0nbKvVpJMScx0eddN9VtIH5eNxaCCVVrqtJYpXosmvUao+W0oTbbJL22VWc2wt
- sdpZgbG4+PdmaPhvA2YKFsaO7mN8B9yo0ZBDhMpSN4Crb1ACeRfRhbyKvt4a+I5Su6EP
- fHQWEbCRdYY80Bbp54/L+gUOiWszqndG8QvnUyGsBECbw812LUVybypm/TS13QNvdjuK
- YGug==
+ bh=mswzqg1rIlmw6HicVVCtXv0e5vufLTaFX3VKtK98wJ4=;
+ b=Jz4E7p0q4C36hgs6kdCLYe/Fs3VFBEHH3Iq1ZflPsAwMCrimfFittJCrfQaaQwu3br
+ qwLf5Kk6PZINtd+ETgnnpqTR5WR0y2atT6O33YgI9AVHAX+k+4+HmcddRtHIBrVudA9+
+ rt75TkOc9AZJXUiwDWr1FI6JMR5mPCIVV+ys+hjJZmYn8Exg+lamfzZ+6191gm7kqJEU
+ CvefmqVU53BYWByBJBO/nqVk59kTIzMinPX/8YNoPcn01xRQ19QHCF+dhlHOtPp9XRVP
+ ixCP2oZubF+/A1Ah4fglfuOOUH+xjeZDts2jWjbkgkVtI6kzdteowoiE+3XG0gVApDi0
+ d8wA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVuGQz9H2TLQy1F+rn5FRnBeSRXqHxbzgwWUm6oRxFtNqV7Jr+hrDTedyS0mXAQdC3wvGYhJEsOwKc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTBYHKtfUjWIucrh8sxJLFx/7ISUmCY9PdmjKIheGvjV7Eke5k
- KSS42Jfp0eWBPkWwEzB1/TqhxlC0ikcN/rXaUY9oALyx5Q8937hOm/wE
-X-Gm-Gg: ASbGncv04RpLVlD5Mwi4hv0wleMallnwA0HBt/U20SMcayVKTH2gaTP9usITm4jl812
- q6EBfYNutekvPbWAd+MFuOVRDdaNimFA6bkxZmbVaGUheaRlkQbr8XDsda/ynuISb7Jp3pmua63
- B6OGVUvFrv32wcIEqURTSSqdnmAml51lb229V2sFOQMnnroiV3g7a1/CSlqDb5KE8LW8kgmWZop
- xFxyBXUphtzP1PB1fUcHCAmlYxnlBXUMX3500XTtLbOc6IPqEexYSFjVNRydDjamooDXVd64lM0
- f7By8UM5m2Eiyu46xRTQiuLg+HDsPOzLZ6vvdlBmfXkA6BIPiYysGNp0BBvKLj/Pu0elF7egoJJ
- 7QZ8cU98PB+dDFBw7dzE+Mt1+BTG9czb3gl/RR7ylL+L4Ddyfaeb1kOUhmu4pZez0zoZg4Givlf
- 6dVOJGEw811/habgF98E4LfxgBPHAhXc2kIbYQapuM+wbjA3i0ij3fWY2aRDLWE/PwxEpK
-X-Google-Smtp-Source: AGHT+IHcH/Zjn6brKl+FzN0cM+iQubEhxUKmnAUgz27UdizV+uwHwEDx4WTup8nJvc6pXzFU23iTKQ==
-X-Received: by 2002:ad4:5dca:0:b0:792:50bd:2fa8 with SMTP id
- 6a1803df08f44-7fc30ae34e5mr50026206d6.30.1758808529557; 
- Thu, 25 Sep 2025 06:55:29 -0700 (PDT)
+ AJvYcCVnXCbNvXChd0TNhyMbgtxLfPsChmFu2Fr3v9fCl0N6a3rAPTSrHTxhPBF16IH7sKWYNEqHTkFEPSc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzgz7WLJAEnX/zpSelAIiVYvd9TG4/H+HI0EoQTBCGe60F2+K6A
+ A8Jy15/OzBPB6I4jBtnIke3L187F0yg/tTTuzfuxM+ffJQU2jYsxcy2t
+X-Gm-Gg: ASbGncug0gP4Czrsto6NwoamdvGP/oG9lrVTuBHUkwksBeTv0KBUaU0w9s+nTb5aG5A
+ DMMOoRYKcH/jGOq5le1IlCssJ6RaS8ZdPJG8t9i++JqOIyjW0DfWIQ6Gaoy7uyS5QFj1ujuawOd
+ QUJGqdza6qqHdBSdur26cvmI4samYxKDo2qQf0T2U387+mDJ8ZMe7q6UKJaovT8KvIem3sVgBgC
+ FS54naXoN1BMpJTF3pMS1HriRNKJnFwASadYsCAF1DZ5f4UzJNxgbGGpnTzd7RWgTVAvV5SkDRY
+ dn9l/2yITy/vdVOwkbfttfaa/LKSVSpOb7Z9DA+MSXyBF/tD/aZIFuAnWgxzig53iPQKz2qjtsz
+ LrogfSl2uk/A5qU9drVNn08Ag+quaBP7XhHQkNRf2YczpjbepLPPs9tWZqNELV5sqJ+LLrlWhWd
+ ytO4sSMF2vc8FYO9+h/iYEPV1j9bECnb5ZXkKNomgZMwpVf72vwOO4DKFhcPFLHoli8FaW
+X-Google-Smtp-Source: AGHT+IG0JSBlGu1RB4uMilSaBh7PnIkXhnuatHF4cSQpYwaqP/zzSQ9G+tSnzQTTn3K53FoLTANywA==
+X-Received: by 2002:a05:6214:4001:b0:70d:6de2:50c0 with SMTP id
+ 6a1803df08f44-7fc43a4e9e0mr40876536d6.61.1758808535790; 
+ Thu, 25 Sep 2025 06:55:35 -0700 (PDT)
 Received: from 137.1.168.192.in-addr.arpa
  ([2600:4808:6353:5c00:7c:b286:dba3:5ba8])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-80135968d5esm11536916d6.12.2025.09.25.06.55.22
+ 6a1803df08f44-80135968d5esm11536916d6.12.2025.09.25.06.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Sep 2025 06:55:28 -0700 (PDT)
+ Thu, 25 Sep 2025 06:55:35 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 25 Sep 2025 09:54:00 -0400
-Subject: [PATCH v2 12/19] rust: net: replace `kernel::c_str!` with
+Date: Thu, 25 Sep 2025 09:54:01 -0400
+Subject: [PATCH v2 13/19] rust: pci: replace `kernel::c_str!` with
  C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-core-cstr-cstrings-v2-12-78e0aaace1cd@gmail.com>
+Message-Id: <20250925-core-cstr-cstrings-v2-13-78e0aaace1cd@gmail.com>
 References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
 In-Reply-To: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -110,13 +110,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1758808438; l=1712;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1758808438; l=1469;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=D/F3RUnYNMNKrZc7ezIrEwfyGQmWHVwyjceS6shQSWA=;
+ bh=9ZmEu11QXJ8phGJATObrsBrPngKGUQeOptVynfUL8WM=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QLl+bRXWnt5oagOInMjpq0Q6TsOND3CIu30DW9zld+zzKdTSHrUu641mOBVFK+TECUsf9QEq85h
- /zu5kdzwmPg0=
+ QLLvUlNLZLAaXK2MqYDhZdBweEQ8R3sKV9FI/C2n7BV5P0I7OA8y5a1a/1zJuYaQ3obw7TFfFmi
+ JTjNJLSMGawU=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,49 +140,34 @@ C-String literals were added in Rust 1.77. Replace instances of
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/net/phy.rs | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ samples/rust/rust_driver_pci.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/rust/kernel/net/phy.rs b/rust/kernel/net/phy.rs
-index be1027b7961b..9aeb2bd16b58 100644
---- a/rust/kernel/net/phy.rs
-+++ b/rust/kernel/net/phy.rs
-@@ -780,7 +780,6 @@ const fn as_int(&self) -> u32 {
- ///
- /// ```
- /// # mod module_phy_driver_sample {
--/// use kernel::c_str;
- /// use kernel::net::phy::{self, DeviceId};
- /// use kernel::prelude::*;
- ///
-@@ -799,7 +798,7 @@ const fn as_int(&self) -> u32 {
- ///
- /// #[vtable]
- /// impl phy::Driver for PhySample {
--///     const NAME: &'static CStr = c_str!("PhySample");
-+///     const NAME: &'static CStr = c"PhySample";
- ///     const PHY_DEVICE_ID: phy::DeviceId = phy::DeviceId::new_with_exact_mask(0x00000001);
- /// }
- /// # }
-@@ -808,7 +807,6 @@ const fn as_int(&self) -> u32 {
- /// This expands to the following code:
- ///
- /// ```ignore
--/// use kernel::c_str;
- /// use kernel::net::phy::{self, DeviceId};
- /// use kernel::prelude::*;
- ///
-@@ -828,7 +826,7 @@ const fn as_int(&self) -> u32 {
- ///
- /// #[vtable]
- /// impl phy::Driver for PhySample {
--///     const NAME: &'static CStr = c_str!("PhySample");
-+///     const NAME: &'static CStr = c"PhySample";
- ///     const PHY_DEVICE_ID: phy::DeviceId = phy::DeviceId::new_with_exact_mask(0x00000001);
- /// }
- ///
+diff --git a/samples/rust/rust_driver_pci.rs b/samples/rust/rust_driver_pci.rs
+index 606946ff4d7f..e0e9d9fda484 100644
+--- a/samples/rust/rust_driver_pci.rs
++++ b/samples/rust/rust_driver_pci.rs
+@@ -4,7 +4,7 @@
+ //!
+ //! To make this driver probe, QEMU must be run with `-device pci-testdev`.
+ 
+-use kernel::{bindings, c_str, device::Core, devres::Devres, pci, prelude::*, types::ARef};
++use kernel::{bindings, device::Core, devres::Devres, pci, prelude::*, types::ARef};
+ 
+ struct Regs;
+ 
+@@ -79,7 +79,7 @@ fn probe(pdev: &pci::Device<Core>, info: &Self::IdInfo) -> Result<Pin<KBox<Self>
+         let drvdata = KBox::pin_init(
+             try_pin_init!(Self {
+                 pdev: pdev.into(),
+-                bar <- pdev.iomap_region_sized::<{ Regs::END }>(0, c_str!("rust_driver_pci")),
++                bar <- pdev.iomap_region_sized::<{ Regs::END }>(0, c"rust_driver_pci"),
+                 index: *info,
+             }),
+             GFP_KERNEL,
 
 -- 
 2.51.0
