@@ -2,179 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D6EBA19C3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 23:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAA5BA1AAA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 23:48:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81DC310E049;
-	Thu, 25 Sep 2025 21:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD1510E9B5;
+	Thu, 25 Sep 2025 21:48:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fxGR4inK";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="j7j9+LAO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7D410E049
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 21:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758836456; x=1790372456;
- h=message-id:date:from:subject:to:cc:
- content-transfer-encoding:mime-version;
- bh=a+qfxC4wG25L7ih7oTLZvngRczLYsBR1Apefnh+FJ6I=;
- b=fxGR4inKOwJRmncqwjlQ5eXnquLW991TQVafxLuajAPb9kTut0uVSMGC
- MweWL2j2LBKzpyYn1qfLbPZALN2LOlAIzqSe35CE0fMTK/SWvg4kUZL3q
- H62wdRYJaEnUa5ThQYxufprQkor1ttlus2tzyyOivaCqeuGnSyuRW/jn0
- rGB1Keld4XhVthkI1pILoSVDP4SmXn75Hy7aCa1wUP9zxJtnkFo3BhZFZ
- Jju6sxvLVT3mDh2XtBsp9YC8V65RWAxw1kCxZIad4M7CsilmdNp+HARt2
- miGKqrY1VbOdcy8eSQjMjHZq2vIrVV/fNkcz5swX/D/QxACk3JpgRth+Y Q==;
-X-CSE-ConnectionGUID: zkMjHSRTQp2zkI6fxUd/YQ==
-X-CSE-MsgGUID: K/ZmwcJwS361fFJFpufLfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="86612427"
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="86612427"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2025 14:40:55 -0700
-X-CSE-ConnectionGUID: Zeg9qU7BTmG7516lMgoLDQ==
-X-CSE-MsgGUID: c4j8b1DuSvOqfZt1HJmoPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="181831817"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2025 14:40:55 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 25 Sep 2025 14:40:54 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 25 Sep 2025 14:40:54 -0700
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.60) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 25 Sep 2025 14:40:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tz0BKP3yEeBOEesY/UX69TRKK00Q0S+fKvCpP7yM38oRMlCRzo1YASKI2ULJhMV3Q+B3vb2l+BjL+OEEI4dw9Lzu5cz2A6FVErYGys2ps1+I3i1nd5+meexqAL/mI6XUiN+/ifog6vuNtwz9pCRsqOBY5b321ZhtblkGQxLNCJJsnAEFr/b2wtc/sQrCCRZglY3IkpbpBbj323tI7Vq6nAUMkUGSZqop/V2xDlGqXt2iL5M93zNF8S6MgeaBhQPgPbjovTZf0LBUKHc0sMMV+wJEe0wUMbnALggd1fDrPI2s7Wxu0WYBpu0xAQItthDfjqOYAV4JTWrV9BbZm+kZIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lNR7OPu9Mzo1jwtRyureTn1HF1OSamSm2hAqNSQFn8c=;
- b=vOgTX1IDnSRt0zl/ykd8I521ysdrWjeDwJEOXrV5U6tZnHGVL8FkYZNXMY8M3V3CXWeItTtoGmW5Jo/Crz0LLww7/C4PbjcDj2NBazK568ItGmPkXzLHhZWGQiexcVer6N4p/yB3AcZB8Y3Ugg8L2AsLm5Vum52YWEJe6wYP0dPCEu8OqyfvcKD7bOylbPoImZ9iLwPSr1QfX6PDlX6dkDdo8rIizwlwHLuUpkBL3aydndtvd9zV1dnrvs2jdkmJZum1GPF5DjZC9JkjFj3OTo8qsR3IVtA7NQD07ETUNV8khQtn35EGGrQaDdnO8/h7RteI8rYNIMa4sIXMZxa5tQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7767.namprd11.prod.outlook.com (2603:10b6:8:138::5) by
- CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.10; Thu, 25 Sep 2025 21:40:46 +0000
-Received: from DS0PR11MB7767.namprd11.prod.outlook.com
- ([fe80::6aa1:bed1:34ad:6279]) by DS0PR11MB7767.namprd11.prod.outlook.com
- ([fe80::6aa1:bed1:34ad:6279%6]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
- 21:40:44 +0000
-Message-ID: <da02d370-9967-49d2-9eef-7aeaa40c987c@intel.com>
-Date: Fri, 26 Sep 2025 00:40:39 +0300
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: "Elbaz, Koby" <koby.elbaz@intel.com>
-Subject: [git pull] accel/habanalabs: fixes and updates for drm-next-6.18
-To: <dri-devel@lists.freedesktop.org>, <airlied@gmail.com>, <simona@ffwll.ch>
-CC: <konstantin.sinyuk@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0002.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::22) To DS0PR11MB7767.namprd11.prod.outlook.com
- (2603:10b6:8:138::5)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A24810E9B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 21:48:06 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58PIPYcr027513
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 21:48:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 1J7NyDGcAjM0l0VsjLAzDq+jwGxhWn4dU8Lohd7guWU=; b=j7j9+LAOKoPHC691
+ /fhNAoqOTVhvN+4wSF8mp6HhqTWjn5M32+QCEotoPCqWrBG2FsV2nPhAV+PZoab1
+ B2BrV1H4r7KEAn5ESsbY6+Dj0v90Ks8v52mRCot5RQHnu61HLG3Zs72V47V61j4y
+ EzqxyZxnwBFptDTwEE5PfmU5zBjoK42KgfzZ8b9gw7Hi72glQH3/49oVmHZWdHnM
+ q2SvORYu/qaOyO1X9xazd0oO+rL3q/oPPzG6qDD5WkTRCvdOmk8XU9/5VMsXOyJ+
+ nngVltcx1yeINnDS72loDOqQHkFNb2va9GwqSnGoqqkRjdbOSM71Hp1C7YL2VnR9
+ YoFKhw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0q0fxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 21:48:05 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4d6fc3d74a2so42041181cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 14:48:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758836884; x=1759441684;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1J7NyDGcAjM0l0VsjLAzDq+jwGxhWn4dU8Lohd7guWU=;
+ b=gtzZkMuvVMUe2YydthdiJdBSucvWL1ohm1RzGt0FfL3vM2v/5UlEj/D3D3zbD8QiRc
+ dFpVZxwH8WP1HUdBG+lcBA6VT4z5j1hKY7fQlilNxrIAm1Kb1pjwvpN4+SLT4WwgdQ6R
+ XTNmrfm7aHuRIOfq9paMvOkcj0UwO3M/pzyhiHSMGW3AeWhwpKrbd9Iu3f4JuNZ++n0h
+ m/3lzQ2DX/X/Ek2R58BdbXaO5jWtWZg+DzPQK8rKuik0Wfx92QIFAGxm2Ltl7eFYCp00
+ 8OAhe5HIl8nP3ovvZWhZRf6rBIDyDryxIvUzw1X/2UVFRLjK4LiQx1RMTWWUMi7Ryg+3
+ Tp+g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWCm4aVgNJrV/OjXYQGAlHOhF8/Txfa0rY0B34cOXE5mjKvgCtUtSpnA9zqKKYfA2amYGDnAT1Lp7Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlcBHQm/ZZYElobsmbeGx+Uu9cgMjuuEvZ3zLinIU7PD9UtpNb
+ fyTTCZm/th9J43ooWirCtzzUwhbPD1cj/cqDJw3ge1vDUOEwRjkWLoOPRQC+bW+q1SxoPHNd0kU
+ zhzFW796meM5UHxxopKCUjWc3+oB9p2ERYCB59P+O38Yw91cQX7+UP834LwHOZgD3zh9LM2g=
+X-Gm-Gg: ASbGnctXJvjm8zTsMgi9HISLz0IvmMec4qHOny8CTXLzo4ahEnxacpHf5LTL47qTGP1
+ fT4jFyEq/8wqBDZ+7kHwywmQXxZp+AbfWdpTu961/Kk9dmKS+xBjzqj0cjRAEqUy586ZTvOrFc2
+ PFGBeGTO45I3kHSIBZh7cRMtEdwxX/4zMGyytEcg5ULW4IURQ+LTDtRMktliuhByYNnOv4LXJaJ
+ RNdDURocqS2lsvinzh4qmHSznTs5pHrgGPQw4bI+uYwpaeavfc92el7gvtxPpBsQv4IOuiK4vsZ
+ +8Kn/pyyA7kDouAg89w53BLS6Y1LsimzwQimaLq5KSvqh/kMSZ3trcFqH5FYRmTbaqMPAtIQ7pe
+ FbUPZMZltOUE0HtEHzgvK3A7f80JaTElW+jHlDLh8fXNTeY5FUXEH
+X-Received: by 2002:ac8:7d8e:0:b0:4b5:e7e4:ba74 with SMTP id
+ d75a77b69052e-4da4c39d3a7mr81769771cf.56.1758836884397; 
+ Thu, 25 Sep 2025 14:48:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF+Z40dedXoEWvgR9gkshTrihOWhuvgfiSSS+xVcgz3Ka7O0hjWhnzpsUYogC0k7NypbIYSSw==
+X-Received: by 2002:ac8:7d8e:0:b0:4b5:e7e4:ba74 with SMTP id
+ d75a77b69052e-4da4c39d3a7mr81769291cf.56.1758836883750; 
+ Thu, 25 Sep 2025 14:48:03 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-58313dd679csm1147631e87.56.2025.09.25.14.48.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Sep 2025 14:48:01 -0700 (PDT)
+Date: Fri, 26 Sep 2025 00:47:59 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH v3 1/3] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
+Message-ID: <wttg6aizzolsm7qqntspmmwje7kqfaayoqvwp76tvudlkx5phl@7twddmdajfwp>
+References: <20250924-dsi-dual-panel-upstream-v3-0-6927284f1098@linaro.org>
+ <20250924-dsi-dual-panel-upstream-v3-1-6927284f1098@linaro.org>
+ <5b75dckankcx55gbm734a23rvqxdbprlus3nkvqfry7lz5ksjf@jjmfsbiwqny6>
+ <CABymUCNZmxzRaVVLU=U9QPupK0KpW_C1eqa8t_ijL6B5EdgnAw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7767:EE_|CY8PR11MB7846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33353775-f50f-4d8c-a191-08ddfc7c2e82
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NDRYQmgvK3h1aGpwYUh2Y1paWDZjbVJxWHpxUzBZZTU1OFNJb3lVNm5zZHZV?=
- =?utf-8?B?RDBvbTJJSHFQNnpzQ0MvT2xsN0gwb1lxcnRyZlhKenRMK29SYlFWSWNsZmpo?=
- =?utf-8?B?Rnc4MFU5Vm04MXdhUW00Y0xHcXhHSTF5RWJVRVpqUU9qdXlNSTdNT250Sm9Z?=
- =?utf-8?B?VmZPSUtWZSs3cEh6NE1rT095c0tadW1PUWJQcWMrczBZd1JDblpNZlJFOVZh?=
- =?utf-8?B?QUtpaTJjenN0RVhZcm5mSERVM2RWdllxUGhTUTU5bFNuOXltSHdvc2E0T3R3?=
- =?utf-8?B?WUFUT0NFTENlcmlBdU94M1V3SUlBcVJtYTlkNmtlTmNPMUJNK29nVm8zdVcw?=
- =?utf-8?B?aXg0aDBqK0pEVHhVSlRlUkF0M3YrcVVkaHlhbGxjaHMxQStaR1Q2MkZKM1hW?=
- =?utf-8?B?ZnBPMFFaa1V1RWJna3RMcnJqZ3h1clRuQTRjS3owQjVxYXdSSGMwTFdJTm5R?=
- =?utf-8?B?RHZWdERxNU54SUpGdm1IdEJ2WTcybHVZdWFPTksxT0J6RFRta1JTS3BOVjZE?=
- =?utf-8?B?OWE1enlNL2xTVW0xcE05cmMvclRCeFdOd01BV0lkdVVpT2JNUkw5RExaZzR4?=
- =?utf-8?B?cUtCdldxUGxDRkJ4RFU4UXM0Y2xmSHJZQU9TTjdWRk5Hd2xmOFVSVkoyZmRl?=
- =?utf-8?B?ZkF3YkxpL1A2dGNlblFCV1NTUmlpT1NULzFZRzMrZ2FPVDZZOGN1L2wxVlB1?=
- =?utf-8?B?c3JXTmVuQUt4Q25YT3hKZitvc1N5ZkhPMmpGcVRLd2ppUXRpVmlHc25xbndJ?=
- =?utf-8?B?aDVTUENsRXhiSUlaLzJGaTlSNGZSTDRVL0NYZXhQczR2T3FKMWdDdHIrQTVo?=
- =?utf-8?B?WmRUQzNWNllDa3VaaUZRMGx0Wms3WXl3WmVrbEQ5NmQxTlBGK01SSGwyWXFH?=
- =?utf-8?B?UmduSXZ4WldKaWlWSHZUcGIxVThWUjIvc3FyMUlZdUF5bS9RQTlEZ0NZNEwz?=
- =?utf-8?B?MXlHL1g3WmZOSDdxUzd3RGwrNENZOTVZLzJoeUFoc3Z4ZFlNUkVjaWZmcjlH?=
- =?utf-8?B?TUExTzlGenl1eHhMSitqRS9WcHppYUF3M1lyREJQcy9KSUtVeHEySHU3TXVH?=
- =?utf-8?B?SkJOOTRFNFFkRWQvU0trRW53ZGhkSnFkelVXSXFLRzREZE1HYXBIdDBTc3lJ?=
- =?utf-8?B?TXIvMG1Xb0poVVZqRExuZVFBbVRpTit2WUlQbEVZSm1iQ1hmbEhSLzUvS2lW?=
- =?utf-8?B?SlNUTVVMVlFvYmwrdXpXTUxTRzdhUHdtaGFiLzJsWHUwbHRvVm1ZakZlNWVU?=
- =?utf-8?B?WUF5dW1OZ2NTV2ExNGdjQ0dDYkxWK3NvL29WK1VLUTBEajZGT3lDZGE3b1dw?=
- =?utf-8?B?Ulo2NTYyVDZiRjJvRVYzVmpLbkU4WGtaT2dVY3ZrNEFqZVpWYVF0QUNmS0tM?=
- =?utf-8?B?aThNL0JGdlRKQ0dhZ0ZUbi85aUNwSmdKaUhET1pYZTg4TlNHc25vYkZIQjRB?=
- =?utf-8?B?b0FvcHN2TzlUQWl2cEp3Q041cS9EczdiRUNHY2FHS0RkU1RnZXhzWkxIejNK?=
- =?utf-8?B?VnZkd1RVZHVxY3l2ZDZ0Y0lGK1FUU21ZNGU5bE9OamcwRGtMNjFFbEFKcGY1?=
- =?utf-8?B?TDA4Z2h5dGlYOUNYZ0o3Z245bjhRNUdQVVkxYkhxNUtkU1lVYTNhR25EOERj?=
- =?utf-8?B?cU83S1FRQ2pnbStqbFgxL210b1BQSFhwd2V3Vm11RDFxdUduUTREMFdBYnht?=
- =?utf-8?B?MS9OdjF4UDFnbDZIMXl0V3plRmUydSs4TWJIR21JcDlIV1BTb3ZRL3FNRDZz?=
- =?utf-8?B?NS91RE9HUXdoc3NzUmlpZFpwTmVlTFp0ZmszQWVGK0tNcGkvV05lVlRrV3Nl?=
- =?utf-8?Q?yfyF222ohzgfakIkRFrScH5DAS3EbbwlMsyrU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7767.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tm9oeGEydFJ0SXQzQzdFNGxTbkc0eDFtak9TUWhNYlI2YU8rL3hzSlllU2dt?=
- =?utf-8?B?ampWMDFGTWZUREJXc002WnU4dEJwaWIrbUtuTUZUZmtGTVlxcDluS3RMejFx?=
- =?utf-8?B?dVZaZ3UzN09UUjNPWDJrOE1pOG5nNU8rTmR0eDJsWEp0Z1VhdG85NklLK25O?=
- =?utf-8?B?Nzgva3JBS0Z0ZFRpK0FjMHV4MWJDdGFsWWJMMC9Vc1BiVFBnM0M3T1NlUHVs?=
- =?utf-8?B?bWJ4YThpT2p4V0xucW5QazZHenpGdTJNbmlxT0dUQ21JRS9JWWRCY25BbEtZ?=
- =?utf-8?B?aFkzdUVVODNTblppZTd6OWs5Tk1uREZaaHhYZWI4RDJIYXJEYk1PU0M4VVF1?=
- =?utf-8?B?MjFkQkZQQUVNdmswMGVtQ1BPdnhxamtxeXdyeStiUjZ0NDBHMFkwQmdUU01K?=
- =?utf-8?B?THVpWUVzN0ZvUlBtZDNxTlVRcnV4YUVxTWZQeWVnM2FXbklnL2Fhcmpubk81?=
- =?utf-8?B?U0NQNDErMzVOd1dNV2hvVWo2bkVFeENVKzhHaGw4dlh0VEpGM2ZEYjIrNEFM?=
- =?utf-8?B?QnpZZmxHZnBzb2VCK1pUNTFUUnc5WVJnQllFYjREcGRoWE84MWhURnhHNkVU?=
- =?utf-8?B?MHZsT2dueml4UFhSZ0swTElHaCs4Y0lXRHYzRzRSZ0NjUkFvOTJJSURDMUhr?=
- =?utf-8?B?R2tBRVZWUGt3Sk9YdSswc29CWUh3Mlk3UGhOU2NCeHpJc2NZcnF0a3Uvandx?=
- =?utf-8?B?dkdJSTFnOWlsY2xhd0tETTJja1JlWE1zZTMvTmR2SlU5eDlaRFVidlF5azdV?=
- =?utf-8?B?aGFINXhJNWppUy83c2RYckFsOWVIREp0NXBvMWhzRFV4NzVVSlNyenEwLzAz?=
- =?utf-8?B?blhwZUljNWhoVTdIR0haTldDRFZ5VUptT3g5ZjdGb1BGcUJvdmNOamlCUEpE?=
- =?utf-8?B?MDY4Y1RXOE1qVURDL0tlY2dTa25hQkNSd1VkQWh5SE8yS2UxOUlTSmdSTG5i?=
- =?utf-8?B?MmFMaS8ybjcxajRJNmpCcVFDVTZLRUE3b2pxaUl6UnlhZGdkZG9MZkp0Vk1x?=
- =?utf-8?B?TUsrNHM0QnRUUEtzclZNOUxDMzNKdDN5R3haYmRWVkZVYTJwZitPMjYyZzI2?=
- =?utf-8?B?Niswb2s2aEtNaGVMUnZxZ2JMY3p3MzhZWEYyNC94alpCRWU4WEpPVnN3cnpW?=
- =?utf-8?B?dzMzeTBndktyYWF3TndTZFFpV2pFMmJEWTJPa0dsQmZDTlZ6c0RPUy8rVlRu?=
- =?utf-8?B?Ni85cFZpWkNqQ0J1b3U3UnkxMnh5UEpQdWNlNDFZYkNjaWR0V3g1ajlJZkVm?=
- =?utf-8?B?bUszSDd2d1NNcll6NithSllLOGRibldQQWI3Tm14TXBSMjcvcllneTVIQThV?=
- =?utf-8?B?c3haRU5CcjcwUmtVNDgzNVBObnpyT1Q0SW9XMUgwRmFIWi9RZW5pd2JEcG4y?=
- =?utf-8?B?di9obkdDV2ZTVWRQK3ZMVWN4WUkrSmtvWVlUanFMVUFtL2FFanJONUNWbmk1?=
- =?utf-8?B?TWliQmg1a2NuUE91bEh5Vzh0d2lnb3d5d1cyM0xGdWtHeFo1RDVOYnMxMmtE?=
- =?utf-8?B?Y2o3aW5CTDNvSVRTSHNJRFF0a1hjdzV2UWxHTkd1UmxUV0h1Y1NlclJlQ0hi?=
- =?utf-8?B?Mi9TczdjZTZ4R2hFWVFrUEdYeFZicWhHL0FhR3RlSGdrbmt2UkRxL1Q2RDVV?=
- =?utf-8?B?YVZ4ekhiWkU2R3hxVzZDZ1RLeDlzWW92Nzh0TndQZkoyenVSdm5uWGFJUnRW?=
- =?utf-8?B?aDdCMFh3bVIrTWQyRDhBNlJQQndMRmxBM0MrQUFucGNLcmFrWldHSFI5K1Z1?=
- =?utf-8?B?WWVMcldEZzFxSTJkTExHYnpZYlVQa21zN1dZb1R3aXU3OG5oUTlkR1dLOW93?=
- =?utf-8?B?Y3ZaZ3N1c2dwUFpReCtNQ0JoUElrbEwyWjYyQjB0ajF5c1BPWG9DQ0I2UFZi?=
- =?utf-8?B?SFc5Yk9LRGhuSGpHa3Y5Wm9xYkdrcGxwT1BCNXkzaUc4RjVlbXBOOHc5Y0FG?=
- =?utf-8?B?ZjhpczJ6VjBHcVFvWkhRak5ud2ZjSkNxMENCNVJVclpMOHlCOHBkeE9xN292?=
- =?utf-8?B?RHMxQnZ1Nll6bllxSDBXc3RQTXVUOHpnNTJheDFad1VaclEvbjJQUjhFYjE1?=
- =?utf-8?B?eDl5QWxzMWlYbVY1SzVpMFpsSmFzL2czTGJKNnpUZnVaTXcyejBVdmZvSzFN?=
- =?utf-8?Q?Frza5tWD6otwUWY+M4OBCfMVd?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33353775-f50f-4d8c-a191-08ddfc7c2e82
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7767.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 21:40:44.4502 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dakpfh1D5NhSJz6S4vnM7eTzZxV2B5BUA2cbqidOJJRpLn8KidxUHcj8IxTrJ5YtdA5rEGJhxLHqd8OcLNebbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7846
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABymUCNZmxzRaVVLU=U9QPupK0KpW_C1eqa8t_ijL6B5EdgnAw@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfXyNuQ0UVI4YIW
+ ruoxEboGuP5Gl4JWEffVHJ/+18D7G6SLwSMfQ0eGgu/zLN4BLz+nzXGN5vYzeSIfeLZC9pyEukR
+ NNT4lqKq4pr5SlgYlLNaHEnz5z1/QymNVwbY/zv9TDboQe7Nzafxh3kgacjWGTOrvXFUTQEZy2K
+ IasXwL1y3g0V9AMMvzD2aCQQJycRhAnOVRQbvoHXVOIaSmU8++pctLfC17LR+Lllb0XXZaLdbOc
+ VqxJnmNyAMRJivUpSopL4YudCjOBW6RzgeHcUehrU68+C5NAh8q6laVhRphY1YjkhSEaEK0hXAU
+ /lHYN4QAgqjOhAMzrpvjsy+jMNGCcLNSKP68ogN38lTN5PGFCvPo8F9WrqDUxkl9DQYHeEOadtW
+ KNMGkqX7JB2VK+PQO51LD50XN0G47w==
+X-Proofpoint-GUID: GNxZFR_sO8PrHrN68p5afVv8ho0Jd0zK
+X-Proofpoint-ORIG-GUID: GNxZFR_sO8PrHrN68p5afVv8ho0Jd0zK
+X-Authority-Analysis: v=2.4 cv=JsX8bc4C c=1 sm=1 tr=0 ts=68d5b895 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=RAbU-raeAAAA:8 a=KKAkSRfTAAAA:8
+ a=F1wq8hpAVWgPklvmxcQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=JiizpSU_mAIq9zsZDqn2:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-25_02,2025-09-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,113 +141,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima.
+On Thu, Sep 25, 2025 at 03:07:28PM +0800, Jun Nie wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2025年9月25日周四 03:10写道：
+> >
+> > On Wed, Sep 24, 2025 at 11:08:10PM +0800, Jun Nie wrote:
+> > > Some panels support multiple slice to be sent in a single DSC packet. And
+> >
+> > s/support/require/
+> >
+> > If the panel supports something, then we can omit that and send 1 slice
+> > as we currently do. If the panel requires multiple slices, it's
+> > mandatory.
+> >
+> > > this feature is a must for specific panels, such as JDI LPM026M648C. Add a
+> >
+> > A panel driver which executes this API is appreciated. Otherwise in a
+> > few months / years somebody will submit a patch 'field foo is not used
+> > by the kernel drivers, drop it'.
+> 
+> OK, will add a panel driver in next version.
+> >
+> > > dsc_slice_per_pkt member into struct mipi_dsi_device and support the
+> > > feature in msm mdss driver.
+> > >
+> > > Co-developed-by: Jonathan Marek <jonathan@marek.ca>
+> > > Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/dsi/dsi_host.c | 25 ++++++++++---------------
+> > >  include/drm/drm_mipi_dsi.h         |  2 ++
+> > >  2 files changed, 12 insertions(+), 15 deletions(-)
+> > >
+> > > @@ -196,6 +197,7 @@ struct mipi_dsi_device {
+> > >       unsigned long hs_rate;
+> > >       unsigned long lp_rate;
+> > >       struct drm_dsc_config *dsc;
+> > > +     unsigned int dsc_slice_per_pkt;
+> >
+> > Why is it a part of the DSI device config? What if a device specifies
+> > dsc_slice_per_pkt, but not DSC config? What are the legit boundaries for
+> > this field?
+> 
+> You are right. drm_dsc_config is better place to add the info. Thus only
+> panels that support DSC can convey the info to host.
 
-We are excited to continue the upstreaming of the accel/habanalabs driver,
-based on the work previously done by Oded Gabbay and Ofir Bitton.
-From this cycle on, both me and Konstantin Sinyuk, will be maintaining
-the driver upstreaming, ensuring regular updates into drm-next.
+You will have to explain that it is not a part of the standard and what
+kind of effect should it cause for DP and HDMI.
 
-This tag contains habanalabs driver changes for v6.18.
-It continues the previous upstream work from tags/drm-habanalabs-next-2024-06-23,
-Including improvements in debug and visibility, alongside general code cleanups,
-and new features such as vmalloc-backed coherent mmap, HLDIO infrastructure, etc.
+> >
+> > >  };
+> > >
+> > >  /**
+> > >
+> > > --
+> > > 2.34.1
+> > >
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-Full details are in the signed tag.
-
-Thanks,
-Koby
-
-
-The following changes since commit 342f141ba9f4c9e39de342d047a5245e8f4cda19:
-
-  Merge tag 'amd-drm-next-6.18-2025-09-19' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-09-22 08:45:51 +1000)
-
-are available in the Git repository at:
-
-  https://github.com/HabanaAI/drivers.accel.habanalabs.kernel.git tags/drm-habanalabs-next-2025-09-25
-
-for you to fetch changes up to 6ca282c3e635cd98cc5a9bb24606b41379e1fd8e:
-
-  accel/habanalabs: add Infineon version check (2025-09-25 09:14:45 +0300)
-
-----------------------------------------------------------------
-The notable changes are:
-- Correctness & Robustness
-  - Proper error handling in mempin path (`-ENOMEM` vs `-EFAULT`).
-  - Gaudi2 BMON disable fix, better CPLD_SHUTDOWN handling.
-  - Clarify context lifecycle after `hl_ctx_put()`.
-
-- API & Cleanups
-  - Remove legacy VERIFY_WRITE access_ok().
-  - Fix typo in trace output.
-
-- New Features
-  - Vmalloc-backed coherent mmap support.
-  - HLDIO (NVMe Direct I/O) infra + debugfs hooks.
-  - New passthrough APIs: error counters and P-state queries.
-  - Expose Infineon firmware version.
-
-- Debug & Visibility
-  - Log register accesses from debugfs.
-  - Gaudi2: stringify engine/queue IDs.
-  - Improved recovery after dirty preboot states.
-
-----------------------------------------------------------------
-Ariel Aviad (1):
-      accel/habanalabs: add HL_GET_P_STATE passthrough type
-
-Ariel Suller (1):
-      accel/habanalabs/gaudi2: stringify engine/queue ids
-
-Ilia Levi (1):
-      accel/habanalabs: remove old interface variation of 'access_ok()'
-
-Konstantin Sinyuk (5):
-      accel/habanalabs: disable device access after CPLD_SHUTDOWN
-      accel/habanalabs/gaudi2: use the CPLD_SHUTDOWN event handler
-      accel/habanalabs: add NVMe Direct I/O (HLDIO) infrastructure
-      accel/habanalabs: add debugfs interface for HLDIO testing
-      accel/habanalabs/gaudi2: read preboot status after recovering from dirty state
-
-Moti Haimovski (1):
-      accel/habanalabs: support mapping cb with vmalloc-backed coherent memory
-
-Pavan S (1):
-      accel/habanalabs: add Infineon version check
-
-Sharley Calzolari (1):
-      accel/habanalabs/gaudi2: add support for logging register accesses from debugfs
-
-Tomer Tayar (3):
-      accel/habanalabs: return ENOMEM if less than requested pages were pinned
-      accel/habanalabs: clarify ctx use after hl_ctx_put() in dmabuf release
-      accel/habanalabs: fix typo in trace output (cms -> cmd)
-
-Vered Yavniely (1):
-      accel/habanalabs/gaudi2: fix BMON disable configuration
-
-Vitaly Margolin (1):
-      accel/habanalabs: add generic message type to get error counters
-
- drivers/accel/habanalabs/Kconfig                   |  23 ++
- drivers/accel/habanalabs/common/Makefile           |   5 +
- drivers/accel/habanalabs/common/debugfs.c          | 324 +++++++++++++++
- drivers/accel/habanalabs/common/device.c           |  23 ++
- drivers/accel/habanalabs/common/habanalabs.h       |  56 ++-
- drivers/accel/habanalabs/common/habanalabs_ioctl.c |   6 +
- drivers/accel/habanalabs/common/hldio.c            | 437 +++++++++++++++++++++
- drivers/accel/habanalabs/common/hldio.h            | 146 +++++++
- drivers/accel/habanalabs/common/memory.c           |   9 +-
- drivers/accel/habanalabs/common/memory_mgr.c       |   5 -
- drivers/accel/habanalabs/common/sysfs.c            |  11 +-
- drivers/accel/habanalabs/gaudi/gaudi.c             |  19 +
- drivers/accel/habanalabs/gaudi2/gaudi2.c           | 386 +++++++++++++++++-
- drivers/accel/habanalabs/gaudi2/gaudi2P.h          |   9 +
- drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c |   2 +-
- include/linux/habanalabs/cpucp_if.h                |   4 +
- include/trace/events/habanalabs.h                  |   2 +-
- 17 files changed, 1442 insertions(+), 25 deletions(-)
- create mode 100644 drivers/accel/habanalabs/common/hldio.c
- create mode 100644 drivers/accel/habanalabs/common/hldio.h
-
+-- 
+With best wishes
+Dmitry
