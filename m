@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC97BA0353
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 17:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64974BA0335
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 17:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F250310E978;
-	Thu, 25 Sep 2025 15:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 192B310E96F;
+	Thu, 25 Sep 2025 15:17:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jT2TfzIq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LzR0agrU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4498010E967
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 15:17:48 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-5797c8612b4so1479310e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 08:17:48 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBAD710E966
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 15:17:49 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-579d7104c37so1453480e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 08:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758813467; x=1759418267; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758813468; x=1759418268; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UluGas5X2LWmQB7iVdb5z5eOB2ccnl2sNvVSp9MKYIw=;
- b=jT2TfzIqbhIEAi1LexJ9V6toLkHYfDDKF4MR8rHIYOyrrX0HrU7b1pVf/zuIfKJr48
- VzgmD/eBT4cmpVGq+pS5pIPTL4b+JPa7YfUxWfKnYYUt9wdZzIcZI5vVO+aY1LgVYYT1
- 2AkVr1KRN3neuszXJK14Zcm8r0lJHEDWmaYg8/5RL63fXYP2GYTTKBuJPv1qoTlhrOPQ
- LfeTpR7mRbBbzaOb5kHxrKMlhoqCYna5XwU7hOc6n0oF/L1XKPtDkyWwIYU3YwledCWv
- FXgx0ayxObNo07wiWzw7V7xFle8BB27bjVENdH2eSP+FErAw4OAXXD0DyoEVdhT8kwGf
- pYBA==
+ bh=ihAxrvGeeqbDGS2s2nWoaKnfeN+9tvG68aYZNvqbzNU=;
+ b=LzR0agrUL8fLRPxSfE0xkVbn+lyHLe1pyXKidcJU4N5E8luqZ/nzSIYhjL8OviYY67
+ /nc3CO0MOslc5PwXITc+ZCSL5f5mVq2YO0qlXrx2P4UgNnCqRK68HlK5EL8cgRpycAyZ
+ Um/Bqqu8IXukJEPLsQ9dfndG9XOD4MKOF59HtZI9TZ7vrGh77Ipsg8QhaE0f/HdKKFIJ
+ 2vP6Emdc437wqq0iYAsdrDq9lr2oLaHdbi6X2ERSOpgWX93ldrNpFBbZB0wgpFBNZF0I
+ ROEuisI68Up1VZEp1BMTILw9FzEt8fHkoTf6oleBc8cQVXDrxJFjiru+cfvgoIN9Uupg
+ /Xng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758813467; x=1759418267;
+ d=1e100.net; s=20230601; t=1758813468; x=1759418268;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UluGas5X2LWmQB7iVdb5z5eOB2ccnl2sNvVSp9MKYIw=;
- b=Mq6Jq9fO/mVuob/hXnZyioD8WRmoUGKrzRVEZJ9NkncUXnisHVkiVyd5oI1kx65eiH
- suJ3blpq3oLiLl5VygqaFE9j5VJ86XeCf6C1T+Ga1Ztg1+JrKqkz2wgLDbqfljqWE6HT
- asxGhVpQVqttSiQw10/ShP2BL3zlnqodIFzjUXALFSLQjxht6rzIxBIvXW/lvwnxWXv9
- Ql6xcPVPlNbN1GbD7XaooBzrxnCJ8Fpb9mXVi/s/mPsLkc3shYfnpbDARdrV3pta9Rnt
- 2iNMERtQKOGzKuK6SLplGDG3SW1QZq4/t1hlnmSDN0AoqDcC+zMyjVVpMWejypT2L1+1
- GeQg==
-X-Gm-Message-State: AOJu0YxAEYbIW6mQNsAtR1rS1V97QNsR1RnD1R9Fk1DJ+0S1zt5lSMNU
- nuhugk3NOQzD4Uq/fgC04Y34ek7TEzmoUtaJoGM8pMt7RmR5aE1aP7tk
-X-Gm-Gg: ASbGncvy6yqZhVEpsezrWEG66U1JKM2FfqekBG+qH/rc2WmzP4pXY1BNiyZ3bL0cIlt
- 9FxAQsmXXu8IPIw/Y5Uo9g6NTqqz+FxGXJwp5ascqiYgw4frcaMDY+Zpa80deHnyZvpBCGYljpT
- 24nH1tBmFdCFzIvQhea2UU4d/MU4OQkuHpJBI1kyS35nqnAcGK0Kt43n5ijZdpL+5o7AP4vCFX2
- Ijd5wu9NwNQ4B175uluFCpNf7S4g/S/iZ3MBW8Sa8+1QjslBvSHAcUeog731ZOmlF3R/F6YY5R6
- vZFJo3aus12NrtcvVnfTcotG+X67YIElivhBOsaAtXyWZ5AxK7+4fthATQe46+HmaNNm97B+vzi
- OGA6ZyGU2L8SnPw==
-X-Google-Smtp-Source: AGHT+IGed0vIRa+md+egWvWqgYYl4XwnX/bKqIftOs7kK/BC39V/DrV+l1FBmmZSDKHaohVTfkYJWQ==
-X-Received: by 2002:ac2:51c8:0:b0:576:fbdc:e3d9 with SMTP id
- 2adb3069b0e04-582d0c2a3e0mr1199445e87.14.1758813466370; 
- Thu, 25 Sep 2025 08:17:46 -0700 (PDT)
+ bh=ihAxrvGeeqbDGS2s2nWoaKnfeN+9tvG68aYZNvqbzNU=;
+ b=d11J08NodKgWg1mauvTWKE85KgU3E1oRt/OWyWzVlXfkBReunBFwfT9UxK1Uycd7WA
+ N3P3HcMdw1D6mVZVnCEKqIXNWptUAD/spNVi9SYfyyq2lJfJkoZ2bBJTRuqoq4nfkgRw
+ Un4JDYRps31hL2FyFAr0vUlyEx4i5zOGdDSyLKw1UvZTZRFhtBpsdDZtLjr1HOOFBdvu
+ TqlDUTMKTSBurJPr+6YrMTc9sIW3c/XH7RTh67CXsoanDTDeKvkrYNPvhI/a9741R/0W
+ dgapV33lXPLlnSEDVW4HFJ3EiqqZVbfo9/XibgHaqLooWwBu4gEQ1ycddik9jjy7uDEx
+ vMjw==
+X-Gm-Message-State: AOJu0Yy1ck2zhGRFIzukgVzgUs0sLomHW+plX0fGzt4jv9xxZbvXM7eu
+ v6Wv3fv4LgSyEgZCNi82qp+gQVotfqy2Ms0lwIS2OgIDEFNn6QTBMAPJ
+X-Gm-Gg: ASbGncswEdwKhZKwAix6YOkZ5cvhWu8r2Z0B9lWEJ807WEKhdeTNxnT3hHeenOC85BZ
+ zAngpyoLbOd9haz/7AD/D8qax2mwmWZ4Jlo56OYmdG3oyMljEOuRCLr5LwqpbqUtMbsEeWU5NhU
+ WES/F0hRRXma76x5bITi9xyn5sdjfil9sF42OURVXETC43Gf9LvWo1OlU9R/e7p6wAdBFqsP7MS
+ sfG4wjKemMtsF9dVdbDC1HFo/smhu9zfC+KW0+MOy0WXs8HSQ8sJYum1PLqeUJmfZpSEmUOVTkQ
+ 5KBTdk7bVqeBhcUyLmOCJ8WfwFozlMmJKEX95dC+TOQIsKQOVbNoKy6kJjtl8h68JjWWQ6CvJLo
+ l3GDdKElzz3P04g==
+X-Google-Smtp-Source: AGHT+IEgIvTgxxL5WIN2ZRYvGEcMitZUM+cSp6l2oZhWq93Lx+b6iM39RU57IOUk08HihxonasaaBg==
+X-Received: by 2002:a05:6512:6193:b0:577:35c5:9a41 with SMTP id
+ 2adb3069b0e04-582d3ba0826mr1107436e87.53.1758813468072; 
+ Thu, 25 Sep 2025 08:17:48 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58313430496sm870084e87.27.2025.09.25.08.17.44
+ 2adb3069b0e04-58313430496sm870084e87.27.2025.09.25.08.17.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Sep 2025 08:17:46 -0700 (PDT)
+ Thu, 25 Sep 2025 08:17:47 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -86,10 +86,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v3 20/22] dt-bindings: display: tegra: document Tegra20 and
- Tegra30 CSI
-Date: Thu, 25 Sep 2025 18:16:46 +0300
-Message-ID: <20250925151648.79510-21-clamor95@gmail.com>
+Subject: [PATCH v3 21/22] ARM: tegra: add CSI nodes for Tegra20 and Tegra30
+Date: Thu, 25 Sep 2025 18:16:47 +0300
+Message-ID: <20250925151648.79510-22-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250925151648.79510-1-clamor95@gmail.com>
 References: <20250925151648.79510-1-clamor95@gmail.com>
@@ -110,155 +109,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document CSI HW block found in Tegra20 and Tegra30 SoC.
+Add CSI node to Tegra20 and Tegra30 device trees.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++++
- 1 file changed, 135 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+ arch/arm/boot/dts/nvidia/tegra20.dtsi | 19 ++++++++++++++++++-
+ arch/arm/boot/dts/nvidia/tegra30.dtsi | 24 ++++++++++++++++++++++--
+ 2 files changed, 40 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-new file mode 100644
-index 000000000000..817b3097846b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-@@ -0,0 +1,135 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm/boot/dts/nvidia/tegra20.dtsi b/arch/arm/boot/dts/nvidia/tegra20.dtsi
+index 6ae07b316c8a..5cdbf1246cf8 100644
+--- a/arch/arm/boot/dts/nvidia/tegra20.dtsi
++++ b/arch/arm/boot/dts/nvidia/tegra20.dtsi
+@@ -64,7 +64,7 @@ mpe@54040000 {
+ 
+ 		vi@54080000 {
+ 			compatible = "nvidia,tegra20-vi";
+-			reg = <0x54080000 0x00040000>;
++			reg = <0x54080000 0x00000800>;
+ 			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&tegra_car TEGRA20_CLK_VI>;
+ 			resets = <&tegra_car 20>;
+@@ -72,6 +72,23 @@ vi@54080000 {
+ 			power-domains = <&pd_venc>;
+ 			operating-points-v2 = <&vi_dvfs_opp_table>;
+ 			status = "disabled";
 +
-+title: NVIDIA Tegra20 CSI controller
++			#address-cells = <1>;
++			#size-cells = <1>;
 +
-+maintainers:
-+  - Svyatoslav Ryhel <clamor95@gmail.com>
++			ranges = <0x0 0x54080000 0x4000>;
 +
-+properties:
-+  compatible:
-+    enum:
-+      - nvidia,tegra20-csi
-+      - nvidia,tegra30-csi
++			csi: csi@800 {
++				compatible = "nvidia,tegra20-csi";
++				reg = <0x800 0x200>;
++				clocks = <&tegra_car TEGRA20_CLK_CSI>;
++				power-domains = <&pd_venc>;
++				#nvidia,mipi-calibrate-cells = <1>;
++				status = "disabled";
 +
-+  reg:
-+    maxItems: 1
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
+ 		};
+ 
+ 		epp@540c0000 {
+diff --git a/arch/arm/boot/dts/nvidia/tegra30.dtsi b/arch/arm/boot/dts/nvidia/tegra30.dtsi
+index 20b3248d4d2f..be752a245a55 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30.dtsi
++++ b/arch/arm/boot/dts/nvidia/tegra30.dtsi
+@@ -150,8 +150,8 @@ mpe@54040000 {
+ 		};
+ 
+ 		vi@54080000 {
+-			compatible = "nvidia,tegra30-vi";
+-			reg = <0x54080000 0x00040000>;
++			compatible = "nvidia,tegra30-vi", "nvidia,tegra20-vi";
++			reg = <0x54080000 0x00000800>;
+ 			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&tegra_car TEGRA30_CLK_VI>;
+ 			resets = <&tegra_car 20>;
+@@ -162,6 +162,26 @@ vi@54080000 {
+ 			iommus = <&mc TEGRA_SWGROUP_VI>;
+ 
+ 			status = "disabled";
 +
-+  clocks: true
-+  clock-names: true
++			#address-cells = <1>;
++			#size-cells = <1>;
 +
-+  avdd-dsi-csi-supply:
-+    description: DSI/CSI power supply. Must supply 1.2 V.
++			ranges = <0x0 0x54080000 0x4000>;
 +
-+  power-domains:
-+    maxItems: 1
++			csi: csi@800 {
++				compatible = "nvidia,tegra30-csi";
++				reg = <0x800 0x200>;
++				clocks = <&tegra_car TEGRA30_CLK_CSI>,
++					 <&tegra_car TEGRA30_CLK_CSIA_PAD>,
++					 <&tegra_car TEGRA30_CLK_CSIB_PAD>;
++				clock-names = "csi", "csia-pad", "csib-pad";
++				power-domains = <&pd_venc>;
++				#nvidia,mipi-calibrate-cells = <1>;
++				status = "disabled";
 +
-+  "#nvidia,mipi-calibrate-cells":
-+    description:
-+      The number of cells in a MIPI calibration specifier. Should be 1.
-+      The single cell specifies an id of the pad that need to be
-+      calibrated for a given device. Valid pad ids for receiver would be
-+      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    const: 1
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+patternProperties:
-+  "^channel@[0-1]$":
-+    type: object
-+    description: channel 0 represents CSI-A and 1 represents CSI-B
-+    additionalProperties: false
-+
-+    properties:
-+      reg:
-+        maximum: 1
-+
-+      nvidia,mipi-calibrate:
-+        description: Should contain a phandle and a specifier specifying
-+          which pad is used by this CSI channel and needs to be calibrated.
-+        $ref: /schemas/types.yaml#/definitions/phandle-array
-+
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: port receiving the video stream from the sensor
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            required:
-+              - data-lanes
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: port sending the video stream to the VI
-+
-+    required:
-+      - reg
-+      - "#address-cells"
-+      - "#size-cells"
-+      - port@0
-+      - port@1
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - nvidia,tegra20-csi
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: module clock
-+
-+        clock-names: false
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - nvidia,tegra30-csi
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: module clock
-+            - description: PAD A clock
-+            - description: PAD B clock
-+
-+        clock-names:
-+          items:
-+            - const: csi
-+            - const: csia-pad
-+            - const: csib-pad
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - power-domains
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+# see nvidia,tegra20-vi.yaml for an example
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
+ 		};
+ 
+ 		epp@540c0000 {
 -- 
 2.48.1
 
