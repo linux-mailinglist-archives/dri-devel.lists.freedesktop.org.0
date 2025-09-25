@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663E3B9F474
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7249B9F4EF
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 14:43:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90AEC10E8FA;
-	Thu, 25 Sep 2025 12:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5929F10E8FC;
+	Thu, 25 Sep 2025 12:43:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XkvQ1go5";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="NxoHGJeR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2920F10E2C7;
- Thu, 25 Sep 2025 12:36:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 60A8C6013A;
- Thu, 25 Sep 2025 12:36:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054A8C4CEF0;
- Thu, 25 Sep 2025 12:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758803811;
- bh=IBUAnul7b8BQqt3zLS4cohInRJ5Mx15MT7PNd8Nz5R4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XkvQ1go55VUCHLla+6DHun6ac9iHj597k6xHzW2ehbWZf1qu17advzm0DOfLaJdX2
- CFK1pTszoqCLJrUFasnXEbhaA+1f/RSAgXuAlCqIPBFAunLcZSLWGiS/DqtgPo1lAz
- vd59DiKljlaDbik78b3p69oUNn/NqxQnsAOZKEj9miVMPRGtAD7JdxnTW3ZYETd/id
- 3l8YdBfhuJ0+fEQ/tfJEwaZ73jeDNCtDBWibnzrzLBuVvq+35kOG7RWoaJ9NZ0Zvhk
- QMPN3eI4qbedD4PN9VBWseCLjfv6KabHrHPVkDmVcJZq2VK9elqC28msll8ZwXvERx
- rJPYbUQBQg33g==
-Date: Thu, 25 Sep 2025 14:36:46 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-Message-ID: <20250925-didactic-spiked-lobster-fefabe@penduick>
-References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
- <20250910-furry-singing-axolotl-9aceac@houat>
- <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="5gspsh2yhbs7pucv"
-Content-Disposition: inline
-In-Reply-To: <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F52510E2C7;
+ Thu, 25 Sep 2025 12:43:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758804196; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nxWJj00YuVsDyeDvU8IqYqiDlQ+QD3FJNew9v03B6anFh7IdeXaK2JwNu7pEO7l75bFKxajA+nJlwE6SUxupSVQ5uJ1hdi6ep4OFi8rV+bYIbHuKa1JizYrtRwwNIhVDTPUU2pqdwTXxwXs88Jqn38CQ4DYwjXFXLi4X9OUhSlQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1758804196;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=iBO1OeXpKcig6ea81LX6zk9gp84tYRDi2U2yH/+iQ/E=; 
+ b=fWSI29h5MzUyBqjGBZ1JVl5JMDlxd14xOreZmFL18Aj3pbbtvHolotoI2gRD2IXuc3dEBKnhcXCPW2tQz95zZ+r4plAixlUj+3qNGrdpJ116f3e+MHPj+9dMF1ah4ipDPKaZDYYLANEh9ZcjN9beuWRtXQuraFy9gVmqJ+5jrR4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758804196; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=iBO1OeXpKcig6ea81LX6zk9gp84tYRDi2U2yH/+iQ/E=;
+ b=NxoHGJeRolhKIGVigNzYlznpQAQHmNNraxSJKX9bpkeI/XXVcwFC/hKsFenzxIJh
+ JdZ1lTEIFiU52CbxJGKUCb6hyRt2X/yjpvzFu6qUKWtfqInpb/4iLXmTmdoyFWXbI/1
+ K0zHhspsuPa14FKBSAozDQj25cdVpsm8QAnu76yQ=
+Received: by mx.zohomail.com with SMTPS id 1758804191518870.7044586273115;
+ Thu, 25 Sep 2025 05:43:11 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH i-g-t v2 2/3] panthor: add initial infrastructure
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250916121240.3e7eideofkifj2hd@kamilkon-DESK.igk.intel.com>
+Date: Thu, 25 Sep 2025 14:42:44 +0200
+Cc: adrinael@adrinael.net, arek@hiler.eu, juhapekka.heikkila@gmail.com,
+ bhanuprakash.modem@gmail.com, ashutosh.dixit@intel.com,
+ karthik.b.s@intel.com, boris.brezillon@collabora.com, liviu.dudau@arm.com,
+ steven.price@arm.com, aliceryhl@google.com, jeffv@google.com,
+ intel-gfx@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A6EF2C90-617D-4EE3-83E1-5D6CE3857F66@collabora.com>
+References: <20250912181931.3738444-1-daniel.almeida@collabora.com>
+ <20250912181931.3738444-3-daniel.almeida@collabora.com>
+ <20250916121240.3e7eideofkifj2hd@kamilkon-DESK.igk.intel.com>
+To: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,174 +73,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Kamil,
 
---5gspsh2yhbs7pucv
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-MIME-Version: 1.0
-
-On Wed, Sep 10, 2025 at 06:16:25PM +0300, Dmitry Baryshkov wrote:
-> On Wed, Sep 10, 2025 at 01:03:47PM +0200, Maxime Ripard wrote:
-> > On Tue, Sep 09, 2025 at 05:51:59PM +0300, Dmitry Baryshkov wrote:
-> > > Currently DRM framework expects that the HDMI connector driver suppor=
-ts
-> > > all infoframe types: it generates the data as required and calls into
-> > > the driver to program all of them, letting the driver to soft-fail if
-> > > the infoframe is unsupported. This has a major drawback on userspace
-> > > API: the framework also registers debugfs files for all Infoframe typ=
-es,
-> > > possibly surprising the users when infoframe is visible in the debugfs
-> > > file, but it is not visible on the wire. Drivers are also expected to
-> > > return success even for unsuppoted InfoFrame types.
-> > >=20
-> > > Let drivers declare that they support only a subset of infoframes,
-> > > creating a more consistent interface. Make the affected drivers return
-> > > -EOPNOTSUPP if they are asked to program (or clear) InfoFrames which =
-are
-> > > not supported.
-> > >=20
-> > > Acked-by: Liu Ying <victor.liu@nxp.com>
-> > > Acked-by: Daniel Stone <daniels@collabora.com>
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >=20
-> > Again, I still believe that it's a bad idea, goes against what the spec
-> > states, and the framework was meant to be.
+> On 16 Sep 2025, at 14:12, Kamil Konieczny =
+<kamil.konieczny@linux.intel.com> wrote:
 >=20
-> Please correct me if I'm wrong. The specs (HDMI & CEA) define several
-> infoframes and whether we should be sending them. If I'm reading it
-> correctrly, CEA spec explicitly says 'If the Source supports the
-> transmission of [foo] InfoFrame..." (6.4 - AVI, 6.6 - Audio, 6.7 MPEG,
-> 6.9 - DRM). For other InfoFrames (6.5 SPD, 6.8 NTSC VBI) it just defines
-> that sending those frames is optional.
-
-SPD is indeed optional, but the HDMI spec, (HDMI 1.4b, Section 8.2.1 -
-Auxiliary Video information (AVI) InfoFrame) states that:
-
-  A Source shall always transmit an AVI InfoFrame at least once per two
-  Video Fields if the Source:
-
-   * is ever capable of transmitting an AVI InfoFrame or,
-   * is ever capable of transmitting YCBCR pixel encoding or,
-   * is ever capable of transmitting any colorimetry other than the
-     transmitted video format=E2=80=99s default colorimetry or,
-   * is ever capable of transmitting any xvYCC or future enhanced
-     colorimetry or,
-   * is ever capable of transmitting any Gamut Metadata packet or,
-   * is ever capable of transmitting any video format with multiple
-     allowed pixel repetitions or,
-   * is ever capable of transmitting Content Type other than =E2=80=9Cno da=
-ta=E2=80=9D or,
-   * is ever capable of transmitting YCC Quantization Range.
-
-  The AVI InfoFrame shall be transmitted even while such a Source is
-  transmitting RGB and non-pixel-repeated video. When a Source is not
-  explicitly required to transmit AVI InfoFrames, it is recommended that
-  the Source transmit AVI InfoFrames.
-
-So it's recommended in every case, and the list kind of makes it
-mandatory for how Linux uses HDMI.
-
-Also, did we ever encounter some hardware that couldn't send AVI?
-
-Audio is mandatory when streaming audio, DRM when using HDR, and we
-don't support the others yet.
-
-So the only we support but don't have to send is SPD.
-
-> We can't even infer support for InfoFrames from the Source features.
-> E.g. CEA 6.6.1 defines a case when digital audio is allowed to be sent,
-> without sending Audio InfoFrame.
-
-HDMI 1.4 section 8.2.2 - Audio Infoframe states that:
-
-  Whenever an active audio stream is being transmitted, an accurate
-  Audio InfoFrame shall be transmitted at least once per two Video
-  Fields.
-
-I'd say it takes precedence over CTA-861.
-
-> As we will be getting more and more features, some of the InfoFrames
-> or data packets will be 'good to have, but not required'.
-
-And drivers would be free to ignore those.
-
-> > So, no, sorry. That's still a no for me. Please stop sending that patch
+> Hi Daniel,
+> On 2025-09-12 at 15:19:29 -0300, Daniel Almeida wrote:
+>> Add the necessary code needed to compile panthor tests as well as the
+>> basic infrastructure that will be used by the Panthor tests =
+themselves.
+>>=20
+>> To make sure everything is in order, add a basic test in
+>> panthor_query.c.
+>>=20
+>> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> ---
+>> lib/igt_panthor.c             | 41 =
++++++++++++++++++++++++++++++++++++
+>> lib/igt_panthor.h             | 12 ++++++++++
+>> lib/meson.build               |  1 +
+>> meson.build                   |  8 +++++++
+>> tests/meson.build             |  2 ++
+>> tests/panthor/meson.build     | 12 ++++++++++
+>> tests/panthor/panthor_query.c | 25 +++++++++++++++++++++
+>> 7 files changed, 101 insertions(+)
+>> create mode 100644 lib/igt_panthor.c
+>> create mode 100644 lib/igt_panthor.h
+>> create mode 100644 tests/panthor/meson.build
+>> create mode 100644 tests/panthor/panthor_query.c
+>>=20
+>> diff --git a/lib/igt_panthor.c b/lib/igt_panthor.c
+>> new file mode 100644
+>> index 000000000..0b690f796
+>> --- /dev/null
+>> +++ b/lib/igt_panthor.c
+>> @@ -0,0 +1,41 @@
+>> +// SPDX-License-Identifier: MIT
+>> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
 >=20
-> Oops :-)
+> We use SPD for licence because they are long texts. I do not
+> see any benefit of SPDX for copyright lines, it makes it even
+> longer than needed. It could stay if you want.
 >=20
-> > unless we have a discussion about it and you convince me that it's
-> > actually something that we'd need.
+> Acked-by: Kamil Konieczny <kamil.konieczny@linux.intel.com>
 >=20
-> My main concern is that the drivers should not opt-out of the features.
-> E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFrames
-> (yes, stupid examples), it should not be required to go through all the
-> drivers, making sure that they disable those. Instead the DRM framework
-> should be able to make decisions like:
+> Regards,
+> Kamil
 >=20
-> - The driver supports SPD and the VSDB defines SPD, enable this
->   InfoFrame (BTW, this needs to be done anyway, we should not be sending
->   SPD if it's not defined in VSDB, if I read it correctly).
->=20
-> - The driver hints that the pixel data has only 10 meaninful bits of
->   data per component (e.g. out of 12 for DeepColor 36), the Sink has
->   HF-VSDB, send HF-VSIF.
->=20
-> - The driver has enabled 3D stereo mode, but it doesn't declare support
->   for HF-VSIF. Send only H14b-VSIF.
->=20
-> Similarly (no, I don't have these on my TODO list, these are just
-> examples):
-> - The driver defines support for NTSC VBI, register a VBI device.
->=20
-> - The driver defines support for ISRC packets, register ISRC-related
->   properties.
->=20
-> - The driver defines support for MPEG Source InfoFrame, provide a way
->   for media players to report frame type and bit rate.
->=20
-> - The driver provides limited support for Extended HDR DM InfoFrames,
->   select the correct frame type according to driver capabilities.
->=20
-> Without the 'supported' information we should change atomic_check()
-> functions to set infoframe->set to false for all unsupported InfoFrames
-> _and_ go through all the drivers again each time we add support for a
-> feature (e.g. after adding HF-VSIF support).
 
-=46rom what you described here, I think we share a similar goal and have
-somewhat similar concerns (thanks, btw, it wasn't obvious to me before),
-we just disagree on the trade-offs and ideal solution :)
+I=E2=80=99d rather keep it. I tend to favor standardization and having a =
+standard
+way to declare copyrights seems beneficial to me. What are the next =
+steps here?
+Should I send a new version to pickup the tags, or can this be merged =
+already?
 
-I agree that we need to sanity check the drivers, and I don't want to go
-back to the situation we had before where drivers could just ignore
-infoframes and take the easy way out.
+Same for the other patch.
 
-It should be hard, and easy to catch during review.
+=E2=80=94 Daniel
 
-I don't think bitflag are a solution because, to me, it kind of fails
-both.
 
-What if, just like the debugfs discussion, we split write_infoframe into
-write_avi_infoframe (mandatory), write_spd_infoframe (optional),
-write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) and
-write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc > 8)
-
-How does that sound?
-
-Maxime
-
---5gspsh2yhbs7pucv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNU3XQAKCRAnX84Zoj2+
-duiWAYCEQHaNpq1acegbRGgnWK7idyco+oNyb5OKUdG2mSrF8iG51+HcmQ30rpWH
-OmNB+HsBf3AD+4uAstcClyYSies8sQ9MYWjuxdp67l9l23iryEuQM410hwJTA3iL
-XSaP3z9ISQ==
-=35Cr
------END PGP SIGNATURE-----
-
---5gspsh2yhbs7pucv--
