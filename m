@@ -2,119 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE5DB9EBC0
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 12:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734D1B9ED19
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 12:51:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E77B10E2A6;
-	Thu, 25 Sep 2025 10:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7378610E0BA;
+	Thu, 25 Sep 2025 10:51:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jBbXJq9A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GxIGk9g+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE86810E2A6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 10:40:25 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P9tI5T029443
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 10:40:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hkrub1vjfp8/J5x0I8lwP41qVsopVVAqErZdeoHT7KY=; b=jBbXJq9A8X3vT/px
- p8Yol/YmZPOKUckMtoJP3NoRKnA0SzIlKkDdBGUkgXDwwvhNg5ZgkbFy+z9HL3ev
- vahRVXNh+BSY8B31EZcZE8062mRi1JFj+x/fqEG1ETpw/SXlIYGxq89XGnVEXley
- YeCKN3zQMl67ONHAjkXYHBeQgsmzPb3rwjTn4slMZ6nrwlpRJX5sN1dmx+vVl/T7
- /9KO/qy2sDJ3fN1NoPvIx5MsJ5OJhl5Ia1vAOGrBNy8fgPHhcX1yd9Hg9kbnjkQO
- j9yn5wEtN/Yi4SADHGVI6GEq17I6tcxuj0kXO774qQVt4goCQGZxQHs8b6hBCeQm
- YHx0Hw==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1fqnf6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 10:40:25 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-3304def7909so896586a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 03:40:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758796825; x=1759401625;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hkrub1vjfp8/J5x0I8lwP41qVsopVVAqErZdeoHT7KY=;
- b=WKwSja/1KU8XWn5JBn0tiOHX6ozPJvZrKjZk0MOWgS6/P0hGZGWnnjMFoHt/nzJbcZ
- L6r/eO8qhXhFbz+piCx2q6VHNjfNJW2dvR3wLcTuEoCKnn+v8cVOkgKJ9VQ0qLfEtFDs
- 9CxOHJNI3nEJ+YlsEt5dwIZdRQ7bnl5SKnM9LlPjocGqOF1A+D30xs1FgnDpbkH4VQNz
- u7k5U4ZcBjZ3VFlPSkrhHXDw4AzSud6c3VRGuGgVM0LfYwBpqqF+w7Jf+xPRy1jzYxRQ
- hRbSnc71tZxwzB/5SO7lWfCn3xgbpI409fKpRYUHg30RCYufEZT2y6M312wVJ2TzQDdJ
- 5vjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPr5ztEEDQqD6xWlmrVrD+NFagAF0i8aD+P2+D+Yiw/KnLY55Isdy1qsb/IyFJkY3daGkKVyY9AxY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0zN8RhGB6pufGCkwCtk2snaluQmJEZ3vHG8JCosQLiDyxHAIU
- 5o15iLhYkqwbIwv1P7txsJO26Dtf1QXeGbwcD1u85R52QmBS8TSekD7oSaY9PLngaQH35MCU3v0
- s79+0mjDY9SV5ozVfUhsEic47RZOHJhWeigKjEf3MYN0yuvL+1BjGU0njepnBe5x34Rgzdl0=
-X-Gm-Gg: ASbGncucMj0MkVlcmCujdPIvruEToeL5Xukw+cvU6nxv7CneZdNlxVdTu3g2RyeUnqF
- crfkH45ztnGbUOaMvoee0kL/eWOACIWKEw0d/iF2sCeQp1VRcO/+2kWM+0NkK9mZdOSOLgDi2BA
- t07LBay/xKWfvwhjjSdTHknZt9K9jyxaKzzK4y6vt2cUs7EK8b4iG1i3h2g8Wcaj/Lk26gG+eGH
- Py0z88URjX8wuC3r65AiTdEV3D1rp7v97wCBZHhoweKH4HE4sXTnanHz4jBgGSwZ7qF/EGhQnFo
- co8uGjiod/1TJSp5Oyiq3LLnQ9PvOkYoewMKJ0NreqXl9U3o1714/bGFAZFOYkrVekgun97qPGI
- =
-X-Received: by 2002:a17:90b:1d82:b0:32b:9774:d340 with SMTP id
- 98e67ed59e1d1-3342a2c66cemr3725557a91.33.1758796824605; 
- Thu, 25 Sep 2025 03:40:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGA+HMhVlFvkRg4P3UZGYiYtHq2iFZKBbWgE6XeeuHnOxopWausReC6LBLc/123h2UNoU/UQ==
-X-Received: by 2002:a17:90b:1d82:b0:32b:9774:d340 with SMTP id
- 98e67ed59e1d1-3342a2c66cemr3725523a91.33.1758796824131; 
- Thu, 25 Sep 2025 03:40:24 -0700 (PDT)
-Received: from [10.217.219.207] ([202.46.22.19])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3341be2073dsm5353299a91.19.2025.09.25.03.40.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Sep 2025 03:40:23 -0700 (PDT)
-Message-ID: <41adeb71-f68f-4f50-a85f-5c7dfb5d587a@oss.qualcomm.com>
-Date: Thu, 25 Sep 2025 16:10:19 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C35B10E0BA;
+ Thu, 25 Sep 2025 10:51:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758797513; x=1790333513;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=xvkyFEDKFbRCb03nx/S+JW03S2ydvwJJ7TG4NtNiDgI=;
+ b=GxIGk9g+tyZmGyj4z0MPFBpklngVL/2WByfHrcgXgvJPOtkqjuFHa+Bd
+ IoncI3vvdv2wS7BxV+nYHtAQz7U4yyQOb7/3BpB085ayEYeBT/Ijjk/tR
+ EYnsOrOjf4So55le5WQU5LPRJgx2qXFipB5brR3jwWwUxpUfhNOQF0q5q
+ Hc9knvz4Wv/M+avDJ3Ti2WGfM97RHgA1VKSDIg7bqkfZg66oi0+z1WfJh
+ Ko/yNK6fpTr6RjuGpBa/qoOifed3RhIpLzWyxh0dCvQ3NHBkf5PUuOqlh
+ NzVMlbGg37uCxoQ+ySG/Hz/fQs8QSHS+CXPv1OUmzCCA6w1fB+Kg9ZEY5 w==;
+X-CSE-ConnectionGUID: X9tdS9dgTfKEXvSaZbQF3g==
+X-CSE-MsgGUID: i1wZukxlRfaXNfsEJf0O6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="71731286"
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; d="scan'208";a="71731286"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 03:51:52 -0700
+X-CSE-ConnectionGUID: QcwvSll1Q4+7TnmcvNoK3g==
+X-CSE-MsgGUID: lyFnAOAyQhq79DoHxhA87g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; d="scan'208";a="181590178"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.100])
+ ([10.245.244.100])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 03:51:50 -0700
+Message-ID: <ab09c09638c4482f99047672680c247b98c961c9.camel@linux.intel.com>
+Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+ functions of Intel GPUs
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jason Gunthorpe <jgg@nvidia.com>
+Cc: "Brost, Matthew" <matthew.brost@intel.com>, Simona Vetter	
+ <simona.vetter@ffwll.ch>, "dri-devel@lists.freedesktop.org"	
+ <dri-devel@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"	
+ <intel-xe@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, "linux-pci@vger.kernel.org"
+ <linux-pci@vger.kernel.org>
+Date: Thu, 25 Sep 2025 12:51:47 +0200
+In-Reply-To: <IA0PR11MB7185239DB2331A899561AA7DF81FA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <045c6892-9b15-4f31-aa6a-1f45528500f1@amd.com>
+ <20250922122018.GU1391379@nvidia.com>
+ <IA0PR11MB718580B723FA2BEDCFAB71E9F81DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <aNI9a6o0RtQmDYPp@lstrano-desk.jf.intel.com>
+ <aNJB1r51eC2v2rXh@lstrano-desk.jf.intel.com>
+ <80d2d0d1-db44-4f0a-8481-c81058d47196@amd.com>
+ <20250923121528.GH1391379@nvidia.com>
+ <522d3d83-78b5-4682-bb02-d2ae2468d30a@amd.com>
+ <20250923131247.GK1391379@nvidia.com>
+ <8da25244-be1e-4d88-86bc-5a6f377bdbc1@amd.com>
+ <20250923133839.GL1391379@nvidia.com>
+ <5f9f8cb6-2279-4692-b83d-570cf81886ab@amd.com>
+ <IA0PR11MB71855457D1061D0A2344A5CFF81CA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <1d9065f3-8784-4497-b92c-001ae0e78b63@amd.com>
+ <IA0PR11MB7185239DB2331A899561AA7DF81FA@IA0PR11MB7185.namprd11.prod.outlook.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 RESEND 0/2] i2c: i2c-qcom-geni: Add Block event
- interrupt support
-To: Andi Shyti <andi.shyti@kernel.org>,
- Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-References: <20250923073752.1425802-1-quic_jseerapu@quicinc.com>
- <eobfxgtssuiom2cuc2zlsvc2hhyi2jk7qb7zydgo4k5wwvxjlz@nksb3x6p5ums>
-Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <eobfxgtssuiom2cuc2zlsvc2hhyi2jk7qb7zydgo4k5wwvxjlz@nksb3x6p5ums>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: ff0xMp9cCF0xxMqTSioXKrkfrPvCh2AI
-X-Proofpoint-GUID: ff0xMp9cCF0xxMqTSioXKrkfrPvCh2AI
-X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d51c19 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=GtlKhm42p6TeGv8Q4b4A:9
- a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfX1hL/HoV1zVSp
- hQcBgQmCRATjPBvPP4KPzgOF8C+uHZPcJMPsFNOi8RxDwgRzFP0xD3XJWbOmL5ecF2ZVlEtl8tp
- AupFn6Ekp5cVgDhHsqPJdccp6N4DAQqtH4iughqcM5O8H5Bi62fbT1dDCbuGPnCAuRldXn9HkoA
- UwEfjsLJDiltBiGnRqXPCknpIjpAHS5ZqwtJZclPnLsa/d43PsroO6LkodxuSH6KjFc7fDmjubo
- Bp+gleU2ekoqUMEmoGEGoJ8dQsc1Tq+1eoUhKtnQyWzsjB0J9mt6/gPhYcNJwmistSetDeO56xx
- DdXgiqqN/TW3ft9jh/QfhGDYxkfSonTMG8VbmrC+bOjQ1Kj/2pQkVjW7XNno3oridekOGQ2mqoi
- heK1n1PJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,34 +92,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 2025-09-25 at 03:56 +0000, Kasireddy, Vivek wrote:
+> Hi Christian,
+>=20
+> > Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for
+> > device
+> > functions of Intel GPUs
+> >=20
+> > > >=20
+> > > > On 23.09.25 15:38, Jason Gunthorpe wrote:
+> > > > > On Tue, Sep 23, 2025 at 03:28:53PM +0200, Christian K=C3=B6nig
+> > > > > wrote:
+> > > > > > On 23.09.25 15:12, Jason Gunthorpe wrote:
+> > > > > > > > When you want to communicate addresses in a device
+> > > > > > > > specific
+> > address
+> > > > > > > > space you need a device specific type for that and not
+> > > > > > > > abuse
+> > > > > > > > phys_addr_t.
+> > > > > > >=20
+> > > > > > > I'm not talking about abusing phys_addr_t, I'm talking
+> > > > > > > about putting a
+> > > > > > > legitimate CPU address in there.
+> > > > > > >=20
+> > > > > > > You can argue it is hack in Xe to reverse engineer the
+> > > > > > > VRAM offset
+> > > > > > > from a CPU physical, and I would be sympathetic, but it
+> > > > > > > does allow
+> > > > > > > VFIO to be general not specialized to Xe.
+> > > > > >=20
+> > > > > > No, exactly that doesn't work for all use cases. That's why
+> > > > > > I'm
+> > > > > > pushing back so hard on using phys_addr_t or CPU addresses.
+> > > > > >=20
+> > > > > > See the CPU address is only valid temporary because the VF
+> > > > > > BAR is
+> > > > > > only a window into the device memory.
+> > > > >=20
+> > > > > I know, generally yes.
+> > > > >=20
+> > > > > But there should be no way that a VFIO VF driver in the
+> > > > > hypervisor
+> > > > > knows what is currently mapped to the VF's BAR. The only way
+> > > > > I can
+> > > > > make sense of what Xe is doing here is if the VF BAR is a
+> > > > > static
+> > > > > aperture of the VRAM..
+> > > > >=20
+> > > > > Would be nice to know the details.
+> > > >=20
+> > > > Yeah, that's why i asked how VFIO gets the information which
+> > > > parts of the
+> > > > it's BAR should be part of the DMA-buf?
+> > > >=20
+> > > > That would be really interesting to know.
+> > > As Jason guessed, we are relying on the GPU VF being a Large BAR
+> > > device here. In other words, as you suggested, this will not work
+> > > if the
+> > > VF BAR size is not as big as its actual VRAM portion. We can
+> > > certainly add
+> > > this check but we have not seen either the GPU PF or VF getting
+> > > detected
+> > > as Small BAR devices in various test environments.
+> > >=20
+> > > So, given the above, once a VF device is bound to vfio-pci driver
+> > > and
+> > > assigned to a Guest VM (launched via Qemu), Qemu's vfio layer
+> > > maps
+> > > all the VF's resources including the BARs. This mapping info
+> > > (specifically
+> > HVA)
+> > > is leveraged (by Qemu) to identity the offset at which the Guest
+> > > VM's buffer
+> > > is located (in the BAR) and this info is then provided to vfio-
+> > > pci kernel driver
+> > > which finally creates the dmabuf (with BAR Addresses).
+> >=20
+> > In that case I strongly suggest to add a private DMA-buf interface
+> > for the DMA-
+> > bufs exported by vfio-pci which returns which BAR and offset the
+> > DMA-buf
+> > represents.
+
+@Christian, Is what you're referring to here the "dma_buf private
+interconnect" we've been discussing previously, now only between vfio-
+pci and any interested importers instead of private to a known exporter
+and importer?
+
+If so I have a POC I can post as an RFC on a way to negotiate such an
+interconnect.
+
+> Does this private dmabuf interface already exist or does it need to
+> be created
+> from the ground up?
+>=20
+> If it already exists, could you please share an example/reference of
+> how you
+> have used it with amdgpu or other drivers?
+>=20
+> If it doesn't exist, I was wondering if it should be based on any
+> particular best
+> practices/ideas (or design patterns) that already exist in other
+> drivers?
+
+@Vivek, another question: Also on the guest side we're exporting dma-
+mapped adresses that are imported and somehow decoded by the guest
+virtio-gpu driver? Is something similar needed there?
+
+Also how would the guest side VF driver know that what is assumed to be
+a PF on the same device is actually a PF on the same device and not a
+completely different device with another driver? (In which case I
+assume it would like to export a system dma-buf)?
+
+Thanks,
+Thomas
 
 
-On 9/25/2025 4:58 AM, Andi Shyti wrote:
-> Hi Jyothi,
-> 
-> I'm sorry, but this is not a resend, but this is a v8. Other
-> than:
-> 
-> 1. commit log in patch 1: removed duplicate sentence
-> 2. use proper types when calling geni_i2c_gpi_unmap() inside
->     geni_i2c_gpi_multi_desc_unmap()
-> 
-> is there anything else?
-> 
-> Please, next increase the version even for tiny changes.
-> 
->> Jyothi Kumar Seerapu (2):
->>    dmaengine: qcom: gpi: Add GPI Block event interrupt support
-> 
-> We still need Vinod's comments here...
-> 
->>    i2c: i2c-qcom-geni: Add Block event interrupt support
-> 
-> ... and Mukesh and Viken's ack here.
-> 
 
-Sure, I shall Ack it once your comments are addressed.
-
+>=20
+> >=20
+> > Ideally using the same structure Qemu used to provide the offset to
+> > the vfio-
+> > pci driver, but not a must have.
+> >=20
+> > This way the driver for the GPU PF (XE) can leverage this
+> > interface, validates
+> > that the DMA-buf comes from a VF it feels responsible for and do
+> > the math to
+> > figure out in which parts of the VRAM needs to be accessed to
+> > scanout the
+> > picture.
+> Sounds good. This is definitely a viable path forward and it looks
+> like we are all
+> in agreement with this idea.
+>=20
+> I guess we can start exploring how to implement the private dmabuf
+> interface
+> mechanism right away.
+>=20
 > Thanks,
-> Andi
+> Vivek
+>=20
+> >=20
+> > This way this private vfio-pci interface can also be used by
+> > iommufd for
+> > example.
+> >=20
+> > Regards,
+> > Christian.
+> >=20
+> > >=20
+> > > Thanks,
+> > > Vivek
+> > >=20
+> > > >=20
+> > > > Regards,
+> > > > Christian.
+> > > >=20
+> > > > >=20
+> > > > > > What Simona agreed on is exactly what I proposed as well,
+> > > > > > that you
+> > > > > > get a private interface for exactly that use case.
+> > > > >=20
+> > > > > A "private" interface to exchange phys_addr_t between at
+> > > > > least
+> > > > > VFIO/KVM/iommufd - sure no complaint with that.
+> > > > >=20
+> > > > > Jason
+> > >=20
+>=20
 
