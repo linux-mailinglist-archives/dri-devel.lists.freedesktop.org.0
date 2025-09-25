@@ -2,54 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43450B9F642
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC47B9F67B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Sep 2025 15:05:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2C310E90B;
-	Thu, 25 Sep 2025 13:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A4010E912;
+	Thu, 25 Sep 2025 13:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UL2VH0ka";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="moTA4yMi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8AF10E90B;
- Thu, 25 Sep 2025 13:02:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=E6JRrHiHiFDgCm1UawCZBJAYWjKJZDRrDx6Hvm1pexg=; b=UL2VH0kahCuYUbMBP52affuPov
- x58yGvbx33BhXeNRjz13fTuppKGU8roOsX2TggYS8aXM8mVZ/DtTBfEpavVz759uW2dDvVxRRzleH
- p43erdLJKU80AWkkwsgaWklGiWnoc8dH9Eq+ddENEOE8MDHgvoMg6cbJpsDJwmZtmVk+z/e9rcgOy
- UwT1fLvbG13/rpL0sofTdhhQfO+9FQ7QaEWuaFSMh8/ONfSLuhONcdOtv5p2ZyhnU5RDBwsdVHPfj
- YT183XvLh3O1k1G9lfFiVW3CQ3nddk2II1C/0K6iUUiTfO4DeAFOUJO/QWZ9hBf9y5v95McyIQvZL
- D3wit9Yw==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v1lbm-00HM2a-KM; Thu, 25 Sep 2025 15:02:02 +0200
-Message-ID: <7933d931-3e23-4810-99af-2641efa368ab@igalia.com>
-Date: Thu, 25 Sep 2025 14:02:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v8 12/12] drm/sched: Embed run queue singleton into the
- scheduler
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
-References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
- <20250903101820.63032-13-tvrtko.ursulin@igalia.com>
- <f6ae3d77c6fd3ca91d22de9102d2babe9e80cbfa.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <f6ae3d77c6fd3ca91d22de9102d2babe9e80cbfa.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E811E10E912;
+ Thu, 25 Sep 2025 13:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758805536; x=1790341536;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=zGFdlgLE6EvodaH+Z9n4aIbkTSvzNJ34jFKdgNrgGQY=;
+ b=moTA4yMiYT7bem9bVeBf1pzL87FYYJV71BbT0SwnxUP1PV7FnL0jG1bH
+ Fg2ZDemSZSn0tM289XKr2jxDWhk5tF6ip5oHJDIM/kunnNANO7yYBzLuY
+ kboj9Jh4o4OVaddwrRNe/UiLuuZUY3s93FS10lS2pIn4bX10VwBuPvfVx
+ QvGqOyuite/KPfbQ4Z85UaZmipFEQLs1pJwftfCqLgMtnzpQhUl+89YTu
+ jR9QsFnQDsN2NxM1fMN1uNdIPlJwsLz8IqB4AnT6nub1th3guRXdsUdrb
+ McWDiRHwjlBAxyPozfuNbLO6HYAd4qzQLJWL4vNXGgiabXt2rvpScLlKV w==;
+X-CSE-ConnectionGUID: HAusuwSqS0OrLqZykrUwfg==
+X-CSE-MsgGUID: ZaW9yqnkRkaUaN2aPOGdbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="48687289"
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; d="scan'208";a="48687289"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 06:05:35 -0700
+X-CSE-ConnectionGUID: yBjUYEu1SLGZjhQ5c/RkQg==
+X-CSE-MsgGUID: hqMJDm4TS+msOnGqXPRvYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; d="scan'208";a="176464147"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 06:05:34 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 25 Sep 2025 06:05:33 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 25 Sep 2025 06:05:33 -0700
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.42) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 25 Sep 2025 06:05:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bBdz4qw9qmU6Zca33+8RM6t0EdVG05AsVD3A7vwJ7Z6Iy94Rq7xuFx86PBBgviou7m9nM8RoRtafaPLXbThoo/SqOJLJo5utN2ST9W9wnKEmOGvkd6NnpZj+7FgMQuNoVjdoCkhmMlHngS590ljnWgFnvn41cmkjOtnVITddwXVYcC/F933xwsnaMjLbVStqd6lvSpJwMX+/9GBesMsbo3SgAQRD+BI4Fjxw41BQPxDiB2NxI5/M0mj+OSz6O9GdvT8M900tdoEFrnpACs+AmSr+LI2oX2VLv667MFKeC06iY2qFwhmWauTaLfh16+ASAZimKBfwva8vx0Oo/toMwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jUDMUAarqP6lSbzCcQ1MJWGRKgMPM8QU0LcW5dY46tw=;
+ b=MyWG8Wo+8LkY3S5H1hwYDUpkBu6KXb+AFhijnu+xoS+AwmI80tBUBalBOgLWOD0eSDGFCS2Z632ZMNYbYOZDRiRqnmGMPcOAzxmnKbFPUCjZVAs6BYZl21FHbfStOuf1I1bzhiwryeLnryXOFsF5/jTauw9U+HIIybEN6fhUZpjHMgnGzHvwU/R1lPaDVQ0lULut/k7oem3xXd0i69pXkJRm8wgDnzsD209UuZjeAH/nUUBKMGatxaaxRRoH79RmymDtmZJ/W29xGRsRxS0NckRFDYQ9YXpzWOC/6+Kx0ov6QfiM0+7/EcLWTvMNUw72uOv0OZHwBIelUTKQ2nhhgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by DS0PR11MB7830.namprd11.prod.outlook.com (2603:10b6:8:f2::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
+ 2025 13:05:31 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
+ 13:05:31 +0000
+Date: Thu, 25 Sep 2025 09:05:26 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <aNU-FkJEcA3T4aDB@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR05CA0049.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::26) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|DS0PR11MB7830:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4af083e-9f31-4d9e-f027-08ddfc3434e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?Iy6MRfottaMOYxtIDrmgnBFbwCk7wOyTHzX+yJQ8arJaLBWNlQA00t72Yp?=
+ =?iso-8859-1?Q?k0gQz4Zhl9B+2SDK6VNvuqM0xQvfIA5MiXKQbp3ndXy9TXuL26JQjH/TdM?=
+ =?iso-8859-1?Q?cmGdrhwtuLg2miTZorXN+Xj4P6UIA4oznS/AyFREVvPoFQUXAH26o9BZyI?=
+ =?iso-8859-1?Q?sOx7hQbGroW4QfWmv5bdTrthjAsUVzX9q0aal+ktGdKvJjsQodWIrQbjVE?=
+ =?iso-8859-1?Q?aMwwajDpprhvMPPDIFbek7FOxLabEfGFdvw787cW4PDUUuLMzUWUU3XubP?=
+ =?iso-8859-1?Q?x2dgjTU9MGHvONIfAs/hRSpwU6gphlQaevKb3H67WMzt6B8qxLYTanNV4U?=
+ =?iso-8859-1?Q?/T4/8NNvj/OUsIGxRH08LHZE7NJoKwG8+zS9y0n7LEYv7Xlt/0YymKPxfF?=
+ =?iso-8859-1?Q?egYBXMY36IFc23MeKHAXNHT21mHzEbk6LeA/HJnE2hD9B77iDRJS7Nnc7N?=
+ =?iso-8859-1?Q?4Zpm/ZS+B0oTa8J+RrevkYztHWNavJuKRJ+olr113tIyn7MoWCwsaJEzwN?=
+ =?iso-8859-1?Q?4sV4ggh1aJVB5w0MBiRc/r1tpxYglfh1ujbiYMMceVipciI1VsUDhPmeC1?=
+ =?iso-8859-1?Q?Zvlqhi2qnmW2THf91Kfvm49i9LraYqhF8VxFOUue/PYNtDUE6i7+e7nXoR?=
+ =?iso-8859-1?Q?VSt4ZAo2XpAhfbw+StVzd/vV0xpKSEB3WSqQX2OVSsRrTWP5LwfOAtc0EX?=
+ =?iso-8859-1?Q?HLBz7wUh8KbTpT7I2rU+oRysJvNztP9HQVTlQdJyT/AGBjyFhdhztrK788?=
+ =?iso-8859-1?Q?DvHwCOvPKlDqid6I0GkWuOxtqFWhrX+JKm4G/6kSSJf23T/rN7fYy/DmZG?=
+ =?iso-8859-1?Q?m8OctqeDSjlcra4cfi5Z909EhR/cxwaTqtYEna9FiG2a1FZIVv2KaU61Wm?=
+ =?iso-8859-1?Q?Kri+xr2j4vx9kasXdinDdvOOdm1qiStZyIwdv1RDHk82L58wFFS13AonlG?=
+ =?iso-8859-1?Q?57u+QQQfkL+3eEY2fiHR2WRtiLjmHKWsI3iypfghrU9ceJdZIkzsUI+62X?=
+ =?iso-8859-1?Q?6/S4/ptwMDtHZXHvFHR4odLL1DxA8UD6H5/41Lut5v8srTw3pAwHgoY7a+?=
+ =?iso-8859-1?Q?WDSy0y2LMfzRHEXrvtvmBvinbfnq63xADgUdWR++H4Zjy1DfyLep9BMCP6?=
+ =?iso-8859-1?Q?1fODyGzw3XJmy2iEHjMReVxA4mJKhlFsmgmbiCrug199jQYGPHZRGVuwsl?=
+ =?iso-8859-1?Q?VbuumxcQR9bDISo9Y3KHcBUWanUm0rEp+FB8xAQQ414YgbJCPm1QSmaMc7?=
+ =?iso-8859-1?Q?tp7wi0CJvscDY/HNj1eKAtM4mNfQONDb4k90ThTjkw+m+M1jwEXKxqSf5v?=
+ =?iso-8859-1?Q?CFO4sJwxpF3YEsE20CGKTc+ONuute0DoHR/4PHxe/DwukAb30VOQrOe2Se?=
+ =?iso-8859-1?Q?nA4wGl0WJapqIXvuqOawNDLfx7LlnkqG/q+Ms1ejCBxPtlxhrl1qw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?FHGjzSMreBKT3PqawjUw4fTNU+KeLd0EtHEX6jq2ETgV/yCRJFf0ErUu8l?=
+ =?iso-8859-1?Q?HWGo41wG15DHEO9QCvJQ2olxg5BOinfkVXsTSRNbSpvFzqM7/MDJjkYEzy?=
+ =?iso-8859-1?Q?uU5iCbCE/EQ0mYwRx2SUfQgCgREC6RTnorR8r3LuF4m1biQbpScFjFjEFm?=
+ =?iso-8859-1?Q?5lQRpeLUIAqdTglOlvmoErslv3y4afh4TywqXeyxjO1Gl2KCuQNixPvs4C?=
+ =?iso-8859-1?Q?zQ5iKdu0ML9ne0B6xxCnPCdy6EA8NS8ufW6fwLpP4l66s39KuXZpHBMs9+?=
+ =?iso-8859-1?Q?D6O+efuEHzvAyvrIir+9PVcNqmPujL+uTGeEbIz99P3XCtwSdvhMICVu/4?=
+ =?iso-8859-1?Q?5F1D8UX0X2W0mdFqMxCFljw7ha8irYHrHgbA6WhFO2dUMp9X58VqoZcjR7?=
+ =?iso-8859-1?Q?iG2ULrKtIVJr1b8xaUvfHqUoeGtAGKRxR6+UtaZDiAuGH+YYShJgS6rNIH?=
+ =?iso-8859-1?Q?JUVMxDVrYFElatPrFCgnMPoFPwf1zhNj/DbIwoPlAWp6w53FKTCtn7Fk8q?=
+ =?iso-8859-1?Q?rG6bdrsfrBWGbreLB+VgvM94thbDEYklIi8rPOAkgXuN78DGKUOp8KGHuY?=
+ =?iso-8859-1?Q?sUY+eucXxtX0B90rvmhOad9ZqOqcVIR6caF9/bqLdY8d+5KZqw+a8lGgnW?=
+ =?iso-8859-1?Q?UHF/X2X2zQn5bzX8v0pdZyfVHSSZFCpTylmPJ+8Khmh49/FhZPFmu8P4Tn?=
+ =?iso-8859-1?Q?e6V8gzOPf6H98InyQgnZbTqE3usztyC1SCQoZ2arAsi70kO7NBTOzEQiXh?=
+ =?iso-8859-1?Q?ZViIDWsBuPVFoPs4EA6Du3uNu5yiH6QkHJbCgDSDQIK84bLy8nDH1MOdER?=
+ =?iso-8859-1?Q?Er1WN+pEy4NuK930b751oV6PS9NXSfCY3SXG93ikbXjaCqZ9FsCYo3J0kt?=
+ =?iso-8859-1?Q?g5pKyT6tG0/Y4YLU/dZ4QqlnMvvbrGoziMj/DPsgn6GvsitDXh6oBIl+ht?=
+ =?iso-8859-1?Q?QE+NR5cYKL5PY6cLlEnp1RYBqG3OjXIRWL7vppMlVlDO2334QpJhjJ121t?=
+ =?iso-8859-1?Q?yn6ERfd71aqNZqOTJXjgo6TU8uiELzIqgMUaC0psbioaa1wZpTuqpaQjtB?=
+ =?iso-8859-1?Q?RPkGQbvBvxztfyA8j+dFvs4OmSyJBOzodWQbNPXGesa44JrIMYsHqxqDa9?=
+ =?iso-8859-1?Q?pQbf0mOCs27698fXcveCgGvqt5GrZ3DlGzUK7yI4WaYqR+jyYmHgl0i9io?=
+ =?iso-8859-1?Q?ckOqPR3Ydxm/HcxVzbK33tk7F/gtzIbGkqxV4SRn50XdSnjLBOdQejQPNT?=
+ =?iso-8859-1?Q?x/oLlDKkSjXfdVacIq3dT+TjLClD0J4GSNQXfODcO8Or2Yk/YVD6OE13Zx?=
+ =?iso-8859-1?Q?47aB7/8sfEEwv1WrUVFpRxMaBnI5txyq/JxDX3f4mLiiPVMm7FPTeOe7vD?=
+ =?iso-8859-1?Q?Mk3VuNWUSLZhLaQrhFqRmvB1dcNNojCQRHi+moaSj2iTEgXGXUBpxVQ/zS?=
+ =?iso-8859-1?Q?EDON5bPdbQvVQrlt9OYsgNYGJ28RbSyFMQO8vNstcGs5X5JUpKCJ+7531E?=
+ =?iso-8859-1?Q?hSNGz5DLMC1D4SODxFIaTaCBQ6D6o7+gFckjQXpGS5nEuJN/fcH3kZo+Qo?=
+ =?iso-8859-1?Q?MTJ7KGZT4v4eDx72wrpIhsz3fGCTDTBxr+sxPXFHgwrpUV86/XsXNreXB2?=
+ =?iso-8859-1?Q?2wv1q1/m4nbGnul58ZdNVJepXTXFCZvpm3?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4af083e-9f31-4d9e-f027-08ddfc3434e9
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 13:05:31.6068 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gxlIqZTvl6poYaFsBf8MeyjGkLn+VTUyh51W/2glHI0++o1rEgBLk/afYZPf8kP5NJIw80xtMAquOa3w2WPHAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7830
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,522 +182,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Sima,
 
-On 24/09/2025 13:01, Philipp Stanner wrote:
-> On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
->> Now that the run queue to scheduler relationship is always 1:1 we can
->> embed it (the run queue) directly in the scheduler struct and save on
->> some allocation error handling code and such.
-> 
-> Looks reasonable to me.
-> 
-> What I suggest is to do things like general improvements by renaming
-> variables (see my comments in the previous patch) in a separate
-> cleanup-patch following this one.
+Here goes our drm-xe-fixes PR for this week.
+Nothing extraordinary. A quiet week in fixes.
 
-Hmm but there is no renaming in this patch. It changes the type so I 
-don't see what to split out.
+Thanks,
+Rodrigo.
 
-> Few comments below
-> 
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |  6 ++--
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  6 ++--
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h     |  5 +++-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |  8 ++++--
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |  8 +++---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c     |  8 +++---
->>   drivers/gpu/drm/scheduler/sched_entity.c    | 32 +++++++++------------
->>   drivers/gpu/drm/scheduler/sched_fence.c     |  2 +-
->>   drivers/gpu/drm/scheduler/sched_internal.h  |  6 ++--
->>   drivers/gpu/drm/scheduler/sched_main.c      | 31 ++++----------------
->>   drivers/gpu/drm/scheduler/sched_rq.c        | 18 ++++++------
->>   include/drm/gpu_scheduler.h                 |  4 +--
->>   12 files changed, 58 insertions(+), 76 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> index 2ac9729e4c86..467e09e5567b 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> @@ -1131,7 +1131,8 @@ static int amdgpu_cs_vm_handling(struct amdgpu_cs_parser *p)
->>   	if (p->gang_size > 1 && !adev->vm_manager.concurrent_flush) {
->>   		for (i = 0; i < p->gang_size; ++i) {
->>   			struct drm_sched_entity *entity = p->entities[i];
->> -			struct drm_gpu_scheduler *sched = entity->rq->sched;
->> +			struct drm_gpu_scheduler *sched =
->> +				container_of(entity->rq, typeof(*sched), rq);
->>   			struct amdgpu_ring *ring = to_amdgpu_ring(sched);
->>   
->>   			if (amdgpu_vmid_uses_reserved(vm, ring->vm_hub))
->> @@ -1262,7 +1263,8 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
->>   			return r;
->>   	}
-> 
-> Now that I think of it, are you compiling this for all DRM drivers? Who
-> knows who might do similar things as amdgpu.
+drm-xe-fixes-2025-09-25:
+- Don't expose sysfs attributes not applicable for VFs (Michal)
+- Fix build with CONFIG_MODULES=n (Lucas)
+- Don't copy pinned kernel bos twice on suspend (Thomas)
+The following changes since commit 07e27ad16399afcd693be20211b0dfae63e0615f:
 
-Definitely not compiling for all. Amdgpu, xe and v3d is what I was doing 
-more or less routinely. Maybe vmwgfx too I think. And I was grepping 
-around. Might have missed something of course..
+  Linux 6.17-rc7 (2025-09-21 15:08:52 -0700)
 
->>   
->> -	sched = p->gang_leader->base.entity->rq->sched;
->> +	sched = container_of(p->gang_leader->base.entity->rq, typeof(*sched),
->> +			     rq);
->>   	while ((fence = amdgpu_sync_get_fence(&p->sync))) {
->>   		struct drm_sched_fence *s_fence = to_drm_sched_fence(fence);
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> index bc07fd57310c..cdfaf3eb736d 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->> @@ -341,7 +341,9 @@ static struct dma_fence *
->>   amdgpu_job_prepare_job(struct drm_sched_job *sched_job,
->>   		      struct drm_sched_entity *s_entity)
->>   {
->> -	struct amdgpu_ring *ring = to_amdgpu_ring(s_entity->rq->sched);
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(s_entity->rq, typeof(*sched), rq);
->> +	struct amdgpu_ring *ring = to_amdgpu_ring(sched);
->>   	struct amdgpu_job *job = to_amdgpu_job(sched_job);
->>   	struct dma_fence *fence;
->>   	int r;
->> @@ -434,7 +436,7 @@ drm_sched_entity_queue_pop(struct drm_sched_entity *entity)
->>   
->>   void amdgpu_job_stop_all_jobs_on_sched(struct drm_gpu_scheduler *sched)
->>   {
->> -	struct drm_sched_rq *rq = sched->rq;
->> +	struct drm_sched_rq *rq = &sched->rq;
->>   	struct drm_sched_entity *s_entity;
->>   	struct drm_sched_job *s_job;
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->> index 4a6487eb6cb5..9530b5da3adc 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
->> @@ -102,7 +102,10 @@ struct amdgpu_job {
->>   
->>   static inline struct amdgpu_ring *amdgpu_job_ring(struct amdgpu_job *job)
->>   {
->> -	return to_amdgpu_ring(job->base.entity->rq->sched);
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(job->base.entity->rq, typeof(*sched), rq);
->> +
->> +	return to_amdgpu_ring(sched);
->>   }
->>   
->>   int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
->> index d13e64a69e25..85724ec6aaf8 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
->> @@ -145,6 +145,7 @@ TRACE_EVENT(amdgpu_cs,
->>   		     struct amdgpu_ib *ib),
->>   	    TP_ARGS(p, job, ib),
->>   	    TP_STRUCT__entry(
->> +			     __field(struct drm_gpu_scheduler *, sched)
->>   			     __field(struct amdgpu_bo_list *, bo_list)
->>   			     __field(u32, ring)
->>   			     __field(u32, dw)
->> @@ -152,11 +153,14 @@ TRACE_EVENT(amdgpu_cs,
->>   			     ),
->>   
->>   	    TP_fast_assign(
->> +			   __entry->sched = container_of(job->base.entity->rq,
->> +							 typeof(*__entry->sched),
->> +							 rq);
->>   			   __entry->bo_list = p->bo_list;
->> -			   __entry->ring = to_amdgpu_ring(job->base.entity->rq->sched)->idx;
->> +			   __entry->ring = to_amdgpu_ring(__entry->sched)->idx;
->>   			   __entry->dw = ib->length_dw;
->>   			   __entry->fences = amdgpu_fence_count_emitted(
->> -				to_amdgpu_ring(job->base.entity->rq->sched));
->> +				to_amdgpu_ring(__entry->sched));
->>   			   ),
->>   	    TP_printk("bo_list=%p, ring=%u, dw=%u, fences=%u",
->>   		      __entry->bo_list, __entry->ring, __entry->dw,
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
->> index 36805dcfa159..4ccd2e769799 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
->> @@ -106,13 +106,13 @@ static int amdgpu_vm_sdma_prepare(struct amdgpu_vm_update_params *p,
->>   static int amdgpu_vm_sdma_commit(struct amdgpu_vm_update_params *p,
->>   				 struct dma_fence **fence)
->>   {
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(p->vm->delayed.rq, typeof(*sched), rq);
->> +	struct amdgpu_ring *ring =
->> +		container_of(sched, struct amdgpu_ring, sched);
->>   	struct amdgpu_ib *ib = p->job->ibs;
->> -	struct amdgpu_ring *ring;
->>   	struct dma_fence *f;
->>   
->> -	ring = container_of(p->vm->delayed.rq->sched, struct amdgpu_ring,
->> -			    sched);
->> -
->>   	WARN_ON(ib->length_dw == 0);
->>   	amdgpu_ring_pad_ib(ring, ib);
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
->> index 1083db8cea2e..be17635ac039 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
->> @@ -465,15 +465,15 @@ int amdgpu_xcp_open_device(struct amdgpu_device *adev,
->>   void amdgpu_xcp_release_sched(struct amdgpu_device *adev,
->>   				  struct amdgpu_ctx_entity *entity)
->>   {
->> -	struct drm_gpu_scheduler *sched;
->> -	struct amdgpu_ring *ring;
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(entity->entity.rq, typeof(*sched), rq);
->>   
->>   	if (!adev->xcp_mgr)
->>   		return;
->>   
->> -	sched = entity->entity.rq->sched;
->>   	if (drm_sched_wqueue_ready(sched)) {
->> -		ring = to_amdgpu_ring(entity->entity.rq->sched);
->> +		struct amdgpu_ring *ring = to_amdgpu_ring(sched);
->> +
->>   		atomic_dec(&adev->xcp_mgr->xcp[ring->xcp_id].ref_cnt);
->>   	}
->>   }
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 6dd30b85925b..ba290143c95d 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -114,19 +114,12 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->>   	 * is initialized itself.
->>   	 */
->>   	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
->> +	if (num_sched_list) {
->> +		entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
->> +		entity->rq = &sched_list[0]->rq;
->> +	}
->>   	RCU_INIT_POINTER(entity->last_scheduled, NULL);
->>   	RB_CLEAR_NODE(&entity->rb_tree_node);
->> -
->> -	if (num_sched_list && !sched_list[0]->rq) {
->> -		/* Since every entry covered by num_sched_list
->> -		 * should be non-NULL and therefore we warn drivers
->> -		 * not to do this and to fix their DRM calling order.
->> -		 */
->> -		pr_warn("%s: called with uninitialized scheduler\n", __func__);
->> -	} else if (num_sched_list) {
->> -		entity->rq = sched_list[0]->rq;
->> -	}
->> -
->>   	init_completion(&entity->entity_idle);
->>   
->>   	/* We start in an idle state. */
->> @@ -312,7 +305,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
->>   	if (!entity->rq)
->>   		return 0;
->>   
->> -	sched = entity->rq->sched;
->> +	sched = container_of(entity->rq, typeof(*sched), rq);
->>   	/*
->>   	 * The client will not queue more jobs during this fini - consume
->>   	 * existing queued ones, or discard them on SIGKILL.
->> @@ -393,10 +386,12 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
->>   {
->>   	struct drm_sched_entity *entity =
->>   		container_of(cb, struct drm_sched_entity, cb);
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(entity->rq, typeof(*sched), rq);
->>   
->>   	entity->dependency = NULL;
->>   	dma_fence_put(f);
->> -	drm_sched_wakeup(entity->rq->sched);
->> +	drm_sched_wakeup(sched);
->>   }
->>   
->>   /**
->> @@ -423,7 +418,8 @@ EXPORT_SYMBOL(drm_sched_entity_set_priority);
->>   static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity,
->>   					       struct drm_sched_job *sched_job)
->>   {
->> -	struct drm_gpu_scheduler *sched = entity->rq->sched;
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(entity->rq, typeof(*sched), rq);
->>   	struct dma_fence *fence = entity->dependency;
->>   	struct drm_sched_fence *s_fence;
->>   
->> @@ -557,7 +553,7 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->>   
->>   	spin_lock(&entity->lock);
->>   	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
->> -	rq = sched ? sched->rq : NULL;
->> +	rq = sched ? &sched->rq : NULL;
->>   	if (rq != entity->rq) {
->>   		drm_sched_rq_remove_entity(entity->rq, entity);
->>   		entity->rq = rq;
->> @@ -580,6 +576,8 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->>   void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>   {
->>   	struct drm_sched_entity *entity = sched_job->entity;
->> +	struct drm_gpu_scheduler *sched =
->> +		container_of(entity->rq, typeof(*sched), rq);
->>   	bool first;
->>   
->>   	trace_drm_sched_job_queue(sched_job, entity);
->> @@ -591,7 +589,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>   		xa_for_each(&sched_job->dependencies, index, entry)
->>   			trace_drm_sched_job_add_dep(sched_job, entry);
->>   	}
->> -	atomic_inc(entity->rq->sched->score);
->> +	atomic_inc(sched->score);
->>   	WRITE_ONCE(entity->last_user, current->group_leader);
->>   
->>   	/*
->> @@ -602,8 +600,6 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>   
->>   	/* first job wakes up scheduler */
->>   	if (first) {
->> -		struct drm_gpu_scheduler *sched;
->> -
->>   		sched = drm_sched_rq_add_entity(entity);
->>   		if (sched)
->>   			drm_sched_wakeup(sched);
->> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->> index 9391d6f0dc01..da4f53a9ca35 100644
->> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->> @@ -227,7 +227,7 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->>   {
->>   	unsigned seq;
->>   
->> -	fence->sched = entity->rq->sched;
->> +	fence->sched = container_of(entity->rq, typeof(*fence->sched), rq);
->>   	seq = atomic_inc_return(&entity->fence_seq);
->>   	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->>   		       &fence->lock, entity->fence_context, seq);
->> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
->> index 6e5ed721bb5b..409c9ab7ce8f 100644
->> --- a/drivers/gpu/drm/scheduler/sched_internal.h
->> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
->> @@ -26,11 +26,9 @@ bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
->>   			 struct drm_sched_entity *entity);
->>   void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
->>   
->> -void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
->> -		       struct drm_sched_rq *rq);
->> +void drm_sched_rq_init(struct drm_gpu_scheduler *sched);
->>   struct drm_sched_entity *
->> -drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
->> -			   struct drm_sched_rq *rq);
->> +drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched);
->>   struct drm_gpu_scheduler *
->>   drm_sched_rq_add_entity(struct drm_sched_entity *entity);
->>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index a9079bdb27d3..fe773154cdd4 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -645,7 +645,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
->>   
->>   	BUG_ON(!entity);
->>   	drm_sched_entity_select_rq(entity);
->> -	sched = entity->rq->sched;
->> +	sched = container_of(entity->rq, typeof(*sched), rq);
->>   
->>   	job->sched = sched;
->>   	job->s_priority = entity->priority;
->> @@ -986,7 +986,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
->>   	int r;
->>   
->>   	/* Find entity with a ready job */
->> -	entity = drm_sched_rq_select_entity(sched, sched->rq);
->> +	entity = drm_sched_rq_select_entity(sched);
->>   	if (IS_ERR_OR_NULL(entity))
->>   		return;	/* No more work */
->>   
->> @@ -1067,15 +1067,6 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
->>   	sched->score = args->score ? args->score : &sched->_score;
->>   	sched->dev = args->dev;
->>   
->> -	if (sched->rq) {
->> -		/* Not an error, but warn anyway so drivers can
->> -		 * fine-tune their DRM calling order, and return all
->> -		 * is good.
->> -		 */
->> -		dev_warn(sched->dev, "%s: scheduler already initialized!\n", __func__);
->> -		return 0;
->> -	}
->> -
->>   	if (args->submit_wq) {
->>   		sched->submit_wq = args->submit_wq;
->>   		sched->own_submit_wq = false;
->> @@ -1087,11 +1078,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
->>   		sched->own_submit_wq = true;
->>   	}
->>   
->> -	sched->rq = kmalloc(sizeof(*sched->rq), GFP_KERNEL | __GFP_ZERO);
->> -	if (!sched->rq)
->> -		goto Out_check_own;
->> -
->> -	drm_sched_rq_init(sched, sched->rq);
->> +	drm_sched_rq_init(sched);
->>   
->>   	init_waitqueue_head(&sched->job_scheduled);
->>   	INIT_LIST_HEAD(&sched->pending_list);
->> @@ -1106,12 +1093,6 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
->>   
->>   	sched->ready = true;
->>   	return 0;
->> -
->> -Out_check_own:
->> -	if (sched->own_submit_wq)
->> -		destroy_workqueue(sched->submit_wq);
->> -	dev_err(sched->dev, "%s: Failed to setup GPU scheduler--out of memory\n", __func__);
->> -	return -ENOMEM;
->>   }
->>   EXPORT_SYMBOL(drm_sched_init);
->>   
->> @@ -1143,7 +1124,7 @@ static void drm_sched_cancel_remaining_jobs(struct drm_gpu_scheduler *sched)
->>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>   {
->>   
->> -	struct drm_sched_rq *rq = sched->rq;
->> +	struct drm_sched_rq *rq = &sched->rq;
->>   	struct drm_sched_entity *s_entity;
->>   
->>   	drm_sched_wqueue_stop(sched);
->> @@ -1185,8 +1166,6 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>   	if (sched->own_submit_wq)
->>   		destroy_workqueue(sched->submit_wq);
->>   	sched->ready = false;
->> -	kfree(sched->rq);
->> -	sched->rq = NULL;
->>   
->>   	if (!list_empty(&sched->pending_list))
->>   		dev_warn(sched->dev, "Tearing down scheduler while jobs are pending!\n");
->> @@ -1206,7 +1185,7 @@ void drm_sched_increase_karma(struct drm_sched_job *bad)
->>   {
->>   	struct drm_gpu_scheduler *sched = bad->sched;
->>   	struct drm_sched_entity *entity, *tmp;
->> -	struct drm_sched_rq *rq = sched->rq;
->> +	struct drm_sched_rq *rq = &sched->rq;
->>   
->>   	/* don't change @bad's karma if it's from KERNEL RQ,
->>   	 * because sometimes GPU hang would cause kernel jobs (like VM updating jobs)
->> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
->> index a9bc105221bf..6088434a4ea4 100644
->> --- a/drivers/gpu/drm/scheduler/sched_rq.c
->> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
->> @@ -72,17 +72,16 @@ static void drm_sched_rq_update_tree_locked(struct drm_sched_entity *entity,
->>    * drm_sched_rq_init - initialize a given run queue struct
->>    *
->>    * @sched: scheduler instance to associate with this run queue
->> - * @rq: scheduler run queue
->>    *
->>    * Initializes a scheduler runqueue.
->>    */
->> -void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
->> -		       struct drm_sched_rq *rq)
->> +void drm_sched_rq_init(struct drm_gpu_scheduler *sched)
->>   {
->> +	struct drm_sched_rq *rq = &sched->rq;
->> +
->>   	spin_lock_init(&rq->lock);
->>   	INIT_LIST_HEAD(&rq->entities);
->>   	rq->rb_tree_root = RB_ROOT_CACHED;
->> -	rq->sched = sched;
->>   	rq->head_prio = -1;
->>   }
->>   
->> @@ -229,8 +228,8 @@ drm_sched_rq_add_entity(struct drm_sched_entity *entity)
->>   	}
->>   
->>   	rq = entity->rq;
->> +	sched = container_of(rq, typeof(*sched), rq);
->>   	spin_lock(&rq->lock);
->> -	sched = rq->sched;
->>   
->>   	if (list_empty(&entity->list)) {
->>   		atomic_inc(sched->score);
->> @@ -258,6 +257,8 @@ drm_sched_rq_add_entity(struct drm_sched_entity *entity)
->>   void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->>   				struct drm_sched_entity *entity)
->>   {
->> +	struct drm_gpu_scheduler *sched = container_of(rq, typeof(*sched), rq);
->> +
->>   	lockdep_assert_held(&entity->lock);
->>   
->>   	if (list_empty(&entity->list))
->> @@ -265,7 +266,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->>   
->>   	spin_lock(&rq->lock);
->>   
->> -	atomic_dec(rq->sched->score);
->> +	atomic_dec(sched->score);
->>   	list_del_init(&entity->list);
->>   
->>   	drm_sched_rq_remove_tree_locked(entity, rq);
->> @@ -313,7 +314,6 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
->>    * drm_sched_rq_select_entity - Select an entity which provides a job to run
->>    *
->>    * @sched: the gpu scheduler
->> - * @rq: scheduler run queue to check.
->>    *
->>    * Find oldest waiting ready entity.
->>    *
->> @@ -322,9 +322,9 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
->>    * its job; return NULL, if no ready entity was found.
->>    */
->>   struct drm_sched_entity *
->> -drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
->> -			   struct drm_sched_rq *rq)
->> +drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched)
->>   {
->> +	struct drm_sched_rq *rq = &sched->rq;
->>   	struct rb_node *rb;
->>   
->>   	spin_lock(&rq->lock);
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index c9b75a05d05c..7fbcd121a6d3 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -256,8 +256,6 @@ struct drm_sched_entity {
->>    * the next entity to emit commands from.
->>    */
->>   struct drm_sched_rq {
->> -	struct drm_gpu_scheduler	*sched;
->> -
-> 
-> Docu needs to be updated
+are available in the Git repository at:
 
-Ack.
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-09-25
 
-> So much from my side for now. I guess we'll be discussing a bit on the
-> other threads and on XDC. But overall, this is a very nice series that
-> improves things greatly, and from my POV we can transition to a v1;
-> maybe after brainstorming with the other guys next week a bit.
+for you to fetch changes up to 77c8ede611c6a70a95f7b15648551d0121b40d6c:
 
-Thank you! I will work on all the items identified in this round in the 
-background.
+  drm/xe: Don't copy pinned kernel bos twice on suspend (2025-09-22 12:13:18 -0400)
 
-Regards,
+----------------------------------------------------------------
+- Don't expose sysfs attributes not applicable for VFs (Michal)
+- Fix build with CONFIG_MODULES=n (Lucas)
+- Don't copy pinned kernel bos twice on suspend (Thomas)
 
-Tvrtko
+----------------------------------------------------------------
+Lucas De Marchi (1):
+      drm/xe: Fix build with CONFIG_MODULES=n
 
->>   	spinlock_t			lock;
->>   	/* Following members are protected by the @lock: */
->>   	struct list_head		entities;
->> @@ -581,7 +579,7 @@ struct drm_gpu_scheduler {
->>   	atomic_t			credit_count;
->>   	long				timeout;
->>   	const char			*name;
->> -	struct drm_sched_rq             *rq;
->> +	struct drm_sched_rq             rq;
->>   	wait_queue_head_t		job_scheduled;
->>   	atomic64_t			job_id_count;
->>   	struct workqueue_struct		*submit_wq;
-> 
+Michal Wajdeczko (1):
+      drm/xe/vf: Don't expose sysfs attributes not applicable for VFs
 
+Thomas Hellstr�m (1):
+      drm/xe: Don't copy pinned kernel bos twice on suspend
+
+ drivers/gpu/drm/xe/xe_bo_evict.c     | 4 ++--
+ drivers/gpu/drm/xe/xe_configfs.c     | 2 +-
+ drivers/gpu/drm/xe/xe_device_sysfs.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
