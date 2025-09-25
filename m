@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A71EBA2B17
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61C0BA2B1A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1FA10E274;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A683510E347;
 	Fri, 26 Sep 2025 07:24:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="S4n5h9fc";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="vZiG+hlB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF6EC10E94A;
- Thu, 25 Sep 2025 14:01:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9D93E4442D;
- Thu, 25 Sep 2025 14:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED797C4CEF0;
- Thu, 25 Sep 2025 14:01:13 +0000 (UTC)
-Date: Thu, 25 Sep 2025 15:01:11 +0100
-From: Mark Brown <broonie@debian.org>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Breno Leitao <leitao@debian.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Dave Ertman <david.m.ertman@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- Jens Axboe <axboe@kernel.dk>, Alexandre Courbot <acourbot@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 00/19] rust: replace `kernel::c_str!` with C-Strings
-Message-ID: <111409f1-33cd-4cd1-b3fd-e38402a82c9f@sirena.org.uk>
-References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
+X-Greylist: delayed 423 seconds by postgrey-1.36 at gabe;
+ Thu, 25 Sep 2025 19:45:17 UTC
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73E5210E9A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 19:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1758828885; bh=qajMjw3QsMJTz3D164BqXP1
+ pakOaeLD61QWvXvNAFNU=; b=S4n5h9fcKQ0Y21h8RuONku8Hocsd+4OTv9Xfp/hFb9A/6vsk3h
+ O+WXPt6klKux5I7ya2oSnGOOIHue/pH17CheCrkrphrxc0crsi3pXJ8gIHfVmokCGgg+6RUWFJu
+ n1YL6DWXNLhQ+nNSiZ610tAe/OkZuPrI3pl2UQ/6Nqx8Pf/OB8R5OpcmifF8EvQufiYLLEy9Ano
+ keW4SYqS4OSFJbW36G0usaZp5BpNj7/Gpo+RLoovpore3BFByg4GbOwg94LchskyOxt0h9POIF1
+ tPQAJ/hoc/S5P7FGJWqW3LanOM50f/SYJxJh6RhQ9O0FaCfrZP9TikZXA90sSJhqqlg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1758828885; bh=qajMjw3QsMJTz3D164BqXP1
+ pakOaeLD61QWvXvNAFNU=; b=vZiG+hlBLFjNzb7KoNNG/kytOS7piGnGwYp9/mFOPP0t7PXiWl
+ 4gm0IRw5gHJJFsdrMy+WpcgJIVs0XxmOzRDg==;
+Message-ID: <44229f2c-7004-480f-973b-a36e3288959b@mainlining.org>
+Date: Thu, 25 Sep 2025 21:34:44 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="JGFFBrCHdqJdDJfa"
-Content-Disposition: inline
-In-Reply-To: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
-X-Cookie: Shipping not included.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] arm64: dts: qcom: sdm845-oneplus: Correct panel reset
+ gpio polarity
+To: david@ixit.cz, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20250925-s6e3fc2x01-v1-0-9293016768f7@ixit.cz>
+ <20250925-s6e3fc2x01-v1-5-9293016768f7@ixit.cz>
+Content-Language: en-US
+From: Jens Reidel <adrian@mainlining.org>
+In-Reply-To: <20250925-s6e3fc2x01-v1-5-9293016768f7@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 26 Sep 2025 07:24:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,34 +74,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/25/25 11:12, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
+> 
+> Reset GPIO should be active in high state as usually the board doesn't
+> invert the polarity.
+> 
+> Fixes: 288ef8a42612 ("arm64: dts: sdm845: add oneplus6/6t devices")
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>   arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> index aff5e80c1eba43e830991c2afd53b6322893cd27..7f968f90a83b869395bedd5de510ba96de3c4e94 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> @@ -456,7 +456,7 @@ display_panel: panel@0 {
+>   		vci-supply = <&panel_vci_3v3>;
+>   		poc-supply = <&panel_vddi_poc_1p8>;
+>   
+> -		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
+> +		reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+>   
+>   		pinctrl-names = "default";
+>   		pinctrl-0 = <&panel_reset_pins &panel_te_pin &panel_esd_pin>;
+> 
 
---JGFFBrCHdqJdDJfa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi David,
 
-On Thu, Sep 25, 2025 at 09:53:48AM -0400, Tamir Duberstein wrote:
-> This series depends on step 3[0].
->=20
-> Subsystem maintainers: I would appreciate your `Acked-by`s so that this
-> can be taken through Miguel's tree (where the previous series must go).
+according to the schematics available to me, this GPIO is active low (as 
+on most other Qualcomm phones). I'd suggest dropping this and the driver 
+change.
 
-Given that we're almost at the merge window isn't it likely that these
-will get applied once the current rust tree is in mainline?
-
---JGFFBrCHdqJdDJfa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjVSyYACgkQJNaLcl1U
-h9C17Qf/YgEwpltWEUIGgUaSbpdA0l3EOpF8ChVfeUiB5k9dCOndChZptDoIsg85
-PB++cSfnFQkgzNH3wYTfwtUmYyk2V+NSPaWGooIfOVBrnzE60Vp/buyAVu2FMFa+
-eCzJ5UP9/CxqrpD00TxXBCEuTh1ejksRqsawy2e47xND1j1+WdeUp6QSVg4O+gyv
-f/AsLvo8yACTbYWgqONdC3AWxUlaCHmuZLXaNbtmaKsZaOeeE2nPDfNGK0XA8dFm
-OW+b38cPKCdFYtkOoP/uQGu9lyKqrwDfJNRuO1ca8Rv4Ey8eHwQ2EmMCBs76yorL
-+4uyntn5a+EHzOE3s+95LwAANHWJXA==
-=8lId
------END PGP SIGNATURE-----
-
---JGFFBrCHdqJdDJfa--
+Best regards,
+Jens
