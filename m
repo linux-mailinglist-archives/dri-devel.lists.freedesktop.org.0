@@ -2,73 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82375BA2C20
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DD9BA2CE5
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56EAC10E9FD;
-	Fri, 26 Sep 2025 07:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A92FA10E9DB;
+	Fri, 26 Sep 2025 07:34:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="SXqxsBnu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PpeSZF2P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2A8C10EA27
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:27:47 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250926072746euoutp01aef7bbda925c02cb0e08d44f676c0e6a~oxHYch79a1204812048euoutp01h
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:27:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250926072746euoutp01aef7bbda925c02cb0e08d44f676c0e6a~oxHYch79a1204812048euoutp01h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1758871666;
- bh=vfTqJAeUpyWDWUY0mZYgZGj49ET2JHgaUA22xnXpmkY=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=SXqxsBnupU76fIpOgWpc3cxxUgtojx8A4U9ZVmc3fjzLt8Sai/y7EnEfFFn8i25Fc
- zpM07Ptxl+rmYuluBBD0NxZSbiKLTU0oFTxEj74zJPuHnq/8s/p0OZmMxAVi7MNVtT
- HUD0rXWmiHD+q5rhEnZr7Pcmr1EVqMIgBFaTMBsI=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250926072745eucas1p139b192b8a0342c448f1917a867b91b23~oxHXwfdhJ1038710387eucas1p1w;
- Fri, 26 Sep 2025 07:27:45 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250926072743eusmtip144b115372f153f8c07ba60b620d2d799~oxHWbRlP82061920619eusmtip1S;
- Fri, 26 Sep 2025 07:27:43 +0000 (GMT)
-Message-ID: <1e5d1625-1326-4565-8407-71a58a91d230@samsung.com>
-Date: Fri, 26 Sep 2025 09:27:42 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3352210E9DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758872050; x=1790408050;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=z7of19JO9sgpeNzTCGu8gSVFI4wYGiyFaeZdl5QWmGQ=;
+ b=PpeSZF2Padi/L1WOhePJ8l6UHHuU4fbC852QqUSw08CAp69rCnBxSRM5
+ 0xgqig0/DkyEsGGyg6RuPrfcKABW9fw+enJeyk1WhfseoM9svQTlajPMo
+ jessJDKlFzwi5xhgUJql8WQlfD4RfHTodt+F0spdKzE+viD4amsXtj2PC
+ NPFH2DXH7s32AYQAsqfgp1nytChWzqkG5q2Gj1syK3BSqWbQtPdvH7Uuq
+ 2ged0WhAYqs0cQL41v+5BdcapfvGmO9D2PGWhvSZ/52b/WOjuNqP0nsHW
+ 4ORQ5IrKcZybPlhnn98YA1DnzS9TxSFZavDNwgymH94mWio8PxSvatwD+ Q==;
+X-CSE-ConnectionGUID: hlNlPZtaSAivlz2xSALxIQ==
+X-CSE-MsgGUID: /7NP/a6RQhCh2zQSV1j0sA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="60900209"
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="60900209"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 00:34:08 -0700
+X-CSE-ConnectionGUID: m2s2tBZMRvWZu8pNCDo0wQ==
+X-CSE-MsgGUID: ulhKYCILRoWdhMk5A19tcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="177934224"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.10])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 00:34:02 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 1/2] drm/connector: allow a .destroy callback for
+ drmm-allocated connectors
+In-Reply-To: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-1-f0736e1c73ee@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-0-f0736e1c73ee@bootlin.com>
+ <20250925-drm-bridge-alloc-getput-bridge-connector-v1-1-f0736e1c73ee@bootlin.com>
+Date: Fri, 26 Sep 2025 10:33:59 +0300
+Message-ID: <46ef67d65591bf18d9d9dc4f8b26ca93ed93304f@intel.com>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2 2/5] clk: bcm: rpi: Turn firmware clock on/off when
- preparing/unpreparing
-To: Stefan Wahren <wahrenst@gmx.net>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Maxime Ripard
- <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga
- <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <2b1537c1-93e4-4c6c-8554-a2d877759201@gmx.net>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250926072745eucas1p139b192b8a0342c448f1917a867b91b23
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250925075711eucas1p26efbb194311a6e22ab593a39b43e12c3
-X-EPHeader: CA
-X-CMS-RootMailID: 20250925075711eucas1p26efbb194311a6e22ab593a39b43e12c3
-References: <20250731-v3d-power-management-v2-0-032d56b01964@igalia.com>
- <20250731-v3d-power-management-v2-2-032d56b01964@igalia.com>
- <CGME20250925075711eucas1p26efbb194311a6e22ab593a39b43e12c3@eucas1p2.samsung.com>
- <727aa0c8-2981-4662-adf3-69cac2da956d@samsung.com>
- <2b1537c1-93e4-4c6c-8554-a2d877759201@gmx.net>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,105 +80,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.09.2025 18:48, Stefan Wahren wrote:
-> Am 25.09.25 um 09:57 schrieb Marek Szyprowski:
->> On 31.07.2025 23:06, Maíra Canal wrote:
->>> Currently, when we prepare or unprepare RPi's clocks, we don't actually
->>> enable/disable the firmware clock. This means that
->>> `clk_disable_unprepare()` doesn't actually change the clock state at
->>> all, nor does it lowers the clock rate.
->>>
->>> >From the Mailbox Property Interface documentation [1], we can see that
->>> we should use `RPI_FIRMWARE_SET_CLOCK_STATE` to set the clock state
->>> off/on. Therefore, use `RPI_FIRMWARE_SET_CLOCK_STATE` to create a
->>> prepare and an unprepare hook for RPi's firmware clock.
->>>
->>> As now the clocks are actually turned off, some of them are now marked
->>> CLK_IS_CRITICAL, as those are required to be on during the whole system
->>> operation.
->>>
->>> Link:https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface 
->>> [1]
->>> Signed-off-by: Maíra Canal<mcanal@igalia.com>
->>>
->>> ---
->>>
->>> About the pixel clock: currently, if we actually disable the pixel
->>> clock during a hotplug, the system will crash. This happens in the
->>> RPi 4.
->>>
->>> The crash happens after we disabled the CRTC (thus, the pixel clock),
->>> but before the end of atomic commit tail. As vc4's pixel valve doesn't
->>> directly hold a reference to its clock – we use the HDMI encoder to
->>> manage the pixel clock – I believe we might be disabling the clock
->>> before we should.
->>>
->>> After this investigation, I decided to keep things as they current are:
->>> the pixel clock is never disabled, as fixing it would go out of
->>> the scope of this series.
->>> ---
->>>    drivers/clk/bcm/clk-raspberrypi.c | 56 
->>> ++++++++++++++++++++++++++++++++++++++-
->>>    1 file changed, 55 insertions(+), 1 deletion(-)
->> This patch landed recently in linux-next as commit 919d6924ae9b ("clk:
->> bcm: rpi: Turn firmware clock on/off when preparing/unpreparing"). In my
->> tests I found that it breaks booting of RaspberryPi3B+ board in ARM
->> 32bit mode. Surprisingly the same board in ARM 64bit mode correctly
->> boots a kernel compiled from the same source. The RPi3B+ board freezes
->> after loading the DRM modules (kernel compiled from 
->> arm/multi_v7_defconfig):
-> thanks for spotting and bisecting this. Sorry, I only reviewed the 
-> changes and didn't had the time to test any affected board.
+On Thu, 25 Sep 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> Some code is going to need connector-specific cleanup actions (namely
+> drm_bridge_connector will need to put refcounted bridges).
 >
-> I was able to reproduce this issue and the following workaround avoid 
-> the hang in my case:
+> The .destroy callback is appropriate for this task but it is currently
+> forbidden by drmm_connector_init(). Relax this limitation and document it.
 >
-> diff --git a/drivers/clk/bcm/clk-raspberrypi.c 
-> b/drivers/clk/bcm/clk-raspberrypi.c
-> index 1a9162f0ae31..94fd4f6e2837 100644
-> --- a/drivers/clk/bcm/clk-raspberrypi.c
-> +++ b/drivers/clk/bcm/clk-raspberrypi.c
-> @@ -137,6 +137,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->         [RPI_FIRMWARE_V3D_CLK_ID] = {
->                 .export = true,
->                 .maximize = true,
-> +               .flags = CLK_IS_CRITICAL,
->         },
->         [RPI_FIRMWARE_PIXEL_CLK_ID] = {
->                 .export = true,
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >
-Right, this fixes (frankly speaking 'hides') the issue. Feel free to add:
-
-Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-
-> The proper fix should be in the clock consumer drivers. I found that 
-> vc4_v3d doesn't ensure that the clock is enabled before accessing the 
-> registers. Unfortunately the following change doesn't fix the issue 
-> for me :-(
+> ---
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c 
-> b/drivers/gpu/drm/vc4/vc4_v3d.c
-> index bb09df5000bd..5e43523732b4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
-> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-> @@ -441,7 +441,7 @@ static int vc4_v3d_bind(struct device *dev, struct 
-> device *master, void *data)
->         vc4->v3d = v3d;
->         v3d->vc4 = vc4;
+> The other obvious approach would be adding a separate .cleanup callback for
+> the cleanup-only actions. I tried both, they both apparently work, so any
+> arguments and opinions on which approach is best within the overall DRM
+> design would be very useful here.
+> ---
+>  drivers/gpu/drm/drm_connector.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> -       v3d->clk = devm_clk_get_optional(dev, NULL);
-> +       v3d->clk = devm_clk_get_optional_enabled(dev, NULL);
->         if (IS_ERR(v3d->clk))
->                 return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed 
-> to get V3D clock\n");
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 272d6254ea4784e97ca894ec4d463beebf9fdbf0..bd0220513a23afcb096b0c4c4d2b957b81f21ee1 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -513,7 +513,8 @@ static void drm_connector_cleanup_action(struct drm_device *dev,
+>   *
+>   * The connector structure should be allocated with drmm_kzalloc().
+>   *
+> - * The @drm_connector_funcs.destroy hook must be NULL.
+> + * The @drm_connector_funcs.destroy hook must only do connector-specific
+> + * cleanups if any is needed, not dealloacte the connector.
 
-Well, this can be sorted out in the drivers as a next step.
+It slightly feels like a trap to have different semantics for ->destroy
+depending on how the connector was allocated.
+
+BR,
+Jani.
 
 
-Best regards
+>   *
+>   * Returns:
+>   * Zero on success, error code on failure.
+> @@ -526,9 +527,6 @@ int drmm_connector_init(struct drm_device *dev,
+>  {
+>  	int ret;
+>  
+> -	if (drm_WARN_ON(dev, funcs && funcs->destroy))
+> -		return -EINVAL;
+> -
+>  	ret = drm_connector_init_and_add(dev, connector, funcs, connector_type, ddc);
+>  	if (ret)
+>  		return ret;
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Jani Nikula, Intel
