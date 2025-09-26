@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB47ABA3320
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 11:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6456ABA3329
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 11:40:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC2510E35D;
-	Fri, 26 Sep 2025 09:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E35D10E368;
+	Fri, 26 Sep 2025 09:40:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="XcfYHaNt";
+	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="rhIy5lb7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB3110E363
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 09:40:19 +0000 (UTC)
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
+Received: from smtp-relay-internal-1.canonical.com
+ (smtp-relay-internal-1.canonical.com [185.125.188.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4C710E367
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 09:40:24 +0000 (UTC)
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id BF1923FD03
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 09:40:16 +0000 (UTC)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 700023FBBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 09:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1758879616;
- bh=Z5kDmnvnhlDRdp/yu6a3wA2T9wPYLylMulJWmEaCrD0=;
- h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
- b=XcfYHaNtgQsJqVg0nhOioS5sDCNFWbq0m/kymCYVAIdCzIUoZ+8efwTDQgO7Ud3Nk
- 1Aj1LxdelyVH/jW2LwZwGR5kHQ0XDhsljewgnKr5Tb61HonJR/3jtv1kMM0DaUORDU
- lBhtmpz3UztDFmOQMws6L/Pnm3+LAk1sm5Q8K7RjVvRZMomj/+3baFIhJ7LHjfQir7
- PpXQL0xZSGW72p3RxclwYQXM0cLXd5ccOwCvCPp3EhhrMW7RPpQznLPC/kcpVqZLur
- RHExJMhZ8SYRESE8/LVgnbhV4CHjtKcq072syu0QmxvOiS6YSOTxLVJsln9IWnVzc7
- 1klgQE9P47hww==
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4de2c597a6eso7957971cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 02:40:16 -0700 (PDT)
+ s=20210705; t=1758879623;
+ bh=iBhi1FHDh4LBnl6LQ1TVC38qnLfe1cV9s8WGnxsTQXk=;
+ h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+ MIME-Version;
+ b=rhIy5lb7PZwTuePMmqqlmWcXAJGMxKR02Epr3X0TJxSLqX60QIbOK+bYKWOvHV7qw
+ F4XqgXuk4HvSQl+bO0FaHvQu7tWruIXIt7qotZDCA4v8Rk0dIMdtA2GPAzB7P+k4d1
+ XcVqCyTebu7jmtzfHlW8TVhIalkHu94+ySR1ruU2vi6z3LUXZF6F6je74S9pYZ8qVO
+ 7LuISMt77wEr/6XjgzOEq4BEw5BGO18cJP2jDx12Y9pyCQzYx8L/7LldITR8w9ZgNg
+ rgqRAKFsnuY+BytjMaoe1BqMp/xvuubP/XOYJtSLUO8FDr7zUb301bzi7daSnI7RE5
+ BXXgrQQ7blxxg==
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-78e30eaca8eso57494686d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 02:40:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758879615; x=1759484415;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Z5kDmnvnhlDRdp/yu6a3wA2T9wPYLylMulJWmEaCrD0=;
- b=I+tTdFtEykH6HZnrdcQScVX4ZXywigNloRuk69qxJMs+rmIPKJp1/qUswhzPwE2AVm
- UUIYxcsXuYlfV1+/mOBAdWw6e/bHaTmqZTDAv+zCyM0G8xkVElyhW23YqNJeSYsPGvlK
- KQWcbHYpwPEmcTgS/6gv7+4yo95/TdSdQPxl9dkc13hA39iQoHQXns2nIWhs0UXEHWgn
- X0Jv9aQfXgC4oHjyQqu55e6as4xewZww7fNM/PE95qlyf96BzRN9aWmBi78bB2+1dVb1
- mUQuETeUt82lFoB6JxapzXia4Gnv2/1Qzn+KynKCacymoBYAXtRPeY/KX0+ShadxF+BA
- N30w==
-X-Gm-Message-State: AOJu0Yzqras8ZMEzL3Qk5oODn3EcNBoBS/EX4qVbpq8CtwwWYryzA6J0
- bdmrbImM8/0Y7czCR8O/0vUy9JSpxAhTwjo/3CZqL+tvjZGZqz8hIfat7c2Bjz5fcAFRnx75+sM
- lpoOqM8kQ/FzrgLJOT7pqkThJr13v8Q0oPxizxsANKW27IjRHLnF7kOo1hLe5wzrna26udrgxys
- fgZI4L2PyBtuwzTAISCNiO
-X-Gm-Gg: ASbGncu/Gl9ozlrHmlUx+xT8tfl4+HDsAApmbMZwjfe/F0HlA5R5naJJfRqK8oWH+wS
- RVcPIxhW3Nj5GC4V2PkegawDo2yCIZzggSXAQ3/B2zk9czKcEvLb8YZImK1IOfbvIcAQkU4CARC
- wHeJQsjdM1NQKzinjUnIRZJQUQSmjLbY+a5E60LFCEb/kZ0m5jHUeWJfoaH68eE3A5XSbCGLWWy
- aH9C29nu/9Das8QtiGN0S3NVA8C4NPAjccmjGQN97kWTYPOeydxwDeB69f7NM/KInOOIIEAK4BG
- zjD8dYRQgArt8rcekQBnH/EoZK24SO6M/KQGC4knhGAL/sKzKZ5iEPFh
-X-Received: by 2002:a05:622a:3d2:b0:4b5:e8b9:30f7 with SMTP id
- d75a77b69052e-4da4b807e9bmr98240371cf.46.1758879615469; 
- Fri, 26 Sep 2025 02:40:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDKtjAu7rS5XGAm/zzFv4YkYyqjAXqHUIUP7F2BwPon3qUmzfWY0fG/FuWugk1l3HM5ToH/Q==
-X-Received: by 2002:a05:622a:3d2:b0:4b5:e8b9:30f7 with SMTP id
- d75a77b69052e-4da4b807e9bmr98240231cf.46.1758879615163; 
- Fri, 26 Sep 2025 02:40:15 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1758879622; x=1759484422;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iBhi1FHDh4LBnl6LQ1TVC38qnLfe1cV9s8WGnxsTQXk=;
+ b=N1pA40MbqDw9GQ7rj+ioabRFKqNwVTK9LstbwfGbxpC+CQ21UEQ/OtdiYe0hXdXsw0
+ R4RpGECfJEGP64cskhLAlibOAMO4b/M9z/3z6OxE9n1c8czkHTVwjZEHK6SO0/zxZOQS
+ zXG1f8pr/uetnyVsImmJhnonXmfNlTRWC3Z5AZF1D99yy3cki4328v2XxPE8N3FfbScc
+ //2+/lTvF39kNifxlG57mYb4udI/GnGANq9I0TC2j1CX5vRhtgaT7uCO7eKcbWiBeQnV
+ GzjheH/v6gJLQSAab3COt3rv2WvwgHkgENQ/zM2wcNZ22ZEyKqt/2AvdHQ4QMxiSJGBQ
+ gMMw==
+X-Gm-Message-State: AOJu0YzdjzDj7G+OXC/F1DrUEHtTykFYmxpkCj6WhlRFubLagEw78glg
+ 3JloNtwYNTz5q56p1XsdQNcugMOOJOQGyhA5IsC0cgip/ApKXKUYBHY3fcO5PrvSZa+1V3/XF8E
+ KAIwxJKN94aDV8KudcHjgPJkfWn801TF2rJYk4hhUgEMbPjuZ4HLAgZVh4uupYPaCpXfdgGwMP7
+ xRms+hTFyu3LbT8gmNyiPk
+X-Gm-Gg: ASbGncvLpMTjFnBJ3j9eRXqXkZKmwiWrnDxvNsjAgB/hFF1FSqvgYkrQDOtCT6me88j
+ onI+6bftnQiAzMskVNmKiKDCzvYqArG+Q5i5L2jY5OWS39HWNwecnRw33PWoUCxfryA4gvULzgS
+ 37+VGO615Dt91M4nF39PSJxeE8KpIr3wA6CKxwbkGzhHynraNiKOZznDcav+YN7fgdsNEWKWaRN
+ yGKh3oRLobxYR0mDAGOwhbAEcKKgUeBe6K0aKk8yjwv3zxnN/hR2zIuc1w5qP/OqJL/qwcuV9h6
+ CAX9UfazJgvDEJ/UC1/zXWhoyCngYJdRmoTPDnLnyOpdTMw6YMQ/TjZ0
+X-Received: by 2002:a05:6214:4001:b0:70d:6de2:50c0 with SMTP id
+ 6a1803df08f44-7fc43a4e9e0mr75976466d6.61.1758879621862; 
+ Fri, 26 Sep 2025 02:40:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBlRiSrsDaRBQl+0u+Wy+05VWxe+n3WtRVYWHsQ8i4pZioZPIg42a7BPl3hZY7By2C8+lggw==
+X-Received: by 2002:a05:6214:4001:b0:70d:6de2:50c0 with SMTP id
+ 6a1803df08f44-7fc43a4e9e0mr75976286d6.61.1758879621509; 
+ Fri, 26 Sep 2025 02:40:21 -0700 (PDT)
 Received: from localhost.localdomain ([103.155.100.14])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-80135b563b2sm23419766d6.14.2025.09.26.02.40.09
+ 6a1803df08f44-80135b563b2sm23419766d6.14.2025.09.26.02.40.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Sep 2025 02:40:14 -0700 (PDT)
+ Fri, 26 Sep 2025 02:40:20 -0700 (PDT)
 From: Aaron Ma <aaron.ma@canonical.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
@@ -76,10 +77,13 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, jani.nikula@linux.intel.com,
  rodrigo.vivi@intel.com, suraj.kandpal@intel.com, imre.deak@intel.com,
  joonas.lahtinen@linux.intel.com, aaron.ma@canonical.com
-Subject: [PATCH v2 1/2] drm/dp: Add drm_edp_backlight_get_level
-Date: Fri, 26 Sep 2025 17:38:31 +0800
-Message-ID: <20250926093832.2811200-1-aaron.ma@canonical.com>
+Subject: [PATCH v2 2/2] drm/i915/backlight: Add get brightness support of DPCD
+ via AUX
+Date: Fri, 26 Sep 2025 17:38:32 +0800
+Message-ID: <20250926093832.2811200-2-aaron.ma@canonical.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250926093832.2811200-1-aaron.ma@canonical.com>
+References: <20250926093832.2811200-1-aaron.ma@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,92 +101,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement drm_edp_backlight_get_level() to read the current
-backlight brightness level from eDP DPCD registers via AUX channel.
+Use drm common helper to read brightness from
+both luminance and AUX mode to support get_brightness from
+DPCD via AUX.
 
 Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
 ---
-v1 -> v2: Use drm_err.
+v1 -> v2: no changes.
 
- drivers/gpu/drm/display/drm_dp_helper.c | 52 +++++++++++++++++++++++++
- include/drm/display/drm_dp_helper.h     |  1 +
- 2 files changed, 53 insertions(+)
+ .../drm/i915/display/intel_dp_aux_backlight.c | 20 ++++++-------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 1ecc3df7e3167..16da5df805aa5 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -3945,6 +3945,58 @@ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc)
- }
- EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index 0a3a3f6a5f9d8..0ee6fd0f41ef0 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -454,24 +454,16 @@ static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector, en
+ {
+ 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
+ 	struct intel_panel *panel = &connector->panel;
+-	u8 buf[3];
+-	u32 val = 0;
+-	int ret;
  
-+/**
-+ * drm_edp_backlight_get_level - Get the backlight level of eDP DPCD via AUX
-+ * @aux: The DP aux device
-+ * @bl: Backlight capability info from the panel
-+ *
-+ * Reads the current backlight brightness level from luminance mode
-+ * (24-bit value in nits) or DPCD AUX mode(16-bit and 8-bit modes).
-+ *
-+ * Returns: Current backlight level.
-+ */
-+u32 drm_edp_backlight_get_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl)
-+{
-+	int ret;
-+	u8 buf[3] = { 0 };
-+	u32 level = 0;
+-	if (panel->backlight.edp.vesa.luminance_control_support) {
+-		ret = drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_PANEL_TARGET_LUMINANCE_VALUE, buf,
+-				       sizeof(buf));
+-		if (ret < 0) {
+-			drm_err(intel_dp->aux.drm_dev,
+-				"[CONNECTOR:%d:%s] Failed to read Luminance from DPCD\n",
+-				connector->base.base.id, connector->base.name);
+-			return 0;
+-		}
++	if (!panel->backlight.edp.vesa.info.aux_set) {
++		u32 pwm_level = panel->backlight.pwm_funcs->get(connector, unused);
+ 
+-		val |= buf[0] | buf[1] << 8 | buf[2] << 16;
+-		return val / 1000;
++		return intel_backlight_level_from_pwm(connector, pwm_level);
+ 	}
+ 
++	connector->panel.backlight.level =
++		drm_edp_backlight_get_level(&intel_dp->aux, &panel->backlight.edp.vesa.info);
 +
-+	if (!(bl->aux_set || bl->luminance_set))
-+		return 0;
-+
-+	if (bl->luminance_set) {
-+		ret = drm_dp_dpcd_read(aux, DP_EDP_PANEL_TARGET_LUMINANCE_VALUE, buf, sizeof(buf));
-+		if (ret < 0) {
-+			drm_err(aux->drm_dev,
-+				      "%s: Failed to read luminance value: %d\n",
-+				      aux->name, ret);
-+			return 0;
-+		}
-+		level = (buf[2] << 16 | buf[1] << 8 | buf[0]) / 1000;
-+	} else if (bl->lsb_reg_used) {
-+		ret = drm_dp_dpcd_read(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, 2);
-+		if (ret < 0) {
-+			drm_err(aux->drm_dev,
-+				      "%s: Failed to read backlight level: %d\n",
-+				      aux->name, ret);
-+			return 0;
-+		}
-+		level = buf[0] << 8 | buf[1];
-+	} else {
-+		ret = drm_dp_dpcd_read(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, 1);
-+		if (ret < 0) {
-+			drm_err(aux->drm_dev,
-+				      "%s: Failed to read backlight level: %d\n",
-+				      aux->name, ret);
-+			return 0;
-+		}
-+		level = buf[0];
-+	}
-+
-+	return level;
-+}
-+EXPORT_SYMBOL(drm_edp_backlight_get_level);
-+
- /**
-  * drm_edp_backlight_set_level() - Set the backlight level of an eDP panel via AUX
-  * @aux: The DP AUX channel to use
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 87caa4f1fdb86..0b045a47ae573 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -864,6 +864,7 @@ drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl
- 		       u32 max_luminance,
- 		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
- 		       u32 *current_level, u8 *current_mode, bool need_luminance);
-+u32 drm_edp_backlight_get_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl);
- int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
- 				u32 level);
- int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+ 	return connector->panel.backlight.level;
+ }
+ 
 -- 
 2.43.0
 
