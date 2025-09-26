@@ -2,65 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8B0BA3F2C
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 15:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9B4BA3F39
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 15:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB9310EA67;
-	Fri, 26 Sep 2025 13:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D4610EA63;
+	Fri, 26 Sep 2025 13:51:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OgB6UtNb";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="neWq3WgV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D89D10EA6A;
- Fri, 26 Sep 2025 13:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758894687; x=1790430687;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=Pf8dYCye629/6XsQbJXkZE3hVgLXHVcCizzlAfsLlMM=;
- b=OgB6UtNbwChJE1YyT5PpYxV47GzLsp37EI0Vv8ZpRPtSA7Wu/livPmb2
- Tp4rnTN1xk6iyMOO8GcziJbXjL2LK4vD/McrmmHZH+rRY410cy2uOx3vZ
- cbEBjkd6Asfo9VFAFJ80f6GqAj+3DOkqmDYWg+SwkZ3FVfBBA9I/Cf5lb
- NDB1tt5WtebXgaODVwEJycQadeDvX9Ns8rve6BXUgmJCfeIp2cuNE6hoz
- 49BIi7zWK0KyFBORRmNBWdYm25a1N9LSrpOqyaRgJDQovNRyQuuG7hfb5
- OTe56e02R/HTQQUX2n8TCSgsCQ+7oZpMe0Cey5SZdAbt8ws0qYGdAZv4m g==;
-X-CSE-ConnectionGUID: jR/L+xgHTYyahqnuzQywaQ==
-X-CSE-MsgGUID: O5VW9MTPQI2WzBOW7sqrCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="72589218"
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; d="scan'208";a="72589218"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 06:51:27 -0700
-X-CSE-ConnectionGUID: NFSRtB/GRxOJXEUXnqbVpg==
-X-CSE-MsgGUID: qnhphIVbRCW8H692rKOVLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; d="scan'208";a="176742812"
-Received: from opintica-mobl1 (HELO [10.245.244.247]) ([10.245.244.247])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 06:51:25 -0700
-Message-ID: <ef9f4fb1c55bf3e5e6423b2accdccee0607b95ef.camel@linux.intel.com>
-Subject: Re: [RFC PATCH v2 1/2] dma-buf: Add support for private interconnects
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Kasireddy Vivek
- <vivek.kasireddy@intel.com>,  Simona Vetter <simona.vetter@ffwll.ch>, Jason
- Gunthorpe <jgg@nvidia.com>, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org
-Date: Fri, 26 Sep 2025 15:51:21 +0200
-In-Reply-To: <472f27f0-2f54-45dd-b0a6-3a26b5eec301@amd.com>
-References: <20250926084624.2288-1-thomas.hellstrom@linux.intel.com>
- <20250926084624.2288-2-thomas.hellstrom@linux.intel.com>
- <472f27f0-2f54-45dd-b0a6-3a26b5eec301@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ADBD10EA63
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 13:51:55 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q8vfe6014653
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 13:51:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=oWhAI0VAdx5gJX6gdXCdFadp
+ 6xIz1oz4Ky85VfVuHlQ=; b=neWq3WgV5JI4jS54Rti1aBWRVmSsHiLpjdENlaOy
+ aiev+6faw8XbnAb+BNkJ+ER+6bqiD9s7T1ZBkdHvP4xpP8xL3xv3AN3RU2GFU2hu
+ NW9PtWZ/XK7Dc3Sq8PyMcubuolAHywNeg08RWb7yCjA8y/NmXxp7cSabAnuqU7Xc
+ iSAjSRaF24g0R5qpedkpEfRI7VNKHGCnToKMTCcwQjK2hpCrdo2mWjA9wnHTqYud
+ u+/LWL2kQPkggfppnPMnFgwlfaTCrS+jGjhHCir08k6A6NaN4F54+4pRoQJg0gOo
+ etaN2og3s6jxRj2amO6wS91ATyezWhsrzEXmBDmp6DM9Hw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db34k0xe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 13:51:54 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ddc5a484c9so16744911cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 06:51:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758894714; x=1759499514;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oWhAI0VAdx5gJX6gdXCdFadp6xIz1oz4Ky85VfVuHlQ=;
+ b=o+f8xf98nAPB6QaF31c3wLO6Yg1A4LwdTP3mAO6HjYsEGMw1WXDd7ab9x5ART7wLIQ
+ uWMcVHxosSCcmOz+KujMHS9TQfGcmajZpl3pO7BXI7uP+ziq9ptLfrYCnfm9yqmAiCcr
+ pcR2SxT4gSwL3iDN6jGM388dmlduDUhJORNIJ/cyFKolpDP2Rmn6o0OwJDQRb13txc6Z
+ I5emdYn9nx3oSS9gQiy4fQBgg3iyniEuUe0MAJ5rSQ9gF41VUzKlnbq3FB1+2idhUTx9
+ mCErHAGs2tL4nYDRDtW4sUiTJrzAoHW7WmsPyG+CLgo5MmlcHCilcgjtsJmy5/hO/aPC
+ v3+Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUq9iBTZhWTs3ZNxCbgUGGQEJV87qkHbaIZVxnvsJqSYKgax1DE2n9O+3dFTkr+/rr+1FwCQJxaeP0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxgfSrVZOnjN3DltSpyjD/2pZMgh7aZKG2+CldAExHQAvzl7qvP
+ IhqmkrQPXE6Wcz7mFd7DKQqOF6HxDzgwXHjxfTomkv2kyOtsYpW/+uVB8ygJU/L4UyVJhHfj8rD
+ q3WqwV5lElYQdxhvO7FKxStoJBl8Z7BEClR5LOIabzxXd77ijIjpfWX8okWRn69vPHKWII34=
+X-Gm-Gg: ASbGncv5Hyq9yCsaQSi4tnU+HyAt/WYZlj5az3x5c8O+6VMKsRO/REr6ACZP/7HYEDZ
+ ATn81dQkJSo48TEllEBDyQJbJUUNngTC0RsLHiRr+T6ncbX4xoIIyevvND4WBNAdMXo3oDnaBmT
+ D+Fid1Ge9d3iugMXTq8c0k8V6sSs0oTbdICSuYHm+2r2U33CKpJh/t0nV5Rpu1IAup2LbwiHlGw
+ jHZzIXA3wjEm7A3HcSkxM7sVRb3JIZI2QiXFHyAATCwMPO1OGeTuILYQym/Gfc879XuR5fhFRaT
+ f5UMUsCvSPbvs3Iwdk/J3HN89gvIjWb538umYJj2VbApk4u/0LHvgf9YfcrvbJnCsU7HuzHLkoO
+ cZqkatIYtNtqnnXBxjBpCb0YLU/DFPjYuW9t0o6qK75SxbiVBHmAi
+X-Received: by 2002:a05:622a:5a85:b0:4d7:c9d3:cbb6 with SMTP id
+ d75a77b69052e-4da4c96e753mr94986081cf.72.1758894713490; 
+ Fri, 26 Sep 2025 06:51:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE8YkJGYw1+CDemqZBbYI88MpytkUH1UcPY/ucGdfsLVPLTx/bR3Xx/PZiHi0DE/0nYLVZtkA==
+X-Received: by 2002:a05:622a:5a85:b0:4d7:c9d3:cbb6 with SMTP id
+ d75a77b69052e-4da4c96e753mr94985671cf.72.1758894712878; 
+ Fri, 26 Sep 2025 06:51:52 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-36fb771029csm11547581fa.38.2025.09.26.06.51.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Sep 2025 06:51:52 -0700 (PDT)
+Date: Fri, 26 Sep 2025 16:51:49 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+Cc: marijn.suijten@somainline.org, swboyd@chromium.org, mripard@kernel.org,
+ abel.vesa@linaro.org, andersson@kernel.org, konradybcio@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ robin.clark@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
+ abhinav.kumar@linux.dev, sean@poorly.run, airlied@gmail.com,
+ simona@ffwll.ch, alex.vinarskis@gmail.com,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_riteshk@quicnic.com, quic_amitsi@quicnic.com
+Subject: Re: [PATCH 1/4] drm/msm/dp: Update msm_dp_controller IDs for sa8775p
+Message-ID: <c4o6bcvl7cgmvklvnwj7togokawvaiqmiye3sgdlugwftz45bh@g7vfktowo5hj>
+References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
+ <20250926085956.2346179-2-quic_mkuntuma@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250926085956.2346179-2-quic_mkuntuma@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MiBTYWx0ZWRfXwnfa9FdbuGV9
+ L1AVMwtwMDMx5Gez0FP3OKVQbrc75hHmyoAjOngecaC1BTdmruUX9zzdS0NFXChQ27sLmLHACTB
+ 9ADOb3rITqTBQ3xVeSj1TA/KZSIb/chGx8IPnQm/PBoHQ/deD/mQLHgjjVxJSVg3oHlyeWMpVrf
+ cu8nwAfF5RV3fJECFTtEm4rOfiOqzY2Vi/vPrcRPuCXU2788+LDSbvN9MeQxFadOSfuf6jCObmq
+ 0loSFhB0KnaP44rYtqkLI543qeq0UkbYvLuIH3mkV6YcF+A/9nRwGx8Xhcdi4mirLnEr9+GN71W
+ WFAoAjDXPKifAY51cY6PdAA+lRY1tvwhcZVgaWJRzGyGxnCOlNV/uv0skDhMIzlJAQWNAf35wQB
+ gFLPNwoLpiYMsmzCWxyQSXuSMUXAoQ==
+X-Authority-Analysis: v=2.4 cv=Hb0ZjyE8 c=1 sm=1 tr=0 ts=68d69a7a cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=tFSzMcqD3SoeBU5fSnoA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 9xGrxe6oz1Oj4ygYletw3Q5H3I_rkk94
+X-Proofpoint-GUID: 9xGrxe6oz1Oj4ygYletw3Q5H3I_rkk94
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_04,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 adultscore=0 bulkscore=0 impostorscore=0
+ spamscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,205 +131,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-09-26 at 14:56 +0200, Christian K=C3=B6nig wrote:
->=20
->=20
-> On 26.09.25 10:46, Thomas Hellstr=C3=B6m wrote:
-> > Add a function to the dma_buf_attach_ops to indicate whether the
-> > connection is a private interconnect. If so the function returns
-> > the address to an interconnect-defined structure that can be
-> > used for further negotiating.
-> >=20
-> > Also add a field to the dma_buf_attachment that indicates whether
-> > a private interconnect is used by the attachment.
-> >=20
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > ---
-> > =C2=A0include/linux/dma-buf.h | 51
-> > +++++++++++++++++++++++++++++++++++++++++
-> > =C2=A01 file changed, 51 insertions(+)
-> >=20
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index d58e329ac0e7..25dbf1fea09a 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -442,6 +442,39 @@ struct dma_buf {
-> > =C2=A0#endif
-> > =C2=A0};
-> > =C2=A0
-> > +/* RFC: Separate header for the interconnect defines? */
-> > +
-> > +/**
-> > + * struct dma_buf_interconnect - Private interconnect
-> > + * @name: The name of the interconnect
-> > + */
-> > +struct dma_buf_interconnect {
-> > +	const char *name;
-> > +};
-> > +
-> > +/**
-> > + * struct dma_buf_interconnect_attach_ops - Interconnect attach
-> > ops base-class
-> > + *
-> > + * Declared for type-safety. Interconnect implementations should
-> > subclass to
-> > + * implement negotiation-specific ops.
-> > + */
-> > +struct dma_buf_interconnect_attach_ops {
-> > +};
-> > +
-> > +/**
-> > + * struct dma_buf_interconnect_attach - Interconnect state
-> > + * @interconnect: The struct dma_buf_interconnect identifying the
-> > interconnect
-> > + *
-> > + * Interconnect implementations subclass as needed for attachment
-> > state
-> > + * that can't be stored elsewhere. It could, for example, hold a
-> > pointer
-> > + * to a replacement of the sg-list after the attachment has been
-> > mapped.
-> > + * If no additional state is needed, an exporter could define a
-> > single
-> > + * static instance of this struct.
-> > + */
-> > +struct dma_buf_interconnect_attach {
-> > +	const struct dma_buf_interconnect *interconnect;
-> > +};
-> > +
-> > =C2=A0/**
-> > =C2=A0 * struct dma_buf_attach_ops - importer operations for an
-> > attachment
-> > =C2=A0 *
-> > @@ -475,6 +508,21 @@ struct dma_buf_attach_ops {
-> > =C2=A0	 * point to the new location of the DMA-buf.
-> > =C2=A0	 */
-> > =C2=A0	void (*move_notify)(struct dma_buf_attachment *attach);
-> > +
-> > +	/**
-> > +	 * @supports_interconnect: [optional] - Does the driver
-> > support a local interconnect?
-> > +	 *
-> > +	 * Does the importer support a private interconnect? The
-> > interconnect is
-> > +	 * identified using a unique address defined instantiated
-> > either by the driver
-> > +	 * if the interconnect is driver-private or globally
-> > +	 * (RFC added to the dma-buf-interconnect.c file) if
-> > cross-driver.
-> > +	 *
-> > +	 * Return: A pointer to the interconnect-private
-> > attach_ops structure if supported,
-> > +	 * %NULL otherwise.
-> > +	 */
-> > +	const struct dma_buf_interconnect_attach_ops *
-> > +	(*supports_interconnect)(struct dma_buf_attachment
-> > *attach,
-> > +				 const struct dma_buf_interconnect
-> > *interconnect);
->=20
-> This looks like it sits in the wrong structure. The
-> dma_buf_attach_ops are the operations provided by the importer, e.g.
-> move notification.
->=20
-> When we want to check if using an interconnect is possible we need to
-> do that on the exporter, e.g. dma_buf_ops().
+On Fri, Sep 26, 2025 at 02:29:53PM +0530, Mani Chandana Ballary Kuntumalla wrote:
+> The Qualcomm SA8775P platform comes with 2 DisplayPort controllers
+> for each mdss. Update controller id for DPTX0 and DPTX1 of mdss1.
+> 
+> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Well both exporter and exporter has specific information WRT this. The
-ultimate decision is done in the exporter attach() callback, just like
-pcie_p2p. And the exporter acknowledges that by setting the
-dma_buf_attachment::interconnect_attach field. In analogy with the
-dma_buf_attachment::peer2peer member.
+Missing Fixes tag.
 
-So the above function mimics the dma_buf_attach_ops::allow_peer2peer
-bool, except it's not a single interconnect so we'd either use a set of
-bools, one for each potential interconnect, or a function like this.
-A function has the benefit that it can also provide any additional
-attach ops the interconnect might need.
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index d87d47cc7ec3..f247aad55397 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -133,8 +133,8 @@ struct msm_dp_desc {
+>  static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
+>  	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+>  	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
+> -	{ .io_start = 0x22154000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
+> -	{ .io_start = 0x2215c000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
+> +	{ .io_start = 0x22154000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+> +	{ .io_start = 0x2215c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
+>  	{}
+>  };
+>  
+> -- 
+> 2.34.1
+> 
 
-So the flow becomes:
-1) Importer calls exporter attach() with a non-NULL
-supports_interconnect() to signal that it supports some additional
-interconnects.
-2) exporter calls supports_interconnect(my_interconnect) to figure out
-whether the importer supports a specific interconnect it wants to try.
-This is similar to the exporter checking "allow_peer2peer" (or rather
-the core checking "allow_peer2peer" on the behalf of the exporter).
-3) Importer finds it supports the interconnect and provides additional
-dma_buf_interconnect_attach_ops.
-4) Now the exporter checks that the interconnect is indeed possible.
-This is similar to calling pci_p2p_distance(), but interconnect-
-specific. This might involve querying the importer, for example if the
-importer feels like the exporting device:bar pair does indeed have an
-implicit VF_PF connection. This can be done if needed using the
-dma_buf_interconnect_attach_ops.
-5) Exporter is happy, and sets the
-dma_buf_attachment::interconnect_attach field. This is similar to
-setting the dma_buf_attachment::peer2peer field.
-
-So basically this is the pcie peer2peer negotiation flow generalized.
-It would be trivial to implement the pcie peer2peer negotiation as a
-private protocol using the above.
-
->=20
-> I think we should have an map_interconnect(connector type descriptor)
-> that the importer can use to establish a mapping for itself.
->=20
-> Additional to that we need an unmap_interconnect() to let the
-> exporter know that an importer doesn't need a specific mapping any
-> more.
-
-Is this to not overload the map_attachment() and unmap_attachment()
-functions that otherwise could be used? Is it because they return an
-sg_table? Yeah, that could make sense but not for the interconnect
-negotiation itself, right? That happens during attach time like
-pcie_p2p?
-
-
->=20
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0/**
-> > @@ -484,6 +532,8 @@ struct dma_buf_attach_ops {
-> > =C2=A0 * @node: list of dma_buf_attachment, protected by dma_resv lock
-> > of the dmabuf.
-> > =C2=A0 * @peer2peer: true if the importer can handle peer resources
-> > without pages.
-> > =C2=A0 * @priv: exporter specific attachment data.
-> > + * @interconnect_attach: Private interconnect state for the
-> > connection if used,
-> > + * NULL otherwise.
-> > =C2=A0 * @importer_ops: importer operations for this attachment, if
-> > provided
-> > =C2=A0 * dma_buf_map/unmap_attachment() must be called with the dma_res=
-v
-> > lock held.
-> > =C2=A0 * @importer_priv: importer specific attachment data.
-> > @@ -503,6 +553,7 @@ struct dma_buf_attachment {
-> > =C2=A0	struct list_head node;
-> > =C2=A0	bool peer2peer;
-> > =C2=A0	const struct dma_buf_attach_ops *importer_ops;
-> > +	struct dma_buf_interconnect_attach *interconnect_attach;
->=20
-> We already have an importer and an exporter private void *. Do we
-> really need that?
-
-See above. It looks like the exporter private is largely unused in
-xekmd at least but the importer would want to inspect that as well, to
-find out whether the attachment indeed is an interconnect attachment.
-And I'm not sure whether a driver that already uses the exporter priv
-would ever want to use a private interconnect like this.
-
-Thanks,
-Thomas
-
-
->=20
-> Regards,
-> Christian.
->=20
-> > =C2=A0	void *importer_priv;
-> > =C2=A0	void *priv;
-> > =C2=A0};
->=20
-
+-- 
+With best wishes
+Dmitry
