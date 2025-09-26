@@ -2,105 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3433ABA30CF
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 11:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75415BA312F
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 11:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 026FB10E308;
-	Fri, 26 Sep 2025 09:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF3D10EA0F;
+	Fri, 26 Sep 2025 09:07:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JS/uduzc";
+	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="bxD9jAWS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6163F10E30F;
- Fri, 26 Sep 2025 09:00:27 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q8vard030527;
- Fri, 26 Sep 2025 09:00:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=tI3ydivwzZp
- jdgTNdFF7o40pjFw/3r9BeMoi/UwtNJs=; b=JS/uduzc9QDb8EiZiEgBtk2MuzA
- lJbXIxbcwjCOMSxigtheBZ3tDlfl3f8q75/gIYDzFDGhKqBqpPGVlYmbdj+SYVoz
- N8MNt3S276aonO/s0BMBkmKOy6ObhamAnveudgsjPGldSwyJbykyyv9S5WeUMMEM
- lx5opUaRVPZHQhFvxR70T4bh+k1UFtg+3tRn5kCzE36Yo87DPkmkiUPv7q0UfBzG
- LqRz3WBPChJDl4JuUvxOZSucd2mCkX/QOsjGeKQ9QjYmUZxvxXfDHghcRC73lJ6v
- 9bJs8iQTzqG8lMsbRRg5ILeZGPTDpzsgX2qRiAc7nPMZDhZ4Tkai2XLOT+w==
-Received: from apblrppmta01.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0u26gf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Sep 2025 09:00:20 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q90BNx008610; 
- Fri, 26 Sep 2025 09:00:11 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 499nbmgtp0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Sep 2025 09:00:11 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 58Q90AMK008577;
- Fri, 26 Sep 2025 09:00:10 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-mkuntuma-hyd.qualcomm.com
- [10.213.97.145])
- by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 58Q90Ace008573
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Sep 2025 09:00:10 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4582077)
- id 9979058A; Fri, 26 Sep 2025 14:30:09 +0530 (+0530)
-From: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
-To: dmitry.baryshkov@oss.qualcomm.com, marijn.suijten@somainline.org,
- swboyd@chromium.org, mripard@kernel.org, abel.vesa@linaro.org,
- andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
- jessica.zhang@oss.qualcomm.com, abhinav.kumar@linux.dev,
- sean@poorly.run, airlied@gmail.com, simona@ffwll.ch,
- alex.vinarskis@gmail.com
-Cc: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_riteshk@quicnic.com, quic_amitsi@quicnic.com
-Subject: [PATCH 4/4] arm64: dts: qcom: lemans-ride: Enable mdss1 display Port
-Date: Fri, 26 Sep 2025 14:29:56 +0530
-Message-Id: <20250926085956.2346179-5-quic_mkuntuma@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
-References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
-MIME-Version: 1.0
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11010000.outbound.protection.outlook.com [52.101.84.0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4596210EA0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 09:07:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=b129HtFDL3vKRtNAGKPBvphSoXdFIBjvcBjsKJfaKpH6gc3WD+wv3HD+HlnRJDDtrCfxOeciTTDEaKmgOSL+7hktk67xpx0JBTRtxBkYdMsmW18Pr4d6w5hKgy5WuXPikFGSUWnHMomwzFrJrvP8hJNaKT5w38C4nYEEj4XxHVFeb/5VT/5UUC5K5s19BJ1sADEgV/eVeJSBkUMMfVAr84fBNqPLoC6dwqRoS8V7Ww7v8BT70TEugJ/umnPGQgQud34W1wioaBiPzGJKpCPlokVHrjoBWKSFdxXexij0Xxt2rd22LNlkW9S38iLb36QgbB6A9qkQDNlPL/25woGIPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VEaZZ72mspNTASiE4HYy/1H8weAC7yYw3VK4Xl5LZJI=;
+ b=i71pfPpXVoNs/6+hGvpkK+UPa6hxLWId6Ew3Kc4mhXTTYvXgWAePcIIWLM5TCZnfDH90ajae3O61fH9KqHaLd6iY0gs8D/bYNqArpoKwsZYa0wAqDpNF5S6qJMBKJcg7O6JWgAG5jQgxhTudDihsFCe5JpFLmnu/YAWsyB6zY8G0q1lnC8hpHA+FBLnDO7vLKNIQ5JdjxkaXv3f8W9HyrDoemJ4DsoD0tIPYpRXOofcUAyVDHaC6pEBZoe82CGcz52pJAcMAkowuw2R6hMzPctVso7ms6cTty8onkkLhkHrzfphT9mfhpOKpb3hARi+ZZqkdYbiwDPOzr/qcGUf8ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VEaZZ72mspNTASiE4HYy/1H8weAC7yYw3VK4Xl5LZJI=;
+ b=bxD9jAWShHFBGDKnlkI1IBQfEF1zhifew9/gxRAZfL/3cDXei37uO4IY62IE9eJsYIZlwBcZ9xrITSrGfUEEhJBQcxtKYhe1MyrK7MmwOEU2/adyROkhfPVT/c5l3BD6Fl+w8HYO5pIIiRtCHvyacrPcaebvMIJGnJd/P18S21fqpsatNLk/2Mgn/pml0ZaBPYcWpkkKR43p3nNJuOX7ve3wrlbX2cB7gMZ/oj37Q3kXhXBvEYhnC1mpSCY8ATsVK5iOHpcLRFVsrCjLeKKPBL9BIRo0oYzROJxVvW4rhfO4zbPeMJFN1jhSK8Zom4TC5oO18VAyr+DKA29WF7q4zQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
+ by AM8PR04MB7731.eurprd04.prod.outlook.com (2603:10a6:20b:249::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Fri, 26 Sep
+ 2025 09:07:31 +0000
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9160.008; Fri, 26 Sep 2025
+ 09:07:31 +0000
+From: Rain Yang <jiyu.yang@oss.nxp.com>
+To: boris.brezillon@collabora.com, steven.price@arm.com, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.co, simona@ffwll.ch, marek.vasut@mailbox.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev
+Cc: Rain Yang <jiyu.yang@nxp.com>
+Subject: [PATCH v1] drm/panthor: skip regulator setup if no such prop
+Date: Fri, 26 Sep 2025 17:07:22 +0800
+Message-Id: <20250926090722.23097-1-jiyu.yang@oss.nxp.com>
+X-Mailer: git-send-email 2.39.5
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: CjD4wHk1vGHtmdKmyRB5W09kt0RDR1mM
-X-Proofpoint-GUID: CjD4wHk1vGHtmdKmyRB5W09kt0RDR1mM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX7hgvq8QoI0Bq
- YwOesexJMisfTCuhGMvQZIaW8WgrM4C0mCeNjzWdw33tz+xY11er0JGDBEzHyAqVCq+oAmQSg63
- d3b+TmJ2IuqMgTY+o2HpxO8/7YMNL3Xk7TT9c/pZcB16KCQVjkzxMtHfgigfKixfqtiBQYv9jWq
- X4orwMZfuLhpoZ0JT/uB1KKG0hMuWHCL5E0ELLcqkJyj6zq70kWqgIgg1omdiNYVlwSmbaQK7Ex
- LhtOurioEBb/0/XbdHBoZxzzOeTWxYrydWvwmAsuYjEf9osbzXQUln6FN/agsAebTv5TlXeD5Pj
- NM9I0aAPXESxw71858bXSpRGhUFSmGH0Sneacegw1EYSOhZmIxMNT6FAEKkV4vYkTAfoKdiI4aB
- FOmzZPxStjx66qR/sGHVWGkcFKxeTA==
-X-Authority-Analysis: v=2.4 cv=ZsHg6t7G c=1 sm=1 tr=0 ts=68d65625 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=lcgM4KOETyTTvZj5T8AA:9
- a=TjNXssC_j7lpFel5tvFf:22 a=nl4s5V0KI7Kw-pW0DWrs:22 a=pHzHmUro8NiASowvMSCR:22
- a=xoEH_sTeL_Rfw54TyV31:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_02,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0024.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::36)
+ To PAXSPRMB0053.eurprd04.prod.outlook.com
+ (2603:10a6:102:23f::21)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|AM8PR04MB7731:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16d5278a-b388-4483-b6d4-08ddfcdc1f90
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|376014|52116014|7416014|1800799024|366016|38350700014|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1nSc1rdRMuMPOg9YYSTW5KKAOFC7atej2II9ZK3E9Fbzn2lkVyQy20mwjxQc?=
+ =?us-ascii?Q?kRDv3McNLXrg+jpSChXMW8EoTWVlIR0+wBBdugkmoneiYgU/BT4GA3W0Z6gH?=
+ =?us-ascii?Q?Tl/1mQTtKlpY5Tw9f8vYSmpX76ccqTIJhPV3KblAyNaewAvnd1p4uTivi3Qo?=
+ =?us-ascii?Q?H7r8AyrY86my62xRzd4CYEPIjDJXvS9Z/7hPJHPaMAJXcEiSQ6dXQoAyDMUz?=
+ =?us-ascii?Q?ZQArX9AKIp9tzDLgNqJXV6qQw1k40lVc/+UiLXmEInuwuQaooGJ9xpXcLLJB?=
+ =?us-ascii?Q?9/3C9n4UkIyLlRuTQ2QWbY5HFhF6nBApqbt6G6LcccLEiU4gfGY4eGyVO6t6?=
+ =?us-ascii?Q?V2jkBHWsYNoVjykU7B54LaNMTvlDyoQWSTVt2iMbT8KuAm9pYeLiABDn7lEd?=
+ =?us-ascii?Q?mZTbRY9zvlnKR1iOq5ylIKtpdsyrBkwoZ9OQtM2oqD/OYBdGRGNLNVHDFXgq?=
+ =?us-ascii?Q?4ZrfD2hvxkOxinsxf/PjEYk/iNcJI7UrK3fV3Zrrnv2bq88BpT1iWqsVtFfv?=
+ =?us-ascii?Q?mA0vDYctMvPmhFzsEHnoSKrS2MZqJx0MNjqwBHLxe7lt6UXtx1oI+O4C2izZ?=
+ =?us-ascii?Q?4SyLsV3lBv1wccSLGCHLrxwA/8iNXEFFn+ZSPDlMy0jYNcBmBzsKNWKDEMWO?=
+ =?us-ascii?Q?B88xxX5x6b/A0F2eUKIXjz/Zj50jvupst0UEKcyDxboF3veUs3LmuUuvUYGR?=
+ =?us-ascii?Q?GSnaH9p/0auZI8EZmQYqGos8vU/U8N9/EK5p0jSgxq7KqNLbO1uw2IJlKd7A?=
+ =?us-ascii?Q?lKyz6+w9oUUfYL3kOnOYlAyMdF1C2ULc5ZECuzZOojFtoIi8qIgcaOofo/Iu?=
+ =?us-ascii?Q?kUU2gtAu1suzbKONl2O+GXi3NFVfe6E+NFg5T7wxJYABieixKNBWg+gNGF93?=
+ =?us-ascii?Q?PrmieGeQ/vMDYJaf53nvP5qlD1b7RtcdrtbK58/cZZmnAjectEH0TDyRg8gS?=
+ =?us-ascii?Q?A+OD4cTrQmik648YGLbqNMNj1CRU+zRqHM129US6Cv7xaO9Gwt84FbiiFK+M?=
+ =?us-ascii?Q?Cn1bM81yJmbs20mvdCzsomqbAzXyvn56nQxRQsrSP8pCuwjQd+ZcTHprvgNg?=
+ =?us-ascii?Q?G//B3KqQmp2lO9ajL1aTTn6PS2+MVYoxGr90rK5RBVw13C006W6EKf3Thv3s?=
+ =?us-ascii?Q?TKTElDrOr/su+8xC1z17F8jv7FKtlL6XzgKJWKNLgnoK+ZiG0DIQkv3aL+7U?=
+ =?us-ascii?Q?Mn96ZKPtPOCxkQYZnEP3rUBA9m5i7pB3JpJFeD813acnS9AKQ8DrGWyoH70h?=
+ =?us-ascii?Q?G+k38rii8N0sH1FTGLQ5EhNyurMHnanANaSv8a839nKOUqIG/PMXsdQ8KABY?=
+ =?us-ascii?Q?aoZHZPt+1X8SkpZxdRGO7QAeUpxtLrT5HWGNpoHmma66p40eq38R2BKT3JKq?=
+ =?us-ascii?Q?HBnJ2TILu3HpJHOu8rQNjafYtfbSJVfTyAaSrQcQ6PpQTAIvYPvljoOSZDVR?=
+ =?us-ascii?Q?ll9eUOTVOt/T1ZuHJgGlG29uKwyB5D6020id+3YcqDsoLbGFegWbBWSKFEqJ?=
+ =?us-ascii?Q?30p+njQkKO1kOaM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXSPRMB0053.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(376014)(52116014)(7416014)(1800799024)(366016)(38350700014)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gTV9g4poGDqzI57Mw/uHX3eZvebgkFuyWCj5niBp9aYWlGWQrnSKzt2/mCdF?=
+ =?us-ascii?Q?fnbnUtrK3cnXQVxaW2fPNSwA4y661A4+XQk82DCC+5EwnvfE/DAI1a0wHj6V?=
+ =?us-ascii?Q?n4jNL4xCSbhzZ2IaK+ZcB0O0spRRZqetvuCcuyxGx926cmUU5FPury6DzB9R?=
+ =?us-ascii?Q?miqS11qou27+n1XZUdiYjG5LlWJ7k8qIH2y7+BEzXQMdcLVqSGJ9jPDtM6sX?=
+ =?us-ascii?Q?Iz94Id3f/T5h31NrCsYXpk5OJGyoQRDQAEDn2xwBXc+3TPIaQ8gheChSmOkf?=
+ =?us-ascii?Q?pCn8j5U3DxBq0AVNWOuSmZASv9Cmw0kFpHwzcOPLthPDEnaux43c356gErw/?=
+ =?us-ascii?Q?CNpRnBNn951rUWpUxs3bzbRg64tjptaJ1jn364tW+ABYpgEwolKsiV7+NA1k?=
+ =?us-ascii?Q?U1v/P0i2ZmMDXtcnkmii7avhhIyrHAyT8ZOq0TYHiKasM/JpB58KLK6eXESU?=
+ =?us-ascii?Q?IeQHyLuJ2d3R8dp+/kYb//9uP2vISpGhM+YF2crcdFvtvKpP72Jn0P32aMs4?=
+ =?us-ascii?Q?KUAYVxY8kNA+ZcXWhZ3iSA7FQC26lQCCsUPJq+W8+igG8VGDm88mewKjsXp5?=
+ =?us-ascii?Q?RiRYJWuVzZJN/tiFGiTqDWYBfsGg+9dBuEZV2K6Ou0SStRZRwLZe3YWBbQQm?=
+ =?us-ascii?Q?rWR0HGbv4wXJGPW0d8UNAiaQeYdgwmVmvhj4lMOrezLpaIbCqeAg06CsO5KM?=
+ =?us-ascii?Q?cGLFDpR7UyrKhiR4prkmetuTU40MyilW6QZpPjH9nfpq8QI/GR8wrySBvKPa?=
+ =?us-ascii?Q?Zpyd+4xgzsqRc2slji07HwQn54bmkxywgcBWSeErWHvwqVV1feqOAYZdQXXe?=
+ =?us-ascii?Q?ZiLF1VNM0HoPGvvBIz8sWJBRU/3rT7rs0IoR/2KyPK6yqvzK4GKoh08628Pt?=
+ =?us-ascii?Q?ezDaIOeg2LABvYxHwPwBHdC1mb38KwKkqRZA3obv1MsRU/WL1rM9guOt2/Ro?=
+ =?us-ascii?Q?YmLjehIy46s6hz8healIFtBW5h2FD+Sw7mZVuI/h6VeJ2ALGvcRgC73hqywC?=
+ =?us-ascii?Q?yY8p8e79UKyHYfa77L/LMf2tLG85plPaSv7YFbGzte6Uwwz1YbwtlK/7R7v2?=
+ =?us-ascii?Q?NOeVr6G+cGwTUWhLj38+4/qS7n+U7DdCcmc1U3eIlARnHJv+G3+dx6JACTtP?=
+ =?us-ascii?Q?O4zxcGxs36FL8p+R90T4ZgjmGMtccnz8mtx5qbPWQjhsTp3qJ2CNN6OJQlCH?=
+ =?us-ascii?Q?aWAcjGD90hsD+3gkBnupizJgP1Ur293t8g1kiI4DWoHgtZ5io/X/5IV3LRqZ?=
+ =?us-ascii?Q?3Z12AimnhCePApv/xVrmzCUcm6gtMZ+UuRDVPAp/+1PbBmE685ledRta8VX7?=
+ =?us-ascii?Q?maAqE1SteW0OTCXmCnQ5NKyYLJZNAfj3O7Co8pBbabL03uBlsTl1KXtAdb2r?=
+ =?us-ascii?Q?jAahX+ObEjyT66XaTQ5lt29p2KByf4JwJid39wCzAnQXpqjlinPfVIwLjcCp?=
+ =?us-ascii?Q?NKekAp1bak9EqAa+4B+qNpeePqfSRqjfkadVRBKRjdvaS9VzBJh2StfyStG5?=
+ =?us-ascii?Q?Nq/x4MQtF1BIN1DYUB3WdZ6j3ugX6STMYnWl9AhJApdchZyZ71OKkG8F4OFn?=
+ =?us-ascii?Q?ORVewGi/6G6ZqlDkV3Ane0h3z7ICOyG7I23i+1JY?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16d5278a-b388-4483-b6d4-08ddfcdc1f90
+X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 09:07:31.2716 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MKletPAoaQRlfgBr/5ZNCZAhG8U21QxpCKNSpQmdmRvNe3H/uoK6/xCcVSrQkbZkC8T9pRCaWNlRDPpxKBpdNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7731
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,120 +151,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change enables DP controllers, DPTX0 and DPTX1 alongside
-their corresponding PHYs of mdss1 which corresponds to edp2
-and edp3.
+From: Rain Yang <jiyu.yang@nxp.com>
 
-Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+The regulator is optional, skip the setup instead of returning an
+error if it is not present
+
+Signed-off-by: Rain Yang <jiyu.yang@nxp.com>
 ---
- .../boot/dts/qcom/lemans-ride-common.dtsi     | 80 +++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ drivers/gpu/drm/panthor/panthor_devfreq.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
-index d4436bc473ba..5a7a1c131dd4 100644
---- a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
-@@ -180,6 +180,30 @@ dp1_connector_in: endpoint {
- 		};
- 	};
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+index 3686515d368d..2df1d76d84a0 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.c
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+@@ -146,10 +146,9 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+ 	ptdev->devfreq = pdevfreq;
  
-+	dp2-connector {
-+		compatible = "dp-connector";
-+		label = "eDP2";
-+		type = "full-size";
-+
-+		port {
-+			dp2_connector_in: endpoint {
-+				remote-endpoint = <&mdss1_dp0_out>;
-+			};
-+		};
-+	};
-+
-+	dp3-connector {
-+		compatible = "dp-connector";
-+		label = "eDP3";
-+		type = "full-size";
-+
-+		port {
-+			dp3_connector_in: endpoint {
-+				remote-endpoint = <&mdss1_dp1_out>;
-+			};
-+		};
-+	};
-+
- 	dp-dsi0-connector {
- 		compatible = "dp-connector";
- 		label = "DSI0";
-@@ -635,6 +659,50 @@ &mdss0_dsi1_phy {
- 	status = "okay";
- };
+ 	ret = devm_pm_opp_set_regulators(dev, reg_names);
+-	if (ret) {
++	if (ret && ret != -ENODEV) {
+ 		if (ret != -EPROBE_DEFER)
+ 			DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
+-
+ 		return ret;
+ 	}
  
-+&mdss1 {
-+	status = "okay";
-+};
-+
-+&mdss1_dp0 {
-+	pinctrl-0 = <&dp2_hot_plug_det>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&mdss1_dp0_out {
-+	data-lanes = <0 1 2 3>;
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
-+	remote-endpoint = <&dp2_connector_in>;
-+};
-+
-+&mdss1_dp0_phy {
-+	vdda-phy-supply = <&vreg_l1c>;
-+	vdda-pll-supply = <&vreg_l4a>;
-+
-+	status = "okay";
-+};
-+
-+&mdss1_dp1 {
-+	pinctrl-0 = <&dp3_hot_plug_det>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
-+
-+&mdss1_dp1_out {
-+	data-lanes = <0 1 2 3>;
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
-+	remote-endpoint = <&dp3_connector_in>;
-+};
-+
-+&mdss1_dp1_phy {
-+	vdda-phy-supply = <&vreg_l1c>;
-+	vdda-pll-supply = <&vreg_l4a>;
-+
-+	status = "okay";
-+};
-+
- &pmm8654au_0_gpios {
- 	gpio-line-names = "DS_EN",
- 			  "POFF_COMPLETE",
-@@ -812,6 +880,18 @@ dp1_hot_plug_det: dp1-hot-plug-det-state {
- 		bias-disable;
- 	};
- 
-+	dp2_hot_plug_det: dp2-hot-plug-det-state {
-+		pins = "gpio104";
-+		function = "edp2_hot";
-+		bias-disable;
-+	};
-+
-+	dp3_hot_plug_det: dp3-hot-plug-det-state {
-+		pins = "gpio103";
-+		function = "edp3_hot";
-+		bias-disable;
-+	};
-+
- 	io_expander_intr_active: io-expander-intr-active-state {
- 		pins = "gpio98";
- 		function = "gpio";
 -- 
-2.34.1
+2.39.5
 
