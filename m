@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538F7BA21A1
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 02:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C8CBA206B
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 02:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04D710E13F;
-	Fri, 26 Sep 2025 00:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB27E10E099;
+	Fri, 26 Sep 2025 00:09:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e+L05NGy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1199 seconds by postgrey-1.36 at gabe;
- Fri, 26 Sep 2025 00:38:12 UTC
-Received: from 18.mo561.mail-out.ovh.net (18.mo561.mail-out.ovh.net
- [87.98.172.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 769EF10E13F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 00:38:12 +0000 (UTC)
-Received: from director5.ghost.mail-out.ovh.net (unknown [10.110.54.155])
- by mo561.mail-out.ovh.net (Postfix) with ESMTP id 4cXrPw6YQMz6TPT
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 00:03:00 +0000 (UTC)
-Received: from ghost-submission-5b5ff79f4f-x459c (unknown [10.110.178.32])
- by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 377D51001F2;
- Fri, 26 Sep 2025 00:02:58 +0000 (UTC)
-Received: from etezian.org ([37.59.142.106])
- by ghost-submission-5b5ff79f4f-x459c with ESMTPSA
- id ntYtLTLY1WgltQIAvcneoQ
- (envelope-from <andi@etezian.org>); Fri, 26 Sep 2025 00:02:58 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006acecf765-2e3a-4495-9e33-170f8d491de4,
- 7ABF32FC6A42AA68F07093BAEB8416E50913B476) smtp.auth=andi@etezian.org
-X-OVh-ClientIp: 178.39.90.92
-From: Andi Shyti <andi.shyti@kernel.org>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Andi Shyti <andi.shyti@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>
-Subject: [PATCH] drm/i915/gvt: Propagate vfio_set_irqs_validate_and_prepare()
- error
-Date: Fri, 26 Sep 2025 02:02:52 +0200
-Message-ID: <20250926000252.3681360-1-andi.shyti@kernel.org>
-X-Mailer: git-send-email 2.51.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66A1610E099
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 00:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758845385; x=1790381385;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rCHV2gEQn70XE/Sefd9OpykTQf7v/OKrHzYHCAgvBrM=;
+ b=e+L05NGyjcUErloXJOz0nEPThh+aa8kyP4q7vuM6krY5MGiKmPwYgFtE
+ bdXEc0ZuxVoLBbW56/5jQlQSdel8MRya0/GWoE0AvxQtDk4lyFu838IGR
+ nrbk1sylaWSQIo0Q7MyPvqS6ebo1Ue/HbWRIElxACwg0QOA+PKo7rrJU1
+ 6KJB/S5bGLGiQqL0l71z3jTW5OvvBL3FhKAYAA19yZV6CsExXMT1G6rVK
+ e+NS7fI+iWt5mtQDK37SlQzrBcZmLpVgX2D5a/mXP+Bc0SZfhMxBs5eJv
+ JvDjEy/BH49+Uzy6NA2wY4TenpIdysWhBpIfC0oSE59gSfrni/V42FRjx A==;
+X-CSE-ConnectionGUID: 2qCIH+fdQAuVhURy/Vt7FQ==
+X-CSE-MsgGUID: B0QUfR56SeKg4D59XyDe0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78610959"
+X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="78610959"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2025 17:09:44 -0700
+X-CSE-ConnectionGUID: /XXu750FRjWG6kXmsGY3fw==
+X-CSE-MsgGUID: ThZddzr1QGm/G/5mxTbx7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="177304580"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+ by orviesa007.jf.intel.com with ESMTP; 25 Sep 2025 17:09:41 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v1w1p-0005k1-2w;
+ Fri, 26 Sep 2025 00:09:37 +0000
+Date: Fri, 26 Sep 2025 08:08:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, aiqun.yu@oss.qualcomm.com,
+ tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+ yijie.yang@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
+Message-ID: <202509260727.MrXkGDmN-lkp@intel.com>
+References: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 15579077011979307714
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: dmFkZTE66knR8ViM5B4kWvbayG28X+6KGYpfcegFkNQ5JGCatzgzaI5B7khE3B+l/LOrTHuk0XnHRtLrnWFg5RakYuO68HBaDxnXXyxDxR9MsBMEExZIdfkzCBVuXFUVD60aFtd23SDWZf86VGsI3VLfHW3iGMaPaDrLZ1G3XleID7qcJ1wnfTyKHDr3zQvjBpySikgxu88dMU+nke0i5MMJOGM9ZhOp0iMnV3ETF1RKD6/A5+hRYtFotHP+CIxpFncdV5BFqwUrOQ0LU1XRj63AyncWwvm3mOqmfDXb4CWhk37tQAPh7mUfpSB9oM/kekN4t6TAVqe9XNxfFP4fh3Gh+6g4pJsjhdJSZ+sh3G1CHSSrjou+blB67ziivxroZCPLrXZht/hp6RvneVd+QVg8pynhl0neYcBeszgSBGQnmi066SEpr7nFFCZ+CuD2aIw0MO+rMPCFIpSikyHtiM/SjJnc+1gyT+J244q3is/twGw8okkMftNOiyS+idvc965afi5uL+z/AgnvMskal+TxMA+2Paan/eD9NJEDGQgAAQlRBC5Mxl1gTu6qUAS3BNTcjmRfan2BCO8il5Oc7Ax49AWa61D1vrkXjMN2JHSDA3gBZpru/uMP5zSfpOz1op9r43WjFuQ8GCErBtp+BHCcgNO3bQWXNCKxqe6ySu35RhkxBg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,36 +77,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andi Shyti <andi.shyti@linux.intel.com>
+Hi Jingyi,
 
-Return the actual error code from vfio_set_irqs_validate_and_prepare()
-instead of always collapsing to -EINVAL. While the helper
-currently returns -EINVAL in most cases, passing through the real
-error code is more future-proof.
+kernel test robot noticed the following build warnings:
 
-While at it, drop the stray 'intel:' prefix from the error
-message.
+[auto build test WARNING on ae2d20002576d2893ecaff25db3d7ef9190ac0b6]
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gvt/kvmgt.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/misc-fastrpc-Add-support-for-new-DSP-IOVA-formatting/20250925-074855
+base:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
+patch link:    https://lore.kernel.org/r/20250924-knp-fastrpc-v1-1-4b40f8bfce1d%40oss.qualcomm.com
+patch subject: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
+config: x86_64-buildonly-randconfig-005-20250926 (https://download.01.org/0day-ci/archive/20250926/202509260727.MrXkGDmN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260727.MrXkGDmN-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index 69830a5c49d3..450a4673c542 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -1367,8 +1367,8 @@ static long intel_vgpu_ioctl(struct vfio_device *vfio_dev, unsigned int cmd,
- 			ret = vfio_set_irqs_validate_and_prepare(&hdr, max,
- 						VFIO_PCI_NUM_IRQS, &data_size);
- 			if (ret) {
--				gvt_vgpu_err("intel:vfio_set_irqs_validate_and_prepare failed\n");
--				return -EINVAL;
-+				gvt_vgpu_err("vfio_set_irqs_validate_and_prepare failed\n");
-+				return ret;
- 			}
- 			if (data_size) {
- 				data = memdup_user((void __user *)(arg + minsz),
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509260727.MrXkGDmN-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/misc/fastrpc.c:2296:34: warning: 'qcom_soc_match_table' defined but not used [-Wunused-const-variable=]
+    2296 | static const struct of_device_id qcom_soc_match_table[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/qcom_soc_match_table +2296 drivers/misc/fastrpc.c
+
+  2295	
+> 2296	static const struct of_device_id qcom_soc_match_table[] = {
+  2297		{ .compatible = "qcom,kaanapali", .data = &kaanapali_soc_data },
+  2298		{},
+  2299	};
+  2300	
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
