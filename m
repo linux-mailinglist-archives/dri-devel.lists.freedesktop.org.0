@@ -2,66 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C8CBA206B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 02:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A1BBA2247
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 03:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB27E10E099;
-	Fri, 26 Sep 2025 00:09:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e+L05NGy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5421510E9CB;
+	Fri, 26 Sep 2025 01:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A1610E099
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 00:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758845385; x=1790381385;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rCHV2gEQn70XE/Sefd9OpykTQf7v/OKrHzYHCAgvBrM=;
- b=e+L05NGyjcUErloXJOz0nEPThh+aa8kyP4q7vuM6krY5MGiKmPwYgFtE
- bdXEc0ZuxVoLBbW56/5jQlQSdel8MRya0/GWoE0AvxQtDk4lyFu838IGR
- nrbk1sylaWSQIo0Q7MyPvqS6ebo1Ue/HbWRIElxACwg0QOA+PKo7rrJU1
- 6KJB/S5bGLGiQqL0l71z3jTW5OvvBL3FhKAYAA19yZV6CsExXMT1G6rVK
- e+NS7fI+iWt5mtQDK37SlQzrBcZmLpVgX2D5a/mXP+Bc0SZfhMxBs5eJv
- JvDjEy/BH49+Uzy6NA2wY4TenpIdysWhBpIfC0oSE59gSfrni/V42FRjx A==;
-X-CSE-ConnectionGUID: 2qCIH+fdQAuVhURy/Vt7FQ==
-X-CSE-MsgGUID: B0QUfR56SeKg4D59XyDe0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78610959"
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="78610959"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2025 17:09:44 -0700
-X-CSE-ConnectionGUID: /XXu750FRjWG6kXmsGY3fw==
-X-CSE-MsgGUID: ThZddzr1QGm/G/5mxTbx7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; d="scan'208";a="177304580"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
- by orviesa007.jf.intel.com with ESMTP; 25 Sep 2025 17:09:41 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1v1w1p-0005k1-2w;
- Fri, 26 Sep 2025 00:09:37 +0000
-Date: Fri, 26 Sep 2025 08:08:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, aiqun.yu@oss.qualcomm.com,
- tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
- yijie.yang@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
-Message-ID: <202509260727.MrXkGDmN-lkp@intel.com>
-References: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1C510E9C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 01:26:17 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4cXt8x4Mwxz13LYX;
+ Fri, 26 Sep 2025 09:21:53 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+ by mail.maildlp.com (Postfix) with ESMTPS id B98BE1402DA;
+ Fri, 26 Sep 2025 09:26:14 +0800 (CST)
+Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 26 Sep 2025 09:26:14 +0800
+Received: from localhost.huawei.com (10.169.71.169) by
+ kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 26 Sep 2025 09:26:13 +0800
+From: Yongbang Shi <shiyongbang@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <dmitry.baryshkov@oss.qualcomm.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v8 drm-dp 0/4] Fix hibmc driver bugs
+Date: Fri, 26 Sep 2025 09:14:56 +0800
+Message-ID: <20250926011500.2545817-1-shiyongbang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.169.71.169]
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,41 +60,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jingyi,
+From: Baihan Li <libaihan@huawei.com>
 
-kernel test robot noticed the following build warnings:
+There are some bugfix for hibmc-drm driver.
+---
+ChangeLog:
+v7 -> v8:
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202509241625.o4mNleVb-lkp@intel.com/
+v6 -> v7:
+  - add the check about branch devices, suggested by Dmitry Baryshkov.
+v5 -> v6:
+  - use HPD status in DP detect_ctx(), suggested by Dmitry Baryshkov.
+v4 -> v5:
+  - Because some of patches are applied, this series only contains the rest of them.
+  - fix the commit and DP detect_ctx(), suggested by Dmitry Baryshkov.
+  - fix bugfix commit ID, suggested by Dmitry Baryshkov.
+  - remove the 08/11 patch, I'll add in next series.
+  - combined 9 and 11 patch together, suggested by Dmitry Baryshkov.
+v3 -> v4:
+  - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
+  - remove if (dev->registered), suggested by Dmitry Baryshkov.
+  - remove non-related changes, suggested by Dmitry Baryshkov.
+  - Remove the clock check, suggested by Dmitry Baryshkov.
+  - ( I'll add them in next series after redesigning this part)
+  - add KVM edid in commit message, suggested by Dmitry Baryshkov.
+  - fix magic values, suggested by Dmitry Baryshkov.
+  - fix the commit subjects, suggested by Dmitry Baryshkov.
+v2 -> v3:
+  - fix hibmc_connector_get_modes() and hibmc_vdac_detect() to realize BMC KVM, suggested by Dmitry Baryshkov.
+  - fix the issue commit ID, suggested by Dmitry Baryshkov.
+  - split into 2 commits, suggested by Dmitry Baryshkov.
+  - add more comments in commit log, suggested by Dmitry Baryshkov.
+---
 
-[auto build test WARNING on ae2d20002576d2893ecaff25db3d7ef9190ac0b6]
+Baihan Li (4):
+  drm/hisilicon/hibmc: fix dp probabilistical detect errors after HPD
+    irq
+  drm/hisilicon/hibmc: add dp mode valid check
+  drm/hisilicon/hibmc: fix no showing problem with loading hibmc
+    manually
+  drm/hisilicon/hibmc: Adding reset colorbar cfg in dp init.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/misc-fastrpc-Add-support-for-new-DSP-IOVA-formatting/20250925-074855
-base:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
-patch link:    https://lore.kernel.org/r/20250924-knp-fastrpc-v1-1-4b40f8bfce1d%40oss.qualcomm.com
-patch subject: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
-config: x86_64-buildonly-randconfig-005-20250926 (https://download.01.org/0day-ci/archive/20250926/202509260727.MrXkGDmN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260727.MrXkGDmN-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509260727.MrXkGDmN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/misc/fastrpc.c:2296:34: warning: 'qcom_soc_match_table' defined but not used [-Wunused-const-variable=]
-    2296 | static const struct of_device_id qcom_soc_match_table[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/qcom_soc_match_table +2296 drivers/misc/fastrpc.c
-
-  2295	
-> 2296	static const struct of_device_id qcom_soc_match_table[] = {
-  2297		{ .compatible = "qcom,kaanapali", .data = &kaanapali_soc_data },
-  2298		{},
-  2299	};
-  2300	
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  4 ++
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  2 +
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 31 ++++++++-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  8 +++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  3 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 67 ++++++++++++++++++-
+ 6 files changed, 111 insertions(+), 4 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.33.0
+
