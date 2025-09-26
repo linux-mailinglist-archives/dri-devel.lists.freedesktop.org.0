@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C159BA5109
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 22:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626F8BA51E1
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 22:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D20A10E03C;
-	Fri, 26 Sep 2025 20:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E43910E07F;
+	Fri, 26 Sep 2025 20:44:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kW0QYxg6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eLxWj8bV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7753B10E03C
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 20:30:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E2710E07F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 20:44:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1EA7D442FB;
- Fri, 26 Sep 2025 20:30:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF811C4CEF4;
- Fri, 26 Sep 2025 20:29:59 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D272E43ED0;
+ Fri, 26 Sep 2025 20:44:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFF26C4CEF4;
+ Fri, 26 Sep 2025 20:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758918600;
- bh=4Gq7KvjaCB2WFHjOUePwFbctD4FXh5nNheLbEmsCuc0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kW0QYxg6I4w5dsZg2JSo/Xbb6rcY7ewPqlzNVdR56q06BO6p16KmNN2GHNtL9cZFM
- 8EFObXPXlBqe5FBWOstFKaXRcB+NdXvtc2V4ergURRYfHOkR8NR18Kx05UCOzKvpHX
- sINOHh4P06RXAt7rfye8i9buZfn17rXuNUUaKbM35OQy0JKgPNS1NleOiF74gFRbP9
- Zm8jSr+BinwyyoWsI/Gkh2ClH4f+JhVULiIJAWnC2RH0y/pngqIjYme9+EfPfAWi60
- fdUMnxcJdxm+EJMTqvS8Feuu40Yng3iiBud7P1VlVr0W6u4wj0vUUOcygQbunImT61
- qQ8SEPtZ2AIZQ==
-Date: Fri, 26 Sep 2025 15:29:58 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, imx@lists.linux.dev,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Ian Ray <ian.ray@ge.com>, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v2 1/1] dt-bindings: display: bridge: convert
- megachips-stdpxxxx-ge-b850v3-fw.txt to yaml
-Message-ID: <175891859618.1448277.6748514316682100995.robh@kernel.org>
-References: <20250923205549.200670-1-Frank.Li@nxp.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250923205549.200670-1-Frank.Li@nxp.com>
+ s=k20201202; t=1758919469;
+ bh=yMXCYBu2uR9Wdd5R1KiWjC7koriOwDZK4xIgrlEkXoU=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=eLxWj8bVOfhhQpMNgGE6qBOaWlO7uDsT+AwFe2DY2gXlLu7TT9cgjk+vpwV6/iGLH
+ LpDCDkrzrNGgOyJizV5obM1LrGhguTD49MYJoeAvlNVUZsChqpvisU+hMSMHJu6c1S
+ gOE3xE5pTM1QJ17vzcnvCnziKAAmS6lvQZGLmQoKYcxgOcrqP0GPX09oFNJa3d4hlL
+ vHGsY/q0h4usS5NHablNA8z2GxRI4/2FjDtpuvhJmEJ22L14mBYQeYHL6srzosu2Rg
+ lglrKY95x+4jQTXYzTps+Vhjd8pZAaF/hyYcmV1J5y0ZH3xLyJCEW5MZJ+PP7B2H57
+ e5nwrF2KImR9g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 33E1139D0C3F; Fri, 26 Sep 2025 20:44:26 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.17-rc8/final
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyfHf9jLv36vvc9=sRt0OWk-jTVq8n8uRJvu2O5a9X5bg@mail.gmail.com>
+References: <CAPM=9tyfHf9jLv36vvc9=sRt0OWk-jTVq8n8uRJvu2O5a9X5bg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyfHf9jLv36vvc9=sRt0OWk-jTVq8n8uRJvu2O5a9X5bg@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-fixes-2025-09-26
+X-PR-Tracked-Commit-Id: ec73e5984e01bfdf92234eaf5a2c3e54aa67f2aa
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3170244bc5cfe2a93d105aa57ff7e04ab19f78fc
+Message-Id: <175891946472.51956.6955163847374952399.pr-tracker-bot@kernel.org>
+Date: Fri, 26 Sep 2025 20:44:24 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,25 +66,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The pull request you sent on Fri, 26 Sep 2025 14:22:14 +1000:
 
-On Tue, 23 Sep 2025 16:55:48 -0400, Frank Li wrote:
-> Convert megachips-stdpxxxx-ge-b850v3-fw.txt to yaml format.
-> 
-> Additional changes:
-> - Only keep one example.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> change in v2
-> - add description for port@0 and port@1
-> - add both ports to required list
-> ---
->  .../megachips,stdp2690-ge-b850v3-fw.yaml      | 111 ++++++++++++++++++
->  .../megachips-stdpxxxx-ge-b850v3-fw.txt       |  91 --------------
->  2 files changed, 111 insertions(+), 91 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/megachips,stdp2690-ge-b850v3-fw.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-> 
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-09-26
 
-Applied, thanks!
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3170244bc5cfe2a93d105aa57ff7e04ab19f78fc
 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
