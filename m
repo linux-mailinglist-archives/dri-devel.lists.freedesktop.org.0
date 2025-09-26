@@ -2,121 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F1ABA52C5
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 23:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB609BA52D1
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 23:13:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA96710E161;
-	Fri, 26 Sep 2025 21:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B29210E50B;
+	Fri, 26 Sep 2025 21:13:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oDDFbfx6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K5+LJPfV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F77410E167
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 21:12:33 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QEWsjl009523
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 21:12:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 3FOyFoPQNijD2l+0dqxJ33W6HdiVGtsE/7Ls91CPmQo=; b=oDDFbfx6DRr/0ZJP
- O0/L5MxcHSzURoB3UrXPrXp2gTY9ldY6YwY7OAli6NutHlw23vhAgRwsIxKMnczc
- XecNH5yNI2rYA4ZAfHI0uQz2Tfa5qUF2pemdyYq89zcM6JcjVu9iZPwU3jIQ4iix
- 4KiimxM0EU/i32a5jGhgK5GgvQlr9rOol1K0feTuLMjJB3Mbbp9J9DcB/mkqyLJN
- FFbqnFPmPlOW0NViHHQjL/h/esEmkMfwrCWMLtV23t+h4rLBvJ2qf9HAePv232Xm
- 0HyG67ELhxsQl8lmF1yhz4hugfK8N7j/kKsuZzW10sIz+Iop4XWXFGgLEeGksFtb
- pKLBAw==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49drfwhtbr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 21:12:32 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-78117fbda6eso1395614b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 14:12:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758921152; x=1759525952;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3FOyFoPQNijD2l+0dqxJ33W6HdiVGtsE/7Ls91CPmQo=;
- b=GsJQQY8tighnfgU2CSoEtKi/jpEnOeZzQIFn0vUobjl2j4E7jSy6BTI+B4XkIiYyga
- hXLaBJXIyXuFv8hf+oa1047FcZshh0t3/kJh/3Z9MqlUJLlM7Ftr80EJVGnk36VJ7N1P
- OOs+UhqwMVM73hiXv2oWhiJ5h3ytb5Z8htQE6x8tLMD5I68V+Jh3f8aFy0+e6U/pm/SF
- Myegt1niCkjWyI45I5AvalshEINiNQUs9wbMaMW/ikmm3nxpWCcnWDjRFdOpaLzwTudI
- EtsGPvgj35MIg44Iupe8lVaNqj6UXGXLRJ4p1ly2qQ/8NkLL9Tr0kGuoqRGcFdK7/iso
- Fpyw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUq3ZHFA1JQvdFGHaBajqC1DNQxkPOVIZwPkAWIuaJgsLGtiwCVg4KTrKBtVqRBIsZtkEPevC8B+QM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwYVulao1qvKtrpoLyzcHhFfj3yP6mNIO5xY3qkF411caKxvSLF
- xmsAGdOoxQXM5ygGjXmqcFDISsdv7G7D4XeYbbyY9xc/U2ApX/f5eXQa0IENEh8Dbw9b19aPflY
- SGhNg/mG1B+4dtFLLICocx6CArbXFm9xI0smiePTuagAKz9ERBQOjiVG4XS7ce+o0zs4RLdc=
-X-Gm-Gg: ASbGnctdEqfc+a95rvdnKG60swYf1ZEcruvkZowmq8bCrs/2dV5UrtNMXLhikQe1YVH
- QSRd+5ctcRT7Fn6eCI4mN6FLMcXNxlCp00vc9e4InW9U9j4v1uGbkhL6nBS6RLWVDAKYEqR0WLi
- PgW6eMaNvmBbKvhuA3ry8HUuS4pZNgWZ2jtdxkvvNdSpc/g42j/J80vTdm49HcovBFSim5tecbs
- GOCHUxLFvBU9SEHg71SmkUNSkrXKRygTJIZA2/x1EbxvCkplvNyiohkv8+z9Wi1QO6Sh/HtLFxH
- yOn9KLFwXDS/OoTB1/Q34BeYP/mtiE3xjDg7cGWaeJY/wS5koFxa1uKAxs0K9g==
-X-Received: by 2002:a17:90b:4f82:b0:32b:6820:6509 with SMTP id
- 98e67ed59e1d1-3342a2477f2mr8809523a91.9.1758921151699; 
- Fri, 26 Sep 2025 14:12:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGB82tk94U/8a7SWw2K1U0SpxFbehv0nYG9imfe5zV1lN1Ud9FmdwNwRgs9qRQmPIacdedC2Q==
-X-Received: by 2002:a17:90b:4f82:b0:32b:6820:6509 with SMTP id
- 98e67ed59e1d1-3342a2477f2mr8809505a91.9.1758921151033; 
- Fri, 26 Sep 2025 14:12:31 -0700 (PDT)
-Received: from [192.168.1.9] ([117.244.78.79])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33471d711ecsm6270580a91.4.2025.09.26.14.12.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Sep 2025 14:12:30 -0700 (PDT)
-Message-ID: <d3490029-f532-48c2-a44a-9a7049ecea4d@oss.qualcomm.com>
-Date: Sat, 27 Sep 2025 02:42:25 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/msm: preemption aware hangcheck
-To: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250911-preemption_aware_hangcheck-v1-0-974819876819@gmail.com>
- <20250911-preemption_aware_hangcheck-v1-2-974819876819@gmail.com>
- <c08872c9-cdad-4e62-827b-7985cb3b18de@oss.qualcomm.com>
- <7876a7c5-4b40-4760-bb59-3fbeb5d63f67@gmail.com>
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <7876a7c5-4b40-4760-bb59-3fbeb5d63f67@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB4110E167;
+ Fri, 26 Sep 2025 21:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758921198; x=1790457198;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=R99wWwUovm+ZSdo4ScvosuxTNXkigvwHaqlP7POkJ94=;
+ b=K5+LJPfVeZbm38TggStPaz0T6xboOXpyeyYxNqYjqqdsCwcyMLuPEhUX
+ fhgt8tp1GB8wtVScOjn/E7OiNqpt0LwY8iQNdnNPVK2p2aV65Tr2QkETy
+ 5tAMKG/tiFrSF3qN9m1+MQA9ESEgvX/KThoUrML/h6zCyaWQ999VPw2/i
+ 7GNDQElkx7z6w95C/xUIClSPlJw1ec4PV6rTi5UuxPCnTN7GsV/L9Wok8
+ bt+QRz98mS79DnoVh3y1yPLJmzmdyoHOjsE1YXfnMxr7ozUO7L5UhlH1d
+ BhHY0I7+rOTfrijzuxRagBzBxwU90iwm6Fv/UtrFWeyW1xTjNoG4WHEfV A==;
+X-CSE-ConnectionGUID: 4NLTHxFgSkmsNbs1CyG7SQ==
+X-CSE-MsgGUID: 6AbQRnaTSemhkvZvcVTC0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61310392"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61310392"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 14:13:17 -0700
+X-CSE-ConnectionGUID: 8V4Ozp+iTRKIlDG7vFHKZw==
+X-CSE-MsgGUID: xuqlixpYQd6isNr6TDAaKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; d="scan'208";a="177763701"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 14:13:17 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 26 Sep 2025 14:13:16 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 26 Sep 2025 14:13:16 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.64) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 26 Sep 2025 14:13:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GHW64e+qazW6nxaHnTlsicNM8UsLSSFGoNhBfkjuXBmhTL8Lv1+DkkT7gmkjhLt6DugFZBD0Eq8Z5YO+Z5XGNTBj3zggdd5IqC4m1TqLlT/SWEghiES46mwbhY/UEHiJBpPityh8mLE7klueh1HndJ/lk4Ro5WEMh4GCqKs3uhAVD93uX9WwR2lpLYMQu/w6XBtGixJJdiAC2TCcz52tQKEEbYvR2kgKgThUGnnBNl9+7LiWDqZAbAlzAs/GL17Eyuc9SEx9geYeY6RgU8wWdHa6hzADdt3OKetMyUFWY0DRSVMQnDVJ0QzL50YxqH376064qPCwtv3ssS3BK/5uHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l1GcHceA4jXtJakY83Ay+xGB4DL25V4d4bR8KRE3rjY=;
+ b=sKWurMQz9+vQqD2KDIp63c6f5Uy4pVbHQT5gaj8vCnfIZtr7ipiMm4vtOQ6Ja7GhvZK+iwYl/PmyccBBr1+ECT6G0z6/SaAPLYhee1ku/jFf28IQuhmrOHvhDbKkv24wVEoxW+7MhUwReSRp2Am74ZXwhwsVzH21kmaBTXZS1k7q7cA0Nnhp4Dt0au9xY+qdB2nvB5qeybvZhvc8ANoDH6HEdfDbihlGdPUclAOjh10Q1LpsYGrNB3lsToWUGspUaeahFmTD7rYNF4mjer0YpzGS/gDE3oA03QeshIupLxBW2pmJZS+n/PKF4qSPE64RW/8pi2uO2ELab3Alkz2pdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by CH3PR11MB7392.namprd11.prod.outlook.com (2603:10b6:610:145::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Fri, 26 Sep
+ 2025 21:13:08 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%3]) with mapi id 15.20.9160.010; Fri, 26 Sep 2025
+ 21:13:08 +0000
+From: Imre Deak <imre.deak@intel.com>
+To: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
+CC: Vidya Srinivas <vidya.srinivas@intel.com>, Swati Sharma
+ <swati2.sharma@intel.com>, =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=
+ <ville.syrjala@linux.intel.com>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v4 0/6] drm/i915/dp: Work around a DSC pixel throughput issue
+Date: Sat, 27 Sep 2025 00:12:30 +0300
+Message-ID: <20250926211236.474043-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.49.1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: i9N7NLUJdFabUTeaeOuwdDvMcRn-DPBu
-X-Authority-Analysis: v=2.4 cv=JKA2csKb c=1 sm=1 tr=0 ts=68d701c1 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=KU03pyq4eEOZfaT5og2c8g==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=pGLkceISAAAA:8 a=hWF9MM9DaS2j8YbFhQAA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: i9N7NLUJdFabUTeaeOuwdDvMcRn-DPBu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDA4OSBTYWx0ZWRfX4ESywfUF0I3M
- GibswglTSQD910aUjiYgOSqBLua110Qj7udLGuC/yDvhBZe2KSHAA5xdI1XeW9WSizmBxBJcEGm
- 3L5AjC2XsYOQJV1+aUPE+U5ESLyLEd2nA4SRKxVzveRNXJmtITkor0KcRcLqU1yAl54jROTxV+6
- aDVLs6zHGiBnjNTTEecl0g9oirliuP+MrYXl2aY3N8sxiEfaYcrJy8WgucoohLovYeYvJgBjdvp
- DroXQNyDpGHPXUSCUVxEvxBaRXpcBBTdwvMzCdtC8vgxiNPmQn7CLSzUz/Pho9HJCyCnF2W1JXi
- umq7TirdRpWTiZxwg684ViFJJVhqMuQJCQxKmxQez7005bhHzfmIYYdtwy5amMmKYHHX4x3Cc43
- jWUoBB0BK0Zl3ybpiwmxC9MoJfdEKw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_07,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 suspectscore=0 bulkscore=0 spamscore=0 malwarescore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509260089
+X-ClientProxiedBy: LO4P265CA0119.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::6) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CH3PR11MB7392:EE_
+X-MS-Office365-Filtering-Correlation-Id: b16b9876-f229-4052-c9d5-08ddfd417e12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|10070799003|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TjMyMngrWWsxSDBSTW5XRjNPNTFQeE5DMVFpM3Z3M0p2OC9mUUxpQXhlQVlK?=
+ =?utf-8?B?bkxmS1NzRlBrekllMTc4T1lWVGErb04zeGhBT0lUdTFOOXpYQjdBNHJMd2s1?=
+ =?utf-8?B?bWIxQVA2OVlmSENodE5tZGxjdXNNNmJ6a0lPeFVHVXB1Uy9FNVRkZ1JHcjdl?=
+ =?utf-8?B?WCs0UHJmS3JaK3pFYSszYkxjeXNrRUEzNmxuMm4ycjdBMm80eXlYbHRDQ3hv?=
+ =?utf-8?B?ek5RY2Q0em9DaWNOTG5BdE9KNTlHL1hzUjZiUEZxeU5ZemRXa0krQU9TQzc1?=
+ =?utf-8?B?NHMxOFVPS0g4UUlUK3lTcFhOSUcyRU5kYnRsZHVOUysydk5ta0kwMEViUnB4?=
+ =?utf-8?B?QjA1NG56cHFyeFNteVcvTVJyRlBtNHhKMkV0R05xNjhlRFlsSE1TMmNST3ph?=
+ =?utf-8?B?K1lqTDNxSlF4cHZFdDNvRDhKUkw0TFJNY0ZKZnF6NENPYlZRd3h6RmUvU3Vw?=
+ =?utf-8?B?Z3o4N3dkMk1BYUlyT1VFRnhrNnIwTHNQbklUYlpCbEo4WlVraDBHODNYb1Jm?=
+ =?utf-8?B?M2I2ak5CYlFpTzNhbE4wS3VCSGp5WnNFcSt0QUkyQ2M2blpJT3VTakdRY3Ns?=
+ =?utf-8?B?Nm9reTM3aHVqbEgvN04rTmxZNmFaYS9lT1NjY1VIZitWbVFsa01PYUFZMG1v?=
+ =?utf-8?B?YU9pN3M1Vk8rQ3BQSUVPMFpzSVI1UyttVURhZFRUSDZBeUNVYzVBMjRqOEcv?=
+ =?utf-8?B?d1VybEgrQjBwZlBLVHpnWVVqRmx2ZzVlbnNXUW1BRzUvemFjdGU5QndsN0JQ?=
+ =?utf-8?B?K0VzTlU1bHJuM2JPRG4xNk5LdDhWaloyZHhoeEVTYkk3SEtXNXBCNnRJV3ZD?=
+ =?utf-8?B?Z2VsYnRZdmRoaW9xdXJsUTdmVUZTWnp4MzY1anNQamRVNzdHaUxXdVlpYXp2?=
+ =?utf-8?B?Tm4yUXI3MnU5ZGtTMDZYMG5jOElPR0xxUXNyMGRMTkpBeFVrRktockN3NDI3?=
+ =?utf-8?B?dHBDc0JidnVEcmlMUnhSREkvZUo4eTNyWHdLT25VTWZvMDdyMllEK2hHYXlh?=
+ =?utf-8?B?SkhHUjlZRENGaXUreGVsb0gzZlMrRUdMaDVSUDNtMDZCWlU2Y3B2Yi9JTitT?=
+ =?utf-8?B?T3lsSjh2UmdjNHJtK3IzWkQ5alAvbklaRXYzSXlzUFNJVDUvTnRHeW5CUmNS?=
+ =?utf-8?B?OHZldnVVMUJ5L0ZzSzB5bTlFYVlTWjcrV0ltNlZMcHhJcU1ZTDArK2FSY3BI?=
+ =?utf-8?B?cGY5eXFPNzdpTHFaenlrV0pwZ1dyZ3F1Z08vSkpPa2JhQUNlbTBGN2lQcnlR?=
+ =?utf-8?B?NkpxbkkyTHVJbkNkOW9UWWZqZzJjSnlRR3ZjNFp1OW8rVXFFMFpUdkloL25j?=
+ =?utf-8?B?TEdIajlFSVFuWktidnJKYk5aRzduYzNYUmRJMG4wSG0vZ0hYUnFiL0Zqb211?=
+ =?utf-8?B?SndZZVEvak5uS2U4am5iQVlKNWtPcGRzOFhwQmRVVWN6ZEJ6OFhCYjNrRGxR?=
+ =?utf-8?B?bERKZ1FtYmVISnlyRHord3lVVENDUy9BT0E2LzZHWkg3RXFnc2IrYk9Nb28x?=
+ =?utf-8?B?UU1SU05ZWFdyVCtTREVOUnNWS1RQaVZrVkpWVzdWOTN1VTlycytzM2lKTkhU?=
+ =?utf-8?B?VVZ5Z3NmME8wQjIwZEdMY1o4UUxGSW8va1JlWHYxTjRuYUZ2bmthb0hnZkRo?=
+ =?utf-8?B?SExtZ21iOFlNRlJ1QlBkUytuNDI2RnIvREprQVZwSFlqTzhDWnZxZXkwQlo3?=
+ =?utf-8?B?MUFxZjk4VzJLVUZ4TDI2YnphSDFGRlRuVjBUK0NjWkVYWEMwVXNYb0h0a3dF?=
+ =?utf-8?B?UHpMMHVwYjkxdGpTTzd6QzlEcXZCeE5hMnY4Q1piS0xqOG9uWEtzNW5KVGtK?=
+ =?utf-8?B?dk5HT1dBOTRLdDRiTFp1ZS8xQWNyVTlISTlqNXNkeXBsdmxwZkJ2U2NhZlhj?=
+ =?utf-8?B?ZG5wVGIyOGovRURmVjdDQ28vSm9XVlVlclpGV2tmZjFXRmVnZDgwemxBMDQ4?=
+ =?utf-8?B?dkN3MWs5VUtNWjNSd2NQa0psR0I3N1BCb0JzUFRZMjZ2WlhiU2tUTVdWelA5?=
+ =?utf-8?B?NllCa0RmclVBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(10070799003)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWFpUlYweDlEWnJ3eDZ6aU9jbXEyQlRNbnVMT0JhTUlRMmNKMU9BclN5ZG5Y?=
+ =?utf-8?B?Z210NGlPaFFrQkxQSEFjVUFYaUwycHJUeTZoL043REdXOGxGUnZFVUtuUmhM?=
+ =?utf-8?B?cThkSDZHMjgwL1ZkVjZzemMzUU4waDUwT1VNaXZXczhwWngrZUdOUTVaNzNj?=
+ =?utf-8?B?blZMVFBSY2t4VmpqUHNwM2kvRlFUOWlNYXpoZDhZYiswNW1nY3Q3bzJCNklj?=
+ =?utf-8?B?ZWZyYlZvNVZ0UTNSUnArM2g5bmh6RjdYekRoZjRTL0VVN0tuKzFHNUhMUEpj?=
+ =?utf-8?B?K0tEZUpCWEhVQWsvZGZWdVl4RmcrK2JRNzlZdlMzZklybkY0eHFCVy9QQ2p4?=
+ =?utf-8?B?YkVWa0ZKZlJSaHdEaWRZS3paNzFPWVE4MVBoRmhBa3lvNDRWM1krYlo3dUlw?=
+ =?utf-8?B?VTFlL29vQW4xTDJEaHVFMGxmVmlPNzJhelFpUmtRSTViOWRiVkZIOXUvNEpy?=
+ =?utf-8?B?Ymx5VlRra1ZxV09Lc2c5VTZpM2JHVW1ZVnZLaFRlMFpFTUQ3OTN1T2Z3bkx0?=
+ =?utf-8?B?QWNsaTdURUwvOTJLYlZvSlN5Q2haMFBMRDUrZ1B5c1BrNHBwWWxveFhsOFhY?=
+ =?utf-8?B?bjNUNDNhdlROOVVOL25qQ2l1ZGIxNU1LSzkycUx2bzdsY3k4ZTVYdmNDQzRJ?=
+ =?utf-8?B?V29leGFLUDRJeFRCM3FqckI2M25vYUxkS0h2c3JHMWo2MkVoUnVEUW5KQzJw?=
+ =?utf-8?B?Y0V6MWhLMFpDa1BhWnNCV0pzMzlGRStEUzZjUThEa21YMS9RVDF0UmlyL2xl?=
+ =?utf-8?B?L2FlbVk2SmcwNUNMaDI0SmNabTVzYVAwbVYwWmkwMU41ZUNzMmZRRGhobG0r?=
+ =?utf-8?B?b2VzTkhnTjQ3eXpBeVhzRHZjVWw4OXpmT3NES3FibGRSQlJxSTRld0NZY1Yz?=
+ =?utf-8?B?am1jQXl3ekdGaXB0WG10TWVXQUZib1cxbzIvY0FrNXZjVzNNMlU2TGNJZVlU?=
+ =?utf-8?B?RFRrM0JNdFQrNHZZeERnWWE4VUZUSVRuZHJzV0gzYkI3OVNpTXEvN24xc1RJ?=
+ =?utf-8?B?ZVAyVjh5M2ZHdEFVOXlRd1F1L282NHNvV3RkT2VtYUxuNExPQTV1eEdGMm4v?=
+ =?utf-8?B?TUptWGw0bStEZzQyNkhWWURNamRLQjZNYThSK1JMOWs5VW1CWVVmSEtENmVa?=
+ =?utf-8?B?WEIyd3FhNWVvUXhUVmRTb2dSd2hkVkQ4eTNOQ3FuZEdzV3dLWGRtUTlwbXBR?=
+ =?utf-8?B?QnJWbDE0bDFjT2dOcXNzdE1sejVra0t0V05SMGMvSVJFdEZ2QmptOVdPNWYw?=
+ =?utf-8?B?UlpQS2czQWpOV3FRaTMwQ0hQMU0raW84eFFDUFVNR2xhYk5hcWFmU3RmWjBB?=
+ =?utf-8?B?YW5DUDBDd2JlVmtVY3hIQkRmSnRtb1o0VG9YZm1lY2VZRWhNdU5PWUVGY0oz?=
+ =?utf-8?B?cFR1cUthRWU5ZnNhVks5U1ZWeTV3MnpSSHJvaTV1TmlMSVlPTUtvTG9rRmgz?=
+ =?utf-8?B?MjRpL1dvbGR2dVVjUEJxZDdVaCsrUDRheEpIcnA0cnZ6aGdjVGZ4ZlBWdHV6?=
+ =?utf-8?B?aUh6Mytsa2NZV1RNVWJXNXJrVzZibk5waEhCa1ExaTNUYVdTaG1zWnNUTVpo?=
+ =?utf-8?B?QUx6bG5rQ2NJUitDR2Z2amk5QnkxZkg2c2NyaHhKbmJDT2tSZGo0dlYySjI0?=
+ =?utf-8?B?S2piOHRlYTZ1YVhnTEtFMkU4OU9xd0QyQ2tSbU9OY2ZZSGptQ2lBbTlmQUx4?=
+ =?utf-8?B?SGtEVUpvVk1iSzc0b2YxR1VqaGNPRXFIWlk3NDZnSGlSZUp4R3JYeDlDMmhM?=
+ =?utf-8?B?V2didTFXQlE2V2JVZVRIeldqWjQ2WmRlUnNORndKRHAxdmZZNktldzdIeTZy?=
+ =?utf-8?B?SFZ6Q0pYVi9ZMkdYWnAxcnlrTHBaTUNsYndtQ1l5VHB1QjZsekNmcHpySkxQ?=
+ =?utf-8?B?VldTTlBsZy9VYjNFc1hGbDMzdk5yYkU5eFJ4ZU1WMC9EMXdHVDkvUjRvMmpC?=
+ =?utf-8?B?SUNUQ1pFV1RlZFVEb2FBUWVOSTFTVVZiRDgvcXc2aUkvRjBsOERyRGVRYWdp?=
+ =?utf-8?B?b09EZWRLZVlORm9oSzAzV3BWVjhKeHBzdEZIT0l2SnpLMGdZKzdpYWI4ZDdy?=
+ =?utf-8?B?U1FQVkpESTNKMlVwdmhPZDFURzc4Qkc4VkNXZUtEcG90dzVqcDl6aWhLRFdF?=
+ =?utf-8?B?QzhXNWkvdUViRVV6UGJJYmp0ektJL3huUmNROTdSSXFsUmNIYlZ3S3c1RkNY?=
+ =?utf-8?Q?01CLCDs2gxcpY/tpLwJr6FCA3+Z+NrXnepwrxY4RX/8W?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b16b9876-f229-4052-c9d5-08ddfd417e12
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 21:13:08.7853 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h7YHxdkJSOCR8ZrG/uNjeJLosXGB7qQNYFM0rla1+6TJ+5O8M6IIup1UsUVijejV2gJ2Hq+auAcmRHVq7eZWWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7392
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,496 +195,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/18/2025 8:15 PM, Anna Maniscalco wrote:
-> On 9/17/25 5:23 PM, Akhil P Oommen wrote:
->> On 9/11/2025 10:31 PM, Anna Maniscalco wrote:
->>> Rework hangcheck code to work well toghether with preemption.
->>>
->>> Track the time a job has spent in a ring by storing timestamps of the
->>> `CP_ALWAYS_ON_CONTEXT` register at the beginning of a job and when
->>> switching rings as well as reading it back if the ring is currently
->>> active.
->>>
->>> Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
->>> ---
->>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  3 +-
->>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c     |  3 +-
->>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 28 +++++++++++++++--
->>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
->>>   drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 25 +++++++++++----
->>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c   |  3 +-
->>>   drivers/gpu/drm/msm/msm_gpu.c             | 51 ++++++++++++++++++++
->>> +++++------
->>>   drivers/gpu/drm/msm/msm_gpu.h             |  3 ++
->>>   drivers/gpu/drm/msm/msm_ringbuffer.h      |  6 ++++
->>>   9 files changed, 102 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/
->>> msm/adreno/a5xx_gpu.c
->>> index
->>> 4a04dc43a8e6764a113d0ade3dee94bd4c0083af..cb4775a35da0706e571eb27ce617044de84ca118 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>> @@ -1255,7 +1255,8 @@ static void a5xx_fault_detect_irq(struct
->>> msm_gpu *gpu)
->>>           gpu_read(gpu, REG_A5XX_CP_IB2_BUFSZ));
->>>         /* Turn off the hangcheck timer to keep it from bothering us */
->>> -    timer_delete(&gpu->hangcheck_timer);
->>> +    for (int i = 0; i < gpu->nr_rings; i++)
->>> +        timer_delete(&gpu->rb[i]->hangcheck_timer);
->>>         kthread_queue_work(gpu->worker, &gpu->recover_work);
->>>   }
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/
->>> msm/adreno/a6xx_gmu.c
->>> index
->>> fc62fef2fed87f065cb8fa4e997abefe4ff11cd5..103c19fa8669f06a6c1627ced1daf2bcd60415db 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> @@ -28,7 +28,8 @@ static void a6xx_gmu_fault(struct a6xx_gmu *gmu)
->>>       gmu->hung = true;
->>>         /* Turn off the hangcheck timer while we are resetting */
->>> -    timer_delete(&gpu->hangcheck_timer);
->>> +    for (int i = 0; i < gpu->nr_rings; i++)
->>> +        timer_delete(&gpu->rb[i]->hangcheck_timer);
->>>         /* Queue the GPU handler because we need to treat this as a
->>> recovery */
->>>       kthread_queue_work(gpu->worker, &gpu->recover_work);
->> I think a helper routine makes sense. We have to disable hangcheck
->> whenever recover_worker is queued.
->>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/
->>> msm/adreno/a6xx_gpu.c
->>> index
->>> b8f8ae940b55f5578abdbdec6bf1e90a53e721a5..7647e3dfd50db7446589e67949ed08d0a422f543 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> @@ -465,6 +465,9 @@ static void a7xx_submit(struct msm_gpu *gpu,
->>> struct msm_gem_submit *submit)
->>>       get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_COUNTER,
->>>           rbmemptr_stats(ring, index, alwayson_start));
->>>   +    get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_CONTEXT,
->>> +        rbmemptr(ring, last_job_start_ctx));
->>> +
->>>       OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
->>>       OUT_RING(ring, CP_SET_THREAD_BOTH);
->>>   @@ -1816,7 +1819,8 @@ static void a6xx_fault_detect_irq(struct
->>> msm_gpu *gpu)
->>>           gpu_read(gpu, REG_A6XX_CP_IB2_REM_SIZE));
->>>         /* Turn off the hangcheck timer to keep it from bothering us */
->>> -    timer_delete(&gpu->hangcheck_timer);
->>> +    for (int i = 0; i < gpu->nr_rings; i++)
->>> +        timer_delete(&gpu->rb[i]->hangcheck_timer);
->>>         /* Turn off interrupts to avoid triggering recovery again */
->>>       gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, 0);
->>> @@ -1839,7 +1843,8 @@ static void a7xx_sw_fuse_violation_irq(struct
->>> msm_gpu *gpu)
->>>        */
->>>       if (status & (A7XX_CX_MISC_SW_FUSE_VALUE_RAYTRACING |
->>>                 A7XX_CX_MISC_SW_FUSE_VALUE_LPAC)) {
->>> -        timer_delete(&gpu->hangcheck_timer);
->>> +        for (int i = 0; i < gpu->nr_rings; i++)
->>> +            timer_delete(&gpu->rb[i]->hangcheck_timer);
->>>             kthread_queue_work(gpu->worker, &gpu->recover_work);
->>>       }
->>> @@ -2327,6 +2332,22 @@ static int a6xx_get_timestamp(struct msm_gpu
->>> *gpu, uint64_t *value)
->>>       return 0;
->>>   }
->>>   +static int a6xx_get_ctx_timestamp(struct msm_ringbuffer *ring,
->>> uint64_t *value)
->>> +{
->>> +    struct msm_gpu *gpu = ring->gpu;
->>> +    struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>> +    struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->>> +
->>> +    guard(spinlock_irqsave)(&a6xx_gpu->eval_lock);
->> Is eval_lock initialized anywhere? Also why do we need this?
-> 
-> Yeah eval_lock was introduced in the preemption series. It is
-> initialized in `a6xx_preempt_hw_init`.
-> 
->>
->>> +
->>> +    if (a6xx_in_preempt(a6xx_gpu) || ring != a6xx_gpu->cur_ring)
->> This will race with preemption. I think we should wrap the preempt state
->> check and the regread under the preempt lock.
-> 
-> Continuing. The idea is that if in_preempt returns true then it doesn't
-> matter that reading cur_ring might race because we exit early.
-> 
-> On the other end, if it returns false, since we are holding `eval_lock`
-> and the only place where we can go from the PREEMPT_NONE state to any
-> other state is also guarded by that lock, then we are guaranteed that no
-> preemption will occur so long as we are within this function.
-> 
->>
->>> +        return -EBUSY;
->>> +
->>> +    *value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_CONTEXT);With
->>> IFPC, we cannot access a GX domain register (CP, RBBM etc) unless
->> we are certain that the GX is powered up. Could you please test this
->> series along with the IFPC series? If we hit the right timing, there
->> should be a GMU fence error in the dmesg. Not sure how easy it is to hit
->> that timing, but I believe there is a problem here conceptually.
-> 
-> Right. I'll fix this although we don't have a fenced_read helper and I
-> wonder if reading behaves like writing when it comes to waking up the gpu.
-> 
-> So would it work to try the read and poll REG_A6XX_GMU_AHB_FENCE_STATUS
-> like we do when writing?
-Unfortunately, only fenced write is supported as per the hw spec and
-that too for a specific region or registers.
+This is v4 of [1], with the following changes:
 
-> 
->>> +
->>> +    return 0;
->>> +}
->>> +
->>>   static struct msm_ringbuffer *a6xx_active_ring(struct msm_gpu *gpu)
->>>   {
->>>       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>> @@ -2555,6 +2576,7 @@ static const struct adreno_gpu_funcs funcs = {
->>>           .get_rptr = a6xx_get_rptr,
->>>           .progress = a6xx_progress,
->>>           .sysprof_setup = a6xx_gmu_sysprof_setup,
->>> +        .get_ctx_timestamp = a6xx_get_ctx_timestamp,
->>>       },
->>>       .get_timestamp = a6xx_gmu_get_timestamp,
->>>   };
->>> @@ -2584,6 +2606,7 @@ static const struct adreno_gpu_funcs
->>> funcs_gmuwrapper = {
->>>           .create_private_vm = a6xx_create_private_vm,
->>>           .get_rptr = a6xx_get_rptr,
->>>           .progress = a6xx_progress,
->>> +        .get_ctx_timestamp = a6xx_get_ctx_timestamp,
->>>       },
->>>       .get_timestamp = a6xx_get_timestamp,
->>>   };
->>> @@ -2616,6 +2639,7 @@ static const struct adreno_gpu_funcs funcs_a7xx
->>> = {
->>>           .get_rptr = a6xx_get_rptr,
->>>           .progress = a6xx_progress,
->>>           .sysprof_setup = a6xx_gmu_sysprof_setup,
->>> +        .get_ctx_timestamp = a6xx_get_ctx_timestamp,
->>>       },
->>>       .get_timestamp = a6xx_gmu_get_timestamp,
->>>   };
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/
->>> msm/adreno/a6xx_gpu.h
->>> index
->>> 0b17d36c36a9567e6afa4269ae7783ed3578e40e..7248d3d38c6d8a06cb4a536043bf4877179447cc 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->>> @@ -80,6 +80,7 @@ struct a6xx_gpu {
->>>       struct drm_gem_object *preempt_postamble_bo;
->>>       void *preempt_postamble_ptr;
->>>       uint64_t preempt_postamble_iova;
->>> +    uint64_t preempt_postamble_cntreset_end;
->>>       uint64_t preempt_postamble_len;
->>>       bool postamble_enabled;
->>>   diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/
->>> gpu/drm/msm/adreno/a6xx_preempt.c
->>> index
->>> afc5f4aa3b17334027f3c20072cc3f059a9733b7..88a65549fa8038d4836eb5aeaea775d679415315 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
->>> @@ -99,11 +99,15 @@ static void a6xx_preempt_timer(struct timer_list *t)
->>>       kthread_queue_work(gpu->worker, &gpu->recover_work);
->>>   }
->>>   -static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
->>> +static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu,
->>> struct msm_ringbuffer *ring)
->>>   {
->>>       u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
->>> +    uint64_t last_active_ctxcycles;
->>>       u32 count = 0;
->>>   +    if (ring)
->>> +        last_active_ctxcycles = rbmemptr(ring, last_active_ctxcycles);
->>> +
->>>       postamble[count++] = PKT7(CP_REG_RMW, 3);
->>>       postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
->>>       postamble[count++] = 0;
->>> @@ -118,6 +122,15 @@ static void preempt_prepare_postamble(struct
->>> a6xx_gpu *a6xx_gpu)
->>>       postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
->>>       postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
->>>   +    a6xx_gpu->preempt_postamble_cntreset_end = count;
->>> +
->>> +    postamble[count++] = PKT7(ring ? CP_REG_TO_MEM : CP_NOP, 3);
->>> +    postamble[count++] =
->>> CP_REG_TO_MEM_0_REG(REG_A6XX_CP_ALWAYS_ON_CONTEXT) |
->>> +        CP_REG_TO_MEM_0_CNT(2) |
->>> +        CP_REG_TO_MEM_0_64B;
->>> +    postamble[count++] = lower_32_bits(last_active_ctxcycles);
->>> +    postamble[count++] = upper_32_bits(last_active_ctxcycles);
->>> +
->>>       a6xx_gpu->preempt_postamble_len = count;
->>>         a6xx_gpu->postamble_enabled = true;
->>> @@ -129,9 +142,9 @@ static void preempt_disable_postamble(struct
->>> a6xx_gpu *a6xx_gpu)
->>>         /*
->>>        * Disable the postamble by replacing the first packet header
->>> with a NOP
->>> -     * that covers the whole buffer.
->>> +     * that skips the counters reset part.
->>>        */
->>> -    *postamble = PKT7(CP_NOP, (a6xx_gpu->preempt_postamble_len - 1));
->>> +    *postamble = PKT7(CP_NOP, (a6xx_gpu-
->>> >preempt_postamble_cntreset_end - 1));
->>>         a6xx_gpu->postamble_enabled = false;
->>>   }
->>> @@ -338,8 +351,8 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
->>>       /* Enable or disable postamble as needed */
->>>       sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
->>>   -    if (!sysprof && !a6xx_gpu->postamble_enabled)
->>> -        preempt_prepare_postamble(a6xx_gpu);
->>> +    if (!sysprof)
->>> +        preempt_prepare_postamble(a6xx_gpu, ring);
->>>         if (sysprof && a6xx_gpu->postamble_enabled)
->>>           preempt_disable_postamble(a6xx_gpu);
->>> @@ -454,7 +467,7 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
->>>               gpu->vm, &a6xx_gpu->preempt_postamble_bo,
->>>               &a6xx_gpu->preempt_postamble_iova);
->>>   -    preempt_prepare_postamble(a6xx_gpu);
->>> +    preempt_prepare_postamble(a6xx_gpu, NULL);
->>>         if (IS_ERR(a6xx_gpu->preempt_postamble_ptr))
->>>           goto fail;
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/
->>> drm/msm/adreno/adreno_gpu.c
->>> index
->>> afaa3cfefd357dc0230994c8b5830a14c6d7a352..58f1e2a95bbfb00feb5a3bb91853e6bb533ec631 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> @@ -334,7 +334,8 @@ int adreno_fault_handler(struct msm_gpu *gpu,
->>> unsigned long iova, int flags,
->>>           struct msm_gpu_fault_info fault_info = {};
->>>             /* Turn off the hangcheck timer to keep it from bothering
->>> us */
->>> -        timer_delete(&gpu->hangcheck_timer);
->>> +        for (int i = 0; i < gpu->nr_rings; i++)
->>> +            timer_delete(&gpu->rb[i]->hangcheck_timer);
->>>             fault_info.ttbr0 = info->ttbr0;
->>>           fault_info.iova  = iova;
->>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/
->>> msm_gpu.c
->>> index
->>> 17759abc46d7d7af4117b1d71f1d5fba6ba0b61c..a3c5073aca1f65e450e0673262e8ca4bc7a5be6f 100644
->>> --- a/drivers/gpu/drm/msm/msm_gpu.c
->>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
->>> @@ -463,7 +463,9 @@ static void recover_worker(struct kthread_work
->>> *work)
->>>       struct drm_device *dev = gpu->dev;
->>>       struct msm_drm_private *priv = dev->dev_private;
->>>       struct msm_gem_submit *submit;
->>> -    struct msm_ringbuffer *cur_ring = gpu->funcs->active_ring(gpu);
->>> +    struct msm_ringbuffer *cur_ring = gpu->hung_ring ?
->>> +        gpu->hung_ring : gpu->funcs->active_ring(gpu);
->>> +    gpu->hung_ring = NULL;
->>>       char *comm = NULL, *cmd = NULL;
->>>       struct task_struct *task;
->>>       int i;
->>> @@ -613,11 +615,17 @@ void msm_gpu_fault_crashstate_capture(struct
->>> msm_gpu *gpu, struct msm_gpu_fault_
->>>       mutex_unlock(&gpu->lock);
->>>   }
->>>   -static void hangcheck_timer_reset(struct msm_gpu *gpu)
->>> +static void hangcheck_ring_timer_reset(struct msm_gpu *gpu, struct
->>> msm_ringbuffer *ring)
->>>   {
->>>       struct msm_drm_private *priv = gpu->dev->dev_private;
->>> -    mod_timer(&gpu->hangcheck_timer,
->>> -            round_jiffies_up(jiffies + msecs_to_jiffies(priv-
->>> >hangcheck_period)));
->>> +    mod_timer(&ring->hangcheck_timer,
->>> +              round_jiffies_up(jiffies + msecs_to_jiffies(priv-
->>> >hangcheck_period)));
->>> +}
->>> +
->>> +static void hangcheck_timer_reset(struct msm_gpu *gpu)
->>> +{
->>> +    for (int i = 0; i < gpu->nr_rings; i++)
->>> +        hangcheck_ring_timer_reset(gpu, gpu->rb[i]);
->> It triggers my OCD a bit that there are multiple timers flying around
->> waking up CPU clusters. But this is okay for now I guess. :)
->>
->>>   }
->>>     static bool made_progress(struct msm_gpu *gpu, struct
->>> msm_ringbuffer *ring)
->>> @@ -635,11 +643,33 @@ static bool made_progress(struct msm_gpu *gpu,
->>> struct msm_ringbuffer *ring)
->>>       return true;
->>>   }
->>>   +static bool check_ring_timeout(struct msm_ringbuffer *ring,
->>> unsigned long timeout)
->>> +{
->>> +    struct msm_gpu *gpu = ring->gpu;
->>> +    struct msm_ringbuffer *curr_ring = gpu->funcs->active_ring(gpu);
->>> +    u64 start, end;
->>> +    int ret;
->>> +
->>> +    if (!gpu->funcs->get_ctx_timestamp)
->>> +        return !made_progress(gpu, ring);
->>> +
->>> +    start = ring->memptrs->last_job_start_ctx;
->>> +
->>> +    if (!gpu->funcs->get_ctx_timestamp(ring, &end))
->> I suppose you want the other way. ie, if get_ctx_timestamp() returns
->> -EBUSY, which means gpu is either under preemption or in a different
->> ring, use the memptr data.
-> You are right, that `!` does not belong there!
->>
->>> +        end = ring->memptrs->last_active_ctxcycles;
->> Assuming my above comment is correct, if GPU is under preemption, there
->> is a chance that the postamble might not have got executed. So with a
->> stale 'end' value, the below calc may go wrong?
->>
->>> +
->>> +    if (end >= start)
->>> +        return (end - start) < timeout;
->>> +    else
->>> +        return false;
->> In case of an infinite shader blocking preemption, wouldn't we always
->> return false here?
-> Right. Once we fix the above condition this shouldn't be a problem
-> because hangcheck timer will fire on the ring that is stuck so `end`
-> will be read from the register and it should detect the hang.
+- Fix drm_dp_dsc_sink_max_slice_throughput()'s name.
+- Use the clearer peak_pixel_rate vs. pixel_clock as the above
+  function's parameter.
+- Clarify the meaning of peak_pixel_rate for MST tiled displays.
+- Fix return value from dsc_throughput_quirk_max_bpp_x16(), in case it's
+  not required to limit the BPP.
 
-You mean the timer on the outgoing ring? But we won't read the register
-as the preemption is active, right? We read the memptr which has a stale
-'end' value. Since 'end' < 'start', this code will continously report
-"no timeout" to the caller.
+[1] https://lore.kernel.org/all/20250924152332.359768-1-imre.deak@intel.com
 
->>
->> -Akhil> +}
->>> +
->>>   static void hangcheck_handler(struct timer_list *t)
->>>   {
->>> -    struct msm_gpu *gpu = timer_container_of(gpu, t, hangcheck_timer);
->>> +    struct msm_ringbuffer *ring = timer_container_of(ring, t,
->>> hangcheck_timer);
->>> +    struct msm_gpu *gpu = ring->gpu;
->>> +    struct msm_drm_private *priv = gpu->dev->dev_private;
->>>       struct drm_device *dev = gpu->dev;
->>> -    struct msm_ringbuffer *ring = gpu->funcs->active_ring(gpu);
->>>       uint32_t fence = ring->memptrs->fence;
->>>         if (fence != ring->hangcheck_fence) {
->>> @@ -647,7 +677,7 @@ static void hangcheck_handler(struct timer_list *t)
->>>           ring->hangcheck_fence = fence;
->>>           ring->hangcheck_progress_retries = 0;
->>>       } else if (fence_before(fence, ring->fctx->last_fence) &&
->>> -            !made_progress(gpu, ring)) {
->>> +            check_ring_timeout(ring, priv->hangcheck_period *
->>> 192000)) {
->>>           /* no progress and not done.. hung! */
->>>           ring->hangcheck_fence = fence;
->>>           ring->hangcheck_progress_retries = 0;
->>> @@ -658,6 +688,7 @@ static void hangcheck_handler(struct timer_list *t)
->>>           DRM_DEV_ERROR(dev->dev, "%s:     submitted fence: %u\n",
->>>                   gpu->name, ring->fctx->last_fence);
->>>   +        gpu->hung_ring = ring;
->>>           kthread_queue_work(gpu->worker, &gpu->recover_work);
->>>       }
->>>   @@ -911,7 +942,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct
->>> msm_gem_submit *submit)
->>>       submit->ring->cur_ctx_seqno = submit->queue->ctx->seqno;
->>>         pm_runtime_put(&gpu->pdev->dev);
->>> -    hangcheck_timer_reset(gpu);
->>> +    hangcheck_ring_timer_reset(gpu, submit->ring);
->> Should we reset hangcheck whenever there is a submission to a random
->> ring?
-> The idea is that we only reset the timer for that ring. If that ring is
-> stuck presumably whatever applications are running on it will stop
-> submitting eventually since fences won't be signaled and so the timer
-> should run.
-> 
-> That isn't really guaranteed but previously that was assumed.
-> 
-> Do you think this isn't a good assumption to make?
+Reported-by: Vidya Srinivas <vidya.srinivas@intel.com>
+Reported-by: Swati Sharma <swati2.sharma@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
 
-I missed that this was per-ring. If there are continous submissions at
-the right interval to the same ring, it can delay the hang check
-detection. I agree that this is an edge case.
+Imre Deak (6):
+  drm/dp: Add quirk for Synaptics DSC throughput link-bpp limit
+  drm/dp: Add helpers to query the branch DSC max throughput/line-width
+  drm/i915/dp: Calculate DSC slice count based on per-slice peak
+    throughput
+  drm/i915/dp: Pass DPCD device descriptor to
+    intel_dp_get_dsc_sink_cap()
+  drm/i915/dp: Verify branch devices' overall pixel throughput/line
+    width
+  drm/i915/dp: Handle Synaptics DSC throughput link-bpp quirk
 
-It makes sense to reset the timer during the first submit to a ring.
-After that it can reset itself from the timer handler until all submits
-are retired. Would that require a lot of plumbing?
+ drivers/gpu/drm/display/drm_dp_helper.c       | 146 ++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |   9 ++
+ drivers/gpu/drm/i915/display/intel_dp.c       | 146 ++++++++++++++++--
+ drivers/gpu/drm/i915/display/intel_dp.h       |   5 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   9 +-
+ include/drm/display/drm_dp.h                  |   1 +
+ include/drm/display/drm_dp_helper.h           |  14 ++
+ 7 files changed, 316 insertions(+), 14 deletions(-)
 
-Anyway, since we are reworking the hangcheck, probably we can revisit
-every aspect of it in this series. Up to you.
-
--Akhil
-
-> 
->>
->> -Akhil
->>
->>>   }
->>>     /*
->>> @@ -1011,8 +1042,6 @@ int msm_gpu_init(struct drm_device *drm, struct
->>> platform_device *pdev,
->>>       if (funcs->progress)
->>>           priv->hangcheck_period /= 2;
->>>   -    timer_setup(&gpu->hangcheck_timer, hangcheck_handler, 0);
->>> -
->>>       spin_lock_init(&gpu->perf_lock);
->>>     @@ -1097,6 +1126,8 @@ int msm_gpu_init(struct drm_device *drm,
->>> struct platform_device *pdev,
->>>               goto fail;
->>>           }
->>>   +        timer_setup(&gpu->rb[i]->hangcheck_timer,
->>> hangcheck_handler, 0);
->>> +
->>>           memptrs += sizeof(struct msm_rbmemptrs);
->>>           memptrs_iova += sizeof(struct msm_rbmemptrs);
->>>       }
->>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/
->>> msm_gpu.h
->>> index
->>> a597f2bee30b6370ecc3639bfe1072c85993e789..7bf1b7f4bc4b61338bfa4c1463eb549f8c22d5c3 100644
->>> --- a/drivers/gpu/drm/msm/msm_gpu.h
->>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
->>> @@ -93,6 +93,7 @@ struct msm_gpu_funcs {
->>>        */
->>>       bool (*progress)(struct msm_gpu *gpu, struct msm_ringbuffer
->>> *ring);
->>>       void (*sysprof_setup)(struct msm_gpu *gpu);
->>> +    int (*get_ctx_timestamp)(struct msm_ringbuffer *ring, uint64_t
->>> *value);
->>>   };
->>>     /* Additional state for iommu faults: */
->>> @@ -257,6 +258,8 @@ struct msm_gpu {
->>>       /* work for handling GPU recovery: */
->>>       struct kthread_work recover_work;
->>>   +    struct msm_ringbuffer *hung_ring;
->>> +
->>>       /** retire_event: notified when submits are retired: */
->>>       wait_queue_head_t retire_event;
->>>   diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/
->>> drm/msm/msm_ringbuffer.h
->>> index
->>> d1e49f701c8176e50d2b9a5cca35acee67f75209..316247fb089f26bd657ccf8464a5039e1cd1ac45 100644
->>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
->>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
->>> @@ -37,6 +37,8 @@ struct msm_rbmemptrs {
->>>       volatile struct msm_gpu_submit_stats
->>> stats[MSM_GPU_SUBMIT_STATS_COUNT];
->>>       volatile u64 ttbr0;
->>>       volatile u32 context_idr;
->>> +    volatile u64 last_job_start_ctx;
->>> +    volatile u64 last_active_ctxcycles;
->>>   };
->>>     struct msm_cp_state {
->>> @@ -73,6 +75,10 @@ struct msm_ringbuffer {
->>>       uint64_t memptrs_iova;
->>>       struct msm_fence_context *fctx;
->>>   +    /* Hang and Inactivity Detection:
->>> +     */
->>> +    struct timer_list hangcheck_timer;
->>> +
->>>       /**
->>>        * hangcheck_progress_retries:
->>>        *
->>>
-> 
-> Best regards,
+-- 
+2.49.1
 
