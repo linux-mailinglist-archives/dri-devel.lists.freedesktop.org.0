@@ -2,64 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B39BA300B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 10:46:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D47BBA301D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 10:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6AA710EA18;
-	Fri, 26 Sep 2025 08:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2B8010E2FD;
+	Fri, 26 Sep 2025 08:48:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WJlQQ6uH";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="oewmB4a8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6742510E2FD;
- Fri, 26 Sep 2025 08:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758876412; x=1790412412;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=MqJdruCHgnjZUj9KwJr+po8RkBPfCkgtOTm3sDWYslA=;
- b=WJlQQ6uHexWe0BN3P4iNs+G0An9DQJTn4AQvrcM0sLw8nD7/2zX26N+L
- BTZoHiOeBeihSIMsjAeMBYvvI/QmYN2UGfl4LBgEZ9WvnWZsQQll6av/s
- vmIGj6aqYZyoEU9xwvtBnkTFNl40UvclQX3PxEqByslt/WavBumOKd+HY
- HHnMczDa3rX85gn4NHZTBd+5gBq+BiZ1dMz47tbVTCEqZUF4CTDsDObLL
- nh6C6kMD+/okkDf33A4300GkHYt9KqREG++Brb1QN1F8M93VmmGlLxFtD
- P/D5MVA5rpcY5P8mPtCzY3zjuAdAEHLyWSF8mIj886JlMeo2SdYqrZHNK A==;
-X-CSE-ConnectionGUID: XIs/DDcqTveV9zyvZHl4Wg==
-X-CSE-MsgGUID: TXJbDduEROijo4Z6ynqXJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="65054069"
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="65054069"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 01:46:52 -0700
-X-CSE-ConnectionGUID: bJtP7oYBRf6WLoR+7FRE8Q==
-X-CSE-MsgGUID: Hz7qb9q1SnKH5sCDz+a+yA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="182839743"
-Received: from opintica-mobl1 (HELO fedora) ([10.245.244.247])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 01:46:50 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Kasireddy Vivek <vivek.kasireddy@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Jason Gunthorpe <jgg@nvidia.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [RFC PATCH v2 2/2] drm/xe/dma-buf: Add generic interconnect support
- framework
-Date: Fri, 26 Sep 2025 10:46:24 +0200
-Message-ID: <20250926084624.2288-3-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250926084624.2288-1-thomas.hellstrom@linux.intel.com>
-References: <20250926084624.2288-1-thomas.hellstrom@linux.intel.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0406910E2FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 08:48:22 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cY44243YHz9st3;
+ Fri, 26 Sep 2025 10:48:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1758876498; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7De3nQZm4PVTdWyp59mYSwiaxDz6Qyhn9LYb89sbxxg=;
+ b=oewmB4a8fvEjTKbGN/DAs/n7MBgg9RL9DiXgxDoYuwrY9a6lV0LDNw6hF3+0nR9hXA+6je
+ cIvS2p05i6RvXBKFYs0lbZSaRNAiwuQXBdDzYQieJtLK+G1hVZSc3mwBekxUfjGsAKc/gO
+ gBYbiN5IhJjZcx1BHnbtZxChkf6rG6VfoNmz6YgzIRPRLnSG1GWtzolVcvfeBNxEtLmEti
+ bAwIebXzzwxtIljpNiA/zhyDL+Kmghl8qlMpO+SdCd0Jej/4NjaEV1wOo8kXJ8a8CXBDMw
+ aozeNUa8SAm0VHmRzk/Rom5JKxPnlq/MGxCrCSGKG4mk64KC5xilz9uhtTqPBg==
+Message-ID: <12c09de235023c99a8a864b17b2f797c7339bb7b.camel@mailbox.org>
+Subject: Re: [RFC PATCH] rust: sync: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+To: Boqun Feng <boqun.feng@gmail.com>, Philipp Stanner <phasta@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Peter
+ Zijlstra <peterz@infradead.org>,  Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
+ Stitt <justinstitt@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,  Viresh Kumar
+ <viresh.kumar@linaro.org>, Asahi Lina <lina+kernel@asahilina.net>, Daniel
+ Almeida <daniel.almeida@collabora.com>, Tamir Duberstein
+ <tamird@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, FUJITA
+ Tomonori <fujita.tomonori@gmail.com>, Krishna Ketan Rai
+ <prafulrai522@gmail.com>, Lyude Paul <lyude@redhat.com>, Mitchell Levy
+ <levymitchell0@gmail.com>, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org
+Date: Fri, 26 Sep 2025 10:48:06 +0200
+In-Reply-To: <aMwOoYe1xGDBg0Zv@tardis-2.local>
+References: <20250918123100.124738-2-phasta@kernel.org>
+ <aMwOoYe1xGDBg0Zv@tardis-2.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: dcc294d54bd9f90528a
+X-MBO-RS-META: c53m4ic87syjzwty5tfmxisedsq4b4ff
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,242 +79,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Negotiate to use an xe-specific interconnect.
+On Thu, 2025-09-18 at 15:52 +0200, Boqun Feng wrote:
+> On Thu, Sep 18, 2025 at 02:30:59PM +0200, Philipp Stanner wrote:
+> [...]
+> > ---
+> > So. =C2=A1Hola!
+> >=20
+> > This is a highly WIP RFC. It's obviously at many places not yet
+> > conforming very well to Rust's standards.
+> >=20
+> > Nevertheless, it has progressed enough that I want to request comments
+> > from the community.
+> >=20
+> > There are a number of TODOs in the code to which I need input.
+> >=20
+> > Notably, it seems (half-)illegal to use a shared static reference to an
+> > Atomic, which I currently use for the dma_fence unit test / docstring
+>=20
+> The `CHECKER` static you mean? If so, it should be a `static CHECKER`
+> instead of `static mut CHECKER`, also for future versions please use
+> LKMM (Linux Kernel Memory Model) atomics [1] instead of Rust native
+> atomics (you probably need to define `CHECKER` as `Atomic<i32>` because
+> AtomicBool is not supported by LKMM and potentially sub-optimial in some
+> cases).
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/xe/tests/xe_dma_buf.c | 12 ++---
- drivers/gpu/drm/xe/xe_dma_buf.c       | 73 ++++++++++++++++++++++++---
- drivers/gpu/drm/xe/xe_dma_buf.h       |  1 -
- drivers/gpu/drm/xe/xe_interconnect.h  | 31 ++++++++++++
- 4 files changed, 104 insertions(+), 13 deletions(-)
- create mode 100644 drivers/gpu/drm/xe/xe_interconnect.h
+Thanks.
 
-diff --git a/drivers/gpu/drm/xe/tests/xe_dma_buf.c b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
-index 5df98de5ba3c..8eaea6c2a3b7 100644
---- a/drivers/gpu/drm/xe/tests/xe_dma_buf.c
-+++ b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
-@@ -210,9 +210,9 @@ static const struct dma_buf_attach_ops nop2p_attach_ops = {
-  */
- static const struct dma_buf_test_params test_params[] = {
- 	{.mem_mask = XE_BO_FLAG_VRAM0,
--	 .attach_ops = &xe_dma_buf_attach_ops},
-+	 .attach_ops = &xe_dma_buf_attach_ops.dma_ops},
- 	{.mem_mask = XE_BO_FLAG_VRAM0 | XE_BO_FLAG_NEEDS_CPU_ACCESS,
--	 .attach_ops = &xe_dma_buf_attach_ops,
-+	 .attach_ops = &xe_dma_buf_attach_ops.dma_ops,
- 	 .force_different_devices = true},
- 
- 	{.mem_mask = XE_BO_FLAG_VRAM0,
-@@ -226,9 +226,9 @@ static const struct dma_buf_test_params test_params[] = {
- 	 .force_different_devices = true},
- 
- 	{.mem_mask = XE_BO_FLAG_SYSTEM,
--	 .attach_ops = &xe_dma_buf_attach_ops},
-+	 .attach_ops = &xe_dma_buf_attach_ops.dma_ops},
- 	{.mem_mask = XE_BO_FLAG_SYSTEM,
--	 .attach_ops = &xe_dma_buf_attach_ops,
-+	 .attach_ops = &xe_dma_buf_attach_ops.dma_ops,
- 	 .force_different_devices = true},
- 
- 	{.mem_mask = XE_BO_FLAG_SYSTEM,
-@@ -242,10 +242,10 @@ static const struct dma_buf_test_params test_params[] = {
- 	 .force_different_devices = true},
- 
- 	{.mem_mask = XE_BO_FLAG_SYSTEM | XE_BO_FLAG_VRAM0,
--	 .attach_ops = &xe_dma_buf_attach_ops},
-+	 .attach_ops = &xe_dma_buf_attach_ops.dma_ops},
- 	{.mem_mask = XE_BO_FLAG_SYSTEM | XE_BO_FLAG_VRAM0 |
- 		     XE_BO_FLAG_NEEDS_CPU_ACCESS,
--	 .attach_ops = &xe_dma_buf_attach_ops,
-+	 .attach_ops = &xe_dma_buf_attach_ops.dma_ops,
- 	 .force_different_devices = true},
- 
- 	{.mem_mask = XE_BO_FLAG_SYSTEM | XE_BO_FLAG_VRAM0,
-diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
-index 54e42960daad..ffb00d54bb9e 100644
---- a/drivers/gpu/drm/xe/xe_dma_buf.c
-+++ b/drivers/gpu/drm/xe/xe_dma_buf.c
-@@ -16,18 +16,49 @@
- #include "tests/xe_test.h"
- #include "xe_bo.h"
- #include "xe_device.h"
-+#include "xe_interconnect.h"
- #include "xe_pm.h"
- #include "xe_ttm_vram_mgr.h"
- #include "xe_vm.h"
- 
- MODULE_IMPORT_NS("DMA_BUF");
- 
-+struct xe_dma_buf_attach_ops {
-+	struct dma_buf_attach_ops dma_ops;
-+	struct xe_interconnect_attach_ops ic_ops;
-+};
-+
-+static const struct xe_dma_buf_attach_ops *
-+to_xe_dma_buf_attach_ops(struct dma_buf_attachment *attach)
-+{
-+	const struct dma_buf_attach_ops *aops = attach->importer_ops;
-+	const struct dma_buf_interconnect_attach_ops *iaops;
-+
-+	if (!aops || !aops->supports_interconnect)
-+		return NULL;
-+
-+	iaops = aops->supports_interconnect(attach, xe_interconnect);
-+	return iaops ? container_of(iaops, struct xe_dma_buf_attach_ops, ic_ops.base) : NULL;
-+}
-+
- static int xe_dma_buf_attach(struct dma_buf *dmabuf,
- 			     struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_object *obj = attach->dmabuf->priv;
-+	const struct xe_dma_buf_attach_ops *xe_attach_ops =
-+		to_xe_dma_buf_attach_ops(attach);
-+
-+	if (xe_attach_ops && xe_attach_ops->ic_ops.allow_ic) {
-+		struct xe_interconnect_attach *xe_attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-+
-+		if (xe_attach) {
-+			xe_attach->base.interconnect = xe_interconnect;
-+			xe_attach->sg_list_replacement = NULL;
-+			attach->interconnect_attach = &xe_attach->base;
-+		}
-+	}
- 
--	if (attach->peer2peer &&
-+	if (!attach->interconnect_attach && attach->peer2peer &&
- 	    pci_p2pdma_distance(to_pci_dev(obj->dev->dev), attach->dev, false) < 0)
- 		attach->peer2peer = false;
- 
-@@ -43,6 +74,7 @@ static void xe_dma_buf_detach(struct dma_buf *dmabuf,
- {
- 	struct drm_gem_object *obj = attach->dmabuf->priv;
- 
-+	kfree(attach->interconnect_attach);
- 	xe_pm_runtime_put(to_xe_device(obj->dev));
- }
- 
-@@ -135,6 +167,11 @@ static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
- 
- 	case XE_PL_VRAM0:
- 	case XE_PL_VRAM1:
-+		if (attach->interconnect_attach &&
-+		    attach->interconnect_attach->interconnect == xe_interconnect) {
-+			/* Map using something else than sglist */
-+			;
-+		}
- 		r = xe_ttm_vram_mgr_alloc_sgt(xe_bo_device(bo),
- 					      bo->ttm.resource, 0,
- 					      bo->ttm.base.size, attach->dev,
-@@ -285,9 +322,28 @@ static void xe_dma_buf_move_notify(struct dma_buf_attachment *attach)
- 	XE_WARN_ON(xe_bo_evict(bo, exec));
- }
- 
--static const struct dma_buf_attach_ops xe_dma_buf_attach_ops = {
--	.allow_peer2peer = true,
--	.move_notify = xe_dma_buf_move_notify
-+static const struct dma_buf_interconnect_attach_ops *
-+xe_dma_buf_supports_interconnect(struct dma_buf_attachment *attach,
-+				 const struct dma_buf_interconnect *interconnect)
-+{
-+	if (interconnect == xe_interconnect) {
-+		return &container_of(attach->importer_ops,
-+				     const struct xe_dma_buf_attach_ops,
-+				     dma_ops)->ic_ops.base;
-+	}
-+
-+	return NULL;
-+}
-+
-+static const struct xe_dma_buf_attach_ops xe_dma_buf_attach_ops = {
-+	.dma_ops = {
-+		.allow_peer2peer = true,
-+		.move_notify = xe_dma_buf_move_notify,
-+		.supports_interconnect = xe_dma_buf_supports_interconnect,
-+	},
-+	.ic_ops = {
-+		.allow_ic = true,
-+	}
- };
- 
- #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
-@@ -336,12 +392,11 @@ struct drm_gem_object *xe_gem_prime_import(struct drm_device *dev,
- 	if (IS_ERR(bo))
- 		return ERR_CAST(bo);
- 
--	attach_ops = &xe_dma_buf_attach_ops;
-+	attach_ops = &xe_dma_buf_attach_ops.dma_ops;
- #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
- 	if (test)
- 		attach_ops = test->attach_ops;
- #endif
--
- 	attach = dma_buf_dynamic_attach(dma_buf, dev->dev, attach_ops, &bo->ttm.base);
- 	if (IS_ERR(attach)) {
- 		obj = ERR_CAST(attach);
-@@ -364,6 +419,12 @@ struct drm_gem_object *xe_gem_prime_import(struct drm_device *dev,
- 	return obj;
- }
- 
-+static const struct dma_buf_interconnect _xe_interconnect = {
-+	.name = "xe_interconnect",
-+};
-+
-+const struct dma_buf_interconnect *xe_interconnect = &_xe_interconnect;
-+
- #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
- #include "tests/xe_dma_buf.c"
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_dma_buf.h b/drivers/gpu/drm/xe/xe_dma_buf.h
-index 861dd28a862c..6b381ce4b7c1 100644
---- a/drivers/gpu/drm/xe/xe_dma_buf.h
-+++ b/drivers/gpu/drm/xe/xe_dma_buf.h
-@@ -11,5 +11,4 @@
- struct dma_buf *xe_gem_prime_export(struct drm_gem_object *obj, int flags);
- struct drm_gem_object *xe_gem_prime_import(struct drm_device *dev,
- 					   struct dma_buf *dma_buf);
--
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_interconnect.h b/drivers/gpu/drm/xe/xe_interconnect.h
-new file mode 100644
-index 000000000000..2b8bc9bf1c8d
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_interconnect.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+#ifndef _XE_INTERCONNECT_H_
-+#define _XE_INTERCONNECT_H_
-+
-+#include <linux/types.h>
-+#include <linux/dma-buf.h>
-+
-+struct device_private_address;
-+
-+/* This file needs to be shared between the importer and exporter of the interconnect */
-+
-+extern const struct dma_buf_interconnect *xe_interconnect;
-+
-+struct xe_interconnect_attach_ops {
-+	struct dma_buf_interconnect_attach_ops base;
-+	/*
-+	 * Here interconnect-private stuff can be added.
-+	 * Like a function to check interconnect possibility.
-+	 */
-+	bool allow_ic;
-+};
-+
-+struct xe_interconnect_attach {
-+	struct dma_buf_interconnect_attach base;
-+	struct device_private_address *sg_list_replacement;
-+};
-+
-+#endif
--- 
-2.51.0
+Thinking about it I realized that for that example code I don't even
+need atomics. So I'll drop them for now.
+
+>=20
+> > test. I'm willing to rework that if someone suggests how.
+> > (Still, shouldn't changing a global Atomic always be legal? It can race=
+,
+> > of course. But that's kind of the point of an atomic)
+> >=20
+> > What I want comments on the most is the design of the callbacks. I thin=
+k
+> > it's a great opportunity to provide Rust drivers with rust-only
+> > callbacks, so that they don't have to bother about the C functions.
+> >=20
+> > dma_fence wise, only the most basic callbacks currently get implemented=
+.
+> > For Nova, AFAICS, we don't need much more than signalling fences and
+> > registering callbacks.
+> >=20
+> >=20
+> > Another, solvable, issue I'm having is designing the
+> > dma_fence_begin_signallin() abstractions. There are TODOs about that in
+> > the code. That should ideally be robust and not racy. So we might want
+> > some sort of synchronized (locked?) way for using that abstraction.
+> >=20
+> >=20
+> > Regarding the manually created spinlock of mine: I so far never need
+> > that spinlock anywhere in Rust and wasn't sure what's then the best way
+> > to pass a "raw" spinlock to C.
+> >=20
+>=20
+> You can use `SpinLock<()>` for this purpose, no need to add new
+> bindings.
+
+The dma_fence C backend needs a spinlock pointer, given to it by the
+driver (so Rust code).
+
+How do I pass a SpinLock<()> to a C function? AFAICS SpinLock doesn't
+implement as_raw(), so I'd have to implement it, wouldn't I?
+
+Or rather, as it looks, I'd have to implement it for SpinLockBackend?
+
+
+P.
+
+>=20
+> [1]: https://lore.kernel.org/rust-for-linux/20250905044141.77868-1-boqun.=
+feng@gmail.com/
+>=20
+> Regards,
+> Boqun
+>=20
+> >=20
+> > So much from my side. Hope to hear from you.
+> >=20
+> > (I've compiled and tested this with the unit test on the current -rc3)
+> >=20
+> > Philipp
+> > ---
+> [...]
 
