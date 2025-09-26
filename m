@@ -2,126 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA542BA2495
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 05:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CB7BA2616
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 06:22:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29B510E02B;
-	Fri, 26 Sep 2025 03:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD86210E9D5;
+	Fri, 26 Sep 2025 04:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IY0hQEii";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FOIoTmV6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3935810E02B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 03:17:03 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58PIQBLR015771
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 03:17:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9f6LSM6OdZg1tUtjh3SpMPAi8kke+aQ/eiH9bqFrAoc=; b=IY0hQEiiUKjWIxlz
- GvvGIamAvxkoqk3lbTXoYxuP4aHFIE9UWsA7aAy+slvo7FTwMZd3gfWIg6hU/9VH
- wCBQjhDxjZIfKR9tKWr8OvDiGSauCiuPczfoMhEFmBnozzfPhq4j2UPHP1DECSgH
- 0CtqodR7Aw/J+D9RB/cNu9rjWTofNI91RD6xrxELmyKZV1W1xobgA6xhH3P/owRc
- wRFheeh/xVhRrPERbBtch9dShWYLyr3b7eUeta6VVLFMWKWZKhQLn4nUzGPAQXyG
- aUg0r9zWQebI/yZVwWdcfHA0TwlBrpRt7u46cG0HTs2ZaP2tcs9n9mJyb1762b4M
- C/+Zyw==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0t95ua-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 03:17:01 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-3309eab0740so444628a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 20:17:01 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB8C10E15A
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 04:22:28 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b33d785de7cso278208866b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 21:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758860546; x=1759465346; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6saHKE8v7y3gcL2pFVLakX6jbgxVNkxceljx6TZ2T70=;
+ b=FOIoTmV6V9Qsip2f1cD3UFvKHXWOkmiNCHwspb1ErKtNBhQZ3LTIg5vNaJIab8a8a0
+ 8o+CxJfd8MHbuvanugFZ8y52PCsbS4BC5HX4zH8KOTplYAIZsbJvwXHBBJO8Z9658MDb
+ TqBD+PFytSIFP8/im4JuNtgsH2YLUQX4qypDupWHrGrpEoMIo19HY0zFynx+GO6dlAF3
+ hUR++wUUi/yDL9d61Ex/9OCvsPKns0PhosXzAY84AofR5SIRgITlNWQ6WK7FqwAxyUhj
+ NjU2N5/dd3QVK0FKyP0mIOt8i4CRYTZiqKOLC2H9R41q7sChVf4COHhkTenHnxTW0L5k
+ tq8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758856621; x=1759461421;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9f6LSM6OdZg1tUtjh3SpMPAi8kke+aQ/eiH9bqFrAoc=;
- b=cQHjNtXZkCI/m/9jqHUeFmc8OKuS2b70OPZB9jds3pIdf4NsjiV3POBaTyj1iZC9tY
- iPv7NWUhTdQgjBZvJ7gCTY4Nu70FJ5/lUDK9j7VBxJcJVnHshUtEhju1FJmmK7lLkf/3
- lXF8L8+Cqd47+3j6Em9nQije3/VQD4a6cKhRaXxIqNq4Cn8GIy9hRxm9P4i4YKsEA+ry
- 7sk6sg9UBgoDZFEMcRlQvlSlqPgcFdfPyhQNq3cC30nriw5/O+k7XDoe5+glLk+lkscG
- D6P+PtFT6KFesSvNtb8QWMnaD+UzP7KrI4SfTx1BRaICULLPjM+TN9Hi1JOWRaByud0S
- V2NA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFKy+h3W7TIAfnMvj6iUsz3R289XI/kZOgbper2B2Qjqir1kvkK8KfvUXIsXW8KOKUcbCKufgCakQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhShg9bszBYGCenEuVNYFM0C311AxGne9YdBk4yamLtF+ZdaZx
- TgIt71nZakRKOXv8TCbDYya7aASqUA+uZpBn3McxbALQ4hYMXXJTtQuM3vycrDULC7snk9dfSXO
- qnSJTois/l0zRiEZBxU4mzSst/VIU3W8igddT/0YDpHQqUcEDxpuPtG9Xge2UCUitw741w4w=
-X-Gm-Gg: ASbGncsYYDCvTf0qiqvNTtdOi9sVfBHsj7ZAKU6/PPtdZxzR7xvo+D1SegWUxsILVnn
- 8XIZDsXj2xWA12oThEWFJ0cTSQ4xBkau5RB2AvtIbgpETXzU2fXbEq1GdA5GTcKmwP5Rcxe+Km8
- Etd8qjexQL/W6Cij1IvVv0fzyyCPTsyC6NhlgcMgmtCAdp2gvgyc9oNwPsYEpxvF8lJBJwHB8nj
- vuvAS9jQuvbKCYHYTuWug+qAVagRy9pbUjP9fTNkOvdBBWnxs94VptBMxcf6Vbe5fuHs6wukLtv
- vK/NZc2EwPQz0IWGhMKGqVdsO2FMMHa6asBNcIY4V8IlR0AmhBE6ZiHNwW6hch/Kk32iLMkoUEA
- 07R3ZoHYg0o0z/v+NgNjaGDSvfRoWYLGW9ZI=
-X-Received: by 2002:a17:90b:3b48:b0:32d:e980:7a70 with SMTP id
- 98e67ed59e1d1-3342a17d006mr3998864a91.0.1758856620630; 
- Thu, 25 Sep 2025 20:17:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEiqzLmVD4byJpS81rkUiJ1Icsy/ExxJQYHMvD+WEtpM3r1cCrKQQ5MrCKcNruiodugOB5rJQ==
-X-Received: by 2002:a17:90b:3b48:b0:32d:e980:7a70 with SMTP id
- 98e67ed59e1d1-3342a17d006mr3998835a91.0.1758856620082; 
- Thu, 25 Sep 2025 20:17:00 -0700 (PDT)
-Received: from [10.133.33.139] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-781023c203dsm3184336b3a.22.2025.09.25.20.16.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Sep 2025 20:16:59 -0700 (PDT)
-Message-ID: <2577fb3e-96bb-4f2e-871d-27395065ef4b@oss.qualcomm.com>
-Date: Fri, 26 Sep 2025 11:16:51 +0800
+ d=1e100.net; s=20230601; t=1758860546; x=1759465346;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6saHKE8v7y3gcL2pFVLakX6jbgxVNkxceljx6TZ2T70=;
+ b=sJOyD3mrUFqtpdTw+UfqskEo1cBE8bQz0IryuwaPsZ+YSfYXVISakWNVAzEC5DsRG9
+ Al1kp8ptF0ktTyKYWl9SlnFreXMpwUXAiUiZeTzi7W/qitITKwigp57ScsF98ekNx6T4
+ NKTT8pJF6UW/E9qRXZmQuMVbOopl3bX4eVwuXB05Q1lMT2hQ9HH0a0yCotElT1vSEv0o
+ eWfF5Mv3ucI1IQjYZ4Ti6NLQT8PiewSktAXRsWFarr6JZkANniUZ6S7HGjuQ8yz4gLzw
+ OEL2qIc4WuDJdcdT+PBabvy5RU6awI5y8zSkEu5V36XQYoyIXUE4+CyvqwxcQxjLpfAV
+ Y9cA==
+X-Gm-Message-State: AOJu0YyR8y32+WCQsdYqYXh3yNaNfu2TAzpB5gXP5vrdqFln1TufZmuW
+ Yx0WQBwPFLNRwttfU8yOpqpsiJg3kz6ZeAhSZ/wsCG0bmJXESVhMYTGlLrCd5tpXmMCCyeBgRaM
+ doSE2ZBju63wJZ3mHfwRTDXNFHYJ1t68=
+X-Gm-Gg: ASbGncuq28LyXsQyYHppBvc5wFE54X3bQGodAp11biACIuiSFBU2siBxeEhbV9czG5Q
+ KNMHnh6P7SG0pDbEen1KWWm8YGEZpw58Nvv+GxvKKpEQdpPm00DFqgVuYo2h5G0nU+i+ud+U0AX
+ 9ADh3Z/TOHZz9SjNRdmy8o85s7KLaQmaorHhBYi1fFXhzBFLrS8RCU1ifa7lGvzyofO3MxyNHxx
+ 0z8tA==
+X-Google-Smtp-Source: AGHT+IGZTAi6DT1z6+587DJEbV3xm9kNdP6C1CTZDGuxoUy/1fygNYaDU74eh8/YF1hzWhdbSc5971CCOlTNEukKm3k=
+X-Received: by 2002:a17:906:6a07:b0:b2c:15aa:ff51 with SMTP id
+ a640c23a62f3a-b34b7cd20dbmr648168666b.14.1758860546252; Thu, 25 Sep 2025
+ 21:22:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/14] phy: qcom: qmp-usbc: Add QCS615 USB/DP PHY
- config and DP mode support
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20250925-add-displayport-support-for-qcs615-platform-v6-0-419fe5963819@oss.qualcomm.com>
- <20250925-add-displayport-support-for-qcs615-platform-v6-12-419fe5963819@oss.qualcomm.com>
- <5dtlqq7x36gb7cmiunoreoe2vftq46pusb75sbol47ceazefpf@lxrx3hhcwhju>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <5dtlqq7x36gb7cmiunoreoe2vftq46pusb75sbol47ceazefpf@lxrx3hhcwhju>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: x0y1ocIpL99MRO5LCcEo5rhOqZ1TDJ9R
-X-Proofpoint-GUID: x0y1ocIpL99MRO5LCcEo5rhOqZ1TDJ9R
-X-Authority-Analysis: v=2.4 cv=Jvz8bc4C c=1 sm=1 tr=0 ts=68d605ae cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=DA7DBj9iRjnvuWfEG8oA:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX3fpBTxvzrggm
- 2tAC+pnmvHhLsApzamD2evOqolr8h1gwryTRzWzN9+6AlZNbUW+wlR+bvEk7ICgnGg/D6nz5Q8U
- kFYtWSacdiLaTAPfaL04A3T5QLoGWC4YbBcD9SnQ2TAybbc1Cp6AGCCuDyrE5BIfp7VpmSFCKd1
- oJ5pcqyoluiNO4V/q1NodRq66nKersSJfDEOZPmUuIGMN0Ix/UEJRen0OBgDb3sXFqbmYRboWdQ
- XlaEOtiFERBkvh+AFbAr1e8HzwlgIckHk2I5IkhAwgV06GYyRYWW1pPAyDqo20l3VQ4dr9v5CAU
- TOGwjYwuUyNTrqnxPrkeccYvZKLyzGbznsI9opkNudOstIDCcFUR6cvHUC2oc/dkzj6sSMufta0
- zV+6ZnEjKihMWgnVrJBHEjMKmHKhvg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_01,2025-09-25_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- suspectscore=0 spamscore=0 priorityscore=1501 adultscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 26 Sep 2025 14:22:14 +1000
+X-Gm-Features: AS18NWDkoDaygCPdummng72PiouEdLbrYJDxgW0DrRhuYo-0kGYuJgXPk7JeUOw
+Message-ID: <CAPM=9tyfHf9jLv36vvc9=sRt0OWk-jTVq8n8uRJvu2O5a9X5bg@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.17-rc8/final
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,41 +79,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Linus,
 
-On 9/26/2025 5:57 AM, Dmitry Baryshkov wrote:
-> On Thu, Sep 25, 2025 at 03:04:58PM +0800, Xiangxu Yin wrote:
->> Add QCS615-specific configuration for USB/DP PHY, including DP init
->> routines, voltage swing tables, and platform data. Add compatible
->> "qcs615-qmp-usb3-dp-phy".
->>
->> Note: SW_PORTSELECT handling for orientation flip is not implemented
->> due to QCS615 fixed-orientation design and non-standard lane mapping.
->>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 407 +++++++++++++++++++++++++++++++
->>  1 file changed, 407 insertions(+)
->> +
->> +static const struct qmp_phy_init_tbl qmp_v2_dp_serdes_tbl_rbr[] = {
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_HSCLK_SEL, 0x2c),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_DEC_START_MODE0, 0x69),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_DIV_FRAC_START1_MODE0, 0x00),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_DIV_FRAC_START2_MODE0, 0x80),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_DIV_FRAC_START3_MODE0, 0x07),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_LOCK_CMP1_MODE0, 0xbf),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_LOCK_CMP2_MODE0, 0x21),
->> +	QMP_PHY_INIT_CFG(QSERDES_COM_LOCK_CMP3_MODE0, 0x00),
->> +	QMP_PHY_INIT_CFG(QSERDES_V2_TX_LANE_MODE_1, 0xc6),
-> Hmm, I just noticed. This register belongs to a _different_ space. As
-> such you can't have it in the COM table.
+Weekly fixes, some fbcon font handling fixes, then amdgpu/xe/i915 with
+a few, and a few misc fixes for other drivers. Seems about right for
+this stage, and I don't know of anything outstanding.
 
+Regards,
+Dave.
 
-Thanks for pointing this out. It likely worked before because the default
-value (0xc6) was sufficient during validation.
+drm-fixes-2025-09-26:
+drm fixes for 6.17-rc8 (or final)
 
-I'll move this configuration into configure_dp_tx() and set it based on
-link_rate.
+fbcon:
+- fix OOB access in font allocation
+- fix integer overflow in font handling
 
+amdgpu:
+- Backlight fix
+- DC preblend fix
+- DCN 3.5 fix
+- Cleanup output_tf_change
 
->> +};
->> +
+xe:
+- Don't expose sysfs attributes not applicable for VFs
+- Fix build with CONFIG_MODULES=3Dn
+- Don't copy pinned kernel bos twice on suspend
+
+i915:
+- Set O_LARGEFILE in __create_shmem()
+- Guard reg_val against a INVALID_TRANSCODER [ddi]
+
+ast:
+- sleeps causing cpu stall fix
+
+panthor:
+- scheduler race condition fix
+
+gma500:
+- NULL ptr deref in hdmi teardown fix
+The following changes since commit 07e27ad16399afcd693be20211b0dfae63e0615f=
+:
+
+  Linux 6.17-rc7 (2025-09-21 15:08:52 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-09-26
+
+for you to fetch changes up to ec73e5984e01bfdf92234eaf5a2c3e54aa67f2aa:
+
+  Merge tag 'drm-xe-fixes-2025-09-25' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2025-09-26 14:12:33 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.17-rc8 (or final)
+
+fbcon:
+- fix OOB access in font allocation
+- fix integer overflow in font handling
+
+amdgpu:
+- Backlight fix
+- DC preblend fix
+- DCN 3.5 fix
+- Cleanup output_tf_change
+
+xe:
+- Don't expose sysfs attributes not applicable for VFs
+- Fix build with CONFIG_MODULES=3Dn
+- Don't copy pinned kernel bos twice on suspend
+
+i915:
+- Set O_LARGEFILE in __create_shmem()
+- Guard reg_val against a INVALID_TRANSCODER [ddi]
+
+ast:
+- sleeps causing cpu stall fix
+
+panthor:
+- scheduler race condition fix
+
+gma500:
+- NULL ptr deref in hdmi teardown fix
+
+----------------------------------------------------------------
+Adri=C3=A1n Larumbe (1):
+      drm/panthor: Defer scheduler entitiy destruction to queue release
+
+Alvin Lee (1):
+      drm/amd/display: Use mpc.preblend flag to indicate preblend
+
+Dave Airlie (4):
+      Merge tag 'amd-drm-fixes-6.17-2025-09-24' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2025-09-25' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'drm-misc-fixes-2025-09-25' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-09-25' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Leo Li (1):
+      drm/amd/display: Init DCN35 clocks from pre-os HW values
+
+Lucas De Marchi (1):
+      drm/xe: Fix build with CONFIG_MODULES=3Dn
+
+Matthew Schwartz (1):
+      drm/amd/display: Only restore backlight after amdgpu_dm_init or dm_re=
+sume
+
+Melissa Wen (1):
+      drm/amd/display: remove output_tf_change flag
+
+Michal Wajdeczko (1):
+      drm/xe/vf: Don't expose sysfs attributes not applicable for VFs
+
+Nirmoy Das (1):
+      drm/ast: Use msleep instead of mdelay for edid read
+
+Samasth Norway Ananda (1):
+      fbcon: fix integer overflow in fbcon_do_set_font
+
+Suraj Kandpal (1):
+      drm/i915/ddi: Guard reg_val against a INVALID_TRANSCODER
+
+Taotao Chen (1):
+      drm/i915: set O_LARGEFILE in __create_shmem()
+
+Thomas Hellstr=C3=B6m (1):
+      drm/xe: Don't copy pinned kernel bos twice on suspend
+
+Thomas Zimmermann (1):
+      fbcon: Fix OOB access in font allocation
+
+Zabelin Nikita (1):
+      drm/gma500: Fix null dereference in hdmi teardown
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  12 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   7 ++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    |   2 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |   2 +-
+ .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 121 +++++++++++++++++=
++++-
+ drivers/gpu/drm/amd/display/dc/dc.h                |   1 -
+ .../drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c    |   6 +-
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  |   6 +-
+ drivers/gpu/drm/ast/ast_dp.c                       |   2 +-
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c             |   2 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   7 ++
+ drivers/gpu/drm/panthor/panthor_sched.c            |   8 +-
+ drivers/gpu/drm/xe/xe_bo_evict.c                   |   4 +-
+ drivers/gpu/drm/xe/xe_configfs.c                   |   2 +-
+ drivers/gpu/drm/xe/xe_device_sysfs.c               |   2 +-
+ drivers/video/fbdev/core/fbcon.c                   |  13 ++-
+ 17 files changed, 167 insertions(+), 35 deletions(-)
