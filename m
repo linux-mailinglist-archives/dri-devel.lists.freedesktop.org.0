@@ -2,68 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC3FBA524D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 22:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F1ABA52C5
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 23:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABDCB10E138;
-	Fri, 26 Sep 2025 20:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA96710E161;
+	Fri, 26 Sep 2025 21:12:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N3TuC0Ma";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oDDFbfx6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20A0B10E138
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 20:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758920388; x=1790456388;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=sNCodXqEmQFaYCfsxt0ELHUv+m60xMT+PRGqW9XnCL4=;
- b=N3TuC0MaF21enBUbnNfi3OrBWIddaQpeMpm2LOSl28Os3C0Fn/K6pQTM
- sD7PibwEOCUuqLGxvse99mjWg3SxObpujDYICQj0KmW4/BLANZf+ce0lq
- l4MUCEvhiM029njs0ajDneTHaNRY2aigynuDCaqHPEOZ6fdIzmBJa/RS4
- QbfBVNp1k7f7WtuI1nZrPxPno8mX8J0yl8Kt+9ORsrYtzczRS9Gg+aF54
- ji+VIMZgFkQzJobcb1jXmoV5l16IYA9jBi98RMiuax9NwpZ7al9Oc+UaB
- 8ZRQjP4WDjE+YN7i5Z5gzu9f/KGltgc30bLMsj8mpee8VSR51Lf2Qd36M g==;
-X-CSE-ConnectionGUID: w6QBi4B4SxCOeDyunnzkJg==
-X-CSE-MsgGUID: urwFYiH7Tdi5j7Z/43136A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61172330"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61172330"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 13:59:47 -0700
-X-CSE-ConnectionGUID: 4heqwK6GSqCBM7+GNuJ6Kg==
-X-CSE-MsgGUID: EpWZWgcdQoW4g7rQqNphGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; d="scan'208";a="177641642"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
- by fmviesa006.fm.intel.com with ESMTP; 26 Sep 2025 13:59:42 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1v2FXY-0006bD-0V;
- Fri, 26 Sep 2025 20:59:40 +0000
-Date: Sat, 27 Sep 2025 04:58:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sukrut Heroorkar <hsukrut3@gmail.com>, Helge Deller <deller@gmx.de>,
- Bernie Thompson <bernie@plugable.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Zsolt Kajtar <soci@c64.rulez.org>,
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com
-Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-Message-ID: <202509270454.lBuADO4l-lkp@intel.com>
-References: <20250924175743.6790-1-hsukrut3@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F77410E167
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 21:12:33 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QEWsjl009523
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 21:12:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 3FOyFoPQNijD2l+0dqxJ33W6HdiVGtsE/7Ls91CPmQo=; b=oDDFbfx6DRr/0ZJP
+ O0/L5MxcHSzURoB3UrXPrXp2gTY9ldY6YwY7OAli6NutHlw23vhAgRwsIxKMnczc
+ XecNH5yNI2rYA4ZAfHI0uQz2Tfa5qUF2pemdyYq89zcM6JcjVu9iZPwU3jIQ4iix
+ 4KiimxM0EU/i32a5jGhgK5GgvQlr9rOol1K0feTuLMjJB3Mbbp9J9DcB/mkqyLJN
+ FFbqnFPmPlOW0NViHHQjL/h/esEmkMfwrCWMLtV23t+h4rLBvJ2qf9HAePv232Xm
+ 0HyG67ELhxsQl8lmF1yhz4hugfK8N7j/kKsuZzW10sIz+Iop4XWXFGgLEeGksFtb
+ pKLBAw==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49drfwhtbr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 21:12:32 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-78117fbda6eso1395614b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 14:12:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758921152; x=1759525952;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3FOyFoPQNijD2l+0dqxJ33W6HdiVGtsE/7Ls91CPmQo=;
+ b=GsJQQY8tighnfgU2CSoEtKi/jpEnOeZzQIFn0vUobjl2j4E7jSy6BTI+B4XkIiYyga
+ hXLaBJXIyXuFv8hf+oa1047FcZshh0t3/kJh/3Z9MqlUJLlM7Ftr80EJVGnk36VJ7N1P
+ OOs+UhqwMVM73hiXv2oWhiJ5h3ytb5Z8htQE6x8tLMD5I68V+Jh3f8aFy0+e6U/pm/SF
+ Myegt1niCkjWyI45I5AvalshEINiNQUs9wbMaMW/ikmm3nxpWCcnWDjRFdOpaLzwTudI
+ EtsGPvgj35MIg44Iupe8lVaNqj6UXGXLRJ4p1ly2qQ/8NkLL9Tr0kGuoqRGcFdK7/iso
+ Fpyw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUq3ZHFA1JQvdFGHaBajqC1DNQxkPOVIZwPkAWIuaJgsLGtiwCVg4KTrKBtVqRBIsZtkEPevC8B+QM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYVulao1qvKtrpoLyzcHhFfj3yP6mNIO5xY3qkF411caKxvSLF
+ xmsAGdOoxQXM5ygGjXmqcFDISsdv7G7D4XeYbbyY9xc/U2ApX/f5eXQa0IENEh8Dbw9b19aPflY
+ SGhNg/mG1B+4dtFLLICocx6CArbXFm9xI0smiePTuagAKz9ERBQOjiVG4XS7ce+o0zs4RLdc=
+X-Gm-Gg: ASbGnctdEqfc+a95rvdnKG60swYf1ZEcruvkZowmq8bCrs/2dV5UrtNMXLhikQe1YVH
+ QSRd+5ctcRT7Fn6eCI4mN6FLMcXNxlCp00vc9e4InW9U9j4v1uGbkhL6nBS6RLWVDAKYEqR0WLi
+ PgW6eMaNvmBbKvhuA3ry8HUuS4pZNgWZ2jtdxkvvNdSpc/g42j/J80vTdm49HcovBFSim5tecbs
+ GOCHUxLFvBU9SEHg71SmkUNSkrXKRygTJIZA2/x1EbxvCkplvNyiohkv8+z9Wi1QO6Sh/HtLFxH
+ yOn9KLFwXDS/OoTB1/Q34BeYP/mtiE3xjDg7cGWaeJY/wS5koFxa1uKAxs0K9g==
+X-Received: by 2002:a17:90b:4f82:b0:32b:6820:6509 with SMTP id
+ 98e67ed59e1d1-3342a2477f2mr8809523a91.9.1758921151699; 
+ Fri, 26 Sep 2025 14:12:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGB82tk94U/8a7SWw2K1U0SpxFbehv0nYG9imfe5zV1lN1Ud9FmdwNwRgs9qRQmPIacdedC2Q==
+X-Received: by 2002:a17:90b:4f82:b0:32b:6820:6509 with SMTP id
+ 98e67ed59e1d1-3342a2477f2mr8809505a91.9.1758921151033; 
+ Fri, 26 Sep 2025 14:12:31 -0700 (PDT)
+Received: from [192.168.1.9] ([117.244.78.79])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-33471d711ecsm6270580a91.4.2025.09.26.14.12.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Sep 2025 14:12:30 -0700 (PDT)
+Message-ID: <d3490029-f532-48c2-a44a-9a7049ecea4d@oss.qualcomm.com>
+Date: Sat, 27 Sep 2025 02:42:25 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/msm: preemption aware hangcheck
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250911-preemption_aware_hangcheck-v1-0-974819876819@gmail.com>
+ <20250911-preemption_aware_hangcheck-v1-2-974819876819@gmail.com>
+ <c08872c9-cdad-4e62-827b-7985cb3b18de@oss.qualcomm.com>
+ <7876a7c5-4b40-4760-bb59-3fbeb5d63f67@gmail.com>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <7876a7c5-4b40-4760-bb59-3fbeb5d63f67@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250924175743.6790-1-hsukrut3@gmail.com>
+X-Proofpoint-ORIG-GUID: i9N7NLUJdFabUTeaeOuwdDvMcRn-DPBu
+X-Authority-Analysis: v=2.4 cv=JKA2csKb c=1 sm=1 tr=0 ts=68d701c1 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=KU03pyq4eEOZfaT5og2c8g==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=pGLkceISAAAA:8 a=hWF9MM9DaS2j8YbFhQAA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: i9N7NLUJdFabUTeaeOuwdDvMcRn-DPBu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDA4OSBTYWx0ZWRfX4ESywfUF0I3M
+ GibswglTSQD910aUjiYgOSqBLua110Qj7udLGuC/yDvhBZe2KSHAA5xdI1XeW9WSizmBxBJcEGm
+ 3L5AjC2XsYOQJV1+aUPE+U5ESLyLEd2nA4SRKxVzveRNXJmtITkor0KcRcLqU1yAl54jROTxV+6
+ aDVLs6zHGiBnjNTTEecl0g9oirliuP+MrYXl2aY3N8sxiEfaYcrJy8WgucoohLovYeYvJgBjdvp
+ DroXQNyDpGHPXUSCUVxEvxBaRXpcBBTdwvMzCdtC8vgxiNPmQn7CLSzUz/Pho9HJCyCnF2W1JXi
+ umq7TirdRpWTiZxwg684ViFJJVhqMuQJCQxKmxQez7005bhHzfmIYYdtwy5amMmKYHHX4x3Cc43
+ jWUoBB0BK0Zl3ybpiwmxC9MoJfdEKw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_07,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 lowpriorityscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509260089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,458 +132,496 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sukrut,
+On 9/18/2025 8:15 PM, Anna Maniscalco wrote:
+> On 9/17/25 5:23 PM, Akhil P Oommen wrote:
+>> On 9/11/2025 10:31 PM, Anna Maniscalco wrote:
+>>> Rework hangcheck code to work well toghether with preemption.
+>>>
+>>> Track the time a job has spent in a ring by storing timestamps of the
+>>> `CP_ALWAYS_ON_CONTEXT` register at the beginning of a job and when
+>>> switching rings as well as reading it back if the ring is currently
+>>> active.
+>>>
+>>> Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  3 +-
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c     |  3 +-
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 28 +++++++++++++++--
+>>>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
+>>>   drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 25 +++++++++++----
+>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c   |  3 +-
+>>>   drivers/gpu/drm/msm/msm_gpu.c             | 51 ++++++++++++++++++++
+>>> +++++------
+>>>   drivers/gpu/drm/msm/msm_gpu.h             |  3 ++
+>>>   drivers/gpu/drm/msm/msm_ringbuffer.h      |  6 ++++
+>>>   9 files changed, 102 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/
+>>> msm/adreno/a5xx_gpu.c
+>>> index
+>>> 4a04dc43a8e6764a113d0ade3dee94bd4c0083af..cb4775a35da0706e571eb27ce617044de84ca118 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>> @@ -1255,7 +1255,8 @@ static void a5xx_fault_detect_irq(struct
+>>> msm_gpu *gpu)
+>>>           gpu_read(gpu, REG_A5XX_CP_IB2_BUFSZ));
+>>>         /* Turn off the hangcheck timer to keep it from bothering us */
+>>> -    timer_delete(&gpu->hangcheck_timer);
+>>> +    for (int i = 0; i < gpu->nr_rings; i++)
+>>> +        timer_delete(&gpu->rb[i]->hangcheck_timer);
+>>>         kthread_queue_work(gpu->worker, &gpu->recover_work);
+>>>   }
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/
+>>> msm/adreno/a6xx_gmu.c
+>>> index
+>>> fc62fef2fed87f065cb8fa4e997abefe4ff11cd5..103c19fa8669f06a6c1627ced1daf2bcd60415db 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+>>> @@ -28,7 +28,8 @@ static void a6xx_gmu_fault(struct a6xx_gmu *gmu)
+>>>       gmu->hung = true;
+>>>         /* Turn off the hangcheck timer while we are resetting */
+>>> -    timer_delete(&gpu->hangcheck_timer);
+>>> +    for (int i = 0; i < gpu->nr_rings; i++)
+>>> +        timer_delete(&gpu->rb[i]->hangcheck_timer);
+>>>         /* Queue the GPU handler because we need to treat this as a
+>>> recovery */
+>>>       kthread_queue_work(gpu->worker, &gpu->recover_work);
+>> I think a helper routine makes sense. We have to disable hangcheck
+>> whenever recover_worker is queued.
+>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/
+>>> msm/adreno/a6xx_gpu.c
+>>> index
+>>> b8f8ae940b55f5578abdbdec6bf1e90a53e721a5..7647e3dfd50db7446589e67949ed08d0a422f543 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>> @@ -465,6 +465,9 @@ static void a7xx_submit(struct msm_gpu *gpu,
+>>> struct msm_gem_submit *submit)
+>>>       get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_COUNTER,
+>>>           rbmemptr_stats(ring, index, alwayson_start));
+>>>   +    get_stats_counter(ring, REG_A6XX_CP_ALWAYS_ON_CONTEXT,
+>>> +        rbmemptr(ring, last_job_start_ctx));
+>>> +
+>>>       OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
+>>>       OUT_RING(ring, CP_SET_THREAD_BOTH);
+>>>   @@ -1816,7 +1819,8 @@ static void a6xx_fault_detect_irq(struct
+>>> msm_gpu *gpu)
+>>>           gpu_read(gpu, REG_A6XX_CP_IB2_REM_SIZE));
+>>>         /* Turn off the hangcheck timer to keep it from bothering us */
+>>> -    timer_delete(&gpu->hangcheck_timer);
+>>> +    for (int i = 0; i < gpu->nr_rings; i++)
+>>> +        timer_delete(&gpu->rb[i]->hangcheck_timer);
+>>>         /* Turn off interrupts to avoid triggering recovery again */
+>>>       gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, 0);
+>>> @@ -1839,7 +1843,8 @@ static void a7xx_sw_fuse_violation_irq(struct
+>>> msm_gpu *gpu)
+>>>        */
+>>>       if (status & (A7XX_CX_MISC_SW_FUSE_VALUE_RAYTRACING |
+>>>                 A7XX_CX_MISC_SW_FUSE_VALUE_LPAC)) {
+>>> -        timer_delete(&gpu->hangcheck_timer);
+>>> +        for (int i = 0; i < gpu->nr_rings; i++)
+>>> +            timer_delete(&gpu->rb[i]->hangcheck_timer);
+>>>             kthread_queue_work(gpu->worker, &gpu->recover_work);
+>>>       }
+>>> @@ -2327,6 +2332,22 @@ static int a6xx_get_timestamp(struct msm_gpu
+>>> *gpu, uint64_t *value)
+>>>       return 0;
+>>>   }
+>>>   +static int a6xx_get_ctx_timestamp(struct msm_ringbuffer *ring,
+>>> uint64_t *value)
+>>> +{
+>>> +    struct msm_gpu *gpu = ring->gpu;
+>>> +    struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>> +    struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>> +
+>>> +    guard(spinlock_irqsave)(&a6xx_gpu->eval_lock);
+>> Is eval_lock initialized anywhere? Also why do we need this?
+> 
+> Yeah eval_lock was introduced in the preemption series. It is
+> initialized in `a6xx_preempt_hw_init`.
+> 
+>>
+>>> +
+>>> +    if (a6xx_in_preempt(a6xx_gpu) || ring != a6xx_gpu->cur_ring)
+>> This will race with preemption. I think we should wrap the preempt state
+>> check and the regread under the preempt lock.
+> 
+> Continuing. The idea is that if in_preempt returns true then it doesn't
+> matter that reading cur_ring might race because we exit early.
+> 
+> On the other end, if it returns false, since we are holding `eval_lock`
+> and the only place where we can go from the PREEMPT_NONE state to any
+> other state is also guarded by that lock, then we are guaranteed that no
+> preemption will occur so long as we are within this function.
+> 
+>>
+>>> +        return -EBUSY;
+>>> +
+>>> +    *value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_CONTEXT);With
+>>> IFPC, we cannot access a GX domain register (CP, RBBM etc) unless
+>> we are certain that the GX is powered up. Could you please test this
+>> series along with the IFPC series? If we hit the right timing, there
+>> should be a GMU fence error in the dmesg. Not sure how easy it is to hit
+>> that timing, but I believe there is a problem here conceptually.
+> 
+> Right. I'll fix this although we don't have a fenced_read helper and I
+> wonder if reading behaves like writing when it comes to waking up the gpu.
+> 
+> So would it work to try the read and poll REG_A6XX_GMU_AHB_FENCE_STATUS
+> like we do when writing?
+Unfortunately, only fenced write is supported as per the hw spec and
+that too for a specific region or registers.
 
-kernel test robot noticed the following build warnings:
+> 
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>>   static struct msm_ringbuffer *a6xx_active_ring(struct msm_gpu *gpu)
+>>>   {
+>>>       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>> @@ -2555,6 +2576,7 @@ static const struct adreno_gpu_funcs funcs = {
+>>>           .get_rptr = a6xx_get_rptr,
+>>>           .progress = a6xx_progress,
+>>>           .sysprof_setup = a6xx_gmu_sysprof_setup,
+>>> +        .get_ctx_timestamp = a6xx_get_ctx_timestamp,
+>>>       },
+>>>       .get_timestamp = a6xx_gmu_get_timestamp,
+>>>   };
+>>> @@ -2584,6 +2606,7 @@ static const struct adreno_gpu_funcs
+>>> funcs_gmuwrapper = {
+>>>           .create_private_vm = a6xx_create_private_vm,
+>>>           .get_rptr = a6xx_get_rptr,
+>>>           .progress = a6xx_progress,
+>>> +        .get_ctx_timestamp = a6xx_get_ctx_timestamp,
+>>>       },
+>>>       .get_timestamp = a6xx_get_timestamp,
+>>>   };
+>>> @@ -2616,6 +2639,7 @@ static const struct adreno_gpu_funcs funcs_a7xx
+>>> = {
+>>>           .get_rptr = a6xx_get_rptr,
+>>>           .progress = a6xx_progress,
+>>>           .sysprof_setup = a6xx_gmu_sysprof_setup,
+>>> +        .get_ctx_timestamp = a6xx_get_ctx_timestamp,
+>>>       },
+>>>       .get_timestamp = a6xx_gmu_get_timestamp,
+>>>   };
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/
+>>> msm/adreno/a6xx_gpu.h
+>>> index
+>>> 0b17d36c36a9567e6afa4269ae7783ed3578e40e..7248d3d38c6d8a06cb4a536043bf4877179447cc 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>> @@ -80,6 +80,7 @@ struct a6xx_gpu {
+>>>       struct drm_gem_object *preempt_postamble_bo;
+>>>       void *preempt_postamble_ptr;
+>>>       uint64_t preempt_postamble_iova;
+>>> +    uint64_t preempt_postamble_cntreset_end;
+>>>       uint64_t preempt_postamble_len;
+>>>       bool postamble_enabled;
+>>>   diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/
+>>> gpu/drm/msm/adreno/a6xx_preempt.c
+>>> index
+>>> afc5f4aa3b17334027f3c20072cc3f059a9733b7..88a65549fa8038d4836eb5aeaea775d679415315 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+>>> @@ -99,11 +99,15 @@ static void a6xx_preempt_timer(struct timer_list *t)
+>>>       kthread_queue_work(gpu->worker, &gpu->recover_work);
+>>>   }
+>>>   -static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu)
+>>> +static void preempt_prepare_postamble(struct a6xx_gpu *a6xx_gpu,
+>>> struct msm_ringbuffer *ring)
+>>>   {
+>>>       u32 *postamble = a6xx_gpu->preempt_postamble_ptr;
+>>> +    uint64_t last_active_ctxcycles;
+>>>       u32 count = 0;
+>>>   +    if (ring)
+>>> +        last_active_ctxcycles = rbmemptr(ring, last_active_ctxcycles);
+>>> +
+>>>       postamble[count++] = PKT7(CP_REG_RMW, 3);
+>>>       postamble[count++] = REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD;
+>>>       postamble[count++] = 0;
+>>> @@ -118,6 +122,15 @@ static void preempt_prepare_postamble(struct
+>>> a6xx_gpu *a6xx_gpu)
+>>>       postamble[count++] = CP_WAIT_REG_MEM_4_MASK(0x1);
+>>>       postamble[count++] = CP_WAIT_REG_MEM_5_DELAY_LOOP_CYCLES(0);
+>>>   +    a6xx_gpu->preempt_postamble_cntreset_end = count;
+>>> +
+>>> +    postamble[count++] = PKT7(ring ? CP_REG_TO_MEM : CP_NOP, 3);
+>>> +    postamble[count++] =
+>>> CP_REG_TO_MEM_0_REG(REG_A6XX_CP_ALWAYS_ON_CONTEXT) |
+>>> +        CP_REG_TO_MEM_0_CNT(2) |
+>>> +        CP_REG_TO_MEM_0_64B;
+>>> +    postamble[count++] = lower_32_bits(last_active_ctxcycles);
+>>> +    postamble[count++] = upper_32_bits(last_active_ctxcycles);
+>>> +
+>>>       a6xx_gpu->preempt_postamble_len = count;
+>>>         a6xx_gpu->postamble_enabled = true;
+>>> @@ -129,9 +142,9 @@ static void preempt_disable_postamble(struct
+>>> a6xx_gpu *a6xx_gpu)
+>>>         /*
+>>>        * Disable the postamble by replacing the first packet header
+>>> with a NOP
+>>> -     * that covers the whole buffer.
+>>> +     * that skips the counters reset part.
+>>>        */
+>>> -    *postamble = PKT7(CP_NOP, (a6xx_gpu->preempt_postamble_len - 1));
+>>> +    *postamble = PKT7(CP_NOP, (a6xx_gpu-
+>>> >preempt_postamble_cntreset_end - 1));
+>>>         a6xx_gpu->postamble_enabled = false;
+>>>   }
+>>> @@ -338,8 +351,8 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
+>>>       /* Enable or disable postamble as needed */
+>>>       sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
+>>>   -    if (!sysprof && !a6xx_gpu->postamble_enabled)
+>>> -        preempt_prepare_postamble(a6xx_gpu);
+>>> +    if (!sysprof)
+>>> +        preempt_prepare_postamble(a6xx_gpu, ring);
+>>>         if (sysprof && a6xx_gpu->postamble_enabled)
+>>>           preempt_disable_postamble(a6xx_gpu);
+>>> @@ -454,7 +467,7 @@ void a6xx_preempt_init(struct msm_gpu *gpu)
+>>>               gpu->vm, &a6xx_gpu->preempt_postamble_bo,
+>>>               &a6xx_gpu->preempt_postamble_iova);
+>>>   -    preempt_prepare_postamble(a6xx_gpu);
+>>> +    preempt_prepare_postamble(a6xx_gpu, NULL);
+>>>         if (IS_ERR(a6xx_gpu->preempt_postamble_ptr))
+>>>           goto fail;
+>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/
+>>> drm/msm/adreno/adreno_gpu.c
+>>> index
+>>> afaa3cfefd357dc0230994c8b5830a14c6d7a352..58f1e2a95bbfb00feb5a3bb91853e6bb533ec631 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>> @@ -334,7 +334,8 @@ int adreno_fault_handler(struct msm_gpu *gpu,
+>>> unsigned long iova, int flags,
+>>>           struct msm_gpu_fault_info fault_info = {};
+>>>             /* Turn off the hangcheck timer to keep it from bothering
+>>> us */
+>>> -        timer_delete(&gpu->hangcheck_timer);
+>>> +        for (int i = 0; i < gpu->nr_rings; i++)
+>>> +            timer_delete(&gpu->rb[i]->hangcheck_timer);
+>>>             fault_info.ttbr0 = info->ttbr0;
+>>>           fault_info.iova  = iova;
+>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/
+>>> msm_gpu.c
+>>> index
+>>> 17759abc46d7d7af4117b1d71f1d5fba6ba0b61c..a3c5073aca1f65e450e0673262e8ca4bc7a5be6f 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+>>> @@ -463,7 +463,9 @@ static void recover_worker(struct kthread_work
+>>> *work)
+>>>       struct drm_device *dev = gpu->dev;
+>>>       struct msm_drm_private *priv = dev->dev_private;
+>>>       struct msm_gem_submit *submit;
+>>> -    struct msm_ringbuffer *cur_ring = gpu->funcs->active_ring(gpu);
+>>> +    struct msm_ringbuffer *cur_ring = gpu->hung_ring ?
+>>> +        gpu->hung_ring : gpu->funcs->active_ring(gpu);
+>>> +    gpu->hung_ring = NULL;
+>>>       char *comm = NULL, *cmd = NULL;
+>>>       struct task_struct *task;
+>>>       int i;
+>>> @@ -613,11 +615,17 @@ void msm_gpu_fault_crashstate_capture(struct
+>>> msm_gpu *gpu, struct msm_gpu_fault_
+>>>       mutex_unlock(&gpu->lock);
+>>>   }
+>>>   -static void hangcheck_timer_reset(struct msm_gpu *gpu)
+>>> +static void hangcheck_ring_timer_reset(struct msm_gpu *gpu, struct
+>>> msm_ringbuffer *ring)
+>>>   {
+>>>       struct msm_drm_private *priv = gpu->dev->dev_private;
+>>> -    mod_timer(&gpu->hangcheck_timer,
+>>> -            round_jiffies_up(jiffies + msecs_to_jiffies(priv-
+>>> >hangcheck_period)));
+>>> +    mod_timer(&ring->hangcheck_timer,
+>>> +              round_jiffies_up(jiffies + msecs_to_jiffies(priv-
+>>> >hangcheck_period)));
+>>> +}
+>>> +
+>>> +static void hangcheck_timer_reset(struct msm_gpu *gpu)
+>>> +{
+>>> +    for (int i = 0; i < gpu->nr_rings; i++)
+>>> +        hangcheck_ring_timer_reset(gpu, gpu->rb[i]);
+>> It triggers my OCD a bit that there are multiple timers flying around
+>> waking up CPU clusters. But this is okay for now I guess. :)
+>>
+>>>   }
+>>>     static bool made_progress(struct msm_gpu *gpu, struct
+>>> msm_ringbuffer *ring)
+>>> @@ -635,11 +643,33 @@ static bool made_progress(struct msm_gpu *gpu,
+>>> struct msm_ringbuffer *ring)
+>>>       return true;
+>>>   }
+>>>   +static bool check_ring_timeout(struct msm_ringbuffer *ring,
+>>> unsigned long timeout)
+>>> +{
+>>> +    struct msm_gpu *gpu = ring->gpu;
+>>> +    struct msm_ringbuffer *curr_ring = gpu->funcs->active_ring(gpu);
+>>> +    u64 start, end;
+>>> +    int ret;
+>>> +
+>>> +    if (!gpu->funcs->get_ctx_timestamp)
+>>> +        return !made_progress(gpu, ring);
+>>> +
+>>> +    start = ring->memptrs->last_job_start_ctx;
+>>> +
+>>> +    if (!gpu->funcs->get_ctx_timestamp(ring, &end))
+>> I suppose you want the other way. ie, if get_ctx_timestamp() returns
+>> -EBUSY, which means gpu is either under preemption or in a different
+>> ring, use the memptr data.
+> You are right, that `!` does not belong there!
+>>
+>>> +        end = ring->memptrs->last_active_ctxcycles;
+>> Assuming my above comment is correct, if GPU is under preemption, there
+>> is a chance that the postamble might not have got executed. So with a
+>> stale 'end' value, the below calc may go wrong?
+>>
+>>> +
+>>> +    if (end >= start)
+>>> +        return (end - start) < timeout;
+>>> +    else
+>>> +        return false;
+>> In case of an infinite shader blocking preemption, wouldn't we always
+>> return false here?
+> Right. Once we fix the above condition this shouldn't be a problem
+> because hangcheck timer will fire on the ring that is stuck so `end`
+> will be read from the register and it should detect the hang.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.17-rc7 next-20250926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+You mean the timer on the outgoing ring? But we won't read the register
+as the preemption is active, right? We read the memptr which has a stale
+'end' value. Since 'end' < 'start', this code will continously report
+"no timeout" to the caller.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sukrut-Heroorkar/fbdev-udlfb-make-CONFIG_FB_DEVICE-optional/20250925-015939
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250924175743.6790-1-hsukrut3%40gmail.com
-patch subject: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-config: x86_64-randconfig-075-20250927 (https://download.01.org/0day-ci/archive/20250927/202509270454.lBuADO4l-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270454.lBuADO4l-lkp@intel.com/reproduce)
+>>
+>> -Akhil> +}
+>>> +
+>>>   static void hangcheck_handler(struct timer_list *t)
+>>>   {
+>>> -    struct msm_gpu *gpu = timer_container_of(gpu, t, hangcheck_timer);
+>>> +    struct msm_ringbuffer *ring = timer_container_of(ring, t,
+>>> hangcheck_timer);
+>>> +    struct msm_gpu *gpu = ring->gpu;
+>>> +    struct msm_drm_private *priv = gpu->dev->dev_private;
+>>>       struct drm_device *dev = gpu->dev;
+>>> -    struct msm_ringbuffer *ring = gpu->funcs->active_ring(gpu);
+>>>       uint32_t fence = ring->memptrs->fence;
+>>>         if (fence != ring->hangcheck_fence) {
+>>> @@ -647,7 +677,7 @@ static void hangcheck_handler(struct timer_list *t)
+>>>           ring->hangcheck_fence = fence;
+>>>           ring->hangcheck_progress_retries = 0;
+>>>       } else if (fence_before(fence, ring->fctx->last_fence) &&
+>>> -            !made_progress(gpu, ring)) {
+>>> +            check_ring_timeout(ring, priv->hangcheck_period *
+>>> 192000)) {
+>>>           /* no progress and not done.. hung! */
+>>>           ring->hangcheck_fence = fence;
+>>>           ring->hangcheck_progress_retries = 0;
+>>> @@ -658,6 +688,7 @@ static void hangcheck_handler(struct timer_list *t)
+>>>           DRM_DEV_ERROR(dev->dev, "%s:     submitted fence: %u\n",
+>>>                   gpu->name, ring->fctx->last_fence);
+>>>   +        gpu->hung_ring = ring;
+>>>           kthread_queue_work(gpu->worker, &gpu->recover_work);
+>>>       }
+>>>   @@ -911,7 +942,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct
+>>> msm_gem_submit *submit)
+>>>       submit->ring->cur_ctx_seqno = submit->queue->ctx->seqno;
+>>>         pm_runtime_put(&gpu->pdev->dev);
+>>> -    hangcheck_timer_reset(gpu);
+>>> +    hangcheck_ring_timer_reset(gpu, submit->ring);
+>> Should we reset hangcheck whenever there is a submission to a random
+>> ring?
+> The idea is that we only reset the timer for that ring. If that ring is
+> stuck presumably whatever applications are running on it will stop
+> submitting eventually since fences won't be signaled and so the timer
+> should run.
+> 
+> That isn't really guaranteed but previously that was assumed.
+> 
+> Do you think this isn't a good assumption to make?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509270454.lBuADO4l-lkp@intel.com/
+I missed that this was per-ring. If there are continous submissions at
+the right interval to the same ring, it can delay the hang check
+detection. I agree that this is an edge case.
 
-All warnings (new ones prefixed by >>):
+It makes sense to reset the timer during the first submit to a ring.
+After that it can reset itself from the timer handler until all submits
+are retired. Would that require a lot of plumbing?
 
-     933 |         dev_dbg(info->dev, "open, user=%d fb_info=%p count=%d\n",
-         |                     ^~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/video/fbdev/udlfb.c:933:9: note: in expansion of macro 'dev_dbg'
-     933 |         dev_dbg(info->dev, "open, user=%d fb_info=%p count=%d\n",
-         |         ^~~~~~~
-   drivers/video/fbdev/udlfb.c: In function 'dlfb_ops_release':
-   drivers/video/fbdev/udlfb.c:986:21: error: 'struct fb_info' has no member named 'dev'
-     986 |         dev_dbg(info->dev, "release, user=%d count=%d\n", user, dlfb->fb_count);
-         |                     ^~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/video/fbdev/udlfb.c:986:9: note: in expansion of macro 'dev_dbg'
-     986 |         dev_dbg(info->dev, "release, user=%d count=%d\n", user, dlfb->fb_count);
-         |         ^~~~~~~
-   drivers/video/fbdev/udlfb.c: In function 'dlfb_ops_blank':
-   drivers/video/fbdev/udlfb.c:1099:21: error: 'struct fb_info' has no member named 'dev'
-    1099 |         dev_dbg(info->dev, "blank, mode %d --> %d\n",
-         |                     ^~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/video/fbdev/udlfb.c:1099:9: note: in expansion of macro 'dev_dbg'
-    1099 |         dev_dbg(info->dev, "blank, mode %d --> %d\n",
-         |         ^~~~~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/usb.h:19,
-                    from drivers/video/fbdev/udlfb.c:19:
-   drivers/video/fbdev/udlfb.c: In function 'dlfb_realloc_framebuffer':
-   drivers/video/fbdev/udlfb.c:1193:37: error: 'struct fb_info' has no member named 'dev'
-    1193 |                         dev_err(info->dev, "Virtual framebuffer alloc failed\n");
-         |                                     ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/video/fbdev/udlfb.c:1193:25: note: in expansion of macro 'dev_err'
-    1193 |                         dev_err(info->dev, "Virtual framebuffer alloc failed\n");
-         |                         ^~~~~~~
-   drivers/video/fbdev/udlfb.c:1217:38: error: 'struct fb_info' has no member named 'dev'
-    1217 |                         dev_info(info->dev,
-         |                                      ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/video/fbdev/udlfb.c:1217:25: note: in expansion of macro 'dev_info'
-    1217 |                         dev_info(info->dev,
-         |                         ^~~~~~~~
-   drivers/video/fbdev/udlfb.c: In function 'dlfb_setup_modes':
-   drivers/video/fbdev/udlfb.c:1251:17: error: 'struct fb_info' has no member named 'dev'
-    1251 |         if (info->dev) {
-         |                 ^~
-   drivers/video/fbdev/udlfb.c:1255:27: error: 'struct fb_info' has no member named 'dev'
-    1255 |                 dev = info->dev;
-         |                           ^~
-   drivers/video/fbdev/udlfb.c:1379:17: error: 'struct fb_info' has no member named 'dev'
-    1379 |         if (info->dev)
-         |                 ^~
-   drivers/video/fbdev/udlfb.c: In function 'dlfb_usb_probe':
-   drivers/video/fbdev/udlfb.c:1720:45: error: 'struct fb_info' has no member named 'dev'
-    1720 |         retval = device_create_bin_file(info->dev, &edid_attr);
-         |                                             ^~
-   drivers/video/fbdev/udlfb.c:1727:31: error: 'struct fb_info' has no member named 'dev'
-    1727 |                  dev_name(info->dev), info->var.xres, info->var.yres,
-         |                               ^~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/video/fbdev/udlfb.c:1725:9: note: in expansion of macro 'dev_info'
-    1725 |         dev_info(info->device,
-         |         ^~~~~~~~
->> drivers/video/fbdev/udlfb.c:1605:40: warning: unused variable 'attr' [-Wunused-variable]
-    1605 |         const struct device_attribute *attr;
-         |                                        ^~~~
->> drivers/video/fbdev/udlfb.c:1604:13: warning: unused variable 'i' [-Wunused-variable]
-    1604 |         int i;
-         |             ^
-   drivers/video/fbdev/udlfb.c: In function 'dlfb_usb_disconnect':
-   drivers/video/fbdev/udlfb.c:1767:36: error: 'struct fb_info' has no member named 'dev'
-    1767 |         device_remove_bin_file(info->dev, &edid_attr);
-         |                                    ^~
-   drivers/video/fbdev/udlfb.c:1746:13: warning: unused variable 'i' [-Wunused-variable]
-    1746 |         int i;
-         |             ^
-   drivers/video/fbdev/udlfb.c: At top level:
->> drivers/video/fbdev/udlfb.c:1468:16: warning: 'metrics_reset_store' defined but not used [-Wunused-function]
-    1468 | static ssize_t metrics_reset_store(struct device *fbdev,
-         |                ^~~~~~~~~~~~~~~~~~~
+Anyway, since we are reworking the hangcheck, probably we can revisit
+every aspect of it in this series. Up to you.
 
+-Akhil
 
-vim +/attr +1605 drivers/video/fbdev/udlfb.c
+> 
+>>
+>> -Akhil
+>>
+>>>   }
+>>>     /*
+>>> @@ -1011,8 +1042,6 @@ int msm_gpu_init(struct drm_device *drm, struct
+>>> platform_device *pdev,
+>>>       if (funcs->progress)
+>>>           priv->hangcheck_period /= 2;
+>>>   -    timer_setup(&gpu->hangcheck_timer, hangcheck_handler, 0);
+>>> -
+>>>       spin_lock_init(&gpu->perf_lock);
+>>>     @@ -1097,6 +1126,8 @@ int msm_gpu_init(struct drm_device *drm,
+>>> struct platform_device *pdev,
+>>>               goto fail;
+>>>           }
+>>>   +        timer_setup(&gpu->rb[i]->hangcheck_timer,
+>>> hangcheck_handler, 0);
+>>> +
+>>>           memptrs += sizeof(struct msm_rbmemptrs);
+>>>           memptrs_iova += sizeof(struct msm_rbmemptrs);
+>>>       }
+>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/
+>>> msm_gpu.h
+>>> index
+>>> a597f2bee30b6370ecc3639bfe1072c85993e789..7bf1b7f4bc4b61338bfa4c1463eb549f8c22d5c3 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gpu.h
+>>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+>>> @@ -93,6 +93,7 @@ struct msm_gpu_funcs {
+>>>        */
+>>>       bool (*progress)(struct msm_gpu *gpu, struct msm_ringbuffer
+>>> *ring);
+>>>       void (*sysprof_setup)(struct msm_gpu *gpu);
+>>> +    int (*get_ctx_timestamp)(struct msm_ringbuffer *ring, uint64_t
+>>> *value);
+>>>   };
+>>>     /* Additional state for iommu faults: */
+>>> @@ -257,6 +258,8 @@ struct msm_gpu {
+>>>       /* work for handling GPU recovery: */
+>>>       struct kthread_work recover_work;
+>>>   +    struct msm_ringbuffer *hung_ring;
+>>> +
+>>>       /** retire_event: notified when submits are retired: */
+>>>       wait_queue_head_t retire_event;
+>>>   diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/
+>>> drm/msm/msm_ringbuffer.h
+>>> index
+>>> d1e49f701c8176e50d2b9a5cca35acee67f75209..316247fb089f26bd657ccf8464a5039e1cd1ac45 100644
+>>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
+>>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
+>>> @@ -37,6 +37,8 @@ struct msm_rbmemptrs {
+>>>       volatile struct msm_gpu_submit_stats
+>>> stats[MSM_GPU_SUBMIT_STATS_COUNT];
+>>>       volatile u64 ttbr0;
+>>>       volatile u32 context_idr;
+>>> +    volatile u64 last_job_start_ctx;
+>>> +    volatile u64 last_active_ctxcycles;
+>>>   };
+>>>     struct msm_cp_state {
+>>> @@ -73,6 +75,10 @@ struct msm_ringbuffer {
+>>>       uint64_t memptrs_iova;
+>>>       struct msm_fence_context *fctx;
+>>>   +    /* Hang and Inactivity Detection:
+>>> +     */
+>>> +    struct timer_list hangcheck_timer;
+>>> +
+>>>       /**
+>>>        * hangcheck_progress_retries:
+>>>        *
+>>>
+> 
+> Best regards,
 
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1467  
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15 @1468  static ssize_t metrics_reset_store(struct device *fbdev,
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1469  			   struct device_attribute *attr,
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1470  			   const char *buf, size_t count)
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1471  {
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1472  	struct fb_info *fb_info = dev_get_drvdata(fbdev);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1473  	struct dlfb_data *dlfb = fb_info->par;
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1474  
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1475  	atomic_set(&dlfb->bytes_rendered, 0);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1476  	atomic_set(&dlfb->bytes_identical, 0);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1477  	atomic_set(&dlfb->bytes_sent, 0);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1478  	atomic_set(&dlfb->cpu_kcycles_used, 0);
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1479  
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1480  	return count;
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1481  }
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1482  
-598b2eedfc3fbe drivers/video/fbdev/udlfb.c   Bhumika Goyal      2017-08-18  1483  static const struct bin_attribute edid_attr = {
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1484  	.attr.name = "edid",
-8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1485  	.attr.mode = 0666,
-b9f03a3cd06c6f drivers/video/udlfb.c         Paul Mundt         2011-01-06  1486  	.size = EDID_LENGTH,
-2fbe82037ab251 drivers/video/fbdev/udlfb.c   Thomas Wei�schuh   2025-05-30  1487  	.read = edid_show,
-2fbe82037ab251 drivers/video/fbdev/udlfb.c   Thomas Wei�schuh   2025-05-30  1488  	.write = edid_store
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1489  };
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1490  
-00bab805c21a22 drivers/video/fbdev/udlfb.c   Sukrut Heroorkar   2025-09-24  1491  #ifdef CONFIG_FB_DEVICE
-fa738a5c4b2a6b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1492  static const struct device_attribute fb_device_attrs[] = {
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1493  	__ATTR_RO(metrics_bytes_rendered),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1494  	__ATTR_RO(metrics_bytes_identical),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1495  	__ATTR_RO(metrics_bytes_sent),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1496  	__ATTR_RO(metrics_cpu_kcycles_used),
-926c11151e3b82 drivers/staging/udlfb/udlfb.c Greg Kroah-Hartman 2010-11-18  1497  	__ATTR(metrics_reset, S_IWUSR, NULL, metrics_reset_store),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1498  };
-00bab805c21a22 drivers/video/fbdev/udlfb.c   Sukrut Heroorkar   2025-09-24  1499  #endif
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1500  
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1501  /*
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1502   * This is necessary before we can communicate with the display controller.
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1503   */
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1504  static int dlfb_select_std_channel(struct dlfb_data *dlfb)
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1505  {
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1506  	int ret;
-45f580c42e5c12 drivers/video/fbdev/udlfb.c   Maksim Salau       2017-05-02  1507  	static const u8 set_def_chn[] = {
-45f580c42e5c12 drivers/video/fbdev/udlfb.c   Maksim Salau       2017-05-02  1508  				0x57, 0xCD, 0xDC, 0xA7,
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1509  				0x1C, 0x88, 0x5E, 0x15,
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1510  				0x60, 0xFE, 0xC6, 0x97,
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1511  				0x16, 0x3D, 0x47, 0xF2  };
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1512  
-537adba4083ed8 drivers/video/fbdev/udlfb.c   Helge Deller       2023-05-19  1513  	ret = usb_control_msg_send(dlfb->udev, 0, NR_USB_REQUEST_CHANNEL,
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1514  			(USB_DIR_OUT | USB_TYPE_VENDOR), 0, 0,
-537adba4083ed8 drivers/video/fbdev/udlfb.c   Helge Deller       2023-05-19  1515  			&set_def_chn, sizeof(set_def_chn), USB_CTRL_SET_TIMEOUT,
-537adba4083ed8 drivers/video/fbdev/udlfb.c   Helge Deller       2023-05-19  1516  			GFP_KERNEL);
-45f580c42e5c12 drivers/video/fbdev/udlfb.c   Maksim Salau       2017-05-02  1517  
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1518  	return ret;
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1519  }
-cc403dc67d10b8 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1520  
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1521  static int dlfb_parse_vendor_descriptor(struct dlfb_data *dlfb,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1522  					struct usb_interface *intf)
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1523  {
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1524  	char *desc;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1525  	char *buf;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1526  	char *desc_end;
-f63cb8d7aa31e7 drivers/video/fbdev/udlfb.c   Alexey Klimov      2015-06-08  1527  	int total_len;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1528  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1529  	buf = kzalloc(MAX_VENDOR_DESCRIPTOR_SIZE, GFP_KERNEL);
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1530  	if (!buf)
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1531  		return false;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1532  	desc = buf;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1533  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1534  	total_len = usb_get_descriptor(interface_to_usbdev(intf),
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1535  					0x5f, /* vendor specific */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1536  					0, desc, MAX_VENDOR_DESCRIPTOR_SIZE);
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1537  
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1538  	/* if not found, look in configuration descriptor */
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1539  	if (total_len < 0) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1540  		if (0 == usb_get_extra_descriptor(intf->cur_altsetting,
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1541  			0x5f, &desc))
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1542  			total_len = (int) desc[0];
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1543  	}
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1544  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1545  	if (total_len > 5) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1546  		dev_info(&intf->dev,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1547  			 "vendor descriptor length: %d data: %11ph\n",
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1548  			 total_len, desc);
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1549  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1550  		if ((desc[0] != total_len) || /* descriptor length */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1551  		    (desc[1] != 0x5f) ||   /* vendor descriptor type */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1552  		    (desc[2] != 0x01) ||   /* version (2 bytes) */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1553  		    (desc[3] != 0x00) ||
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1554  		    (desc[4] != total_len - 2)) /* length after type */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1555  			goto unrecognized;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1556  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1557  		desc_end = desc + total_len;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1558  		desc += 5; /* the fixed header we've already parsed */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1559  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1560  		while (desc < desc_end) {
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1561  			u8 length;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1562  			u16 key;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1563  
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1564  			key = *desc++;
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1565  			key |= (u16)*desc++ << 8;
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1566  			length = *desc++;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1567  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1568  			switch (key) {
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1569  			case 0x0200: { /* max_area */
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1570  				u32 max_area = *desc++;
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1571  				max_area |= (u32)*desc++ << 8;
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1572  				max_area |= (u32)*desc++ << 16;
-115e77597efcc9 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-03-12  1573  				max_area |= (u32)*desc++ << 24;
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1574  				dev_warn(&intf->dev,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1575  					 "DL chip limited to %d pixel modes\n",
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1576  					 max_area);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1577  				dlfb->sku_pixel_limit = max_area;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1578  				break;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1579  			}
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1580  			default:
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1581  				break;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1582  			}
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1583  			desc += length;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1584  		}
-f2e1fc9d5d12fb drivers/video/udlfb.c         Andrew Kephart     2011-08-21  1585  	} else {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1586  		dev_info(&intf->dev, "vendor descriptor not available (%d)\n",
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1587  			 total_len);
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1588  	}
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1589  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1590  	goto success;
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1591  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1592  unrecognized:
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1593  	/* allow udlfb to load for now even if firmware unrecognized */
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1594  	dev_err(&intf->dev, "Unrecognized vendor firmware descriptor\n");
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1595  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1596  success:
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1597  	kfree(buf);
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1598  	return true;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1599  }
-8d21547d3c9c3b drivers/video/udlfb.c         Bernie Thompson    2012-03-01  1600  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1601  static int dlfb_usb_probe(struct usb_interface *intf,
-59277b679f8b5c drivers/staging/udlfb/udlfb.c Bernie Thompson    2009-11-24  1602  			  const struct usb_device_id *id)
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1603  {
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08 @1604  	int i;
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08 @1605  	const struct device_attribute *attr;
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1606  	struct dlfb_data *dlfb;
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1607  	struct fb_info *info;
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1608  	int retval;
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1609  	struct usb_device *usbdev = interface_to_usbdev(intf);
-ed9de4ed398757 drivers/video/fbdev/udlfb.c   Alan Stern         2023-05-19  1610  	static u8 out_ep[] = {OUT_EP_NUM + USB_DIR_OUT, 0};
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1611  
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1612  	/* usb initialization */
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1613  	dlfb = kzalloc(sizeof(*dlfb), GFP_KERNEL);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1614  	if (!dlfb) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1615  		dev_err(&intf->dev, "%s: failed to allocate dlfb\n", __func__);
-c143a559b073ae drivers/video/fbdev/udlfb.c   Dan Carpenter      2018-12-20  1616  		return -ENOMEM;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1617  	}
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1618  
-7433914efd584b drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-07-25  1619  	INIT_LIST_HEAD(&dlfb->deferred_free);
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1620  
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1621  	dlfb->udev = usb_get_dev(usbdev);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1622  	usb_set_intfdata(intf, dlfb);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1623  
-ed9de4ed398757 drivers/video/fbdev/udlfb.c   Alan Stern         2023-05-19  1624  	if (!usb_check_bulk_endpoints(intf, out_ep)) {
-ed9de4ed398757 drivers/video/fbdev/udlfb.c   Alan Stern         2023-05-19  1625  		dev_err(&intf->dev, "Invalid DisplayLink device!\n");
-ed9de4ed398757 drivers/video/fbdev/udlfb.c   Alan Stern         2023-05-19  1626  		retval = -EINVAL;
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1627  		goto error;
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1628  	}
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1629  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1630  	dev_dbg(&intf->dev, "console enable=%d\n", console);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1631  	dev_dbg(&intf->dev, "fb_defio enable=%d\n", fb_defio);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1632  	dev_dbg(&intf->dev, "shadow enable=%d\n", shadow);
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1633  
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1634  	dlfb->sku_pixel_limit = 2048 * 1152; /* default to maximum */
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1635  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1636  	if (!dlfb_parse_vendor_descriptor(dlfb, intf)) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1637  		dev_err(&intf->dev,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1638  			"firmware not recognized, incompatible device?\n");
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1639  		retval = -ENODEV;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1640  		goto error;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1641  	}
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1642  
-664c5f18490f25 drivers/video/udlfb.c         Ben Collins        2012-03-03  1643  	if (pixel_limit) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1644  		dev_warn(&intf->dev,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1645  			 "DL chip limit of %d overridden to %d\n",
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1646  			 dlfb->sku_pixel_limit, pixel_limit);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1647  		dlfb->sku_pixel_limit = pixel_limit;
-664c5f18490f25 drivers/video/udlfb.c         Ben Collins        2012-03-03  1648  	}
-664c5f18490f25 drivers/video/udlfb.c         Ben Collins        2012-03-03  1649  
-664c5f18490f25 drivers/video/udlfb.c         Ben Collins        2012-03-03  1650  
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1651  	/* allocates framebuffer driver structure, not framebuffer memory */
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1652  	info = framebuffer_alloc(0, &dlfb->udev->dev);
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1653  	if (!info) {
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1654  		retval = -ENOMEM;
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1655  		goto error;
-aaf7dbe07385e0 drivers/video/fbdev/udlfb.c   Pavel Skripkin     2022-03-22  1656  	}
-33077b8d3042e0 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1657  
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1658  	dlfb->info = info;
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1659  	info->par = dlfb;
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1660  	info->pseudo_palette = dlfb->pseudo_palette;
-2c29cfc3eaf117 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-07-25  1661  	dlfb->ops = dlfb_ops;
-2c29cfc3eaf117 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-07-25  1662  	info->fbops = &dlfb->ops;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1663  
-babc250e278eac drivers/video/fbdev/udlfb.c   Mikulas Patocka    2019-04-01  1664  	mutex_init(&dlfb->render_mutex);
-6b11f9d8433b47 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2019-04-01  1665  	dlfb_init_damage(dlfb);
-6b11f9d8433b47 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2019-04-01  1666  	spin_lock_init(&dlfb->damage_lock);
-6b11f9d8433b47 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2019-04-01  1667  	INIT_WORK(&dlfb->damage_work, dlfb_damage_work);
-6b11f9d8433b47 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2019-04-01  1668  
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1669  	INIT_LIST_HEAD(&info->modelist);
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1670  
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1671  	if (!dlfb_alloc_urb_list(dlfb, WRITES_IN_FLIGHT, MAX_TRANSFER)) {
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1672  		retval = -ENOMEM;
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1673  		dev_err(&intf->dev, "unable to allocate urb list\n");
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1674  		goto error;
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1675  	}
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1676  
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1677  	/* We don't register a new USB class. Our client interface is dlfbev */
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1678  
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1679  	retval = fb_alloc_cmap(&info->cmap, 256, 0);
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1680  	if (retval < 0) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1681  		dev_err(info->device, "cmap allocation failed: %d\n", retval);
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1682  		goto error;
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1683  	}
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1684  
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1685  	retval = dlfb_setup_modes(dlfb, info, NULL, 0);
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1686  	if (retval != 0) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1687  		dev_err(info->device,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1688  			"unable to find common mode for display and adapter\n");
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1689  		goto error;
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1690  	}
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1691  
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1692  	/* ready to begin using device */
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1693  
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1694  	atomic_set(&dlfb->usb_active, 1);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1695  	dlfb_select_std_channel(dlfb);
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1696  
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1697  	dlfb_ops_check_var(&info->var, info);
-7433914efd584b drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-07-25  1698  	retval = dlfb_ops_set_par(info);
-7433914efd584b drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-07-25  1699  	if (retval)
-7433914efd584b drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-07-25  1700  		goto error;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1701  
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1702  	retval = register_framebuffer(info);
-59277b679f8b5c drivers/staging/udlfb/udlfb.c Bernie Thompson    2009-11-24  1703  	if (retval < 0) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1704  		dev_err(info->device, "unable to register framebuffer: %d\n",
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1705  			retval);
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1706  		goto error;
-7316bc55ed20c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-10  1707  	}
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1708  
-00bab805c21a22 drivers/video/fbdev/udlfb.c   Sukrut Heroorkar   2025-09-24  1709  #ifdef CONFIG_FB_DEVICE
-94cd1ae2fd251f drivers/video/udlfb.c         Liu Yuan           2011-04-18  1710  	for (i = 0; i < ARRAY_SIZE(fb_device_attrs); i++) {
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1711  		attr = &fb_device_attrs[i];
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1712  		retval = device_create_file(info->dev, attr);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1713  		if (retval)
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1714  			dev_warn(info->device,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1715  				 "failed to create '%s' attribute: %d\n",
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1716  				 attr->attr.name, retval);
-94cd1ae2fd251f drivers/video/udlfb.c         Liu Yuan           2011-04-18  1717  	}
-00bab805c21a22 drivers/video/fbdev/udlfb.c   Sukrut Heroorkar   2025-09-24  1718  #endif
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1719  
-94cd1ae2fd251f drivers/video/udlfb.c         Liu Yuan           2011-04-18  1720  	retval = device_create_bin_file(info->dev, &edid_attr);
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1721  	if (retval)
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1722  		dev_warn(info->device, "failed to create '%s' attribute: %d\n",
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1723  			 edid_attr.attr.name, retval);
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1724  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16 @1725  	dev_info(info->device,
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1726  		 "%s is DisplayLink USB device (%dx%d, %dK framebuffer memory)\n",
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16 @1727  		 dev_name(info->dev), info->var.xres, info->var.yres,
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1728  		 ((dlfb->backing_buffer) ?
-18dffdf8913ab9 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1729  		 info->fix.smem_len * 2 : info->fix.smem_len) >> 10);
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1730  	return 0;
-94cd1ae2fd251f drivers/video/udlfb.c         Liu Yuan           2011-04-18  1731  
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1732  error:
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1733  	if (dlfb->info) {
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1734  		dlfb_ops_destroy(dlfb->info);
-c143a559b073ae drivers/video/fbdev/udlfb.c   Dan Carpenter      2018-12-20  1735  	} else {
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1736  		usb_put_dev(dlfb->udev);
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1737  		kfree(dlfb);
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1738  	}
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1739  	return retval;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1740  }
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1741  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1742  static void dlfb_usb_disconnect(struct usb_interface *intf)
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1743  {
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1744  	struct dlfb_data *dlfb;
-59277b679f8b5c drivers/staging/udlfb/udlfb.c Bernie Thompson    2009-11-24  1745  	struct fb_info *info;
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1746  	int i;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1747  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1748  	dlfb = usb_get_intfdata(intf);
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1749  	info = dlfb->info;
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1750  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  1751  	dev_dbg(&intf->dev, "USB disconnect starting\n");
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1752  
-33077b8d3042e0 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1753  	/* we virtualize until all fb clients release. Then we free */
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1754  	dlfb->virtualized = true;
-33077b8d3042e0 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1755  
-33077b8d3042e0 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1756  	/* When non-active we'll update virtual framebuffer, but no new urbs */
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1757  	atomic_set(&dlfb->usb_active, 0);
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1758  
-8d21547d3c9c3b drivers/video/udlfb.c         Bernie Thompson    2012-03-01  1759  	/* this function will wait for all in-flight urbs to complete */
-7ea46206d1706b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-15  1760  	dlfb_free_urb_list(dlfb);
-8d21547d3c9c3b drivers/video/udlfb.c         Bernie Thompson    2012-03-01  1761  
-00bab805c21a22 drivers/video/fbdev/udlfb.c   Sukrut Heroorkar   2025-09-24  1762  #ifdef CONFIG_FB_DEVICE
-33077b8d3042e0 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1763  	/* remove udlfb's sysfs interfaces */
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1764  	for (i = 0; i < ARRAY_SIZE(fb_device_attrs); i++)
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1765  		device_remove_file(info->dev, &fb_device_attrs[i]);
-00bab805c21a22 drivers/video/fbdev/udlfb.c   Sukrut Heroorkar   2025-09-24  1766  #endif
-2469d5dbcafe06 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15 @1767  	device_remove_bin_file(info->dev, &edid_attr);
-8d21547d3c9c3b drivers/video/udlfb.c         Bernie Thompson    2012-03-01  1768  
-68a958a915ca91 drivers/video/fbdev/udlfb.c   Mikulas Patocka    2018-10-08  1769  	unregister_framebuffer(info);
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1770  }
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  1771  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
