@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DD9BA2CE5
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6C7BA2DD8
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 09:58:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92FA10E9DB;
-	Fri, 26 Sep 2025 07:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B2810E06F;
+	Fri, 26 Sep 2025 07:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PpeSZF2P";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CgoVwJRy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3352210E9DB
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:34:09 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56C5F10E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758872050; x=1790408050;
+ t=1758873477; x=1790409477;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=z7of19JO9sgpeNzTCGu8gSVFI4wYGiyFaeZdl5QWmGQ=;
- b=PpeSZF2Padi/L1WOhePJ8l6UHHuU4fbC852QqUSw08CAp69rCnBxSRM5
- 0xgqig0/DkyEsGGyg6RuPrfcKABW9fw+enJeyk1WhfseoM9svQTlajPMo
- jessJDKlFzwi5xhgUJql8WQlfD4RfHTodt+F0spdKzE+viD4amsXtj2PC
- NPFH2DXH7s32AYQAsqfgp1nytChWzqkG5q2Gj1syK3BSqWbQtPdvH7Uuq
- 2ged0WhAYqs0cQL41v+5BdcapfvGmO9D2PGWhvSZ/52b/WOjuNqP0nsHW
- 4ORQ5IrKcZybPlhnn98YA1DnzS9TxSFZavDNwgymH94mWio8PxSvatwD+ Q==;
-X-CSE-ConnectionGUID: hlNlPZtaSAivlz2xSALxIQ==
-X-CSE-MsgGUID: /7NP/a6RQhCh2zQSV1j0sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="60900209"
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="60900209"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 00:34:08 -0700
-X-CSE-ConnectionGUID: m2s2tBZMRvWZu8pNCDo0wQ==
-X-CSE-MsgGUID: ulhKYCILRoWdhMk5A19tcg==
+ bh=wQX2+e06nx3AF2Bto4vUnWY1OLat3znhbrwGZTqgXuM=;
+ b=CgoVwJRyA0rRzGRqwCR+Vlsqt5CZmPIwA6T4Zhd7mGr+QyNGHvF4z5mq
+ dkE6x1vMJpVLGFSInzknYmbj86mYvRwwRobnqy5qv1l6x6v2u4c7eDear
+ SEFNzP6CrlIq11CNtxYUYWEZxj32Enxo65VV5bnf7S6eaFzV2/XjpYqOj
+ 0WYHbIvA7qoDAtsuxS/BzGhe64Yiud7y0gAWMCK8p8UlEqes8j2uKZ95V
+ QjFDlM8CqJoPer5hazrqkNlbrqSKh1BNCA7T+WpUSaZE9lagu6zNY58r1
+ qFVMS4w17XresImxWrHMA9Zd5Sra50oNq8qLYQDrCAyKoo37G6Jbd4AXj w==;
+X-CSE-ConnectionGUID: Nlz4dAbjRiqfztY5+1HkYQ==
+X-CSE-MsgGUID: KGr5lxSnRB2DAG58a2nRow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="72565965"
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="72565965"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 00:57:57 -0700
+X-CSE-ConnectionGUID: LL22015qTLyX1DmBS8ZSSA==
+X-CSE-MsgGUID: U+cJtfFwTqalWDZUNmwPgA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="177934224"
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; d="scan'208";a="178309997"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.10])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 00:34:02 -0700
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 00:57:52 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
- <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 1/2] drm/connector: allow a .destroy callback for
- drmm-allocated connectors
-In-Reply-To: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-1-f0736e1c73ee@bootlin.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, David Airlie
+ <airlied@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen
+ <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] drm/rcar-du: dsi: Convert register bits to
+ BIT()/GENMASK() macros
+In-Reply-To: <20250924003003.91039-1-marek.vasut+renesas@mailbox.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250925-drm-bridge-alloc-getput-bridge-connector-v1-0-f0736e1c73ee@bootlin.com>
- <20250925-drm-bridge-alloc-getput-bridge-connector-v1-1-f0736e1c73ee@bootlin.com>
-Date: Fri, 26 Sep 2025 10:33:59 +0300
-Message-ID: <46ef67d65591bf18d9d9dc4f8b26ca93ed93304f@intel.com>
+References: <20250924003003.91039-1-marek.vasut+renesas@mailbox.org>
+Date: Fri, 26 Sep 2025 10:57:49 +0300
+Message-ID: <3006bc88689b2e04785cef6bd9cf4142ed123ee4@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,57 +78,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 25 Sep 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> Some code is going to need connector-specific cleanup actions (namely
-> drm_bridge_connector will need to put refcounted bridges).
->
-> The .destroy callback is appropriate for this task but it is currently
-> forbidden by drmm_connector_init(). Relax this limitation and document it.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> ---
->
-> The other obvious approach would be adding a separate .cleanup callback for
-> the cleanup-only actions. I tried both, they both apparently work, so any
-> arguments and opinions on which approach is best within the overall DRM
-> design would be very useful here.
-> ---
->  drivers/gpu/drm/drm_connector.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 272d6254ea4784e97ca894ec4d463beebf9fdbf0..bd0220513a23afcb096b0c4c4d2b957b81f21ee1 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -513,7 +513,8 @@ static void drm_connector_cleanup_action(struct drm_device *dev,
->   *
->   * The connector structure should be allocated with drmm_kzalloc().
->   *
-> - * The @drm_connector_funcs.destroy hook must be NULL.
-> + * The @drm_connector_funcs.destroy hook must only do connector-specific
-> + * cleanups if any is needed, not dealloacte the connector.
+On Wed, 24 Sep 2025, Marek Vasut <marek.vasut+renesas@mailbox.org> wrote:
+> Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+> Most of this patchset is boring mechanical conversion.
 
-It slightly feels like a trap to have different semantics for ->destroy
-depending on how the connector was allocated.
+I suggest using the relatively new sized BIT_U32() and GENMASK_U32(), or
+other sizes if your register sizes are different. You'll get better
+compile time protection against mistakes, and sometimes the unsigned
+long type of plain BIT() and GENMASK() can be annoying.
 
 BR,
 Jani.
 
 
->   *
->   * Returns:
->   * Zero on success, error code on failure.
-> @@ -526,9 +527,6 @@ int drmm_connector_init(struct drm_device *dev,
->  {
->  	int ret;
->  
-> -	if (drm_WARN_ON(dev, funcs && funcs->destroy))
-> -		return -EINVAL;
-> -
->  	ret = drm_connector_init_and_add(dev, connector, funcs, connector_type, ddc);
->  	if (ret)
->  		return ret;
+>
+> Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
+> and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+> should not have any adverse effect on existing hardware.
+>
+> Marek Vasut (10):
+>   drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+>   drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+>   drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+>   drm/rcar-du: dsi: Clean up VCLKSET register macros
+>   drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+>   drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+>   drm/rcar-du: dsi: Respect DSI mode flags
+>   drm/rcar-du: dsi: Clean up handling of DRM mode flags
+>   drm/rcar-du: dsi: Convert register bits to BIT() macro
+>   drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
+>
+>  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  89 +++--
+>  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 363 +++++++++---------
+>  2 files changed, 232 insertions(+), 220 deletions(-)
+>
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
 
 -- 
 Jani Nikula, Intel
