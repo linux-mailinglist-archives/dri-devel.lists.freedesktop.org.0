@@ -2,71 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D47BBA301D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 10:48:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F457BA306C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 10:55:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B8010E2FD;
-	Fri, 26 Sep 2025 08:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4F210E22E;
+	Fri, 26 Sep 2025 08:55:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="oewmB4a8";
+	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="i0m3M4JP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0406910E2FD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 08:48:22 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from smtp-relay-internal-1.canonical.com
+ (smtp-relay-internal-1.canonical.com [185.125.188.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA7E10E062
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 08:55:33 +0000 (UTC)
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cY44243YHz9st3;
- Fri, 26 Sep 2025 10:48:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1758876498; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7De3nQZm4PVTdWyp59mYSwiaxDz6Qyhn9LYb89sbxxg=;
- b=oewmB4a8fvEjTKbGN/DAs/n7MBgg9RL9DiXgxDoYuwrY9a6lV0LDNw6hF3+0nR9hXA+6je
- cIvS2p05i6RvXBKFYs0lbZSaRNAiwuQXBdDzYQieJtLK+G1hVZSc3mwBekxUfjGsAKc/gO
- gBYbiN5IhJjZcx1BHnbtZxChkf6rG6VfoNmz6YgzIRPRLnSG1GWtzolVcvfeBNxEtLmEti
- bAwIebXzzwxtIljpNiA/zhyDL+Kmghl8qlMpO+SdCd0Jej/4NjaEV1wOo8kXJ8a8CXBDMw
- aozeNUa8SAm0VHmRzk/Rom5JKxPnlq/MGxCrCSGKG4mk64KC5xilz9uhtTqPBg==
-Message-ID: <12c09de235023c99a8a864b17b2f797c7339bb7b.camel@mailbox.org>
-Subject: Re: [RFC PATCH] rust: sync: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-To: Boqun Feng <boqun.feng@gmail.com>, Philipp Stanner <phasta@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>,  Ingo Molnar <mingo@redhat.com>, Will
- Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
- Stitt <justinstitt@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  Viresh Kumar
- <viresh.kumar@linaro.org>, Asahi Lina <lina+kernel@asahilina.net>, Daniel
- Almeida <daniel.almeida@collabora.com>, Tamir Duberstein
- <tamird@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, FUJITA
- Tomonori <fujita.tomonori@gmail.com>, Krishna Ketan Rai
- <prafulrai522@gmail.com>, Lyude Paul <lyude@redhat.com>, Mitchell Levy
- <levymitchell0@gmail.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
- dri-devel@lists.freedesktop.org
-Date: Fri, 26 Sep 2025 10:48:06 +0200
-In-Reply-To: <aMwOoYe1xGDBg0Zv@tardis-2.local>
-References: <20250918123100.124738-2-phasta@kernel.org>
- <aMwOoYe1xGDBg0Zv@tardis-2.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id D8C4B3FBC1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 08:55:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1758876931;
+ bh=tYbCmz6DRcivudFtizhBKVDUP6a4VtRsDibIRlblbac=;
+ h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+ b=i0m3M4JPqJ4zZhGAHzrWfTf2qPPzzgz459hTHD2jnkHL6ypKJU7YDCbuBSuerQqYL
+ 6cEkC6Gslx43LEQmoBNCSpfoE5U5ACsNZ0grplbpqKWupLr3YJgIDT7eNs/84PIVAO
+ 0rXELlovXChVFvH8uu8LnsfY1ldgThtEbt7rjGAchi3kwC98UQU5veUKU+LMpHKOxr
+ MFPdS0VFNJ7oZYQVDodSR6mghQ3tUWs5ko0ZYxcR0UpA3joNx1jQbe0P5dSSRmWBoK
+ nSho6vo359rHvpePP61KwX9/l9eqFqLCXQmptBgVAfDDjnAOgr1uj+Hru8QOuugGHn
+ qxcwk5SnUswsQ==
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-634b661347bso821174a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 01:55:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758876931; x=1759481731;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tYbCmz6DRcivudFtizhBKVDUP6a4VtRsDibIRlblbac=;
+ b=LW3SoXXGfrReynZIfpU3HvCMKj5aaBkRhOxnIxT99EotOOQ33pFKUZMT/HFLbvYtJ/
+ FvISDt4itCMj5zmXNzZH1Tmp1ZdcCVKbAsXQbgnPNevtLw5wR7X3+8oE4EO973Bu+J7A
+ 5Zizic61eDEsVVRx3osCXEEr1Q46b/XDmx/n8bJz/1oJD82QOvBx+brkcGlklyuHsxy/
+ e3HT8c/NJN5hWxI+tqp0AFl5hwDzC7+ViN51LxXCx0VPT829Y+BQ/vuyTHiQzwjipaaQ
+ GeMGA12XzCIPi+ardCh7onOYH405Jpcl/GKJkDZARN6LfjYioNLGSMNB6evM+ktEf87o
+ DdEQ==
+X-Gm-Message-State: AOJu0Yxjwr1S7ZCXzortHRG0x7taB8GPvlhTwCG9792F2wGP89+cUNw5
+ SRa/0AWp0WIwviytyUYfzzJDA7m+e2uJoyqMhk7RctOxWTySkWEIs6ov6sbzAzXv+ziirUG197S
+ NQOQPUHXAXaZUePsU/3d806I3GG1DIyQmTXaixMPhhp1UB/h7ZBHuBJVLOXbKchaneocA56DM+d
+ sIOqrCz75FBit3TOJ0lE1f
+X-Gm-Gg: ASbGncuFGo9Drf221R8YzG++IqejtqcmrOlL7xi4XgnKcbdNeToiYdUtxkoMLY7H5gM
+ rO6/wCWMdctK9vPIrtbSTRmDX8kGfxu6QeiK4fWJbsxTkcMhLtkNSxdX+wPvrKQoFx9OK/tLfXs
+ WMcZyF6KDlphJGGKPpNneKufRbDTjky8A8XVS8OHiHU2NEDNNrvsl+wjKh3kaQOFLuK+mEINk63
+ 8YHu3oZ6dbeLFq/bb/fZZY2cuQ8XB/SNep+cwjMlhJkFv6HIY6TLZrz65i0hYJ2Naro7tI6aQ3Y
+ JDlUvGSxSk1oizkX4VRElhF32+jJCWu8DHystCcTy6TCXVxMXq1AhwPf
+X-Received: by 2002:a17:906:c145:b0:b34:103b:484c with SMTP id
+ a640c23a62f3a-b34b9d64ae1mr775382666b.16.1758876931115; 
+ Fri, 26 Sep 2025 01:55:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJnUsWRMqCnVW0L6UsqhW6GfmZPqDaS51X9cSqZ4/iz2tBwZKu7NnpsYjonEaYorYV4TOxHg==
+X-Received: by 2002:a17:906:c145:b0:b34:103b:484c with SMTP id
+ a640c23a62f3a-b34b9d64ae1mr775379766b.16.1758876930707; 
+ Fri, 26 Sep 2025 01:55:30 -0700 (PDT)
+Received: from localhost.localdomain ([103.155.100.15])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b35446f7746sm328087966b.59.2025.09.26.01.55.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Sep 2025 01:55:30 -0700 (PDT)
+From: Aaron Ma <aaron.ma@canonical.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, suraj.kandpal@intel.com, imre.deak@intel.com,
+ joonas.lahtinen@linux.intel.com, aaron.ma@canonical.com
+Subject: [PATCH 1/2] drm/dp: Add drm_edp_backlight_get_level
+Date: Fri, 26 Sep 2025 16:54:00 +0800
+Message-ID: <20250926085401.2808634-1-aaron.ma@canonical.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MBO-RS-ID: dcc294d54bd9f90528a
-X-MBO-RS-META: c53m4ic87syjzwty5tfmxisedsq4b4ff
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,94 +94,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-09-18 at 15:52 +0200, Boqun Feng wrote:
-> On Thu, Sep 18, 2025 at 02:30:59PM +0200, Philipp Stanner wrote:
-> [...]
-> > ---
-> > So. =C2=A1Hola!
-> >=20
-> > This is a highly WIP RFC. It's obviously at many places not yet
-> > conforming very well to Rust's standards.
-> >=20
-> > Nevertheless, it has progressed enough that I want to request comments
-> > from the community.
-> >=20
-> > There are a number of TODOs in the code to which I need input.
-> >=20
-> > Notably, it seems (half-)illegal to use a shared static reference to an
-> > Atomic, which I currently use for the dma_fence unit test / docstring
->=20
-> The `CHECKER` static you mean? If so, it should be a `static CHECKER`
-> instead of `static mut CHECKER`, also for future versions please use
-> LKMM (Linux Kernel Memory Model) atomics [1] instead of Rust native
-> atomics (you probably need to define `CHECKER` as `Atomic<i32>` because
-> AtomicBool is not supported by LKMM and potentially sub-optimial in some
-> cases).
+Implement drm_edp_backlight_get_level() to read the current
+backlight brightness level from eDP DPCD registers via AUX channel.
 
-Thanks.
+Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c | 52 +++++++++++++++++++++++++
+ include/drm/display/drm_dp_helper.h     |  1 +
+ 2 files changed, 53 insertions(+)
 
-Thinking about it I realized that for that example code I don't even
-need atomics. So I'll drop them for now.
-
->=20
-> > test. I'm willing to rework that if someone suggests how.
-> > (Still, shouldn't changing a global Atomic always be legal? It can race=
-,
-> > of course. But that's kind of the point of an atomic)
-> >=20
-> > What I want comments on the most is the design of the callbacks. I thin=
-k
-> > it's a great opportunity to provide Rust drivers with rust-only
-> > callbacks, so that they don't have to bother about the C functions.
-> >=20
-> > dma_fence wise, only the most basic callbacks currently get implemented=
-.
-> > For Nova, AFAICS, we don't need much more than signalling fences and
-> > registering callbacks.
-> >=20
-> >=20
-> > Another, solvable, issue I'm having is designing the
-> > dma_fence_begin_signallin() abstractions. There are TODOs about that in
-> > the code. That should ideally be robust and not racy. So we might want
-> > some sort of synchronized (locked?) way for using that abstraction.
-> >=20
-> >=20
-> > Regarding the manually created spinlock of mine: I so far never need
-> > that spinlock anywhere in Rust and wasn't sure what's then the best way
-> > to pass a "raw" spinlock to C.
-> >=20
->=20
-> You can use `SpinLock<()>` for this purpose, no need to add new
-> bindings.
-
-The dma_fence C backend needs a spinlock pointer, given to it by the
-driver (so Rust code).
-
-How do I pass a SpinLock<()> to a C function? AFAICS SpinLock doesn't
-implement as_raw(), so I'd have to implement it, wouldn't I?
-
-Or rather, as it looks, I'd have to implement it for SpinLockBackend?
-
-
-P.
-
->=20
-> [1]: https://lore.kernel.org/rust-for-linux/20250905044141.77868-1-boqun.=
-feng@gmail.com/
->=20
-> Regards,
-> Boqun
->=20
-> >=20
-> > So much from my side. Hope to hear from you.
-> >=20
-> > (I've compiled and tested this with the unit test on the current -rc3)
-> >=20
-> > Philipp
-> > ---
-> [...]
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 1ecc3df7e3167..0cfb357ebd9e2 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -3945,6 +3945,58 @@ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc)
+ }
+ EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
+ 
++/**
++ * drm_edp_backlight_get_level - Get the backlight level of eDP DPCD via AUX
++ * @aux: The DP aux device
++ * @bl: Backlight capability info from the panel
++ *
++ * Reads the current backlight brightness level from luminance mode
++ * (24-bit value in nits) or DPCD AUX mode(16-bit and 8-bit modes).
++ *
++ * Returns: Current backlight level.
++ */
++u32 drm_edp_backlight_get_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl)
++{
++	int ret;
++	u8 buf[3] = { 0 };
++	u32 level = 0;
++
++	if (!(bl->aux_set || bl->luminance_set))
++		return 0;
++
++	if (bl->luminance_set) {
++		ret = drm_dp_dpcd_read(aux, DP_EDP_PANEL_TARGET_LUMINANCE_VALUE, buf, sizeof(buf));
++		if (ret < 0) {
++			DRM_DEV_ERROR(aux->drm_dev->dev,
++				      "%s: Failed to read luminance value: %d\n",
++				      aux->name, ret);
++			return 0;
++		}
++		level = (buf[2] << 16 | buf[1] << 8 | buf[0]) / 1000;
++	} else if (bl->lsb_reg_used) {
++		ret = drm_dp_dpcd_read(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, 2);
++		if (ret < 0) {
++			DRM_DEV_ERROR(aux->drm_dev->dev,
++				      "%s: Failed to read backlight level: %d\n",
++				      aux->name, ret);
++			return 0;
++		}
++		level = buf[0] << 8 | buf[1];
++	} else {
++		ret = drm_dp_dpcd_read(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, 1);
++		if (ret < 0) {
++			DRM_DEV_ERROR(aux->drm_dev->dev,
++				      "%s: Failed to read backlight level: %d\n",
++				      aux->name, ret);
++			return 0;
++		}
++		level = buf[0];
++	}
++
++	return level;
++}
++EXPORT_SYMBOL(drm_edp_backlight_get_level);
++
+ /**
+  * drm_edp_backlight_set_level() - Set the backlight level of an eDP panel via AUX
+  * @aux: The DP AUX channel to use
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 87caa4f1fdb86..0b045a47ae573 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -864,6 +864,7 @@ drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl
+ 		       u32 max_luminance,
+ 		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
+ 		       u32 *current_level, u8 *current_mode, bool need_luminance);
++u32 drm_edp_backlight_get_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl);
+ int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+ 				u32 level);
+ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+-- 
+2.43.0
 
