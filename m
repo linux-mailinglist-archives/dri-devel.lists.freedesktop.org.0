@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C2BBA4863
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 18:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D620BA4868
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 18:01:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86B3410EA94;
-	Fri, 26 Sep 2025 16:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1D910EA8F;
+	Fri, 26 Sep 2025 16:01:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pSEdxGvo";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YPFU0VV8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4D110EA92
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 16:00:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76FBF10EA92
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 16:00:50 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 35C8C4E40E0C;
- Fri, 26 Sep 2025 16:00:47 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 557214E40E0D;
+ Fri, 26 Sep 2025 16:00:49 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0C058606B5;
- Fri, 26 Sep 2025 16:00:47 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 2A51E606B5;
+ Fri, 26 Sep 2025 16:00:49 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 927C4102F197A; 
- Fri, 26 Sep 2025 18:00:44 +0200 (CEST)
+ with ESMTPSA id A0758102F197D; 
+ Fri, 26 Sep 2025 18:00:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758902446; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758902448; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=Pyl7McX8p/BvXq+1eS++mIsDEQYJnykZVE13rAURX84=;
- b=pSEdxGvoMSA2wLwDyKPNC11bCZHACQd7041B62ZaVy8r3Cin3eZ6ivrLAgkw51kf5hTl/B
- /eVefzTFdgRc9Gw3dJns3lX5lEwyvV4IuNjrkIqLWUAbUJvcZpHKm4fpAQ6UyaaJxieb7q
- Ziy+KKKwAqPnm9o15Y/3FWc+litHwWYSYXl+cZRZEQkOPJIzYtnhCdEUIIkPiiP8ahq380
- QuLFg/7RnbvTMFRC46BHyEdb7kkPjDBCpdJEeHmQLRzPTFFcArGE6PsAuG4+Wjh00usNCY
- kVbO5WBYl+d2Vn5fS75bXtrlpKJdLFtcPex4N2qgu40POPOYIzvnLxdADx4IGA==
+ bh=ff9fZeQb1F7MsGgDHiibGZyIrv+Z1+eAxMY8Mv7A+RM=;
+ b=YPFU0VV8h/9XJmajQkQbiSnoYqjzbO/+CZRytTgjsHNm1mRgcjZoBdvtsRlhxghUlK58l1
+ RqEbEpBV1lsTnUwOZXnDKfEJT+TP0UfzQLp5ucnmcC0T2DtKkO/Z3z896+/RUv2cDwf41I
+ YmNUjxgdE2AF7cPDcc0QV5z4EVBzM1kWcZ/6o9uDCIIMomPYQgUO5gj1jRhMmvGgB2aJNu
+ 6XywxGEOd1EcoR3+dQsS1qDBCIuU1m+Q/SsT6+3wziFzDHmLmVLhXmcQV20QloNVhLvmd0
+ FVeH6GXFPhoeMgJyYkGDnxuYNumPBDt0hampa7FY9HFMgWPLRBuGSIqevnJtmA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 26 Sep 2025 17:59:43 +0200
-Subject: [PATCH 2/7] drm/encoder: drm_encoder_cleanup: take chain mutex
- while tearing down
+Date: Fri, 26 Sep 2025 17:59:44 +0200
+Subject: [PATCH 3/7] drm/bridge: lock the encoder bridge chain mutex during
+ insertion
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-2-23b62c47356a@bootlin.com>
+Message-Id: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-3-23b62c47356a@bootlin.com>
 References: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-0-23b62c47356a@bootlin.com>
 In-Reply-To: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-0-23b62c47356a@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -71,31 +71,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_encoder_cleanup() modifies the encoder chain by removing bridges via
-drm_bridge_detach(). Protect this whole operation by taking the mutex, so
-any users iterating over the chain will not access it during the change.
+drm_bridge_attach() modifies the encoder bridge chain, so take a mutex
+around such operations to allow users of the chain to protect themselves
+from chain modifications while iterating.
+
+This change does not apply to drm_bridge_detach() because:
+ * only the drm_encoder.c calls it, not bridge drivers (unlike
+   drm_bridge_attach())
+ * the only drm_bridge_detach() caller is drm_encoder_cleanup() which
+   already locks the mutex for the entire cleanup loop, thus additionally
+   locking it here would deadlock
+ * drm_bridge_detach() is recursively calling itself along the chain, so
+   care would be needed to avoid deadlocks
+Add a comment to clarify that is intended.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_encoder.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-index 3261f142baea30c516499d23dbf8d0acf5952cd6..3a04bedf9b759acd6826864b7f2cc9b861a8f170 100644
---- a/drivers/gpu/drm/drm_encoder.c
-+++ b/drivers/gpu/drm/drm_encoder.c
-@@ -195,9 +195,11 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
- 	 * the indices on the drm_encoder after us in the encoder_list.
- 	 */
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 630b5e6594e0affad9ba48791207c7b403da5db8..90e467cf91a134342c80d2f958b928472aaf0d8b 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -453,10 +453,12 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 	bridge->dev = encoder->dev;
+ 	bridge->encoder = encoder;
  
-+	mutex_lock(&encoder->bridge_chain_mutex);
- 	list_for_each_entry_safe(bridge, next, &encoder->bridge_chain,
- 				 chain_node)
- 		drm_bridge_detach(bridge);
-+	mutex_unlock(&encoder->bridge_chain_mutex);
++	drm_encoder_chain_lock(encoder);
+ 	if (previous)
+ 		list_add(&bridge->chain_node, &previous->chain_node);
+ 	else
+ 		list_add(&bridge->chain_node, &encoder->bridge_chain);
++	drm_encoder_chain_unlock(encoder);
  
- 	drm_mode_object_unregister(dev, &encoder->base);
- 	kfree(encoder->name);
+ 	if (bridge->funcs->attach) {
+ 		ret = bridge->funcs->attach(bridge, encoder, flags);
+@@ -487,7 +489,9 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ err_reset_bridge:
+ 	bridge->dev = NULL;
+ 	bridge->encoder = NULL;
++	drm_encoder_chain_lock(encoder);
+ 	list_del(&bridge->chain_node);
++	drm_encoder_chain_unlock(encoder);
+ 
+ 	if (ret != -EPROBE_DEFER)
+ 		DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+@@ -503,6 +507,11 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ }
+ EXPORT_SYMBOL(drm_bridge_attach);
+ 
++/*
++ * Invoked by the encoder during encoder cleanup in drm_encoder_cleanup(),
++ * so should generally *not* be called by driver code. As opposed to
++ * drm_bridge_attach(), does not lock the encoder chain mutex.
++ */
+ void drm_bridge_detach(struct drm_bridge *bridge)
+ {
+ 	if (WARN_ON(!bridge))
 
 -- 
 2.51.0
