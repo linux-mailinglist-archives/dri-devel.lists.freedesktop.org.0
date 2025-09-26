@@ -2,169 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698BFBA2335
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 04:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA542BA2495
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 05:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A60710E2F1;
-	Fri, 26 Sep 2025 02:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29B510E02B;
+	Fri, 26 Sep 2025 03:17:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hJDKeG61";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IY0hQEii";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010055.outbound.protection.outlook.com [52.101.56.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D88710E2F1;
- Fri, 26 Sep 2025 02:21:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ehqRZDpWVqHIcoAId3EqbV9WiUcZtA7j/lXKhgCaiwjXxteKr0Uj1JoZg4RDeD3RspgqJrejnnDl1yh1Ia+54DutTeG+bUTwF5dBQcVFlz2M+11cVYEMoJzN9ClBLR8DEsOUgFwObiZcXidz8ugJ/m1mFWEGX4zpmitMBcpbDPKhG+mfwQoxboQv7/m9I42ZiEth2Uiklxd3P+7jQSrqJn0txSlfmPaM3rFItvmCf+zD1Pn2CHy0/V6kDVkQQo265u1snbbFIgMLbglZBX2Jgx8cfTQWSB89xMljGvrr7tFvlb7pfg7ckBOoov6F0Yxn3U5dN/oRd73PIXGCvBJPDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P9oQ6/A/LvdWCQ+zL/0JKfQLgpzYxXBTqNWDyPf5nAA=;
- b=ki+ONK5gp3vBNppIsW/f9bscTO52kAcT1SimIhUItBFc5CuGMoVCnjbhCO/Fi6aQMkR/sELLiQy5whccbF9MOzlYM6pbkGFR85ToklEyucYdcJMIE661usEq2HFVPukxppnOPVA0WgoIsmtz9tkVHTWW+M05WYodzuuNsGoRK3Sl/34wDooXRvZ/PjfPOHZx/u/iTBgPN6b+p4bh55ODhQLsqySXUhuLz8TZuN6cBtWEVtuhQ9cxUA3XPe99+PhnN4bOsfiGRct6vyZga2KBcLiHxkucuzdlIcEP8NsqQhlNLRj+L740UR03FROjPXN0p+8YgM85LBANj0HjYBK7pQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P9oQ6/A/LvdWCQ+zL/0JKfQLgpzYxXBTqNWDyPf5nAA=;
- b=hJDKeG61k14gEqonXUFvOouRbTeCtB6GF18QIL9UhxhXNISt5TRv8gwsk+Loi3WR4C0rf6DVeNSyJgVoVDYiPOA8o/mulNvS9i6eowpic88Fq0m4/eZLnpyC5NncUCwGElOs/7SIfMQ7etvuAoP6sQDfDhlFQ55T4DIFrcXP9ghSHoJngHC6LZ1+wUT3sqW0eyUgV5a1UEYUfZSlrd1NQYjZcVudaepMBtjZJuUBoJ6+pSsmsnKyNiHiidRzfZdnwFXzl+XG1fDTiLXiUwOiEB92nLmb0bYEczDfId2pn6VE8uhATF/0A324Z82dgi8Ox6SvAIoNBZw7Hykhy0mIag==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SJ1PR12MB6097.namprd12.prod.outlook.com (2603:10b6:a03:488::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Fri, 26 Sep
- 2025 02:20:28 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9137.018; Fri, 26 Sep 2025
- 02:20:28 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Sep 2025 11:20:25 +0900
-Message-Id: <DD2DFKZTFIGS.2HDVZRV6WGXHG@nvidia.com>
-Subject: Re: [PATCH v2 05/10] gpu: nova-core: gsp: Add GSP command queue
- handling
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alistair Popple" <apopple@nvidia.com>, "Lyude Paul" <lyude@redhat.com>
-Cc: <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>, <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250922113026.3083103-1-apopple@nvidia.com>
- <20250922113026.3083103-6-apopple@nvidia.com>
- <e95c59cc72145c05380d0d81d767c6ce97fbbf0a.camel@redhat.com>
- <fiwv6movnoliptvjdlxzx4rggv5a7mid4zyvmqowvw6kt5auhh@r4dmizzmykwv>
-In-Reply-To: <fiwv6movnoliptvjdlxzx4rggv5a7mid4zyvmqowvw6kt5auhh@r4dmizzmykwv>
-X-ClientProxiedBy: TYCP286CA0098.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b4::19) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3935810E02B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 03:17:03 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58PIQBLR015771
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 03:17:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9f6LSM6OdZg1tUtjh3SpMPAi8kke+aQ/eiH9bqFrAoc=; b=IY0hQEiiUKjWIxlz
+ GvvGIamAvxkoqk3lbTXoYxuP4aHFIE9UWsA7aAy+slvo7FTwMZd3gfWIg6hU/9VH
+ wCBQjhDxjZIfKR9tKWr8OvDiGSauCiuPczfoMhEFmBnozzfPhq4j2UPHP1DECSgH
+ 0CtqodR7Aw/J+D9RB/cNu9rjWTofNI91RD6xrxELmyKZV1W1xobgA6xhH3P/owRc
+ wRFheeh/xVhRrPERbBtch9dShWYLyr3b7eUeta6VVLFMWKWZKhQLn4nUzGPAQXyG
+ aUg0r9zWQebI/yZVwWdcfHA0TwlBrpRt7u46cG0HTs2ZaP2tcs9n9mJyb1762b4M
+ C/+Zyw==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0t95ua-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 03:17:01 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-3309eab0740so444628a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Sep 2025 20:17:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758856621; x=1759461421;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=9f6LSM6OdZg1tUtjh3SpMPAi8kke+aQ/eiH9bqFrAoc=;
+ b=cQHjNtXZkCI/m/9jqHUeFmc8OKuS2b70OPZB9jds3pIdf4NsjiV3POBaTyj1iZC9tY
+ iPv7NWUhTdQgjBZvJ7gCTY4Nu70FJ5/lUDK9j7VBxJcJVnHshUtEhju1FJmmK7lLkf/3
+ lXF8L8+Cqd47+3j6Em9nQije3/VQD4a6cKhRaXxIqNq4Cn8GIy9hRxm9P4i4YKsEA+ry
+ 7sk6sg9UBgoDZFEMcRlQvlSlqPgcFdfPyhQNq3cC30nriw5/O+k7XDoe5+glLk+lkscG
+ D6P+PtFT6KFesSvNtb8QWMnaD+UzP7KrI4SfTx1BRaICULLPjM+TN9Hi1JOWRaByud0S
+ V2NA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFKy+h3W7TIAfnMvj6iUsz3R289XI/kZOgbper2B2Qjqir1kvkK8KfvUXIsXW8KOKUcbCKufgCakQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhShg9bszBYGCenEuVNYFM0C311AxGne9YdBk4yamLtF+ZdaZx
+ TgIt71nZakRKOXv8TCbDYya7aASqUA+uZpBn3McxbALQ4hYMXXJTtQuM3vycrDULC7snk9dfSXO
+ qnSJTois/l0zRiEZBxU4mzSst/VIU3W8igddT/0YDpHQqUcEDxpuPtG9Xge2UCUitw741w4w=
+X-Gm-Gg: ASbGncsYYDCvTf0qiqvNTtdOi9sVfBHsj7ZAKU6/PPtdZxzR7xvo+D1SegWUxsILVnn
+ 8XIZDsXj2xWA12oThEWFJ0cTSQ4xBkau5RB2AvtIbgpETXzU2fXbEq1GdA5GTcKmwP5Rcxe+Km8
+ Etd8qjexQL/W6Cij1IvVv0fzyyCPTsyC6NhlgcMgmtCAdp2gvgyc9oNwPsYEpxvF8lJBJwHB8nj
+ vuvAS9jQuvbKCYHYTuWug+qAVagRy9pbUjP9fTNkOvdBBWnxs94VptBMxcf6Vbe5fuHs6wukLtv
+ vK/NZc2EwPQz0IWGhMKGqVdsO2FMMHa6asBNcIY4V8IlR0AmhBE6ZiHNwW6hch/Kk32iLMkoUEA
+ 07R3ZoHYg0o0z/v+NgNjaGDSvfRoWYLGW9ZI=
+X-Received: by 2002:a17:90b:3b48:b0:32d:e980:7a70 with SMTP id
+ 98e67ed59e1d1-3342a17d006mr3998864a91.0.1758856620630; 
+ Thu, 25 Sep 2025 20:17:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEiqzLmVD4byJpS81rkUiJ1Icsy/ExxJQYHMvD+WEtpM3r1cCrKQQ5MrCKcNruiodugOB5rJQ==
+X-Received: by 2002:a17:90b:3b48:b0:32d:e980:7a70 with SMTP id
+ 98e67ed59e1d1-3342a17d006mr3998835a91.0.1758856620082; 
+ Thu, 25 Sep 2025 20:17:00 -0700 (PDT)
+Received: from [10.133.33.139] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-781023c203dsm3184336b3a.22.2025.09.25.20.16.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Sep 2025 20:16:59 -0700 (PDT)
+Message-ID: <2577fb3e-96bb-4f2e-871d-27395065ef4b@oss.qualcomm.com>
+Date: Fri, 26 Sep 2025 11:16:51 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ1PR12MB6097:EE_
-X-MS-Office365-Filtering-Correlation-Id: a04f66a5-254c-40fd-f601-08ddfca34275
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|10070799003|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dWJDd1ZEYW5ZTUZZTDlpT2VKTnBlT0RxRkY2aHMybEdtWkxKZmJzbWp2cXlG?=
- =?utf-8?B?WUhlcnpnS0w1dDNHeGFjVk9Hb3JMMXRSTjY2b1FmeEhxRHJGbEFrVkxBdDFj?=
- =?utf-8?B?dUlXNE5EUytGbnRDM2hhT0xLN0NNOTMyenVrWU05NEtkRDE2SnpWcXdReVY1?=
- =?utf-8?B?L0JhRmoya243OCtvbDFPV2NxUVpmS2ZSVlQrMi9YcXRVRGZLeDRvNE9xRnhp?=
- =?utf-8?B?RjF0c2xFTUlPaDk2VGx5ejExZ3NuL2Vzd3c4K2YxMXJrc0xPN0x0MW5NaTB0?=
- =?utf-8?B?Y3JFQ2RrQ0pEdmlnNTVGaXVINlFGVkF0WnEzc3RWMHFGcUJqMXRybWJHSmpz?=
- =?utf-8?B?SjJhTi83WHdCM1laVVVtMVdRRU5xVkhHMHVLWmFzaFhKVUhMZ05LaEhnWm1Y?=
- =?utf-8?B?bXRzN2VDNGhiVmhwMGs0TTBIZFFwS08zbUtoYU12T2c4N1FmR3FETHF1N0ZJ?=
- =?utf-8?B?WWZYN0lFR1BBUjV0a0QwOG1tVFF5bjNubzFnVldlS2Rra0Vtd01pTk42MG1j?=
- =?utf-8?B?WnhseHZlVGhiM2xXZGR4OEMzVjk0OURKT2FwdStaT0dJNjdKanZtZzlFTDFO?=
- =?utf-8?B?TklhWVlWTElyQ3NJbE5GUllYMkdLUVh1ZzlGVUdzT3orWS9taFVqeHNndzB2?=
- =?utf-8?B?a0ZUS3gyVGVQY2U2Y1Ywd2dYVFBNVkFraDRZM3VyL0hITi9qTFRxK0RXL3Ra?=
- =?utf-8?B?WmkydEFqSDhXUngwdnF6b0YwcGdTTTNVZjgzU2F3VWJCSUx6S2VJOGZrcHJq?=
- =?utf-8?B?c0crODBUbVd4NDlqUVdPVWRHNGNPUDRCdXdiT2VwdmhieEVidjMrUTNNY3p0?=
- =?utf-8?B?Z3kyNDdjWmJ2TG9RL0hmZi93N2JSSXhZR0w5QkQ0WGk0RUVmN2U4ZmVrUlRl?=
- =?utf-8?B?V2tjQS9kcmFMNjZRb1hqKzRaMTBKb1hzcVZNVjhsVTB2bkNFOXVYYi9yTnJN?=
- =?utf-8?B?VU1lK3BZRmZ4cTZxd1FYZFlISXNnZmVnaTViUWdBOFVsRjU2S3BGdzN0NUJL?=
- =?utf-8?B?V080NnZldVkwZFdiVzZ3aHRUd08wQWM3MGhkL2NSYmMwemdXbGVkRDB6SjVM?=
- =?utf-8?B?QmtTam1BZ0dEb1hrd0lTM3BzT0FsSmd5cnlZalU5NzAwZW9HYXdVeVJqaVF0?=
- =?utf-8?B?amp0aklKS0JoeUx5VURDWE14UGVJMGNGR0RKOXkwL2xCYWg0R3ZncFN3VWgz?=
- =?utf-8?B?anI2TzB6a3Q5MEhDdzBsMUMxeWxmVnBGRHFIb20zdStNSGRoWGxTeUp1c0Nx?=
- =?utf-8?B?U3RFa1ZaR3NrNjMyRDI3eUNZNDlsYnd0WU9CM01ZWjBsMGtxajBxSSsyZVZh?=
- =?utf-8?B?VmZ4b0JOVjl0REg3cE1wSUZ0SFBILys3VEptWGJYKzhxQWl5Um5udXhBQUl6?=
- =?utf-8?B?ZDN1ckVHemNJaURVenBVRjIxcUZMYlVaSFNEWHFoZ3dQOGpLd04wdEJ4aDBN?=
- =?utf-8?B?U2QxQVBwU0ZkREVIc3AxcDJUUTYxRVlRc0VWcTFSZ3E1Y2dZMjZzeHZOMGY1?=
- =?utf-8?B?RS9mZWN6TzA4NW5aR0JKVFFpZTNlb280WjlxNHpibndLRWVZdDZOKy9qTitP?=
- =?utf-8?B?WkFweFhwelpRMUQ3dkhXNnkwOGMxcWxZZFdHTjJhVlBkTUVpVmthZWlVMTEv?=
- =?utf-8?B?MFEvZnhxSW1RZmx0NzFEZEtORmJ0L0NITU5WNFArUExoQVBlOGVSd3ZyNEpM?=
- =?utf-8?B?QWMreXJ5aHJVaUo5REluVGxBckl4Ym43Mk56a3MwUUQxSEljbzI5cE9rK1hR?=
- =?utf-8?B?ZmFaVmJJaGpWNmMrSTM2RHJsWklVU0hiSEdjQkwyNFVLNFBRbDlwNXpJTkR3?=
- =?utf-8?B?YXQ1Y1ArWTFJdmdTOUNoQnBPbTJRVFBxc3VTVVpnUlk3ZDVabU9LYlJKVFZC?=
- =?utf-8?B?WjNzdzhEcUxNeGNidVF2RXRucE10cWdRQlU5dHVDMm5kcG54eWp3WDNsWmJ0?=
- =?utf-8?Q?eSEZOXQyerc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(10070799003)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1VXK0ZxMWhxbmNaN0J5b3ZCNFlzOUJkOEpRVWZiaGpvalVUd1FqbmtRZ0tm?=
- =?utf-8?B?M3hXeTVqNCtoK1VzYnhzTitqNWFjeEM0Y05jcWFuVjFWdXFCbzQ0ZWRPa2tG?=
- =?utf-8?B?Slk5Z3hMaDFYeEtJTTB1WDBMNVhXZjJUckNsUk5yNXVwazh5UzcwWi9pWi93?=
- =?utf-8?B?ejJLMGJGV3Joayt0c0xOcDgzNGRiM21oL0YvdEFZdU1ucDhPc0ZKd2lZMnlk?=
- =?utf-8?B?dmlXSnFURm9FandwL1R5bGdIaWplOWpodjBNVnZ5eFF2cFFQck9MU1oxRHhN?=
- =?utf-8?B?dlFxZWkvOWFKT0NUVzJKMUJSa2xLQTFwcVM1bmg4eXdUV1M3bldteURrb25m?=
- =?utf-8?B?czhTUk5qSG1mcVp4d0NzRUkvOTZSVVZKV3UyN2hFQWl2M0VXVEVrZ1czS1RO?=
- =?utf-8?B?NlRxNWgzdVQ5MWhOUFBtRjBrZTh2b1d0SXJPZmcrYkduRHh0ZWRxKzRVTGRh?=
- =?utf-8?B?TnI3SzRmamNkQmZsZFhxc3dGeXM3bk1CRzBlb1hzUlJQSk1SUXJkZ2pDRnVT?=
- =?utf-8?B?UUFNMkZOSVVyY0RJK0tKWXJ4MXBqMGJOS0tsQzQ0MW1wV3h4RDhMQUNTbnI2?=
- =?utf-8?B?UGs3Z0p6OHA1allnb0ZqUFJSa2VuMjlQRzFML1pUNjg0Y2RacTdUUE9IWXlX?=
- =?utf-8?B?SE1XQ25JYjRobFB3cEZPNmdpUSs3RzJiT1lYZ1N1OWkyUTVUb2RiRXd1aXB2?=
- =?utf-8?B?N0lBeWZlVWJqZmQrb3oxbVFPekpVYVB2VW03enNSRW9NNG1sbXhVM21qNGJR?=
- =?utf-8?B?WkwyL2hOb0FlMHM1V0pnS2hqYjUyVTIxLzBSMEd0ZldTK2JXUjJ6TTE4NDBD?=
- =?utf-8?B?dzNDZy83bER6UWFPN1Q5OEIrYjNPaXFvVE5oNkVoUy9zQW9lYzNrU2xMVENr?=
- =?utf-8?B?N0txVktBblAyR3FzVVF3a3ZxSXJMeGJtUXoyMVdZZHFSWDljZVBiL1NubEZ1?=
- =?utf-8?B?cjFCSTN1RkhjejBCc0ZvdHR2RHJjSkJ5WTE5eTlpZ0t0SStNdjBmMXorRWhN?=
- =?utf-8?B?NVg4WUlSUGlrZTMyTmNtUG9BV296MFdsQThWc3A0S1h5dSswd3R3Y0s0WW9H?=
- =?utf-8?B?K09ReGM4cEt4NGFGOEhkeGJBZ2FGZUl0Y3FJdE10akcxODZGWmlyK0xreWdn?=
- =?utf-8?B?RW1TdTlFZVBabU9TZVluUnB3TnR4ZW93OXloTjNrQkQwTmxHMzc4M2RGWlVj?=
- =?utf-8?B?ZkFhK01hRE4rZU52YlJrWk1FdVlxUWovenJRME01Y0h2VHFtTk9qODZIejdx?=
- =?utf-8?B?WTQxZmpwaHBva3NxVXBoUmMrc2I0UFo0L2c4Z1N2aWJUVVhiM3lXME9aaWsz?=
- =?utf-8?B?VDRwazNVRWNiSHQwUlVSWjhyZVp4RkdXQjZIbEFJdEtSQ1pmSWs3bmVYVVZS?=
- =?utf-8?B?QU1jZjBxYmNDV0tvdEJMckVBNFNEcHg1d2VPMWV3Y1J2YjNPU1hJZ3N5dkUv?=
- =?utf-8?B?eDZ6N3RvdzB2K0VKODYxQlNnR2k0S1M5N0hZc21CdDUwRlk5QkN1SlBIdXpk?=
- =?utf-8?B?bHZ4d2QxaFdNdis5T3ZTbVlIZE1NRzN2ZHpNQ0YrQmliaVo5Y1JYYjhnT29R?=
- =?utf-8?B?dkRDWEtQYm1va0hmSk5uejNOc2V4UFJTVmRLclg1WCttcEpZQlVWelhVeHUy?=
- =?utf-8?B?UEp4TUdsYzhVNVVHVXNXUERxOERnNjQ5YUE2dGZSTk9UbkhBeTkxanoraHdn?=
- =?utf-8?B?K2Q4MzNvd2FqOGd3V2I0ZVh0NkRrdHFhUEg2a2s1NkNYcm5VdStPdjZIem12?=
- =?utf-8?B?ZGhydWpYMk5vUXBEZlBtTUR6VmdsUkdmWDlJR28vZ2NmdkpjSjBkN1F4bjR1?=
- =?utf-8?B?cndvTlc0bmc2SFZ3aHpoTEw2b3dHS3p3eUFsd056OEtzOHpmMVlBVzgyaER6?=
- =?utf-8?B?bDdNak5uZUZjV3VvRmV5WHRIKzdVMXlVT2cvaklCOCs4TjgrNGtRT2JOcnBG?=
- =?utf-8?B?STBsb3E1U0ljTEJjMGdEcnpnNEJOVWdDQ1o2KzdYVDBkdE9ZbTJaNmF5MFFs?=
- =?utf-8?B?WU1DVlRUa0dtdlZJbWJQcWNEYW0yVHFRNmYxbWVGVjJiM2lTQWEzRXdOaWsx?=
- =?utf-8?B?YmYySzdITUowK1E4ekM3aXFOT0dLVUdnR2tZcUFVdDZOWTJWeHI2aTB4RWY3?=
- =?utf-8?B?YThIL1JUU2JsVm52cmNyL0ZWcHh6cFpVeEJpdjFiTmN0L1pZeDBLQXRpTGdm?=
- =?utf-8?Q?VhKWTKdEaU0vZe69/zvvIaqWGUJzmM4fzXCny+1jZKqu?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a04f66a5-254c-40fd-f601-08ddfca34275
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 02:20:28.3059 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mywAdVxkqnJPXBqWLE9QfQ0r5uasedS1tIAlqNkWpW6LemkG2pAy3joorYMhXUpQWt5Pdf8KFqQ2cFomvENGjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6097
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 12/14] phy: qcom: qmp-usbc: Add QCS615 USB/DP PHY
+ config and DP mode support
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+References: <20250925-add-displayport-support-for-qcs615-platform-v6-0-419fe5963819@oss.qualcomm.com>
+ <20250925-add-displayport-support-for-qcs615-platform-v6-12-419fe5963819@oss.qualcomm.com>
+ <5dtlqq7x36gb7cmiunoreoe2vftq46pusb75sbol47ceazefpf@lxrx3hhcwhju>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <5dtlqq7x36gb7cmiunoreoe2vftq46pusb75sbol47ceazefpf@lxrx3hhcwhju>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: x0y1ocIpL99MRO5LCcEo5rhOqZ1TDJ9R
+X-Proofpoint-GUID: x0y1ocIpL99MRO5LCcEo5rhOqZ1TDJ9R
+X-Authority-Analysis: v=2.4 cv=Jvz8bc4C c=1 sm=1 tr=0 ts=68d605ae cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=DA7DBj9iRjnvuWfEG8oA:9
+ a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX3fpBTxvzrggm
+ 2tAC+pnmvHhLsApzamD2evOqolr8h1gwryTRzWzN9+6AlZNbUW+wlR+bvEk7ICgnGg/D6nz5Q8U
+ kFYtWSacdiLaTAPfaL04A3T5QLoGWC4YbBcD9SnQ2TAybbc1Cp6AGCCuDyrE5BIfp7VpmSFCKd1
+ oJ5pcqyoluiNO4V/q1NodRq66nKersSJfDEOZPmUuIGMN0Ix/UEJRen0OBgDb3sXFqbmYRboWdQ
+ XlaEOtiFERBkvh+AFbAr1e8HzwlgIckHk2I5IkhAwgV06GYyRYWW1pPAyDqo20l3VQ4dr9v5CAU
+ TOGwjYwuUyNTrqnxPrkeccYvZKLyzGbznsI9opkNudOstIDCcFUR6cvHUC2oc/dkzj6sSMufta0
+ zV+6ZnEjKihMWgnVrJBHEjMKmHKhvg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_01,2025-09-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,72 +137,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Sep 25, 2025 at 3:32 PM JST, Alistair Popple wrote:
-<snip>
->> > +    #[expect(unused)]
->> > +    pub(crate) fn receive_msg_from_gsp<M: GspMessageFromGsp, R>(
->> > +        &mut self,
->> > +        timeout: Delta,
->> > +        init: impl FnOnce(&M, SBuffer<core::array::IntoIter<&[u8], 2>=
->) -> Result<R>,
->> > +    ) -> Result<R> {
->> > +        let (driver_area, msg_header, slice_1) =3D wait_on(timeout, |=
-| {
->> > +            let driver_area =3D self.gsp_mem.driver_read_area();
->> > +            // TODO: find an alternative to as_flattened()
->> > +            #[allow(clippy::incompatible_msrv)]
->> > +            let (msg_header_slice, slice_1) =3D driver_area
->> > +                .0
->> > +                .as_flattened()
->> > +                .split_at(size_of::<GspMsgElement>());
->> > +
->> > +            // Can't fail because msg_slice will always be
->> > +            // size_of::<GspMsgElement>() bytes long by the above spl=
-it.
->> > +            let msg_header =3D GspMsgElement::from_bytes(msg_header_s=
-lice).unwrap();
->>=20
->> Any reason we're not just using unwrap_unchecked() here then?
->
-> Because whilst my assertions about the code are currently correct if it e=
-ver
-> changes I figured it would be better to explicitly panic than end up with
-> undefined behaviour. Is there some other advantage to using unwrap_unchec=
-ked()?
-> I can't imagine there'd be much of a performance difference.
 
-Here I think we should just use the `?` operator. The function already
-returns a `Result` so it would fit.
+On 9/26/2025 5:57 AM, Dmitry Baryshkov wrote:
+> On Thu, Sep 25, 2025 at 03:04:58PM +0800, Xiangxu Yin wrote:
+>> Add QCS615-specific configuration for USB/DP PHY, including DP init
+>> routines, voltage swing tables, and platform data. Add compatible
+>> "qcs615-qmp-usb3-dp-phy".
+>>
+>> Note: SW_PORTSELECT handling for orientation flip is not implemented
+>> due to QCS615 fixed-orientation design and non-standard lane mapping.
+>>
+>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>> ---
+>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 407 +++++++++++++++++++++++++++++++
+>>  1 file changed, 407 insertions(+)
+>> +
+>> +static const struct qmp_phy_init_tbl qmp_v2_dp_serdes_tbl_rbr[] = {
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_HSCLK_SEL, 0x2c),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_DEC_START_MODE0, 0x69),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_DIV_FRAC_START1_MODE0, 0x00),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_DIV_FRAC_START2_MODE0, 0x80),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_DIV_FRAC_START3_MODE0, 0x07),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_LOCK_CMP1_MODE0, 0xbf),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_LOCK_CMP2_MODE0, 0x21),
+>> +	QMP_PHY_INIT_CFG(QSERDES_COM_LOCK_CMP3_MODE0, 0x00),
+>> +	QMP_PHY_INIT_CFG(QSERDES_V2_TX_LANE_MODE_1, 0xc6),
+> Hmm, I just noticed. This register belongs to a _different_ space. As
+> such you can't have it in the COM table.
 
-I'd be willing to consider unwrapping is this can prevent an
-obviously-unfallible method from having to return a `Result` - but here
-this is not the case, and handling the error doesn't cost us more
-than the `unwrap`, so let's do that.
 
-<snip>
->> > +impl GspRpcHeader {
->> > +    pub(crate) fn new(cmd_size: u32, function: u32) -> Self {
->> > +        Self {
->> > +            // TODO: magic number
->> > +            header_version: 0x03000000,
->> > +            signature: bindings::NV_VGPU_MSG_SIGNATURE_VALID,
->> > +            function,
->> > +            // TODO: overflow check?
->> > +            length: size_of::<Self>() as u32 + cmd_size,
->>=20
->> (just curious, do you mean overflow as in arith overflow or overflow as =
-in
->> going past the boundaries of the header?)
->
-> Actually this snuck in from some of Alex's suggested code improvements (I=
- had
-> intended to credit him in the commit message! Will fix that) so maybe he =
-can
-> answer what he had in mind? I assumed arith overflow but maybe he meant r=
-ing
-> buffer overflow or something.
+Thanks for pointing this out. It likely worked before because the default
+value (0xc6) was sufficient during validation.
 
-I was thinking about arithmetic overflow, but maybe that was just
-overthinking. :) We're probably not going to send a 4 GB payload anytime
-soon...
+I'll move this configuration into configure_dp_tx() and set it based on
+link_rate.
 
+
+>> +};
+>> +
