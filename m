@@ -2,80 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6614BA3C35
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 15:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B625BA3D4D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 15:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE1D10EA5D;
-	Fri, 26 Sep 2025 13:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C7F10E073;
+	Fri, 26 Sep 2025 13:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MaFlnJYS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GgcilBPL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108FF10EA61
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 13:09:01 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7761b83fd01so2175181b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 06:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758892140; x=1759496940; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8jsr/swVTaMDqhrHZ1xcNgpf88hRSQ9iF39OQkgBwwM=;
- b=MaFlnJYSp40tRLgXla2pRVG0x+/1CZhaCBvz/cpjB8PNCqEOS7Z1nokdtnlGdPeEyX
- RAlZaTslRdqBXEfXUcDFbrriKP/utXr/BO57qv2L3wixCMxVgQj0SRNLLzw6iJhfpmCk
- 9XwCqK1A6hWhY1Ic/6LDZZbG5SUtOEaZotiMGhQUdNp3jk2m6q2sVZXBbrPE4bcCW85g
- YheFkPWIs7ZETHlbFaQ1B5FX14y6aZfpkaI0pCuTNug3cC3oQf0vzn9UFnI8YR0MKM73
- OL/Uc9D0k1MTDcqkWC/+dBNLYeK/4J3ZYi1LbTwANByax6wN58gjUil1+ibYy7EFALZN
- oBEw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B9810E0C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 13:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1758892521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W6gloL9plQf6RtxB5L806/XSaHmhkeCLtVCZieySzvw=;
+ b=GgcilBPLALLg+6tVnVFOmME89hcztavtd1tyymFdaiEylJ+3NQu4tSyDPWBwC2XL6XjE4o
+ TG0Nypg+m/114Isp+9E629mhw/iyHB7rmhgbbJKX5M/ldgSepiFBYHybOiK5mfUSMsFgnf
+ 33lRDcGIyqWA6IlqYzw9GHaEaJbV8U4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-344-v3FO34r8MWiiDEUnKEDa7g-1; Fri, 26 Sep 2025 09:15:19 -0400
+X-MC-Unique: v3FO34r8MWiiDEUnKEDa7g-1
+X-Mimecast-MFC-AGG-ID: v3FO34r8MWiiDEUnKEDa7g_1758892518
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3e997eb7232so905196f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 06:15:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758892140; x=1759496940;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8jsr/swVTaMDqhrHZ1xcNgpf88hRSQ9iF39OQkgBwwM=;
- b=dVtgAe2dwkjQeP1MSulSeS0xONKhGYXmy65w3sZSojs6AFov0vLNa2mKH0H1JJtC3g
- eDt587CAxc9jpEl55Sre1OF+vvgRO6KGKMETENwDHAuG3a6MSBjr1V9VvVJprV8oQ1KD
- KKUk6ns3l6Nb0m0eMF+uyTNR7NNqeK10PM2GiVv9ogIkCKcGRQ1xmA9aj95Fsm2XA6p8
- G30bgcnmxb/m8xCSrZw8XP+erFUqWhLufJ405eSJl5nVR0FPN/HZ/kYt8Cqa7gS8HAJf
- xYFkZUMaG/oXbKnxFAh8udocS6m1WtRti4ppVWPZv/PuirL3Dx1WSKlqTDhQqEbszsB0
- fvCQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhFPJ58SyZ7ja8QPKNlUPhwXIXY2VZQwliJFBdEhNexptod8tJDquLRZ2qAgBc/NkB7U3TxcpYvfE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGW+RJXUQGDknTaq5v+XSm2p10zeEvmn90kXPU77wb94E0Wa83
- Z0BHAw+raVK2aF9WU8y8kNdcO8jETNlMG7PeGDCF7IgvSH1CRkXtISx0
-X-Gm-Gg: ASbGnctrV/Sj3PZiBSjka189Ic3eT0rLj+bhkpJC2Gldj/9d4/tkIwcecW0qDdwInGL
- nwJ/OBWiGze3J565fQOQfNh8ib3DuhuzP0yEkb/2RGqOdS9j6oAdh7nrtYCXccX8sUN4v9Q5PjK
- FVCaGW7wem/5aDSVID6YGyn5xvtAje/LFqSy130i4a+kC82yloipoPTaONwNoELbVvCbphGaLTN
- vMxR47Vi/I3aeUY7S0jMoxoG0zixCtvWeqmbXR1g0QBwAqzwN2HGJF1cCBaVrYvRBJ29rzqMsWo
- nvIceqbcml0FXQL6dXWS2+Ut361ECSzw8MNGxWvng0T6ClsQUlKimP+zne4rxSTiuLZsj16JeT4
- 0BP0ee4FKBHXmX66NKFiF7aLxLQyrrUztDS0gTPo=
-X-Google-Smtp-Source: AGHT+IGBf5K4rbto5VCzkZp/D53jFxqFiCe8g1BF87WflTcITusVgBNsXvjVdvgmaWBRNYnfJ0pmlA==
-X-Received: by 2002:a05:6a00:1a94:b0:781:1a9f:2abb with SMTP id
- d2e1a72fcca58-7811a9f2cf8mr2174799b3a.24.1758892140379; 
- Fri, 26 Sep 2025 06:09:00 -0700 (PDT)
-Received: from localhost ([2400:2650:24e0:bf00:6647:e402:ac7:7283])
- by smtp.gmail.com with UTF8SMTPSA id
- d2e1a72fcca58-78102b2351asm4406159b3a.47.2025.09.26.06.08.59
+ d=1e100.net; s=20230601; t=1758892518; x=1759497318;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W6gloL9plQf6RtxB5L806/XSaHmhkeCLtVCZieySzvw=;
+ b=MTEJzeiYSURAOP0SQa0GE1aazmcLRvYiGDwS0mSaGL4QSZZnq2cenGupqITzxMLhrQ
+ Y01GJelM0J/S9chuclVDe5I/jE4XJ6/1WuyOD5G6iDf2IpxmEArMLlfosU8BsuoVRJNW
+ 3VEQG/+eDjEoj6o1cPR0B984zYP5jvmHfuDb9KhPRFDALK9XjjmULo6DwwV18pmegbmz
+ rPOke1g6qBm1+FbBfqXpYM9D+PICGwbtg4ESq4D0feNhkYvMIrxACLN2K1T4NBZ5kQq6
+ utk791DqyGXwCgLR88w9lE8GH0Vqbaq5Y1i2PHSBxBowlH6YWvgzybPYeiVopI9LHhVJ
+ 3lIQ==
+X-Gm-Message-State: AOJu0YyFIbXSg05BjWFDTR2MzI9EYAUC8xwoLBUcX0VfyhdRBrQvKpbI
+ tHZyVv+ubTOSkfO++rXcilblOx8RyMEl0NqALIfIoAOeRlFkYDIjlbcHo4RpqKA2F2n6JoUlsdl
+ rQOCRNX1mkk/rbjtfp/DgNpAA7MTz4iTRdy5B0dXhxqFF00LUundOdpKUFdQYOPUWAzlUvA==
+X-Gm-Gg: ASbGncud2wf4pMTSyzcwAEzumDr/F1QqTCr9VVR4orLPKEjWgYIpJrh0mj+c0k4Z0qT
+ 3KngAD2Ekk1Q+MWzDsGZQySJoowSqARcaR24at5oN87LS3gR8+3Q2PuOr7WeIbCIgY+kPzCgEVa
+ oreJjrBAgiFnBTDD9pDNgDfUikjwhIe8PfV7sQFArgAXu6GJ2C+SWUh5mPR7J/CtSKmYP8R4poY
+ u41GhXXTHW8NL01fGmoDBNr6A8kA8NHMr5vDtSjEi2cmPo4Wyg84FOD6r5lhFspemA1CLaDw8w3
+ ujt7ILZs6UF6ij9DqeqY4QPIfU1erjTE1ZP0Wr8ypOgOY0cc6Vxca12OChcYt1Js0w==
+X-Received: by 2002:a05:6000:1acb:b0:3e3:24c3:6d71 with SMTP id
+ ffacd0b85a97d-40e447772b6mr6450701f8f.1.1758892517669; 
+ Fri, 26 Sep 2025 06:15:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGgdQJaXU6qBeKy575PXxNR5wMjBV00QJq4HVM+OcRu1Z+hB4Jn+gkEnlY2TUSw3YCIQLZKVw==
+X-Received: by 2002:a05:6000:1acb:b0:3e3:24c3:6d71 with SMTP id
+ ffacd0b85a97d-40e447772b6mr6450663f8f.1.1758892517117; 
+ Fri, 26 Sep 2025 06:15:17 -0700 (PDT)
+Received: from localhost ([90.160.50.24]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-40fb89fb264sm7307121f8f.20.2025.09.26.06.15.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Sep 2025 06:09:00 -0700 (PDT)
-Date: Fri, 26 Sep 2025 22:08:57 +0900
-From: Zhenyu Wang <zhenyuw.linux@gmail.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/gvt: Propagate
- vfio_set_irqs_validate_and_prepare() error
-Message-ID: <aNaQaYvKtCtI0UnR@dell-wzy>
-References: <20250926000252.3681360-1-andi.shyti@kernel.org>
+ Fri, 26 Sep 2025 06:15:15 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Iker Pedrosa <ikerpedrosam@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Iker
+ Pedrosa <ikerpedrosam@gmail.com>
+Subject: Re: [PATCH v2 0/5] drm/solomon: Code improvements and DRM helper
+ adoption
+In-Reply-To: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
+References: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
+Date: Fri, 26 Sep 2025 15:15:13 +0200
+Message-ID: <87zfah8ie6.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250926000252.3681360-1-andi.shyti@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: tGB55T1pDdkpzUak4QXz43Ilh4MBZ5pb5cHvbGPaGLE_1758892518
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,39 +97,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 26, 2025 at 02:02:52AM +0200, Andi Shyti wrote:
-> From: Andi Shyti <andi.shyti@linux.intel.com>
-> 
-> Return the actual error code from vfio_set_irqs_validate_and_prepare()
-> instead of always collapsing to -EINVAL. While the helper
-> currently returns -EINVAL in most cases, passing through the real
-> error code is more future-proof.
-> 
-> While at it, drop the stray 'intel:' prefix from the error
-> message.
-> 
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Iker Pedrosa <ikerpedrosam@gmail.com> writes:
+
+Hello Iker,
+
+> This patch series improves the Solomon SSD130x DRM driver by adopting
+> existing DRM helpers, improving code clarity, and following kernel
+> coding standards.
+>
+> * Patch #1 moves DRM GEM framebuffer CPU access calls to make critical
+>   sections more visible and maintainable.
+> * Patch #2 replaces WARN_ON with drm_WARN_ON_ONCE to prevent log spam.
+> * Patch #3 adopts drm_crtc_helper_mode_valid_fixed() for mode
+>   validation.
+> * Patch #4 adopts drm_connector_helper_get_modes_fixed() for mode
+>   management.
+> * Patch #5 enforces one assignment per line per kernel coding style.
+>
+> These improvements reduce code duplication by leveraging existing DRM
+> infrastructure and enhance code readability without changing
+> functionality.
+>
+> Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
 > ---
->  drivers/gpu/drm/i915/gvt/kvmgt.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> index 69830a5c49d3..450a4673c542 100644
-> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> @@ -1367,8 +1367,8 @@ static long intel_vgpu_ioctl(struct vfio_device *vfio_dev, unsigned int cmd,
->  			ret = vfio_set_irqs_validate_and_prepare(&hdr, max,
->  						VFIO_PCI_NUM_IRQS, &data_size);
->  			if (ret) {
-> -				gvt_vgpu_err("intel:vfio_set_irqs_validate_and_prepare failed\n");
-> -				return -EINVAL;
-> +				gvt_vgpu_err("vfio_set_irqs_validate_and_prepare failed\n");
-> +				return ret;
->  			}
->  			if (data_size) {
->  				data = memdup_user((void __user *)(arg + minsz),
+> Changes in v2:
+> - Use a goto label to ensure drm_dev_exit() is called in the error path
+>   of drm_gem_fb_begin_cpu_access().
+> - Link to v1: https://lore.kernel.org/r/20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com
+>
 
-No problem for that.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Reviewed-by: Zhenyu Wang <zhenyuw.linux@gmail.com>
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
