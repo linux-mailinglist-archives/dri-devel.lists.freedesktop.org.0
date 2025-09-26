@@ -2,169 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB98CBA2641
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 06:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A08ABA2786
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 07:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADFDF10E9D7;
-	Fri, 26 Sep 2025 04:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2797810E9D6;
+	Fri, 26 Sep 2025 05:41:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="oXstQWLm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="f8Myd0Rv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013014.outbound.protection.outlook.com
- [40.93.196.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2131A10E15A;
- Fri, 26 Sep 2025 04:37:31 +0000 (UTC)
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010032.outbound.protection.outlook.com [52.101.85.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB27310E065;
+ Fri, 26 Sep 2025 05:41:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G+dpS1rMhQD/pyA90dNEzV13CzAIYqMe2ke8yn6s5rdggNgU7Q/VptnooZCsx1MUCmXc9562A/mjKHUSKuzC9w3AQ4ae/a8wGQ/ysuq/LIz4bxOYYUVmXoc6ahsb/aij1A6ChpNSnEedJK+TdayaikqeXpntSUljBWw4vyI7oLYx+8comvCWAQygx04g/zk1F9ek7S+9ruRp3blNDgccJH8x2YD0FeYghu0p51q3P1FGa4eRLP994G+6BrLFGeWkIt+ucTEjkYyf8USkvCCyndZh1eyqHmp+x5wVV6cCIVVNTmNlO0Y79geJqPN22oRJZj4BuKyYjWkjGgo+XjBlSA==
+ b=Fx0ynPKLH4lHiU7Rc5Z46D2op1dKGcnk9KlFkrH+5Pco1g34Fq+lE1t4GVSMGiwP/WJDy72H/xrZp3qsfNiiqyL05Ri9I2EWUL3khtZwGTCXoj2G/cglr4DbyoHbRZDvKC3gMgu0W9R0Itm1NuadGy5GCOUR33DUguqGmI9/ifFHlBJGXGAwPCkxMSLu/eHcDiCxECZVrWeUh00Y0J1lLevD6I4D8DjOot9N6GcaSwc/LsSzEbU9ajaKD8CfAM40KYHYsBTtrsnjFrw0mknKq0Itq2CS6W5gRIrSYC9LTkq1hshr9xkGb1g1qtm4iiLQ0g/+JnP15/c1+owKJjN5Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DAFC/Rcsd97yMcmbPrrjJwnut13mfYfRfUIrVjvd9jA=;
- b=KMPnG0f6jWTVE30GjPuNE9j4EbMJzwvYWMAj1kwYIfESxSeQJs87d0xzVASzhHwJLw8z+C6nwwhI3aSsjr5peX4us8lka5b/xJL4Y85WLT67+mQ6a3GuHKRE1w3WJ17u8WWJOJNoaGiZkKRBv3Ruo/ySw99PsiUbzv/EO8fCHIyVqyCnEKi7IvrZj+uph0KdsA75CViVra2uTfEp7DRjYfX7LUaH9AcDK0GJYHIqAamFnXOMH+Ve4CizBsin9hqvYAILLovpvmacVgt2l8pqdxPUGuxpk1cn7bTG1MvEdd1CPCSDxCRbAhGPNTgcaLHSRzMaCOFtT3uCuNxUc0Snxw==
+ bh=Z38cae2i7FrMmxgKqPK1D+7X5vtcLAlfnvY21tH1+LA=;
+ b=KIMDDNn5oEeYEpR8pcFFbgndkfb9oFvPicygkqocnTnVpSfGNIxREPzTReqU1Ikr6FLghbW6gWPr8hfLDYD32SWlIy8j8xz5rL/wdTcgbK0mmqhWwC7cL+osEJQjpkE34O+ZCNpF5QDmZYDXNXCA3KPF0iECoSCH6XN2CmQMtrCHLiUfD0Ibz++4P8WileauCWh/Ca3dQdI86qHFsS3sJIF95cml1+Sh4Zh6keVLSqvcYBaEpo2de/W1IIcsokZFYnyVo1U2/uIeRzZu0kcHIEzi9r/lBfIy5BZqWe62Tn3qarAPFtJ52rGXc6imCldleQOA/pTE6Z1+6IA3a8BmVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DAFC/Rcsd97yMcmbPrrjJwnut13mfYfRfUIrVjvd9jA=;
- b=oXstQWLm5R6oSA4JuW+3VAM4S0PVak4DTO8lYEkJ5IcX+fATwrsn4wcQuXrE/SQre1cLHbW6CwqgJOpY999eFD1WebYhYDnlQV7OMSky3S7cFrTXVhrbb4AuMEn4plFOJbBAk/eKQXZd3jdNsjJ2WyuZcv7teZm5yxVjWGwKFJZFdr/LTkFDXIW3bNUe3qiUKNwxdEPPX+HHyK9/3+Cyr7D4vh6PMF7KzkEHIojABKPBRIiPSHLAOruASVAEg7gUjgGiW78hL4YwufdsWNpcLN+c8vjqidjF+DWjDW/EZdkW+gir6JQMxx/2doDHJX2JkVXsUuEw6CuljZzbitddbQ==
+ bh=Z38cae2i7FrMmxgKqPK1D+7X5vtcLAlfnvY21tH1+LA=;
+ b=f8Myd0Rv1S8LPWWuNxa+Q3WqTdtt1elAdEEO3IPSyDbCBMArP96JoDwZPSAnhESXcmQz4kJ61bAsvIfDjECEgAsBPr/h7vi6j08QTRWN4CuBsM3Yph5M0RS0Ov1SkX4tbHK+8QAQZqNFDai4xtCpOgN9IW/IA4j60CPXUpAXQjM=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CY8PR12MB7338.namprd12.prod.outlook.com (2603:10b6:930:52::8) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
+ by CH3PR12MB7763.namprd12.prod.outlook.com (2603:10b6:610:145::10)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Fri, 26 Sep
- 2025 04:37:23 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9137.018; Fri, 26 Sep 2025
- 04:37:20 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Sep 2025 13:37:17 +0900
-Message-Id: <DD2GCDGQ7Q4W.1CSFYSETFSN5H@nvidia.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>
-Subject: Re: [PATCH v2 05/10] gpu: nova-core: gsp: Add GSP command queue
- handling
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alistair Popple" <apopple@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>, <acourbot@nvidia.com>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250922113026.3083103-1-apopple@nvidia.com>
- <20250922113026.3083103-6-apopple@nvidia.com>
-In-Reply-To: <20250922113026.3083103-6-apopple@nvidia.com>
-X-ClientProxiedBy: TY4P286CA0091.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:369::10) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+ 2025 05:41:36 +0000
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::a929:e8eb:ef22:6350]) by PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::a929:e8eb:ef22:6350%5]) with mapi id 15.20.9160.010; Fri, 26 Sep 2025
+ 05:41:34 +0000
+Message-ID: <ec00b611-f104-40be-8b4d-61efe72798b9@amd.com>
+Date: Fri, 26 Sep 2025 11:11:25 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/3] drm/buddy: Optimize free block management with RB
+ tree
+To: christian.koenig@amd.com, matthew.auld@intel.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, jani.nikula@linux.intel.com,
+ peterz@infradead.org, samuel.pitoiset@gmail.com, stable@vger.kernel.org
+References: <20250923090242.60649-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-US
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <20250923090242.60649-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1P287CA0015.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::33) To PH8PR12MB7301.namprd12.prod.outlook.com
+ (2603:10b6:510:222::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB7338:EE_
-X-MS-Office365-Filtering-Correlation-Id: 978e1dea-8312-42fa-04f4-08ddfcb660f8
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|CH3PR12MB7763:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f34f102-98ad-46d6-1844-08ddfcbf5a46
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|10070799003|1800799024|366016; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UlVMOXRhNGZyYnUzMFlSc04rL1VDc2FNVkgvYWU5MVV1TVRtS09HUlFJSldF?=
- =?utf-8?B?R0NHSTVYb0hKTkVrWGY2SzBnTm01RUYzb3IzU3BYWWQ0aXU4WE9DQlFnendN?=
- =?utf-8?B?Yys0QjBWYmxRNm03WUo4VWVLaDIwaUxQYkxXdndjYkZ3TjFGQUlpc01LM0ow?=
- =?utf-8?B?QVhGK1RBQWJMZXk0czVvei9iSFUyUXZKLzF0SFVsbS8vQjRJdmN4bDZHWjVJ?=
- =?utf-8?B?S1k5a0NWS01GR0kraTBBQ0s5cHBuOVdESnZPMjJDNDQ1OE1wckxoZVFXNncx?=
- =?utf-8?B?bmtYQWNkRE9WMFY2ZlVmaVBUM29aQlVtQU4zWmZnT2piM2dvR1BPRW9pbDMw?=
- =?utf-8?B?WjBybXFJQ0FOaTlKRVVSWFNKQ3NpcFd0bkdyOGlKaW5SNHMrMlZ0dXhrL2Vz?=
- =?utf-8?B?cVZGcUV5aGtMMS9YYlpyYWNoVXFpSkZDN1pHSDF4QkJkblI1VTVHWXZuQzJa?=
- =?utf-8?B?OWxFM1hvK3l4U0pDYlFKem5QUmFhNUFJbVc3K1h0ZGdyeHdTWTVyT2RjNDk1?=
- =?utf-8?B?cW1YZTgwb2JyTmgvcExiQWcxZVI5NkY4OFdiVVRhbkU3Nkw5Vi9lUzRDNVpn?=
- =?utf-8?B?UTBvTWVIQzhNcGdVMHpYdnZIUDUwcStoUUpHWUVuODJuMTdxUGJ6TTRNYVpH?=
- =?utf-8?B?M3BxZUp5M2VkZjAwOVUwZmhQZG94WnlaZVNsMjl1YWhmTkJUYUtVa1A0RlVU?=
- =?utf-8?B?UkRyZGxFNnovalN5bWZ3TTZ4OHVnR0xHbTdrY0gyV0dGYUxWMDd6TC96YXhG?=
- =?utf-8?B?blVvMFlrSzdOanJHYWtvTnF1Z2RnN0ZzbmtjTGZySm9LczJRUzRDaU4vK2RH?=
- =?utf-8?B?d2MwNmtJNnlwZXZwNC9xbDJ5K1hha2lsZi9TQjNKYnR4eUd1WDhzUFoyVDlG?=
- =?utf-8?B?L0hPdnBBT054VkhKWVg5eHJ3cEt6b09nYmpSaThKTUpJRTJJNUxJcEgrWktC?=
- =?utf-8?B?c3BtL3dBejJ4SCtkaC9NMWNZeDhMbmdONDI3ejE3cndHSEgwcm9QU1lOWUh5?=
- =?utf-8?B?eno0eFRuY3pvRmI5dHlKdG9teTVSN1FMTWlXSXVvMGtNZmp2VkhKajdIM0o4?=
- =?utf-8?B?MlF6Qmd3MFVXTXdzMDFCZWtOam5xRkVNaUpVd3paMzBMN2FZYzJ1bE5seVlS?=
- =?utf-8?B?MXI0RmM5OEFrQ0ZSQTgrYkF3MTB4U2krQU5jTHlKS3FCYTRBT2dUQXllZUJx?=
- =?utf-8?B?cHZLUWtsb0E3NHkwcHM0WEkvbi9selNnMy9nZ1NPd1R3UEU2WFE0SmRrNGk0?=
- =?utf-8?B?OXNzVVU5Qjd1SjBYR0FVYkMybjhWekpzN25EQmMxSlVOV2p1OGVnYzhqT204?=
- =?utf-8?B?OEZyQXdsK2pXUUM5SklKWHFBSmxEV0lneGEzQ3VSVFpqWjZZeGFwd0VCSCtV?=
- =?utf-8?B?RkpHbHRLTjRtaWUvMlo2cXUzdlF2MEcvME1wbFk2S3I3NmVFL3I5L1pTUzhj?=
- =?utf-8?B?L0JvZjdUY2drcElUSytvSCs4TWVVS0JWdnBubSt4RDB4N09ZeTYyTlNDL1dP?=
- =?utf-8?B?eWNWTVp4UllRc0RvaS90OFFIYXM1TmtZVmNjc0RoTUtYaUQ2MGVKM0svN01p?=
- =?utf-8?B?REFlRFBNclNib2FRdnRROFJWVUo3cnBLTVBpdVErdmR2MUZRSWVmZndrVWh5?=
- =?utf-8?B?N0dRWXB5M0EySWt3ZUxlSmJjdUFZdndnZStyWEZITHhDbkQvYWJXNlJhRUNu?=
- =?utf-8?B?ZzNFcHEvL0Nud2NkWHFQd1JLR1BPQlZqYUhYaVhYd0lkdDkrbXRSU0dOMW5H?=
- =?utf-8?B?QS9XYXBEMC9XVWtQNkpSSyswRWdiSHE5OWdEbTBDVnMvVjB2c3NvOWtZZGtV?=
- =?utf-8?B?M1lVOHJxOUxPS2ZGVFI2b2wxZXBHVXczOTlNOUJQTTNuQWE4WDVyWHhwa3d1?=
- =?utf-8?B?NWtGOWZOQVJBM3F1d29QRVQ2ejFvT2hKSU1saVlTL2ZPcTBCcXRJM20wOG12?=
- =?utf-8?Q?GgudPxmnLFDy7IufomVB+DGvrHoF9UqI?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NWpvdGhQdjVna21WUGlFQStRb3M2K1VjMWZyZEc2MVluKzNBRUpCNHl1YmZq?=
+ =?utf-8?B?a3Q5UldSRk5nSDU2ZDB0cGw1VHc1MXI1anJBZmp4QWUxMTRYVlpjM2k4Rk1I?=
+ =?utf-8?B?ZWxvakR1MjlHSXNWa0RnMkx1MjU0Tm5abVJTYWM4UmE2MHN0TElEL01vRnFJ?=
+ =?utf-8?B?akFTanBuVEtHZEE4eEZzOTBZYlB2NXJublZYc3ozODI4azY3Tnhrbk84M2hT?=
+ =?utf-8?B?c1ZjbG1uVk1NRjBQbTFZaDJ2bTVKL2JwYXFpZGlIWmdwWjRLdkZtbVZZTG9Y?=
+ =?utf-8?B?VVVBa1FqSnFoWlNHVGhWYUVRd2pYNjNFbDQ5ekhCcWJYamtDMmFiYlFvbFhj?=
+ =?utf-8?B?SEF4WTU5bGQ3TlBKZDZZODg5VVMvUWJwZHNPTDZGeUZwTkxzaWVidGZJd3JY?=
+ =?utf-8?B?S1Y0NUo1Q3dLRTRLd0J3OGViTzZQMXVUS1FVOXl3am5QZDNuMDk3R2dIMDNL?=
+ =?utf-8?B?YXdhNlV4MlQ1Vm9YSEI1UHZoN252Qmd3bk5OWWhmeUZka3Y2Z1p5UlJBYmVw?=
+ =?utf-8?B?VFBMQkdxV0czTmRMOGY1UStsWFYxbmVBNFM3T2ZCaWJ6VHIzTnlDWm5zUENL?=
+ =?utf-8?B?OUcwWVBRNkdjQ21aNGR1UjNwR09TY2srK2EzRkNNNjZYTlhPT3ErYTNyejJ4?=
+ =?utf-8?B?KzMrRDhIUTRxLzNCcVRMZUtvdWJDWTdqZ0Y1VVowOHlPZTRwTEpIYXZ5RTlw?=
+ =?utf-8?B?V0xBVDQwWHhsNGh6VzRubmEvbTBKTVV6UjhBNWFZcnFicUlGQ21aY1VwdTZm?=
+ =?utf-8?B?MXdNeTB4Wjh2ZTBuQU5ieXJqQ3J2S3pBMS9GRE14YU10dlFCay9RVW83a1Fo?=
+ =?utf-8?B?NjVSR2N1ZlNvK3RFQzZhaHMwTFZEYndrQldwN0RzSzNacHhTL25Sb1IrMEpV?=
+ =?utf-8?B?NjNnNzFRUGhmRGlYNW5Nd0NDYUV2NnVCQm5wdk91ejRjdkNNQ254VWI2YkEr?=
+ =?utf-8?B?cmhyWitObFhSeVBwN0tWOVg0eXJJNnJYZHhWS1M2ZHN0U25Zb3dmcU5vZllr?=
+ =?utf-8?B?RE5TSG0xMkxrTDhKWmMzemx3Y1dPNnpLZUlNVWhCeTM4VzEyTkRGYU5DVEtM?=
+ =?utf-8?B?b1hYVVZFbjZiRVh6QVU0YzVMcUVoK3BXTW5tb1pPY3luRmtkbjVtOU8yaStT?=
+ =?utf-8?B?Y2p5L3VTR0ZWc0xvelZpaEZNTjlYYnRjNHBJWUZOUFNXQldnUHplRnVBdzFq?=
+ =?utf-8?B?U0oxRUNOVmlUV1Z0cE1MU3hEaFdaOW5tbU5RTlh6dTQ5T2N5eTB1Tm8yV3Z0?=
+ =?utf-8?B?Sm1vRGhEZkdhZWt3MFMyMjQwK0tuWGs0ODMzaWVhODJ0VUhmSkhtUGdFZW1F?=
+ =?utf-8?B?RFE2RkNnVnBlZ1d1QmlxcUIvY2thYUJQTTN1YmdwWXg2emRmN1JrWlhONGcz?=
+ =?utf-8?B?RXNTMnJ2bHBrejBCSVExVDFQdndRY05rbVhpSlRhQndDcVM2dFl3YXpzaUtz?=
+ =?utf-8?B?eHpleElJemkvQld0WmZmTWFzWFNFZloxYU1CaXJIeStvcWV1LzF6OHNmNlpp?=
+ =?utf-8?B?SW9LZFpDQVRDcnJ0RndVT2RTNjRWOVBjM3pXN2gwUHFsazBGQTVUNmRwbGdo?=
+ =?utf-8?B?QU1BNnZxV3ZKQXZRc0JHRVhEaTBnWk0rdVhWSWkyNk5PWG5ZT2NuVktBWW5t?=
+ =?utf-8?B?S2RIKzdsdnJZRVo4ajdIb0d2Slpuc0xiOUpiRlR4aXdRQzJlRnR1SFc5RU83?=
+ =?utf-8?B?TnUrV3FyQWU4V3B1cVIxOEpsdXQ0Tkg5MU01M1J2aHZ5aEM2NlFnVVhSUWF1?=
+ =?utf-8?B?amdzaDgxWG5TY3lIZUJ6Y3ljSTQ4dDFTQjdTRitadFRLZHRKVjJ6RlpLN2R0?=
+ =?utf-8?B?QnJwSDl3RmJEbDMrb0xjNENoYkIxSDJMTFJMQ05ka1hmMU9CcXpCVVQ4MEhs?=
+ =?utf-8?B?cFUxODdNV3VuTVQ4R0VSVHp3R1Q5Wk1hbnZpak5nZUd3UVZoVGxIYkcvL0kw?=
+ =?utf-8?Q?yY/RalOfkZg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDFJT0VmQlU4L3duT2V6MWNpUGFLTGNzVnVsYXNBRXRDYUVkTVloOERwaGp4?=
- =?utf-8?B?ZUFEeHlxZ3FMSkhHdlNMQkh3L3ExT0JWaUJxZTRBNVg1TDZ1bFBmaWtndHFq?=
- =?utf-8?B?WjNMWXpranM1Y0dmRlpTNDBnU1QrMnRFRjJzVExWL2VQREM1M0h3Mm1iNFhX?=
- =?utf-8?B?S0VHNXV1ZitBRVlucFVLczVlR1BUS0ViTWFwdHhydkgzRm16enRYY2phTjhn?=
- =?utf-8?B?QUVEZS9YUU5xdy83UjYrUGp2b08rZ3pPTVJybUVXY0p0UnBwZEtSSEZPQjFr?=
- =?utf-8?B?QllNNEgwSjNuQ3FHVHB2SkxNRGNiSUFUTCthYVBTbXMvWTBzWmdya1IyNHFI?=
- =?utf-8?B?a3JXNDRxTnF0bnNtUlNHbS9HVFVITW45aG9tT3JuMERTdnlRNDQzbGVGbEls?=
- =?utf-8?B?em04ZnliNUd1WUtWMFc3NW5ZNU1HWk5KTUE5bUN3Qi9QbzE0dXRBdUVxSjM0?=
- =?utf-8?B?Q2JnVlBHZmpjS2xISkpKbFFHS0NTblRLTkovU25FaG5sQ1NUQ29vd0F0ZHhy?=
- =?utf-8?B?cDJ3YTBwV29tWVQ3YmNkN3hrT1hFdDhRSHNDQzc1cUhtcFcvVVBkZ2Y2QTVk?=
- =?utf-8?B?WEhuNGdMSkQ3aDdRTFEwZzVtbDgvZWRRNHZaWVpaMi9tV24wL012cHkzMDBi?=
- =?utf-8?B?Z0xDWTZ1RXZJenl0MGI0bDNSR1NVeXM2WnZsLzJabFVXSnBLR2VUWVhRRS9S?=
- =?utf-8?B?bXlmcDhza1VlaVhsK3MyTG5qRjdvbEp3b3VscEJIWlZseFllTUpRWi94VTRJ?=
- =?utf-8?B?aTdwa0FEdmIwTVlDbE03R2c0amRaN01mMFZZWEVTZGxFZ2UyK0dPS3NGbnZX?=
- =?utf-8?B?NVhiTmJiSnE0SWRLUnNEMjFVaFpnL3lNZEN4NTJhcHh3SHorZ3hXenZYZDhW?=
- =?utf-8?B?ZnJEVmFBbUxpbkJ4SWtycE0wQUFpeWdNMC9haFM5b2lPUThqRjRpVmd1RHNq?=
- =?utf-8?B?cWt3b3djQVFIK2JqcjFTYTY5b2hvTnVtdlFNRHZhTE1KdWxhZEVCdFRNSDNF?=
- =?utf-8?B?RHM4OWEzRkF1SkNlc2YzNHlpZUY3UnFjZE1IcHJTY0ZrNHdnRW1aQlR5aC9E?=
- =?utf-8?B?SGtMTXJ4b0hWWGMvM1M5VFBnYmZEejMvUjUrcU03dWpKNUdVVmhxZVlXRFJs?=
- =?utf-8?B?Q2tFVzM1RW1XSEkyWEZaNTMxaHZnRXNKSmhlQ2xHZU5pRXphWVlXY0RNSjhy?=
- =?utf-8?B?T09Jc3RmRzJLR3ViNXRQN2REYjNVcGFuZ1crc1dJdjYzZHRRQWpmMm5NdVhU?=
- =?utf-8?B?Tzl5aTJLc3h5NzAxZDZPeUwrQkkzd1JRRjltUit4OW5GVTdTTGhTcm9vZXpH?=
- =?utf-8?B?MHlCdzRzeGZJS1h4RnlQSnc1NE9LaTNuY3VUczIvb1liV1BZNjJjNkwwMFRa?=
- =?utf-8?B?WE1NSTVTcVIwbWc4ZDFyTFBoMVJGNUk5ODNhdWtkNUQ2QWxEbDBtSTdPbnhq?=
- =?utf-8?B?ZndyNkp2VTdHNFc1ZndOcWowR0ZQUmFTMkZOTEhhYUVFWWliaFliMzdtc3NE?=
- =?utf-8?B?K0dxanRjVnp3MkRTQ1NiWnp5YVlndnJpSkowNnFyUVpLejVVbmgrZS92Kzdt?=
- =?utf-8?B?dGlZc0UvckVEdEgzekN0bEphRjRxeVFSWEV4dHN2Z1lsSnpsQmlCWE1qeml2?=
- =?utf-8?B?d0c5RWNLdTZkMGJFNUNNcGpzMitTV0Uyd1pJWVlQVnpkNHNMK3pCWDMxMVhP?=
- =?utf-8?B?Nm9TY0tydmUzQjcwdi95SjRRY0FlTmdnazR0eXhQQVdxOXlxMGhXNURCUXRa?=
- =?utf-8?B?QVMxRExBNzlHcXM5OUdWTis2WFQvck1zL2h0SEd3MlFsWk43dHVoQlJadFcw?=
- =?utf-8?B?YmpKK1lCOXlmbjRsMTBNOTBOeDVjQ1ZkTHJQb1ZPSXRUaXpoM2RTWkV4TElX?=
- =?utf-8?B?WWlpZk0vNThaZUtRVFJiSWhPeUtiODY1dWhWdmFHZE1rZm5JczhqY1h6UElN?=
- =?utf-8?B?TERyQVhIcW5mcWM5WW1Zb2gwT1Y5dm5RcHN4RUtPTEMrMWpDcmxCVU0yTkZm?=
- =?utf-8?B?VTVqeVQ1ZzN1NUNmaWtPYXgyNVF1cnh3b2JLYVgvSzhiYlgxVnRHNmgvODhq?=
- =?utf-8?B?Q3JPRDQ3amkrc0NVTVFUTndUWkx1MjlDYjhyck9mQmFjL3dBc1JEWUJNU2I1?=
- =?utf-8?B?anJ4VnR0YUp4N0VwNEhyaFlKYzVEdjZjdE8vWWtwWkVtWHVhbm1nZWNiVWM5?=
- =?utf-8?Q?c9lEwYCkV4htrwlBc4oXQh0xGto6c6uaw04rqQF1JHrt?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 978e1dea-8312-42fa-04f4-08ddfcb660f8
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bTlZZVJTMjZoa1Z2clZXbHcyQUEySjhKcTNISGp4TVhLRk5qNWw3bW10T2p0?=
+ =?utf-8?B?QktSRDlTZ0lHVGJSUFpHY0J1eW9GK1c4TTQzV2kxbkplYStWekx0OFhzdThs?=
+ =?utf-8?B?eWF4M2crRVdhSE5XQkU0eThFVG1LVlFqYXo4bXhyanJkdFd0OTNOMEhJZWhu?=
+ =?utf-8?B?R0ZHc2R4L3c4VXhyNjJSQTVQSDR4WmxydDByRk80ZGNYOHF0TTlrV1JISk5J?=
+ =?utf-8?B?akVoc0xpRlg2NGh3czduTHZ0N0xKYy84d3dNK2NwK05KY1J4bE14ZlpZaDJJ?=
+ =?utf-8?B?TlFmdmd3Z0xnWkZadTZaVTFQYUswVCtJUTBpZkoyVDI5WHFITm1wcytOWDZn?=
+ =?utf-8?B?TzNKRGdVT1VidUdtb0ticFFCL0hiTVhONElJeXcrcG5NLzA5TlliOEFjWmxk?=
+ =?utf-8?B?MmMxT2JPeW5peklqdnNFVEFvcC9YQis2dUQrdzhmdzduY1ZBcWFla0F2Z2ZQ?=
+ =?utf-8?B?OEJwQmJjTnlHSzZyeHEwSGVFZ05DOHh0N3Q2QSt6RUljYzcrODdtQmxhcC9I?=
+ =?utf-8?B?SWk4bkd6UklWSGtMak5yVkxnYm1aM0VNN0lFUmw1RFNsZGh1amZHVXltME9K?=
+ =?utf-8?B?SW96QjRmNm5kRng3WUlaeUpYQ0U3S3grVUw1YXZXVHZ0bi9BNFE0RGljKytp?=
+ =?utf-8?B?VUNHb1lubVBIeE5wYlNpcnJKT0ZBeldvNFBUeHBqRmFiSUI2OGJmTkNuNDJL?=
+ =?utf-8?B?R3JhTXdJS3BOUDE0Y3dub0kxdE9OOE4wVms4elgydE9DYU8zcmcrblRRcU94?=
+ =?utf-8?B?WWt6RmsrRCtiUXpuSjZ4M0Z2TE5kdis0OUNWSG9tTU5leDA4U3psS0VvY0ZO?=
+ =?utf-8?B?NnBGWjg0RDhET2JqeGVQOEl4dkpMbnhSQU1scm1Za1J2cWhzdSsvSy9mWUd4?=
+ =?utf-8?B?MW4zN2pWc2w1cGRwN3lpV2JJUldGMTYzcEF1WmE0OXFSRTFFdFpHQlhiMDFW?=
+ =?utf-8?B?WVRoYzJmOFVKUDNYTm14OXVyQ2R6VWUzRTE1dFNvSW1jeS9GbWovQVdZVnd2?=
+ =?utf-8?B?VWJhR3FJVCs3ZThmSUYzMzBsNmpDUUdBeGJJQUdVZS9LckIzazNXUnN3eHc5?=
+ =?utf-8?B?MXVYYVRaUVE2M2NUTXR0TVZlN3BEbzArcWwreXBMOFIyczRSVVRWS2xBQzNy?=
+ =?utf-8?B?QzZGSDJJWUxqdWdFWWV0UXZ0Q0lIcUY5OGg3bmIxWGpxSWhmYVdqVExZNWdS?=
+ =?utf-8?B?VTljSzN2M2N3UkttWk0zeWJoL1U2aG5Nb3hCcHBqa3FxZG13dFMwRGpaMWJJ?=
+ =?utf-8?B?MmpuTGs3bCtsMG5Ibm9IcU1zdWVsazFicFc2S1FWYWZKOGE5SWJ6eTRHTGJG?=
+ =?utf-8?B?SGhpaWhkblhtSndlMzNselozSmxXUDR3Q0JrNlo4eWJlaFFxbGhEdEhGaEly?=
+ =?utf-8?B?NlJVbWUvNE14cWJXd2hpd0tVMGE2NWZYTldTbmQvWE5rNVEwQlJWOE14MDdM?=
+ =?utf-8?B?K3FJMDE4aDNDQVlTSWJEZUkyVXRRTWlxVm0wRmFXUE91SmNOYzlTTlBYVEti?=
+ =?utf-8?B?T3BOODZzUGljamRkU2QvdFZ6T0o2N29ic1RGejB1MDhHb0poLzEwU3ZwWjNL?=
+ =?utf-8?B?QXp6YktUOEFTT0k1VjgvbHR2bHNjMkF4azBpZ21WZ0Z2RjZaOXhLVHlhMG5Z?=
+ =?utf-8?B?S0xxOXdualp5Z3NJTi9rb2ZrQlF6Ymo4QXF3SDhxMHlYYzBNa2ZnRDRjYlBU?=
+ =?utf-8?B?cnZQQ2ZVQjMwOXU0NDFBd2dQa3UxL0lwSUNYdlFRZ0J1MThidk1WdU41TVNs?=
+ =?utf-8?B?VWtac3pMT21iMzBwUUFCRVRyb2NoVTZ6ajVrRnZvWjVRVGg3WGorSmk5bVNE?=
+ =?utf-8?B?SW9wSGdMM2J1OUk5dkVQTXZFZDFmQmRmbEcwVDRkQkFOZktvTE1xZ2lTL1hV?=
+ =?utf-8?B?ZDdQMFdJc0JlUW9YcFpUTXBYU01VcUoyc2tKVUR0L0VoVnJlZ2pwbi9rUVow?=
+ =?utf-8?B?Zkl0dERMSS9ZeXFEVzlSNW1iM0hxeGR4VjU4WjZERXV4c0hhZWRhckZRUXh5?=
+ =?utf-8?B?UUxaSXhZOThZeXhKOUVVNzg3b2duaW1oc1BMZnNBbUZHYTdNRG1JQmJWNlgw?=
+ =?utf-8?B?MGZhanNmUDBkeFhaVU1mL2ZBenlFaDhQL2hGSFk5amNQMjNjcW5sbXMrNm5q?=
+ =?utf-8?Q?Zn4pmhPS6YaLN/GiYjlmwEkcE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f34f102-98ad-46d6-1844-08ddfcbf5a46
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 04:37:20.4730 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 05:41:34.3672 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GFq99Sm4sEWZ+CidKaEO7ESTf/NyHyIajyqyQbt5cYqxKO7IqXRiVdFJ02jJaZ6NwdnKcvbDZSpkxAeud8479g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7338
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wb6cNXWA5tUHljnJqptJ0miUhJQEvLTnso1h83QWxkSpMsP3m77GuJR641eZiPr8nBYuWAaGytEZNgut6Iyz+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7763
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,851 +165,545 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alistair,
+Hi Matthew,
 
-On Mon Sep 22, 2025 at 8:30 PM JST, Alistair Popple wrote:
-<snip>
-> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gs=
-p/cmdq.rs
-> new file mode 100644
-> index 000000000000..a9ba1a4c73d8
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-> @@ -0,0 +1,423 @@
-> +// SPDX-License-Identifier: GPL-2.0
+Ping ?
+
+Regards,
+Arun.
+
+On 9/23/2025 2:32 PM, Arunpravin Paneer Selvam wrote:
+> Replace the freelist (O(n)) used for free block management with a
+> red-black tree, providing more efficient O(log n) search, insert,
+> and delete operations. This improves scalability and performance
+> when managing large numbers of free blocks per order (e.g., hundreds
+> or thousands).
+>
+> In the VK-CTS memory stress subtest, the buddy manager merges
+> fragmented memory and inserts freed blocks into the freelist. Since
+> freelist insertion is O(n), this becomes a bottleneck as fragmentation
+> increases. Benchmarking shows list_insert_sorted() consumes ~52.69% CPU
+> with the freelist, compared to just 0.03% with the RB tree
+> (rbtree_insert.isra.0), despite performing the same sorted insert.
+>
+> This also improves performance in heavily fragmented workloads,
+> such as games or graphics tests that stress memory.
+>
+> As the buddy allocator evolves with new features such as clear-page
+> tracking, the resulting fragmentation and complexity have grown.
+> These RB-tree based design changes are introduced to address that
+> growth and ensure the allocator continues to perform efficiently
+> under fragmented conditions.
+>
+> The RB tree implementation with separate clear/dirty trees provides:
+> - O(n log n) aggregate complexity for all operations instead of O(n^2)
+> - Elimination of soft lockups and system instability
+> - Improved code maintainability and clarity
+> - Better scalability for large memory systems
+> - Predictable performance under fragmentation
+>
+> v3(Matthew):
+>    - Remove RB_EMPTY_NODE check in force_merge function.
+>    - Rename rb for loop macros to have less generic names and move to
+>      .c file.
+>    - Make the rb node rb and link field as union.
+>
+> v4(Jani Nikula):
+>    - The kernel-doc comment should be "/**"
+>    - Move all the rbtree macros to rbtree.h and add parens to ensure
+>      correct precedence.
+>
+> v5:
+>    - Remove the inline in a .c file (Jani Nikula).
+>
+> v6(Peter Zijlstra):
+>    - Add rb_add() function replacing the existing rbtree_insert() code.
+>
+> v7:
+>    - A full walk iteration in rbtree is slower than the list (Peter Zijlstra).
+>    - The existing rbtree_postorder_for_each_entry_safe macro should be used
+>      in scenarios where traversal order is not a critical factor (Christian).
+>
+> Cc: stable@vger.kernel.org
+> Fixes: a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> ---
+>   drivers/gpu/drm/drm_buddy.c | 188 ++++++++++++++++++++++--------------
+>   include/drm/drm_buddy.h     |  11 ++-
+>   2 files changed, 124 insertions(+), 75 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index a94061f373de..67aa67229cc3 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -14,6 +14,8 @@
+>   
+>   static struct kmem_cache *slab_blocks;
+>   
+> +#define rbtree_get_free_block(node) rb_entry((node), struct drm_buddy_block, rb)
 > +
-> +use core::mem::offset_of;
-> +use core::sync::atomic::fence;
-> +use core::sync::atomic::Ordering;
+>   static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+>   					       struct drm_buddy_block *parent,
+>   					       unsigned int order,
+> @@ -31,6 +33,8 @@ static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+>   	block->header |= order;
+>   	block->parent = parent;
+>   
+> +	RB_CLEAR_NODE(&block->rb);
 > +
-> +use kernel::alloc::flags::GFP_KERNEL;
-> +use kernel::device;
-> +use kernel::dma::{CoherentAllocation, DmaAddress};
-> +use kernel::prelude::*;
-> +use kernel::sync::aref::ARef;
-> +use kernel::time::Delta;
-> +use kernel::transmute::{AsBytes, FromBytes};
-> +use kernel::{dma_read, dma_write};
-> +
-> +use super::fw::{
-> +    NV_VGPU_MSG_EVENT_GSP_INIT_DONE, NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTI=
-CE,
-> +    NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD, NV_VGPU_MSG_EVENT_GSP_RUN_C=
-PU_SEQUENCER,
-> +    NV_VGPU_MSG_EVENT_MMU_FAULT_QUEUED, NV_VGPU_MSG_EVENT_OS_ERROR_LOG,
-> +    NV_VGPU_MSG_EVENT_POST_EVENT, NV_VGPU_MSG_EVENT_RC_TRIGGERED,
-> +    NV_VGPU_MSG_EVENT_UCODE_LIBOS_PRINT, NV_VGPU_MSG_FUNCTION_ALLOC_CHAN=
-NEL_DMA,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA, NV_VGPU_MSG_FUNCTION_ALLOC_DEVIC=
-E,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_MEMORY, NV_VGPU_MSG_FUNCTION_ALLOC_OBJECT=
-,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_ROOT, NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA, =
-NV_VGPU_MSG_FUNCTION_FREE,
-> +    NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO, NV_VGPU_MSG_FUNCTION_GET_S=
-TATIC_INFO,
-> +    NV_VGPU_MSG_FUNCTION_GSP_INIT_POST_OBJGPU, NV_VGPU_MSG_FUNCTION_GSP_=
-RM_CONTROL,
-> +    NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_INFO, NV_VGPU_MSG_FUNCTION_LOG,
-> +    NV_VGPU_MSG_FUNCTION_MAP_MEMORY, NV_VGPU_MSG_FUNCTION_NOP,
-> +    NV_VGPU_MSG_FUNCTION_SET_GUEST_SYSTEM_INFO, NV_VGPU_MSG_FUNCTION_SET=
-_REGISTRY,
-> +};
-
-As I mentioned in v1, let's turn these into two enums to avoid this big
-import and make sure we can never mix up the values.
-
-This can be something like this in `fw.rs`:
-
-#[repr(u32)]
-pub(crate) enum VgpuMsgEvent {
-    GspInitDone =3D bindings::NV_VGPU_MSG_EVENT_GSP_INIT_DONE,
-    GspLockDownNotice =3D bindings::NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTICE,
-    ...
-}
-
-Then you just need to import `VgpuMsgEvent`, and can use that type where
-appropriate, e.g. for the `FUNCTION` associated type of
-`GspMessageFromGsp`.
-
-> +use crate::driver::Bar0;
-> +use crate::gsp::create_pte_array;
-> +use crate::gsp::fw::{GspMsgElement, MsgqRxHeader, MsgqTxHeader};
-> +use crate::gsp::{GSP_PAGE_SHIFT, GSP_PAGE_SIZE};
-> +use crate::regs::NV_PGSP_QUEUE_HEAD;
-> +use crate::sbuffer::SBuffer;
-> +use crate::util::wait_on;
-> +
-> +pub(crate) trait GspCommandToGsp: Sized + FromBytes + AsBytes {
-> +    const FUNCTION: u32;
+>   	BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
+>   	return block;
+>   }
+> @@ -41,23 +45,49 @@ static void drm_block_free(struct drm_buddy *mm,
+>   	kmem_cache_free(slab_blocks, block);
+>   }
+>   
+> -static void list_insert_sorted(struct drm_buddy *mm,
+> -			       struct drm_buddy_block *block)
+> +static bool drm_buddy_block_offset_less(const struct drm_buddy_block *block,
+> +					const struct drm_buddy_block *node)
+>   {
+> -	struct drm_buddy_block *node;
+> -	struct list_head *head;
+> +	return drm_buddy_block_offset(block) < drm_buddy_block_offset(node);
+> +}
+>   
+> -	head = &mm->free_list[drm_buddy_block_order(block)];
+> -	if (list_empty(head)) {
+> -		list_add(&block->link, head);
+> -		return;
+> -	}
+> +static bool rbtree_block_offset_less(struct rb_node *block,
+> +				     const struct rb_node *node)
+> +{
+> +	return drm_buddy_block_offset_less(rbtree_get_free_block(block),
+> +					   rbtree_get_free_block(node));
+> +}
+>   
+> -	list_for_each_entry(node, head, link)
+> -		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
+> -			break;
+> +static void rbtree_insert(struct drm_buddy *mm,
+> +			  struct drm_buddy_block *block)
+> +{
+> +	rb_add(&block->rb,
+> +	       &mm->free_tree[drm_buddy_block_order(block)],
+> +	       rbtree_block_offset_less);
 > +}
 > +
-> +pub(crate) trait GspMessageFromGsp: Sized + FromBytes + AsBytes {
-> +    const FUNCTION: u32;
-> +}
-
-Do we need to repeat `Gsp` in these trait names? `CommandToGsp` and
-`MessageFromGsp` should be fine.
-
-(I am also guilty of prefixing type names to avoid name collisions - a
-habit inherited from years of C programming, but since we are already in
-the `gsp` module we can forgo this habit as users can just import the
-module and refer to the type as `gsp::MessageFromGsp` if there is any
-ambiguity).
-
+> +static void rbtree_remove(struct drm_buddy *mm,
+> +			  struct drm_buddy_block *block)
+> +{
+> +	struct rb_root *root;
 > +
-> +/// Number of GSP pages making the Msgq.
-> +pub(crate) const MSGQ_NUM_PAGES: u32 =3D 0x3f;
-> +
-> +#[repr(C, align(0x1000))]
-> +#[derive(Debug)]
-> +struct MsgqData {
-> +    data: [[u8; GSP_PAGE_SIZE]; MSGQ_NUM_PAGES as usize],
+> +	root = &mm->free_tree[drm_buddy_block_order(block)];
+> +	rb_erase(&block->rb, root);
+>   
+> -	__list_add(&block->link, node->link.prev, &node->link);
+> +	RB_CLEAR_NODE(&block->rb);
 > +}
 > +
-> +// Annoyingly there is no real equivalent of #define so we're forced to =
-use a
-> +// literal to specify the alignment above. So check that against the act=
-ual GSP
-> +// page size here.
-> +static_assert!(align_of::<MsgqData>() =3D=3D GSP_PAGE_SIZE);
+> +static struct drm_buddy_block *
+> +rbtree_last_entry(struct drm_buddy *mm, unsigned int order)
+> +{
+> +	struct rb_node *node = rb_last(&mm->free_tree[order]);
 > +
-> +// There is no struct defined for this in the open-gpu-kernel-source hea=
-ders.
-> +// Instead it is defined by code in GspMsgQueuesInit().
-> +#[repr(C)]
-> +struct Msgq {
-> +    tx: MsgqTxHeader,
-> +    rx: MsgqRxHeader,
-> +    msgq: MsgqData,
+> +	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
 > +}
 > +
-> +#[repr(C)]
-> +struct GspMem {
-> +    ptes: [u8; GSP_PAGE_SIZE],
-> +    cpuq: Msgq,
-> +    gspq: Msgq,
-> +}
+> +static bool rbtree_is_empty(struct drm_buddy *mm, unsigned int order)
+> +{
+> +	return RB_EMPTY_ROOT(&mm->free_tree[order]);
+>   }
+>   
+>   static void clear_reset(struct drm_buddy_block *block)
+> @@ -70,12 +100,13 @@ static void mark_cleared(struct drm_buddy_block *block)
+>   	block->header |= DRM_BUDDY_HEADER_CLEAR;
+>   }
+>   
+> -static void mark_allocated(struct drm_buddy_block *block)
+> +static void mark_allocated(struct drm_buddy *mm,
+> +			   struct drm_buddy_block *block)
+>   {
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_ALLOCATED;
+>   
+> -	list_del(&block->link);
+> +	rbtree_remove(mm, block);
+>   }
+>   
+>   static void mark_free(struct drm_buddy *mm,
+> @@ -84,15 +115,16 @@ static void mark_free(struct drm_buddy *mm,
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_FREE;
+>   
+> -	list_insert_sorted(mm, block);
+> +	rbtree_insert(mm, block);
+>   }
+>   
+> -static void mark_split(struct drm_buddy_block *block)
+> +static void mark_split(struct drm_buddy *mm,
+> +		       struct drm_buddy_block *block)
+>   {
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_SPLIT;
+>   
+> -	list_del(&block->link);
+> +	rbtree_remove(mm, block);
+>   }
+>   
+>   static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
+> @@ -148,7 +180,7 @@ static unsigned int __drm_buddy_free(struct drm_buddy *mm,
+>   				mark_cleared(parent);
+>   		}
+>   
+> -		list_del(&buddy->link);
+> +		rbtree_remove(mm, buddy);
+>   		if (force_merge && drm_buddy_block_is_clear(buddy))
+>   			mm->clear_avail -= drm_buddy_block_size(mm, buddy);
+>   
+> @@ -179,13 +211,19 @@ static int __force_merge(struct drm_buddy *mm,
+>   		return -EINVAL;
+>   
+>   	for (i = min_order - 1; i >= 0; i--) {
+> -		struct drm_buddy_block *block, *prev;
+> +		struct rb_root *root = &mm->free_tree[i];
+> +		struct rb_node *iter;
 > +
-> +// SAFETY: These structs don't meet the no-padding requirements of AsByt=
-es but
-> +// that is not a problem because they are not used outside the kernel.
-> +unsafe impl AsBytes for GspMem {}
+> +		iter = rb_last(root);
+>   
+> -		list_for_each_entry_safe_reverse(block, prev, &mm->free_list[i], link) {
+> -			struct drm_buddy_block *buddy;
+> +		while (iter) {
+> +			struct drm_buddy_block *block, *buddy;
+>   			u64 block_start, block_end;
+>   
+> -			if (!block->parent)
+> +			block = rbtree_get_free_block(iter);
+> +			iter = rb_prev(iter);
 > +
-> +// SAFETY: These structs don't meet the no-padding requirements of FromB=
-ytes but
-> +// that is not a problem because they are not used outside the kernel.
-> +unsafe impl FromBytes for GspMem {}
+> +			if (!block || !block->parent)
+>   				continue;
+>   
+>   			block_start = drm_buddy_block_offset(block);
+> @@ -201,15 +239,10 @@ static int __force_merge(struct drm_buddy *mm,
+>   			WARN_ON(drm_buddy_block_is_clear(block) ==
+>   				drm_buddy_block_is_clear(buddy));
+>   
+> -			/*
+> -			 * If the prev block is same as buddy, don't access the
+> -			 * block in the next iteration as we would free the
+> -			 * buddy block as part of the free function.
+> -			 */
+> -			if (prev == buddy)
+> -				prev = list_prev_entry(prev, link);
+> +			if (iter == &buddy->rb)
+> +				iter = rb_prev(iter);
+>   
+> -			list_del(&block->link);
+> +			rbtree_remove(mm, block);
+>   			if (drm_buddy_block_is_clear(block))
+>   				mm->clear_avail -= drm_buddy_block_size(mm, block);
+>   
+> @@ -258,14 +291,14 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   
+>   	BUG_ON(mm->max_order > DRM_BUDDY_MAX_ORDER);
+>   
+> -	mm->free_list = kmalloc_array(mm->max_order + 1,
+> -				      sizeof(struct list_head),
+> +	mm->free_tree = kmalloc_array(mm->max_order + 1,
+> +				      sizeof(struct rb_root),
+>   				      GFP_KERNEL);
+> -	if (!mm->free_list)
+> +	if (!mm->free_tree)
+>   		return -ENOMEM;
+>   
+>   	for (i = 0; i <= mm->max_order; ++i)
+> -		INIT_LIST_HEAD(&mm->free_list[i]);
+> +		mm->free_tree[i] = RB_ROOT;
+>   
+>   	mm->n_roots = hweight64(size);
+>   
+> @@ -273,7 +306,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   				  sizeof(struct drm_buddy_block *),
+>   				  GFP_KERNEL);
+>   	if (!mm->roots)
+> -		goto out_free_list;
+> +		goto out_free_tree;
+>   
+>   	offset = 0;
+>   	i = 0;
+> @@ -312,8 +345,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   	while (i--)
+>   		drm_block_free(mm, mm->roots[i]);
+>   	kfree(mm->roots);
+> -out_free_list:
+> -	kfree(mm->free_list);
+> +out_free_tree:
+> +	kfree(mm->free_tree);
+>   	return -ENOMEM;
+>   }
+>   EXPORT_SYMBOL(drm_buddy_init);
+> @@ -323,7 +356,7 @@ EXPORT_SYMBOL(drm_buddy_init);
+>    *
+>    * @mm: DRM buddy manager to free
+>    *
+> - * Cleanup memory manager resources and the freelist
+> + * Cleanup memory manager resources and the freetree
+>    */
+>   void drm_buddy_fini(struct drm_buddy *mm)
+>   {
+> @@ -350,7 +383,7 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>   	WARN_ON(mm->avail != mm->size);
+>   
+>   	kfree(mm->roots);
+> -	kfree(mm->free_list);
+> +	kfree(mm->free_tree);
+>   }
+>   EXPORT_SYMBOL(drm_buddy_fini);
+>   
+> @@ -383,7 +416,7 @@ static int split_block(struct drm_buddy *mm,
+>   		clear_reset(block);
+>   	}
+>   
+> -	mark_split(block);
+> +	mark_split(mm, block);
+>   
+>   	return 0;
+>   }
+> @@ -412,7 +445,7 @@ EXPORT_SYMBOL(drm_get_buddy);
+>    * @is_clear: blocks clear state
+>    *
+>    * Reset the clear state based on @is_clear value for each block
+> - * in the freelist.
+> + * in the freetree.
+>    */
+>   void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
+>   {
+> @@ -431,9 +464,9 @@ void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
+>   	}
+>   
+>   	for (i = 0; i <= mm->max_order; ++i) {
+> -		struct drm_buddy_block *block;
+> +		struct drm_buddy_block *block, *tmp;
+>   
+> -		list_for_each_entry_reverse(block, &mm->free_list[i], link) {
+> +		rbtree_postorder_for_each_entry_safe(block, tmp, &mm->free_tree[i], rb) {
+>   			if (is_clear != drm_buddy_block_is_clear(block)) {
+>   				if (is_clear) {
+>   					mark_cleared(block);
+> @@ -639,14 +672,18 @@ get_maxblock(struct drm_buddy *mm, unsigned int order,
+>   	unsigned int i;
+>   
+>   	for (i = order; i <= mm->max_order; ++i) {
+> +		struct rb_node *iter = rb_last(&mm->free_tree[i]);
+>   		struct drm_buddy_block *tmp_block;
+>   
+> -		list_for_each_entry_reverse(tmp_block, &mm->free_list[i], link) {
+> -			if (block_incompatible(tmp_block, flags))
+> -				continue;
+> +		while (iter) {
+> +			tmp_block = rbtree_get_free_block(iter);
+>   
+> -			block = tmp_block;
+> -			break;
+> +			if (!block_incompatible(tmp_block, flags)) {
+> +				block = tmp_block;
+> +				break;
+> +			}
+> +
+> +			iter = rb_prev(iter);
+>   		}
+>   
+>   		if (!block)
+> @@ -667,7 +704,7 @@ get_maxblock(struct drm_buddy *mm, unsigned int order,
+>   }
+>   
+>   static struct drm_buddy_block *
+> -alloc_from_freelist(struct drm_buddy *mm,
+> +alloc_from_freetree(struct drm_buddy *mm,
+>   		    unsigned int order,
+>   		    unsigned long flags)
+>   {
+> @@ -682,14 +719,18 @@ alloc_from_freelist(struct drm_buddy *mm,
+>   			tmp = drm_buddy_block_order(block);
+>   	} else {
+>   		for (tmp = order; tmp <= mm->max_order; ++tmp) {
+> +			struct rb_node *iter = rb_last(&mm->free_tree[tmp]);
+>   			struct drm_buddy_block *tmp_block;
+>   
+> -			list_for_each_entry_reverse(tmp_block, &mm->free_list[tmp], link) {
+> -				if (block_incompatible(tmp_block, flags))
+> -					continue;
+> +			while (iter) {
+> +				tmp_block = rbtree_get_free_block(iter);
+>   
+> -				block = tmp_block;
+> -				break;
+> +				if (!block_incompatible(tmp_block, flags)) {
+> +					block = tmp_block;
+> +					break;
+> +				}
+> +
+> +				iter = rb_prev(iter);
+>   			}
+>   
+>   			if (block)
+> @@ -700,10 +741,8 @@ alloc_from_freelist(struct drm_buddy *mm,
+>   	if (!block) {
+>   		/* Fallback method */
+>   		for (tmp = order; tmp <= mm->max_order; ++tmp) {
+> -			if (!list_empty(&mm->free_list[tmp])) {
+> -				block = list_last_entry(&mm->free_list[tmp],
+> -							struct drm_buddy_block,
+> -							link);
+> +			if (!rbtree_is_empty(mm, tmp)) {
+> +				block = rbtree_last_entry(mm, tmp);
+>   				if (block)
+>   					break;
+>   			}
+> @@ -771,7 +810,7 @@ static int __alloc_range(struct drm_buddy *mm,
+>   
+>   		if (contains(start, end, block_start, block_end)) {
+>   			if (drm_buddy_block_is_free(block)) {
+> -				mark_allocated(block);
+> +				mark_allocated(mm, block);
+>   				total_allocated += drm_buddy_block_size(mm, block);
+>   				mm->avail -= drm_buddy_block_size(mm, block);
+>   				if (drm_buddy_block_is_clear(block))
+> @@ -849,8 +888,8 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   {
+>   	u64 rhs_offset, lhs_offset, lhs_size, filled;
+>   	struct drm_buddy_block *block;
+> -	struct list_head *list;
+>   	LIST_HEAD(blocks_lhs);
+> +	struct rb_node *iter;
+>   	unsigned long pages;
+>   	unsigned int order;
+>   	u64 modify_size;
+> @@ -862,11 +901,14 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   	if (order == 0)
+>   		return -ENOSPC;
+>   
+> -	list = &mm->free_list[order];
+> -	if (list_empty(list))
+> +	if (rbtree_is_empty(mm, order))
+>   		return -ENOSPC;
+>   
+> -	list_for_each_entry_reverse(block, list, link) {
+> +	iter = rb_last(&mm->free_tree[order]);
+> +
+> +	while (iter) {
+> +		block = rbtree_get_free_block(iter);
+> +
+>   		/* Allocate blocks traversing RHS */
+>   		rhs_offset = drm_buddy_block_offset(block);
+>   		err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
+> @@ -891,6 +933,8 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   		}
+>   		/* Free blocks for the next iteration */
+>   		drm_buddy_free_list_internal(mm, blocks);
+> +
+> +		iter = rb_prev(iter);
+>   	}
+>   
+>   	return -ENOSPC;
+> @@ -976,7 +1020,7 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>   	list_add(&block->tmp_link, &dfs);
+>   	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks, NULL);
+>   	if (err) {
+> -		mark_allocated(block);
+> +		mark_allocated(mm, block);
+>   		mm->avail -= drm_buddy_block_size(mm, block);
+>   		if (drm_buddy_block_is_clear(block))
+>   			mm->clear_avail -= drm_buddy_block_size(mm, block);
+> @@ -999,8 +1043,8 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   		return  __drm_buddy_alloc_range_bias(mm, start, end,
+>   						     order, flags);
+>   	else
+> -		/* Allocate from freelist */
+> -		return alloc_from_freelist(mm, order, flags);
+> +		/* Allocate from freetree */
+> +		return alloc_from_freetree(mm, order, flags);
+>   }
+>   
+>   /**
+> @@ -1017,8 +1061,8 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>    * alloc_range_bias() called on range limitations, which traverses
+>    * the tree and returns the desired block.
+>    *
+> - * alloc_from_freelist() called when *no* range restrictions
+> - * are enforced, which picks the block from the freelist.
+> + * alloc_from_freetree() called when *no* range restrictions
+> + * are enforced, which picks the block from the freetree.
+>    *
+>    * Returns:
+>    * 0 on success, error code on failure.
+> @@ -1120,7 +1164,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   			}
+>   		} while (1);
+>   
+> -		mark_allocated(block);
+> +		mark_allocated(mm, block);
+>   		mm->avail -= drm_buddy_block_size(mm, block);
+>   		if (drm_buddy_block_is_clear(block))
+>   			mm->clear_avail -= drm_buddy_block_size(mm, block);
+> @@ -1201,10 +1245,10 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
+>   		   mm->chunk_size >> 10, mm->size >> 20, mm->avail >> 20, mm->clear_avail >> 20);
+>   
+>   	for (order = mm->max_order; order >= 0; order--) {
+> -		struct drm_buddy_block *block;
+> +		struct drm_buddy_block *block, *tmp;
+>   		u64 count = 0, free;
+>   
+> -		list_for_each_entry(block, &mm->free_list[order], link) {
+> +		rbtree_postorder_for_each_entry_safe(block, tmp, &mm->free_tree[order], rb) {
+>   			BUG_ON(!drm_buddy_block_is_free(block));
+>   			count++;
+>   		}
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index 513837632b7d..9ee105d4309f 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -10,6 +10,7 @@
+>   #include <linux/list.h>
+>   #include <linux/slab.h>
+>   #include <linux/sched.h>
+> +#include <linux/rbtree.h>
+>   
+>   #include <drm/drm_print.h>
+>   
+> @@ -53,7 +54,11 @@ struct drm_buddy_block {
+>   	 * a list, if so desired. As soon as the block is freed with
+>   	 * drm_buddy_free* ownership is given back to the mm.
+>   	 */
+> -	struct list_head link;
+> +	union {
+> +		struct rb_node rb;
+> +		struct list_head link;
+> +	};
+> +
+>   	struct list_head tmp_link;
+>   };
+>   
+> @@ -68,7 +73,7 @@ struct drm_buddy_block {
+>    */
+>   struct drm_buddy {
+>   	/* Maintain a free list for each order. */
+> -	struct list_head *free_list;
+> +	struct rb_root *free_tree;
+>   
+>   	/*
+>   	 * Maintain explicit binary tree(s) to track the allocation of the
+> @@ -94,7 +99,7 @@ struct drm_buddy {
+>   };
+>   
+>   static inline u64
+> -drm_buddy_block_offset(struct drm_buddy_block *block)
+> +drm_buddy_block_offset(const struct drm_buddy_block *block)
+>   {
+>   	return block->header & DRM_BUDDY_HEADER_OFFSET;
+>   }
+>
+> base-commit: 3a9cf301794c1a49d95eeb13119ff490fb5cfe88
 
-These ARE used outside the kernel, since they are shared with the GSP.
-:) I'd say the reason these are safe is just because we satisfy the
-requirements of AsBytes and FromBytes:
-
-- No initialized bytes,
-- No interior mutability,
-- All bytes patterns are valid (for some generous definition of
-  "valid" limited to not triggering UB).
-
-> +
-> +/// `GspMem` struct that is shared with the GSP.
-> +struct DmaGspMem(CoherentAllocation<GspMem>);
-> +
-> +impl DmaGspMem {
-> +    fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-> +        const MSGQ_SIZE: u32 =3D size_of::<Msgq>() as u32;
-> +        const RX_HDR_OFF: u32 =3D offset_of!(Msgq, rx) as u32;
-> +
-> +        let mut gsp_mem =3D
-> +            CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KER=
-NEL | __GFP_ZERO)?;
-> +        create_pte_array(&mut gsp_mem, 0);
-> +        dma_write!(gsp_mem[0].cpuq.tx =3D MsgqTxHeader::new(MSGQ_SIZE, R=
-X_HDR_OFF))?;
-> +        dma_write!(gsp_mem[0].cpuq.rx =3D MsgqRxHeader::new())?;
-> +
-> +        Ok(Self(gsp_mem))
-> +    }
-> +
-> +    #[expect(unused)]
-> +    fn dma_handle(&self) -> DmaAddress {
-> +        self.0.dma_handle()
-> +    }
-> +
-> +    /// # Safety
-> +    ///
-> +    /// The caller must ensure that the device doesn't access the parts =
-of the [`GspMem`] it works
-> +    /// with.
-> +    unsafe fn access_mut(&mut self) -> &mut GspMem {
-> +        // SAFETY:
-> +        // - The [`CoherentAllocation`] contains exactly one object.
-> +        // - Per the safety statement of the function, no concurrent acc=
-ess wil be performed.
-> +        &mut unsafe { self.0.as_slice_mut(0, 1) }.unwrap()[0]
-> +    }
-> +
-> +    /// # Safety
-> +    ///
-> +    /// The caller must ensure that the device doesn't access the parts =
-of the [`GspMem`] it works
-> +    /// with.
-> +    unsafe fn access(&self) -> &GspMem {
-> +        // SAFETY:
-> +        // - The [`CoherentAllocation`] contains exactly one object.
-> +        // - Per the safety statement of the function, no concurrent acc=
-ess wil be performed.
-> +        &unsafe { self.0.as_slice(0, 1) }.unwrap()[0]
-> +    }
-
-Since these two methods are only called once each from
-`driver_write/read_area`, let's inline them there and reduce our
-`unsafe` keyword counter.
-
-> +
-> +    fn driver_write_area(&mut self) -> (&mut [[u8; GSP_PAGE_SIZE]], &mut=
- [[u8; GSP_PAGE_SIZE]]) {
-> +        let tx =3D self.cpu_write_ptr() as usize;
-> +        let rx =3D self.gsp_read_ptr() as usize;
-> +
-> +        // SAFETY: we will only access the driver-owned part of the shar=
-ed memory.
-> +        let gsp_mem =3D unsafe { self.access_mut() };
-> +        let (before_tx, after_tx) =3D gsp_mem.cpuq.msgq.data.split_at_mu=
-t(tx);
-> +
-> +        if rx <=3D tx {
-> +            // The area from `tx` up to the end of the ring, and from th=
-e beginning of the ring up
-> +            // to `rx`, minus one unit, belongs to the driver.
-> +            if rx =3D=3D 0 {
-> +                let last =3D after_tx.len() - 1;
-> +                (&mut after_tx[..last], &mut before_tx[0..0])
-> +            } else {
-> +                (after_tx, &mut before_tx[..rx])
-> +            }
-> +        } else {
-> +            // The area from `tx` to `rx`, minus one unit, belongs to th=
-e driver.
-> +            (after_tx.split_at_mut(rx - tx).0, &mut before_tx[0..0])
-> +        }
-> +    }
-> +
-> +    fn driver_read_area(&self) -> (&[[u8; GSP_PAGE_SIZE]], &[[u8; GSP_PA=
-GE_SIZE]]) {
-> +        let tx =3D self.gsp_write_ptr() as usize;
-> +        let rx =3D self.cpu_read_ptr() as usize;
-> +
-> +        // SAFETY: we will only access the driver-owned part of the shar=
-ed memory.
-> +        let gsp_mem =3D unsafe { self.access() };
-> +        let (before_rx, after_rx) =3D gsp_mem.gspq.msgq.data.split_at(rx=
-);
-> +
-> +        if tx <=3D rx {
-> +            // The area from `rx` up to the end of the ring, and from th=
-e beginning of the ring up
-> +            // to `tx`, minus one unit, belongs to the driver.
-> +            if tx =3D=3D 0 {
-> +                let last =3D after_rx.len() - 1;
-> +                (&after_rx[..last], &before_rx[0..0])
-> +            } else {
-> +                (after_rx, &before_rx[..tx])
-> +            }
-> +        } else {
-> +            // The area from `rx` to `tx`, minus one unit, belongs to th=
-e driver.
-> +            (after_rx.split_at(tx - rx).0, &before_rx[0..0])
-> +        }
-> +    }
-
-As we discussed offline, this method is incorrect (amongst other things,
-it returns the whole ring buffer when it should be empty). Posting my
-suggested diff for the record:
-
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -152,17 +152,12 @@ unsafe fn access(&self) -> &GspMem {
-         let gsp_mem =3D unsafe { self.access() };
-         let (before_rx, after_rx) =3D gsp_mem.gspq.msgq.data.split_at(rx);
-
--        if tx <=3D rx {
-+        if tx < rx {
-             // The area from `rx` up to the end of the ring, and from the =
-beginning of the ring up
--            // to `tx`, minus one unit, belongs to the driver.
--            if tx =3D=3D 0 {
--                let last =3D after_rx.len() - 1;
--                (&after_rx[..last], &before_rx[0..0])
--            } else {
--                (after_rx, &before_rx[..tx])
--            }
-+            // to `tx` belongs to the driver.
-+            (after_rx, &before_rx[0..tx])
-         } else {
--            // The area from `rx` to `tx`, minus one unit, belongs to the =
-driver.
-+            // The area from `rx` to `tx` belongs to the driver.
-             (after_rx.split_at(tx - rx).0, &before_rx[0..0])
-         }
-     }
-
-> +
-> +    fn gsp_write_ptr(&self) -> u32 {
-> +        let gsp_mem =3D &self.0;
-> +        dma_read!(gsp_mem[0].gspq.tx.writePtr).unwrap() % MSGQ_NUM_PAGES
-> +    }
-> +
-> +    fn gsp_read_ptr(&self) -> u32 {
-> +        let gsp_mem =3D &self.0;
-> +        dma_read!(gsp_mem[0].gspq.rx.readPtr).unwrap() % MSGQ_NUM_PAGES
-> +    }
-> +
-> +    fn cpu_read_ptr(&self) -> u32 {
-> +        let gsp_mem =3D &self.0;
-> +        dma_read!(gsp_mem[0].cpuq.rx.readPtr).unwrap() % MSGQ_NUM_PAGES
-> +    }
-
-Maybe add one line of documentation for these. Generally I think we want
-a bit more high-level documentation explaining how the ring buffers are
-operating.
-
-> +
-> +    /// Inform the GSP that it can send `elem_count` new pages into the =
-message queue.
-> +    fn advance_cpu_read_ptr(&mut self, elem_count: u32) {
-> +        let gsp_mem =3D &self.0;
-> +        let rptr =3D self.cpu_read_ptr().wrapping_add(elem_count) % MSGQ=
-_NUM_PAGES;
-> +
-> +        // Ensure read pointer is properly ordered
-> +        fence(Ordering::SeqCst);
-> +
-> +        dma_write!(gsp_mem[0].cpuq.rx.readPtr =3D rptr).unwrap();
-> +    }
-> +
-> +    fn cpu_write_ptr(&self) -> u32 {
-> +        let gsp_mem =3D &self.0;
-> +        dma_read!(gsp_mem[0].cpuq.tx.writePtr).unwrap() % MSGQ_NUM_PAGES
-> +    }
-> +
-> +    /// Inform the GSP that it can process `elem_count` new pages from t=
-he command queue.
-> +    fn advance_cpu_write_ptr(&mut self, elem_count: u32) {
-> +        let gsp_mem =3D &self.0;
-> +        let wptr =3D self.cpu_write_ptr().wrapping_add(elem_count) & MSG=
-Q_NUM_PAGES;
-> +        dma_write!(gsp_mem[0].cpuq.tx.writePtr =3D wptr).unwrap();
-> +
-> +        // Ensure all command data is visible before triggering the GSP =
-read
-> +        fence(Ordering::SeqCst);
-> +    }
-> +}
-> +
-> +pub(crate) struct GspCmdq {
-
-Similar to my previous comment, we can just name this `Cmdq` since we
-are already in the `gsp` module.
-
-As a general comment, let's also document our types/methods a bit more,
-explaining at least what they are for.
-
-> +    dev: ARef<device::Device>,
-> +    seq: u32,
-> +    gsp_mem: DmaGspMem,
-> +    pub _nr_ptes: u32,
-> +}
-> +
-> +impl GspCmdq {
-> +    pub(crate) fn new(dev: &device::Device<device::Bound>) -> Result<Gsp=
-Cmdq> {
-> +        let gsp_mem =3D DmaGspMem::new(dev)?;
-> +        let nr_ptes =3D size_of::<GspMem>() >> GSP_PAGE_SHIFT;
-> +        build_assert!(nr_ptes * size_of::<u64>() <=3D GSP_PAGE_SIZE);
-> +
-> +        Ok(GspCmdq {
-> +            dev: dev.into(),
-> +            seq: 0,
-> +            gsp_mem,
-> +            _nr_ptes: nr_ptes as u32,
-> +        })
-> +    }
-> +
-> +    fn calculate_checksum<T: Iterator<Item =3D u8>>(it: T) -> u32 {
-> +        let sum64 =3D it
-> +            .enumerate()
-> +            .map(|(idx, byte)| (((idx % 8) * 8) as u32, byte))
-> +            .fold(0, |acc, (rol, byte)| acc ^ u64::from(byte).rotate_lef=
-t(rol));
-> +
-> +        ((sum64 >> 32) as u32) ^ (sum64 as u32)
-> +    }
-> +
-> +    #[expect(unused)]
-> +    pub(crate) fn send_gsp_command<M: GspCommandToGsp>(
-> +        &mut self,
-> +        bar: &Bar0,
-> +        payload_size: usize,
-> +        init: impl FnOnce(&mut M, SBuffer<core::array::IntoIter<&mut [u8=
-], 2>>) -> Result,
-
-This works pretty well for in-place initialization.
-
-There a couple of small drawbacks though: `M` must implement `FromBytes`
-even though we only send it, and (more serious) there is no guarantee
-that `init` will fully initialize the command - a forgetful caller can
-omit some of its fields, or even the whole structure, and in that case
-we will send a command with what happened to be at that position of the
-queue at that time.
-
-I think this is a good case for using the `Init` trait: it's like
-`PinInit`, but without the `Pin`, and it ensures that the whole argument
-is initialized. So this method would change into something like:
-
-    pub(crate) fn send_gsp_command<M: GspCommandToGsp>(
-        &mut self,
-        bar: &Bar0,
-        payload_size: usize,
-        init: impl Init<M, Error>,
-        init_sbuf: impl FnOnce(SBuffer<core::array::IntoIter<&mut [u8], 2>>=
-) -> Result,
-
-This also allows us to drop the `FromBytes` requirement on
-`GspCommandToGsp`! But also requires us to use `unsafe` to call
-`Init::__init` on the pointer to the command. I think it's worth it
-though, as this removes the risk of sending partially-uninitialized
-commands.
-
-Then there is what to do with the `SBuffer`. I'd like to think a bit
-more about this, as not all commands require it, and those that do
-typically send arrays of particular types. I think we should be able to
-use the type system to have more control over this, but let's keep that
-for the next revision.
-
-> +    ) -> Result {
-> +        // TODO: a method that extracts the regions for a given command?
-> +        // ... and another that reduces the region to a given number of =
-bytes!
-> +        let driver_area =3D self.gsp_mem.driver_write_area();
-> +        let free_tx_pages =3D driver_area.0.len() + driver_area.1.len();
-> +
-> +        // Total size of the message, including the headers, command, an=
-d optional payload.
-> +        let msg_size =3D size_of::<GspMsgElement>() + size_of::<M>() + p=
-ayload_size;
-> +        if free_tx_pages < msg_size.div_ceil(GSP_PAGE_SIZE) {
-> +            return Err(EAGAIN);
-> +        }
-> +
-> +        let (msg_header, cmd, payload_1, payload_2) =3D {
-> +            // TODO: find an alternative to as_flattened_mut()
-
-I think we can use it if we enable the "slice_flatten" feature (stable
-since 1.80, introduced in 1.67).
-
-> +            #[allow(clippy::incompatible_msrv)]
-> +            let (msg_header_slice, slice_1) =3D driver_area
-> +                .0
-> +                .as_flattened_mut()
-> +                .split_at_mut(size_of::<GspMsgElement>());
-> +            let msg_header =3D GspMsgElement::from_bytes_mut(msg_header_=
-slice).ok_or(EINVAL)?;
-> +            let (cmd_slice, payload_1) =3D slice_1.split_at_mut(size_of:=
-:<M>());
-> +            let cmd =3D M::from_bytes_mut(cmd_slice).ok_or(EINVAL)?;
-> +            // TODO: find an alternative to as_flattened_mut()
-> +            #[allow(clippy::incompatible_msrv)]
-> +            let payload_2 =3D driver_area.1.as_flattened_mut();
-> +            // TODO: Replace this workaround to cut the payload size.
-> +            let (payload_1, payload_2) =3D match payload_size.checked_su=
-b(payload_1.len()) {
-> +                // The payload is longer than `payload_1`, set `payload_=
-2` size to the difference.
-> +                Some(payload_2_len) =3D> (payload_1, &mut payload_2[..pa=
-yload_2_len]),
-> +                // `payload_1` is longer than the payload, we need to re=
-duce its size.
-> +                None =3D> (&mut payload_1[..payload_size], payload_2),
-> +            };
-
-We will want (either you or I) to address these TODOs for the next
-revision.
-
-> +
-> +            (msg_header, cmd, payload_1, payload_2)
-> +        };
-> +
-> +        let sbuffer =3D SBuffer::new_writer([&mut payload_1[..], &mut pa=
-yload_2[..]]);
-> +        init(cmd, sbuffer)?;
-> +
-> +        *msg_header =3D GspMsgElement::new(self.seq, size_of::<M>() + pa=
-yload_size, M::FUNCTION);
-> +        msg_header.checkSum =3D GspCmdq::calculate_checksum(SBuffer::new=
-_reader([
-> +            msg_header.as_bytes(),
-> +            cmd.as_bytes(),
-> +            payload_1,
-> +            payload_2,
-> +        ]));
-> +
-> +        let rpc_header =3D &msg_header.rpc;
-> +        dev_info!(
-> +            &self.dev,
-> +            "GSP RPC: send: seq# {}, function=3D0x{:x} ({}), length=3D0x=
-{:x}\n",
-> +            self.seq,
-> +            rpc_header.function,
-> +            decode_gsp_function(rpc_header.function),
-> +            rpc_header.length,
-> +        );
-> +
-> +        let elem_count =3D msg_header.elemCount;
-> +        self.seq +=3D 1;
-> +        self.gsp_mem.advance_cpu_write_ptr(elem_count);
-> +        NV_PGSP_QUEUE_HEAD::default().set_address(0).write(bar);
-
-I'm a bit surprised that we always write `0` here, can we document this
-behavior, maybe in the definition of `NV_PGSP_QUEUE_HEAD`?
-
-> +
-> +        Ok(())
-> +    }
-> +
-> +    #[expect(unused)]
-> +    pub(crate) fn receive_msg_from_gsp<M: GspMessageFromGsp, R>(
-> +        &mut self,
-> +        timeout: Delta,
-> +        init: impl FnOnce(&M, SBuffer<core::array::IntoIter<&[u8], 2>>) =
--> Result<R>,
-> +    ) -> Result<R> {
-> +        let (driver_area, msg_header, slice_1) =3D wait_on(timeout, || {
-> +            let driver_area =3D self.gsp_mem.driver_read_area();
-> +            // TODO: find an alternative to as_flattened()
-> +            #[allow(clippy::incompatible_msrv)]
-> +            let (msg_header_slice, slice_1) =3D driver_area
-> +                .0
-> +                .as_flattened()
-> +                .split_at(size_of::<GspMsgElement>());
-
-Beware that `split_at` will panic if the slice is shorter than the
-passed argument. So we must check here that the driver area is larger
-than `GspMsgElement`.
-
-> +
-> +            // Can't fail because msg_slice will always be
-> +            // size_of::<GspMsgElement>() bytes long by the above split.
-> +            let msg_header =3D GspMsgElement::from_bytes(msg_header_slic=
-e).unwrap();
-> +            if msg_header.rpc.length < size_of::<M>() as u32 {
-> +                return None;
-> +            }
-
-If we have a message in the queue and this condition doesn't hold, I
-don't think we can hope that it will in a further iteration - this
-should be an error.
-
-> +
-> +            Some((driver_area, msg_header, slice_1))
-> +        })?;
-> +
-> +        let (cmd_slice, payload_1) =3D slice_1.split_at(size_of::<M>());
-> +        let cmd =3D M::from_bytes(cmd_slice).ok_or(EINVAL)?;
-> +        // TODO: find an alternative to as_flattened()
-> +        #[allow(clippy::incompatible_msrv)]
-> +        let payload_2 =3D driver_area.1.as_flattened();
-
-There is an issue here - payload_1 and payload_2 cover the *whole* area
-that is readable by the driver, not just the first message in the queue.
-
-If there is more than one message pending when this method is called, we
-will get a wrong checksum and skip all the following messages. We need
-to truncate payload_1/payload_2 to cover the exact area of the first
-message only.
-
-> +
-> +        // Log RPC receive with message type decoding
-> +        dev_info!(
-> +            self.dev,
-> +            "GSP RPC: receive: seq# {}, function=3D0x{:x} ({}), length=
-=3D0x{:x}\n",
-> +            msg_header.rpc.sequence,
-> +            msg_header.rpc.function,
-> +            decode_gsp_function(msg_header.rpc.function),
-> +            msg_header.rpc.length,
-> +        );
-> +
-> +        if GspCmdq::calculate_checksum(SBuffer::new_reader([
-> +            msg_header.as_bytes(),
-> +            cmd.as_bytes(),
-> +            payload_1,
-> +            payload_2,
-> +        ])) !=3D 0
-> +        {
-> +            dev_err!(
-> +                self.dev,
-> +                "GSP RPC: receive: Call {} - bad checksum",
-> +                msg_header.rpc.sequence
-> +            );
-> +            return Err(EIO);
-> +        }
-> +
-> +        let result =3D if msg_header.rpc.function =3D=3D M::FUNCTION {
-
-This should be done way earlier. At this point we have already converted
-the command bytes slices into M, which is invalid if it happens that
-this condition doesn't hold.
-
-(on a related note, the checksum verification should also be done before
-we interpret the message, as a corrupted message could make us cast
-`cmd` into something that it is not)
-
-> +            let sbuffer =3D SBuffer::new_reader([payload_1, payload_2]);
-> +            init(cmd, sbuffer)
-> +        } else {
-> +            Err(ERANGE)
-> +        };
-> +
-> +        self.gsp_mem
-> +            .advance_cpu_read_ptr(msg_header.rpc.length.div_ceil(GSP_PAG=
-E_SIZE as u32));
-
-There is a landmine here. `msg_header.rpc.length` contains the length of
-the payload, INCLUDING the RPC header itself, but NOT INCLUDING the
-remainder of `msg_header`. Therefore the correct statement should be:
-
-    self.gsp_mem.advance_cpu_read_ptr(
-        (size_of_val(msg_header) as u32 - size_of_val(&msg_header.rpc) as u=
-32
-            + msg_header.rpc.length)
-            .div_ceil(GSP_PAGE_SIZE as u32),
-    );
-
-Of course, it looks horrible, so we want to hide this member altogether
-and provide a nice, well-documented method that returns something that
-is immediately useful for us. More on that in `fw.rs`.
-
-(the previous use of `length` in this method is also incorrect).
-
-> +        result
-> +    }
-> +}
-> +
-> +fn decode_gsp_function(function: u32) -> &'static str {
-
-Once we have proper enums for the function and events, this can be an
-`as_str` method.
-
-> +    match function {
-> +        // Common function codes
-> +        NV_VGPU_MSG_FUNCTION_NOP =3D> "NOP",
-> +        NV_VGPU_MSG_FUNCTION_SET_GUEST_SYSTEM_INFO =3D> "SET_GUEST_SYSTE=
-M_INFO",
-> +        NV_VGPU_MSG_FUNCTION_ALLOC_ROOT =3D> "ALLOC_ROOT",
-> +        NV_VGPU_MSG_FUNCTION_ALLOC_DEVICE =3D> "ALLOC_DEVICE",
-> +        NV_VGPU_MSG_FUNCTION_ALLOC_MEMORY =3D> "ALLOC_MEMORY",
-> +        NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA =3D> "ALLOC_CTX_DMA",
-> +        NV_VGPU_MSG_FUNCTION_ALLOC_CHANNEL_DMA =3D> "ALLOC_CHANNEL_DMA",
-> +        NV_VGPU_MSG_FUNCTION_MAP_MEMORY =3D> "MAP_MEMORY",
-> +        NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA =3D> "BIND_CTX_DMA",
-> +        NV_VGPU_MSG_FUNCTION_ALLOC_OBJECT =3D> "ALLOC_OBJECT",
-> +        NV_VGPU_MSG_FUNCTION_FREE =3D> "FREE",
-> +        NV_VGPU_MSG_FUNCTION_LOG =3D> "LOG",
-> +        NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO =3D> "GET_GSP_STATIC_IN=
-FO",
-> +        NV_VGPU_MSG_FUNCTION_SET_REGISTRY =3D> "SET_REGISTRY",
-> +        NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_INFO =3D> "GSP_SET_SYSTEM_IN=
-FO",
-> +        NV_VGPU_MSG_FUNCTION_GSP_INIT_POST_OBJGPU =3D> "GSP_INIT_POST_OB=
-JGPU",
-> +        NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL =3D> "GSP_RM_CONTROL",
-> +        NV_VGPU_MSG_FUNCTION_GET_STATIC_INFO =3D> "GET_STATIC_INFO",
-> +
-> +        // Event codes
-> +        NV_VGPU_MSG_EVENT_GSP_INIT_DONE =3D> "INIT_DONE",
-> +        NV_VGPU_MSG_EVENT_GSP_RUN_CPU_SEQUENCER =3D> "RUN_CPU_SEQUENCER"=
-,
-> +        NV_VGPU_MSG_EVENT_POST_EVENT =3D> "POST_EVENT",
-> +        NV_VGPU_MSG_EVENT_RC_TRIGGERED =3D> "RC_TRIGGERED",
-> +        NV_VGPU_MSG_EVENT_MMU_FAULT_QUEUED =3D> "MMU_FAULT_QUEUED",
-> +        NV_VGPU_MSG_EVENT_OS_ERROR_LOG =3D> "OS_ERROR_LOG",
-> +        NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD =3D> "NOCAT",
-> +        NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTICE =3D> "LOCKDOWN_NOTICE",
-> +        NV_VGPU_MSG_EVENT_UCODE_LIBOS_PRINT =3D> "LIBOS_PRINT",
-> +
-> +        // Default for unknown codes
-> +        _ =3D> "UNKNOWN",
-> +    }
-> +}
-> diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/=
-fw.rs
-> index 7f4fe684ddaf..2e4255301e58 100644
-> --- a/drivers/gpu/nova-core/gsp/fw.rs
-> +++ b/drivers/gpu/nova-core/gsp/fw.rs
-> @@ -15,7 +15,9 @@
->  use crate::firmware::gsp::GspFirmware;
->  use crate::gpu::Chipset;
->  use crate::gsp;
-> +use crate::gsp::cmdq::MSGQ_NUM_PAGES;
-
-I guess the number of pages in the message queue is firmware-dependent,
-so would it make sense to move its declaration to this module?
-
->  use crate::gsp::FbLayout;
-> +use crate::gsp::GSP_PAGE_SIZE;
-> =20
->  /// Dummy type to group methods related to heap parameters for running t=
-he GSP firmware.
->  pub(crate) struct GspFwHeapParams(());
-> @@ -159,6 +161,37 @@ pub(crate) fn new(gsp_firmware: &GspFirmware, fb_lay=
-out: &FbLayout) -> Self {
->      // GSP firmware constants
->      GSP_FW_WPR_META_MAGIC,
->      GSP_FW_WPR_META_REVISION,
-> +
-> +    // GSP events
-> +    NV_VGPU_MSG_EVENT_GSP_INIT_DONE,
-> +    NV_VGPU_MSG_EVENT_GSP_LOCKDOWN_NOTICE,
-> +    NV_VGPU_MSG_EVENT_GSP_POST_NOCAT_RECORD,
-> +    NV_VGPU_MSG_EVENT_GSP_RUN_CPU_SEQUENCER,
-> +    NV_VGPU_MSG_EVENT_MMU_FAULT_QUEUED,
-> +    NV_VGPU_MSG_EVENT_OS_ERROR_LOG,
-> +    NV_VGPU_MSG_EVENT_POST_EVENT,
-> +    NV_VGPU_MSG_EVENT_RC_TRIGGERED,
-> +    NV_VGPU_MSG_EVENT_UCODE_LIBOS_PRINT,
-> +
-> +    // GSP function calls
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_CHANNEL_DMA,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_CTX_DMA,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_DEVICE,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_MEMORY,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_OBJECT,
-> +    NV_VGPU_MSG_FUNCTION_ALLOC_ROOT,
-> +    NV_VGPU_MSG_FUNCTION_BIND_CTX_DMA,
-> +    NV_VGPU_MSG_FUNCTION_FREE,
-> +    NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO,
-> +    NV_VGPU_MSG_FUNCTION_GET_STATIC_INFO,
-> +    NV_VGPU_MSG_FUNCTION_GSP_INIT_POST_OBJGPU,
-> +    NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL,
-> +    NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_INFO,
-> +    NV_VGPU_MSG_FUNCTION_LOG,
-> +    NV_VGPU_MSG_FUNCTION_MAP_MEMORY,
-> +    NV_VGPU_MSG_FUNCTION_NOP,
-> +    NV_VGPU_MSG_FUNCTION_SET_GUEST_SYSTEM_INFO,
-> +    NV_VGPU_MSG_FUNCTION_SET_REGISTRY,
->  };
-> =20
->  #[repr(transparent)]
-> @@ -197,3 +230,86 @@ fn id8(name: &str) -> u64 {
->          })
->      }
->  }
-> +
-> +pub(crate) type MsgqTxHeader =3D bindings::msgqTxHeader;
-
-This should be wrapped into a newtype that provides the exact set of
-features required by the gsp module, like what is done for
-`LibosMemoryRegionInitArgument`. For this type we just need two things:
-return the `writePtr`, and advance it by a given value. That's all
-the parent module needs to see.
-
-By just aliasing this type, we make all its members visible to the `gsp`
-module. This increases its dependency on a given firmware version,
-carries a risk that the GSP module will mess with what it is not
-supposed to, and introduces inconsistency in how we abstract the
-firmware types - some are wrapped, others are not. Let's be consistent
-and make all bindings completely opaque outside of `fw.rs`.
-
-> +
-> +// SAFETY: Padding is explicit and will not contain uninitialized data.
-> +unsafe impl AsBytes for MsgqTxHeader {}
-> +
-> +impl MsgqTxHeader {
-> +    pub(crate) fn new(msgq_size: u32, rx_hdr_offset: u32) -> Self {
-> +        Self {
-> +            version: 0,
-> +            size: msgq_size,
-> +            msgSize: GSP_PAGE_SIZE as u32,
-> +            msgCount: MSGQ_NUM_PAGES,
-> +            writePtr: 0,
-> +            flags: 1,
-> +            rxHdrOff: rx_hdr_offset,
-> +            entryOff: GSP_PAGE_SIZE as u32,
-> +        }
-> +    }
-> +}
-> +
-> +/// RX header for setting up a message queue with the GSP.
-> +///
-> +/// # Invariants
-> +///
-> +/// [`Self::read_ptr`] is guaranteed to return a value in the range `0..=
-NUM_PAGES`.
-> +pub(crate) type MsgqRxHeader =3D bindings::msgqRxHeader;
-> +
-> +// SAFETY: Padding is explicit and will not contain uninitialized data.
-> +unsafe impl AsBytes for MsgqRxHeader {}
-> +
-> +impl MsgqRxHeader {
-> +    pub(crate) fn new() -> Self {
-> +        Default::default()
-> +    }
-> +}
-> +
-> +pub(crate) type GspRpcHeader =3D bindings::rpc_message_header_v;
-
-This type too is another good illustration of why we should make our
-bindings opaque. In `cmdq.rs` we access `GspRpcHeader::length` multiple
-times, ignoring the fact that it also includes the size of the RPC
-header itself - not just what comes after it! Since it doesn't come with
-any documentation, we can be forgiven for assuming the obvious - that it
-is just the size of what follows, but it is not.
-
-What we actually want is a method on `GspMsgElement` that returns what
-we actually want (and is documented as such): the actual size of the
-payload following the whole header. That way there can be no room for
-mistake.
-
-> +
-> +// SAFETY: Padding is explicit and will not contain uninitialized data.
-> +unsafe impl AsBytes for GspRpcHeader {}
-> +
-> +// SAFETY: This struct only contains integer types for which all bit pat=
-terns
-> +// are valid.
-> +unsafe impl FromBytes for GspRpcHeader {}
-> +
-> +impl GspRpcHeader {
-> +    pub(crate) fn new(cmd_size: u32, function: u32) -> Self {
-> +        Self {
-> +            // TODO: magic number
-> +            header_version: 0x03000000,
-> +            signature: bindings::NV_VGPU_MSG_SIGNATURE_VALID,
-> +            function,
-> +            // TODO: overflow check?
-> +            length: size_of::<Self>() as u32 + cmd_size,
-> +            rpc_result: 0xffffffff,
-> +            rpc_result_private: 0xffffffff,
-> +            ..Default::default()
-> +        }
-> +    }
-> +}
-> +
-> +pub(crate) type GspMsgElement =3D bindings::GSP_MSG_QUEUE_ELEMENT;
-
-Hammering my previous argument a bit more: in `cmdq.rs`, we do the
-following:
-
-    let msg_header =3D GspMsgElement::from_bytes(msg_header_slice).unwrap()=
-;
-
-Even though we explicitly used `GspMsgElement`, `msg_header` appears as
-being of type `GSP_MSG_QUEUE_ELEMENT` in LSP. That's super confusing and
-can be avoided by using the newtype pattern.
-
-Lastly, the bindings generated from C headers are supposed to be temporary,=
- and
-we eventually want to replace them with direct IDL-to-Rust bindings. Not
-leaking the C types let us design `fw.rs` as a blueprint for the ideal
-interface we would want to generate - so the limited extra labor that
-comes with wrapping these types would also pay off in that respect.
