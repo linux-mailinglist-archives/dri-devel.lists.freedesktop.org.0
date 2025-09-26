@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA80BA52D4
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 23:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8971BA52DA
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 23:13:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 290D010EAE5;
-	Fri, 26 Sep 2025 21:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A889F10EAEE;
+	Fri, 26 Sep 2025 21:13:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nh9Ra7dV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DAksqU6d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBD510E167;
- Fri, 26 Sep 2025 21:13:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 944E310EAEC;
+ Fri, 26 Sep 2025 21:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758921199; x=1790457199;
+ t=1758921201; x=1790457201;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=aggC5aj1tNLp5CEAhi0E0+kEswR+nZdk4EYpDmZ7BfA=;
- b=Nh9Ra7dVFNMi0DCT4darim/Ur6Gf7eT7gFrHSlVHfLZ5doPu1aS0bTWj
- wSgZ1o05cwONPVCmvYVvqAfW4GJ0Kkoud5Wvqw1WT09TxRwLmAW3Q2cPN
- YUT2SxV2mDLcrTDjoaaqUiasfNzrNI+HPP2/uVC1BhRxMXfNfEKqnyAmB
- jD6j2Snm4DY2g/WKDsLx7UCx9yEY60dPeZ8OV5Y9g+qxUAkin76B5i+DI
- Io68UHgvQWgBkw8Cx3cTbXwG9uvX7trfP/YmYfHxU3Synb6cyIsNzAeuO
- pyCxj9ZIMcsWvxzJMRndgCcF4GsobOMUE+iBcd06qiJsx/vZqDnAJO3CN w==;
-X-CSE-ConnectionGUID: Qq24T4LlQm6Y80x9e+02bQ==
-X-CSE-MsgGUID: J58kkqvEShyt8MlDwBSPng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61310394"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61310394"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 14:13:19 -0700
-X-CSE-ConnectionGUID: Rq8r9YgnSby5UNPjDU6XRA==
-X-CSE-MsgGUID: 0sBUxO6CR2aR3FEnpZk34Q==
+ bh=PZ1W1SDyIlkjtUPY7AKUFdCTgd6pMtVuEMxcL/+aJ+8=;
+ b=DAksqU6d1Gt/N97NNH8plvzMlGQ2NTNHpQD2iksRgTNJsjH8rijbQr2W
+ xhSDXNinzO9ySbLT6FeZVKPCtyprqfheooJwqkM8Wt94ILo75ozXLIng9
+ oCkpteLcHYLNtAev/E6QnqL+UmpjEnW4V0sU6+zUNPyW8sa8cRNY63fVn
+ 2as6H6FxtP+VHN/l5fg39a51WnN1uUIQ7VXJQaSTI/TFsGzOfx1er0/K6
+ XJ31QfBMupN7H1lwQH3IQqbyOSrDrRwWRqZrTz6wDFZjK38Vonf8s4B5j
+ TIRtLDVnV3q82DAv0q5nmWIchBklsSj7upOU4PXjVgKVTQZn18JSmSvps w==;
+X-CSE-ConnectionGUID: /NbJsH+rQSOlK73W3qldGg==
+X-CSE-MsgGUID: LC2xDxWpShS6GMDn3SBTpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65071018"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65071018"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 14:13:20 -0700
+X-CSE-ConnectionGUID: 6mrpuNEKT12z6B+dzs2w9g==
+X-CSE-MsgGUID: aZdC1dpnSGqRgUGHVUZo4A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; d="scan'208";a="177763705"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 14:13:18 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; d="scan'208";a="182983170"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2025 14:13:19 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 26 Sep 2025 14:13:17 -0700
+ 15.2.2562.27; Fri, 26 Sep 2025 14:13:19 -0700
 Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 26 Sep 2025 14:13:17 -0700
+ 15.2.2562.27 via Frontend Transport; Fri, 26 Sep 2025 14:13:19 -0700
 Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.64) by
  edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 26 Sep 2025 14:13:16 -0700
+ 15.2.2562.27; Fri, 26 Sep 2025 14:13:18 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TBbeGbG09+50ZMERS5d/CnwKAADIcKQBQQ9Etd5NOZ6z53g+eJBJy6DAkc8UqGE9Oqc9Q2k8F2Nc8ZrGlieCZ9u6APk05WC6qiIOclRxYXJhONPBQB4gAE3wBNusezuPy/k9+CKKCrqPpWbPuOgkyULxyPSfZ6h6yCJW24vokIwit+bb7aP/eVlEN05JwYM863UDBWEc/fnzvdTZTKMaJQqeEcnx7QxJzcKIBPLi5kXcClmiFR4Jfstj+5xgTylmN1BFBJ51pdDyWseWjSi8w61KYbqSM06ju0NHqx+5reUN9Tb+aBLGqlLcXpbGHu5cEuHxQFZlkLGotP4sOPAg2w==
+ b=U71Bq4q+LhWQzcUClFRswXl6r2No8MAaJtZgyPRPdRb+ZEos3D5gYj5EEkKz7imy9YYKHUrm9vQuIgvvZcwd9WiCZAEKpmD8HWC4zTNtZWH/geyAxzveLCUkyvP8j27omBH01EmUqDMMu+sTK9mMWLGP5mfDvK3X37fbFeLUrdkoqmJKFfQoBIqSPrDqS9dKaOHJMSVV3f2pJUtPwb3uoWZZPLb+lRdj3oNDfXL12xPc/x3wpXQ1U07Z8hGibw6pMnIcs8R90kjn3Gtf/8hB/hlCrt3mM6/HswOJoC2JBODd3/Gn18Eg+9Q5hAw8s7tWaqlXLYEtCr8QpEAWZW/Gxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h6+f/eUqG3A6R47hq2VmtQZzEPAIxmFS+HY8K72FY8U=;
- b=URIJhIHbM5XBfXB9+F52LAWe7ZhkdzMhxVBAPT5BAaqGsQoY3IecUCv2a7LJ7B79qVelTQPKD3824DKZPSOM/kx5vcdE+ppBPtFCrPerSW1CF86TRk+MlKCOhfasOl7D3yduPvivbeYU/MH4Xkot/8bJxG3ABxpFliS43CchkvLZqWoxHo96tGSdf7lrRG7eoul6XLIAp9wtYb+M1GSFYJm9hetYW3jVumMj+2hrsYkgirAro69YPwJTmi+UJ6SdbGeRDWBrUglwZO1WEWIOGD94ge8bbvpskqf9eMaAES80ZV2LKlGDoD16hWweeSIesAhLqVzn0nLC6JHxgfn+7g==
+ bh=WJNVsGwvAG5JoEVDs8FqZd4jEr7XLyAXRkNUVp04xdQ=;
+ b=yupzH43WBHB9311W6Yrcjk2l77mwKzmo8fIjBb4gOHqDUU3TEAlXoU4GALZ4FCPyBuJPbJ7h7+udQz2Mf04hvm5LI5kF28ibtBWZ4EGfSl7AnzxOL53+Y56HKN/1kmFT8JeR4hKKr6i1QsO86zCCBylcugmo7Q9ynkpFWeoGRdqwA/mt43rgn8UO/VzjpyNarZP0puBaFHgrFPhe/pL/4Oj8QXXVPXsW2akiO32LOKexXA5CoLU+rBTWKynnctpS3+KoGi2TyCwae9/VjkYGULWzAh1d8Q8dw9qZ4+a1xFmGEvAr05Zk43Ko/fU3RL/wGr4WC3trQjfKL0atxUXc/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,99 +69,116 @@ Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
  by CH3PR11MB7392.namprd11.prod.outlook.com (2603:10b6:610:145::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Fri, 26 Sep
- 2025 21:13:10 +0000
+ 2025 21:13:12 +0000
 Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f%3]) with mapi id 15.20.9160.010; Fri, 26 Sep 2025
- 21:13:10 +0000
+ 21:13:12 +0000
 From: Imre Deak <imre.deak@intel.com>
 To: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
-CC: <dri-devel@lists.freedesktop.org>, Vidya Srinivas
- <vidya.srinivas@intel.com>, Swati Sharma <swati2.sharma@intel.com>
-Subject: [PATCH v4 1/6] drm/dp: Add quirk for Synaptics DSC throughput
- link-bpp limit
-Date: Sat, 27 Sep 2025 00:12:31 +0300
-Message-ID: <20250926211236.474043-2-imre.deak@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=
+ <ville.syrjala@linux.intel.com>
+Subject: [PATCH v4 2/6] drm/dp: Add helpers to query the branch DSC max
+ throughput/line-width
+Date: Sat, 27 Sep 2025 00:12:32 +0300
+Message-ID: <20250926211236.474043-3-imre.deak@intel.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250926211236.474043-1-imre.deak@intel.com>
 References: <20250926211236.474043-1-imre.deak@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: LO4P265CA0119.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:2c6::6) To SJ0PR11MB4845.namprd11.prod.outlook.com
  (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|CH3PR11MB7392:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b8ef5a1-bdac-4d1e-0a4b-08ddfd417f15
+X-MS-Office365-Filtering-Correlation-Id: 628dc9ed-f668-4c5a-d64a-08ddfd418010
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|10070799003|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?D9/AsXmmYxsTqwJcrK6hrpOjFCr6laNlj03p0Xs2efhsedNwSUTadCp0pw+T?=
- =?us-ascii?Q?3KGIUcY8lKwGMGoU6NAf6/N7u33LxfqW90g017veAnGmt4Xb10px8cH5hasj?=
- =?us-ascii?Q?5a5bvQHLgZffIDJpsJGRLE6fGRRlqATs5qYuihpBRzAyTPEdCnQ5iRtSutbn?=
- =?us-ascii?Q?7l0MBeTm2J3tt+sm/xEent+iwla3ZtlEf/z411fjijzn+tMOkZPq8o6o5at6?=
- =?us-ascii?Q?tB5x+IxvRU1cekmVEP1XQ9TlPl52yHo40d1xswlAGH4OcS5rjjTVs/3vtaRb?=
- =?us-ascii?Q?lB6183vudbNPN3ySVOjMbduRwNLLunHIMMcfxM0gwQeUyLL6DBUOmNy+BH6X?=
- =?us-ascii?Q?kxjA4aqSArgtxwoYzh5kB3AHYvFFyNFtRnwTDh2Hy2bAUtYF2Uag8zJrX78M?=
- =?us-ascii?Q?Ljfp+GoXOvcCrxtIHeDRKh1oEIRcRcMWguTleRE/g1C3I2hcdzb+SNO1GPmg?=
- =?us-ascii?Q?8IfCLe0yq/IadzZkHqRvH6Hyee/mEZFGotHfAHMhNn2t8mmOqsQ6d+lC/1jh?=
- =?us-ascii?Q?4jcGwD2phBWTpPwIJIodg7sB8WpE5LI5M4R1bmscqJcU4p5Pz7DLNHhA0REL?=
- =?us-ascii?Q?GuIGcbQNG6lpqZFKMmpHaNbACfC0/c44r3qskXAlTRsDsHbf0fPT5lrxAZro?=
- =?us-ascii?Q?r5U+hoft9QSlj96UJg4RaKiSHAxS3xNScXdfm+U6qHWL4PJ5BR3V2LvhtFMZ?=
- =?us-ascii?Q?TeWAlTnTWlBbBXqn0WBUHPOrdO1YNv+MWd/g9LyiHlCkAaeADx74j520ZVaz?=
- =?us-ascii?Q?grkVvVOAT+PiyM4rFZtlc2etyOFPzpQCzvN5Pkfvs7ojFTFWKdPvYXadOZgb?=
- =?us-ascii?Q?Vy2rOdRNKke8YUVLEa/rzo7cnOHD+wsGFxvYITspbIi8GxBOUan8gNc0vX/d?=
- =?us-ascii?Q?VBaXCNKqRpC7BYXsWusKYMtO+U/f62oX18H8+s+Pp939NO+uagirkxSfM84R?=
- =?us-ascii?Q?OrPhORWoBiAbTPztNtzGaoPK/v1wp4y0oAaoyJzENZMMyreGbyNBtlkM8M12?=
- =?us-ascii?Q?ANPFl8H+wlmMVnUI6TUsEGCZ+4N23oAy7gr+UR2BcWyaaFoNyQoWtGBZ6p0M?=
- =?us-ascii?Q?RTg1WNRUhVml9BbjUd4Lh4Sfi2AXhuFH8xJhSjo7+y0aj9goZFbxXV9AjNrQ?=
- =?us-ascii?Q?OZwTmcdK/x0Mx1kibtfn4Y8Dr1pcJ3hYkANLqZuI1vsjPa390YxWLgRM9TQ7?=
- =?us-ascii?Q?7PU+eWs5n2lmO9fB++Mnev3c23Rm4MsUiMGZK+xba0Vs1zM6q0K7m7PaOMdW?=
- =?us-ascii?Q?eX0qcHSlW4AwCHb2lNweAdws3CfiwOylzoGl4+eq9h3+Vre5t8u1y74ogqDf?=
- =?us-ascii?Q?yYG0ZMwtg1KoPIa3CDcsbysct7X/ph3Ay2Kj6e5rNsKRtZswdN6qcCRcJLRg?=
- =?us-ascii?Q?SCfDQE2cto/sVVnQTg73ZNcWLF85H6PlYEzL3FIMwvHN69BMpGpG31ckopgN?=
- =?us-ascii?Q?IEkuVWmSaZegumshaCYamqI0aLqMf/1V?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cGJwUWkrOGxpWld5N1EvdUNyaXpLbnFYa3RrV2tqQ2dVZjd1SkZtUEJtOHhv?=
+ =?utf-8?B?eHZkcXBLaUYxYzR6R3U3RnlVRGhHZGNGQWw5WXpFRkRUamxQZ1UvVk1wMFpu?=
+ =?utf-8?B?Kzh1L3QzOXNOTGhQTmNNcXNKUDZFU25RZ1p2UThESEJNUGdPNk5wSTI3bjVo?=
+ =?utf-8?B?VmlDL0puWVA0dndBWlNxK29FZjBFeFJEcHl3dUFGNjAxSk1MMFZoVTJsVmhY?=
+ =?utf-8?B?R3hoNEY1U1FabEN2WkVzalZBKzRKaGlrcFBobGJOdFRwS2xXWlRESUJJQ2E2?=
+ =?utf-8?B?VFJrNEE3bVljbU91Q0h4eEI4RnBMZkp4bW9kSFRUVXQ1Yng0Y2dhMnhNcDNC?=
+ =?utf-8?B?RFZFQVhnOTNYZ2t1a0d6SE1IWlpzaUFaY2J2QlBoYWRzWWw0SFdoOEE5WG5M?=
+ =?utf-8?B?SnlNbXpxYjNzSUtNNittNTRPSnlLRFNqVTJDSzFleEhRL2h4UFJVZDViYUpr?=
+ =?utf-8?B?MGlsUE9UT1FyLzhWMGxUQ0hkL2VUZWpiaGg5OTZzOWlKdXlsYlo4WjJZUGNJ?=
+ =?utf-8?B?RTlHLzlsOUJuNXpmZ0Q5MzQ0U3BUYTlybEhoYURkdldPc3JCVkwxVjFLenRV?=
+ =?utf-8?B?TDg3cVczWnZac3F0YUxFcGE5elc4a0Yveml0em5LZzVJSldLT211K1R5akF1?=
+ =?utf-8?B?QVIyOTV6K3BCOGpaTHJpcjlsR0ZwejJJV0hzYklXSWE0YnZGVGQweFRWdXJa?=
+ =?utf-8?B?azY0V0hOTExVMGJ5R1Q0Y1NCNWY4MXRvMzdTbTd6ZVZQRndJQjJLT1pZdmZa?=
+ =?utf-8?B?TjRmeE9QWUkwSjZ6NEEzUmNTdVZ0YjVWK0FjTWZBbWY2R3hkS09ZbFF1SkhM?=
+ =?utf-8?B?aU9xUkZuS0dUTzNqMENBd1gvNkoxTkNOb3VZK3lQdXV6S2VIVDE4T3B2SU9r?=
+ =?utf-8?B?cVNNODlHK3NjVGxmNUQySHhwaHpUQzNqYnBVKzk4TmEyR1BIV1hwRW1kSGty?=
+ =?utf-8?B?R2ZOMFEwNWlWaFE3L3dSM2dOSXF5ODFGeFU0R3ZhVGhra1NLbVpydXFnbExk?=
+ =?utf-8?B?bFR4Rk50NW1tS2RXUloydUEwQmYyN3NRalFDUi80NjlicFpDRGMzNTkrT2sr?=
+ =?utf-8?B?YmRHdGlTa2Q2MjcxaDR2aDRTUkRzTmFBM2lZZDJKNTgzOE9uLzV1MUlnSUd6?=
+ =?utf-8?B?Y1UvZHVSU1FvcEgvbUFmWmZTbDdjc3libkpLNkhaVmQ3eEtuUzBuQVF3elZQ?=
+ =?utf-8?B?ekhGbDRoNHE4R1NpMDduYTlYYkRLREhZTUh4Yk1ObVFOWGEvRTRtNTlGc0Np?=
+ =?utf-8?B?anY1dHFxZFJheGJSRy9XM3kvRkhKMytXZ2hwWE0vZEl1WGREL0dqQWhnb3BZ?=
+ =?utf-8?B?RlZGU1d2UndqVkZBL045UGNVNVhYWjBtTW0vbGV5SWg3bVNOTWRjbURDTFdz?=
+ =?utf-8?B?MS93UmV6cG1IL3dZVEpiWlB5WmFRY2Z3RlN2NFBIanBOOHNBNFVmWjN5UG5P?=
+ =?utf-8?B?blcwNnhSZ0ZsQVAxT1dJV2hTNzVMUWlTeVpDb1FseTN2RXcwWTgwUXBOUEN4?=
+ =?utf-8?B?UzhvS0VGd04zRHlVdDBPcEw0TTBrVkMyUnM1UlQ0Q0wreVNEZjkvWlVGNXRu?=
+ =?utf-8?B?L3NTOFpWd2dCdUhqVUx1TWNxTm13SU0zaEdWZG1kWWVNZEZ3djhYL0hSeDN5?=
+ =?utf-8?B?cmFYTkVZYWdVMWZnTmdWT2RRRXhad0Vva3BsL1JPRkRKNWU4dUJ2VUM5VVNr?=
+ =?utf-8?B?MFpTUHNONEl6L0o2NDJPeEt3eEdZbVB5bkdWTjFONlorSkV6dllmby8rYlBa?=
+ =?utf-8?B?S2NpVXNlZnRWakloMzNFeVJURDJRdlg1WklGZG91RW1XVjhaLzRYb05DZXJh?=
+ =?utf-8?B?RVY5RFdNQk40SEFTVjRpakNMZXhTai9sbmdOZmx6WU5nL3p3ZDJ1MFlMLzkz?=
+ =?utf-8?B?UDdLcUxJbjNzbHBWd2FtcjJ3V2F5MzNqekNxQXNKcFllbzFjekJtSUIyTGVH?=
+ =?utf-8?Q?f5IeKykWx27VkE8wJsqMB3A9ZNR0w0nC?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(10070799003)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DuDCejbFsh3bVT4RaakybUJJ2fOffJkMA3vM4wj6rrod+9guF/VwLiKGAF3y?=
- =?us-ascii?Q?VlELR4L+sChrnfmRUQ+wN8SMPyWP/GHldgvkmFJ93Lfs1vDaoH9oGE2Rfqcp?=
- =?us-ascii?Q?dULWESICUp1Jdhf1BDWLWNV7JwHAYPFRxYo9VtgwFaaowUH15Ww+iZbCnZzl?=
- =?us-ascii?Q?L/M4v+O7oT6QJ+ZqQNtuL+JKRcEqNvxG5ZXh9idtqSd/4b0VYIdnXbdVwbt4?=
- =?us-ascii?Q?yErgoi1GAPTDgT2vZkCvHMKjtgjOdn2gvpUW5BjgDaT9oQyCURdsVnnZSJhC?=
- =?us-ascii?Q?5RlLzQ9k6hBdzdnWkz6OnuVQwus+LmD0A7stBgQARdos81mg0fcrR+T5vfvP?=
- =?us-ascii?Q?+l9HaA1+1HsB1/9r2GMTOLlsoJpqGKTLaQg5Vv6fXmOGmVcteS2mJYOyJWl1?=
- =?us-ascii?Q?5Q5/8TC0IGsIOeTqZ0KrMZqhP6sMePOTYUG4m8FvGUmrdwUyfBvxie0UHtd3?=
- =?us-ascii?Q?QUj5ZP2Rx0QYZcMJ4Dx6aUMrUyNhqCVstcTJyftPRuiEmgP/XgNCaMyh5MCD?=
- =?us-ascii?Q?FVFST0mLEsaCPeq3aTFjmk6ic9R4eJpef5y2HNpYHOfHe8NjCFSqUUD+Aar6?=
- =?us-ascii?Q?fKNUVq9nAgSn9hnyRYoBxKykxRW3ukHjjDRaHW8F9mZu3TT8YgdEpDgr67pv?=
- =?us-ascii?Q?S6fIp9SBus7RfJQhNwAE106AMAIaJEPh+cIz4lNKnylR3JfNkXRJlYphbG5n?=
- =?us-ascii?Q?sR8cXc5q/ilt59dZkxm3SslasF411tjoz0yQj9rAp5o64Z34iOwAawNcv/9G?=
- =?us-ascii?Q?yzE5JrksdMrlORt3TtkUsDVBLbTKvkZqe4mSzRapv1HsrptO4y+TLJpJmUbe?=
- =?us-ascii?Q?xFECn6/gAaVbpFiIO0hkMmdhmN1vlRfOtJ4DwTRDZeIaGf90fwX/keSrTsqS?=
- =?us-ascii?Q?X58CHAXR5KiCzW0U+MemMwTeCTo13xB+J8Ckf5seQKnAeqlIN3DcF/8sWXKj?=
- =?us-ascii?Q?izl48CkXA6sujLXj4sQaPHFzmaWE2iWhmHpyl69ceHjX/s2WclqJirtlJzcG?=
- =?us-ascii?Q?Jsw8eC36SYMbz8tV2jr6qLcAPrVFXEF9VWQXjm/HZzq2adxrCoko/IO50pGy?=
- =?us-ascii?Q?RMvX35Dka60LqzLrMVUhPYA/eD2/evKLVYRu36xJHDYYBRuTqHFox89Ged3/?=
- =?us-ascii?Q?sNiTcCW9pCN7XNyNKUhAUiAp+D+VfZxIy6xuMIRVhHKsobVmXURuBassQdB4?=
- =?us-ascii?Q?dMcOs3yrF1kBZaNRjvgHXRRvXNbvds1QbFC8J69bChn1xsvVhpZpES6yZ9S3?=
- =?us-ascii?Q?MG5MeeSEpT7ocOjPLm77chwGTGaAO9GHhIpzt51GFVeI9vPLlj235gKF4nIX?=
- =?us-ascii?Q?kPIjfIplbayn07nZ2X/UDjg4Qfz6GhjPCOZ2zaJaXFtqlYa6Li4fOSwJFPdt?=
- =?us-ascii?Q?dWdW/3oBQm3tVHtR5NDvMfj9N0PU2h024OB1n9GTgZSUAYT/VbZNUoJA1pow?=
- =?us-ascii?Q?8tWSRZRpvdstpNIy/YEcS6NNclCQR25HA2OS3n1ZDHCzZZyDq3grI7eo6xoZ?=
- =?us-ascii?Q?s+ea8yFXYA3y068eohqSNYcOgYPHIBUury+MfM4uCU6uIKV9fYgy9a5AETsd?=
- =?us-ascii?Q?7ia8sqcZbZ8C2UwevdDkdT/EMevYG3h4UiIv0m2risUZjeT11F0o+okWQ0BR?=
- =?us-ascii?Q?FsJplGp/j1zqHz903U22LmGn9rzxcyA65qTlFi+Mqql1?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b8ef5a1-bdac-4d1e-0a4b-08ddfd417f15
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TlpVU1VlaC9HdWJtU3BuOUsxaHl5OGV4dGo1M1VrbUtpMEhwUmM4ZUVnc2hI?=
+ =?utf-8?B?a0tiM2gyaENsMmRDejNFL0RCYVp1TktpS2dBNDRQU3RGSkhYck9yZ1lBL1h4?=
+ =?utf-8?B?alE5WVVSRUpwZDNoQjJqbUtZZmd1cEJUN3RDOHZWZHVJUitOY2M0dW5aQVQz?=
+ =?utf-8?B?T3ZkT0hGejlMYjVsK2hOdUFwK2lydHM1eW84anRURWkrcFhnNEpRQTZHSUts?=
+ =?utf-8?B?ZVZHekRiSGNUQjdHaGViaWFKVnF5UlVJaFVGWkVNWkhOaTNqMnJ0S25BMi82?=
+ =?utf-8?B?anJENkJTa25RSnAyVnFqMzhHbHRocHNJV3BrcmZLSks0dGFhcUg1eElPWkcv?=
+ =?utf-8?B?YStNaHlUNmljejM4K3hHYjV0M2YrbGZLSEhvcWluV2pGTk82NVNCaHVaRVEr?=
+ =?utf-8?B?Z2kwMStxazlBZlZGdGtkV1dqNGNwbG8vc0JRZTg1eVB4WUl0dmx5cjZRUi9l?=
+ =?utf-8?B?MFhWT0tLdytkSm9rRzZHLzNkL3Nic3RMSWRFWkI0T2ZpNmJuNjRjbG5IK3Yv?=
+ =?utf-8?B?L1F2eUhnVW45MzYwM2xicTNmVzBKWEZmT1NUZVo0ZVF1ZFptMlFSdGtldXdZ?=
+ =?utf-8?B?Y2xlSmZPWkdEQVZCZXZSZmZ3ZjdxeU5ML1o5K3ZNS2hwcVJsMnowSkRDSDVk?=
+ =?utf-8?B?TEs2OWpNSFR6RHpTK3RLZ3lvakMwdWY4NjQ5UXd0dzZ2TG9KcjdWb0JvNElS?=
+ =?utf-8?B?MXhwR2RkaEFZa0VsNURDUjF0L3l0L1JjRTJnOE0vclBIVStOM1ZKK1ZtTXJa?=
+ =?utf-8?B?QmovVnk4K3FYY2M3Y3J4b2pCMzdrVnVwdW9TcklJZWNSWjlYT3IvWFhWVmhz?=
+ =?utf-8?B?anBZQyt2N05qUFVld1lFTUQ1ZDEzMlpFVDQxZW1vVHM4aUdqY01nU05Pd1lT?=
+ =?utf-8?B?SmV4ZEM2a3F4Ty9RRzRvVlpHS1hPVmpVM2xlWkg2VmFlWkJGL20vQk90aWJI?=
+ =?utf-8?B?VjNpZy9EeTk0TkZSd2ZpcGZudFExL1k2ZnVZa2IvaDBFVThvWVN4WXJteVB6?=
+ =?utf-8?B?MHJGTkJkQndyeWwvSDd0eThlL2dBUmlwVDZYSmdnT0IvMGpnMXZFbWNZTk5H?=
+ =?utf-8?B?aFRJMlNkLzRWbHIxTTY3ZmZ3WEdPWnpNLzJ4Z0FQa1FTSkxid1ZuTGQwcTZ1?=
+ =?utf-8?B?cWpENTNRV3BrV0tVQUdWZ0Q4KzYyZDZKVUFFQ3pURU9POUZ1U0xvc21uWHZG?=
+ =?utf-8?B?cHNDT294ci9QTVhyYW5JRFRhS1I1c05IY3hVZlVvM2gyNXJhYUs5T0FZTm9a?=
+ =?utf-8?B?VkhRWGMvU0dMVDFyd0tzSzlwQS9vdkRCaUFYcmVzcHMvUllTLzcwVE5mWnZR?=
+ =?utf-8?B?S3A1MDJvL3cwYzB2a0QvK3ZTMGlXUjllQThzcXFyMXVlQXMwSDV1eDhFekxG?=
+ =?utf-8?B?dUxyYnU2bFZEdkpkRjlqelBML0h6dDh0ZU5SQUMxcXVqYXd5bE1rNGNpQWxz?=
+ =?utf-8?B?RnV2MFY2WU9xZmt3VjJ1bTAxZVNHcU5HR0kvaVREZk43R2ovWGRobG1kaDZs?=
+ =?utf-8?B?dXRXQ2xONmNsWUlyQ3Q5L2cvL0ZQME9HOGJkemZ3enBhUDhaa0FVUXVBQUgv?=
+ =?utf-8?B?K1ZOSFo5Mk9OamVCazlKVUNXVE8yaEFYQ0gycUUwdW9GMHc3MTFSeDRKdmF3?=
+ =?utf-8?B?NGxieHBTNFJEQjQ4RXRsaW94N0tZK1pFdEE4UTFzRnErYTF5c0pRRW9nQUkx?=
+ =?utf-8?B?VVhPdzFQZmJXdDQxZWxpcjFDdytqK1lLeENpME1JRzVRNVJTYzdXTlFPVkRJ?=
+ =?utf-8?B?ODI2d2tYODkvMitFVk1pYkJqQ1N6THV1SGNOZVB2Z3E1TXBYTzh1d24zaHor?=
+ =?utf-8?B?aitRT0tvdW1IMnJtSjJDM0tuWVVYNkhiRXUrU0V4TkFrdjF0LzNHbWdJV3Fj?=
+ =?utf-8?B?RG5tV0FZYm5kRUlIWExJQm56ek5XMmg0cmdyRDN6dW5TQjVKNUFKV3BRUkVR?=
+ =?utf-8?B?N0hKWFZQNHpxSGgyN040UWtmd1hGdlRsMkF5cHl3L3NmMytGQm1TS1ZEZStn?=
+ =?utf-8?B?VXBZRG01UkYvV291WmZsaHJoeVV6eFFNTDB2QXkvMDJjdDJmYUxrR1NwczBl?=
+ =?utf-8?B?aEt0bk14eVF6Q0N5UkRKcFNGR3VsOHU3WTN0ajcveG1GNlJBRWcxTjRIMXpq?=
+ =?utf-8?B?WHpheWZmWjNNMWd5ZFZmRUlXNUk1eUtmbWx4OGg3ZFZNTUNCRng4N2EyT0hU?=
+ =?utf-8?Q?cqp7dJzDqCjPwrvrHz2pCtMerM2dt07Xq9ORPyrSPng0?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 628dc9ed-f668-4c5a-d64a-08ddfd418010
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 21:13:10.6154 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 21:13:12.2243 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h/yiRghM3VqNB9lgyrJdRX6wlertTi+lqxh4FFHVwiE1fS5bCj0K/fw2vi7YVw7P0cW7oW9oe5uXzPH0/VWPdg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: nZIadl+IrcqsbgGELvz9aacP/i13JZFWBrvrxpr1yF4XjDBcTO466X60Zc9g7Z3QrqTHfWOfcS3g2JEMBCvOQw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7392
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -179,89 +196,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some Synaptics MST branch devices have a problem decompressing a stream
-with a compressed link-bpp higher than 12, if the pixel clock is higher
-than ~50 % of the maximum throughput capability reported by the branch
-device. The screen remains blank, or for some - mostly black content -
-gets enabled, but may stil have jitter artifacts.
+Add helpers to query the DP DSC sink device's per-slice throughput as
+well as a DSC branch device's overall throughput and line-width
+capabilities.
 
-At least the following docking stations are affected, based on testing
-both with any Intel devices or the UCD-500 reference device as a source:
-
-- DELL WD19DCS, DELL WD19TB3, DELL WD22TB4
-- ThinkPad 40AN
-- HP G2
-
-At least the following docking stations are free from this problem,
-based on tests with a source/sink/mode etc. configuration matching the
-test cases used above:
-
-- DELL Dual Charge HD22Q, DELL WD25TB5
-- ThinkPad 40B0
-- Anker 565
-
-All the affected devices have an older version of the Synaptics MST
-branch device (Panamera), whereas all the non-affected docking stations
-have a newer branch device (at least Synaptics Panamera with a higher HW
-revision number and Synaptics Cayenne models). Add the required quirk
-entries accordingly. The quirk will be handled by the i915/xe drivers in
-a follow-up change.
-
-The latest firmware version of the Synaptics branch device for all the
-affected devices tested above is 5.7 (as reported at DPCD address
-0x50a/0x50b). For the DELL devices this corresponds to the latest
-01.00.14.01.A03 firmware package version of the docking station.
-
-v2:
-- Document the DP_DPCD_QUIRK_DSC_THROUGHPUT_BPP_LIMIT enum.
-- Describe the quirk in more detail in the dpcd_quirk_list.
-v3:
-- s/Panarema/Panamera in the commit log.
+v2 (Ville):
+- Rename pixel_clock to peak_pixel_rate, document what the value means
+  in case of MST tiled displays.
+- Fix name of drm_dp_dsc_branch_max_slice_throughput() to
+  drm_dp_dsc_sink_max_slice_throughput().
 
 Cc: dri-devel@lists.freedesktop.org
-Reported-by: Vidya Srinivas <vidya.srinivas@intel.com>
-Reported-by: Swati Sharma <swati2.sharma@intel.com>
+Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 4 ++++
- include/drm/display/drm_dp_helper.h     | 9 +++++++++
- 2 files changed, 13 insertions(+)
+ drivers/gpu/drm/display/drm_dp_helper.c | 142 ++++++++++++++++++++++++
+ include/drm/display/drm_dp.h            |   1 +
+ include/drm/display/drm_dp_helper.h     |   5 +
+ 3 files changed, 148 insertions(+)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 5426db21e53f7..1c74fe9459ad9 100644
+index 1c74fe9459ad9..e0f96b5ba4518 100644
 --- a/drivers/gpu/drm/display/drm_dp_helper.c
 +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2551,6 +2551,10 @@ static const struct dpcd_quirk dpcd_quirk_list[] = {
- 	{ OUI(0x00, 0x0C, 0xE7), DEVICE_ID_ANY, false, BIT(DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC) },
- 	/* Apple MacBookPro 2017 15 inch eDP Retina panel reports too low DP_MAX_LINK_RATE */
- 	{ OUI(0x00, 0x10, 0xfa), DEVICE_ID(101, 68, 21, 101, 98, 97), false, BIT(DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS) },
-+	/* Synaptics Panamera supports only a compressed bpp of 12 above 50% of its max DSC pixel throughput */
-+	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID('S', 'Y', 'N', 'A', 0x53, 0x22), true, BIT(DP_DPCD_QUIRK_DSC_THROUGHPUT_BPP_LIMIT) },
-+	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID('S', 'Y', 'N', 'A', 0x53, 0x31), true, BIT(DP_DPCD_QUIRK_DSC_THROUGHPUT_BPP_LIMIT) },
-+	{ OUI(0x90, 0xCC, 0x24), DEVICE_ID('S', 'Y', 'N', 'A', 0x53, 0x33), true, BIT(DP_DPCD_QUIRK_DSC_THROUGHPUT_BPP_LIMIT) },
- };
+@@ -2844,6 +2844,148 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+ }
+ EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
  
- #undef OUI
++/*
++ * See DP Standard v2.1a 2.8.4 Minimum Slices/Display, Table 2-159 and
++ * Appendix L.1 Derivation of Slice Count Requirements.
++ */
++static int dsc_sink_min_slice_throughput(int peak_pixel_rate)
++{
++	if (peak_pixel_rate >= 4800000)
++		return 600000;
++	else if (peak_pixel_rate >= 2700000)
++		return 400000;
++	else
++		return 340000;
++}
++
++/**
++ * drm_dp_dsc_sink_max_slice_throughput() - Get a DSC sink's maximum pixel throughput per slice
++ * @dsc_dpcd: DSC sink's capabilities from DPCD
++ * @peak_pixel_rate: Cumulative peak pixel rate in kHz
++ * @is_rgb_yuv444: The mode is either RGB or YUV444
++ *
++ * Return the DSC sink device's maximum pixel throughput per slice, based on
++ * the device's @dsc_dpcd capabilities, the @peak_pixel_rate of the transferred
++ * stream(s) and whether the output format @is_rgb_yuv444 or yuv422/yuv420.
++ *
++ * Note that @peak_pixel_rate is the total pixel rate transferred to the same
++ * DSC/display sink. For instance to calculate a tile's slice count of an MST
++ * multi-tiled display sink (not considering here the required
++ * rounding/alignment of slice count)::
++ *
++ *   @peak_pixel_rate = tile_pixel_rate * tile_count
++ *   total_slice_count = @peak_pixel_rate / drm_dp_dsc_sink_max_slice_throughput(@peak_pixel_rate)
++ *   tile_slice_count = total_slice_count / tile_count
++ *
++ * Returns:
++ * The maximum pixel throughput per slice supported by the DSC sink device
++ * in kPixels/sec.
++ */
++int drm_dp_dsc_sink_max_slice_throughput(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
++					 int peak_pixel_rate, bool is_rgb_yuv444)
++{
++	int throughput;
++
++	throughput = dsc_dpcd[DP_DSC_PEAK_THROUGHPUT - DP_DSC_SUPPORT];
++
++	if (is_rgb_yuv444)
++		throughput = (throughput & DP_DSC_THROUGHPUT_MODE_0_MASK) >>
++			     DP_DSC_THROUGHPUT_MODE_0_SHIFT;
++	else
++		throughput = (throughput & DP_DSC_THROUGHPUT_MODE_1_MASK) >>
++			     DP_DSC_THROUGHPUT_MODE_1_SHIFT;
++
++	switch (throughput) {
++	case 0:
++		return dsc_sink_min_slice_throughput(peak_pixel_rate);
++	case 1:
++		return 340000;
++	case 2 ... 14:
++		return 400000 + 50000 * (throughput - 2);
++	case 15:
++		return 170000;
++	default:
++		WARN(1, "Missing case %d\n", throughput);
++		return 340000;
++	}
++}
++EXPORT_SYMBOL(drm_dp_dsc_sink_max_slice_throughput);
++
++static u8 dsc_branch_dpcd_cap(const u8 dpcd[DP_DSC_BRANCH_CAP_SIZE], int reg)
++{
++	return dpcd[reg - DP_DSC_BRANCH_OVERALL_THROUGHPUT_0];
++}
++
++/**
++ * drm_dp_dsc_branch_max_overall_throughput() - Branch device's max overall DSC pixel throughput
++ * @dsc_branch_dpcd: DSC branch capabilities from DPCD
++ * @is_rgb_yuv444: The mode is either RGB or YUV444
++ *
++ * Return the branch device's maximum overall DSC pixel throughput, based on
++ * the device's DPCD DSC branch capabilities, and whether the output
++ * format @is_rgb_yuv444 or yuv422/yuv420.
++ *
++ * Returns:
++ * - 0:   The maximum overall throughput capability is not indicated by
++ *        the device separately and it must be determined from the per-slice
++ *        max throughput (see @drm_dp_dsc_branch_slice_max_throughput())
++ *        and the maximum slice count supported by the device.
++ * - > 0: The maximum overall DSC pixel throughput supported by the branch
++ *        device in kPixels/sec.
++ */
++int drm_dp_dsc_branch_max_overall_throughput(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE],
++					     bool is_rgb_yuv444)
++{
++	int throughput;
++
++	if (is_rgb_yuv444)
++		throughput = dsc_branch_dpcd_cap(dsc_branch_dpcd,
++						 DP_DSC_BRANCH_OVERALL_THROUGHPUT_0);
++	else
++		throughput = dsc_branch_dpcd_cap(dsc_branch_dpcd,
++						 DP_DSC_BRANCH_OVERALL_THROUGHPUT_1);
++
++	switch (throughput) {
++	case 0:
++		return 0;
++	case 1:
++		return 680000;
++	default:
++		return 600000 + 50000 * throughput;
++	}
++}
++EXPORT_SYMBOL(drm_dp_dsc_branch_max_overall_throughput);
++
++/**
++ * drm_dp_dsc_branch_max_line_width() - Branch device's max DSC line width
++ * @dsc_branch_dpcd: DSC branch capabilities from DPCD
++ *
++ * Return the branch device's maximum overall DSC line width, based on
++ * the device's @dsc_branch_dpcd capabilities.
++ *
++ * Returns:
++ * - 0:        The maximum line width is not indicated by the device
++ *             separately and it must be determined from the maximum
++ *             slice count and slice-width supported by the device.
++ * - %-EINVAL: The device indicates an invalid maximum line width
++ *             (< 2560 pixels).
++ * - >= 2560:  The maximum line width in pixels.
++ */
++int drm_dp_dsc_branch_max_line_width(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE])
++{
++	int line_width = dsc_branch_dpcd_cap(dsc_branch_dpcd, DP_DSC_BRANCH_MAX_LINE_WIDTH);
++
++	switch (line_width) {
++	case 0:
++		return 0;
++	case 1 ... 7:
++		return -EINVAL;
++	default:
++		return line_width * 320;
++	}
++}
++EXPORT_SYMBOL(drm_dp_dsc_branch_max_line_width);
++
+ static int drm_dp_read_lttpr_regs(struct drm_dp_aux *aux,
+ 				  const u8 dpcd[DP_RECEIVER_CAP_SIZE], int address,
+ 				  u8 *buf, int buf_size)
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index cf318e3ddb5c5..43978ddd15056 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -1686,6 +1686,7 @@ enum drm_dp_phy {
+ #define DP_BRANCH_OUI_HEADER_SIZE	0xc
+ #define DP_RECEIVER_CAP_SIZE		0xf
+ #define DP_DSC_RECEIVER_CAP_SIZE        0x10 /* DSC Capabilities 0x60 through 0x6F */
++#define DP_DSC_BRANCH_CAP_SIZE		3
+ #define EDP_PSR_RECEIVER_CAP_SIZE	2
+ #define EDP_DISPLAY_CTL_CAP_SIZE	5
+ #define DP_LTTPR_COMMON_CAP_SIZE	8
 diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 52ce280970151..e438c44409952 100644
+index e438c44409952..ac03bfbb0fb52 100644
 --- a/include/drm/display/drm_dp_helper.h
 +++ b/include/drm/display/drm_dp_helper.h
-@@ -828,6 +828,15 @@ enum drm_dp_quirk {
- 	 * requires enabling DSC.
- 	 */
- 	DP_DPCD_QUIRK_HBLANK_EXPANSION_REQUIRES_DSC,
-+	/**
-+	 * @DP_DPCD_QUIRK_DSC_THROUGHPUT_BPP_LIMIT:
-+	 *
-+	 * The device doesn't support DSC decompression at the maximum DSC
-+	 * pixel throughput and compressed bpp it indicates via its DPCD DSC
-+	 * capabilities. The compressed bpp must be limited above a device
-+	 * specific DSC pixel throughput.
-+	 */
-+	DP_DPCD_QUIRK_DSC_THROUGHPUT_BPP_LIMIT,
- };
+@@ -211,6 +211,11 @@ u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
+ u8 drm_dp_dsc_sink_line_buf_depth(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE]);
+ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpc[DP_DSC_RECEIVER_CAP_SIZE],
+ 					 u8 dsc_bpc[3]);
++int drm_dp_dsc_sink_max_slice_throughput(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
++					 int mode_clock, bool is_rgb_yuv444);
++int drm_dp_dsc_branch_max_overall_throughput(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE],
++					     bool is_rgb_yuv444);
++int drm_dp_dsc_branch_max_line_width(const u8 dsc_branch_dpcd[DP_DSC_BRANCH_CAP_SIZE]);
  
- /**
+ static inline bool
+ drm_dp_sink_supports_dsc(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
 -- 
 2.49.1
 
