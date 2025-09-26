@@ -2,122 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0442BA4077
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 16:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77574BA410E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 16:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184ED10EA71;
-	Fri, 26 Sep 2025 14:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F58510E315;
+	Fri, 26 Sep 2025 14:13:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LT6uGOFX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gHVwjqSn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C439A10E0A8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 14:05:46 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58QBb8Sl003270
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 14:05:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=584nrbDAdLBURaO0cgXzCKXy
- eOmRtZu/VSbhHT0wC+M=; b=LT6uGOFX0SR1QZQJx9bkXdGg/dXzjHdSfKJWmOwi
- ljGQn5xCogB1rQaZbF7TQjvv7rqySxM4f8vz4W6EG0xvvsZZrHZ9+SGW+CAxZouq
- jbIx+2yFc+TajvJYxuLkLkwq2r4AlML6lXHXq58vVNXIwulwRXy8K3dcrc5kAXs+
- bOSMYW4IoVT3BYgfwM5/aIuqPlfz5yfZrMNrlcqI/0JNMYRVd5jjoTX9FyXjEvgw
- +Ffqrkn8clA6GSCPx8HXzIAiH3F9NFhxq/nq6j4rNwCSs7yAO6X9WiITkQYpY45h
- lu4DSs0+DyP9uSx+QdYxo91+dHCp/jQYgSKX+pR25euFjA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49dt3g8c1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 14:05:45 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4dd932741cfso17633741cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:05:45 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424F010E315
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 14:13:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1758896037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qYsj9+8I0Zx27jHpluvCkiN1087KEQYq4tnoUW0GI60=;
+ b=gHVwjqSnXHb7EcJVuSmAxGBysXD143Lr4ddT0yPGVYq0bulfIVfDe4saImNhK1Ega1SpMe
+ adMFy3rw6dWXEC+IWPYR5qfoLDraWP1ocaOKOJRDZn63MqqxOJlKbBcEoftPzPfdhdylqD
+ o19bIJvR3L8p3tUan0kn1ll7EXnADBQ=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-347-R7UATaAYNw-xNJIICQdAaw-1; Fri, 26 Sep 2025 10:13:55 -0400
+X-MC-Unique: R7UATaAYNw-xNJIICQdAaw-1
+X-Mimecast-MFC-AGG-ID: R7UATaAYNw-xNJIICQdAaw_1758896034
+Received: by mail-il1-f197.google.com with SMTP id
+ e9e14a558f8ab-425d6a07c97so1411965ab.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 07:13:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758895545; x=1759500345;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=584nrbDAdLBURaO0cgXzCKXyeOmRtZu/VSbhHT0wC+M=;
- b=M1lrHLdZWSZ4pxHK609ooQ3K8AygIQDiM18wEj2msZuzsHVSp2dG6SvPmHdR8BYtJz
- 0BkXsB+llOdPXmsZ6KdkqW7MKMpGZ8QwGONB4oAcelFLqC+4rkXB8zNF3yub0fDbZYmc
- dpRBw1ldfRAmQsDXBr5VWGVPdfNFcgAgpFaiW1ey/xnJCtMQaxMO8Kt5CdbCYGtHT2kp
- OO760OP2volGs2lC0XMVJpB0VEuOTeZSE0DLd0xhTRTpv33/rql3fIp/N/M6rcbapsAw
- r9PYGIX5IJF/PQxWk9JTMsbSLgNjJRloEVgzxxVw4PVEr1xpksxDoWUlLgRJdrE3tDxJ
- brhw==
+ d=1e100.net; s=20230601; t=1758896034; x=1759500834;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qYsj9+8I0Zx27jHpluvCkiN1087KEQYq4tnoUW0GI60=;
+ b=j12Qd2IaUVumBcu4DCMuDFG4y105Ta8qUaW4U1wCvqEmHWp4AW5lCQat4ynFBjR9ty
+ gfBBU5MRSPerShhgba0xj5Z7JKDeThSS4KeRG9IKM/b2Zm5FcXQyau7vyi32iTkY7whA
+ Zl7lSr6aiXxfjaTieodjlxjbazVXa6Vn2t0gQXgBuDunrQCT1be6EHnrC9hWK8MIuuiy
+ xidVo4veB5XkM+7XYbROQXMlLb5OsoSCQzrdrnP6Nc0Eeyz7cfEi+3EnPjPj8EOrl16h
+ EKmNuVSQ1xzID66WPe1TMxzmTEYo5gKt6KpbHTSYgdFQcs16a3rla6u0IZ7nWjLlDamb
+ hBoQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4s4dSee9p3TRb2Oh9SYYUWAgw74+wHq0U4Xggv87nf0igJvs7F2cMw3WVu9oqYKdwEx8xq8Dsw54=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKQQgWOEc9sd6x+gKZikmMdqXyo4sLMGM1d2gxqnxdvtYGfQHe
- GdJHaj8xWSH4ekqkyUL57LNASFe6bXyF/gwzlUUc+5FdvP3CptpJbwJIwKHD9PQegTQhHHASQdV
- ZLvCI9WyUErJ2cxirCtKeZJDXPkO+12jWDt5VP4zihhVjJeFEYZxcSYH8CmoW6kal49ZwNhY=
-X-Gm-Gg: ASbGncuqfAH4cK0iO1+zRej3Q69uc4gjo5D9k0sr7JmSYKAllbWo0pytluMgBuK2Vdi
- 2os9ungB/3odfMKlqvkwabSFm4wtTmElkrsSc3DbonlZwtLDZ3MS2ztHvOd4HdZ3wuKLLXDt63i
- 1BFELF3Y3vy6apR7cjalt9k3ico8kQ4Fo5Ic6i6Q1bJEenihwxHcbv2bzAKSmHlkchyME4EH8DZ
- pH0nrxcoCojvnqqeUiMKNifVw1Sw/txds3+hZHz4bs1JC8dVWpzMVhDhIgjk8KUhFrg+DAnLa8b
- e3hbDWtDq0mipi9TG8wdGm3Nz0shBT3npC5kb9YYFYp3lImiDCu7YF4k2iWsEyLkeXi697Pd5Pz
- pvgkgdUpbJ8jhTFQ8fm1NQjYMdz1PHvkav1EPf4DX73F1Ok3hdtLi
-X-Received: by 2002:a05:622a:768f:b0:4db:dd57:e093 with SMTP id
- d75a77b69052e-4dbdd57fb69mr58371521cf.51.1758895544716; 
- Fri, 26 Sep 2025 07:05:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHltJA6GbWIV/+igvGWnl22Iv/P1bx9gnuRDpBgQL59uVz2fnVyjK+CDBIlVIjHHYtcOin3WA==
-X-Received: by 2002:a05:622a:768f:b0:4db:dd57:e093 with SMTP id
- d75a77b69052e-4dbdd57fb69mr58370611cf.51.1758895543827; 
- Fri, 26 Sep 2025 07:05:43 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-36fb7710256sm12274671fa.45.2025.09.26.07.05.42
+ AJvYcCVL4w3VedPXO07ygyl5ZarjHU08uhqJbVMXd6mNH2GU0ol/6zh9oWQuzpTyfxm5khtyoNGP6onJKoA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzV1JFQIL3s2dDf+8sX6PO2Jck6s74E3Gs8UckSZUz9XWL54kp0
+ uWVm9ZyL8TVkeXwc8MFn1ngDF8w6fLbDsyyXp3Hjz+87MNPsPlQXNuTwVXSbxZO2ovKgGYbAHpb
+ 5V8OUs63ofMAbeD48G39A7L5Ojc9er2NPCnJUQ1/iW/PY8oi2nSiDbLMuT8ffqDBk4TYLKg==
+X-Gm-Gg: ASbGncsFGu93+kfLkc1VKrnhf+qL9sVgDiArpHHZsT7rfLIRLgxP3ME3wQ5vKUVSo2j
+ +S+fu4J8ZA5IsErX4VBSJJskZsOjCySRsvsg5qvHwC3YSaX/IPhC4E3NO0ZyhwbLWHSQzgqox+G
+ hQ/xtBw+cNFgyb7uPh94qFZzArJQ/M3rEX3i7WhwAcA/tHZyKWVwtXVOy0Eoaz3koj7snogUHrp
+ UU0wDDdACmgVJrWeMS0xEewIobE3kM/B2l0muT+WNwAppjOc3Y0/+/4fPQHN5q/AIy4ppIT4GbJ
+ 7ok3HcLJTQsp+4jzcztp0rXIfSpgnbdjzgRAHdBEvCQ=
+X-Received: by 2002:a05:6e02:1b08:b0:424:6c8e:6187 with SMTP id
+ e9e14a558f8ab-425955e4dfdmr37293745ab.2.1758896034414; 
+ Fri, 26 Sep 2025 07:13:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHfT8sSg9RrO7oeIo38sP5Lm5q3G5XmCIbUcAskNNx/V0hMD+Gb0yPcLZiy3wfp8DzV0Dz7Q==
+X-Received: by 2002:a05:6e02:1b08:b0:424:6c8e:6187 with SMTP id
+ e9e14a558f8ab-425955e4dfdmr37293545ab.2.1758896033974; 
+ Fri, 26 Sep 2025 07:13:53 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11]) by smtp.gmail.com with ESMTPSA id
+ 8926c6da1cb9f-56a6a5b1ec5sm1833727173.67.2025.09.26.07.13.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Sep 2025 07:05:42 -0700 (PDT)
-Date: Fri, 26 Sep 2025 17:05:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ayushi Makhija <quic_amakhija@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, robdclark@gmail.com, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_rajeevny@quicinc.com,
- quic_vproddut@quicinc.com, quic_jesszhan@quicinc.com
-Subject: Re: [PATCH 2/3] arm64: dts: qcom: qcs8300: add Display Serial
- Interface device nodes
-Message-ID: <5irzdmwxs2j4ppti35hc5235yxqq576doerrrk6fhcpj7f726a@eh5rl2jwb5kg>
-References: <20250925053602.4105329-1-quic_amakhija@quicinc.com>
- <20250925053602.4105329-3-quic_amakhija@quicinc.com>
- <vsty7sy7gi2eeyifokwcqpoycmarxietkijmlkymwrmzmdsfws@x64f4ulbc6ja>
- <8c248bf8-2f25-443d-a08f-6504c349b72b@quicinc.com>
+ Fri, 26 Sep 2025 07:13:52 -0700 (PDT)
+Date: Fri, 26 Sep 2025 08:13:50 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, Jens Axboe
+ <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
+ <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
+ Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 03/10] PCI/P2PDMA: Refactor to separate core P2P
+ functionality from memory allocation
+Message-ID: <20250926081350.16bb66c8.alex.williamson@redhat.com>
+In-Reply-To: <20250925230236.GB2617119@nvidia.com>
+References: <cover.1757589589.git.leon@kernel.org>
+ <1e2cb89ea76a92949d06a804e3ab97478e7cacbb.1757589589.git.leon@kernel.org>
+ <20250922150032.3e3da410.alex.williamson@redhat.com>
+ <20250923150414.GA2608121@nvidia.com>
+ <20250923113041.38bee711.alex.williamson@redhat.com>
+ <20250923174333.GE2608121@nvidia.com>
+ <20250923120932.47df57b2.alex.williamson@redhat.com>
+ <20250925070314.GA12165@unreal>
+ <20250925115308.GT2617119@nvidia.com>
+ <20250925163131.22a2c09b.alex.williamson@redhat.com>
+ <20250925230236.GB2617119@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c248bf8-2f25-443d-a08f-6504c349b72b@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=df6NHHXe c=1 sm=1 tr=0 ts=68d69db9 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=fWuQbBWbtaeYDtlrs1EA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: qRlmnLIL6doLrVunIi9qWnjxCNa8AeY-
-X-Proofpoint-GUID: qRlmnLIL6doLrVunIi9qWnjxCNa8AeY-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEwNiBTYWx0ZWRfXw9YyLoegzK/D
- aJgcZjLgBd5oBJFLQrXASljnD8idnzSVVcNCmRMV4x5XLH0yrHvVElBYIaDRwOHNci/PQk3T2T9
- GZp5RPVgCSF0Ut5PxyklDIgREEv72qyTPoSU6DsH4dufUcjvllpP8lYcWskaOgjaBkgE8EOyd9S
- 4G2lHIgvM5pmc7veV/GXKqyeW36Zlx6QPJ6bKuNTKgQI2CNFcox9cXdWcjv0sNjI5FoP8kSqoe2
- 4thrULJeKDS1vzHuYxO30Y2wwMP1FvWeDbZDBMYsFAGvgfEBeNMgwq5IDezgoVzBV2bwl5wkFY2
- /7OpIRZI+MJ6+Vhm9R2kx9cyTikZmOc6CiIs1W6h1XIBPSlEyZfpmCWE0aVV8clZH/4+s47CE0L
- daVVXCHVDID09fwKc+ciWgI9Zsua3g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_04,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0 malwarescore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509260106
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 1LjoZfjI_SjkcNvDbRHhf0Mj1r0DEq3At6gaSfRKUEo_1758896034
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,35 +119,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 26, 2025 at 02:55:19PM +0530, Ayushi Makhija wrote:
-> On 9/26/2025 3:32 AM, Dmitry Baryshkov wrote:
-> > On Thu, Sep 25, 2025 at 11:06:01AM +0530, Ayushi Makhija wrote:
-> >> Add device tree nodes for the DSI0 controller with their corresponding
-> >> PHY found on Qualcomm QCS8300 SoC.
-> >>
-> >> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
-> >> ---
-> >>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 95 ++++++++++++++++++++++++++-
-> >>  1 file changed, 94 insertions(+), 1 deletion(-)
-> >>
-> >> +
-> >> +			mdss_dsi0_phy: phy@ae94400 {
-> >> +				compatible = "qcom,sa8775p-dsi-phy-5nm";
-> > 
-> > Add qcs8300-specific compatible and use sa8775p as a fallback
-> > 
-> 
-> Hi Dmitry,
-> 
-> I have one doubt, even though the ctrl and phy versions for sa8775p(LeMans) and qcs8300(Monaco) are same.
-> Why can't we use the same compatible string that we have used for LeMans ctrl and phy ? what is the need to define a separate
-> compatible string for monaco ctrl and phy ?
+On Thu, 25 Sep 2025 20:02:36 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Konrad responded with the reason. But also, this question should have
-been asked when you took a first look at the qcom,qcs8300-mdss.yaml.
-It has two compats for DPU, DP and eDP PHY blocks (for exactly the same
-reason).
+> On Thu, Sep 25, 2025 at 04:31:31PM -0600, Alex Williamson wrote:
+> > On Thu, 25 Sep 2025 08:53:08 -0300
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >   
+> > > On Thu, Sep 25, 2025 at 10:03:14AM +0300, Leon Romanovsky wrote:
+> > >   
+> > > > > It would at least make sense to me then to store the provider on the
+> > > > > vfio_pci_dma_buf object at the time of the get feature call rather than
+> > > > > vfio_pci_core_init_dev() though.  That would eliminate patch 08/ and
+> > > > > the inline #ifdefs.    
+> > > > 
+> > > > I'll change it now. If "enable" function goes to be "get" function, we
+> > > > won't need to store anything in vfio_pci_dma_buf too. At the end, we
+> > > > have exactly two lines "provider = priv->vdev->provider[priv->bar];",
+> > > > which can easily be changed to be "provider = pcim_p2pdma_provider(priv->vdev->pdev, priv->bar)"    
+> > > 
+> > > Not without some kind of locking change. I'd keep the
+> > > priv->vdev->provider[priv->bar] because setup during probe doesn't
+> > > need special locking.  
+> > 
+> > Why do we need to store the provider on the vfio_pci_core_device at
+> > probe though, we can get it later via pcim_p2pdma_provider().   
+> 
+> Because you'd need some new locking to prevent races.
 
--- 
-With best wishes
-Dmitry
+The race is avoided if we simply call pcim_p2pdma_provider() during
+probe.  We don't need to save the returned provider.  That's where it
+seems like pulling the setup out to a separate function would eliminate
+this annoying BAR# arg.
+ 
+> Besides, the model here should be to call the function once during
+> probe and get back the allocated provider. The fact internally it is
+> kind of nutzo still shouldn't leak out as a property of the ABI.
+> 
+> I would like to remove this weird behavior where it caches things
+> inside the struct device. That's not normal for an API to do that, it
+> is only done for the genalloc path that this doesn't use.
+
+My goal in caching the provider on the vfio p2pdma object was to avoid
+caching it on the vfio_pci_core_device, but now we're storing it on the
+struct device, the vfio_pci_core_device, AND the vfio p2pdma object.
+Given the current state that it's stored on the struct device, I think
+we only need a setup call during probe (that could be stubbed out
+rather than #ifdef'd), then cache the provider on the vfio p2pdma
+object when a dmabuf is configured.  Thanks,
+
+Alex
+
