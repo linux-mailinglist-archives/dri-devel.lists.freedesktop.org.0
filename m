@@ -2,62 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6ABBA3728
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 13:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CAABA3759
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Sep 2025 13:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D7010EA22;
-	Fri, 26 Sep 2025 11:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17D1B10EA3B;
+	Fri, 26 Sep 2025 11:18:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iBJD2heD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BSUQ5OO1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E63910E06B;
- Fri, 26 Sep 2025 11:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758885045; x=1790421045;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=HeCI+Pu6Se1VVcRSvV8eV0vTtgy0zdiTkmmosHTzzpo=;
- b=iBJD2heDNAlq0CvERDSEuFIOJr/P/ojqnYV/UajLgYrdt8yzjXOcMNbm
- 5Zm/GvdAqD2X0lSJ+stN9QOiO6G8gm06mfyt+OtdfH2dU7KcYoxu8BFqz
- Qszbwab8GdWfNb7B9cd5wZO5alILQKro97HVEypNkpnPe5doGh4sH+2X3
- 5CEp2TfUk+f9tZNGDZShkpaQy+aaPPa1Dp7UiL5HpSzNE779+2LEjlOGH
- M2IlXv323CwjdtvEMeuhutQ/BuOYR2AKF3dpXZPK9Ew7+qKp8McRyXTrb
- 5qz4TOxv0fpWwn1AFIL4rkxdIYendYVUOfnYVyj8U4ThR211D9CLCAL3k g==;
-X-CSE-ConnectionGUID: KM0ROv0rQn+ASGt8LirZmg==
-X-CSE-MsgGUID: dca+nubsS36QbM9I9CyxMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="83825342"
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; d="scan'208";a="83825342"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 04:10:45 -0700
-X-CSE-ConnectionGUID: Sn5eL1B9SXy5KXvjsxKwQg==
-X-CSE-MsgGUID: q6KmP7eOQfWHXtmiUbFn9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; d="scan'208";a="178345547"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.10])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2025 04:10:42 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, jani.nikula@intel.com,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: [PATCH] drm/{i915,xe}: driver agnostic drm to display pointer chase
-Date: Fri, 26 Sep 2025 14:10:32 +0300
-Message-ID: <20250926111032.1188876-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.47.3
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F05F010EA28
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 11:18:13 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q8vYec020684
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 11:18:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Eq9Zwf2rKiWBOFDTkcfFofQ9fiSbCfKkCk6e8JzUd+4=; b=BSUQ5OO1IXahVIuV
+ Vn8Ku/wW88M79HlafbRzhLbeqlgfbsYTcgba0hO3JM4RJGdeUy59wHOEI50o1ePw
+ 9bWfmr1qmXKbOyzPbh7Nhf1oybSp49g36xYPjfD1H1bQqUs4D31V1sqdumkbJREa
+ 7xDKdPmo5XjjMS+ctOvkrYZqJ9SbwqEXiIY5ILTqiKZxxBPD4dAg5fkRhV8ZFhWK
+ iGEZnV8piOhPbPhu5gsQj8W/Kk7HhuJAnLWKzXAHEQk9YWtRtpNGIGAEc0Ok/G7y
+ vSjaSUoeWIV8kARA2y/DZ1FoO/wDPRK9sDHrywxChABlyRLNAsXA1jkNFW9Km1gu
+ S5kp5Q==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0qtn65-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 11:18:13 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-85696c12803so82927385a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Sep 2025 04:18:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758885492; x=1759490292;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Eq9Zwf2rKiWBOFDTkcfFofQ9fiSbCfKkCk6e8JzUd+4=;
+ b=Z6fXnCxBUV60xPwa+/rEfzNySdHNtS4Ey7AXa6+2ydiJDn5cxSH+9pBRt/Sa/paEOY
+ YGV+l/Ey+NBnPOsZdt1ngjNhpXAhXXeHtM23PEnLSiCbTDJTGuVbRgzyMc3WO0ZgMRA/
+ jRZBC6R6M7S/l3XdELJ2mYo641CPhKa4Ji6YuK2vR9rSishDnmv6BSwiC18tDKkb6GQt
+ 2JmCnvYwzxDMM9h+v7mioJtqaFJ2R5NAu4abfKfiTy6FnHfkbvuC8qpSSWAVI+YXWyKT
+ 8WwmTUvA+qadk4/hG3kEU1DLB1wsw6YSzLxPrArovwmAFpUCoXGRqEkEke08v/FTOzK9
+ XUGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXpKIjQ3jhGHcuUlyKNZpNEuibv5Zdpdn5ZFI68SaLJKGooAXa14InjMVWySPpBXlWa4Mnc5VYhGXY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyp2rXUfwKpf69qyAkRLhOUupKCblZ1oL39YKsRvcWS+Z2Z3dZp
+ mCMd4LvANQ2/yLn5VP5XTrKMfgpLx8yiTCvwWbDGrdhzT4mHm539/e8gXfeq47X3rsKcWxXhjGH
+ LhQstcyFuK3/PjnpcktoajhCumhrNEQ5qMiv2mgL30Hhzf2S6Az6hZ2JjYJqxorX8ZUMFAU8=
+X-Gm-Gg: ASbGncsbAD8Fw3czhpqJEz0fvaphPzmEw8P/pAxVE9SNGGFV7UiuJunJWM02DgjGEvc
+ 1KQ4JOZCCK9sorC+6lwAqAJ5b/W2Moc1MT+4tvfSEnGfla9tljO83+a96Ry/q+INP1aV+/5ALBg
+ QULPT/92dRh2zWOXdZ5pnq3/ZVofzSbD7Kak3APT+P8tcXlhubNm56jUx0Tgf+y1ZYKwWgcehd0
+ FSSRt9gGgnv5Z1AlIWRCEbtTRzX3QdOBqNNQfkXysYHjFNyHelxLI6s1TESmtpmauHohbIfLsxu
+ bIsUurUESOQ0HWUFPrUNqRLeOf+y4bGF5na8m6ph8JYDmj9MOmSyDiNmJCVDuXasgLscReNAVCU
+ HklOMOO7DzCnPVyHzIlEwQQ==
+X-Received: by 2002:a05:620a:3182:b0:812:81c6:266c with SMTP id
+ af79cd13be357-85ae6d81db3mr601253785a.9.1758885491766; 
+ Fri, 26 Sep 2025 04:18:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTjabHhK02b9oVhzoCCGFrlmQKMMkgWl8q77/ykLbuE2cCJPi3DSQKHtmGntFz7aUmVpFMZA==
+X-Received: by 2002:a05:620a:3182:b0:812:81c6:266c with SMTP id
+ af79cd13be357-85ae6d81db3mr601248385a.9.1758885491079; 
+ Fri, 26 Sep 2025 04:18:11 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b3545a983ffsm349631066b.94.2025.09.26.04.18.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Sep 2025 04:18:10 -0700 (PDT)
+Message-ID: <652595ef-ef79-4c36-9979-b536ca65e1de@oss.qualcomm.com>
+Date: Fri, 26 Sep 2025 13:18:07 +0200
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] drm/msm/dp: Update msm_dp_controller IDs for sa8775p
+To: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>,
+ dmitry.baryshkov@oss.qualcomm.com, marijn.suijten@somainline.org,
+ swboyd@chromium.org, mripard@kernel.org, abel.vesa@linaro.org,
+ andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
+ jessica.zhang@oss.qualcomm.com, abhinav.kumar@linux.dev,
+ sean@poorly.run, airlied@gmail.com, simona@ffwll.ch,
+ alex.vinarskis@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_riteshk@quicnic.com, quic_amitsi@quicnic.com
+References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
+ <20250926085956.2346179-2-quic_mkuntuma@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250926085956.2346179-2-quic_mkuntuma@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: pvG-YZH3BDARUzDZF-24ujc6vh2oUgoO
+X-Proofpoint-ORIG-GUID: pvG-YZH3BDARUzDZF-24ujc6vh2oUgoO
+X-Authority-Analysis: v=2.4 cv=api/yCZV c=1 sm=1 tr=0 ts=68d67675 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=tFSzMcqD3SoeBU5fSnoA:9
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX4Ij7pzUj98UT
+ j72cF1X6vDHi1JDyX7IU6FFaKX3ofDDnjqUgh/C7UHCSxCzoNO8ai8oBAysiwrGXRbkVAEFDxGX
+ cmADzk8lbwAE/2gGRTRD+3W98FfPOyYzBau2leS0SaEN6tuptqY9/5Buix839XjZL+0AlYH77cq
+ psqnvwlwx4swEpeevkJzEm+olzOyQVEdwlB9u8Elu1nMuCrQl8T4QRqKonnIE70KfiaUH0nAsGn
+ kbQxWWtVScApQCr9mBZj29R/b8PuMewZBJb3QPC7jOF3kQQFPwJlB/Bl5DbIy90JE9B7x2kj7wt
+ uW4VegXXguF+ZvM9QgL6EsJDuJh27FagOe65q8K8ZFLszISA1Z9rauRmzlkrlseFMuG3I98qm6t
+ Gjt5jGhzYxE7JAc+8qwju/BOWxlGQQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_03,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,201 +133,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The display driver needs to get from the struct drm_device pointer to
-the struct intel_display pointer. Currently, this depends on knowledge
-of the struct drm_i915_private and struct xe_device definitions, but
-we'd like to hide those definitions from display.
+On 9/26/25 10:59 AM, Mani Chandana Ballary Kuntumalla wrote:
+> The Qualcomm SA8775P platform comes with 2 DisplayPort controllers
+> for each mdss. Update controller id for DPTX0 and DPTX1 of mdss1.
+> 
+> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index d87d47cc7ec3..f247aad55397 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -133,8 +133,8 @@ struct msm_dp_desc {
+>  static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
+>  	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+>  	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
+> -	{ .io_start = 0x22154000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
+> -	{ .io_start = 0x2215c000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
+> +	{ .io_start = 0x22154000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+> +	{ .io_start = 0x2215c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
 
-Require the struct drm_device and struct intel_display * members within
-struct drm_i915_private and struct xe_device to be placed next to each
-other, to be able to figure out the display pointer without knowledge of
-the structures.
+Well, did you see what happens when you try to plug in a display
+to a controller on MDSS0 and MDSS1 at once now?
 
-Use a generic dummy device structure to define the relative offsets of
-the drm and display members, and add static assertions to ensure this
-holds for both i915 and xe. Use the dummy structure to do the pointer
-chase from struct drm_device * to struct intel_display *.
+(memory corruption)
 
-This requires moving the display member in struct xe_device after the
-drm member.
-
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- .../i915/display/intel_display_conversion.c   | 20 +++++----
- drivers/gpu/drm/i915/i915_driver.c            |  4 ++
- drivers/gpu/drm/i915/i915_drv.h               |  1 +
- drivers/gpu/drm/xe/display/xe_display.c       |  4 ++
- drivers/gpu/drm/xe/xe_device_types.h          |  7 +++-
- include/drm/intel/display_member.h            | 42 +++++++++++++++++++
- 6 files changed, 69 insertions(+), 9 deletions(-)
- create mode 100644 include/drm/intel/display_member.h
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display_conversion.c b/drivers/gpu/drm/i915/display/intel_display_conversion.c
-index d56065f22655..9a47aa38cf82 100644
---- a/drivers/gpu/drm/i915/display/intel_display_conversion.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_conversion.c
-@@ -1,15 +1,21 @@
- // SPDX-License-Identifier: MIT
- /* Copyright © 2024 Intel Corporation */
- 
--#include "i915_drv.h"
--#include "intel_display_conversion.h"
-+#include <drm/intel/display_member.h>
- 
--static struct intel_display *__i915_to_display(struct drm_i915_private *i915)
--{
--	return i915->display;
--}
-+#include "intel_display_conversion.h"
- 
- struct intel_display *__drm_to_display(struct drm_device *drm)
- {
--	return __i915_to_display(to_i915(drm));
-+	/*
-+	 * Note: This relies on both struct drm_i915_private and struct
-+	 * xe_device having the struct drm_device and struct intel_display *
-+	 * members at the same relative offsets, as defined by struct
-+	 * __intel_generic_device.
-+	 *
-+	 * See also INTEL_DISPLAY_MEMBER_STATIC_ASSERT().
-+	 */
-+	struct __intel_generic_device *d = container_of(drm, struct __intel_generic_device, drm);
-+
-+	return d->display;
- }
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 95165e45de74..b46cb54ef5dc 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -46,6 +46,7 @@
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/intel/display_member.h>
- 
- #include "display/i9xx_display_sr.h"
- #include "display/intel_bw.h"
-@@ -737,6 +738,9 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
- 			 "DRM_I915_DEBUG_RUNTIME_PM enabled\n");
- }
- 
-+/* Ensure drm and display members are placed properly. */
-+INTEL_DISPLAY_MEMBER_STATIC_ASSERT(struct drm_i915_private, drm, display);
-+
- static struct drm_i915_private *
- i915_driver_create(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 03e497d2081e..6e159bb8ad2f 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -174,6 +174,7 @@ struct i915_selftest_stash {
- struct drm_i915_private {
- 	struct drm_device drm;
- 
-+	/* display device data, must be placed after drm device member */
- 	struct intel_display *display;
- 
- 	/* FIXME: Device release actions should all be moved to drmm_ */
-diff --git a/drivers/gpu/drm/xe/display/xe_display.c b/drivers/gpu/drm/xe/display/xe_display.c
-index 19e691fccf8c..5f4044e63185 100644
---- a/drivers/gpu/drm/xe/display/xe_display.c
-+++ b/drivers/gpu/drm/xe/display/xe_display.c
-@@ -13,6 +13,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/intel/display_member.h>
- #include <uapi/drm/xe_drm.h>
- 
- #include "soc/intel_dram.h"
-@@ -35,6 +36,9 @@
- #include "skl_watermark.h"
- #include "xe_module.h"
- 
-+/* Ensure drm and display members are placed properly. */
-+INTEL_DISPLAY_MEMBER_STATIC_ASSERT(struct xe_device, drm, display);
-+
- /* Xe device functions */
- 
- /**
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index a6c361db11d9..53264b2bb832 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -217,6 +217,11 @@ struct xe_device {
- 	/** @drm: drm device */
- 	struct drm_device drm;
- 
-+#if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
-+	/** @display: display device data, must be placed after drm device member */
-+	struct intel_display *display;
-+#endif
-+
- 	/** @devcoredump: device coredump */
- 	struct xe_devcoredump devcoredump;
- 
-@@ -617,8 +622,6 @@ struct xe_device {
- 	 * drm_i915_private during build. After cleanup these should go away,
- 	 * migrating to the right sub-structs
- 	 */
--	struct intel_display *display;
--
- 	const struct dram_info *dram_info;
- 
- 	/*
-diff --git a/include/drm/intel/display_member.h b/include/drm/intel/display_member.h
-new file mode 100644
-index 000000000000..0319ea560b60
---- /dev/null
-+++ b/include/drm/intel/display_member.h
-@@ -0,0 +1,42 @@
-+/* SPDX-License-Identifier: MIT */
-+/* Copyright © 2025 Intel Corporation */
-+
-+#ifndef __DRM_INTEL_DISPLAY_H__
-+#define __DRM_INTEL_DISPLAY_H__
-+
-+#include <linux/build_bug.h>
-+#include <linux/stddef.h>
-+#include <linux/stringify.h>
-+
-+#include <drm/drm_device.h>
-+
-+struct intel_display;
-+
-+/*
-+ * A dummy device struct to define the relative offsets of drm and display
-+ * members. With the members identically placed in struct drm_i915_private and
-+ * struct xe_device, this allows figuring out the struct intel_display pointer
-+ * without the definition of either driver specific structure.
-+ */
-+struct __intel_generic_device {
-+	struct drm_device drm;
-+	struct intel_display *display;
-+};
-+
-+/**
-+ * INTEL_DISPLAY_MEMBER_STATIC_ASSERT() - ensure correct placing of drm and display members
-+ * @type: The struct to check
-+ * @drm_member: Name of the struct drm_device member
-+ * @display_member: Name of the struct intel_display * member.
-+ *
-+ * Use this static assert macro to ensure the struct drm_i915_private and struct
-+ * xe_device struct drm_device and struct intel_display * members are at the
-+ * same relative offsets.
-+ */
-+#define INTEL_DISPLAY_MEMBER_STATIC_ASSERT(type, drm_member, display_member) \
-+	static_assert( \
-+		offsetof(struct __intel_generic_device, display) - offsetof(struct __intel_generic_device, drm) == \
-+		offsetof(type, display_member) - offsetof(type, drm_member), \
-+		__stringify(type) " " __stringify(drm_member) " and " __stringify(display_member) " members at invalid offsets")
-+
-+#endif
--- 
-2.47.3
-
+Konrad
