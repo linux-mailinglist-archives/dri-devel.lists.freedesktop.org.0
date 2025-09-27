@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6CFBA5B9A
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 10:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163A4BA5BA9
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 10:58:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C226B10E180;
-	Sat, 27 Sep 2025 08:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11C3310E369;
+	Sat, 27 Sep 2025 08:58:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="MvPFTkSA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D4snJTQE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 128AB10E180
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 08:51:16 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cYh4x4YY7z9tN7;
- Sat, 27 Sep 2025 10:51:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758963073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eHEGtUp6HlJTQppi1F7t2MLuqfkDw8zddrEibIWOy2E=;
- b=MvPFTkSAuNXfAh5T3jIu+C53qs7lyPSKAAY49jLirJ6B8DdhdW0QqcJXivZi73D1vD/LW1
- xDUc5gdio5nNsphOGCyJJiETOUunJI+aSMA7DHpneXgsOqeKuisLF3mFb+uUIizh7/g7L8
- ubgOoMr0jqHlaMrQ8SLIy8sxzi8wWRBSbMQYwVRB08CdcEjjG8bhcjx+lUsAu7CED1reHe
- p40kAKHtBCa3HOQztcM4XCK1K+zH+dOtf3up4RhcCqtw17tU645F/Wps/Ta01uKpEFZKI0
- miLGusKaCAc9EiOGjp0mXLlvKm6dorMq389yWutF6LzR1B/ywEOaSHLPNllTvw==
-Message-ID: <e3e525e1-d803-4e49-9740-9ef33dcf3f4a@mailbox.org>
-Date: Sat, 27 Sep 2025 10:51:11 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE32110E369
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 08:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758963515; x=1790499515;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WMH3ygkCBAtii44YH3MNF9ofM2L+4E5AFh5PlGQA3vw=;
+ b=D4snJTQE5kxXTqRbnp4880CiCzNO9v2Pv6F7Lp5DGqFnsQoJbiYTtXkY
+ ikLsGg8cjtpt3PsfwqfmoEz5fwddqDl40v4MWNgFP/m8+SaIRYqG6+lhs
+ F0dXS4SF3jigKA/nNKC6msNpHlkwiUQT5BT9cEfFZRfhK4HBo45LCsQq9
+ moxT/4cu2Vj5WHP0R77GhFqmzEaPz7VUuXWeZH/BdH6G4Vssd151h+Xpm
+ ZoDjFQ52oip8IMJQD0OeH8NNYppOrv/wwOG9EFlZwxZmvz1rVQzNOC3j4
+ Zn7YwYpaBaRsrVodlyEpc5SP4EzoygsSfOYa6bTID0YCBMsbD198Zz/nY g==;
+X-CSE-ConnectionGUID: 1peMleogSSWImRtF0TpwxA==
+X-CSE-MsgGUID: mwY0V3ZaRtq5Smv/nBDV6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61201731"
+X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; d="scan'208";a="61201731"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2025 01:58:35 -0700
+X-CSE-ConnectionGUID: wH7uek+oTtW/y7uWKmqwzw==
+X-CSE-MsgGUID: 3OVluKQxQPeA5vADnYvXMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; d="scan'208";a="177850187"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+ by orviesa008.jf.intel.com with ESMTP; 27 Sep 2025 01:58:31 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v2QlA-0006vj-0Y;
+ Sat, 27 Sep 2025 08:58:28 +0000
+Date: Sat, 27 Sep 2025 16:58:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v2 1/2] drm/bridge: add drm_bridge_unplug() and
+ drm_bridge_enter/exit()
+Message-ID: <202509271654.j3IsjsAJ-lkp@intel.com>
+References: <20250926-drm-bridge-atomic-vs-remove-v2-1-69f7d5ca1a92@bootlin.com>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH] drm/uapi: Indroduce a VRR Range Control Interface
-To: Xaver Hugl <xaver.hugl@gmail.com>, Leo Li <sunpeng.li@amd.com>
-Cc: Derek Foreman <derek.foreman@collabora.com>,
- Chuanyu Tseng <Chuanyu.Tseng@amd.com>, harry.wentland@amd.com,
- Mario.Limonciello@amd.com, victoria@system76.com, seanpaul@google.com,
- dri-devel@lists.freedesktop.org
-References: <20250912073305.209777-1-Chuanyu.Tseng@amd.com>
- <010201993e2cb26f-089ce007-9e30-4b79-b487-c16c360309fd-000000@eu-west-1.amazonses.com>
- <d8694d69-62b3-4418-9fcb-d37c1daa1f9f@mailbox.org>
- <58a6e042-1890-4d1c-88cc-29f500b0a407@mailbox.org>
- <1b09ec41-0f82-49c2-9adf-66f4fd537b9f@amd.com>
- <CAFZQkGx-OFbfFyV3-bB4ufOMSMtSAXd=E4Vkgg5sQjEe=wbRWw@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <CAFZQkGx-OFbfFyV3-bB4ufOMSMtSAXd=E4Vkgg5sQjEe=wbRWw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: de9260811ecea805e01
-X-MBO-RS-META: beu5766yowr6c6356ecottyg8x6ye6pb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250926-drm-bridge-atomic-vs-remove-v2-1-69f7d5ca1a92@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,19 +83,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.09.25 16:19, Xaver Hugl wrote:
->> 2) Kernel does LFC/ramping
-> 
-> I don't think that would be a good idea. The kernel doing ramping
-> would mean the user can't (easily) configure it, and it would
-> complicate the compositor doing ramping with a different strategy
-> (like reducing the allowed change at lower refresh rates).
+Hi Luca,
 
-What exactly would that mean when the min & max values differ though? If the kernel wants to change the refresh rate, it must not do any ramping but must switch to the new refresh rate immediately? That seems a bit weird as well.
+kernel test robot noticed the following build warnings:
 
-If the compositor doesn't want the kernel to do any ramping, it can set min == max always.
+[auto build test WARNING on 7acbe30813f04cccf7b2e8b571eb7936cfec0a87]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-bridge-add-drm_bridge_unplug-and-drm_bridge_enter-exit/20250927-003721
+base:   7acbe30813f04cccf7b2e8b571eb7936cfec0a87
+patch link:    https://lore.kernel.org/r/20250926-drm-bridge-atomic-vs-remove-v2-1-69f7d5ca1a92%40bootlin.com
+patch subject: [PATCH v2 1/2] drm/bridge: add drm_bridge_unplug() and drm_bridge_enter/exit()
+config: x86_64-buildonly-randconfig-002-20250927 (https://download.01.org/0day-ci/archive/20250927/202509271654.j3IsjsAJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509271654.j3IsjsAJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509271654.j3IsjsAJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/drm_bridge.c:218 function parameter 'bridge' not described in 'drm_bridge_enter'
+>> Warning: drivers/gpu/drm/drm_bridge.c:253 function parameter 'bridge' not described in 'drm_bridge_unplug'
 
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
