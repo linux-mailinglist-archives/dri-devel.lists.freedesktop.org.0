@@ -2,128 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF2EBA5EF3
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 14:25:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFB8BA5F43
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 14:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0191A10E199;
-	Sat, 27 Sep 2025 12:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0990610E1A2;
+	Sat, 27 Sep 2025 12:49:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LtAHyxdA";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ejSxJN//";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3667E10E199
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 12:25:55 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58RB5xO5010815
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 12:25:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 8HTZrkSYrqPPOE5aWwuZ/eo7FP1KIcHRJKoII1rHuug=; b=LtAHyxdAoERLVHjZ
- JbX115ejTnojvTKRZuUdPj0fYaO0C0eczNiv43mvnGuxSSJNaGnD1UyGLqOKGQZw
- G6Z8Q4wwd2Ef0gn5ZI/RYEX6KCE9ujwfgSiAauKN4FHhV1deKSpo5TxFND3UzPZe
- a/m22yMSkF1Y95uwOT82TntEsXDs0FDo4A7UtkQSo4Ffb/RAhRoAxf7UpC+Hejn9
- dBDqQ5oUq1zp2UGyeq8b/pdQaPlJDwifMdhRvfRmyj2zjLLzCq/bEqDqvYgL58gh
- 0cxqGGcLeSDfy3a2BnH23sP6+bZyfHJCaPBgeMZiMsF9R+KK8+uRnuMOnBeresZY
- FVLe+A==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e8pd8mt1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 12:25:54 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-819d2492a75so133570985a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 05:25:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758975953; x=1759580753;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8HTZrkSYrqPPOE5aWwuZ/eo7FP1KIcHRJKoII1rHuug=;
- b=QY27Mx1CaFzi7QTWjYgwnOhNJU3ldnRU6RvSzAtthYhlksX0ZbJEQx5XCC6ZR19pb0
- 3xNCPa/D8DCwbXtdUgKrJzt7xcP4iutN0ZEtfOszpGJnb7NLRvRm87k2bjqnAYTgigEG
- I1gubO4MDMn6M3IGMepO6+aa/1NtIhStNhrYdEoHNWncBQxwglseWfz/o3I0nIplDSP4
- QqkJAwPNvB94Z9fROXsCOsPOB4ZrFipMyVoW3KP4HdOBqx9spB7G165ahyT9SUqAfl6K
- V9jJVVeKaYKHOn6BqyMpnv3+UuosjFklRQMgUIjKJRJbMTC19Qet8HZAH6osMWhRZK/A
- 0Aiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIKCl1uRh+BUslxQ3DORjoZkT4QXivsFtMYbRJxBrMHQD9Qh/A5K24Tn6pEjSiv49yJTozaO2CP38=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxha/MZ/KdahYDGm1oJ5jBxVTjqEPkNi68b4DMY4FXU62e6AMrO
- mnE5mhq5JcEOFGT9XlP2o/A1GddTFvPrQV+1OiQMMBsZsR3sD3YnN6lI9V4gKL7fdoGAqzrEK4r
- W5X3sCtAAHhj8mZQW5QbM/1/QNIGMNToMfj/b3rsJSdJC+XTeBmgqQHHMklWTXleGWzxuuPU=
-X-Gm-Gg: ASbGncsMYr3JgIbqj/z+HrbXaj0KvAcafjLXgvhO2pw3YUv1TrAd0GDXnlyhYtMUWV1
- kGt8k2Z50VDpDtDn+CvXoSkJVAnYGl+rYA70EqLvndKo4RK7hcKblwdp1xg8m0l0PZEUOx5D9g4
- dTaVSgD//Im5NAiVkp6jB/TxVlgIYXn+jTtI0n9VFPiy5gXQlsm4E1A+GLJd0cTvUUl2wxjuzTm
- LBtvQzuM54B7xFCADLnnu+gHwRqjtmc6JQopiv3AkrLJUndnumM/OcXO3NfXDml+l2jj+r4C8l1
- zhDhuoaltqyLpInd4ZaNJ9hFUJaKXhMzHZ5rmjSV2EhwaIys1Q6xfQ9yL467Wu/S4EUYWWXRUqC
- wQUMOImf+Rsz/jeMUu2VKAQ==
-X-Received: by 2002:a05:620a:3182:b0:812:81c6:266c with SMTP id
- af79cd13be357-85ae6d81db3mr926478585a.9.1758975952994; 
- Sat, 27 Sep 2025 05:25:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGCG2e/ZW9GFpuGzcSJqt6X2AuHy0M9fiQ/EEgWD1R6USyO/kkVUy9LiI1L21B8ibFVZJ2N8g==
-X-Received: by 2002:a05:620a:3182:b0:812:81c6:266c with SMTP id
- af79cd13be357-85ae6d81db3mr926475985a.9.1758975952413; 
- Sat, 27 Sep 2025 05:25:52 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b353fa65a62sm554412366b.47.2025.09.27.05.25.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 27 Sep 2025 05:25:51 -0700 (PDT)
-Message-ID: <7cfa782b-07a5-4f0e-9151-44a42c77badc@oss.qualcomm.com>
-Date: Sat, 27 Sep 2025 14:25:48 +0200
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649E410E1A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 12:49:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1758977341; x=1759582141; i=markus.elfring@web.de;
+ bh=87/zf4TpCFHQQD1/92ZIRgUFLZFNJ1HpOYFg0a/pAIo=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=ejSxJN//QBlIfOs8TecRxsfmnBrHdkuVVYcfncf07mWx4zExCgsV6AfpbiWzpqmb
+ 9czhAwztiwqTnRKbXnTMy9JdGEf2Nynd5ufQtvEocU2vJm3o6ZXCAT74mKXKsOCCf
+ KMSMjPYMTkjDcJQorRyBeHdEXRoqovGX8zztl9dJZ2XqcNbB7bU7/93Axj9rdlVDY
+ 3xbvGSGOit4nAxd3Tgb7CwXahuTZ1GJyr3D4MSqdo2P5dtRcIyjNFkrLsOc9PRFOl
+ dBl/dN64orFOZ7c0qjtb44mhCvCATfFJvaKpJYLnBL3g+TpImMuAfEfehb0ARSms9
+ 7xHwlTUm/VUpwPNDPg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.221]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MnX1L-1uac611IxR-00ePZI; Sat, 27
+ Sep 2025 14:43:20 +0200
+Message-ID: <f0b0a007-599b-428b-bea6-5eafc567d757@web.de>
+Date: Sat, 27 Sep 2025 14:43:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/14] phy: qcom: qmp-usbc: Add USB/DP exclude handling
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Clark
- <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20250926-add-displayport-support-for-qcs615-platform-v7-0-dc5edaac6c2b@oss.qualcomm.com>
- <20250926-add-displayport-support-for-qcs615-platform-v7-10-dc5edaac6c2b@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250926-add-displayport-support-for-qcs615-platform-v7-10-dc5edaac6c2b@oss.qualcomm.com>
+To: make24@iscas.ac.cn, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Simona Vetter <simona@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <20250927094741.9257-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH] drm/tegra: dc: fix reference leak in tegra_dc_couple()
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250927094741.9257-1-make24@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: tdsiFaEKs5de7jYnW3Jg3l7evUcTjfLb
-X-Authority-Analysis: v=2.4 cv=MYZhep/f c=1 sm=1 tr=0 ts=68d7d7d2 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=7a1U2GcbA96CJLvzQ6EA:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: tdsiFaEKs5de7jYnW3Jg3l7evUcTjfLb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzNiBTYWx0ZWRfXzxUuO6YnFwAA
- +cXnsuO/UbeDScfdeIPE/5pVhAc82npgMf5Glh/cwpLyKd5HUjCB1x4ASO7wjsRhFrBqSH0jeeC
- /YszHy0CNHPeUl2bpMZOffbZCDCPr9NEC/qzWl9WGrZ/VzkxvV8i1HE8TrB+t61HoE8WRJhfV5G
- VGP9E4FLEEPlNX6lykjW6RlVUPITVHMQ7EPZd5g9kcmu6+aRqqiNPB6BLtpinisVPWwNoMi2/qf
- urUaLC6Zloem8ly3dT6L993+ZuJ6zEthd6UMnHeoctGaL6vW33k7ND4mEAihhHhM8XMbZ/FZTQi
- z0e9XbQg4bXrHM15/VeK1z4nxbhkvtdMe/k/DQ/82erlAj5jabebPpSMz0BBaZvRR7yg6VkwDjO
- ZTrifusct9PAakPiCrf9hv73VdNvRA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-27_03,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 impostorscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509270036
+X-Provags-ID: V03:K1:ocAKYcb1yjBwr7/isPr/RbWCbM5s1oflK85ldKkHNuTjbFghT+5
+ M6ZxPS29hc83FgVTCGzn/dR03X+XB6KdB5TtKM1PX1Ua4H8Ac4wvkmEr9bqSHFgah0DOEzZ
+ 3+0WBeNSpz7XmElxq8JuutUSBzCeCf+WxdgJZGdPgrWbVhwocoWV7tiWT31ioZM+R3TUHfz
+ ZAj9+R6JBga9o/2StczDQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:UHzl5zfjph4=;XGSpOtAQ0m5/Uth7o9clB/iLQdh
+ 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
+ wrMBkKIEV/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,19 +139,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/26/25 9:25 AM, Xiangxu Yin wrote:
-> When both USB and DP PHY modes are enabled simultaneously on the same
-> QMP USBC PHY, it can lead to hardware misconfiguration and undefined
-> behavior. This happens because the PHY resources are not designed to
-> operate in both modes at the same time.
-> 
-> To prevent this, introduce a mutual exclusion check between USB and DP
-> PHY modes.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
+> driver_find_device() calls get_device() to increment the reference
+> count once a matching device is found, but there is no put_device() to
+> balance the reference count. To avoid reference count leakage, add
+> put_device() to decrease the reference count.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+How do you think about to increase the application of scope-based resource management?
+https://elixir.bootlin.com/linux/v6.17-rc7/source/include/linux/device.h#L1180
 
-Konrad
+Regards,
+Markus
