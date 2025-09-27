@@ -2,47 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD85BA61CF
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 18:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395CCBA6267
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 20:16:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1507F10E04D;
-	Sat, 27 Sep 2025 16:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D561E10E03F;
+	Sat, 27 Sep 2025 18:16:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="kuaOFQVK";
+	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="fRwqZq3J";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Kkcfw90Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0757110E04D
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 16:57:25 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1758992244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Svoo5h6NIWQ3/QAq5HARQlGvaiK3sTn0nA0/qd5d+fs=;
- b=kuaOFQVK71XF2iaFFy61QEkmMvoWtFz93o0UAVbRbuSHQ66o6CWu0VdflOVDFHVUmQOg5d
- fBwTUm/X2GV30BzDfSwoNrIxjj/9a5RytVDJyqH+959jIbKdithPLgG37/41+aKIUl59Ox
- n0uQjGUp4h+BkumUmFok0OyWReVlTM0=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Koby Elbaz <koby.elbaz@intel.com>,
- Konstantin Sinyuk <konstantin.sinyuk@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
+X-Greylist: delayed 418 seconds by postgrey-1.36 at gabe;
+ Sat, 27 Sep 2025 18:16:08 UTC
+Received: from fout-b2-smtp.messagingengine.com
+ (fout-b2-smtp.messagingengine.com [202.12.124.145])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4BBE10E03F
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 18:16:08 +0000 (UTC)
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+ by mailfout.stl.internal (Postfix) with ESMTP id E4EAC1D00075;
+ Sat, 27 Sep 2025 14:09:08 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-10.internal (MEProxy); Sat, 27 Sep 2025 14:09:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1758996548; x=1759082948; bh=zVmWk//tS0
+ x4EgJXBIHJsb8UJmMAL/AYdKjLj2iNX3Y=; b=fRwqZq3JMaJaKVGmbJpZpk2s4s
+ rBQcnZxRPOUfzP7x3gZdq4DfjDCRXPY0qKv0EfbJmD/HkwfZc0FSNNlKpNqocgqp
+ QRDTJ4Kx33lHJa9nSETWW7QcvQwbk+Ah4UdEp3yIOAOm382TlU/CKw3Pa6lWOTYZ
+ SFRXuJBAsxBNdvY7t7cnEZAlPVN1AKHdwuyyhWNOqUdTQhLKrxJtbCHHwW5CsK/s
+ YynsKmVELO94F8UeeGsdd33DicKVFAP8dN5Ca3YFRKZoR6MuC0Fe7lONWdeDo7X+
+ JBvWoCeV31+BtxsvAwlpsQ0NqFD/3AUsjXpcsNTVmpuNASy84q/WZPbBVePw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1758996548; x=1759082948; bh=zVmWk//tS0x4EgJXBIHJsb8UJmMAL/AYdKj
+ Lj2iNX3Y=; b=Kkcfw90ZtI7lzH8Vdsm0sKYNtDzG/0yvJ789mQW+H3CmspNSONV
+ Kpspa7OY9GGZqDQxX7+XNNFCLECbQUkOiUQGRg7YF+1lcWITZyqToQiG2onpBzZu
+ BiZqOeqqwwbYP993DFfR2pG0cb6hDIbFmH47mE6mgwGY+bs71p64Js+oyti1kSLX
+ sSDJ0dV4ajfnjayyTwDvBgSQBa98ZQla8f/IrEHtn4sb7fv4pKzreDzDhpkVTI/f
+ rhYLPT84LAAC8SkdjqDgQLpM9pzgFnCsrSJ+yCuR39yI9bkIWyE//+7YCS2APAPh
+ eaaeRqGp+RvRYvXfnZn03/5axDTO9fMYpCA==
+X-ME-Sender: <xms:QyjYaAlrfQXdagDoRqmbxAzmzqU4P3riJEV1RDmb7cpPZ3k94YD57A>
+ <xme:QyjYaPsnv5_3qKUMLnl-JRnsFQrShKa8AczlTuJi5tEoTafMgZMmdu2jjIkrDQ-0n
+ 8I0dnwhqa6MfU8RJc8VPsFRIh_EiSeJ6RCQ1AHbGqil8IFy_Q>
+X-ME-Received: <xmr:QyjYaL-Oi57zYKtC79Y8zD6laaT8hyFhNeeX0h671P8xW-tK4fp4v4kmIk5jjf4kcV3znh5Znvc3R_iPaburSjjvW42puvqMWv72Pw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdejvdelfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcumffj
+ uceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeefveeiffegue
+ ffieekjedvgeethfduvdejlefgveettdfggeeigeelfeduleejkeenucffohhmrghinhep
+ sghoohhtlhhinhdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+ grihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhdpnhgspghrtghpthhtohepvdeg
+ pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrghrkhhushdrvghlfhhrihhngh
+ esfigvsgdruggvpdhrtghpthhtohepmhgrkhgvvdegsehishgtrghsrdgrtgdrtghnpdhr
+ tghpthhtoheplhhinhhugidqthgvghhrrgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+ gtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdho
+ rhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhope
+ hjohhnrghthhgrnhhhsehnvhhiughirgdrtghomhdprhgtphhtthhopehmphgvrhhtthhu
+ nhgvnhesnhhvihguihgrrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrd
+ gthhdprhgtphhtthhopehthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:QyjYaIwYcAUgWXxw0QXtK-RbYwg-6YGeZI9qxodf05YooZ3V_aCkEw>
+ <xmx:QyjYaL8QYEbKm-RK3sagUTpjecWo8FvFKF3aFMF4y5YaHggo_VuUiQ>
+ <xmx:QyjYaFIB4aoj4SDHvMT7ZKv9R0wF0Nljkih8Wjuq5CXYG5m7JtafxA>
+ <xmx:QyjYaI_35Vpyyuvpkn_5YhpNS10loeNFQzZruQv_IlDIXfXPIx8DCA>
+ <xmx:RCjYaOETspx8324KALNbKAAnzQjoEh_CudC3xH99yqPuXpOqP6WhSppe>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 27 Sep 2025 14:09:07 -0400 (EDT)
+Date: Sat, 27 Sep 2025 20:09:05 +0200
+From: Greg KH <greg@kroah.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: make24@iscas.ac.cn, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Simona Vetter <simona@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>, stable@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] accel/habanalabs: Replace kmalloc_array +
- copy_from_user with memdup_array_user
-Date: Sat, 27 Sep 2025 18:56:30 +0200
-Message-ID: <20250927165633.1312-2-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] drm/tegra: dc: fix reference leak in tegra_dc_couple()
+Message-ID: <2025092700-timing-devourer-238c@gregkh>
+References: <20250927094741.9257-1-make24@iscas.ac.cn>
+ <f0b0a007-599b-428b-bea6-5eafc567d757@web.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f0b0a007-599b-428b-bea6-5eafc567d757@web.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,91 +107,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace kmalloc_array() followed by copy_from_user() with
-memdup_array_user() to improve and simplify cs_ioctl_engine_cores(),
-cs_ioctl_engines(), and hl_multi_cs_wait_ioctl().
+On Sat, Sep 27, 2025 at 02:43:17PM +0200, Markus Elfring wrote:
+> > driver_find_device() calls get_device() to increment the reference
+> > count once a matching device is found, but there is no put_device() to
+> > balance the reference count. To avoid reference count leakage, add
+> > put_device() to decrease the reference count.
+> 
+> How do you think about to increase the application of scope-based resource management?
+> https://elixir.bootlin.com/linux/v6.17-rc7/source/include/linux/device.h#L1180
 
-Remove the unused variable 'size_to_copy' from hl_multi_cs_wait_ioctl().
 
-No functional changes intended.
+Hi,
 
-Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- .../habanalabs/common/command_submission.c    | 34 +++++--------------
- 1 file changed, 9 insertions(+), 25 deletions(-)
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index dee487724918..a5e339eb7a4f 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -2481,14 +2481,10 @@ static int cs_ioctl_engine_cores(struct hl_fpriv *hpriv, u64 engine_cores,
- 	}
- 
- 	engine_cores_arr = (void __user *) (uintptr_t) engine_cores;
--	cores = kmalloc_array(num_engine_cores, sizeof(u32), GFP_KERNEL);
--	if (!cores)
--		return -ENOMEM;
--
--	if (copy_from_user(cores, engine_cores_arr, num_engine_cores * sizeof(u32))) {
-+	cores = memdup_array_user(engine_cores_arr, num_engine_cores, sizeof(u32));
-+	if (IS_ERR(cores)) {
- 		dev_err(hdev->dev, "Failed to copy core-ids array from user\n");
--		kfree(cores);
--		return -EFAULT;
-+		return PTR_ERR(cores);
- 	}
- 
- 	rc = hdev->asic_funcs->set_engine_cores(hdev, cores, num_engine_cores, core_command);
-@@ -2523,14 +2519,10 @@ static int cs_ioctl_engines(struct hl_fpriv *hpriv, u64 engines_arr_user_addr,
- 	}
- 
- 	engines_arr = (void __user *) (uintptr_t) engines_arr_user_addr;
--	engines = kmalloc_array(num_engines, sizeof(u32), GFP_KERNEL);
--	if (!engines)
--		return -ENOMEM;
--
--	if (copy_from_user(engines, engines_arr, num_engines * sizeof(u32))) {
-+	engines = memdup_array_user(engines_arr, num_engines, sizeof(u32));
-+	if (IS_ERR(engines)) {
- 		dev_err(hdev->dev, "Failed to copy engine-ids array from user\n");
--		kfree(engines);
--		return -EFAULT;
-+		return PTR_ERR(engines);
- 	}
- 
- 	rc = hdev->asic_funcs->set_engines(hdev, engines, num_engines, command);
-@@ -3013,7 +3005,6 @@ static int hl_multi_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 	struct hl_ctx *ctx = hpriv->ctx;
- 	struct hl_fence **fence_arr;
- 	void __user *seq_arr;
--	u32 size_to_copy;
- 	u64 *cs_seq_arr;
- 	u8 seq_arr_len;
- 	int rc, i;
-@@ -3037,19 +3028,12 @@ static int hl_multi_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 		return -EINVAL;
- 	}
- 
--	/* allocate memory for sequence array */
--	cs_seq_arr =
--		kmalloc_array(seq_arr_len, sizeof(*cs_seq_arr), GFP_KERNEL);
--	if (!cs_seq_arr)
--		return -ENOMEM;
--
- 	/* copy CS sequence array from user */
- 	seq_arr = (void __user *) (uintptr_t) args->in.seq;
--	size_to_copy = seq_arr_len * sizeof(*cs_seq_arr);
--	if (copy_from_user(cs_seq_arr, seq_arr, size_to_copy)) {
-+	cs_seq_arr = memdup_array_user(seq_arr, seq_arr_len, sizeof(*cs_seq_arr));
-+	if (IS_ERR(cs_seq_arr)) {
- 		dev_err(hdev->dev, "Failed to copy multi-cs sequence array from user\n");
--		rc = -EFAULT;
--		goto free_seq_arr;
-+		return PTR_ERR(cs_seq_arr);
- 	}
- 
- 	/* allocate array for the fences */
--- 
-2.51.0
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
 
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
+
+thanks,
+
+greg k-h's patch email bot
