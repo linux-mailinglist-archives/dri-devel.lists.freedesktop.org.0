@@ -2,108 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D61BA5FC9
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 15:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCB8BA6036
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Sep 2025 16:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6967010E1A0;
-	Sat, 27 Sep 2025 13:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56CED10E1B8;
+	Sat, 27 Sep 2025 14:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JrH/hUST";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kaqCJMwO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A478610E1B3
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 13:33:11 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-71b9d805f2fso26265826d6.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 06:33:11 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D00710E1B8
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 14:03:44 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-856701dc22aso310105485a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Sep 2025 07:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758979990; x=1759584790; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758981823; x=1759586623; darn=lists.freedesktop.org;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :feedback-id:from:to:cc:subject:date:message-id:reply-to;
- bh=jAJz2iZlVqH7fub6DPlrBF+dlNC7fGvqpAeWouU/7VM=;
- b=JrH/hUSTYvF1q8iPIQUC49gFstatYEead4tEZO7p+77d84yIBcdL2C/fK9L5wOjxtd
- M3DaeN5i5C6ZGGKPC35keL3XCW6WLaL52+4V6fv1exkWD+/ABoygPXIx40ebQQFwe3m+
- WPLfJNULEBHFcekihf4QMHbpcuMq9SlYXPS55mvGxK+mOQdn4V4QAHypgHiOJ+yOF9am
- ukEJkc1PTKgutP2CbK7pvgyFOPlM29Gm04tTPovrV2LcoNXUb8eb5+txyle6OkZ65Nna
- QRLSCXI6ieEW0LMjvFbJH7ULpTUk5oXHXvOdrBAYGeRA4qlvFeeNsneWZPmjqEewFbUX
- LpSg==
+ bh=1RowTgROwHl16yIt+/YH6L82gef48dxD9rHygNzwZv8=;
+ b=kaqCJMwOQWTu5uU4gv7CKN+5VkUAcM1nB2Mev98lU+R25iKqkehrA7ro9fRL2/JoBt
+ Bwc4hNU61EcCy9VxrMwDTK0ZIeE1iYsGKVg2o3aOAOrTCo3F0vLa23V1Gp7Qnp4Agy5f
+ HL3SetQFHcBgoaIlRxm7JKfmNEmSMwhqDBBd2M8SS1E1vawEO5HjNPKhQpErRayfTT6N
+ c/7XPOYThj1tXgyfxIUtdl0mZ+IC27NAZ27oe9WBA8fT25zlE8+ntHPb4C3YJES7jljg
+ HxQMe9P2u64LcczRYMowgfvI0xCVZbG59KqJRGZEYDMpm6TLsQ8bnANF0V6NMGDyd5r7
+ U1qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758979990; x=1759584790;
+ d=1e100.net; s=20230601; t=1758981823; x=1759586623;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=jAJz2iZlVqH7fub6DPlrBF+dlNC7fGvqpAeWouU/7VM=;
- b=h+z2+j9KARjWg/cf8hg1S4AK4LZofJovbb92K4IZ3NJJjW2yoTaABhyGfHzmmUGaWH
- dUjP//2bq3nnhD2xA6cfGHPekWMZCWYwYbz2jnKAdeb3iWW2AnQdOlIyfMmlgJvrjydq
- KfgqOnQG0feb89VA5qH6unfgX3BQ3yjwOfNKXS10SXNnlYU4Fac56N5JmbSoiJomgF3w
- /3qneKomR4q+f2TCtPQcnuP5c4r24E00wpt7AQb3iYsMJKtaLCX2BgRnMBRQ0XtZc8vG
- kqE0p/Jtzr7yFQ3g88SiWMIlNRRZ82fmotWKGIdCcQmW8dOB7GJ+e78141INaYCOe6sb
- KIyg==
+ bh=1RowTgROwHl16yIt+/YH6L82gef48dxD9rHygNzwZv8=;
+ b=uzfg6hEIeb1EPz2HJlut0prfvDfi0ViAD/woZDJ8kZj0bE2X3lUDKWWJv4/zgGG1hN
+ DXjSPeOyk/zUsyJRao8FkeEBWoH2RBX6XX5Gxcb8xUNf3YfKlfSio0oPiclLxYTWY7BQ
+ v0AinklvOGSU2h7BgAJb7YfJJ7FqDmudsllGQSZ6g7wgtlJQv7QMMjN4Rrp0D5sm7TwI
+ HHlUQz53S3i5VB+QX7RDUcupxgNn9hphp5DnTv4xRYPISccjZNqSAmpZUV0xf3mcWfad
+ XrLQ84OyIoXMk1QvPhjTRsLi9DKGfdKhaFNGsxsgnOtPuFmoCMdI+yuOA7zPpX2az670
+ ljbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOVGBKCrd3c13yzV9dgGg6yAjEurqxUCqn+NCwi6K6sieLP2e2z7ro4iWIlc6NHsnWJGzYjIdcvFU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqTBTYB2ZDgvPDG+861UGZtZUYFjra1o0khDNmnGsHoGpT3Q+g
- zWW+BmJbKi1mcMm8qoM2OXyttP9t4ZLwioO1V8JTyqBXiaFMPCTENjLC
-X-Gm-Gg: ASbGncvbgA0rPTj3ylGOu/GNB18Lycp1IRqSvnwZmapVRRYfyQ6IaRr4DKG3/aETcmE
- 2TWzh4PKGFEeJHG5lqxsrgsz9m/xGRLGQvDtYu3FOATrKHDQJsUFUe+p26iLbsaqhWA6pmSFxdh
- U2KEy9zmKmGvjZ0WBpO4p0DqJrZ6cBXa7dMWR9kUDfFMxOvdi/KGg9Os0YCykqJOUESLyTfJStB
- A4S3BK50fwbVTyJpYsEIizLXJq0CII4zNvG1crK+ztKCXO0bamr1DUf0cRP0FFbBG8p4h59jGhP
- qI3xmKDkQV6VV/iuenvoGaQZJ3jOtpkq4n0s2mvSWEMTsow4cH5f+GTXEk1pjhRKHeR+nJoEtP+
- mH0zghOe1faiexFQilUYrm+Nbu/LQT6DnrHXnw/6B7cVgD9ey4xrW+qZB/9aPld+kONUUAxQH7v
- rhrIEBh2zMCbY4wjNFG3LU22xY7ZAtf8OkFQ==
-X-Google-Smtp-Source: AGHT+IGH5UGkTv252dC01JpSDkaJcJ8KfFAosg2KR2cHgR/gkXTKN8Ezxd2HpK6jf4Aw75VWq5kbPQ==
-X-Received: by 2002:a05:6214:1301:b0:79a:5e61:b6e7 with SMTP id
- 6a1803df08f44-7fc2bc2f235mr148121586d6.17.1758979990313; 
- Sat, 27 Sep 2025 06:33:10 -0700 (PDT)
+ AJvYcCXEdlIGqdHWsIFsE+WeZv11jwq6blCEc7Fhr6VIj/2LKROoWSgZgd5s3YvXB8mdIRTgglpZWP1Pmgw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwgQ2hR7+OxoaOSaZRCVJ4oJdpIQsEQc6zGIes6ju9Mji9gCwS
+ jWIwSxznOqiOHPjh7Qex1HP0xfJtqGf4os+qlT1i2p/WYgxEt1SXUFg+
+X-Gm-Gg: ASbGnctw47PeY8ECJokrC4lZNDrheREHC0BkCIQPYNA9BLv525IOc28wfUm8pGfF53A
+ 4LzWr1UCGXnkFPX6pyTTR1htWKLcrHk3rOSuDd78AeulR1H13tt/u8JL+s1gGRZdWI8Ygn3XbOY
+ RTdO5cfWd9tO81BEnqY3P43NurWXlXjTAMyBKOdvtBBPJpHXFawpW3uBTxfz8FzC9dCbVg1mrV8
+ 6T7JCqw6OQQDg3xIj/vv5A9MlVN3eO/+1TEMVa/4VGy6Gp0+CV1hp7NwPyptnaiH0QTiZgR24r4
+ Jls6IMTY1l3sGt71GvOsOWCKMVCAFFWlNMp1JQQvHrkGXZ7tuCl+X9bnI8qM+jq0T7ZTjSfXWiN
+ 8xFZS/g+UrocxMxNgFtVivTvkLe1wMxPKrq3e9paS3raTecANE4rkh7+hVhv0AQI7JhTkySo2rr
+ NVHRncgfvPVWb/MFhVSt/4RZTEA6ebn+W/hnY0+5m1PPr7
+X-Google-Smtp-Source: AGHT+IEjsLJZDcVKW7VjD94SJTTQGuy7D2CuSP0XnP5QiF1Og6sVMZnEnghTHukI4UHYi90JuQhxLA==
+X-Received: by 2002:a05:620a:2681:b0:862:79a9:eae9 with SMTP id
+ af79cd13be357-86279a9ed9bmr629769085a.85.1758981821539; 
+ Sat, 27 Sep 2025 07:03:41 -0700 (PDT)
 Received: from fauth-a2-smtp.messagingengine.com
  (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4db11fc7e33sm41268141cf.51.2025.09.27.06.33.09
+ af79cd13be357-85c3218ed08sm441368585a.50.2025.09.27.07.03.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Sep 2025 06:33:09 -0700 (PDT)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailfauth.phl.internal (Postfix) with ESMTP id E0E02F40066;
- Sat, 27 Sep 2025 09:33:08 -0400 (EDT)
+ Sat, 27 Sep 2025 07:03:41 -0700 (PDT)
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+ by mailfauth.phl.internal (Postfix) with ESMTP id 32CA4F40068;
+ Sat, 27 Sep 2025 10:03:40 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Sat, 27 Sep 2025 09:33:08 -0400
-X-ME-Sender: <xms:lOfXaK-F5kwgMw7tlcjOR660qWhqCLrWrAZEe7epHUwd9o-JfImhfQ>
- <xme:lOfXaJeKeS3Xn5-Akgf5PnQayfL0UCcRj32akuvmHJrsFVIOi6RoXygEImaCEDIDs
- FodizH3rP8OG9AiW8mo21ldnIliy9zWjHGum-JJePd4NLv7IVo7>
-X-ME-Received: <xmr:lOfXaEmj95r0yOYn4h5v7ABWtbr87idcTFHf5aZzJcHSW2oJnmLCcIBGTulB3ceINcf1FxPwdVPDxPn2_NQAntzVNQpHx5Dc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdejvdefkecutefuodetggdotefrod
+ by phl-compute-12.internal (MEProxy); Sat, 27 Sep 2025 10:03:40 -0400
+X-ME-Sender: <xms:vO7XaOkakHRJvsqWLHFtsaCue-4lER0uhhpEdVDiyTQvM-clt7JAqA>
+ <xme:vO7XaMowdZoBt1ZvjERssLFIFryVG6xQlckUYy7sujr3aDmGX-PYQHGF_hsK0c2Eo
+ Uf2Ova8XFCQsgJX-tw5Pi7_C00N46SUWNM8sWlOBezUOL3bv9Px4g>
+X-ME-Received: <xmr:vO7XaFnYgBEE1kaYfoB7fpYi3AmmkijMgLG346jOoVPulJcBdMp3lcmUy8uvHHgxYgCXjKLneOcKzE4rmXrE-KkgUEMVrpF5>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdejvdegfecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
  ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpeffhffvvefukfhfgggtugfgjgesthekrodttddtudenucfhrhhomhepuehoqhhunhcu
+ hrpeffhffvvefukfhfgggtugfgjgesthekrodttddtjeenucfhrhhomhepuehoqhhunhcu
  hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
- gvrhhnpedtvefhfeetveeiueethefhhedvieelveeuffetudevueevueekveduheehieff
- ieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsoh
+ gvrhhnpeffleekfedutefhkefhheekhfelvdejgfegvdejjeffudelkedtffeiveejteet
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsoh
  hquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedq
  udejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmh
- gvrdhnrghmvgdpnhgspghrtghpthhtohepfeehpdhmohguvgepshhmthhpohhuthdprhgt
- phhtthhopehphhgrshhtrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurg
- eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghi
- lhdrtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtth
- hopegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopehl
- ohhsshhinheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprgdrhhhinhgusghorhhgse
- hkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdr
- tghomhdprhgtphhtthhopehtmhhgrhhoshhssehumhhitghhrdgvughu
-X-ME-Proxy: <xmx:lOfXaOgQUiKGJ76g8NZ3aKhHZKRXR7xf4qy4eWoMhRhJJcbnDuEnNg>
- <xmx:lOfXaGolzL_423YlYH3OllI9b70btOBalabRJPBlP9aNbpqsYXS1rA>
- <xmx:lOfXaBR23bkhC3zmGaCIYkInVEKP6yWKxQEt16HtkdLcLxC61_QuUw>
- <xmx:lOfXaBmk8fFkFier3uut9Rv3MypIL-z6K2i5_I21X4JLUoAXwJIKSA>
- <xmx:lOfXaPzq6u9J9Oep9xQ1JEINrLFC0m-OW4emMKoTX6g68CsOPyX8PaPg>
+ gvrdhnrghmvgdpnhgspghrtghpthhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgt
+ phhtthhopehmihhguhgvlhdrohhjvggurgdrshgrnhguohhnihhssehgmhgrihhlrdgtoh
+ hmpdhrtghpthhtohepphhhrghsthgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeho
+ jhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhgvgidrghgrhihnohhrse
+ hgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhr
+ tghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgrihhlrdgtohhmpdhrtghpth
+ htoheplhhoshhsihhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrdhhihhnuggs
+ ohhrgheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhooh
+ hglhgvrdgtohhm
+X-ME-Proxy: <xmx:vO7XaFbfSe5rN_-sdK1GxSVnOKVKQrMFGfq8HBxu5s7_wZIGPoqLrw>
+ <xmx:vO7XaBHfE2uJGEmOZHTQaFl02_Nu9BhbWcr63y4RVIA07jBGfwUAgA>
+ <xmx:vO7XaIOoeTYs7_ZW_lDvrSrb4vXqP73TEUrfIfWq1jCcuhcOx4YGkQ>
+ <xmx:vO7XaHyutnwLGGZJM2FwjIsFy6LBiPy67EPfnCl-UBGlO2ywf0aDhQ>
+ <xmx:vO7XaFn7RDDlFLjCS5q9t1KCy6953tiUDCyGEEqgOuXe_UslZGYeGqpK>
 Feedback-ID: iad51458e:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Sep 2025 09:33:08 -0400 (EDT)
-Date: Sat, 27 Sep 2025 06:33:06 -0700
+ 27 Sep 2025 10:03:39 -0400 (EDT)
+Date: Sat, 27 Sep 2025 07:03:38 -0700
 From: Boqun Feng <boqun.feng@gmail.com>
-To: phasta@kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>,
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Philipp Stanner <phasta@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
@@ -127,15 +128,15 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  llvm@lists.linux.dev, dri-devel@lists.freedesktop.org
 Subject: Re: [RFC PATCH] rust: sync: Add dma_fence abstractions
-Message-ID: <aNfnkhXnnxqdfPYz@tardis.local>
+Message-ID: <aNfuulKIiLfjHRma@tardis.local>
 References: <20250918123100.124738-2-phasta@kernel.org>
  <aNa7BDpKS2KA__4M@tardis.local>
- <2aa5150d913fcd4d321db52bc6bad1770f68e778.camel@mailbox.org>
+ <CANiq72=6pGtKKr3XeZXLVrJTNMv7YbGzbezSUrZ7A43MJQLwJg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2aa5150d913fcd4d321db52bc6bad1770f68e778.camel@mailbox.org>
+In-Reply-To: <CANiq72=6pGtKKr3XeZXLVrJTNMv7YbGzbezSUrZ7A43MJQLwJg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,60 +152,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 27, 2025 at 11:01:38AM +0200, Philipp Stanner wrote:
-[..]
-> > > ---
-> > >  rust/bindings/bindings_helper.h |   1 +
-> > >  rust/helpers/dma_fence.c        |  23 ++
-> > >  rust/helpers/helpers.c          |   1 +
-> > >  rust/helpers/spinlock.c         |   5 +
-> > >  rust/kernel/sync.rs             |   2 +
-> > >  rust/kernel/sync/dma_fence.rs   | 388 ++++++++++++++++++++++++++++++++
-> > 
-> > I missed this part, and I don't think kernel::sync is where dma_fence
-> > should be, as kernel::sync is mostly for the basic synchronization
-> > between threads/irqs. dma_fence is probably better to be grouped with
-> > dma-buf and other dma related primitives. Maybe in kernel::dma? Like:
-> > 
-> > rust/kernel/dma.rs
-> > rust/kernel/dma/dma_buf.rs
-> > rust/kernel/dma/dma_fence.rs
-> > 
+On Sat, Sep 27, 2025 at 02:14:22PM +0200, Miguel Ojeda wrote:
+> On Fri, Sep 26, 2025 at 6:10â€¯PM Boqun Feng <boqun.feng@gmail.com> wrote:
+> >
 > > Thoughts? Miguel, Greg, Danilo and Lyude, any idea or suggestion?
 > 
-> @Christian König's opinion would be valuable, too.
+> Either way sounds OK.
 > 
-> I'm not super convinced of that because dma_fence has not really much
-> to do with DMA. They're not very different from completions and are a
-> mechanism to synchronize consumers and producers.
-> 
-> Actually, before f54d1867005c3 they were just called "fence" and then
-> renamed to "dma_fence" because someone wanted that name.
+> More generally, one thing to consider nowadays is whether we will want
+> something to eventually live in its own crate etc., but for this I
+> don't think it applies and being in the `kernel` crate is fine.
 > 
 
-Well, dma-fence.c lives in drivers/dma-buf/, and IIUC it will only be
-built in CONFIG_DMA_SHARED_BUFFER is selected. They are enough evidences
-to show that dma_fence is not considered as a general fence. Of course,
-the implementation of dma_fence may not be tied to any DMA
-functionality, but before we make it a general fence in Rust, we need to
-at least change it in C as well.
+Being in the `kernel` crate is fine to me as well assuming dma-buf is
+also in the `kernel` crate, but I think it's not fine to put it in
+kernel::sync (see my reply to Philipp) as it is.
+
+IMO, we have a few other issues of file hierarchy as well, so I'm trying
+to avoid more.
+
+For example:
+
+- It may actually make more sense to revocable.rs in kernel::sync.
+- device_id.rs and devres.rs may be better in kernel::device?
+- maybe we should create a kernel::bus and put auxiliary.rs, faux.rs,
+  pci.rs and platform.rs into it?
+- cpumask.rs could be in kernel::cpu?
 
 Regards,
 Boqun
 
+> By the way, should Gustavo and -media be Cc'd?
 > 
-> Anyways, I don't have strong objections and mostly care about having
-> them available somewhere.
+> Thanks!
 > 
-> P.
-> 
-> > 
-> > Regards,
-> > Boqun
-> > 
-> > >  6 files changed, 420 insertions(+)
-> > >  create mode 100644 rust/helpers/dma_fence.c
-> > >  create mode 100644 rust/kernel/sync/dma_fence.rs
-> > > 
-> > [...]
-> 
+> Cheers,
+> Miguel
