@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F4CBA71E7
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 16:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4683DBA71ED
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 16:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D5B10E128;
-	Sun, 28 Sep 2025 14:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2D3110E146;
+	Sun, 28 Sep 2025 14:51:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="inAaok/T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YqIHoQ4N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B67A10E146
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 14:51:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7C610E128
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 14:51:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C03966217F;
- Sun, 28 Sep 2025 14:51:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F99C4CEF0;
- Sun, 28 Sep 2025 14:51:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 8BEA36217F;
+ Sun, 28 Sep 2025 14:51:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D736C4CEF0;
+ Sun, 28 Sep 2025 14:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759071075;
- bh=67+Dg9AzwF37mf2avq+c5PACILdZR15+Aq9NDqyINUU=;
+ s=k20201202; t=1759071079;
+ bh=UDEaYl0OhzDARj37bjQqJ+X83+RxQVeSHSKiek/uf5Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=inAaok/Ti7gruoqWxFYGrrXjftOxUyqccDCb+HoyVK497oWCe5OfcbFQtX5RpdaxY
- IEzA1kdiJEilS5xwvzC4oR+U1RdcM4sdKbcQ353sFgyOlktKw3le2/0DdkzU3w4AQe
- Ksfg2EDrCflETrkYtf+tBagWID+/Ja1vq4NfOwWWi5qHufz23VXg+l2Og0AwIdMdU8
- +K16kbbQGAL0CO+sWZNhWz8O7swUxa1+IqH7o0ZdDdcQvnM4Z+CZqXBNiQEijWf8Vu
- wjwAn1AueovKRMdubgHtmUSioyucVCTXMs9pTtr3KRvP8lNyGHysyvj1rBwFMwcdHs
- Cza7ekotL0HUQ==
+ b=YqIHoQ4NCwYA2j/0dqZsjnS4YacHkAFLqvC2BzXTxNk1PU+2Pnb+U56ixrR26XkD7
+ e21A0rF+V0VcbfCfRX9x7hRZuU6eVZKx0+aUmIdfb40mIdT7C5HXSN7kHXMzwVpj3S
+ GpmCFFJuosFftkxWvKxw+NX8sTPYemceGo1wlNKb2VljArjONFW4yFPdcgRi+IxjPv
+ aXn0G4jaupYmeSAZQQDVTpmh9rqhvKX3t0Jpu9HjAsqwB4p97xuS+sOsYh/LSTCtx9
+ 7ODkalKY3wtAonETDOQ5dDcO90TlZa7mKLv/z3ZUNU9GXFEgwwwdThIqMmBt8VeiSv
+ fIDfZDfu4c50A==
 From: Leon Romanovsky <leon@kernel.org>
 To: Alex Williamson <alex.williamson@redhat.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
@@ -46,9 +46,9 @@ Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Robin Murphy <robin.murphy@arm.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v4 04/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Date: Sun, 28 Sep 2025 17:50:14 +0300
-Message-ID: <ad37010614333b95fe4774ea6cc259182993d9d7.1759070796.git.leon@kernel.org>
+Subject: [PATCH v4 05/10] types: move phys_vec definition to common header
+Date: Sun, 28 Sep 2025 17:50:15 +0300
+Message-ID: <755063745aa413d7382dabba9bae91392cc9f1ef.1759070796.git.leon@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1759070796.git.leon@kernel.org>
 References: <cover.1759070796.git.leon@kernel.org>
@@ -71,175 +71,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Export the pci_p2pdma_map_type() function to allow external modules
-and subsystems to determine the appropriate mapping type for P2PDMA
-transfers between a provider and target device.
+Move the struct phys_vec definition from block/blk-mq-dma.c to
+include/linux/types.h to make it available for use across the kernel.
 
-The function determines whether peer-to-peer DMA transfers can be
-done directly through PCI switches (PCI_P2PDMA_MAP_BUS_ADDR) or
-must go through the host bridge (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE),
-or if the transfer is not supported at all.
+The phys_vec structure represents a physical address range with a
+length, which is used by the new physical address-based DMA mapping
+API. This structure is already used by the block layer and will be
+needed by upcoming VFIO patches for dma-buf operations.
 
-This export enables subsystems like VFIO to properly handle P2PDMA
-operations by querying the mapping type before attempting transfers,
-ensuring correct DMA address programming and error handling.
+Moving this definition to types.h provides a centralized location
+for this common data structure and eliminates code duplication
+across subsystems that need to work with physical address ranges.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/pci/p2pdma.c       | 15 ++++++-
- include/linux/pci-p2pdma.h | 85 +++++++++++++++++++++-----------------
- 2 files changed, 59 insertions(+), 41 deletions(-)
+ block/blk-mq-dma.c    | 5 -----
+ include/linux/types.h | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index b433764dd36d..6edf9a211f11 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -1049,8 +1049,18 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index 430e51ec494a..8d2646ab2795 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -5,11 +5,6 @@
+ #include <linux/blk-mq-dma.h>
+ #include "blk.h"
  
--static enum pci_p2pdma_map_type
--pci_p2pdma_map_type(struct p2pdma_provider *provider, struct device *dev)
-+/**
-+ * pci_p2pdma_map_type - Determine the mapping type for P2PDMA transfers
-+ * @provider: P2PDMA provider structure
-+ * @dev: Target device for the transfer
-+ *
-+ * Determines how peer-to-peer DMA transfers should be mapped between
-+ * the provider and the target device. The mapping type indicates whether
-+ * the transfer can be done directly through PCI switches or must go
-+ * through the host bridge.
-+ */
-+enum pci_p2pdma_map_type pci_p2pdma_map_type(struct p2pdma_provider *provider,
-+					     struct device *dev)
- {
- 	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
- 	struct pci_dev *pdev = to_pci_dev(provider->owner);
-@@ -1079,6 +1089,7 @@ pci_p2pdma_map_type(struct p2pdma_provider *provider, struct device *dev)
- 
- 	return type;
- }
-+EXPORT_SYMBOL_GPL(pci_p2pdma_map_type);
- 
- void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
- 		struct device *dev, struct page *page)
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index ce0f163e1600..2efbcbcecd67 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -26,6 +26,45 @@ struct p2pdma_provider {
- 	u64 bus_offset;
- };
- 
-+enum pci_p2pdma_map_type {
-+	/*
-+	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally as an initial state before
-+	 * the mapping type has been calculated. Exported routines for the API
-+	 * will never return this value.
-+	 */
-+	PCI_P2PDMA_MAP_UNKNOWN = 0,
-+
-+	/*
-+	 * Not a PCI P2PDMA transfer.
-+	 */
-+	PCI_P2PDMA_MAP_NONE,
-+
-+	/*
-+	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
-+	 * traverse the host bridge and the host bridge is not in the
-+	 * allowlist. DMA Mapping routines should return an error when
-+	 * this is returned.
-+	 */
-+	PCI_P2PDMA_MAP_NOT_SUPPORTED,
-+
-+	/*
-+	 * PCI_P2PDMA_MAP_BUS_ADDR: Indicates that two devices can talk to
-+	 * each other directly through a PCI switch and the transaction will
-+	 * not traverse the host bridge. Such a mapping should program
-+	 * the DMA engine with PCI bus addresses.
-+	 */
-+	PCI_P2PDMA_MAP_BUS_ADDR,
-+
-+	/*
-+	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
-+	 * to each other, but the transaction traverses a host bridge on the
-+	 * allowlist. In this case, a normal mapping either with CPU physical
-+	 * addresses (in the case of dma-direct) or IOVA addresses (in the
-+	 * case of IOMMUs) should be used to program the DMA engine.
-+	 */
-+	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
-+};
-+
- #ifdef CONFIG_PCI_P2PDMA
- int pcim_p2pdma_init(struct pci_dev *pdev);
- struct p2pdma_provider *pcim_p2pdma_provider(struct pci_dev *pdev, int bar);
-@@ -46,6 +85,8 @@ int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
- 			       bool use_p2pdma);
-+enum pci_p2pdma_map_type pci_p2pdma_map_type(struct p2pdma_provider *provider,
-+					     struct device *dev);
- #else /* CONFIG_PCI_P2PDMA */
- static inline int pcim_p2pdma_init(struct pci_dev *pdev)
- {
-@@ -111,6 +152,11 @@ static inline ssize_t pci_p2pdma_enable_show(char *page,
- {
- 	return sprintf(page, "none\n");
- }
-+static inline enum pci_p2pdma_map_type
-+pci_p2pdma_map_type(struct p2pdma_provider *provider, struct device *dev)
-+{
-+	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+}
- #endif /* CONFIG_PCI_P2PDMA */
- 
- 
-@@ -125,45 +171,6 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
- 
--enum pci_p2pdma_map_type {
--	/*
--	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally as an initial state before
--	 * the mapping type has been calculated. Exported routines for the API
--	 * will never return this value.
--	 */
--	PCI_P2PDMA_MAP_UNKNOWN = 0,
--
--	/*
--	 * Not a PCI P2PDMA transfer.
--	 */
--	PCI_P2PDMA_MAP_NONE,
--
--	/*
--	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
--	 * traverse the host bridge and the host bridge is not in the
--	 * allowlist. DMA Mapping routines should return an error when
--	 * this is returned.
--	 */
--	PCI_P2PDMA_MAP_NOT_SUPPORTED,
--
--	/*
--	 * PCI_P2PDMA_MAP_BUS_ADDR: Indicates that two devices can talk to
--	 * each other directly through a PCI switch and the transaction will
--	 * not traverse the host bridge. Such a mapping should program
--	 * the DMA engine with PCI bus addresses.
--	 */
--	PCI_P2PDMA_MAP_BUS_ADDR,
--
--	/*
--	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
--	 * to each other, but the transaction traverses a host bridge on the
--	 * allowlist. In this case, a normal mapping either with CPU physical
--	 * addresses (in the case of dma-direct) or IOVA addresses (in the
--	 * case of IOMMUs) should be used to program the DMA engine.
--	 */
--	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
+-struct phys_vec {
+-	phys_addr_t	paddr;
+-	u32		len;
 -};
 -
- struct pci_p2pdma_map_state {
- 	struct p2pdma_provider *mem;
- 	enum pci_p2pdma_map_type map;
+ static bool blk_map_iter_next(struct request *req, struct req_iterator *iter,
+ 			      struct phys_vec *vec)
+ {
+diff --git a/include/linux/types.h b/include/linux/types.h
+index 6dfdb8e8e4c3..2bc56681b2e6 100644
+--- a/include/linux/types.h
++++ b/include/linux/types.h
+@@ -170,6 +170,11 @@ typedef u64 phys_addr_t;
+ typedef u32 phys_addr_t;
+ #endif
+ 
++struct phys_vec {
++	phys_addr_t	paddr;
++	u32		len;
++};
++
+ typedef phys_addr_t resource_size_t;
+ 
+ /*
 -- 
 2.51.0
 
