@@ -2,49 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECF6BA6F4D
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 12:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E194FBA6F50
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 12:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5B010E04F;
-	Sun, 28 Sep 2025 10:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA9010E0F2;
+	Sun, 28 Sep 2025 10:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="CFQEKBdL";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="IT1F4DCP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m15567.qiye.163.com (mail-m15567.qiye.163.com
- [101.71.155.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC53110E04F
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 10:38:07 +0000 (UTC)
+Received: from mail-m49246.qiye.163.com (mail-m49246.qiye.163.com
+ [45.254.49.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7635210E0F2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 10:46:18 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2456910da;
- Sun, 28 Sep 2025 18:38:03 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2456a8421;
+ Sun, 28 Sep 2025 18:46:15 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
-To: heiko@sntech.de,
-	andy.yan@rock-chips.com,
-	hjc@rock-chips.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Damon Ding <damon.ding@rock-chips.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v3] drm/rockchip: analogix_dp: Apply devm_clk_get_optional()
- for &rockchip_dp_device.grfclk
-Date: Sun, 28 Sep 2025 18:37:34 +0800
-Message-Id: <20250928103734.4007257-1-damon.ding@rock-chips.com>
+To: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com, dianders@chromium.org,
+ m.szyprowski@samsung.com, andy.yan@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v3] drm/bridge: analogix_dp: Reuse &link_train.training_lane[]
+ to set DPCD DP_TRAINING_LANEx_SET
+Date: Sun, 28 Sep 2025 18:46:07 +0800
+Message-Id: <20250928104607.4007586-1-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a998fe6ad8303a3kunm5a055eb71de05e
+X-HM-Tid: 0a998fee2d3103a3kunmd764ef2a1dfb70
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkxMGlZPQxodTk4dQkJKShpWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGhlOGlYaSk1NSk9PTBlLS09WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
+ 1VSktLVUpCWQY+
 DKIM-Signature: a=rsa-sha256;
- b=CFQEKBdLzj3RmovydjJ/6w0J+Z+ocOD7NCH8UCPOUnv9joMoyk3Hp31PZpKDFASAdryKQpPfo22/0OLo8xKgWTdFvb6BSK4uvk7rCil7kPubAqF6r/HV/LaZ1SZvZbsaZWPWfEHUcXLYs9WozLnsbAmpMFRDfa/nBcp2LaJry8g=;
+ b=IT1F4DCPXlqAccWRPgv/W3I6jHk+5zOxO0dclq6r2ZBGt3I0BPYV/NGweipI3gMf+ooeGgPcEPMZgRhjKY6Z2InZGSSRYBKqwr1eZaCGlS1WiIAgqggpKBu8iwKIr3J514LgzTFCZ2xkUYsLmaiUsrbvuUo7yTZeclX5LTDg0MA=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=OajlQ+6PdIYG+fmsAAOl6Cm5I8NVlpLVeebHG26Kl94=;
+ bh=FynlO7hKXrvqRhcZEvwdzPsilQ/zR69sNn+xxKg5asY=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,52 +63,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "grf" clock is optional for Rockchip eDP controller(RK3399 needs
-while RK3288 and RK3588 do not).
+In analogix_dp_link_start(), &link_train.training_lane[] is used to
+set phy PE/VS configurations, and buf[] is initialized with the same
+values to set DPCD DP_TRAINING_LANEx_SET.
 
-It can make the code more concise to use devm_clk_get_optional()
-instead of devm_clk_get() with extra checks.
-
-In addtion, DRM_DEV_ERROR() is replaced by dev_err_probe().
+It makes sense to reuse &link_train.training_lane[] to set DPCD
+DP_TRAINING_LANEx_SET, which can remove the redundant assignments
+and make codes more concise.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-------
+---
 
 Changes in v2:
-- Replace DRM_DEV_ERROR() with dev_err_probe().
+- Add Tested-by tag.
 
 Changes in v3:
-- Update Reviewed-by tag.
+- Add Reviewed-by tag.
 - Fix the spelling error 'consice' to 'concise'.
 ---
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index d30f0983a53a..937f83cf42fc 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -335,15 +335,9 @@ static int rockchip_dp_of_probe(struct rockchip_dp_device *dp)
- 		return PTR_ERR(dp->grf);
- 	}
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index 6ec3d811b5f0..1e834d3656c1 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -281,12 +281,8 @@ static int analogix_dp_link_start(struct analogix_dp_device *dp)
+ 	if (retval < 0)
+ 		return retval;
  
--	dp->grfclk = devm_clk_get(dev, "grf");
--	if (PTR_ERR(dp->grfclk) == -ENOENT) {
--		dp->grfclk = NULL;
--	} else if (PTR_ERR(dp->grfclk) == -EPROBE_DEFER) {
--		return -EPROBE_DEFER;
--	} else if (IS_ERR(dp->grfclk)) {
--		DRM_DEV_ERROR(dev, "failed to get grf clock\n");
--		return PTR_ERR(dp->grfclk);
--	}
-+	dp->grfclk = devm_clk_get_optional(dev, "grf");
-+	if (IS_ERR(dp->grfclk))
-+		return dev_err_probe(dev, PTR_ERR(dp->grfclk), "failed to get grf clock\n");
+-	for (lane = 0; lane < lane_count; lane++)
+-		buf[lane] = DP_TRAIN_PRE_EMPH_LEVEL_0 |
+-			    DP_TRAIN_VOLTAGE_SWING_LEVEL_0;
+-
+-	retval = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, buf,
+-				   lane_count);
++	retval = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
++				   dp->link_train.training_lane, lane_count);
+ 	if (retval < 0)
+ 		return retval;
  
- 	dp->pclk = devm_clk_get(dev, "pclk");
- 	if (IS_ERR(dp->pclk)) {
 -- 
 2.34.1
 
