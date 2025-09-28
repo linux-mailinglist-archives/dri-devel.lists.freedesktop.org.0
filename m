@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F78CBA7687
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 21:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518D7BA768D
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 21:06:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B2410E164;
-	Sun, 28 Sep 2025 19:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284FD10E210;
+	Sun, 28 Sep 2025 19:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vNHrPDun";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JzS+oyRh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 287E210E164
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 19:03:27 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B4C10E1FE
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 19:06:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1CB8D621B6
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 19:03:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B814DC4CEF0
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 19:03:25 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0923045111
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 19:06:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DCB9BC4CEF0
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 19:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759086205;
- bh=SgS7O1uCFkfFyyL0CsG1SZWJThI2JHfHrK2DBdl2w7U=;
+ s=k20201202; t=1759086394;
+ bh=SLGQ+TEUoitwnNDsUkLzdgxo+2KFvOQHZv4cwBYQM4Q=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=vNHrPDun5SFpA6AudcLpraCvcVGSOJuS0ODD94gYkloF+gZ+UvO2od0ZaYLlabMOU
- Ya3Ppo46fbEy2+HATXVC29m4y809t/rVwxlMCLQFFX23yO/36smJlpgJCNf0pgxQF6
- 9WG20b2IRYg5zfvF7qKRT7aUhxm6wIHq53KGXjYDV7X/KMHpkQ2jxGoZOlO/PpgpyF
- RNPWXAIGCHTjpk4Bq76aN5aXBH8Tu6RBpy4TeIiDHqjbrhZNSHhKLpt3ji4zo9D1iv
- sCthEX1CgIc8+BrMBcOCNDBkui6c8b9iErC3lbD9RpQY3C4grTQCgApjluLVNj9y4k
- g15ZAMMfWMtXw==
+ b=JzS+oyRhNac4TPEoEhMMIw7b8v55M2/xrssIB5sJ3Fp/xLMJYGgg7k9tyfREYfP5n
+ 5SCoQQVGEWoigdNN0drEae7mw5CPoyxqy3tg/RCfxjU3Qb1AVZdb1UfEb++hHZ5rj6
+ o32HrlPuG+oxLH+pjYVj/eiUo+RBDPMBtXvvJUhgPEILqFoSN68ooyH2ToTlbwAbv4
+ rb7cgm5vjDb0rG2RGWN7yS7w25gzS4PCAgX8MSbnCEwi7k/fKXZzPafW5r31gxI/aA
+ dsH48sYZ8c2fOcIYfWW2mvIM3Mysgnk1rCA32sQauxNeuxFt+6QyFCH5wwisj2/AhH
+ siYnZWTSBWC+Q==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id AB292C41616; Sun, 28 Sep 2025 19:03:25 +0000 (UTC)
+ from userid 48) id D1437C41616; Sun, 28 Sep 2025 19:06:34 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 220608] Tegra-X1 (t210) error on nouveau_drm initialization
-Date: Sun, 28 Sep 2025 19:03:25 +0000
+Date: Sun, 28 Sep 2025 19:06:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,13 +45,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
 X-Bugzilla-Who: dofficialgman@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: MOVED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-220608-2300-rPG2gDia2A@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-220608-2300-WPTdyVWzb3@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220608-2300@https.bugzilla.kernel.org/>
 References: <bug-220608-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,11 +76,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D220608
 
---- Comment #3 from dofficialgman@gmail.com ---
-It has come to my attention this is probably filed in the wrong place and I
-should instead refer to https://nouveau.freedesktop.org/Bugs.html . I will =
-do
-that and link back here.
+dofficialgman@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |MOVED
+
+--- Comment #4 from dofficialgman@gmail.com ---
+marking as moved to https://gitlab.freedesktop.org/drm/nouveau/-/issues/445
 
 --=20
 You may reply to this email to add a comment.
