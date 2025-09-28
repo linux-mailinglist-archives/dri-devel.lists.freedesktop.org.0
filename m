@@ -2,154 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A005BA6AE0
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 10:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF84BA6AE9
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Sep 2025 10:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4481A10E0D2;
-	Sun, 28 Sep 2025 08:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8478610E0E5;
+	Sun, 28 Sep 2025 08:24:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="k7v9WKuc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IMqOPF2R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com
- (mail-northeuropeazon11012031.outbound.protection.outlook.com [52.101.66.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C9E10E0D2
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 08:24:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jNRwzuGoUfZJxVvnobDmPfg/epb578QS92ZHw41Hct4rVnzAprI630VHrwcKrTJThmswzJeirfG6UdIxvQ3kjNkWQ8BWbJ6cmGoZIhi8OGr2xJMzjG4u3BMWTrsM17T5ABhwc406Qhrswgi/f4X0lUt+Xq4dhonc8uwiI2jwzAZhA52dW60t5mKYt0HxFQcxm/5uVm9eP8NABJttLrM0mFOch5fntgRoJTmEQRTNpZJZXtGxlTvDaKWirJVe0ceyGVwmMAb6S+hv8xWZ5K7EbMo+SRG94CIXmxIPPLqui5pdM2fZ5YDhjDp1wxTfYkWxC7n8oOmOZkMJ8ZTaLtw7hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g+iEs9uAQ4MQ7QoPF9zt758oMx4WhnEzt2hnKkTtL4Y=;
- b=WslTIuM7J+1iusDdOOEcLjQSn6EKLsdsQOpF2ueTn3ahCXgggk3ox3KABd8Yg19wVRQQ1wEvwSPKLMk+ILb2fOYE47r1MAu+bUlag70ZTx6+fw9RjWVKmSBX7ZV3wRzbJFz+G97K/hqphVOKKP6GB9t0mD6WCOgPBBguDLqUcG8xng1TWOYWy+MUhXdySowLRTNUPWYNd3KIhu7bN2VP/Rufe7N7lRHRFqunMtPZotnhwonaXS+8pbKdOv65ZFRkN8LEf3LWQa843YM48m1LmtJKr1l+5GdzifZxkj2b5rae39qjnyeT51C4UvNIdOW+ie/p1V7/lQgQLjf4bqFg/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g+iEs9uAQ4MQ7QoPF9zt758oMx4WhnEzt2hnKkTtL4Y=;
- b=k7v9WKucC9MK0EHE9GN4Hn3LPOITRrzLK+UXQRSwGodd37CSZfOqsHuWWBhFfMyUF9Jl87t901eO1EhYFZZw1Kp58pakGevyBn0ZguLaj/1z2XXvBiUa/chMuOqJAKgTKDIzZp57rmzuxqgO3oa16vNuSIOLzZZQzDMd4ChLikatCqyzOK9hzkHU+9tPVmtIJCC6OwPj0LOU0x4jks5xRdNfzOVixdesKJUdArAU2HLg15m1LrkUQiVQVSkddWNkvrBdEXJo1t6hXHJGgpdRgGv+tnCML17sU8Ipa74OInJVBvGXlYiSn4zpFREHkAdeXOGu29xztKOIRUWiAoNjHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9624.eurprd04.prod.outlook.com (2603:10a6:20b:4ce::9)
- by AS8PR04MB8500.eurprd04.prod.outlook.com (2603:10a6:20b:343::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.14; Sun, 28 Sep
- 2025 08:24:43 +0000
-Received: from AS4PR04MB9624.eurprd04.prod.outlook.com
- ([fe80::fa4e:dc6f:3f71:13b7]) by AS4PR04MB9624.eurprd04.prod.outlook.com
- ([fe80::fa4e:dc6f:3f71:13b7%4]) with mapi id 15.20.9160.013; Sun, 28 Sep 2025
- 08:24:43 +0000
-Date: Sun, 28 Sep 2025 16:24:40 +0800
-From: Rain Yang <jiyu.yang@oss.nxp.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: marek.vasut@mailbox.org, airlied@gmail.com,
- boris.brezillon@collabora.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- festevam@gmail.com, imx@lists.linux.dev, kernel@pengutronix.de,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, p.zabel@pengutronix.de, peng.fan@nxp.com,
- robh@kernel.org, s.hauer@pengutronix.de, shawnguo@kernel.org,
- simona@ffwll.ch, sre@kernel.org, steven.price@arm.com, tzimmermann@suse.de
-Subject: Re: [PATCH v2 4/9] drm/panthor: Implement optional reset
-Message-ID: <aNjwyIgs9fzWiprq@oss.nxp.com>
-References: <20250904172019.58e5f589@fedora>
- <4147d10f-fb54-4f1b-ac1b-58cf657a3aeb@mailbox.org>
- <aMk1CISrn2_p0qzJ@oss.nxp.com>
- <c34dc4bc-de12-42fc-aaf5-50474dc53042@mailbox.org>
- <aMoTtr9KmdrgDUiE@oss.nxp.com>
- <c1a45cfa-a249-4782-b5c8-0ee2d173fc97@mailbox.org>
- <aMrDKkIoZvAlBD8d@oss.nxp.com>
- <609113fa-6af3-4e7e-b47a-45b3152d8581@mailbox.org>
- <aNZaatnVRRkaPrnD@oss.nxp.com>
- <32fffaad-7738-4fa6-80cc-2f8eba7ca099@mailbox.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <32fffaad-7738-4fa6-80cc-2f8eba7ca099@mailbox.org>
-X-ClientProxiedBy: MAXP287CA0001.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:49::13) To AS4PR04MB9624.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ce::9)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1576010E0E5
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 08:24:58 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58S4Gqdj008220
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 08:24:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=rc2O4wz2Xp3rHoz8/mUbsM
+ fKLduyX74HJKpJIAxeyFQ=; b=IMqOPF2RwTNjYzv3tzCtFIDfj53rMbYzw9zi5a
+ Y9LeTo/S+tjjGF9oJRxXAfKeFY3aIlPfVF7ujyjbB4MuT9rzcb703ByiNhpuxby1
+ qY0pQRVdJB2gbPUSLPeC/V20uBZlwzoVbN2DgFnVxwXKYzHQnBqoXB+3wj89AXTv
+ T5iQOHTFezAh18vkMe3bQuChogXu+EPxkSeoMcBmKrv1gVIRYH6ojpNWd/7URQAt
+ HHBtgI5Qh0P598ZSc0tiu+zecOUipf5VdRGswtuO7JomOBiXqVek9SRrPBZ1H2MM
+ 5uJMjr/0yRfOhNGRl7NkImgXclV789e+a33pyEW5mTgSz5IQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e78ftfhd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 08:24:56 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4de801c1446so43701871cf.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Sep 2025 01:24:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759047896; x=1759652696;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rc2O4wz2Xp3rHoz8/mUbsMfKLduyX74HJKpJIAxeyFQ=;
+ b=fFjObf+WMEeU7DHGq6bHPc6Q4hmsCWbrwMJF/9Mr52bmizSzdQupDqaLWEtGuk5tHa
+ m242KLjGkS1x0crX2Q6fr5uZicIfrYDnTIFbXuch/Efilnd9ZD42P9YHdKJxtr9FyWIo
+ HZ494RwI1U8kTtMkwe/lhVdOykgaBM1hJf5yLBLllYoZmO7kcIYirUmjeBGBiqM4+eur
+ tGuGpWGtu2D+EUbrdbdib6w+TQ276YVBb8rk8lPwFV8LbDxSvyuHixm03wiemcG/yVtG
+ 8eNDZC9oBhpWmehIAPP5NLVoFpS+31rfQvFjqn9llYdtZ7I95np+lb03+RJHQS83OJcc
+ 13eg==
+X-Gm-Message-State: AOJu0YxCETEJpD035BPQJpVgfIg0G6lpAYeiD9g4yXy1g2Y5z3Sx6Paj
+ SiXKu4KBlysGxQTVwK79+tFGfxz3rPURG08Ep8yh/vfWUIVvfOxXJorsSEYZDT1X1+LgGld6J1p
+ xNNbvKnSKhUAyxDabbJKkq8kA9XKWvvmclFXFBCWOYOgVbstbdH+OXfWXExJSL9DDvFNdIjo=
+X-Gm-Gg: ASbGncsQfG8cyDoHlDoRlxjJCFfRYJ5jC1vXJQW7ESTLn+fUCKeRuMXtwvS5vze15Mr
+ 1T5KEg8Ve0yMRaWmqcl9xoh/nne71f9+RLw2aic6JBGpDdtvIRwoaZ+2vZ/DjC2UjiLj+OLgv7n
+ tD9nbhu5rg0RUPs0tcbLkYwXj2+4zz/pA6e7Z9VXfijDiWQxVWvPmo0+ZqIlDqQquQvE4PNt0XF
+ ENHtQIH9rB+KBmqMor01BSEFLumcb+DAwEQH+UdE0YDT+WISun0n/SVhMDKpdxAXyRS+PYNhdO4
+ SNLYcmYz6BQcAjdYXeZKqET7PMDOtGXqlimzcaVBmuT0KkWqVOqZQaEuVHjDkh0x9OOmYyyvsS9
+ KKiJrzDzVwo2aew42Dz9G+bYuH4wX0qeBBlpD7mGLuYx5XZ0KFCtw
+X-Received: by 2002:a05:622a:19a3:b0:4df:194:b46d with SMTP id
+ d75a77b69052e-4df0194c12cmr55269061cf.80.1759047896021; 
+ Sun, 28 Sep 2025 01:24:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGSQGqS4aJ7VDAivVQk/ANpuwQy7ctS7IE9D3fgBdrHjHXtkW+JEen25AcKMFhLLPIqmo1upQ==
+X-Received: by 2002:a05:622a:19a3:b0:4df:194:b46d with SMTP id
+ d75a77b69052e-4df0194c12cmr55268701cf.80.1759047895487; 
+ Sun, 28 Sep 2025 01:24:55 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-583166561c0sm3244298e87.81.2025.09.28.01.24.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Sep 2025 01:24:53 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2 0/9] drm/connector: hdmi: limit infoframes per driver
+ capabilities, second approach
+Date: Sun, 28 Sep 2025 11:24:45 +0300
+Message-Id: <20250928-limit-infoframes-2-v2-0-6f8f5fd04214@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9624:EE_|AS8PR04MB8500:EE_
-X-MS-Office365-Filtering-Correlation-Id: b77c149a-2853-4adc-9512-08ddfe6879bc
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|52116014|376014|7416014|366016|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LvFVbgS6bF7sAZidNrhzFov724ZugXyff5GP4jHLFg5ngZf4uDvt8alIkAbE?=
- =?us-ascii?Q?oxBFXwFkSTAmZTZvanLvmDav1t9jJdH3VnBtFsvYsYVr9hkFNJRQLGuy89E5?=
- =?us-ascii?Q?TC7Zgl7RO+lxmrsjm3kwcScShu4jY9JXTZkL77b38FioUxgaWDugqi900VkF?=
- =?us-ascii?Q?2s0V5jgB+pRa0xIDrv64ONZSUicJFM+7MmLm0VfpnEnvSGDr2baV3dnOjpwJ?=
- =?us-ascii?Q?sLJ1RzXaMD3/vqnt2oOQz786JGWEdoJICpe9LDZAl5M/A6xu+GWNHkwVWE95?=
- =?us-ascii?Q?0jej5NRom6TaXRaCjBVoYUaA7beTvR/+E69jzxbwlYFUBgOpbLQqId5TWHIL?=
- =?us-ascii?Q?xfC95afc2YXjkm3+mBO0RWjWrzaXABqR2TuZTPxKqHY+OMmIIwLr7lr5cTxq?=
- =?us-ascii?Q?dDribAcTw6fL3JjaMeMlhHZM/kg3HL1eS1ArD2Ve8csH4ymkSrnDnAut+1Ds?=
- =?us-ascii?Q?M8yE9vL5g0Rg4p25yLUGXqGbEkUotfxJResfVCyBv5PVxgsoyFsJQRf/yfdY?=
- =?us-ascii?Q?Ww1YaGdxU3UbbB9PGlv0K6aRFB8FkJW2g6IFSKrzDQ8VE7xLJN5ELUdz75fB?=
- =?us-ascii?Q?/iBMAbsSHTKUQGwIHxg32ax8Jqyvh3pDWZHjujgQYOAuSlopmsHmqkzaCVuU?=
- =?us-ascii?Q?5Z1UqsWuf3rh9wR2B1WVV8C+QF6VOXOVj2Xvcp69T7GlMwAkPACm6zZ4P3Zd?=
- =?us-ascii?Q?T6FMGmISMrdWWcnrByeHfTtLwjUe/GrM5AcCVLeUIhnn5gxe4tlmP3jkxiO6?=
- =?us-ascii?Q?OZENYDxzaUmvU974qYHcxRZ6dmxhZJa15I1DmxxFfZfckHVaL5WkBHT8I358?=
- =?us-ascii?Q?qlabsEhPQG0hkbR6iDoyFR16bdXGsx+FisxvIOXQltoH6GOE+/NHX+YutkMT?=
- =?us-ascii?Q?vGBTiZKmhGJ3INNRE98G+jLkcqx8xF5di6nlLzQMW3qXCvfoNjFK6SOr6NfD?=
- =?us-ascii?Q?i/E8oPitOEDP/pG3UyjrzLsewu0BHfPyujwm6TGmRAH+9fPuqyQ4TY8YJNZT?=
- =?us-ascii?Q?croP5P5h1PurWZe8W4DoYiwLbI0SEZC4FZYquRZzWpXAnbJlOlR9aSQF8DyD?=
- =?us-ascii?Q?FIgO/T5zBp/+Reak0vH/7GAdPEKavcynAD+Ev+EYaQSCAGMgnomDefAtcMCP?=
- =?us-ascii?Q?/VpMKov40bDV3VRjb9Gy4azSWbZUQtdu/EKWgLmXJdEhaYYEnm/5A/SAZFqF?=
- =?us-ascii?Q?xKmzQoQAewWe3yWRdeAiEUYSjMHMA7eGud5XcmV3/dArDJ/j3lgmDYce4ibi?=
- =?us-ascii?Q?EKEfo1CqzU8l8/tgvqX/N9qKK6ihcVnBz2mwfMtKfANPSvJJDD3bU9k2tn8z?=
- =?us-ascii?Q?oGojNHXOWl179tFQHtbanalOx06ORZl7+zPdZBx5GU4mA2MPaFkylhNCoNgg?=
- =?us-ascii?Q?CYk6c3S71NZSbrCD46Ku2eVofq9SRIzMZ7Au0yCnIJT/L+F2JmlYU1xB4A3m?=
- =?us-ascii?Q?oNHvtYWrawlj51QmDzocrdQ1tp+Sk2sF0ADcVq4b6xfhmINQol6EZOXR6wbo?=
- =?us-ascii?Q?jjz2+gEEl3qma7K2/ALTY1dZo0T8NYsbHnQ3?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS4PR04MB9624.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(19092799006)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XKvGcRe4+Yr6WvNXT+/eNeMXw5x2hRRs48c/cBtq8sdYm0DvPF0ft5o5/Dkv?=
- =?us-ascii?Q?6ePvxdFfgkNUovCnbMWw3MDTtKKCRBWcRYa15npPKSEHwCg86UDIBB5Q+g2D?=
- =?us-ascii?Q?+yUXQiFAS+kRdi9qScqSk29sE3/4A1WFilFEOXCkMLhXkZwZ4bfQknx6djDb?=
- =?us-ascii?Q?eMojHpzeJLS6/8pfJTiVnVqkmAYSoECJqg+IDW3CoVKz+ZRZr3h9xqDe5JMU?=
- =?us-ascii?Q?EikEbcX+sHM3dflr6Bb1ppz3Fja9yomeDERK+Y009MCGTA9xFPGaaNGRM1r6?=
- =?us-ascii?Q?z84akYHDrgTb/PGYvjuOE+aYLnIOi3uFJ4wshCKgdwUE9ScndLd1grhDqmED?=
- =?us-ascii?Q?vgzK4JfA2jDr5pCkB5T/DnN12WcoBfXT3E91VvLstxYmnK2L823REuMuM+rm?=
- =?us-ascii?Q?Ve/z4pY/kYzL24AM1E39DnZ0sDAsTd8vqdo8T8WHgteWOTOb789j7+xt6l0f?=
- =?us-ascii?Q?iNRSM+XEK7fzDc57A6PpAH5xJYeuulXsgYwpJUj5XmGZbA34USu0OoGaLLxd?=
- =?us-ascii?Q?nybxWAaOy3wr7ykN+vtW1Am2OKUzUt/LVBzDz+SyhLrRVy95isFi/tUOF6py?=
- =?us-ascii?Q?pCgmP4YFFnarTNClYImeh6ifaRsIdr5ZFa4/4ZywTwpjLkcjPV3tTHQtRmcc?=
- =?us-ascii?Q?9x+mrzzq+zFZ4REDbnSFy/t2zCu7L2FmZJs753rBz+4Tai1eqMzoJU4CyHBi?=
- =?us-ascii?Q?NG2VLVrfJN4zBhV4tq2X3JfOZ62WrrtskJfM+oK5xiH1PQh8uEYd+1z2TGy4?=
- =?us-ascii?Q?uDajRYWDPvf4mD5rnsDjRAY+p7HzGWkmSapj/m7vmY5iIqX99NyQVcO6xj6f?=
- =?us-ascii?Q?xYj2kc9axctjR3o7Mtb4AB6UhDWtcsAyAAHhR+38acwimzhIWBm0gjPURu9r?=
- =?us-ascii?Q?Cc2nPKzW69MqCihHCChQChZaTPeQfhAW6zEgySZXxVFhj0cl/Sif5Nnd6Mok?=
- =?us-ascii?Q?AS66LgpA5nDlgWa/gTRWvsvH6rQQ739XXUHd71C+LRy5QagZ/QrXiq+K7sNJ?=
- =?us-ascii?Q?foXtYNrhKoLd9Vy/uPvUR5Nih/nFZHrYhgj2JDaw3vR0VE6Np/lWxYhP4uvA?=
- =?us-ascii?Q?Gore4yFkVIpg7c6CyQjG2ljBW9Xh8NBpsrb5zLKyGH7n13peRsZZ2vC/79BP?=
- =?us-ascii?Q?SmR0oJ5u9Gkp7nUH15pZb3GszjmGcnDsrsEKoPz3koh1sSPb4tP53k4q40V3?=
- =?us-ascii?Q?JwVSWwHTZ0p9RmUcqlZDDq2qU3HWWecJhkAO6FTZ9BVkytiAy0sQOpyNgzlB?=
- =?us-ascii?Q?8XsNfgvFRLmrXyBhk4ruq8bfSI3o2vlKjz1GnDcH5qrWcmvyc7NqGuyp8wgY?=
- =?us-ascii?Q?6OMbdp30rncGANh7PjXtBNwzOaFyaYkBTAYpMeEMKrdLiwsJJlaUl7sTLAHp?=
- =?us-ascii?Q?Nj6TVQqQdr53v/VSPz+aApmPI5uMSvLLX0xQboJSOkWcHVlm+W3r4PvUAQG1?=
- =?us-ascii?Q?eGS43wXjmDZSIeRKgv3gsySLetuVpGIhi6j8pzDlVrGZogBFeuEzaDeISplw?=
- =?us-ascii?Q?Wcp0WoxDnWM1fwe4kDjdm5H3IOjINTCKsuYddoccxc7wVnawaR2+lqvRq+pq?=
- =?us-ascii?Q?KdCRjtOJH7wxxLQDcUlZzVCP79iQ6SNs0ECE5AiN?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b77c149a-2853-4adc-9512-08ddfe6879bc
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9624.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2025 08:24:43.2509 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fhlIpD66egC6U4SGdGpJbgjtVLJ/tqgIE8MSd2vbDHw0AeO4yklwEBU3Vy7fPxDS3JbLrBM0ctAXJlctXFO4Cw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM3w2GgC/32NQQqDMBBFryKz7kiSEiVd9R7FRdSxDhjTZqy0i
+ Hdv6gG6+fA+/Pc3EEpMApdig0QrC8c5gzkV0I1+vhNynxmMMlY5U+PEgRfkeYhD8oEEDVatO5N
+ 1jmrnIQ8fiQZ+H9Jbk3lkWWL6HB+r/rV/datGhZWrrdZtr6xqr1GkfL781MUQyhzQ7Pv+BWNgR
+ Ue7AAAA
+X-Change-ID: 20250927-limit-infoframes-2-6b93e599e79a
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Samuel Holland <samuel@sholland.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2537;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=wXdpgIK2nMReHeFFkBUwQqE/S6v5i1Ns3S0QQzaiDpU=;
+ b=owEBbAGT/pANAwAKAYs8ij4CKSjVAcsmYgBo2PDTB73mP/OiC/2SDbHHGonN3evfKMNBf+mFV
+ TAqz55+BLGJATIEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaNjw0wAKCRCLPIo+Aiko
+ 1QGaB/dCkhCFXM3rS/LZOxNFSLK33p0eqjXUwRLj/k1HSm4nPT5ACqB10fJ3tODSDVscNubP0oR
+ jfmyJiJzo6t6DoZD77G8Nj64HnQj5ie1loe2Gq8taQC/i6+qO0ReHUV68PcRZJ4/RjIU3SFWYGr
+ B0zT0V5KzHabbu+gztU9ddfmCS5QCau8INJXipea8RT1wLTnGNAWjHjycLW4akzsWGYMGmTD3dy
+ eYpOMrWIfTBaRqxQh18GUkTypkJLT/cx0JwTR2Tg040mVGp2fCpVCbTwweZgCSWyuuaRHRVeK52
+ pmZkVNSrt+Wnj6FEnoqFtN3ELK6yNEwAzYWXHwb2GyWEDPE=
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=DZAaa/tW c=1 sm=1 tr=0 ts=68d8f0d9 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=BiG78YgtQv3mHEaFN1cA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAyMiBTYWx0ZWRfX6jfu+5Rw8vPX
+ Py023CZRnXyCF31i8DYCnbxi8izqCa2BObWKsq4xAzKNreZcu1Ou7CtxXetADP1BbcbwimpXU3E
+ IXBmdo6c0AYpkRwhd8VilhVn8/FhacpWbT1cy4cPx8b9xsOeK+PUsFCPw12+VXye8Y25ivz5oiE
+ wMWZlu3hDulaGA7FVZ9vKcHTqjr3o/V/e9J7RkVOtzhRJPxaYaplrUuOMoqW2aIK9YAz/BBlMx0
+ UnkDr979XvVuWGVyaixwYIFVz+WYrg5ZH30RhybjHSTDKTPesbQ0D/a1bDOsVVsKScXWnSHvqxs
+ 3VnamuS4Ap1GnHuwZ2TkloXjdo1WGv30eMNsXpjd0cdeSkhqxps+4H2kRbKAMxm5WKY2v88IW1u
+ JOLdlRrsQ9uRXJYVzLLp6e14C7JotA==
+X-Proofpoint-GUID: CaRlTenJNZtR_4Dg4ANzQHuHTyyCZqyl
+X-Proofpoint-ORIG-GUID: CaRlTenJNZtR_4Dg4ANzQHuHTyyCZqyl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-28_04,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015 adultscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,36 +155,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 26, 2025 at 03:32:46PM +0200, Marek Vasut wrote:
->On 9/26/25 11:18 AM, Rain Yang wrote:
->
->Hello Jiyu,
->
->> > > as the 0x4d810008 is a write-once register and whose operation has been moved into the SM side,
->> > > so please drop the reset change.
->> > > can you also change the label of the gpu node from gpu to mali like "mali: gpu@4d900000",
->> > > as the internal driver use mali label to control the thermal up/low limitation.
->> > 
->> > I updated all of the AHAB container, imx-oei and imx-sm components, and the
->> > reset controller is no longer needed indeed.
->> 
->> thanks, please update the gpu node label if possibly.
->
->Which label do you refer to, and which one would you prefer to have there ?
+It's not uncommon for the particular device to support only a subset of
+HDMI InfoFrames. Currently it's mostly ignored by the framework: it
+calls write_infoframe() / clear_infoframe() callbacks for all frames and
+expects them to return success even if the InfoFrame is not supported.
 
-"mali: gpu@4d900000", not "gpu: gpu@4d900000".
+Sort that out, making sure that all interfaces are consistent:
+- In atomic_check() callback verify and disable unsupported InfoFrames.
+- In write_infoframe() / clear_infoframe() callbacks return -EOPNOTSUPP
+  for unsupported InfoFrames.
+- In write_device_infoframe() / clear_infoframe() functions warn if the
+  callback returns -EOPNOTSUPP for the frame which is set (or was set
+  beforehand).
 
->
->> > > BTW, does the dynamic frequency work well on your side so far with perf domain?
->> > 
->> > How do I test that ?
->> 
->> cat /sys/kernel/debug/clk/gpu/clk_rate, although its name in dts is core.
->> it is an read-only scmi-clk.
->> the clk rate should be fixed, as it can be changed only via scmi_perf in i.MX95.
->
->Right now, it is indeed fixed at 1 GHz .
->
->-- 
->Best regards,
->Marek Vasut
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v2:
+- Fixed build issue in common code
+- Fixed comments regarding HDR / audio frames (Diedrik)
+- In adv7511 actually check for the HDR frame (the comment was correct)
+  rather than the audio infoframe (c&p error).
+- Link to v1: https://lore.kernel.org/r/20250927-limit-infoframes-2-v1-0-697511bd050b@oss.qualcomm.com
+
+---
+Dmitry Baryshkov (9):
+      drm/display: hdmi-state-helpers: warn on unsupported InfoFrame types
+      drm/bridge: adv7511: handle unsupported InfoFrames
+      drm/bridge: ite-it6263: handle unsupported InfoFrames
+      drm/bridge: lontium-lt9611: handle unsupported InfoFrames
+      drm/bridge: synopsys/dw-hdmi-qp: handle unsupported InfoFrames
+      drm/msm: hdmi: handle unsupported InfoFrames
+      drm/rockchip: rk3066_hdmi: handle unsupported InfoFrames
+      drm/rockchip: inno-hdmi: handle unsupported InfoFrames
+      drm/sun4i: hdmi: handle unsupported InfoFrames
+
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c    | 20 ++++++++--
+ drivers/gpu/drm/bridge/ite-it6263.c             | 27 ++++++++++++-
+ drivers/gpu/drm/bridge/lontium-lt9611.c         | 22 ++++++++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c    | 20 ++++++++--
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c |  6 +++
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c          | 19 +++++++--
+ drivers/gpu/drm/rockchip/inno_hdmi.c            | 47 +++++++++++++++++------
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c          | 39 +++++++++++++++----
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c          | 51 ++++++++++++++++++++++---
+ 9 files changed, 208 insertions(+), 43 deletions(-)
+---
+base-commit: bf2602a3cb2381fb1a04bf1c39a290518d2538d1
+change-id: 20250927-limit-infoframes-2-6b93e599e79a
+
+Best regards,
+-- 
+With best wishes
+Dmitry
+
