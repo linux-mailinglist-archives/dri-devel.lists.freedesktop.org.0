@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0385BAA8E3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 22:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942C4BAA8F2
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 22:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F8210E492;
-	Mon, 29 Sep 2025 20:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F16F10E49C;
+	Mon, 29 Sep 2025 20:05:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q7z+zCtl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FaSddbAa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C002010E493;
- Mon, 29 Sep 2025 20:04:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA6B10E498;
+ Mon, 29 Sep 2025 20:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759176285;
- bh=C8A0EwhcfuuAx55XHopx7Qq6/pw64JlfGfx0Qq2YB1E=;
+ s=mail; t=1759176287;
+ bh=8a0+2vCJjyXNTtdJZlFvg8lNK8djtqhRGCpzH9ay818=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q7z+zCtlSgOSfIU3O3rBHAbr/TNn4/JCyAo+kwFkcyU4Y3JXDJgNeh+KhSRxppLs3
- hwnh3qKVnUUoBe1CmbidWRp+9v1f6Orh7T7sOH7q7C7E0CydoRKa809oBV70+WvYuN
- Dn/OfwDTGPWn6UMxDf/7iX1OzdD9kjkhSjlXDOqX16JxOsCMQhw7GXkDsWfw/ovy7t
- +QpPvT/eao3Xaq3V6yLgtCzt0uU+A8bjbj6RZg886mqgEwZT0KN6cuh0dzblyHSTRG
- 0ExGK0id0KStgofh9LxeEGimxShRT+xc5RXZzvIheDAapQjje/ZVhrikL+ScVikRbd
- nzdC2ccadCCGQ==
+ b=FaSddbAanvCPQ3ohMTVyKMYG4OP06ihGPZDgza9EwKFh7wuuRinArtJpx2ua/06cr
+ brl58VRNx3tPr4j7uDQg6pRbbmVPjtgVfrGXpg9vMNtA9loeitCpQAqSYcsILQzGUn
+ UHVdX77Slebrdm3ybibqtfEbGGz+PZrLrSJVKABMIwtoE1WBRmf+mBEqP4YnJJAdU9
+ /6gV5hEADEX3xkIYZ/IV2mXJzjvdaYxs3OtC2wabBY/PRjIPPUZaR9ae4QU3URLwlz
+ L6nZTLMlQVxby2Ft49+qz4n1ZdN1pVGMASTObXiEINLy+beXm2Zhl8cqjH3Psys3Ob
+ EsPLr8wt/Gpcg==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3BE2A17E1465;
- Mon, 29 Sep 2025 22:04:44 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 100FE17E02B0;
+ Mon, 29 Sep 2025 22:04:47 +0200 (CEST)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -57,9 +57,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org, kernel@collabora.com
-Subject: [PATCH 4/8] drm/i915: Use huge tmpfs mount point helpers
-Date: Mon, 29 Sep 2025 22:03:12 +0200
-Message-ID: <20250929200316.18417-5-loic.molinari@collabora.com>
+Subject: [PATCH 5/8] drm/v3d: Use huge tmpfs mount point helpers
+Date: Mon, 29 Sep 2025 22:03:13 +0200
+Message-ID: <20250929200316.18417-6-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250929200316.18417-1-loic.molinari@collabora.com>
 References: <20250929200316.18417-1-loic.molinari@collabora.com>
@@ -84,33 +84,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Make use of the new drm_gem_shmem_huge_mnt_create() and
 drm_gem_shmem_huge_mnt_free() helpers to avoid code duplication.
 
+drm_gem_shmem_huge_mnt_free() handles NULL pointers.
+
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gemfs.c | 33 +++------------------------
- 1 file changed, 3 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/v3d/v3d_gemfs.c | 31 +++----------------------------
+ 1 file changed, 3 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-index a09e2eb47175..70563a6a0b81 100644
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-@@ -3,25 +3,13 @@
-  * Copyright © 2017 Intel Corporation
-  */
+diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
+index 8ec6ed82b3d9..f54705dba217 100644
+--- a/drivers/gpu/drm/v3d/v3d_gemfs.c
++++ b/drivers/gpu/drm/v3d/v3d_gemfs.c
+@@ -1,23 +1,11 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /* Copyright (C) 2024 Raspberry Pi */
  
 -#include <linux/fs.h>
 -#include <linux/mount.h>
 -#include <linux/fs_context.h>
 -
- #include "i915_drv.h"
- #include "i915_gemfs.h"
- #include "i915_utils.h"
+ #include "v3d_drv.h"
  
 -static int add_param(struct fs_context *fc, const char *key, const char *val)
 -{
 -	return vfs_parse_fs_string(fc, key, val, strlen(val));
 -}
 -
- void i915_gemfs_init(struct drm_i915_private *i915)
+ void v3d_gemfs_init(struct v3d_dev *v3d)
  {
 -	struct file_system_type *type;
 -	struct fs_context *fc;
@@ -119,13 +119,10 @@ index a09e2eb47175..70563a6a0b81 100644
  
  	/*
  	 * By creating our own shmemfs mountpoint, we can pass in
-@@ -38,23 +26,8 @@ void i915_gemfs_init(struct drm_i915_private *i915)
- 	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
- 		return;
+@@ -31,20 +19,8 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
+ 	if (!super_pages)
+ 		goto err;
  
--	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
--		goto err;
--
 -	type = get_fs_type("tmpfs");
 -	if (!type)
 -		goto err;
@@ -144,13 +141,14 @@ index a09e2eb47175..70563a6a0b81 100644
 +	if (IS_ERR(gemfs))
  		goto err;
  
- 	i915->mm.gemfs = gemfs;
-@@ -70,5 +43,5 @@ void i915_gemfs_init(struct drm_i915_private *i915)
+ 	v3d->gemfs = gemfs;
+@@ -60,6 +36,5 @@ void v3d_gemfs_init(struct v3d_dev *v3d)
  
- void i915_gemfs_fini(struct drm_i915_private *i915)
+ void v3d_gemfs_fini(struct v3d_dev *v3d)
  {
--	kern_unmount(i915->mm.gemfs);
-+	drm_gem_shmem_huge_mnt_free(i915->mm.gemfs);
+-	if (v3d->gemfs)
+-		kern_unmount(v3d->gemfs);
++	drm_gem_shmem_huge_mnt_free(v3d->gemfs);
  }
 -- 
 2.47.3
