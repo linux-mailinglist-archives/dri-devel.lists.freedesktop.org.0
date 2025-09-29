@@ -2,165 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C56BA7CA7
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 04:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53188BA7CF3
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 04:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9FC10E1E0;
-	Mon, 29 Sep 2025 02:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4457910E1F5;
+	Mon, 29 Sep 2025 02:40:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="S4smOOXj";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="dgzh+Bbj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013053.outbound.protection.outlook.com [40.107.159.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFBC10E1E0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 02:15:53 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com
+ (mail-westeuropeazon11010020.outbound.protection.outlook.com [52.101.69.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524C810E050
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 02:40:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aI0b3GSRIZzkwpP+kuEFO5Q/bh1piiQX6HvYSkKbOiKZj9TtTvGcH6wFqRj0RZgBmyDcWa1zOqJIpEgiQxmdIvEacCnCtI1kKi+1hWojzSo9Nss46xdYI99pIGYXe+P/SR033SHUgkm6fggkfCjaNCuDoUeQ+rq+QXIJ5rfFOn1IA3CS15QR4QpcwTvjCgnQmf7BRpWo1ME9T3C7Oc4gDuL6lzJNeKukvIfNQRXOFCuqFkkKjORhOwN5hr9rY06Uacmt/Kze3uHu2emFYzmA2UvtbznPQGrbdYftEkzqlMceSTWEM4kTQrayatP6yP7rM+Lm3/kKgVnJlPHL6FAuSQ==
+ b=TYv2UPZKFDNB1Yrqjc2f7mv8wvPL2ph6WAN6xXsc0Sp+PSSYHtpeLQpnkgAkI2r/by6OEu+yoiyoiFEoTxu97tVZJ3tu4c3rA0dE3qirppDk6NGrLN0gzdgNWoEkGFU/Ot3f4HE34jl57MffGbj9rQ3ViUIatKykXo33BaRQcUOH5Gt98XIEIFSbzz8Ds0PrhKvoKd11nnsHPxobcr0G8Y3E/34D0B+64DTAbXMk6GlO3ojr7R3oGWw+d6S933oDX+vjlJG7RtHNFEPLBuWIdRirvcIg7I1nZRopzrGMNRpguPBa4FWJhTX1ZIoviY0Gw4ExOCWKpKgGO/H3oaRVYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PuqzWlBi/WOee/Te6ttUuJ7x+1T7mEdCNTkmDZ1m1bk=;
- b=BT7k46K591RMldJk7pzvwIF9jQjp9dqkTXiSFtwtOPdHB4mHC4QUGtw3nKFMcvlsGHTrf89gdkU8URqRtc+y6ZQNcJxHmgAyyN7BpBHa9xoI2Fpf7Yi9px5s1FRlX6xH1Gu3MUccPq1hd2JVcYotaq6UNMdoVfCl4CJX2lqffJ9ElbP16W3myHBjHY6RNA5NI4NLPQ+mzX1MYPZqKBFT7q4cbwwLD/Q1g05/oc7oc8ghqxdd96eQSlMb7hmDtl5Quu/R0T33G/y3kiYBamDnRuS6j03Ult1gPZbMh0xlZ4BBtvkjmVQ1sxXjiA0hgJgFr5I9tjgObWmDfsdBBJjCXQ==
+ bh=QfxArsHO9YhDQ05V5jRxtD/k5cWTK+aPwYSyStvMOXY=;
+ b=URLv2R35MLfJuyKYKPDHWABgt6pOg6R8V2rgS6qoznPy2EqXMer2oXpCSAe9nGR3Ev2o8vOJssEiJEIFzOIOXKzCFLXgEpFui7zAeI2wcP4H4XrxjjHtRtMRMNhJJtMLvm+ey+4vxcWqqlAU0EAqIWf4bkmOjF4CCXiTusxg/Kv1bF2FwNk32nB26RDqtftxO3TecRnP7FqC0CHRmoN35nMPf6ZtnUNTkpRlKNBeQ0aeCCTM7ya8sw9LeMsTqORvIlWeNusVb6u1OOBH6DDizK8fU1Pn233XQ3ldJzp8Pvm64NOX+NR9to32q/Xr8A7KDs96gEPvxYxA3M7N5dQyFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PuqzWlBi/WOee/Te6ttUuJ7x+1T7mEdCNTkmDZ1m1bk=;
- b=S4smOOXjL8TpBJEWxxRpOWP5oaoZNTSoWYLwUjQErFxtfd2a8wEPhiMFT1WqXUplRwczyHzuew+Q/fpe1apFmHv48cq5YbbBL+MRqb4f1RjlkZfg+qB7pi9dc4qEO6NqjPOePXh4ah1f/qZLc0skqdhFKcSVh9PNoGOooMyOAHiS2hSKdhEig45EEwnJVxyOOqvxAMinmbqQ1K6Ofdpqkeq0AwOrzByOp6UJB8Qbp8A962iu5bIFnVqVzXQrTaH4x/+aIF4mNFEfg/IiW4JNWN+N64DYuz1t44J3tKGGFGC87Y1KOQEEHw7BNlCa4GyYDsCSyB3s75ZDT0yndODHFg==
+ bh=QfxArsHO9YhDQ05V5jRxtD/k5cWTK+aPwYSyStvMOXY=;
+ b=dgzh+BbjNSZlvPTBFJ7qgWYGoC+9Vy6XOzl2zkXThLfRtM78I+GB0QBSmAUXHgjda4RjbJRqKFx9T/2QyTUsg16Zh/qg42XXkV+FFufExU+AIP82T2i18Zp/I6pLiqAsO1zRVoxZCJlxF6Cys/j4OjQLYpj8InwuUYAKbUvU2v1akRnPBVIhyVtHj5K991yLX6nhxq6wteDrmh7uOCzyEkWuoKliMIjmQlXGv9k5y+T9+jq6xuF3aTdmM4UN3/12Ag3rqAFB5ya3vNPjC6lVzDadPKYekIY7tPmOSdxGyGkutlI6iE/U/OGbezE0IsWg05A6q0Cv3bcLVs6QC8UgTQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by PAWPR04MB9720.eurprd04.prod.outlook.com (2603:10a6:102:38d::19)
+ by VI0PR04MB11722.eurprd04.prod.outlook.com (2603:10a6:800:2ed::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Mon, 29 Sep
- 2025 02:15:49 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.11; Mon, 29 Sep
+ 2025 02:40:26 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
- 02:15:48 +0000
-Message-ID: <10bf0b21-cfb5-4105-b274-38483a38e6c1@nxp.com>
-Date: Mon, 29 Sep 2025 10:17:18 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
- luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-sound@vger.kernel.org
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+ 02:40:26 +0000
 From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH v3 00/14] drm/imx: dc: Use prefetch engine
+Date: Mon, 29 Sep 2025 10:41:35 +0800
+Message-Id: <20250929-imx8-dc-prefetch-v3-0-c01d0608add2@nxp.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2P153CA0016.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:140::17) To AM7PR04MB7046.eurprd04.prod.outlook.com
+X-B4-Tracking: v=1; b=H4sIAN/x2WgC/22OwQ6DIAxAf8X0vC4IgrDT/mPZwRWcHKYGDHEx/
+ vvQZPGwHV+b99oFogveRbgUCwSXfPRDn0GcCqCu6Z8Ovc0MnHHJaibQv2aNlnAMrnUTdci4doI
+ paUpSkLVt4ec9ebtn7nychvDeL6Rym35j1W8slciw1hUx0VpVyfbaz+OZhhdsqcQP3fA/vySed
+ WmVsWQa0g956Ou6fgAed36D7QAAAA==
+X-Change-ID: 20250703-imx8-dc-prefetch-028e306591c6
+To: Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>, 
+ Frank Li <Frank.Li@nxp.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: SG2PR04CA0212.apcprd04.prod.outlook.com
+ (2603:1096:4:187::8) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PAWPR04MB9720:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97bc560c-e8d1-43c4-2f3e-08ddfefe1a8f
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB11722:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c76acc9-1880-44b7-511a-08ddff018bcb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|19092799006|366016|376014|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VDlCdlNGZ2c1RDlxMWhXcHIvdkpneHhlT3p4b3M3emM5RXZUMlBFYkh2Yld3?=
- =?utf-8?B?QTVoazF1TXJmelArQ0dPTW1JSjlPRWc4T3ZqblI2dUdZekozUmplbUR3UUNF?=
- =?utf-8?B?NzVUZGZHU0NNeHdwakxwM1lWMVRZcXFrS0R1UHJHS2dlWEtCQnJ5Z3Y1RENX?=
- =?utf-8?B?SWJGQjZ5T1QzNzA3eGc3czVydTdhbDVBazVzcUdodVNUUzcwdVZ0dlhmOGJC?=
- =?utf-8?B?Q05Yc1ZrWGpIL04yUjZPWEphQkxIOWp6Z2JjQnFBZEhzNTBlOStIcWNueWpl?=
- =?utf-8?B?dlRpdFFFbzllUjIrTTlqNUxFdzFiajBzMlEwRStUcEs5QUpTcjRzNnlnRmh5?=
- =?utf-8?B?VUMwRjd1UHZZZHdjUU1FcW5ET1hmU0tpNWVtK0tMblIxY0JJSWFtSmgvNnhY?=
- =?utf-8?B?eCt4SDVQL0RLR1ozOU9ES1R6VEkxUVhrOHV1NGloR0F2LzhlejhtSGtNT1R1?=
- =?utf-8?B?YkJySGJkMnh1Q01sWVRodWhCbHh1bGF2ZWpLTFh1ZFNrT0YxZ09HdjRGcUpm?=
- =?utf-8?B?ajhhNFcyMzNEMEx2N3JLNUxJRlpiRHFLUHI0N3pYc3ZSZ3hsTXBsend2VlFC?=
- =?utf-8?B?dGtEMUpCMExhWEZDV3kveTkvREU0S0Y1TzJsVStOUkhiL0Q2RVZJVCtNWFdw?=
- =?utf-8?B?MnF4V0VhWFhVZ2wvTE4zODNKaVV3MHJCZ1BPQjRIK3FyOWllWHU2amUwdWl0?=
- =?utf-8?B?SjliTlZmUFZMbGt6OWxaWlVVU0hheWZDenNUS3FLNFdjWUsrWkRLSkdCdWdP?=
- =?utf-8?B?bXBzN0hZcHcyWnlJT0VyT1AyRDBEUmxWeFNoejFSdHZCWmxHL3RJUS9lN3hD?=
- =?utf-8?B?Q2tTREFSY1RDcjJYeDYrM21nKzBQOG1mNjFyaG9mL2hqMWZzUCswV01QVzFI?=
- =?utf-8?B?eXJVeUtadlk3aG5iN0Z2SXJpdmh1S1NvYU9zQ2wyYWM1RkorSE5ySTZHU3Rr?=
- =?utf-8?B?NS9EVTBaTWpkdjlkbTJzOFBYM0NUSnZ5SUh1dU5VNlEzWTE3cjBWMTFSMkdv?=
- =?utf-8?B?Wi9oMGh3UEZ5dGdyakEwWEZQUG9yT0RvSjVmNWcyY2RaSlhUVElMTkR3TE9w?=
- =?utf-8?B?OHhYaVFKT21nbEpLYzZTUWZjbjFZQjYzdHc4YjdYNlFTb0QvSUFDTVM4ZDVZ?=
- =?utf-8?B?WFBzbjBlUTVTNUNXd0gxbHMreWVGWFQ3elJlN0pIRzJMUnVIUkgyT3ZXRXlL?=
- =?utf-8?B?a0tESWZOa3RDTXBhcm9kT3JlekhYemNwaCsvd0FzZVJGVnd4VGYvUEQram9B?=
- =?utf-8?B?UFIrN3U4c0J3eWJ0czkveWVNS0dGRnRkOXRnTHJnQW9zeVlJYWYxZEtVek4y?=
- =?utf-8?B?YktyM2MzSHpEaFFEam10eEVaS2xvRFJwcDJzNFFaS1ZycUh4WHhVdVNzb1Rm?=
- =?utf-8?B?THJUWC9QUTFnTkZnc2Qxb3JjZTkvSWk5ODFIbUUrdHJreWFkTlkwcDdISXNB?=
- =?utf-8?B?cHNucGMybUFjVXpJUHZMTm1BL09NdHBVeHBBWVZENWo5d2RxL2JQaHNwMWc2?=
- =?utf-8?B?L1loY2NJYm1mSi9TaHRpdnNzcmtLeE0xUHE1NUl2SHZPUHVFUnpCdDNqVHp2?=
- =?utf-8?B?Y0FBeVkwVG5HS09IMHdxditucXpiYTJKQ0Q0R2Y5dE80MWl0d1lnMjBoQzgv?=
- =?utf-8?B?Q3VYcnUwYlB1dkJJR0l3RldGQkRud2hRb2UxOG5hRC9DNnBtQjdROEFuWmpP?=
- =?utf-8?B?dG5kV2RZZlh1MFo3emQwNlV6T1FZZENKbUFYZEZZeG5pRTFOdnRxR0pDaGZv?=
- =?utf-8?B?d1liZ21sM29YVVFRaXJVWjNzeS83VEE1UEs2RE1oOTI1bjdvREdEWjVDRjRF?=
- =?utf-8?B?UXkyL2N4K2pWNzFhRlJuMzRqM2g4eWlkWlpIWlhGV01VYkZNQURoeDAvTGFH?=
- =?utf-8?B?TlB6aklyYWpsVk45OFVITkpNcllScmZhUUxvNFBQZXJITXc1aW1LR0FpajNI?=
- =?utf-8?B?OXJaelo4Zzh3NUJHQ2ZvRmNzWFJBRHQ5R2JDaEVvazNOMU82ZE5FYjIzR1pi?=
- =?utf-8?Q?BKf8u9M9+nW32CmYnlVIxMFwOi8h6k=3D?=
+ ARA:13230040|366016|1800799024|52116014|19092799006|376014|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L09pekh2ZC9ZeG9rRUQxcjEvWWRZUzFDQ243QTJ6enZ2Vnk5dDNuWVNXaUpl?=
+ =?utf-8?B?R0pTbEwvRFJucGVrYVFNZXFBbDB2eTlVZTNkb2E0a1k3VWJOekN6WWV1TVRF?=
+ =?utf-8?B?c1RXYzR6U1NOSkQwNzRuQUc0dnFMQkYwak1qSHQzdW9VZVVHdUhsc0dVQThz?=
+ =?utf-8?B?aFdLcXdrUC85WDlmcnNWYjBtMTkxYjhBUENGT0RsYVRaRVNxWGRzREE5a3hJ?=
+ =?utf-8?B?UVNUSUpNeFZPaFQ1djNSeGFSNHZ1dTExc1ZJdjRsczREVEVwbEJBejdNdjJr?=
+ =?utf-8?B?Nkc5d0JaNHo0RVNqbUErdkxuUGRSTk5GSklJSUFIUDhUWjkydHJGL2pqOW5z?=
+ =?utf-8?B?cnRNc1BxU3pZMFNtM0VXZHcxYXF0dmlSMnNwWmorV0RvUmtmdCtnZWtYM040?=
+ =?utf-8?B?N01LVzRQY09wbGlIT3RRTTRVUzNqaGFPZUNacnRQR1JLeE9hZUFxNXFNaWlV?=
+ =?utf-8?B?MWNDdUU0OVdIRVYrK2FsZVBTSm4vYlNDWXdoMEM4a0NxallSOEhJMU5seXZa?=
+ =?utf-8?B?bS9MMlZhK1ZFNW5oNngxL0VpUU9SVGk0UzhmNFVScVI3c1lmNHlRU2NtUU9C?=
+ =?utf-8?B?c0JtRkFKaElNcWZUQUQ0ZWtsMmNJek04bmhaclJMdGFJbnZOcDlqQWttdkZj?=
+ =?utf-8?B?emJMZWRQVzY2ZmRPbWlOU1oxemtmTDRucEYvWStrOUF3YXNFOUxCRGlWeWZx?=
+ =?utf-8?B?SDVQSjdDWWJmelFoZUlPSzhtb0JsdkFKZGZlK3laREllbkN5ckh4UzMxYVpZ?=
+ =?utf-8?B?VTg4UHZnOG93M1p6aTVwTTBZWnRlT25hazBRSkRyZjErMXpqR3dJS2xxZHRK?=
+ =?utf-8?B?MG5hazd6UCs4aElpcW5mZitNdXlJb1hUR0hwNkxTdXVLem1pQXBYcDBNVTJt?=
+ =?utf-8?B?b2JBQ2ZZRTZIUWNtQUdSRzF5bmlqenhoL3FkRkIxQUJMTXB2SXEwY3NiVG5B?=
+ =?utf-8?B?VzY1RS8yVG1PV0dsN09OU1ArSWEyRmdpek8rRDIvb0ZMSE9TbnZuU3NsN0I4?=
+ =?utf-8?B?UEYyMDZWYXNFWGhHV094NUhNUTVaMnpWVDhMUW1lc0RPOFpMMDB5S3BNZDkx?=
+ =?utf-8?B?ZDNKYXAwOURJY1F5aStILzA1QW1oNW1wTUpZU1dJYmRNS0pUS2swRnJBRVEv?=
+ =?utf-8?B?TkZhcWt2Sy9XbUJaTkpPOUNVa0tzRHAzOVhFS3ZUWmloQmdlZllTa01pcG80?=
+ =?utf-8?B?OUlLYjZVdzdYcG53RGpGUTZlVXdLZnI3eXdJcUdGVUM1WkxoWnp2OEFzWUIr?=
+ =?utf-8?B?aDNSQkZDdEdDQWZ2dXowV1RqUUNEdkR0a1pESXZkOEdlVjRpUjRaTlBYQ2hj?=
+ =?utf-8?B?RERDd1RBZUZGNTZ6bHpUbGtTTzdEQzZDQVJWeXp2UEhERU93UVQ2YXB5QWdQ?=
+ =?utf-8?B?QkxmRTJEa0N5Vmh6bVIvZXBQcnpQU2tmZFVXWHdaYWZMK241bDlyai81VXR0?=
+ =?utf-8?B?ek0yOUlzZC9MYlZUT0NZWExGTC84UzBKY1NuRGNnd1FxSmxhUERWRTF2Ymg2?=
+ =?utf-8?B?enNqUkFEaENFVG9VY3loc1pZTHVraDExK0w3dkFlVEFObDRwTThyOU9Gd1ds?=
+ =?utf-8?B?ZC9EMHRsdFpUajhtK0FNS25wU0pCLytrMzRpVGREdUVNOHErQ29TcGpaVXB2?=
+ =?utf-8?B?ODIvc3pyK1ZET2p4S1ZVMzRHV3FlUGQzaGp4cDBEZkNKSDZ5Y2hiS1NrYmRy?=
+ =?utf-8?B?aGtzeTJJUy85N2pyMDZhZDM3MFRocnNrWXFwQm0wa05GaDNIdmMxelI2TUZa?=
+ =?utf-8?B?WGFrY1RHVTVTVHFKMUJWdk9yYmp1TVF0UWxHT0JOb1YrOXlrZjluZWJyZkhX?=
+ =?utf-8?B?Q1RocnorQnBsT29LYXZOWDZBTjRnMldRWUpvMXpKMlBVMUJaNWc5Y2FEZ2E0?=
+ =?utf-8?B?V2Z3TGhKeFU1Zkc4dlVaR0JVeUc1OXV4Z2wvTTVYYUFiYktIcXdSdUYvM1lN?=
+ =?utf-8?B?OVd5RTYxc1k1SnRHNWZhSFYyR3lxa1JOUUZOc2hZQ1BPZnh5aERQbkF1N3dL?=
+ =?utf-8?Q?G52C2kpbxEIzkI9u2AzO9reybTCAZM=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(19092799006)(366016)(376014)(7416014)(1800799024)(921020);
+ SFS:(13230040)(366016)(1800799024)(52116014)(19092799006)(376014)(7416014)(38350700014)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWRKWU9kc1pUOGdPVFQvWnl6elBkNXZwN293R2NNbEZSVzdHbG41UzAvRHpI?=
- =?utf-8?B?MlBxN3FLU2Z5K1I3NExiODZTcldCSlgyejNyQy9DNzdSYjdrWVZaUEF2U2tL?=
- =?utf-8?B?MEZMYXlsUEFJYlNBWUVWdlV4bisvUXdBTTg3UXIzcm1FWEFkamtyZDJPemJs?=
- =?utf-8?B?a0NsbVpheWJPMjdrQzIyZTZaTE9FZnFMRk5JbWkxb3RFZ2NqT2YzRktyd21r?=
- =?utf-8?B?bGRIMlNVNTJqV3JadzdiQmxVQ3QrMmxIV3lja0l1QlBVeWlzT1R4Y2Jhamd6?=
- =?utf-8?B?aC9WWXNXZUZwZG5YR2E2c3RIZ2M5WE9ZNVl1V1lPQ25sRE4yeXFicVFXNjBC?=
- =?utf-8?B?U3JGeEZESzFweXdiOEJiV3JGODVtZ2poVkpvYUhubWtKZjdpMjFaclo4T2FP?=
- =?utf-8?B?SkFkZ2RGblBHZWRjU3pxWS8yVW0zTHArK2I0T0V0QVlRK0RJYU05cURlbUc5?=
- =?utf-8?B?SGc5ZFg0dUpkdHZxSnNaRmxDTzMyemFLdGozRjU2TFpNcm1PZzJnZXhjL2Vj?=
- =?utf-8?B?MUtuZjl4WXdyU3NzcVFQMzRIcG14anRHMDR5SjM0cFZyek0yMk01VUpCSENK?=
- =?utf-8?B?OXE0a3BlMHlGT0hmM2Q4L0U2VURycEZOTVlwa0swaWhocTZXWERKelNVZ3V2?=
- =?utf-8?B?ZjZrb3VIbkNRNzJLMlhUVDRGRlo2ZEMzeFo4ZXB1UkVLb1l5a21KRVhsYjBI?=
- =?utf-8?B?aTBaSm9EZkdZS3dhVU9COENoTTgwLy9IcGplaVJFWFZXQWlRUTdkdm9XQ1hX?=
- =?utf-8?B?Sm1pQlI4V3hkOXVNYVRYMjZDcERXV1lMMDFLdFdjeG5OakZWMEhBbDZzQ2dV?=
- =?utf-8?B?TVFKWkY1K0k0UjY4OEY0UDhQcmxScU5GOFFBK1c2T0kxQlE2Q1dDeEU0TlFZ?=
- =?utf-8?B?azQ3YW1jdkVKaElBclVFVTFCS0J1c0tFOEgrZmhXbGFkb0R5R3dDM2txSEhS?=
- =?utf-8?B?WlFNZ1RsQXQ2OEFFM2tVYnVUdnNuS2NOcEpiSXd3M2NkQnRpb2tpZTJjWC95?=
- =?utf-8?B?T3JUYnRTUlAzcnhIL2daZjNRek9sMFg0QlN2NXd5UTRQaVZNYnRPbTRWNXZr?=
- =?utf-8?B?bjd1RWUyK2gxV1RDUVY1Q01ienBIeDdzVloyWk9GT1BuVS9VMEtDUitDSHB6?=
- =?utf-8?B?YXo0MFBWREtSYXczdHNDU1d2T2RieGJzS2hjZHc3ZGx6b1RaSURZMXFhMCsw?=
- =?utf-8?B?YU8zQ3VBYzlMRnpPS3QrSUNhZk81dEU2WEpzNXc1cmIySjlLS3dSNTFOUFJl?=
- =?utf-8?B?OVpKZWs0Qy9KbDZzTjhFRkRmMU9UV0NZZGQ0Ny9oRFk4eURLcWdIVkhXMzBF?=
- =?utf-8?B?YU91SlR3K280ZFpKVmwyZVNNZ3plU1p2aVpjaFBCSHdlaGxhRWwzbGdFWWxp?=
- =?utf-8?B?RE91WFJ6ZlZqVVN1SzdnRlpMVmRuL3l4QksxQjNCQnFRcitSN2hISjU0UFVQ?=
- =?utf-8?B?d016UHl1ZGpkcjh5NDIwUWFEeGdkVTRxUXJBaU94ZmlkZGx0UDIvci9lckUw?=
- =?utf-8?B?aFNpS0RhQkN1YnJCVVVIYUxkVFlwL0wyMDNWYVhHbW90eVJzTmFXU0NhVU1W?=
- =?utf-8?B?TmhWRVlpZnMvc3pHL1ByTnA2djJNNEM0U0JidXpndERrOHEwaUtwd0hUWjQy?=
- =?utf-8?B?N2t1RnVZVk1lb3RFVEhkL1F1MGlMVzBtQUpVTjErYlRERzIrR1J0UkNOTndt?=
- =?utf-8?B?emtid0V5VEtqcnJoeE9kbnZwR0l2cXEyQ2VvVm5MVWFtZCtlcG5UQ3VKK05m?=
- =?utf-8?B?VVo1eVpPaXNoUjhKRHM2bk1SdEg5NHNyK01VQnZmS2F0azh2WlJPMWJMcGhw?=
- =?utf-8?B?dk8wU1ZzYkhTdmFTUlhOU3NyUGpic2xaNGZlWlF4eEtMdlh3aUxGMHBudFJh?=
- =?utf-8?B?cUtZcUxHSzAzWmoxbHI2MktINDF1aGZ4RXM1ZEFEejMyQ2NMc2NBSGV6Y2Nq?=
- =?utf-8?B?dEVzb2hoZGFPMklhMGJ2UC8yV1lWSDA3bW1TRmRFWDZJeGZEU0U4WFBXaHBI?=
- =?utf-8?B?cEw0dE1rUFhGSXFCeXVnWGYvNzBKRmtSOFBMSnF6TjJZTC9xbU15elRJOU5D?=
- =?utf-8?B?TXhOaGlnTy9UcHRkZW54NnFvVzlsQTN5UGJwN3d6d2JzbnVkcCtaUVhra1RS?=
- =?utf-8?Q?mQtv2j5Gx7mWuMjM6SRBMg56X?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjJ2ZkNyUnJZZHEwaDdiSEtvZHZnL2s5VFkvS3R5d1Z3bHU0Z1dIWTZWUFUr?=
+ =?utf-8?B?cVEyNUtVOEdMeWtHZlNLN3dKWG1mYmtiU2JnbDlkbGFIcnhBOUFHR25KN1Ax?=
+ =?utf-8?B?M25iQWJnWDZuOHRMSzRJMzZiaVdMNTM1aEIxRmhsbjFnLy9rbDRSREMyTDZ4?=
+ =?utf-8?B?WHlDR2c2alFLMnp0OG9NYUpjdXh1SGNaZzhHNHhvaE1UenRzUnBSYldydXF3?=
+ =?utf-8?B?TjgrbDhXVlJId2hsUW9CSWswMmFkblA2VVVkVVY1b2pEanRLd3JlRlFFM1dZ?=
+ =?utf-8?B?RnVYLzNFRUszOU12Ly9nb1g3RjEyZ21Oa280cFJuZ2tvek1HUUFoSE5nVzJG?=
+ =?utf-8?B?NXB3VmxNUXk1UkZKTmcvdzQ2UDdFQ0t1b1hJaFJnWDhGdXBTNFhXdnoyUTFC?=
+ =?utf-8?B?Y1JOOVhWVEJQc2dGYmROTlBhd2dVQlY0Qk5xdlRQNFRjQzU5Y2NhczVZWkEz?=
+ =?utf-8?B?ZFpaUFVsaHY5SXRvRFNXQi9xVVV6eGRXN0RnUk01TmtrLzRubzlZZXZjR3lj?=
+ =?utf-8?B?S3FsYlhwL3QzcnU5Z3RuYlR2eStEOFlSY2RUV0hFclo4L0xoR2tEdU1TVGJT?=
+ =?utf-8?B?TXFsMUpSbmVkYzUzb3dBNnVYSmR4WXhJR2FDUE9ZcytZQ0dPR2NIQ3kyMUVM?=
+ =?utf-8?B?bDlyTXVjSkptSVdSaWZlTmNla01zNmQ3WEZHRk9HMjdkSG1wbW5EV2VCYnNK?=
+ =?utf-8?B?Uy9UUkoxekFvVE94WUZqNzArbjRGc1NMc0FyMzlLN3hIVjJNaGFaeEtFSEE2?=
+ =?utf-8?B?dXg3dS9UUTdRMFRObFhML1pnaEw1OFFvanhiUEIxdXNFRnFFYlJjMG4rV3hX?=
+ =?utf-8?B?aUcxb1I0cWd3eXlpUWR4enZ6b0VLeFU0OWJIeG5BQ2hsRFJmdU1LOHhnRWU1?=
+ =?utf-8?B?VlBjNEdWYlJyVG1ITFpFTVdGZ1BaeUhZemhBZ3RZZlp3MU9PeFpmc0JMR3NZ?=
+ =?utf-8?B?V2g0VE42WnBqMER4engzQ2dCeVl4dUxrcHZSWk1jdmNGaWp4K3BhL3liSFls?=
+ =?utf-8?B?bmRORFdnd0tqRDBTT1ZvWkk4MldxN3lmOVF3djd3SUJHcmZyRytJWG9uWlgz?=
+ =?utf-8?B?VWtCWHZpNXpMREx1bTM3UkRIMzQ1V0ppRGRROXVOcGRwSmpwNzkvNkVBT3lz?=
+ =?utf-8?B?RXNhM1VTWHRJb2NuMWllMnFsSmN1SEhTRGU0VlhJczZsbmFnUzhKTVFQNUU5?=
+ =?utf-8?B?V1NnOUFFNk96SjRjZXN1VHdieVlJam5odzJVMkY3alFNUXZCZnRFbFMvYXg1?=
+ =?utf-8?B?dSt5aGVtTkRaYmx5MHRWM1hBL0t3NytvSGVKek9jZkljQytETGdSV2ljV01L?=
+ =?utf-8?B?ZHZJVkkxL2szSU8yeGZ6SWZWYzZhMmpiTE1KMFVUMnI0SkZPaUIxZDROUXAw?=
+ =?utf-8?B?Q296TU5jaU04TXdmQ3BwV1NHbldnaWVWMkhQVjZTa21zOEJvcXV6Y0MxV2JQ?=
+ =?utf-8?B?SmpXZXpNaElmTUordUx0UzRFSHRFZEQ2NE9SY09ySklCK0wwdk5oNDdzV1Jx?=
+ =?utf-8?B?aG14TlZEMVRyT0pGTnNVelFXVzRhUDNCVVNMbFBNdjhvZnZzUlpTL3lEQks5?=
+ =?utf-8?B?NmNReWlVOS9DZGFObVBnRDl5V1FvakZaeGJSNm9QVDZ0Z280bHgzUUlXbWx6?=
+ =?utf-8?B?NFRxdkRWUGVQQmhCS0E3cDloNkZpdll1NjBqRTJQblpDWlZIY1Nmb2dDaUpt?=
+ =?utf-8?B?cW1qN3lOUlhNWUJyQ3FUSUJjVDBGanJ1RUJ6c0w2WlNxcW5OU2UwcGxhcmVM?=
+ =?utf-8?B?NkE4SzhiYjlFL2ZxR3FORlBGcWNVRVZONHFBczVqcGZkUzNEU1NaYWhoUGdZ?=
+ =?utf-8?B?TE4xMDNJVW43Mmg0cTZyaG1kems5WEZmTFF5Ym1wcW56Y04wclQ4KzJOcTZT?=
+ =?utf-8?B?bjZlQU1uRWdvK1QvUEpnZ2JmMURCQVh1MlJmd1FQc2FrWjl0R3NCc3QycVVC?=
+ =?utf-8?B?d3VHTHdONjhERVJWc0NiQk12MWJ5YVpPNnFTdkVydUZOVWR3TUFodmFOQnFW?=
+ =?utf-8?B?ZmR0bGw3eG8zRHBiejJCdWhSRG5sTFN2SzdndGlxQTBNaFFRMnFxb3NxQjNq?=
+ =?utf-8?B?cS8rOUxpVzVIWlM1cmo1WU9vSnR0MThiYlFxN0ZsaHVBTEsrN1dEbVdLZ3lW?=
+ =?utf-8?Q?O2BZfs2Ha/I7MbFIyE8Crknld?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97bc560c-e8d1-43c4-2f3e-08ddfefe1a8f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c76acc9-1880-44b7-511a-08ddff018bcb
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 02:15:48.1854 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 02:40:26.3137 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: igSE0S+n+5x4vhuI7yHHWdaXVBrkmW5KGSnlhbWn9Kmf2WjKnbj5mwtB3I0IO4I/PzlJLzHjUw+ITVz22Q3Z9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9720
+X-MS-Exchange-CrossTenant-UserPrincipalName: PhmZNDBlEfulOxz175sGIO347VmRmR2GY9E0p7EoZJfpdPa+7a6s9V+JW7Rqqt4Zfg0z3SSqn6mMDlgeD7ss9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,79 +178,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/23/2025, Shengjiu Wang wrote:
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
-> 
-> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
-> 
-> changes in v7:
-> - add back the mutex which removed in v6
-> - add Tested-by tag from Alexander.
-> 
-> changes in v6:
-> - remove mutex in dw_hdmi_set_sample_iec958()
-> 
-> changes in v5:
-> - add empty line commit message for patch 7
-> - remove blank line in dts node
-> - add component_unbind_all when dw_hdmi_probe return error
-> 
-> changes in v4:
-> - separate dts for soc and board
-> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
-> - add "select DRM_DW_HDMI" to fix build error reported by test robot
-> - remove unnecessary code/definition in pai driver
-> 
-> changes in v3:
-> - add space and 'U' in asoundef.h
-> - add more commit message for binding doc commit
-> - add bitfield.h header for fixing build error
-> 
-> changes in v2:
-> - address some comments on commit messages
-> - add two more commits:
->   add definitions for the bits in IEC958 subframe
->   add API dw_hdmi_set_sample_iec958() for iec958 format
-> - use component helper in hdmi_pai and hdmi_tx driver
-> - use regmap in hdmi_pai driver.
-> - add clocks in binding doc
-> 
-> Shengjiu Wang (7):
->   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
->   ALSA: Add definitions for the bits in IEC958 subframe
->   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
->   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
->     format
->   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
->   arm64: dts: imx8mp: Add hdmi parallel audio interface node
->   arm64: dts: imx8mp-evk: enable hdmi_pai device
-> 
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
->  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
->  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
->  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
->  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
->  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
->  include/drm/bridge/dw_hdmi.h                  |  11 +-
->  include/sound/asoundef.h                      |   9 +
->  12 files changed, 382 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-> 
+Hi,
 
-Since patch 2 has Takashi's R-b tag, I used 'dim -f' to get rid of the
-below error when I applied patch 1-5.
+This patch series aims to use prefetch engine in imx8-dc KMS driver.
 
-dim: ERROR: be0bd958cedd ("ALSA: Add definitions for the bits in IEC958
-subframe"): Mandatory Maintainer Acked-by missing., aborting
+One prefetch engine consists of one DPR Channel(DPRC) and one or two
+Display Prefetch Resolve Gaskets(PRGs).  It prefetches data from
+DDR, resolves data in tile formats if needed and outputs the result
+data to FetchUnit(s).  When one PRG is used, a prefetch engine supports
+processing pixel formats with one planar, e.g., RGB formats.  When two
+are used, pixel formats with two planars are supported, e.g., NV12.
 
-Applied patch 1-5 to misc/kernel.git (drm-misc-next).  Thanks!
+For now, this patch series only supports prefetch engines with one PRG
+because it is enough for XRGB8888 which is the only pixel format
+supported by imx8-dc plane driver.  Two PRGs would be supported by
+future patches.
 
+Patch 1 and 2 add dt-bindings for DPRC and PRG.  They were reviewed
+by Rob[1][2].  I slightly modified the patches' commit message to use
+imperative mood.
+
+Patch 3 adds DPRC and PRG dt-binding files to MAINTAINERS.
+
+Patch 4 fixes FetchUnit dimensions as related to prefetch engine function.
+
+Patch 5 disables CRTC at boot if needed to support prefetch engine better.
+
+Patch 6 and 7 add PRG and DPRC drivers.
+
+Patch 8 to 13 do preparations before using prefetch engine in imx8-dc KMS
+driver.
+
+Patch 14 uses prefetch engine in imx8-dc KMS driver.
+
+[1] https://lore.kernel.org/lkml/20201207165945.GA430214@robh.at.kernel.org/
+[2] https://lore.kernel.org/lkml/20201207170206.GA434964@robh.at.kernel.org/
+
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+Changes in v3:
+- Call dc_dprc_enable() only when start == true in patch 7.  (Frank)
+- Collect Frank's R-b tags.
+- Link to v2: https://lore.kernel.org/r/20250923-imx8-dc-prefetch-v2-0-5d69dc9ac8b5@nxp.com
+
+Changes in v2:
+- Rebase the patch series onto next-20250922.
+- Collect Alexander's and Frank's R-b tags.
+- Manage PRG's and DPRC's clocks with bulk interfaces in patch 6&7.  (Frank)
+- Sort variables in probe function in reverse Christmas tree fashion in patch 7.  (Frank)
+- Link to v1: https://lore.kernel.org/r/20250704-imx8-dc-prefetch-v1-0-784c03fd645f@nxp.com
+
+---
+Liu Ying (14):
+      dt-bindings: display: imx: Add i.MX8qxp/qm PRG binding
+      dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel binding
+      MAINTAINERS: Add i.MX8qxp prefetch engine DT binding files
+      drm/imx: dc-fu: Fix dimensions
+      drm/imx: dc-crtc: Disable at boot
+      drm/imx: dc: Add PRG support
+      drm/imx: dc: Add DPR channel support
+      drm/imx: dc: Use TCON operation mode
+      drm/imx: dc-ed: Support getting source selection
+      drm/imx: dc-lb: Support getting secondary input selection
+      drm/imx: dc-ed: Drop initial source selection
+      drm/imx: dc-lb: Drop initial primary and secondary input selections
+      drm/imx: dc-fu: Get DPR channel
+      drm/imx: dc: Use prefetch engine
+
+ .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     | 100 +++++
+ .../bindings/display/imx/fsl,imx8qxp-prg.yaml      |  60 +++
+ MAINTAINERS                                        |   2 +
+ drivers/gpu/drm/imx/dc/Kconfig                     |   1 +
+ drivers/gpu/drm/imx/dc/Makefile                    |   6 +-
+ drivers/gpu/drm/imx/dc/dc-crtc.c                   | 191 ++++++++-
+ drivers/gpu/drm/imx/dc/dc-de.h                     |   2 +
+ drivers/gpu/drm/imx/dc/dc-dprc.c                   | 466 +++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-dprc.h                   |  35 ++
+ drivers/gpu/drm/imx/dc/dc-drv.c                    |   7 +
+ drivers/gpu/drm/imx/dc/dc-drv.h                    |   5 +
+ drivers/gpu/drm/imx/dc/dc-ed.c                     |  27 +-
+ drivers/gpu/drm/imx/dc/dc-fl.c                     |   7 +-
+ drivers/gpu/drm/imx/dc/dc-fu.c                     |  49 ++-
+ drivers/gpu/drm/imx/dc/dc-fu.h                     |  11 +-
+ drivers/gpu/drm/imx/dc/dc-fw.c                     |   7 +-
+ drivers/gpu/drm/imx/dc/dc-kms.h                    |   7 +
+ drivers/gpu/drm/imx/dc/dc-lb.c                     |  23 +-
+ drivers/gpu/drm/imx/dc/dc-pe.h                     |   2 +
+ drivers/gpu/drm/imx/dc/dc-plane.c                  |  46 +-
+ drivers/gpu/drm/imx/dc/dc-prg.c                    | 320 ++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-prg.h                    |  39 ++
+ drivers/gpu/drm/imx/dc/dc-tc.c                     | 114 ++++-
+ 23 files changed, 1497 insertions(+), 30 deletions(-)
+---
+base-commit: bf2602a3cb2381fb1a04bf1c39a290518d2538d1
+change-id: 20250703-imx8-dc-prefetch-028e306591c6
+
+Best regards,
 -- 
-Regards,
-Liu Ying
+Liu Ying <victor.liu@nxp.com>
+
