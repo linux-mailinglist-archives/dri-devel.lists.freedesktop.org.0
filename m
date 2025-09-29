@@ -2,69 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2250ABA84D4
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 09:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C416EBA8513
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 09:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 556EF10E3AF;
-	Mon, 29 Sep 2025 07:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2E0210E3B0;
+	Mon, 29 Sep 2025 07:49:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="JIphAeik";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Wdhss4Mc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51F4610E3AD
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 07:48:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759132075; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Kw2o2eFPd64xqPZu2ho+9UTQb496k1qO+Q3mrw7VyVAtJaZJB12sVJwxjF3dM+CoylVGDk6Hj6Os+20BeC7IzLQBid+O3fohTEWtqHmglCGeX6qh6CHsmzbQl8gEHbyTmMoZoqI42WOmS7tM52AygkgN3UFGE9DL+DHBDUX3YKE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759132075;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=sqLL5TSy35W+5iYeqb8POp35bgoZGJNP6vV/Mhttjfc=; 
- b=ULDdmuGRgt4GoDZPmUgJgjynoLiyWl74tY4w8tM1KkIgM4CWH6PRaM222aYNaFNGrBuCG7pHIGMi7sflEt86BckJR53bpWxjxAGeUuHj8nNVDokD4Zwmp9GFPssSbl1kUpYFeaucl7wc/xXVC0+N9TO7xd5tbjhKXj4lV6Ejkxs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759132075; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=sqLL5TSy35W+5iYeqb8POp35bgoZGJNP6vV/Mhttjfc=;
- b=JIphAeik05Lm1mybemKQIxLidbjlm1jK3wmUpisB7NwGo2ny4pwrgFQWQPoMDZwq
- mILtyJ/45g10wSVNnFHylb8da0LSQr5wGbMepmGaSMPK4nl47qxSLiF6NwJ7BjswECQ
- G8FkgFQFCJVTphFkQWd4xj9ExRlO2saYcfxZhKKk=
-Received: by mx.zohomail.com with SMTPS id 1759132072737142.06065119304776;
- Mon, 29 Sep 2025 00:47:52 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 29 Sep 2025 09:46:50 +0200
-Subject: [PATCH v5 7/7] pmdomain: mediatek: Add support for MFlexGraphics
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250929-mt8196-gpufreq-v5-7-3056e5ecf765@collabora.com>
-References: <20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com>
-In-Reply-To: <20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Chia-I Wu <olvaffe@gmail.com>, 
- Chen-Yu Tsai <wenst@chromium.org>, Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, 
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012066.outbound.protection.outlook.com [40.107.209.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 771F310E3AD;
+ Mon, 29 Sep 2025 07:49:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mZEmIGjdQ3tN7ayZXolJ+C7+2KCS3pKK6+UV26qiUfMO9p6J7bxLJywvzlHTioFU8YqEywjjuSlERmVrMIR/z7kLP1mebJWkzlidIHPg1mabC0gF01xo2VqWWRm/diXKLtedVGzdEztsNPcU0ZufS8dAZ/eoOINz8pPRPB6qLdhZLNwdoetIbjMihQ8X7hjGto477B9c75mEUeQ9o+SNDyhdasuDqaAQ+l7vCqAM5J3q4ksVM8CDzRDOMVMwkueZC/MjMMbxOSHIu4omfptaBgUScQAZcIKMLbGQ2Kbws7cyHFYnqz8l7z0j8s3SvLKYgp0XkoqdH01w0jjoH0o8zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6EiVDl5mQGbg8Hby5QRoGybWt8Kf7ewoM4t1hI9HTm4=;
+ b=vHtv9HexagayA9DEk5LdraQiV/xvhIdgJL5KXd1/zpP6rgUIhNQYGIyS8+wYwi23PC9Dax3Xrqu22Hk7SSuR3J7guIz+B/okwoxt0yzCHAOLUZaIELbolp0sc+NWFX9eBmY+HIFysSYmW1yjBoirmq9Xc7Ra64IVrkHqCkvZPG5ZCWIozRHQmE+EHpFWJJXcWxA/JRTchXmWuCOmtZtue42nXEQJVmtC9+ffmMThohrH6uyixgp8Jy/zkr6+IxaTBKCrKr3nNwhRmUluNLRB+8gi6/B+753DzAbvUtHoIsZNP6P4PlSnqF0xg2aW9IIywEFIcb8hunhngEnImXbXBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6EiVDl5mQGbg8Hby5QRoGybWt8Kf7ewoM4t1hI9HTm4=;
+ b=Wdhss4McBn5/cJog9vFUikmVADUMxnBXSrMs27phtVwxPWFvGNFhKNP8+GURv3+Lb780eQZtYEeK5Fw/HhsakY9+Wnnw6wsIdRKyxkNyJIIZ4o49xsE27K2jQjfrqx4tlLYSid/0vcCpjyR/AxmKdD01iyhj/u0+JZjdamQ4PwD88dkt+Xv2RusyFxYYERhBhhLeKj6i6c8qK1IxVgLBEBGdxbWBWGKTwKlkrHzu4+SOwopm0884X26rL8L1Y0q5RiOE2GvqBzRHkGuowE/cp4kIvWW/IQQWKrfHs92gbiEksRunhZzXz/eHjkFctxsOrhZ14W2xT3Tmv9nl/RRwZA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ PH7PR12MB5925.namprd12.prod.outlook.com (2603:10b6:510:1d8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Mon, 29 Sep
+ 2025 07:49:38 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
+ 07:49:38 +0000
+Date: Mon, 29 Sep 2025 17:49:33 +1000
+From: Alistair Popple <apopple@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Alexandre Courbot <acourbot@nvidia.com>, 
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-hardening@vger.kernel.org, linux-pm@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.2
+ John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+ Timur Tabi <ttabi@nvidia.com>, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v2 06/10] gpu: nova-core: gsp: Create rmargs
+Message-ID: <7o6s6pywcontekmrsplcehxvpxu3eyeesbaulen7ppz6t34c6b@xkdfoveyiwam>
+References: <20250922113026.3083103-1-apopple@nvidia.com>
+ <20250922113026.3083103-7-apopple@nvidia.com>
+ <DD2JYDPBOKA8.2QCK0P7CR1T3V@nvidia.com>
+ <q2ehvle73bvop6muga44cebwzgpm2g5tghf2txq2orvgsaryh2@hfmxjcymhsrl>
+ <DD53NQP11F11.1JAJXDG2NQRU7@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DD53NQP11F11.1JAJXDG2NQRU7@kernel.org>
+X-ClientProxiedBy: SYCPR01CA0045.ausprd01.prod.outlook.com
+ (2603:10c6:10:e::33) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|PH7PR12MB5925:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fa38641-daa0-40a4-c155-08ddff2cbd91
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5LLyUPEbf9UkWa6XxCt4Dy8qN9zvkNOFj4653ffw5XZ2aJ8uHpQp6ZPDRWip?=
+ =?us-ascii?Q?VWRc4SczciI9LCcDVGIPUIxSBv5PgMRQHETmChmUWefUbdafFE6MECYe/Zxx?=
+ =?us-ascii?Q?AQ/hOfb4ygnR30h5P3c/ychg/nI4EXTveyEMEVaHhl1C3fw1V/XmmLA2LSIm?=
+ =?us-ascii?Q?Fdx8DKYW1xW28KJr+dzx5kc3sTcPVqL4rUvFGNwhAv3FbB2hE+bvAp5CMQZI?=
+ =?us-ascii?Q?95X898ffH5mGOTk95ihbPTduqyYFvY03C/wDauiV14OvJBzKEcWHtvldld2+?=
+ =?us-ascii?Q?MxbbtO6Slf6JmsHioNYy6269FUlTATzf6w5M48qxK5DruOKqAjivqPQTFxrj?=
+ =?us-ascii?Q?bTXkH+3KHfcaZsr/ETFlhvk1FnrZg2rpAVu2PuLSlqpHD60AtxCt5DDT1Qxt?=
+ =?us-ascii?Q?gZ5rrAhDfeccB/bndXftIXjyW53b0M2PGTrmJM1Do8COQsj4MeoyS/jqFqn2?=
+ =?us-ascii?Q?WMGOlrKgkvK1X0bIYyh5ZvC2NqICs1LlA93jF7srqv6/Y0dizXubBlwyDKJ5?=
+ =?us-ascii?Q?3Vk+xNF9Mxajv2DK41rX5cmY+v/VY9+OTmqu6JfL7WVcsCzssk6vt1ANt0tW?=
+ =?us-ascii?Q?qQXVg4DD9kdj7rzSMrXmWsY43wy9aR1ojwaS/ZrvKMTEgPWYMPDSTAFW6vOd?=
+ =?us-ascii?Q?E5ZjKuY9inWjjYWFhErx8hmua5z13AeKH0wOVudcFRDQUwUFU+NUfczZpzWR?=
+ =?us-ascii?Q?bqylry5xbHeyq4Ovh3IqjEF1fRrAQQoyTRCP5rQ3VTek/eMVsRmvwpI/XOkt?=
+ =?us-ascii?Q?w/9j1OkhwEA/lC96/d+1mPKRvR5c49Y85OyDbgBN05qadNizyvTaR3NFhltl?=
+ =?us-ascii?Q?lJJ/rOJcO0KGW+iMnnYgmmICv+IbeVKRdYA24c8+ICfzb+Uk8coGnOy6W+cr?=
+ =?us-ascii?Q?h+JLvC9og2JPpg5P0qeVi+DsN6bSxlhuZj5uB+NjkH6gCCkyk/hb86KHXAfw?=
+ =?us-ascii?Q?juYDfwx2h4GmXIdW6S9yp4U9iI+PVy4YBvDRxd+Tzuuq0xiddZcC/zxhKxSJ?=
+ =?us-ascii?Q?zAO1i2mDLoPQ3xkETCIqzAhSpatXdM1ZOEmr0YlkuC4kCuyOyow+murb5QcI?=
+ =?us-ascii?Q?lEFf4FtpDj2kJf7yt6zTdzD4zIzVSzMmj7ff4xloacWsBGyRiCaL/XQ0TpFX?=
+ =?us-ascii?Q?3ESn7Wqcf/lmmm0YIc4sh2CmO3w0bnysLD7y2gv/476GzyEvx0N7PeGtZ+fY?=
+ =?us-ascii?Q?FRWh072Txuo/l7LEUFTvNhTL4bXWtoTzqVf7kDnv70TlsVwCQYY1K+ZmnJ++?=
+ =?us-ascii?Q?whFw60c5UxNv6X1V4t20z+P1VXxPtWL+Caf0xwBodfonxNYM0hTX63xnzaLM?=
+ =?us-ascii?Q?v6Pd7rteVHGX2elgERKEQDCmj/N0Pcl3hVRHRK1v0IhRBUAva0Kr5Wm0mENl?=
+ =?us-ascii?Q?LN2Ds+TJj5T7lyjJwd6wWAvCITuiHGeV4jvt1WkRclSD9KhjvH8NRhbAhk0A?=
+ =?us-ascii?Q?eUSRUAMFFKvD5Ud0E22ZsFKT3BE59Fj/?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iV//giyosozG8aVvgOMmrDcwDcP7jfgJqRtMU3Ni6fqToTlbuYLTgbcDx0Vc?=
+ =?us-ascii?Q?+ks2PSjRjrTa6rZYACheYxWVNwVrHjEy5WcCSqnrhyUyqaByPTXzEJX8r9IQ?=
+ =?us-ascii?Q?wvljzKs3jBWQbtYWK9gMcr8q2+ZQvT8LtlIuoD56Ht//ExvG91TFuQO4sXFx?=
+ =?us-ascii?Q?CMC+nPktQpqQlmVII5MT1l63rOE7VpbNxzs9hOW9K0MEmIGr1OcSy9jEe+va?=
+ =?us-ascii?Q?G4a0tTdOJmoLUsc4R4vCWsyfb8kuX56oKj0KXDf8y1o1K5Bf7zoJmpOLR09r?=
+ =?us-ascii?Q?kuosgUaqszOg9IrgIZ6LJ2TsIh8O9upPRMoV4R8F8/oDg6Qlp9E/hPammwEk?=
+ =?us-ascii?Q?PHEm6xofE90IU4uwj2Qm6rnqIqenvuBP7g0Sg0oL+Kq+aOTfOaXDqQwkezxt?=
+ =?us-ascii?Q?r03mqENdxCpjaidUu5mPO1kVjcsBMsPbAcLa9jqNZF9sX014c+DuSq6xO3OC?=
+ =?us-ascii?Q?oChMLKcuvx7sPwATTa9wIt6XgXCOY2Cp2jnLClM4WUQ/diQHOaJiFd39y7+K?=
+ =?us-ascii?Q?3nSlvzt9ZWg7K/XhLPGRHA7BG9L/DDvj+7UlNY0lVPJe8SF+R5VuJuEYMOF0?=
+ =?us-ascii?Q?DAO5VEqvOYzcJyWUv1y7D+MD8S4eq/C3MviKNbDlkWkuz4J9ZguPGQu+lRro?=
+ =?us-ascii?Q?fCIdw+qJr6lF0wvtrCNz5riSBi63E1xsD9/sTqCtPBxcSE5aE9RoPO/ENaYC?=
+ =?us-ascii?Q?o2pd7NwdPryVwL+YupwQCMIcn7vzCrUcmRWjRKm758xgl7YVGGoiqp+FxDfC?=
+ =?us-ascii?Q?rdMqovtXbfbJNqgnh75rA4hK9Ej7Fryab6llyJuM7y5FOHMCKPpwuCB+XJTF?=
+ =?us-ascii?Q?Dm+SufB6eF1pwbzN64H2mSmjQutqae82gVB2QSkUYZUBZgU6VNvHOelUlUW7?=
+ =?us-ascii?Q?Mk0QyEaPQDrj6A64fRy2fKyX2CoSgq5L/GzuzdCF+8KZeeLU6AgX1RyMHXqd?=
+ =?us-ascii?Q?OahKNG3gWlp50Ef30vrzLk3eLZmBp/4VX11wM8Jo07QtXpM+c4FHitsWmx2K?=
+ =?us-ascii?Q?ALGAK/aU+5dQlSVd10LduRqF/Us5kALJmfxVr5IU3p7wX0Eid46ZM6nldZ2R?=
+ =?us-ascii?Q?YcfgNLl9N2ETJdp0XuVaiX443+qjsqt/gYkWdwU+PGdV53CYrS5d9fhPsQYE?=
+ =?us-ascii?Q?mrO0NAkvjkgQC8pZfJ5oa/Adg2ItBEOtng0J2lXMoFk/+7aBHzsrXZU2L1zW?=
+ =?us-ascii?Q?RFh6pfAZyxwUjTJXn3cZYMOHJz14U/xzER104pcHofuZwAvyqcuhJqX7tH+1?=
+ =?us-ascii?Q?Rd5SsAIFjzh49h4dESlQzVm9MQGTc7ZkU0nUsIDxiIki6lravCvyfLRhjogN?=
+ =?us-ascii?Q?IFxiVV43HNiM4fF8pMO+xXmPGDZ9rzXKMay756Px8dYhMMVq9WJHGQrbTeUp?=
+ =?us-ascii?Q?8TeM+luvpb8tT8D5hspXAG4JNEgTn7XKNf6L/5wl6uPXeOzYUHzaEl6RcziR?=
+ =?us-ascii?Q?4k5vDyp2DbLc1htK8letV14EeYXaN5MYlVmEafv26nmDGZ7HAR3hP62Xetuv?=
+ =?us-ascii?Q?0rKjfWHivRv3j2C4gfPLyR9leb+FVKpBboHw+QwUcI40XY8VrECPpdvLjRmd?=
+ =?us-ascii?Q?kWmocOUHaOM8V6VXYb2IbF1/Ox9d73uc4gMZLplR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fa38641-daa0-40a4-c155-08ddff2cbd91
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 07:49:38.2360 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KM7o9MCPGztbTmquuqFuvyGsSFaRxIsaZrpMJWMi8ie1V2EunceD0Il6kvXbUKLNT5SERJ2OfmFuSC2oyJXYEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5925
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,1026 +163,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Various MediaTek SoCs use GPU integration silicon named "MFlexGraphics"
-by MediaTek. On the MT8196 and MT6991 SoCs, interacting with this
-integration silicon is required to power on the GPU.
+On 2025-09-29 at 17:18 +1000, Danilo Krummrich <dakr@kernel.org> wrote...
+> On Mon Sep 29, 2025 at 8:36 AM CEST, Alistair Popple wrote:
+> > On 2025-09-26 at 17:27 +1000, Alexandre Courbot <acourbot@nvidia.com> wrote...
+> >> On Mon Sep 22, 2025 at 8:30 PM JST, Alistair Popple wrote:
+> >> > @@ -33,6 +36,7 @@ pub(crate) struct Gsp {
+> >> >      pub logintr: CoherentAllocation<u8>,
+> >> >      pub logrm: CoherentAllocation<u8>,
+> >> >      pub cmdq: GspCmdq,
+> >> > +    rmargs: CoherentAllocation<GSP_ARGUMENTS_CACHED>,
+> >> >  }
+> >> >  
+> >> >  /// Creates a self-mapping page table for `obj` at its beginning.
+> >> > @@ -90,12 +94,35 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl PinInit<Self
+> >> >  
+> >> >          // Creates its own PTE array
+> >> >          let cmdq = GspCmdq::new(dev)?;
+> >> > +        let rmargs =
+> >> > +            create_coherent_dma_object::<GSP_ARGUMENTS_CACHED>(dev, "RMARGS", 1, &mut libos, 3)?;
+> >> > +        let (shared_mem_phys_addr, cmd_queue_offset, stat_queue_offset) = cmdq.get_cmdq_offsets();
+> >> > +
+> >> > +        dma_write!(
+> >> > +            rmargs[0].messageQueueInitArguments = MESSAGE_QUEUE_INIT_ARGUMENTS {
+> >> > +                sharedMemPhysAddr: shared_mem_phys_addr,
+> >> > +                pageTableEntryCount: cmdq.nr_ptes,
+> >> > +                cmdQueueOffset: cmd_queue_offset,
+> >> > +                statQueueOffset: stat_queue_offset,
+> >> > +                ..Default::default()
+> >> > +            }
+> >> > +        )?;
+> >> > +        dma_write!(
+> >> > +            rmargs[0].srInitArguments = GSP_SR_INIT_ARGUMENTS {
+> >> > +                oldLevel: 0,
+> >> > +                flags: 0,
+> >> > +                bInPMTransition: 0,
+> >> > +                ..Default::default()
+> >> > +            }
+> >> > +        )?;
+> >> > +        dma_write!(rmargs[0].bDmemStack = 1)?;
+> >> 
+> >> Wrapping our bindings is going to help clean up this code as well.
+> >> 
+> >> First, types named in CAPITALS_SNAKE_CASE are not idiomatic Rust and
+> >> look like constants. And it's not even like the bindings types are
+> >> consistently named that way, since we also have e.g. `GspFwWprMeta` - so
+> >> let's give them a proper public name and bring some consistency at the
+> >> same time.
+> >
+> > I think there are two aspects to the bindings - one which was addressed in
+> > the comments for patch 5 is how to abstract them. The other is that the way we
+> > currently generate them results in some  ugly name.
+> >
+> > Given we want to generate these from our internal IDL eventually I would favour
+> > fixing this naming ugliness by touching up the currently generated bindings. So
+> > maybe I will do that for the next revision.
+> 
+> It's not about fixing the name of the generated C bindings, it's about not
+> leaking firmware specific structures into core code of the driver.
 
-This glue silicon is in the form of an embedded microcontroller running
-special-purpose firmware, which autonomously adjusts clocks and
-regulators.
+I don't disagree. Please see my comments on patch 5, which deals more with the
+type of abstraction we want to provide.
 
-Implement a driver, modelled as a pmdomain driver with a
-set_performance_state operation, to support these SoCs.
+> Please hide it in an abstraction that can deal with differences between firmware
+> version internally; see also [1].
+> 
+> [1] https://lore.kernel.org/all/DCUAYNNP97QI.1VOX5XUS9KP7K@kernel.org/
+> 
+> >> This will make all the fields from `GSP_ARGUMENTS_CACHED` invisible to
+> >> this module as they should be, so the wrapping `GspArgumentsCached` type
+> >> should then have a constructor that receives a referene to the command
+> >> queue and takes the information is needs from it, similarly to
+> >> `GspFwWprMeta`. This will reduce the 3 `dma_write!` into a single one.
+> >> 
+> >> Then we should remove `get_cmdq_offsets`, which is super confusing. I am
+> >> also not fond of `cmdq.nr_ptes`. More on them below.
+> >
+> > I will admit that was a bit of a hack.
+> >
+> >> >  
+> >> >          Ok(try_pin_init!(Self {
+> >> >              libos,
+> >> >              loginit,
+> >> >              logintr,
+> >> >              logrm,
+> >> > +            rmargs,
+> >> >              cmdq,
+> >> >          }))
+> >> >      }
+> >> > diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+> >> > index a9ba1a4c73d8..9170ccf4a064 100644
+> >> > --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+> >> > +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+> >> > @@ -99,7 +99,6 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+> >> >          Ok(Self(gsp_mem))
+> >> >      }
+> >> >  
+> >> > -    #[expect(unused)]
+> >> >      fn dma_handle(&self) -> DmaAddress {
+> >> >          self.0.dma_handle()
+> >> >      }
+> >> > @@ -218,7 +217,7 @@ pub(crate) struct GspCmdq {
+> >> >      dev: ARef<device::Device>,
+> >> >      seq: u32,
+> >> >      gsp_mem: DmaGspMem,
+> >> > -    pub _nr_ptes: u32,
+> >> > +    pub nr_ptes: u32,
+> >> >  }
+> >> >  
+> >> >  impl GspCmdq {
+> >> > @@ -231,7 +230,7 @@ pub(crate) fn new(dev: &device::Device<device::Bound>) -> Result<GspCmdq> {
+> >> >              dev: dev.into(),
+> >> >              seq: 0,
+> >> >              gsp_mem,
+> >> > -            _nr_ptes: nr_ptes as u32,
+> >> > +            nr_ptes: nr_ptes as u32,
+> >> >          })
+> >> >      }
+> >> >  
+> >> > @@ -382,6 +381,15 @@ pub(crate) fn receive_msg_from_gsp<M: GspMessageFromGsp, R>(
+> >> >              .advance_cpu_read_ptr(msg_header.rpc.length.div_ceil(GSP_PAGE_SIZE as u32));
+> >> >          result
+> >> >      }
+> >> > +
+> >> > +    pub(crate) fn get_cmdq_offsets(&self) -> (u64, u64, u64) {
+> >> > +        (
+> >> > +            self.gsp_mem.dma_handle(),
+> >> > +            core::mem::offset_of!(Msgq, msgq) as u64,
+> >> > +            (core::mem::offset_of!(GspMem, gspq) - core::mem::offset_of!(GspMem, cpuq)
+> >> > +                + core::mem::offset_of!(Msgq, msgq)) as u64,
+> >> > +        )
+> >> > +    }
+> >> 
+> >> So this thing returns 3 u64s, one of which is actually a DMA handle,
+> >> while the two others are technically constants. The only thing that
+> >> needs to be inferred at runtime is the DMA handle - all the rest is
+> >> static.
+> >
+> > Thanks! That is a useful observation for cleaning these up.
+> 
+> Please also make sure to use the DmaAddress type instead of a raw u64 for DMA
+> addresses.
+> 
+> >> So we can make the two last returned values associated constants of
+> >> `GspCmdq`:
+> >> 
+> >>   impl GspCmdq {
+> >>       /// Offset of the data after the PTEs.
+> >>       const POST_PTE_OFFSET: usize = core::mem::offset_of!(GspMem, cpuq);
+> >> 
+> >>       /// Offset of command queue ring buffer.
+> >>       pub(crate) const CMDQ_OFFSET: usize = core::mem::offset_of!(GspMem, cpuq)
+> >>           + core::mem::offset_of!(Msgq, msgq)
+> >>           - Self::POST_PTE_OFFSET;
+> >> 
+> >>       /// Offset of message queue ring buffer.
+> >>       pub(crate) const STATQ_OFFSET: usize = core::mem::offset_of!(GspMem, gspq)
+> >>           + core::mem::offset_of!(Msgq, msgq)
+> >>           - Self::POST_PTE_OFFSET;
+> >> 
+> >> `GspArgumentsCached::new` can then import `GspCmdq` and use these to
+> >> initialize its corresponding members.
+> >> 
+> >> Remains `nr_ptes`. It was introduced in the previous patch as follows:
+> >> 
+> >>     let nr_ptes = size_of::<GspMem>() >> GSP_PAGE_SHIFT;
+> >> 
+> >> Which turns out to also be a constant! So let's add it next to the others:
+> >> 
+> >> impl GspCmdq {
+> >>     ...
+> >>     /// Number of page table entries for the GSP shared region.
+> >>     pub(crate) const NUM_PTES: usize = size_of::<GspMem>() >> GSP_PAGE_SHIFT;
+> >> 
+> >> And you can remove `GspCmdq::nr_ptes` altogether.
+> >> 
+> >> With this, `GspArgumentsCached::new` can take a reference to the
+> >> `GspCmdq` to initialize from, grab its DMA handle, and initialize
+> >> everything else using the constants we defined above. We remove a bunch
+> >> of inconsistently-named imports from `gsp.rs`, and replace
+> >> firmware-dependent incantations to initialize our GSP arguments with a
+> >> single constructor call that tells exactly what it does in a single
+> >> line.
+> >
+> > So this would also live in `fw.rs`? What I'm really concerned about is that if
+> > we're not allowed access the C bindings outside of `fw.rs` then everything ends
+> > up in `fw.rs`, and worse still `fw.rs` basically ends up importing everything as
+> > well, tightly coupling everything into one big blob.
+> 
+> You can (and probably should) extend the module structure, i.e. add a
+> sub-directory ./gsp/fw/ and structure things accordingly.
 
-The driver also exposes the actual achieved clock rate, as read back
-from the MCU, as common clock framework clocks, by acting as a clock
-provider as well.
-
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/pmdomain/mediatek/Kconfig            |  16 +
- drivers/pmdomain/mediatek/Makefile           |   1 +
- drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c | 954 +++++++++++++++++++++++++++
- 3 files changed, 971 insertions(+)
-
-diff --git a/drivers/pmdomain/mediatek/Kconfig b/drivers/pmdomain/mediatek/Kconfig
-index 0e34a517ab7d5a867bebaab11c0d866282a15e45..b06aaa9690f08f33519595916b8ea3ad9035fc55 100644
---- a/drivers/pmdomain/mediatek/Kconfig
-+++ b/drivers/pmdomain/mediatek/Kconfig
-@@ -26,6 +26,22 @@ config MTK_SCPSYS_PM_DOMAINS
- 	  Control Processor System (SCPSYS) has several power management related
- 	  tasks in the system.
- 
-+config MTK_MFG_PM_DOMAIN
-+	bool "MediaTek MFlexGraphics power domain"
-+	default ARCH_MEDIATEK
-+	depends on PM
-+	depends on OF
-+	depends on COMMON_CLK
-+	select PM_GENERIC_DOMAINS
-+	imply MTK_GPUEB_MBOX
-+	help
-+	  Say y or m here to enable the power domains driver for MediaTek
-+	  MFlexGraphics. This driver allows for power and frequency control of
-+	  GPUs on MediaTek SoCs such as the MT8196 or MT6991.
-+
-+	  This driver is required for the Mali GPU to work at all on MT8196 and
-+	  MT6991.
-+
- config AIROHA_CPU_PM_DOMAIN
- 	tristate "Airoha CPU power domain"
- 	default ARCH_AIROHA
-diff --git a/drivers/pmdomain/mediatek/Makefile b/drivers/pmdomain/mediatek/Makefile
-index 18ba92e3c418154e1d428dbc6b59b97b26056d98..b424f1ed867604393b3ff96364855363aedaa40c 100644
---- a/drivers/pmdomain/mediatek/Makefile
-+++ b/drivers/pmdomain/mediatek/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+obj-$(CONFIG_MTK_MFG_PM_DOMAIN)		+= mtk-mfg-pmdomain.o
- obj-$(CONFIG_MTK_SCPSYS)		+= mtk-scpsys.o
- obj-$(CONFIG_MTK_SCPSYS_PM_DOMAINS) 	+= mtk-pm-domains.o
- obj-$(CONFIG_AIROHA_CPU_PM_DOMAIN) 	+= airoha-cpu-pmdomain.o
-diff --git a/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c b/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..ba8e493b15edf6f5648deb9bddbc5d63fe0ba43b
---- /dev/null
-+++ b/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
-@@ -0,0 +1,954 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for MediaTek MFlexGraphics Devices
-+ *
-+ * Copyright (C) 2025, Collabora Ltd.
-+ */
-+
-+#include <linux/completion.h>
-+#include <linux/clk.h>
-+#include <linux/clk-provider.h>
-+#include <linux/container_of.h>
-+#include <linux/iopoll.h>
-+#include <linux/mailbox_client.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_address.h>
-+#include <linux/of_platform.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/overflow.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_domain.h>
-+#include <linux/pm_opp.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/units.h>
-+
-+#define GPR_LP_STATE		0x0028
-+#define   EB_ON_SUSPEND		0x0
-+#define   EB_ON_RESUME		0x1
-+#define GPR_IPI_MAGIC		0x34
-+
-+#define RPC_PWR_CON		0x0504
-+#define   PWR_ACK_M		GENMASK(31, 30)
-+#define RPC_DUMMY_REG_2		0x0658
-+#define RPC_GHPM_CFG0_CON	0x0800
-+#define   GHPM_ENABLE_M		BIT(0)
-+#define   GHPM_ON_SEQ_M		BIT(2)
-+#define RPC_GHPM_RO0_CON	0x09A4
-+#define   GHPM_STATE_M		GENMASK(7, 0)
-+#define   GHPM_PWR_STATE_M	BIT(16)
-+
-+#define GF_REG_MAGIC			0x0000
-+#define GF_REG_GPU_OPP_IDX		0x0004
-+#define GF_REG_STK_OPP_IDX		0x0008
-+#define GF_REG_GPU_OPP_NUM		0x000c
-+#define GF_REG_STK_OPP_NUM		0x0010
-+#define GF_REG_GPU_OPP_SNUM		0x0014
-+#define GF_REG_STK_OPP_SNUM		0x0018
-+#define GF_REG_POWER_COUNT		0x001c
-+#define GF_REG_BUCK_COUNT		0x0020
-+#define GF_REG_MTCMOS_COUNT		0x0024
-+#define GF_REG_CG_COUNT			0x0028 /* CG = Clock Gate? */
-+#define GF_REG_ACTIVE_COUNT		0x002C
-+#define GF_REG_TEMP_RAW			0x0030
-+#define GF_REG_TEMP_NORM_GPU		0x0034
-+#define GF_REG_TEMP_HIGH_GPU		0x0038
-+#define GF_REG_TEMP_NORM_STK		0x003C
-+#define GF_REG_TEMP_HIGH_STK		0x0040
-+#define GF_REG_FREQ_CUR_GPU		0x0044
-+#define GF_REG_FREQ_CUR_STK		0x0048
-+#define GF_REG_FREQ_OUT_GPU		0x004C /* Guess: actual achieved freq */
-+#define GF_REG_FREQ_OUT_STK		0x0050 /* Guess: actual achieved freq */
-+#define GF_REG_FREQ_METER_GPU		0x0054 /* Seems unused, always 0 */
-+#define GF_REG_FREQ_METER_STK		0x0058 /* Seems unused, always 0 */
-+#define GF_REG_VOLT_CUR_GPU		0x005C /* in tens of microvolts */
-+#define GF_REG_VOLT_CUR_STK		0x0060 /* in tens of microvolts */
-+#define GF_REG_VOLT_CUR_GPU_SRAM	0x0064
-+#define GF_REG_VOLT_CUR_STK_SRAM	0x0068
-+#define GF_REG_VOLT_CUR_GPU_REG		0x006C /* Seems unused, always 0 */
-+#define GF_REG_VOLT_CUR_STK_REG		0x0070 /* Seems unused, always 0 */
-+#define GF_REG_VOLT_CUR_GPU_REG_SRAM	0x0074
-+#define GF_REG_VOLT_CUR_STK_REG_SRAM	0x0078
-+#define GF_REG_PWR_CUR_GPU		0x007C /* in milliwatts */
-+#define GF_REG_PWR_CUR_STK		0x0080 /* in milliwatts */
-+#define GF_REG_PWR_MAX_GPU		0x0084 /* in milliwatts */
-+#define GF_REG_PWR_MAX_STK		0x0088 /* in milliwatts */
-+#define GF_REG_PWR_MIN_GPU		0x008C /* in milliwatts */
-+#define GF_REG_PWR_MIN_STK		0x0090 /* in milliwatts */
-+#define GF_REG_LEAKAGE_RT_GPU		0x0094 /* Unknown */
-+#define GF_REG_LEAKAGE_RT_STK		0x0098 /* Unknown */
-+#define GF_REG_LEAKAGE_RT_SRAM		0x009C /* Unknown */
-+#define GF_REG_LEAKAGE_HT_GPU		0x00A0 /* Unknown */
-+#define GF_REG_LEAKAGE_HT_STK		0x00A4 /* Unknown */
-+#define GF_REG_LEAKAGE_HT_SRAM		0x00A8 /* Unknown */
-+#define GF_REG_VOLT_DAC_LOW_GPU		0x00AC /* Seems unused, always 0 */
-+#define GF_REG_VOLT_DAC_LOW_STK		0x00B0 /* Seems unused, always 0 */
-+#define GF_REG_OPP_CUR_CEIL		0x00B4
-+#define GF_REG_OPP_CUR_FLOOR		0x00B8
-+#define GF_REG_OPP_CUR_LIMITER_CEIL	0x00BC
-+#define GF_REG_OPP_CUR_LIMITER_FLOOR	0x00C0
-+#define GF_REG_OPP_PRIORITY_CEIL	0x00C4
-+#define GF_REG_OPP_PRIORITY_FLOOR	0x00C8
-+#define GF_REG_PWR_CTL			0x00CC
-+#define GF_REG_ACTIVE_SLEEP_CTL		0x00D0
-+#define GF_REG_DVFS_STATE		0x00D4
-+#define GF_REG_SHADER_PRESENT		0x00D8
-+#define GF_REG_ASENSOR_ENABLE		0x00DC
-+#define GF_REG_AGING_LOAD		0x00E0
-+#define GF_REG_AGING_MARGIN		0x00E4
-+#define GF_REG_AVS_ENABLE		0x00E8
-+#define GF_REG_AVS_MARGIN		0x00EC
-+#define GF_REG_CHIP_TYPE		0x00F0
-+#define GF_REG_SB_VERSION		0x00F4
-+#define GF_REG_PTP_VERSION		0x00F8
-+#define GF_REG_DBG_VERSION		0x00FC
-+#define GF_REG_KDBG_VERSION		0x0100
-+#define GF_REG_GPM1_MODE		0x0104
-+#define GF_REG_GPM3_MODE		0x0108
-+#define GF_REG_DFD_MODE			0x010C
-+#define GF_REG_DUAL_BUCK		0x0110
-+#define GF_REG_SEGMENT_ID		0x0114
-+#define GF_REG_POWER_TIME_H		0x0118
-+#define GF_REG_POWER_TIME_L		0x011C
-+#define GF_REG_PWR_STATUS		0x0120
-+#define GF_REG_STRESS_TEST		0x0124
-+#define GF_REG_TEST_MODE		0x0128
-+#define GF_REG_IPS_MODE			0x012C
-+#define GF_REG_TEMP_COMP_MODE		0x0130
-+#define GF_REG_HT_TEMP_COMP_MODE	0x0134
-+#define GF_REG_PWR_TRACKER_MODE		0x0138
-+#define GF_REG_OPP_TABLE_GPU		0x0314
-+#define GF_REG_OPP_TABLE_STK		0x09A4
-+#define GF_REG_OPP_TABLE_GPU_S		0x1034
-+#define GF_REG_OPP_TABLE_STK_S		0x16c4
-+#define GF_REG_LIMIT_TABLE		0x1d54
-+#define GF_REG_GPM3_TABLE		0x223C
-+
-+#define MFG_MT8196_E2_ID		0x101
-+#define GPUEB_SLEEP_MAGIC		0x55667788UL
-+#define GPUEB_MEM_MAGIC			0xBABADADAUL
-+
-+#define GPUEB_TIMEOUT_US		10000UL
-+#define GPUEB_POLL_US			50
-+
-+#define MAX_OPP_NUM			70
-+
-+#define GPUEB_MBOX_MAX_RX_SIZE		32 /* in bytes */
-+
-+/*
-+ * This enum is part of the ABI of the GPUEB firmware. Don't change the
-+ * numbering, as you would wreak havoc.
-+ */
-+enum mtk_mfg_ipi_cmd {
-+	CMD_INIT_SHARED_MEM		= 0,
-+	CMD_GET_FREQ_BY_IDX		= 1,
-+	CMD_GET_POWER_BY_IDX		= 2,
-+	CMD_GET_OPPIDX_BY_FREQ		= 3,
-+	CMD_GET_LEAKAGE_POWER		= 4,
-+	CMD_SET_LIMIT			= 5,
-+	CMD_POWER_CONTROL		= 6,
-+	CMD_ACTIVE_SLEEP_CONTROL	= 7,
-+	CMD_COMMIT			= 8,
-+	CMD_DUAL_COMMIT			= 9,
-+	CMD_PDCA_CONFIG			= 10,
-+	CMD_UPDATE_DEBUG_OPP_INFO	= 11,
-+	CMD_SWITCH_LIMIT		= 12,
-+	CMD_FIX_TARGET_OPPIDX		= 13,
-+	CMD_FIX_DUAL_TARGET_OPPIDX	= 14,
-+	CMD_FIX_CUSTOM_FREQ_VOLT	= 15,
-+	CMD_FIX_DUAL_CUSTOM_FREQ_VOLT	= 16,
-+	CMD_SET_MFGSYS_CONFIG		= 17,
-+	CMD_MSSV_COMMIT			= 18,
-+	CMD_NUM				= 19,
-+};
-+
-+/*
-+ * This struct is part of the ABI of the GPUEB firmware. Changing it, or
-+ * reordering fields in it, will break things, so don't do it. Thank you.
-+ */
-+struct __packed mtk_mfg_ipi_msg {
-+	__le32 magic;
-+	__le32 cmd;
-+	__le32 target;
-+	/*
-+	 * Downstream relies on the compiler to implicitly add the following
-+	 * padding, as it declares the struct as non-packed.
-+	 */
-+	__le32 reserved;
-+	union {
-+		s32 __bitwise oppidx;
-+		s32 __bitwise return_value;
-+		__le32 freq;
-+		__le32 volt;
-+		__le32 power;
-+		__le32 power_state;
-+		__le32 mode;
-+		__le32 value;
-+		struct {
-+			__le64 base;
-+			__le32 size;
-+		} shared_mem;
-+		struct {
-+			__le32 freq;
-+			__le32 volt;
-+		} custom;
-+		struct {
-+			__le32 limiter;
-+			s32 __bitwise ceiling_info;
-+			s32 __bitwise floor_info;
-+		} set_limit;
-+		struct {
-+			__le32 target;
-+			__le32 val;
-+		} mfg_cfg;
-+		struct {
-+			__le32 target;
-+			__le32 val;
-+		} mssv;
-+		struct {
-+			s32 __bitwise gpu_oppidx;
-+			s32 __bitwise stack_oppidx;
-+		} dual_commit;
-+		struct {
-+			__le32 fgpu;
-+			__le32 vgpu;
-+			__le32 fstack;
-+			__le32 vstack;
-+		} dual_custom;
-+	} u;
-+};
-+
-+struct __packed mtk_mfg_ipi_sleep_msg {
-+	__le32 event;
-+	__le32 state;
-+	__le32 magic;
-+};
-+
-+/**
-+ * struct mtk_mfg_opp_entry - OPP table entry from firmware
-+ * @freq_khz: The operating point's frequency in kilohertz
-+ * @voltage_core: The operating point's core voltage in tens of microvolts
-+ * @voltage_sram: The operating point's SRAM voltage in tens of microvolts
-+ * @posdiv: exponent of base 2 for PLL frequency divisor used for this OPP
-+ * @voltage_margin: Number of tens of microvolts the voltage can be undershot
-+ * @power_mw: estimate of power usage at this operating point, in milliwatts
-+ *
-+ * This struct is part of the ABI with the EB firmware. Do not change it.
-+ */
-+struct __packed mtk_mfg_opp_entry {
-+	__le32 freq_khz;
-+	__le32 voltage_core;
-+	__le32 voltage_sram;
-+	__le32 posdiv;
-+	__le32 voltage_margin;
-+	__le32 power_mw;
-+};
-+
-+struct mtk_mfg_mbox {
-+	struct mbox_client cl;
-+	struct completion rx_done;
-+	struct mtk_mfg *mfg;
-+	struct mbox_chan *ch;
-+	void *rx_data;
-+};
-+
-+struct mtk_mfg {
-+	struct generic_pm_domain pd;
-+	struct platform_device *pdev;
-+	struct clk *clk_eb;
-+	struct clk_bulk_data *gpu_clks;
-+	struct clk_hw clk_core_hw;
-+	struct clk_hw clk_stack_hw;
-+	struct regulator_bulk_data *gpu_regs;
-+	void __iomem *rpc;
-+	void __iomem *gpr;
-+	void __iomem *shared_mem;
-+	phys_addr_t shared_mem_phys;
-+	unsigned int shared_mem_size;
-+	u16 ghpm_en_reg;
-+	u32 ipi_magic;
-+	unsigned short num_opps;
-+	unsigned short num_unique_gpu_opps;
-+	struct dev_pm_opp_data *gpu_opps;
-+	struct mtk_mfg_mbox *gf_mbox;
-+	struct mtk_mfg_mbox *slp_mbox;
-+	const struct mtk_mfg_variant *variant;
-+};
-+
-+struct mtk_mfg_variant {
-+	const char *const *clk_names;
-+	unsigned int num_clks;
-+	const char *const *regulator_names;
-+	unsigned int num_regulators;
-+	/** @turbo_below: opp indices below this value are considered turbo */
-+	unsigned int turbo_below;
-+	int (*init)(struct mtk_mfg *mfg);
-+};
-+
-+static inline struct mtk_mfg *mtk_mfg_from_genpd(struct generic_pm_domain *pd)
-+{
-+	return container_of(pd, struct mtk_mfg, pd);
-+}
-+
-+static inline void mtk_mfg_update_reg_bits(void __iomem *addr, u32 mask, u32 val)
-+{
-+	writel((readl(addr) & ~mask) | (val & mask), addr);
-+}
-+
-+static inline bool mtk_mfg_is_powered_on(struct mtk_mfg *mfg)
-+{
-+	return (readl(mfg->rpc + RPC_PWR_CON) & PWR_ACK_M) == PWR_ACK_M;
-+}
-+
-+static unsigned long mtk_mfg_recalc_rate_gpu(struct clk_hw *hw,
-+					     unsigned long parent_rate)
-+{
-+	struct mtk_mfg *mfg = container_of(hw, struct mtk_mfg, clk_core_hw);
-+
-+	return readl(mfg->shared_mem + GF_REG_FREQ_OUT_GPU) * HZ_PER_KHZ;
-+}
-+
-+static unsigned long mtk_mfg_recalc_rate_stack(struct clk_hw *hw,
-+					       unsigned long parent_rate)
-+{
-+	struct mtk_mfg *mfg = container_of(hw, struct mtk_mfg, clk_stack_hw);
-+
-+	return readl(mfg->shared_mem + GF_REG_FREQ_OUT_STK) * HZ_PER_KHZ;
-+}
-+
-+static const struct clk_ops mtk_mfg_clk_gpu_ops = {
-+	.recalc_rate = mtk_mfg_recalc_rate_gpu,
-+};
-+
-+static const struct clk_ops mtk_mfg_clk_stack_ops = {
-+	.recalc_rate = mtk_mfg_recalc_rate_stack,
-+};
-+
-+static const struct clk_init_data mtk_mfg_clk_gpu_init = {
-+	.name = "gpu-core",
-+	.ops = &mtk_mfg_clk_gpu_ops,
-+	.flags = CLK_GET_RATE_NOCACHE,
-+};
-+
-+static const struct clk_init_data mtk_mfg_clk_stack_init = {
-+	.name = "gpu-stack",
-+	.ops = &mtk_mfg_clk_stack_ops,
-+	.flags = CLK_GET_RATE_NOCACHE,
-+};
-+
-+static int mtk_mfg_eb_on(struct mtk_mfg *mfg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	u32 val;
-+	int ret;
-+
-+	/*
-+	 * If MFG is already on from e.g. the bootloader, we should skip doing
-+	 * the power-on sequence, as it wouldn't work without powering it off
-+	 * first.
-+	 */
-+	if (mtk_mfg_is_powered_on(mfg))
-+		return 0;
-+
-+	ret = readl_poll_timeout(mfg->rpc + RPC_GHPM_RO0_CON, val,
-+				 !(val & (GHPM_PWR_STATE_M | GHPM_STATE_M)),
-+				 GPUEB_POLL_US, GPUEB_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(dev, "timed out waiting for EB to power on\n");
-+		return ret;
-+	}
-+
-+	mtk_mfg_update_reg_bits(mfg->rpc + mfg->ghpm_en_reg, GHPM_ENABLE_M,
-+				GHPM_ENABLE_M);
-+
-+	mtk_mfg_update_reg_bits(mfg->rpc + RPC_GHPM_CFG0_CON, GHPM_ON_SEQ_M, 0);
-+	mtk_mfg_update_reg_bits(mfg->rpc + RPC_GHPM_CFG0_CON, GHPM_ON_SEQ_M,
-+				GHPM_ON_SEQ_M);
-+
-+	mtk_mfg_update_reg_bits(mfg->rpc + mfg->ghpm_en_reg, GHPM_ENABLE_M, 0);
-+
-+
-+	ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-+				 (val & PWR_ACK_M) == PWR_ACK_M,
-+				 GPUEB_POLL_US, GPUEB_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(dev, "timed out waiting for EB power ack, val = 0x%X\n",
-+			val);
-+		return ret;
-+	}
-+
-+	ret = readl_poll_timeout(mfg->gpr + GPR_LP_STATE, val,
-+				 (val == EB_ON_RESUME),
-+				 GPUEB_POLL_US, GPUEB_TIMEOUT_US);
-+	if (ret) {
-+		dev_err(dev, "timed out waiting for EB to resume, status = 0x%X\n", val);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mtk_mfg_eb_off(struct mtk_mfg *mfg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	struct mtk_mfg_ipi_sleep_msg msg = {
-+		.event = 0,
-+		.state = 0,
-+		.magic = GPUEB_SLEEP_MAGIC
-+	};
-+	u32 val;
-+	int ret;
-+
-+	ret = mbox_send_message(mfg->slp_mbox->ch, &msg);
-+	if (ret < 0) {
-+		dev_err(dev, "Cannot send sleep command: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-+				 !(val & PWR_ACK_M), GPUEB_POLL_US,
-+				 GPUEB_TIMEOUT_US);
-+
-+	if (ret)
-+		dev_err(dev, "Timed out waiting for EB to power off, val=0x%08X\n", val);
-+
-+	return ret;
-+}
-+
-+static int mtk_mfg_send_ipi(struct mtk_mfg *mfg, struct mtk_mfg_ipi_msg *msg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	unsigned long wait;
-+	int ret;
-+
-+	msg->magic = mfg->ipi_magic;
-+
-+	ret = mbox_send_message(mfg->gf_mbox->ch, msg);
-+	if (ret < 0) {
-+		dev_err(dev, "Cannot send GPUFreq IPI command: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	wait = wait_for_completion_timeout(&mfg->gf_mbox->rx_done, msecs_to_jiffies(500));
-+	if (!wait)
-+		return -ETIMEDOUT;
-+
-+	msg = mfg->gf_mbox->rx_data;
-+
-+	if (msg->u.return_value < 0) {
-+		dev_err(dev, "IPI return: %d\n", msg->u.return_value);
-+		return -EPROTO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mtk_mfg_init_shared_mem(struct mtk_mfg *mfg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	struct mtk_mfg_ipi_msg msg = {};
-+	int ret;
-+
-+	dev_dbg(dev, "clearing GPUEB shared memory, 0x%X bytes\n", mfg->shared_mem_size);
-+	memset_io(mfg->shared_mem, 0, mfg->shared_mem_size);
-+
-+	msg.cmd = CMD_INIT_SHARED_MEM;
-+	msg.u.shared_mem.base = mfg->shared_mem_phys;
-+	msg.u.shared_mem.size = mfg->shared_mem_size;
-+
-+	ret = mtk_mfg_send_ipi(mfg, &msg);
-+	if (ret)
-+		return ret;
-+
-+	if (readl(mfg->shared_mem) != GPUEB_MEM_MAGIC) {
-+		dev_err(dev, "EB did not initialise shared memory correctly\n");
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
-+{
-+	struct mtk_mfg_ipi_msg msg = {};
-+
-+	msg.cmd = CMD_POWER_CONTROL;
-+	msg.u.power_state = enabled ? 1 : 0;
-+
-+	return mtk_mfg_send_ipi(mfg, &msg);
-+}
-+
-+static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
-+{
-+	struct mtk_mfg_ipi_msg msg = {};
-+	int ret;
-+
-+	if (opp_idx >= mfg->num_opps)
-+		return -EINVAL;
-+
-+	msg.cmd = CMD_FIX_TARGET_OPPIDX;
-+	msg.u.oppidx = opp_idx;
-+
-+	ret = mtk_mfg_send_ipi(mfg, &msg);
-+	if (ret) {
-+		dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
-+			opp_idx, ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mtk_mfg_read_opp_tables(struct mtk_mfg *mfg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	struct mtk_mfg_opp_entry e = {};
-+	unsigned int i;
-+	unsigned long long last_freq;
-+
-+	mfg->num_opps = readl(mfg->shared_mem + GF_REG_GPU_OPP_NUM);
-+
-+	if (mfg->num_opps > MAX_OPP_NUM || mfg->num_opps == 0) {
-+		dev_err(dev, "OPP count (%u) out of range %u >= count > 0\n",
-+			mfg->num_opps, MAX_OPP_NUM);
-+		return -EINVAL;
-+	}
-+
-+	mfg->gpu_opps = devm_kcalloc(dev, mfg->num_opps,
-+				     sizeof(struct dev_pm_opp_data), GFP_KERNEL);
-+	if (!mfg->gpu_opps)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < mfg->num_opps; i++) {
-+		memcpy_fromio(&e, mfg->shared_mem + GF_REG_OPP_TABLE_GPU + i * sizeof(e),
-+			      sizeof(e));
-+		if (mem_is_zero(&e, sizeof(e))) {
-+			dev_err(dev, "ran into an empty GPU OPP at index %u\n",
-+				i);
-+			return -EINVAL;
-+		}
-+		mfg->gpu_opps[i].freq = e.freq_khz * HZ_PER_KHZ;
-+		mfg->gpu_opps[i].u_volt = e.voltage_core * 10;
-+		mfg->gpu_opps[i].level = i;
-+		if (i < mfg->variant->turbo_below)
-+			mfg->gpu_opps[i].turbo = true;
-+
-+		if (!last_freq || mfg->gpu_opps[i].freq != last_freq)
-+			mfg->num_unique_gpu_opps++;
-+
-+		last_freq = mfg->gpu_opps[i].freq;
-+	}
-+
-+	return 0;
-+}
-+
-+static const char *const mtk_mfg_mt8196_clk_names[] = {
-+	"core",
-+	"stack0",
-+	"stack1",
-+};
-+
-+static const char *const mtk_mfg_mt8196_regulators[] = {
-+	"core",
-+	"stack",
-+	"sram",
-+};
-+
-+static int mtk_mfg_mt8196_init(struct mtk_mfg *mfg)
-+{
-+	void __iomem *e2_base;
-+
-+	e2_base = devm_platform_ioremap_resource_byname(mfg->pdev, "hw-revision");
-+	if (IS_ERR(e2_base))
-+		return dev_err_probe(&mfg->pdev->dev, PTR_ERR(e2_base),
-+				     "Couldn't get hw-revision register\n");
-+
-+	if (readl(e2_base) == MFG_MT8196_E2_ID)
-+		mfg->ghpm_en_reg = RPC_DUMMY_REG_2;
-+	else
-+		mfg->ghpm_en_reg = RPC_GHPM_CFG0_CON;
-+
-+	return 0;
-+};
-+
-+static const struct mtk_mfg_variant mtk_mfg_mt8196_variant = {
-+	.clk_names = mtk_mfg_mt8196_clk_names,
-+	.num_clks = ARRAY_SIZE(mtk_mfg_mt8196_clk_names),
-+	.regulator_names = mtk_mfg_mt8196_regulators,
-+	.num_regulators = ARRAY_SIZE(mtk_mfg_mt8196_regulators),
-+	.turbo_below = 7,
-+	.init = mtk_mfg_mt8196_init,
-+};
-+
-+static void mtk_mfg_mbox_rx_callback(struct mbox_client *cl, void *mssg)
-+{
-+	struct mtk_mfg_mbox *mb = container_of(cl, struct mtk_mfg_mbox, cl);
-+
-+	if (mb->rx_data)
-+		mb->rx_data = memcpy(mb->rx_data, mssg, GPUEB_MBOX_MAX_RX_SIZE);
-+	complete(&mb->rx_done);
-+}
-+
-+static int mtk_mfg_attach_dev(struct generic_pm_domain *pd, struct device *dev)
-+{
-+	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-+	struct dev_pm_opp_data *opps = mfg->gpu_opps;
-+	int i, ret;
-+
-+	for (i = mfg->num_opps - 1; i >= 0; i--) {
-+		/* Always add the first OPP, but only unique ones after that. */
-+		if ((i != mfg->num_opps - 1) && (opps[i].freq == opps[i + 1].freq))
-+			continue;
-+
-+		ret = dev_pm_opp_add_dynamic(dev, &opps[i]);
-+		if (ret) {
-+			dev_err(dev, "Failed to add OPP level %u from PD %s\n",
-+				opps[i].level, pd->name);
-+			dev_pm_opp_remove_all_dynamic(dev);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void mtk_mfg_detach_dev(struct generic_pm_domain *pd, struct device *dev)
-+{
-+	dev_pm_opp_remove_all_dynamic(dev);
-+}
-+
-+static int mtk_mfg_set_performance(struct generic_pm_domain *pd,
-+				   unsigned int state)
-+{
-+	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-+
-+	/*
-+	 * pmdomain core intentionally sets a performance state before turning
-+	 * a domain on, and after turning it off. We don't want to act on those,
-+	 * as we only want to set performance states while the domain is on, and
-+	 * can simply defer setting whatever the pmdomain subsystem thinks we
-+	 * should be at when powering it on.
-+	 */
-+	if (mfg->pd.status != GENPD_STATE_ON)
-+		return 0;
-+
-+	return mtk_mfg_set_oppidx(mfg, state);
-+}
-+
-+static int mtk_mfg_power_on(struct generic_pm_domain *pd)
-+{
-+	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(mfg->variant->num_regulators,
-+				    mfg->gpu_regs);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(mfg->clk_eb);
-+	if (ret)
-+		goto err_disable_regulators;
-+
-+	ret = clk_bulk_prepare_enable(mfg->variant->num_clks, mfg->gpu_clks);
-+	if (ret)
-+		goto err_disable_eb_clk;
-+
-+	ret = mtk_mfg_eb_on(mfg);
-+	if (ret)
-+		goto err_disable_clks;
-+
-+	mfg->ipi_magic = readl(mfg->gpr + GPR_IPI_MAGIC);
-+
-+	ret = mtk_mfg_power_control(mfg, true);
-+	if (ret)
-+		goto err_eb_off;
-+
-+	/* Don't try to set a OPP in probe before we have the OPPs */
-+	if (mfg->gpu_opps) {
-+		/* The aforementioned deferred setting of pmdomain's state */
-+		ret = mtk_mfg_set_oppidx(mfg, pd->performance_state);
-+		if (ret)
-+			dev_warn(&mfg->pdev->dev, "Failed to set oppidx in %s\n", __func__);
-+	}
-+
-+	return 0;
-+
-+err_eb_off:
-+	mtk_mfg_eb_off(mfg);
-+err_disable_clks:
-+	clk_bulk_disable_unprepare(mfg->variant->num_clks, mfg->gpu_clks);
-+err_disable_eb_clk:
-+	clk_disable_unprepare(mfg->clk_eb);
-+err_disable_regulators:
-+	regulator_bulk_disable(mfg->variant->num_regulators, mfg->gpu_regs);
-+
-+	return ret;
-+}
-+
-+static int mtk_mfg_power_off(struct generic_pm_domain *pd)
-+{
-+	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-+	struct device *dev = &mfg->pdev->dev;
-+	int ret;
-+
-+	ret = mtk_mfg_power_control(mfg, false);
-+	if (ret) {
-+		dev_err(dev, "power_control failed: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	ret = mtk_mfg_eb_off(mfg);
-+	if (ret) {
-+		dev_err(dev, "eb_off failed: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	clk_bulk_disable_unprepare(mfg->variant->num_clks, mfg->gpu_clks);
-+	clk_disable_unprepare(mfg->clk_eb);
-+	return regulator_bulk_disable(mfg->variant->num_regulators, mfg->gpu_regs);
-+}
-+
-+static int mtk_mfg_init_mbox(struct mtk_mfg *mfg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	struct mtk_mfg_mbox *gf;
-+	struct mtk_mfg_mbox *slp;
-+
-+	gf = devm_kzalloc(dev, sizeof(*gf), GFP_KERNEL);
-+	if (!gf)
-+		return -ENOMEM;
-+
-+	slp = devm_kzalloc(dev, sizeof(*slp), GFP_KERNEL);
-+	if (!slp)
-+		return -ENOMEM;
-+
-+	gf->mfg = mfg;
-+	init_completion(&gf->rx_done);
-+	gf->cl.dev = dev;
-+	gf->cl.rx_callback = mtk_mfg_mbox_rx_callback;
-+	gf->cl.tx_tout = GPUEB_TIMEOUT_US / USEC_PER_MSEC;
-+	gf->rx_data = devm_kzalloc(dev, GPUEB_MBOX_MAX_RX_SIZE, GFP_KERNEL);
-+	if (!gf->rx_data)
-+		return -ENOMEM;
-+	gf->ch = mbox_request_channel_byname(&gf->cl, "gpufreq");
-+	if (IS_ERR(gf->ch))
-+		return PTR_ERR(gf->ch);
-+
-+	mfg->gf_mbox = gf;
-+
-+	slp->mfg = mfg;
-+	init_completion(&slp->rx_done);
-+	slp->cl.dev = dev;
-+	slp->cl.tx_tout = GPUEB_TIMEOUT_US / USEC_PER_MSEC;
-+	slp->cl.tx_block = true;
-+	slp->ch = mbox_request_channel_byname(&slp->cl, "sleep");
-+	if (IS_ERR(slp->ch))
-+		return PTR_ERR(slp->ch);
-+
-+	mfg->slp_mbox = slp;
-+
-+	return 0;
-+}
-+
-+static int mtk_mfg_init_clk_provider(struct mtk_mfg *mfg)
-+{
-+	struct device *dev = &mfg->pdev->dev;
-+	struct clk_hw_onecell_data *clk_data;
-+	int ret;
-+
-+	clk_data = devm_kzalloc(dev, struct_size(clk_data, hws, 2), GFP_KERNEL);
-+	if (!clk_data)
-+		return -ENOMEM;
-+
-+	clk_data->num = 2;
-+
-+	mfg->clk_core_hw.init = &mtk_mfg_clk_gpu_init;
-+	mfg->clk_stack_hw.init = &mtk_mfg_clk_stack_init;
-+
-+	ret = devm_clk_hw_register(dev, &mfg->clk_core_hw);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Couldn't register GPU core clock\n");
-+
-+	ret = devm_clk_hw_register(dev, &mfg->clk_stack_hw);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Couldn't register GPU stack clock\n");
-+
-+	clk_data->hws[0] = &mfg->clk_core_hw;
-+	clk_data->hws[1] = &mfg->clk_stack_hw;
-+
-+	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get, clk_data);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Couldn't register clock provider\n");
-+
-+	return 0;
-+}
-+
-+static int mtk_mfg_probe(struct platform_device *pdev)
-+{
-+	struct device_node *shmem __free(device_node);
-+	struct mtk_mfg *mfg;
-+	struct device *dev = &pdev->dev;
-+	const struct mtk_mfg_variant *data = of_device_get_match_data(dev);
-+	struct resource res;
-+	int ret, i;
-+
-+	mfg = devm_kzalloc(dev, sizeof(*mfg), GFP_KERNEL);
-+	if (!mfg)
-+		return -ENOMEM;
-+
-+	mfg->pdev = pdev;
-+	mfg->variant = data;
-+
-+	dev_set_drvdata(dev, mfg);
-+
-+	mfg->gpr = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(mfg->gpr))
-+		return dev_err_probe(dev, PTR_ERR(mfg->gpr),
-+				     "Could not retrieve GPR MMIO registers\n");
-+
-+	mfg->rpc = devm_platform_ioremap_resource(pdev, 1);
-+	if (IS_ERR(mfg->rpc))
-+		return dev_err_probe(dev, PTR_ERR(mfg->rpc),
-+				     "Could not retrieve RPC MMIO registers\n");
-+
-+	mfg->clk_eb = devm_clk_get(dev, "eb");
-+	if (IS_ERR(mfg->clk_eb))
-+		return dev_err_probe(dev, PTR_ERR(mfg->clk_eb),
-+				     "Could not get 'eb' clock\n");
-+
-+	mfg->gpu_clks = devm_kcalloc(dev, data->num_clks, sizeof(*mfg->gpu_clks),
-+				     GFP_KERNEL);
-+	if (!mfg->gpu_clks)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < data->num_clks; i++)
-+		mfg->gpu_clks[i].id = data->clk_names[i];
-+
-+	ret = devm_clk_bulk_get(dev, data->num_clks, mfg->gpu_clks);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "couldn't get GPU clocks\n");
-+
-+	mfg->gpu_regs = devm_kcalloc(dev, data->num_regulators,
-+				     sizeof(*mfg->gpu_regs), GFP_KERNEL);
-+	if (!mfg->gpu_regs)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < data->num_regulators; i++)
-+		mfg->gpu_regs[i].supply = data->regulator_names[i];
-+
-+	ret = devm_regulator_bulk_get(dev, data->num_regulators, mfg->gpu_regs);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "couldn't get GPU regulators\n");
-+
-+	ret = of_reserved_mem_region_to_resource(dev->of_node, 0, &res);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to get GPUEB shared memory\n");
-+
-+	mfg->shared_mem = devm_ioremap(dev, res.start, resource_size(&res));
-+	if (!mfg->shared_mem)
-+		return dev_err_probe(dev, -EADDRNOTAVAIL,
-+				     "failed to ioremap GPUEB shared memory\n");
-+	mfg->shared_mem_size = resource_size(&res);
-+	mfg->shared_mem_phys = res.start;
-+
-+	if (data->init) {
-+		ret = data->init(mfg);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "Variant init failed\n");
-+	}
-+
-+	mfg->pd.name = dev_name(dev);
-+	mfg->pd.attach_dev = mtk_mfg_attach_dev;
-+	mfg->pd.detach_dev = mtk_mfg_detach_dev;
-+	mfg->pd.power_off = mtk_mfg_power_off;
-+	mfg->pd.power_on = mtk_mfg_power_on;
-+	mfg->pd.set_performance_state = mtk_mfg_set_performance;
-+	mfg->pd.flags = GENPD_FLAG_OPP_TABLE_FW;
-+
-+	ret = pm_genpd_init(&mfg->pd, NULL, false);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to initialise power domain\n");
-+
-+	ret = clk_prepare_enable(mfg->clk_eb);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to turn on EB clock\n");
-+
-+	ret = mtk_mfg_init_mbox(mfg);
-+	if (ret) {
-+		clk_disable_unprepare(mfg->clk_eb);
-+		return dev_err_probe(dev, ret, "Couldn't initialise mailbox\n");
-+	}
-+
-+	ret = mtk_mfg_power_on(&mfg->pd);
-+	clk_disable_unprepare(mfg->clk_eb);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to power on MFG\n");
-+
-+	ret = mtk_mfg_init_shared_mem(mfg);
-+	if (ret) {
-+		dev_err(dev, "Couldn't initialize EB shared memory: %pe\n", ERR_PTR(ret));
-+		goto out;
-+	}
-+
-+	ret = mtk_mfg_read_opp_tables(mfg);
-+	if (ret) {
-+		dev_err(dev, "Error reading OPP tables from EB: %pe\n",
-+			ERR_PTR(ret));
-+		goto out;
-+	}
-+
-+	ret = mtk_mfg_init_clk_provider(mfg);
-+	if (ret)
-+		goto out;
-+
-+	ret = of_genpd_add_provider_simple(dev->of_node, &mfg->pd);
-+	if (ret) {
-+		ret = dev_err_probe(dev, ret, "Failed to add pmdomain provider\n");
-+		goto out;
-+	}
-+
-+	return 0;
-+
-+out:
-+	mtk_mfg_power_off(&mfg->pd);
-+	return ret;
-+}
-+
-+static const struct of_device_id mtk_mfg_of_match[] = {
-+	{ .compatible = "mediatek,mt8196-gpufreq", .data = &mtk_mfg_mt8196_variant },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mtk_mfg_of_match);
-+
-+static void mtk_mfg_remove(struct platform_device *pdev)
-+{
-+	struct mtk_mfg *mfg = dev_get_drvdata(&pdev->dev);
-+
-+	if (mtk_mfg_is_powered_on(mfg))
-+		mtk_mfg_power_off(&mfg->pd);
-+
-+	of_genpd_del_provider(pdev->dev.of_node);
-+	pm_genpd_remove(&mfg->pd);
-+
-+	mbox_free_channel(mfg->gf_mbox->ch);
-+	mfg->gf_mbox->ch = NULL;
-+
-+	mbox_free_channel(mfg->slp_mbox->ch);
-+	mfg->slp_mbox->ch = NULL;
-+}
-+
-+static struct platform_driver mtk_mfg_driver = {
-+	.driver = {
-+		.name = "mtk-mfg-pmdomain",
-+		.of_match_table = mtk_mfg_of_match,
-+		.suppress_bind_attrs = true,
-+	},
-+	.probe = mtk_mfg_probe,
-+	.remove = mtk_mfg_remove,
-+};
-+module_platform_driver(mtk_mfg_driver);
-+
-+MODULE_AUTHOR("Nicolas Frattaroli <nicolas.frattaroli@collabora.com>");
-+MODULE_DESCRIPTION("MediaTek MFlexGraphics Power Domain Driver");
-+MODULE_LICENSE("GPL");
-
--- 
-2.51.0
-
+This is what I thought the gsp directory was for, providing abstractions for the
+Gsp. IMHO another layer of abstraction below this seems unnecessary, although
+this is discussed in a bit more detail at the end of my comments on patch 5.
