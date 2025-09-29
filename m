@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622CCBA7D23
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 04:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410FCBA7D29
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 04:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC2E10E1FF;
-	Mon, 29 Sep 2025 02:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8D110E1FC;
+	Mon, 29 Sep 2025 02:41:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="G2vETp7R";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="ED6MdBcq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from OSPPR02CU001.outbound.protection.outlook.com
  (mail-norwayeastazon11013067.outbound.protection.outlook.com [40.107.159.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A9510E1FC
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 02:41:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6D6210E1FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 02:41:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pKDGCdMtNip748uEmxjUkIf6B7+1Gg8nYh5fVC4HQfNo0GMSb6c8II7K/w4P8IwlWldB+G3zHqbq5AM5z3zEnk/+zs/z2ou58GV4j5JifgxWHu+gFT3X+7UoaXYwZLO0ooiuy4dGkEz4N4OHhumrk5tLkckVKfTdAgtdkvU4v97Ah5j09Bq4i597yH9hBtdDTjRrp3E+gunjm7DwdfqQpONuMB9F+12gwPCInt4OiwNNGJ6wmmjWzuTutz1eLV710lbUKxFfHky/p9jZNMUz36rc118eDzXuEDW17/xwtFRTBoD686rPyYeWtTOxQWc2yR9NrDaARS/6QlE72R8djQ==
+ b=VVstS+9ZS3ysAnvsGIdJjsuDsXhfzddPnQJY/W8IE0OaJvVnx/UkqIbLIOF8mDRKuf4z32Cd3xhQtXaGf3r89oWzddMnz+9iZrWjna51V64KV34SLiJz3gmQZO6vVEBiQb0tDY6v7iyd3n8OOfnObcNH5Isons78Qn32CML/StX+CQzavo8lu8dQZzP7U6Ck/uaO5JhPftr2bNKvgfdkcOZ78AB98hOW03C+SYaYbBCDw0xvBie+bTO+t9yvIiqRL5lGGd5u3EeA0UhYKuumVv8S+K1Rz5OLOkz48zKBQfJhTKdJjxXY6ShJrP+Ek3GJTG+pniu64HE3EaqLaMLCxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bsrigFOoVP039rn2Z7hnXpFlJwbipkD2jFQU9mOx2eY=;
- b=abPI0qZqgFceWVb+I+ItVDmuP0xEmXIfZPeRE+ubkeh9FajNTtHpZRIg3PP4cnQKIwA5d+gaqQW8/cYSiiqdTBNcu2u0yHhIOL8D4Ia0CfLXoyzlnWGqhikaWQxhm3MZqI43c2Jyc+5/0cTzir3WZnnjSchGut6LpJ7Dq88/BwMZ3J4jsO2Fa3qVE55igjodjYe8Bl+ER27XIaZo9iXrY5b/PWU0UUKfAc6oOTkYmbYryQ5CAI8thD21rVmpXx6jZmFZlXuZiV1xc1sHCaBL841tvXlfpSDADsA/yhQ0lfcg9fEUF8btEPSL1xhLXd5wri5HYrNUH658UD5GWX1sFw==
+ bh=x444hUPMWFUDiyv7erfnmsGuhdeca+JG8dX2tHlgqMY=;
+ b=b7PPXq7hBU2QVQjxNB12YbAy//RlAsrOCYpAie6QAVujQnNIrZmxt3JT624QhHNiWHcFmhxtsBlWq2Bubdmm0BmzqK8g0YQUYUzo6wfMKS54lVN+DQmWLRLYO1X+DEwrLNwf55ybKQXfNhkKdbcHW8q9LzrLseiuOILPcLM27IbaYP4UmOxl4Nd+hQdxIod/upyssP40i2hFDaQmEL/XnS9/NqgWHiczuEeNlUkk5yqYgVsx9c+g8V1KzvgSFzQ3WTGBbQTWXw9nd9O9Fuutrn1ORr95pfj5DwlkOnlQBp5fdIuAWxomjJaVDt6jbvsqnKnfxzISo27hsmfw9khLlw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bsrigFOoVP039rn2Z7hnXpFlJwbipkD2jFQU9mOx2eY=;
- b=G2vETp7Ryq4nkob7DKWxRZNSDvZ/aJijMlVr7R+3ir16zV2z7362OT3NOwnBGp72zJRGg7VMsA81F7Ig4t0dSQwfMH1wCsism0jpkAH8Dczyqh4lwO20Nf0iqP+t0vSLnnOli2YPLvxWqDWf0eAMaIrRp3K/YQk2uCNNKz+LZ6bc9AqWr74rbSsduQG2MIe3Y2WgN7HCAbFBe16/Tn+cc6QWjpNzGJeohDgI5QCn5lwCLz/awEjVngZTWQfuUzzGDOpALSluVhPxjpLYI8NOgHQicikHQl3Jpa9xc7g+tZspH4I4/0zE68kl6otzLsoHFEIkzT/N1Yw7SmngbNMpmA==
+ bh=x444hUPMWFUDiyv7erfnmsGuhdeca+JG8dX2tHlgqMY=;
+ b=ED6MdBcqLAD8h6kZJg+A/BJ9a1QeL3eem8oZVovCw3ECVv5QWzKfW0pRxShZHSdbPo3GWnVWq/tw7EH4cwLgevdVEqh7/q9Hv55zulouilMoVVN8552Hww+eLW1QQbmPsIfP+TUbSQ4qaA1zXerCYj2mcuUPl1bgyd6yobIH7SlKdkug+zqrpamEo7oHHjGgu0SA7vFDg9MtmvPxH7uYOYu4B/YFjV5OqOFJPcOT7wraujxXT+0gJ+FLr0zbzAufYbOj/05/K2HXCWw4xHjD4eqG84+chEszxr10+G7NC10lsY7pLJx2y7CvnZGJS65aaVIPLyjADLMnfXBEaiaPsA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by VI0PR04MB11722.eurprd04.prod.outlook.com (2603:10a6:800:2ed::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.11; Mon, 29 Sep
- 2025 02:41:13 +0000
+ 2025 02:41:20 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
- 02:41:13 +0000
+ 02:41:20 +0000
 From: Liu Ying <victor.liu@nxp.com>
-Date: Mon, 29 Sep 2025 10:41:43 +0800
-Subject: [PATCH v3 08/14] drm/imx: dc: Use TCON operation mode
+Date: Mon, 29 Sep 2025 10:41:44 +0800
+Subject: [PATCH v3 09/14] drm/imx: dc-ed: Support getting source selection
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250929-imx8-dc-prefetch-v3-8-c01d0608add2@nxp.com>
+Message-Id: <20250929-imx8-dc-prefetch-v3-9-c01d0608add2@nxp.com>
 References: <20250929-imx8-dc-prefetch-v3-0-c01d0608add2@nxp.com>
 In-Reply-To: <20250929-imx8-dc-prefetch-v3-0-c01d0608add2@nxp.com>
 To: Philipp Zabel <p.zabel@pengutronix.de>, 
@@ -69,96 +69,96 @@ X-ClientProxiedBy: SG2PR04CA0212.apcprd04.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB11722:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4acf0924-2127-4374-d86c-08ddff01a81b
+X-MS-Office365-Filtering-Correlation-Id: ad134339-79d8-4eb5-d1f5-08ddff01ab8d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|1800799024|52116014|19092799006|376014|7416014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TVAyanBoMjJZd1FoVFgzcjZ4TjMrSmk5aTUxRWd4cmdXMjRYclJQMHFaWGhV?=
- =?utf-8?B?UldiWEtncmNlRGRUNmltN3N6R0lHa2g5c3MzY1o3eVFNMXN1TlJla0dmcWFw?=
- =?utf-8?B?V2s4bVNMcWRDaWU4TjYyS2lBYXdUekFpZzRSeGdGbHRKMC9mbnB2TkowNTdw?=
- =?utf-8?B?ZWU4cm1maWlKajJlbUhPaVRyQkxadDVXeElNR1dnQUNiampyR1V1ZU8xYktS?=
- =?utf-8?B?VEUwL2dqbWNBelRQZzdTUjU3Nm1ReGVadTVXa2RmVmh5RkxXdjNpSDhKTWpY?=
- =?utf-8?B?UGwxSWRXSDEwUFJobStsZmN3TTh1aE5zYitEbEY1Vi90cW5YcDVvelpnb1kz?=
- =?utf-8?B?NHFTWG1BVmlQdUpTZkJHZ1dHVHJEZnJ3Q0txZVZwM2diZGFaM0RySkFRVE9m?=
- =?utf-8?B?QWtXWWN1aVlvRFNORHJxdS9GS2hReVlncHFlQnFYdmxnRkpQbnpWdXZVbUR4?=
- =?utf-8?B?YUI0clh6SkFOMWIwUlFoR2Y3a0pObDV2T1NERnRsZXJ0VGxLaHhjWjVDcWhP?=
- =?utf-8?B?RFRDU3B5VzJObnVVM25yVFN0TWozNlBlQ29adzJnQkhqL2RkaTJ2YVB6SlZP?=
- =?utf-8?B?cm10bTBObjlVT0JJc01KUXQ2cTYzK2N5Qm8rYUgwWEVCU1NpVjhVQjBETEtz?=
- =?utf-8?B?OVVHSC9MRjAzUzhlSE8xNk5MYXRmalRmZkloZytJSHRQR3Nzc2JoS3lPa1NZ?=
- =?utf-8?B?ZDRrejUvR2RMeXo3OXZzemRDbGpyeDBmWlE4NU0wN1FDTnpMYThpbko3MUFG?=
- =?utf-8?B?dTh6N1JTcFBqTTMwMU91ZXE0N1A5K24xcUl6K0ZvajVpaWZYYi9BR0xiUUJp?=
- =?utf-8?B?dkxuc3Z5RmVFcTc4L0JRTmFFTWJuN3d6Um0wSlppVzZZWFZTTHhBVkJmWTRJ?=
- =?utf-8?B?NEx5aThOTGV4elNHcTVRc1QvNXpCbDIvTkh0L1VEZm5HSlg4Wm4vUzBnRU5B?=
- =?utf-8?B?VFhlRW9yMVgzdWVxYzA2UVJhcDV4SS8rY1Vxc0xZc1dBbmtjZTlVdGFtWmpo?=
- =?utf-8?B?ZWpxTXZvanBUTGkwQ3F6K2l4MGhTVWN3a05mSTEyU2hvSm9JOTFRNFJLOWk2?=
- =?utf-8?B?V3pmQmFJK1lEVzZSVE1TTWFadEpWeWNLR3VRcWVLTW1YenN1dm8zeWZHYUkv?=
- =?utf-8?B?SHUzZnZCS1BGS2tFSTVjaTZFQWU4NWhEMURsaDRHY1Q3Q1pTZk5WRjZKYlNz?=
- =?utf-8?B?WlN0VEpOVGYxUWZBTGtETWVNSXlEK01pdDY2VHpjaWxibFBSS0JuaElrT1lU?=
- =?utf-8?B?RkdsUE0ybWdkZXdJTm14VGc5cExLT0Z2QkMvdmd6M0RkcVA2c0tQdDEyN280?=
- =?utf-8?B?ZUZYSnJFdFFBMVlxK1lUVzYrM0REeGx6aE81emVaRnpEZEQ3WnJvNHpTKzBj?=
- =?utf-8?B?QnFSQ2x5amkvMjVJekdnZHJwclJ2RmpBaGxGdFM5dGVYQnQwUVFjYkN0TTk0?=
- =?utf-8?B?MVV4aTJUaFgwcG0weDdXcjYwcFVEQXdHMm1pcFU1dTY3Q1FqTFZESkhpQ2R5?=
- =?utf-8?B?UGluZWVjMm1uelp4ZHZEbHRxMGpnbU93ckNybEVscUVpMTArbUdMY3dXUFVH?=
- =?utf-8?B?MWdZaVVyNFZJcmpXOTRoYVNKN2pLbFByalRyaG94SkxqNkNXMW9vY1hmYk5p?=
- =?utf-8?B?bEliL0FWQ2RIS0NNSzYxYUhNQWwyWHBHMVdnR1lRb0YxaCt5RnVpOHd6M0hr?=
- =?utf-8?B?U3ZTMm1mQzBFL2dwOHhtQXdwcW9VOWpLUk9GVnBXZThEeWdKN05sQ3dvRm81?=
- =?utf-8?B?WGxzRWRIeFBrakcrVXJ3cXhpNWNIZmpKREZPY0Y3d2k2QWJIbktWRThBYXpm?=
- =?utf-8?B?c1R6QWhWalh0ZklQWFBFSlJWUU94cUZML0xyNVhaZStTZEJuc3ZidER1TWJ5?=
- =?utf-8?B?Yk1BNGcvVjluZEFPRWZRN3NLay9hNk1uSG05MSt4QVFBTjdhNDhQK2w4SWpZ?=
- =?utf-8?B?bXVVSm9sbnBvODNiemdYb0lqUGZYVmg4VTBINlFwY1FZald4S2pRQmZ6Qmdm?=
- =?utf-8?B?MVM1bkRYdll3Nkl2bE9ZVWNkVkhqYnJhRS81Z1JTWTlLTERtbURqaUVZSzFU?=
- =?utf-8?B?ZTQ1dy9PS1dhcjgxY1ZQU3V6Y0xWcFJhUXhkQT09?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dFlNUnBOQXJGRWhiZUx2bmtmQ09XaWY1dEk2VVpoUGM3T2F0NjZFTUl6cnNY?=
+ =?utf-8?B?WWdhT2NSTXh1Z2VKd2xGeG5SUUdXSjkwOFQwTGdXYnUvOFZ5VWFQNU84ODNO?=
+ =?utf-8?B?Vm42ZGJ0ZHhUcVA1K1h3TEJnZDQrMHJFU0RzUzQ3aEtEOFgybndkSWxhdGhV?=
+ =?utf-8?B?cGV3eUJGZGdpZXcvNitkeXRPWHZnUjFpeEZMczduQjV1THlGZlRuZU5OdDNy?=
+ =?utf-8?B?WXcrS3VoZnFhK040N3F5QXE4QXI3NkVsWHhCM0pnZWl4ZUxGSnR3Q1ZBRFZD?=
+ =?utf-8?B?blJFa1dpNElLVVd3Vy9KQXJhaCtueklHUWc2UW5YSkJsL1RvcVIwMWM3dCtM?=
+ =?utf-8?B?VjlLaDgwUFlUQ1ZkZnl2b0N4L0NyM1ZUTzdHc2FsOVFUTXlKVmRPV0dNanl6?=
+ =?utf-8?B?UWRPRVNHc0E3UUJuN0M2ZXM1U0lIVGp2SDNNUEJUSlpKdEdJVWY4cHJod05a?=
+ =?utf-8?B?VFowRTJPZ1FnaVVoNTVzU2ZUdFhBRmxIeGdmSFdnSDJvbzdMeHFFZ09GREJ6?=
+ =?utf-8?B?MUhveXJZYWFHdnJEenhwOFlMWERZSTJOVW8wdTMxOXU5a29zQUt0U3B3N2o4?=
+ =?utf-8?B?S2dqcnZlb0I1N1ZYYkh4enplZ016QzBtcjdlWTVMMFg1QnNBWXVscVdZMWNW?=
+ =?utf-8?B?RkgyVVFtRE1wQksvYXFKcmMzeXNHUEhLYitkWXlnUk9wOC9wQ3hscElydzhU?=
+ =?utf-8?B?TEgwOVdpVWRjRDhoc2xMRGRzbWhiQWxjdklkTGF1NFpwMXkwWmNkWkNpajNJ?=
+ =?utf-8?B?MjBtbXN5alZ1V3diK0dvN1d5K3BqcWlRWDdBNmI3L3gwUWtURW9NcDJvL3k3?=
+ =?utf-8?B?eUNlZkZzcVg3OGxSR1Z6QjVLNjJuNHAxV0JKK3A5WjdsQzBzMk8wbkJKcDRj?=
+ =?utf-8?B?MU5YbFV1a2pQSEFaN1pvL1krVGllOEhGMVVqaktnbFRzNS9jdXc4S1YxdTEv?=
+ =?utf-8?B?VElZZWZ1dnZBak9QNWRYY1VZYXhnTi9yMGxwbUsvZnhQUDZvUm9uWkZDbjZN?=
+ =?utf-8?B?NGVpOFROcWljeTI5cnlJbWRMeXQ4Z0RxWFFPeFhkbkl5eVlxWlluMVNKbW16?=
+ =?utf-8?B?RmlhWGQ5c1VnMTZZRm1MNDlpQzNLRCsvZEgwakpLWWVuOEtqbkJpQmpJcUhS?=
+ =?utf-8?B?Zi8yWmtwYUZGMk5rQmZKUmxkVFNmMlRwYU1vVXNqV0RWcVFLdkdxUGk0OU4z?=
+ =?utf-8?B?TXphamt3RS9VSWNBbmtON2U1aVI1b2lnZFR5SjBkanZvUE5aQTRHNlVaOUM4?=
+ =?utf-8?B?NUsrb09Qa3oyeTc2TGd1UWRFVXV5RlVDSHZ2RHI5Y25DbWJFRjdnMW9zN1FH?=
+ =?utf-8?B?WEpEdXZJUTh1TTdUL3lWc0ZBc2p6Y0NFV21TY1hKclJHb01yR04xUjJlVjlw?=
+ =?utf-8?B?YTF1VzdlZ09VdURDZ1p2aExsSnFrbGJVRFpLbmVNVFRkcjVVOGJaSHVqb29o?=
+ =?utf-8?B?eXdOZ3FJRVhnM1VuUGh2d0RFYUJ0eXlLSzJkUHpKVFViano0dkI4ODlFcWhw?=
+ =?utf-8?B?SUd3SWJ1ODRrb2tGWFNYTGtFK1Z5UjFJWDc3YVBzdmM3YWNpZmIzdVQ5WUJL?=
+ =?utf-8?B?aVVua2hGRUtSbjRQZUZHMzNwOVFOTGRzZzE4cjZtWTRET2RPQmpDZDlGYTlT?=
+ =?utf-8?B?TmczSTdXd1lJS05XYU5TQXJWeFJoU2RoVWZMcWlNRG52THI1THpWYkliMlJR?=
+ =?utf-8?B?cEx5NzZGd2xYaU11Ukd2THl2Z25oWGxCbzlHVytjSVI5UWxuQSt0OUduWmNU?=
+ =?utf-8?B?ZE16Qkl2M1pNY05YbXpUWmM5NmlibzlDSVIwejR1Y3NYRitlU1VsT1dXV3VR?=
+ =?utf-8?B?YUM5cis5eStVTWUwSllEckJIQW9sMXpQNUo3TzlXdExmUjF0SHRUZHRRVjNa?=
+ =?utf-8?B?NmJIdEtsNFFqbTJrYkNsLzhNM0tNNzRhaFpDV0NUT2ZnZW02VDYzcE45eUhD?=
+ =?utf-8?B?d1RtQVpYRFZ3Tmw2K0MyL1lWR0VWOXdhQk9zOGJhTE1MV3B6Wmlqd2hYaXdD?=
+ =?utf-8?B?MWVrQk9Ed0VxYkUrbmhFN05DM24zNTdZekVvVjR1WW41NHdiNEUzdFFYd1Bq?=
+ =?utf-8?B?QzE0eGJSQVREYkt0NzBySm84ZXRFMkZMN3o5QT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(52116014)(19092799006)(376014)(7416014)(38350700014)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDhMUEsyVEp6VW1uZnArSjI4cGZNZVNnZllRdXJrMlJsNlFMVVk0VDFGWmVx?=
- =?utf-8?B?Nys2dkpiN0xEV3RPbVdjbVNPZWxEdEVVOFpsZitnRG9yYnJvaGtiUFNxTDhL?=
- =?utf-8?B?TVNHa2xZbm5LRCtqVkQzckNTb1ZnL05DV2Y3Nkwvanc3aDFtRndHV0JVSjV0?=
- =?utf-8?B?eEhldjhWV3hmYVh2ZUNmcWxRVXFiMUdKWHI1Vm1tMUhQUWErWVBEUWlPN001?=
- =?utf-8?B?TmQ5Mzg2R3Nzeit0YUZGMWYyUFNFc1JrT2JPTGYzTk1XTXRMRmJxRVZSTTM3?=
- =?utf-8?B?aDJ0LzE1MzRsemMvZzBGNld6MWJ5MnFZakxPeXMzZnFqemxVcXZ6Y0lydk04?=
- =?utf-8?B?SmczblQvMDVHV3Q0ZHlIbWlkSExrazMxQmJ1ejViQjg0TlNXbVNucHZESjJ4?=
- =?utf-8?B?cUxNWUZ6aGlwdHJyNlQ2NlY5K04vK2ppQkNtN096bUJrVkN5ZHo5a2RGRmhT?=
- =?utf-8?B?U0tZbGNXL3pVb3hXT2s5S2psRU1VTU1TZk1JZjYyZGFqTUs4SS9qR0FtNnhX?=
- =?utf-8?B?a3NHblN6Sk9JY0owMk5CSlI4MGxObzNNUEQ0YTlueHBuL2xsWjJmZ2Y3S2ZZ?=
- =?utf-8?B?ZXRyRUtpNGl2Q2M4cEVsaXlTa1JoU05LMGprV1hWRnRPLzBBTTY3RnVJeWY5?=
- =?utf-8?B?Ny96TWpYdnFpTVdxMEQxRmJqRzZZaDVoUnNyNlZaL2N4UTJRNGZ3SWdYdWVh?=
- =?utf-8?B?bkFDVVpNNDhnRlIrZEEraUdOQllzYUxDRXhWV0lVSXNIUE83RnFnbUM4Z0Zl?=
- =?utf-8?B?aUNwQmY1TVlGZXcvU2JoTUt5a1RHUFFkcmVPODVIT3RYU1dOVzAwMzhBc0V0?=
- =?utf-8?B?ODd1VXpYYnRnQzIxVkpEQzkzZGdKVktIZE9zQlRiaWx1MmtWaFNBd1lUQm8y?=
- =?utf-8?B?amhzNDBHd3lJcjhkajE3Sk1DTzlnSmJ4RndCdFVBdWJCN2dTKzFpdSs4QUJU?=
- =?utf-8?B?ZkhDRXFTSklsSTE1VlBKWFEzWHl1eWxUMkoyUGVIdXpTRkplZlQ0Z1hhb0d1?=
- =?utf-8?B?cmliNUkrSHU0NGVsSzV6VlRISGlaalB4dlFOTW53Rnk3ZWtTS1ByeFhFVllC?=
- =?utf-8?B?bHo2RGtvOFNUWHFyUVFuQWJOMlBPbWhmTTkvN25yWWRReUFvOGFHOWZ3Y205?=
- =?utf-8?B?VkVUMHdkVkk5OFBFbmhhakdtRDVnNFB3V3NZUXNqamhrbDBPMHZabTBySzVW?=
- =?utf-8?B?WHMrSHpMNUh6QW10U3NDZ2dNRGV0Mkc0M090NVB3eHQ2Y0hDWUFpZFU5OVlM?=
- =?utf-8?B?NkN0eWtHdU0zQmlENHJ0VWxqQzNndEhDdVhjWlhNUFJKd3hJc0doYlBpaTRK?=
- =?utf-8?B?RkgxTlVFbm96TVhOODVRSlp6OThqUGwvVC9mYVc1Nm1WTG92R2dXQ3B4OHBV?=
- =?utf-8?B?Wmx2Mk1xUXo4dGsxU0grQkxkNU11Q3dlQnBwZ2hvbU1rcUhBR1JTZHZiNmNU?=
- =?utf-8?B?dUpoeHg4ekFnNVlGY1JFckRyZjFWWTlKRE9PQnJ5cFg3MGhSTE9QVktrRk5J?=
- =?utf-8?B?SlNiV0hHeGVUYXRtU2VPOWJqbStHakh0TWFUZEZrRERYa1c0djZYQ05OZFBm?=
- =?utf-8?B?b3Q2Tm9KZUt0bEk2UkFuYklLZHFCSTlpVTExd2U2RGdLUW5sdzFvS0dGc1I4?=
- =?utf-8?B?SnRGaUE5RUY3ZjNFT1RDSlZuNkUySm5ZYU4rK0J3YksrczhoelVQRTRHenFm?=
- =?utf-8?B?Z09CcWtIdkVnQXluUElNZVpXZ215elNJV3J6eFk5U3RSRFpxSDFLaW84ZGJY?=
- =?utf-8?B?QXhOelpkTm1xQVpOMU5tVEpzOHhRN0EyR1ZUTEM0SUNRVHF3MlFaMDBkSys3?=
- =?utf-8?B?T1BBY1RyeEpNNmdvVWZpQ1hiNkpvcXdqU2FMbnc2K0o2RjBTNFcydFQ0MmIx?=
- =?utf-8?B?WWxFN2pCcFhIZ0ZBU2FiRkhZVmE1VnBCY2UxbW5BRTB2QktIQmptRUtSRFE4?=
- =?utf-8?B?Ymk5aTR2UVp2cWRYcDNJdmlEYms1VVB1TWZTRUxVemN4eXJ5K2ltNHQ4eUpP?=
- =?utf-8?B?VHFkRWhNczNHZ1dGTlU1L282ZzVTT1BRQzNnMzdveEdqdmtSeFpGWjFyZXNw?=
- =?utf-8?B?TXRlcm45MWZ0SGVReCtoNDVoUno2NEI1dWJ1TytpV2Y3UHc5Q293QW54RVhs?=
- =?utf-8?Q?DTKOBE8yu9N/VIFEKtayPVMrs?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cm0wK2thYStEdGtLN1NIMjJ5bG1KSlVvMDBpVm1QUWFod2p4TDZnbE1Sb0Fi?=
+ =?utf-8?B?Y2tFaDN6ZklpcGFXQVVabGtLYTlITGc5ZXU2eGw4c0grUWhaZzlrZG5xL21D?=
+ =?utf-8?B?NXhxRVdFd2dmV29UM2VvcDlaOS9Fd1E5UHZHcEs4bFdjRzUwL1lJQVgxZVZ0?=
+ =?utf-8?B?NzhNNDd2WSt0MXFTUmUwOU83VDJVN0pwVkNGS0cvTldrZmpiQjVoQzh4ZjZZ?=
+ =?utf-8?B?YUo5Z3lweVdSVVRYTUtIVXZGYkpyN1VqREQray9ybmNJUG8xYkVMUUJNMHRl?=
+ =?utf-8?B?aWQ1WVpMcnkvRzJhdFpabGRldUFJWEZZSm5uMWtTWGRDRnhpeXdPTEJ3cGxG?=
+ =?utf-8?B?c2V5dkVwK1VZWlJJaVdLQVN3aURCQndXUzJLcksvR3JTV3FBUWNNZSthWERJ?=
+ =?utf-8?B?MHdzYjU5bnZuUVFwSU9iQXVJRVhqSVE1VTlxUGExQjB4UThHUjhRZSt5ZFpY?=
+ =?utf-8?B?eWhCRTFZU2FuVktWVCsyeTZHREVZNHFrZ0RxZWpTQkJlMzRsb1k1Qjlvc1l4?=
+ =?utf-8?B?OFNFQVBnNWZjNVJEV3VNNmZ3VlVxTk45NFdFY1ZaRWZrMEYxb0NONDBLSWtD?=
+ =?utf-8?B?TG5iYzBJZXZ6VTMrWFkvM1h1bHBpTStCZlMrOXV0bk9IUU8zeTZlU2tyUytn?=
+ =?utf-8?B?TEtEMk93Wk5EMzRWSENvemFyTFZOcDBaOUZpSWd4bHhqVlRrbnlyc3Jkbk41?=
+ =?utf-8?B?SFA3ZC9ucTlmK25sR3RBWFJBWVUwaGFKSUEyMGJDWDFIUXJzb1ZLbU5nSDhL?=
+ =?utf-8?B?ak5xOU9mMFZJQ2FQdmRTZmdmMmRrV2dxd3hoM3o4N3ZqdXlEZ3NIbFZoRUVL?=
+ =?utf-8?B?d0o4MGQ3ZXp0bVpmTnVTZ3dMTFpJam9IT2hCbEpYL1JoN0wzZCtURE4yU3Zt?=
+ =?utf-8?B?OWpvbnA5UUhoam9sVVRTYWlmMXpCaWlBTUJpZ1JHRmU3cTFVTUFRQ2dRVkpN?=
+ =?utf-8?B?eGtTVWRXa1lVRFlLcmdGRjd1SVpVZlV5REp1Q0NLR0hLRnpOWGZHNTZHTUlr?=
+ =?utf-8?B?V0xqc1Rlc1hWQ3g1OXk1L0pkSTkxTlYrMThZbEZ3blpmbGp5aXBmSWk3b3VJ?=
+ =?utf-8?B?NlpkU095dVBnbWdjU3hWYVlYOGRXR0piYlJxdVdST1F1OXVPeDZrWFZCOGk5?=
+ =?utf-8?B?MzdqRWlVSm1qa0FFMS9PMCtRc1BxZU9IOXZrNjZsZ3RZcWR1QXV0SXhOMkhp?=
+ =?utf-8?B?TU15MHE5aXJTeFIvZ1pEYXc3UlFkYzhJb1NNeWZIcnc5b3FMQkJ4bnkrRldL?=
+ =?utf-8?B?b05YSHlJYUJMbHBEOHE1Y3c5VmNVTHJxZlZBeGk4VGxGMzBUeWpnUXpHTzVs?=
+ =?utf-8?B?cXYyNjJnNk1JSWVVbHlNZ2FOeCtJN2RETWVEdEFlWGVYa3MraVRJOTgraW9i?=
+ =?utf-8?B?Z3owYjVVWG5tSzVPMUV5elNMVmpJRXdXNmROM3ZIQmN4OUxSUlJ5MDlFaXpP?=
+ =?utf-8?B?RDNkVE9Jdkg3VjBDVDZUcEFHNkV5ZTFsUXo1L0F5RW9pL25ScWFFNFlTOXhi?=
+ =?utf-8?B?TkE4S3JaRjBGZ0Y5TlZ1a2JJQ21BQnpSVDVnbDh2M1hsMU8xOW4rWFFhQUNF?=
+ =?utf-8?B?a3ZBcWdrdmpJZXpjQnhzSWEybFBUOVMzNjdhTlVGTjljN0R0UG1VZHZVNHlB?=
+ =?utf-8?B?Um5yemZjTWY0UDVXV2JNYTg0OWJmSXZrRDlFZTlOdi9LUk5XRmdvcWZtMFRy?=
+ =?utf-8?B?dmREeEMwdExONTNhQjVmbmNBTFpFREI4Y3pFSlZsR0NLVEFocVRJSjV6aTk4?=
+ =?utf-8?B?SWthWU9pNnpVczgrTmkwMFhYOEpJQUs1T3cybWNPc2ZLT1lPTWhZNWNmNmVM?=
+ =?utf-8?B?UmpDcStNL002Y25OSkd2dk1sZlNBWVJYZDBTcXhkTGlmc21WKyt2RFZ6RklO?=
+ =?utf-8?B?M2FlK0xWZFdLQzVHUFZsaFIxWnFrSmorUlJndWtNVlUrb3M5WURlN2lvMDRO?=
+ =?utf-8?B?ek9CNVh3bWczcjNRT2R0b2JCOHpYQjdjeU8yODQrcmF2UlFTMHYvTTF3Z1RG?=
+ =?utf-8?B?OFZ6eGgrVlZub2FuNHI3aHMwVUtoYlBoNEsvaEVXREdTWVQ4QklWY2tlaEh0?=
+ =?utf-8?B?TlFRTzJOOXdXQzZBRWlGWnk5K05mSXU4cGFYR2ZEVGpoZ0pCMEdKanNueFN1?=
+ =?utf-8?Q?dzCCU7CAOSRxQ/B49wm3C8QZn?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4acf0924-2127-4374-d86c-08ddff01a81b
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad134339-79d8-4eb5-d1f5-08ddff01ab8d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 02:41:13.7933 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 02:41:20.2651 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mCJr0u5CduaB0FTvhc83Uw2xogUWS8WGiyI5+tozvsyvE7gvW7hzwz8VloMhBrJKdFw//43LBF+2QCGB2Y0C3g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: tTbsXF1TqroZkWGjxqSrr/2Tv7dL4HeP5fjCY9dpMHdvUkyha2pRh5nW4qTtV7EOvgnaowcnfAClFpcP/64cyA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -175,295 +175,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In TCON operation mode, sync signals from FrameGen are ignored, but
-a much more customized output timing can be generated by the TCON
-module.  By using TCON operaton mode, generate KACHUNK signal along
-with HSYNC/VSYNC/data enable signals.  The KACHUNK signal is used as
-a synchronization signal inside the prefetch engine(DPRC + PRG(s),
-attached to FetchUnit(s)).  Carefully switch TCON bypass mode to TCON
-operation mode when CRTC is being enabled so that the prefetch engine
-may evade the first dumb frame generated by the display controller.
-
-Since TCON BYPASS bit is controlled by KMS driver when doing atomic
-commits, drop the bit setting when initializing TCON.  This also
-avoids accidentally initializing TCON BYPASS bit to 1 when driver
-module removing and re-installing where an upcoming patch would
-disable a CRTC at boot in TCON operation mode if needed.
+Add a helper to get ExtDst source selection.  This is needed by
+disabling CRTC at boot in an upcoming commit which tries to get
+the source selection.
 
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
-v3:
+v2:
 - Collect Frank's R-b tag.
 ---
- drivers/gpu/drm/imx/dc/dc-crtc.c |  28 ++++++++++
- drivers/gpu/drm/imx/dc/dc-de.h   |   2 +
- drivers/gpu/drm/imx/dc/dc-kms.h  |   2 +
- drivers/gpu/drm/imx/dc/dc-tc.c   | 114 +++++++++++++++++++++++++++++++++++++--
- 4 files changed, 142 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/imx/dc/dc-ed.c | 26 ++++++++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-pe.h |  1 +
+ 2 files changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/imx/dc/dc-crtc.c b/drivers/gpu/drm/imx/dc/dc-crtc.c
-index 45a87df1ad6a8bd768aa5ed38d6f03f14052b3d7..9e9e86cd5202bcb0bb4d5627dbcefcc3f4e2ead0 100644
---- a/drivers/gpu/drm/imx/dc/dc-crtc.c
-+++ b/drivers/gpu/drm/imx/dc/dc-crtc.c
-@@ -6,8 +6,10 @@
- #include <linux/completion.h>
- #include <linux/container_of.h>
- #include <linux/interrupt.h>
-+#include <linux/irqflags.h>
- #include <linux/irqreturn.h>
- #include <linux/pm_runtime.h>
-+#include <linux/preempt.h>
- #include <linux/spinlock.h>
+diff --git a/drivers/gpu/drm/imx/dc/dc-ed.c b/drivers/gpu/drm/imx/dc/dc-ed.c
+index 86ecc22d0a554bf3eced218df0312b513e10e179..b514790bb765329295553f89d16ee1167ef411dd 100644
+--- a/drivers/gpu/drm/imx/dc/dc-ed.c
++++ b/drivers/gpu/drm/imx/dc/dc-ed.c
+@@ -150,6 +150,32 @@ void dc_ed_pec_src_sel(struct dc_ed *ed, enum dc_link_id src)
+ 	}
+ }
  
- #include <drm/drm_atomic.h>
-@@ -68,6 +70,14 @@ do {									\
- 							__func__);	\
- } while (0)
- 
-+#define DC_CRTC_WAIT_FOR_FRAMEGEN_FRAME_INDEX_MOVING(fg)		\
-+do {									\
-+	if (!dc_fg_wait_for_frame_index_moving(fg))			\
-+		dc_crtc_err(crtc,					\
-+			"%s: FrameGen frame index isn't moving\n",	\
-+							__func__);	\
-+} while (0)
-+
- static inline struct dc_crtc *to_dc_crtc(struct drm_crtc *crtc)
- {
- 	return container_of(crtc, struct dc_crtc, base);
-@@ -229,6 +239,7 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
- 	struct drm_display_mode *adj = &new_crtc_state->adjusted_mode;
- 	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
- 	enum dc_link_id cf_link;
-+	unsigned long flags;
- 	int idx, ret;
- 
- 	dc_crtc_dbg(crtc, "mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(adj));
-@@ -249,6 +260,7 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
- 	enable_irq(dc_crtc->irq_ed_safe_shdload);
- 
- 	dc_fg_cfg_videomode(dc_crtc->fg, adj);
-+	dc_tc_cfg_videomode(dc_crtc->tc, adj);
- 
- 	dc_cf_framedimensions(dc_crtc->cf_cont,
- 			      adj->crtc_hdisplay, adj->crtc_vdisplay);
-@@ -273,7 +285,22 @@ dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
- 	dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
- 	dc_ed_pec_sync_trigger(dc_crtc->ed_safe);
- 	dc_fg_shdtokgen(dc_crtc->fg);
-+
-+	/* Don't relinquish CPU until TCON is set to operation mode. */
-+	local_irq_save(flags);
-+	preempt_disable();
-+
- 	dc_fg_enable(dc_crtc->fg);
-+	/*
-+	 * Turn TCON into operation mode as soon as the first dumb
-+	 * frame is generated by DC(we don't relinquish CPU to ensure
-+	 * this).  This makes DPR/PRG be able to evade the frame.
-+	 */
-+	DC_CRTC_WAIT_FOR_FRAMEGEN_FRAME_INDEX_MOVING(dc_crtc->fg);
-+	dc_tc_set_operation_mode(dc_crtc->tc);
-+
-+	local_irq_restore(flags);
-+	preempt_enable();
- 
- 	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_safe_shdload_done);
- 	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdload_done);
-@@ -561,6 +588,7 @@ int dc_crtc_init(struct dc_drm_device *dc_drm, int crtc_index)
- 	dc_crtc->ed_cont = pe->ed_cont[crtc_index];
- 	dc_crtc->ed_safe = pe->ed_safe[crtc_index];
- 	dc_crtc->fg = de->fg;
-+	dc_crtc->tc = de->tc;
- 
- 	dc_crtc->irq_dec_framecomplete = de->irq_framecomplete;
- 	dc_crtc->irq_dec_seqcomplete = de->irq_seqcomplete;
-diff --git a/drivers/gpu/drm/imx/dc/dc-de.h b/drivers/gpu/drm/imx/dc/dc-de.h
-index 211f3fcc1a9ad642617d3b22e35ea923f75e645b..c39f2ef5eea98c3eb6ae9b5392f9bf9f7e33e7c5 100644
---- a/drivers/gpu/drm/imx/dc/dc-de.h
-+++ b/drivers/gpu/drm/imx/dc/dc-de.h
-@@ -54,6 +54,8 @@ enum drm_mode_status dc_fg_check_clock(struct dc_fg *fg, int clk_khz);
- void dc_fg_init(struct dc_fg *fg);
- 
- /* Timing Controller Unit */
-+void dc_tc_set_operation_mode(struct dc_tc *tc);
-+void dc_tc_cfg_videomode(struct dc_tc *tc, struct drm_display_mode *m);
- void dc_tc_init(struct dc_tc *tc);
- 
- #endif /* __DC_DISPLAY_ENGINE_H__ */
-diff --git a/drivers/gpu/drm/imx/dc/dc-kms.h b/drivers/gpu/drm/imx/dc/dc-kms.h
-index cd7860eff986a272f6983ad0f3cc87dbf40c2851..a25d47eebd28792e4b53b4ecc89907ce00430c2c 100644
---- a/drivers/gpu/drm/imx/dc/dc-kms.h
-+++ b/drivers/gpu/drm/imx/dc/dc-kms.h
-@@ -50,6 +50,8 @@ struct dc_crtc {
- 	struct dc_ed *ed_safe;
- 	/** @fg: framegen */
- 	struct dc_fg *fg;
-+	/** @tc: tcon */
-+	struct dc_tc *tc;
- 	/**
- 	 * @irq_dec_framecomplete:
- 	 *
-diff --git a/drivers/gpu/drm/imx/dc/dc-tc.c b/drivers/gpu/drm/imx/dc/dc-tc.c
-index 0bfd381b2cea15444c399f3ad261e2d061ea1c9f..6f1dc71f1b40cb4d99ca177172bd0066f39e8314 100644
---- a/drivers/gpu/drm/imx/dc/dc-tc.c
-+++ b/drivers/gpu/drm/imx/dc/dc-tc.c
-@@ -9,11 +9,30 @@
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- 
-+#include <drm/drm_modes.h>
-+
- #include "dc-drv.h"
- #include "dc-de.h"
- 
- #define TCON_CTRL	0x410
--#define  CTRL_RST_VAL	0x01401408
-+#define  SPLITPOSITION_MASK	GENMASK(29, 16)
-+#define  SPLITPOSITION(n)	FIELD_PREP(SPLITPOSITION_MASK, (n))
-+#define  DUAL_SWAP	BIT(15)
-+#define  MINILVDS_OPCODE_MASK	GENMASK(14, 12)
-+#define  MODE_4PAIRS	FIELD_PREP(MINILVDS_OPCODE_MASK, 0x1)
-+#define  LVDS_CLOCK_INV	BIT(11)
-+#define  LVDS_BALANCE	BIT(10)
-+#define  LVDSMODE	BIT(9)
-+#define  ENLVDS		BIT(8)
-+#define  INV_CTRL_MASK	GENMASK(7, 4)
-+#define  BYPASS		BIT(3)
-+#define  TCON_SYNC	BIT(2)
-+#define  CHANNELMODE_MASK	GENMASK(1, 0)
-+#define  CTRL_RST_MASK	\
-+		(SPLITPOSITION_MASK | DUAL_SWAP | MINILVDS_OPCODE_MASK | \
-+		 LVDS_CLOCK_INV | LVDS_BALANCE | LVDSMODE | ENLVDS | \
-+		 INV_CTRL_MASK | TCON_SYNC | CHANNELMODE_MASK)
-+#define  CTRL_RST_VAL  (SPLITPOSITION(0x140) | MODE_4PAIRS | LVDS_BALANCE)
- 
- /* red: MAPBIT 29-20, green: MAPBIT 19-10, blue: MAPBIT 9-0 */
- #define MAPBIT3_0	0x418
-@@ -25,6 +44,16 @@
- #define MAPBIT27_24	0x430
- #define MAPBIT31_28	0x434
- 
-+#define SPGPOSON(n)	(0x460 + (n) * 16)
-+#define SPGMASKON(n)	(0x464 + (n) * 16)
-+#define SPGPOSOFF(n)	(0x468 + (n) * 16)
-+#define SPGMASKOFF(n)	(0x46c + (n) * 16)
-+#define  X(n)		FIELD_PREP(GENMASK(30, 16), (n))
-+#define  Y(n)		FIELD_PREP(GENMASK(14, 0), (n))
-+
-+#define SMXSIGS(n)	(0x520 + (n) * 8)
-+#define SMXFCTTABLE(n)	(0x524 + (n) * 8)
-+
- static const struct dc_subdev_info dc_tc_info[] = {
- 	{ .reg_start = 0x5618c800, .id = 0, },
- 	{ .reg_start = 0x5618e400, .id = 1, },
-@@ -33,6 +62,8 @@ static const struct dc_subdev_info dc_tc_info[] = {
- static const struct regmap_range dc_tc_regmap_ranges[] = {
- 	regmap_reg_range(TCON_CTRL, TCON_CTRL),
- 	regmap_reg_range(MAPBIT3_0, MAPBIT31_28),
-+	regmap_reg_range(SPGPOSON(0), SPGMASKOFF(4)),
-+	regmap_reg_range(SMXSIGS(0), SMXFCTTABLE(3)),
- };
- 
- static const struct regmap_access_table dc_tc_regmap_access_table = {
-@@ -47,7 +78,7 @@ static const struct regmap_config dc_tc_regmap_config = {
- 	.fast_io = true,
- 	.wr_table = &dc_tc_regmap_access_table,
- 	.rd_table = &dc_tc_regmap_access_table,
--	.max_register = MAPBIT31_28,
-+	.max_register = SMXFCTTABLE(3),
- };
- 
- /*
-@@ -60,10 +91,85 @@ static const u32 dc_tc_mapbit[] = {
- 	0x13121110, 0x03020100, 0x07060504, 0x00000908,
- };
- 
-+void dc_tc_set_operation_mode(struct dc_tc *tc)
++int dc_ed_pec_src_sel_get(struct dc_ed *ed, enum dc_link_id *src)
 +{
-+	regmap_write_bits(tc->reg, TCON_CTRL, BYPASS, 0);
++	u32 val;
++
++	regmap_read(ed->reg_pec, PIXENGCFG_DYNAMIC, &val);
++
++	switch (val) {
++	case LINK_ID_NONE:
++	case LINK_ID_CONSTFRAME0:
++	case LINK_ID_CONSTFRAME4:
++	case LINK_ID_CONSTFRAME1:
++	case LINK_ID_CONSTFRAME5:
++	case LINK_ID_FETCHWARP2:
++	case LINK_ID_FETCHLAYER0:
++	case LINK_ID_LAYERBLEND0:
++	case LINK_ID_LAYERBLEND1:
++	case LINK_ID_LAYERBLEND2:
++	case LINK_ID_LAYERBLEND3:
++		*src = val;
++		dev_dbg(ed->dev, "get source selection: 0x%02x\n", val);
++		return 0;
++	default:
++		return -EINVAL;
++	}
 +}
 +
-+void dc_tc_cfg_videomode(struct dc_tc *tc, struct drm_display_mode *m)
-+{
-+	int hdisplay, hsync_start, hsync_end;
-+	int vdisplay, vsync_start, vsync_end;
-+	int y;
-+
-+	hdisplay = m->hdisplay;
-+	vdisplay = m->vdisplay;
-+	hsync_start = m->hsync_start;
-+	vsync_start = m->vsync_start;
-+	hsync_end = m->hsync_end;
-+	vsync_end = m->vsync_end;
-+
-+	/*
-+	 * Turn TCON into operation mode later after the first dumb frame is
-+	 * generated by DC.  This makes DPR/PRG be able to evade the frame.
-+	 */
-+	regmap_write_bits(tc->reg, TCON_CTRL, BYPASS, BYPASS);
-+
-+	/* dsp_control[0]: HSYNC */
-+	regmap_write(tc->reg, SPGPOSON(0), X(hsync_start));
-+	regmap_write(tc->reg, SPGMASKON(0), 0xffff);
-+
-+	regmap_write(tc->reg, SPGPOSOFF(0), X(hsync_end));
-+	regmap_write(tc->reg, SPGMASKOFF(0), 0xffff);
-+
-+	regmap_write(tc->reg, SMXSIGS(0), 0x2);
-+	regmap_write(tc->reg, SMXFCTTABLE(0), 0x1);
-+
-+	/* dsp_control[1]: VSYNC */
-+	regmap_write(tc->reg, SPGPOSON(1), X(hsync_start) | Y(vsync_start - 1));
-+	regmap_write(tc->reg, SPGMASKON(1), 0x0);
-+
-+	regmap_write(tc->reg, SPGPOSOFF(1), X(hsync_start) | Y(vsync_end - 1));
-+	regmap_write(tc->reg, SPGMASKOFF(1), 0x0);
-+
-+	regmap_write(tc->reg, SMXSIGS(1), 0x3);
-+	regmap_write(tc->reg, SMXFCTTABLE(1), 0x1);
-+
-+	/* dsp_control[2]: data enable */
-+	/* horizontal */
-+	regmap_write(tc->reg, SPGPOSON(2), 0x0);
-+	regmap_write(tc->reg, SPGMASKON(2), 0xffff);
-+
-+	regmap_write(tc->reg, SPGPOSOFF(2), X(hdisplay));
-+	regmap_write(tc->reg, SPGMASKOFF(2), 0xffff);
-+
-+	/* vertical */
-+	regmap_write(tc->reg, SPGPOSON(3), 0x0);
-+	regmap_write(tc->reg, SPGMASKON(3), 0x7fff0000);
-+
-+	regmap_write(tc->reg, SPGPOSOFF(3), Y(vdisplay));
-+	regmap_write(tc->reg, SPGMASKOFF(3), 0x7fff0000);
-+
-+	regmap_write(tc->reg, SMXSIGS(2), 0x2c);
-+	regmap_write(tc->reg, SMXFCTTABLE(2), 0x8);
-+
-+	/* dsp_control[3]: KACHUNK */
-+	y = vdisplay + 1;
-+
-+	regmap_write(tc->reg, SPGPOSON(4), X(0x0) | Y(y));
-+	regmap_write(tc->reg, SPGMASKON(4), 0x0);
-+
-+	regmap_write(tc->reg, SPGPOSOFF(4), X(0x20) | Y(y));
-+	regmap_write(tc->reg, SPGMASKOFF(4), 0x0);
-+
-+	regmap_write(tc->reg, SMXSIGS(3), 0x6);
-+	regmap_write(tc->reg, SMXFCTTABLE(3), 0x2);
-+}
-+
- void dc_tc_init(struct dc_tc *tc)
+ void dc_ed_pec_sync_trigger(struct dc_ed *ed)
  {
--	/* reset TCON_CTRL to POR default so that TCON works in bypass mode */
--	regmap_write(tc->reg, TCON_CTRL, CTRL_RST_VAL);
-+	/* reset TCON_CTRL to POR default except for touching BYPASS bit */
-+	regmap_write_bits(tc->reg, TCON_CTRL, CTRL_RST_MASK, CTRL_RST_VAL);
+ 	regmap_write(ed->reg_pec, PIXENGCFG_TRIGGER, SYNC_TRIGGER);
+diff --git a/drivers/gpu/drm/imx/dc/dc-pe.h b/drivers/gpu/drm/imx/dc/dc-pe.h
+index f5e01a6eb9e918516adfc89949665fdd2ff1e40e..0b81dc6b251c452e7ca72f1cd12af065bafaa198 100644
+--- a/drivers/gpu/drm/imx/dc/dc-pe.h
++++ b/drivers/gpu/drm/imx/dc/dc-pe.h
+@@ -85,6 +85,7 @@ void dc_cf_init(struct dc_cf *cf);
  
- 	/* set format */
- 	regmap_bulk_write(tc->reg, MAPBIT3_0, dc_tc_mapbit,
+ /* External Destination Unit */
+ void dc_ed_pec_src_sel(struct dc_ed *ed, enum dc_link_id src);
++int dc_ed_pec_src_sel_get(struct dc_ed *ed, enum dc_link_id *src);
+ void dc_ed_pec_sync_trigger(struct dc_ed *ed);
+ void dc_ed_init(struct dc_ed *ed);
+ 
 
 -- 
 2.34.1
