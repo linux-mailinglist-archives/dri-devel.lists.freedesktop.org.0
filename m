@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD99CBA8635
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 10:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B72BA8691
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 10:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8A410E225;
-	Mon, 29 Sep 2025 08:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAED310E3BD;
+	Mon, 29 Sep 2025 08:37:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UM54KxuS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YgQXE/8l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2B7D10E225;
- Mon, 29 Sep 2025 08:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759134311; x=1790670311;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=SkljFC53J8twn2X6cXUMB3XSIOvCtrGLWbPUzii5Oss=;
- b=UM54KxuS7tnzkLBcSzLUrJFwensbBTz1Te4pmK3dCUfWQ7z+4/Zewd/D
- ACqyjQep39cAV91h+6e/Rnt1juXBBL9o8W6UybuBV6jbXin883Q7KH1pI
- HnEvbXBbnMf+5I7Js4Ueof2yQJFG6yMZYW/N7pYKBai7Bi+MtLKN5f8ah
- kS0HuDMO5LOmrNnCYwqatH3c11eIRmh9B47JwPbx0MdVDW3rI6bcQm0OY
- 62BhnwCMdZGNQdBTVN+XH5s4IVeWod+5Zp5kuFjBmjr/nNEkmmkQ7pmnd
- baQtLffRnFOLLjDzma88DwLowfuYKgdBKoToTWIPbs8Wtrc8Q8HEphcFU Q==;
-X-CSE-ConnectionGUID: vtwc28SjSd6h90ssiRgtbA==
-X-CSE-MsgGUID: r1LhzpLdQ3yaq8zkUGmulw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="71617571"
-X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="71617571"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2025 01:25:11 -0700
-X-CSE-ConnectionGUID: oBV59mbYQf2bxdiXMpjNew==
-X-CSE-MsgGUID: Dm+G7RNJT/6nFeaAElQvZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="178234154"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.245.197])
- ([10.245.245.197])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2025 01:25:09 -0700
-Message-ID: <42520738dbc23174181db7d31d55de56996fba88.camel@linux.intel.com>
-Subject: Re: [RFC PATCH v2 1/2] dma-buf: Add support for private interconnects
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jason
- Gunthorpe <jgg@nvidia.com>
-Cc: intel-xe@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Kasireddy Vivek
- <vivek.kasireddy@intel.com>, Simona Vetter	 <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 	linaro-mm-sig@lists.linaro.org
-Date: Mon, 29 Sep 2025 10:25:06 +0200
-In-Reply-To: <a5ffd1ee-b0b5-40bd-b68f-3779ca70dcae@amd.com>
-References: <20250926084624.2288-1-thomas.hellstrom@linux.intel.com>
- <20250926084624.2288-2-thomas.hellstrom@linux.intel.com>
- <472f27f0-2f54-45dd-b0a6-3a26b5eec301@amd.com>
- <ef9f4fb1c55bf3e5e6423b2accdccee0607b95ef.camel@linux.intel.com>
- <20250926144128.GD2617119@nvidia.com>
- <765e3449-2eb1-49f5-954e-3bab5a5fc9d1@amd.com>
- <20250926160036.GE2617119@nvidia.com>
- <d3cc5b7fe4189c6f529b532273ece34c9c0e975f.camel@linux.intel.com>
- <a5ffd1ee-b0b5-40bd-b68f-3779ca70dcae@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0827E10E3C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 08:37:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id DC5F662339;
+ Mon, 29 Sep 2025 08:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA6BC4CEF4;
+ Mon, 29 Sep 2025 08:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759135068;
+ bh=8X3bC5ZmFeK58UgyyT40VVtc7YpFDCj89sUYr6xGYpw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YgQXE/8lYz8HxcUWf/DvTXB3frvyCZbZYDYzLVlalKtpaeaJMX38S42Sk8GWgcLPl
+ 85Vemu2ljr7XuxypYb+JnuTc/o44e39r91uhZg6xIi3iEOkPvVC64pHAqNM6d22+CR
+ sOPFn6QPTQ4nhvnTCOIU5iOLaSdrLTmlfpfwdHtjdLyIqwTx3W3kREXUmZl2wgZAFi
+ TcKM/uAx3gvfIBYrw+uSqXi6cA4WEDuqiae8blfSIBZHZAVkrRvWAC4qChgaRS3kCo
+ zRP0pOz1X2HltWHo45ARFOND2FSy3sL4cvYFhh5TSxgLdE54GFg+izWz5g07TUYPsZ
+ uKItdcofgaIYg==
+Date: Mon, 29 Sep 2025 10:37:45 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
+ bridges
+Message-ID: <20250929-cheerful-beagle-of-health-e40d38@houat>
+References: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="y6znywc5jj6sunh2"
+Content-Disposition: inline
+In-Reply-To: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,147 +68,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-09-29 at 10:20 +0200, Christian K=C3=B6nig wrote:
-> On 29.09.25 10:16, Thomas Hellstr=C3=B6m wrote:
-> > On Fri, 2025-09-26 at 13:00 -0300, Jason Gunthorpe wrote:
-> > > On Fri, Sep 26, 2025 at 04:51:29PM +0200, Christian K=C3=B6nig wrote:
-> > > > On 26.09.25 16:41, Jason Gunthorpe wrote:
-> > > > > On Fri, Sep 26, 2025 at 03:51:21PM +0200, Thomas Hellstr=C3=B6m
-> > > > > wrote:
-> > > > >=20
-> > > > > > Well both exporter and exporter has specific information
-> > > > > > WRT
-> > > > > > this. The
-> > > > > > ultimate decision is done in the exporter attach()
-> > > > > > callback,
-> > > > > > just like
-> > > > > > pcie_p2p. And the exporter acknowledges that by setting the
-> > > > > > dma_buf_attachment::interconnect_attach field. In analogy
-> > > > > > with
-> > > > > > the
-> > > > > > dma_buf_attachment::peer2peer member.
-> > > > >=20
-> > > > > Having a single option seems too limited to me..
-> > > >=20
-> > > > Yeah, agree.
-> > > >=20
-> > > > > I think it would be nice if the importer could supply a list
-> > > > > of
-> > > > > 'interconnects' it can accept, eg:
-> > > > >=20
-> > > > > =C2=A0- VRAM offset within this specific VRAM memory
-> > > > > =C2=A0- dma_addr_t for this struct device
-> > > > > =C2=A0- "IOVA" for this initiator on a private interconnect
-> > > > > =C2=A0- PCI bar slice
-> > > > > =C2=A0- phys_addr_t (used between vfio, kvm, iommufd)
-> > > >=20
-> > > > I would rather say that the exporter should provide the list of
-> > > > what
-> > > > interconnects the buffer might be accessible through.
-> > >=20
-> > > Either direction works, I sketched it like this because I thought
-> > > there were more importers than exporters, and in the flow it is
-> > > easy
-> > > for the importer to provide a list on the stack
-> > >=20
-> > > I didn't sketch further, but I think the exporter and importer
-> > > should
-> > > both be providing a compatible list and then in almost all cases
-> > > the
-> > > core code should do the matching.
-> > >=20
-> > > If the importer works as I showed, then the exporter version
-> > > would be
-> > > in an op:
-> > >=20
-> > > int exporter_negotiate_op(struct dma_buf *dmabuf,
-> > > =C2=A0=C2=A0 struct dma_buf_interconnect_negotiation *importer_suppor=
-t,
-> > > size_t
-> > > importer_len)
-> > > {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_interconnect_negotiation expo=
-rter_support[2]
-> > > =3D {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [0] =3D {.interconne=
-ct =3D myself->xe_vram},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [1] =3D {.interconne=
-ct =3D &dmabuf_generic_dma_addr_t,
-> > > .interconnect_args =3D exporter_dev},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 };
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 return dma_buf_helper_negotiate(dmabuf, expo=
-rter_support,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ARRAY_SIZE(exporter_support), importer_support,
-> > > importer_len);
-> > > }
-> > >=20
-> > > Which the dma_buf_negotiate() calls.
-> > >=20
-> > > The core code does the matching generically, probably there is a
-> > > struct dma_buf_interconnect match() op it uses to help this
-> > > process.
-> > >=20
-> > > I don't think importer or exporter should be open coding any
-> > > matching.
-> > >=20
-> > > For example, we have some systems with multipath PCI. This could
-> > > actually support those properly. The RDMA NIC has two struct
-> > > devices
-> > > it operates with different paths, so it would write out two
-> > > &dmabuf_generic_dma_addr_t's - one for each.
-> > >=20
-> > > The GPU would do the same. The core code can have generic code to
-> > > evaluate if P2P is possible and estimate some QOR between the
-> > > options.
-> >=20
-> > This sounds OK with me. I have some additional questions, though,
-> >=20
-> > 1) Everybody agrees that the interconnect used is a property of the
-> > attachment? It should be negotiated during attach()?
->=20
-> Yes, attach allows the exporter to know who wants to access it's
-> buffer.
->=20
-> Map/unmap then requests the actual location where the exporter has
-> moved the buffer so that it is accessible by everybody.
->=20
-> > 2) dma-buf pcie-p2p allows transparent fallback to system memory
-> > dma-
-> > buf. I think that is a good thing to keep even for other
-> > interconnects
-> > (if possible). Like if someone wants to pull the network cable, we
-> > could trigger a move_notify() and on next map() we'd fall back. Any
-> > ideas around this?
->=20
-> We already do that if new importers come along.
->=20
-> E.g. you have a connection which can do PCIe P2P and then suddenly
-> somebody attaches which can only do DMA to system memory. In that
-> situation we use move_notify to move the buffer into system memory
-> and imports re-map it to grasp the new location.
 
-Sure, Just wandering whether we should document and require that also
-for fast interconnects. So that if we use a new map_attachment()
-function, like was suggested ealier, if that fails, the importer should
-ideally retry with the old one to get an sg-list to system memory?
+--y6znywc5jj6sunh2
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
+ bridges
+MIME-Version: 1.0
 
-Thanks,
-Thomas
-
-
+On Fri, Sep 26, 2025 at 04:59:40PM +0200, Luca Ceresoli wrote:
+> drm_bridge_connector_init() takes eight pointers to various bridges, some
+> of which can be identical, and stores them in pointers inside struct
+> drm_bridge_connector. Get a reference to each of the taken bridges and put
+> it on cleanup.
 >=20
-> Regards,
-> Christian.
+> This is tricky because the pointers are currently stored directly in the
+> drm_bridge_connector in the loop, but there is no nice and clean way to p=
+ut
+> those pointers on error return paths. To overcome this, store all pointers
+> in temporary local variables with a cleanup action, and only on success
+> copy them into struct drm_bridge_connector (getting another ref while
+> copying).
 >=20
-> >=20
-> > Thanks,
-> > Thomas
-> >=20
-> >=20
-> >=20
-> > >=20
-> > > Jason
-> >=20
+> Additionally four of these pointers (edid, hpd, detect and modes) can be
+> written in multiple loop iterations, in order to eventually store the last
+> matching bridge. However, when one of those pointers is overwritten, we
+> need to put the reference that we got during the previous assignment. Add=
+ a
+> drm_bridge_put() before writing them to handle this.
 >=20
+> Finally, there is also a function-local panel_bridge pointer taken inside
+> the loop and used after the loop. Use a cleanup action as well to ensure =
+it
+> is put on return.
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+> This series ensures the bridge-connector gets a reference to bridges when
+> storing a pointer to them, and releases them afterwards.
+>=20
+> This is part of the work towards removal of bridges from a still existing
+> DRM pipeline without use-after-free. The grand plan was discussed in [1].
+> Here's the work breakdown (=E2=9E=9C marks the current series):
+>=20
+>  1. =E2=9E=9C add refcounting to DRM bridges (struct drm_bridge)
+>     (based on devm_drm_bridge_alloc() [0])
+>     A. =E2=9C=94 add new alloc API and refcounting (v6.16)
+>     B. =E2=9C=94 convert all bridge drivers to new API (v6.17)
+>     C. =E2=9C=94 kunit tests (v6.17)
+>     D. =E2=9C=94 add get/put to drm_bridge_add/remove() + attach/detach()
+>          and warn on old allocation pattern (v6.17)
+>     E. =E2=80=A6 add get/put on drm_bridge accessors
+>        1. =E2=9C=94 drm_bridge_chain_get_first_bridge() + add a cleanup a=
+ction
+>             (drm-misc-next)
+>        2. =E2=9C=94 drm_bridge_get_prev_bridge() (drm-misc-next)
+>        3. =E2=9C=94 drm_bridge_get_next_bridge() (drm-misc-next)
+>        4. =E2=9C=94 drm_for_each_bridge_in_chain() (drm-misc-next)
+>        5. =E2=9E=9C drm_bridge_connector_init
+>        6. protect encoder bridge chain with a mutex
+>        7. of_drm_find_bridge
+>        8. drm_of_find_panel_or_bridge, *_of_get_bridge
+>     F. =E2=9E=9C debugfs improvements
+>        1. =E2=9C=94 add top-level 'bridges' file (v6.16)
+>        2. =E2=9C=94 show refcount and list removed bridges (drm-misc-next)
+>  2. =E2=80=A6 handle gracefully atomic updates during bridge removal
+>  3. =E2=80=A6 DSI host-device driver interaction
+>  4. removing the need for the "always-disconnected" connector
+>  5. finish the hotplug bridge work, moving code to the core and potential=
+ly
+>     removing the hotplug-bridge itself (this needs to be clarified as
+>     points 1-3 are developed)
+>=20
+> This was tricky both because there is no central place in
+> drm_bridge_connector.c to put the references on disposal (handled by patch
+> 1) and because of the complex code flow of drm_bridge_connector_init()
+> (handled by patch 2).
+> ---
+> Changes in v2:
+> - Use drmm_add_action() instead of hacking the .destroy connector func
+> - Removed patch 1 (where the hacking the .destroy connector func was)
+> - Link to v1: https://lore.kernel.org/r/20250925-drm-bridge-alloc-getput-=
+bridge-connector-v1-0-f0736e1c73ee@bootlin.com
+> ---
+>  drivers/gpu/drm/display/drm_bridge_connector.c | 114 +++++++++++++++++--=
+------
+>  1 file changed, 78 insertions(+), 36 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
+/drm/display/drm_bridge_connector.c
+> index a5bdd6c1064399ece6b19560f145b877c9e0680e..7b18be3ff9a32b36246835183=
+5bdab43c3f524f1 100644
+> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+> @@ -618,6 +618,20 @@ static const struct drm_connector_hdmi_cec_funcs drm=
+_bridge_connector_hdmi_cec_f
+>   * Bridge Connector Initialisation
+>   */
+> =20
+> +static void drm_bridge_connector_put_bridges(struct drm_device *dev, voi=
+d *data)
+> +{
+> +	struct drm_bridge_connector *bridge_connector =3D (struct drm_bridge_co=
+nnector *)data;
+> +
+> +	drm_bridge_put(bridge_connector->bridge_edid);
+> +	drm_bridge_put(bridge_connector->bridge_hpd);
+> +	drm_bridge_put(bridge_connector->bridge_detect);
+> +	drm_bridge_put(bridge_connector->bridge_modes);
+> +	drm_bridge_put(bridge_connector->bridge_hdmi);
+> +	drm_bridge_put(bridge_connector->bridge_hdmi_audio);
+> +	drm_bridge_put(bridge_connector->bridge_dp_audio);
+> +	drm_bridge_put(bridge_connector->bridge_hdmi_cec);
+> +}
+> +
 
+I'd rather have a drmm_bridge_get helper that register the action
+itself, but that can be fixed later on.
+
+Maxime
+
+--y6znywc5jj6sunh2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNpFVQAKCRAnX84Zoj2+
+doXTAX9meJVNQ4dFu1UPbSaawaQf/e2082k1Xb0ZvZxVJb/jZAEp1G8zt7Uz2uK1
+hLrWZ8sBfikzR76GKLnK1HRQ0ZG9GdohBppblHmZG7SGA0j0XRD7iySNPt4dhlbc
+6zXhQbq9lQ==
+=cdBZ
+-----END PGP SIGNATURE-----
+
+--y6znywc5jj6sunh2--
