@@ -2,107 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A90ABAA895
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 21:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC10BAA8CB
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 22:04:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D53510E045;
-	Mon, 29 Sep 2025 19:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C62C910E48D;
+	Mon, 29 Sep 2025 20:04:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A8YBKcob";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gGJrNrzT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F68410E045
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:57:42 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-28d18e933a9so686295ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 12:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759175862; x=1759780662; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ILAe+VRfX0Fc+b5qLvaJzfBUJ4qz7jOpbJP92apYs7g=;
- b=A8YBKcobEtAIa5QOJq/qdapdzMpIZ8KLC5ncWD+GBNHFUyWwccYdsd6VmdFelqJnYb
- EoalWCr4vhAVTyeeAdj34gbv5SlOfjBxhCWcr5Z0QyhwqJvi8j6cUiiNVxXN+U4D8Ajw
- XqJ72YtDaWoTSiojaVmz3d2Jq7lWKY6Nw5C2/V+wuG0sawMcMl87zJTysTuqo9eRAScE
- yMq+Gnmw6CeEaMTjT8Vd8NTYoJtfg5an9LRdboVWnOPEbXIiWTolIsRpPilf06QWSBNw
- uvQ0vBKD3QMHKe9IdUwTg7hXxIXtrrQTO6lRpzfPp2unpxmIhWTnpfXfYSrhn6sD/Yh9
- 46Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759175862; x=1759780662;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ILAe+VRfX0Fc+b5qLvaJzfBUJ4qz7jOpbJP92apYs7g=;
- b=GGrrwBR15sAzfhQonGbc7iIOOdccKzCK4ULnUuYRig4LDVrlyBaN6n8J3MPdp1r2US
- lj1lj2P1WhuvJQLzI+grgvJiy8KG1BnE3bAWpklRDef5e9uDqabBWM2ybZ2HgomK/wB/
- 7/PZTNeXjHoqYS7FS+MrOEt1FgyMbKYCtj9+XIZfWvwvShxuzD89gsO8iW2FmQIWlkRg
- 2sBKXlizo2slP+yWB0207ZIAvOZsM2RlNpPjSWFR3krfbAS+Rv0OJEN8ScKjKeq9eaez
- T84Gzp4nC+kXwPRjokSmAz8sKqIivma3xOmITkXO6Nq9JmOUxeGSdQChC1XPeZNKas/Y
- e8eA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLv7pW/YVS+wQKEP2B3bUDOSR6kkhJQyko/ZVa8f5pcsk/aueTuTqLfyRkKj7lTFhNvBdBKs61nWk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWI9GAmQc3JV1yXsf/uLcagfua6ogaFx387DrJfifJ2hcr9j7M
- cxoPBRoYar3dR6X4up5u9dK+wOuZZMJFt4WX76J0h2l9Zv0hTGARf0Pffz+ImSQ/06W6+d7w4uu
- LHiLuDWPLWbQin5XE0LXkqTmgM3mFq1s=
-X-Gm-Gg: ASbGnctVoWDQTDHWh5E3oSFWxF5Rm7/b707pVnsPx1X6WPOqMj+Du2X/Zzc31VgwGTj
- v++w1RMHdW18/zpEA4Y/QCj2JyyLJpf9Rl8agV5ls/M0sBbyD8m38fnfUU63XfnjSQe8S3Coio7
- J+oHG/q4TOBoiaCcni9zLwti912DlFyhFVApV/u/NtjEBJxYeugZH/0lXLa9hRU3gQ4x2kLydeO
- /IgkMEVvU+JIC5ABrQZ6mf3EEhnUUW5cT/FMe9Jt8RjPC1bxTFIPudfxEDgSg3rBG4N2tD2vySo
- uxqaU2oEGh7yTC+rcSWDUYCfKFkHFtxXqh+g
-X-Google-Smtp-Source: AGHT+IGYfATe7mmNTC4A+jEkwD5MzSelb1z0lWF68kS0t/NWgoEWKg6nD9jI4X3FoSNWbDyeH2i7qWWFajxt0X+1x5w=
-X-Received: by 2002:a17:902:d501:b0:277:c230:bfc7 with SMTP id
- d9443c01a7336-27ed4a5d82bmr113039375ad.11.1759175862141; Mon, 29 Sep 2025
- 12:57:42 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE8410E253;
+ Mon, 29 Sep 2025 20:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759176273;
+ bh=dkRa3F/RjStNkVbhPhsN2OogBfmvPdqSm8pHIAsLQp0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gGJrNrzTY+T1Wttfb8CmxmIiieYIux/itfykNvflKdkUTIcVB10rmRZgGY2Qw05nq
+ NGDOSc72CmM0spkV7cd6m+N92f78X2O6YhZbwF6hM3yUv4hTFCoRBlRaz0dDw1kDzn
+ K92fiaZ1tpMRXItTKoz3OymbRP5sY279W7qXvm8qjaH0ECUkzB4st9jI7q8y/gMDCB
+ ichJsFNPG9o/79jtFHngcZZgomJgt4a7WIIPnUCa4niC1Yha1HDXNIEyXdsTVyvtQy
+ /TJKMrNZ+y8j7cARsRpldzxsPmC3rcc3n0God8I8i0s/ey4V7ZQcZcNHVe1YIGkHo6
+ 7y3VmIOZOkr1w==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown
+ [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 32FF017E00EC;
+ Mon, 29 Sep 2025 22:04:33 +0200 (CEST)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org, kernel@collabora.com
+Subject: [PATCH 0/8] drm: Optimize page tables overhead with THP
+Date: Mon, 29 Sep 2025 22:03:08 +0200
+Message-ID: <20250929200316.18417-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
-In-Reply-To: <20250925-core-cstr-cstrings-v2-0-78e0aaace1cd@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 29 Sep 2025 21:57:28 +0200
-X-Gm-Features: AS18NWCM9kbfT7mylXQdGB8ZyL_b6RmUa1M3XR6zo5RoraO0TPm_DutHWVTmZ7c
-Message-ID: <CANiq72m=TJMWFZhHSSU_-A3+tr5h8vA+X+oKb9TcieXQ6gHyJg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/19] rust: replace `kernel::c_str!` with C-Strings
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Breno Leitao <leitao@debian.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- Jens Axboe <axboe@kernel.dk>, Alexandre Courbot <acourbot@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-pci@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,12 +79,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 25, 2025 at 3:54=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> Changes in v2:
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+config '/sys/kernel/mm/transparent_hugepage/shmem_enabled'
+appropriately set or drivers using a dedicated huge tmpfs mount point.
 
-For future reference, this is v3.
+It starts by adding a huge page fault handler for GEM objects to
+insert PMD or PUD mappings whenever the shmem backing store manages to
+create huge folios. It then introduces a dedicated get_unmapped_area
+file operation on the DRM file descriptor for GEM objects to get the
+best virtual address alignment for the underlying shmem buffers.
 
-Cheers,
-Miguel
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
+
+Loïc Molinari (8):
+  drm/shmem-helper: Add huge page fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/shmem-helper: Add huge tmpfs mount point helpers
+  drm/i915: Use huge tmpfs mount point helpers
+  drm/v3d: Use huge tmpfs mount point helpers
+  drm/panthor: Introduce huge tmpfs mount point option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mount point option
+
+ drivers/gpu/drm/drm_gem.c                  | 110 ++++++++++++++++----
+ drivers/gpu/drm/drm_gem_shmem_helper.c     | 112 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gemfs.c      |  33 +-----
+ drivers/gpu/drm/panfrost/panfrost_device.c |   4 +
+ drivers/gpu/drm/panfrost/panfrost_device.h |   2 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |   6 ++
+ drivers/gpu/drm/panfrost/panfrost_drv.h    |  11 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  29 +++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |   3 +
+ drivers/gpu/drm/panthor/panthor_device.c   |   4 +
+ drivers/gpu/drm/panthor/panthor_device.h   |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c      |   7 ++
+ drivers/gpu/drm/panthor/panthor_drv.h      |  11 ++
+ drivers/gpu/drm/panthor/panthor_gem.c      |  30 +++++-
+ drivers/gpu/drm/panthor/panthor_gem.h      |   3 +
+ drivers/gpu/drm/panthor/panthor_mmu.c      |  19 +++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c            |  31 +-----
+ include/drm/drm_gem.h                      |   4 +
+ include/drm/drm_gem_shmem_helper.h         |  14 +++
+ mm/shmem.c                                 |   1 +
+ 20 files changed, 346 insertions(+), 91 deletions(-)
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+
+-- 
+2.47.3
+
