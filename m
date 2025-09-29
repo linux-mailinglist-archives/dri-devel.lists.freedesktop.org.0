@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EFDBA9EA7
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 18:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D36BA9EC5
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 18:02:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8131610E462;
-	Mon, 29 Sep 2025 16:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C3210E465;
+	Mon, 29 Sep 2025 16:02:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="FVF4tF84";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ev/wvcJc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B68E10E462;
- Mon, 29 Sep 2025 16:01:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759161649; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lO4XkvatoUXQvbjF88NEo4GQV304NUsNzGnfLfpAGQJACgtdT6ns9sqamBDeq5T3rrLNKdsMf5rTsiniDa3tJWa/86fe0pQYx0iN0L5IDHhkJqeNA7IlkLDk/UNDQjKhz5/8rGOPQljktYtoDkNRPLtpPwyO4kdAEK/YNnxGO5I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759161649;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=tBhdtn4WywjV8YX0pSLDWDcNcDkRLFjP5hlSSBzqSms=; 
- b=lVLGTmETVkCIP0WKjmObmfrsZtGUq1ZYWjIVjC8VqJrB4aS4A5ggVHhmXiQIREqehiPffKh/8rJAxzL+50geybX9h7y5p84pJK2E31LxkhYaVa87FqJQhD8htU20NLiJWF+HYRbmrJE1EAF17YQXRe/JLlubBSh4bRbsimFGL68=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nfraprado@collabora.com;
- dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759161648; 
- s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=tBhdtn4WywjV8YX0pSLDWDcNcDkRLFjP5hlSSBzqSms=;
- b=FVF4tF848aJT71bWiRy++xWwA9rP30861XDd6VJanlPKxOzcEwMkNT5gxumr/gid
- RGj1Z4ASg6BM+hhQSEj2Bbs32NY8JjgpZsmiJRz05Gpee1bJzyqwggVI8cMSCLp2Era
- LWQsvLIkjLNilz17UTXRFEFBYPa2wjDsDxtsIY4M=
-Received: by mx.zohomail.com with SMTPS id 1759161645995986.0060307420077;
- Mon, 29 Sep 2025 09:00:45 -0700 (PDT)
-Message-ID: <7307e84f9e4b0a8c67b82f7234f90bf83f201037.camel@collabora.com>
-Subject: Re: [PATCH RFC v2 05/20] drm: Introduce
- DRM_CAP_POST_BLEND_COLOR_PIPELINE
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Louis Chauvet	
- <louis.chauvet@bootlin.com>, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger	
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, Haneen Mohammed	
- <hamohammed.sa@gmail.com>, Melissa Wen <melissa.srw@gmail.com>
-Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org, 
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, 	contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, 	shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, 
- aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com, 
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com, 
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com, 
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- mcanal@igalia.com, 	kernel@collabora.com, daniels@collabora.com,
- leandro.ribeiro@collabora.com, 	dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 	linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,  Simona Vetter
- <simona.vetter@ffwll.ch>
-Date: Mon, 29 Sep 2025 12:00:40 -0400
-In-Reply-To: <52cce852-f4fb-4692-9318-1602fe878644@amd.com>
-References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-5-ac4471b44758@collabora.com>
- <ff53599d-fd7f-4791-a3e1-3269386c6b3e@bootlin.com>
- <52cce852-f4fb-4692-9318-1602fe878644@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33F1010E00D;
+ Mon, 29 Sep 2025 16:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759161775; x=1790697775;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=sa4vOqStlRWx+pnElXwlq41XYsVMuUc+Fv3EjNwqrl8=;
+ b=ev/wvcJcthca34YProv+9Ie1p5gz9O8fB8MzroXMJuFLmEv++6vFVTvb
+ uXyGbdYSYy3i+vkR+0Dy82wzn+vIkXWMK/Krd3ikvlFjUJHOK/pxo1j9U
+ cuBx3z3yh8tPefh8UM4Z1vz1PgjcoUZ2+jE3yBZ3qp5ipfhf0UnCNcQ24
+ YVR2go35TMj1HwLvPucjHEkwcnYN677aN+h4/ASYqJTQoVdMoq6YCfH6F
+ 8wdE+0fC86J0hhfdSJZ0ynUGQJypc5/EucRXau8i7FMB93yFd11NYN1xI
+ vWXdIiF0ou1grYPr5tvDog/qtByvXEK0Fg0zWlAmtTOCi4JLa41NbcL9J A==;
+X-CSE-ConnectionGUID: 1MjzeW7WTfe8bmmt2b5WLw==
+X-CSE-MsgGUID: PFhQH3eWTC2DHFSZ6QiUyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="64030387"
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="64030387"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2025 09:02:54 -0700
+X-CSE-ConnectionGUID: lcRhvZM1R7y6Kq3HHw3jGA==
+X-CSE-MsgGUID: 8EWJNpPdT76OhVsFiJbUzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="178082855"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.245.197])
+ ([10.245.245.197])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2025 09:02:52 -0700
+Message-ID: <071c1bedd6fd902da9725c74c1b892c9fe76179c.camel@linux.intel.com>
+Subject: Re: [RFC PATCH v2 1/2] dma-buf: Add support for private interconnects
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Cc: intel-xe@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Kasireddy Vivek
+ <vivek.kasireddy@intel.com>, Simona Vetter	 <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 	linaro-mm-sig@lists.linaro.org
+Date: Mon, 29 Sep 2025 18:02:50 +0200
+In-Reply-To: <20250929124535.GI2617119@nvidia.com>
+References: <20250926084624.2288-1-thomas.hellstrom@linux.intel.com>
+ <20250926084624.2288-2-thomas.hellstrom@linux.intel.com>
+ <472f27f0-2f54-45dd-b0a6-3a26b5eec301@amd.com>
+ <ef9f4fb1c55bf3e5e6423b2accdccee0607b95ef.camel@linux.intel.com>
+ <20250926144128.GD2617119@nvidia.com>
+ <765e3449-2eb1-49f5-954e-3bab5a5fc9d1@amd.com>
+ <20250926160036.GE2617119@nvidia.com>
+ <f33a4344-545a-43f4-9a3b-24bf070d559c@amd.com>
+ <20250929124535.GI2617119@nvidia.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-2+b1 
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-X-ZohoMailClient: External
-X-ZohoMail-Owner: <7307e84f9e4b0a8c67b82f7234f90bf83f201037.camel@collabora.com>+zmo_0_nfraprado@collabora.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,119 +82,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-09-29 at 05:40 -0400, Harry Wentland wrote:
->=20
->=20
-> On 2025-09-19 08:42, Louis Chauvet wrote:
-> >=20
-> >=20
-> > Le 18/09/2025 =C3=A0 02:43, N=C3=ADcolas F. R. A. Prado a =C3=A9crit=C2=
-=A0:
-> > > Add a new cap that drivers can set to signal they support post-
-> > > blend
-> > > color pipelines.
-> > >=20
-> > > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> >=20
-> > Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> >=20
-> > > ---
-> > > =C2=A0 drivers/gpu/drm/drm_ioctl.c | 3 +++
-> > > =C2=A0 include/drm/drm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 =
-++++++
-> > > =C2=A0 include/uapi/drm/drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 +++++=
-+
-> > > =C2=A0 3 files changed, 15 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_ioctl.c
-> > > b/drivers/gpu/drm/drm_ioctl.c
-> > > index=20
-> > > ff193155129e7e863888d8958458978566b144f8..01592d10e3465ddceddef94
-> > > bc417f98d3ec12087 100644
-> > > --- a/drivers/gpu/drm/drm_ioctl.c
-> > > +++ b/drivers/gpu/drm/drm_ioctl.c
-> > > @@ -304,6 +304,9 @@ static int drm_getcap(struct drm_device *dev,
-> > > void=20
-> > > *data, struct drm_file *file_
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req->value =3D=
- drm_core_check_feature(dev, DRIVER_ATOMIC)
-> > > &&
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_config.async_page_flip;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> > > +=C2=A0=C2=A0=C2=A0 case DRM_CAP_POST_BLEND_COLOR_PIPELINE:
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req->value =3D drm_core_c=
-heck_feature(dev,=20
-> > > DRIVER_POST_BLEND_COLOR_PIPELINE);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL=
-;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> > > index=20
-> > > 42fc085f986dee9261f8b08c4fc7d93b8d6d9769..6b0f4904e69766232283d43
-> > > 0c2540d30afef850f 100644
-> > > --- a/include/drm/drm_drv.h
-> > > +++ b/include/drm/drm_drv.h
-> > > @@ -122,6 +122,12 @@ enum drm_driver_feature {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the cursor planes to work corr=
-ectly).
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRIVER_CURSOR_HOTSPOT=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D BIT(9),
-> > > +=C2=A0=C2=A0=C2=A0 /**
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0 * @DRIVER_POST_BLEND_COLOR_PIPELINE:
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0 *
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0 * Driver supports post-blend color pipeline=
-.
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > +=C2=A0=C2=A0=C2=A0 DRIVER_POST_BLEND_COLOR_PIPELINE=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D BIT(10),
->=20
-> Is this to let userspace know that the driver supports a
-> post-blending color pipeline? Why couldn't userspace simply
-> check whether crtc objects have "Color Pipeline" properties?
+Hi,
 
-It is, and yes userspace could figure it out that way, though since the
-property is only exposed after the client cap is set, it requires a
-more involved setup: set the client cap, check for the property, if not
-present unset the client cap.
-
-With the driver cap introduced here, setting the client cap would fail
-in the first place if the driver cap is not set, so in this case
-userspace just tries to set the client cap, if it succeeds it knows it
-can use color pipelines, if it fails it knows to use the legacy color
-properties.
-
---=20
-Thanks,
-
-N=C3=ADcolas
-
+On Mon, 2025-09-29 at 09:45 -0300, Jason Gunthorpe wrote:
+> On Mon, Sep 29, 2025 at 10:16:30AM +0200, Christian K=C3=B6nig wrote:
 >=20
-> Harry
->=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* IMPORTANT: Below are all the legacy=
- flags, add new ones=20
-> > > above. */
-> > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> > > index=20
-> > > 27cc159c1d275c7a7fe057840ef792f30a582bb7..c6c53e57958e951204154ce
-> > > 41a69696a6876f0e8 100644
-> > > --- a/include/uapi/drm/drm.h
-> > > +++ b/include/uapi/drm/drm.h
-> > > @@ -812,6 +812,12 @@ struct drm_gem_change_handle {
-> > > =C2=A0=C2=A0 * commits.
-> > > =C2=A0=C2=A0 */
-> > > =C2=A0 #define DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP=C2=A0=C2=A0=C2=A0 0x15
-> > > +/**
-> > > + * DRM_CAP_POST_BLEND_COLOR_PIPELINE
-> > > + *
-> > > + * If set to 1, the driver supports post-blend color pipelines.
-> > > + */
-> > > +#define DRM_CAP_POST_BLEND_COLOR_PIPELINE=C2=A0=C2=A0=C2=A0 0x16
-> > > =C2=A0 /* DRM_IOCTL_GET_CAP ioctl argument type */
-> > > =C2=A0 struct drm_get_cap {
-> > >=20
+> > The point is that the exporter manages all accesses to it's buffer
+> > and there can be more than one importer accessing it at the same
+> > time.
 > >=20
+> > So when an exporter sees that it already has an importer which can
+> > only do DMA to system memory it will expose only DMA address to all
+> > other importers as well.
+>=20
+> I would rephrase that, if the exporter supports multiple placement
+> options for the memory (VRAM/CPU for example) then it needs to track
+> which placement options all its importer support and never place the
+> memory someplace an active importer cannot reach.
+>=20
+> I don't want to say that just because one importer wants to use
+> dma_addr_t then all private interconnect options are disabled. If the
+> memory is in VRAM then multiple importers using private interconnect
+> concurrently with dma_addr_t should be possible.
+>=20
+> This seems like it is making the argument that the exporter does need
+> to know the importer capability so it can figure out what placement
+> options are valid.
+>=20
+> > > I didn't sketch further, but I think the exporter and importer
+> > > should
+> > > both be providing a compatible list and then in almost all cases
+> > > the
+> > > core code should do the matching.
+> >=20
+> > More or less matches my idea. I would just start with the exporter
+> > providing a list of how it's buffer is accessible because it knows
+> > about other importers and can pre-reduce the list if necessary.
+>=20
+> I think the importer also has to advertise what it is able to
+> support.
+> A big point of the private interconnect is that it won't use
+> scatterlist so it needs to be a negotiated feature.
+>=20
+> > > For example, we have some systems with multipath PCI. This could
+> > > actually support those properly. The RDMA NIC has two struct
+> > > devices
+> > > it operates with different paths, so it would write out two
+> > > &dmabuf_generic_dma_addr_t's - one for each.
+> >=20
+> > That is actually something we try rather hard to avoid. E.g. the
+> > exporter should offer only one path to each importer.
+>=20
+> Real systems have multipath. We need to do a NxM negotiation where
+> both sides offer all their paths and the best quality path is
+> selected.
+>=20
+> Once the attachment is made it should be one interconnect and one
+> stable address within that interconnect.
+>=20
+> In this example I'd expect the Xe GPU driver to always offer its
+> private interconnect and a dma_addr_t based interconnct as both
+> exporter and importer. The core code should select one for the
+> attachment.
+>=20
+> > We can of course do load balancing on a round robin bases.
+>=20
+> I'm not thinking about load balancing, more a 'quality of path'
+> metric.
+
+This sounds like it's getting increasingly complex. TBH I think that at
+least all fast interconnects we have in the planning for xe either are
+fine with falling back to the current pcie-p2p / dma-buf or in worst
+case system memory. The virtual interconnect we've been discussing
+would probably not be able to fall back at all unless negotiation gets
+somehow forwarded to the vm guest.
+
+So I wonder whether for now it's simply sufficient to=20
+
+sg_table_replacement =3D dma_buf_map_interconnect();
+
+if (IS_ERROR(sg_list_replacement)) {
+	sg_table =3D dma_buf_map_attachment();
+	if (IS_ERROR(sg_table))
+		bail();
+}
+
+/Thomas
+
+
+
+
+>=20
+> Jason
+
