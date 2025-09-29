@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61ABEBA8366
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 09:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07ECABA8393
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 09:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC0D10E220;
-	Mon, 29 Sep 2025 07:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFD9C10E3A1;
+	Mon, 29 Sep 2025 07:19:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iviEzko9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fVs59kA9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3925810E02C;
- Mon, 29 Sep 2025 07:06:47 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2A910E0BF;
+ Mon, 29 Sep 2025 07:19:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D8948453BC;
- Mon, 29 Sep 2025 07:06:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 866FBC4CEF4;
- Mon, 29 Sep 2025 07:06:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 8E22C62308;
+ Mon, 29 Sep 2025 07:18:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0036BC4CEF4;
+ Mon, 29 Sep 2025 07:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759129606;
- bh=zGQHYFZJRxNF9v5B5ZQ3iTL2YoC48kcSK/AH+EjsG5U=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=iviEzko9domWThvZHdlyfdupWopKBEIfZuNVwFPjeQjoAC5yTE4we4GeFteDsTbUg
- 6tF3ksuAgXkfHfCp6tS+iR2gZ69JSQ5o6DvTC9W6MtwxVjZowMdr855aiUcizdcg+b
- zbn+61CiJtWtX36a4+uYg00mlK9VAhv2mHzOoEWrzOM5Yyfrhqh3ZP+ksx8iJF9+vM
- VKsBQohjCnFbVH1FYUpgBnm6atq9Jds2x44XsScUntR+gVPH6V5Whww/WAiK4pCWf4
- oU/o4Xh/7xFFAxttR3oEmGT6IN/bY977SJJS9VRjaz77vXeuNhcA84izTmaPXqSvK1
- Jgx2YPtPNgorQ==
+ s=k20201202; t=1759130339;
+ bh=fkCFAKqmnEB7GXdZAgr1rfARjSCT5mvAOm5qmdONesk=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=fVs59kA9BHVDlhFsctihOnF2LXp6HxxhIQjlIa4m0i6zy4PExJ+tfnri/UXhP/a4U
+ NUihftuV6xGkj3ulEm22VNVAE6858cMSInYHt2ndTTh1LOt8Op7eGXKXJlK40qiAoN
+ 7A163hBqOwSy9F+ky1/INnmnh8uz8oN+Zn+l0HJW+kmliJCB1F0iyNIXAdN6r0wWPg
+ bcJbUII6XWK5v9xmO3bQfvjEjIf87zFsle1rxpECOHPqgnf/b7PVRJ5V2ON/daTAVB
+ B9Ve7ziJ6OelaH971R2EQUYLK2URPkgzrNp6owiumbaJMNE3krYNExW0x2kSH/xcWz
+ ht3r9r+yHT7kg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Sep 2025 09:06:40 +0200
-Message-Id: <DD53EE5HJUZY.2EMREPXQ9P090@kernel.org>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+Date: Mon, 29 Sep 2025 09:18:53 +0200
+Message-Id: <DD53NQP11F11.1JAJXDG2NQRU7@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 06/10] gpu: nova-core: gsp: Create rmargs
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
  <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
  Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
  Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten
  Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Joel
- Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
+ Hubbard" <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>
 To: "Alistair Popple" <apopple@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 01/10] gpu: nova-core: Set correct DMA mask
 References: <20250922113026.3083103-1-apopple@nvidia.com>
- <20250922113026.3083103-2-apopple@nvidia.com>
- <7fb081e9-e607-401b-937f-f4e3a78a2874@kernel.org>
- <0dbc8f78-5cee-4741-8d33-df3358dd5383@nvidia.com>
- <eblaubjmsesi6gh64ekm74qyzvfk23vjcmotc33upkc5w6edin@rbsezy6f7bai>
- <DD2PRD2XEZRE.1YACAPZWRYLZO@kernel.org>
- <um3463eyjtecebxdgjpegankwxgezqgeiqff6xy5wducnv7ayf@pnjhxbro2sh5>
-In-Reply-To: <um3463eyjtecebxdgjpegankwxgezqgeiqff6xy5wducnv7ayf@pnjhxbro2sh5>
+ <20250922113026.3083103-7-apopple@nvidia.com>
+ <DD2JYDPBOKA8.2QCK0P7CR1T3V@nvidia.com>
+ <q2ehvle73bvop6muga44cebwzgpm2g5tghf2txq2orvgsaryh2@hfmxjcymhsrl>
+In-Reply-To: <q2ehvle73bvop6muga44cebwzgpm2g5tghf2txq2orvgsaryh2@hfmxjcymhsrl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +71,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Sep 29, 2025 at 2:19 AM CEST, Alistair Popple wrote:
-> On 2025-09-26 at 22:00 +1000, Danilo Krummrich <dakr@kernel.org> wrote...
->> On Tue Sep 23, 2025 at 6:29 AM CEST, Alistair Popple wrote:
->> > On 2025-09-23 at 12:16 +1000, John Hubbard <jhubbard@nvidia.com> wrote=
-...
->> >> On 9/22/25 9:08 AM, Danilo Krummrich wrote:
->> >> > On 9/22/25 1:30 PM, Alistair Popple wrote:
->> >> >> +        // SAFETY: No DMA allocations have been made yet
->> >> >=20
->> >> > It's not really about DMA allocations that have been made previousl=
-y, there is
->> >> > no unsafe behavior in that.
->> >> >=20
->> >> > It's about the method must not be called concurrently with any DMA =
-allocation or
->> >> > mapping primitives.
->> >> >=20
->> >> > Can you please adjust the comment correspondingly?
->> >
->> > Sure.
->> >
->> >> >> +        unsafe { pdev.dma_set_mask_and_coherent(DmaMask::new::<47=
->())? };
->> >> >=20
->> >> > As Boqun mentioned, we shouldn't have a magic number for this. I do=
-n't know if
->> >> > it will change for future chips, but maybe we should move this to g=
-pu::Spec to
->> >>=20
->> >> It changes to 52 bits for GH100+ (Hopper/Blackwell+). When I post tho=
-se
->> >> patches, I'll use a HAL to select the value.
->> >>=20
->> >> > be safe.
->> >> >=20
->> >> > At least, create a constant for it (also in gpu::Spec?); in Nouveau=
- I named this
->> >> > NOUVEAU_VA_SPACE_BITS back then. Not a great name, if you have a be=
-tter idea,
->> >> > please go for it. :)
->> >
->> > Well it's certainly not the VA_SPACE width ... that's a different addr=
-ess space :-)
+On Mon Sep 29, 2025 at 8:36 AM CEST, Alistair Popple wrote:
+> On 2025-09-26 at 17:27 +1000, Alexandre Courbot <acourbot@nvidia.com> wro=
+te...
+>> On Mon Sep 22, 2025 at 8:30 PM JST, Alistair Popple wrote:
+>> > @@ -33,6 +36,7 @@ pub(crate) struct Gsp {
+>> >      pub logintr: CoherentAllocation<u8>,
+>> >      pub logrm: CoherentAllocation<u8>,
+>> >      pub cmdq: GspCmdq,
+>> > +    rmargs: CoherentAllocation<GSP_ARGUMENTS_CACHED>,
+>> >  }
+>> > =20
+>> >  /// Creates a self-mapping page table for `obj` at its beginning.
+>> > @@ -90,12 +94,35 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound=
+>) -> Result<impl PinInit<Self
+>> > =20
+>> >          // Creates its own PTE array
+>> >          let cmdq =3D GspCmdq::new(dev)?;
+>> > +        let rmargs =3D
+>> > +            create_coherent_dma_object::<GSP_ARGUMENTS_CACHED>(dev, "=
+RMARGS", 1, &mut libos, 3)?;
+>> > +        let (shared_mem_phys_addr, cmd_queue_offset, stat_queue_offse=
+t) =3D cmdq.get_cmdq_offsets();
+>> > +
+>> > +        dma_write!(
+>> > +            rmargs[0].messageQueueInitArguments =3D MESSAGE_QUEUE_INI=
+T_ARGUMENTS {
+>> > +                sharedMemPhysAddr: shared_mem_phys_addr,
+>> > +                pageTableEntryCount: cmdq.nr_ptes,
+>> > +                cmdQueueOffset: cmd_queue_offset,
+>> > +                statQueueOffset: stat_queue_offset,
+>> > +                ..Default::default()
+>> > +            }
+>> > +        )?;
+>> > +        dma_write!(
+>> > +            rmargs[0].srInitArguments =3D GSP_SR_INIT_ARGUMENTS {
+>> > +                oldLevel: 0,
+>> > +                flags: 0,
+>> > +                bInPMTransition: 0,
+>> > +                ..Default::default()
+>> > +            }
+>> > +        )?;
+>> > +        dma_write!(rmargs[0].bDmemStack =3D 1)?;
 >>=20
->> I mean, sure. But isn't the limitation of 47 bits coming from the MMU an=
-d hence
->> defines the VA space width and the DMA bit width we can support?
+>> Wrapping our bindings is going to help clean up this code as well.
+>>=20
+>> First, types named in CAPITALS_SNAKE_CASE are not idiomatic Rust and
+>> look like constants. And it's not even like the bindings types are
+>> consistently named that way, since we also have e.g. `GspFwWprMeta` - so
+>> let's give them a proper public name and bring some consistency at the
+>> same time.
 >
-> Not at all. The 47 bit limitation comes from what the DMA engines can phy=
-sically
-> address, whilst the MMU converts virtual addresses to physical DMA addres=
-ses.
+> I think there are two aspects to the bindings - one which was addressed i=
+n
+> the comments for patch 5 is how to abstract them. The other is that the w=
+ay we
+> currently generate them results in some  ugly name.
+>
+> Given we want to generate these from our internal IDL eventually I would =
+favour
+> fixing this naming ugliness by touching up the currently generated bindin=
+gs. So
+> maybe I will do that for the next revision.
 
-I'm well aware -- what I'm saying is that the number given to
-dma_set_mask_and_coherent() does not necessarily only depend on the physica=
-l bus
-and DMA controller capabilities.
+It's not about fixing the name of the generated C bindings, it's about not
+leaking firmware specific structures into core code of the driver.
 
-It may also depend on the MMU, since we still need to be able to map DMA me=
-mory
-in the GPU's virtual address space.
+Please hide it in an abstraction that can deal with differences between fir=
+mware
+version internally; see also [1].
 
-> So the two address spaces are different and can have different widths. In=
-deed
-> most of our current GPUs have a virtual address space of 49 bits whilst o=
-nly
-> supporting 47 bits of DMA address space.
+[1] https://lore.kernel.org/all/DCUAYNNP97QI.1VOX5XUS9KP7K@kernel.org/
 
-Now, it seems that in this case the DMA engine is the actual limiting facto=
-r,
-but is this the case for all architectures or may we have cases where the M=
-MU
-(or something else) becomes the limiting factor, e.g. in future architectur=
-es?
+>> This will make all the fields from `GSP_ARGUMENTS_CACHED` invisible to
+>> this module as they should be, so the wrapping `GspArgumentsCached` type
+>> should then have a constructor that receives a referene to the command
+>> queue and takes the information is needs from it, similarly to
+>> `GspFwWprMeta`. This will reduce the 3 `dma_write!` into a single one.
+>>=20
+>> Then we should remove `get_cmdq_offsets`, which is super confusing. I am
+>> also not fond of `cmdq.nr_ptes`. More on them below.
+>
+> I will admit that was a bit of a hack.
+>
+>> > =20
+>> >          Ok(try_pin_init!(Self {
+>> >              libos,
+>> >              loginit,
+>> >              logintr,
+>> >              logrm,
+>> > +            rmargs,
+>> >              cmdq,
+>> >          }))
+>> >      }
+>> > diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core=
+/gsp/cmdq.rs
+>> > index a9ba1a4c73d8..9170ccf4a064 100644
+>> > --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+>> > +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+>> > @@ -99,7 +99,6 @@ fn new(dev: &device::Device<device::Bound>) -> Resul=
+t<Self> {
+>> >          Ok(Self(gsp_mem))
+>> >      }
+>> > =20
+>> > -    #[expect(unused)]
+>> >      fn dma_handle(&self) -> DmaAddress {
+>> >          self.0.dma_handle()
+>> >      }
+>> > @@ -218,7 +217,7 @@ pub(crate) struct GspCmdq {
+>> >      dev: ARef<device::Device>,
+>> >      seq: u32,
+>> >      gsp_mem: DmaGspMem,
+>> > -    pub _nr_ptes: u32,
+>> > +    pub nr_ptes: u32,
+>> >  }
+>> > =20
+>> >  impl GspCmdq {
+>> > @@ -231,7 +230,7 @@ pub(crate) fn new(dev: &device::Device<device::Bou=
+nd>) -> Result<GspCmdq> {
+>> >              dev: dev.into(),
+>> >              seq: 0,
+>> >              gsp_mem,
+>> > -            _nr_ptes: nr_ptes as u32,
+>> > +            nr_ptes: nr_ptes as u32,
+>> >          })
+>> >      }
+>> > =20
+>> > @@ -382,6 +381,15 @@ pub(crate) fn receive_msg_from_gsp<M: GspMessageF=
+romGsp, R>(
+>> >              .advance_cpu_read_ptr(msg_header.rpc.length.div_ceil(GSP_=
+PAGE_SIZE as u32));
+>> >          result
+>> >      }
+>> > +
+>> > +    pub(crate) fn get_cmdq_offsets(&self) -> (u64, u64, u64) {
+>> > +        (
+>> > +            self.gsp_mem.dma_handle(),
+>> > +            core::mem::offset_of!(Msgq, msgq) as u64,
+>> > +            (core::mem::offset_of!(GspMem, gspq) - core::mem::offset_=
+of!(GspMem, cpuq)
+>> > +                + core::mem::offset_of!(Msgq, msgq)) as u64,
+>> > +        )
+>> > +    }
+>>=20
+>> So this thing returns 3 u64s, one of which is actually a DMA handle,
+>> while the two others are technically constants. The only thing that
+>> needs to be inferred at runtime is the DMA handle - all the rest is
+>> static.
+>
+> Thanks! That is a useful observation for cleaning these up.
+
+Please also make sure to use the DmaAddress type instead of a raw u64 for D=
+MA
+addresses.
+
+>> So we can make the two last returned values associated constants of
+>> `GspCmdq`:
+>>=20
+>>   impl GspCmdq {
+>>       /// Offset of the data after the PTEs.
+>>       const POST_PTE_OFFSET: usize =3D core::mem::offset_of!(GspMem, cpu=
+q);
+>>=20
+>>       /// Offset of command queue ring buffer.
+>>       pub(crate) const CMDQ_OFFSET: usize =3D core::mem::offset_of!(GspM=
+em, cpuq)
+>>           + core::mem::offset_of!(Msgq, msgq)
+>>           - Self::POST_PTE_OFFSET;
+>>=20
+>>       /// Offset of message queue ring buffer.
+>>       pub(crate) const STATQ_OFFSET: usize =3D core::mem::offset_of!(Gsp=
+Mem, gspq)
+>>           + core::mem::offset_of!(Msgq, msgq)
+>>           - Self::POST_PTE_OFFSET;
+>>=20
+>> `GspArgumentsCached::new` can then import `GspCmdq` and use these to
+>> initialize its corresponding members.
+>>=20
+>> Remains `nr_ptes`. It was introduced in the previous patch as follows:
+>>=20
+>>     let nr_ptes =3D size_of::<GspMem>() >> GSP_PAGE_SHIFT;
+>>=20
+>> Which turns out to also be a constant! So let's add it next to the other=
+s:
+>>=20
+>> impl GspCmdq {
+>>     ...
+>>     /// Number of page table entries for the GSP shared region.
+>>     pub(crate) const NUM_PTES: usize =3D size_of::<GspMem>() >> GSP_PAGE=
+_SHIFT;
+>>=20
+>> And you can remove `GspCmdq::nr_ptes` altogether.
+>>=20
+>> With this, `GspArgumentsCached::new` can take a reference to the
+>> `GspCmdq` to initialize from, grab its DMA handle, and initialize
+>> everything else using the constants we defined above. We remove a bunch
+>> of inconsistently-named imports from `gsp.rs`, and replace
+>> firmware-dependent incantations to initialize our GSP arguments with a
+>> single constructor call that tells exactly what it does in a single
+>> line.
+>
+> So this would also live in `fw.rs`? What I'm really concerned about is th=
+at if
+> we're not allowed access the C bindings outside of `fw.rs` then everythin=
+g ends
+> up in `fw.rs`, and worse still `fw.rs` basically ends up importing everyt=
+hing as
+> well, tightly coupling everything into one big blob.
+
+You can (and probably should) extend the module structure, i.e. add a
+sub-directory ./gsp/fw/ and structure things accordingly.
