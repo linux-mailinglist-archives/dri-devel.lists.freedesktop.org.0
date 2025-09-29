@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC10BAA8CB
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 22:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F9ABAA8D4
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 22:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C62C910E48D;
-	Mon, 29 Sep 2025 20:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B9310E48F;
+	Mon, 29 Sep 2025 20:04:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gGJrNrzT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HqXNU8qB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE8410E253;
- Mon, 29 Sep 2025 20:04:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB9D10E48E;
+ Mon, 29 Sep 2025 20:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759176273;
- bh=dkRa3F/RjStNkVbhPhsN2OogBfmvPdqSm8pHIAsLQp0=;
- h=From:To:Cc:Subject:Date:From;
- b=gGJrNrzTY+T1Wttfb8CmxmIiieYIux/itfykNvflKdkUTIcVB10rmRZgGY2Qw05nq
- NGDOSc72CmM0spkV7cd6m+N92f78X2O6YhZbwF6hM3yUv4hTFCoRBlRaz0dDw1kDzn
- K92fiaZ1tpMRXItTKoz3OymbRP5sY279W7qXvm8qjaH0ECUkzB4st9jI7q8y/gMDCB
- ichJsFNPG9o/79jtFHngcZZgomJgt4a7WIIPnUCa4niC1Yha1HDXNIEyXdsTVyvtQy
- /TJKMrNZ+y8j7cARsRpldzxsPmC3rcc3n0God8I8i0s/ey4V7ZQcZcNHVe1YIGkHo6
- 7y3VmIOZOkr1w==
+ s=mail; t=1759176277;
+ bh=zMJh3TcnbKaM5I5mBMtrtGSYfeXLiD7daPO84ZxJf8A=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HqXNU8qBxp/P4cl8VHPxMF9qVf0ye+FXHG+PQWej38gDvvYWv16Jp9L/yW0kpjXgt
+ s7XiOvEFal9TD3wnWg3eCwJxxb8YEuT93dYd+FEfnFhp2YZjpGbqe76I5FstyN0Z2y
+ c7h+jqIRhyLc8SSYCLhg6M9dPguxQcXzF2FWAT8YUeLDrMavo8hFyzSW+WkQKsuw1Q
+ bTZr4gc90xhlpGpF3nl7E+tKozFQrxJkoauhrZz7GnU5BZPzAqz3PlDjRtoXBF8K5K
+ fXycVmtE+4SKOTyDO0wVp6ZCFnNIqej9SM+YhFXABQyTJVeudq6pB46SnDuawUaD/z
+ l5ipz6pm3UWIA==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 32FF017E00EC;
- Mon, 29 Sep 2025 22:04:33 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 01B0417E0AC3;
+ Mon, 29 Sep 2025 22:04:36 +0200 (CEST)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -57,10 +57,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org, kernel@collabora.com
-Subject: [PATCH 0/8] drm: Optimize page tables overhead with THP
-Date: Mon, 29 Sep 2025 22:03:08 +0200
-Message-ID: <20250929200316.18417-1-loic.molinari@collabora.com>
+Subject: [PATCH 1/8] drm/shmem-helper: Add huge page fault handler
+Date: Mon, 29 Sep 2025 22:03:09 +0200
+Message-ID: <20250929200316.18417-2-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250929200316.18417-1-loic.molinari@collabora.com>
+References: <20250929200316.18417-1-loic.molinari@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,56 +81,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series aims to reduce the page tables overhead of DRM drivers for
-builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
-config '/sys/kernel/mm/transparent_hugepage/shmem_enabled'
-appropriately set or drivers using a dedicated huge tmpfs mount point.
+This gives the mm subsystem the ability to propose the insertion of
+PUD or PMD-sized mappings for the faulting addresses.
 
-It starts by adding a huge page fault handler for GEM objects to
-insert PMD or PUD mappings whenever the shmem backing store manages to
-create huge folios. It then introduces a dedicated get_unmapped_area
-file operation on the DRM file descriptor for GEM objects to get the
-best virtual address alignment for the underlying shmem buffers.
+On builds with CONFIG_TRANSPARENT_HUGEPAGE enabled, if the mmap() user
+address is aligned to a huge page size, if the GEM object is backed by
+shmem buffers on mount points setting the 'huge=' option and if the
+shmem backing store manages to allocate a huge folio, the CPU mapping
+will then benefit from significantly increased memcpy() performance.
+When these conditions are met on a system with 2 MiB huge pages, an
+aligned copy of 2 MiB would raise a single page fault instead of 4096.
 
-The remaining commits propose shmem helpers to create and release huge
-tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
-then used to optionally enable Transparent Hugepage for Panfrost and
-Panthor.
+v2:
+- set ret to VM_FAULT_FALLBACK in default switch statement
+- ifdef out paddr declaration
+- improve commit message
 
-Loïc Molinari (8):
-  drm/shmem-helper: Add huge page fault handler
-  drm/gem: Introduce drm_gem_get_unmapped_area() fop
-  drm/shmem-helper: Add huge tmpfs mount point helpers
-  drm/i915: Use huge tmpfs mount point helpers
-  drm/v3d: Use huge tmpfs mount point helpers
-  drm/panthor: Introduce huge tmpfs mount point option
-  drm/panthor: Improve IOMMU map/unmap debugging logs
-  drm/panfrost: Introduce huge tmpfs mount point option
+Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 56 ++++++++++++++++++++++++--
+ 1 file changed, 52 insertions(+), 4 deletions(-)
 
- drivers/gpu/drm/drm_gem.c                  | 110 ++++++++++++++++----
- drivers/gpu/drm/drm_gem_shmem_helper.c     | 112 ++++++++++++++++++++-
- drivers/gpu/drm/i915/gem/i915_gemfs.c      |  33 +-----
- drivers/gpu/drm/panfrost/panfrost_device.c |   4 +
- drivers/gpu/drm/panfrost/panfrost_device.h |   2 +
- drivers/gpu/drm/panfrost/panfrost_drv.c    |   6 ++
- drivers/gpu/drm/panfrost/panfrost_drv.h    |  11 ++
- drivers/gpu/drm/panfrost/panfrost_gem.c    |  29 +++++-
- drivers/gpu/drm/panfrost/panfrost_gem.h    |   3 +
- drivers/gpu/drm/panthor/panthor_device.c   |   4 +
- drivers/gpu/drm/panthor/panthor_device.h   |   3 +
- drivers/gpu/drm/panthor/panthor_drv.c      |   7 ++
- drivers/gpu/drm/panthor/panthor_drv.h      |  11 ++
- drivers/gpu/drm/panthor/panthor_gem.c      |  30 +++++-
- drivers/gpu/drm/panthor/panthor_gem.h      |   3 +
- drivers/gpu/drm/panthor/panthor_mmu.c      |  19 +++-
- drivers/gpu/drm/v3d/v3d_gemfs.c            |  31 +-----
- include/drm/drm_gem.h                      |   4 +
- include/drm/drm_gem_shmem_helper.h         |  14 +++
- mm/shmem.c                                 |   1 +
- 20 files changed, 346 insertions(+), 91 deletions(-)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
- create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
-
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 50594cf8e17c..22c4b09e10a3 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -573,7 +573,8 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
+ 
+-static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
++static vm_fault_t drm_gem_shmem_huge_fault(struct vm_fault *vmf,
++					   unsigned int order)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+@@ -582,6 +583,10 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	vm_fault_t ret;
+ 	struct page *page;
+ 	pgoff_t page_offset;
++	unsigned long pfn;
++#if defined(CONFIG_ARCH_SUPPORTS_PMD_PFNMAP) || defined(CONFIG_ARCH_SUPPORTS_PUD_PFNMAP)
++	unsigned long paddr;
++#endif
+ 
+ 	/* We don't use vmf->pgoff since that has the fake offset */
+ 	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
+@@ -592,17 +597,57 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
+ 	    shmem->madv < 0) {
+ 		ret = VM_FAULT_SIGBUS;
+-	} else {
+-		page = shmem->pages[page_offset];
++		goto out;
++	}
+ 
+-		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
++	page = shmem->pages[page_offset];
++	pfn = page_to_pfn(page);
++
++	switch (order) {
++	case 0:
++		ret = vmf_insert_pfn(vma, vmf->address, pfn);
++		break;
++
++#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
++	case PMD_ORDER:
++		paddr = pfn << PAGE_SHIFT;
++		if (((vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK)) &&
++		    (folio_order(page_folio(page)) == PMD_ORDER))
++			ret = vmf_insert_pfn_pmd(
++				    vmf, pfn & (PMD_MASK >> PAGE_SHIFT), false);
++		else
++			ret = VM_FAULT_FALLBACK;
++		break;
++#endif
++
++#ifdef CONFIG_ARCH_SUPPORTS_PUD_PFNMAP
++	case PUD_ORDER:
++		paddr = pfn << PAGE_SHIFT;
++		if (((vmf->address & ~PUD_MASK) == (paddr & ~PUD_MASK)) &&
++		    (folio_order(page_folio(page)) == PUD_ORDER))
++			ret = vmf_insert_pfn_pud(
++				    vmf, pfn & (PUD_MASK >> PAGE_SHIFT), false);
++		else
++			ret = VM_FAULT_FALLBACK;
++		break;
++#endif
++
++	default:
++		ret = VM_FAULT_FALLBACK;
++		break;
+ 	}
+ 
++ out:
+ 	dma_resv_unlock(shmem->base.resv);
+ 
+ 	return ret;
+ }
+ 
++static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
++{
++	return drm_gem_shmem_huge_fault(vmf, 0);
++}
++
+ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ {
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+@@ -639,6 +684,9 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ 
+ const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+ 	.fault = drm_gem_shmem_fault,
++#if defined(CONFIG_ARCH_SUPPORTS_PMD_PFNMAP) || defined(CONFIG_ARCH_SUPPORTS_PUD_PFNMAP)
++	.huge_fault = drm_gem_shmem_huge_fault,
++#endif
+ 	.open = drm_gem_shmem_vm_open,
+ 	.close = drm_gem_shmem_vm_close,
+ };
 -- 
 2.47.3
 
