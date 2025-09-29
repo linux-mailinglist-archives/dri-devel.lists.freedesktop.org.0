@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61858BA919B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 13:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F07BA919E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 13:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD7310E1AA;
-	Mon, 29 Sep 2025 11:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B13010E22B;
+	Mon, 29 Sep 2025 11:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JDuxfder";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OWbZYNx1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69BD310E1AA
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 11:48:34 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4407A10E22B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 11:49:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A1AF9451E5;
- Mon, 29 Sep 2025 11:48:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2969CC4CEF4;
- Mon, 29 Sep 2025 11:48:32 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 647AC62489;
+ Mon, 29 Sep 2025 11:49:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD6B4C4CEF4;
+ Mon, 29 Sep 2025 11:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1759146513;
- bh=aPfyIa/WT8SbKjS1KOA+4l8Mk47boMo+Rt8TKUlPwNE=;
+ s=korg; t=1759146547;
+ bh=vgCSpwhsjUBf1W/fReRIuOUrF5WdnUT+p2V895A0VJw=;
  h=Subject:To:Cc:From:Date:From;
- b=JDuxfderHXxlF5lhIKc2JrGLf4z6dXvAbUQT951t8LkDAbHESfWgfEktS/N28DlDF
- ptqDEUo2vbMTwxfY63Dv3gRq/VAC55y0rNfhT1U7nWTiEFewoqtLPZLUqQ5mMpPyEp
- r2aK+3iHYTBt9BZsFCgAHoPWpxQHRcWCMvgrd7B0=
+ b=OWbZYNx1PuRcYzsRKg4JgWKpjStqwY23qbTxHKg272M+gCAD2uDf5/9UtIvi8YLnZ
+ VY+6U047LCSd/u4cf1932BOh7iEGrSWmnKa+dEGBy1vzbMj2M3xq4VtYM0ADvI/TYR
+ zdRnVjyQT3GP0LI7dE2QtTUJNo2G5LD2y3gfwJx4=
 Subject: Patch "drm/ast: Use msleep instead of mdelay for edid read" has been
- added to the 6.12-stable tree
+ added to the 6.16-stable tree
 To: airlied@redhat.com, csoto@nvidia.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jfalempe@redhat.com, kuohsiang_chou@aspeedtech.com,
  nirmoyd@nvidia.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 29 Sep 2025 13:48:14 +0200
-Message-ID: <2025092914-magnetic-cosigner-8397@gregkh>
+Date: Mon, 29 Sep 2025 13:48:26 +0200
+Message-ID: <2025092925-superhero-chaos-f0b1@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/ast: Use msleep instead of mdelay for edid read
 
-to the 6.12-stable tree which can be found at:
+to the 6.16-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-ast-use-msleep-instead-of-mdelay-for-edid-read.patch
-and it can be found in the queue-6.12 subdirectory.
+and it can be found in the queue-6.16 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -103,7 +103,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_dp.c
 +++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -79,7 +79,7 @@ static int ast_astdp_read_edid_block(voi
+@@ -134,7 +134,7 @@ static int ast_astdp_read_edid_block(voi
  			 * 3. The Delays are often longer a lot when system resume from S3/S4.
  			 */
  			if (j)
@@ -116,4 +116,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from nirmoyd@nvidia.com are
 
-queue-6.12/drm-ast-use-msleep-instead-of-mdelay-for-edid-read.patch
+queue-6.16/drm-ast-use-msleep-instead-of-mdelay-for-edid-read.patch
