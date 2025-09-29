@@ -2,66 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6451ABA92FB
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 14:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9A2BA932E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 14:27:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3332B10E3F2;
-	Mon, 29 Sep 2025 12:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E54210E14B;
+	Mon, 29 Sep 2025 12:27:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="F7lKlwBA";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mba+5JR7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8F2D10E414
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 12:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759148563;
- bh=s5IQXqEcgAB5VpUChLCFtweMuTiZxaapht5zwbbuklY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=F7lKlwBA2xIrBex81Up74ZUNZGw4qX5gUCi+Dh9YKgYIMYcYyv90sIuAz8roPE3NL
- Pk4KLMxmlZXcc4kUXhbsDiJSnu8aMIJS4z6lOhYXV2G1DTkXXYxWuCQnpkxzKZ3qMQ
- ZtVA/PIRVMT2tCCSy4+CCyGxwwwQMawpUQNGsSx+av1hmy0+lyZID1xsK3iFETfWp4
- 1ARZc/6BjPBam2pbarmowwjQjwBMFhMdQPrEQv3LvUwz6cQhefYpAkjPW0aD1uri6/
- TKzyFF4KdlwwnfBw6YvIqcYsp8BST7Wy/ferbgvbenWF9591Mc+wxBs2LQFugRzHEQ
- uW9QrTXf5WT5Q==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D716317E129E;
- Mon, 29 Sep 2025 14:22:42 +0200 (CEST)
-Message-ID: <c968c7c7-83b8-49ee-b1a5-b8551d855df4@collabora.com>
-Date: Mon, 29 Sep 2025 14:22:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/7] pmdomain: mediatek: Add support for MFlexGraphics
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Chia-I Wu <olvaffe@gmail.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010001.outbound.protection.outlook.com
+ [40.93.198.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2D110E14B;
+ Mon, 29 Sep 2025 12:27:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z4fBGyeAir5sFGF5bQBx57B/VPrDE1hIFPqT9Mf/XKs/H1fCTz2fGSsSd1s77B4s/n4u4nfQ0NHR1+42I/vpnuF2Xozb+LcsA29DM7aPxWebYQWHsv9GCsiZAI5jpN5z8NZYjgQgSVvLEbqIPUYmOCf82cIvUBgBJgWDgoSyubbwDJwLTEaddPXWngqHlk8AVkeviUmKxrySbiYFEdnd2HQ9ZG+k5IpSH4OP9ipYU0Emg+wWCbIL7hUs5vz/AeukeE+q4LuOi14bEtr1aluiFRxoZEfta6GEfgkA/JludXJSSn8GAhuHsSu/ntFzKKTCjgI2ZpmmsX3oxmkvcukEGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tI6Fj6EBUQxTJG/tWdjTBzOD4EhuHLF5Iyu8dL3jQOQ=;
+ b=ckcGeqAPwf+IEwxsUE2bfiRy97sSTdMnRiaIm7Yu63Ow3DH8zwhyMMOMakqK8C2bUOW0Hj7Zu0NNIwd5wlkzRTAXCNxRD/zRlTF/cU/Sl1zIh0jJ02sRGvSIMeMnv89R2FQ3+qWtGiErmG7C+K1LBuXo1/5Ozh5zTcmCew9Y6n6NOVzXJr95DE6YhPFEp617c5Y/N4ThKUDXoxvhUynhLotNE9DooiDfLQfC/ry4g43Vzqj04jfLektaYXVau2eROuLa/lHa9UEB3fMYnlzwhroUxqdP1DgPXNkXSIl0hrWyiptGkb5cdSnBPmyqN/vmoP5iwAQ57lrt/URKwSA5Ng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tI6Fj6EBUQxTJG/tWdjTBzOD4EhuHLF5Iyu8dL3jQOQ=;
+ b=mba+5JR7VWiEccqug6lVwZ3Sj17ZR0ISFxjIjFQUKsKSX42QAns3nQCK20uPOe/RUzzLPJiqUuYif5QhpnyVyIH5CYt0xM9AD28WpPn5aWAXRhPG1VuLg87xTHLFeziSI6HXagI6nnizJdVJJ2FvLGo9+TlrHbzVo4TJD8kB0ZywyM8G3sJc6mKL+RI/vRd8JHCTsq8nLkz6uBQoJ/JHDBj9WHYWgig+pvHk3gPcHeE57jV9j4C1M7GnL1BZTvH8vWrnxtnZJRR3laUrIqVCf2pawftHJghoTpfnUchbU/XS56+7y5MSOoliyN7cZmZOQPShw7Vfl/UQpC0DWFeWkA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by PH8PR12MB6748.namprd12.prod.outlook.com (2603:10b6:510:1c4::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.16; Mon, 29 Sep
+ 2025 12:27:28 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9160.014; Mon, 29 Sep 2025
+ 12:27:28 +0000
+Date: Mon, 29 Sep 2025 09:27:26 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-hardening@vger.kernel.org, linux-pm@vger.kernel.org
-References: <20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com>
- <20250929-mt8196-gpufreq-v5-7-3056e5ecf765@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250929-mt8196-gpufreq-v5-7-3056e5ecf765@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Kasireddy Vivek <vivek.kasireddy@intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC PATCH v2 1/2] dma-buf: Add support for private interconnects
+Message-ID: <20250929122726.GH2617119@nvidia.com>
+References: <20250926084624.2288-1-thomas.hellstrom@linux.intel.com>
+ <20250926084624.2288-2-thomas.hellstrom@linux.intel.com>
+ <472f27f0-2f54-45dd-b0a6-3a26b5eec301@amd.com>
+ <ef9f4fb1c55bf3e5e6423b2accdccee0607b95ef.camel@linux.intel.com>
+ <20250926144128.GD2617119@nvidia.com>
+ <765e3449-2eb1-49f5-954e-3bab5a5fc9d1@amd.com>
+ <20250926160036.GE2617119@nvidia.com>
+ <d3cc5b7fe4189c6f529b532273ece34c9c0e975f.camel@linux.intel.com>
+ <a5ffd1ee-b0b5-40bd-b68f-3779ca70dcae@amd.com>
+ <42520738dbc23174181db7d31d55de56996fba88.camel@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <42520738dbc23174181db7d31d55de56996fba88.camel@linux.intel.com>
+X-ClientProxiedBy: YT1PR01CA0092.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::31) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|PH8PR12MB6748:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b48bbaa-9d53-4fae-0292-08ddff538dd5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cFAvVkRzMmEvM2hQTmFxa2dZZFptb0IzUkVMZXFlcGRsOTUrZFZzbmFQNEZ4?=
+ =?utf-8?B?WXZQSExLTFhDR1g0b0FrOE1KZ0pWb2dyS3o3QWZkYUxCYTdRVHNTc0g3azQ1?=
+ =?utf-8?B?YUZoc2tVUkQyblpuVHdLRVdiWjkxbnpzR2pYandveE84K3NJUTRWbElVUkts?=
+ =?utf-8?B?aTEyUHpITzN6U0k4N24zNDYwZmdCcS9PY2NlSFZjM1RaaStzamdoQzFpdVNx?=
+ =?utf-8?B?aHVza1ZZOHV5MGdPUkduUEZmVGt6M3VsQnRxVFZtenhLcDZFY2twc1pDajUv?=
+ =?utf-8?B?Q3ZoeUtra211YzlSN3VJMzdmRjg0NG9IUkNCNEUvbjNSR0VWSWZHVDZqbmIy?=
+ =?utf-8?B?bmM1Q2w5dWZ0UzRmdTM4RkFzQmhlSnQwUENncXlkL1dxTTlxQ3BoUmx3eUk3?=
+ =?utf-8?B?NDMxQitta1JkRTdMVzJBa3lYU2hXR1BKSE5LUnF5NHVwVm1IQkc0YlNPb3Ev?=
+ =?utf-8?B?SHk3bE1lM2Jpb0luQkVkUTBNaDZqbTRuYmtmSkpzVlk3M291TzJlcEhWbjRm?=
+ =?utf-8?B?a3hSTDltZHhoSFBGc3F6bjBJV2hIKzhiUGtVRHJIMFVyTDFoT3UwMzMxbUZC?=
+ =?utf-8?B?UE12L2tCZE1WL2lqdVRVR0Q0YUxlak5lQUJodjVVeG9WVGcxdWFmdXVBVThs?=
+ =?utf-8?B?dFJtbTFmSmJocHVGRzN0REN1ZWlXbzVVdWwvK2U5QUhXdXNrT2lJd1lZc2xX?=
+ =?utf-8?B?QnJoTHRxdjZYRi9sS21iMndqdllCUnV4eExvaFoyanFqSzJnanZ4WjhXL20r?=
+ =?utf-8?B?ZTJ1bFpFZ1g0cTNGZWxYYTF2MUJhbWFUbkdVZDNBV0xkMVVzSDAwR0E0bWtX?=
+ =?utf-8?B?aEE1ZW9VV05tQm9GNDE0RHZvVGozS2NYOUFsckNzVmVBMGU2Q3QwNVlGdmUx?=
+ =?utf-8?B?bno4ZGFHL2g1MjIrc1BjQ1FlNER4dHIrOEVuZnNYUFVLcnMvSGw4dmhPcU9O?=
+ =?utf-8?B?NFo0RVU3TTZsKy9DVlJkUWcvRGdJbzZ5U1RkaG1uNHBDcmdXUGVDMEkrSkU0?=
+ =?utf-8?B?UHREcitQODN3QkpqMjVyckVyVXlYN0djWXZPY2hpN2s4aGowTG1FSEdrUEIx?=
+ =?utf-8?B?YW8yc1prSEpreUwvbVhrNE1pajh4OGlTMDlkYXNMRVhXQ2wzdXRPZU94VURw?=
+ =?utf-8?B?UFlDL0h1TnhUb3VxcDFGTmNSTzN0ZkQ4ZHlXRVI1djVEajM4QnlQZk5DK1po?=
+ =?utf-8?B?QnVtRWVvMGNwUFY4Q2hDWVgwR1FoQWg4RXlWR1BJWnFYVTd5UitRRmhNbGZU?=
+ =?utf-8?B?WUpBSkE2WnFNUXNkNGo0RTdZV1FwTXNBNncwejdLLzJscytOaStrRkt0Tyt6?=
+ =?utf-8?B?WWxyS3AzSWIvOVQreFN3ZjhTTm56RCs5eUovTzRUNE9jOEhxSGZ3OVdrRkNN?=
+ =?utf-8?B?d2xKdjd2MythUGQ4NzlRdzllVktEK2I5ek5UMy9xYWl6QjZ1eDNrMzR3TEZJ?=
+ =?utf-8?B?cGxEV0FRb2N6Tk85S2ZFZDhIZDBYdzI5OTlQbUJXdlRYbERCeVJEcUd3K3Na?=
+ =?utf-8?B?UVRTaW1Xc0FDM1A1emlKNThpckd6eHVPZlovK0srcU1GclFaanQ3cnI3ZlhI?=
+ =?utf-8?B?MzdlRDg2OEcrUi90NmxzWFVBODNaV1g2TU1oWFJIUzQyWGEvd3B0YUoyeTRM?=
+ =?utf-8?B?UXEzdEVCQTEweHBvcnRaWWowZ0Y3TFlqZlpCWVFYakI2VkF4QlpZUGg1M1Fh?=
+ =?utf-8?B?Nk8wRllDcEkzc0VkMWxZTUJUd2xGQXYyeTZ4WnBkYXBaalBkVExzTEpPa21l?=
+ =?utf-8?B?Z3RIRGtFWGNUSzdwL3loMEd5c2VtQ0hva0UycC95ZmttbzUrVW1BOERpT2xj?=
+ =?utf-8?B?eVVHNDBTM2JJVUFiM0JXcUtnVDdad3ZlK2JLOVNpR3RkdDExOVdORzFEcEpK?=
+ =?utf-8?B?Y1V1Yk9vcTBXeEpEb0dwRnBoL21RZ0I2aUZiMVVxRnRHbGN4YXJFcC9EUEVh?=
+ =?utf-8?Q?1qhKD5UJ5+VCZWDX/byYMmAoSFYdtAHv?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5757.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elpRTHJacUVIUEZCU2NYWDB2U1BDZUlxRTQ1Y3JOeERTcFlhY05menVCNkl4?=
+ =?utf-8?B?MGpESnlDeCttWGI5c0xOMFVQVHViSGJtaEZsV0IyYjNrdWJ2UTR2REtsamsy?=
+ =?utf-8?B?dEVRU21raE5xSy9XY0NMVlNKdmN5bUEwNUZaV21DOTBXdlltVFRQOC9LM1NI?=
+ =?utf-8?B?OVVUTWlUMTJpaDVBRXlaYWQ4L1pDVXArUzcwN2VyMzk5QnVVcFJZVGFVWFZ6?=
+ =?utf-8?B?TUQwWWtxZzZnR3ZYYTUvYld0R0hqQ2FsVStaMnNXZVNIWVc4VHZNVUJXOXpP?=
+ =?utf-8?B?Q2p5M25wNURUNE9abXIrdmx3em14bUhMdnhNMEJrQWo4Z0JXeDUreHdieFp4?=
+ =?utf-8?B?alV2bGhQTFB5V2RoWCt3YWZmNUxJUFF4RjVUSFNRdGh5b2x1d25TcWFoZzkr?=
+ =?utf-8?B?bStVRmpVaEJJeEN3QW02aG02eCtvZTVTa0dRdk01M1lueVU1L2szZjdWdnlz?=
+ =?utf-8?B?WXNBeFcwQ09DYUxWa0JIakpRaDlzMW1qMjRuRDY1TEJ1SnA2Y1NKa3UrY091?=
+ =?utf-8?B?ZFNsU0FNankybFVHSmFnb3lHQjAyVmZvRzVEMUkyVzlZcWtjbTJtalp6L0oy?=
+ =?utf-8?B?YVhEZmREK2JhL0VSTGZUZkJ4c0ZialZTZnlGdTlQS01Za0ZpYjgvNXZBdTVn?=
+ =?utf-8?B?MlVkQ2psbmZpekZ4Z0tlZTFRa2JzTHM0MjFTZExGWHNjM0hoQkt2SXVFQUtM?=
+ =?utf-8?B?ZFJlQVEybjh5Z1p2VXVzR2I3YWR0bWQxOFBPSWVSRTRJcjRTYWlkTHBLMlI5?=
+ =?utf-8?B?SGNucW1tKzBWbXRKL2oxMklrVG9iTHZUUm5oamxXQWVQSHhWOUZWcmVFZ1BE?=
+ =?utf-8?B?WURFMi9DRkNWbHJXRllJWmlzRGR4YjA4d1VDR0JURmxmaGlTWndzTUsvTG04?=
+ =?utf-8?B?UnU2ekpVV0sxY3M1Yi9oMWFXVmF6Z0ZzTm8yM25Xa3hpK1FVK1haV0FLb1R3?=
+ =?utf-8?B?aFg4eHR5a0dOZFlhL2o5ZXd1cGZYRlJRSVRNQjdPRENNazBaWmQ0UGVFRFRX?=
+ =?utf-8?B?b1E0RTBoVktoZWNWMGJwTkFydGUyTkxqenY1L1ZzNGxVUVBaMGdUWk9ZZmQ4?=
+ =?utf-8?B?U3dNOFRGalJMTnNXR3FRZFdTbHppTUp2Ni9XQ0paaXNmeGdhbW5qdUtNSkNJ?=
+ =?utf-8?B?VUp2N0ovTUs1TXc1YkNUODZ4bEx2VHBsZFN4ZDMrZGdYZmkrY2JPY29mWDRv?=
+ =?utf-8?B?bkpKd0dLdXd6aHQ5ZTRMU2hEWEgvcmgrWlB6NkUvcllTSmt2N1hIWUQrWnc1?=
+ =?utf-8?B?SDVUb0FsZk5IS1ZXbFZIMGtUV2U3ajJlL1VKZ0JuTXd1eFI3TmpadFQ2L1U1?=
+ =?utf-8?B?Sm5rMWZNanJ4MDZ6VzhhSGNwL3RZRFpaTFBNODhiUWRZQ0dvZEpDcnpINUJQ?=
+ =?utf-8?B?dDgvckFVWW5lZXBnalIyYnJ4bSt0WThiOVpWb3I0REpxNFFKL3dYb1g2S3dB?=
+ =?utf-8?B?WWQ0QTdsOVhEM1F6d2hleUN6WElOOFF5RmZQRFg4SlJXQy81RGpDcmJ5US9M?=
+ =?utf-8?B?WmMwZEExV3UxaWg2ekxSSU01NlhONkowOHNhZHUzQzZWbE1vYkhTYmVrZ0kv?=
+ =?utf-8?B?VVpXTHpJUkJVWG1xRGc2TjAvUzl0czVrTEZrN3B4WmVTRUM5V0RmQXprc0Mx?=
+ =?utf-8?B?Sy96K2UxUlNKZStQZ0sybWZtdVNuQytRenZGNk9qWWNyNjYwRGt6bnVWaEJs?=
+ =?utf-8?B?dnYzQnNReWxyQ1gvVTcxaDlZOFVEUkdLWXRLbGVzM3F3dXZQTVFqVWtVa0hv?=
+ =?utf-8?B?aWVDVHlZdGpISUFzaGYrb3pHNHRBUVYrcTZZVkcyV2w0bmdwRjUvaHkzVE10?=
+ =?utf-8?B?RFRVQXh3Q3ZKR3lmM3h6SWttcHR4QnkyRnR6Q01vVVF6UXloc3JxMThCbVpx?=
+ =?utf-8?B?aGErY0htSHBmazlFZVFjcmFCRmt5bVBHRXNXRW1BMmpjRFlzYndrbGVzUnZz?=
+ =?utf-8?B?RzJ6N2dHL0dYUE9Dc2NiL3YzR1NnTTFTeU80N3hUMVRkNTl6RE9xWTRVKzBQ?=
+ =?utf-8?B?MlhmTysyLzNsY0dadVdHMHlLaDdkRVpIK3hzc3ZaczJXeE05ekhGaHN1M0J0?=
+ =?utf-8?B?S1VoYXpENkU5MVZBbHpzS0xtYnB4YXprNWVzWXhrNUpMbUFWK0dnazFhem1S?=
+ =?utf-8?Q?iv90=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b48bbaa-9d53-4fae-0292-08ddff538dd5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 12:27:28.4825 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X6PfznlSNp0vRt+Rl5I+OnvuH2q/+ndO6pKgY3zj2e65VxWeRuOBbTfYHy7UoMrX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6748
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,621 +176,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 29/09/25 09:46, Nicolas Frattaroli ha scritto:
-> Various MediaTek SoCs use GPU integration silicon named "MFlexGraphics"
-> by MediaTek. On the MT8196 and MT6991 SoCs, interacting with this
-> integration silicon is required to power on the GPU.
+On Mon, Sep 29, 2025 at 10:25:06AM +0200, Thomas Hellström wrote:
+> > > 2) dma-buf pcie-p2p allows transparent fallback to system memory
+> > > dma-
+> > > buf. I think that is a good thing to keep even for other
+> > > interconnects
+> > > (if possible). Like if someone wants to pull the network cable, we
+> > > could trigger a move_notify() and on next map() we'd fall back. Any
+> > > ideas around this?
+> > 
+> > We already do that if new importers come along.
+> > 
+> > E.g. you have a connection which can do PCIe P2P and then suddenly
+> > somebody attaches which can only do DMA to system memory. In that
+> > situation we use move_notify to move the buffer into system memory
+> > and imports re-map it to grasp the new location.
 > 
-> This glue silicon is in the form of an embedded microcontroller running
-> special-purpose firmware, which autonomously adjusts clocks and
-> regulators.
-> 
-> Implement a driver, modelled as a pmdomain driver with a
-> set_performance_state operation, to support these SoCs.
-> 
-> The driver also exposes the actual achieved clock rate, as read back
-> from the MCU, as common clock framework clocks, by acting as a clock
-> provider as well.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->   drivers/pmdomain/mediatek/Kconfig            |  16 +
->   drivers/pmdomain/mediatek/Makefile           |   1 +
->   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c | 954 +++++++++++++++++++++++++++
->   3 files changed, 971 insertions(+)
-> 
-> diff --git a/drivers/pmdomain/mediatek/Kconfig b/drivers/pmdomain/mediatek/Kconfig
-> index 0e34a517ab7d5a867bebaab11c0d866282a15e45..b06aaa9690f08f33519595916b8ea3ad9035fc55 100644
-> --- a/drivers/pmdomain/mediatek/Kconfig
-> +++ b/drivers/pmdomain/mediatek/Kconfig
-> @@ -26,6 +26,22 @@ config MTK_SCPSYS_PM_DOMAINS
->   	  Control Processor System (SCPSYS) has several power management related
->   	  tasks in the system.
->   
-> +config MTK_MFG_PM_DOMAIN
-> +	bool "MediaTek MFlexGraphics power domain"
-> +	default ARCH_MEDIATEK
-> +	depends on PM
-> +	depends on OF
-> +	depends on COMMON_CLK
-> +	select PM_GENERIC_DOMAINS
-> +	imply MTK_GPUEB_MBOX
-> +	help
-> +	  Say y or m here to enable the power domains driver for MediaTek
-> +	  MFlexGraphics. This driver allows for power and frequency control of
-> +	  GPUs on MediaTek SoCs such as the MT8196 or MT6991.
-> +
-> +	  This driver is required for the Mali GPU to work at all on MT8196 and
-> +	  MT6991.
-> +
->   config AIROHA_CPU_PM_DOMAIN
->   	tristate "Airoha CPU power domain"
->   	default ARCH_AIROHA
-> diff --git a/drivers/pmdomain/mediatek/Makefile b/drivers/pmdomain/mediatek/Makefile
-> index 18ba92e3c418154e1d428dbc6b59b97b26056d98..b424f1ed867604393b3ff96364855363aedaa40c 100644
-> --- a/drivers/pmdomain/mediatek/Makefile
-> +++ b/drivers/pmdomain/mediatek/Makefile
-> @@ -1,4 +1,5 @@
->   # SPDX-License-Identifier: GPL-2.0-only
-> +obj-$(CONFIG_MTK_MFG_PM_DOMAIN)		+= mtk-mfg-pmdomain.o
->   obj-$(CONFIG_MTK_SCPSYS)		+= mtk-scpsys.o
->   obj-$(CONFIG_MTK_SCPSYS_PM_DOMAINS) 	+= mtk-pm-domains.o
->   obj-$(CONFIG_AIROHA_CPU_PM_DOMAIN) 	+= airoha-cpu-pmdomain.o
-> diff --git a/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c b/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ba8e493b15edf6f5648deb9bddbc5d63fe0ba43b
-> --- /dev/null
-> +++ b/drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
-> @@ -0,0 +1,954 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Driver for MediaTek MFlexGraphics Devices
-> + *
-> + * Copyright (C) 2025, Collabora Ltd.
-> + */
-> +
-> +#include <linux/completion.h>
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/container_of.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/mailbox_client.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/of_reserved_mem.h>
-> +#include <linux/overflow.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_opp.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/units.h>
-> +
+> Sure, Just wandering whether we should document and require that also
+> for fast interconnects. 
 
-..snip..
+I thin Thomas is pushing toward a question of what happens to the
+interconnect during a move?
 
+If the interconnect is established during attach, can/should move
+re-negotiate it?
 
-> +
-> +static int mtk_mfg_eb_on(struct mtk_mfg *mfg)
-> +{
-> +	struct device *dev = &mfg->pdev->dev;
-> +	u32 val;
-> +	int ret;
-> +
-> +	/*
-> +	 * If MFG is already on from e.g. the bootloader, we should skip doing
+It seems like yes - if the attachment negotiated using some private
+interconnect then move happens and the memory is on CPU and no longer
+available to the private interconnect the attachment needs to
+renegotiate and change to a new interconnect during the move sequence.
 
-we ... who?
+If the importer supports only 1 interconnect, then it shouldn't have
+to implement renegotiate.
 
-> +	 * the power-on sequence, as it wouldn't work without powering it off
-> +	 * first.
-> +	 */
-> +	if (mtk_mfg_is_powered_on(mfg))
-> +		return 0;
-> +
-> +	ret = readl_poll_timeout(mfg->rpc + RPC_GHPM_RO0_CON, val,
-> +				 !(val & (GHPM_PWR_STATE_M | GHPM_STATE_M)),
-> +				 GPUEB_POLL_US, GPUEB_TIMEOUT_US);
-> +	if (ret) {
-> +		dev_err(dev, "timed out waiting for EB to power on\n");
-> +		return ret;
-> +	}
-> +
-> +	mtk_mfg_update_reg_bits(mfg->rpc + mfg->ghpm_en_reg, GHPM_ENABLE_M,
-> +				GHPM_ENABLE_M);
-> +
-> +	mtk_mfg_update_reg_bits(mfg->rpc + RPC_GHPM_CFG0_CON, GHPM_ON_SEQ_M, 0);
-> +	mtk_mfg_update_reg_bits(mfg->rpc + RPC_GHPM_CFG0_CON, GHPM_ON_SEQ_M,
-> +				GHPM_ON_SEQ_M);
-> +
-> +	mtk_mfg_update_reg_bits(mfg->rpc + mfg->ghpm_en_reg, GHPM_ENABLE_M, 0);
-> +
-> +
-> +	ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-> +				 (val & PWR_ACK_M) == PWR_ACK_M,
-> +				 GPUEB_POLL_US, GPUEB_TIMEOUT_US);
-> +	if (ret) {
-> +		dev_err(dev, "timed out waiting for EB power ack, val = 0x%X\n",
-> +			val);
-> +		return ret;
-> +	}
-> +
-> +	ret = readl_poll_timeout(mfg->gpr + GPR_LP_STATE, val,
-> +				 (val == EB_ON_RESUME),
-> +				 GPUEB_POLL_US, GPUEB_TIMEOUT_US);
-> +	if (ret) {
-> +		dev_err(dev, "timed out waiting for EB to resume, status = 0x%X\n", val);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_mfg_eb_off(struct mtk_mfg *mfg)
-> +{
-> +	struct device *dev = &mfg->pdev->dev;
-> +	struct mtk_mfg_ipi_sleep_msg msg = {
-> +		.event = 0,
-> +		.state = 0,
-> +		.magic = GPUEB_SLEEP_MAGIC
-> +	};
-> +	u32 val;
-> +	int ret;
-> +
-> +	ret = mbox_send_message(mfg->slp_mbox->ch, &msg);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Cannot send sleep command: %pe\n", ERR_PTR(ret));
-> +		return ret;
-> +	}
-> +
-> +	ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-> +				 !(val & PWR_ACK_M), GPUEB_POLL_US,
-> +				 GPUEB_TIMEOUT_US);
-> +
-> +	if (ret)
-> +		dev_err(dev, "Timed out waiting for EB to power off, val=0x%08X\n", val);
+I think this needs to be called out explicitly in the flow and
+documentation.
 
-Please be consistent with mtk_mfg_eb_on (and with everything else, actually).
+> So that if we use a new map_attachment()
+> function, like was suggested ealier, if that fails, the importer should
+> ideally retry with the old one to get an sg-list to system memory?
 
-	if (ret) {
-		dev_err...
-		return ret
-	}
+It would be amazing to avoid this hassle, if the core code could see
+the exporter is old and automatically match the sg-list behavior to
+generic interconnect options. And vice versa for old importers.
 
-	return 0;
-
-> +
-> +	return ret;
-> +}
-> +
-
-..snip..
-
-> +static int mtk_mfg_set_performance(struct generic_pm_domain *pd,
-> +				   unsigned int state)
-> +{
-> +	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-> +
-> +	/*
-> +	 * pmdomain core intentionally sets a performance state before turning
-> +	 * a domain on, and after turning it off. We don't want to act on those,
-
-We..... who?!?!?!
-
-> +	 * as we only want to set performance states while the domain is on, and
-
-again, who's "we"? :-)
-
-> +	 * can simply defer setting whatever the pmdomain subsystem thinks we
-
-here we go again, who's that group of people? :-)
-
-> +	 * should be at when powering it on.
-> +	 */
-
-Code comments shall be declarative: you describe an action or code behavior - you
-have to explain a reason, not "who".
-
-Example:
-
-The pmdomain code intentionally sets a performance state both before turning
-on a power domain and after turning it off. However, in the case of MediaTek
-EB, the performance states can only be set while the controller is powered ON.
-If any performance request comes while it is OFF, return cleanly without
-taking any immediate action and defer setting the performance level until
-the next poweron.
-
-There's no "we", and describes all of reason, intention and intended code flow. :-)
-
-
-> +	if (mfg->pd.status != GENPD_STATE_ON)
-> +		return 0;
-> +
-> +	return mtk_mfg_set_oppidx(mfg, state);
-> +}
-> +
-> +static int mtk_mfg_power_on(struct generic_pm_domain *pd)
-> +{
-> +	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-> +	int ret;
-> +
-> +	ret = regulator_bulk_enable(mfg->variant->num_regulators,
-> +				    mfg->gpu_regs);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = clk_prepare_enable(mfg->clk_eb);
-> +	if (ret)
-> +		goto err_disable_regulators;
-> +
-> +	ret = clk_bulk_prepare_enable(mfg->variant->num_clks, mfg->gpu_clks);
-> +	if (ret)
-> +		goto err_disable_eb_clk;
-> +
-> +	ret = mtk_mfg_eb_on(mfg);
-> +	if (ret)
-> +		goto err_disable_clks;
-> +
-> +	mfg->ipi_magic = readl(mfg->gpr + GPR_IPI_MAGIC);
-> +
-> +	ret = mtk_mfg_power_control(mfg, true);
-> +	if (ret)
-> +		goto err_eb_off;
-> +
-> +	/* Don't try to set a OPP in probe before we have the OPPs */
-> +	if (mfg->gpu_opps) {
-> +		/* The aforementioned deferred setting of pmdomain's state */
-> +		ret = mtk_mfg_set_oppidx(mfg, pd->performance_state);
-> +		if (ret)
-> +			dev_warn(&mfg->pdev->dev, "Failed to set oppidx in %s\n", __func__);
-> +	}
-> +
-> +	return 0;
-> +
-> +err_eb_off:
-> +	mtk_mfg_eb_off(mfg);
-> +err_disable_clks:
-> +	clk_bulk_disable_unprepare(mfg->variant->num_clks, mfg->gpu_clks);
-> +err_disable_eb_clk:
-> +	clk_disable_unprepare(mfg->clk_eb);
-> +err_disable_regulators:
-> +	regulator_bulk_disable(mfg->variant->num_regulators, mfg->gpu_regs);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mtk_mfg_power_off(struct generic_pm_domain *pd)
-> +{
-> +	struct mtk_mfg *mfg = mtk_mfg_from_genpd(pd);
-> +	struct device *dev = &mfg->pdev->dev;
-> +	int ret;
-> +
-> +	ret = mtk_mfg_power_control(mfg, false);
-> +	if (ret) {
-> +		dev_err(dev, "power_control failed: %pe\n", ERR_PTR(ret));
-> +		return ret;
-> +	}
-> +
-> +	ret = mtk_mfg_eb_off(mfg);
-> +	if (ret) {
-> +		dev_err(dev, "eb_off failed: %pe\n", ERR_PTR(ret));
-> +		return ret;
-> +	}
-> +
-> +	clk_bulk_disable_unprepare(mfg->variant->num_clks, mfg->gpu_clks);
-> +	clk_disable_unprepare(mfg->clk_eb);
-> +	return regulator_bulk_disable(mfg->variant->num_regulators, mfg->gpu_regs);
-> +}
-> +
-> +static int mtk_mfg_init_mbox(struct mtk_mfg *mfg)
-> +{
-> +	struct device *dev = &mfg->pdev->dev;
-> +	struct mtk_mfg_mbox *gf;
-> +	struct mtk_mfg_mbox *slp;
-> +
-> +	gf = devm_kzalloc(dev, sizeof(*gf), GFP_KERNEL);
-> +	if (!gf)
-> +		return -ENOMEM;
-
-Please aggregate the allocations together. This doesn't guarantee that the
-memory locations are sequential and that's not the target.
-
-The target here is to improve readability, so...
-
-gf = devm_kzalloc(...)
-error_check
-gf->rx_data = devm_kzalloc(...)
-error_check
-
-Then, you can either go with initialization and registration of gf, or you
-can allocate slp here.
-
-so, either:
-- gf and gf->rx_data allocation
-   - gf->mfg, gf.cl assignment
-   - mbox_request_channel_byname(gf)
-- slp allocation
-   - slp->mfg, slp->cl assignment
-   - mbox_request_channel_byname(slp)
-
-or
-
-- gf and gf->rx_data allocation
-- slp allocation
-- gf->mfg, gf.cl assignment
-- mbox_request_channel_byname(gf)
-   - slp->mfg, slp->cl assignment
-- mbox_request_channel_byname(slp)
-
-Honestly, though - I'd go for the first.
-
-> +
-> +	slp = devm_kzalloc(dev, sizeof(*slp), GFP_KERNEL);
-> +	if (!slp)
-> +		return -ENOMEM;
-> +
-> +	gf->mfg = mfg;
-> +	init_completion(&gf->rx_done);
-> +	gf->cl.dev = dev;
-> +	gf->cl.rx_callback = mtk_mfg_mbox_rx_callback;
-> +	gf->cl.tx_tout = GPUEB_TIMEOUT_US / USEC_PER_MSEC;
-> +	gf->rx_data = devm_kzalloc(dev, GPUEB_MBOX_MAX_RX_SIZE, GFP_KERNEL);
-> +	if (!gf->rx_data)
-> +		return -ENOMEM;
-> +	gf->ch = mbox_request_channel_byname(&gf->cl, "gpufreq");
-> +	if (IS_ERR(gf->ch))
-> +		return PTR_ERR(gf->ch);
-> +
-> +	mfg->gf_mbox = gf;
-> +
-> +	slp->mfg = mfg;
-> +	init_completion(&slp->rx_done);
-> +	slp->cl.dev = dev;
-> +	slp->cl.tx_tout = GPUEB_TIMEOUT_US / USEC_PER_MSEC;
-> +	slp->cl.tx_block = true;
-> +	slp->ch = mbox_request_channel_byname(&slp->cl, "sleep");
-> +	if (IS_ERR(slp->ch))
-> +		return PTR_ERR(slp->ch);
-> +
-> +	mfg->slp_mbox = slp;
-> +
-> +	return 0;
-> +}
-> +
-
-..snip..
-
-> +
-> +static int mtk_mfg_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *shmem __free(device_node);
-> +	struct mtk_mfg *mfg;
-> +	struct device *dev = &pdev->dev;
-> +	const struct mtk_mfg_variant *data = of_device_get_match_data(dev);
-> +	struct resource res;
-> +	int ret, i;
-> +
-> +	mfg = devm_kzalloc(dev, sizeof(*mfg), GFP_KERNEL);
-> +	if (!mfg)
-> +		return -ENOMEM;
-> +
-> +	mfg->pdev = pdev;
-> +	mfg->variant = data;
-> +
-> +	dev_set_drvdata(dev, mfg);
-> +
-> +	mfg->gpr = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(mfg->gpr))
-> +		return dev_err_probe(dev, PTR_ERR(mfg->gpr),
-> +				     "Could not retrieve GPR MMIO registers\n");
-> +
-> +	mfg->rpc = devm_platform_ioremap_resource(pdev, 1);
-> +	if (IS_ERR(mfg->rpc))
-> +		return dev_err_probe(dev, PTR_ERR(mfg->rpc),
-> +				     "Could not retrieve RPC MMIO registers\n");
-> +
-> +	mfg->clk_eb = devm_clk_get(dev, "eb");
-> +	if (IS_ERR(mfg->clk_eb))
-> +		return dev_err_probe(dev, PTR_ERR(mfg->clk_eb),
-> +				     "Could not get 'eb' clock\n");
-> +
-> +	mfg->gpu_clks = devm_kcalloc(dev, data->num_clks, sizeof(*mfg->gpu_clks),
-> +				     GFP_KERNEL);
-> +	if (!mfg->gpu_clks)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < data->num_clks; i++)
-> +		mfg->gpu_clks[i].id = data->clk_names[i];
-> +
-> +	ret = devm_clk_bulk_get(dev, data->num_clks, mfg->gpu_clks);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "couldn't get GPU clocks\n");
-> +
-> +	mfg->gpu_regs = devm_kcalloc(dev, data->num_regulators,
-> +				     sizeof(*mfg->gpu_regs), GFP_KERNEL);
-> +	if (!mfg->gpu_regs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < data->num_regulators; i++)
-> +		mfg->gpu_regs[i].supply = data->regulator_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(dev, data->num_regulators, mfg->gpu_regs);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "couldn't get GPU regulators\n");
-> +
-> +	ret = of_reserved_mem_region_to_resource(dev->of_node, 0, &res);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to get GPUEB shared memory\n");
-
-Good job! ...though, the dev_err_probe call fits in one line just fine (87 columns
-is ok)
-
-> +
-> +	mfg->shared_mem = devm_ioremap(dev, res.start, resource_size(&res));
-> +	if (!mfg->shared_mem)
-> +		return dev_err_probe(dev, -EADDRNOTAVAIL,
-> +				     "failed to ioremap GPUEB shared memory\n");
-
--EADDRNOTAVAIL == Cannot assign requested address (and that's in the networking
-sense of it).
-
-If devm_ioremap fails, you're most likely out of memory, because we can give for
-granted that the phys addr is validated from the get go.
-
-Just go with -ENOMEM then - and besides, fits in one line if you say instead:
-
-return dev_err_probe(dev, -ENOMEM, "cannot ioremap GPUEB shared mem\n");
-
-> +	mfg->shared_mem_size = resource_size(&res);
-> +	mfg->shared_mem_phys = res.start;
-> +
-> +	if (data->init) {
-> +		ret = data->init(mfg);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "Variant init failed\n");
-> +	}
-> +
-> +	mfg->pd.name = dev_name(dev);
-> +	mfg->pd.attach_dev = mtk_mfg_attach_dev;
-> +	mfg->pd.detach_dev = mtk_mfg_detach_dev;
-> +	mfg->pd.power_off = mtk_mfg_power_off;
-> +	mfg->pd.power_on = mtk_mfg_power_on;
-> +	mfg->pd.set_performance_state = mtk_mfg_set_performance;
-> +	mfg->pd.flags = GENPD_FLAG_OPP_TABLE_FW;
-> +
-> +	ret = pm_genpd_init(&mfg->pd, NULL, false);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to initialise power domain\n");
-> +
-> +	ret = clk_prepare_enable(mfg->clk_eb);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to turn on EB clock\n");
-> +
-> +	ret = mtk_mfg_init_mbox(mfg);
-> +	if (ret) {
-> +		clk_disable_unprepare(mfg->clk_eb);
-> +		return dev_err_probe(dev, ret, "Couldn't initialise mailbox\n");
-> +	}
-> +
-
-Can you please add a comment here, explaining that mtk_mfg_power_on() is also
-responsible for turning on all of the necessary clocks, hence it raises the
-refcount of clk_eb?
-
-All that so it becomes clear that there you're not disabling the clk_eb clock
-but only lowering the refcount.
-
-Saying that because while reviewing this code, after reaching the `out` label
-the first thing that came to mind was "there we go, unclocked access" - but then
-after 30 seconds I realized that the clocks are left on by the call to function
-mtk_mfg_power_on().
-
-A very brief comment explaining what's going on wouldn't have saved those 30
-seconds because this is a review, but it would save those to the next person
-reading a driver that is upstream anyway.
-
-Of course, no strong opinions about having the comment, this is just a suggestion.
-
-> +	ret = mtk_mfg_power_on(&mfg->pd);
-> +	clk_disable_unprepare(mfg->clk_eb);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to power on MFG\n");
-> +
-> +	ret = mtk_mfg_init_shared_mem(mfg);
-> +	if (ret) {
-> +		dev_err(dev, "Couldn't initialize EB shared memory: %pe\n", ERR_PTR(ret));
-
-Why is this dev_err and not dev_err_probe?
-
-I get that the return value is already set, but nothing prevents you from calling
-dev_err_probe() without assigning the result to anything.
-
-	if (ret) {
-		dev_err_probe(dev, ret, "Couldn't initialize EB shared memory\n");
-		goto out;
-	}
-
-At least - we get the probe error prints consistent :-)
-
-> +		goto out;
-> +	}
-> +
-> +	ret = mtk_mfg_read_opp_tables(mfg);
-> +	if (ret) {
-> +		dev_err(dev, "Error reading OPP tables from EB: %pe\n",
-> +			ERR_PTR(ret));
-
-dev_err_probe.
-
-> +		goto out;
-> +	}
-> +
-> +	ret = mtk_mfg_init_clk_provider(mfg);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret = of_genpd_add_provider_simple(dev->of_node, &mfg->pd);
-> +	if (ret) {
-> +		ret = dev_err_probe(dev, ret, "Failed to add pmdomain provider\n");
-
-Please avoid this redundant assignment.
-
-> +		goto out;
-> +	}
-> +
-> +	return 0;
-> +
-
-Everything else looks good to me - so after fixing this I'm confident that you'll
-get my R-b tag on this commit.
-
-Cheers,
-Angelo
-
-
-> +out:
-> +	mtk_mfg_power_off(&mfg->pd);
-> +	return ret;
-> +}
-> +
-> +static const struct of_device_id mtk_mfg_of_match[] = {
-> +	{ .compatible = "mediatek,mt8196-gpufreq", .data = &mtk_mfg_mt8196_variant },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_mfg_of_match);
-> +
-> +static void mtk_mfg_remove(struct platform_device *pdev)
-> +{
-> +	struct mtk_mfg *mfg = dev_get_drvdata(&pdev->dev);
-> +
-> +	if (mtk_mfg_is_powered_on(mfg))
-> +		mtk_mfg_power_off(&mfg->pd);
-> +
-> +	of_genpd_del_provider(pdev->dev.of_node);
-> +	pm_genpd_remove(&mfg->pd);
-> +
-> +	mbox_free_channel(mfg->gf_mbox->ch);
-> +	mfg->gf_mbox->ch = NULL;
-> +
-> +	mbox_free_channel(mfg->slp_mbox->ch);
-> +	mfg->slp_mbox->ch = NULL;
-> +}
-> +
-> +static struct platform_driver mtk_mfg_driver = {
-> +	.driver = {
-> +		.name = "mtk-mfg-pmdomain",
-> +		.of_match_table = mtk_mfg_of_match,
-> +		.suppress_bind_attrs = true,
-> +	},
-> +	.probe = mtk_mfg_probe,
-> +	.remove = mtk_mfg_remove,
-> +};
-> +module_platform_driver(mtk_mfg_driver);
-> +
-> +MODULE_AUTHOR("Nicolas Frattaroli <nicolas.frattaroli@collabora.com>");
-> +MODULE_DESCRIPTION("MediaTek MFlexGraphics Power Domain Driver");
-> +MODULE_LICENSE("GPL");
-> 
-
+Jason
