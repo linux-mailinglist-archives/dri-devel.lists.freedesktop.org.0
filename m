@@ -2,73 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C35BAA2AE
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 19:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78100BAA29F
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 19:27:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0B3010E46C;
-	Mon, 29 Sep 2025 17:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 923B110E247;
+	Mon, 29 Sep 2025 17:27:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="j2npnJQw";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="P2hOQM/c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3551F10E214
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 04:38:09 +0000 (UTC)
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20250929042918epoutp025525e78903fab06c2a7dd2b32f94259e~ppnbVxUyv2983429834epoutp02a
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 04:29:18 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20250929042918epoutp025525e78903fab06c2a7dd2b32f94259e~ppnbVxUyv2983429834epoutp02a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1759120158;
- bh=6sXHbeK++urRgXFZ0q5BURM+QBMH1xJNpaG+x/fCF18=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j2npnJQweQ8Jqvw+0Wu5fGPU529Yz6EacXJlvGNDrYqr6bhquYsB1epkEUfh//UuI
- 369eJP+muCc2j6TG441PD55Y8oQm0BKL2ByAQKwBiuAfxxA3+S8FJNk75WTnTdedXR
- b3i6sKou3zMvdGfEBwceCJMducCVfXSFawyBBiM8=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
- epcas2p4.samsung.com (KnoxPortal) with ESMTPS id
- 20250929042918epcas2p48ba6d48b41c6fdd147cf6c6850617c73~ppnbAiqdy1362413624epcas2p4W;
- Mon, 29 Sep 2025 04:29:18 +0000 (GMT)
-Received: from epcas2p3.samsung.com (unknown [182.195.38.205]) by
- epsnrtp01.localdomain (Postfix) with ESMTP id 4cZp9p0Y7Mz6B9mL; Mon, 29 Sep
- 2025 04:29:18 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
- epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
- 20250929042917epcas2p43d95408c9c43ff49ff6674136d7c64d3~ppnaD-lQX0591205912epcas2p4u;
- Mon, 29 Sep 2025 04:29:17 +0000 (GMT)
-Received: from tayo (unknown [10.229.9.198]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20250929042917epsmtip1dc25e0c7a28d5a3a5ce6ffb1ebdba5be~ppnZ-VBh52522725227epsmtip1n;
- Mon, 29 Sep 2025 04:29:17 +0000 (GMT)
-From: Hoyoung Lee <hy_fifty.lee@samsung.com>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski <krzk@kernel.org>, Alim
- Akhtar <alim.akhtar@samsung.com>
-Cc: Hoyoung Lee <hy_fifty.lee@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] drm/exynos: Move mode_config setup from fb.c to drv.c
-Date: Mon, 29 Sep 2025 13:31:10 +0900
-Message-ID: <20250929043110.3631025-4-hy_fifty.lee@samsung.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250929043110.3631025-1-hy_fifty.lee@samsung.com>
+Received: from fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ (fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ [3.65.3.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7200310E433;
+ Mon, 29 Sep 2025 14:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+ t=1759156780; x=1790692780;
+ h=from:to:cc:date:message-id:references:in-reply-to:
+ content-transfer-encoding:mime-version:subject;
+ bh=jQWfyryv3PwAY4z7JkjeqszILRR0hMtG2kXXZBJTGME=;
+ b=P2hOQM/cNnMvYhobbSIfGh3ZWp3tA0HsWh1KhL7VJZc6nsQJRwh67YJf
+ x61xfRUdNqgMIwaE8GLdhhVTN/YUf/gMWDpHHJYJ/DDux/jMzuTy7fFer
+ C5VvTgJX0t6xZguhi0O2ObTwDiehBLdZgRxf2TNkVcdysXQmTxQroIXa1
+ sJyCi82pePrFZu2CzvRQFDZxmyfemNKUWnoRLcP5M8D5ADlc4NpkyfILc
+ r39i/wkHqKGvgsZHlijdC3mlVgfCtcUhFjAFPeQg78rkVdYUhc1ac3HJl
+ ovXJQgAy4v6yQ4wVL+Zig+mpeOv0ADwD63NebkH6WciTVk52mImfpDFDN Q==;
+X-CSE-ConnectionGUID: Eg5FVd3DSAe1GaVTZtKB6g==
+X-CSE-MsgGUID: z2L5KGDMS7uQ8XhGedGakg==
+X-IronPort-AV: E=Sophos;i="6.18,301,1751241600"; 
+   d="scan'208";a="2836489"
+Subject: RE: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
+ available everywhere
+Thread-Topic: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
+ available everywhere
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO
+ smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+ by internal-fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 14:39:28 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:13136]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.33.147:2525]
+ with esmtp (Farcaster)
+ id 231f5531-c12d-4148-9dbe-5b2468a5b014; Mon, 29 Sep 2025 14:39:28 +0000 (UTC)
+X-Farcaster-Flow-ID: 231f5531-c12d-4148-9dbe-5b2468a5b014
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Mon, 29 Sep 2025 14:39:27 +0000
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Mon, 29 Sep 2025 14:39:26 +0000
+Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
+ EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
+ 15.02.2562.020; Mon, 29 Sep 2025 14:39:26 +0000
+From: "Farber, Eliav" <farbere@amazon.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "richard@nod.at"
+ <richard@nod.at>, "anton.ivanov@cambridgegreys.com"
+ <anton.ivanov@cambridgegreys.com>, "johannes@sipsolutions.net"
+ <johannes@sipsolutions.net>, "dave.hansen@linux.intel.com"
+ <dave.hansen@linux.intel.com>, "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+ <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com"
+ <hpa@zytor.com>, "tony.luck@intel.com" <tony.luck@intel.com>,
+ "qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, "james.morse@arm.com" <james.morse@arm.com>,
+ "rric@kernel.org" <rric@kernel.org>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "Xinhui.Pan@amd.com"
+ <Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com" <evan.quan@amd.com>, 
+ "james.qian.wang@arm.com" <james.qian.wang@arm.com>, "liviu.dudau@arm.com"
+ <liviu.dudau@arm.com>, "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>, 
+ "brian.starkey@arm.com" <brian.starkey@arm.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>, 
+ "linux@roeck-us.net" <linux@roeck-us.net>, "linus.walleij@linaro.org"
+ <linus.walleij@linaro.org>, "dmitry.torokhov@gmail.com"
+ <dmitry.torokhov@gmail.com>, "maz@kernel.org" <maz@kernel.org>,
+ "wens@csie.org" <wens@csie.org>, "jernej.skrabec@gmail.com"
+ <jernej.skrabec@gmail.com>, "samuel@sholland.org" <samuel@sholland.org>,
+ "agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org" <snitzer@kernel.org>, 
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
+ <rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
+ <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+ "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+ "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+ "joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
+ <mcoquelin.stm32@gmail.com>, "krzysztof.kozlowski@linaro.org"
+ <krzysztof.kozlowski@linaro.org>, "malattia@linux.it" <malattia@linux.it>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>, "markgross@kernel.org"
+ <markgross@kernel.org>, "artur.paszkiewicz@intel.com"
+ <artur.paszkiewicz@intel.com>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ "fei1.li@intel.com" <fei1.li@intel.com>, "clm@fb.com" <clm@fb.com>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
+ <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
+ <tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
+ <luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "mhiramat@kernel.org" <mhiramat@kernel.org>, "pmladek@suse.com"
+ <pmladek@suse.com>, "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>, "minchan@kernel.org"
+ <minchan@kernel.org>, "ngupta@vflare.org" <ngupta@vflare.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "dsahern@kernel.org"
+ <dsahern@kernel.org>, "pablo@netfilter.org" <pablo@netfilter.org>,
+ "kadlec@netfilter.org" <kadlec@netfilter.org>, "fw@strlen.de" <fw@strlen.de>, 
+ "jmaloy@redhat.com" <jmaloy@redhat.com>, "ying.xue@windriver.com"
+ <ying.xue@windriver.com>, "andrii@kernel.org" <andrii@kernel.org>,
+ "mykolal@fb.com" <mykolal@fb.com>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>, "martin.lau@linux.dev"
+ <martin.lau@linux.dev>, "song@kernel.org" <song@kernel.org>, "yhs@fb.com"
+ <yhs@fb.com>, "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@google.com" <sdf@google.com>, 
+ "haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
+ <jolsa@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
+ "keescook@chromium.org" <keescook@chromium.org>, "wad@chromium.org"
+ <wad@chromium.org>, "willy@infradead.org" <willy@infradead.org>,
+ "sashal@kernel.org" <sashal@kernel.org>, "ruanjinjie@huawei.com"
+ <ruanjinjie@huawei.com>, "quic_akhilpo@quicinc.com"
+ <quic_akhilpo@quicinc.com>, "David.Laight@aculab.com"
+ <David.Laight@aculab.com>, "herve.codina@bootlin.com"
+ <herve.codina@bootlin.com>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
+ <linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
+ <linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
+ <linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
+ <linux-input@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
+ <linux-sunxi@lists.linux.dev>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
+ <netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
+ <coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>, "bpf@vger.kernel.org"
+ <bpf@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+ <linux-kselftest@vger.kernel.org>, "stable@vger.kernel.org"
+ <stable@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Thread-Index: AQHcLZHEroQ9W2lH4EW9XJumD1KlZrSqNL0AgAAM8AA=
+Date: Mon, 29 Sep 2025 14:39:26 +0000
+Message-ID: <85a995bb59474300aa3d5f973d279a13@amazon.com>
+References: <20250924202320.32333-1-farbere@amazon.com>
+ <20250924202320.32333-8-farbere@amazon.com>
+ <2025092923-stove-rule-a00f@gregkh>
+In-Reply-To: <2025092923-stove-rule-a00f@gregkh>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.85.143.172]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250929042917epcas2p43d95408c9c43ff49ff6674136d7c64d3
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-234,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250929042917epcas2p43d95408c9c43ff49ff6674136d7c64d3
-References: <20250929043110.3631025-1-hy_fifty.lee@samsung.com>
- <CGME20250929042917epcas2p43d95408c9c43ff49ff6674136d7c64d3@epcas2p4.samsung.com>
-X-Mailman-Approved-At: Mon, 29 Sep 2025 17:28:00 +0000
+X-Mailman-Approved-At: Mon, 29 Sep 2025 17:27:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,177 +196,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Relocate exynos_drm_mode_config_init() and the mode_config funcs/helpers
-from exynos_drm_fb.c to exynos_drm_drv.c, and invoke
-drm_mode_config_init() from inside exynos_drm_mode_config_init().
+> On Wed, Sep 24, 2025 at 08:23:08PM +0000, Eliav Farber wrote:
+> > From: Linus Torvalds <torvalds@linux-foundation.org>
+> >
+> > [ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
+>
+> <snip>
+>
+> As this didn't go into 6.6.y yet, I'll stop here on this series for now.
+> Please fix up for newer kernels first and then resend these.
 
-Rationale: resolve the historical fb.c placement, align with common DRM
-layering (mode_config is device-wide policy that belongs in the core
-driver), and make initialization order explicit before creating KMS
-objects and binding components.
+For 6.6.y I backported 15 commits:
+https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/=
+#t
 
-No functional change intended.
+Why weren't all of them picked?
+What is missing?
 
-Signed-off-by: Hoyoung Lee <hy_fifty.lee@samsung.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_drv.c | 47 ++++++++++++++++++++++---
- drivers/gpu/drm/exynos/exynos_drm_fb.c  | 34 ++----------------
- drivers/gpu/drm/exynos/exynos_drm_fb.h  |  7 ++--
- 3 files changed, 49 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-index 1aea71778ab1..6362cd417a4e 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-@@ -233,6 +233,43 @@ static struct component_match *exynos_drm_match_add(struct device *dev)
- 	return match ?: ERR_PTR(-ENODEV);
- }
- 
-+static struct drm_mode_config_helper_funcs exynos_drm_mode_config_helpers = {
-+	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-+};
-+
-+static const struct drm_mode_config_funcs exynos_drm_mode_config_funcs = {
-+	.fb_create = exynos_user_fb_create,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+};
-+
-+static int exynos_drm_mode_config_init(struct drm_device *dev)
-+{
-+	int ret;
-+
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
-+
-+	dev->mode_config.min_width = 0;
-+	dev->mode_config.min_height = 0;
-+
-+	/*
-+	 * set max width and height as default value(4096x4096).
-+	 * this value would be used to check framebuffer size limitation
-+	 * at drm_mode_addfb().
-+	 */
-+	dev->mode_config.max_width = 4096;
-+	dev->mode_config.max_height = 4096;
-+
-+	dev->mode_config.funcs = &exynos_drm_mode_config_funcs;
-+	dev->mode_config.helper_private = &exynos_drm_mode_config_helpers;
-+
-+	dev->mode_config.normalize_zpos = true;
-+
-+	return 0;
-+}
-+
- static int exynos_drm_bind(struct device *dev)
- {
- 	struct exynos_drm_private *private;
-@@ -257,9 +294,9 @@ static int exynos_drm_bind(struct device *dev)
- 	dev_set_drvdata(dev, drm);
- 	drm->dev_private = (void *)private;
- 
--	drmm_mode_config_init(drm);
--
--	exynos_drm_mode_config_init(drm);
-+	ret = exynos_drm_mode_config_init(drm);
-+	if (ret)
-+		goto err_free_private;
- 
- 	/* setup possible_clones. */
- 	clone_mask = 0;
-@@ -272,7 +309,7 @@ static int exynos_drm_bind(struct device *dev)
- 	/* Try to bind all sub drivers. */
- 	ret = component_bind_all(drm->dev, drm);
- 	if (ret)
--		goto err_mode_config_cleanup;
-+		goto err_free_private;
- 
- 	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
- 	if (ret)
-@@ -296,7 +333,7 @@ static int exynos_drm_bind(struct device *dev)
- 	drm_kms_helper_poll_fini(drm);
- err_unbind_all:
- 	component_unbind_all(drm->dev, drm);
--err_mode_config_cleanup:
-+err_free_private:
- 	exynos_drm_cleanup_dma(drm);
- 	kfree(private);
- 	dev_set_drvdata(dev, NULL);
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fb.c b/drivers/gpu/drm/exynos/exynos_drm_fb.c
-index ddd73e7f26a3..c118a079d308 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fb.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fb.c
-@@ -8,8 +8,7 @@
-  *	Seung-Woo Kim <sw0312.kim@samsung.com>
-  */
- 
--#include <drm/drm_atomic.h>
--#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_modeset_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_fourcc.h>
-@@ -93,7 +92,7 @@ exynos_drm_framebuffer_init(struct drm_device *dev,
- 	return ERR_PTR(ret);
- }
- 
--static struct drm_framebuffer *
-+struct drm_framebuffer *
- exynos_user_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 		      const struct drm_format_info *info,
- 		      const struct drm_mode_fb_cmd2 *mode_cmd)
-@@ -150,32 +149,3 @@ dma_addr_t exynos_drm_fb_dma_addr(struct drm_framebuffer *fb, int index)
- 	exynos_gem = to_exynos_gem(fb->obj[index]);
- 	return exynos_gem->dma_addr + fb->offsets[index];
- }
--
--static struct drm_mode_config_helper_funcs exynos_drm_mode_config_helpers = {
--	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
--};
--
--static const struct drm_mode_config_funcs exynos_drm_mode_config_funcs = {
--	.fb_create = exynos_user_fb_create,
--	.atomic_check = drm_atomic_helper_check,
--	.atomic_commit = drm_atomic_helper_commit,
--};
--
--void exynos_drm_mode_config_init(struct drm_device *dev)
--{
--	dev->mode_config.min_width = 0;
--	dev->mode_config.min_height = 0;
--
--	/*
--	 * set max width and height as default value(4096x4096).
--	 * this value would be used to check framebuffer size limitation
--	 * at drm_mode_addfb().
--	 */
--	dev->mode_config.max_width = 4096;
--	dev->mode_config.max_height = 4096;
--
--	dev->mode_config.funcs = &exynos_drm_mode_config_funcs;
--	dev->mode_config.helper_private = &exynos_drm_mode_config_helpers;
--
--	dev->mode_config.normalize_zpos = true;
--}
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fb.h b/drivers/gpu/drm/exynos/exynos_drm_fb.h
-index fdc6cb40cc9c..0c79ce5d4a8d 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fb.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fb.h
-@@ -19,8 +19,11 @@ exynos_drm_framebuffer_init(struct drm_device *dev,
- 			    struct exynos_drm_gem **exynos_gem,
- 			    int count);
- 
--dma_addr_t exynos_drm_fb_dma_addr(struct drm_framebuffer *fb, int index);
-+struct drm_framebuffer *
-+exynos_user_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-+		      const struct drm_format_info *info,
-+		      const struct drm_mode_fb_cmd2 *mode_cmd);
- 
--void exynos_drm_mode_config_init(struct drm_device *dev);
-+dma_addr_t exynos_drm_fb_dma_addr(struct drm_framebuffer *fb, int index);
- 
- #endif
--- 
-2.34.1
-
+Thanks, Eliav
