@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65B5BA938B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 14:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4341BA9394
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 14:43:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7930310E235;
-	Mon, 29 Sep 2025 12:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BD710E3FB;
+	Mon, 29 Sep 2025 12:43:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CY2gN9t/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CgZCb7r4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0865610E235
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 12:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759149776; x=1790685776;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vYQHs5wcW60oZ2pNRor1RkVy6BNwi154wGS6m9mIkHU=;
- b=CY2gN9t/8br1S2SFLM76VUcgm16JAlG4fX4Ju0QUh5eqCTfGwDASA5Zh
- 7vMAYrVF98CN4nPuAqKFJUNsJP+rjxaFP+QS0F9xTn/ijFarRDYTiodB5
- 5c/POi4tU+lPjI9clooqQcmCLIwzQIy4D643G6jRMr/wbOldP+LYhR+tL
- ODwJ5r9WS+NGExc/smQqbr8/gUURt5U6/CkmQdyE8YY2In2MXGFV7sXFu
- kR6ZCueP+QwIKKCMeHc/eWRY6/KkOkAkdhfD0qbKYI9E5AqPgdGOgjrNN
- YFzYB8uxnKWX6ASEJ+8A4lwnc6jgrF2GyZ9hWPuCYcP/flqnsO6N7th8O w==;
-X-CSE-ConnectionGUID: phvB/PUhQQ6tqYvdmSPAIQ==
-X-CSE-MsgGUID: 6umD/ID7RdaJzcDQBl4Deg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="61435301"
-X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="61435301"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2025 05:42:56 -0700
-X-CSE-ConnectionGUID: 5Z/QNayySKubcWY41EBqXw==
-X-CSE-MsgGUID: O61Zn5DmQn6/M1mSazHo5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="215378071"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.221])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2025 05:42:53 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Wilson <chris.p.wilson@linux.intel.com>
-Subject: Re: [PATCH] drm/vgem-fence: Fix potential deadlock on release
-Date: Mon, 29 Sep 2025 14:42:51 +0200
-Message-ID: <4655664.8F6SAcFxjW@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <2b562fa8-6312-4464-8c8d-26d13fbad673@amd.com>
-References: <20250926152628.2165080-2-janusz.krzysztofik@linux.intel.com>
- <2b562fa8-6312-4464-8c8d-26d13fbad673@amd.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D43B710E3FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 12:43:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E156B624B4;
+ Mon, 29 Sep 2025 12:43:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 179D7C4CEF7;
+ Mon, 29 Sep 2025 12:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759149829;
+ bh=OByPmXQzD0LeP2ti24sGIGTnC3htai1WmqAebwHFqPw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CgZCb7r4weFhoZ8UWeGpePJzQUmgGG5gn5OuJiAxQ7WPTjfJ+Y6YSf9o9nHtV7emm
+ bhA7JG2bMGFLbK8mNKmIHSp4iN/zMf5v8IIb0tSfpjBQno7ZU0tkQ43HHaZcaunzVk
+ +OyirlLH1hRPlOesN/MRd6eZLEeWE4du8o7zyBDq599mKgPkl3Ey5nFZ9JYgdBU3MC
+ q3Li9JqFhkWKH86mPCPoqeRaxt7fvJjSU6fpndcSlJagirfy8bUG3DrKrssxV9ybbs
+ WHZFoKx+f+FfP4rNKEyAHvCEAQz59I2B6LploynrMcDyZg3H4pqbW7EfXCBguUS5jC
+ MT3wnhOUX9etA==
+Date: Mon, 29 Sep 2025 14:43:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] drm/encoder: add mutex to protect the bridge chain
+Message-ID: <20250929-strange-earthworm-of-research-d2bbab@houat>
+References: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-0-23b62c47356a@bootlin.com>
+ <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-1-23b62c47356a@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="dl3nanasmtdtyy56"
+Content-Disposition: inline
+In-Reply-To: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-1-23b62c47356a@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,82 +66,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-Thank you for looking at it and providing your R-b.
+--dl3nanasmtdtyy56
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/7] drm/encoder: add mutex to protect the bridge chain
+MIME-Version: 1.0
 
-On Sunday, 28 September 2025 16:00:57 CEST Christian K=C3=B6nig wrote:
-> On 26.09.25 17:26, Janusz Krzysztofik wrote:
-> > A timer that expires a vgem fence automatically in 10 seconds is now
-> > released with timer_delete_sync() from fence->ops.release() called on l=
-ast
-> > dma_fence_put().  In some scenarios, it can run in IRQ context, which is
-> > not safe unless TIMER_IRQSAFE is used.  One potentially risky scenario =
-was
-> > demonstrated in Intel DRM CI trybot, BAT run on machine bat-adlp-6, whi=
-le
-> > working on new IGT subtests syncobj_timeline@stress-* as user space
-> > replacements of some problematic test cases of a dma-fence-chain selfte=
-st
-=2E..
-> > Make the timer IRQ safe.
-> >=20
-> > [1] https://patchwork.freedesktop.org/series/154987/#rev2
-> >=20
-> > Fixes: 4077798484459 ("drm/vgem: Attach sw fences to exported vGEM dma-=
-buf (ioctl)")
-> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+On Fri, Sep 26, 2025 at 05:59:42PM +0200, Luca Ceresoli wrote:
+> The per-encoder bridge chain is currently assumed to be static once it is
+> fully initialized. Work is in progress to add hot-pluggable bridges,
+> breaking that assumption.
 >=20
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> With bridge removal, the encoder chain can change without notice, removing
+> tail bridges. This can be problematic while iterating over the chain.
 >=20
-> We should also consider to lower the timeout massively. This needs to be =
-in the range of 100m-1s to not cause the same trouble as the sw_sync framew=
-ork.
-
-Assuming you are referring to potential hard lockups observed in sw_sync ba=
-sed=20
-version of the exercise, which piece of kernel code you would expect to loo=
-p=20
-for too long with interrupts disabled due to the vgem fences auto expiry=20
-timeout of 10s?
-
+> Add a mutex to be taken whenever looping or changing the encoder chain.
 >=20
-> 10seconds is just way to long for that.
-
-Do you think DRM objects can't be busy for that long in real life?  What ab=
-out=20
-long running GPU compute tasks?
-
-Thanks,
-Janusz
-
-
+> Also add two APIs to lock/unlock the mutex without the need to manipulate
+> internal struct drm_encoder fields.
 >=20
-> Regards,
-> Christian.
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_encoder.c |  2 ++
+>  include/drm/drm_encoder.h     | 18 ++++++++++++++++++
+>  2 files changed, 20 insertions(+)
 >=20
-> > ---
-> >  drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/v=
-gem_fence.c
-> > index fd76730fd38c0..07db319c3d7f9 100644
-> > --- a/drivers/gpu/drm/vgem/vgem_fence.c
-> > +++ b/drivers/gpu/drm/vgem/vgem_fence.c
-> > @@ -79,7 +79,7 @@ static struct dma_fence *vgem_fence_create(struct vge=
-m_file *vfile,
-> >  	dma_fence_init(&fence->base, &vgem_fence_ops, &fence->lock,
-> >  		       dma_fence_context_alloc(1), 1);
-> > =20
-> > -	timer_setup(&fence->timer, vgem_fence_timeout, 0);
-> > +	timer_setup(&fence->timer, vgem_fence_timeout, TIMER_IRQSAFE);
-> > =20
-> >  	/* We force the fence to expire within 10s to prevent driver hangs */
-> >  	mod_timer(&fence->timer, jiffies + VGEM_FENCE_TIMEOUT);
->=20
->=20
+> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+> index 8f2bc6a28482229fd0b030a1958f87753ad7885f..3261f142baea30c516499d23d=
+bf8d0acf5952cd6 100644
+> --- a/drivers/gpu/drm/drm_encoder.c
+> +++ b/drivers/gpu/drm/drm_encoder.c
+> @@ -129,6 +129,7 @@ static int __drm_encoder_init(struct drm_device *dev,
+>  	}
+> =20
+>  	INIT_LIST_HEAD(&encoder->bridge_chain);
+> +	mutex_init(&encoder->bridge_chain_mutex);
+>  	list_add_tail(&encoder->head, &dev->mode_config.encoder_list);
+>  	encoder->index =3D dev->mode_config.num_encoder++;
+> =20
+> @@ -202,6 +203,7 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
+>  	kfree(encoder->name);
+>  	list_del(&encoder->head);
+>  	dev->mode_config.num_encoder--;
+> +	mutex_destroy(&encoder->bridge_chain_mutex);
+> =20
+>  	memset(encoder, 0, sizeof(*encoder));
+>  }
+> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+> index 977a9381c8ba943b4d3e021635ea14856df8a17d..6c962de640a345bfbb18308c8=
+3076628547c9ab9 100644
+> --- a/include/drm/drm_encoder.h
+> +++ b/include/drm/drm_encoder.h
+> @@ -25,6 +25,7 @@
+> =20
+>  #include <linux/list.h>
+>  #include <linux/ctype.h>
+> +#include <linux/mutex.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_mode.h>
+>  #include <drm/drm_mode_object.h>
+> @@ -189,6 +190,9 @@ struct drm_encoder {
+>  	 */
+>  	struct list_head bridge_chain;
+> =20
+> +	/** @bridge_chain_mutex: protect bridge_chain from changes while iterat=
+ing */
+> +	struct mutex bridge_chain_mutex;
+> +
+>  	const struct drm_encoder_funcs *funcs;
+>  	const struct drm_encoder_helper_funcs *helper_private;
+> =20
+> @@ -319,6 +323,20 @@ static inline struct drm_encoder *drm_encoder_find(s=
+truct drm_device *dev,
+>  	return mo ? obj_to_encoder(mo) : NULL;
+>  }
+> =20
+> +static inline struct drm_encoder *drm_encoder_chain_lock(struct drm_enco=
+der *encoder)
+> +{
+> +	if (!WARN_ON_ONCE(!encoder))
+> +		mutex_lock(&encoder->bridge_chain_mutex);
+> +
+> +	return encoder;
+> +}
+> +
+> +static inline void drm_encoder_chain_unlock(struct drm_encoder *encoder)
+> +{
+> +	if (!WARN_ON_ONCE(!encoder))
+> +		mutex_unlock(&encoder->bridge_chain_mutex);
+> +}
+> +
 
+Please provide documentation for these two functions. In particular, why
+do we need to return the encoder pointer?
 
+Maxime
 
+--dl3nanasmtdtyy56
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNp+/gAKCRAnX84Zoj2+
+dq38AYDSHPeBKzt3WhONmxK6FmCu+kgD3lbjcubzlTJ78hl5LAlt6G84/5AyCuLD
+yN+DnHcBf17chAbrHQRErVntDZ4s6I9c/BMCyCcTmoc0ljRTvU+wL6mMrjOeGA9M
+VUKK7bUdVA==
+=7Q/v
+-----END PGP SIGNATURE-----
+
+--dl3nanasmtdtyy56--
