@@ -2,65 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54334BA97AC
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 16:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657AFBA9893
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 16:25:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0823B10E42B;
-	Mon, 29 Sep 2025 14:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D448010E23A;
+	Mon, 29 Sep 2025 14:25:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VIwCs6nE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W5OTieoG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD9710E428;
- Mon, 29 Sep 2025 14:07:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 56F1462229;
- Mon, 29 Sep 2025 14:07:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39D5C4CEF4;
- Mon, 29 Sep 2025 14:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759154846;
- bh=BKY6d1yBc/lroKagYCaSuXxxZ2I6xVz7xuOdW9gGVog=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=VIwCs6nERrhW0nxOSUX19uKaSbWaPiA57FLkrY/4Uprkq5LgrHoiUivCfaZvPlDJb
- i6KLN/dKDKpt1NR2uxgGrDR52CIUwIHMg23DAcNlGqdewpdtJ70FJNG6vguN5c0uqv
- nZXAhALVBgh98eaVa0iqjXEivUiyt33u0EBXa0WBUTXuKPWVYVyzjfZ9M0LVem7OQo
- AEEPO53AterwJzs/a9z5iozTdGXW9hC5C2TJZP7d2vbXGRMDMCg6jLfr24uZafLKzw
- nS5iP9sVWdC/gpZ6Qm187pNyhz6baXQw04PzSAY31gKs37HoOgNmPLp4Ijx6IsJwhb
- y4VzpOZRGf51w==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0AE10E428
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 14:25:20 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-36bf096b092so65658971fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 07:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759155919; x=1759760719; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DPPg9TIoZPnzthQd8E1VwdjwIEaEjaVDMMssW2mg+cY=;
+ b=W5OTieoG3XxI1HGN63JBcrXIjaeM451EPnAuGDGbI13w4IXMBoOqUMBOcTm3MxK+FQ
+ vbMQ/7MV50564ORcwp/MYdHX1Ryhm4Jnra9cTaemkuW0XC1NFq+QSOlvg8SShcN1f2Lo
+ 5UFWGBw9HggSDf+hvPLr9c8RXWrIZB8qtZiLu+j/rY5yBPL2xJ2qxQuK9KAJE2Mo/2P/
+ nxihBcYk032cpzhh8c6CiIHpOkR1YP3O2dAkFbdsP9RVX8gyZfjYF8afPKnSsHCqVOsz
+ yujrcowISVUVFVnSMRjVfuLLWzI72KLbxrBGW52av46DAs12IF/F3K4BDFr8kZpDHIe6
+ kQbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759155919; x=1759760719;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DPPg9TIoZPnzthQd8E1VwdjwIEaEjaVDMMssW2mg+cY=;
+ b=boh9uMff4OfXuxb9zDeYhtQqH7x6y0WcZrZsbnrM5GeILdXt1r4ArMC1zDBqIl5lO0
+ +nrXV5K67Sx4IKUPFRXt2T4+8PsQppKwRFFZRCYnyc3jciqJ+CX7D86ZoI2QH5RCqmPf
+ s1jjuPAV7QPcMRy336fI/j0q6cWYlZNU2p2ws88nDY9IypZSorg+wlyliwqthfFCEEeV
+ O3Ivk2SSlXZ53FL5Dkn9rnPP2g2j9oPm+82IksWqjCQv2pxl2TL2dDujG+n5ldyNN0TI
+ +tfH3ZEylUGRec3HsgX0G6dQiM+HjEtYd0ndDGYMjOaYVpr/nOcDTvB0cg3+nOlVYTeG
+ t7aw==
+X-Gm-Message-State: AOJu0YzKHnB22CsngqRrDoHEgrMHW7BU0D/q150IAMcA24wF5oY0g1Ny
+ 6O3BfR8L548/Sb1f7pN2tueJ/FvkFPwwDZUJtjxDTDlRBA+eXG/kLfZA
+X-Gm-Gg: ASbGncvmWutiRAXJwysuU4BYNeBFMkFILVTgDjI6fkW2KaOrlIEWQmzuaSQk9rtQr1H
+ zvM8tFmV9B6YKP0wT3xMw/HLmJ7CKmWlnqZBBntrC0A9R7VH8/1KY4coBJlZkCvavOSmzBPtIiM
+ PCtPC7QHuZ+ZRq0OnHG44bT3ygPNP0k7XJx1jBhA5J8aFhwplaRn2XLPOkdZvM3o4WJ+JJ6YsKN
+ Dxw+JrOMKHgK+k2Sl5GxZJzlr/3GA7mrMzgksws+nMI9JirZGRpNUir01DmK7DAzEhx2KN4XRv4
+ tIQh/SprF5aHyHwmuVWfkLGwEBMHFpNJkCwkfSGn7Fwelh3OyFpTm/lDpUMYwCWYGDbMieyl9Dw
+ 3+1JDfO5Y3dWJ5EhUXUn3lBXi8N9pfbGYKqc=
+X-Google-Smtp-Source: AGHT+IHxDGpQBwuQkWcBRlcxN2mP+i2I0/l8+XNF8RRMmqOhDyFCD+mEDRiLnbhKmmlYr8NSnFokUA==
+X-Received: by 2002:a05:651c:1986:b0:36d:755f:a6d8 with SMTP id
+ 38308e7fff4ca-36f7d2cb85cmr46262991fa.14.1759155918449; 
+ Mon, 29 Sep 2025 07:25:18 -0700 (PDT)
+Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3728c23e6c1sm13201001fa.52.2025.09.29.07.25.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Sep 2025 07:25:17 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/8] Add support for panels found in various Tegra devices
+Date: Mon, 29 Sep 2025 17:24:46 +0300
+Message-ID: <20250929142455.24883-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Sep 2025 16:07:18 +0200
-Message-Id: <DD5CCG4MIODH.1718JI1Z7GH8T@kernel.org>
-Subject: Re: [RFC v8 00/21] DRM scheduling cgroup controller
-Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <kernel-dev@igalia.com>, <intel-xe@lists.freedesktop.org>,
- <cgroups@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Leo Liu"
- <Leo.Liu@amd.com>, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- "Matthew Brost" <matthew.brost@intel.com>, =?utf-8?q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, =?utf-8?q?Michel_D=C3=A4nzer?=
- <michel.daenzer@mailbox.org>, "Philipp Stanner" <phasta@kernel.org>,
- "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>, "Rob
- Clark" <robdclark@gmail.com>, "Tejun Heo" <tj@kernel.org>, "Alexandre
- Courbot" <acourbot@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- "John Hubbard" <jhubbard@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Alex Deucher"
- <alexander.deucher@amd.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "Boris Brezillon"
- <boris.brezillon@collabora.com>, "Rob Herring" <robh@kernel.org>, "Steven
- Price" <steven.price@arm.com>, "Liviu Dudau" <liviu.dudau@arm.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Boqun Feng" <boqunf@netflix.com>,
- =?utf-8?q?Gr=C3=A9goire_P=C3=A9an?= <gpean@netflix.com>
-To: "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250903152327.66002-1-tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250903152327.66002-1-tvrtko.ursulin@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,73 +95,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Sep 3, 2025 at 5:23 PM CEST, Tvrtko Ursulin wrote:
-> This is another respin of this old work^1 which since v7 is a total rewri=
-te and
-> completely changes how the control is done.
+Add support for panels found in various Tegra30 and Tegra114 devices,
+including panels in Tegra Note 7, Surface RT, Surface 2 and Ideapad
+Yoga 11 T30.
 
-I only got some of the patches of the series, can you please send all of th=
-em
-for subsequent submissions? You may also want to consider resending if you'=
-re
-not getting a lot of feedback due to that. :)
+Anton Bambura (1):
+  gpu/drm: panel: add Samsung LTL106HL02 MIPI DSI panel driver
 
-> On the userspace interface side of things it is the same as before. We ha=
-ve
-> drm.weight as an interface, taking integers from 1 to 10000, the same as =
-CPU and
-> IO cgroup controllers.
+Svyatoslav Ryhel (7):
+  dt-bindings: display: panel: properly document LG LD070WX3 panel
+  gpu/drm: panel: add support for LG LD070WX3-SL01 MIPI DSI panel
+  ARM: tn7: adjust panel node
+  dt-bindings: display: panel: document Samsung LTL106AL01 simple panel
+  gpu/drm: panel: simple-panel: add Samsung LTL106AL01 LVDS panel
+    support
+  dt-bindings: display: panel: document Samsung LTL106HL02 MIPI DSI
+    panel
+  gpu/drm: panel-edp: add AUO B116XAN02.0 panel entry
 
-In general, I think it would be good to get GPU vendors to speak up to what=
- kind
-of interfaces they're heading to with firmware schedulers and potential fir=
-mware
-APIs to control scheduling; especially given that this will be a uAPI.
+ .../bindings/display/panel/lg,ld070wx3.yaml   |  60 ++++++
+ .../display/panel/panel-simple-dsi.yaml       |   4 +-
+ .../bindings/display/panel/panel-simple.yaml  |   2 +
+ arch/arm/boot/dts/nvidia/tegra114-tn7.dts     |  13 +-
+ drivers/gpu/drm/panel/Kconfig                 |  26 +++
+ drivers/gpu/drm/panel/Makefile                |   2 +
+ drivers/gpu/drm/panel/panel-edp.c             |   1 +
+ drivers/gpu/drm/panel/panel-lg-ld070wx3.c     | 182 ++++++++++++++++++
+ .../gpu/drm/panel/panel-samsung-ltl106hl02.c  | 179 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          |  65 ++++---
+ 10 files changed, 495 insertions(+), 39 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-lg-ld070wx3.c
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
 
-(Adding a couple of folks to Cc.)
+-- 
+2.48.1
 
-Having that said, I think the basic drm.weight interface is fine and should=
- work
-in any case; i.e. with the existing DRM GPU scheduler in both modes, the
-upcoming DRM Jobqueue efforts and should be generic enough to work with
-potential firmware interfaces we may see in the future.
-
-Philipp should be talking about the DRM Jobqueue component at XDC (probably=
- just
-in this moment).
-
---
-
-Some more thoughts on the DRM Jobqueue and scheduling:
-
-The idea behind the DRM Jobqueue is to be, as the name suggests, a componen=
-t
-that receives jobs from userspace, handles the dependencies (i.e. dma fence=
-s),
-and executes the job, e.g. by writing to a firmware managed software ring.
-
-It basically does what the GPU scheduler does in 1:1 entity-scheduler mode,
-just without all the additional complexity of moving job ownership from one
-component to another (i.e. from entity to scheduler, etc.).
-
-With just that, there is no scheduling outside the GPU's firmware scheduler=
- of
-course. However, additional scheduler capabilities, e.g. to support hardwar=
-e
-rings, or manage firmware schedulers that only support a limited number of
-software rings (like some Mali GPUs), can be layered on top of that:
-
-In contrast to the existing GPU scheduler, the idea would be to keep lettin=
-g the
-DRM Jobqueue handle jobs submitted by userspace from end to end (i.e. let t=
-he
-push to the hardware (or software) ring buffer), but have an additional
-component, whose only purpose is to orchestrate the DRM Jobqueues, by manag=
-ing
-when they are allowed to push to a ring and which ring they should push to.
-
-This way we get rid of one of the issue that the existing GPU scheduler mov=
-es
-job ownership between components of different lifetimes (entity and schedul=
-er),
-which is one of the fundamental hassles to deal with.
