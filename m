@@ -2,64 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A33BA83C0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 09:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BB2BA8454
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 09:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEF3D10E3A0;
-	Mon, 29 Sep 2025 07:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8301D10E3A9;
+	Mon, 29 Sep 2025 07:40:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AwgzNJRu";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HZ5snD6Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B63710E3A0;
- Mon, 29 Sep 2025 07:24:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A8A5862308;
- Mon, 29 Sep 2025 07:24:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C08C4CEF4;
- Mon, 29 Sep 2025 07:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759130666;
- bh=1qzNnpu3NUoqi58w/V80ugREMmoNYeEvOtzP7t+zvkI=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=AwgzNJRuocgjAGZ1GURK4UCtFvmTUaMRB+hol6d5Rk+/bvyCaocUKVrJF3iQ0UWLd
- 3Qc6mE5XX+a/dsG1lBnayQyoJuooAqF7qQfSLq/VfolhbDVh4DokgIMIwNU6hFdWe2
- QqVn2li1Pox+IYgNPjwxGnkERpplwjciHOTFUto93ULc6qNb5ZE2JDtvsMTorjUDBF
- ZI1Bkk2BEW7PVGHpTuq0tG3bMJFwjBIQjHxLMAIruWYvk0TAZ2Tv6W6qg0vlONCTBe
- tsxJUnslbgBZCCJy+WtpXjvguHBMappH5ZE8nDsKgnCerpI3y+N3TY4nx5BR1Ukyn/
- MCAbmC8FRzHVg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Sep 2025 09:24:19 +0200
-Message-Id: <DD53RWODAWPS.3MBKE59UU905Q@kernel.org>
-Subject: Re: [PATCH v2 05/10] gpu: nova-core: gsp: Add GSP command queue
- handling
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Lyude Paul"
- <lyude@redhat.com>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex
- Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>
-To: "Alistair Popple" <apopple@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010003.outbound.protection.outlook.com [52.101.85.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1C5110E0E6;
+ Mon, 29 Sep 2025 07:40:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y6Mo9NeJw309QatemylCS8X44K2Z4UDyzKx3BmNTossxkxk4y5TyWoWSNHWt++yDl1T6kUdhNTE7SEL8AB6oQtcxvDbYhnd6NxbxErR7tW1m/qCmMY6xrK2datAW4bM3EMcXKBTDI48a5SdmaG248sSSWzmLOE/VeVTSxGflA852rvNFUSOK5FbAogpO6nPhTAFycyYXvw/FhxD2kjELwAYQ1a9hB2MjvpRx8vgWh3zkfey/2ZVZhgLT/LYW6sleFh7qV8GMc3u/kau4byB1nItA4VbZ8WTuJJh/Y1tqMJfZ8vXVfV6FdKa9uj7mHPa3oOB2kWAKUki1FzEqXuCS1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hYrX3c4KzIsKnD+as/XqfqaDMEnBtbqd6uekCPCI1xQ=;
+ b=pxHUE8hxNVefN+1uBwVIhj72cXk7GAkZzXmkJWn1i5o5dHLdm0BfnAS45QbLuN1fesQ6eEqsHOus7OKcfDwpd6u0mw2QGovg6KmT+kbko8HLIRkLbeIzknk4NwI6pk7FVxrJVCSUhLpJbQj6mQMAeQWl+nFDoTYRM46r7+BpTHpijN/K/7GpnmVujxwNllPstFU0xwjDwk9DIB3DuH0/a1Thk/06VeHXW/7Afnzovgt8Jf7V/qOCEsnKn1VvtmtVzvK/e/m45MRS5pM/ieZvmAA5MeWUjoQDsstpo5d1yiAM9FCgKYaO9d4TzZa6rIB1cfUqVZpAx4YnbSUHpse3qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hYrX3c4KzIsKnD+as/XqfqaDMEnBtbqd6uekCPCI1xQ=;
+ b=HZ5snD6Yk1iutOTH6cpzzFcJSRO1BouLqgryIVdVoPJpYK8G4I+Ase7g76AZg71bYf3yzsswEw30aAxf1Lg2Ve+q+jyVgqn2pdZ2EQU6pDd6ffgGLizEgdTMYONAJGHs+s7LSclTaNNTFCzn9kGppbRjxmsjttmxU7HubXGJJ8Zz81rCWdu9TM9WXwLMk+tsyQ/XczQTcbl6NAc+fguDzBmqH2+TVaHveFNJX6HvciXtzux/oBd3atUjK31pKL6RA/8pVEC/JSawuXc8kZxlGsyng827pQKmR5FzIvZ5TEydZb1k7r5aWu1y/DvSg/sWZAppT78SqNHXCmI+ODKkDw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ IA1PR12MB9532.namprd12.prod.outlook.com (2603:10b6:208:595::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.14; Mon, 29 Sep
+ 2025 07:40:02 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
+ 07:40:01 +0000
+Date: Mon, 29 Sep 2025 17:39:57 +1000
+From: Alistair Popple <apopple@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: John Hubbard <jhubbard@nvidia.com>, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, acourbot@nvidia.com,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v2 01/10] gpu: nova-core: Set correct DMA mask
+Message-ID: <e2twlxdothcm4vbg3vytxppdpjdocx2l54mfnvhn7dbdncbxhx@ut4kpu7qwwe7>
 References: <20250922113026.3083103-1-apopple@nvidia.com>
- <20250922113026.3083103-6-apopple@nvidia.com>
- <e95c59cc72145c05380d0d81d767c6ce97fbbf0a.camel@redhat.com>
- <fiwv6movnoliptvjdlxzx4rggv5a7mid4zyvmqowvw6kt5auhh@r4dmizzmykwv>
- <DD2DFKZTFIGS.2HDVZRV6WGXHG@nvidia.com>
- <mkecw5p2eb6bsl54ccpxrdezeatr4sxjtkvsteu4klx6u3ldka@p42jqjvoi275>
-In-Reply-To: <mkecw5p2eb6bsl54ccpxrdezeatr4sxjtkvsteu4klx6u3ldka@p42jqjvoi275>
+ <20250922113026.3083103-2-apopple@nvidia.com>
+ <7fb081e9-e607-401b-937f-f4e3a78a2874@kernel.org>
+ <0dbc8f78-5cee-4741-8d33-df3358dd5383@nvidia.com>
+ <eblaubjmsesi6gh64ekm74qyzvfk23vjcmotc33upkc5w6edin@rbsezy6f7bai>
+ <DD2PRD2XEZRE.1YACAPZWRYLZO@kernel.org>
+ <um3463eyjtecebxdgjpegankwxgezqgeiqff6xy5wducnv7ayf@pnjhxbro2sh5>
+ <DD53EE5HJUZY.2EMREPXQ9P090@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DD53EE5HJUZY.2EMREPXQ9P090@kernel.org>
+X-ClientProxiedBy: SY5PR01CA0057.ausprd01.prod.outlook.com
+ (2603:10c6:10:1fc::13) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|IA1PR12MB9532:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf25a7f5-434a-4ead-b26b-08ddff2b65cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZNGDPF3qRt0UiDCVhN/LStZIi/If8JJ3y/OzWb3LZHbXpZql0IiKNWH7g0mQ?=
+ =?us-ascii?Q?lm4O6152+RHG3gsV1d/vtz1f6mSVkmaAAjMxmLPMdrCx0kAX3wQAH39D+kpq?=
+ =?us-ascii?Q?Nn2qOxHYd8To6ghKvjvrM9vNdS0JGw0vFwhhP2P7ah94u5k7cs3xq8RvaWI1?=
+ =?us-ascii?Q?SUVLBjbBA/Ila3bY8N5uoJavveSGIEqZsEuHKEjtQbhrZG9NPfTEOcs3fic5?=
+ =?us-ascii?Q?XeOUl6D0gU0k/PGRUDSHE/pvasW3Tubw+WS06YJoBe4tFtgDDThZ3XkYj7/T?=
+ =?us-ascii?Q?PDGg4kKh4k8d6y2AXQpepl3vTpc4b9/2+PS0D0hLqErTBtJLxT3/Ow9AL0Dh?=
+ =?us-ascii?Q?/I1HHZXhAlt1iN42W7PTTamjmAltnOwqwKQHHiHzjX4QL8YrCq3ayZ41lt/z?=
+ =?us-ascii?Q?49EDqaFmxt3hkLWPI22htUugZlkN9HBkTRhnxfvCA+t+lleXsqUjfpeVoOx7?=
+ =?us-ascii?Q?ZlZXKqG/60JxewkBXZsQlFjVdJHMhWpqt7HV5eZE8Is7l4YGvQ+eQfSXB1xb?=
+ =?us-ascii?Q?jNYZuci1JOOymbSp1iRdeuF77hqDjCVwxCYYrSxeB1Gtaec7P8uiKpbNjL2N?=
+ =?us-ascii?Q?Xu64RMK6u8Wq9UlOEFDKMwCQ6HYNaExASEhN2oISimRkLtebtU2OpsjrS6sN?=
+ =?us-ascii?Q?8wkKQ6CGf4YVgl6jucOqcSVY+pjpIEuIAYP86VgV0dCBHUPNH4ntsYuUUolV?=
+ =?us-ascii?Q?xX0pmCxxbfjvn/6FOD40FkWl/rgHEHtOAfWEAckUCGe0iBhFZ9oKnJh6ZnaZ?=
+ =?us-ascii?Q?rzk9jRyA/FEgibQydo2EmgaRqPRW9tgJ5hcfai6AI6shyHWz5K/84fuU0yQM?=
+ =?us-ascii?Q?jTmhLPE81PDrsJSTMt7suunU0Wi3YAjUoBot/Owznt+1SXMUSKilDzyhSGhu?=
+ =?us-ascii?Q?PWg2Eze+O926jfA9ZVBqlxpyELrWq8vAlt7+bz7FysOArLzDH/ME8K0ZEfb4?=
+ =?us-ascii?Q?eTl+DfXzMaFSDXgWM3O+rOLucXOXJ9ZZSI6rRt117DTUDG7BdDiO79PLowsk?=
+ =?us-ascii?Q?lzpHdylDuB2FTLiSthh+0r/jFB6HwdTImug4fBf0kD5+OdEJUGYtGZa45ZwZ?=
+ =?us-ascii?Q?mZ1CTuOlvKU1rBAdTG3NJZ1W/t0a+ZKfSNy3N3tjVAR14wd/BFDQyZxcJTkW?=
+ =?us-ascii?Q?3f3oQl7MQEUeP7x7nYYhE5Gx3pzdkf1nKk8UpFPbnP61giYp/JLKk/4gvrBV?=
+ =?us-ascii?Q?j4/sXjnVz3Yxc1j+NCki2eCM8BaWTxJx9gJVNrpABIaTKCGI7i9jr4GxWfmr?=
+ =?us-ascii?Q?hFbZt5Y8PAifKmJocBot9NSBTG4NwtinAqlXNAlTzAElWx12Deui3eCMmix0?=
+ =?us-ascii?Q?au0gjWRvOnxJaji1JpIUY5SAr5gQ8KX/EB6LdjzpoCyMSShDvIpLJPVk7BNM?=
+ =?us-ascii?Q?2HA1B6vu4bVdUBLj1iJDXVwUF82vZreCECUoZ4YVd8/l4AuV1zoruKXgRj2C?=
+ =?us-ascii?Q?Q2l8wh6IE+zXPp8MUk33FN3OG/t4J6kA?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?85r1ofYeKbhF0ka4b1rW+jSXFpDwcXhT0ABr+WKJNkiQekPSyCmxMjJlxP5o?=
+ =?us-ascii?Q?31/bbGLVC4rKFUXdXjMgEue79FltHQj7XJQStVWr9jbot8uQhpK7DXzUHb0P?=
+ =?us-ascii?Q?p5K81LivQRj5mVLbuVv8lvT2QFVltms2ILJTq1GO1xiyHjemuG2kcC8M1U0c?=
+ =?us-ascii?Q?87LKOFIcv0IxhtEMDSScur851h/kMsVHSNNDsh4lllgMfhc1yPSIezDMo+XU?=
+ =?us-ascii?Q?9topWlwOUmt/GmgVZwrnVLek5ID/A1iy9WVwgS452PvzPxAYr4xWtxR5akPN?=
+ =?us-ascii?Q?xL97fpLNHHGtgDkQMoQbtXHARVlze5NXcWmKNS4SN7esCdU+zVT+ikPjzERj?=
+ =?us-ascii?Q?Ll4c6c4jw8VXCIK1crMUm8EkeSgK0tw0ZtO9NIU8EhtIc49+X/qoqOgHsVUE?=
+ =?us-ascii?Q?eXc85CAGXgLpevjRrWDK8XeAdz4Cj+k+JZq9F8C4cVxGiRW/04nNH+yZMdOb?=
+ =?us-ascii?Q?2X43JIuTcnB2G21ueZMk4xD+H5yo28SymxMnDql175pKrst3v/cH+cxgI9Ad?=
+ =?us-ascii?Q?2iPam2DbtVSpwrLjn+n8Z58kNNKzYt8CwsCsPh/ft0gq1geLB5w9XfBkqHIN?=
+ =?us-ascii?Q?TOeeQXfW0QnneewBKZvYo1Q7mvoq0Ys9DsMPkg5XHfU6ujdDat4cqW4zgsvU?=
+ =?us-ascii?Q?/T+VFO2zhS6+fs+bKo2ca70Lv9KofI7DPlubRhAAjq1X3jj1vJQ2V/ZAR4tx?=
+ =?us-ascii?Q?HVaNRaSaNvIFlDkAdatn7eBPevlDrPi7vPbezNMuLtuP3hsrWFhlJ0NoBi8B?=
+ =?us-ascii?Q?HG+nf4bWSxLDS3l5CbhsjYQeyHdrsi8dMHciP1EUWi0PHAOBE+w+1aui6GHC?=
+ =?us-ascii?Q?kNrlId21Z5aY4Gpq+/QWDJ9K7MiK3Up1dysi6Q1XPiJZwk4nD7XK8sNWJewE?=
+ =?us-ascii?Q?841zh74hQkT/6bCxwjBj5uAQ04Et1AQXfV0QGpVsVKZU796RaKeKv6BE7f5j?=
+ =?us-ascii?Q?W5WQUE+1sTJIRriARZF+48QBhlcp32FbK+8V30KnHdisOVAQReCWwvgLgeFB?=
+ =?us-ascii?Q?sRk1wDYzRmeaI4+X60P/UnPeiki6QftO2FfdA35fZ4nqonV8QpsJWmqufLdv?=
+ =?us-ascii?Q?JCwY5WMUzFfrK6mWywm6Y0Rq8jy7RvOs/BHiDV+bMxp8pCHoyOGhG9zx6EHm?=
+ =?us-ascii?Q?R4DHqBBCuIsho8enPTj3ATmnyMHE2HBaFyXXOKcnTVCNrQ000k8cRVd7SsR5?=
+ =?us-ascii?Q?grIzOJVVbOOoSrpS8zo9GxOaABGbGv1KfLkWU5W7qEf/7ZhUeXAI305inDYx?=
+ =?us-ascii?Q?5Mp06PzrRV4npPQCZPbqQuJv3ev93tj+xTDtHGiffePnZ6ujTPyGohf3ti/c?=
+ =?us-ascii?Q?nWKhwxyajr9jXF/8cMcvXArygKQfLBKQzytimgrkhH0cxcY7qoBKelqC/7la?=
+ =?us-ascii?Q?0JvdXWJQY08QmXXR98tYQS2t8CnNl8w/bGfPJb7Anb0jgZKYKTzrvILH+9Mn?=
+ =?us-ascii?Q?v+EM5Cto18zBeuYJ4ZB+/HHWAgYNEkJ4V7OuhoGfHEEwFg5JQnSO30c65uea?=
+ =?us-ascii?Q?igef46aIY6xZU33kpfz+XpJx6FeHhsaXjJAH0oQYELJ+9BEm+ajuUDFFnjq9?=
+ =?us-ascii?Q?dtz4Wx55+wMviiwYuaWejo6gu0+CXyr7uGFE4Xs9?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf25a7f5-434a-4ead-b26b-08ddff2b65cf
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 07:40:01.6579 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7QMleFqz4/Sr9fkRu2jty9DZPQZaE+UUwIk4K6wsS49t2+LlHIdlUIpYZTVkNXI4/yEsbW6kuOEPGQ3l5AB27Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9532
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +165,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Sep 29, 2025 at 3:06 AM CEST, Alistair Popple wrote:
-> On 2025-09-26 at 12:20 +1000, Alexandre Courbot <acourbot@nvidia.com> wro=
-te...
->> On Thu Sep 25, 2025 at 3:32 PM JST, Alistair Popple wrote:
->> <snip>
->> >> > +    #[expect(unused)]
->> >> > +    pub(crate) fn receive_msg_from_gsp<M: GspMessageFromGsp, R>(
->> >> > +        &mut self,
->> >> > +        timeout: Delta,
->> >> > +        init: impl FnOnce(&M, SBuffer<core::array::IntoIter<&[u8],=
- 2>>) -> Result<R>,
->> >> > +    ) -> Result<R> {
->> >> > +        let (driver_area, msg_header, slice_1) =3D wait_on(timeout=
-, || {
->> >> > +            let driver_area =3D self.gsp_mem.driver_read_area();
->> >> > +            // TODO: find an alternative to as_flattened()
->> >> > +            #[allow(clippy::incompatible_msrv)]
->> >> > +            let (msg_header_slice, slice_1) =3D driver_area
->> >> > +                .0
->> >> > +                .as_flattened()
->> >> > +                .split_at(size_of::<GspMsgElement>());
->> >> > +
->> >> > +            // Can't fail because msg_slice will always be
->> >> > +            // size_of::<GspMsgElement>() bytes long by the above =
-split.
->> >> > +            let msg_header =3D GspMsgElement::from_bytes(msg_heade=
-r_slice).unwrap();
->> >>=20
->> >> Any reason we're not just using unwrap_unchecked() here then?
->> >
->> > Because whilst my assertions about the code are currently correct if i=
-t ever
->> > changes I figured it would be better to explicitly panic than end up w=
-ith
->> > undefined behaviour. Is there some other advantage to using unwrap_unc=
-hecked()?
->> > I can't imagine there'd be much of a performance difference.
->>=20
->> Here I think we should just use the `?` operator. The function already
->> returns a `Result` so it would fit.
->
-> Actually note quite true - this is in a closure that must return `Option<=
-_>`
-> so returning `Result` doesn't fit. However it still fits because I just n=
-oticed
-> `::from_bytes()` returns an `Option` so `?` will still work.
+On 2025-09-29 at 17:06 +1000, Danilo Krummrich <dakr@kernel.org> wrote...
+> On Mon Sep 29, 2025 at 2:19 AM CEST, Alistair Popple wrote:
+> > On 2025-09-26 at 22:00 +1000, Danilo Krummrich <dakr@kernel.org> wrote...
+> >> On Tue Sep 23, 2025 at 6:29 AM CEST, Alistair Popple wrote:
+> >> > On 2025-09-23 at 12:16 +1000, John Hubbard <jhubbard@nvidia.com> wrote...
+> >> >> On 9/22/25 9:08 AM, Danilo Krummrich wrote:
+> >> >> > On 9/22/25 1:30 PM, Alistair Popple wrote:
+> >> >> >> +        // SAFETY: No DMA allocations have been made yet
+> >> >> > 
+> >> >> > It's not really about DMA allocations that have been made previously, there is
+> >> >> > no unsafe behavior in that.
+> >> >> > 
+> >> >> > It's about the method must not be called concurrently with any DMA allocation or
+> >> >> > mapping primitives.
+> >> >> > 
+> >> >> > Can you please adjust the comment correspondingly?
+> >> >
+> >> > Sure.
+> >> >
+> >> >> >> +        unsafe { pdev.dma_set_mask_and_coherent(DmaMask::new::<47>())? };
+> >> >> > 
+> >> >> > As Boqun mentioned, we shouldn't have a magic number for this. I don't know if
+> >> >> > it will change for future chips, but maybe we should move this to gpu::Spec to
+> >> >> 
+> >> >> It changes to 52 bits for GH100+ (Hopper/Blackwell+). When I post those
+> >> >> patches, I'll use a HAL to select the value.
+> >> >> 
+> >> >> > be safe.
+> >> >> > 
+> >> >> > At least, create a constant for it (also in gpu::Spec?); in Nouveau I named this
+> >> >> > NOUVEAU_VA_SPACE_BITS back then. Not a great name, if you have a better idea,
+> >> >> > please go for it. :)
+> >> >
+> >> > Well it's certainly not the VA_SPACE width ... that's a different address space :-)
+> >> 
+> >> I mean, sure. But isn't the limitation of 47 bits coming from the MMU and hence
+> >> defines the VA space width and the DMA bit width we can support?
+> >
+> > Not at all. The 47 bit limitation comes from what the DMA engines can physically
+> > address, whilst the MMU converts virtual addresses to physical DMA addresses.
+> 
+> I'm well aware -- what I'm saying is that the number given to
+> dma_set_mask_and_coherent() does not necessarily only depend on the physical bus
+> and DMA controller capabilities.
+> 
+> It may also depend on the MMU, since we still need to be able to map DMA memory
+> in the GPU's virtual address space.
 
-More in general, as by now, unwrap() panics the kernel, which is an absolut=
-e
-last resort, that should only be considered if there's really no other opti=
-on.
-Please also see [1] and [2].
+Sure, I'm probably being a bit loose with terminology - I'm not saying it
+doesn't depend on the MMU capabilities just that the physical addressing limits
+are independent of the virtual addressing limits so setting the DMA mask based
+on VA_SPACE_BITS (ie. virtual addressing limits) seems incorrect.
 
-[1] https://docs.kernel.org/process/coding-style.html#do-not-crash-the-kern=
-el
-[2] https://github.com/Rust-for-Linux/linux/issues/1191
+> > So the two address spaces are different and can have different widths. Indeed
+> > most of our current GPUs have a virtual address space of 49 bits whilst only
+> > supporting 47 bits of DMA address space.
+> 
+> Now, it seems that in this case the DMA engine is the actual limiting factor,
+> but is this the case for all architectures or may we have cases where the MMU
+> (or something else) becomes the limiting factor, e.g. in future architectures?
+
+Hmm. I'm not sure I follow - the virtual addressing capabilities of the GPU MMU
+are entirely indepedent of the DMA addressing capabilities of the GPU and bus.
+For example you can still use 49-bit GPU virtual addresses with 47-bits of DMA
+bits or less and vice-versa.
+
+So the DMA address mask has nothing to do with the virtual address (ie.
+VA_SPACE) width AFAICT? But maybe we've got slightly different terminology?
