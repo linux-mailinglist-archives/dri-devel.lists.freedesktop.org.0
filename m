@@ -2,95 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2203BA9CBB
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 17:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F31DBA9CD4
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 17:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4CE10E240;
-	Mon, 29 Sep 2025 15:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B4A10E44D;
+	Mon, 29 Sep 2025 15:29:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BUVEpjwx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vz7Nr/T9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB92A10E453
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 15:26:58 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-b555b0fb839so3499468a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 08:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759159618; x=1759764418; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=QUFfHCZ9kPQnI/DGEJ/PgzLIjVfpKbTJMrrLjEY+ghE=;
- b=BUVEpjwxJcwkzyVRIy+wrHu7MU1SRyMrxaBRwnzrmB2NBdxMBeSBwCUh0afthjMvrN
- AUM4RtiKNCNde+w5+gByLzsyNA1NwfVukbbpMasMTqkYndjfJ3sS03mn3p3WKFT5FF86
- qRBbZ2TZNSMW2SxFEubnJTUoDzXL+rqn0GQYavtRWHzatizpWLfaP71HaJJUbNyxgCGW
- Lv4/4BGkFrJrAeNc1bcz2m8YOg4uY4AJRR/EufV0anPNaHDsunLC8+t5ctgEKjc0LTAd
- EX3SK++AiX6elxQWQ+FPzhVA1UqBFuAdXzbx539ySJK/UtnxWJTXjEQhjnS33eGxjy5p
- WYsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759159618; x=1759764418;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QUFfHCZ9kPQnI/DGEJ/PgzLIjVfpKbTJMrrLjEY+ghE=;
- b=auF8rab+Uoi6a7eQI+ibFTeBCIfKgMKfZFFEuoL2dpg0WPW40MtiYOed2A0tpAaA9J
- FhkRyPi97hg4KuFm9xzvixFJByuqXhFkJWSE+T4FcHA4E3Cz56w3F1ATNJKxDLRNuxbo
- QMCXyk741WqPTOUklkB5PPIBMYCdsDUdRv3OEAEomnBEoOa/C0h6ZNEJ4LqQ3J9h6m9n
- 4CpQ5qsLz3r/N4XIbLwrQY1C4mYAPndwL1mEQiDpA6Yx8xQx08zCadrJir6+xUuBm8JY
- uDzmgUvQT0QpIiqC97+EsisJPwv/QpaTGvD3sNxRtlW5c2U+QzepNQHADI2vyDo4pJ6D
- aZYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpaOyCkJ0meHUysE0/o7v3Mj/KuKMUllnsaMdSpUo2Z89mDMCA/nOGHUqSwKAyAjAV5N6i3pw5VtA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdhRdUDz+TDInd0hoqrcF77gWBSpw+a9uv+ttoyFdCDTpNRUCk
- BigUo3XrvOfYTizTkvU26XsvVCxWRByW0rcUCtOTDlQcPeMWm07a+fw5
-X-Gm-Gg: ASbGnctM/8msTE4QXlomLlshgiAbShJnSgIMfabnOo/t3sjboXrEvIF4ds+kzCVjGJl
- ZX+Xdo4SSSlIgV+F7MOLgEOHoYROgL0d9gRVImsOfkpjtkfNz7fqActKnLgOI4ZgZ2/BGVSEf/y
- pcvAKn6f6i5+6xaTSrk8lhw8bjC1mm1VMW6nat9h8TBuoMve0/nxhhAOPlaZ2ij0ruTs0AdZMSe
- pgQTfb+tt9Eog3DnfjoO0y8457pUJg5WYJ1VNws53yBuiNrHaIlnu0qmstW5LYL7VFs60qbGWgi
- b9HvhMLDsdEfMMUwacrYfc+Yt6kTIB1H1Cj/Vqx/aoy/SIdJfeffU2/qCDiQKaun2jLdN+obXBf
- MXWaou8M/dU0PGjMnrz0WuBCVD2Rta/beS+nT+DmDVNA=
-X-Google-Smtp-Source: AGHT+IGlrXcMqMEE95Bpk6Fvp2Z3JkSBS53/nlBPtQ4p3saTyAp/aYHA69EYxK3FJ+53fX34h/VJMw==
-X-Received: by 2002:a17:902:f786:b0:240:3b9e:dd65 with SMTP id
- d9443c01a7336-27ed4aab57bmr188196505ad.38.1759159618299; 
- Mon, 29 Sep 2025 08:26:58 -0700 (PDT)
-Received: from localhost ([216.228.125.130]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-27ed66d37casm134991565ad.8.2025.09.29.08.26.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Sep 2025 08:26:57 -0700 (PDT)
-Date: Mon, 29 Sep 2025 11:26:55 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v4 6/6] rust: bitfield: Use 'as' operator for setter type
- conversion
-Message-ID: <aNqlPzZn9jUjSKfE@yury>
-References: <20250920182232.2095101-1-joelagnelf@nvidia.com>
- <20250920182232.2095101-7-joelagnelf@nvidia.com>
- <CANiq72k3kE-6KPkKwiDLgfkGHCQj4a2K7h9c4T13WMa5b4BAnQ@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE1D10E44D;
+ Mon, 29 Sep 2025 15:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759159747; x=1790695747;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I5wvUhRSJOvr9m7LdNJUFgpmYGUNTLW2qzAHCN6ffkM=;
+ b=Vz7Nr/T9Zu6pqMZ3oirB/k/b2Ne9dqj4nNCnIOcvKdyiKImSW0fcVYk7
+ KSVR7s5J9T/B5imbmEcX4ifMIs+IVpi03eBYD/MwWUBM7ALDW3Jv25MKz
+ pGNwCmEXw0vd3bYW/LKZqqAIiK7nJOUStopd3Wzq2Paw6ln8HRHx0oUKH
+ zodMry/TddDpVU3xMGZqAVm9kLyZOzvoEjCskLPLlblQX8zG9xTRpLSjL
+ pAShgwnM1o7j6ZpDN0Mw4UP69svppM2nF2pnb5x7UzjaEAeCtXSgVg5w9
+ om26L2VL4wr+4VEuR9FxrWv1MyzNjwMi1zrEhU6URls2vB5Ur0FYWVovy A==;
+X-CSE-ConnectionGUID: 8u4utJm+QuyMMv5h1QTriw==
+X-CSE-MsgGUID: tijgtRmwToivGja9y+kVuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="71649825"
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="71649825"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2025 08:29:07 -0700
+X-CSE-ConnectionGUID: 98GuWbLLS2iw9ITaRfdlQA==
+X-CSE-MsgGUID: C5gE/Pj9TqmRJhU9PyDM8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; d="scan'208";a="178310283"
+Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.7])
+ by orviesa008.jf.intel.com with ESMTP; 29 Sep 2025 08:29:06 -0700
+From: Zhanjun Dong <zhanjun.dong@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>,
+	Belgaumkar@freedesktop.org, Vinay <vinay.belgaumkar@intel.com>
+Subject: [PATCH v4] drm/i915/guc: Skip communication warning on reset in
+ progress
+Date: Mon, 29 Sep 2025 11:29:04 -0400
+Message-Id: <20250929152904.269776-1-zhanjun.dong@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72k3kE-6KPkKwiDLgfkGHCQj4a2K7h9c4T13WMa5b4BAnQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,40 +67,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 29, 2025 at 03:59:32PM +0200, Miguel Ojeda wrote:
-> On Sat, Sep 20, 2025 at 8:23 PM Joel Fernandes <joelagnelf@nvidia.com> wrote:
-> >
-> > The bitfield macro's setter currently uses the From trait for type
-> > conversion, which is overly restrictive and prevents use cases such as
-> > narrowing conversions (e.g., u32 storage size to u8 field size) which
-> > aren't supported by From.
-> 
-> Being restrictive is a good thing -- it would be nice to know more
-> context about this change, like Alexandre points out.
-> 
-> In particular, the line:
-> 
->     .set_nibble(0x12345678_u32)    // truncated to 0x8
-> 
-> sounds fairly alarming, and not what we usually want. Why cannot the
-> caller cast on their side, if they really want that?
+GuC IRQ and tasklet handler receive just single G2H message, and let other
+messages to be received from next tasklet. During this chained tasklet
+process, if reset process started, communication will be disabled.
+Skip warning for this condition.
 
-It was my suggestion to relax the type requirement. The reasoning is
-as follows.
+Fixes: 65dd4ed0f4e1 ("drm/i915/guc: Don't receive all G2H messages in irq handler")
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14834
+Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+---
+Cc: Belgaumkar, Vinay <vinay.belgaumkar@intel.com>
+History:
+v4: Add code comment
+v3: Add skip on interrupt disabled case
+v2: Update subject text, removed fixup
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Consider a bitfield bf with bits 5:3 described as field1. The storage
-for bf is u8, but the type is u32. This is OK, because storage and
-representation are simply different matters. And no matter how you
-declare the field inside the bitfield, you can't prevent overflow
-followed by silent truncation by just syntax measures.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index 3e7e5badcc2b..2c651ec024ef 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -1325,9 +1325,16 @@ static int ct_receive(struct intel_guc_ct *ct)
+ 
+ static void ct_try_receive_message(struct intel_guc_ct *ct)
+ {
++	struct intel_guc *guc = ct_to_guc(ct);
+ 	int ret;
+ 
+-	if (GEM_WARN_ON(!ct->enabled))
++	if (!ct->enabled) {
++		GEM_WARN_ON(!guc_to_gt(guc)->uc.reset_in_progress);
++		return;
++	}
++
++	/* When interrupt disabled, message handling is not expected */
++	if (!guc->interrupts.enabled)
+ 		return;
+ 
+ 	ret = ct_receive(ct);
+-- 
+2.34.1
 
-I suggested to relax the requirement that field representation must
-match (not exceed in fact) storage type, and instead bring explicit
-check in the setter. With the check, if user tries to overflow the
-field, we either throw a warning, or panic if hardening is enabled,
-or do nothing in performance-critical builds.
-
-As far as I can say, Joel scheduled this in v5.
-
-Thanks,
-Yury
