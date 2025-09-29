@@ -2,57 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B72BA8691
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 10:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901D4BA86B5
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Sep 2025 10:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAED310E3BD;
-	Mon, 29 Sep 2025 08:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87F010E229;
+	Mon, 29 Sep 2025 08:40:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YgQXE/8l";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="qqrxn9oU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0827E10E3C8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 08:37:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DC5F662339;
- Mon, 29 Sep 2025 08:37:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA6BC4CEF4;
- Mon, 29 Sep 2025 08:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759135068;
- bh=8X3bC5ZmFeK58UgyyT40VVtc7YpFDCj89sUYr6xGYpw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YgQXE/8lYz8HxcUWf/DvTXB3frvyCZbZYDYzLVlalKtpaeaJMX38S42Sk8GWgcLPl
- 85Vemu2ljr7XuxypYb+JnuTc/o44e39r91uhZg6xIi3iEOkPvVC64pHAqNM6d22+CR
- sOPFn6QPTQ4nhvnTCOIU5iOLaSdrLTmlfpfwdHtjdLyIqwTx3W3kREXUmZl2wgZAFi
- TcKM/uAx3gvfIBYrw+uSqXi6cA4WEDuqiae8blfSIBZHZAVkrRvWAC4qChgaRS3kCo
- zRP0pOz1X2HltWHo45ARFOND2FSy3sL4cvYFhh5TSxgLdE54GFg+izWz5g07TUYPsZ
- uKItdcofgaIYg==
-Date: Mon, 29 Sep 2025 10:37:45 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
- bridges
-Message-ID: <20250929-cheerful-beagle-of-health-e40d38@houat>
-References: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08E510E229
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 08:40:15 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58T8djGI2642312;
+ Mon, 29 Sep 2025 03:39:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1759135185;
+ bh=WmjriLKM6CWc2Dcf+e4Tl37Kp0aXaSv9AkJHr17d4jM=;
+ h=From:To:CC:Subject:Date;
+ b=qqrxn9oUYMUUDQRiv0mb3nxmg6QOc/Oe5dbkyuVVBg4fTsZ9vE5CwEuWDafdDLYM7
+ B4CtlfbT+i70KFoC3NYAIEa8aKiAQfDx1qxpwhbpqqSdDEn9iukzDQd0mLoSYrUaLa
+ tIUyt2OjfscKUHpgWRaK6H60MEjky86QTkAUC6vI=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58T8di4p2995694
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 29 Sep 2025 03:39:44 -0500
+Received: from DLEE201.ent.ti.com (157.170.170.76) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 29
+ Sep 2025 03:39:44 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE201.ent.ti.com
+ (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 29 Sep 2025 03:39:44 -0500
+Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208]
+ (may be forged))
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58T8daaN927539;
+ Mon, 29 Sep 2025 03:39:37 -0500
+From: Harikrishna Shenoy <h-shenoy@ti.com>
+To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <lumag@kernel.org>, <dianders@chromium.org>,
+ <andy.yan@rock-chips.com>, <mordan@ispras.ru>, <linux@treblig.org>,
+ <viro@zeniv.linux.org.uk>, <aradhya.bhatia@linux.dev>,
+ <javierm@redhat.com>, <tomi.valkeinen@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devarsht@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>
+CC: <lyude@redhat.com>, <luca.ceresoli@bootlin.com>
+Subject: [PATCH v7 0/6] MHDP8546 fixes related to DBANC usecase
+Date: Mon, 29 Sep 2025 14:09:30 +0530
+Message-ID: <20250929083936.1575685-1-h-shenoy@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="y6znywc5jj6sunh2"
-Content-Disposition: inline
-In-Reply-To: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,137 +76,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+With the DBANC framework, the connector is no longer initialized in 
+bridge_attach()when the display controller sets the 
+DRM_BRIDGE_ATTACH_NO_CONNECTOR flag. 
+This causes a null pointer dereference in cdns_mhdp_modeset_retry_fn() 
+when trying to access &conn->dev->mode_config.mutex. 
+Observed on a board where EDID read failed. 
+(log: https://gist.github.com/Jayesh2000/233f87f9becdf1e66f1da6fd53f77429)
 
---y6znywc5jj6sunh2
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
- bridges
-MIME-Version: 1.0
+The series addresses this by first removing the unused legacy connector 
+initialization, then switching the driver to consistently use 
+drm_connector pointers and ensuring the pointer is set during 
+atomic enable so recovery paths like modeset_retry_fn() work correctly. 
+Once that is in place, mode validation is moved into the bridge through a 
+new bridge_mode_valid() hook to reject invalid modes, 
+since the connector helpers are no longer available. 
 
-On Fri, Sep 26, 2025 at 04:59:40PM +0200, Luca Ceresoli wrote:
-> drm_bridge_connector_init() takes eight pointers to various bridges, some
-> of which can be identical, and stores them in pointers inside struct
-> drm_bridge_connector. Get a reference to each of the taken bridges and put
-> it on cleanup.
->=20
-> This is tricky because the pointers are currently stored directly in the
-> drm_bridge_connector in the loop, but there is no nice and clean way to p=
-ut
-> those pointers on error return paths. To overcome this, store all pointers
-> in temporary local variables with a cleanup action, and only on success
-> copy them into struct drm_bridge_connector (getting another ref while
-> copying).
->=20
-> Additionally four of these pointers (edid, hpd, detect and modes) can be
-> written in multiple loop iterations, in order to eventually store the last
-> matching bridge. However, when one of those pointers is overwritten, we
-> need to put the reference that we got during the previous assignment. Add=
- a
-> drm_bridge_put() before writing them to handle this.
->=20
-> Finally, there is also a function-local panel_bridge pointer taken inside
-> the loop and used after the loop. Use a cleanup action as well to ensure =
-it
-> is put on return.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
-> This series ensures the bridge-connector gets a reference to bridges when
-> storing a pointer to them, and releases them afterwards.
->=20
-> This is part of the work towards removal of bridges from a still existing
-> DRM pipeline without use-after-free. The grand plan was discussed in [1].
-> Here's the work breakdown (=E2=9E=9C marks the current series):
->=20
->  1. =E2=9E=9C add refcounting to DRM bridges (struct drm_bridge)
->     (based on devm_drm_bridge_alloc() [0])
->     A. =E2=9C=94 add new alloc API and refcounting (v6.16)
->     B. =E2=9C=94 convert all bridge drivers to new API (v6.17)
->     C. =E2=9C=94 kunit tests (v6.17)
->     D. =E2=9C=94 add get/put to drm_bridge_add/remove() + attach/detach()
->          and warn on old allocation pattern (v6.17)
->     E. =E2=80=A6 add get/put on drm_bridge accessors
->        1. =E2=9C=94 drm_bridge_chain_get_first_bridge() + add a cleanup a=
-ction
->             (drm-misc-next)
->        2. =E2=9C=94 drm_bridge_get_prev_bridge() (drm-misc-next)
->        3. =E2=9C=94 drm_bridge_get_next_bridge() (drm-misc-next)
->        4. =E2=9C=94 drm_for_each_bridge_in_chain() (drm-misc-next)
->        5. =E2=9E=9C drm_bridge_connector_init
->        6. protect encoder bridge chain with a mutex
->        7. of_drm_find_bridge
->        8. drm_of_find_panel_or_bridge, *_of_get_bridge
->     F. =E2=9E=9C debugfs improvements
->        1. =E2=9C=94 add top-level 'bridges' file (v6.16)
->        2. =E2=9C=94 show refcount and list removed bridges (drm-misc-next)
->  2. =E2=80=A6 handle gracefully atomic updates during bridge removal
->  3. =E2=80=A6 DSI host-device driver interaction
->  4. removing the need for the "always-disconnected" connector
->  5. finish the hotplug bridge work, moving code to the core and potential=
-ly
->     removing the hotplug-bridge itself (this needs to be clarified as
->     points 1-3 are developed)
->=20
-> This was tricky both because there is no central place in
-> drm_bridge_connector.c to put the references on disposal (handled by patch
-> 1) and because of the complex code flow of drm_bridge_connector_init()
-> (handled by patch 2).
-> ---
-> Changes in v2:
-> - Use drmm_add_action() instead of hacking the .destroy connector func
-> - Removed patch 1 (where the hacking the .destroy connector func was)
-> - Link to v1: https://lore.kernel.org/r/20250925-drm-bridge-alloc-getput-=
-bridge-connector-v1-0-f0736e1c73ee@bootlin.com
-> ---
->  drivers/gpu/drm/display/drm_bridge_connector.c | 114 +++++++++++++++++--=
-------
->  1 file changed, 78 insertions(+), 36 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
-/drm/display/drm_bridge_connector.c
-> index a5bdd6c1064399ece6b19560f145b877c9e0680e..7b18be3ff9a32b36246835183=
-5bdab43c3f524f1 100644
-> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> @@ -618,6 +618,20 @@ static const struct drm_connector_hdmi_cec_funcs drm=
-_bridge_connector_hdmi_cec_f
->   * Bridge Connector Initialisation
->   */
-> =20
-> +static void drm_bridge_connector_put_bridges(struct drm_device *dev, voi=
-d *data)
-> +{
-> +	struct drm_bridge_connector *bridge_connector =3D (struct drm_bridge_co=
-nnector *)data;
-> +
-> +	drm_bridge_put(bridge_connector->bridge_edid);
-> +	drm_bridge_put(bridge_connector->bridge_hpd);
-> +	drm_bridge_put(bridge_connector->bridge_detect);
-> +	drm_bridge_put(bridge_connector->bridge_modes);
-> +	drm_bridge_put(bridge_connector->bridge_hdmi);
-> +	drm_bridge_put(bridge_connector->bridge_hdmi_audio);
-> +	drm_bridge_put(bridge_connector->bridge_dp_audio);
-> +	drm_bridge_put(bridge_connector->bridge_hdmi_cec);
-> +}
-> +
+Patches 1,2 do necessary cleanup and alignment and patches 3,4 fix
+the actual bug introduced in driver by commit id which enabled the DBANC flag.
+The rationale behind the sequence of commits is we can cleanly 
+switch to drm_connector pointer after removal of connector helper 
+code blocks, which are anyways not touch after DBANC has been 
+enabled in driver.
 
-I'd rather have a drmm_bridge_get helper that register the action
-itself, but that can be fixed later on.
+The later patches make smaller adjustments: lowering the log level for
+noisy DPCD transfer errors and moving HDCP state handling into the bridge 
+atomic check in line with the DBANC model.
 
-Maxime
+v6 patch link:
+<https://lore.kernel.org/all/20250909090824.1655537-1-h-shenoy@ti.com/>
 
---y6znywc5jj6sunh2
-Content-Type: application/pgp-signature; name="signature.asc"
+Changelog v6-v7:
+-Update cover letter to explain the series.
+-Add R/B tag in PATCH 1 and drop fixes tag as suggested.
+-Drop fixes tag in PATCH 2.
+-Update the commit messages for clear understanding of changes done in patches.
 
------BEGIN PGP SIGNATURE-----
+v5 patch link:
+<https://lore.kernel.org/all/20250811075904.1613519-1-h-shenoy@ti.com/>
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaNpFVQAKCRAnX84Zoj2+
-doXTAX9meJVNQ4dFu1UPbSaawaQf/e2082k1Xb0ZvZxVJb/jZAEp1G8zt7Uz2uK1
-hLrWZ8sBfikzR76GKLnK1HRQ0ZG9GdohBppblHmZG7SGA0j0XRD7iySNPt4dhlbc
-6zXhQbq9lQ==
-=cdBZ
------END PGP SIGNATURE-----
+Changelog v5 -> v6:
+-Update cover letter to clarify the series in better way.
+-Add Reviewed-by tag to relevant patches.
+ 
+v4 patch link: 
+<https://lore.kernel.org/all/20250624054448.192801-1-j-choudhary@ti.com>
 
---y6znywc5jj6sunh2--
+Changelog v4->v5:
+- Handle HDCP state in bridge atomic check instead of connector 
+atomic check
+ 
+v3 patch link:
+<https://lore.kernel.org/all/20250529142517.188786-1-j-choudhary@ti.com/>
+
+Changelog v3->v4:
+- Fix kernel test robot build warning:
+  <https://lore.kernel.org/all/202505300201.2s6r12yc-lkp@intel.com/>
+
+v2 patch link:
+<https://lore.kernel.org/all/20250521073237.366463-1-j-choudhary@ti.com/>
+
+Changelog v2->v3:
+- Add mode_valid in drm_bridge_funcs to a separate patch
+- Remove "if (mhdp->connector.dev)" conditions that were missed in v2
+- Split out the move of drm_atomic_get_new_connector_for_encoder()
+  to a separate patch
+- Drop "R-by" considering the changes in v2[1/3]
+- Add Fixes tag to first 4 patches:
+  commit c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+  This added DBANC flag in tidss while attaching bridge to the encoder
+- Drop RFC prefix
+
+v1 patch link:
+<https://lore.kernel.org/all/20250116111636.157641-1-j-choudhary@ti.com/>
+
+Changelog v1->v2:
+- Remove !DRM_BRIDGE_ATTACH_NO_CONNECTOR entirely
+- Add mode_valid in drm_bridge_funcs[0]
+- Fix NULL POINTER differently since we cannot access atomic_state
+- Reduce log level in cdns_mhdp_transfer call
+
+[0]: https://lore.kernel.org/all/20240530091757.433106-1-j-choudhary@ti.com/
+
+Harikrishna Shenoy (1):
+  drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP state in bridge
+    atomic check
+
+Jayesh Choudhary (5):
+  drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy support for
+    connector initialisation in bridge
+  drm/bridge: cadence: cdns-mhdp8546*: Change drm_connector from
+    structure to pointer
+  drm/bridge: cadence: cdns-mhdp8546-core: Set the mhdp connector
+    earlier in atomic_enable()
+  drm/bridge: cadence: cdns-mhdp8546-core: Add mode_valid hook to
+    drm_bridge_funcs
+  drm/bridge: cadence: cdns-mhdp8546-core: Reduce log level for DPCD
+    read/write
+
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 258 +++++-------------
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   8 +-
+ 3 files changed, 72 insertions(+), 196 deletions(-)
+
+-- 
+2.34.1
+
