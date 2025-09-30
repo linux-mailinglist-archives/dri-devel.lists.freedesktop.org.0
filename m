@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD83BAC9B3
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EDFBAC994
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5917A10E582;
-	Tue, 30 Sep 2025 11:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0366910E57B;
+	Tue, 30 Sep 2025 11:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ckbEkHKd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bffwiXxY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E866010E576
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:00:51 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B9B910E576
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:00:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 65E6F604CF;
- Tue, 30 Sep 2025 11:00:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5DF3C4CEF0;
- Tue, 30 Sep 2025 11:00:50 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 22B04418B5;
+ Tue, 30 Sep 2025 11:00:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99F03C4CEF0;
+ Tue, 30 Sep 2025 11:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759230051;
- bh=SDH3XnNi6v//uFU3KL8fb7Cra3gbK8Z2qIAy3fUoWpw=;
+ s=k20201202; t=1759230054;
+ bh=mPLnr3ZEUiPa0Etu18m/cNVjSwFPhksFj4l1U6AHc38=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ckbEkHKdRyKCkmvA1vl1evYZTUDGNQUKA9SWe48qi7FG985YXmxCI8Pn3ydTJh5Gl
- 3p+uhSxzPeoCawpU6jOhKXx3GRjrK7Q4GzmChpruplb1Y9YrLftwoEVF93hHEHMWU6
- gzFOu5osYba/J0GyzLtAq4eNEBW2BpruQsXHO/KL+sHV8junGqze45jN5C5opd7+7g
- Lh9fXHP8O1zpqT59mUc859bnAy+Z4dViCZJnYSbo+6pDqz1Pcw7h4tI4WvAXJg50EI
- kP9g14dKnbhgvMnKBO/NIQ3jRtDnrghshQfeCpMI2btnx7GHoszNvYLY4YLXkMneD2
- vNnLe292dM7Jw==
+ b=bffwiXxY5zqFMlGe+XbkCu3qBvIz1hacx45nWI1AXhphapmaYaG183jteg96knrYj
+ s0IHQzo2XaLhApHq08P/ogwcTC8MeT+fQ1NRq1iSTSdN1WiikO4Y/udP2am4kZkPQ+
+ 0UkrzRRbCXS4DVuFlDkyjN2U5TUQSeIUfpMYBUEvqNmYZkllmz14hpshO0y9OdY4WO
+ uNlsf4s7FUWACNI5idy9WVc0Qyq92h1L6+c/NN6+klqrERy5U5xlVBlIL+6E0SWtf8
+ fC480tOcsMdtvrUeJaOVa+DkVrlut52nGBnJTy++IaQ9rqsue5r0k5hmz3hgbaQegn
+ ReW9EOHXxjIBA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 30 Sep 2025 12:59:31 +0200
-Subject: [PATCH v5 16/39] drm/exynos: Switch to drm_atomic_get_new_crtc_state()
+Date: Tue, 30 Sep 2025 12:59:32 +0200
+Subject: [PATCH v5 17/39] drm/imx-dc: Switch to drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250930-drm-no-more-existing-state-v5-16-eeb9e1287907@kernel.org>
+Message-Id: <20250930-drm-no-more-existing-state-v5-17-eeb9e1287907@kernel.org>
 References: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 In-Reply-To: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -44,18 +44,18 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1787; i=mripard@kernel.org;
- h=from:subject:message-id; bh=SDH3XnNi6v//uFU3KL8fb7Cra3gbK8Z2qIAy3fUoWpw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3d6hFuvRJzm5y/8zv23bKVyjC0dbqr2iafLv5VMvcC
- Zv/ryjqmMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABMpc2esT81UEI99YMgbEjyf
- PfTMluUbjVdHHXv3SDfnS/kcp0Ud1vZWZpt8rP3P/H5iEBxl8jaZsVZy5WSv49YtqQlFaWmnply
- p9+M4c2f/oZ9G3yq+JvAdf1S7jOt9sohgG/P8C0732EO1uwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1640; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=mPLnr3ZEUiPa0Etu18m/cNVjSwFPhksFj4l1U6AHc38=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3d6jPqfj/84fFt/+R/eKtDmybBQ3vRmUF9hyz77UU3
+ r5ueQZLx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIbQHGevesNxz/qv8Yvbx9
+ sHv/WTlH3xOSOw5crF9fZMzDpLvF3M9iSsMKa77nzpoLHy99E/VZirFW1NDx7D+R12yWno9evLv
+ 19+SpXaWhjdsvZs9m+ePa9nLlD1Hh+iXzH2elK256vcykVkARAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,7 +73,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The exynos atomic_check implementation uses the deprecated
+The imx-dc atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -81,37 +81,38 @@ states are swapped. The existing state thus points to the new state, and
 we can use drm_atomic_get_new_crtc_state() instead.
 
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-To: Inki Dae <inki.dae@samsung.com>
-To: Seung-Woo Kim <sw0312.kim@samsung.com>
-To: Kyungmin Park <kyungmin.park@samsung.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
+To: Liu Ying <victor.liu@nxp.com>
+To: Shawn Guo <shawnguo@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
 ---
- drivers/gpu/drm/exynos/exynos_drm_plane.c | 2 +-
+ drivers/gpu/drm/imx/dc/dc-plane.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_plane.c b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-index 7c3aa77186d3431d7020db4dec70332c0cfccb5d..6400070a4c9bcc00ecd0f21cbce1b5aafe1bff48 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_plane.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_plane.c
-@@ -56,11 +56,11 @@ static int exynos_plane_get_size(int start, unsigned length, unsigned last)
- static void exynos_plane_mode_set(struct exynos_drm_plane_state *exynos_state)
- {
- 	struct drm_plane_state *state = &exynos_state->base;
- 	struct drm_crtc *crtc = state->crtc;
- 	struct drm_crtc_state *crtc_state =
--			drm_atomic_get_existing_crtc_state(state->state, crtc);
-+		drm_atomic_get_new_crtc_state(state->state, crtc);
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	int crtc_x, crtc_y;
- 	unsigned int crtc_w, crtc_h;
- 	unsigned int src_x, src_y;
- 	unsigned int src_w, src_h;
+diff --git a/drivers/gpu/drm/imx/dc/dc-plane.c b/drivers/gpu/drm/imx/dc/dc-plane.c
+index d8b946fb90de638da2bf4667307f11b06f4e77f5..e40d5d66c5c1f0d579a7a1019c0f2e00489ce15e 100644
+--- a/drivers/gpu/drm/imx/dc/dc-plane.c
++++ b/drivers/gpu/drm/imx/dc/dc-plane.c
+@@ -104,11 +104,11 @@ dc_plane_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state)
+ 		dc_plane_dbg(plane, "no CRTC in plane state\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	crtc_state =
+-		drm_atomic_get_existing_crtc_state(state, plane_state->crtc);
++		drm_atomic_get_new_crtc_state(state, plane_state->crtc);
+ 	if (WARN_ON(!crtc_state))
+ 		return -EINVAL;
+ 
+ 	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+ 						  DRM_PLANE_NO_SCALING,
 
 -- 
 2.51.0
