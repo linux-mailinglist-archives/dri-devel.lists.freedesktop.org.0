@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF060BADFDC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 18:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D421BAE022
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 18:08:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5D1A10E2C3;
-	Tue, 30 Sep 2025 16:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D74E10E083;
+	Tue, 30 Sep 2025 16:08:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JfXSfdMj";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RqtXzCFa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2071F10E2C3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 16:01:19 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B65AC10E083
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 16:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1759248079;
+ s=mimecast20190719; t=1759248486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HOYVDlXcgikSCUwOdxOfSsjt8Nh4FIwdpCdV/JBPVPE=;
- b=JfXSfdMjZtBkYSRloF0gkpf08XPWoltD144vC0tRDjmtJkgaKT+/liQ5Q0D+i2KmHWjl3c
- N0WkbOt6DjC5RtOMCJDSliZgI/AXk6/OTxcgk5/gWnvIFyD3BsPAQzknWuPixS4/wB8ByH
- EpkxmOLvJwVrcHcQCy6s2tl8IWaw+/I=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wSk9NtZOWjVSHAXaMNsatYeAsaJr+OLKF/ipGZAl/7o=;
+ b=RqtXzCFa3UfxGXDZd86MIu+MmfbbOVkYqm64Fu+tdl2Elr1FNlYyyMlB3vgetmPAaSgbjL
+ uQiC4qsU2cz9+O9mLOarcjYVHW/hBkIEbnxWq5qrYCKfqFCjopyHUP+8v9FSjbDJrzO2e4
+ ZDBgUEviJo2i2vEbqBFDk6FgH+Edemo=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-192-LYnhRArHPkaoFKjMyuPapg-1; Tue, 30 Sep 2025 12:01:16 -0400
-X-MC-Unique: LYnhRArHPkaoFKjMyuPapg-1
-X-Mimecast-MFC-AGG-ID: LYnhRArHPkaoFKjMyuPapg_1759248076
-Received: by mail-il1-f200.google.com with SMTP id
- e9e14a558f8ab-427a3ef578dso8004465ab.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 09:01:16 -0700 (PDT)
+ us-mta-677-TyETp5zQMkC-qlHrSVqjPg-1; Tue, 30 Sep 2025 12:08:04 -0400
+X-MC-Unique: TyETp5zQMkC-qlHrSVqjPg-1
+X-Mimecast-MFC-AGG-ID: TyETp5zQMkC-qlHrSVqjPg_1759248484
+Received: by mail-ot1-f70.google.com with SMTP id
+ 46e09a7af769-7a227390799so2104708a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 09:08:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759248075; x=1759852875;
+ d=1e100.net; s=20230601; t=1759248484; x=1759853284;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HOYVDlXcgikSCUwOdxOfSsjt8Nh4FIwdpCdV/JBPVPE=;
- b=ir5lfHmFWp9ZYi+dsUNyR2Vk08xfDTKYjFWIAC1o0a0bu4LiaqUavmXOVKNJSchr1x
- gUQFYTyG0jXYn/lVtx+1KxGPgRYVAd2XryZtv2h7IRYeRobepN0cfbfbnBasj7gFRONa
- 1aUr8syeSrLuABnBOCu5ZWWmeYT9S7rTetEAqZHf/GmRwSa5LzRxj0ti8t4qLn0pmIfK
- seFHbq5C0i8//QoZuoNZxiLIECL9cjKFFuo86modU4aRt756RScpvVjOum5KHXFZr3V0
- VripeIbslItns37bOg2JyBs+/wrcOIOFV4UCz1G61v5xPUbRc5qaXgZeJScIf2gxriQ9
- TgMw==
+ bh=wSk9NtZOWjVSHAXaMNsatYeAsaJr+OLKF/ipGZAl/7o=;
+ b=u48/gfNpd0rCwIfECpTzZUfIAgFvHGrqcsjDHDHdw40g6tIbawO/03MrYZLyNqoQHL
+ YTzZfF2s9NtF40yL/3pQIgH3vZsFit27FopaZlsqqELe+HleowgNdSoZoPEAyA43FbuY
+ h+Tt1EhsF6fhyza6eQy+PpRmOyNTJBUtuRsOWqi/A97qwL8ecsZ2t7RduNCxLnXOHL6w
+ uP/3FBu3A1zGsxC64JoivAYR6wgKx5llxdHQUU2MbLPg8h6coSG18Ydk8GdHFl0Eig4X
+ ZuuxcN5vVPz12fvbGdONZ/RiaX/A1p08Gx8sveA3n3nCvHLGiGZjIY7e7Qu7d++g4n0w
+ xH3g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHRULrTytJcmWPaTWrivFvTa6XyBaKbVIXYMsLHPMI9+dCTBlT5C53qijCJ9jUCZrsRO/HZmyurto=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8PfSIKjLdooGcSza7V2Iu1zF5uFrqAZZHVgSVHqB6IPgDpL3F
- hsqyWBIzbi7fvGt+nC63XoRaf/81Yknd2qs/zPXV8/CArbbRLIUM9jZ26opBzl70ww4EPQ+00x6
- L8ovxKvTme+IbREIoxrsWXFbit0/upn/di5BXKkKzN6jpOo8WQJtA23BDZOx5tYi69V/suw==
-X-Gm-Gg: ASbGncsRIWck9YZXfLLYKGZcM+SMKyAfl2Qfvs18hXEcL77oKwRZ8z/ruIZ8yTOdZf2
- 821W8va/Nxwhu6aT/eSrX0XZlrIcA7mKFJZgJgxqeFH0UAhMooyPK+0Rj81un6rpxTw4w5HOfCm
- SyVGnOJLJ7/YRLmMzzdD6GeWfYMdC9KodYcSSQ8iIQaABJxnduJPif0iXsPmz2zZlFYvqDdytu+
- cbOvGh5LQKkVuBOKyhja6IUjSGywyIM6xGkb0dDmxQcO5e+jUSCVQioo1umslwDc+9eIud7rsNv
- JLCw+Kx3yUCeheUT9MWlBVbRaivDn4KqZUFsOw5lT0GD8P9l
-X-Received: by 2002:a05:6e02:164b:b0:42b:1763:5796 with SMTP id
- e9e14a558f8ab-42d81635257mr2673015ab.7.1759248075139; 
- Tue, 30 Sep 2025 09:01:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFa3YWCojRcq8FvhA8oy0OghueS9jHVQ9BVoBDjYigh74bKjlyhu7iHP48jxbQj2TC5kTDAzg==
-X-Received: by 2002:a05:6e02:164b:b0:42b:1763:5796 with SMTP id
- e9e14a558f8ab-42d81635257mr2672385ab.7.1759248074259; 
- Tue, 30 Sep 2025 09:01:14 -0700 (PDT)
+ AJvYcCXVj046KfwlSWJipjhlDgxJJ6/NUq1ayoXpGnw0ijUopnbqFlKdVhu1K7CA6aVZN06jDR45uMBo8R8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWMVr++QOLcF9C5CDfq2WJW8Oel40MblqWiiehLCvynBXMQRZ7
+ QLA/swsnGQvCOB+qOy6JxruUnNakAxWWCV064bO4er7696z0sgD9xniegEg9FN8r4ggSqpDBz8q
+ gjMeCr2UIqrVKwdH2cyDNmTQ1/yV/Jfs535yBE4Kvoq5QDrMCx/YrQcWGvUs4H+q2eiIsXQ==
+X-Gm-Gg: ASbGncvG6cg6ihjYrLfhNwvJEIRxxNaZ6hdA63cvOawIhg3NxXAVfEd41bVkAX1cdjX
+ uGf4me14mEdAmx0k6pPgXtVrvT0aXPAlud6LrH13dtPfShePbZx/R65EqIsQq/Kl5uCSO2fwiPY
+ K5qA4ElFVstuYmlZ5KkcIyExXZC+cWI8MAtLXsjHSn+hds5bjWOpWKA/sye712yKA6BBrIEkYg+
+ uNFojTdlg7JVqEkGF27YtbDwNo25+7YZA5aYtd3G1jrhuL+t0io/q/JMQuOQHRGh7nhCv3PUK2I
+ cyKBv/hIPcpaBie3KosZZVHQK3CMreqMZwu12/pwS7O1f8cC
+X-Received: by 2002:a05:6820:5082:b0:621:2845:6daa with SMTP id
+ 006d021491bc7-64bb6545f8bmr113860eaf.0.1759248483601; 
+ Tue, 30 Sep 2025 09:08:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJseUyrGoKfdwzuhrG64O9kfcQryt5nehwMqyr+Cc6sT4mD/DyY2Du1MoSsHbbw6RCv1mcDg==
+X-Received: by 2002:a05:6820:5082:b0:621:2845:6daa with SMTP id
+ 006d021491bc7-64bb6545f8bmr113843eaf.0.1759248483252; 
+ Tue, 30 Sep 2025 09:08:03 -0700 (PDT)
 Received: from redhat.com ([38.15.36.11]) by smtp.gmail.com with ESMTPSA id
- e9e14a558f8ab-425bfba6242sm68758215ab.27.2025.09.30.09.01.12
+ 46e09a7af769-7b4c0e92da9sm1836631a34.26.2025.09.30.09.08.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Sep 2025 09:01:13 -0700 (PDT)
-Date: Tue, 30 Sep 2025 10:01:10 -0600
+ Tue, 30 Sep 2025 09:08:02 -0700 (PDT)
+Date: Tue, 30 Sep 2025 10:07:58 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
-To: Leon Romanovsky <leon@kernel.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>
+To: Leon Romanovsky <leon@kernel.org>
 Cc: Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
  <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
  =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
@@ -80,21 +79,21 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
  linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
- <logang@deltatee.com>, Robin Murphy <robin.murphy@arm.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 08/10] vfio/pci: Enable peer-to-peer DMA transactions
- by default
-Message-ID: <20250930100110.6ec5b8a1.alex.williamson@redhat.com>
-In-Reply-To: <20250930073053.GE324804@unreal>
+ <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
+ Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 07/10] vfio/pci: Add dma-buf export config for MMIO
+ regions
+Message-ID: <20250930100758.1605d5a5.alex.williamson@redhat.com>
+In-Reply-To: <20250930075748.GF324804@unreal>
 References: <cover.1759070796.git.leon@kernel.org>
- <ac8c6ccd792e79f9424217d4bca23edd249916ca.1759070796.git.leon@kernel.org>
- <20250929151745.439be1ec.alex.williamson@redhat.com>
- <20250930073053.GE324804@unreal>
+ <b1b44823f93fd9e7fa73dc165141d716cb74fa90.1759070796.git.leon@kernel.org>
+ <20250929151740.21f001e3.alex.williamson@redhat.com>
+ <20250930075748.GF324804@unreal>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qyvcUh8oa9l6hGbcwsheH-8P5ctr2bE2o6P7A_DRj88_1759248076
+X-Mimecast-MFC-PROC-ID: d_9jW0Pun8KcwAanZqVz1oRX5JPKPsnR-mkjhOdZA-o_1759248484
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -113,83 +112,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Sep 2025 10:30:53 +0300
+On Tue, 30 Sep 2025 10:57:48 +0300
 Leon Romanovsky <leon@kernel.org> wrote:
 
-> On Mon, Sep 29, 2025 at 03:17:45PM -0600, Alex Williamson wrote:
-> > On Sun, 28 Sep 2025 17:50:18 +0300
+> On Mon, Sep 29, 2025 at 03:17:40PM -0600, Alex Williamson wrote:
+> > On Sun, 28 Sep 2025 17:50:17 +0300
 > > Leon Romanovsky <leon@kernel.org> wrote:
 > >   
 > > > From: Leon Romanovsky <leonro@nvidia.com>
 > > > 
-> > > Make sure that all VFIO PCI devices have peer-to-peer capabilities
-> > > enables, so we would be able to export their MMIO memory through DMABUF,
+> > > Add new kernel config which indicates support for dma-buf export
+> > > of MMIO regions, which implementation is provided in next patches.
 > > > 
 > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > > > ---
-> > >  drivers/vfio/pci/vfio_pci_core.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
+> > >  drivers/vfio/pci/Kconfig | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
 > > > 
-> > > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> > > index 7dcf5439dedc..608af135308e 100644
-> > > --- a/drivers/vfio/pci/vfio_pci_core.c
-> > > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> > > @@ -28,6 +28,9 @@
-> > >  #include <linux/nospec.h>
-> > >  #include <linux/sched/mm.h>
-> > >  #include <linux/iommufd.h>
-> > > +#ifdef CONFIG_VFIO_PCI_DMABUF
-> > > +#include <linux/pci-p2pdma.h>
-> > > +#endif
-> > >  #if IS_ENABLED(CONFIG_EEH)
-> > >  #include <asm/eeh.h>
-> > >  #endif
-> > > @@ -2085,6 +2088,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
-> > >  {
-> > >  	struct vfio_pci_core_device *vdev =
-> > >  		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-> > > +	int __maybe_unused ret;
+> > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> > > index 2b0172f54665..55ae888bf26a 100644
+> > > --- a/drivers/vfio/pci/Kconfig
+> > > +++ b/drivers/vfio/pci/Kconfig
+> > > @@ -55,6 +55,26 @@ config VFIO_PCI_ZDEV_KVM
 > > >  
-> > >  	vdev->pdev = to_pci_dev(core_vdev->dev);
-> > >  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
-> > > @@ -2094,6 +2098,11 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
-> > >  	INIT_LIST_HEAD(&vdev->dummy_resources_list);
-> > >  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
-> > >  	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
-> > > +#ifdef CONFIG_VFIO_PCI_DMABUF
-> > > +	ret = pcim_p2pdma_init(vdev->pdev);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +#endif
-> > >  	init_rwsem(&vdev->memory_lock);
-> > >  	xa_init(&vdev->ctx);
-> > >    
+> > >  	  To enable s390x KVM vfio-pci extensions, say Y.
+> > >  
+> > > +config VFIO_PCI_DMABUF
+> > > +	bool "VFIO PCI extensions for DMA-BUF"
+> > > +	depends on VFIO_PCI_CORE
+> > > +	depends on PCI_P2PDMA && DMA_SHARED_BUFFER
+> > > +	default y
+> > > +	help
+> > > +	  Enable support for VFIO PCI extensions that allow exporting
+> > > +	  device MMIO regions as DMA-BUFs for peer devices to access via
+> > > +	  peer-to-peer (P2P) DMA.
+> > > +
+> > > +	  This feature enables a VFIO-managed PCI device to export a portion
+> > > +	  of its MMIO BAR as a DMA-BUF file descriptor, which can be passed
+> > > +	  to other userspace drivers or kernel subsystems capable of
+> > > +	  initiating DMA to that region.
+> > > +
+> > > +	  Say Y here if you want to enable VFIO DMABUF-based MMIO export
+> > > +	  support for peer-to-peer DMA use cases.
+> > > +
+> > > +	  If unsure, say N.
+> > > +
+> > >  source "drivers/vfio/pci/mlx5/Kconfig"
+> > >  
+> > >  source "drivers/vfio/pci/hisilicon/Kconfig"  
 > > 
-> > What breaks if we don't test the return value and remove all the
-> > #ifdefs?  The feature call should fail if we don't have a provider but
-> > that seems more robust than failing to register the device.  Thanks,  
+> > This is only necessary if we think there's a need to build a kernel with
+> > P2PDMA and VFIO_PCI, but not VFIO_PCI_DMABUF.  Does that need really
+> > exist?  
 > 
-> pcim_p2pdma_init() fails if memory allocation fails, which is worth to check.
-> Such failure will most likely cause to non-working vfio-pci module anyway,
-> as failure in pcim_p2pdma_init() will trigger OOM. It is better to fail early
-> and help for the system to recover from OOM, instead of delaying to the
-> next failure while trying to load vfio-pci.
+> It is used to filter build of vfio_pci_dmabuf.c - drivers/vfio/pci/Makefile:
+> vfio-pci-core-$(CONFIG_VFIO_PCI_DMABUF) += vfio_pci_dmabuf.o
+
+Maybe my question of whether it needs to exist at all is too broad.
+Does it need to be a user visible Kconfig option?  Where do we see the
+need to preclude this feature from vfio-pci if the dependencies are
+enabled?
+
+> > I also find it unusual to create the Kconfig before adding the
+> > supporting code.  Maybe this could be popped to the end or rolled into
+> > the last patch if we decided to keep it.  Thanks,  
 > 
-> CONFIG_VFIO_PCI_DMABUF is mostly for next line "INIT_LIST_HEAD(&vdev->dmabufs);"
-> from the following patch. Because that pcim_p2pdma_init() and dmabufs list are
-> coupled, I put CONFIG_VFIO_PCI_DMABUF on both of them.
+> It is leftover from previous version, I can squash it, but first we need
+> to decide what to do with pcim_p2pdma_init() call, if it needs to be
+> guarded or not.
 
-Maybe it would remove my hang-up on the #ifdefs if we were to
-unconditionally include the header and move everything below that into
-a 'if (IS_ENABLED(CONFIG_VFIO_PCI_DMA)) {}' block.  I think that would
-be statically evaluated by the compiler so we can still conditionalize
-the list_head in the vfio_pci_core_device struct via #ifdef, though I'm
-not super concerned about that since I'm expecting this will eventually
-be necessary for p2p DMA with IOMMUFD.
-
-That's also my basis for questioning why we think this needs a user
-visible kconfig option.  I don't see a lot of value in enabling
-P2PDMA, DMABUF, and VFIO_PCI, but not VFIO_PCI_DMABUF.  Thanks,
+As in the other thread, I think it would be cleaner in an IS_ENABLED
+branch.  I'm tempted to suggest we filter out EOPNOTSUPP to allow it to
+be unconditional, but I understand your point with the list_head
+initialization.  Thanks,
 
 Alex
 
