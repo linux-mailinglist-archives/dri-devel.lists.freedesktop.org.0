@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F21BAC9AF
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CC1BAC9A0
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:01:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF2610E581;
-	Tue, 30 Sep 2025 11:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 853DE10E57A;
+	Tue, 30 Sep 2025 11:01:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aQ3j6rdh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pJs6ibBt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B44610E57D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:01:03 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF65810E57A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:01:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1C7DA604C3;
- Tue, 30 Sep 2025 11:01:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF0EC4CEF0;
- Tue, 30 Sep 2025 11:01:02 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CFA0A43C61;
+ Tue, 30 Sep 2025 11:01:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5507FC113D0;
+ Tue, 30 Sep 2025 11:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759230062;
- bh=3V79yNr53bXA6Oedn2CHlJThOIyV272n0v1+ML86OVg=;
+ s=k20201202; t=1759230065;
+ bh=Ap3y2IZNECtUVtZYAKsVVhheRsMsLVBT+a46r7P8x3M=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=aQ3j6rdhi+TprIJ73/p4/LIXHjdHwoELOmTSnVdg+5PzhgXd4nYp//UmlerkMscqt
- hJPk1f4zM789dKA8wDrYvsiTtiy393h4TtdRoP3LIfS2W5RDOi192RtSWv+mA/B7gX
- Ju0srwIdANiiOhjRcyg4GIcCMS9KUBsNmjkkwzBJ9QZoymWWHyAcBXomybEp9cIsYJ
- nCwg+Dbx7D8N1ZzCFEurx8Y6h2MuEW4+r4J1xSccsBy0ol48D3zDEKCNyTFLrr8TPQ
- 6S1wKKhduMQnp9QNHLGxvLwtT9IZn4G5DMEhTICBw4QaXD5eaeX18yv99cAeBjeRMj
- 33PyoIyY4CvTQ==
+ b=pJs6ibBtNlAbnZznoOAp+bzcAo6q4QNN0TVIRS7Itnj0mpRmU3y+V5ImE3Y+Lb41I
+ 9FfMYxYt106KdlVqbReUcDyoF2SaQyQj0rEs3EKOaqJdWyviNYqFQAa0yZvn6St3PM
+ 14ApG2GgMojJeJqkuWjdBY3ZxwOl9eQR2w78beyUjf0oePRuybdwF0bEOwX8SbKDRu
+ hasG1X0r52L1YE9Md+lsps6ms8Ce+rzMg8s3kD1d90nB9QA6N5Vp2Ea6j5BxZoFqr3
+ qo1MF8ZjcAsjrW22o14vvrM+lINW8EzB8z2brxMrUCvbCcGNcVOmqsA/N3PUqXBsnd
+ SMZEuk9lFtjGA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 30 Sep 2025 12:59:35 +0200
-Subject: [PATCH v5 20/39] drm/ingenic: Switch to
+Date: Tue, 30 Sep 2025 12:59:36 +0200
+Subject: [PATCH v5 21/39] drm/kmb: Switch to
  drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250930-drm-no-more-existing-state-v5-20-eeb9e1287907@kernel.org>
+Message-Id: <20250930-drm-no-more-existing-state-v5-21-eeb9e1287907@kernel.org>
 References: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 In-Reply-To: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- linux-mips@vger.kernel.org
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Edmund Dea <edmund.j.dea@intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2250; i=mripard@kernel.org;
- h=from:subject:message-id; bh=3V79yNr53bXA6Oedn2CHlJThOIyV272n0v1+ML86OVg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3d2gIRVhlBmkUuJk0Ll1WErkjOtMiQ0HgR5xbnFRhO
- ZfbqtCOqSwMwpwMsmKKLE9kwk4vb19c5WC/8gfMHFYmkCEMXJwCMJHWlYx1Jvafl5mwt/nNe5N/
- d59n/ttqlb3Hys80C4WfWsYd8eDsAmEBw9lrf5yKEX/CZh6y0b2aseFFfH3JrITd7vEN7Zt7f2w
- uToovXljq+Pbs+mk/0+d+XF1lJHyZt0A+79l6V+tpqb8lggA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1492; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=Ap3y2IZNECtUVtZYAKsVVhheRsMsLVBT+a46r7P8x3M=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3d2j8i7I5xPLlbCzD3pikJ9sF1cOyGATWnFS8cPfoU
+ r9M03nHOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBERFQY65ON1c24ehos1T4Y
+ P5ld8skxf7OS+swXc2Pbt285eDTzoWJU3clf/Axb+fy/7jNkjnAxYaxTYzztFHzH98Ah28NW+7w
+ e6wtarbJZU36x8JSKwur5b7fMezsn9Pgqvw+9E1bY/xb+GZUDAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,60 +71,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ingenic atomic_check implementation uses the deprecated
+The kmb atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
 states are swapped. The existing state thus points to the new state, and
 we can use drm_atomic_get_new_crtc_state() instead.
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: linux-mips@vger.kernel.org
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: Edmund Dea <edmund.j.dea@intel.com>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 +--
- drivers/gpu/drm/ingenic/ingenic-ipu.c     | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/kmb/kmb_plane.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 9db1ceaed5188a4ef0897280dc72108eb3815b5f..05faed933e5619c796f2a4fa1906e0eaa029ac68 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -469,12 +469,11 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 		return 0;
- 
- 	if (priv->soc_info->plane_f0_not_working && plane == &priv->f0)
+diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
+index 9e0562aa2bcb5ab4e2cbd71940ef4c147a7aa5ad..9562fe6711ffe2c5ad377e9973fcfdb76bf04daa 100644
+--- a/drivers/gpu/drm/kmb/kmb_plane.c
++++ b/drivers/gpu/drm/kmb/kmb_plane.c
+@@ -127,12 +127,11 @@ static int kmb_plane_atomic_check(struct drm_plane *plane,
+ 		drm_dbg(&kmb->drm, "Cannot change plane height or width after initial configuration");
  		return -EINVAL;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	priv_state = ingenic_drm_get_priv_state(priv, state);
- 	if (IS_ERR(priv_state))
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 2574a4b4d40a2c27cb212114117829d9f6ab3ddb..32638a713241abbd4eaed09f0aaec2b790650cc9 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -578,11 +578,11 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
- 	struct ingenic_ipu_private_state *ipu_state;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
- 	ipu_state = ingenic_ipu_get_priv_state(ipu, state);
- 	if (IS_ERR(ipu_state))
+ 	}
+ 	can_position = (plane->type == DRM_PLANE_TYPE_OVERLAY);
+ 	crtc_state =
+-		drm_atomic_get_existing_crtc_state(state,
+-						   new_plane_state->crtc);
++		drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
+ 	return drm_atomic_helper_check_plane_state(new_plane_state,
+ 						   crtc_state,
+ 						   DRM_PLANE_NO_SCALING,
+ 						   DRM_PLANE_NO_SCALING,
+ 						   can_position, true);
 
 -- 
 2.51.0
