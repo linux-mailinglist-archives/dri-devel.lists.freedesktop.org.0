@@ -2,129 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F08BABBDE
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 09:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE57BABC08
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 09:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F64510E28B;
-	Tue, 30 Sep 2025 07:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9DA010E28C;
+	Tue, 30 Sep 2025 07:07:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iTnzXzJC";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kbD6Zxx4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B53810E28B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 07:05:49 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58U4Hftv027551
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 07:05:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=YkcyM04R0DD+Qr3GHQ8OUnac
- Su7NvjdL0Knj9f30K/M=; b=iTnzXzJCCeI4G/IXM3iCA+u1U+kUCgpTbDDW0j9i
- SJOj5h9+3BBYuyoaVL1NretVK72heIAARIz51/FwbeZ/ZuAPpsj7EtkDeSN2FN8K
- ovbqZYPQ1C2V16I6gZ8kPRaiCcSe7qdWBCr2bXXVcT+iMfYP5zbLA2kgKoqzfJdg
- Qg0jmvNIqTjE/pAjEB6xZBHOndn8L0Zv3F9m7dx79YQ6K2mDJGNZTZa+AXRhD9zw
- r0EHNJ8bJvzKGyIi40foXUD4B1EdWSQHU+xSs0DSFqziVw6HE15k+h4DPaoe8x4u
- lVP2BKMTF34+zeRtgF3xcOCeEdvj+uEGgeyUv5DljuYhTg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e851fwnh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 07:05:48 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4de2c597a6eso129902261cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 00:05:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759215947; x=1759820747;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YkcyM04R0DD+Qr3GHQ8OUnacSu7NvjdL0Knj9f30K/M=;
- b=ahWVloG/lMCGMYveogrkVBnU9Z0wIiXvKm3V04zZi7hb1z7GUPckyum0HTDbilzPwy
- XDIBsjxGgcahe6+YzrfCHgHW7CVhtiyEym7k2npbA37XKL10WcCC7Ab6vl9tEdZ69RyS
- SQ4xcpVWaYSLJ19BztEgqyU1SCkx4nYPfSjBlcEZrBb0ebk3HU1CZ5eklfphhp15gy2m
- qvipxEY1rMaUAVyex1XOL5qaJVce+MsbhEv359SSsvWiUlz4P06eRCLz9VOQzmu3eD3V
- YRG/gYuYw5lVhsv8tEpXytPfwuddMfQTA5kt46pAIUK9B1D69Vo6f8qFvlDuL3mcowSz
- Y/aA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWPa0wvfDKAINMHVRuHkXNZxkQvMmTFaEt9PKMgu97m6NLRN0EG8IsFl6DFXKjxzm9lhomYR/CNK9Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzmECEQeSXrsSmTndeKndLaJE36IlihEPHH02f9GeEK8JOA6V9
- 7woR+9HHtnLf5RU3vK2tDvOHhzkQFp8Fklk53b4dI8aUa6PTo57oMzs/LO/xWfHK3EYD+Ab5ABh
- wso4FxPBvi2AA3LqOOQDN+/2FpWtEs42PKH+tIQr3M3SgaJqimEyJp1wm+j0+tYQSkT43SOY=
-X-Gm-Gg: ASbGnct0jDoTGBjc201nLBqH2Kwp3Cq3Ra/NAdk21oYVTuMwubS0IOSAD8F82Vb8KVv
- 9RYQW5+4MlshN+MsaDgcTGEbohyeFptJ/K91e4h66UANz8VvrxkhiunBM+GIRPVoKVB4XyH9orb
- vNU7ffMBLIJFX99yd11Mb1cssHz+DFudMq/3NP1NeKIDY+/wRHOuZkO4JQm+/JxpU85IvPMEDnt
- u54CIyFZ8rvVRzQZVV1RT0CPGy71WmAqon7q0XsmZuOZRvJJvx/oxJfqn284/XpEXGoZRIPqYrW
- xIWBnWsLS16AQK5NIVXxo11hNINaEBxG9lDoG9sjuJM+f+zlF6BNVkI4TVb7f1/x2CV8mbwvimf
- b4TbOioi6qtS/hud28e7QNCbWbW/oK5NLvLqRXpUXvte7rusfjyBP8ugIYg==
-X-Received: by 2002:ac8:7602:0:b0:4dc:d94f:d13f with SMTP id
- d75a77b69052e-4dcd94fd62cmr145860281cf.72.1759215947139; 
- Tue, 30 Sep 2025 00:05:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF6np5FgFR3yiAoIV4w+0+a5+/kCzcX9eD5vqs8OqsXllqsDXGgjrxwAtZPkSL/3P7NcRUnlQ==
-X-Received: by 2002:ac8:7602:0:b0:4dc:d94f:d13f with SMTP id
- d75a77b69052e-4dcd94fd62cmr145860071cf.72.1759215946624; 
- Tue, 30 Sep 2025 00:05:46 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-587748b15d2sm1648013e87.7.2025.09.30.00.05.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Sep 2025 00:05:45 -0700 (PDT)
-Date: Tue, 30 Sep 2025 10:05:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH 03/17] drm/msm/adreno: Common-ize PIPE definitions
-Message-ID: <xsgnpvswvkyuxiviv4uyb6pxbpi646fut6dy54kpyfisqrxycz@tyfox3zdi26e>
-References: <20250930-kaana-gpu-support-v1-0-73530b0700ed@oss.qualcomm.com>
- <20250930-kaana-gpu-support-v1-3-73530b0700ed@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF0910E28C;
+ Tue, 30 Sep 2025 07:07:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759216075;
+ bh=otM6iP4yEGo0zjb88ZOEX8uXJrV14+4cIodesPrg2IU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kbD6Zxx4Q6bzLXCAKUCGs0+FTcp52cqk0bd9sUWzJIH4vSK1zbEB8rwa5NSEK3q0h
+ f9cyIyEcwaVCthzx6u2MGSSOqmPO+4P4/X3SkhIFksYGYoZuIcmWDhdOBFbR70b/Vk
+ YIa6izAWLadhrH2bR22ja0c/MEQ0YkwwFmAgB4d7B38cQgy3L+1d6rbASw214h14j6
+ aHG+tHmNU282xQON8oXaNVd/yVcFZaUBm+pzv4vohPu2pMRdGLQn9XAvHeX+p4LmPq
+ mIE8zXwTThXqO3ZABzVjFsc0bfsTdv73sa0oh84paX0uxCAbKUoqR9Ek4okHpga0R/
+ zCTI2hGU233Cg==
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C6CAE17E12E5;
+ Tue, 30 Sep 2025 09:07:54 +0200 (CEST)
+Date: Tue, 30 Sep 2025 10:07:40 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Alex Hung <alex.hung@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
+ <leo.liu@amd.com>, <ville.syrjala@linux.intel.com>, <contact@emersion.fr>,
+ <mwen@igalia.com>, <jadahl@redhat.com>, <sebastian.wick@redhat.com>,
+ <shashank.sharma@amd.com>, <agoins@nvidia.com>, <joshua@froggi.es>,
+ <mdaenzer@redhat.com>, <aleixpol@kde.org>, <xaver.hugl@gmail.com>,
+ <victoria@system76.com>, <daniel@ffwll.ch>, <uma.shankar@intel.com>,
+ <quic_naseer@quicinc.com>, <quic_cbraga@quicinc.com>,
+ <quic_abhinavk@quicinc.com>, <marcan@marcan.st>, <Liviu.Dudau@arm.com>,
+ <sashamcintosh@google.com>, <chaitanya.kumar.borah@intel.com>,
+ <louis.chauvet@bootlin.com>, <mcanal@igalia.com>,
+ <nfraprado@collabora.com>, Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V11 17/47] drm/vkms: Use s32 for internal color pipeline
+ precision
+Message-ID: <20250930100740.40b718bb@eldfell>
+In-Reply-To: <20250815035047.3319284-18-alex.hung@amd.com>
+References: <20250815035047.3319284-1-alex.hung@amd.com>
+ <20250815035047.3319284-18-alex.hung@amd.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250930-kaana-gpu-support-v1-3-73530b0700ed@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=68db814c cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=ffTnwjXrKXMzwz1Z5d8A:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMiBTYWx0ZWRfX0D5SZfQiEWI2
- zGRX4x6v5rjCbUxh4bN+LRPR6/y6ddz44KNhbBYUw9KIyfzZ9RUqcwsYfnCH3DeSzqVsoAVb4sR
- F7Pe5qUk/G4CxWhxEFjtUY+HzpY6RZ2hF5YWbDvQHmZ9SSVtPbApcwbL7d3UKQ2En886XCaevrc
- x0ouMTLgX2iEsBAKYZQfRmE/GUcVkM/0JFQNKITq34rlnu3Vl9TQBQDuOqPA1A3rIkmtNJMiHzP
- YJwzXH9hLbSSUXv+mqkQPPg1WdHSXiwi7wqfcsbmRr+7YCFGX0ItQpnl88u/HgFSft9gjqAyJZu
- POOZ9u/N+PknuGMw9GT9fMfz4E9vmMKIqzHJ6brBPyvDmmBXuwHMbg+Sr1wnTWFKnZcgfUT29Wr
- 4bRcDE8dnXXpZBfpT72DWCq9lCI/bQ==
-X-Proofpoint-ORIG-GUID: OAdj62TQJXLDPylxlyrW6vG0W8xHNq1a
-X-Proofpoint-GUID: OAdj62TQJXLDPylxlyrW6vG0W8xHNq1a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-30_01,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270032
+Content-Type: multipart/signed; boundary="Sig_/MSnf5_FiI7lMAh/1C811xoZ";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,26 +73,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 30, 2025 at 11:18:08AM +0530, Akhil P Oommen wrote:
-> PIPE enum definitions are backward compatible. So move its definition
-> to adreno_common.xml.
+--Sig_/MSnf5_FiI7lMAh/1C811xoZ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-What do you mean here by 'backward compatible'. Are they going to be
-used on a6xx? a5xx? If not, then why do we need to move them?
+On Thu, 14 Aug 2025 21:50:06 -0600
+Alex Hung <alex.hung@amd.com> wrote:
 
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> From: Harry Wentland <harry.wentland@amd.com>
+>=20
+> Certain operations require us to preserve values below 0.0 and
+> above 1.0 (0x0 and 0xffff respectively in 16 bpc unorm). One
+> such operation is a BT709 encoding operation followed by its
+> decoding operation, or the reverse.
+>=20
+> We'll use s32 values as intermediate in and outputs of our
+> color operations, for the operations where it matters.
+>=20
+> For now this won't apply to LUT operations. We might want to
+> update those to work on s32 as well, but it's unclear how
+> that should work for unorm LUT definitions. We'll revisit
+> that once we add LUT + CTM tests.
+>=20
+> In order to allow for this we'll also invert the nesting of our
+> colorop processing loops. We now use the pixel iteration loop
+> on the outside and the colorop iteration on the inside.
+
+Hi Alex,
+
+is this an out-dated paragraph in the commit message?
+
+I don't see the patch inverting the nesting of loops.
+
+That statement worried me, because changing the loop structures has
+tanked the performance before.
+
+
+Thanks,
+pq
+
+>=20
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Daniel Stone <daniels@collabora.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  10 +-
->  .../gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h  | 412 +++++++++---------
->  .../gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h  | 324 +++++++--------
->  .../gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h  | 462 ++++++++++-----------
->  drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   4 +-
->  .../gpu/drm/msm/registers/adreno/a7xx_enums.xml    |   7 -
->  .../gpu/drm/msm/registers/adreno/adreno_common.xml |  11 +
->  7 files changed, 617 insertions(+), 613 deletions(-)
-> 
+> v7:
+>  - Fix checkpatch warnings
+>   - Add a commit messages
+>   - Fix code styles by adding and removing spaces (new lines, tabs and so=
+ on)
+>=20
+> v6:
+>  - use clamp_val instead of manual clamping (Louis Chauvet)
+>=20
+> v4:
+>  - Clarify that we're packing 16-bit UNORM into s32, not
+>    converting values to a different representation (Pekka)
+>=20
+> v3:
+>  - Use new colorop->next pointer
+>=20
+>  drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++++++++++--
+>  drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++++
+>  2 files changed, 29 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index 0f3fcd6a5925..6630dccd68a4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -128,7 +128,7 @@ static void apply_lut(const struct vkms_crtc_state *c=
+rtc_state, struct line_buff
+>  	}
+>  }
+> =20
+> -static void apply_colorop(struct pixel_argb_u16 *pixel, struct drm_color=
+op *colorop)
+> +static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_color=
+op *colorop)
+>  {
+>  	struct drm_colorop_state *colorop_state =3D colorop->state;
+>  	struct drm_device *dev =3D colorop->dev;
+> @@ -157,9 +157,26 @@ static void apply_colorop(struct pixel_argb_u16 *pix=
+el, struct drm_colorop *colo
+>  static void pre_blend_color_transform(const struct vkms_plane_state *pla=
+ne_state,
+>  				      struct line_buffer *output_buffer)
+>  {
+> +	struct pixel_argb_s32 pixel;
+> +
+>  	for (size_t x =3D 0; x < output_buffer->n_pixels; x++) {
+>  		struct drm_colorop *colorop =3D plane_state->base.base.color_pipeline;
+> =20
+> +		/*
+> +		 * Some operations, such as applying a BT709 encoding matrix,
+> +		 * followed by a decoding matrix, require that we preserve
+> +		 * values above 1.0 and below 0.0 until the end of the pipeline.
+> +		 *
+> +		 * Pack the 16-bit UNORM values into s32 to give us head-room to
+> +		 * avoid clipping until we're at the end of the pipeline. Clip
+> +		 * intentionally at the end of the pipeline before packing
+> +		 * UNORM values back into u16.
+> +		 */
+> +		pixel.a =3D output_buffer->pixels[x].a;
+> +		pixel.r =3D output_buffer->pixels[x].r;
+> +		pixel.g =3D output_buffer->pixels[x].g;
+> +		pixel.b =3D output_buffer->pixels[x].b;
+> +
+>  		while (colorop) {
+>  			struct drm_colorop_state *colorop_state;
+> =20
+> @@ -169,10 +186,16 @@ static void pre_blend_color_transform(const struct =
+vkms_plane_state *plane_state
+>  				return;
+> =20
+>  			if (!colorop_state->bypass)
+> -				apply_colorop(&output_buffer->pixels[x], colorop);
+> +				apply_colorop(&pixel, colorop);
+> =20
+>  			colorop =3D colorop->next;
+>  		}
+> +
+> +		/* clamp values */
+> +		output_buffer->pixels[x].a =3D clamp_val(pixel.a, 0, 0xffff);
+> +		output_buffer->pixels[x].r =3D clamp_val(pixel.r, 0, 0xffff);
+> +		output_buffer->pixels[x].g =3D clamp_val(pixel.g, 0, 0xffff);
+> +		output_buffer->pixels[x].b =3D clamp_val(pixel.b, 0, 0xffff);
+>  	}
+>  }
+> =20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index 30941714cd0f..55440ec6db52 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -45,6 +45,10 @@ struct vkms_frame_info {
+>  	unsigned int rotation;
+>  };
+> =20
+> +struct pixel_argb_s32 {
+> +	s32 a, r, g, b;
+> +};
+> +
+>  /**
+>   * struct pixel_argb_u16 - Internal representation of a pixel color.
+>   * @a: Alpha component value, stored in 16 bits, without padding, using
 
--- 
-With best wishes
-Dmitry
+
+--Sig_/MSnf5_FiI7lMAh/1C811xoZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmjbgbwACgkQI1/ltBGq
+qqfqpQ/9EZLOoqVMV29vKrbbVrUKvfkWh5vKI0kGwrimngoXip8jMpSJXz2ZA2Hz
+dWpELMpwhZjEDGIkGlU7T7qCMbTO5fZiTFjiUpOW56SqjXq6xQU2N0FGx4bKOzSV
+7z/KEMWvkU4cnHSg2mlhz2sGML08FXQNQ1Yx3cqnSScR9b8OgqEhV2knP4A70jps
+4s4XW9+YDCTTtattiQD139RxOjlR7l9UngZihYXtyH7RlIqDYgzPYxt5j8nWUkug
+XO5iZgyrY99E2AqY8q936MOfTyuPZu70MQqQh1Sewu6ntUqtX86+7Iw9VtmXrUoH
+BLYxUwbBEupdXZlZx9y62h3Yr7/qZYmZsfsQ86FlG0Ih6n3b42ar/jlXGy5K2TOk
+CAHRSZBmWZ+X98lH9OjpFs5+s90ja/o2/MvsouzxhknfKrlU4DfTBKjo4JZQ5fTC
+Rq/0J0AKhEQG7ov5YAOCpAzmK2TCF284ZNBYsJRFowEXfOEfybV3VEnVmzvSaFEw
+uWhBRdJGrKFFlkZxQ9cxMVqLpxD7pTIr1ebkRYx9Z6PMdRi0psOPMX3I3gDGFPg5
+d9R2Sp2mAYC9t+fm1gKoTDgq9BvEB9IE2mapF8FDRtScV+/oY5VUWc4yfRJAmiIB
+Bi2QaZbeBuozMJpJeZ3LHwJUv0rmlHkPlkA1aERqj9HO7oTxQF4=
+=ECLi
+-----END PGP SIGNATURE-----
+
+--Sig_/MSnf5_FiI7lMAh/1C811xoZ--
