@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0149BAE0AE
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 18:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B42BAE131
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 18:42:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11A710E609;
-	Tue, 30 Sep 2025 16:31:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF53510E604;
+	Tue, 30 Sep 2025 16:42:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="g4tLbS+Y";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UprHlYym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF5010E2B5;
- Tue, 30 Sep 2025 16:31:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CED810E600;
+ Tue, 30 Sep 2025 16:42:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759249872;
- bh=KrP72lI1FFAU2CtrhllKwhHy148gk9UN/Wkcz+o+ngg=;
+ s=mail; t=1759250528;
+ bh=jguk/JSzmwgQx5dX/LxO/aT6uGm3rPlRw2544tHroQM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=g4tLbS+YDrZR5+xReW7WBOtYQiZFTrR36tzXP/piGDwK85kdUgalxR2uM5HSxQb+N
- 5976la+hwmd6cqqWFJEocRw1uesEkO9vuDgBU8XOKZQ4ed9iC73uVKYj2Lo7mDtdeJ
- sOjURRuVZewAjo+vk88vMvrnC8H4OC1nDdyMMG87h/F8/OEHKVxE/lPiryPCfloYnw
- RFW36AmuyIRWvrSiqblWxrkAsXf2D/4FTK3PTlWJ7Ms0cs218c8dYtxyOkSpzlnQJ/
- hWMI2O2+ecGS0YsHbbCc4vizwY7B+MymOeEvpVLKnHHsSC8e0GRGl/Q+EK+F8igYJ3
- iunHfmMC2LUQg==
+ b=UprHlYymrE1wHFS94X2ZBnAUqm9aNsgUCUOlzig/pmQXcpAZ73A3Tia1Of5aWIe/p
+ Hg6srSyneiERMdMKwL2Y70gerM0fbtzNW/3HL7F6MAP8JfZHU6TRCVLm5OFrVNyybG
+ DKagN9kmi2XMl3lrd9fOpVr4GPY19suaQx5YD7eZLhC/AoIRn55lPgn7URWj85tdgT
+ FlZjWRtPVV1NbTxi3bU8xIMoqMJrDPuN8WhViUSo2Zou+lipclEuJQ0wk/BggPaGj/
+ jxG4pvjhJDrMM7ZDNe28fy37ZyOBz6XpB8EMOasW6BybaQnWWvrspuOTSdF/c5ja3i
+ eVBNN3HKTsNKA==
 Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown
  [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 604E117E0AC3;
- Tue, 30 Sep 2025 18:31:11 +0200 (CEST)
-Message-ID: <d3b927b9-ddcb-492a-a72c-d42abbb11cff@collabora.com>
-Date: Tue, 30 Sep 2025 18:31:11 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 07CFC17E010B;
+ Tue, 30 Sep 2025 18:42:07 +0200 (CEST)
+Message-ID: <22680961-1a51-469a-93df-ee9a63b3fd66@collabora.com>
+Date: Tue, 30 Sep 2025 18:42:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/panthor: Introduce huge tmpfs mount point option
+Subject: Re: [PATCH 2/8] drm/gem: Introduce drm_gem_get_unmapped_area() fop
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -59,12 +59,14 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-mm@kvack.org, kernel@collabora.com
 References: <20250929200316.18417-1-loic.molinari@collabora.com>
- <20250929200316.18417-7-loic.molinari@collabora.com>
- <20250930123416.4ff59b11@fedora>
+ <20250929200316.18417-3-loic.molinari@collabora.com>
+ <20250930123003.75370854@fedora>
+ <cd9084e1-16d9-4fd6-9c64-1876d53d5225@collabora.com>
+ <20250930182920.5604ca49@fedora>
 Content-Language: fr
 From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
 Organization: Collabora Ltd
-In-Reply-To: <20250930123416.4ff59b11@fedora>
+In-Reply-To: <20250930182920.5604ca49@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,34 +84,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/09/2025 12:34, Boris Brezillon wrote:
-> On Mon, 29 Sep 2025 22:03:14 +0200
+On 30/09/2025 18:29, Boris Brezillon wrote:
+> On Tue, 30 Sep 2025 18:09:37 +0200
 > Loïc Molinari <loic.molinari@collabora.com> wrote:
 > 
->> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
->> index 4fc7cf2aeed5..54ca61567426 100644
->> --- a/drivers/gpu/drm/panthor/panthor_device.h
->> +++ b/drivers/gpu/drm/panthor/panthor_device.h
->> @@ -135,6 +135,9 @@ struct panthor_device {
->>   	/** @devfreq: Device frequency scaling management data. */
->>   	struct panthor_devfreq *devfreq;
->>   
->> +	/** @huge_mnt: tmpfs mount point with Transparent Hugepage enabled. */
->> +	struct vfsmount *huge_mnt;
+>> On 30/09/2025 12:30, Boris Brezillon wrote:
+>>> On Mon, 29 Sep 2025 22:03:10 +0200
+>>>
+>>> Loïc Molinari <loic.molinari@collabora.com> wrote:
+>>>> +unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
+>>>> +					unsigned long len, unsigned long pgoff,
+>>>> +					unsigned long flags)
+>>>> +{
+>>>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>>> +	struct drm_gem_object *obj;
+>>>> +	unsigned long ret;
+>>>> +
+>>>> +	obj = drm_gem_object_lookup_from_offset(filp, pgoff, len >> PAGE_SHIFT);
+>>>> +	if (IS_ERR(obj))
+>>>> +		return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+>>>> +					    flags);
+>>>> +
+>>>> +	ret = shmem_get_unmapped_area(obj->filp, uaddr, len, 0, flags);
+>>>> +
+>>>> +	drm_gem_object_put(obj);
+>>>> +
+>>>> +	return ret;
+>>>> +#else
+>>>> +	return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0, flags);
+>>>
+>>> Looks like the above code covers the non-THP case too, do we really need
+>>> to specialize for !CONFIG_TRANSPARENT_HUGEPAGE here?
+>>
+>> It does cover the !CONFIG_TRANSPARENT_HUGEPAGE case
+>> (shmem_get_unmapped_area() would just call and return the
+>> mm_get_unmapped_area() address) but the idea here is to avoid the GEM
+>> object lookup cost by calling mm_get_unmapped_area() directly.
 > 
-> Now that we have a helper to create a huge mountpoint, wouldn't it
-> make sense to have this field in drm_device instead of having each
-> driver add a huge_mnt field to their <driver>_device object.
+> I'd expect the extra GEM lookup to be negligible compared to the overall
+> mmap() operation to be honest, but I guess if we really want to avoid
+> the overhead, we could still write it without this ifdef.
+> 
+> 	if (!IS_ENABLED(TRANSPARENT_HUGEPAGE))
+> 		return mm_get_unmapped_area(current->mm, filp, uaddr,
+> 					    len, 0, flags);
+> 
+> 	...
+> 
+> My main concern is that shmem_get_unmapped_area() evolves with more
+> !TRANSPARENT_HUGEPAGE cases, and by calling mm_get_unmapped_area()
+> directly, we miss the opportunity to get optimizations for these cases,
+> just like we missed them by not forwarding the ->get_unmapped_area()
+> requests to the shmem layer so far.
 
-Not sure this should be enforced for all DRM drivers since most of them 
-don't create separate huge mountpoints (only 4 for now including this 
-patchset) and I guess some maintainers might prefer to depend on the 
-sysfs interace to enable huge pages.
+Yes, sounds like a very good point. I'll remove the ifdef and forward to 
+the shmem layer unconditionally.
 
->> +
->>   	/** @unplug: Device unplug related fields. */
->>   	struct {
->>   		/** @lock: Lock used to serialize unplug operations. */
+>>
+>>>> +#endif
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gem_get_unmapped_area);
+>>
+>> Loïc
 > 
 
-Loïc
