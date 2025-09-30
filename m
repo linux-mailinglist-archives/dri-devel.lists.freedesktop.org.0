@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A914BAB7DA
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8F7BAB7A7
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85C9310E4EA;
-	Tue, 30 Sep 2025 05:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2F010E4D6;
+	Tue, 30 Sep 2025 05:28:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="mJ2glgHc";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="G/ayGLZg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0D810E26C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:08 +0000 (UTC)
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20250930035709epoutp02255a0a037325765afd1b041de78d9c47~p80ottgLd2547825478epoutp02E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:57:09 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20250930035709epoutp02255a0a037325765afd1b041de78d9c47~p80ottgLd2547825478epoutp02E
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B13310E271
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:14 +0000 (UTC)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20250930035713epoutp0471d0d87e0237a320ca2ea7f5c1433375~p80tAWZr62088220882epoutp04d
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:57:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20250930035713epoutp0471d0d87e0237a320ca2ea7f5c1433375~p80tAWZr62088220882epoutp04d
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1759204629;
- bh=90Z5+idyqdBJGcoVaccmTCOSKICmqPHbK/q5Tgxv4h0=;
+ s=mail20170921; t=1759204634;
+ bh=tH//wEKkPD0mN/XZ520+YyflOs5F52gB0k8S3h5mZBU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mJ2glgHchKeFnrkOOpry5ZgjgKgQydQPa2mXcUsjA4rkuJtwJ9DrRxQHN2LVNJU6X
- t7LfTNu6LYMMGqo63EnbnZJVxQrgf2W/1FdTlsEtE0/NoPoLPNBDdrCEnREjw2mFpy
- /ReZcWvrDohWjPZqY5Ojl8oymVRIt9WGNFypZFTc=
+ b=G/ayGLZgGahhf2uhehlA/hudw6NRUO7uLu/jFYNerpSAx+/wd7K35PsUwZOErbJo+
+ jC9DUIwmEwqiVJKty9N5+tW6E7ni8UqVRRLd6t+tIR5iy7N+tWfQwzTTeImDUSDY5t
+ PbwVUZiKSOVMCKkL6SPypr7Sh1pD1AJyLu4ky2Uw=
 Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
- 20250930035708epcas5p346f73bcc6109e0ace86871b787727ae1~p80oIEuDq0175701757epcas5p3Q;
- Tue, 30 Sep 2025 03:57:08 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.94]) by
- epsnrtp02.localdomain (Postfix) with ESMTP id 4cbPQC57m1z2SSKX; Tue, 30 Sep
- 2025 03:57:07 +0000 (GMT)
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+ 20250930035713epcas5p478f4a650374a4e43bc194fddcf2de024~p80sdri5X2850128501epcas5p4D;
+ Tue, 30 Sep 2025 03:57:13 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.94]) by
+ epsnrtp02.localdomain (Postfix) with ESMTP id 4cbPQJ2j9Tz2SSKX; Tue, 30 Sep
+ 2025 03:57:12 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
  epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20250930035706epcas5p4530de9edacfc86c0ae1ab9de2d2b0695~p80mWWoVc3091130911epcas5p4N;
- Tue, 30 Sep 2025 03:57:06 +0000 (GMT)
+ 20250930035711epcas5p437e54e8c277ee98149fccb2d984a0e55~p80rBiQCq2850128501epcas5p4-;
+ Tue, 30 Sep 2025 03:57:11 +0000 (GMT)
 Received: from bose.samsungds.net (unknown [107.108.83.9]) by
  epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250930035704epsmtip178a5bdc23e431f79e2cf331e3fe6d553~p80jz6Y7p2938529385epsmtip1u;
- Tue, 30 Sep 2025 03:57:03 +0000 (GMT)
+ 20250930035707epsmtip12fab77d7330844e0539970d2f0511476~p80mvuVcm2931929319epsmtip1B;
+ Tue, 30 Sep 2025 03:57:06 +0000 (GMT)
 From: Himanshu Dewangan <h.dewangan@samsung.com>
 To: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -52,22 +52,22 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Himanshu Dewangan <h.dewangan@samsung.com>
-Subject: [PATCH 27/29] media: mfc: Add H.264 encoder support
-Date: Tue, 30 Sep 2025 09:33:46 +0530
-Message-Id: <20250930040348.3702923-28-h.dewangan@samsung.com>
+Subject: [PATCH 28/29] media: mfc: Add AVC, VP8, VP9, and HEVC encoding support
+Date: Tue, 30 Sep 2025 09:33:47 +0530
+Message-Id: <20250930040348.3702923-29-h.dewangan@samsung.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250930040348.3702923-1-h.dewangan@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250930035706epcas5p4530de9edacfc86c0ae1ab9de2d2b0695
+X-CMS-MailID: 20250930035711epcas5p437e54e8c277ee98149fccb2d984a0e55
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250930035706epcas5p4530de9edacfc86c0ae1ab9de2d2b0695
+X-CMS-RootMailID: 20250930035711epcas5p437e54e8c277ee98149fccb2d984a0e55
 References: <20250930040348.3702923-1-h.dewangan@samsung.com>
- <CGME20250930035706epcas5p4530de9edacfc86c0ae1ab9de2d2b0695@epcas5p4.samsung.com>
+ <CGME20250930035711epcas5p437e54e8c277ee98149fccb2d984a0e55@epcas5p4.samsung.com>
 X-Mailman-Approved-At: Tue, 30 Sep 2025 05:28:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,1449 +86,1435 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Nagaraju Siddineni <nagaraju.s@samsung.com>
 
-- Register H.264 format and V4L2/VB2 headers.
-- Initialize encoder context, queues, and defaults.
-- Add buffer‑control handling (layers, ROI, frame‑rate, drop,
-  profile/level) and parse DT properties.
-- Register encoder ioctl ops, set up QoS table, and extend debugfs.
+- Introduce generic codec‑mode macros for MPEG‑4, VP8, VP9, HEVC
+- Extend 4:2:2 format handling and IDR‑frame processing
+- Suppress IVF headers for VP8/VP9 when disabled
+- Enable multi‑core processing for HEVC and refine instance opening flow
+- Expand mfc_enc_params with codec‑specific fields
+  and raise resolution limits
+- Add new V4L2 controls (profiles, levels, QP, hierarchical coding,
+  golden frames, etc.)
+- Implement VP9 HDR, colour‑space mapping, HEVC ROI,
+  and extra debug logging
 
 Signed-off-by: Nagaraju Siddineni <nagaraju.s@samsung.com>
 Signed-off-by: Himanshu Dewangan <h.dewangan@samsung.com>
 ---
- .../samsung/exynos-mfc/base/mfc_format.h      |   8 +
- .../media/platform/samsung/exynos-mfc/mfc.c   | 193 ++++++-
- .../platform/samsung/exynos-mfc/mfc_core.c    |  26 +
- .../samsung/exynos-mfc/mfc_core_buf_ctrl.c    | 321 +++++++++++
- .../samsung/exynos-mfc/mfc_core_isr.c         | 518 +++++++++++++++++-
- .../samsung/exynos-mfc/mfc_core_sync.c        |  58 +-
- .../platform/samsung/exynos-mfc/mfc_debugfs.c |  17 +-
- 7 files changed, 1116 insertions(+), 25 deletions(-)
+ .../samsung/exynos-mfc/base/mfc_common.h      |  18 +-
+ .../samsung/exynos-mfc/base/mfc_data_struct.h | 127 ++++
+ .../samsung/exynos-mfc/mfc_core_enc_param.c   | 649 +++++++++++++++++-
+ .../samsung/exynos-mfc/mfc_enc_v4l2.c         | 439 +++++++++++-
+ 4 files changed, 1211 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/media/platform/samsung/exynos-mfc/base/mfc_format.h b/drivers/media/platform/samsung/exynos-mfc/base/mfc_format.h
-index 0d48f2373e8d..e8573d6b6005 100644
---- a/drivers/media/platform/samsung/exynos-mfc/base/mfc_format.h
-+++ b/drivers/media/platform/samsung/exynos-mfc/base/mfc_format.h
-@@ -263,6 +263,14 @@ static struct mfc_fmt mfc_formats[] = {
- 		.num_planes = 1,
- 		.mem_planes = 1,
- 	},
-+	{
-+		.name = "ENC H264",
-+		.fourcc = V4L2_PIX_FMT_H264,
-+		.codec_mode = MFC_REG_CODEC_H264_ENC,
-+		.type = MFC_FMT_STREAM | MFC_FMT_ENC,
-+		.num_planes = 1,
-+		.mem_planes = 1,
-+	},
+diff --git a/drivers/media/platform/samsung/exynos-mfc/base/mfc_common.h b/drivers/media/platform/samsung/exynos-mfc/base/mfc_common.h
+index bec6f88d5e44..30865588b69a 100644
+--- a/drivers/media/platform/samsung/exynos-mfc/base/mfc_common.h
++++ b/drivers/media/platform/samsung/exynos-mfc/base/mfc_common.h
+@@ -172,6 +172,11 @@
+ 
+ /* Encoder codec mode check */
+ #define IS_H264_ENC(ctx)	((ctx)->codec_mode == MFC_REG_CODEC_H264_ENC)
++#define IS_MPEG4_ENC(ctx)	((ctx)->codec_mode == MFC_REG_CODEC_MPEG4_ENC)
++#define IS_H263_ENC(ctx)	((ctx)->codec_mode == MFC_REG_CODEC_H263_ENC)
++#define IS_VP8_ENC(ctx)		((ctx)->codec_mode == MFC_REG_CODEC_VP8_ENC)
++#define IS_HEVC_ENC(ctx)	((ctx)->codec_mode == MFC_REG_CODEC_HEVC_ENC)
++#define IS_VP9_ENC(ctx)		((ctx)->codec_mode == MFC_REG_CODEC_VP9_ENC)
+ 
+ #define CODEC_NOT_CODED(ctx)	({							\
+ 	typeof(ctx) _ctx = (ctx);							\
+@@ -195,7 +200,8 @@
+ 
+ #define CODEC_422FORMAT(ctx)	({							\
+ 	typeof(ctx) _ctx = (ctx);							\
+-	(IS_HEVC_DEC(_ctx) || IS_VP9_DEC(_ctx));			\
++	(IS_HEVC_DEC(_ctx) || IS_HEVC_ENC(_ctx) || IS_VP9_DEC(_ctx) ||			\
++	 IS_VP9_ENC(_ctx));								\
+ })
+ #define ON_RES_CHANGE(ctx)	({							\
+ 	typeof(ctx) _ctx = (ctx);							\
+@@ -221,7 +227,7 @@
+ #define CODEC_HAS_IDR(ctx)	({							\
+ 	typeof(ctx) _ctx = (ctx);							\
+ 	(IS_H264_DEC(_ctx) || IS_H264_MVC_DEC(_ctx) || IS_HEVC_DEC(_ctx) ||		\
+-	 IS_H264_ENC(_ctx));					\
++	 IS_H264_ENC(_ctx) || IS_HEVC_ENC(_ctx));					\
+ })
+ 
+ // Buffer container
+@@ -229,7 +235,8 @@
+ #define IS_NO_HEADER_GENERATE(ctx, p)	({						\
+ 	typeof(ctx) _ctx = (ctx);							\
+ 	typeof(p) _p = (p);								\
+-	(_p->seq_hdr_mode == V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME);	\
++	((_p->seq_hdr_mode == V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME) ||	\
++	 ((IS_VP8_ENC(_ctx) ||	IS_VP9_ENC(_ctx)) && _p->ivf_header_disable));		\
+ })
+ 
+ /*
+@@ -332,6 +339,11 @@
+ 	 (OVER_UHD_RES(_ctx) && mfc_is_enc_bframe(_ctx)));			\
+ })
+ 
++#define IS_MULTI_MODE_ENC_CONDITION(ctx)	({				\
++	typeof(ctx) _ctx = (ctx);						\
++	((IS_HEVC_ENC(_ctx) &&	IS_MULTI_MODE_ENC_RES(_ctx)));			\
++})
++
+ #define IS_BLACKBAR_OFF(ctx)	((ctx)->crop_height > 2160)
+ 
+ #define IS_SINGLE_FD(ctx, fmt)	((!(ctx)->rgb_bpp) && ((fmt)->mem_planes == 1))
+diff --git a/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h b/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
+index 6d34905a1cba..cb20b19b75cc 100644
+--- a/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
++++ b/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
+@@ -1246,6 +1246,129 @@ struct mfc_h264_enc_params {
+ 	u32 vui_enable;
  };
  
- #endif /* __MFC_FORMAT_H */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc.c b/drivers/media/platform/samsung/exynos-mfc/mfc.c
-index db17448eae13..68cba41b45da 100644
---- a/drivers/media/platform/samsung/exynos-mfc/mfc.c
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc.c
-@@ -23,6 +23,8 @@
++/**
++ *
++ */
++struct mfc_mpeg4_enc_params {
++	/* MPEG4 Only */
++	enum v4l2_mpeg_video_mpeg4_profile profile;
++	u8 level;
++	u8 quarter_pixel;
++	u8 rc_b_frame_qp;
++	/* Common for MPEG4, H263 */
++	u8 rc_frame_qp;
++	u8 rc_min_qp;
++	u8 rc_max_qp;
++	u8 rc_min_qp_p;
++	u8 rc_max_qp_p;
++	u8 rc_min_qp_b;
++	u8 rc_max_qp_b;
++	u8 rc_p_frame_qp;
++	u16 vop_frm_delta;
++};
++
++/**
++ *
++ */
++struct mfc_vp9_enc_params {
++	/* VP9 Only */
++	u8 profile;
++	u8 level;
++	u8 rc_min_qp;
++	u8 rc_max_qp;
++	u8 rc_min_qp_p;
++	u8 rc_max_qp_p;
++	u8 rc_frame_qp;
++	u8 rc_p_frame_qp;
++	u16 vp9_gfrefreshperiod;
++	u8 vp9_goldenframesel;
++	u8 hier_qp_enable;
++	u8 num_hier_layer;
++	u8 hier_qp_layer[3];
++	u32 hier_bit_layer[3];
++	u8 max_partition_depth;
++	u8 intra_pu_split_disable;
++};
++
++/**
++ *
++ */
++struct mfc_vp8_enc_params {
++	/* VP8 Only */
++	u8 vp8_version;
++	u8 rc_min_qp;
++	u8 rc_max_qp;
++	u8 rc_min_qp_p;
++	u8 rc_max_qp_p;
++	u8 rc_frame_qp;
++	u8 rc_p_frame_qp;
++	u8 vp8_numberofpartitions;
++	u8 vp8_filterlevel;
++	u8 vp8_filtersharpness;
++	u16 vp8_gfrefreshperiod;
++	u8 vp8_goldenframesel;
++	u8 intra_4x4mode_disable;
++	u8 num_hier_layer;
++	u8 hier_qp_enable;
++	u8 hier_qp_layer[3];
++	u32 hier_bit_layer[3];
++};
++
++/**
++ *
++ */
++struct mfc_hevc_enc_params {
++	u8 profile;
++	u8 level;
++	u8 tier_flag;
++	/* HEVC Only */
++	u8 rc_min_qp;
++	u8 rc_max_qp;
++	u8 rc_min_qp_p;
++	u8 rc_max_qp_p;
++	u8 rc_min_qp_b;
++	u8 rc_max_qp_b;
++	u8 rc_lcu_dark;
++	u8 rc_lcu_smooth;
++	u8 rc_lcu_static;
++	u8 rc_lcu_activity;
++	u8 rc_frame_qp;
++	u8 rc_p_frame_qp;
++	u8 rc_b_frame_qp;
++	u8 max_partition_depth;
++	u8 refreshtype;
++	u16 refreshperiod;
++	s32 lf_beta_offset_div2;
++	s32 lf_tc_offset_div2;
++	u8 loopfilter_disable;
++	u8 loopfilter_across;
++	u8 nal_control_length_filed;
++	u8 nal_control_user_ref;
++	u8 nal_control_store_ref;
++	u8 const_intra_period_enable;
++	u8 lossless_cu_enable;
++	u8 wavefront_enable;
++	enum v4l2_mpeg_video_hevc_hier_coding_type hier_qp_type;
++	u8 enable_ltr;
++	u8 hier_qp_enable;
++	u8 hier_ref_type;
++	u8 num_hier_layer;
++	u32 hier_bit_layer[7];
++	u8 hier_qp_layer[7];
++	u8 general_pb_enable;
++	u8 temporal_id_enable;
++	u8 strong_intra_smooth;
++	u8 intra_pu_split_disable;
++	u8 tmv_prediction_disable;
++	u8 max_num_merge_mv;
++	u8 eco_mode_enable;
++	u8 encoding_nostartcode_enable;
++	u8 size_of_length_field;
++	u8 user_ref;
++	u8 store_ref;
++	u8 prepend_sps_pps_to_idr;
++};
++
+ /**
+  *
+  */
+@@ -1327,6 +1450,10 @@ struct mfc_enc_params {
  
- #include "mfc_dec_v4l2.h"
- #include "mfc_dec_vb2.h"
-+#include "mfc_enc_v4l2.h"
-+#include "mfc_enc_vb2.h"
- #include "mfc_rm.h"
- #include "mfc_debugfs.h"
+ 	union {
+ 		struct mfc_h264_enc_params h264;
++		struct mfc_mpeg4_enc_params mpeg4;
++		struct mfc_vp8_enc_params vp8;
++		struct mfc_vp9_enc_params vp9;
++		struct mfc_hevc_enc_params hevc;
+ 	} codec;
+ };
  
-@@ -228,6 +230,107 @@ static int __mfc_init_dec_ctx(struct mfc_ctx *ctx)
- 	return ret;
- }
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_enc_param.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_enc_param.c
+index 9ff949df04ab..aea8d9c9b7ea 100644
+--- a/drivers/media/platform/samsung/exynos-mfc/mfc_core_enc_param.c
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_enc_param.c
+@@ -19,6 +19,20 @@
+ #define CBR_I_LIMIT_WFD			6
+ #define CBR_I_LIMIT_MAX			5
  
-+static void __mfc_deinit_enc_ctx(struct mfc_ctx *ctx)
-+{
-+	struct mfc_enc *enc = ctx->enc_priv;
++static int mfc_colorspace_to_rgb_format_ctrl[][2] = {
++	{ MFC_COLORSPACE_UNSPECIFICED,	1}, /* Unknown */
++	{ MFC_COLORSPACE_BT601,		0}, /* Rec. ITU-R BT.601-7 */
++	{ MFC_COLORSPACE_BT709,		1}, /* Rec. ITU-R BT.709-6 */
++	{ MFC_COLORSPACE_SMPTE_170,	0}, /* SMPTE-170 */
++	{ MFC_COLORSPACE_SMPTE_240,	0}, /* SMPTE-240 */
++	{ MFC_COLORSPACE_BT2020,	1}, /* Rec. ITU-R BT.2020-2 */
++	{ MFC_COLORSPACE_RESERVED,	1}, /* Reserved */
++	{ MFC_COLORSPACE_SRGB,		1}, /* sRGB (IEC 61966-2-1) */
++	{ MFC_COLORSPACE_UNSPECIFICED,	1}, /* Unknown */
++	{ MFC_COLORSPACE_UNSPECIFICED,	1}, /* Unknown */
++	{ MFC_COLORSPACE_UNSPECIFICED,	1}, /* Unknown */
++};
 +
-+	mfc_delete_queue(&ctx->src_buf_ready_queue);
-+	mfc_delete_queue(&ctx->dst_buf_queue);
-+	mfc_delete_queue(&ctx->ref_buf_queue);
-+	mfc_delete_queue(&ctx->err_buf_queue);
-+	mfc_delete_queue(&ctx->meminfo_inbuf_q);
-+	mfc_delete_queue(&ctx->meminfo_outbuf_q);
+ static int mfc_transfer_to_rgb_format_ctrl[][2] = {
+ 	{ MFC_TRANSFER_RESERVED,	1},
+ 	{ MFC_TRANSFER_BT709,		1},
+@@ -226,6 +240,11 @@ static int __mfc_get_rgb_format_ctrl(struct mfc_ctx *ctx, struct mfc_enc_params
+ 	if (ctx->dev->pdata->enc_rgb_csc_by_fw) {
+ 		ret = 3;
+ 		mfc_ctx_debug(2, "[RGB] coefficients of CSC formula using VUI by F/W\n");
++	} else if (IS_VP9_ENC(ctx)) {
++		ret = mfc_colorspace_to_rgb_format_ctrl[p->colour_primaries][1];
++		mfc_ctx_debug(2, "[RGB] VP9 color space %d converts to RGB format ctrl %s\n",
++			      p->colour_primaries, ret ? "BT.709" : "BT.601");
 +
-+	mfc_mem_cleanup_user_shared_handle(ctx, &enc->sh_handle_svc);
-+	mfc_mem_cleanup_user_shared_handle(ctx, &enc->sh_handle_roi);
-+
-+	kfree(enc);
-+}
-+
-+static int __mfc_init_enc_ctx(struct mfc_ctx *ctx)
-+{
-+	struct mfc_enc *enc;
-+	struct mfc_enc_params *p;
-+	int ret = 0;
-+	int i;
-+
-+	enc = kzalloc(sizeof(*enc), GFP_KERNEL);
-+	if (!enc)
-+		return -ENOMEM;
-+
-+	ctx->enc_priv = enc;
-+	ctx->user_prio = -1;
-+
-+	mfc_create_queue(&ctx->src_buf_ready_queue);
-+	mfc_create_queue(&ctx->dst_buf_queue);
-+	mfc_create_queue(&ctx->ref_buf_queue);
-+	mfc_create_queue(&ctx->err_buf_queue);
-+	mfc_create_queue(&ctx->meminfo_inbuf_q);
-+	mfc_create_queue(&ctx->meminfo_outbuf_q);
-+
-+	for (i = 0; i < MFC_MAX_BUFFERS; i++) {
-+		INIT_LIST_HEAD(&ctx->src_ctrls[i]);
-+		INIT_LIST_HEAD(&ctx->dst_ctrls[i]);
-+	}
-+	bitmap_zero(ctx->src_ctrls_avail, MFC_MAX_BUFFERS);
-+	bitmap_zero(ctx->dst_ctrls_avail, MFC_MAX_BUFFERS);
-+
-+	ctx->type = MFCINST_ENCODER;
-+	ctx->c_ops = &mfc_ctrls_ops;
-+	ctx->b_ops = &mfc_bufs_ops;
-+
-+	mfc_enc_set_default_format(ctx);
-+	mfc_rate_reset_framerate(ctx);
-+
-+	ctx->qos_ratio = 100;
-+
-+	/* disable IVF header by default (VP8, VP9) */
-+	p = &enc->params;
-+	p->ivf_header_disable = 1;
-+
-+	INIT_LIST_HEAD(&ctx->bitrate_list);
-+	INIT_LIST_HEAD(&ctx->src_ts.ts_list);
-+
-+	enc->sh_handle_svc.fd = -1;
-+	enc->sh_handle_roi.fd = -1;
-+	enc->sh_handle_svc.data_size = sizeof(struct temporal_layer_info);
-+	enc->sh_handle_roi.data_size = sizeof(struct mfc_enc_roi_info);
-+
-+	/* Init videobuf2 queue for OUTPUT */
-+	ctx->vq_src.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-+	ctx->vq_src.drv_priv = ctx;
-+	ctx->vq_src.buf_struct_size = (unsigned int)sizeof(struct mfc_buf);
-+	ctx->vq_src.io_modes = VB2_USERPTR | VB2_DMABUF;
-+	ctx->vq_src.ops = mfc_get_enc_vb2_ops();
-+	ctx->vq_src.mem_ops = mfc_mem_ops();
-+	ctx->vq_src.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+	ret = vb2_queue_init(&ctx->vq_src);
-+	if (ret) {
-+		mfc_ctx_err("Failed to initialize videobuf2 queue(output)\n");
-+		goto fail_enc_init;
-+	}
-+
-+	/* Init videobuf2 queue for CAPTURE */
-+	ctx->vq_dst.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-+	ctx->vq_dst.drv_priv = ctx;
-+	ctx->vq_dst.buf_struct_size = (unsigned int)sizeof(struct mfc_buf);
-+	ctx->vq_dst.io_modes = VB2_USERPTR | VB2_DMABUF;
-+	ctx->vq_dst.ops = mfc_get_enc_vb2_ops();
-+	ctx->vq_dst.mem_ops = mfc_mem_ops();
-+	ctx->vq_dst.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+	ret = vb2_queue_init(&ctx->vq_dst);
-+	if (ret) {
-+		mfc_ctx_err("Failed to initialize videobuf2 queue(capture)\n");
-+		goto fail_enc_init;
-+	}
-+
-+	return 0;
-+
-+fail_enc_init:
-+	__mfc_deinit_enc_ctx(ctx);
-+	return 0;
-+}
-+
- /* Open an MFC node */
- static int mfc_open(struct file *file)
- {
-@@ -339,6 +442,7 @@ static int mfc_open(struct file *file)
- 		ret = __mfc_init_dec_ctx(ctx);
- 		dev->num_dec_inst++;
  	} else {
-+		ret = __mfc_init_enc_ctx(ctx);
- 		dev->num_enc_inst++;
+ 		ret = mfc_transfer_to_rgb_format_ctrl[p->transfer_characteristics][1];
+ 		mfc_ctx_debug(2, "[RGB] transfer %d converts to RGB format ctrl %s\n",
+@@ -246,7 +265,8 @@ static void __mfc_set_video_signal_type(struct mfc_core *core, struct mfc_ctx *c
+ 		/* VIDEO_SIGNAL_TYPE_FLAG */
+ 		mfc_set_bits(reg, 0x1, 31, 0x1);
+ 		/* COLOUR_DESCRIPTION_PRESENT_FLAG */
+-		mfc_set_bits(reg, 0x1, 24, 0x1);
++		if (!IS_VP9_ENC(ctx))
++			mfc_set_bits(reg, 0x1, 24, 0x1);
+ 	} else if (MFC_FEATURE_SUPPORT(dev, dev->pdata->color_aspect_enc) &&
+ 		   p->check_color_range) {
+ 		/* VIDEO_SIGNAL_TYPE_FLAG */
+@@ -254,23 +274,29 @@ static void __mfc_set_video_signal_type(struct mfc_core *core, struct mfc_ctx *c
+ 		/* COLOR_RANGE */
+ 		if (!(ctx->src_fmt->type & MFC_FMT_RGB))
+ 			mfc_set_bits(reg, 0x1, 25, p->color_range);
+-
+-		if (p->colour_primaries &&
+-		    p->transfer_characteristics &&
+-		    p->matrix_coefficients != 3) {
+-			/* COLOUR_DESCRIPTION_PRESENT_FLAG */
+-			mfc_set_bits(reg, 0x1, 24, 0x1);
+-			/* COLOUR_PRIMARIES */
+-			mfc_set_bits(reg, 0xFF, 16, p->colour_primaries);
+-			/* TRANSFER_CHARACTERISTICS */
+-			mfc_set_bits(reg, 0xFF, 8, p->transfer_characteristics);
+-			/* MATRIX_COEFFICIENTS */
+-			mfc_set_bits(reg, 0xFF, 0, p->matrix_coefficients);
++		if (IS_VP9_ENC(ctx)) {
++			/* COLOR_SPACE: VP9 uses colour_primaries interface for color space */
++			mfc_set_bits(reg, 0x1F, 26, p->colour_primaries);
++			mfc_ctx_debug(2, "[HDR] VP9 ENC Color aspect: range(%s), space(%d)\n",
++				      p->color_range ? "Full" : "Limited", p->colour_primaries);
++		} else {
++			if (p->colour_primaries &&
++			    p->transfer_characteristics &&
++			    p->matrix_coefficients != 3) {
++				/* COLOUR_DESCRIPTION_PRESENT_FLAG */
++				mfc_set_bits(reg, 0x1, 24, 0x1);
++				/* COLOUR_PRIMARIES */
++				mfc_set_bits(reg, 0xFF, 16, p->colour_primaries);
++				/* TRANSFER_CHARACTERISTICS */
++				mfc_set_bits(reg, 0xFF, 8, p->transfer_characteristics);
++				/* MATRIX_COEFFICIENTS */
++				mfc_set_bits(reg, 0xFF, 0, p->matrix_coefficients);
++			}
++			mfc_ctx_debug(2, "[HDR] %s ENC Color aspect: range(%s), pri(%d), trans(%d), mat(%d)\n",
++				      IS_HEVC_ENC(ctx) ? "HEVC" : "H264",
++				      p->color_range ? "Full" : "Limited", p->colour_primaries,
++				      p->transfer_characteristics, p->matrix_coefficients);
+ 		}
+-		mfc_ctx_debug(2, "[HDR] %s ENC Color aspect: range(%s), pri(%d), trans(%d), mat(%d)\n",
+-			      "H264",
+-			      p->color_range ? "Full" : "Limited", p->colour_primaries,
+-			      p->transfer_characteristics, p->matrix_coefficients);
  	}
- 	if (ret)
-@@ -351,8 +455,8 @@ static int mfc_open(struct file *file)
- 		/* idle mode */
- 		spin_lock_init(&dev->idle_bits_lock);
- 	}
--	if (mfc_is_decoder_node(node))
--		ret = call_cop(ctx, init_ctx_ctrls, ctx);
-+
-+	ret = call_cop(ctx, init_ctx_ctrls, ctx);
- 	if (ret) {
- 		mfc_ctx_err("failed in init_ctx_ctrls\n");
- 		goto err_ctx_init;
-@@ -449,12 +553,10 @@ static int mfc_release(struct file *file)
- 	 * So, we need to performed stop_streaming
- 	 * before instance de-init(CLOSE_INSTANCE).
- 	 */
--	if (ctx->type == MFCINST_DECODER) {
--		vb2_queue_release(&ctx->vq_src);
--		vb2_queue_release(&ctx->vq_dst);
-+	vb2_queue_release(&ctx->vq_src);
-+	vb2_queue_release(&ctx->vq_dst);
+ 	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_VIDEO_SIGNAL_TYPE);
+ }
+@@ -510,6 +536,9 @@ static void __mfc_set_enc_params(struct mfc_core *core, struct mfc_ctx *ctx)
+ 			if (IS_H264_ENC(ctx))
+ 				p->codec.h264.hier_qp_type =
+ 					V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P;
++			else if (IS_HEVC_ENC(ctx))
++				p->codec.hevc.hier_qp_type =
++					V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_P;
+ 			mfc_ctx_info("forcely can't be use B frame for 8K or 4K %d fps\n", fps);
+ 		}
+ 		if (p->num_refs_for_p > 1) {
+@@ -829,10 +858,596 @@ static void __mfc_set_enc_params_h264(struct mfc_core *core,
+ 	mfc_ctx_debug_leave();
+ }
  
--		call_cop(ctx, cleanup_ctx_ctrls, ctx);
--	}
-+	call_cop(ctx, cleanup_ctx_ctrls, ctx);
- 
- 	ret = mfc_rm_instance_deinit(dev, ctx);
- 	if (ret) {
-@@ -471,6 +573,7 @@ static int mfc_release(struct file *file)
- 		__mfc_deinit_dec_ctx(ctx);
- 		dev->num_dec_inst--;
- 	} else if (ctx->type == MFCINST_ENCODER) {
-+		__mfc_deinit_enc_ctx(ctx);
- 		dev->num_enc_inst--;
- 	}
- 
-@@ -609,6 +712,12 @@ static int __mfc_parse_dt(struct device_node *np, struct mfc_dev *mfc)
- 	of_property_read_u32_array
- 		(np, "static_info_dec",
- 		&pdata->static_info_dec.support, 2);
-+	of_property_read_u32_array
-+		(np, "color_aspect_enc",
-+		&pdata->color_aspect_enc.support, 2);
-+	of_property_read_u32_array
-+		(np, "static_info_enc",
-+		&pdata->static_info_enc.support, 2);
- 	of_property_read_u32_array
- 		(np, "vp9_stride_align",
- 		&pdata->vp9_stride_align.support, 2);
-@@ -618,6 +727,30 @@ static int __mfc_parse_dt(struct device_node *np, struct mfc_dev *mfc)
- 	of_property_read_u32_array
- 		(np, "wait_fw_status",
- 		&pdata->wait_fw_status.support, 2);
-+	of_property_read_u32_array
-+		(np, "average_qp",
-+		&pdata->average_qp.support, 2);
-+	of_property_read_u32_array
-+		(np, "mv_search_mode",
-+		&pdata->mv_search_mode.support, 2);
-+	of_property_read_u32_array
-+		(np, "enc_idr_flag",
-+		&pdata->enc_idr_flag.support, 2);
-+	of_property_read_u32_array
-+		(np, "min_quality_mode",
-+		&pdata->min_quality_mode.support, 2);
-+	of_property_read_u32_array
-+		(np, "enc_capability",
-+		&pdata->enc_capability.support, 2);
-+	of_property_read_u32_array
-+		(np, "enc_ts_delta",
-+		&pdata->enc_ts_delta.support, 2);
-+	of_property_read_u32_array
-+		(np, "wfd_rc_mode",
-+		&pdata->wfd_rc_mode.support, 2);
-+	of_property_read_u32_array
-+		(np, "max_i_frame_size",
-+		&pdata->max_i_frame_size.support, 2);
- 	of_property_read_u32_array
- 		(np, "hevc_pic_output_flag",
- 		&pdata->hevc_pic_output_flag.support, 2);
-@@ -630,10 +763,14 @@ static int __mfc_parse_dt(struct device_node *np, struct mfc_dev *mfc)
- 
- 	/* Formats */
- 	of_property_read_u32(np, "support_422", &pdata->support_422);
-+	of_property_read_u32(np, "support_rgb", &pdata->support_rgb);
- 
- 	/* Resolution */
- 	of_property_read_u32(np, "support_check_res", &pdata->support_check_res);
- 
-+	/* HWAPG */
-+	of_property_read_u32(np, "support_hwapg", &pdata->support_hwapg);
-+
- 	/* HWACG */
- 	of_property_read_u32(np, "support_hwacg", &pdata->support_hwacg);
- 
-@@ -643,6 +780,39 @@ static int __mfc_parse_dt(struct device_node *np, struct mfc_dev *mfc)
- 	/* output buffer Q framerate */
- 	of_property_read_u32(np, "display_framerate", &pdata->display_framerate);
- 
-+	/* Encoder default parameter */
-+	of_property_read_u32(np, "enc_param_num", &pdata->enc_param_num);
-+	if (pdata->enc_param_num) {
-+		of_property_read_u32_array
-+			(np, "enc_param_addr",
-+			pdata->enc_param_addr, pdata->enc_param_num);
-+		of_property_read_u32_array
-+			(np, "enc_param_val",
-+			pdata->enc_param_val, pdata->enc_param_num);
-+	}
-+
-+	/* MFC bandwidth information */
-+	of_property_read_u32_array
-+		(np, "bw_enc_h264",
-+		&pdata->mfc_bw_info.bw_enc_h264.peak, 3);
-+	of_property_read_u32_array
-+		(np, "bw_enc_hevc",
-+		&pdata->mfc_bw_info.bw_enc_hevc.peak, 3);
-+	of_property_read_u32_array
-+		(np, "bw_enc_hevc_10bit",
-+		&pdata->mfc_bw_info.bw_enc_hevc_10bit.peak, 3);
-+	of_property_read_u32_array
-+		(np, "bw_enc_vp8",
-+		&pdata->mfc_bw_info.bw_enc_vp8.peak, 3);
-+	of_property_read_u32_array
-+		(np, "bw_enc_vp9",
-+		&pdata->mfc_bw_info.bw_enc_vp9.peak, 3);
-+	of_property_read_u32_array
-+		(np, "bw_enc_vp9_10bit",
-+		&pdata->mfc_bw_info.bw_enc_vp9_10bit.peak, 3);
-+	of_property_read_u32_array
-+		(np, "bw_enc_mpeg4",
-+		&pdata->mfc_bw_info.bw_enc_mpeg4.peak, 3);
- 	of_property_read_u32_array
- 		(np, "bw_dec_h264",
- 		&pdata->mfc_bw_info.bw_dec_h264.peak, 3);
-@@ -745,6 +915,11 @@ static int __mfc_parse_dt(struct device_node *np, struct mfc_dev *mfc)
- 	of_property_read_u32(np, "scheduler", &pdata->scheduler);
- 	of_property_read_u32(np, "pbs_num_prio", &pdata->pbs_num_prio);
- 
-+	/* Encoder RGB CSC formula by VUI from F/W */
-+	of_property_read_u32(np, "enc_rgb_csc_by_fw", &pdata->enc_rgb_csc_by_fw);
-+
-+	of_property_read_u32(np, "support_enc_mode1", &pdata->support_enc_mode1);
-+
- 	of_property_read_u32(np, "support_mv_hevc", &pdata->support_mv_hevc);
- 
- 	return 0;
-@@ -771,7 +946,7 @@ static struct video_device *__mfc_video_device_register
- 	if (IS_DEC_NODE(node_num))
- 		vfd->ioctl_ops = mfc_get_dec_v4l2_ioctl_ops();
- 	else if (IS_ENC_NODE(node_num))
--		vfd->ioctl_ops = NULL;
-+		vfd->ioctl_ops = mfc_get_enc_v4l2_ioctl_ops();
- 
- 	vfd->lock = &dev->mfc_mutex;
- 	vfd->v4l2_dev = &dev->v4l2_dev;
-@@ -1126,7 +1301,7 @@ static const struct dev_pm_ops mfc_pm_ops = {
- struct mfc_ctx_buf_size mfc_ctx_buf_size = {
- 	.dev_ctx	= PAGE_ALIGN(0x7800),	/*  30KB */
- 	.h264_dec_ctx	= PAGE_ALIGN(0x200000),	/* 1.6MB */
--	.av1_dec_ctx	= PAGE_ALIGN(0x19000),	/* 100KB */
-+	.av1_dec_ctx    = PAGE_ALIGN(0x19000),  /* 100KB */
- 	.other_dec_ctx	= PAGE_ALIGN(0xF000),	/*  60KB */
- 	.h264_enc_ctx	= PAGE_ALIGN(0x19000),	/* 100KB */
- 	.hevc_enc_ctx	= PAGE_ALIGN(0xC800),	/*  50KB */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core.c
-index aad3273ce2ba..2d9c2ffef0d4 100644
---- a/drivers/media/platform/samsung/exynos-mfc/mfc_core.c
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core.c
-@@ -29,6 +29,7 @@
- #include "mfc_core_ops.h"
- #include "mfc_core_isr.h"
- #include "mfc_dec_v4l2.h"
-+#include "mfc_enc_v4l2.h"
- #include "mfc_debugfs.h"
- 
- #include "mfc_core_hwlock.h"
-@@ -79,6 +80,8 @@ static int __mfc_core_parse_mfc_qos_platdata(struct device_node *np,
- 	of_property_read_u32(np_qos, "mo_value", &qosdata->mo_value);
- 	of_property_read_u32(np_qos, "mo_10bit_value",
- 			     &qosdata->mo_10bit_value);
-+	of_property_read_u32(np_qos, "mo_uhd_enc60_value",
-+			     &qosdata->mo_uhd_enc60_value);
- 	of_property_read_u32(np_qos, "time_fw", &qosdata->time_fw);
- 
- 	of_property_read_string(np_qos, "bts_scen", &qosdata->name);
-@@ -214,6 +217,8 @@ static int __mfc_core_parse_dt(struct device_node *np, struct mfc_core *core)
- 	/* QoS */
- 	of_property_read_u32(np, "num_default_qos_steps",
- 			     &pdata->num_default_qos_steps);
-+	of_property_read_u32(np, "num_encoder_qos_steps",
-+			     &pdata->num_encoder_qos_steps);
- 	of_property_read_u32(np, "max_mb", &pdata->max_mb);
- 	of_property_read_u32(np, "max_hw_mb", &pdata->max_hw_mb);
- 	of_property_read_u32(np, "mfc_freq_control", &pdata->mfc_freq_control);
-@@ -233,6 +238,18 @@ static int __mfc_core_parse_dt(struct device_node *np, struct mfc_core *core)
- 						  core);
- 	}
- 
-+	pdata->encoder_qos_table = devm_kzalloc(core->device,
-+						sizeof(struct mfc_qos) *
-+						pdata->num_encoder_qos_steps,
-+						GFP_KERNEL);
-+	for (i = 0; i < pdata->num_encoder_qos_steps; i++) {
-+		snprintf(node_name, sizeof(node_name), "mfc_e_qos_variant_%d",
-+			 i);
-+		__mfc_core_parse_mfc_qos_platdata(np, node_name,
-+						  &pdata->encoder_qos_table[i],
-+						  core);
-+	}
-+
- 	/* performance boost mode */
- 	pdata->qos_boost_table = devm_kzalloc(core->device,
- 					      sizeof(struct mfc_qos_boost),
-@@ -466,6 +483,15 @@ static int mfc_core_probe(struct platform_device *pdev)
- 		     core->core_pdata->default_qos_table[i].freq_mif,
- 		     core->core_pdata->default_qos_table[i].name,
- 		     core->core_pdata->default_qos_table[i].bts_scen_idx);
-+	mfc_core_info("[QoS]-------------------Encoder only table\n");
-+	for (i = 0; i < core->core_pdata->num_encoder_qos_steps; i++)
-+		mfc_core_info
-+		    ("[QoS] table[%d] mfc: %d, int: %d, mif: %d, bts_scen: %s(%d)\n",
-+		     i, core->core_pdata->encoder_qos_table[i].freq_mfc,
-+		     core->core_pdata->encoder_qos_table[i].freq_int,
-+		     core->core_pdata->encoder_qos_table[i].freq_mif,
-+		     core->core_pdata->encoder_qos_table[i].name,
-+		     core->core_pdata->encoder_qos_table[i].bts_scen_idx);
- #if IS_ENABLED(CONFIG_SAMSUNG_IOMMU)
- 	ret = samsung_iommu_register_fault_handler(core->device,
- 						   mfc_core_sysmmu_fault_handler,
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_buf_ctrl.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_buf_ctrl.c
-index 38f09d6ef2dd..cc0a20bea33a 100644
---- a/drivers/media/platform/samsung/exynos-mfc/mfc_core_buf_ctrl.c
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_buf_ctrl.c
-@@ -11,6 +11,250 @@
- 
- #include "mfc_core_reg_api.h"
- 
-+static void __mfc_enc_store_buf_ctrls_temporal_svc(int id,
-+						   struct mfc_enc_params *p,
-+						   struct temporal_layer_info
-+						   *temporal_LC)
++static void __mfc_set_enc_params_mpeg4(struct mfc_core *core,
++				       struct mfc_ctx *ctx)
 +{
-+	unsigned int num_layer = temporal_LC->temporal_layer_count;
++	struct mfc_enc *enc = ctx->enc_priv;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_mpeg4_enc_params *p_mpeg4 = &p->codec.mpeg4;
++	unsigned int reg = 0;
++
++	mfc_ctx_debug_enter();
++
++	p->rc_framerate_res = FRAME_RATE_RESOLUTION;
++	__mfc_set_enc_params(core, ctx);
++
++	/* set gop_size with I_FRM_CTRL mode */
++	__mfc_set_gop_size(core, ctx, 1);
++
++	/* profile & level */
++	reg = 0;
++	/** level */
++	mfc_set_bits(reg, 0xFF, 8, p_mpeg4->level);
++	/** profile - 0 ~ 1 */
++	mfc_set_bits(reg, 0x3F, 0, p_mpeg4->profile);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_PICTURE_PROFILE);
++
++	/* quarter_pixel */
++	/* MFC_CORE_RAW_WRITEL(p_mpeg4->quarter_pixel, MFC_REG_ENC_MPEG4_QUART_PXL); */
++
++	/* qp */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_FIXED_PICTURE_QP);
++	mfc_clear_set_bits(reg, 0xFF, 24, p->config_qp);
++	mfc_clear_set_bits(reg, 0xFF, 16, p_mpeg4->rc_b_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 8, p_mpeg4->rc_p_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_FIXED_PICTURE_QP);
++
++	/* rate control config. */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_CONFIG);
++	/** frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_CONFIG);
++
++	/* max & min value of QP for I frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND);
++	/** max I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_mpeg4->rc_max_qp);
++	/** min I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_min_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND);
++
++	/* max & min value of QP for P/B frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND_PB);
++	/** max B frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 24, p_mpeg4->rc_max_qp_b);
++	/** min B frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 16, p_mpeg4->rc_min_qp_b);
++	/** max P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_mpeg4->rc_max_qp_p);
++	/** min P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_min_qp_p);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND_PB);
++
++	/* initialize for '0' only setting*/
++	MFC_CORE_RAW_WRITEL(0x0, MFC_REG_E_MPEG4_OPTIONS); /* SEQ_start only */
++	MFC_CORE_RAW_WRITEL(0x0, MFC_REG_E_MPEG4_HEC_PERIOD); /* SEQ_start only */
++
++	mfc_ctx_debug_leave();
++}
++
++static void __mfc_set_enc_params_h263(struct mfc_core *core,
++				      struct mfc_ctx *ctx)
++{
++	struct mfc_enc *enc = ctx->enc_priv;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_mpeg4_enc_params *p_mpeg4 = &p->codec.mpeg4;
++	unsigned int reg = 0;
++
++	mfc_ctx_debug_enter();
++
++	/* For H.263 only 8 bit is used and maximum value can be 0xFF */
++	p->rc_framerate_res = U8_MAX;
++	__mfc_set_enc_params(core, ctx);
++
++	/* set gop_size with I_FRM_CTRL mode */
++	__mfc_set_gop_size(core, ctx, 1);
++
++	/* profile & level: supports only baseline profile Level 70 */
++
++	/* qp */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_FIXED_PICTURE_QP);
++	mfc_clear_set_bits(reg, 0xFF, 24, p->config_qp);
++	mfc_clear_set_bits(reg, 0xFF, 8, p_mpeg4->rc_p_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_FIXED_PICTURE_QP);
++
++	/* rate control config. */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_CONFIG);
++	/** frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_CONFIG);
++
++	/* max & min value of QP for I frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND);
++	/** max I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_mpeg4->rc_max_qp);
++	/** min I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_min_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND);
++
++	/* max & min value of QP for P/B frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND_PB);
++	/** max P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_mpeg4->rc_max_qp_p);
++	/** min P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_mpeg4->rc_min_qp_p);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND_PB);
++
++	mfc_ctx_debug_leave();
++}
++
++static void __mfc_set_enc_params_vp8(struct mfc_core *core, struct mfc_ctx *ctx)
++{
++	struct mfc_enc *enc = ctx->enc_priv;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_vp8_enc_params *p_vp8 = &p->codec.vp8;
++	unsigned int reg = 0;
 +	int i;
 +
-+	switch (id) {
-+	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER_CH:
-+		p->codec.h264.num_hier_layer = num_layer & 0x7;
-+		for (i = 0; i < (num_layer & 0x7); i++)
-+			p->codec.h264.hier_bit_layer[i] =
-+			    temporal_LC->temporal_layer_bitrate[i];
-+		break;
-+	default:
-+		break;
-+	}
-+}
++	mfc_ctx_debug_enter();
 +
-+static void __mfc_core_enc_set_buf_ctrls_temporal_svc(struct mfc_core *core,
-+						      struct mfc_ctx *ctx,
-+						      struct mfc_buf_ctrl
-+						      *buf_ctrl)
-+{
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	unsigned int value = 0, value2 = 0;
-+	struct temporal_layer_info temporal_LC;
-+	unsigned int i;
-+	struct mfc_enc_params *p = &enc->params;
++	p->rc_framerate_res = FRAME_RATE_RESOLUTION;
++	__mfc_set_enc_params(core, ctx);
 +
-+	if (buf_ctrl->id
-+	    == V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER_CH) {
-+		memcpy(&temporal_LC,
-+		       enc->sh_handle_svc.vaddr,
-+		       sizeof(struct temporal_layer_info));
-+
-+		if ((temporal_LC.temporal_layer_count & 0x7) < 1) {
-+			/* clear NUM_T_LAYER_CHANGE */
-+			value = MFC_CORE_READL(buf_ctrl->flag_addr);
-+			value &= ~BIT(10);
-+			MFC_CORE_WRITEL(value, buf_ctrl->flag_addr);
-+			mfc_ctx_err
-+			    ("[HIERARCHICAL] layer count is invalid : %d\n",
-+			     temporal_LC.temporal_layer_count);
-+			return;
-+		}
-+
-+		value = MFC_CORE_READL(buf_ctrl->flag_addr);
-+		value &= ~(0x3 << 21);
-+
-+		MFC_CORE_WRITEL(value, buf_ctrl->flag_addr);
-+
-+		/* Store temporal layer information */
-+		__mfc_enc_store_buf_ctrls_temporal_svc(buf_ctrl->id, p,
-+						       &temporal_LC);
-+
-+		/* enable RC_BIT_RATE_CHANGE */
-+		value = MFC_CORE_READL(buf_ctrl->flag_addr);
-+		if (temporal_LC.temporal_layer_bitrate[0] > 0 ||
-+		    p->hier_bitrate_ctrl)
-+			/* set RC_BIT_RATE_CHANGE */
-+			value |= BIT(2);
-+		else
-+			/* clear RC_BIT_RATE_CHANGE */
-+			value &= ~BIT(2);
-+		MFC_CORE_WRITEL(value, buf_ctrl->flag_addr);
-+
-+		mfc_ctx_debug(3,
-+			      "[HIERARCHICAL] layer count %d, E_PARAM_CHANGE %#x\n",
-+			      temporal_LC.temporal_layer_count & 0x7, value);
-+
-+		value = MFC_CORE_READL(MFC_REG_E_NUM_T_LAYER);
-+		buf_ctrl->old_val2 = value;
-+		value &= ~(0x7);
-+		value |= (temporal_LC.temporal_layer_count & 0x7);
-+		value &= ~BIT(8);
-+		value |= (p->hier_bitrate_ctrl & 0x1) << 8;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_NUM_T_LAYER);
-+		mfc_ctx_debug(3, "[HIERARCHICAL] E_NUM_T_LAYER %#x\n", value);
-+		for (i = 0; i < (temporal_LC.temporal_layer_count & 0x7); i++) {
-+			mfc_ctx_debug(3,
-+				      "[HIERARCHICAL] layer bitrate[%d] %d (FW ctrl: %d)\n",
-+				      i, temporal_LC.temporal_layer_bitrate[i],
-+				      p->hier_bitrate_ctrl);
-+			MFC_CORE_WRITEL(temporal_LC.temporal_layer_bitrate[i],
-+					buf_ctrl->addr + i * 4);
-+		}
-+		/* priority change */
-+		if (IS_H264_ENC(ctx)) {
-+			value = 0;
-+			value2 = 0;
-+			for (i = 0; i < (p->codec.h264.num_hier_layer & 0x07);
-+			     i++) {
-+				if (i <= 4)
-+					value |=
-+					    ((p->codec.h264.base_priority & 0x3F) + i)
-+					    << (6 * i);
-+				else
-+					value2 |=
-+					    ((p->codec.h264.base_priority & 0x3F) + i)
-+					    << (6 * (i - 5));
-+			}
-+			MFC_CORE_WRITEL(value,
-+					MFC_REG_E_H264_HD_SVC_EXTENSION_0);
-+			MFC_CORE_WRITEL(value2,
-+					MFC_REG_E_H264_HD_SVC_EXTENSION_1);
-+			mfc_ctx_debug(3,
-+				      "[HIERARCHICAL] EXTENSION0 %#x, EXTENSION1 %#x\n",
-+				      value, value2);
-+
-+			value = MFC_CORE_READL(buf_ctrl->flag_addr);
-+			value |= BIT(12);
-+			MFC_CORE_WRITEL(value, buf_ctrl->flag_addr);
-+			mfc_ctx_debug(3, "[HIERARCHICAL] E_PARAM_CHANGE %#x\n",
-+				      value);
-+		}
-+	}
-+
-+	/* temproral layer priority */
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_H264_BASE_PRIORITY) {
-+		value = MFC_CORE_READL(MFC_REG_E_H264_HD_SVC_EXTENSION_0);
-+		buf_ctrl->old_val |= value & 0x3FFFFFC0;
-+		value &= ~(0x3FFFFFC0);
-+		value2 = MFC_CORE_READL(MFC_REG_E_H264_HD_SVC_EXTENSION_1);
-+		buf_ctrl->old_val2 = value2 & 0x0FFF;
-+		value2 &= ~(0x0FFF);
-+		for (i = 0; i < (p->codec.h264.num_hier_layer & 0x07); i++) {
-+			if (i <= 4)
-+				value |=
-+				    ((buf_ctrl->val & 0x3F) + i) << (6 * i);
-+			else
-+				value2 |=
-+				    ((buf_ctrl->val & 0x3F) +
-+				     i) << (6 * (i - 5));
-+		}
-+		MFC_CORE_WRITEL(value, MFC_REG_E_H264_HD_SVC_EXTENSION_0);
-+		MFC_CORE_WRITEL(value2, MFC_REG_E_H264_HD_SVC_EXTENSION_1);
-+		mfc_ctx_debug(3,
-+			      "[HIERARCHICAL] EXTENSION0 %#x, EXTENSION1 %#x\n",
-+			      value, value2);
-+	}
-+}
-+
-+static void __mfc_core_enc_set_buf_ctrls_exception(struct mfc_core *core,
-+						   struct mfc_ctx *ctx,
-+						   struct mfc_buf_ctrl
-+						   *buf_ctrl)
-+{
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	struct mfc_enc_params *p = &enc->params;
-+	unsigned int value = 0;
-+
-+	/* temporal layer setting */
-+	__mfc_core_enc_set_buf_ctrls_temporal_svc(core, ctx, buf_ctrl);
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_H264_MARK_LTR) {
-+		value = MFC_CORE_READL(MFC_REG_E_H264_NAL_CONTROL);
-+		buf_ctrl->old_val2 = (value >> 8) & 0x7;
-+		value &= ~(0x7 << 8);
-+		value |= (buf_ctrl->val & 0x7) << 8;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_H264_NAL_CONTROL);
-+	}
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_H264_USE_LTR) {
-+		value = MFC_CORE_READL(MFC_REG_E_H264_NAL_CONTROL);
-+		buf_ctrl->old_val2 = (value >> 11) & 0xF;
-+		value &= ~GENMASK(14, 11);
-+		value |= (buf_ctrl->val & 0xF) << 11;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_H264_NAL_CONTROL);
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC51_VIDEO_I_PERIOD_CH) {
-+		value = MFC_CORE_READL(MFC_REG_E_GOP_CONFIG2);
-+		buf_ctrl->old_val |= (value << 16) & 0x3FFF0000;
-+		value &= ~(0x3FFF);
-+		value |= (buf_ctrl->val >> 16) & 0x3FFF;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_GOP_CONFIG2);
-+	}
-+
-+	/* PROFILE & LEVEL have to be set up together */
-+	if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_H264_LEVEL) {
-+		value = MFC_CORE_READL(MFC_REG_E_PICTURE_PROFILE);
-+		buf_ctrl->old_val |= (value & 0x000F) << 8;
-+		value &= ~(0x000F);
-+		value |= p->codec.h264.profile & 0x000F;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_PICTURE_PROFILE);
-+		p->codec.h264.level = buf_ctrl->val;
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_H264_PROFILE) {
-+		value = MFC_CORE_READL(MFC_REG_E_PICTURE_PROFILE);
-+		buf_ctrl->old_val |= value & 0xFF00;
-+		value &= ~(0x00FF << 8);
-+		value |= (p->codec.h264.level << 8) & 0xFF00;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_PICTURE_PROFILE);
-+		p->codec.h264.profile = buf_ctrl->val;
-+	}
-+
-+	/* set the ROI buffer DVA */
-+	if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_ROI_CONTROL) {
-+		MFC_CORE_DMA_WRITEL(enc->roi_buf[buf_ctrl->old_val2].daddr,
-+				    MFC_REG_E_ROI_BUFFER_ADDR);
-+		mfc_ctx_debug(3, "[ROI] buffer[%d] addr %#llx, QP val: %#x\n",
-+			      buf_ctrl->old_val2,
-+			      enc->roi_buf[buf_ctrl->old_val2].daddr,
-+			      buf_ctrl->val);
-+	}
-+
-+	/* set frame rate change with delta */
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC51_VIDEO_FRAME_RATE_CH) {
-+		p->rc_frame_delta = p->rc_framerate_res / buf_ctrl->val;
-+		value = MFC_CORE_READL(buf_ctrl->addr);
-+		value &= ~(buf_ctrl->mask << buf_ctrl->shft);
-+		value |=
-+		    ((p->rc_frame_delta & buf_ctrl->mask) << buf_ctrl->shft);
-+		MFC_CORE_WRITEL(value, buf_ctrl->addr);
-+	}
-+
-+	/* set drop control */
-+	if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_DROP_CONTROL) {
-+		p->rc_frame_delta = mfc_enc_get_ts_delta(ctx);
-+		value = MFC_CORE_READL(MFC_REG_E_RC_FRAME_RATE);
-+		value &= ~(0xFFFF);
-+		value |= (p->rc_frame_delta & 0xFFFF);
-+		MFC_CORE_WRITEL(value, MFC_REG_E_RC_FRAME_RATE);
-+		if (ctx->src_ts.ts_last_interval)
-+			mfc_ctx_debug(3,
-+				      "[DROPCTRL] fps %d -> %ld, delta: %d, reg: %#x\n",
-+				      p->rc_framerate,
-+				      USEC_PER_SEC /
-+				      ctx->src_ts.ts_last_interval,
-+				      p->rc_frame_delta, value);
-+		else
-+			mfc_ctx_debug(3,
-+				      "[DROPCTRL] fps %d -> 0, delta: %d, reg: %#x\n",
-+				      p->rc_framerate, p->rc_frame_delta,
-+				      value);
-+	}
-+
-+	/* store last config qp value in F/W */
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_CONFIG_QP)
-+		enc->config_qp = p->config_qp;
-+}
-+
- static int mfc_core_set_buf_ctrls(struct mfc_core *core,
- 				  struct mfc_ctx *ctx, struct list_head *head)
- {
-@@ -51,6 +295,10 @@ static int mfc_core_set_buf_ctrls(struct mfc_core *core,
- 		if (buf_ctrl->id == V4L2_CID_MPEG_MFC51_VIDEO_FRAME_TAG)
- 			ctx->stored_tag = buf_ctrl->val;
- 
-+		if (ctx->type == MFCINST_ENCODER)
-+			__mfc_core_enc_set_buf_ctrls_exception(core, ctx,
-+							       buf_ctrl);
-+
- 		mfc_ctx_debug(6,
- 			      "[CTRLS] Set buffer control id: 0x%08x, val: %d (%#x)\n",
- 			      buf_ctrl->id, buf_ctrl->val, buf_ctrl->val);
-@@ -64,6 +312,7 @@ static int mfc_core_get_buf_ctrls(struct mfc_core *core,
- {
- 	struct mfc_buf_ctrl *buf_ctrl;
- 	struct mfc_dec *dec = ctx->dec_priv;
-+	struct mfc_enc *enc = ctx->enc_priv;
- 	unsigned int value = 0;
- 
- 	list_for_each_entry(buf_ctrl, head, list) {
-@@ -89,6 +338,10 @@ static int mfc_core_get_buf_ctrls(struct mfc_core *core,
- 		if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_FRAME_ERROR_TYPE)
- 			buf_ctrl->val = mfc_get_frame_error_type(ctx, value);
- 
-+		if (buf_ctrl->id == V4L2_CID_MPEG_MFC51_VIDEO_FRAME_STATUS)
-+			if (enc)
-+				buf_ctrl->val = !enc->in_slice;
-+
- 		mfc_ctx_debug(6,
- 			      "[CTRLS] Get buffer control id: 0x%08x, val: %d (%#x)\n",
- 			      buf_ctrl->id, buf_ctrl->val, buf_ctrl->val);
-@@ -97,6 +350,69 @@ static int mfc_core_get_buf_ctrls(struct mfc_core *core,
- 	return 0;
- }
- 
-+static void __mfc_core_enc_recover_buf_ctrls_exception(struct mfc_core *core,
-+						       struct mfc_ctx *ctx,
-+						       struct mfc_buf_ctrl
-+						       *buf_ctrl)
-+{
-+	unsigned int value = 0;
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC51_VIDEO_I_PERIOD_CH) {
-+		value = MFC_CORE_READL(MFC_REG_E_GOP_CONFIG2);
-+		value &= ~(0x3FFF);
-+		value |= (buf_ctrl->old_val >> 16) & 0x3FFF;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_GOP_CONFIG2);
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_H264_LEVEL) {
-+		value = MFC_CORE_READL(MFC_REG_E_PICTURE_PROFILE);
-+		value &= ~(0x000F);
-+		value |= (buf_ctrl->old_val >> 8) & 0x000F;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_PICTURE_PROFILE);
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_VIDEO_H264_PROFILE) {
-+		value = MFC_CORE_READL(MFC_REG_E_PICTURE_PROFILE);
-+		value &= ~(0xFF00);
-+		value |= buf_ctrl->old_val & 0xFF00;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_PICTURE_PROFILE);
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_H264_BASE_PRIORITY) {
-+		MFC_CORE_WRITEL(buf_ctrl->old_val,
-+				MFC_REG_E_H264_HD_SVC_EXTENSION_0);
-+		MFC_CORE_WRITEL(buf_ctrl->old_val2,
-+				MFC_REG_E_H264_HD_SVC_EXTENSION_1);
-+	}
-+
-+	if (buf_ctrl->id ==
-+	    V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER_CH ||
-+	    buf_ctrl->id ==
-+	    V4L2_CID_MPEG_VIDEO_VP8_HIERARCHICAL_CODING_LAYER_CH ||
-+	    buf_ctrl->id ==
-+	    V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_CH) {
-+		MFC_CORE_WRITEL(buf_ctrl->old_val2, MFC_REG_E_NUM_T_LAYER);
-+		/* clear RC_BIT_RATE_CHANGE */
-+		value = MFC_CORE_READL(buf_ctrl->flag_addr);
-+		value &= ~BIT(2);
-+		MFC_CORE_WRITEL(value, buf_ctrl->flag_addr);
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_H264_MARK_LTR) {
-+		value = MFC_CORE_READL(MFC_REG_E_H264_NAL_CONTROL);
-+		value &= ~(0x7 << 8);
-+		value |= (buf_ctrl->old_val2 & 0x7) << 8;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_H264_NAL_CONTROL);
-+	}
-+
-+	if (buf_ctrl->id == V4L2_CID_MPEG_MFC_H264_USE_LTR) {
-+		value = MFC_CORE_READL(MFC_REG_E_H264_NAL_CONTROL);
-+		value &= ~GENMASK(14, 11);
-+		value |= (buf_ctrl->old_val2 & 0xF) << 11;
-+		MFC_CORE_WRITEL(value, MFC_REG_E_H264_NAL_CONTROL);
-+	}
-+}
-+
- static int mfc_core_recover_buf_ctrls(struct mfc_core *core,
- 				      struct mfc_ctx *ctx,
- 				      struct list_head *head)
-@@ -125,6 +441,11 @@ static int mfc_core_recover_buf_ctrls(struct mfc_core *core,
- 			MFC_CORE_WRITEL(value, buf_ctrl->flag_addr);
- 		}
- 
-+		/* Exception */
-+		if (ctx->type == MFCINST_ENCODER)
-+			__mfc_core_enc_recover_buf_ctrls_exception(core, ctx,
-+								   buf_ctrl);
-+
- 		buf_ctrl->updated = 0;
- 		mfc_ctx_debug(6,
- 			      "[CTRLS] Recover buffer control id: 0x%08x, old val: %d\n",
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
-index aa2c0b618c19..1a3cf7e76e29 100644
---- a/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
-@@ -777,6 +777,9 @@ static void __mfc_handle_error_state(struct mfc_ctx *ctx, struct mfc_core_ctx *c
- 	/* Mark all src buffers as having an error */
- 	mfc_cleanup_queue(&ctx->buf_queue_lock, &ctx->src_buf_ready_queue);
- 	mfc_cleanup_queue(&ctx->buf_queue_lock, &core_ctx->src_buf_queue);
-+	if (ctx->type == MFCINST_ENCODER)
-+		mfc_cleanup_queue(&ctx->buf_queue_lock, &ctx->ref_buf_queue);
-+	/* Mark all NAL_Q buffers as having an error */
- }
- 
- void mfc_core_handle_error(struct mfc_core *core)
-@@ -885,6 +888,11 @@ static void __mfc_handle_frame_error(struct mfc_core *core,
- 	unsigned int index;
- 	enum vb2_buffer_state vb2_state;
- 
-+	if (ctx->type == MFCINST_ENCODER) {
-+		mfc_info("Encoder Interrupt Error (err: %d)\n", mfc_get_err(err));
-+		return;
-+	}
-+
- 	dec = ctx->dec_priv;
- 	if (!dec) {
- 		mfc_err("no mfc decoder to run\n");
-@@ -1267,12 +1275,428 @@ static void __mfc_handle_frame(struct mfc_core *core,
- 	mfc_debug(2, "Assesing whether this context should be run again\n");
- }
- 
--static inline void __mfc_handle_done_frame(struct mfc_core *core,
--					   struct mfc_ctx *ctx,
--					   unsigned int reason,
--					   unsigned int err)
-+static void __mfc_handle_error_input(struct mfc_core *core, struct mfc_ctx *ctx)
-+{
-+	struct mfc_buf *mfc_buf = NULL;
-+	int index;
-+
-+	while (1) {
-+		mfc_buf = mfc_get_del_buf(ctx, &ctx->err_buf_queue, MFC_BUF_NO_TOUCH_USED);
-+		if (!mfc_buf)
-+			break;
-+
-+		index = mfc_buf->vb.vb2_buf.index;
-+
-+		if (call_bop(ctx, core_recover_buf_ctrls, core, ctx,
-+			     &ctx->src_ctrls[index]) < 0)
-+			mfc_ctx_err("failed in core_recover_buf_ctrls\n");
-+
-+		if (call_bop(ctx, core_get_buf_ctrls, core, ctx,
-+			     &ctx->src_ctrls[index]) < 0)
-+			mfc_ctx_err("failed in core_get_buf_ctrls\n");
-+
-+		mfc_ctx_info("find src buf(fd: %d) in err_queue\n",
-+			     mfc_buf->vb.vb2_buf.planes[0].m.fd);
-+		mfc_clear_mb_flag(mfc_buf);
-+		mfc_set_mb_flag(mfc_buf, MFC_FLAG_CONSUMED_ONLY);
-+		vb2_buffer_done(&mfc_buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-+	}
-+}
-+
-+static void __mfc_handle_stream_copy_timestamp(struct mfc_ctx *ctx, struct mfc_buf *src_mb)
-+{
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	struct mfc_enc_params *p = &enc->params;
-+	struct mfc_buf *dst_mb;
-+	u64 interval;
-+	u64 start_timestamp;
-+	u64 new_timestamp;
-+
-+	start_timestamp = src_mb->vb.vb2_buf.timestamp;
-+	interval = NSEC_PER_SEC / p->rc_framerate;
-+	if (ctx->dev->debugfs.debug_ts == 1)
-+		mfc_ctx_info("[BUFCON][TS] %dfps, start timestamp: %lld, base interval: %lld\n",
-+			     p->rc_framerate, start_timestamp, interval);
-+
-+	new_timestamp = start_timestamp + (interval * src_mb->done_index);
-+	if (ctx->dev->debugfs.debug_ts == 1)
-+		mfc_ctx_info("[BUFCON][TS] new timestamp: %lld, interval: %lld\n",
-+			     new_timestamp, interval * src_mb->done_index);
-+
-+	/* Get the destination buffer */
-+	dst_mb = mfc_get_buf(ctx, &ctx->dst_buf_queue, MFC_BUF_NO_TOUCH_USED);
-+	if (dst_mb)
-+		dst_mb->vb.vb2_buf.timestamp = new_timestamp;
-+}
-+
-+static void __mfc_handle_stream_input(struct mfc_core *core, struct mfc_ctx *ctx,
-+				      int consumed_only)
- {
--	__mfc_handle_frame(core, ctx, reason, err);
-+	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
-+	struct mfc_raw_info *raw;
-+	struct mfc_buf *ref_mb, *src_mb;
-+	dma_addr_t enc_addr[3] = { 0, 0, 0 };
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	int i, found_in_src_queue = 0;
-+	unsigned int index;
-+
-+	raw = &ctx->raw_buf;
-+
-+	mfc_core_get_enc_frame_buffer(core, ctx, &enc_addr[0], raw->num_planes);
-+	if (enc_addr[0] == 0) {
-+		mfc_debug(3, "no encoded src\n");
-+
-+		if (enc->fake_src && enc->params.num_b_frame) {
-+			mfc_change_state(core_ctx, MFCINST_FINISHING);
-+			enc->fake_src = 0;
-+			mfc_debug(2, "clear fake_src and change to FINISHING\n");
-+		}
-+
-+		goto move_buf;
-+	}
-+	for (i = 0; i < raw->num_planes; i++)
-+		mfc_debug(2, "[BUFINFO] ctx[%d] get src addr[%d]: 0x%08llx\n",
-+			  ctx->num, i, enc_addr[i]);
-+
-+	if (ctx->multi_view_enable &&
-+	    ctx->select_view == MFC_VIEW_ID_MAIN) {
-+		mfc_debug(2, "not handling src_mb to reuse for VIEW_1\n");
-+		return;
-+	}
-+
-+	if (IS_BUFFER_BATCH_MODE(ctx)) {
-+		src_mb = mfc_find_first_buf(ctx, &core_ctx->src_buf_queue, enc_addr[0]);
-+		if (src_mb) {
-+			found_in_src_queue = 1;
-+
-+			__mfc_handle_stream_copy_timestamp(ctx, src_mb);
-+			src_mb->done_index++;
-+			mfc_debug(4, "[BUFCON] batch buf done_index: %d\n", src_mb->done_index);
-+
-+			index = src_mb->vb.vb2_buf.index;
-+			/* single buffer || last image in a buffer container */
-+			if (!src_mb->num_valid_bufs ||
-+			    src_mb->done_index == src_mb->num_valid_bufs) {
-+				if (consumed_only) {
-+					mfc_clear_mb_flag(src_mb);
-+					mfc_set_mb_flag(src_mb, MFC_FLAG_CONSUMED_ONLY);
-+				}
-+
-+				if (call_bop(ctx, core_recover_buf_ctrls, core, ctx,
-+					     &ctx->src_ctrls[index]) < 0)
-+					mfc_err("failed in core_recover_buf_ctrls\n");
-+
-+				if (call_bop(ctx, core_get_buf_ctrls, core, ctx,
-+					     &ctx->src_ctrls[index]) < 0)
-+					mfc_err("failed in core_get_buf_ctrls\n");
-+
-+				src_mb = mfc_find_del_buf(ctx,
-+							  &core_ctx->src_buf_queue,
-+							  enc_addr[0]);
-+				if (src_mb) {
-+					for (i = 0; i < raw->num_planes; i++)
-+						mfc_bufcon_put_daddr(ctx, src_mb, i);
-+					vb2_buffer_done(&src_mb->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+				}
-+			}
-+		}
++	if (p_vp8->num_hier_layer & 0x3) {
++		/* set gop_size without i_frm_ctrl mode */
++		__mfc_set_gop_size(core, ctx, 0);
 +	} else {
-+		/* normal single buffer */
-+		src_mb = mfc_find_del_buf(ctx, &core_ctx->src_buf_queue, enc_addr[0]);
-+		if (src_mb) {
-+			found_in_src_queue = 1;
-+			index = src_mb->vb.vb2_buf.index;
-+			if (consumed_only) {
-+				mfc_clear_mb_flag(src_mb);
-+				mfc_set_mb_flag(src_mb, MFC_FLAG_CONSUMED_ONLY);
-+			}
-+
-+			if (call_bop(ctx, core_recover_buf_ctrls, core, ctx,
-+				     &ctx->src_ctrls[index]) < 0)
-+				mfc_err("failed in core_recover_buf_ctrls\n");
-+
-+			if (call_bop(ctx, core_get_buf_ctrls, core, ctx,
-+				     &ctx->src_ctrls[index]) < 0)
-+				mfc_err("failed in core_get_buf_ctrls\n");
-+
-+			mfc_debug(3, "find src buf in src_queue\n");
-+			vb2_buffer_done(&src_mb->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+		} else {
-+			mfc_debug(3, "no src buf in src_queue\n");
-+			ref_mb = mfc_find_del_buf(ctx, &ctx->ref_buf_queue, enc_addr[0]);
-+			if (ref_mb) {
-+				index = ref_mb->vb.vb2_buf.index;
-+				if (consumed_only) {
-+					mfc_clear_mb_flag(ref_mb);
-+					mfc_set_mb_flag(ref_mb, MFC_FLAG_CONSUMED_ONLY);
-+				}
-+
-+				if (call_bop(ctx, core_recover_buf_ctrls, core, ctx,
-+					     &ctx->src_ctrls[index]) < 0)
-+					mfc_err("failed in core_recover_buf_ctrls\n");
-+
-+				if (call_bop(ctx, core_get_buf_ctrls, core, ctx,
-+					     &ctx->src_ctrls[index]) < 0)
-+					mfc_err("failed in core_get_buf_ctrls\n");
-+
-+				mfc_debug(3, "find src buf in ref_queue\n");
-+				vb2_buffer_done(&ref_mb->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+			} else {
-+				mfc_err("couldn't find src buffer\n");
-+			}
-+		}
++		/* set gop_size with i_frm_ctrl mode */
++		__mfc_set_gop_size(core, ctx, 1);
 +	}
 +
-+move_buf:
-+	/* move enqueued src buffer: src queue -> ref queue */
-+	if (!found_in_src_queue && core_ctx->state != MFCINST_FINISHING) {
-+		mfc_get_move_buf_used(ctx, &ctx->ref_buf_queue, &core_ctx->src_buf_queue);
++	/* profile*/
++	reg = 0;
++	mfc_set_bits(reg, 0xF, 0, p_vp8->vp8_version);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_PICTURE_PROFILE);
 +
-+		mfc_debug(2, "enc src_buf_queue(%d) -> ref_buf_queue(%d)\n",
-+			  mfc_get_queue_count(&ctx->buf_queue_lock, &core_ctx->src_buf_queue),
-+			  mfc_get_queue_count(&ctx->buf_queue_lock, &ctx->ref_buf_queue));
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_VP8_OPTION);
++	/* if num_refs_for_p is 2, the performance falls by half */
++	mfc_clear_set_bits(reg, 0x1, 0, (p->num_refs_for_p - 1));
++	/* vp8 partition is possible as below value: 1/2/4/8 */
++	if (p_vp8->vp8_numberofpartitions & 0x1) {
++		if (p_vp8->vp8_numberofpartitions > 1)
++			mfc_ctx_err("partition should be even num (%d)\n",
++				    p_vp8->vp8_numberofpartitions);
++		p_vp8->vp8_numberofpartitions = (p_vp8->vp8_numberofpartitions & ~0x1);
++	}
++	mfc_clear_set_bits(reg, 0xF, 3, p_vp8->vp8_numberofpartitions);
++	mfc_clear_set_bits(reg, 0x1, 10, p_vp8->intra_4x4mode_disable);
++	/* Temporal SVC - hier qp enable */
++	mfc_clear_set_bits(reg, 0x1, 11, p_vp8->hier_qp_enable);
++	/* Disable IVF header */
++	mfc_clear_set_bits(reg, 0x1, 12, p->ivf_header_disable);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_VP8_OPTION);
++
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_VP8_GOLDEN_FRAME_OPTION);
++	mfc_clear_set_bits(reg, 0x1, 0, p_vp8->vp8_goldenframesel);
++	mfc_clear_set_bits(reg, 0xFFFF, 1, p_vp8->vp8_gfrefreshperiod);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_VP8_GOLDEN_FRAME_OPTION);
++
++	/* Temporal SVC - layer number */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_NUM_T_LAYER);
++	mfc_clear_set_bits(reg, 0x7, 0, p_vp8->num_hier_layer);
++	mfc_clear_set_bits(reg, 0x7, 4, 0x3);
++	mfc_clear_set_bits(reg, 0x1, 8, p->hier_bitrate_ctrl);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_NUM_T_LAYER);
++	mfc_ctx_debug(3, "[HIERARCHICAL] hier_qp_enable %d, num_hier_layer %d, NUM_T_LAYER 0x%x\n",
++		      p_vp8->hier_qp_enable, p_vp8->num_hier_layer, reg);
++
++	/* QP & Bitrate for each layer */
++	for (i = 0; i < 3; i++) {
++		MFC_CORE_RAW_WRITEL(p_vp8->hier_qp_layer[i],
++				    MFC_REG_E_HIERARCHICAL_QP_LAYER0 + i * 4);
++		/* If hier_bitrate_ctrl is set to 1, this is meaningless */
++		MFC_CORE_RAW_WRITEL(p_vp8->hier_bit_layer[i],
++				    MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER0 + i * 4);
++		mfc_ctx_debug(3, "[HIERARCHICAL] layer[%d] QP: %#x, bitrate: %#x(FW ctrl: %d)\n",
++			      i, p_vp8->hier_qp_layer[i],
++			      p_vp8->hier_bit_layer[i], p->hier_bitrate_ctrl);
++	}
++
++	reg = 0;
++	mfc_set_bits(reg, 0x7, 0, p_vp8->vp8_filtersharpness);
++	mfc_set_bits(reg, 0x3F, 8, p_vp8->vp8_filterlevel);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_VP8_FILTER_OPTION);
++
++	/* qp */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_FIXED_PICTURE_QP);
++	mfc_clear_set_bits(reg, 0xFF, 24, p->config_qp);
++	mfc_clear_set_bits(reg, 0xFF, 8, p_vp8->rc_p_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp8->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_FIXED_PICTURE_QP);
++
++	/* rate control config. */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_CONFIG);
++	/** frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp8->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_CONFIG);
++
++	/* max & min value of QP for I frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND);
++	/** max I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_vp8->rc_max_qp);
++	/** min I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp8->rc_min_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND);
++
++	/* max & min value of QP for P/B frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND_PB);
++	/** max P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_vp8->rc_max_qp_p);
++	/** min P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp8->rc_min_qp_p);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND_PB);
++
++	mfc_ctx_debug_leave();
++}
++
++static void __mfc_enc_check_vp9_profile(struct mfc_ctx *ctx)
++{
++	struct mfc_enc *enc = ctx->enc_priv;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_vp9_enc_params *p_vp9 = &p->codec.vp9;
++
++	if (!ctx->is_422) {
++		/* YUV420 8bit format */
++		if (p_vp9->profile != MFC_REG_E_PROFILE_VP9_PROFILE0) {
++			mfc_ctx_err("4:2:0 format is not matched with profile(%d)\n",
++				    p_vp9->profile);
++			p_vp9->profile = MFC_REG_E_PROFILE_VP9_PROFILE0;
++		}
++	} else if (ctx->is_422) {
++		/* YUV422 8bit format */
++		if (p_vp9->profile != MFC_REG_E_PROFILE_VP9_PROFILE1) {
++			mfc_ctx_err("4:2:2 format is not matched with profile(%d)\n",
++				    p_vp9->profile);
++			p_vp9->profile = MFC_REG_E_PROFILE_VP9_PROFILE1;
++		}
 +	}
 +}
 +
-+static void __mfc_handle_stream_output(struct mfc_core *core,
-+				       struct mfc_ctx *ctx,
-+				       int slice_type,
-+				       unsigned int strm_size)
++static void __mfc_set_enc_params_vp9(struct mfc_core *core, struct mfc_ctx *ctx)
++{
++	struct mfc_enc *enc = ctx->enc_priv;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_vp9_enc_params *p_vp9 = &p->codec.vp9;
++	unsigned int reg = 0;
++	int i;
++
++	mfc_ctx_debug_enter();
++
++	p->rc_framerate_res = FRAME_RATE_RESOLUTION;
++	__mfc_set_enc_params(core, ctx);
++	__mfc_enc_check_vp9_profile(ctx);
++
++	if (p_vp9->num_hier_layer & 0x3) {
++		/* set gop_size without i_frm_ctrl mode */
++		__mfc_set_gop_size(core, ctx, 0);
++	} else {
++		/* set gop_size with i_frm_ctrl mode */
++		__mfc_set_gop_size(core, ctx, 1);
++	}
++
++	/* profile*/
++	reg = 0;
++	mfc_set_bits(reg, 0xF, 0, p_vp9->profile);
++	/* level */
++	mfc_set_bits(reg, 0xFF, 8, p_vp9->level);
++
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_PICTURE_PROFILE);
++
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_VP9_OPTION);
++	/* if num_refs_for_p is 2, the performance falls by half */
++	mfc_clear_set_bits(reg, 0x1, 0, (p->num_refs_for_p - 1));
++	mfc_clear_set_bits(reg, 0x1, 1, p_vp9->intra_pu_split_disable);
++	mfc_clear_set_bits(reg, 0x1, 3, p_vp9->max_partition_depth);
++	/* Temporal SVC - hier qp enable */
++	mfc_clear_set_bits(reg, 0x1, 11, p_vp9->hier_qp_enable);
++	/* Disable IVF header */
++	mfc_clear_set_bits(reg, 0x1, 12, p->ivf_header_disable);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_VP9_OPTION);
++
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_VP9_GOLDEN_FRAME_OPTION);
++	mfc_clear_set_bits(reg, 0x1, 0, p_vp9->vp9_goldenframesel);
++	mfc_clear_set_bits(reg, 0xFFFF, 1, p_vp9->vp9_gfrefreshperiod);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_VP9_GOLDEN_FRAME_OPTION);
++
++	/* Temporal SVC - layer number */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_NUM_T_LAYER);
++	mfc_clear_set_bits(reg, 0x7, 0, p_vp9->num_hier_layer);
++	mfc_clear_set_bits(reg, 0x7, 4, 0x3);
++	mfc_clear_set_bits(reg, 0x1, 8, p->hier_bitrate_ctrl);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_NUM_T_LAYER);
++	mfc_ctx_debug(3, "[HIERARCHICAL] hier_qp_enable %d, num_hier_layer %d, NUM_T_LAYER 0x%x\n",
++		      p_vp9->hier_qp_enable, p_vp9->num_hier_layer, reg);
++
++	/* QP & Bitrate for each layer */
++	for (i = 0; i < 3; i++) {
++		MFC_CORE_RAW_WRITEL(p_vp9->hier_qp_layer[i],
++				    MFC_REG_E_HIERARCHICAL_QP_LAYER0 + i * 4);
++		/* If hier_bitrate_ctrl is set to 1, this is meaningless */
++		MFC_CORE_RAW_WRITEL(p_vp9->hier_bit_layer[i],
++				    MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER0 + i * 4);
++		mfc_ctx_debug(3, "[HIERARCHICAL] layer[%d] QP: %#x, bitrate: %#x (FW ctrl: %d)\n",
++			      i, p_vp9->hier_qp_layer[i],
++			      p_vp9->hier_bit_layer[i], p->hier_bitrate_ctrl);
++	}
++
++	/* qp */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_FIXED_PICTURE_QP);
++	mfc_clear_set_bits(reg, 0xFF, 24, p->config_qp);
++	mfc_clear_set_bits(reg, 0xFF, 8, p_vp9->rc_p_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp9->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_FIXED_PICTURE_QP);
++
++	/* rate control config. */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_CONFIG);
++	/** frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp9->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_CONFIG);
++
++	/* max & min value of QP for I frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND);
++	/** max I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_vp9->rc_max_qp);
++	/** min I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp9->rc_min_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND);
++
++	/* max & min value of QP for P/B frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND_PB);
++	/** max P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_vp9->rc_max_qp_p);
++	/** min P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_vp9->rc_min_qp_p);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND_PB);
++
++	mfc_ctx_debug_leave();
++}
++
++static void __mfc_enc_check_hevc_profile(struct mfc_ctx *ctx)
++{
++	struct mfc_enc *enc = ctx->enc_priv;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_hevc_enc_params *p_hevc = &p->codec.hevc;
++
++	if (!ctx->is_422) {
++		/* YUV420 8bit format */
++		if (p_hevc->profile != MFC_REG_E_PROFILE_HEVC_MAIN &&
++		    p_hevc->profile != MFC_REG_E_PROFILE_HEVC_MAIN_10) {
++			mfc_ctx_err("4:2:0 format is not matched with profile(%d)\n",
++				    p_hevc->profile);
++			p_hevc->profile = MFC_REG_E_PROFILE_HEVC_MAIN;
++		}
++	} else if (ctx->is_422) {
++		/* YUV422 8bit format */
++		if (p_hevc->profile != MFC_REG_E_PROFILE_HEVC_MAIN_422_10_INTRA &&
++		    p_hevc->profile != MFC_REG_E_PROFILE_HEVC_MAIN_422_10) {
++			mfc_ctx_err("4:2:2 format is not matched with profile(%d)\n",
++				    p_hevc->profile);
++			p_hevc->profile = MFC_REG_E_PROFILE_HEVC_MAIN_422_10;
++		}
++	}
++}
++
++static void __mfc_set_enc_params_hevc(struct mfc_core *core,
++				      struct mfc_ctx *ctx)
 +{
 +	struct mfc_dev *dev = ctx->dev;
 +	struct mfc_enc *enc = ctx->enc_priv;
-+	struct mfc_buf *dst_mb;
-+	unsigned int index, idr_flag = 1;
++	struct mfc_enc_params *p = &enc->params;
++	struct mfc_hevc_enc_params *p_hevc = &p->codec.hevc;
++	unsigned int mb = 0;
++	unsigned int reg = 0;
++	bool enable_stream_copy = false;
++	int i;
 +
-+	if (strm_size == 0) {
-+		mfc_ctx_debug(3, "no encoded dst (reuse)\n");
-+		return;
-+	}
++	mfc_ctx_debug_enter();
 +
-+	if (ctx->select_view == MFC_VIEW_ID_MAIN &&
-+	    MFC_FEATURE_SUPPORT(dev, dev->pdata->enc_idr_flag))
-+		enc->idr_flag = mfc_core_get_enc_idr_flag();
-+	idr_flag = enc->idr_flag;
++	p->rc_framerate_res = FRAME_RATE_RESOLUTION;
++	__mfc_set_enc_params(core, ctx);
++	__mfc_enc_check_hevc_profile(ctx);
 +
-+	/* at least one more dest. buffers exist always  */
-+	if (ctx->multi_view_enable &&
-+	    ctx->select_view == MFC_VIEW_ID_MAIN) {
-+		mfc_ctx_debug(2, "not handling dst_mb to reuse for VIEW_1\n");
-+		return;
-+	}
-+
-+	dst_mb = mfc_get_del_buf(ctx, &ctx->dst_buf_queue, MFC_BUF_NO_TOUCH_USED);
-+	if (!dst_mb) {
-+		mfc_ctx_err("no dst buffers\n");
-+		return;
-+	}
-+
-+	mfc_ctx_debug(2, "[BUFINFO] ctx[%d] get dst addr: 0x%08llx\n",
-+		      ctx->num, dst_mb->addr[0][0]);
-+
-+	mfc_clear_mb_flag(dst_mb);
-+	dst_mb->vb.flags &= ~(V4L2_BUF_FLAG_KEYFRAME |
-+				V4L2_BUF_FLAG_PFRAME |
-+				V4L2_BUF_FLAG_BFRAME);
-+	switch (slice_type) {
-+	case MFC_REG_E_SLICE_TYPE_I:
-+		dst_mb->vb.flags |= V4L2_BUF_FLAG_KEYFRAME;
-+		if (!(CODEC_HAS_IDR(ctx) && !idr_flag)) {
-+			mfc_set_mb_flag(dst_mb, MFC_FLAG_SYNC_FRAME);
-+			mfc_ctx_debug(2, "[STREAM] syncframe IDR\n");
-+		}
-+		break;
-+	case MFC_REG_E_SLICE_TYPE_P:
-+		dst_mb->vb.flags |= V4L2_BUF_FLAG_PFRAME;
-+		break;
-+	case MFC_REG_E_SLICE_TYPE_B:
-+		dst_mb->vb.flags |= V4L2_BUF_FLAG_BFRAME;
-+		break;
-+	default:
-+		dst_mb->vb.flags |= V4L2_BUF_FLAG_KEYFRAME;
-+		break;
-+	}
-+	mfc_ctx_debug(2, "[STREAM] Slice type flag: %d\n", dst_mb->vb.flags);
-+
-+	if (IS_MULTI_MODE(ctx) &&
-+	    !(dev->debugfs.feature_option & MFC_OPTION_STREAM_COPY_DISABLE)) {
-+		unsigned int tile0_size, tile1_size;
-+		unsigned int size;
-+		unsigned char *vaddr;
-+		struct sg_table *sgt;
-+
-+		tile0_size = MFC_CORE_READL(MFC_REG_E_TILE0_STREAM_SIZE);
-+		tile1_size = MFC_CORE_READL(MFC_REG_E_TILE1_STREAM_SIZE);
-+
-+		size = (unsigned int)vb2_plane_size(&dst_mb->vb.vb2_buf, 0);
-+		size = ALIGN(size, STREAM_BUF_ALIGN);
-+
-+		sgt = vb2_dma_sg_plane_desc(&dst_mb->vb.vb2_buf, 0);
-+		dma_sync_sgtable_for_cpu(dev->device, sgt, DMA_BIDIRECTIONAL);
-+
-+		vaddr = vb2_plane_vaddr(&dst_mb->vb.vb2_buf, 0);
-+		if (!vaddr)
-+			mfc_ctx_err("failed to get vaddr for copying stream\n");
-+		else
-+			memmove(vaddr + tile0_size, vaddr + ALIGN(size / 2, 16), tile1_size);
-+
-+		mfc_ctx_debug(3, "memmove done: %d + %d\n", tile0_size, tile1_size);
-+	}
-+
-+	vb2_set_plane_payload(&dst_mb->vb.vb2_buf, 0, strm_size);
-+	mfc_rate_update_framerate(ctx);
-+
-+	index = dst_mb->vb.vb2_buf.index;
-+	if (call_bop(ctx, core_get_buf_ctrls, core, ctx, &ctx->dst_ctrls[index]) < 0)
-+		mfc_ctx_err("failed in core_get_buf_ctrls\n");
-+
-+	vb2_buffer_done(&dst_mb->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+}
-+
-+static void __mfc_handle_stream_last_output(struct mfc_core *core, struct mfc_ctx *ctx)
-+{
-+	struct mfc_buf *dst_mb;
-+	unsigned int index;
-+
-+	/* at least one more dest. buffers exist always  */
-+	dst_mb = mfc_get_del_buf(ctx, &ctx->dst_buf_queue, MFC_BUF_NO_TOUCH_USED);
-+	if (!dst_mb) {
-+		mfc_ctx_err("no dst buffers\n");
-+		return;
-+	}
-+
-+	mfc_ctx_debug(2, "[BUFINFO] ctx[%d] get dst addr: 0x%08llx\n",
-+		      ctx->num, dst_mb->addr[0][0]);
-+
-+	dst_mb->vb.flags &= ~(V4L2_BUF_FLAG_KEYFRAME |
-+			      V4L2_BUF_FLAG_PFRAME |
-+			      V4L2_BUF_FLAG_BFRAME);
-+
-+	vb2_set_plane_payload(&dst_mb->vb.vb2_buf, 0, 0);
-+
-+	index = dst_mb->vb.vb2_buf.index;
-+	if (call_bop(ctx, core_get_buf_ctrls, core, ctx, &ctx->dst_ctrls[index]) < 0)
-+		mfc_ctx_err("failed in core_get_buf_ctrls\n");
-+
-+	mfc_ctx_debug(2, "[STREAM] update tag for last stream\n");
-+	call_cop(ctx, update_buf_val, ctx, &ctx->dst_ctrls[index],
-+		 V4L2_CID_MPEG_MFC51_VIDEO_FRAME_TAG, ctx->stored_tag);
-+
-+	vb2_buffer_done(&dst_mb->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+}
-+
-+/* Handle frame encoding interrupt */
-+static int __mfc_handle_stream(struct mfc_core *core, struct mfc_ctx *ctx, unsigned int reason)
-+{
-+	struct mfc_dev *dev = ctx->dev;
-+	struct mfc_core *subcore;
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
-+	int slice_type, consumed_only = 0;
-+	unsigned int strm_size;
-+	unsigned int pic_count;
-+
-+	slice_type = mfc_core_get_enc_slice_type();
-+	strm_size = mfc_core_get_enc_strm_size();
-+	pic_count = mfc_core_get_enc_pic_count();
-+
-+	mfc_debug(2, "[STREAM] encoded slice type: %d, size: %d, display order: %d\n",
-+		  slice_type, strm_size, pic_count);
-+
-+	/* clear vOTF enable */
-+	mfc_core_clear_enc_src_votf(core);
-+
-+	/* buffer full handling */
-+	if (enc->buf_full) {
-+		core_ctx->prev_state = core_ctx->state;
-+		mfc_change_state(core_ctx, MFCINST_ABORT_INST);
-+		return 0;
-+	}
-+	if (core_ctx->state == MFCINST_RUNNING_BUF_FULL)
-+		mfc_change_state(core_ctx, core_ctx->prev_state);
-+
-+	/* set encoded frame type */
-+	if (ctx->select_view == MFC_VIEW_ID_MAIN)
-+		enc->frame_type = slice_type;
-+	ctx->sequence++;
-+
-+	if (enc->in_slice) {
-+		if (mfc_is_queue_count_same(&ctx->buf_queue_lock, &ctx->dst_buf_queue, 0))
-+			core->sched->clear_work(core, core_ctx);
-+		return 0;
-+	}
-+
-+	if (mfc_qos_mb_calculate(core, core_ctx, mfc_core_get_processing_cycle(), slice_type)) {
-+		mfc_qos_on(core, ctx);
-+		if (IS_TWO_MODE1(ctx)) {
-+			subcore = mfc_get_sub_core(dev, ctx);
-+			if (subcore) {
-+				subcore->core_ctx[ctx->num]->dynamic_weight_level =
-+					core_ctx->dynamic_weight_level;
-+				mfc_qos_on(subcore, ctx);
-+			}
-+		}
-+	}
-+
-+	if (strm_size == 0 && !(enc->empty_data && reason == MFC_REG_R2H_CMD_COMPLETE_SEQ_RET)) {
-+		mfc_debug(2, "[FRAME] dst buffer is not returned\n");
-+		consumed_only = 1;
-+	}
-+
-+	/* handle source buffer */
-+	__mfc_handle_stream_input(core, ctx, consumed_only);
-+
-+	/* handle destination buffer */
-+	if (enc->empty_data && reason == MFC_REG_R2H_CMD_COMPLETE_SEQ_RET) {
-+		enc->empty_data = 0;
-+		mfc_debug(2, "[FRAME] handle EOS for empty data\n");
-+		__mfc_handle_stream_last_output(core, ctx);
++	if (p_hevc->num_hier_layer & 0x7) {
++		/* set gop_size without i_frm_ctrl mode */
++		__mfc_set_gop_size(core, ctx, 0);
 +	} else {
-+		__mfc_handle_stream_output(core, ctx, enc->frame_type, strm_size);
++		/* set gop_size with i_frm_ctrl mode */
++		__mfc_set_gop_size(core, ctx, 1);
 +	}
-+	mfc_rate_update_bufq_framerate(ctx, MFC_TS_DST_DQ);
 +
-+	/* handle error buffer */
-+	__mfc_handle_error_input(core, ctx);
++	mb = WIDTH_MB((ctx)->crop_width) * HEIGHT_MB((ctx)->crop_height);
++	/* Level 6.0 case */
++	if (IS_LV60_MB(mb) && p_hevc->level < 60)
++		mfc_ctx_info("This resolution(mb: %d) recommends level6.0\n", mb);
 +
++	/* Level 5.1 case */
++	if (IS_LV51_MB(mb) && p_hevc->level < 51)
++		mfc_ctx_info("This resolution(mb: %d) recommends level5.1\n", mb);
++
++	/* tier_flag & level & profile */
++	reg = 0;
++
++	/* profile */
 +	if (ctx->multi_view_enable)
-+		ctx->select_view = (ctx->select_view + 1) % MFC_NUM_MULTI_VIEW;
++		mfc_set_bits(reg, 0xF, 0, 0x6);
++	else
++		mfc_set_bits(reg, 0xF, 0, p_hevc->profile);
 +
-+	return 0;
-+}
++	/* level */
++	mfc_set_bits(reg, 0xFF, 8, p_hevc->level);
++	/* tier_flag - 0 ~ 1 */
++	mfc_set_bits(reg, 0x1, 16, p_hevc->tier_flag);
 +
-+static inline int __mfc_handle_done_frame(struct mfc_core *core,
-+					  struct mfc_ctx *ctx,
-+					  unsigned int reason,
-+					  unsigned int err)
-+{
-+	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
-+	struct mfc_enc *enc = NULL;
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_PICTURE_PROFILE);
 +
-+	if (ctx->type == MFCINST_DECODER) {
-+		__mfc_handle_frame(core, ctx, reason, err);
-+	} else if (ctx->type == MFCINST_ENCODER) {
-+		enc = ctx->enc_priv;
-+		if (reason == MFC_REG_R2H_CMD_SLICE_DONE_RET) {
-+			core->preempt_core_ctx = ctx->num;
-+			enc->buf_full = 0;
-+			enc->in_slice = 1;
-+		} else if (reason == MFC_REG_R2H_CMD_ENC_BUFFER_FULL_RET) {
-+			mfc_err("stream buffer size(%d) isn't enough, (Bitrate: %d)\n",
-+				mfc_core_get_enc_strm_size(),
-+				MFC_CORE_RAW_READL(MFC_REG_E_RC_BIT_RATE));
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_HEVC_OPTIONS);
++	/* max partition depth */
++	mfc_clear_set_bits(reg, 0x3, 0, p_hevc->max_partition_depth);
++	/* if num_refs_for_p is 2, the performance falls by half */
++	mfc_clear_set_bits(reg, 0x1, 2, (p->num_refs_for_p - 1));
++	mfc_clear_set_bits(reg, 0x3, 3, p_hevc->refreshtype);
++	mfc_clear_set_bits(reg, 0x1, 5, p_hevc->const_intra_period_enable);
++	mfc_clear_set_bits(reg, 0x1, 6, p_hevc->lossless_cu_enable);
++	mfc_clear_set_bits(reg, 0x1, 7, p_hevc->wavefront_enable);
++	mfc_clear_set_bits(reg, 0x1, 8, p_hevc->loopfilter_disable);
++	mfc_clear_set_bits(reg, 0x1, 9, p_hevc->loopfilter_across);
++	mfc_clear_set_bits(reg, 0x1, 10, p_hevc->enable_ltr);
++	mfc_clear_set_bits(reg, 0x1, 11, p_hevc->hier_qp_enable);
++	mfc_clear_set_bits(reg, 0x1, 13, p_hevc->general_pb_enable);
++	mfc_clear_set_bits(reg, 0x1, 14, p_hevc->temporal_id_enable);
++	mfc_clear_set_bits(reg, 0x1, 15, p_hevc->strong_intra_smooth);
++	mfc_clear_set_bits(reg, 0x1, 16, p_hevc->intra_pu_split_disable);
++	mfc_clear_set_bits(reg, 0x1, 17, p_hevc->tmv_prediction_disable);
++	mfc_clear_set_bits(reg, 0x7, 18, p_hevc->max_num_merge_mv);
++	mfc_clear_set_bits(reg, 0x1, 23, p_hevc->encoding_nostartcode_enable);
++	mfc_clear_set_bits(reg, 0x1, 26, p_hevc->prepend_sps_pps_to_idr);
 +
-+			core->preempt_core_ctx = ctx->num;
-+			enc->buf_full = 1;
-+			enc->in_slice = 0;
-+		} else {
-+			enc->buf_full = 0;
-+			enc->in_slice = 0;
-+		}
-+		__mfc_handle_stream(core, ctx, reason);
++	/* Weighted Prediction enable */
++	mfc_clear_set_bits(reg, 0x1, 28, p->weighted_enable);
++	/* 30bit is 32x32 transform. If it is enabled, the performance falls by half */
++	mfc_clear_bits(reg, 0x1, 30);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_HEVC_OPTIONS);
++
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_HEVC_OPTIONS_2);
++	/* Timing info */
++	mfc_set_bits(reg, 0x1, 2, p->timing_info_enable);
++
++	// TODO : replace this magic number to define
++	mfc_clear_set_bits(reg, 0x1, 9, (ctx->stream_op_mode == MFC_OP_TWO_MODE1));
++	enable_stream_copy = ((ctx->stream_op_mode == MFC_OP_TWO_MODE1) &&
++			      !(dev->debugfs.feature_option & MFC_OPTION_STREAM_COPY_DISABLE));
++	mfc_clear_set_bits(reg, 0x1, 13, enable_stream_copy);
++
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_HEVC_OPTIONS_2);
++
++	/* refresh period */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_HEVC_REFRESH_PERIOD);
++	mfc_clear_set_bits(reg, 0xFFFF, 0, p_hevc->refreshperiod);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_HEVC_REFRESH_PERIOD);
++	/* loop filter setting */
++	MFC_CORE_RAW_WRITEL(0, MFC_REG_E_HEVC_LF_BETA_OFFSET_DIV2);
++	MFC_CORE_RAW_WRITEL(0, MFC_REG_E_HEVC_LF_TC_OFFSET_DIV2);
++	if (!p_hevc->loopfilter_disable) {
++		MFC_CORE_RAW_WRITEL
++			(p_hevc->lf_beta_offset_div2, MFC_REG_E_HEVC_LF_BETA_OFFSET_DIV2);
++		MFC_CORE_RAW_WRITEL
++			(p_hevc->lf_tc_offset_div2, MFC_REG_E_HEVC_LF_TC_OFFSET_DIV2);
++	}
++	/* long term reference */
++	if (p_hevc->enable_ltr) {
++		reg = 0;
++		mfc_set_bits(reg, 0x3, 0, p_hevc->store_ref);
++		mfc_set_bits(reg, 0x3, 2, p_hevc->user_ref);
++		MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_HEVC_NAL_CONTROL);
 +	}
 +
-+	return 1;
- }
- 
- /* Handle header decoder interrupt */
-@@ -1387,13 +1811,82 @@ static int __mfc_handle_seq_dec(struct mfc_core *core, struct mfc_ctx *ctx)
- 	return 0;
- }
- 
-+/* Handle header encoder interrupt */
-+static int __mfc_handle_seq_enc(struct mfc_core *core, struct mfc_ctx *ctx)
-+{
-+	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	struct mfc_enc_params *p = &enc->params;
-+	struct mfc_buf *dst_mb;
-+	int ret, index;
-+
-+	enc->header_size = mfc_core_get_enc_strm_size();
-+	mfc_debug(2, "[STREAM] encoded slice type: %d, header size: %d, display order: %d\n",
-+		  mfc_core_get_enc_slice_type(), enc->header_size,
-+		  mfc_core_get_enc_pic_count());
-+
-+	/* Initialize select_view */
-+	ctx->select_view = MFC_VIEW_ID_MAIN;
-+
-+	if (!IS_NO_HEADER_GENERATE(ctx, p) &&
-+	    !(ctx->stream_op_mode == MFC_OP_TWO_MODE1 && core->id == MFC_CORE_SUB)) {
-+		dst_mb = mfc_get_del_buf
-+			(ctx, &ctx->dst_buf_queue, MFC_BUF_NO_TOUCH_USED);
-+		if (!dst_mb) {
-+			mfc_err("no dst buffers\n");
-+			return -EAGAIN;
-+		}
-+
-+		vb2_set_plane_payload
-+			(&dst_mb->vb.vb2_buf, 0, mfc_core_get_enc_strm_size());
-+
-+		index = dst_mb->vb.vb2_buf.index;
-+		if (call_bop(ctx, core_get_buf_ctrls, core, ctx,
-+			     &ctx->dst_ctrls[index]) < 0)
-+			mfc_err("failed in core_get_buf_ctrls\n");
-+		call_cop(ctx, update_buf_val, ctx, &ctx->dst_ctrls[index],
-+			 V4L2_CID_MPEG_MFC51_VIDEO_FRAME_TAG, HEADER_TAG);
-+
-+		vb2_buffer_done(&dst_mb->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+	}
-+
-+	ctx->dpb_count = mfc_core_get_enc_dpb_count();
-+	ctx->scratch_buf_size = mfc_core_get_enc_scratch_size();
-+	ctx->min_dpb_size[0] = mfc_core_get_enc_luma_size();
-+	ctx->min_dpb_size[1] = mfc_core_get_enc_chroma_size();
-+
-+	/* If the ROI is enabled at SEQ_START, clear ROI_ENABLE bit */
-+	mfc_core_clear_roi_enable(core);
-+
-+	if (core_ctx->codec_buffer_allocated) {
-+		mfc_debug(2, "[DRC] previous codec buffer is exist\n");
-+
-+		mfc_release_codec_buffers(core_ctx);
-+	}
-+
-+	ret = mfc_alloc_codec_buffers(core_ctx);
-+	if (ret)
-+		mfc_err("Failed to allocate encoding buffers\n");
-+
-+	mfc_change_state(core_ctx, MFCINST_HEAD_PARSED);
-+
-+	return 0;
-+}
-+
- static inline void __mfc_handle_nal_abort(struct mfc_core *core,
- 					  struct mfc_ctx *ctx,
- 					  unsigned int reason)
- {
- 	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
-+	struct mfc_enc *enc = ctx->enc_priv;
- 
--	mfc_change_state(core_ctx, MFCINST_ABORT);
-+	if (ctx->type == MFCINST_ENCODER) {
-+		mfc_change_state(core_ctx, MFCINST_RUNNING_BUF_FULL);
-+		enc->buf_full = 0;
-+		__mfc_handle_stream(core, ctx, reason);
++	/* Temporal SVC - qp type, layer number */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_NUM_T_LAYER);
++	mfc_clear_set_bits(reg, 0x1, 3, p_hevc->hier_qp_type);
++	mfc_clear_set_bits(reg, 0x7, 0, p_hevc->num_hier_layer);
++	mfc_clear_bits(reg, 0x7, 4);
++	if (p_hevc->hier_ref_type) {
++		mfc_set_bits(reg, 0x1, 7, 0x1);
++		mfc_set_bits(reg, 0x7, 4, p->num_hier_max_layer);
 +	} else {
-+		mfc_change_state(core_ctx, MFCINST_ABORT);
++		mfc_clear_bits(reg, 0x1, 7);
++		mfc_set_bits(reg, 0x7, 4, p_hevc->num_hier_layer);
 +	}
- }
- 
- irqreturn_t mfc_core_top_half_irq(int irq, void *priv)
-@@ -1479,11 +1972,20 @@ static int __mfc_irq_ctx(struct mfc_core *core,
- 	case MFC_REG_R2H_CMD_SLICE_DONE_RET:
- 	case MFC_REG_R2H_CMD_FIELD_DONE_RET:
- 	case MFC_REG_R2H_CMD_FRAME_DONE_RET:
-+	case MFC_REG_R2H_CMD_ENC_BUFFER_FULL_RET:
-+		return __mfc_handle_done_frame(core, ctx, reason, err);
- 	case MFC_REG_R2H_CMD_COMPLETE_SEQ_RET:
--			__mfc_handle_done_frame(core, ctx, reason, err);
-+		if (ctx->type == MFCINST_ENCODER) {
-+			__mfc_handle_stream(core, ctx, reason);
-+			mfc_change_state(core_ctx, MFCINST_FINISHED);
-+		} else if (ctx->type == MFCINST_DECODER) {
-+			return __mfc_handle_done_frame(core, ctx, reason, err);
-+		}
- 		break;
- 	case MFC_REG_R2H_CMD_SEQ_DONE_RET:
--		if (ctx->type == MFCINST_DECODER)
-+		if (ctx->type == MFCINST_ENCODER)
-+			__mfc_handle_seq_enc(core, ctx);
-+		else if (ctx->type == MFCINST_DECODER)
- 			__mfc_handle_seq_dec(core, ctx);
- 		break;
- 	case MFC_REG_R2H_CMD_OPEN_INSTANCE_RET:
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
-index e4b839eda2da..aedb3f56035e 100644
---- a/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
-@@ -30,7 +30,8 @@ static inline unsigned int __mfc_r2h_bit_mask(int cmd)
- 			 R2H_BIT(MFC_REG_R2H_CMD_COMPLETE_SEQ_RET) |
- 			 R2H_BIT(MFC_REG_R2H_CMD_SLICE_DONE_RET) |
- 			 R2H_BIT(MFC_REG_R2H_CMD_INIT_BUFFERS_RET) |
--			 R2H_BIT(MFC_REG_R2H_CMD_NAL_ABORT_RET));
-+			 R2H_BIT(MFC_REG_R2H_CMD_NAL_ABORT_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_ENC_BUFFER_FULL_RET));
- 	/* FIXME: Temporal mask for S3D SEI processing */
- 	else if (cmd == MFC_REG_R2H_CMD_INIT_BUFFERS_RET)
- 		mask |= (R2H_BIT(MFC_REG_R2H_CMD_FIELD_DONE_RET) |
-@@ -311,6 +312,56 @@ static int __mfc_dec_ctx_ready_set_bit(struct mfc_core_ctx *core_ctx)
- 	return is_ready;
- }
- 
-+static int __mfc_enc_ctx_ready_set_bit(struct mfc_core_ctx *core_ctx)
-+{
-+	struct mfc_ctx *ctx = core_ctx->ctx;
-+	struct mfc_enc *enc = ctx->enc_priv;
-+	struct mfc_enc_params *p = &enc->params;
-+	int is_ready = 0;
-+	int src_buf_cnt, dst_buf_cnt;
++	mfc_clear_set_bits(reg, 0x1, 8, p->hier_bitrate_ctrl);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_NUM_T_LAYER);
++	mfc_ctx_debug(3, "[HIERARCHICAL] hier_qp_enable %d, enable_ltr %d, ",
++		      p_hevc->hier_qp_enable, p_hevc->enable_ltr);
++	mfc_ctx_debug(3, "num_hier_layer %d, max_layer %d, hier_ref_type %d, NUM_T_LAYER 0x%x\n",
++		      p_hevc->num_hier_layer, p->num_hier_max_layer, p_hevc->hier_ref_type, reg);
 +
-+	src_buf_cnt = mfc_get_queue_count(&ctx->buf_queue_lock, &core_ctx->src_buf_queue);
-+	dst_buf_cnt = mfc_get_queue_count(&ctx->buf_queue_lock, &ctx->dst_buf_queue);
-+
-+	/* context is ready to make header */
-+	if (core_ctx->state == MFCINST_GOT_INST && dst_buf_cnt) {
-+		if (p->seq_hdr_mode == V4L2_MPEG_VIDEO_HEADER_MODE_AT_THE_READY) {
-+			if (src_buf_cnt)
-+				is_ready = 1;
-+		} else {
-+			is_ready = 1;
-+		}
++	/* QP & Bitrate for each layer */
++	for (i = 0; i < 7; i++) {
++		MFC_CORE_RAW_WRITEL(p_hevc->hier_qp_layer[i],
++				    MFC_REG_E_HIERARCHICAL_QP_LAYER0 + i * 4);
++		MFC_CORE_RAW_WRITEL(p_hevc->hier_bit_layer[i],
++				    MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER0 + i * 4);
++		mfc_ctx_debug(3, "[HIERARCHICAL] layer[%d] QP: %#x, bitrate: %d(FW ctrl: %d)\n",
++			      i, p_hevc->hier_qp_layer[i],
++			      p_hevc->hier_bit_layer[i], p->hier_bitrate_ctrl);
 +	}
 +
-+	/* In mode1 encoding, MFC1 will run seq_start of dummy. */
-+	if (core_ctx->state == MFCINST_GOT_INST &&
-+	    (ctx->stream_op_mode == MFC_OP_TWO_MODE1 &&
-+	    core_ctx->core->id == MFC_CORE_SUB))
-+		is_ready = 1;
++	/* rate control config. */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_CONFIG);
++	/** frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_hevc->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_CONFIG);
 +
-+	/* context is ready to allocate DPB */
-+	else if (core_ctx->state == MFCINST_HEAD_PARSED && dst_buf_cnt &&
-+		 !(ctx->stream_op_mode == MFC_OP_TWO_MODE1 &&
-+		 core_ctx->core->id == MFC_CORE_SUB))
-+		is_ready = 1;
++	/* max & min value of QP for I frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND);
++	/** max I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_hevc->rc_max_qp);
++	/** min I frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_hevc->rc_min_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND);
 +
-+	/* context is ready to encode a frame */
-+	else if (core_ctx->state == MFCINST_RUNNING &&
-+		 src_buf_cnt && dst_buf_cnt)
-+		is_ready = 1;
++	/* max & min value of QP for P/B frame */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_QP_BOUND_PB);
++	/** max B frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 24, p_hevc->rc_max_qp_b);
++	/** min B frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 16, p_hevc->rc_min_qp_b);
++	/** max P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 8, p_hevc->rc_max_qp_p);
++	/** min P frame QP */
++	mfc_clear_set_bits(reg, 0xFF, 0, p_hevc->rc_min_qp_p);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_QP_BOUND_PB);
 +
-+	/* context is ready to encode a frame for NAL_ABORT command */
-+	else if (core_ctx->state == MFCINST_ABORT_INST &&
-+		 src_buf_cnt && dst_buf_cnt)
-+		is_ready = 1;
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_FIXED_PICTURE_QP);
++	mfc_clear_set_bits(reg, 0xFF, 24, p->config_qp);
++	mfc_clear_set_bits(reg, 0xFF, 16, p_hevc->rc_b_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 8, p_hevc->rc_p_frame_qp);
++	mfc_clear_set_bits(reg, 0xFF, 0, p_hevc->rc_frame_qp);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_FIXED_PICTURE_QP);
 +
-+	/* context is ready to encode remain frames */
-+	else if (core_ctx->state == MFCINST_FINISHING && dst_buf_cnt)
-+		is_ready = 1;
++	/* chroma QP offset */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_HEVC_CHROMA_QP_OFFSET);
++	mfc_clear_set_bits(reg, 0x1F, 5, p->chroma_qp_offset_cr);
++	mfc_clear_set_bits(reg, 0x1F, 0, p->chroma_qp_offset_cb);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_HEVC_CHROMA_QP_OFFSET);
 +
-+	return is_ready;
++	/* ROI enable: it must set on SEQ_START only for HEVC encoder */
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_RC_ROI_CTRL);
++	mfc_clear_set_bits(reg, 0x1, 0, p->roi_enable);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_RC_ROI_CTRL);
++	mfc_ctx_debug(3, "[ROI] HEVC ROI %s\n", p->roi_enable ? "enable" : "disable");
++
++	reg = MFC_CORE_RAW_READL(MFC_REG_E_HEVC_OPTIONS_2);
++	/* HDR_STATIC_INFO_ENABLE */
++	mfc_clear_bits(reg, 0x1, 0);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_HEVC_OPTIONS_2);
++
++	reg = MFC_CORE_READL(MFC_REG_E_MVC_INTER_VIEW_PREDICTION_ON);
++	mfc_clear_set_bits(reg, 0x1, 0, ctx->multi_view_enable);
++	/* LEFT_VIEW_ID */
++	mfc_clear_set_bits(reg, 0x3, 1, ctx->left_view_id);
++	/* RIGHT_VIEW_ID. Always opposite to left. */
++	mfc_clear_set_bits(reg, 0x3, 3, ctx->left_view_id ? 0 : 1);
++	MFC_CORE_RAW_WRITEL(reg, MFC_REG_E_MVC_INTER_VIEW_PREDICTION_ON);
++
++	mfc_ctx_debug_leave();
 +}
 +
- int mfc_ctx_ready_set_bit_raw(struct mfc_core_ctx *core_ctx, unsigned long *bits, bool set)
+ int mfc_core_set_enc_params(struct mfc_core *core, struct mfc_ctx *ctx)
  {
- 	struct mfc_core *core = core_ctx->core;
-@@ -331,7 +382,10 @@ int mfc_ctx_ready_set_bit_raw(struct mfc_core_ctx *core_ctx, unsigned long *bits
- 				      &ctx->dst_buf_queue),
- 		  core_ctx->state, ctx->capture_state, ctx->wait_state);
+ 	if (IS_H264_ENC(ctx)) {
+ 		__mfc_set_enc_params_h264(core, ctx);
++	} else if (IS_MPEG4_ENC(ctx)) {
++		__mfc_set_enc_params_mpeg4(core, ctx);
++	} else if (IS_H263_ENC(ctx)) {
++		__mfc_set_enc_params_h263(core, ctx);
++	} else if (IS_VP8_ENC(ctx)) {
++		__mfc_set_enc_params_vp8(core, ctx);
++	} else if (IS_VP9_ENC(ctx)) {
++		__mfc_set_enc_params_vp9(core, ctx);
++	} else if (IS_HEVC_ENC(ctx)) {
++		__mfc_set_enc_params_hevc(core, ctx);
+ 	} else {
+ 		mfc_ctx_err("Unknown codec for encoding (%x)\n", ctx->codec_mode);
+ 		return -EINVAL;
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_enc_v4l2.c b/drivers/media/platform/samsung/exynos-mfc/mfc_enc_v4l2.c
+index 84edebac82b2..386262623977 100644
+--- a/drivers/media/platform/samsung/exynos-mfc/mfc_enc_v4l2.c
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_enc_v4l2.c
+@@ -2667,10 +2667,33 @@ static int __mfc_enc_check_resolution(struct mfc_ctx *ctx)
  
--	is_ready = __mfc_dec_ctx_ready_set_bit(core_ctx);
-+	if (ctx->type == MFCINST_DECODER)
-+		is_ready = __mfc_dec_ctx_ready_set_bit(core_ctx);
-+	else if (ctx->type == MFCINST_ENCODER)
-+		is_ready = __mfc_enc_ctx_ready_set_bit(core_ctx);
+ 	/* Check max resolution */
+ 	switch (ctx->codec_mode) {
++	case MFC_REG_CODEC_HEVC_ENC:
++		if (ctx->is_422) {
++			max_width = 65536;
++			max_height = 8192;
++			swap_check = 1;
++		} else {
++			max_width = 8192;
++			max_height = 8192;
++		}
++		break;
+ 	case MFC_REG_CODEC_H264_ENC:
++	case MFC_REG_CODEC_VP8_ENC:
+ 		max_width = 8192;
+ 		max_height = 8192;
+ 		break;
++	case MFC_REG_CODEC_VP9_ENC:
++		max_width = 4096;
++		max_height = 8192;
++		break;
++	case MFC_REG_CODEC_MPEG4_ENC:
++		max_width = 2048;
++		max_height = 2048;
++		break;
++	case MFC_REG_CODEC_H263_ENC:
++		max_width = 2048;
++		max_height = 1152;
++		break;
+ 	default:
+ 		mfc_ctx_err("Not supported codec(%d)\n", ctx->codec_mode);
+ 		return -EINVAL;
+@@ -2694,7 +2717,15 @@ static int __mfc_enc_check_resolution(struct mfc_ctx *ctx)
  
- 	if (is_ready && set) {
- 		/* if the ctx is ready and request set_bit, set the work_bit */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c b/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
-index 59cd6f3945ff..8967744b986b 100644
---- a/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
-@@ -33,15 +33,20 @@ static int __mfc_info_show(struct seq_file *s, void *unused)
- 		   dev->pdata->skype.support, dev->pdata->skype.version,
- 		   dev->pdata->black_bar.support,
- 		   dev->pdata->black_bar.version);
--	seq_printf(s, "           color_aspect_dec: %d(0x%x)\n",
-+	seq_printf(s, "           color_aspect_dec: %d(0x%x), enc: %d(0x%x)\n",
- 		   dev->pdata->color_aspect_dec.support,
--		   dev->pdata->color_aspect_dec.version);
--	seq_printf(s, "           static_info_dec: %d(0x%x)\n",
-+		   dev->pdata->color_aspect_dec.version,
-+		   dev->pdata->color_aspect_enc.support,
-+		   dev->pdata->color_aspect_enc.version);
-+	seq_printf(s, "           static_info_dec: %d(0x%x), enc: %d(0x%x)\n",
- 		   dev->pdata->static_info_dec.support,
--		   dev->pdata->static_info_dec.version);
--	seq_printf(s, " [FORMATS] 10bit: %s, 422: %s\n",
-+		   dev->pdata->static_info_dec.version,
-+		   dev->pdata->static_info_enc.support,
-+		   dev->pdata->static_info_enc.version);
-+	seq_printf(s, " [FORMATS] 10bit: %s, 422: %s, RGB: %s\n",
- 		   dev->pdata->support_10bit ? "supported" : "not supported",
--		   dev->pdata->support_422 ? "supported" : "not supported");
-+		   dev->pdata->support_422 ? "supported" : "not supported",
-+		   dev->pdata->support_rgb ? "supported" : "not supported");
- 	seq_printf(s, " [LOWMEM] is_low_mem: %d\n", IS_LOW_MEM);
+ 	/* Check min resolution */
+ 	switch (ctx->codec_mode) {
++	case MFC_REG_CODEC_HEVC_ENC:
++	case MFC_REG_CODEC_VP9_ENC:
++		min_width = 64;
++		min_height = 64;
++		break;
+ 	case MFC_REG_CODEC_H264_ENC:
++	case MFC_REG_CODEC_VP8_ENC:
++	case MFC_REG_CODEC_MPEG4_ENC:
++	case MFC_REG_CODEC_H263_ENC:
+ 		min_width = 32;
+ 		min_height = 32;
+ 		break;
+@@ -2767,7 +2798,8 @@ static int mfc_enc_s_fmt_vid_cap_mplane(struct file *file, void *priv,
+ 		mfc_ctx_err("Failed to instance open\n");
  
- 	for (j = 0; j < dev->num_core; j++) {
+ 	if (dev->pdata->support_enc_mode1 &&
+-	    (dev->debugfs.feature_option & MFC_OPTION_SET_MULTI_CORE_FORCE)) {
++	    (IS_MULTI_MODE_ENC_CONDITION(ctx) ||
++	     (dev->debugfs.feature_option & MFC_OPTION_SET_MULTI_CORE_FORCE))) {
+ 		if (dev->debugfs.feature_option & MFC_OPTION_MULTI_CORE_DISABLE) {
+ 			mfc_ctx_info("[2CORE] multi core mode disabled\n");
+ 		} else {
+@@ -3751,12 +3783,382 @@ static int __mfc_enc_set_param(struct mfc_ctx *ctx, struct v4l2_control *ctrl)
+ 		p->codec.h264.base_priority = ctrl->value;
+ 		p->codec.h264.set_priority = 1;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_PROFILE:
++		switch ((enum v4l2_mpeg_video_mpeg4_profile)(ctrl->value)) {
++		case V4L2_MPEG_VIDEO_MPEG4_PROFILE_SIMPLE:
++			p->codec.mpeg4.profile =
++				MFC_REG_E_PROFILE_MPEG4_SIMPLE;
++			break;
++		case V4L2_MPEG_VIDEO_MPEG4_PROFILE_ADVANCED_SIMPLE:
++			p->codec.mpeg4.profile =
++			MFC_REG_E_PROFILE_MPEG4_ADVANCED_SIMPLE;
++			break;
++		default:
++			ret = -EINVAL;
++		}
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
++		p->codec.mpeg4.level =
++		__mfc_enc_mpeg4_level((enum v4l2_mpeg_video_mpeg4_level)(ctrl->value));
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:
++		p->codec.mpeg4.rc_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP:
++		p->codec.mpeg4.rc_min_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP:
++		p->codec.mpeg4.rc_max_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP_P:
++		p->codec.mpeg4.rc_min_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP_P:
++		p->codec.mpeg4.rc_max_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP_B:
++		p->codec.mpeg4.rc_min_qp_b = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP_B:
++		p->codec.mpeg4.rc_max_qp_b = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_QPEL:
++		p->codec.mpeg4.quarter_pixel = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_P_FRAME_QP:
++		p->codec.mpeg4.rc_p_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MPEG4_B_FRAME_QP:
++		p->codec.mpeg4.rc_b_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC51_VIDEO_MPEG4_VOP_TIME_RES:
++		p->rc_framerate = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC51_VIDEO_MPEG4_VOP_FRM_DELTA:
++		p->codec.mpeg4.vop_frm_delta = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC51_VIDEO_H263_RC_FRAME_RATE:
++		p->rc_framerate = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:
++		p->codec.mpeg4.rc_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H263_MIN_QP:
++		p->codec.mpeg4.rc_min_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H263_MAX_QP:
++		p->codec.mpeg4.rc_max_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H263_MIN_QP_P:
++		p->codec.mpeg4.rc_min_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H263_MAX_QP_P:
++		p->codec.mpeg4.rc_max_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:
++		p->codec.mpeg4.rc_p_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_VERSION:
++		p->codec.vp8.vp8_version = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_RC_FRAME_RATE:
++		p->rc_framerate = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_MIN_QP:
++		p->codec.vp8.rc_min_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_MAX_QP:
++		p->codec.vp8.rc_max_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_MIN_QP_P:
++		p->codec.vp8.rc_min_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_MAX_QP_P:
++		p->codec.vp8.rc_max_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_I_FRAME_QP:
++		p->codec.vp8.rc_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_P_FRAME_QP:
++		p->codec.vp8.rc_p_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_NUM_OF_PARTITIONS:
++		p->codec.vp8.vp8_numberofpartitions = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_FILTER_LEVEL:
++		p->codec.vp8.vp8_filterlevel = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_FILTER_SHARPNESS:
++		p->codec.vp8.vp8_filtersharpness = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_GOLDEN_FRAMESEL:
++		p->codec.vp8.vp8_goldenframesel = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_GF_REFRESH_PERIOD:
++		p->codec.vp8.vp8_gfrefreshperiod = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_HIERARCHY_QP_ENABLE:
++		p->codec.vp8.hier_qp_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_HIERARCHY_QP_LAYER0:
++		p->codec.vp8.hier_qp_layer[(ctrl->value >> 16) & 0x3] =
++			ctrl->value & 0xFF;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_HIERARCHY_QP_LAYER1:
++		p->codec.vp8.hier_qp_layer[(ctrl->value >> 16) & 0x3] =
++			ctrl->value & 0xFF;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_HIERARCHY_QP_LAYER2:
++		p->codec.vp8.hier_qp_layer[(ctrl->value >> 16) & 0x3] =
++			ctrl->value & 0xFF;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_HIERARCHICAL_CODING_LAYER_BIT0:
++		p->codec.vp8.hier_bit_layer[0] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_HIERARCHICAL_CODING_LAYER_BIT1:
++		p->codec.vp8.hier_bit_layer[1] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP8_HIERARCHICAL_CODING_LAYER_BIT2:
++		p->codec.vp8.hier_bit_layer[2] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_REF_NUMBER_FOR_PFRAMES:
++		p->num_refs_for_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_DISABLE_INTRA_MD4X4:
++		p->codec.vp8.intra_4x4mode_disable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC70_VIDEO_VP8_NUM_TEMPORAL_LAYER:
++		p->codec.vp8.num_hier_layer = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_VERSION:
++		p->codec.vp9.profile = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_RC_FRAME_RATE:
++		p->rc_framerate = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_MIN_QP:
++		p->codec.vp9.rc_min_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_MAX_QP:
++		p->codec.vp9.rc_max_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_MIN_QP_P:
++		p->codec.vp9.rc_min_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_MAX_QP_P:
++		p->codec.vp9.rc_max_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_I_FRAME_QP:
++		p->codec.vp9.rc_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_P_FRAME_QP:
++		p->codec.vp9.rc_p_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_GOLDEN_FRAMESEL:
++		p->codec.vp9.vp9_goldenframesel = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_GF_REFRESH_PERIOD:
++		p->codec.vp9.vp9_gfrefreshperiod = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHY_QP_ENABLE:
++		p->codec.vp9.hier_qp_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER_QP:
++		p->codec.vp9.hier_qp_layer[(ctrl->value >> 16) & 0x3] =
++			ctrl->value & 0xFF;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER_BIT0:
++		p->codec.vp9.hier_bit_layer[0] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER_BIT1:
++		p->codec.vp9.hier_bit_layer[1] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER_BIT2:
++		p->codec.vp9.hier_bit_layer[2] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_REF_NUMBER_FOR_PFRAMES:
++		p->num_refs_for_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER:
++		p->codec.vp9.num_hier_layer = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_MAX_PARTITION_DEPTH:
++		p->codec.vp9.max_partition_depth = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_DISABLE_INTRA_PU_SPLIT:
++		p->codec.vp9.intra_pu_split_disable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_DISABLE_IVF_HEADER:
++		p->ivf_header_disable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
++		p->codec.vp9.profile = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
++		p->codec.vp9.level = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:
++		p->codec.hevc.rc_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_QP:
++		p->codec.hevc.rc_p_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:
++		p->codec.hevc.rc_b_frame_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_RC_FRAME_RATE:
++		p->rc_framerate = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:
++		p->codec.hevc.rc_min_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:
++		p->codec.hevc.rc_max_qp = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP_P:
++		p->codec.hevc.rc_min_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP_P:
++		p->codec.hevc.rc_max_qp_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP_B:
++		p->codec.hevc.rc_min_qp_b = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP_B:
++		p->codec.hevc.rc_max_qp_b = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
++		p->codec.hevc.level = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
++		p->codec.hevc.profile = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_ADAPTIVE_RC_DARK:
++		p->codec.hevc.rc_lcu_dark = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_ADAPTIVE_RC_SMOOTH:
++		p->codec.hevc.rc_lcu_smooth = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_ADAPTIVE_RC_STATIC:
++		p->codec.hevc.rc_lcu_static = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_ADAPTIVE_RC_ACTIVITY:
++		p->codec.hevc.rc_lcu_activity = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_TIER_FLAG:
++		p->codec.hevc.tier_flag = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_MAX_PARTITION_DEPTH:
++		p->codec.hevc.max_partition_depth = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_REF_NUMBER_FOR_PFRAMES:
++		p->num_refs_for_p = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_REFRESH_TYPE:
++		p->codec.hevc.refreshtype = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_CONST_INTRA_PRED_ENABLE:
++		p->codec.hevc.const_intra_period_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_LOSSLESS_CU_ENABLE:
++		p->codec.hevc.lossless_cu_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_WAVEFRONT_ENABLE:
++		p->codec.hevc.wavefront_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_LF_DISABLE:
++		p->codec.hevc.loopfilter_disable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_LF_SLICE_BOUNDARY:
++		p->codec.hevc.loopfilter_across = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_LTR_ENABLE:
++		p->codec.hevc.enable_ltr = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_QP_ENABLE:
++		p->codec.hevc.hier_qp_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_TYPE:
++		p->codec.hevc.hier_qp_type =
++		(enum v4l2_mpeg_video_hevc_hier_coding_type)(ctrl->value);
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER:
++		p->codec.hevc.num_hier_layer = ctrl->value & 0x7;
++		p->codec.hevc.hier_ref_type = (ctrl->value >> 16) & 0x1;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_QP:
++		p->codec.hevc.hier_qp_layer[(ctrl->value >> 16) & 0x7] =
++			ctrl->value & 0xFF;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT0:
++		p->codec.hevc.hier_bit_layer[0] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT1:
++		p->codec.hevc.hier_bit_layer[1] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT2:
++		p->codec.hevc.hier_bit_layer[2] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT3:
++		p->codec.hevc.hier_bit_layer[3] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT4:
++		p->codec.hevc.hier_bit_layer[4] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT5:
++		p->codec.hevc.hier_bit_layer[5] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_BIT6:
++		p->codec.hevc.hier_bit_layer[6] = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_GENERAL_PB_ENABLE:
++		p->codec.hevc.general_pb_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_TEMPORAL_ID_ENABLE:
++		p->codec.hevc.temporal_id_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_STRONG_SMOTHING_FLAG:
++		p->codec.hevc.strong_intra_smooth = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_DISABLE_INTRA_PU_SPLIT:
++		p->codec.hevc.intra_pu_split_disable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_DISABLE_TMV_PREDICTION:
++		p->codec.hevc.tmv_prediction_disable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_MAX_NUM_MERGE_MV_MINUS1:
++		p->codec.hevc.max_num_merge_mv = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_WITHOUT_STARTCODE_ENABLE:
++		p->codec.hevc.encoding_nostartcode_enable = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_REFRESH_PERIOD:
++		p->codec.hevc.refreshperiod = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_LF_BETA_OFFSET_DIV2:
++		p->codec.hevc.lf_beta_offset_div2 = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_LF_TC_OFFSET_DIV2:
++		p->codec.hevc.lf_tc_offset_div2 = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_SIZE_OF_LENGTH_FIELD:
++		p->codec.hevc.size_of_length_field = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_USER_REF:
++		p->codec.hevc.user_ref = ctrl->value;
++		break;
++	case V4L2_CID_MPEG_MFC90_VIDEO_HEVC_STORE_REF:
++		p->codec.hevc.store_ref = ctrl->value;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_ROI_ENABLE:
+ 		p->roi_enable = ctrl->value;
+ 		break;
+ 	case V4L2_CID_MPEG_MFC_H264_VUI_RESTRICTION_ENABLE:
+ 		p->codec.h264.vui_enable = ctrl->value;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_PREPEND_SPSPPS_TO_IDR:
++		p->codec.hevc.prepend_sps_pps_to_idr = ctrl->value;
++		break;
+ 	case V4L2_CID_MPEG_MFC_CONFIG_QP_ENABLE:
+ 		p->dynamic_qp = ctrl->value;
+ 		break;
+@@ -3924,7 +4326,13 @@ static int __mfc_enc_set_ctrl_val_list(struct mfc_ctx *ctx,
+ 			ctx_ctrl->set.has_new = 1;
+ 			ctx_ctrl->set.val = ctrl->value;
+ 			if (ctx_ctrl->id ==
+-				V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER_CH) {
++				V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER_CH ||
++				ctx_ctrl->id ==
++				V4L2_CID_MPEG_VIDEO_VP8_HIERARCHICAL_CODING_LAYER_CH ||
++				ctx_ctrl->id ==
++				V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER_CH ||
++				ctx_ctrl->id ==
++				V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_CH) {
+ 				if (enc->sh_handle_svc.fd == -1) {
+ 					enc->sh_handle_svc.fd = ctrl->value;
+ 					if (mfc_mem_get_user_shared_handle
+@@ -3984,17 +4392,44 @@ static int __mfc_enc_set_ctrl_val(struct mfc_ctx *ctx, struct v4l2_control *ctrl
+ 	case V4L2_CID_MPEG_VIDEO_QOS_RATIO:
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP:
++	case V4L2_CID_MPEG_VIDEO_H263_MAX_QP:
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP:
++	case V4L2_CID_MPEG_VIDEO_VP8_MAX_QP:
++	case V4L2_CID_MPEG_VIDEO_VP9_MAX_QP:
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:
+ 	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP:
++	case V4L2_CID_MPEG_VIDEO_H263_MIN_QP:
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP:
++	case V4L2_CID_MPEG_VIDEO_VP8_MIN_QP:
++	case V4L2_CID_MPEG_VIDEO_VP9_MIN_QP:
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:
+ 	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP_P:
++	case V4L2_CID_MPEG_VIDEO_H263_MAX_QP_P:
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP_P:
++	case V4L2_CID_MPEG_VIDEO_VP8_MAX_QP_P:
++	case V4L2_CID_MPEG_VIDEO_VP9_MAX_QP_P:
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP_P:
+ 	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP_P:
++	case V4L2_CID_MPEG_VIDEO_H263_MIN_QP_P:
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP_P:
++	case V4L2_CID_MPEG_VIDEO_VP8_MIN_QP_P:
++	case V4L2_CID_MPEG_VIDEO_VP9_MIN_QP_P:
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP_P:
+ 	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP_B:
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP_B:
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP_B:
+ 	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP_B:
++	case V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP_B:
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP_B:
+ 	case V4L2_CID_MPEG_MFC51_VIDEO_FRAME_TAG:
+ 	case V4L2_CID_MPEG_MFC51_VIDEO_FORCE_FRAME_TYPE:
+ 	case V4L2_CID_MPEG_MFC51_VIDEO_I_PERIOD_CH:
+ 	case V4L2_CID_MPEG_MFC51_VIDEO_FRAME_RATE_CH:
+ 	case V4L2_CID_MPEG_MFC51_VIDEO_BIT_RATE_CH:
+ 	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER_CH:
++	case V4L2_CID_MPEG_VIDEO_VP8_HIERARCHICAL_CODING_LAYER_CH:
++	case V4L2_CID_MPEG_VIDEO_VP9_HIERARCHICAL_CODING_LAYER_CH:
++	case V4L2_CID_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_LAYER_CH:
+ 	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
+ 	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
+ 	case V4L2_CID_MPEG_MFC_H264_MARK_LTR:
 -- 
 2.34.1
 
