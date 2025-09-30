@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31E9BAC9E9
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AD1BAC9C4
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC4E910E58F;
-	Tue, 30 Sep 2025 11:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4378C10E585;
+	Tue, 30 Sep 2025 11:01:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mlfATGlY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DydzS4WF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83E6310E585
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:01:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1774B10E58A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:01:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 250654188C;
- Tue, 30 Sep 2025 11:01:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E664C4CEF0;
- Tue, 30 Sep 2025 11:01:25 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id F3A6F4171D;
+ Tue, 30 Sep 2025 11:01:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A12CC4CEF7;
+ Tue, 30 Sep 2025 11:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759230086;
- bh=gngwj7kF8pArqtb8nuySJzzwxV0Gy2AND/UvRSwqInc=;
+ s=k20201202; t=1759230088;
+ bh=RuuxyxY+VZaZqYLpsuwEKi3/NEGzLlehxntUlWNT4VM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mlfATGlYGaiMycFuMPsN2DSxtU3+j4e41bdssv+KKh7YEbforZ2OVz7xU8DSHgLtT
- bo+LSmsycWpDMW+oPYvR2jmsOTI34vQey0xjAqmOPfx6WXXHP5jjA42qdy6g0Iq7wF
- 96hOnpFxSeH5Fk/eYUWfs3gc0ckHMYbOk0ntRrlGLSZ1sHXoLv5wfqgvv8qQrobmLn
- gRzr0I6BINB5kEXohW/kYTVftC1sqgyFR83g7PPzqWAkcXjrvVJ0zlgqpW4LyehS4N
- KN5qo0cmecMARdZcuZVGhR4jx7O/TnbT4PtD1yYT+VvXfGtmkPU7kKIN3+t5iuPYz8
- o9YtGDgPuFWHg==
+ b=DydzS4WFexHVRIvLaaOV8zmGrSgmiMsJvyR0jTwHL5AqO/WaPXxLlr0pH39uoDko9
+ MIMMzeXx/pHuq0lLkcsNkX3ORIn9SUvawxD77jMA/mwT8Nbw+ef77xxZxfJ0SRblDv
+ JH9yhduUD4ULYx97g6+v/X7ChfH+Pu2GDapHQx4MPbm7gb8BDl1gAiE8Dh5mg0Sh1u
+ AV95hT9dzQfHacfeCQBDWuzIpZ1pjOYXxgkObRZc468cPce6IHvotIF9CKfLZCmiM9
+ cmU33RQDzxSH1raWoGCYfLVQEvQKZRl0ZEGQKbXg6crtm6r5Z5JZ4siQbDMqYJUv5e
+ pxZ3ClgUi8eDA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 30 Sep 2025 12:59:43 +0200
-Subject: [PATCH v5 28/39] drm/sun4i: Switch to drm_atomic_get_new_crtc_state()
+Date: Tue, 30 Sep 2025 12:59:44 +0200
+Subject: [PATCH v5 29/39] drm/tegra: Switch to drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250930-drm-no-more-existing-state-v5-28-eeb9e1287907@kernel.org>
+Message-Id: <20250930-drm-no-more-existing-state-v5-29-eeb9e1287907@kernel.org>
 References: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 In-Reply-To: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -44,16 +44,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2306; i=mripard@kernel.org;
- h=from:subject:message-id; bh=gngwj7kF8pArqtb8nuySJzzwxV0Gy2AND/UvRSwqInc=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3d2iXvpTc46J47dNEF8uSp5ffzauud9XxWXKsqvmk+
- KYWk7bgjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARAwXGhrWBGu8nX4rnuN/m
- WZ7reHpZ9Npm1gjtkNrIKRNvNHsUl50+5tzQeWNTmOa/fbFKeq8vM9ZKpx1NWNxV4Z79PfqI79w
- teyzOLRPSFQ27GvLUy9tWRjDNxfdcJk/V5wuOuxZcuJCzdTsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1494; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=RuuxyxY+VZaZqYLpsuwEKi3/NEGzLlehxntUlWNT4VM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3d+isF32/zCB3TqWyaSfTowMFpdvFmU2OvTsbIiQgu
+ 6r0jal9x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZiIoStjw9JVpvuC4zh9E1f6
+ ux1Y/Yr5cfezkpUbnsyc3HTEvC3MKFziP1vgs4CkFb0Bk7lkdmTuYazPiszo0wy7Oum6/K2WXLO
+ u3ZF1d9JWfmRzV/tS6eguphY2Nzct/NhRSfdfm3XbIo6tuAMA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,7 +71,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sun4i atomic_check implementation uses the deprecated
+The tegra atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -81,55 +81,32 @@ we can use drm_atomic_get_new_crtc_state() instead.
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-To: Maxime Ripard <mripard@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+To: Jonathan Hunter <jonathanh@nvidia.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org
 ---
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 3 +--
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/tegra/dc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index f97be0040aab29cb4e138fcceb20e90c72db0252..94ac6ad6f30688a048e594811d2ae72aaa44376d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -204,12 +204,11 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 59d5c1ba145a82f62c1835da574867084da98106..0f80da3544c9b3a239c43740c05f007711bc728b 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -1031,11 +1031,11 @@ static int tegra_cursor_atomic_async_check(struct drm_plane *plane, struct drm_a
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+ 	struct drm_crtc_state *crtc_state;
  	int min_scale, max_scale;
+ 	int err;
  
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+-	crtc_state = drm_atomic_get_existing_crtc_state(state, new_state->crtc);
++	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
  	if (WARN_ON(!crtc_state))
  		return -EINVAL;
  
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index a09ee4097537fca8b653f34a833b36b69e343ea5..1f77e1d2984548e746805f8323f537f3b4d93198 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -325,12 +325,11 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
- 	int min_scale, max_scale;
- 
- 	if (!crtc)
- 		return 0;
- 
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
+ 	if (!crtc_state->active)
  		return -EINVAL;
- 
- 	min_scale = DRM_PLANE_NO_SCALING;
- 	max_scale = DRM_PLANE_NO_SCALING;
 
 -- 
 2.51.0
