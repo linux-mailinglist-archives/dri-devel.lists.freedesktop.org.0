@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229A4BAB70C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A017BAB74C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D208110E4BF;
-	Tue, 30 Sep 2025 05:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE67210E4C1;
+	Tue, 30 Sep 2025 05:13:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CwOpqVFe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fbfSQvDZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1913E10E4BF
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 05:03:05 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-46e2e6a708fso35001085e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 22:03:05 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FF510E4C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 05:13:36 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3fc36b99e92so3828768f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 22:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759208583; x=1759813383; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759209214; x=1759814014; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GoR1B9T7V1pTFNhkgw0nIgS8ET98ouYhg1Jto8UVkhg=;
- b=CwOpqVFeP7tEwcyGsqe8lULOvnL+BekTRER+wyQQ2Ilrj0oCAducOFP5657IiRZZvx
- bVNlJkUnA0OgNRpiIJAP/ggzgztnIFwuO0nTfiUW5eo4yEVxi5nE3fuHAkL5tguQd+7W
- DZM3jHGuajSQBo/Wnc2fFf5WG2tpVHU+efmKokdxDQ0tEf14X2BGPDgb/xZ8S6ikIIaI
- CqYNdIaToooE+EPbeigojMfCn7+VH4F/FTrsedYKW/saMyUsKDex1F2SjvYmBp0tWpZH
- g2IUhoM2AqYk4PKL61vFo6RuLRqdS/gruVWM+a7nL0QgH0NTuaUBosmhL3GCT9f9jUoU
- 6JUg==
+ bh=28sCSdkIVoMtYwQnNKzmgCLDZmhKADtDsinxYnd+TVA=;
+ b=fbfSQvDZtMxCFVq9dK9Ah+pBjLEObeen/k3I2rfozLLQ0nHo55G+wHv361oloEELML
+ wutU87QpRb8OvkA7AwAyLRuh3scSeNk6qsD990goG5lteIeAaaLnBig8CKKCH8yezyGR
+ hzBVkwzV1E+X0+LRtfCjOlcloF/UB15gaIOlE11IMAM574OzvhEZ8o61/HNRp2yW3w2S
+ XJPmr3zAMjo+CV0KkyN0iqYS6+l8bBksEwhybMFfF6vYajj4GvbX26TYNpD8we62EQsC
+ ZHUaTsxlniGembk8KXpqzyNENK/Qd/iaD9iMdG8eL1w1UO1Tge0u/y4mJObVgT4xh1oZ
+ evKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759208583; x=1759813383;
+ d=1e100.net; s=20230601; t=1759209214; x=1759814014;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GoR1B9T7V1pTFNhkgw0nIgS8ET98ouYhg1Jto8UVkhg=;
- b=IhJzfAbdRzLFtqyk3/ymtENHxIsqKIE5aT4IgrmkVJzHDo497gL9y77siWcGmG/MO8
- AriO6rOC5eGXJIkWGuOsmYrZNXP3H8h4ePk+xCJQXvs/mn/dkX9j5/tnVqB09DvKWD85
- DfOb/6xA9TaWI3jaKb5cl6/S27qxD6xpHwfe4ymPyG7poLSqLYpVW2JmDubff1HKrIbD
- yvaqMI3zeKwkKB6CBmE9OPqYAyY2hylu3AoAi0aHfxUO3sWwx+Y+vENublvBP+ciRlAa
- 17yqIHsqzv46hDJNPvnsFxSzACmzl7O0D/Rv6QlPNX8ykZq9B9Lb2fQUHhYEEwKaXi2t
- ygBg==
+ bh=28sCSdkIVoMtYwQnNKzmgCLDZmhKADtDsinxYnd+TVA=;
+ b=ld8mjIlBa/NacYT1C20Z036qM5+iFFgroNGxuRDd1X7NOQisJ62FZiHXdf1rL7ir7j
+ ETihF1mnZL8Q0TsP1YtZiXNEmHpuUsGrHwpU+pX8RRbn/i6lCf3CN9jH/D9/JHWYQRZ7
+ t/jR3NGKg6jOKJpwcYgBThMZdBn5fVSYs1e9VO64EAsiXMWSDkXuzp6vtG8fmlLXyZOk
+ F52RxIirjYkPNK0xtWngK/2RCodXSsCk2aKfHoPBUto+0HGKdPUu5YhWKnDo0OnIgAHv
+ Vg5R/XYDL8acvb8DwnLFd6DiqYLoXmaA+J5Aph1aV64AIT8CzF4QDHDYHiIG8paWj7Fp
+ ZQlw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXuJE9JxSjcmMDiL3HChoCOKWn3VQEt2nZhQ3tEzeo90GGSEcJnmnFHBHfSSVmfSuInDKT4DDFoDDI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywg/krPYBgdwXCKsFHLI7+tglT1GbjlF3cV4CHYwVVAnsEe+/v+
- A0EbgF5XGfxKpzYnjf9Yyhiv1qyG+36/RKR8lCBzQquON80OE98FnNhLiW5OO+Hbt8M9OZmQ2h4
- KEV2KdI6vBGsWwHfDszGlh1CaW1pDC0M=
-X-Gm-Gg: ASbGnctNIIOuiFva43u8io5hKdI/+qfNzNahv0jxQkzBMkg9qxLbaEqH95EqObjdpys
- 5YYzbTI20ohk3cJWwPI5CmsNRFF1VJeC+E2zBcMWcV+XQ2KHbRg8UWvHzoXQRDlaU10qFITRPwc
- 2++B6O9ntZj23I8r/Y87EnOySnLGs4FdvvAf90PYflVyiCxssC56LBf9MICwaXbfsDK5vRG8m1t
- R14x0ohKScldyQQwlb6iIyIMFKTHPzN
-X-Google-Smtp-Source: AGHT+IHtCiLZWPd6YG0+/m8xv7WXlf4TjyLf87iKzlvK+SbdMSS/Y5iMogSqKCijOs1mMK9wjtjefb1nkSZHeV4XUX4=
-X-Received: by 2002:a05:600c:3b12:b0:46e:4287:a85e with SMTP id
- 5b1f17b1804b1-46e4287ab48mr113132665e9.13.1759208583161; Mon, 29 Sep 2025
- 22:03:03 -0700 (PDT)
+ AJvYcCXcx5R6M1dCMdOXPisXQXnuZ3TDa6oOWq+WIS2Pdcq4ybvENwdoo0BO4YXUQm9Bqq0XObKNl7tB43A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxej+97yMcdt2O/wsoHjHEmvaQB0w4imOQZBqiaZdyN+rv8UpFC
+ 6uvP/YyhHRFOh/ULvDgLykxOXwrGshokgMkZvlRun6pi2GfSi7nsthnCZJUnMR7XwUFh1txNz9a
+ ahbufw8sHQQVUd9JQzs//NNiqOY5VAAY=
+X-Gm-Gg: ASbGncv4eu1+GVtcmuyRrJDfyr5jFZTjaMkVmLY3OKxPkmTvDqwJ9SF0r45uU+Cs9bA
+ x+OhBOrG+0BNwytqGdtcVYe7hwi8ULS8VOzSZoejiZFdeMdaVg5qdnSO5fhYvdlhxhaaYHMFEow
+ YqzKzHXnCPCbPXkxy8qKdvOxLDPIKwnSwyS4yn2Vq8LJDIOjLezGPsbfVv+cvOWOrOaQCoKbnWX
+ e4M5HvZ8cBJUeoeHbIc+Zlmdr0vWO5W
+X-Google-Smtp-Source: AGHT+IGNsNom4Su7QU2fEFnEBxj4//549PM/wOR2kmlflhsMvTkZdTQKcaYW+oCjOcHIQs7uwi6qpfRZ1OSv0kwES0U=
+X-Received: by 2002:a5d:64c6:0:b0:3f0:8d2f:5ed9 with SMTP id
+ ffacd0b85a97d-424107810d7mr2398569f8f.1.1759209214395; Mon, 29 Sep 2025
+ 22:13:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250929142455.24883-1-clamor95@gmail.com>
- <20250929142455.24883-2-clamor95@gmail.com>
- <CAD=FV=Vd=muLeMJYszC2SqRBThN=Srm_bKXBEmjjqND7bqHo2g@mail.gmail.com>
-In-Reply-To: <CAD=FV=Vd=muLeMJYszC2SqRBThN=Srm_bKXBEmjjqND7bqHo2g@mail.gmail.com>
+ <20250929142455.24883-3-clamor95@gmail.com>
+ <CAD=FV=WH5rsQR0vnsdZqfA-K-4AWSyOOfbe3g1H7pYCG0AigZw@mail.gmail.com>
+In-Reply-To: <CAD=FV=WH5rsQR0vnsdZqfA-K-4AWSyOOfbe3g1H7pYCG0AigZw@mail.gmail.com>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 30 Sep 2025 08:02:51 +0300
-X-Gm-Features: AS18NWD95jSyp5Bl_nRLcKiZ6--BarGD38quBofBfUrmsZQ1NRrhf1Cuovt9_j8
-Message-ID: <CAPVz0n23qNrnyP7ttchaCoLit=gBm_++7RX7B8MxR_nx+8LGHw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/8] dt-bindings: display: panel: properly document LG
- LD070WX3 panel
+Date: Tue, 30 Sep 2025 08:13:23 +0300
+X-Gm-Features: AS18NWAktzvo6CdHqu1-L08mlA4famWpZ3H0hjW0E_8qfU4dix6TX2hosFTbY0I
+Message-ID: <CAPVz0n2Prw0ZoQhrodobmSpAu7XV6aX=NV=2ee0RwL3H5hWARg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/8] gpu/drm: panel: add support for LG LD070WX3-SL01
+ MIPI DSI panel
 To: Doug Anderson <dianders@chromium.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -98,7 +98,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=B2=D1=82, 30 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 06:12 Doug=
+=D0=B2=D1=82, 30 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 06:20 Doug=
  Anderson <dianders@chromium.org> =D0=BF=D0=B8=D1=88=D0=B5:
 >
 > Hi,
@@ -106,77 +106,119 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > On Mon, Sep 29, 2025 at 7:25=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmail.=
 com> wrote:
 > >
-> > LG LD070WX3-SL01 was mistakenly documented as a simple DSI panel, which=
- it
-> > clearly is not. Address this by adding the proper schema for this panel=
-.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../bindings/display/panel/lg,ld070wx3.yaml   | 60 +++++++++++++++++++
-> >  .../display/panel/panel-simple-dsi.yaml       |  2 -
-> >  2 files changed, 60 insertions(+), 2 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/lg,=
-ld070wx3.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070wx=
-3.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
-> > new file mode 100644
-> > index 000000000000..0a82cf311452
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
-> > @@ -0,0 +1,60 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +static int lg_ld070wx3_prepare(struct drm_panel *panel)
+> > +{
+> > +       struct lg_ld070wx3 *priv =3D to_lg_ld070wx3(panel);
+> > +       struct mipi_dsi_multi_context ctx =3D { .dsi =3D priv->dsi };
+> > +       struct device *dev =3D panel->dev;
+> > +       int ret;
 > > +
-> > +title: LG Corporation 7" WXGA TFT LCD panel
+> > +       ret =3D regulator_bulk_enable(ARRAY_SIZE(priv->supplies), priv-=
+>supplies);
+> > +       if (ret < 0) {
+> > +               dev_err(dev, "failed to enable power supplies: %d\n", r=
+et);
+> > +               return ret;
+> > +       }
 > > +
-> > +maintainers:
-> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > +       /*
+> > +        * According to spec delay between enabling supply is 0,
+> > +        * for regulators to reach required voltage ~5ms needed.
+> > +        * MIPI interface signal for setup requires additional
+> > +        * 110ms which in total results in 115ms.
+> > +        */
+> > +       mdelay(115);
 > > +
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
+> > +       mipi_dsi_dcs_soft_reset_multi(&ctx);
+> > +       mipi_dsi_msleep(&ctx, 20);
 > > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: lg,ld070wx3-sl01
+> > +       /* Differential input impedance selection */
+> > +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xae, 0x0b);
 > > +
-> > +  reg:
-> > +    maxItems: 1
+> > +       /* Enter test mode 1 and 2*/
+> > +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xee, 0xea);
+> > +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xef, 0x5f);
 > > +
-> > +  vdd-supply: true
-> > +  vcc-supply: true
+> > +       /* Increased MIPI CLK driving ability */
+> > +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x68);
 > > +
-> > +  backlight: true
-> > +  port: true
+> > +       /* Exit test mode 1 and 2 */
+> > +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xee, 0x00);
+> > +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xef, 0x00);
 > > +
-> > +required:
-> > +  - compatible
-> > +  - vdd-supply
-> > +  - vcc-supply
+> > +       return 0;
 >
-> I suspect you'll get a NAK here because you're not preserving backward
-> compatibility for existing device trees. While there can sometimes be
-> reasons to do that, you'd need to provide a very strong justification.
+> Shouldn't this return the accumulated error?
 >
->
-> It seems like instead of breaking compatibility you could just have
-> two supplies:
->
-> * power-supply - The name for the "dvdd" supply.
-> * avdd-supply - The name for the "avdd" supply.
->
-> ...and then you make both of them not "required". Maybe you'd add some
-> documentation saying that things might not work 100% correctly if they
-> weren't provided but that old device trees didn't specify them?
 
-Schema describes hardware. If it does not (and in this case it clearly
-DOES NOT), then such schema should be adjusted according to hardware.
-If there are any users of such binding, they should be adjusted too
-(third commit of this patchset does exactly that). Panel datasheet is
-explicit, panel has ONLY vdd supply and vcc supply, names are taken
-from there too.
+Downstream does not, and I am not, though I agree that this may be a
+decent idea. Thank you.
+
+>
+> > +static int lg_ld070wx3_unprepare(struct drm_panel *panel)
+> > +{
+> > +       struct lg_ld070wx3 *priv =3D to_lg_ld070wx3(panel);
+> > +       struct mipi_dsi_multi_context ctx =3D { .dsi =3D priv->dsi };
+> > +
+> > +       mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
+> > +
+>
+> Maybe add some comment about ignoring the accumulated error in the
+> context and still doing the sleeps?
+>
+
+Isn't that obvious? Regardless of what command returns power supply
+should be turned off, preferably with a set amount of delays (delays
+are taken from datasheet) to avoid leaving panel in uncertain state
+with power on.
+
+>
+> > +       msleep(50);
+> > +
+> > +       regulator_bulk_disable(ARRAY_SIZE(priv->supplies), priv->suppli=
+es);
+> > +
+> > +       /* power supply must be off for at least 1s after panel disable=
+ */
+> > +       msleep(1000);
+>
+> Presumably it would be better to keep track of the time you turned it
+> off and then make sure you don't turn it on again before that time?
+> Otherwise you've got a pretty wasteful delay here.
+>
+
+And how do you propose to implement that? Should I use mutex?
+Datasheet is clear regarding this, after supply is turned off there
+MUST be AT LEAST 1 second of delay before supplies can be turned back
+on.
+
+>
+> > +static int lg_ld070wx3_probe(struct mipi_dsi_device *dsi)
+> > +{
+> > +       struct device *dev =3D &dsi->dev;
+> > +       struct lg_ld070wx3 *priv;
+> > +       int ret;
+> > +
+> > +       priv =3D devm_drm_panel_alloc(dev, struct lg_ld070wx3, panel,
+> > +                                   &lg_ld070wx3_panel_funcs,
+> > +                                   DRM_MODE_CONNECTOR_DSI);
+> > +       if (IS_ERR(priv))
+> > +               return PTR_ERR(priv);
+> > +
+> > +       priv->supplies[0].supply =3D "vcc";
+> > +       priv->supplies[1].supply =3D "vdd";
+> > +
+> > +       ret =3D devm_regulator_bulk_get(dev, ARRAY_SIZE(priv->supplies)=
+, priv->supplies);
+> > +       if (ret < 0)
+> > +               return dev_err_probe(dev, ret, "failed to get regulator=
+s\n");
+>
+> Better to use devm_regulator_bulk_get_const() so you don't need to
+> manually init the supplies?
+
+So you propose to init supplies in the probe? Are you aware that
+between probe and panel prepare may be 8-10 seconds, sometimes even
+more. Having power supplies enabled without panel configuration may
+result in permanent panel damage during that time especially since
+panel has no hardware reset mechanism.
