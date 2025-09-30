@@ -2,93 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8E6BAB08D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 04:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D603DBAB0BD
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 04:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B2410E267;
-	Tue, 30 Sep 2025 02:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A71610E26A;
+	Tue, 30 Sep 2025 02:44:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="REIK0bB5";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="I7J2MNJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f99.google.com (mail-oo1-f99.google.com
- [209.85.161.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31FD510E267
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 02:42:36 +0000 (UTC)
-Received: by mail-oo1-f99.google.com with SMTP id
- 006d021491bc7-63a1f3c0820so2211415eaf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:42:36 -0700 (PDT)
+Received: from mail-oa1-f99.google.com (mail-oa1-f99.google.com
+ [209.85.160.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61DE610E26A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 02:44:57 +0000 (UTC)
+Received: by mail-oa1-f99.google.com with SMTP id
+ 586e51a60fabf-30cce872d9cso4578537fac.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:44:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759200155; x=1759804955;
+ d=1e100.net; s=20230601; t=1759200296; x=1759805096;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:dkim-signature:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=yhRneZaO/Ml8f9QzOagB8nidWpzm5SAnOn+oXTlTKuE=;
- b=fSjw43mCQnZXvlYzqMH9LZ/2v6P9AcMZ0EFFgHyKg+BRCb5ZPO4EoRJBGoHMsF2LCC
- ivCpA7iolIc1u5e1MTISaFRiWgNqThg834HO5zJ0hf2seoZ7iE0hlitmfJIwGKIHwO3L
- ueFeIVV5GjjLTQzPdgU1Da/8YFBUF4reC/oAGG3jBBwlHWDkr89Sbi3lVOKo1JJp27r9
- ZnIoTTCb1gg+oCg0Wuxx2UurzuimeTBldmhttPCy1vV3Uq3QgtGY+y54u7qHtzbaONbR
- cT1wuB30tmsvVcg02zb8TGkWdK4ntedOWMej9rP3RTjLnH/JVd729U6GATtXDKGYFttD
- EE8w==
-X-Gm-Message-State: AOJu0YyLZkf67BrSbfNcoLajo/i7h8mGzqVvKlDpulxBMA+7BvbbIaf+
- x9hJO21192Aia0PaSd41Mi+6f4Fiw5mea61LkucFjKgrWWi5UGtoMwuDFtYL2penZ8JbleOIS40
- O2mvn7IqKQC+/vjYnJrhCeCzs6gjJZMgX9D4rvCo/mUTpqYu7TYwHOeDnUzN2UUyZe/QsLqOdUZ
- hvMzx2y9l3WX7dLPqAg2xRP9CIREjUveiqdJaV8Xhp8ndwX2cYjwJ16orJagNkP2XIx2IyTu88F
- BLryK8bS8Dk1WZ0U3jG
-X-Gm-Gg: ASbGncuQU1AYuzcudJ23wMI5F6uO4OWJt5WymYKE+HnbF5WCdDLN6rQSU0o/Wecx0O6
- uy0vBamL9ld7cbZHlSrmwx502GxZAiTeiE5qrOhFR6QGv27MxBGw8SoS7rSOpTCsXYdIocGIol2
- vUDDkTMq8MBbaA7/PZ9iXAFk4AFbVFUs+reHDxwwzZ5IbJbPHCDLvWmOjbvgihuJ/jhKkZEkFsA
- Uc+WIl8O+gd74OKCzJj1Mkvtnc6ruLttzIU4cobBjgv59g5CZV4IkMwrHyBJBw/ahIx9DdEfY4a
- f7RuQ12tkqNGkY+oesVPVF5L76Sm0iPveVZV/tmXURVlMmibG3lbY3Z55GD1LCmJq770fusAm04
- QRU5NjkfQUg+Gu+XxvRhhHSAUZnMj0Np2/r2uwZOd5GyWa0TeOYR6+Ot4o8r/rBywQVorKmiUJq
- z7n3Js
-X-Google-Smtp-Source: AGHT+IF72//uygH9CSyCy1aV49npKeiDYaVqCC5HBACsKesdOq/Joc5iFwJLs0mF3UM3/XMhdGUmLHX3Nord
-X-Received: by 2002:a05:6820:827:b0:632:c3dc:2e48 with SMTP id
- 006d021491bc7-63a36599816mr8983789eaf.3.1759200154674; 
- Mon, 29 Sep 2025 19:42:34 -0700 (PDT)
+ bh=avLHlz1vzPNCHhOv/OFVVeGlHBMTphWAoNHeItrUvQw=;
+ b=CIPmpK777Cl6PD6LWrrERpgPNt6hZoO2WP5KOPIoxiGw1Zt0MRiBqCh5vCDJHGRDWB
+ 7NCJwkWga2NSmi0k63XF+5JULW/lAuQzLAQdUJBGEjoLs4MgSRnLs1xeUx/HP8pMBaHX
+ kc8rwf+36Cn2V8l/Rx3mGyefDq8Xlctb2x/WF5burw45teFIz5pSSZNOLa7SXmOn3udI
+ iAaDp0U79B4+DYI9WbZzVm5yUPPSMnH82QmqfWR0NEye8l3g8oSIvuqrndoeeisiBMFD
+ j7dGtVqilEVQqwE4rsHmN4BEyr085CJb/TRWnp8q5N5KMrkVF7H5LdhLmNevT3ug4nbk
+ lx0Q==
+X-Gm-Message-State: AOJu0YyuJ/a8ywxx2P0ZVlds3LLOKbZmkIMG5lK3Pdr7Vx0QmRRRb8Kk
+ oama0K30eJwUxB2ScWAEeicxQCABBW+gGq6K3XQ/UlQ0Vr4QtNvsA/n6oFiB5egCAmcp/kzmDD+
+ YJM29KEMZrbJMYn0s4EDie/UuhtaVgkLkh/Fkv2Zq8URO0eN73xXfrbzE+i+qdihDs4nSiKPO03
+ Y4gKgEiDEHHdV27H3nFcsRxDgrWlEPJnZYUsHJivSrqzK/xqwNI2/RjVxKtnwe6Amx/U648PwcV
+ uD0UcvJmCd1Q7DoSj3F
+X-Gm-Gg: ASbGnctqdygXt8yVuasWo+Y1nvjSsFjS4jfeFgocrnZJ5Kp8ZIucMFNQBJZJEm56OPY
+ SJBWI5mHMW4pMiQkQLM17T1SD6JjioCzjoCfXYpk3hE5uHnAIVMLFczv1v1FFHJpbfUDXoRMxAt
+ en5ZMRBeQ3SnWJIx9ba3MuCi2GVG3cHaQ+h0cyE+SkiNoJjxvYGMu6ZD+uaOqKONgaWRwYNiRk/
+ KUzvJg2lxOEhceHVJdoJ1gBVnu5lGxKOp8xFGT8pXWBYqD6frrY2QP0KRB2191f8wvXkFwnD6Gq
+ wsPq65ioaQZ7iXsaW0aKYDzpWV5CVfaiQG+6ctAPBLzm1j0fKO9EnnEHeytEtL1MiG2jKJ0bHuQ
+ NPfoA/qZbW0o5gOoewl/Y5e4r/pG5SVwHzKOcrcJ4K/3bSz6bU/MQuiSjLiq1N3N+0h4S2reQli
+ pW0CBs
+X-Google-Smtp-Source: AGHT+IHp3Exn+xasMN5Pe0uMSLyB9vgB5673K3nHpE2wy7Jhxxlxnk8APLEcfgSKWIr61vEwLMBGIEaQInD+
+X-Received: by 2002:a05:6871:7417:b0:333:7d78:7045 with SMTP id
+ 586e51a60fabf-35ee7f96da1mr11613884fac.32.1759200296434; 
+ Mon, 29 Sep 2025 19:44:56 -0700 (PDT)
 Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
  (address-144-49-247-121.dlp.protect.broadcom.com. [144.49.247.121])
  by smtp-relay.gmail.com with ESMTPS id
- 006d021491bc7-63b165b5a9bsm315414eaf.0.2025.09.29.19.42.33
+ 586e51a60fabf-39582b97663sm7848fac.14.2025.09.29.19.44.55
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 29 Sep 2025 19:42:34 -0700 (PDT)
+ Mon, 29 Sep 2025 19:44:56 -0700 (PDT)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-368348cf7d5so26497131fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:42:32 -0700 (PDT)
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-3728a1e5cbaso11482911fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1759200151; x=1759804951;
+ d=broadcom.com; s=google; t=1759200293; x=1759805093;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yhRneZaO/Ml8f9QzOagB8nidWpzm5SAnOn+oXTlTKuE=;
- b=REIK0bB5BmINcGEWYHfNTQtzaTXayKcR63StaOEpWp1/FB9jd9/FFoZ3lcoRHODMpF
- ZU7HcXrh27Wqlf21Fxi91vHx6oydSJ1NX5a+FH4awufuBc6wgzG2VahJ6QdyBhp9yhrH
- ycoA/G1J37pBopY+P6cozcTS0e61kBl9FtGKw=
-X-Received: by 2002:a05:651c:1146:b0:351:62e3:95d6 with SMTP id
- 38308e7fff4ca-36f7ee60b86mr68460501fa.28.1759200151549; 
- Mon, 29 Sep 2025 19:42:31 -0700 (PDT)
-X-Received: by 2002:a05:651c:1146:b0:351:62e3:95d6 with SMTP id
- 38308e7fff4ca-36f7ee60b86mr68460361fa.28.1759200151113; Mon, 29 Sep 2025
- 19:42:31 -0700 (PDT)
+ bh=avLHlz1vzPNCHhOv/OFVVeGlHBMTphWAoNHeItrUvQw=;
+ b=I7J2MNJDPaAM/0CXJaeHA4toRKLFyo64RuDhWBB/WjYmmKs/GBiUoOVPp+b1L09lDI
+ bU8fmMusg8Fguts4fjliSTGhHYxDVPgh7Gm0xUQOiSN/oVsHYCWJFf8AO6GwJHiafe8e
+ 7tPgBkzR75qE1EOlLXWYafYTXcqS9t9xnLS/8=
+X-Received: by 2002:a05:651c:4419:10b0:372:8ada:bf8a with SMTP id
+ 38308e7fff4ca-3728adac271mr23216441fa.35.1759200293235; 
+ Mon, 29 Sep 2025 19:44:53 -0700 (PDT)
+X-Received: by 2002:a05:651c:4419:10b0:372:8ada:bf8a with SMTP id
+ 38308e7fff4ca-3728adac271mr23216391fa.35.1759200292820; Mon, 29 Sep 2025
+ 19:44:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250926195427.1405237-1-ian.forbes@broadcom.com>
-In-Reply-To: <20250926195427.1405237-1-ian.forbes@broadcom.com>
+ <20250926195427.1405237-2-ian.forbes@broadcom.com>
+In-Reply-To: <20250926195427.1405237-2-ian.forbes@broadcom.com>
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 29 Sep 2025 22:42:17 -0400
-X-Gm-Features: AS18NWANHmV3Y3hiKu4a21X-iuGGyZCKLfXYl3ptPCdjpBayGzo_Vs5vVfM2GeE
-Message-ID: <CABQX2QNFRECjiq4OVA0dKW=7BQzPSdDkxs-LVozzjFEF8-rKPw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/vmwgfx: Fix Use-after-free in validation
+Date: Mon, 29 Sep 2025 22:44:39 -0400
+X-Gm-Features: AS18NWBK4TXPilOmqrzPfyd06IfYHecIfHVUCBM0-Wy0-IIutR03EbLYtAgmD6I
+Message-ID: <CABQX2QP5Ub7x=G+YvAsiPaF1yQ-WR50+DjZwQ+ou_OAi74wnbw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/vmwgfx: Fix copy-paste typo in validation
 To: Ian Forbes <ian.forbes@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- maaz.mombasawala@broadcom.com, praveen.singh@broadcom.com, 
- Kuzey Arda Bulut <kuzeyardabulut@gmail.com>
+ maaz.mombasawala@broadcom.com, praveen.singh@broadcom.com
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000024f5d2063ffbb475"
+ micalg=sha-256; boundary="000000000000968365063ffbbc0e"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,57 +104,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000024f5d2063ffbb475
+--000000000000968365063ffbbc0e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, Sep 26, 2025 at 3:54=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
 > wrote:
 >
-> Nodes stored in the validation duplicates hashtable come from an arena
-> allocator that is cleared at the end of vmw_execbuf_process. All nodes
-> are expected to be cleared in vmw_validation_drop_ht but this node escape=
-d
-> because its resource was destroyed prematurely.
+> 'entry' should be 'val' which is the loop iterator.
 >
-> Fixes: 64ad2abfe9a6 ("drm/vmwgfx: Adapt validation code for reference-fre=
-e lookups")
-> Reported-by: Kuzey Arda Bulut <kuzeyardabulut@gmail.com>
+> Fixes: 9e931f2e0970 ("drm/vmwgfx: Refactor resource validation hashtable =
+to use linux/hashtable implementation.")
 > Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm=
 /vmwgfx/vmwgfx_validation.c
-> index 7ee93e7191c7..4d0fb71f6211 100644
+> index 4d0fb71f6211..35dc94c3db39 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> @@ -308,8 +308,10 @@ int vmw_validation_add_resource(struct vmw_validatio=
-n_context *ctx,
->                 hash_add_rcu(ctx->sw_context->res_ht, &node->hash.head, n=
-ode->hash.key);
->         }
->         node->res =3D vmw_resource_reference_unless_doomed(res);
-> -       if (!node->res)
-> +       if (!node->res) {
-> +               hash_del_rcu(&node->hash.head);
->                 return -ESRCH;
-> +       }
+> @@ -638,7 +638,7 @@ void vmw_validation_drop_ht(struct vmw_validation_con=
+text *ctx)
+>                 hash_del_rcu(&val->hash.head);
 >
->         node->first_usage =3D 1;
->         if (!res->dev_priv->has_mob) {
+>         list_for_each_entry(val, &ctx->resource_ctx_list, head)
+> -               hash_del_rcu(&entry->hash.head);
+> +               hash_del_rcu(&val->hash.head);
+>
+>         ctx->sw_context =3D NULL;
+>  }
 > --
 > 2.51.0
 >
 
-Thanks for finding this.
+Great catch!
 
 Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
 
 z
 
---00000000000024f5d2063ffbb475
+--000000000000968365063ffbbc0e
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -246,13 +237,13 @@ iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
 b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
 VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
 VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIKFz
-V8RfPlWcJijrVmux6/XMG/5inXYE8EWTIxn/MGVMMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDkzMDAyNDIzMVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIMiy
+RTuXWZQDriEEDZJDkpH99aswcT3nq90pMWrswe68MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDkzMDAyNDQ1M1owXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
 ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAGYoUmDhm6sY17jJQwZieI2e24ArKEjoIGTn80yA
-XQI2aIXxYh7oLLDShD6/ampJhiFnAgmjE5YXViR8NJ6w1WTWEAzxvEqzDPMezSvNcJMqyVTgx9ro
-VrjAIZiZBmdlbV+bvDo2v9ROQew3lly08PTNThfWVt9SI/uAZp4NUTAq7duaZjzlVFN5xxEg/19j
-53qir68m7nnphdiRNYJtTx/d4xzAEF96yQmmfBma1UmfsZ2rtFo/1tKy6xqnYadAPTxmbsIYvsoF
-WQQKBFx0cK0cwtnjillpCqYIX3asZ1/psxdgZ84nL1W0XwyW4ftGyYCDD3WTX3eRTbn3BFBNnyM=
---00000000000024f5d2063ffbb475--
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEfZJkiJZorhV6OgxxzCMFtnkGHBYyj5PsqXz5Uo
+saRDLCc8Vi2W9x32bqV9pI5shsa0OB9Mg++O0KafM4Z5+AVRUjrKSfdMNyV0BSHyQ/qFhnEMiYWW
+p/fhwD2+DPpz8ExKV5c9Yu/9p63Af4V6jZMjxzBXbrIRcr78vf6qlneYOeTsxGwBWtNZnLlURYPm
+hZ/0vBwWj+gdc/28u8wEUDhszLmyu36Pftopps+ZyP4Ibi04ZopXZ2b3VcXQ+0u5D9ly6FLQNRf/
+Lz7Pca+QefQVPv4Mz9LI4Bx5edtW4VMiRRUzHsFgz/8QRJf+mnoFeH+7wzWF4KOzrvk/Vt3+E9c=
+--000000000000968365063ffbbc0e--
