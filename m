@@ -2,93 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D603DBAB0BD
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 04:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9183BAB162
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 04:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A71610E26A;
-	Tue, 30 Sep 2025 02:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF03D10E266;
+	Tue, 30 Sep 2025 02:49:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="I7J2MNJD";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="RBP4eVyt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f99.google.com (mail-oa1-f99.google.com
- [209.85.160.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61DE610E26A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 02:44:57 +0000 (UTC)
-Received: by mail-oa1-f99.google.com with SMTP id
- 586e51a60fabf-30cce872d9cso4578537fac.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:44:57 -0700 (PDT)
+Received: from mail-yx1-f99.google.com (mail-yx1-f99.google.com
+ [74.125.224.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0FA10E266
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 02:49:24 +0000 (UTC)
+Received: by mail-yx1-f99.google.com with SMTP id
+ 956f58d0204a3-6354f14b881so3959919d50.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:49:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759200296; x=1759805096;
+ d=1e100.net; s=20230601; t=1759200563; x=1759805363;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:dkim-signature:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=avLHlz1vzPNCHhOv/OFVVeGlHBMTphWAoNHeItrUvQw=;
- b=CIPmpK777Cl6PD6LWrrERpgPNt6hZoO2WP5KOPIoxiGw1Zt0MRiBqCh5vCDJHGRDWB
- 7NCJwkWga2NSmi0k63XF+5JULW/lAuQzLAQdUJBGEjoLs4MgSRnLs1xeUx/HP8pMBaHX
- kc8rwf+36Cn2V8l/Rx3mGyefDq8Xlctb2x/WF5burw45teFIz5pSSZNOLa7SXmOn3udI
- iAaDp0U79B4+DYI9WbZzVm5yUPPSMnH82QmqfWR0NEye8l3g8oSIvuqrndoeeisiBMFD
- j7dGtVqilEVQqwE4rsHmN4BEyr085CJb/TRWnp8q5N5KMrkVF7H5LdhLmNevT3ug4nbk
- lx0Q==
-X-Gm-Message-State: AOJu0YyuJ/a8ywxx2P0ZVlds3LLOKbZmkIMG5lK3Pdr7Vx0QmRRRb8Kk
- oama0K30eJwUxB2ScWAEeicxQCABBW+gGq6K3XQ/UlQ0Vr4QtNvsA/n6oFiB5egCAmcp/kzmDD+
- YJM29KEMZrbJMYn0s4EDie/UuhtaVgkLkh/Fkv2Zq8URO0eN73xXfrbzE+i+qdihDs4nSiKPO03
- Y4gKgEiDEHHdV27H3nFcsRxDgrWlEPJnZYUsHJivSrqzK/xqwNI2/RjVxKtnwe6Amx/U648PwcV
- uD0UcvJmCd1Q7DoSj3F
-X-Gm-Gg: ASbGnctqdygXt8yVuasWo+Y1nvjSsFjS4jfeFgocrnZJ5Kp8ZIucMFNQBJZJEm56OPY
- SJBWI5mHMW4pMiQkQLM17T1SD6JjioCzjoCfXYpk3hE5uHnAIVMLFczv1v1FFHJpbfUDXoRMxAt
- en5ZMRBeQ3SnWJIx9ba3MuCi2GVG3cHaQ+h0cyE+SkiNoJjxvYGMu6ZD+uaOqKONgaWRwYNiRk/
- KUzvJg2lxOEhceHVJdoJ1gBVnu5lGxKOp8xFGT8pXWBYqD6frrY2QP0KRB2191f8wvXkFwnD6Gq
- wsPq65ioaQZ7iXsaW0aKYDzpWV5CVfaiQG+6ctAPBLzm1j0fKO9EnnEHeytEtL1MiG2jKJ0bHuQ
- NPfoA/qZbW0o5gOoewl/Y5e4r/pG5SVwHzKOcrcJ4K/3bSz6bU/MQuiSjLiq1N3N+0h4S2reQli
- pW0CBs
-X-Google-Smtp-Source: AGHT+IHp3Exn+xasMN5Pe0uMSLyB9vgB5673K3nHpE2wy7Jhxxlxnk8APLEcfgSKWIr61vEwLMBGIEaQInD+
-X-Received: by 2002:a05:6871:7417:b0:333:7d78:7045 with SMTP id
- 586e51a60fabf-35ee7f96da1mr11613884fac.32.1759200296434; 
- Mon, 29 Sep 2025 19:44:56 -0700 (PDT)
+ bh=Hy0W+dLX7DSqdGhnKrHuxSRI9leIICuGVUFYECfUzM4=;
+ b=bcPXEG3HZH4K0FBTkTnG0Oo36fzG24VycBPTNdcT82yPnv6lpSCGXEd7DbuopNBxL7
+ MVavFXvHgUHQCM6rzexKzG2wHbw6RBNCm2ERK+QSLJBHesF45nvsBcvEhvXkzpAtuiGJ
+ SwJMMoU5YU9eLu+fzH0ndv5WCBL8m0TnmaL3OX0zU0E1xHRHhdo9PXY5+GlZN8IdJQ1Y
+ 0bLFLLkClu7NeFU78qYxLzWC/U9jwPt3iTMavC8tufkJJFuyx5siFLQUtP3VPUDntxiB
+ ANjdPcA+IDMjESYQ4Yi+tgglj9AO+oYj4pFSZw696C2qXasDeeN5CSvRmdSaRZTScrT1
+ uRsQ==
+X-Gm-Message-State: AOJu0YxYWBEt4t1XNwSWhTeqlI/xK8X/x6UVHtdgjT6ZGq7UNIXPzSok
+ 94eFRanl+1WFjnvoaH4vFnzgATH175MDupCP1fYOGiQLSUwmxIbH5u4STmV1GFmH0v8kIY/pE4W
+ tE7+CMneju5ATIcPxDhf5NXwg955r/3zus/jmhcHZoKak82vPjZjmT/CzUOVBs1xfNpwOHNtxAz
+ ENSAayzXNOxEOrI39ptmYgz+92hY0YmtP8aRArltocP2/eeSZyCAVGiih0xAlW5P/jpaA724JNB
+ 4+dzIXxWpzIcQZFPt4X
+X-Gm-Gg: ASbGncuVJKaCZoj46EN2w1VwYlev1OvQPl+S1RNTnc8uMAlz6djIaUNLHYiVH5c8Pi3
+ 3m+2oMBFPx/SII6NjlGZ3kyLd/hnRbVgkHXYgJ35o2ewr5oUrXVzCQ1qn0orHArI+aWjzNi9Pt3
+ uitHaVfsZeViPNAmZle8TzVGnZ/H0WF2C4W6X37eR/gBzGdUYBVG/Fr/3hQSgv9tanQxNp8rJaE
+ f/JMKDjEyi1qaYfltSZ50FIwBqwP9TR+dFZkD9GkN527zPFZp+jpoR/AKF6vOIRWzZ5zfJIol0p
+ RjgqYOOxse2TuI9g/JSrgZEFjYFauWO+H2OUgkGxfmbdk3xW4XLwTgASHclVF875UbcbswBkpTt
+ wYGneABxyID0Y/re0MdoWDtNn7g0Y20Jt6aZrDnIieVx7Lb59bEULdO9CVz2nW+QaBTQ0Us/Fya
+ NtLTEp
+X-Google-Smtp-Source: AGHT+IFJZG2YCpWhkpzsFoJwe+6mvesiQ1qYUFFdk2/8xJSH6whHCM/WKpyyu3TpJfwMnJ5j2tMVnQccrZOU
+X-Received: by 2002:a05:690e:d4d:b0:622:4818:ce38 with SMTP id
+ 956f58d0204a3-6361a7ec640mr21457206d50.37.1759200562975; 
+ Mon, 29 Sep 2025 19:49:22 -0700 (PDT)
 Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-121.dlp.protect.broadcom.com. [144.49.247.121])
+ (address-144-49-247-101.dlp.protect.broadcom.com. [144.49.247.101])
  by smtp-relay.gmail.com with ESMTPS id
- 586e51a60fabf-39582b97663sm7848fac.14.2025.09.29.19.44.55
+ 956f58d0204a3-6361e9416d5sm590363d50.14.2025.09.29.19.49.22
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 29 Sep 2025 19:44:56 -0700 (PDT)
+ Mon, 29 Sep 2025 19:49:22 -0700 (PDT)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-3728a1e5cbaso11482911fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:44:55 -0700 (PDT)
+Received: by mail-lj1-f197.google.com with SMTP id
+ 38308e7fff4ca-36cc5d00795so32141541fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Sep 2025 19:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1759200293; x=1759805093;
+ d=broadcom.com; s=google; t=1759200560; x=1759805360;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=avLHlz1vzPNCHhOv/OFVVeGlHBMTphWAoNHeItrUvQw=;
- b=I7J2MNJDPaAM/0CXJaeHA4toRKLFyo64RuDhWBB/WjYmmKs/GBiUoOVPp+b1L09lDI
- bU8fmMusg8Fguts4fjliSTGhHYxDVPgh7Gm0xUQOiSN/oVsHYCWJFf8AO6GwJHiafe8e
- 7tPgBkzR75qE1EOlLXWYafYTXcqS9t9xnLS/8=
-X-Received: by 2002:a05:651c:4419:10b0:372:8ada:bf8a with SMTP id
- 38308e7fff4ca-3728adac271mr23216441fa.35.1759200293235; 
- Mon, 29 Sep 2025 19:44:53 -0700 (PDT)
-X-Received: by 2002:a05:651c:4419:10b0:372:8ada:bf8a with SMTP id
- 38308e7fff4ca-3728adac271mr23216391fa.35.1759200292820; Mon, 29 Sep 2025
- 19:44:52 -0700 (PDT)
+ bh=Hy0W+dLX7DSqdGhnKrHuxSRI9leIICuGVUFYECfUzM4=;
+ b=RBP4eVytEFvmu0J7wNn1THcV1QaxckNf85TQL7ooenFlNqZ2jOCIOVgHXaBTKGJjb5
+ xQrKhnjmb1XKtvHKyvEFbeUfTd8zlpBEK3l4qdMUpqzBlQYXNEnrEHU8CuX4MgaQRZJp
+ lZKWYbuIqtveDXznpxbyMRYjlCCNxY0yu7yO0=
+X-Received: by 2002:a05:651c:1592:b0:372:9223:9efb with SMTP id
+ 38308e7fff4ca-3729223d730mr23318161fa.45.1759200559434; 
+ Mon, 29 Sep 2025 19:49:19 -0700 (PDT)
+X-Received: by 2002:a05:651c:1592:b0:372:9223:9efb with SMTP id
+ 38308e7fff4ca-3729223d730mr23318151fa.45.1759200558947; Mon, 29 Sep 2025
+ 19:49:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250926195427.1405237-1-ian.forbes@broadcom.com>
- <20250926195427.1405237-2-ian.forbes@broadcom.com>
-In-Reply-To: <20250926195427.1405237-2-ian.forbes@broadcom.com>
+ <20250926195427.1405237-3-ian.forbes@broadcom.com>
+In-Reply-To: <20250926195427.1405237-3-ian.forbes@broadcom.com>
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 29 Sep 2025 22:44:39 -0400
-X-Gm-Features: AS18NWBK4TXPilOmqrzPfyd06IfYHecIfHVUCBM0-Wy0-IIutR03EbLYtAgmD6I
-Message-ID: <CABQX2QP5Ub7x=G+YvAsiPaF1yQ-WR50+DjZwQ+ou_OAi74wnbw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/vmwgfx: Fix copy-paste typo in validation
+Date: Mon, 29 Sep 2025 22:49:06 -0400
+X-Gm-Features: AS18NWALgiKqUzgI3ArUF6mI_S9y4kkH2Qnc5eIazxhE_hJCNOiEjapzOXeeEJE
+Message-ID: <CABQX2QMfjxkVZ6yMVDXsrmETuYM4Z6CowCnsz5fxK2GqfW6tSA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/vmwgfx: Move the validation duplicates hashtable
+ onto the stack
 To: Ian Forbes <ian.forbes@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
  maaz.mombasawala@broadcom.com, praveen.singh@broadcom.com
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000968365063ffbbc0e"
+ micalg=sha-256; boundary="00000000000077d46d063ffbcc2c"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,48 +105,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000968365063ffbbc0e
+--00000000000077d46d063ffbcc2c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, Sep 26, 2025 at 3:54=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
 > wrote:
 >
-> 'entry' should be 'val' which is the loop iterator.
+> This hashtable is only used under a lock in vmw_execbuf_process and needs
+> to be cleared before vmw_execbuf_process returns otherwise bad things
+> happen because the nodes that are stored in the table come from an arena
+> allocator that is cleared at the end of the function.
 >
-> Fixes: 9e931f2e0970 ("drm/vmwgfx: Refactor resource validation hashtable =
-to use linux/hashtable implementation.")
+> Rather than wasting time cleaning up the hashtable move it onto the stack
+> so we don't have to do any cleanup.
+>
 > Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  9 -----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  3 --
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    |  3 --
+>  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 43 +++-------------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_validation.h |  5 ++-
+>  5 files changed, 9 insertions(+), 54 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_drv.c
+> index 8ff958d119be..4b53d751b0e0 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -814,13 +814,6 @@ static void vmw_write_driver_id(struct vmw_private *=
+dev)
+>         }
+>  }
+>
+> -static void vmw_sw_context_init(struct vmw_private *dev_priv)
+> -{
+> -       struct vmw_sw_context *sw_context =3D &dev_priv->ctx;
+> -
+> -       hash_init(sw_context->res_ht);
+> -}
+> -
+>  static void vmw_sw_context_fini(struct vmw_private *dev_priv)
+>  {
+>         struct vmw_sw_context *sw_context =3D &dev_priv->ctx;
+> @@ -836,8 +829,6 @@ static int vmw_driver_load(struct vmw_private *dev_pr=
+iv, u32 pci_id)
+>         enum vmw_res_type i;
+>         bool refuse_dma =3D false;
+>
+> -       vmw_sw_context_init(dev_priv);
+> -
+>         mutex_init(&dev_priv->cmdbuf_mutex);
+>         mutex_init(&dev_priv->binding_mutex);
+>         spin_lock_init(&dev_priv->resource_lock);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_drv.h
+> index eda5b6f8f4c4..e8004a0a68c9 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -78,7 +78,6 @@
+>  #define VMW_RES_STREAM ttm_driver_type2
+>  #define VMW_RES_FENCE ttm_driver_type3
+>  #define VMW_RES_SHADER ttm_driver_type4
+> -#define VMW_RES_HT_ORDER 12
+>
+>  #define MKSSTAT_CAPACITY_LOG2 5U
+>  #define MKSSTAT_CAPACITY (1U << MKSSTAT_CAPACITY_LOG2)
+> @@ -347,7 +346,6 @@ struct vmw_ctx_validation_info;
+>
+>  /**
+>   * struct vmw_sw_context - Command submission context
+> - * @res_ht: Pointer hash table used to find validation duplicates
+>   * @kernel: Whether the command buffer originates from kernel code rathe=
+r
+>   * than from user-space
+>   * @fp: If @kernel is false, points to the file of the client. Otherwise
+> @@ -377,7 +375,6 @@ struct vmw_ctx_validation_info;
+>   * @ctx: The validation context
+>   */
+>  struct vmw_sw_context{
+> -       DECLARE_HASHTABLE(res_ht, VMW_RES_HT_ORDER);
+>         bool kernel;
+>         struct vmw_fpriv *fp;
+>         struct drm_file *filp;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vm=
+wgfx/vmwgfx_execbuf.c
+> index 819704ac675d..6a7a9fc13a7f 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -4172,8 +4172,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+>         if (unlikely(ret !=3D 0))
+>                 goto out_err;
+>
+> -       vmw_validation_drop_ht(&val_ctx);
+> -
+>         ret =3D mutex_lock_interruptible(&dev_priv->binding_mutex);
+>         if (unlikely(ret !=3D 0)) {
+>                 ret =3D -ERESTARTSYS;
+> @@ -4282,7 +4280,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+>                 __vmw_execbuf_release_pinned_bo(dev_priv, NULL);
+>  out_unlock:
+>         vmw_cmdbuf_res_revert(&sw_context->staged_cmd_res);
+> -       vmw_validation_drop_ht(&val_ctx);
+>         WARN_ON(!list_empty(&sw_context->ctx_list));
+>         mutex_unlock(&dev_priv->cmdbuf_mutex);
 >
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm=
 /vmwgfx/vmwgfx_validation.c
-> index 4d0fb71f6211..35dc94c3db39 100644
+> index 35dc94c3db39..1da7dbef905f 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> @@ -638,7 +638,7 @@ void vmw_validation_drop_ht(struct vmw_validation_con=
-text *ctx)
->                 hash_del_rcu(&val->hash.head);
+> @@ -166,7 +166,7 @@ vmw_validation_find_bo_dup(struct vmw_validation_cont=
+ext *ctx,
+>                 struct vmwgfx_hash_item *hash;
+>                 unsigned long key =3D (unsigned long) vbo;
 >
->         list_for_each_entry(val, &ctx->resource_ctx_list, head)
-> -               hash_del_rcu(&entry->hash.head);
-> +               hash_del_rcu(&val->hash.head);
+> -               hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash,=
+ head, key) {
+> +               hash_for_each_possible(ctx->res_ht, hash, head, key) {
+>                         if (hash->key =3D=3D key) {
+>                                 bo_node =3D container_of(hash, typeof(*bo=
+_node), hash);
+>                                 break;
+> @@ -208,7 +208,7 @@ vmw_validation_find_res_dup(struct vmw_validation_con=
+text *ctx,
+>                 struct vmwgfx_hash_item *hash;
+>                 unsigned long key =3D (unsigned long) res;
 >
->         ctx->sw_context =3D NULL;
+> -               hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash,=
+ head, key) {
+> +               hash_for_each_possible(ctx->res_ht, hash, head, key) {
+>                         if (hash->key =3D=3D key) {
+>                                 res_node =3D container_of(hash, typeof(*r=
+es_node), hash);
+>                                 break;
+> @@ -258,8 +258,7 @@ int vmw_validation_add_bo(struct vmw_validation_conte=
+xt *ctx,
+>
+>                 if (ctx->sw_context) {
+>                         bo_node->hash.key =3D (unsigned long) vbo;
+> -                       hash_add_rcu(ctx->sw_context->res_ht, &bo_node->h=
+ash.head,
+> -                               bo_node->hash.key);
+> +                       hash_add(ctx->res_ht, &bo_node->hash.head, bo_nod=
+e->hash.key);
+>                 }
+>                 val_buf =3D &bo_node->base;
+>                 vmw_bo_reference(vbo);
+> @@ -305,11 +304,11 @@ int vmw_validation_add_resource(struct vmw_validati=
+on_context *ctx,
+>
+>         if (ctx->sw_context) {
+>                 node->hash.key =3D (unsigned long) res;
+> -               hash_add_rcu(ctx->sw_context->res_ht, &node->hash.head, n=
+ode->hash.key);
+> +               hash_add(ctx->res_ht, &node->hash.head, node->hash.key);
+>         }
+>         node->res =3D vmw_resource_reference_unless_doomed(res);
+>         if (!node->res) {
+> -               hash_del_rcu(&node->hash.head);
+> +               hash_del(&node->hash.head);
+>                 return -ESRCH;
+>         }
+>
+> @@ -611,38 +610,6 @@ int vmw_validation_res_validate(struct vmw_validatio=
+n_context *ctx, bool intr)
+>         return 0;
 >  }
+>
+> -/**
+> - * vmw_validation_drop_ht - Reset the hash table used for duplicate find=
+ing
+> - * and unregister it from this validation context.
+> - * @ctx: The validation context.
+> - *
+> - * The hash table used for duplicate finding is an expensive resource an=
+d
+> - * may be protected by mutexes that may cause deadlocks during resource
+> - * unreferencing if held. After resource- and buffer object registering,
+> - * there is no longer any use for this hash table, so allow freeing it
+> - * either to shorten any mutex locking time, or before resources- and
+> - * buffer objects are freed during validation context cleanup.
+> - */
+> -void vmw_validation_drop_ht(struct vmw_validation_context *ctx)
+> -{
+> -       struct vmw_validation_bo_node *entry;
+> -       struct vmw_validation_res_node *val;
+> -
+> -       if (!ctx->sw_context)
+> -               return;
+> -
+> -       list_for_each_entry(entry, &ctx->bo_list, base.head)
+> -               hash_del_rcu(&entry->hash.head);
+> -
+> -       list_for_each_entry(val, &ctx->resource_list, head)
+> -               hash_del_rcu(&val->hash.head);
+> -
+> -       list_for_each_entry(val, &ctx->resource_ctx_list, head)
+> -               hash_del_rcu(&val->hash.head);
+> -
+> -       ctx->sw_context =3D NULL;
+> -}
+> -
+>  /**
+>   * vmw_validation_unref_lists - Unregister previously registered buffer
+>   * object and resources.
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm=
+/vmwgfx/vmwgfx_validation.h
+> index 353d837907d8..2b82a1a3110d 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> @@ -37,10 +37,11 @@
+>  #define VMW_RES_DIRTY_NONE 0
+>  #define VMW_RES_DIRTY_SET BIT(0)
+>  #define VMW_RES_DIRTY_CLEAR BIT(1)
+> +#define VMW_RES_HT_ORDER 7
+>
+>  /**
+>   * struct vmw_validation_context - Per command submission validation con=
+text
+> - * @ht: Hash table used to find resource- or buffer object duplicates
+> + * @res_ht: Hash table used to find resource- or buffer object duplicate=
+s
+>   * @resource_list: List head for resource validation metadata
+>   * @resource_ctx_list: List head for resource validation metadata for
+>   * resources that need to be validated before those in @resource_list
+> @@ -55,6 +56,7 @@
+>   */
+>  struct vmw_validation_context {
+>         struct vmw_sw_context *sw_context;
+> +       DECLARE_HASHTABLE(res_ht, VMW_RES_HT_ORDER);
+>         struct list_head resource_list;
+>         struct list_head resource_ctx_list;
+>         struct list_head bo_list;
+> @@ -84,6 +86,7 @@ struct vmw_fence_obj;
+>  #define DECLARE_VAL_CONTEXT(_name, _sw_context, _merge_dups)           \
+>         struct vmw_validation_context _name =3D                          =
+ \
+>         { .sw_context =3D _sw_context,                                   =
+ \
+> +         .res_ht =3D {},                                                =
+ \
+>           .resource_list =3D LIST_HEAD_INIT((_name).resource_list),      =
+ \
+>           .resource_ctx_list =3D LIST_HEAD_INIT((_name).resource_ctx_list=
+), \
+>           .bo_list =3D LIST_HEAD_INIT((_name).bo_list),                  =
+ \
 > --
 > 2.51.0
 >
 
-Great catch!
-
-Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+Could you make this one part of a seperate series i.e. "Cleanup
+resource hashtable usage" or such. As is it's a bit of half-way done,
+e.g. DECLARE_VAL_CONTEXT still takes sw_context, for which the only
+reason was the hashtable which is not part of it anymore. I think we'd
+want to finish this cleanup, get rid of sw_context usage in validation
+and remove it from DECLARE_VAL_CONTEXT.
+This also gives us a more natural spot to land those patch (the first
+two in drm-misc-fixes and this series in drm-misc-next).
 
 z
 
---000000000000968365063ffbbc0e
+z
+
+z
+
+--00000000000077d46d063ffbcc2c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -237,13 +464,13 @@ iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
 b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
 VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
 VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIMiy
-RTuXWZQDriEEDZJDkpH99aswcT3nq90pMWrswe68MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDkzMDAyNDQ1M1owXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEILOd
+owfbiigX+pPNj9xbO0AX6F4cONpeDhJW0Y2AdIVeMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDkzMDAyNDkyMFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
 ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEfZJkiJZorhV6OgxxzCMFtnkGHBYyj5PsqXz5Uo
-saRDLCc8Vi2W9x32bqV9pI5shsa0OB9Mg++O0KafM4Z5+AVRUjrKSfdMNyV0BSHyQ/qFhnEMiYWW
-p/fhwD2+DPpz8ExKV5c9Yu/9p63Af4V6jZMjxzBXbrIRcr78vf6qlneYOeTsxGwBWtNZnLlURYPm
-hZ/0vBwWj+gdc/28u8wEUDhszLmyu36Pftopps+ZyP4Ibi04ZopXZ2b3VcXQ+0u5D9ly6FLQNRf/
-Lz7Pca+QefQVPv4Mz9LI4Bx5edtW4VMiRRUzHsFgz/8QRJf+mnoFeH+7wzWF4KOzrvk/Vt3+E9c=
---000000000000968365063ffbbc0e--
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEMowfW0upXZOpVMd1arB/WX0e+PoP4lS3YUQL+Y
+V9+4urMhRYOLc7WQoYRYpr/7olE+eXXpik3qb+7KKDJdiRXI7mkKiSqtIjeAsiS9FfIqxqJ2fjyv
+VioTVSKhKfgOit7QAZCqal4bOMt2WQeVozk4+3cX5MrYaabG3GkqUh2caQ3VB0S7zdjamS5UPAdT
+L9qaIXScqShSlocMl2RHkwGpz0H05rnKbAbnA74p6pou0q/DpYn89lCl1S4c/WXwP3i5e1wkLB7f
+L52dDGeuTopAzq6tblINwdIa+/kxmmflkhxk/DifLodeT+tQnxqosqJWfqOGzgHV5Z/XesNP9dI=
+--00000000000077d46d063ffbcc2c--
