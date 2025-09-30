@@ -2,173 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25AABAE904
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 22:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0CCBAE960
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 23:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C29810E639;
-	Tue, 30 Sep 2025 20:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A558410E63D;
+	Tue, 30 Sep 2025 21:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="UWRGoznC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fGDi5SRR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4CC10E63D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:46:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1759265184; x=1759869984; i=deller@gmx.de;
- bh=gQKflzixSnOtPXH+ct3ATJr3ZXa8C8OGFHZcF8wvCJ4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=UWRGoznCnD2QpDmle4NUk7OyzirSDf0GwOjayG+46PO+Ec6eA8b5vRRJxf+B7Nd6
- TjLB+55Yb5KG4SWOaGQs6ekNmdJGPB/qzJdGO3ZtrRWFC1RuxgCwvdvLMr2g7pC6b
- BfKTz82mBVpl/RuCUNiiB5tLj3tlSM90+zF/YfGVT6F/dpvytbbWGcrWBsZllVyLO
- d3lr/6o4Tv4ZMm6KeiozsVJQsWXwliO0eAIjjmxiKHXDr1qJqFv+izxwOeeU/kBK+
- 9fA6la/g5pQbT3XcM79/Vz6BSUePkxQWtlChve4i+mopPgokwyqAZTIAIxvmoBnCh
- UclmAKPYCa0ChtrDSg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.50.4]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7QxL-1uEPGf24Kb-012u59; Tue, 30
- Sep 2025 22:46:24 +0200
-Message-ID: <cb00a5e2-6e50-4b01-bcd7-33eeae57ed63@gmx.de>
-Date: Tue, 30 Sep 2025 22:46:23 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDBE10E63A;
+ Tue, 30 Sep 2025 21:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759266225; x=1790802225;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=/inrCBytU+0a2SPUquzb6L+ku4AbbxqxamfsAsYfuuE=;
+ b=fGDi5SRRJ4ERFjfqQxE6+T1IcG6agwnOM0HpSYvtwiFm50GgKbrWpGYx
+ 3ZGtWDzd92c6CQKzD/MMYNpcFeI+pcFu1QfPo9bUX79IW5XfBcXKOpMHk
+ MhO0wzPMQReDeJOYPjFOUGQ/tIozCue2g4TPnR5hcyN5ZS/vcjtws+WEt
+ jckxkQAkFF0V2yXtmPNm/16iCt9poYo5C6EVJRveQvskNNLYHHnXucNJS
+ t+9nROJIbytFuA7WXb3XQn4b/OBzMFHRWUG7LyH3EIHuijokKLqN34QcL
+ guz2U3s9rN1kZ5luoFpt2Gm0Hlgp8Mea8Xrr/Wo7oGHK01uRGhVRPy4/3 A==;
+X-CSE-ConnectionGUID: +v8EHsiXS6qOzwSvzAIrKg==
+X-CSE-MsgGUID: ZG+dW9z3QlCH9IXYT7di+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61575001"
+X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; d="scan'208";a="61575001"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2025 14:03:45 -0700
+X-CSE-ConnectionGUID: oe/FRZi2QE+ZdWlSXqDtZA==
+X-CSE-MsgGUID: ldFTLV5TQDOLGobtH2mWkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; d="scan'208";a="182640731"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2025 14:03:44 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 30 Sep 2025 14:03:43 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 30 Sep 2025 14:03:43 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.63) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 30 Sep 2025 14:03:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RlFGmm8m0WoVF6lPBFOfhcRX57n46Nkv+GzgU+MBGgsG81oWvpO5SwZNuhO2ULDGCzCiM1FxRD4GfKLjlUKK37b8kYT2iwdFnPuqvz8jIuKM32X/r9KvI2aOUuWqvJ8Z3qYGtqRCKWAzoKahlvrTdbbVpblhsrqdtLFc1KGbORAdv6YK8enYa5f1FBx6x3eDyYyKgNqG1HQPsWB08W+gzPle1oiePUE6h2U3OhdvwTF+s+g5QZBzU+81eZOHlApPtZkBQ6QPJSWWMgbeKcfbMguXpCx04fn2LShyojtVU284u/wjmxE7vG+3KDHQgE55G9zmkj43gH7HhXe1M7lICA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XgvG/ibt5SvgFD4K0qYBB2IpuBs2hPctmSFP82LeW8c=;
+ b=PZbSdaROhBWFblYC+JcAdhqUTe6g0AQDbf0B4ObGzibluenjf963G/Kiy7xeXBQ4ZE+pLhiDa+diBI/O/1zFmDhlV02h8xdcVDVJ3Nctv8VgdS6FZVR2cckDURETcxk1wK1zisS/07qnh1fQKUznMeGIZkqeSCWRbD0GgFYBWAp0RAxfaO0EYohrYEfYvzPCZNWUP3G3cNhHmNIa8TtXdrLYJuUISXUZoGvt1jXRUzvy4YgX87uc5UQYScVGDY8gfQaQ8rEBuI4C1Sawwwku3/p2BQTEiJl/FhQjq1Kp66aQDmmaz7cedm8Cx/0yN2iXoew+PnO32orRq8O1oREiuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by SA1PR11MB8256.namprd11.prod.outlook.com (2603:10b6:806:253::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Tue, 30 Sep
+ 2025 21:03:40 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%3]) with mapi id 15.20.9160.015; Tue, 30 Sep 2025
+ 21:03:40 +0000
+Date: Wed, 1 Oct 2025 00:03:35 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v5 2/6] drm/dp: Add helpers to query the branch DSC max
+ throughput/line-width
+Message-ID: <aNxFp-XXG7HBqJMG@ideak-desk>
+References: <20250926211236.474043-3-imre.deak@intel.com>
+ <20250929063644.533890-1-imre.deak@intel.com>
+ <agzmuyty22gxtm7cwpdl7ynmrubot45e65tfavbq5muamn6qnj@2wsbjqlc3pye>
+ <aNpbCWlluJfsjSE6@ideak-desk>
+ <6qj46wruaj5k2ywepsrkzfyyq4bsvcfmg7jhvrk4w2jkhcyorg@llo7bzmlarre>
+ <aNvBIdJbaCBzKVt_@ideak-desk>
+ <2krnfl46ozmjt6ekr3p5gzdcvehadzwbyjow72mqi52ciunioz@oqdgqjt4tpeo>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2krnfl46ozmjt6ekr3p5gzdcvehadzwbyjow72mqi52ciunioz@oqdgqjt4tpeo>
+X-ClientProxiedBy: LO2P265CA0258.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:8a::30) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Add bounds checking in bit_putcs to fix
- vmalloc-out-of-bounds
-To: Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250927075010.119671-1-albinbabuvarghese20@gmail.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20250927075010.119671-1-albinbabuvarghese20@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:awbi77DUKol55j8Y4aOnxjExESRkJY8agfRap8I4YZaZzj+d6pW
- S9MlvQo8keis4LzD7ICBAgEhNQmBFD5yJM0G1qHMT4Qt9hpDPK2Wh4Km/4JyH4kngEfkxlm
- 8dtll9FdS+kAnJTRgnYsJtC2Mts3hS2vrXGWQcYscXfxq/ZHvBoW1B32q7QPR78sS3Cz4yF
- YzDPDeP40Y41GvHUnh2hg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:17/sBWtJ44o=;2oYajW2AbNhLeSpFoWbqt0d81Bu
- 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
- GK7HVS0LCLoIYw==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|SA1PR11MB8256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5adbf625-24b1-4713-f9f9-08de0064d4ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|10070799003|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?AY7fSq40j1MKrdzrVc+xK4YrrDUR5D+Yyi+4t08iEbdwm112CivAxZ17Sr?=
+ =?iso-8859-1?Q?dqANZNIac7aVO3kPKlFv4MEgnniicEDGyPqv2gDmoNVOLGXXQUP6K90pcT?=
+ =?iso-8859-1?Q?VZLNLATzCtNQyczKUL82YD/f5Iu16aiVOXDg8l+RImvAsuifwC0jXIniS5?=
+ =?iso-8859-1?Q?SwO2MPSZiQGk6SRYrEK4ZYWuJppsJcFbIxPT+nP5VeEoHtzLxAj8FWo+QD?=
+ =?iso-8859-1?Q?WBvllK21+B2ClBimyTdl3vBBAslF3KiqW/DgnEVDRu3tt/DQuxNVKGtnic?=
+ =?iso-8859-1?Q?CzIZbNxvz6lWYL1Wa5v6m9aluvkRK69UEsdp9kqqr0AiXlJvSI7oZ/iT67?=
+ =?iso-8859-1?Q?gJgbvbcc2SR+73HcBWznoNGTSX1STBWpISgD5ehwwAY+mbTtkhjyZXIubu?=
+ =?iso-8859-1?Q?7IVA8u7fjcKKMy26HlxoCbpNfcv9wDGBTXkvHkIMvz/mfMq9add9ag0BxT?=
+ =?iso-8859-1?Q?ss6aHf5zePcxElEPV17jILpeuM251fR73MwXMlXzTRdY3CsDLQ6wSb6Q51?=
+ =?iso-8859-1?Q?uLPddJ0gSxscDJIKAz2ubyFgvHO/Rjjcx8oHt067ryj2dEttSddkaQmXBs?=
+ =?iso-8859-1?Q?Pp7Dq9mu9VmDx83i+fwqs43bXIWdXvli8J2CwvBrBrC6CfJrmYRAQ6+t69?=
+ =?iso-8859-1?Q?4UhmD3Q2U0kGt1hZh/1qvz5QVT+YMerH9nvlvkJchiZMPvM79KNTLQcxFr?=
+ =?iso-8859-1?Q?xSMJAMWbvlOaQmuzAANvYaXx2VfKMqvjze4mNit7LuuZ44mRXcdJXEp8ls?=
+ =?iso-8859-1?Q?JRgScTANo6yuJKquB6QEhGeI4JzVt/iM7lodfv2dbNxd5M3YP3I0QYGWti?=
+ =?iso-8859-1?Q?NhMCT68cxbFp5teE7UByUeDyXODxqfKpC/nIjxBa+61PBu9zaeXKn0xHE7?=
+ =?iso-8859-1?Q?22YYwWUjAgTcTok96Ox7DEGyf0cpBKqxVo4zH/znQswtd1fQyKZQi+x7zb?=
+ =?iso-8859-1?Q?OAaMTHL2XfhtNty7kQeXS/6pIsYt0EdgnSpbQrWMmbciHn0oyicdg883f7?=
+ =?iso-8859-1?Q?/91FAitjH5nhQJfkvM3ScbbBaDhkHWOYPifXICIsDkRnUhTCqC6ZaVwPI5?=
+ =?iso-8859-1?Q?s2zEJwzfQeO0189HTAbIqhQS/K9eubFMugre2NKK3fcCGiRklw/WKxcgDx?=
+ =?iso-8859-1?Q?hxMMtjT0dL4BCVgn1Htaq6vTErqZqlPY0R1lOvs7HnEvOK8xfAfbwhHvGp?=
+ =?iso-8859-1?Q?fgxuPSpMtv8lnEAPMXvctw6sDi6YT5AkH8MkcWEet2lA0vsRN4uz1MpJHV?=
+ =?iso-8859-1?Q?C1SUldUMO7GGArpn4SBZxPVfTlBQz6ztt1zQJMRL2484LQbpAxX/J2wqOc?=
+ =?iso-8859-1?Q?yv7/eQCTo8EQNAJzuQDnKp9K1JdcTF6y0Lxkbig6jPKPyI3udTR7ejE1Zs?=
+ =?iso-8859-1?Q?REOi+SlfLWvtNuxeO3PQagUkGMyAiIyG8yvj2FBHfWZDbqE6+glpV53eMG?=
+ =?iso-8859-1?Q?IIVdUQFSzYYWpW3MdYli5GJiA+MtBkBySDRWxXrkoP9zQP7BMD4ApueVa2?=
+ =?iso-8859-1?Q?PDqK34lF3ubM4aP4iWjMHCaMTKg/wWhPGkojj8DCkixQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(10070799003)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?nv0UNiP+1mQCrIy2Qvdnhjh3teircc8AP9Fc5Lac6lhdu01JMFP/JEvpRz?=
+ =?iso-8859-1?Q?vcH6YYc53vVHdweo+/TpjfsXe9QMAxqLwGvP3kxYxn4qXn+t50gq24BLaX?=
+ =?iso-8859-1?Q?MaenPUqvKeKg1ZBXy6L++gGhD/qJM7sBgsSnFRwiLUe6/XU1i/XkSUHnA+?=
+ =?iso-8859-1?Q?SphTgwhBqDUKXXaGqX6WubigLwTOF+K8OdgeoHCy3m/MHpdPJuDKZvdW0Z?=
+ =?iso-8859-1?Q?9WxuVQSqMlmXqiQwf2tD5ao+QfJSvJlhJkIxWURndS3AReWsStIf1FzTJS?=
+ =?iso-8859-1?Q?oOFIkpUkFk++u9SGL4MpTdh+P4WHmPLtLB3TK0qZRCAEXkYOBHzDiPDnF4?=
+ =?iso-8859-1?Q?mIFkPiAZd1laLLP7M7RsmtGzjoKe3WrgLvMbfo9xWtfXJatvLqGVdGoqgm?=
+ =?iso-8859-1?Q?PjYnfqctGPC63sptE2g1Mk7D2sLSuE9GDBj+87J9MFiG/BA6uzN/dRjvvG?=
+ =?iso-8859-1?Q?0VLd3TvRqHxJUEM+w/nZkwINpHLubtNW6DftMiRJSeu/xd6lVZIrZN7Mi1?=
+ =?iso-8859-1?Q?RWLBPCnA35UZBtH7sVjw6ra30Aoi3LmRYonz+Gvd95vA9ZhEQZU+5r/DUW?=
+ =?iso-8859-1?Q?6kXckN79NHIPe8wc7eVJ82pIBXzXlNQgoxY183V38QS3bikWmel5qyGK97?=
+ =?iso-8859-1?Q?uXlwhPc3hFOkUiyKTNDR5fCt4qq4Zx5MJNxywoZCPDUhK7E3Enk8gf8L2/?=
+ =?iso-8859-1?Q?+0HoindstlmHe13Mq0JcqUlFgj7ugsuglOLSGZO03va511FW/+lRxmslW4?=
+ =?iso-8859-1?Q?/pEFaOkCr7vAy0hOOoZxMQ6lVU3WcvcB8TjhE5Pd9zCZiVtUtmoG4L+XsG?=
+ =?iso-8859-1?Q?Mg9TsoM4ipBzTCF6ELnAW2WmF+QwfHONj79PmHJAEma740xDyhES36+b0X?=
+ =?iso-8859-1?Q?WstWyPDqqIx0yMqC0JN1lPya5ICtQVJhAPOwBVGXhTRpb82/QiyXr5rOk0?=
+ =?iso-8859-1?Q?095NerkBjXtewHU9d0SVBeiOdH11rF0ZwaZQwzUb0ZaNFCW7OibfOuitXR?=
+ =?iso-8859-1?Q?XjwwRCFIwaCN6X8pvI1jwIGi0lViFEt+pXmb4jt4FlZ5uBKBKREa6bQTh1?=
+ =?iso-8859-1?Q?P8fIJJzCno/kGj799MwpC4xu0QGg9l2MfouvMeY8XvuKLRv+DfledRX1Gh?=
+ =?iso-8859-1?Q?eSzrt/F0xbgYui/46nB496eNgC1iTm+2YBPIF6zaHV1EsSYGED9ouQdzbA?=
+ =?iso-8859-1?Q?t/kwlgS/+YgIuKJOKb6KT9mWLPmjIS/JySNjs65Gh+nTmwmQDuh/lFQVw6?=
+ =?iso-8859-1?Q?K2/dLhHyPjgatW4a3MgRzJXw0R8ELJekYbqUkecDWaKmdhhibswM1umWNC?=
+ =?iso-8859-1?Q?EUJfiIQfdw6iR75VhsxI0SNnA3duc60TbdQHrGwEhN+gEXlG9DJpnyh9G2?=
+ =?iso-8859-1?Q?Nq3ctMGokJO7xZ8dC0jReOyLduWa1EfIWRm43d8b+Tj+9afKojdoE7SkTr?=
+ =?iso-8859-1?Q?zsMUhbZQYk9xOLUf0CuamUOUXkwrErK8pbqXsWahu3E7522bz56880++ZC?=
+ =?iso-8859-1?Q?9/AtkWzjJkKAk0sjATtVp04NfwDpQYOf8Twlj6lxIod5jKdeWqFA5Oo4PB?=
+ =?iso-8859-1?Q?f6zc/RWyt3ORRG42fGowHAcPkN0epqk/+/rcCokNVPdFCo9LWXfCtWQLBY?=
+ =?iso-8859-1?Q?1LuExwtTPkw0z0YqVHJygxWJlTi7qqWRC1zjhstVDdqN/f6xV+EcPzHGKd?=
+ =?iso-8859-1?Q?nW9fFssLNgOrZ5AxfIJnpXxpMsjKUwcfY7ez5gXD?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5adbf625-24b1-4713-f9f9-08de0064d4ba
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2025 21:03:40.0173 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bpRlUhG6DmacZ8eMhveasjlxyfiAkTDn64zJAlvI/HmuWu8V6Wh/l9UKaab1e+uqLWCXLwd739ENlKneNi7Z9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8256
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,75 +185,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/27/25 09:50, Albin Babu Varghese wrote:
-> KASAN reports vmalloc-out-of-bounds writes in sys_imageblit during conso=
-le
-> resize operations. The crash happens when bit_putcs renders characters
-> outside the allocated framebuffer region.
->=20
-> Call trace: vc_do_resize -> clear_selection -> invert_screen ->
-> do_update_region -> fbcon_putcs -> bit_putcs -> sys_imageblit
->=20
-> The console resize changes dimensions but bit_putcs doesn't validate tha=
-t
-> the character positions fit within the framebuffer before rendering.
-> This causes writes past the allocated buffer in fb_imageblit functions.
->=20
-> Fix by checking bounds before rendering:
-> - Return if dy + height > yres (would write past bottom)
-> - Break if dx + width > xres (would write past right edge)
->=20
-> Reported-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D48b0652a95834717f190
-> Tested-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
-> Signed-off-by: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-> ---
->   drivers/video/fbdev/core/bitblit.c | 7 +++++++
->   1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/co=
-re/bitblit.c
-> index f9475c14f733..4c732284384a 100644
-> --- a/drivers/video/fbdev/core/bitblit.c
-> +++ b/drivers/video/fbdev/core/bitblit.c
-> @@ -160,6 +160,9 @@ static void bit_putcs(struct vc_data *vc, struct fb_=
-info *info,
->   	image.height =3D vc->vc_font.height;
->   	image.depth =3D 1;
->  =20
-> +	if (image.dy + image.height > info->var.yres)
-> +		return;
-> +
+On Tue, Sep 30, 2025 at 11:04:47PM +0300, Dmitry Baryshkov wrote:
+> On Tue, Sep 30, 2025 at 02:38:09PM +0300, Imre Deak wrote:
+> > On Tue, Sep 30, 2025 at 08:30:10AM +0300, Dmitry Baryshkov wrote:
+> > > On Mon, Sep 29, 2025 at 01:10:17PM +0300, Imre Deak wrote:
+> > > > On Mon, Sep 29, 2025 at 12:00:03PM +0300, Dmitry Baryshkov wrote:
+> > > > > On Mon, Sep 29, 2025 at 09:36:44AM +0300, Imre Deak wrote:
+> > > > > > Add helpers to query the DP DSC sink device's per-slice throughput as
+> > > > > > well as a DSC branch device's overall throughput and line-width
+> > > > > > capabilities.
+> > > > > > 
+> > > > > > v2 (Ville):
+> > > > > > - Rename pixel_clock to peak_pixel_rate, document what the value means
+> > > > > >   in case of MST tiled displays.
+> > > > > > - Fix name of drm_dp_dsc_branch_max_slice_throughput() to
+> > > > > >   drm_dp_dsc_sink_max_slice_throughput().
+> > > > > > v3:
+> > > > > > - Fix the DSC branch device minimum valid line width value from 2560
+> > > > > >   to 5120 pixels.
+> > > > > > - Fix drm_dp_dsc_sink_max_slice_throughput()'s pixel_clock parameter
+> > > > > >   name to peak_pixel_rate in header file.
+> > > > > > - Add handling for throughput mode 0 granular delta, defined by DP
+> > > > > >   Standard v2.1a.
+> > > > > 
+> > > > > This one got sent as a separate V5, without a proper changelog. What has
+> > > > > changed?
+> > > > 
+> > > > This is v3 of the patch, the changes are listed under v3. The patchset's
+> > > > version is v5.
+> > >
+> > > Ugh. How one does relate this v3 (which is not mentioned anywhere) and
+> > > v5 of the series? This is totally counterintuitive. A usual
+> > > recommendation is to send the full series and to send it as a new
+> > > thread, sending all the patches in one go.
+> > 
+> > It's a common practice on intel-gfx to send a new version of one patch
+> > on top of the last patchset version in that patchset's thread. For
+> 
+> I don't want to step on intel-gfx ways of working, but how would that
+> work with e.g. 'b4 shazam'?
 
-I wonder if the image.height value should be capped in this case,
-instead of not rendering any chars at all?
-Something like (untested!):
+I don't - yet - use b4, but I suppose it must work because CI/patchwork
+uses it and it does manage to assemble the new patchset for its test run
+based on the In-reply-to header I think.
 
-+	if (image.dy >=3D info->var.yres)
-+		return;
-+       image.height =3D min(image.height, info->var.yres - image.dy);
+> > matching the patch version to the patchset version I can change the
+> > patch version log above to be like:
+> > 
+> > v2 (Ville):
+> > - Rename pixel_clock to peak_pixel_rate ...
+> > v3-v4:
+> > - No changes
+> > v5:
+> > - Fix the DSC branch device minimum valid line width value ...
+> 
+> Yes, I think that's more obvious, thanks!
 
+I've been brooding over how to send the next version and then decided to
+stick with the current practice and sent it as [1]. That is, increment
+the patchset version to the next version of the patchset which is 6 and
+increment the version of the patch with a change to the next version of
+the patch itself which is 4.
 
->   	if (attribute) {
->   		buf =3D kmalloc(cellsize, GFP_ATOMIC);
->   		if (!buf)
-> @@ -173,6 +176,10 @@ static void bit_putcs(struct vc_data *vc, struct fb=
-_info *info,
->   			cnt =3D count;
->  =20
->   		image.width =3D vc->vc_font.width * cnt;
-> +
-> +		if (image.dx + image.width > info->var.xres)
-> +			break;
-> +
+Not sure if introducing the above "No changes" revisions is a good idea
+after all. When the patchset is merged, this notation would lose its
+meaning: you see then only the individual patches, not patchsets, so the
+only interesting thing in that case is the versions the patch itself
+went through. Keeping the version of the patchset and the patches within
+it in sync could be also too tedious, especially if you wanted the
+version of a patch without any changes to be brought up to the patchset
+version.
 
-same here.
+One view is that the version of the patchset is simply different than
+that of the patches within it. If an individual patch is sent in-reply
+to a previous patchset, then it should be clear that this patch has a
+change on top of the previous patchset and the changes are described
+under the last revision log of the patch. Otherwise, when the whole
+patchset is resent, the changes in that patchset version must be anyway
+described in the cover letter.
 
+I'm open to ideas, but this is my stance atm, also based on past
+discussions about it with Ville and Jani.
 
->   		pitch =3D DIV_ROUND_UP(image.width, 8) + scan_align;
->   		pitch &=3D ~scan_align;
->   		size =3D pitch * image.height + buf_align;
+--Imre
 
+[1] https://lore.kernel.org/all/20250930182450.563016-1-imre.deak@intel.com
+
+> > > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > > Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > > > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/display/drm_dp_helper.c | 156 ++++++++++++++++++++++++
+> > > > > >  include/drm/display/drm_dp.h            |   3 +
+> > > > > >  include/drm/display/drm_dp_helper.h     |   5 +
+> > > > > >  3 files changed, 164 insertions(+)
+> > > > > > 
+> > > > > 
+> > > > > -- 
+> > > > > With best wishes
+> > > > > Dmitry
+> > > 
+> > > -- 
+> > > With best wishes
+> > > Dmitry
+> 
+> -- 
+> With best wishes
+> Dmitry
