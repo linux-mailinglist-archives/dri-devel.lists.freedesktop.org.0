@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE353BAC70E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 12:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDA3BAC7AF
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 12:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92AC810E184;
-	Tue, 30 Sep 2025 10:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D23F10E55B;
+	Tue, 30 Sep 2025 10:30:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="YPdM2M7D";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jKq8joig";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63FD010E184
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 10:17:31 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250930101729euoutp01b57e6fa199f1d9764685b479ee393f2c~qCAteIN_K1423914239euoutp01S;
- Tue, 30 Sep 2025 10:17:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250930101729euoutp01b57e6fa199f1d9764685b479ee393f2c~qCAteIN_K1423914239euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1759227449;
- bh=i0hsYIdTBG3RoYY2oCy/zDpSiKCipQoEifIaLF7Lbqw=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=YPdM2M7DLyVY6SAOTHX498pf0ytk9nQQ+weWK1WExpMmK0cg8gTYgrpSPX6QOX6zn
- icZtcxZ4LcbPQt1kPN2ld9XcNpX2M8e8z3G4+0flukSeQfZzUVZBPDtiFLKFpOE0nC
- 0GihKsb7ZPd9aC6ShngC8sIFtoA7m0PgHtycPcb4=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250930101728eucas1p2d174bb7433699baa7583852c50f9ccb7~qCAtAAJvC0536105361eucas1p27;
- Tue, 30 Sep 2025 10:17:28 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250930101727eusmtip2963d1f7d88d03e442d658090d83d7b2d~qCArVvP-21105911059eusmtip28;
- Tue, 30 Sep 2025 10:17:27 +0000 (GMT)
-Message-ID: <41c2a141-a72e-4780-ab32-f22f3a2e0179@samsung.com>
-Date: Tue, 30 Sep 2025 12:17:26 +0200
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v6 00/18] Apply drm_bridge_connector and panel_bridge
- helper for the Analogix DP driver
-To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- jingoohan1@gmail.com, p.zabel@pengutronix.de, hjc@rock-chips.com,
- heiko@sntech.de, andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
- dianders@chromium.org, luca.ceresoli@bootlin.com, jani.nikula@intel.com,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E649910E54F;
+ Tue, 30 Sep 2025 10:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759228209;
+ bh=3mTTpLiMqnXjtsubYnc/0h302ORdA8DbizXcRRMB8YI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=jKq8joigCrtAG9Qt4gVEr7ETSzSYaNE4I9ApnBM8V78qDeF0YbigN7S+RDAn9Cy87
+ cv5VFUuOpqSgaIAoDAme8WyKJUGzxlGjprctBQJhHeLX2OhvZeLUvMH2hvQ/lFP/iI
+ uQOs+MuLqvLRosA1DccwsBNHw8zJlfTnlNbb450S193Wg29c7JlkX5KNhaxALfqRWU
+ oZuysLeigN5GUoOIT45tWV973qEUR+AXE4Zu5z9XYUFWFVOmt4GSlH91mKDWYBKesn
+ eKZQjq7Z3dso39uQuZmuaUPL/Gv6ONeNDxhHdxPuxKscgOANt6/R2hnbgaErI6/8N+
+ yAdWjZppvgFyQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 65F6617E0097;
+ Tue, 30 Sep 2025 12:30:08 +0200 (CEST)
+Date: Tue, 30 Sep 2025 12:30:03 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250930090920.131094-1-damon.ding@rock-chips.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250930101728eucas1p2d174bb7433699baa7583852c50f9ccb7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250930091415eucas1p1f82ef0c96cbe0c7c673d975d502629e2
-X-EPHeader: CA
-X-CMS-RootMailID: 20250930091415eucas1p1f82ef0c96cbe0c7c673d975d502629e2
-References: <CGME20250930091415eucas1p1f82ef0c96cbe0c7c673d975d502629e2@eucas1p1.samsung.com>
- <20250930090920.131094-1-damon.ding@rock-chips.com>
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org, kernel@collabora.com
+Subject: Re: [PATCH 2/8] drm/gem: Introduce drm_gem_get_unmapped_area() fop
+Message-ID: <20250930123003.75370854@fedora>
+In-Reply-To: <20250929200316.18417-3-loic.molinari@collabora.com>
+References: <20250929200316.18417-1-loic.molinari@collabora.com>
+ <20250929200316.18417-3-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,141 +75,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30.09.2025 11:09, Damon Ding wrote:
-> PATCH 1 is a small format optimization for struct analogid_dp_device.
-> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
-> PATCH 3 is to add a new parameter to store the point of next bridge.
-> PATCH 4 is to make legacy bridge driver more universal.
-> PATCH 5-10 are preparations for apply drm_bridge_connector helper.
-> PATCH 11 is to ensure last bridge determines OP_EDID/OP_MODES capabilities.
-> PATCH 12 is to apply the drm_bridge_connector helper.
-> PATCH 13-15 are to move the panel/bridge parsing to the Analogix side.
-> PATCH 16 is to attach the next bridge on Analogix side uniformly.
-> PATCH 17-18 are to apply the panel_bridge helper.
+On Mon, 29 Sep 2025 22:03:10 +0200
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-Works fine on my Exynos based test boards with (e)DP displays. Thanks!
-
-Feel free to update tags if needed:
-
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-
-> Damon Ding (18):
->    drm/bridge: analogix_dp: Formalize the struct analogix_dp_device
->    drm/bridge: analogix_dp: Move &drm_bridge_funcs.mode_set to
->      &drm_bridge_funcs.atomic_enable
->    drm/bridge: analogix_dp: Add &analogix_dp_plat_data.next_bridge
->    drm/bridge: Move legacy bridge driver out of imx directory for
->      multi-platform use
->    drm/exynos: exynos_dp: Remove &exynos_dp_device.ptn_bridge
->    drm/exynos: exynos_dp: Remove unused &exynos_dp_device.connector
->    drm/exynos: exynos_dp: Apply legacy bridge to parse the
->      display-timings node
->    drm/bridge: analogix_dp: Remove redundant
->      &analogix_dp_plat_data.skip_connector
->    drm/bridge: analogix_dp: Move the color format check to
->      .atomic_check() for Rockchip platforms
->    drm/bridge: analogix_dp: Remove unused
->      &analogix_dp_plat_data.get_modes()
->    drm/display: bridge_connector: Ensure last bridge determines
->      EDID/modes detection capabilities
->    drm/bridge: analogix_dp: Apply drm_bridge_connector helper
->    drm/bridge: analogix_dp: Add new API analogix_dp_finish_probe()
->    drm/rockchip: analogix_dp: Apply analogix_dp_finish_probe()
->    drm/exynos: exynos_dp: Apply analogix_dp_finish_probe()
->    drm/bridge: analogix_dp: Attach the next bridge in
->      analogix_dp_bridge_attach()
->    drm/bridge: analogix_dp: Remove bridge disabing and panel unpreparing
->      in analogix_dp_unbind()
->    drm/bridge: analogix_dp: Apply panel_bridge helper
->
->   drivers/gpu/drm/bridge/Kconfig                |  10 +
->   drivers/gpu/drm/bridge/Makefile               |   1 +
->   drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
->   .../drm/bridge/analogix/analogix_dp_core.c    | 395 +++++++++---------
->   .../drm/bridge/analogix/analogix_dp_core.h    |   5 +-
->   drivers/gpu/drm/bridge/imx/Kconfig            |  10 -
->   drivers/gpu/drm/bridge/imx/Makefile           |   1 -
->   .../gpu/drm/bridge/imx/imx-legacy-bridge.c    |  91 ----
->   drivers/gpu/drm/bridge/legacy-bridge.c        |  99 +++++
->   .../gpu/drm/display/drm_bridge_connector.c    |  42 ++
->   drivers/gpu/drm/exynos/Kconfig                |   2 +
->   drivers/gpu/drm/exynos/exynos_dp.c            | 117 ++----
->   drivers/gpu/drm/imx/ipuv3/Kconfig             |   4 +-
->   drivers/gpu/drm/imx/ipuv3/imx-ldb.c           |   6 +-
->   drivers/gpu/drm/imx/ipuv3/parallel-display.c  |   4 +-
->   drivers/gpu/drm/rockchip/Kconfig              |   1 +
->   .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  67 +--
->   include/drm/bridge/analogix_dp.h              |   8 +-
->   include/drm/bridge/imx.h                      |  17 -
->   include/drm/bridge/legacy-bridge.h            |  18 +
->   20 files changed, 433 insertions(+), 466 deletions(-)
->   delete mode 100644 drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
->   create mode 100644 drivers/gpu/drm/bridge/legacy-bridge.c
->   delete mode 100644 include/drm/bridge/imx.h
->   create mode 100644 include/drm/bridge/legacy-bridge.h
->
+> mmap() calls on the drm file pointer currently always end up using
+> mm_get_unmapped_area() to get a free mapping region. On builds with
+> CONFIG_TRANSPARENT_HUGEPAGE enabled, this isn't ideal for GEM objects
+> backed by shmem buffers on mount points setting the 'huge=3D' option
+> because it can't correctly figure out the potentially huge address
+> alignment required.
+>=20
+> This commit introduces the drm_gem_get_unmapped_area() function which
+> is meant to be used as a get_unmapped_area file operation on the drm
+> file pointer to lookup GEM objects based on their fake offsets and get
+> a properly aligned region by calling shmem_get_unmapped_area() with
+> the right file pointer. If a GEM object isn't available at the given
+> offset or if the caller isn't granted access to it, the function falls
+> back to mm_get_unmapped_area().
+>=20
+> This also makes drm_gem_get_unmapped_area() part of the default GEM
+> file operations so that all the drm drivers can benefit from more
+> efficient mappings thanks to the huge page fault handler introduced in
+> previous commit 'drm/shmem-helper: Add huge page fault handler'.
+>=20
+> The shmem_get_unmapped_area() function needs to be exported so that
+> it can be used from the drm subsystem.
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
 > ---
->
-> Changes in v2:
-> - Update Exynos DP driver synchronously.
-> - Move the panel/bridge parsing to the Analogix side.
->
-> Changes in v3:
-> - Rebase for the existing devm_drm_bridge_alloc() applying commit.
-> - Fix the typographical error of panel/bridge check in exynos_dp_bind().
-> - Squash all commits related to skip_connector deletion in both Exynos and
->    Analogix code into one.
-> - Apply panel_bridge helper to make the codes more concise.
-> - Fix the handing of bridge in analogix_dp_bridge_get_modes().
-> - Remove unnecessary parameter struct drm_connector* for callback
->    &analogix_dp_plat_data.attach().
-> - In order to decouple the connector driver and the bridge driver, move
->    the bridge connector initilization to the Rockchip and Exynos sides.
->
-> Changes in v4:
-> - Rebase for the applied &drm_bridge_funcs.detect() modification commit.
-> - Rename analogix_dp_find_panel_or_bridge() to analogix_dp_finish_probe().
-> - Drop the drmm_encoder_init() modification commit.
-> - Rename the &analogix_dp_plat_data.bridge to
->    &analogix_dp_plat_data.next_bridge.
->
-> Changes in v5:
-> - Add legacy bridge to parse the display-timings node under the dp node
->    for Exynos side.
-> - Move color format check to &drm_connector_helper_funcs.atomic_check()
->    in order to get rid of &analogix_dp_plat_data.get_modes().
-> - Remove unused callback &analogix_dp_plat_data.get_modes().
-> - Distinguish the &drm_bridge->ops of Analogix bridge based on whether
->    the downstream device is a panel, a bridge or neither.
-> - Select DRM_DISPLAY_DP_AUX_BUS for DRM_ANALOGIX_DP, and remove it for
->    ROCKCHIP_ANALOGIX_DP.
-> - Apply rockchip_dp_attach() to support the next bridge attachment for
->    the Rockchip side.
-> - Move next_bridge attachment from Analogix side to Rockchip/Exynos sides.
->
-> Changes in v6:
-> - Move legacy bridge driver out of imx directory for multi-platform use.
-> - Apply DRM legacy bridge to parse display timings intead of implementing
->    the same codes only for Exynos DP.
-> - Ensure last bridge determines EDID/modes detection capabilities in DRM
->    bridge_connector driver.
-> - Remove unnecessary drm_bridge_get_modes() in
->    analogix_dp_bridge_get_modes().
-> - Simplify analogix_dp_bridge_edid_read().
-> - If the next is a bridge, set DRM_BRIDGE_OP_DETECT and return
->    connector_status_connected in analogix_dp_bridge_detect().
-> - Set flag DRM_BRIDGE_ATTACH_NO_CONNECTOR for bridge attachment while
->    binding. Meanwhile, make DRM_BRIDGE_ATTACH_NO_CONNECTOR unsuppported
->    in analogix_dp_bridge_attach().
-> - Move the next bridge attachment to the Analogix side rather than
->    scattered on Rockchip and Exynos sides.
-> - Remove the unnecessary analogix_dp_bridge_get_modes().
-> - Squash [PATCH v5 15/17] into [PATCH v5 17/17].
-> - Fix the &drm_bridge->ops to DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT.
->
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+>  drivers/gpu/drm/drm_gem.c | 110 ++++++++++++++++++++++++++++++--------
+>  include/drm/drm_gem.h     |   4 ++
+>  mm/shmem.c                |   1 +
+>  3 files changed, 93 insertions(+), 22 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index cbeb76b2124f..d027db462c2d 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1187,36 +1187,27 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, =
+unsigned long obj_size,
+>  }
+>  EXPORT_SYMBOL(drm_gem_mmap_obj);
+> =20
+> -/**
+> - * drm_gem_mmap - memory map routine for GEM objects
+> - * @filp: DRM file pointer
+> - * @vma: VMA for the area to be mapped
+> - *
+> - * If a driver supports GEM object mapping, mmap calls on the DRM file
+> - * descriptor will end up here.
+> - *
+> - * Look up the GEM object based on the offset passed in (vma->vm_pgoff w=
+ill
+> - * contain the fake offset we created when the GTT map ioctl was called =
+on
+> - * the object) and map it with a call to drm_gem_mmap_obj().
+> - *
+> - * If the caller is not granted access to the buffer object, the mmap wi=
+ll fail
+> - * with EACCES. Please see the vma manager for more information.
+> +/*
+> + * Look up a GEM object in offset space based on the exact start address=
+. The
+> + * caller must be granted access to the object. Returns a GEM object on =
+success
+> + * or a negative error code on failure. The returned GEM object needs to=
+ be
+> + * released with drm_gem_object_put().
+>   */
+> -int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+> +static struct drm_gem_object *
+> +drm_gem_object_lookup_from_offset(struct file *filp, unsigned long start,
+> +				  unsigned long pages)
+>  {
+>  	struct drm_file *priv =3D filp->private_data;
+>  	struct drm_device *dev =3D priv->minor->dev;
+>  	struct drm_gem_object *obj =3D NULL;
+>  	struct drm_vma_offset_node *node;
+> -	int ret;
+> =20
+>  	if (drm_dev_is_unplugged(dev))
+> -		return -ENODEV;
+> +		return ERR_PTR(-ENODEV);
+> =20
+>  	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
+>  	node =3D drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
+> -						  vma->vm_pgoff,
+> -						  vma_pages(vma));
+> +						  start, pages);
+>  	if (likely(node)) {
+>  		obj =3D container_of(node, struct drm_gem_object, vma_node);
+>  		/*
+> @@ -1235,14 +1226,89 @@ int drm_gem_mmap(struct file *filp, struct vm_are=
+a_struct *vma)
+>  	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
+> =20
+>  	if (!obj)
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+> =20
+>  	if (!drm_vma_node_is_allowed(node, priv)) {
+>  		drm_gem_object_put(obj);
+> -		return -EACCES;
+> +		return ERR_PTR(-EACCES);
+>  	}
+> =20
+> -	ret =3D drm_gem_mmap_obj(obj, drm_vma_node_size(node) << PAGE_SHIFT,
+> +	return obj;
+> +}
+> +
+> +/**
+> + * drm_gem_get_unmapped_area - get memory mapping region routine for GEM=
+ objects
+> + * @filp: DRM file pointer
+> + * @uaddr: User address hint
+> + * @len: Mapping length
+> + * @pgoff: Offset (in pages)
+> + * @flags: Mapping flags
+> + *
+> + * If a driver supports GEM object mapping, before ending up in drm_gem_=
+mmap(),
+> + * mmap calls on the DRM file descriptor will first try to find a free l=
+inear
+> + * address space large enough for a mapping. Since GEM objects are backe=
+d by
+> + * shmem buffers, this should preferably be handled by the shmem virtual=
+ memory
+> + * filesystem which can appropriately align addresses to huge page sizes=
+ when
+> + * needed.
+> + *
+> + * Look up the GEM object based on the offset passed in (vma->vm_pgoff w=
+ill
+> + * contain the fake offset we created) and call shmem_get_unmapped_area(=
+) with
+> + * the right file pointer.
+> + *
+> + * If a GEM object is not available at the given offset or if the caller=
+ is not
+> + * granted access to it, fall back to mm_get_unmapped_area().
+> + */
+> +unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long=
+ uaddr,
+> +					unsigned long len, unsigned long pgoff,
+> +					unsigned long flags)
+> +{
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	struct drm_gem_object *obj;
+> +	unsigned long ret;
+> +
+> +	obj =3D drm_gem_object_lookup_from_offset(filp, pgoff, len >> PAGE_SHIF=
+T);
+> +	if (IS_ERR(obj))
+
+Is this supposed to happen? If not, I'd be tempted to add a
+WARN_ON_ONCE().
+
+> +		return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+> +					    flags);
+> +
+> +	ret =3D shmem_get_unmapped_area(obj->filp, uaddr, len, 0, flags);
+> +
+> +	drm_gem_object_put(obj);
+> +
+> +	return ret;
+> +#else
+> +	return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0, flags);
+
+Looks like the above code covers the non-THP case too, do we really need
+to specialize for !CONFIG_TRANSPARENT_HUGEPAGE here?
+
+> +#endif
+> +}
+> +EXPORT_SYMBOL(drm_gem_get_unmapped_area);
+> +
+> +/**
+> + * drm_gem_mmap - memory map routine for GEM objects
+> + * @filp: DRM file pointer
+> + * @vma: VMA for the area to be mapped
+> + *
+> + * If a driver supports GEM object mapping, mmap calls on the DRM file
+> + * descriptor will end up here.
+> + *
+> + * Look up the GEM object based on the offset passed in (vma->vm_pgoff w=
+ill
+> + * contain the fake offset we created) and map it with a call to
+> + * drm_gem_mmap_obj().
+> + *
+> + * If the caller is not granted access to the buffer object, the mmap wi=
+ll fail
+> + * with EACCES. Please see the vma manager for more information.
+> + */
+> +int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+> +{
+> +	struct drm_gem_object *obj;
+> +	int ret;
+> +
+> +	obj =3D drm_gem_object_lookup_from_offset(filp, vma->vm_pgoff,
+> +						vma_pages(vma));
+> +	if (IS_ERR(obj))
+> +		return PTR_ERR(obj);
+> +
+> +	ret =3D drm_gem_mmap_obj(obj,
+> +			       drm_vma_node_size(&obj->vma_node) << PAGE_SHIFT,
+>  			       vma);
+> =20
+>  	drm_gem_object_put(obj);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 8d48d2af2649..7c8bd67d087c 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -469,6 +469,7 @@ struct drm_gem_object {
+>  	.poll		=3D drm_poll,\
+>  	.read		=3D drm_read,\
+>  	.llseek		=3D noop_llseek,\
+> +	.get_unmapped_area	=3D drm_gem_get_unmapped_area,\
+>  	.mmap		=3D drm_gem_mmap, \
+>  	.fop_flags	=3D FOP_UNSIGNED_OFFSET
+> =20
+> @@ -506,6 +507,9 @@ void drm_gem_vm_close(struct vm_area_struct *vma);
+>  int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
+>  		     struct vm_area_struct *vma);
+>  int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> +unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long=
+ uaddr,
+> +					unsigned long len, unsigned long pgoff,
+> +					unsigned long flags);
+> =20
+>  /**
+>   * drm_gem_object_get - acquire a GEM buffer object reference
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index e2c76a30802b..b2f41b430daa 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -2915,6 +2915,7 @@ unsigned long shmem_get_unmapped_area(struct file *=
+file,
+>  		return addr;
+>  	return inflated_addr;
+>  }
+> +EXPORT_SYMBOL_GPL(shmem_get_unmapped_area);
+> =20
+>  #ifdef CONFIG_NUMA
+>  static int shmem_set_policy(struct vm_area_struct *vma, struct mempolicy=
+ *mpol)
 
