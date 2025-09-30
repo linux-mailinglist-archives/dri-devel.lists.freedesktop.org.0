@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462BBBAB7C5
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17A1BAB777
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4925710E4DF;
-	Tue, 30 Sep 2025 05:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC1D10E283;
+	Tue, 30 Sep 2025 05:28:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="izOP9FGU";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Q4w8qIys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEF9B10E4BC
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:12 +0000 (UTC)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20250930035542epoutp03476847eca271ddaf3d00b77ea54ac379~p8zX0D1jZ3111931119epoutp03W
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:55:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20250930035542epoutp03476847eca271ddaf3d00b77ea54ac379~p8zX0D1jZ3111931119epoutp03W
+X-Greylist: delayed 459 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Sep 2025 04:03:03 UTC
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB7B910E271
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:03 +0000 (UTC)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20250930035549epoutp0162ad38314e170859b1150e3060e48e2f~p8zek7tyd3089430894epoutp01z
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:55:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20250930035549epoutp0162ad38314e170859b1150e3060e48e2f~p8zek7tyd3089430894epoutp01z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1759204542;
- bh=P8Qh4CW2BFkICzdjo78AipBn/sVMMTrhSgSCULYFzEY=;
+ s=mail20170921; t=1759204549;
+ bh=bpej8MLmB7L59W41wU3Kn4I7jm3vAl8REcpYHgaZwlw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=izOP9FGUpthRH9snp8YjYK/KvuaN/T2sGCmimIhWaqjT9/Wl8dj4AHt4TBtCdRJSP
- vcNcINBrNFql0mvZwW4+drUojSjuoN4P5GCcUZtJBq3X21TayJsLerYXMGMnMZylXA
- b7fFqMOvuiU+Dyt83fSdxZo7KAZi24spSEdSu0jk=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
- 20250930035541epcas5p2d68d44fe2eb1a6c1a14de342d579566a~p8zXC0suL2331123311epcas5p2I;
- Tue, 30 Sep 2025 03:55:41 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.93]) by
- epsnrtp02.localdomain (Postfix) with ESMTP id 4cbPNX4hzGz2SSKh; Tue, 30 Sep
- 2025 03:55:40 +0000 (GMT)
+ b=Q4w8qIysQII7bGxHMSKxu3kYUJ1GUz760JFxTAnIHEYHAPBWWW1GCIp/t7/vkaKW5
+ m9JDlWAb1zrC3KXn0OnizmR6jyulfSsKtcNc/LousdQJGANDQVbuZNgEk2EJ0m/f6r
+ BmC1du3BIQS75I7V0GmRNtkrDeSzWmssO30dSsHE=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+ 20250930035548epcas5p46dfa08c01a201a23c2633d63bc46e30b~p8zdg597R2781827818epcas5p4g;
+ Tue, 30 Sep 2025 03:55:48 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.89]) by
+ epsnrtp03.localdomain (Postfix) with ESMTP id 4cbPNg4gsQz3hhT3; Tue, 30 Sep
+ 2025 03:55:47 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20250930035540epcas5p356f8403ee4d973701a74cf96f6e9c19b~p8zVfGh0E0048900489epcas5p3c;
- Tue, 30 Sep 2025 03:55:40 +0000 (GMT)
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250930035547epcas5p11f579ca8f8a83767cbb2b632fa9cd6f7~p8zcEEX2V2443624436epcas5p1o;
+ Tue, 30 Sep 2025 03:55:47 +0000 (GMT)
 Received: from bose.samsungds.net (unknown [107.108.83.9]) by
  epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250930035535epsmtip164bc5085be34f0b361946b2b18080022~p8zRuewU52882428824epsmtip1Q;
- Tue, 30 Sep 2025 03:55:35 +0000 (GMT)
+ 20250930035540epsmtip1f725bce14fa9813bc4427b5983b76b6e~p8zWFMOT52908429084epsmtip1o;
+ Tue, 30 Sep 2025 03:55:40 +0000 (GMT)
 From: Himanshu Dewangan <h.dewangan@samsung.com>
 To: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -52,23 +54,23 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Himanshu Dewangan <h.dewangan@samsung.com>
-Subject: [PATCH 06/29] media: mfc: Add MFC core hardware register and
- debugfs APIs
-Date: Tue, 30 Sep 2025 09:33:25 +0530
-Message-Id: <20250930040348.3702923-7-h.dewangan@samsung.com>
+Subject: [PATCH 07/29] media: mfc: Add MFC core command, hwlock, ISR and run
+ functionalities
+Date: Tue, 30 Sep 2025 09:33:26 +0530
+Message-Id: <20250930040348.3702923-8-h.dewangan@samsung.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250930040348.3702923-1-h.dewangan@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250930035540epcas5p356f8403ee4d973701a74cf96f6e9c19b
+X-CMS-MailID: 20250930035547epcas5p11f579ca8f8a83767cbb2b632fa9cd6f7
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250930035540epcas5p356f8403ee4d973701a74cf96f6e9c19b
+X-CMS-RootMailID: 20250930035547epcas5p11f579ca8f8a83767cbb2b632fa9cd6f7
 References: <20250930040348.3702923-1-h.dewangan@samsung.com>
- <CGME20250930035540epcas5p356f8403ee4d973701a74cf96f6e9c19b@epcas5p3.samsung.com>
+ <CGME20250930035547epcas5p11f579ca8f8a83767cbb2b632fa9cd6f7@epcas5p1.samsung.com>
 X-Mailman-Approved-At: Tue, 30 Sep 2025 05:28:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,1097 +89,1260 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Nagaraju Siddineni <nagaraju.s@samsung.com>
 
-Introduce mfc_core_hw_reg_api.h with inline helpers for interrupt
-handling, firmware status polling, pending checks, power control
-(MFC on/off), and RISC start/stop.
-Add mfc_debugfs.h exposing mfc_init_debugfs / mfc_deinit_debugfs
-for kernel debugfs integration.
-Provide mfc_core_reg_api.h containing version‑query macros and
-interrupt‑status getters, plus debug‑control stubs.
-Include necessary header dependencies.
+Introduce functions that define the core command interface, hardware‑lock
+management, interrupt handling, and run‑time control for the MFC driver.
+
+mfc_core_cmd.h
+API for core initialization, power management,
+instance lifecycle (open/close/abort) and cache flushing.
+
+mfc_core_hwlock.h
+APIs for initializing, acquiring and releasing hardware locks
+for both device and context structures.
+
+mfc_core_isr.h
+ISR prototypes for top‑half and threaded interrupt handling.
+
+mfc_core_run.h
+Functions for cache flush, hardware initialization,
+de‑initialization, and power state transitions (sleep/wakeup).
+
+All files reference the common core structures via base/mfc_common.h.
+This patch prepares the interface layer for upcoming implementation
+changes in the MFC driver.
 
 Signed-off-by: Nagaraju Siddineni <nagaraju.s@samsung.com>
 Signed-off-by: Himanshu Dewangan <h.dewangan@samsung.com>
 ---
- .../samsung/exynos-mfc/mfc_core_hw_reg_api.c  | 122 +++++++++++
- .../samsung/exynos-mfc/mfc_core_hw_reg_api.h  | 144 +++++++++++++
- .../platform/samsung/exynos-mfc/mfc_core_pm.c | 184 +++++++++++++++++
- .../platform/samsung/exynos-mfc/mfc_core_pm.h |  33 +++
- .../samsung/exynos-mfc/mfc_core_reg_api.c     |  44 ++++
- .../samsung/exynos-mfc/mfc_core_reg_api.h     |  46 +++++
- .../samsung/exynos-mfc/mfc_core_sync.c        | 190 ++++++++++++++++++
- .../samsung/exynos-mfc/mfc_core_sync.h        |  25 +++
- .../platform/samsung/exynos-mfc/mfc_debugfs.c | 189 +++++++++++++++++
- .../platform/samsung/exynos-mfc/mfc_debugfs.h |  20 ++
- 10 files changed, 997 insertions(+)
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.c
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.h
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.c
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.h
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.c
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.h
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.h
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.h
+ .../samsung/exynos-mfc/mfc_core_cmd.c         | 158 ++++++++
+ .../samsung/exynos-mfc/mfc_core_cmd.h         |  26 ++
+ .../samsung/exynos-mfc/mfc_core_hwlock.c      | 336 ++++++++++++++++++
+ .../samsung/exynos-mfc/mfc_core_hwlock.h      |  72 ++++
+ .../samsung/exynos-mfc/mfc_core_intlock.c     |  98 +++++
+ .../samsung/exynos-mfc/mfc_core_intlock.h     |  20 ++
+ .../samsung/exynos-mfc/mfc_core_isr.c         | 124 +++++++
+ .../samsung/exynos-mfc/mfc_core_isr.h         |  22 ++
+ .../samsung/exynos-mfc/mfc_core_run.c         | 265 ++++++++++++++
+ .../samsung/exynos-mfc/mfc_core_run.h         |  26 ++
+ 10 files changed, 1147 insertions(+)
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_run.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_run.h
 
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.c
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.c
 new file mode 100644
-index 000000000000..b4401ea2b476
+index 000000000000..5be9fd086a93
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.c
-@@ -0,0 +1,122 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.c
+@@ -0,0 +1,158 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
 + *              http://www.samsung.com
 + *
-+ * mfc_core_hw_reg_api.c file
++ * mfc_core_cmd.c file
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
++#include "mfc_core_cmd.h"
++#include "mfc_core_intlock.h"
++
 +#include "mfc_core_hw_reg_api.h"
 +
-+/* Reset the device */
-+void mfc_core_reg_clear(struct mfc_core *core)
++#include "base/mfc_utils.h"
++#include "base/mfc_buf.h"
++
++void mfc_core_cmd_sys_init(struct mfc_core *core,
++			   enum mfc_buf_usage_type buf_type)
 +{
-+	int i;
++	struct mfc_dev *dev = core->dev;
++	struct mfc_ctx_buf_size *buf_size;
++	struct mfc_special_buf *ctx_buf;
 +
-+	/* Zero Initialization of MFC registers */
-+	MFC_CORE_WRITEL(0, MFC_REG_RISC2HOST_CMD);
-+	MFC_CORE_WRITEL(0, MFC_REG_HOST2RISC_CMD);
-+	MFC_CORE_WRITEL(0, MFC_REG_FW_VERSION);
-+
-+	for (i = 0; i < MFC_REG_CLEAR_COUNT; i++)
-+		MFC_CORE_WRITEL(0, MFC_REG_CLEAR_BEGIN + (i * 4));
-+}
-+
-+void mfc_core_reset_mfc(struct mfc_core *core)
-+{
 +	mfc_core_debug_enter();
 +
-+	MFC_CORE_WRITEL(0x1FFF, MFC_REG_MFC_RESET);
-+	MFC_CORE_WRITEL(0, MFC_REG_MFC_RESET);
++	mfc_core_clean_dev_int_flags(core);
++
++	buf_size = dev->variant->buf_size->ctx_buf;
++	ctx_buf = &core->common_ctx_buf;
++	MFC_CORE_WRITEL(ctx_buf->daddr, MFC_REG_CONTEXT_MEM_ADDR);
++	MFC_CORE_WRITEL(buf_size->dev_ctx, MFC_REG_CONTEXT_MEM_SIZE);
++
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_SYS_INIT);
 +
 +	mfc_core_debug_leave();
 +}
 +
-+void mfc_core_set_risc_base_addr(struct mfc_core *core)
++void mfc_core_cmd_sleep(struct mfc_core *core)
 +{
-+	struct mfc_special_buf *fw_buf;
++	mfc_core_debug_enter();
 +
-+	fw_buf = &core->fw_buf;
++	mfc_core_clean_dev_int_flags(core);
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_SLEEP);
 +
-+	MFC_CORE_DMA_WRITEL(fw_buf->daddr,
-+			    MFC_REG_RISC_NONSECURE_BASE_ADDR);
-+
-+	mfc_core_debug(2, "[MEMINFO][F/W] Base Address : %#x\n",
-+		       (u32)fw_buf->daddr);
-+	MFC_TRACE_CORE("F/W Base Address : %#x\n",
-+		       (u32)fw_buf->daddr);
++	mfc_core_debug_leave();
 +}
 +
-+void mfc_core_cmd_host2risc(struct mfc_core *core, int cmd)
++void mfc_core_cmd_wakeup(struct mfc_core *core)
++{
++	mfc_core_debug_enter();
++
++	mfc_core_clean_dev_int_flags(core);
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_WAKEUP);
++
++	mfc_core_debug_leave();
++}
++
++/* Open a new instance and get its number */
++void mfc_core_cmd_open_inst(struct mfc_core *core, struct mfc_ctx *ctx)
++{
++	struct mfc_dev *dev = ctx->dev;
++	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
++	unsigned int reg;
++
++	mfc_debug_enter();
++
++	/* Preparing decoding - getting instance number */
++	mfc_debug(2, "Getting instance number\n");
++	mfc_clean_core_ctx_int_flags(core_ctx);
++
++	reg = MFC_CORE_READL(MFC_REG_CODEC_CONTROL);
++	/* Clear OTF_CONTROL[2:1] & OTF_DEBUG[3] */
++	reg &= ~(0x7 << 1);
++
++	MFC_CORE_WRITEL(reg, MFC_REG_CODEC_CONTROL);
++
++	mfc_debug(2, "Requested codec mode: %d\n", ctx->codec_mode);
++	reg = ctx->codec_mode & MFC_REG_CODEC_TYPE_MASK;
++	if (MFC_FEATURE_SUPPORT(dev, dev->pdata->mem_clear)) {
++		reg |= BIT(MFC_REG_CLEAR_CTX_MEM_SHIFT);
++		mfc_debug(2, "Enable to clear context memory: %#x\n", reg);
++	}
++	MFC_CORE_WRITEL(reg, MFC_REG_CODEC_TYPE);
++
++	MFC_CORE_WRITEL(core_ctx->instance_ctx_buf.daddr, MFC_REG_CONTEXT_MEM_ADDR);
++	MFC_CORE_WRITEL(core_ctx->instance_ctx_buf.size, MFC_REG_CONTEXT_MEM_SIZE);
++
++	if (dev->debugfs.feature_option & MFC_OPTION_SET_MULTI_CORE_FORCE) {
++		reg = MFC_CORE_READL(MFC_REG_DBG_INFO_ENABLE);
++		reg |= BIT(MFC_REG_DBG_INFO_TWO_MFC_FORCING_SHIFT);
++		MFC_CORE_WRITEL(reg, MFC_REG_DBG_INFO_ENABLE);
++		mfc_info("[2CORE] Forcely enable multi core mode %#x\n",
++			 MFC_CORE_READL(MFC_REG_DBG_INFO_ENABLE));
++	}
++
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_OPEN_INSTANCE);
++
++	mfc_debug_leave();
++}
++
++/* Close instance */
++int mfc_core_cmd_close_inst(struct mfc_core *core, struct mfc_ctx *ctx)
++{
++	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
++
++	mfc_debug_enter();
++
++	/* Closing decoding instance  */
++	mfc_debug(2, "Returning instance number\n");
++	mfc_clean_core_ctx_int_flags(core_ctx);
++	if (core_ctx->state == MFCINST_FREE) {
++		mfc_err("ctx already free status\n");
++		return -EINVAL;
++	}
++
++	MFC_CORE_WRITEL(core_ctx->inst_no, MFC_REG_INSTANCE_ID);
++
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_CLOSE_INSTANCE);
++
++	mfc_debug_leave();
++
++	return 0;
++}
++
++void mfc_core_cmd_abort_inst(struct mfc_core *core, struct mfc_ctx *ctx)
++{
++	struct mfc_core_ctx *core_ctx = core->core_ctx[ctx->num];
++
++	mfc_clean_core_ctx_int_flags(core_ctx);
++
++	MFC_CORE_WRITEL(core_ctx->inst_no, MFC_REG_INSTANCE_ID);
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_NAL_ABORT);
++}
++
++void mfc_core_cmd_cache_flush(struct mfc_core *core)
 +{
 +	struct mfc_core_ctx *core_ctx = core->core_ctx[core->curr_core_ctx];
 +	struct mfc_ctx *ctx = core_ctx->ctx;
-+	int ret = 0;
++	u32 reg = 0;
 +
-+	mfc_debug(1, "[c:%d] Issue the command: %d%s\n", core->curr_core_ctx,
-+		  cmd, core->cache_flush_flag ? " with cache flush" : "");
-+	MFC_TRACE_CORE_CTX("%s %d, (dev:0x%lx, bits:%lx, owned:%d, wl:%d, trans:%d, opmode: %d)\n",
-+			   ">> CMD :", cmd,
-+			   core->hwlock.dev, core->hwlock.bits,
-+			   core->hwlock.owned_by_irq, core->hwlock.wl_count,
-+			   core->hwlock.transfer_owner, ctx->op_mode);
-+	MFC_TRACE_LOG_CORE("C%d", cmd);
++	mutex_lock(&ctx->op_mode_mutex);
 +
-+	if (core->cache_flush_flag) {
-+		MFC_TRACE_CORE_CTX(">> CMD : 12 in FW\n");
-+		MFC_TRACE_LOG_CORE("C12FW");
-+	}
++	reg = MFC_CORE_READL(MFC_REG_D_NAL_START_OPTIONS);
++	reg &= ~BIT(MFC_REG_D_NAL_START_OPT_TWO_MFC_ENABLE_SHIFT);
++	if (IS_MULTI_MODE(ctx) || ctx->op_mode == MFC_OP_SWITCH_BUT_MODE2)
++		reg |= BIT(MFC_REG_D_NAL_START_OPT_TWO_MFC_ENABLE_SHIFT);
++	else
++		reg |= (0 << MFC_REG_D_NAL_START_OPT_TWO_MFC_ENABLE_SHIFT);
++	MFC_CORE_WRITEL(reg, MFC_REG_D_NAL_START_OPTIONS);
++	mfc_debug(3, "NAL_START_OPTIONS: %#x, op_mode: %d\n", reg, ctx->op_mode);
++	mutex_unlock(&ctx->op_mode_mutex);
 +
-+	/* Reset RISC2HOST command except nal q stop command */
-+	if (cmd != MFC_REG_H2R_CMD_STOP_QUEUE)
-+		MFC_CORE_WRITEL(0x0, MFC_REG_RISC2HOST_CMD);
-+
-+	if (cmd != MFC_REG_H2R_CMD_NAL_QUEUE &&
-+	    cmd != MFC_REG_H2R_CMD_NAL_LL &&
-+	    cmd != MFC_REG_H2R_CMD_STOP_QUEUE) {
-+		/* TODO: change to core */
-+		if (cmd != MFC_REG_H2R_CMD_NAL_ABORT) {
-+			/* Check the fw status */
-+			ret = mfc_core_wait_fw_status(core);
-+			if (ret != 0)
-+				mfc_err("Failed to wait firmware status\n");
-+		}
-+	}
-+
-+	if (core->dev->debugfs.dbg_enable && core->dbg_info_buf.dma_buf) {
-+		/* For FW debugging */
-+		mfc_core_dbg_set_addr(core);
-+		mfc_core_dbg_enable(core);
-+	}
-+
-+	core->last_cmd = cmd;
-+	core->last_cmd_time = ktime_to_timespec64(ktime_get());
-+
-+	/* Record if the command incurs cache flush */
-+	core->last_cmd_has_cache_flush =
-+		(cmd == MFC_REG_H2R_CMD_CACHE_FLUSH || core->cache_flush_flag) ? 1 : 0;
-+
-+	if (core->cache_flush_flag)
-+		cmd |= BIT(MFC_REG_H2R_CACHE_FLUSH_FLAG);
-+	core->cache_flush_flag = 0;
-+
-+	/* Issue the command */
-+	MFC_CORE_WRITEL(cmd, MFC_REG_HOST2RISC_CMD);
-+	MFC_CORE_WRITEL(0x1, MFC_REG_HOST2RISC_INT);
-+}
-+
-+/* Check whether HW interrupt has occurred or not */
-+int mfc_core_check_risc2host(struct mfc_core *core)
-+{
-+	if (mfc_core_get_pwr_ref_cnt(core) && mfc_core_get_clk_ref_cnt(core)) {
-+		if (MFC_CORE_READL(MFC_REG_RISC2HOST_INT))
-+			return MFC_CORE_READL(MFC_REG_RISC2HOST_CMD);
-+		else
-+			return 0;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.h
-new file mode 100644
-index 000000000000..5a7bba8f54c3
---- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.h
-@@ -0,0 +1,144 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later
-+ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *              http://www.samsung.com
-+ *
-+ * mfc_core_hw_reg_api.h file
-+ *
-+ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
-+ * Himanshu Dewangan, <h.dewangan@samsung.com>
-+ */
-+
-+#ifndef __MFC_CORE_HW_REG_API_H
-+#define __MFC_CORE_HW_REG_API_H __FILE__
-+
-+#include "mfc_core_reg_api.h"
-+
-+#define mfc_core_get_int_reason()	(MFC_CORE_READL(MFC_REG_RISC2HOST_CMD)		\
-+						& MFC_REG_RISC2HOST_CMD_MASK)
-+
-+#define mfc_core_clear_int()						\
-+		do {							\
-+			MFC_CORE_WRITEL(0, MFC_REG_RISC2HOST_CMD);	\
-+			MFC_CORE_WRITEL(0, MFC_REG_RISC2HOST_INT);	\
-+		} while (0)
-+
-+#define mfc_core_clear_int_only()	MFC_CORE_WRITEL(0, MFC_REG_RISC2HOST_INT)
-+
-+static inline int mfc_core_wait_fw_status(struct mfc_core *core)
-+{
-+	struct mfc_dev *dev = core->dev;
-+	unsigned int status;
-+	unsigned long timeout;
-+
-+	if (MFC_FEATURE_SUPPORT(dev, dev->pdata->wait_fw_status)) {
-+		status = MFC_CORE_READL(MFC_REG_FIRMWARE_STATUS_INFO);
-+		if (status & 0x1)
-+			return 0;
-+
-+		timeout = jiffies + msecs_to_jiffies(MFC_BW_TIMEOUT);
-+		do {
-+			if (time_after(jiffies, timeout)) {
-+				mfc_core_err("Timeout while waiting MFC F/W done\n");
-+				return -EIO;
-+			}
-+			status = MFC_CORE_READL(MFC_REG_FIRMWARE_STATUS_INFO);
-+		} while ((status & 0x1) == 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static inline int mfc_core_wait_pending(struct mfc_core *core)
-+{
-+	unsigned int status;
-+	unsigned long timeout;
-+
-+	/* Check F/W wait status */
-+	timeout = jiffies + msecs_to_jiffies(MFC_BW_TIMEOUT);
-+	do {
-+		if (time_after(jiffies, timeout)) {
-+			mfc_core_err("Timeout while waiting MFC F/W done\n");
-+			return -EIO;
-+		}
-+		status = MFC_CORE_READL(MFC_REG_FIRMWARE_STATUS_INFO);
-+	} while ((status & 0x1) == 0);
-+
-+	/* Check H/W pending status */
-+	timeout = jiffies + msecs_to_jiffies(MFC_BW_TIMEOUT);
-+	do {
-+		if (time_after(jiffies, timeout)) {
-+			mfc_core_err("Timeout while pendng clear\n");
-+			mfc_core_err("MFC access pending R: %#x, BUS: %#x\n",
-+				     MFC_CORE_READL(MFC_REG_MFC_RPEND),
-+				     MFC_CORE_READL(MFC_REG_MFC_BUS_STATUS));
-+			return -EIO;
-+		}
-+		status = MFC_CORE_READL(MFC_REG_MFC_RPEND);
-+	} while (status != 0);
-+
-+	MFC_TRACE_CORE("** pending wait done\n");
-+
-+	return 0;
-+}
-+
-+static inline void mfc_core_mfc_off(struct mfc_core *core)
-+{
-+	if (core->dev->pdata->support_hwacg == MFC_HWACG_DRV_CTRL) {
-+		mfc_core_debug(2, "MFC_OFF 1(off)\n");
-+		MFC_TRACE_CORE(">> MFC OFF 1(off)\n");
-+		MFC_CORE_WRITEL(0x1, MFC_REG_MFC_OFF);
-+	}
-+}
-+
-+static inline void mfc_core_mfc_always_off(struct mfc_core *core)
-+{
-+	mfc_core_debug(2, "MFC_OFF 1(off)\n");
-+	MFC_TRACE_CORE(">> MFC OFF 1(off)\n");
-+	MFC_CORE_WRITEL(0x1, MFC_REG_MFC_OFF);
-+}
-+
-+static inline void mfc_core_mfc_on(struct mfc_core *core)
-+{
-+	MFC_CORE_WRITEL(0x0, MFC_REG_MFC_OFF);
-+	mfc_core_debug(2, "MFC_OFF 0(on)\n");
-+	MFC_TRACE_CORE(">> MFC OFF 0(on)\n");
-+}
-+
-+static inline void mfc_core_risc_on(struct mfc_core *core)
-+{
 +	mfc_core_clean_dev_int_flags(core);
-+	mfc_core_mfc_on(core);
-+
-+	MFC_CORE_WRITEL(0x1, MFC_REG_RISC_ON);
-+	mfc_core_debug(1, "RISC_ON\n");
-+	MFC_TRACE_CORE(">> RISC ON\n");
++	mfc_core_cmd_host2risc(core, MFC_REG_H2R_CMD_CACHE_FLUSH);
 +}
-+
-+static inline void mfc_core_risc_off(struct mfc_core *core)
-+{
-+	unsigned int status;
-+	unsigned long timeout;
-+
-+	timeout = jiffies + msecs_to_jiffies(MFC_BW_TIMEOUT);
-+	/* Check pending status */
-+	do {
-+		if (time_after(jiffies, timeout)) {
-+			mfc_core_err("Timeout while pendng clear\n");
-+			mfc_core_err("MFC access pending state: %#x\n", status);
-+			mfc_core_err("MFC access pending R: %#x, W: %#x\n",
-+				     MFC_CORE_READL(MFC_REG_MFC_RPEND),
-+				     MFC_CORE_READL(MFC_REG_MFC_WPEND));
-+			break;
-+		}
-+		status = MFC_CORE_READL(MFC_REG_MFC_BUS_STATUS);
-+	} while (status != 0);
-+
-+	MFC_CORE_WRITEL(0x0, MFC_REG_RISC_ON);
-+}
-+
-+void mfc_core_reg_clear(struct mfc_core *core);
-+void mfc_core_reset_mfc(struct mfc_core *core);
-+void mfc_core_set_risc_base_addr(struct mfc_core *core);
-+void mfc_core_cmd_host2risc(struct mfc_core *core, int cmd);
-+int mfc_core_check_risc2host(struct mfc_core *core);
-+#endif /* __MFC_CORE_HW_REG_API_H */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.c
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.h
 new file mode 100644
-index 000000000000..def7ac2a2007
+index 000000000000..86b82d63f3b5
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.c
-@@ -0,0 +1,184 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *              http://www.samsung.com
-+ *
-+ * mfc_core_pm.c file
-+ *
-+ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
-+ * Himanshu Dewangan, <h.dewangan@samsung.com>
-+ */
-+
-+#include <linux/pm_runtime.h>
-+
-+#include "mfc_core_pm.h"
-+#include "mfc_core_sync.h"
-+
-+#include "mfc_core_hw_reg_api.h"
-+
-+void mfc_core_pm_init(struct mfc_core *core)
-+{
-+	spin_lock_init(&core->pm.clklock);
-+	atomic_set(&core->pm.pwr_ref, 0);
-+	atomic_set(&core->pm.protect_ref, 0);
-+	atomic_set(&core->clk_ref, 0);
-+
-+	core->pm.device = core->device;
-+	core->pm.clock_on_steps = 0;
-+	core->pm.clock_off_steps = 0;
-+	pm_runtime_enable(core->pm.device);
-+}
-+
-+void mfc_core_pm_final(struct mfc_core *core)
-+{
-+	pm_runtime_disable(core->pm.device);
-+}
-+
-+int mfc_core_pm_clock_on(struct mfc_core *core, bool qos_update)
-+{
-+	int ret = 0;
-+	int state;
-+
-+	if (core->dev->pdata->support_hwacg == MFC_HWACG_HWFW_CTRL)
-+		return ret;
-+
-+	core->pm.clock_on_steps = 1;
-+	state = mfc_core_get_clk_ref_cnt(core);
-+
-+	core->pm.clock_on_steps |= BIT(1);
-+	if (core->pm.base_type != MFCBUF_INVALID) {
-+		/*
-+		 * There is no place to set core->pm.base_type,
-+		 * so it is always MFCBUF_INVALID now.
-+		 * When necessary later, you can set the bse_type.
-+		 */
-+		core->pm.clock_on_steps |= BIT(2);
-+		ret = mfc_core_wait_pending(core);
-+		if (ret != 0) {
-+			mfc_core_err("pending wait failed (%d)\n", ret);
-+			return ret;
-+		}
-+		core->pm.clock_on_steps |= BIT(3);
-+		mfc_core_set_risc_base_addr(core);
-+	}
-+
-+	core->pm.clock_on_steps |= BIT(4);
-+	if (!IS_ERR(core->pm.clock)) {
-+		ret = clk_enable(core->pm.clock);
-+		if (ret < 0)
-+			mfc_core_err("clk_enable failed (%d)\n", ret);
-+	}
-+
-+	core->pm.clock_on_steps |= BIT(5);
-+	state = atomic_inc_return(&core->clk_ref);
-+
-+	if (!core->dev->multi_core_inst_bits)
-+		mfc_core_mfc_on(core);
-+
-+	mfc_core_debug(2, "clk_ref = %d\n", state);
-+	MFC_TRACE_LOG_CORE("clk_ref = %d", state);
-+
-+	return 0;
-+}
-+
-+void mfc_core_pm_clock_off(struct mfc_core *core, bool qos_update)
-+{
-+	int state;
-+
-+	if (core->dev->pdata->support_hwacg == MFC_HWACG_HWFW_CTRL)
-+		return;
-+
-+	core->pm.clock_off_steps = 1;
-+	state = atomic_dec_return(&core->clk_ref);
-+	if (state < 0) {
-+		mfc_core_info("MFC clock is already disabled (%d)\n", state);
-+		atomic_set(&core->clk_ref, 0);
-+		core->pm.clock_off_steps |= BIT(2);
-+		MFC_TRACE_CORE("** clock_off already: ref state(%d)\n",
-+			       mfc_core_get_clk_ref_cnt(core));
-+	} else {
-+		core->pm.clock_off_steps |= BIT(3);
-+		if (!IS_ERR(core->pm.clock)) {
-+			clk_disable(core->pm.clock);
-+			core->pm.clock_off_steps |= BIT(4);
-+		}
-+	}
-+
-+	state = mfc_core_get_clk_ref_cnt(core);
-+
-+	if (!core->dev->multi_core_inst_bits && !state)
-+		mfc_core_mfc_off(core);
-+
-+	core->pm.clock_off_steps |= BIT(5);
-+
-+	mfc_core_debug(2, "clk_ref = %d\n", state);
-+	MFC_TRACE_LOG_CORE("clk_ref = %d", state);
-+}
-+
-+int mfc_core_pm_power_on(struct mfc_core *core)
-+{
-+	int ret;
-+
-+	MFC_TRACE_CORE("++ Power on\n");
-+	ret = pm_runtime_get_sync(core->pm.device);
-+	if (ret < 0) {
-+		mfc_core_err("Failed to get power: ret(%d)\n", ret);
-+		goto err_power_on;
-+	}
-+
-+#if (IS_ENABLED(CONFIG_COMMON_CLK_SAMSUNG))
-+	core->pm.clock = clk_get(core->device, "aclk_mfc");
-+	if (IS_ERR(core->pm.clock)) {
-+		mfc_core_err("failed to get parent clock: ret(%d)\n", ret);
-+	} else {
-+		ret = clk_prepare(core->pm.clock);
-+		if (ret) {
-+			mfc_core_err("clk_prepare() failed: ret(%d)\n", ret);
-+			clk_put(core->pm.clock);
-+		}
-+	}
-+#endif
-+
-+	atomic_inc(&core->pm.pwr_ref);
-+
-+	MFC_TRACE_CORE("-- Power on: ret(%d)\n", ret);
-+	MFC_TRACE_LOG_CORE("p+%d", mfc_core_get_pwr_ref_cnt(core));
-+
-+	return 0;
-+
-+err_power_on:
-+	return ret;
-+}
-+
-+int mfc_core_pm_power_off(struct mfc_core *core)
-+{
-+	int state;
-+	int ret;
-+
-+	MFC_TRACE_CORE("++ Power off\n");
-+
-+	state = mfc_core_get_clk_ref_cnt(core);
-+	if (state > 0 && core->dev->pdata->support_hwacg != MFC_HWACG_HWFW_CTRL) {
-+		mfc_core_info("MFC clock is still enabled (%d)\n", state);
-+		mfc_core_pm_clock_off(core, 0);
-+	}
-+
-+	if (!IS_ERR(core->pm.clock)) {
-+		clk_unprepare(core->pm.clock);
-+		clk_put(core->pm.clock);
-+	}
-+	mfc_core_mfc_always_off(core);
-+
-+	ret = pm_runtime_put_sync(core->pm.device);
-+	if (ret < 0) {
-+		mfc_core_err("Failed to put power: ret(%d)\n", ret);
-+		return ret;
-+	}
-+
-+	atomic_dec(&core->pm.pwr_ref);
-+
-+	MFC_TRACE_CORE("-- Power off: ret(%d)\n", ret);
-+	MFC_TRACE_LOG_CORE("p-%d", mfc_core_get_pwr_ref_cnt(core));
-+
-+	return ret;
-+}
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.h
-new file mode 100644
-index 000000000000..f0b6159ce91a
---- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.h
-@@ -0,0 +1,33 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.h
+@@ -0,0 +1,26 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
 + *		http://www.samsung.com/
 + *
-+ * mfc_core_pm.h File
++ * mfc_core_cmd.h file
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
-+#ifndef __MFC_CORE_PM_H
-+#define __MFC_CORE_PM_H __FILE__
-+
-+#include <linux/clk.h>
++#ifndef __MFC_CORE_CMD_H
++#define __MFC_CORE_CMD_H __FILE__
 +
 +#include "base/mfc_common.h"
 +
-+static inline void mfc_core_pm_clock_get(struct mfc_core *core)
-+{
-+	/* This should be called after clock was enabled by mfc_core_pm_clock_on() */
-+	if (core->continue_clock_on)
-+		mfc_core_info("MFC frequency : %ld\n", clk_get_rate(core->pm.clock));
-+}
++void mfc_core_cmd_sys_init(struct mfc_core *core,
++			   enum mfc_buf_usage_type buf_type);
++void mfc_core_cmd_sleep(struct mfc_core *core);
++void mfc_core_cmd_wakeup(struct mfc_core *core);
 +
-+void mfc_core_pm_init(struct mfc_core *core);
-+void mfc_core_pm_final(struct mfc_core *core);
-+int mfc_core_pm_clock_on(struct mfc_core *core, bool qos_update);
-+void mfc_core_pm_clock_off(struct mfc_core *core, bool qos_update);
-+int mfc_core_pm_power_on(struct mfc_core *core);
-+int mfc_core_pm_power_off(struct mfc_core *core);
-+
-+#endif /* __MFC_CORE_PM_H */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.c
++void mfc_core_cmd_open_inst(struct mfc_core *core, struct mfc_ctx *ctx);
++int mfc_core_cmd_close_inst(struct mfc_core *core, struct mfc_ctx *ctx);
++void mfc_core_cmd_abort_inst(struct mfc_core *core, struct mfc_ctx *ctx);
++void mfc_core_cmd_cache_flush(struct mfc_core *core);
++#endif /* __MFC_CORE_CMD_H */
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.c
 new file mode 100644
-index 000000000000..ec6699dbd451
+index 000000000000..4de836543e82
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.c
-@@ -0,0 +1,44 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.c
+@@ -0,0 +1,336 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com/
++ *              http://www.samsung.com
 + *
-+ * mfc_core_reg_api.c File
-+ *
-+ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
-+ * Himanshu Dewangan, <h.dewangan@samsung.com>
-+ */
-+
-+#include <linux/delay.h>
-+
-+#include "mfc_core_reg_api.h"
-+
-+void mfc_core_dbg_enable(struct mfc_core *core)
-+{
-+	unsigned int reg;
-+
-+	mfc_core_debug(2, "MFC debug info enable\n");
-+	reg = MFC_CORE_READL(MFC_REG_DBG_INFO_ENABLE);
-+	reg |= BIT(MFC_REG_DBG_INFO_ENABLE_SHIFT);
-+	MFC_CORE_WRITEL(reg, MFC_REG_DBG_INFO_ENABLE);
-+}
-+
-+void mfc_core_dbg_disable(struct mfc_core *core)
-+{
-+	unsigned int reg;
-+
-+	mfc_core_debug(2, "MFC debug info disable\n");
-+	reg = MFC_CORE_READL(MFC_REG_DBG_INFO_ENABLE);
-+	reg &= ~BIT(MFC_REG_DBG_INFO_ENABLE_SHIFT);
-+	MFC_CORE_WRITEL(reg, MFC_REG_DBG_INFO_ENABLE);
-+}
-+
-+void mfc_core_dbg_set_addr(struct mfc_core *core)
-+{
-+	struct mfc_ctx_buf_size *buf_size = core->dev->variant->buf_size->ctx_buf;
-+
-+	memset((void *)core->dbg_info_buf.vaddr, 0, buf_size->dbg_info_buf);
-+
-+	MFC_CORE_WRITEL(core->dbg_info_buf.daddr, MFC_REG_DBG_BUFFER_ADDR);
-+	MFC_CORE_WRITEL(buf_size->dbg_info_buf, MFC_REG_DBG_BUFFER_SIZE);
-+}
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.h
-new file mode 100644
-index 000000000000..a23d25edce5d
---- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.h
-@@ -0,0 +1,46 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com/
-+ *
-+ * mfc_core_reg_api.h File
++ *  mfc_core_hwlock.c file
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
-+#ifndef __MFC_CORE_REG_API_H
-+#define __MFC_CORE_REG_API_H __FILE__
++#include "mfc_rm.h"
 +
-+#include "base/mfc_regs.h"
-+#include "base/mfc_utils.h"
-+
-+/* version */
-+#define mfc_core_get_fimv_info()		((MFC_CORE_READL(MFC_REG_FW_VERSION)		\
-+						>> MFC_REG_FW_VER_INFO_SHFT)		\
-+						& MFC_REG_FW_VER_INFO_MASK)
-+#define mfc_core_get_fw_ver_year()	((MFC_CORE_READL(MFC_REG_FW_VERSION)		\
-+						>> MFC_REG_FW_VER_YEAR_SHFT)		\
-+						& MFC_REG_FW_VER_YEAR_MASK)
-+#define mfc_core_get_fw_ver_month()	((MFC_CORE_READL(MFC_REG_FW_VERSION)		\
-+						>> MFC_REG_FW_VER_MONTH_SHFT)		\
-+						& MFC_REG_FW_VER_MONTH_MASK)
-+#define mfc_core_get_fw_ver_date()	((MFC_CORE_READL(MFC_REG_FW_VERSION)		\
-+						>> MFC_REG_FW_VER_DATE_SHFT)		\
-+						& MFC_REG_FW_VER_DATE_MASK)
-+#define mfc_core_get_fw_ver_all()	((MFC_CORE_READL(MFC_REG_FW_VERSION)		\
-+						>> MFC_REG_FW_VER_ALL_SHFT)		\
-+						& MFC_REG_FW_VER_ALL_MASK)
-+#define mfc_core_get_mfc_version()	((MFC_CORE_READL(MFC_REG_MFC_VERSION)		\
-+						>> MFC_REG_MFC_VER_SHFT)		\
-+						& MFC_REG_MFC_VER_MASK)
-+
-+/* kind of interrupt */
-+#define mfc_core_get_int_err()		MFC_CORE_READL(MFC_REG_ERROR_CODE)
-+
-+#define mfc_core_get_inst_no()			MFC_CORE_READL(MFC_REG_RET_INSTANCE_ID)
-+
-+void mfc_core_dbg_enable(struct mfc_core *core);
-+void mfc_core_dbg_disable(struct mfc_core *core);
-+void mfc_core_dbg_set_addr(struct mfc_core *core);
-+#endif /* __MFC_CORE_REG_API_H */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
-new file mode 100644
-index 000000000000..de13cdb9c99a
---- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
-@@ -0,0 +1,190 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com/
-+ *
-+ * mfc_core_sync.c File
-+ *
-+ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
-+ * Himanshu Dewangan, <h.dewangan@samsung.com>
-+ */
-+
++#include "mfc_core_hwlock.h"
++#include "mfc_core_run.h"
++#include "mfc_core_pm.h"
 +#include "mfc_core_sync.h"
 +
++#include "mfc_core_cmd.h"
 +#include "mfc_core_hw_reg_api.h"
 +
-+#define R2H_BIT(x)	({		\
-+	typeof(x) _x = (x);		\
-+	(_x > 0) ? BIT(_x - 1) : 0;	\
-+})
++#include "base/mfc_utils.h"
++#include "base/mfc_sched.h"
 +
-+static inline unsigned int __mfc_r2h_bit_mask(int cmd)
++static inline void __mfc_print_hwlock(struct mfc_core *core)
 +{
-+	unsigned int mask = R2H_BIT(cmd);
-+
-+	if (cmd == MFC_REG_R2H_CMD_FRAME_DONE_RET)
-+		mask |= (R2H_BIT(MFC_REG_R2H_CMD_FIELD_DONE_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_COMPLETE_SEQ_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_SLICE_DONE_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_INIT_BUFFERS_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_NAL_ABORT_RET));
-+	/* FIXME: Temporal mask for S3D SEI processing */
-+	else if (cmd == MFC_REG_R2H_CMD_INIT_BUFFERS_RET)
-+		mask |= (R2H_BIT(MFC_REG_R2H_CMD_FIELD_DONE_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_SLICE_DONE_RET) |
-+			 R2H_BIT(MFC_REG_R2H_CMD_FRAME_DONE_RET));
-+
-+	return (mask |= R2H_BIT(MFC_REG_R2H_CMD_ERR_RET));
++	mfc_core_debug(3, "%s%lx, %sx%lx, %s %d, %s %d, %s %d\n",
++		       "hwlock.dev = 0x", core->hwlock.dev,
++		       "bits = 0x", core->hwlock.bits,
++		       "owned_by_irq =", core->hwlock.owned_by_irq,
++		       "wl_count =", core->hwlock.wl_count,
++		       "transfer_owner =", core->hwlock.transfer_owner);
 +}
 +
-+void mfc_get_corelock_ctx(struct mfc_ctx *ctx)
++void mfc_core_init_hwlock(struct mfc_core *core)
 +{
 +	unsigned long flags;
 +
-+	spin_lock_irqsave(&ctx->corelock.lock, flags);
-+	mfc_ctx_debug(3, "[CORELOCK] get_corelock: cnt %d\n",
-+		      ctx->corelock.cnt);
++	spin_lock_init(&core->hwlock.lock);
++	spin_lock_irqsave(&core->hwlock.lock, flags);
 +
-+	ctx->corelock.cnt++;
++	INIT_LIST_HEAD(&core->hwlock.waiting_list);
++	core->hwlock.wl_count = 0;
++	core->hwlock.bits = 0;
++	core->hwlock.dev = 0;
++	core->hwlock.owned_by_irq = 0;
++	core->hwlock.transfer_owner = 0;
 +
-+	spin_unlock_irqrestore(&ctx->corelock.lock, flags);
++	spin_unlock_irqrestore(&core->hwlock.lock, flags);
 +}
 +
-+void mfc_release_corelock_ctx(struct mfc_ctx *ctx)
++static void __mfc_remove_listable_wq_core(struct mfc_core *core)
 +{
++	struct mfc_listable_wq *listable_wq;
 +	unsigned long flags;
 +
-+	spin_lock_irqsave(&ctx->corelock.lock, flags);
++	spin_lock_irqsave(&core->hwlock.lock, flags);
++	__mfc_print_hwlock(core);
 +
-+	ctx->corelock.cnt--;
-+	if (ctx->corelock.cnt == 0)
-+		wake_up(&ctx->corelock.wq);
-+	else if (ctx->corelock.cnt < 0)
-+		mfc_ctx_err("[CORELOCK] wrong corelock cnt %d\n", ctx->corelock.cnt);
++	list_for_each_entry(listable_wq, &core->hwlock.waiting_list, list) {
++		if (!listable_wq->core)
++			continue;
 +
-+	mfc_ctx_debug(3, "[CORELOCK] release_corelock: cnt %d\n",
-+		      ctx->corelock.cnt);
-+	spin_unlock_irqrestore(&ctx->corelock.lock, flags);
++		mfc_core_debug(2, "Found dev and will delete it!\n");
++
++		list_del(&listable_wq->list);
++		core->hwlock.wl_count--;
++
++		break;
++	}
++
++	__mfc_print_hwlock(core);
++	spin_unlock_irqrestore(&core->hwlock.lock, flags);
 +}
 +
-+#define wait_condition(x, c)	({							\
-+	typeof(x) __x = (x);								\
-+	__x->int_condition && (R2H_BIT(__x->int_reason) & __mfc_r2h_bit_mask(c));	\
-+})
++static void __mfc_remove_listable_wq_ctx(struct mfc_core_ctx *core_ctx)
++{
++	struct mfc_core *core = core_ctx->core;
++	struct mfc_listable_wq *listable_wq;
++	unsigned long flags;
 +
-+#define is_err_cond(x)		({							\
-+	typeof(x) __x = (x);								\
-+	 __x->int_condition && (__x->int_reason == MFC_REG_R2H_CMD_ERR_RET);		\
-+})
++	spin_lock_irqsave(&core->hwlock.lock, flags);
++	__mfc_print_hwlock(core);
++
++	list_for_each_entry(listable_wq, &core->hwlock.waiting_list, list) {
++		if (!listable_wq->core_ctx)
++			continue;
++
++		if (listable_wq->core_ctx->num == core_ctx->num) {
++			mfc_debug(2, "Found ctx and will delete it (%d)!\n", core_ctx->num);
++
++			list_del(&listable_wq->list);
++			core->hwlock.wl_count--;
++			break;
++		}
++	}
++
++	__mfc_print_hwlock(core);
++	spin_unlock_irqrestore(&core->hwlock.lock, flags);
++}
 +
 +/*
 + * Return value description
-+ * 0: waked up before timeout
-+ * 1: failed to get the response for the command before timeout
++ *    0: succeeded to get hwlock
++ * -EIO: failed to get hwlock (time out)
 + */
-+int mfc_wait_for_done_core(struct mfc_core *core, int command)
++int mfc_core_get_hwlock_dev(struct mfc_core *core)
 +{
-+	int ret;
++	int ret = 0;
++	unsigned long flags;
 +
 +	if (core->state == MFCCORE_ERROR) {
-+		mfc_core_info("[MSR] Couldn't run HW. It's Error state\n");
++		mfc_core_info("[MSR] Couldn't lock HW. It's Error state\n");
 +		return 0;
 +	}
 +
-+	ret = wait_event_timeout(core->cmd_wq,
-+				 wait_condition(core, command),
-+				 msecs_to_jiffies(MFC_INT_TIMEOUT));
-+	if (ret == 0) {
-+		mfc_core_err("Interrupt (core->int_reason:%d, command:%d) timed out\n",
-+			     core->int_reason, command);
-+		if (mfc_core_check_risc2host(core)) {
-+			ret = wait_event_timeout(core->cmd_wq,
-+						 wait_condition(core, command),
-+						 msecs_to_jiffies(MFC_INT_TIMEOUT *
-+								  MFC_INT_TIMEOUT_CNT));
-+			if (ret == 0) {
-+				mfc_core_err("Timeout: MFC driver waited for upward of %dmsec\n",
-+					     3 * MFC_INT_TIMEOUT);
-+			} else {
-+				goto wait_done;
-+			}
++	if (core->shutdown) {
++		mfc_core_info("Couldn't lock HW. Shutdown was called\n");
++		return -EINVAL;
++	}
++
++	mutex_lock(&core->hwlock_wq.wait_mutex);
++
++	spin_lock_irqsave(&core->hwlock.lock, flags);
++	__mfc_print_hwlock(core);
++
++	if (core->hwlock.bits != 0 || core->hwlock.dev != 0) {
++		list_add_tail(&core->hwlock_wq.list, &core->hwlock.waiting_list);
++		core->hwlock.wl_count++;
++
++		spin_unlock_irqrestore(&core->hwlock.lock, flags);
++
++		mfc_core_debug(2, "Waiting for hwlock to be released\n");
++
++		ret = wait_event_timeout
++			(core->hwlock_wq.wait_queue,
++			 (core->hwlock.transfer_owner == 1 &&
++			  (core->hwlock.dev == 1)),
++			 msecs_to_jiffies(MFC_HWLOCK_TIMEOUT));
++
++		core->hwlock.transfer_owner = 0;
++		__mfc_remove_listable_wq_core(core);
++		if (!ret) {
++			mfc_core_err("Woken up but timed out\n");
++			__mfc_print_hwlock(core);
++			mutex_unlock(&core->hwlock_wq.wait_mutex);
++			return -EIO;
 +		}
-+		return 1;
++		mfc_core_debug(2, "Woken up and got hwlock\n");
++		__mfc_print_hwlock(core);
++		mutex_unlock(&core->hwlock_wq.wait_mutex);
++	} else {
++		core->hwlock.bits = 0;
++		core->hwlock.dev = 1;
++		core->hwlock.owned_by_irq = 0;
++
++		__mfc_print_hwlock(core);
++		spin_unlock_irqrestore(&core->hwlock.lock, flags);
++		mutex_unlock(&core->hwlock_wq.wait_mutex);
 +	}
 +
-+wait_done:
-+	if (is_err_cond(core)) {
-+		mfc_core_err("Finished (core->int_reason:%d, command: %d)\n",
-+			     core->int_reason, command);
-+		mfc_core_err("But error (core->int_err:%d)\n", core->int_err);
-+		return -1;
-+	}
-+
-+	mfc_core_debug(2, "Finished waiting (core->int_reason:%d, command: %d)\n",
-+		       core->int_reason, command);
 +	return 0;
 +}
 +
 +/*
 + * Return value description
-+ *  0: waked up before timeout
-+ *  1: failed to get the response for the command before timeout
-+ * -1: got the error response for the command before timeout
++ *    0: succeeded to get hwlock
++ * -EIO: failed to get hwlock (time out)
 + */
-+int mfc_wait_for_done_core_ctx(struct mfc_core_ctx *core_ctx, int command)
++int mfc_core_get_hwlock_ctx(struct mfc_core_ctx *core_ctx)
 +{
 +	struct mfc_core *core = core_ctx->core;
-+	int ret;
-+	unsigned int timeout = MFC_INT_TIMEOUT;
++	int ret = 0;
++	unsigned long flags;
 +
 +	if (core->state == MFCCORE_ERROR) {
++		mfc_info("[MSR] Couldn't lock HW. It's Error state\n");
++		return 0;
++	}
++
++	if (core->shutdown) {
++		mfc_info("Couldn't lock HW. Shutdown was called\n");
++		return -EINVAL;
++	}
++
++	mutex_lock(&core_ctx->hwlock_wq.wait_mutex);
++
++	spin_lock_irqsave(&core->hwlock.lock, flags);
++	__mfc_print_hwlock(core);
++
++	if (core->hwlock.bits != 0 || core->hwlock.dev != 0) {
++		list_add_tail(&core_ctx->hwlock_wq.list, &core->hwlock.waiting_list);
++		core->hwlock.wl_count++;
++
++		spin_unlock_irqrestore(&core->hwlock.lock, flags);
++
++		mfc_debug(2, "core_ctx[%d] Waiting for hwlock to be released\n",
++			  core_ctx->num);
++
++		ret = wait_event_timeout
++			(core_ctx->hwlock_wq.wait_queue,
++			 (core->hwlock.transfer_owner == 1 &&
++			  test_bit(core_ctx->num, &core->hwlock.bits)),
++			 msecs_to_jiffies(MFC_HWLOCK_TIMEOUT));
++
++		core->hwlock.transfer_owner = 0;
++		__mfc_remove_listable_wq_ctx(core_ctx);
++		if (!ret) {
++			mfc_err("Woken up but timed out\n");
++			__mfc_print_hwlock(core);
++			mutex_unlock(&core_ctx->hwlock_wq.wait_mutex);
++			return -EIO;
++		}
++		mfc_debug(2, "Woken up and got hwlock\n");
++		__mfc_print_hwlock(core);
++		mutex_unlock(&core_ctx->hwlock_wq.wait_mutex);
++	} else {
++		core->hwlock.bits = 0;
++		core->hwlock.dev = 0;
++		set_bit(core_ctx->num, &core->hwlock.bits);
++		core->hwlock.owned_by_irq = 0;
++
++		__mfc_print_hwlock(core);
++		spin_unlock_irqrestore(&core->hwlock.lock, flags);
++		mutex_unlock(&core_ctx->hwlock_wq.wait_mutex);
++	}
++	return 0;
++}
++
++static void __mfc_release_hwlock(struct mfc_core *core)
++{
++	struct mfc_listable_wq *listable_wq;
++
++	if (core->state == MFCCORE_ERROR) {
++		mfc_core_debug(2, "[MSR] Couldn't wakeup module. It's Error state\n");
++	} else if (core->shutdown) {
++		mfc_core_debug(2, "Couldn't wakeup module. Shutdown was called\n");
++	} else if (list_empty(&core->hwlock.waiting_list)) {
++		mfc_core_debug(2, "No waiting module\n");
++	} else {
++		mfc_core_debug(2, "There is a waiting module\n");
++		listable_wq = list_entry(core->hwlock.waiting_list.next,
++					 struct mfc_listable_wq, list);
++		list_del(&listable_wq->list);
++		core->hwlock.wl_count--;
++
++		if (listable_wq->core) {
++			mfc_core_debug(2, "Waking up core\n");
++			core->hwlock.dev = 1;
++		} else {
++			mfc_core_debug(2, "Waking up another ctx\n");
++			set_bit(listable_wq->core_ctx->num, &core->hwlock.bits);
++		}
++
++		core->hwlock.transfer_owner = 1;
++
++		wake_up(&listable_wq->wait_queue);
++	}
++
++	__mfc_print_hwlock(core);
++}
++
++void mfc_core_release_hwlock_dev(struct mfc_core *core)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&core->hwlock.lock, flags);
++	__mfc_print_hwlock(core);
++
++	core->hwlock.dev = 0;
++	core->hwlock.owned_by_irq = 0;
++
++	__mfc_release_hwlock(core);
++
++	spin_unlock_irqrestore(&core->hwlock.lock, flags);
++}
++
++void mfc_core_release_hwlock_ctx(struct mfc_core_ctx *core_ctx)
++{
++	struct mfc_core *core = core_ctx->core;
++	unsigned long flags;
++
++	spin_lock_irqsave(&core->hwlock.lock, flags);
++	__mfc_print_hwlock(core);
++
++	clear_bit(core_ctx->num, &core->hwlock.bits);
++	core->hwlock.owned_by_irq = 0;
++
++	__mfc_release_hwlock(core);
++
++	spin_unlock_irqrestore(&core->hwlock.lock, flags);
++}
++
++/* Run an operation on hardware */
++int mfc_core_just_run(struct mfc_core *core, int new_ctx_index)
++{
++	struct mfc_core_ctx *core_ctx = core->core_ctx[new_ctx_index];
++	struct mfc_ctx *ctx = core_ctx->ctx;
++	unsigned long flags;
++	unsigned int ret = 0;
++	int prio;
++
++	mfc_core_idle_update_hw_run(core, ctx);
++
++	if (core->state == MFCCORE_ERROR || core_ctx->state == MFCINST_ERROR) {
 +		mfc_info("[MSR] Couldn't run HW. It's Error state\n");
 +		return 0;
 +	}
 +
-+	if (command == MFC_REG_R2H_CMD_CLOSE_INSTANCE_RET)
-+		timeout = MFC_INT_SHORT_TIMEOUT;
++	if (core_ctx->state == MFCINST_RUNNING)
++		mfc_clean_core_ctx_int_flags(core_ctx);
 +
-+	ret = wait_event_timeout(core_ctx->cmd_wq,
-+				 wait_condition(core_ctx, command),
-+				 msecs_to_jiffies(timeout));
-+	if (ret == 0) {
-+		mfc_err("Interrupt (core_ctx->int_reason:%d, command:%d) timed out\n",
-+			core_ctx->int_reason, command);
-+		if (mfc_core_check_risc2host(core)) {
-+			ret = wait_event_timeout(core_ctx->cmd_wq,
-+						 wait_condition(core_ctx, command),
-+						 msecs_to_jiffies
-+							(MFC_INT_TIMEOUT * MFC_INT_TIMEOUT_CNT));
-+			if (ret == 0) {
-+				mfc_err("Timeout: MFC driver waited for upward of %dmsec\n",
-+					3 * MFC_INT_TIMEOUT);
-+			} else {
-+				goto wait_done;
-+			}
-+		}
-+		return 1;
++	mfc_debug(2, "New context: %d\n", new_ctx_index);
++	core->curr_core_ctx = core_ctx->num;
++	if (core->sched_type == MFC_SCHED_PRIO) {
++		spin_lock_irqsave(&core->prio_work_lock, flags);
++		prio = mfc_get_prio(core, ctx->rt, ctx->prio);
++		spin_unlock_irqrestore(&core->prio_work_lock, flags);
++
++		core->last_core_ctx[prio] = core_ctx->num;
++		core->next_ctx_idx = -1;
 +	}
 +
-+wait_done:
-+	if (is_err_cond(core_ctx)) {
-+		mfc_err("Finished (core_ctx->int_reason:%d, command: %d)\n",
-+			core_ctx->int_reason, command);
-+		mfc_err("But error (core_ctx->int_err:%d)\n", core_ctx->int_err);
-+		return -1;
-+	}
++	mfc_debug(2, "core_ctx->state = %d\n", core_ctx->state);
++	/* Last frame has already been sent to MFC
++	 * Now obtaining frames from MFC buffer
++	 */
 +
-+	mfc_debug(2, "Finished waiting (core_ctx->int_reason:%d, command: %d)\n",
-+		  core_ctx->int_reason, command);
-+	return 0;
-+}
++	mfc_debug(2, "continue_clock_on = %d\n", core->continue_clock_on);
++	if (!core->continue_clock_on)
++		mfc_core_pm_clock_on(core, 1);
++	else
++		core->continue_clock_on = false;
 +
-+/* Wake up device wait_queue */
-+void mfc_wake_up_core(struct mfc_core *core, unsigned int reason,
-+		      unsigned int err)
-+{
-+	core->int_condition = 1;
-+	core->int_reason = reason;
-+	core->int_err = err;
-+	wake_up(&core->cmd_wq);
++	return ret;
 +}
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.h
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.h
 new file mode 100644
-index 000000000000..2c19819048de
+index 000000000000..35f34f306d7d
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.h
-@@ -0,0 +1,25 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.h
+@@ -0,0 +1,72 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later
-+ *
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com/
++ *              http://www.samsung.com
 + *
-+ * mfc_core_sync.h File
++ * mfc_core_hwlock.h file
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
-+#ifndef __MFC_CORE_SYNC_H
-+#define __MFC_CORE_SYNC_H __FILE__
++#ifndef __MFC_CORE_HWLOCK_H
++#define __MFC_CORE_HWLOCK_H __FILE__
 +
 +#include "base/mfc_common.h"
 +
-+void mfc_get_corelock_ctx(struct mfc_ctx *ctx);
-+void mfc_release_corelock_ctx(struct mfc_ctx *ctx);
++static inline void mfc_core_init_listable_wq_dev(struct mfc_core *core)
++{
++	if (!core) {
++		mfc_pr_err("no mfc core device to run\n");
++		return;
++	}
 +
-+int mfc_wait_for_done_core(struct mfc_core *core, int command);
-+int mfc_wait_for_done_core_ctx(struct mfc_core_ctx *core_ctx, int command);
-+void mfc_wake_up_core(struct mfc_core *core, unsigned int reason,
-+		      unsigned int err);
-+int mfc_core_get_new_ctx(struct mfc_core *core);
-+#endif /* __MFC_CORE_SYNC_H */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c b/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
++	INIT_LIST_HEAD(&core->hwlock_wq.list);
++	init_waitqueue_head(&core->hwlock_wq.wait_queue);
++	mutex_init(&core->hwlock_wq.wait_mutex);
++	core->hwlock_wq.core_ctx = NULL;
++	core->hwlock_wq.core = core;
++}
++
++static inline void mfc_core_init_listable_wq_ctx(struct mfc_core_ctx *core_ctx)
++{
++	if (!core_ctx) {
++		mfc_pr_err("no mfc core context to run\n");
++		return;
++	}
++
++	INIT_LIST_HEAD(&core_ctx->hwlock_wq.list);
++	init_waitqueue_head(&core_ctx->hwlock_wq.wait_queue);
++	mutex_init(&core_ctx->hwlock_wq.wait_mutex);
++	core_ctx->hwlock_wq.core_ctx = core_ctx;
++	core_ctx->hwlock_wq.core = NULL;
++}
++
++static inline void mfc_core_destroy_listable_wq_core(struct mfc_core *core)
++{
++	if (!core) {
++		mfc_pr_err("no mfc core device to run\n");
++		return;
++	}
++
++	mutex_destroy(&core->hwlock_wq.wait_mutex);
++}
++
++static inline void mfc_core_destroy_listable_wq_ctx(struct mfc_core_ctx *core_ctx)
++{
++	if (!core_ctx) {
++		mfc_pr_err("no mfc core context to run\n");
++		return;
++	}
++
++	mutex_destroy(&core_ctx->hwlock_wq.wait_mutex);
++}
++
++void mfc_core_init_hwlock(struct mfc_core *core);
++
++int mfc_core_get_hwlock_dev(struct mfc_core *core);
++int mfc_core_get_hwlock_ctx(struct mfc_core_ctx *core_ctx);
++
++void mfc_core_release_hwlock_dev(struct mfc_core *core);
++void mfc_core_release_hwlock_ctx(struct mfc_core_ctx *core_ctx);
++int mfc_core_just_run(struct mfc_core *core, int new_ctx_index);
++#endif /* __MFC_CORE_HWLOCK_H */
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.c
 new file mode 100644
-index 000000000000..5baa76a6b405
+index 000000000000..facb7255c400
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
-@@ -0,0 +1,189 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.c
+@@ -0,0 +1,98 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
++ *              http://www.samsung.com
++ *
++ * mfc_core_intlock.c file
++ *
++ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
++ * Himanshu Dewangan, <h.dewangan@samsung.com>
++ */
++
++#include "mfc_core_intlock.h"
++#include "mfc_core_isr.h"
++
++void mfc_clear_core_intlock(struct mfc_ctx *ctx)
++{
++	mutex_lock(&ctx->intlock.core_mutex);
++
++	ctx->intlock.bits = 0;
++
++	mutex_unlock(&ctx->intlock.core_mutex);
++}
++
++int mfc_get_core_intlock(struct mfc_core_ctx *core_ctx)
++{
++	struct mfc_core *core = core_ctx->core;
++	struct mfc_dev *dev = core->dev;
++	struct mfc_ctx *ctx = core_ctx->ctx;
++
++	if (!(IS_TWO_MODE2(ctx) && core_ctx->state == MFCINST_RUNNING))
++		return 0;
++
++	mutex_lock(&ctx->intlock.core_mutex);
++
++	if (ctx->intlock.lock) {
++		mfc_debug(2, "[2CORE] previous interrupt isn't handled yet\n");
++		set_bit(core->id, &ctx->intlock.pending);
++		mutex_unlock(&ctx->intlock.core_mutex);
++		return -1;
++	}
++
++	/*
++	 * 1) First interrupt case, should be core0.
++	 * 2) Previous interrupt number should be different with current core.
++	 */
++	if ((!ctx->intlock.bits && core->id != 0) ||
++	    ctx->intlock.bits & BIT(core->id)) {
++		mfc_debug(2, "[2CORE] interrupt reverse, MFC-%d isr should be delayed handled\n",
++			  core->id);
++		MFC_TRACE_RM("[c:%d] MFC-%d ISR reverse\n", ctx->num, core->id);
++		set_bit(core->id, &ctx->intlock.pending);
++		mutex_unlock(&ctx->intlock.core_mutex);
++		return -1;
++	}
++
++	ctx->intlock.lock = 1;
++	ctx->intlock.bits = 0;
++	set_bit(core->id, &ctx->intlock.bits);
++	mfc_debug(3, "[2CORE] get core int lock: %#08lx\n", ctx->intlock.bits);
++
++	mutex_unlock(&ctx->intlock.core_mutex);
++
++	return 0;
++}
++
++void mfc_release_core_intlock(struct mfc_core_ctx *core_ctx)
++{
++	struct mfc_core *core = core_ctx->core;
++	struct mfc_dev *dev = core->dev;
++	struct mfc_ctx *ctx = core_ctx->ctx;
++	struct mfc_core *pending_core = NULL;
++	int i;
++
++	mutex_lock(&ctx->intlock.core_mutex);
++
++	if (!ctx->intlock.lock) {
++		mfc_debug(4, "[2CORE] have been didn't get intlock\n");
++		mutex_unlock(&ctx->intlock.core_mutex);
++		return;
++	}
++
++	ctx->intlock.lock = 0;
++	mfc_debug(3, "[2CORE] release core int lock\n");
++
++	for (i = 0; i < dev->num_core; i++) {
++		if (ctx->intlock.pending & BIT(i)) {
++			pending_core = dev->core[i];
++			clear_bit(i, &ctx->intlock.pending);
++			mfc_debug(2, "[2CORE] interrupt pending clear\n");
++			MFC_TRACE_RM("[c:%d] MFC-%d ISR delayed handle\n", ctx->num, core->id);
++		}
++	}
++
++	mutex_unlock(&ctx->intlock.core_mutex);
++
++	if (pending_core)
++		mfc_core_irq(pending_core->irq, pending_core);
++}
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.h
+new file mode 100644
+index 000000000000..e1e2e9bdaabb
+--- /dev/null
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.h
+@@ -0,0 +1,20 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later
++ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
++ *              http://www.samsung.com
++ *
++ * mfc_core_intlock.h file
++ *
++ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
++ * Himanshu Dewangan, <h.dewangan@samsung.com>
++ */
++
++#ifndef __MFC_CORE_INTLOCK_H
++#define __MFC_CORE_INTLOCK_H __FILE__
++
++#include "base/mfc_common.h"
++
++void mfc_clear_core_intlock(struct mfc_ctx *ctx);
++int mfc_get_core_intlock(struct mfc_core_ctx *core_ctx);
++void mfc_release_core_intlock(struct mfc_core_ctx *core_ctx);
++
++#endif /* __MFC_CORE_INTLOCK_H */
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
+new file mode 100644
+index 000000000000..4c6f531ffc02
+--- /dev/null
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
+@@ -0,0 +1,124 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
++ *              http://www.samsung.com
++ *
++ * mfc.c file
++ *
++ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
++ * Himanshu Dewangan, <h.dewangan@samsung.com>
++ */
++
++#include "mfc_core_isr.h"
++
++#include "mfc_core_hwlock.h"
++#include "mfc_core_intlock.h"
++#include "mfc_core_pm.h"
++
++#include "mfc_core_hw_reg_api.h"
++#include "mfc_core_reg_api.h"
++
++#include "base/mfc_utils.h"
++
++static inline int __mfc_core_is_err_condition(unsigned int err)
++{
++	switch (err) {
++	case MFC_REG_ERR_NO_AVAILABLE_DPB:
++	case MFC_REG_ERR_INSUFFICIENT_DPB_SIZE:
++	case MFC_REG_ERR_INSUFFICIENT_NUM_DPB:
++	case MFC_REG_ERR_INSUFFICIENT_MV_BUF_SIZE:
++	case MFC_REG_ERR_INSUFFICIENT_SCRATCH_BUF_SIZE:
++	case MFC_REG_ERR_UNDEFINED_EXCEPTION:
++		return 1;
++	default:
++		return 0;
++	}
++}
++
++irqreturn_t mfc_core_top_half_irq(int irq, void *priv)
++{
++	struct mfc_core *core = priv;
++	struct mfc_core_ctx *core_ctx;
++	unsigned int err;
++	unsigned int reason;
++
++	core_ctx = core->core_ctx[core->curr_core_ctx];
++	if (!core_ctx) {
++		mfc_core_err("no mfc context to run\n");
++		return IRQ_WAKE_THREAD;
++	}
++
++	reason = mfc_core_get_int_reason();
++	err = mfc_core_get_int_err();
++
++	core->last_int = reason;
++	core->last_int_time = ktime_to_timespec64(ktime_get());
++
++	mfc_debug(2, "[c:%d] Int reason: %d (err: %d, warn: %d)\n",
++		  core->curr_core_ctx, reason, mfc_get_err(err), mfc_get_warn(err));
++	MFC_TRACE_CORE_CTX("<< INT(top): %d\n", reason);
++	MFC_TRACE_LOG_CORE("I%d", reason);
++
++	return IRQ_WAKE_THREAD;
++}
++
++static int __mfc_irq_dev(struct mfc_core *core, unsigned int reason, unsigned int err)
++{
++	switch (reason) {
++	case MFC_REG_R2H_CMD_CACHE_FLUSH_RET:
++	case MFC_REG_R2H_CMD_SYS_INIT_RET:
++	case MFC_REG_R2H_CMD_FW_STATUS_RET:
++	case MFC_REG_R2H_CMD_SLEEP_RET:
++	case MFC_REG_R2H_CMD_WAKEUP_RET:
++		mfc_core_clear_int();
++		mfc_wake_up_core(core, reason, err);
++		return 0;
++	}
++
++	return 1;
++}
++
++/* Interrupt processing */
++irqreturn_t mfc_core_irq(int irq, void *priv)
++{
++	struct mfc_core *core = priv;
++	struct mfc_core_ctx *core_ctx;
++	struct mfc_ctx *ctx;
++	unsigned int reason;
++	unsigned int err;
++	int ret = -1;
++
++	mfc_core_debug_enter();
++
++	if (mfc_core_get_pwr_ref_cnt(core) == 0) {
++		mfc_core_err("no mfc power on\n");
++		goto irq_end;
++	}
++
++	/* Get the reason of interrupt and the error code */
++	reason = mfc_core_get_int_reason();
++	err = mfc_core_get_int_err();
++	mfc_core_debug(1, "[c:%d] Int reason: %d (err: %d, warn: %d)\n",
++		       core->curr_core_ctx, reason,
++		       mfc_get_err(err), mfc_get_warn(err));
++	MFC_TRACE_CORE("<< INT: %d (err: %d)\n", reason, err);
++
++	core->preempt_core_ctx = MFC_NO_INSTANCE_SET;
++
++	if (core->dev->debugfs.dbg_enable && reason != MFC_REG_R2H_CMD_QUEUE_DONE_RET)
++		mfc_core_dbg_disable(core);
++
++	if (__mfc_core_is_err_condition(err)) {
++		mfc_err("Interrupt Error Value %d", err);
++		WARN_ON(1);
++	}
++
++	ret = __mfc_irq_dev(core, reason, err);
++	if (!ret)
++		goto irq_end;
++	mfc_ctx_info("not implemented context irq ctx");
++
++irq_end:
++	mfc_core_debug_leave();
++	return IRQ_HANDLED;
++}
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.h
+new file mode 100644
+index 000000000000..046b20e6d4c2
+--- /dev/null
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later
++ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
++ *              http://www.samsung.com
++ *
++ * mfc_core_isr.h file
++ *
++ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
++ * Himanshu Dewangan, <h.dewangan@samsung.com>
++ */
++
++#ifndef __MFC_CORE_ISR_H
++#define __MFC_CORE_ISR_H __FILE__
++
++#include <linux/interrupt.h>
++
++#include "mfc_rm.h"
++
++#include "base/mfc_utils.h"
++
++irqreturn_t mfc_core_top_half_irq(int irq, void *priv);
++irqreturn_t mfc_core_irq(int irq, void *priv);
++#endif /* __MFC_CORE_ISR_H */
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_run.c b/drivers/media/platform/samsung/exynos-mfc/mfc_core_run.c
+new file mode 100644
+index 000000000000..fd7ebe95e715
+--- /dev/null
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_run.c
+@@ -0,0 +1,265 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
 + *		http://www.samsung.com/
 + *
-+ * mfc_debugfs.c File
++ * mfc_core_run.c File
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
++#include "mfc_core_run.h"
 +
-+#include "mfc_debugfs.h"
++#include "mfc_core_pm.h"
++#include "mfc_core_sync.h"
 +
-+static int __mfc_info_show(struct seq_file *s, void *unused)
++#include "mfc_core_cmd.h"
++#include "mfc_core_hw_reg_api.h"
++
++#include "base/mfc_utils.h"
++#include "base/mfc_mem.h"
++
++void mfc_core_run_cache_flush(struct mfc_core *core,
++			      enum mfc_do_cache_flush do_cache_flush,
++			      int reg_clear)
 +{
-+	struct mfc_dev *dev = s->private;
-+	struct mfc_core *core = NULL;
-+	struct mfc_core_ctx *core_ctx = NULL;
-+	int i, j;
-+
-+	seq_puts(s, ">>> MFC common device information\n");
-+	seq_printf(s, " [DEBUG MODE] dt: %s sysfs: %s\n",
-+		   dev->pdata->debug_mode ? "enabled" : "disabled",
-+		   dev->debugfs.debug_mode_en ? "enabled" : "disabled");
-+
-+	seq_printf(s, " [LOWMEM] is_low_mem: %d\n", IS_LOW_MEM);
-+
-+	for (j = 0; j < dev->num_core; j++) {
-+		core = dev->core[j];
-+		if (!core) {
-+			mfc_dev_debug(2, "There is no core[%d]\n", j);
-+			continue;
-+		}
-+		seq_printf(s, ">>> MFC core-%d device information\n", j);
-+		seq_printf(s, " [VERSION] H/W: v%x, F/W: %06x(%c, normal: %#x), DRV: %d\n",
-+			   core->core_pdata->ip_ver, core->fw.date, core->fw.fimv_info,
-+			   core->fw.status, MFC_DRIVER_INFO);
-+		seq_printf(s, " [PM] power: %d, clock: %d, clk_get %s, QoS level: %d\n",
-+			   mfc_core_get_pwr_ref_cnt(core),
-+			   mfc_core_get_clk_ref_cnt(core),
-+			   IS_ERR(core->pm.clock) ? "failed" : "succeeded",
-+			   atomic_read(&core->qos_req_cur) - 1);
-+		seq_printf(s, " [CTX] num_inst: %d,  curr_ctx: %d\n",
-+			   core->num_inst,
-+			   core->curr_core_ctx);
-+		seq_printf(s, " [HWLOCK] bits: %#lx, dev: %#lx, owned_by_irq = %d, wl_count = %d\n",
-+			   core->hwlock.bits, core->hwlock.dev,
-+			   core->hwlock.owned_by_irq,
-+			   core->hwlock.wl_count);
-+		seq_printf(s, "  >>> MFC core-%d instance information\n", j);
-+		for (i = 0; i < MFC_NUM_CONTEXTS; i++) {
-+			core_ctx = core->core_ctx[i];
-+			if (core_ctx) {
-+				seq_printf(s, "    [CORECTX:%d] state: %d\n",
-+					   i, core_ctx->state);
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int __mfc_debug_info_show(struct seq_file *s, void *unused)
-+{
-+	seq_puts(s, ">> MFC debug information\n");
-+
-+	seq_puts(s, "-----SFR dump options (bit setting)\n");
-+	seq_puts(s, "ex) echo 0xff > /d/mfc/sfr_dump (all dump mode)\n");
-+	seq_puts(s, "1   BIT(0): dec SEQ_START\n");
-+	seq_puts(s, "2   BIT(1): dec INIT_BUFS\n");
-+	seq_puts(s, "4   BIT(2): dec first NAL_START\n");
-+	seq_puts(s, "8   BIT(3): enc SEQ_START\n");
-+	seq_puts(s, "16  BIT(4): enc INIT_BUFS\n");
-+	seq_puts(s, "32  BIT(5): enc first NAL_START\n");
-+	seq_puts(s, "64  BIT(6): ERR interrupt\n");
-+	seq_puts(s, "128 BIT(7): WARN interrupt\n");
-+	seq_puts(s, "256 BIT(8): dec NAL_START\n");
-+	seq_puts(s, "512 BIT(9): dec FRAME_DONE\n");
-+	seq_puts(s, "1024 BIT(10): enc NAL_START\n");
-+	seq_puts(s, "2048 BIT(11): enc FRAME_DONE\n");
-+	seq_puts(s, "0x1000 BIT(12): MOVE_INSTANCE_RET\n");
-+	seq_puts(s, "0x2000 BIT(13): Unknown unterrupt\n");
-+	seq_puts(s, "0x8000 BIT(15): dec SEQ_DONE\n");
-+	seq_puts(s, "0x10000 BIT(16): dec INIT_BUF_DONE\n");
-+	seq_puts(s, "0x20000 BIT(17): dec first FRAME_DONE\n");
-+	seq_puts(s, "0x40000 BIT(18): enc SEQ_DONE\n");
-+	seq_puts(s, "0x80000 BIT(19): enc INIT_BUF_DONE\n");
-+	seq_puts(s, "0x100000 BIT(20): enc first FRAME_DONE\n");
-+	seq_puts(s, "0x20000000 BIT(29): Dump decoder CRC\n");
-+	seq_puts(s, "0x40000000 BIT(30): Dump firmware\n");
-+	seq_puts(s, "0x80000000 BIT(31): Dump all info\n");
-+
-+	seq_puts(s, "-----Performance boost options (bit setting)\n");
-+	seq_puts(s, "1   BIT(0): DVFS (INT/MFC/MIF)\n");
-+	seq_puts(s, "2   BIT(1): MO value\n");
-+	seq_puts(s, "4   BIT(2): CPU frequency\n");
-+
-+	seq_puts(s, "-----Feature options (bit setting)\n");
-+	seq_puts(s, "ex) echo 1 > /d/mfc/feture_option\n");
-+	seq_puts(s, "1   BIT(0): recon SBWC disable\n");
-+	seq_puts(s, "2   BIT(1): decoding order\n");
-+	seq_puts(s, "4   BIT(2): meerkat disable\n");
-+	seq_puts(s, "8   BIT(3): OTF path test enable\n");
-+	seq_puts(s, "16  BIT(4): multi core disable\n");
-+	seq_puts(s, "32  BIT(5): force multi core enable\n");
-+	seq_puts(s, "64  BIT(6): black bar enable\n");
-+	seq_puts(s, "128 BIT(7): when dec and enc, SBWC enable\n");
-+	seq_puts(s, "256 BIT(8): sync minlock with clock disable\n");
-+	seq_puts(s, "512 BIT(9): dynamic weight disable (use fixed weight)\n");
-+	seq_puts(s, "1024 BIT(10): when high fps, SBWC enable\n");
-+	seq_puts(s, "2048 BIT(11): film grain disable\n");
-+	seq_puts(s, "0x4000 BIT(14): enable MSR mode once\n");
-+
-+	seq_puts(s, "-----Logging options (bit setting)\n");
-+	seq_puts(s, "ex) echo 7 > /d/mfc/logging_option (all logging option)\n");
-+	seq_puts(s, "1   BIT(0): kernel printk\n");
-+	seq_puts(s, "2   BIT(1): memlog printf\n");
-+	seq_puts(s, "4   BIT(2): memlog sfr dump\n");
-+
-+	seq_puts(s, "-----Scheduler type\n");
-+	seq_puts(s, "ex) echo 1 > /d/mfc/sched_type\n");
-+	seq_puts(s, "1   BIT(0): Round-robin scheduler\n");
-+	seq_puts(s, "2   BIT(1): PBS (Priority Based Scheduler)\n");
-+
-+	return 0;
-+}
-+
-+static int __mfc_info_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, __mfc_info_show, inode->i_private);
-+}
-+
-+static int __mfc_debug_info_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, __mfc_debug_info_show, inode->i_private);
-+}
-+
-+static const struct file_operations mfc_info_fops = {
-+	.open = __mfc_info_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static const struct file_operations debug_info_fops = {
-+	.open = __mfc_debug_info_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+void mfc_init_debugfs(struct mfc_dev *dev)
-+{
-+	struct mfc_debugfs *debugfs = &dev->debugfs;
-+
-+	debugfs->root = debugfs_create_dir("mfc", NULL);
-+	if (!debugfs->root) {
-+		mfc_dev_err("debugfs: failed to create root directory\n");
++	if (core->state == MFCCORE_ERROR) {
++		mfc_core_info("[MSR] Couldn't lock HW. It's Error state\n");
 +		return;
 +	}
 +
-+	dev->debugfs.logging_option = MFC_DEFAULT_LOGGING_OPTION;
++	if (do_cache_flush == MFC_CACHEFLUSH) {
++		mfc_core_cmd_cache_flush(core);
++		if (mfc_wait_for_done_core(core, MFC_REG_R2H_CMD_CACHE_FLUSH_RET)) {
++			mfc_core_err("Failed to CACHE_FLUSH\n");
++			core->logging_data->cause |= BIT(MFC_CAUSE_FAIL_CACHE_FLUSH);
++		}
++	} else if (do_cache_flush == MFC_NO_CACHEFLUSH) {
++		mfc_core_debug(2, "F/W has already done cache flush with prediction\n");
++	}
 +
-+	debugfs_create_file("mfc_info", 0444, debugfs->root, dev, &mfc_info_fops);
-+	debugfs_create_file("debug_info", 0444, debugfs->root, dev, &debug_info_fops);
-+
-+	debugfs_create_u32("debug", 0644, debugfs->root, &dev->debugfs.debug_level);
-+	debugfs_create_u32("debug_ts", 0644, debugfs->root, &dev->debugfs.debug_ts);
-+	debugfs_create_u32("debug_mode_en", 0644, debugfs->root, &dev->debugfs.debug_mode_en);
-+	debugfs_create_u32("dbg_enable", 0644, debugfs->root, &dev->debugfs.dbg_enable);
-+
-+	debugfs_create_u32("sfr_dump", 0644, debugfs->root, &dev->debugfs.sfr_dump);
-+
-+	debugfs_create_u32("feature_option", 0644, debugfs->root, &dev->debugfs.feature_option);
-+	debugfs_create_u32("logging_option", 0644, debugfs->root, &dev->debugfs.logging_option);
-+	debugfs_create_u32("sched_perf_disable", 0644,
-+			   debugfs->root, &dev->debugfs.sched_perf_disable);
-+	debugfs_create_u32("sched_type", 0644, debugfs->root, &dev->debugfs.sched_type);
++	/* When init_hw(), reg_clear is required between cache flush and (un)protection */
++	if (reg_clear) {
++		mfc_core_reg_clear(core);
++		mfc_core_debug(2, "Done register clear\n");
++	}
 +}
 +
-+void mfc_deinit_debugfs(struct mfc_dev *dev)
++/* Initialize hardware */
++int mfc_core_run_init_hw(struct mfc_core *core)
 +{
-+	struct mfc_debugfs *debugfs = &dev->debugfs;
++	enum mfc_buf_usage_type buf_type;
++	int fw_ver;
++	int ret = 0;
 +
-+	debugfs_remove_recursive(debugfs->root);
++	mfc_core_debug(2, "F/W initialize start\n");
++
++	/* 0. MFC reset */
++	ret = mfc_core_pm_clock_on(core, 0);
++	if (ret) {
++		mfc_core_err("Failed to enable clock before reset(%d)\n", ret);
++		return ret;
++	}
++
++	mfc_core_pm_clock_get(core);
++
++	mfc_core_run_cache_flush(core, MFC_NO_CACHEFLUSH, 1);
++
++	mfc_core_reset_mfc(core);
++	mfc_core_debug(2, "Done MFC reset\n");
++
++	/* 1. Set DRAM base Addr */
++	mfc_core_set_risc_base_addr(core);
++
++	/* 2. Release reset signal to the RISC */
++	mfc_core_risc_on(core);
++
++	mfc_core_debug(2, "Will now wait for completion of firmware transfer\n");
++	if (mfc_wait_for_done_core(core, MFC_REG_R2H_CMD_FW_STATUS_RET)) {
++		mfc_core_err("Failed to RISC_ON\n");
++		mfc_core_clean_dev_int_flags(core);
++		ret = -EIO;
++		goto err_init_hw;
++	}
++
++	/* 3. Initialize firmware */
++	mfc_core_cmd_sys_init(core, buf_type);
++
++	mfc_core_debug(2, "Ok, now will write a command to init the system\n");
++	if (mfc_wait_for_done_core(core, MFC_REG_R2H_CMD_SYS_INIT_RET)) {
++		mfc_core_err("Failed to SYS_INIT\n");
++		mfc_core_clean_dev_int_flags(core);
++		ret = -EIO;
++		goto err_init_hw;
++	}
++
++	core->int_condition = 0;
++	if (core->int_err != 0 || core->int_reason != MFC_REG_R2H_CMD_SYS_INIT_RET) {
++		/* Failure. */
++		mfc_core_err("Failed to init firmware - error: %d, int: %d\n",
++			     core->int_err, core->int_reason);
++		ret = -EIO;
++		goto err_init_hw;
++	}
++
++	core->fw.fimv_info = mfc_core_get_fimv_info();
++	if (core->fw.fimv_info != 'D' && core->fw.fimv_info != 'E')
++		core->fw.fimv_info = 'N';
++
++	mfc_core_info("[F/W] MFC v%x, %02xyy %02xmm %02xdd (%c)\n",
++		      core->core_pdata->ip_ver,
++		      mfc_core_get_fw_ver_year(),
++		      mfc_core_get_fw_ver_month(),
++		      mfc_core_get_fw_ver_date(),
++		      core->fw.fimv_info);
++
++	core->fw.date = mfc_core_get_fw_ver_all();
++	/* Check MFC version and F/W version */
++	fw_ver = mfc_core_get_mfc_version();
++	if ((fw_ver & MFC_REG_MFC_VER_MAJOR_MASK) != core->core_pdata->ip_ver) {
++		mfc_core_err("Invalid F/W version(0x%x) for MFC H/W(0x%x)\n",
++			     fw_ver, core->core_pdata->ip_ver);
++		ret = -EIO;
++		goto err_init_hw;
++	}
++	core->dev->fw_changed_info = (fw_ver & MFC_REG_MFC_VER_MINOR_MASK);
++
++	mfc_core_change_fw_state(core, MFC_FW_INITIALIZED, 1);
++
++err_init_hw:
++	mfc_core_pm_clock_off(core, 0);
++	mfc_core_debug_leave();
++
++	return ret;
 +}
-diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.h b/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.h
++
++/* Deinitialize hardware */
++void mfc_core_run_deinit_hw(struct mfc_core *core)
++{
++	int ret;
++
++	mfc_core_debug(2, "mfc deinit start\n");
++
++	ret = mfc_core_pm_clock_on(core, 0);
++	if (ret) {
++		mfc_core_err("Failed to enable clock before reset(%d)\n", ret);
++		return;
++	}
++
++	mfc_core_mfc_off(core);
++
++	mfc_core_pm_clock_off(core, 0);
++
++	mfc_core_debug(2, "mfc deinit completed\n");
++}
++
++int mfc_core_run_sleep(struct mfc_core *core)
++{
++	struct mfc_core_ctx *core_ctx;
++	int i;
++
++	mfc_core_debug_enter();
++
++	core_ctx = core->core_ctx[core->curr_core_ctx];
++	if (!core_ctx) {
++		for (i = 0; i < MFC_NUM_CONTEXTS; i++) {
++			if (core->core_ctx[i]) {
++				core_ctx = core->core_ctx[i];
++				break;
++			}
++		}
++
++		if (!core_ctx) {
++			mfc_core_err("no mfc context to run\n");
++			return -EINVAL;
++		}
++		mfc_info("ctx is changed %d -> %d\n",
++			 core->curr_core_ctx, core_ctx->num);
++
++		core->curr_core_ctx = core_ctx->num;
++	}
++
++	mfc_core_pm_clock_on(core, 0);
++	mfc_core_cmd_sleep(core);
++
++	if (mfc_wait_for_done_core(core, MFC_REG_R2H_CMD_SLEEP_RET)) {
++		mfc_err("Failed to SLEEP\n");
++		core->logging_data->cause |= BIT(MFC_CAUSE_FAIL_SLEEP);
++		return -EBUSY;
++	}
++
++	core->int_condition = 0;
++	if (core->int_err != 0 || core->int_reason != MFC_REG_R2H_CMD_SLEEP_RET) {
++		/* Failure. */
++		mfc_err("Failed to sleep - error: %d, int: %d\n",
++			core->int_err, core->int_reason);
++		return -EBUSY;
++	}
++
++	core->sleep = 1;
++
++	mfc_core_mfc_always_off(core);
++	mfc_core_pm_clock_off(core, 0);
++
++	mfc_core_debug_leave();
++
++	return 0;
++}
++
++int mfc_core_run_wakeup(struct mfc_core *core)
++{
++	int ret = 0;
++
++	mfc_core_debug_enter();
++
++	/* 0. MFC reset */
++	ret = mfc_core_pm_clock_on(core, 0);
++	if (ret) {
++		mfc_core_err("Failed to enable clock before reset(%d)\n", ret);
++		return ret;
++	}
++	mfc_core_reg_clear(core);
++	mfc_core_debug(2, "Done register clear\n");
++
++	mfc_core_reset_mfc(core);
++	mfc_core_debug(2, "Done MFC reset\n");
++
++	/* 1. Set DRAM base Addr */
++	mfc_core_set_risc_base_addr(core);
++
++	/* 2. Release reset signal to the RISC */
++	mfc_core_risc_on(core);
++
++	mfc_core_debug(2, "Will now wait for completion of firmware transfer\n");
++	if (mfc_wait_for_done_core(core, MFC_REG_R2H_CMD_FW_STATUS_RET)) {
++		mfc_core_err("Failed to RISC_ON\n");
++		core->logging_data->cause |= BIT(MFC_CAUSE_FAIL_RISC_ON);
++		return -EBUSY;
++	}
++
++	mfc_core_debug(2, "Ok, now will write a command to wakeup the system\n");
++	mfc_core_cmd_wakeup(core);
++
++	mfc_core_debug(2, "Will now wait for completion of firmware wake up\n");
++	if (mfc_wait_for_done_core(core, MFC_REG_R2H_CMD_WAKEUP_RET)) {
++		mfc_core_err("Failed to WAKEUP\n");
++		core->logging_data->cause |= BIT(MFC_CAUSE_FAIL_WAKEUP);
++		return -EBUSY;
++	}
++
++	core->int_condition = 0;
++	if (core->int_err != 0 || core->int_reason != MFC_REG_R2H_CMD_WAKEUP_RET) {
++		/* Failure. */
++		mfc_core_err("Failed to wakeup - error: %d, int: %d\n",
++			     core->int_err, core->int_reason);
++	}
++
++	core->sleep = 0;
++
++	mfc_core_pm_clock_off(core, 0);
++
++	mfc_core_debug_leave();
++
++	return ret;
++}
+diff --git a/drivers/media/platform/samsung/exynos-mfc/mfc_core_run.h b/drivers/media/platform/samsung/exynos-mfc/mfc_core_run.h
 new file mode 100644
-index 000000000000..bbefd046587b
+index 000000000000..3d243dc18e15
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.h
-@@ -0,0 +1,20 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/mfc_core_run.h
+@@ -0,0 +1,26 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
 + *		http://www.samsung.com/
 + *
-+ * mfc_debugfs.h File
++ * mfc_core_run.h
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
-+#ifndef __MFC_DEBUGFS_H
-+#define __MFC_DEBUGFS_H __FILE__
++#ifndef __MFC_CORE_RUN_H
++#define __MFC_CORE_RUN_H __FILE__
 +
 +#include "base/mfc_common.h"
 +
-+void mfc_init_debugfs(struct mfc_dev *dev);
-+void mfc_deinit_debugfs(struct mfc_dev *dev);
++void mfc_core_run_cache_flush(struct mfc_core *core,
++			      enum mfc_do_cache_flush do_cache_flush,
++			      int reg_clear);
 +
-+#endif /* __MFC_DEBUGFS_H */
++int mfc_core_run_init_hw(struct mfc_core *core);
++void mfc_core_run_deinit_hw(struct mfc_core *core);
++
++int mfc_core_run_sleep(struct mfc_core *core);
++int mfc_core_run_wakeup(struct mfc_core *core);
++#endif /* __MFC_CORE_RUN_H */
 -- 
 2.34.1
 
