@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F602BADB94
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 17:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29510BADCA5
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 17:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD0910E106;
-	Tue, 30 Sep 2025 15:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B512C10E5FA;
+	Tue, 30 Sep 2025 15:24:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pNz5AnRN";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nrB0cxGM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2126F10E106
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 15:20:28 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1891D10E5F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 15:24:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9D6274326F;
- Tue, 30 Sep 2025 15:20:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082E6C4CEF0;
- Tue, 30 Sep 2025 15:20:27 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 203A362990;
+ Tue, 30 Sep 2025 15:24:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55CDFC4CEF0;
+ Tue, 30 Sep 2025 15:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1759245628;
- bh=8/3DhC5onrZs2Umkjp8b9fSWM/L4JsvuXQeNMFDvABI=;
+ s=korg; t=1759245880;
+ bh=/q2T8NxtMgljoqvxYcKGybTDgksMzNgWR/Ojj0DUoNQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pNz5AnRNP5KyUjEJtoR2V7ToP1bFRhtyBdd3gURj0tou0qGN2LHhYHeinjKVgqcmM
- Y4Kjl5uO++QZeAQPJq7Fh11+Gsurdu46UaRNFox5ymiR74k6+MBIP+bxweySvtrUOh
- un8vLg88vr3Q6aKrOL+60D9I51sTPz/GcYnWi9sk=
+ b=nrB0cxGMGfD8azyDIiayarogdF71XHyIISVG1HjbOa9FMthr1LfoEYCrw2JK5xpvT
+ zfF0OBZC4aTVf+VpsYAKXDhDl32LA4NrcFWlrrCM+z++hFxED2d7xKDLZqTIRbnkH5
+ XbF5PJVPyDe+UA5pL7wXjn0spwHqKsW0FlaAok8c=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -37,12 +37,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jocelyn Falempe <jfalempe@redhat.com>,
 	dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
 	"Carol L Soto csoto@nvidia.com" <"mailto:csoto"@nvidia.com>
-Subject: [PATCH 6.1 65/73] drm/ast: Use msleep instead of mdelay for edid read
-Date: Tue, 30 Sep 2025 16:48:09 +0200
-Message-ID: <20250930143823.368711315@linuxfoundation.org>
+Subject: [PATCH 6.6 77/91] drm/ast: Use msleep instead of mdelay for edid read
+Date: Tue, 30 Sep 2025 16:48:16 +0200
+Message-ID: <20250930143824.381701781@linuxfoundation.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250930143820.537407601@linuxfoundation.org>
-References: <20250930143820.537407601@linuxfoundation.org>
+In-Reply-To: <20250930143821.118938523@linuxfoundation.org>
+References: <20250930143821.118938523@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -63,7 +63,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -95,7 +95,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_dp.c
 +++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -51,7 +51,7 @@ int ast_astdp_read_edid(struct drm_devic
+@@ -62,7 +62,7 @@ int ast_astdp_read_edid(struct drm_devic
  			 *	  of right-click of mouse.
  			 * 2. The Delays are often longer a lot when system resume from S3/S4.
  			 */
