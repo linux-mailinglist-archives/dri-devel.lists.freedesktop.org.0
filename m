@@ -2,184 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B9DBAB7C8
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A170BAB78F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA2E10E4D9;
-	Tue, 30 Sep 2025 05:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6569D10E4CB;
+	Tue, 30 Sep 2025 05:28:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="YfipFpxI";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="QRU19ADn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [63.176.194.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC85A10E0B8;
- Mon, 29 Sep 2025 18:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1759171148; x=1790707148;
- h=from:to:cc:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version:subject;
- bh=vJ7eD2nV/4N7AIUA9/+6epf2vjH4s0akBoFco89HihE=;
- b=YfipFpxIC/e1n3yjrMPoWpMkEBFkVJTMzSAG0OyFVzGehrd1NhR/tshe
- fPaFS52DyfaoziwdtLyGgrt1v1goVdwcKtGVLK2R5suFC4fHOG7GSjrRA
- 3s2+Kztu6mKzASZCElWWZQZtoQwQSFEyO+G+FxGMHslGWhhXUqq4xBObD
- /G3/W9LezAKi5XP4G1mN7sJ5lO/UhJD5O0Hx4/qLYFgvF2owGyiNgFEuk
- sPIFbFy9ad15FvPsRsWaSQd7OQZ/H0/uF4pE/VQvPEoQD2GhIQZlOet0c
- s0C05HxOGCNh9Z6xV80euF6T6QpHrbPBC50sbpdHbKBOJLqkulaTvNNPU Q==;
-X-CSE-ConnectionGUID: EC85rEzURZ+CERFt3YJdKA==
-X-CSE-MsgGUID: tnl/cymrQVqCkLCX53HUhQ==
-X-IronPort-AV: E=Sophos;i="6.18,302,1751241600"; 
-   d="scan'208";a="2844874"
-Subject: RE: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
- available everywhere
-Thread-Topic: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
- available everywhere
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO
- smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
- by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 18:39:02 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:4036]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.19.222:2525]
- with esmtp (Farcaster)
- id a320107e-9e0a-4760-b3dc-26c5d986714d; Mon, 29 Sep 2025 18:39:01 +0000 (UTC)
-X-Farcaster-Flow-ID: a320107e-9e0a-4760-b3dc-26c5d986714d
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 29 Sep 2025 18:39:00 +0000
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 29 Sep 2025 18:39:00 +0000
-Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
- EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
- 15.02.2562.020; Mon, 29 Sep 2025 18:39:00 +0000
-From: "Farber, Eliav" <farbere@amazon.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "richard@nod.at"
- <richard@nod.at>, "anton.ivanov@cambridgegreys.com"
- <anton.ivanov@cambridgegreys.com>, "johannes@sipsolutions.net"
- <johannes@sipsolutions.net>, "dave.hansen@linux.intel.com"
- <dave.hansen@linux.intel.com>, "luto@kernel.org" <luto@kernel.org>,
- "peterz@infradead.org" <peterz@infradead.org>, "tglx@linutronix.de"
- <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
- <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com"
- <hpa@zytor.com>, "tony.luck@intel.com" <tony.luck@intel.com>,
- "qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>, "mchehab@kernel.org"
- <mchehab@kernel.org>, "james.morse@arm.com" <james.morse@arm.com>,
- "rric@kernel.org" <rric@kernel.org>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
- "Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "Xinhui.Pan@amd.com"
- <Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com" <evan.quan@amd.com>, 
- "james.qian.wang@arm.com" <james.qian.wang@arm.com>, "liviu.dudau@arm.com"
- <liviu.dudau@arm.com>, "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>, 
- "brian.starkey@arm.com" <brian.starkey@arm.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>, 
- "linux@roeck-us.net" <linux@roeck-us.net>, "linus.walleij@linaro.org"
- <linus.walleij@linaro.org>, "dmitry.torokhov@gmail.com"
- <dmitry.torokhov@gmail.com>, "maz@kernel.org" <maz@kernel.org>,
- "wens@csie.org" <wens@csie.org>, "jernej.skrabec@gmail.com"
- <jernej.skrabec@gmail.com>, "samuel@sholland.org" <samuel@sholland.org>,
- "agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org" <snitzer@kernel.org>, 
- "dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
- <rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
- "edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
- <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
- "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
- "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
- "joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
- <mcoquelin.stm32@gmail.com>, "krzysztof.kozlowski@linaro.org"
- <krzysztof.kozlowski@linaro.org>, "malattia@linux.it" <malattia@linux.it>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>, "markgross@kernel.org"
- <markgross@kernel.org>, "artur.paszkiewicz@intel.com"
- <artur.paszkiewicz@intel.com>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- "fei1.li@intel.com" <fei1.li@intel.com>, "clm@fb.com" <clm@fb.com>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
- <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
- <tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
- <luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>, "pmladek@suse.com"
- <pmladek@suse.com>, "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>, "minchan@kernel.org"
- <minchan@kernel.org>, "ngupta@vflare.org" <ngupta@vflare.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "dsahern@kernel.org"
- <dsahern@kernel.org>, "pablo@netfilter.org" <pablo@netfilter.org>,
- "kadlec@netfilter.org" <kadlec@netfilter.org>, "fw@strlen.de" <fw@strlen.de>, 
- "jmaloy@redhat.com" <jmaloy@redhat.com>, "ying.xue@windriver.com"
- <ying.xue@windriver.com>, "andrii@kernel.org" <andrii@kernel.org>,
- "mykolal@fb.com" <mykolal@fb.com>, "ast@kernel.org" <ast@kernel.org>,
- "daniel@iogearbox.net" <daniel@iogearbox.net>, "martin.lau@linux.dev"
- <martin.lau@linux.dev>, "song@kernel.org" <song@kernel.org>, "yhs@fb.com"
- <yhs@fb.com>, "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
- "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@google.com" <sdf@google.com>, 
- "haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
- <jolsa@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "keescook@chromium.org" <keescook@chromium.org>, "wad@chromium.org"
- <wad@chromium.org>, "willy@infradead.org" <willy@infradead.org>,
- "sashal@kernel.org" <sashal@kernel.org>, "ruanjinjie@huawei.com"
- <ruanjinjie@huawei.com>, "quic_akhilpo@quicinc.com"
- <quic_akhilpo@quicinc.com>, "David.Laight@aculab.com"
- <David.Laight@aculab.com>, "herve.codina@bootlin.com"
- <herve.codina@bootlin.com>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
- <linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
- <linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
- <linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
- <freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
- <linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
- <linux-input@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
- <linux-sunxi@lists.linux.dev>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
- <netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
- <coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>, "bpf@vger.kernel.org"
- <bpf@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, "stable@vger.kernel.org"
- <stable@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Thread-Index: AQHcLZHEroQ9W2lH4EW9XJumD1KlZrSqNL0AgABQRkA=
-Date: Mon, 29 Sep 2025 18:39:00 +0000
-Message-ID: <f32d53131d0a4b61a7be4862c7a7f237@amazon.com>
-References: <20250924202320.32333-1-farbere@amazon.com>
- <20250924202320.32333-8-farbere@amazon.com>
- <2025092923-stove-rule-a00f@gregkh>
-In-Reply-To: <2025092923-stove-rule-a00f@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.85.143.172]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C03FA10E26C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:12 +0000 (UTC)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20250930035522epoutp03dd0439ef57220e02f62766eb2de35e3c~p8zE1QP2k3111931119epoutp03K
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:55:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20250930035522epoutp03dd0439ef57220e02f62766eb2de35e3c~p8zE1QP2k3111931119epoutp03K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1759204522;
+ bh=QECUfZbqQMlZRsjBXhrpes/0FC7+ibWW3C5tH5S5p7k=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=QRU19ADng5zDrnPr23QwppGPQIPJ291f0mjzTdEtf1O/qAYHGEtK+FhyqdULiiz+i
+ G5PHtCADV5bCMlnxgZHFLg5t1YCNki0PDV0Tfye7ROcX9bJCtzZfJci+i6OhmbXWLQ
+ yu6FmZ6TpJ33uz35AFo8ZgdPMnUiOQnYf+ZuX118=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+ 20250930035520epcas5p4841bbe85fa7f5a7749405a45691a12b6~p8zDunfnh2319723197epcas5p4f;
+ Tue, 30 Sep 2025 03:55:20 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.94]) by
+ epsnrtp02.localdomain (Postfix) with ESMTP id 4cbPN748LQz2SSKZ; Tue, 30 Sep
+ 2025 03:55:19 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250930035518epcas5p2395afdb6f22d2a6b42f9daaec6bc3c1f~p8zBiHt5M2195921959epcas5p24;
+ Tue, 30 Sep 2025 03:55:18 +0000 (GMT)
+Received: from bose.samsungds.net (unknown [107.108.83.9]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250930035516epsmtip16ed3b2e0736c21a6e0b7cb21079089aa~p8y-KY6bu2882428824epsmtip1J;
+ Tue, 30 Sep 2025 03:55:15 +0000 (GMT)
+From: Himanshu Dewangan <h.dewangan@samsung.com>
+To: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ alim.akhtar@samsung.com, manjun@samsung.com, nagaraju.s@samsung.com,
+ ih0206.lee@samsung.com, jehyung.lee@samsung.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Himanshu Dewangan <h.dewangan@samsung.com>
+Subject: [PATCH 00/29] media: codec: add new Samsung Exynos-MFC driver
+Date: Tue, 30 Sep 2025 09:33:19 +0530
+Message-Id: <20250930040348.3702923-1-h.dewangan@samsung.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250930035518epcas5p2395afdb6f22d2a6b42f9daaec6bc3c1f
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250930035518epcas5p2395afdb6f22d2a6b42f9daaec6bc3c1f
+References: <CGME20250930035518epcas5p2395afdb6f22d2a6b42f9daaec6bc3c1f@epcas5p2.samsung.com>
 X-Mailman-Approved-At: Tue, 30 Sep 2025 05:28:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -196,18 +82,293 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 24, 2025 at 08:23:08PM +0000, Eliav Farber wrote:
-> From: Linus Torvalds <torvalds@linux-foundation.org>
->
-> [ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
+Exynos MFC new driver upstream proposal
++++++++++++++++++++++++++++++++++++++++
 
-<snip>
+The s5p-mfc driver in the kernel is quite outdated and has not kept up with the hardware advances of the MFC IP. 
+Going forward, we want to provide support for all the later versions of MFC in open source (both mobile and
+ExynosAuto would be supported by Samsung)
 
-As this didn't go into 6.6.y yet, I'll stop here on this series for now.
-Please fix up for newer kernels first and then resend these.
+We (Samsung) would like to propose a new driver for the latest generation of Samsung MFC (Multi-Format Codec) hardware. 
+Although the kernel already contains a Samsung MFC driver (drivers/media/platform/s5p-mfc/), the newer hardware 
+diverges significantly from the previous generations, in features supported, register interface and in system integration. 
+This has necessitated a new driver, rather than updating the existing one. 
 
-The fix for 6.6.y was applied also on 6.1.y:
-https://lore.kernel.org/stable/20250929183358.18982-1-farbere@amazon.com/
 
----
-Regards, Eliav
+Current driver vs targetted driver comparison
++++++++++++++++++++++++++++++++++++++++++++++
+
+Target Feature 
+Current mainline : Simple V4L2/ VB2 interface based encoder/ decoder
+New proposed driver: Dual core support, NAL-q support, LLC, Coredump, performance
+measurement, plugin driver architecture, hardware manager(meerkat), DRM/OTF,
+Resource manager, bandwidth compression, New Pixel formats (NV12N,  YV12, P010,
+SBWC,  RGB family), 10 bit support, HDR support, Prio and RR Process Scheduler support, 
+
+Register map	
+Current mainline : Fixed register layout, compatible across s5p variants
+New proposed driver: Completely redesigned register set, incompatible with old layout
+
+Command model
+Current mainline : Mailbox-style command queue
+New proposed driver: Ring-buffer command queue with different signaling
+
+Memory management
+Current mainline : CMA-backed contiguous buffers, ION legacy
+New proposed driver: dma-heap / scatter-gather buffers with strict alignment rules
+
+Firmware
+Current mainline : Supports up to Firmware v12, Legacy binary format, loaded via shared mechanism	
+New proposed driver: New firmware format, different protocol for control messages. Support Firmware v13 onwards
+
+DT bindings	
+Current mainline : Single clock + reset, simple PM	
+New proposed driver: Multiple clocks, reset domains, runtime PM dependencies
+
+Error handling	
+Current mainline : Simple IRQ error flags
+New proposed driver: Detailed error codes, recovery sequences required
+
+Code impact
+Current mainline :~8k LOC, minimal conditionals
+New proposed driver: ~65KLOC with full features
+
+
+Plan for supporting latest MFC (Best balance between code clarity and long-term kernel health, while still respecting ABI and legacy users.)
+1	We propose a new driver (exynos-mfc) for the latest generation of Samsung MFC (Multi-Format Codec) hardware. 
+2	MFC FW V6 to V12 will be supported by existing mainline (s5p-mfc) and later versions by Exynos-mfc driver
+3	The existing MFC driver will remain available for older SoC’s and will not be broken. The new driver will only bind
+	to new compatible strings in DT, avoiding regressions for legacy hardware. Samsung will take responsibility for 
+	maintaining both drivers until the old one can be formally marked as “legacy.”
+4	Keep it buildable for old SoCs but clearly say new SoCs should use the new driver.
+5	VIDEO_SAMSUNG_S5P_MFC and VIDEO_EXYNOS_MFC will both be supported for an agreed time
+6	Long term Support for new driver  - commitment from Samsung
+7	The hardware has diverged to the point where conditionally supporting both in one codebase is worse for long-term kernel health
+8	Splitting keeps the code clean, testable, and reviewable, while ensuring legacy users aren’t broken due to user space ABI  guarantees.
+	This seems more clean and easier approach Both can coexist without code spaghetti.
+
+Features and description supported
+++++++++++++++++++++++++++++++++++
+
+1	MFC driver registration	Probe functionality and video nodes registration
+2	MFC driver open & close support	MFC firmware loading,  "ls" & "cat" on the video nodes  and udev rules on the video nodes
+3	H264 decoding	H264 decoding support - HW supported profiles & levels (YUV420 Semi-Planar, 8-bit, min/max resolution)
+4	HEVC decoding	HEVC decoding support - HW supported profiles & levels (YUV420 Semi-Planar, 8-bit, min/max resolution)
+5	VP8 decoding	VP8 decoding support - HW supported profiles & levels (YUV420 Semi-Planar, 8-bit, min/max resolution)
+6	VP9 decoding	VP9 decoding support - HW supported profiles & levels (YUV420 Semi-Planar, 8-bit, min/max resolution)
+7	AV1 decoding	AV1 decoding support - HW supported profiles & levels (YUV420 Semi-Planar, 8-bit, min/max resolution)
+8	H264 encoding	H264 encoding support - Basic encoding (YUV420 Semi-Planar, 8-bit, min/max resolution)
+9	HEVC encoding	HEVC encoding support - Basic encoding (YUV420 Semi-Planar, 8-bit, min/max resolution)
+10	VP8 encoding	VP8 encoding support - Basic encoding (YUV420 Semi-Planar, 8-bit, min/max resolution)
+11	VP9 encoding	VP9 encoding support - Basic encoding (YUV420 Semi-Planar, 8-bit, min/max resolution)
+12	Debug fs support		Debug fs to control the MFC functionalities
+13	Debug log support		Debug logs to get on the dmesg prompt for debug purpose
+14	Debug SFR dump support		MFC SFR dumps during failures
+15	NAL Queue mode control		NAL Queue mode support
+16	Batch mode control		Batch mode support
+17	HW supported YUV formats	YUV 420, 422, 444 (planar, semi-planar) formats support as per MFC HW specification
+18	HW supported RGB formats	RGB format support as per MFC HW specification
+19	Multi instance decoding/encoding	Multi instance decoding/encoding
+20	Suspend and resume		Suspend and resume support
+21	Runtime suspend and resume	Runtime suspend and resume support
+22	Priority decoding (decoders)	Priority decoding support
+23	Frame delay configuration (decoders)	Frame delay configuration support
+24	Error handling and conceal control (decoders)	HW/Platform limitations should be gracefully exited and,
+							bit stream errors should be reported or concealed with warning indication
+25	Reference frame control (encoders)	Reference frame control support
+26	SPS/PPS control (encoders)	SPS/PPS control support
+27	Loop filter control (encoders)	Loop filter control support
+28	B frame support (encoders)	B frame support
+29	GOP control (encoders)		GOP control support
+30	Frame rate control (encoders)	Frame rate control support
+
+Features to be  supported in 2026
++++++++++++++++++++++++++++++++++
+
+31	Bit rate control (encoders)		Bit rate control support
+32	QP control (encoders)			QP control support
+33	I/IDR control (encoders)		I/IDR control support
+34	Scalable control (encoders)		Scalable control support
+35	ROI control (encoders)			ROI control support
+36	Multi slice control (encoders)		Multi slice control support
+37	Profile/Level control (encoders)	Profile/Level control support
+38	Padding control (encoders)		Padding control support
+39	Aspect ratio control (encoders)		Aspect ratio control support
+40	Buffer full handling (encoders)		Buffer full handling support
+41	SBWC					SBWC bandwidth compression support
+42	10-bit support				10-bit support as per MFC HW specification
+43	Secure signed FW support		Security signed FW support
+44	Secure playback				DRM content playback for decoders
+45	HDR Support (decoders)			HDR metadata support
+46	Dynamic resolution change		Dynamic resolution change support
+
+Nagaraju Siddineni (29):
+  dt-bindings: media: mfc: Add Exynos MFC devicetree binding
+  arm64: dts: mfc: Add MFC device tree for Auto V920 SoC
+  media: mfc: Add MFC driver data structures and debugging macros
+  media: mfc: Add full register map and bit definitions for MFC hardware
+  media: mfc: Add MFC driver header files and core utilities
+  media: mfc: Add MFC core hardware register and debugfs APIs
+  media: mfc: Add MFC core command, hwlock, ISR and run functionalities
+  media: mfc: Add Exynos‑MFC driver probe support
+  media: mfc: Add bus‑devfreq, QoS, multi‑view and control
+    infrastructure
+  media: mfc: Add buffer‑queue and IOVMM support
+  media: mfc: Add rate‑calculation framework and memory utilities
+  media: mfc: Introduce QoS support and instance context handling
+  media: mfc: Add decoder core sync functions
+  media: mfc: Add buffer‑control framework
+  media: mfc: Add decoder resource‑management (RM) support and
+    load‑balancing
+  media: mfc: Enhance HW‑lock handling, scheduling and error recovery
+  media: mfc: Add VB2 decoder support
+  media: mfc: Add V4L2 decoder driver
+  media: mfc: Add QoS, Butler workqueue, and priority‑based scheduling
+  media: mfc: Add H264 decoder support
+  media: mfc: Add multi‑codec support & QoS improvements
+  media: mfc: Add H.264 encoder support with buffer and QoS improvements
+  media: mfc: Add encoder parameters, ROI & QoS support
+  media: mfc: Add encoder VB2 support to driver
+  media: mfc: Add encoder v4l2 driver interface
+  media: mfc: Add full encoder support
+  media: mfc: Add H.264 encoder support
+  media: mfc: Add AVC, VP8, VP9, and HEVC encoding support
+  media: mfc: Hardware‑accelerated encoding support
+
+ .../bindings/media/samsung,exynos-mfc.yaml    |   77 +
+ MAINTAINERS                                   |   10 +
+ .../dts/exynos/exynosautov920-evt2-mfc.dtsi   |  630 +++
+ .../arm64/boot/dts/exynos/exynosautov920.dtsi |    1 +
+ drivers/media/platform/samsung/Kconfig        |    7 +
+ drivers/media/platform/samsung/Makefile       |    1 +
+ .../media/platform/samsung/exynos-mfc/Kconfig |   34 +
+ .../platform/samsung/exynos-mfc/Makefile      |   26 +
+ .../samsung/exynos-mfc/base/mfc_buf.c         |  765 +++
+ .../samsung/exynos-mfc/base/mfc_buf.h         |   43 +
+ .../samsung/exynos-mfc/base/mfc_common.h      |  444 ++
+ .../samsung/exynos-mfc/base/mfc_data_struct.h | 2014 +++++++
+ .../samsung/exynos-mfc/base/mfc_debug.h       |  247 +
+ .../samsung/exynos-mfc/base/mfc_format.h      |  316 ++
+ .../samsung/exynos-mfc/base/mfc_macros.h      |   95 +
+ .../samsung/exynos-mfc/base/mfc_media.h       |  554 ++
+ .../samsung/exynos-mfc/base/mfc_mem.c         |  995 ++++
+ .../samsung/exynos-mfc/base/mfc_mem.h         |  155 +
+ .../samsung/exynos-mfc/base/mfc_qos.c         | 1070 ++++
+ .../samsung/exynos-mfc/base/mfc_qos.h         |   99 +
+ .../samsung/exynos-mfc/base/mfc_queue.c       |  966 ++++
+ .../samsung/exynos-mfc/base/mfc_queue.h       |  158 +
+ .../exynos-mfc/base/mfc_rate_calculate.c      |  640 +++
+ .../exynos-mfc/base/mfc_rate_calculate.h      |  106 +
+ .../samsung/exynos-mfc/base/mfc_regs.h        |   58 +
+ .../samsung/exynos-mfc/base/mfc_regs_mfc.h    | 1002 ++++
+ .../samsung/exynos-mfc/base/mfc_sched.h       |   30 +
+ .../samsung/exynos-mfc/base/mfc_utils.c       |  401 ++
+ .../samsung/exynos-mfc/base/mfc_utils.h       |  481 ++
+ .../media/platform/samsung/exynos-mfc/mfc.c   | 1366 +++++
+ .../platform/samsung/exynos-mfc/mfc_core.c    |  703 +++
+ .../samsung/exynos-mfc/mfc_core_buf_ctrl.c    |  543 ++
+ .../samsung/exynos-mfc/mfc_core_cmd.c         |  576 ++
+ .../samsung/exynos-mfc/mfc_core_cmd.h         |   41 +
+ .../samsung/exynos-mfc/mfc_core_enc_param.c   | 1463 ++++++
+ .../samsung/exynos-mfc/mfc_core_enc_param.h   |   23 +
+ .../samsung/exynos-mfc/mfc_core_hw_reg_api.c  |  122 +
+ .../samsung/exynos-mfc/mfc_core_hw_reg_api.h  |  144 +
+ .../samsung/exynos-mfc/mfc_core_hwlock.c      |  761 +++
+ .../samsung/exynos-mfc/mfc_core_hwlock.h      |   80 +
+ .../samsung/exynos-mfc/mfc_core_intlock.c     |   98 +
+ .../samsung/exynos-mfc/mfc_core_intlock.h     |   20 +
+ .../samsung/exynos-mfc/mfc_core_isr.c         | 2104 ++++++++
+ .../samsung/exynos-mfc/mfc_core_isr.h         |   25 +
+ .../samsung/exynos-mfc/mfc_core_ops.c         |  813 +++
+ .../samsung/exynos-mfc/mfc_core_ops.h         |   16 +
+ .../platform/samsung/exynos-mfc/mfc_core_pm.c |  209 +
+ .../platform/samsung/exynos-mfc/mfc_core_pm.h |   33 +
+ .../samsung/exynos-mfc/mfc_core_reg_api.c     |  597 +++
+ .../samsung/exynos-mfc/mfc_core_reg_api.h     |  380 ++
+ .../samsung/exynos-mfc/mfc_core_run.c         |  541 ++
+ .../samsung/exynos-mfc/mfc_core_run.h         |   35 +
+ .../samsung/exynos-mfc/mfc_core_sched_prio.c  |  431 ++
+ .../samsung/exynos-mfc/mfc_core_sync.c        |  423 ++
+ .../samsung/exynos-mfc/mfc_core_sync.h        |   34 +
+ .../samsung/exynos-mfc/mfc_ctx_ctrl.c         | 1469 ++++++
+ .../platform/samsung/exynos-mfc/mfc_debugfs.c |  248 +
+ .../platform/samsung/exynos-mfc/mfc_debugfs.h |   20 +
+ .../samsung/exynos-mfc/mfc_dec_v4l2.c         | 1739 +++++++
+ .../samsung/exynos-mfc/mfc_dec_v4l2.h         |   20 +
+ .../platform/samsung/exynos-mfc/mfc_dec_vb2.c |  394 ++
+ .../platform/samsung/exynos-mfc/mfc_dec_vb2.h |   19 +
+ .../samsung/exynos-mfc/mfc_enc_v4l2.c         | 4614 +++++++++++++++++
+ .../samsung/exynos-mfc/mfc_enc_v4l2.h         |   20 +
+ .../platform/samsung/exynos-mfc/mfc_enc_vb2.c |  443 ++
+ .../platform/samsung/exynos-mfc/mfc_enc_vb2.h |   19 +
+ .../platform/samsung/exynos-mfc/mfc_rm.c      | 2652 ++++++++++
+ .../platform/samsung/exynos-mfc/mfc_rm.h      |  110 +
+ 68 files changed, 34773 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos-mfc.yaml
+ create mode 100644 arch/arm64/boot/dts/exynos/exynosautov920-evt2-mfc.dtsi
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/Kconfig
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/Makefile
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_buf.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_buf.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_common.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_debug.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_format.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_macros.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_media.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_mem.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_mem.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_qos.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_qos.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_queue.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_queue.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_rate_calculate.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_rate_calculate.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_regs.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_regs_mfc.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_sched.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_utils.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_utils.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_buf_ctrl.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_cmd.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_enc_param.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_enc_param.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hw_reg_api.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_hwlock.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_intlock.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_isr.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_ops.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_ops.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_pm.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_reg_api.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_run.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_run.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_sched_prio.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_core_sync.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_ctx_ctrl.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_debugfs.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_dec_v4l2.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_dec_v4l2.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_dec_vb2.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_dec_vb2.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_enc_v4l2.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_enc_v4l2.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_enc_vb2.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_enc_vb2.h
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_rm.c
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/mfc_rm.h
+
+-- 
+2.34.1
+
