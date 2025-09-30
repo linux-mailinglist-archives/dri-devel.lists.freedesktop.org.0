@@ -2,125 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF47BAE8CE
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 22:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25AABAE904
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 22:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A7210E637;
-	Tue, 30 Sep 2025 20:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C29810E639;
+	Tue, 30 Sep 2025 20:46:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aYaUOS+V";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="UWRGoznC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4755310E637
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:36:17 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UC1s3n010804
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:36:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=yRYR8mKHUZFaYtXuWtiKtjrk
- y868kXbSvHpGdSOUABY=; b=aYaUOS+VDv+kxGuS0EJOBn3jZsRvgFGBxtozbsMR
- Ac9vrucmrZxwlJT/bwVES0C71Pifkfd7jEhfBwDX8PcD1l+BQYW94SrM/q2VQYFW
- DSfhw+ZrjsVgjnjN/gMX7X9pHlZBAnLC3pmHy6IGvzJ7/kW1NQ3nkMSWJJZNaB5Y
- fqwcbk6Vrrulg2sTCgxyVF1pVKVHnRxqEWiY6/V6mgv48P3LGjUP3xBoVnS0bCFE
- J/FQSPRuSa+6FvqfGXqEGpQVYAki1/LYqW1e3mKgBLGbDe3SGHhm9zt334YhoCu6
- nz5g1QtR41tllKQaQNXpN4HQjHYEMTJQgrL4TMs19jbcUA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e5mctr5p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:36:16 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4e0e7caf22eso78931781cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 13:36:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759264575; x=1759869375;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yRYR8mKHUZFaYtXuWtiKtjrky868kXbSvHpGdSOUABY=;
- b=DpQ1WJvRFnnqsmWL71CUEsePiadJT9shNtmh5bF594a7kt/vWyviUhylo9qLbjHmRm
- b8n/uYWS8mcpwt7/KJdUShXmRHTdj7rSe5kHOq0+VB4dVOxI/or8uADkerlp08B/Lsca
- 7q4l3KJAJq9A1mjJVvTo0UfZYj48WtT+SZMyaDa1TNQNRHtxBspHVVO14A5VGciPXnrb
- Fxkzf6mX9WxneEB3d4Q5Tg4UUTqsobXDWupaOUGyKgFGeRfZvWRTRYpJ2PeKiN5bcodI
- 7P3DJ//JaApSyEz5opmzxWA9asC6rD6+OecrhZAeNiWzPvjtYB4DI17U40IilJwigawM
- 8PxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtENWRY+rHevjvtkRnner5c1sN9K6CCLjz06j5kRsTkaj+KCup3PC4S8NJ2bkbLCSldCf931eaxGI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPtvrcaUCGv8/6Qme5qEij25Tc2oLFEB3vwz9NFy0T8WbtqwZq
- svtwT2K/tXftMBlmQeq6Al1SiDJHgbXUwOjkuXnZAnN9GQV6n95uAq0T5pxafqW/lELmRZPJChZ
- hZ7qct/wI3/w4sQcdVgQUG+5ds1d87/5zUxvLRFcmGT6VMG3FWZD0MxQptdO4yivaJuXHX0o=
-X-Gm-Gg: ASbGncsI2qOYMA0Qc2c5OeTfS4DU9uJR9IX+2L13NR2npULUELR73N4goJqTP5sfXM2
- GgJO1wO8sIHwI1NG4RgvUYIWmNGLtYIhFFnqGkFf9WPnURDaNxLd3ExFLO5mOEp958/LLLCdAll
- uZsQcH9XjkM+WL1IK6Wy+icDz8DjIynVbUQiXGWVJUNAc3tf5oUUEZ0LbadS06JUzKMqWfZEH9l
- Ha+boTcjaDOhm6MBRj9ONk0eo0h5JuVvh5pZih7I12LG3L3O3ZHv9KqdcD59q3et67M/LMKcsLM
- BrUfSqzroH53qcWxri+fg2l02vodjeAFrxJMroDipRMEd12H+ET6iDjQrd0Xgs0CmU1cEa8vVw7
- MCREas2CQbODFhIPTuUyMS90Px5NyWpCK/M8zM8U/k+tALf4KZhFQV8Ux5Q==
-X-Received: by 2002:a05:622a:1f09:b0:4ce:dcd9:20e5 with SMTP id
- d75a77b69052e-4e41e2553a4mr14266741cf.61.1759264575278; 
- Tue, 30 Sep 2025 13:36:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEFuPPlCXIV5zyuzMgVAJcVfckSn/45lViJoli6ItFTToo3aAOYLqDps3QFpjsl6dnCqLcS/g==
-X-Received: by 2002:a05:622a:1f09:b0:4ce:dcd9:20e5 with SMTP id
- d75a77b69052e-4e41e2553a4mr14266301cf.61.1759264574813; 
- Tue, 30 Sep 2025 13:36:14 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-36fb7710474sm34821171fa.33.2025.09.30.13.36.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Sep 2025 13:36:13 -0700 (PDT)
-Date: Tue, 30 Sep 2025 23:36:11 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, inki.dae@samsung.com,
- sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
- alim.akhtar@samsung.com, jingoohan1@gmail.com, p.zabel@pengutronix.de,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- dianders@chromium.org, m.szyprowski@samsung.com,
- luca.ceresoli@bootlin.com, jani.nikula@intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v6 18/18] drm/bridge: analogix_dp: Apply panel_bridge
- helper
-Message-ID: <aeby4ds46ehzkrvc32pjcrxz2aalpc7icuis4y4zxfm5kvgcg4@ie7m7s6rcnqu>
-References: <20250930094251.131314-1-damon.ding@rock-chips.com>
- <20250930094251.131314-5-damon.ding@rock-chips.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4CC10E63D
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1759265184; x=1759869984; i=deller@gmx.de;
+ bh=gQKflzixSnOtPXH+ct3ATJr3ZXa8C8OGFHZcF8wvCJ4=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=UWRGoznCnD2QpDmle4NUk7OyzirSDf0GwOjayG+46PO+Ec6eA8b5vRRJxf+B7Nd6
+ TjLB+55Yb5KG4SWOaGQs6ekNmdJGPB/qzJdGO3ZtrRWFC1RuxgCwvdvLMr2g7pC6b
+ BfKTz82mBVpl/RuCUNiiB5tLj3tlSM90+zF/YfGVT6F/dpvytbbWGcrWBsZllVyLO
+ d3lr/6o4Tv4ZMm6KeiozsVJQsWXwliO0eAIjjmxiKHXDr1qJqFv+izxwOeeU/kBK+
+ 9fA6la/g5pQbT3XcM79/Vz6BSUePkxQWtlChve4i+mopPgokwyqAZTIAIxvmoBnCh
+ UclmAKPYCa0ChtrDSg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.50.4]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7QxL-1uEPGf24Kb-012u59; Tue, 30
+ Sep 2025 22:46:24 +0200
+Message-ID: <cb00a5e2-6e50-4b01-bcd7-33eeae57ed63@gmx.de>
+Date: Tue, 30 Sep 2025 22:46:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250930094251.131314-5-damon.ding@rock-chips.com>
-X-Authority-Analysis: v=2.4 cv=RMC+3oi+ c=1 sm=1 tr=0 ts=68dc3f40 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=hD80L64hAAAA:8 a=EUspDBNiAAAA:8
- a=rSdC-L6FqKhTve90478A:9 a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
- a=jGH_LyMDp9YhSvY-UuyI:22
-X-Proofpoint-ORIG-GUID: hOD7KGRz9Hx0oEQNCR7oQXwQNend_-HE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAwNCBTYWx0ZWRfX38jRXtJR96cf
- w/gdKaz1TxyTLtATpIWWTS0QKE9SYFaZxYmt+n8dRe4KBJcFHBseZ2VpmqNQVJ73GdeJLzpwyEQ
- LlprkZ7mDG/VrAaFNGTesyehzIRbJfldyleJM/t+RXwMemwuGxvQHT8svZZVO/m8tim0UtBgvt4
- buRgF/JKcqIeLGLLlvFl/TXYwaSjJ7RmZqSBcc9/bcfnwUSVsHMLNkKlH1SBg155iTn/IAVil+4
- UhIBIYlhtLWiVAvupzPIiI1DkBGjRBp7QpPYdfEueM2vdJb/eXBP47oXHbTIo9fyftnEPv43W1K
- /pUaiMQvc9icUzjzYlvzeTWXZYSsmbefNV0aGwsZf3rOTB5VfeR0cWKkcG1yy1tmEOaE4tperl7
- MaajSQoZnSHmrJtlou/UGFCHYOtrPA==
-X-Proofpoint-GUID: hOD7KGRz9Hx0oEQNCR7oQXwQNend_-HE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-30_04,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 suspectscore=0 impostorscore=0 spamscore=0
- adultscore=0 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270004
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: Add bounds checking in bit_putcs to fix
+ vmalloc-out-of-bounds
+To: Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250927075010.119671-1-albinbabuvarghese20@gmail.com>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20250927075010.119671-1-albinbabuvarghese20@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:awbi77DUKol55j8Y4aOnxjExESRkJY8agfRap8I4YZaZzj+d6pW
+ S9MlvQo8keis4LzD7ICBAgEhNQmBFD5yJM0G1qHMT4Qt9hpDPK2Wh4Km/4JyH4kngEfkxlm
+ 8dtll9FdS+kAnJTRgnYsJtC2Mts3hS2vrXGWQcYscXfxq/ZHvBoW1B32q7QPR78sS3Cz4yF
+ YzDPDeP40Y41GvHUnh2hg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:17/sBWtJ44o=;2oYajW2AbNhLeSpFoWbqt0d81Bu
+ 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
+ GK7HVS0LCLoIYw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,24 +184,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 30, 2025 at 05:42:51PM +0800, Damon Ding wrote:
-> In order to unify the handling of the panel and bridge, apply
-> panel_bridge helpers for Analogix DP driver. With this patch, the
-> bridge support will also become available.
-> 
-> The following changes have ben made:
-> - Apply plane_bridge helper to wrap the panel as the bridge.
-> - Remove the explicit panel APIs calls, which can be replaced with
->   the automic bridge APIs calls wrapped by the panel.
-> - Remove the unnecessary analogix_dp_bridge_get_modes().
-> 
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> 
+On 9/27/25 09:50, Albin Babu Varghese wrote:
+> KASAN reports vmalloc-out-of-bounds writes in sys_imageblit during conso=
+le
+> resize operations. The crash happens when bit_putcs renders characters
+> outside the allocated framebuffer region.
+>=20
+> Call trace: vc_do_resize -> clear_selection -> invert_screen ->
+> do_update_region -> fbcon_putcs -> bit_putcs -> sys_imageblit
+>=20
+> The console resize changes dimensions but bit_putcs doesn't validate tha=
+t
+> the character positions fit within the framebuffer before rendering.
+> This causes writes past the allocated buffer in fb_imageblit functions.
+>=20
+> Fix by checking bounds before rendering:
+> - Return if dy + height > yres (would write past bottom)
+> - Break if dx + width > xres (would write past right edge)
+>=20
+> Reported-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D48b0652a95834717f190
+> Tested-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
+> Signed-off-by: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
+> ---
+>   drivers/video/fbdev/core/bitblit.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/co=
+re/bitblit.c
+> index f9475c14f733..4c732284384a 100644
+> --- a/drivers/video/fbdev/core/bitblit.c
+> +++ b/drivers/video/fbdev/core/bitblit.c
+> @@ -160,6 +160,9 @@ static void bit_putcs(struct vc_data *vc, struct fb_=
+info *info,
+>   	image.height =3D vc->vc_font.height;
+>   	image.depth =3D 1;
+>  =20
+> +	if (image.dy + image.height > info->var.yres)
+> +		return;
+> +
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+I wonder if the image.height value should be capped in this case,
+instead of not rendering any chars at all?
+Something like (untested!):
+
++	if (image.dy >=3D info->var.yres)
++		return;
++       image.height =3D min(image.height, info->var.yres - image.dy);
 
 
--- 
-With best wishes
-Dmitry
+>   	if (attribute) {
+>   		buf =3D kmalloc(cellsize, GFP_ATOMIC);
+>   		if (!buf)
+> @@ -173,6 +176,10 @@ static void bit_putcs(struct vc_data *vc, struct fb=
+_info *info,
+>   			cnt =3D count;
+>  =20
+>   		image.width =3D vc->vc_font.width * cnt;
+> +
+> +		if (image.dx + image.width > info->var.xres)
+> +			break;
+> +
+
+same here.
+
+
+>   		pitch =3D DIV_ROUND_UP(image.width, 8) + scan_align;
+>   		pitch &=3D ~scan_align;
+>   		size =3D pitch * image.height + buf_align;
+
