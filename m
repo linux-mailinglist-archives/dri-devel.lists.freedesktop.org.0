@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2D1BAB7B6
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBD8BAB7E0
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 07:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC42610E4DB;
-	Tue, 30 Sep 2025 05:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC8E10E4EB;
+	Tue, 30 Sep 2025 05:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="CX6JPlWk";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="GNY4N0SH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5BC810E4BC
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:14 +0000 (UTC)
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20250930035535epoutp048b71f69618617ab889f522f02856f366~p8zRQOHnq1866718667epoutp04A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:55:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20250930035535epoutp048b71f69618617ab889f522f02856f366~p8zRQOHnq1866718667epoutp04A
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF8C10E4BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 04:03:07 +0000 (UTC)
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20250930035533epoutp0199fa45bf860e12b64fc823b989defc08~p8zP1F4763093230932epoutp011
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 03:55:33 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20250930035533epoutp0199fa45bf860e12b64fc823b989defc08~p8zP1F4763093230932epoutp011
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1759204535;
- bh=1M5DyEI/r7OAsRulfbScNOurvCqrSGtcLH7HJ2j50Uc=;
+ s=mail20170921; t=1759204533;
+ bh=G9pxIdZnEbgzBeHGcYvgwNprAuvPesqmPXOpd6bOFHc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CX6JPlWkpB1uHdFoiX8wSgYLSUl0QO+lIV3ivDkI2MGdjp2iQw0J6lVwzoEXNUU4B
- V4Bt0t6u/BWVleYX4faabXJwzBiubi3Ow9cHUeCx7ujZINbzUzl2HUjgixGFtnkEO1
- pUgHm1meOpVP1AyQejzlVB7SBCn8brU/41XTV6xU=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
- 20250930035534epcas5p10478f6c6370cbbba27c9f3d4d4c73cec~p8zQjUx4I2443624436epcas5p1G;
- Tue, 30 Sep 2025 03:55:34 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.86]) by
- epsnrtp01.localdomain (Postfix) with ESMTP id 4cbPNK2NJRz6B9mB; Tue, 30 Sep
- 2025 03:55:29 +0000 (GMT)
+ b=GNY4N0SHfIRxdxDW1lESl5iiJeZZWjjyGrq8Ewk1WHfBFQthH77FDGTYwxyByW3zh
+ zr1zfOC6ngIqKRVMia7qr+xnZb12m3ykANj+3RXzOor00NMGFQd5H9PXLiIiLrQRJp
+ McGzbFBN1vJ/HAvPeid/1X8J0zrZgsYvm6dGACSE=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+ 20250930035533epcas5p3c2880032a8359d6ce90ae8c495b73c9a~p8zPEucZa2823728237epcas5p33;
+ Tue, 30 Sep 2025 03:55:33 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.93]) by
+ epsnrtp04.localdomain (Postfix) with ESMTP id 4cbPNN0ZJsz6B9m8; Tue, 30 Sep
+ 2025 03:55:32 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20250930035527epcas5p3e6b8c8040341cd99e6e73c9db7a4d74e~p8zKNbC002823728237epcas5p3m;
- Tue, 30 Sep 2025 03:55:27 +0000 (GMT)
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250930035531epcas5p22f3bc84d7e1f3bce78459f4f159e3d1a~p8zNm7Vy62331123311epcas5p2y;
+ Tue, 30 Sep 2025 03:55:31 +0000 (GMT)
 Received: from bose.samsungds.net (unknown [107.108.83.9]) by
  epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250930035525epsmtip130b1aa521afca33e581f2fe5e454eaef~p8zHySW_K2908429084epsmtip1i;
- Tue, 30 Sep 2025 03:55:25 +0000 (GMT)
+ 20250930035528epsmtip1b9d42fd4aca3396fec91c87e445724ec~p8zKc3cMC2938429384epsmtip1Z;
+ Tue, 30 Sep 2025 03:55:28 +0000 (GMT)
 From: Himanshu Dewangan <h.dewangan@samsung.com>
 To: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -52,23 +52,23 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Himanshu Dewangan <h.dewangan@samsung.com>
-Subject: [PATCH 03/29] media: mfc: Add MFC driver data structures and
- debugging macros
-Date: Tue, 30 Sep 2025 09:33:22 +0530
-Message-Id: <20250930040348.3702923-4-h.dewangan@samsung.com>
+Subject: [PATCH 04/29] media: mfc: Add full register map and bit definitions
+ for MFC hardware
+Date: Tue, 30 Sep 2025 09:33:23 +0530
+Message-Id: <20250930040348.3702923-5-h.dewangan@samsung.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250930040348.3702923-1-h.dewangan@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250930035527epcas5p3e6b8c8040341cd99e6e73c9db7a4d74e
+X-CMS-MailID: 20250930035531epcas5p22f3bc84d7e1f3bce78459f4f159e3d1a
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250930035527epcas5p3e6b8c8040341cd99e6e73c9db7a4d74e
+X-CMS-RootMailID: 20250930035531epcas5p22f3bc84d7e1f3bce78459f4f159e3d1a
 References: <20250930040348.3702923-1-h.dewangan@samsung.com>
- <CGME20250930035527epcas5p3e6b8c8040341cd99e6e73c9db7a4d74e@epcas5p3.samsung.com>
+ <CGME20250930035531epcas5p22f3bc84d7e1f3bce78459f4f159e3d1a@epcas5p2.samsung.com>
 X-Mailman-Approved-At: Tue, 30 Sep 2025 05:28:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,1282 +87,1031 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Nagaraju Siddineni <nagaraju.s@samsung.com>
 
-This patch introduces the core data structures and debugging
-infrastructure for the Samsung Exynos MFC (Multi‑Format Codec) driver.
+Introduce mfc_regs_mfc.h header
+Define all MFC register addresses, including common, decoder,
+encoder, and NAL queue registers.
 
-mfc_data_struct.h
-  Defines all driver‑wide constants, enums, and structures required
-    for MFC core, contexts, buffers, QoS, and platform data.
-  Includes definitions for codec types, instance states, buffer usage,
-    logging options, feature flags, and hardware resources.
-  Provides the main struct mfc_dev, struct mfc_core, struct mfc_ctx,
-    and related helper structures.
+Provide bit‑field masks and shifts for command/status registers,
+codec types, error codes, and feature flags.
 
-mfc_debug.h
-  Implements a comprehensive set of debug macros (mfc_debug,
-    mfc_ctx_debug, mfc_core_debug, etc.) with configurable logging levels.
-  Adds error‑handling macros and trace utilities for device,
-    core, and context tracing.
-  Supports printing to the kernel log based on the
-    driver’s debugfs.logging_option settings.
-
-These additions lay the groundwork for the MFC driver’s functionality,
-enabling detailed logging, state tracking, and proper management of
-codec resources.
+Add detailed comments for each register group and macro to
+improve readability and maintainability.
 
 Signed-off-by: Nagaraju Siddineni <nagaraju.s@samsung.com>
 Signed-off-by: Himanshu Dewangan <h.dewangan@samsung.com>
 ---
- .../samsung/exynos-mfc/base/mfc_data_struct.h | 985 ++++++++++++++++++
- .../samsung/exynos-mfc/base/mfc_debug.h       | 247 +++++
- 2 files changed, 1232 insertions(+)
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
- create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_debug.h
+ .../samsung/exynos-mfc/base/mfc_regs_mfc.h    | 1002 +++++++++++++++++
+ 1 file changed, 1002 insertions(+)
+ create mode 100644 drivers/media/platform/samsung/exynos-mfc/base/mfc_regs_mfc.h
 
-diff --git a/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h b/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
+diff --git a/drivers/media/platform/samsung/exynos-mfc/base/mfc_regs_mfc.h b/drivers/media/platform/samsung/exynos-mfc/base/mfc_regs_mfc.h
 new file mode 100644
-index 000000000000..59fef39095d2
+index 000000000000..d10d3fb478ef
 --- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/base/mfc_data_struct.h
-@@ -0,0 +1,985 @@
++++ b/drivers/media/platform/samsung/exynos-mfc/base/mfc_regs_mfc.h
+@@ -0,0 +1,1002 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com
++ *              http://www.samsung.com
 + *
-+ * mfc_data_struct.h file
++ * mfc_batch.h file
 + *
 + * Nagaraju Siddineni, <nagaraju.s@samsung.com>
 + * Himanshu Dewangan, <h.dewangan@samsung.com>
 + */
 +
-+#ifndef __MFC_DATA_STRUCT_H
-+#define __MFC_DATA_STRUCT_H __FILE__
++#ifndef __MFC_REGS_MFC_H
++#define __MFC_REGS_MFC_H __FILE__
 +
-+#include <linux/videodev2.h>
-+#include <linux/cma.h>
-+#include <linux/genalloc.h>
-+#include <linux/pm_qos.h>
++#define MFC_MMU_INTERRUPT_STATUS			0x0060
++#define MFC_MMU_FAULT_TRANS_INFO			0x0078
++#define MFC_MMU_FAULT_TRANS_INFO_RW_MASK		0x100000
 +
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-ioctl.h>
-+#include <media/videobuf2-v4l2.h>
++/* Codec Common Registers */
++#define MFC_REG_RISC_ON					0x0000
++#define MFC_REG_RISC2HOST_INT				0x003C
++#define MFC_REG_RISC_STATUS				0x0040
++#define MFC_REG_HOST2RISC_INT				0x0044
++#define MFC_REG_RISC_BASE_ADDRESS			0x0054
++#define MFC_REG_RISC_NONSECURE_BASE_ADDR		0x0068
++#define MFC_REG_FW1_BASE_ADDR				0x1000
 +
-+#include "mfc_media.h"
++#define MFC_REG_MFC_FW_CLOCK				0x1060
++#define MFC_REG_MFC_RESET				0x1070
 +
-+/* DEBUGFS */
-+#define MFC_DEFAULT_LOGGING_OPTION	0x7
++#define MFC_REG_HOST2RISC_CMD				0x1100
++#define MFC_REG_RISC2HOST_CMD				0x1104
 +
-+#define MFC_NUM_CORE			2
-+#define MFC_NUM_CONTEXTS		32
-+#define MFC_MAX_PLANES			3
-+#define MFC_MAX_DPBS			64
-+#define MFC_MAX_BUFFERS			32
-+#define MFC_MAX_EXTRA_BUF		10
-+#define MFC_SFR_LOGGING_COUNT_SET0	10
-+#define MFC_SFR_LOGGING_COUNT_SET1	28
-+#define MFC_SFR_LOGGING_COUNT_SET2	32
-+#define MFC_LOGGING_DATA_SIZE		950
-+/* the number of priority is 2N(num of OPP) + 2 */
-+#define MFC_MAX_PRIO			12
-+/* The number of display DRC max frames that can occur continuously in NAL_Q */
-+#define MFC_MAX_DRC_FRAME		MFC_MAX_BUFFERS
++#define MFC_REG_HWAPG_HOST_CTRL				0x11D8
 +
-+/* The last number of the standard(MFC_REG_CODEC_BPG_ENC) supported by MFC + 1 */
-+#define MFC_MAX_CODEC_TYPE		(33 + 1)
++#define MFC_REG_MFC_BUS_STATUS				0x7018
++#define MFC_REG_MFC_RPEND				0x7028
++#define MFC_REG_MFC_WPEND				0x702C
++#define MFC_REG_MFC_BUS_RESET_CTRL			0x7110
++#define MFC_REG_MFC_OFF					0x7120
++#define MFC_REG_MFC_STATE				0x7124
 +
-+/* Maximum number of temporal layers */
-+#define VIDEO_MAX_TEMPORAL_LAYERS	7
++#define MFC_REG_FW_VERSION				0xF000
++#define MFC_REG_INSTANCE_ID				0xF008
++#define MFC_REG_CODEC_TYPE				0xF00C
++#define MFC_REG_CONTEXT_MEM_ADDR			0xF014
++#define MFC_REG_CONTEXT_MEM_SIZE			0xF018
++#define MFC_REG_SHARED_MEM_ADDR				0xF01C
++#define MFC_REG_PIXEL_FORMAT				0xF020
 +
-+/* Batch mode */
-+#define MAX_NUM_IMAGES_IN_VB		8
++#define MFC_REG_METADATA_ENABLE				0xF024
++#define MFC_REG_MFC_VERSION				0xF028
++#define MFC_REG_DBG_INFO_ENABLE				0xF02C
++#define MFC_REG_DBG_BUFFER_ADDR				0xF030
++#define MFC_REG_DBG_BUFFER_SIZE				0xF034
 +
-+/* QoS */
-+#define MAX_TIME_INDEX			15
-+#define MAX_NUM_CLUSTER			3
-+#define MAX_NUM_MFC_BPS			2
-+#define MAX_NUM_MFC_FREQ		10
-+#define MAX_NUM_QOS_DYNAMIC		10
++#define MFC_REG_CODEC_CONTROL				0xF038
++#define MFC_REG_TIMEOUT_VALUE				0xF03C
++#define MFC_REG_HED_SHARED_MEM_ADDR			0xF040
 +
-+#define MFC_FMT_FLAG_MULTI_VIEW		0x0010
-+#define MFC_FMT_FLAG_DEPTH_MAP		0x0020
++/* NAL QUEUE */
++#define MFC_REG_NAL_QUEUE_INPUT_ADDR			0xF044
++#define MFC_REG_NAL_QUEUE_INPUT_SIZE			0xF048
++#define MFC_REG_NAL_QUEUE_OUTPUT_ADDR			0xF04C
++#define MFC_REG_NAL_QUEUE_OUTPUT_SIZE			0xF050
++#define MFC_REG_NAL_QUEUE_INPUT_COUNT			0xF054
 +
-+#define MFC_NUM_SPECIAL_BUF_NAME	25
++#define MFC_REG_RET_INSTANCE_ID				0xF070
++#define MFC_REG_ERROR_CODE				0xF074
++#define MFC_REG_DBG_BUFFER_OUTPUT_SIZE			0xF078
++#define MFC_REG_METADATA_STATUS				0xF07C
 +
-+#define BANK_L_CTX			0
-+#define BANK_R_CTX			1
-+#define BANK_NUM			2
++#define MFC_REG_DBG_INFO_STAGE_COUNTER			0xF088
 +
-+/**
-+ * enum mfc_inst_type - The type of an MFC device node.
++/* NAL QUEUE */
++#define MFC_REG_NAL_QUEUE_OUTPUT_COUNT			0xF08C
++#define MFC_REG_NAL_QUEUE_INPUT_EXE_COUNT		0xF090
++#define MFC_REG_NAL_QUEUE_INFO				0xF094
++#define MFC_REG_NAL_LL_IN_USE_BY_MFC			0xF098
++#define MFC_REG_NAL_LL_IN_USE_BY_DRV			0xF09C
++#define MFC_REG_NAL_LL_TURN				0xF0A0
++
++#define MFC_REG_FIRMWARE_STATUS_INFO			0xF0A4
++#define MFC_REG_PROCESSING_CYCLE			0xF0AC
++
++/* Decoder Registers */
++#define MFC_REG_D_CRC_CTRL				0xF0B0
++#define MFC_REG_D_DEC_OPTIONS				0xF0B4
++
++#define MFC_REG_D_DISPLAY_DELAY				0xF0B8
++
++#define MFC_REG_D_SET_FRAME_WIDTH			0xF0BC
++#define MFC_REG_D_SET_FRAME_HEIGHT			0xF0C0
++
++#define MFC_REG_D_SEI_ENABLE				0xF0C4
++
++#define MFC_REG_D_FORCE_PIXEL_VAL			0xF0C8
++
++/* Buffer setting registers */
++/* Session return */
++#define MFC_REG_D_MIN_NUM_DPB				0xF0F0
++#define MFC_REG_D_MIN_FIRST_PLANE_DPB_SIZE		0xF0F4
++#define MFC_REG_D_MIN_SECOND_PLANE_DPB_SIZE		0xF0F8
++#define MFC_REG_D_MIN_THIRD_PLANE_DPB_SIZE		0xF0FC
++#define MFC_REG_D_MIN_NUM_MV				0xF100
++#define MFC_REG_D_MVC_NUM_VIEWS				0xF104
++#define MFC_REG_D_MIN_SCRATCH_BUFFER_SIZE		0xF108
++#define MFC_REG_D_MIN_FIRST_PLANE_2BIT_DPB_SIZE		0xF10C
++#define MFC_REG_D_MIN_SECOND_PLANE_2BIT_DPB_SIZE	0xF110
++#define MFC_REG_D_POST_FILTER_LUMA_DPB0			0xF120
++#define MFC_REG_D_POST_FILTER_LUMA_DPB1			0xF124
++#define MFC_REG_D_POST_FILTER_CHROMA_DPB0		0xF128
++#define MFC_REG_D_POST_FILTER_CHROMA_DPB1		0xF12C
++
++/* Buffers */
++#define MFC_REG_D_NUM_DPB				0xF130
++#define MFC_REG_D_NUM_MV				0xF134
++#define MFC_REG_D_FIRST_PLANE_DPB_STRIDE_SIZE		0xF138
++#define MFC_REG_D_SECOND_PLANE_DPB_STRIDE_SIZE		0xF13C
++#define MFC_REG_D_THIRD_PLANE_DPB_STRIDE_SIZE		0xF140
++#define MFC_REG_D_FIRST_PLANE_DPB_SIZE			0xF144
++#define MFC_REG_D_SECOND_PLANE_DPB_SIZE			0xF148
++#define MFC_REG_D_THIRD_PLANE_DPB_SIZE			0xF14C
++#define MFC_REG_D_MV_BUFFER_SIZE			0xF150
++#define MFC_REG_D_INIT_BUFFER_OPTIONS			0xF154
++#define MFC_REG_D_FIRST_PLANE_DPB0			0xF160
++#define MFC_REG_D_SECOND_PLANE_DPB0			0xF260
++#define MFC_REG_D_THIRD_PLANE_DPB0			0xF360
++#define MFC_REG_D_MV_BUFFER0				0xF460
++#define MFC_REG_D_SCRATCH_BUFFER_ADDR			0xF560
++#define MFC_REG_D_SCRATCH_BUFFER_SIZE			0xF564
++#define MFC_REG_D_METADATA_BUFFER_ADDR			0xF568
++#define MFC_REG_D_METADATA_BUFFER_SIZE			0xF56C
++
++#define MFC_REG_D_STATIC_BUFFER_ADDR			0xF570
++#define MFC_REG_D_STATIC_BUFFER_SIZE			0xF574
++#define MFC_REG_D_FIRST_PLANE_2BIT_DPB_SIZE		0xF578
++#define MFC_REG_D_SECOND_PLANE_2BIT_DPB_SIZE		0xF57C
++#define MFC_REG_D_FIRST_PLANE_2BIT_DPB_STRIDE_SIZE	0xF580
++#define MFC_REG_D_SECOND_PLANE_2BIT_DPB_STRIDE_SIZE	0xF584
++
++#define MFC_REG_D_NAL_START_OPTIONS			0xF5AC
++
++/* Nal cmd */
++#define MFC_REG_D_CPB_BUFFER_ADDR			0xF5B0
++#define MFC_REG_D_CPB_BUFFER_SIZE			0xF5B4
++#define MFC_REG_D_AVAILABLE_DPB_FLAG_UPPER		0xF5B8
++#define MFC_REG_D_AVAILABLE_DPB_FLAG_LOWER		0xF5BC
++#define MFC_REG_D_CPB_BUFFER_OFFSET			0xF5C0
++#define MFC_REG_D_SLICE_IF_ENABLE			0xF5C4
++#define MFC_REG_D_PICTURE_TAG				0xF5C8
++#define MFC_REG_D_STREAM_DATA_SIZE			0xF5D0
++#define MFC_REG_D_DYNAMIC_DPB_FLAG_UPPER		0xF5D4
++#define MFC_REG_D_DYNAMIC_DPB_FLAG_LOWER		0xF5D8
++
++/* Nal return */
++#define MFC_REG_D_DISPLAY_FRAME_WIDTH			0xF600
++#define MFC_REG_D_DISPLAY_FRAME_HEIGHT			0xF604
++#define MFC_REG_D_DISPLAY_STATUS			0xF608
++#define MFC_REG_D_DISPLAY_FIRST_PLANE_ADDR		0xF60C
++#define MFC_REG_D_DISPLAY_SECOND_PLANE_ADDR		0xF610
++#define MFC_REG_D_DISPLAY_THIRD_PLANE_ADDR		0xF614
++#define MFC_REG_D_DISPLAY_FRAME_TYPE			0xF618
++#define MFC_REG_D_DISPLAY_CROP_INFO1			0xF61C
++#define MFC_REG_D_DISPLAY_CROP_INFO2			0xF620
++#define MFC_REG_D_DISPLAY_PICTURE_PROFILE		0xF624
++#define MFC_REG_D_DISPLAY_FIRST_PLANE_CRC		0xF628
++#define MFC_REG_D_DISPLAY_SECOND_PLANE_CRC		0xF62C
++#define MFC_REG_D_DISPLAY_THIRD_PLANE_CRC		0xF630
++#define MFC_REG_D_DISPLAY_ASPECT_RATIO			0xF634
++#define MFC_REG_D_DISPLAY_EXTENDED_AR			0xF638
++#define MFC_REG_D_DECODED_FRAME_WIDTH			0xF63C
++#define MFC_REG_D_DECODED_FRAME_HEIGHT			0xF640
++#define MFC_REG_D_DECODED_STATUS			0xF644
++#define MFC_REG_D_DECODED_FIRST_PLANE_ADDR		0xF648
++#define MFC_REG_D_DECODED_SECOND_PLANE_ADDR		0xF64C
++#define MFC_REG_D_DECODED_THIRD_PLANE_ADDR		0xF650
++#define MFC_REG_D_DECODED_FRAME_TYPE			0xF654
++#define MFC_REG_D_DECODED_CROP_INFO1			0xF658
++#define MFC_REG_D_DECODED_CROP_INFO2			0xF65C
++#define MFC_REG_D_DECODED_PICTURE_PROFILE		0xF660
++#define MFC_REG_D_DECODED_NAL_SIZE			0xF664
++#define MFC_REG_D_DECODED_FIRST_PLANE_CRC		0xF668
++#define MFC_REG_D_DECODED_SECOND_PLANE_CRC		0xF66C
++#define MFC_REG_D_DECODED_THIRD_PLANE_CRC		0xF670
++#define MFC_REG_D_RET_PICTURE_TAG_TOP			0xF674
++#define MFC_REG_D_RET_PICTURE_TAG_BOT			0xF678
++#define MFC_REG_D_RET_PICTURE_TIME_TOP			0xF67C
++#define MFC_REG_D_RET_PICTURE_TIME_BOT			0xF680
++#define MFC_REG_D_CHROMA_FORMAT				0xF684
++
++#define MFC_REG_D_VC1_INFO				0xF688
++#define MFC_REG_D_MPEG4_INFO				0xF68C
++#define MFC_REG_D_H264_INFO				0xF690
++#define MFC_REG_D_HEVC_INFO				0xF6A0
++#define MFC_REG_D_VP9_INFO				0xF6A4
++#define MFC_REG_D_AV1_INFO				0xF6AC
++
++#define MFC_REG_D_METADATA_ADDR_CONCEALED_MB		0xF6B0
++#define MFC_REG_D_METADATA_SIZE_CONCEALED_MB		0xF6B4
++#define MFC_REG_D_METADATA_ADDR_VC1_PARAM		0xF6B8
++#define MFC_REG_D_METADATA_SIZE_VC1_PARAM		0xF6BC
++#define MFC_REG_D_METADATA_ADDR_SEI_NAL			0xF6C0
++#define MFC_REG_D_METADATA_SIZE_SEI_NAL			0xF6C4
++#define MFC_REG_D_METADATA_ADDR_VUI			0xF6C8
++#define MFC_REG_D_METADATA_SIZE_VUI			0xF6CC
++#define MFC_REG_D_METADATA_ADDR_MVCVUI			0xF6D0
++#define MFC_REG_D_METADATA_SIZE_MVCVUI			0xF6D4
++
++#define MFC_REG_D_MVC_VIEW_ID				0xF6D8
++
++#define MFC_REG_D_SEI_AVAIL				0xF6DC
++#define MFC_REG_D_FRAME_PACK_ARRGMENT_ID		0xF6E0
++#define MFC_REG_D_FRAME_PACK_SEI_INFO			0xF6E4
++#define MFC_REG_D_FRAME_PACK_GRID_POS			0xF6E8
++
++#define MFC_REG_D_DISPLAY_RECOVERY_SEI_INFO		0xF6EC
++#define MFC_REG_D_DECODED_RECOVERY_SEI_INFO		0xF6F0
++
++#define MFC_REG_D_DISPLAY_FIRST_PLANE_2BIT_CRC		0xF6FC
++#define MFC_REG_D_DISPLAY_SECOND_PLANE_2BIT_CRC		0xF700
++#define MFC_REG_D_DECODED_FIRST_PLANE_2BIT_CRC		0xF704
++#define MFC_REG_D_DECODED_SECOND_PLANE_2BIT_CRC		0xF708
++
++#define MFC_REG_D_VIDEO_SIGNAL_TYPE			0xF70C
++#define MFC_REG_D_CONTENT_LIGHT_LEVEL_INFO_SEI		0xF710
++#define MFC_REG_D_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_0	0xF714
++#define MFC_REG_D_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_1	0xF718
++
++#define MFC_REG_D_USED_DPB_FLAG_UPPER			0xF720
++#define MFC_REG_D_USED_DPB_FLAG_LOWER			0xF724
++
++#define MFC_REG_D_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_2	0xF728
++#define MFC_REG_D_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_3	0xF72C
++#define MFC_REG_D_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_4	0xF730
++#define MFC_REG_D_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_5	0xF734
++
++#define MFC_REG_D_BLACK_BAR_START_POS			0xF738
++#define MFC_REG_D_BLACK_BAR_IMAGE_SIZE			0xF73C
++
++#define MFC_REG_D_DECODED_FRAME_COUNT			0xF740
++#define MFC_REG_D_DISPLAY_FRAME_COUNT			0xF744
++
++#define MFC_REG_D_DISPLAY_LUMA_ADDR			0xF60C
++#define MFC_REG_D_DISPLAY_CHROMA_ADDR			0xF610
++
++#define MFC_REG_D_DECODED_LUMA_ADDR			0xF648
++#define MFC_REG_D_DECODED_CHROMA_ADDR			0xF64C
++
++/* SEI NAL Metadata (reuse encoder register) */
++#define MFC_REG_D_PAYLOAD_TYPE				0xF770
++#define MFC_REG_D_PAYLOAD_SIZE				0xF774
++#define MFC_REG_D_PAYLOAD_DATA_0			0xF778
++
++/* Encoder Registers */
++#define MFC_REG_E_CROPPED_FRAME_WIDTH			0xF778
++#define MFC_REG_E_CROPPED_FRAME_HEIGHT			0xF77C
++#define MFC_REG_E_FRAME_CROP_OFFSET			0xF780
++#define MFC_REG_E_ENC_OPTIONS				0xF784
++#define MFC_REG_E_PICTURE_PROFILE			0xF788
++#define MFC_REG_E_VBV_BUFFER_SIZE			0xF78C
++#define MFC_REG_E_VBV_INIT_DELAY			0xF790
++#define MFC_REG_E_FIXED_PICTURE_QP			0xF794
++#define MFC_REG_E_RC_CONFIG				0xF798
++#define MFC_REG_E_RC_QP_BOUND				0xF79C
++#define MFC_REG_E_RC_QP_BOUND_PB			0xF7A0
++#define MFC_REG_E_RC_MODE				0xF7A4
++
++#define MFC_REG_E_RC_OPTIONS				0xF7A8
++#define MFC_REG_E_PADDING_CTRL				0xF7AC
++#define MFC_REG_E_AIR_THRESHOLD				0xF7B0
++
++#define MFC_REG_E_MV_HOR_RANGE				0xF7B4
++#define MFC_REG_E_MV_VER_RANGE				0xF7B8
++
++#define MFC_REG_E_HIGH_QUALITY_MODE			0xF7C0
++#define MFC_REG_E_VIDEO_SIGNAL_TYPE			0xF7C4
++
++#define MFC_REG_E_SAO_WEIGHT0				0xF7C8
++#define MFC_REG_E_SAO_WEIGHT1				0xF7CC
++
++#define MFC_REG_E_NUM_DPB				0xF890
++#define MFC_REG_E_MIN_SCRATCH_BUFFER_SIZE		0xF894
++#define MFC_REG_E_MIN_LUMA_DPB_SIZE			0xF898
++#define MFC_REG_E_MIN_CHROMA_DPB_SIZE			0xF89C
++
++#define MFC_REG_E_LUMA_DPB				0xF8C0
++#define MFC_REG_E_CHROMA_DPB				0xF904
++#define MFC_REG_E_ME_BUFFER				0xF948
++
++#define MFC_REG_E_SCRATCH_BUFFER_ADDR			0xF98C
++#define MFC_REG_E_SCRATCH_BUFFER_SIZE			0xF990
++#define MFC_REG_E_TMV_BUFFER0				0xF994
++#define MFC_REG_E_TMV_BUFFER1				0xF998
++#define MFC_REG_E_IR_BUFFER_ADDR			0xF99C
++#define MFC_REG_E_TILE1_STREAM_BUFFER_ADDR		0xF9A0
++#define MFC_REG_E_TILE1_STREAM_BUFFER_SIZE		0xF9A4
++#define MFC_REG_E_SOURCE_VOTF_BUF_INDEX			0xF9CC
++#define MFC_REG_E_SOURCE_FIRST_2BIT_ADDR		0xF9D0
++#define MFC_REG_E_SOURCE_SECOND_2BIT_ADDR		0xF9D4
++#define MFC_REG_E_SOURCE_FIRST_2BIT_STRIDE		0xF9D8
++#define MFC_REG_E_SOURCE_SECOND_2BIT_STRIDE		0xF9DC
++#define MFC_REG_E_SOURCE_FIRST_ADDR			0xF9E0
++#define MFC_REG_E_SOURCE_SECOND_ADDR			0xF9E4
++#define MFC_REG_E_SOURCE_THIRD_ADDR			0xF9E8
++#define MFC_REG_E_SOURCE_FIRST_STRIDE			0xF9EC
++#define MFC_REG_E_SOURCE_SECOND_STRIDE			0xF9F0
++#define MFC_REG_E_SOURCE_THIRD_STRIDE			0xF9F4
++#define MFC_REG_E_STREAM_BUFFER_ADDR			0xF9F8
++#define MFC_REG_E_STREAM_BUFFER_SIZE			0xF9FC
++#define MFC_REG_E_ROI_BUFFER_ADDR			0xFA00
++
++#define MFC_REG_E_PARAM_CHANGE				0xFA04
++#define MFC_REG_E_IR_SIZE				0xFA08
++#define MFC_REG_E_GOP_CONFIG				0xFA0C
++#define MFC_REG_E_MSLICE_MODE				0xFA10
++#define MFC_REG_E_MSLICE_SIZE_MB			0xFA14
++#define MFC_REG_E_MSLICE_SIZE_BITS			0xFA18
++#define MFC_REG_E_FRAME_INSERTION			0xFA1C
++
++#define MFC_REG_E_RC_FRAME_RATE				0xFA20
++#define MFC_REG_E_RC_BIT_RATE				0xFA24
++#define MFC_REG_E_RC_ROI_CTRL				0xFA2C
++#define MFC_REG_E_PICTURE_TAG				0xFA30
++#define MFC_REG_E_BIT_COUNT_ENABLE			0xFA34
++#define MFC_REG_E_MAX_BIT_COUNT				0xFA38
++#define MFC_REG_E_MIN_BIT_COUNT				0xFA3C
++
++#define MFC_REG_E_METADATA_BUFFER_ADDR			0xFA40
++#define MFC_REG_E_METADATA_BUFFER_SIZE			0xFA44
++
++#define MFC_REG_E_ENCODING_ORDER_TIME_INFO		0xFA50
++#define MFC_REG_E_ENCODING_ORDER_INFO			0xFA54
++#define MFC_REG_E_STREAM_BUFFER_OFFSET			0xFA58
++#define MFC_REG_E_GOP_CONFIG2				0xFA5C
++#define MFC_REG_E_WEIGHT_FOR_WEIGHTED_PREDICTION	0xFA60
++#define MFC_REG_E_TIME_STAMP_DELTA			0xFA68
++
++#define MFC_REG_E_ENCODED_SOURCE_FIRST_ADDR		0xFA70
++#define MFC_REG_E_ENCODED_SOURCE_SECOND_ADDR		0xFA74
++#define MFC_REG_E_ENCODED_SOURCE_THIRD_ADDR		0xFA78
++#define MFC_REG_E_SOURCE_STAT_ADDR			0xFA7C
++#define MFC_REG_E_STREAM_SIZE				0xFA80
++#define MFC_REG_E_SLICE_TYPE				0xFA84
++#define MFC_REG_E_PICTURE_COUNT				0xFA88
++#define MFC_REG_E_RET_PICTURE_TAG			0xFA8C
++#define MFC_REG_E_TILE0_STREAM_SIZE			0xFA94
++#define MFC_REG_E_TILE1_STREAM_SIZE			0xFA98
++
++#define MFC_REG_E_RECON_LUMA_DPB_ADDR			0xFA9C
++#define MFC_REG_E_RECON_CHROMA_DPB_ADDR			0xFAA0
++#define MFC_REG_E_METADATA_ADDR_ENC_SLICE		0xFAA4
++#define MFC_REG_E_METADATA_SIZE_ENC_SLICE		0xFAA8
++#define MFC_REG_E_SUM_SKIP_MB				0xFAAC
++#define MFC_REG_E_SUM_INTRA_MB				0xFAB0
++#define MFC_REG_E_SUM_ZERO_MV_MB			0xFAB4
++
++#define MFC_REG_E_HDR10_PLUS_INFO			0xFAE8
++#define MFC_REG_E_NAL_DONE_INFO				0xFAEC
++
++#define MFC_REG_E_MPEG4_OPTIONS				0xFB10
++#define MFC_REG_E_MPEG4_HEC_PERIOD			0xFB14
++
++#define MFC_REG_E_H264_HD_SVC_EXTENSION_0		0xFB44
++#define MFC_REG_E_H264_HD_SVC_EXTENSION_1		0xFB48
++#define MFC_REG_E_ASPECT_RATIO				0xFB4C
++#define MFC_REG_E_EXTENDED_SAR				0xFB50
++
++#define MFC_REG_E_H264_OPTIONS				0xFB54
++#define MFC_REG_E_H264_OPTIONS_2			0xFB58
++#define MFC_REG_E_H264_LF_ALPHA_OFFSET			0xFB5C
++#define MFC_REG_E_H264_LF_BETA_OFFSET			0xFB60
++#define MFC_REG_E_H264_REFRESH_PERIOD			0xFB64
++
++#define MFC_REG_E_H264_FMO_SLICE_GRP_MAP_TYPE		0xFB68
++#define MFC_REG_E_H264_FMO_NUM_SLICE_GRP_MINUS1		0xFB6C
++#define MFC_REG_E_H264_FMO_SLICE_GRP_CHANGE_DIR		0xFB70
++#define MFC_REG_E_H264_FMO_SLICE_GRP_CHANGE_RATE_MINUS1	0xFB74
++#define MFC_REG_E_H264_FMO_RUN_LENGTH_MINUS1_0		0xFB78
++#define MFC_REG_E_H264_FMO_RUN_LENGTH_MINUS1_1		0xFB7C
++#define MFC_REG_E_H264_FMO_RUN_LENGTH_MINUS1_2		0xFB80
++#define MFC_REG_E_H264_FMO_RUN_LENGTH_MINUS1_3		0xFB84
++
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_0		0xFB88
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_1		0xFB8C
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_2		0xFB90
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_3		0xFB94
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_4		0xFB98
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_5		0xFB9C
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_6		0xFBA0
++#define MFC_REG_E_H264_ASO_SLICE_ORDER_7		0xFBA4
++#define MFC_REG_E_H264_CHROMA_QP_OFFSET			0xFBA8
++
++#define MFC_REG_E_NUM_T_LAYER				0xFBAC
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER0		0xFBB0
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER1		0xFBB4
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER2		0xFBB8
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER3		0xFBBC
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER4		0xFBC0
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER5		0xFBC4
++#define MFC_REG_E_HIERARCHICAL_QP_LAYER6		0xFBC8
++
++/* For backward compatibility */
++#define MFC_REG_E_H264_FRAME_PACKING_SEI_INFO		0xFC4C
++
++#define MFC_REG_E_H264_NAL_CONTROL			0xFD14
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER0		0xFD18
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER1		0xFD1C
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER2		0xFD20
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER3		0xFD24
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER4		0xFD28
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER5		0xFD2C
++#define MFC_REG_E_HIERARCHICAL_BIT_RATE_LAYER6		0xFD30
++
++#define MFC_REG_E_MVC_FRAME_QP_VIEW1			0xFD40
++#define MFC_REG_E_MVC_RC_FRAME_RATE_VIEW1		0xFD44
++#define MFC_REG_E_MVC_RC_BIT_RATE_VIEW1			0xFD48
++#define MFC_REG_E_MVC_RC_QBOUND_VIEW1			0xFD4C
++#define MFC_REG_E_MVC_RC_MODE_VIEW1			0xFD50
++#define MFC_REG_E_MVC_INTER_VIEW_PREDICTION_ON		0xFD80
++
++#define MFC_REG_E_VP9_OPTION				0xFD90
++#define MFC_REG_E_VP9_FILTER_OPTION			0xFD94
++#define MFC_REG_E_VP9_GOLDEN_FRAME_OPTION		0xFD98
++#define MFC_REG_E_VP8_OPTION				0xFDB0
++#define MFC_REG_E_VP8_FILTER_OPTION			0xFDB4
++#define MFC_REG_E_VP8_GOLDEN_FRAME_OPTION		0xFDB8
++
++#define MFC_REG_E_HEVC_OPTIONS_2			0xFDC4
++
++#define MFC_REG_E_HEVC_OPTIONS				0xFDD4
++#define MFC_REG_E_HEVC_REFRESH_PERIOD			0xFDD8
++#define MFC_REG_E_HEVC_CHROMA_QP_OFFSET			0xFDDC
++#define MFC_REG_E_HEVC_LF_BETA_OFFSET_DIV2		0xFDE0
++#define MFC_REG_E_HEVC_LF_TC_OFFSET_DIV2		0xFDE4
++#define MFC_REG_E_HEVC_NAL_CONTROL			0xFDE8
++
++#define MFC_REG_E_VP8_NAL_CONTROL			0xFDF0
++#define MFC_REG_E_VP9_NAL_CONTROL			0xFDF4
++#define MFC_REG_E_CONTENT_LIGHT_LEVEL_INFO_SEI		0xFDF8
++#define MFC_REG_E_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_0	0xFDFC
++#define MFC_REG_E_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_1	0xFE00
++#define MFC_REG_E_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_2	0xFE04
++#define MFC_REG_E_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_3	0xFE08
++#define MFC_REG_E_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_4	0xFE0C
++#define MFC_REG_E_MASTERING_DISPLAY_COLOUR_VOLUME_SEI_5	0xFE10
++
++#define MFC_REG_E_ST_2094_40_SEI_0			0xFE14
++#define MFC_REG_E_ST_2094_40_SEI_1			0xFE18
++#define MFC_REG_E_ST_2094_40_SEI_2			0xFE1C
++#define MFC_REG_E_ST_2094_40_SEI_3			0xFE20
++#define MFC_REG_E_ST_2094_40_SEI_4			0xFE24
++#define MFC_REG_E_ST_2094_40_SEI_5			0xFE28
++#define MFC_REG_E_ST_2094_40_SEI_6			0xFE2C
++#define MFC_REG_E_ST_2094_40_SEI_7			0xFE30
++#define MFC_REG_E_ST_2094_40_SEI_8			0xFE34
++#define MFC_REG_E_ST_2094_40_SEI_9			0xFE38
++#define MFC_REG_E_ST_2094_40_SEI_10			0xFE3C
++#define MFC_REG_E_ST_2094_40_SEI_11			0xFE40
++#define MFC_REG_E_ST_2094_40_SEI_12			0xFE44
++#define MFC_REG_E_ST_2094_40_SEI_13			0xFE48
++#define MFC_REG_E_ST_2094_40_SEI_14			0xFE4C
++#define MFC_REG_E_ST_2094_40_SEI_15			0xFE50
++#define MFC_REG_E_ST_2094_40_SEI_16			0xFE54
++#define MFC_REG_E_ST_2094_40_SEI_17			0xFE58
++#define MFC_REG_E_ST_2094_40_SEI_18			0xFE5C
++#define MFC_REG_E_ST_2094_40_SEI_19			0xFE60
++#define MFC_REG_E_ST_2094_40_SEI_20			0xFE64
++#define MFC_REG_E_ST_2094_40_SEI_21			0xFE68
++#define MFC_REG_E_ST_2094_40_SEI_22			0xFE6C
++#define MFC_REG_E_ST_2094_40_SEI_23			0xFE70
++#define MFC_REG_E_ST_2094_40_SEI_24			0xFE74
++#define MFC_REG_E_ST_2094_40_SEI_25			0xFE78
++#define MFC_REG_E_ST_2094_40_SEI_26			0xFE7C
++#define MFC_REG_E_ST_2094_40_SEI_27			0xFE80
++#define MFC_REG_E_ST_2094_40_SEI_28			0xFE84
++#define MFC_REG_E_ST_2094_40_SEI_29			0xFE88
++
++#define MFC_REG_D_ST_2094_40_SEI_0			0xFF00
++#define MFC_REG_D_ST_2094_40_SEI_1			0xFF04
++#define MFC_REG_D_ST_2094_40_SEI_2			0xFF08
++#define MFC_REG_D_ST_2094_40_SEI_3			0xFF0C
++#define MFC_REG_D_ST_2094_40_SEI_4			0xFF10
++#define MFC_REG_D_ST_2094_40_SEI_5			0xFF14
++#define MFC_REG_D_ST_2094_40_SEI_6			0xFF18
++#define MFC_REG_D_ST_2094_40_SEI_7			0xFF1C
++#define MFC_REG_D_ST_2094_40_SEI_8			0xFF20
++#define MFC_REG_D_ST_2094_40_SEI_9			0xFF24
++#define MFC_REG_D_ST_2094_40_SEI_10			0xFF28
++#define MFC_REG_D_ST_2094_40_SEI_11			0xFF2C
++#define MFC_REG_D_ST_2094_40_SEI_12			0xFF30
++#define MFC_REG_D_ST_2094_40_SEI_13			0xFF34
++#define MFC_REG_D_ST_2094_40_SEI_14			0xFF38
++#define MFC_REG_D_ST_2094_40_SEI_15			0xFF3C
++#define MFC_REG_D_ST_2094_40_SEI_16			0xFF40
++#define MFC_REG_D_ST_2094_40_SEI_17			0xFF44
++#define MFC_REG_D_ST_2094_40_SEI_18			0xFF48
++#define MFC_REG_D_ST_2094_40_SEI_19			0xFF4C
++#define MFC_REG_D_ST_2094_40_SEI_20			0xFF50
++#define MFC_REG_D_ST_2094_40_SEI_21			0xFF54
++#define MFC_REG_D_ST_2094_40_SEI_22			0xFF58
++#define MFC_REG_D_ST_2094_40_SEI_23			0xFF5C
++#define MFC_REG_D_ST_2094_40_SEI_24			0xFF60
++#define MFC_REG_D_ST_2094_40_SEI_25			0xFF64
++#define MFC_REG_D_ST_2094_40_SEI_26			0xFF68
++#define MFC_REG_D_ST_2094_40_SEI_27			0xFF6C
++#define MFC_REG_D_ST_2094_40_SEI_28			0xFF70
++#define MFC_REG_D_ST_2094_40_SEI_29			0xFF74
++
++/*
++ * Below It is valid only for AV1
++ * when FILM_GRAIN_AVAIL of D_SEI_AVAIL is enabled
 + */
-+enum mfc_node_type {
-+	MFCNODE_INVALID = -1,
-+	MFCNODE_DECODER = 0,
-+	MFCNODE_ENCODER = 1,
-+	MFCNODE_DECODER_DRM = 2,
-+	MFCNODE_ENCODER_DRM = 3,
-+	MFCNODE_ENCODER_OTF = 4,
-+	MFCNODE_ENCODER_OTF_DRM = 5,
-+};
-+
-+/**
-+ * enum mfc_dev_state - The type of an MFC device.
-+ */
-+enum mfc_core_state {
-+	MFCCORE_INIT	= 0,
-+	MFCCORE_ERROR	= 1,
-+};
-+
-+/**
-+ * enum mfc_inst_type - The type of an MFC instance.
-+ */
-+enum mfc_inst_type {
-+	MFCINST_INVALID = 0,
-+	MFCINST_DECODER = 1,
-+	MFCINST_ENCODER = 2,
-+};
-+
-+/**
-+ * enum mfc_inst_state - The state of an MFC instance.
-+ */
-+enum mfc_inst_state {
-+	MFCINST_FREE = 0,
-+	MFCINST_INIT = 100,
-+	MFCINST_RUNNING,
-+	MFCINST_RETURN_INST,
-+	MFCINST_ERROR,
-+	MFCINST_ABORT
-+};
-+
-+enum mfc_buf_usage_type {
-+	MFCBUF_INVALID = 0,
-+	MFCBUF_NORMAL,
-+	MFCBUF_DRM,
-+	MFCBUF_NORMAL_FW,
-+	MFCBUF_DRM_FW,
-+};
-+
-+enum mfc_frame_error_type {
-+	MFC_ERR_FRAME_NO_ERR		= 0,
-+	MFC_ERR_FRAME_CONCEALMENT	= 1,
-+	MFC_ERR_FRAME_SYNC_POINT	= 2,
-+	MFC_ERR_FRAME_BROKEN		= 3,
-+};
-+
-+enum mfc_do_cache_flush {
-+	MFC_NO_CACHEFLUSH		= 0,
-+	MFC_CACHEFLUSH			= 1,
-+};
-+
-+enum mfc_idle_mode {
-+	MFC_IDLE_MODE_NONE	= 0,
-+	MFC_IDLE_MODE_RUNNING	= 1,
-+	MFC_IDLE_MODE_IDLE	= 2,
-+	MFC_IDLE_MODE_CANCEL	= 3,
-+};
-+
-+enum mfc_debug_cause {
-+	/* panic cause */
-+	MFC_CAUSE_0WRITE_PAGE_FAULT		= 0,
-+	MFC_CAUSE_0PAGE_FAULT			= 1,
-+	MFC_CAUSE_1WRITE_PAGE_FAULT		= 2,
-+	MFC_CAUSE_1PAGE_FAULT			= 3,
-+	MFC_CAUSE_NO_INTERRUPT			= 4,
-+	MFC_CAUSE_NO_SCHEDULING			= 5,
-+	MFC_CAUSE_FAIL_STOP_NAL_Q		= 6,
-+	MFC_CAUSE_FAIL_STOP_NAL_Q_FOR_OTHER	= 7,
-+	MFC_CAUSE_FAIL_CLOSE_INST		= 8,
-+	MFC_CAUSE_FAIL_SLEEP			= 9,
-+	MFC_CAUSE_FAIL_WAKEUP			= 10,
-+	MFC_CAUSE_FAIL_RISC_ON			= 11,
-+	MFC_CAUSE_FAIL_DPB_FLUSH		= 12,
-+	MFC_CAUSE_FAIL_CACHE_FLUSH		= 13,
-+	MFC_CAUSE_FAIL_MOVE_INST		= 14,
-+};
-+
-+enum mfc_core_type {
-+	MFC_CORE_INVALID		= -1,
-+	MFC_CORE_MAIN			= 0,
-+	MFC_CORE_SUB			= 1,
-+	MFC_CORE_TYPE_NUM		= 2,
-+};
-+
-+enum mfc_op_core_type {
-+	MFC_OP_CORE_NOT_FIXED	= -1,
-+	MFC_OP_CORE_FIXED_0	= 0,
-+	MFC_OP_CORE_FIXED_1	= 1,
-+	MFC_OP_CORE_ALL		= 2,
-+};
-+
-+enum mfc_op_mode {
-+	MFC_OP_SINGLE			= 0,
-+	MFC_OP_TWO_MODE1		= 1,
-+	MFC_OP_TWO_MODE2		= 2,
-+	MFC_OP_SWITCHING		= 3,
-+	MFC_OP_SWITCH_TO_SINGLE		= 4,
-+	MFC_OP_SWITCH_BUT_MODE2		= 5,
-+};
-+
-+enum mfc_enc_gdc_type {
-+	MFC_GDC_VOTF			= 1,
-+	MFC_GDC_OTF			= 2,
-+};
-+
-+enum mfc_hwacg_type {
-+	MFC_HWACG_NONE			= 0,
-+	MFC_HWACG_DRV_CTRL		= 1,
-+	MFC_HWACG_HWFW_CTRL		= 2,
-+};
-+
-+enum mfc_real_time {
-+	/* real-time */
-+	MFC_RT                  = 0,
-+	/* low-priority real-time */
-+	MFC_RT_LOW              = 1,
-+	/* constrained real-time */
-+	MFC_RT_CON              = 2,
-+	/* non real-time */
-+	MFC_NON_RT              = 3,
-+	MFC_RT_UNDEFINED        = 4,
-+};
-+
-+enum mfc_sched_type {
-+	MFC_SCHED_RR		= 0,
-+	MFC_SCHED_PRIO		= 1,
-+};
-+
-+/* core driver */
-+extern struct platform_driver mfc_core_driver;
-+
-+struct mfc_ctx;
-+struct mfc_core_ctx;
-+struct mfc_sched_class;
-+
-+struct mfc_debug {
-+	u32	fw_version;
-+	u32	cause;
-+	u8	fault_status;
-+	u32	fault_trans_info;
-+	u64	fault_addr;
-+	u32	sfrs_set0[MFC_SFR_LOGGING_COUNT_SET0];
-+	u32	sfrs_set1[MFC_SFR_LOGGING_COUNT_SET1];
-+	u32	sfrs_set2[MFC_SFR_LOGGING_COUNT_SET2];
-+	u8	curr_ctx;
-+	u8	state;
-+	u8	last_cmd;
-+	u32	last_cmd_sec;
-+	u32	last_cmd_nsec;
-+	u8	last_int;
-+	u32	last_int_sec;
-+	u32	last_int_nsec;
-+	u32	frame_cnt;
-+	u8	hwlock_dev;
-+	u32	hwlock_ctx;
-+	u8	num_inst;
-+	u8	power_cnt;
-+	u8	clock_cnt;
-+	/* for decoder only */
-+	u32	last_src_addr;
-+	u32	last_dst_addr[MFC_MAX_PLANES];
-+	/* total logging data */
-+	char	errorinfo[MFC_LOGGING_DATA_SIZE];
-+};
-+
-+enum mfc_view_id {
-+	MFC_VIEW_ID_MAIN	= 0,
-+	MFC_VIEW_ID_SUB		= 1,
-+};
-+
-+/**
-+ * struct mfc_buf - MFC buffer
-+ *
-+ */
-+struct mfc_buf {
-+	struct vb2_v4l2_buffer vb;
-+	struct list_head list;
-+	dma_addr_t addr[MAX_NUM_IMAGES_IN_VB][MFC_MAX_PLANES];
-+	phys_addr_t paddr;
-+	struct dma_buf *dmabufs[MAX_NUM_IMAGES_IN_VB][MFC_MAX_PLANES];
-+	struct dma_buf_attachment *attachments[MAX_NUM_IMAGES_IN_VB][MFC_MAX_PLANES];
-+	size_t sg_size;
-+	int src_index;
-+	int dpb_index;
-+	int next_index;
-+	int done_index;
-+	int used;
-+	int num_valid_bufs;
-+	unsigned char *vir_addr[MFC_MAX_PLANES];
-+	u32 flag;
-+	unsigned long i_ino;
-+};
-+
-+struct mfc_buf_queue {
-+	struct list_head head;
-+	unsigned int count;
-+};
-+
-+struct mfc_hwlock {
-+	struct list_head waiting_list;
-+	unsigned int wl_count;
-+	unsigned long bits;
-+	unsigned long dev;
-+	unsigned int owned_by_irq;
-+	unsigned int transfer_owner;
-+	/* protection */
-+	spinlock_t lock;
-+};
-+
-+struct mfc_listable_wq {
-+	struct list_head list;
-+	wait_queue_head_t wait_queue;
-+	/* protection */
-+	struct mutex wait_mutex;
-+	struct mfc_dev *dev;
-+	struct mfc_core *core;
-+	struct mfc_ctx *ctx;
-+	struct mfc_core_ctx *core_ctx;
-+};
-+
-+struct mfc_core_intlock {
-+	int lock;
-+	unsigned long bits;
-+	unsigned long pending;
-+	/* protection */
-+	struct mutex core_mutex;
-+};
-+
-+struct mfc_core_lock {
-+	int cnt;
-+	/* protection */
-+	spinlock_t lock;
-+	wait_queue_head_t wq;
-+};
-+
-+struct mfc_pm {
-+	struct clk	*clock;
-+	atomic_t	pwr_ref;
-+	atomic_t	protect_ref;
-+	struct device	*device;
-+	/* protection */
-+	spinlock_t	clklock;
-+
-+	int clock_on_steps;
-+	int clock_off_steps;
-+	enum mfc_buf_usage_type base_type;
-+};
-+
-+enum mfc_fw_status {
-+	MFC_FW_NONE		= 0,
-+	MFC_FW_ALLOC		= BIT(0),	// 0x1
-+	MFC_CTX_ALLOC		= BIT(1),	// 0x2
-+	MFC_FW_LOADED		= BIT(2),	// 0x4
-+	MFC_FW_VERIFIED		= BIT(3),	// 0x8
-+	MFC_FW_PROTECTED	= BIT(4),	// 0x10
-+	MFC_FW_INITIALIZED	= BIT(5),	// 0x20
-+};
-+
-+struct mfc_fw {
-+	int			date;
-+	int			fimv_info;
-+	size_t			fw_size;
-+	enum mfc_fw_status	status;
-+};
-+
-+struct mfc_ctx_buf_size {
-+	size_t dev_ctx;
-+	size_t dbg_info_buf;
-+};
-+
-+struct mfc_buf_size {
-+	size_t firmware_code;
-+	unsigned int cpb_buf;
-+	struct mfc_ctx_buf_size *ctx_buf;
-+};
-+
-+struct mfc_variant {
-+	struct mfc_buf_size *buf_size;
-+	int	num_entities;
-+};
-+
-+enum mfc_sfr_dump_type {
-+	MFC_DUMP_NONE			= 0,
-+	MFC_DUMP_DEC_SEQ_START		= BIT(0),
-+	MFC_DUMP_DEC_INIT_BUFS		= BIT(1),
-+	MFC_DUMP_DEC_FIRST_NAL_START	= BIT(2),
-+	MFC_DUMP_ENC_SEQ_START		= BIT(3),
-+	MFC_DUMP_ENC_INIT_BUFS		= BIT(4),
-+	MFC_DUMP_ENC_FIRST_NAL_START	= BIT(5),
-+	MFC_DUMP_ERR_INT		= BIT(6),
-+	MFC_DUMP_WARN_INT		= BIT(7),
-+	MFC_DUMP_DEC_NAL_START		= BIT(8),
-+	MFC_DUMP_DEC_FRAME_DONE		= BIT(9),
-+	MFC_DUMP_ENC_NAL_START		= BIT(10),
-+	MFC_DUMP_ENC_FRAME_DONE		= BIT(11),
-+	MFC_DUMP_MOVE_INSTANCE_RET	= BIT(12),
-+	MFC_DUMP_UNKNOWN_INT		= BIT(13),
-+	MFC_DUMP_DEC_SEQ_DONE		= BIT(15),
-+	MFC_DUMP_DEC_INIT_BUF_DONE	= BIT(16),
-+	MFC_DUMP_DEC_FIRST_FRAME_DONE	= BIT(17),
-+	MFC_DUMP_ENC_SEQ_DONE		= BIT(18),
-+	MFC_DUMP_ENC_INIT_BUF_DONE	= BIT(19),
-+	MFC_DUMP_ENC_FIRST_FRAME_DONE	= BIT(20),
-+	MFC_DUMP_DEC_CRC		= BIT(29),
-+	MFC_DUMP_FIRMWARE		= BIT(30),
-+	MFC_DUMP_ALL_INFO		= BIT(31),
-+};
-+
-+enum mfc_logging_option {
-+	MFC_LOGGING_NONE		= 0,
-+	MFC_LOGGING_PRINTK		= BIT(0),
-+	MFC_LOGGING_MEMLOG_PRINTF	= BIT(1),
-+	MFC_LOGGING_MEMLOG_SFR_DUMP	= BIT(2),
-+	MFC_LOGGING_MEMLOG		= (BIT(1) | BIT(2)),
-+	MFC_LOGGING_ALL			= 0x7,
-+};
-+
-+enum mfc_feature_option {
-+	MFC_OPTION_NONE			= 0,
-+	MFC_OPTION_RECON_SBWC_DISABLE	= BIT(0),
-+	MFC_OPTION_DECODING_ORDER	= BIT(1),
-+	MFC_OPTION_MEERKAT_DISABLE	= BIT(2),
-+	MFC_OPTION_OTF_PATH_TEST_ENABLE	= BIT(3),
-+	MFC_OPTION_MULTI_CORE_DISABLE	= BIT(4),
-+	MFC_OPTION_SET_MULTI_CORE_FORCE	= BIT(5),
-+	MFC_OPTION_BLACK_BAR_ENABLE	= BIT(6),
-+	MFC_OPTION_DEC_ENC_SBWC_ENABLE	= BIT(7),
-+	MFC_OPTION_DYNAMIC_QOS_DISABLE	= BIT(8),
-+	MFC_OPTION_USE_FIXED_WEIGHT	= BIT(9),
-+	MFC_OPTION_FPS_SBWC_ENABLE	= BIT(10),
-+	MFC_OPTION_FILMGRAIN_DISABLE	= BIT(11),
-+	MFC_OPTION_SW_MEMCPY_PLUGIN	= BIT(12),
-+	MFC_OPTION_INTER_SBWC_DISABLE	= BIT(13),
-+	MFC_OPTION_MSR_ENABLE		= BIT(14),
-+	MFC_OPTION_STREAM_COPY_DISABLE	= BIT(15),
-+};
-+
-+enum mfc_get_img_size {
-+	MFC_GET_RESOL_SIZE		= 0,
-+	MFC_GET_RESOL_DPB_SIZE		= 1,
-+};
-+
-+enum mfc_color_space {
-+	MFC_COLORSPACE_UNSPECIFICED	= 0,
-+	MFC_COLORSPACE_BT601		= 1,
-+	MFC_COLORSPACE_BT709		= 2,
-+	MFC_COLORSPACE_SMPTE_170	= 3,
-+	MFC_COLORSPACE_SMPTE_240	= 4,
-+	MFC_COLORSPACE_BT2020		= 5,
-+	MFC_COLORSPACE_RESERVED		= 6,
-+	MFC_COLORSPACE_SRGB		= 7,
-+};
-+
-+enum mfc_color_primaries {
-+	MFC_PRIMARIES_RESERVED		= 0,
-+	MFC_PRIMARIES_BT709_5		= 1,
-+	MFC_PRIMARIES_UNSPECIFIED	= 2,
-+	MFC_PRIMARIES_BT470_6M		= 4,
-+	MFC_PRIMARIES_BT601_6_625	= 5,
-+	MFC_PRIMARIES_BT601_6_525	= 6,
-+	MFC_PRIMARIES_SMPTE_240M	= 7,
-+	MFC_PRIMARIES_GENERIC_FILM	= 8,
-+	MFC_PRIMARIES_BT2020		= 9,
-+	MFC_PRIMARIES_EG432			= 12,
-+};
-+
-+enum mfc_transfer_characteristics {
-+	MFC_TRANSFER_RESERVED		= 0,
-+	MFC_TRANSFER_BT709		= 1,
-+	MFC_TRANSFER_UNSPECIFIED	= 2,
-+	/* RESERVED			= 3, */
-+	MFC_TRANSFER_GAMMA_22		= 4,
-+	MFC_TRANSFER_GAMMA_28		= 5,
-+	MFC_TRANSFER_SMPTE_170M		= 6,
-+	MFC_TRANSFER_SMPTE_240M		= 7,
-+	MFC_TRANSFER_LINEAR		= 8,
-+	MFC_TRANSFER_LOGARITHMIC	= 9,
-+	MFC_TRANSFER_LOGARITHMIC_S	= 10,
-+	MFC_TRANSFER_XvYCC		= 11,
-+	MFC_TRANSFER_BT1361		= 12,
-+	MFC_TRANSFER_SRGB		= 13,
-+	MFC_TRANSFER_BT2020_1		= 14,
-+	MFC_TRANSFER_BT2020_2		= 15,
-+	MFC_TRANSFER_ST2084		= 16,
-+	MFC_TRANSFER_ST428		= 17,
-+	MFC_TRANSFER_HLG		= 18,
-+};
-+
-+enum mfc_matrix_coeff {
-+	MFC_MATRIX_COEFF_IDENTITY		= 0,
-+	MFC_MATRIX_COEFF_REC709			= 1,
-+	MFC_MATRIX_COEFF_UNSPECIFIED		= 2,
-+	MFC_MATRIX_COEFF_RESERVED		= 3,
-+	MFC_MATRIX_COEFF_470_SYSTEM_M		= 4,
-+	MFC_MATRIX_COEFF_470_SYSTEM_BG		= 5,
-+	MFC_MATRIX_COEFF_SMPTE170M		= 6,
-+	MFC_MATRIX_COEFF_SMPTE240M		= 7,
-+	MFC_MATRIX_COEFF_BT2020			= 9,
-+	MFC_MATRIX_COEFF_BT2020_CONSTANT	= 10,
-+};
-+
-+struct mfc_debugfs {
-+	struct dentry *root;
-+	unsigned int debug_level;
-+	unsigned int debug_ts;
-+	unsigned int debug_mode_en;
-+	unsigned int dbg_enable;
-+	unsigned int sfr_dump;
-+	unsigned int logging_option;
-+	unsigned int feature_option;
-+	unsigned int sched_perf_disable;
-+	unsigned int sched_type;
-+};
-+
-+/**
-+ * struct mfc_special_buf - represents internal used buffer
-+ * @daddr:		device virtual address
-+ * @iova:		device virtual address allocated to the reserved address for F/W,
-+ *			it only used for specific internal buffer
-+ * @virt:		kernel virtual address, only valid when the
-+ *			buffer accessed by driver
-+ * @priv_data:		special purpose private data required for each buffer.
-+ *			- internal_dpb: timestamp
-+ */
-+struct mfc_special_buf {
-+	enum mfc_buf_usage_type		buftype;
-+	struct dma_buf			*dma_buf;
-+	struct dma_buf_attachment	*attachment;
-+	struct sg_table			*sgt;
-+	dma_addr_t			daddr;
-+	dma_addr_t			iova;
-+	phys_addr_t			paddr;
-+	void				*vaddr;
-+	size_t				size;
-+	size_t				map_size;
-+	struct cma			*cma_area;
-+	char				name[MFC_NUM_SPECIAL_BUF_NAME];
-+	u64				priv_data;
-+	struct iosys_map	map;
-+};
-+
-+struct mfc_mem {
-+	struct list_head	list;
-+	dma_addr_t		addr;
-+	size_t			size;
-+};
-+
-+struct mfc_feature {
-+	unsigned int support;
-+	unsigned int version;
-+};
-+
-+struct mfc_resource {
-+	enum mfc_op_core_type op_core_type;
-+	int max_kbps;
-+};
-+
-+struct mfc_platdata {
-+	/* Debug mode */
-+	unsigned int debug_mode;
-+
-+	/* Resource */
-+	struct mfc_resource mfc_resource[MFC_MAX_CODEC_TYPE];
-+	/* Features */
-+	struct mfc_feature mem_clear;
-+	struct mfc_feature wait_fw_status;
-+
-+	const char *fw_name;
-+	unsigned int fw_mem_size;
-+	unsigned int reserved_start;
-+	unsigned int dma_bit_mask;
-+	unsigned int ip_ver;
-+	unsigned int iova_threshold;
-+
-+	unsigned int memlog_size;
-+
-+	unsigned int scheduler;
-+	unsigned int pbs_num_prio;
-+	enum mfc_hwacg_type support_hwacg;
-+};
-+
-+struct mfc_core_platdata {
-+	/* MFC version */
-+	unsigned int ip_ver;
-+	/* Sysmmu check */
-+	unsigned int share_sysmmu;
-+	unsigned int fault_status;
-+	unsigned int fault_info1;
-+	unsigned int axid_mask;
-+	unsigned int mfc_axid;
-+	unsigned int tsmux_axid;
-+	unsigned int fault_info2;
-+	unsigned int pmmuid_shift;
-+	unsigned int pmmuid_mask;
-+	unsigned int tsmux_pmmuid;
-+	unsigned int masterid_shift;
-+	unsigned int masterid_mask;
-+	unsigned int tsmux_masterid;
-+};
-+
-+struct mfc_dev_memlog {
-+	unsigned int log_enable;
-+};
-+
-+struct mfc_core_memlog {
-+	unsigned int sfr_enable;
-+};
-+
-+/**
-+ * struct mfc_dev - The struct containing driver internal parameters.
-+ */
-+struct mfc_dev {
-+	struct mfc_core	*core[MFC_NUM_CORE];
-+	struct mfc_core *plugin;
-+	int num_core;
-+	int num_subsystem;
-+	int fw_date;
-+	int fw_changed_info;
-+	size_t fw_rmem_offset;
-+
-+	struct device		*device;
-+	struct device		*mem_dev[BANK_NUM];
-+	struct device		*cache_op_dev;
-+	struct v4l2_device	v4l2_dev;
-+	struct video_device	*vfd_dec;
-+	struct video_device	*vfd_enc;
-+
-+	struct mfc_platdata	*pdata;
-+	struct mfc_variant	*variant;
-+
-+	struct iommu_domain	*domain;
-+	struct gen_pool		*iova_pool;
-+
-+	int num_inst;
-+	int num_dec_inst;
-+	int num_enc_inst;
-+
-+	unsigned long multi_core_inst_bits;
-+
-+	/* protection */
-+	struct mutex mfc_mutex;
-+
-+	struct mfc_ctx *ctx[MFC_NUM_CONTEXTS];
-+	struct mfc_ctx *move_ctx[MFC_NUM_CONTEXTS];
-+	dma_addr_t dma_base[BANK_NUM];
-+
-+	struct list_head ctx_list;
-+	/* protection */
-+	spinlock_t ctx_list_lock;
-+
-+	atomic_t queued_bits;
-+	/* protection */
-+	spinlock_t idle_bits_lock;
-+
-+	/* Trace */
-+	atomic_t trace_ref;
-+	struct _mfc_trace *mfc_trace;
-+	atomic_t trace_ref_longterm;
-+	struct _mfc_trace *mfc_trace_longterm;
-+	atomic_t trace_ref_rm;
-+	struct _mfc_trace *mfc_trace_rm;
-+
-+	/* Debugfs and dump */
-+	struct mfc_debugfs debugfs;
-+
-+	struct mfc_dev_memlog memlog;
-+
-+};
-+
-+struct mfc_core_ops {
-+	int (*instance_init)(struct mfc_core *core, struct mfc_ctx *ctx);
-+	int (*instance_deinit)(struct mfc_core *core, struct mfc_ctx *ctx);
-+};
-+
-+struct dump_info {
-+	char		*name;
-+	void            *addr;
-+	u64             size;
-+};
-+
-+struct mfc_core {
-+	struct device		*device;
-+	struct iommu_domain	*domain;
-+
-+	const struct mfc_core_ops *core_ops;
-+
-+	void __iomem		*regs_base;
-+	void __iomem		*sysmmu0_base;
-+	void __iomem		*sysmmu1_base;
-+	void __iomem		*pmu_base;
-+	void __iomem		*cmu_busc_base;
-+	void __iomem		*cmu_mif0_base;
-+	void __iomem		*cmu_mif1_base;
-+	void __iomem		*cmu_mif2_base;
-+	void __iomem		*cmu_mif3_base;
-+
-+	unsigned int		id;
-+	char			name[10];
-+	int			irq;
-+	struct resource		*mfc_mem;
-+
-+	struct mfc_variant	*variant;
-+	struct mfc_core_platdata *core_pdata;
-+
-+	struct mfc_sched_class *sched;
-+	enum mfc_sched_type	sched_type;
-+
-+	enum mfc_core_state state;
-+
-+	bool has_2sysmmu;
-+	bool has_cmu;
-+	bool has_pmu;
-+
-+	/* Power and Clock */
-+	atomic_t clk_ref;
-+	struct mfc_pm	pm;
-+	bool continue_clock_on;
-+	bool sleep;
-+	bool shutdown;
-+
-+	/* Internal buffers */
-+	struct mfc_fw		fw;
-+	struct mfc_special_buf	fw_buf;
-+	struct mfc_special_buf	common_ctx_buf;
-+	struct mfc_special_buf	dbg_info_buf;
-+
-+	/* Context information */
-+	struct mfc_dev *dev;
-+	struct mfc_core_ctx *core_ctx[MFC_NUM_CONTEXTS];
-+	int curr_core_ctx;
-+	int preempt_core_ctx;
-+	int num_inst;
-+
-+	int int_condition;
-+	int int_reason;
-+	unsigned int int_err;
-+
-+	/* PBS */
-+	int num_prio;
-+	int total_num_prio;
-+	unsigned long prio_work_bits[MFC_MAX_PRIO];
-+	/* protection */
-+	spinlock_t prio_work_lock;
-+	int last_core_ctx[MFC_MAX_PRIO];
-+	int max_runtime;
-+	int next_ctx_idx;
-+
-+	/* HW lock */
-+	struct mfc_hwlock hwlock;
-+	struct mfc_listable_wq hwlock_wq;
-+	wait_queue_head_t cmd_wq;
-+
-+	/* batch mode */
-+	int batch_enable;
-+	int batch_index;
-+	/* protection */
-+	spinlock_t batch_lock;
-+
-+	/* QoS idle */
-+	atomic_t hw_run_bits;
-+	/* protection */
-+	struct mutex idle_qos_mutex;
-+	enum mfc_idle_mode idle_mode;
-+	struct timer_list mfc_idle_timer;
-+	struct workqueue_struct *mfc_idle_wq;
-+	struct work_struct mfc_idle_work;
-+
-+	/* for DRM */
-+	int cache_flush_flag;
-+	int last_cmd_has_cache_flush;
-+
-+	/* QoS */
-+	struct list_head qos_queue;
-+	atomic_t qos_req_cur;
-+
-+	/* protection */
-+	struct mutex qos_mutex;
-+	int mfc_freq_by_bps;
-+	int last_mfc_freq;
-+	int last_table_type;
-+	unsigned long total_mb;
-+	unsigned int cpu_boost_enable;
-+
-+	/* Logging trace data */
-+	atomic_t trace_ref_log;
-+	struct _mfc_trace_logging *mfc_trace_logging;
-+	struct mfc_debug *logging_data;
-+	int last_cmd;
-+	int last_int;
-+	struct timespec64 last_cmd_time;
-+	struct timespec64 last_int_time;
-+
-+	/* debug info dump */
-+	struct dump_info dbg_info;
-+
-+	/* Debug */
-+	struct mfc_core_memlog memlog;
-+};
-+
-+struct mfc_ctx_ctrl_val {
-+	int has_new;
-+	int val;
-+};
-+
-+struct mfc_ctx_ctrl {
-+	struct list_head list;
-+	unsigned int id;
-+	unsigned int addr;
-+	struct mfc_ctx_ctrl_val set;
-+	struct mfc_ctx_ctrl_val get;
-+};
-+
-+struct mfc_buf_ctrl {
-+	struct list_head list;
-+	unsigned int id;
-+	int has_new;
-+	int val;
-+	unsigned int old_val;		/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int old_val2;		/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int is_volatile;	/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int updated;
-+	unsigned int mode;
-+	unsigned int addr;
-+	unsigned int mask;
-+	unsigned int shft;
-+	unsigned int flag_mode;		/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int flag_addr;		/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int flag_shft;		/* only for MFC_CTRL_TYPE_SET */
-+};
-+
-+struct mfc_ctrl_cfg {
-+	unsigned int id;
-+	unsigned int is_volatile;	/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int mode;
-+	unsigned int addr;
-+	unsigned int mask;
-+	unsigned int shft;
-+	unsigned int flag_mode;		/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int flag_addr;		/* only for MFC_CTRL_TYPE_SET */
-+	unsigned int flag_shft;		/* only for MFC_CTRL_TYPE_SET */
-+};
-+
-+struct mfc_user_shared_handle {
-+	int fd;
-+	struct dma_buf *dma_buf;
-+	void *vaddr;
-+	size_t data_size;
-+};
-+
-+struct mfc_raw_info {
-+	int num_planes;
-+	int stride[3];
-+	int plane_size[3];
-+	int stride_2bits[3];
-+	int plane_size_2bits[3];
-+	unsigned int total_plane_size;
-+};
-+
-+struct dpb_table {
-+	dma_addr_t addr[MFC_MAX_PLANES];
-+	phys_addr_t paddr;
-+	size_t size;
-+	int fd[MFC_MAX_PLANES];
-+	int new_fd; /* it means first plane only */
-+	int mapcnt;
-+	int ref;
-+	int queued;
-+	struct dma_buf *dmabufs[MFC_MAX_PLANES];
-+	struct dma_buf_attachment *attach[MFC_MAX_PLANES];
-+	struct sg_table *sgt[MFC_MAX_PLANES];
-+};
-+
-+struct mfc_fmt {
-+	char *name;
-+	u32 fourcc;
-+	u32 codec_mode;
-+	u32 type;
-+	u32 num_planes;
-+	u32 mem_planes;
-+};
-+
-+enum mfc_multi_view_buf_idx {
-+	MFC_MV_BUF_IDX_VIEW0		= 0,
-+	MFC_MV_BUF_IDX_VIEW0_DEPTH,
-+	MFC_MV_BUF_IDX_VIEW1,
-+	MFC_MV_BUF_IDX_VIEW1_DEPTH,
-+	MFC_MV_BUF_IDX_VIEW1_META,
-+	/* the number of index */
-+	MFC_MV_BUF_IDX_MAX,
-+};
-+
-+/**
-+ * struct mfc_ctx - This struct contains the instance context
-+ */
-+struct mfc_ctx {
-+	struct mfc_dev *dev;
-+
-+	int num;
-+	int prio;
-+	int user_prio;
-+	enum mfc_real_time rt;
-+
-+	enum mfc_inst_type type;
-+
-+	/* operation mode */
-+	int op_core_num[MFC_NUM_CORE];
-+	int move_core_num[MFC_NUM_CORE];
-+	enum mfc_op_mode stream_op_mode;
-+	enum mfc_op_mode op_mode;
-+	enum mfc_op_core_type op_core_type;
-+	struct mfc_core_lock corelock;
-+
-+	/* protection */
-+	struct mutex op_mode_mutex;
-+	int last_op_core;
-+
-+	/* interrupt lock */
-+	struct mfc_core_intlock intlock;
-+
-+	/* Control values */
-+	int codec_mode;
-+	__u32 pix_format;
-+
-+	int is_heif_mode;
-+
-+	int is_dpb_realloc;
-+	/* protection */
-+	int clear_work_bit;
-+
-+	/* Extra Buffers */
-+	int mv_buffer_allocated;
-+	struct mfc_special_buf mv_buf;
-+
-+	unsigned long framerate;
-+
-+	/* bitrate control for QoS*/
-+	struct list_head bitrate_list;
-+	int bitrate_index;
-+	int bitrate_is_full;
-+	int kbps;
-+	int last_bps_section;
-+	int load;
-+	unsigned long weighted_mb;
-+	struct list_head list;
-+
-+	int disp_ratio;
-+
-+	int buf_process_type;
-+
-+	int frame_cnt;
-+	dma_addr_t last_src_addr;
-+	dma_addr_t last_dst_addr[MFC_MAX_PLANES];
-+
-+	bool mem_type_10bit;
-+
-+	unsigned long gdc_ready_buf_ino;
-+	/* protection */
-+	spinlock_t gdc_lock;
-+
-+	/* QoS idle */
-+	enum mfc_idle_mode idle_mode;
-+
-+	/* external structure */
-+	struct v4l2_fh fh;
-+	struct vb2_queue vq_src;
-+	struct vb2_queue vq_dst;
-+
-+	u32 ready_to_be_multi_view_enable;
-+	u32 multi_view_enable;
-+	u32 left_view_id;
-+
-+	/* DRC (Display Resolution Change) */
-+	u32 handle_drc_multi_mode;
-+};
-+
-+struct mfc_core_ctx {
-+	struct mfc_core *core;
-+	struct mfc_ctx *ctx;
-+
-+	int num;
-+	int inst_no;
-+	int int_condition;
-+	int int_reason;
-+	unsigned int int_err;
-+	bool check_dump;
-+
-+	enum mfc_inst_state state;
-+	enum mfc_inst_state prev_state;
-+
-+	/* Extra Buffers */
-+	struct mfc_special_buf instance_ctx_buf;
-+
-+	/* wait queue */
-+	wait_queue_head_t cmd_wq;
-+
-+	struct mfc_listable_wq hwlock_wq;
-+};
-+
-+struct mfc_sched_class {
-+	void (*create_work)(struct mfc_core *core);
-+	void (*init_work)(struct mfc_core *core);
-+	void (*clear_all_work)(struct mfc_core *core);
-+	void (*set_work)(struct mfc_core *core, struct mfc_core_ctx *core_ctx);
-+	void (*clear_work)(struct mfc_core *core, struct mfc_core_ctx *core_ctx);
-+};
-+#endif /* __MFC_DATA_STRUCT_H */
-diff --git a/drivers/media/platform/samsung/exynos-mfc/base/mfc_debug.h b/drivers/media/platform/samsung/exynos-mfc/base/mfc_debug.h
-new file mode 100644
-index 000000000000..02a6a0bbbceb
---- /dev/null
-+++ b/drivers/media/platform/samsung/exynos-mfc/base/mfc_debug.h
-@@ -0,0 +1,247 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Copyright (c) 2025 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com
-+ *
-+ * mfc_debug.h file
-+ *
-+ * Nagaraju Siddineni, <nagaraju.s@samsung.com>
-+ * Himanshu Dewangan, <h.dewangan@samsung.com>
-+ */
-+
-+#ifndef __MFC_DEBUG_H
-+#define __MFC_DEBUG_H __FILE__
-+
-+#define DEBUG
-+
-+#ifdef DEBUG
-+
-+#define mfc_debug(level, fmt, args...)								\
-+	do {											\
-+		if ((core_ctx->core->dev->debugfs.logging_option & MFC_LOGGING_PRINTK) &&	\
-+		    core_ctx->core->dev->debugfs.debug_level >= (level))		\
-+			dev_info(core_ctx->core->device, "[c:%d] %s:%d: " fmt,\
-+				core_ctx->num, __func__, __LINE__, ##args);	\
-+	} while (0)
-+
-+#define mfc_ctx_debug(level, fmt, args...)							\
-+	do {											\
-+		if ((ctx->dev->debugfs.logging_option & MFC_LOGGING_PRINTK) &&			\
-+		    ctx->dev->debugfs.debug_level >= (level))					\
-+			dev_info(ctx->dev->device, "[c:%d] %s:%d: " fmt,			\
-+				ctx->num, __func__, __LINE__, ##args);				\
-+	} while (0)
-+
-+#define mfc_core_debug(level, fmt, args...)							\
-+	do {											\
-+		if ((core->dev->debugfs.logging_option & MFC_LOGGING_PRINTK) &&			\
-+		    core->dev->debugfs.debug_level >= (level))					\
-+			dev_info(core->device, "%s:%d: " fmt,					\
-+				__func__, __LINE__, ##args);					\
-+	} while (0)
-+
-+#define mfc_dev_debug(level, fmt, args...)							\
-+	do {											\
-+		if ((dev->debugfs.logging_option & MFC_LOGGING_PRINTK) &&			\
-+		    dev->debugfs.debug_level >= (level))					\
-+			dev_info(dev->device, "%s:%d: " fmt,					\
-+				 __func__, __LINE__, ##args);					\
-+	} while (0)
-+
-+#else
-+#define mfc_debug(fmt, args...)
-+#define mfc_ctx_debug(fmt, args...)
-+#define mfc_core_debug(fmt, args...)
-+#define mfc_dev_debug(fmt, args...)
-+#endif
-+
-+#define mfc_debug_enter()	mfc_debug(5, "enter\n")
-+#define mfc_debug_leave()	mfc_debug(5, "leave\n")
-+#define mfc_ctx_debug_enter()	mfc_ctx_debug(5, "enter\n")
-+#define mfc_ctx_debug_leave()	mfc_ctx_debug(5, "leave\n")
-+#define mfc_core_debug_enter()	mfc_core_debug(5, "enter\n")
-+#define mfc_core_debug_leave()	mfc_core_debug(5, "leave\n")
-+#define mfc_dev_debug_enter()	mfc_dev_debug(5, "enter\n")
-+#define mfc_dev_debug_leave()	mfc_dev_debug(5, "leave\n")
-+
-+/* ERROR */
-+#define mfc_pr_err(fmt, args...)								\
-+	pr_err("[Exynos][MFC][ ERROR]: %s:%d: " fmt, __func__, __LINE__, ##args)
-+
-+#define mfc_dev_err(fmt, args...)								\
-+	do {											\
-+		if (dev->debugfs.logging_option & MFC_LOGGING_PRINTK)				\
-+			dev_err(dev->device, "%s:%d: " fmt,					\
-+				__func__, __LINE__, ##args);					\
-+												\
-+	} while (0)
-+
-+#define mfc_core_err(fmt, args...)								\
-+	do {											\
-+		if (core->dev->debugfs.logging_option & MFC_LOGGING_PRINTK)			\
-+			dev_err(core->device, "%s:%d: " fmt,					\
-+				__func__, __LINE__, ##args);					\
-+												\
-+	} while (0)
-+
-+#define mfc_ctx_err(fmt, args...)								\
-+	do {											\
-+		if (ctx->dev->debugfs.logging_option & MFC_LOGGING_PRINTK)			\
-+			dev_err(ctx->dev->device,						\
-+				"[c:%d] %s:%d: " fmt,						\
-+			ctx->num, __func__, __LINE__, ##args);					\
-+												\
-+	} while (0)
-+
-+#define mfc_err(fmt, args...)									\
-+	do {											\
-+		if (core_ctx->core->dev->debugfs.logging_option & MFC_LOGGING_PRINTK)		\
-+			dev_err(core_ctx->core->device,						\
-+				"[c:%d] %s:%d: " fmt,						\
-+			core_ctx->num, __func__, __LINE__, ##args);				\
-+												\
-+	} while (0)
-+
-+#define mfc_dev_info(fmt, args...)								\
-+	do {											\
-+		if (dev->debugfs.logging_option & MFC_LOGGING_PRINTK)				\
-+			dev_info(dev->device, "%s:%d: " fmt,					\
-+				__func__, __LINE__, ##args);					\
-+												\
-+	} while (0)
-+
-+#define mfc_core_info(fmt, args...)								\
-+	do {											\
-+		if (core->dev->debugfs.logging_option & MFC_LOGGING_PRINTK)			\
-+			dev_info(core->device, "%s:%d: " fmt,					\
-+				__func__, __LINE__, ##args);					\
-+												\
-+	} while (0)
-+
-+#define mfc_ctx_info(fmt, args...)								\
-+	do {											\
-+		if (ctx->dev->debugfs.logging_option & MFC_LOGGING_PRINTK)			\
-+			dev_info(ctx->dev->device,						\
-+				"[c:%d] %s:%d: " fmt,						\
-+				ctx->num, __func__, __LINE__, ##args);				\
-+	} while (0)
-+
-+#define mfc_info(fmt, args...)									\
-+	do {											\
-+		if (core_ctx->core->dev->debugfs.logging_option & MFC_LOGGING_PRINTK)		\
-+			dev_info(core_ctx->core->device,					\
-+				"[c:%d] %s:%d: " fmt,						\
-+				core_ctx->num, __func__, __LINE__, ##args);			\
-+	} while (0)
-+
-+#define MFC_TRACE_STR_LEN		80
-+#define MFC_TRACE_COUNT_MAX		1024
-+#define MFC_TRACE_COUNT_PRINT		50
-+#define MFC_TRACE_COUNT_PRINT_LONG	100
-+#define MFC_TRACE_LOG_STR_LEN		25
-+#define MFC_TRACE_LOG_COUNT_MAX		256
-+#define MFC_TRACE_LOG_COUNT_PRINT	20
-+
-+#define MFC_DUMP_BUF_SIZE		SZ_6M
-+
-+struct _mfc_trace {
-+	unsigned long long time;
-+	char str[MFC_TRACE_STR_LEN];
-+};
-+
-+struct _mfc_trace_logging {
-+	unsigned long long time;
-+	char str[MFC_TRACE_LOG_STR_LEN];
-+};
-+
-+/* If there is no core structure */
-+#define MFC_TRACE_DEV(fmt, args...)								\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&dev->trace_ref) & (MFC_TRACE_COUNT_MAX - 1);		\
-+		dev->mfc_trace[cnt].time = cpu_clock(cpu);					\
-+		snprintf(dev->mfc_trace[cnt].str, MFC_TRACE_STR_LEN,				\
-+				fmt, ##args);							\
-+	} while (0)
-+
-+/* If there is core structure */
-+#define MFC_TRACE_CORE(fmt, args...)								\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&core->dev->trace_ref) & (MFC_TRACE_COUNT_MAX - 1);	\
-+		core->dev->mfc_trace[cnt].time = cpu_clock(cpu);				\
-+		snprintf(core->dev->mfc_trace[cnt].str, MFC_TRACE_STR_LEN,			\
-+				"[MFC%d] "fmt, core->id, ##args);				\
-+	} while (0)
-+
-+/* If there is ctx structure */
-+#define MFC_TRACE_CTX(fmt, args...)								\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&ctx->dev->trace_ref) & (MFC_TRACE_COUNT_MAX - 1);	\
-+		ctx->dev->mfc_trace[cnt].time = cpu_clock(cpu);					\
-+		snprintf(ctx->dev->mfc_trace[cnt].str, MFC_TRACE_STR_LEN,			\
-+				"[c:%d] " fmt, ctx->num, ##args);				\
-+	} while (0)
-+
-+/* If there is core_ctx structure */
-+#define MFC_TRACE_CORE_CTX(fmt, args...)							\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&core_ctx->core->dev->trace_ref) &			\
-+		      (MFC_TRACE_COUNT_MAX - 1);						\
-+		core_ctx->core->dev->mfc_trace[cnt].time = cpu_clock(cpu);			\
-+		snprintf(core_ctx->core->dev->mfc_trace[cnt].str, MFC_TRACE_STR_LEN,		\
-+				"[MFC%d][c:%d] " fmt, core_ctx->core->id,			\
-+				core_ctx->num, ##args);						\
-+	} while (0)
-+
-+/* If there is no ctx structure */
-+#define MFC_TRACE_DEV_LT(fmt, args...)								\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&dev->trace_ref_longterm) & (MFC_TRACE_COUNT_MAX - 1);	\
-+		dev->mfc_trace_longterm[cnt].time = cpu_clock(cpu);				\
-+		snprintf(dev->mfc_trace_longterm[cnt].str, MFC_TRACE_STR_LEN,			\
-+				fmt, ##args);							\
-+	} while (0)
-+
-+/* If there is ctx structure */
-+#define MFC_TRACE_CTX_LT(fmt, args...)								\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&ctx->dev->trace_ref_longterm) &			\
-+		      (MFC_TRACE_COUNT_MAX - 1);						\
-+		ctx->dev->mfc_trace_longterm[cnt].time = cpu_clock(cpu);			\
-+		snprintf(ctx->dev->mfc_trace_longterm[cnt].str, MFC_TRACE_STR_LEN,		\
-+				"[c:%d] " fmt, ctx->num, ##args);				\
-+	} while (0)
-+
-+/* If there is core structure */
-+#define MFC_TRACE_LOG_CORE(fmt, args...)							\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&core->trace_ref_log) & (MFC_TRACE_LOG_COUNT_MAX - 1);	\
-+		core->mfc_trace_logging[cnt].time = cpu_clock(cpu);				\
-+		snprintf(core->mfc_trace_logging[cnt].str, MFC_TRACE_LOG_STR_LEN,		\
-+				fmt, ##args);							\
-+	} while (0)
-+
-+/* Resource manager dedicated */
-+#define MFC_TRACE_RM(fmt, args...)								\
-+	do {											\
-+		int cpu = raw_smp_processor_id();						\
-+		int cnt;									\
-+		cnt = atomic_inc_return(&dev->trace_ref_rm) & (MFC_TRACE_COUNT_MAX - 1);	\
-+		dev->mfc_trace_rm[cnt].time = cpu_clock(cpu);					\
-+		snprintf(dev->mfc_trace_rm[cnt].str, MFC_TRACE_STR_LEN,				\
-+				fmt, ##args);				\
-+	} while (0)
-+#endif /* __MFC_DEBUG_H */
++#define MFC_REG_D_FILM_GRAIN_0				0xFE00
++#define MFC_REG_D_FILM_GRAIN_1				0xFE04
++#define MFC_REG_D_FILM_GRAIN_2				0xFE08
++#define MFC_REG_D_FILM_GRAIN_3				0xFE0C
++#define MFC_REG_D_FILM_GRAIN_4				0xFE10
++#define MFC_REG_D_FILM_GRAIN_5				0xFE14
++#define MFC_REG_D_FILM_GRAIN_6				0xFE18
++#define MFC_REG_D_FILM_GRAIN_7				0xFE1C
++#define MFC_REG_D_FILM_GRAIN_8				0xFE20
++#define MFC_REG_D_FILM_GRAIN_9				0xFE24
++#define MFC_REG_D_FILM_GRAIN_10				0xFE28
++#define MFC_REG_D_FILM_GRAIN_11				0xFE2C
++#define MFC_REG_D_FILM_GRAIN_12				0xFE30
++#define MFC_REG_D_FILM_GRAIN_13				0xFE34
++#define MFC_REG_D_FILM_GRAIN_14				0xFE38
++#define MFC_REG_D_FILM_GRAIN_15				0xFE3C
++#define MFC_REG_D_FILM_GRAIN_16				0xFE40
++#define MFC_REG_D_FILM_GRAIN_17				0xFE44
++#define MFC_REG_D_FILM_GRAIN_18				0xFE48
++#define MFC_REG_D_FILM_GRAIN_19				0xFE4C
++#define MFC_REG_D_FILM_GRAIN_20				0xFE50
++#define MFC_REG_D_FILM_GRAIN_21				0xFE54
++#define MFC_REG_D_FILM_GRAIN_22				0xFE58
++#define MFC_REG_D_FILM_GRAIN_23				0xFE5C
++#define MFC_REG_D_FILM_GRAIN_24				0xFE60
++#define MFC_REG_D_FILM_GRAIN_25				0xFE64
++#define MFC_REG_D_FILM_GRAIN_26				0xFE68
++#define MFC_REG_D_FILM_GRAIN_27				0xFE6C
++#define MFC_REG_D_FILM_GRAIN_28				0xFE70
++#define MFC_REG_D_FILM_GRAIN_29				0xFE74
++#define MFC_REG_D_FILM_GRAIN_30				0xFE78
++#define MFC_REG_D_FILM_GRAIN_31				0xFE7C
++#define MFC_REG_D_FILM_GRAIN_32				0xFE80
++#define MFC_REG_D_FILM_GRAIN_33				0xFE84
++#define MFC_REG_D_FILM_GRAIN_34				0xFE88
++#define MFC_REG_D_FILM_GRAIN_35				0xFE8C
++#define MFC_REG_D_FILM_GRAIN_36				0xFE90
++#define MFC_REG_D_FILM_GRAIN_37				0xFE94
++#define MFC_REG_D_FILM_GRAIN_38				0xFE98
++#define MFC_REG_D_FILM_GRAIN_39				0xFE9C
++#define MFC_REG_D_FILM_GRAIN_40				0xFEA0
++#define MFC_REG_D_FILM_GRAIN_41				0xFEA4
++#define MFC_REG_D_FILM_GRAIN_42				0xFEA8
++#define MFC_REG_D_FILM_GRAIN_43				0xFEAC
++
++#define MFC0_REG_COMMON_CONTEXT_MEM_ADDR		0xFF90
++#define MFC0_REG_RISC_BASE_ADDR				0xFF98
++#define MFC1_REG_COMMON_CONTEXT_MEM_ADDR		0xFFDC
++
++#define MFC_REG_CLEAR_BEGIN				0xf000
++#define MFC_REG_CLEAR_COUNT				1024
++
++#define MFC0_REG_CONTEXT_FLUSH_DONE			0xFFA0
++
++/* Bit Definitions */
++/* 0x1100: MFC_REG_HOST2RISC_CMD */
++#define MFC_REG_H2R_CMD_EMPTY				0
++#define MFC_REG_H2R_CMD_SYS_INIT			1
++#define MFC_REG_H2R_CMD_OPEN_INSTANCE			2
++#define MFC_REG_H2R_CMD_SEQ_HEADER			3
++#define MFC_REG_H2R_CMD_INIT_BUFFERS			4
++#define MFC_REG_H2R_CMD_NAL_START			5
++#define MFC_REG_H2R_CMD_CLOSE_INSTANCE			6
++#define MFC_REG_H2R_CMD_SLEEP				7
++#define MFC_REG_H2R_CMD_WAKEUP				8
++#define MFC_REG_H2R_CMD_LAST_FRAME			9
++#define MFC_REG_H2R_CMD_DPB_FLUSH			10
++#define MFC_REG_H2R_CMD_NAL_ABORT			11
++#define MFC_REG_H2R_CMD_CACHE_FLUSH			12
++#define MFC_REG_H2R_CMD_NAL_QUEUE			13
++#define MFC_REG_H2R_CMD_STOP_QUEUE			14
++#define MFC_REG_H2R_CMD_NAL_LL				15
++#define MFC_REG_H2R_CMD_MOVE_INSTANCE			19
++
++#define MFC_REG_H2R_HWAPG_EN_FLAG           19
++#define MFC_REG_H2R_NAL_Q_OPT_FLAG			17
++#define MFC_REG_H2R_CACHE_FLUSH_FLAG			16
++
++/* 0x1104: MFC_REG_RISC2HOST_CMD */
++#define MFC_REG_RISC2HOST_CMD_MASK			0x1FFFF
++#define MFC_REG_R2H_CMD_EMPTY				0
++#define MFC_REG_R2H_CMD_SYS_INIT_RET			1
++#define MFC_REG_R2H_CMD_OPEN_INSTANCE_RET		2
++#define MFC_REG_R2H_CMD_SEQ_DONE_RET			3
++#define MFC_REG_R2H_CMD_INIT_BUFFERS_RET		4
++#define MFC_REG_R2H_CMD_CLOSE_INSTANCE_RET		6
++#define MFC_REG_R2H_CMD_SLEEP_RET			7
++#define MFC_REG_R2H_CMD_WAKEUP_RET			8
++#define MFC_REG_R2H_CMD_COMPLETE_SEQ_RET		9
++#define MFC_REG_R2H_CMD_DPB_FLUSH_RET			10
++#define MFC_REG_R2H_CMD_NAL_ABORT_RET			11
++#define MFC_REG_R2H_CMD_FW_STATUS_RET			12
++#define MFC_REG_R2H_CMD_FRAME_DONE_RET			13
++#define MFC_REG_R2H_CMD_FIELD_DONE_RET			14
++#define MFC_REG_R2H_CMD_SLICE_DONE_RET			15
++#define MFC_REG_R2H_CMD_ENC_BUFFER_FULL_RET		16
++#define MFC_REG_R2H_CMD_QUEUE_DONE_RET			17
++#define MFC_REG_R2H_CMD_COMPLETE_QUEUE_RET		18
++#define MFC_REG_R2H_CMD_MOVE_INSTANCE_RET		19
++#define MFC_REG_R2H_CMD_CACHE_FLUSH_RET			20
++#define MFC_REG_R2H_CMD_ERR_RET				32
++
++/* 0xF000: MFC_REG_FW_VERSION */
++#define MFC_REG_FW_VER_INFO_MASK			0xFF
++#define MFC_REG_FW_VER_INFO_SHFT			24
++#define MFC_REG_FW_VER_YEAR_MASK			0xFF
++#define MFC_REG_FW_VER_YEAR_SHFT			16
++#define MFC_REG_FW_VER_MONTH_MASK			0xFF
++#define MFC_REG_FW_VER_MONTH_SHFT			8
++#define MFC_REG_FW_VER_DATE_MASK			0xFF
++#define MFC_REG_FW_VER_DATE_SHFT			0
++#define MFC_REG_FW_VER_ALL_MASK				0xFFFFFF
++#define MFC_REG_FW_VER_ALL_SHFT				0
++
++/* 0xF00C: MFC_REG_CODEC_TYPE */
++#define MFC_FORMATS_NO_CODEC				-1
++/* Decoder */
++#define MFC_REG_CODEC_H264_DEC				0
++#define MFC_REG_CODEC_H264_MVC_DEC			1
++#define MFC_REG_CODEC_MPEG4_DEC				3
++#define MFC_REG_CODEC_FIMV1_DEC				4
++#define MFC_REG_CODEC_FIMV2_DEC				5
++#define MFC_REG_CODEC_FIMV3_DEC				6
++#define MFC_REG_CODEC_FIMV4_DEC				7
++#define MFC_REG_CODEC_H263_DEC				8
++#define MFC_REG_CODEC_VC1_RCV_DEC			9
++#define MFC_REG_CODEC_VC1_DEC				10
++#define MFC_REG_CODEC_MPEG2_DEC				13
++#define MFC_REG_CODEC_VP8_DEC				14
++#define MFC_REG_CODEC_HEVC_DEC				17
++#define MFC_REG_CODEC_VP9_DEC				18
++#define MFC_REG_CODEC_AV1_DEC				19
++/* Encoder */
++#define MFC_REG_CODEC_H264_ENC				20
++#define MFC_REG_CODEC_H264_MVC_ENC			21
++#define MFC_REG_CODEC_MPEG4_ENC				23
++#define MFC_REG_CODEC_H263_ENC				24
++#define MFC_REG_CODEC_VP8_ENC				25
++#define MFC_REG_CODEC_HEVC_ENC				26
++#define MFC_REG_CODEC_VP9_ENC				27
++
++#define MFC_REG_CODEC_BPG_DEC				32
++#define MFC_REG_CODEC_BPG_ENC				33
++
++/* 0xF00C: MFC_REG_CODEC_TYPE */
++#define MFC_REG_CLEAR_CTX_MEM_SHIFT			16
++#define MFC_REG_CODEC_TYPE_MASK				0xFFFF
++
++/* 0xF024: MFC_REG_METADATA_ENABLE */
++#define MFC_REG_SEI_NAL_ENABLE_SHIFT			3
++
++/* 0xF028: MFC_REG_MFC_VERSION */
++#define MFC_REG_MFC_VER_MASK				0xFFFFFFFF
++#define MFC_REG_MFC_VER_SHFT				0
++/* bits of [8:4] can be changed if there is minor change between EVT0 and EVT1. */
++#define MFC_REG_MFC_VER_MAJOR_MASK			0xFFFFFF0F
++#define MFC_REG_MFC_VER_MINOR_MASK			0x000000F0
++
++/* 0xF02C: MFC_REG_DBG_INFO_ENABLE */
++#define MFC_REG_DBG_INFO_ENABLE_SHIFT			0
++#define MFC_REG_DBG_INFO_DPB_CLEAR_SHIFT		1
++#define MFC_REG_DBG_INFO_TWO_MFC_FORCING_SHIFT		2
++
++/* 0xF070: MFC_REG_RET_INSTANCE_ID */
++#define MFC_REG_RET_INSTANCE_ID_OF_MFC1_MASK		0xFFFF
++#define MFC_REG_RET_INSTANCE_ID_OF_MFC1_SHIFT		16
++#define MFC_REG_RET_INSTANCE_ID_MASK			0xFFFF
++
++/* 0xF074: MFC_REG_ERROR_CODE */
++#define MFC_REG_ERR_STATUS_MASK			0xFFFF
++#define MFC_REG_ERR_STATUS_SHIFT			0
++#define MFC_REG_WARN_STATUS_MASK			0xFFFF
++#define MFC_REG_WARN_STATUS_SHIFT			16
++
++/* 0xF07C: MFC_METADATA_STATUS */
++#define MFC_REG_SEI_NAL_STATUS_MASK			0x1
++#define MFC_REG_SEI_NAL_STATUS_SHIFT			3
++
++/* Error number */
++#define MFC_REG_ERR_INVALID				9
++#define MFC_REG_ERR_BUFFER_FULL				18
++#define MFC_REG_ERR_WARNINGS_END			222
++/* Dump debug error */
++#define MFC_REG_ERR_NO_AVAILABLE_DPB			33
++#define MFC_REG_ERR_INSUFFICIENT_DPB_SIZE		57
++#define MFC_REG_ERR_INSUFFICIENT_NUM_DPB		58
++#define MFC_REG_ERR_INSUFFICIENT_MV_BUF_SIZE		60
++#define MFC_REG_ERR_INSUFFICIENT_SCRATCH_BUF_SIZE	62
++/* HEVC VPS header error */
++#define MFC_REG_ERR_VPS_ONLY_ERROR			42
++/* Input decoding error */
++#define MFC_REG_ERR_NO_KEY_FRAME                        34
++#define MFC_REG_ERR_NO_VALID_SEQ_HDR                    66
++#define MFC_REG_ERR_NO_VALID_PIC_HDR                    67
++#define MFC_REG_ERR_MISSING_NON_BASE_VIEW_DETECTED      69
++#define MFC_REG_ERR_MISSING_BASE_VIEW_DETECTED          70
++#define MFC_REG_ERR_NO_VALID_REF_FOR_SKIP               72
++#define MFC_REG_ERR_UNSUPPORTED_FEATURE                 100
++#define MFC_REG_ERR_UNSUPPORTED_RESOLUTION              101
++#define MFC_REG_ERR_HEADER_NOT_FOUND                    102
++#define MFC_REG_ERR_INVALID_NAL_TYPE                    103
++#define MFC_REG_ERR_SEQUENCE_HEADER_ERROR               104
++#define MFC_REG_ERR_PICTURE_HEADER_ERROR                105
++#define MFC_REG_ERR_SLICE_HEADER_ERROR                  106
++#define MFC_REG_ERR_MISSING_FIRST_FIELD                 108
++#define MFC_REG_ERR_SLICE_COUNT_IS_OVER_ASO		109
++#define MFC_REG_ERR_TILE_HEADER_ERROR			111
++#define MFC_REG_ERR_MAX_VIEW_NUM_OVER			112
++/* Timeout */
++#define MFC_REG_ERR_MFC_TIMEOUT				140
++#define MFC_REG_ERR_TS_MUX_TIMEOUT			141
++#define MFC_REG_ERR_G2D_TIMEOUT				142
++/* Exception */
++#define MFC_REG_ERR_UNDEFINED_EXCEPTION			145
++/* Frame concealment and warning */
++#define MFC_REG_ERR_FRAME_CONCEAL			150
++#define MFC_REG_ERR_BROKEN_LINK				161
++#define MFC_REG_ERR_SYNC_POINT_NOT_RECEIVED		190
++#define MFC_REG_ERR_NON_PAIRED_FIELD			191
++
++/* 0xF0B4: MFC_REG_D_DEC_OPTIONS */
++#define MFC_REG_D_DEC_OPT_DISPLAY_DELAY_EN_SHIFT	3
++#define MFC_REG_D_DEC_OPT_FMO_ASO_CTRL_MASK		0x1
++#define MFC_REG_D_DEC_OPT_FMO_ASO_CTRL_SHIFT		4
++#define MFC_REG_D_DEC_OPT_IDR_DECODING_MASK		0x1
++#define MFC_REG_D_DEC_OPT_IDR_DECODING_SHIFT		6
++#define MFC_REG_D_DEC_OPT_DISCARD_RCV_HEADER_SHIFT	7
++#define MFC_REG_D_DEC_OPT_CONCEAL_CONTROL_SHIFT		8
++#define MFC_REG_D_DEC_OPT_PARALLEL_DISABLE_SHIFT	11
++#define MFC_REG_D_DEC_OPT_REALLOC_CONTROL_SHIFT		13
++#define MFC_REG_D_DEC_OPT_SPECIAL_PARSING_SHIFT		15
++#define MFC_REG_D_DEC_OPT_THUMBNAIL_DECODING		16
++#define MFC_REG_D_DEC_OPT_DECODING_ORDER_ENABLE		17
++#define MFC_REG_D_DEC_OPT_AV1_ANNEX_B_FORMAT_SHIFT	18
++
++/* 0xF094: MFC_REG_NAL_QUEUE_INFO*/
++#define MFC_REG_NAL_QUEUE_EXE_NAL_LL_SHIFT		8
++#define MFC_REG_NAL_QUEUE_EXE_NAL_LL_MASK		0x7F
++#define MFC_REG_NAL_QUEUE_OUT_CMD_COUNT_SHIFT		0
++#define MFC_REG_NAL_QUEUE_OUT_CMD_COUNT_MASK		0xFF
++
++/* 0xF0C4: MFC_REG_D_SEI_ENABLE */
++#define MFC_REG_D_SEI_ENABLE_NEED_INIT_BUFFER_SHIFT	1
++#define MFC_REG_D_SEI_ENABLE_RECOVERY_PARSING_SHIFT	2
++#define MFC_REG_D_SEI_ENABLE_CONTENT_LIGHT_SHIFT	4
++#define MFC_REG_D_SEI_ENABLE_MASTERING_DISPLAY_SHIFT	5
++#define MFC_REG_D_SEI_ENABLE_ST_2094_40_SEI_SHIFT	6
++#define MFC_REG_D_SEI_ENABLE_FILM_GRAIN_SHIFT		7
++
++/* 0xF154: MFC_REG_D_INIT_BUFFER_OPTIONS */
++#define MFC_REG_D_INIT_BUF_OPT_LF_CTRL_MASK		0x3
++#define MFC_REG_D_INIT_BUF_OPT_LF_CTRL_SHIFT		1
++#define MFC_REG_D_INIT_BUF_OPT_DYNAMIC_DPB_SET_SHIFT	3
++#define MFC_REG_D_INIT_BUF_OPT_COPY_NOT_CODED_SHIFT	4
++#define MFC_REG_D_INIT_BUF_OPT_DITHERING_EN_SHIFT	6
++#define MFC_REG_D_INIT_BUF_OPT_STRIDE_SIZE_ALIGN	7
++#define MFC_REG_D_INIT_BUF_OPT_TWO_MODE_ENABLE_SHIFT	9
++#define MFC_REG_D_INIT_BUF_OPT_ENABLE_DECODE_VIEW1	10
++
++/* 0xF5AC: MFC_REG_D_NAL_START_OPTIONS */
++#define MFC_REG_D_NAL_START_OPT_DIS_COMPRESSOR_SHIFT	5
++#define MFC_REG_D_NAL_START_OPT_TWO_MFC_ENABLE_SHIFT	4
++#define MFC_REG_D_NAL_START_OPT_BLACK_BAR_SHIFT		3
++#define MFC_REG_D_NAL_START_OPT_NEW_SCRATCH_SHIFT	2
++#define MFC_REG_D_NAL_START_OPT_NEW_DPB_SHIFT		1
++
++/* 0xF608: MFC_REG_D_DISPLAY_STATUS */
++#define MFC_REG_DISP_STATUS_DISPLAY_STATUS_MASK		0x7
++#define MFC_REG_DISP_STATUS_INTERLACE_MASK		0x1
++#define MFC_REG_DISP_STATUS_INTERLACE_SHIFT		3
++#define MFC_REG_DISP_STATUS_RES_CHANGE_MASK		0x3
++#define MFC_REG_DISP_STATUS_RES_CHANGE_SHIFT		4
++#define MFC_REG_DISP_STATUS_NEED_DPB_CHANGE_MASK	0x1
++#define MFC_REG_DISP_STATUS_NEED_DPB_CHANGE_SHIFT	9
++#define MFC_REG_DISP_STATUS_NEED_SCRATCH_CHANGE_MASK	0x1
++#define MFC_REG_DISP_STATUS_NEED_SCRATCH_CHANGE_SHIFT	10
++#define MFC_REG_DISP_STATUS_LAST_DISPLAY_FRAME_MASK	0x1
++#define MFC_REG_DISP_STATUS_LAST_DISPLAY_FRAME_SHIFT	11
++#define MFC_REG_DISP_STATUS_NEED_EMPTY_DPB_MASK	0x1
++#define MFC_REG_DISP_STATUS_NEED_EMPTY_DPB_SHIFT	12
++#define MFC_REG_DISP_STATUS_BLACK_BAR_DETECT_MASK	0x3
++#define MFC_REG_DISP_STATUS_BLACK_BAR_DETECT_SHIFT	13
++#define MFC_REG_DISP_STATUS_NOT_DETECTED		0x0
++#define MFC_REG_DISP_STATUS_BLACK_BAR			0x1
++#define MFC_REG_DISP_STATUS_BLACK_SCREEN		0x2
++#define MFC_REG_DISP_STATUS_COMP_SHIFT			19
++#define MFC_REG_DISP_STATUS_COMP_MASK			0x1
++#define MFC_REG_DISP_STATUS_UNCOMP_SHIFT		21
++#define MFC_REG_DISP_STATUS_UNCOMP_MASK			0x1
++#define MFC_REG_DISP_STATUS_FIELD_SHIFT			22
++#define MFC_REG_DISP_STATUS_FIELD_MASK			0x1
++
++/* 0xF618: MFC_REG_D_DISPLAY_FRAME_TYPE */
++#define MFC_REG_DISPLAY_TEMP_INFO_MASK			0x1
++#define MFC_REG_DISPLAY_TEMP_INFO_SHIFT			7
++#define MFC_REG_DISPLAY_IDR_FLAG_MASK			0x1
++#define MFC_REG_DISPLAY_IDR_FLAG_SHIFT			6
++#define MFC_REG_DISPLAY_FRAME_MASK			0x7
++#define MFC_REG_DISPLAY_FRAME_NOT_CODED			0
++#define MFC_REG_DISPLAY_FRAME_I				1
++#define MFC_REG_DISPLAY_FRAME_P				2
++#define MFC_REG_DISPLAY_FRAME_B				3
++
++/* 0xF61C: MFC_REG_D_DISPLAY_CROP_INFO1 */
++#define MFC_REG_D_SHARED_CROP_LEFT_MASK			0xFFFF
++#define MFC_REG_D_SHARED_CROP_RIGHT_SHIFT		16
++
++/* 0xF620: MFC_REG_D_DISPLAY_CROP_INFO2 */
++#define MFC_REG_D_SHARED_CROP_TOP_MASK			0xFFFF
++#define MFC_REG_D_SHARED_CROP_BOTTOM_SHIFT		16
++
++/* 0xF644: MFC_REG_D_DECODED_STATUS */
++#define MFC_REG_DEC_STATUS_DECODED_STATUS_MASK		0x7
++#define MFC_REG_DEC_STATUS_DECODING_ONLY		0
++#define MFC_REG_DEC_STATUS_DECODING_DISPLAY		1
++#define MFC_REG_DEC_STATUS_DISPLAY_ONLY			2
++#define MFC_REG_DEC_STATUS_DECODING_EMPTY		3
++#define MFC_REG_DEC_STATUS_NUM_OF_TILE_MASK		0xF
++#define MFC_REG_DEC_STATUS_NUM_OF_TILE_SHIFT		15
++#define MFC_REG_DEC_STATUS_INTERLACE_MASK		0x1
++#define MFC_REG_DEC_STATUS_INTERLACE_SHIFT		3
++#define MFC_REG_DEC_STATUS_UNCOMP_SHIFT			21
++#define MFC_REG_DEC_STATUS_UNCOMP_MASK			0x1
++
++/* 0xF654: MFC_REG_D_DECODED_FRAME_TYPE */
++#define MFC_REG_DECODED_IDR_FLAG_MASK			0x1
++#define MFC_REG_DECODED_IDR_FLAG_SHIFT			3
++#define MFC_REG_DECODED_FRAME_MASK			0x7
++#define MFC_REG_DECODED_FRAME_NOT_CODED			0
++#define MFC_REG_DECODED_FRAME_I				1
++#define MFC_REG_DECODED_FRAME_P				2
++#define MFC_REG_DECODED_FRAME_B				3
++
++/* 0xF660: MFC_REG_D_DECODED_PICTURE_PROFILE */
++#define MFC_REG_D_TWO_MFC_MODE_MASK			0x3
++#define MFC_REG_D_TWO_MFC_MODE_SHIFT			28
++#define MFC_REG_D_DISPLAY_DELAY_MASK			0x1F
++#define MFC_REG_D_DISPLAY_DELAY_SHIFT			23
++#define MFC_REG_D_BIT_DEPTH_CHROMA_MINUS8_MASK		0x7
++#define MFC_REG_D_BIT_DEPTH_CHROMA_MINUS8_SHIFT		19
++#define MFC_REG_D_BIT_DEPTH_LUMA_MINUS8_MASK		0x7
++#define MFC_REG_D_BIT_DEPTH_LUMA_MINUS8_SHIFT		16
++#define MFC_REG_D_PIC_LEVEL_MASK			0xFF
++#define MFC_REG_D_PIC_LEVEL_SHIFT			8
++#define MFC_REG_D_DECODED_PIC_PROFILE_MASK		0x1F
++#define MFC_REG_D_PROFILE_HEVC_MAIN			1
++#define MFC_REG_D_PROFILE_HEVC_MAIN_10			2
++#define MFC_REG_D_PROFILE_MULTIVIEW_HEVC_MAIN		5
++#define MFC_REG_D_PROFILE_MULTIVIEW_HEVC_MAIN_10	6
++#define MFC_REG_D_PROFILE_HEVC_RANGE_EXT		4
++
++/* 0xF684: MFC_REG_D_CHROMA_FORMAT */
++#define MFC_REG_D_CHROMA_FORMAT_MASK			0x3
++#define MFC_REG_D_COLOR_RANGE_MASK			0x1
++#define MFC_REG_D_COLOR_RANGE_SHIFT			3
++#define MFC_REG_D_COLOR_SPACE_MASK			0xF
++#define MFC_REG_D_COLOR_SPACE_SHIFT			4
++#define MFC_REG_D_COLOR_UNKNOWN				0
++#define MFC_REG_D_CHROMA_400				0
++#define MFC_REG_D_CHROMA_420				1
++#define MFC_REG_D_CHROMA_422				2
++#define MFC_REG_D_CHROMA_444				3
++
++/* 0xF690: MFC_REG_D_H264_INFO */
++#define MFC_REG_D_H264_INFO_MBAFF_FRAME_FLAG_SHIFT	9
++#define MFC_REG_D_H264_INFO_MBAFF_FRAME_FLAG_MASK	0x1
++#define MFC_REG_D_H264_INFO_TEMPORAL_ID_SHIFT		6
++#define MFC_REG_D_H264_INFO_TEMPORAL_ID_MASK		0x7
++
++/* 0xF6A0: MFC_REG_D_HEVC_INFO */
++#define MFC_REG_D_HEVC_INFO_PIC_OUTPUT_FLAG_SHIFT	11
++#define MFC_REG_D_HEVC_INFO_PIC_OUTPUT_FLAG_MASK	0x1
++#define MFC_REG_D_HEVC_INFO_LCU_SIZE_MASK		0x3
++
++/* 0xF6A4: MFC_REG_D_VP9_INFO */
++#define MFC_REG_D_VP9_INFO_DISP_RES_SHIFT		14
++#define MFC_REG_D_VP9_INFO_DISP_RES_MASK		0x1
++
++/* 0xF6AC: MFC_REG_D_AV1_INFO */
++#define MFC_REG_D_AV1_INFO_FILMGRAIN_PRESENT_SHIFT	18
++#define MFC_REG_D_AV1_INFO_FILMGRAIN_PRESENT_MASK	0x1
++#define MFC_REG_D_AV1_INFO_MULTIPLE_SHOW_SHIFT		17
++#define MFC_REG_D_AV1_INFO_MULTIPLE_SHOW_MASK		0x1
++#define MFC_REG_D_AV1_INFO_DISP_RES_SHIFT		14
++#define MFC_REG_D_AV1_INFO_DISP_RES_MASK		0x1
++#define MFC_REG_D_AV1_INFO_SHOWABLE_FRAME_SHIFT		5
++#define MFC_REG_D_AV1_INFO_SHOWABLE_FRAME_MASK		0x1
++
++/* 0xF6D8: MFC_REG_D_MVC_VIEW_ID */
++#define MFC_REG_D_MVC_VIEW_ID_DEC_SHIFT			16
++#define MFC_REG_D_MVC_VIEW_ID_DEC_MASK			0xFFFF
++#define MFC_REG_D_MVC_VIEW_ID_DISP_MASK			0xFFFF
++#define MFC_REG_D_MVC_LEFT_VIEW_ID_SHIFT		28
++#define MFC_REG_D_MVC_LEFT_VIEW_ID_MASK			0x3
++#define MFC_REG_D_MVC_RIGHT_VIEW_ID_SHIFT		30
++#define MFC_REG_D_MVC_RIGHT_VIEW_ID_MASK		0x3
++
++/* 0xF6DC: MFC_REG_D_SEI_AVAIL */
++#define MFC_REG_D_SEI_AVAIL_FRAME_PACK_MASK		0x1
++#define MFC_REG_D_SEI_AVAIL_CONTENT_LIGHT_MASK		0x1
++#define MFC_REG_D_SEI_AVAIL_CONTENT_LIGHT_SHIFT		1
++#define MFC_REG_D_SEI_AVAIL_MASTERING_DISPLAY_MASK	0x1
++#define MFC_REG_D_SEI_AVAIL_MASTERING_DISPLAY_SHIFT	2
++#define MFC_REG_D_SEI_AVAIL_ST_2094_40_MASK		0x1
++#define MFC_REG_D_SEI_AVAIL_ST_2094_40_SHIFT		3
++#define MFC_REG_D_SEI_AVAIL_FILM_GRAIN_MASK		0x1
++#define MFC_REG_D_SEI_AVAIL_FILM_GRAIN_SHIFT		4
++
++/* 0xF70C: MFC_REG_D_VIDEO_SIGNAL_TYPE */
++#define MFC_REG_D_VIDEO_SIGNAL_TYPE_FLAG_MASK		0x1
++#define MFC_REG_D_VIDEO_SIGNAL_TYPE_FLAG_SHIFT		29
++#define MFC_REG_D_COLOUR_DESCRIPTION_FLAG_MASK		0x1
++#define MFC_REG_D_COLOUR_DESCRIPTION_FLAG_SHIFT		24
++#define MFC_REG_D_COLOUR_PRIMARIES_MASK			0xFF
++#define MFC_REG_D_COLOUR_PRIMARIES_SHIFT		16
++#define MFC_REG_D_TRANSFER_CHARACTERISTICS_MASK		0xFF
++#define MFC_REG_D_TRANSFER_CHARACTERISTICS_SHIFT	8
++#define MFC_REG_D_MATRIX_COEFFICIENTS_MASK		0xFF
++#define MFC_REG_D_MATRIX_COEFFICIENTS_SHIFT		0
++
++/* 0xF738: MFC_REG_D_BLACK_BAR_START_POS */
++#define MFC_REG_D_BLACK_BAR_START_X_SHIFT		0
++#define MFC_REG_D_BLACK_BAR_START_X_MASK		0xFFFF
++#define MFC_REG_D_BLACK_BAR_START_Y_SHIFT		16
++#define MFC_REG_D_BLACK_BAR_START_Y_MASK		0xFFFF
++
++/* 0xF73C: MFC_REG_D_BLACK_BAR_IMAGE_SIZE */
++#define MFC_REG_D_BLACK_BAR_IMAGE_W_SHIFT		0
++#define MFC_REG_D_BLACK_BAR_IMAGE_W_MASK		0xFFFF
++#define MFC_REG_D_BLACK_BAR_IMAGE_H_SHIFT		16
++#define MFC_REG_D_BLACK_BAR_IMAGE_H_MASK		0xFFFF
++
++/* 0xF780:  MFC_REG_E_FRAME_CROP_OFFSET */
++#define MFC_REG_E_FRAME_CROP_OFFSET_TOP			16
++#define MFC_REG_E_FRAME_CROP_OFFSET_LEFT		0
++#define MFC_REG_E_FRAME_CROP_OFFSET_MASK		0x3FFF
++
++/* 0xF788: MFC_REG_E_PICTURE_PROFILE */
++#define MFC_REG_E_PROFILE_H264_BASELINE			0
++#define MFC_REG_E_PROFILE_H264_MAIN			1
++#define MFC_REG_E_PROFILE_H264_HIGH			2
++#define MFC_REG_E_PROFILE_H264_CONSTRAINED_BASELINE	3
++#define MFC_REG_E_PROFILE_H264_CONSTRAINED_HIGH		5
++#define MFC_REG_E_PROFILE_MPEG4_SIMPLE			0
++#define MFC_REG_E_PROFILE_MPEG4_ADVANCED_SIMPLE		1
++#define MFC_REG_E_PROFILE_HEVC_MAIN			0
++#define MFC_REG_E_PROFILE_HEVC_MAIN_422_10_INTRA	2
++#define MFC_REG_E_PROFILE_HEVC_MAIN_10			3
++#define MFC_REG_E_PROFILE_HEVC_MAIN_422_10		4
++#define MFC_REG_E_PROFILE_VP9_PROFILE0			0
++#define MFC_REG_E_PROFILE_VP9_PROFILE1			1
++#define MFC_REG_E_PROFILE_VP9_PROFILE2			2
++#define MFC_REG_E_PROFILE_VP9_PROFILE3			3
++
++/* 0xF7A4: MFC_REG_E_RC_MODE */
++#define MFC_REG_E_RC_CBR_FIX				0
++#define MFC_REG_E_RC_CBR_VAR				1
++#define MFC_REG_E_RC_VBR				2
++#define MFC_REG_E_RC_CBR_I_LIMIT_VT			3
++#define MFC_REG_E_RC_VBR_BS				4
++#define MFC_REG_E_RC_CBR_I_LIMIT_WFD			5
++
++/* 0xFA84: MFC_REG_E_SLICE_TYPE */
++#define MFC_REG_E_SLICE_TYPE_NOT_CODED			0
++#define MFC_REG_E_SLICE_TYPE_MASK			0xF
++#define MFC_REG_E_SLICE_TYPE_I				1
++#define MFC_REG_E_SLICE_TYPE_P				2
++#define MFC_REG_E_SLICE_TYPE_B				3
++#define MFC_REG_E_SLICE_TYPE_SKIPPED			4
++
++/* 0xFAE8: MFC_REG_E_HDR10_PLUS_INFO */
++#define MFC_REG_E_HDR10_PLUS_INFO_STAT_DONE_MASK	1
++#define MFC_REG_E_HDR10_PLUS_INFO_STAT_DONE_SHIFT	31
++#define MFC_REG_E_HDR10_PLUS_INFO_SEI_SIZE_MASK		0x1FF
++#define MFC_REG_E_HDR10_PLUS_INFO_SEI_SIZE_SHIFT	8
++#define MFC_REG_E_HDR10_PLUS_INFO_OFFSET_MASK		0xFF
++#define MFC_REG_E_HDR10_PLUS_INFO_OFFSET_SHIFT		0
++
++/* 0xFAEC: MFC_REG_E_NAL_DONE_INFO */
++#define MFC_REG_E_NAL_DONE_INFO_COMP_ERR_MASK		0x3
++#define MFC_REG_E_NAL_DONE_INFO_COMP_ERR_SHIFT		7
++#define MFC_REG_E_NAL_DONE_INFO_IDR_MASK		0x1
++#define MFC_REG_E_NAL_DONE_INFO_IDR_SHIFT		20
++
++/* SEI Metadata format */
++#define MFC_META_SEI_NAL_SIZE_OFFSET			0x4
++#define MFC_META_SEI_NAL_PAYLOAD_OFFSET			0x8
++
++#endif /* __MFC_REGS_MFC_H */
 -- 
 2.34.1
 
