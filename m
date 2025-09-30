@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2029BAC95E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C80ABAC964
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 13:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEBF410E56E;
-	Tue, 30 Sep 2025 11:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D25610E56F;
+	Tue, 30 Sep 2025 11:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nEo5kpJK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jzqqSPFj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6367D10E56D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:00:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC8110E56F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 11:00:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 316E944259;
- Tue, 30 Sep 2025 11:00:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA70CC4CEF7;
- Tue, 30 Sep 2025 11:00:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 115E040476;
+ Tue, 30 Sep 2025 11:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89CDBC116C6;
+ Tue, 30 Sep 2025 11:00:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759230010;
- bh=s5fxPUrR9nGUSrsW0yyF1l85BFj/JMLiIMEzttpPBaI=;
+ s=k20201202; t=1759230012;
+ bh=muPMoWzcBKSC+bTmlW1CD4F2oOL5rO6BZBEkeUj5wBA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=nEo5kpJKYddZKx5joClzsYPTxdXMTOiVmhdRlYAxNgrMpiOsWKJZ4ar/9FRTa8qzB
- DgrZXtzi3/S6wMpqHXb+15Cx9CxXog0FtYrzA4iZFYADwIoKe9CzQGDhTn+0T7EFAc
- EjXYEPsADSZnjlWDlbLZy54kdCLAzKUtncZg3z9kEjU0tDk/MuNVYVTQhMTb5gVoy4
- EtXcjqUI0ANTbM/0lmUxPpIxK66WItLvULwpGwqJ0bTIugpzodA14S4NC2gulZBd2n
- TLMn7LYSmTikoXAw5anXNcX1KMLiZ+XZ3S9RdCrzSquuIF6cITxr4/pA1XJYQyN0Jl
- pkzMM+2dBTVEw==
+ b=jzqqSPFjbqxwfi2PRqeQxJY9jTjRCIENTY1u8F4JCNiZNZt3mxaHzIbo7yssnLuWW
+ 8E3jLuLt9VLDe/nFZh8B4e9KRRI69fmfR6J9KpxiConu+B6PslT82feZT7Fziyirqu
+ bWXVbummX9DfK7i+c6eYbPOCDgNXsf5I5CIQZx6Zjzo0Z1Lhbw3e0gpnbehbUyXm4d
+ fE1cjGAaIn2tykaoIOvAA4SADYNGTT1gaACQ/pc8hEFKp6nkMPY6nSlVZWa9egmKS9
+ Rm8obdZsN0WXoV3t3LxMbVdOY0tzsGtk1ZPKusdkrmhdiFSSk+l6bF02skT8sZ928q
+ QWHqTwJTBa1XA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 30 Sep 2025 12:59:17 +0200
-Subject: [PATCH v5 02/39] drm/atomic: Remove unused
- drm_atomic_get_existing_connector_state()
+Date: Tue, 30 Sep 2025 12:59:18 +0200
+Subject: [PATCH v5 03/39] drm/atomic: Document __drm_connectors_state state
+ pointer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250930-drm-no-more-existing-state-v5-2-eeb9e1287907@kernel.org>
+Message-Id: <20250930-drm-no-more-existing-state-v5-3-eeb9e1287907@kernel.org>
 References: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 In-Reply-To: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1891; i=mripard@kernel.org;
- h=from:subject:message-id; bh=s5fxPUrR9nGUSrsW0yyF1l85BFj/JMLiIMEzttpPBaI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3dyg8jbsa+3GBUef3tBV73nQUzvHd1Xfq0DwJj5IVK
- 58Wi+ne7pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQAT6WpmbFhjyTfl7Hrxuzfl
- ykyeVXvvendDect2Jq5tHtcPeZb71D7gKPrf8N3zCXf4osx7KxyuqjE2zKxNnbAoPlD/bkhz5eU
- sZ1eew3872w/cP7HP4F4tz/u+znbebm2hqfklmTMVNK3P59kCAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1803; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=muPMoWzcBKSC+bTmlW1CD4F2oOL5rO6BZBEkeUj5wBA=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBm3dyjsZWPh6CrXtMgWksre9O+098ca5VvzFme/ZFx6X
+ OKBWEpzx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIuVLGhrc5q2uffzIQkbC/
+ ypxyLEzxsM/PMw/ZmA7tNe79lCUkP+W94YuDaq5sTAViopskz0dtY6x3T9Wc9qtRt13AftPEXJ7
+ 0kOtVB2wOmJTv8Hys5Tblyjybcr31Csycar/ZBQqTpflqXwAA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,56 +70,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_existing_connector_state() function is deprecated and
-isn't used anymore, so let's remove it.
+While the old and new state pointers are somewhat self-explanatory, the
+state pointer and its relation to the other two really isn't.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Now that we've cleaned up everything and it isn't used in any
+modesetting path, we can document what it's still useful for: to free
+the right state when we free the global state.
+
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 23 -----------------------
- 1 file changed, 23 deletions(-)
+ include/drm/drm_atomic.h | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 38636a593c9d98cadda85ccd67326cb152f0dd27..321c866d5b0a46df7a9adbbf5e4cabd1ff987aad 100644
+index 321c866d5b0a46df7a9adbbf5e4cabd1ff987aad..fe47715c31e41ad8bd45140fe6413b57b69b7c61 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -729,33 +729,10 @@ drm_atomic_get_new_plane_state(const struct drm_atomic_state *state,
- 			       struct drm_plane *plane)
- {
- 	return state->planes[drm_plane_index(plane)].new_state;
- }
+@@ -180,11 +180,28 @@ struct __drm_crtcs_state {
+ 	u64 last_vblank_count;
+ };
  
--/**
-- * drm_atomic_get_existing_connector_state - get connector state, if it exists
-- * @state: global atomic state object
-- * @connector: connector to grab
-- *
-- * This function returns the connector state for the given connector,
-- * or NULL if the connector is not part of the global atomic state.
-- *
-- * This function is deprecated, @drm_atomic_get_old_connector_state or
-- * @drm_atomic_get_new_connector_state should be used instead.
-- */
--static inline struct drm_connector_state *
--drm_atomic_get_existing_connector_state(const struct drm_atomic_state *state,
--					struct drm_connector *connector)
--{
--	int index = drm_connector_index(connector);
--
--	if (index >= state->num_connector)
--		return NULL;
--
--	return state->connectors[index].state;
--}
--
- /**
-  * drm_atomic_get_old_connector_state - get connector state, if it exists
-  * @state: global atomic state object
-  * @connector: connector to grab
-  *
+ struct __drm_connnectors_state {
+ 	struct drm_connector *ptr;
+-	struct drm_connector_state *state, *old_state, *new_state;
++
++	/**
++	 * @state:
++	 *
++	 * Used to track the @drm_connector_state we will need to free
++	 * when tearing down the associated &drm_atomic_state in
++	 * $drm_mode_config_funcs.atomic_state_clear or
++	 * drm_atomic_state_default_clear().
++	 *
++	 * Before a commit, and the call to
++	 * drm_atomic_helper_swap_state() in particular, it points to
++	 * the same state than @new_state. After a commit, it points to
++	 * the same state than @old_state.
++	 */
++	struct drm_connector_state *state;
++
++	struct drm_connector_state *old_state, *new_state;
++
+ 	/**
+ 	 * @out_fence_ptr:
+ 	 *
+ 	 * User-provided pointer which the kernel uses to return a sync_file
+ 	 * file descriptor. Used by writeback connectors to signal completion of
 
 -- 
 2.51.0
