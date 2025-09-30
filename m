@@ -2,112 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C3BAE7E0
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 22:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42053BAE7F5
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Sep 2025 22:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5184D10E621;
-	Tue, 30 Sep 2025 20:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B14A010E2D6;
+	Tue, 30 Sep 2025 20:10:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pPAcwORD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ffJrJ0PS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC49F10E621
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:06:20 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UCQOaH027330
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:06:20 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC0210E2D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:10:16 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UCo3Z1017702
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:10:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=nnCDWQBx3MEUkPGk1nPDrYBk
- 0/iZtvd9WsbeqrQ9y0s=; b=pPAcwORDhNc5V5kCVRdy1IZmLTHcRoUgyba/fmd3
- LsdcVm9mBl23+/rygXKXLx4xTmFejhl5BRVUieYfVrucQZuz4UUt1acQc6HyTIyO
- RPqAXMPfwf7YaC7RTcJr4ZV3JkbbSxBKxh5pPWHJSWSsno6VL8fubM/sxLmOXb6M
- lWHGcrG0XGpyEMF1ttNJPNALUy6c1JR8Qk24PVus9lvJdbntQaG2hFR+Ln+FlgUF
- AyOiJsXXSybd3jMHrCKtl4KLiRcraBsEtSM4sCTFmWu3LWeBbK5TpP8rLv+3bwAG
- By3BP5CkBKpniG/bunzzytaqAcm5eQROG5ldQf3aestZ8A==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fyrf3w1b-1
+ :references:subject:to; s=qcppdkim1; bh=HUh15XTlHhQ6Q1q/DhGrQFrr
+ yiPIaucH02PqHMC1azU=; b=ffJrJ0PSTxvIAskznd1HN89PYvrtK1jPtX4SKcyO
+ n9M360aQdp97l/HD2LB0hM7I3AIBClvyVjFNX4Pe/4gDkw4p9PlD04eunPSwsfaU
+ bBZ2YMmmJnJdJ/GcYahlQn8cIUTUvbx1ueAUfOYhx8IYeK88/xQZh9o48wuAIdXR
+ ijxVM3znvZbccrA6V9xUPuFJsIrCrN59afxk7F0fEZttLODdeHJQTFWQBJf6Bxa5
+ gtEUZJv9MH7ZwXBQq/ay7K9XBo1P0u8OSz4pSDBjqaBB/TGe9u3vSOB94F4KoOj+
+ jyc8+qidoq5LZ/0oKAzmhM9or2F0L1OrF6O3XA/5b+R9VA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e93hj1wc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:06:20 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4d91b91b6f8so100232461cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 13:06:19 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 20:10:15 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4dd6887656cso118275521cf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 13:10:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759262779; x=1759867579;
+ d=1e100.net; s=20230601; t=1759263014; x=1759867814;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nnCDWQBx3MEUkPGk1nPDrYBk0/iZtvd9WsbeqrQ9y0s=;
- b=Ub/9CZwmnx8s2ejLf26jehPG4v8z5MsY+2lr6f++1KFUr9ID110X7cCwoFVD/ZuqC2
- RF6bJfh0KDxDMc55GAhFCSIY3ih+is35bWB+VmEIolZMaCaKhYc+Q7bsPBRN/PgCD1Ew
- ktQsIcyNtGJxKOgdWFACNOwvIJ+llP1TrGzSqLqiuVLYoJ9munsDd90kkppD4GAohr4q
- UXCnpJCdR0LVgzu4e+yzhajMRYWoojm0ZOsLnZ1vTtzVe5W4oJEsIpc1hzst0sFsZlRY
- 3b2GhILu83dSLakbGl9yolxR6U2blIJZ3HW7WftgGF4vJDqJiIYH0fyv3vh4kjWFGj67
- luhA==
+ bh=HUh15XTlHhQ6Q1q/DhGrQFrryiPIaucH02PqHMC1azU=;
+ b=sU2rhHhcyJwBW6gV6koIZ46tkZnJ7OG3suS6WqkslwVmls/eqqkD2HOfTlCzmJkpP3
+ VLfcxbEz+4gDALMMrRI1LDNxyOHL1L5OzbaVENCZt1nD8b1wPG3twZNKO45gVWeC+WIk
+ WrLbBHAjghORu/ZV4CfK45DV/lVD3KTBt4AWXQFLpk2GIkQvChZq+orkxA3WYMBvsJZT
+ w2Q4Aght2Qjo9ul86O8R3a5Yh/7xNgZOOtygLUJBCh6x3/4cF4Lg6co1tfZZG/4gB0CQ
+ YCDm95DgMWsDQHDB9t1BgswW8gzYgOhzRwin1vOSVWEIFiI+rRUs7Frrqye4eBxWCX8H
+ WOYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+90uQLdxo/Jytyf/jxl+q7m88KC94qeyM/M0nv5BAGpAN3L95DvTJWoSJIyHzeU0cB3lda+9GZfM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3plHCsFiS7GRCcDqXpyo4+/gHB2ZY9uoG1+3cTpaZniL752Qb
- e2Z65rC+PjaHXRtvYoea4UBSChpfmcnZ65+JEC60LvVYI54VZBich0DfOR5uTMPcT414wiWF7pF
- 85v4pyHNcYFwRZ+t7oHP3jKS1SJWGXQtOTMzE6d/yZ44CbGRENf0uMnp+l/80lcEp5rPz5BU=
-X-Gm-Gg: ASbGncvBcAjHGql+K4weJ6sdXLJBGkoW/SENqb7kKMTZzT/2Aro2Co2yHwUFcRfctMm
- w67XSCg9Wn5XHpEbkCJ8Klhk0rYP0DfcSJvtx4H8GL7bGE0HPi0kkZEh8/cVnOp8r4mga3Q0Rbu
- Exlql7WXg6/ISoRKp5Y0nOOtJJ7AgpXnuS1jA35JTnjR2tixyu7vpflMQemRylROiNjJqIHI42H
- hOajQntD7+Me+4INzlaNtRkT3eJxkFQtgh3bcozKdHmsw7SiWTE+QiZ8B5GSQX6LHUASpDprsTP
- uU+PldnsfIN53bQ59ZX8auRTeV7ViKE8RHvl1G3SCRYkrV6OkaCSVpa+laIvXO8lHcRgyNW84ah
- 83NgfxD5RoQL5fRkCEDs3obY9icGk/sA54OjV9d7Bg7T7iYHkKHd8qSZNsg==
-X-Received: by 2002:a05:622a:1f06:b0:4de:8e13:2ccf with SMTP id
- d75a77b69052e-4e41ea169c4mr13229381cf.74.1759262779129; 
- Tue, 30 Sep 2025 13:06:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IExAC+gjWYrGkYGyC7iuQx0n8IkXtiwE5ml3GBXLD2rdjXMDvnTqbMjAoTH934KEvOlO8Ctyg==
-X-Received: by 2002:a05:622a:1f06:b0:4de:8e13:2ccf with SMTP id
- d75a77b69052e-4e41ea169c4mr13228591cf.74.1759262778420; 
- Tue, 30 Sep 2025 13:06:18 -0700 (PDT)
+ AJvYcCU8QzmBlG0K21y/xqVY633mSMAbGC2w3QcOvU0S/txd5f85VEcGrvNR2mhtZWRKbYZVEbJ0iyi3kf4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIcCHRhKI1BXgtPtX1UyJhZiNiNFqYAHCiewOyVTB3CmcSU/vI
+ ZoOWua3h1UUnQ9r9Oslsr7DYwbOmfh9thZMeHUxJ6KzJNb4fs1BpcpLMcbgDs7pqXqHG0K42Jmz
+ JRbMT221ncUXszZXpX6SUdn6PqCf+X8yzBgbfIWYI7sYd0R8Gx71xx6o1jeE+3INhgxWbPsw=
+X-Gm-Gg: ASbGncuCEwpdGKgBxyWkB+5RahUelvQSzDQ5YRWHQLd3fHUuOftfXJf2RaTcqfHtuWz
+ ueT3WtQvggki20BofKFhEAQKdVAvtcf/0ndszhl0tAFr+qjgpGHM8NPtFs7FYWfcKSdzJoCt2ip
+ aYYtEVbCs/xS3jKGPSItEhiOFEwiDT+xzfcuz4eXKwvdYHHYnq1iHCCvMCugMlA2nL+L63aEcL1
+ YdzZEbLOUFq9QUyPYeiPX6C8EUE49PDyrhFZVhMO5xn71QrXfXZs1+xhVaD9nmSD8eG89er4Q9E
+ Lh+jYFVUTwFj5Th0xgNVxan/aXEN4T340o0S+ExcQV914En5aPf5nastlA8M9iDg2vCR/yyxDL+
+ KGkw6mJCUaORehJJRnQkv5/p2lCK9pITWiei8Fg453sn90xKcSi/KE7I+ZQ==
+X-Received: by 2002:a05:622a:3c6:b0:4b2:f4e5:8eb1 with SMTP id
+ d75a77b69052e-4e41eb14998mr12847871cf.55.1759263014280; 
+ Tue, 30 Sep 2025 13:10:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkOHi3Cw4K9bHAEsEdXynVuyKt+2OCerw8APvAAWKM2bNTs+Ga5p28b3x5snKdH664Kuc9Vw==
+X-Received: by 2002:a05:622a:3c6:b0:4b2:f4e5:8eb1 with SMTP id
+ d75a77b69052e-4e41eb14998mr12847201cf.55.1759263013780; 
+ Tue, 30 Sep 2025 13:10:13 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-586048c815asm3037274e87.25.2025.09.30.13.06.15
+ 2adb3069b0e04-586b0c1f9d4sm2610582e87.49.2025.09.30.13.10.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Sep 2025 13:06:17 -0700 (PDT)
-Date: Tue, 30 Sep 2025 23:06:14 +0300
+ Tue, 30 Sep 2025 13:10:12 -0700 (PDT)
+Date: Tue, 30 Sep 2025 23:10:09 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@zonque.org, haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
- linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] ARM: spitz: Do not include <linux/fb.h>
-Message-ID: <atoda7fiaw6xxc3arfg2rvczt4ezhravwogbshvca4dsr5kjqm@vjj32eqjxkwl>
-References: <20250930112651.87159-1-tzimmermann@suse.de>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
+ alim.akhtar@samsung.com, jingoohan1@gmail.com, p.zabel@pengutronix.de,
+ hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ dianders@chromium.org, m.szyprowski@samsung.com,
+ luca.ceresoli@bootlin.com, jani.nikula@intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 04/18] drm/bridge: Move legacy bridge driver out of
+ imx directory for multi-platform use
+Message-ID: <x2fpm4rb7ermb2tyjefdwwbvwvzt6uosd45ad7ku3tp3yqkmqc@bayzgz3jsqkp>
+References: <20250930090920.131094-1-damon.ding@rock-chips.com>
+ <20250930090920.131094-5-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250930112651.87159-1-tzimmermann@suse.de>
-X-Proofpoint-ORIG-GUID: _U5sDSMh1TuUY63VCWgqq0wQHI0odLvv
-X-Proofpoint-GUID: _U5sDSMh1TuUY63VCWgqq0wQHI0odLvv
-X-Authority-Analysis: v=2.4 cv=etzSD4pX c=1 sm=1 tr=0 ts=68dc383c cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=al7qi2xbfAQSSKGDXgwA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE3NSBTYWx0ZWRfXxM2wWEkKRv7v
- 8yHB3ND3UygGtS3IK0CGCYNmO6ayD6qDjCqXiEDAV5EwqcgOJ5j0wNSu/bYPFlfq+S65MPyD9P/
- LqCPCQIOIOZqQPHOkYYCvQv7OIaYzPYQEDuif4epWNiH5i9/R/gA52pLu6whrw/GVfF/SEqMab6
- eaRRwQwub7/Y+OkUfO1BpDTeHk/p98SjGwlxVSpOcYo0r9OlUxNMUXqtKG4dencpkLMMWRMTXFj
- Oxxam8Qdk3ICuJOfhwS1QLXWaHIyQG2GqAeQa2m21ezobXdC/UdxzvYhsd0FGaP0YIChGfSOiyt
- bCtkF+/a7FxQ/B8Wrgf8XECdu93WKgfLkoF7d+A3wd9QZojjoDBe9a0Eg5ss9IQufzNNMPihBEI
- WcAJkB8XEbIK///QrpR1LtwlUOTxrw==
+In-Reply-To: <20250930090920.131094-5-damon.ding@rock-chips.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDA0MSBTYWx0ZWRfX+0KYmlSH55ba
+ 4OSEDhRSrY61YVkPX2z04/aVLqBpPicUICQlVjJN7MJkqyKMhno39cOLmNgQZaHsyPEm9V5BGgf
+ gnVIxRcEMp36GahDQkSDNKqVMTwy2EUIAz+1OPmhM1d/G93Uk/2Dv1OUu8tlsVc4wAl2m5UJ0Ep
+ kaS1t98lcuOHoQLIqCJGhZgK+LbHFjrpLYH9R0FIoB6+mpd3TJRWtsJO7J2vr9dDdcbrrIJKcsk
+ l+hiedr+EkiW+0/tCfXLdr3eTF8TFTZdCH0yLTXnShtxJdY29v3mJn6tvsIcjuof16YZL2eaDM7
+ fNTcEUQ6J81ugQ5vJbnLrmcA6ilZjp7zUwzrzY8fazy8i7Vtkg1eUb3XTZfEtKuJ8m6o3+mClwL
+ rU1vQiQd7rEZxtTIdbLB8wt6iJMErw==
+X-Proofpoint-GUID: ja-WsgiQ10TBSh9n50EkYNNfOPLNrNI2
+X-Proofpoint-ORIG-GUID: ja-WsgiQ10TBSh9n50EkYNNfOPLNrNI2
+X-Authority-Analysis: v=2.4 cv=Rfydyltv c=1 sm=1 tr=0 ts=68dc3927 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=EUspDBNiAAAA:8 a=_9FxbLpkiinsEApfcMMA:9
+ a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=jGH_LyMDp9YhSvY-UuyI:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-30_04,2025-09-29_04,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509290175
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270041
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,19 +135,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 30, 2025 at 01:26:46PM +0200, Thomas Zimmermann wrote:
-> This ARM architecture's source file does not require <linux/fb.h>.
-> Remove the include statement.
+On Tue, Sep 30, 2025 at 05:09:06PM +0800, Damon Ding wrote:
+> As suggested by Dmitry, the DRM legacy bridge driver can be pulled
+> out of imx/ subdir for multi-platform use. The driver is also renamed
+> to make it more generic and suitable for platforms other than i.MX.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Additionally, a new API drm_bridge_is_legacy() is added to identify
+> the legacy bridge, allowing specialized handling for such cases.
+
+Why do you need special handling for it?
+
+> 
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  arch/arm/mach-pxa/spitz.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
+>  drivers/gpu/drm/bridge/Kconfig                | 10 ++
+>  drivers/gpu/drm/bridge/Makefile               |  1 +
+>  drivers/gpu/drm/bridge/imx/Kconfig            | 10 --
+>  drivers/gpu/drm/bridge/imx/Makefile           |  1 -
+>  .../gpu/drm/bridge/imx/imx-legacy-bridge.c    | 91 -----------------
+>  drivers/gpu/drm/bridge/legacy-bridge.c        | 99 +++++++++++++++++++
+>  drivers/gpu/drm/imx/ipuv3/Kconfig             |  4 +-
+>  drivers/gpu/drm/imx/ipuv3/imx-ldb.c           |  6 +-
+>  drivers/gpu/drm/imx/ipuv3/parallel-display.c  |  4 +-
+>  include/drm/bridge/imx.h                      | 17 ----
+>  include/drm/bridge/legacy-bridge.h            | 18 ++++
+>  11 files changed, 135 insertions(+), 126 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
+>  create mode 100644 drivers/gpu/drm/bridge/legacy-bridge.c
+>  delete mode 100644 include/drm/bridge/imx.h
+>  create mode 100644 include/drm/bridge/legacy-bridge.h
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-> 
+I'm slightly concerned with the name of 'legacy drm bridge', It was fine
+for 'i.MX legacy', but now it might be a bit of overkill. Maybe
+something like drm_display_mode or drm_of_display_mode bridge?
 
 -- 
 With best wishes
