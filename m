@@ -2,86 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32772BAF711
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 09:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A82BAF7AA
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 09:48:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8788F10E692;
-	Wed,  1 Oct 2025 07:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE9A10E690;
+	Wed,  1 Oct 2025 07:47:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="uq+SudJJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fwy/laVP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B13D510E699
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 07:37:50 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-b3727611d76so1016048866b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 00:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1759304269; x=1759909069; darn=lists.freedesktop.org;
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CCBC31964+c7FoQA1HUfYfeEbUaDgsaFIT9ZaWC1avo=;
- b=uq+SudJJZkQ+FyaGoewFcqJnCh4Exn2nn0JqhvuktCeECHiK2fKsj+VVxmTxDmwlfd
- DHTWbYmiKuTHvTBWJN1oH/+7Pz0ulvcvTAhEd1Ha1DZmPgTYgqPw0l44HBm5e486JkgG
- m9W2nuf7Y4QD6CI/F627yP9hUNpweXMBq8bsfjoVb+4GVQKTDt3dam/Q4corSL2Wvl3m
- jr6XtGUngcn60L0+2U1fSg0V+viOqBTeyqrXjXtCXFWe7QDO4zyOHAqdbsmGwUZFd+P4
- I8whY9MnsgP5CHNXuz1xcw4TWIJKNzX1na9TM0Rt5ZDGu4xaRTojJVhfCyW13X6LNecX
- 9Jzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759304269; x=1759909069;
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=CCBC31964+c7FoQA1HUfYfeEbUaDgsaFIT9ZaWC1avo=;
- b=qlYYIgEMp19jWJvVvcdkCxcx/PZ7srYRx8wZ0W7KZZq/AHhqmu0MjlMQ7TkV977CqV
- Hd4ef77Uf0XjlNCAsemA/P4bQ/1oTyFa5GGTKy2q5IRLrw+mv3Wj4+soqcUFb6WsaQO6
- uex344srehLrqc+OuFjDrqX9weIMyEEa4Tob1gOND2q0pcSLNoaQBT7RVZCoQLAFqmLn
- 4BgQME0sBiV/WicwHUGTc6E0Y93Yx8d7u5trDSGS5AnotIvWsTidlXDc8fQZZZ7RRD22
- usrVcQfplMWJV5ljOPRfYpD1ZKWImn0COWSSZIX0aoTwkN4mIiSkqfzYcq6Fjn7ebabG
- Td1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlTpG34wkfXcP1kE5DY2op3OhBLYgGEUFFLRyP2tIUk9jvlpIlGk9dc9gyrbe3ZDkW0eAdfPhVVoI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznqmLaRZDpxtJ4vMCOEPk/VCSMn7znubJxs6Uuz2EGv8v1+uQE
- IUa6ewRiRe3CSGD4O/OLGOApMvZWt6nMi0S8/k2A5Mo3iPC9YBCpQDuSo1R2WglRtcE=
-X-Gm-Gg: ASbGncsXgYLQaIJ64gY9fX3kl7IUgK/oXf5tkL+8SVubf6LzBb0RUpauhXO6Igfw0F+
- Y0KfRPbqfRMe9is9y2Gz+gj4sbEXGIbZoVP3uWNZz823QGnX8ckA6wElcKJbAL2ywkCD2l5AwAi
- TMAAE2nA7g8LOrP+YHm+hkZy+x+4LafhBA/8QeNc9DvC5TuaIgRJmKKH6abdt8nUtpClM90diIf
- 41UX50unt5ExV/cWkpNyAwOtb6z4MxmirVldA24HLAXAjNuCAX2E59+Adcb3wi4O2UcC/Ib2mHN
- yqGynUkUk4L7N9ypCLsuEXiYKt/z5ubxVyKryqrLziA+p+i3+1l59W+0XlDm0xZuEd92xAHuHVu
- d7Jm2xdTDK7zjgorzDbD7XYWZCw1D6xh5E9XMCDl9t4KOvW1zKgje4rWneUK4GRVR5a51eaWT0j
- TssDv/K6x7RozTfpmK
-X-Google-Smtp-Source: AGHT+IECncxzo44p2ti1eqVfThffaFqPYdNBkWZ/Tki6amN33j9mO0FxuVRZFb9kMJ5ZWSnhCBIzXQ==
-X-Received: by 2002:a17:907:3cc8:b0:b3e:c7d5:4cb5 with SMTP id
- a640c23a62f3a-b46e632f76emr337033566b.31.1759304269133; 
- Wed, 01 Oct 2025 00:37:49 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b3d27759835sm693220566b.13.2025.10.01.00.37.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Oct 2025 00:37:48 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E281D10E690
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 07:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759304865; x=1790840865;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=/QaWQpWbEUgMj7y0djuC4uNPi0m/wC8mRT9s62rgIx0=;
+ b=Fwy/laVPl8JArJo0wMNWT7VqnO1JMgRDdr/ZprtLpcSiwogdYw0BPsz5
+ 4S9zdwU4spEHchRE9ut8A9ADYoy7iBdijweTKxL5ymJDcPEj38W4rxNSK
+ 6Jk1TQmvIvUv0LM+Aj1hVEGFnr3yD2pRwC8RppMzy3TiGIOmtfG0Wq3qx
+ d9s+Va9A5Ub0YPB7k+RrzoZdOWiiJpfN6U4dLGzZk+m/rpY0LYNMWUjcv
+ 30YoJVR3i/JOaK2ynsjg3RCHldHIRbwDzeW1U/6yxxdRUxeImyhScGhgy
+ /5PG/xVioY6kTlwxzHP7LOhrm75aWwB1wTtLlYKhpl+4EY1YeVdSYWOOI w==;
+X-CSE-ConnectionGUID: 3g2nURbpQQehLnrQm4yMqQ==
+X-CSE-MsgGUID: I4kfGvNUTQ+RhaACHZFdRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="87018961"
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="87018961"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2025 00:47:44 -0700
+X-CSE-ConnectionGUID: S/VcsHf0Th2eRWA2/5ZFXw==
+X-CSE-MsgGUID: LVlQsvt4QO69izQH++l1ag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="183009635"
+Received: from unknown (HELO [10.102.88.152]) ([10.102.88.152])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2025 00:47:43 -0700
+Message-ID: <0afdf845-0ce0-45f2-85f3-5633987db268@linux.intel.com>
+Date: Wed, 1 Oct 2025 09:47:40 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Enable MCA ECC signalling based on MSR
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
+ Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+References: <20250925145020.1446208-1-maciej.falkowski@linux.intel.com>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20250925145020.1446208-1-maciej.falkowski@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Oct 2025 09:37:47 +0200
-Message-Id: <DD6TBB5CSRII.3SEI8QL9N1ATT@fairphone.com>
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Rob Clark" <robin.clark@oss.qualcomm.com>,
- <dri-devel@lists.freedesktop.org>
-Cc: <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- "Stephan Gerhold" <stephan.gerhold@linaro.org>, "Dmitry Baryshkov"
- <lumag@kernel.org>, "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica
- Zhang" <jessica.zhang@oss.qualcomm.com>, "Sean Paul" <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "open list"
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm: Fix GEM free for imported dma-bufs
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250923140441.746081-1-robin.clark@oss.qualcomm.com>
-In-Reply-To: <20250923140441.746081-1-robin.clark@oss.qualcomm.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,91 +73,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Sep 23, 2025 at 4:04 PM CEST, Rob Clark wrote:
-> Imported dma-bufs also have obj->resv !=3D &obj->_resv.  So we should
-> check both this condition in addition to flags for handling the
-> _NO_SHARE case.
+Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+
+On 9/25/2025 4:50 PM, Maciej Falkowski wrote:
+> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 >
-> Fixes this splat that was reported with IRIS video playback:
+> Add new boot parameter for NPU5+ that enables
+> ECC signalling for on-chip memory based on the value
+> of MSR_INTEGRITY_CAPS register.
 >
->     ------------[ cut here ]------------
->     WARNING: CPU: 3 PID: 2040 at drivers/gpu/drm/msm/msm_gem.c:1127 msm_g=
-em_free_object+0x1f8/0x264 [msm]
->     CPU: 3 UID: 1000 PID: 2040 Comm: .gnome-shell-wr Not tainted 6.17.0-r=
-c7 #1 PREEMPT
->     pstate: 81400005 (Nzcv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=3D--)
->     pc : msm_gem_free_object+0x1f8/0x264 [msm]
->     lr : msm_gem_free_object+0x138/0x264 [msm]
->     sp : ffff800092a1bb30
->     x29: ffff800092a1bb80 x28: ffff800092a1bce8 x27: ffffbc702dbdbe08
->     x26: 0000000000000008 x25: 0000000000000009 x24: 00000000000000a6
->     x23: ffff00083c72f850 x22: ffff00083c72f868 x21: ffff00087e69f200
->     x20: ffff00087e69f330 x19: ffff00084d157ae0 x18: 0000000000000000
->     x17: 0000000000000000 x16: ffffbc704bd46b80 x15: 0000ffffd0959540
->     x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
->     x11: ffffbc702e6cdb48 x10: 0000000000000000 x9 : 000000000000003f
->     x8 : ffff800092a1ba90 x7 : 0000000000000000 x6 : 0000000000000020
->     x5 : ffffbc704bd46c40 x4 : fffffdffe102cf60 x3 : 0000000000400032
->     x2 : 0000000000020000 x1 : ffff00087e6978e8 x0 : ffff00087e6977e8
->     Call trace:
->      msm_gem_free_object+0x1f8/0x264 [msm] (P)
->      drm_gem_object_free+0x1c/0x30 [drm]
->      drm_gem_object_handle_put_unlocked+0x138/0x150 [drm]
->      drm_gem_object_release_handle+0x5c/0xcc [drm]
->      drm_gem_handle_delete+0x68/0xbc [drm]
->      drm_gem_close_ioctl+0x34/0x40 [drm]
->      drm_ioctl_kernel+0xc0/0x130 [drm]
->      drm_ioctl+0x360/0x4e0 [drm]
->      __arm64_sys_ioctl+0xac/0x104
->      invoke_syscall+0x48/0x104
->      el0_svc_common.constprop.0+0x40/0xe0
->      do_el0_svc+0x1c/0x28
->      el0_svc+0x34/0xec
->      el0t_64_sync_handler+0xa0/0xe4
->      el0t_64_sync+0x198/0x19c
->     ---[ end trace 0000000000000000 ]---
->     ------------[ cut here ]------------
-
-Also fixes log spam when opening GNOME Camera on Fairphone 5.
-
-Tested-by: Luca Weiss <luca.weiss@fairphone.com>
-
-Regards
-Luca
-
->
-> Reported-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> Fixes: de651b6e040b ("drm/msm: Fix refcnt underflow in error path")
-> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+> Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 > ---
->  drivers/gpu/drm/msm/msm_gem.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+>  drivers/accel/ivpu/ivpu_fw.c |  4 ++++
+>  drivers/accel/ivpu/ivpu_hw.c | 23 +++++++++++++++++++++++
+>  drivers/accel/ivpu/ivpu_hw.h |  1 +
+>  3 files changed, 28 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.=
-c
-> index 9f0f5b77f1bd..3aea9b493375 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -1121,12 +1121,16 @@ static void msm_gem_free_object(struct drm_gem_ob=
-ject *obj)
->  		put_pages(obj);
->  	}
-> =20
-> -	if (obj->resv !=3D &obj->_resv) {
-> +	/*
-> +	 * In error paths, we could end up here before msm_gem_new_handle()
-> +	 * has changed obj->resv to point to the shared resv.  In this case,
-> +	 * we don't want to drop a ref to the shared r_obj that we haven't
-> +	 * taken yet.
-> +	 */
-> +	if ((msm_obj->flags & MSM_BO_NO_SHARE) && (obj->resv !=3D &obj->_resv))=
- {
->  		struct drm_gem_object *r_obj =3D
->  			container_of(obj->resv, struct drm_gem_object, _resv);
-> =20
-> -		WARN_ON(!(msm_obj->flags & MSM_BO_NO_SHARE));
-> -
->  		/* Drop reference we hold to shared resv obj: */
->  		drm_gem_object_put(r_obj);
->  	}
-
+> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+> index b81bd143a285..be1290be77fd 100644
+> --- a/drivers/accel/ivpu/ivpu_fw.c
+> +++ b/drivers/accel/ivpu/ivpu_fw.c
+> @@ -606,6 +606,8 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
+>  		 boot_params->system_time_us);
+>  	ivpu_dbg(vdev, FW_BOOT, "boot_params.power_profile = 0x%x\n",
+>  		 boot_params->power_profile);
+> +	ivpu_dbg(vdev, FW_BOOT, "boot_params.vpu_uses_ecc_mca_signal = 0x%x\n",
+> +		 boot_params->vpu_uses_ecc_mca_signal);
+>  }
+>  
+>  void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params *boot_params)
+> @@ -708,6 +710,8 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+>  	boot_params->d0i3_entry_vpu_ts = 0;
+>  	if (IVPU_WA(disable_d0i2))
+>  		boot_params->power_profile |= BIT(1);
+> +	boot_params->vpu_uses_ecc_mca_signal =
+> +		ivpu_hw_uses_ecc_mca_signal(vdev) ? VPU_BOOT_MCA_ECC_BOTH : 0;
+>  
+>  	boot_params->system_time_us = ktime_to_us(ktime_get_real());
+>  	wmb(); /* Flush WC buffers after writing bootparams */
+> diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
+> index 8dbf8780920a..d69cd0d93569 100644
+> --- a/drivers/accel/ivpu/ivpu_hw.c
+> +++ b/drivers/accel/ivpu/ivpu_hw.c
+> @@ -8,6 +8,8 @@
+>  #include "ivpu_hw_btrs.h"
+>  #include "ivpu_hw_ip.h"
+>  
+> +#include <asm/msr-index.h>
+> +#include <asm/msr.h>
+>  #include <linux/dmi.h>
+>  #include <linux/fault-inject.h>
+>  #include <linux/pm_runtime.h>
+> @@ -22,6 +24,8 @@ MODULE_PARM_DESC(fail_hw, "<interval>,<probability>,<space>,<times>");
+>  
+>  #define FW_SHARED_MEM_ALIGNMENT	SZ_512K /* VPU MTRR limitation */
+>  
+> +#define ECC_MCA_SIGNAL_ENABLE_MASK	0xff
+> +
+>  static char *platform_to_str(u32 platform)
+>  {
+>  	switch (platform) {
+> @@ -395,3 +399,22 @@ irqreturn_t ivpu_hw_irq_handler(int irq, void *ptr)
+>  	pm_runtime_mark_last_busy(vdev->drm.dev);
+>  	return IRQ_HANDLED;
+>  }
+> +
+> +bool ivpu_hw_uses_ecc_mca_signal(struct ivpu_device *vdev)
+> +{
+> +	unsigned long long msr_integrity_caps;
+> +	int ret;
+> +
+> +	if (ivpu_hw_ip_gen(vdev) < IVPU_HW_IP_50XX)
+> +		return false;
+> +
+> +	ret = rdmsrq_safe(MSR_INTEGRITY_CAPS, &msr_integrity_caps);
+> +	if (ret) {
+> +		ivpu_warn(vdev, "Error reading MSR_INTEGRITY_CAPS: %d", ret);
+> +		return false;
+> +	}
+> +
+> +	ivpu_dbg(vdev, MISC, "MSR_INTEGRITY_CAPS: 0x%llx\n", msr_integrity_caps);
+> +
+> +	return msr_integrity_caps & ECC_MCA_SIGNAL_ENABLE_MASK;
+> +}
+> diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+> index 511a1a29f7f6..b6d0f0d0dccc 100644
+> --- a/drivers/accel/ivpu/ivpu_hw.h
+> +++ b/drivers/accel/ivpu/ivpu_hw.h
+> @@ -63,6 +63,7 @@ void ivpu_irq_handlers_init(struct ivpu_device *vdev);
+>  void ivpu_hw_irq_enable(struct ivpu_device *vdev);
+>  void ivpu_hw_irq_disable(struct ivpu_device *vdev);
+>  irqreturn_t ivpu_hw_irq_handler(int irq, void *ptr);
+> +bool ivpu_hw_uses_ecc_mca_signal(struct ivpu_device *vdev);
+>  
+>  static inline u32 ivpu_hw_btrs_irq_handler(struct ivpu_device *vdev, int irq)
+>  {
