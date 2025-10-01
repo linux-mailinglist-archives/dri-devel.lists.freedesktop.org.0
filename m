@@ -2,156 +2,179 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB5BBAF10F
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 06:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D31BAF118
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 06:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1621D10E65A;
-	Wed,  1 Oct 2025 04:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D31010E661;
+	Wed,  1 Oct 2025 04:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="R5U76Kbg";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="AeEjUMD/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010017.outbound.protection.outlook.com [52.101.201.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBB610E2E6;
- Wed,  1 Oct 2025 04:00:00 +0000 (UTC)
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011063.outbound.protection.outlook.com [52.101.52.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9A710E2E6
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 04:02:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nvgTfKLvfuE+Lmef3WQXlBOG7fDXIRjzOlMyN0trYZ33dwR+woB9ZJANIu90VCH518n1/D6DspvKCtNyKWfwoO3u1IIgpDnhrvVj4MRcEnqY4f03yfjkcl1N1owQu4aOT68uWmDgf/Dl+EXviOIsMtB1gSkrxKSn8FgNJraxJSHIn2vZSx1MmuKteJCnARzJL3bv8MSdt8tZnAoH2FlQjWwEWQbksEam+fZooPNr7E/NRTpyVH+iA361KbZt6ieFWwlqGuzso0HCcQ7tvHuzfahMcZqk73fb4jG62Xz1MfGaM7QRxk29p64x9NIF1AZw4+n7LN6WIZvwKZ4UlObaVQ==
+ b=GPYnUWhLgv7FhpqiwcFLflBnSYLCZKZ1NF7B1nJATLvF38ioAeSfK31cibMfKoHpxcbsVBNPMbBRbWXLyQU9VfFwzC5LtsdeVtxnr0cXUe1MZaBD7lZyOnx5URCRw7MkPu20c3+b3vSeMeJLMxvGuQDoMJrzfL1OkLmyTxvkk4JrxmOi1mtF36GCnizhJU38iH2lpkv6ZQdRvWWM/IjSZ2mlC/3ULzT9CrYCzGWDcXz337kvTl0m46LnJ7HESxg8PGn4Oz8WNA1QR/5ZtfdHqruDOFEEr39jYB7b/yLwwUPj7QqVtMt6XR325w5evfofeFqBfdfy0reLbxNAdCDKRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QKvsuKT/fP/EiLYJuonJJqKWj5maha53984BKxQHBU8=;
- b=S3NLReh4Mr0r/5ZWAL8F95zw0/AkBpHH40yJrbDOOYUzcQCS11HOmkgohwV9HcdPwaRvrGsNpM2aUYp4nRey+ssrfP8/+KNnvMNa26N04K+2AUyDxYlGl0bxQafJJQ1nijFH6KzHkxxbc1lWL7jRbD9BZ2Tm7tsj/1Qy2ZqtsRYzcm/ZEwa1iA51HTnhVixSaAsKoKsUIZgCtmenrK0q0NaUaQqCC4sQHzVVdmEtAZEl8oIk46x8eYnnlzBYiqtQTmmIlEH82m2tiKbKxCTiYMAflRJlRY4YyM8u7qE7Qcn6TsHtYzCMfuOARp+XPu1JI9Zm8/63xK8K0ENHqS0jBw==
+ bh=cntziZMePRwJ8wPs7L1Jh86gj5flVlQYpYfgf4snZy4=;
+ b=D4x8WkA2XMvXHGQxJALKneYk6XwW8wzLEUuAfnGe0/ghO9Moxw81s+RCIXOuwXTk495J1zJh6O7Hh9G4SyoYhTZt2aOKQtV6JCGBCurBZVL8I/0jD+wf+fwyCKh9zcZgHxRLm2zpT6Nm9zYEHXvCuCfDviwyeYAfS5n9qPrwlC9Ev1VxK/MQeKfy6iRDhYhdxaF1T5SP7gNFnN+ykdfMEo/6SzVsBrUwOn52L3qitYKgdn7rX+ugb7hMvjcR1dDkFz9a/B+9Eia+GqvNBbYHYegX8/s7/zSKXgPPtOc+R6nxJ/z7mEPG2p/LDLS6/WCRLZQKhJIl6ZA1uHtrp99eDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QKvsuKT/fP/EiLYJuonJJqKWj5maha53984BKxQHBU8=;
- b=R5U76KbgX1WXjmq7HbOmYTif/0zt8XvijOoVhG6amj3jkhgU6MYHML4wr6E0XVyEMbOdKiHZpU4tfJjx+hBTJptlWp0A8QdHK4mIvImfSwjfnMsW8NBrDOcQ5HCmYxNTFUgfDUt0N5IIrQmk5OEF0iwJmAUEgBWie/ou2PKWg4c=
+ bh=cntziZMePRwJ8wPs7L1Jh86gj5flVlQYpYfgf4snZy4=;
+ b=AeEjUMD/+fA1sTtfG0TjV8UvJGnXTARS04IkqQ+Vmi61QPlZ+VLLk5CC32HVzYV5D4CvLSt0vVhbNS94OaVU2iZ1vmy/XLmTZaaJdPHWl0C461ZocXD/uMYr80CrgDlvkSqjnYs8vqNXoAQEfhDhVsUrIfAohAFFl1vByRgn/1HoEtoxWdpEbYQxBohievRZD5o+h77124V08sh4Xx4GW5fQwmHeZITBi78UIodb9Fhi9zp5M3kZA6zzqGoT35jQYHhOZVF8O5V9Vt6760Q4M65unJOKFizRyUtHui+weVYh9yqTP8hk8wU25hU9TUexjtViErBQHt4sxKp6K3saPQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
- by MW4PR12MB7336.namprd12.prod.outlook.com (2603:10b6:303:21a::9)
- with Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Wed, 1 Oct
- 2025 03:59:56 +0000
-Received: from PH8PR12MB7301.namprd12.prod.outlook.com
- ([fe80::a929:e8eb:ef22:6350]) by PH8PR12MB7301.namprd12.prod.outlook.com
- ([fe80::a929:e8eb:ef22:6350%5]) with mapi id 15.20.9160.015; Wed, 1 Oct 2025
- 03:59:56 +0000
-Message-ID: <f17b2883-125c-41b7-8be6-714da5597abd@amd.com>
-Date: Wed, 1 Oct 2025 09:29:47 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/3] drm/buddy: Add KUnit tests for allocator
- performance under fragmentation
-To: Matthew Auld <matthew.auld@intel.com>, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: alexander.deucher@amd.com, jani.nikula@linux.intel.com,
- peterz@infradead.org, samuel.pitoiset@gmail.com
-References: <20250923090242.60649-1-Arunpravin.PaneerSelvam@amd.com>
- <20250923090242.60649-3-Arunpravin.PaneerSelvam@amd.com>
- <f2db7484-efd4-459a-93b2-b6097d7e86f5@intel.com>
-Content-Language: en-US
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <f2db7484-efd4-459a-93b2-b6097d7e86f5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2P153CA0021.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::20) To PH8PR12MB7301.namprd12.prod.outlook.com
- (2603:10b6:510:222::12)
+ 2025 04:02:26 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9160.015; Wed, 1 Oct 2025
+ 04:02:26 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Svyatoslav Ryhel <clamor95@gmail.com>,
+ Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 01/22] clk: tegra: set CSUS as vi_sensor's gate for
+ Tegra20, Tegra30 and Tegra114
+Date: Wed, 01 Oct 2025 13:02:21 +0900
+Message-ID: <6093672.29KlJPOoH8@senjougahara>
+In-Reply-To: <20250925151648.79510-2-clamor95@gmail.com>
+References: <20250925151648.79510-1-clamor95@gmail.com>
+ <20250925151648.79510-2-clamor95@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0021.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:263::11) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|MW4PR12MB7336:EE_
-X-MS-Office365-Filtering-Correlation-Id: aadbd58d-e6ae-4d74-e96a-08de009efbc9
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|PH7PR12MB6000:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fb17e50-344a-4dda-9790-08de009f5525
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OXJiK2s2ODEvN2Yva1dWL0hZUHF4NElVZnZKNkJVNmRTblhEUFp4a3RYMXBt?=
- =?utf-8?B?VGtEREJMcGRpVjZYNGk1YlRtU3lUWXZQQjJQU3BFa1Fvd2JhSDNWd1FxZDFn?=
- =?utf-8?B?YlFVOUF2Zmo2R3NnNXl0UlFTam5uZGg0OHpHeDVkZzhTMHNnSVY5MzdJSGY2?=
- =?utf-8?B?N25YOTYyNGpqeVRtRlo3b0U1ZElWZjhqS2lkNSszd2FEbEZycWl1cVJndUZC?=
- =?utf-8?B?RUJ4R203aTBxeDEyb2NHTnY0V1FNVlZkV3Q0RldvVlA5MjQzUEN6ZGZDRldv?=
- =?utf-8?B?UUJDdDJHU3dMTGdJclJwWjcvWmo4MmYvdjcrZW9DMitXV1k4U1lEZVUvZ2VS?=
- =?utf-8?B?K25xZ2Q3ODliemphSlA2aVRtODJNZFZicTczQ3FMTkloWUV2bE1NMTRGUFhx?=
- =?utf-8?B?aFpxRlVqdHQ3MGVjSmNCeUpzQmhUNXdReXBQVjlQOXY3KzNLSVNXTEJPV2k2?=
- =?utf-8?B?cU1ORjh4cHNtMEZlZHJuQi9hRUp6NHJ6ck5hb3BRRi9nUFQrZTE2L2VwMTVa?=
- =?utf-8?B?VE5XT05xM2t0bjUvMFhoRTdSSVBEc01PL0kyZWdrVnczc011TlBjYnJzVCtD?=
- =?utf-8?B?MnJ6SXc4UGJmRUJHb0JQOFFYZ2NvZ1ZMc1BBTjNWM0s5amtBWU41MVZsZEJI?=
- =?utf-8?B?bllVK1ZjQnFJRG5MazA0citwWTN4dm5YVkllTHpRWnY2clJpL1lxd1ErNHRM?=
- =?utf-8?B?eWljSjI0WUxHbnhNclRIcWVhSG8xVHMveXQ4L05xL2NXYUFhSzk4TTVKZ2Mx?=
- =?utf-8?B?a25mem1IUEJVdnlOeE9KN0NKYmhKS3l5dTVoa0F0V2FQUCtuQ2NXN0ZHRTMv?=
- =?utf-8?B?TFhiMk5MSXFFbUhHOWF5L1lBbmNBc0RCa2NWZXJlc3lneUEyeVRaK2JpZmIy?=
- =?utf-8?B?Ylg2dldHSDRVaDlxTC9SS2V2aTBGbDFkVlN0c2xrOTk3TTBxUlhYVzJCZ1RT?=
- =?utf-8?B?d0hCOEV3NVRSNVBrVW1uZjlrTG44RlZMc3h6R2ZPbStJbmhCYTgwck1LWGtM?=
- =?utf-8?B?WmJPaXVnM3B4UXgwWWVFYUpiZWtXbUdFTTdYSW1sM1BHcnF5NUljNkpCdTg4?=
- =?utf-8?B?YTB5OFFuRkwrMWJURFdaODVTY202NWtKU1c0V2luUEZLVE5EbDRCMEJkTzV1?=
- =?utf-8?B?MjhIQmJVWSsrZTRPck40amxhWVAzdzJnQXdPaEp4WmNJZjN3WXZUbmkrTEhF?=
- =?utf-8?B?b3BBMzV6dXVTOEVXQzIra01XVThUYzQ0SHEyTjZMSUQxTEcvZ1huY0JMRC9D?=
- =?utf-8?B?NVdjMEd5TjQySEdLZkU3R0RSb3V2RUY1ckFYSGZzZVRhUllhU0tnZWJpUC81?=
- =?utf-8?B?bW90SnB4VDVGemQ2M2lveDdJUTFUVm9wcnRhNnNocVkwVzJJMUI2aFoyVEhp?=
- =?utf-8?B?dWxDdllILytSeDcyTVlxcXhEVXp6MG1tdFkzdXNpdVQyQU5JQ2Y3R091MEpx?=
- =?utf-8?B?ZGNsUnYwdGg0MVVBeHo2OUJNWFBVb2hwVXp4Z2E1YlAzblpvOWVndjNzMmJ2?=
- =?utf-8?B?R3VPOHNXMGNmNUJiVXV6OStZZytkMk1pQmpaKzRBOFVET3d2bXJHQjhaZkdT?=
- =?utf-8?B?L2FJUktmcGtVdThtQWxCWlowSlZETnk2aklkU3A1ZDNyWU90d3FOazM4eGFu?=
- =?utf-8?B?RXNSRlhad2Nib1F5S0R2bUw5ZmI4WHJ0VWg1cXVtMlhYYkkwME5COUF5Mjlk?=
- =?utf-8?B?cWVLQ1k0RmdMVS8xZ1R2UHNTQkpQSkhMZGZIcW14aEtrM3B0dGJPRlJLdTJa?=
- =?utf-8?B?K3czS0t0clNvc3RvQ1l0WmR0cmxqM0ZyeUhpS29yRkt3ZGNiMzVxdkhNY2xp?=
- =?utf-8?B?cklveWJwYWUrcWlUUWFiWW9LN2VMUFdEMmtkTWRXWlYvWm44bytOSUhVcnVK?=
- =?utf-8?B?K3N5K2lXWjlDd3lwWDA2Ri8zZ0ttSERHczM2U2dtbnExWEdUQjR4QUsxdXgy?=
- =?utf-8?Q?3Vk+vxXB2PtBeVr9WS+q6vCUJnPGAQEF?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|1800799024|10070799003|376014|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RDZvOXVLK29PKzJJc091U2tOVjVzUmtVVHluSlZDcFovdUJJN1AzNExnRC9x?=
+ =?utf-8?B?S2hXRW5mSkhoY2dzdmtpOFZER2dOS3ZPZEJycUp4WXlpSE8xNTVCaWgwYU1Y?=
+ =?utf-8?B?NXdDeWljR3NXR3h0V0VwYXJSL2V5MDVPaTJqZm5zYlNyU1pNVXpPVUhNYjZH?=
+ =?utf-8?B?TytDSVB6S096ZjFNMDB1SGpGRmF2cE5TRnRpYUtDTkxCN3dOb3RUcGc3clQw?=
+ =?utf-8?B?ZmQvT1NxKy9RZ3RoSU1BK1psZUh2amxkN3ZiM3gvcCtBd3JKWlFVcjBmaHFI?=
+ =?utf-8?B?S09mVkNDeStLYVNqWmwzNDhPeEtnMUIvS1ZsSG5CM0NFQnVLeVRyRE1YaHMy?=
+ =?utf-8?B?UVkyVzhTZzdaeko4VVpEUnBoN2RaWUFxN2JreWduR2JSSTV6d3EvcEJFRkMw?=
+ =?utf-8?B?TUxoTVJxaG1SYyttRWt1YkgxQW52bmpGQXRzaFVnSGNCN2libzRwUFplS1Bm?=
+ =?utf-8?B?WERwL3p5aXFBb1FNWXZhb01JOUJZR1RFd0pFZ2MreGZrK0hZakVaUldFc1No?=
+ =?utf-8?B?cmVMVHVxWFpqWWt5aVJKVjVvd0RqSWl6djRNbFRTRGdGVEF0azZPOXpMNkg3?=
+ =?utf-8?B?ZVova3NjMG9uVFhybUtERTM3ZUJOQzludFBlK0VmaVpSQ09zckEyK3p3eU41?=
+ =?utf-8?B?YUF1MWphbmNHVEpVNmdPT1pVV3BWbE5PTHpETUhtQmR6NTRGWE9qZkYrcHp3?=
+ =?utf-8?B?ZGozdnJ5RkR6WUFGNnlYZ0hnbStPTmxFdzA5OGFCL1ZKeTRibGxvRXBNUnR6?=
+ =?utf-8?B?TmMxbzcyQWgxdDdER2YwSDdpcmQ1MEEwOGYyY0RhdE5oTms4eHJCL1lVbUlz?=
+ =?utf-8?B?dWlMRzh6c045VFpDc0NKVkVzYWNNZG9HazBIY2RoekhWVmY1ZXdlQUxYRm9G?=
+ =?utf-8?B?QnpuQVV3UENDWlNLcHd6U3UrN25qNGZWY2M4Nnhrdk9EY0trMDE1TEdPb3Bx?=
+ =?utf-8?B?Wkl4eW5nR3lBZ25vaEhybVlkWWh3elJpQXE0RFZjNVVTNW1OaEdVTlJOMUpT?=
+ =?utf-8?B?S1R1RW5SaUNudndkRm91NUFXNDJrNzJ3WEV4NCtGWm1CSFBFNzZLVFhNdnJu?=
+ =?utf-8?B?TnRDbzdVVkdIZFZMZjFsVnlIRTQrV0huYnZMVWluWnljalp3Sk5MRy9rVHNL?=
+ =?utf-8?B?cUVwVklaNGMrbThNd0NGcDc3SzBGaVpZak56YjRxbERHcm5nVmE4REp6SEZT?=
+ =?utf-8?B?SzFVZi8yVjZOeC9vUm5tenFNVXMxNlF0U2RyRTNaZ0tCS2dGWUVEc0orVlNZ?=
+ =?utf-8?B?OEczZnp3bGFXUFRMTjJ3eXJBZEFwZmhTMThpUkRGZDZzNzFaVXhDU2FQUy9i?=
+ =?utf-8?B?bU9MT3dmeTk5eXZVYWhiSjJFdXk4MFcxZ1ZLWVc0NzBHWWV6WXpIS1ZmckIw?=
+ =?utf-8?B?bTl0a2ozanl2byttZC8wKzFVRDNrWnRUQ1ViZmtuMmtJS2NLbVZOWGFTTWZ6?=
+ =?utf-8?B?V2JlbjJYYTdIQWVQSDdsSEJkdS9jMy8zSlNqRzBscTZVb3lUZWNhaGt3V1pC?=
+ =?utf-8?B?UmFkZkFRbmxTV1ZnRi9mQzJiYU1Obm9oOVpsNkY0cHdjakNqSXhUdDFaRXB5?=
+ =?utf-8?B?aHVpZjRBK1UrOUx6VHFybElHVFpLQnZHVjNoN1BPYnNpckw2eUtWK2RTRGZG?=
+ =?utf-8?B?QnhrUU5LaExyN3VmTFl2WEJLeStTY3VwKy81QlBFV3kvZndRQ1EzcGZCcU9Q?=
+ =?utf-8?B?TDZJaXJuUVBJMzMyZG5jMWxBR1lHTk5EY253Vkg1eWNsclhneHpVd25oZUdJ?=
+ =?utf-8?B?NDJGejAvZzAxNEhrYlZtSmRYVHRvemJpdnZLbDV6MzUzOXNnQ0xBc2sxU1dZ?=
+ =?utf-8?B?Vy9TU01PUUluaUVrZmVqYU5ZNDdlbUl4UzF2MituaGViUW9ZMnN0T3pBTlJ6?=
+ =?utf-8?B?QitzZ0prOHhhdjA4eXNzeVBYZXArZzBHbTQ1a0lCTXEwSG9COHB6enZtMHBT?=
+ =?utf-8?B?ckxhanhHVlREWW9yQmNFV0JwVmdrWDNKRzN1SXVBNTMveDFEVlpzcktQUkJM?=
+ =?utf-8?Q?YaaioGPaljJO9QfiRrJR6ukDOzbtzU=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(10070799003)(376014)(366016)(921020);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3hCNkxQQ29BckNFZDE2VGJHeFNxdjRER3cyOHM3eEVYaXg0b0lQTDRhZlhl?=
- =?utf-8?B?Ynhhajd5MjB3bVMxMjVlVlYwVlMyRFFuYlE1aTEyRHNvdHkrQXBTR1FXbkla?=
- =?utf-8?B?RURJMzVJaVVIY204c2dyYnh1NlJoNTNJNzZWakFCcVJMcUsvbGozYXRlNjdS?=
- =?utf-8?B?TE56RFAzUXIwVDdmS2svSzV2dVBDYTVmRldZMmcySXpEQ0dGb1ZuclF6WmpK?=
- =?utf-8?B?NmxTNzJXQ3cyWkVQOHVWTDJSUTdnZS9DbGFQaFdaYUQ5TnFqdjN1anVoUmM1?=
- =?utf-8?B?ZzZOS3g2Tnp1Z0wwei9wc3VNa1VjUGN2ZnA4WkpPejAzNlZ1VisvRStoVlN5?=
- =?utf-8?B?Z0RSajlEM1RpWE9nZjdqQzkzK2l3RjM0NjlTZUt0S1B4cVQvaTAzd1VpTzhI?=
- =?utf-8?B?YnpoVnVVRU9IRVIveG9lSzNoOFF2ODZ3MFZHZ0xNVXlxUUw2WWhadXpxWVpu?=
- =?utf-8?B?QWNqbkt0YWhqVHNlc3hsSVBVMm9zTk1rQWF6NGJ6eGF6Z2VhcWVBaDJVSlk3?=
- =?utf-8?B?aytmOWF2aXZtZjRFN1VZTmlEU1A5S1RJdmUyUmg2YzZVSXpGZFU2d2xiQ21t?=
- =?utf-8?B?cGV4bW52NHVMbEF3VitCTXVpVFhONmF5aG45cWpYcEFNRGFQS3AzRFg5R2dm?=
- =?utf-8?B?MDNTUXhnWHI0dnAwQmZra09qaGFjRm5neEtWRVRBT0FxUGN2SzllQWVwUFBO?=
- =?utf-8?B?U2N0Q0pnQTNmRmZOVUE0eVg3SmlSYWdoS1VyUXlMVDE4Y0Z1SFFPSGZBZDQz?=
- =?utf-8?B?Z2RwVExXWUpGYTY1UjNkMVFjSEpRRm9RNW10R2xOUXpxQUVUR0pFcWNzbC9B?=
- =?utf-8?B?L2MyK2hSK3hXOStHY3k4Nlc1MTB4M3BacXZqWkhYOWZDaHB4eDlJYm9XN3Bm?=
- =?utf-8?B?azVtdTJ5bDJvb2M3TlI1dlYxSXZPSjFIa0ZidjUrNmhnZ1FaQ2VtbGkvMHdS?=
- =?utf-8?B?cXRldDMzQjdCQzd5bzZtYTRaZU16Wk5idGRrU0ttdy8zTGZVNGhucjA0bmF4?=
- =?utf-8?B?SlRieFlGN25mM3RrSXN2cllDeHpjM3U2N2xDY1pSMEdsVEhnalNlTlkrMnkx?=
- =?utf-8?B?TVFrcUwwTnBtVDVRL1VCQmpycVZpTldBdkhOTVVKREtxMkpkZUZhdUMvdTdV?=
- =?utf-8?B?VzRVWGRrOHZueCtVK1VVQkExS25YajBYWGNYdkxTNGFhTm1MWlZ6a1dRWndm?=
- =?utf-8?B?eVU2ODJPWUJCQ2JTbEQyZVh1YWNDMEo4TkNGUFZDajlyd1NYWFFqNkVnTXJl?=
- =?utf-8?B?OEQ0bjNWN2dJd1JCdzgxUE5SMXZFK1FTTytVNE1KN0RhaWFYWVN5ZXFNallK?=
- =?utf-8?B?T05EVC9xZDVKdjh0bGtnd05HYWFnbU0wM0ZGZ2RKNnVMYXdhck5FdlpOOG13?=
- =?utf-8?B?TXQyeUhUNEhrQ01QRW5GblVFMzZrQVIzNy9aUnQ1ZEQ1QzlaSjNwV2Q0S3Z5?=
- =?utf-8?B?ekNBckFBZnVRK3d0cXVMRGMwa280T1pZSkdqQXFCU0pRL1JlVnZkNXFreFV4?=
- =?utf-8?B?NTZMTHRNNVpjUWUwam9hbGo1ZDdDSk0xYWNpbU9vTXQ1ODBPbzlsblh2djFx?=
- =?utf-8?B?MXpTbStCb0pmNHJwdk9PdkNTWUVmQ240UHZoeTdaRDRPWDZONFJTUmZPLzZy?=
- =?utf-8?B?MTU1Y2tIQjR5TWZCaUhWNVk2VzJ2dEVUU1VMUkc1UDU5emxJS0dwRC80ejJr?=
- =?utf-8?B?Wjd1TTVMS0tOblRWR281OVJ4N0VCQ3NKOEJUSTdHbkxKZ1FCb2xNTUt1YzhT?=
- =?utf-8?B?KzRCcG5BSTg3M2sxRHdqSWhXQnNPcmFNM0hUbmU2WWRVblZ2TlUwcDdGbjZP?=
- =?utf-8?B?Ry9kK2pNQ2NKcDQ5dWlSbWVZTlU3ZXFOTGhWcWQ0VWQxbFBmVGJVR3NITCt4?=
- =?utf-8?B?eXVyMHV5TWJUeU5BZnA5Ylh3YmRlUlRpQnhvZFpGNkk4d080MlpaMFpKbXBH?=
- =?utf-8?B?YUpVazd0Vi9mNWg0Q1FzampiUllmNHJFR3FYYXlUenhRT3E4WU5uTzJWb254?=
- =?utf-8?B?RXFYd0hYMm15T2pvS25mdExhazRJLytHWWd0VjBnOHVsbXBGdlF4VllDeFVH?=
- =?utf-8?B?N05Na1E2c20yV0IvN3pNQjdHWWJOYnNadTJFdmsrSW5XajhDUHB3OEFlMk9U?=
- =?utf-8?Q?0cX7mOItyLVsckcjzr1LPK8KO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aadbd58d-e6ae-4d74-e96a-08de009efbc9
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akhmTThjSHBQRFRKc0VrNG1CeTk0TVBCQ2N5YkdmMUF3WjQ3RFZOL1dIakFm?=
+ =?utf-8?B?V1NuWnBQY1B4azlkaHVCNE44dllRL3d0SWd1YVU0UHRKdUR0dWVHaVVsM2t0?=
+ =?utf-8?B?ckhYeEErTU13REMzWmdsWnZCQ29FSWwvWDdsUG9La2xxaVNHS25SZHMwczdp?=
+ =?utf-8?B?ejlrclZObTRMSzZKcEZTSHZoVElJOHZtWDhMZnR1TXdUaldQYmVFVTNwbVl2?=
+ =?utf-8?B?Q25qZkY5ZXlSZHI2TDM4WjNjRVZ0aFVEcDNZcUxDNHY4UUZjNjFtcjRldkRX?=
+ =?utf-8?B?WUNFaDBDWlZYQzVXZWgvL2FCLzJEQUhZaHJ0dE1pL3hKdlM4MGx4TDJycW1M?=
+ =?utf-8?B?Zkdyb1B3ZGZDeXM3MnFhaDZJQmlqV0QxcjV2UC9hejNPc1JSTys2ZjVyT3Jj?=
+ =?utf-8?B?b09JVUg4SGRzdW81V0tqazd3Z1NjZk0waTdGUjFpakJ1RGlBT3NqRHJQM2h4?=
+ =?utf-8?B?MDB1ZkZDZzloZk1BK3lyZ2ZlYVdPb0w2Uzd1MStvU21NZk4zTVZXNUhIUWlw?=
+ =?utf-8?B?VHFhUksrWFA1QWREU1VWb2Zab2VrV3NyemdkWlErT1pxcGlTZ3pFNGJZblFN?=
+ =?utf-8?B?bCsxZnAxa1kxR2NVdmQyaDVnbTlRTmUzNkdvOTdiUUVQVlhSck91a1FlVlNT?=
+ =?utf-8?B?dG4rUzl1L1FWTXN0RjJreitZeHNGQjdWamRKZDgvSmcrRDREam9xelgvdmZj?=
+ =?utf-8?B?RUxsVkg5eFZwdTk0OTNNTklTMkZNR1BTeHRBVmlXMm5EVXhhVmJwRk0rOURq?=
+ =?utf-8?B?cHQyZmR5Nm5DWHo1N25oYlM1UFZBNEwvRXhYc2Jqc3VxZTkwd2d6bmU2TGpS?=
+ =?utf-8?B?b1phUmprU1VKZWRtR3VGZFUyVGpsRUZSZGR0WnhSSlNXVDdwYmt0ZmFjM2JY?=
+ =?utf-8?B?bU00SUcwNGJjUDU2QjhJUmNkcUZJampUTVk0Y1NoQ2pydzlrQXVZampmdk40?=
+ =?utf-8?B?bkFOcjViNk8rYlhQaDhiVlh0Ynk1YUttaGwxMkY4U1NXakkwV3Uvb1JINDla?=
+ =?utf-8?B?NGdhNFlkUm9CZEtNdmdkUTlHNGRiVDEwYm1CM1FzUk9kRFBiMlBXMFhqU09n?=
+ =?utf-8?B?dWNITS9qS1ZPRk5HWUIyUzFIV0JLYmpFeE80c1ZoK0ZMc09ZcnNIbnZaTWtw?=
+ =?utf-8?B?SzArcGs1dWQzNEtsSnZQTzc0WEUyaHFia0ZxR1gwcEp5ekZSSDRJQTNzajBN?=
+ =?utf-8?B?VDBNaXIya2hDazB2TXlSWUxwL1M4RWxzeWVyNHM0cEJFU2hJQ0R2QlJZM1hW?=
+ =?utf-8?B?T2EzYTJRSnErbVlQNnBYMzlWS1A4Q3gxVGluaVlveFQ0K1RaS2djYlc1OTJj?=
+ =?utf-8?B?d0JvK2JoMURZaXRSNnRoOUIvbE1VNzJXVkFTQjRVWmZBNHh0V25hQ2JkR1ph?=
+ =?utf-8?B?ZnNGd0Z5ZzQ5TEtHeVZlYkkxeTZoL2NYdGsyK1JYQnpjZ3JwaHo4KzB6Q1I2?=
+ =?utf-8?B?WkFpOTFZQ2QzY2pBUU9HU2xtU2l1MzZrSGFsRjVscUhxNGUyVVhydytQRVlS?=
+ =?utf-8?B?RW9zV3pWU3hpMlluM0daVkszMDhQZzJHOXMvTlowY1NXS3pPajhoek5PNmRB?=
+ =?utf-8?B?NXExMGpOWTlKR25YRTkxbkhEc0VFRGtQL0xVZDgvNG1Jcjk0YUE2YUh0ZGU0?=
+ =?utf-8?B?NW5sd1M4RUd5Rm1iQnJrVlphRzVTYVNhdXgxNmYyQlYzRmJMSGlQWVhjOGlP?=
+ =?utf-8?B?RFJaSVRIeUlzcE9sSGtXbm5mTy9Ua2pjRjVVRkZXRzlPZ0JUMWtwTG9Sa0N4?=
+ =?utf-8?B?S0ZnRTBTZEZGbVhGOHd1RzRTcTlacGwycjdZQmRGQURZd0p4TnFZY2t6YU9i?=
+ =?utf-8?B?RlREQ2hCV3FSeDRUZmVjdlRoUHdpUTRMVldBdE9zOFVjaThDR0M3NW03bzZT?=
+ =?utf-8?B?YzFJUERMcUx5YmJyUU1yYTc4dldjWkQ3U1ZDUUdUa3ExVWFpYmJoZzZjWE5B?=
+ =?utf-8?B?RUIrS01BemdxV0hmMkc1a3libjRzT3Z5RmtmVjBVbkF2Y0U0R1EwZzBSeEF1?=
+ =?utf-8?B?RFNONXZmdXBpejNjd0hjVUFaenZBWXNOdnV0Wm1CM2Vibk9CNnM5UWY2WVFQ?=
+ =?utf-8?B?a0hPVHQ0TUFnK2htc1hTaFhZUUV6Y0lheXd0aXUybDVtZzRqYTB1OTdIMXlP?=
+ =?utf-8?B?R2s4NFYyZC9IR0tWcy9JNlJkVG51di9KRVhOWUczbEE1Z1dWd244Tk1HRWMz?=
+ =?utf-8?B?bFNHd2VRaE54Z3lnZ1A1c2ZCZ01RZFdyR1YxWFVoTnlsYTA0cHhRRXROVXQ2?=
+ =?utf-8?B?dWZyYXFhS0dyQ3l4RWNFWmRBaXR3PT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb17e50-344a-4dda-9790-08de009f5525
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 03:59:56.5653 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 04:02:26.4434 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8/n7Mj85r4jym7ZBbESfvHA5cX75QoqhQY29xRNGkYewjyIPqeRNvxzslfMUyOTMNzjQACZFfs5YXq3RXmN4Qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7336
+X-MS-Exchange-CrossTenant-UserPrincipalName: Alr7V8iScCUaXRlGs2Z2K8ECoU1pmvlLyqXXd3TekfRFAlh2xvq58LpepA5wzalCXvFrGsIVRV9i6ep7XIQ8ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,203 +190,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav Ryhel wrote:
+> The CSUS clock is a clock gate for the output clock signal primarily
+> sourced from the VI_SENSOR clock. This clock signal is used as an input
+> MCLK clock for cameras.
+>=20
+> Unlike later Tegra SoCs, the Tegra 20 can change its CSUS parent, which i=
+s
+> why csus_mux is added in a similar way to how CDEV1 and CDEV2 are handled=
+.
+>=20
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/clk/tegra/clk-tegra114.c        |  7 ++++++-
+>  drivers/clk/tegra/clk-tegra20.c         | 20 +++++++++++++-------
+>  drivers/clk/tegra/clk-tegra30.c         |  7 ++++++-
+>  drivers/pinctrl/tegra/pinctrl-tegra20.c |  7 +++++++
+>  4 files changed, 32 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/clk/tegra/clk-tegra114.c b/drivers/clk/tegra/clk-teg=
+ra114.c
+> index 186b0b81c1ec..00282b0d3763 100644
+> --- a/drivers/clk/tegra/clk-tegra114.c
+> +++ b/drivers/clk/tegra/clk-tegra114.c
+> @@ -691,7 +691,6 @@ static struct tegra_clk tegra114_clks[tegra_clk_max] =
+__initdata =3D {
+>  	[tegra_clk_tsec] =3D { .dt_id =3D TEGRA114_CLK_TSEC, .present =3D true =
+},
+>  	[tegra_clk_xusb_host] =3D { .dt_id =3D TEGRA114_CLK_XUSB_HOST, .present=
+ =3D true },
+>  	[tegra_clk_msenc] =3D { .dt_id =3D TEGRA114_CLK_MSENC, .present =3D tru=
+e },
+> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA114_CLK_CSUS, .present =3D true =
+},
+>  	[tegra_clk_mselect] =3D { .dt_id =3D TEGRA114_CLK_MSELECT, .present =3D=
+ true },
+>  	[tegra_clk_tsensor] =3D { .dt_id =3D TEGRA114_CLK_TSENSOR, .present =3D=
+ true },
+>  	[tegra_clk_i2s3] =3D { .dt_id =3D TEGRA114_CLK_I2S3, .present =3D true =
+},
+> @@ -1047,6 +1046,12 @@ static __init void tegra114_periph_clk_init(void _=
+_iomem *clk_base,
+>  					     0, 82, periph_clk_enb_refcnt);
+>  	clks[TEGRA114_CLK_DSIB] =3D clk;
+> =20
+> +	/* csus */
+> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
+> +					     clk_base, 0, TEGRA114_CLK_CSUS,
+> +					     periph_clk_enb_refcnt);
+> +	clks[TEGRA114_CLK_CSUS] =3D clk;
+> +
+>  	/* emc mux */
+>  	clk =3D clk_register_mux(NULL, "emc_mux", mux_pllmcp_clkm,
+>  			       ARRAY_SIZE(mux_pllmcp_clkm),
+> diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegr=
+a20.c
+> index 2c58ce25af75..d8d5afeb6f9b 100644
+> --- a/drivers/clk/tegra/clk-tegra20.c
+> +++ b/drivers/clk/tegra/clk-tegra20.c
+> @@ -530,7 +530,6 @@ static struct tegra_clk tegra20_clks[tegra_clk_max] _=
+_initdata =3D {
+>  	[tegra_clk_rtc] =3D { .dt_id =3D TEGRA20_CLK_RTC, .present =3D true },
+>  	[tegra_clk_timer] =3D { .dt_id =3D TEGRA20_CLK_TIMER, .present =3D true=
+ },
+>  	[tegra_clk_kbc] =3D { .dt_id =3D TEGRA20_CLK_KBC, .present =3D true },
+> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA20_CLK_CSUS, .present =3D true }=
+,
+>  	[tegra_clk_vcp] =3D { .dt_id =3D TEGRA20_CLK_VCP, .present =3D true },
+>  	[tegra_clk_bsea] =3D { .dt_id =3D TEGRA20_CLK_BSEA, .present =3D true }=
+,
+>  	[tegra_clk_bsev] =3D { .dt_id =3D TEGRA20_CLK_BSEV, .present =3D true }=
+,
+> @@ -834,6 +833,12 @@ static void __init tegra20_periph_clk_init(void)
+>  				    clk_base, 0, 93, periph_clk_enb_refcnt);
+>  	clks[TEGRA20_CLK_CDEV2] =3D clk;
+> =20
+> +	/* csus */
+> +	clk =3D tegra_clk_register_periph_gate("csus", "csus_mux", 0,
+> +					     clk_base, 0, TEGRA20_CLK_CSUS,
+> +					     periph_clk_enb_refcnt);
+> +	clks[TEGRA20_CLK_CSUS] =3D clk;
+> +
+>  	for (i =3D 0; i < ARRAY_SIZE(tegra_periph_clk_list); i++) {
+>  		data =3D &tegra_periph_clk_list[i];
+>  		clk =3D tegra_clk_register_periph_data(clk_base, data);
+> @@ -1093,14 +1098,15 @@ static struct clk *tegra20_clk_src_onecell_get(st=
+ruct of_phandle_args *clkspec,
+>  	hw =3D __clk_get_hw(clk);
+> =20
+>  	/*
+> -	 * Tegra20 CDEV1 and CDEV2 clocks are a bit special case, their parent
+> -	 * clock is created by the pinctrl driver. It is possible for clk user
+> -	 * to request these clocks before pinctrl driver got probed and hence
+> -	 * user will get an orphaned clock. That might be undesirable because
+> -	 * user may expect parent clock to be enabled by the child.
+> +	 * Tegra20 CDEV1, CDEV2 and CSUS clocks are a bit special case, their
+> +	 * parent clock is created by the pinctrl driver. It is possible for
+> +	 * clk user to request these clocks before pinctrl driver got probed
+> +	 * and hence user will get an orphaned clock. That might be undesirable
+> +	 * because user may expect parent clock to be enabled by the child.
+>  	 */
+>  	if (clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV1 ||
+> -	    clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV2) {
+> +	    clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV2 ||
+> +	    clkspec->args[0] =3D=3D TEGRA20_CLK_CSUS) {
+>  		parent_hw =3D clk_hw_get_parent(hw);
+>  		if (!parent_hw)
+>  			return ERR_PTR(-EPROBE_DEFER);
+> diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegr=
+a30.c
+> index 82a8cb9545eb..ca367184e185 100644
+> --- a/drivers/clk/tegra/clk-tegra30.c
+> +++ b/drivers/clk/tegra/clk-tegra30.c
+> @@ -779,7 +779,6 @@ static struct tegra_clk tegra30_clks[tegra_clk_max] _=
+_initdata =3D {
+>  	[tegra_clk_rtc] =3D { .dt_id =3D TEGRA30_CLK_RTC, .present =3D true },
+>  	[tegra_clk_timer] =3D { .dt_id =3D TEGRA30_CLK_TIMER, .present =3D true=
+ },
+>  	[tegra_clk_kbc] =3D { .dt_id =3D TEGRA30_CLK_KBC, .present =3D true },
+> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA30_CLK_CSUS, .present =3D true }=
+,
+>  	[tegra_clk_vcp] =3D { .dt_id =3D TEGRA30_CLK_VCP, .present =3D true },
+>  	[tegra_clk_bsea] =3D { .dt_id =3D TEGRA30_CLK_BSEA, .present =3D true }=
+,
+>  	[tegra_clk_bsev] =3D { .dt_id =3D TEGRA30_CLK_BSEV, .present =3D true }=
+,
+> @@ -1008,6 +1007,12 @@ static void __init tegra30_periph_clk_init(void)
+>  				    0, 48, periph_clk_enb_refcnt);
+>  	clks[TEGRA30_CLK_DSIA] =3D clk;
+> =20
+> +	/* csus */
+> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
+> +					     clk_base, 0, TEGRA30_CLK_CSUS,
+> +					     periph_clk_enb_refcnt);
+> +	clks[TEGRA30_CLK_CSUS] =3D clk;
+> +
+>  	/* pcie */
+>  	clk =3D tegra_clk_register_periph_gate("pcie", "clk_m", 0, clk_base, 0,
+>  				    70, periph_clk_enb_refcnt);
+> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra20.c b/drivers/pinctrl/te=
+gra/pinctrl-tegra20.c
+> index 737fc2000f66..437e0ac091cc 100644
+> --- a/drivers/pinctrl/tegra/pinctrl-tegra20.c
+> +++ b/drivers/pinctrl/tegra/pinctrl-tegra20.c
+> @@ -2230,6 +2230,10 @@ static const char *cdev2_parents[] =3D {
+>  	"dev2_osc_div", "hclk", "pclk", "pll_p_out4",
+>  };
+> =20
+> +static const char *csus_parents[] =3D {
+> +	"pll_c_out1", "pll_p_out2", "pll_p_out3", "vi_sensor",
+> +};
+> +
+>  static void tegra20_pinctrl_register_clock_muxes(struct platform_device =
+*pdev)
+>  {
+>  	struct tegra_pmx *pmx =3D platform_get_drvdata(pdev);
+> @@ -2239,6 +2243,9 @@ static void tegra20_pinctrl_register_clock_muxes(st=
+ruct platform_device *pdev)
+> =20
+>  	clk_register_mux(NULL, "cdev2_mux", cdev2_parents, 4, 0,
+>  			 pmx->regs[1] + 0x8, 4, 2, CLK_MUX_READ_ONLY, NULL);
+> +
+> +	clk_register_mux(NULL, "csus_mux", csus_parents, 4, 0,
+> +			 pmx->regs[1] + 0x8, 6, 2, CLK_MUX_READ_ONLY, NULL);
+>  }
+> =20
+>  static int tegra20_pinctrl_probe(struct platform_device *pdev)
+>=20
 
+Please move the pinctrl changes to a separate patch. Otherwise, LGTM.
 
-On 9/26/2025 4:30 PM, Matthew Auld wrote:
-> On 23/09/2025 10:02, Arunpravin Paneer Selvam wrote:
->> Add KUnit test cases that create severe memory fragmentation and
->> measure allocation/free performance.
->>
->> The tests simulate two scenarios -
->>
->> 1. Allocation under severe fragmentation
->>     - Allocate the entire 4 GiB space as 8 KiB blocks with 64 KiB 
->> alignment,
->>       split them into two groups and free with mixed flags to block 
->> coalescing.
->>     - Repeatedly allocate and free 64 KiB blocks while timing the loop.
->>     - Freelist runtime: 76475 ms(76.5 seconds), soft-lockup triggered.
->>       RB-tree runtime: 186 ms.
->>
->> 2. Reverse free order under fragmentation
->>     - Create a similarly fragmented space, free half the blocks, reverse
->>       the order of the remainder, and release them with the cleared 
->> flag.
->>     - Freelist runtime: 85620 ms(85.6 seconds).
->>       RB-tree runtime: 114 ms.
->>
->> Signed-off-by: Arunpravin Paneer Selvam 
->> <Arunpravin.PaneerSelvam@amd.com>
->> ---
->>   drivers/gpu/drm/tests/drm_buddy_test.c | 110 +++++++++++++++++++++++++
->>   1 file changed, 110 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c 
->> b/drivers/gpu/drm/tests/drm_buddy_test.c
->> index 7a0e523651f0..19b49fb6ec19 100644
->> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
->> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
->> @@ -21,6 +21,115 @@ static inline u64 get_size(int order, u64 
->> chunk_size)
->>       return (1 << order) * chunk_size;
->>   }
->>   +static void drm_test_buddy_fragmentation_performance(struct kunit 
->> *test)
->> +{
->> +    const unsigned long max_acceptable_time_ms = 1000;
->> +    struct drm_buddy_block *block, *tmp;
->> +    int num_blocks, i, ret, count = 0;
->> +    LIST_HEAD(allocated_blocks);
->> +    unsigned long elapsed_ms;
->> +    LIST_HEAD(reverse_list);
->> +    LIST_HEAD(test_blocks);
->> +    LIST_HEAD(clear_list);
->> +    LIST_HEAD(dirty_list);
->> +    LIST_HEAD(free_list);
->> +    struct drm_buddy mm;
->> +    u64 mm_size = SZ_4G;
->> +    ktime_t start, end;
->> +
->> +    /*
->> +     * Allocation under severe fragmentation
->> +     *
->> +     * Create severe fragmentation by allocating the entire 4 GiB 
->> address space
->> +     * as tiny 8 KiB blocks but forcing a 64 KiB alignment. The 
->> resulting pattern
->> +     * leaves many scattered holes. Split the allocations into two 
->> groups and
->> +     * return them with different flags to block coalescing, then 
->> repeatedly
->> +     * allocate and free 64 KiB blocks while timing the loop. This 
->> stresses how
->> +     * quickly the allocator can satisfy larger, aligned requests 
->> from a pool of
->> +     * highly fragmented space.
->> +     */
->> +    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, SZ_4K),
->> +                   "buddy_init failed\n");
->> +
->> +    num_blocks = mm_size / SZ_64K;
->> +
->> +    start = ktime_get();
->> +    /* Allocate with maximum fragmentation - 8K blocks with 64K 
->> alignment */
->> +    for (i = 0; i < num_blocks; i++)
->> +        KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
->> mm_size, SZ_8K, SZ_64K,
->> +                                    &allocated_blocks, 0),
->> +                    "buddy_alloc hit an error size=%u\n", SZ_8K);
->> +
->> +    list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
->> +        if (count % 4 == 0 || count % 4 == 3)
->> +            list_move_tail(&block->link, &clear_list);
->> +        else
->> +            list_move_tail(&block->link, &dirty_list);
->> +        count++;
->> +    }
->> +
->> +    /* Free with different flags to ensure no coalescing */
->> +    drm_buddy_free_list(&mm, &clear_list, DRM_BUDDY_CLEARED);
->> +    drm_buddy_free_list(&mm, &dirty_list, 0);
->> +
->> +    for (i = 0; i < num_blocks; i++)
->> +        KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
->> mm_size, SZ_64K, SZ_64K,
->> +                                    &test_blocks, 0),
->> +                    "buddy_alloc hit an error size=%u\n", SZ_64K);
->> +    drm_buddy_free_list(&mm, &test_blocks, 0);
->> +
->> +    end = ktime_get();
->> +    elapsed_ms = ktime_to_ms(ktime_sub(end, start));
->> +    /* Performance validation */
->> +    KUNIT_EXPECT_LT_MSG(test, elapsed_ms, max_acceptable_time_ms,
->> +                "Fragmented allocation took %lu ms (max acceptable: 
->> %lu ms)",
->> +                elapsed_ms, max_acceptable_time_ms);
->> +    drm_buddy_fini(&mm);
->> +
->> +    /*
->> +     * Reverse free order under fragmentation
->> +     *
->> +     * Construct a fragmented 4 GiB space by allocating every 8 KiB 
->> block with
->> +     * 64 KiB alignment, creating a dense scatter of small regions. 
->> Half of the
->> +     * blocks are selectively freed to form sparse gaps, while the 
->> remaining
->> +     * allocations are preserved, reordered in reverse, and released 
->> back with
->> +     * the cleared flag. This models a pathological reverse-ordered 
->> free pattern
->> +     * and measures how quickly the allocator can merge and reclaim 
->> space when
->> +     * deallocation occurs in the opposite order of allocation, 
->> exposing the
->> +     * cost difference between a linear freelist scan and an ordered 
->> tree lookup.
->> +     */
->> +    ret = drm_buddy_init(&mm, mm_size, SZ_4K);
->> +    KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +    start = ktime_get();
->> +    /* Allocate maximum fragmentation */
->> +    for (i = 0; i < num_blocks; i++)
->> +        KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
->> mm_size, SZ_8K, SZ_64K,
->> +                                    &allocated_blocks, 0),
->> +                    "buddy_alloc hit an error size=%u\n", SZ_8K);
->> +
->> +    list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
->> +        if (count % 2 == 0)
->> +            list_move_tail(&block->link, &free_list);
->> +        count++;
->> +    }
->> +    drm_buddy_free_list(&mm, &free_list, DRM_BUDDY_CLEARED);
->> +
->> +    list_for_each_entry_safe_reverse(block, tmp, &allocated_blocks, 
->> link)
->> +        list_move(&block->link, &reverse_list);
->> +    drm_buddy_free_list(&mm, &reverse_list, DRM_BUDDY_CLEARED);
->> +
->> +    end = ktime_get();
->> +    elapsed_ms = ktime_to_ms(ktime_sub(end, start));
->> +
->> +    /* Performance validation */
->> +    KUNIT_EXPECT_LT_MSG(test, elapsed_ms, max_acceptable_time_ms,
->> +                "Reverse-ordered free took %lu ms (max acceptable: 
->> %lu ms)",
->> +                elapsed_ms, max_acceptable_time_ms);
->
-> Sorry for the delay. We are pretty sure these time asserts are not 
-> going to be flaky over many thousands of runs across different types 
-> of machines (maybe some underpowered atom)?
-yes, correct. I have updated the performance test to avoid the hard 
-coded timing thresholds. And the test now measures and reports execution 
-time instead of enforcing a 1000ms limit,
-since run times vary across machines. This ensures the test remains 
-portable and stable, while still exposing the performance data for 
-regression tracking.
+Mikko
 
-Regards,
-Arun.
->
-> Assuming not a concern,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
->> +
->> +    drm_buddy_fini(&mm);
->> +}
->> +
->>   static void drm_test_buddy_alloc_range_bias(struct kunit *test)
->>   {
->>       u32 mm_size, size, ps, bias_size, bias_start, bias_end, bias_rem;
->> @@ -772,6 +881,7 @@ static struct kunit_case drm_buddy_tests[] = {
->>       KUNIT_CASE(drm_test_buddy_alloc_contiguous),
->>       KUNIT_CASE(drm_test_buddy_alloc_clear),
->>       KUNIT_CASE(drm_test_buddy_alloc_range_bias),
->> +    KUNIT_CASE(drm_test_buddy_fragmentation_performance),
->>       {}
->>   };
->
 
