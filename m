@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B31BAEFEA
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 04:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52125BAEFF0
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 04:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5738710E65B;
-	Wed,  1 Oct 2025 02:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9660310E65C;
+	Wed,  1 Oct 2025 02:21:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="REyEARYV";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="UozHyXWp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0F6B10E659
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 02:21:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759285290; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A64E10E659
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 02:21:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1759285294; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=BPN58vPowx6SXszx0UkRnZuH6VqNqXnI/7JrHeIIdbWVezhNlk4g41cvRga0UMFvUlnm5Or/3ZJSicakXuLBMv97uBM3YMlTB6cSQ9YF2ZirrG3MnLMpcEcnIMr0QVM55lP9i0Djo9Rd2bhRm8Yqig5kePbjCEH7JmISBzsOJsc=
+ b=cHF/V38bU0FZA6K9ew5G6bFqjEakgwR6TNM3IwgXWN01Y532aKaN+dSuTJnk9lEeCLAJr45NeGFIt77H3qsaAmBxZSVa5pgb3yt35SKLvtBryLKUWLtx4KK3tjiFe1p3DcEGNhT1Pbpw4R81eV3Z+foYH7xxUZ1b1h+Mait0C7w=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759285290;
+ s=zohoarc; t=1759285294;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=pVFlY6Bf+eKYXYw1L1WHcvUwPfuT3+o+YA4v3iBOCPM=; 
- b=Y1eYUdTG3y3EJGIWQnM9ldpatWwHHVeok5cnbyV+V1eSAsu9vF2GsPYahx64AFMWOGZU2S+4mE2kFFaWbmpS8pNZjKonAf6CeVWP/eraCygT9sW8ccIqb2oOidPahwQxCq5plDAK1/RyxsNoomoL+hzT3zWjJXgo1uTfRj2llR0=
+ bh=azOK+vxt87W3qxkV+a6seP3tbi8bqqnaCFPSt0amZxE=; 
+ b=CeEdbeqmGdGUEWV95sj3dg9TEZ/rqarfSpWozOeJhK6V4Q8xY65CI6+m+EZkmitLIikxf2ltp3m3CsfWUdj0HMbSFT5vs3sQfW4Ezwn4U+VScg0xXg6to6PsRe3xDwhOdjQUJ+MNB8+Dx6L176Pa1eGH1ZMFBpKZ8tjM40MjPAc=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759285290; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759285294; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=pVFlY6Bf+eKYXYw1L1WHcvUwPfuT3+o+YA4v3iBOCPM=;
- b=REyEARYVrIT8Gh2HjZuW1II8HwqRiPwNMHNurRVNoeorkjrLoojYxQpVWXyFrAs2
- lR72v5oifksdLJxBDrwPKoDpvpsSMWQzgq8FxLREXFFW+Ox+wex4pRvTJc+M5J9J8ih
- +c96ZBe14e407j/u756u0hy+YARUV5U8Lj3p9npY=
-Received: by mx.zohomail.com with SMTPS id 1759285289648850.8594329188137;
- Tue, 30 Sep 2025 19:21:29 -0700 (PDT)
+ bh=azOK+vxt87W3qxkV+a6seP3tbi8bqqnaCFPSt0amZxE=;
+ b=UozHyXWps3EqHdWudso/Tg2ZmLWhNH+1Nz0oFrh8q0P7Oi/Np5Dnxkg7t/jG+fCv
+ 5C09GD7YmPRKy45Psf5eNYLqmd5225TWsFhAGX5W+qeKPGSZkIvRAo5yq6AQ/5j1nIi
+ rK6kryBKhQDBl4Ram7ByzQALok3gesYfVdZFCSyI=
+Received: by mx.zohomail.com with SMTPS id 1759285292925257.3212091874468;
+ Tue, 30 Sep 2025 19:21:32 -0700 (PDT)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
@@ -47,9 +47,10 @@ Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v4 05/10] drm/panfrost: Handle page mapping failure
-Date: Wed,  1 Oct 2025 03:20:26 +0100
-Message-ID: <20251001022039.1215976-6-adrian.larumbe@collabora.com>
+Subject: [PATCH v4 06/10] drm/panfrost: Don't rework job IRQ enable mask in
+ the enable path
+Date: Wed,  1 Oct 2025 03:20:27 +0100
+Message-ID: <20251001022039.1215976-7-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251001022039.1215976-1-adrian.larumbe@collabora.com>
 References: <20251001022039.1215976-1-adrian.larumbe@collabora.com>
@@ -71,130 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When mapping the pages of a BO, either a heap type at page fault time or
-else a non-heap BO at object creation time, if the ARM page table mapping
-function fails, we unmap what had been mapped so far and bail out.
+Up until now, panfrost_job_enable_interrupts() would always recalculate the
+same job IRQ enablement mask, which is effectively a constant.
+
+Replace it with a compile-time constant value, and also in another couple
+places where an equivalent expression was being used.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 49 ++++++++++++++++++++++---
- 1 file changed, 44 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_device.h |  4 ++++
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 19 ++++---------------
+ 2 files changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index cf272b167feb..fb17c32855a5 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -393,13 +393,32 @@ static void panfrost_mmu_flush_range(struct panfrost_device *pfdev,
- 	pm_runtime_put_autosuspend(pfdev->base.dev);
- }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 474b232bb38e..ac7147ed806b 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -26,6 +26,10 @@ struct panfrost_perfcnt;
  
-+static void mmu_unmap_range(struct panfrost_mmu *mmu, u64 iova, size_t len)
-+{
-+	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
-+	size_t pgsize, unmapped_len = 0;
-+	size_t unmapped_page, pgcount;
+ #define MAX_PM_DOMAINS 5
+ 
++#define ALL_JS_INT_MASK					\
++	(GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |		\
++	 GENMASK(NUM_JOB_SLOTS - 1, 0))
 +
-+	while (unmapped_len < len) {
-+		pgsize = get_pgsize(iova, len - unmapped_len, &pgcount);
-+
-+		unmapped_page = ops->unmap_pages(ops, iova, pgsize, pgcount, NULL);
-+		WARN_ON(unmapped_page != pgsize * pgcount);
-+
-+		iova += pgsize * pgcount;
-+		unmapped_len += pgsize * pgcount;
-+	}
-+}
-+
- static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- 		      u64 iova, int prot, struct sg_table *sgt)
+ enum panfrost_drv_comp_bits {
+ 	PANFROST_COMP_BIT_GPU,
+ 	PANFROST_COMP_BIT_JOB,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index ba934437a8ea..54764ce91dea 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -428,17 +428,10 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
+ 
+ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
  {
- 	unsigned int count;
- 	struct scatterlist *sgl;
- 	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
-+	size_t total_mapped = 0;
- 	u64 start_iova = iova;
-+	int ret;
+-	int j;
+-	u32 irq_mask = 0;
+-
+ 	clear_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
  
- 	for_each_sgtable_dma_sg(sgt, sgl, count) {
- 		unsigned long paddr = sg_dma_address(sgl);
-@@ -413,10 +432,14 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- 			size_t pgcount, mapped = 0;
- 			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
- 
--			ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
-+			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
- 				       GFP_KERNEL, &mapped);
-+			if (ret)
-+				goto err_unmap_pages;
-+
- 			/* Don't get stuck if things have gone wrong */
- 			mapped = max(mapped, pgsize);
-+			total_mapped += mapped;
- 			iova += mapped;
- 			paddr += mapped;
- 			len -= mapped;
-@@ -426,6 +449,10 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- 	panfrost_mmu_flush_range(pfdev, mmu, start_iova, iova - start_iova);
- 
- 	return 0;
-+
-+err_unmap_pages:
-+	mmu_unmap_range(mmu, start_iova, total_mapped);
-+	return ret;
+-	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+-		irq_mask |= MK_JS_MASK(j);
+-	}
+-
+-	job_write(pfdev, JOB_INT_CLEAR, irq_mask);
+-	job_write(pfdev, JOB_INT_MASK, irq_mask);
++	job_write(pfdev, JOB_INT_CLEAR, ALL_JS_INT_MASK);
++	job_write(pfdev, JOB_INT_MASK, ALL_JS_INT_MASK);
  }
  
- int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
-@@ -436,6 +463,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
- 	struct sg_table *sgt;
- 	int prot = IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE;
-+	int ret;
+ void panfrost_job_suspend_irq(struct panfrost_device *pfdev)
+@@ -757,9 +750,7 @@ panfrost_reset(struct panfrost_device *pfdev,
+ 		drm_sched_start(&pfdev->js->queue[i].sched, 0);
  
- 	if (WARN_ON(mapping->active))
- 		return 0;
-@@ -447,11 +475,18 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- 	if (WARN_ON(IS_ERR(sgt)))
- 		return PTR_ERR(sgt);
+ 	/* Re-enable job interrupts now that everything has been restarted. */
+-	job_write(pfdev, JOB_INT_MASK,
+-		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
+-		  GENMASK(NUM_JOB_SLOTS - 1, 0));
++	job_write(pfdev, JOB_INT_MASK, ALL_JS_INT_MASK);
  
--	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
--		   prot, sgt);
-+	ret = mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
-+			 prot, sgt);
-+	if (ret)
-+		goto err_put_pages;
-+
- 	mapping->active = true;
- 
- 	return 0;
-+
-+err_put_pages:
-+	drm_gem_shmem_put_pages_locked(shmem);
-+	return ret;
+ 	dma_fence_end_signalling(cookie);
  }
+@@ -832,9 +823,7 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
  
- void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping)
-@@ -635,8 +670,10 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	if (ret)
- 		goto err_map;
+ 	/* Enable interrupts only if we're not about to get suspended */
+ 	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
+-		job_write(pfdev, JOB_INT_MASK,
+-			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
+-			  GENMASK(NUM_JOB_SLOTS - 1, 0));
++		job_write(pfdev, JOB_INT_MASK, ALL_JS_INT_MASK);
  
--	mmu_map_sg(pfdev, bomapping->mmu, addr,
--		   IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
-+	ret = mmu_map_sg(pfdev, bomapping->mmu, addr,
-+			 IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
-+	if (ret)
-+		goto err_mmu_map_sg;
- 
- 	bomapping->active = true;
- 	bo->heap_rss_size += SZ_2M;
-@@ -650,6 +687,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 
- 	return 0;
- 
-+err_mmu_map_sg:
-+	dma_unmap_sgtable(pfdev->base.dev, sgt, DMA_BIDIRECTIONAL, 0);
- err_map:
- 	sg_free_table(sgt);
- err_unlock:
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.51.0
 
