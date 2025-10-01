@@ -2,113 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B66BB044B
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 14:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2399CBB05EA
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 14:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5943410E33E;
-	Wed,  1 Oct 2025 12:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8214010E382;
+	Wed,  1 Oct 2025 12:41:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RpqQLB9x";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YXbd2z3I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E4310E33E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 12:02:46 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 409EAC0247A;
- Wed,  1 Oct 2025 12:02:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 13A83606BF;
- Wed,  1 Oct 2025 12:02:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2A50F102F1A26; 
- Wed,  1 Oct 2025 14:02:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1759320163; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=mszn8hWdQZfWHV+IdOdkfzTVQaUArQIU0X3SYp8A5Cw=;
- b=RpqQLB9x654/XpeOgOQ1RV/jZSPECCWkDXNM5+GCg0ViN8mvPj8kutiiivlHeC8FIBZuvj
- GKABSEEY3o2SQFUhEMHO3vI+WSNDD6g51SPa9HDfxlftGwfv9P3NXErm4NGCeLKWYC8i8z
- PoXaw08NvJjsXw0pq0OKJ4/gNM+iIDm+0mohursKfQ8BZxACZGHJdY8fd6janajUGZydBV
- KI9iIWdKzPx9cofDnbGarML2MTciRbY8S4kleiyf779J1ecuhNNd2rkcjUK+E0D9/DS+fQ
- bfSJI3K8EP/+SzA4OzNu+jIhfZiGFr5frv1ySh+PSrxW44hMYPDw9wvloqD+BA==
-Message-ID: <17cc9f6c-6906-40d1-8008-8518c4720c4e@bootlin.com>
-Date: Wed, 1 Oct 2025 14:02:36 +0200
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80DC310E6CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 12:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759320263;
+ bh=kFPc/gkLARdoFaW/nkDrbHCfs7G6pU14yCZscWLvdUw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YXbd2z3ILri3jxxkd+DTOYB7dE/KdzzpnPQE9Rwr3iflUL8z37zBFPxTptDeTTHT5
+ dUJBD+ltk9EOt+nxobr0iZOgUkGr0tpCV2XB4ZPWY1ZPsoK/c2jCaaC7YnFBGLY7pQ
+ v8bWN/m3xS4oaIp4zpBmCtI8BdA5g/aGxuoQX0coYTNdMJrIlgKFfJB/ai6lENv1Oj
+ i7CwBqbFDLbjJBFLqEcaDKyWex6w6HYRVSxcjjG2f5QCDYNgj5+HalftahH9ohV316
+ CQobvNv13NKk+PGeyCJttTreNVN+KmCgYawfCO34ytd5uxqys+DT2hvh6qr/P+5meI
+ x813tqB2vkzlA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 43EAD17E00AC;
+ Wed,  1 Oct 2025 14:04:23 +0200 (CEST)
+Date: Wed, 1 Oct 2025 14:04:18 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] drm/gpuvm: add deferred vm_bo cleanup
+Message-ID: <20251001140418.57fb21f1@fedora>
+In-Reply-To: <CAH5fLghp+4dx6-JAfbSWDLz7WOdwtnLeuxdGhmVPax+HKbTv3w@mail.gmail.com>
+References: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
+ <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
+ <20251001132739.41575fa5@fedora>
+ <CAH5fLghp+4dx6-JAfbSWDLz7WOdwtnLeuxdGhmVPax+HKbTv3w@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v1 5/5] drm/vkms: Add YUV formats to writeback connector
-To: Robert Mader <robert.mader@collabora.com>, dri-devel@lists.freedesktop.org
-Cc: Daniel Stone <daniels@collabora.com>, Melissa Wen
- <melissa.srw@gmail.com>, Maira Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20250813170542.331206-1-robert.mader@collabora.com>
- <20250813170542.331206-6-robert.mader@collabora.com>
-Content-Language: en-US, fr
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250813170542.331206-6-robert.mader@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,53 +71,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 1 Oct 2025 13:45:36 +0200
+Alice Ryhl <aliceryhl@google.com> wrote:
 
+> On Wed, Oct 1, 2025 at 1:27=E2=80=AFPM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > On Wed, 01 Oct 2025 10:41:36 +0000
+> > Alice Ryhl <aliceryhl@google.com> wrote:
+> > =20
+> > > When using GPUVM in immediate mode, it is necessary to call
+> > > drm_gpuvm_unlink() from the fence signalling critical path. However,
+> > > unlink may call drm_gpuvm_bo_put(), which causes some challenges:
+> > >
+> > > 1. drm_gpuvm_bo_put() often requires you to take resv locks, which you
+> > >    can't do from the fence signalling critical path.
+> > > 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often going
+> > >    to be unsafe to call from the fence signalling critical path.
+> > >
+> > > To solve these issues, add a deferred version of drm_gpuvm_unlink() t=
+hat
+> > > adds the vm_bo to a deferred cleanup list, and then clean it up later.
+> > >
+> > > The new methods take the GEMs GPUVA lock internally rather than letti=
+ng
+> > > the caller do it because it also needs to perform an operation after
+> > > releasing the mutex again. This is to prevent freeing the GEM while
+> > > holding the mutex (more info as comments in the patch). This means th=
+at
+> > > the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
+> > >
+> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Signed-off-by: Alice Ryhl <aliceryhl@google.com> =20
+>=20
+> > > +/*
+> > > + * Must be called with GEM mutex held. After releasing GEM mutex,
+> > > + * drm_gpuvm_bo_defer_free_unlocked() must be called.
+> > > + */
+> > > +static void
+> > > +drm_gpuvm_bo_defer_free_locked(struct kref *kref)
+> > > +{
+> > > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_gp=
+uvm_bo,
+> > > +                                               kref);
+> > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> > > +
+> > > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
+> > > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
+> > > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
+> > > +     }
+> > > +
+> > > +     list_del(&vm_bo->list.entry.gem);
+> > > +}
+> > > +
+> > > +/*
+> > > + * GEM mutex must not be held. Called after drm_gpuvm_bo_defer_free_=
+locked().
+> > > + */
+> > > +static void
+> > > +drm_gpuvm_bo_defer_free_unlocked(struct drm_gpuvm_bo *vm_bo)
+> > > +{
+> > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> > > +
+> > > +     llist_add(&vm_bo->list.entry.bo_defer, &gpuvm->bo_defer); =20
+> >
+> > Could we simply move this line to drm_gpuvm_bo_defer_free_locked()?
+> > I might be missing something, but I don't really see a reason to
+> > have it exposed as a separate operation. =20
+>=20
+> No, if drm_gpuvm_bo_deferred_cleanup() is called in parallel (e.g.
+> from a workqueue as we discussed), then this can lead to kfreeing the
+> GEM while we hold the mutex. We must not add the vm_bo until it's safe
+> to kfree the GEM. See the comment on
+> drm_gpuvm_bo_defer_free_unlocked() below.
 
-Le 13/08/2025 à 19:05, Robert Mader a écrit :
-> Now that all plumbing is done expose the new formats.
-> 
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-
-Did you validate this using an IGT test? If so, can you add it in the 
-commit log? (tested using igt kms_writeback for example)
-
-> ---
->   drivers/gpu/drm/vkms/vkms_writeback.c | 17 ++++++++++++++++-
->   1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> index 59e7a980533c..f3fbfeff01be 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -23,7 +23,22 @@ static const u32 vkms_wb_formats[] = {
->   	DRM_FORMAT_ABGR8888,
->   	DRM_FORMAT_XRGB16161616,
->   	DRM_FORMAT_ARGB16161616,
-> -	DRM_FORMAT_RGB565
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_NV12,
-> +	DRM_FORMAT_NV16,
-> +	DRM_FORMAT_NV24,
-> +	DRM_FORMAT_NV21,
-> +	DRM_FORMAT_NV61,
-> +	DRM_FORMAT_NV42,
-> +	DRM_FORMAT_YUV420,
-> +	DRM_FORMAT_YUV422,
-> +	DRM_FORMAT_YUV444,
-> +	DRM_FORMAT_YVU420,
-> +	DRM_FORMAT_YVU422,
-> +	DRM_FORMAT_YVU444,
-> +	DRM_FORMAT_P010,
-> +	DRM_FORMAT_P012,
-> +	DRM_FORMAT_P016,
->   };
->   
->   static void vkms_wb_connector_reset(struct drm_connector *connector)
-
--- 
---
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+Uh, right, I forgot that the lock was embedded in the BO, which we're
+releasing a ref on in the cleanup path.
