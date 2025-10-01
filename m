@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25F3BB077D
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 15:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BF0BB08BE
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 15:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC4B10E715;
-	Wed,  1 Oct 2025 13:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F2010E0E8;
+	Wed,  1 Oct 2025 13:43:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="khsU2APj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JD4uthE2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47E6010E710
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 13:22:58 +0000 (UTC)
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9740EBCA;
- Wed,  1 Oct 2025 15:21:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1759324888;
- bh=LLJhV2LallcFwhanB+wQUXczMwB4XxYcFq1ZLrudUL0=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=khsU2APjJexd87l2z75tK1gHeG0zowsOkrWUFz4T8bNHeWWeyTJuo+5ti5ukumoMB
- HN+9fsC2jmfhqIopDyX7BEITpyVphzlI7arew8hrIxwOSt7K+WBNorVd3nTZ3pmCur
- MYzeiW04kyy1wOB8eofyRkgoWxD5HGXepx7a4Xx0=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 01 Oct 2025 16:22:23 +0300
-Subject: [PATCH v6 11/11] drm: xlnx: zynqmp: Add support for XVUY2101010
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D677810E0E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 13:43:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 56E1840326;
+ Wed,  1 Oct 2025 13:43:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD183C4CEF4;
+ Wed,  1 Oct 2025 13:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759326235;
+ bh=YmUasciFTD3VpD/4siSJw5bG0HOrjO+PKhZbkV8qFZw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JD4uthE2Rsh+qEXs6bIwdNbHH28S03NLE3YeLIr9LMR2OLYUtKYV9n/DL5uyZ+jw7
+ A6al/dMkwCdpvZrNwL9k1W51fGeaxcoeZy8EZi7wex82438FEf92cYf/WYvKbTSIGb
+ 3P7KMqMWcHld7FSN1WQGX5/QB3KQFLCfoHihXZ34lZcUjnpL4ViRv7mYHn1t/+Xej/
+ 7PEtMZ7SQc3spbLwT9ARPzdQ24f401iS1uF5chparAU5Sd56Gc76ga46EZT+lXFP0f
+ IATWexjuHSXee1lTgCifkNA3zrqgdGK2aGO9ZnqyKy8h3rDk4t9b1rYgnKwFszjDQJ
+ MPEe5UjGia+PA==
+Date: Wed, 1 Oct 2025 14:43:48 +0100
+From: Lee Jones <lee@kernel.org>
+To: danielt@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
+ jessica.zhang@oss.qualcomm.com, deller@gmx.de,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, fnkl.kernel@gmail.com,
+ j@jannau.net, ilpo.jarvinen@linux.intel.com, sven@kernel.org,
+ alyssa@rosenzweig.io, neal@gompa.dev,
+ support.opensource@diasemi.com, Hans de Goede <hansg@kernel.org>,
+ duje@dujemihanovic.xyz, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 00/15] backlight: Do not include <linux/fb.h>
+ in header file
+Message-ID: <20251001134348.GT8757@google.com>
+References: <20250715122643.137027-1-tzimmermann@suse.de>
+ <175803873238.3892705.12154571803108246655.b4-ty@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251001-xilinx-formats-v6-11-014b076b542a@ideasonboard.com>
-References: <20251001-xilinx-formats-v6-0-014b076b542a@ideasonboard.com>
-In-Reply-To: <20251001-xilinx-formats-v6-0-014b076b542a@ideasonboard.com>
-To: Vishal Sagar <vishal.sagar@amd.com>, 
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Geert Uytterhoeven <geert@linux-m68k.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Pekka Paalanen <ppaalanen@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=898;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=LLJhV2LallcFwhanB+wQUXczMwB4XxYcFq1ZLrudUL0=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBo3SskGYeMExv8ixkDTqYrKTmF3tPIjgjyGFyRK
- QMDlXQyH+2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaN0rJAAKCRD6PaqMvJYe
- 9Rr0D/9fZ27rpk5xGJjeLhWt5a2DSEgBz5wrzK1MfCjEdkqcAZGoEFaBVRhY5GhVwwKByglXoDw
- SnKgiPxnf4d5M2TYHR1yuLkAgzEkj3rxZweK/h6m0A9LuXVmQc1a5Fb8zKuOliTw50i0/fTdQpJ
- /03mwFBDna82lA7ZiEfLgHaIAPuWQpeu1X5RoDt6sC/ulv/d3OeOjcirNk9HWXwMB7r3296THaS
- h5z3+bMFl1XrdzZM7zHMNcjcht6wFg1uwJyROFNOyHgqwQ8pxLxVmQYPUDe6UHWSjZaNaWVeVyF
- wNWzvg1emfigMt/17nU5EipujouJ4ECuctiK49pYCMsoOXi23x/wokvzLg/322lylWqJHGwacMz
- fnHN0qhVjDTENWMca/dgEceTNUV1mM8UvUaYJmy0DpJisQmJXQxPhBxcj591lnlP2bhsyGt/j48
- HACDVG2fNHpEVeNHT+A3m+gNqnfW0Qew1uKQnJbaBlLhNux9iGAWfefDf8DO8T+rPgLPhZOK7PW
- w2YzbHK3B1HEUDZr87vKVvTduGBqJtg15lulOA+MxcWisyAKGjvb352KdD08OcARcPufbi0aUyc
- uoKoncrz7Pc/ZopXgqm/h5ceAOthWo7/s0uSho8oRkKWWi5EbRoiaHZrw4ky7R2v/qHMVj9T3Wc
- zZqhy+QLz5qgxbg==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <175803873238.3892705.12154571803108246655.b4-ty@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +68,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for XVUY2101010 format.
+On Tue, 16 Sep 2025, Lee Jones wrote:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> On Tue, 15 Jul 2025 14:24:37 +0200, Thomas Zimmermann wrote:
+> > Remove the final dependencies on fbdev from the backlight subsystem.
+> > This is really just the include of <linux/fb.h> in backlight, but it
+> > has some fallout in other code.
+> > 
+> > Patches 1 to 14 fix all the implicit includes that come from fb.h
+> > throughout the kernel. It's all trivial, but touches various drivers.
+> > Maintainers are in CC. Patch 15 fixes the backlight header.
+> > 
+> > [...]
+> 
+> Applied, thanks!
+> 
+> [06/15] backlight: Include <linux/of.h>
+>         commit: b12224c28d84d054dfb680c05cda61d1e2584bf5
+> [07/15] backlight: apple_dwi_bl: Include <linux/mod_devicetable.h>
+>         commit: 945e411acde3800234d506f4304203a9b11890f8
+> [08/15] backlight: as3711_bl: Include <linux/of.h>
+>         commit: 6789cd935a57464deaacdd14c84bc026aa228e72
+> [09/15] backlight: da9052_bl: Include <linux/mod_devicetable.h>
+>         commit: e2e76f67bdbbc7b8df608e3dd1028059d838871e
+> [10/15] backlight: jornada720: Include <linux/io.h>
+>         commit: ce4bb1a2f1cbcd5f6471f74ee5c7e1443a4cfd84
+> [11/15] backlight: ktd2801: Include <linux/mod_devicetable.h>
+>         commit: 5f60004f152b432c6ae5dbacc172adc1fa215825
+> [12/15] backlight: led_bl: Include <linux/of.h>
+>         commit: b38ed7c05a35f3a029c2fc5e43a94aa81e2ac843
+> [13/15] backlight: rave-sp: Include <linux/of.h> and <linux/mod_devicetable.h>
+>         commit: 246da2b48e2ce973db255fc4b6faf42f73c03114
+> [14/15] backlight: rt4831: Include <linux/mod_devicetable.h>
+>         commit: ba3b29a639fe5173033914db6ee58d8d9bb86aba
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index b7cc7a7581ad..f548f375750e 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -322,6 +322,11 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
- 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV24_10,
- 		.swap		= false,
- 		.sf		= scaling_factors_101010,
-+	}, {
-+		.drm_fmt	= DRM_FORMAT_XVUY2101010,
-+		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YUV444_10,
-+		.swap		= false,
-+		.sf		= scaling_factors_101010,
- 	},
- };
- 
+> [15/15] backlight: Do not include <linux/fb.h> in header file
+>         commit: 9f218f9bb9d274b9d5d48a4c95e1b199141fc1f2
+
+I have removed this commit from Backlight, since it was causing too many
+issues.  Please resubmit it once the merge-window is closed.
 
 -- 
-2.43.0
-
+Lee Jones [李琼斯]
