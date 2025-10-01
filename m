@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2399CBB05EA
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 14:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E7BB04E2
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 14:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8214010E382;
-	Wed,  1 Oct 2025 12:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D6F10E06D;
+	Wed,  1 Oct 2025 12:21:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YXbd2z3I";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UmEzoVyU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80DC310E6CE
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 12:41:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8445110E06D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 12:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759320263;
- bh=kFPc/gkLARdoFaW/nkDrbHCfs7G6pU14yCZscWLvdUw=;
+ s=mail; t=1759320795;
+ bh=7hEM/r1j5wBKoJc3aCyzvjA7qiAo7dj9HLa2165QQYk=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YXbd2z3ILri3jxxkd+DTOYB7dE/KdzzpnPQE9Rwr3iflUL8z37zBFPxTptDeTTHT5
- dUJBD+ltk9EOt+nxobr0iZOgUkGr0tpCV2XB4ZPWY1ZPsoK/c2jCaaC7YnFBGLY7pQ
- v8bWN/m3xS4oaIp4zpBmCtI8BdA5g/aGxuoQX0coYTNdMJrIlgKFfJB/ai6lENv1Oj
- i7CwBqbFDLbjJBFLqEcaDKyWex6w6HYRVSxcjjG2f5QCDYNgj5+HalftahH9ohV316
- CQobvNv13NKk+PGeyCJttTreNVN+KmCgYawfCO34ytd5uxqys+DT2hvh6qr/P+5meI
- x813tqB2vkzlA==
+ b=UmEzoVyU1SYHFm4kPxnXNQ81MvLM2PCaLisskdj7X7VCt+tk0nEM2pZH3KJF95WRE
+ 6KsrQXHYhmsVYWY7fLCel9K7QAwGnF0WPSqoPuYbsqQ3yl4Tgk5XZ+rEZb9wYYBU8D
+ Gc9XNN4vXd14mZtEPoCA9fObvRR/QNXhc11Yz9lCVgqhhsCy4z/+cHtPPWTw7p2uex
+ fxw0n7K8w9O9kKAoyQu3cPqcfXVKw+3cFvlZgCvWhda+emoZ0zWo0jF4gTjbjlbx3f
+ KFzmZJ8zCBQtBDrQm16zconwlzsTtxRR5StXEXFkoKRcesEg4yN8uFw+Fod3WUxkeU
+ JbQKTbQKjo0Fg==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 43EAD17E00AC;
- Wed,  1 Oct 2025 14:04:23 +0200 (CEST)
-Date: Wed, 1 Oct 2025 14:04:18 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 2238217E131B;
+ Wed,  1 Oct 2025 14:13:15 +0200 (CEST)
+Date: Wed, 1 Oct 2025 14:13:10 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
@@ -45,12 +45,13 @@ Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
  <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v3 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Message-ID: <20251001140418.57fb21f1@fedora>
-In-Reply-To: <CAH5fLghp+4dx6-JAfbSWDLz7WOdwtnLeuxdGhmVPax+HKbTv3w@mail.gmail.com>
+Message-ID: <20251001141310.0817a6c7@fedora>
+In-Reply-To: <20251001140418.57fb21f1@fedora>
 References: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
  <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
  <20251001132739.41575fa5@fedora>
  <CAH5fLghp+4dx6-JAfbSWDLz7WOdwtnLeuxdGhmVPax+HKbTv3w@mail.gmail.com>
+ <20251001140418.57fb21f1@fedora>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -71,79 +72,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Oct 2025 13:45:36 +0200
-Alice Ryhl <aliceryhl@google.com> wrote:
+On Wed, 1 Oct 2025 14:04:18 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> On Wed, Oct 1, 2025 at 1:27=E2=80=AFPM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > On Wed, 01 Oct 2025 10:41:36 +0000
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> > =20
-> > > When using GPUVM in immediate mode, it is necessary to call
-> > > drm_gpuvm_unlink() from the fence signalling critical path. However,
-> > > unlink may call drm_gpuvm_bo_put(), which causes some challenges:
-> > >
-> > > 1. drm_gpuvm_bo_put() often requires you to take resv locks, which you
-> > >    can't do from the fence signalling critical path.
-> > > 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often going
-> > >    to be unsafe to call from the fence signalling critical path.
-> > >
-> > > To solve these issues, add a deferred version of drm_gpuvm_unlink() t=
-hat
-> > > adds the vm_bo to a deferred cleanup list, and then clean it up later.
-> > >
-> > > The new methods take the GEMs GPUVA lock internally rather than letti=
-ng
-> > > the caller do it because it also needs to perform an operation after
-> > > releasing the mutex again. This is to prevent freeing the GEM while
-> > > holding the mutex (more info as comments in the patch). This means th=
-at
-> > > the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
-> > >
-> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Signed-off-by: Alice Ryhl <aliceryhl@google.com> =20
+> On Wed, 1 Oct 2025 13:45:36 +0200
+> Alice Ryhl <aliceryhl@google.com> wrote:
 >=20
-> > > +/*
-> > > + * Must be called with GEM mutex held. After releasing GEM mutex,
-> > > + * drm_gpuvm_bo_defer_free_unlocked() must be called.
-> > > + */
-> > > +static void
-> > > +drm_gpuvm_bo_defer_free_locked(struct kref *kref)
-> > > +{
-> > > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_gp=
-uvm_bo,
-> > > +                                               kref);
-> > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> > > +
-> > > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
-> > > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
-> > > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
-> > > +     }
-> > > +
-> > > +     list_del(&vm_bo->list.entry.gem);
-> > > +}
-> > > +
-> > > +/*
-> > > + * GEM mutex must not be held. Called after drm_gpuvm_bo_defer_free_=
-locked().
-> > > + */
-> > > +static void
-> > > +drm_gpuvm_bo_defer_free_unlocked(struct drm_gpuvm_bo *vm_bo)
-> > > +{
-> > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> > > +
-> > > +     llist_add(&vm_bo->list.entry.bo_defer, &gpuvm->bo_defer); =20
-> >
-> > Could we simply move this line to drm_gpuvm_bo_defer_free_locked()?
-> > I might be missing something, but I don't really see a reason to
-> > have it exposed as a separate operation. =20
+> > On Wed, Oct 1, 2025 at 1:27=E2=80=AFPM Boris Brezillon
+> > <boris.brezillon@collabora.com> wrote: =20
+> > >
+> > > On Wed, 01 Oct 2025 10:41:36 +0000
+> > > Alice Ryhl <aliceryhl@google.com> wrote:
+> > >   =20
+> > > > When using GPUVM in immediate mode, it is necessary to call
+> > > > drm_gpuvm_unlink() from the fence signalling critical path. However,
+> > > > unlink may call drm_gpuvm_bo_put(), which causes some challenges:
+> > > >
+> > > > 1. drm_gpuvm_bo_put() often requires you to take resv locks, which =
+you
+> > > >    can't do from the fence signalling critical path.
+> > > > 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often go=
+ing
+> > > >    to be unsafe to call from the fence signalling critical path.
+> > > >
+> > > > To solve these issues, add a deferred version of drm_gpuvm_unlink()=
+ that
+> > > > adds the vm_bo to a deferred cleanup list, and then clean it up lat=
+er.
+> > > >
+> > > > The new methods take the GEMs GPUVA lock internally rather than let=
+ting
+> > > > the caller do it because it also needs to perform an operation after
+> > > > releasing the mutex again. This is to prevent freeing the GEM while
+> > > > holding the mutex (more info as comments in the patch). This means =
+that
+> > > > the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
+> > > >
+> > > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > Signed-off-by: Alice Ryhl <aliceryhl@google.com>   =20
+> >  =20
+> > > > +/*
+> > > > + * Must be called with GEM mutex held. After releasing GEM mutex,
+> > > > + * drm_gpuvm_bo_defer_free_unlocked() must be called.
+> > > > + */
+> > > > +static void
+> > > > +drm_gpuvm_bo_defer_free_locked(struct kref *kref)
+> > > > +{
+> > > > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_=
+gpuvm_bo,
+> > > > +                                               kref);
+> > > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> > > > +
+> > > > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
+> > > > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
+> > > > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
+> > > > +     }
+> > > > +
+> > > > +     list_del(&vm_bo->list.entry.gem);
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * GEM mutex must not be held. Called after drm_gpuvm_bo_defer_fre=
+e_locked().
+> > > > + */
+> > > > +static void
+> > > > +drm_gpuvm_bo_defer_free_unlocked(struct drm_gpuvm_bo *vm_bo)
+> > > > +{
+> > > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> > > > +
+> > > > +     llist_add(&vm_bo->list.entry.bo_defer, &gpuvm->bo_defer);   =
+=20
+> > >
+> > > Could we simply move this line to drm_gpuvm_bo_defer_free_locked()?
+> > > I might be missing something, but I don't really see a reason to
+> > > have it exposed as a separate operation.   =20
+> >=20
+> > No, if drm_gpuvm_bo_deferred_cleanup() is called in parallel (e.g.
+> > from a workqueue as we discussed), then this can lead to kfreeing the
+> > GEM while we hold the mutex. We must not add the vm_bo until it's safe
+> > to kfree the GEM. See the comment on
+> > drm_gpuvm_bo_defer_free_unlocked() below. =20
 >=20
-> No, if drm_gpuvm_bo_deferred_cleanup() is called in parallel (e.g.
-> from a workqueue as we discussed), then this can lead to kfreeing the
-> GEM while we hold the mutex. We must not add the vm_bo until it's safe
-> to kfree the GEM. See the comment on
-> drm_gpuvm_bo_defer_free_unlocked() below.
+> Uh, right, I forgot that the lock was embedded in the BO, which we're
+> releasing a ref on in the cleanup path.
 
-Uh, right, I forgot that the lock was embedded in the BO, which we're
-releasing a ref on in the cleanup path.
+Would be good to document the race in the comment saying that
+gpuva.lock shouldn't be held though.
+
+
+
