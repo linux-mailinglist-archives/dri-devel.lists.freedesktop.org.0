@@ -2,42 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3789FBB0A42
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 16:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCAC2BB0B15
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 16:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D60610E1ED;
-	Wed,  1 Oct 2025 14:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5335A10E237;
+	Wed,  1 Oct 2025 14:23:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="fvokiHXI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZluyBdbW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-244104.protonmail.ch (mail-244104.protonmail.ch
- [109.224.244.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB14C10E1ED
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 14:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1759327505; x=1759586705;
- bh=yCkyXABvfPbYcu5CAHE3jDiZXmbFgpOxAl8UVf5dtP4=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=fvokiHXI0gfmy+GUI85ctSkSP00U1hVYxs/A2b6u/jwIa8g/f9ov54X2pplnmT9c8
- 63H5FSdJeIxE2A0NfHqUt1CxMhR7v0/cG+DGVi8QT1+Te5QVQGeZ4U5xz57+s+bJaF
- X27TdmtB6PbFOAB8BUorhHkYsln6JQ0t1zzu7U+DziqXbJU0MMkCOVPHHiwbqpiq3F
- FTP3Zfe4Nlul3uNRHsHY8h01ncF58f9Te79XycY5bRxgJX3PJVJhIC471YFojAv4ig
- GRKmjq3/h4Dp79t4nYTP/9n43XuPASvmhH+Uc1X9mdOdmXi5R/tMG23LUlK4bMFcsv
- 3simKyktk1VlA==
-Date: Wed, 01 Oct 2025 14:04:55 +0000
-To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
-From: Simon Ser <contact@emersion.fr>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: [ANNOUNCE] libdrm 2.4.126
-Message-ID: <YfYKRut46CEHnN22mtOVVWWPVPb9dmyQSeOPiy2Q8x9iIeFoDm8_-ETAkb3CExohUWGQzd412agusLwhjZk0Xrz8-0ljr6QsFxtS5eaADlw=@emersion.fr>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 87deb0d9087826dea8358bccc2917d9fe9ee73b0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4D610E098;
+ Wed,  1 Oct 2025 14:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759328628; x=1790864628;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/EcpuRkT2Y0X0XRx1wNXTkifWhNqltm3EYNBGuz+fUA=;
+ b=ZluyBdbWoy4TjSPKLlmB7omq5FsyIEqQ02yXWmaOzjnO4/u1sXC9Uqn/
+ pNM38VM4k+edjN15dDN6dUEZEbqxx/zarBcKO4Hdi+MLFrLxcWHfoJb9v
+ pUHZu0REBA3FHhg8ml6ruiSvoU9fXeuqj/GZzpCESuZyinZQWfx/mEX0S
+ h3gHlF1dif9FcrApiTLap8lC4AgO9C0wxUEGdTxMa+HSnIuclvHBfdLlj
+ QqOFHa3qtkxXtcKnXeAaWCiBH+l1tJQjklmkz/yKc51z1kT/ljmDOqlmg
+ NLJqPdJjcvbZxdhiRqBstDyzapGSMZlfO3B7K9EijaV9ShomB1kTFxku5 w==;
+X-CSE-ConnectionGUID: bBbdCpaxTDaFcaLAUcdrUw==
+X-CSE-MsgGUID: P9zEQQ6bTL+uaRPSmmR8DA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="84223847"
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="84223847"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2025 07:23:47 -0700
+X-CSE-ConnectionGUID: JYxgi8tFSX6nm4X1Gc0fyQ==
+X-CSE-MsgGUID: XcVxpCDpRiOQeMhnUqZ5Vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="177928556"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.116])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2025 07:23:45 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Zhenyu Wang <zhenyuw.linux@gmail.com>
+Subject: [PATCH v2] drm/i915/gvt: Propagate
+ vfio_set_irqs_validate_and_prepare() error
+Date: Wed,  1 Oct 2025 16:23:36 +0200
+Message-ID: <20251001142336.82089-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,31 +70,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alex Deucher (1):
-      amdgpu: update marketing names
+Return the actual error code from vfio_set_irqs_validate_and_prepare()
+instead of always collapsing to -EINVAL. While the helper
+currently returns -EINVAL in most cases, passing through the real
+error code is more future-proof.
 
-Emil Svendsen (2):
-      modetest: util: pattern: add new patterns
-      modetest: util: add seed argument for noise patterns
+While at it, drop the stray 'intel:' prefix from the error
+message.
 
-Huang Rui (1):
-      modetest: fix build error on is_power_of_two()
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Zhenyu Wang <zhenyuw.linux@gmail.com>
+Link: https://lore.kernel.org/r/20250926000252.3681360-1-andi.shyti@kernel.org
+---
+Hi,
 
-Jesse.Zhang (1):
-      drm/amdgpu: Add user queue HQD count to hw_ip info
+I'm resending the patch because the first version had some
+dependencies that CI didn't build yet.
 
-Jos=C3=A9 Exp=C3=B3sito (1):
-      xf86drm: Add faux bus
+In the meantime I'm updating the tag section. Thanks Zhenyu for
+your review.
 
-Simon Ser (1):
-      build: bump version to 2.4.126
+Andi
 
-git tag: libdrm-2.4.126
+v1-v2: Add Zhenyu's r-b
 
-https://dri.freedesktop.org/libdrm/libdrm-2.4.126.tar.xz
-SHA256: 6cab16d4d259b6abc9f485233863454114a3c307eca806679aad3edbe967bf42  l=
-ibdrm-2.4.126.tar.xz
-SHA512: 7cf2e2904025165562f0bf56faa57f3c3cca6f739c2afc299952bcb7bb1dcb86554=
-c8060a7dbe070f2100d036b0ece615e0a55d9df00885679ae30b7e6ef0f0b  libdrm-2.4.1=
-26.tar.xz
-PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.126.tar.xz.sig
+ drivers/gpu/drm/i915/gvt/kvmgt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index 183128b84630..c43b47687838 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -1369,8 +1369,8 @@ static long intel_vgpu_ioctl(struct vfio_device *vfio_dev, unsigned int cmd,
+ 			ret = vfio_set_irqs_validate_and_prepare(&hdr, max,
+ 						VFIO_PCI_NUM_IRQS, &data_size);
+ 			if (ret) {
+-				gvt_vgpu_err("intel:vfio_set_irqs_validate_and_prepare failed\n");
+-				return -EINVAL;
++				gvt_vgpu_err("vfio_set_irqs_validate_and_prepare failed\n");
++				return ret;
+ 			}
+ 
+ 			data = memdup_user((void __user *)(arg + minsz),
+-- 
+2.47.2
+
