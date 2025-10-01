@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69669BB0777
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 15:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25F3BB077D
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 15:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E63110E70D;
-	Wed,  1 Oct 2025 13:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC4B10E715;
+	Wed,  1 Oct 2025 13:23:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iXw0QNt5";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="khsU2APj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4224810E710
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 13:22:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E6010E710
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 13:22:58 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B83D19AD;
- Wed,  1 Oct 2025 15:21:26 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9740EBCA;
+ Wed,  1 Oct 2025 15:21:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1759324887;
- bh=Z4gNQ9UWmg8H9YFAi8N+jXqbfBppeZnMk/tmq5k2slI=;
+ s=mail; t=1759324888;
+ bh=LLJhV2LallcFwhanB+wQUXczMwB4XxYcFq1ZLrudUL0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=iXw0QNt5bU8P8raD8mTzXneQXaVochjSwjAIh8vIUYNORHRz6hTYyNDMcZOtYz6Gk
- Pnk9lmsmyK9HleUt+UuhlEbejANCBP7QBqrEoRmAvluAtHVXcxtCi0Bgmy//7ZqELr
- yCPjgnSVBR0CJuTYPg6UZslspfwgN/URCc2UfXyQ=
+ b=khsU2APjJexd87l2z75tK1gHeG0zowsOkrWUFz4T8bNHeWWeyTJuo+5ti5ukumoMB
+ HN+9fsC2jmfhqIopDyX7BEITpyVphzlI7arew8hrIxwOSt7K+WBNorVd3nTZ3pmCur
+ MYzeiW04kyy1wOB8eofyRkgoWxD5HGXepx7a4Xx0=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 01 Oct 2025 16:22:22 +0300
-Subject: [PATCH v6 10/11] drm: xlnx: zynqmp: Add support for X403
+Date: Wed, 01 Oct 2025 16:22:23 +0300
+Subject: [PATCH v6 11/11] drm: xlnx: zynqmp: Add support for XVUY2101010
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251001-xilinx-formats-v6-10-014b076b542a@ideasonboard.com>
+Message-Id: <20251001-xilinx-formats-v6-11-014b076b542a@ideasonboard.com>
 References: <20251001-xilinx-formats-v6-0-014b076b542a@ideasonboard.com>
 In-Reply-To: <20251001-xilinx-formats-v6-0-014b076b542a@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
@@ -50,21 +50,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Pekka Paalanen <ppaalanen@gmail.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=883;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=898;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=Z4gNQ9UWmg8H9YFAi8N+jXqbfBppeZnMk/tmq5k2slI=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBo3SskYkFp71Muh/vUeiWioR8OLa3U9Z/Il8HAI
- lOM9I75I8OJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaN0rJAAKCRD6PaqMvJYe
- 9ak5D/4keFN+7hSFuZnonz+gZBC9uEwApG91/goDKyuXfmHO2g1O3ubofSDBSPvup6LdJUQobdz
- Ye5ROKzfhx+AyeFVcwcjAVZPP96nQxFn6jOd5J8X0qCT0gI6QeJZaOD+7YOgIL92bsJbZ8hbIPp
- EJnC4ukbUkzgrWejxmeV06/o1XISDsvPsgrU10PcjMzcfSEsCPcFfyHeJDT4AJujxdNOMaToeqb
- mx9aTzI5qyrQhgT9RPaNPxZ9XC4Yktt406dnv2KMkKNZxz6As7fgNreAPjq7KckthBMc6tKG9Sd
- 4qyZkIjjy++saCjxL0QYAHnW78K2/BjeNW3Y9LYhgVDpW36xFWP0acqBje1F4AFrwa5pu+QjS7i
- 4E08hnN+vFQ/YK6Cj5CswnGg7y3L2tgivO3FJymWBTShsjTg8OjtCJrkeo6rLMAyMtYLoiI3BMt
- gBTpqAWrGksduaEU3XuyWQBXQOE1gh2EOVd09ziE1/OSuDOThqD/pzmB3RJ28zmN6lcb1ihzJrG
- cm2GCA6fJOcjmSJZE2cSxFQ7d14F28Vb7QHisMwBt0Zt7bpkhvTGwKhKqxx9a9IeWDRENNmvxCy
- 9OuB2/vrdjb8SlTyU1vsfKa1UHZTE+cmKtfmdqv68W1YW2XvgoMxGxqD2dJs+KoCFpIUmaafPRw
- 6Iucigxyk+8Ge7w==
+ bh=LLJhV2LallcFwhanB+wQUXczMwB4XxYcFq1ZLrudUL0=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBo3SskGYeMExv8ixkDTqYrKTmF3tPIjgjyGFyRK
+ QMDlXQyH+2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaN0rJAAKCRD6PaqMvJYe
+ 9Rr0D/9fZ27rpk5xGJjeLhWt5a2DSEgBz5wrzK1MfCjEdkqcAZGoEFaBVRhY5GhVwwKByglXoDw
+ SnKgiPxnf4d5M2TYHR1yuLkAgzEkj3rxZweK/h6m0A9LuXVmQc1a5Fb8zKuOliTw50i0/fTdQpJ
+ /03mwFBDna82lA7ZiEfLgHaIAPuWQpeu1X5RoDt6sC/ulv/d3OeOjcirNk9HWXwMB7r3296THaS
+ h5z3+bMFl1XrdzZM7zHMNcjcht6wFg1uwJyROFNOyHgqwQ8pxLxVmQYPUDe6UHWSjZaNaWVeVyF
+ wNWzvg1emfigMt/17nU5EipujouJ4ECuctiK49pYCMsoOXi23x/wokvzLg/322lylWqJHGwacMz
+ fnHN0qhVjDTENWMca/dgEceTNUV1mM8UvUaYJmy0DpJisQmJXQxPhBxcj591lnlP2bhsyGt/j48
+ HACDVG2fNHpEVeNHT+A3m+gNqnfW0Qew1uKQnJbaBlLhNux9iGAWfefDf8DO8T+rPgLPhZOK7PW
+ w2YzbHK3B1HEUDZr87vKVvTduGBqJtg15lulOA+MxcWisyAKGjvb352KdD08OcARcPufbi0aUyc
+ uoKoncrz7Pc/ZopXgqm/h5ceAOthWo7/s0uSho8oRkKWWi5EbRoiaHZrw4ky7R2v/qHMVj9T3Wc
+ zZqhy+QLz5qgxbg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,7 +82,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for X403 format.
+Add support for XVUY2101010 format.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
@@ -92,16 +92,16 @@ Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index fe111fa8cc13..b7cc7a7581ad 100644
+index b7cc7a7581ad..f548f375750e 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -317,6 +317,11 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
- 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YONLY_10,
+@@ -322,6 +322,11 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
+ 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV24_10,
  		.swap		= false,
  		.sf		= scaling_factors_101010,
 +	}, {
-+		.drm_fmt	= DRM_FORMAT_X403,
-+		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV24_10,
++		.drm_fmt	= DRM_FORMAT_XVUY2101010,
++		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YUV444_10,
 +		.swap		= false,
 +		.sf		= scaling_factors_101010,
  	},
