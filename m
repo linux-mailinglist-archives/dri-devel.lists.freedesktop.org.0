@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB17BAF645
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 09:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47D4BAF648
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 09:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5496210E694;
-	Wed,  1 Oct 2025 07:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C03DF10E69F;
+	Wed,  1 Oct 2025 07:24:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BIMk7JVd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XoX2WPrU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4574310E674
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018B510E674
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 07:24:26 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-46e4f2696bdso46320415e9.0
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-46e3af7889fso41156055e9.2
  for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 00:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1759303465; x=1759908265; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZeCJ3SwyftHMw0airnJwEwlrbv4c6ebfFx7pe6MtVRo=;
- b=BIMk7JVdRSSYz1WkJXiAdkO3SqA8abP5XdWNrHujQ1mBCa48ucAvt+gO5PtZbUjnQQ
- 8PiY3UmmUrol8Ka02TvLKtuL3aH7mutq5iC4+l0y6QeQMEGIarpGJy/vf66O11TN2lYO
- b61W5VishfvgS469rHE0cdzIF6dcLX6KOnFyfx0RBcvBj5Zp1WiC08GRUZQTjwmquv9Z
- FtndqdN9PHfUFT9is8swwmkiK6mXsMwuay8bvc7oEO6M/IpnIMqsztRD7ZFhD4H+V37y
- qFmcRkctg5bNxKXaQFmDIIXZpdrnUaT7+tLJ475igjX9hhDDCIy7KAiSsHuzc1mxttpx
- ECMg==
+ bh=0JtxRzMZeL9v17nXRs0wb3R8qd1EOkfb8vMoEKaK0eQ=;
+ b=XoX2WPrUea26d80BW4XFvFDtFdYVjBPFvbyXkbhrkMwgnr2vhdaonWmxiGJBQvAEnM
+ 4Tphlr8fIw80OEGphII4uxQvrrnEbiBHSTzKhzuWKq2XCC0EtP9vq3wPeR7D6OunxgU3
+ 07WXWTX5qONXJvO5v5snCnYcvtbXCj8/kipUMAIAimchV/raYl9CSP/g8BA/omhL83sL
+ Ul19SrRaYjbOEwQnFnuq3V7AdVKnGQFe+3ykMuydB9IOprGppc0oLLK5H5SUYllpz/EU
+ ni/nRWVGUO0h/O4ejyB42i4Yn4Dbaejw8hapCGiUNAT5Xa9qytQMtQFRP2y0Dib9Y6CH
+ eGZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1759303465; x=1759908265;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZeCJ3SwyftHMw0airnJwEwlrbv4c6ebfFx7pe6MtVRo=;
- b=bPG0vUG0hrxeuKfcriILwDknPTQWAWdXknRr3eJmV3WwteMNpn0ZfbbmyjoMUC4/SI
- pT797Sv1GP0jeRef4b+nNkAY/OaicBW2Xv8h5lu/yxeUf9wNMOK0y6cdGhahIImEqzF1
- wH2yJSwzp/ZBl2Dg9QJmz99aKHGTI8cmxlk5TVe3X6K/dwWGX2WVpFBamVfbbhosV+Rx
- rDWi/NjruIznz4jxLfrwO3fxliQI9K66xcg3Ph3nrmJMxTn5jkQj67QtUOxl0XY2neP5
- O/xqESFqcJ3Fg2RvfRp/gxI7qACmnNuzSsdWnLVqCmAATypSbmC/MnrUOps/SDOBgbiy
- Curg==
-X-Gm-Message-State: AOJu0Yw9JafwTRfrSPRhgNSxGPUKpLSSfTY8VbOaOWcHm/9hYqOnZY+P
- Xy56XZ6rZExipOB9t6gXhSbfD3xvpAvxYiB9VQNLYqjX+SXSJ3Ylz5VqcPylN4i50LI=
-X-Gm-Gg: ASbGncv48PqmUX3g+MfaNgus3O7xYZFrE/di2XkbpjETf/GsxGY77hCNpfN6dSXMjoG
- 7IJQ0oG4fXK2Rkz6UAdjhv7jvqWosLKAi+ahh/Avycpr7SQoT5MzWbvMb6d6npxOeSxnmE7/eSN
- QkhAqAj5GcpQyu/RErj/LRf51hhH3fKUE7glh8DHVojW/chIq1NkhRSxtzWZzDnBmANgLLbTpOw
- uvsVbKqTF+Pa7BH1YJev6C4BTxoztJsJDjmkWE6LWEwLpQsUs5EghUdQrDTJ3McepwJeiVTRfwO
- 36dYDz0bQHiCW4gJ/QVPcDT0VsvweEDI0weLvEWJKLWCnI3w/UxR9WXpToJsHkJrr3fN2mc62kx
- zrysJoe/ri4xKesMHiEBPsrxZfmRB5r4m9SDZSAYxC5JMGXfU95bUn3C4pkbTtcgnbJc=
-X-Google-Smtp-Source: AGHT+IEdl4XsbaJCInDt4HTeuo5oUgfE1ebcq3HCf1e90j8pjuSWVWqbjVTfAuHDD3TOxEbAqeiTMg==
-X-Received: by 2002:a05:600c:3543:b0:45d:d68c:2a36 with SMTP id
- 5b1f17b1804b1-46e61281448mr18833445e9.27.1759303464618; 
- Wed, 01 Oct 2025 00:24:24 -0700 (PDT)
+ bh=0JtxRzMZeL9v17nXRs0wb3R8qd1EOkfb8vMoEKaK0eQ=;
+ b=WbhvLOVlQfjH5/dDVPzQoSgk/uZU1113lvbS0POmCrlIbgVKvq4uToVev1npRgvJvN
+ +yk1spKfOG7WG7k1kjboZtHrottyjwsbQ+CPsk2d0R3MOjYQ5+Jq4kzIu0My5Tbj6iZl
+ o8GkSbdh9ufp1P26VzaznJXY4gpoRH3UZScIsur54xehhgef2PmtiZxkcZHezzIduk2B
+ gSQQ1SYYZsOsDW7h++O65vLTU6rSwVcoYN2BkiDRJAQMgI6Vvdc+gYe71O1gmVMjBT34
+ ccZqF+rgFT0G9bLTslc13ybxSVNgOCO+hURjKJLVv2tGQTpRvX/CIjRj+EAGd84NSpwH
+ Hf3Q==
+X-Gm-Message-State: AOJu0Ywh2gKYvQPCnpFy852VBX3Xr1CUAFHfpxZi8U82aaiic4KzN+jh
+ sB/jRKwBIXGNrwukEel/4gVzIPyeWZ2dcHGfiCZ7PVlzKCkyuzJY/Wz/LjvslnMfYQ0=
+X-Gm-Gg: ASbGncshkH07Ob11E0ia1xyMfpV0/eik8Ws5wJgkStGA/EPcZtwXtwmLWP5ZtdT2w9E
+ snTtFJ16Ifz5YWSh7/0Z0ay/tq77I9M7keS5fWFbJw3pPsWBBsvPhzuXhwKop3Jab6JMN4oVcM9
+ L20c80yHJQ0rXbgUPxHjl7B3xl93yhoX+0R6JWM8lqFTNYH6ll0cOcQpCJn3XYAjb5+Yt29YchY
+ dAvlTcgsAiK28Z8Lt/a7jd2VruBXpvmZ6gGcFqUIB8mUzGGnheqMJ+NqNecWhn7ZO8WfzFJ+ysp
+ EliQJzo8V/qBtYl/cIyBrMMLWLyNSckMi80J6BWjDHxiM6FcePfEyk+EDC3MaQMFGszlOoN0F2S
+ xFTS68th9bqysGP6FAF6lb2ozcYAf2Cjz89RJdad32AuVaepfftp0sF7cKnBJ8kRGzXo=
+X-Google-Smtp-Source: AGHT+IE6yluUbRPj1Xf82URTt49n1XA+WrKyrXfFL4dmGKEG9ksoSO6w24jNnMA9btnzpoe9DeDppw==
+X-Received: by 2002:a05:600c:3b08:b0:46e:4704:b01e with SMTP id
+ 5b1f17b1804b1-46e612652d1mr22649105e9.8.1759303465411; 
+ Wed, 01 Oct 2025 00:24:25 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-410f2007372sm25047153f8f.16.2025.10.01.00.24.23
+ ffacd0b85a97d-410f2007372sm25047153f8f.16.2025.10.01.00.24.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Oct 2025 00:24:24 -0700 (PDT)
+ Wed, 01 Oct 2025 00:24:25 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -69,12 +69,11 @@ To: Jessica Zhang <quic_jesszhan@quicinc.com>,
  Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20250912064253.26346-1-clamor95@gmail.com>
-References: <20250912064253.26346-1-clamor95@gmail.com>
-Subject: Re: (subset) [PATCH v2 0/2] DRM: panel: add support for Sharp
- LQ079L1SX01 panel
-Message-Id: <175930346392.470940.890356781501046012.b4-ty@linaro.org>
-Date: Wed, 01 Oct 2025 09:24:23 +0200
+In-Reply-To: <20250919153839.236241-1-clamor95@gmail.com>
+References: <20250919153839.236241-1-clamor95@gmail.com>
+Subject: Re: [PATCH v3 0/2] DRM: panel: add support for Sharp LQ079L1SX01 panel
+Message-Id: <175930346477.470940.4121513970812142140.b4-ty@linaro.org>
+Date: Wed, 01 Oct 2025 09:24:24 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -96,13 +95,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 12 Sep 2025 09:42:51 +0300, Svyatoslav Ryhel wrote:
+On Fri, 19 Sep 2025 18:38:37 +0300, Svyatoslav Ryhel wrote:
 > Sharp LQ079L1SX01 panel is a LCD panel working in dual video mode found in
 > Xiaomi Mi Pad (A0101).
 > 
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
+[1/2] dt-bindings: display: panel: document Sharp LQ079L1SX01 panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/16c5b1a63623da251ae842b45fe10263d33bf71c
 [2/2] gpu/drm: panel: Add Sharp LQ079L1SX01 panel support
       https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/306e6407ed96ca3dcae5e3dbec8cf207ea33fbee
 
