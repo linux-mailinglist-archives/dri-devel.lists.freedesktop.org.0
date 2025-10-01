@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD638BB00AC
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 12:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33811BB00F5
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 12:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97D110E353;
-	Wed,  1 Oct 2025 10:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A62B10E2AC;
+	Wed,  1 Oct 2025 10:51:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BJPyXYEd";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dgOhwUZr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFF8A10E352
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 10:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759315413; x=1790851413;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=bWmA9Tk3eujgXqyEBHu9n8IVLdOnZI9tp/yroCWjpZ0=;
- b=BJPyXYEdvxhcggC0MV/yNM3P/RZ8Pbnkje6LJ2wXD7Tvq7BV9TzeQhzY
- 24HhGWQFN9Lc0CyKjD+t+BeehG07p8wNaoR96nvC1nmAfXUWlD9So+unO
- oMW3qRIAT+ZYbj7iNGOz6DUavljy/v0ftfHP2gslmeWrzgVCXh6JVT7lk
- 8DlPPjTtuqNGH6YYN30eEbd2x3X9UVS/5dck+FAX+5K/P7rK5sPuOaFGP
- Pd2WdsR5yehRycGFIt9ClxSiEosv+oJQuKGv7dHRG3Dao8IHdEgBgvmM8
- MmcEvqDNUbPc38r7fvWsScZ2NFooO2y3vZShiF85dsjLB7IGivt8ObA5+ A==;
-X-CSE-ConnectionGUID: 2y/RF6adSO6agYE5ycDvQg==
-X-CSE-MsgGUID: HxBulxTBSVOFvT1GfJKTJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61293981"
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="61293981"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2025 03:43:33 -0700
-X-CSE-ConnectionGUID: dRkYbOPpR/KdpGc1yFeqVA==
-X-CSE-MsgGUID: FuWvEBGWQU6do7t4XcE7cw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="178357476"
-Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2025 03:43:32 -0700
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Fix DCT active percent format
-Date: Wed,  1 Oct 2025 12:43:22 +0200
-Message-ID: <20251001104322.1249896-1-karol.wachowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C284C10E2AC
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 10:51:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759315897;
+ bh=1CPftrf/QNZ3WFkDhM8YcV3g4PMpGfeZSdBHtVYjqa8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=dgOhwUZrt5C0ehefy4LQbNrRJRcj8IgLKIrq0rGHVdFOdvwU5vyYOrpqA6zcAyBN+
+ J/IO4Br2P36wABWykJXQSqvHSdhSrZDj7QinIPsF2q54w+6d03uUg2N8HEq+OJvGBt
+ W/3t8iJ7NrrHHhKBrGhXT7+vkZQM9jNZ1AjCA/lgT3qRKfkdwxqIJX8Mt3zsnfK6CP
+ G0+9QNP02tb+0B3tZPwGT7K/920KunekcRzkIS+lqJxzUtStE32cm9UjO+uY3UVQ+r
+ 5dG7sa9SQR3skr28CmD706Y5G5Y/JQs+wUsJCZ/G0ssKe76KuEV0jCzMNtF7x9HLhp
+ 4T7I5v33B6I+g==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C708417E0C54;
+ Wed,  1 Oct 2025 12:51:36 +0200 (CEST)
+Date: Wed, 1 Oct 2025 12:51:30 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
+ Price <steven.price@arm.com>, kernel@collabora.com, Rob Herring
+ <robh@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>
+Subject: Re: [PATCH v4 02/10] drm/panfrost: Handle inexistent GPU during probe
+Message-ID: <20251001125130.76c134ae@fedora>
+In-Reply-To: <20251001022039.1215976-3-adrian.larumbe@collabora.com>
+References: <20251001022039.1215976-1-adrian.larumbe@collabora.com>
+ <20251001022039.1215976-3-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,62 +66,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pcode MAILBOX STATUS register PARAM2 field expects DCT active
-percent in U1.7 value format. Convert percentage value to this
-format before writing to the register.
+On Wed,  1 Oct 2025 03:20:23 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Fixes: a19bffb10c46 ("accel/ivpu: Implement DCT handling")
-Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
- drivers/accel/ivpu/ivpu_hw_btrs.h | 2 +-
- drivers/accel/ivpu/ivpu_pm.c      | 9 +++++++--
- 3 files changed, 9 insertions(+), 4 deletions(-)
+> Just in case we're dealing with a yet not recognised device.
+>=20
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-index afdb3b2aa72a..aa33f562d29c 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-@@ -752,7 +752,7 @@ int ivpu_hw_btrs_dct_get_request(struct ivpu_device *vdev, bool *enable)
- 	}
- }
- 
--void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool enable, u32 active_percent)
-+void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool enable, u8 active_percent)
- {
- 	u32 val = 0;
- 	u32 cmd = enable ? DCT_ENABLE : DCT_DISABLE;
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.h b/drivers/accel/ivpu/ivpu_hw_btrs.h
-index 032c384ac3d4..c4c10e22f30f 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.h
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.h
-@@ -36,7 +36,7 @@ u32 ivpu_hw_btrs_dpu_freq_get(struct ivpu_device *vdev);
- bool ivpu_hw_btrs_irq_handler_mtl(struct ivpu_device *vdev, int irq);
- bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq);
- int ivpu_hw_btrs_dct_get_request(struct ivpu_device *vdev, bool *enable);
--void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool enable, u32 active_percent);
-+void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool enable, u8 active_percent);
- u32 ivpu_hw_btrs_telemetry_offset_get(struct ivpu_device *vdev);
- u32 ivpu_hw_btrs_telemetry_size_get(struct ivpu_device *vdev);
- u32 ivpu_hw_btrs_telemetry_enable_get(struct ivpu_device *vdev);
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 7514f580eef4..63c95307faa1 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -502,6 +502,11 @@ void ivpu_pm_irq_dct_work_fn(struct work_struct *work)
- 	else
- 		ret = ivpu_pm_dct_disable(vdev);
- 
--	if (!ret)
--		ivpu_hw_btrs_dct_set_status(vdev, enable, vdev->pm->dct_active_percent);
-+	if (!ret) {
-+		/* Convert percent to U1.7 format */
-+		u8 val = DIV_ROUND_CLOSEST(vdev->pm->dct_active_percent * 128, 100);
-+
-+		ivpu_hw_btrs_dct_set_status(vdev, enable, val);
-+	}
-+
- }
--- 
-2.43.0
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_gpu.c
+> index f94337a6c302..8d049a07d393 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -240,9 +240,10 @@ static const struct panfrost_model gpu_models[] =3D {
+>  	/* MediaTek MT8188 Mali-G57 MC3 */
+>  	GPU_MODEL(g57, 0x9093,
+>  		GPU_REV(g57, 0, 0)),
+> +	{0},
+>  };
+> =20
+> -static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+> +static int panfrost_gpu_init_features(struct panfrost_device *pfdev)
+>  {
+>  	u32 gpu_id, num_js, major, minor, status, rev;
+>  	const char *name =3D "unknown";
+> @@ -327,6 +328,12 @@ static void panfrost_gpu_init_features(struct panfro=
+st_device *pfdev)
+>  		break;
+>  	}
+> =20
+> +	if (!model->name) {
+> +		dev_err(pfdev->base.dev, "GPU model not found: mali-%s id rev %#x %#x\=
+n",
+> +			name, gpu_id, rev);
+> +		return -ENODEV;
+> +	}
+> +
+>  	bitmap_from_u64(pfdev->features.hw_features, hw_feat);
+>  	bitmap_from_u64(pfdev->features.hw_issues, hw_issues);
+> =20
+> @@ -347,6 +354,8 @@ static void panfrost_gpu_init_features(struct panfros=
+t_device *pfdev)
+> =20
+>  	dev_info(pfdev->base.dev, "shader_present=3D0x%0llx l2_present=3D0x%0ll=
+x",
+>  		 pfdev->features.shader_present, pfdev->features.l2_present);
+> +
+> +	return 0;
+>  }
+> =20
+>  void panfrost_cycle_counter_get(struct panfrost_device *pfdev)
+> @@ -489,7 +498,9 @@ int panfrost_gpu_init(struct panfrost_device *pfdev)
+>  	if (err)
+>  		return err;
+> =20
+> -	panfrost_gpu_init_features(pfdev);
+> +	err =3D panfrost_gpu_init_features(pfdev);
+> +	if (err)
+> +		return err;
+> =20
+>  	err =3D dma_set_mask_and_coherent(pfdev->base.dev,
+>  					DMA_BIT_MASK(FIELD_GET(0xff00,
 
