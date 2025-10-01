@@ -2,119 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D39BB0004
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 12:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0373BB008B
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 12:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7079710E30C;
-	Wed,  1 Oct 2025 10:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6961E10E341;
+	Wed,  1 Oct 2025 10:41:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dFYnG04l";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="dRA5C9/M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC9310E30C
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 10:26:38 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5917puTr027982
- for <dri-devel@lists.freedesktop.org>; Wed, 1 Oct 2025 10:26:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- DoYbUoPn5h4PTq/YMlb34TeBwVEHQG0ctNULUvqXlU4=; b=dFYnG04lUAn1n3pJ
- kr8Lw2MzF2HEuD3idQKToqoMGycgOC0qh/5s8xl8OtIEISCDnkGm5VF++zLZ9hCq
- TmOTmb9jZOg2qg9DVoxZG+CDxF9EnH/ZET9FKO3TMFUP6xYq7a/3TarviUNU+oaw
- DnPWz432ZOZ4haFZnglikO17pBSZIuGh3x7UHckGZ5jLjbJUc95au523eiaRJZFM
- /zelny9foSERCefZ98ZWPJjLqiLuS1j6Zv43G4QfA8uFZSmefmn5K7aD1Gsz+f8p
- KhgTiIEnvKCQD2D1BHyHEgPeDb+3ErQqinndDsPyAgFw0+n0FGzk3iag+k4HYXYE
- DVPc6w==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e851m64f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 10:26:38 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-780f914b5a4so6651050b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 03:26:38 -0700 (PDT)
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C07FA10E345
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 10:41:49 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-46e31191379so43277345e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 03:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1759315308; x=1759920108;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=q4AkcJXKNZTBwi85jKp+KXwdlDEEaE6EAE6141OGSoI=;
+ b=dRA5C9/MOvgwSpesjPzmMnPbSBAYSGSxPhD7vf/CpKapGhCR6xobQI0fjmkteThRpI
+ JzKk5jZq2rORCl3o9OMwl1itNm+m73VEYAXbQ1PEERM/DdMkejOfSS+O91H/lxFEf0Zk
+ RHS8qIXKBFM17pSGe4BvJYJOFR+Gc4y7n3J9R4/XXFuLfD2jVZQbBt/3R2Z0pcY3jWGe
+ DTUNpRhE1c5US4jSKMUWpcZpl+VJB7Lo/xmhvCEiffYF+9wbmtCXDBBZO86u3w3hy9TV
+ pdSvIzEAvvNSnrTiOuHHUQV9f4wEgGwg1wBZaBtOpiJhLSFL+Wi/IoaM5hrF/doQmmnS
+ K+MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759314397; x=1759919197;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DoYbUoPn5h4PTq/YMlb34TeBwVEHQG0ctNULUvqXlU4=;
- b=l0AVTGuY5to+tjChpx3J+kQW3SK2WbqxpC/IISwPcQjfWLWIrmz7ouEi9SsjfWvZsa
- IXcGxEywd4WjhsEVrfmFcyV1gc0qkvz4ejuyl5HE/836kzDcH4abzoEJBtMPagiIghkp
- avWfCC+ANUqk3+cDdvGgemhFn5hOn1wUQxUlm3fHKUyCSeDAtenRziMzhgNcNHXZghbp
- W5AaV9k13gGW1Kbn8Uzhx5++4riX+i50bZT0imXcjjHXpF0NEUqUfKsd53j/DWhyvoMt
- O71k9ls3dMnNu5Nep8T8Sbf1molZ4qGP2OMrk6IFR8eRe85XyRE2fl3+48B+8pmmkNAP
- Tpuw==
+ d=1e100.net; s=20230601; t=1759315308; x=1759920108;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=q4AkcJXKNZTBwi85jKp+KXwdlDEEaE6EAE6141OGSoI=;
+ b=xS0tzo+9SiUqB5mA0CCnLyxHCau/g4J6R9AMKxstXPjXCTyyPmZ1ZU688iDWNOhkxM
+ XvjMgG8EGNbH1vI1qWqHpC3lx3AKm64RFk/ts6FCWLph1VbFMoKVlWTqHdAwychUlaWJ
+ 1dTMjvdnTTJixRj3tUEEaZ2jfdpRCj3BqpQuwDCnjCvfRw6tl7mxHlfpc5Awk0ohuLNa
+ VLoryBb2GQgH1kniFZS5DxqaZNOm9U4aEd7THwSXYQwI3aY5ZhtaB+u84TBYbOBW5iPI
+ /ugwccLC3oc3Q29Wc6pp9jx8LrBYM5ir0w6KWus6CvkzwXpYBoGfJUS5y+2DxD7Mg1q4
+ Iung==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUgUO38Bj5WqN3iWfL5GBLTWmyd3H1Xe6XXAbxa4R0ZoHLUuSrzl3B+iYaqizJFVo7Z/U8NkGDwXR4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTXmHLygGinhAkv7xmyWw59FD9e1lUmu7+i9nvY7WfBDDZTKbl
- xy2WGrzLr7zxWIFXnWSdUsHTAT2omWRaTX+npgDCwFm0RFPPtr+bz7EG44pEifbTomChx9PC3+u
- 3DSRyZHvb42NsWWopM99OesH3fAeJdaS51J9PR7SE4+XGqfAuuOonCASrnVJ+BxmZKUosaa4=
-X-Gm-Gg: ASbGncuU4BW2o1fgpNxGkMJid4xn6snQCCN2X/Ao8+5jc0tNHHujqWFbV773UyG4cdq
- j7foRL5A0UG/6q6xuoqTO28ByypjalCFF6wNV1IvZo3a8QwLaD5oAu2J69VjbY8DzP+8Rx0ANVW
- uV7y11QOWznV5lg5fKEm/RfxXJmeXapD6J13XZb6srZ3Depj4jNsREToKs3HITTcGknFcOAO+Ok
- AxIj5nKJYXotGutYiEqhquB4B1Nnj/8UfKMarzPIsKU242gBfnzTN0lGI92Q4AnmNGDxxgyxO3O
- bznhF06J/m/OiCiSIhFpgLh0K9bTBKXz2vVocw0Y/gQCyxQaY0xC1FwEc6s5EUOz84kpk3UL/wU
- lE7tY
-X-Received: by 2002:a05:6a20:3946:b0:319:fc6f:8afd with SMTP id
- adf61e73a8af0-321d8b06ce0mr4302614637.6.1759314397527; 
- Wed, 01 Oct 2025 03:26:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2JF9jYAQs7P21pVRc4kQw9xYk9dAr+RziIcU6cRwEF5tEhV4BHPHR4FxDdHvAHzFGnPlBNQ==
-X-Received: by 2002:a05:6a20:3946:b0:319:fc6f:8afd with SMTP id
- adf61e73a8af0-321d8b06ce0mr4302582637.6.1759314397056; 
- Wed, 01 Oct 2025 03:26:37 -0700 (PDT)
-Received: from [10.217.219.207] ([202.46.22.19])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-78102c057ecsm15876881b3a.80.2025.10.01.03.26.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Oct 2025 03:26:36 -0700 (PDT)
-Message-ID: <671c517f-c04c-4f07-aa65-a93e1e1dbce3@oss.qualcomm.com>
-Date: Wed, 1 Oct 2025 15:56:31 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-To: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>,
- Vinod Koul <vkoul@kernel.org>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-References: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
- <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
-Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=68dd01de cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=fvgdV2PV7z-sFcuOFeoA:9 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMiBTYWx0ZWRfX/4aDSugATBfo
- tnMh9zQw6cGtwUXe127Ugkp2YPqrOhAl6EcjOeNjlicWkoVELy5558Imo1v88XYZpHlLQorP8/9
- aYFOdG/jLsUDASsJk7Qx0hbv8T42kuhJxp+nADmz/HqWoUPbcjoxwFkBfKrkFEtPZjuvYehzjXi
- xItCqmCudJlksT8XNQMTD+IkMtxCLsqPIOX6fPd6WHjBRb/pUob43ljZqZXaNPr5J2tzEk1dhxa
- whn/S36YRl5dnptjCGaa5b/G4z4O1kogE1jP/1wPyLzoNkyRLIciRAzd56gWzZaZ8Ofkm92YuIV
- mGZBBlH/C04CFowDNfdQMg0IRuf60O9krP10+VhIJAGyxsPqYBXg/5F9oeNMfi9p65TJ0o4UlZ0
- jzDB8wzePPgXDrFNMbt1WW/ke5lafg==
-X-Proofpoint-ORIG-GUID: 7RE_w_fWyrGV59eBARA98qzS_u8MtEk4
-X-Proofpoint-GUID: 7RE_w_fWyrGV59eBARA98qzS_u8MtEk4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-01_03,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270032
+ AJvYcCWVECoSfzFFVCotzkE3iaXHCbr8mmwn6Py1gdQIo67kDI0uE8chjbpFs+FjyuGBzGwgiqdxEHzu74M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwI3kqn8OZQoEcD3aPLuzyAIpkDEHCs8hRobuT5ifdMOJo/JkX+
+ bahFCbbLQitaCo36buoevwH7w/21fIJVBG1cTXfdQGtK/ZU/GTEXV/2TwJUzyWSJN3GmdfBPD9q
+ 8XM73HqdK4L3e6KiuUQ==
+X-Google-Smtp-Source: AGHT+IGcmZb44kUZq9xm+3p/jxi0dJbJMOnTYuGcLSzG5k94a12SYjK9rXC/hs1AahMddzAyDeqHtr6Uml54uVQ=
+X-Received: from wmhn17.prod.google.com ([2002:a05:600c:3051:b0:46e:4c7c:5162])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:5009:b0:46e:436c:2191 with SMTP id
+ 5b1f17b1804b1-46e612dad75mr26829995e9.25.1759315308065; 
+ Wed, 01 Oct 2025 03:41:48 -0700 (PDT)
+Date: Wed, 01 Oct 2025 10:41:35 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAF8F3WgC/23MSw6DIBSF4a2YOy4ND6nQUffRdIByUZIqBhrSx
+ rj3oqOadHhO8v0LJIweE1yrBSJmn3yYyhCnCrrBTD0Sb8sGTrmkmkqSxzYQiw4jEc44Ta3izEk
+ oYI7o/HuP3R9lDz69Qvzs7cy2928mM0JJY5AZoXh7aepbH0L/xHMXRtg6mf9afbC8WK2EtI2oN
+ VX6YNd1/QKo59qP4QAAAA==
+X-Change-Id: 20250905-vmbo-defer-3faf90d821f5
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2783; i=aliceryhl@google.com; 
+ h=from:subject:message-id;
+ bh=CYKvLAiGqs++D4GTcDP3BiBOeQPlODqXyzh5jaw8M0o=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBo3QVlY/GHVqJ/AVp07a8vNu/sGadftMNeocEXI
+ xHxNOEhvQqJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaN0FZQAKCRAEWL7uWMY5
+ RkUvD/wL0NxeTLlUXgmCpoqQuEkfJtg+jiefX3y8GEOK55Q/rzQGJRI5dgeoJN1jwzO6eKi2oul
+ iO1zo72lQo3sKnlksRBEd9nXquUYdm1EtInbRdCqpCCzgiwl0cqjvZnGfTIPfer53XkjVxFgmtG
+ QIMaGcXhtCckI3WcwKhkNVlWSUTRq08dERIBWGE3a6yEa/F6aJZW8hphUgAvbPN/n623fdvystt
+ OpXo17yocNkUWBxz+iU2qV5gbnZaB6up8ONo935QGBxWQOzK2BRsEpkNe74+Nrl/J247MJfuB+I
+ sAj9wCK9+uxfbp3LthFHU0SffeZQvnpnR0cDepUI0lSGry6S1lCcyscINuDqU+wbs23epZr+kGY
+ yzMrMG3Mdipor6G8UcZKq3Bc/oFfudwjObAEEB4a9CAMfnrrFWBB+6hTU8ZcllpUlVB7eKHio9g
+ 4rYdaFC4cytGEGlVsNDzAQ+Y1GDnuDdlF3whVi1e9becd7+gHiH2VH7ZU+dpx2amyrVdfqIUMJp
+ 4EGtRez8xTrvMv3zseWpyhEPaHYGthWCLVm0EKNT9BabO2BDC/JiuL82tRZHssS2kPI43dNi000
+ hgda664j1McYDESA3yVlmnck8iE+RR/edmhLjG2gsfIg5n4IFaCoECz61eYAaNysbSonemAbXMO
+ f4L+/q/FXFoKoDw==
+X-Mailer: b4 0.14.2
+Message-ID: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
+Subject: [PATCH v3 0/2] Defer vm_bo cleanup in GPUVM with
+ DRM_GPUVM_IMMEDIATE_MODE
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ "=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,30 +110,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There are two main ways that GPUVM might be used:
 
-On 9/25/2025 5:30 PM, Jyothi Kumar Seerapu wrote:
-> From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> 
-> The I2C driver gets an interrupt upon transfer completion.
-> When handling multiple messages in a single transfer, this
-> results in N interrupts for N messages, leading to significant
-> software interrupt latency.
-> 
-> To mitigate this latency, utilize Block Event Interrupt (BEI)
-> mechanism. Enabling BEI instructs the hardware to prevent interrupt
-> generation and BEI is disabled when an interrupt is necessary.
-> 
-> Large I2C transfer can be divided into chunks of messages internally.
-> Interrupts are not expected for the messages for which BEI bit set,
-> only the last message triggers an interrupt, indicating the completion of
-> N messages. This BEI mechanism enhances overall transfer efficiency.
-> 
-> BEI optimizations are currently implemented for I2C write transfers only,
-> as there is no use case for multiple I2C read messages in a single transfer
-> at this time.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> ---
-> 
-Reviewed-by: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
+* staged mode, where VM_BIND ioctls update the GPUVM immediately so that
+  the GPUVM reflects the state of the VM *including* staged changes that
+  are not yet applied to the GPU's virtual address space.
+* immediate mode, where the GPUVM state is updated during run_job(),
+  i.e., in the DMA fence signalling critical path, to ensure that the
+  GPUVM and the GPU's virtual address space has the same state at all
+  times.
+
+Currently, only Panthor uses GPUVM in immediate mode, but the Rust
+drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
+worth to support both staged and immediate mode well in GPUVM. To use
+immediate mode, we must manage the vm_bos and vas during the fence
+signalling critical path.
+
+The first part of that work was the introduction of a fence signalling
+safe mutex for the GEMs GPUVA list in commit e7fa80e2932c ("drm_gem: add
+mutex to drm_gem_object.gpuva").
+
+This is series the second part of that work: Dropping a vm_bo object in
+the fence signalling critical path is problematic for two reasons:
+
+* When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
+  the extobj/evicted lists during the fence signalling path.
+* Dropping a vm_bo could lead to the GEM object getting destroyed.
+  The requirement that GEM object cleanup is fence signalling safe is
+  dubious and likely to be violated in practice.
+
+Panthor already has its own custom implementation of postponing vm_bo
+cleanup. Take inspiration from that by moving the logic into GPUVM, and
+adjust Panthor to use the new GPUVM logic.
+
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v3:
+- Unpin in panthor on drm_gpuvm_bo_create() failure.
+- Use llist for bo_defer list.
+- Rename drm_gpuvm_bo_is_dead() to drm_gpuvm_bo_is_zombie().
+- Rename drm_gpuvm_bo_defer() to drm_gpuvm_bo_defer_free().
+- Link to v2: https://lore.kernel.org/r/20250909-vmbo-defer-v2-0-9835d7349089@google.com
+
+Changes in v2:
+- Fix missing kfree in Panthor.
+- Rework mutex_lock() calls to be less confusing.
+- Add note about resv lock in drm_gpuvm_bo_is_dead() docs.
+- Link to v1: https://lore.kernel.org/r/20250905-vmbo-defer-v1-0-7ae1a382b674@google.com
+
+---
+Alice Ryhl (2):
+      drm/gpuvm: add deferred vm_bo cleanup
+      panthor: use drm_gpuva_unlink_defer()
+
+ drivers/gpu/drm/drm_gpuvm.c           | 184 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.c | 110 ++++----------------
+ include/drm/drm_gpuvm.h               |  16 +++
+ 3 files changed, 219 insertions(+), 91 deletions(-)
+---
+base-commit: b2ec5ca9d5c2c019e2316f7ba447596d1dcd8fde
+change-id: 20250905-vmbo-defer-3faf90d821f5
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
