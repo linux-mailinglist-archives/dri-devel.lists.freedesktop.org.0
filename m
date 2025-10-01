@@ -2,92 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F2FBAF2DF
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 08:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D28BAF330
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 08:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A794C10E196;
-	Wed,  1 Oct 2025 06:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA5810E33B;
+	Wed,  1 Oct 2025 06:14:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="IPOMf5e8";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="mXV3GfR8";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Vl3rKhlq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b5-smtp.messagingengine.com
- (fout-b5-smtp.messagingengine.com [202.12.124.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B58210E66E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 06:11:06 +0000 (UTC)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
- by mailfout.stl.internal (Postfix) with ESMTP id 5F9461D0018C;
- Wed,  1 Oct 2025 02:11:05 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-06.internal (MEProxy); Wed, 01 Oct 2025 02:11:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1759299065; x=1759385465; bh=ghh3rJgsy3
- eLVghpQoeYS7lZedkPcw+Y6gzEIEfg8FQ=; b=IPOMf5e8EF+IWvHwqT2h3T/q4e
- 4CZIqpeLFz4XyY8vk0srZP73YhdA2S8OzSpZP1CfPWusNd9NM858En5blBQ2FRsg
- Ch17o+09EGNonlNn5Jx9gvR9QB9DTu/f1DflI2qKGOUIaqYGVBbRu9oyjhTcJtVV
- v1WkqA4VsIfGUHe52Kxc2mJcQ8moyBzL2eCQ+yuWkkHO4d/nUXO5P+5Gp5CQIoka
- HCanoVFP9GtExB89JtWQXdZnUZVUSyhmzXbBMV8Jwo2tFTalsbcQL/Ecc5JwaSlF
- znFwhIsMk8nBtiqbr1bim9cfFD0cs8TAtdzb4veF2EHNn1LzcTWL+hfjQ1rQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1759299065; x=1759385465; bh=ghh3rJgsy3eLVghpQoeYS7lZedkPcw+Y6gz
- EIEfg8FQ=; b=mXV3GfR8Ic2bkAfUMxrKm/bFQIHRvBSoXz2kIrrr2vZLGdX0zXL
- b+r6CR8F1lJ5rsV1BDc+CVVE1P6FgWSDw9pAngknTtsjddDKmavTTlCP+lmwAAbc
- aX7D7e2YABhNikQATX18cOiSy2jiSMS6pX4rpbI2AvF7Ol4mkp8N4uohFACeE7Ia
- pnlhYMXxivBkJvN6K9pFCUK2HBA1544HDERQwRnQoT6Z9JapiV45xlKeiwtMm4mb
- JyoPjeAQVkssNxE7/Hg/Y7kuGL8nH2FpoQ4ivuqxdPnKzcBJ2lJ6Ph/i5u+wW1CD
- AH+graXJjXbBZp52FUK7kbo0EKfa1/G01NQ==
-X-ME-Sender: <xms:-MXcaGTQx6pK2uPbTLIfyGUbGhQqzklMLV8IN55UL95tH6RS6zIJEA>
- <xme:-MXcaIpnm5f1cDXPXK5M4NE5vVW8_EvMghZBsB5-PULZ7bJ00Xx6lirPLP9ecmaE4
- dgv_-Omr-3ViVjUrG34lrDCBwQTKEOz0Cq92rVufNtytNYuCi3QeR8>
-X-ME-Received: <xmr:-MXcaDnH9VhjFpvyfXtz2ZABrIZcYnVQFGe1503BpcbAqoKYzXL9nlZU_P-7-Zruxj4ycQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekvdefkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
- rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfduue
- ffleefkeegueektdehkeejtedtffdtudejhfdvheetgfeigfeltdeufeejnecuffhomhgr
- ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepkedp
- mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuggvlhhlvghrsehgmhigrdguvgdprh
- gtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtrhgvughi
- nhhgsehnvhhiughirgdrtghomhdprhgtphhtthhopehlihhnuhigqdhfsgguvghvsehvgh
- gvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishht
- shdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnh
- gvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtvggthhesthhoohht
- rghirdhnvghtpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorh
- hg
-X-ME-Proxy: <xmx:-MXcaBc5r0l8khNsrkaLM2pKuUVstZD-wYHnYcQjOnUmgowaiVdCWg>
- <xmx:-MXcaPquu3FSKe6rZcjQNbO6fQMAn9S2f57wnli0N5pVQBidmdA0PQ>
- <xmx:-MXcaLMYne9vSuksQUhJRmsun7AKH7g6IRkhbidnoTBrINk9UWRU9w>
- <xmx:-MXcaCg95KAFIGM_XqyGl5ZETS8x-rrSZtrS-n-sv_9LR7X_UMhfqQ>
- <xmx:-cXcaAJJ_V9OYpOIsTmdRWNrSb0Mi1wd32xTP50KG5lGcn6_weidn7k2>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Oct 2025 02:11:04 -0400 (EDT)
-Date: Wed, 1 Oct 2025 08:11:02 +0200
-From: Janne Grunau <j@jannau.net>
-To: Helge Deller <deller@gmx.de>
-Cc: Hans de Goede <hansg@kernel.org>, Thierry Reding <treding@nvidia.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Huhardeaux <tech@tootai.net>,
- stable@vger.kernel.org
-Subject: Re: [PATCH v3] fbdev/simplefb: Fix use after free in
- simplefb_detach_genpds()
-Message-ID: <20251001061102.GA1519657@robin.jannau.net>
-References: <20250915-simplefb-genpd-uaf-v3-1-5bb51506a5b9@jannau.net>
- <e0b113e6-8b3d-4d2d-b1b8-cd6609b8bca7@gmx.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4843510E33B
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 06:14:53 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UJkeAZ027373
+ for <dri-devel@lists.freedesktop.org>; Wed, 1 Oct 2025 06:14:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=n5umdDdHc9CY8UIANZXMpe
+ JdOMLKPrPjBDN7gFVcYZk=; b=Vl3rKhlquDcNSpnR9C/ETh2E8j+vl4PDTi79mf
+ D6icnBZ1ys5wIaaKIW9WcsYElWH4qVE7M5WGRuoQYUNcwTA5BpOytQwVHyovF2lx
+ 7NVokCwT5IHM/EecizubZf4YLMFspMbxyh2X7jpcyViiAnZ07r7gIXTWOVOO7+aE
+ JbRk9LAHsyrsujbIvQ8djY639yVV/b9veqj4qo3pytOI1CC7SwUWDztjIRR44uJO
+ 0OioOeHNJ2DBNj/dEb5zttF3PJbiQcLTDf52sW2liytf22JWumc1/rdxOHGMi5Ra
+ HScc1Zj2CMH3TwllPQTHo1gjuNDqbz+RXzPyXtsURHk+nQig==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e851kgxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 06:14:52 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4e002f413e4so43653921cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 23:14:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759299291; x=1759904091;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n5umdDdHc9CY8UIANZXMpeJdOMLKPrPjBDN7gFVcYZk=;
+ b=plwK9gODyz9hP4i4ayHpQkuTRegzwd2zSvp7pN4nu8krlUum7CX5pgbOITFwGd+qBl
+ nUzPEqb+mKbJEcQCYLdcj4LJvQ2ESk1ZdApaobtaA3UDBJrrKL84MC1OtH7b/9qfHHf8
+ 2I6Zd4nwXOSZW/CIUP+n0Mlkvr2bUG2udbn4thMFRGpffdDfqqPvBzllVfkA8fECGKBD
+ M0D3yqtQBIU+IyyDYsqSrmGPGcRWPddhUWTr/j7IVCtO470OKA+5ZOxPqyddTA+ToFmn
+ EMYsR4k4gYxPWge+l2NZVOMFyXqD01s/qGGt3f1M0fWCKWR6/cxzXlcZgc3mQ0R/Epco
+ 95wg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUWNmQUAHOtlhx/b8q9odtwxUFfZ3SlqBZgR45/T4qRvRhnO7ZA/Tk3diakWEHlh6nsutg9wll/92o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnjeUEbX/XcXu94Dvdzbt8O/uymDFVSW3VBccUYA0OmZ2jvLHi
+ YnmOh67FKpQdWO/mZ9Lv4sveLNe0L/pZ4v8pxEdDCXjGTE4wSddKD5NQrBKtjb7KLMx1oTkPf+X
+ r3SS+BukktJ0vlDLDY9asvM3uPhw7E1T4lW8CEEb3yZSHHSx04VuEyCNuM1ZC0YBZ1hRYuIA=
+X-Gm-Gg: ASbGncuFYpXDQMBiJkLhkO4ABst9o2TYY3Gf3QAmqXWy8Mi2pFljQzdrvUj1qYSdehQ
+ LHzOXC49iY/4BBsNOBfqVEXu2pEjoA2+iM/PZMnuJ6RSaOitmAL6kOqutJHjAyopsiHsbDzOnqr
+ 3qi13Ma8fiAdrwnMG+RfjmItRPu+y5Yi3i30mef5vVUrZhdfqCd2Or7xRBksltTnI/qYzKfZse1
+ KzenkigfJUufY7Ruaja5yrIGvKOwJAX2+mUcrYyuhipRM5nY77CrG4XoDnK4F8NjcZHz0ZmghIg
+ RDhqAFqHk8REGaH2tOg/KEGbWSFDufkR6WX+xL+YrovQtnLGD5stJ5jpj4GQ2e081Qdu9AaPIol
+ 7eGdUTMLAL2KWOApQMH33NXWyUwAbRPVcdN1mDje3Dztrurro3Auz92E9RQ==
+X-Received: by 2002:a05:622a:1e8e:b0:4d9:f929:1531 with SMTP id
+ d75a77b69052e-4e41c9242e5mr28802611cf.23.1759299290808; 
+ Tue, 30 Sep 2025 23:14:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH4e0YRPO81W/CpiiD+KlpHYUytUQG96m+1u1Lgj6YphtU1NzQ6flSLG2tPHZj60wyULeR4xg==
+X-Received: by 2002:a05:622a:1e8e:b0:4d9:f929:1531 with SMTP id
+ d75a77b69052e-4e41c9242e5mr28802361cf.23.1759299290191; 
+ Tue, 30 Sep 2025 23:14:50 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5860c76287fsm3331195e87.30.2025.09.30.23.14.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Sep 2025 23:14:49 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Wed, 01 Oct 2025 09:14:45 +0300
+Subject: [PATCH RFC / WIP] drm/display: add DisplayPort high-level helper code
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e0b113e6-8b3d-4d2d-b1b8-cd6609b8bca7@gmx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251001-drm-dp-connector-v1-1-ac54fa4cc667@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIANTG3GgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAwND3ZSiXN2UAt3k/Ly81OSS/CLdRAsjI2OLpBTTJAtDJaC2gqLUtMw
+ KsJHRSkFuzgr6CuGeAUqxtbUAO7v2LG0AAAA=
+X-Change-ID: 20251001-drm-dp-connector-a82238bd5b81
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Imre Deak <imre.deak@intel.com>,
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12485;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=UIGaDFJydBwC+exWcXL16jDqQ+NQjFNXTvXcG12uN2I=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBo3MbYA4Ob3PluFO5aIDEfft3MHfx1bj+hw+rJ9
+ HOKQLiLs/6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaNzG2AAKCRCLPIo+Aiko
+ 1VMNB/0Zp3/PccuM9lUwEDkPAYGbqO/jgiy/XlmGF+FGzZUviCLdo56x/C2vwefs4Cve63LG4KK
+ FAgNHWjFyCJtJUhbh50Q+/INeOJ2JKf2v6NR6X4iiynUMgEYfLTpfLjQU23ortBXEwGSX+Whnu/
+ h6XB/QDp9YaJlv5IWyqgR4eC0spgAKu5JnVOphjrMd4vEgSf5SFsWyzGqiyMw8wqsyc0+MRzHTl
+ 4UR0qlMWibxPG1WJFuMGkV6pYF/nKpkOYRIHjtBEFPJv0PbwdXdM+ZD1GSWWxpizc/BpVBwAiDI
+ hRUYFlUTpSpcNtn8iGfbci8SowXuMlryCmxSpS8MtboK9dd9
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=68dcc6dc cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=gBhEkUvOPZmXN5-cvzYA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMiBTYWx0ZWRfXxNSlLAYiPhiS
+ Pww4y/7zrXGjx5rHx//FGqZOp79yQDT850eqqlc59xU4O05GASJzEAEbEJCdlUYU7gjtHPUmnGj
+ 0vIET+jDafeZjk8aw7pP92ydVmjL8Yeerp99j5P1QVE57Hy09DJwrSJd+oX3dcb0EOSj1a8hY7b
+ cThH/mltBjHMIzncZAAmWjhEboyTXHcPUXpQBDmimWMLy4PeYYpWQFX0XmIxTQsQQg03qQ4hsyN
+ IaacbaXLQuZ0nbdrigVZjAdtvNaRalYQw75ETR34rR6fuNPxOZb9ziW9UB5PfFAyx/Z2ipArFvR
+ 6qxcG4TfLaDpuPMlRccp2L1Dx2SBNHLF0IQwh5VbMFvqTFAj36Yi49MI3WhD+rB+zV3brm0UNj+
+ yqIj/Be2nGb2XbzHNH6xYR+hu45A9A==
+X-Proofpoint-ORIG-GUID: 0A5F51df8NTsjrKo_Db50yFtNxbgEysq
+X-Proofpoint-GUID: 0A5F51df8NTsjrKo_Db50yFtNxbgEysq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-01_01,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,110 +144,421 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 30, 2025 at 09:12:21PM +0200, Helge Deller wrote:
-> On 9/15/25 08:36, Janne Grunau wrote:
-> > The pm_domain cleanup can not be devres managed as it uses struct
-> > simplefb_par which is allocated within struct fb_info by
-> > framebuffer_alloc(). This allocation is explicitly freed by
-> > unregister_framebuffer() in simplefb_remove().
-> > Devres managed cleanup runs after the device remove call and thus can no
-> > longer access struct simplefb_par.
-> > Call simplefb_detach_genpds() explicitly from simplefb_destroy() like
-> > the cleanup functions for clocks and regulators.
-> > 
-> > Fixes an use after free on M2 Mac mini during
-> > aperture_remove_conflicting_devices() using the downstream asahi kernel
-> > with Debian's kernel config. For unknown reasons this started to
-> > consistently dereference an invalid pointer in v6.16.3 based kernels.
-> > 
-> > [    6.736134] BUG: KASAN: slab-use-after-free in simplefb_detach_genpds+0x58/0x220
-> > [    6.743545] Read of size 4 at addr ffff8000304743f0 by task (udev-worker)/227
-> > [    6.750697]
-> > [    6.752182] CPU: 6 UID: 0 PID: 227 Comm: (udev-worker) Tainted: G S                  6.16.3-asahi+ #16 PREEMPTLAZY
-> > [    6.752186] Tainted: [S]=CPU_OUT_OF_SPEC
-> > [    6.752187] Hardware name: Apple Mac mini (M2, 2023) (DT)
-> > [    6.752189] Call trace:
-> > [    6.752190]  show_stack+0x34/0x98 (C)
-> > [    6.752194]  dump_stack_lvl+0x60/0x80
-> > [    6.752197]  print_report+0x17c/0x4d8
-> > [    6.752201]  kasan_report+0xb4/0x100
-> > [    6.752206]  __asan_report_load4_noabort+0x20/0x30
-> > [    6.752209]  simplefb_detach_genpds+0x58/0x220
-> > [    6.752213]  devm_action_release+0x50/0x98
-> > [    6.752216]  release_nodes+0xd0/0x2c8
-> > [    6.752219]  devres_release_all+0xfc/0x178
-> > [    6.752221]  device_unbind_cleanup+0x28/0x168
-> > [    6.752224]  device_release_driver_internal+0x34c/0x470
-> > [    6.752228]  device_release_driver+0x20/0x38
-> > [    6.752231]  bus_remove_device+0x1b0/0x380
-> > [    6.752234]  device_del+0x314/0x820
-> > [    6.752238]  platform_device_del+0x3c/0x1e8
-> > [    6.752242]  platform_device_unregister+0x20/0x50
-> > [    6.752246]  aperture_detach_platform_device+0x1c/0x30
-> > [    6.752250]  aperture_detach_devices+0x16c/0x290
-> > [    6.752253]  aperture_remove_conflicting_devices+0x34/0x50
-> > ...
-> > [    6.752343]
-> > [    6.967409] Allocated by task 62:
-> > [    6.970724]  kasan_save_stack+0x3c/0x70
-> > [    6.974560]  kasan_save_track+0x20/0x40
-> > [    6.978397]  kasan_save_alloc_info+0x40/0x58
-> > [    6.982670]  __kasan_kmalloc+0xd4/0xd8
-> > [    6.986420]  __kmalloc_noprof+0x194/0x540
-> > [    6.990432]  framebuffer_alloc+0xc8/0x130
-> > [    6.994444]  simplefb_probe+0x258/0x2378
-> > ...
-> > [    7.054356]
-> > [    7.055838] Freed by task 227:
-> > [    7.058891]  kasan_save_stack+0x3c/0x70
-> > [    7.062727]  kasan_save_track+0x20/0x40
-> > [    7.066565]  kasan_save_free_info+0x4c/0x80
-> > [    7.070751]  __kasan_slab_free+0x6c/0xa0
-> > [    7.074675]  kfree+0x10c/0x380
-> > [    7.077727]  framebuffer_release+0x5c/0x90
-> > [    7.081826]  simplefb_destroy+0x1b4/0x2c0
-> > [    7.085837]  put_fb_info+0x98/0x100
-> > [    7.089326]  unregister_framebuffer+0x178/0x320
-> > [    7.093861]  simplefb_remove+0x3c/0x60
-> > [    7.097611]  platform_remove+0x60/0x98
-> > [    7.101361]  device_remove+0xb8/0x160
-> > [    7.105024]  device_release_driver_internal+0x2fc/0x470
-> > [    7.110256]  device_release_driver+0x20/0x38
-> > [    7.114529]  bus_remove_device+0x1b0/0x380
-> > [    7.118628]  device_del+0x314/0x820
-> > [    7.122116]  platform_device_del+0x3c/0x1e8
-> > [    7.126302]  platform_device_unregister+0x20/0x50
-> > [    7.131012]  aperture_detach_platform_device+0x1c/0x30
-> > [    7.136157]  aperture_detach_devices+0x16c/0x290
-> > [    7.140779]  aperture_remove_conflicting_devices+0x34/0x50
-> > ...
-> > 
-> > Reported-by: Daniel Huhardeaux <tech@tootai.net>
-> > Cc: stable@vger.kernel.org
-> > Fixes: 92a511a568e44 ("fbdev/simplefb: Add support for generic power-domains")
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > ---
-> > Changes in v3:
-> > - release power-domains on probe errors
-> > - set par->num_genpds when it's <= 1
-> > - set par->num_genpds to 0 after detaching
-> > - Link to v2: https://lore.kernel.org/r/20250908-simplefb-genpd-uaf-v2-1-f88a0d9d880f@jannau.net
-> > 
-> > Changes in v2:
-> > - reworked change due to missed use of `par->num_genpds` before setting
-> >    it. Missed in testing due to mixing up FB_SIMPLE and SYSFB_SIMPLEFB.
-> > - Link to v1: https://lore.kernel.org/r/20250901-simplefb-genpd-uaf-v1-1-0d9f3a34c4dc@jannau.net
-> > ---
-> >   drivers/video/fbdev/simplefb.c | 31 +++++++++++++++++++++++--------
-> >   1 file changed, 23 insertions(+), 8 deletions(-)
-> 
-> applied to fbdev git tree.
+Add common structure to drm_connector and a set of high-level helpers to
+be used by DRM drivers to implement DisplayPort support.
 
-Thanks.
-> 
-> PS: Janne, if you want to push yourself via drm-misc, just let me know and I drop it...
+Note: this is currently early WIP patch, sent in order to kick off the
+discussion and the hackaton at the XDC 2025.
 
-I won't. My request for commit access is still pending. I should fine
-someone at xdc to ask about that.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ drivers/gpu/drm/display/Kconfig                   |   6 +
+ drivers/gpu/drm/display/Makefile                  |   2 +
+ drivers/gpu/drm/display/drm_dp_connector_helper.c | 184 ++++++++++++++++++++++
+ include/drm/display/drm_dp_connector_helper.h     |  33 ++++
+ include/drm/drm_connector.h                       | 102 +++++++++++-
+ 5 files changed, 323 insertions(+), 4 deletions(-)
 
-Janne
+diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+index df09cf9a8ca19ea894d6f2fad68c0b191e81e3d0..e042a2b7a666e71f5eac748dee8bc506e725533b 100644
+--- a/drivers/gpu/drm/display/Kconfig
++++ b/drivers/gpu/drm/display/Kconfig
+@@ -40,6 +40,12 @@ config DRM_DISPLAY_DP_AUX_CHARDEV
+ 	  read and write values to arbitrary DPCD registers on the DP aux
+ 	  channel.
+ 
++config DRM_DISPLAY_DP_CONNECTOR_HELPER
++	bool "test dp_conn"
++	select DRM_DISPLAY_DP_HELPER
++	help
++	  DRM display helpers for DisplayPort.
++
+ config DRM_DISPLAY_DP_HELPER
+ 	bool
+ 	help
+diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+index 0ff4a1ad0222078bf495175915007f1b1f903296..ee7a09adf3baacbbd7ad251ba92dc78458881192 100644
+--- a/drivers/gpu/drm/display/Makefile
++++ b/drivers/gpu/drm/display/Makefile
+@@ -5,6 +5,8 @@ obj-$(CONFIG_DRM_DISPLAY_DP_AUX_BUS) += drm_dp_aux_bus.o
+ drm_display_helper-y := drm_display_helper_mod.o
+ drm_display_helper-$(CONFIG_DRM_BRIDGE_CONNECTOR) += \
+ 	drm_bridge_connector.o
++drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_CONNECTOR_HELPER) += \
++	drm_dp_connector_helper.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
+ 	drm_dp_dual_mode_helper.o \
+ 	drm_dp_helper.o \
+diff --git a/drivers/gpu/drm/display/drm_dp_connector_helper.c b/drivers/gpu/drm/display/drm_dp_connector_helper.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..1251a25af1a65d05255e763385eeca24c0b49292
+--- /dev/null
++++ b/drivers/gpu/drm/display/drm_dp_connector_helper.c
+@@ -0,0 +1,184 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ *
++ * Based on Nouveau DP code:
++ * Copyright 2009 Red Hat Inc.
++ */
++
++#include <drm/drm_connector.h>
++#include <drm/drm_print.h>
++#include <drm/display/drm_dp_connector_helper.h>
++#include <drm/display/drm_dp_helper.h>
++
++static void drm_connector_dp_init_lttpr_caps(struct drm_connector *connector)
++{
++	struct drm_dp_aux *aux = connector->dp.aux;
++	u8 *lttpr_caps = connector->dp.lttpr_caps;
++	u8 dpcd[DP_RECEIVER_CAP_SIZE];
++	int ret, nr;
++
++	if (connector->dp.caps.forbid_lttpr_init)
++		return;
++
++	/*
++	 * First access should be to the
++	 * DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
++	 * otherwise LTTPRs might be not initialized correctly.
++	 */
++	ret = drm_dp_dpcd_probe(aux, DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV);
++	if (ret)
++		goto err;
++
++	ret = drm_dp_read_dpcd_caps(aux, dpcd);
++	if (ret)
++		goto err;
++
++	ret = drm_dp_read_lttpr_common_caps(aux, dpcd, lttpr_caps);
++	if (ret)
++		goto err;
++
++	/* FIXME: don't attempt switching LTTPR mode on active link */
++	nr = drm_dp_lttpr_count(lttpr_caps);
++	ret = drm_dp_lttpr_init(aux, nr);
++	if (ret)
++		goto err;
++
++	connector->dp.lttpr_count = nr;
++
++	return;
++
++err:
++	memset(lttpr_caps, 0, DP_LTTPR_COMMON_CAP_SIZE);
++	connector->dp.lttpr_count = 0;
++}
++
++enum drm_connector_status drm_atomic_helper_connector_dp_detect(struct drm_connector *connector)
++{
++	struct drm_dp_aux *aux = connector->dp.aux;
++	u8 *dpcd = connector->dp.dpcd;
++	struct drm_dp_desc desc;
++	int ret;
++
++	drm_connector_dp_init_lttpr_caps(connector);
++
++	ret = drm_dp_read_dpcd_caps(aux, dpcd);
++	if (ret)
++		return connector_status_disconnected;
++
++	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP) {
++		u8 value;
++
++		ret = drm_dp_dpcd_read_byte(aux, DP_EDP_DPCD_REV, &value);
++		if (ret < 0)
++			return connector_status_disconnected;
++
++		connector->dp.edp = value;
++	}
++
++	ret = drm_dp_read_desc(aux, &desc, drm_dp_is_branch(dpcd));
++	if (ret < 0)
++		return connector_status_disconnected;
++
++	if (drm_dp_read_sink_count_cap(connector, dpcd, &desc)) {
++		ret = drm_dp_read_sink_count(aux);
++		if (ret < 0)
++			return connector_status_disconnected;
++
++		/* No sink devices */
++		if (!ret)
++			return connector_status_disconnected;
++	}
++
++	return connector_status_connected;
++}
++EXPORT_SYMBOL(drm_atomic_helper_connector_dp_detect);
++
++static bool drm_connector_dp_check_rate(struct drm_connector *connector,
++					u32 rate)
++{
++	for (int j = 0; j < connector->dp.caps.num_supported_rates; j++)
++		if (connector->dp.caps.supported_rates[j] == rate)
++			return true;
++
++	return false;
++}
++
++void drm_atomic_helper_connector_dp_hotplug(struct drm_connector *connector,
++					    enum drm_connector_status status)
++{
++	struct drm_dp_aux *aux = connector->dp.aux;
++	u8 *lttpr_caps = connector->dp.lttpr_caps;
++	u8 *dpcd = connector->dp.dpcd;
++	u32 lane_count;
++	int ret;
++
++	connector->dp.rate_count = 0;
++	if (connector->connector_type == DRM_MODE_CONNECTOR_eDP &&
++	    connector->dp.edp >= DP_EDP_14) {
++		__le16 rates[DP_MAX_SUPPORTED_RATES];
++		int num_rates;
++
++		ret = drm_dp_dpcd_read_data(aux, DP_SUPPORTED_LINK_RATES,
++					    rates, sizeof(rates));
++		if (ret)
++			rates[0] = 0;
++
++		for (num_rates = 0;
++		     num_rates < DP_MAX_SUPPORTED_RATES && rates[num_rates] != 0;
++		     num_rates++)
++			;
++
++		for (int i = num_rates; i > 0; i--) {
++			u32 rate = (le16_to_cpu(rates[i - 1]) * 200) / 10;
++
++			if (!rate)
++				break;
++
++			if (!drm_connector_dp_check_rate(connector, rate))
++				continue;
++
++			connector->dp.rate[connector->dp.rate_count].dpcd = i - 1;
++			connector->dp.rate[connector->dp.rate_count].rate = rate;
++			connector->dp.rate_count++;
++		}
++	}
++
++	if (!connector->dp.rate_count) {
++		const u32 rates[] = { 810000, 540000, 270000, 162000 };
++		u32 max_rate = dpcd[DP_MAX_LINK_RATE] * 27000;
++
++		if (connector->dp.lttpr_count) {
++			int rate = drm_dp_lttpr_max_link_rate(connector->dp.lttpr_caps);
++
++			if (rate && rate < max_rate)
++				max_rate = rate;
++		}
++
++		for (int i = 0; i < ARRAY_SIZE(rates); i++) {
++			u32 rate = rates[i];
++
++			if (rate > max_rate)
++				continue;
++
++			if (!drm_connector_dp_check_rate(connector, rate))
++				continue;
++
++			connector->dp.rate[connector->dp.rate_count].dpcd = -1;
++			connector->dp.rate[connector->dp.rate_count].rate = rate;
++			connector->dp.rate_count++;
++		}
++	}
++
++	lane_count = dpcd[DP_MAX_LANE_COUNT] & DP_MAX_LANE_COUNT_MASK;
++	if (connector->dp.lttpr_count) {
++		unsigned int lttpr_lane_count = drm_dp_lttpr_max_lane_count(lttpr_caps);
++
++		if (lttpr_lane_count)
++			lane_count = min(lane_count, lttpr_lane_count);
++	}
++
++	connector->dp.dprx_lanes = lane_count;
++
++}
++EXPORT_SYMBOL(drm_atomic_helper_connector_dp_hotplug);
+diff --git a/include/drm/display/drm_dp_connector_helper.h b/include/drm/display/drm_dp_connector_helper.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..a15ae1a4b1a5ef038e2cca3966f88ea1dafa9c13
+--- /dev/null
++++ b/include/drm/display/drm_dp_connector_helper.h
+@@ -0,0 +1,33 @@
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ *
++ * Permission to use, copy, modify, distribute, and sell this software and its
++ * documentation for any purpose is hereby granted without fee, provided that
++ * the above copyright notice appear in all copies and that both that copyright
++ * notice and this permission notice appear in supporting documentation, and
++ * that the name of the copyright holders not be used in advertising or
++ * publicity pertaining to distribution of the software without specific,
++ * written prior permission.  The copyright holders make no representations
++ * about the suitability of this software for any purpose.  It is provided "as
++ * is" without express or implied warranty.
++ *
++ * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
++ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
++ * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
++ * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
++ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
++ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
++ * OF THIS SOFTWARE.
++ */
++
++#ifndef __DRM_DP_CONNECTOR_HELPER_H__
++#define __DRM_DP_CONNECTOR_HELPER_H__
++
++enum drm_connector_status;
++
++enum drm_connector_status drm_atomic_helper_connector_dp_detect(struct drm_connector *connector);
++
++void drm_atomic_helper_connector_dp_hotplug(struct drm_connector *connector,
++					    enum drm_connector_status status);
++
++#endif
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 8f34f4b8183d83dccd3e820a444fbf74fb6c16f2..953affeff0d6b7ca574d2b70fc1117dc435a97e8 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -31,6 +31,7 @@
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_util.h>
+ #include <drm/drm_property.h>
++#include <drm/display/drm_dp.h>
+ 
+ #include <uapi/drm/drm_mode.h>
+ 
+@@ -46,6 +47,7 @@ struct drm_property_blob;
+ struct drm_printer;
+ struct drm_privacy_screen;
+ struct drm_edid;
++struct drm_dp_aux;
+ struct edid;
+ struct hdmi_codec_daifmt;
+ struct hdmi_codec_params;
+@@ -1882,6 +1884,91 @@ struct drm_connector_cec {
+ 	void *data;
+ };
+ 
++struct drm_connector_dp_rate_entry {
++	int dpcd;
++	u32 rate;
++};
++
++/**
++ * struct drm_connector_dp - DRM Connector DisplayPort capabilities
++ */
++struct drm_connector_dp_caps {
++	/**
++	 * @forbid_lttpr_init - forbid LTTPR init and access, e.g. on platforms
++	 * with AUX timeout < 3.2 ms.
++	 */
++	bool forbid_lttpr_init;
++
++	/**
++	 * @supported_rates - array of supported link rates, sorted in
++	 * ascending order
++	 */
++	u32 supported_rates[DP_MAX_SUPPORTED_RATES + 1];
++
++	/**
++	 * @num_supported_rates - number of valied entries in the
++	 * @supported_rates array
++	 */
++	u32 num_supported_rates;
++
++	/**
++	 * @dptx_lanes - number of lanes provided by DPTX
++	 */
++	u32 dptx_lanes;
++};
++
++/**
++ * struct drm_connector_dp - DRM Connector DisplayPort-related structure
++ */
++struct drm_connector_dp {
++	/* field set by the driver before registering the connector */
++
++	struct drm_connector_dp_caps caps;
++
++	/**
++	 * @aux - pointer to the DP AUX instance
++	 */
++	struct drm_dp_aux *aux;
++
++	/*
++	 * fields set by the drm_atomic_helper_connector_dp_detect(),
++	 * protected by connection_mutex
++	 */
++
++	/**
++	 * @dpcd - cached DPCD registers
++	 */
++	u8 dpcd[DP_RECEIVER_CAP_SIZE];
++
++	/**
++	 * @edp - cached eDP panel version
++	 */
++	u8 edp;
++
++	/**
++	 * @lttpr_caps - LTTPR capabilities read from DPRX
++	 */
++	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
++
++	/**
++	 * @lttpr_count - the count of LTTPRs that are present and initialized
++	 * in a non-transparent mode
++	 */
++	u32 lttpr_count;
++
++	/*
++	 * fields set in drm_atomic_helper_connector_dp_hotplug, protected by FIXME
++	 */
++
++	/**
++	 * @dprx_lanes - number of lanes reported by DPRX
++	 */
++	u32 dprx_lanes;
++
++	struct drm_connector_dp_rate_entry rate[DP_MAX_SUPPORTED_RATES];
++	int rate_count;
++};
++
+ /**
+  * struct drm_connector - central DRM connector control structure
+  *
+@@ -2291,10 +2378,17 @@ struct drm_connector {
+ 	 */
+ 	struct llist_node free_node;
+ 
+-	/**
+-	 * @hdmi: HDMI-related variable and properties.
+-	 */
+-	struct drm_connector_hdmi hdmi;
++	union {
++		/**
++		 * @hdmi: HDMI-related variable and properties.
++		 */
++		struct drm_connector_hdmi hdmi;
++
++		/**
++		 * @dp: DisplayPort-related variable and properties.
++		 */
++		struct drm_connector_dp dp;
++	};
+ 
+ 	/**
+ 	 * @hdmi_audio: HDMI codec properties and non-DRM state.
+
+---
+base-commit: 457f4393d02fdb612a93912fb09cef70e6e545c9
+change-id: 20251001-drm-dp-connector-a82238bd5b81
+
+Best regards,
+-- 
+With best wishes
+Dmitry
+
