@@ -2,124 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A1CBAFE7B
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 11:43:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D39BB0004
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 12:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F01AC10E314;
-	Wed,  1 Oct 2025 09:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7079710E30C;
+	Wed,  1 Oct 2025 10:26:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cr1g3ir5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dFYnG04l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B83E10E309
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 09:43:50 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5919AOCx002323
- for <dri-devel@lists.freedesktop.org>; Wed, 1 Oct 2025 09:43:49 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDC9310E30C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 10:26:38 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5917puTr027982
+ for <dri-devel@lists.freedesktop.org>; Wed, 1 Oct 2025 10:26:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- N2j4IW5NnafXAEbG+pjQfoEONtDY8QkYi5eJLubVjC0=; b=cr1g3ir5UkiwEBvm
- MF19xEjjZNFLpWiia40lSVhQJTEc/LnUBzjVmNmES0Org2hH21Pcot5oQIn6Z9mQ
- RuNTu13ANd3FIpC2NErDG1DK+9d9ibnw7f0Bl8ZWKLUSk283Iz/GNwl29XmC/Xd3
- wPBG5gr7LbO9RTs/8SsFC2oDoH/nCu/Z6X2JgH3LVnAiHe195pbrv7VG34rC1Q3s
- iY53lsuoBS7eNdx8HgMUZOlAXd3NoIYOi1+vQSdAX0YORyd3RaluYOTBye6Z1hCh
- QDcFDYCttVQERidFCO/7vyP/rwp9yghkSyLmxDUs/mgBy0iWRsn46dwQYc8TxzZr
- xX+HPQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fppr7h88-1
+ DoYbUoPn5h4PTq/YMlb34TeBwVEHQG0ctNULUvqXlU4=; b=dFYnG04lUAn1n3pJ
+ kr8Lw2MzF2HEuD3idQKToqoMGycgOC0qh/5s8xl8OtIEISCDnkGm5VF++zLZ9hCq
+ TmOTmb9jZOg2qg9DVoxZG+CDxF9EnH/ZET9FKO3TMFUP6xYq7a/3TarviUNU+oaw
+ DnPWz432ZOZ4haFZnglikO17pBSZIuGh3x7UHckGZ5jLjbJUc95au523eiaRJZFM
+ /zelny9foSERCefZ98ZWPJjLqiLuS1j6Zv43G4QfA8uFZSmefmn5K7aD1Gsz+f8p
+ KhgTiIEnvKCQD2D1BHyHEgPeDb+3ErQqinndDsPyAgFw0+n0FGzk3iag+k4HYXYE
+ DVPc6w==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e851m64f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 09:43:49 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-860fe46b4easo188969985a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 02:43:49 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 10:26:38 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-780f914b5a4so6651050b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 03:26:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759311828; x=1759916628;
+ d=1e100.net; s=20230601; t=1759314397; x=1759919197;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N2j4IW5NnafXAEbG+pjQfoEONtDY8QkYi5eJLubVjC0=;
- b=YHQdplq4kDIezbsNnUU4zabSOeHJOU61uZm9ZFmo4Rt4TJqZpPyjf+C+Wqfxnfw0VL
- hNZbN6DgZwhCZy5lIrWO0Tb5DLD2vfI2CX2VQTkxdvPmnyFqRZf0HOozY5TBf7NpX5hw
- amii70nPhnDzKUIZEYBwa2Xr+FCuLPcpT3Vm6r8o1IYeWaLSCWA0xtZcZkXQ9s4F3kn/
- YWYHUeZf26nkjqjJ7mk+qxWGqioJWfnkm7edogiLgnrA8OL4+baGf5djMJUyTb2KbhCK
- 8WaYvymuqTzk8kiN1jTQOqoHMNJXJ6fwYar2gxx1yekH8RklR3r6xW7OS53ldeX2xKLQ
- kAbw==
+ bh=DoYbUoPn5h4PTq/YMlb34TeBwVEHQG0ctNULUvqXlU4=;
+ b=l0AVTGuY5to+tjChpx3J+kQW3SK2WbqxpC/IISwPcQjfWLWIrmz7ouEi9SsjfWvZsa
+ IXcGxEywd4WjhsEVrfmFcyV1gc0qkvz4ejuyl5HE/836kzDcH4abzoEJBtMPagiIghkp
+ avWfCC+ANUqk3+cDdvGgemhFn5hOn1wUQxUlm3fHKUyCSeDAtenRziMzhgNcNHXZghbp
+ W5AaV9k13gGW1Kbn8Uzhx5++4riX+i50bZT0imXcjjHXpF0NEUqUfKsd53j/DWhyvoMt
+ O71k9ls3dMnNu5Nep8T8Sbf1molZ4qGP2OMrk6IFR8eRe85XyRE2fl3+48B+8pmmkNAP
+ Tpuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXd2Qfv8QYI5Qy/Waxx4CqyVRyWmFT9ephJNS4R5Uafw5jdy8YArC4Aj6R7U4w3AjvnKihpnVqwdio=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGB4rf3UdeRuLbO2Dqmr1j39RiJBGslXdKHi6q5RhNV695t4xj
- Kfr/pRb5lN9zif1tc4K5oBd1NrT4/a+1apNrE0msGeZb4c9eMrzo5+dO5tgDB6s/IgltOfE3X83
- vA6iG6pw7o9H82hyIzo6j+HUuuAOPEcC+mytzN0HwAr+PaERfFOEE+xblUu5XPeWEvzPfW64=
-X-Gm-Gg: ASbGncuTyjD6zeyYMgA9X4R1PdIiC+IBdH0zNsSxKs/lHxKeEz1Zr/SrUG3TqWloZoF
- SSZ+RZ6MVL29iTXLqM3ho0zzTqLw1JEBpHGooQ/3S0HWhpr/L79frKg5az/k23Bn6KxPckSqNL7
- dEU4qKpWqopaItKnH+awK1qRq6Uc0eGpU42FlPY6Oc62WbQAMIlycgbW5nhD19Y9/nJ8Hug8LdH
- LWcFSBEpnJML4vw9Bz+tcrM9H5SoqpupfMfg0JqaLKnuDqiSTpKBebZCyNK8xeykUEkKWeitvT1
- y5Ym1YZFgXSyNE5vhATZFquHDpkdf28DQhM4HLgYyiMUD8UFP6wdtfWVDhkB2lYi4VWrv3XUHIz
- 7v3SeNXQ9LVx/AgKvxO8ADSRGfN8=
-X-Received: by 2002:a05:620a:17aa:b0:856:40d2:b1a5 with SMTP id
- af79cd13be357-873765c02d2mr274222085a.13.1759311828490; 
- Wed, 01 Oct 2025 02:43:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFQhu+9IequlFgOauptmEqJZoeziWIrkfkjGafmFpxFA4oL+2QREZWtpjKdLAbnfpl7vBk6qQ==
-X-Received: by 2002:a05:620a:17aa:b0:856:40d2:b1a5 with SMTP id
- af79cd13be357-873765c02d2mr274218385a.13.1759311827918; 
- Wed, 01 Oct 2025 02:43:47 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b3e60de51c5sm648473466b.15.2025.10.01.02.43.45
+ AJvYcCUgUO38Bj5WqN3iWfL5GBLTWmyd3H1Xe6XXAbxa4R0ZoHLUuSrzl3B+iYaqizJFVo7Z/U8NkGDwXR4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTXmHLygGinhAkv7xmyWw59FD9e1lUmu7+i9nvY7WfBDDZTKbl
+ xy2WGrzLr7zxWIFXnWSdUsHTAT2omWRaTX+npgDCwFm0RFPPtr+bz7EG44pEifbTomChx9PC3+u
+ 3DSRyZHvb42NsWWopM99OesH3fAeJdaS51J9PR7SE4+XGqfAuuOonCASrnVJ+BxmZKUosaa4=
+X-Gm-Gg: ASbGncuU4BW2o1fgpNxGkMJid4xn6snQCCN2X/Ao8+5jc0tNHHujqWFbV773UyG4cdq
+ j7foRL5A0UG/6q6xuoqTO28ByypjalCFF6wNV1IvZo3a8QwLaD5oAu2J69VjbY8DzP+8Rx0ANVW
+ uV7y11QOWznV5lg5fKEm/RfxXJmeXapD6J13XZb6srZ3Depj4jNsREToKs3HITTcGknFcOAO+Ok
+ AxIj5nKJYXotGutYiEqhquB4B1Nnj/8UfKMarzPIsKU242gBfnzTN0lGI92Q4AnmNGDxxgyxO3O
+ bznhF06J/m/OiCiSIhFpgLh0K9bTBKXz2vVocw0Y/gQCyxQaY0xC1FwEc6s5EUOz84kpk3UL/wU
+ lE7tY
+X-Received: by 2002:a05:6a20:3946:b0:319:fc6f:8afd with SMTP id
+ adf61e73a8af0-321d8b06ce0mr4302614637.6.1759314397527; 
+ Wed, 01 Oct 2025 03:26:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF2JF9jYAQs7P21pVRc4kQw9xYk9dAr+RziIcU6cRwEF5tEhV4BHPHR4FxDdHvAHzFGnPlBNQ==
+X-Received: by 2002:a05:6a20:3946:b0:319:fc6f:8afd with SMTP id
+ adf61e73a8af0-321d8b06ce0mr4302582637.6.1759314397056; 
+ Wed, 01 Oct 2025 03:26:37 -0700 (PDT)
+Received: from [10.217.219.207] ([202.46.22.19])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-78102c057ecsm15876881b3a.80.2025.10.01.03.26.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Oct 2025 02:43:47 -0700 (PDT)
-Message-ID: <869d1f94-9d66-4045-abdb-6e88d504a884@oss.qualcomm.com>
-Date: Wed, 1 Oct 2025 11:43:44 +0200
+ Wed, 01 Oct 2025 03:26:36 -0700 (PDT)
+Message-ID: <671c517f-c04c-4f07-aa65-a93e1e1dbce3@oss.qualcomm.com>
+Date: Wed, 1 Oct 2025 15:56:31 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: lemans-ride: Enable dispcc1
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
-Cc: marijn.suijten@somainline.org, swboyd@chromium.org, mripard@kernel.org,
- abel.vesa@linaro.org, andersson@kernel.org, konradybcio@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- robin.clark@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
- abhinav.kumar@linux.dev, sean@poorly.run, airlied@gmail.com,
- simona@ffwll.ch, alex.vinarskis@gmail.com,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
- quic_riteshk@quicnic.com, quic_amitsi@quicnic.com
-References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
- <20250926085956.2346179-4-quic_mkuntuma@quicinc.com>
- <v4b35cmwbkoosdgs3d6ftml4yvdkyh27q65ssqojplb7uyniwp@wuxbeof7cikr>
+Subject: Re: [PATCH v8 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+To: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>,
+ Vinod Koul <vkoul@kernel.org>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+References: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
+ <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <v4b35cmwbkoosdgs3d6ftml4yvdkyh27q65ssqojplb7uyniwp@wuxbeof7cikr>
-Content-Type: text/plain; charset=UTF-8
+From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
+In-Reply-To: <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDA4MiBTYWx0ZWRfX6PJy7dfNpBmO
- ZkMnDj1jJ0E8frxtHz4qJgGn/UzZThqgF56sIxxjh6IIkodDtXlyx20gnsAuPp6qdlXDeVMhLwB
- 6FcF78SwMuLqh/ehaQohkIla+zB/mftZd+QFFaT3s3QC6hdBgPtVj7i3WAyj7zYE4sa7Lo5hplg
- wcEBLzRgKaQE6NT/7rs/7PUQd/IMybXD9hld0VpxnAtcAZJOLCm68eLC9z4Yqt3g3+YiWowcLBX
- VmfWUyN9vvGuK3AxXaZox/0JxdOGG6NG0TT/XWvkuSA6XZSfSu48vM5q3x1YV0M3OpWU5d22CAO
- CodXlIha+EC+U0rL6aUfqrmcdvQPcbuED3evmWvT9nVxGtDQI72M6Jl43Pp0ov0UuCfOti/W23+
- /t1MtOjTbvpJUat26LRsuK8+y9Ms0A==
-X-Proofpoint-ORIG-GUID: KMIRR3YQGdpH9K7TjUpyxMumJdqOuRXh
-X-Authority-Analysis: v=2.4 cv=GLoF0+NK c=1 sm=1 tr=0 ts=68dcf7d5 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=ANimo7j06tBtS7Sznz4A:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: KMIRR3YQGdpH9K7TjUpyxMumJdqOuRXh
+X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=68dd01de cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=fvgdV2PV7z-sFcuOFeoA:9 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMiBTYWx0ZWRfX/4aDSugATBfo
+ tnMh9zQw6cGtwUXe127Ugkp2YPqrOhAl6EcjOeNjlicWkoVELy5558Imo1v88XYZpHlLQorP8/9
+ aYFOdG/jLsUDASsJk7Qx0hbv8T42kuhJxp+nADmz/HqWoUPbcjoxwFkBfKrkFEtPZjuvYehzjXi
+ xItCqmCudJlksT8XNQMTD+IkMtxCLsqPIOX6fPd6WHjBRb/pUob43ljZqZXaNPr5J2tzEk1dhxa
+ whn/S36YRl5dnptjCGaa5b/G4z4O1kogE1jP/1wPyLzoNkyRLIciRAzd56gWzZaZ8Ofkm92YuIV
+ mGZBBlH/C04CFowDNfdQMg0IRuf60O9krP10+VhIJAGyxsPqYBXg/5F9oeNMfi9p65TJ0o4UlZ0
+ jzDB8wzePPgXDrFNMbt1WW/ke5lafg==
+X-Proofpoint-ORIG-GUID: 7RE_w_fWyrGV59eBARA98qzS_u8MtEk4
+X-Proofpoint-GUID: 7RE_w_fWyrGV59eBARA98qzS_u8MtEk4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-01_02,2025-09-29_04,2025-03-28_01
+ definitions=2025-10-01_03,2025-09-29_04,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
- impostorscore=0 spamscore=0 bulkscore=0 clxscore=1015 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509290082
+ spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,29 +130,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/26/25 3:53 PM, Dmitry Baryshkov wrote:
-> On Fri, Sep 26, 2025 at 02:29:55PM +0530, Mani Chandana Ballary Kuntumalla wrote:
->> This change enables display1 clock controller.
->>
->> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
->> ---
->>  arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
->> index c69aa2f41ce2..d4436bc473ba 100644
->> --- a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
->> @@ -436,6 +436,10 @@ vreg_l8e: ldo8 {
->>  	};
->>  };
->>  
->> +&dispcc1 {
->> +	status = "okay";
+
+On 9/25/2025 5:30 PM, Jyothi Kumar Seerapu wrote:
+> From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
 > 
-> I think this one should be enabled by default. Unless Konrad or Bjorn
-> disagrees, please fix lemans.dtsi.
+> The I2C driver gets an interrupt upon transfer completion.
+> When handling multiple messages in a single transfer, this
+> results in N interrupts for N messages, leading to significant
+> software interrupt latency.
+> 
+> To mitigate this latency, utilize Block Event Interrupt (BEI)
+> mechanism. Enabling BEI instructs the hardware to prevent interrupt
+> generation and BEI is disabled when an interrupt is necessary.
+> 
+> Large I2C transfer can be divided into chunks of messages internally.
+> Interrupts are not expected for the messages for which BEI bit set,
+> only the last message triggers an interrupt, indicating the completion of
+> N messages. This BEI mechanism enhances overall transfer efficiency.
+> 
+> BEI optimizations are currently implemented for I2C write transfers only,
+> as there is no use case for multiple I2C read messages in a single transfer
+> at this time.
+> 
+> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+> ---
+> 
+Reviewed-by: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
 
-Of course there is no reason for clock controllers to be disabled
-
-Konrad
