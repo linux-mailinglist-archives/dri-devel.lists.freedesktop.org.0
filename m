@@ -2,61 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E7BB04E2
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 14:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622C5BB04D3
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 14:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D6F10E06D;
-	Wed,  1 Oct 2025 12:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20C3D10E6CD;
+	Wed,  1 Oct 2025 12:19:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UmEzoVyU";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="i9Ogzb3K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ukogHI2z";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i9Ogzb3K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ukogHI2z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8445110E06D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 12:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759320795;
- bh=7hEM/r1j5wBKoJc3aCyzvjA7qiAo7dj9HLa2165QQYk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=UmEzoVyU1SYHFm4kPxnXNQ81MvLM2PCaLisskdj7X7VCt+tk0nEM2pZH3KJF95WRE
- 6KsrQXHYhmsVYWY7fLCel9K7QAwGnF0WPSqoPuYbsqQ3yl4Tgk5XZ+rEZb9wYYBU8D
- Gc9XNN4vXd14mZtEPoCA9fObvRR/QNXhc11Yz9lCVgqhhsCy4z/+cHtPPWTw7p2uex
- fxw0n7K8w9O9kKAoyQu3cPqcfXVKw+3cFvlZgCvWhda+emoZ0zWo0jF4gTjbjlbx3f
- KFzmZJ8zCBQtBDrQm16zconwlzsTtxRR5StXEXFkoKRcesEg4yN8uFw+Fod3WUxkeU
- JbQKTbQKjo0Fg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F89310E06D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 12:19:01 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2238217E131B;
- Wed,  1 Oct 2025 14:13:15 +0200 (CEST)
-Date: Wed, 1 Oct 2025 14:13:10 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Message-ID: <20251001141310.0817a6c7@fedora>
-In-Reply-To: <20251001140418.57fb21f1@fedora>
-References: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
- <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
- <20251001132739.41575fa5@fedora>
- <CAH5fLghp+4dx6-JAfbSWDLz7WOdwtnLeuxdGhmVPax+HKbTv3w@mail.gmail.com>
- <20251001140418.57fb21f1@fedora>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 855581F80F;
+ Wed,  1 Oct 2025 12:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1759321137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UvNqxy9SfcL5wzPG2sM3K+77DZbvMc4NGq38UvRrrJk=;
+ b=i9Ogzb3KhP3BtpBbwxAoetl9kDwaR71evGFF+qwdcFbAjkGZbsPcPyX61Fy2FS7/MC9YwV
+ IagPI7mmoc6LN+qJO946G+Gr6NDsiJnP6axcrypZRI91EVBQkQp0tie0k81aS0heYqawsL
+ +IvjMHDASQUo1jocz8PdXw/S9NM8Kow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1759321137;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UvNqxy9SfcL5wzPG2sM3K+77DZbvMc4NGq38UvRrrJk=;
+ b=ukogHI2z7Ccdwm3ddE40MxNIZL9s8yjaV6mHsroitkLARrCxWqEKj2yFpukdWlY029aBNY
+ 4HC//fEoWF2CUGBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1759321137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UvNqxy9SfcL5wzPG2sM3K+77DZbvMc4NGq38UvRrrJk=;
+ b=i9Ogzb3KhP3BtpBbwxAoetl9kDwaR71evGFF+qwdcFbAjkGZbsPcPyX61Fy2FS7/MC9YwV
+ IagPI7mmoc6LN+qJO946G+Gr6NDsiJnP6axcrypZRI91EVBQkQp0tie0k81aS0heYqawsL
+ +IvjMHDASQUo1jocz8PdXw/S9NM8Kow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1759321137;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UvNqxy9SfcL5wzPG2sM3K+77DZbvMc4NGq38UvRrrJk=;
+ b=ukogHI2z7Ccdwm3ddE40MxNIZL9s8yjaV6mHsroitkLARrCxWqEKj2yFpukdWlY029aBNY
+ 4HC//fEoWF2CUGBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0865513A42;
+ Wed,  1 Oct 2025 12:18:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id rdejADEc3WhKewAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Oct 2025 12:18:57 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: alexander.deucher@amd.com, christian.koenig@amd.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, lyude@redhat.com,
+ dakr@kernel.org, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/client: Remove holds_console_lock parameter from
+ suspend/resume
+Date: Wed,  1 Oct 2025 14:15:16 +0200
+Message-ID: <20251001121610.367243-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.999];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_TWELVE(0.00)[18];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,92 +108,378 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Oct 2025 14:04:18 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+No caller of the client resume/suspend helpers holds the console
+lock. The last such cases were removed from radeon in the patch
+series at [1]. Now remove the related parameter and the TODO items.
 
-> On Wed, 1 Oct 2025 13:45:36 +0200
-> Alice Ryhl <aliceryhl@google.com> wrote:
->=20
-> > On Wed, Oct 1, 2025 at 1:27=E2=80=AFPM Boris Brezillon
-> > <boris.brezillon@collabora.com> wrote: =20
-> > >
-> > > On Wed, 01 Oct 2025 10:41:36 +0000
-> > > Alice Ryhl <aliceryhl@google.com> wrote:
-> > >   =20
-> > > > When using GPUVM in immediate mode, it is necessary to call
-> > > > drm_gpuvm_unlink() from the fence signalling critical path. However,
-> > > > unlink may call drm_gpuvm_bo_put(), which causes some challenges:
-> > > >
-> > > > 1. drm_gpuvm_bo_put() often requires you to take resv locks, which =
-you
-> > > >    can't do from the fence signalling critical path.
-> > > > 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often go=
-ing
-> > > >    to be unsafe to call from the fence signalling critical path.
-> > > >
-> > > > To solve these issues, add a deferred version of drm_gpuvm_unlink()=
- that
-> > > > adds the vm_bo to a deferred cleanup list, and then clean it up lat=
-er.
-> > > >
-> > > > The new methods take the GEMs GPUVA lock internally rather than let=
-ting
-> > > > the caller do it because it also needs to perform an operation after
-> > > > releasing the mutex again. This is to prevent freeing the GEM while
-> > > > holding the mutex (more info as comments in the patch). This means =
-that
-> > > > the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
-> > > >
-> > > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > Signed-off-by: Alice Ryhl <aliceryhl@google.com>   =20
-> >  =20
-> > > > +/*
-> > > > + * Must be called with GEM mutex held. After releasing GEM mutex,
-> > > > + * drm_gpuvm_bo_defer_free_unlocked() must be called.
-> > > > + */
-> > > > +static void
-> > > > +drm_gpuvm_bo_defer_free_locked(struct kref *kref)
-> > > > +{
-> > > > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_=
-gpuvm_bo,
-> > > > +                                               kref);
-> > > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> > > > +
-> > > > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
-> > > > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
-> > > > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
-> > > > +     }
-> > > > +
-> > > > +     list_del(&vm_bo->list.entry.gem);
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * GEM mutex must not be held. Called after drm_gpuvm_bo_defer_fre=
-e_locked().
-> > > > + */
-> > > > +static void
-> > > > +drm_gpuvm_bo_defer_free_unlocked(struct drm_gpuvm_bo *vm_bo)
-> > > > +{
-> > > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> > > > +
-> > > > +     llist_add(&vm_bo->list.entry.bo_defer, &gpuvm->bo_defer);   =
-=20
-> > >
-> > > Could we simply move this line to drm_gpuvm_bo_defer_free_locked()?
-> > > I might be missing something, but I don't really see a reason to
-> > > have it exposed as a separate operation.   =20
-> >=20
-> > No, if drm_gpuvm_bo_deferred_cleanup() is called in parallel (e.g.
-> > from a workqueue as we discussed), then this can lead to kfreeing the
-> > GEM while we hold the mutex. We must not add the vm_bo until it's safe
-> > to kfree the GEM. See the comment on
-> > drm_gpuvm_bo_defer_free_unlocked() below. =20
->=20
-> Uh, right, I forgot that the lock was embedded in the BO, which we're
-> releasing a ref on in the cleanup path.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/series/151624/ # [1]
+---
+This patch would preferably be merged through drm-misc.
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  8 ++++----
+ drivers/gpu/drm/clients/drm_fbdev_client.c | 14 ++++----------
+ drivers/gpu/drm/clients/drm_log.c          |  4 ++--
+ drivers/gpu/drm/drm_client_event.c         | 16 ++++++++--------
+ drivers/gpu/drm/drm_modeset_helper.c       |  6 +++---
+ drivers/gpu/drm/i915/i915_driver.c         |  6 +++---
+ drivers/gpu/drm/nouveau/nouveau_display.c  |  4 ++--
+ drivers/gpu/drm/radeon/radeon_device.c     |  4 ++--
+ drivers/gpu/drm/xe/display/xe_display.c    |  6 +++---
+ include/drm/drm_client.h                   | 14 ++------------
+ include/drm/drm_client_event.h             |  4 ++--
+ 11 files changed, 35 insertions(+), 51 deletions(-)
 
-Would be good to document the race in the comment saying that
-gpuva.lock shouldn't be held though.
-
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index a77000c2e0bb..f068e26d5080 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -5212,7 +5212,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
+ 		dev_warn(adev->dev, "smart shift update failed\n");
+ 
+ 	if (notify_clients)
+-		drm_client_dev_suspend(adev_to_drm(adev), false);
++		drm_client_dev_suspend(adev_to_drm(adev));
+ 
+ 	cancel_delayed_work_sync(&adev->delayed_init_work);
+ 
+@@ -5346,7 +5346,7 @@ int amdgpu_device_resume(struct drm_device *dev, bool notify_clients)
+ 	flush_delayed_work(&adev->delayed_init_work);
+ 
+ 	if (notify_clients)
+-		drm_client_dev_resume(adev_to_drm(adev), false);
++		drm_client_dev_resume(adev_to_drm(adev));
+ 
+ 	amdgpu_ras_resume(adev);
+ 
+@@ -5951,7 +5951,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
+ 				if (r)
+ 					goto out;
+ 
+-				drm_client_dev_resume(adev_to_drm(tmp_adev), false);
++				drm_client_dev_resume(adev_to_drm(tmp_adev));
+ 
+ 				/*
+ 				 * The GPU enters bad state once faulty pages
+@@ -6286,7 +6286,7 @@ static void amdgpu_device_halt_activities(struct amdgpu_device *adev,
+ 		 */
+ 		amdgpu_unregister_gpu_instance(tmp_adev);
+ 
+-		drm_client_dev_suspend(adev_to_drm(tmp_adev), false);
++		drm_client_dev_suspend(adev_to_drm(tmp_adev));
+ 
+ 		/* disable ras on ALL IPs */
+ 		if (!need_emergency_restart && !amdgpu_reset_in_dpc(adev) &&
+diff --git a/drivers/gpu/drm/clients/drm_fbdev_client.c b/drivers/gpu/drm/clients/drm_fbdev_client.c
+index f894ba52bdb5..ec5ab9f30547 100644
+--- a/drivers/gpu/drm/clients/drm_fbdev_client.c
++++ b/drivers/gpu/drm/clients/drm_fbdev_client.c
+@@ -62,26 +62,20 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
+ 	return ret;
+ }
+ 
+-static int drm_fbdev_client_suspend(struct drm_client_dev *client, bool holds_console_lock)
++static int drm_fbdev_client_suspend(struct drm_client_dev *client)
+ {
+ 	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+ 
+-	if (holds_console_lock)
+-		drm_fb_helper_set_suspend(fb_helper, true);
+-	else
+-		drm_fb_helper_set_suspend_unlocked(fb_helper, true);
++	drm_fb_helper_set_suspend_unlocked(fb_helper, true);
+ 
+ 	return 0;
+ }
+ 
+-static int drm_fbdev_client_resume(struct drm_client_dev *client, bool holds_console_lock)
++static int drm_fbdev_client_resume(struct drm_client_dev *client)
+ {
+ 	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+ 
+-	if (holds_console_lock)
+-		drm_fb_helper_set_suspend(fb_helper, false);
+-	else
+-		drm_fb_helper_set_suspend_unlocked(fb_helper, false);
++	drm_fb_helper_set_suspend_unlocked(fb_helper, false);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/clients/drm_log.c
+index d239f1e3c456..fd8556dd58ed 100644
+--- a/drivers/gpu/drm/clients/drm_log.c
++++ b/drivers/gpu/drm/clients/drm_log.c
+@@ -319,7 +319,7 @@ static int drm_log_client_hotplug(struct drm_client_dev *client)
+ 	return 0;
+ }
+ 
+-static int drm_log_client_suspend(struct drm_client_dev *client, bool _console_lock)
++static int drm_log_client_suspend(struct drm_client_dev *client)
+ {
+ 	struct drm_log *dlog = client_to_drm_log(client);
+ 
+@@ -328,7 +328,7 @@ static int drm_log_client_suspend(struct drm_client_dev *client, bool _console_l
+ 	return 0;
+ }
+ 
+-static int drm_log_client_resume(struct drm_client_dev *client, bool _console_lock)
++static int drm_log_client_resume(struct drm_client_dev *client)
+ {
+ 	struct drm_log *dlog = client_to_drm_log(client);
+ 
+diff --git a/drivers/gpu/drm/drm_client_event.c b/drivers/gpu/drm/drm_client_event.c
+index c83196ad8b59..c3baeb4d4e6b 100644
+--- a/drivers/gpu/drm/drm_client_event.c
++++ b/drivers/gpu/drm/drm_client_event.c
+@@ -122,7 +122,7 @@ void drm_client_dev_restore(struct drm_device *dev)
+ 	mutex_unlock(&dev->clientlist_mutex);
+ }
+ 
+-static int drm_client_suspend(struct drm_client_dev *client, bool holds_console_lock)
++static int drm_client_suspend(struct drm_client_dev *client)
+ {
+ 	struct drm_device *dev = client->dev;
+ 	int ret = 0;
+@@ -131,7 +131,7 @@ static int drm_client_suspend(struct drm_client_dev *client, bool holds_console_
+ 		return 0;
+ 
+ 	if (client->funcs && client->funcs->suspend)
+-		ret = client->funcs->suspend(client, holds_console_lock);
++		ret = client->funcs->suspend(client);
+ 	drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
+ 
+ 	client->suspended = true;
+@@ -139,20 +139,20 @@ static int drm_client_suspend(struct drm_client_dev *client, bool holds_console_
+ 	return ret;
+ }
+ 
+-void drm_client_dev_suspend(struct drm_device *dev, bool holds_console_lock)
++void drm_client_dev_suspend(struct drm_device *dev)
+ {
+ 	struct drm_client_dev *client;
+ 
+ 	mutex_lock(&dev->clientlist_mutex);
+ 	list_for_each_entry(client, &dev->clientlist, list) {
+ 		if (!client->suspended)
+-			drm_client_suspend(client, holds_console_lock);
++			drm_client_suspend(client);
+ 	}
+ 	mutex_unlock(&dev->clientlist_mutex);
+ }
+ EXPORT_SYMBOL(drm_client_dev_suspend);
+ 
+-static int drm_client_resume(struct drm_client_dev *client, bool holds_console_lock)
++static int drm_client_resume(struct drm_client_dev *client)
+ {
+ 	struct drm_device *dev = client->dev;
+ 	int ret = 0;
+@@ -161,7 +161,7 @@ static int drm_client_resume(struct drm_client_dev *client, bool holds_console_l
+ 		return 0;
+ 
+ 	if (client->funcs && client->funcs->resume)
+-		ret = client->funcs->resume(client, holds_console_lock);
++		ret = client->funcs->resume(client);
+ 	drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
+ 
+ 	client->suspended = false;
+@@ -172,14 +172,14 @@ static int drm_client_resume(struct drm_client_dev *client, bool holds_console_l
+ 	return ret;
+ }
+ 
+-void drm_client_dev_resume(struct drm_device *dev, bool holds_console_lock)
++void drm_client_dev_resume(struct drm_device *dev)
+ {
+ 	struct drm_client_dev *client;
+ 
+ 	mutex_lock(&dev->clientlist_mutex);
+ 	list_for_each_entry(client, &dev->clientlist, list) {
+ 		if  (client->suspended)
+-			drm_client_resume(client, holds_console_lock);
++			drm_client_resume(client);
+ 	}
+ 	mutex_unlock(&dev->clientlist_mutex);
+ }
+diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
+index 988735560570..a57f6a10ada4 100644
+--- a/drivers/gpu/drm/drm_modeset_helper.c
++++ b/drivers/gpu/drm/drm_modeset_helper.c
+@@ -203,10 +203,10 @@ int drm_mode_config_helper_suspend(struct drm_device *dev)
+ 	if (dev->mode_config.poll_enabled)
+ 		drm_kms_helper_poll_disable(dev);
+ 
+-	drm_client_dev_suspend(dev, false);
++	drm_client_dev_suspend(dev);
+ 	state = drm_atomic_helper_suspend(dev);
+ 	if (IS_ERR(state)) {
+-		drm_client_dev_resume(dev, false);
++		drm_client_dev_resume(dev);
+ 
+ 		/*
+ 		 * Don't enable polling if it was never initialized
+@@ -252,7 +252,7 @@ int drm_mode_config_helper_resume(struct drm_device *dev)
+ 		DRM_ERROR("Failed to resume (%d)\n", ret);
+ 	dev->mode_config.suspend_state = NULL;
+ 
+-	drm_client_dev_resume(dev, false);
++	drm_client_dev_resume(dev);
+ 
+ 	/*
+ 	 * Don't enable polling if it is not initialized
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 95165e45de74..162e50315beb 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -978,7 +978,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915)
+ 	intel_runtime_pm_disable(&i915->runtime_pm);
+ 	intel_power_domains_disable(display);
+ 
+-	drm_client_dev_suspend(&i915->drm, false);
++	drm_client_dev_suspend(&i915->drm);
+ 	if (intel_display_device_present(display)) {
+ 		drm_kms_helper_poll_disable(&i915->drm);
+ 		intel_display_driver_disable_user_access(display);
+@@ -1060,7 +1060,7 @@ static int i915_drm_suspend(struct drm_device *dev)
+ 	/* We do a lot of poking in a lot of registers, make sure they work
+ 	 * properly. */
+ 	intel_power_domains_disable(display);
+-	drm_client_dev_suspend(dev, false);
++	drm_client_dev_suspend(dev);
+ 	if (intel_display_device_present(display)) {
+ 		drm_kms_helper_poll_disable(dev);
+ 		intel_display_driver_disable_user_access(display);
+@@ -1257,7 +1257,7 @@ static int i915_drm_resume(struct drm_device *dev)
+ 
+ 	intel_opregion_resume(display);
+ 
+-	drm_client_dev_resume(dev, false);
++	drm_client_dev_resume(dev);
+ 
+ 	intel_power_domains_enable(display);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index 54aed3656a4c..00515623a2cc 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -765,7 +765,7 @@ nouveau_display_suspend(struct drm_device *dev, bool runtime)
+ {
+ 	struct nouveau_display *disp = nouveau_display(dev);
+ 
+-	drm_client_dev_suspend(dev, false);
++	drm_client_dev_suspend(dev);
+ 
+ 	if (drm_drv_uses_atomic_modeset(dev)) {
+ 		if (!runtime) {
+@@ -796,7 +796,7 @@ nouveau_display_resume(struct drm_device *dev, bool runtime)
+ 		}
+ 	}
+ 
+-	drm_client_dev_resume(dev, false);
++	drm_client_dev_resume(dev);
+ }
+ 
+ int
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index 9e35b14e2bf0..60afaa8e56b4 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -1635,7 +1635,7 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
+ 	}
+ 
+ 	if (notify_clients)
+-		drm_client_dev_suspend(dev, false);
++		drm_client_dev_suspend(dev);
+ 
+ 	return 0;
+ }
+@@ -1739,7 +1739,7 @@ int radeon_resume_kms(struct drm_device *dev, bool resume, bool notify_clients)
+ 		radeon_pm_compute_clocks(rdev);
+ 
+ 	if (notify_clients)
+-		drm_client_dev_resume(dev, false);
++		drm_client_dev_resume(dev);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/xe/display/xe_display.c b/drivers/gpu/drm/xe/display/xe_display.c
+index 19e691fccf8c..d3cc6181842c 100644
+--- a/drivers/gpu/drm/xe/display/xe_display.c
++++ b/drivers/gpu/drm/xe/display/xe_display.c
+@@ -324,7 +324,7 @@ void xe_display_pm_suspend(struct xe_device *xe)
+ 	 * properly.
+ 	 */
+ 	intel_power_domains_disable(display);
+-	drm_client_dev_suspend(&xe->drm, false);
++	drm_client_dev_suspend(&xe->drm);
+ 
+ 	if (intel_display_device_present(display)) {
+ 		drm_kms_helper_poll_disable(&xe->drm);
+@@ -356,7 +356,7 @@ void xe_display_pm_shutdown(struct xe_device *xe)
+ 		return;
+ 
+ 	intel_power_domains_disable(display);
+-	drm_client_dev_suspend(&xe->drm, false);
++	drm_client_dev_suspend(&xe->drm);
+ 
+ 	if (intel_display_device_present(display)) {
+ 		drm_kms_helper_poll_disable(&xe->drm);
+@@ -481,7 +481,7 @@ void xe_display_pm_resume(struct xe_device *xe)
+ 
+ 	intel_opregion_resume(display);
+ 
+-	drm_client_dev_resume(&xe->drm, false);
++	drm_client_dev_resume(&xe->drm);
+ 
+ 	intel_power_domains_enable(display);
+ }
+diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+index bdd845e383ef..3556928d3938 100644
+--- a/include/drm/drm_client.h
++++ b/include/drm/drm_client.h
+@@ -70,13 +70,8 @@ struct drm_client_funcs {
+ 	 * Called when suspending the device.
+ 	 *
+ 	 * This callback is optional.
+-	 *
+-	 * FIXME: Some callers hold the console lock when invoking this
+-	 *        function. This interferes with fbdev emulation, which
+-	 *        also tries to acquire the lock. Push the console lock
+-	 *        into the callback and remove 'holds_console_lock'.
+ 	 */
+-	int (*suspend)(struct drm_client_dev *client, bool holds_console_lock);
++	int (*suspend)(struct drm_client_dev *client);
+ 
+ 	/**
+ 	 * @resume:
+@@ -84,13 +79,8 @@ struct drm_client_funcs {
+ 	 * Called when resuming the device from suspend.
+ 	 *
+ 	 * This callback is optional.
+-	 *
+-	 * FIXME: Some callers hold the console lock when invoking this
+-	 *        function. This interferes with fbdev emulation, which
+-	 *        also tries to acquire the lock. Push the console lock
+-	 *        into the callback and remove 'holds_console_lock'.
+ 	 */
+-	int (*resume)(struct drm_client_dev *client, bool holds_console_lock);
++	int (*resume)(struct drm_client_dev *client);
+ };
+ 
+ /**
+diff --git a/include/drm/drm_client_event.h b/include/drm/drm_client_event.h
+index 1d544d3a3228..c3f318788b71 100644
+--- a/include/drm/drm_client_event.h
++++ b/include/drm/drm_client_event.h
+@@ -11,8 +11,8 @@ struct drm_device;
+ void drm_client_dev_unregister(struct drm_device *dev);
+ void drm_client_dev_hotplug(struct drm_device *dev);
+ void drm_client_dev_restore(struct drm_device *dev);
+-void drm_client_dev_suspend(struct drm_device *dev, bool holds_console_lock);
+-void drm_client_dev_resume(struct drm_device *dev, bool holds_console_lock);
++void drm_client_dev_suspend(struct drm_device *dev);
++void drm_client_dev_resume(struct drm_device *dev);
+ #else
+ static inline void drm_client_dev_unregister(struct drm_device *dev)
+ { }
+-- 
+2.51.0
 
