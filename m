@@ -2,97 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE98BAF269
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 07:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2ADBAF290
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 07:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FAFE10E668;
-	Wed,  1 Oct 2025 05:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1837210E305;
+	Wed,  1 Oct 2025 05:54:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P3uheh1r";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Rd8DgxMM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2276810E66A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 05:36:12 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-46e5b7dfeb0so7735205e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Sep 2025 22:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759296970; x=1759901770; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SJrboPAQ3bvQVq27/EG4Rsr76H/+se+9jLXRfCa8zmo=;
- b=P3uheh1raeebQd3yFWfRbJOWeEq+Pau5oTa8r8OUDmnCffS9fmTxz3ihhIKFhM54Eh
- AWa8mR6nxkxWVWtr5N8usEeteIjVR8bgTti3vxVBovg03UlflcYZCoZ1aLE4/cF+qt9B
- Y5vhLWGfS291Dk/xtSlzm+bvq0fBXCrq+MLqr/WHkQIpC3vEtJWNdQPr3VFD9L8LoSuC
- FUuDBcsQTS6CPqUBbHvfWCaYRIEfk7FDwvn1bl+CTdC9fsAINgE5I+pDX/vg9/flrXOe
- 5O1Y9l4wPuIZulnT3UYblpcYhrGEeCoGlKBRGoETjUaYLSFIwTsdIKDYz8J2NmJY1z73
- rrDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759296970; x=1759901770;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SJrboPAQ3bvQVq27/EG4Rsr76H/+se+9jLXRfCa8zmo=;
- b=rfMkQ9pXifcy2mUnktKWc/J1KEFAlteHcXreTujdI/sZLqDHfTXBRmhmoEMcwIcmiO
- +vfRBtLAzfyGUiIG669BHNej0zy+qisF1OsMtHyf/MEFgJaCGV01ByO5HZlDCwR2rBP3
- EUok7w4s+tqZFnW5CsatPA2qw9zaJhetqQ2BRpYwPNZEYVv+Y8ia5O9kWs04fpXuhpzu
- DC6xFZnKCECaEmhY8p0fnDRD0uOwl7BeZdnHsi2cT95nHk+qkwZMSlv2qWsTP7bFirW9
- bJA45bKnmjPgRrZvixcZrthWM63KDSvMBeoZYBc7Yi6kYoAcTLGaCJmlAw5eDum8oMOk
- tOrw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXsvFQ0l4qIRRW5UHWBV1LfAvfG6C7nNJ5L/kr9vQlxlYDqEijk9W2/6HARnEofhFnjpZ+8iAgOnEE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytJ01p8QEoySLdDhF8h/CZosDqXcq9WOLNZO5GaNkK128ajrb5
- zGUZXjvlgTJKL/o6p76oEHosGrSDw5wvWDb+D3+Ngb9U5QsSB8chxkZlh8U4WZjDQOSevVRATI4
- kRxinlX5PHv5N6Z7nRkwqKEW+nmSw6Tc=
-X-Gm-Gg: ASbGncvDpFObSdEy5pAhaHt6RtIzbPK135XHyMyiakOyxerC0kF/xbBU4Py6LxsPfhJ
- FOg8PnQWTiFBwwXHoaHOV/qtRzkkzW9p8OxQpOcTCFLV0XNFkBLI0YocwQGIMD2oLpfhjbo104w
- 9caL2d9dNSVqLspt1uaj80x+L69RpIWgBJgi05Mr7xB2jyrHjl8Xsvv+PP9aibOLmMuOG4RCmQD
- RD/zndS9YrDh+d0Gy/n+nCA8BD7ifts
-X-Google-Smtp-Source: AGHT+IGl4qoOTXJavodfDxV6HJESDY/3a24Dq7hSw7IU0JyXat/2RujwJvhHxdQJ+/VFFZv/MM/yRAJC9AIJaLEF69Y=
-X-Received: by 2002:a05:600c:8b65:b0:43c:ec4c:25b4 with SMTP id
- 5b1f17b1804b1-46e6127cccfmr17260215e9.10.1759296970493; Tue, 30 Sep 2025
- 22:36:10 -0700 (PDT)
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013039.outbound.protection.outlook.com
+ [40.93.196.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F98D10E305;
+ Wed,  1 Oct 2025 05:54:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bGetsMlozuuUDhdAHdAcdRhqbKEzpb3YSN3SDeKyu2/Z6racOUJt9qBs3DNZERS2NwEosqqBZTHfSYKyXCT3jE9a8DPGDcZNIzkI6OpD9O4Sbq3GxkYCFHKK0l67mqd8nfNQW4HyKXqzYub4h6dHM1hnTpbXG5IYM2CbmsO+dkxMBzriis5ULPnLJoMbq+7KXjPcYsVPVlTeyxmqCBr14QXiqEm6xaagilnsCj2VJ2b3Ta1rWsA9qNUyEvL7zSRexDnL5J+o8rHU9RgxXD4h5Quo9eGgH97mMRB048+/rtxdzAU6Oxt+s7lTXnfVIHTURI9YDWQUiwnyt7pGJZfTxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m5tqe33OnkQDXfYejllPg35VfGVR1SrmkH8+NJIgTaw=;
+ b=HfYweWa+XRZlUSHyGs6JIwhyUBu4u8i6zp8hea5pBMTztVRADzJMjUcNPYsRtIP2fiI54Hl6hBYJQPXVHycEv17/wlJpMtjntT+yTSYuKQfeDI1AFKozx/L+7WPBPFNnZQCpzuG9fNbttseexBaIxdQXKAhZum0heVcLU5UC5Iyc7uzfPqqroPiBvl2z3ElAcL00CkulEKG+H6H1rWDKNhhIQav1lnn8IqzNNk03QMF5gWHxVIw9HC+k5vEA93JDSP7X7KPTTIoWGhPzubA2tv+L9LbM60+E7Qq463HFAL+oE3P+GcKgIS8wlmGJntNtskcS39NXIU8biQyah5S7rQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m5tqe33OnkQDXfYejllPg35VfGVR1SrmkH8+NJIgTaw=;
+ b=Rd8DgxMMNhfjRhK79BSuf0nJAAAWjzRzIEKsgMVW09X+N5z4Qn+rACC0imSEmSKucyCOfOaJ6DOS2TR+J8jWiJlbu9F5VlS+xtXvrAIVrutpFyDxvVCZMVLXb85q7vjmyzzARXNuB9nfBobVOx3yN90Wombz0/JtvZIBPk4xZ/u0t4Pzytl5lIKFEkBwRXmvkuSbIrx4rd7XzUqvWQwT5dKm3lTW/o+mJVczrWhN5bggqp6lGaQ0gu+UZ2CxUbxmWNBrm2cNB28jPJ5yieHkvXbwgtMCBeENkBTMn6AnZp7zdegwhGUqRx6azdfIm8J7obebMdvBdlR8pEUVunG4Ew==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ SJ2PR12MB8926.namprd12.prod.outlook.com (2603:10b6:a03:53b::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9160.18; Wed, 1 Oct 2025 05:54:28 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9160.015; Wed, 1 Oct 2025
+ 05:54:28 +0000
+Date: Wed, 1 Oct 2025 15:54:23 +1000
+From: Alistair Popple <apopple@nvidia.com>
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ dakr@kernel.org, acourbot@nvidia.com, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v3 00/13] gpu: nova-core: Boot GSP to RISC-V active
+Message-ID: <ymocqvbgqyf54fsmeorol5thd5kuglg2mf4fdue4mp72cms5tp@a7clilzgcnnd>
+References: <20250930131648.411720-1-apopple@nvidia.com>
+ <f285b6e1-775e-47da-bcd9-b9ad7e218a98@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f285b6e1-775e-47da-bcd9-b9ad7e218a98@nvidia.com>
+X-ClientProxiedBy: SY6PR01CA0107.ausprd01.prod.outlook.com
+ (2603:10c6:10:111::22) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 MIME-Version: 1.0
-References: <20250925151648.79510-1-clamor95@gmail.com>
- <20250925151648.79510-16-clamor95@gmail.com>
- <3419823.yaVYbkx8dN@senjougahara>
- <CAPVz0n2CRV8d1w1hp-60SQ_caBTFyJE8tJaWerwyEuZHD1p_Nw@mail.gmail.com>
-In-Reply-To: <CAPVz0n2CRV8d1w1hp-60SQ_caBTFyJE8tJaWerwyEuZHD1p_Nw@mail.gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 1 Oct 2025 08:35:59 +0300
-X-Gm-Features: AS18NWBi4bYPebuwB4xx20Y7NKjL9OGwnlxl3s7Rk7XozkUX3za7EYle47R5QzE
-Message-ID: <CAPVz0n3-VvtjHDPKoFiipYQFx=Xq6hph8WW=xa2UaC7iDf1MyA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
- format align calculations
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
- Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|SJ2PR12MB8926:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab83f0c1-6d81-4ebe-edf5-08de00aefba2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?d5LtOo9t9skV/0u72M4FP7yQLcRW2bdYn84UlGxk482KV7ujHReFDuiIDIgk?=
+ =?us-ascii?Q?wQYpp9rJTAt1pnvwUfpezHNXkRW+DDV+Ypc7+iVBcyWF4rfuoLmzjJuoh7MN?=
+ =?us-ascii?Q?tUToMJGpfv7/ZamIICbBGSARJhMwSl2eK9ToYddkNr+qbPHTXX0aVGbtF2rl?=
+ =?us-ascii?Q?6ZzYddIz8b6aBtjpE9iigsj811s1/mN6dggPBIwrIZLadQUWIiwLgRXMYAKg?=
+ =?us-ascii?Q?hNBuWL8Fp9A1xKUMugVKnCZL3lnXYt0+zK8o2e1jXN5D+BT0jJVnJMqHAKEq?=
+ =?us-ascii?Q?sMaW3C++XzNriSX0ETGIZGXWmEw+TLLbeQVQLVyxq77plmgpP5dbbj7QmpiR?=
+ =?us-ascii?Q?+U0CTW0tcVsO6IKFvpUHTBj91uvcLaL2zxOPaKUuS9MreWMXCz37CT8nNfyx?=
+ =?us-ascii?Q?+uaNiYA+gBkag+aAfDIC0s4XFcZBRzRTFZNMxFRahdjgmAgwoeytoM+/45Yn?=
+ =?us-ascii?Q?BQD9THWnjS97JCo/CNUZBbv6Qyvf6+O8OYMIdtH7UxImLd1Jcj/rp6LMIe6u?=
+ =?us-ascii?Q?WCtDhvIFf6hWNkZAzUY1JBlocOKZdBfIEQQFZCZuZ3ZJsY/c03P9r5CGNbbs?=
+ =?us-ascii?Q?sQoNpEu5zsWU/6zesFMVOa2V8hcCcVGEYg2ifjUFdus2rFZd/olUyzlckq0d?=
+ =?us-ascii?Q?QoDlJ3IXrD2/9RpAGQHSxy29AstZwuDP7iH5jSZb0PLS/1Pi19TKOG4a/8zI?=
+ =?us-ascii?Q?g+QoA+CI3yfjuRMbjPg7miRvYtu0JdroR5+Mv4S3qREhbQ5/QSUkdxcAW+oN?=
+ =?us-ascii?Q?cW2ViiWpzwADvu/aJfCqYhYpoJzXN23TexjLFHMSrnSmak+od9vBriIPLyEr?=
+ =?us-ascii?Q?TW51MgurourBbI63ip1QpQMNq+lJ1lq6Pgh/MZDjGsqT25mXDBwddW8QNh3J?=
+ =?us-ascii?Q?g/5uJaZTbSD8rRM2Lf7Gc8OfdBJIpXWL+ut6D1RDQp2NSqLLqzcmsDIKIZcw?=
+ =?us-ascii?Q?I/t3er43wvIVR4owQofA3tXHaBd+lR7Emc5nFOJiWlAM+Jq9OeH9u/tsZW3H?=
+ =?us-ascii?Q?KvBuHpzCzEp0JJSybP1BYafxpDJfaBISj5fOWcqmvSTpqn29KWX+oOzwcAke?=
+ =?us-ascii?Q?/OGd0PbzdNYyF+Tb+Hpg3kj0QgUIqqwE4lzt3dwImLm6U+VWIKzBGFz/Wf0p?=
+ =?us-ascii?Q?oPYox40EIqJime1TH3IvhpCwiMSYylcGb1iCDVckU+OzE/Blk5ktc+EgO3JI?=
+ =?us-ascii?Q?TI4DRBZ657iQ/C01twMHcuEHCd+bppPoIe8fvW0zC/hINYmU64vF42fFn71q?=
+ =?us-ascii?Q?AbMb8vFvS/A+OK4D7zq6JO9S1BcuKe32zOp7iFevdHAfpFJHQyM8myRIrFUu?=
+ =?us-ascii?Q?vjHwbKNXnHnEASYpco6abHG8UNb6weZwDuVhmPUXdRApQiu4jxjh2o6RZa52?=
+ =?us-ascii?Q?2ojJt8yZqFbKBtbTRSh1JCF9lBENH1962mtEckZ1ffxMXygkNxAc77XpOpRk?=
+ =?us-ascii?Q?PEIunXOJi8EPp8X2d/VR9AjJLdsjUqNkfbn+GB38MDY27X7ubLnomw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2cygizmDVrLUId20MWliFnc6RykPv+FMqdd7GcmUGtAcfwkSxNAyvAAlIx5h?=
+ =?us-ascii?Q?USkbmEZE91vAlFoID7hEdumkaUTaV3qiocwMrpNAWJHzoLjC6Lhof12xRjvJ?=
+ =?us-ascii?Q?ZGZDGGNrt/m6eKyznSvbBinzXNryvyDcwswUSHv5bsqtD+tqcBOYFmSGc/jo?=
+ =?us-ascii?Q?FqENlkK4A3Wo0ZrASjRw/YIuRQCV9yWcmA81viFEdzwfa9G06wUewoY647DE?=
+ =?us-ascii?Q?qlPaXdvHL9OFLFcPjL/9iEgd1KnH8d6uzUXrbJ5Cvfa/9B0tY4VH/ugvLdlV?=
+ =?us-ascii?Q?f0MCPgqb4lEpJSZQscBL/EeVByR2tITwq2m9Es1WItrlmEfslizo9HsVQSGg?=
+ =?us-ascii?Q?nMZXQE6j59Vo624wOCNHeOC44beyone9IOgSNxR+mhBtS8IJ9auM/0QbHGlP?=
+ =?us-ascii?Q?2MM27OOpB422EEVR8w0mUjnXUlU2NvJoQFwEDDLhyYL9rmZTSu782RxgVQD0?=
+ =?us-ascii?Q?eJXkM+soNG7c+Mw+nwUDiITqmYOOSAi/bso1dOh4cpzqDgTKhbXl1E2VHYTT?=
+ =?us-ascii?Q?YvpDahMFRQRNfeBuLDgUGaaXuoXm9f0i7BwBpHhQP4RPqHi6F25dfOIrqzxf?=
+ =?us-ascii?Q?A/Sc0VUC5IcpuAp9pHWc5rKLGbh0KKiYSze7MWet+Vclv2QXsqUGRDYBH0ju?=
+ =?us-ascii?Q?6MGJxfDXSntgd++4ElkWyIL6DUuiwJS6L6I/H4TkBiMeEyx92/9KiVydgW6n?=
+ =?us-ascii?Q?ce8lZAt4c/gaqJzlMD8+dfcLLf/h4IfM/qUJlZlehQO8Sio2M40smgQz1sYX?=
+ =?us-ascii?Q?3R7jMN20aoiUt1vmCon/mvSD5miKeVFD4JgELYTwJ8QRYr1jWdxBH/qj78oh?=
+ =?us-ascii?Q?qPLWEb73dsH5maN0X0a36vyAmW3jcE9JCHc5G1BITa7hZinZTi96U6uQCOSn?=
+ =?us-ascii?Q?gFh5N8smgP/Sh83PQubG6b7+J0EKvMlW/xmhGOmxSJ/8Riy7+4Q4IweCv0ds?=
+ =?us-ascii?Q?BQ4hKvtlwTEptYy7apeFz13eRW70csWrfh0fk2ibHOeRp63IO8IGOWWclNi3?=
+ =?us-ascii?Q?PA2BCi0KXuZh0KNRY4xufFIcLNBXWEO2tHbsz9J2kF2xTHOr0jpRfNVYRoVe?=
+ =?us-ascii?Q?vasx8ZBSZLMDPWZf527C8WMmTcYw22Z165SiZSwsZmrN5Fq7n17QesqaAsc8?=
+ =?us-ascii?Q?pjdpps/vEFoBnPvOt4hUT4skhZ2xW1TOKSHVNzhRfFGUL991i2T9lJANCjbX?=
+ =?us-ascii?Q?WRs2jApO5exz89Qqj/xBfnwixf8hnfaBIz4ICzz9yUbVkUqHjWQPRLq7L8X+?=
+ =?us-ascii?Q?GrGQCMJ+UjbkYMavRFiDvH5EKkdx4gICfUcgc5UqtVh3iUos+y5M6Nani4u0?=
+ =?us-ascii?Q?CyCiMZp11zWFh7fz4SuXSFfhTSMwUUnL9KMZPSrtCH8vwBb9gnhgFnDZ9Kjz?=
+ =?us-ascii?Q?sQcFuXubA5H3JDGfZngxSwRK/vN3F+Q4+awVwtYBKlKK9GmqaPXt0hZrMZa6?=
+ =?us-ascii?Q?RTeusKyXcn3jrtTYfYd2KeL+/ldrIFq2Cyb3fCKA1x58XlzkquSzBWEiEq6t?=
+ =?us-ascii?Q?cFZ6YcY8sSPz9A7kSwWEy75zKPRKPI6CsuGEvSNXhBb6IHu45SWUfaTvaWsF?=
+ =?us-ascii?Q?jovcx0+IQZsCje8xHAfNHXFgrYKf7VMp3eaFVOOJ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab83f0c1-6d81-4ebe-edf5-08de00aefba2
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 05:54:28.0956 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sfO3TG4Q++2wY07Id0/MEb8Aso39aXHt52g5GwpJe6g1CF+IhEVC8vtmLUC03EGjYjwINP4x+cea67ZaNdJDoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8926
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,207 +157,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 08:07=
- Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 07:=
-38 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav Ryhel wrote:
-> > > Simplify format align calculations by slightly modifying supported fo=
-rmats
-> > > structure. Adjusted U and V offset calculations for planar formats si=
-nce
-> > > YUV420P bits per pixel is 12 (1 full plane for Y + 2 * 1/4 planes for=
- U
-> > > and V) so stride is width * 3/2, but offset must be calculated with p=
-lain
-> > > width since each plain has stride width * 1. This aligns with downstr=
-eam
-> >
-> > plane
-> >
-> > > behavior which uses same approach for offset calculations.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  drivers/staging/media/tegra-video/tegra20.c | 58 +++++++++----------=
---
-> > >  drivers/staging/media/tegra-video/vi.h      |  3 +-
-> > >  2 files changed, 27 insertions(+), 34 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/st=
-aging/media/tegra-video/tegra20.c
-> > > index 7c3ff843235d..b7a39723dfc2 100644
-> > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pix_fo=
-rmat *pix, unsigned int bpp)
-> > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA20_=
-MAX_WIDTH);
-> > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA20_=
-MAX_HEIGHT);
-> > >
-> > > -     switch (pix->pixelformat) {
-> > > -     case V4L2_PIX_FMT_UYVY:
-> > > -     case V4L2_PIX_FMT_VYUY:
-> > > -     case V4L2_PIX_FMT_YUYV:
-> > > -     case V4L2_PIX_FMT_YVYU:
-> > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
-> > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix->he=
-ight;
-> > > -             break;
-> > > -     case V4L2_PIX_FMT_YUV420:
-> > > -     case V4L2_PIX_FMT_YVU420:
-> > > -             pix->bytesperline =3D roundup(pix->width, 8);
-> > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->height=
- * 3 / 2;
-> > > -             break;
-> > > -     }
-> > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
-> > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
-> > >  }
-> > >
-> > >  /*
-> > > @@ -305,6 +293,7 @@ static void tegra20_channel_queue_setup(struct te=
-gra_vi_channel *chan)
-> > >  {
-> > >       unsigned int stride =3D chan->format.bytesperline;
-> > >       unsigned int height =3D chan->format.height;
-> > > +     unsigned int width =3D chan->format.width;
-> > >
-> > >       chan->start_offset =3D 0;
-> > >
-> > > @@ -321,8 +310,8 @@ static void tegra20_channel_queue_setup(struct te=
-gra_vi_channel *chan)
-> > >
-> > >       case V4L2_PIX_FMT_YUV420:
-> > >       case V4L2_PIX_FMT_YVU420:
-> > > -             chan->addr_offset_u =3D stride * height;
-> > > -             chan->addr_offset_v =3D chan->addr_offset_u + stride * =
-height / 4;
-> > > +             chan->addr_offset_u =3D width * height;
-> > > +             chan->addr_offset_v =3D chan->addr_offset_u + width * h=
-eight / 4;
-> > >
-> > >               /* For YVU420, we swap the locations of the U and V pla=
-nes. */
-> > >               if (chan->format.pixelformat =3D=3D V4L2_PIX_FMT_YVU420=
-)
-> > > @@ -332,14 +321,14 @@ static void tegra20_channel_queue_setup(struct =
-tegra_vi_channel *chan)
-> > >               chan->start_offset_v =3D chan->addr_offset_v;
-> > >
-> > >               if (chan->vflip) {
-> > > -                     chan->start_offset   +=3D stride * (height - 1)=
-;
-> > > -                     chan->start_offset_u +=3D (stride / 2) * ((heig=
-ht / 2) - 1);
-> > > -                     chan->start_offset_v +=3D (stride / 2) * ((heig=
-ht / 2) - 1);
-> > > +                     chan->start_offset   +=3D width * (height - 1);
-> > > +                     chan->start_offset_u +=3D (width / 2) * ((heigh=
-t / 2) - 1);
-> > > +                     chan->start_offset_v +=3D (width / 2) * ((heigh=
-t / 2) - 1);
-> > >               }
-> > >               if (chan->hflip) {
-> > > -                     chan->start_offset   +=3D stride - 1;
-> > > -                     chan->start_offset_u +=3D (stride / 2) - 1;
-> > > -                     chan->start_offset_v +=3D (stride / 2) - 1;
-> > > +                     chan->start_offset   +=3D width - 1;
-> > > +                     chan->start_offset_u +=3D (width / 2) - 1;
-> > > +                     chan->start_offset_v +=3D (width / 2) - 1;
-> > >               }
-> > >               break;
-> > >       }
-> > > @@ -576,20 +565,23 @@ static const struct tegra_vi_ops tegra20_vi_ops=
- =3D {
-> > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
-> > >  };
-> > >
-> > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
-> > > -{                                                    \
-> > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
-> > > -     .bpp     =3D BPP,                                 \
-> > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
-> > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FOUR=
-CC)      \
-> > > +{                                                                   =
- \
-> > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,                =
-   \
-> > > +     .bit_width      =3D BIT_WIDTH,                                 =
-   \
-> > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,                 =
-   \
-> > > +     .bpp            =3D BPP,                                       =
-   \
-> > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                     =
-   \
-> > >  }
-> > >
-> > >  static const struct tegra_video_format tegra20_video_formats[] =3D {
-> > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-> > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-> > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-> > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-> > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-> > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-> > > +     /* YUV422 */
-> > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
-> > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
-> > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
-> > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
-> > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
-> > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
-> > >  };
-> >
-> > Looking at the code, BPP seems to only be used for the line stride (i.e=
-. bytes per line) calculation. I think we should just make it 8 for the pla=
-nar formats (possibly with an explaining comment). With the current code, w=
-e end up with 'bytesperline' variables in places not being the actual bytes=
- per line, which is confusing.
-> >
-> > Actually, we can then just make the 'bpp' field be bytes per pixel as i=
-t was before to avoid the discrepancy with Tegra210.
-> >
->
-> No, this code is actually cleaner and in sync with what downstream
-> does, Tegra210 bytes per pixel is confusing since it totally neglects
-> formats with fractional bytes per pixel, it is impossible to set there
-> 3/2 for example, which is used by YUV420.
->
-> According to downstream code bytes_per_line =3D
-> soc_mbus_bytes_per_line..., downstream directly name is bytes_per_line
-> and soc_mbus_bytes_per_line returns width * 3 / 2 which is correct
-> calculation (12 bits). Meanwhile for planar formats Tegra has 3
-> different buffers so with offset calculation plain width must be used
-> (which matches downstream).
->
+On 2025-10-01 at 12:02 +1000, John Hubbard <jhubbard@nvidia.com> wrote...
+> On 9/30/25 6:16 AM, Alistair Popple wrote:
+> > Changes since v2:
+> > 
+> > The main change since v2 has been to make all firmware bindings
+> > completely opaque. It has been made clear this is a pre-requisite for
+> 
+> Any hints about where to see this aspect would be welcome. 
 
-If you mean use of BPP by VI, I can propose removing bytesperline and
-sizeimage configuration from VI entirely and leave this to per-SoC
-fmt_align function which does this already anyway and guards every
-time those values are referred. This way there will be no instances
-where "places not being the actual bytes per line" comes true.
+The changes to fw.rs in patch 5 for example.
 
-> > >
-> > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
-> > > diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging=
-/media/tegra-video/vi.h
-> > > index bfadde8858d4..5cbc0606ed6c 100644
-> > > --- a/drivers/staging/media/tegra-video/vi.h
-> > > +++ b/drivers/staging/media/tegra-video/vi.h
-> > > @@ -281,7 +281,8 @@ enum tegra_image_dt {
-> > >   * @img_dt: MIPI CSI-2 data type (for CSI-2 only)
-> > >   * @bit_width: format width in bits per component (for CSI/Tegra210 =
-only)
-> > >   * @code: media bus format code
-> > > - * @bpp: bytes per pixel (when stored in memory)
-> > > + * @bpp: bytes per pixel (when stored in memory) for Tegra210,
-> > > + *    bits per pixel for Tegra20/Tegra30
-> > >   * @img_fmt: image format (for CSI/Tegra210 only)
-> > >   * @fourcc: V4L2 pixel format FCC identifier
-> > >   */
-> > >
+> ...
+> 
+> > A full tree including the prerequisites for this patch series is available
+> > at https://github.com/apopple-nvidia/linux/tree/nova-core-for-upstream.
+> > 
+> > [1] - https://lore.kernel.org/rust-for-linux/20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com/
+> > [2] - https://github.com/apopple-nvidia/linux/tree/nova-core-for-upstream-v2
+> 
+> Could you maybe push up a nova-core-for-upstream-v3 branch please?
+
+Done.
+ 
+> thanks,
+> -- 
+> John Hubbard
+> 
