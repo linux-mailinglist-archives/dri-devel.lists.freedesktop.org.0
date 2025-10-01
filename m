@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BC8BB0985
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 16:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3789FBB0A42
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 16:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7825210E0F5;
-	Wed,  1 Oct 2025 14:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D60610E1ED;
+	Wed,  1 Oct 2025 14:06:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Upl0g4JH";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="fvokiHXI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F13FE10E0F5
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 14:01:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E14C8627B5;
- Wed,  1 Oct 2025 14:01:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0870C4CEF5;
- Wed,  1 Oct 2025 14:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759327275;
- bh=r85epxj1S8/kVdZVGxmdiIeI6rwjPQ1l48+L1/U0Tww=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=Upl0g4JH6zAuEVCYf02fmbkC5OpXz8mHyAxjlXC7Id+GB6gFYM1yJMmabBs9jS1Hq
- KKX+oD/l280gjahMRpa/NT5oJtq/PrPanbe1Wgkh+ZME7FMuw52DsM7/4WCk13c1iC
- LCXXk/jRN8lQr0XG9UySaHgsM7++hedzTXhdtnX3tM9c2+vk0FQHfkQJTflh9aM9bv
- I2hWRcjLmXT3RBBL35i5PMqadBBboZgq47BDyuNiI0jyES1LEuBzFHDFOKjEOAAA66
- fQA59NXWQ6mOPvvngcB+rKbSi2X1qzt0zXwb3vKN8e5JLsjHW8Anxu9zGVHF5YqLpx
- NYpcMjs3SkkRg==
-Mime-Version: 1.0
+Received: from mail-244104.protonmail.ch (mail-244104.protonmail.ch
+ [109.224.244.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB14C10E1ED
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 14:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1759327505; x=1759586705;
+ bh=yCkyXABvfPbYcu5CAHE3jDiZXmbFgpOxAl8UVf5dtP4=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=fvokiHXI0gfmy+GUI85ctSkSP00U1hVYxs/A2b6u/jwIa8g/f9ov54X2pplnmT9c8
+ 63H5FSdJeIxE2A0NfHqUt1CxMhR7v0/cG+DGVi8QT1+Te5QVQGeZ4U5xz57+s+bJaF
+ X27TdmtB6PbFOAB8BUorhHkYsln6JQ0t1zzu7U+DziqXbJU0MMkCOVPHHiwbqpiq3F
+ FTP3Zfe4Nlul3uNRHsHY8h01ncF58f9Te79XycY5bRxgJX3PJVJhIC471YFojAv4ig
+ GRKmjq3/h4Dp79t4nYTP/9n43XuPASvmhH+Uc1X9mdOdmXi5R/tMG23LUlK4bMFcsv
+ 3simKyktk1VlA==
+Date: Wed, 01 Oct 2025 14:04:55 +0000
+To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
+From: Simon Ser <contact@emersion.fr>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: [ANNOUNCE] libdrm 2.4.126
+Message-ID: <YfYKRut46CEHnN22mtOVVWWPVPb9dmyQSeOPiy2Q8x9iIeFoDm8_-ETAkb3CExohUWGQzd412agusLwhjZk0Xrz8-0ljr6QsFxtS5eaADlw=@emersion.fr>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: 87deb0d9087826dea8358bccc2917d9fe9ee73b0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Oct 2025 16:01:10 +0200
-Message-Id: <DD71GUKZKFPR.2OVPQ9KOI89YG@kernel.org>
-Subject: Re: [PATCH v3 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Cc: "Matthew Brost" <matthew.brost@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Boris
- Brezillon" <boris.brezillon@collabora.com>, "Steven Price"
- <steven.price@arm.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Liviu Dudau" <liviu.dudau@arm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
- <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
-In-Reply-To: <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,82 +53,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Oct 1, 2025 at 12:41 PM CEST, Alice Ryhl wrote:
-> +/*
-> + * Must be called with GEM mutex held. After releasing GEM mutex,
-> + * drm_gpuvm_bo_defer_free_unlocked() must be called.
-> + */
-> +static void
-> +drm_gpuvm_bo_defer_free_locked(struct kref *kref)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_gpuvm_bo,
-> +						  kref);
-> +	struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> +
-> +	if (!drm_gpuvm_resv_protected(gpuvm)) {
-> +		drm_gpuvm_bo_list_del(vm_bo, extobj, true);
-> +		drm_gpuvm_bo_list_del(vm_bo, evict, true);
-> +	}
-> +
-> +	list_del(&vm_bo->list.entry.gem);
-> +}
-> +
-> +/*
-> + * GEM mutex must not be held. Called after drm_gpuvm_bo_defer_free_lock=
-ed().
-> + */
-> +static void
-> +drm_gpuvm_bo_defer_free_unlocked(struct drm_gpuvm_bo *vm_bo)
-> +{
-> +	struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> +
-> +	llist_add(&vm_bo->list.entry.bo_defer, &gpuvm->bo_defer);
-> +}
-> +
-> +static void
-> +drm_gpuvm_bo_defer_free(struct kref *kref)
-> +{
-> +	struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_gpuvm_bo,
-> +						  kref);
-> +
-> +	mutex_lock(&vm_bo->obj->gpuva.lock);
-> +	drm_gpuvm_bo_defer_free_locked(kref);
-> +	mutex_unlock(&vm_bo->obj->gpuva.lock);
-> +
-> +	/*
-> +	 * It's important that the GEM stays alive for the duration in which we
-> +	 * hold the mutex, but the instant we add the vm_bo to bo_defer,
-> +	 * another thread might call drm_gpuvm_bo_deferred_cleanup() and put
-> +	 * the GEM. Therefore, to avoid kfreeing a mutex we are holding, we add
-> +	 * the vm_bo to bo_defer *after* releasing the GEM's mutex.
-> +	 */
-> +	drm_gpuvm_bo_defer_free_unlocked(vm_bo);
-> +}
+Alex Deucher (1):
+      amdgpu: update marketing names
 
-So, you're splitting drm_gpuvm_bo_defer_free() into two functions, one doin=
-g the
-work that is required to be called with the gpuva lock held and one that do=
-es
-the work that does not require a lock, which makes perfect sense.
+Emil Svendsen (2):
+      modetest: util: pattern: add new patterns
+      modetest: util: add seed argument for noise patterns
 
-However, the naming chosen for the two functions, i.e.
-drm_gpuvm_bo_defer_free_unlocked() and drm_gpuvm_bo_defer_free_locked() is
-confusing:
+Huang Rui (1):
+      modetest: fix build error on is_power_of_two()
 
-What you mean semantically mean is "do part 1 with lock held" and "do part =
-2
-without lock held", but the the chosen names suggest that both functions ar=
-e
-identical, with the only difference that one takes the lock internally and =
-the
-other one requires the caller to take the lock.
+Jesse.Zhang (1):
+      drm/amdgpu: Add user queue HQD count to hw_ip info
 
-It's probably better to name them after what they do and not what they're p=
-art
-of. If you prefer the latter, that's fine with me too, but please choose a =
-name
-that makes this circumstance obvious.
+Jos=C3=A9 Exp=C3=B3sito (1):
+      xf86drm: Add faux bus
 
-With that addressed,
+Simon Ser (1):
+      build: bump version to 2.4.126
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+git tag: libdrm-2.4.126
+
+https://dri.freedesktop.org/libdrm/libdrm-2.4.126.tar.xz
+SHA256: 6cab16d4d259b6abc9f485233863454114a3c307eca806679aad3edbe967bf42  l=
+ibdrm-2.4.126.tar.xz
+SHA512: 7cf2e2904025165562f0bf56faa57f3c3cca6f739c2afc299952bcb7bb1dcb86554=
+c8060a7dbe070f2100d036b0ece615e0a55d9df00885679ae30b7e6ef0f0b  libdrm-2.4.1=
+26.tar.xz
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.126.tar.xz.sig
