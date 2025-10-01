@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFD0BB03E4
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 13:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D975BB03E7
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 13:52:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92EDB10E6B0;
-	Wed,  1 Oct 2025 11:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8013D10E6B1;
+	Wed,  1 Oct 2025 11:52:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AMEXwPHy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="OAD0Ot+L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A883D10E6B0
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 11:52:16 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4670F10E6B1
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 11:52:47 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 14BC04E40E65;
- Wed,  1 Oct 2025 11:52:15 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id E56CB1A1069;
+ Wed,  1 Oct 2025 11:52:45 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id DCF2B606BF;
- Wed,  1 Oct 2025 11:52:14 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id B9AD7606BF;
+ Wed,  1 Oct 2025 11:52:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E3E25102F1A1D; 
- Wed,  1 Oct 2025 13:52:07 +0200 (CEST)
+ with ESMTPSA id 4E6AF102F1A1D; 
+ Wed,  1 Oct 2025 13:52:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1759319533; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1759319565; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=vAaKReRqj5M0mLnQXTeduILCClECEn1y+pWERMFjqrM=;
- b=AMEXwPHydFbrIQ6jFJvB9VBwde168h41+q089BK+f23DJTkWTp4V5B5HPXdPl1Gz4OXvza
- 3e5PJZVpgAO494PtRsETZJzkIwoR/5saj5v/3pnb45Rl0F1Vkuehxt5Co0L8HjiNUU8+nP
- OBd+JkRFT+syNwKPThC0QVg40lWqWcH+5t0rWAWYQBvG3SYQtKPQRKXzKTs25SiKzeXvBd
- 96eTFDJ7zqPiYrsejxecdr4eZvOF3PSk9gJ3pCBD4FXv9lbDkvNYmQa8dZF0AUQP5YSyCn
- CODrn/S72Nnj6Ut1NKI8mVwD0+dl1popUg+leZo/0wYNuqajyPH2gcMpaA6tmw==
-Message-ID: <baf41536-6376-4f31-9729-3efdc950f600@bootlin.com>
-Date: Wed, 1 Oct 2025 13:52:07 +0200
+ bh=pJ3ccoEs1f5j1zbMo+mjv6o1tEd3dzCN+Ap1USM7p5I=;
+ b=OAD0Ot+L1pVl8TwjiidF5cqx1WZ3Rgzgf0uYm2ihBuhlYhFU+tYnQwH/x+/pScCBwp5ysW
+ DWhRL0Hei5RDmv/8uhgMKGDSMXauSQBlpuuakytrkAYkhk17w4gIIP6pnFhJEoOsqoUZdC
+ BidpfRisDR51ZAPz8zBMns7ph9OQ0F09/HApVRpgr9PBD5uAiCyoD3SKSrYCwxzpkHz044
+ mvGeDA91XFVRPmhW6sIsaeNtFOHX2Tj4heBfeMUU35k9zAT7wNX7ikg7ii1oE/KY3wU3bk
+ Ghjp/vSUfPWvYCvSVf2HMZ2X1IvrqS2v1HpKmmrVKRADkBWBLl7hd7JHcDDdZA==
+Message-ID: <9d963a16-73f1-4d1b-a9f2-2da390f3b791@bootlin.com>
+Date: Wed, 1 Oct 2025 13:52:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v1 2/5] drm/vkms: Add RGB to YUV conversion matrices
-To: Robert Mader <robert.mader@collabora.com>, dri-devel@lists.freedesktop.org
-Cc: Daniel Stone <daniels@collabora.com>, Melissa Wen
- <melissa.srw@gmail.com>, Maira Canal <mairacanal@riseup.net>,
+Subject: Re: [PATCH v1 3/5] drm/vkms: Add WRITEBACK_COLOR_ENCODING and
+ WRITEBACK_COLOR_RANGE properties
+To: Daniel Stone <daniel@fooishbar.org>,
+ Robert Mader <robert.mader@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Maira Canal <mairacanal@riseup.net>,
  Haneen Mohammed <hamohammed.sa@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -49,7 +51,8 @@ Cc: Daniel Stone <daniels@collabora.com>, Melissa Wen
  Rodrigo Siqueira <siqueira@igalia.com>,
  Simona Vetter <simona.vetter@ffwll.ch>
 References: <20250813170542.331206-1-robert.mader@collabora.com>
- <20250813170542.331206-3-robert.mader@collabora.com>
+ <20250813170542.331206-4-robert.mader@collabora.com>
+ <CAPj87rNUg6m70Na_6NCuJ2kY4ofUaS10gZWr-vmmPQwKj68SbA@mail.gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -105,7 +108,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250813170542.331206-3-robert.mader@collabora.com>
+In-Reply-To: <CAPj87rNUg6m70Na_6NCuJ2kY4ofUaS10gZWr-vmmPQwKj68SbA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -126,256 +129,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 13/08/2025 à 19:05, Robert Mader a écrit :
-> In preparation for YUV/YCbCr pixel format support in the writeback
-> connector. The implementation is meant to mirror the existing
-> get_conversion_matrix_to_argb_u16() as close as possible.
+Le 14/08/2025 à 12:03, Daniel Stone a écrit :
+> Hi Rob,
 > 
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-> ---
->   drivers/gpu/drm/vkms/vkms_formats.c | 153 ++++++++++++++++++++++++++++
->   drivers/gpu/drm/vkms/vkms_formats.h |   4 +
->   2 files changed, 157 insertions(+)
+> On Wed, 13 Aug 2025 at 18:06, Robert Mader <robert.mader@collabora.com> wrote:
+>> @@ -60,6 +71,21 @@ static int vkms_wb_atomic_check(struct drm_connector *connector,
+>>          if (ret < 0)
+>>                  return ret;
+>>
+>> +       if (conn_state->writeback_color_encoding != DRM_COLOR_YCBCR_BT601 &&
+>> +           conn_state->writeback_color_encoding != DRM_COLOR_YCBCR_BT709 &&
+>> +           conn_state->writeback_color_encoding != DRM_COLOR_YCBCR_BT2020) {
+>> +               DRM_DEBUG_KMS("Invalid color encoding %u\n",
+>> +                             conn_state->writeback_color_encoding);
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       if (conn_state->writeback_color_range != DRM_COLOR_YCBCR_LIMITED_RANGE &&
+>> +           conn_state->writeback_color_range != DRM_COLOR_YCBCR_FULL_RANGE) {
+>> +               DRM_DEBUG_KMS("Invalid color range %u\n",
+>> +                             conn_state->writeback_color_range);
+>> +               return -EINVAL;
+>> +       }
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index dfb8e13cba87..560b56fbf4fb 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -787,6 +787,20 @@ static const struct conversion_matrix yuv_bt601_full = {
->   	.y_offset = 0,
->   };
->   
-> +/*
-> + * numpy.around(numpy.linalg.inv(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> + *                                                   is_legal = False,
-> + *                                                   bits = 8)) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix rgb_to_yuv_bt601_full = {
-> +	.matrix = {
-> +		{ 1284195222, 2521145803,  489626272 },
-> +		{ -724715136, -1422768512, 2147483648 },
-> +		{ 2147483648, -1798249503, -349234145 },
-> +	},
-> +	.y_offset = 0,
-> +};
-> +
->   /*
->    * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
->    *                                  is_legal = True,
-> @@ -801,6 +815,20 @@ static const struct conversion_matrix yuv_bt601_limited = {
->   	.y_offset = 16,
->   };
->   
-> +/*
-> + * numpy.around(numpy.linalg.inv(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> + *                                                   is_legal = True,
-> + *                                                   bits = 8)) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix rgb_to_yuv_bt601_limited = {
-> +	.matrix = {
-> +		{ 1102897073, 2165219336,  420502563 },
-> +		{ -636612512, -1249804497, 1886417008 },
-> +		{ 1886417008, -1579638779, -306778230 },
-> +	},
-> +	.y_offset = 16,
-> +};
-> +
->   /*
->    * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
->    *                                  is_legal = False,
-> @@ -815,6 +843,20 @@ static const struct conversion_matrix yuv_bt709_full = {
->   	.y_offset = 0,
->   };
->   
-> +/*
-> + * numpy.around(numpy.linalg.inv(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
-> + *                                                   is_legal = False,
-> + *                                                   bits = 8)) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix rgb_to_yuv_bt709_full = {
-> +	.matrix = {
-> +		{ 913110047,  3071760610,  310096639 },
-> +		{ -492083449, -1655400199, 2147483648 },
-> +		{ 2147483648, -1950571889, -196911759 },
-> +	},
-> +	.y_offset = 0,
-> +};
-> +
->   /*
->    * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
->    *                                  is_legal = True,
-> @@ -829,6 +871,20 @@ static const struct conversion_matrix yuv_bt709_limited = {
->   	.y_offset = 16,
->   };
->   
-> +/*
-> + * numpy.around(numpy.linalg.inv(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
-> + *                                                   is_legal = True,
-> + *                                                   bits = 8)) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix rgb_to_yuv_bt709_limited = {
-> +	.matrix = {
-> +		{ 784200393,  2638100289,  266318290 },
-> +		{ -432261539, -1454155469, 1886417008 },
-> +		{ 1886417008, -1713443541, -172973467 },
-> +	},
-> +	.y_offset = 16,
-> +};
-> +
->   /*
->    * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.2020"],
->    *                                  is_legal = False,
-> @@ -843,6 +899,20 @@ static const struct conversion_matrix yuv_bt2020_full = {
->   	.y_offset = 0,
->   };
->   
-> +/*
-> + * numpy.around(numpy.linalg.inv(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.2020"],
-> + *                                                   is_legal = False,
-> + *                                                   bits = 8)) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix rgb_to_yuv_bt2020_full = {
-> +	.matrix = {
-> +		{ 1128287909, 2911987827,  254691561 },
-> +		{ -599706553, -1547777095, 2147483648 },
-> +		{ 2147483648, -1974764564, -172719084 },
-> +	},
-> +	.y_offset = 0,
-> +};
-> +
->   /*
->    * numpy.around(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.2020"],
->    *                                  is_legal = True,
-> @@ -857,6 +927,20 @@ static const struct conversion_matrix yuv_bt2020_limited = {
->   	.y_offset = 16,
->   };
->   
-> +/*
-> + * numpy.around(numpy.linalg.inv(colour.matrix_YCbCr(K=colour.WEIGHTS_YCBCR["ITU-R BT.2020"],
-> + *                                                   is_legal = True,
-> + *                                                   bits = 8)) * 2**32).astype(int)
-> + */
-> +static const struct conversion_matrix rgb_to_yuv_bt2020_limited = {
-> +	.matrix = {
-> +		{ 969000204,  2500883663,  218735105 },
-> +		{ -526801050, -1359615958, 1886417008 },
-> +		{ 1886417008, -1734695147, -151721862 },
-> +	},
-> +	.y_offset = 16,
-> +};
-> +
->   /**
->    * swap_uv_columns() - Swap u and v column of a given matrix
->    *
-> @@ -869,6 +953,18 @@ static void swap_uv_columns(struct conversion_matrix *matrix)
->   	swap(matrix->matrix[2][2], matrix->matrix[2][1]);
->   }
->   
-> +/**
-> + * swap_uv_columns_transposed() - Swap u and v column of a given matrix
-> + *
-> + * @matrix: Matrix in which column are swapped
-> + */
+> I didn't think you needed this check, as the core property code should
+> already disallow setting an enum not in the supported list?
 
-I think this swap lines, not columns. Can you clarify how you use the 
-matrix in conversion_matrix documentation? The documentation only 
-explain how to use the matrix for yuv->rgb, not rgb->yuv.
+I think too
 
-> +static void swap_uv_columns_transposed(struct conversion_matrix *matrix)
-> +{
-> +	swap(matrix->matrix[1][0], matrix->matrix[2][0]);
-> +	swap(matrix->matrix[1][1], matrix->matrix[2][1]);
-> +	swap(matrix->matrix[1][2], matrix->matrix[2][2]);
-> +}
-> +
->   /**
->    * get_conversion_matrix_to_argb_u16() - Retrieve the correct yuv to rgb conversion matrix for a
->    * given encoding and range.
-> @@ -935,6 +1031,63 @@ void get_conversion_matrix_to_argb_u16(u32 format,
->   }
->   EXPORT_SYMBOL(get_conversion_matrix_to_argb_u16);
->
-Can you add documentation here to explain that it will be a matrix to do 
-rgb->yuv?
+> As this only takes effect on YUV, I suspect you might be better off
+> adding a PASSTHROUGH or NOOP or similar value, which would be required
+> to be used for RGB framebuffers, with it being required to specify the
+> range and primaries for YUV formats.
+> 
+> That being said, I don't think these are specific to YUV, as RGB can
+> also have the same 16-235 squash applied to it. So maybe it is better
+> off being generic?
 
-> +void get_conversion_matrix_from_argb_u16(u32 format,
-> +					 enum drm_color_encoding encoding,
-> +					 enum drm_color_range range,
-> +					 struct conversion_matrix *matrix)
-> +{
-> +	const struct conversion_matrix *matrix_to_copy;
-> +	bool limited_range;
-> +
-> +	switch (range) {
-> +	case DRM_COLOR_YCBCR_LIMITED_RANGE:
-> +		limited_range = true;
-> +		break;
-> +	case DRM_COLOR_YCBCR_FULL_RANGE:
-> +		limited_range = false;
-> +		break;
-> +	case DRM_COLOR_RANGE_MAX:
-> +		limited_range = false;
-> +		WARN_ONCE(true, "The requested range is not supported.");
-> +		break;
-> +	}
-> +
-> +	switch (encoding) {
-> +	case DRM_COLOR_YCBCR_BT601:
-> +		matrix_to_copy = limited_range ? &rgb_to_yuv_bt601_limited :
-> +						 &rgb_to_yuv_bt601_full;
-> +		break;
-> +	case DRM_COLOR_YCBCR_BT709:
-> +		matrix_to_copy = limited_range ? &rgb_to_yuv_bt709_limited :
-> +						 &rgb_to_yuv_bt709_full;
-> +		break;
-> +	case DRM_COLOR_YCBCR_BT2020:
-> +		matrix_to_copy = limited_range ? &rgb_to_yuv_bt2020_limited :
-> +						 &rgb_to_yuv_bt2020_full;
-> +		break;
-> +	case DRM_COLOR_ENCODING_MAX:
-> +		matrix_to_copy = &no_operation;
-> +		WARN_ONCE(true, "The requested encoding is not supported.");
-> +		break;
-> +	}
-> +
-> +	memcpy(matrix, matrix_to_copy, sizeof(*matrix_to_copy));
-> +
-> +	switch (format) {
-> +	case DRM_FORMAT_YVU420:
-> +	case DRM_FORMAT_YVU422:
-> +	case DRM_FORMAT_YVU444:
-> +	case DRM_FORMAT_NV21:
-> +	case DRM_FORMAT_NV61:
-> +	case DRM_FORMAT_NV42:
-> +		swap_uv_columns_transposed(matrix);
-> +		break;
+I think there is exactly the same issue with the plane color property, 
+and there is no RGB-specific values, they only apply on YUV. The current 
+vkms plane composition code just ignore those values if not YUV.
 
-(I also like the idea to have a "is_uv_swap" function)
-
-> +	default:
-> +		break;
-> +	}
-> +}
-> +EXPORT_SYMBOL(get_conversion_matrix_from_argb_u16);
-> +
->   /**
->    * get_pixel_write_function() - Retrieve the correct write_pixel function for a specific format.
->    * The returned pointer is NULL for unsupported pixel formats. The caller must ensure that the
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-> index eeb208cdd6b1..9367672b6b43 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.h
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> @@ -13,6 +13,10 @@ void get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encod
->   				       enum drm_color_range range,
->   				       struct conversion_matrix *matrix);
->   
-> +void get_conversion_matrix_from_argb_u16(u32 format, enum drm_color_encoding encoding,
-> +					 enum drm_color_range range,
-> +					 struct conversion_matrix *matrix);
-> +
->   #if IS_ENABLED(CONFIG_KUNIT)
->   struct pixel_argb_u16 argb_u16_from_yuv161616(const struct conversion_matrix *matrix,
->   					      u16 y, u16 channel_1, u16 channel_2);
+> Cheers,
+> Daniel
 
 -- 
 --
