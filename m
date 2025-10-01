@@ -2,60 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7B7BAF80E
-	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 09:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9627DBAF85C
+	for <lists+dri-devel@lfdr.de>; Wed, 01 Oct 2025 10:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8874010E6A4;
-	Wed,  1 Oct 2025 07:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92A7B10E6AE;
+	Wed,  1 Oct 2025 08:00:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ckfrfQ8i";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Iy+f3ZP4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B320610E6AA
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 07:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759305242; x=1790841242;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=+fqcsqXVumu144RbGaow8424+JXYn7J23/u6ccj13RY=;
- b=ckfrfQ8i+989Y46cO5Uu/x5Iv7J2weBTaKAZu/69iqQBdEFLjsUfne+k
- t7uDeAx5h3aXXTyDkWBEAn4MkOnsEZzw0w5trzjeUDIqNov89tlQQQJqh
- eSBIV85gX7V5jBZjiHGOJ1PQBWVHX0OghCtp2zryhZrB+AcLKuu7GGDiL
- bRLQV9ynVB5i9xODqTpoLbNpiREERC3juzZm9KsZ79UDUPnt/Se8pfNF6
- L/tV8H+V2YMuqhQCEuwJYRQfRAID+gSJaBE1hMaJMwBb2PYpjQYhs1tkN
- gSq7Nv/JblrohZC00iEfWxeY+9Ik6JitYx0zmi5dSThm2Zffid9iNAsWj w==;
-X-CSE-ConnectionGUID: V0ukL1QZTQeFqkLC6haxkw==
-X-CSE-MsgGUID: 9gjZ2HDNS4OLzOX6nXk7Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61464971"
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="61464971"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2025 00:54:02 -0700
-X-CSE-ConnectionGUID: xa0gG89tQcyHKg/gZCjklA==
-X-CSE-MsgGUID: kenNaGzOSSO2op0BfxQkQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; d="scan'208";a="178680787"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.217])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2025 00:53:58 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: jonathan.cavitt@intel.com, saurabhg.gupta@intel.com, alex.zuo@intel.com,
- matthew.auld@intel.com, himal.prasad.ghimiray@intel.com,
- matthew.brost@intel.com
-Subject: Re: [PATCH] drm: Add drm_mode_display_size helper function
-In-Reply-To: <20250930212654.146694-2-jonathan.cavitt@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250930212654.146694-2-jonathan.cavitt@intel.com>
-Date: Wed, 01 Oct 2025 10:53:56 +0300
-Message-ID: <f21e9a9eeec721cd52ee403a10690912c9efdff2@intel.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5C510E6A6
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Oct 2025 08:00:08 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3ee1221ceaaso5490610f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 01:00:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759305607; x=1759910407; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xgvIhudJPWmmbWLRWY3wSsTAkk+PhaMEZeeL7UN11p4=;
+ b=Iy+f3ZP4qjEaJ5fDWxiFm5xlU0aALH6rRtnIJtGqONR9PiMEas35ASMG6Hq1/1t4H0
+ v0gfTU+4vfsnHfTWZU49WEissZeyjlDGvEduNMV8lnuqUidJdWOjtGQ534PtJk0XVu/b
+ 5sogU0S/4GrxM07dj9KqZ8E1YqH0CjVjSmV47lIPNY2S4/gkcqF2wGawoyWAVPLh3yWJ
+ +7o1WB2SZAKakjDTBDVdeBH3SZq70rQt0cDljotkhAYfPgA2TcpbWJLxOjiOsgcgjKjW
+ O/+LcFIyfJ8HLXUmxq+NZWzf+z3/PCBrK2Dn6USrR7Qp1vk2W+XWHJ1P3FVm6Ru1DsEO
+ 6sKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759305607; x=1759910407;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xgvIhudJPWmmbWLRWY3wSsTAkk+PhaMEZeeL7UN11p4=;
+ b=AI3mwhmhZZUmRbHXhyQej2LxjCBG8doQvUCQu2aFqKMgRH4dtgOMaGdJPyHuAtd8u0
+ WNF8R/YZWqRH4hU+ynNqXUDiIEcWKebju9cVWsy7NTHcf10aaz/rwabkUaW2UZmRxI+N
+ 9AnVgpL8N/WqHVG/iUmtAbv0ziuf1/iKcXVcMp3aFRJkPd0DzukAY5wbO5AkcBn9cAT1
+ 3NyA63OiKjsWTt1ce81APLLd/8k4HJjMbLp86RyMJ0dGVFzRttYiAU9Pg2IL1SQyLmmj
+ R7LrRD9nneZVTNLaLmiG4fEdk7/33PWWOJhek8hIkanWn789Xf1gxMZFVGn57/tu8QQO
+ yaUA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEej8L3gFO6eK5QiERkAunMGqWdb1zVH+BmOozKNfqnwtpWRpAup6x+jYZuybGWsfkLcs4RFivx7E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKGcZ/ug5sNmIT+VSD5xqI0+LW+a0XKZL4dlMux33WTfT/qq4h
+ h6G7yYKGz6jGLhIMoh2a/cQ4+1KlObH7AIxo/iSFukFR63E5XQtyBYZ3gnK3qMwyCSVDVysyJDD
+ ppz/2bJdGkhSTCF3UTO4UoEOhURoPCpY=
+X-Gm-Gg: ASbGncsCnuQFtNE187lFrxzMwmv2a4zXLAu3gXO1oeR0cPI/GpOh5IhRLUTfjkk0teN
+ m6ylmlSjRchS6L4Hw97uPGE/WJIAZfjoUGBAQVomyj+F7W3dq7utB9JOOpmA4xZYeHYIbPLXY7s
+ 41zciZIGVtEDw5yAU9fuc6DRwIsOAGNUkK3WYWamujjPn1kND6L5XzD5eN3Qc0sn7PemsUDKmEo
+ KEbiNwhvSlFkm/ikN5Bmhjr4z855CqO
+X-Google-Smtp-Source: AGHT+IEts4aRS1BO8nAXriOkt4I9SxEvvg7R/qEIOy7/ouiuBhu5T7Gq5rXelG1LxyUQL2bgowrpZjpcR+lnlZbahyg=
+X-Received: by 2002:a05:6000:2504:b0:3f5:453:77ea with SMTP id
+ ffacd0b85a97d-42557821a3amr1754149f8f.58.1759305606332; Wed, 01 Oct 2025
+ 01:00:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250925151648.79510-1-clamor95@gmail.com>
+ <CAPVz0n2CRV8d1w1hp-60SQ_caBTFyJE8tJaWerwyEuZHD1p_Nw@mail.gmail.com>
+ <CAPVz0n3-VvtjHDPKoFiipYQFx=Xq6hph8WW=xa2UaC7iDf1MyA@mail.gmail.com>
+ <2368735.QZUTf85G27@senjougahara>
+In-Reply-To: <2368735.QZUTf85G27@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 1 Oct 2025 10:59:55 +0300
+X-Gm-Features: AS18NWC8gPCcqZlFeljfn-mUHnB1_xEKqf6p2IcGCjSYer2-1Jw0uJU_jBBnIZw
+Message-ID: <CAPVz0n2pibxHzZS_s2i6ZzP1FEcUYCuH=aP8oM18RoivF4xY9A@mail.gmail.com>
+Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+ Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,71 +108,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Sep 2025, Jonathan Cavitt <jonathan.cavitt@intel.com> wrote:
-> Add a helper function that computes the product of hdisplay and
-> vdisplay.
+=D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 10:51=
+ Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 2 +-
->  drivers/gpu/drm/drm_mipi_dbi.c        | 2 +-
->  include/drm/drm_modes.h               | 5 +++++
->  3 files changed, 7 insertions(+), 2 deletions(-)
+> On Wednesday, October 1, 2025 2:35=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 0=
+8:07 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE=
+ 07:38 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > >
+> > > > On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav Ryhel wro=
+te:
+> > > > > Simplify format align calculations by slightly modifying supporte=
+d formats
+> > > > > structure. Adjusted U and V offset calculations for planar format=
+s since
+> > > > > YUV420P bits per pixel is 12 (1 full plane for Y + 2 * 1/4 planes=
+ for U
+> > > > > and V) so stride is width * 3/2, but offset must be calculated wi=
+th plain
+> > > > > width since each plain has stride width * 1. This aligns with dow=
+nstream
+> > > >
+> > > > plane
+> > > >
+> > > > > behavior which uses same approach for offset calculations.
+> > > > >
+> > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > ---
+> > > > >  drivers/staging/media/tegra-video/tegra20.c | 58 +++++++++------=
+------
+> > > > >  drivers/staging/media/tegra-video/vi.h      |  3 +-
+> > > > >  2 files changed, 27 insertions(+), 34 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/driver=
+s/staging/media/tegra-video/tegra20.c
+> > > > > index 7c3ff843235d..b7a39723dfc2 100644
+> > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pi=
+x_format *pix, unsigned int bpp)
+> > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGR=
+A20_MAX_WIDTH);
+> > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGR=
+A20_MAX_HEIGHT);
+> > > > >
+> > > > > -     switch (pix->pixelformat) {
+> > > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> > > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix=
+->height;
+> > > > > -             break;
+> > > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->he=
+ight * 3 / 2;
+> > > > > -             break;
+> > > > > -     }
+> > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
+> > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > > >  }
+> > > > >
+> > > > >  /*
+> > > > > @@ -305,6 +293,7 @@ static void tegra20_channel_queue_setup(struc=
+t tegra_vi_channel *chan)
+> > > > >  {
+> > > > >       unsigned int stride =3D chan->format.bytesperline;
+> > > > >       unsigned int height =3D chan->format.height;
+> > > > > +     unsigned int width =3D chan->format.width;
+> > > > >
+> > > > >       chan->start_offset =3D 0;
+> > > > >
+> > > > > @@ -321,8 +310,8 @@ static void tegra20_channel_queue_setup(struc=
+t tegra_vi_channel *chan)
+> > > > >
+> > > > >       case V4L2_PIX_FMT_YUV420:
+> > > > >       case V4L2_PIX_FMT_YVU420:
+> > > > > -             chan->addr_offset_u =3D stride * height;
+> > > > > -             chan->addr_offset_v =3D chan->addr_offset_u + strid=
+e * height / 4;
+> > > > > +             chan->addr_offset_u =3D width * height;
+> > > > > +             chan->addr_offset_v =3D chan->addr_offset_u + width=
+ * height / 4;
+> > > > >
+> > > > >               /* For YVU420, we swap the locations of the U and V=
+ planes. */
+> > > > >               if (chan->format.pixelformat =3D=3D V4L2_PIX_FMT_YV=
+U420)
+> > > > > @@ -332,14 +321,14 @@ static void tegra20_channel_queue_setup(str=
+uct tegra_vi_channel *chan)
+> > > > >               chan->start_offset_v =3D chan->addr_offset_v;
+> > > > >
+> > > > >               if (chan->vflip) {
+> > > > > -                     chan->start_offset   +=3D stride * (height =
+- 1);
+> > > > > -                     chan->start_offset_u +=3D (stride / 2) * ((=
+height / 2) - 1);
+> > > > > -                     chan->start_offset_v +=3D (stride / 2) * ((=
+height / 2) - 1);
+> > > > > +                     chan->start_offset   +=3D width * (height -=
+ 1);
+> > > > > +                     chan->start_offset_u +=3D (width / 2) * ((h=
+eight / 2) - 1);
+> > > > > +                     chan->start_offset_v +=3D (width / 2) * ((h=
+eight / 2) - 1);
+> > > > >               }
+> > > > >               if (chan->hflip) {
+> > > > > -                     chan->start_offset   +=3D stride - 1;
+> > > > > -                     chan->start_offset_u +=3D (stride / 2) - 1;
+> > > > > -                     chan->start_offset_v +=3D (stride / 2) - 1;
+> > > > > +                     chan->start_offset   +=3D width - 1;
+> > > > > +                     chan->start_offset_u +=3D (width / 2) - 1;
+> > > > > +                     chan->start_offset_v +=3D (width / 2) - 1;
+> > > > >               }
+> > > > >               break;
+> > > > >       }
+> > > > > @@ -576,20 +565,23 @@ static const struct tegra_vi_ops tegra20_vi=
+_ops =3D {
+> > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > > >  };
+> > > > >
+> > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > > -{                                                    \
+> > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > > -     .bpp     =3D BPP,                                 \
+> > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, =
+FOURCC)      \
+> > > > > +{                                                               =
+     \
+> > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,            =
+       \
+> > > > > +     .bit_width      =3D BIT_WIDTH,                             =
+       \
+> > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,             =
+       \
+> > > > > +     .bpp            =3D BPP,                                   =
+       \
+> > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                 =
+       \
+> > > > >  }
+> > > > >
+> > > > >  static const struct tegra_video_format tegra20_video_formats[] =
+=3D {
+> > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > > +     /* YUV422 */
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > > >  };
+> > > >
+> > > > Looking at the code, BPP seems to only be used for the line stride =
+(i.e. bytes per line) calculation. I think we should just make it 8 for the=
+ planar formats (possibly with an explaining comment). With the current cod=
+e, we end up with 'bytesperline' variables in places not being the actual b=
+ytes per line, which is confusing.
+> > > >
+> > > > Actually, we can then just make the 'bpp' field be bytes per pixel =
+as it was before to avoid the discrepancy with Tegra210.
+> > > >
+> > >
+> > > No, this code is actually cleaner and in sync with what downstream
+> > > does, Tegra210 bytes per pixel is confusing since it totally neglects
+> > > formats with fractional bytes per pixel, it is impossible to set ther=
+e
+> > > 3/2 for example, which is used by YUV420.
+> > >
+> > > According to downstream code bytes_per_line =3D
+> > > soc_mbus_bytes_per_line..., downstream directly name is bytes_per_lin=
+e
+> > > and soc_mbus_bytes_per_line returns width * 3 / 2 which is correct
+> > > calculation (12 bits). Meanwhile for planar formats Tegra has 3
+> > > different buffers so with offset calculation plain width must be used
+> > > (which matches downstream).
+> > >
+> >
+> > If you mean use of BPP by VI, I can propose removing bytesperline and
+> > sizeimage configuration from VI entirely and leave this to per-SoC
+> > fmt_align function which does this already anyway and guards every
+> > time those values are referred. This way there will be no instances
+> > where "places not being the actual bytes per line" comes true.
 >
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 90760d0ca071..4ac71c34f4c6 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -967,7 +967,7 @@ drm_vram_helper_mode_valid_internal(struct drm_device *dev,
->  
->  	max_fbpages = (vmm->vram_size / 2) >> PAGE_SHIFT;
->  
-> -	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
-> +	fbsize = drm_mode_display_size(mode) * max_bpp;
->  	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
->  
->  	if (fbpages > max_fbpages)
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index e33c78fc8fbd..54212bf85160 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -691,7 +691,7 @@ int mipi_dbi_dev_init(struct mipi_dbi_dev *dbidev,
->  		      const struct drm_simple_display_pipe_funcs *funcs,
->  		      const struct drm_display_mode *mode, unsigned int rotation)
->  {
-> -	size_t bufsize = mode->vdisplay * mode->hdisplay * sizeof(u16);
-> +	size_t bufsize = drm_mode_display_size(mode) * sizeof(u16);
->  
->  	dbidev->drm.mode_config.preferred_depth = 16;
->  
-> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> index b9bb92e4b029..775c94c55cda 100644
-> --- a/include/drm/drm_modes.h
-> +++ b/include/drm/drm_modes.h
-> @@ -572,4 +572,9 @@ struct drm_display_mode *
->  drm_mode_create_from_cmdline_mode(struct drm_device *dev,
->  				  struct drm_cmdline_mode *cmd);
->  
-> +static inline u32 drm_mode_display_size(const struct drm_display_mode *mode)
-> +{
-> +	return mode->hdisplay * mode->vdisplay;
-> +}
+> Without trying myself, I'm not sure what approach is the cleanest. In any=
+ case, the downstream code is just wrong (or incorrectly named), so we shou=
+ldn't defer to it in this matter. I don't see a reason to keep the value '1=
+2' either if it doesn't serve any purpose (admittedly if we changed it to 8=
+ or 1, 'bpp' would be a confusing name for it, but explainable with a comme=
+nt and improve-able later) I don't mind having an if/switch statement for t=
+he planar formats to use a '8' as multiplier instead of '12' if we need to =
+keep the '12'. But the main thing I want to avoid is a bytesperline/stride =
+variable that isn't the line stride in bytes.
+>
 
-All functions here need kernel-doc.
+I am proposing you a solution, handle bytesperline and sizeimage in
+per-SoC fmt_align function.
 
-I wonder if "size" is specific enough.
+12 represents amount of bits used per pixel, 8 for Y plane, 2 for U
+plane and 2 for V plane, total is 12. "but explainable with a comment
+and improve-able later" why then we cannot use 12 with a comment? this
+is all arbitrary. Downstream is not wrong from this perspective, you
+don't take into account that YUV420 is planar and it uses 3 planes a
+whole Y plane and 1/4 of U and V which in total results in wigth + 2 *
+1/4 width which is width * 3/2
 
-
-BR,
-Jani.
-
-
-
-> +
->  #endif /* __DRM_MODES_H__ */
-
--- 
-Jani Nikula, Intel
+> >
+> > > > >
+> > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > > > diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/sta=
+ging/media/tegra-video/vi.h
+> > > > > index bfadde8858d4..5cbc0606ed6c 100644
+> > > > > --- a/drivers/staging/media/tegra-video/vi.h
+> > > > > +++ b/drivers/staging/media/tegra-video/vi.h
+> > > > > @@ -281,7 +281,8 @@ enum tegra_image_dt {
+> > > > >   * @img_dt: MIPI CSI-2 data type (for CSI-2 only)
+> > > > >   * @bit_width: format width in bits per component (for CSI/Tegra=
+210 only)
+> > > > >   * @code: media bus format code
+> > > > > - * @bpp: bytes per pixel (when stored in memory)
+> > > > > + * @bpp: bytes per pixel (when stored in memory) for Tegra210,
+> > > > > + *    bits per pixel for Tegra20/Tegra30
+> > > > >   * @img_fmt: image format (for CSI/Tegra210 only)
+> > > > >   * @fourcc: V4L2 pixel format FCC identifier
+> > > > >   */
+> > > > >
+>
+>
+>
+>
