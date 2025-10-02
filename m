@@ -2,84 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C74ABB60EB
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318BABB6082
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1937A10E8A6;
-	Fri,  3 Oct 2025 07:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B966610E881;
+	Fri,  3 Oct 2025 07:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BK2M0PUR";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="TXXCKhsT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B181210E1C5
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 16:19:33 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-33226dc4fc9so1385080a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 09:19:33 -0700 (PDT)
+Received: from fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ (fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ [18.199.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B02810E13A;
+ Thu,  2 Oct 2025 20:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759421973; x=1760026773; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bpMkSTIODIVz672XTAf9Z0sXNTeFcRKxvrLWbh3ZoNs=;
- b=BK2M0PURxdKvAq43QL3laTNIAwUuBi5sPzFScy7Cu24/StrIDUNBkzYJ/9027AP+4W
- cK8CyKHptdKm3KinG5fyHuIKFRauTsY2u+PtgQXqvaXmwuBf3J0K5h5C/pXCYZ4xe1hZ
- mTJ+knP3/Zc2jXDIQ7ombgC4Fb+W+K6dJjIkSWo7HZSrAxazB3mzc6RL3c1cniXXYVaV
- Fx4FfxBausfIoHRF8CfHfoNcT7MWhzLIyjOxheG2jo5qQNIaxqYZU4idbhjLJv4MpmDL
- 5XrUZorPQRI//bLxx2d3Ox9tDGLGO6M1BiNtyCoij/38oFoBG22ua1vCj7i7fT+Rw54Y
- m93w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759421973; x=1760026773;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bpMkSTIODIVz672XTAf9Z0sXNTeFcRKxvrLWbh3ZoNs=;
- b=GlYecLMvJx9BBgxHz75fLIggxuybOen3OzeUPznq7xuFOnBVSLvWeXQNNpop0nHmWA
- GS/JWe2z6LC9Vvpu7mAFRCqr8GqnDJIXTR+bW4T/ninUGpUpLvxKWFmGpBup/a7sTXDV
- mXR5VhBSqXvhtS/FY5lsjYrLxVW28N0WsRojxVWijHb1HwBJwSB8xy+KBwr0PZ2fQ20I
- KjKyvj4uGp53fw5OAoVYIkz5HxGfqojQzryM0kNpMyJau+7PR02IrvDpmh3MwMD49uAC
- Np0Z//a8cPu38XXFdQ/CIFvnbrLfbesqq1MOBQm0VqPW7XE2struscUGPVyFUNzlYbvg
- pLuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTe5fu7xrM3Y7i/XWpBWMen9JwLvOgYq2KxZaCgEsMXeJwU4jbJHMqcA4hP2J6OqaQFeiF8t1PX7I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFKzXZmm6Bf3+Ad+tXWenn4JRP7fApE7my6zq2JPOaPj0OqXCz
- 8huK/OvWoemhHEFb4U2GgFW7PPro7RS8097elPcYaCYDvwDQ8UOaxUVVXwsX7AHob9bCQFnax0m
- R2Fd6bDi6CXBULrkNTn0TrcXFyWZgG7s=
-X-Gm-Gg: ASbGncvsHtnMZCyWTVzl3rks3dW5gFNT2lWPuWDlz87e95UMLqbtCGhGHC6M/Jaclot
- m3beEKmAV6XVg+97kQooA7+oGbtWYd5+5FQ3UT2UPKS7+DrDzhqy9TjhipZNlfAlgRx5R49lOw0
- Suv/XuBeaiMxFAko1FBqLlIjmdIhCM/Pk0iaGA/JweLsO8rWZKmpRgnZlFwJseVvkZyIwccy4xv
- y2x4f7ostla7waj+ql7UK8S6wkDrYs=
-X-Google-Smtp-Source: AGHT+IHbkL/WNKmVnMSE57YLwWSgNCdRkBP77UN+85Q2tFn3u/n4pmtcGxs9O49PsDeqTKEuH4GQQXmg2wweCS632Js=
-X-Received: by 2002:a17:90b:3902:b0:327:734a:ae7a with SMTP id
- 98e67ed59e1d1-339a6e9d34amr8340975a91.11.1759421973209; Thu, 02 Oct 2025
- 09:19:33 -0700 (PDT)
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+ t=1759438097; x=1790974097;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=M+i/1aQ96wGM9M7nei+/gyTh3TBikkVX3xpo2CVnia0=;
+ b=TXXCKhsT2kixryn09LN3w7GTvJPLY4GrIV/cUI2cDfyS/sGyLRY2XD54
+ uzr0/Du/iq1osX4o1ofyGCvbQqwQ6jdRvYjTQ+zpPAcbuOOaq+qFoaSy9
+ tdsnz4xrpBOFEH+jcCPJDuOAKVoCLRAGhLwbeqD+h5mCDG8z15rp803Js
+ FbrMOVQHSnY54DNJ6PTMrfgCeICxHCXCviloHkzisSAOzdfJPJifyLvHB
+ lX/tuHXUvN4zYwUiU0LIhNq5zRymaQQ9kX8ACOVggfXt04VGpnTjLnWQM
+ okCTykeHmdhUxD53JsQCyGcrqhXp9JfLssR90XknD7oD1mCWEgEjnLUSS A==;
+X-CSE-ConnectionGUID: IhyaDtzFRjGPZrRB0Zf/EA==
+X-CSE-MsgGUID: UEvTypAIRPKTvxOhrDEKZg==
+X-IronPort-AV: E=Sophos;i="6.18,310,1751241600"; 
+   d="scan'208";a="2924446"
+Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO
+ smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
+ by internal-fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 20:48:06 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:13797]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.1.121:2525]
+ with esmtp (Farcaster)
+ id e9c967fc-a9f5-44c3-bb48-79cf233e2e24; Thu, 2 Oct 2025 20:48:06 +0000 (UTC)
+X-Farcaster-Flow-ID: e9c967fc-a9f5-44c3-bb48-79cf233e2e24
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Thu, 2 Oct 2025 20:48:05 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Thu, 2 Oct 2025
+ 20:47:40 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
+ <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
+ <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
+ <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
+ <rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
+ <dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
+ <jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
+ <dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+ <mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
+ <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
+ <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+ <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
+ <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+ <adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+ <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
+ <senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
+ <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
+ <akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, 
+ <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
+ <jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
+ <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
+ <quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
+ <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+ <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+ <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
+ <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
+ <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
+ <linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: [PATCH 00/19 5.15.y] Backport minmax.h updates from v6.17-rc7
+Date: Thu, 2 Oct 2025 20:47:14 +0000
+Message-ID: <20251002204733.35652-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20250822030651.28099-1-chentaotao@didiglobal.com>
- <20250822030651.28099-2-chentaotao@didiglobal.com>
-In-Reply-To: <20250822030651.28099-2-chentaotao@didiglobal.com>
-From: ChaosEsque Team <chaosesqueteam@gmail.com>
-Date: Thu, 2 Oct 2025 12:24:30 -0400
-X-Gm-Features: AS18NWDNM2mM7xaDu1Gqhxbq-umcw1yDXJVRf57g_FAqg_8SWK8_Fb2uRjWOCZ0
-Message-ID: <CALC8CXcSywKnQop1Xipcq1Lbtmpu94tc9Eq=ORjCzNCjkSTPVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/i915: Fix incorrect error handling in
- shmem_pwrite()
-To: =?UTF-8?B?6ZmI5rab5rabIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
-Cc: "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>, 
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>, 
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>, 
- "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "chentao325@qq.com" <chentao325@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.19.116.181]
+X-ClientProxiedBy: EX19D035UWA004.ant.amazon.com (10.13.139.109) To
+ EX19D018EUA004.ant.amazon.com (10.252.50.85)
 X-Mailman-Approved-At: Fri, 03 Oct 2025 07:00:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,60 +118,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Going to hit us with a katana, Taotao?
+This series backports 19 patches to update minmax.h in the 5.15.y branch,
+aligning it with v6.17-rc7.
 
-On Thu, Aug 21, 2025 at 11:11=E2=80=AFPM =E9=99=88=E6=B6=9B=E6=B6=9B Taotao=
- Chen
-<chentaotao@didiglobal.com> wrote:
->
-> From: Taotao Chen <chentaotao@didiglobal.com>
->
-> shmem_pwrite() currently checks for short writes before negative error
-> codes, which can overwrite real errors (e.g., -EFBIG) with -EIO.
-> Reorder the checks to return negative errors first, then handle short
-> writes.
->
-> Signed-off-by: Taotao Chen <chentaotao@didiglobal.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
-> v2:
->  - Drop Fixes tag
->  - Add Reviewed-by from Andi
->  - Add code comments (suggested by Rodrigo)
->
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_shmem.c
-> index b9dae15c1d16..26dda55a07ff 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -441,11 +441,20 @@ shmem_pwrite(struct drm_i915_gem_object *obj,
->         written =3D file->f_op->write_iter(&kiocb, &iter);
->         BUG_ON(written =3D=3D -EIOCBQUEUED);
->
-> -       if (written !=3D size)
-> -               return -EIO;
-> -
-> +       /*
-> +        * First, check if write_iter returned a negative error.
-> +        * If the write failed, return the real error code immediately.
-> +        * This prevents it from being overwritten by the short write che=
-ck below.
-> +        */
->         if (written < 0)
->                 return written;
-> +       /*
-> +        * Check for a short write (written bytes !=3D requested size).
-> +        * Even if some data was written, return -EIO to indicate that th=
-e
-> +        * write was not fully completed.
-> +        */
-> +       if (written !=3D size)
-> +               return -EIO;
->
->         return 0;
->  }
-> --
-> 2.34.1
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes (6.12.y and 6.6.y were already
+backported by me and are now aligned, 6.1.y is in progress).
+
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in kernel 5.10.y.
+
+In mainline, this change enables min()/max()/clamp() to accept mixed 
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+Andy Shevchenko (1):
+  minmax: deduplicate __unconst_integer_typeof()
+
+David Laight (8):
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |   2 +
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   4 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ drivers/virt/acrn/ioreq.c                     |   4 +-
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 264 +++++++++++++-----
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ lib/zstd/zstd_internal.h                      |   2 -
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ tools/testing/selftests/vm/mremap_test.c      |   2 +
+ 47 files changed, 289 insertions(+), 183 deletions(-)
+
+-- 
+2.47.3
+
