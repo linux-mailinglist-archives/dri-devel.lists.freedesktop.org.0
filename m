@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D5EBB28DA
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 07:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984ECBB28CE
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 07:43:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0F610E77E;
-	Thu,  2 Oct 2025 05:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69ED710E776;
+	Thu,  2 Oct 2025 05:43:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nISPwXhu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=weathered-steel.dev header.i=@weathered-steel.dev header.b="dEiCNUlN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4B2710E137
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 01:33:22 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-32df5cae0b1so759974a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 18:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759368802; x=1759973602; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RaVli6Y6NQOLGiB1OtRJiZY2C9eKiJeUFKgxLfZ7xKg=;
- b=nISPwXhumI9nO8DbVZkINrQwZqAt0ymqyH0rf5PsGtetsRuYOVtA9TM7SiWbsgVIya
- uoAnqHW3SP5ClqjQw3Wq3zw1zh8XhqGw3OMX9IsqNBRbgg+5ojF86szRD4Ow65vfgWXP
- RIAkeJeRdA7scJUJ2SamFQ3awnsGu8vJ2O7Zj0ju2H3JfDYV8DxiQ9GRoqJED8UbAtLc
- aJZvuesA5vHGSUoOQ/JbF6c9Xhb8+PnF889h2ZcX8U3/Q6Ovc4Q4MA/BhColING+5zWi
- o6nFKnOqr6dqVKlajK70Xn1+CDCiLlb63q/uLfNrhRKrkIP9Mwewq2rvmVeMMCrVO0j/
- Cd2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759368802; x=1759973602;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RaVli6Y6NQOLGiB1OtRJiZY2C9eKiJeUFKgxLfZ7xKg=;
- b=WoENPi7dslO3nYsw9bjTMatrom3Ur4SW+MmtON2RevB9vsDT8y9XVpUxJ9ULCrJ5kV
- 3iOOlVmBksPjIrxDd+SkfdrA6AzhEe7/NS9cPqFVX2jWUB6aL8cU87dZZZcIQ6+Wxx29
- sglek4PejG1+NmxYtXlX3EaI1qUPqk2PRE8Z0MKEskSQnfS8ET5HJBxbbcWD6oYkMoSL
- ctTZXz9m6uXjHTo6x9CnwlY0+yLyi0/WUNDPU+C/FUvnOoxJA5xmv97seNjNu9tqZaWS
- YkcdU3BhrUmscte6u4SvU/E+1/66xfobIRV3YYjJwneLxsx7aTrNtAGPr3dtrWC1Hg9k
- 0lLw==
-X-Gm-Message-State: AOJu0YwFKEEZLOW9ubNQBMYTo/WmaaPcsVCTU0KiOcjQE/1GY8p7da1P
- Wg6PNgst4opJiOIPr/9UksRLocr/FeqTB3cSZC/ehqtgmUK/icPL8eB6
-X-Gm-Gg: ASbGncsE2zNxRBP1QS4OBm8XrFp4/PV0QyHBFme4XRjo8uFchJ8P16X+CIm7rlPEOUi
- xHge3RfaCU7tpyYkvXi46Zfv/23A34nWWSsJuaAs8D02DGwg9ZydA+lzOQo/l24VZKEe/a4FrSI
- 6a26jWzMWWzXOBxgaGvSxtJwdKhqEUxv3Qqt6dbiLyL5+z/E8m2Tup3P9dLSnq6+5MTcTocgfTg
- iCYxgw+ALJvPtMWWjHxON/NZN1qji+lxm0w2cB00qzw9jrDakl/uEhAPNgF9vNyxlBmjPiYdBZv
- GV2FGSxR73wD9HbyxnVQXPntdHy99M1xOnhOjrZbcrxXq0lqZisCBCI8PqJLQu1c2aVCahAOasV
- pcfET2SqxNKQzpEDu7kt/bXqkHKlxEQR02KQpZUHICprVlDjnhIerd1s3yU3NGkY6kTwFzVw9NE
- c=
-X-Google-Smtp-Source: AGHT+IHy6EMUx48ZEgtNlsOfQJMXzUOSIEhbwLkoZVxOSg5RvomWwbNs2l7nDhzWak/dvpq2kvkchQ==
-X-Received: by 2002:a17:90b:3850:b0:32e:e150:8937 with SMTP id
- 98e67ed59e1d1-339a6e2821dmr6968345a91.6.1759368801843; 
- Wed, 01 Oct 2025 18:33:21 -0700 (PDT)
-Received: from ti-am64x-sdk.. ([157.50.91.136])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-339b4ea3c3dsm1008832a91.5.2025.10.01.18.33.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Oct 2025 18:33:21 -0700 (PDT)
-From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-To: avier Martinez Canillas <javierm@redhat.com>,
+Received: from mx-out1.startmail.com (mx-out1.startmail.com [145.131.90.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F8010E765;
+ Thu,  2 Oct 2025 02:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weathered-steel.dev;
+ s=startmail1; t=1759371385;
+ bh=cg5vUyT7oDKdkucLj/bIi19jBd516XoDYIn8kEEdYI8=;
+ h=Message-ID:Date:Mime-Version:Subject:To:References:From:
+ In-Reply-To:Content-Type:Content-Transfer-Encoding:From:Subject:To:
+ Date:Sender:Content-Type:Content-Transfer-Encoding:
+ Content-Disposition:Mime-Version:Reply-To:In-Reply-To:References:
+ Message-Id:List-Unsubscribe:List-Unsubscribe-Post:Autocrypt;
+ b=dEiCNUlNXjY+9iO0E55l3UVhW2vWmsGPSVzF69DIQSDfnZZMEtbcH7KgTACiceju7
+ r/eiG4JkYY6i7Puje4zLsqNplpaz4hnD3133o6PwA+tePFXUL5kDjxF/R/8z28NtDh
+ y8Wtxuh9zhrUw0LgEBMbXDgjv+m6e/jBQGVkmsBI5phccCCIs80NLi/+zq6+GFzgXA
+ CbR62/tD+6HQkR8rMNhjCjP8dMXTRLs0fDYNaSg2l5/Vg3nLdS1BqMM7dm78oHR/+G
+ qiCbFBXFvUcb6dFFyROnik43TLpUM6YZ+8NgYPHzJfkIUntIlFGEq3iMTxouyYIn9w
+ fHIHhDze6Psyw==
+Message-ID: <d238d9b7-8ec5-4063-8217-885d951d2f0c@weathered-steel.dev>
+Date: Thu, 2 Oct 2025 02:16:16 +0000
+Mime-Version: 1.0
+Subject: Re: [PATCH v5 6/9] rust: bitfield: Add KUNIT tests for bitfield
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org
+Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-Subject: [PATCH] drm/ssd130x: Use kmalloc_array to prevent overflow of dynamic
- size calculation
-Date: Thu,  2 Oct 2025 07:03:12 +0530
-Message-Id: <20251002013312.67015-1-bhanuseshukumar@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Yury Norov <yury.norov@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
+References: <20250930144537.3559207-1-joelagnelf@nvidia.com>
+ <20250930144537.3559207-7-joelagnelf@nvidia.com>
+ <DD7GCYCZU3P3.1KK174S7MQ5BW@nvidia.com>
+Content-Language: en-US
+From: Elle Rhumsaa <elle@weathered-steel.dev>
+In-Reply-To: <DD7GCYCZU3P3.1KK174S7MQ5BW@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 02 Oct 2025 05:43:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,49 +73,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use kmalloc_array to avoid potential overflow during dynamic size calculation
-inside kmalloc.
+On 10/2/25 1:41 AM, Alexandre Courbot wrote:
 
-Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
----
- Note:
- Patch compiled successfully.
- No functionality change is intended.
+> On Tue Sep 30, 2025 at 11:45 PM JST, Joel Fernandes wrote:
+>> Add KUNIT tests to make sure the macro is working correctly.
+>>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>   rust/kernel/bitfield.rs | 321 ++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 321 insertions(+)
+>>
+>> diff --git a/rust/kernel/bitfield.rs b/rust/kernel/bitfield.rs
+>> index fed19918c3b9..9a20bcd2eb60 100644
+>> --- a/rust/kernel/bitfield.rs
+>> +++ b/rust/kernel/bitfield.rs
+>> @@ -402,3 +402,324 @@ fn default() -> Self {
+>>           }
+>>       };
+>>   }
+>> +
+>> +#[::kernel::macros::kunit_tests(kernel_bitfield)]
+>> +mod tests {
+>> +    use core::convert::TryFrom;
+>> +
+>> +    // Enum types for testing => and ?=> conversions
+>> +    #[derive(Debug, Clone, Copy, PartialEq)]
+>> +    enum MemoryType {
+>> +        Unmapped = 0,
+>> +        Normal = 1,
+>> +        Device = 2,
+>> +        Reserved = 3,
+>> +    }
+>> +
+>> +    impl Default for MemoryType {
+>> +        fn default() -> Self {
+>> +            MemoryType::Unmapped
+>> +        }
+>> +    }
+> Tip: you can add `Default` to the `#[derive]` marker of `MemoryType` and
+> mark the variant you want as default with `#[default]` instead of
+> providing a full impl block:
+>
+>      #[derive(Debug, Default, Clone, Copy, PartialEq)]
+>      enum MemoryType {
+>          #[default]
+>          Unmapped = 0,
+>          Normal = 1,
+>          Device = 2,
+>          Reserved = 3,
+>      }
 
- drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I would alternatively recommend to provide a `MemoryType::new` impl with 
+a `const` definition:
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index eec43d1a5595..8368f0ffbe1e 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
- 		return ret;
- 
--	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
-@@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
- 		return ret;
- 
--	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
-@@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
- 
--	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
--- 
-2.34.1
+```rust
+impl MemoryType {
+     pub const fn new() -> Self {
 
+         Self::Unmapped
+
+     }
+}
+
+impl Default for MemoryType {
+     fn default() -> Self {
+         Self::new()
+     }
+}
+```
+
+This pattern allows using `MemoryType::new()` in `const` contexts, while 
+also providing the `Default` impl using the same default. It's somewhat 
+of a workaround until we get `const` traits.
+
+>> +
+>> +    impl TryFrom<u8> for MemoryType {
+>> +        type Error = u8;
+>> +        fn try_from(value: u8) -> Result<Self, Self::Error> {
+>> +            match value {
+>> +                0 => Ok(MemoryType::Unmapped),
+>> +                1 => Ok(MemoryType::Normal),
+>> +                2 => Ok(MemoryType::Device),
+>> +                3 => Ok(MemoryType::Reserved),
+>> +                _ => Err(value),
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    impl From<MemoryType> for u64 {
+>> +        fn from(mt: MemoryType) -> u64 {
+>> +            mt as u64
+>> +        }
+>> +    }
+>> +
+>> +    #[derive(Debug, Clone, Copy, PartialEq)]
+>> +    enum Priority {
+>> +        Low = 0,
+>> +        Medium = 1,
+>> +        High = 2,
+>> +        Critical = 3,
+>> +    }
+>> +
+>> +    impl Default for Priority {
+>> +        fn default() -> Self {
+>> +            Priority::Low
+>> +        }
+>> +    }
+>> +
+>> +    impl From<u8> for Priority {
+>> +        fn from(value: u8) -> Self {
+>> +            match value & 0x3 {
+>> +                0 => Priority::Low,
+>> +                1 => Priority::Medium,
+>> +                2 => Priority::High,
+>> +                _ => Priority::Critical,
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    impl From<Priority> for u16 {
+>> +        fn from(p: Priority) -> u16 {
+>> +            p as u16
+>> +        }
+>> +    }
+>> +
+>> +    bitfield! {
+>> +        struct TestPageTableEntry(u64) {
+>> +            0:0       present     as bool;
+>> +            1:1       writable    as bool;
+>> +            11:9      available   as u8;
+>> +            13:12     mem_type    as u8 ?=> MemoryType;
+>> +            17:14     extended_type as u8 ?=> MemoryType;  // For testing failures
+>> +            51:12     pfn         as u64;
+>> +            51:12     pfn_overlap as u64;
+>> +            61:52     available2  as u16;
+>> +        }
+>> +    }
+>> +
+>> +    bitfield! {
+>> +        struct TestControlRegister(u16) {
+>> +            0:0       enable      as bool;
+>> +            3:1       mode        as u8;
+>> +            5:4       priority    as u8 => Priority;
+>> +            7:4       priority_nibble as u8;
+>> +            15:8      channel     as u8;
+>> +        }
+>> +    }
+>> +
+>> +    bitfield! {
+>> +        struct TestStatusRegister(u8) {
+>> +            0:0       ready       as bool;
+>> +            1:1       error       as bool;
+>> +            3:2       state       as u8;
+>> +            7:4       reserved    as u8;
+>> +            7:0       full_byte   as u8;  // For entire register
+>> +        }
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_single_bits() {
+>> +        let mut pte = TestPageTableEntry::default();
+>> +
+>> +        assert!(!pte.present());
+>> +        assert!(!pte.writable());
+>> +
+>> +        pte = pte.set_present(true);
+>> +        assert!(pte.present());
+>> +
+>> +        pte = pte.set_writable(true);
+>> +        assert!(pte.writable());
+>> +
+>> +        pte = pte.set_writable(false);
+>> +        assert!(!pte.writable());
+>> +
+>> +        assert_eq!(pte.available(), 0);
+>> +        pte = pte.set_available(0x5);
+>> +        assert_eq!(pte.available(), 0x5);
+> I'd suggest testing the actual raw value of the register on top of
+> invoking the getter. That way you also test that:
+>
+> - The right field is actually written (i.e. if the offset is off by one,
+>    the getter will return the expected result even though the bitfield
+>    has the wrong value),
+> - No other field has been affected.
+>
+> So something like:
+>
+>      pte = pte.set_present(true);
+>      assert!(pte.present());
+>      assert(pte.into(), 0x1u64);
+>
+>      pte = pte.set_writable(true);
+>      assert!(pte.writable());
+>      assert(pte.into(), 0x3u64);
+>
+> It might look a bit gross, but it is ok since these are not doctests
+> that users are going to take as a reference, so we case improve test
+> coverage at the detriment of readability.
+>
