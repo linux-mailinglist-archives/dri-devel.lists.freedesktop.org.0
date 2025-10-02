@@ -2,104 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3078BB57BD
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 23:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A272EBB5979
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 01:20:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC4810E853;
-	Thu,  2 Oct 2025 21:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1C910E858;
+	Thu,  2 Oct 2025 23:20:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LznnMPYo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tiih65xx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC65010E853
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 21:36:02 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-b556284db11so1447781a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1759440957; x=1760045757;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6tb5ZhFKHgn3PI0RL+wA56er2lYPRbzxVlrU7xzkMbM=;
- b=LznnMPYoBjTCLpu+P9wm4DMRZKf0Q8uw+mRN0iEs63H+l1woTXWpRraI0rKJ8Aft0S
- HY/QbPWbpKoYEaQjlm56s338HjTDtobe8Uw+r1h0VRpwAtb+mmoU5ySGzV4mA/+rrU6X
- uekeWOugfSLBVKCyEPB0oGH7aYwEnlMv8n96I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759440957; x=1760045757;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6tb5ZhFKHgn3PI0RL+wA56er2lYPRbzxVlrU7xzkMbM=;
- b=PpKGMef0bBGfBLR0kMNP5usb6bum3BpcJxh07Y46rlO054nP+WxFqo0pkBSsRNtJzH
- ALWdeb3yb2E+WpnW0myKsb66vabUV0fyGpoAip0M7k49rYnwtgBIJvMOtZBdAf2T1oPZ
- x8Iss5GmH5hdxKO7HQ6VKyloVOqr7qJwhD6HdhU2r/FLAO9EhB8n9EsrVt9Uo98dI1mg
- pMRXBx1W9QGZWIXhErH51f1JEuLR3QHefsfktNewIO29p+IEgAu0FwZOJ0sq3I+RFani
- VaFfQJCx/ztiX2HfePnjy9s7gBt/3U0LFDNmzCeHdSmaBcszcG5p01LGLIe7K2m6TwQM
- u9/A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVc67ukN9700I6GDEdAJC+M1V+j+QBFLme8gqGSL6EKfPK0O9sL3mm+c1hzeYYYfFrkvlh7Xook24g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBY8eRzvkq4+zK8a39bM9E/jsvDqn72Xuzmn7M5A518FsIGWLC
- 72Zz/jOiDvcyolE55ydlILQ963Xt1toenoYhgbbu6FlZ+Ibh1NLIOMvOOsp7xTFbgc4e4BR3aC7
- FRqU=
-X-Gm-Gg: ASbGncsY/5nsSOQm+I3lVsqwpYeXtZxAG66nbWNtM/ZxRUv+VpjVo2UCa/TsOkyO8wC
- aMaFhLK0n+C8MyOVRYl+WY2n1rWBfT7dtGnzKmNB29Z72iPY2z2QpOGQXrwkTA02M7AjrdIoQki
- DVOUXL9zyhoSUxVn3rCx8FMzggo+m96lhxt2CMn/wm4xl29+xbzILzEH+FDauhxQ8DJKrIN4exu
- pAd1aSE+Vyd5TbMtI0tCojo3r11CTy/qmtRDsQWGSs6joLk0KkQPiMN4vIdGS62IVVBAFMW5l8Z
- fg4d5Bn7FDqNQpj1nh+EgPuzxtCjzcqaa3XZPkUAktDVdbKw+KdjFMsc4/0iM8xUKswjS9ox9QR
- PPXKzSpWTjPnX005lqTizLBWalAh+dW1up/6FMCJR75MQV4UC3wWPyDd+QUDzl3FFB+luXdojzk
- maRuD1RLfxiPE/kozC0mXnZDXh
-X-Google-Smtp-Source: AGHT+IF0ZU3oU37IOghtuLwtcUbXC6BDitcgX7xxsBlcFw41a6KEPdmuxctpa2AByL6gyd5LsmMU1g==
-X-Received: by 2002:a17:903:198b:b0:269:a4ed:13c9 with SMTP id
- d9443c01a7336-28e9a693f79mr6570105ad.30.1759440957012; 
- Thu, 02 Oct 2025 14:35:57 -0700 (PDT)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com.
- [209.85.214.181]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-28e8d1d584esm29616945ad.107.2025.10.02.14.35.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Oct 2025 14:35:55 -0700 (PDT)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-269639879c3so13037525ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:35:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkcorjqZieYcAcaaaRxlJJd3QFOlp+OL1YiuFvWRgG4VhFkWpAxcKeL3Xe1GVTaDQTzaWEUKbJuqo=@lists.freedesktop.org
-X-Received: by 2002:a17:902:ebca:b0:265:604c:17e7 with SMTP id
- d9443c01a7336-28e9a6ff040mr7217865ad.60.1759440954340; Thu, 02 Oct 2025
- 14:35:54 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B95710E858;
+ Thu,  2 Oct 2025 23:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759447209; x=1790983209;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=zer4Xzjj7dBSQqyLbsDiI/IqBCXEGdFEHlexlQ6sVGk=;
+ b=Tiih65xxm5nh/Ts+3u8+zcdrALE0dRvkBwxFcN9c1PPtC8xIWmfpLjm2
+ Ula7sePnRuDa1CX2JOFNNICqfMSaUNmLXXcwenH5a+JXufIUOhEOyhd0h
+ UNDmI1TLDy70st5+GLysUD9pwIT+qQnMIKnUpqW4JHt7ce7C1X/Nvlp3m
+ c/djssyPi6RbKktEmX+KoDJMEjr9f19vo5WU/B27SJX4+43i3uVdHHDt+
+ FYJ+WyD6bRe6YC8o70wEkKmhEwTv+hAet4nYRruz5UWTNa9iJyFNF5dtw
+ MIILj9pbZ1WwSpreUbSP9uNLCSMzH8ezERjHy+er+3Rm2G6hnuISD7MEO g==;
+X-CSE-ConnectionGUID: 7d2PV25hRhilMHWbJjuwpw==
+X-CSE-MsgGUID: h1lyKfG7QoqLRmcYnuTzjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="61775398"
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; d="scan'208";a="61775398"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2025 16:20:08 -0700
+X-CSE-ConnectionGUID: OX9JyEZvQMKLN55bhMJf0Q==
+X-CSE-MsgGUID: jLVVd7kZT8Omi4yhL6VRCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; d="scan'208";a="179103637"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2025 16:20:02 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v4Sad-0004BT-1y;
+ Thu, 02 Oct 2025 23:19:59 +0000
+Date: Fri, 3 Oct 2025 07:19:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ ganglxie <ganglxie@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Candice Li <candice.li@amd.com>,
+ Victor Skvortsov <victor.skvortsov@amd.com>,
+ Roman Li <roman.li@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
+ Karthi Kandasamy <karthi.kandasamy@amd.com>,
+ David Rosca <david.rosca@amd.com>,
+ Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ bhanuseshukumar@gmail.com
+Subject: Re: [PATCH] drm: amd:  Use kmalloc_array to prevent overflow of
+ dynamic size calculation
+Message-ID: <202510030646.pqNWfKQ0-lkp@intel.com>
+References: <20251002022241.77823-1-bhanuseshukumar@gmail.com>
 MIME-Version: 1.0
-References: <20250929142455.24883-1-clamor95@gmail.com>
- <20250929142455.24883-2-clamor95@gmail.com>
- <CAD=FV=Vd=muLeMJYszC2SqRBThN=Srm_bKXBEmjjqND7bqHo2g@mail.gmail.com>
- <CAPVz0n23qNrnyP7ttchaCoLit=gBm_++7RX7B8MxR_nx+8LGHw@mail.gmail.com>
-In-Reply-To: <CAPVz0n23qNrnyP7ttchaCoLit=gBm_++7RX7B8MxR_nx+8LGHw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 2 Oct 2025 14:35:42 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UCcQ1AweLwNucYP8kNHx+K1UF=VbEZdqE4hXN=bHqGuQ@mail.gmail.com>
-X-Gm-Features: AS18NWCyCoeGl8UyyLw_R0kuFN-88oe-Wi6XpVX99MGsfcmrycek7SZgv1oi908
-Message-ID: <CAD=FV=UCcQ1AweLwNucYP8kNHx+K1UF=VbEZdqE4hXN=bHqGuQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/8] dt-bindings: display: panel: properly document LG
- LD070WX3 panel
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002022241.77823-1-bhanuseshukumar@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,120 +90,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Bhanu,
 
-On Mon, Sep 29, 2025 at 10:03=E2=80=AFPM Svyatoslav Ryhel <clamor95@gmail.c=
-om> wrote:
->
-> =D0=B2=D1=82, 30 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 06:12 Do=
-ug Anderson <dianders@chromium.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > Hi,
-> >
-> > On Mon, Sep 29, 2025 at 7:25=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmai=
-l.com> wrote:
-> > >
-> > > LG LD070WX3-SL01 was mistakenly documented as a simple DSI panel, whi=
-ch it
-> > > clearly is not. Address this by adding the proper schema for this pan=
-el.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../bindings/display/panel/lg,ld070wx3.yaml   | 60 +++++++++++++++++=
-++
-> > >  .../display/panel/panel-simple-dsi.yaml       |  2 -
-> > >  2 files changed, 60 insertions(+), 2 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/l=
-g,ld070wx3.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070=
-wx3.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
-> > > new file mode 100644
-> > > index 000000000000..0a82cf311452
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yam=
-l
-> > > @@ -0,0 +1,60 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: LG Corporation 7" WXGA TFT LCD panel
-> > > +
-> > > +maintainers:
-> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > +
-> > > +allOf:
-> > > +  - $ref: panel-common.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - const: lg,ld070wx3-sl01
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  vdd-supply: true
-> > > +  vcc-supply: true
-> > > +
-> > > +  backlight: true
-> > > +  port: true
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - vdd-supply
-> > > +  - vcc-supply
-> >
-> > I suspect you'll get a NAK here because you're not preserving backward
-> > compatibility for existing device trees. While there can sometimes be
-> > reasons to do that, you'd need to provide a very strong justification.
-> >
-> >
-> > It seems like instead of breaking compatibility you could just have
-> > two supplies:
-> >
-> > * power-supply - The name for the "dvdd" supply.
-> > * avdd-supply - The name for the "avdd" supply.
-> >
-> > ...and then you make both of them not "required". Maybe you'd add some
-> > documentation saying that things might not work 100% correctly if they
-> > weren't provided but that old device trees didn't specify them?
->
-> Schema describes hardware. If it does not (and in this case it clearly
-> DOES NOT), then such schema should be adjusted according to hardware.
-> If there are any users of such binding, they should be adjusted too
-> (third commit of this patchset does exactly that). Panel datasheet is
-> explicit, panel has ONLY vdd supply and vcc supply, names are taken
-> from there too.
+kernel test robot noticed the following build warnings:
 
-I'm more than happy to defer to DT people on this, but the general
-argument is that "device tree" is supposed to remain forever forward
-compatible. In other words, someone could have taken a snapshot of the
-"tegra114-tn7.dts" device tree at any point in time and then shipped
-it in some BIOS. Presumably the old "tegra114-tn7.dts" (for some
-reason) managed to init the panel properly in the past and the idea is
-that there should still be a way to init the panel with the old device
-tree now.
+[auto build test WARNING on amd-pstate/linux-next]
+[also build test WARNING on amd-pstate/bleeding-edge v6.17]
+[cannot apply to linus/master next-20251002]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Obviously, that's an ideal version of the world and sometimes
-hard/impossible to make a reality, but it's supposed to be what we
-strive for.
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhanu-Seshu-Kumar-Valluri/drm-amd-Use-kmalloc_array-to-prevent-overflow-of-dynamic-size-calculation/20251002-102458
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20251002022241.77823-1-bhanuseshukumar%40gmail.com
+patch subject: [PATCH] drm: amd:  Use kmalloc_array to prevent overflow of dynamic size calculation
+config: x86_64-randconfig-003-20251003 (https://download.01.org/0day-ci/archive/20251003/202510030646.pqNWfKQ0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510030646.pqNWfKQ0-lkp@intel.com/reproduce)
 
-From a more practical standpoint, the dts changes and code changes
-will go through different trees and so making them mutually depend on
-each other can leave people broken if they happen to have one patch
-but not the other.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510030646.pqNWfKQ0-lkp@intel.com/
 
-I suppose one way to handle this (if DT people like it) is to keep the
-bindings the way you have it but then add some layer of backward
-compatibility in the driver. It will mean that anyone with the old DTS
-would officially not "validate" properly against the new bindings, but
-I think that could be OK as long as it was explicitly mentioned in the
-commit message. Obviously, though, DT bindings reviewers would have
-the last word there...
+All warnings (new ones prefixed by >>):
 
--Doug
+   In file included from include/linux/percpu.h:5,
+                    from arch/x86/include/asm/msr.h:16,
+                    from arch/x86/include/asm/tsc.h:11,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/fs.h:11,
+                    from include/linux/debugfs.h:15,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:24:
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c: In function 'amdgpu_ras_badpages_read':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
+     243 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
+     243 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
+     246 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                                     ^~~~~~
+   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
+     246 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
+     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
+    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+         |                ^~~~~~~~~~~~~
+
+
+vim +2569 drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+
+  2546	
+  2547	/* return 0 on success.
+  2548	 * caller need free bps.
+  2549	 */
+  2550	static int amdgpu_ras_badpages_read(struct amdgpu_device *adev,
+  2551			struct ras_badpage **bps, unsigned int *count)
+  2552	{
+  2553		struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+  2554		struct ras_err_handler_data *data;
+  2555		int i = 0;
+  2556		int ret = 0, status;
+  2557	
+  2558		if (!con || !con->eh_data || !bps || !count)
+  2559			return -EINVAL;
+  2560	
+  2561		mutex_lock(&con->recovery_lock);
+  2562		data = con->eh_data;
+  2563		if (!data || data->count == 0) {
+  2564			*bps = NULL;
+  2565			ret = -EINVAL;
+  2566			goto out;
+  2567		}
+  2568	
+> 2569		*bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
+  2570		if (!*bps) {
+  2571			ret = -ENOMEM;
+  2572			goto out;
+  2573		}
+  2574	
+  2575		for (; i < data->count; i++) {
+  2576			(*bps)[i] = (struct ras_badpage){
+  2577				.bp = data->bps[i].retired_page,
+  2578				.size = AMDGPU_GPU_PAGE_SIZE,
+  2579				.flags = AMDGPU_RAS_RETIRE_PAGE_RESERVED,
+  2580			};
+  2581			status = amdgpu_vram_mgr_query_page_status(&adev->mman.vram_mgr,
+  2582					data->bps[i].retired_page << AMDGPU_GPU_PAGE_SHIFT);
+  2583			if (status == -EBUSY)
+  2584				(*bps)[i].flags = AMDGPU_RAS_RETIRE_PAGE_PENDING;
+  2585			else if (status == -ENOENT)
+  2586				(*bps)[i].flags = AMDGPU_RAS_RETIRE_PAGE_FAULT;
+  2587		}
+  2588	
+  2589		*count = data->count;
+  2590	out:
+  2591		mutex_unlock(&con->recovery_lock);
+  2592		return ret;
+  2593	}
+  2594	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
