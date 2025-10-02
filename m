@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4E8BB244A
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 03:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892A4BB2490
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 03:41:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8613A10E75C;
-	Thu,  2 Oct 2025 01:26:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4882B10E495;
+	Thu,  2 Oct 2025 01:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="KnYPrgD0";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HIuA2QYd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012049.outbound.protection.outlook.com [40.107.209.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99C4410E759;
- Thu,  2 Oct 2025 01:26:14 +0000 (UTC)
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013015.outbound.protection.outlook.com
+ [40.93.196.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D287210E137;
+ Thu,  2 Oct 2025 01:41:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j760z5/ElSkLviW6fntGXGw9pWnrOIXqx6oV/g7/WuC9ePVMAayo69HprkIWNkjw1yurKRFVXS4Mfbu6X+4N1n+3jD8hXuViaIkM5+HT2vsYZ0iK5di5p6/BIPVizcqH4CM9s09Ux2V82Db+q7yrDZmIldOO4hUHfWmJW8ya0+G66tnuzj6kVbIcgj52pugelTYQDQZPF4sSB4m8TtXsmuUYwsIGRP2kM1yQdkF2z6I+LSjZPDUBf6b/CuIg+qfrGiPoBwE4jfYbIjcYa5x7DoiOkljTDKYSS+lOETjrFN2xcdk3zmDLysUXN24UD2VQc8lALXlX6CW+inwd3vH2xQ==
+ b=eyWEJ1z6c8o1F0dRUN9argPsb/9HmzKOKcQB5e+FoyFdwTvSmwrXvEjiXf5DhbbyASY+HZx2Nd2kkVQ4tHUFbQ2K1OTJBrc9XZ4K0BQdaqpy1kkXS9tbSS5jLTEu0F6AnrujSKUbLXeayr5bv1syN32q5J+RKfdUjUtqJkie2DbS6tb5WCvgyqeGkNGTO10fKqHKiUZp/WaskSQWcPd9wwN3pXyTNmrP98i1+W/eEPijkGHbGhSabqQmI2f/bpzIhoF7hYxMp7AUYpEdwkfSog+8DTRLkNcPxGu01747q+2jJ7RkleNgVGKw76qrGhIMA58D4q9FC4ChG0LsUh8e8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=swr+33PaUf2ikNqFrW3qbajdmir7KTpKqhoRME49EC0=;
- b=HwujtNFNeH9kNFZC4xAuwcnq7+odIoiw3Z8FkmDGdgT5yKssZKcTjXbkNz8oR+e4kBfqlgAFjrFaBKJDHfH1/5cRd0sCcxgT5QLDzxHJlhtqocdmD0IP/lirUZ89yCYoaZIs78YsH/zGwBx0SX9pdxLieWNoGB5PVY30NF0jOJ+tAbyWtY9QDq17hnUlkDT5LRy64Y37susFgoWxf2wEnCYXtGTq4MF59M81GGBBWw4Og3ngJdGu5uw600y9CKpGO84UfdjgLt+GrUWPSnF6tWXBFzJUJzW9p3r/1Bt+CjRnj5Gf6+abjxNK0jBfBVquAumLqTJ3La/5u9Y2FPNdpw==
+ bh=EO3bYMWbRLO1Jm0CCLOmGU1akGc5jXSDjAgXH+qEUAY=;
+ b=lp+YXqS+qRBe0Ci+Gfe2HW85mus2SPSGOFopi8BE6DJszcw7D/P9IcDoBoAMSmEKtTA4hgcV9uKkJ/3nr/N3emrzXZ+xXsd/rodsRtlFndBGR8k+yOPZV7wVmZCbAXMgc9bgHhmUgfRyxj2vyzN4tv1X/5osdp5+N8U4Wv6oGI+siKIlUUzcUYYQP4yRWnptFmZrkDnyyJMwSEFL/131xQoGuDhwV+HMfGhgLyW/gEXIcRqvzzJdHEsXPRhv8pT7LU2KPvzRfECl+6l88UmsBd2rjDrIwymBFmxZ6vpMwlss0VI+ssKwSO0KsffvKb/AL5/Xfbd0X+IpX/gXEOO3bw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=swr+33PaUf2ikNqFrW3qbajdmir7KTpKqhoRME49EC0=;
- b=KnYPrgD0iUDT1JOAB8b1yxY1ibnLbj9bQ0ewPeXKD5quJR/1FxJRabwyUUjb9WjVQVsJeHhE5JP51zzYPK1idKMJJCwrvP5eRVX8bMq8oS3hV+n6P695tqlZGTEEkGtFhYNFWo1n5Z+DITeANszB0ObLHkP5UjPvFtc6BHBX+gmP3uAaiDeTAeUCr3mp/3rKvLbQVm/GrMFVSxcdwttnujjPk1IOD/j0e9HrU3u+LBJGXkZ4CbWjiseBMleSuVRqjLb6cDlrT5wZh7W2dEqZ2INtWlOqWhcoSI5776b+M58I+f9BB5cQRxJAApfg696YZnHLURpHbR0lqHFtdq90eQ==
+ bh=EO3bYMWbRLO1Jm0CCLOmGU1akGc5jXSDjAgXH+qEUAY=;
+ b=HIuA2QYd8+CHneOFFt21mUV0kolUCHOrQq6WuF9GUv4hn0fItpxzAIDdtICAIjSQHv0FaeFy5gl1V01l3HyK2/2iu8SHoDmJp0TeM9KesEKzR11CtNeB/WWBmShLQIOVj64rLDIk1x2pfxkCqkxhKaJ/VSqtB/hoXW++QyJfw35zwnmQ8OM3W8aYEH0gtMcmLl8wirnC2MFAejbRByThpkCIJnti9YM9HXllyl1aSM1n5FX94yo53Uyr5/O4h0AaoYc14+fGjtGujjDA6mw/gI7ulzheWFUCZEYVqik2vmrNe2NCRzmHjd2l5857wMozRYKQ+iDZB/wFU/3u/OiGSg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DM4PR12MB6063.namprd12.prod.outlook.com (2603:10b6:8:b1::19) with
- Microsoft SMTP Server (version=TLS1_2,
+ by SN7PR12MB7953.namprd12.prod.outlook.com (2603:10b6:806:345::14)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.18; Thu, 2 Oct
- 2025 01:26:07 +0000
+ 2025 01:41:25 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9160.017; Thu, 2 Oct 2025
- 01:26:06 +0000
+ 01:41:25 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 02 Oct 2025 10:26:03 +0900
-Message-Id: <DD7G18DF6PJ2.2E1N4DXGT83KL@nvidia.com>
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>
+Date: Thu, 02 Oct 2025 10:41:22 +0900
+Message-Id: <DD7GCYCZU3P3.1KK174S7MQ5BW@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, <acourbot@nvidia.com>
 Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
  <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
  <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
@@ -65,108 +64,108 @@ Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
  Norov" <yury.norov@gmail.com>, "Daniel Almeida"
  <daniel.almeida@collabora.com>, "Andrea Righi" <arighi@nvidia.com>,
  <nouveau@lists.freedesktop.org>
-Subject: Re: [PATCH v5 0/9] Introduce bitfield and move register macro to
- rust/kernel/
+Subject: Re: [PATCH v5 6/9] rust: bitfield: Add KUNIT tests for bitfield
+From: "Alexandre Courbot" <acourbot@nvidia.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20250930144537.3559207-1-joelagnelf@nvidia.com>
- <DD7G0ERRKG3K.1AFE4FSLNBZCX@nvidia.com>
-In-Reply-To: <DD7G0ERRKG3K.1AFE4FSLNBZCX@nvidia.com>
-X-ClientProxiedBy: TY1PR01CA0193.jpnprd01.prod.outlook.com (2603:1096:403::23)
- To CH2PR12MB3990.namprd12.prod.outlook.com
+ <20250930144537.3559207-7-joelagnelf@nvidia.com>
+In-Reply-To: <20250930144537.3559207-7-joelagnelf@nvidia.com>
+X-ClientProxiedBy: TYCP301CA0015.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:386::17) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB6063:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8420ff71-383d-4269-aa21-08de0152a8f9
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SN7PR12MB7953:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4cb3c525-a1b7-46ec-f3c0-08de0154cc77
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|10070799003|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aVhTZlc2aG5TMk9HbWNGcDlOZzhVTHIzY2hmazRjYXl5MGN5bnJnTTBaNjc5?=
- =?utf-8?B?SmN4OFhwR2ZXSmllcmRMcktMakxJNjB1VFFPMVFMZjF0RTh0aGk2ZUluaGJo?=
- =?utf-8?B?elpQY2JIWmllRGxub0FEcUpaTmxGWk5wREdtWWRiS1pJeVlEcEVlMXgyRjhK?=
- =?utf-8?B?MkxWWWxCNzFaM2c3Y1p4UXBkMWRXMVhZemJ4RTBJOURCOWJPTmZsTFRCZTFV?=
- =?utf-8?B?RTJkZFRFZDBKNlp4OEZ2SHZPT0hrQWdSL3hSemZmTldFTXZwZEV6WGN4bmRw?=
- =?utf-8?B?VlEyaTVUNWF0ZTZXY1BNMUYwWENldmVyVDFhbXJnVGdmQlBtd0J5MEE1ZnZx?=
- =?utf-8?B?bCtQM1I0Ylh6QWtnQVREcFhWVDNZSElaVExBVDlReHZSUVBINldQM0ZGaFRM?=
- =?utf-8?B?L2xkNjRFZjZuMWZLcEN5aThpQnB6SzJEbForcml0VHRWYW84YkgxNktjb2Fn?=
- =?utf-8?B?Nnluc3RiSXNVM242QW03aU9mRExIWWdKaTh2RThqdy8zRjFqYzFaVnlXeW1O?=
- =?utf-8?B?QkdaMkZ6U1NVR3l5QkRydjh3SE5jbGJCVENydEsweUdVaituWlZvR3p4czNY?=
- =?utf-8?B?a29zamRWcmRjcWcrR1BWVGdJSys1eVdObjJ6MUpWK0I0L3Z0WTQrYVRHUkMv?=
- =?utf-8?B?NnZMbFVPcXd1VExGNFlqMDczUXdKMDZnb1RKSEx5M3VOZU9oNU92NkloNFJO?=
- =?utf-8?B?SGsvZkE1UzVQS0VKQWQrOFBOVWEySDBmZWtJbVQrU1UwREhCN1MwQWh2RUpJ?=
- =?utf-8?B?ZnVaWldoNCt0ZHlqUkprN0V2V1M0SlBXSmxYY2ZrRUFWa0VnSkxqQW85WUVH?=
- =?utf-8?B?QkJXV3RXTTk3VjVHZnJCS2toVEtEZWtpMlNUby9ISGUvbUJVQVA4RnorRXhZ?=
- =?utf-8?B?emtBR2lsREQ5d1FPektUSFgzaFY2UjN5SEJnY05ORDQrQkJaSWtHV1lpNm8r?=
- =?utf-8?B?YWQrTXJJcWNiTjhnWFZoVllYZU1veUhFYklvTDdMK0NWVHRyRlZlenpPQ00w?=
- =?utf-8?B?YVR4eTdIUSs5RHZhZUMwVDhNbVIwMXg4ZU5Ua1dVNTUyb3ZwVWxJRTJzN1Vk?=
- =?utf-8?B?ZDVzbFV0MWltamVRZUwveXZsOEF0RVdwZE5TN0hKbWp3N29ETFF6TjkraXRz?=
- =?utf-8?B?QlMxTGc4Tk1vUmRSbHNtMHp5RC90QXliZlpVT01TUjZZRXdabmcrbTliandO?=
- =?utf-8?B?a2RhVFN0Rm5Kd1B5dDVTcVk1UWtaNWVrMGUxb0xjdWhaRnM4NFVEVTNyb2gz?=
- =?utf-8?B?L2toMFN2bXJabWlTZGZ1VkFOMDNKaGt0c3BjNlpBS1NQNHZ5MjkwRGY1aFdD?=
- =?utf-8?B?V0JPQVdiRkZwYmRiNkVYdGgyY2FNcWs4bnRJdzRVSHByQUJEeDVlQ2NUZXY5?=
- =?utf-8?B?MERIbEhPTGtJakYwSThDQWwrNzdjV1V4R2Q5TjJBSGFvM2hPMHlnWkNFZGl2?=
- =?utf-8?B?WlNpV2owSFZNU0tXNzFWTG9ZT3p2TlVLcE5vZFBwT050U2ZIZlZqUkhNWEl2?=
- =?utf-8?B?TUdLRmpsZVRJMzkxb1BncVVpMVlyN2swamNIMmR5eHdiVGF2VzBibUlIY2Iv?=
- =?utf-8?B?TnVzUVNHcEVBS2RZTGpUOEtNSEpkcEFBTlMxRCtiTUYzUm1aU1NsWlBOZGdw?=
- =?utf-8?B?N0pnb3pZckZxdjlucVhCUkJXRFI2aXFkbXpsdXRpQU5weG5nNzM5eEFvQUI1?=
- =?utf-8?B?eFZyajNwTGd5ZFQyR01jVTdPbE5tOGJHWlIvY0svV2pCSXZ0ZTRVMWVhMEZZ?=
- =?utf-8?B?MUZreTJ0bGtOT1drNGx5NkRJanZSeEdtMzA5VFFNZXhya0xGeFNWZlBYTmNN?=
- =?utf-8?B?UGlQd0cxVlpkV2xrTnRZZWFETEJ6Z0d0YTRhakVhbWtYOWx2Nml2ZXpjdmdB?=
- =?utf-8?B?QWsyL3JxNFo3VEdPWnJIazVMeFo2QUlJZHQ5cWovR0lja1VNVVNsQkhHWDA3?=
- =?utf-8?Q?nH384ZjoEgzumEvskETocNyHzZp171eV?=
+ ARA:13230040|366016|10070799003|1800799024|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M0VNRmsvMzVLcStFelZrZ08zL2t2dmd4M2RWTlliUGl5d0k0eUFqaXFhdk54?=
+ =?utf-8?B?YUdncXpVTkozMHRZRVcvb1l6a3ZENHZZVHJOQ2QrTit2YXRZaW9hbVdFY1ZB?=
+ =?utf-8?B?TGtXV2EzTXgzUmRsYUFQdEF6Z0dxYTd0QlJZRlNTaDN5UElyNWR2bVFCSkdv?=
+ =?utf-8?B?bFhNSEI0RFptY0IxMHBUZUVPOENEVFU0RzJmZmVIOTRralpYeUowQ1Q1ZURK?=
+ =?utf-8?B?eWVvbThSNEdPZE13VkFRT295SXR6ak1sbDk1L2VLTnMxNmszYmdVQW0xM0lP?=
+ =?utf-8?B?b0hFL2pmOUp4djhLWU12UXI1UGs1OHNZd1BsM1YvZ3NxWERsNWovVkU2T3Fm?=
+ =?utf-8?B?UGVXT2dRUDZYWXFZMEhvSERGNm5YbXVLM3lkNGkrN01PUE9kWk9SdHhqMER6?=
+ =?utf-8?B?dGtvcXBNTGprdDFjZHhDN2FmRXk5aS85WE8zSFc1V0c1OEpITUVGNlFyOWZF?=
+ =?utf-8?B?R0ZEZlBLUzMza1Z5ejVRMFFRWkVLeTRaSEJlcDU1VU5ZdkhOVU1MSUcvYmVv?=
+ =?utf-8?B?WUV1ckhaTm5zWDF4cnJTRXFqaXNPbTcyZkMrSDJDRnAvMjNDVXR5NnM3TVhp?=
+ =?utf-8?B?QUZpbS9VK2kxUThReXZ4TGFuZXR5S0FRL2FHVFBneFBwVGRBZVZnUzBheHY1?=
+ =?utf-8?B?RHBCSnhITTVWemx5VElMTzZSR1c0c05hWUFtVHlRYk4xQjF0ekNhczRCTStQ?=
+ =?utf-8?B?Y1BsYUg3bjJSNE1LbW1WbjRyRkFwVlZ4T2txeHBzUlliSXV6K3VPNU0yQTZa?=
+ =?utf-8?B?QWh4OUtIa1RjZ2Q1YWNUSFlRcW9ZWG9WMjhEbHh0VjI3RmdWZ3RtMVJiMkdx?=
+ =?utf-8?B?b3MyS0Q4d1k1U3NBN010TlE4a1dqNXMwOXJYeG1PdFVBS1A5VjJ2L3VyMEE5?=
+ =?utf-8?B?eDREMUViNWNpSVVwYlk5TUFXa3NHVXFoWmZuU2picjJCTUd4N0JaTEovT0FM?=
+ =?utf-8?B?aVhkdHBvdzRKSTZJaUhGRHlvSThsZUZwbmx3NTFCemw4dUV3T2JNRjhuYVA3?=
+ =?utf-8?B?bXlhUHBEZU1tRlRtNkwrYVhubmR3MVRtNGhCY25VbGlJYXRNSGdjK1pJRGVu?=
+ =?utf-8?B?TUtpRGZhRWtGSms4S3VNdnR5Yy93L3NZUHFENU00UmdSOUxqRld3NFdGT0V2?=
+ =?utf-8?B?T3lVZXUweGc4M0F6UHl1S2RESHpjY2plYU5ZQW8yMlJUbVA3QWZtZHgxaUZv?=
+ =?utf-8?B?YVZWQUtPemtIWFNMWHJGb0M2ZE5ReWt1dzQ5SzlQcjlwUDNxRnBRUWtUUkRU?=
+ =?utf-8?B?M3ZQRXZQMlR4YlprS1ZWL05VWTRwWXFidStNSjVoanZoc05uSDhNWHg4R25U?=
+ =?utf-8?B?YUloS1MwQTRZS05MR1VWWUdJTXVpYlFoL3lVc213QjJQNGpMSkcyNVJHL1By?=
+ =?utf-8?B?ZjVsYjNEVXpVTFVyc2NQNU5GL3NMN0lBTFNudUdPdVVaN29UL2ZsZnBNTDU5?=
+ =?utf-8?B?UTA2ZkpwRTlGMXEzS1dZVnZTMU0rZE9PVWhlUDgyNVExVEN2ckhicTQ3d2hQ?=
+ =?utf-8?B?aHZzZFFKbW90NTJCOWhsMFgyTHA3YlJtVXV0YUFZc3IyNFdackkwWC8yYjdZ?=
+ =?utf-8?B?Witxd0pDVVd3aTlBWFVGQk1RUDlwMXR6RlJ2djcxZS9sU2pDNlltWkJkdkw1?=
+ =?utf-8?B?MTFvOUdDT0hubFJLbHRiRWdkVzFscUtOKzFKS3E2UUVaVi9iZVFzRzZVUXMv?=
+ =?utf-8?B?UG96MW5xTXZobzFCeFV6UmJMY3ZVS204NlVVb1ZrM2FMQ25xaWwzUFdhS0g3?=
+ =?utf-8?B?VForL1V5VVpnSFRPb0JVenlRTm0vSGY0WGwvQ2NTM3U2bk5tcURheHA5TmlG?=
+ =?utf-8?B?cFFsWndmamNQOEdtSHVHbXZKSmEvQXpkU3IyNmpSMGdHdWpmMkcrZldpMnVW?=
+ =?utf-8?B?NTA3UWVQS3JsSWFVT3U5ejJtMjNva1hyU29GSTliVFNHZFF3QXJ2QktiREhC?=
+ =?utf-8?Q?lx5wKjrDubaSRKB8kakC0kYvOV3cZ92l?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(10070799003)(7416014)(376014); DIR:OUT;
+ SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(7416014); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTVNVTV5NHVWaTFpMFgvRHdEbVZXMFpSSFRjUmRMY21WQnZYUlFpbDk0SXN4?=
- =?utf-8?B?WHNYdE1aTFU2KzZBZFFLZDI5OGJ3dnR4UlRhLzhvT1c3VUd1MmZkbHV6M0F5?=
- =?utf-8?B?ODBTcFZMSnZiSHY5RGJadVB3clU0UUFiQkFldEN5UlZHTStXNUtkZE54VWRZ?=
- =?utf-8?B?dTFDNnR0Rnl3TVNFTkpMQjRDZkFvcnNiN2g4dlFWRWNDa0Z4WkN6RThVdHNr?=
- =?utf-8?B?cHZLSWVoWU95cGEwM2RaeUhHUTA1dTh5aWVqZUlldXFiYlN4U2FyUWhrV2pj?=
- =?utf-8?B?TmxpRWE2V2g1aDdGSU84Z2lDQXQybVlOUzRsWkJkNy9MdmNpTXp6WnBLTE1R?=
- =?utf-8?B?bHRYZHJqL1IwTEJuY1dlT0tsd2t6dXE1K0dONGFwOUhKMCtPVnZUdjVkdmRu?=
- =?utf-8?B?RTh2MWcwUkY2eGw1YkxoazFIS1BtSDN2RE4xWVBMVnpKdWsrazNVaEhZb1N5?=
- =?utf-8?B?OUdmQ2UxZE1OclJYeEYrZklHdWZXUFZsMGhVREhpMnFmckRuZ3NZcmpKblox?=
- =?utf-8?B?Q1lGNGRFV0YzRmZvSmR6cGp1djdBKzhiL0VGRXRMS0ZZK1FsblJReks5aXhE?=
- =?utf-8?B?WTN3UHYxNFpKTVhTOWZyUFBHRlNWR1Z2THJFcDJicFM5OGdtZVFUUlg0Z29Z?=
- =?utf-8?B?SlNMMjI0UkRqWEhhbGFVWW5VNXd1b1VNR3JiK1A0SXlXZmhsa1NHcHFDUkVM?=
- =?utf-8?B?M1FyUXdyVUpCaUtZNElzckNGTDNMNUpDdFo3SE5GK1FSK3MwN1hKd0tpL3F3?=
- =?utf-8?B?U2tCY0dDRzdlQ0FWbnRNNDJMamFMY004NUliMk1ydFNXajFiVVRCN1JwN0sw?=
- =?utf-8?B?cGRzbnJ5dE5TTHIySndtYTF5b1B0Nzk2TmZ4aGpnWmNIMFdKRm85cUlUMmtl?=
- =?utf-8?B?bUhBdU5NZEdKU011TXROKzZVbXhLUnRCR3d3d0creWdNLzUwa084N0FhNzRk?=
- =?utf-8?B?Rnh4QzUrTk8vQnl0RWQyK0tibldhdnFxOHJXcEUreG96UXF1bXcvdW1WUFJ0?=
- =?utf-8?B?OVZyc2xmYmxoTkdNNzF6U1B5UGhSb1ovMUl2eVI2QjBNSUV2OVlpRWVXeEp0?=
- =?utf-8?B?YSs2Q0hEZUVvaEw2eXZFTzU0S2FGZEVlNitqQXVpMUhsRFRLQ2QzWmJVSzVx?=
- =?utf-8?B?MmRmcHZ3RmVxTXd3a0pCQ1c3R0FQS2pYRzBSSzdQd0l0bXNDaE1xQVE2aGR5?=
- =?utf-8?B?WmNWaVdtUWJBdGIvN2Z4WDdhZlRIZ1Zkd0JJT2ptSHBySGFLaTZQZ3hTd3h3?=
- =?utf-8?B?MCt1SFhuMzZ4enlManhWQWtIeGdQRDZ1S2xncm5Ncm1ySHR1cGE2WXJJY1RG?=
- =?utf-8?B?bTIzYWw3QXdWdnBsaEZwYm1LRDBTVzBKUytRdXUvUXBiZGgreFRtM2xKVTB0?=
- =?utf-8?B?OWRBS3JMUm9FejRkQlY4K2RZbm41ZU9yZmVGZzNkVW5SSFJwSHhkSFVkTkhr?=
- =?utf-8?B?QWR4cDB1dEk4eWJhUE1LRzRkcmdBOTc5OXpyblRPTUsvdFEwdndJaERiYkVJ?=
- =?utf-8?B?elNwVzIySlhUTzk0d09KUTRLL1VncjZLMGs3cmtxZDJGdk1KbG8zT2JsS3Jr?=
- =?utf-8?B?UERrZ3VRZnpXbUhBUG53amR6YjVtUEM0RWc5NGF5SG03ajJwWUdGdEorUitB?=
- =?utf-8?B?bk5IRDM3c0d6YzZ2dXd6YU9yQXpuc3laUXRwTXVqelRLaktQejFkWlRpMXNy?=
- =?utf-8?B?a1NBc3dEQ1pXTUcvaFN3L1grOVdNT2FPcXBWV3RZUzJpSkwxeGZrQlJVckNH?=
- =?utf-8?B?R25wYlRsNGVNTUd2TDZ4MW9PdXhmRVpMamNsQkdxZUlTRkpRY3IxaGhVV3Vv?=
- =?utf-8?B?UnU3bjRxWHVxV0sycnk4d01kcW5WdWwzTE9xN25JbFUyS2w2STZqOVJYaGlK?=
- =?utf-8?B?Y2Q4K2xMWWdRUWQ1Z2lkZE53Nzhma2dFdExJMk5rNXJDMHZBVkNPeTQwWHNv?=
- =?utf-8?B?TVpSamw1Zjd1Y0VLbTB2OU9jZjJMMytFUnlaYlU4TDh0WDQ0czMraWVacE1F?=
- =?utf-8?B?cGVvY0d2Z2pSTzZ3b2RFb1hvNU5rZktaeVFJRHhaUWl6SnhXbHIzcXRnbFlB?=
- =?utf-8?B?Z2tOaTFHaHI4TXhwY05RSHNyQjFWWk1YclFqZFplTFZ0THVodEwvT2ZBSWk0?=
- =?utf-8?B?UG9HNkNZaWNwcVZuQkxncjFNWGtBQTd1eUVhUDZUeTF0TDBEWnljakE0dzZB?=
- =?utf-8?Q?mq2L0majQLQMTxNFI2PaQK1IFNvwH6Yc8ptDhkJrhk1J?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDlmTDk0WWhYaGRITlNSY1NjRnZRQllRZXlCdzdTZUcrV3ZFdDJuRnNUcmkx?=
+ =?utf-8?B?Z0pTeG96cU9FVnZhUm5wWjdYQkpHYVBiOC9yNXY3YktsWXNiaFp2Nnd6NEtM?=
+ =?utf-8?B?eWc4N0IvVVpDVDA5MHAvem9RTkY5SkZXeVF5OFhaMGdVbFlXZWdoNmw3bDI3?=
+ =?utf-8?B?TXJWb3hzc3FrSWlHZ3EyYndaMEswKzQxVGZVeWt2cHAzYmpmRGpVbmpkNVVG?=
+ =?utf-8?B?U1NOdFRTZWZtUnVUWXN4NDlxbWNmL2V6aTl3WkNUdWVicTIxc1loT0hVNXJL?=
+ =?utf-8?B?eHp2ZWdMcDM2TjVKWVgrQnpIalRTaGl3eWh2NG0zU3hMQ1JkM2pBY09YelpM?=
+ =?utf-8?B?Z1VISkZ3UTJkdDJDTEdRSFp6d2Nhb2cxYlJHLytkYjJsSyt5YlFCREJnM0E4?=
+ =?utf-8?B?QzlIL0ttZUh5ZVVpTyttNXN4UDRpWmMzbElIbzZacEZXSTBqU0xuOWowMlFr?=
+ =?utf-8?B?aExCdjd3NmJVVWZZdmMrVTlzNGRETnNFZnRKVXREam1LbEV4M1NzVDNwdlRT?=
+ =?utf-8?B?elhoYllmWGcrVml1bXJoYnZBaklZbGtxSERkS2RRbkVyRytCTzN4bWl3a1RQ?=
+ =?utf-8?B?V0FtRnVxQmZaVWZWTWcxTVg0VkhGWWE5d2d3N05sYy8zTVN3czQ2V3JqbzlB?=
+ =?utf-8?B?cjV5ZnRnaHgrVkJPWmRLTXA5QjAvYU5TMnFOMC83SGdhSzVZUkVSYTNTbFFh?=
+ =?utf-8?B?a0tFYTIwQ3g2cFVOUDhhVlM0MlJiU0FQeUwvQ2ZITE1MbmZGWk5Tam5lVWVH?=
+ =?utf-8?B?QUlaVzFrQjBYVW1FbUlhOWVDMll2OS9zc1lZSWVJUnM4V3R4SGJMK1hjdWtY?=
+ =?utf-8?B?bEV2cFlKVEFuYXVudStjUDJtOWFINk9FdldEQ3Y1dEIwd3ppZjNQQzV5d0VP?=
+ =?utf-8?B?OXltVWlWUG8wTVZqVDUxMXZ5cHVnWGcwUWMydVd6SjdmSmtBeXVFUkhZb1B4?=
+ =?utf-8?B?L3NiQzBNMlBZYThoMktyTExiTVY3WjJjMUNZVUIwMkUxNlVFVEcrTTdWOXFD?=
+ =?utf-8?B?SEEvQWdTajBJTFR1Y2FUVTBpZnRmcmNTQUpFVWwrTUI3NDZobHYvRmdaSVkr?=
+ =?utf-8?B?d3pXRkZhUUNTSGgwbEdQUGRZR1Jtc2oyVmIycDZVdFpYUmFEVnc0RXlOQ3Ey?=
+ =?utf-8?B?Ly9vbU1Db1FLL1Rrck5MVkhmakZJdHZtNmV4elN0OTE0czV1Z0d0UjhYZEtu?=
+ =?utf-8?B?NzNGTnBMcnlTU3ZBVFhVZEM2ejgwb0hnU2I5WTN6cmhFL0dJV1Y4TGJhc1pi?=
+ =?utf-8?B?KzJhd1dkUGZrM29UNElacW4rMXpnV0NoTUd1Nnc4ay8wOUhQS0xTVjBVM1d5?=
+ =?utf-8?B?bmdZekF5RlVhazUwZHZCUWJVb00rS1NQSVNvRVp4c1dZSWFFOHlNQytLa3JY?=
+ =?utf-8?B?VnZWcG40VnJ4T3cwMTRybXZtdW9DbHFKQ3ExWFA5UE4ya0pITFlESTRaYy9t?=
+ =?utf-8?B?SnNQQUZERFNSeFIyUDNyblZkczk2Zjc3RnBBbU5NZEhNTG9zdHo4SlpKQVJO?=
+ =?utf-8?B?Wkd0bi9QR3BTYW02UC94aFR4aVEySVB3Q1FkVHJ1b3hIYWw3RVYzQ0VJbC9l?=
+ =?utf-8?B?c1ViNFIzK0tETWV6ZXJYOGtpSVVtRWtjVmxVb21OU1VwOVJyVVBMdTlYNkND?=
+ =?utf-8?B?bk92dEMwN2VmbHFQalQyT3hZbHRFSXRnTSs4WERUQ0t5VFZkWE9VV0k5WHBP?=
+ =?utf-8?B?WmRycHdtUVRtdjFzZjhUdmxoMU95U2ZRUlYwazJCNHVDYnRURS84SWR6TmF2?=
+ =?utf-8?B?R2dnL1RDbytJbkVnbHhGQVcwYnZCcUVzSmVHUWJqMnVrTHRVT0kzTUVieXNj?=
+ =?utf-8?B?Skh6K0hjcFg2ZUdka0F2ck5Fdmw0bC9YVk9mWDl3TEY0L3UrbWxadFZ0Smpt?=
+ =?utf-8?B?ZzBqT1Z6c0QySTdUTTZDd05lOGRYZ1VEenArZUdCbEF2cWQxc0RvQmR1M3FX?=
+ =?utf-8?B?MVRpZXgvaGZVTTBiSXBGRWxhRTNiNGttMmp6eUI5UUs5SnNmeXJJVDNsaUtw?=
+ =?utf-8?B?NnB1emRIbEhtSnJZdEJCeEprVVlJZXZDQUcxWE1kdHZmNTRyZEhJeVREenB6?=
+ =?utf-8?B?bzRtb0NybjFHeDhRM0FWdStNODkwbUp4ekJUMS9CQWVSQWtxR3dmdEpyOXEw?=
+ =?utf-8?B?Y3F2amVlVTdlOXBRN0VuYVZ0bGNzYU5KUEZkM29KMmNxdDJKYWpTQnhxQWRW?=
+ =?utf-8?Q?8pidY7oWs9ecBBYPI4zbDUmv615gC80erE3kBjWON2hY?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8420ff71-383d-4269-aa21-08de0152a8f9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cb3c525-a1b7-46ec-f3c0-08de0154cc77
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2025 01:26:06.8402 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2025 01:41:25.5102 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MILh27o6UTShKwgGoFAclo6Qd2Rok82lgdV2Mc13rfyWNCQO6LdUSw/flkvG/Pe6TtByLLH3Vp0RaurmU3A6rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6063
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZIGqh5BLgg9VthwpEQfavwpf58VLTBTfA9A6MSrvZ1LEJ7TmReqRCz6Arrsv6YA3AsTOhz3W3srn47rpmsRJ/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7953
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,30 +181,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Oct 2, 2025 at 10:24 AM JST, Alexandre Courbot wrote:
-> On Tue Sep 30, 2025 at 11:45 PM JST, Joel Fernandes wrote:
->> Hello!
->>
->> These patches extract and enhance the bitfield support in the register m=
-acro in
->> nova to define Rust structures with bitfields. It then moves out the bit=
-field
->> support into the kenrel crate and further enhances it. This is extremely=
- useful
->> as it allows clean Rust structure definitions without requiring explicit=
- masks
->> and shifts.
+On Tue Sep 30, 2025 at 11:45 PM JST, Joel Fernandes wrote:
+> Add KUNIT tests to make sure the macro is working correctly.
 >
-> The extraction and move in themselves (patches 1-4 and maybe the KUNIT
-> one) look good to me. For the remainder, it will depend on whether the
-> BoundedInt idea sticks or not as it changes the design in a way that
-> makes most of these patches unneeded. In any case I think this can be
-> worked on after the split and extraction.
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  rust/kernel/bitfield.rs | 321 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 321 insertions(+)
 >
-> Patch 5 should probably be dropped as it has the potential to clear
-> register fields that are useful to the hardware but have no entry in the
-> `register!` definition, making read-update-write updates of registers
-> unpredictable.
+> diff --git a/rust/kernel/bitfield.rs b/rust/kernel/bitfield.rs
+> index fed19918c3b9..9a20bcd2eb60 100644
+> --- a/rust/kernel/bitfield.rs
+> +++ b/rust/kernel/bitfield.rs
+> @@ -402,3 +402,324 @@ fn default() -> Self {
+>          }
+>      };
+>  }
+> +
+> +#[::kernel::macros::kunit_tests(kernel_bitfield)]
+> +mod tests {
+> +    use core::convert::TryFrom;
+> +
+> +    // Enum types for testing =3D> and ?=3D> conversions
+> +    #[derive(Debug, Clone, Copy, PartialEq)]
+> +    enum MemoryType {
+> +        Unmapped =3D 0,
+> +        Normal =3D 1,
+> +        Device =3D 2,
+> +        Reserved =3D 3,
+> +    }
+> +
+> +    impl Default for MemoryType {
+> +        fn default() -> Self {
+> +            MemoryType::Unmapped
+> +        }
+> +    }
 
-Ah, I forgot: please base the next revision on top of drm-rust-next as
-we are likely to apply it there.
+Tip: you can add `Default` to the `#[derive]` marker of `MemoryType` and
+mark the variant you want as default with `#[default]` instead of
+providing a full impl block:
+
+    #[derive(Debug, Default, Clone, Copy, PartialEq)]
+    enum MemoryType {
+        #[default]
+        Unmapped =3D 0,
+        Normal =3D 1,
+        Device =3D 2,
+        Reserved =3D 3,
+    }
+
+> +
+> +    impl TryFrom<u8> for MemoryType {
+> +        type Error =3D u8;
+> +        fn try_from(value: u8) -> Result<Self, Self::Error> {
+> +            match value {
+> +                0 =3D> Ok(MemoryType::Unmapped),
+> +                1 =3D> Ok(MemoryType::Normal),
+> +                2 =3D> Ok(MemoryType::Device),
+> +                3 =3D> Ok(MemoryType::Reserved),
+> +                _ =3D> Err(value),
+> +            }
+> +        }
+> +    }
+> +
+> +    impl From<MemoryType> for u64 {
+> +        fn from(mt: MemoryType) -> u64 {
+> +            mt as u64
+> +        }
+> +    }
+> +
+> +    #[derive(Debug, Clone, Copy, PartialEq)]
+> +    enum Priority {
+> +        Low =3D 0,
+> +        Medium =3D 1,
+> +        High =3D 2,
+> +        Critical =3D 3,
+> +    }
+> +
+> +    impl Default for Priority {
+> +        fn default() -> Self {
+> +            Priority::Low
+> +        }
+> +    }
+> +
+> +    impl From<u8> for Priority {
+> +        fn from(value: u8) -> Self {
+> +            match value & 0x3 {
+> +                0 =3D> Priority::Low,
+> +                1 =3D> Priority::Medium,
+> +                2 =3D> Priority::High,
+> +                _ =3D> Priority::Critical,
+> +            }
+> +        }
+> +    }
+> +
+> +    impl From<Priority> for u16 {
+> +        fn from(p: Priority) -> u16 {
+> +            p as u16
+> +        }
+> +    }
+> +
+> +    bitfield! {
+> +        struct TestPageTableEntry(u64) {
+> +            0:0       present     as bool;
+> +            1:1       writable    as bool;
+> +            11:9      available   as u8;
+> +            13:12     mem_type    as u8 ?=3D> MemoryType;
+> +            17:14     extended_type as u8 ?=3D> MemoryType;  // For test=
+ing failures
+> +            51:12     pfn         as u64;
+> +            51:12     pfn_overlap as u64;
+> +            61:52     available2  as u16;
+> +        }
+> +    }
+> +
+> +    bitfield! {
+> +        struct TestControlRegister(u16) {
+> +            0:0       enable      as bool;
+> +            3:1       mode        as u8;
+> +            5:4       priority    as u8 =3D> Priority;
+> +            7:4       priority_nibble as u8;
+> +            15:8      channel     as u8;
+> +        }
+> +    }
+> +
+> +    bitfield! {
+> +        struct TestStatusRegister(u8) {
+> +            0:0       ready       as bool;
+> +            1:1       error       as bool;
+> +            3:2       state       as u8;
+> +            7:4       reserved    as u8;
+> +            7:0       full_byte   as u8;  // For entire register
+> +        }
+> +    }
+> +
+> +    #[test]
+> +    fn test_single_bits() {
+> +        let mut pte =3D TestPageTableEntry::default();
+> +
+> +        assert!(!pte.present());
+> +        assert!(!pte.writable());
+> +
+> +        pte =3D pte.set_present(true);
+> +        assert!(pte.present());
+> +
+> +        pte =3D pte.set_writable(true);
+> +        assert!(pte.writable());
+> +
+> +        pte =3D pte.set_writable(false);
+> +        assert!(!pte.writable());
+> +
+> +        assert_eq!(pte.available(), 0);
+> +        pte =3D pte.set_available(0x5);
+> +        assert_eq!(pte.available(), 0x5);
+
+I'd suggest testing the actual raw value of the register on top of
+invoking the getter. That way you also test that:
+
+- The right field is actually written (i.e. if the offset is off by one,
+  the getter will return the expected result even though the bitfield
+  has the wrong value),
+- No other field has been affected.
+
+So something like:
+
+    pte =3D pte.set_present(true);
+    assert!(pte.present());
+    assert(pte.into(), 0x1u64);
+
+    pte =3D pte.set_writable(true);
+    assert!(pte.writable());
+    assert(pte.into(), 0x3u64);
+
+It might look a bit gross, but it is ok since these are not doctests
+that users are going to take as a reference, so we case improve test
+coverage at the detriment of readability.
+
