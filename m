@@ -2,63 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32650BB2901
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 07:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721B5BB2904
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 07:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7509610E04B;
-	Thu,  2 Oct 2025 05:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5FB710E785;
+	Thu,  2 Oct 2025 05:52:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h/NGyLj1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WIwqQBCo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F80710E04B
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 05:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759384258; x=1790920258;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=lOGX2tpeoGAfvPm6uhg9zcsQYNyF+/ENETT1ugfUJS0=;
- b=h/NGyLj1qFUmzjpW58LQxBBPKdRO/LSKns54mE7BSq7tLs0zNWkjJ3Vx
- EyVCOx57cjUSD0QKTrHVpg1zDlf7p+vNGDDWu7+6ae3r1qV1/r7Ku46oi
- gaSo3PPrwPhCsJmeYnteO+tLWcctusBaKHhJ74ngf9oHQEVSAuVvDl7hZ
- 7RlmoExT3zEaMseVsWlmOcLoPAwG0JLv9mx0CohDsdx9A51trTnoa+IYH
- 4Kh6fUvTqstzSoLy3ZDQNFNUAUzY7UHs3gqkGm5ZIeqfZYPc+H/Pa2u96
- xbrUdOVk1Z0FWRl0+/AapsO4i1CFwfZHT+3BiQQDarZIV5hCIgvhxPHiX A==;
-X-CSE-ConnectionGUID: pWtYwJ/YQNWF/dfTsE4Nbg==
-X-CSE-MsgGUID: FwoQCDw9Qzy5xRjyA34CcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61713224"
-X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; d="scan'208";a="61713224"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2025 22:50:58 -0700
-X-CSE-ConnectionGUID: 5KeT2/fYS7uukrXedrmaLg==
-X-CSE-MsgGUID: z8NlB+jBTX6djdXF260VKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; d="scan'208";a="202704930"
-Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.245.124.106])
- ([10.245.124.106])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2025 22:50:56 -0700
-Message-ID: <d9d4caa6-1df7-4a5e-ae27-321f3e0d3e31@linux.intel.com>
-Date: Thu, 2 Oct 2025 07:50:53 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91C910E785
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 05:52:07 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 591Ic3ue017795
+ for <dri-devel@lists.freedesktop.org>; Thu, 2 Oct 2025 05:52:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=WdABpfF7OkNfgDykEBK+TNid
+ 8dXX225sHpffd9eNLq8=; b=WIwqQBCokKCgNxQ3pI5lNTJaNOkRiWOC0T7idosG
+ 3A8ZMrvk6RGRfkgz9a7z/v4r+H5jnsw8rcvfQH12372nqpQ6xiIWJjUhA7vi0Cfn
+ h9vWM8jyIbUJYLuUlpUnMtXWW0ebSXuCeawqSBqNaES8gCIPb/t4sqZgWDS2POYl
+ gRLnD04bkekDvgGv/ZbU8W0yDfYg22BJoga+CZ0f8AA8iiAvGAijgbKtPP+UjzEw
+ MiMUGWWsH4fNPIvjYwQcyrD+ZAjAam8ZpdAcYOgYbbwbsmWhRy0UHSFbMCuzw8aB
+ HbK6H//2ubOI2fS1z7EobRVKS/PoJ9ol/j5Omai3Uhd+Iw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fyrf8cqk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 05:52:06 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4df60ea7a1bso14345301cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 22:52:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759384326; x=1759989126;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WdABpfF7OkNfgDykEBK+TNid8dXX225sHpffd9eNLq8=;
+ b=wIQ9WwdDJURz21n/0ToZxD1F88nVXT9l3dFXWc8osOM7FnuhRbFic2mMUe2EeT5hGW
+ MyKTyS9UUmUiq8i7BwR0XQhc3Jsi9ONu3rQsda6CF7dnkIep+NII1b2gL/LPypJZpNXV
+ rf3Z9VTt6suj540tSjSdjSYX5tngTrHM/4ZHxJeLW2j/Ou3K2A80Zxi8hYsb9A0mvptg
+ TCyecaReW47bRONHzJnU/w+apsvqq/+3B164QHZ2OCniMkufVjSq0ds2CcNvz7hsmcbS
+ FHeLANyIwxuN2iKDmaYKltyAiEHZ0TqvHbsI22cQauttU2kpkaEEb+agBL35i7xtg1vk
+ Y64A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6HcsbSdsZNwUqG/Runp2pfe67QEid7YqJbwmPJWgTWVVq3yg3dErtKnhrfe0zIqbDfJBYMQSGXO0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmSC/zUOIWLcv0AhsKf36+xHjx7t7vH1VcW4IcdFsdPlkXu8uT
+ e9cmk6EvsO9rZN0snj4wVPxYimCXgb3nN8Q2zrY7nlcDfIPAn3plky6b/+j7azyF80c1ed6Q9J4
+ syvzHDgvbqVTH6ZunPz9zt32l2udF3jf1PliHNnRybjYXC+UfUmgJlvQ6wLAAEWSyZuyLtCU=
+X-Gm-Gg: ASbGncvGhi7JVkLj8KA9xb0mun0z9Em8butLKr5kQMNIRKayniuiiPbSdHerr1JhVHr
+ 1vCxa2wXPPl+HUcco5oLuuWTaQ0LZ1Eol1wmrrwygXV7y5WTo6n4rxHjDiQRxoRzdTAAZ8s98rK
+ 9iLX35OsqmWs96vreq8p/YZHa/r8CgpLR8bbN0fJ7rBJB/qQAuCAnGXs8irXfSJ7dfWsMA4Cqu/
+ YeuMdW15FjOdF+B7wH82SJNtZxODFo7cInI3m3ghAPBIoCbvFY+BD0LYNGRv8Sl/sC4rDpOpjga
+ 5CRFGjlHXspPTSUlu892ozHvyENQskWA52WFmod3rv3++jX5EyhAWN70fYfV04NMttwt/2861qV
+ JWkGn6tj1htkTJxr764K49qNFyNVVM6NAx6ukWGrGsZF3HfIQ8HOHp5hIjQ==
+X-Received: by 2002:ac8:4750:0:b0:4d8:afdb:1266 with SMTP id
+ d75a77b69052e-4e41e15df2dmr63014361cf.45.1759384325993; 
+ Wed, 01 Oct 2025 22:52:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG7M3wajxRbMA9ybuJM3HAEueisvDG+vjhfv/Zrn+Q6Om5w1ydX1jy3VPsPX7ig1Lr6pViCDQ==
+X-Received: by 2002:ac8:4750:0:b0:4d8:afdb:1266 with SMTP id
+ d75a77b69052e-4e41e15df2dmr63014071cf.45.1759384325457; 
+ Wed, 01 Oct 2025 22:52:05 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-58b01194e59sm523439e87.75.2025.10.01.22.52.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Oct 2025 22:52:04 -0700 (PDT)
+Date: Thu, 2 Oct 2025 08:52:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v6 01/11] drm/fourcc: Add warning for bad bpp
+Message-ID: <vj3budjobsehi3hl2mcmondt2f4giups6cxeiraeo2ensgw3du@smxivopyzfez>
+References: <20251001-xilinx-formats-v6-0-014b076b542a@ideasonboard.com>
+ <20251001-xilinx-formats-v6-1-014b076b542a@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix DCT active percent format
-To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com
-References: <20251001104322.1249896-1-karol.wachowski@linux.intel.com>
- <989ad1ef-0719-ff91-c548-6b4435404954@amd.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <989ad1ef-0719-ff91-c548-6b4435404954@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251001-xilinx-formats-v6-1-014b076b542a@ideasonboard.com>
+X-Proofpoint-ORIG-GUID: rxgdBslwbII0NpV8feUUeTI1dfiz2trR
+X-Proofpoint-GUID: rxgdBslwbII0NpV8feUUeTI1dfiz2trR
+X-Authority-Analysis: v=2.4 cv=etzSD4pX c=1 sm=1 tr=0 ts=68de1306 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=P1BnusSwAAAA:8 a=EUspDBNiAAAA:8 a=iDPJBouE--3TGtnIlUQA:9
+ a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=D0XLA9XvdZm18NrgonBM:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE3NSBTYWx0ZWRfXwyYMCktXNrDU
+ aU5yAS9fr9WefSRSs0a9q4w5yNbdPgfulUHhC2Gjmdq0mMTD6rLyIz/z0+OZ17OQ01bhkvjedqX
+ FesciC69EEOXHLiw7khFxV6/Gt/MYH84aTv+4ols50nlIcWrdAAFSg/TjIuQdFgb2Xok9dfWesS
+ F9FIs0GrdJNz78vY0RsTyrj4iQG8iqcsXvF1cYFwmDcETfG2ZQ7xEF/sBMrDFoET6otX6NQkpxu
+ h/xW5mNpMFHGtDadh3C7inLEID4QUbZ7pl2UqzYyCJ5rGcQ6RgFIJQNDHIgHSrjlTZsAz4UuodA
+ Nf5k92n44Sg8dA/gAE2Q88OdRSA6OtvnFhDBhWEyeV0R/bFjdS2rxwv0VbCo3/S3BWrSA1Oyngc
+ nJFz4TR8s92JSlQwm0zYHM8wFlgr1A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-02_02,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509290175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,75 +131,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+On Wed, Oct 01, 2025 at 04:22:13PM +0300, Tomi Valkeinen wrote:
+> drm_format_info_bpp() cannot be used for formats which do not have an
+> integer bits-per-pixel in a pixel block.
+> 
+> E.g. DRM_FORMAT_XV15's (not yet in upstream) plane 0 has three 10-bit
+> pixels (Y components), and two padding bits, in a 4 byte block. That is
+> 10.666... bits per pixel when considering the whole 4 byte block, which
+> is what drm_format_info_bpp() does. Thus a driver that supports such
+> formats cannot use drm_format_info_bpp(),
+> 
+> It is a driver bug if this happens, but so handle wrong calls by
+> printing a warning and returning 0.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/drm_fourcc.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
 
-On 10/1/2025 6:40 PM, Lizhi Hou wrote:
-> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
->
-> On 10/1/25 03:43, Karol Wachowski wrote:
->> The pcode MAILBOX STATUS register PARAM2 field expects DCT active
->> percent in U1.7 value format. Convert percentage value to this
->> format before writing to the register.
->>
->> Fixes: a19bffb10c46 ("accel/ivpu: Implement DCT handling")
->> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->> ---
->>   drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
->>   drivers/accel/ivpu/ivpu_hw_btrs.h | 2 +-
->>   drivers/accel/ivpu/ivpu_pm.c      | 9 +++++++--
->>   3 files changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c
->> b/drivers/accel/ivpu/ivpu_hw_btrs.c
->> index afdb3b2aa72a..aa33f562d29c 100644
->> --- a/drivers/accel/ivpu/ivpu_hw_btrs.c
->> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
->> @@ -752,7 +752,7 @@ int ivpu_hw_btrs_dct_get_request(struct
->> ivpu_device *vdev, bool *enable)
->>       }
->>   }
->>   -void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool
->> enable, u32 active_percent)
->> +void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool
->> enable, u8 active_percent)
->>   {
->>       u32 val = 0;
->>       u32 cmd = enable ? DCT_ENABLE : DCT_DISABLE;
->> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.h
->> b/drivers/accel/ivpu/ivpu_hw_btrs.h
->> index 032c384ac3d4..c4c10e22f30f 100644
->> --- a/drivers/accel/ivpu/ivpu_hw_btrs.h
->> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.h
->> @@ -36,7 +36,7 @@ u32 ivpu_hw_btrs_dpu_freq_get(struct ivpu_device
->> *vdev);
->>   bool ivpu_hw_btrs_irq_handler_mtl(struct ivpu_device *vdev, int irq);
->>   bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq);
->>   int ivpu_hw_btrs_dct_get_request(struct ivpu_device *vdev, bool
->> *enable);
->> -void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool
->> enable, u32 active_percent);
->> +void ivpu_hw_btrs_dct_set_status(struct ivpu_device *vdev, bool
->> enable, u8 active_percent);
->>   u32 ivpu_hw_btrs_telemetry_offset_get(struct ivpu_device *vdev);
->>   u32 ivpu_hw_btrs_telemetry_size_get(struct ivpu_device *vdev);
->>   u32 ivpu_hw_btrs_telemetry_enable_get(struct ivpu_device *vdev);
->> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
->> index 7514f580eef4..63c95307faa1 100644
->> --- a/drivers/accel/ivpu/ivpu_pm.c
->> +++ b/drivers/accel/ivpu/ivpu_pm.c
->> @@ -502,6 +502,11 @@ void ivpu_pm_irq_dct_work_fn(struct work_struct
->> *work)
->>       else
->>           ret = ivpu_pm_dct_disable(vdev);
->>   -    if (!ret)
->> -        ivpu_hw_btrs_dct_set_status(vdev, enable,
->> vdev->pm->dct_active_percent);
->> +    if (!ret) {
->> +        /* Convert percent to U1.7 format */
->> +        u8 val = DIV_ROUND_CLOSEST(vdev->pm->dct_active_percent *
->> 128, 100);
->> +
->> +        ivpu_hw_btrs_dct_set_status(vdev, enable, val);
->> +    }
->> +
->>   }
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+
+-- 
+With best wishes
+Dmitry
