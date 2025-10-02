@@ -2,90 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3BCBB2A4C
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 08:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FEBBB2A5D
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 08:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F8610E79A;
-	Thu,  2 Oct 2025 06:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793EF10E069;
+	Thu,  2 Oct 2025 06:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Bcnr8FDf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uxYeJpOI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bcnr8FDf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uxYeJpOI";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gq3aGnqm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7l3JkK7g";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gq3aGnqm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7l3JkK7g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB8810E79A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 06:44:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDD110E069
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 06:52:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 40FD8337BE;
- Thu,  2 Oct 2025 06:44:52 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4B59E1F441;
+ Thu,  2 Oct 2025 06:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1759387492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1759387938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
- b=Bcnr8FDfLoDAZhU5IznPL1TXXRFvZmH6R8/cASQ6BVgZ14tpUORmvmdWccSO6+7z3E749+
- n3GbHuB5KKqK5zwx8KdBubsJYHfh6Wm2aMFiPD80ZZ1v4TtGpdCUNST88SWmH6M/ppsZg4
- rU5yMy7JY7yG7N1cexGfM8pZ8f0JEus=
+ bh=l+ZTQ1bmTapXB3Hii4bhClrslIo1fiFAaICxXgyG7wU=;
+ b=gq3aGnqm/qdYCtgHNzdM9ETWuUxei1byGHI2fsIF25XXx16FKmxI8l2ab9FlIs8A06QHxs
+ qD/2Gh8p9RsGWM1P1jdPMMXwdj0FCcdgg6362pXJzUldpqSBvyuA/mZfKLZQo+24EmnYBJ
+ 189CFL2vIcvH7TNvzPrIqJL9ho976aw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1759387492;
+ s=susede2_ed25519; t=1759387938;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
- b=uxYeJpOICNf6+++0ZFqxetKc5eitjItjGgXh/SjvztmCf1RrNpLw1d+quPuQ9o8EFHdh67
- SBOlVFVAB9eX1LDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+ bh=l+ZTQ1bmTapXB3Hii4bhClrslIo1fiFAaICxXgyG7wU=;
+ b=7l3JkK7gGlqf3vheWFT9idRnUsckBcP6efEI918L4rU1sHQVAWmGd/aKp01vO0Y+ePPt+N
+ 67ydMFokKrfDiTAA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gq3aGnqm;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7l3JkK7g
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1759387492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1759387938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
- b=Bcnr8FDfLoDAZhU5IznPL1TXXRFvZmH6R8/cASQ6BVgZ14tpUORmvmdWccSO6+7z3E749+
- n3GbHuB5KKqK5zwx8KdBubsJYHfh6Wm2aMFiPD80ZZ1v4TtGpdCUNST88SWmH6M/ppsZg4
- rU5yMy7JY7yG7N1cexGfM8pZ8f0JEus=
+ bh=l+ZTQ1bmTapXB3Hii4bhClrslIo1fiFAaICxXgyG7wU=;
+ b=gq3aGnqm/qdYCtgHNzdM9ETWuUxei1byGHI2fsIF25XXx16FKmxI8l2ab9FlIs8A06QHxs
+ qD/2Gh8p9RsGWM1P1jdPMMXwdj0FCcdgg6362pXJzUldpqSBvyuA/mZfKLZQo+24EmnYBJ
+ 189CFL2vIcvH7TNvzPrIqJL9ho976aw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1759387492;
+ s=susede2_ed25519; t=1759387938;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wm/E9IL0TNEXc6lI1S+NvTdTSx2IEmWLi7wwCVOTvKI=;
- b=uxYeJpOICNf6+++0ZFqxetKc5eitjItjGgXh/SjvztmCf1RrNpLw1d+quPuQ9o8EFHdh67
- SBOlVFVAB9eX1LDw==
+ bh=l+ZTQ1bmTapXB3Hii4bhClrslIo1fiFAaICxXgyG7wU=;
+ b=7l3JkK7gGlqf3vheWFT9idRnUsckBcP6efEI918L4rU1sHQVAWmGd/aKp01vO0Y+ePPt+N
+ 67ydMFokKrfDiTAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD35313990;
- Thu,  2 Oct 2025 06:44:51 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFDAC13990;
+ Thu,  2 Oct 2025 06:52:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id t+pRK2Mf3miZMwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 02 Oct 2025 06:44:51 +0000
-Message-ID: <bfc90c7a-4ade-4bf0-88e3-86697e664e35@suse.de>
-Date: Thu, 2 Oct 2025 08:44:50 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id U6kBMSEh3mjvNQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 02 Oct 2025 06:52:17 +0000
+Message-ID: <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de>
+Date: Thu, 2 Oct 2025 08:52:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ssd130x: Use kmalloc_array to prevent overflow of
- dynamic size calculation
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
- avier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org
-References: <20251002013312.67015-1-bhanuseshukumar@gmail.com>
+Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
+To: Helge Deller <deller@gmx.de>, sukrut heroorkar <hsukrut3@gmail.com>,
+ David Hunter <david.hunter.linux@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Bernie Thompson <bernie@plugable.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org
+References: <20250924175743.6790-1-hsukrut3@gmail.com>
+ <202509272320.3K8kdDCw-lkp@intel.com>
+ <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
+ <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
+ <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -112,27 +119,37 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251002013312.67015-1-bhanuseshukumar@gmail.com>
+In-Reply-To: <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCPT_COUNT_TWELVE(0.00)[12]; TAGGED_RCPT(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; TO_DN_SOME(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linuxfoundation.org,linuxfoundation.org,gmail.com,kernel.org];
- FREEMAIL_TO(0.00)[gmail.com,redhat.com,linux.intel.com,kernel.org,ffwll.ch];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MX_GOOD(-0.01)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_TO(0.00)[gmx.de,gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ FREEMAIL_CC(0.00)[intel.com,plugable.com,arndb.de,infradead.org,linaro.org,c64.rulez.org,gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,linuxfoundation.org];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -2.80
+X-Rspamd-Queue-Id: 4B59E1F441
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,62 +167,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 02.10.25 um 03:33 schrieb Bhanu Seshu Kumar Valluri:
-> Use kmalloc_array to avoid potential overflow during dynamic size calculation
-> inside kmalloc.
+Am 02.10.25 um 08:41 schrieb Helge Deller:
+>>>> kernel test robot noticed the following build errors:
+>>>
+>>> Did you compile and test this code before submitting this patch?
+>>
+>> Yes, I had compiled & loaded the udlfb module with no errors. Please
+>> let me know how to proceed in this case.
 >
-> Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
-> ---
->   Note:
->   Patch compiled successfully.
->   No functionality change is intended.
->
->   drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index eec43d1a5595..8368f0ffbe1e 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
->   	if (ret)
->   		return ret;
->   
-> -	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
-> +	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
+> Look at the reported build error, which seems to happen in dev_dbg().
+> So, maybe in your testing you did not have debugging enabled?
+> The report contains the .config file with which you can test.
 
-The first parameter is the number of elements. The second parameter is 
-the size of an individual element. So the arguments should be swapped. 
-Same for the other changes.
+Can we rather make an effort to remove the udlfb driver entirely? A few 
+years back, there was one user who was still using it because of some 
+problems with the DRM udl driver. But I think we've addressed them. The 
+discussion is at [1].
 
-I know it's nitpicking, but who knows what it'll be good for. Fun fact 
-is that even kmalloc_array mixes up both parameters internally.
+[1] 
+https://lore.kernel.org/dri-devel/20201130125200.10416-1-tzimmermann@suse.de/
 
 Best regards
 Thomas
 
-
->   	if (!ssd130x_state->data_array)
->   		return -ENOMEM;
->   
-> @@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
->   	if (ret)
->   		return ret;
->   
-> -	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
-> +	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
->   	if (!ssd130x_state->data_array)
->   		return -ENOMEM;
->   
-> @@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
->   
->   	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
->   
-> -	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
-> +	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
->   	if (!ssd130x_state->data_array)
->   		return -ENOMEM;
->   
+>
+> Helge
 
 -- 
 --
