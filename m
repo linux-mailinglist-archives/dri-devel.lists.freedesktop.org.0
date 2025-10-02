@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF0EBB55E8
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 23:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0E5BB56A2
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 23:04:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D810D10E850;
-	Thu,  2 Oct 2025 21:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813AB10E13A;
+	Thu,  2 Oct 2025 21:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NPb+vcCO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aXis3P7Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com
- [209.85.218.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA98D10E009
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 21:01:08 +0000 (UTC)
-Received: by mail-ej1-f73.google.com with SMTP id
- a640c23a62f3a-b3afaf5defdso189706666b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:01:08 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 392B210E13A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 21:04:50 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-26987b80720so1999075ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1759438867; x=1760043667;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZXewi+MSpgfgN5O6jXVKlfCi06aVUrotCL/q5o/3Ssw=;
- b=NPb+vcCOWMNBd6pbCd6qmVtpudYMp92/eYzIdI/VDvvzQkwua8ScHiJVKj/GWiMA5h
- 0gJpRgY4FTSO1Ni0J9476oNE+ayydFLeCq3s+VN/4+G+YjKntK64VUkadTdvscMEI2N1
- PpHrv+CUHtxS8AtJYeeKXIbWhL6dmqrd6mYsI9uhmFVJNV2Xqv5+KVDev3Dq268meg1s
- rdtZV1ChECQUZvjDtjOYQsETO5BNYjb8bXxOLJLMUkhSlqMYGgWSaAhTVnx7Ti7bvAfu
- jb5nUf/lB2KaY6n/QGmqHUhdoYBGkSu5cal/66gOXqrSiLx86vFZbNHAYqSXFHb8cu3Q
- 2nOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759438867; x=1760043667;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1759439090; x=1760043890; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZXewi+MSpgfgN5O6jXVKlfCi06aVUrotCL/q5o/3Ssw=;
- b=LIvqyblDc4dlzARhmjXDM4xJOtNVN4hF6mWdpfYaMM8cFxhrD2ZH75Tso2UiCar/5F
- vnxfQnCCcX5K2mEEXH9S9DodK0fT6rBNAg9iepohvll0+IcpAC5DuQeT0eEH1qVNAUkk
- 9ij9dPIBcd3FpN50FL8ID81KzDCzg5aDeBnhdGB6cp7jL70fFnSC24bxbBRwnn4ykkwv
- TuPRb/iv+UZ+G4W59KYMvkd2R8APam7z7i87HtauTYOBs6p4XaG5OI/tpJyg8619lC0a
- HlunTulreiQel2P3q8tndoiVTWJoF+PEaolT0YbEd93+nUWj+vaDGXqve2GIqVP+wsAW
- N5tA==
+ bh=37tMfYTMjn8K8wVcdlTFYM9SBeVI90QuK8Rc3p4Xplc=;
+ b=aXis3P7YcY7kGFEpO04UcCpfUm5wzVNPyj+hUfSz7k6o19aXWQ7M/YsnCgWzc7FP3l
+ JG2UJnU1Fck1faXXJ0c9t3rLEcji7ZbNPugPnAtnV6D3cY+eGqu8yQKPegIH9DvisXfT
+ 3h4kKm0AXN2ghFND/cdP4dVCvYlS18Au9s7SwlhiGtGxXzb4OnAfPRKKIlhq4aHT3+42
+ JhCsRtZKp9z7Th0Hpsp5YIC5H0hriqaBM8rNIGP5xQu8iMwJSyIW+Lrh7feW2LOWEKl6
+ xHLArlRMgn390gfIN5kzNd7iCPGCEfQHCLlVM5E7z/c6MytxMGvrELBl77d+8ujXTGvW
+ seSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759439090; x=1760043890;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=37tMfYTMjn8K8wVcdlTFYM9SBeVI90QuK8Rc3p4Xplc=;
+ b=GIMP4lYXiQ64tBlANH9/WHVbOdYd/zyduAJi8PFFLqwznakm3Gr/XuVHAFIQElLRIh
+ bVWRbtNVBeF2Y0xQnGA1gi0pojirShGQ36hNA1SpD72xHxlekJo/+P9SDsbK5wUwtvWH
+ /9wA+kqAaLoNkemuIu/22EfcQOCV2rqcmdMYsMY+HH7ttZG/pw2UZavygS9ZgdyGiyiP
+ +XGP/E3E9OUKsNnrFAuRKJXAn4XWP5vvX0EmcvedFhVEhKmFmGEi4BCNxejT7+GhQoac
+ KaYOInBAdTZOYDCHBaeoPm/bvX0GCl+LCyJMSeoToI/Gi6fmJXvog6fe/Od8BS0BOe9t
+ fabQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrseVqK1wfA5T8Zy83Z79+BMTFsvav8c2n41iGc6OhTcooPquvMPllgFMiz7zEBDFOn6jcuBoNPzw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxyGaA8PbuO0/gYxXnYVUgAbwURtpQRUHiB79l7sTQg7zM99CDM
- E00mP0CzvePApSTOsMGiE1EOzYns1n0J2wNLvrOhgSs4TcemA7OQBO6clqfBCOT1tL15ldB/Yg=
- =
-X-Google-Smtp-Source: AGHT+IEExjmvbF8Lb9M+XG7YR7QTAIMSCeCwavhfGOO8t62xLo8r+Wg9cNCxdOmE3p/nTVLIqxQSzoMn
-X-Received: from ejbwr20.prod.google.com ([2002:a17:907:7014:b0:b44:aed4:d213])
- (user=ardb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:ea6:b0:b3d:5088:213f
- with SMTP id a640c23a62f3a-b49c1c67beamr97495666b.19.1759438867035; Thu, 02
- Oct 2025 14:01:07 -0700 (PDT)
-Date: Thu,  2 Oct 2025 23:00:45 +0200
-Mime-Version: 1.0
-X-Developer-Key: i=ardb@kernel.org; a=openpgp;
- fpr=F43D03328115A198C90016883D200E9CA6329909
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9413; i=ardb@kernel.org;
- h=from:subject; bh=79gRZqCE8gjHML9Xmm1M2zyzayfEyQ0TDshfv9BB904=;
- b=owGbwMvMwCVmkMcZplerG8N4Wi2JIePe879ls71YX5scfvJf5tKT1d+uaJ59tN3VeJWKzuzfz
- VGe3XEMHaUsDGJcDLJiiiwCs/++23l6olSt8yxZmDmsTCBDGLg4BWAinx4zMmzNfqabUnh+kuY1
- TTPlV3OjZk+Nl5+qFa4mdlh9xdXUz5MYGTZ6OM+auzPnydya25LCCr9O8R/X2Fn9T0B3aa5tyAH
- hDgYA
-X-Mailer: git-send-email 2.51.0.618.g983fd99d29-goog
-Message-ID: <20251002210044.1726731-2-ardb+git@google.com>
-Subject: [PATCH] drm/amd/display: Fix unsafe uses of kernel mode FPU
-From: Ard Biesheuvel <ardb+git@google.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, will@kernel.org, 
- catalin.marinas@arm.com, mark.rutland@arm.com, broonie@kernel.org, 
- Ard Biesheuvel <ardb@kernel.org>, Austin Zheng <austin.zheng@amd.com>,
- Jun Lei <jun.lei@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+ AJvYcCV7bhOY3jna6dgZnE3SbEGb1qxAaJR3v1WIeu3GNURKY0CZ6JXTI+624WkKspqf+PKXBJTT2LhoaBI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhwCU20xIaPQD+1ozdHuByV6aBFihmdDO4YXhFep8cibgcpB/j
+ w7xU4NBfATURYD0jX39lKjJLfuzwmGfPCMHyN5YHpj0bYc/cp+mPcAPgfAMqU8qX5H1oiH2gird
+ ATkpm3vNI1g8V1pbVpZNRf3ZRR8QZvHo=
+X-Gm-Gg: ASbGncvVA6wowNwcQnGk3FIGlKI9Ik15GJ6cR0k7j6hazS/z2uId7EVFfNBWfZMnpWf
+ mbprWFeq/iX/mBEmFfJooW5Laf6jA8EMIfZ0lvEyXJ0ZZRGeSOaTciVtn5nnlr8hB2vc++JncGP
+ Oo2neZ5L7mvZX08Irezau2uu8UmpfSLv3FfTRn87pE8EogYvvBwOaWruNyCMNjhA++KT2bVHayK
+ G9x93ciTt9qrgGbTvNyAZLrFG84No7DeMyhogWxLC4C2aVt38vJaqELutNWIQ6dao+OTUPXSD82
+ LanJwPB18oVZ1Unn4CWQQYcqzsSNaY7OY+hyI3oybBGiDwyLYOXGfr/cPJlG
+X-Google-Smtp-Source: AGHT+IGYNWpZSxtUPX4WQVIPhxuGtEH9m6x04uGV7OnoXrmZNKp9X2f5+QQswOXAY1ab1m/7oMOWgsgYf99ozY8oqto=
+X-Received: by 2002:a17:902:ea06:b0:277:c230:bfc7 with SMTP id
+ d9443c01a7336-28e9a70847amr4125295ad.11.1759439089693; Thu, 02 Oct 2025
+ 14:04:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
+ <CAHk-=wgO7S_FZUSBbngG5vtejWOpzDfTTBkVvP3_yjJmFddbzA@mail.gmail.com>
+In-Reply-To: <CAHk-=wgO7S_FZUSBbngG5vtejWOpzDfTTBkVvP3_yjJmFddbzA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 2 Oct 2025 23:04:34 +0200
+X-Gm-Features: AS18NWCocUx_ld7JV3nL_JdXM0io3tRWkZqj7qj38BDJS7FONdnCPeROETACJqU
+Message-ID: <CANiq72kq5YHovH=_a9c0JQgfrAx9gRsQvVo1VfHd-FaupOp7rQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.18-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dave Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,253 +87,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ard Biesheuvel <ardb@kernel.org>
+On Thu, Oct 2, 2025 at 9:54=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Miguel, I know you asked me to run rustfmtcheck, but that thing is
+> just WRONG. It may be right "in the moment", but it is
+>
+>  (a) really annoying when merging and not knowing what the heck the rules=
+ are
+>
+>  (b) it's bad long term when you don't have clean lists of "add one
+> line for a new use"
+>
+> Is there some *sane* solution to this? Because I left my resolution
+> alone and ignored the horrible rustfmtcheck results.
 
-The point of isolating code that uses kernel mode FPU in separate
-compilation units is to ensure that even implicit uses of, e.g., SIMD
-registers for spilling occur only in a context where this is permitted,
-i.e., from inside a kernel_fpu_begin/end block.
+We have discussed `use` statements formatting somewhat recently
+because of that (and rebasing patches etc.). `rustfmt` allows to be
+configured -- it has a few knobs for this that we are considering:
 
-This is important on arm64, which uses -mgeneral-regs-only to build all
-kernel code, with the exception of such compilation units where FP or
-SIMD registers are expected to be used. Given that the compiler may
-invent uses of FP/SIMD anywhere in such a unit, none of its code may be
-accessible from outside a kernel_fpu_begin/end block.
+    https://rust-lang.github.io/rustfmt/
 
-This means that all callers into such compilation units must use the
-DC_FP start/end macros, which must not occur there themselves. For
-robustness, all functions with external linkage that reside there should
-call dc_assert_fp_enabled() to assert that the FPU context was set up
-correctly.
+e.g. the `imports_layout`, `imports_granularity`, `group_imports` --
+some people like the braces, others the one per line, etc.
 
-Fix this for the DCN35, DCN351 and DCN36 implementations.
+Sadly, those related options are unstable (and nightly-only), but I
+can talk to upstream to see what can be done (so your opinions on this
+matter would help).
 
-Cc: Austin Zheng <austin.zheng@amd.com>
-Cc: Jun Lei <jun.lei@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <siqueira@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
----
- .../drm/amd/display/dc/dml/dcn31/dcn31_fpu.c    |  4 ++++
- .../drm/amd/display/dc/dml/dcn35/dcn35_fpu.c    |  6 ++++--
- .../drm/amd/display/dc/dml/dcn351/dcn351_fpu.c  |  4 ++--
- .../display/dc/resource/dcn35/dcn35_resource.c  | 16 +++++++++++++++-
- .../dc/resource/dcn351/dcn351_resource.c        | 17 ++++++++++++++++-
- .../display/dc/resource/dcn36/dcn36_resource.c  | 16 +++++++++++++++-
- 6 files changed, 56 insertions(+), 7 deletions(-)
+In any case, for you, my intention wasn't that you had to fight the
+formatting, but rather that after solving the conflict (without
+thinking about formatting) you would run `make ... rustfmt`, i.e.
+instead of the other one, `rustfmtcheck` (which is intended for e.g.
+CIs).
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c b/drivers=
-/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-index 17a21bcbde17..1a28061bb9ff 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-@@ -808,6 +808,8 @@ void dcn316_update_bw_bounding_box(struct dc *dc, struc=
-t clk_bw_params *bw_param
-=20
- int dcn_get_max_non_odm_pix_rate_100hz(struct _vcs_dpi_soc_bounding_box_st=
- *soc)
- {
-+	dc_assert_fp_enabled();
-+
- 	return soc->clock_limits[0].dispclk_mhz * 10000.0 / (1.0 + soc->dcn_downs=
-pread_percent / 100.0);
- }
-=20
-@@ -815,6 +817,8 @@ int dcn_get_approx_det_segs_required_for_pstate(
- 		struct _vcs_dpi_soc_bounding_box_st *soc,
- 		int pix_clk_100hz, int bpp, int seg_size_kb)
- {
-+	dc_assert_fp_enabled();
-+
- 	/* Roughly calculate required crb to hide latency. In practice there is s=
-lightly
- 	 * more buffer available for latency hiding
- 	 */
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c b/drivers=
-/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-index 5d73efa2f0c9..15a1d77dfe36 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-@@ -445,6 +445,8 @@ int dcn35_populate_dml_pipes_from_context_fpu(struct dc=
- *dc,
- 	bool upscaled =3D false;
- 	const unsigned int max_allowed_vblank_nom =3D 1023;
-=20
-+	dc_assert_fp_enabled();
-+
- 	dcn31_populate_dml_pipes_from_context(dc, context, pipes,
- 					      validate_mode);
-=20
-@@ -498,9 +500,7 @@ int dcn35_populate_dml_pipes_from_context_fpu(struct dc=
- *dc,
-=20
- 		pipes[pipe_cnt].pipe.src.unbounded_req_mode =3D false;
-=20
--		DC_FP_START();
- 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
--		DC_FP_END();
-=20
- 		pipes[pipe_cnt].pipe.dest.vfront_porch =3D timing->v_front_porch;
- 		pipes[pipe_cnt].pipe.src.dcc_rate =3D 3;
-@@ -581,6 +581,8 @@ void dcn35_decide_zstate_support(struct dc *dc, struct =
-dc_state *context)
- 	unsigned int i, plane_count =3D 0;
- 	DC_LOGGER_INIT(dc->ctx->logger);
-=20
-+	dc_assert_fp_enabled();
-+
- 	for (i =3D 0; i < dc->res_pool->pipe_count; i++) {
- 		if (context->res_ctx.pipe_ctx[i].plane_state)
- 			plane_count++;
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c b/drive=
-rs/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-index 6f516af82956..e5cfe73f640a 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-@@ -478,6 +478,8 @@ int dcn351_populate_dml_pipes_from_context_fpu(struct d=
-c *dc,
- 	bool upscaled =3D false;
- 	const unsigned int max_allowed_vblank_nom =3D 1023;
-=20
-+	dc_assert_fp_enabled();
-+
- 	dcn31_populate_dml_pipes_from_context(dc, context, pipes,
- 					      validate_mode);
-=20
-@@ -531,9 +533,7 @@ int dcn351_populate_dml_pipes_from_context_fpu(struct d=
-c *dc,
-=20
- 		pipes[pipe_cnt].pipe.src.unbounded_req_mode =3D false;
-=20
--		DC_FP_START();
- 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
--		DC_FP_END();
-=20
- 		pipes[pipe_cnt].pipe.dest.vfront_porch =3D timing->v_front_porch;
- 		pipes[pipe_cnt].pipe.src.dcc_rate =3D 3;
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c=
- b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-index 8475c6eec547..32678b66c410 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-@@ -1760,6 +1760,20 @@ enum dc_status dcn35_patch_unknown_plane_state(struc=
-t dc_plane_state *plane_stat
- }
-=20
-=20
-+static int populate_dml_pipes_from_context_fpu(struct dc *dc,
-+					       struct dc_state *context,
-+					       display_e2e_pipe_params_st *pipes,
-+					       enum dc_validate_mode validate_mode)
-+{
-+	int ret;
-+
-+	DC_FP_START();
-+	ret =3D dcn35_populate_dml_pipes_from_context_fpu(dc, context, pipes, val=
-idate_mode);
-+	DC_FP_END();
-+
-+	return ret;
-+}
-+
- static struct resource_funcs dcn35_res_pool_funcs =3D {
- 	.destroy =3D dcn35_destroy_resource_pool,
- 	.link_enc_create =3D dcn35_link_encoder_create,
-@@ -1770,7 +1784,7 @@ static struct resource_funcs dcn35_res_pool_funcs =3D=
- {
- 	.validate_bandwidth =3D dcn35_validate_bandwidth,
- 	.calculate_wm_and_dlg =3D NULL,
- 	.update_soc_for_wm_a =3D dcn31_update_soc_for_wm_a,
--	.populate_dml_pipes =3D dcn35_populate_dml_pipes_from_context_fpu,
-+	.populate_dml_pipes =3D populate_dml_pipes_from_context_fpu,
- 	.acquire_free_pipe_as_secondary_dpp_pipe =3D dcn20_acquire_free_pipe_for_=
-layer,
- 	.release_pipe =3D dcn20_release_pipe,
- 	.add_stream_to_ctx =3D dcn30_add_stream_to_ctx,
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource=
-.c b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-index 0971c0f74186..677cee27589c 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-@@ -1732,6 +1732,21 @@ static enum dc_status dcn351_validate_bandwidth(stru=
-ct dc *dc,
- 	return out ? DC_OK : DC_FAIL_BANDWIDTH_VALIDATE;
- }
-=20
-+static int populate_dml_pipes_from_context_fpu(struct dc *dc,
-+					       struct dc_state *context,
-+					       display_e2e_pipe_params_st *pipes,
-+					       enum dc_validate_mode validate_mode)
-+{
-+	int ret;
-+
-+	DC_FP_START();
-+	ret =3D dcn351_populate_dml_pipes_from_context_fpu(dc, context, pipes, va=
-lidate_mode);
-+	DC_FP_END();
-+
-+	return ret;
-+
-+}
-+
- static struct resource_funcs dcn351_res_pool_funcs =3D {
- 	.destroy =3D dcn351_destroy_resource_pool,
- 	.link_enc_create =3D dcn35_link_encoder_create,
-@@ -1742,7 +1757,7 @@ static struct resource_funcs dcn351_res_pool_funcs =
-=3D {
- 	.validate_bandwidth =3D dcn351_validate_bandwidth,
- 	.calculate_wm_and_dlg =3D NULL,
- 	.update_soc_for_wm_a =3D dcn31_update_soc_for_wm_a,
--	.populate_dml_pipes =3D dcn351_populate_dml_pipes_from_context_fpu,
-+	.populate_dml_pipes =3D populate_dml_pipes_from_context_fpu,
- 	.acquire_free_pipe_as_secondary_dpp_pipe =3D dcn20_acquire_free_pipe_for_=
-layer,
- 	.release_pipe =3D dcn20_release_pipe,
- 	.add_stream_to_ctx =3D dcn30_add_stream_to_ctx,
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c=
- b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-index 8bae7fcedc22..d81540515e5c 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-@@ -1734,6 +1734,20 @@ static enum dc_status dcn35_validate_bandwidth(struc=
-t dc *dc,
- }
-=20
-=20
-+static int populate_dml_pipes_from_context_fpu(struct dc *dc,
-+					       struct dc_state *context,
-+					       display_e2e_pipe_params_st *pipes,
-+					       enum dc_validate_mode validate_mode)
-+{
-+	int ret;
-+
-+	DC_FP_START();
-+	ret =3D dcn35_populate_dml_pipes_from_context_fpu(dc, context, pipes, val=
-idate_mode);
-+	DC_FP_END();
-+
-+	return ret;
-+}
-+
- static struct resource_funcs dcn36_res_pool_funcs =3D {
- 	.destroy =3D dcn36_destroy_resource_pool,
- 	.link_enc_create =3D dcn35_link_encoder_create,
-@@ -1744,7 +1758,7 @@ static struct resource_funcs dcn36_res_pool_funcs =3D=
- {
- 	.validate_bandwidth =3D dcn35_validate_bandwidth,
- 	.calculate_wm_and_dlg =3D NULL,
- 	.update_soc_for_wm_a =3D dcn31_update_soc_for_wm_a,
--	.populate_dml_pipes =3D dcn35_populate_dml_pipes_from_context_fpu,
-+	.populate_dml_pipes =3D populate_dml_pipes_from_context_fpu,
- 	.acquire_free_pipe_as_secondary_dpp_pipe =3D dcn20_acquire_free_pipe_for_=
-layer,
- 	.release_pipe =3D dcn20_release_pipe,
- 	.add_stream_to_ctx =3D dcn30_add_stream_to_ctx,
---=20
-2.51.0.618.g983fd99d29-goog
+Leaving non-formatted files does hurt us, though... e.g. CIs check it,
+and I think people are generally happy about the simplicity of
+formatting on the Rust side.
 
+So if the conflicts are already too frequent and/or painful to deal
+with, then I would say we should already start writing the imports in
+a way that reduces the conflict potential, yet making it pass
+`rustfmt`. It may be uglier than what some may like (depending on who
+one asks), but it keeps the `rustfmt`-clean property and eventually we
+may be able to get `rustfmt` to give us the formatting we want and
+migrate to that.
+
+Cheers,
+Miguel
