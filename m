@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1902DBB3D85
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 14:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE4CBB3D99
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 14:07:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3846E10E7C1;
-	Thu,  2 Oct 2025 12:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD7A210E7C6;
+	Thu,  2 Oct 2025 12:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="V9Y2n59o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y490URen";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79BA310E7C1
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 12:05:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40CDD10E7C6
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 12:07:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 18A7C40910;
- Thu,  2 Oct 2025 12:05:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455DFC4CEF4;
- Thu,  2 Oct 2025 12:05:49 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E561F450EE;
+ Thu,  2 Oct 2025 12:07:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5300BC4CEF4;
+ Thu,  2 Oct 2025 12:07:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759406751;
- bh=82GXG5deRe+qBSsXfxgmCHbJTIL+lairHB0bUXENPB4=;
+ s=k20201202; t=1759406876;
+ bh=NLpMV/eax8dpgIsqSrgBnV/TD6rd7SE4F1q9XOgIlZM=;
  h=Date:From:To:Cc:Subject:From;
- b=V9Y2n59omsaROd4uoo1LbBkjSTMRYMlBD2PdpG74zXUyGKiXCUK3N+KLrxUo18gy7
- gUaxII/mOuCrsCZ9haXc4WZGA7xfeseLjlQcSJuVKaXuDt8GWdXL2L3KwsCSaoE49v
- rbKCjWC06GpE3ar06dVnD6Qt4INcs95LlPDuzGYzE8RT+LQ+OvoWSJv+1USBNU+csG
- TDdXE8s1iyVfKt/lC/Yh/OKXXlxxjx2gue77buABuirw5+qyJMwKVzsrd5I4BcRuTN
- eWdOSvA+eODU5fsFOZuvshXEr7sb9DLHr6MtN7rMRcULxIsyr8h6qART50m+5C/1uR
- JiUnB+ShkcW0Q==
-Date: Thu, 2 Oct 2025 13:05:46 +0100
+ b=Y490URenI8gRVb5PAyXEY0UVz4M4M0pY7K6xKZ2VKn4aTSqiF0/fzJqQHwefiCE+v
+ 99d5qzUghvcWhTzSRbHPtZnlUQI7J3/TKe8h57yI+JBId+3nuT5ECT6BWhFHIDRLDo
+ Y6T0R7TdKU7axSwdtchuFsuwCS8z6RIos7uUvSP46HOdRm5gGCp2dLgtQGOHrqNE3v
+ dVzpIzln4wH2jcROjdmP2XxTnAbVcec/VdK7PzPxi1eKBGmCS4ushLxXuc8E6tONiw
+ KPqVimGm6+PNfab9y7hkNtBnlv5KCsFj99ij0BZCJmsX+lpA6aDqB6lSB2Y+J8WAB8
+ 8leWCWXeBnNSg==
+Date: Thu, 2 Oct 2025 13:07:52 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Alice Ryhl <aliceryhl@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
- Vitaly Wool <vitaly.wool@konsulko.se>
+ Rob Herring <robh@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Wig Cheng <onlywig@gmail.com>
 Subject: linux-next: manual merge of the drm tree with the origin tree
-Message-ID: <aN5qmhC9tUOCNjed@sirena.org.uk>
+Message-ID: <aN5rGLMlO0tVf9YT@sirena.org.uk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rExuMeJDLXkDakzC"
+ protocol="application/pgp-signature"; boundary="u7cYVcmGlRX3y38I"
 Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,7 +59,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---rExuMeJDLXkDakzC
+--u7cYVcmGlRX3y38I
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -70,17 +68,16 @@ Hi all,
 
 Today's linux-next merge of the drm tree got a conflict in:
 
-  rust/kernel/alloc/allocator.rs
+  Documentation/devicetree/bindings/vendor-prefixes.yaml
 
 between commit:
 
-  1b1a946dc2b53 ("rust: alloc: specify the minimum alignment of each alloca=
-tor")
+  4ed46073274a5 ("dt-bindings: vendor-prefixes: Add undocumented vendor pre=
+fixes")
 
-=66rom the origin tree and commits:
+=66rom the origin tree and commit:
 
-  1738796994a43 ("rust: support large alignments in allocations")
-  8e92c9902ff11 ("rust: alloc: vmalloc: implement Vmalloc::to_page()")
+  09b26dce32f0d ("dt-bindings: vendor-prefixes: Add Mayqueen name")
 
 =66rom the drm tree.
 
@@ -91,43 +88,35 @@ is submitted for merging.  You may also want to consider cooperating
 with the maintainer of the conflicting tree to minimise any particularly
 complex conflicts.
 
-diff --cc rust/kernel/alloc/allocator.rs
-index 6426ba54cf98d,84ee7e9d7b0eb..0000000000000
---- a/rust/kernel/alloc/allocator.rs
-+++ b/rust/kernel/alloc/allocator.rs
-@@@ -13,11 -13,14 +13,15 @@@ use core::alloc::Layout
-  use core::ptr;
-  use core::ptr::NonNull;
- =20
- -use crate::alloc::{AllocError, Allocator};
- +use crate::alloc::{AllocError, Allocator, NumaNode};
-  use crate::bindings;
-+ use crate::page;
- -use crate::pr_warn;
- +
- +const ARCH_KMALLOC_MINALIGN: usize =3D bindings::ARCH_KMALLOC_MINALIGN;
- =20
-+ mod iter;
-+ pub use self::iter::VmallocPageIter;
-+=20
-  /// The contiguous kernel allocator.
-  ///
-  /// `Kmalloc` is typically used for physically contiguous allocations up =
-to page size, but also
+diff --cc Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 7aa17199ea434,49a5117d2bbb0..0000000000000
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@@ -965,8 -935,8 +967,10 @@@ patternProperties
+      description: Maxim Integrated Products
+    "^maxlinear,.*":
+      description: MaxLinear Inc.
+ +  "^maxtor,.*":
+ +    description: Maxtor Corporation
++   "^mayqueen,.*":
++     description: Mayqueen Technologies Ltd.
+    "^mbvl,.*":
+      description: Mobiveil Inc.
+    "^mcube,.*":
 
---rExuMeJDLXkDakzC
+--u7cYVcmGlRX3y38I
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjeapkACgkQJNaLcl1U
-h9DfQwgAhvJY6cUn5+Hq+wjc2X0nQf5QVqqYwPIHFaOJbAXMTGT7XVFDMLThhFVQ
-0rXUfChouzlNJRpPHXDGJaMxDSMnUilWPypK58KQUTpbgLtxAWk681FjmRzb+ZIJ
-PD+XgzOiZYzuJHqkunTrKt5AUdAYLJ9SVOZfm1lpBiE79BqZ077VYAeC1qZs+/yK
-2F42OPvhw29Z686BQEGKE1ButjQsIqVk8rN4fyk5SfEVJQMdPZlf924+T9w40rOX
-99sBYJYpPcpArrOYcoXg7McoGmm4tFmm04QBFBPDsGKTGXyFPy7mPtg2XEhfr7sx
-PqgFtgbIk7oPIroo0oXWXQ1JvTvojg==
-=XH26
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjeaxcACgkQJNaLcl1U
+h9DDLAf/Qu2Vk2FvEuNcHBW+ogKWHrA4UUKRNqgob5XEBJXzcwwkqGrCJTEhbUMD
+Ixo3728p7lVBmDPm3A2UsD5QePz9VnDBR1Rtk6uNQ0kKifO9DchJ1JM+kaLaZVU8
+ssHF4j5d/t+SuwiUR9diaph8tiB6unc91hgm5zwVjnVGyI/TcTjC7vmpH/Nr9rGM
+81ckegG3MZcMvoJUyNqXOXJMP+qQyohzZvR+PRy+2r5+Tu3SOs9A2PRsE6hENr7D
+XZlmV5MVh7r5pEzFnxKrxvWW46DkhEaO7p4jjUwyqtJYGkyfGii2LGq7/pJzHapY
+trzQlAf+MmNrqccanv9EXTxh3tO9UQ==
+=mu3o
 -----END PGP SIGNATURE-----
 
---rExuMeJDLXkDakzC--
+--u7cYVcmGlRX3y38I--
