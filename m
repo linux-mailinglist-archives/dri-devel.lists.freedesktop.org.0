@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279E4BB49B8
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 19:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A71BB4A00
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 19:12:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79F4110E819;
-	Thu,  2 Oct 2025 17:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAF4D10E04D;
+	Thu,  2 Oct 2025 17:12:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PYPazlgO";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="dXM5k7f9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9787210E1CA;
- Thu,  2 Oct 2025 17:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759424401; x=1790960401;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=GUZV8YmlzjH2/RShYbeKv2H7/Ifr0wYLQQDZqdP58hg=;
- b=PYPazlgOAv768vAXYE1RO/q7Dle+Vsf/rFoRxVI/+dMMqubcrCNR7K7K
- PgMtUH5HzcyaOt7OCLbDJojg4dAG0pLTh0P1mwY0B+gdLQORELYRWwFvD
- mPuMFVglMQsmbQYsl/EH5nav4QqnnSf1E8je+LX2EbP7gjrp3tt+ZNbTX
- s6ADilTIl9GRB2VJDx8cSZipkQBWlwHZoCBuK2C/OgcMd/kDY1qB50XRs
- sh5eG6j5P8iG86lpK9CcH64325LSHXh+i+caKvZ62IDLYCAqFzUwL99Zu
- Ceck2OrZ83v18FfnjtmfGZUpbJAW17Og2ZS3SsB8aV8pN4DnOxbthzB9P w==;
-X-CSE-ConnectionGUID: 8EvN77s9S92WVqsZf+41xQ==
-X-CSE-MsgGUID: EsnZEvwIQWmeOo4DQ5fFsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="79138651"
-X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; d="scan'208";a="79138651"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2025 10:00:00 -0700
-X-CSE-ConnectionGUID: EMqVWqnuTA+mZUl+yGD9ng==
-X-CSE-MsgGUID: 0ejGAm0WTWyO4bgIcrxGFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; d="scan'208";a="183488996"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost)
- ([10.245.245.228])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2025 09:59:56 -0700
-Date: Thu, 2 Oct 2025 19:59:54 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Alexandr Sapozhnkiov <alsp705@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10] gpu/i915: fix error return in mmap_offset_attach()
-Message-ID: <aN6vivjT61-MXVlt@intel.com>
-References: <20251002084828.11-1-alsp705@gmail.com>
- <aN6EbmgZYchyMHRn@intel.com> <aN6YVtnJ3Guh43n5@intel.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4838710E04D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 17:12:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1759425116; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Fc79Y2nHiSHcnNulRhDiEi6r+XSlJxyAwpYYmFqHvpOuDYsbis1PkT0DvEXCJ/iHGXGZnQsCePkWK2pzqvILrFfVuMeyl4xRgQffV1hkHhK9zKehIUqcSxXKI8jN9+rI7sex6Ze3F+tRv+Bv9QG+JsypPCfJm1mYC6hEmk/MBUo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1759425116;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=vEJPPTFhogSa3KCUS+TOyXr0VwMc+58qyo+RyNDimAY=; 
+ b=j0Vky8bJtrghhR5ZIXbF199viv3DtUVNN9rm+Qbm6F+vUxRzD2bgIcBfxO7+Mqd9NDSDTBTG4DtsMQGHDPn/L6hLliQgJAmwiVawDBmedwZMA9DNnaMuWEDCj+do4DCB3PMAgP8vJd7KE6aJAkHVOX8QXXJvbyS0tNbRbH4ZHZI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759425116; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=vEJPPTFhogSa3KCUS+TOyXr0VwMc+58qyo+RyNDimAY=;
+ b=dXM5k7f9BQv/uineiDLvQog1NZvQXT8W0FwppT26kVvicr46FA18YK0dSXwkO1i7
+ zISGeilTvtu0gDqGLHefwtCwIE1h2D1iGd6TKFIOjJ5vicKtgUQE1jU3QY8OifvZm/l
+ WodPJUv+1Vl2RCkkaUVdEZUNbWxfbI6b7t0GvCuc=
+Received: by mx.zohomail.com with SMTPS id 1759425114428924.5561370853379;
+ Thu, 2 Oct 2025 10:11:54 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH] drm/panfrost: Name scheduler queues after their job slots
+Date: Thu,  2 Oct 2025 18:11:37 +0100
+Message-ID: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aN6YVtnJ3Guh43n5@intel.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,73 +69,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 02, 2025 at 06:20:54PM +0300, Ville Syrj‰l‰ wrote:
-> On Thu, Oct 02, 2025 at 09:55:58AM -0400, Rodrigo Vivi wrote:
-> > On Thu, Oct 02, 2025 at 11:48:26AM +0300, Alexandr Sapozhnkiov wrote:
-> > > From: Alexandr Sapozhnikov <alsp705@gmail.com>
-> > 
-> > About the subject, this is not just a 5.10 kernel issue.
-> > This code is the current code in our tip.
-> > So this needs to target drm-tip branch, and then Cc stable
-> > and perhaps a Fixes: tag.
-> > 
-> > > 
-> > > In the drm_vma_node_allow function, kmalloc may 
-> > > return NULL, in which case the file element will not be 
-> > > added to the mmo->vma_node list. It would be good to 
-> > > not ignore this event, but at least log an error message.
-> > > 
-> > > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> > > 
-> > > Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > > index a2195e28b625..adaef8f09d59 100644
-> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > > @@ -706,8 +706,11 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
-> > >  	mmo = insert_mmo(obj, mmo);
-> > >  	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
-> > >  out:
-> > > -	if (file)
-> > > -		drm_vma_node_allow_once(&mmo->vma_node, file);
-> > > +	if (file) {
-> > > +		err = drm_vma_node_allow_once(&mmo->vma_node, file);
-> > > +		if (err)
-> > 
-> > perhaps we also need to drm_vma_offset_remove here?
-> > I mean... honest question, doubt here. Is there any further clean-up needed?
-> 
-> Yeah, mmo->vma_node has already been linked to varius places here.
-> So this will lead to use-after-free in short order.
-> 
-> With the current code if this fails then I think all that ends up
-> happening is that subsequent mmap() will fail. Maybe that's just
-> fine?
+Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
+queues"), give scheduler queues proper names that reflect the function
+of their JM slot, so that this will be shown when gathering DRM
+scheduler tracepoints.
 
-Hmm, or maybe it would be better to just directly return an error
-here without freeing/cleaning up anything. Looks to me like that
-should work fine as well, and userspace would get the error
-immediately instead of later.
+Signed-off-by: Adri√°n Larumbe <adrian.larumbe@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 6 ------
+ drivers/gpu/drm/panfrost/panfrost_job.c | 6 +++++-
+ drivers/gpu/drm/panfrost/panfrost_job.h | 2 ++
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-> 
-> > 
-> > > +			goto err;
-> > > +	}
-> > >  	return mmo;
-> > >  
-> > >  err:
-> > > -- 
-> > > 2.43.0
-> > > 
-> 
-> -- 
-> Ville Syrj‰l‰
-> Intel
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 22350ce8a08f..d08c87bc63a2 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -668,12 +668,6 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+ 	 *   job spent on the GPU.
+ 	 */
+ 
+-	static const char * const engine_names[] = {
+-		"fragment", "vertex-tiler", "compute-only"
+-	};
+-
+-	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
+-
+ 	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+ 		if (pfdev->profile_mode) {
+ 			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index c47d14eabbae..0f0340ffee19 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -28,6 +28,10 @@
+ #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+ #define job_read(dev, reg) readl(dev->iomem + (reg))
+ 
++const char * const engine_names[] = {
++	"fragment", "vertex-tiler-compute", "compute-only"
++};
++
+ struct panfrost_queue_state {
+ 	struct drm_gpu_scheduler sched;
+ 	u64 fence_context;
+@@ -846,7 +850,6 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit = 2,
+ 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+-		.name = "pan_js",
+ 		.dev = pfdev->dev,
+ 	};
+ 	struct panfrost_job_slot *js;
+@@ -887,6 +890,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 
+ 	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+ 		js->queue[j].fence_context = dma_fence_context_alloc(1);
++		args.name = engine_names[j];
+ 
+ 		ret = drm_sched_init(&js->queue[j].sched, &args);
+ 		if (ret) {
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+index 5a30ff1503c6..52ff10b8d3d0 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.h
++++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+@@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
+ 	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+ };
+ 
++extern const char * const engine_names[];
++
+ int panfrost_jm_ctx_create(struct drm_file *file,
+ 			   struct drm_panfrost_jm_ctx_create *args);
+ int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
 
+base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
 -- 
-Ville Syrj‰l‰
-Intel
+2.51.0
+
