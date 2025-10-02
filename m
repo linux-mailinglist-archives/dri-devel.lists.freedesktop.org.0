@@ -2,78 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8572BB31FA
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 10:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546F6BB34F9
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 10:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21DA10E077;
-	Thu,  2 Oct 2025 08:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B91C10E7A2;
+	Thu,  2 Oct 2025 08:48:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KN0A0P4b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="amW3cF3C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCF510E0E0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 08:33:38 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-58984c363ceso1751402e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 01:33:38 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC17C10E7A4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 08:48:34 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-36a6a39752bso8557251fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 01:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759394016; x=1759998816; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759394913; x=1759999713; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rCnWTNE47EKUFdNbhO9xh7Mmv5d7MGU177iaBEqF0KQ=;
- b=KN0A0P4bJWcEiEODwbwXhn0h958zNupTJ/l3tdVFEBOP5zl3+s1mFmZnVC7oF6Ille
- A++rwKBQS8pOWzmq5zID9FMeNDZqorSpj+jl8bww2d1NFTUlIhMIl7BHK5m+axD+VfTm
- EgAqSTA+WZqtgsSlmO5T52znVM86x7R8CMTBrDO0iUCUH6UudhuEjbOORDypSjRLI03K
- Lz9lXuD+2CRzpk/hexdf8pXQ1iNvtoFxOgb8GBZzZuYQbXV1pHMjBIKK8iYFh1L3x7c1
- gbaYIdiP9OS3vjyA2sbaMwEzfCmnnP2KPANiDbI/ghdFbNOEGbNxXRhwqVS9ODRk2hqS
- PVpw==
+ bh=z69FFVofVQpQbXPazzIrMIWvZw9YVt4e5mOAMA1/qQ0=;
+ b=amW3cF3C6ZKw/q7Yx8thL8NgHr2N24pfoIvmC2f311h72cp+hbJgS0CZ3Ci99SRriQ
+ MF8nac6sOi1f9UlgxkUp4RMUT8+71Zj5TkUUW8Sx/UUi28fYJtijlhipmdiJUR/4jXMv
+ KnnOgdq81zE/+JFJuJ/kdb/DTuNopQRBewvP7qvFDrkkgsNmMk09SLoCPgV7lAtc1HZN
+ J8BUKj0anytvichfyeSm/trtzkP1nXWPIy5P9urvOVe9vaWEo34dDEJ8xcm8XAaPLyeL
+ sEuSNGpJx3T73zacSZzN7ObuUv1/Jz+NzOtfWFYR/cy/gRLTYAIiqPr0gwXofCnIYy/b
+ SC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759394016; x=1759998816;
+ d=1e100.net; s=20230601; t=1759394913; x=1759999713;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rCnWTNE47EKUFdNbhO9xh7Mmv5d7MGU177iaBEqF0KQ=;
- b=W4sRFIksFv0gUoOfodsRYFw/QQp0kDPXaooZEkhzRN22lrl/xghQfetueFuP1oQUVj
- hW+xPBhDcRCvMhL/mqJXhExJEguYPKfXqg0CmueCOs9ux3Gb8LG46KWau2Yfekq98Bbs
- mkhJnwXAfuDisABXiY0h/yylmMn0wyZoUtxqzIizZqQ9mKwsKUuNbgxnY6cMaI63wdTz
- bHlDecFOflTMK/i0VBd97T1cPaaFgCyS9lOjoZM0rE2D2BCMwdEkvmW2P+6uJw2rbWqL
- dt7r21GtAdA7OEe7bPmzNqjrukKdK5BfKDzBbn7hcjUB3oRAT2TToXqM3VVsBNfJ+fzP
- fcng==
+ bh=z69FFVofVQpQbXPazzIrMIWvZw9YVt4e5mOAMA1/qQ0=;
+ b=gGWJusRelLB2R+b4HLKenByRToOPOBXUtst5tHRClU+SgwGropQ2Z49C3qFGLOS77v
+ nEsIniOsxvj5bj0NknlFRPDRk9lF6KYjpmMigLQdVTW/YjItHKsLgU7H4yveA+T83/Ht
+ C0WEZA2nF3wAq5/LId4Bi5cUS48zMG99oMHDLEPJqg6jmFSmmvxGIGZ75IUCaD7y+1it
+ vViX1+Ws+Olcf1AKoFC8K62PmITRSrljS8Jnc2g7OoObQTmhB1Sk1DBnfxyyhBBqUHSf
+ upx/JRbyoPSeWiBqxEvM3dB80clmUKcGHJ7qFhIq98jeLvCNdCFYGFRYI6Vjrka/qvXs
+ 55Ag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPhSzv0zV1kawPO3aHINT363r+SoToaamMDchRcv6+JPLQhbt0Y9rmoOxJGmcfSS7bJ2qoJZDsRv8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweijLVSgQNoKpQHKhTE1jMqKj9tjFqFBrITe3XeRAjbFOPUPRj
- fHCACAG6pvovNwEKVCQJkJDYsyXTum6EjQLKabEX7Ik9B8DNw9p0Irp4
-X-Gm-Gg: ASbGncty+t5ab3gAS+As+2yYJ9jJRVSXvhQf25/GTHVRvfDb4rx07tP45pUb0+5/ATi
- FWMTJ+1zin1W6+Cp+q1ww7WUBRnrhBuE6eaI1OXoMZDHQShTDYWHZjsEDbVkx1YFvZH6o+Y0e5y
- DRTOlYOCGgRisi3Q1w7I/tVtWi179/RnT/LiAZ+xhC//aBqeqHnP8y53lRNzAPUNmRnF4kTztcK
- Of8Eobjmz59TFAIlJdSQgt1mmGaouxN7b9vdZ41u6jpVavO2jVOyxVqpZNhYGCvg8cc8vJjP/NY
- xuiW8lBEPuhUlKsFJ3MXAojOlx13nc4MT5cmrDAdZx9FdyCgpVCg/JUMrpJUXlRROt148zsq5Ox
- zUmIVbmsULpY3HwU1HWt8zWPUJA1u7JPwM8NwhnzPwFBizfq0uN42WKCmGo/YpdiQ+arRBOVdXl
- 74KvX2dxXzban1B1wFQXPN9mDW+LhKcrknZKcWnm/N
-X-Google-Smtp-Source: AGHT+IHjcjwtFqspT76BDrqWmxGqO8qvZJDfBRE/OUo2b+yHt06K2O/V4pEtvb4W9p4Ul/oCXQ8WRg==
-X-Received: by 2002:a05:6512:401a:b0:58a:ff9b:2234 with SMTP id
- 2adb3069b0e04-58b00b3d66amr894765e87.2.1759394016142; 
- Thu, 02 Oct 2025 01:33:36 -0700 (PDT)
+ AJvYcCWOP5Ueue3+ak/9Wx/eHIrC+Hn9LWWtLy4ADReASDrPXqhmdvusCU23UMgc7BkuI0/23S2gAlw1+AU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzp9IjfUtDjAUmdOTCnKKIiKmcZ1ZNDgmZstg7xeRYccONnkCft
+ Ts2Wkf089asfrcZP/JsHNV9tOAVWipT+goj2nh3KOY6IVcZRhpvw3V+sJBlnQD9E
+X-Gm-Gg: ASbGncsITk2H968wc4OTcxJy3/AD3WoL5NpOCye7wdr9dW7FhW/GYlpwJzZJWBmry/M
+ s1yFRcSa8S7RASXN3gsPaCDbq5Gs2T9bvi7sMrVCeuLgTWshAL/dNBYFe/lnRvJPi4Qmd9uyNSI
+ t/JiS5vmA4GTh5HAcvNzztYeucuS7tUlUcrTWLYp+JWaSRSleihXxQLil1YYSXSJmbPhfepM5Vg
+ qwvm6rkCVC4dPTjhOIgAeWcKOF2zcYObhX2COM8+YihVEyVNzS1seiJOP8UTokp7dWZ+U7cMHVg
+ n9JPRpK5rdhqutQWBD8TJ0x2FoNDH1QG5ll9QKVJBhciDQ1G4Hf4duBEqmmuDzezBXgjQ8P67U4
+ zl9Dl772UVKfV8IwaPuculltbxXFbEkUdPXuQK0ubxFGiEvu0vos1pFgyH6CbrKTsHoHKZg6IYj
+ hRM2imKiCtLFvHCbFRKezxu98yvr4VV8Y6PubjFoX4
+X-Google-Smtp-Source: AGHT+IHSpWYO4jWecZ3WaJ5bbAKSHrzDEFpF/Bo9oTWfMoBxUJCFoeCGVTF74e3XeZ0egpGJ1oJ8eA==
+X-Received: by 2002:a2e:a912:0:b0:36d:501:76d8 with SMTP id
+ 38308e7fff4ca-373a7430622mr20975301fa.31.1759394912620; 
+ Thu, 02 Oct 2025 01:48:32 -0700 (PDT)
 Received: from localhost.localdomain
  (broadband-109-173-93-221.ip.moscow.rt.ru. [109.173.93.221])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b0114033dsm632852e87.53.2025.10.02.01.33.35
+ 38308e7fff4ca-373ba4cdf62sm5338621fa.51.2025.10.02.01.48.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Oct 2025 01:33:35 -0700 (PDT)
+ Thu, 02 Oct 2025 01:48:32 -0700 (PDT)
 From: Alexandr Sapozhnkiov <alsp705@gmail.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Alexandr Sapozhnikov <alsp705@gmail.com>,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] gpu/drm/nouveau/nvif: fix a null dereference in
- nvif_client_ctor()
-Date: Thu,  2 Oct 2025 11:33:30 +0300
-Message-ID: <20251002083332.11-1-alsp705@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Alexandr Sapozhnikov <alsp705@gmail.com>, linux-media@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: [PATCH 5.10] gpu/i915: fix error return in mmap_offset_attach()
+Date: Thu,  2 Oct 2025 11:48:26 +0300
+Message-ID: <20251002084828.11-1-alsp705@gmail.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -94,29 +95,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alexandr Sapozhnikov <alsp705@gmail.com>
 
-If the name parameter can be NULL, then you should not do 
-strncpy before checking name for NULL.
+In the drm_vma_node_allow function, kmalloc may 
+return NULL, in which case the file element will not be 
+added to the mmo->vma_node list. It would be good to 
+not ignore this event, but at least log an error message.
 
 Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
 Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
 ---
- drivers/gpu/drm/nouveau/nvif/client.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvif/client.c b/drivers/gpu/drm/nouveau/nvif/client.c
-index 3a27245f467f..3cfe420b5156 100644
---- a/drivers/gpu/drm/nouveau/nvif/client.c
-+++ b/drivers/gpu/drm/nouveau/nvif/client.c
-@@ -69,7 +69,7 @@ nvif_client_ctor(struct nvif_client *parent, const char *name, u64 device,
- 	} nop = {};
- 	int ret;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index a2195e28b625..adaef8f09d59 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -706,8 +706,11 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+ 	mmo = insert_mmo(obj, mmo);
+ 	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
+ out:
+-	if (file)
+-		drm_vma_node_allow_once(&mmo->vma_node, file);
++	if (file) {
++		err = drm_vma_node_allow_once(&mmo->vma_node, file);
++		if (err)
++			goto err;
++	}
+ 	return mmo;
  
--	strscpy_pad(args.name, name, sizeof(args.name));
-+	strscpy_pad(args.name, name ? name : "nvifClient", sizeof(args.name));
- 	ret = nvif_object_ctor(parent != client ? &parent->object : NULL,
- 			       name ? name : "nvifClient", 0,
- 			       NVIF_CLASS_CLIENT, &args, sizeof(args),
+ err:
 -- 
 2.43.0
 
