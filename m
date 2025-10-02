@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800A9BB611E
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93006BB6121
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:02:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEB510E8BB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E50210E8BC;
 	Fri,  3 Oct 2025 07:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i5+HKGpb";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Bu2eH7XH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03C110E365
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 08:24:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA3410E365
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 08:25:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6C8D043E43;
- Thu,  2 Oct 2025 08:24:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A32C4CEF4;
- Thu,  2 Oct 2025 08:24:49 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0A9AD44E68;
+ Thu,  2 Oct 2025 08:25:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC4C9C4CEF4;
+ Thu,  2 Oct 2025 08:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1759393491;
- bh=EGta/OBizNM09PGf6rEuH2ZEVwPb5dGKC+KMXznpC2w=;
+ s=korg; t=1759393539;
+ bh=rUYgOjZIb4WBFkTgqPyZeDyE4Q7jwjqmDpE7Z7xG6nM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=i5+HKGpbYKH37uF6UEmHuZtFQv6O5ZG1HxMQr8kvde7omSAD+zel/Z4+s6JwdJrZv
- Ur3S6DldaheLi+GEdKKHX1ZJ+iRyil+oU4pwd+w36q87VybbM/v+qrAgAFV69+RNbv
- WsN8AOHH246elLsfI0Z+lVr0mIU6QpnW71c2yL1s=
-Date: Thu, 2 Oct 2025 10:24:41 +0200
+ b=Bu2eH7XHdLHePX4Bf9lC5g6VKtI9ke1uBOEcSnJHwXk92fJhzOASc8OM213ef4BG5
+ q4GhQcZBnpHEGQKe8BKzoeZ2FDvVw/OAegY+rlI5qeXGG5B3lb6rK7guEI3fkTUc8R
+ Vz92RglvCXUVsjfgg5oOym6M1SHpU7RZx/f0N6Sg=
+Date: Thu, 2 Oct 2025 10:25:35 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Byungchul Park <byungchul@sk.com>
 Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
@@ -89,15 +89,14 @@ Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
  linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
  rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
  linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 01/47] llist: move llist_{head,node} definition to
- types.h
-Message-ID: <2025100230-grafted-alias-22a2@gregkh>
+Subject: Re: [PATCH v17 02/47] dept: implement DEPT(DEPendency Tracker)
+Message-ID: <2025100255-tapestry-elite-31b0@gregkh>
 References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-2-byungchul@sk.com>
+ <20251002081247.51255-3-byungchul@sk.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251002081247.51255-2-byungchul@sk.com>
+In-Reply-To: <20251002081247.51255-3-byungchul@sk.com>
 X-Mailman-Approved-At: Fri, 03 Oct 2025 07:00:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -114,17 +113,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 02, 2025 at 05:12:01PM +0900, Byungchul Park wrote:
-> llist_head and llist_node can be used by some other header files.  For
-> example, dept for tracking dependencies uses llist in its header.  To
-> avoid header dependency, move them to types.h.
+> @@ -0,0 +1,446 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * DEPT(DEPendency Tracker) - runtime dependency tracker
+> + *
+> + * Started by Byungchul Park <max.byungchul.park@gmail.com>:
+> + *
+> + *  Copyright (c) 2020 LG Electronics, Inc., Byungchul Park
+> + *  Copyright (c) 2024 SK hynix, Inc., Byungchul Park
 
-If you need llist in your code, then include llist.h.  Don't force all
-types.h users to do so as there is not a dependency in types.h for
-llist.h.
-
-This patch shouldn't be needed as you are hiding "header dependency" for
-other files.
+Nit, it's now 2025 :)
 
 thanks,
 
