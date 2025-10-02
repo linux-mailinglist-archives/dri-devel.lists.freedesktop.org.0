@@ -2,84 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7289ABB2A00
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 08:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0EDBB2A0F
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 08:38:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1862C10E798;
-	Thu,  2 Oct 2025 06:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512B210E787;
+	Thu,  2 Oct 2025 06:38:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MgYnsfyN";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ShT506+Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4DEF10E796
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 06:36:06 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-57b8fc6097fso848723e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 23:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759386965; x=1759991765; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+JxJRHM7RKVe2VKLf1OZeMJvur9jkhqQvZ7AlHIqtmE=;
- b=MgYnsfyNc1P8L0Yhpw75kjR/uQcHRe0uSBzVUNwWpdYXY2zNoSy1tAv5IN8Cvs03sj
- txPRTRbkcGhUBE84aZO9W8AXrSFUEsrYFbpA2auoMsQmhIgms2UzRPujMFdTsZJiisXy
- IUbu9eKru0cIfCeZdtRGaHZ1OGvM0bFrxbtADYzSlFbLrB4CbAvJQjCF2h8J46QqB+3Z
- bEK34tH6Sf/96CKIqYxYuNQJ2V+6hTF536SdROS1s0tAgRdKfyW5gzx32FktGqfzteU2
- /PRVD/a8GocBCfFeyZxfZ+6V/2O9tm3xSGqt9hhBKNd1suHI9SAtxliipzt9w/W0q5q3
- SpOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759386965; x=1759991765;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+JxJRHM7RKVe2VKLf1OZeMJvur9jkhqQvZ7AlHIqtmE=;
- b=Sj+BimntXe9TfXKi3Qgc539FczEbLr+PBqsZq7s16gY9XqxnmHZSk5NCwamKEQvzUF
- iw5fCIPc9215FrMv6SagujhI2W5Z+3ugVKggwseVA5+Ip9fQ9sFj7z4Hq16gX19DYl6I
- Q11l5XB/PxMljkh7c3BFrGVSTTW3k3at49seHDsUKTk1ON7KTHd8CFJ2FvRM5EhCul9j
- yMuF1qNbyK2iUsOUSEkDOpF+Mti8ENK4n8MWRT19jyXMUIosCh2QEOTddlxUtN08EzX8
- QNcTim5IkN5/3+ix9KPyA1J8qux43e5/imEfN4hQX2B/fXUiRfE5xppuqbvsBUk1PgQs
- iVrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHxToHsw4Mh6pHPdn0qiOmsMIYNuk0zAXIxJlV7StCzSa2+aHe/GaBNI6WjZuzMfUDsAMMjnWoUx8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw99VP4VkDcm5CCDz3zPfyxHXIpI+LYcpMIa3AE0IthfbioOaMi
- eWzMFU1SIw9AWX5vRoruiJrGZeN3iyKtdGV7KLB9ooi5u0tWdZpjv8j/rxVwwS7rvYk5SWcY1Op
- KEXooxWt/oI7+6zdC6Tt4OS+ji1cPMVw=
-X-Gm-Gg: ASbGncvEw4EWzPWq39uXFa0r+I1rb7PN8gcq4i6oGc2R1YAsRDh7OjHwsDMFL5Hm7YD
- S8cLh456JwcRzw72N75KGa95hVbvPlPwbb6a906YD/Sqg+FtodZ7T7n8yFYqyoDhEIIyXDXNzk4
- PaABmZ3YtMOQx5ybIPzpDx5RhRKnQKJqRcs32hmVzVp8tg3nuSV6GYNugJfYsuSfEzPjVGjyXwh
- TfI/v9Kfsj+LN+xt/P48CZm3WM67UBNpU2pkTHf16HlYb0rU0kufvQgQ3PUiTdjjg==
-X-Google-Smtp-Source: AGHT+IF99G3AYiAUEQrPtjf+2h2PSZdL5Ih8yjphXmvu9P7cETElAJxwS9A+P9E5rAaBZ1LwUTeNFcGEcpOdmxasB90=
-X-Received: by 2002:a05:6512:3b8d:b0:573:68fd:7ad2 with SMTP id
- 2adb3069b0e04-58af9f6b129mr2083801e87.35.1759386964675; Wed, 01 Oct 2025
- 23:36:04 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29D4610E787
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 06:38:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759387093;
+ bh=enLnV0HYXZbv7b64zQbKXzxzNjvlJRrVQycKKZy3GdA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ShT506+Z7swYdDEkhtZWn0md7zVNhYEFqWu4hQ5NsUFVPvbKkIM1hSCpegS0QrRko
+ AANlcyCjHLt1Mi0HWFyPyzQd5Ovmmp+oF3hhqUU2Pk2DbOPpR3ZM4vSW/9UpbyxgXm
+ a6tyqFedl6cHb+5NpXlkx5LR1Tm/NnsaA7Nd2Bi0fypfk+IbuBNGMs2JjD0sHY/VRE
+ /udWbOpsXOkxszsbLqV0l81b+vxKN2G62qpImyIhpWF7IRShTJGqiSWJnDOSZPMCP2
+ WcWRJ/nyn81qJMvthZIHg3DM4hTAOp1zUJiDI5gxSSw4ugSon8T3olDP+KAiBr9977
+ jg0sBzKSxq+4Q==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0507617E009B;
+ Thu,  2 Oct 2025 08:38:12 +0200 (CEST)
+Date: Thu, 2 Oct 2025 08:38:07 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rain Yang <jiyu.yang@oss.nxp.com>
+Cc: imx@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ steven.price@arm.com, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.co, simona@ffwll.ch, marek.vasut@mailbox.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Rain Yang
+ <jiyu.yang@nxp.com>
+Subject: Re: [PATCH v2 2/2] drm/panthor: skip regulator setup if no such prop
+Message-ID: <20251002083807.1d7d837d@fedora>
+In-Reply-To: <20250928090334.35389-2-jiyu.yang@oss.nxp.com>
+References: <20250928090334.35389-1-jiyu.yang@oss.nxp.com>
+ <20250928090334.35389-2-jiyu.yang@oss.nxp.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250924175743.6790-1-hsukrut3@gmail.com>
- <202509272320.3K8kdDCw-lkp@intel.com>
- <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
-In-Reply-To: <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
-From: sukrut heroorkar <hsukrut3@gmail.com>
-Date: Thu, 2 Oct 2025 08:35:53 +0200
-X-Gm-Features: AS18NWAtwoESXok4b8-OK2ehiGbNAGs6cVgv71Xx2MQ4h4uKtcLLpvhfJQAkNZ0
-Message-ID: <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-To: David Hunter <david.hunter.linux@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>,
- Bernie Thompson <bernie@plugable.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Zsolt Kajtar <soci@c64.rulez.org>, 
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
- skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,22 +67,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
-Apologies for the late reply,
+On Sun, 28 Sep 2025 17:03:34 +0800
+Rain Yang <jiyu.yang@oss.nxp.com> wrote:
 
-On Mon, Sep 29, 2025 at 1:29=E2=80=AFAM David Hunter
-<david.hunter.linux@gmail.com> wrote:
->
-> On 9/27/25 12:12, kernel test robot wrote:
-> > Hi Sukrut,
-> >
-> > kernel test robot noticed the following build errors:
-> >
->
-> Did you compile and test this code before submitting this patch?
->
->
+> From: Rain Yang <jiyu.yang@nxp.com>
+> 
+> The regulator is optional, skip the setup instead of returning an
+> error if it is not present
+> 
+> Signed-off-by: Rain Yang <jiyu.yang@nxp.com>
 
-Yes, I had compiled & loaded the udlfb module with no errors. Please
-let me know how to proceed
-in this case.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_devfreq.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> index 3686515d368d..2df1d76d84a0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_devfreq.c
+> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+> @@ -146,10 +146,9 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+>  	ptdev->devfreq = pdevfreq;
+>  
+>  	ret = devm_pm_opp_set_regulators(dev, reg_names);
+> -	if (ret) {
+> +	if (ret && ret != -ENODEV) {
+>  		if (ret != -EPROBE_DEFER)
+>  			DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
+> -
+>  		return ret;
+>  	}
+>  
+
