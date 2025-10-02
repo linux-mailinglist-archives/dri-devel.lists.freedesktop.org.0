@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA71DBB5766
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 23:25:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3078BB57BD
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 23:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 192E410E857;
-	Thu,  2 Oct 2025 21:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC4810E853;
+	Thu,  2 Oct 2025 21:36:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="j53x98ww";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="LznnMPYo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E382F10E857
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 21:25:39 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-3383ac4d130so1493247a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:25:39 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC65010E853
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 21:36:02 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b556284db11so1447781a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:36:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1759440339; x=1760045139;
+ d=chromium.org; s=google; t=1759440957; x=1760045757;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/omh4dnkehdvWXPDDTiNzbxTABAKha3OuNX6oJKT2mA=;
- b=j53x98wwj8tVkwEmeD3j6XvqYSWfqBTHJni1E8ND4fFmoHWnnIKYL7CBg2dFBU7UpE
- M7P2V5YPicZhRhnuY1fwgjsVnTXryIeOKXQAFl82yV4oM9zJ/Ag09Wwld5rbrV6lOG85
- uMCdxfYz1tsVarjqTeBDtihmikUoYaZnUNB0w=
+ bh=6tb5ZhFKHgn3PI0RL+wA56er2lYPRbzxVlrU7xzkMbM=;
+ b=LznnMPYoBjTCLpu+P9wm4DMRZKf0Q8uw+mRN0iEs63H+l1woTXWpRraI0rKJ8Aft0S
+ HY/QbPWbpKoYEaQjlm56s338HjTDtobe8Uw+r1h0VRpwAtb+mmoU5ySGzV4mA/+rrU6X
+ uekeWOugfSLBVKCyEPB0oGH7aYwEnlMv8n96I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759440339; x=1760045139;
+ d=1e100.net; s=20230601; t=1759440957; x=1760045757;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/omh4dnkehdvWXPDDTiNzbxTABAKha3OuNX6oJKT2mA=;
- b=meNY64IkX0YZ6GeocizESgEOiaVqRMY8Of3t0QKvgp2lUNjG8OJoWYGjBohQW6LVrf
- OMnK7lHsqrqotOxMd02g+mjHYtdZDCaPgnCMkzXhxM0hEBwyOwkspIvXeA5UeaK6IYCE
- gg4Mx6nw+YkKRWKWDGS0Ec3sAUEjYUpB3UysOUQ9zlgr/ueNKTNlzRa5OU4lSbJz28Is
- zhSQ4whn11fEbT5uPmmVPVw8a+tfa4E7SKZrRfQXPos3xtQtf5d3ZgUFa6cjm9cQj5T+
- wNvicLAgG/ybMi/sBvF06EaqT/16pmh6Sq0XZITUocjeDc3gxZRdfilnA/WdBxLMMrCA
- Mz6Q==
+ bh=6tb5ZhFKHgn3PI0RL+wA56er2lYPRbzxVlrU7xzkMbM=;
+ b=PpKGMef0bBGfBLR0kMNP5usb6bum3BpcJxh07Y46rlO054nP+WxFqo0pkBSsRNtJzH
+ ALWdeb3yb2E+WpnW0myKsb66vabUV0fyGpoAip0M7k49rYnwtgBIJvMOtZBdAf2T1oPZ
+ x8Iss5GmH5hdxKO7HQ6VKyloVOqr7qJwhD6HdhU2r/FLAO9EhB8n9EsrVt9Uo98dI1mg
+ pMRXBx1W9QGZWIXhErH51f1JEuLR3QHefsfktNewIO29p+IEgAu0FwZOJ0sq3I+RFani
+ VaFfQJCx/ztiX2HfePnjy9s7gBt/3U0LFDNmzCeHdSmaBcszcG5p01LGLIe7K2m6TwQM
+ u9/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWsmbXxbwBMe4WvRaxqhW8OUz2/KWuIQby488hkKtBXqJsp1GnEN1W5mRI54YylQI5dCVeO84sQW4c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGsOUvt8I06ddJPVRsVeWJpXiX67adANt8rQpt/evcXo+Kr7Jc
- Lfmi3vGxrMmRBRBhzb7q7fEWW7jRNGWWzV2V/mo1CUdofeV5T9rYKtyYp59oGrhCUpxi6AMUTnb
- RaD0=
-X-Gm-Gg: ASbGnct3eNRBG8lpMK8d7awujArbQznN3q/O5KzvpZ6F/DevqOrfqIdPehdB2dFKAW9
- wkqsO4PgcvhvuIOjr079l5rfOMOnJiMer6SWNjzwTX45z/GjblNR2QTAfZVzyaQ/lrbWf2CAh3I
- 5rs3SZuaIxBgb3FWLKODktadGMoNoX3PHNh0RcvM79GNGxs7MKmLF6ZjMGfhQWmtS8D23WutYcq
- SdyJH/BD0ctKIDhn2A0y8uJzSZbX3rN7qTRVAd+5avI7FTrUqLt3THCv8WV3r4J4pr5YWtsMajz
- kJGz0EY5fZmU9OaHARdYXpzmQtf3ae6HxcT6A+PvfIJjzn02poxqaMW1XNXPblJsMZVwt88LJuz
- 4H8lZgfTyPXmaPQqNmNr7Rl4/hyNDsWsDt9c/+HnTLpFbmTndklDEpy0VgyWFWsxxRoF1jJfH4M
- PgSwXPcGLGhv3PTjCBiMwSIVZ4
-X-Google-Smtp-Source: AGHT+IHPhJruK9zcLK/DBARQECp6w4oLqzK6zGzCCZSyE06mHZ0qkPQPJhXoeTBG5qzinhy7tYol1A==
-X-Received: by 2002:a17:90b:1809:b0:330:ba05:a799 with SMTP id
- 98e67ed59e1d1-339c276ebd1mr996194a91.16.1759440339540; 
- Thu, 02 Oct 2025 14:25:39 -0700 (PDT)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com.
- [209.85.210.170]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-339c4a19fe4sm5429a91.8.2025.10.02.14.25.39
+ AJvYcCVc67ukN9700I6GDEdAJC+M1V+j+QBFLme8gqGSL6EKfPK0O9sL3mm+c1hzeYYYfFrkvlh7Xook24g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzBY8eRzvkq4+zK8a39bM9E/jsvDqn72Xuzmn7M5A518FsIGWLC
+ 72Zz/jOiDvcyolE55ydlILQ963Xt1toenoYhgbbu6FlZ+Ibh1NLIOMvOOsp7xTFbgc4e4BR3aC7
+ FRqU=
+X-Gm-Gg: ASbGncsY/5nsSOQm+I3lVsqwpYeXtZxAG66nbWNtM/ZxRUv+VpjVo2UCa/TsOkyO8wC
+ aMaFhLK0n+C8MyOVRYl+WY2n1rWBfT7dtGnzKmNB29Z72iPY2z2QpOGQXrwkTA02M7AjrdIoQki
+ DVOUXL9zyhoSUxVn3rCx8FMzggo+m96lhxt2CMn/wm4xl29+xbzILzEH+FDauhxQ8DJKrIN4exu
+ pAd1aSE+Vyd5TbMtI0tCojo3r11CTy/qmtRDsQWGSs6joLk0KkQPiMN4vIdGS62IVVBAFMW5l8Z
+ fg4d5Bn7FDqNQpj1nh+EgPuzxtCjzcqaa3XZPkUAktDVdbKw+KdjFMsc4/0iM8xUKswjS9ox9QR
+ PPXKzSpWTjPnX005lqTizLBWalAh+dW1up/6FMCJR75MQV4UC3wWPyDd+QUDzl3FFB+luXdojzk
+ maRuD1RLfxiPE/kozC0mXnZDXh
+X-Google-Smtp-Source: AGHT+IF0ZU3oU37IOghtuLwtcUbXC6BDitcgX7xxsBlcFw41a6KEPdmuxctpa2AByL6gyd5LsmMU1g==
+X-Received: by 2002:a17:903:198b:b0:269:a4ed:13c9 with SMTP id
+ d9443c01a7336-28e9a693f79mr6570105ad.30.1759440957012; 
+ Thu, 02 Oct 2025 14:35:57 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com.
+ [209.85.214.181]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-28e8d1d584esm29616945ad.107.2025.10.02.14.35.55
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Oct 2025 14:25:39 -0700 (PDT)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-782e93932ffso1525807b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:25:39 -0700 (PDT)
+ Thu, 02 Oct 2025 14:35:55 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-269639879c3so13037525ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 14:35:55 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSte0ofc/caVG2lWI14NKdX0Y3bCXxJPNfOBgU17t55HmR7ngx6E7tXVr2jST1q8doGn+DJYEKK9Y=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:4a8f:b0:330:852e:2bcc with SMTP id
- 98e67ed59e1d1-339c27b94e9mr883144a91.21.1759440338414; Thu, 02 Oct 2025
- 14:25:38 -0700 (PDT)
+ AJvYcCXkcorjqZieYcAcaaaRxlJJd3QFOlp+OL1YiuFvWRgG4VhFkWpAxcKeL3Xe1GVTaDQTzaWEUKbJuqo=@lists.freedesktop.org
+X-Received: by 2002:a17:902:ebca:b0:265:604c:17e7 with SMTP id
+ d9443c01a7336-28e9a6ff040mr7217865ad.60.1759440954340; Thu, 02 Oct 2025
+ 14:35:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250929142455.24883-1-clamor95@gmail.com>
- <20250929142455.24883-9-clamor95@gmail.com>
- <CAD=FV=VO2sXssuhZyz+aKvN22xH5eButHOQgKK+qEkPT3Ug2XQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=VO2sXssuhZyz+aKvN22xH5eButHOQgKK+qEkPT3Ug2XQ@mail.gmail.com>
+ <20250929142455.24883-2-clamor95@gmail.com>
+ <CAD=FV=Vd=muLeMJYszC2SqRBThN=Srm_bKXBEmjjqND7bqHo2g@mail.gmail.com>
+ <CAPVz0n23qNrnyP7ttchaCoLit=gBm_++7RX7B8MxR_nx+8LGHw@mail.gmail.com>
+In-Reply-To: <CAPVz0n23qNrnyP7ttchaCoLit=gBm_++7RX7B8MxR_nx+8LGHw@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 2 Oct 2025 14:25:26 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VOEDgUHG138d-_HyRX1EmeuZ=8v+2UL4cXQ0GN0e1FqQ@mail.gmail.com>
-X-Gm-Features: AS18NWBl_-6A1NX6XipYEQi78zuUuxrbDfjw2_uXBU-dcpIdXNfIO_PqcqCT8kc
-Message-ID: <CAD=FV=VOEDgUHG138d-_HyRX1EmeuZ=8v+2UL4cXQ0GN0e1FqQ@mail.gmail.com>
-Subject: Re: [PATCH v1 8/8] gpu/drm: panel-edp: add AUO B116XAN02.0 panel entry
+Date: Thu, 2 Oct 2025 14:35:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UCcQ1AweLwNucYP8kNHx+K1UF=VbEZdqE4hXN=bHqGuQ@mail.gmail.com>
+X-Gm-Features: AS18NWCyCoeGl8UyyLw_R0kuFN-88oe-Wi6XpVX99MGsfcmrycek7SZgv1oi908
+Message-ID: <CAD=FV=UCcQ1AweLwNucYP8kNHx+K1UF=VbEZdqE4hXN=bHqGuQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/8] dt-bindings: display: panel: properly document LG
+ LD070WX3 panel
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -115,38 +117,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Sep 29, 2025 at 8:15=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
+On Mon, Sep 29, 2025 at 10:03=E2=80=AFPM Svyatoslav Ryhel <clamor95@gmail.c=
+om> wrote:
 >
-> Hi,
+> =D0=B2=D1=82, 30 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 06:12 Do=
+ug Anderson <dianders@chromium.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > Hi,
+> >
+> > On Mon, Sep 29, 2025 at 7:25=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmai=
+l.com> wrote:
+> > >
+> > > LG LD070WX3-SL01 was mistakenly documented as a simple DSI panel, whi=
+ch it
+> > > clearly is not. Address this by adding the proper schema for this pan=
+el.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  .../bindings/display/panel/lg,ld070wx3.yaml   | 60 +++++++++++++++++=
+++
+> > >  .../display/panel/panel-simple-dsi.yaml       |  2 -
+> > >  2 files changed, 60 insertions(+), 2 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/l=
+g,ld070wx3.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070=
+wx3.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+> > > new file mode 100644
+> > > index 000000000000..0a82cf311452
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yam=
+l
+> > > @@ -0,0 +1,60 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: LG Corporation 7" WXGA TFT LCD panel
+> > > +
+> > > +maintainers:
+> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: panel-common.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - const: lg,ld070wx3-sl01
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  vdd-supply: true
+> > > +  vcc-supply: true
+> > > +
+> > > +  backlight: true
+> > > +  port: true
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - vdd-supply
+> > > +  - vcc-supply
+> >
+> > I suspect you'll get a NAK here because you're not preserving backward
+> > compatibility for existing device trees. While there can sometimes be
+> > reasons to do that, you'd need to provide a very strong justification.
+> >
+> >
+> > It seems like instead of breaking compatibility you could just have
+> > two supplies:
+> >
+> > * power-supply - The name for the "dvdd" supply.
+> > * avdd-supply - The name for the "avdd" supply.
+> >
+> > ...and then you make both of them not "required". Maybe you'd add some
+> > documentation saying that things might not work 100% correctly if they
+> > weren't provided but that old device trees didn't specify them?
 >
-> On Mon, Sep 29, 2025 at 7:25=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmail.=
-com> wrote:
-> >
-> > Add an eDP panel entry for AUO B116XAN02.0 used in Lenovo IdeaPad Yoga =
-11
-> > with Tegra 3 SoC.
-> >
-> > The raw edid of the panel is:
-> >
-> > 00 ff ff ff ff ff ff 00 06 af 5c 20 00 00 00 00
-> > 00 16 01 04 90 1a 0e 78 02 99 85 95 55 56 92 28
-> > 22 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> > 01 01 01 01 01 01 12 1b 56 5a 50 00 19 30 30 20
-> > 46 00 00 90 10 00 00 18 00 00 00 0f 00 00 00 00
-> > 00 00 00 00 00 00 00 00 00 20 00 00 00 fe 00 41
-> > 55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-> > 00 42 31 31 36 58 41 4e 30 32 2e 30 20 0a 00 f1
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 1 +
-> >  1 file changed, 1 insertion(+)
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Schema describes hardware. If it does not (and in this case it clearly
+> DOES NOT), then such schema should be adjusted according to hardware.
+> If there are any users of such binding, they should be adjusted too
+> (third commit of this patchset does exactly that). Panel datasheet is
+> explicit, panel has ONLY vdd supply and vcc supply, names are taken
+> from there too.
 
-Pushed just this patch to drm-misc-next to get it out of the way,
-since there are no dependencies.
+I'm more than happy to defer to DT people on this, but the general
+argument is that "device tree" is supposed to remain forever forward
+compatible. In other words, someone could have taken a snapshot of the
+"tegra114-tn7.dts" device tree at any point in time and then shipped
+it in some BIOS. Presumably the old "tegra114-tn7.dts" (for some
+reason) managed to init the panel properly in the past and the idea is
+that there should still be a way to init the panel with the old device
+tree now.
 
-[8/8] gpu/drm: panel-edp: add AUO B116XAN02.0 panel entry
-      commit: 5b50bb435629ab206cfa1cca3d71847d4523f88b
+Obviously, that's an ideal version of the world and sometimes
+hard/impossible to make a reality, but it's supposed to be what we
+strive for.
+
+From a more practical standpoint, the dts changes and code changes
+will go through different trees and so making them mutually depend on
+each other can leave people broken if they happen to have one patch
+but not the other.
+
+I suppose one way to handle this (if DT people like it) is to keep the
+bindings the way you have it but then add some layer of backward
+compatibility in the driver. It will mean that anyone with the old DTS
+would officially not "validate" properly against the new bindings, but
+I think that could be OK as long as it was explicitly mentioned in the
+commit message. Obviously, though, DT bindings reviewers would have
+the last word there...
+
+-Doug
