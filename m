@@ -2,49 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B80BB39A6
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 12:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A755BB39FE
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 12:20:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B7510E185;
-	Thu,  2 Oct 2025 10:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4612610E371;
+	Thu,  2 Oct 2025 10:20:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S9sVOb1g";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fX5oX2Mo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C7210E185;
- Thu,  2 Oct 2025 10:19:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 143F761F2A;
- Thu,  2 Oct 2025 10:19:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 325A9C113D0;
- Thu,  2 Oct 2025 10:19:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759400352;
- bh=8rL/NALBjM+GVqp22l3fuD7bZleKTn5sOgDb56/3Ie8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S9sVOb1gPa+y+KGXLdQxaQFX4jJcJvHGKhiqCpgfkeijjewF3DquZCU/8XWhzKa+b
- Vl2v9Z2OKngdjBMJKPsnOIRjHB8JsTaMZ5x74v9xaFvK1O6ujHQOW7kBI4dgwYOssL
- JBAuQYv34DmTEBM7LMfSEC1hDtXQCpx1n1kNKy12DpQQjP7/iq9KLss+jxvNhQiYbO
- XyL1tkYG1ki2ty2soUzsIVziqE2NpTdNXZSdAxkmWdGnH3jr6PwU76gFJpRhnHytah
- c7Jsz97ZdGbtvox9yCZDFcUHgliqHSOUYXgYML6JMMnyHNy7z9oNW29rF2TGlypDQf
- ELhqxL8n14FqA==
-Date: Thu, 2 Oct 2025 12:19:07 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>, 
- Zhenyu Wang <zhenyuw.linux@gmail.com>
-Subject: Re: [PATCH v2] drm/i915/gvt: Propagate
- vfio_set_irqs_validate_and_prepare() error
-Message-ID: <445lkq3jxokunozarhyxh6lxmj3ubk2py7ixldram6flbvvfsy@5pp2tnoat6dw>
-References: <20251001142336.82089-1-andi.shyti@linux.intel.com>
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6DBE10E371
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 10:20:54 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id B476BC011EF;
+ Thu,  2 Oct 2025 10:20:34 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 9AD736062C;
+ Thu,  2 Oct 2025 10:20:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 1FCA6102F1BC9; 
+ Thu,  2 Oct 2025 12:20:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1759400451; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=uAA/uXnOcv4MfSqZ0e/gJwFBUMeRZs+rL70NE0BRk30=;
+ b=fX5oX2Mo+fGknxJzSqCDenWT4Q4l88JtNhTUpuCtsL/E84Pxmxd2eo6HJTUmqzPz3wRnL4
+ oLBNNtM0MkJkS8qxUSG+DwtX34rEN4jjpCfHNnVpc0dQJ06UeOt9YouKQywq4NrjwER8/S
+ znbbU7XlbSBtJNokklAzhcfwVUnZCapWsi6V12yhhxl8aEkegr7g2LZuFj9C7He6U2Ggmx
+ 5q7yy3oY2yJLZRhB4tZLdFIiw/HrC5g4d29iu2zf65bQG8mAx54Ia71AaZt2HyIGb5MzPV
+ b/NkAkeAo4r61gtyjXk5GXS0QIjmmbAQJ3+pvnI80nqGCJzCySXyNhQTzSgr3g==
+Date: Thu, 2 Oct 2025 12:20:41 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: louis.chauvet@bootlin.com, hamohammed.sa@gmail.com, simona@ffwll.ch,
+ melissa.srw@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ sebastian.wick@redhat.com, xaver.hugl@kde.org, victoria@system76.com,
+ a.hindborg@kernel.org, leitao@debian.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/16] drm/vkms: Add configfs support
+Message-ID: <20251002122041.7248d8ff@booty>
+In-Reply-To: <20250901122541.9983-1-jose.exposito89@gmail.com>
+References: <20250901122541.9983-1-jose.exposito89@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251001142336.82089-1-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,21 +67,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello Jos=C3=A9,
 
-On Wed, Oct 01, 2025 at 04:23:36PM +0200, Andi Shyti wrote:
-> Return the actual error code from vfio_set_irqs_validate_and_prepare()
-> instead of always collapsing to -EINVAL. While the helper
-> currently returns -EINVAL in most cases, passing through the real
-> error code is more future-proof.
-> 
-> While at it, drop the stray 'intel:' prefix from the error
-> message.
-> 
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Reviewed-by: Zhenyu Wang <zhenyuw.linux@gmail.com>
-> Link: https://lore.kernel.org/r/20250926000252.3681360-1-andi.shyti@kernel.org
+On Mon,  1 Sep 2025 14:25:25 +0200
+Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com> wrote:
 
-merged to din.
+> Hi everyone,
+>=20
+> This series allow to configure one or more VKMS instances without having
+> to reload the driver using configfs.
+>=20
+> The process of configuring a VKMS device is documented in "vkms.rst".
+>=20
+> In addition, I created a CLI tool to easily control VKMS instances from t=
+he
+> command line: vkmsctl [1].
+>=20
+> The series is structured in 3 blocks:
+>=20
+>   - Patches 1..11: Basic device configuration. For simplicity, I kept the
+>     available options as minimal as possible.
+>=20
+>   - Patches 12 and 13: New option to skip the default device creation and=
+ to-do
+>     cleanup.
+>=20
+>   - Patches 14, 15 and 16: Allow to hot-plug and unplug connectors. This =
+is not
+>     part of the minimal set of options, but I included in this series so =
+it can
+>     be used as a template/example of how new configurations can be added.
+>=20
+> Finally, the code is thoroughly tested by a collection of IGT tests [2]. =
+The IGT
+> series is almost fully reviewed (1 patch is missing) and it is waiting on=
+ this
+> series to be merged.
+>=20
+> I don't know what is preventing this series to be ACK by a DRM maintainer=
+, but
+> please, if there is something missing or that needs to be fixed let me kn=
+ow.
+>=20
+> I CCed the configfs maintainers in case they can give feedback about the =
+design
+> of the configfs API or the configfs related code, just in case that is on=
+e of
+> the complicated points to review by DRM maintainers.
+>=20
+> Best wishes,
+> Jos=C3=A9 Exp=C3=B3sito
 
-Andi
+I reviewed the whole series and it looks really good. The step-by-step
+approach of patches 1.11 especially made it very easy to follow.
+
+With the doc fixes suggested by Harry you can add my:
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
