@@ -2,83 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D53BB3E6A
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 14:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878D5BB3EA2
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 14:40:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8789810E7D5;
-	Thu,  2 Oct 2025 12:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8B410E7D9;
+	Thu,  2 Oct 2025 12:40:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FS/N1JO1";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="P68Q+mw8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB7610E7D5
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 12:35:07 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-414f48bd5a7so733886f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 05:35:07 -0700 (PDT)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C2210E7D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 12:40:38 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id
+ af79cd13be357-85d5cd6fe9fso91970085a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 05:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759408506; x=1760013306; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wiohunQzlxy1wJLX8ESOSQebIPrb5Yx3wUhdRqNbUmo=;
- b=FS/N1JO16i+H5rpewHC1UqyKG/Y0g8a11/bKV32dy9Gl91x1AQTDS6ZmPTHnEuUgn4
- kKEDay6dKorQar8+Ci9wxdE0njHQOmAOCrAl2aAykQsFyXU9F+XqnhsFfZGg2ZgL1tmH
- uwdUEiZR68R+t/zb3p2ed5iX0SJdI88EgshyVcJCohBYJFHalKr8I9TiXgm+3OxWNCK8
- jH/9EOq66q/NEQNhWnQVNVwhF5G+P5eBHq9+4pMUlhsURT69WFLYyyrd5aSNvf1Rq4Oc
- JAlhfhUyizbOMyKFFuTbwMZz/mhAGu+oBs8WhRtl0WfsNiNzqp581D/wb96AtA+7FUB8
- pMMQ==
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759408837; x=1760013637;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+ :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=9tG3CglHbeY/0AI4Rz2tx44tc/toPYUH7TVppo+t14c=;
+ b=P68Q+mw8KV4hvPFjxGekAnNOA2i9YVEP+YHUo+Q8eEznpChqj05vXiuAD01o3nqLE1
+ R9aA4Pqpxk1kgGJg7VLlRRRemJmalgXcL08Vz5pBePG0fzEgvIBN7mOOeibAUzeetrcX
+ 2Mw/wZVi/op2D8Hyj8depJr1MRCAI3BTx9+lrMzopyDUWkjPveX+sb9+AN8N9De+7cpV
+ /KK2KcLckzUTE30vDsVYXkvExIe2rI8B2GHw0xLudiaStIRZB5rPU/vEYQeVo0oRM7mL
+ UbiJx3LXsmk3sPGfjObEVE3M3itONAot/Fh5vVZ/MJH0UOZDIEOK+f7kQbwpXjNtCF4T
+ D6VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759408506; x=1760013306;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wiohunQzlxy1wJLX8ESOSQebIPrb5Yx3wUhdRqNbUmo=;
- b=NvbqNspu0DI2R6nZep1X4qDs1xQP9xkQGnYAfnT2a0s6Jvk6DIBBD+FwPlC642dt/d
- Xl7Ux1WNNQXnyFGraoDK0/seA4Z1O2zfWp2Zk8sWX6/AigR8hy4WpJLDnVqmtgQ9nuuI
- tc5VwWv996c1NknlQ2I4k7VHPvZZ8Qrrdam5uElCVnT/KN6chS4mX8vQ5Iz9uRf/j1PF
- 0flREDKIMff4WncyGerePhu06ig1krMI4EECvha1WGiOyFssemBjA7rijGgt6mjBR1pn
- vVGgXRcEoa0aQ/sMCxFR8CqASgvEeKX/j1Fj3A0qSQll8JeJIZJK7TY+H/aAc6kySHJN
- RY2g==
-X-Gm-Message-State: AOJu0YzmeYAo9REFPZjDuhGvdE5DU2mhheixIbU1/Lp8bbAxUg988Z5f
- WzoVVWSIjL8Qf3+hg85Kin5DDwcfI2VRUUPZDwpzpvtusqjih/JsXpCY
-X-Gm-Gg: ASbGncsnCzVdXX9JdrH/ZichyYp2lZWHmC13/qdhttnohV9+9leeQjHfvqao/3fF7wr
- +n+lNVtEmJHuY9Xdh8dZJjKSRMhTX1//LI8K0aoINl4yt1yFx6ujikqAp+B4S1vMuLjEWFOKSge
- BTd5og/5R5Ani//z8AgEm0nbV0yGCh2SbANebclEbKaWtZgJMmECwKQfnM9pAvmdQ+Tu+h4KYqF
- yaGzB7DpJ8tmS6aY9hfDkVKF2ExZ0ZcUHwYXectScyQIXreosaANzgEZ3AGEJI4fQO/KZ97qgC+
- YgBHRFW+rwZ7BreCg2qmFpL6ym8q2/OqpzTBC0Qgss4z9Zp6XH4LNKVTjXseDVORoOmM+TrQhdM
- NCWmjRmetPLGkHFDW2j9GlSNxL1+d7yfaHiFhHItgBtUjh9oc+xH3wwCbGLfupk57kpQkYP0uW5
- lOo0CD
-X-Google-Smtp-Source: AGHT+IFz8zQ0y7qc4oeft0IMTcDcHyKWcXph7kOA6fb9S5FIHDbOTttgY0hxxnzNKQ04CBzWjJsubQ==
-X-Received: by 2002:a05:6000:25c4:b0:3e2:c41c:bfe3 with SMTP id
- ffacd0b85a97d-4255780b8f6mr5803400f8f.38.1759408505571; 
- Thu, 02 Oct 2025 05:35:05 -0700 (PDT)
-Received: from iku.example.org ([2a06:5906:61b:2d00:607d:d8e6:591c:c858])
+ d=1e100.net; s=20230601; t=1759408837; x=1760013637;
+ h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+ :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9tG3CglHbeY/0AI4Rz2tx44tc/toPYUH7TVppo+t14c=;
+ b=S84fISnxbyI5etoDueRTOKlzMwgjg0dmlx1pE165Km8SjRWdM35sK/r7/tAuT8W216
+ jEy074Qw6opOHUTAytzv+5Wq93CLmgrcXdxnaVZtqkBIMzHFiyv79ruAnus16Lc4yZMo
+ OJd405+O9i7UlcVu2IbFOJbwvUXHXBwZwQ+JMuGqhPUz5Rf/6JlbJJzHGao7lI+g1lfy
+ WxUOl6o2YCYeQXyK2kg5j+D+xBgZswEV1jSPRv2O79blWozzE4t/Pfx2XWehX85ZC+o9
+ Ml3w4sd1T0gFLREDBimq0zDYr+/TfDKbZWvA02wwA68Ud+drGarIxkZd+Qv/EIwgVoI+
+ E+tQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUW7w1sVGspsboz68mwJRV1GArtVyaG5aUgt03gbKcuoF6x4tvF+bEQnCAIaKrHiJHASlJvKtHOtFc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywb6DEirYcvG7DTFLnSL7hQ8q9CrpBkphdO6LUEDspjMOsKIAll
+ uPdLNnOGFEKmSPIP4BFGVl0AS/3Erqpk9ZTWVsBNNzD3RQ4twCmP4Ne+5ygvrbE/xDE=
+X-Gm-Gg: ASbGnctCQxx7goTaMC5AZhV0LGUsJF/161uN9d7vLfx1JoDuTO01E1uHkYFHyTBEnq5
+ y7LbpPStgwSU7kYqq6aqOUNo9zFdgaoxLMlonAyggIDs57+Nisr/tNx0BjIODUxcbVMfQdtH6tz
+ JUtYjiUooEZ3tUengYl4JPS/xNydsJPOUr6g+UpodtSViXM+niHNtsXJkPz7b+4hE5PjkHa6Meh
+ GsCMc2M9hXuWxq+RIQxFMS54anUzu0Wdz1+H7Dqzipv5Ibioij9PjF4jR91P+vg9+EP/gNwRv7n
+ cx/0TAai4dSIx89hwPY1SseTHaElLQmRMWJMRoIynFoSLEXn96bbM4fVParUdWd2s0Gns8ixnRp
+ /XrLtzpWLHN+SSZaqzmFLhDqxOuncZtyMYLCA+U96s7Vl8H4vQSZB3vqD6ggerFQ=
+X-Google-Smtp-Source: AGHT+IHfFbRDc0lxQJHEnEb/USvJWquapfe/e1sD30gNrrrl/FzbGv+DojWArzyJNLJRhyT1vMSzeQ==
+X-Received: by 2002:a05:620a:1a0c:b0:85e:5022:33b7 with SMTP id
+ af79cd13be357-8737780ae60mr1022559585a.72.1759408837081; 
+ Thu, 02 Oct 2025 05:40:37 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:ebd3::5ac? ([2606:6d00:17:ebd3::5ac])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4255d8abe9bsm3533304f8f.22.2025.10.02.05.35.04
+ af79cd13be357-87771129fcdsm200898385a.13.2025.10.02.05.40.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Oct 2025 05:35:05 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] drm: renesas: rz-du: Drop ARCH_RZG2L dependency
-Date: Thu,  2 Oct 2025 13:34:52 +0100
-Message-ID: <20251002123452.146610-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.51.0
+ Thu, 02 Oct 2025 05:40:36 -0700 (PDT)
+Message-ID: <9ca0e8b7b644637101f8bbc3f69cb71f20665f04.camel@ndufresne.ca>
+Subject: Re: [PATCH v12 2/9] dma-buf: dma-heap: export declared functions
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Maxime Ripard <mripard@redhat.com>, Jens Wiklander
+ <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,  Sumit Semwal
+ <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey	 <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T . J . Mercier"	
+ <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Sumit Garg <sumit.garg@kernel.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com,
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone
+ <daniel@fooishbar.org>, Rouven Czerwinski	 <rouven.czerwinski@linaro.org>,
+ robin.murphy@arm.com, Sumit Garg	 <sumit.garg@oss.qualcomm.com>
+Date: Thu, 02 Oct 2025 08:40:35 -0400
+In-Reply-To: <20251002-shaggy-mastiff-of-elevation-c8e1f0@houat>
+References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
+ <20250911135007.1275833-3-jens.wiklander@linaro.org>
+ <20251002-shaggy-mastiff-of-elevation-c8e1f0@houat>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+ protocol="application/pgp-signature"; boundary="=-45N4bvp/oD9a6lFdlKUD"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,33 +106,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The RZ/G2L DU driver is now also used on other Renesas SoCs such as
-RZ/V2H(P) and RZ/V2N. Restricting it to ARCH_RZG2L prevents enabling it
-on these newer platforms.
+--=-45N4bvp/oD9a6lFdlKUD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace the ARCH_RZG2L dependency with ARCH_RENESAS to allow the driver
-to be built on all relevant Renesas SoCs.
+Le jeudi 02 octobre 2025 =C3=A0 09:47 +0200, Maxime Ripard a =C3=A9crit=C2=
+=A0:
+> Hi,
+>=20
+> On Thu, Sep 11, 2025 at 03:49:43PM +0200, Jens Wiklander wrote:
+> > Export the dma-buf heap functions to allow them to be used by the OP-TE=
+E
+> > driver. The OP-TEE driver wants to register and manage specific secure
+> > DMA heaps with it.
+> >=20
+> > Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > Reviewed-by: T.J. Mercier <tjmercier@google.com>
+> > Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> > =C2=A0drivers/dma-buf/dma-heap.c | 4 ++++
+> > =C2=A01 file changed, 4 insertions(+)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > index 3cbe87d4a464..8ab49924f8b7 100644
+> > --- a/drivers/dma-buf/dma-heap.c
+> > +++ b/drivers/dma-buf/dma-heap.c
+> > @@ -11,6 +11,7 @@
+> > =C2=A0#include <linux/dma-buf.h>
+> > =C2=A0#include <linux/dma-heap.h>
+> > =C2=A0#include <linux/err.h>
+> > +#include <linux/export.h>
+> > =C2=A0#include <linux/list.h>
+> > =C2=A0#include <linux/nospec.h>
+> > =C2=A0#include <linux/syscalls.h>
+> > @@ -202,6 +203,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+> > =C2=A0{
+> > =C2=A0	return heap->priv;
+> > =C2=A0}
+> > +EXPORT_SYMBOL_NS_GPL(dma_heap_get_drvdata, "DMA_BUF_HEAP");
+> > =C2=A0
+> > =C2=A0/**
+> > =C2=A0 * dma_heap_get_name - get heap name
+> > @@ -214,6 +216,7 @@ const char *dma_heap_get_name(struct dma_heap *heap=
+)
+> > =C2=A0{
+> > =C2=A0	return heap->name;
+> > =C2=A0}
+> > +EXPORT_SYMBOL_NS_GPL(dma_heap_get_name, "DMA_BUF_HEAP");
+> > =C2=A0
+> > =C2=A0/**
+> > =C2=A0 * dma_heap_add - adds a heap to dmabuf heaps
+> > @@ -303,6 +306,7 @@ struct dma_heap *dma_heap_add(const struct
+> > dma_heap_export_info *exp_info)
+> > =C2=A0	kfree(heap);
+> > =C2=A0	return err_ret;
+> > =C2=A0}
+> > +EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
+>=20
+> It's not clear to me why we would need to export those symbols.
+>=20
+> As far as I know, heaps cannot be removed, and compiling them as module
+> means that we would be able to remove them.
+>=20
+> Now, if we don't expect the users to be compiled as modules, then we
+> don't need to export these symbols at all.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/gpu/drm/renesas/rz-du/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Maybe I'm getting out of topic, sorry if its the case, but making that a ha=
+rd
+rule seems very limiting. Didn't we said that a heap driver could be made t=
+o
+represent memory region on a remote device such as an eGPU ?
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/Kconfig b/drivers/gpu/drm/renesas/rz-du/Kconfig
-index 34d515eb798b..8bbcc66ca3f0 100644
---- a/drivers/gpu/drm/renesas/rz-du/Kconfig
-+++ b/drivers/gpu/drm/renesas/rz-du/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- config DRM_RZG2L_DU
- 	tristate "DRM Support for RZ/G2L Display Unit"
--	depends on ARCH_RZG2L || COMPILE_TEST
-+	depends on ARCH_RENESAS || COMPILE_TEST
- 	depends on DRM && OF
- 	depends on VIDEO_RENESAS_VSP1
- 	select DRM_CLIENT_SELECTION
--- 
-2.51.0
+Nicolas
 
+>=20
+> Am I missing something?
+>=20
+> Maxime
+
+--=-45N4bvp/oD9a6lFdlKUD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaN5ywwAKCRDZQZRRKWBy
+9KyVAP0e+zNS/qwzQzV67XRNZS/HR4iYLotJyohgk+o985wA0gD/cUs7EW6a2cas
+LUv2nPsRzhxVleDso0vC+2RD1vBV7wE=
+=kgiD
+-----END PGP SIGNATURE-----
+
+--=-45N4bvp/oD9a6lFdlKUD--
