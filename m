@@ -2,66 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2186EBB2B3B
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 09:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A07DBB2BBC
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 09:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42CFA10E79E;
-	Thu,  2 Oct 2025 07:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C826A10E7A3;
+	Thu,  2 Oct 2025 07:47:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bwFJQzMQ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Feo45RUn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7C610E041;
- Thu,  2 Oct 2025 07:35:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759390517; x=1790926517;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9hU4I5yXFIJ4a1qFMKUAKroZbsUs+Vvx5ClpVpLmR4U=;
- b=bwFJQzMQwWnDWHB0XwBDmSTAVLdA/JWpO0uC9H/1Dm4gYZV3DbtjvMy2
- eOKkqcikmYPO765MQKERa8wFTU43GptIK5gqCK46P6g9ZQnNKJN8LU30R
- JBFyHusPmaddSimJNRtOIoD1ir7gUZ+FSm5CfcS7m7ckzVFOCYQ0awPEA
- VrxyNn7Hys8Rz6V1VKGc7xByGaP+yIhQ2T31fdhNPw8sHSX1RsNQS/QsW
- 5OfNTO1NcU/8hfeLgAvEg+50BRbnVpC3/1YFb+/6IaHnFQz5FHH9ZthdJ
- MiyuE3ReY2o8mymQ1UnKqEjy6BjkrR2tjf1hcLFCHMXWWAmwGmY9PX7yq w==;
-X-CSE-ConnectionGUID: gT6rqqpVQ1Ojz6yN564z0w==
-X-CSE-MsgGUID: NWDmjeFZR0Ou0agMgN33BA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="73025451"
-X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; d="scan'208";a="73025451"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2025 00:35:16 -0700
-X-CSE-ConnectionGUID: riUZHC1ETX+I4o1YAK6f+w==
-X-CSE-MsgGUID: YoO7nr63TqqsVNW3IUMTdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; d="scan'208";a="216098460"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.245.192])
- ([10.245.245.192])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2025 00:35:13 -0700
-Message-ID: <b07550a8-9e68-4bb9-bae8-570bc04bff7c@linux.intel.com>
-Date: Thu, 2 Oct 2025 09:35:11 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 122C610E7A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 07:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759391265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CgVDpIUaXbRIFaGTvmSsiE/BFfaSBmSlnmsfDON0gMA=;
+ b=Feo45RUn5sJEzBNX3IBbDb+Dn/lix3vmjA9pySojguy1Xop7mYMj2yN/yH3iotbrD+CLYp
+ KGKsRwvEd4Lw8k6ChnnJZA74ttDxHnRzWI28FdehjaPQkR8S0uJL1q89R9wmOL2g8sdXq9
+ L2gGBuYL8nIrR5OUBrVPlz6Rs27zsfM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-120-LfpmtGpsPfGCqo9OAgj6rw-1; Thu, 02 Oct 2025 03:47:43 -0400
+X-MC-Unique: LfpmtGpsPfGCqo9OAgj6rw-1
+X-Mimecast-MFC-AGG-ID: LfpmtGpsPfGCqo9OAgj6rw_1759391262
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-4255d025f41so414237f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 00:47:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759391262; x=1759996062;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CgVDpIUaXbRIFaGTvmSsiE/BFfaSBmSlnmsfDON0gMA=;
+ b=awoyBm4RKJlGDzp0zgR5unlpemsONkSyoskUvYC5xx21eP6fKH9meuYWE9p6QObhNy
+ jNxgboAy8973lqKFkhR6q0bCB+FQAG8HHf7hNHptU7pQAYsXBZbYd9/KrWxDD11yzp4b
+ 8O3raqz26Is53O17Qga4Dp60zt8BS7fNiqeo8iRBKgjSYF/sHWAOrAZr3sNGV2aCg/oe
+ 0LOZItkx9qaliLa6nU4MVoqlIesHJ60Hu9aB3HYyKCeFs3fBEMeaHMhtrByQUJ0JTp/3
+ 7QGGY+Bsj5/2K54blUsRQJH/Ku4p3Nh3FB2hhufLsTCGX2yVPNy2Q57ZejuTU2g6uxcx
+ cN2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/Mi4wfUDb4EDP851GTYDuLtKNIvgeWA2Bww0IJjUol5AOtrBC5CakDy0APZvOG0Zi3jG1saBVVV8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1lR5dXdSEdHiQGRywxuQj1l6X21TcnnL6rgGYhp3+u2sfOp0P
+ 0tAAmjYNEwiE5wCV7OdnKSdfs55rdal15jMDFD310QrEjS3hR2j3AqjEEXMw7Q+GAkQhhc4NNZ2
+ p5XRUjThsHkFcewRsI+5K5QoPb20XUu96TajpjYc5b2OLCMsyt0HsqIV6u0390/sl9NPpdA==
+X-Gm-Gg: ASbGncvgn2PGSFa4ICG/dw1ShPq6dPob4qQELndWPwKhKr4TDRikwl3MJRlrtsiCeF3
+ LZfJj6AxohCsu8vGy/zoLmbwAMYdmnoOlzjto8p5+Hm04sq4xtqJuwbgJPS7J55zvu0Vl14DtCd
+ mzrRf3B2DyCBvvOKRm1wP6qdwNGFyRLaTETGI84ZrPKNI3246A3G4CDiQ4QbEB50qLqD2WY+sW9
+ QM++i45ks1T4mjCaR+bX/f0fE7qwerwTePH34IBwjRS1u5BXqwK9SPiGT/0RuU4zk8CWsnuLyl0
+ 6WVti0jyENQjS2z02Eudqg==
+X-Received: by 2002:a05:6000:615:b0:3eb:4e88:585 with SMTP id
+ ffacd0b85a97d-4255780bf79mr4246074f8f.29.1759391262079; 
+ Thu, 02 Oct 2025 00:47:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFP/KnwbkkSVeQQvgR4f/j6yP7T3XyqaNDmBwlBCTQIJSAplcQo89U5KExVEQ0LiNnNhN8Wxw==
+X-Received: by 2002:a05:6000:615:b0:3eb:4e88:585 with SMTP id
+ ffacd0b85a97d-4255780bf79mr4246043f8f.29.1759391261558; 
+ Thu, 02 Oct 2025 00:47:41 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4255d8a6b5csm2470879f8f.5.2025.10.02.00.47.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Oct 2025 00:47:41 -0700 (PDT)
+Date: Thu, 2 Oct 2025 09:47:40 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v12 2/9] dma-buf: dma-heap: export declared functions
+Message-ID: <20251002-shaggy-mastiff-of-elevation-c8e1f0@houat>
+References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
+ <20250911135007.1275833-3-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/6] drm/i915/dp: Work around a DSC pixel throughput
- issue
-To: imre.deak@intel.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Vidya Srinivas <vidya.srinivas@intel.com>,
- Swati Sharma <swati2.sharma@intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20250930182450.563016-1-imre.deak@intel.com>
- <aN0xDp1AN85zzznP@ideak-desk>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <aN0xDp1AN85zzznP@ideak-desk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="gqzh2ah3mmdu76ac"
+Content-Disposition: inline
+In-Reply-To: <20250911135007.1275833-3-jens.wiklander@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +111,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
 
-Sure, for both:
+--gqzh2ah3mmdu76ac
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 2/9] dma-buf: dma-heap: export declared functions
+MIME-Version: 1.0
 
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Hi,
 
-Den 2025-10-01 kl. 15:47, skrev Imre Deak:
-> Hi Thomas, Maarten, Maxim,
-> 
-> could you ack merging this patchset via intel trees? Patch 1 and 2 has
-> changes in drm_dp_helper.c, but it would be good to fix the cases on
-> Intel HW where the affected docking stations are used.
-> 
-> Thanks,
-> Imre
-> 
-> On Tue, Sep 30, 2025 at 09:24:44PM +0300, Imre Deak wrote:
->> This is v6 of [1], removing the unreachable default switch case in
->> drm_dp_dsc_sink_max_slice_throughput() and adding the R-b and T-b tags
->> from Ville and Swati.
->>
->> Reported-by: Vidya Srinivas <vidya.srinivas@intel.com>
->> Reported-by: Swati Sharma <swati2.sharma@intel.com>
->> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->> Cc: dri-devel@lists.freedesktop.org
->>
->> [1] https://lore.kernel.org/all/20250926211236.474043-1-imre.deak@intel.com
->>
->> Imre Deak (6):
->>   drm/dp: Add quirk for Synaptics DSC throughput link-bpp limit
->>   drm/dp: Add helpers to query the branch DSC max throughput/line-width
->>   drm/i915/dp: Calculate DSC slice count based on per-slice peak
->>     throughput
->>   drm/i915/dp: Pass DPCD device descriptor to
->>     intel_dp_get_dsc_sink_cap()
->>   drm/i915/dp: Verify branch devices' overall pixel throughput/line
->>     width
->>   drm/i915/dp: Handle Synaptics DSC throughput link-bpp quirk
->>
->>  drivers/gpu/drm/display/drm_dp_helper.c       | 156 ++++++++++++++++++
->>  .../drm/i915/display/intel_display_types.h    |   9 +
->>  drivers/gpu/drm/i915/display/intel_dp.c       | 146 ++++++++++++++--
->>  drivers/gpu/drm/i915/display/intel_dp.h       |   5 +-
->>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   9 +-
->>  include/drm/display/drm_dp.h                  |   3 +
->>  include/drm/display/drm_dp_helper.h           |  14 ++
->>  7 files changed, 328 insertions(+), 14 deletions(-)
->>
->> -- 
->> 2.49.1
->>
+On Thu, Sep 11, 2025 at 03:49:43PM +0200, Jens Wiklander wrote:
+> Export the dma-buf heap functions to allow them to be used by the OP-TEE
+> driver. The OP-TEE driver wants to register and manage specific secure
+> DMA heaps with it.
+>=20
+> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/dma-buf/dma-heap.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 3cbe87d4a464..8ab49924f8b7 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/dma-buf.h>
+>  #include <linux/dma-heap.h>
+>  #include <linux/err.h>
+> +#include <linux/export.h>
+>  #include <linux/list.h>
+>  #include <linux/nospec.h>
+>  #include <linux/syscalls.h>
+> @@ -202,6 +203,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+>  {
+>  	return heap->priv;
+>  }
+> +EXPORT_SYMBOL_NS_GPL(dma_heap_get_drvdata, "DMA_BUF_HEAP");
+> =20
+>  /**
+>   * dma_heap_get_name - get heap name
+> @@ -214,6 +216,7 @@ const char *dma_heap_get_name(struct dma_heap *heap)
+>  {
+>  	return heap->name;
+>  }
+> +EXPORT_SYMBOL_NS_GPL(dma_heap_get_name, "DMA_BUF_HEAP");
+> =20
+>  /**
+>   * dma_heap_add - adds a heap to dmabuf heaps
+> @@ -303,6 +306,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_e=
+xport_info *exp_info)
+>  	kfree(heap);
+>  	return err_ret;
+>  }
+> +EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
+
+It's not clear to me why we would need to export those symbols.
+
+As far as I know, heaps cannot be removed, and compiling them as module
+means that we would be able to remove them.
+
+Now, if we don't expect the users to be compiled as modules, then we
+don't need to export these symbols at all.
+
+Am I missing something?
+
+Maxime
+
+--gqzh2ah3mmdu76ac
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN4uFwAKCRAnX84Zoj2+
+dgXFAYCRqMeTP57unkLdOGOydUleXNO4Hyw5XxsQDOrGvzMhBXOO+wkmNxAyspbp
+Ufq67PMBfjTtOUKXQIyMWncxOakNOIj4KKpCcpuXU8G+m0dpGkCeFoK4Z85nhhK9
+lbC1byfHEQ==
+=wMRm
+-----END PGP SIGNATURE-----
+
+--gqzh2ah3mmdu76ac--
 
