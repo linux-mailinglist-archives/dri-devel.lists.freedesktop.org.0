@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239F1BB6085
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C70FBB60D3
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:01:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7669110E87A;
-	Fri,  3 Oct 2025 07:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F5810E89D;
+	Fri,  3 Oct 2025 07:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8DC3610E008
+ by gabe.freedesktop.org (Postfix) with ESMTP id B396410E0E0
  for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 08:28:49 +0000 (UTC)
-X-AuditID: a67dfc5b-c45ff70000001609-14-68de3419f97f
+X-AuditID: a67dfc5b-c2dff70000001609-31-68de3419efec
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -67,48 +67,45 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
  linux-modules@vger.kernel.org, rcu@vger.kernel.org,
  linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: [PATCH v17 46/47] SUNRPC: relocate struct rcu_head to the first field
- of struct rpc_xprt
-Date: Thu,  2 Oct 2025 17:12:46 +0900
-Message-Id: <20251002081247.51255-47-byungchul@sk.com>
+Subject: [PATCH v17 47/47] mm: percpu: increase PERCPU_DYNAMIC_SIZE_SHIFT on
+ DEPT and large PAGE_SIZE
+Date: Thu,  2 Oct 2025 17:12:47 +0900
+Message-Id: <20251002081247.51255-48-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251002081247.51255-1-byungchul@sk.com>
 References: <20251002081247.51255-1-byungchul@sk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa2yLYRTH8zx9b2uUV228LjHKiGE2GTkuESSy9wsRvggRa9Y3WttKOnYR
- krELFpfp1OjWpbOlqXZsOkZR2c1lNtLZMMk2OjVbqEptYhfmrUX4cvLLec7/d54Ph5HI3eQM
- RqM9KOi0yiQFJSWkvgmlS6fHdqujyx/GgPu6HUGOc4yAn/pHNIy5HiEweLwU+C2nEfRVnUDQ
- 5p0I7YN+CnytxRgumhwEON/dpaH10yiG5vwrGAr7KSgqzMJi6cNguHYPw5DFRoMlMwKKnrWR
- 0GM10tB1zkBAU/crEj716il4+ziXhNuZ72gYaPdgKM0tJ6DtbjEF3RVjJLhrm0ko+NKLwDLo
- p6H3ZS6GqmzR8qzoOQkfjSYMDYOfMRS8MFPQc9ZHQ8D0iwR7KwGG0ZMUHPv2FoFpIAYG7Dbx
- cw+76fXRvK26BvMVJRWIHxnWIz4nXySnsYvmzY5DfHajj+SrrZF82f1+zJcGBkneYTtF8Y6A
- nuZLR/okfJ6vHfNPLo0QvNOzauusndK1KiFJkyrolq2Ll6pbrm444Jqcnq3fnYn8sjwUwnBs
- LOc/cYP+yw/sX3GQKXYh19ExJAlyKDuHqz7TSwZZwjbP4l61LgnyFFbJfWvoEmcYhmAjuMCP
- HcG2jF3JWbMukePKcM5eVftHEyL22zzNRJDl7Aoux5+Nx+cnc02XvURQIxHXVpbIxzeFc1m3
- isSoVNQ0hHDfbzvxuHM6V2ftIPIRa/wvbvwXN/4XNyOJDck12tRkpSYpNkqdodWkRyXsT3Yg
- 8c4sR0d33UEB9/Z6xDJIMUHmjuhSy0llakpGcj3iGIkiVBZv7VTLZSplxmFBt3+P7lCSkFKP
- ZjKEYpps+fc0lZzdqzwoJArCAUH39xUzITMykdQVpzC8T+zcfNOsPRU5KeFFwvz4xWlTmri5
- jAoKSm6UNb6ucq/tW90479zMRXu9plC2Qmo2Fnc2hLXUbNpiOB6l+vC0M22VI+aNIvGCEDdM
- nX2+ZuxMXr93wLlvwdDG4cojcVSEf9QVDd6wOyWVU8MLz9fYthX3z65rKvO47uUqiBS1MiZS
- oktR/ganEuEEYwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHec9d6cRxGZ3Ksgaj6GIXsh4qulDhIejyrQgqVx7amDe2spQC
- bY6krGwxV1upKQ3bTE0rMlkMJSt11LQb6dLlskJtYpp5XWdJ1JeX3/s8P/7P8+FhcNkIOYdR
- Jx8XtcnKRDkVToTv3qBfPnvNR9VKZ/kMeJvlImBoMIeAGxVlFORUXSfhVbkDQcdQDoLhMSsO
- hpogARPGBhoGR9poCDobEOR7jDiU3c/C4EflJAU99QMITD4/BeZvWQQEbLkILN1WGr49jYO+
- jloSgt4vGLz72YvA5p/EwO86h2AiXwOFxdUUjLlf4mA2vUJwy+fF4Wul1Lzf8BGBs/QsBZ/z
- HuDQ6p8Or4cCFLwwXaCgz3MDg++VFBSddZJw02pEoC+poCD/ZhUBNZ2PafD0jGPQnm/EwFG1
- Czps3QQ05RVj0n6SdW8WWM16THq+YmC6W4vBiM1OQ3NJOwG2TAVY3a0kfCq10DDuWwXBohRo
- cHyhwXvZREB530tyiwkJw4ZLhGCvfogJhpYJSigrKEPC2KgRCYO39bhgyJO+9b0BXMiuPinc
- buqlhNGhN5Tg/FlECI3FvHDFvVyosXhpIfvJB3rv+gPhGxPERHWaqF2xKT5c1Xxna6oz4lS2
- 8WAmCrDnURjDc2v4J45+LMQUt4h//34ED3Ekt4CvvthNhhjnmqL4t55lIZ7BKfkf9V7JYRiC
- U/ADv/aHyiy3li/VXyOnIqN5R6XrT0yYVG/1NREhlnGxvCGQjU35EfyL634iFINLYysKZFOT
- onn9Ayueh1jLf5bln2X5zypCuB1FqpPTkpTqxNgYnUaVnqw+FXM0JakKSQdpOzN+5REabI2r
- QxyD5NNYj8KrkpHKNF16Uh3iGVweycaXtqtkbIIyPUPUphzWnkgUdXVoLkPIZ7E794nxMu6Y
- 8rioEcVUUfu3izFhczLRh8aWPRBVeFCh3fbZ3bgO254rX9072XNu4Xx3f+PchKhJfdy8q5u2
- bC5xm8/bYtpcW2MWz+zqYjtrT7ZohI0F9tPajOd7I7b7Tmc034L2nK5n9wotbOehpbFO89Xh
- w/1ZrsVc3xFFbYV5x1qHnW8zTUtN0oRFu9riBsbujAZzV8gJnUq5agmu1Sl/A2JfrD6MAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTdxjG9z/3NlZOOpIeQLOtiTc2wQvON1EXvxjOFzKSZSZqiFQ5eppx
+ MS1XjQkC9TYxWAIk4FhrsVJaFMELKjUVtQSRUMBgRS4WAWWlNCPQDKV2rdFvv/yeJ2+eDy+D
+ y4fIWEadnStoslWZSkpKSH0rjBtjk8bETeecK2HolIOAyzdsFLiuWxHo7oUICOqdNCwsvaYh
+ ZHciqO7X4+B9PI/Ab76AYOZpMvjGH5DwMjCLwDz5CYNJxxkEf19po+Bjbx8ORs8oDu9bwu6W
+ cwyBvbGEgsHJlfBi0U9Bd9WfFPj6L2Mw10LBX3V6BKWmGxT0e5cxGKnWY2BtTYGaGQqqbyqg
+ qvkBBkvmJhqem0YIqOsdJGHZsxlChhxwWt/RcN3XR0L32BAJ3mk9BeNdp0m4W/wmvP+FBwPb
+ hWkcWt+GU/vwj2A83UDA2eACAmf7BAZjthAJLkcPCQNWFwHdtRYC+u43k9DW+xyHwMU4cF0q
+ J8FdMYWgcm4agTdgxsG86Kd3Z/BNbXcwXjcQpHhbvQ3xHz/oEa+rCNPjWT/OX+2ZpXh7wEDw
+ z65w/KXejfy92lGaL3s4TPOG1jy+7ImP5E0dMxg/7N2VmrBfujNDyFTnC5rEX9KlovuJmzx2
+ W1J492yILkYT9HkkYTg2ibN3vMe/8n+WKSrCFLuOc7uXPvto9nuurXyajDDO9qzihvp/ivC3
+ rMDd/6c93GEYgl3D1Zfui2gZ+zPnf2r5cvI7ztri+MySsB/09BARlrPbOJ2/DDuPpOGOScLN
+ ef79sieGe9ToJiqQzIC+aUJydXZ+lkqdmZQgFmWrCxMO52S1ovC3mU8uH2hH867fOhHLIOUK
+ mWvNqCgnVfnaoqxOxDG4MlqW3jgiymUZqqLjgibnoCYvU9B2ojiGUCpkWwIFGXL2qCpX+EMQ
+ jgmarynGSGKLkTowpdg1Hq8rHSg+NHwk+ZNhtCxK3hF/LeVRkiKvwRR8JfsgWn7fujposRzq
+ 01Zvj0qdSN+7IMbhg111qvLXO6LRBuxouXhizxSZPL96d9OJk3tqCi7+Wuowxq5yd29arGku
+ +aF+dsvxlPHcqLnEZbKkKG19ljFm7a1KRX1MamWaktCKqs3xuEar+h+V1r69aQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSXUyTdxTG/b/fbax500H6jo2pNcRoJorKcqbG6IXh1UTizbKoF9LoG1op
+ H7YCZZuGUhrJhA2bFIQqVogNX2qlwKimC4JUsRCsVSBKZZBSUMBmE2QI2LWa3Zz8zvM8OXku
+ DoNL28g4RpV1VtBkKdRySkyIU3cbtny585VyW5FzAwzqOwmYnysh4MrtZgpKWqpIeHKrCcHo
+ fAmChSULDkZnmIAVk5uGucWXNIRdbgQVXhMOza16DN7ZP1Iw3f0PAvNYgILK13oCQrZSBNVB
+ Cw2ve1JgdvQeCWH/JAZD72cQ2AIfMQh0XkCwUpEB12odFCz1D+BQaX6C4PqYH4cpe8Rsdb9C
+ 4KovomCivA0HX2ANPJsPUdBrvkjBrPcKBm/tFFiLXCRctZgQGOpuU1BxtYUA5193afBOL2Mw
+ UmHCoKnlMIzaggR4ymuxSL9I6o4MLJUGLDKmMDDfvIfBoq2Rhr66EQJshQlg6feRMF5fTcPy
+ WBKErdngbpqkwf+7mYBbswPkPjPiF4y/EXyjox3jjU9XKL65phnxSx9MiJ+7YcB5Y3lk7Z4J
+ 4XyxI5+/4Zmh+A/zzyne9d5K8I9rOf5S/xbeWe2n+eI/X9BHdh0T7zklqFV5gmbr3jSxcvjB
+ MJnTJtL9URKmC9E4/SsSMRy7k/u3YYKKMsVu5IaHF/Eox7DrOEdZkIwyznq+5ga930b5C1bg
+ 7r7piGQYhmATuBrD0agsYb/jQj0N+OeTa7kme+cnFkV035iHiLKUTeaMoWKsHImtaFUjilFl
+ 5WUqVOrkRG2GsiBLpUs8mZ3ZgiLPZDu3fKkDzflSuhDLIPlqiTfBr5SSijxtQWYX4hhcHiNJ
+ qx9RSiWnFAU/CZrsE5pctaDtQl8xhFwmOfSjkCZl0xVnhQxByBE0/7sYI4orRPe/CQbzN+oa
+ 7HT7YYv4oUO3Y2j/NVtsaezlX2JdPQe7c55bRb1Jsvjk0qKB9b7l3X2bJzpO63MT/e369B9k
+ lqGA2r6neMOChq5xn1fVulKdcoXgkf68nZAdonSbvj9Z2l125u/BxLbc1Ibt8Qf0+HR6X1Vw
+ ZrTV/Ch/U//+3uNyQqtUJG3GNVrFfyOFB8lIAwAA
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 03 Oct 2025 07:00:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,63 +123,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While compiling Linux kernel with DEPT on, the following error was
-observed:
+Yunseong reported a build failure due to the BUILD_BUG_ON() statement in
+alloc_kmem_cache_cpus().  In the following test:
 
-   ./include/linux/rcupdate.h:1084:17: note: in expansion of macro
-   ‘BUILD_BUG_ON’
-   1084 | BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);	\
-        | ^~~~~~~~~~~~
-   ./include/linux/rcupdate.h:1047:29: note: in expansion of macro
-   'kvfree_rcu_arg_2'
-   1047 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-        |                             ^~~~~~~~~~~~~~~~
-   net/sunrpc/xprt.c:1856:9: note: in expansion of macro 'kfree_rcu'
-   1856 | kfree_rcu(xprt, rcu);
-        | ^~~~~~~~~
-    CC net/kcm/kcmproc.o
-   make[4]: *** [scripts/Makefile.build:203: net/sunrpc/xprt.o] Error 1
+  PERCPU_DYNAMIC_EARLY_SIZE < NR_KMALLOC_TYPES * KMALLOC_SHIFT_HIGH * sizeof(struct kmem_cache_cpu)
 
-Since kfree_rcu() assumes 'offset of struct rcu_head in a rcu-managed
-struct < 4096', the offest of struct rcu_head in struct rpc_xprt should
-not exceed 4096 but does, due to the debug information added by DEPT.
+The following factors increase the right side of the equation:
 
-Relocate struct rcu_head to the first field of struct rpc_xprt from an
-arbitrary location to avoid the issue and meet the assumption.
+  1. PAGE_SIZE > 4KiB increases KMALLOC_SHIFT_HIGH.
+  2. DEPT increases the size of the local_lock_t in kmem_cache_cpu.
+
+Increase PERCPU_DYNAMIC_SIZE_SHIFT to 11 on configs with PAGE_SIZE
+larger than 4KiB and DEPT enabled.
 
 Reported-by: Yunseong Kim <ysk@kzalloc.com>
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/sunrpc/xprt.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ include/linux/percpu.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/linux/sunrpc/xprt.h b/include/linux/sunrpc/xprt.h
-index f46d1fb8f71a..666e42a17a31 100644
---- a/include/linux/sunrpc/xprt.h
-+++ b/include/linux/sunrpc/xprt.h
-@@ -211,6 +211,14 @@ enum xprt_transports {
- 
- struct rpc_sysfs_xprt;
- struct rpc_xprt {
-+	/*
-+	 * Place struct rcu_head within the first 4096 bytes of struct
-+	 * rpc_xprt if sizeof(struct rpc_xprt) > 4096, so that
-+	 * kfree_rcu() can simply work assuming that.  See the comment
-+	 * in kfree_rcu().
-+	 */
-+	struct rcu_head		rcu;
-+
- 	struct kref		kref;		/* Reference count */
- 	const struct rpc_xprt_ops *ops;		/* transport methods */
- 	unsigned int		id;		/* transport id */
-@@ -317,7 +325,6 @@ struct rpc_xprt {
- #if IS_ENABLED(CONFIG_SUNRPC_DEBUG)
- 	struct dentry		*debugfs;		/* debugfs directory */
+diff --git a/include/linux/percpu.h b/include/linux/percpu.h
+index 85bf8dd9f087..dd74321d4bbd 100644
+--- a/include/linux/percpu.h
++++ b/include/linux/percpu.h
+@@ -43,7 +43,11 @@
+ # define PERCPU_DYNAMIC_SIZE_SHIFT      12
+ #endif /* LOCKDEP and PAGE_SIZE > 4KiB */
+ #else
++#if defined(CONFIG_DEPT) && !defined(CONFIG_PAGE_SIZE_4KB)
++#define PERCPU_DYNAMIC_SIZE_SHIFT      11
++#else
+ #define PERCPU_DYNAMIC_SIZE_SHIFT      10
++#endif /* DEPT and PAGE_SIZE > 4KiB */
  #endif
--	struct rcu_head		rcu;
- 	const struct xprt_class	*xprt_class;
- 	struct rpc_sysfs_xprt	*xprt_sysfs;
- 	bool			main; /*mark if this is the 1st transport */
+ 
+ /*
 -- 
 2.17.1
 
