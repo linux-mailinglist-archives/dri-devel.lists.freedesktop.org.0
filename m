@@ -2,143 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FC8BB29F3
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 08:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7289ABB2A00
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 08:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2472110E78C;
-	Thu,  2 Oct 2025 06:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1862C10E798;
+	Thu,  2 Oct 2025 06:36:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oAAR64Xh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="11E5T0lq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oAAR64Xh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="11E5T0lq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MgYnsfyN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC6B10E78C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 06:34:51 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AEFA21F818;
- Thu,  2 Oct 2025 06:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1759386889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2AhVawyHOeVXeN0dwRjjfWCyiE8+Rv7muX5eTnNtJEM=;
- b=oAAR64Xh/aVQ6hqIphnFeBu75wc0r2W47YeX1B024PhAmgNsQe67ZroJ3tereZVkAV7oK/
- hXtUkh/RS6hyzvOCSkPcn8RIYL5N9XrskxvFY+vLNVMbg1lgfWS4XMTz0J5tyF+rKLvbWD
- pBD2Kg6mvkxXIYY9waAgNHiljH1I6Fw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1759386889;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2AhVawyHOeVXeN0dwRjjfWCyiE8+Rv7muX5eTnNtJEM=;
- b=11E5T0lqyzjukM4TJkWBgb8WEg/8GWSKOgfHNSoDo7S727SsERw8poHEu8JkLnSnZrMmng
- YRUNHP7/n5x8AXDQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oAAR64Xh;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=11E5T0lq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1759386889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2AhVawyHOeVXeN0dwRjjfWCyiE8+Rv7muX5eTnNtJEM=;
- b=oAAR64Xh/aVQ6hqIphnFeBu75wc0r2W47YeX1B024PhAmgNsQe67ZroJ3tereZVkAV7oK/
- hXtUkh/RS6hyzvOCSkPcn8RIYL5N9XrskxvFY+vLNVMbg1lgfWS4XMTz0J5tyF+rKLvbWD
- pBD2Kg6mvkxXIYY9waAgNHiljH1I6Fw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1759386889;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2AhVawyHOeVXeN0dwRjjfWCyiE8+Rv7muX5eTnNtJEM=;
- b=11E5T0lqyzjukM4TJkWBgb8WEg/8GWSKOgfHNSoDo7S727SsERw8poHEu8JkLnSnZrMmng
- YRUNHP7/n5x8AXDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73A4D13990;
- Thu,  2 Oct 2025 06:34:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id so1GGgkd3miOMAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 02 Oct 2025 06:34:49 +0000
-Message-ID: <840dfd6f-3417-4667-a808-70d3d3f331c0@suse.de>
-Date: Thu, 2 Oct 2025 08:34:48 +0200
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4DEF10E796
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 06:36:06 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-57b8fc6097fso848723e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Oct 2025 23:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759386965; x=1759991765; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+JxJRHM7RKVe2VKLf1OZeMJvur9jkhqQvZ7AlHIqtmE=;
+ b=MgYnsfyNc1P8L0Yhpw75kjR/uQcHRe0uSBzVUNwWpdYXY2zNoSy1tAv5IN8Cvs03sj
+ txPRTRbkcGhUBE84aZO9W8AXrSFUEsrYFbpA2auoMsQmhIgms2UzRPujMFdTsZJiisXy
+ IUbu9eKru0cIfCeZdtRGaHZ1OGvM0bFrxbtADYzSlFbLrB4CbAvJQjCF2h8J46QqB+3Z
+ bEK34tH6Sf/96CKIqYxYuNQJ2V+6hTF536SdROS1s0tAgRdKfyW5gzx32FktGqfzteU2
+ /PRVD/a8GocBCfFeyZxfZ+6V/2O9tm3xSGqt9hhBKNd1suHI9SAtxliipzt9w/W0q5q3
+ SpOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759386965; x=1759991765;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+JxJRHM7RKVe2VKLf1OZeMJvur9jkhqQvZ7AlHIqtmE=;
+ b=Sj+BimntXe9TfXKi3Qgc539FczEbLr+PBqsZq7s16gY9XqxnmHZSk5NCwamKEQvzUF
+ iw5fCIPc9215FrMv6SagujhI2W5Z+3ugVKggwseVA5+Ip9fQ9sFj7z4Hq16gX19DYl6I
+ Q11l5XB/PxMljkh7c3BFrGVSTTW3k3at49seHDsUKTk1ON7KTHd8CFJ2FvRM5EhCul9j
+ yMuF1qNbyK2iUsOUSEkDOpF+Mti8ENK4n8MWRT19jyXMUIosCh2QEOTddlxUtN08EzX8
+ QNcTim5IkN5/3+ix9KPyA1J8qux43e5/imEfN4hQX2B/fXUiRfE5xppuqbvsBUk1PgQs
+ iVrA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHxToHsw4Mh6pHPdn0qiOmsMIYNuk0zAXIxJlV7StCzSa2+aHe/GaBNI6WjZuzMfUDsAMMjnWoUx8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw99VP4VkDcm5CCDz3zPfyxHXIpI+LYcpMIa3AE0IthfbioOaMi
+ eWzMFU1SIw9AWX5vRoruiJrGZeN3iyKtdGV7KLB9ooi5u0tWdZpjv8j/rxVwwS7rvYk5SWcY1Op
+ KEXooxWt/oI7+6zdC6Tt4OS+ji1cPMVw=
+X-Gm-Gg: ASbGncvEw4EWzPWq39uXFa0r+I1rb7PN8gcq4i6oGc2R1YAsRDh7OjHwsDMFL5Hm7YD
+ S8cLh456JwcRzw72N75KGa95hVbvPlPwbb6a906YD/Sqg+FtodZ7T7n8yFYqyoDhEIIyXDXNzk4
+ PaABmZ3YtMOQx5ybIPzpDx5RhRKnQKJqRcs32hmVzVp8tg3nuSV6GYNugJfYsuSfEzPjVGjyXwh
+ TfI/v9Kfsj+LN+xt/P48CZm3WM67UBNpU2pkTHf16HlYb0rU0kufvQgQ3PUiTdjjg==
+X-Google-Smtp-Source: AGHT+IF99G3AYiAUEQrPtjf+2h2PSZdL5Ih8yjphXmvu9P7cETElAJxwS9A+P9E5rAaBZ1LwUTeNFcGEcpOdmxasB90=
+X-Received: by 2002:a05:6512:3b8d:b0:573:68fd:7ad2 with SMTP id
+ 2adb3069b0e04-58af9f6b129mr2083801e87.35.1759386964675; Wed, 01 Oct 2025
+ 23:36:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/vblank: downgrade vblank wait timeout from WARN to
- debug
-To: Chintan Patel <chintanlike@gmail.com>, maarten.lankhorst@linux.intel.com, 
- maxime.ripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-References: <20251002025723.9430-1-chintanlike@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251002025723.9430-1-chintanlike@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: AEFA21F818
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- TAGGED_RCPT(0.00)[147ba789658184f0ce04];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Spam-Score: -3.01
+References: <20250924175743.6790-1-hsukrut3@gmail.com>
+ <202509272320.3K8kdDCw-lkp@intel.com>
+ <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
+In-Reply-To: <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
+From: sukrut heroorkar <hsukrut3@gmail.com>
+Date: Thu, 2 Oct 2025 08:35:53 +0200
+X-Gm-Features: AS18NWAtwoESXok4b8-OK2ehiGbNAGs6cVgv71Xx2MQ4h4uKtcLLpvhfJQAkNZ0
+Message-ID: <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
+To: David Hunter <david.hunter.linux@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>,
+ Bernie Thompson <bernie@plugable.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>, 
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+ skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,85 +95,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi David,
+Apologies for the late reply,
 
-Am 02.10.25 um 04:57 schrieb Chintan Patel:
-> When wait_event_timeout() in drm_wait_one_vblank() times out, the
-> current WARN can cause unnecessary kernel panics in environments
-> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
-> under scheduler pressure or from invalid userspace calls, so they are
-> not always a kernel bug.
+On Mon, Sep 29, 2025 at 1:29=E2=80=AFAM David Hunter
+<david.hunter.linux@gmail.com> wrote:
 >
-> Replace the WARN with drm_dbg_kms() messages that provide useful
-> context (last and current vblank counters) without crashing the
-> system. Developers can still enable drm.debug to diagnose genuine
-> problems.
+> On 9/27/25 12:12, kernel test robot wrote:
+> > Hi Sukrut,
+> >
+> > kernel test robot noticed the following build errors:
+> >
 >
-> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+> Did you compile and test this code before submitting this patch?
 >
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-
-There should be no empty lines among those tags
-
 >
-> v2:
->   - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
->   - Remove else branch, only log timeout case
-> ---
->   drivers/gpu/drm/drm_vblank.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 46f59883183d..a94570668cba 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -1289,7 +1289,7 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
->   {
->   	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
->   	int ret;
-> -	u64 last;
-> +	u64 last, curr;
->   
->   	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
->   		return;
-> @@ -1305,7 +1305,12 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
->   				 last != drm_vblank_count(dev, pipe),
->   				 msecs_to_jiffies(100));
->   
-> -	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
-> +	curr = drm_vblank_count(dev, pipe);
 
-Please don't call drm_vblank_count() here. It's not necessary for 
-regular operation. Simply keep the debug message as-is.
-
-> +
-> +	if (ret == 0) {
-
-"if (!ret)" is the preferred style.
-
-> +		drm_dbg_kms(dev, "WAIT_VBLANK: timeout crtc=%d, last=%llu, curr=%llu\n",
-> +			pipe, last, curr);
-
-Aligning the pipe argument with dev from the previous line is the 
-preferred style.
-
-Best regards
-Thomas
-
-> +	}
->   
->   	drm_vblank_put(dev, pipe);
->   }
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+Yes, I had compiled & loaded the udlfb module with no errors. Please
+let me know how to proceed
+in this case.
