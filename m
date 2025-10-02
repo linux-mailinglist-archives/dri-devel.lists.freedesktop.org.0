@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F23DBB3AFE
-	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 12:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2175EBB3CAC
+	for <lists+dri-devel@lfdr.de>; Thu, 02 Oct 2025 13:40:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E409110E18D;
-	Thu,  2 Oct 2025 10:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E24E10E194;
+	Thu,  2 Oct 2025 11:40:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hh+vwRsO";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7BAEF10E18D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 10:48:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 034551596;
- Thu,  2 Oct 2025 03:48:39 -0700 (PDT)
-Received: from [10.57.2.240] (unknown [10.57.2.240])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2BE7B3F66E;
- Thu,  2 Oct 2025 03:48:45 -0700 (PDT)
-Message-ID: <04c19e70-d895-45ff-b221-974abaa8dff8@arm.com>
-Date: Thu, 2 Oct 2025 11:48:43 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D3E10E194
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 11:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759405211; x=1790941211;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=vWzodoQgqiLu0pXyZfRnw5dcWNrHKmXYDfqUz9i4RoU=;
+ b=hh+vwRsOE27fHbxFCsLYwAn/3sEeL6e3OpZKxoXblvPlufD30q3++b0H
+ 13wzh6sDaCNWRCZA9vvQU+IYiy1MatVxAoHWbCnI+T1sBIPSw4UMSXd3F
+ L4mq2Dl+pTxVRzSvzsrBugAGqoxKuUP+bFKHF7XlamgImvWCAxH0sdS0i
+ FIkLTVbqjD5v5NkYgI6VHoVhapVKHyzv1ezkrtmpVVs2cTGSNAp0PMoiR
+ 1F5PMhhnTmXkbapK5Aqzu2r+iMYn3Qj/Mj1tPOmbsREj18xcXrUL4el/5
+ bh6b/k4FK1Sln48BgH0anc4lAWWj3v3TqzYYp9Z9IW5+2tFGIqJLohBrP w==;
+X-CSE-ConnectionGUID: fOu+sFHnSXmdWdFYmz+N6Q==
+X-CSE-MsgGUID: rn+Tqq/jQk2i8RUiZzn3Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="79337985"
+X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; d="scan'208";a="79337985"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2025 04:40:11 -0700
+X-CSE-ConnectionGUID: vyYSF09PRJaTpofzcJnjDg==
+X-CSE-MsgGUID: O9GCZXuXTjWwkrgSjbrZVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; d="scan'208";a="183321130"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.228])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2025 04:40:08 -0700
+Date: Thu, 2 Oct 2025 14:40:05 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Chintan Patel <chintanlike@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] drm/vblank: downgrade vblank wait timeout from WARN
+ to debug
+Message-ID: <aN5klZdl2MZdPSpU@intel.com>
+References: <20251002025723.9430-1-chintanlike@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] drm/panthor: minor AS_CONTROL clean up
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250916210823.4033529-1-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250916210823.4033529-1-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251002025723.9430-1-chintanlike@gmail.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,54 +75,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/09/2025 22:08, Chia-I Wu wrote:
-> This series performs minor AS_CONTROL clean up.
+On Wed, Oct 01, 2025 at 07:57:23PM -0700, Chintan Patel wrote:
+> When wait_event_timeout() in drm_wait_one_vblank() times out, the
+> current WARN can cause unnecessary kernel panics in environments
+> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
+> under scheduler pressure or from invalid userspace calls, so they are
+> not always a kernel bug.
+
+"invalid userspace calls" should never reach this far.
+That would be a kernel bug.
+
 > 
-> Patch 1 to 5 rename and document AS_CONTROL config functions. There is
-> no functional change. All functions are now prefixed by mmu_hw_ for
-> consistency. All of them also expect locking. I choose not to suffix
-> them by _locked, but I can be convinced.
+> Replace the WARN with drm_dbg_kms() messages that provide useful
+> context (last and current vblank counters) without crashing the
+> system. Developers can still enable drm.debug to diagnose genuine
+> problems.
 > 
-> Patch 6 to 7 eliminiate redundant mmu_hw_wait_ready. This is the main
-> functional change of the series. panthor_vm_flush_range no longer waits
-> for UNLOCK to complete.
+> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
 > 
-> Patch 8 to 10 give mmu_hw_flush_caches final touches, to improve error
-> handling, simplifying code, etc.
-
-I think you need to provide better justification for these changes. Some
-of them might make some sense, but in general most of the "cleanup"
-patches by themselves seem to make the code harder to read. Which can be
-fine if they are a precursor to achieving an improvement in a following
-patch, but as things stand I'm having a hard time to figure out what the
-benefit is.
-
-The cover letter implies that we have redundant mmu_hw_wait_ready calls
-(which I can believe). But we need a proper justification on why they
-are redundant, and proper patch descriptions for the precursor patches
-so that anyone coming to them in the future can understand why they were
-applied (without having to hunt through mail archives for the cover
-letter, or guess from the later patches).
-
-Having said the above, I do appreciate the time you took to write the
-documentation blocks - we do have a bunch of fairly confusing functions.
-
-Thanks,
-Steve
-
-> Chia-I Wu (10):
->   drm/panthor: rename and document wait_ready
->   drm/panthor: rename and document lock_region
->   drm/panthor: add mmu_hw_cmd_unlock
->   drm/panthor: add mmu_hw_cmd_update
->   drm/panthor: rename and document mmu_hw_do_operation_locked
->   drm/panthor: remove write_cmd
->   drm/panthor: remove unnecessary mmu_hw_wait_ready calls
->   drm/panthor: improve error handling for mmu_hw_flush_caches
->   drm/panthor: move size check to mmu_hw_flush_caches
->   drm/panthor: simplify mmu_hw_flush_caches
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 > 
->  drivers/gpu/drm/panthor/panthor_mmu.c | 157 +++++++++++++++-----------
->  1 file changed, 94 insertions(+), 63 deletions(-)
+> v2:
+>  - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
+>  - Remove else branch, only log timeout case
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 46f59883183d..a94570668cba 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -1289,7 +1289,7 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+>  {
+>  	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>  	int ret;
+> -	u64 last;
+> +	u64 last, curr;
+>  
+>  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+>  		return;
+> @@ -1305,7 +1305,12 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+>  				 last != drm_vblank_count(dev, pipe),
+>  				 msecs_to_jiffies(100));
+>  
+> -	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
+> +	curr = drm_vblank_count(dev, pipe);
+> +
+> +	if (ret == 0) {
+> +		drm_dbg_kms(dev, "WAIT_VBLANK: timeout crtc=%d, last=%llu, curr=%llu\n",
+> +			pipe, last, curr);
 
+It should at the very least be a drm_err(). Though the backtrace can
+be useful in figuring out where the problem is coming from, so not
+too happy about this change.
+
+> +	}
+>  
+>  	drm_vblank_put(dev, pipe);
+>  }
+> -- 
+> 2.43.0
+
+-- 
+Ville Syrjälä
+Intel
