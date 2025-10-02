@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BF4BB6148
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B0CBB60A0
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C5410E89C;
-	Fri,  3 Oct 2025 07:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7424B10E878;
+	Fri,  3 Oct 2025 07:00:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id 44DFE10E7A4
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4459D10E7A1
  for <dri-devel@lists.freedesktop.org>; Thu,  2 Oct 2025 08:28:48 +0000 (UTC)
-X-AuditID: a67dfc5b-c2dff70000001609-03-68de34118901
+X-AuditID: a67dfc5b-c45ff70000001609-2a-68de34124c87
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -67,44 +67,43 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
  linux-modules@vger.kernel.org, rcu@vger.kernel.org,
  linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: [PATCH v17 29/47] cpu/hotplug: use a weaker annotation in AP thread
-Date: Thu,  2 Oct 2025 17:12:29 +0900
-Message-Id: <20251002081247.51255-30-byungchul@sk.com>
+Subject: [PATCH v17 30/47] fs/jbd2: use a weaker annotation in journal handling
+Date: Thu,  2 Oct 2025 17:12:30 +0900
+Message-Id: <20251002081247.51255-31-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251002081247.51255-1-byungchul@sk.com>
 References: <20251002081247.51255-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzXSe0hTcRQH8H73PWlym4G3WVQLCaTMzOJADwqpLlZQ+Ef0drVLG02N+SiN
- Qi1Lq5VZ00qy+ciGW2VbD7W0MlrZEl0vV21TS1NJk6SZr2Fb0n8fvt/DOf8cBpe8J6WMKiFZ
- 0CTI1TIqgAjon1qyMCjKrYwYsc2DNk8Ogj9jRTh48600/B75QoPpXiYGuo5OCgp7MwkYqDiL
- oPfFeuhve0TChKsbg9ahPgSdT08h8BYcgOulFgrGmppxKNS1IOip8uX3rG4EdYYsCrry7uPw
- rjMQ3nsGKGjUnaHgZxUF+qw6Eo6X3aGg4JqZgJr2WhrsP8YxcBbkY2A0b/Id93V3g6GosAeD
- N2VOAioyQmFCnwhWYzcNrvM6Am73N5PQ6P5IQtvLkyQ8zGinwfzpBYKcWg8B5m++ouRkOQFX
- ip0UPK5rJCDH+xuBtforBmer7pPgNk2QcKfbgYHN+oqA5tpbJNxotWPQ0e4gwdL0BoehcyHQ
- ckFLgiOvC8Gtn6XUajmf/dZL8aZiE+LHRvMRn53n0/O+AZy/Yeuj+FHPB4p/XcrxNVddNH+i
- /jPN680pvMUQxpc97sX4kkEPyX/+sZI3V+ZSm8O2B6xQCGpVqqBZtCouQFncE3GwXXRYa6lB
- GWicPo1EDMdGcZ7Gp/h/D3svUn5T7HzO4Rj5l09n53AW7XfSb5y1zeQ+2hf4HcRu5B4MWpHf
- BBvKZV6q9M0wjJhdxg2fD5pcOZszVk2uF/nidx02wm8Ju5TLHjiBTc7cFHFFOjTpGdwzg4PI
- Q2I9mlKJJKqE1Hi5Sh0VrkxLUB0O35cYb0a+X6s4Or6jGg22xDYglkGyqeKWUJdSQspTk9Li
- GxDH4LLp4jiDUykRK+Rp6YImcY8mRS0kNaAQhpAFiyOHDikk7H55snBAEA4Kmv8txoikGeha
- bNPiOPcefbHiOXk5V7n3eHpla3ntsUi1ISYspOkDCtQemRW9xPno3LSFc7Xb6i8LK8/Eh+dH
- r90RLR2ONW7Yqhr/wljqYnbG7FJ8vRpcXhIYbpxd3yP9tSVZatHSudXLDj1cHmFKds3csMbe
- lT6asg4bNe7O2mV/WZ0T+STxwWoZkaSULw7DNUnyv6WjRuZnAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSfUhTexjH+53z2zlnw9VpSR6sSBbjgmRvVDy9YP4RdIreKKG4l2ijTm05
- p21mLgp8G9mLL62m5LTMclfUajkbLbErxt29taTWSqNcyzCzcgnpKl+mbUX/PHye5/vly/eP
- hyFlLaJ4RqPLEvQ6lVZOSbBk65qCpJnLX6uXlHQsg668dgyhkSIMVTebKChqviiCJzcaEQRC
- RQi+jVtJMLmmMITNbhpGRl/RMNXmRlDuNZPQ1JJHwLB9koJP978gsPT2UVDxIQ/DkO0sgsp+
- Kw0f/t0AwUCrCKb87wno/jqIwNY3SUBf+0kE4fI0uFzroGC88zEJFZYnCK70+kkYsEfEFvdr
- BG31+RS8K7tNgq9vOjwLDVHwwHKGgqC3ioDPdgpq8ttEUG01Iyi4epOC8upmDK43d2nwfpog
- oKfcTEBj8xYI2PoxeMpqiUi/iOtWHFgrCojIGCDAcr2VgFFbAw2PrvZgsOUqwNrpE8Hb+koa
- JnqXwlRNBrgb39PgL7VguBF8LEqxIP6bqQTzDQ4nwZuehim+6VIT4sfHzIgfqSsgeVNZZL0/
- OETyhY6jfJ1nkOLHQs8pvu1rDeYf1nL8uc4k3lXpp/nCey/p7av/lKzdL2g12YJ+cbJSor40
- sCTzjTin2OFCuWiCPo3EDMcu576Hz1NRptg/uBcvRskox7IJnKO4XxRlkvXM5bq8C6M8i93M
- Ob+4UZQxq+DyLjREPAwjZVdy30tn/YqczzXa23/GiCNnX68HR1nGruBMQ4VEGZLUoGkNKFaj
- y05XabQrFhnS1EadJmfRvoz0ZhT5JduJiXN30IhvQwdiGSSPkXoVfrVMpMo2GNM7EMeQ8lip
- sr5HLZPuVxmPCfqMvfojWsHQgeYwWB4n3bRLUMrYg6osIU0QMgX9b5VgxPG5qHpP91hiSfBC
- aBynTMbYD/8/L9npyNmekprxvLLu7OzEoHZd17XhLeLuUafiP29qwj+BAx5uTWZCy47wqUNK
- Z9KJGUhITg3MXKU8HHMx/9Bw1SvZgs8f2c3+uJ2rNyYcT15falwwGDbuznrqUuC7M1z1yta/
- HcR6z1/bdMWZvtJ4OTaoVUsTSb1B9QMgdJtnRwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzXSa0hTYRgH8N5z3vPubLk4TMFjdmMkQRezsHo+RPQleAuiKKKoDzb10FbT
+ ZEvNqFjSzHQtG80uhs20WGqpWxfLotLoQjQV11q0mYZZlmtRTisr2rp8+/F/bl8enlVZuMm8
+ LneXZMjV6NVEgRWhuJp58em92rRrlcngO3AXQ2SkFEOp6xQHXZcbEPy0PZDBl+ZfBD50fEYQ
+ vmBBcHqwSgbPR4ej1codcPacm0BNf5CFnoFJ4I2ECTy2lxNwFN/moMG1Gk4MEahsSYTgUTuG
+ y6FODh73+jj4MGgjMOLtZ6D0ZgRDTUkdhlPVAQKW5qscmKrGOGh662eg8+YlDkatyeCveIPg
+ 6h0zgkPv2gg8rfJwELC+x1BS18LAeWeIA1ejj0BHZJgBt8vOwmtrSAZmyzcZ2H+UEhj/eobA
+ x4oRbnkaHTNbMW2sbkR0/LsN0Y7hMEsPugvp7VEHpjdOB2XU4cqnbudsWntriKGu+sOEloW8
+ DP3o8cjoo5PjmA54TzC0xmRn1yZtVizNlvS6Askwf9lWhdbSWk7yvk7c7flUi01oTF6G5Lwo
+ pIvm+j72v4+Zy5iYiTBL9Pu//ckThBmi+8ggFzMrPJki+rrnxhwvrBE739XJYsZCinhuqJXE
+ rBQWi4G26n87p4sNzXf/WB7Ne/qf4JhVwiLRHD4YvaWI9tTKxcb2S8zfgSTxntOPK5DSgSbU
+ I5UutyBHo9Onp2qLcnW7U7N25rhQ9Ecu7PuxpRV97lrfjgQeqeOUXSlBrYrTFBiLctqRyLPq
+ BOVWZ0CrUmZrivZIhp0Zhny9ZGxHyTxWJyoXjhZmq4Rtml3SDknKkwz/qwwvn2xCqVkztie4
+ J1z3He/urs7fcIZ/ubJp4pX9A4t7p61IK4wj+2ZmbMwM267lvSxfV3VL/9B7cb9iJRRuLo5M
+ tc1Lw299GXsHV2X+9Fjd/IB/07G+irYpiSmvy40lvS9eOILzl8RrU5ZOX55VnNqXdHLOr0zP
+ fRp4Jt57FViV3AP3D5icamzUahbMZg1GzW9sirINHwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzXSa0xTdxQAcP/3/vu/paN6c0W5Qea0k5ksImpQj6ib/cSNiY99mtEP0uiN
+ rdCivcgsyQwFGomvQZeWjSoiaEOASaXqQEQZKolghVpFo1TEVB4BLFGQ8RJbjV9OfueRk/Ph
+ yGnuuixGrjNkiEaDJk1FFFixfWNuPJf4UrvKfhxDp7kJw9hoPoazNdUE8mv/lkHH5SoE3WP5
+ CManHDRY6mcxzFhbGBideMHAbGMLArvXSkP1VTMF710fCQzeeYfA1hMgUDRgxhB0nkJQ3Otg
+ YOBeMgx3N8hg1t9HwdMPQwicgY8UBJqOI5ixp8L5MjeBKU87DUW2DgQXevw09LtCzastLxE0
+ VuQQeFNwjQZfYC48HgsSuG87SWDYe5aCty4CpTmNMjjnsCLILa8hYD9Xi6H+1Q0GvIPTFHTZ
+ rRRU1W6DbmcvhraCMip0X2jqSjQ4inKpUOinwPZPAwUTzkoGHpR3YXBmx4HD45PB64piBqZ7
+ VsNsaTq0VPUx4P/DhuHycLtsiw0J45YzWKh0X6cEy6MZIlSXVCNhatKKhNFLubRgKQild4aC
+ tJDn/k241DZEhMmxJ0Ro/FCKhdYyXij0xAv1xX5GyLv1nNmZtFuxab+YpssUjQk/pSi0p+pO
+ kkP/f3P04Ug5zkbjESdQhJxnE/lCywkqbMIu5589m6DDjmKX8O7TvbKwabYtlu/0rgh7PruD
+ b++/yISN2Ti+bKCOhK1k1/FdDSX0l53f8VWups+OCNV9PW04bI5dy1uCeVQBUpSiOZUoSmfI
+ 1Gt0aWtXSqlak0F3dOW+dH0tCn2T8/fpwjo06ktuRqwcqSKV3ji/lpNpMiWTvhnxcloVpUyp
+ 6NJyyv0aU5ZoTN9rPJImSs1okRyropVbfxVTOPaAJkNMFcVDovFrl5JHxGSjJJ/58MGSxUZ1
+ xWLOpH6apfd0mmd2zb/3vfoH9cWRxEDrv4uIXTc4fT6HO3CsW/rv7pqdtGbiYcy3HfP2Jph6
+ I2/fGLd6FLH+IL0vWbvZ8Ocv6qWujPV7FNGTN9/U1P2VP9L3c4JbSnqxIFbHxetb/VKkQa3e
+ sEyK3JIV7U5ceESFJa1m9Y+0UdJ8AmP23a1JAwAA
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 03 Oct 2025 07:00:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,42 +121,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cb92173d1f0 ("locking/lockdep, cpu/hotplug: Annotate AP thread") was
-introduced to make lockdep_assert_cpus_held() work in AP thread.
+jbd2 journal handling code doesn't want jbd2_might_wait_for_commit()
+to be placed between start_this_handle() and stop_this_handle().  So it
+marks the region with rwsem_acquire_read() and rwsem_release().
 
 However, the annotation is too strong for that purpose.  We don't have
 to use more than try lock annotation for that.
 
-rwsem_acquire() implies:
+rwsem_acquire_read() implies:
 
    1. might be a waiter on contention of the lock.
    2. enter to the critical section of the lock.
 
 All we need in here is to act 2, not 1.  So trylock version of
 annotation is sufficient for that purpose.  Now that dept partially
-relies on lockdep annotaions, dept interpets rwsem_acquire() as a
+relies on lockdep annotaions, dept interpets rwsem_acquire_read() as a
 potential wait and might report a deadlock by the wait.
 
 Replace it with trylock version of annotation.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- kernel/cpu.c | 2 +-
+ fs/jbd2/transaction.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index db9f6c539b28..285d7fa55523 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -538,7 +538,7 @@ int lockdep_is_cpus_held(void)
+diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+index c7867139af69..b4e65f51bf5e 100644
+--- a/fs/jbd2/transaction.c
++++ b/fs/jbd2/transaction.c
+@@ -441,7 +441,7 @@ static int start_this_handle(journal_t *journal, handle_t *handle,
+ 	read_unlock(&journal->j_state_lock);
+ 	current->journal_info = handle;
  
- static void lockdep_acquire_cpus_lock(void)
- {
--	rwsem_acquire(&cpu_hotplug_lock.dep_map, 0, 0, _THIS_IP_);
-+	rwsem_acquire(&cpu_hotplug_lock.dep_map, 0, 1, _THIS_IP_);
- }
- 
- static void lockdep_release_cpus_lock(void)
+-	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 0, _THIS_IP_);
++	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 1, _THIS_IP_);
+ 	jbd2_journal_free_transaction(new_transaction);
+ 	/*
+ 	 * Ensure that no allocations done while the transaction is open are
 -- 
 2.17.1
 
