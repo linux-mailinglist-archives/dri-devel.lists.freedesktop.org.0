@@ -2,125 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C86BB7A42
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 19:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFE7BB7B87
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 19:25:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1E710E94D;
-	Fri,  3 Oct 2025 17:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F54310E950;
+	Fri,  3 Oct 2025 17:25:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PXiVTmgh";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="JwFBJbaa";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="nE9vk/bI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5E3D10E94D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 17:02:44 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 593A9SPm006537
- for <dri-devel@lists.freedesktop.org>; Fri, 3 Oct 2025 17:02:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=KgoxikXo2ZLB4qRYHWwK6Hmk
- lhI2iR3jWmKfpn6+5BU=; b=PXiVTmghXPDtT3Nr2+qSWeiRnA5fgCLitmfqYLGB
- TKSHqsHFcXgEU2MHmUubMUBcFj+LzL8T34iFf3XOUI/5qGr62B1c9rgmdXwD4XH7
- NCj7e36Z7ygyU0XsiH+ECSjkwREAeGzen/NvrEhvPLPbL63JMC0+xD2a6lJKpScp
- WK7JYkgr0pi4V6ts6AZ4yZjaqVFMQyyGgLWsweyaDwg1em/1/KDqC0MFbtoEwyWI
- EHNqctiqXGekQM4enaPq8jEVfWqK8Sv8ueskiKfdWzG5Szh1JJPX0vAyJC70Ym//
- RSKbLOtE8BtuZEAmb8MJkIIARnGql740GNJxvzP2a7gphQ==
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e851uf6m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 17:02:44 +0000 (GMT)
-Received: by mail-oi1-f197.google.com with SMTP id
- 5614622812f47-43f11fb7029so872853b6e.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 10:02:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759510963; x=1760115763;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KgoxikXo2ZLB4qRYHWwK6HmklhI2iR3jWmKfpn6+5BU=;
- b=cLxC0MD8f9HW6ezhsPySczjSTiIewmTl3r2qywbEF2T79Tm7Q7c5wVa0FF75li85qi
- A0vBs6WVQO9D/Z7LqoBPGM55e6ULGk10V+iogzGwzGtDaQhYM8iU+j6lHqJ4CgUXJ32T
- nKEQTzPHsoP/JvH9QPGS93vFRT2VEbwPp41y4LJt7lKz2NkDxWPfaPyJaqSc6WdHUF0/
- E5Z4uZ2VZNf/DS7t3Frh9sFUuMjUzhVqF754lAA+u9yxALQ/CjorLBfRRjhLBkrbPvgP
- hosHtTxxd/utyjzn8dkLGiKpncphQopnYOTTiqcJHcrOGrjzkEUN5+pS1UwG3j5RN+2c
- uO8A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWK/8UAisvL7nnYQwGkYehTvQXzMh0QwWA3q05Gtji+alSqZziDD1iAmWwpe9gWm2LUMdvso3J1HKw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywaqy3Bo5SqmbCGGeSrhZ1AdbrdqivLqsf12hKZtRDMS9LeU9hV
- nczhp5RgiztBaA3KBEPL1GFP6ELirZhM+eT3c1iA2JGke18DGjYoN6Kezoj+6JhNRan+FMLWbAA
- wiK9JKKLAR3OtG70FupmgRIFpjeK4yM8P5pdUTLw3KAxJ++BiGvy8YOK3qZ5dfw6zfBlb3OY=
-X-Gm-Gg: ASbGnctAfK6MInItcGqyl/2G7ay1kji9yLgGutCP414MnRF6XdeCR7c+qALH8e40aGC
- ykEUUrQ5K5EZZBdPcYtaeRQPnd/L+9dHuFdrlfUZ9qqlKdclDXpL2JkybUAHDXVL8ZbY0RlkWCc
- DNZctwQM+dgZgi/OhpG/3A/Vf3qoyBVq9MIaUMwl9hTPKJBYOgatzkBRTtXsvibMJ1/1ibeDoDW
- Ij9/lNlUDgXV9TtSuKwFupg4YkFfO21ZD3q94vkU5eFvQkiLjQjimyrYs2lDNp+v+S6exi90qyQ
- 8E13KfA8cdMhD0tZyqTZN2hslYyy3Z77Z1nmHttdUx0gdX1bjz5e1zIwbZTrd3QugPHXIEAO7bp
- Flxc69mqebM4GgJrU6t6bquHcKizqoQVIoLsRoW8X3pRlRG1J+Z4VGjOTmg==
-X-Received: by 2002:a05:6808:159f:b0:43d:2004:bf3d with SMTP id
- 5614622812f47-43fc1830c2cmr1748763b6e.32.1759510963165; 
- Fri, 03 Oct 2025 10:02:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGSLjjxQA4p0EfAhPSPlC8pxdM4ZJElDgCUfgufaoYhlOS1ukf+CvDzO3irSmuShAdwAqpqXw==
-X-Received: by 2002:a05:6808:159f:b0:43d:2004:bf3d with SMTP id
- 5614622812f47-43fc1830c2cmr1748700b6e.32.1759510962583; 
- Fri, 03 Oct 2025 10:02:42 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b01124297sm2012104e87.23.2025.10.03.10.02.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Oct 2025 10:02:41 -0700 (PDT)
-Date: Fri, 3 Oct 2025 20:02:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Jianfeng Liu <liujianfeng1994@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+Received: from fout-a6-smtp.messagingengine.com
+ (fout-a6-smtp.messagingengine.com [103.168.172.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0901D10E950;
+ Fri,  3 Oct 2025 17:25:26 +0000 (UTC)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+ by mailfout.phl.internal (Postfix) with ESMTP id 4AEA3EC0213;
+ Fri,  3 Oct 2025 13:25:26 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-01.internal (MEProxy); Fri, 03 Oct 2025 13:25:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm3; t=1759512326; x=1759598726; bh=80zTLlNJzL
+ 69CstAw641a6XukyfcEwp1lxsA+QkUUPA=; b=JwFBJbaaRt/nqg+vVt7bZic0JU
+ 1GG0iknvBOLM6mMBiNUTG+6a/3VwxL13MFucddigVSTFQ+js7H5k6qPjDDmDQFhn
+ IRdBwg6gl9vWgBuYAL/a2w6XUNueG0AvPZNmvZza7DLsNXjEAu76gvpSJBSoTAqd
+ 7c7HZBx5DYxp+kY9ZYZTX6xenM1io/A3QZaI7k4gq4QN6UlzDmAw5Fl22TwXiLbP
+ KxLxGIvDoShk0KeLFOvO2AdEhFpanCyKt0IHr37w+K/r7VMYJ9Zo3QPKIAxa4ofc
+ Bl9TwdFP2OB05TfyraSog0OO7C+apf+TNVwYlZPMnW2/5qpOvkg4PAQc178A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1759512326; x=1759598726; bh=80zTLlNJzL69CstAw641a6XukyfcEwp1lxs
+ A+QkUUPA=; b=nE9vk/bI9WxRJaqgCcF4FUfBATlqE/SIujNFseORpqgb9oGu0TU
+ 7a/FRpUlAU4Y3iMQeH9vUPIn/HdMCK+1DY+QWpa9231HXKe8ZijAnippqPiSLoYe
+ J9XN6Zlp3YgM6Mg1fhy5Tmxf/TTdxFo/2qeiCqiX3ncWjiMsJsNWq8ioWyRvGIWL
+ Z8f1BzjMAzcdrwX+KC1AKfCcuSXSwQ7PXaBITzSsDzxQaJeck9TUuZhDLukbd3Ja
+ hmln0h3uQ2uYpdABdtfXE6H5y5tdvjhfq/ToVeSivSq4xqhq8+K1otHA5Q5SUGcS
+ jIN9Gl6zdsLjh9cgiBvK71Mng34MOJmitZg==
+X-ME-Sender: <xms:BQfgaK0s9bz71HRzDdcCzkofTBDXwamsY1LAuEdRlWPU4MGxnJUMGg>
+ <xme:BQfgaIGE32EnaFYFnc000ieZYcqTNJqZvPQBJn4XLQOgSZTezVgqX985L-GZ7fwev
+ uaxIt0F9qFXVFWy-NYsPoahcXBxuqFZV5tVb15bSvWilSHHP9JpgpU>
+X-ME-Received: <xmr:BQfgaJij61ATHgaTelHGIeImqKgTwJ4QoAjywWu2tsiizeFXg_2QBA7kMLoA6WjWACrcVP26Qp4WamvThvbCYqU3N8gSJHu3Yp_kgu8W3sw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekleeglecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+ rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepudefhf
+ ehudetjeeutdfhvefhtdeltdfgheefkeefleegveevtedtveelfffhiedtnecuffhomhgr
+ ihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepvdeg
+ pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlohhsshhinheskhgvrhhnvghlrd
+ horhhgpdhrtghpthhtoheprggtohhurhgsohhtsehnvhhiughirgdrtghomhdprhgtphht
+ thhopegrphhophhplhgvsehnvhhiughirgdrtghomhdprhgtphhtthhopehruhhsthdqfh
+ horhdqlhhinhhugiesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhi
+ qdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoh
+ epuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgv
+ lhdrohhrghdprhgtphhtthhopegrlhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpd
+ hrtghpthhtohepsghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:BQfgaJdJuMiVM0mL5HUBuq92XcG0QHrRS6GLnSYY3bYcYfHiOOZ3_w>
+ <xmx:BQfgaHwluiGRTue-YMovY9T9fTXhYYlyVDEZ7fA755zyfd8IPPIJeA>
+ <xmx:BQfgaLaM4QgaUrIyiMc1a29mHZOq0oE1UWLcA7-ulbneamevMW4XxA>
+ <xmx:BQfgaNK5hiDFUgAVrD-Ur6gAIlLUM_H9kkt3CdiR1VKl3xJLt1L2nQ>
+ <xmx:BgfgaN_4owHecfQcS1nCMS0N6jNHBsF8eTLZL_QWqc7hrKrSnGFO3fcw>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Oct 2025 13:25:24 -0400 (EDT)
+Date: Fri, 3 Oct 2025 19:25:17 +0200
+From: Janne Grunau <j@jannau.net>
+To: Benno Lossin <lossin@kernel.org>
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
- drm_connector_hdmi_audio_ops
-Message-ID: <bnrpfijh4rljdzroduqncfygysvgblljlhdpvq7ubajlbbwvwd@ohdmpjvpzj33>
-References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
- <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
- <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
- <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
- <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
+ John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v3 08/13] gpu: nova-core: Add bindings and accessors for
+ GspSystemInfo
+Message-ID: <20251003172517.GA1574227@robin.jannau.net>
+References: <20250930131648.411720-1-apopple@nvidia.com>
+ <20250930131648.411720-9-apopple@nvidia.com>
+ <DD7VU4239GS2.2MKVFPBFEY1R4@nvidia.com>
+ <DD8TZ3TU57L3.2958OTC9UP4VF@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=68e001b4 cx=c_pps
- a=WJcna6AvsNCxL/DJwPP1KA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=vpI0o0ENzK3Q5gXZhecA:9
- a=CjuIK1q_8ugA:10 a=_Y9Zt4tPzoBS9L09Snn2:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMiBTYWx0ZWRfX0lpIfC3CSrYQ
- wjM59qKoO5wWO4Ut5GBq8FK/n1s9u5a5w6/5aHBaH00oYouAr9kPnqsQC9GuctR8+p9RM9gy0u3
- PX2rPeak57M7iCC1n32dipNz54mULh95/FtW8hQQcCGvlUDZeMQ9t0Ji+obEIpItApaBfSGokmk
- O3F9xfJE0iUTPfNexdh/XzjYEsbpsruqqtRZcA1/RiB3xSqp5UGwUGrP0WvkoJeaVg7EoHXLqWq
- d3ZTlMrF9f5e6A9Mh6sVwW+433r+2BWf9C28psmCNb2ADnWKHttZvTyWT3iWxseXxPsLWdPtATi
- yZGqwN6EUkGYvXiQbD5GxUUkJQPHyFri4V8EWCnyVP5UlVQpuLbjBHcSGF1Fuxz0nHKXAX3d9uc
- BNBjhRB6N7M2yN4E6wygDtEP3TPtSw==
-X-Proofpoint-ORIG-GUID: ln-uHqgAEEpSMVb89CquFCfPqISK4MRq
-X-Proofpoint-GUID: ln-uHqgAEEpSMVb89CquFCfPqISK4MRq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-03_05,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270032
+In-Reply-To: <DD8TZ3TU57L3.2958OTC9UP4VF@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,132 +117,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 03, 2025 at 05:35:16PM +0100, Srinivas Kandagatla wrote:
+On Fri, Oct 03, 2025 at 06:34:12PM +0200, Benno Lossin wrote:
+> On Thu Oct 2, 2025 at 3:49 PM CEST, Alexandre Courbot wrote:
+> > Hi Alistair, (+Benno as this concerns the `init!` macros)
+> >
+> > On Tue Sep 30, 2025 at 10:16 PM JST, Alistair Popple wrote:
+> >> Adds bindings and an in-place initialiser for the GspSystemInfo struct.
+> >>
+> >> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> >>
+> >> ---
+> >>
+> >> It would be good to move to using the `init!` macros at some point, but
+> >> I couldn't figure out how to make that work to initialise an enum rather
+> >> than a struct as is required for the transparent representation.
+> >
+> > Indeed we have to jump through a few (minor) hoops.
+> >
+> > First the `init!` macros do not seem to support tuple structs. They
+> > match a `{` after the type name, which is not present in
+> > `GspSystemInfo`. By turning it into a regular struct with a single
+> > field, we can overcome this, and it doesn't affect the layout the
+> > `#[repr(transparent)]` can still be used.
 > 
+> Yeah that's the correct workaround at the moment. I'm tracking support
+> for tuple structs in [1]. Essentially the problem is that it requires
+> lots of effort to parse tuple structs using declarative macros. We will
+> get `syn` this cycle, which will enable me to support several things,
+> including tuple structs.
 > 
-> On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
-> > On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
-> >>
-> >>
-> >> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
-> >>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
-> >>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
-> >>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
-> >>>> use msm_dp_audio_prepare instead. While userspace is still calling
-> >>>> hw_params to do audio initialization, and we get the following errors:
-> >>>>
-> >>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-> >>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-> >>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-> >>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-> >>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-> >>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-> >>>
-> >>> And a call to hdmi_codec_prepare() comes only at this place.
-> >>>
-> >>> Srini, Mark, when selecting to only implement .prepare for codec ops I
-> >>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
-> >>> hook"), which documents that IEC958 status bit is set after
-> >>> .hw_params(), so it's only visible during .prepare(). Is it okay to
-> >>> implement both callbacks? Or should the audioreach DAI driver be fixed
-> >>> somehow instead (I suppose it assumes that the port is available after
-> >>> .hw_params(), not sure if that assumption is correct)?
-> >>>
-> >>>>
-> >>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
-> >>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
-> >>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
-> >>>> hdmi-codec driver can work with userspace alsa.
-> >>>>
-> >>>> Tested with Radxa Dragon Q6A.
-> >>>>
-> >>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
-> >>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> >>>
-> >>> The patch LGTM, but I would wait for response from audio maintainers.
-> >>>
-> >>
-> >> The ordering matters in this case as we need clocks and audio
-> >> configuration on DP codec side to be setup before we start configuring
-> >> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
-> >> even before it is ready.
-> >>
-> >> q6apm prepare loads the dsp pipeline and starts configuring the
-> >> endpoints, if the DP endpoint is not ready dsp would throw an error.
-> >>
-> >> We might be able to pull in some dsp logs to confirm this, but I dont
-> >> have a setup that I can reproduce this issue.
-> > 
-> > What would be your recommendation to proceed? Is it okay for the DAI
-> > driver to depend on the .hw_params enabling the clock? Also I see that
-> > the error regarding the clocks comes from .prepare callback too. What is
-> > the order of .prepare callbacks()? Can we influence it?
+> [1]: https://github.com/Rust-for-Linux/pin-init/issues/85
 > 
-> prepare follows hw-params, and prepare can be called multiple times
+> > Then, due to a limitation with declarative macros, `init!` interprets
+> > `::` as a separator for generic arguments, so `bindings::GspSystemInfo`
+> > also doesn't parse. Here the trick is to use a local type alias.
 > 
-> When you mean order of prepare callbacks, you mean w.r.t codec and dsp
-> backend dia link drivers ?
+> This one will also be solved when we switch to syn.
 
-Yes. Here we got a dependency from the cpu dai to be prepare()'d after
-the DP driver performs some actions, which were a part of hw_params()
-callback but were moved to be executed during prepare() callback.
+I was planning to submit
+https://github.com/AsahiLinux/linux/commit/2d95fd3b6c359634a0976f27f7a3c667826256da
+https://github.com/AsahiLinux/linux/commit/515638cb47cf0ebdac378686fcbbdc6a8364096a
+from the asahi downstream tree after 6.18-rc1. Does that still make
+sense timing wise?
 
-This leads me to two sets of questions:
-- In which order are those callbacks executed? Can we make the ASoC
-  enforce some order of DAI's prepare() callbacks?
+Types with type paths are used extensively in the asahi driver but I can
+initially work around that.
 
-- More improtantly, isn't it a sympthom of DP driver (incorrectly)
-  performing too much in the .hw_params() / .prepare() callback? Should
-  we move some of the setup to the .audio_startup() instead? What is the
-  expected split between those callbacks?
-
-> 
-> TBH, Am not sure, I did not find anything that was obvious from the code.
-> 
-> 
-> 
-> --srini
-> 
-> 
-> 
-> > 
-> >>
-> >>
-> >> --srini
-> >>>> ---
-> >>>>
-> >>>> Changes in v2:
-> >>>> - Link to v1: https://lore.kernel.org/linux-arm-msm/20250924085804.34183-1-liujianfeng1994@gmail.com/
-> >>>> - Use more detailed trace log in commit message.
-> >>>> - Drop the empty line between Fixex and SoB.
-> >>>>
-> >>>>  drivers/gpu/drm/display/drm_hdmi_audio_helper.c | 1 +
-> >>>>  1 file changed, 1 insertion(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> >>>> index 7d78b02c1446..6ca1c7ad0632 100644
-> >>>> --- a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> >>>> +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> >>>> @@ -130,6 +130,7 @@ EXPORT_SYMBOL(drm_connector_hdmi_audio_plugged_notify);
-> >>>>  
-> >>>>  static const struct hdmi_codec_ops drm_connector_hdmi_audio_ops = {
-> >>>>  	.audio_startup = drm_connector_hdmi_audio_startup,
-> >>>> +	.hw_params = drm_connector_hdmi_audio_prepare,
-> >>>>  	.prepare = drm_connector_hdmi_audio_prepare,
-> >>>>  	.audio_shutdown = drm_connector_hdmi_audio_shutdown,
-> >>>>  	.mute_stream = drm_connector_hdmi_audio_mute_stream,
-> >>>> -- 
-> >>>> 2.43.0
-> >>>>
-> >>>
-> >>
-> > 
-> 
-
--- 
-With best wishes
-Dmitry
+Janne
