@@ -2,89 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4741CBB7DF9
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 20:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEE4BB7E7C
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 20:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A09E10E95C;
-	Fri,  3 Oct 2025 18:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0259F10E078;
+	Fri,  3 Oct 2025 18:44:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HP6OT+jY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eznsK8oC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 568F410E95C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 18:18:58 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-74f6974175dso31033067b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 11:18:58 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED95F10E078
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 18:44:13 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-57933d3e498so3480520e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 11:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759515537; x=1760120337; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759517052; x=1760121852; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oUQoE2+YrP4Piuppn11V4n/Ge5n4X6vhqEU1SyrhiLY=;
- b=HP6OT+jYQVsfJH2rsPCoN9tBINT4OvuXyWRaleG9ME55oMeVQVJ0V8ATh5ctWsc0W/
- RplRN2WBODbyfgLAFGBRNDMkUVwTaoWDJ3itDswKBUqe8jVNJnzjDSBJYDElDAKfA5gT
- 16nR8lGg7ON2/GO2C50IYDd2mbkbRAI055clkF5Yjd0bQ3M7bOJUDneesxNHyDRlroBg
- nOnikAyVU4lO/Q6V8552kLlW65XPPXIhJxsZ1w7HqbunCsnQuMOCc5OZNz5Lo7QQdb2L
- wXxNmsPmwB3EE6fFPo4SgwqgIAqgwWkzLZMSvVESIpIr4CnVkJ5Pv0kULyjwwsbyDI2E
- 8YFg==
+ bh=xyuE14DxlDz2HfrhfyleFTggC3yW/RUkLxL0tsrQ6XA=;
+ b=eznsK8oC7cLnlP4BSKK30Jhs+bnlT98TOPJGLDBTk52jye5/LjtD8/sU1MMrTdqr93
+ 6SDlkuYKhXSjsCy/Y0vqd9G9c8Dl0Yg1q0clxTTVhCOjmDOdSjj2ApnFtzoj/YoHYTTL
+ kLTpb8KRONSIFIklVphV7b9k32cWBEImLI5nOr7Zmey7TsK4YwoR0E2NCpMhQ4Q9l6o7
+ tPgCPPJqeq8RhkIm2WYdyCezjwMC4RWHbgP2mj8DhX3MpdwxxUvLVvQHWNF8H4GhsSE+
+ RiiqSGbFMA8BVUY3deMgSRA4vIPxgNqtNdL6tTcJny9bMqtyQpl6UmIj/WS+f7nIfYVu
+ Td1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759515537; x=1760120337;
+ d=1e100.net; s=20230601; t=1759517052; x=1760121852;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oUQoE2+YrP4Piuppn11V4n/Ge5n4X6vhqEU1SyrhiLY=;
- b=M5qmFQ2k9UEzSEKVFBSdv12524ColK61Rldid/1dCHzjye4gvLZE+53t6GefoYGH4A
- kGcj31aS2a7Bm1R3Ma5GL8Euds0MMHZXR05JSBx8fCmDRMNQw2L8NaQzGACDNymSpLDG
- OYthj8mbcXufmOUrVg0i9KGef6KimkZgyRIzSBGHmEwgo8AU4Pz2WeZeHJY9TinMxrjS
- oMMk6MtAooJBj9EhlCAGc//YY/dGm2FdEL3xJu4hWnoD36QFXPXUcuVkCUtziXDUbvFr
- 6OGCB1QPVGsY5D7fdG16G1yJlLL5QbJxMT4v7rSkvdEJ+PcpmR6h6Es4AJTBvjxeETLw
- xH0A==
+ bh=xyuE14DxlDz2HfrhfyleFTggC3yW/RUkLxL0tsrQ6XA=;
+ b=oCaPzC4x/7S/kIqEP0v+Ru0fI9Y8cV2fDLjgXvxMVKO8uuGS9OCqUPPN2Mt8IEDTHS
+ Z+uo19zMMdMVVP+0iYjjieUiK3OoWnJ9BhRoc4lmaenFtTLSxKdp/LkorQv76CZxjsQh
+ 4mkNdFqIFYxgp96aysUvo5vxn8oyZzZS7pCuwPZm0MuCbf3QhfTDLqwk/eTKL+RUFWFH
+ ChC8+b3TiFs2OyOVVCiFw4r1VDd1J2DEk/+pO+Dewy09VMZYBgNOeS/2+Mp46jOedKMc
+ fKLTQK2zeUDcq5gY9sAVQ/hNs7aFmIgAfIneFOAzeCpartR0m1k3Y+n54MIXWwZ5DXad
+ UEJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxTTS1B6hk1jDmFSlLYBYBcl5enFlMTq8zJukCqSBi/aujG0ncQ+qXu2GOGJHaUWyyrgsuLnljeqw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7kEMZxjpF9IetzQ2wr1Qc2EP6f1frMfZrSpPL72ROh1LVxItt
- /s+8eT24INDYeRfMWuzIFpRg3E9VwXzZspegLZ3qboSJABFYdFzlxPSrtILUbzy5xhgo4E+O+6A
- /2p1h2kakpBG+/RS8UmfeevXsNfs6r4k=
-X-Gm-Gg: ASbGncsv23SBfzmmnx+PY3U4WQY85ybI3+aJw9UfTASFN8TGi+CLE4ewcVZyWe8XGkp
- 68kyM1dpCgDXGkgm7zkHmmjT+rBpjuznRMo1DjEGZ6fswtyAbSPZPhYqF1KF669YnCjAFQ+PGYy
- Mp1vYffC7ujJzIKqtE+bV+H7MqxR+CoKXbEiKSLSV54vwHYYgQHbCf3bWXwYfsCOIioc3YgdqZk
- M7aBaNxBSZ8e/9r/8qxDdcDx9Yr3kKdN4SWzLnNIT+vDaezSoFEcnO3RoOyI1TXMdeSLie4jAVO
- msGrapepI5IIiHgrvXI3dg==
-X-Google-Smtp-Source: AGHT+IGtLMvtFx4RxHoNIBh2x4X8Ab6Ix6GqGCbCEA5mUc1tZP075IB+GlQMmeZfD4IGoIK1kUGSajZNab9Clue8LXg=
-X-Received: by 2002:a53:c043:0:20b0:636:1ee5:7745 with SMTP id
- 956f58d0204a3-63b99f36944mr3824334d50.0.1759515537310; Fri, 03 Oct 2025
- 11:18:57 -0700 (PDT)
+ AJvYcCUgXk8ph3nMUS8ukznF/Xy/NxPvL/yCpPhqTxXJlGBEmwGgohHSE3Nw37A3CxO7/Vc1KVY7uOIxnik=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4CXFyz08gElLaRLUVgSz01szLCocYHzKXcqdUQlsMxjpXWV+l
+ MF1qpRHyL6IskTUumyyRwhLqMyCE+zJ/TZ5eGTLDvOUN8PEtA+Qkvnm7vcQHJ0B3FbJ0zf0W1Rf
+ bMqF31pFaV/0sFpmRlC1kDg6OVOJ21DQ=
+X-Gm-Gg: ASbGncuibD9x3KluUF9xaOju7IfEO5ZIQVgs4pO2Cu+Lhp63IVkUmN47mUG+WWGg1U5
+ PvTJ2fpV1f3lVz/P4+7x9HTRkl3SjC2c6Y7yedA/RdkrydJ2v56uUjQD8Zo+xp8ltxCMQ19xPo+
+ hIV0xwUa5Lb9wDU/tj/zK6viYDWIjwsFR+WI4MLC+C0duTVs/frnb2+8NO/j6VkHaDPKK0jZM0G
+ XbD+3kr0AW26G3L2BdzqpBwA7QtuPVFGHT/DSfu9j+o1FkFY7G2te72lanR3LZHuC0lCe2l+Sss
+X-Google-Smtp-Source: AGHT+IFGjI23yu+zZGYIIYp5GAvADK1Td8K5f92lbt6d4punv+uO2Xi2qzgSwr+Eyr8h+dgbxKZKruLqIS6Oqk0H0Go=
+X-Received: by 2002:a05:6512:1245:b0:560:9993:f154 with SMTP id
+ 2adb3069b0e04-58cbbdd8224mr1238522e87.35.1759517051928; Fri, 03 Oct 2025
+ 11:44:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com>
- <20250929-mt8196-gpufreq-v5-5-3056e5ecf765@collabora.com>
-In-Reply-To: <20250929-mt8196-gpufreq-v5-5-3056e5ecf765@collabora.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 3 Oct 2025 11:18:45 -0700
-X-Gm-Features: AS18NWDjAm-QC4ccunNsvz_U1UXKS_05wvPJ1N_78dxhAoW5d44NTw2whZ6ltCU
-Message-ID: <CAPaKu7S6_0G4rbRP_nCF0Aw9uy1K8ABqi2z8isvpHcVWkWjJaQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/7] drm/panthor: call into devfreq for current
- frequency
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, 
- Chen-Yu Tsai <wenst@chromium.org>, Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org, 
- linux-pm@vger.kernel.org
+References: <20250924175743.6790-1-hsukrut3@gmail.com>
+ <202509272320.3K8kdDCw-lkp@intel.com>
+ <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
+ <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
+ <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
+ <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de>
+In-Reply-To: <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de>
+From: sukrut heroorkar <hsukrut3@gmail.com>
+Date: Fri, 3 Oct 2025 20:43:59 +0200
+X-Gm-Features: AS18NWCgP_BX7ybrXY0sJ6ucNdQs1TMwDO0SWiLqnHgEzd_63diU8v-qea2nPRE
+Message-ID: <CAHCkknrAKGxzAYE-R3QX20W4faR9Wfjgn37peyHRJcZ6PRLENA@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
+To: Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
+Cc: David Hunter <david.hunter.linux@gmail.com>,
+ kernel test robot <lkp@intel.com>, 
+ Bernie Thompson <bernie@plugable.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>, 
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+ skhan@linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,115 +98,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 29, 2025 at 12:48=E2=80=AFAM Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> As it stands, panthor keeps a cached current frequency value for when it
-> wants to retrieve it. This doesn't work well for when things might
-> switch frequency without panthor's knowledge.
->
-> Instead, implement the get_cur_freq operation, and expose it through a
-> helper function to the rest of panthor.
->
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_devfreq.c | 33 +++++++++++++++++++++++++=
-++----
->  drivers/gpu/drm/panthor/panthor_devfreq.h |  2 ++
->  drivers/gpu/drm/panthor/panthor_device.h  |  3 ---
->  drivers/gpu/drm/panthor/panthor_drv.c     |  4 +++-
->  4 files changed, 34 insertions(+), 8 deletions(-)
->
-[...]
-> +
-> +unsigned long panthor_devfreq_get_freq(struct panthor_device *ptdev)
-> +{
-> +       struct panthor_devfreq *pdevfreq =3D ptdev->devfreq;
-> +       unsigned long freq =3D 0;
-> +       int ret;
-> +
-> +       if (!pdevfreq || !pdevfreq->devfreq)
-> +               return 0;
-> +
-> +       if (pdevfreq->devfreq->profile->get_cur_freq) {
-This and the other two NULL checks above seem unnecessary. But let's
-follow other functions and check for pdevfreq->devfreq only.
+Hi
 
-With that, Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-> +               ret =3D pdevfreq->devfreq->profile->get_cur_freq(ptdev->b=
-ase.dev,
-> +                                                              &freq);
-> +               if (ret)
-> +                       return 0;
-> +       }
-> +
-> +       return freq;
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.h b/drivers/gpu/drm/=
-panthor/panthor_devfreq.h
-> index b7631de695f7d79456478c87e8af5dc47673cd1d..f8e29e02f66cb3281ed4bb4c7=
-5cda9bd4df82b92 100644
-> --- a/drivers/gpu/drm/panthor/panthor_devfreq.h
-> +++ b/drivers/gpu/drm/panthor/panthor_devfreq.h
-> @@ -18,4 +18,6 @@ void panthor_devfreq_suspend(struct panthor_device *ptd=
-ev);
->  void panthor_devfreq_record_busy(struct panthor_device *ptdev);
->  void panthor_devfreq_record_idle(struct panthor_device *ptdev);
+On Thu, Oct 2, 2025 at 8:52=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
 >
-> +unsigned long panthor_devfreq_get_freq(struct panthor_device *ptdev);
-> +
->  #endif /* __PANTHOR_DEVFREQ_H__ */
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index 9f0649ecfc4fc697a21a8b2fc4dd89c8ecf298df..f32c1868bf6d782d99df9dbd0=
-babcea049c917e0 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -214,9 +214,6 @@ struct panthor_device {
->         /** @profile_mask: User-set profiling flags for job accounting. *=
-/
->         u32 profile_mask;
+> Hi
 >
-> -       /** @current_frequency: Device clock frequency at present. Set by=
- DVFS*/
-> -       unsigned long current_frequency;
-> -
->         /** @fast_rate: Maximum device clock frequency. Set by DVFS */
->         unsigned long fast_rate;
+> Am 02.10.25 um 08:41 schrieb Helge Deller:
+> >>>> kernel test robot noticed the following build errors:
+> >>>
+> >>> Did you compile and test this code before submitting this patch?
+> >>
+> >> Yes, I had compiled & loaded the udlfb module with no errors. Please
+> >> let me know how to proceed in this case.
+> >
+> > Look at the reported build error, which seems to happen in dev_dbg().
+> > So, maybe in your testing you did not have debugging enabled?
+> > The report contains the .config file with which you can test.
 >
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index ea4a37b566a8b215f2b7a09c333a696f1dcdb58f..4d59d94c353c3ca76f4b98a41=
-1c8f8284efafd08 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -25,6 +25,7 @@
->  #include <drm/gpu_scheduler.h>
->  #include <drm/panthor_drm.h>
+> Can we rather make an effort to remove the udlfb driver entirely? A few
+> years back, there was one user who was still using it because of some
+> problems with the DRM udl driver. But I think we've addressed them. The
+> discussion is at [1].
+Should I send a patch series to completely remove udlfb, since [1] echoed t=
+hat
+DRM udl driver is good enough?
 >
-> +#include "panthor_devfreq.h"
->  #include "panthor_device.h"
->  #include "panthor_fw.h"
->  #include "panthor_gem.h"
-> @@ -1519,7 +1520,8 @@ static void panthor_gpu_show_fdinfo(struct panthor_=
-device *ptdev,
->                 drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats=
-.cycles);
+> [1]
+> https://lore.kernel.org/dri-devel/20201130125200.10416-1-tzimmermann@suse=
+.de/
 >
->         drm_printf(p, "drm-maxfreq-panthor:\t%lu Hz\n", ptdev->fast_rate)=
-;
-> -       drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_fr=
-equency);
-> +       drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n",
-> +                  panthor_devfreq_get_freq(ptdev));
->  }
+> Best regards
+> Thomas
 >
->  static void panthor_show_internal_memory_stats(struct drm_printer *p, st=
-ruct drm_file *file)
+> >
+> > Helge
 >
 > --
-> 2.51.0
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
 >
