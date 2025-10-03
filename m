@@ -2,84 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7C6BB7289
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B1FBB7283
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39E310E936;
-	Fri,  3 Oct 2025 14:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB17E10E929;
+	Fri,  3 Oct 2025 14:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lEbu7RED";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lFzKRkRA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA5E10E0D2
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 09:19:26 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-3304dd2f119so1724342a91.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 02:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759483166; x=1760087966; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=miqL2nfl182qCuGEXVN6/ipsxsc3oYfM7+xZ2WASv98=;
- b=lEbu7REDp5NNqjiF9RB+D+PkMsALL8u7Jn6SrHahP3RQ+6/cC0im1CA5azuKjBugud
- fYLqyPTuxAGOAvsgs4XF9StFgjqp+785crjLiZMdm7qRmILkj+/L+i5aWMXB7RG2DJj3
- IXfrKQwoVr/bVlp+V0h/y9x0YWfQC2eRI9wgep+g91sssNsPJ1r4AL7qhNdaYGup1WSF
- eLmdPa1rrcu18NcpkEiWCVZ9/fSmGSXC9/sBzl+NDyQ0LhU8bbqv6Du4DoN8OaKKGPFF
- pj7iSRemA8KlvYC97TE1LSwfqn1a8VLM8IOjMNOVU5BkKMksLt6BFhNrc/yTLe8Q2Ssm
- 12QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759483166; x=1760087966;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=miqL2nfl182qCuGEXVN6/ipsxsc3oYfM7+xZ2WASv98=;
- b=h2D6Wc3S/jd6WZv4qYFQwOgdQvEX97FpC4o2jLg9a9cTzhUARsGtLbXSFFwZbt1Gbm
- 77DP42irJxv0O4nQJAgXdhXoMWGDIq+p293I/OX5TSW19VfssXkqP9qHxuUh9xvG7Mij
- CGRl520sQAjB2bIRZ323893cRX24PiAEwL7Wf7x0TxLGSnhSplwoir12+1wnrLy15SpK
- YHw2ZjOoyF1nKfEXQeojcB7cgJrjPvEug+XTONSlUJb3tuCAm2AgS2VwxMMzx3UXw+v7
- +J4JE+AMXFDN6Vk8BlLcH0DnjwyMumEf12SdQrOp3OpKTLUlwQk6AvWKIYSKpBuqtF/n
- qq4Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNqs/O1l9OW3R7akLsD9dDlpFvHuif9NPt2BVpd8VZ1VRi+5Tlw95gyqwXByeQsd3u5Hy0eSrwzS0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWHPIja0bXXFhyRG6dEvFVVCixXqtRTIOiiLoUVKkm+fHIfJ0L
- jhwdhT8zDtpHJY+JWXRe8u+rkFELHtx1uae7G3CPTwx05EnoXSFKzBmt
-X-Gm-Gg: ASbGncvrY1KfVqEhsL7UmNdhXbD+QJTJPK8CQNxnzUcdZY1p1eHTasZJNbqxGvc7omk
- bkV8w6fQ+3xrNz0XKJkRBeEbGEvaTOJ6uQVqU7OV75N+TJRxQgnpbBF4LoOwLjZGaH/Iea2Y1nH
- wU2il4IPXQ/iBrm5e34ArCfMxuwsu2jx1KDrKx/VDLrhgDx/wUj6xQboDmuclp9VTvclZBsOr/A
- TqEaPUmFYJr4nSBX1bOd3TnAnsIXZgS43khNtQwzVl7Qkfd/O8Q43SxPzmzzG76ggmmLUzHo2I4
- 1N3zBP9lx6/XCLbX+hBH9Sg4/6sqQqPEK6xe438gI6Gh5BAIgycKW7cGNQnZ2JE06qgKPvdgd82
- gc6dr4vbn8OGCbKC5mH/Txk9vkmRGRH6N9I7arH6NOi/Z6FIqJikd/kpFW6SiUIbt++3Iq/OeMu
- tVGpWpVS0p5rZJHf9iZg==
-X-Google-Smtp-Source: AGHT+IHP7V42K1exHHhwAiEhcgdXPEeqQhKkdSrZzwIjkiTs7OXyRTUQVua0JfktO63AZYNNUNjXIg==
-X-Received: by 2002:a17:90b:314e:b0:32e:d282:3672 with SMTP id
- 98e67ed59e1d1-339c279740amr3104240a91.23.1759483165790; 
- Fri, 03 Oct 2025 02:19:25 -0700 (PDT)
-Received: from test-HP-Desktop-Pro-G3.. ([103.218.174.23])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3399bc02e5bsm4164019a91.0.2025.10.03.02.19.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Oct 2025 02:19:25 -0700 (PDT)
-From: Sudarshan Shetty <tessolveupstream@gmail.com>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org
-Cc: rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
- tessolveupstream@gmail.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: bridge: ti-sn65dsi83: Fix LVDS output configuration
-Date: Fri,  3 Oct 2025 14:49:11 +0530
-Message-Id: <20251003091911.3269073-2-tessolveupstream@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251003091911.3269073-1-tessolveupstream@gmail.com>
-References: <20251003091911.3269073-1-tessolveupstream@gmail.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC64010E11A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 11:33:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 189C343899;
+ Fri,  3 Oct 2025 11:33:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B48C4CEF5;
+ Fri,  3 Oct 2025 11:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759491219;
+ bh=8JvzZz+MrzjUmB/qmn12k1T1z8wI8NEqkWeYCArS4nA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lFzKRkRAagp0TVhUdTwIsW0EPgf7xwe5vUnZsgItAsbqWLbYcv7v2Q3oCdo6pdbpH
+ TxK4cHFxGzDDbQDQTmmTAALXtRce7awXslf/w51ZRllOlHQfykkv/S85tSAEJm9jFJ
+ GYwvA6uugwAlC/eFWM7ehADw13/t37TYV5luOUQD7lDrfqGG54YTKnaTyEWvTdRb0c
+ orc+Nn8y24EKqDs+XjojdkthXLkOB/CpwUkMKq+3hkvcz1Knd27dZO22vw3HIZH/oz
+ KeJJqGDMye/t+diEqfyZzsugo6eKkklnr+1Zd5LuUfHG/pa69kR/h1070kPLMeXwGn
+ kaCdIbmTIMmYw==
+Date: Fri, 3 Oct 2025 12:33:03 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Byungchul Park <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+ will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+ joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+ duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+ tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+ longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+ yeoreum.yun@arm.com, netdev@vger.kernel.org,
+ matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+ catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ sumit.semwal@linaro.org, gustavo@padovan.org,
+ christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+ petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+ paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+ mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+ chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+ Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+ anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+ kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+ ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+ baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com,
+ linux@treblig.org, alexander.shishkin@linux.intel.com,
+ lillian@star-ark.net, chenhuacai@kernel.org, francesco@valla.it,
+ guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+ masahiroy@kernel.org, brauner@kernel.org,
+ thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+ andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 09/47] arm64, dept: add support
+ CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64
+Message-ID: <b69ab7d0-ba5e-4d22-88ef-53e0ebf07869@sirena.org.uk>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-10-byungchul@sk.com>
+ <a7f41101-d80a-4cee-ada5-9c591321b1d7@sirena.org.uk>
+ <20251003014641.GF75385@system.software.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 03 Oct 2025 14:16:42 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="CPEOfhRT6FsWLRqF"
+Content-Disposition: inline
+In-Reply-To: <20251003014641.GF75385@system.software.com>
+X-Cookie: hangover, n.:
+X-Mailman-Approved-At: Fri, 03 Oct 2025 14:16:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,57 +120,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the SN65DSI83 bridge driver to improve LVDS output
-stability and correctness:
 
-- Program additional device registers during initialization to ensure
-   proper LVDS configuration.
-- Adjust the DSI mode_flags to match the recommended settings.
+--CPEOfhRT6FsWLRqF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Both changes are based on guidance from TI SN65DSI83 experts, addressing
-cases where the existing driver configuration was insufficient.
+On Fri, Oct 03, 2025 at 10:46:41AM +0900, Byungchul Park wrote:
+> On Thu, Oct 02, 2025 at 12:39:31PM +0100, Mark Brown wrote:
+> > On Thu, Oct 02, 2025 at 05:12:09PM +0900, Byungchul Park wrote:
+> > > dept needs to notice every entrance from user to kernel mode to treat
+> > > every kernel context independently when tracking wait-event dependenc=
+ies.
+> > > Roughly, system call and user oriented fault are the cases.
 
-Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+> > > Make dept aware of the entrances of arm64 and add support
+> > > CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 033c44326552..d6a2b20be1fe 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -613,6 +613,20 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 		     mode->hsync_start - mode->hdisplay);
- 	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
- 		     mode->vsync_start - mode->vdisplay);
-+
-+	regmap_write(ctx->regmap, 0x0A, 0x05);
-+	regmap_write(ctx->regmap, 0x0D, 0x00);
-+	regmap_write(ctx->regmap, 0x12, 0x53);
-+	regmap_write(ctx->regmap, 0x18, 0x6f);
-+	regmap_write(ctx->regmap, 0x19, 0x00);
-+	regmap_write(ctx->regmap, 0x24, 0x00);
-+	regmap_write(ctx->regmap, 0x25, 0x00);
-+	regmap_write(ctx->regmap, 0x2c, 0x10);
-+	regmap_write(ctx->regmap, 0x34, 0x28);
-+	regmap_write(ctx->regmap, 0x36, 0x00);
-+	regmap_write(ctx->regmap, 0x38, 0x00);
-+	regmap_write(ctx->regmap, 0x3A, 0x00);
-+
- 	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
- 
- 	/* Enable PLL */
-@@ -912,9 +926,7 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 
- 	dsi->lanes = dsi_lanes;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
--			  MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_NO_EOT_PACKET;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
- 
- 	ret = devm_mipi_dsi_attach(dev, dsi);
- 	if (ret < 0) {
--- 
-2.34.1
+> > The description of what needs to be tracked probably needs some
+> > tightening up here, it's not clear to me for example why exceptions for
+> > mops or the vector extensions aren't included here, or what the
+> > distinction is with error faults like BTI or GCS not being tracked?
 
+> Thanks for the feedback but I'm afraid I don't get you.  Can you explain
+> in more detail with example?
+
+Your commit log says we need to track every entrance from user mode to
+kernel mode but the code only adds tracking to syscalls and some memory
+faults.  The exception types listed above (and some others) also result
+in entries to the kernel from userspace.
+
+> JFYI, pairs of wait and its event need to be tracked to see if each
+> event can be prevented from being reachable by other waits like:
+
+>    context X				context Y
+>=20
+>    lock L
+>    ...
+>    initiate event A context		start toward event A
+>    ...					...
+>    wait A // wait for event A and	lock L // wait for unlock L and
+>           // prevent unlock L		       // prevent event A
+>    ...					...
+>    unlock L				unlock L
+> 					...
+> 					event A
+
+> I meant things like this need to be tracked.
+
+I don't think that's at all clear from the above context, and the
+handling for some of the above exception types (eg, the vector
+extensions) includes taking locks.
+
+--CPEOfhRT6FsWLRqF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjftG4ACgkQJNaLcl1U
+h9AJAwf9GUZ8nquWa7D1no47c5NWSm5cMwwvmTjDaPtYC52seNgxT47rqiAa032b
+rbQuOcdIvbMOoRrk3oOjch4rbo2VSgw1bzxKncoUyWrQ1rw9rhdfmdQpZZSbT1XQ
+ZE3VcLNDV3bfjO2GU8cTjiUDwM29qIeTSzCIn9ubfHcuEvoaYes1/BrQYAwB6ghQ
+7LjwZANFGJdatftOLPlVL8kKM/B5H6eSUlr8bUS9hlZE2g39/1LLb9UexVvnMj8u
+6gPRXHiHF5Vzad2FqVmWKt4F1F39CJ4g1c624zJiIGAWP9iBONB8dIyQPlTmK4U7
+mnXQy7USXtlxU+Xw5RCO9fy5x0Ahxw==
+=LMdg
+-----END PGP SIGNATURE-----
+
+--CPEOfhRT6FsWLRqF--
