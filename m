@@ -2,85 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF13BB790E
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458B4BB793B
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:38:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8966610E949;
-	Fri,  3 Oct 2025 16:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0511110E94A;
+	Fri,  3 Oct 2025 16:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l49eIL0z";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BDAabfTB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com
- [74.125.224.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE8410E949
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:35:38 +0000 (UTC)
-Received: by mail-yx1-f41.google.com with SMTP id
- 956f58d0204a3-6354f14b881so2148485d50.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 09:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759509337; x=1760114137; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cNSO+944ZR2H6x5RKg8sRR6z8l/HHp3toady+ufsnF8=;
- b=l49eIL0zaKXycaqLDtFwWZ6Rj8ZgdbqgzfKCyGN4CfzccKGREQbU00dLYtCqrTEJZS
- ehsU3Hl7Ts4ilHUvdtpXO7rEJ1GVzYBZBgbKXFpADDozxXJRlIrIx6ae0CbGP4+SiQsG
- pAIv0HViQzmYF8GiSBtlIAMf3UhjHh3KBuyv6D+9o2v92WAZ8avdRWefTLBY/2++yZeN
- m3P7p2lvsZf6gar4F5ywfp3PXrZlN7Th0kAclA4u91JDWMf93etSerRVV4Li9aHqP2VI
- jADzbNIeytJNvG9olaP/TG+Xx3H4tUtqZtL3UEfaFcTZjV2EIYjQLctFEuALsnlCE7ab
- lJgQ==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 518A010E94A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:38:04 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 593AFt96000949
+ for <dri-devel@lists.freedesktop.org>; Fri, 3 Oct 2025 16:38:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=PaB05ReHzVkjcgDOQJ8wCEcv
+ GYDkEolJa/U3B3s4jhQ=; b=BDAabfTBHu4Qu7hHQcd4IUutsFopPzc789XbybRe
+ tzimqUkbL+tppeZO0qOdF4ae7AbWNAr2ewqk7VA4DRN0VBawMYahdyLjSNZvPO5Z
+ wW7YVot4zjAiwsgzl7HQ3u6gDxNHcgI//Gy3/hnKOYssKKxqixoGbog/jtwbC2hw
+ p8FFXFFJuRrfRvpmEaSadBLlCN552h4+fAQUuc3+vol+H5TKYaiPXwZr/BKz1/jV
+ KU2jbNZ+R+r0lM9bnAw3DEBwULi20Ndl5XVUo1ix8tKuocoxXxMiBynlsgXtwhiU
+ GCwz2Zr/jlzRNlqtU/iA63FyGrk7TSpwt3VKA1grlgQ1rw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e6x63gv1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 16:38:03 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4d9ec6e592bso44678591cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 09:38:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759509337; x=1760114137;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cNSO+944ZR2H6x5RKg8sRR6z8l/HHp3toady+ufsnF8=;
- b=TphErfrSH73j3XVtCZ7Y1CdFTBpr80ZkRBg2CCbQb/WB2HZN0TZ93kAg4q66ANWf1J
- 5pyDkosrt1Qfl14o9o7wAFsvpsAxFSz3iV37TXIHQkBAXpWV9SDZAIYhMHeb+K2ceWxH
- Pl7UX2iZkGCfxNIs+Hl3aDMKF7mCaQG+gqpAemOdIPm1LSs90NRijOdNpL5aNfFbp4Po
- 1dcgcMki2ZJU9u1QAs2Svqx23YlEKywKc/As9S/rKkM8RA1gjGNi0OyLk6sbuvjcTffQ
- DfWU50R+yqFZRfKYS/OT59xcf+jkn7/2CazVNcQpQ9GkX7yfKaqp3Mm7ZfDNUxPf35PL
- Hatw==
+ d=1e100.net; s=20230601; t=1759509482; x=1760114282;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PaB05ReHzVkjcgDOQJ8wCEcvGYDkEolJa/U3B3s4jhQ=;
+ b=sMUWhcZ+85ViM5xomKv2odLq2DtrkL+WPYEySx2+oj/OfaCOhdbySHe4iKDzIJh4GQ
+ HCPgXzooktgcWyAP+JwVXga3dsD5rdJR0dtKMN3rKDHDPSIbGF0I+xFqJ6xo7M4VCzhD
+ wzMix2nqCfZa6Gglm0UWImw2jbVaEKMxnaG3H3k6v6rYBudcHrEQ7Mr+i7cs5RxIsySg
+ XId3DFc52E4/UOXhLPyJLLUGiTMQoYKRGuOxii//Ek20Rgxejefx3yOKiU3CAc0x91ac
+ gMYnfVx/7g4Y3zXWQE2y8SWUEDFDZqHD1jooBHCSz8F/2B7lDGkyWvLgV2C0TVV78Z26
+ Ofug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXkD5i+IbHjgaZ5oQx90a1QpD7NLgRpXe2jVk0IAB/eJ6JCvW12Ca0vxie206sgEAMlwI4Pt2e01z0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzS1pYvNkvHkOsua+uB53p2fKxdUfxpZSfTTPfL9tVEhad8/riU
- aEN5DTkAB8KyuszHXmths9HxN12aFzLStfbmaqNKYSsQWAJVZges5XM4XaRN0AU5CPD83GTQDKC
- jF9WchvCQKAe1x/55qEmoCuqCEC6YfbY=
-X-Gm-Gg: ASbGncs3j08fuYlyDxHKsrVDj9K22enONzf3AZVxGBPw3WsJ2d8BbImkqixvptD3EFW
- R2xswzT/RPUboaUMJ7mUu4deGretRbOGvkexSZNbsYzD7jYSpo42UuK2uib+mZvn4W/L9xDsQIX
- ue5vUGLvyCfVqwr5jH+tE/QaF3sfGwg8JyHz5gb04eKY5N9gCsjZarCymlz6cXK509N8InTd4YT
- XtlEBrtP0NbU57uNPyUMd7jT6VOX3LZsjaAyEA06+LDAtkulXh0K7g+EIs4JW7+RHSCKIpSO6Pn
- CFJthJFlb3h6gk/pvjRAtEPjubvRU/BP
-X-Google-Smtp-Source: AGHT+IHv72FMSXkyo1Fp7W5d+5WY2maMzjTcyLcOZbJPZT49yNwAD+A8OjRUQe+ZgQqP+MgTmfVLfnAqYIUnbWaYqqc=
-X-Received: by 2002:a53:8605:0:b0:639:41a5:cdc3 with SMTP id
- 956f58d0204a3-63b9a107debmr2834822d50.34.1759509336837; Fri, 03 Oct 2025
- 09:35:36 -0700 (PDT)
+ AJvYcCWLdrXZnHe07VzTnpZdlMiBr/IfDl8YY68uaBNWR5kRSNRkjuYX+MlV2DX6FLT3RJCHMg9bTC1Y72U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzoCOZZg8dMtf+H7tpfLGchvzHQzPUvIOZwKvTMMqGAEPOdexsM
+ uTmcRAQOem8H0DUsbNtQoQXvp4bb5nwhAnILp59AWktCWdvmJ4HfaEmHIJbdNFdUR4uN8MkFSK5
+ lEEnjz3iBQtMV2SgHMzjNitZ2kqvNfImeLUGnLBxdL5Fihhd/VyTB+4x7fzS13HTmvNjZE94=
+X-Gm-Gg: ASbGnctiaY/y4Du7K/EyEl8GKn7ZiLvN/mp4ndu5f79gbpTg0izQ9eTpiv3nZPR1BoP
+ xEpZkprx728VhexoUl0+ZPpCxbRft5qQ4g+YMpO6onrqAV30Vw2QvneLbq9bMcq/mz0xbW9ORsm
+ yutG6+mOQPystIzM+dXDLURlgJuJ2MAH8FO+g5g7V1h7kCuYPJNkHSg09/WJaho2sV/1UexiWm7
+ Sn9GcaT3D8Ist40g7BzkqmGUP00pqggxCMlYP4BgcekGvxHsoOyzlm14C5qmf1UtUtKYepWt+43
+ HhAqGjXZ5fXHbqWBFSz/7ifzT+N8L8NTGsXkarWFhMQG9Wz+CVKtcnPPBL2EP5LKu4jfEYUzUmm
+ HY9NDKsjUSxpYIoBraqJ5m/sjwidxJqAe6N5zAJFAqwSzS2BbplcE934eGw==
+X-Received: by 2002:ac8:5a84:0:b0:4e0:33d8:c636 with SMTP id
+ d75a77b69052e-4e576a80529mr50279301cf.26.1759509482167; 
+ Fri, 03 Oct 2025 09:38:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHSWbvfWkZQINoQDGTwKD6Xs8g7eq9/yE76D0brkwEkWdt9KSTmMQhBBhVaw7u8NS1F6T0QKg==
+X-Received: by 2002:ac8:5a84:0:b0:4e0:33d8:c636 with SMTP id
+ d75a77b69052e-4e576a80529mr50278691cf.26.1759509481479; 
+ Fri, 03 Oct 2025 09:38:01 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-58b0119e878sm1983385e87.99.2025.10.03.09.37.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Oct 2025 09:38:00 -0700 (PDT)
+Date: Fri, 3 Oct 2025 19:37:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH] MAINTAINERS: Update Jessica Zhang's email address
+Message-ID: <v37d36nd7ues6fp53ncrqdzvmikzjn4pf427wztzatc3pvqhvn@kpg5jrkqbfc4>
+References: <20251002-quit-qcom-v1-1-0898a63ffddd@oss.qualcomm.com>
+ <35jqgias5o4ruhkc72oacepcq4skfzpe4gyivg2pz7bnpy5luj@d5saa7y7rcus>
+ <e42176e9-cac0-4142-b463-9eaf86906c46@linaro.org>
 MIME-Version: 1.0
-References: <20250916210823.4033529-1-olvaffe@gmail.com>
- <20250916210823.4033529-6-olvaffe@gmail.com>
- <ca22f80c-c233-4030-81d1-f425b8c1fb83@arm.com>
- <CAPaKu7RKDwpSqJ6u8mjcc4G0Z-T7G1LxFw2rXQtxgSW=1_-jkw@mail.gmail.com>
- <25333c43-ccd0-440d-885c-19c5f54d315a@arm.com>
-In-Reply-To: <25333c43-ccd0-440d-885c-19c5f54d315a@arm.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 3 Oct 2025 09:35:26 -0700
-X-Gm-Features: AS18NWA2kPrwB1YCHLvLxzk2yW_P1b_E5W8thcxJvwpGrAwH92eaWiAlkEjvvII
-Message-ID: <CAPaKu7QMwry6dLGignDZg+C38DGV=iGv1Y3Dv5nNagNwp7OHEQ@mail.gmail.com>
-Subject: Re: [PATCH 05/10] drm/panthor: rename and document
- mmu_hw_do_operation_locked
-To: Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e42176e9-cac0-4142-b463-9eaf86906c46@linaro.org>
+X-Proofpoint-GUID: ObfXhECIr38VKascC2-NW3o_LVD9-pQc
+X-Proofpoint-ORIG-GUID: ObfXhECIr38VKascC2-NW3o_LVD9-pQc
+X-Authority-Analysis: v=2.4 cv=ZtPg6t7G c=1 sm=1 tr=0 ts=68dffbeb cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=qOohxIfdt6ZrimawmyUA:9 a=CjuIK1q_8ugA:10 a=2MHBSq50hwYA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAxOCBTYWx0ZWRfX0oKFPXdOV8tC
+ qFwHS6tSLiJ8j7/LeKsVHFPFVQB1tlajiQ25BV54DESecyxw7YMCJUI9u9/GqMxci8hUUd3W/0e
+ qKQllFQVp8tLoTwhM4nwX2rQt3BYQ8vkvNmbs6Q5LDIfoEWhQk9EAS0nh/tB6iGiQsynTtSZ0bK
+ vCDe9567uvRL5GzGncF2jbkEPPGZ9WYwnN8i9y7xyQKyJuIeGleIDSW6m6OXc/5Zrv0LE7KCvIV
+ P9z8YWiSDAjh1QAu4DRLBMgX4cD6vON5UVdLGqLC+/7z6/xy4WTaLjbx5Nwx869uqRNMS5fHo6u
+ hVz4nLO6Ad68WSYI/D+i51hfmLfsfaNkcWbAY24bmrw0a38P/Rwr34rIIWidKV1pdc+WrzdlwQV
+ dBZlzLsB9JAMSdoIo5G0ahVLFi3iCQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-03_05,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,144 +127,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 3, 2025 at 7:13=E2=80=AFAM Steven Price <steven.price@arm.com> =
-wrote:
->
-> On 03/10/2025 01:31, Chia-I Wu wrote:
-> > On Thu, Oct 2, 2025 at 3:41=E2=80=AFAM Steven Price <steven.price@arm.c=
-om> wrote:
-> >>
-> >> On 16/09/2025 22:08, Chia-I Wu wrote:
-> >>> Rename mmu_hw_do_operation_locked to mmu_hw_flush_caches.
-> >>
-> >> This is confusing, you've renamed the _locked variant and left the
-> >> wrapper mmu_hw_do_operation() with the old name.
-> > The commit message says "rename and document", and I try to stay true
-> > to it. I could certainly squash some of the commits to make this
-> > series less confusing.
->
-> The idea is to have commits where the code change makes sense. The
-> subject and commit message then explain the reason for making the change.
->
-> Squashing the commits isn't the answer, but you need to explain the
-> "why" in the commit message. I believe the reasoning here is that you
-> are going to get rid of the wrapper in a later commit ("simplify
-> mmu_hw_flush_caches") but there's nothing here to say that. I had to dig
-> through the later commits to find the relevant one.
->
-> >>
-> >> I agree "do operation" isn't a great name, although "flush caches"
-> >> sounds to me like it's a function which does the whole cache flush dan=
-ce
-> >> in one go, but it's still the same "one part of a cache flush operatio=
-n"
-> >> code.
-> > It gets the name from being a wrapper for panthor_gpu_flush_caches.
-> > Which part of "cache flush operation" is missing?
->
-> Well "operation" is missing... My point is that a function called
-> mmu_hw_cmd_flush_caches sounds like it handles the whole procedure. It's
-> less obvious that it is only doing one part of the operation, note that
-> the description you gave is:
->
-> >   * Issue LOCK/GPU_FLUSH_CACHES/UNLOCK commands in order to flush and
-> >   * invalidate L2/MMU/LSC caches for a region.
->
-> Which again is misleading. It issues *a* LOCK/... *command*. Just one.
-> So you use it as part of a procedure to perform the flush/invalidate danc=
-e.
->
-> Sorry, I don't mean to be awkward about this, but renaming various
-> things means I've got to remember the new name as well as the old name
-> (when looking at older commits/backports). So if we're going to change a
-> name we a good justification otherwise it's just code churn. Note also
-> that we have very similar code in panfrost (panfrost_mmu.c) which
-> currently has the same names as panthor. I'm not exactly happy with the
-> duplication, but at least if they have the same names it's easy enough
-> to reason about.
-That's very fair. I was hoping the new names are objectively better,
-but they clearly aren't. Let's drop the series.
+On Fri, Oct 03, 2025 at 11:01:56AM +0200, Neil Armstrong wrote:
+> On 10/3/25 03:17, Dmitry Baryshkov wrote:
+> > On Thu, Oct 02, 2025 at 04:57:35PM -0700, Jessica Zhang wrote:
+> > > My current email will stop working soon. Update my email address to
+> > > jesszhan0024@gmail.com
+> > > 
+> > > Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> > > ---
+> > >   MAINTAINERS | 4 ++--
+> > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > 
+> > 
+> 
+> So dim complains you didn't review with the right address...
+> 
+> dim: ERROR: 261785a47e0b ("MAINTAINERS: Update Jessica Zhang's email address"): Mandatory Maintainer Acked-by missing., aborting
+> 
+> I guess it expects Dmitry Baryshkov <lumag@kernel.org>
 
->
-> Thanks,
-> Steve
->
-> >>
-> >> Thanks,
-> >> Steve
-> >>
-> >>>
-> >>> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-> >>> ---
-> >>>  drivers/gpu/drm/panthor/panthor_mmu.c | 22 +++++++++++++++++-----
-> >>>  1 file changed, 17 insertions(+), 5 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/=
-panthor/panthor_mmu.c
-> >>> index 727339d80d37e..7d1645a24129d 100644
-> >>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> >>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> >>> @@ -622,8 +622,20 @@ static void mmu_hw_cmd_unlock(struct panthor_dev=
-ice *ptdev, u32 as_nr)
-> >>>       write_cmd(ptdev, as_nr, AS_COMMAND_UNLOCK);
-> >>>  }
-> >>>
-> >>> -static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, =
-int as_nr,
-> >>> -                                   u64 iova, u64 size, u32 op)
-> >>> +/**
-> >>> + * mmu_hw_cmd_flush_caches() - Flush and invalidate L2/MMU/LSC cache=
-s
-> >>> + * @ptdev: Device.
-> >>> + * @as_nr: AS to issue command to.
-> >>> + * @iova: Start of the region.
-> >>> + * @size: Size of the region.
-> >>> + * @op: AS_COMMAND_FLUSH_*
-> >>> + *
-> >>> + * Issue LOCK/GPU_FLUSH_CACHES/UNLOCK commands in order to flush and
-> >>> + * invalidate L2/MMU/LSC caches for a region.
-> >>> + *
-> >>> + * Return: 0 on success, a negative error code otherwise.
-> >>> + */
-> >>> +static int mmu_hw_flush_caches(struct panthor_device *ptdev, int as_=
-nr, u64 iova, u64 size, u32 op)
-> >>>  {
-> >>>       const u32 l2_flush_op =3D CACHE_CLEAN | CACHE_INV;
-> >>>       u32 lsc_flush_op;
-> >>> @@ -680,7 +692,7 @@ static int mmu_hw_do_operation(struct panthor_vm =
-*vm,
-> >>>       int ret;
-> >>>
-> >>>       mutex_lock(&ptdev->mmu->as.slots_lock);
-> >>> -     ret =3D mmu_hw_do_operation_locked(ptdev, vm->as.id, iova, size=
-, op);
-> >>> +     ret =3D mmu_hw_flush_caches(ptdev, vm->as.id, iova, size, op);
-> >>>       mutex_unlock(&ptdev->mmu->as.slots_lock);
-> >>>
-> >>>       return ret;
-> >>> @@ -691,7 +703,7 @@ static int panthor_mmu_as_enable(struct panthor_d=
-evice *ptdev, u32 as_nr,
-> >>>  {
-> >>>       int ret;
-> >>>
-> >>> -     ret =3D mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_C=
-OMMAND_FLUSH_MEM);
-> >>> +     ret =3D mmu_hw_flush_caches(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_=
-FLUSH_MEM);
-> >>>       if (ret)
-> >>>               return ret;
-> >>>
-> >>> @@ -702,7 +714,7 @@ static int panthor_mmu_as_disable(struct panthor_=
-device *ptdev, u32 as_nr)
-> >>>  {
-> >>>       int ret;
-> >>>
-> >>> -     ret =3D mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_C=
-OMMAND_FLUSH_MEM);
-> >>> +     ret =3D mmu_hw_flush_caches(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_=
-FLUSH_MEM);
-> >>>       if (ret)
-> >>>               return ret;
-> >>>
-> >>
->
+No. It is a known limitation of dim, it expects a maintainers's review,
+but there aer no maintainers for MAINTAINERS file. 
+
+-- 
+With best wishes
+Dmitry
