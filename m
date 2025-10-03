@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837E6BB7944
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52637BB79A1
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:46:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D991910E94B;
-	Fri,  3 Oct 2025 16:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346A410E94C;
+	Fri,  3 Oct 2025 16:46:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TNSYP1xM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SNGE4dzP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8820110E94B
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:39:15 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 1EA91C007AB;
- Fri,  3 Oct 2025 16:38:55 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id EBD5F60683;
- Fri,  3 Oct 2025 16:39:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 1D51D102F17C4; 
- Fri,  3 Oct 2025 18:39:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1759509552; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=1F9JLF84oqNjZaJLCmTP67ExLJITt2P8O0NR+62/ztU=;
- b=TNSYP1xM90AAba6RGlmBaA4a/flXLVC+rAElTVHL+LLaqMp9pBoRSjpak5bd2YjgvbSpfi
- M9PIJzp5HGeCrV0qNLNqCG5SNOBLevtvr5RGFGTbu1YJSSrU5x4OloH48JG97qLJ79FhAV
- O6QycYHCUXsrug7u2cR3wD9hceGqtqofBiJfdu7zz6IUQoG8vZZ3ovnoXXvHJpvvgHOLAD
- LpYAUO5WWjfNGAZccgxD4WEnxbgbefIKXn/RiJ78a7X6e1CFT4+beqLTLFHBGPFApJy66U
- b8SRwG+dsKtARauP3cPF2jRzctO/PaImFtl742GTLOQO8LCn8GAcw2ubRx4lkw==
-Date: Fri, 3 Oct 2025 18:39:04 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] drm/bridge: lock the encoder chain in scoped
- for_each loops
-Message-ID: <20251003183904.15c800ac@booty>
-In-Reply-To: <20251003-dexterous-loose-guppy-45e1b3@houat>
-References: <20251003-drm-bridge-alloc-encoder-chain-mutex-v2-0-78bf61580a06@bootlin.com>
- <20251003-drm-bridge-alloc-encoder-chain-mutex-v2-4-78bf61580a06@bootlin.com>
- <20251003-dexterous-loose-guppy-45e1b3@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F9210E94C
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:46:39 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-74435335177so64690737b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 09:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759509998; x=1760114798; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NbaO38KWIg6eoYsH/LPckOSLNAEhaqfaW0c+XUDJmuo=;
+ b=SNGE4dzP2v6N0qxiF/wfGqnMfaB4gEDvQSvgtYkX89maYV2FRuA1KnqV6ljTu3T9b+
+ DDYndbutnyuP4uGMuhKf9saVwpuuJK2UO5qShQ7y0jsc/nbMjfDAcar5NVl3sWpCGJmS
+ zKskTqCHe8hz7SmgoL2IApbUFjk7sDeAJzfl128KM3tiSZ+YJC0p1hpD4lL6NicPxSTs
+ d07VQA0bOqDK+1OQPfpVxRO6UHMOtXMMMGLKn6Pn5q5pxkFlK+GzUXRsCvwr2uY+E/er
+ RIw6q9jdwjKUDW9dFClbLDZZxk0AcDrRo0/X0U0JJq7Jzum7aQpTScDUdQ3dSsTBBYCO
+ FuaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759509998; x=1760114798;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NbaO38KWIg6eoYsH/LPckOSLNAEhaqfaW0c+XUDJmuo=;
+ b=GFMKFxxEOuJrmFOJszwQ0H3ApdpaDb+ADNHpjObGbgHUKZmNW+uPvRA++sj07o3qSE
+ CYlFy9XcVEnYHevb62wcgC2+4yA3HhYcb9be2VjBVbTWPc3JBW0wcSG9XQ3/CQB7dsWM
+ dAva1WRXzsFJC/1bmIW/zNjG4NOwhTNl9+pf2WbmwwpalnPPJKn8XVQPldLAEakqQI2g
+ YZj1bP7DhFoZLCCBFNm3bZZ2lzBE9gK5ZvneqVR4sbpVDeD1SrYPgoxEBl7yKONrc4DR
+ 9gqA6OXdxP5W5LcegzveT2qK5zUmHSoPOcd7xbW8REhnkg0LstMsQUxXHeREl8AtynVB
+ Drpw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXRuR4S9GG2ri7/wEbbZFXQAq+jDLU/mpH60DyQRN1SmP/Ee5P24TvEjnlV7Bh65+cQZXXXxBQmKic=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxUp0jDfCCDMi5UsQkUnQiIFNZdk+Jfn0aLcRPX6aAbkzsKtwU4
+ fn68WpwjpHFv7LmrcTM/j4ad2Yl3Py6B38PpPt4LMFoEiDh1d0K2xkqa9ns6+/1Bpw1KXUHyUxS
+ EMCcorxO5VuGmz+B1wK3GfF1FkxOan+8=
+X-Gm-Gg: ASbGnct+gP44Y0ztToJyfdbwAFedbgXT0dsdwyMSaVs33jjFnt8rupMjH2NbSWRQLh8
+ Q9A/RfQ0F8BlI6+unkaqRfPK7UN3oezhGSErhJcTKI4tVTNIYwzUnz6f3Voo5HLceKABoadV/W7
+ u2zWezYPYyqI2IKthR39S1/zyDu/PZ1KvDqXlWRg6YTEl7DgApCWkBcIvdYDtz2Swx9qjkOzMpn
+ PQ9AalePPsj4Ggs0WFBJOS5REyTIVZNohq8W+hb4uMkt3GANIl3bVBhWUYfw16a9lxkoR4ZcuBd
+ pwUz6n29gLJfGGKlPy6l7oWll9VKuxR1
+X-Google-Smtp-Source: AGHT+IFWncG86O5r+6FwzsP59G545JzPmypkxdD50foluglEErNvNXbe4BN8ZNbnT/h3k+IRhLVHo0pO0jBsM4uckTM=
+X-Received: by 2002:a53:c04b:0:20b0:636:20c2:8eb8 with SMTP id
+ 956f58d0204a3-63b99463d57mr3530454d50.6.1759509998437; Fri, 03 Oct 2025
+ 09:46:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20250916210823.4033529-1-olvaffe@gmail.com>
+ <20250916210823.4033529-8-olvaffe@gmail.com>
+ <74e2f1a8-0410-4a5e-bbf3-29d5d5d55308@arm.com>
+ <CAPaKu7QEAbR8a_+qmyU=obyf2N-UZemfw23U_Dw2DZLqPd7tGQ@mail.gmail.com>
+ <9022445f-3cf7-46a8-85ac-e1f226e0bd9b@arm.com>
+In-Reply-To: <9022445f-3cf7-46a8-85ac-e1f226e0bd9b@arm.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 3 Oct 2025 09:46:27 -0700
+X-Gm-Features: AS18NWBSZ8ttnfWhFPgsAOcecJWxL-MxEUEzojwa5u1JT9CrpBjxCoFd82w-r10
+Message-ID: <CAPaKu7SK44HqvPvDsFVNeJs9+KkUFCXzH6CL+iD8tT73ws+oiw@mail.gmail.com>
+Subject: Re: [PATCH 07/10] drm/panthor: remove unnecessary mmu_hw_wait_ready
+ calls
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +96,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+On Fri, Oct 3, 2025 at 7:13=E2=80=AFAM Steven Price <steven.price@arm.com> =
+wrote:
+>
+> On 03/10/2025 01:23, Chia-I Wu wrote:
+> > On Thu, Oct 2, 2025 at 3:41=E2=80=AFAM Steven Price <steven.price@arm.c=
+om> wrote:
+> >>
+> >> On 16/09/2025 22:08, Chia-I Wu wrote:
+> >>> No need to call mmu_hw_wait_ready after panthor_gpu_flush_caches or
+> >>> before returning from mmu_hw_flush_caches.
+> >>
+> >> Why is there no need? If we attempt to send a command when the hardwar=
+e
+> >> is busy then the command will be dropped (so the cache flush won't
+> >> happen), and if we don't wait for the unlock command to complete then
+> >> then we don't know that the flush is complete.
+> > We have this sequence of calls
+> >
+> >   mmu_hw_wait_ready
+> >   panthor_gpu_flush_caches
+> >   mmu_hw_wait_ready
+> >   mmu_hw_cmd_unlock
+> >   mmu_hw_wait_ready
+> >
+> > I could be utterly wrong, but my assumption was that
+> > panthor_gpu_flush_caches does not cause AS_STATUS_AS_ACTIVE, at least
+> > by the time it returns. That's why I removed the second wait.
+>
+> Hmm, so this was a recent change, moving away from FLUSH_MEM/FLUSH_PT. I
+> have to admit the spec implies that it a FLUSH_CACHES command wouldn't
+> set the AS_ACTIVE bit.
+>
+> Indeed we now actually split the active bit between AS_ACTIVE_EXT and
+> AS_ACTIVE_INT - where _INT is from an "internal source" and therefore
+> doesn't prevent writing to the COMMAND register.
+>
+> We do, however, need the LOCK command to have completed before we flush
+> the caches. So the operations should be:
+>
+>  * wait_ready()
+>  * LOCK
+>  * wait_ready() // To check that the LOCK has completed
+>  * FLUSH_CACHES
+>  * UNLOCK
+>  * wait_ready() // Optional
+>
+> The final wait_ready() is optional in some cases (because the LOCK
+> ensures that we can't have any translations using the old TLB entries -
+> note that I believe older Midgard GPUs couldn't rely on this). However
+> in the case where we want to disable a MMU we're going to have to wait.
+The end result of this patch is exactly the operation you gave above.
+It is without the optional wait at the end, because whoever issues the
+next command will call wait_ready.
 
-On Fri, 3 Oct 2025 16:04:50 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+>
+> > We also always wait before issuing a cmd. Removing the last wait here
+> > avoids double waits for panthor_mmu_as_{enable,disable}. It does leave
+> > the cmd in flight when panthor_vm_flush_range returns, but whoever
+> > issues a new cmd will wait on the flush.
+>
+> Note that wait_ready() is really cheap - it's a single GPU register read
+> if there's nothing active. So the "double wait" isn't really a problem.
+> I'd much rather have the occasional double wait (i.e. one extra register
+> read) than the situation where we miss a wait_ready() and end up with an
+> MMU command being dropped by the hardware.
+Yeah, the elimination of double wait is really minor. Avoiding the
+wait at the end of panthor_vm_flush_range is probably bigger, but it
+is hard to tell.
 
-> On Fri, Oct 03, 2025 at 12:39:26PM +0200, Luca Ceresoli wrote:
-> > drm_for_each_bridge_in_chain_scoped() and
-> > drm_for_each_bridge_in_chain_from() currently get/put the bridge at each
-> > iteration. But they don't protect the encoder chain, so it could change
-> > (bridges added/removed) while some code is iterating over the list
-> > itself. To make iterations safe, change the logic of these for_each macros
-> > to lock the encoder chain mutex at the beginning and unlock it at the end
-> > of the loop (be it at the end of the list, or earlier due to a 'break' or
-> > 'return' statement).
-> > 
-> > Also remove the get/put on the current bridge because it is not needed
-> > anymore. In fact all bridges in the encoder chain are refcounted already
-> > thanks to the drm_bridge_get() in drm_bridge_attach() and the
-> > drm_bridge_put() in drm_bridge_detach(). So while iterating with the mutex
-> > held the list cannot change _and_ the refcount of all bridges in the list
-> > cannot drop to zero.  
-> 
-> This second paragraph *really* needs to be its own patch. And I'm not
-> really sure playing games when it comes to refcounting is a good idea.
-> 
-> A strict, simple, rule is way easier to follow than trying to figure out
-> two years from now why this loop skips the refcounting.
-> 
-> Unless you have a performance issue that is, in which case you should
-> add a comment (and we will need a meaningful benchmark to back that
-> claim).
+Let's be on the safe side and drop the series.
 
-Just to give some background, I have realized we need to lock the
-encoder chain after drm_for_each_bridge_in_chain_scoped() was added.
-Should I had realized it before, I would have sent it in the form you
-can see in this patch, without the get/put because it is not necessary.
-Not sure whether that would have changed the reception.
-
-But I'm not aware of any performance issue, and the impact of
-refcounting should not be small, soI'll try re-adding an explicit
-get/put on top of the current version. It will likely make the macro
-more complicated but should be reasonably doable. So, expect a v3 with
-that change to we can all see how it looks.
-
-Best regards,
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>
+> Thanks,
+> Steve
+>
+> >
+> >
+> >>
+> >> Thanks,
+> >> Steve
+> >>
+> >>> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> >>> ---
+> >>>  drivers/gpu/drm/panthor/panthor_mmu.c | 7 ++-----
+> >>>  1 file changed, 2 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/=
+panthor/panthor_mmu.c
+> >>> index 373871aeea9f4..c223e3fadf92e 100644
+> >>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> >>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> >>> @@ -669,12 +669,9 @@ static int mmu_hw_flush_caches(struct panthor_de=
+vice *ptdev, int as_nr, u64 iova
+> >>>        * at the end of the GPU_CONTROL cache flush command, unlike
+> >>>        * AS_COMMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT.
+> >>>        */
+> >>> -     ret =3D mmu_hw_wait_ready(ptdev, as_nr);
+> >>> -     if (!ret)
+> >>> -             mmu_hw_cmd_unlock(ptdev, as_nr);
+> >>> +     mmu_hw_cmd_unlock(ptdev, as_nr);
+> >>>
+> >>> -     /* Wait for the unlock command to complete */
+> >>> -     return mmu_hw_wait_ready(ptdev, as_nr);
+> >>> +     return 0;
+> >>>  }
+> >>>
+> >>>  static int mmu_hw_do_operation(struct panthor_vm *vm,
+> >>
+>
