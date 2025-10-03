@@ -2,186 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECE9BB8000
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 21:50:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B03BB8055
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 22:03:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A60410E158;
-	Fri,  3 Oct 2025 19:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C556510E210;
+	Fri,  3 Oct 2025 20:03:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="KE6WP5wf";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="MAHJne4z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAAE10E164
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 19:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1759521014; x=1760125814; i=deller@gmx.de;
- bh=1OoQYUp9pgkze4htt26rmCehHfCdurF9hgtKatrqDIw=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=KE6WP5wfD7QZoiFHe/bJ6v7JlLNo3xtB057/Kd2JXGWsyQbQ/OQDn76wF2GsALzO
- UJHR4dU3CxTpZjY0qsDyYDRzHcRcz+iGd6dqHGvykO/SuV+ViPR394pliCHrlCLY0
- AwfYvUU5SNjEf/E5+09i8Kve3zByIyMWi4bFyYgDDpWCto8nJ6UyvQCRRFjzFBBh2
- KsPGwIOqsXA2kAIbL1/satJ5E4D0J+wpVSK6+326Aqg89duOgn7lmxZNWCGgSF8pb
- Rp/n0qxePr8z69pFvaMTmcHs5O5sCryHIXJ7/UKZ/Z3KPOprcPTo5+LlzO1FV6Fta
- OTuEvhAE5+PzgFqYGw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.51.68]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzhjF-1uIs6B2Th3-00wFMu; Fri, 03
- Oct 2025 21:50:14 +0200
-Message-ID: <c1d86274-44e2-4ceb-b887-5c4af45d8b37@gmx.de>
-Date: Fri, 3 Oct 2025 21:50:01 +0200
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7D010E210
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 20:03:04 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b3e25a4bfd5so528585466b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 13:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1759521782; x=1760126582;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TbpBU6Pr6wg0+zanKq2gcbiJR41DcWJOWgfowfisJWk=;
+ b=MAHJne4zrHcjnK/DzzRgYZjcvjwjVrMfAMqIh/+V77V9gG+KwgZ2OsEEoZb+ve1mdo
+ xCiLh95Ms2JtuwFIcKkef3vjdFjGvqqt2+lFuyEx/FsdynPGJoKnFjtxi85w/OizHXde
+ q6NdiiTHfq82yW6az1SJYxh2ygOflraITiPYI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759521782; x=1760126582;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TbpBU6Pr6wg0+zanKq2gcbiJR41DcWJOWgfowfisJWk=;
+ b=qJwICvydbsyuObFqwhCqF0ntNOib47yw997jDZAHXMuBtWGKlupxq4xjrBBvL0MTbt
+ guI3B8wA9JwL0xW+5Q/+1mtdIpJkOTnM6hT0X6A3i44Qn2rZWeGyoVQRK8o9C0XfEOcH
+ j8vDBNRU+SV5Gu0mOqZRCpYP9lMVPUQf3QLNIP77jolb+cr93j9cQ6InNn4zUlfvUf9E
+ IU90F405HgvcxXGXRz/z6l3hzyDk3e1nwK9DhwkbFmSvsEminUXOitNiJu5+Aa9pEyZD
+ YUMflvpC6faYUP284TM8jHDhzC34OizgXr/hxPAArYAfiSHMPWV9oWa1QRj22pn0KwGI
+ ngyg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQpZCZNVA4LITvElvML4PdcpdTLeYymthFcr8koxSXozcxVURLcj6pGL+ek8K8ymOFzSKTglc/rxU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyojqWyJrNLKguHhHv57LFleeLTnbvu8gu7AhkDi30yw1yJST9C
+ vo/sLqC1Q/1RYw8qBHOhzdrmlyWfA/2++gkFbl8MasKd1BLuEsaoiiuTMMMewO27cup8kI1kS1y
+ jwTeF0+o=
+X-Gm-Gg: ASbGncvOYULnscmu4GUSoXfS7Qp2rFzayDTvGYbQVtwS79jVmT9a3XcW/nj0jt/QHkJ
+ 1KwTD7+gB/lIboY0aSsqN/GUgJGgGWlQAFSRk734LOICmg5bu4jFGqpgwR7cJJLVOwdk6NZgsVG
+ l175nf4rCg2S5kUh5InPqkPoO8HlbhYVIdz6jQm6zpZvWFvb0gjRLw72ejGD9ptU0BRQ/jK+KuY
+ hqcZn7+SHBWpi97iQZPBZ7DgE0kGQUj+a51wkk6vXcS4wRByBniZq3N9XAz/2P0FFAfDRcQ99zc
+ MpwH05eTu889tEPGTydqvzVJCf0cB4Glkd5xoym5BgCzX/2UDS4pDFsEhKIsOf/vktUE6JizQyx
+ AeQohIgdEamEuXLOtPtrzCxqHeQbnIFQ8SaUx2l6b8K70hUXeqQXAsz1JK+mJww9E6ygl3E3bBL
+ 15HJes0Wiw4YbtxME1wLIE
+X-Google-Smtp-Source: AGHT+IF9kwYypnTxGCNjtTqyn71+xQpafwbPsR9RywIZr2g1SEER99G8ApOfwwjNpfeN4G8QtLxw/g==
+X-Received: by 2002:a17:907:868c:b0:b40:5dac:ed3f with SMTP id
+ a640c23a62f3a-b49c1277b0bmr468778766b.7.1759521782487; 
+ Fri, 03 Oct 2025 13:03:02 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
+ [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b486970a60dsm506210166b.63.2025.10.03.13.03.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Oct 2025 13:03:00 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-6394b4ff908so2553783a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 13:03:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2iZCfjKlDHswiwu94+GbIWZCM8HkLYlV23CYfR1+h6YvqXMeM7P1ftyoDYutqzO6eixmQnVCZ2DQ=@lists.freedesktop.org
+X-Received: by 2002:a17:907:2685:b0:b45:1063:fb65 with SMTP id
+ a640c23a62f3a-b49c3936225mr545475666b.39.1759521780061; Fri, 03 Oct 2025
+ 13:03:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-To: sukrut heroorkar <hsukrut3@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mikulas Patocka <mpatocka@redhat.com>
-Cc: David Hunter <david.hunter.linux@gmail.com>,
- kernel test robot <lkp@intel.com>, Bernie Thompson <bernie@plugable.com>,
- Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Zsolt Kajtar <soci@c64.rulez.org>,
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org
-References: <20250924175743.6790-1-hsukrut3@gmail.com>
- <202509272320.3K8kdDCw-lkp@intel.com>
- <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
- <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
- <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
- <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de>
- <CAHCkknrAKGxzAYE-R3QX20W4faR9Wfjgn37peyHRJcZ6PRLENA@mail.gmail.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <CAHCkknrAKGxzAYE-R3QX20W4faR9Wfjgn37peyHRJcZ6PRLENA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:E9PRxAmMLLYj2WLkCS6kKwQAR0GDLM4iQvjKOyVpWTP83BJJ5iC
- Nc20JrCUyv89y6K3OkaNEYeotLc6BHjTMI5SJxAUokveYuZ5+5wRfWK1AokoTgPXSaxyqLC
- R+v0OuAA/ZX3yoTHkH0S1RFQNM2XhyLwM5Kl4533TKMMuPT/H8eqmAc8YkbShfLoAjPzlxi
- fagPCKIq3pV+hdOKaQcXQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eKU4NJnwsyw=;8gYG0ZVn3XHQJPzK4jjqflIR2gT
- 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
- OfN6hW8Wto45imWKqFlY8MHUaw=
+References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
+ <CAHk-=wgO7S_FZUSBbngG5vtejWOpzDfTTBkVvP3_yjJmFddbzA@mail.gmail.com>
+ <CAPM=9txjNo==nMA7XcjzLWLO155+1bk2THwPs_BmTLu_5kU_bQ@mail.gmail.com>
+ <CAHk-=wgR61VxiHyOKXBJv_HinoFVA2av1EuSHg5NcRGC1fNq3w@mail.gmail.com>
+In-Reply-To: <CAHk-=wgR61VxiHyOKXBJv_HinoFVA2av1EuSHg5NcRGC1fNq3w@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 3 Oct 2025 13:02:43 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgX-2+hH5fM344_wKYNZS5CSf4ispS4X+s5xkma_Mdu_Q@mail.gmail.com>
+X-Gm-Features: AS18NWCnq6HDu3oiSAI0ER2urw2inCCpn6nPuTO_WRSrmKvOgbDj_M8nr5oEaqo
+Message-ID: <CAHk-=wgX-2+hH5fM344_wKYNZS5CSf4ispS4X+s5xkma_Mdu_Q@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.18-rc1
+To: Dave Airlie <airlied@gmail.com>,
+ Sasha Levin <Alexander.Levin@microsoft.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Sima Vetter <sima@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -197,44 +103,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/3/25 20:43, sukrut heroorkar wrote:
-> On Thu, Oct 2, 2025 at 8:52=E2=80=AFAM Thomas Zimmermann <tzimmermann@su=
-se.de> wrote:
->> Am 02.10.25 um 08:41 schrieb Helge Deller:
->>>>>> kernel test robot noticed the following build errors:
->>>>>
->>>>> Did you compile and test this code before submitting this patch?
->>>>
->>>> Yes, I had compiled & loaded the udlfb module with no errors. Please
->>>> let me know how to proceed in this case.
->>>
->>> Look at the reported build error, which seems to happen in dev_dbg().
->>> So, maybe in your testing you did not have debugging enabled?
->>> The report contains the .config file with which you can test.
->>
->> Can we rather make an effort to remove the udlfb driver entirely? A few
->> years back, there was one user who was still using it because of some
->> problems with the DRM udl driver. But I think we've addressed them. The
->> discussion is at [1].
+On Fri, 3 Oct 2025 at 11:09, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> If you get pull requests from the people you pull from that make it
+> harder for you to do a better job, please push back on them too.
 
-Would be good to know if they issues/crashes really have been solved.
-In [1] it seems the crashes still happened with DRM.
+Side note: this is actually an area where maybe it's worth looking
+into just having automation.
 
-> Should I send a patch series to completely remove udlfb,=20
+I've actually been fairly impressed with some of the more recent
+AUTOSEL AI summaries, and I wonder if it might help maintainers to
+have some kind of "summarize this pull request" infrastructure. I'm
+not so convinced about the code-writing side, but summarizing
+changelogs sounds useful but also rather less scary.
 
-No. (at least not yet)
+And I'm not suggesting that because I would use it to summarize other
+peoples pull requests, but as a way to make it easier for maintainers
+to write summaries of their own pull requests when they have lots of
+different things going on.
 
-> since [1] echoed that DRM udl driver is good enough?
->> [1] https://lore.kernel.org/dri-devel/20201130125200.10416-1-tzimmerman=
-n@suse.de/
+Adding Sasha to the participants, since he's been doing the AUTOSEL summaries.
 
-Well, some people who do *NOT* actively use fbdev with the old
-cards say the DRM replacements are "good enough".
-For tThose people who really depend on fbdev and the speed it has
-over DRM, the DRM "basic-drivers" are simply a nice-to-have-but-not-really=
--useable
-type of drivers.
-So, unless the really affected people say the DRM replacement
-is fully usable, we need to keep the fbdev driver.
+(Some of them have been just garbage, but a lot of them have seemed
+quite reasonable. So as a starting point - rather than as the final
+case - I think maybe some of those LLM's might be useful for other
+things than making amusing fake videos)
 
-Helge
+          Linus
