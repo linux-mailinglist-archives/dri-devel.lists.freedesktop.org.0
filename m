@@ -2,90 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7FABB7D8C
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 20:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC533BB7DD7
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 20:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E56FE10E955;
-	Fri,  3 Oct 2025 18:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC02B10E95D;
+	Fri,  3 Oct 2025 18:16:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="HAQCRgGF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LIkjj3fI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B42D10E955
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 18:10:04 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-b00a9989633so94701566b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 11:10:04 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B943710E95D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 18:16:03 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-72ce9790ab3so30160617b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 11:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1759515003; x=1760119803;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6HcZa5x/ZueKvCVojJriM429YMOmrXwyu7CDTC62Sag=;
- b=HAQCRgGFNiIPUF9afPxliD8CZK9bLm3XPI4TEeuUUChT4+oopECV+i/a1wVD/cawzR
- 8uJN7n1CyUHxjTTCDrLvmBvPt4FNsLpf5mujpvb4N/uVVMhrYs5tQ7FgOehY9BHnOBRO
- EFIebV4KU/ZBEbuOO5Ny34jOcIfnOk+fxRBEA=
+ d=gmail.com; s=20230601; t=1759515362; x=1760120162; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hA+2wesaVrYL13Ek9PytzgyCt01NNN1W3ZjSk7cfKyA=;
+ b=LIkjj3fIBwRf0bT8hVTDXyzb6QcYGs7i40M6HzWCmhGPjlAp15yJBVYKCIbm6U6rJh
+ 30kUVXtZMJtWzuo3Q9K0FupiLq32ioZjyhlnXXaaxC6wfzSTBCAW+cTOiOP/gcnsOVj3
+ eRWBJCAgByTKa+z7W9paxCKJ3g21lmES3hIH0MqRq2e+ld4Tsz9DShjYxMfowoB1Xj2E
+ 75q8N9tlzI+OF3HvO+RqtP52DSWxLLZAQzgZdloF6efJddGlz8qnxzhOsG+AQtCNOZDv
+ tYYhaNcJRWeJSqsSULdInQD23xDSTPMTgsP8XpATjZNgU0Tc5AxH+k861f+PhCbQTBsC
+ darQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759515003; x=1760119803;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6HcZa5x/ZueKvCVojJriM429YMOmrXwyu7CDTC62Sag=;
- b=OJqJx9q9rt10ZN+3uGzJXkL0rJtZE8qpEAHRBfzsuT2GPWGYPBnFG6sDUqvdOcG/BG
- pri4IiuKwK8YbC7woaq32voy6UkcSM6HX/fNph6d+NfB0klRCiC8Al4BlKJViYo3JWSz
- iRAj0Ih1+9Z5JvAilX0xrpxzVKEixwYqOFQhIe+uA4HWPZ0GnM9ruNtmsjgK1IAZd4QE
- nBA8eO+vOcFcaaMeQnMeZqXC14TfFRK7QkPLEMs++2Czx1mKuoBWUQlIB3AFezdBSGPd
- pGA9y2f1RD32G9HnJ2mX6EXr8tzzvTK1GbZ/A4Cyd5WA1hkARGxnYTRlTKaNlG+tsEjP
- nxhg==
+ d=1e100.net; s=20230601; t=1759515362; x=1760120162;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hA+2wesaVrYL13Ek9PytzgyCt01NNN1W3ZjSk7cfKyA=;
+ b=dY9LPdHNrK/JTJ/h1ViixtJjsqRC7U1oz5scbnXOHNkOMI+wCrUJ0nVdNZzGxAgA5N
+ JtszePuSaDjgEPe+K5odqcluH2PCyzoh3nThOYLdqAQ0ifVkftPgtPnin6ELpzcf/J+U
+ KVb7gj6IEK1jzbsS05AvwFWn2bRS0DHOzExeUBzU2Z3lE6+WZpAgpWUk8RBbMjYPre80
+ acPxBhJl6OMzLwKJ01GfjsfM94oBbsV5SjN+Tm9zKUHIwjFWo6l3kPdNjNA6Sn7rAFhI
+ 6T53PUagb+crZOehdOfw1ft8cPkL+atGFosYwNpebprVXPrFYQjeAgIvfGdjcEEDU4yp
+ sIPg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaBh/hcgIv4qvUQDZoHpkSDiidEkoS7Q6r/4jks9TWujSRGydaQcMNiJWyXp+RBQ3MLvCfvhXhZFI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFvN9RSrAOjXw0bunKGUNZRJiRHMY+ChtdGnb0uf4nyiqUuhoA
- Vz6GTvBf4RTtn1NS5nYy/BzJq6aIfgcAl/stPGZCRe1mB63WGnYE52HjVdU5+ReiK65OG6kpspf
- JtwQmAbE=
-X-Gm-Gg: ASbGncuvovHaM2m+0I7BTaYiJkvQrR4FHo730cGsVEDw4dFZ/zQGAeq8lwFIGTK6X/Q
- PQBcpTAhmMizFkuPin1VeSIVaftH7z4CiLnTdzZS3ZCmUf2s0uGqgl/6jbR48Q5tsJ7ul5qv1Xl
- 3qmhZypjDnYzC3lnzRv+Mkz7qR+ihJu9plKxiLDyklv2tCke75WH1Vvi8NqWefXtUqviKBmRBV/
- PMAcj8pPhmgcyFQjr4rH/Up36ghVsmYoW4GgzzrNxzGEQlZoIp98qyJC+GA3qy+ZSrHiCpi6xZ1
- 6vg3B7jppQKd7KKvh9LcmNOtHc2kEklAXQzusY5kf9di0rMaOITrxDj0oJTqRtIXPXPn77UMEnk
- MWF+2S05z6HGkM0xsYJtYrL1QYs19lDcHd64qMHnDjJ5OIOvF+otebK/Fpr1p0ed+zorgQIF6MA
- pgvPG4BpZ6pUbPi6CBlJtg
-X-Google-Smtp-Source: AGHT+IFUTqX9Xzj7ziTPTO6DI4u/xzNLfsAhX5VKvfcRSczxqgF7+t7Kevt1aL4uq8ONFlltjfMRnw==
-X-Received: by 2002:a17:907:6d21:b0:b27:edf1:f638 with SMTP id
- a640c23a62f3a-b485b8b56b2mr832863166b.23.1759515002599; 
- Fri, 03 Oct 2025 11:10:02 -0700 (PDT)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com.
- [209.85.218.53]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b4865986505sm483236966b.23.2025.10.03.11.10.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Oct 2025 11:10:01 -0700 (PDT)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-b00a9989633so94696766b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 11:10:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVaPmkYqhOPlfiUmAtYBtKf7M6bumZuNZFryHDhLYM26Hl8nTRPAHYueim2ZUOMoeSNx28Y7yNJluI=@lists.freedesktop.org
-X-Received: by 2002:a17:907:94ce:b0:b3f:493c:aa with SMTP id
- a640c23a62f3a-b4859595d81mr997367066b.7.1759515001411; Fri, 03 Oct 2025
- 11:10:01 -0700 (PDT)
+ AJvYcCWOhFBQeXwRobCBPUkwo9169mzYDO46P94Lylk7qcp1BddVkmq/ReWIIU+n5zHauGdrteqJlTTgvaY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhM8IBsVcEbBEpFZnbUyPW3It19a3cjgx/bC69zu+j0nbYaQ0B
+ jELIyzxx98Wzlox9snggqHKT4GMPMz3CXhHIdMzj2cVsBTpEYY9LkybkSRF9X8yP9PVp0Fsj/pF
+ 6X/bpo9/sx92dPAeaIv481gxtl02+7XE=
+X-Gm-Gg: ASbGncuP7iAGMQ4zw2Bh/GbdV+B0NOQKRQ3V+/u9ziz6cQr8guYocJhh3D3YXS6DNPs
+ 0wQUBehBXKy8Cl9iqnI3ZhsWYUqdWarkmiVklbVPPiPBde5XVm8YyZNqoM52JAm68sl//Wg3tDJ
+ 4f8NefHKKUGInlwD1vyBLKfQRIPwMkdbFq2e/h6FbYbLFyJTu0rNS4XdqlqeRrJxTGIWnZYxXD+
+ T7M1UVv1OSjJJJNrscqqnRDnHYakl8nA5smT4ENCsjvx97/GV8NEtxQR9T7IFk5eZWGHcqcPocP
+ LJ+XFmPAF8jVeYC5hqI19PtxAg+7C7r1
+X-Google-Smtp-Source: AGHT+IHcaFQJqVTztaB0e9RyZeNiAagOyj3g8KNYxpfdC0wTuijqki+QAQ/mSLPGzCBtgMgInYIWdXqQgPlyAlcpaNk=
+X-Received: by 2002:a05:690e:28d:b0:604:3849:89a8 with SMTP id
+ 956f58d0204a3-63b9a076118mr3027885d50.16.1759515362277; Fri, 03 Oct 2025
+ 11:16:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
- <CAHk-=wgO7S_FZUSBbngG5vtejWOpzDfTTBkVvP3_yjJmFddbzA@mail.gmail.com>
- <CAPM=9txjNo==nMA7XcjzLWLO155+1bk2THwPs_BmTLu_5kU_bQ@mail.gmail.com>
-In-Reply-To: <CAPM=9txjNo==nMA7XcjzLWLO155+1bk2THwPs_BmTLu_5kU_bQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 3 Oct 2025 11:09:45 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgR61VxiHyOKXBJv_HinoFVA2av1EuSHg5NcRGC1fNq3w@mail.gmail.com>
-X-Gm-Features: AS18NWB0AZ2Hkgtacs8r8m7VKTE8yKqMQtBylPIC27T3Do3iNp2cujh48qXpsYw
-Message-ID: <CAHk-=wgR61VxiHyOKXBJv_HinoFVA2av1EuSHg5NcRGC1fNq3w@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.18-rc1
-To: Dave Airlie <airlied@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Sima Vetter <sima@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+References: <20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com>
+ <20250929-mt8196-gpufreq-v5-4-3056e5ecf765@collabora.com>
+In-Reply-To: <20250929-mt8196-gpufreq-v5-4-3056e5ecf765@collabora.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 3 Oct 2025 11:15:51 -0700
+X-Gm-Features: AS18NWBanN0MXtcDFrnukKn4J7dSEQIT7fLhFbzGJzYOporRHK4S0vyKzeHBSFc
+Message-ID: <CAPaKu7Tz9tw=fbz17kpPn1Pj_YsGRJZR9o28zkfiBgvxL3rdxg@mail.gmail.com>
+Subject: Re: [PATCH v5 4/7] mailbox: add MediaTek GPUEB IPI mailbox
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>, Steven Price <steven.price@arm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org, 
+ linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,51 +101,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 3 Oct 2025 at 03:53, Dave Airlie <airlied@gmail.com> wrote:
+On Mon, Sep 29, 2025 at 12:47=E2=80=AFAM Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
 >
-> I get about 15-20 pull requests in various formats from very different
-> groups of people, if I just cut-n-paste them all into the changelog it
-> would be horribly inconsistent.
-
-Yes.  Exactly.
-
-> I try to harmonize them for myself, so they are somewhat visually
-> consistent
-
-Me too. You just don't do a very good job at it, I feel
-
-> i.e. single level of indenting is my limit.
-
-Why?
-
-Yes. You do multiple merges:
-
-  $ git rev-list --count --merges --author=Airlie v6.16..v6.17
-  48
-
-and yes, trying to make the merge messages be legible is a fair amount of work.
-
-But lookie here:
-
-  git rev-list --count --merges --author=Torvalds v6.16..v6.17
-  441
-
-IOW, I do closer to AN ORDER OF MAGNITUDE more merges than you do.
-And I spend the time and try to do it right. I don't have some "one
-level of indentation only" rule, I try to make the merge messages
-consistent and legible.
-
-And in order to try to lessen the burden of that consistency, I then
-ask the people I pull from to try to have better messages to make it
-easier for me to do that.
-
-If you get pull requests from the people you pull from that make it
-harder for you to do a better job, please push back on them too.
-
-But maybe you now understand why I am asking *you* to try to do a
-better job at formatting. Exactly like apparently you should ask the
-people you pull from.
-
-Please.
-
-               Linus
+> The MT8196 SoC uses an embedded MCU to control frequencies and power of
+> the GPU. This controller is referred to as "GPUEB".
+>
+> It communicates to the application processor, among other ways, through
+> a mailbox.
+>
+> The mailbox exposes one interrupt, which appears to only be fired when a
+> response is received, rather than a transaction is completed. For us,
+> this means we unfortunately need to poll for txdone.
+>
+> The mailbox also requires the EB clock to be on when touching any of the
+> mailbox registers.
+>
+> Add a simple driver for it based on the common mailbox framework.
+>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>  drivers/mailbox/Kconfig             |  10 ++
+>  drivers/mailbox/Makefile            |   2 +
+>  drivers/mailbox/mtk-gpueb-mailbox.c | 318 ++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 330 insertions(+)
+[...]
+> +static irqreturn_t mtk_gpueb_mbox_thread(int irq, void *data)
+> +{
+> +       struct mtk_gpueb_mbox_chan *ch =3D data;
+> +       u8 buf[GPUEB_MBOX_MAX_RX_SIZE] =3D {};
+nit: move to inside the if-block below.
+> +       int status;
+> +
+> +       status =3D atomic_cmpxchg(&ch->rx_status, GPUEB_MBOX_FULL | GPUEB=
+_MBOX_BLOCKED,
+> +                               GPUEB_MBOX_FULL);
+> +       if (status =3D=3D (GPUEB_MBOX_FULL | GPUEB_MBOX_BLOCKED)) {
+> +               mtk_gpueb_mbox_read_rx(buf, ch);
+> +               writel(BIT(ch->num), ch->ebm->mbox_ctl + GPUEB_MBOX_CTL_I=
+RQ_CLR);
+> +               mbox_chan_received_data(&ch->ebm->mbox.chans[ch->num], bu=
+f);
+> +               atomic_set(&ch->rx_status, 0);
+> +               return IRQ_HANDLED;
+> +       }
+> +
+> +       return IRQ_NONE;
+> +}
