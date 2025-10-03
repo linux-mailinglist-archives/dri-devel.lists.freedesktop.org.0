@@ -2,89 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7133BB6CCB
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 15:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE07BB6FCE
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 15:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F405410E903;
-	Fri,  3 Oct 2025 13:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B1E10E12A;
+	Fri,  3 Oct 2025 13:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="q+lfdVqN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m1VoQoyZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2846110E909
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 13:06:45 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-631df7b2dffso5163512a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 06:06:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1759496803; x=1760101603; darn=lists.freedesktop.org;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rTsw8FQqrb2nqcQdlRq/vFC8jYXiw5cY+0H1krjWMx0=;
- b=q+lfdVqNmkDHp8nM76zu+D4/9r7SIVZXf3/209rTk+UYPBEtm9vy7ZdUPlzOz8iWho
- Qqq3CXar2gM24q3rXs0QJXgesXQ8KG5CgtKvKR/SgU060zHsWcgaBd5xp2BFT81i7aWL
- SOqhjPc/+iqp6ia9lIS/z+TzdffO5CIwInvtnC+a5P76pjZCLhMZwqiqNpTpyrIF/fg+
- t1K9gWbW7YsVsBTgLPEZOa5iUnepfpsYq+fn1zv2pVsrivUc6mfE4Rt/gGkcfTl/nytr
- RtwO7OQBXp6lW+/rH/wl2JUbqA1tOJ7cpYG4a1MZLIAqApmUSTImqZzTi92OMFqjrVCg
- GWxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759496803; x=1760101603;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rTsw8FQqrb2nqcQdlRq/vFC8jYXiw5cY+0H1krjWMx0=;
- b=SEnzQAiHYt6yFEQAoc9Es7S+kQts9zKzhq+leT1aYITEJvqRBi9rM8mUdYrXOmeNS8
- PDcc1zIkOzL7fv9sHcvD3993HSV6AvPjQJanLQCT6r2M5TZ/4bYdj0kZuYr88ODamf46
- oPqXr02lETqtyXAOZLaGeGxztjDG2FPIe7H2vwxdrwabn45s8P1KEad36k57yeKTw/Sr
- FovqmJRK5n1jCBL7ef/RMEbGi7ddcjUVVTn6FSW31AJdfJ+Edpt8gh/zbhkwS70AeQKN
- Y2NJMCu8mHoH+gyYLLNxS6EklvRMAYHzMF9NCbORp2Js+EodNL2lh/2cjsr67P4Dmx83
- TB6w==
-X-Gm-Message-State: AOJu0YzlxpF55f95AIGjSqAbSgaqDmQOWwDgSij4igPKAJwn1M7cMDJA
- Lggpsg+WC33uJ4tPvT7XZASBsWNDUTv1o5N/eAh5ijq9fi6fbv5z7BvzgoHX2t+j1eT7rHqNONq
- jc22fcNA=
-X-Gm-Gg: ASbGncvLkoqOK7ZFaf23n8HuCU/5EsDLni3aFR3el2PxD6PqQ4jUg/R5tHEGXpLVeuF
- 0w67D3hTwMQDLkq3zNm3Zxt4btGkFvtprJV69B4K1Iq3wgm0vafqASvA+xDe7HtRif/0eq4Fbda
- Z9wpOIYOBI10QVfGEPiCFpoA1o12+M9uauGKcAJpZSGIZ4RXVmdAgOHbUYd9gVJV9lS9H+w1TWT
- J0QuIO9TQjcP0taBb7w06IfFNBgRre3jybStNNt7etux5Eie633hKo+sEUp+znH+CRUhP2Fc/ti
- 88ivlqr2Wjbm4DSBG0LmsBGvhHQpfisnonE6jZUU1uJM85073cmIDmYXHSXkLQoYNp/TL9zQqT+
- lU5nkL+6uO4hFcq39kNbmH4oz2/oGn7Ph2+8hNfSimgVbq6vRyzDVfnt4TXulRN+rxuq2EM5fsj
- DW0z9GRab/Saaaso3X
-X-Google-Smtp-Source: AGHT+IHplfvenYzfVbg4nETjibYU1v1kIZ5DIKmlShg8BgN5nxW8TNolAQJsUmMvh6EVjKRsfMVbIQ==
-X-Received: by 2002:a05:6402:944:b0:62f:453c:7235 with SMTP id
- 4fb4d7f45d1cf-63787eb584bmr5330486a12.15.1759496803420; 
- Fri, 03 Oct 2025 06:06:43 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-637881000c9sm4036203a12.31.2025.10.03.06.06.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Oct 2025 06:06:42 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Oct 2025 15:06:42 +0200
-Message-Id: <DD8PK8AI24P7.YK0OGVYC0QFM@fairphone.com>
-Subject: Re: [PATCH v7] drm/msm/dp: reuse generic HDMI codec implementation
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Clark"
- <robdclark@gmail.com>, "Abhinav Kumar" <quic_abhinavk@quicinc.com>, "Sean
- Paul" <sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>,
- "Hermes Wu" <Hermes.wu@ite.com.tw>, "Dmitry Baryshkov" <lumag@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250423-dp-hdmi-audio-v7-1-8407a23e55b2@oss.qualcomm.com>
-In-Reply-To: <20250423-dp-hdmi-audio-v7-1-8407a23e55b2@oss.qualcomm.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44A0D10E10C;
+ Fri,  3 Oct 2025 13:22:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 496B162157;
+ Fri,  3 Oct 2025 13:22:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FC1C4CEF5;
+ Fri,  3 Oct 2025 13:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759497746;
+ bh=A2hluD0l8IO1DxEiF9nEW3SijizW71b1ccI60ZVifUE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m1VoQoyZK+0q8O3HvyAtIGUuFnCbPyZhX1ioKmnkL3JAloHKE/f9yDYHV6zLFevmp
+ xc05F6I9ufNwo20ENoPxDODObtxc3ePYLGeU8vWXoR/sq2wxJ36pc/j2q8tqW0L1nE
+ C5kyoEcs5+6jD5rehK4U8rW2PXT4gNsLFbKHKPAOrp+Tgxzn0XL8VcDa10gYaWwuzL
+ SmP+VPZBOK/p9PIZdQebasidslquTK2Zj7vHryqCeUV+xDH4c6l1351xGFwdkZKGpd
+ beDZpivcGmRZr0qas8V9KKGrVKRX4iT2mV8JwdCoVric1qQfSB8GuVqlwBPJlJ4Pjv
+ 5v/wEfmefXb1w==
+Date: Fri, 3 Oct 2025 15:22:23 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Daniel Stone <daniel@fooishbar.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
+Message-ID: <20251003-uptight-echidna-of-stamina-815305@houat>
+References: <20250901-voracious-classy-hedgehog-ee28ef@houat>
+ <voknqdv3zte2jzue5yxmysdiixxkogvpblvrccp5gu55x5ycca@srrcscly4ch4>
+ <st6wob5hden6ypxt2emzokfhl3ezpbuypv2kdtf5zdrdhlyjfw@l2neflb4uupo>
+ <pe6g2fanw65p67kfy5blbtiytngxmr6nkbazymojs4a66yvpl3@7j4ccnsvc6az>
+ <20250910-didactic-honored-chachalaca-f233b2@houat>
+ <x562ueky2z5deqqmhl222moyrbylfwi35u4hb34dpl3z52ra4c@dyw4iayrewnz>
+ <20250925-fervent-merry-beagle-2baba3@penduick>
+ <qx5ashx62pufott6hnsfna3qntnoyvxwxze4rihhuxcsdxi37s@bbdvc3sfsgne>
+ <20250929-gregarious-worm-of-memory-c5354d@houat>
+ <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="xp6eesrwl3hc4z5s"
+Content-Disposition: inline
+In-Reply-To: <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,540 +90,264 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
 
-On Wed Apr 23, 2025 at 7:52 PM CEST, Dmitry Baryshkov wrote:
-> From: Dmitry Baryshkov <lumag@kernel.org>
->
-> The MSM DisplayPort driver implements several HDMI codec functions
-> in the driver, e.g. it manually manages HDMI codec device registration,
-> returning ELD and plugged_cb support. In order to reduce code
-> duplication reuse drm_hdmi_audio_* helpers and drm_bridge_connector
-> integration.
+--xp6eesrwl3hc4z5s
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
+ driver capabilities
+MIME-Version: 1.0
 
-A bit late, but it appears that since 6.16 kernel (incl. 6.17) DP audio
-is broken on qcm6490-fairphone-fp5 (which is using the Elite audio
-architecture, not Audioreach).
+On Tue, Sep 30, 2025 at 10:02:28AM +0300, Dmitry Baryshkov wrote:
+> On Mon, Sep 29, 2025 at 03:00:04PM +0200, Maxime Ripard wrote:
+> > On Thu, Sep 25, 2025 at 05:16:07PM +0300, Dmitry Baryshkov wrote:
+> > > On Thu, Sep 25, 2025 at 03:13:47PM +0200, Maxime Ripard wrote:
+> > > > On Wed, Sep 10, 2025 at 06:26:56PM +0300, Dmitry Baryshkov wrote:
+> > > > > On Wed, Sep 10, 2025 at 09:30:19AM +0200, Maxime Ripard wrote:
+> > > > > > On Wed, Sep 03, 2025 at 03:03:43AM +0300, Dmitry Baryshkov wrot=
+e:
+> > > > > > > On Tue, Sep 02, 2025 at 08:06:54PM +0200, Maxime Ripard wrote:
+> > > > > > > > On Tue, Sep 02, 2025 at 06:45:44AM +0300, Dmitry Baryshkov =
+wrote:
+> > > > > > > > > On Mon, Sep 01, 2025 at 09:07:02AM +0200, Maxime Ripard w=
+rote:
+> > > > > > > > > > On Sun, Aug 31, 2025 at 01:29:13AM +0300, Dmitry Barysh=
+kov wrote:
+> > > > > > > > > > > On Sat, Aug 30, 2025 at 09:30:01AM +0200, Daniel Ston=
+e wrote:
+> > > > > > > > > > > > Hi Dmitry,
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
+> > > > > > > > > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > > > > > > > > > > > > It's not uncommon for the particular device to su=
+pport only a subset of
+> > > > > > > > > > > > > HDMI InfoFrames. It's not a big problem for the k=
+ernel, since we adopted
+> > > > > > > > > > > > > a model of ignoring the unsupported Infoframes, b=
+ut it's a bigger
+> > > > > > > > > > > > > problem for the userspace: we end up having files=
+ in debugfs which do
+> > > > > > > > > > > > > mot match what is being sent on the wire.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Sort that out, making sure that all interfaces ar=
+e consistent.
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > Thanks for the series, it's a really good cleanup.
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > I know that dw-hdmi-qp can support _any_ infoframe,=
+ by manually
+> > > > > > > > > > > > packing it into the two GHDMI banks. So the support=
+ed set there is
+> > > > > > > > > > > > 'all of the currently well-known ones, plus any two=
+ others, but only
+> > > > > > > > > > > > two and not more'. I wonder if that has any effect =
+on the interface
+> > > > > > > > > > > > you were thinking about for userspace?
+> > > > > > > > > > >=20
+> > > > > > > > > > > I was mostly concerned with the existing debugfs inte=
+rface (as it is
+> > > > > > > > > > > also used e.g. for edid-decode, etc).
+> > > > > > > > > > >=20
+> > > > > > > > > > > It seems "everything + 2 spare" is more or less commo=
+n (ADV7511, MSM
+> > > > > > > > > > > HDMI also have those. I don't have at hand the proper=
+ datasheet for
+> > > > > > > > > > > LT9611 (non-UXC one), but I think its InfoFrames are =
+also more or less
+> > > > > > > > > > > generic).  Maybe we should change debugfs integration=
+ to register the
+> > > > > > > > > > > file when the frame is being enabled and removing it =
+when it gets unset.
+> > > > > > > > > >=20
+> > > > > > > > > > But, like, for what benefit?
+> > > > > > > > > >=20
+> > > > > > > > > > It's a debugfs interface for userspace to consume. The =
+current setup
+> > > > > > > > > > works fine with edid-decode already. Why should we comp=
+licate the design
+> > > > > > > > > > that much and create fun races like "I'm running edid-d=
+ecode in parallel
+> > > > > > > > > > to a modeset that would remove the file I just opened, =
+what is the file
+> > > > > > > > > > now?".
+> > > > > > > > >=20
+> > > > > > > > > Aren't we trading that with the 'I'm running edid-decode =
+in paralle with
+> > > > > > > > > to a modeset and the file suddenly becomes empty'?
+> > > > > > > >=20
+> > > > > > > > In that case, you know what the file is going to be: empty.=
+ And you went
+> > > > > > > > from a racy, straightforward, design to a racy, complicated=
+, design.
+> > > > > > > >=20
+> > > > > > > > It was my question before, but I still don't really see wha=
+t benefits it
+> > > > > > > > would have, and why we need to care about it in the core, w=
+hen it could
+> > > > > > > > be dealt with in the drivers just fine on a case by case ba=
+sis.
+> > > > > > >=20
+> > > > > > > Actually it can not: debugfs files are registered from the co=
+re, not
+> > > > > > > from the drivers. That's why I needed all the supported_infof=
+rames
+> > > > > > > (which later became software_infoframes).
+> > > > > >=20
+> > > > > > That's one thing we can change then.
+> > > > > >=20
+> > > > > > > Anyway, I'm fine with having empty files there.
+> > > > > > >=20
+> > > > > > > > > > > Then in the long run we can add 'slots' and allocate =
+some of the frames
+> > > > > > > > > > > to the slots. E.g. ADV7511 would get 'software AVI', =
+'software SPD',
+> > > > > > > > > > > 'auto AUDIO' + 2 generic slots (and MPEG InfoFrame wh=
+ich can probably be
+> > > > > > > > > > > salvaged as another generic one)). MSM HDMI would get=
+ 'software AVI',
+> > > > > > > > > > > 'software AUDIO' + 2 generic slots (+MPEG + obsucre H=
+DMI which I don't
+> > > > > > > > > > > want to use). Then the framework might be able to pri=
+oritize whether to
+> > > > > > > > > > > use generic slots for important data (as DRM HDR, HDM=
+I) or less important
+> > > > > > > > > > > (SPD).
+> > > > > > > > > >=20
+> > > > > > > > > > Why is it something for the framework to deal with? If =
+you want to have
+> > > > > > > > > > extra infoframes in there, just go ahead and create add=
+itional debugfs
+> > > > > > > > > > files in your driver.
+> > > > > > > > > >=20
+> > > > > > > > > > If you want to have the slot mechanism, check in your a=
+tomic_check that
+> > > > > > > > > > only $NUM_SLOT at most infoframes are set.
+> > > > > > > > >=20
+> > > > > > > > > The driver can only decide that 'we have VSI, SPD and DRM=
+ InfoFrames
+> > > > > > > > > which is -ETOOMUCH for 2 generic slots'. The framework sh=
+ould be able to
+> > > > > > > > > decide 'the device has 2 generic slots, we have HDR data,=
+ use VSI and
+> > > > > > > > > DRM InfoFrames and disable SPD for now'.
+> > > > > > > >=20
+> > > > > > > > I mean... the spec does? The spec says when a particular fe=
+ature
+> > > > > > > > requires to send a particular infoframe. If your device can=
+not support
+> > > > > > > > to have more than two "features" enabled at the same time, =
+so be it. It
+> > > > > > > > something that should be checked in that driver atomic_chec=
+k.
+> > > > > > >=20
+> > > > > > > Sounds good to me. Let's have those checks in the drivers unt=
+il we
+> > > > > > > actually have seveal drivers performing generic frame allocat=
+ion.
+> > > > > > >=20
+> > > > > > > > Or just don't register the SPD debugfs file, ignore it, put=
+ a comment
+> > > > > > > > there, and we're done too.
+> > > > > > >=20
+> > > > > > > It's generic code.
+> > > > > > >=20
+> > > > > > > > > But... We are not there yet and I don't have clear usecas=
+e (we support
+> > > > > > > > > HDR neither on ADV7511 nor on MSM HDMI, after carefully r=
+eading the
+> > > > > > > > > guide I realised that ADV7511 has normal audio infoframes=
+). Maybe I
+> > > > > > > > > should drop all the 'auto' features, simplifying this ser=
+ies and land
+> > > > > > > > > [1] for LT9611UXC as I wanted origianlly.
+> > > > > > > > >=20
+> > > > > > > > > [1] https://lore.kernel.org/dri-devel/20250803-lt9611uxc-=
+hdmi-v1-2-cb9ce1793acf@oss.qualcomm.com/
+> > > > > > > >=20
+> > > > > > > > Looking back at that series, I think it still has value to =
+rely on the
+> > > > > > > > HDMI infrastructure at the very least for the atomic_check =
+sanitization.
+> > > > > > > >=20
+> > > > > > > > But since you wouldn't use the generated infoframes, just s=
+kip the
+> > > > > > > > debugfs files registration. You're not lying to userspace a=
+nymore, and
+> > > > > > > > you get the benefits of the HDMI framework.
+> > > > > > >=20
+> > > > > > > We create all infoframe files for all HDMI connectors.
+> > > > > >=20
+> > > > > > Then we can provide a debugfs_init helper to register all of th=
+em, or
+> > > > > > only some of them, and let the drivers figure it out.
+> > > > > >=20
+> > > > > > Worst case scenario, debugfs files will not get created, which =
+is a much
+> > > > > > better outcome than having to put boilerplate in every driver t=
+hat will
+> > > > > > get inconsistent over time.
+> > > > >=20
+> > > > > debugfs_init() for each infoframe or taking some kind of bitmask?
+> > > >=20
+> > > > I meant turning hdmi_debugfs_add and create_hdmi_*_infoframe_file i=
+nto
+> > > > public helpers. That way, drivers that don't care can use the (rena=
+med)
+> > > > hdmi_debugfs_add, and drivers with different constraints can regist=
+er
+> > > > the relevant infoframes directly.
+> > >=20
+> > > Doesn't that mean more boilerplate?
+> >=20
+> > I don't think it would? In the general case, it wouldn't change
+> > anything, and in special cases, then it's probably going to be different
+> > from one driver to the next so there's not much we can do.
+> >=20
+> > > In the end, LT9611UXC is a special case, for which I'm totally fine
+> > > not to use HDMI helpers at this point: we don't control infoframes
+> > > (hopefully that can change), we don't care about the TMDS clock, no
+> > > CEC, etc.
+> >=20
+> > Not using the helpers sound pretty reasonable here too.
+> >=20
+> > > For all other usecases I'm fine with having atomic_check() unset all
+> > > unsupported infoframes and having empty files in debugfs. Then we can
+> > > evolve over the time, once we see a pattern. We had several drivers
+> > > which had very limited infoframes support, but I think this now gets
+> > > sorted over the time.
+> >=20
+> > I never talked about atomic_check()? You were initially concerned that
+> > the framework would expose data in debugfs that it's not using. Not
+> > registering anything in debugfs solves that, but I'm not sure we need to
+> > special case atomic_check.
+>=20
+> Well... I ended up with [1], handling infoframes in the atomic_check()
+> rather than registering fewer infoframe debugfs files. This way device
+> state is consistent, we don't have enabled instances, etc. However it
+> results in repetetive code in atomic_check().
+>=20
+> [1] https://lore.kernel.org/dri-devel/20250928-limit-infoframes-2-v2-0-6f=
+8f5fd04214@oss.qualcomm.com/
 
-Git bisect is pointing to this patch:
+I guess we can continue the discussion there, but I'm not sure we want
+to have more boilerplate in drivers, and especially in the atomic_check
+part. If drivers are inconsistent or wrong in the debugfs path, there's
+no major issue. If they are wrong in the atomic_check path, it will lead
+to regressions, possibly in paths that are pretty hard to test.
 
-  98a8920e7b07641eb1996b3c39b9ce27fc05dbb9 is the first bad commit
-  commit 98a8920e7b07641eb1996b3c39b9ce27fc05dbb9
-  Author: Dmitry Baryshkov <lumag@kernel.org>
-  Date:   Fri May 2 01:41:42 2025 +0300
+Maxime
 
-      drm/msm/dp: reuse generic HDMI codec implementation
+--xp6eesrwl3hc4z5s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It's specifically failing with these errors:
+-----BEGIN PGP SIGNATURE-----
 
-[  177.380809] qcom-q6afe aprsvc:service:4:4: AFE enable for port 0x6020 fa=
-iled -110
-[  177.380851] q6afe-dai 3700000.remoteproc:glink-edge:apr:service@4:dais: =
-fail to start AFE port 68
-[  177.380865] q6afe-dai 3700000.remoteproc:glink-edge:apr:service@4:dais: =
-ASoC error (-110): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-[  177.437004] qcom-q6afe aprsvc:service:4:4: cmd =3D 0x100e5 returned erro=
-r =3D 0x9
-[  177.437294] qcom-q6afe aprsvc:service:4:4: DSP returned error[9]
-[  177.437312] qcom-q6afe aprsvc:service:4:4: AFE enable for port 0x6020 fa=
-iled -22
-[  177.437332] q6afe-dai 3700000.remoteproc:glink-edge:apr:service@4:dais: =
-fail to start AFE port 68
-[  177.437343] q6afe-dai 3700000.remoteproc:glink-edge:apr:service@4:dais: =
-ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN/ODwAKCRAnX84Zoj2+
+diGqAYCVf6AMoXhcU3VIb8z9xIngvdSuylZqphD9JtE/rS3QR8jtXs1A5G3e9kDf
+b9g7FbABf0JcEMqoNM9n9pzN92QZ1DiCn8U+tdtLbXL6iPX0Iagrzdcxx1bfDwJN
+nZSidYIWcw==
+=Qw5/
+-----END PGP SIGNATURE-----
 
-Do you have an idea?
-
-Regards
-Luca
-
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> A lot of DisplayPort bridges use HDMI Codec in order to provide audio
-> support. Present DRM HDMI Audio support has been written with the HDMI
-> and in particular DRM HDMI Connector framework support, however those
-> audio helpers can be easily reused for DisplayPort drivers too.
->
-> Patches by Hermes Wu that targeted implementing HDMI Audio support in
-> the iTE IT6506 driver pointed out the necessity of allowing one to use
-> generic audio helpers for DisplayPort drivers, as otherwise each driver
-> has to manually (and correctly) implement the get_eld() and plugged_cb
-> support.
->
-> Implement necessary integration in drm_bridge_connector and provide an
-> example implementation in the msm/dp driver.
-> ---
-> Changes in v7:
-> - Dropped applied patches
-> - Link to v6: https://lore.kernel.org/r/20250314-dp-hdmi-audio-v6-0-dbd22=
-8fa73d7@oss.qualcomm.com
->
-> Changes in v6:
-> - Added DRM_BRIDGE_OP_DP_AUDIO and separate set of DisplayPort audio
->   callbacks to the drm_bridge interface (Maxime)
-> - Link to v5: https://lore.kernel.org/r/20250307-dp-hdmi-audio-v5-0-f3be2=
-15fdb78@linaro.org
->
-> Changes in v5:
-> - Rebased on top of linux-next, also handling HDMI audio piece of the
->   MSM HDMI driver.
-> - Link to v4: https://lore.kernel.org/r/20250301-dp-hdmi-audio-v4-0-82739=
-daf28cc@linaro.org
->
-> Changes in v4:
-> - Rebased on linux-next, adding DRM_BRIDGE_OP_HDMI_AUDIO to Synopsys QP
->   HDMI driver.
-> - Drop outdated comment regarding subconnector from the commit message.
-> - Link to v3: https://lore.kernel.org/r/20250219-dp-hdmi-audio-v3-0-42900=
-f034b40@linaro.org
->
-> Changes in v3:
-> - Dropped DRM_BRIDGE_OP_DisplayPort, added DRM_BRIDGE_OP_HDMI_AUDIO
->   (Laurent, Maxime)
-> - Dropped the subconnector patch (again)
-> - Link to v2: https://lore.kernel.org/r/20250209-dp-hdmi-audio-v2-0-16db6=
-ebf22ff@linaro.org
->
-> Changes in v2:
-> - Added drm_connector_attach_dp_subconnector_property() patches
-> - Link to v1: https://lore.kernel.org/r/20250206-dp-hdmi-audio-v1-0-8aa14=
-a8c0d4d@linaro.org
-> ---
->  drivers/gpu/drm/msm/Kconfig         |   1 +
->  drivers/gpu/drm/msm/dp/dp_audio.c   | 131 ++++--------------------------=
-------
->  drivers/gpu/drm/msm/dp/dp_audio.h   |  27 ++------
->  drivers/gpu/drm/msm/dp/dp_display.c |  28 ++------
->  drivers/gpu/drm/msm/dp/dp_display.h |   6 --
->  drivers/gpu/drm/msm/dp/dp_drm.c     |   8 +++
->  6 files changed, 31 insertions(+), 170 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-> index 974bc7c0ea761147d3326bdce9039d6f26f290d0..7f127e2ae44292f8f5c7ff6a9=
-251c3d7ec8c9f58 100644
-> --- a/drivers/gpu/drm/msm/Kconfig
-> +++ b/drivers/gpu/drm/msm/Kconfig
-> @@ -104,6 +104,7 @@ config DRM_MSM_DPU
->  config DRM_MSM_DP
->  	bool "Enable DisplayPort support in MSM DRM driver"
->  	depends on DRM_MSM
-> +	select DRM_DISPLAY_HDMI_AUDIO_HELPER
->  	select RATIONAL
->  	default y
->  	help
-> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/d=
-p_audio.c
-> index 70fdc9fe228a7149546accd8479a9e4397f3d5dd..f8bfb908f9b4bf93ad5480f07=
-85e3aed23dde160 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-> @@ -13,13 +13,13 @@
-> =20
->  #include "dp_catalog.h"
->  #include "dp_audio.h"
-> +#include "dp_drm.h"
->  #include "dp_panel.h"
->  #include "dp_reg.h"
->  #include "dp_display.h"
->  #include "dp_utils.h"
-> =20
->  struct msm_dp_audio_private {
-> -	struct platform_device *audio_pdev;
->  	struct platform_device *pdev;
->  	struct drm_device *drm_dev;
->  	struct msm_dp_catalog *catalog;
-> @@ -160,24 +160,11 @@ static void msm_dp_audio_enable(struct msm_dp_audio=
-_private *audio, bool enable)
->  	msm_dp_catalog_audio_enable(catalog, enable);
->  }
-> =20
-> -static struct msm_dp_audio_private *msm_dp_audio_get_data(struct platfor=
-m_device *pdev)
-> +static struct msm_dp_audio_private *msm_dp_audio_get_data(struct msm_dp =
-*msm_dp_display)
->  {
->  	struct msm_dp_audio *msm_dp_audio;
-> -	struct msm_dp *msm_dp_display;
-> -
-> -	if (!pdev) {
-> -		DRM_ERROR("invalid input\n");
-> -		return ERR_PTR(-ENODEV);
-> -	}
-> -
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	if (!msm_dp_display) {
-> -		DRM_ERROR("invalid input\n");
-> -		return ERR_PTR(-ENODEV);
-> -	}
-> =20
->  	msm_dp_audio =3D msm_dp_display->msm_dp_audio;
-> -
->  	if (!msm_dp_audio) {
->  		DRM_ERROR("invalid msm_dp_audio data\n");
->  		return ERR_PTR(-EINVAL);
-> @@ -186,68 +173,16 @@ static struct msm_dp_audio_private *msm_dp_audio_ge=
-t_data(struct platform_device
->  	return container_of(msm_dp_audio, struct msm_dp_audio_private, msm_dp_a=
-udio);
->  }
-> =20
-> -static int msm_dp_audio_hook_plugged_cb(struct device *dev, void *data,
-> -		hdmi_codec_plugged_cb fn,
-> -		struct device *codec_dev)
-> -{
-> -
-> -	struct platform_device *pdev;
-> -	struct msm_dp *msm_dp_display;
-> -
-> -	pdev =3D to_platform_device(dev);
-> -	if (!pdev) {
-> -		pr_err("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	if (!msm_dp_display) {
-> -		pr_err("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	return msm_dp_display_set_plugged_cb(msm_dp_display, fn, codec_dev);
-> -}
-> -
-> -static int msm_dp_audio_get_eld(struct device *dev,
-> -	void *data, uint8_t *buf, size_t len)
-> -{
-> -	struct platform_device *pdev;
-> -	struct msm_dp *msm_dp_display;
-> -
-> -	pdev =3D to_platform_device(dev);
-> -
-> -	if (!pdev) {
-> -		DRM_ERROR("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	if (!msm_dp_display) {
-> -		DRM_ERROR("invalid input\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	mutex_lock(&msm_dp_display->connector->eld_mutex);
-> -	memcpy(buf, msm_dp_display->connector->eld,
-> -		min(sizeof(msm_dp_display->connector->eld), len));
-> -	mutex_unlock(&msm_dp_display->connector->eld_mutex);
-> -
-> -	return 0;
-> -}
-> -
-> -int msm_dp_audio_hw_params(struct device *dev,
-> -	void *data,
-> -	struct hdmi_codec_daifmt *daifmt,
-> -	struct hdmi_codec_params *params)
-> +int msm_dp_audio_prepare(struct drm_connector *connector,
-> +			 struct drm_bridge *bridge,
-> +			 struct hdmi_codec_daifmt *daifmt,
-> +			 struct hdmi_codec_params *params)
->  {
->  	int rc =3D 0;
->  	struct msm_dp_audio_private *audio;
-> -	struct platform_device *pdev;
->  	struct msm_dp *msm_dp_display;
-> =20
-> -	pdev =3D to_platform_device(dev);
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> +	msm_dp_display =3D to_dp_bridge(bridge)->msm_dp_display;
-> =20
->  	/*
->  	 * there could be cases where sound card can be opened even
-> @@ -262,7 +197,7 @@ int msm_dp_audio_hw_params(struct device *dev,
->  		goto end;
->  	}
-> =20
-> -	audio =3D msm_dp_audio_get_data(pdev);
-> +	audio =3D msm_dp_audio_get_data(msm_dp_display);
->  	if (IS_ERR(audio)) {
->  		rc =3D PTR_ERR(audio);
->  		goto end;
-> @@ -281,15 +216,14 @@ int msm_dp_audio_hw_params(struct device *dev,
->  	return rc;
->  }
-> =20
-> -static void msm_dp_audio_shutdown(struct device *dev, void *data)
-> +void msm_dp_audio_shutdown(struct drm_connector *connector,
-> +			   struct drm_bridge *bridge)
->  {
->  	struct msm_dp_audio_private *audio;
-> -	struct platform_device *pdev;
->  	struct msm_dp *msm_dp_display;
-> =20
-> -	pdev =3D to_platform_device(dev);
-> -	msm_dp_display =3D platform_get_drvdata(pdev);
-> -	audio =3D msm_dp_audio_get_data(pdev);
-> +	msm_dp_display =3D to_dp_bridge(bridge)->msm_dp_display;
-> +	audio =3D msm_dp_audio_get_data(msm_dp_display);
->  	if (IS_ERR(audio)) {
->  		DRM_ERROR("failed to get audio data\n");
->  		return;
-> @@ -311,47 +245,6 @@ static void msm_dp_audio_shutdown(struct device *dev=
-, void *data)
->  	msm_dp_display_signal_audio_complete(msm_dp_display);
->  }
-> =20
-> -static const struct hdmi_codec_ops msm_dp_audio_codec_ops =3D {
-> -	.hw_params =3D msm_dp_audio_hw_params,
-> -	.audio_shutdown =3D msm_dp_audio_shutdown,
-> -	.get_eld =3D msm_dp_audio_get_eld,
-> -	.hook_plugged_cb =3D msm_dp_audio_hook_plugged_cb,
-> -};
-> -
-> -static struct hdmi_codec_pdata codec_data =3D {
-> -	.ops =3D &msm_dp_audio_codec_ops,
-> -	.max_i2s_channels =3D 8,
-> -	.i2s =3D 1,
-> -};
-> -
-> -void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_au=
-dio *msm_dp_audio)
-> -{
-> -	struct msm_dp_audio_private *audio_priv;
-> -
-> -	audio_priv =3D container_of(msm_dp_audio, struct msm_dp_audio_private, =
-msm_dp_audio);
-> -
-> -	if (audio_priv->audio_pdev) {
-> -		platform_device_unregister(audio_priv->audio_pdev);
-> -		audio_priv->audio_pdev =3D NULL;
-> -	}
-> -}
-> -
-> -int msm_dp_register_audio_driver(struct device *dev,
-> -		struct msm_dp_audio *msm_dp_audio)
-> -{
-> -	struct msm_dp_audio_private *audio_priv;
-> -
-> -	audio_priv =3D container_of(msm_dp_audio,
-> -			struct msm_dp_audio_private, msm_dp_audio);
-> -
-> -	audio_priv->audio_pdev =3D platform_device_register_data(dev,
-> -						HDMI_CODEC_DRV_NAME,
-> -						PLATFORM_DEVID_AUTO,
-> -						&codec_data,
-> -						sizeof(codec_data));
-> -	return PTR_ERR_OR_ZERO(audio_priv->audio_pdev);
-> -}
-> -
->  struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
->  			struct msm_dp_catalog *catalog)
->  {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.h b/drivers/gpu/drm/msm/dp/d=
-p_audio.h
-> index beea34cbab77f31b33873297dc454a9cee446240..58fc14693e48bff2b57ef7278=
-983e5f21ee80ac7 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_audio.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_audio.h
-> @@ -35,23 +35,6 @@ struct msm_dp_audio {
->  struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
->  			struct msm_dp_catalog *catalog);
-> =20
-> -/**
-> - * msm_dp_register_audio_driver()
-> - *
-> - * Registers DP device with hdmi_codec interface.
-> - *
-> - * @dev: DP device instance.
-> - * @msm_dp_audio: an instance of msm_dp_audio module.
-> - *
-> - *
-> - * Returns the error code in case of failure, otherwise
-> - * zero on success.
-> - */
-> -int msm_dp_register_audio_driver(struct device *dev,
-> -		struct msm_dp_audio *msm_dp_audio);
-> -
-> -void msm_dp_unregister_audio_driver(struct device *dev, struct msm_dp_au=
-dio *msm_dp_audio);
-> -
->  /**
->   * msm_dp_audio_put()
->   *
-> @@ -61,10 +44,12 @@ void msm_dp_unregister_audio_driver(struct device *de=
-v, struct msm_dp_audio *msm
->   */
->  void msm_dp_audio_put(struct msm_dp_audio *msm_dp_audio);
-> =20
-> -int msm_dp_audio_hw_params(struct device *dev,
-> -	void *data,
-> -	struct hdmi_codec_daifmt *daifmt,
-> -	struct hdmi_codec_params *params);
-> +int msm_dp_audio_prepare(struct drm_connector *connector,
-> +			 struct drm_bridge *bridge,
-> +			 struct hdmi_codec_daifmt *daifmt,
-> +			 struct hdmi_codec_params *params);
-> +void msm_dp_audio_shutdown(struct drm_connector *connector,
-> +			   struct drm_bridge *bridge);
-> =20
->  #endif /* _DP_AUDIO_H_ */
-> =20
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
-/dp_display.c
-> index bbc47d86ae9e67245c87a8365df366cce0dc529e..ece184d20c0f8bffa3c2a4821=
-6015185d6cbc99e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -13,6 +13,7 @@
->  #include <linux/delay.h>
->  #include <linux/string_choices.h>
->  #include <drm/display/drm_dp_aux_bus.h>
-> +#include <drm/display/drm_hdmi_audio_helper.h>
->  #include <drm/drm_edid.h>
-> =20
->  #include "msm_drv.h"
-> @@ -288,13 +289,6 @@ static int msm_dp_display_bind(struct device *dev, s=
-truct device *master,
->  		goto end;
->  	}
-> =20
-> -
-> -	rc =3D msm_dp_register_audio_driver(dev, dp->audio);
-> -	if (rc) {
-> -		DRM_ERROR("Audio registration Dp failed\n");
-> -		goto end;
-> -	}
-> -
->  	rc =3D msm_dp_hpd_event_thread_start(dp);
->  	if (rc) {
->  		DRM_ERROR("Event thread create failed\n");
-> @@ -316,7 +310,6 @@ static void msm_dp_display_unbind(struct device *dev,=
- struct device *master,
-> =20
->  	of_dp_aux_depopulate_bus(dp->aux);
-> =20
-> -	msm_dp_unregister_audio_driver(dev, dp->audio);
->  	msm_dp_aux_unregister(dp->aux);
->  	dp->drm_dev =3D NULL;
->  	dp->aux->drm_dev =3D NULL;
-> @@ -626,9 +619,9 @@ static void msm_dp_display_handle_plugged_change(stru=
-ct msm_dp *msm_dp_display,
->  			struct msm_dp_display_private, msm_dp_display);
-> =20
->  	/* notify audio subsystem only if sink supports audio */
-> -	if (msm_dp_display->plugged_cb && msm_dp_display->codec_dev &&
-> -			dp->audio_supported)
-> -		msm_dp_display->plugged_cb(msm_dp_display->codec_dev, plugged);
-> +	if (dp->audio_supported)
-> +		drm_connector_hdmi_audio_plugged_notify(msm_dp_display->connector,
-> +							plugged);
->  }
-> =20
->  static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u=
-32 data)
-> @@ -907,19 +900,6 @@ static int msm_dp_display_disable(struct msm_dp_disp=
-lay_private *dp)
->  	return 0;
->  }
-> =20
-> -int msm_dp_display_set_plugged_cb(struct msm_dp *msm_dp_display,
-> -		hdmi_codec_plugged_cb fn, struct device *codec_dev)
-> -{
-> -	bool plugged;
-> -
-> -	msm_dp_display->plugged_cb =3D fn;
-> -	msm_dp_display->codec_dev =3D codec_dev;
-> -	plugged =3D msm_dp_display->link_ready;
-> -	msm_dp_display_handle_plugged_change(msm_dp_display, plugged);
-> -
-> -	return 0;
-> -}
-> -
->  /**
->   * msm_dp_bridge_mode_valid - callback to determine if specified mode is=
- valid
->   * @bridge: Pointer to drm bridge structure
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp=
-/dp_display.h
-> index ecbc2d92f546a346ee53adcf1b060933e4f54317..cc6e2cab36e9c0b1527ff292e=
-547cbb4d69fd95c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -7,7 +7,6 @@
->  #define _DP_DISPLAY_H_
-> =20
->  #include "dp_panel.h"
-> -#include <sound/hdmi-codec.h>
->  #include "disp/msm_disp_snapshot.h"
-> =20
->  #define DP_MAX_PIXEL_CLK_KHZ	675000
-> @@ -15,7 +14,6 @@
->  struct msm_dp {
->  	struct drm_device *drm_dev;
->  	struct platform_device *pdev;
-> -	struct device *codec_dev;
->  	struct drm_connector *connector;
->  	struct drm_bridge *next_bridge;
->  	bool link_ready;
-> @@ -25,14 +23,10 @@ struct msm_dp {
->  	bool is_edp;
->  	bool internal_hpd;
-> =20
-> -	hdmi_codec_plugged_cb plugged_cb;
-> -
->  	struct msm_dp_audio *msm_dp_audio;
->  	bool psr_supported;
->  };
-> =20
-> -int msm_dp_display_set_plugged_cb(struct msm_dp *msm_dp_display,
-> -		hdmi_codec_plugged_cb fn, struct device *codec_dev);
->  int msm_dp_display_get_modes(struct msm_dp *msm_dp_display);
->  bool msm_dp_display_check_video_test(struct msm_dp *msm_dp_display);
->  int msm_dp_display_get_test_bpp(struct msm_dp *msm_dp_display);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_=
-drm.c
-> index cca57e56c906255a315e759e85a5af5982c80e9c..838bc7d052c5cfa31572f7e23=
-a6b1d09c4c63b5f 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -12,6 +12,7 @@
-> =20
->  #include "msm_drv.h"
->  #include "msm_kms.h"
-> +#include "dp_audio.h"
->  #include "dp_drm.h"
-> =20
->  /**
-> @@ -114,6 +115,9 @@ static const struct drm_bridge_funcs msm_dp_bridge_op=
-s =3D {
->  	.hpd_disable  =3D msm_dp_bridge_hpd_disable,
->  	.hpd_notify   =3D msm_dp_bridge_hpd_notify,
->  	.debugfs_init =3D msm_dp_bridge_debugfs_init,
-> +
-> +	.dp_audio_prepare =3D msm_dp_audio_prepare,
-> +	.dp_audio_shutdown =3D msm_dp_audio_shutdown,
->  };
-> =20
->  static int msm_edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
-> @@ -320,9 +324,13 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display=
-, struct drm_device *dev,
->  	 */
->  	if (!msm_dp_display->is_edp) {
->  		bridge->ops =3D
-> +			DRM_BRIDGE_OP_DP_AUDIO |
->  			DRM_BRIDGE_OP_DETECT |
->  			DRM_BRIDGE_OP_HPD |
->  			DRM_BRIDGE_OP_MODES;
-> +		bridge->hdmi_audio_dev =3D &msm_dp_display->pdev->dev;
-> +		bridge->hdmi_audio_max_i2s_playback_channels =3D 8;
-> +		bridge->hdmi_audio_dai_port =3D -1;
->  	}
-> =20
->  	rc =3D devm_drm_bridge_add(dev->dev, bridge);
->
-> ---
-> base-commit: 6ac908f24cd7ddae52c496bbc888e97ee7b033ac
-> change-id: 20250206-dp-hdmi-audio-15d9fdbebb9f
->
-> Best regards,
-
+--xp6eesrwl3hc4z5s--
