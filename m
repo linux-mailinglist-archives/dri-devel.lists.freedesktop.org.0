@@ -2,63 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4155BB732C
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AC0BB7377
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:42:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 414A310E124;
-	Fri,  3 Oct 2025 14:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B5D10E92A;
+	Fri,  3 Oct 2025 14:42:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="cPuHCayY";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="PfAUnsuf";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="X8xWTx8W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0783310E124
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 14:37:09 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 593EajN53108431;
- Fri, 3 Oct 2025 09:36:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1759502205;
- bh=eRtwW9kgEmfhupb6hjqTLv6iszrEJJkIhoAnFqn8n3A=;
- h=From:To:CC:Subject:Date;
- b=cPuHCayYoQazD6DeLfmxdU8jEVMZVThf/aEtKFTL2LphdcLYkF8HSZFznHOYxnn8N
- F88DQVxiIiJPl0WBGx6sU1YScfyrnkjnof82KNfNeyvI4oEYZiZodOE3klQFcd8Pa+
- 8/kknAK8yFw24k/vX0/LHuog1BCCgAwiO/7tVtdU=
-Received: from DLEE210.ent.ti.com (dlee210.ent.ti.com [157.170.170.112])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 593EaiHO821490
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 3 Oct 2025 09:36:44 -0500
-Received: from DLEE200.ent.ti.com (157.170.170.75) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 3 Oct
- 2025 09:36:44 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE200.ent.ti.com
- (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 3 Oct 2025 09:36:44 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.233.157] (may be forged))
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 593EahG43514627;
- Fri, 3 Oct 2025 09:36:44 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>,
- <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>
-CC: <tomi.valkeinen@ideasonboard.com>, <jani.nikula@intel.com>,
- <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
- <s-jain1@ti.com>, <s-wang12@ti.com>, <r-donadkar@ti.com>,
- <h-shenoy@ti.com>, <devarsht@ti.com>
-Subject: [PATCH] drm/bridge: sii902x: Fix HDMI detection with
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Fri, 3 Oct 2025 20:06:42 +0530
-Message-ID: <20251003143642.4072918-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
+Received: from delivery.antispam.mailspamprotection.com
+ (delivery.antispam.mailspamprotection.com [185.56.87.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0728710E12F
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 14:42:17 +0000 (UTC)
+ARC-Seal: i=1; cv=none; a=rsa-sha256;
+ d=outgoing.instance-europe-west4-fg8d.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1759502536; 
+ b=neenuxwEfV3JjgPFITtNr3JMHNzAlYQbmXWuUwtjQfNvq/WA1OFB36LW6uBM3PEEeYRPnI05Ec
+ u53UiwVcAOZsLZdUXvBpmUDpeQuxSSh1ioTMjfsWx8rSdHpLgUeNq93CIWL7vLdVdsm4ZlRqaD
+ ANYt735z3lAxxtVMWIBh/IMVXuKVQDznLCsCDpFLML9/8/2YWH2RaICgByQ4nZHtL9geusT2o/
+ 2ts1/AHIy2bvs7hbhYm0+TH0dAJMKdCINbx8FYl4qyREh3OxLzN/SuHku91xvXh0/PQcNtkLkg
+ ugZswg+Dit98695XUHKpDh/AFsBzBqNkBbfyqb7wJdXFJg==;
+ARC-Authentication-Results: i=1;
+ outgoing.instance-europe-west4-fg8d.prod.antispam.mailspamprotection.com;
+ smtp.remote-ip=35.214.173.214; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
+ d=outgoing.instance-europe-west4-fg8d.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1759502536; 
+ bh=z5pWesQeBEu2tz3WESYSl81lA5ozGiJ2lIViR3AO4N8=;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-ID:Date:Subject:Cc:To:From:DKIM-Signature:DKIM-Signature;
+ b=aCk7Hn5s6Q0fLbJ1L6SrvEeb5A7iSMbGyn1AIPObYY3jjwx5M4AeMk8wkPwOwnPX6VZAql4x4x
+ h/ko7bK1tSm1pgbGLBGpt7R9zTsPj0B+zQfyD2mE+lep4hr8zsY1cdhIVU0O13cC/NFTaaF1Er
+ AazFIAPcgEbjRp/JE4UnBdK/3zot4JvRpAACa6SfH6O7ttouaeyirVSvwBqR9xf//zk617mi/V
+ ezBiczGqCVHAKlg+tS8oEHLkKsUzjFhERZmCtMMyi//ygdg9E/ATxkrDF0t7s3atiR/AJAGhQO
+ appr89W8Sk+MNv8jbM/p60IqiO5UvaUifWjjFrDUyJ2WNw==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+ :Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Reply-To:List-Unsubscribe;
+ bh=9xIOa3STLJfIfWlCx0nyVc0lcGQQgCGdRx9kH4nGS4k=; b=PfAUnsuf6f4KSjsg5KF75HYbBI
+ ZI45XGVGTaFWTOtFru0c/D4ww8NZxml2sNxFlVAb0Qx3+iljxOCSbrS8aFCYb4l4ZYdkUhJ4r4jTZ
+ O3FnI0Gdh93S6sh3ptiasDIUAN17F+jpaBG/SgxXRm8sFw+nxGGHHTLJleLFvTXcrRmE=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
+ helo=esm19.siteground.biz)
+ by instance-europe-west4-fg8d.prod.antispam.mailspamprotection.com with
+ esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
+ (envelope-from <francesco@valla.it>) id 1v4gz5-0000000C3Lq-3bb3
+ for dri-devel@lists.freedesktop.org; Fri, 03 Oct 2025 14:42:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+ s=default; h=Date:Subject:Cc:To:From:list-help:list-unsubscribe:
+ list-subscribe:list-post:list-owner:list-archive;
+ bh=9xIOa3STLJfIfWlCx0nyVc0lcGQQgCGdRx9kH4nGS4k=; b=X8xWTx8WTHrKuBU+R71bjKlABL
+ KEcHl3O8rRc1w7t20kn3PL4HiO1b25Ovk5SDqpQKFYk4GIuwrsHL/XyiePmnNK8Aa/2PZszBNVbTp
+ 2mMu6Zb75tgN/5WjFg87+UnkVSS9Mt6A9Q05GODu7bgTMP6VDG2pt38zqpNnF6Hl9dWU=;
+Received: from [87.16.13.60] (port=60027 helo=fedora-2.fritz.box)
+ by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.98.1) (envelope-from <francesco@valla.it>)
+ id 1v4gyp-00000000ERx-0Fjt; Fri, 03 Oct 2025 14:41:55 +0000
+From: Francesco Valla <francesco@valla.it>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jocelyn Falempe <jfalempe@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/draw: fix color truncation in drm_draw_fill24
+Date: Fri, 03 Oct 2025 16:41:54 +0200
+Message-ID: <3881844.vuYhMxLoTh@fedora-2.fritz.box>
+In-Reply-To: <70cbbf88-7c1e-44f4-8091-ee76944d2f6b@redhat.com>
+References: <20251003-drm_draw_fill24_fix-v1-1-8fb7c1c2a893@valla.it>
+ <70cbbf88-7c1e-44f4-8091-ee76944d2f6b@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: 7d6809437680047ed37ab8089c2e1bc0
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1v4gz5-0000000C3Lq-3bb3-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-fg8d.prod.antispam.mailspamprotection.com; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,50 +120,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SII902x HDMI bridge driver wasn't working properly with drivers that
-use the newer bridge connector architecture with the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, like TIDSS.  This caused HDMI audio to
-fail since the driver wasn't properly setting the sink_is_hdmi flag when
-the bridge was attached without a connector since .get_modes() is never
-called in this case. Fix it by setting sink_is_hdmi flag when reading
-the EDID block itself.
+Hi Jocelyn,
 
-Fixes: 3de47e1309c2 ("drm/bridge: sii902x: use display info is_hdmi")
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
- drivers/gpu/drm/bridge/sii902x.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On Friday, 3 October 2025 at 14:48:03 Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> On 10/3/25 12:33, Francesco Valla wrote:
+> > The color parameter passed to drm_draw_fill24() was truncated to 16
+> > bits, leading to an incorrect color drawn to the target iosys_map.
+> > Fix this behavior, widening the parameter to 32 bits.
+> > 
+> Oh, you're right, my mistake.
+> Did you find this by using a 24bit hardware, or by looking at the code?
+> 
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Best regards,
+> 
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index d537b1d036fb..3d169b9fac70 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -292,10 +292,16 @@ static const struct drm_edid *sii902x_edid_read(struct sii902x *sii902x,
- 						struct drm_connector *connector)
- {
- 	const struct drm_edid *drm_edid;
-+	const struct edid *edid;
- 
- 	mutex_lock(&sii902x->mutex);
- 
- 	drm_edid = drm_edid_read_ddc(connector, sii902x->i2cmux->adapter[0]);
-+	if (drm_edid) {
-+		edid = drm_edid_raw(drm_edid);
-+		if (edid && drm_detect_hdmi_monitor(edid))
-+			sii902x->sink_is_hdmi = true;
-+	}
- 
- 	mutex_unlock(&sii902x->mutex);
- 
-@@ -315,8 +321,6 @@ static int sii902x_get_modes(struct drm_connector *connector)
- 		drm_edid_free(drm_edid);
- 	}
- 
--	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
--
- 	return num;
- }
- 
--- 
-2.39.1
+I am working on a graphical splash DRM client (which I hope I'll be
+able to post soon) and testing it on a Beagleplay - which is
+RG24-capable - I started to see a strange behavior with non-black
+colors. After some investigation I found the cuplrit, and strangely
+enough it wasn't me this time.
+
+Best regards,
+
+Francesco
+
+
+
+
+
 
