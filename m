@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C109BB6157
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD21FBB6253
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB7C210E02F;
-	Fri,  3 Oct 2025 07:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26CCA10E8CE;
+	Fri,  3 Oct 2025 07:11:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FLZDeuZr";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pFMvjqIT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35BA710E02F
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 07:03:21 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D754C10E8CE
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 07:11:21 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id BEDBB1A10A2;
- Fri,  3 Oct 2025 07:03:19 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id D664CC00D8D;
+ Fri,  3 Oct 2025 07:11:01 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 8F47E606EB;
- Fri,  3 Oct 2025 07:03:19 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id C30EA606EB;
+ Fri,  3 Oct 2025 07:11:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 587A2102F1C21; 
- Fri,  3 Oct 2025 09:03:04 +0200 (CEST)
+ with ESMTPSA id CB78C102F1C04; 
+ Fri,  3 Oct 2025 09:11:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1759474998; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1759475478; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=vh6CT0iScwUmc4jIsyFUPA4yrvhCBOQ2xae+8uqnwZ8=;
- b=FLZDeuZrbiKk047v6a3B8s/r4E+39AqQTO+heJ0JsNjgaj1LBLWoEkdvyR4rdgNydHlhui
- yN0vGudvW1/rSTv6OYL0Tub3FG/7Nw/BDk+F+8atPN+wPUp3F7J4O4RvWXAFpiwB8e3X8f
- uIKmWQNB/xv0853xP1D5kH43OaLl1evKrbRSZSbiakxCeXZKZR3o1sYk7zriEZED4dNVzs
- OH9u7PoQpOIOc4u8WlGCnqHKd8E4Wrkazvh7BKOxpUzuwMrcmH+Ch9rvIxbm/86U7iBeZ8
- N13AQ1uNOXmfBqsx8Egq6hFGEGKB8nfZWOgbFcd7BnRA7jyOzwr8LErtuuXgsQ==
+ bh=GBWWiR//EQGy7wU3r/D2KO4EkutCKxZsEaDltcQpM4g=;
+ b=pFMvjqITUMPW427SBAfWge/eWzYs7aqJJgZBofTJyUd5r+r4JYbTvYNlq05gcaK+2Jktby
+ UwAf27c5upeCs+eyQi8Oz8jEionMsV+tAQNpj321jvP7YcZqW403A5NF9uQ3eE6xTTwQy0
+ AXSfCTQm97VRW9QJsDGjU0VbunCTHG/lajEZ4kFq7yAH6luhIoKpwpTWdwPGPn3+zWHv4h
+ nDra7NgnJu3LEg9rQQMuDOqy4K271eKw+anm/rvKJpDCNX7I0EHUZacsiW41dPbBEMkYJy
+ YvKIqHNd5OReDg2mmEWQM5cn9weV/sHmM568shRdg4ixDLlRAzlUHOJJGZD/Lg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
-References: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
-Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
- bridges
-Message-Id: <175947498405.453288.14017869194720551047.b4-ty@bootlin.com>
-Date: Fri, 03 Oct 2025 09:03:04 +0200
+In-Reply-To: <20250924-b4-drm-bridge-alloc-getput-drm_atomic_bridge_chain_select_bus_fmts-v1-1-f8c2efdb783f@bootlin.com>
+References: <20250924-b4-drm-bridge-alloc-getput-drm_atomic_bridge_chain_select_bus_fmts-v1-1-f8c2efdb783f@bootlin.com>
+Subject: Re: [PATCH] drm/bridge: refcount last_bridge in
+ drm_atomic_bridge_chain_select_bus_fmts()
+Message-Id: <175947547459.489455.4866603213884120000.b4-ty@bootlin.com>
+Date: Fri, 03 Oct 2025 09:11:14 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -73,25 +72,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 26 Sep 2025 16:59:40 +0200, Luca Ceresoli wrote:
-> drm_bridge_connector_init() takes eight pointers to various bridges, some
-> of which can be identical, and stores them in pointers inside struct
-> drm_bridge_connector. Get a reference to each of the taken bridges and put
-> it on cleanup.
+On Wed, 24 Sep 2025 17:11:01 +0200, Luca Ceresoli wrote:
+> Get a reference for the last_bridge when it is obtained and release it
+> using a cleanup action.
 > 
-> This is tricky because the pointers are currently stored directly in the
-> drm_bridge_connector in the loop, but there is no nice and clean way to put
-> those pointers on error return paths. To overcome this, store all pointers
-> in temporary local variables with a cleanup action, and only on success
-> copy them into struct drm_bridge_connector (getting another ref while
-> copying).
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] drm/display: bridge_connector: get/put the stored bridges
-      commit: 2be300f9a0b6f6b0ae2a90be97e558ec0535be54
+[1/1] drm/bridge: refcount last_bridge in drm_atomic_bridge_chain_select_bus_fmts()
+      commit: 0f2efbe6d8305b91c9b2c92ebaf8c24a614bc305
 
 Best regards,
 -- 
