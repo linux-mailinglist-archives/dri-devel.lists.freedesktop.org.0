@@ -2,115 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D518EBB727A
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825B4BB720B
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6F0310E932;
-	Fri,  3 Oct 2025 14:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CEF710E002;
+	Fri,  3 Oct 2025 14:12:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="ETE6o/Zp";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="F9VKuaiZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [63.178.132.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D133D10E904;
- Fri,  3 Oct 2025 13:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1759496986; x=1791032986;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=k0dUe76w+6n5/NfsPbyefGVCom+xh3GGcFcV3Olhmks=;
- b=ETE6o/ZppperikdSLh5orm8DNqK4gL92o5kUU5mrWM6KlP/1Om9PQ97e
- 1M6PvM7gHpYCA7Eie7LaQFtLRQXnODvVZbyFaIl7vPa7Z2wAds7G4jXGd
- ZjgVLOHY8HoSuxgFNmVwyApifcYltk093G6RWNhM+04yf+FC3UqGT6paZ
- sqx9X2D1CVDV/8dLS5bgEm4aVXDRvUka4rUKVE0PYhIoBlMIym4A0gkuX
- pYTZXgaqBttn5aKFNx13zewXrwPoYFLNf8DwG/bPQJS/oY6UfJl721b/t
- Ua9q5WY+MMwSMGwKnL58c3Ent5dJNT9b1u6R4xwjtLAG7KHVMLw3V8Hd/ g==;
-X-CSE-ConnectionGUID: pOpShtCIQUC1YxeGDT1KYw==
-X-CSE-MsgGUID: OAQmpc4qS2az1wjc1pwbrA==
-X-IronPort-AV: E=Sophos;i="6.18,312,1751241600"; 
-   d="scan'208";a="2963326"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO
- smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
- by internal-fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 13:09:44 +0000
-Received: from EX19MTAEUA001.ant.amazon.com [54.240.197.233:13822]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.22.27:2525]
- with esmtp (Farcaster)
- id 337663a1-1fe2-42ad-b6e4-6137698a0a8d; Fri, 3 Oct 2025 13:09:43 +0000 (UTC)
-X-Farcaster-Flow-ID: 337663a1-1fe2-42ad-b6e4-6137698a0a8d
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 3 Oct 2025 13:09:39 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 3 Oct 2025
- 13:09:12 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
- <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
- <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
- <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
- <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
- <rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
- <jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
- <dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
- <jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
- <dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
- <mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
- <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
- <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
- <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
- <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
- <adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
- <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
- <senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
- <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
- <akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, 
- <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
- <jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
- <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
- <quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
- <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
- <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
- <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
- <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
- <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
- <linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
-CC: Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- Dan Carpenter <dan.carpenter@linaro.org>, "Jason A. Donenfeld"
- <Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, "Pedro
- Falcato" <pedro.falcato@gmail.com>
-Subject: [PATCH v2 19/19 5.15.y] minmax.h: remove some #defines that are only
- expanded once
-Date: Fri, 3 Oct 2025 13:00:06 +0000
-Message-ID: <20251003130006.41681-20-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251003130006.41681-1-farbere@amazon.com>
-References: <20251003130006.41681-1-farbere@amazon.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D337710E002
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 14:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759500732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DIh0ta/ySV31IDAsjscXZdxDAf93kz39y+kPAUa/I64=;
+ b=F9VKuaiZMLgsRzzouEJOmneQq1QmQi3uBRskKIMBuihqgDIOuLbgfO2EzlpD1VblKIOSl/
+ gCVIKx1l0KxaifZF63QvV6fzXaH87J6W0nOnLnUmCthQXUFN8+/whtFCAUs/Zu4MbEPGaN
+ UKXMmUKgaUfqBEHApWi/riqNXf3RnSY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-I5sCUkUYOS20EbFejojZuQ-1; Fri, 03 Oct 2025 10:12:10 -0400
+X-MC-Unique: I5sCUkUYOS20EbFejojZuQ-1
+X-Mimecast-MFC-AGG-ID: I5sCUkUYOS20EbFejojZuQ_1759500729
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-46e35baddc1so15906525e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 07:12:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759500729; x=1760105529;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DIh0ta/ySV31IDAsjscXZdxDAf93kz39y+kPAUa/I64=;
+ b=tDYXlu2HPjIl6TRoUM4sw21TJCp/GPc+yhlAjN525im2SAIiBDqH0m+EBz0FuPxcFG
+ rH9IwN0xlnsaBqkCjFbKS321aE/72IxGJnr2OXjR9MKEXG3Ovqrk0SM987eiODouMSdl
+ acsax/dJzl6vY6HVzjexpljVFN5QVYvfeRps/FPjOm2hnd7+rIzIcMhFFtVYlYI+OeIk
+ RhentrqTRKh0vf1gMyd5NiVygDJT2LwH+DgvQwfR7eIgiyvRzfL/RpwNsP2iJU+7c0wJ
+ PI5+VEhh3iSnKBBLCQ3h2vLNTKie27/nZdGEQUKtdAOquH9qaJNNNa4l/JlPVU1nnquz
+ VgGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmY24gQQlII5CjhR57k4b7o9Ovp/nlbq1G+s3IAE/Yvu+wa2EI95hpvEJOzf7fI4b/PjiB/Hz6tV4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzcrzxKylhwEFBAHhnxyFuQfMEJ8w6HpOes7n24Io++6qvo1wwR
+ kE96xac8O44BsPcH12zzFXMR6aPENaudKnEmvZgCbqi51/V13iDReyZE5RZW5HYCa/mZBJQLM4W
+ W7fLqDQkDlvgSztEOS2r0f1l4Gl5B2i4xIEN01BeE8Swhk1Zd/jiZv2NP7HOo7dt2GVwsoA==
+X-Gm-Gg: ASbGncsATEzSMw2KM4MxwOgbuamJHhKWnpZzndy/cV4/CBIlp4VdEYYCaudeWadoJzH
+ fk+AeV4u4MeI+r7DmVzDKoZsD1FnISSDxNaEM9YpGea5hsJDNVncMy2NY32q5gzWW446IfMgBe4
+ B76s+EaCl4Vnsu2E6HCvNkV+4CmRIenqI90r+FoJw5Lb0MKfvW8Ess+TlHupU2bIKa61mzSB9z+
+ WDUJYX1xIBGsmvGeWO/8cb8rnzgQrUj4+uUwcLlCp5cbM0CsiCxrt+Bj9k7p8mX8UE1bWl+WbNr
+ 8+GTjbHyYPCB31lhTJQvng==
+X-Received: by 2002:a05:600c:1986:b0:46e:4287:a85e with SMTP id
+ 5b1f17b1804b1-46e71109f78mr19837025e9.13.1759500729023; 
+ Fri, 03 Oct 2025 07:12:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEvZE78Vlry2HWGKctUpuvV3NYdSpp6VF7NSq0LXvMOwPsaZRtbqFATFnYhybF+GpisNk1RcA==
+X-Received: by 2002:a05:600c:1986:b0:46e:4287:a85e with SMTP id
+ 5b1f17b1804b1-46e71109f78mr19836735e9.13.1759500728555; 
+ Fri, 03 Oct 2025 07:12:08 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46e7234f69bsm36548575e9.8.2025.10.03.07.12.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Oct 2025 07:12:08 -0700 (PDT)
+Date: Fri, 3 Oct 2025 16:12:07 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v12 3/9] tee: implement protected DMA-heap
+Message-ID: <20251003-majestic-indigo-emu-d9dbdd@houat>
+References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
+ <20250911135007.1275833-4-jens.wiklander@linaro.org>
+ <20251002-sceptical-goose-of-fame-7b33d6@houat>
+ <CAHUa44H3nGgY9q68YRRp5A7Q6Ku3P_URuv+L7H8chYzLAKd8mQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.19.116.181]
-X-ClientProxiedBy: EX19D046UWA004.ant.amazon.com (10.13.139.76) To
- EX19D018EUA004.ant.amazon.com (10.252.50.85)
-X-Mailman-Approved-At: Fri, 03 Oct 2025 14:16:26 +0000
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="uh2g5nrijwsim4uc"
+Content-Disposition: inline
+In-Reply-To: <CAHUa44H3nGgY9q68YRRp5A7Q6Ku3P_URuv+L7H8chYzLAKd8mQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,81 +113,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Laight <David.Laight@ACULAB.COM>
 
-[ Upstream commit 2b97aaf74ed534fb838d09867d09a3ca5d795208 ]
+--uh2g5nrijwsim4uc
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 3/9] tee: implement protected DMA-heap
+MIME-Version: 1.0
 
-The bodies of __signed_type_use() and __unsigned_type_use() are much the
-same size as their names - so put the bodies in the only line that expands
-them.
+On Thu, Oct 02, 2025 at 02:57:25PM +0200, Jens Wiklander wrote:
+> Hi,
+>=20
+> On Thu, Oct 2, 2025 at 9:54=E2=80=AFAM Maxime Ripard <mripard@redhat.com>=
+ wrote:
+> >
+> > On Thu, Sep 11, 2025 at 03:49:44PM +0200, Jens Wiklander wrote:
+> > > +static const char *heap_id_2_name(enum tee_dma_heap_id id)
+> > > +{
+> > > +     switch (id) {
+> > > +     case TEE_DMA_HEAP_SECURE_VIDEO_PLAY:
+> > > +             return "protected,secure-video";
+> > > +     case TEE_DMA_HEAP_TRUSTED_UI:
+> > > +             return "protected,trusted-ui";
+> > > +     case TEE_DMA_HEAP_SECURE_VIDEO_RECORD:
+> > > +             return "protected,secure-video-record";
+> > > +     default:
+> > > +             return NULL;
+> > > +     }
+> > > +}
+> >
+> > We've recently agreed on a naming guideline (even though it's not merge=
+d yet)
+> >
+> > https://lore.kernel.org/r/20250728-dma-buf-heap-names-doc-v4-1-f73f71cf=
+0dfd@kernel.org
+>=20
+> I wasn't aware of that (or had forgotten it), but during the revisions
+> of this patch set, we changed to use "protected".
 
-Similarly __signed_type() is defined separately for 64bit and then used
-exactly once just below.
+I think protected is fine and what is documented in that patch, right?
 
-Change the test for __signed_type from CONFIG_64BIT to one based on gcc
-defined macros so that the code is valid if it gets used outside of a
-kernel build.
+> > Secure and trusted should be defined I guess, because secure and
+> > protected at least seem redundant to me.
+>=20
+> Depending on the use case, the protected buffer is only accessible to
+> a specific set of devices. This is typically configured by the TEE
+> firmware based on which heap we're using. To distinguish between the
+> different heaps, I've simply added the name of the use case after the
+> comma. So the name of the heap for the Trusted-UI use case is
+> "protected,trusted-ui".
 
-Link: https://lkml.kernel.org/r/9386d1ebb8974fbabbed2635160c3975@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pedro.falcato@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
----
- include/linux/minmax.h | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+I guess my point is that, without any prior knowledge of how that heap
+works, I have no idea what the "trusted-ui" use case actually is.
 
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2bbdd5b5e07e..eaaf5c008e4d 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -46,10 +46,8 @@
-  * comparison, and these expressions only need to be careful to not cause
-  * warnings for pointer use.
-  */
--#define __signed_type_use(ux) (2 + __is_nonneg(ux))
--#define __unsigned_type_use(ux) (1 + 2 * (sizeof(ux) < 4))
- #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
--	__signed_type_use(ux) : __unsigned_type_use(ux))
-+	(2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
- 
- /*
-  * Check whether a signed value is always non-negative.
-@@ -57,7 +55,7 @@
-  * A cast is needed to avoid any warnings from values that aren't signed
-  * integer types (in which case the result doesn't matter).
-  *
-- * On 64-bit any integer or pointer type can safely be cast to 'long'.
-+ * On 64-bit any integer or pointer type can safely be cast to 'long long'.
-  * But on 32-bit we need to avoid warnings about casting pointers to integers
-  * of different sizes without truncating 64-bit values so 'long' or 'long long'
-  * must be used depending on the size of the value.
-@@ -66,12 +64,12 @@
-  * them, but we do not use s128 types in the kernel (we do use 'u128',
-  * but they are handled by the !is_signed_type() case).
-  */
--#ifdef CONFIG_64BIT
--  #define __signed_type(ux) long
-+#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-+#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
- #else
--  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L))
-+#define __is_nonneg(ux) statically_true( \
-+	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
- #endif
--#define __is_nonneg(ux) statically_true((__signed_type(ux))(ux) >= 0)
- 
- #define __types_ok(ux, uy) \
- 	(__sign_use(ux) & __sign_use(uy))
--- 
-2.47.3
+> What would a heap called "protected,ui" represent? Protected buffers
+> for a UI use case? What kind of UI use case?
+
+I agree with all those questions. They apply equally to trusted-ui and
+secure-video though.
+
+If you want to have a vendor-specific name, I guess that's fine. But you
+should at the very least document what all these heaps are for and the
+subtleties like the set of device that can access those buffers (or how
+to figure out that list if it's somewhat dynamic).
+
+Maxime
+
+--uh2g5nrijwsim4uc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN/ZtwAKCRAnX84Zoj2+
+dk9GAYDf6fryp88Ahl12b+j+v2rumlMEN3n/cHougouDTADzYYFHD5FrzdVXoXCH
+2w49Sa0BgPbuh4M8qU3Ly9kSPtLFD2tEJs/iA5V+MezAw2Egx8cvBUXOLP8pdylA
+HFFK1Cqtug==
+=PVWB
+-----END PGP SIGNATURE-----
+
+--uh2g5nrijwsim4uc--
 
