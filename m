@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78068BB645A
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 11:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2D1BB645D
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 11:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48CF410E0EA;
-	Fri,  3 Oct 2025 09:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2380E10E0FC;
+	Fri,  3 Oct 2025 09:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ApqGFf2Q";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="xH7vQ5m/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D32310E0EA
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 09:00:46 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D318B10E0FC
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 09:00:48 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 1D9904E40E8F;
- Fri,  3 Oct 2025 09:00:45 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id B47131A10C5;
+ Fri,  3 Oct 2025 09:00:47 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id E7A2E60683;
- Fri,  3 Oct 2025 09:00:44 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 89D7F60683;
+ Fri,  3 Oct 2025 09:00:47 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0A47D102F1C24; 
- Fri,  3 Oct 2025 11:00:41 +0200 (CEST)
+ with ESMTPSA id 7BDB2102F1C33; 
+ Fri,  3 Oct 2025 11:00:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1759482043; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1759482046; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=w/wMDW+ORc4IMlsm9YNmK+hs7D2/6cQwBTxkTz703Fk=;
- b=ApqGFf2QVFtIC4jXGJmWPKeuVCliDaErNZgd8yq3fINh2qnqkx+xp8BAksynsjcC3gA78I
- cXZ9b7nadeQQsdKelBS/XHwPsGH3lSdIP4fCLbqDmmBgcNjtpyW85ZMpOdMUplbsaDeUIn
- 3H2frNCuAIy3goJy0A9Hu0RQ0cPXVni21TdpkYuoV4EO/8Kc8LIw+T/KZv7PVAuke9x+3Y
- VRu8XKpet9roen1fR5n6MfKwnl0gysfU0I7+k0lXCrr3TtH3o6piOky8CcUl/FXBAlXYPg
- 4oqdFegOZabnbiPm8/CbSkifDUXvIguPgX3ol8MJ+Fq3FJflHpqv/udHX/fKgA==
+ bh=ebfUGkYH5pGjBKB+Sf434xFBeiTl0SZ+ny8lNc0QXfU=;
+ b=xH7vQ5m/dsvHtjScC488kOPlgbneze3g9Xbx0zuE4G4meEKLY/IGuzDaKTeGJT2UByCXHM
+ SxBF9ZivjWXs5m+tOlJZ39gAPkNfDVC7rE76kTq7wvh9/r1sdOZAU4SPwUA0XJUHEmd5KQ
+ Y7exiY3dgKKXlv6WC+jBmrkFhUtyrf6Z9P17IO9knzwKz99/9Dq2Z02BjyToC1Bk5GhVYn
+ DrDKsgtaBls8lBHKGL0gAyUXYJh6XL3zlfEG5YoUWb+lG71BD9mlNNJR/sSEztomNMrr+y
+ qBtO7rgUSdGvQqxt0USJF6hSdMScGhGPu3prU4w6cbn3qvfgeDkLTxhgXpNqaw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 03 Oct 2025 10:59:55 +0200
-Subject: [PATCH 1/4] drm/sti: hda: add bridge before attaching
+Date: Fri, 03 Oct 2025 10:59:56 +0200
+Subject: [PATCH 2/4] drm/sti: hdmi: add bridge before attaching
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-1-92fb40d27704@bootlin.com>
+Message-Id: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-2-92fb40d27704@bootlin.com>
 References: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-0-92fb40d27704@bootlin.com>
 In-Reply-To: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-0-92fb40d27704@bootlin.com>
 To: Alain Volmat <alain.volmat@foss.st.com>, 
@@ -78,33 +78,29 @@ attached.
 Link: https://lore.kernel.org/all/20250709-sophisticated-loon-of-rain-6ccdd8@houat/
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/sti/sti_hda.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/sti/sti_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 2c015f563de96ae58959801493ead870c49f70e5..b7397827889c94d6f8e8c2a48b09f06e29ceeaf7 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -779,6 +779,8 @@ static int sti_hda_probe(struct platform_device *pdev)
- 		return PTR_ERR(hda->clk_hddac);
- 	}
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index 4e7c3d78b2b971f8083deae96f3967b44a6499cb..f8222e60b1e01afb6d93f816915f17056c060f22 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -1459,6 +1459,7 @@ static int sti_hdmi_probe(struct platform_device *pdev)
  
-+	drm_bridge_add(&hda->bridge);
-+
- 	platform_set_drvdata(pdev, hda);
+ 	platform_set_drvdata(pdev, hdmi);
  
- 	return component_add(&pdev->dev, &sti_hda_ops);
-@@ -786,7 +788,10 @@ static int sti_hda_probe(struct platform_device *pdev)
++	drm_bridge_add(&hdmi->bridge);
+ 	return component_add(&pdev->dev, &sti_hdmi_ops);
  
- static void sti_hda_remove(struct platform_device *pdev)
- {
-+	struct sti_hda *hda = platform_get_drvdata(pdev);
-+
- 	component_del(&pdev->dev, &sti_hda_ops);
-+	drm_bridge_remove(&hda->bridge);
+  release_adapter:
+@@ -1475,6 +1476,7 @@ static void sti_hdmi_remove(struct platform_device *pdev)
+ 	if (hdmi->audio_pdev)
+ 		platform_device_unregister(hdmi->audio_pdev);
+ 	component_del(&pdev->dev, &sti_hdmi_ops);
++	drm_bridge_remove(&hdmi->bridge);
  }
  
- static const struct of_device_id hda_of_match[] = {
+ struct platform_driver sti_hdmi_driver = {
 
 -- 
 2.51.0
