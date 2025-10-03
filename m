@@ -2,114 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38945BB68D8
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 13:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A87BB6747
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 12:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFF110E320;
-	Fri,  3 Oct 2025 11:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E66710E052;
+	Fri,  3 Oct 2025 10:37:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="NYQtRUKG";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="QFSC0CtG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jG3/hduE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 4187 seconds by postgrey-1.36 at gabe;
- Fri, 03 Oct 2025 11:43:56 UTC
-Received: from delivery.antispam.mailspamprotection.com
- (delivery.antispam.mailspamprotection.com [185.56.87.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4157210E320
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 11:43:56 +0000 (UTC)
-ARC-Seal: i=1; cv=none; a=rsa-sha256;
- d=outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com;
- s=arckey; t=1759491836; 
- b=CJITbAIksPvfw//SdT35RKopY9J/lt/Aebv0BcxAhmEGd/aMjzqjCphdXDSnEjHdcZvld4XghI
- AltwZd2qDD2xDo5Hyy4bDyQe3nEbPDF3BlR8nl5lSwfeEOe/2iQmwC24hHDdCmp3A2FXZodtY7
- zD9ScQ2yRq8/znoCPnwPSWHM4VINmlUDqeQLRUKp+7ZI5c5xUbqGPaQL5/yfAyFnuqV24LLY+6
- ju3DTGRtZ8hVTiGJodu4ZNCN/M1ywv84ffcJxD+KdWtT5V+fpwNMZKD8KgVVdTFppBUBHIsSCJ
- Le2vnH5dD3jvvOFildpI5c9urG8CWST9rHBLxK4ID9Dyhw==;
-ARC-Authentication-Results: i=1;
- outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com;
- smtp.remote-ip=35.214.173.214; 
- iprev=pass (214.173.214.35.bc.googleusercontent.com)
- smtp.remote-ip=35.214.173.214; 
- auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
- dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
- arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
- d=outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com;
- s=arckey; t=1759491836; 
- bh=oxztwgSohn0Urt4wlKgp0INnLZf70XV4Jyinfy0e++o=;
- h=Cc:To:Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Subject:Date:From:DKIM-Signature:DKIM-Signature;
- b=X3viTAWDR8xnTPPQwZvTxhAv12rUfX4TcBDGUxWP1KIEt2fnJ0s54Xi0ySdo4vT2W7hzPrtNb+
- XWE8FqDHa3hylWFMo5Ds0Sy2PTYsGwm5tz0tUos+eBsLhEA3Sd8T63DgqAN6ZPq9rtAb5GF/+Z
- +M2Vx2T+T+shzrarBx3SgjTQUtJRJb2LACN7tlkl4kYLW728nfrNZcPGdLKH++flhWi2yrmPnt
- LshtTh7GQJlb2u6Bj3yocgo7bBw7grv5TnaOVkIaXI2i3vu0g/TGnftDXjOE6AN1SMIK9peqif
- rypMZXnz/W8PfDDP7r/Ms6bJX/a1c7shHHj4IXJMN1oQvQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
- :Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
- :Date:From:Reply-To:List-Unsubscribe;
- bh=hXsRLCbKNIXlJVJ6hEdkFul81XBtMTzLFWhNEYewW3s=; b=NYQtRUKGu1Tjqi1RVZY256PElN
- PpkHu8Bb2TwFhaX9JwXHTi4DdvxEJg/KJt/XKT2U8g6gmkrnBN06F785RcbOgndkUGCwNI3zfguFp
- SVngpFxunrWqcNgI20DabwFJWSII694MYHnPdtH+41vY0R6aJ8FR1vo6DEXzMYdRh7Cc=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
- helo=esm19.siteground.biz)
- by instance-europe-west4-66gm.prod.antispam.mailspamprotection.com with
- esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <francesco@valla.it>) id 1v4d6y-0000000Dun7-0Mew
- for dri-devel@lists.freedesktop.org; Fri, 03 Oct 2025 10:34:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
- s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
- list-subscribe:list-post:list-owner:list-archive;
- bh=hXsRLCbKNIXlJVJ6hEdkFul81XBtMTzLFWhNEYewW3s=; b=QFSC0CtG6aJxxkXHpCPLA1lI0z
- zWCImVm3kWJI7cN7S1Wyot7YK2zjgcpKSXNvENIGQMj4phbyTzjG+S6U/8ywRcOvIoTZQiMZTnp9U
- cqo4Dz8+NYz0a3iUKM24hfEQ8PSY9YRGogzJoPSQe90VK8Tq/EBFt16j60WDpsWoczBE=;
-Received: from [87.16.13.60] (port=61630 helo=fedora-2.fritz.box)
- by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.98.1) (envelope-from <francesco@valla.it>)
- id 1v4d6j-00000000PzU-2xlq; Fri, 03 Oct 2025 10:33:49 +0000
-From: Francesco Valla <francesco@valla.it>
-Date: Fri, 03 Oct 2025 12:33:03 +0200
-Subject: [PATCH] drm/draw: fix color truncation in drm_draw_fill24
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 039AA10E052
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 10:37:45 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 7BD451A10C7;
+ Fri,  3 Oct 2025 10:37:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4F94A60683;
+ Fri,  3 Oct 2025 10:37:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 813A3102F1C34; 
+ Fri,  3 Oct 2025 12:37:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1759487863; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=75kSkB+I0miD0Bb2kpYkx4XA1f7qcppabY+aameF1eg=;
+ b=jG3/hduEKrBJx342BIErz7wfjcwkgWsRRLxhKIW06dedGvedo0jbihWtMeAzEKeBiFrgtQ
+ Zc+6ujqgTJlryila/su5k6/+9Ak3Eu/kVk9WE+6edx0yKwasLiiLb6EK/aeexs+J0Ughng
+ SEoKMqFLYo4ypvyf31LcvBbdzf4GUf7BjwFdEUmayx9TKE+ERicG+dOra6wnyivT85cixr
+ XKx9d/z0HVZej2f9lg6rUgvP22SeR2Y5LHqOLYq6vnFePSWmh2kQVpLl3li6l/ObpbJ5dh
+ 8NlqY/atQLrS3uwGp74x7bI8q28UU9rPj5bEA8CHPnrkb29XmTPpn3L9WgjPbw==
+Date: Fri, 3 Oct 2025 12:37:26 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] drm/encoder: drm_encoder_cleanup: take chain mutex
+ while tearing down
+Message-ID: <20251003123726.4bf38c76@booty>
+In-Reply-To: <20250929163127.5ad20e05@booty>
+References: <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-0-23b62c47356a@bootlin.com>
+ <20250926-drm-bridge-alloc-encoder-chain-mutex-v1-2-23b62c47356a@bootlin.com>
+ <20250929-flat-koel-from-nibiru-665d49@houat>
+ <20250929163127.5ad20e05@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251003-drm_draw_fill24_fix-v1-1-8fb7c1c2a893@valla.it>
-X-B4-Tracking: v=1; b=H4sIAF6m32gC/x2MSwqAMAwFryJZW6ipLvQqIlJM1IA/UlBBvLvB1
- TAD7z2QWIUTNNkDyqck2TeTIs9gmOM2sRMyB/RYFd4HR7r2pPHqR1kWLA2341ghBYx1CAS2PJQ
- t/69t974fXhyDJ2UAAAA=
-X-Change-ID: 20251003-drm_draw_fill24_fix-ea52d32a933d
-To: Jocelyn Falempe <jfalempe@redhat.com>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Francesco Valla <francesco@valla.it>
-X-Mailer: b4 0.14.2
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: 7be041777e8f2ebfabaa1c2138488c7d
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1v4d6y-0000000Dun7-0Mew-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com; 
- iprev=pass (214.173.214.35.bc.googleusercontent.com)
- smtp.remote-ip=35.214.173.214; 
- auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
- dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
- arc=none
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,50 +73,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The color parameter passed to drm_draw_fill24() was truncated to 16
-bits, leading to an incorrect color drawn to the target iosys_map.
-Fix this behavior, widening the parameter to 32 bits.
+Hello,
 
-Fixes: 31fa2c1ca0b2 ("drm/panic: Move drawing functions to drm_draw")
+On Mon, 29 Sep 2025 16:31:27 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-Signed-off-by: Francesco Valla <francesco@valla.it>
----
- drivers/gpu/drm/drm_draw.c          | 2 +-
- drivers/gpu/drm/drm_draw_internal.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> > > --- a/drivers/gpu/drm/drm_encoder.c
+> > > +++ b/drivers/gpu/drm/drm_encoder.c
+> > > @@ -195,9 +195,11 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
+> > >  	 * the indices on the drm_encoder after us in the encoder_list.
+> > >  	 */
+> > >  
+> > > +	mutex_lock(&encoder->bridge_chain_mutex);
+> > >  	list_for_each_entry_safe(bridge, next, &encoder->bridge_chain,
+> > >  				 chain_node)
+> > >  		drm_bridge_detach(bridge);
+> > > +	mutex_unlock(&encoder->bridge_chain_mutex);    
+> > 
+> > You were claiming that the mutex was to prevent issues with concurrent
+> > iteration and removal of the list members. list_for_each_entry_safe() is
+> > explicitly made to protect against that. Why do we need both?  
+> 
+> You're right saying we don't need both. With a mutex preventing the list
+> from any change, we can actually simpify code a bit to use the non-safe
+> list macro:
+> 
+> -	struct drm_bridge *bridge, *next;
+> +	struct drm_bridge *bridge;
+> ...
+> +	mutex_lock(&encoder->bridge_chain_mutex);
+> - 	list_for_each_entry_safe(bridge, next, &encoder->bridge_chain,
+> + 	list_for_each_entry(bridge, &encoder->bridge_chain,
+>  				 chain_node)
+>  		drm_bridge_detach(bridge);
+> +	mutex_unlock(&encoder->bridge_chain_mutex);
 
-diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
-index 9dc0408fbbeadbe8282a2d6b210e0bfb0672967f..5b956229c82fb6e232e3342705a226c8e14c8568 100644
---- a/drivers/gpu/drm/drm_draw.c
-+++ b/drivers/gpu/drm/drm_draw.c
-@@ -127,7 +127,7 @@ EXPORT_SYMBOL(drm_draw_fill16);
- 
- void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
- 		     unsigned int height, unsigned int width,
--		     u16 color)
-+		     u32 color)
- {
- 	unsigned int y, x;
- 
-diff --git a/drivers/gpu/drm/drm_draw_internal.h b/drivers/gpu/drm/drm_draw_internal.h
-index f121ee7339dc11537f677c833f0ee94fe0e799cd..20cb404e23ea6263b535ea2b81b25f84c37be8a2 100644
---- a/drivers/gpu/drm/drm_draw_internal.h
-+++ b/drivers/gpu/drm/drm_draw_internal.h
-@@ -47,7 +47,7 @@ void drm_draw_fill16(struct iosys_map *dmap, unsigned int dpitch,
- 
- void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
- 		     unsigned int height, unsigned int width,
--		     u16 color);
-+		     u32 color);
- 
- void drm_draw_fill32(struct iosys_map *dmap, unsigned int dpitch,
- 		     unsigned int height, unsigned int width,
+After looking at it better I realized the _safe variant here is still
+needed as the current loop entry is removed inside the loop. The
+non-safe version, at the end of the first iteration, would look for the
+next element in the now-removed list_head, thus being derailed.
 
----
-base-commit: e406d57be7bd2a4e73ea512c1ae36a40a44e499e
-change-id: 20251003-drm_draw_fill24_fix-ea52d32a933d
+v2 on its way with this taken into account along with the other
+discussed items.
 
-Best regards,
+Luca
+
 -- 
-Francesco Valla <francesco@valla.it>
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
