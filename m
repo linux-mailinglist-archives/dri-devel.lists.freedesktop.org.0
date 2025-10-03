@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AC5BB7D0E
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 20:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665F9BB7D4D
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 20:03:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E7510E953;
-	Fri,  3 Oct 2025 18:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEDC10E956;
+	Fri,  3 Oct 2025 18:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wid78YSd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="czZf3HS7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 084EF10E953;
- Fri,  3 Oct 2025 18:00:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CE3DA62086;
- Fri,  3 Oct 2025 18:00:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFB1DC4CEF5;
- Fri,  3 Oct 2025 18:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759514406;
- bh=I/qWDMKQv5qKzeMlqK751O9Q0IyCyXsvYmApunFN05k=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=Wid78YSdBNA2CatxdLycAAbOphm7XEZslawm5fH4LIcQ9Y5wuvC1tWARj1iZ74ZTb
- lxuTv20ujrbyvMnZ4WAUUVxxW+Z8JeFmPiUqqj6ra2InZMI9Eu/JI0Pmj/HyywN/Fj
- yrh24wr0xbb+HWsMjUBznlus80UmGWPmix4KPmdBVv3hp4MxCta8vjhhPGinVHgKg3
- 9p8GItUsDDrJDUrLuffAXf+IYA2FisGjbs4ptSPi+XerKmrs+KtQc+kdOjNlAGi8JO
- JOs6yg8i74hieXqEjbc20ojq7tYJ1hOBMwuS0yl6IKU2ULGrcdWjLaq7+aJZ6o9VG9
- J7Va0OTAjeQLg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5687710E956
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 18:03:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1759514622; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PE2UQ3zTEK230/Tbl6seFwiZtM/+eSTFaiTndqb5aaLFgZ+Pwa6cYTpn7XW2WhrxMuVPrKGTAVp1d7b1jkFhGwzmVO+A1k0zV7BtBgIs09hNnHrqDPxi+SCZZfw3KbckmhEeElcdwaR7lUUcMSktdgfsjxcObk6SzQW7ujbDpKg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1759514622;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=a+N/uyjWJh/W+RxkqtxaKiV8fcfIbAlZZkoQxaUYWl0=; 
+ b=Tg5S7gKJXtz/UUSedkPtVT1l7Z1kv+0SF49UOUnlhpgk8grhcOU++8uqgSPvH2Fbu9A9DgGCb4HP42jVQX76MNN9m46Cac57+51oJ8Zmjp1/fVKecWjr4bPh5jk1WTX1BA+TEz69VbqpSz0kXrUmS4aAxE82c4496BSazOu4xuw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759514622; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=a+N/uyjWJh/W+RxkqtxaKiV8fcfIbAlZZkoQxaUYWl0=;
+ b=czZf3HS7OgEjH67eECwAocYNe2+V0s+nmNa6OKQWguiOSkFt10TAWMJhYXvYOZIU
+ manzMhNeivdzYwTM8hRYuTqzCwAG7iUt7Y2AOS+LtXyTzx2zYcb+g6bEXmVdTKDdIb5
+ R1jVxEVh7kuigx3D72YooN+ZbUtZZvqagPnL9Hzg=
+Received: by mx.zohomail.com with SMTPS id 1759514619963818.5401262678981;
+ Fri, 3 Oct 2025 11:03:39 -0700 (PDT)
+Message-ID: <ef77d1e3-adea-4120-a23f-b2925ca23b38@collabora.com>
+Date: Fri, 3 Oct 2025 21:03:36 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] drm/virtio: Add support for saving and restoring
+ virtio_gpu_objects
+To: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "nirmoyd@nvidia.com" <nirmoyd@nvidia.com>
+References: <20251003053402.732218-1-dongwon.kim@intel.com>
+ <20251003053402.732218-3-dongwon.kim@intel.com>
+ <059d3074-dc1f-47cf-9bdd-ca582e150511@collabora.com>
+ <PH0PR11MB51125B8A88CBFAE48E7BDC62FAE4A@PH0PR11MB5112.namprd11.prod.outlook.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <PH0PR11MB51125B8A88CBFAE48E7BDC62FAE4A@PH0PR11MB5112.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Oct 2025 19:59:59 +0200
-Message-Id: <DD8VSSFRFC46.X5BFWEV3JAH2@kernel.org>
-Subject: Re: [PATCH v3 08/13] gpu: nova-core: Add bindings and accessors for
- GspSystemInfo
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Janne Grunau" <j@jannau.net>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>
-X-Mailer: aerc 0.21.0
-References: <20250930131648.411720-1-apopple@nvidia.com>
- <20250930131648.411720-9-apopple@nvidia.com>
- <DD7VU4239GS2.2MKVFPBFEY1R4@nvidia.com>
- <DD8TZ3TU57L3.2958OTC9UP4VF@kernel.org>
- <20251003172517.GA1574227@robin.jannau.net>
-In-Reply-To: <20251003172517.GA1574227@robin.jannau.net>
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +71,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Oct 3, 2025 at 7:25 PM CEST, Janne Grunau wrote:
-> On Fri, Oct 03, 2025 at 06:34:12PM +0200, Benno Lossin wrote:
->> On Thu Oct 2, 2025 at 3:49 PM CEST, Alexandre Courbot wrote:
->> > Hi Alistair, (+Benno as this concerns the `init!` macros)
->> >
->> > On Tue Sep 30, 2025 at 10:16 PM JST, Alistair Popple wrote:
->> >> Adds bindings and an in-place initialiser for the GspSystemInfo struc=
-t.
->> >>
->> >> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->> >>
->> >> ---
->> >>
->> >> It would be good to move to using the `init!` macros at some point, b=
-ut
->> >> I couldn't figure out how to make that work to initialise an enum rat=
-her
->> >> than a struct as is required for the transparent representation.
+On 10/3/25 20:01, Kim, Dongwon wrote:
+> Hi Dmitry,
+> 
+>> Subject: Re: [PATCH v5 2/3] drm/virtio: Add support for saving and restoring
+>> virtio_gpu_objects
+>>
+>> On 10/3/25 08:34, dongwon.kim@intel.com wrote:
+>>> +int virtio_gpu_object_restore_all(struct virtio_gpu_device *vgdev) {
+>>> +	struct virtio_gpu_object *bo, *tmp;
+>>> +	struct virtio_gpu_mem_entry *ents;
+>>> +	unsigned int nents;
+>>> +	int ret = 0;
+>>> +
+>>> +	spin_lock(&vgdev->obj_restore_lock);
+>>> +	list_for_each_entry_safe(bo, tmp, &vgdev->obj_restore_list, list) {
+>>> +		ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+>>> +		if (ret)
+>>> +			break;
+>>> +
+>>> +		if (bo->params.blob) {
+>>> +			virtio_gpu_cmd_resource_create_blob(vgdev, bo, &bo-
+>>> params,
+>>> +							    ents, nents);
+>>> +		} else if (bo->params.virgl) {
+>>> +			virtio_gpu_cmd_resource_create_3d(vgdev, bo, &bo-
+>>> params,
+>>> +							  NULL, NULL);
+>>> +
+>>> +			if (bo->attached) {
+>>> +				bo->attached = false;
+>>> +				virtio_gpu_object_attach(vgdev, bo, ents,
+>> nents);
+>>> +			}
+>>> +		} else {
+>>
+>> No need to restore blob and 3d resources that we don't support restore of and
+>> that won't be in the obj_restore_list since only shmem objs are added to the
+>> list.
+>>
+>  
+> We are very interested in restoration of blob as well. It is actually the primary type of resource we
+> want to recover because those are used as guest frame buffer we render in QEMU.  Can you tell me
+> why it should be excluded? Would it be because of ambiguity of the location of backing pages for it
+> (e.g. VRAM)?
+> 
+> And 3D is not our primary interest so I don't have any issue excluding it but it would be great if you can
+> explain the reason for it as well.
+> 
+> Thanks!
 
-Oh by the way, enums are not supported due to a language limitation,
-see:
+Good point, only host blobs should be excluded. We can't restore VRAM on
+resume as hostmem is lost on host side after entering S4.
 
-    https://github.com/Rust-for-Linux/pin-init/issues/59
+Actually, now I don't see where imported dmabuf guest blob added to the
+restore_list in virtgpu_dma_buf_init_obj(). Please make sure restoring
+guest blobs tested properly.
 
->> > Indeed we have to jump through a few (minor) hoops.
->> >
->> > First the `init!` macros do not seem to support tuple structs. They
->> > match a `{` after the type name, which is not present in
->> > `GspSystemInfo`. By turning it into a regular struct with a single
->> > field, we can overcome this, and it doesn't affect the layout the
->> > `#[repr(transparent)]` can still be used.
->>=20
->> Yeah that's the correct workaround at the moment. I'm tracking support
->> for tuple structs in [1]. Essentially the problem is that it requires
->> lots of effort to parse tuple structs using declarative macros. We will
->> get `syn` this cycle, which will enable me to support several things,
->> including tuple structs.
->>=20
->> [1]: https://github.com/Rust-for-Linux/pin-init/issues/85
->>=20
->> > Then, due to a limitation with declarative macros, `init!` interprets
->> > `::` as a separator for generic arguments, so `bindings::GspSystemInfo=
-`
->> > also doesn't parse. Here the trick is to use a local type alias.
->>=20
->> This one will also be solved when we switch to syn.
->
-> I was planning to submit
-> https://github.com/AsahiLinux/linux/commit/2d95fd3b6c359634a0976f27f7a3c6=
-67826256da
-> https://github.com/AsahiLinux/linux/commit/515638cb47cf0ebdac378686fcbbdc=
-6a8364096a
-> from the asahi downstream tree after 6.18-rc1. Does that still make
-> sense timing wise?
-
-Probably not, since I'll depend on the syn patches this cycle which will
-mean that pin-init supports tuples in 6.19.
-
-> Types with type paths are used extensively in the asahi driver but I can
-> initially work around that.
-
-Yeah they should be supported simply by moving to syn, hope it doesn't
-introduce too much pain in the next cycle.
-
----
-Cheers,
-Benno
+-- 
+Best regards,
+Dmitry
