@@ -2,113 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4EABB5BA4
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 03:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AF5BB5D5E
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 04:55:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C151E10E86B;
-	Fri,  3 Oct 2025 01:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0EC210E00E;
+	Fri,  3 Oct 2025 02:54:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="adZtzzby";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="js/V9TAF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F033D10E869
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 01:17:09 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5930RoIY028774
- for <dri-devel@lists.freedesktop.org>; Fri, 3 Oct 2025 01:17:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=NszYJNXUum61Ftvgh9BoHIbg
- Xs/NhaLC23ASv+k9yTY=; b=adZtzzbyNJG4Qibg2lpRct8Xd0WYI9m+fpgiIP8j
- RUWhvSXufHfFkNhTt/Qd4g6Y8vxXkw43zAYs/r0yTk0bpYNl7JdldY73vSVYXhRa
- EnaS+KHtE5qBhBiMhyp0Bk/sto0n/QH/NS3Wk9wXxMzB9YugqdwOAXgkkO3K9qyV
- NeJEycjjHKmqwWbxKdLJcYd3Y/WvhzxU7UK7Yci9U6f/MHThFUhY9d0TPaQTumCt
- GCLTj7XkejVhZjM0N78nBT91y4S7v3S5RTSEjGvKzxckNfErhPQMmzSC8H6xwU3Z
- eYIHRp/S6Z8B6iHyLgdkY09AQrNaM/d5OqeRbg2etQ5xew==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e59n9tu0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 01:17:08 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4e5739a388bso23257321cf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 18:17:08 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C0110E00E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 02:54:56 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-3324523dfb2so1524337a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 19:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759460096; x=1760064896; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uj+HsnSbfmp0p/fW3brW5cAZgBwxJkwcNWmslQDo1G4=;
+ b=js/V9TAFbXxh4bihq6jw8IYDwQnXa+SdbDt7+ntYVYCUL85SM9ENwYfvxukh0UGa3M
+ u3WM8FMDkFw9GZd0odD2H9UpDOAveQk72XR2qa2wKREW5LMw1v4whM502T6CNhcW0Z6a
+ H8sGqh2Eu34Lg5DPkxSZX8RsKwdaU4pv8FtH2BnH34tpSVlHvOIe7DuWWHF/BhqFeBNg
+ FlDlkqhkzPhZgvm8FN8FQp+ygenxCM1naJCMe2MJexjImnH5f7/MnqC9CxZzNJk0L6ZA
+ MjyuH7V1/vDbOsjw642m99SxSl4UfuF2F8fqjhDVc8b1AdgFBCk7ViKKVDfGWMJJY5vv
+ Xqmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759454228; x=1760059028;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NszYJNXUum61Ftvgh9BoHIbgXs/NhaLC23ASv+k9yTY=;
- b=CDph8+vdoF63e/SXtOscC3Lc5zt0RP7nPw2M151c3Y6gwt/VCC3G08M50NPfu28L11
- NcNfok/Ptd5sV8T7CxFYoJKBEnmi+0ECkQ1JaUkQi9jY+tL0WsJnThLJ/eQ9EfOb4q0k
- 25qwlTvIc7lYhGqTatXt9ZJrrx7qOCDGegewpm91h5R/98ofGgymCns9KeSPwPRAqzGt
- kWWcqEALGNxQlIZR7rDVa3tEoi3L3NuBHlAtuVBjmDgTdiXOJph9pXqVBt80FKwMYJ0Z
- 56mLhxcNQeVPxUvYkZEBH6jpOGbY736OXzWEt0QsHwJ3vhDFZQWIhjYvz/oQ8Av8abXd
- hnYA==
+ d=1e100.net; s=20230601; t=1759460096; x=1760064896;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uj+HsnSbfmp0p/fW3brW5cAZgBwxJkwcNWmslQDo1G4=;
+ b=UoafwonE141JLgoY3uGFOfUyKXQMY8NlegmWG1xC/M56SdjMgglUrhPpEJE/cLiRYM
+ DwRzzFkrRdTDRVwLKvclpj7LftpCUGjjUR9O7WZs95m5fJIKatd2cahFUeQwygj6MiUO
+ IMWo3Hlal4YJ6sk8lKDOe9G6lZpAEewZ8IoStxjngqAjNi/ue7wAzHF0r3h4wXvrn+xY
+ 6RU9peXPE3PTFwfheUqcBdUS8dhJL3DXCDFVH7yd2MKflin8INg+e29gEh9V8BnMeNlS
+ KcQLjFRlxwOabqmSKD7Gc9Jp/lU938aUolxhdEeSgSzzBVL4YEBI4sjdf/aKXqiggEwk
+ 2S7Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWooPBNgvF/t5RO4Q4YU/UC6VbE995A3hbeQTKjkZ7EMdl15UdHV75zHwf9xXzNTutFensxT7JUDJA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweGrM8/vrYA1q6256NUaUXsH2oQxiEcTIzQCsC6KkGXW7IiaNg
- RtRae3i2+fMtf8x1tJqWyTNu1oO/70iNJdfKGd7tLZGbL8UD5PuxSBfZMZlugWlubHNtwS6TU7w
- 54HnHci8s7gDabU5W91EzJ3x0j+7rP3EHxY5gGMGd93zPQmxl+ixUdQqjZ7JgMPgq27Y8zgs=
-X-Gm-Gg: ASbGncuwzYdq1a8wlh/+dko5u2IHC8t9w3SWVW2z+Dr2Ofu2RJbPmb7P23Qc/pRccy2
- bpWhcJ+EvNvRnaf9E5P0c/psPk+DIij3xMeNJvzRqE3IlK3nIXEWDhK2DfQ7C1xH/ntTFMVhv32
- xICFJmZkhRWXFuJZWMSq0jwbB+AaZiRV/qVwe5u1g9jTbHbckebVISpbIUGBjdd6nG/BWQqXD27
- BniuOKx+Gu6ZU2MrsQgDA74hOrCco3TOeG5j3t0b8qG2kScTlrLhUicAFeAdqsIsH37W0A6a/kH
- tjVql2RiU0YNZtgWBMU1zZeqKw5VjPTyvninJgMQJro/A7aCUpCHzZDSqDU/F0ulrtmGc1yXBwG
- vJWLR83MyrMiOs0JklO5CH9nkiFVlQ5cgClpK2rmDfuqJ7bWpjSzxkoE2LA==
-X-Received: by 2002:a05:622a:394:b0:4ce:dcd9:20ea with SMTP id
- d75a77b69052e-4e576b13f4fmr21738161cf.57.1759454228042; 
- Thu, 02 Oct 2025 18:17:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7wGlhN9Q1fx9OZHmwE/WJqZbiUdV2GSH/vjmHZyoClwDnnRtTJTDDldA0C+AO+Zy05bZYKw==
-X-Received: by 2002:a05:622a:394:b0:4ce:dcd9:20ea with SMTP id
- d75a77b69052e-4e576b13f4fmr21737781cf.57.1759454227579; 
- Thu, 02 Oct 2025 18:17:07 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ AJvYcCVO5+2X5lkFu0CDtnvNU8xvR+L0I2ZLIe+knOEK1xI5UOpPaUhdhdFdUBc/RhDYknlMCrVlmJKerOQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvG1YFSJzQ67v3YlTeT4gs/DAqgtKvugszzSNO+/liYTSbqOwC
+ yIjsBUpFZjRcdTFZ681yjyDF4misq8wBJ6P3/Ysqybcd95fZX6ZhRFAb
+X-Gm-Gg: ASbGncuvlxzlGOJtfrhlaQUA+Kl+n1RuE18RRvHbN0aaJLgWalLahb6VOlDpR0BL1rk
+ l64n6NkxPXLXEClHtRLiG7ruNvntMC3vdVXgQqw7AkRCe9YL7pYZFYWVp5Et1thAd+gbXrE9eyW
+ OQaFVJvwfKI1iVvCqYN37xaovUfzi9ii6NdmYNoYBDFzNmSllTG/ANtTDr55hU33tPY71EpHSC7
+ /eVKXRDbODInj09JXnIiZZrg513hrpPll74sjTeqH6NGCTrKKaDYbeZa4LuiWQIGmmGeUs4wQV3
+ IE6J44Fo3eAmYcmymf+bNJnR1yYkvL98q3/IQY+vwvPzV7mVuNMAz5EW4AlbZl7KEuB2LGlCLTX
+ 3+TX421KfMNwTqvBgFzubAI2/tUBbB84bRDSlxy6gF0muhto43K9Iwuqx/A6qHioeNAz9y6ECAl
+ SPe65hj6dVkyf0GujVfeB5
+X-Google-Smtp-Source: AGHT+IEVKNL0o4ldDH2FRH6zfpnRFEkoscOaBC54PgbA7oSF06twsPqHvysrSkFLtlowFRvbJJ2E8w==
+X-Received: by 2002:a17:90b:4b4f:b0:327:734a:ae7a with SMTP id
+ 98e67ed59e1d1-339c2732dbbmr1531840a91.11.1759460096299; 
+ Thu, 02 Oct 2025 19:54:56 -0700 (PDT)
+Received: from ?IPV6:2601:1c0:5780:9200:326a:8939:a05c:b9d5?
+ ([2601:1c0:5780:9200:326a:8939:a05c:b9d5])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b0113f3ddsm1316191e87.52.2025.10.02.18.17.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Oct 2025 18:17:05 -0700 (PDT)
-Date: Fri, 3 Oct 2025 04:17:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] MAINTAINERS: Update Jessica Zhang's email address
-Message-ID: <35jqgias5o4ruhkc72oacepcq4skfzpe4gyivg2pz7bnpy5luj@d5saa7y7rcus>
-References: <20251002-quit-qcom-v1-1-0898a63ffddd@oss.qualcomm.com>
+ 98e67ed59e1d1-339c4a324ccsm516382a91.18.2025.10.02.19.54.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Oct 2025 19:54:55 -0700 (PDT)
+Message-ID: <318392fd-9700-4570-bb39-31a4d08bd4a9@gmail.com>
+Date: Thu, 2 Oct 2025 19:54:55 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251002-quit-qcom-v1-1-0898a63ffddd@oss.qualcomm.com>
-X-Proofpoint-GUID: OVTm_RWieb8V9llMyNQGm6TXImfb3-Sx
-X-Authority-Analysis: v=2.4 cv=O4g0fR9W c=1 sm=1 tr=0 ts=68df2415 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=snQqrI5GwQTDGbkEZYgA:9
- a=CjuIK1q_8ugA:10 a=2MHBSq50hwYA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-ORIG-GUID: OVTm_RWieb8V9llMyNQGm6TXImfb3-Sx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAwMSBTYWx0ZWRfX2gNSlPvat1ms
- sKO5VM3raBQtXpbxyU1HCXJjvwR91P2x+6S8lP9bm/GMbN1EqXYyowFBPvCNpGur/6+RvUSMPvC
- Jwthg3c7PJ8feXmnGtNTuti0hlQqYY/4XvZPBdAbSO6ltEGU4LSDEwMfqb8lwmkzCggoSH3/u+e
- QWP0GyMW8mr35FzzslRN2dktcCGmTuavZ4uK4NnZZI1ZGawN21RZ9REVQBwfl8t8zpW3/rycXSe
- f4qSW8O2BSoW8okJ82ZaLaN4oaF8GzTAPjuoOmV/RyyESmjd3ut7QtdRx5kjeMOPEDlI/TSUZnf
- im41Z4Kk9ausad7x7FXM765XD5ogDQKZ0G2fRXm2icsPkDlnWjvN5/aXCkr813t3Ps6POjt5jLO
- fm1Bz8rv5MedXFJiOeP264/A5SpjzA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-02_09,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270001
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/vblank: downgrade vblank wait timeout from WARN to
+ debug
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+References: <20251002025723.9430-1-chintanlike@gmail.com>
+ <aN5klZdl2MZdPSpU@intel.com>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <aN5klZdl2MZdPSpU@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,19 +97,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 02, 2025 at 04:57:35PM -0700, Jessica Zhang wrote:
-> My current email will stop working soon. Update my email address to
-> jesszhan0024@gmail.com
+
+
+On 10/2/25 04:40, Ville Syrjälä wrote:
+> On Wed, Oct 01, 2025 at 07:57:23PM -0700, Chintan Patel wrote:
+>> When wait_event_timeout() in drm_wait_one_vblank() times out, the
+>> current WARN can cause unnecessary kernel panics in environments
+>> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
+>> under scheduler pressure or from invalid userspace calls, so they are
+>> not always a kernel bug.
 > 
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> "invalid userspace calls" should never reach this far.
+> That would be a kernel bug.
 > 
+>>
+>> Replace the WARN with drm_dbg_kms() messages that provide useful
+>> context (last and current vblank counters) without crashing the
+>> system. Developers can still enable drm.debug to diagnose genuine
+>> problems.
+>>
+>> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+>> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+>>
+>> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+>>
+>> v2:
+>>   - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
+>>   - Remove else branch, only log timeout case
+>> ---
+>>   drivers/gpu/drm/drm_vblank.c | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+>> index 46f59883183d..a94570668cba 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -1289,7 +1289,7 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+>>   {
+>>   	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+>>   	int ret;
+>> -	u64 last;
+>> +	u64 last, curr;
+>>   
+>>   	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+>>   		return;
+>> @@ -1305,7 +1305,12 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+>>   				 last != drm_vblank_count(dev, pipe),
+>>   				 msecs_to_jiffies(100));
+>>   
+>> -	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
+>> +	curr = drm_vblank_count(dev, pipe);
+>> +
+>> +	if (ret == 0) {
+>> +		drm_dbg_kms(dev, "WAIT_VBLANK: timeout crtc=%d, last=%llu, curr=%llu\n",
+>> +			pipe, last, curr);
+> 
+> It should at the very least be a drm_err(). Though the backtrace can
+> be useful in figuring out where the problem is coming from, so not
+> too happy about this change.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
+Thanks Ville for the feedback.I am still learning as I am new here!
 
--- 
-With best wishes
-Dmitry
+You’re right, “invalid userspace calls” was a poor choice of wording —
+I’ll drop that from the commit message. The main goal is to avoid
+unnecessary panics in fuzzing/CI with panic_on_warn, while still
+reporting the error clearly.
+
+I’ll update the patch to use drm_err() instead of drm_dbg_kms(), and
+drop the extra drm_vblank_count() call per Thomas’ earlier comment.
+
+Best regards,
+Chintan
