@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F62BB80FD
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 22:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B316BB8100
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 22:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F91310E96F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7885910E970;
 	Fri,  3 Oct 2025 20:16:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="F3vppZbG";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="Z4+erogT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD0910E96F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5172410E96F
  for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 20:16:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759522541; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1759522545; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=EGsR7BrvMlzQiGzSUqbjkdcpwEhwClVLQUTL1hBcvpeHooPOYWyteFVMUQy7gMAxgR6pgD9cUKE/seb/k96UUrMbP1sRgBMaBRv0MUGbdI9RYNPC5fqtKvFIJ9QGRovR0JmVGe/NwSek+nqra/uumVBn4psyWqZP999MTNzy518=
+ b=HmtINvFXYSZlri46KuZFWW0pqwUwDq6TJRed9FP+bEqHBpKrLCRdtp7olE4ud/yjDRmYhDZtcHoVMAPEgMCGkHyRX8ubzI8c6Tfi2YNIgiT3cbKiSGcaNzDsTGhz9PV7vyEoD29oq0Ud+JGBuSBoIiFUwHmKpROSGbCqEfrmzFo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759522541;
+ s=zohoarc; t=1759522545;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=MyTZIankaLF5a06YDy1KIdFXkQpVaw5MiopvoWPWCGU=; 
- b=ToaYnCMsM4BUh7jGSRQ8/8t75GqCeAQ/T7mQkb5xeWgG82lfhuaS2dzueN2F7a5/XS6lBYIOWrhHoukEfuiGI7BcJVbZYpNiASdjclObl4QOtUGpKNzK9u+1awn/GLdUHAZizTnZfonEI9RjUlUqNPRKQHFv3aq1I2bLPIdJ2Qw=
+ bh=UJP0eLgRH0wRaLU3TMJnGjeyircwL3R7LtmsPmO+Txo=; 
+ b=RUGuUXwLGPvU74ziZ221LKro/oWZqsCRAsz+PyLfsdJGy2WWZvqxpbWS8LOYYPwpBvgtkatME/jBUgW1wo83V6CDsM+YLp91e1Nt4Um0oCs1ig88voR9kkPFdKeXsMCEN+uBeqd8u9cvXk2unQf4jvTFVabWItOddwee6scV368=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759522541; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759522545; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=MyTZIankaLF5a06YDy1KIdFXkQpVaw5MiopvoWPWCGU=;
- b=F3vppZbGfNEvnAj1nGUnzqTzc6d/RQ1wfXBA7LqXa42YxPWpj2GrjraNhfqCZGBw
- FLgN9bMYm+JYnAQXmr9glUB6wM2Qi8IC0YVS8uOQSh8rLaYDfnoz6qsKoloN1Z45K7v
- xTO58NJyA6YLK5A38oz0WodX4hCt86YREa8KBUDI=
-Received: by mx.zohomail.com with SMTPS id 1759522534788242.36207723608516;
- Fri, 3 Oct 2025 13:15:34 -0700 (PDT)
+ bh=UJP0eLgRH0wRaLU3TMJnGjeyircwL3R7LtmsPmO+Txo=;
+ b=Z4+erogTXxKTZuK9I6uSLWOjbGEIJ0dDhMb/zCXxV+5+wXEsjFUKsQBJV3Ob98mH
+ qVJ5gFy8ieV1yjVgRtDFCToxyRDkR55znYacIQGEE97t5HoPTNtJA/eK8l7XKfHLr8D
+ toKYl1NljwNS5i5FND1NGgcgf0BmIMSBh85EYx6E=
+Received: by mx.zohomail.com with SMTPS id 175952254376424.063998239129887;
+ Fri, 3 Oct 2025 13:15:43 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 03 Oct 2025 22:15:03 +0200
-Subject: [PATCH v6 1/7] dt-bindings: gpu: mali-valhall-csf: add
- mediatek,mt8196-mali variant
+Date: Fri, 03 Oct 2025 22:15:04 +0200
+Subject: [PATCH v6 2/7] dt-bindings: power: Add MT8196 GPU frequency
+ control binding
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251003-mt8196-gpufreq-v6-1-76498ad61d9e@collabora.com>
+Message-Id: <20251003-mt8196-gpufreq-v6-2-76498ad61d9e@collabora.com>
 References: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
 In-Reply-To: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
@@ -81,92 +81,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Mali-based GPU on the MediaTek MT8196 SoC uses a separate MCU to
-control the power and frequency of the GPU. This is modelled as a power
-domain and clock provider.
+On the MT8196 and MT6991 SoCs, the GPU power and frequency is controlled
+by some integration logic, referred to as "MFlexGraphics" by MediaTek,
+which comes in the form of an embedded controller running
+special-purpose firmware.
 
-It lets us omit the OPP tables from the device tree, as those can now be
-enumerated at runtime from the MCU.
+This controller takes care of the regulators and PLL clock frequencies
+to squeeze the maximum amount of power out of the silicon.
 
-Add the necessary schema logic to handle what this SoC expects in terms
-of clocks and power-domains.
+Add a binding which models it as a power domain.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- .../bindings/gpu/arm,mali-valhall-csf.yaml         | 40 ++++++++++++++++++++--
- 1 file changed, 38 insertions(+), 2 deletions(-)
+ .../bindings/power/mediatek,mt8196-gpufreq.yaml    | 117 +++++++++++++++++++++
+ 1 file changed, 117 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-index 7ad5a3ffc5f5c753322eda9e74cc65de89d11c73..860691ce985e560536b6c515b82441ba6d367c46 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
-@@ -45,7 +45,9 @@ properties:
-     minItems: 1
-     items:
-       - const: core
--      - const: coregroup
-+      - enum:
-+          - coregroup
-+          - stacks
-       - const: stacks
- 
-   mali-supply: true
-@@ -92,7 +94,6 @@ required:
-   - interrupts
-   - interrupt-names
-   - clocks
--  - mali-supply
- 
- additionalProperties: false
- 
-@@ -109,6 +110,29 @@ allOf:
-         power-domains:
-           maxItems: 1
-         power-domain-names: false
-+      required:
-+        - mali-supply
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: mediatek,mt8196-mali
-+    then:
-+      properties:
-+        mali-supply: false
-+        sram-supply: false
-+        operating-points-v2: false
-+        power-domains:
-+          maxItems: 1
-+        power-domain-names: false
-+        clocks:
-+          maxItems: 2
-+        clock-names:
-+          items:
-+            - const: core
-+            - const: stacks
-+      required:
-+        - power-domains
- 
- examples:
-   - |
-@@ -144,5 +168,17 @@ examples:
-             };
-         };
-     };
+diff --git a/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml b/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..b9e43abaf8a42ce981ce16648fb3350b9c262015
+--- /dev/null
++++ b/Documentation/devicetree/bindings/power/mediatek,mt8196-gpufreq.yaml
+@@ -0,0 +1,117 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/power/mediatek,mt8196-gpufreq.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek MFlexGraphics Power and Frequency Controller
++
++maintainers:
++  - Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
++
++description:
++  A special-purpose embedded MCU to control power and frequency of GPU devices
++  using MediaTek Flexible Graphics integration hardware.
++
++properties:
++  $nodename:
++    pattern: '^power-controller@[a-f0-9]+$'
++
++  compatible:
++    enum:
++      - mediatek,mt8196-gpufreq
++
++  reg:
++    items:
++      - description: GPR memory area
++      - description: RPC memory area
++      - description: SoC variant ID register
++
++  reg-names:
++    items:
++      - const: gpr
++      - const: rpc
++      - const: hw-revision
++
++  clocks:
++    items:
++      - description: main clock of the embedded controller (EB)
++      - description: core PLL
++      - description: stack 0 PLL
++      - description: stack 1 PLL
++
++  clock-names:
++    items:
++      - const: eb
++      - const: core
++      - const: stack0
++      - const: stack1
++
++  mboxes:
++    items:
++      - description: FastDVFS events
++      - description: frequency control
++      - description: sleep control
++      - description: timer control
++      - description: frequency hopping control
++      - description: hardware voter control
++      - description: FastDVFS control
++
++  mbox-names:
++    items:
++      - const: fast-dvfs-event
++      - const: gpufreq
++      - const: sleep
++      - const: timer
++      - const: fhctl
++      - const: ccf
++      - const: fast-dvfs
++
++  memory-region:
++    items:
++      - description: phandle to the GPUEB shared memory
++
++  "#clock-cells":
++    const: 1
++
++  "#power-domain-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - clock-names
++  - mboxes
++  - mbox-names
++  - memory-region
++  - "#clock-cells"
++  - "#power-domain-cells"
++
++additionalProperties: false
++
++examples:
 +  - |
-+    gpu@48000000 {
-+        compatible = "mediatek,mt8196-mali", "arm,mali-valhall-csf";
-+        reg = <0x48000000 0x480000>;
-+        clocks = <&gpufreq 0>, <&gpufreq 1>;
-+        clock-names = "core", "stacks";
-+        interrupts = <GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH 0>,
-+                     <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH 0>,
-+                     <GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH 0>;
-+        interrupt-names = "job", "mmu", "gpu";
-+        power-domains = <&gpufreq>;
++    #include <dt-bindings/clock/mediatek,mt8196-clock.h>
++
++    power-controller@4b09fd00 {
++        compatible = "mediatek,mt8196-gpufreq";
++        reg = <0x4b09fd00 0x80>,
++              <0x4b800000 0x1000>,
++              <0x4b860128 0x4>;
++        reg-names = "gpr", "rpc", "hw-revision";
++        clocks = <&topckgen CLK_TOP_MFG_EB>,
++                 <&mfgpll CLK_MFG_AO_MFGPLL>,
++                 <&mfgpll_sc0 CLK_MFGSC0_AO_MFGPLL_SC0>,
++                 <&mfgpll_sc1 CLK_MFGSC1_AO_MFGPLL_SC1>;
++        clock-names = "eb", "core", "stack0", "stack1";
++        mboxes = <&gpueb_mbox 0>, <&gpueb_mbox 1>, <&gpueb_mbox 2>,
++                 <&gpueb_mbox 3>, <&gpueb_mbox 4>, <&gpueb_mbox 5>,
++                 <&gpueb_mbox 7>;
++        mbox-names = "fast-dvfs-event", "gpufreq", "sleep", "timer", "fhctl",
++                     "ccf", "fast-dvfs";
++        memory-region = <&gpueb_shared_memory>;
++        #clock-cells = <1>;
++        #power-domain-cells = <0>;
 +    };
- 
- ...
 
 -- 
 2.51.0
