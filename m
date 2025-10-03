@@ -2,90 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D855EBB6A15
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 14:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913E3BB6AD2
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 14:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2525410E3B5;
-	Fri,  3 Oct 2025 12:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0C2A10E076;
+	Fri,  3 Oct 2025 12:48:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="qCpedAj8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iLODcttI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fra-out-003.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- (fra-out-003.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- [3.72.182.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69DDA10E3B5;
- Fri,  3 Oct 2025 12:18:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1759493903; x=1791029903;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=k0dUe76w+6n5/NfsPbyefGVCom+xh3GGcFcV3Olhmks=;
- b=qCpedAj8he5UldXG79EquSdxqSX3Mc8V9TW0rFqBQWrx358wvGn0oyb4
- GbzfiRgbu7eIQco9lJuwrhX9zLdpEhQiElaa7DACE9vRm1bQ2f0Erggzo
- 6UvtoFUog3cTZsAAX7r+18+rHDRng+0pEFkPO+EzlmmilFshdEgZxSjNQ
- TdmbgeXemN6u76LIBSvddk4D/tJvqtoWUBeiO7Yh7VF0Sr1WPvF+YI4v5
- MMthC2J/peQWbpr2UJfcmycm+jMAyAPF09eCe6Boylzkvfn4J2V6WwHs2
- l4+rxsn6B9ytv33W+jU001XOIthnDOlzxhxHJ+07mXsRr+uji4/8nwHv6 w==;
-X-CSE-ConnectionGUID: iHjhxUPQRHe2B4gOSiKoaw==
-X-CSE-MsgGUID: DWm3LlXiQW+twGunnV0KdA==
-X-IronPort-AV: E=Sophos;i="6.18,312,1751241600"; 
-   d="scan'208";a="3061377"
-Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO
- smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
- by internal-fra-out-003.esa.eu-central-1.outbound.mail-perimeter.amazon.com
- with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 12:18:13 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.224:28099]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.19.222:2525]
- with esmtp (Farcaster)
- id 30f3960f-1ebe-474e-89a0-a1458ac740d9; Fri, 3 Oct 2025 12:18:13 +0000 (UTC)
-X-Farcaster-Flow-ID: 30f3960f-1ebe-474e-89a0-a1458ac740d9
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 3 Oct 2025 12:18:13 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 3 Oct 2025
- 12:18:01 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <gregkh@linuxfoundation.org>, <kenneth.feng@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@gmail.com>, 
- <simona@ffwll.ch>, <linus.walleij@linaro.org>, <dmitry.torokhov@gmail.com>,
- <tglx@linutronix.de>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
- <samuel@sholland.org>, <agk@redhat.com>, <snitzer@kernel.org>,
- <mpatocka@redhat.com>, <clm@fb.com>, <dsterba@suse.com>,
- <luc.vanoostenryck@gmail.com>, <pmladek@suse.com>, <rostedt@goodmis.org>,
- <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
- <senozhatsky@chromium.org>, <akpm@linux-foundation.org>,
- <lijo.lazar@amd.com>, <asad.kamal@amd.com>, <kevinyang.wang@amd.com>,
- <David.Laight@ACULAB.COM>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <dm-devel@lists.linux.dev>,
- <linux-btrfs@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
- <stable@vger.kernel.org>, <farbere@amazon.com>
-CC: Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- Dan Carpenter <dan.carpenter@linaro.org>, "Jason A. Donenfeld"
- <Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, "Matthew
- Wilcox" <willy@infradead.org>, Pedro Falcato <pedro.falcato@gmail.com>
-Subject: [PATCH v4 11/11 6.1.y] minmax.h: remove some #defines that are only
- expanded once
-Date: Fri, 3 Oct 2025 12:15:20 +0000
-Message-ID: <20251003121520.8176-12-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251003121520.8176-1-farbere@amazon.com>
-References: <20251003121520.8176-1-farbere@amazon.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3E810E076
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 12:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759495690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=abOFXlVOsAnsDhhRvwRDxbQbFD2KxrGohKy2z4xStxQ=;
+ b=iLODcttIHvcsoNCyR5smqjvgGvxuSm//7rHmOY6rmA+2IIin3xA52WlnzEqejoyi3bfWX1
+ Rb5wHRIIgpQmAZwr2vXth5bBYY0CDkttEzRkNrHVuA+v4+7Q/06p00Z+B2vYL6y6SVZy/Z
+ MTLNR8dMM8Kq8yH010LnayIWMh6OddQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-DmiPczHCMfyCwRNELER3Eg-1; Fri, 03 Oct 2025 08:48:08 -0400
+X-MC-Unique: DmiPczHCMfyCwRNELER3Eg-1
+X-Mimecast-MFC-AGG-ID: DmiPczHCMfyCwRNELER3Eg_1759495687
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-46e3af78819so9486735e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 05:48:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759495687; x=1760100487;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=abOFXlVOsAnsDhhRvwRDxbQbFD2KxrGohKy2z4xStxQ=;
+ b=aZBEEAFP9C4s8RXufa5or1m/2aWr7WPLS3ehYYcqxxHNH5E8U9PvGg4fOsTrjkWmwe
+ CubfhCDixsCNmdFGxgMMFh2KIXowhjVmcVg+6T2yBAnAU5wPZkkuA/P3lJuxZ6hBraD3
+ SOKL0VkpmfYMjm7VjJYeja5hfmCkCGR7dr/kGGYEbpDmK7PI34osG6IFywVcIkosMa1C
+ jQOstaY7YyZ6v55KWMqvHwdZiOuJApOhxVAutjZp6ZaS48D7R98Fg9GeYMs/7u4Evjgk
+ lBGrjmNb3gS3hp+UaFXXuZ+h0y4as/INw/5AbBy3Dsn+JAyuHhS9YPp9Pdz25h2SuUpA
+ 1l8A==
+X-Gm-Message-State: AOJu0Yx8U/p3wCxwlrltrvbLX2JoaBIIiX+KNL+VBEEuK2u3mJIzW03j
+ jJ0Dp6GLBPL0hfXhPBozd2xxZbYq8EIFroMferMthEGLZ6N8tKJxjR49ymymjnv7fDvkQ1RstMb
+ 6UEyAJ9T0cYPSv53Cm67VpjYXlTgGACl7oL9mj26ppX0dmnWOKuULRXRebxfqWkicNQ5dmQ==
+X-Gm-Gg: ASbGncsQkeByFojb1BNb+spHC93icBUOktsR0oSbYojkQ4la7h453Kn7M7EGjDfcynM
+ wSvNtxaEkolCZplO6tACM4r4fh4Eq7wZK4kmTt9ySTyM8nlZg2/gro8y2BgZ0cczgx8IfgptC93
+ vcjykrMy1HnN2llscYSyniAKgf4RmBBzPfiN5iEIeUkITtU+GAHyFsNQUTHhqoPksmD2tu0djEW
+ iTJRoOq8q8Lqz/VKxsf13mZnoPuKNLTmCrtbOQGXRkOXoJexoyk4DL9wCQBU/g3JykrvvbU3gqI
+ 3afjBnqDrpQVuX7/m9cvgb9zXifW6yM3SHzt9U4KvqHXv5zpuoDLFc2YCE0mtSxq3BvMLBIjk4i
+ Zm207FzmpJw==
+X-Received: by 2002:a05:600c:46cf:b0:45d:e28c:875a with SMTP id
+ 5b1f17b1804b1-46e71151b43mr21787255e9.31.1759495687375; 
+ Fri, 03 Oct 2025 05:48:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE9DbUHceDY8z1q6O4kWeaJAo3ePV1gD/11rMzSARC8qCSa2CqMo/zyDL0nSycvtSJ152kLKQ==
+X-Received: by 2002:a05:600c:46cf:b0:45d:e28c:875a with SMTP id
+ 5b1f17b1804b1-46e71151b43mr21787095e9.31.1759495686995; 
+ Fri, 03 Oct 2025 05:48:06 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46e619b7e37sm125640635e9.1.2025.10.03.05.48.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Oct 2025 05:48:06 -0700 (PDT)
+Message-ID: <70cbbf88-7c1e-44f4-8091-ee76944d2f6b@redhat.com>
+Date: Fri, 3 Oct 2025 14:48:03 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.19.116.181]
-X-ClientProxiedBy: EX19D035UWB003.ant.amazon.com (10.13.138.85) To
- EX19D018EUA004.ant.amazon.com (10.252.50.85)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/draw: fix color truncation in drm_draw_fill24
+To: Francesco Valla <francesco@valla.it>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251003-drm_draw_fill24_fix-v1-1-8fb7c1c2a893@valla.it>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20251003-drm_draw_fill24_fix-v1-1-8fb7c1c2a893@valla.it>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: oMNn9M55DyO5RYB7c139efk8exk4Yyk2eb-edmTNies_1759495687
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,81 +104,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Laight <David.Laight@ACULAB.COM>
+On 10/3/25 12:33, Francesco Valla wrote:
+> The color parameter passed to drm_draw_fill24() was truncated to 16
+> bits, leading to an incorrect color drawn to the target iosys_map.
+> Fix this behavior, widening the parameter to 32 bits.
+> 
+Oh, you're right, my mistake.
+Did you find this by using a 24bit hardware, or by looking at the code?
 
-[ Upstream commit 2b97aaf74ed534fb838d09867d09a3ca5d795208 ]
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-The bodies of __signed_type_use() and __unsigned_type_use() are much the
-same size as their names - so put the bodies in the only line that expands
-them.
+Best regards,
 
-Similarly __signed_type() is defined separately for 64bit and then used
-exactly once just below.
-
-Change the test for __signed_type from CONFIG_64BIT to one based on gcc
-defined macros so that the code is valid if it gets used outside of a
-kernel build.
-
-Link: https://lkml.kernel.org/r/9386d1ebb8974fbabbed2635160c3975@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pedro.falcato@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
----
- include/linux/minmax.h | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2bbdd5b5e07e..eaaf5c008e4d 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -46,10 +46,8 @@
-  * comparison, and these expressions only need to be careful to not cause
-  * warnings for pointer use.
-  */
--#define __signed_type_use(ux) (2 + __is_nonneg(ux))
--#define __unsigned_type_use(ux) (1 + 2 * (sizeof(ux) < 4))
- #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
--	__signed_type_use(ux) : __unsigned_type_use(ux))
-+	(2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
- 
- /*
-  * Check whether a signed value is always non-negative.
-@@ -57,7 +55,7 @@
-  * A cast is needed to avoid any warnings from values that aren't signed
-  * integer types (in which case the result doesn't matter).
-  *
-- * On 64-bit any integer or pointer type can safely be cast to 'long'.
-+ * On 64-bit any integer or pointer type can safely be cast to 'long long'.
-  * But on 32-bit we need to avoid warnings about casting pointers to integers
-  * of different sizes without truncating 64-bit values so 'long' or 'long long'
-  * must be used depending on the size of the value.
-@@ -66,12 +64,12 @@
-  * them, but we do not use s128 types in the kernel (we do use 'u128',
-  * but they are handled by the !is_signed_type() case).
-  */
--#ifdef CONFIG_64BIT
--  #define __signed_type(ux) long
-+#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-+#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
- #else
--  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L))
-+#define __is_nonneg(ux) statically_true( \
-+	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
- #endif
--#define __is_nonneg(ux) statically_true((__signed_type(ux))(ux) >= 0)
- 
- #define __types_ok(ux, uy) \
- 	(__sign_use(ux) & __sign_use(uy))
 -- 
-2.47.3
+
+Jocelyn
+
+> Fixes: 31fa2c1ca0b2 ("drm/panic: Move drawing functions to drm_draw")
+> 
+> Signed-off-by: Francesco Valla <francesco@valla.it>
+> ---
+>   drivers/gpu/drm/drm_draw.c          | 2 +-
+>   drivers/gpu/drm/drm_draw_internal.h | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
+> index 9dc0408fbbeadbe8282a2d6b210e0bfb0672967f..5b956229c82fb6e232e3342705a226c8e14c8568 100644
+> --- a/drivers/gpu/drm/drm_draw.c
+> +++ b/drivers/gpu/drm/drm_draw.c
+> @@ -127,7 +127,7 @@ EXPORT_SYMBOL(drm_draw_fill16);
+>   
+>   void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
+>   		     unsigned int height, unsigned int width,
+> -		     u16 color)
+> +		     u32 color)
+>   {
+>   	unsigned int y, x;
+>   
+> diff --git a/drivers/gpu/drm/drm_draw_internal.h b/drivers/gpu/drm/drm_draw_internal.h
+> index f121ee7339dc11537f677c833f0ee94fe0e799cd..20cb404e23ea6263b535ea2b81b25f84c37be8a2 100644
+> --- a/drivers/gpu/drm/drm_draw_internal.h
+> +++ b/drivers/gpu/drm/drm_draw_internal.h
+> @@ -47,7 +47,7 @@ void drm_draw_fill16(struct iosys_map *dmap, unsigned int dpitch,
+>   
+>   void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
+>   		     unsigned int height, unsigned int width,
+> -		     u16 color);
+> +		     u32 color);
+>   
+>   void drm_draw_fill32(struct iosys_map *dmap, unsigned int dpitch,
+>   		     unsigned int height, unsigned int width,
+> 
+> ---
+> base-commit: e406d57be7bd2a4e73ea512c1ae36a40a44e499e
+> change-id: 20251003-drm_draw_fill24_fix-ea52d32a933d
+> 
+> Best regards,
 
