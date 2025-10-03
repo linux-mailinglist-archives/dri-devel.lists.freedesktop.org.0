@@ -2,124 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68730BB78F3
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF13BB790E
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C772210E947;
-	Fri,  3 Oct 2025 16:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8966610E949;
+	Fri,  3 Oct 2025 16:35:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DAYwIsBv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l49eIL0z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 572AB10E947
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:35:21 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 593A9M5X024148
- for <dri-devel@lists.freedesktop.org>; Fri, 3 Oct 2025 16:35:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- BN+cZQE2ZHFMS/s2TQ1gBGDyzcU+J84X5eJjxhN4d/M=; b=DAYwIsBvKmf08Anr
- mMaZuN4CqYoRkXU8A/rRhgyQj/rgO8zVT5TEYrPKI4BrhVGyys9l/lAo8anED9xU
- JSX5P4CtMqR6/htjwRqPFxaUGs1HqRSjAbLhH+2QM9u8rx/tuWxO0CzXD6hqYckX
- VwKkwSuLBU9dHeN/EwwpOq/q2lo54zmwczfgwsNN2UnWr7TiOcajcRjcV+TSLh56
- kGaIOBRxXNtc6QguvQ10+TywfWqLSFNSZ4BBFuylO9JNj06LAen4MBjDmA4qk5ht
- 6sypZnEtxE+scBWdjdfAoQG1fQVONxLxd4h+eY0fZ7BhgBNYlslV724pAXEYardb
- ErpOTA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e8a6bd11-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 16:35:20 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4e0fcbf8eb0so59941071cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 09:35:20 -0700 (PDT)
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com
+ [74.125.224.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE8410E949
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:35:38 +0000 (UTC)
+Received: by mail-yx1-f41.google.com with SMTP id
+ 956f58d0204a3-6354f14b881so2148485d50.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 09:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759509337; x=1760114137; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cNSO+944ZR2H6x5RKg8sRR6z8l/HHp3toady+ufsnF8=;
+ b=l49eIL0zaKXycaqLDtFwWZ6Rj8ZgdbqgzfKCyGN4CfzccKGREQbU00dLYtCqrTEJZS
+ ehsU3Hl7Ts4ilHUvdtpXO7rEJ1GVzYBZBgbKXFpADDozxXJRlIrIx6ae0CbGP4+SiQsG
+ pAIv0HViQzmYF8GiSBtlIAMf3UhjHh3KBuyv6D+9o2v92WAZ8avdRWefTLBY/2++yZeN
+ m3P7p2lvsZf6gar4F5ywfp3PXrZlN7Th0kAclA4u91JDWMf93etSerRVV4Li9aHqP2VI
+ jADzbNIeytJNvG9olaP/TG+Xx3H4tUtqZtL3UEfaFcTZjV2EIYjQLctFEuALsnlCE7ab
+ lJgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759509319; x=1760114119;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BN+cZQE2ZHFMS/s2TQ1gBGDyzcU+J84X5eJjxhN4d/M=;
- b=BqxynrmetoVG/jQWGHErfxE/x9qZZ4NQbJuP3grWC93lX4iupEGZJf/04bgNyBPgbR
- 6AgS8g08SHgzLv2m0aiadgufmjtHnHKKi9uX5Hs6Ns+1EgswartMdHrl+xxpQW4Sgtab
- +1LmtC84cltAbkMmkEEMZuxizesBh/DmmkltLAg9fjQHqpC4C8ayjQxDIZYlhvRYgCqK
- PY95naqvF2DyqAngu4A8J2qYrimYNlZkqbL1fh6vlvPc2HvZporyW81l0IfEQTrhkI0g
- ozEHpkLmeLx31mSRjK8BBDeQcfbGVpwBnE55/5D0PvhNzTwJKlHzvrTZqvePEEl6mTAR
- f3AQ==
+ d=1e100.net; s=20230601; t=1759509337; x=1760114137;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cNSO+944ZR2H6x5RKg8sRR6z8l/HHp3toady+ufsnF8=;
+ b=TphErfrSH73j3XVtCZ7Y1CdFTBpr80ZkRBg2CCbQb/WB2HZN0TZ93kAg4q66ANWf1J
+ 5pyDkosrt1Qfl14o9o7wAFsvpsAxFSz3iV37TXIHQkBAXpWV9SDZAIYhMHeb+K2ceWxH
+ Pl7UX2iZkGCfxNIs+Hl3aDMKF7mCaQG+gqpAemOdIPm1LSs90NRijOdNpL5aNfFbp4Po
+ 1dcgcMki2ZJU9u1QAs2Svqx23YlEKywKc/As9S/rKkM8RA1gjGNi0OyLk6sbuvjcTffQ
+ DfWU50R+yqFZRfKYS/OT59xcf+jkn7/2CazVNcQpQ9GkX7yfKaqp3Mm7ZfDNUxPf35PL
+ Hatw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1jF2mkyHnBIJA7HXQyQTTxUOO5/NMtmi8pKxQJ9A9NCCvarHLJlt71OoKPnLdmXbjPQbxwMx2b6c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzvda1LvO1Y19LRBqiANFNjnoS2EJHSZ9tZ9S/BsnmxY1QKMeA0
- qUDJZUAxgzIEP6k3CdbMj0SkZldmW1bbHCVBdAHhHFakJTceg9WVeNmxoOZPuh1hJAMDtZ/M9f2
- GuYqdMOUAvJ8wfn1zUX5zMt16nP7VPyOZsG+8azTPOneNV/ymyKio/phXhdvOqemGZ+YOnjE=
-X-Gm-Gg: ASbGncunvEoyC7YO7/OMwuoADXNM2BpULQdCvo0AwzwNKs5T4Bdw2HH2ZVFZZnyDPww
- 1WyWDO8WrIvUUuSAFZHLp5GLp9/g+mZPDTJBiltVbxBe6M2lC4HPe9hrqEupll/s2FK9AjiWNkP
- tEZ9aFORGy81T4x6DrcinE5vbL6eJPDr9rzK/DFDpUggmVDh9EUamxifw2vHeXdKfopNw3Q3ZtP
- CLMRxO9e8s7nNn0m0AYnf86yEKK5+uPcgezN24pY1LhMXwSWxL9KM9Gf9zLhvb2f4KKQvwOX+yg
- oEv66a07TCuoNXp+il2F01nzsEJ6xmrx5sfLvF6zMjgNKPxqMnC3/LyLE2+RIscwLSX3oWQg
-X-Received: by 2002:ac8:57c3:0:b0:4d3:ee51:7819 with SMTP id
- d75a77b69052e-4e576b405aemr52572931cf.76.1759509318961; 
- Fri, 03 Oct 2025 09:35:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH5X64Ute70habcixAOvg2eexQGJ08nl+IYTPWnk0+F/5qtQEOhct1LHk+KKy0StXX4wfKJvQ==
-X-Received: by 2002:ac8:57c3:0:b0:4d3:ee51:7819 with SMTP id
- d75a77b69052e-4e576b405aemr52572371cf.76.1759509318346; 
- Fri, 03 Oct 2025 09:35:18 -0700 (PDT)
-Received: from [192.168.68.121] ([5.133.47.210])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-46e5b633afdsm81561215e9.2.2025.10.03.09.35.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Oct 2025 09:35:17 -0700 (PDT)
-Message-ID: <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
-Date: Fri, 3 Oct 2025 17:35:16 +0100
+ AJvYcCXkD5i+IbHjgaZ5oQx90a1QpD7NLgRpXe2jVk0IAB/eJ6JCvW12Ca0vxie206sgEAMlwI4Pt2e01z0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzS1pYvNkvHkOsua+uB53p2fKxdUfxpZSfTTPfL9tVEhad8/riU
+ aEN5DTkAB8KyuszHXmths9HxN12aFzLStfbmaqNKYSsQWAJVZges5XM4XaRN0AU5CPD83GTQDKC
+ jF9WchvCQKAe1x/55qEmoCuqCEC6YfbY=
+X-Gm-Gg: ASbGncs3j08fuYlyDxHKsrVDj9K22enONzf3AZVxGBPw3WsJ2d8BbImkqixvptD3EFW
+ R2xswzT/RPUboaUMJ7mUu4deGretRbOGvkexSZNbsYzD7jYSpo42UuK2uib+mZvn4W/L9xDsQIX
+ ue5vUGLvyCfVqwr5jH+tE/QaF3sfGwg8JyHz5gb04eKY5N9gCsjZarCymlz6cXK509N8InTd4YT
+ XtlEBrtP0NbU57uNPyUMd7jT6VOX3LZsjaAyEA06+LDAtkulXh0K7g+EIs4JW7+RHSCKIpSO6Pn
+ CFJthJFlb3h6gk/pvjRAtEPjubvRU/BP
+X-Google-Smtp-Source: AGHT+IHv72FMSXkyo1Fp7W5d+5WY2maMzjTcyLcOZbJPZT49yNwAD+A8OjRUQe+ZgQqP+MgTmfVLfnAqYIUnbWaYqqc=
+X-Received: by 2002:a53:8605:0:b0:639:41a5:cdc3 with SMTP id
+ 956f58d0204a3-63b9a107debmr2834822d50.34.1759509336837; Fri, 03 Oct 2025
+ 09:35:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
- drm_connector_hdmi_audio_ops
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: Jianfeng Liu <liujianfeng1994@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+References: <20250916210823.4033529-1-olvaffe@gmail.com>
+ <20250916210823.4033529-6-olvaffe@gmail.com>
+ <ca22f80c-c233-4030-81d1-f425b8c1fb83@arm.com>
+ <CAPaKu7RKDwpSqJ6u8mjcc4G0Z-T7G1LxFw2rXQtxgSW=1_-jkw@mail.gmail.com>
+ <25333c43-ccd0-440d-885c-19c5f54d315a@arm.com>
+In-Reply-To: <25333c43-ccd0-440d-885c-19c5f54d315a@arm.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 3 Oct 2025 09:35:26 -0700
+X-Gm-Features: AS18NWA2kPrwB1YCHLvLxzk2yW_P1b_E5W8thcxJvwpGrAwH92eaWiAlkEjvvII
+Message-ID: <CAPaKu7QMwry6dLGignDZg+C38DGV=iGv1Y3Dv5nNagNwp7OHEQ@mail.gmail.com>
+Subject: Re: [PATCH 05/10] drm/panthor: rename and document
+ mmu_hw_do_operation_locked
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
- <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
- <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
- <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=RZKdyltv c=1 sm=1 tr=0 ts=68dffb48 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
- a=98231OFmOk8s024PzkQA:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: 4QBzEXZtmzJuEdm9jqvKR1uyx5JaG-xN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMyBTYWx0ZWRfXwckzQFiryvyK
- 207ooaLFuEUYkaRDmR31aHz23Ve2eCxO7OliTLJd9BCI7u+pyk7TIf8lnj557L4LtGvU8j+LcYU
- zOhfKegO7PKiiMGASL6HPhl6mj6XEtqorG62R486f1FAPEzaWTqhJ69CuLRRBwT6rI4NzJ4NzOd
- wV232Hu2K1H7chfzlMu2vwitzmrkeUWTPcHYPkvfnAthsQRUoRNGisVTE0Fd7j4HT9ifCfvWm96
- l6r82NA+L2jxAwBK77ntWJTBWq1npplhoXWlMXYSXUSMlpaHuj/euwItDVXscU0Vgu81eP2PV4F
- ak6SPnhcKNRcFgjE6w/d0tCN1VZv4hRDFU9KUywzl6W0ZOD7ICY418I5+gENCDs5JCFP/bfxPRZ
- YN5tDcxWD38uFFE/ckrA0/Hf3xpbLw==
-X-Proofpoint-ORIG-GUID: 4QBzEXZtmzJuEdm9jqvKR1uyx5JaG-xN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-03_05,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 priorityscore=1501 adultscore=0 phishscore=0
- impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270033
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,113 +96,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Oct 3, 2025 at 7:13=E2=80=AFAM Steven Price <steven.price@arm.com> =
+wrote:
+>
+> On 03/10/2025 01:31, Chia-I Wu wrote:
+> > On Thu, Oct 2, 2025 at 3:41=E2=80=AFAM Steven Price <steven.price@arm.c=
+om> wrote:
+> >>
+> >> On 16/09/2025 22:08, Chia-I Wu wrote:
+> >>> Rename mmu_hw_do_operation_locked to mmu_hw_flush_caches.
+> >>
+> >> This is confusing, you've renamed the _locked variant and left the
+> >> wrapper mmu_hw_do_operation() with the old name.
+> > The commit message says "rename and document", and I try to stay true
+> > to it. I could certainly squash some of the commits to make this
+> > series less confusing.
+>
+> The idea is to have commits where the code change makes sense. The
+> subject and commit message then explain the reason for making the change.
+>
+> Squashing the commits isn't the answer, but you need to explain the
+> "why" in the commit message. I believe the reasoning here is that you
+> are going to get rid of the wrapper in a later commit ("simplify
+> mmu_hw_flush_caches") but there's nothing here to say that. I had to dig
+> through the later commits to find the relevant one.
+>
+> >>
+> >> I agree "do operation" isn't a great name, although "flush caches"
+> >> sounds to me like it's a function which does the whole cache flush dan=
+ce
+> >> in one go, but it's still the same "one part of a cache flush operatio=
+n"
+> >> code.
+> > It gets the name from being a wrapper for panthor_gpu_flush_caches.
+> > Which part of "cache flush operation" is missing?
+>
+> Well "operation" is missing... My point is that a function called
+> mmu_hw_cmd_flush_caches sounds like it handles the whole procedure. It's
+> less obvious that it is only doing one part of the operation, note that
+> the description you gave is:
+>
+> >   * Issue LOCK/GPU_FLUSH_CACHES/UNLOCK commands in order to flush and
+> >   * invalidate L2/MMU/LSC caches for a region.
+>
+> Which again is misleading. It issues *a* LOCK/... *command*. Just one.
+> So you use it as part of a procedure to perform the flush/invalidate danc=
+e.
+>
+> Sorry, I don't mean to be awkward about this, but renaming various
+> things means I've got to remember the new name as well as the old name
+> (when looking at older commits/backports). So if we're going to change a
+> name we a good justification otherwise it's just code churn. Note also
+> that we have very similar code in panfrost (panfrost_mmu.c) which
+> currently has the same names as panthor. I'm not exactly happy with the
+> duplication, but at least if they have the same names it's easy enough
+> to reason about.
+That's very fair. I was hoping the new names are objectively better,
+but they clearly aren't. Let's drop the series.
 
-
-On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
-> On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
->>
->>
->> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
->>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
->>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
->>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
->>>> use msm_dp_audio_prepare instead. While userspace is still calling
->>>> hw_params to do audio initialization, and we get the following errors:
->>>>
->>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
->>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
->>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
->>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
->>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
->>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
->>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
->>>
->>> And a call to hdmi_codec_prepare() comes only at this place.
->>>
->>> Srini, Mark, when selecting to only implement .prepare for codec ops I
->>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
->>> hook"), which documents that IEC958 status bit is set after
->>> .hw_params(), so it's only visible during .prepare(). Is it okay to
->>> implement both callbacks? Or should the audioreach DAI driver be fixed
->>> somehow instead (I suppose it assumes that the port is available after
->>> .hw_params(), not sure if that assumption is correct)?
->>>
->>>>
->>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
->>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
->>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
->>>> hdmi-codec driver can work with userspace alsa.
->>>>
->>>> Tested with Radxa Dragon Q6A.
->>>>
->>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
->>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
->>>
->>> The patch LGTM, but I would wait for response from audio maintainers.
->>>
->>
->> The ordering matters in this case as we need clocks and audio
->> configuration on DP codec side to be setup before we start configuring
->> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
->> even before it is ready.
->>
->> q6apm prepare loads the dsp pipeline and starts configuring the
->> endpoints, if the DP endpoint is not ready dsp would throw an error.
->>
->> We might be able to pull in some dsp logs to confirm this, but I dont
->> have a setup that I can reproduce this issue.
-> 
-> What would be your recommendation to proceed? Is it okay for the DAI
-> driver to depend on the .hw_params enabling the clock? Also I see that
-> the error regarding the clocks comes from .prepare callback too. What is
-> the order of .prepare callbacks()? Can we influence it?
-
-prepare follows hw-params, and prepare can be called multiple times
-
-When you mean order of prepare callbacks, you mean w.r.t codec and dsp
-backend dia link drivers ?
-
-TBH, Am not sure, I did not find anything that was obvious from the code.
-
-
-
---srini
-
-
-
-> 
->>
->>
->> --srini
->>>> ---
->>>>
->>>> Changes in v2:
->>>> - Link to v1: https://lore.kernel.org/linux-arm-msm/20250924085804.34183-1-liujianfeng1994@gmail.com/
->>>> - Use more detailed trace log in commit message.
->>>> - Drop the empty line between Fixex and SoB.
->>>>
->>>>  drivers/gpu/drm/display/drm_hdmi_audio_helper.c | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
->>>> index 7d78b02c1446..6ca1c7ad0632 100644
->>>> --- a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
->>>> +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
->>>> @@ -130,6 +130,7 @@ EXPORT_SYMBOL(drm_connector_hdmi_audio_plugged_notify);
->>>>  
->>>>  static const struct hdmi_codec_ops drm_connector_hdmi_audio_ops = {
->>>>  	.audio_startup = drm_connector_hdmi_audio_startup,
->>>> +	.hw_params = drm_connector_hdmi_audio_prepare,
->>>>  	.prepare = drm_connector_hdmi_audio_prepare,
->>>>  	.audio_shutdown = drm_connector_hdmi_audio_shutdown,
->>>>  	.mute_stream = drm_connector_hdmi_audio_mute_stream,
->>>> -- 
->>>> 2.43.0
->>>>
->>>
->>
-> 
-
+>
+> Thanks,
+> Steve
+>
+> >>
+> >> Thanks,
+> >> Steve
+> >>
+> >>>
+> >>> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> >>> ---
+> >>>  drivers/gpu/drm/panthor/panthor_mmu.c | 22 +++++++++++++++++-----
+> >>>  1 file changed, 17 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/=
+panthor/panthor_mmu.c
+> >>> index 727339d80d37e..7d1645a24129d 100644
+> >>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> >>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> >>> @@ -622,8 +622,20 @@ static void mmu_hw_cmd_unlock(struct panthor_dev=
+ice *ptdev, u32 as_nr)
+> >>>       write_cmd(ptdev, as_nr, AS_COMMAND_UNLOCK);
+> >>>  }
+> >>>
+> >>> -static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, =
+int as_nr,
+> >>> -                                   u64 iova, u64 size, u32 op)
+> >>> +/**
+> >>> + * mmu_hw_cmd_flush_caches() - Flush and invalidate L2/MMU/LSC cache=
+s
+> >>> + * @ptdev: Device.
+> >>> + * @as_nr: AS to issue command to.
+> >>> + * @iova: Start of the region.
+> >>> + * @size: Size of the region.
+> >>> + * @op: AS_COMMAND_FLUSH_*
+> >>> + *
+> >>> + * Issue LOCK/GPU_FLUSH_CACHES/UNLOCK commands in order to flush and
+> >>> + * invalidate L2/MMU/LSC caches for a region.
+> >>> + *
+> >>> + * Return: 0 on success, a negative error code otherwise.
+> >>> + */
+> >>> +static int mmu_hw_flush_caches(struct panthor_device *ptdev, int as_=
+nr, u64 iova, u64 size, u32 op)
+> >>>  {
+> >>>       const u32 l2_flush_op =3D CACHE_CLEAN | CACHE_INV;
+> >>>       u32 lsc_flush_op;
+> >>> @@ -680,7 +692,7 @@ static int mmu_hw_do_operation(struct panthor_vm =
+*vm,
+> >>>       int ret;
+> >>>
+> >>>       mutex_lock(&ptdev->mmu->as.slots_lock);
+> >>> -     ret =3D mmu_hw_do_operation_locked(ptdev, vm->as.id, iova, size=
+, op);
+> >>> +     ret =3D mmu_hw_flush_caches(ptdev, vm->as.id, iova, size, op);
+> >>>       mutex_unlock(&ptdev->mmu->as.slots_lock);
+> >>>
+> >>>       return ret;
+> >>> @@ -691,7 +703,7 @@ static int panthor_mmu_as_enable(struct panthor_d=
+evice *ptdev, u32 as_nr,
+> >>>  {
+> >>>       int ret;
+> >>>
+> >>> -     ret =3D mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_C=
+OMMAND_FLUSH_MEM);
+> >>> +     ret =3D mmu_hw_flush_caches(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_=
+FLUSH_MEM);
+> >>>       if (ret)
+> >>>               return ret;
+> >>>
+> >>> @@ -702,7 +714,7 @@ static int panthor_mmu_as_disable(struct panthor_=
+device *ptdev, u32 as_nr)
+> >>>  {
+> >>>       int ret;
+> >>>
+> >>> -     ret =3D mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_C=
+OMMAND_FLUSH_MEM);
+> >>> +     ret =3D mmu_hw_flush_caches(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_=
+FLUSH_MEM);
+> >>>       if (ret)
+> >>>               return ret;
+> >>>
+> >>
+>
