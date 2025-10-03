@@ -2,79 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5570BB62BD
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDF8BB62D2
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 09:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8DB10E1E3;
-	Fri,  3 Oct 2025 07:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD34410E8E6;
+	Fri,  3 Oct 2025 07:33:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VaMBw0yP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EIYtbZlp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
- [209.85.219.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5061E10E1E3
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 07:32:47 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id
- 6a1803df08f44-796fe71deecso18320846d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 00:32:47 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7563510E8D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 07:33:31 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-46e52279279so12470335e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 00:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759476766; x=1760081566; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZyM65ZzKgdxvaKc/F+b3wo5trSbYBBSP9NHa584kBnI=;
- b=VaMBw0yPoHBgKpsegPDJyZ+lFj5ZSPLYNPPboMAsR/a/oGXlYtlhG9fazEkjbvfChA
- 6UTYDdGCZqpWu+O4VjJaRIdLAGklzh0O6lHzleLwDilhdv8IltmZmFLFhKmCpcxdHGI6
- 8szLDVeB5M7QCJwI/VzF7d7UMkU43CX1e/vEEa6T9nzOLKh78+n+wAUi3znDoB0p/oz6
- c7esWOjOEVUvBt5P8Ezls8C4Fr9FyY+t+lcM4yZyV3OavP02Y8YzIJ8d3ypzBNHZi4H3
- ffX20nim4CT6M6ozEElkitNblmlhVQg0PjWwYoe5Tkr8fRVryGthxP8Nf5+5PSIVeDbN
- WxeQ==
+ d=linaro.org; s=google; t=1759476810; x=1760081610; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=5grRFMX+2MrPypsgKycA1aZd8AJQaqdGLD/iYz7bwBc=;
+ b=EIYtbZlpcecgy0Cj6FgT2RyLIdR+JCiBXmZqPr+WYq+tQE92q8qSY+qO3CnrIoftV4
+ l57cm2gDzejRkqb4p400lbLkji0x0uWzwdSS/VxAW4LX3yrGQe2OBkbM3JPGaup9MC6s
+ J674e0In6j6DP42iO8CnU4yl/qQh3r2cJ+UAkNSTGvbDsTY6JB+XTb2n7HVo6hEXRodq
+ YDmVeNU/bOj7BePpy6b68Wo/OomBcGFFAmzEUYf8to/Ud62ZUNZTyvfFwYWAVTWNbMlK
+ 4FuQ3kSDpGPqzJ8LR7Xp/8bBxyaoZ48BmqyQOQOAIiOoiXl5mi12XSRpc4xk6a+OstW9
+ g3yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759476766; x=1760081566;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZyM65ZzKgdxvaKc/F+b3wo5trSbYBBSP9NHa584kBnI=;
- b=TicS7ZJ8FQ8ZR+HQKFAofluYPx7w8uED4M7IyUN/h0Q4i53B71peXbwp3PaQ09zOSX
- wSeuX2PFkrLWgmHhQSbhLx9WvOiWqhnIWV7QTHst4KITqkaxH4HpDgoguZzl51YWjSia
- iIj57/0DqbquoLTfljWbih+K8XF6IZ28N5F2WvsAUDK4wEUlE3HbMO48/aeCEfXf7rkG
- Kc71xYNF5C3s21A1VI4VCrNl67aoN7JUT1XtlLV4GeHCc8QFqoBljGUZbHh0DMjbwaxV
- e6YuWJLh7CJYQd1kGas3w3oa983IgDoFlFZzFg+fxjcIDqf+3nL5Oot6Hhd2vjIiqluI
- 3R1g==
+ d=1e100.net; s=20230601; t=1759476810; x=1760081610;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=5grRFMX+2MrPypsgKycA1aZd8AJQaqdGLD/iYz7bwBc=;
+ b=UNoisCOttGMsncHsmrp0zc5Kw9RaNtDzprsE/W/ai/QfHrm7dQ5lfwN9HB5TbTU3Lx
+ dpAwJGTzhRZ140DpNUfyloHDEGdLGwZ7RtzSwJ1RPdoS+DCvigWDiJChiM8s+6WkzL7f
+ FivRd8oH/fcJ3U3HIVEU/Ph8QwTAwbeVI8KlxOjH4BTSDoXyRf0vpcb2av+ZH6/0/0+m
+ N30bwmKqMNDTC27wkIhAQZ7adMzwyADZfal1CKCIc7q1nFpcfuACKuGpDeN3cm16CeIn
+ CsDvi89YOZ1kBdw1QQFqZVHylJH8KM0+lx2eY8/8vCEqkZKg/otN6s4tqJWKcmQ5wNnd
+ yRhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEj9xNSVsD8U1J8yQaOBqSGhN3lexiGJMOHPDNVvHWmwo2hH/plICw/3mpL5P7KTGqqeWts9DXkvE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmXmEztk0ZaXJmQsT+XixnshHNn2dRWIn55E+rmQGcNvzZ+zCG
- XPoP2Wy8l/9ZzsBA6D2hs9tNqQIaEMFzjgTDDv2n1soc2bXRN9lDSjmG
-X-Gm-Gg: ASbGncvczX1oAqWCWhwq8CNjVNykFYrN60ox5s0hfPXcmWRAoFcAZiayLQoo5Tyga2s
- IdD4Qe+DAqSgzpq7x6ywXkeYSgKCUFuSh+eyNOTtJT/FwQEbv9S25A4L2g1MvLmk61Vlp5OrivF
- 946XlPX/w+mw91p8IvAVPqCfMQJKgNe6RdSPD1n0Q6O66dJMOyEnuTVdmxeBSteMU0yJTsSsLTc
- TLtxKnTVNvEzSia9dNug2Op9KJAY33L13KzPCnIAevVsmJa9fZQrNsK0R/lcTxJ3idQWMT8xImZ
- 5OHN4ivngP+rNFnbpLtpNC1UyAW2KDBnM3m+ToqmZJQEY4Y3IAPf3jxcK/rhQJJQj9GEB3o8iOZ
- V2Jx7lOSHu0FR6c+tySIdAUFaOhdm9/778u/8z8MEUQ==
-X-Google-Smtp-Source: AGHT+IFJEtnee8hdoiK4Tw0t8nSenoTvWsb65RM93NINnRfX24oL8mVWKjS9LVhDM5/5SH+GxeshsA==
-X-Received: by 2002:a05:6214:1946:b0:818:f4ef:da96 with SMTP id
- 6a1803df08f44-879dc77bb37mr29478826d6.2.1759476766258; 
- Fri, 03 Oct 2025 00:32:46 -0700 (PDT)
-Received: from arch-box ([2607:fea8:54de:2200::9c5c])
+ AJvYcCVGv5J3dlWXRt0T/pQRiTFnIEZCBBsAIwjIiravygQvDEEn5U9IvMghYB4ut1LGzZlKGIpPkzwkdjo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4wJvlcEXAE0dM/srSp6s0aGCXvrs9R+tl0h9D4pbD5u/jUmMY
+ nf7MeLqWC6HR9xULO+bVybSsa+DGT6fIzcj4WPJiRE9BlUq2lIrTx1asbONfWaD9Uug=
+X-Gm-Gg: ASbGncut1R/CIQy2B+Om7Ept0n/QivmwTJMbzc/A/WOQhcueksVCjPPEzi1na428okk
+ UQ6h1+64OccnygbGNWIT65PatzFS0SD6ywVgLqoPvpAUrH4TJAAEzlvMijcxmIUYcaQxmoFOhxk
+ sy3RMX2QDEQuuzZsazXQ1H1M8XLGiQP/fihQqMExO7NmkF7U/p7q9LayM6GhhcGX4T3Al3W6Hfw
+ 6bjDKR9Nrwy4pp2qWIjtcGtwwlWQnsC1plsms8WWRA/9hy05n3WpHEigEjzRwxDfBusZ4o5hxP8
+ BUOIOFEoav8v7X35h8bZxBYzYP+qvx9YXK2qiLHV71xTDLXrkpWEA3R7oknCsX1QilwOl157/xr
+ ipzU7STFNb9C3KZ3DI53gFRmIMVGYSDjih3WUp0Vc+E6t+eFNxF9CaOdYVrrU1kdnT+KokcRynq
+ HOZM5EikLg0DlD1IwHyfwZfs4/3yc=
+X-Google-Smtp-Source: AGHT+IE3WIkcpTDGTYbL1KkTG7og5gmapvp+rB9slPdpJDq+7fpgXOqr+o6R0DGbS0j/8Ti8nPucHg==
+X-Received: by 2002:a05:600c:6094:b0:46e:39e1:fc3c with SMTP id
+ 5b1f17b1804b1-46e710fff73mr14591685e9.5.1759476809742; 
+ Fri, 03 Oct 2025 00:33:29 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:1516:b5be:def8:9a0b?
+ ([2a01:e0a:3d9:2080:1516:b5be:def8:9a0b])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-878bb4469bcsm32889776d6.16.2025.10.03.00.32.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Oct 2025 00:32:45 -0700 (PDT)
-From: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>
-Cc: Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
- syzbot+48b0652a95834717f190@syzkaller.appspotmail.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fbdev: Add bounds checking in bit_putcs to fix
- vmalloc-out-of-bounds
-Date: Fri,  3 Oct 2025 03:32:09 -0400
-Message-ID: <20251003073210.48501-1-albinbabuvarghese20@gmail.com>
-X-Mailer: git-send-email 2.51.0
+ 5b1f17b1804b1-46e675b557fsm96132185e9.0.2025.10.03.00.33.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Oct 2025 00:33:29 -0700 (PDT)
+Message-ID: <3ccc3649-dbb6-406a-bec4-fb3d4068bad1@linaro.org>
+Date: Fri, 3 Oct 2025 09:33:27 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] MAINTAINERS: Update Jessica Zhang's email address
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+References: <20251002-quit-qcom-v1-1-0898a63ffddd@oss.qualcomm.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20251002-quit-qcom-v1-1-0898a63ffddd@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,74 +117,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bounds checking to prevent writes past framebuffer boundaries when
-rendering text near screen edges. Return early if the Y position is off-screen
-and clip image height to screen boundary. Break from the rendering loop if the
-X position is off-screen. When clipping image width to fit the screen, update
-the character count to match the clipped width to prevent buffer size
-mismatches.
+On 10/3/25 01:57, Jessica Zhang wrote:
+> My current email will stop working soon. Update my email address to
+> jesszhan0024@gmail.com
+> 
+> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> ---
+>   MAINTAINERS | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7e7515a412e9..7a712ded8f9f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7652,7 +7652,7 @@ DRM DRIVER for Qualcomm display hardware
+>   M:	Rob Clark <robin.clark@oss.qualcomm.com>
+>   M:	Dmitry Baryshkov <lumag@kernel.org>
+>   R:	Abhinav Kumar <abhinav.kumar@linux.dev>
+> -R:	Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> +R:	Jessica Zhang <jesszhan0024@gmail.com>
+>   R:	Sean Paul <sean@poorly.run>
+>   R:	Marijn Suijten <marijn.suijten@somainline.org>
+>   L:	linux-arm-msm@vger.kernel.org
+> @@ -8325,7 +8325,7 @@ F:	drivers/gpu/drm/clients/drm_log.c
+>   
+>   DRM PANEL DRIVERS
+>   M:	Neil Armstrong <neil.armstrong@linaro.org>
+> -R:	Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> +R:	Jessica Zhang <jesszhan0024@gmail.com>
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> 
+> ---
+> base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
+> change-id: 20251002-quit-qcom-5125b64a86aa
+> 
+> Best regards,
+> --
+> Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> 
 
-Without the character count update, bit_putcs_aligned and bit_putcs_unaligned
-receive mismatched parameters where the buffer is allocated for the clipped
-width but cnt reflects the original larger count, causing out-of-bounds writes.
-
-Reported-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=48b0652a95834717f190  
-Suggested-by: Helge Deller <deller@gmx.de>
-Tested-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
-Signed-off-by: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
----
-Changes in v2:
-- Partially render when height exceeding screen boundaries instead of skipping 
-- Update character count when width is clipped to prevent buffer mismatch
-
-Link to v1: 
-https://lore.kernel.org/all/20250927075010.119671-1-albinbabuvarghese20@gmail.com/
----
- drivers/video/fbdev/core/bitblit.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-index f9475c14f733..116b4bf5e94c 100644
---- a/drivers/video/fbdev/core/bitblit.c
-+++ b/drivers/video/fbdev/core/bitblit.c
-@@ -160,6 +160,11 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
- 	image.height = vc->vc_font.height;
- 	image.depth = 1;
- 
-+	if (image.dy >= info->var.yres)
-+		return;
-+
-+	image.height = min(image.height, info->var.yres - image.dy);
-+
- 	if (attribute) {
- 		buf = kmalloc(cellsize, GFP_ATOMIC);
- 		if (!buf)
-@@ -173,6 +178,21 @@ static void bit_putcs(struct vc_data *vc, struct fb_info *info,
- 			cnt = count;
- 
- 		image.width = vc->vc_font.width * cnt;
-+
-+		if (image.dx >= info->var.xres)
-+			break;
-+
-+		if (image.dx + image.width > info->var.xres) {
-+			image.width = info->var.xres - image.dx;
-+
-+			cnt = image.width / vc->vc_font.width;
-+
-+			if (cnt == 0)
-+				break;
-+
-+			image.width = cnt * vc->vc_font.width;
-+		}
-+
- 		pitch = DIV_ROUND_UP(image.width, 8) + scan_align;
- 		pitch &= ~scan_align;
- 		size = pitch * image.height + buf_align;
--- 
-2.51.0
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
