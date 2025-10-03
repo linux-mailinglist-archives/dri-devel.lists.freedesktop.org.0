@@ -2,78 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1033BB5D9B
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 05:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8629BB5F24
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 07:34:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A4110E0A6;
-	Fri,  3 Oct 2025 03:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3C810E0BB;
+	Fri,  3 Oct 2025 05:34:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UHOGf3iT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IV+z/owU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF3AE10E0A6
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 03:23:27 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-77f1f29a551so2404665b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Oct 2025 20:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759461807; x=1760066607; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4MpfPEc8P9b4L2GNCySEMZpVOERhqW8EFBw6DoknkFk=;
- b=UHOGf3iTIs/j7Mb+ruxlcaVVBImG4WnY23rObMIw792O7JCBMF1SaQIBQIuNrtYy3G
- Fz7X9VkX1cGNHc8dBwVLDPe1VfUy1FBGXnNs2lssJ3fCBUYYWk1WBmuYe0BdTrgykFPo
- unB1PPsheZkWBd2ETzt9fljlg4o/veIQCf/DdEUYjpPoovKBpVu5iNpCOVgsGpKKKNb6
- ktXppsOx+D/omW1Zaht31SyzU4grQfvHj5JYPdmPDW5bynjXBNykVSYjEGsW0ETwhs9U
- up+YQmu0yqq6IgIoBzkPJ/JQw7R2bv4zCwtmbj1k0RZ6fcE27MTW8/X+dmr3W59DxIVv
- +s0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759461807; x=1760066607;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4MpfPEc8P9b4L2GNCySEMZpVOERhqW8EFBw6DoknkFk=;
- b=FYTd7GjDelTrYWvbe80sBGQrqyGbRoQy/9ax6lyhvd3jGkVu2OpKyzIc8zRFTvW+YN
- mEcp6bg4Vl8Llx4Hv4jDsLTQLHZphEP0De8AShJfA/tzOkaYokHnEkPc5ojzlQbxAamQ
- YfnEA6Anrf/N/hAShmS7LNn6FKj/fQpFOnCPjFwQspwq/fgNcaiiXTPGIn+o6aKs68iP
- UhQfOCqWjWoKitwH5l7ONEEiQl0oJu6as4mnejvGru+OsDNMzULRlJSySVo4WamhGFC7
- llqP0o9C5s6wEXX6/bFo5BXMWMflN0/7Z/e7EbwcUQSg24T2/GpI+RxMNLmju5oSXq/S
- j9Sg==
-X-Gm-Message-State: AOJu0Yxy/Y7CCADRBJ40Yfvc72cGcy6A/vnyjePZpmNa6uZDZ42tem+Z
- 60DE7YGumjxGiadEskogJfYVVeSNgFOAFylbhisowuyDOTcJP7cJa7qE
-X-Gm-Gg: ASbGncu8wN4UfbT1acBqbNfyetRQbYA9PBKLjJEvT3ExYmwqwmTEYpnlqA1nn1zhHnU
- VfPOG8RqOiXubSgKZfGk8qt7v0h4o+w23nf/xagthw1/TjC+2GYuiW1vdw8mmAdKCgHMzUSbEAR
- F1Pz6hbFdasCxbwQbscbSZYm3ovmrEftsChb34ye10xBiycOXDOtNViL1S0GbUofsHO8p/hgcTV
- NIzuniBH5UEcQGJRYfw90GU0J2wzee+00B/6K6gX11bGp7ky5c5opy8EhYXu8h/I2J9u84bK+Ko
- dqLYBHSv4kR8nz3Ct8f2afz1yJpcw5iAFHfAHMTp+Z6U3vfrcYpkj1e0Q6HUo9ODwlFKYkxYZBT
- 4mBVhsQ9PZocBtdUFJw8GP2KZEHtTHLTJ0IXxbgPxBG1+xVvY3J+SuBEzuNWG3Ymj6F+0WI3nw6
- TEjoc=
-X-Google-Smtp-Source: AGHT+IHVZ5V7HiW9Rkw0s33+w+cQO1spnlPihGJa+P8ngoTWf74O/b6uIrMzfDZNNheYb8e6iNEHnA==
-X-Received: by 2002:a05:6a00:230b:b0:781:1dc6:4e69 with SMTP id
- d2e1a72fcca58-78c98a89454mr2351558b3a.14.1759461807296; 
- Thu, 02 Oct 2025 20:23:27 -0700 (PDT)
-Received: from cmpatel-home.hsd1.or.comcast.net
- ([2601:1c0:5780:9200:326a:8939:a05c:b9d5])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-78b0206e81fsm3460145b3a.70.2025.10.02.20.23.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Oct 2025 20:23:26 -0700 (PDT)
-From: Chintan Patel <chintanlike@gmail.com>
-To: maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com,
- Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v3] drm/vblank: downgrade vblank wait timeout from WARN to
- error
-Date: Thu,  2 Oct 2025 20:23:03 -0700
-Message-ID: <20251003032303.16518-1-chintanlike@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF1710E040
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 05:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759469644; x=1791005644;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=D7YiPZ4zvPyc8Z+D06CREkaLilkpjpF1Rbm3faMM6eA=;
+ b=IV+z/owUv7e35hC/KgeJLPnZZVuXPzeDhft4ZjxKikh1iumHM37QnO82
+ kLyq3PyP7y1YNzFpzGiaNwrw1WCuavlQGcPqHZafAmdxWZ+5pxwIfNlEl
+ o+Tnt+rn7oT3w5IHVrthaUePb94Llwhg8wgPQpDzwwhBml7eUzXlewq42
+ TYztLxuayvS/n+DoeTCzxloqHWwO5cCe5bFiDoZ3tNrK0GpWQNAzyzMdl
+ PfwsKWWuILyD5qEDbgZVbNke7pevRpTEq2WnYTH0d9RZkW8CapFMLDmW5
+ Ci7YZvY25xtI0J+40ZHr5tDwUDFQy3AUqGt3kaSiMoExz037i6qG1bZkP A==;
+X-CSE-ConnectionGUID: E+DQZquNTVWmdOm9ow/i1A==
+X-CSE-MsgGUID: 834YkjnoTtWQ388tfqcxug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="65393210"
+X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; d="scan'208";a="65393210"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2025 22:34:04 -0700
+X-CSE-ConnectionGUID: AkA/LvhCQreSmbc5PdYZMQ==
+X-CSE-MsgGUID: 4ToAGRsnTEqrpMzws9TBAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; d="scan'208";a="179154854"
+Received: from dongwonk-z390-aorus-ultra.fm.intel.com ([10.105.205.222])
+ by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2025 22:34:03 -0700
+From: dongwon.kim@intel.com
+To: dri-devel@lists.freedesktop.org
+Cc: dmitry.osipenko@collabora.com,
+	nirmoyd@nvidia.com
+Subject: [PATCH v5 0/3] Virtio-GPU S4 support
+Date: Thu,  2 Oct 2025 22:33:59 -0700
+Message-Id: <20251003053402.732218-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,47 +65,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When wait_event_timeout() in drm_wait_one_vblank() times out, the
-current WARN can cause unnecessary kernel panics in environments
-with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
-under heavy scheduling pressure or in rare cases of delayed vblank
-handling, and are not always a kernel bug.
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-Replace the WARN with drm_err() messages that report the timeout
-without crashing the system. Developers can still enable drm.debug
-to diagnose genuine problems.
+This patch series implements functions for .freeze and .restore hooks for
+virtio-gpu driver as well as pm-notifier to handle object restoration in
+S4(hiberation) case.
 
-Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+First patch adds `virtgpu_freeze` and `virtgpu_restore` functions.
+These functions handle the deletion of virtio queues before suspension and
+their recreation during the restoration process.
 
-v2:
- - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
- - Remove else branch, only log timeout case
+Second patch implements a mechanism for restoring `virtio_gpu_object` instances.
+This is necessary because the host (QEMU) deletes all associated resources during
+the virtio-gpu reset, which occurs as part of hiberation/resume process.
 
-v3:
- - Use drm_err() instead of drm_dbg_kms() (suggested by Ville Syrjälä)
- - Remove unnecessary curr = drm_vblank_count() (suggested by Thomas Zimmermann)
- - Fix commit message wording (“invalid userspace calls” → “delayed vblank handling”)
----
- drivers/gpu/drm/drm_vblank.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Third patch adds pm-notifier to the driver that handles resubmission of virtio-gpu
+objects to the QEMU once the guest resumes from hibenation.
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 46f59883183d..0664aea1b924 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1305,7 +1305,8 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
- 				 last != drm_vblank_count(dev, pipe),
- 				 msecs_to_jiffies(100));
- 
--	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
-+	if (!ret)
-+		drm_err(dev, "vblank wait timed out on crtc %i\n", pipe);
- 
- 	drm_vblank_put(dev, pipe);
- }
+These changes ensure that the virtio-gpu driver can properly handle hibernation
+scenarios without resource loss.
+
+v2: 10ms sleep is added in virtgpu_freeze to avoid the situation
+    the driver is locked up during resumption.
+
+v3: Plain 10ms delay (v2) is replaced with wait calls which wait until
+    the virtio queue is empty.
+    (Dmitry Osipenko)
+
+v4: New version of patchset only covers S4 case because loss of resources in S3
+    case can be avoided by skipping virtio-gpu-reset in QEMU (hw/display/virtio-gpu.c).
+    To skip virtio-gpu-reset (soft-reset), virtio-gpu-pci device should be attached to
+    PCIE bus AND a PCIE option, 'x-pcie-pm-no-soft-reset' should added and set to 'true'.
+    (e.g. -device virtio-gpu-pci,bus=port,x-pcie-pm-no-soft-reset=true)
+
+v5: Remove virtio_gpu_object from the restore list before freeing the object
+    to prevent an use-after-free situation.
+    (Nirmoy Das)
+
+    Protect restore list operations with a spinlock
+    (Nirmoy Das)
+
+    Move restore list node into virtio_gpu_bo struct to reduce memory usage
+    (Dmitry Osipenko)
+
+    Remove unused header - drm_atomic_helper.h 
+    (Dmitry Osipenko)
+
+Dongwon Kim (3):
+  drm/virtio: Freeze and restore hooks to support suspend and resume
+  drm/virtio: Add support for saving and restoring virtio_gpu_objects
+  drm/virtio: Add PM notifier to restore objects after hibernation
+
+ drivers/gpu/drm/virtio/virtgpu_drv.c    | 60 +++++++++++++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 12 +++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c    | 51 ++++++++++++++++++---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 61 +++++++++++++++++++++++++
+ 4 files changed, 177 insertions(+), 7 deletions(-)
+
 -- 
-2.43.0
+2.34.1
 
