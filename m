@@ -2,45 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09466BB7223
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB77BB72BA
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 16:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33AAF10E919;
-	Fri,  3 Oct 2025 14:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED9FE10E92B;
+	Fri,  3 Oct 2025 14:23:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lotxKWgY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9C99010E919
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 14:13:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A1051688;
- Fri,  3 Oct 2025 07:13:16 -0700 (PDT)
-Received: from [10.1.37.18] (e122027.cambridge.arm.com [10.1.37.18])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C839D3F5A1;
- Fri,  3 Oct 2025 07:13:21 -0700 (PDT)
-Message-ID: <9022445f-3cf7-46a8-85ac-e1f226e0bd9b@arm.com>
-Date: Fri, 3 Oct 2025 15:13:21 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B1D10E125;
+ Fri,  3 Oct 2025 14:23:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3266661FC4;
+ Fri,  3 Oct 2025 14:23:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D16C4CEF5;
+ Fri,  3 Oct 2025 14:23:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759501396;
+ bh=NTBZAxjqSpzLuG1zGiZTH3WkfjeQ/nsmqUdkHlpqyFA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lotxKWgY+nAfg0Bz/Vct5iFAdwEuXX/DFjaJOBqc9lv3nSDTg8zneCk9H0vxJGrbW
+ E52huxGlaW/CCY8YVgKZLz0wtmM6C75fwjspxr7EoP9Z80p9ndf+UhnoygFBVkccey
+ 22o8GW5ooXjZHLEuJXTJ4qy8YlVK1iG8UdNcXJJzQWrRFlCNBAhUXezahWZ/FA1uXh
+ gRw4gC4VHeSEuHL9wHJwMJ49BBMDtPI38LWs3l+Gy+LG7D2tq8pmkSmU6DE3mWIN8R
+ Q62B4V0mj9VexBWWRMAnnPYQFBEMOgNnRbN5nQYHPg1+kAHsuyfwisrdIrxPwkFanQ
+ vsLJda5lDMRJw==
+Date: Fri, 3 Oct 2025 16:23:14 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <20251003-primitive-sepia-griffin-cfca55@houat>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
+ <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+ <20250925-didactic-spiked-lobster-fefabe@penduick>
+ <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] drm/panthor: remove unnecessary mmu_hw_wait_ready
- calls
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250916210823.4033529-1-olvaffe@gmail.com>
- <20250916210823.4033529-8-olvaffe@gmail.com>
- <74e2f1a8-0410-4a5e-bbf3-29d5d5d55308@arm.com>
- <CAPaKu7QEAbR8a_+qmyU=obyf2N-UZemfw23U_Dw2DZLqPd7tGQ@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAPaKu7QEAbR8a_+qmyU=obyf2N-UZemfw23U_Dw2DZLqPd7tGQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="52tkbt2twc25uy2v"
+Content-Disposition: inline
+In-Reply-To: <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,95 +85,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/10/2025 01:23, Chia-I Wu wrote:
-> On Thu, Oct 2, 2025 at 3:41 AM Steven Price <steven.price@arm.com> wrote:
->>
->> On 16/09/2025 22:08, Chia-I Wu wrote:
->>> No need to call mmu_hw_wait_ready after panthor_gpu_flush_caches or
->>> before returning from mmu_hw_flush_caches.
->>
->> Why is there no need? If we attempt to send a command when the hardware
->> is busy then the command will be dropped (so the cache flush won't
->> happen), and if we don't wait for the unlock command to complete then
->> then we don't know that the flush is complete.
-> We have this sequence of calls
-> 
->   mmu_hw_wait_ready
->   panthor_gpu_flush_caches
->   mmu_hw_wait_ready
->   mmu_hw_cmd_unlock
->   mmu_hw_wait_ready
-> 
-> I could be utterly wrong, but my assumption was that
-> panthor_gpu_flush_caches does not cause AS_STATUS_AS_ACTIVE, at least
-> by the time it returns. That's why I removed the second wait.
 
-Hmm, so this was a recent change, moving away from FLUSH_MEM/FLUSH_PT. I
-have to admit the spec implies that it a FLUSH_CACHES command wouldn't
-set the AS_ACTIVE bit.
+--52tkbt2twc25uy2v
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+MIME-Version: 1.0
 
-Indeed we now actually split the active bit between AS_ACTIVE_EXT and
-AS_ACTIVE_INT - where _INT is from an "internal source" and therefore
-doesn't prevent writing to the COMMAND register.
+On Thu, Sep 25, 2025 at 05:55:06PM +0300, Dmitry Baryshkov wrote:
+> > > As we will be getting more and more features, some of the InfoFrames
+> > > or data packets will be 'good to have, but not required'.
+> >=20
+> > And drivers would be free to ignore those.
+> >=20
+> > > > So, no, sorry. That's still a no for me. Please stop sending that p=
+atch
+> > >=20
+> > > Oops :-)
+> > >=20
+> > > > unless we have a discussion about it and you convince me that it's
+> > > > actually something that we'd need.
+> > >=20
+> > > My main concern is that the drivers should not opt-out of the feature=
+s.
+> > > E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFram=
+es
+> > > (yes, stupid examples), it should not be required to go through all t=
+he
+> > > drivers, making sure that they disable those. Instead the DRM framewo=
+rk
+> > > should be able to make decisions like:
+> > >=20
+> > > - The driver supports SPD and the VSDB defines SPD, enable this
+> > >   InfoFrame (BTW, this needs to be done anyway, we should not be send=
+ing
+> > >   SPD if it's not defined in VSDB, if I read it correctly).
+> > >=20
+> > > - The driver hints that the pixel data has only 10 meaninful bits of
+> > >   data per component (e.g. out of 12 for DeepColor 36), the Sink has
+> > >   HF-VSDB, send HF-VSIF.
+> > >=20
+> > > - The driver has enabled 3D stereo mode, but it doesn't declare suppo=
+rt
+> > >   for HF-VSIF. Send only H14b-VSIF.
+> > >=20
+> > > Similarly (no, I don't have these on my TODO list, these are just
+> > > examples):
+> > > - The driver defines support for NTSC VBI, register a VBI device.
+> > >=20
+> > > - The driver defines support for ISRC packets, register ISRC-related
+> > >   properties.
+> > >=20
+> > > - The driver defines support for MPEG Source InfoFrame, provide a way
+> > >   for media players to report frame type and bit rate.
+> > >=20
+> > > - The driver provides limited support for Extended HDR DM InfoFrames,
+> > >   select the correct frame type according to driver capabilities.
+> > >=20
+> > > Without the 'supported' information we should change atomic_check()
+> > > functions to set infoframe->set to false for all unsupported InfoFram=
+es
+> > > _and_ go through all the drivers again each time we add support for a
+> > > feature (e.g. after adding HF-VSIF support).
+> >=20
+> > From what you described here, I think we share a similar goal and have
+> > somewhat similar concerns (thanks, btw, it wasn't obvious to me before),
+> > we just disagree on the trade-offs and ideal solution :)
+> >=20
+> > I agree that we need to sanity check the drivers, and I don't want to go
+> > back to the situation we had before where drivers could just ignore
+> > infoframes and take the easy way out.
+> >=20
+> > It should be hard, and easy to catch during review.
+> >=20
+> > I don't think bitflag are a solution because, to me, it kind of fails
+> > both.
+> >=20
+> > What if, just like the debugfs discussion, we split write_infoframe into
+> > write_avi_infoframe (mandatory), write_spd_infoframe (optional),
+> > write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) and
+> > write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc > 8)
+> >=20
+> > How does that sound?
+>=20
+> I'd say, I really like the single function to be called for writing the
+> infoframes. It makes it much harder for drivers to misbehave or to skip
+> something.
 
-We do, however, need the LOCK command to have completed before we flush
-the caches. So the operations should be:
+=46rom a driver PoV, I believe we should still have that single function
+indeed. It would be drm_atomic_helper_connector_hdmi_update_infoframes's
+job to fan out and call the multiple callbacks, not the drivers.
 
- * wait_ready()
- * LOCK
- * wait_ready() // To check that the LOCK has completed
- * FLUSH_CACHES
- * UNLOCK
- * wait_ready() // Optional
+Maxime
 
-The final wait_ready() is optional in some cases (because the LOCK
-ensures that we can't have any translations using the old TLB entries -
-note that I believe older Midgard GPUs couldn't rely on this). However
-in the case where we want to disable a MMU we're going to have to wait.
+--52tkbt2twc25uy2v
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> We also always wait before issuing a cmd. Removing the last wait here
-> avoids double waits for panthor_mmu_as_{enable,disable}. It does leave
-> the cmd in flight when panthor_vm_flush_range returns, but whoever
-> issues a new cmd will wait on the flush.
+-----BEGIN PGP SIGNATURE-----
 
-Note that wait_ready() is really cheap - it's a single GPU register read
-if there's nothing active. So the "double wait" isn't really a problem.
-I'd much rather have the occasional double wait (i.e. one extra register
-read) than the situation where we miss a wait_ready() and end up with an
-MMU command being dropped by the hardware.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN/cUQAKCRAnX84Zoj2+
+doqJAX90zNyWmsUip91wTNJtbf8t9T8oHpuaxLd97OtefR1KrjHS2zNm3j3QKJO2
+DILT8+EBfi951vLWkKKYswrmqe4tCE/x2PvHNyVn0RvWHOXmTytjmwkrcFHfX9Z+
+tXdDckATGw==
+=lhWy
+-----END PGP SIGNATURE-----
 
-Thanks,
-Steve
-
-> 
-> 
->>
->> Thanks,
->> Steve
->>
->>> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
->>> ---
->>>  drivers/gpu/drm/panthor/panthor_mmu.c | 7 ++-----
->>>  1 file changed, 2 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
->>> index 373871aeea9f4..c223e3fadf92e 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
->>> @@ -669,12 +669,9 @@ static int mmu_hw_flush_caches(struct panthor_device *ptdev, int as_nr, u64 iova
->>>        * at the end of the GPU_CONTROL cache flush command, unlike
->>>        * AS_COMMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT.
->>>        */
->>> -     ret = mmu_hw_wait_ready(ptdev, as_nr);
->>> -     if (!ret)
->>> -             mmu_hw_cmd_unlock(ptdev, as_nr);
->>> +     mmu_hw_cmd_unlock(ptdev, as_nr);
->>>
->>> -     /* Wait for the unlock command to complete */
->>> -     return mmu_hw_wait_ready(ptdev, as_nr);
->>> +     return 0;
->>>  }
->>>
->>>  static int mmu_hw_do_operation(struct panthor_vm *vm,
->>
-
+--52tkbt2twc25uy2v--
