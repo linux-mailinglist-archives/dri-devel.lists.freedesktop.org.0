@@ -2,79 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE07BB6FCE
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 15:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11901BB6FE8
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 15:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B1E10E12A;
-	Fri,  3 Oct 2025 13:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D65410E904;
+	Fri,  3 Oct 2025 13:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m1VoQoyZ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="E5wwArvQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A0D10E10C;
- Fri,  3 Oct 2025 13:22:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 496B162157;
- Fri,  3 Oct 2025 13:22:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FC1C4CEF5;
- Fri,  3 Oct 2025 13:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759497746;
- bh=A2hluD0l8IO1DxEiF9nEW3SijizW71b1ccI60ZVifUE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m1VoQoyZK+0q8O3HvyAtIGUuFnCbPyZhX1ioKmnkL3JAloHKE/f9yDYHV6zLFevmp
- xc05F6I9ufNwo20ENoPxDODObtxc3ePYLGeU8vWXoR/sq2wxJ36pc/j2q8tqW0L1nE
- C5kyoEcs5+6jD5rehK4U8rW2PXT4gNsLFbKHKPAOrp+Tgxzn0XL8VcDa10gYaWwuzL
- SmP+VPZBOK/p9PIZdQebasidslquTK2Zj7vHryqCeUV+xDH4c6l1351xGFwdkZKGpd
- beDZpivcGmRZr0qas8V9KKGrVKRX4iT2mV8JwdCoVric1qQfSB8GuVqlwBPJlJ4Pjv
- 5v/wEfmefXb1w==
-Date: Fri, 3 Oct 2025 15:22:23 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Daniel Stone <daniel@fooishbar.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-Message-ID: <20251003-uptight-echidna-of-stamina-815305@houat>
-References: <20250901-voracious-classy-hedgehog-ee28ef@houat>
- <voknqdv3zte2jzue5yxmysdiixxkogvpblvrccp5gu55x5ycca@srrcscly4ch4>
- <st6wob5hden6ypxt2emzokfhl3ezpbuypv2kdtf5zdrdhlyjfw@l2neflb4uupo>
- <pe6g2fanw65p67kfy5blbtiytngxmr6nkbazymojs4a66yvpl3@7j4ccnsvc6az>
- <20250910-didactic-honored-chachalaca-f233b2@houat>
- <x562ueky2z5deqqmhl222moyrbylfwi35u4hb34dpl3z52ra4c@dyw4iayrewnz>
- <20250925-fervent-merry-beagle-2baba3@penduick>
- <qx5ashx62pufott6hnsfna3qntnoyvxwxze4rihhuxcsdxi37s@bbdvc3sfsgne>
- <20250929-gregarious-worm-of-memory-c5354d@houat>
- <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA0410E904
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 13:23:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759497810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i3OgrM6kqtp8r+T8wasXEeO2qtaqUyEZzjkjuxIwoHg=;
+ b=E5wwArvQ06M0oeU3aLaTOOZd0g+h64AlYmrj8wYYsA78jaBEns2X+ir1C8YoFwaDhYaxd5
+ rzxdBcGWD4cXZFp8Wy50C+RMjlzHQfOkyf42IfFl+LkuI7SZ5x4ymEfF35cfjT7FGZzegj
+ lm1bwD3TNEniFUAOyhCzBgDKZgdx0EY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-371-pLizQO4VPRiufLZyDTD88w-1; Fri, 03 Oct 2025 09:23:28 -0400
+X-MC-Unique: pLizQO4VPRiufLZyDTD88w-1
+X-Mimecast-MFC-AGG-ID: pLizQO4VPRiufLZyDTD88w_1759497808
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-46e45899798so9593125e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 06:23:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759497807; x=1760102607;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i3OgrM6kqtp8r+T8wasXEeO2qtaqUyEZzjkjuxIwoHg=;
+ b=H7lmXwUiMQHOj4xuVACe0ABzTxhGLmrV5foua53/+qCL5YcRIvDvH6kGfAcY2UaT6L
+ 0mGXcgfZYTQjAM45o/aftqjKNQKQemRsHwmqv9raRDSsOAQptgy6JPTw7RQwnayetuXN
+ E1wvVB3yu0nt7zmLsGmtLqpI0uCptdV9BCnQMzXsmX7fw3qa2VbX3siV55oD3Jt77H6x
+ tvFZJaaqIV6tLL/mkAhlk1Seloc/7FaF/VbiiC13WdT3SSx7lqwGMgIz3XXyI/KA9B2T
+ GJ5CiQFUHBmiVqvJYQjsmnj00GyEzr1yINmPEM9kYCbEXbHYXfJ66WmS5SEwRqviLrmT
+ qUdw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtX6xGFONe+3br9kZINk+sdCHEs+O6eWyRk0l2tHrG/hxGH/74n3qKB1UdcZoyJd8pEHcgQvLnR/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuiiMUDhFCzPQyDkhEiAD2u3Md0Y8OcMM1/4knpxz2Z3Uaa8CQ
+ I4WEYeN2Ssm3bvW9E01V4gPKkgSp1w8y4E/Xq/6ztKcIV6t8WYWlj9MGmj4Hzmd+VvTOt7iWcZf
+ 46zm8B2abDCeWcgb/n7A2e5ynjf9ojXcFOSkqZBgOWOj5j6u/dUnFxGqO1+uMLBSGK2AeVw==
+X-Gm-Gg: ASbGncsxKOM2V3M1dXR6cBPOW3Tzsd3Tc8kKcP7gDbGfENqe2Dp6ao8dnf8bM0t0OIA
+ X8xQyJ1OWXknZQJzCpCp9ot6SQSK9SvNxo9lj5wtFOnPXa/FxU4rVirdllktXU7feyKIzOlHFoV
+ +8WIpeTNatK4YXp9uF1qrZisVeLYfl26gqjX/Ssd0XGRaAGRkace0UbsGK/0pjGlcQnUS1XO8g8
+ qhCZ7hN7iKmW+nZGVXhhbUEqVE2ocDfQJQX7AWvdQeTwZnFGHbZGieyIri4w6sNpqUR+ciMXSIy
+ sZXZqHG/Wp8crOjO2Yd3Uw==
+X-Received: by 2002:a05:600c:4510:b0:46e:59bb:63cf with SMTP id
+ 5b1f17b1804b1-46e71140be1mr25355525e9.24.1759497807562; 
+ Fri, 03 Oct 2025 06:23:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHOOjaj75XO52nWI2I6UTsKjmFKM3jXrNLUe3y6zOumiOqPFkEXqNu9rSWvZBXSmGhaUe3KVg==
+X-Received: by 2002:a05:600c:4510:b0:46e:59bb:63cf with SMTP id
+ 5b1f17b1804b1-46e71140be1mr25355005e9.24.1759497807018; 
+ Fri, 03 Oct 2025 06:23:27 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4255d8a6b5csm7942733f8f.5.2025.10.03.06.23.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Oct 2025 06:23:26 -0700 (PDT)
+Date: Fri, 3 Oct 2025 15:23:26 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: John Stultz <jstultz@google.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
+ linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sumit Garg <sumit.garg@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, 
+ Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v12 2/9] dma-buf: dma-heap: export declared functions
+Message-ID: <20251003-brilliant-golden-lion-fbedc9@houat>
+References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
+ <20250911135007.1275833-3-jens.wiklander@linaro.org>
+ <20251002-shaggy-mastiff-of-elevation-c8e1f0@houat>
+ <CANDhNCqS+WKhTWjeC7yBL+x4erK4S4bievTxdneaCu1haA8=hA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xp6eesrwl3hc4z5s"
+ protocol="application/pgp-signature"; boundary="bmweveq2oxpjd6s2"
 Content-Disposition: inline
-In-Reply-To: <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
+In-Reply-To: <CANDhNCqS+WKhTWjeC7yBL+x4erK4S4bievTxdneaCu1haA8=hA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,263 +115,98 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---xp6eesrwl3hc4z5s
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--bmweveq2oxpjd6s2
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
+Subject: Re: [PATCH v12 2/9] dma-buf: dma-heap: export declared functions
 MIME-Version: 1.0
 
-On Tue, Sep 30, 2025 at 10:02:28AM +0300, Dmitry Baryshkov wrote:
-> On Mon, Sep 29, 2025 at 03:00:04PM +0200, Maxime Ripard wrote:
-> > On Thu, Sep 25, 2025 at 05:16:07PM +0300, Dmitry Baryshkov wrote:
-> > > On Thu, Sep 25, 2025 at 03:13:47PM +0200, Maxime Ripard wrote:
-> > > > On Wed, Sep 10, 2025 at 06:26:56PM +0300, Dmitry Baryshkov wrote:
-> > > > > On Wed, Sep 10, 2025 at 09:30:19AM +0200, Maxime Ripard wrote:
-> > > > > > On Wed, Sep 03, 2025 at 03:03:43AM +0300, Dmitry Baryshkov wrot=
-e:
-> > > > > > > On Tue, Sep 02, 2025 at 08:06:54PM +0200, Maxime Ripard wrote:
-> > > > > > > > On Tue, Sep 02, 2025 at 06:45:44AM +0300, Dmitry Baryshkov =
-wrote:
-> > > > > > > > > On Mon, Sep 01, 2025 at 09:07:02AM +0200, Maxime Ripard w=
-rote:
-> > > > > > > > > > On Sun, Aug 31, 2025 at 01:29:13AM +0300, Dmitry Barysh=
-kov wrote:
-> > > > > > > > > > > On Sat, Aug 30, 2025 at 09:30:01AM +0200, Daniel Ston=
-e wrote:
-> > > > > > > > > > > > Hi Dmitry,
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
-> > > > > > > > > > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > > > > > > > > > > > It's not uncommon for the particular device to su=
-pport only a subset of
-> > > > > > > > > > > > > HDMI InfoFrames. It's not a big problem for the k=
-ernel, since we adopted
-> > > > > > > > > > > > > a model of ignoring the unsupported Infoframes, b=
-ut it's a bigger
-> > > > > > > > > > > > > problem for the userspace: we end up having files=
- in debugfs which do
-> > > > > > > > > > > > > mot match what is being sent on the wire.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Sort that out, making sure that all interfaces ar=
-e consistent.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > Thanks for the series, it's a really good cleanup.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > I know that dw-hdmi-qp can support _any_ infoframe,=
- by manually
-> > > > > > > > > > > > packing it into the two GHDMI banks. So the support=
-ed set there is
-> > > > > > > > > > > > 'all of the currently well-known ones, plus any two=
- others, but only
-> > > > > > > > > > > > two and not more'. I wonder if that has any effect =
-on the interface
-> > > > > > > > > > > > you were thinking about for userspace?
-> > > > > > > > > > >=20
-> > > > > > > > > > > I was mostly concerned with the existing debugfs inte=
-rface (as it is
-> > > > > > > > > > > also used e.g. for edid-decode, etc).
-> > > > > > > > > > >=20
-> > > > > > > > > > > It seems "everything + 2 spare" is more or less commo=
-n (ADV7511, MSM
-> > > > > > > > > > > HDMI also have those. I don't have at hand the proper=
- datasheet for
-> > > > > > > > > > > LT9611 (non-UXC one), but I think its InfoFrames are =
-also more or less
-> > > > > > > > > > > generic).  Maybe we should change debugfs integration=
- to register the
-> > > > > > > > > > > file when the frame is being enabled and removing it =
-when it gets unset.
-> > > > > > > > > >=20
-> > > > > > > > > > But, like, for what benefit?
-> > > > > > > > > >=20
-> > > > > > > > > > It's a debugfs interface for userspace to consume. The =
-current setup
-> > > > > > > > > > works fine with edid-decode already. Why should we comp=
-licate the design
-> > > > > > > > > > that much and create fun races like "I'm running edid-d=
-ecode in parallel
-> > > > > > > > > > to a modeset that would remove the file I just opened, =
-what is the file
-> > > > > > > > > > now?".
-> > > > > > > > >=20
-> > > > > > > > > Aren't we trading that with the 'I'm running edid-decode =
-in paralle with
-> > > > > > > > > to a modeset and the file suddenly becomes empty'?
-> > > > > > > >=20
-> > > > > > > > In that case, you know what the file is going to be: empty.=
- And you went
-> > > > > > > > from a racy, straightforward, design to a racy, complicated=
-, design.
-> > > > > > > >=20
-> > > > > > > > It was my question before, but I still don't really see wha=
-t benefits it
-> > > > > > > > would have, and why we need to care about it in the core, w=
-hen it could
-> > > > > > > > be dealt with in the drivers just fine on a case by case ba=
-sis.
-> > > > > > >=20
-> > > > > > > Actually it can not: debugfs files are registered from the co=
-re, not
-> > > > > > > from the drivers. That's why I needed all the supported_infof=
-rames
-> > > > > > > (which later became software_infoframes).
-> > > > > >=20
-> > > > > > That's one thing we can change then.
-> > > > > >=20
-> > > > > > > Anyway, I'm fine with having empty files there.
-> > > > > > >=20
-> > > > > > > > > > > Then in the long run we can add 'slots' and allocate =
-some of the frames
-> > > > > > > > > > > to the slots. E.g. ADV7511 would get 'software AVI', =
-'software SPD',
-> > > > > > > > > > > 'auto AUDIO' + 2 generic slots (and MPEG InfoFrame wh=
-ich can probably be
-> > > > > > > > > > > salvaged as another generic one)). MSM HDMI would get=
- 'software AVI',
-> > > > > > > > > > > 'software AUDIO' + 2 generic slots (+MPEG + obsucre H=
-DMI which I don't
-> > > > > > > > > > > want to use). Then the framework might be able to pri=
-oritize whether to
-> > > > > > > > > > > use generic slots for important data (as DRM HDR, HDM=
-I) or less important
-> > > > > > > > > > > (SPD).
-> > > > > > > > > >=20
-> > > > > > > > > > Why is it something for the framework to deal with? If =
-you want to have
-> > > > > > > > > > extra infoframes in there, just go ahead and create add=
-itional debugfs
-> > > > > > > > > > files in your driver.
-> > > > > > > > > >=20
-> > > > > > > > > > If you want to have the slot mechanism, check in your a=
-tomic_check that
-> > > > > > > > > > only $NUM_SLOT at most infoframes are set.
-> > > > > > > > >=20
-> > > > > > > > > The driver can only decide that 'we have VSI, SPD and DRM=
- InfoFrames
-> > > > > > > > > which is -ETOOMUCH for 2 generic slots'. The framework sh=
-ould be able to
-> > > > > > > > > decide 'the device has 2 generic slots, we have HDR data,=
- use VSI and
-> > > > > > > > > DRM InfoFrames and disable SPD for now'.
-> > > > > > > >=20
-> > > > > > > > I mean... the spec does? The spec says when a particular fe=
-ature
-> > > > > > > > requires to send a particular infoframe. If your device can=
-not support
-> > > > > > > > to have more than two "features" enabled at the same time, =
-so be it. It
-> > > > > > > > something that should be checked in that driver atomic_chec=
-k.
-> > > > > > >=20
-> > > > > > > Sounds good to me. Let's have those checks in the drivers unt=
-il we
-> > > > > > > actually have seveal drivers performing generic frame allocat=
-ion.
-> > > > > > >=20
-> > > > > > > > Or just don't register the SPD debugfs file, ignore it, put=
- a comment
-> > > > > > > > there, and we're done too.
-> > > > > > >=20
-> > > > > > > It's generic code.
-> > > > > > >=20
-> > > > > > > > > But... We are not there yet and I don't have clear usecas=
-e (we support
-> > > > > > > > > HDR neither on ADV7511 nor on MSM HDMI, after carefully r=
-eading the
-> > > > > > > > > guide I realised that ADV7511 has normal audio infoframes=
-). Maybe I
-> > > > > > > > > should drop all the 'auto' features, simplifying this ser=
-ies and land
-> > > > > > > > > [1] for LT9611UXC as I wanted origianlly.
-> > > > > > > > >=20
-> > > > > > > > > [1] https://lore.kernel.org/dri-devel/20250803-lt9611uxc-=
-hdmi-v1-2-cb9ce1793acf@oss.qualcomm.com/
-> > > > > > > >=20
-> > > > > > > > Looking back at that series, I think it still has value to =
-rely on the
-> > > > > > > > HDMI infrastructure at the very least for the atomic_check =
-sanitization.
-> > > > > > > >=20
-> > > > > > > > But since you wouldn't use the generated infoframes, just s=
-kip the
-> > > > > > > > debugfs files registration. You're not lying to userspace a=
-nymore, and
-> > > > > > > > you get the benefits of the HDMI framework.
-> > > > > > >=20
-> > > > > > > We create all infoframe files for all HDMI connectors.
-> > > > > >=20
-> > > > > > Then we can provide a debugfs_init helper to register all of th=
-em, or
-> > > > > > only some of them, and let the drivers figure it out.
-> > > > > >=20
-> > > > > > Worst case scenario, debugfs files will not get created, which =
-is a much
-> > > > > > better outcome than having to put boilerplate in every driver t=
-hat will
-> > > > > > get inconsistent over time.
-> > > > >=20
-> > > > > debugfs_init() for each infoframe or taking some kind of bitmask?
-> > > >=20
-> > > > I meant turning hdmi_debugfs_add and create_hdmi_*_infoframe_file i=
-nto
-> > > > public helpers. That way, drivers that don't care can use the (rena=
-med)
-> > > > hdmi_debugfs_add, and drivers with different constraints can regist=
-er
-> > > > the relevant infoframes directly.
-> > >=20
-> > > Doesn't that mean more boilerplate?
-> >=20
-> > I don't think it would? In the general case, it wouldn't change
-> > anything, and in special cases, then it's probably going to be different
-> > from one driver to the next so there's not much we can do.
-> >=20
-> > > In the end, LT9611UXC is a special case, for which I'm totally fine
-> > > not to use HDMI helpers at this point: we don't control infoframes
-> > > (hopefully that can change), we don't care about the TMDS clock, no
-> > > CEC, etc.
-> >=20
-> > Not using the helpers sound pretty reasonable here too.
-> >=20
-> > > For all other usecases I'm fine with having atomic_check() unset all
-> > > unsupported infoframes and having empty files in debugfs. Then we can
-> > > evolve over the time, once we see a pattern. We had several drivers
-> > > which had very limited infoframes support, but I think this now gets
-> > > sorted over the time.
-> >=20
-> > I never talked about atomic_check()? You were initially concerned that
-> > the framework would expose data in debugfs that it's not using. Not
-> > registering anything in debugfs solves that, but I'm not sure we need to
-> > special case atomic_check.
+On Thu, Oct 02, 2025 at 12:45:41PM -0700, John Stultz wrote:
+> On Thu, Oct 2, 2025 at 12:47=E2=80=AFAM Maxime Ripard <mripard@redhat.com=
+> wrote:
+> > On Thu, Sep 11, 2025 at 03:49:43PM +0200, Jens Wiklander wrote:
+> > > Export the dma-buf heap functions to allow them to be used by the OP-=
+TEE
+> > > driver. The OP-TEE driver wants to register and manage specific secure
+> > > DMA heaps with it.
+> > >
+> > > Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > > Reviewed-by: T.J. Mercier <tjmercier@google.com>
+> > > Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > ---
+> > >  drivers/dma-buf/dma-heap.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > > index 3cbe87d4a464..8ab49924f8b7 100644
+> > > --- a/drivers/dma-buf/dma-heap.c
+> > > +++ b/drivers/dma-buf/dma-heap.c
+> > > @@ -11,6 +11,7 @@
+> > >  #include <linux/dma-buf.h>
+> > >  #include <linux/dma-heap.h>
+> > >  #include <linux/err.h>
+> > > +#include <linux/export.h>
+> > >  #include <linux/list.h>
+> > >  #include <linux/nospec.h>
+> > >  #include <linux/syscalls.h>
+> > > @@ -202,6 +203,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+> > >  {
+> > >       return heap->priv;
+> > >  }
+> > > +EXPORT_SYMBOL_NS_GPL(dma_heap_get_drvdata, "DMA_BUF_HEAP");
+> > >
+> > >  /**
+> > >   * dma_heap_get_name - get heap name
+> > > @@ -214,6 +216,7 @@ const char *dma_heap_get_name(struct dma_heap *he=
+ap)
+> > >  {
+> > >       return heap->name;
+> > >  }
+> > > +EXPORT_SYMBOL_NS_GPL(dma_heap_get_name, "DMA_BUF_HEAP");
+> > >
+> > >  /**
+> > >   * dma_heap_add - adds a heap to dmabuf heaps
+> > > @@ -303,6 +306,7 @@ struct dma_heap *dma_heap_add(const struct dma_he=
+ap_export_info *exp_info)
+> > >       kfree(heap);
+> > >       return err_ret;
+> > >  }
+> > > +EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
+> >
+> > It's not clear to me why we would need to export those symbols.
+> >
+> > As far as I know, heaps cannot be removed, and compiling them as module
+> > means that we would be able to remove them.
+> >
+> > Now, if we don't expect the users to be compiled as modules, then we
+> > don't need to export these symbols at all.
+> >
+> > Am I missing something?
 >=20
-> Well... I ended up with [1], handling infoframes in the atomic_check()
-> rather than registering fewer infoframe debugfs files. This way device
-> state is consistent, we don't have enabled instances, etc. However it
-> results in repetetive code in atomic_check().
->=20
-> [1] https://lore.kernel.org/dri-devel/20250928-limit-infoframes-2-v2-0-6f=
-8f5fd04214@oss.qualcomm.com/
+> For things like distro kernels (or in Android's case, the GKI),
+> there's a benefit for modules that can be loaded permanently (not
+> having a module_exit hook).
+> One doesn't have to bloat the base kernel image/memory usage for
+> everyone, while still not having to necessarily deal with
+> complications from module unloading issues.
 
-I guess we can continue the discussion there, but I'm not sure we want
-to have more boilerplate in drivers, and especially in the atomic_check
-part. If drivers are inconsistent or wrong in the debugfs path, there's
-no major issue. If they are wrong in the atomic_check path, it will lead
-to regressions, possibly in paths that are pretty hard to test.
+Ack. We should at least document it then.
 
 Maxime
 
---xp6eesrwl3hc4z5s
+--bmweveq2oxpjd6s2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN/ODwAKCRAnX84Zoj2+
-diGqAYCVf6AMoXhcU3VIb8z9xIngvdSuylZqphD9JtE/rS3QR8jtXs1A5G3e9kDf
-b9g7FbABf0JcEMqoNM9n9pzN92QZ1DiCn8U+tdtLbXL6iPX0Iagrzdcxx1bfDwJN
-nZSidYIWcw==
-=Qw5/
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN/OTQAKCRAnX84Zoj2+
+dtj+AX9Z6mfBBmJxP6k0eTgjg+qG1U5U8jSi9QuHw6zfKnsmrcwgrOYtur1R6Pew
+cpDvn3QBfR0GnE+hRXWrYWoFPItAzGGTqManWkqHoYmL3MvlOwO7ECQmeIAe8L4a
+Hi/ZAVgLUQ==
+=rb0f
 -----END PGP SIGNATURE-----
 
---xp6eesrwl3hc4z5s--
+--bmweveq2oxpjd6s2--
+
