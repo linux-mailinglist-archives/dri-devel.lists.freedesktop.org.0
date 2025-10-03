@@ -2,54 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C237CBB65C6
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 11:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE28BB66B0
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 12:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 027CC10E1E6;
-	Fri,  3 Oct 2025 09:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8115C10E1EB;
+	Fri,  3 Oct 2025 10:04:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nHfOpo/E";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UroWbv7C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F2810E1E6
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 09:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=lIIBhuv8Qcx4BkAVq3ng5V3qtF2O1wVYDC1zh7zMIFY=; b=nHfOpo/E2WquEzhkLBB8splHBr
- NypXqxAhqFVBv7XHPXVKe+kKbfa/eS6sxlO6yulw3Lwg6UZQ/GVCDgNzCf3d48JW0fK46Rdso2+jl
- BYl3VSkXcpntQjqoOjPVmrFcFmF6PmOrQAssDSTW4p7JnwuvraI+sMRZo1M8ksgfZ7dzj8L1aIPrm
- oL8FC0JilkTbsF+MYUAp5EQGQ8C1rx/QT7vZni+2nuq/T3K41/mohClDiP6AwlpQrY+51MXLVkU4A
- zryzkKxatEg2RQ9Zcqjy9Lmvx9EuQcAn7wGoNOZB0jtGrbbscoLM5aTZE4zY6tWQiBkqtQy9YVoky
- pa3r6oMw==;
-Received: from [84.66.36.92] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1v4c3s-003ngf-Ky; Fri, 03 Oct 2025 11:26:48 +0200
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- stable@vger.kernel.org
-Subject: [PATCH] drm/sched: Fix potential double free in
- drm_sched_job_add_resv_dependencies
-Date: Fri,  3 Oct 2025 10:26:41 +0100
-Message-ID: <20251003092642.37065-1-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B364E10E1EC
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 10:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759485862;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iSGZ7gPwgdEtxj/NHjR//qoE33TcMzmwlPlxRMThCME=;
+ b=UroWbv7CalkjOGa7p3bkYTcKffR4Qf7APFywPTneV9Z4ULAZnUH45XlRjedRrEbK0m0HJM
+ kW4jBGS5d6P6CYRJHXExFi7DG6H+TdaHRtk4mQsxR8CwwY9Ots3EHKvA2ClJy/J4nwH64F
+ i0KFfXYtXHuDKsIBhc2KUOJfJwLItTk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-422-ihGS_9RNOOe5zj5G4wDnIg-1; Fri, 03 Oct 2025 06:04:21 -0400
+X-MC-Unique: ihGS_9RNOOe5zj5G4wDnIg-1
+X-Mimecast-MFC-AGG-ID: ihGS_9RNOOe5zj5G4wDnIg_1759485860
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-46e303235e8so28694225e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 03:04:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759485860; x=1760090660;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iSGZ7gPwgdEtxj/NHjR//qoE33TcMzmwlPlxRMThCME=;
+ b=oULezozhv8p6BhsN6i5jvE0rpmDR5Ok0qj4h7BVQtXVcdgVPXQMWvXLCsrmE4S9tS6
+ iUYgQWlTYK9Dx45g0pqKN7Cwd5rrGqfyJFmTeyZ4fbZpftm3XgEedY93dyCrt25R//n+
+ JY/CAjN4/5XoZusLlyJAebVviVbt5XXbXlmAMPTTWvmCHYmnYsCj7wqZyoO3OlWc+Ngq
+ oWGG1+t0NPBpfK5DmcW7ViFb3vGPHYaQqgEdPKIZr4QcDzE7xHrb+7+1Mb9a/qIISfIi
+ cNlNhT3Ynm31Ju8HmAxUUZRqeYfFC1YD03lx/F/xMWuPtPDPcPrDSSdpvZAhFYTLVJgd
+ HsMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUs5nL05CbDP3FazrD4T+fKhkTh+WV4Xjh3E/uwGRYlDMJtNgdxoraUy5LXlhQ+mUfNCIXLBFbdX5w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPpZDVjVNnRlcRAhSmOPfxvh6wHOi8G10Ys4hzekHWFgJ/37GM
+ HKj1dM2ESyWv3PstC6ed6IByHSEhCJ3E46SKRnS4TWIZcOz9rS5DQavrDj6e2ilzggCZGnRx9nU
+ pQVycMld3X6PSURPqz593gEcKbOXStzNvy29Ex1ZPvPTNxArTNj8DVC4c8CLz51D9KG60GA==
+X-Gm-Gg: ASbGnctJfAo+J7aNicnLbyUBI+7/rEHfBfOpgmBEGapOtCvmUYThO8XTUt+NCWZvbtH
+ TyZU8xJG+jLOPhf1D4j7sBV3oV8M6kaHJ1vhQbhdX//ksTVbcC828ZqRmKOaJuAnSNLjjgBran3
+ GEK44Gl4238tS3C/EEf3HNl709nAku6Oj0Gxs4rA087hI0oba4X85khlmAzCf2nxk54r4yx3DOA
+ tQIdm9fLHR8yyi/KAfmv+5NotiQ1CNWsaflV3R8OOUj/pWcpIsDYTzzJvh6PFlKmtmO5558QHVp
+ AQCU5q4uRyCrGx5v6Ip+y4N6Huq3KTjExg0RMr8Qvjl3U9IFMvuNIHGmzP0cxKcCH0s4fhYniBy
+ KWPfc7AGC1r/BnMLO/dX5K7mLTXWA
+X-Received: by 2002:a05:600c:8b22:b0:46e:4937:dd1b with SMTP id
+ 5b1f17b1804b1-46e7113f670mr20633885e9.17.1759485859845; 
+ Fri, 03 Oct 2025 03:04:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE9orXhNUEBAdaYwahGtz9hvXNKvvnMSnZWQQcsFvq6YSx1MF8F3MVitfA2oYFkO/QzLz7VwQ==
+X-Received: by 2002:a05:600c:8b22:b0:46e:4937:dd1b with SMTP id
+ 5b1f17b1804b1-46e7113f670mr20633535e9.17.1759485859284; 
+ Fri, 03 Oct 2025 03:04:19 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46e723431f5sm23697055e9.2.2025.10.03.03.04.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Oct 2025 03:04:15 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sitronix/st7571-i2c: reset position before clearing
+ display
+In-Reply-To: <aN9z4pdh1aBZZLdz@gmail.com>
+References: <20250913-st7571-reset-v1-1-ae5f58acdf8d@gmail.com>
+ <87o6r9o25m.fsf@minerva.mail-host-address-is-not-set>
+ <aMvIyOJkXE39sp8T@gmail.com>
+ <87a52saujd.fsf@minerva.mail-host-address-is-not-set>
+ <aN9z4pdh1aBZZLdz@gmail.com>
+Date: Fri, 03 Oct 2025 12:04:12 +0200
+Message-ID: <87wm5c47z7.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: j7n6ygTgvcPHx72-9FDYy8d7Y7Mr7fEfDrF9dM98OtE_1759485860
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,96 +104,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drm_sched_job_add_dependency() consumes the fence reference both on
-success and failure, so in the latter case the dma_fence_put() on the
-error path (xarray failed to expand) is a double free.
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-Interestingly this bug appears to have been present ever since
-ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code back
-then looked like this:
+Hello Marcus,
 
-drm_sched_job_add_implicit_dependencies():
-...
-       for (i = 0; i < fence_count; i++) {
-               ret = drm_sched_job_add_dependency(job, fences[i]);
-               if (ret)
-                       break;
-       }
+> Hello Javier,
+>
+> On Thu, Sep 18, 2025 at 01:07:18PM +0200, Javier Martinez Canillas wrote:
+>> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+>> 
+>> Hello Marcus,
+>> 
+>> > Hello Javier,
+>> >
+>> > On Wed, Sep 17, 2025 at 11:32:05AM +0200, Javier Martinez Canillas wrote:
+>> >> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+>> >> 
+>> >> > We cannot know where the write pointer is, always reset position to
+>> >> > (0,0) before clearing display.
+>> >> >
+>> >> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+>> >> > ---
+>> >> 
+>> >> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>> >> 
+>> >> Marcus, do you already have commit rights in drm-misc or do you want me to
+>> >> apply this patch ?
+>> >
+>> > I sent a request for commit rights yesterday, once it is approved I will
+>> > apply this patch myself :-)
+>> >
+>
+> It took longer than expected to get commit rights.
+>
+> Could you please apply this patch so that I could get it of my TODO-list
+> :-)
+>
 
-       for (; i < fence_count; i++)
-               dma_fence_put(fences[i]);
+Sure, pushed to drm-misc (drm-misc-next). Thanks!
 
-Which means for the failing 'i' the dma_fence_put was already a double
-free. Possibly there were no users at that time, or the test cases were
-insufficient to hit it.
-
-The bug was then only noticed and fixed after
-9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
-landed, with its fixup of
-4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
-
-At that point it was a slightly different flavour of a double free, which
-963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
-noticed and attempted to fix.
-
-But it only moved the double free from happening inside the
-drm_sched_job_add_dependency(), when releasing the reference not yet
-obtained, to the caller, when releasing the reference already released by
-the former in the failure case.
-
-As such it is not easy to identify the right target for the fixes tag so
-lets keep it simple and just continue the chain.
-
-We also drop the misleading comment about additional reference, since it
-is not additional but the only one from the point of view of dependency
-tracking.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>
-Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.16+
----
- drivers/gpu/drm/scheduler/sched_main.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 46119aacb809..aff34240f230 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -960,20 +960,16 @@ int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
- {
- 	struct dma_resv_iter cursor;
- 	struct dma_fence *fence;
--	int ret;
-+	int ret = 0;
- 
- 	dma_resv_assert_held(resv);
- 
- 	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
--		/* Make sure to grab an additional ref on the added fence */
--		dma_fence_get(fence);
--		ret = drm_sched_job_add_dependency(job, fence);
--		if (ret) {
--			dma_fence_put(fence);
--			return ret;
--		}
-+		ret = drm_sched_job_add_dependency(job, dma_fence_get(fence));
-+		if (ret)
-+			break;
- 	}
--	return 0;
-+	return ret;
- }
- EXPORT_SYMBOL(drm_sched_job_add_resv_dependencies);
- 
 -- 
-2.48.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
