@@ -2,93 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE28BB66B0
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 12:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38945BB68D8
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 13:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8115C10E1EB;
-	Fri,  3 Oct 2025 10:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFF110E320;
+	Fri,  3 Oct 2025 11:43:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UroWbv7C";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="NYQtRUKG";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="QFSC0CtG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B364E10E1EC
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 10:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1759485862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iSGZ7gPwgdEtxj/NHjR//qoE33TcMzmwlPlxRMThCME=;
- b=UroWbv7CalkjOGa7p3bkYTcKffR4Qf7APFywPTneV9Z4ULAZnUH45XlRjedRrEbK0m0HJM
- kW4jBGS5d6P6CYRJHXExFi7DG6H+TdaHRtk4mQsxR8CwwY9Ots3EHKvA2ClJy/J4nwH64F
- i0KFfXYtXHuDKsIBhc2KUOJfJwLItTk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-422-ihGS_9RNOOe5zj5G4wDnIg-1; Fri, 03 Oct 2025 06:04:21 -0400
-X-MC-Unique: ihGS_9RNOOe5zj5G4wDnIg-1
-X-Mimecast-MFC-AGG-ID: ihGS_9RNOOe5zj5G4wDnIg_1759485860
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-46e303235e8so28694225e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 03:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759485860; x=1760090660;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iSGZ7gPwgdEtxj/NHjR//qoE33TcMzmwlPlxRMThCME=;
- b=oULezozhv8p6BhsN6i5jvE0rpmDR5Ok0qj4h7BVQtXVcdgVPXQMWvXLCsrmE4S9tS6
- iUYgQWlTYK9Dx45g0pqKN7Cwd5rrGqfyJFmTeyZ4fbZpftm3XgEedY93dyCrt25R//n+
- JY/CAjN4/5XoZusLlyJAebVviVbt5XXbXlmAMPTTWvmCHYmnYsCj7wqZyoO3OlWc+Ngq
- oWGG1+t0NPBpfK5DmcW7ViFb3vGPHYaQqgEdPKIZr4QcDzE7xHrb+7+1Mb9a/qIISfIi
- cNlNhT3Ynm31Ju8HmAxUUZRqeYfFC1YD03lx/F/xMWuPtPDPcPrDSSdpvZAhFYTLVJgd
- HsMg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUs5nL05CbDP3FazrD4T+fKhkTh+WV4Xjh3E/uwGRYlDMJtNgdxoraUy5LXlhQ+mUfNCIXLBFbdX5w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPpZDVjVNnRlcRAhSmOPfxvh6wHOi8G10Ys4hzekHWFgJ/37GM
- HKj1dM2ESyWv3PstC6ed6IByHSEhCJ3E46SKRnS4TWIZcOz9rS5DQavrDj6e2ilzggCZGnRx9nU
- pQVycMld3X6PSURPqz593gEcKbOXStzNvy29Ex1ZPvPTNxArTNj8DVC4c8CLz51D9KG60GA==
-X-Gm-Gg: ASbGnctJfAo+J7aNicnLbyUBI+7/rEHfBfOpgmBEGapOtCvmUYThO8XTUt+NCWZvbtH
- TyZU8xJG+jLOPhf1D4j7sBV3oV8M6kaHJ1vhQbhdX//ksTVbcC828ZqRmKOaJuAnSNLjjgBran3
- GEK44Gl4238tS3C/EEf3HNl709nAku6Oj0Gxs4rA087hI0oba4X85khlmAzCf2nxk54r4yx3DOA
- tQIdm9fLHR8yyi/KAfmv+5NotiQ1CNWsaflV3R8OOUj/pWcpIsDYTzzJvh6PFlKmtmO5558QHVp
- AQCU5q4uRyCrGx5v6Ip+y4N6Huq3KTjExg0RMr8Qvjl3U9IFMvuNIHGmzP0cxKcCH0s4fhYniBy
- KWPfc7AGC1r/BnMLO/dX5K7mLTXWA
-X-Received: by 2002:a05:600c:8b22:b0:46e:4937:dd1b with SMTP id
- 5b1f17b1804b1-46e7113f670mr20633885e9.17.1759485859845; 
- Fri, 03 Oct 2025 03:04:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE9orXhNUEBAdaYwahGtz9hvXNKvvnMSnZWQQcsFvq6YSx1MF8F3MVitfA2oYFkO/QzLz7VwQ==
-X-Received: by 2002:a05:600c:8b22:b0:46e:4937:dd1b with SMTP id
- 5b1f17b1804b1-46e7113f670mr20633535e9.17.1759485859284; 
- Fri, 03 Oct 2025 03:04:19 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46e723431f5sm23697055e9.2.2025.10.03.03.04.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Oct 2025 03:04:15 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sitronix/st7571-i2c: reset position before clearing
- display
-In-Reply-To: <aN9z4pdh1aBZZLdz@gmail.com>
-References: <20250913-st7571-reset-v1-1-ae5f58acdf8d@gmail.com>
- <87o6r9o25m.fsf@minerva.mail-host-address-is-not-set>
- <aMvIyOJkXE39sp8T@gmail.com>
- <87a52saujd.fsf@minerva.mail-host-address-is-not-set>
- <aN9z4pdh1aBZZLdz@gmail.com>
-Date: Fri, 03 Oct 2025 12:04:12 +0200
-Message-ID: <87wm5c47z7.fsf@ocarina.mail-host-address-is-not-set>
+X-Greylist: delayed 4187 seconds by postgrey-1.36 at gabe;
+ Fri, 03 Oct 2025 11:43:56 UTC
+Received: from delivery.antispam.mailspamprotection.com
+ (delivery.antispam.mailspamprotection.com [185.56.87.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4157210E320
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 11:43:56 +0000 (UTC)
+ARC-Seal: i=1; cv=none; a=rsa-sha256;
+ d=outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1759491836; 
+ b=CJITbAIksPvfw//SdT35RKopY9J/lt/Aebv0BcxAhmEGd/aMjzqjCphdXDSnEjHdcZvld4XghI
+ AltwZd2qDD2xDo5Hyy4bDyQe3nEbPDF3BlR8nl5lSwfeEOe/2iQmwC24hHDdCmp3A2FXZodtY7
+ zD9ScQ2yRq8/znoCPnwPSWHM4VINmlUDqeQLRUKp+7ZI5c5xUbqGPaQL5/yfAyFnuqV24LLY+6
+ ju3DTGRtZ8hVTiGJodu4ZNCN/M1ywv84ffcJxD+KdWtT5V+fpwNMZKD8KgVVdTFppBUBHIsSCJ
+ Le2vnH5dD3jvvOFildpI5c9urG8CWST9rHBLxK4ID9Dyhw==;
+ARC-Authentication-Results: i=1;
+ outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com;
+ smtp.remote-ip=35.214.173.214; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
+ d=outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1759491836; 
+ bh=oxztwgSohn0Urt4wlKgp0INnLZf70XV4Jyinfy0e++o=;
+ h=Cc:To:Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Subject:Date:From:DKIM-Signature:DKIM-Signature;
+ b=X3viTAWDR8xnTPPQwZvTxhAv12rUfX4TcBDGUxWP1KIEt2fnJ0s54Xi0ySdo4vT2W7hzPrtNb+
+ XWE8FqDHa3hylWFMo5Ds0Sy2PTYsGwm5tz0tUos+eBsLhEA3Sd8T63DgqAN6ZPq9rtAb5GF/+Z
+ +M2Vx2T+T+shzrarBx3SgjTQUtJRJb2LACN7tlkl4kYLW728nfrNZcPGdLKH++flhWi2yrmPnt
+ LshtTh7GQJlb2u6Bj3yocgo7bBw7grv5TnaOVkIaXI2i3vu0g/TGnftDXjOE6AN1SMIK9peqif
+ rypMZXnz/W8PfDDP7r/Ms6bJX/a1c7shHHj4IXJMN1oQvQ==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+ :Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
+ :Date:From:Reply-To:List-Unsubscribe;
+ bh=hXsRLCbKNIXlJVJ6hEdkFul81XBtMTzLFWhNEYewW3s=; b=NYQtRUKGu1Tjqi1RVZY256PElN
+ PpkHu8Bb2TwFhaX9JwXHTi4DdvxEJg/KJt/XKT2U8g6gmkrnBN06F785RcbOgndkUGCwNI3zfguFp
+ SVngpFxunrWqcNgI20DabwFJWSII694MYHnPdtH+41vY0R6aJ8FR1vo6DEXzMYdRh7Cc=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
+ helo=esm19.siteground.biz)
+ by instance-europe-west4-66gm.prod.antispam.mailspamprotection.com with
+ esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
+ (envelope-from <francesco@valla.it>) id 1v4d6y-0000000Dun7-0Mew
+ for dri-devel@lists.freedesktop.org; Fri, 03 Oct 2025 10:34:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+ s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
+ list-subscribe:list-post:list-owner:list-archive;
+ bh=hXsRLCbKNIXlJVJ6hEdkFul81XBtMTzLFWhNEYewW3s=; b=QFSC0CtG6aJxxkXHpCPLA1lI0z
+ zWCImVm3kWJI7cN7S1Wyot7YK2zjgcpKSXNvENIGQMj4phbyTzjG+S6U/8ywRcOvIoTZQiMZTnp9U
+ cqo4Dz8+NYz0a3iUKM24hfEQ8PSY9YRGogzJoPSQe90VK8Tq/EBFt16j60WDpsWoczBE=;
+Received: from [87.16.13.60] (port=61630 helo=fedora-2.fritz.box)
+ by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.98.1) (envelope-from <francesco@valla.it>)
+ id 1v4d6j-00000000PzU-2xlq; Fri, 03 Oct 2025 10:33:49 +0000
+From: Francesco Valla <francesco@valla.it>
+Date: Fri, 03 Oct 2025 12:33:03 +0200
+Subject: [PATCH] drm/draw: fix color truncation in drm_draw_fill24
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: j7n6ygTgvcPHx72-9FDYy8d7Y7Mr7fEfDrF9dM98OtE_1759485860
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251003-drm_draw_fill24_fix-v1-1-8fb7c1c2a893@valla.it>
+X-B4-Tracking: v=1; b=H4sIAF6m32gC/x2MSwqAMAwFryJZW6ipLvQqIlJM1IA/UlBBvLvB1
+ TAD7z2QWIUTNNkDyqck2TeTIs9gmOM2sRMyB/RYFd4HR7r2pPHqR1kWLA2341ghBYx1CAS2PJQ
+ t/69t974fXhyDJ2UAAAA=
+X-Change-ID: 20251003-drm_draw_fill24_fix-ea52d32a933d
+To: Jocelyn Falempe <jfalempe@redhat.com>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Francesco Valla <francesco@valla.it>
+X-Mailer: b4 0.14.2
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: 7be041777e8f2ebfabaa1c2138488c7d
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1v4d6y-0000000Dun7-0Mew-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-66gm.prod.antispam.mailspamprotection.com; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,49 +125,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+The color parameter passed to drm_draw_fill24() was truncated to 16
+bits, leading to an incorrect color drawn to the target iosys_map.
+Fix this behavior, widening the parameter to 32 bits.
 
-Hello Marcus,
+Fixes: 31fa2c1ca0b2 ("drm/panic: Move drawing functions to drm_draw")
 
-> Hello Javier,
->
-> On Thu, Sep 18, 2025 at 01:07:18PM +0200, Javier Martinez Canillas wrote:
->> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
->> 
->> Hello Marcus,
->> 
->> > Hello Javier,
->> >
->> > On Wed, Sep 17, 2025 at 11:32:05AM +0200, Javier Martinez Canillas wrote:
->> >> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
->> >> 
->> >> > We cannot know where the write pointer is, always reset position to
->> >> > (0,0) before clearing display.
->> >> >
->> >> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
->> >> > ---
->> >> 
->> >> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->> >> 
->> >> Marcus, do you already have commit rights in drm-misc or do you want me to
->> >> apply this patch ?
->> >
->> > I sent a request for commit rights yesterday, once it is approved I will
->> > apply this patch myself :-)
->> >
->
-> It took longer than expected to get commit rights.
->
-> Could you please apply this patch so that I could get it of my TODO-list
-> :-)
->
+Signed-off-by: Francesco Valla <francesco@valla.it>
+---
+ drivers/gpu/drm/drm_draw.c          | 2 +-
+ drivers/gpu/drm/drm_draw_internal.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Sure, pushed to drm-misc (drm-misc-next). Thanks!
+diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
+index 9dc0408fbbeadbe8282a2d6b210e0bfb0672967f..5b956229c82fb6e232e3342705a226c8e14c8568 100644
+--- a/drivers/gpu/drm/drm_draw.c
++++ b/drivers/gpu/drm/drm_draw.c
+@@ -127,7 +127,7 @@ EXPORT_SYMBOL(drm_draw_fill16);
+ 
+ void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
+ 		     unsigned int height, unsigned int width,
+-		     u16 color)
++		     u32 color)
+ {
+ 	unsigned int y, x;
+ 
+diff --git a/drivers/gpu/drm/drm_draw_internal.h b/drivers/gpu/drm/drm_draw_internal.h
+index f121ee7339dc11537f677c833f0ee94fe0e799cd..20cb404e23ea6263b535ea2b81b25f84c37be8a2 100644
+--- a/drivers/gpu/drm/drm_draw_internal.h
++++ b/drivers/gpu/drm/drm_draw_internal.h
+@@ -47,7 +47,7 @@ void drm_draw_fill16(struct iosys_map *dmap, unsigned int dpitch,
+ 
+ void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
+ 		     unsigned int height, unsigned int width,
+-		     u16 color);
++		     u32 color);
+ 
+ void drm_draw_fill32(struct iosys_map *dmap, unsigned int dpitch,
+ 		     unsigned int height, unsigned int width,
 
--- 
+---
+base-commit: e406d57be7bd2a4e73ea512c1ae36a40a44e499e
+change-id: 20251003-drm_draw_fill24_fix-ea52d32a933d
+
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-- 
+Francesco Valla <francesco@valla.it>
 
