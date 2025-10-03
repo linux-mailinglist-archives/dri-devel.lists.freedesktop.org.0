@@ -2,73 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A4DBB78B1
-	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76193BB78ED
+	for <lists+dri-devel@lfdr.de>; Fri, 03 Oct 2025 18:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E399410E051;
-	Fri,  3 Oct 2025 16:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C000F10E1DA;
+	Fri,  3 Oct 2025 16:34:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QS2bKJh3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ryh7Z5K0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
- [209.85.166.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6807D10E051
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Oct 2025 16:27:53 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id
- e9e14a558f8ab-42571b8abbaso22318195ab.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Oct 2025 09:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759508872; x=1760113672; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=USCXpsbsAQD0Nk5BOjl8HGSN1iDwitl7j+jcF5M3I7I=;
- b=QS2bKJh3IoVaRki0SVXt2EtFGHnuGkNiZ0kxlqkIJOQnwKvTefGc47Q5NdG2UA4wEH
- DbvGXCGiWmDXP0alzaYh+muxUvxnvIYtIOT1t8quB0e/H6SdtCMH7zP8aPPV9pW6yswE
- KNTQ/eD/72dFFKb5JvCz/3txQywQD/z/Xy4JH8FTQDA0R4H2/PlvBPYiZFACVIkzCH7V
- ubi9XOlCnzp/u/hnTF7zk7R5z3T6A9wzHbv8nCL4K0Zq0AbbhgJ/gR5ZfzlCdvLbC7w/
- 6ZXCv8eW2yvBfDcfchiTPFXTDPQjO/+C+joohHNBUTb74LHuw7Nj7YZQTtKUSi1MWrxT
- Ui2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759508872; x=1760113672;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=USCXpsbsAQD0Nk5BOjl8HGSN1iDwitl7j+jcF5M3I7I=;
- b=n8Rhj9/2KQSS8tEEZaEUhkipogVg+FwFhxCC9FJpAQfKGVWnlEcwSe1Cu8vr7y2VAU
- ZIKNThhOen7Rtkhd8ynEiNN8pObSsWcCSjuSTO8TzQyiLI+55/xDDPftCTxISkQleSx1
- UYJAPEDU0LvOrLDlIUDDy9JdpLKfMcu96aR8F2YXst89EtjeBYRGHWmJQdN895pcHCdF
- Hr4bP1lXIUFRSHTDQfsS/mPp5GOnZj9Ue0V/4giEKPW1LIlCSxPSzV8uz69WNj7jWne0
- bhWJmuMTSETT+Ka/UfUojnuJUV0+oR+KVLa7rjVUBf3gyK3oELwjvtOZ9qrQuQFNc5ge
- x0AQ==
-X-Gm-Message-State: AOJu0YzCGwJ3TTXSVpvjY2P1+oHi29/7oXIloGcLuFGpyGyiuSp5PclI
- hm+a+soM5SQngknxKMnudblVJIqiHO/1xyWmdS6AtFjCQZygte6EqUuJ1sSJGeXAjYKdupf2WNh
- yJlmGfqCosZQIgEJ2rLIyv1aWcuFBbqc=
-X-Gm-Gg: ASbGncsFIseNDnI4fhop9VLf2q8Aate2wRBLYnexoI5I3kJB7ezwkmjmVVrghLHmtpl
- 9vq41Fm/FYbAQPmhM5DDDW5WcGZnjtnYp0BN2Kp22G/JL6q3Krw/duyjKU2xAonOUIuZdVkmLK/
- MupaY7ekC9egFDKeMV0aUlBU/nS6cLxxK2PRGgSVQz5xFC4WeGh4rxA/5W4i2MDTe8bWZH1ltSS
- hBiT9TN6wJeYB6JuLdeWWstEw9whIY+3vtzhuIZ7w==
-X-Google-Smtp-Source: AGHT+IG5U0Eumdkhgs3ZTkKPMS/4Rb73f9mP3aRqyn6uSv8WeH/xE+vmhbGPGRxYn5U9jd62L36Ma2NvyTZnXTEMvR4=
-X-Received: by 2002:a05:6e02:1fcb:b0:42d:8a3f:ec97 with SMTP id
- e9e14a558f8ab-42e7acec115mr39864895ab.7.1759508872113; Fri, 03 Oct 2025
- 09:27:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250926093008.1949131-1-rk0006818@gmail.com>
-In-Reply-To: <20250926093008.1949131-1-rk0006818@gmail.com>
-From: Rahul Kumar <rk0006818@gmail.com>
-Date: Fri, 3 Oct 2025 21:57:41 +0530
-X-Gm-Features: AS18NWDZ_gXdepyRkdwU1-tDYNyL9KYbRkfzf6IcxW7mLWHegU6DwrwHAm3T6WM
-Message-ID: <CAKY2RybB1CRtXLCeyPq3Ja+xbhDo8DChK+U=JiCxw99ynmoCOA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/komeda: Convert logging in komeda_crtc.c to drm_*
- with drm_device parameter
-To: Liviu Dudau <liviu.dudau@arm.com>, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- linux-kernel-mentees <linux-kernel-mentees@lists.linux.dev>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000004d36dd06404395c8"
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8575910E1DA;
+ Fri,  3 Oct 2025 16:34:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 325CA43C9A;
+ Fri,  3 Oct 2025 16:34:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B803BC4CEF5;
+ Fri,  3 Oct 2025 16:34:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759509259;
+ bh=ozG5IP2yJLNMxQLolYxbuES4sVM7rtrK+UQzCETiaCs=;
+ h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+ b=Ryh7Z5K0/iw8iGFMMvEPGqI7LA/C+E7thDMQtF9lNLT47PZSMMukMxGOsDi862J3u
+ 5ZIM8kv6mMYYbz79NgtbyCb7HpVEF52XyEFBs39+wqM5S/gzNGPnElOn16aZoewC7O
+ 8d7CK8dFfFn5ZojeqstI7hSswtf2ayOoB9K+TWIX8QkIEvkpUHoaYlXwMi2SRiGHvM
+ sIBx7uSI2KlKz1ViBiZv3bit4VDE79UoSFtEqXJwfa1PCQSF80czN7sJlyiDNml5vx
+ u0Awg6y7xurEOLHW+IYPasjHpez1v0Jg2nCdL3PDRssCwZ5JlF82WVOPTewgAM/YCV
+ QKkLqY9WaO3CQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Oct 2025 18:34:12 +0200
+Message-Id: <DD8TZ3TU57L3.2958OTC9UP4VF@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
+ Hubbard" <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v3 08/13] gpu: nova-core: Add bindings and accessors for
+ GspSystemInfo
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20250930131648.411720-1-apopple@nvidia.com>
+ <20250930131648.411720-9-apopple@nvidia.com>
+ <DD7VU4239GS2.2MKVFPBFEY1R4@nvidia.com>
+In-Reply-To: <DD7VU4239GS2.2MKVFPBFEY1R4@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,457 +72,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000004d36dd06404395c8
-Content-Type: text/plain; charset="UTF-8"
+On Thu Oct 2, 2025 at 3:49 PM CEST, Alexandre Courbot wrote:
+> Hi Alistair, (+Benno as this concerns the `init!` macros)
+>
+> On Tue Sep 30, 2025 at 10:16 PM JST, Alistair Popple wrote:
+>> Adds bindings and an in-place initialiser for the GspSystemInfo struct.
+>>
+>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>>
+>> ---
+>>
+>> It would be good to move to using the `init!` macros at some point, but
+>> I couldn't figure out how to make that work to initialise an enum rather
+>> than a struct as is required for the transparent representation.
+>
+> Indeed we have to jump through a few (minor) hoops.
+>
+> First the `init!` macros do not seem to support tuple structs. They
+> match a `{` after the type name, which is not present in
+> `GspSystemInfo`. By turning it into a regular struct with a single
+> field, we can overcome this, and it doesn't affect the layout the
+> `#[repr(transparent)]` can still be used.
 
-Hi Liviu,
+Yeah that's the correct workaround at the moment. I'm tracking support
+for tuple structs in [1]. Essentially the problem is that it requires
+lots of effort to parse tuple structs using declarative macros. We will
+get `syn` this cycle, which will enable me to support several things,
+including tuple structs.
 
-Just following up to ask if anything more is needed from my side for this
-patch, or if you plan to pick it up in this merge window.
+[1]: https://github.com/Rust-for-Linux/pin-init/issues/85
 
-Thanks,
-Rahul
+> Then, due to a limitation with declarative macros, `init!` interprets
+> `::` as a separator for generic arguments, so `bindings::GspSystemInfo`
+> also doesn't parse. Here the trick is to use a local type alias.
 
-On Fri, 26 Sept, 2025, 3:00 pm Rahul Kumar, <rk0006818@gmail.com> wrote:
+This one will also be solved when we switch to syn.
 
-> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
-> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
-> corresponding drm_err(), drm_warn(), and drm_info() helpers.
+> After overcoming these two, I have been able to make
+> `GspSystemInfo::init` return an in-place initializer. It is then a
+> matter of changing `send_gsp_command` to accept it - please apply the
+> following patch on top of your series for an illustration of how it can
+> be done.
 >
-> The new drm_*() logging functions take a struct drm_device * as the
-> first argument. This allows the DRM core to prefix log messages with
-> the specific DRM device name and instance, which is essential for
-> distinguishing logs when multiple GPUs or display controllers are present.
+> Note that I have added a new generic argument for the error returned by
+> the `Init` - this is to let us also use infallible initializers
+> transparently. The cool thing is that callers don't need to specify any
+> generic argument since they can be inferred automatically.
 >
-> This change aligns komeda with the DRM TODO item: "Convert logging to
-> drm_* functions with drm_device parameter".
+> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gs=
+p/cmdq.rs
+> index 5580eaf52f7b..0709153f9dc9 100644
+> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+> @@ -247,12 +247,20 @@ fn notify_gsp(bar: &Bar0) {
+>          NV_PGSP_QUEUE_HEAD::default().set_address(0).write(bar);
+>      }
 >
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> ---
-> Changes since v2:
-> - Added Reviewed-by tag from Liviu Dudau
+> -    pub(crate) fn send_gsp_command<M: CommandToGsp>(
+> +    pub(crate) fn send_gsp_command<M, E>(
+>          &mut self,
+>          bar: &Bar0,
+>          payload_size: usize,
+> -        init: impl FnOnce(&mut M, SBuffer<core::array::IntoIter<&mut [u8=
+], 2>>) -> Result,
+> -    ) -> Result {
+> +        init: impl Init<M, E>,
+> +        init_sbuffer: impl FnOnce(SBuffer<core::array::IntoIter<&mut [u8=
+], 2>>) -> Result,
+> +    ) -> Result
+> +    where
+> +        M: CommandToGsp,
+> +        // This allows all error types, including `Infallible`, to be us=
+ed with `init`. Without
+> +        // this we cannot use regular stack objects as `init` since thei=
+r `Init` implementation
+> +        // does not return any error.
+> +        Error: From<E>,
+> +    {
+>          // TODO: a method that extracts the regions for a given command?
+>          // ... and another that reduces the region to a given number of =
+bytes!
+>          let driver_area =3D self.gsp_mem.driver_write_area();
+> @@ -264,7 +272,7 @@ pub(crate) fn send_gsp_command<M: CommandToGsp>(
+>              return Err(EAGAIN);
+>          }
 >
-> Link to v1:
-> https://lore.kernel.org/all/aJshoswGslcYQFLI@e110455-lin.cambridge.arm.com/
-> ---
->  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 31 +++++++++++--------
->  1 file changed, 18 insertions(+), 13 deletions(-)
+> -        let (msg_header, cmd, payload_1, payload_2) =3D {
+> +        let (msg_header, cmd_ptr, payload_1, payload_2) =3D {
+>              #[allow(clippy::incompatible_msrv)]
+>              let (msg_header_slice, slice_1) =3D driver_area
+>                  .0
+> @@ -272,7 +280,6 @@ pub(crate) fn send_gsp_command<M: CommandToGsp>(
+>                  .split_at_mut(size_of::<GspMsgElement>());
+>              let msg_header =3D GspMsgElement::from_bytes_mut(msg_header_=
+slice).ok_or(EINVAL)?;
+>              let (cmd_slice, payload_1) =3D slice_1.split_at_mut(size_of:=
+:<M>());
+> -            let cmd =3D M::from_bytes_mut(cmd_slice).ok_or(EINVAL)?;
+>              #[allow(clippy::incompatible_msrv)]
+>              let payload_2 =3D driver_area.1.as_flattened_mut();
+>              // TODO: Replace this workaround to cut the payload size.
+> @@ -283,11 +290,22 @@ pub(crate) fn send_gsp_command<M: CommandToGsp>(
+>                  None =3D> (&mut payload_1[..payload_size], payload_2),
+>              };
 >
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index 2ad33559a33a..5a66948ffd24 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
->  static int
->  komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  {
-> +       struct drm_device *drm = kcrtc->base.dev;
->         struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
->         struct komeda_pipeline *master = kcrtc->master;
->         struct komeda_crtc_state *kcrtc_st =
-> to_kcrtc_st(kcrtc->base.state);
-> @@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->
->         err = mdev->funcs->change_opmode(mdev, new_mode);
->         if (err) {
-> -               DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> -                         mdev->dpmode, new_mode);
-> +               drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> +                       mdev->dpmode, new_mode);
->                 goto unlock;
->         }
->
-> @@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->         if (new_mode != KOMEDA_MODE_DUAL_DISP) {
->                 err = clk_set_rate(mdev->aclk,
-> komeda_crtc_get_aclk(kcrtc_st));
->                 if (err)
-> -                       DRM_ERROR("failed to set aclk.\n");
-> +                       drm_err(drm, "failed to set aclk.\n");
->                 err = clk_prepare_enable(mdev->aclk);
->                 if (err)
-> -                       DRM_ERROR("failed to enable aclk.\n");
-> +                       drm_err(drm, "failed to enable aclk.\n");
->         }
->
->         err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
->         if (err)
-> -               DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
-> +               drm_err(drm, "failed to set pxlclk for pipe%d\n",
-> master->id);
->         err = clk_prepare_enable(master->pxlclk);
->         if (err)
-> -               DRM_ERROR("failed to enable pxl clk for pipe%d.\n",
-> master->id);
-> +               drm_err(drm, "failed to enable pxl clk for pipe%d.\n",
-> master->id);
->
->  unlock:
->         mutex_unlock(&mdev->lock);
-> @@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  static int
->  komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  {
-> +       struct drm_device *drm = kcrtc->base.dev;
->         struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
->         struct komeda_pipeline *master = kcrtc->master;
->         u32 new_mode;
-> @@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->
->         err = mdev->funcs->change_opmode(mdev, new_mode);
->         if (err) {
-> -               DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> -                         mdev->dpmode, new_mode);
-> +               drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> +                       mdev->dpmode, new_mode);
->                 goto unlock;
->         }
->
-> @@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->                               struct komeda_events *evts)
->  {
-> +       struct drm_device *drm = kcrtc->base.dev;
->         struct drm_crtc *crtc = &kcrtc->base;
->         u32 events = evts->pipes[kcrtc->master->id];
->
-> @@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc
->  *kcrtc,
->                 if (wb_conn)
->                         drm_writeback_signal_completion(&wb_conn->base, 0);
->                 else
-> -                       DRM_WARN("CRTC[%d]: EOW happen but no
-> wb_connector.\n",
-> +                       drm_warn(drm, "CRTC[%d]: EOW happen but no
-> wb_connector.\n",
->                                  drm_crtc_index(&kcrtc->base));
->         }
->         /* will handle it together with the write back support */
-> @@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc
->  *kcrtc,
->                         crtc->state->event = NULL;
->                         drm_crtc_send_vblank_event(crtc, event);
->                 } else {
-> -                       DRM_WARN("CRTC[%d]: FLIP happened but no pending
-> commit.\n",
-> +                       drm_warn(drm, "CRTC[%d]: FLIP happened but no
-> pending commit.\n",
->                                  drm_crtc_index(&kcrtc->base));
->                 }
->                 spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-> @@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct
-> komeda_crtc *kcrtc,
->
->         /* wait the flip take affect.*/
->         if (wait_for_completion_timeout(flip_done, HZ) == 0) {
-> -               DRM_ERROR("wait pipe%d flip done timeout\n",
-> kcrtc->master->id);
-> +               drm_err(drm, "wait pipe%d flip done timeout\n",
-> kcrtc->master->id);
->                 if (!input_flip_done) {
->                         unsigned long flags;
->
-> @@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs =
-> {
->  int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
->                            struct komeda_dev *mdev)
->  {
-> +       struct drm_device *drm = &kms->base;
->         struct komeda_crtc *crtc;
->         struct komeda_pipeline *master;
->         char str[16];
-> @@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
->                 else
->                         sprintf(str, "None");
->
-> -               DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
-> +               drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
->                          kms->n_crtcs, master->id, str);
->
->                 kms->n_crtcs++;
-> @@ -613,6 +617,7 @@ static int komeda_attach_bridge(struct device *dev,
->                                 struct komeda_pipeline *pipe,
->                                 struct drm_encoder *encoder)
->  {
-> +       struct drm_device *drm = encoder->dev;
->         struct drm_bridge *bridge;
->         int err;
->
-> @@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
->
->         err = drm_bridge_attach(encoder, bridge, NULL, 0);
->         if (err)
-> -               dev_err(dev, "bridge_attach() failed for pipe: %s\n",
-> +               drm_err(drm, "bridge_attach() failed for pipe: %s\n",
->                         of_node_full_name(pipe->of_node));
->
->         return err;
-> --
-> 2.43.0
->
->
+> -            (msg_header, cmd, payload_1, payload_2)
+> +            (
+> +                msg_header,
+> +                cmd_slice.as_mut_ptr().cast(),
+> +                payload_1,
+> +                payload_2,
+> +            )
+> +        };
+> +
+> +        let cmd =3D unsafe {
+> +            init.__init(cmd_ptr)?;
 
---0000000000004d36dd06404395c8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is missing a safety comment. I haven't looked at this locally, so I
+don't know what is happening in the 10-20 lines that aren't shown, so I
+don't know if this is correct (if you're only assuming its initialized
+after this line completes then it's fine). The rest of the patch looks
+normal.
 
-<div dir=3D"auto"><p>Hi Liviu,</p>
-<p>Just following up to ask if anything more is needed from my side for thi=
-s patch, or if you plan to pick it up in this merge window.</p>
-<p>Thanks,<br>
-Rahul</p></div><br><div class=3D"gmail_quote gmail_quote_container"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Fri, 26 Sept, 2025, 3:00 pm Rahul Kumar, =
-&lt;<a href=3D"mailto:rk0006818@gmail.com">rk0006818@gmail.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">Replace all dev_err(), dev_warn(=
-), dev_info() and DRM_ERROR/WARN/INFO()<br>
-calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the<br>
-corresponding drm_err(), drm_warn(), and drm_info() helpers.<br>
-<br>
-The new drm_*() logging functions take a struct drm_device * as the<br>
-first argument. This allows the DRM core to prefix log messages with<br>
-the specific DRM device name and instance, which is essential for<br>
-distinguishing logs when multiple GPUs or display controllers are present.<=
-br>
-<br>
-This change aligns komeda with the DRM TODO item: &quot;Convert logging to<=
-br>
-drm_* functions with drm_device parameter&quot;.<br>
-<br>
-Signed-off-by: Rahul Kumar &lt;<a href=3D"mailto:rk0006818@gmail.com" targe=
-t=3D"_blank" rel=3D"noreferrer">rk0006818@gmail.com</a>&gt;<br>
-Reviewed-by: Liviu Dudau &lt;<a href=3D"mailto:liviu.dudau@arm.com" target=
-=3D"_blank" rel=3D"noreferrer">liviu.dudau@arm.com</a>&gt;<br>
----<br>
-Changes since v2:<br>
-- Added Reviewed-by tag from Liviu Dudau<br>
-<br>
-Link to v1:<br>
-<a href=3D"https://lore.kernel.org/all/aJshoswGslcYQFLI@e110455-lin.cambrid=
-ge.arm.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lore.k=
-ernel.org/all/aJshoswGslcYQFLI@e110455-lin.cambridge.arm.com/</a><br>
----<br>
-=C2=A0.../gpu/drm/arm/display/komeda/komeda_crtc.c=C2=A0 | 31 +++++++++++--=
-------<br>
-=C2=A01 file changed, 18 insertions(+), 13 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu=
-/drm/arm/display/komeda/komeda_crtc.c<br>
-index 2ad33559a33a..5a66948ffd24 100644<br>
---- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c<br>
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c<br>
-@@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,<br>
-=C2=A0static int<br>
-=C2=A0komeda_crtc_prepare(struct komeda_crtc *kcrtc)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D kcrtc-&gt;<a href=3D=
-"http://base.dev" rel=3D"noreferrer noreferrer" target=3D"_blank">base.dev<=
-/a>;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_dev *mdev =3D kcrtc-&gt;base.dev-=
-&gt;dev_private;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_pipeline *master =3D kcrtc-&gt;ma=
-ster;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_crtc_state *kcrtc_st =3D to_kcrtc=
-_st(kcrtc-&gt;base.state);<br>
-@@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D mdev-&gt;funcs-&gt;change_opmode(mdev, =
-new_mode);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;fai=
-led to change opmode: 0x%x -&gt; 0x%x.\n,&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0mdev-&gt;dpmode, new_mode);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;=
-failed to change opmode: 0x%x -&gt; 0x%x.\n,&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0mdev-&gt;dpmode, new_mode);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto unlock;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-@@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (new_mode !=3D KOMEDA_MODE_DUAL_DISP) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D clk_set_rat=
-e(mdev-&gt;aclk, komeda_crtc_get_aclk(kcrtc_st));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0DRM_ERROR(&quot;failed to set aclk.\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0drm_err(drm, &quot;failed to set aclk.\n&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D clk_prepare=
-_enable(mdev-&gt;aclk);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0DRM_ERROR(&quot;failed to enable aclk.\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0drm_err(drm, &quot;failed to enable aclk.\n&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D clk_set_rate(master-&gt;pxlclk, mode-&g=
-t;crtc_clock * 1000);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;fai=
-led to set pxlclk for pipe%d\n&quot;, master-&gt;id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;=
-failed to set pxlclk for pipe%d\n&quot;, master-&gt;id);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D clk_prepare_enable(master-&gt;pxlclk);<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;fai=
-led to enable pxl clk for pipe%d.\n&quot;, master-&gt;id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;=
-failed to enable pxl clk for pipe%d.\n&quot;, master-&gt;id);<br>
-<br>
-=C2=A0unlock:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mutex_unlock(&amp;mdev-&gt;lock);<br>
-@@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)<br>
-=C2=A0static int<br>
-=C2=A0komeda_crtc_unprepare(struct komeda_crtc *kcrtc)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D kcrtc-&gt;<a href=3D=
-"http://base.dev" rel=3D"noreferrer noreferrer" target=3D"_blank">base.dev<=
-/a>;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_dev *mdev =3D kcrtc-&gt;base.dev-=
-&gt;dev_private;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_pipeline *master =3D kcrtc-&gt;ma=
-ster;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 new_mode;<br>
-@@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D mdev-&gt;funcs-&gt;change_opmode(mdev, =
-new_mode);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;fai=
-led to change opmode: 0x%x -&gt; 0x%x.\n,&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0mdev-&gt;dpmode, new_mode);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;=
-failed to change opmode: 0x%x -&gt; 0x%x.\n,&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0mdev-&gt;dpmode, new_mode);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto unlock;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-@@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)<br>
-=C2=A0void komeda_crtc_handle_event(struct komeda_crtc=C2=A0 =C2=A0*kcrtc,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_events *evts)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D kcrtc-&gt;<a href=3D=
-"http://base.dev" rel=3D"noreferrer noreferrer" target=3D"_blank">base.dev<=
-/a>;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_crtc *crtc =3D &amp;kcrtc-&gt;base;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 events =3D evts-&gt;pipes[kcrtc-&gt;master-=
-&gt;id];<br>
-<br>
-@@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc=C2=A0 =
-=C2=A0*kcrtc,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (wb_conn)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 drm_writeback_signal_completion(&amp;wb_conn-&gt;base, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0DRM_WARN(&quot;CRTC[%d]: EOW happen but no wb_connector.\n&quot;,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0drm_warn(drm, &quot;CRTC[%d]: EOW happen but no wb_connector.\n&q=
-uot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_crtc_index(&amp;kcrtc-&gt;=
-base));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* will handle it together with the write back =
-support */<br>
-@@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc=C2=A0 =
-=C2=A0*kcrtc,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 crtc-&gt;state-&gt;event =3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 drm_crtc_send_vblank_event(crtc, event);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0DRM_WARN(&quot;CRTC[%d]: FLIP happened but no pending commit.\n&q=
-uot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0drm_warn(drm, &quot;CRTC[%d]: FLIP happened but no pending commit=
-.\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_crtc_index(&amp;kcrtc-&gt;=
-base));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spin_unlock_irqrest=
-ore(&amp;crtc-&gt;dev-&gt;event_lock, flags);<br>
-@@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_=
-crtc *kcrtc,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* wait the flip take affect.*/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (wait_for_completion_timeout(flip_done, HZ) =
-=3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;wai=
-t pipe%d flip done timeout\n&quot;, kcrtc-&gt;master-&gt;id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;=
-wait pipe%d flip done timeout\n&quot;, kcrtc-&gt;master-&gt;id);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!input_flip_don=
-e) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 unsigned long flags;<br>
-<br>
-@@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs =
-=3D {<br>
-=C2=A0int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0struct komeda_dev *mdev)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D &amp;kms-&gt;base;<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_crtc *crtc;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_pipeline *master;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 char str[16];<br>
-@@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 sprintf(str, &quot;None&quot;);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_INFO(&quot;CRTC=
--%d: master(pipe-%d) slave(%s).\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_info(drm, &quot=
-;CRTC-%d: master(pipe-%d) slave(%s).\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0kms-&gt;n_crtcs, master-&gt;id, str);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kms-&gt;n_crtcs++;<=
-br>
-@@ -613,6 +617,7 @@ static int komeda_attach_bridge(struct device *dev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct komeda_pipeline *pipe,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_encoder *encoder)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_device *drm =3D encoder-&gt;dev;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_bridge *bridge;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err;<br>
-<br>
-@@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D drm_bridge_attach(encoder, bridge, NULL=
-, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(dev, &quot;=
-bridge_attach() failed for pipe: %s\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(drm, &quot;=
-bridge_attach() failed for pipe: %s\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 of_node_full_name(pipe-&gt;of_node));<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return err;<br>
--- <br>
-2.43.0<br>
-<br>
-</blockquote></div>
+Hope this helps!
 
---0000000000004d36dd06404395c8--
+---
+Cheers,
+Benno
+
+> +            // Convert the pointer backto a reference for checksum.
+> +            &mut *cmd_ptr
+>          };
