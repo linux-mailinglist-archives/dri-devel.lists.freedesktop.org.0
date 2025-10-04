@@ -2,80 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC80BB8C04
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 11:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7C2BB8C1C
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 11:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 892FE10E214;
-	Sat,  4 Oct 2025 09:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD0110E215;
+	Sat,  4 Oct 2025 09:39:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mts/iX20";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gLxYlWyC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C05110E214
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 09:36:58 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-280fc0e9f50so4332365ad.3
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 02:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759570618; x=1760175418; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=feYeUBQ+zRG9kMk06d6rOS7HenSqT9mRm9UdGzyR9sk=;
- b=mts/iX20+Q/RaWeVxln73RpPs9sOs0duQZo4XsnyOMAObn8vyIRzfGgx5PZxpP4fcd
- e9xnWGPgP7W2+INywgOYcjazJK4xcOYXfbS4GHrh2hi6BkFfNzJZVvVO1XJ14vXcoNLj
- eA8eu6teHE9Q+dzMzoDblT9m5Clunwgjb0l72BeRZcVBv9MANfBt89UgqqMkR5Zjai5R
- jfJ+kBJudz8s75+WR9HPblB5HpCh4GKM1EfBuZEjaF/Agd8A7geJic85CuvD08DDgtpD
- R7J5bxMhnF1aOlU7CBZOmI61UXVsd5fMUQ6HH36TslLaal8aZNdIRKmU0F8qJ/9ZSqdd
- JFfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759570618; x=1760175418;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=feYeUBQ+zRG9kMk06d6rOS7HenSqT9mRm9UdGzyR9sk=;
- b=O1kbKOJI2z5cL7+ffRdR6TzDDbte7v8I74dMh2zo/Q6CV0j87DoDwK00Z1QpKXAC7D
- Zvo/C6lIP91eQFFTNZYqUh8+lBFNdujNNLk3EABRycRLw52FzNyp6ry9++VLsPxfVgro
- kvDb8jtT5vd4XfgdI3JaPOyrWdNqEIo7+eFuw1j+Pvqj1jG4PHgFHlXHcN67Jdn1kbl7
- ouHoso2HfUKqxobnkFebMtlOfcBjewbj8XoFnpxWfnKuI5a1cGhdCCrWTO9eUzRRG9BU
- Kg9NNVcEXY0JumqulFDRpE1fMlrPc0LNbo3NsPcx0rLvsffGDTGt38UH362Y1A4tigdB
- j1vA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhzF4wUISlq0XL7glPTd8ZCrEssNw/7YOTtOXNH81JmdknkOLHz+x3xbpkTD6vfVu9SGOf9B36drA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybBaYtn+b4Za92MTEKFVoxmkee7GL5jkXjVcJT00oBlCsR6IYl
- F38HnvOz0JHAWMY/eUeqeMrFPsLA2/QeDAjxZm/In0SYT+RatnU7ZVNL9xfP86bdylj2QVQwLc+
- pbAqvQiQ65q63FgFa59glM1Yz5XBhDBGbEKwj+9k=
-X-Gm-Gg: ASbGnct8FDkpP3m4nff5l9Hxw+35Ct45EqjdR46JAaOzMrDyu6IaBZaNkM7K7EohrcD
- WyGuyIt7KaKX/TdJiKAXltwxItdr4PpG9AMJDR0tIGLYllPLntSY48FveO/GlpLE6MzZkG7q+i9
- kbTnugVfsSXasFSd/4ukGlv4zJDN16CfXTPjS7ddhZufgRNpTgYQp7th6ZGgWh4046mPnzY9Cc4
- jx9qpIqxX9zH28b89xTbYXrTZSLGbC30Wu0m995dXfhc38PZVtnV2pnZP3LiL1t0lP7NsOjDNLd
- QNi2B9+jvTCRuQTh3TP/manJHZFeN1xo0qy1h3KDfQr6M4A2+A==
-X-Google-Smtp-Source: AGHT+IF77wTkNQM9OohiiK7sgjNFds3niKOBIfBEyFk8BZ16yvDihaUL7UtpNXy0XNC2sOVra2ov0jtp328+HUcOPDg=
-X-Received: by 2002:a17:902:d2ca:b0:288:8c30:f08c with SMTP id
- d9443c01a7336-28e9a5d22c7mr40643515ad.2.1759570618049; Sat, 04 Oct 2025
- 02:36:58 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06DC10E1FF;
+ Sat,  4 Oct 2025 09:39:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759570767;
+ bh=qisPUywAbG75IngeanB4QRWIZ3GHsT6vh+Z8ufjXF68=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=gLxYlWyCPWNrBp7a7jJiAVFHXUsoxmnDJmdwJfGbhsSLfVzaamN1+Mu/C/H4snDWv
+ 1vTK+1BMDuhsEbugYcUo9aLzxlm42VZkwXqFLT3bA/aJ9ifD0kyjvLrOHOtOh04e9P
+ sdy/EHQa78XMogigp2dQMaWfhSDGX6I14G4AdzY+1AOqM2r5lH7flkL+VXh3Sxid++
+ oocuhJKL0AKYis3/uW2TF6YxxT1DJO4PZr+7BIjDIbD3ywew4RmJ2FwhEA6/RUfGVr
+ Pmrzr5DmT+7UMout1aiJSIUVfbzMhoUuH2kNEZ8iD6O2JkmfsiYw+uGsFXXe0wiAaK
+ +yWAZc6KypL0w==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown
+ [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4820A17E055D;
+ Sat,  4 Oct 2025 11:39:26 +0200 (CEST)
+Message-ID: <f9f92476-c218-40d0-bb45-382252e2f288@collabora.com>
+Date: Sat, 4 Oct 2025 11:39:24 +0200
 MIME-Version: 1.0
-References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
- <CAHk-=wgO7S_FZUSBbngG5vtejWOpzDfTTBkVvP3_yjJmFddbzA@mail.gmail.com>
- <CANiq72kq5YHovH=_a9c0JQgfrAx9gRsQvVo1VfHd-FaupOp7rQ@mail.gmail.com>
- <bd004ac5-9e51-4e90-a3a4-025d74941a38@nvidia.com>
-In-Reply-To: <bd004ac5-9e51-4e90-a3a4-025d74941a38@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 4 Oct 2025 11:36:45 +0200
-X-Gm-Features: AS18NWBfyunA2-nfASh7Yj1hCcCcrL6FKNe1jx_SFPOW7HhxILbzUUVeFdW6VCI
-Message-ID: <CANiq72mRdQRM_uDPxB35zUDXrS99o6i=RaPjTghVTZSG53i2_Q@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.18-rc1
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Sima Vetter <sima@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] drm/panthor: Introduce huge tmpfs mount point option
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-mm@kvack.org, kernel@collabora.com
+References: <20250929200316.18417-1-loic.molinari@collabora.com>
+ <20250929200316.18417-7-loic.molinari@collabora.com>
+ <20250930123416.4ff59b11@fedora>
+ <d3b927b9-ddcb-492a-a72c-d42abbb11cff@collabora.com>
+ <20250930185216.0219a542@fedora>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <20250930185216.0219a542@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,26 +84,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 4, 2025 at 3:54=E2=80=AFAM John Hubbard <jhubbard@nvidia.com> w=
-rote:
->
-> Very happy! Far more so than I expected. Being able to *not* fuss around
-> with minor formatting details (while editing, rebasing, and reviewing)
-> has been absolutely transformative.
+On 30/09/2025 18:52, Boris Brezillon wrote:
+> On Tue, 30 Sep 2025 18:31:11 +0200
+> Loïc Molinari <loic.molinari@collabora.com> wrote:
+> 
+>> On 30/09/2025 12:34, Boris Brezillon wrote:
+>>> On Mon, 29 Sep 2025 22:03:14 +0200
+>>> Loïc Molinari <loic.molinari@collabora.com> wrote:
+>>>    
+>>>> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+>>>> index 4fc7cf2aeed5..54ca61567426 100644
+>>>> --- a/drivers/gpu/drm/panthor/panthor_device.h
+>>>> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+>>>> @@ -135,6 +135,9 @@ struct panthor_device {
+>>>>    	/** @devfreq: Device frequency scaling management data. */
+>>>>    	struct panthor_devfreq *devfreq;
+>>>>    
+>>>> +	/** @huge_mnt: tmpfs mount point with Transparent Hugepage enabled. */
+>>>> +	struct vfsmount *huge_mnt;
+>>>
+>>> Now that we have a helper to create a huge mountpoint, wouldn't it
+>>> make sense to have this field in drm_device instead of having each
+>>> driver add a huge_mnt field to their <driver>_device object.
+>>
+>> Not sure this should be enforced for all DRM drivers since most of them
+>> don't create separate huge mountpoints (only 4 for now including this
+>> patchset) and I guess some maintainers might prefer to depend on the
+>> sysfs interace to enable huge pages.
+> 
+> I'm not saying we should create the huge mountpoint by default, but if
+> this is a generic helper, it makes sense to also manage this mountpoint
+> internally. In the end, it'd be a small price to pay for drivers that
+> don't need it (the size of a pointer in the drm_device object), and
+> with this in place, driver wouldn't even have to call
+> drm_gem_shmem_huge_mnt_free() manually (can be automated with a
+> drmm_add_action_or_reset() calling kern_unmount() inside
+> drm_gem_shmem_huge_mnt_create()).
 
-Thanks :)
+Ok. I've just sent a v3 of the series with the huge vfsmount stored in 
+the drm_device struct. This also allowed to get rid of some of the 
+*_with_mnt helpers.
 
-> For example, on today's linux.git, I just now ran it, and you can guess
-> what happened: it changed its little mind about yet another use
-> statement! See below.
+> 
+>>
+>>>> +
+>>>>    	/** @unplug: Device unplug related fields. */
+>>>>    	struct {
+>>>>    		/** @lock: Lock used to serialize unplug operations. */
+>>>    
+>>
+>> Loïc
+> 
 
-Hmm... I am not sure what you mean by "another" -- this is the one
-that Linus left in the tree, i.e. the one that originated this thread.
-
-In other words, changes should not appear randomly -- the stability of
-`rustfmt`'s output has been perfect so far for us in these years and I
-hope they continue to maintain their stability guarantee. It is what
-enables this, after all.
-
-Cheers,
-Miguel
+Loïc
