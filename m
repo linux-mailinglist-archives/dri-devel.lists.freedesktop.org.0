@@ -2,120 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF30BBB8C2B
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 11:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28ED0BB8C34
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 11:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01A3510E21B;
-	Sat,  4 Oct 2025 09:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8320D10E21F;
+	Sat,  4 Oct 2025 09:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ISvKLycM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EHdf8jSy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E1E10E21B
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 09:47:18 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5940gmPA001220
- for <dri-devel@lists.freedesktop.org>; Sat, 4 Oct 2025 09:47:18 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD9F10E21F
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 09:53:14 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5949S8rc019899
+ for <dri-devel@lists.freedesktop.org>; Sat, 4 Oct 2025 09:53:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=JyJUqoq9hNFWEpkGuYsnzzOl
- rgkS1VzZQ9NH0b/ALic=; b=ISvKLycMDh7Y7wxdJh4i9yYpIOXUD4ZAK1GWCR8K
- 96pawdlJTaEiVBbn46J6hh5tCb4LPQ9uqe/olea1DTvEYzbCq8PHkCkdRiuS8u+i
- oy6z/FerSl0Fk+NK7/UhEOFalilaXjUddB6zHmX+uTNBuxzB/ag0n63/dTOCyMEJ
- GRZEYp7f4XXLmAVkK6v8Rny4E77JCx/7dlaaYCnLQc70Vub98JEoDIVRfVjGDM1q
- tE1ZVg1rhQNZ33ISuRqoomD0mrdxGpNn+3F5d3NUFdf77XpwL3fkYiYJ3/0D+YCi
- ZnzgkaobacKI8tVUho9NnPdKyvoWcB59OVo83tDikcckBA==
+ :references:subject:to; s=qcppdkim1; bh=PEu4XGrNpP8Sls3jA34iE2v0
+ JtpnErFtIM1Spm/CEcw=; b=EHdf8jSyX1HVhonHRF51NNtpRt5DKbEgf8KW+kNV
+ wsBD/DhcZn7FoP8DyV3mu4ukIp75k48epks5mY/1wBKgHhCCyRXs7EEBaF1/bliu
+ E3/HdgznVJjJKWX+M+K1LpJQ97kpCEYf9LyuTI7hTgQ3HHpp+AF3LsizXbqCJaQl
+ uN82/3br3CfjIUDDGocP2mDDo07Dasa8ozWzyq0s3PHtAFs6St3F0ij4xm085ZM6
+ L252K+lY5vz/iGZfXM7plzUeESq/0V8CgybqLvOtxqXu67WzeKsWWE6X/EqBCFxe
+ m5krfjeL9MUPnD0R6dcC73zK2YWV+L/90+50roTsdvwrdg==
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
  [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49js9drnv3-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jvbdgbvy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 09:47:17 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 09:53:13 +0000 (GMT)
 Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4d6a82099cfso80529561cf.2
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 02:47:17 -0700 (PDT)
+ d75a77b69052e-4e56cd1d360so75769421cf.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 02:53:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759571236; x=1760176036;
+ d=1e100.net; s=20230601; t=1759571592; x=1760176392;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JyJUqoq9hNFWEpkGuYsnzzOlrgkS1VzZQ9NH0b/ALic=;
- b=Fm+4za3gFhYk36zaVZOQXxFJqU1ffXAnrItXAIFcWLZkD+/9hjKYPPqPVQZkD1vLfv
- FtVEGcPCS1ryTLfF0Iqm/N8JSYTf/tXwB9/pjCXRcixch+48eTy2ndf1iY+kGkmSX7E/
- b5kB0uk9mwd2W6/arWvEl+6wvg4MxHw7AwHt5Az+HZ8PbK1vTloT5FKjGny9ZhZ9CoxF
- LrzTpBAB9wppKFk7kULuA07FXFeaTR5a6AMY3cS2wijuoWVTCyS5KPTjI9WYnOvGUBZj
- 04eknEr4dGb6bZlUQz+HoYtwGCdyXOQ8aehA5oBVH0Pgp4XhyIXc+CfEDj/GaSvElP4p
- SXbg==
+ bh=PEu4XGrNpP8Sls3jA34iE2v0JtpnErFtIM1Spm/CEcw=;
+ b=NXFSetZHXRvr33ho+SutOEHEyUlC2CVvnkGFk8/wVjHpem1O/Ke6zi9CS7sEjLLYeJ
+ qabql4DNCPa/Jo8fv23h9GXGAxCW2XZzMRTit22ASq0g6Q+d5faUmAR+LiY1+o4BJpz+
+ krlIqXqH3VsBsYe/rQrhx/ovi2uzltl0jTvkt7uIeYlPqn8PfnNfT+Ngw7oPYUYmzjyZ
+ nU1wz+G6vF/TgfcPnv2iVXAiUwzdpddl6XSt0Nv/gTpDsJnQUgDyIvkERY5MWBeYSKuV
+ aoORmwYPwPcp8x+9wk6jgcPYCuOa9mrvigA9ANjik2zPXzKM85GcTZprwavVq5swbfHH
+ hW+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV0S0cmP3KGba8yKaPJTCj0FUyWh+LJfW703aHAqLhtAyYaGkX1zfbfqKl7hobVsh/CIUP/D3LykTk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1buXaKcVzc0l3Axxdke1fovisUYdpsA16UxsPZVy6AmdHuEBx
- XiUYnkLlofGolht/87rhyGxwCouW+BOjlq3IiKm1D+f+rdbSNfaAo9retUsyJpsFxdGjE2t8BMc
- 8AWz9oNrB5bhAiL5YwecnO4/TPQbHoRWNZ+87gGIs/4BnyjwEdwCVZrH/CaZJUXgMgxVtC7k=
-X-Gm-Gg: ASbGncs5M4fxUKE89zgWjU1KPMfJAWJXT1KiXbR7ZZ91SKIecXptumamtKdBv1dNLXq
- z7DqypMbmqua4Hrqti7NGV8Z2jG+x8GsBihmtbYX8o9kJ52H8ezGl8CimuGuwbO0gvM/Rf7pr4R
- Y/udi8Sm/XCviyHiXe0uxReEHueWT+fg4bJYnXji3GX/WjjhTnlQh6BrcmQlEWfZVNrcnd01owY
- wclV67YPs2F+m7OIkTBA+GmX2ZFKMonNE5gF1+zyVtfQ7jXaOwOFVdhXmCbbNa8varKg9lfDlCx
- kfBjvdd/Y5H52PKpkSCKfuNJHKYDJcgF2LybYOLSky4Eu39zJNeShdwefdPbzzc9GaNMWjbY4ct
- 3SSWqw/AjbBSVj+2HO3zKOYCMLEMV4ocn2lUdt75jXdWfbPf2hhMcVXeoDQ==
-X-Received: by 2002:ac8:5796:0:b0:4d9:f384:76a3 with SMTP id
- d75a77b69052e-4e576a2b23emr79564251cf.1.1759571236341; 
- Sat, 04 Oct 2025 02:47:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGynVz3EPA0ykwKTN7pQT6siayEYYAGehr4shsq6/DGHHpjk3iwkY69IuP8QMQLOHlDY8wdAA==
-X-Received: by 2002:ac8:5796:0:b0:4d9:f384:76a3 with SMTP id
- d75a77b69052e-4e576a2b23emr79563971cf.1.1759571235845; 
- Sat, 04 Oct 2025 02:47:15 -0700 (PDT)
+ AJvYcCVZwWpVw3J4bA4ztkvAWp6xwnek1J5f8kNc3y8xMq0u0NpnZ7aWUr2roLtH4UBD8kI1NIT5hh3dxCg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwP7KAE3SwAdrbCsytLEuWjCXbnCwc7hZ3TGxKI2DL0dy/sTfXm
+ teFdk0Cp3cT3RZcSmzty9NDFFxkrfMcTLS7qstRrYj3/Elhm/sUTSKmY/OTJoJftLIj+WPLDR0M
+ 3lBYZmNsDZq0sYJz4cnnK2jXHhhWRqed7v7MGUf86XgZF8ncoxVIZYoSH92cniYtmywpu3Jk=
+X-Gm-Gg: ASbGncv1cX5t/GxlmmWptZYd0xw8vat/7SOUTNMdv8GQN1fYR8CEX3D1faaJHfIAVug
+ 5PwUlh0YwvVbD7gFSepjNCumZUh1eY5v+SL62lVJWsyRx1zPN26OX5+n6FBoa1ZylFM1mbxVJby
+ aCmJAaACZsb2/TqV2QWH1bh5OpWpSn/X6tRSTBhEcz98DMzeAURlR4zFZLrSAVQbFyCP5oyKPmg
+ 6nmAL53rlLhutNcffDrf5lwRvojnCX9vfD8vHE57pMbw+4AxSwY9iQFD73HoM8yg3XVw8SrCULa
+ LG/TdxbhwuNh7YHI60mfemUNQ2tijR7LJ1ZRMLuqmG06XJd1Lyc7Ip+6Hyi5jCQvJgCscwqz74a
+ EOMUzxipLvl4NtnHZ6a0dghAauag9t0ZJcIQpjmmiPLu6A7k3ezV4l+E43Q==
+X-Received: by 2002:a05:622a:98e:b0:4e2:f1b3:3466 with SMTP id
+ d75a77b69052e-4e576adc4dbmr83002221cf.49.1759571592330; 
+ Sat, 04 Oct 2025 02:53:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFTbBIG6kyIQSt9ZYaRoA6T3Hag/xgJTs/P9Rv1Tz+gyuxM60ZQciRckMkBxOJAK+a1jNQcgg==
+X-Received: by 2002:a05:622a:98e:b0:4e2:f1b3:3466 with SMTP id
+ d75a77b69052e-4e576adc4dbmr83002021cf.49.1759571591862; 
+ Sat, 04 Oct 2025 02:53:11 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b0119e86dsm2686516e87.97.2025.10.04.02.47.14
+ 2adb3069b0e04-58b011ab24fsm2675693e87.120.2025.10.04.02.53.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Oct 2025 02:47:14 -0700 (PDT)
-Date: Sat, 4 Oct 2025 12:47:13 +0300
+ Sat, 04 Oct 2025 02:53:10 -0700 (PDT)
+Date: Sat, 4 Oct 2025 12:53:07 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] drm/encoder: add mutex to protect the bridge chain
-Message-ID: <2ksmq6ytj3zabxuexzjuqovalik6memy33vrba2aihfld7b7so@lhqhmaargucp>
-References: <20251003-drm-bridge-alloc-encoder-chain-mutex-v2-0-78bf61580a06@bootlin.com>
- <20251003-drm-bridge-alloc-encoder-chain-mutex-v2-1-78bf61580a06@bootlin.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, simona@ffwll.ch,
+ linux-kernel@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+ jani.nikula@intel.com, praneeth@ti.com, vigneshr@ti.com,
+ aradhya.bhatia@linux.dev, s-jain1@ti.com, s-wang12@ti.com,
+ r-donadkar@ti.com, h-shenoy@ti.com
+Subject: Re: [PATCH] drm/bridge: sii902x: Fix HDMI detection with
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Message-ID: <gc7prlpfdb4zgqtxz5fog2mi4x6vefwcrnuw53i6xbd3vguf3h@gtb3bdy7zogu>
+References: <20251003143642.4072918-1-devarsht@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251003-drm-bridge-alloc-encoder-chain-mutex-v2-1-78bf61580a06@bootlin.com>
-X-Authority-Analysis: v=2.4 cv=Hrl72kTS c=1 sm=1 tr=0 ts=68e0ed25 cx=c_pps
+In-Reply-To: <20251003143642.4072918-1-devarsht@ti.com>
+X-Proofpoint-ORIG-GUID: yItED3gZI6PzNXuYW2_tXxkSyS5mtLBo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAzMiBTYWx0ZWRfX/9H2gdc3sB88
+ r/cZ42PaLE8j0RPOV09NGjvkAt60XmkAsVqlKVRfdN8CB+9MFMy8pX5VKBq5bzQufIVa4V+u5bz
+ KqxSHlZVv4vGLrZ1g6SgycC+SURj5Cglx4B+9jgW6OkBqnhXmILn7UBOHRVMcnU3t/O+1IgybeZ
+ VuUyioFzCxj8bdIwSkTAK1yNXJGr0NmASS7fn4/ooc/PDl858Jlj4EjYaTZ6QQnmIUrK4OrxpSw
+ L7B8Xdc4nidGje6BwYRae2LzK5hngAH0pDP79H/0a6hi0nxjf39Z2kYZwMn11+sOiDDZEkO9Omn
+ cXty9ToUF7nWwF9JPDKlkMOFuaPKEwLzaKL/0dW535Qfg8X8xbywH7mI+frnWj0zKIpV72u363h
+ oImLJUb0HjjxczQpz66Ivqpca45lBg==
+X-Authority-Analysis: v=2.4 cv=D89K6/Rj c=1 sm=1 tr=0 ts=68e0ee89 cx=c_pps
  a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=P-IC7800AAAA:8 a=KD47DfvlZnWFAtPs4N0A:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: uH8CZ2EkJqP4BkAua7pWdR-EIUHPloVh
-X-Proofpoint-ORIG-GUID: uH8CZ2EkJqP4BkAua7pWdR-EIUHPloVh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwNCBTYWx0ZWRfXy/bkoUOUGTdQ
- OB+qlUsW9mqpXDtb26ZZlRQEGaREELEd44EBnE1Waf3sqGb7wSUS3McRLr10YhikpK2gz7EG+uC
- dAZedb/xRKYaTi8BN4VlBAvEPqdI+aXHVD3kUCJ7/hy2oX+rmr7eBtVR/B5INNijBlKM8FM9IdR
- D2HGnA2p4oVQy2fqdIHQvQs6m2lIVrvrBt7o/gTq6Dwdh6BTKk+y9zEFfMvV7uonl5hKNypQYrg
- ncX6ZMy+7fc4w4+EZH5TSCSNUpSgj7lv5CtVasstEGIptUkkCKt4A1dVSBhF3hLt1eCOwwysrxg
- bnKO5GOpfuNHxSDjcIc9UeXi3iO/A2fAExp1gQJESnkGki6+4OweRDcacpYupVI5Zw3bsYDpDs5
- 3fv9RHd3Hb75VJcFnfLMQFL5uuijuA==
+ a=x6icFKpwvdMA:10 a=sozttTNsAAAA:8 a=KF_ZkVnESvHIPKe9pLAA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: yItED3gZI6PzNXuYW2_tXxkSyS5mtLBo
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-03_07,2025-10-02_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 clxscore=1015 suspectscore=0 impostorscore=0
+ bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040004
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,123 +128,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 03, 2025 at 12:39:23PM +0200, Luca Ceresoli wrote:
-> The per-encoder bridge chain is currently assumed to be static once it is
-> fully initialized. Work is in progress to add hot-pluggable bridges,
-> breaking that assumption.
+On Fri, Oct 03, 2025 at 08:06:42PM +0530, Devarsh Thakkar wrote:
+> The SII902x HDMI bridge driver wasn't working properly with drivers that
+> use the newer bridge connector architecture with the
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, like TIDSS.  This caused HDMI audio to
+> fail since the driver wasn't properly setting the sink_is_hdmi flag when
+> the bridge was attached without a connector since .get_modes() is never
+> called in this case. Fix it by setting sink_is_hdmi flag when reading
+> the EDID block itself.
 > 
-> With bridge removal, the encoder chain can change without notice, removing
-> tail bridges. This can be problematic while iterating over the chain.
-> 
-> Add a mutex to be taken whenever looping or changing the encoder chain.
-> 
-> Also add two APIs to lock/unlock the mutex without the need to manipulate
-> internal struct drm_encoder fields.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
+> Fixes: 3de47e1309c2 ("drm/bridge: sii902x: use display info is_hdmi")
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 > ---
+>  drivers/gpu/drm/bridge/sii902x.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> Changes in v2:
-> - Added documentation to new APIs
-> ---
->  drivers/gpu/drm/drm_encoder.c |  2 ++
->  include/drm/drm_encoder.h     | 39 +++++++++++++++++++++++++++++++++++++++
->  2 files changed, 41 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-> index 8f2bc6a28482229fd0b030a1958f87753ad7885f..3261f142baea30c516499d23dbf8d0acf5952cd6 100644
-> --- a/drivers/gpu/drm/drm_encoder.c
-> +++ b/drivers/gpu/drm/drm_encoder.c
-> @@ -129,6 +129,7 @@ static int __drm_encoder_init(struct drm_device *dev,
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> index d537b1d036fb..3d169b9fac70 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -292,10 +292,16 @@ static const struct drm_edid *sii902x_edid_read(struct sii902x *sii902x,
+>  						struct drm_connector *connector)
+>  {
+>  	const struct drm_edid *drm_edid;
+> +	const struct edid *edid;
+>  
+>  	mutex_lock(&sii902x->mutex);
+>  
+>  	drm_edid = drm_edid_read_ddc(connector, sii902x->i2cmux->adapter[0]);
+> +	if (drm_edid) {
+> +		edid = drm_edid_raw(drm_edid);
+> +		if (edid && drm_detect_hdmi_monitor(edid))
+> +			sii902x->sink_is_hdmi = true;
+
+Just call drm_edid_connector_update() here. The drm_edid_raw() has a
+very nice comment:
+
+ * This is for transition only. Avoid using this like the plague.
+
+
+And we really need to convert the bridge to the HDMI helpers.
+
+> +	}
+>  
+>  	mutex_unlock(&sii902x->mutex);
+>  
+> @@ -315,8 +321,6 @@ static int sii902x_get_modes(struct drm_connector *connector)
+>  		drm_edid_free(drm_edid);
 >  	}
 >  
->  	INIT_LIST_HEAD(&encoder->bridge_chain);
-> +	mutex_init(&encoder->bridge_chain_mutex);
->  	list_add_tail(&encoder->head, &dev->mode_config.encoder_list);
->  	encoder->index = dev->mode_config.num_encoder++;
->  
-> @@ -202,6 +203,7 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
->  	kfree(encoder->name);
->  	list_del(&encoder->head);
->  	dev->mode_config.num_encoder--;
-> +	mutex_destroy(&encoder->bridge_chain_mutex);
->  
->  	memset(encoder, 0, sizeof(*encoder));
->  }
-> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> index 977a9381c8ba943b4d3e021635ea14856df8a17d..449281c37e39f67a0037603762f347f5086df983 100644
-> --- a/include/drm/drm_encoder.h
-> +++ b/include/drm/drm_encoder.h
-> @@ -25,6 +25,7 @@
->  
->  #include <linux/list.h>
->  #include <linux/ctype.h>
-> +#include <linux/mutex.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_mode.h>
->  #include <drm/drm_mode_object.h>
-> @@ -189,6 +190,9 @@ struct drm_encoder {
->  	 */
->  	struct list_head bridge_chain;
->  
-> +	/** @bridge_chain_mutex: protect bridge_chain from changes while iterating */
-> +	struct mutex bridge_chain_mutex;
-> +
->  	const struct drm_encoder_funcs *funcs;
->  	const struct drm_encoder_helper_funcs *helper_private;
->  
-> @@ -319,6 +323,41 @@ static inline struct drm_encoder *drm_encoder_find(struct drm_device *dev,
->  	return mo ? obj_to_encoder(mo) : NULL;
+> -	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
+> -
+>  	return num;
 >  }
 >  
-> +/**
-> + * drm_encoder_chain_lock - lock the encoder bridge chain
-> + * @encoder: encoder whose bridge chain must be locked
-> + *
-> + * Locks the mutex protecting the bridge chain from concurrent access.
-> + * To be called by code modifying ot iterating over the bridge chain to
-> + * prevent the list from changing while iterating over it.
-> + * Call drm_encoder_chain_unlock() when done to unlock the mutex.
-> + *
-> + * Returns:
-> + * Pointer to @encoder. Useful to lock the chain and then operate on the
-> + * in the same statement, e.g.:
-> + * list_first_entry_or_null(&drm_encoder_chain_lock(encoder)->bridge_chain)
-> + */
-> +static inline struct drm_encoder *drm_encoder_chain_lock(struct drm_encoder *encoder)
-
-What is the use case for these wrappers? I'm asking especially since
-you almost never use the return value of the _lock() one. I think with
-scoped_guard you can get the same kind of code without needing extra API
-or extra wrappers.
-
-> +{
-> +	if (!WARN_ON_ONCE(!encoder))
-> +		mutex_lock(&encoder->bridge_chain_mutex);
-> +
-> +	return encoder;
-> +}
-> +
-> +/**
-> + * drm_encoder_chain_unlock - unlock the encoder bridge chain
-> + * @encoder: encoder whose bridge chain must be unlocked
-> + *
-> + * Unlocks the mutex protecting the bridge chain from concurrent access,
-> + * matching drm_encoder_chain_lock().
-> + */
-> +static inline void drm_encoder_chain_unlock(struct drm_encoder *encoder)
-> +{
-> +	if (!WARN_ON_ONCE(!encoder))
-> +		mutex_unlock(&encoder->bridge_chain_mutex);
-> +}
-> +
->  void drm_encoder_cleanup(struct drm_encoder *encoder);
->  
->  /**
-> 
 > -- 
-> 2.51.0
+> 2.39.1
 > 
 
 -- 
