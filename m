@@ -2,78 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BC3BB91CB
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 22:35:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518B9BB91BD
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 22:22:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1789D10E0B8;
-	Sat,  4 Oct 2025 20:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34BC489854;
+	Sat,  4 Oct 2025 20:22:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y+n3wsnE";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="dXYoDnl3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29EFA10E0B8
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 19:39:50 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-781ea2cee3fso3358970b3a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 12:39:50 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 041EF89854
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 20:22:50 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-27c369f898fso40050405ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 13:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759606789; x=1760211589; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EwGSliX1mVD9XKBDtx3vbuVXJahwpcA8bWgLzGN9Qo4=;
- b=Y+n3wsnENQQUcLdB24sQbTBoYJqvjnENngvNk319aCg4EI2xXXfIR9LhsKXaZFLBpT
- W518A4wLBzlsFYE7OcQqBwm3SkAKtyfk1IxLLzlPH2kw17+7gle96NCmjEMnZjEAPHm/
- L9fh4vr2xnhPXo/GIF/RYLzaglbh5cql2ebNm1VV4hgC+i6K3B2KusYFcS8X8kMpWjDZ
- /6JbZodlus0++UbrYYH3kHT/53uKQPKL4EGBO/kUg4JsqS+WUEPQOLVKBr55SUgu0Tyo
- 4IjCJ9EphUVz7PIA64Vveu4uMa2e6VTYSYU/qaAgyPwwdNbtiJ8gPtakDeXmsCju4Mbm
- FO4g==
+ d=googlemail.com; s=20230601; t=1759609370; x=1760214170;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7iOjCRTv/UOLRas4QoQfI+GQphzTaP2e17HJMdbYUcY=;
+ b=dXYoDnl31vZWPB/MI6h/HYhRHsDuihHYAYD6xGnc2bxnGdPGW9dFMzOeu/pCPqVMtk
+ QyjzIO5+g67JkPq0unkuANTjz297mq1V9IZZz571EdHBfSvyX6yebHGKL7MfJbwV0rwd
+ 7SgkX5pDgDXeC6lFjRGJI/RzchLN5bKsccqBQk8An3dE/iMcp6ocYgYzrJNqJR5m7Iq2
+ gTXvaWficQTCl/X/Da80Z6f2pVbFuFlTl48s6y0Zro8aRHWe5CajFR+fA4dYKCaIXVq3
+ DQ31NraU5Cfk4dXjza45VtwiRzfECCYEyGtNGEBCKDQE31H/g2dXu8wvB6NXr7SMobrx
+ 8wVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759606789; x=1760211589;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1759609370; x=1760214170;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=EwGSliX1mVD9XKBDtx3vbuVXJahwpcA8bWgLzGN9Qo4=;
- b=m8b0i6xaM3AA95jiRLdISyFJxH5qKDO0Rwwn+GbK35Mt3WcvoZOim8rIxeg72pg5ur
- OT9xLRXsiULxm1e1uZeExI7OANplZ1nd1Ja2kJlZ1/qc8SEhShbwr+F9AF4TE49NV8xm
- J5eAI/+lyUaQ87P+V8fJXmwNX4MDZOuLstOlgBOAijkfn/n5Nrcx2dWP4JfrPwPo/tkj
- /tnvx9RXeOoA7j6ZOKtQs+QgWgUGVMSdFtNKsA8ZS/lmdmLZSJjpftouLYGfHGnnLyt0
- Jq93tokz+KaF06X521APUtIzA6kL3Xm5ceRxJL10OKtJLBeaFWs6q9i5E4XNQinPN7jU
- +PDg==
-X-Gm-Message-State: AOJu0YzaqG3GSNig1oxnmTiun4Xv1Vq7pAjWMGSXOiR1SN0zcfnZn56Q
- 3rE2Fw/mCqh0FucDbVuGqPb315rq1CTGXGTVdplTWt/rhAWhGcnYtnbV
-X-Gm-Gg: ASbGncucZzuTMDdOr+q0odwm8YftCKYx1TuP39KopPMA/xlzoLQjEt7IXJKlS3AaOoi
- 7VV2ASVVRDxh72BaV/8mAEm7e6nx6YClOG5vt5S2jJY7r0kG71s2HPNylksfkxFpfe1pbHx0TOz
- 2u31NFuPZrgr6L9LJHiNDfSEi01NfsXNUMGkOuvO9ooR4ITHrJzaiq/L6XM/gXrhJNKXAgisS+m
- cuD/Xjux1uLiZK92fJI70CPy/2FMS3lXjayIuMLdo0C0uIpNgvnD2OfnhAZnzDeMJA25cFBwvWq
- 9JDKgAr41GU1cbqpXi06V60CRnt+SMFPVCJSVhbeDVAjbPyRygfFdvR59P2xdpATYj6rysqt4Lc
- gsWwKY0roftrIbfWbR9zoq3gtJQvdSAS1rKNzm0CWLAP3fT+r4OMsj6DuSO0f8w+Eo1MCU1LXhx
- +4yKaiZdyRoHqHc6a1yrfRbwfdjM1SBY9L2RwAopBGAH6GvG07HQ==
-X-Google-Smtp-Source: AGHT+IEH2gB4/3w8XRUHtUUFFuezhIFiSmbnR5x6+r4LyWsU3mw2nOMIyBl4ufOiSwukwPVKjaMQnA==
-X-Received: by 2002:a05:6a00:2d22:b0:781:1660:76c3 with SMTP id
- d2e1a72fcca58-78c98a4c141mr8622664b3a.6.1759606789550; 
- Sat, 04 Oct 2025 12:39:49 -0700 (PDT)
-Received: from crl-3.node2.local ([125.63.65.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-78b02053584sm8239177b3a.50.2025.10.04.12.39.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Oct 2025 12:39:49 -0700 (PDT)
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- dakr@kernel.org, matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- aliceryhl@google.com, airlied@gmail.com, simona.vetter@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
- Kriish Sharma <kriish.sharma2006@gmail.com>
-Subject: [PATCH] gpuvm: Fix kernel-doc warning for drm_gpuvm_map_req
-Date: Sat,  4 Oct 2025 19:38:25 +0000
-Message-Id: <20251004193825.1466728-1-kriish.sharma2006@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ bh=7iOjCRTv/UOLRas4QoQfI+GQphzTaP2e17HJMdbYUcY=;
+ b=lZ/rXF2HJERAGXPpDPuEEFnQUAg5dAPqNeirz8IFl3Q2v/y/+oZVLIWfJGD5Bkhg5J
+ NYmTSjrlBfy4iC93KwQD9neSDYXdpUfMCEzZrF6JGWhqCY6d+i75yhsRARJOaduNsUhv
+ G/H8tK/kaanLINU/UJ+6MDwDn8jBGH13rRb56Sbgo0uyBmuPG06DF/JIsjZhjDdrDKjr
+ xNTZlewMt4dg8TrgZsZTVP4+jJPXLSL+r5yngXHKybdxUuwGKjuq+H3Wun04op0mY+JG
+ H/uA2atc/eITtUIi62th+ZE984Lvg7Bd66el6StiWMPHDFvXvdw1dD4onmCtETHQG6dj
+ uTEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0So+ijKG+vzLsLPn1C7QJsLjJ99jhvUNkjrSIaASVD7V5Jo5uZ0JquAoiOjJR14p40cb5ka/tp8M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEDfgwoWkyS8HRJ5bRZ34szkzFNeq/blEir/YY0246nS3ziRI+
+ NgG2W9dYT2LGcS2COnDiAQNnTyrqYbnT3J7h5x/Yb0eyk/mQZOw9YBq931GcaEDuFeVJmPdOMDP
+ un7sWRc60WfHhdJSxBb8GDy83f1BZWvU=
+X-Gm-Gg: ASbGncsZcmIkXSpXppomwUrmHsZhHtXGV7ibTUW78KEc5JKOiiDliPTfJPIb+HWaHW2
+ lAR6QI7JZBgI/pjDkRJQKCObu8MouA0qqbvvBmG4FKoyuC/qpfnx3BSensbrQbdcjn80z3PtU57
+ kdHUem9gZl5ekFm2FncRGn5+Sd5W+3j7bYLi+OBWO8VUcAlECXGfvNdda4mDoG14kR0Sc8Xlya6
+ KVRwS7gDtXtRoKp0XwwgtFt4gY9N63lHXovhgp09Ggmb7ZshuCUFQ4+5qPQo2D7vuLtuSSzAyE=
+X-Google-Smtp-Source: AGHT+IEvFiFYb/yXN2Hbuqa0QsBGFUfYWmFw0Mzqwu753oWhqXU6HdGuLh/esJRyH1nG43WsG1wWRCjs/qzkq/JOeVw=
+X-Received: by 2002:a17:903:8cc:b0:269:b6c8:4a4b with SMTP id
+ d9443c01a7336-28e9a56172amr94357475ad.6.1759609370443; Sat, 04 Oct 2025
+ 13:22:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 04 Oct 2025 20:35:54 +0000
+References: <20250927130239.825060-1-christianshewitt@gmail.com>
+ <CAFBinCCsTqsn06A5oVXGTW6PgmSQH0bHE+8PSftyWNRAbYUTcA@mail.gmail.com>
+ <C8A273D4-5F5F-4BD8-911A-67EC9C3FF1F4@gmail.com>
+In-Reply-To: <C8A273D4-5F5F-4BD8-911A-67EC9C3FF1F4@gmail.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sat, 4 Oct 2025 22:22:38 +0200
+X-Gm-Features: AS18NWDKVbe_cLdtewuohc2z1hdjWwhtLw5dUx7qZDgCz70wIOVm6d51SxXp1TM
+Message-ID: <CAFBinCB9hxgJt_rqdy_1bM0FjnnCt1K=Au77yxeuWox1wSvdDw@mail.gmail.com>
+Subject: Re: [PATCH] drm/meson: add support for 2560x1440 resolution output
+To: Christian Hewitt <christianshewitt@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Dongjin Kim <tobetter@gmail.com>
+Content-Type: multipart/mixed; boundary="0000000000007818c506405afb9c"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,30 +92,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WARNING: ./include/drm/drm_gpuvm.h:1083 struct member 'map' not described in 'drm_gpuvm_map_req'
+--0000000000007818c506405afb9c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The struct drm_gpuvm_map_req has a member named `map`, but the
-kernel-doc comment still refers to it as `@op_map`. This patch
-updates the documentation to match the current field name.
+Hi Christian,
 
-Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
----
- include/drm/drm_gpuvm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Sep 29, 2025 at 1:58=E2=80=AFAM Christian Hewitt
+<christianshewitt@gmail.com> wrote:
+>
+> > On 29 Sep 2025, at 1:24=E2=80=AFam, Martin Blumenstingl <martin.blumens=
+tingl@googlemail.com> wrote:
+> >
+> > Hi Christian,
+> >
+> > On Sat, Sep 27, 2025 at 3:02=E2=80=AFPM Christian Hewitt
+> > <christianshewitt@gmail.com> wrote:
+> > [...]
+> >> @@ -894,6 +908,10 @@ static void meson_vclk_set(struct meson_drm *priv=
+,
+> >>                        m =3D 0xf7;
+> >>                        frac =3D vic_alternate_clock ? 0x8148 : 0x10000=
+;
+> >>                        break;
+> >> +               case 4830000:
+> >> +                       m =3D 0xc9;
+> >> +                       frac =3D 0xd560;
+> >> +                       break;
+> > Initially I thought this was wrong because it's only added for the
+> > G12A (which is also used on G12B and SM1) code-path, leaving out the
+> > GX SoCs.
+> >
+> > Was the 2560x1440 mode tested on a computer monitor or a TV?
+> > I suspect it's the former, so I think it expected the code to take the
+> > MESON_VCLK_TARGET_DMT path, which automatically calculates m and frac.
+> >
+> > I'll give it a try on Friday as I do have a computer monitor with that
+> > resolution - so any hints for testing are welcome!
+>
+> The original patch is from Hardkernel sources - I=E2=80=99ve picked it se=
+veral
+> years ago and then updated values semi-recently after 1000ULL changes.
+> The user who originally requested that I cherry-pick it (and tested it)
+> was using an Odroid N2+ board (G12B) with a Dell monitor IIRC. It=E2=80=
+=99s not
+> tested by myself as I only have TV=E2=80=99s not monitors, so it will be =
+good
+> to have your confirmation (either way). If it=E2=80=99s wrong I=E2=80=99l=
+l be happy to
+> drop it - I=E2=80=99m just trying to upstream and offload some longer-run=
+ning
+> and allegedly good patches in the LibreELEC kernel patchset.
+So I've tried it on a Le Potato (S905X SoC) board. This patch doesn't
+do anything here (as expected, since it only targets the G12A and
+later code-path).
 
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 8890ded1d907..476990e761f8 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -1078,7 +1078,7 @@ struct drm_gpuva_ops {
-  */
- struct drm_gpuvm_map_req {
- 	/**
--	 * @op_map: struct drm_gpuva_op_map
-+	 * @map: struct drm_gpuva_op_map
- 	 */
- 	struct drm_gpuva_op_map map;
- };
--- 
-2.34.1
+Doing some more analysis, it seems that
+meson_venc_hdmi_supported_mode() simply prevents using any mode with
+more than 1920 pixels.
+I attached a simple patch to overcome this (discarding any
+meson_vclk.c changes):
+$ cat /sys/class/drm/card1-HDMI-A-1/modes
+2560x1440
+2048x1152
+1920x1200
+1920x1080
+...
 
+My monitor's OSD tells me that I'm running at 2560x1440@60Hz.
+
+@Neil, should we bump the limits in meson_venc.c to "4Kx2K@60" (that's
+a quote from both, S905/GXBB and S905D3/SM1 datasheets), most likely
+meaning: 4096x2160?
+
+
+Best regards,
+Martin
+
+--0000000000007818c506405afb9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="meson_venc-hdmi-support-1440p-screen.diff"
+Content-Disposition: attachment; 
+	filename="meson_venc-hdmi-support-1440p-screen.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mgcps9pr0>
+X-Attachment-Id: f_mgcps9pr0
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92ZW5jLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vbWVzb24vbWVzb25fdmVuYy5jCmluZGV4IDNiZjBkNmU0ZmMzMC4uOGExMTEwMzc3
+YTE4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fdmVuYy5jCisrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92ZW5jLmMKQEAgLTg2OCwxMCArODY4LDEwIEBA
+IG1lc29uX3ZlbmNfaGRtaV9zdXBwb3J0ZWRfbW9kZShjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlf
+bW9kZSAqbW9kZSkKIAkJCSAgICBEUk1fTU9ERV9GTEFHX1BWU1lOQyB8IERSTV9NT0RFX0ZMQUdf
+TlZTWU5DKSkKIAkJcmV0dXJuIE1PREVfQkFEOwogCi0JaWYgKG1vZGUtPmhkaXNwbGF5IDwgNDAw
+IHx8IG1vZGUtPmhkaXNwbGF5ID4gMTkyMCkKKwlpZiAobW9kZS0+aGRpc3BsYXkgPCA0MDAgfHwg
+bW9kZS0+aGRpc3BsYXkgPiAyNTYwKQogCQlyZXR1cm4gTU9ERV9CQURfSFZBTFVFOwogCi0JaWYg
+KG1vZGUtPnZkaXNwbGF5IDwgNDgwIHx8IG1vZGUtPnZkaXNwbGF5ID4gMTkyMCkKKwlpZiAobW9k
+ZS0+dmRpc3BsYXkgPCA0ODAgfHwgbW9kZS0+dmRpc3BsYXkgPiAyNTYwKQogCQlyZXR1cm4gTU9E
+RV9CQURfVlZBTFVFOwogCiAJcmV0dXJuIE1PREVfT0s7Cg==
+--0000000000007818c506405afb9c--
