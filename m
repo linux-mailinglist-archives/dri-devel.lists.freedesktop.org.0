@@ -2,177 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD59BB8FA5
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 18:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DB5BB90B9
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 20:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2D610E22F;
-	Sat,  4 Oct 2025 16:14:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522F710E00D;
+	Sat,  4 Oct 2025 18:03:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="A021f0ya";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="aLxenDa9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013064.outbound.protection.outlook.com
- [40.107.201.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7498410E22F;
- Sat,  4 Oct 2025 16:14:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h//B8GkG3mN8QXTm9TRqNwUwzQhxjw82jM1uIXKzpR6CmI/Qx6kNxv41MT8AP9EPOMFOYZOFFpC0OmvTUxRShJYZGkFfMZqkdhqSqDtddKXKSbzSFSbZbi816tcSFAxMHwPk8ECSvbCvX6ybGddYq+J5d+4MJwuLInNg488FvdWCnfVmu8qqwqOuYYZx+/EAE5ACyfWRmyVVOKViMlJYxbl1ZJe0fiVXNknBC4zT7ydKvBdQD/ZT+fN9ShA83P1bmsA4Uvpb7AX+d+54tjJeQwgnsCJV79RgKTt6aityZmr4Fni7l58o2a+P9Jmaaz35z7QXy+qqdRkL/cT1riqYqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xE2Gy5lwO70RHbOeONWH6bDzDpRSPArcIFTjgI9cHuU=;
- b=PFkvPoKat5+MF0YoVVRqj/jFGX4B+qX+2AEkKJkr7YfQkHDmJ6ZcZOtXdfZFsoeYRmNhRZaKj63lBiGA7jTVtZX5LKHWiPlrdQlE5DLJ4EzvPO9SZLorMuNYWD8AYEE9ntPoOs6pZFVQTrgayZ7eu8FZv9Re/p8iVHqLgJjXcX8NRggUsa2ohZx9kYPE/9/qf/EIs5Dnh8RsRFAz73xZUrZpWjtTvEqIAsTDfHDmLyY+v+qlDDx7MhirKZ6D5V3zi8j2jbmG7WXyq+SbGViDCbcrC6sMzloZxbUxalBsUeBkE/UVWESrlO+bKduPIClfGTZm/8XfzhiyCf3DPFsegg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xE2Gy5lwO70RHbOeONWH6bDzDpRSPArcIFTjgI9cHuU=;
- b=A021f0ya/TRiBvDK9lOUPrKOo2i2cvuA42lgTr9fUxzEKVJL5WjS5vwCtKuf38+EFhjDtKFS/YWO7ZsFQNiFrIoUc4Ow0LWEKnsykbGfJs89RyiebqU+tC+V4V6TpDUtxXggLFbeW80k1aZwr+80qC1AvlXvV/hx/ahcRGLzVno/DXpPZlOosLmotrRNffBmf+ENQO7G+oN0BicW42+GbvSr8Ys2hA4/GrqieGwhS3o1KGZpvcX0hiGigUer5g0kOA/SJhcYvDTt91hp5zSlekgC81pLJ4XCrF4xwLEu+s0TIdC3OcvtG4byEClPflHWDBCPnEiVFL7rnsKdT6vulA==
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by PH0PR12MB8127.namprd12.prod.outlook.com (2603:10b6:510:292::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.19; Sat, 4 Oct
- 2025 16:14:17 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9182.017; Sat, 4 Oct 2025
- 16:14:17 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "dakr@kernel.org" <dakr@kernel.org>, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun
- Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, "joel@joelfernandes.org"
- <joel@joelfernandes.org>, Elle Rhumsaa <elle@weathered-steel.dev>, Yury Norov
- <yury.norov@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, Andrea
- Righi <arighi@nvidia.com>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, Alexandre Courbot <acourbot@nvidia.com>
-Subject: Re: [PATCH v5 6/9] rust: bitfield: Add KUNIT tests for bitfield
-Thread-Topic: [PATCH v5 6/9] rust: bitfield: Add KUNIT tests for bitfield
-Thread-Index: AQHcMhju1ljLznsiDEetzKjrDHxfc7SuFx4AgAJ4GICAAJrrAIABBYt5
-Date: Sat, 4 Oct 2025 16:14:17 +0000
-Message-ID: <4324469D-4C47-441E-9AD3-54CEE379537C@nvidia.com>
-References: <20250930144537.3559207-1-joelagnelf@nvidia.com>
- <20250930144537.3559207-7-joelagnelf@nvidia.com>
- <DD7GCYCZU3P3.1KK174S7MQ5BW@nvidia.com>
- <81490b32-6ea2-400f-a97e-ad2e33e6daab@nvidia.com>
- <DD949OHGD5WP.1X9TCLIEKSHGB@nvidia.com>
-In-Reply-To: <DD949OHGD5WP.1X9TCLIEKSHGB@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR12MB8059:EE_|PH0PR12MB8127:EE_
-x-ms-office365-filtering-correlation-id: 74d730e4-63b1-4c42-5a5e-08de036111b2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?M3FiN01Kb09Wenp1Y2pQZGlDcTRyQ3lEc2xEVGNxNGcrVzE1WEFoLzcxaysz?=
- =?utf-8?B?RWdiRGRpTkZ5cmxPYzR2U2NXSkVTTWpoNG9MTjcxWmtmSnk4Y2RoKzU3Szl3?=
- =?utf-8?B?VWxLN09TcXlrM2Y4SDhXNmRhTnEzYnI3ZzR5MElYaGJIMkV0NEJ3ckpGYnVJ?=
- =?utf-8?B?bWxIdStnOVk3bTRxL2VyeDlxYmNER3diQURFb1p1OGxaRWNyRnNtTHBoTWIv?=
- =?utf-8?B?WUZIbzZ6UEFHRXA1a3NjNUFVajFYZnNBaFZrNEl2dzVqblVUckFSL25qWXoy?=
- =?utf-8?B?Mk9yUXFLaTJmL2lHWWFwUWIvczEyTERTSVFKcXB6QU9Sd1RjVW9hbnRDYU1q?=
- =?utf-8?B?cjJHa28wSnJCY3ZYQmRrL0pXQWZGaGh5cDQwdHJ4cTVKN1hyWktiSlRFMWxE?=
- =?utf-8?B?aWUxSlFhRnl0bW9ycmpjMXBhOHlvZzdxRWhFYU9IVlptRmZNbThldjZiUndH?=
- =?utf-8?B?LzNzL2dJY0EwNnVuNmQzWjJSeGJxTUpXZGFtVTBJUkJlSmR3LzBZL0UzUHFX?=
- =?utf-8?B?TXdYMzYyMXN6VlVhMkNaQ0xuWXpNRVJzRFRlV3JTYzlid21Ta0pOSVFvSXVL?=
- =?utf-8?B?Wi9TQ0FBdURTVWJvNkY5TmRoWXpnRXA0YmYwODYyRHZ3enc0R3FyVDZwOUVT?=
- =?utf-8?B?clRpT3pXQjM4a05iZHRDQ1ovOCtWS2NzeWdEOFY3SkMvM0l1YWlONE85U3dm?=
- =?utf-8?B?OTlWVUNLV0pYRlJOSTRQd2paL01mcU9kM1F2eWlONjMwSCt0U2xJejUxRGZo?=
- =?utf-8?B?a1UxSERrKzZsTVEvZnpibkIzcy9PYnlraFRENDdUaFdGUWdoWTk5clJRM2xz?=
- =?utf-8?B?bkhUOW1GNCtDT1Exb3dpUzVPM2RBYlJERFJWanFvRzRDc2tjam9tVEx3anBL?=
- =?utf-8?B?THF5VFBXNlA3VzFWL2tnNGFDZGVCc0J4Zk1HVjl2SmRrYzVZQ1k3MkhFY1JE?=
- =?utf-8?B?TEVVRHgxRlc4bml3M1dValJNWnplU1d1T3FDWUJ0OU1QeXZ1ejJxWUpYMXBH?=
- =?utf-8?B?THdBNUEvN2QvUmd3Mk5ZM21oQVhPSy9WVktaeTYxcTN3Ujl4emlvVVFUTDhD?=
- =?utf-8?B?a2MwejRFQTRWOFBhUW90UnVPUUQwSGlHeWtCK1pqeE95K2dXQU5DQjNibDBP?=
- =?utf-8?B?T2pIQ244TDB1clJ4SWpTUWVyeXRJY1BuUjcySG1TU2paN2NWam9zckFUYXg0?=
- =?utf-8?B?UDhBNHdUcEdZY1JQSVkvT25ZeEh3NTlqOVE3MldFa3ZVUk5XRG5FQ3V6cVAv?=
- =?utf-8?B?R3JHYVB1NGIyNUxGaDI2b29MY0lJTEtXSnNZUC93cEhoUTdkZUtxYVI1blBQ?=
- =?utf-8?B?YW81YzY0TmpvU0VFZE1VMmNId0hSZVRKQjRaTXBBSXlTcTBoRGM2THZKb3FB?=
- =?utf-8?B?QlZmVkw1cXozS0dOZzJFV21QdHhmUW9yUkNOSVNBdzNRQ2hOa1JZZEs1QzJH?=
- =?utf-8?B?b0RDVlRWZ3krQlB1VWRHSFpNdVdiRERrTHI0NDhLcjVJUVdCaGtxY28zMS8w?=
- =?utf-8?B?cWpUWFQ2a1pDQ3ovUWgyQWR4SDFVZk9hMkg3MzZ3MVhFV2l3eDg2YWJzY2FR?=
- =?utf-8?B?TUlBYTE0ZUd2MzVjTU1RTGhYaXRXenJsKzA3V2U0QWJHaGdsNGhnelJ4cW9S?=
- =?utf-8?B?OGxIM29wb1poZnpXV1dUVzU3cmk5VHJuYTJlV2pNdCt3VW9Ya1o0Zjl6dCth?=
- =?utf-8?B?cTl4dWduTkZ6c2ZMekR4SkdMcmxVRTI4WTRFZHNvYU90WWs2NlZSa3FRQnlS?=
- =?utf-8?B?cTk1S2l6cGk0a2FJSmNMK0FRRlYxcEFiL003Qm5NVWNZYXpjRnVVTWZ0ZWVm?=
- =?utf-8?B?aituL3A1blBNMExJUFpXNnZDalU2Q3ROclZ6UTJrdEJNL01pczZGZDNZZUkr?=
- =?utf-8?B?YkZtZU9Cc2VLUWRoKzVZZHQyY1BUM1p4WUF3N1o4UXhjSDFnTTAzR2YyMSsv?=
- =?utf-8?B?ZWxDRVBGOGphOGZ3VUVHWnVwQ1BEZlZoMis0S1V4Yms5OGgzRWUxa1MzbFQz?=
- =?utf-8?B?L2l5OGk4b1FUWktSdDJZM0lYbGdBazFiTXdHM3ptU3VVZzNTTGx2MmZ4VTRa?=
- =?utf-8?Q?ADiUDt?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M2lMTWpubFdZR0F2MHNkSHBBd3I4emFCQkRRQTZ1NDcyY1VyQ0Q0VStBeUtt?=
- =?utf-8?B?SG8rNG1VNEF6YTh2Q0JDOHptWEVtR29mM09qMjUvbVJuMjcxd1E1VzYyVTI5?=
- =?utf-8?B?czJ5NFZzZnBMTFA1Mk9KMjVJY3l0Z0Uwc0d0YXJkQjVERkx0MW5vS1dZRGJp?=
- =?utf-8?B?RzFTd2U3d3NMVEtWUHpGTWlQTUpwbElEVkY0TGR1MFRrV1JBNUI3eDFsd1l6?=
- =?utf-8?B?TVhGMVlwc2xrR3BwaU1xcGxXelo4VFZLZ0FPaDBZZGplR1crQXlObHdVa2Nm?=
- =?utf-8?B?MENkbm1SMHl4UzlmODlrQ1RGUG1hTUFNVDBoVHJ3blo0UnVoMXFTbExsd0Fh?=
- =?utf-8?B?Z0gzVFRsandKRCs4OEV0YkdNd0JDaFNNTVdoaE91RXpaNDhpa1pKK2x4Tndj?=
- =?utf-8?B?c1NJL2hwSEErL0lYZWZpazFPcTVBZmR6QjM0c1BoS1ZuRHk0ZG5TcVNaZy9s?=
- =?utf-8?B?SldieDFTUkN4Q09sK0F1TWRGOUhvZlNISWVuYldVYWRqenl4eGRLQmRuLzl5?=
- =?utf-8?B?cXFORkkvd3QrcE52aElSKzdTMUhvTW9kOFJzbmtwSzJvNG5uVWVkNzRiVFFP?=
- =?utf-8?B?VHlBWWIzRk9KckZWNjNkcnI5VWxZU2x1OUo4S1FLOWFmUjdIdVNQOURFMHJp?=
- =?utf-8?B?eEFrcWJrWncyODNhMHUwNnk1Z1Q1cEZycmZTUEJ0YTV4bWphem8wL3FqRjgw?=
- =?utf-8?B?OGl6Q2ZQSDRoTWIzbWkwNStCOWxYL3FYOFpDSFl2SEowU0Z6YkpTbkx5Y2px?=
- =?utf-8?B?bGJROHRVeHlSWnZHdTRtRFhmMlgyTmd1RGsva1VLNVdacGZONTM3b1ZQUUw2?=
- =?utf-8?B?Mzdsc2pPb3ZBOFF4MmQraWs5bjFHMVJuVStnUEtKWllPYzFLODh3Qy9DZ1U0?=
- =?utf-8?B?MSs4eVlIejRRdU40UVI3R3ZlYzJYUEdIN0N2b2pjN0tIOFcwaFl2SXlnYktE?=
- =?utf-8?B?WDNUNUlpSE5ETERHV0c1eitwbndhWUZ3bDc2WW1DSm1HWWY1QTdsdFZqSWxJ?=
- =?utf-8?B?QTlGOXhsTUdNWVRsNHY1UmsrdHVSMGtpZ0R2MWNxS0ppT0VFZHAxYVNYTTky?=
- =?utf-8?B?MmphbGRRcHZMbkF2TlFWbHZJajRjTDI1aEpRdHpmN2xwcVF1Qmdid1JtV0Qr?=
- =?utf-8?B?Rmd3WTlkS1UxTEpQSUppQlVzOHNlZS8wN3d2aHlnbjVPRXlMV24xcnFyNGl5?=
- =?utf-8?B?VGxPYWlzbUM4NHZZVEdCeDFTdUVFemE0dlBPcmhlRkVJNk5NWURDN21Jd1Y4?=
- =?utf-8?B?S0xJdFIrNjNueDZleFUreDlFcTJXMmtXNjgrNnJzNkZvdWFBMTk1a2crZStE?=
- =?utf-8?B?VUJ1aDVGSFN0bThzeFNpSy83RVZKRUdNNE54UU5mWGpvZU1CbHg5T3BxZDZ6?=
- =?utf-8?B?bGk5TmErbFlUb3M2bWg5REhnZGtyWndpZTFiQVEramJPR2NkdThZWWk0citH?=
- =?utf-8?B?c1RaZkVjZzJuTW15TG1xVFZnTWQ3dTRrT3FMYXNBZGo4TFAvYjI0aDFiUmVE?=
- =?utf-8?B?MUJMd0NNMW9VK3ZRTVBramNzblhLRlhsdkZudzcyYkwxQ1ljSS9xVWZkVDNs?=
- =?utf-8?B?d1pxcmVyVHZjODYvOTBTWUVycTVKc05hYUJZZXhqUGNtbHd3dWo1NGN5NVZH?=
- =?utf-8?B?aDBLcklJS2RXUUZvNDV6V29UUWtLcDkzeG5ZbkZQVEZpMnNjVzJ0TkZZSzRB?=
- =?utf-8?B?L1p4MjZnNnJMeTZhOG8zYldGWUhEZEJuVUtTaXJBS1B6M1dqV1cyQ1VwcElX?=
- =?utf-8?B?b0JwTlcxOTJMQkxINUgrcnZaRWkvVUM2VVZUV0pWcTZ2VE1VRFREUlE3cDhM?=
- =?utf-8?B?NW9udkw0Y3daQmltVjd0Qnl0cmVseW5paTRib1ZqOVMvUFdLaVRFTUNqeHgv?=
- =?utf-8?B?ZVAxYVhia3Nvem9JQnBud0JVbm1DRmVSeGZrYnByYm9tZmtlbUhxSHhodTlK?=
- =?utf-8?B?TitGdzN2QzFSL3RuS0VzWENDd293eXdCQXZJaDdLMWtsZ1NQSWRQcXRrTy9p?=
- =?utf-8?B?U0hjOXRxYXNDTjRRWjByL0FIM0hQTmVRZ3g2dFV5UFF1TzBpbzF1eXFRcXZY?=
- =?utf-8?B?S25GMVlaVEZKaGsrc2J5S1EwVE1KSFQyc21qTGpZOURUN1djQ3pXQ3IvWEdx?=
- =?utf-8?Q?QhxGcKT++ISYmjNepKHpGJ4VW?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from sonic308-55.consmr.mail.gq1.yahoo.com
+ (sonic308-55.consmr.mail.gq1.yahoo.com [98.137.68.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67ABD10E00D
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 18:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1759601034; bh=lkyG98f4QiKx6NyUSEZmeM1WjKuHQ+VrmQ9aD/yxy9Y=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=aLxenDa9W3g0XPBFjUQE1XHcHXbbHgoXtgsV+iDraTJvrP0zc+fLMtBm5yG9wxnf+OWC3ETKD7/+lL+x39e6v3jCL3WHTkA60RcaBtZPIwLVWu12EI+5qlIr2MsUmzOzpB9se+QmNLKhj5X5D93+JDqjaS9kroR+q5E5Wegku1DCsOdd5H6cCpIESBcUxJZ9yxW/1UhJQux2T+tn8UDfmaqvm6j25cMNpc13As59d7Lv8NWSD2RQ8Zid0ZiPndjn1UgvuZouN426npcZfnpl/NfbMOJ306Ib5fuiWfUD9cC66URW/zmnSAYZ9EFO6aFyHqageDxZPLZecOlxBbBfdg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1759601034; bh=B9Zdyz+1cTzxJ4pOJaMFhHSEyKuUAMOOuKxvXmGX0v8=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=ZgUgJwSecnGJntoqAjxr3te1RelAhmCLz5aXiv3JvKh5l2F7aWQg7mBHHgatHYhU00jb7A8TJzpjbBrUoJHwHBuUZQpRy6tO4mM8fbK/m0B2IUuhzC/NhVU+R5uPw45Ad3DxnKCeZzwolRim2k8LSVguBzU5rMPXhtqq4O37nUpvSnoitDDLBVc8gP5cCE+G5QW0G/EDlrNYZdDaBWMB+CnokMf16bHfDUVaOPN/bAey+4Kl+yFYq7/ZV0ddmu/DE9Pa7rPbkhot8BtRHS7C9L727hnJu6qp4tgVb/FWWa2EdE5Jrc6HacpQ67H+19kHmHvNJCnATLR5BDbnxxeuhg==
+X-YMail-OSG: c2PbrJgVM1npkwl3SfuC3WPRnl567mrpSrRZenAQRaqL6Ms63R5Sfsx26pUi3xO
+ Wy8Re1Gr0Z8bdPiY30vXbbUltY0GhSK61Jqk10roxdDnhpeKt6Fa6nLS0.yCnuIyzSi2GvGK3hZm
+ nT1Ldx2Mz3r_yPmBsCPdvGhr4Aev78H7TU_SBBzrEQQ0dZPMIIcP0D7JLe5pf2fYs0snw58A4_vJ
+ L8yhTcGy62K_.zGhHIZ79bvxxZ5jupysbbY7OkOVjvyCzyfRtF7_1XulF2QHxCA5mSM0gtCnXrQJ
+ xP9IdzZB0qvC6FgXFrE.F5yjsJxqzbbY2GjrPG_gWWHwetYU3UrCs_QCeF2a3uNt93GuaY4YUuA5
+ zVhpBY41RKsQLZwVb0p2crWU04.Jdf4djt9n.YhDCYhroMeJfaekOvYxeM4oGvvipaUGijSSO0F9
+ KX2oN53rU3MWThDh7Qp2PDkPjduRBhiAmruQUQXRMxVE9HmKD5e2zwJChLE7A5.hvV1FB0CpwEJc
+ 3dO5XzRB88k0e9riQ6r.MACjqj0EBeo.oVsJKAmOsM3NjikI3EJSDG4fV1dtWUvTUBN.iR5mTFKB
+ jo3070fbKT9UAkalKkItnvRm_B6kGzLilSysyYxxuDe2Sn4xZv5fsi_CIll1ZqPh1wlJlNWpEBxe
+ iEP880dBA8VrH09yM5ERGyN3iwXQv59Jx4ryh9qgeVi5i0v05tbXFkixaswmEacMwMF3rd64Gycb
+ M87iPfpRAmKG8lOW1ojQv2jj04Jy9N3VH3JZWay5ebT9.Iy44JpUZGSyQI.8H3PEGo4.bdSkbWaD
+ lqsw2D.8BP7kEBe0PNn.PeM0oZ9caE0FOZWQoV_EOEx3sDqFdMhC2eP8Pl0TywW4sxV3LkKFPmKP
+ SXjCRucO3yVCUG9N9.yE0yRojt02kmcZPinQj0HPlfBr460xqut8p2bdacP356ULdY5BhHkCe2dw
+ ggeB9Psj7ZEUiKdHiqu7QQ0u38qk5gSfolcnHIVXl.SqAUd5Eg9jxzizkJOkzdv1DDFDDa1gJFpU
+ IlDN_QzCK3tJc4vNdSdV3B92sh46QtFPhHwxAIOkTsxa8G3PNdkLyT6lDTM9U1ZZYOjeqMcmaQLd
+ 8M_YJyqJoBti3vKgPhHTxidzA0GDHtgzNKtzIt0RaasUsow61PaZogsLkXqUHP8eoQ_DVro0NwPA
+ GTrcvaq4piOuBqhEbgVSqFOUMc_3TV9jGQa.xodff49._FkEgl1FlZ1pFxUq_PUrkC9amJX0pZ7r
+ LpqT3CVOGQFn9Mh86JgZlcxaLtZZ7ujTrzrz1AKfdBtdK3FQTUTE0pAgBcQs7yPZIt3tEjPjtrYa
+ ttRxzc8shd2J.GKolYow_hOkARoadKyoWog6ho1N_NzKP6D9Y60bspaccDvDADILkTExGL7Xtv0.
+ YpY7i5s.Qsytvzsjt4uDplvhRDyoh08AvdZ68jNLXkdTCgd7RgvK4oGUhR5hXaN3OJfqFc80eKEy
+ T2etpdRp0pTW5YiCUrUxEHqIfdGm3AZCVP8XZyMwZGviBORZ3Tf9CTTS5lidVmXsDaKqr6J6ORH3
+ xIWa9OObChn_XMjUG7Qfh9Vmsc2EnH2ab4UbEScFMNRNPIlaeg7wND_V3VOcUAKqOj0bJo0mvIx3
+ 1DnjaMaFneaKyRH2fsv8QnFf0Jk6perSjz5woU1Fif09QUKFPOlPRe.Q9zkmaJUW_jxpfNVfcW3V
+ PPeA6LgZdsl4Lvg16EpbvfIWKhByK5uy5MwR9K2W.hWYnXkopeRt.1AHNI0xdNSiKx9C5IIwL3hi
+ Y6nWIggGzYMh7A74R2D.3Ld719frR_naOLdI5mwbMiX4bXqUExbiGGTsXsWTvU3X8.jEwpTaewio
+ jjOXMHOerWzkDKjZGIipU9dKP8uL.uVrtYJcpN27yk.Tbu6ftSDoBFKA2r0DNFS.Jd9g9CyFbJ.n
+ 7rR_Bj44MypA6hHBxD_bqhYHh5fa_XYm48iECn0HU1154Fk3N6dTgI3FJ9B0XSDkFtgWZUvI628q
+ cPEmlHaye4I04peo8KOiwF6Qdzo3.5CL5.4Yb8W1j0xGvVkypQjfCsClX8TfMVg88hf0xpbfF1q0
+ R1MK_G0JU.GvHTJvmGYi.LAYedAfsP3LyLodznjDSVGfvOrUjxE7UI.EPXFIKwk08OtD33PQrg7z
+ FFscCPBiqVno8XNezOHPjoDT9r_xhI2ZThvp4Sbiktw.iQUa8EN9qdMhDnoKVe27HB0FMpBrQHRi
+ iSAjPn1vgkVf26_YNKGO2KLL_y7OaL2KIRjyoKrMMPxYqLKJ4cvWJ6zW_W2w2O4vpA_8iATnLTQG
+ w
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 14c02d5c-fdda-4d2c-8577-5699618924bc
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.gq1.yahoo.com with HTTP; Sat, 4 Oct 2025 18:03:54 +0000
+Received: by hermes--production-ir2-ccdb4f9c8-gvlwm (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 8bd04abe6e5a0119dbd6fc973ab909e4; 
+ Sat, 04 Oct 2025 18:03:51 +0000 (UTC)
+From: Ruben Wauters <rubenru09@aol.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/gud: move plane init to gud_pipe.c
+Date: Sat,  4 Oct 2025 18:49:56 +0100
+Message-ID: <20251004175900.15235-2-rubenru09@aol.com>
+X-Mailer: git-send-email 2.49.1
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74d730e4-63b1-4c42-5a5e-08de036111b2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2025 16:14:17.6562 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cIOHrHRjHL5jGeA2ZP9gmO0qx3sLTf3I/TSAfnP7paCZciNA0yf0cR2qA7R6/9JoveV7bL0UfKoBYLzEBC9ewA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8127
+Content-Transfer-Encoding: 8bit
+References: <20251004175900.15235-2-rubenru09.ref@aol.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,41 +92,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gT24gT2N0IDMsIDIwMjUsIGF0IDg6MzjigK9QTSwgQWxleGFuZHJlIENvdXJib3QgPGFj
-b3VyYm90QG52aWRpYS5jb20+IHdyb3RlOg0KPiANCj4g77u/T24gU2F0IE9jdCA0LCAyMDI1IGF0
-IDEyOjIzIEFNIEpTVCwgSm9lbCBGZXJuYW5kZXMgd3JvdGU6DQo+Pj4gLSBUaGUgcmlnaHQgZmll
-bGQgaXMgYWN0dWFsbHkgd3JpdHRlbiAoaS5lLiBpZiB0aGUgb2Zmc2V0IGlzIG9mZiBieSBvbmUs
-DQo+Pj4gIHRoZSBnZXR0ZXIgd2lsbCByZXR1cm4gdGhlIGV4cGVjdGVkIHJlc3VsdCBldmVuIHRo
-b3VnaCB0aGUgYml0ZmllbGQNCj4+PiAgaGFzIHRoZSB3cm9uZyB2YWx1ZSksDQo+Pj4gLSBObyBv
-dGhlciBmaWVsZCBoYXMgYmVlbiBhZmZlY3RlZC4NCj4+PiANCj4+PiBTbyBzb21ldGhpbmcgbGlr
-ZToNCj4+PiANCj4+PiAgICBwdGUgPSBwdGUuc2V0X3ByZXNlbnQodHJ1ZSk7DQo+Pj4gICAgYXNz
-ZXJ0IShwdGUucHJlc2VudCgpKTsNCj4+PiAgICBhc3NlcnQocHRlLmludG8oKSwgMHgxdTY0KTsN
-Cj4+PiANCj4+PiAgICBwdGUgPSBwdGUuc2V0X3dyaXRhYmxlKHRydWUpOw0KPj4+ICAgIGFzc2Vy
-dCEocHRlLndyaXRhYmxlKCkpOw0KPj4+ICAgIGFzc2VydChwdGUuaW50bygpLCAweDN1NjQpOw0K
-Pj4+IA0KPj4+IEl0IG1pZ2h0IGxvb2sgYSBiaXQgZ3Jvc3MsIGJ1dCBpdCBpcyBvayBzaW5jZSB0
-aGVzZSBhcmUgbm90IGRvY3Rlc3RzDQo+Pj4gdGhhdCB1c2VycyBhcmUgZ29pbmcgdG8gdGFrZSBh
-cyBhIHJlZmVyZW5jZSwgc28gd2UgY2FzZSBpbXByb3ZlIHRlc3QNCj4+PiBjb3ZlcmFnZSBhdCB0
-aGUgZGV0cmltZW50IG9mIHJlYWRhYmlsaXR5Lg0KPj4+IA0KPj4gDQo+PiBBY2suIEkgd2lsbCBh
-ZGQgdGhlc2UuDQo+PiANCj4+IFRoYW5rcyBmb3IgdGhlIHJldmlldyEgKEkgYW0gYXNzdW1pbmcg
-d2l0aCB0aGVzZSBjaGFuZ2VzIHlvdSdyZSBPayB3aXRoIG1lDQo+PiBjYXJyeWluZyB5b3VyIFJl
-dmlld2VkLWJ5IHRhZyBvbiB0aGlzIHBhdGNoIGFzIHdlbGwsIGJ1dCBwbGVhc2UgbGV0IG1lIGtu
-b3cgaWYNCj4+IHRoZXJlIGlzIGEgY29uY2Vybi4pDQo+IA0KPiBQbGVhc2UgZG8gbm90IGFkZCB0
-YWdzIHRoYXQgaGF2ZW4ndCBiZWVuIGV4cGxpY2l0bHkgZ2l2ZW4uIElmIHdlIHN0YXJ0DQo+IGFz
-c3VtaW5nIG9uZSBhbm90aGVyJ3Mgc3RhbmNlIGFib3V0IHBhdGNoZXMsIHRoZSB0cnVzdCB3ZSBj
-YW4gaGF2ZSBpbg0KPiB0aGVzZSB0YWdzIGlzIHNpZ25pZmljYW50bHkgcmVkdWNlZC4NCg0KT2gs
-IEkgdGhvdWdodCB5b3UgdG9sZCBtZSB5b3UgcmV2aWV3ZWQgdGhlIHBhdGNoIHByaXZhdGVseSwg
-YnV0IGNvbnNpZGVyIHRoZSB0YWcgZHJvcHBlZC4NCg0KPiANCj4gRG9pbmcgc28gYWxzbyBkb2Vz
-bid0IGFjaGlldmUgYW55dGhpbmcgaW4gdGVybXMgb2YgZWZmaWNpZW5jeTsgaWYgSSBhbQ0KPiBv
-ayB3aXRoIHYzIEkgY2FuIGdpdmUgbXkgUmV2aWV3ZWQtYnkgb24gaXQsIGFuZCB0aGUgdGFnIGNh
-biBiZSBwaWNrZWQgdXANCj4gYWxvbmcgd2l0aCB0aGUgcGF0Y2ggd2hlbiBpdCBpcyBhcHBsaWVk
-Lg0KDQpXZWxsLCBpdCBjYW4gYmUgZWZmaWNpZW50LiBJdCByZWFsbHkgZGVwZW5kcy4gSSBoYXZl
-IGJlZW4gY29udHJpYnV0aW5nIHVwc3RyZWFtIGZvciBhYm91dCAxNSB5ZWFycyBpZiB5b3Ugc2Vl
-IHRoZSBnaXQgbG9nLCBvZnRlbiB3aGVuIHNvbWVvbmUgY2hhdHMgcHJpdmF0ZWx5IHdpdGggbWUg
-bGlrZSB5b3UgZGlkIGFuZCB0aGV5IHRvbGQgbWUgdGhleSBhcmUgb2sgd2l0aCBhIHBhdGNoLCBJ
-IHNhdmUgdGhlbSB0aGUgdHJvdWJsZSBhbmQgYWRkIHRoZWlyIHJldmlldyB0YWcgZXNwZWNpYWxs
-eSBhZnRlciB0aGV5IGFscmVhZHkgYWRkZWQgdGhlaXIgdGFnIHRvIGFsbCBteSBvdGhlciBwYXRj
-aGVzLiBTdXJwcmlzaW5nbHkgdGhvdWdoIHRoaXMgaXMgcHJvYmFibHkgdGhlIGZpcnN0IHRpbWUg
-YW55b25lIGhhcyBiZWVuIHBpc3NlZCBvZmYgYWJvdXQgaXQuICBBbnl3YXkgSSB3aWxsIG5vdCBh
-ZGQgeW91ciB0YWcgaGVuY2Vmb3J0aCB1bmxlc3MgeW91IHB1YmxpY2x5IHJlcGx5IChvciB5b3Ug
-bGV0IG1lIGtub3cgb3RoZXJ3aXNlIGJ5IGNoYXQpLg0KDQpBbnl3YXkgdGhhbmsgeW91IGZvciB0
-aGUgcmV2aWV3IG9mIHRoaXMgcGF0Y2gsDQoNCkpvZWw=
+gud_probe() currently is a quite large function that does a lot of
+different things, including USB detection, plane init, and several other
+things.
+
+This patch moves the plane and crtc init into gud_plane_init() in
+gud_pipe.c, which is a more appropriate file for this. Associated
+variables and structs have also been moved to gud_pipe.c
+
+Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+---
+It was somewhat difficult to determine what exactly should be moved
+over, gud_probe() as a function quite a mess, so I need to figure out
+exactly how to split this one up.
+
+As an aside, I noticed that the driver doesn't have a version macro in
+gud_drv.c, and therefore is shown as 1.0.0. I was thinking of
+introducing a version, but I wanted to know how others generally deal
+with driver versions. I'm not 100% sure if it's *necessary* for GUD but
+it might be a good idea.
+---
+ drivers/gpu/drm/gud/gud_drv.c      | 48 +-----------------------
+ drivers/gpu/drm/gud/gud_internal.h |  1 +
+ drivers/gpu/drm/gud/gud_pipe.c     | 60 ++++++++++++++++++++++++++++++
+ 3 files changed, 62 insertions(+), 47 deletions(-)
+
+diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
+index b7345c8d823d..967c16479b5c 100644
+--- a/drivers/gpu/drm/gud/gud_drv.c
++++ b/drivers/gpu/drm/gud/gud_drv.c
+@@ -16,7 +16,6 @@
+ #include <drm/clients/drm_client_setup.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_drv.h>
+@@ -338,43 +337,12 @@ static int gud_stats_debugfs(struct seq_file *m, void *data)
+ 	return 0;
+ }
+ 
+-static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs = {
+-	.atomic_check = drm_crtc_helper_atomic_check
+-};
+-
+-static const struct drm_crtc_funcs gud_crtc_funcs = {
+-	.reset = drm_atomic_helper_crtc_reset,
+-	.destroy = drm_crtc_cleanup,
+-	.set_config = drm_atomic_helper_set_config,
+-	.page_flip = drm_atomic_helper_page_flip,
+-	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+-};
+-
+-static const struct drm_plane_helper_funcs gud_plane_helper_funcs = {
+-	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+-	.atomic_check = gud_plane_atomic_check,
+-	.atomic_update = gud_plane_atomic_update,
+-};
+-
+-static const struct drm_plane_funcs gud_plane_funcs = {
+-	.update_plane = drm_atomic_helper_update_plane,
+-	.disable_plane = drm_atomic_helper_disable_plane,
+-	.destroy = drm_plane_cleanup,
+-	DRM_GEM_SHADOW_PLANE_FUNCS,
+-};
+-
+ static const struct drm_mode_config_funcs gud_mode_config_funcs = {
+ 	.fb_create = drm_gem_fb_create_with_dirty,
+ 	.atomic_check = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+-static const u64 gud_plane_modifiers[] = {
+-	DRM_FORMAT_MOD_LINEAR,
+-	DRM_FORMAT_MOD_INVALID
+-};
+-
+ DEFINE_DRM_GEM_FOPS(gud_fops);
+ 
+ static const struct drm_driver gud_drm_driver = {
+@@ -587,17 +555,10 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 			return -ENOMEM;
+ 	}
+ 
+-	ret = drm_universal_plane_init(drm, &gdrm->plane, 0,
+-				       &gud_plane_funcs,
+-				       formats, num_formats,
+-				       gud_plane_modifiers,
+-				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	ret = gud_plane_init(gdrm, formats, num_formats);
+ 	if (ret)
+ 		return ret;
+ 
+-	drm_plane_helper_add(&gdrm->plane, &gud_plane_helper_funcs);
+-	drm_plane_enable_fb_damage_clips(&gdrm->plane);
+-
+ 	devm_kfree(dev, formats);
+ 	devm_kfree(dev, formats_dev);
+ 
+@@ -607,13 +568,6 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		return ret;
+ 	}
+ 
+-	ret = drm_crtc_init_with_planes(drm, &gdrm->crtc, &gdrm->plane, NULL,
+-					&gud_crtc_funcs, NULL);
+-	if (ret)
+-		return ret;
+-
+-	drm_crtc_helper_add(&gdrm->crtc, &gud_crtc_helper_funcs);
+-
+ 	ret = gud_get_connectors(gdrm);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to get connectors (error=%d)\n", ret);
+diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud/gud_internal.h
+index d27c31648341..4a91aae61e50 100644
+--- a/drivers/gpu/drm/gud/gud_internal.h
++++ b/drivers/gpu/drm/gud/gud_internal.h
+@@ -69,6 +69,7 @@ void gud_plane_atomic_update(struct drm_plane *plane,
+ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
+ 				  struct gud_property_req *properties);
+ int gud_get_connectors(struct gud_device *gdrm);
++int gud_plane_init(struct gud_device *gdrm, u32 *formats, unsigned int num_formats);
+ 
+ /* Driver internal fourcc transfer formats */
+ #define GUD_DRM_FORMAT_R1		0x00000122
+diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+index 3a208e956dff..1f7af86b28fd 100644
+--- a/drivers/gpu/drm/gud/gud_pipe.c
++++ b/drivers/gpu/drm/gud/gud_pipe.c
+@@ -10,6 +10,7 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_connector.h>
++#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_format_helper.h>
+@@ -450,6 +451,65 @@ static void gud_fb_handle_damage(struct gud_device *gdrm, struct drm_framebuffer
+ 	gud_flush_damage(gdrm, fb, src, !fb->obj[0]->import_attach, damage);
+ }
+ 
++static const struct drm_plane_funcs gud_plane_funcs = {
++	.update_plane = drm_atomic_helper_update_plane,
++	.disable_plane = drm_atomic_helper_disable_plane,
++	.destroy = drm_plane_cleanup,
++	DRM_GEM_SHADOW_PLANE_FUNCS,
++};
++
++static const struct drm_plane_helper_funcs gud_plane_helper_funcs = {
++	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
++	.atomic_check = gud_plane_atomic_check,
++	.atomic_update = gud_plane_atomic_update,
++};
++
++static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs = {
++	.atomic_check = drm_crtc_helper_atomic_check
++};
++
++static const struct drm_crtc_funcs gud_crtc_funcs = {
++	.reset = drm_atomic_helper_crtc_reset,
++	.destroy = drm_crtc_cleanup,
++	.set_config = drm_atomic_helper_set_config,
++	.page_flip = drm_atomic_helper_page_flip,
++	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++};
++
++static const u64 gud_plane_modifiers[] = {
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID
++};
++
++int gud_plane_init(struct gud_device *gdrm, u32 *formats, unsigned int num_formats)
++{
++	struct drm_device *drm = &gdrm->drm;
++	struct drm_plane *plane = &gdrm->plane;
++	struct drm_crtc *crtc = &gdrm->crtc;
++	int ret;
++
++	ret = drm_universal_plane_init(drm, plane, 0,
++				       &gud_plane_funcs,
++				       formats, num_formats,
++				       gud_plane_modifiers,
++				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret)
++		return ret;
++
++	drm_plane_helper_add(plane, &gud_plane_helper_funcs);
++	drm_plane_enable_fb_damage_clips(plane);
++
++	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL,
++					&gud_crtc_funcs, NULL);
++	if (ret)
++		return ret;
++
++	drm_crtc_helper_add(crtc, &gud_crtc_helper_funcs);
++
++	return 0;
++}
++
+ int gud_plane_atomic_check(struct drm_plane *plane,
+ 			   struct drm_atomic_state *state)
+ {
+-- 
+2.49.1
+
