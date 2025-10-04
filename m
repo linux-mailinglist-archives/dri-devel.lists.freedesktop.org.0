@@ -2,81 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DB5BB90B9
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 20:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402C5BB90F3
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 20:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 522F710E00D;
-	Sat,  4 Oct 2025 18:03:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33B4989262;
+	Sat,  4 Oct 2025 18:25:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="aLxenDa9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="na/UNnPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic308-55.consmr.mail.gq1.yahoo.com
- (sonic308-55.consmr.mail.gq1.yahoo.com [98.137.68.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67ABD10E00D
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 18:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1759601034; bh=lkyG98f4QiKx6NyUSEZmeM1WjKuHQ+VrmQ9aD/yxy9Y=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=aLxenDa9W3g0XPBFjUQE1XHcHXbbHgoXtgsV+iDraTJvrP0zc+fLMtBm5yG9wxnf+OWC3ETKD7/+lL+x39e6v3jCL3WHTkA60RcaBtZPIwLVWu12EI+5qlIr2MsUmzOzpB9se+QmNLKhj5X5D93+JDqjaS9kroR+q5E5Wegku1DCsOdd5H6cCpIESBcUxJZ9yxW/1UhJQux2T+tn8UDfmaqvm6j25cMNpc13As59d7Lv8NWSD2RQ8Zid0ZiPndjn1UgvuZouN426npcZfnpl/NfbMOJ306Ib5fuiWfUD9cC66URW/zmnSAYZ9EFO6aFyHqageDxZPLZecOlxBbBfdg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1759601034; bh=B9Zdyz+1cTzxJ4pOJaMFhHSEyKuUAMOOuKxvXmGX0v8=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=ZgUgJwSecnGJntoqAjxr3te1RelAhmCLz5aXiv3JvKh5l2F7aWQg7mBHHgatHYhU00jb7A8TJzpjbBrUoJHwHBuUZQpRy6tO4mM8fbK/m0B2IUuhzC/NhVU+R5uPw45Ad3DxnKCeZzwolRim2k8LSVguBzU5rMPXhtqq4O37nUpvSnoitDDLBVc8gP5cCE+G5QW0G/EDlrNYZdDaBWMB+CnokMf16bHfDUVaOPN/bAey+4Kl+yFYq7/ZV0ddmu/DE9Pa7rPbkhot8BtRHS7C9L727hnJu6qp4tgVb/FWWa2EdE5Jrc6HacpQ67H+19kHmHvNJCnATLR5BDbnxxeuhg==
-X-YMail-OSG: c2PbrJgVM1npkwl3SfuC3WPRnl567mrpSrRZenAQRaqL6Ms63R5Sfsx26pUi3xO
- Wy8Re1Gr0Z8bdPiY30vXbbUltY0GhSK61Jqk10roxdDnhpeKt6Fa6nLS0.yCnuIyzSi2GvGK3hZm
- nT1Ldx2Mz3r_yPmBsCPdvGhr4Aev78H7TU_SBBzrEQQ0dZPMIIcP0D7JLe5pf2fYs0snw58A4_vJ
- L8yhTcGy62K_.zGhHIZ79bvxxZ5jupysbbY7OkOVjvyCzyfRtF7_1XulF2QHxCA5mSM0gtCnXrQJ
- xP9IdzZB0qvC6FgXFrE.F5yjsJxqzbbY2GjrPG_gWWHwetYU3UrCs_QCeF2a3uNt93GuaY4YUuA5
- zVhpBY41RKsQLZwVb0p2crWU04.Jdf4djt9n.YhDCYhroMeJfaekOvYxeM4oGvvipaUGijSSO0F9
- KX2oN53rU3MWThDh7Qp2PDkPjduRBhiAmruQUQXRMxVE9HmKD5e2zwJChLE7A5.hvV1FB0CpwEJc
- 3dO5XzRB88k0e9riQ6r.MACjqj0EBeo.oVsJKAmOsM3NjikI3EJSDG4fV1dtWUvTUBN.iR5mTFKB
- jo3070fbKT9UAkalKkItnvRm_B6kGzLilSysyYxxuDe2Sn4xZv5fsi_CIll1ZqPh1wlJlNWpEBxe
- iEP880dBA8VrH09yM5ERGyN3iwXQv59Jx4ryh9qgeVi5i0v05tbXFkixaswmEacMwMF3rd64Gycb
- M87iPfpRAmKG8lOW1ojQv2jj04Jy9N3VH3JZWay5ebT9.Iy44JpUZGSyQI.8H3PEGo4.bdSkbWaD
- lqsw2D.8BP7kEBe0PNn.PeM0oZ9caE0FOZWQoV_EOEx3sDqFdMhC2eP8Pl0TywW4sxV3LkKFPmKP
- SXjCRucO3yVCUG9N9.yE0yRojt02kmcZPinQj0HPlfBr460xqut8p2bdacP356ULdY5BhHkCe2dw
- ggeB9Psj7ZEUiKdHiqu7QQ0u38qk5gSfolcnHIVXl.SqAUd5Eg9jxzizkJOkzdv1DDFDDa1gJFpU
- IlDN_QzCK3tJc4vNdSdV3B92sh46QtFPhHwxAIOkTsxa8G3PNdkLyT6lDTM9U1ZZYOjeqMcmaQLd
- 8M_YJyqJoBti3vKgPhHTxidzA0GDHtgzNKtzIt0RaasUsow61PaZogsLkXqUHP8eoQ_DVro0NwPA
- GTrcvaq4piOuBqhEbgVSqFOUMc_3TV9jGQa.xodff49._FkEgl1FlZ1pFxUq_PUrkC9amJX0pZ7r
- LpqT3CVOGQFn9Mh86JgZlcxaLtZZ7ujTrzrz1AKfdBtdK3FQTUTE0pAgBcQs7yPZIt3tEjPjtrYa
- ttRxzc8shd2J.GKolYow_hOkARoadKyoWog6ho1N_NzKP6D9Y60bspaccDvDADILkTExGL7Xtv0.
- YpY7i5s.Qsytvzsjt4uDplvhRDyoh08AvdZ68jNLXkdTCgd7RgvK4oGUhR5hXaN3OJfqFc80eKEy
- T2etpdRp0pTW5YiCUrUxEHqIfdGm3AZCVP8XZyMwZGviBORZ3Tf9CTTS5lidVmXsDaKqr6J6ORH3
- xIWa9OObChn_XMjUG7Qfh9Vmsc2EnH2ab4UbEScFMNRNPIlaeg7wND_V3VOcUAKqOj0bJo0mvIx3
- 1DnjaMaFneaKyRH2fsv8QnFf0Jk6perSjz5woU1Fif09QUKFPOlPRe.Q9zkmaJUW_jxpfNVfcW3V
- PPeA6LgZdsl4Lvg16EpbvfIWKhByK5uy5MwR9K2W.hWYnXkopeRt.1AHNI0xdNSiKx9C5IIwL3hi
- Y6nWIggGzYMh7A74R2D.3Ld719frR_naOLdI5mwbMiX4bXqUExbiGGTsXsWTvU3X8.jEwpTaewio
- jjOXMHOerWzkDKjZGIipU9dKP8uL.uVrtYJcpN27yk.Tbu6ftSDoBFKA2r0DNFS.Jd9g9CyFbJ.n
- 7rR_Bj44MypA6hHBxD_bqhYHh5fa_XYm48iECn0HU1154Fk3N6dTgI3FJ9B0XSDkFtgWZUvI628q
- cPEmlHaye4I04peo8KOiwF6Qdzo3.5CL5.4Yb8W1j0xGvVkypQjfCsClX8TfMVg88hf0xpbfF1q0
- R1MK_G0JU.GvHTJvmGYi.LAYedAfsP3LyLodznjDSVGfvOrUjxE7UI.EPXFIKwk08OtD33PQrg7z
- FFscCPBiqVno8XNezOHPjoDT9r_xhI2ZThvp4Sbiktw.iQUa8EN9qdMhDnoKVe27HB0FMpBrQHRi
- iSAjPn1vgkVf26_YNKGO2KLL_y7OaL2KIRjyoKrMMPxYqLKJ4cvWJ6zW_W2w2O4vpA_8iATnLTQG
- w
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 14c02d5c-fdda-4d2c-8577-5699618924bc
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic308.consmr.mail.gq1.yahoo.com with HTTP; Sat, 4 Oct 2025 18:03:54 +0000
-Received: by hermes--production-ir2-ccdb4f9c8-gvlwm (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 8bd04abe6e5a0119dbd6fc973ab909e4; 
- Sat, 04 Oct 2025 18:03:51 +0000 (UTC)
-From: Ruben Wauters <rubenru09@aol.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/gud: move plane init to gud_pipe.c
-Date: Sat,  4 Oct 2025 18:49:56 +0100
-Message-ID: <20251004175900.15235-2-rubenru09@aol.com>
-X-Mailer: git-send-email 2.49.1
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 715D489262
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 18:25:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 5ED7E60193;
+ Sat,  4 Oct 2025 18:25:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D28C4CEF1;
+ Sat,  4 Oct 2025 18:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759602335;
+ bh=dvoX9+/2ZkKZ6bUEKpbpRMnripCzPtEITdrIX91WpRQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=na/UNnPOaMdb4+MNBX4qFX/QhYMGkNkbkvd9PXulEzA/7N0I187bZfxz0iRHf+4Mr
+ bD+EMn7Q6MY//0lnvu+jIC30xiA4j6cwO7OAQQnHWyRgqNEQDDfni09Cm1v6NWBhyR
+ sl8U+TWAFZJO62OYR2rfuJ27dFjxzR9oBul26Xux0RK36mONeIZaJYOtM6EUquGNZ5
+ xLrZ9JzclC2C8cIs3ZY6FdLzGbmgj1Sf42oOHbyNCYJFCFsRyBNJPMrn3yj/Lnoznj
+ 8FDeYob/m5eE/NxGCLj9zACLxb7ylIEeAfQqKZDbOvkWSb23/2MEfvTs6mYO2ab0YT
+ PYvMljsu9lqgA==
+Message-ID: <a36555b9-b2b4-41a3-bbf1-58701b9f4b1a@kernel.org>
+Date: Sat, 4 Oct 2025 19:25:19 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20251004175900.15235-2-rubenru09.ref@aol.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
+To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+References: <20250924-knp-fastrpc-v1-0-4b40f8bfce1d@oss.qualcomm.com>
+ <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,210 +66,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gud_probe() currently is a quite large function that does a lot of
-different things, including USB detection, plane init, and several other
-things.
 
-This patch moves the plane and crtc init into gud_plane_init() in
-gud_pipe.c, which is a more appropriate file for this. Associated
-variables and structs have also been moved to gud_pipe.c
 
-Signed-off-by: Ruben Wauters <rubenru09@aol.com>
----
-It was somewhat difficult to determine what exactly should be moved
-over, gud_probe() as a function quite a mess, so I need to figure out
-exactly how to split this one up.
+On 9/25/25 12:46 AM, Jingyi Wang wrote:
+> From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+> 
+> Implement the new IOVA formatting required by the DSP architecture change
+> on Kaanapali SoC. Place the SID for DSP DMA transactions at bit 56 in the
+> physical address. This placement is necessary for the DSPs to correctly
+> identify streams and operate as intended.
+> To address this, add an iova-format flag which determines the SID position
+> within the physical address. Set SID position to bit 56 when iova_format
+> is enabled; otherwise, default to legacy 32-bit placement.
+> Initialize the flag to 0 and update to 1 based on SoC-specific compatible
+> string from the root node.
+> This change ensures consistent SID placement across DSPs.
+> 
+> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+> ---
+>  drivers/misc/fastrpc.c | 76 ++++++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 68 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 8e1d97873423..db396241b8ce 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -33,7 +33,6 @@
+>  #define FASTRPC_ALIGN		128
+>  #define FASTRPC_MAX_FDLIST	16
+>  #define FASTRPC_MAX_CRCLIST	64
+> -#define FASTRPC_PHYS(p)	((p) & 0xffffffff)
+>  #define FASTRPC_CTX_MAX (256)
+>  #define FASTRPC_INIT_HANDLE	1
+>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
+> @@ -105,6 +104,26 @@
+>  
+>  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+>  
+> +/*
+> + * By default, the sid will be prepended adjacent to smmu pa before sending
+> + * to DSP. But if the compatible Soc found at root node specifies the new
+> + * addressing format to handle pa's of longer widths, then the sid will be
+> + * prepended at the position specified in this macro.
+> + */
+> +#define SID_POS_IN_IOVA 56
+> +
+> +/* Default width of pa bus from dsp */
+> +#define DSP_DEFAULT_BUS_WIDTH 32
+I dont see any point in defining these both here, this should be part of
+the fastrpc_soc_data and a fallback fastrpc_soc_data.
 
-As an aside, I noticed that the driver doesn't have a version macro in
-gud_drv.c, and therefore is shown as 1.0.0. I was thinking of
-introducing a version, but I wanted to know how others generally deal
-with driver versions. I'm not 100% sure if it's *necessary* for GUD but
-it might be a good idea.
----
- drivers/gpu/drm/gud/gud_drv.c      | 48 +-----------------------
- drivers/gpu/drm/gud/gud_internal.h |  1 +
- drivers/gpu/drm/gud/gud_pipe.c     | 60 ++++++++++++++++++++++++++++++
- 3 files changed, 62 insertions(+), 47 deletions(-)
+> +
+> +/* Extract smmu pa from consolidated iova */
+> +#define IOVA_TO_PHYS(iova, sid_pos) (iova & ((1ULL << sid_pos) - 1ULL))
+> +
+> +/*
+> + * Prepare the consolidated iova to send to dsp by prepending the sid
+> + * to smmu pa at the appropriate position
+> + */
+> +#define IOVA_FROM_SID_PA(sid, phys, sid_pos) (phys += sid << sid_pos)
+> +
+>  struct fastrpc_phy_page {
+>  	u64 addr;		/* physical address */
+>  	u64 size;		/* size of contiguous region */
+> @@ -255,6 +274,7 @@ struct fastrpc_session_ctx {
+>  	int sid;
+>  	bool used;
+>  	bool valid;
+> +	u32 sid_pos;
+Why is this in session context? are you expecting this to be different
+for each session? move it to channel_ctx.
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index b7345c8d823d..967c16479b5c 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -16,7 +16,6 @@
- #include <drm/clients/drm_client_setup.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_drv.h>
-@@ -338,43 +337,12 @@ static int gud_stats_debugfs(struct seq_file *m, void *data)
- 	return 0;
- }
- 
--static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs = {
--	.atomic_check = drm_crtc_helper_atomic_check
--};
--
--static const struct drm_crtc_funcs gud_crtc_funcs = {
--	.reset = drm_atomic_helper_crtc_reset,
--	.destroy = drm_crtc_cleanup,
--	.set_config = drm_atomic_helper_set_config,
--	.page_flip = drm_atomic_helper_page_flip,
--	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
--};
--
--static const struct drm_plane_helper_funcs gud_plane_helper_funcs = {
--	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = gud_plane_atomic_check,
--	.atomic_update = gud_plane_atomic_update,
--};
--
--static const struct drm_plane_funcs gud_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = drm_plane_cleanup,
--	DRM_GEM_SHADOW_PLANE_FUNCS,
--};
--
- static const struct drm_mode_config_funcs gud_mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create_with_dirty,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
--static const u64 gud_plane_modifiers[] = {
--	DRM_FORMAT_MOD_LINEAR,
--	DRM_FORMAT_MOD_INVALID
--};
--
- DEFINE_DRM_GEM_FOPS(gud_fops);
- 
- static const struct drm_driver gud_drm_driver = {
-@@ -587,17 +555,10 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 			return -ENOMEM;
- 	}
- 
--	ret = drm_universal_plane_init(drm, &gdrm->plane, 0,
--				       &gud_plane_funcs,
--				       formats, num_formats,
--				       gud_plane_modifiers,
--				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	ret = gud_plane_init(gdrm, formats, num_formats);
- 	if (ret)
- 		return ret;
- 
--	drm_plane_helper_add(&gdrm->plane, &gud_plane_helper_funcs);
--	drm_plane_enable_fb_damage_clips(&gdrm->plane);
--
- 	devm_kfree(dev, formats);
- 	devm_kfree(dev, formats_dev);
- 
-@@ -607,13 +568,6 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		return ret;
- 	}
- 
--	ret = drm_crtc_init_with_planes(drm, &gdrm->crtc, &gdrm->plane, NULL,
--					&gud_crtc_funcs, NULL);
--	if (ret)
--		return ret;
--
--	drm_crtc_helper_add(&gdrm->crtc, &gud_crtc_helper_funcs);
--
- 	ret = gud_get_connectors(gdrm);
- 	if (ret) {
- 		dev_err(dev, "Failed to get connectors (error=%d)\n", ret);
-diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud/gud_internal.h
-index d27c31648341..4a91aae61e50 100644
---- a/drivers/gpu/drm/gud/gud_internal.h
-+++ b/drivers/gpu/drm/gud/gud_internal.h
-@@ -69,6 +69,7 @@ void gud_plane_atomic_update(struct drm_plane *plane,
- int gud_connector_fill_properties(struct drm_connector_state *connector_state,
- 				  struct gud_property_req *properties);
- int gud_get_connectors(struct gud_device *gdrm);
-+int gud_plane_init(struct gud_device *gdrm, u32 *formats, unsigned int num_formats);
- 
- /* Driver internal fourcc transfer formats */
- #define GUD_DRM_FORMAT_R1		0x00000122
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 3a208e956dff..1f7af86b28fd 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -10,6 +10,7 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_connector.h>
-+#include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_format_helper.h>
-@@ -450,6 +451,65 @@ static void gud_fb_handle_damage(struct gud_device *gdrm, struct drm_framebuffer
- 	gud_flush_damage(gdrm, fb, src, !fb->obj[0]->import_attach, damage);
- }
- 
-+static const struct drm_plane_funcs gud_plane_funcs = {
-+	.update_plane = drm_atomic_helper_update_plane,
-+	.disable_plane = drm_atomic_helper_disable_plane,
-+	.destroy = drm_plane_cleanup,
-+	DRM_GEM_SHADOW_PLANE_FUNCS,
-+};
-+
-+static const struct drm_plane_helper_funcs gud_plane_helper_funcs = {
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = gud_plane_atomic_check,
-+	.atomic_update = gud_plane_atomic_update,
-+};
-+
-+static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs = {
-+	.atomic_check = drm_crtc_helper_atomic_check
-+};
-+
-+static const struct drm_crtc_funcs gud_crtc_funcs = {
-+	.reset = drm_atomic_helper_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+};
-+
-+static const u64 gud_plane_modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
-+int gud_plane_init(struct gud_device *gdrm, u32 *formats, unsigned int num_formats)
-+{
-+	struct drm_device *drm = &gdrm->drm;
-+	struct drm_plane *plane = &gdrm->plane;
-+	struct drm_crtc *crtc = &gdrm->crtc;
-+	int ret;
-+
-+	ret = drm_universal_plane_init(drm, plane, 0,
-+				       &gud_plane_funcs,
-+				       formats, num_formats,
-+				       gud_plane_modifiers,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_plane_helper_add(plane, &gud_plane_helper_funcs);
-+	drm_plane_enable_fb_damage_clips(plane);
-+
-+	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL,
-+					&gud_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_crtc_helper_add(crtc, &gud_crtc_helper_funcs);
-+
-+	return 0;
-+}
-+
- int gud_plane_atomic_check(struct drm_plane *plane,
- 			   struct drm_atomic_state *state)
- {
--- 
-2.49.1
+>  };
+>  
+>  struct fastrpc_channel_ctx {
+> @@ -278,6 +298,7 @@ struct fastrpc_channel_ctx {
+>  	bool secure;
+>  	bool unsigned_support;
+>  	u64 dma_mask;
+> +	u32 iova_format;
+Format is very much misleading, And this is totally redundant if you add
+sid_pos to soc_data.
 
+Please add soc_data struct here, so that we dont have to keep adding
+members to this and it also makes it clear what are soc specific bits in
+this.
+
+>  };
+>  
+>  struct fastrpc_device {
+> @@ -391,8 +412,11 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
+>  
+>  static void fastrpc_buf_free(struct fastrpc_buf *buf)
+>  {
+> +	uint32_t sid_pos = (buf->fl->sctx ? buf->fl->sctx->sid_pos :
+> +					    DSP_DEFAULT_BUS_WIDTH);
+
+Why this new check added?
+> +
+
+>  	dma_free_coherent(buf->dev, buf->size, buf->virt,
+> -			  FASTRPC_PHYS(buf->phys));
+> +			  IOVA_TO_PHYS(buf->phys, sid_pos));
+>  	kfree(buf);
+>  }
+>  
+> @@ -442,7 +466,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
+>  	buf = *obuf;
+>  
+>  	if (fl->sctx && fl->sctx->sid)
+> -		buf->phys += ((u64)fl->sctx->sid << 32);
+> +		IOVA_FROM_SID_PA((u64)fl->sctx->sid, buf->phys, fl->sctx->sid_pos);
+>  
+>  	return 0;
+>  }
+> @@ -687,7 +711,8 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
+>  		return -ENOMEM;
+>  
+>  	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
+> -			      FASTRPC_PHYS(buffer->phys), buffer->size);
+> +			      IOVA_TO_PHYS(buffer->phys, buffer->fl->sctx->sid_pos),
+> +			      buffer->size);
+>  	if (ret < 0) {
+>  		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
+>  		kfree(a);
+> @@ -736,7 +761,7 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
+>  	dma_resv_assert_held(dmabuf->resv);
+>  
+>  	return dma_mmap_coherent(buf->dev, vma, buf->virt,
+> -				 FASTRPC_PHYS(buf->phys), size);
+> +				 IOVA_TO_PHYS(buf->phys, buf->fl->sctx->sid_pos), size);
+>  }
+>  
+>  static const struct dma_buf_ops fastrpc_dma_buf_ops = {
+> @@ -793,7 +818,8 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
+>  		map->phys = sg_phys(map->table->sgl);
+>  	} else {
+>  		map->phys = sg_dma_address(map->table->sgl);
+> -		map->phys += ((u64)fl->sctx->sid << 32);
+> +		IOVA_FROM_SID_PA((u64)fl->sctx->sid, map->phys,
+> +				 fl->sctx->sid_pos);
+>  	}
+>  	map->size = len;
+>  	map->va = sg_virt(map->table->sgl);
+> @@ -2153,11 +2179,14 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>  	sess->used = false;
+>  	sess->valid = true;
+>  	sess->dev = dev;
+> -	dev_set_drvdata(dev, sess);
+> +	/* Configure where sid will be prepended to pa */
+unnessary comment here.
+
+> +	sess->sid_pos =
+> +		(cctx->iova_format ? SID_POS_IN_IOVA : DSP_DEFAULT_BUS_WIDTH);
+
+as commented eariler, replace iova_format from soc_data with pos.
+>  
+>  	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
+>  		dev_info(dev, "FastRPC Session ID not specified in DT\n");
+>  
+> +	dev_set_drvdata(dev, sess);
+
+why this line moved in this patch?
+
+>  	if (sessions > 0) {
+>  		struct fastrpc_session_ctx *dup_sess;
+>  
+> @@ -2256,6 +2285,19 @@ static int fastrpc_get_domain_id(const char *domain)
+>  	return -EINVAL;
+>  }
+>  
+> +struct fastrpc_soc_data {
+> +	u32 dsp_iova_format;
+
+s/dsp_iova_format/sid_pos
+
+> +};
+> +
+> +static const struct fastrpc_soc_data kaanapali_soc_data = {
+> +	.dsp_iova_format = 1,
+	.sid_pos = 54,
+> +};
+> +
+> +static const struct of_device_id qcom_soc_match_table[] = {
+> +	{ .compatible = "qcom,kaanapali", .data = &kaanapali_soc_data },
+> +	{},
+> +};
+> +
+>  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  {
+>  	struct device *rdev = &rpdev->dev;
+> @@ -2264,6 +2306,23 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	const char *domain;
