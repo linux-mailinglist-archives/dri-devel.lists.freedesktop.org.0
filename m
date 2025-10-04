@@ -2,104 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DCDBB91CE
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 22:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BC3BB91CB
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 22:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 176B810E244;
-	Sat,  4 Oct 2025 20:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1789D10E0B8;
+	Sat,  4 Oct 2025 20:35:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PNedKPiX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y+n3wsnE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9B6D10E00D
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 16:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=date:from:to:cc:subject:message-id
- :references:mime-version:content-type:in-reply-to; s=k1; bh=oYWX
- AVcToZjL216N14wevIUTr5XEGs+BI72TKUQOPN8=; b=PNedKPiX4oCj4bpedhVz
- E+/1zG4RS6etGvHx7daU2DUWMNccTF0z1BMx94C/uGTZ5muouJ1sCi+Rrrn+I0yb
- QX0tCQTPUifcb+5NvLnilNYtzPuaMC9afpJzRPyfpW8YSMz2Kk2sAGveGofpt2/U
- FgjEfDef1ztsgRt/i/fhnznfm7TM0Tf+A/tZDrAPd+4jSPssQfBLtqCfRE58HIfm
- D8PcLW9fA6b0Ln4SDcQwSOwdrXhoroqBaJXPWi2lQd/dVTkvYzyJpOcaiTLwaahq
- J+U+4x2W131yohhie5t+CaEw/7wpjC2Zja7YEDIcma8nk3Y5vfr5rBO/vRmlQllV
- Rw==
-Received: (qmail 1087916 invoked from network); 4 Oct 2025 18:39:44 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 4 Oct 2025 18:39:44 +0200
-X-UD-Smtp-Session: l3s3148p1@ZNCL3VdA3IqSRnW9
-Date: Sat, 4 Oct 2025 18:39:43 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Byungchul Park <byungchul@sk.com>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
- tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
- ngupta@vflare.org, linux-block@vger.kernel.org,
- josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
- jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
- djwong@kernel.org, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com,
- longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
- yeoreum.yun@arm.com, netdev@vger.kernel.org,
- matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
- catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- sumit.semwal@linaro.org, gustavo@padovan.org,
- christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
- petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
- paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
- joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
- Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
- anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
- broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
- shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
- yuzhao@google.com, baolin.wang@linux.alibaba.com,
- usamaarif642@gmail.com, joel.granados@kernel.org,
- richard.weiyang@gmail.com, geert+renesas@glider.be,
- tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it,
- guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
- masahiroy@kernel.org, brauner@kernel.org,
- thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
- andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 35/47] i2c: rename wait_for_completion callback to
- wait_for_completion_cb
-Message-ID: <aOFNz2mKXCXUImwO@shikoro>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-36-byungchul@sk.com>
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29EFA10E0B8
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 19:39:50 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-781ea2cee3fso3358970b3a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 12:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759606789; x=1760211589; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EwGSliX1mVD9XKBDtx3vbuVXJahwpcA8bWgLzGN9Qo4=;
+ b=Y+n3wsnENQQUcLdB24sQbTBoYJqvjnENngvNk319aCg4EI2xXXfIR9LhsKXaZFLBpT
+ W518A4wLBzlsFYE7OcQqBwm3SkAKtyfk1IxLLzlPH2kw17+7gle96NCmjEMnZjEAPHm/
+ L9fh4vr2xnhPXo/GIF/RYLzaglbh5cql2ebNm1VV4hgC+i6K3B2KusYFcS8X8kMpWjDZ
+ /6JbZodlus0++UbrYYH3kHT/53uKQPKL4EGBO/kUg4JsqS+WUEPQOLVKBr55SUgu0Tyo
+ 4IjCJ9EphUVz7PIA64Vveu4uMa2e6VTYSYU/qaAgyPwwdNbtiJ8gPtakDeXmsCju4Mbm
+ FO4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759606789; x=1760211589;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EwGSliX1mVD9XKBDtx3vbuVXJahwpcA8bWgLzGN9Qo4=;
+ b=m8b0i6xaM3AA95jiRLdISyFJxH5qKDO0Rwwn+GbK35Mt3WcvoZOim8rIxeg72pg5ur
+ OT9xLRXsiULxm1e1uZeExI7OANplZ1nd1Ja2kJlZ1/qc8SEhShbwr+F9AF4TE49NV8xm
+ J5eAI/+lyUaQ87P+V8fJXmwNX4MDZOuLstOlgBOAijkfn/n5Nrcx2dWP4JfrPwPo/tkj
+ /tnvx9RXeOoA7j6ZOKtQs+QgWgUGVMSdFtNKsA8ZS/lmdmLZSJjpftouLYGfHGnnLyt0
+ Jq93tokz+KaF06X521APUtIzA6kL3Xm5ceRxJL10OKtJLBeaFWs6q9i5E4XNQinPN7jU
+ +PDg==
+X-Gm-Message-State: AOJu0YzaqG3GSNig1oxnmTiun4Xv1Vq7pAjWMGSXOiR1SN0zcfnZn56Q
+ 3rE2Fw/mCqh0FucDbVuGqPb315rq1CTGXGTVdplTWt/rhAWhGcnYtnbV
+X-Gm-Gg: ASbGncucZzuTMDdOr+q0odwm8YftCKYx1TuP39KopPMA/xlzoLQjEt7IXJKlS3AaOoi
+ 7VV2ASVVRDxh72BaV/8mAEm7e6nx6YClOG5vt5S2jJY7r0kG71s2HPNylksfkxFpfe1pbHx0TOz
+ 2u31NFuPZrgr6L9LJHiNDfSEi01NfsXNUMGkOuvO9ooR4ITHrJzaiq/L6XM/gXrhJNKXAgisS+m
+ cuD/Xjux1uLiZK92fJI70CPy/2FMS3lXjayIuMLdo0C0uIpNgvnD2OfnhAZnzDeMJA25cFBwvWq
+ 9JDKgAr41GU1cbqpXi06V60CRnt+SMFPVCJSVhbeDVAjbPyRygfFdvR59P2xdpATYj6rysqt4Lc
+ gsWwKY0roftrIbfWbR9zoq3gtJQvdSAS1rKNzm0CWLAP3fT+r4OMsj6DuSO0f8w+Eo1MCU1LXhx
+ +4yKaiZdyRoHqHc6a1yrfRbwfdjM1SBY9L2RwAopBGAH6GvG07HQ==
+X-Google-Smtp-Source: AGHT+IEH2gB4/3w8XRUHtUUFFuezhIFiSmbnR5x6+r4LyWsU3mw2nOMIyBl4ufOiSwukwPVKjaMQnA==
+X-Received: by 2002:a05:6a00:2d22:b0:781:1660:76c3 with SMTP id
+ d2e1a72fcca58-78c98a4c141mr8622664b3a.6.1759606789550; 
+ Sat, 04 Oct 2025 12:39:49 -0700 (PDT)
+Received: from crl-3.node2.local ([125.63.65.162])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-78b02053584sm8239177b3a.50.2025.10.04.12.39.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 Oct 2025 12:39:49 -0700 (PDT)
+From: Kriish Sharma <kriish.sharma2006@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ dakr@kernel.org, matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ aliceryhl@google.com, airlied@gmail.com, simona.vetter@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ Kriish Sharma <kriish.sharma2006@gmail.com>
+Subject: [PATCH] gpuvm: Fix kernel-doc warning for drm_gpuvm_map_req
+Date: Sat,  4 Oct 2025 19:38:25 +0000
+Message-Id: <20251004193825.1466728-1-kriish.sharma2006@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251002081247.51255-36-byungchul@sk.com>
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 04 Oct 2025 20:35:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -116,22 +89,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 02, 2025 at 05:12:35PM +0900, Byungchul Park wrote:
-> Functionally no change.  This patch is a preparation for DEPT(DEPendency
-> Tracker) to track dependencies related to a scheduler API,
-> wait_for_completion().
-> 
-> Unfortunately, struct i2c_algo_pca_data has a callback member named
-> wait_for_completion, that is the same as the scheduler API, which makes
-> it hard to change the scheduler API to a macro form because of the
-> ambiguity.
-> 
-> Add a postfix _cb to the callback member to remove the ambiguity.
-> 
-> Signed-off-by: Byungchul Park <byungchul@sk.com>
+WARNING: ./include/drm/drm_gpuvm.h:1083 struct member 'map' not described in 'drm_gpuvm_map_req'
 
-This patch seems reasonable in any case. I'll pick it, so you have one
-dependency less. Good luck with the series!
+The struct drm_gpuvm_map_req has a member named `map`, but the
+kernel-doc comment still refers to it as `@op_map`. This patch
+updates the documentation to match the current field name.
 
-Applied to for-next, thanks!
+Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+---
+ include/drm/drm_gpuvm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+index 8890ded1d907..476990e761f8 100644
+--- a/include/drm/drm_gpuvm.h
++++ b/include/drm/drm_gpuvm.h
+@@ -1078,7 +1078,7 @@ struct drm_gpuva_ops {
+  */
+ struct drm_gpuvm_map_req {
+ 	/**
+-	 * @op_map: struct drm_gpuva_op_map
++	 * @map: struct drm_gpuva_op_map
+ 	 */
+ 	struct drm_gpuva_op_map map;
+ };
+-- 
+2.34.1
 
