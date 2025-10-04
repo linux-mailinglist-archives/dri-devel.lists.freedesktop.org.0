@@ -2,56 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44108BB9108
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 20:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DCDBB91CE
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 22:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36E3310E23C;
-	Sat,  4 Oct 2025 18:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 176B810E244;
+	Sat,  4 Oct 2025 20:35:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q6FexA7o";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PNedKPiX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777C710E23C
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 18:36:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 906AE60193;
- Sat,  4 Oct 2025 18:36:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0D1C4CEF1;
- Sat,  4 Oct 2025 18:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759602985;
- bh=xuFxxT3Xf9Ae9zNzJIfLsMGbHQLQmEnZm54x5U7nYO0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Q6FexA7o8CEdDVeSTQY8IlJaNPgHu5gO4X5GnCtqDj9MymQLAdXlchKSd8H+pgyJQ
- NDjCWvXQMDVZg5rwqYqkvvaVBHJP6UD/pRqRPwKbvVsi89pyH0lecnDmBrwJHkBQxJ
- 5wedxKBDVIY4it9TOT/C1fiuOjKaU/OmJS/yQ9SZf/SifPulbI+7ptENHlZTREl8ad
- LNyXqQvOGeB5VoFa8raezwq+CGPuOWhLZzUauKiTZD3EgzJFiA3XNDgljZsPe3KiuY
- q3OjqxsolQFsb7X0uaX8AM5C/WYA0BNuQ2okXyoCvKnPDgQ+Ml8jHGCxoxSgFiINj9
- mK/2SZgI3Y7ZA==
-Message-ID: <7b281f10-f42c-454b-9c4d-96ea4f66c66f@kernel.org>
-Date: Sat, 4 Oct 2025 19:36:08 +0100
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B6D10E00D
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 16:39:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ sang-engineering.com; h=date:from:to:cc:subject:message-id
+ :references:mime-version:content-type:in-reply-to; s=k1; bh=oYWX
+ AVcToZjL216N14wevIUTr5XEGs+BI72TKUQOPN8=; b=PNedKPiX4oCj4bpedhVz
+ E+/1zG4RS6etGvHx7daU2DUWMNccTF0z1BMx94C/uGTZ5muouJ1sCi+Rrrn+I0yb
+ QX0tCQTPUifcb+5NvLnilNYtzPuaMC9afpJzRPyfpW8YSMz2Kk2sAGveGofpt2/U
+ FgjEfDef1ztsgRt/i/fhnznfm7TM0Tf+A/tZDrAPd+4jSPssQfBLtqCfRE58HIfm
+ D8PcLW9fA6b0Ln4SDcQwSOwdrXhoroqBaJXPWi2lQd/dVTkvYzyJpOcaiTLwaahq
+ J+U+4x2W131yohhie5t+CaEw/7wpjC2Zja7YEDIcma8nk3Y5vfr5rBO/vRmlQllV
+ Rw==
+Received: (qmail 1087916 invoked from network); 4 Oct 2025 18:39:44 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 4 Oct 2025 18:39:44 +0200
+X-UD-Smtp-Session: l3s3148p1@ZNCL3VdA3IqSRnW9
+Date: Sat, 4 Oct 2025 18:39:43 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Byungchul Park <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+ will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+ joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+ duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+ tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+ longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+ yeoreum.yun@arm.com, netdev@vger.kernel.org,
+ matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+ catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ sumit.semwal@linaro.org, gustavo@padovan.org,
+ christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+ petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+ paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+ mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+ chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+ Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+ anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+ broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+ shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+ yuzhao@google.com, baolin.wang@linux.alibaba.com,
+ usamaarif642@gmail.com, joel.granados@kernel.org,
+ richard.weiyang@gmail.com, geert+renesas@glider.be,
+ tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it,
+ guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+ masahiroy@kernel.org, brauner@kernel.org,
+ thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+ andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 35/47] i2c: rename wait_for_completion callback to
+ wait_for_completion_cb
+Message-ID: <aOFNz2mKXCXUImwO@shikoro>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-36-byungchul@sk.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] misc: fastrpc: Update dma_mask for CDSP support on
- Kaanapali SoC
-To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-References: <20250924-knp-fastrpc-v1-0-4b40f8bfce1d@oss.qualcomm.com>
- <20250924-knp-fastrpc-v1-2-4b40f8bfce1d@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20250924-knp-fastrpc-v1-2-4b40f8bfce1d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002081247.51255-36-byungchul@sk.com>
+X-Mailman-Approved-At: Sat, 04 Oct 2025 20:35:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,106 +116,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/25/25 12:46 AM, Jingyi Wang wrote:
-> From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+On Thu, Oct 02, 2025 at 05:12:35PM +0900, Byungchul Park wrote:
+> Functionally no change.  This patch is a preparation for DEPT(DEPendency
+> Tracker) to track dependencies related to a scheduler API,
+> wait_for_completion().
 > 
-> DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-> both Q6 and user DMA (uDMA) access. This is being upgraded to
-> 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
-> Kaanapali SoC, which expands the DMA addressable range.
-> Update DMA mask configuration in the driver to support CDSP on
-> Kaanapali SoC. Set the default `dma_mask` to 32-bit and update
-> it to 34-bit based on CDSP and SoC-specific compatible string.
+> Unfortunately, struct i2c_algo_pca_data has a callback member named
+> wait_for_completion, that is the same as the scheduler API, which makes
+> it hard to change the scheduler API to a macro form because of the
+> ambiguity.
 > 
-> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
-> ---
->  drivers/misc/fastrpc.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+> Add a postfix _cb to the callback member to remove the ambiguity.
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index db396241b8ce..e019163eb265 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -275,6 +275,7 @@ struct fastrpc_session_ctx {
->  	bool used;
->  	bool valid;
->  	u32 sid_pos;
-> +	u32 pa_bits;
-same comments as in patch 1 move to channel ctx, also why do we even
-need this  to be stored in the first place as dma mask is set in
-probe,we will not need it after wards.
->  };
->  
->  struct fastrpc_channel_ctx {
-> @@ -2179,9 +2180,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->  	sess->used = false;
->  	sess->valid = true;
->  	sess->dev = dev;
-> +	sess->pa_bits = cctx->dma_mask;
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
 
->  	/* Configure where sid will be prepended to pa */
-> -	sess->sid_pos =
-> -		(cctx->iova_format ? SID_POS_IN_IOVA : DSP_DEFAULT_BUS_WIDTH);
-> +	sess->sid_pos = (cctx->iova_format ? SID_POS_IN_IOVA : sess->pa_bits);
->  
->  	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
->  		dev_info(dev, "FastRPC Session ID not specified in DT\n");
-> @@ -2198,9 +2199,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->  		}
->  	}
->  	spin_unlock_irqrestore(&cctx->lock, flags);
-> -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
-> +	rc = dma_set_mask(dev, DMA_BIT_MASK(sess->pa_bits));
->  	if (rc) {
-> -		dev_err(dev, "32-bit DMA enable failed\n");
-> +		dev_err(dev, "%u-bit DMA enable failed\n", sess->pa_bits);
->  		return rc;
->  	}
->  
-> @@ -2287,10 +2288,12 @@ static int fastrpc_get_domain_id(const char *domain)
->  
->  struct fastrpc_soc_data {
->  	u32 dsp_iova_format;
-> +	u32 cdsp_dma_mask;
->  };
->  
->  static const struct fastrpc_soc_data kaanapali_soc_data = {
->  	.dsp_iova_format = 1,
-> +	.cdsp_dma_mask = 34,
->  };
->  
->  static const struct of_device_id qcom_soc_match_table[] = {
-> @@ -2310,6 +2313,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	const struct of_device_id *match;
->  	const struct fastrpc_soc_data *soc_data = NULL;
->  	u32 iova_format = 0;
-> +	u32 ubs = DSP_DEFAULT_BUS_WIDTH;
->  
->  	root = of_find_node_by_path("/");
->  	if (!root)
-> @@ -2322,6 +2326,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	} else {
->  		soc_data = match->data;
->  		iova_format = soc_data->dsp_iova_format;
-> +		ubs = soc_data->cdsp_dma_mask;
->  	}
->  
->  	err = of_property_read_string(rdev->of_node, "label", &domain);
-> @@ -2404,6 +2409,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	}
->  	/* determine where sid needs to be prepended to pa based on iova_format */
->  	data->iova_format = iova_format;
-> +	data->dma_mask = (domain_id == CDSP_DOMAIN_ID ? ubs : DSP_DEFAULT_BUS_WIDTH);
+This patch seems reasonable in any case. I'll pick it, so you have one
+dependency less. Good luck with the series!
 
-set the default of 32 and move this inside switch case where we have
-domain id checks.
-
-
->  	kref_init(&data->refcount);
->  
->  	dev_set_drvdata(&rpdev->dev, data);
-> 
+Applied to for-next, thanks!
 
