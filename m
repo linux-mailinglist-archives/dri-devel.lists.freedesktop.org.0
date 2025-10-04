@@ -2,72 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F68BB8BE3
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 11:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC80BB8C04
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 11:37:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5454510E219;
-	Sat,  4 Oct 2025 09:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 892FE10E214;
+	Sat,  4 Oct 2025 09:36:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AMlhrgUf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mts/iX20";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE1C210E213;
- Sat,  4 Oct 2025 09:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759570278;
- bh=D0Fu/ldQhntehM2Mq/IXQJTZKKJwzHie8we5EhgLjv8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AMlhrgUfj67oXsQPTFjfkhXxPYErzu07l7zcQuFt1VeLOO4l1kddXtiTb2X/cetOS
- 6XMF0S8g5Fu73Rg3lAVLMWykZe56IdRC60HwD9pv/MEZTOZ6Rsmkio0eJfbmu1nwCK
- d4IdxOltI8YwNAtsLWvnJxFMf/9AVfESz8Ub5ydUncWsPC7OnRkCO+XAq+H4dRQyS2
- llItYjnG94oPb9HEZHBOeRVHE+Lsuht91g6GWGJTZzTqRPBN3VlqNnsa57784xcp1/
- Of2brQuMsVBOznatNjK2ireFQDvmFsXBo6sqcHe+RO6GcwaxxUcglmxauY2WbuVjd7
- UuGUKAQRIUOaA==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown
- [IPv6:2a01:e0a:5e3:6100:2e0:4cff:fe03:d8c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9C0FC17E13DA;
- Sat,  4 Oct 2025 11:31:17 +0200 (CEST)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
- Al Viro <viro@zeniv.linux.org.uk>,
- =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
- Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Christopher Healy <healych@amazon.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org, kernel@collabora.com
-Subject: [PATCH v3 10/10] Documentation/gpu/drm-mm: Add THP paragraph to GEM
- mapping section
-Date: Sat,  4 Oct 2025 11:30:53 +0200
-Message-ID: <20251004093054.21388-11-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251004093054.21388-1-loic.molinari@collabora.com>
-References: <20251004093054.21388-1-loic.molinari@collabora.com>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C05110E214
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 09:36:58 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-280fc0e9f50so4332365ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Oct 2025 02:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759570618; x=1760175418; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=feYeUBQ+zRG9kMk06d6rOS7HenSqT9mRm9UdGzyR9sk=;
+ b=mts/iX20+Q/RaWeVxln73RpPs9sOs0duQZo4XsnyOMAObn8vyIRzfGgx5PZxpP4fcd
+ e9xnWGPgP7W2+INywgOYcjazJK4xcOYXfbS4GHrh2hi6BkFfNzJZVvVO1XJ14vXcoNLj
+ eA8eu6teHE9Q+dzMzoDblT9m5Clunwgjb0l72BeRZcVBv9MANfBt89UgqqMkR5Zjai5R
+ jfJ+kBJudz8s75+WR9HPblB5HpCh4GKM1EfBuZEjaF/Agd8A7geJic85CuvD08DDgtpD
+ R7J5bxMhnF1aOlU7CBZOmI61UXVsd5fMUQ6HH36TslLaal8aZNdIRKmU0F8qJ/9ZSqdd
+ JFfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759570618; x=1760175418;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=feYeUBQ+zRG9kMk06d6rOS7HenSqT9mRm9UdGzyR9sk=;
+ b=O1kbKOJI2z5cL7+ffRdR6TzDDbte7v8I74dMh2zo/Q6CV0j87DoDwK00Z1QpKXAC7D
+ Zvo/C6lIP91eQFFTNZYqUh8+lBFNdujNNLk3EABRycRLw52FzNyp6ry9++VLsPxfVgro
+ kvDb8jtT5vd4XfgdI3JaPOyrWdNqEIo7+eFuw1j+Pvqj1jG4PHgFHlXHcN67Jdn1kbl7
+ ouHoso2HfUKqxobnkFebMtlOfcBjewbj8XoFnpxWfnKuI5a1cGhdCCrWTO9eUzRRG9BU
+ Kg9NNVcEXY0JumqulFDRpE1fMlrPc0LNbo3NsPcx0rLvsffGDTGt38UH362Y1A4tigdB
+ j1vA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhzF4wUISlq0XL7glPTd8ZCrEssNw/7YOTtOXNH81JmdknkOLHz+x3xbpkTD6vfVu9SGOf9B36drA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YybBaYtn+b4Za92MTEKFVoxmkee7GL5jkXjVcJT00oBlCsR6IYl
+ F38HnvOz0JHAWMY/eUeqeMrFPsLA2/QeDAjxZm/In0SYT+RatnU7ZVNL9xfP86bdylj2QVQwLc+
+ pbAqvQiQ65q63FgFa59glM1Yz5XBhDBGbEKwj+9k=
+X-Gm-Gg: ASbGnct8FDkpP3m4nff5l9Hxw+35Ct45EqjdR46JAaOzMrDyu6IaBZaNkM7K7EohrcD
+ WyGuyIt7KaKX/TdJiKAXltwxItdr4PpG9AMJDR0tIGLYllPLntSY48FveO/GlpLE6MzZkG7q+i9
+ kbTnugVfsSXasFSd/4ukGlv4zJDN16CfXTPjS7ddhZufgRNpTgYQp7th6ZGgWh4046mPnzY9Cc4
+ jx9qpIqxX9zH28b89xTbYXrTZSLGbC30Wu0m995dXfhc38PZVtnV2pnZP3LiL1t0lP7NsOjDNLd
+ QNi2B9+jvTCRuQTh3TP/manJHZFeN1xo0qy1h3KDfQr6M4A2+A==
+X-Google-Smtp-Source: AGHT+IF77wTkNQM9OohiiK7sgjNFds3niKOBIfBEyFk8BZ16yvDihaUL7UtpNXy0XNC2sOVra2ov0jtp328+HUcOPDg=
+X-Received: by 2002:a17:902:d2ca:b0:288:8c30:f08c with SMTP id
+ d9443c01a7336-28e9a5d22c7mr40643515ad.2.1759570618049; Sat, 04 Oct 2025
+ 02:36:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
+ <CAHk-=wgO7S_FZUSBbngG5vtejWOpzDfTTBkVvP3_yjJmFddbzA@mail.gmail.com>
+ <CANiq72kq5YHovH=_a9c0JQgfrAx9gRsQvVo1VfHd-FaupOp7rQ@mail.gmail.com>
+ <bd004ac5-9e51-4e90-a3a4-025d74941a38@nvidia.com>
+In-Reply-To: <bd004ac5-9e51-4e90-a3a4-025d74941a38@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 4 Oct 2025 11:36:45 +0200
+X-Gm-Features: AS18NWBfyunA2-nfASh7Yj1hCcCcrL6FKNe1jx_SFPOW7HhxILbzUUVeFdW6VCI
+Message-ID: <CANiq72mRdQRM_uDPxB35zUDXrS99o6i=RaPjTghVTZSG53i2_Q@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.18-rc1
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Sima Vetter <sima@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,56 +91,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a paragraph to the GEM objects mapping section explaining how
-transparent huge pages are handled by GEM.
+On Sat, Oct 4, 2025 at 3:54=E2=80=AFAM John Hubbard <jhubbard@nvidia.com> w=
+rote:
+>
+> Very happy! Far more so than I expected. Being able to *not* fuss around
+> with minor formatting details (while editing, rebasing, and reviewing)
+> has been absolutely transformative.
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
----
- Documentation/gpu/drm-mm.rst | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Thanks :)
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..0ce6e27f8463 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -283,6 +283,8 @@ made up of several fields, the more interesting ones being:
- 		void (*open)(struct vm_area_struct * area);
- 		void (*close)(struct vm_area_struct * area);
- 		vm_fault_t (*fault)(struct vm_fault *vmf);
-+		vm_fault_t (*huge_fault)(struct vm_fault *vmf,
-+					 unsigned int order);
- 	};
- 
- 
-@@ -290,7 +292,7 @@ The open and close operations must update the GEM object reference
- count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
- functions directly as open and close handlers.
- 
--The fault operation handler is responsible for mapping individual pages
-+The fault operation handlers are responsible for mapping individual pages
- to userspace when a page fault occurs. Depending on the memory
- allocation scheme, drivers can allocate pages at fault time, or can
- decide to allocate memory for the GEM object at the time the object is
-@@ -299,6 +301,19 @@ created.
- Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
-+In order to reduce page table overhead, if the internal shmem mountpoint
-+"shm_mnt" is configured to use transparent huge pages (for builds with
-+CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-+manages to allocate huge pages, faulty addresses within huge pages will
-+be mapped into the tables using the huge page fault handler. In such
-+cases, mmap() user address alignment for GEM objects is handled by
-+providing a custom get_unmapped_area properly forwarding to the shmem
-+backing store. For most drivers, which don't create a huge mountpoint by
-+default or through a module parameter, transparent huge pages can be
-+enabled by either setting the "transparent_hugepage_shmem" kernel
-+parameter or the "/sys/kernel/mm/transparent_hugepage/shmem_enabled"
-+sysfs knob.
-+
- For platforms without MMU the GEM core provides a helper method
- drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
--- 
-2.47.3
+> For example, on today's linux.git, I just now ran it, and you can guess
+> what happened: it changed its little mind about yet another use
+> statement! See below.
 
+Hmm... I am not sure what you mean by "another" -- this is the one
+that Linus left in the tree, i.e. the one that originated this thread.
+
+In other words, changes should not appear randomly -- the stability of
+`rustfmt`'s output has been perfect so far for us in these years and I
+hope they continue to maintain their stability guarantee. It is what
+enables this, after all.
+
+Cheers,
+Miguel
