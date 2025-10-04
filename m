@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402C5BB90F3
-	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 20:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44108BB9108
+	for <lists+dri-devel@lfdr.de>; Sat, 04 Oct 2025 20:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33B4989262;
-	Sat,  4 Oct 2025 18:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36E3310E23C;
+	Sat,  4 Oct 2025 18:36:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="na/UNnPO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q6FexA7o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 715D489262
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 18:25:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 777C710E23C
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Oct 2025 18:36:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5ED7E60193;
- Sat,  4 Oct 2025 18:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D28C4CEF1;
- Sat,  4 Oct 2025 18:25:24 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 906AE60193;
+ Sat,  4 Oct 2025 18:36:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0D1C4CEF1;
+ Sat,  4 Oct 2025 18:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759602335;
- bh=dvoX9+/2ZkKZ6bUEKpbpRMnripCzPtEITdrIX91WpRQ=;
+ s=k20201202; t=1759602985;
+ bh=xuFxxT3Xf9Ae9zNzJIfLsMGbHQLQmEnZm54x5U7nYO0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=na/UNnPOaMdb4+MNBX4qFX/QhYMGkNkbkvd9PXulEzA/7N0I187bZfxz0iRHf+4Mr
- bD+EMn7Q6MY//0lnvu+jIC30xiA4j6cwO7OAQQnHWyRgqNEQDDfni09Cm1v6NWBhyR
- sl8U+TWAFZJO62OYR2rfuJ27dFjxzR9oBul26Xux0RK36mONeIZaJYOtM6EUquGNZ5
- xLrZ9JzclC2C8cIs3ZY6FdLzGbmgj1Sf42oOHbyNCYJFCFsRyBNJPMrn3yj/Lnoznj
- 8FDeYob/m5eE/NxGCLj9zACLxb7ylIEeAfQqKZDbOvkWSb23/2MEfvTs6mYO2ab0YT
- PYvMljsu9lqgA==
-Message-ID: <a36555b9-b2b4-41a3-bbf1-58701b9f4b1a@kernel.org>
-Date: Sat, 4 Oct 2025 19:25:19 +0100
+ b=Q6FexA7o8CEdDVeSTQY8IlJaNPgHu5gO4X5GnCtqDj9MymQLAdXlchKSd8H+pgyJQ
+ NDjCWvXQMDVZg5rwqYqkvvaVBHJP6UD/pRqRPwKbvVsi89pyH0lecnDmBrwJHkBQxJ
+ 5wedxKBDVIY4it9TOT/C1fiuOjKaU/OmJS/yQ9SZf/SifPulbI+7ptENHlZTREl8ad
+ LNyXqQvOGeB5VoFa8raezwq+CGPuOWhLZzUauKiTZD3EgzJFiA3XNDgljZsPe3KiuY
+ q3OjqxsolQFsb7X0uaX8AM5C/WYA0BNuQ2okXyoCvKnPDgQ+Ml8jHGCxoxSgFiINj9
+ mK/2SZgI3Y7ZA==
+Message-ID: <7b281f10-f42c-454b-9c4d-96ea4f66c66f@kernel.org>
+Date: Sat, 4 Oct 2025 19:36:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
+Subject: Re: [PATCH 2/2] misc: fastrpc: Update dma_mask for CDSP support on
+ Kaanapali SoC
 To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
  Srinivas Kandagatla <srini@kernel.org>,
  Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -45,10 +46,10 @@ Cc: aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
  linux-kernel@vger.kernel.org,
  Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 References: <20250924-knp-fastrpc-v1-0-4b40f8bfce1d@oss.qualcomm.com>
- <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+ <20250924-knp-fastrpc-v1-2-4b40f8bfce1d@oss.qualcomm.com>
 Content-Language: en-US
 From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+In-Reply-To: <20250924-knp-fastrpc-v1-2-4b40f8bfce1d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,191 +72,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 9/25/25 12:46 AM, Jingyi Wang wrote:
 > From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 > 
-> Implement the new IOVA formatting required by the DSP architecture change
-> on Kaanapali SoC. Place the SID for DSP DMA transactions at bit 56 in the
-> physical address. This placement is necessary for the DSPs to correctly
-> identify streams and operate as intended.
-> To address this, add an iova-format flag which determines the SID position
-> within the physical address. Set SID position to bit 56 when iova_format
-> is enabled; otherwise, default to legacy 32-bit placement.
-> Initialize the flag to 0 and update to 1 based on SoC-specific compatible
-> string from the root node.
-> This change ensures consistent SID placement across DSPs.
+> DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
+> both Q6 and user DMA (uDMA) access. This is being upgraded to
+> 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
+> Kaanapali SoC, which expands the DMA addressable range.
+> Update DMA mask configuration in the driver to support CDSP on
+> Kaanapali SoC. Set the default `dma_mask` to 32-bit and update
+> it to 34-bit based on CDSP and SoC-specific compatible string.
 > 
 > Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 > Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
 > ---
->  drivers/misc/fastrpc.c | 76 ++++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 68 insertions(+), 8 deletions(-)
+>  drivers/misc/fastrpc.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 8e1d97873423..db396241b8ce 100644
+> index db396241b8ce..e019163eb265 100644
 > --- a/drivers/misc/fastrpc.c
 > +++ b/drivers/misc/fastrpc.c
-> @@ -33,7 +33,6 @@
->  #define FASTRPC_ALIGN		128
->  #define FASTRPC_MAX_FDLIST	16
->  #define FASTRPC_MAX_CRCLIST	64
-> -#define FASTRPC_PHYS(p)	((p) & 0xffffffff)
->  #define FASTRPC_CTX_MAX (256)
->  #define FASTRPC_INIT_HANDLE	1
->  #define FASTRPC_DSP_UTILITIES_HANDLE	2
-> @@ -105,6 +104,26 @@
->  
->  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->  
-> +/*
-> + * By default, the sid will be prepended adjacent to smmu pa before sending
-> + * to DSP. But if the compatible Soc found at root node specifies the new
-> + * addressing format to handle pa's of longer widths, then the sid will be
-> + * prepended at the position specified in this macro.
-> + */
-> +#define SID_POS_IN_IOVA 56
-> +
-> +/* Default width of pa bus from dsp */
-> +#define DSP_DEFAULT_BUS_WIDTH 32
-I dont see any point in defining these both here, this should be part of
-the fastrpc_soc_data and a fallback fastrpc_soc_data.
-
-> +
-> +/* Extract smmu pa from consolidated iova */
-> +#define IOVA_TO_PHYS(iova, sid_pos) (iova & ((1ULL << sid_pos) - 1ULL))
-> +
-> +/*
-> + * Prepare the consolidated iova to send to dsp by prepending the sid
-> + * to smmu pa at the appropriate position
-> + */
-> +#define IOVA_FROM_SID_PA(sid, phys, sid_pos) (phys += sid << sid_pos)
-> +
->  struct fastrpc_phy_page {
->  	u64 addr;		/* physical address */
->  	u64 size;		/* size of contiguous region */
-> @@ -255,6 +274,7 @@ struct fastrpc_session_ctx {
->  	int sid;
+> @@ -275,6 +275,7 @@ struct fastrpc_session_ctx {
 >  	bool used;
 >  	bool valid;
-> +	u32 sid_pos;
-Why is this in session context? are you expecting this to be different
-for each session? move it to channel_ctx.
-
+>  	u32 sid_pos;
+> +	u32 pa_bits;
+same comments as in patch 1 move to channel ctx, also why do we even
+need this  to be stored in the first place as dma mask is set in
+probe,we will not need it after wards.
 >  };
 >  
 >  struct fastrpc_channel_ctx {
-> @@ -278,6 +298,7 @@ struct fastrpc_channel_ctx {
->  	bool secure;
->  	bool unsigned_support;
->  	u64 dma_mask;
-> +	u32 iova_format;
-Format is very much misleading, And this is totally redundant if you add
-sid_pos to soc_data.
-
-Please add soc_data struct here, so that we dont have to keep adding
-members to this and it also makes it clear what are soc specific bits in
-this.
-
->  };
->  
->  struct fastrpc_device {
-> @@ -391,8 +412,11 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
->  
->  static void fastrpc_buf_free(struct fastrpc_buf *buf)
->  {
-> +	uint32_t sid_pos = (buf->fl->sctx ? buf->fl->sctx->sid_pos :
-> +					    DSP_DEFAULT_BUS_WIDTH);
-
-Why this new check added?
-> +
-
->  	dma_free_coherent(buf->dev, buf->size, buf->virt,
-> -			  FASTRPC_PHYS(buf->phys));
-> +			  IOVA_TO_PHYS(buf->phys, sid_pos));
->  	kfree(buf);
->  }
->  
-> @@ -442,7 +466,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
->  	buf = *obuf;
->  
->  	if (fl->sctx && fl->sctx->sid)
-> -		buf->phys += ((u64)fl->sctx->sid << 32);
-> +		IOVA_FROM_SID_PA((u64)fl->sctx->sid, buf->phys, fl->sctx->sid_pos);
->  
->  	return 0;
->  }
-> @@ -687,7 +711,8 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
->  		return -ENOMEM;
->  
->  	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
-> -			      FASTRPC_PHYS(buffer->phys), buffer->size);
-> +			      IOVA_TO_PHYS(buffer->phys, buffer->fl->sctx->sid_pos),
-> +			      buffer->size);
->  	if (ret < 0) {
->  		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
->  		kfree(a);
-> @@ -736,7 +761,7 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
->  	dma_resv_assert_held(dmabuf->resv);
->  
->  	return dma_mmap_coherent(buf->dev, vma, buf->virt,
-> -				 FASTRPC_PHYS(buf->phys), size);
-> +				 IOVA_TO_PHYS(buf->phys, buf->fl->sctx->sid_pos), size);
->  }
->  
->  static const struct dma_buf_ops fastrpc_dma_buf_ops = {
-> @@ -793,7 +818,8 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
->  		map->phys = sg_phys(map->table->sgl);
->  	} else {
->  		map->phys = sg_dma_address(map->table->sgl);
-> -		map->phys += ((u64)fl->sctx->sid << 32);
-> +		IOVA_FROM_SID_PA((u64)fl->sctx->sid, map->phys,
-> +				 fl->sctx->sid_pos);
->  	}
->  	map->size = len;
->  	map->va = sg_virt(map->table->sgl);
-> @@ -2153,11 +2179,14 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+> @@ -2179,9 +2180,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
 >  	sess->used = false;
 >  	sess->valid = true;
 >  	sess->dev = dev;
-> -	dev_set_drvdata(dev, sess);
-> +	/* Configure where sid will be prepended to pa */
-unnessary comment here.
+> +	sess->pa_bits = cctx->dma_mask;
 
-> +	sess->sid_pos =
-> +		(cctx->iova_format ? SID_POS_IN_IOVA : DSP_DEFAULT_BUS_WIDTH);
-
-as commented eariler, replace iova_format from soc_data with pos.
+>  	/* Configure where sid will be prepended to pa */
+> -	sess->sid_pos =
+> -		(cctx->iova_format ? SID_POS_IN_IOVA : DSP_DEFAULT_BUS_WIDTH);
+> +	sess->sid_pos = (cctx->iova_format ? SID_POS_IN_IOVA : sess->pa_bits);
 >  
 >  	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
 >  		dev_info(dev, "FastRPC Session ID not specified in DT\n");
+> @@ -2198,9 +2199,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  	spin_unlock_irqrestore(&cctx->lock, flags);
+> -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
+> +	rc = dma_set_mask(dev, DMA_BIT_MASK(sess->pa_bits));
+>  	if (rc) {
+> -		dev_err(dev, "32-bit DMA enable failed\n");
+> +		dev_err(dev, "%u-bit DMA enable failed\n", sess->pa_bits);
+>  		return rc;
+>  	}
 >  
-> +	dev_set_drvdata(dev, sess);
-
-why this line moved in this patch?
-
->  	if (sessions > 0) {
->  		struct fastrpc_session_ctx *dup_sess;
+> @@ -2287,10 +2288,12 @@ static int fastrpc_get_domain_id(const char *domain)
 >  
-> @@ -2256,6 +2285,19 @@ static int fastrpc_get_domain_id(const char *domain)
->  	return -EINVAL;
->  }
+>  struct fastrpc_soc_data {
+>  	u32 dsp_iova_format;
+> +	u32 cdsp_dma_mask;
+>  };
 >  
-> +struct fastrpc_soc_data {
-> +	u32 dsp_iova_format;
+>  static const struct fastrpc_soc_data kaanapali_soc_data = {
+>  	.dsp_iova_format = 1,
+> +	.cdsp_dma_mask = 34,
+>  };
+>  
+>  static const struct of_device_id qcom_soc_match_table[] = {
+> @@ -2310,6 +2313,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	const struct of_device_id *match;
+>  	const struct fastrpc_soc_data *soc_data = NULL;
+>  	u32 iova_format = 0;
+> +	u32 ubs = DSP_DEFAULT_BUS_WIDTH;
+>  
+>  	root = of_find_node_by_path("/");
+>  	if (!root)
+> @@ -2322,6 +2326,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	} else {
+>  		soc_data = match->data;
+>  		iova_format = soc_data->dsp_iova_format;
+> +		ubs = soc_data->cdsp_dma_mask;
+>  	}
+>  
+>  	err = of_property_read_string(rdev->of_node, "label", &domain);
+> @@ -2404,6 +2409,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	}
+>  	/* determine where sid needs to be prepended to pa based on iova_format */
+>  	data->iova_format = iova_format;
+> +	data->dma_mask = (domain_id == CDSP_DOMAIN_ID ? ubs : DSP_DEFAULT_BUS_WIDTH);
 
-s/dsp_iova_format/sid_pos
+set the default of 32 and move this inside switch case where we have
+domain id checks.
 
-> +};
-> +
-> +static const struct fastrpc_soc_data kaanapali_soc_data = {
-> +	.dsp_iova_format = 1,
-	.sid_pos = 54,
-> +};
-> +
-> +static const struct of_device_id qcom_soc_match_table[] = {
-> +	{ .compatible = "qcom,kaanapali", .data = &kaanapali_soc_data },
-> +	{},
-> +};
-> +
->  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  {
->  	struct device *rdev = &rpdev->dev;
-> @@ -2264,6 +2306,23 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	const char *domain;
+
+>  	kref_init(&data->refcount);
+>  
+>  	dev_set_drvdata(&rpdev->dev, data);
+> 
+
