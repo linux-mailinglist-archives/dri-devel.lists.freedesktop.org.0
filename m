@@ -2,79 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF28CBB93C3
-	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 05:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC33BB9649
+	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 14:36:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E9F10E31D;
-	Sun,  5 Oct 2025 03:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22BE410E0BA;
+	Sun,  5 Oct 2025 12:36:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XrvRhzrj";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bCIIQnHg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dNA8pf/z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E49210E31D
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 03:04:51 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cfS1Z13Xsz9sq6;
- Sun,  5 Oct 2025 05:04:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1759633490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZK0zoHj+NrijzbETWnzCVHaPxcsJjM5YLid7gPer7uA=;
- b=XrvRhzrjFALmEynRAhECYU6x2+9LdUK4MMHHDeXkQIuOJBKpZL5QXQ5YJjKjoVIkJJOVId
- UAwAZEEdjFpgwLbw+h4ezHt4jgLxHRn+Q1cjNpghr8e7au6SkD+LVo53kLpP7FKn/vreAm
- n57xeqnpAaBZ1AA5TNFhBgvE6zaXitU1JzTieUJ5yOi1u4EmPxQd7f1ZAqSmV4+HjPfRYc
- udEDWFdAR/0lHsscs01i+URANwcP4T9UzJd9cvPl8kMAMmEYPb7PFRglDnYixgzi2U+D8S
- LDvbtu/jnLwwtuuDSsUXzsbJ5bgzKX3ErBaZDebCzs+PgXzLPcLByG6O3VwIkg==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=bCIIQnHg;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
- designates 2001:67c:2050:b231:465::2 as permitted sender)
- smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1759633488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZK0zoHj+NrijzbETWnzCVHaPxcsJjM5YLid7gPer7uA=;
- b=bCIIQnHgPQGV+q3jBRW0xpSSN7/J6rebcBSj/hIOLNW2ndng0xJ8oS/i8NMRtaF9sc5f9z
- OOWgBq35BrqELhD5Tl9fPTsAVdxFO4URxagDgpSsms3fWxtEbiRuq8C3kUCo4A7hrsZTux
- Sga1OPzzXxrqj8EOu9CO/nqQWjkgGd4VA5DHgYRne8CnSwukJ/JyAfAjTFqzRBttOBMMS3
- 0EiLMSYNVfry9ptRlbxGay0kMuDq0bpelWm8BT6VDQfzmEvfaqt7NKZ/xiu+ri18X9h5nw
- 0z2Ji1kn/6iFm/zIOE1Ajo9Fk8Ao4NFPLDi2M2l8fvh6C0GsC+HIs+MjxjS6yw==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E079010E0BA
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 12:36:32 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-363cb0cd8a1so48097681fa.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Oct 2025 05:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759667791; x=1760272591; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UTBVd/nClqrF+np3hp6dXMEbrmomobOJty4TYQ6vLHM=;
+ b=dNA8pf/z5R49YXzvahdp5G7RIHXG5Io9gZx8Z/9nS9cu7whMfRXH6n7i59ba95K74z
+ XDLcPfKvPq9zKONDKJLjxlAwoPMmGs5A+eZy4AlJiJubup+1g8K1HjDD8MnIc9BNNy3c
+ H7elpulWu6BzE63cAZbYwW2dD5EXjw9DHRMah8v0/nn1wIf8cjy8A3NhUOPN0bLTLr+y
+ U60mFnqbwtsTTK9dLyfWJCxAzXHeEXVoZzpWDqEux0qYGeVBbmLOSv/cDtAOTpbTs7Ef
+ 2yX40bsAR/9B5FCvAlyuklWH0fDoWvvBVHInOMfnWLiVmyahBvOQsT2snHA20M8zRwlx
+ dYCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759667791; x=1760272591;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UTBVd/nClqrF+np3hp6dXMEbrmomobOJty4TYQ6vLHM=;
+ b=OX8rjwQCOYXZXZCgkIlDiVKxr8L22LbpDh/qsRNb98zeVLfK6/9cvw86wN6rvRfvzt
+ WzYBgEDl7MDcz9C7d5aEEh++QjOiUKloR6ER5UQYa4/2z7KXTkIEAYrqazohdsmJMeMF
+ 53xxa5aN8J/ri8jZWBvctHXv0QKxiH4iT4y+cuT3m9P1sX10YDYCNZ8891htOqJRXNof
+ D93kRoN+Vq0+Z3jEo6+32T4I/+JWTVT54cqxeSSgdTZOx7ZHXYq5kB2IsKZWsCpJmTYJ
+ gFxvPgmN2PPwBPDJLoSITd+StXj2Vg+68EukqVfTA49Po8HMLdgI9HBNROBv3XvkjJGG
+ KqWQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHmNM4h9YujLMcHpcxX6t1ibMqFxgbtEt/9SaDXP7EIXPwXurvdWCiapW2tKkaomvERjUu5hHDHU8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxlAclOytpeptb6C6cvn4LK+el+eWW7f2rTbLCIvWZV7+PR06c6
+ 0+A1r1AMCyoMM4JuArxR7wJNYd84ypNKes0WsxsE8Wrygavdtzd13kYw
+X-Gm-Gg: ASbGncu65O9x3ygMMFzRDJ9T1lGlGc75jW9EfdbZCipmm+VAVg5muV8XHlFPEiAcmaA
+ pduBKWk3xIKdR0gsjKaOQnaQFRZJI/Waqw8oN2UkR81o5UBUyw4jmpGx/y4fNDid8N7Zg80t2LH
+ hv0csnneVRjsx6VFJdVPJRLw9HtoSx0ds8lgypJMK2yg9cyg0JumNoMij3q0+6tXzsbzXP/DxkF
+ Lj3fnWxq9q1SGqdENNb5VzufCzM+O++Yw63TyOqoQi/d3DpOJ+okgS4ATjK9daLzxM0dwOfwygu
+ l3LUdg3wQTCjWoygfY6OHgcTTVvL3+aBSyKqyPU7EtEDQBlwm92g7O13mkoEahkI6GEsz+3HQ6O
+ 3goXm0uQm8U59Ym2V4vrRbb5WjsaNDFhNhZUugxehhcraB55Kphg8CObFAAa9H7296aaz/otmgd
+ cd/YxYgsN/6YhnkLdN
+X-Google-Smtp-Source: AGHT+IGEqErpl4/yZCkCUF1+3SE3UIJICO6kK51WxwIZOJed0A6X31dHGb4CXR4L8Vz9X90HOvSsMw==
+X-Received: by 2002:a05:651c:1b05:b0:356:839:56a with SMTP id
+ 38308e7fff4ca-374c37ef44emr27261701fa.25.1759667790693; 
+ Sun, 05 Oct 2025 05:36:30 -0700 (PDT)
+Received: from smtpclient.apple ([87.200.95.144])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-373ba2736c4sm33396251fa.7.2025.10.05.05.36.27
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 05 Oct 2025 05:36:29 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH] drm/meson: add support for 2560x1440 resolution output
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <CAFBinCB9hxgJt_rqdy_1bM0FjnnCt1K=Au77yxeuWox1wSvdDw@mail.gmail.com>
+Date: Sun, 5 Oct 2025 16:36:15 +0400
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 11/11] drm/rcar-du: dsi: Convert register bitfields to
- GENMASK() macro
-Date: Sun,  5 Oct 2025 05:02:58 +0200
-Message-ID: <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
-References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 55moixis3b97e3dbsuhen8zwnaxxjcu6
-X-MBO-RS-ID: 798e3543b76215ed547
-X-Rspamd-Queue-Id: 4cfS1Z13Xsz9sq6
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Dongjin Kim <tobetter@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <ABDCFF3D-D3EF-4EF0-B51A-AD6B25D78895@gmail.com>
+References: <20250927130239.825060-1-christianshewitt@gmail.com>
+ <CAFBinCCsTqsn06A5oVXGTW6PgmSQH0bHE+8PSftyWNRAbYUTcA@mail.gmail.com>
+ <C8A273D4-5F5F-4BD8-911A-67EC9C3FF1F4@gmail.com>
+ <CAFBinCB9hxgJt_rqdy_1bM0FjnnCt1K=Au77yxeuWox1wSvdDw@mail.gmail.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,269 +101,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert register bitfields to GENMASK() macro where applicable.
-Use FIELD_PREP() throughout the driver.
+> On 5 Oct 2025, at 12:22=E2=80=AFam, Martin Blumenstingl =
+<martin.blumenstingl@googlemail.com> wrote:
+>=20
+> Hi Christian,
+>=20
+> On Mon, Sep 29, 2025 at 1:58=E2=80=AFAM Christian Hewitt
+> <christianshewitt@gmail.com> wrote:
+>>=20
+>>> On 29 Sep 2025, at 1:24=E2=80=AFam, Martin Blumenstingl =
+<martin.blumenstingl@googlemail.com> wrote:
+>>>=20
+>>> Hi Christian,
+>>>=20
+>>> On Sat, Sep 27, 2025 at 3:02=E2=80=AFPM Christian Hewitt
+>>> <christianshewitt@gmail.com> wrote:
+>>> [...]
+>>>> @@ -894,6 +908,10 @@ static void meson_vclk_set(struct meson_drm =
+*priv,
+>>>>                       m =3D 0xf7;
+>>>>                       frac =3D vic_alternate_clock ? 0x8148 : =
+0x10000;
+>>>>                       break;
+>>>> +               case 4830000:
+>>>> +                       m =3D 0xc9;
+>>>> +                       frac =3D 0xd560;
+>>>> +                       break;
+>>> Initially I thought this was wrong because it's only added for the
+>>> G12A (which is also used on G12B and SM1) code-path, leaving out the
+>>> GX SoCs.
+>>>=20
+>>> Was the 2560x1440 mode tested on a computer monitor or a TV?
+>>> I suspect it's the former, so I think it expected the code to take =
+the
+>>> MESON_VCLK_TARGET_DMT path, which automatically calculates m and =
+frac.
+>>>=20
+>>> I'll give it a try on Friday as I do have a computer monitor with =
+that
+>>> resolution - so any hints for testing are welcome!
+>>=20
+>> The original patch is from Hardkernel sources - I=E2=80=99ve picked =
+it several
+>> years ago and then updated values semi-recently after 1000ULL =
+changes.
+>> The user who originally requested that I cherry-pick it (and tested =
+it)
+>> was using an Odroid N2+ board (G12B) with a Dell monitor IIRC. It=E2=80=
+=99s not
+>> tested by myself as I only have TV=E2=80=99s not monitors, so it will =
+be good
+>> to have your confirmation (either way). If it=E2=80=99s wrong I=E2=80=99=
+ll be happy to
+>> drop it - I=E2=80=99m just trying to upstream and offload some =
+longer-running
+>> and allegedly good patches in the LibreELEC kernel patchset.
+> So I've tried it on a Le Potato (S905X SoC) board. This patch doesn't
+> do anything here (as expected, since it only targets the G12A and
+> later code-path).
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: David Airlie <airlied@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: No change
-V3: Use GENMASK_U32() and inline FIELD_PREP()
----
- .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 118 +++++++++++-------
- 1 file changed, 70 insertions(+), 48 deletions(-)
+Thanks for testing. Let=E2=80=99s ignore this patch then :)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index 431a107ba54d8..79684184b3b0b 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -13,7 +13,7 @@
- #define LINKSR_HSBUSY			BIT_U32(0)
- 
- #define TXSETR				0x100
--#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
-+#define TXSETR_LANECNT_MASK		GENMASK_U32(1, 0)
- 
- /*
-  * DSI Command Transfer Registers
-@@ -40,18 +40,22 @@
- #define TXCMADDRSET0R			0x140
- #define TXCMPHDR			0x150
- #define TXCMPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
--#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
--#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
--#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
--#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
-+#define TXCMPHDR_VC_MASK		GENMASK_U32(23, 22)
-+#define TXCMPHDR_VC(n)			FIELD_PREP(TXCMPHDR_VC_MASK, (n))
-+#define TXCMPHDR_DT_MASK		GENMASK_U32(21, 16)
-+#define TXCMPHDR_DT(n)			FIELD_PREP(TXCMPHDR_DT_MASK, (n))
-+#define TXCMPHDR_DATA1_MASK		GENMASK_U32(15, 8)
-+#define TXCMPHDR_DATA1(n)		FIELD_PREP(TXCMPHDR_DATA1_MASK, (n))
-+#define TXCMPHDR_DATA0_MASK		GENMASK_U32(7, 0)
-+#define TXCMPHDR_DATA0(n)		FIELD_PREP(TXCMPHDR_DATA0_MASK, (n))
- #define TXCMPPD0R			0x160
- #define TXCMPPD1R			0x164
- #define TXCMPPD2R			0x168
- #define TXCMPPD3R			0x16c
- 
- #define RXSETR				0x200
--#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
--#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
-+#define RXSETR_CRCEN_MASK		GENMASK_U32(27, 24)
-+#define RXSETR_ECCEN_MASK		GENMASK_U32(19, 16)
- #define RXPSETR				0x210
- #define RXPSETR_LPPDACC			BIT_U32(0)
- #define RXPSR				0x220
-@@ -107,21 +111,21 @@
- #define RXPIER_BTAREQEND		BIT_U32(0)
- #define RXPADDRSET0R			0x230
- #define RXPSIZESETR			0x238
--#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
-+#define RXPSIZESETR_SIZE_MASK		GENMASK_U32(6, 3)
- #define RXPHDR				0x240
- #define RXPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
--#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
--#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
--#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
--#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
-+#define RXPHDR_VC_MASK			GENMASK_U32(23, 22)
-+#define RXPHDR_DT_MASK			GENMASK_U32(21, 16)
-+#define RXPHDR_DATA1_MASK		GENMASK_U32(15, 8)
-+#define RXPHDR_DATA0_MASK		GENMASK_U32(7, 0)
- #define RXPPD0R				0x250
- #define RXPPD1R				0x254
- #define RXPPD2R				0x258
- #define RXPPD3R				0x25c
- #define AKEPR				0x300
--#define AKEPR_VC(n)			(((n) & 0x3) << 22)
--#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
--#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
-+#define AKEPR_VC_MASK			GENMASK_U32(23, 22)
-+#define AKEPR_DT_MASK			GENMASK_U32(21, 16)
-+#define AKEPR_ERRRPT_MASK		GENMASK_U32(15, 0)
- #define RXRESPTOSETR			0x400
- #define TACR				0x500
- #define TASR				0x510
-@@ -142,7 +146,7 @@
- #define TXVMSETR			0x180
- #define TXVMSETR_SYNSEQ_EVENTS		BIT_U32(16) /* 0:Pulses 1:Events */
- #define TXVMSETR_VSTPM			BIT_U32(15)
--#define TXVMSETR_PIXWDTH_MASK		GENMASK(10, 8)
-+#define TXVMSETR_PIXWDTH_MASK		GENMASK_U32(10, 8)
- #define TXVMSETR_PIXWDTH		BIT_U32(8) /* Only allowed value */
- #define TXVMSETR_VSEN			BIT_U32(4)
- #define TXVMSETR_HFPBPEN		BIT_U32(2)
-@@ -174,32 +178,40 @@
- #define TXVMVPRMSET0R_HSPOL_LOW		BIT_U32(17) /* 0:High 1:Low */
- #define TXVMVPRMSET0R_VSPOL_LOW		BIT_U32(16) /* 0:High 1:Low */
- #define TXVMVPRMSET0R_CSPC_YCbCr	BIT_U32(4) /* 0:RGB 1:YCbCr */
--#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
-+#define TXVMVPRMSET0R_BPP_MASK		GENMASK_U32(2, 0)
- #define TXVMVPRMSET0R_BPP_16		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 0)
- #define TXVMVPRMSET0R_BPP_18		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 1)
- #define TXVMVPRMSET0R_BPP_24		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 2)
- 
- #define TXVMVPRMSET1R			0x1d4
--#define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
--#define TXVMVPRMSET1R_VSA(x)		(((x) & 0xfff) << 0)
-+#define TXVMVPRMSET1R_VACTIVE_MASK	GENMASK_U32(30, 16)
-+#define TXVMVPRMSET1R_VACTIVE(n)	FIELD_PREP(TXVMVPRMSET1R_VACTIVE_MASK, (n))
-+#define TXVMVPRMSET1R_VSA_MASK		GENMASK_U32(11, 0)
-+#define TXVMVPRMSET1R_VSA(n)		FIELD_PREP(TXVMVPRMSET1R_VSA_MASK, (n))
- 
- #define TXVMVPRMSET2R			0x1d8
--#define TXVMVPRMSET2R_VFP(x)		(((x) & 0x1fff) << 16)
--#define TXVMVPRMSET2R_VBP(x)		(((x) & 0x1fff) << 0)
-+#define TXVMVPRMSET2R_VFP_MASK		GENMASK_U32(28, 16)
-+#define TXVMVPRMSET2R_VFP(n)		FIELD_PREP(TXVMVPRMSET2R_VFP_MASK, (n))
-+#define TXVMVPRMSET2R_VBP_MASK		GENMASK_U32(12, 0)
-+#define TXVMVPRMSET2R_VBP(n)		FIELD_PREP(TXVMVPRMSET2R_VBP_MASK, (n))
- 
- #define TXVMVPRMSET3R			0x1dc
--#define TXVMVPRMSET3R_HACTIVE(x)	(((x) & 0x7fff) << 16)
--#define TXVMVPRMSET3R_HSA(x)		(((x) & 0xfff) << 0)
-+#define TXVMVPRMSET3R_HACTIVE_MASK	GENMASK_U32(30, 16)
-+#define TXVMVPRMSET3R_HACTIVE(n)	FIELD_PREP(TXVMVPRMSET3R_HACTIVE_MASK, (n))
-+#define TXVMVPRMSET3R_HSA_MASK		GENMASK_U32(11, 0)
-+#define TXVMVPRMSET3R_HSA(n)		FIELD_PREP(TXVMVPRMSET3R_HSA_MASK, (n))
- 
- #define TXVMVPRMSET4R			0x1e0
--#define TXVMVPRMSET4R_HFP(x)		(((x) & 0x1fff) << 16)
--#define TXVMVPRMSET4R_HBP(x)		(((x) & 0x1fff) << 0)
-+#define TXVMVPRMSET4R_HFP_MASK		GENMASK_U32(28, 16)
-+#define TXVMVPRMSET4R_HFP(n)		FIELD_PREP(TXVMVPRMSET4R_HFP_MASK, (n))
-+#define TXVMVPRMSET4R_HBP_MASK		GENMASK_U32(12, 0)
-+#define TXVMVPRMSET4R_HBP(n)		FIELD_PREP(TXVMVPRMSET4R_HBP_MASK, (n))
- 
- /*
-  * PHY-Protocol Interface (PPI) Registers
-  */
- #define PPISETR				0x700
--#define PPISETR_DLEN_MASK		GENMASK(3, 0)
-+#define PPISETR_DLEN_MASK		GENMASK_U32(3, 0)
- #define PPISETR_CLEN			BIT_U32(8)
- 
- #define PPICLCR				0x710
-@@ -221,49 +233,52 @@
- #define PPIDL0SR_STPST			BIT_U32(6)
- 
- #define PPIDLSR				0x760
--#define PPIDLSR_STPST			GENMASK(3, 0)
-+#define PPIDLSR_STPST			GENMASK_U32(3, 0)
- 
- /*
-  * Clocks registers
-  */
- #define LPCLKSET			0x1000
- #define LPCLKSET_CKEN			BIT_U32(8)
--#define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define LPCLKSET_LPCLKDIV_MASK		GENMASK_U32(5, 0)
- 
- #define CFGCLKSET			0x1004
- #define CFGCLKSET_CKEN			BIT_U32(8)
--#define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define CFGCLKSET_CFGCLKDIV_MASK	GENMASK_U32(5, 0)
- 
- #define DOTCLKDIV			0x1008
- #define DOTCLKDIV_CKEN			BIT_U32(8)
--#define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
-+#define DOTCLKDIV_DOTCLKDIV_MASK	GENMASK_U32(5, 0)
- 
- #define VCLKSET				0x100c
- #define VCLKSET_CKEN			BIT_U32(16)
- #define VCLKSET_COLOR_YCC		BIT_U32(8) /* 0:RGB 1:YCbCr */
--#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
--#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
--#define VCLKSET_BPP_MASK		GENMASK(3, 2)
-+#define VCLKSET_DIV_V3U_MASK		GENMASK_U32(5, 4)
-+#define VCLKSET_DIV_V3U(n)		FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
-+#define VCLKSET_DIV_V4H_MASK		GENMASK_U32(6, 4)
-+#define VCLKSET_DIV_V4H(n)		FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
-+#define VCLKSET_BPP_MASK		GENMASK_U32(3, 2)
- #define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
- #define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
- #define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
- #define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
--#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
-+#define VCLKSET_LANE_MASK		GENMASK_U32(1, 0)
-+#define VCLKSET_LANE(n)			FIELD_PREP(VCLKSET_LANE_MASK, (n))
- 
- #define VCLKEN				0x1010
- #define VCLKEN_CKEN			BIT_U32(0)
- 
- #define PHYSETUP			0x1014
--#define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
--#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
--#define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
-+#define PHYSETUP_HSFREQRANGE_MASK	GENMASK_U32(22, 16)
-+#define PHYSETUP_HSFREQRANGE(n)		FIELD_PREP(PHYSETUP_HSFREQRANGE_MASK, (n))
-+#define PHYSETUP_CFGCLKFREQRANGE_MASK	GENMASK_U32(13, 8)
- #define PHYSETUP_SHUTDOWNZ		BIT_U32(1)
- #define PHYSETUP_RSTZ			BIT_U32(0)
- 
- #define CLOCKSET1			0x101c
- #define CLOCKSET1_LOCK_PHY		BIT_U32(17)
- #define CLOCKSET1_CLKSEL		BIT_U32(8)
--#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
-+#define CLOCKSET1_CLKINSEL_MASK		GENMASK_U32(3, 2)
- #define CLOCKSET1_CLKINSEL_EXTAL	FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 0)
- #define CLOCKSET1_CLKINSEL_DIG		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 1)
- #define CLOCKSET1_CLKINSEL_DU		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 2)
-@@ -271,24 +286,31 @@
- #define CLOCKSET1_UPDATEPLL		BIT_U32(0)
- 
- #define CLOCKSET2			0x1020
--#define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
--#define CLOCKSET2_VCO_CNTRL(x)		(((x) & 0x3f) << 8)
--#define CLOCKSET2_N(x)			(((x) & 0xf) << 0)
-+#define CLOCKSET2_M_MASK		GENMASK_U32(27, 16)
-+#define CLOCKSET2_M(n)			FIELD_PREP(CLOCKSET2_M_MASK, (n))
-+#define CLOCKSET2_VCO_CNTRL_MASK	GENMASK_U32(13, 8)
-+#define CLOCKSET2_VCO_CNTRL(n)		FIELD_PREP(CLOCKSET2_VCO_CNTRL_MASK, (n))
-+#define CLOCKSET2_N_MASK		GENMASK_U32(3, 0)
-+#define CLOCKSET2_N(n)			FIELD_PREP(CLOCKSET2_N_MASK, (n))
- 
- #define CLOCKSET3			0x1024
--#define CLOCKSET3_PROP_CNTRL(x)		(((x) & 0x3f) << 24)
--#define CLOCKSET3_INT_CNTRL(x)		(((x) & 0x3f) << 16)
--#define CLOCKSET3_CPBIAS_CNTRL(x)	(((x) & 0x7f) << 8)
--#define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
-+#define CLOCKSET3_PROP_CNTRL_MASK	GENMASK_U32(29, 24)
-+#define CLOCKSET3_PROP_CNTRL(n)	FIELD_PREP(CLOCKSET3_PROP_CNTRL_MASK, (n))
-+#define CLOCKSET3_INT_CNTRL_MASK	GENMASK_U32(21, 16)
-+#define CLOCKSET3_INT_CNTRL(n)		FIELD_PREP(CLOCKSET3_INT_CNTRL_MASK, (n))
-+#define CLOCKSET3_CPBIAS_CNTRL_MASK	GENMASK_U32(14, 8)
-+#define CLOCKSET3_CPBIAS_CNTRL(n)	FIELD_PREP(CLOCKSET3_CPBIAS_CNTRL_MASK, (n))
-+#define CLOCKSET3_GMP_CNTRL_MASK	GENMASK_U32(1, 0)
-+#define CLOCKSET3_GMP_CNTRL(n)		FIELD_PREP(CLOCKSET3_GMP_CNTRL_MASK, (n))
- 
- #define PHTW				0x1034
- #define PHTW_DWEN			BIT_U32(24)
--#define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
-+#define PHTW_TESTDIN_DATA_MASK		GENMASK_U32(23, 16)
- #define PHTW_CWEN			BIT_U32(8)
--#define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
-+#define PHTW_TESTDIN_CODE_MASK		GENMASK_U32(15, 0)
- 
- #define PHTR				0x1038
--#define PHTW_TESTDOUT			GENMASK(23, 16)
-+#define PHTW_TESTDOUT			GENMASK_U32(23, 16)
- #define PHTR_TESTDOUT_TEST		BIT_U32(16)
- 
- #define PHTC				0x103c
--- 
-2.51.0
+> Doing some more analysis, it seems that
+> meson_venc_hdmi_supported_mode() simply prevents using any mode with
+> more than 1920 pixels.
+> I attached a simple patch to overcome this (discarding any
+> meson_vclk.c changes):
+> $ cat /sys/class/drm/card1-HDMI-A-1/modes
+> 2560x1440
+> 2048x1152
+> 1920x1200
+> 1920x1080
+> ...
+>=20
+> My monitor's OSD tells me that I'm running at 2560x1440@60Hz.
+
+I=E2=80=99ll pick that for wider testing, but it looks sensible. Thanks.
+
+CH.
+
+> @Neil, should we bump the limits in meson_venc.c to "4Kx2K@60" (that's
+> a quote from both, S905/GXBB and S905D3/SM1 datasheets), most likely
+> meaning: 4096x2160?
+>=20
+>=20
+> Best regards,
+> Martin
+> <meson_venc-hdmi-support-1440p-screen.diff>
 
