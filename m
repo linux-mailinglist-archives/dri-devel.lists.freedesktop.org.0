@@ -2,110 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C4ABB9CEC
-	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 22:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F553BBCC9D
+	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 23:33:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 636BD10E2BA;
-	Sun,  5 Oct 2025 20:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748B310E28D;
+	Sun,  5 Oct 2025 21:33:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="hPg/jzOH";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="brOnScoF";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="AGLjU0nY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from delivery.antispam.mailspamprotection.com
- (delivery.antispam.mailspamprotection.com [185.56.87.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C8B89580
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 20:22:15 +0000 (UTC)
-ARC-Seal: i=1; cv=none; a=rsa-sha256;
- d=outgoing.instance-europe-west4-nf36.prod.antispam.mailspamprotection.com;
- s=arckey; t=1759695735; 
- b=Yi9ZYgViltQi3Rd8TTWaplK2wacjNF4leVxFzrX0m7W79WH2HQgsGzl088n/P3Qc1njSHiXeEd
- rA9oBVO1R3eFY+ZqqvGSkox6PvNm4Q4fQs1EQ0Bg/+LYxunE3HiAdXjAqpH8HUMOtGutYTN5H1
- +xqn4B2LyZ6ivmUUWDMToOLP19mIqdQu7y3kDUooHnYmZ4s29mgHAVkPgJxmkXHPLXQZejfqMD
- HumvxMF48bCRmm1S6HAuTVf6b3Nuxju4jYAqJBnjvAP5c6uVtv4w2g5SxiKcLUNp7FAwxUsCBs
- DzN7LZVobzd37UrjsgcbM87Pd0xFxTDnyS0U9GsmnAe9+w==;
-ARC-Authentication-Results: i=1;
- outgoing.instance-europe-west4-nf36.prod.antispam.mailspamprotection.com;
- smtp.remote-ip=35.214.173.214; 
- iprev=pass (214.173.214.35.bc.googleusercontent.com)
- smtp.remote-ip=35.214.173.214; 
- auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
- dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
- arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
- d=outgoing.instance-europe-west4-nf36.prod.antispam.mailspamprotection.com;
- s=arckey; t=1759695735; 
- bh=DRH7iMOTbuY1/iWEix7sZhqd6n/2Tw1ybJZR6DrwRcU=;
- h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
- Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
- b=e8mDM+BRqPX/JW1sdUDle+SOIsijH+eny/5Tb6RSpIxYa90fnaO4tiu9eAvlJbS1TDQNNaxy3/
- 2r5Hgr5265JgjXt5WAlXnyMNavUb/hz8LoyeEkhgs5Cv7B/L4L98HkUokOwS2wn64OhTXelmF9
- 7aWAk6sVE7MRVbMmqzRC6juLnrX8iIHYuNi07yZJ3YXw9nVt8rY/1n3NbiCKkFWrKAKpbG6FKr
- L3v+egy61YoRCGDRpxSIs9HdFP6ww4J/1AyXX0z6t+ukQen3vAHX45sehDZj9zQl64GAxvRkaq
- Gp986B2aBF2oAiCOqkS5uDRHlK009zspuC0Zmj12Hp5IMw==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
- :Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
- :Date:From:Reply-To:List-Unsubscribe;
- bh=kdy+0w++K99irbhKozpIsd52YcoplzuImJedZzCCHOA=; b=hPg/jzOHU5p/tJ/2C8f5DKMkDu
- En9u4mwZ88mIGWMJpYFqvqRAIysCuF7EmMdKNBhxT2EEyh8KOWG9m3TTMq5nl6pzEJ95EIn9K4rP6
- kZuZPRM8d3mK0ptvMWlCwCOBmxHv91qx9tA0Y2o+qN5QA6osXzFWmtwOGLoS0vCQm1Ms=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
- helo=esm19.siteground.biz)
- by instance-europe-west4-nf36.prod.antispam.mailspamprotection.com with
- esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <francesco@valla.it>) id 1v5VFC-00000008Izj-3k76
- for dri-devel@lists.freedesktop.org; Sun, 05 Oct 2025 20:22:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
- s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
- list-subscribe:list-post:list-owner:list-archive;
- bh=kdy+0w++K99irbhKozpIsd52YcoplzuImJedZzCCHOA=; b=brOnScoFUOdb5rfvddxtf6dIzJ
- QHcTzeakvVQYLUxz/aozGCByYNUlSmwYcGNrBEPBwWTVl747lsY0UqnsCF9bL4zP01z00z+BoKYYm
- jcbWemFa9JSI/loZJEGm9J2CmQglfzgg56OW+PWTr7smY/sRT8QLpB5jTxfCMbYFL4DQ=;
-Received: from [87.16.13.60] (port=64461 helo=fedora.fritz.box)
- by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.98.1) (envelope-from <francesco@valla.it>)
- id 1v5VEw-000000001im-3ajW; Sun, 05 Oct 2025 20:21:54 +0000
-From: Francesco Valla <francesco@valla.it>
-Date: Sun, 05 Oct 2025 22:21:36 +0200
-Subject: [PATCH 3/3] drm/log: avoid WARN when checking format support
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED9E10E28D
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 21:33:25 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b4539dddd99so510806866b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Oct 2025 14:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1759700004; x=1760304804;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=o5xflicGk4SRWq4uI9IRaqV35+qaPk/Vs0aIHyFIGYo=;
+ b=AGLjU0nYMF49aibDwOcudKhdZcTzD1SqoWN03WiryLnbArWjIUhOyXTIKZ8PJD35kY
+ 3/qPSsqnH6uFCFJmaONiC6YXXSzeeUhIgsvwb7e1D1oXnnvZnXDRd1AUojy7/5qLGDlz
+ 31gUs4xD72+y26cu9opoxm9gR27iI57zqA22k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759700004; x=1760304804;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o5xflicGk4SRWq4uI9IRaqV35+qaPk/Vs0aIHyFIGYo=;
+ b=LXYetmVwFUjS1Emk/VciB9tBx9ntYCblvGF96hLCMD7GAJCrr/h6hkc6qJpaqljxNz
+ 21yJPt/738ADKdMnvRc+oQlQkAf88YF4JkWqj8OguHGHEoX6aJwBZrrqhUMQaU8O5xYc
+ ncExiktm6fRkLQ+VLXo0XWzrVUbjQCkY01eRSLRITdqZrRH4bJzlXWAHc1Qv8U+CwOJh
+ q8nTxhXHSFwrjKm3pzhL/wvlg6848H3WfI1en7ghltxKCDInW0W7LvDoQnOZidPR2pxd
+ 0RrQQawnuyhtXLULDOUO5vALNxyMSaK+4/bDAw6vYpNZCmJn/I1OTWRiDPs0dUabQW2E
+ Kjzw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVzIrGCc2yA1ePidouSBF16ZIG747vD29ypi9NSjCz2u51D6Fx0hR6Wy0Nw7CqA7zcsxXjasf72IgI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTwRQAhbPNbe5sikr7kOWACxgsuXKBVlzOpzx7EB21bqJJOooy
+ sIRoTjd+Q/jMBnfwhR/euaJRHpc6ffcSZqUywIeXO4UPKHt3alSV3RukvABK36ayWL2FKNgmWYc
+ xb1ReN5E=
+X-Gm-Gg: ASbGncsojpwSP6LofqRPMt1qp3utsXsDmV2IlMTaiz4rktpqufM4L+0bowsBB4YdWGd
+ rQCVQKWUTdxWYy4QUe56Mmtl2SXPzKMdUfl52j2r9brU+kY7UZ6/EopOQyxw5ErG14qi5tIQeCA
+ amyoOOAaMaMW28pQX4DtMLqbJu7XblK//3xj/8nqQhxZ3BXUkoDPEBuBOc0WgcRTkphxvcIahox
+ MInW4DGChMd4uinPTKfsLiXrD9V82wRtm1ef9pdO0Bf0WCeLhHBN6aUJ58dZvhOy8NIDoebYEDk
+ DGsfyuFHG+W0Mn6me1eHgnr+NWps5AmAmxhxtyZ4J1wiAHKcsn7eUGvlL4YIHZIq8HBeumcyVGU
+ u3rceHsXGMTPR8qPQyGwYKQoteh0sVG91jhVxqdRz3q4jnrG9w00SARucQmtYbmHbL8nGEfqskT
+ RtnyDdQAEkKfTaunQ6Sve8
+X-Google-Smtp-Source: AGHT+IEekKkYD/TmpaokP0V5sQUn4wVDxhPjFJDQUJvKaluGQfkk/VqFPwNoB6q2vsmXBsMuGRjvmQ==
+X-Received: by 2002:a17:907:2d1e:b0:b3e:151b:849b with SMTP id
+ a640c23a62f3a-b49c27611f5mr1364401366b.33.1759700004049; 
+ Sun, 05 Oct 2025 14:33:24 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com.
+ [209.85.208.53]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b48652a9f11sm989082966b.4.2025.10.05.14.33.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Oct 2025 14:33:23 -0700 (PDT)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-637e9f9f9fbso5636576a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Oct 2025 14:33:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVok05tQfKFN3yohMrnlWAL68AexRssqh2jAKFDgsMo0izN053becnf4AkA9h3/m8L2F5roxr5GfhA=@lists.freedesktop.org
+X-Received: by 2002:a17:906:c102:b0:b40:5463:3afd with SMTP id
+ a640c23a62f3a-b49c0f6e11emr1249670266b.26.1759700002833; Sun, 05 Oct 2025
+ 14:33:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251005-drm_draw_conv_check-v1-3-9c814d9362f6@valla.it>
-References: <20251005-drm_draw_conv_check-v1-0-9c814d9362f6@valla.it>
-In-Reply-To: <20251005-drm_draw_conv_check-v1-0-9c814d9362f6@valla.it>
-To: Jocelyn Falempe <jfalempe@redhat.com>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Francesco Valla <francesco@valla.it>
-X-Mailer: b4 0.14.2
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: 509aa86eedfef6d02a4642c14ae57d08
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1v5VFC-00000008Izj-3k76-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-nf36.prod.antispam.mailspamprotection.com; 
- iprev=pass (214.173.214.35.bc.googleusercontent.com)
- smtp.remote-ip=35.214.173.214; 
- auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
- dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
- arc=none
+References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
+ <CANiq72kq5YHovH=_a9c0JQgfrAx9gRsQvVo1VfHd-FaupOp7rQ@mail.gmail.com>
+ <bd004ac5-9e51-4e90-a3a4-025d74941a38@nvidia.com>
+ <3771775.lGaqSPkdTl@hyperion>
+In-Reply-To: <3771775.lGaqSPkdTl@hyperion>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 5 Oct 2025 14:33:06 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj4_zaYJ9ieazt9dnL69R+SL1PEfJtquGVOqsNCVt_rDA@mail.gmail.com>
+X-Gm-Features: AS18NWBQQKqi5I2xncYfg6Cw_82qONOSAn3HSxJQcAmMyr9b8ndXyO8q6Tf7U6s
+Message-ID: <CAHk-=wj4_zaYJ9ieazt9dnL69R+SL1PEfJtquGVOqsNCVt_rDA@mail.gmail.com>
+Subject: Re: [git pull] drm for 6.18-rc1
+To: Maarten ter Huurne <maarten@treewalker.org>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, 
+ Dave Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,29 +104,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_draw_can_convert_from_xrgb8888() instead of
-drm_draw_color_from_xrgb8888() while checking if a color format is
-usable. This avoids a WARN in case the first format is not usable.
+On Sun, 5 Oct 2025 at 14:31, Maarten ter Huurne <maarten@treewalker.org> wrote:
+>
+> The Black and Ruff formatting tools for Python use a "magic comma" rule
+> that works well in practice: if the last item has a trailing comma, the
+> items are guaranteed to be formatted multi-line, while if there is no
+> trailing comma, single-line formatting is attempted.
 
-Signed-off-by: Francesco Valla <francesco@valla.it>
----
- drivers/gpu/drm/drm_panic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Oh, that sounds like a good heuristic, because that "comma after last
+entry" is very much "I expect this list to be expanded upon later".
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 1d6312fa142935fcf763381920ad889ca4cf4b27..4ba961e445e576d03cfb58953eead90d32b40151 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -785,7 +785,7 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
- {
- 	if (format->num_planes != 1)
- 		return false;
--	return drm_draw_color_from_xrgb8888(0xffffff, format->format) != 0;
-+	return drm_draw_can_convert_from_xrgb8888(format->format);
- }
- 
- static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
-
--- 
-2.51.0
-
+              Linus
