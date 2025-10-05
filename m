@@ -2,102 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C68EBB998B
-	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 18:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41EDBB9A10
+	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 19:38:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752BF10E0CD;
-	Sun,  5 Oct 2025 16:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2639110E083;
+	Sun,  5 Oct 2025 17:38:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Ji9l96Hk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F69rnG1H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79DE10E083;
- Sun,  5 Oct 2025 16:49:29 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 595FQfrG015449;
- Sun, 5 Oct 2025 16:49:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- tPVF23H4KRbb2lLHjXqxQetrDyeJXYe4YGDhrbuxxfw=; b=Ji9l96HkCxSgUIRo
- Y4H3b49AlWqVFukZUcrIhURWV3ZKKqaWHnj2UlyIFactFAZN2BzFnq1FMHkJ8qKX
- 3eI9tr/ViSlNEqikKSYNh+7BkJiI9IQPm4XxFaGckq96cFuoNAETKXqewO/RRrFD
- ust67IL75S9UKglKXWhCDJo2cSK5EvmD2C7azY0EF/o80R21bVNwgXLZpoE5foW+
- uXZlelVqPm6kfWw8XBvmJ2iKv0N9WB5W39HOEtXTttD3Yt443Y3kX99Lu7BQ30Uh
- iTPpqRh7jSLTLpum8Ecu9YUJqH3Oz+2CVDrALqLTMTsh0sVbqkv5IwpePG4UHQ7G
- lIsodA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jtk6tbfq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Oct 2025 16:49:07 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 595GmjqR008864
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 5 Oct 2025 16:48:45 GMT
-Received: from [10.216.28.59] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Sun, 5 Oct
- 2025 09:48:37 -0700
-Message-ID: <aaa9f760-70aa-4bee-b6ab-d6fb02ea3c78@quicinc.com>
-Date: Sun, 5 Oct 2025 22:18:34 +0530
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F35EF10E083
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 17:38:30 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-46e37d10f3eso27304175e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Oct 2025 10:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759685909; x=1760290709; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OLqw9GQUx0cKuTKkHqUH8puvEr9wdfKsNFqEgyMKdRs=;
+ b=F69rnG1HbROx+YicfOaHr4vQAYAUdZSaGuPZGhW9I3VQFiAeoPHMM7z3JsxzFEMydI
+ YaBmRKVWlSTVhtdPuVIvg1oO4VreLwQGTztHky843b/0lvSaul1QR2MihhFvhYYgV1PZ
+ G4EK3aiwDOKI+5AsdKAfBJtx4K50jUWq+1WPQSLA6TOH3kfqwPW8mIV1ynHCMOGYmB+l
+ k57tw0Y1K0Uq42fmtyaYesAW2HAiu2xZxbfBzn4J3xlxMadXooIvRuoVtucr9gPts8d4
+ 8oOcMnNBaM/jiRuJRWGRs8/UZLkmD0rC4TuPF2/q3zt//2RB2/h4vCX1rMWO2SUeHN6Z
+ cw5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759685909; x=1760290709;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OLqw9GQUx0cKuTKkHqUH8puvEr9wdfKsNFqEgyMKdRs=;
+ b=otue/R7vLaL4CrVvFuuhxxyzYHbNeTrxbVXgNb6cREEEet8e20k6xP10CeN8FyYzsR
+ OFUjzZvWYDimUS5q1WDka5K9m7Cc5TVJgMtzRXq7g0tcwUn9Q7ZRjCChqGTpfJdvREIA
+ KTlzoegaJ6iaW3iyJoA83AFdwBWcYSGbK1bqSDKrSK24FmY+8eLws5lqYXYc4i5TeYTP
+ NLxgB4xL40YngZGFfphFf0RBwWVpi4iNkzW5HZmB7QrUnQTPtoGX/tGR+ALXjZ5EGVhe
+ jI+uEAne9/hiCIe4da6JNhGk+bijpf26YL37+YkXsUfIpCYG8KucdqBUJ+OJ9KLZXP3B
+ qWcg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWB4lDSClWmaO4hAR4TUhXBM+4tUYrWN67BciDpwHbqJHjKwko0YWnf0JQDFRcjW+Lp4HAIbL/0Rlk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFpfZXObafz7/TfU64tts8wERLP23fy9s8mTdLzURs0OCBPgkj
+ FISXdfKU0utq/uirXZav+Ytv4YFbCfsa9BS68AzIAuy5MDHSIqTpQvVQ
+X-Gm-Gg: ASbGncuQU3QxZzJUjW8h2JAJ0FqD3yMCXbLewst6gOMiIiOyTq588PTuw2bL+LtLXNT
+ AMgB+ECn1hqEvAj+Z4QkfrmiUelruSTCM7mPWK2OLNWBMv8Z2RoIdri9fA749U0vg8GJVXcxWL1
+ iqi5evCQZleWULkvbrXdFND+Vvz/whi27IAeYyOPRXct6o/2gVJpNnzDlV03dVxPzGwkbbISZHU
+ 4cYR/4C+dwUTC/v9AavyNc+r811tFyc+8jcyccq4gpOO5BwEd9Ql6AJUZu80FW6RQEeCNTSzj0z
+ twXg/a9tP/EHrH50WH6shvcsO8EQhX86RrXJmiDNivio31F7zOL1tigqpYAYi5jxu0xdGPMR88X
+ RCrpLgD4PkAUagGBgU5M3gHeS9u7b5sAF8u7xAli7WsYVFtc84hVI1WiIX9yoqjZD19lLrQGriL
+ IJyATNO0LzBvZocg==
+X-Google-Smtp-Source: AGHT+IEaKsxZHPdAaOgp5BYREYT6BZzg4XKffxkJUb2CuHtMDt5MPcCAPn47vcTvw2YbfoQe/z3Ccw==
+X-Received: by 2002:a05:600c:c162:b0:46e:5100:326e with SMTP id
+ 5b1f17b1804b1-46e711440bemr64476335e9.23.1759685908971; 
+ Sun, 05 Oct 2025 10:38:28 -0700 (PDT)
+Received: from dell (117.red-81-33-123.dynamicip.rima-tde.net. [81.33.123.117])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46f9c8873f1sm19335655e9.8.2025.10.05.10.38.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Oct 2025 10:38:28 -0700 (PDT)
+From: Javier Garcia <rampxxxx@gmail.com>
+To: deller@gmx.de,
+	u.kleine-koenig@baylibre.com,
+	tzimmermann@suse.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shuah@kernel.org,
+ Javier Garcia <rampxxxx@gmail.com>
+Subject: [PATCH] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
+Date: Sun,  5 Oct 2025 19:38:12 +0200
+Message-ID: <20251005173812.1169436-1-rampxxxx@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] arm64: dts: qcom: qcs8300: add Display Serial
- Interface device nodes
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <marijn.suijten@somainline.org>,
- <andersson@kernel.org>, <robh@kernel.org>, <robh+dt@kernel.org>,
- <krzk+dt@kernel.org>, <konradybcio@kernel.org>, <conor+dt@kernel.org>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>,
- <quic_jesszhan@quicinc.com>
-References: <20250925053602.4105329-1-quic_amakhija@quicinc.com>
- <20250925053602.4105329-3-quic_amakhija@quicinc.com>
- <vsty7sy7gi2eeyifokwcqpoycmarxietkijmlkymwrmzmdsfws@x64f4ulbc6ja>
-Content-Language: en-US
-From: Ayushi Makhija <quic_amakhija@quicinc.com>
-In-Reply-To: <vsty7sy7gi2eeyifokwcqpoycmarxietkijmlkymwrmzmdsfws@x64f4ulbc6ja>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxNyBTYWx0ZWRfX+DkfXmBAkhpH
- myN+9dwxaBBu7CPbtCbo1FxSkCNQlSQ8Ou+5aEDrqHY4zUg3SbBMxKZ2juSw+nqSJMPBoLOPCwZ
- DbR5otC0a1TaDQdOZ503CccFz32crxJZDhaHhr0vvGZwLo+u+XNYgZpfItu7LQR545dl4Ai8E5I
- 96enqek60e3aCplEyzd3wAvqIomGrkCoE4c7/1y0YJ7HZStuaVLMeKyZBO5dPJGowtBDzk2kBIg
- 3XwmUPpYTQhiS2b0Ch2D4xcna98Xvo0iEuKq99wOu+Zyykf04Davcd3h+1rrpTvBQsbfwbfX+Rn
- 0aAnCtOz9wuEznVuz1vtZGDMPt/ak2mEle1Clny3M7Z0NmF5mTgZJcYTQTDFW+VgH2S2xebbCiC
- dWAWioXzOD1VbYo0RMp8jtNEyZP1GA==
-X-Authority-Analysis: v=2.4 cv=do3Wylg4 c=1 sm=1 tr=0 ts=68e2a183 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=gEfo2CItAAAA:8
- a=COk6AnOGAAAA:8 a=EZMjUrQSJwNfLy8y1NAA:9 a=QEXdDO2ut3YA:10
- a=sptkURWiP4Gy88Gu7hUp:22 a=TjNXssC_j7lpFel5tvFf:22 a=nl4s5V0KI7Kw-pW0DWrs:22
- a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
-X-Proofpoint-GUID: 26OMeIVJV4_zqYUtWX-tpwwtUNTJXif_
-X-Proofpoint-ORIG-GUID: 26OMeIVJV4_zqYUtWX-tpwwtUNTJXif_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-05_06,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- malwarescore=0 spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040017
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,76 +90,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/26/2025 3:32 AM, Dmitry Baryshkov wrote:
-> On Thu, Sep 25, 2025 at 11:06:01AM +0530, Ayushi Makhija wrote:
->> Add device tree nodes for the DSI0 controller with their corresponding
->> PHY found on Qualcomm QCS8300 SoC.
->>
->> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
->> ---
->>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 95 ++++++++++++++++++++++++++-
->>  1 file changed, 94 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> index e0e1f63fc45b..834ae0522f2f 100644
->> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> @@ -3,6 +3,7 @@
->>   * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>   */
->>  
->> +#include <dt-bindings/clock/qcom,dsi-phy-28nm.h>
->>  #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
->>  #include <dt-bindings/clock/qcom,rpmh.h>
->>  #include <dt-bindings/clock/qcom,sa8775p-camcc.h>
->> @@ -4854,6 +4855,13 @@ dpu_intf0_out: endpoint {
->>  							remote-endpoint = <&mdss_dp0_in>;
->>  						};
->>  					};
->> +
->> +					port@1 {
->> +						reg = <1>;
->> +						dpu_intf1_out: endpoint {
->> +							remote-endpoint = <&mdss_dsi0_in>;
->> +						};
->> +					};
->>  				};
->>  
->>  				mdp_opp_table: opp-table {
->> @@ -4881,6 +4889,89 @@ opp-650000000 {
->>  				};
->>  			};
->>  
->> +			mdss_dsi0: dsi@ae94000 {
->> +				compatible =  "qcom,sa8775p-dsi-ctrl","qcom,mdss-dsi-ctrl";
-> 
-> qcom,qcs8300-dsi-ctrl. You might use three compatibles (qcs8300, sa8775p
-> and the generic one), but there should be qcs8300 one.
-> 
+This patch wraps the relevant code blocks with #ifdef CONFIG_FB_DEVICE,
+allowing the driver to be built and used even if CONFIG_FB_DEVICE is not selected.
 
-Hi Dmitry, 
+The sysfs only give access to show some controller and cursor registers so
+it's not needed to allow driver works correctly.
 
-If I am adding three compatible string for ctrl,
+Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+---
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-compatible = "qcom,qcs8300-dsi-ctrl",
-             "qcom,sa8775p-dsi-ctrl",
-             "qcom,mdss-dsi-ctrl";
-
-while validating dt-binding and dtsi against dt-schema. I am getting below errors
-
-
-/local/mnt/workspace/amakhija/linux_next/linux/arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: dsi@ae94000: compatible: 'oneOf' conditional failed, one must be fixed:
-        ['qcom,qcs8300-dsi-ctrl', 'qcom,sa8775p-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-        'qcom,qcs8300-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-        'qcom,mdss-dsi-ctrl' was expected
-        from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
-
-According to the dsi-controller-main.yaml schema only two strings are allowed one is the SOC specific and other one is generic "qcom,mdss-dsi-ctrl".
-
-Shall I keep only two strings qcom,qcs8300-mdss.yaml and the generic one "qcom,mdss-dsi-ctrl" or if we want to support 3 strings in compatible sting we need to modify the dsi-controller-main.yaml ?
-
-Similarly, I am getting error for dsi_phy compatible string only one SOC specific compatible string is allow.
-
-Thanks,
-Ayushi
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index ade88e7bc760..a691a5fefb25 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -530,6 +530,7 @@ static int mb862xxfb_init_fbinfo(struct fb_info *fbi)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_FB_DEVICE
+ /*
+  * show some display controller and cursor registers
+  */
+@@ -569,6 +570,7 @@ static ssize_t dispregs_show(struct device *dev,
+ }
+ 
+ static DEVICE_ATTR_RO(dispregs);
++#endif
+ 
+ static irqreturn_t mb862xx_intr(int irq, void *dev_id)
+ {
+@@ -759,9 +761,11 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
+ 
+ 	dev_set_drvdata(dev, info);
+ 
++#ifdef CONFIG_FB_DEVICE
+ 	if (device_create_file(dev, &dev_attr_dispregs))
+ 		dev_err(dev, "Can't create sysfs regdump file\n");
+ 	return 0;
++#endif
+ 
+ rel_cmap:
+ 	fb_dealloc_cmap(&info->cmap);
+@@ -801,7 +805,9 @@ static void of_platform_mb862xx_remove(struct platform_device *ofdev)
+ 	free_irq(par->irq, (void *)par);
+ 	irq_dispose_mapping(par->irq);
+ 
++#ifdef CONFIG_FB_DEVICE
+ 	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
++#endif
+ 
+ 	unregister_framebuffer(fbi);
+ 	fb_dealloc_cmap(&fbi->cmap);
+@@ -1101,8 +1107,10 @@ static int mb862xx_pci_probe(struct pci_dev *pdev,
+ 
+ 	pci_set_drvdata(pdev, info);
+ 
++#ifdef CONFIG_FB_DEVICE
+ 	if (device_create_file(dev, &dev_attr_dispregs))
+ 		dev_err(dev, "Can't create sysfs regdump file\n");
++#endif
+ 
+ 	if (par->type == BT_CARMINE)
+ 		outreg(ctrl, GC_CTRL_INT_MASK, GC_CARMINE_INT_EN);
+@@ -1151,7 +1159,9 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
+ 
+ 	mb862xx_i2c_exit(par);
+ 
++#ifdef CONFIG_FB_DEVICE
+ 	device_remove_file(&pdev->dev, &dev_attr_dispregs);
++#endif
+ 
+ 	unregister_framebuffer(fbi);
+ 	fb_dealloc_cmap(&fbi->cmap);
+-- 
+2.50.1
 
