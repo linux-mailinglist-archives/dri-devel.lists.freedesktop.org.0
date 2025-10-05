@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DEDEBBCE33
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 01:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28EE2BBCE36
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 01:55:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7765110E0F1;
-	Sun,  5 Oct 2025 23:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFD610E2D0;
+	Sun,  5 Oct 2025 23:55:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dNmIR7td";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RsmoodVC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B67A710E0F1
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 23:55:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741DE10E2D0
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 23:55:54 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9FAAC11AE;
- Mon,  6 Oct 2025 01:54:16 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D12E6EA0;
+ Mon,  6 Oct 2025 01:54:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1759708456;
- bh=H6DUy7gUUFzf7L9G58j7/brWtZ1vdQDbJMU7TIx2b+s=;
- h=From:To:Cc:Subject:Date:From;
- b=dNmIR7tdjJz+LYW1VSS0Y7dcW6TLI9FViOmnzeC7yViytgHDpSdGEyPvjxxFapuUk
- /7SrVAUPeep41iQdUU0CO2lK/t60W+xSkisdTPazs+fjlf4VOx7zUpZkyO2Smt6BZg
- 4PKwXuHeKlgX/7HSFG41gdaqodKY/AakpMeTU2bw=
+ s=mail; t=1759708459;
+ bh=BlwipHq8gUoEhQ1Vm5JfEinzCONZGPrIIa0pM4kISPY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=RsmoodVCKh5oNCE1nWXifMs4SFBrFLD90OgoxzP53DqrjXUm0Z/ceJsE62dRiBo1S
+ xjAAmjBfuX0eByn48tlfWk26pAEQ/UFLIye5Uwe00LtdB7AhYFGIs0wxUR4Jo/bHwn
+ LHdqrFDWgDFhlqzFiAGGi0w+dM+zkgopTd//SaAY=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
@@ -41,11 +41,13 @@ Cc: Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
  Maxime Ripard <mripard@kernel.org>, Muhammed Efe Cetin <efectn@6tel.net>,
  Ondrej Jirman <megi@xff.cz>, Rob Herring <robh@kernel.org>,
  Sandy Huang <hjc@rock-chips.com>
-Subject: [PATCH v2 0/5] arm64: dts: rockchip: Add device tree for the Orange
- Pi CM5 Base board
-Date: Mon,  6 Oct 2025 02:55:36 +0300
-Message-ID: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 1/5] dt-bindings: display: rk3588-dw-hdmi-qp: Add
+ tmds-enable-gpios property
+Date: Mon,  6 Oct 2025 02:55:37 +0300
+Message-ID: <20251005235542.1017-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
+In-Reply-To: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
+References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,55 +65,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-This patch series adds a device tree for the Orange Pi CM5 Base board
-from Xunlong. This is a combination of a compute module and a carrier
-board, so the device tree is split in two files.
+Add an optional property to RK3588 HDMI TX Controller binding describing
+a GPIO line to be asserted when operating in HDMI 1.4/2.0 TMDS mode and
+deasserted for HDMI 2.1 FRL.
 
-The work is based on a combination of upstream device trees for other
-RK3588-based Orange Pi boards and the downstream device tree, all
-checked against the available schematics for the carrier board. The
-compute module schematics is unfortunately not available.
+This is used to control an external level shifter for HDMI data lines.
 
-The series starts with three patches that add a new tmds-enable-gpios
-property to the rk3588-dw-hdmi-qp DT binding (1/5) and update the driver
-accordingly (2/5 and 3/5). Those patches have been authored by Cristian
-Ciocaltea as part of a larger series, I have incorporated them here
-as-is.
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml   | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Patch 4/5 then add a new compatible for the board to arm/rockchip.yaml.
-The last patch (5/5) adds the device tree for the board.
-
-Patches 2/5 and 3/5 could be merged separately through the DRM tree,
-but patch 1/5 needs to be merged with the device tree in 5/5 to avoid
-introducing DT validation warnings. I'd appreciate advice from the DT
-maintainers regarding how to handle this, as I have been told before
-that DT bindings and DT sources can't be merged through the same tree.
-
-Cristian Ciocaltea (3):
-  dt-bindings: display: rk3588-dw-hdmi-qp: Add tmds-enable-gpios
-    property
-  drm/rockchip: dw_hdmi_qp: Improve error handling with dev_err_probe()
-  drm/rockchip: dw_hdmi_qp: Fixup usage of enable_gpio member in main
-    struct
-
-Laurent Pinchart (2):
-  dt-bindings: arm: rockchip: Add Orange Pi CM5 Base
-  arm64: dts: rockchip: Add rk3588s-orangepi-cm5-base device tree
-
- .../devicetree/bindings/arm/rockchip.yaml     |   6 +
- .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |  10 +
- arch/arm64/boot/dts/rockchip/Makefile         |   1 +
- .../rockchip/rk3588s-orangepi-cm5-base.dts    | 346 +++++++++++++
- .../dts/rockchip/rk3588s-orangepi-cm5.dtsi    | 473 ++++++++++++++++++
- .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    |  70 ++-
- 6 files changed, 864 insertions(+), 42 deletions(-)
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3588s-orangepi-cm5-base.dts
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3588s-orangepi-cm5.dtsi
-
-
-base-commit: e5f0a698b34ed76002dc5cff3804a61c80233a7a
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+index 96b4b088eebe..eec0d40c91ea 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+@@ -113,6 +113,13 @@ properties:
+     description:
+       Additional HDMI QP related data is accessed through VO GRF regs.
+ 
++  tmds-enable-gpios:
++    description:
++      Optional GPIO line to be asserted when operating in HDMI 1.4/2.0
++      TMDS mode and deasserted for HDMI 2.1 FRL. It can be used to control
++      an external level shifter for HDMI data lines.
++    maxItems: 1
++
+ required:
+   - compatible
+   - reg
+@@ -132,8 +139,10 @@ unevaluatedProperties: false
+ examples:
+   - |
+     #include <dt-bindings/clock/rockchip,rk3588-cru.h>
++    #include <dt-bindings/gpio/gpio.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/pinctrl/rockchip.h>
+     #include <dt-bindings/power/rk3588-power.h>
+     #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+ 
+@@ -164,6 +173,7 @@ examples:
+         rockchip,grf = <&sys_grf>;
+         rockchip,vo-grf = <&vo1_grf>;
+         #sound-dai-cells = <0>;
++        tmds-enable-gpios = <&gpio4 RK_PB1 GPIO_ACTIVE_HIGH>;
+ 
+         ports {
+           #address-cells = <1>;
 -- 
 Regards,
 
