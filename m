@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7CFBBCE3C
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 01:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE04BBCE3F
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 01:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8602A10E3B3;
-	Sun,  5 Oct 2025 23:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 948ED10E2D4;
+	Sun,  5 Oct 2025 23:56:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pP20Wmir";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HOVTq5BN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74C0F10E2D1
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 23:55:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E04610E3B1
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 23:55:59 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D1B091FBC;
- Mon,  6 Oct 2025 01:54:23 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id F066A244A;
+ Mon,  6 Oct 2025 01:54:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1759708464;
- bh=5iq9Aj5coQvJO210KAv+MUcPJZvSNxLS8xs01EChgI0=;
+ s=mail; t=1759708466;
+ bh=KKcQG5XEAHN8DMtSFWGoC5DvqZvwc+yFR+cnUpDN4/Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pP20Wmir0FbCWvKBGwg0Luw4IlbeCOnT1kkrATzJBVVEEXAHr2HiUn+BC5hr1VM8F
- uFMcTe2Nm+LlLoDsGSO9k7lKkZF4hgEDvvJg/DDrYVLiynPYBtDv3ZTYomhwbZDozP
- ZJJjOhs72bdK2ekOFuW5HNfEhhGPGRNzXMu/jjNY=
+ b=HOVTq5BNxxK3BxG5xWLBZF1fcHIXoMmgSPtQS9WCdIStL3gsnD4U7rZdKi9wEv3kw
+ ovKgjB/4kExjtsYLT40aDj/xfMMZUfKdr+C0HjBE25xTN9WZP4Mjg8OWoBqhH6aNWy
+ AJv14fGGs3n/USe4pVUxLwiIBkmFdnrLF6uvW/qA=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
@@ -41,10 +41,9 @@ Cc: Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
  Maxime Ripard <mripard@kernel.org>, Muhammed Efe Cetin <efectn@6tel.net>,
  Ondrej Jirman <megi@xff.cz>, Rob Herring <robh@kernel.org>,
  Sandy Huang <hjc@rock-chips.com>
-Subject: [PATCH v2 3/5] drm/rockchip: dw_hdmi_qp: Fixup usage of enable_gpio
- member in main struct
-Date: Mon,  6 Oct 2025 02:55:39 +0300
-Message-ID: <20251005235542.1017-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 4/5] dt-bindings: arm: rockchip: Add Orange Pi CM5 Base
+Date: Mon,  6 Oct 2025 02:55:40 +0300
+Message-ID: <20251005235542.1017-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
 References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
@@ -65,67 +64,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+The Orange Pi CM5 Base board is a carrier board for the Orange Pi CM5
+compute module. It has 3 ethernet ports, 2 USB ports, one HDMI output
+and 4 CSI-2 inputs.
 
-The name of the enable_gpio member in struct rockchip_hdmi_qp is too
-generic, as initially "borrowed" from downstream BSP code.  Moreover,
-this hasn't been really in use so far, since there is neither a DT
-providing an "enable-gpios" property to any of the "hdmi" nodes, nor a
-binding documenting it.
-
-The actual purpose of this GPIO line is to control the level shifters
-for the HDMI TX data lines when switching between TMDS and FRL operating
-modes, i.e. asserted for the former and deasserted for the latter.
-
-A previous patch introduced the "tmds-enable-gpios" property of the
-RK3588 HDMI TX Controller binding, hence pass the updated string to
-devm_gpiod_get_optional() and rename the struct member accordingly.
-
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ Documentation/devicetree/bindings/arm/rockchip.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 4e7794aa2dde..329a69a548bd 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -91,7 +91,7 @@ struct rockchip_hdmi_qp {
- 	struct rockchip_encoder encoder;
- 	struct dw_hdmi_qp *hdmi;
- 	struct phy *phy;
--	struct gpio_desc *enable_gpio;
-+	struct gpio_desc *tmds_enable_gpio;
- 	struct delayed_work hpd_work;
- 	int port_id;
- 	const struct rockchip_hdmi_qp_ctrl_ops *ctrl_ops;
-@@ -117,7 +117,7 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
- 	unsigned long long rate;
+diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
+index 28db6bd6aa5b..8b08a57f96ce 100644
+--- a/Documentation/devicetree/bindings/arm/rockchip.yaml
++++ b/Documentation/devicetree/bindings/arm/rockchip.yaml
+@@ -1243,6 +1243,12 @@ properties:
+               - xunlong,orangepi-5b
+           - const: rockchip,rk3588s
  
- 	/* Unconditionally switch to TMDS as FRL is not yet supported */
--	gpiod_set_value(hdmi->enable_gpio, 1);
-+	gpiod_set_value(hdmi->tmds_enable_gpio, 1);
- 
- 	if (crtc && crtc->state) {
- 		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
-@@ -508,11 +508,11 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	if (ret < 0)
- 		return dev_err_probe(hdmi->dev, ret, "Failed to get clocks\n");
- 
--	hdmi->enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
--						    GPIOD_OUT_HIGH);
--	if (IS_ERR(hdmi->enable_gpio))
--		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->enable_gpio),
--				     "Failed to request enable GPIO\n");
-+	hdmi->tmds_enable_gpio = devm_gpiod_get_optional(hdmi->dev, "tmds-enable",
-+							 GPIOD_OUT_HIGH);
-+	if (IS_ERR(hdmi->tmds_enable_gpio))
-+		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->tmds_enable_gpio),
-+				     "Failed to request TMDS enable GPIO\n");
- 
- 	hdmi->phy = devm_of_phy_get_by_index(dev, dev->of_node, 0);
- 	if (IS_ERR(hdmi->phy))
++      - description: Xunlong Orange Pi CM5
++        items:
++          - const: xunlong,orangepi-cm5-base
++          - const: xunlong,orangepi-cm5
++          - const: rockchip,rk3588s
++
+       - description: Zkmagic A95X Z2
+         items:
+           - const: zkmagic,a95x-z2
 -- 
 Regards,
 
