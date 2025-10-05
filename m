@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0BFBB9294
-	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 00:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B3BB938D
+	for <lists+dri-devel@lfdr.de>; Sun, 05 Oct 2025 05:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A2410E24E;
-	Sat,  4 Oct 2025 22:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A8E10E029;
+	Sun,  5 Oct 2025 03:04:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="d5IqzDYe";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gH65xBKn";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yVd5azXF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E6E10E24C;
- Sat,  4 Oct 2025 22:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=ujT45zKa5is3+8neivqZuFX3zu1g7WFWJ9dwConA+qY=; b=d5IqzDYe+HXRidEcWznZzwC/4f
- 5kRWZwuFXUEVgtUB8JiBrYzNeMp0dHGKbOGpTGN2UYlBYMEFYuYbP2j3lwT4xYVNMYZpwnlzLCI2K
- Woh1QqOBjv5v3PXKJVbqGv72E053WYacalKFdg19OJ9in5Jt2Lq01UzCaFdLCX0UivvgrTrgUPUwM
- kNnPQZRKuKAScSTFv6BFsiqiTTe1XJZaqE2AVQZZPejK38XCxmZRvmHzradrxsVW2WwRIvxLohU0u
- I2eRM1xnKZiT8IimYKpEJLuQ0hGhXSMjje+kYwKXCoWIDtUohnBzGXH/SLeXtW/q3OS6sNCpHUkUo
- kkaA3ByQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
- Hat Linux)) id 1v5B8W-0000000DL0J-0gTh;
- Sat, 04 Oct 2025 22:53:56 +0000
-Date: Sat, 4 Oct 2025 23:53:55 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>,
- =?utf-8?Q?Miko=C5=82aj?= Wasiak <mikolaj.wasiak@intel.com>,
- Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Christopher Healy <healych@amazon.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- kernel@collabora.com, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 01/10] drm/shmem-helper: Add huge page fault handler
-Message-ID: <aOGlgz3E3kzK1_BH@casper.infradead.org>
-References: <20251004093054.21388-1-loic.molinari@collabora.com>
- <20251004093054.21388-2-loic.molinari@collabora.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DBE10E029
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Oct 2025 03:04:24 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cfS124qxpz9svm;
+ Sun,  5 Oct 2025 05:04:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1759633462;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MnqZ7gdNGXjD0CLqH5Zyd8pfzI37ICi49VhUV/Gv0Wk=;
+ b=gH65xBKnOKmSuM11Se2os1i7dSx1mK9x2Yrwlvno9RDgV5JfLXVnXhFEv4Igqu6EKPjRTN
+ r4pTj6BO00/N2zn1bvwP1rvCd1jrP8IZhbcTYOIm5+PUYIaw/MhbaRvy5HZ0aiYZ6oBgOE
+ WiCu3f8kYRqZY+7TtY7Z6ZW5VEJzzQrVpfA7eMQuyj2yUR4+uxN3ovJD64wWL/cNw5QudC
+ e51jw6GtkdaGE6MzsQYKJ+N+pZvDGtc0rMvZ0H3OqBVSli5zvgH1I3D7YLmANqRuZosjJG
+ qzMwsvEHs+ZPspghmhUijZcTe6AqNp62N1BMloWY6q/siLLtdpwMC4SLxhWtMQ==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1759633460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MnqZ7gdNGXjD0CLqH5Zyd8pfzI37ICi49VhUV/Gv0Wk=;
+ b=yVd5azXFBEQ+zyHf3ymCLch4nVwmkFSc+4RGSdbkr2mEPfpOOhXGm0PFiVRSNBeJsaQnFa
+ qNQqP8T3y0cWfnUnkKdLCKNdQncw64Rc47h6K2KI06+/L9IQYalqgPbh741zxl8iYRLFX+
+ x7dJRhbNuMwppTkNooodRWw5hypBoZJ03IsOJo5zpLh3XAGIe4rb75K4XIxWHC4Kzvs/E/
+ XWTsIrx3Th+zvko+8A2wSlgCAKusu97nGqThLYXZo+FyFF8r0ZgpiepTWpmwHc3VpNLAKb
+ qw85GnUntLb3sQphBc+DrHlPZQN63yr8sbhNz82dSaihdRf+t6hyhf9//LhFLg==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 00/11] drm/rcar-du: dsi: Convert register bits to
+ BIT()/GENMASK() macros
+Date: Sun,  5 Oct 2025 05:02:47 +0200
+Message-ID: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251004093054.21388-2-loic.molinari@collabora.com>
+X-MBO-RS-META: ktqnpc1ub98ipe4xirfje8f79b4fqnmf
+X-MBO-RS-ID: b5cc5bb6c2042bb8f9d
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,12 +79,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 04, 2025 at 11:30:44AM +0200, Loïc Molinari wrote:
-> -static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
-> +static vm_fault_t drm_gem_shmem_huge_fault(struct vm_fault *vmf,
-> +					   unsigned int order)
+Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
+Most of this patchset is boring mechanical conversion.
 
-From the mm side, we'd much rather you implemented ->map_pages than
-->huge_fault.  It's far more flexible; for example it'll support ARM's
-contpte which ->huge_fault() doesn't.
+Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
+and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
+should not have any adverse effect on existing hardware.
+
+Marek Vasut (11):
+  drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
+  drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
+  drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
+  drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
+  drm/rcar-du: dsi: Clean up VCLKSET register macros
+  drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
+  drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
+  drm/rcar-du: dsi: Respect DSI mode flags
+  drm/rcar-du: dsi: Clean up handling of DRM mode flags
+  drm/rcar-du: dsi: Convert register bits to BIT() macro
+  drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
+
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
+ .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
+ 2 files changed, 237 insertions(+), 200 deletions(-)
+
+---
+Cc: David Airlie <airlied@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+
+-- 
+2.51.0
 
