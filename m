@@ -2,82 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1151BBD4E4
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 10:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1128BBD557
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 10:28:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B1610E339;
-	Mon,  6 Oct 2025 08:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF87510E342;
+	Mon,  6 Oct 2025 08:28:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sqizLOd7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JSSvtF+E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115DF10E339
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 08:07:35 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-46b303f7469so28653195e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 01:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759738054; x=1760342854;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fIP3nj/kaZqoURQHnILt3INTmC8e4a2ZYKLYXuyFz/8=;
- b=sqizLOd7lQQAEGBMnn+PUPO+6BYeN73R+gfCGSSzBoXs0QXPg/DE/QftAoLL17rd67
- XCgw2cu4jY7afZuk7hOnUhzOIGK0A6DQwK86jc8oK+C8hAIPtQchR2Gg2iytjpjQKWkI
- ZmitL3rguMYYeh2xEpyP7UG1tpmeSUpA3Jpje1VZ4G6g/1xJPHXHQjE+ElAj1cSWoJwl
- TObR0P9XkQa75bZrfwaH9KddomQB/NHn4Us3oye88/lYqooOMMStHqN/zpFUn9Kzwhrw
- dOzi0gXzkMPQsUXO0kVKyyx8gULR24c0l20nUrG0XATq/hTHBLMI+doatenWBKBXYo0J
- MTLw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD6F10E29F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 08:28:54 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 595LrltK017280
+ for <dri-devel@lists.freedesktop.org>; Mon, 6 Oct 2025 08:28:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ fySFI0+vB4C2jZwTubej+JIBaPURTzcto53v2iuju/0=; b=JSSvtF+EV+lEe3aW
+ HdCNglBweJ7uJXfNoYT/GyNTNvVOLaG6JqNdCqvQUqx6Bg1onQwFvG0S5V7hN6qy
+ GWU9oH5N+kPsFyQJiGypl4mFosNXvRl8peDSkz1GAVJnm67uQ5y2g7ZOMzTnCg7v
+ 6L6OZssRWfcWLOFZS9EOsajv5bHTQbTCKWPn6DEJgUzSCNMYPxurMTWd/E1CsKlm
+ SFnr2dXyIeb8dEar1Agjt33dL3+DABK9vL0Ogl/A/OH2gw8gf7boUqOH091S+a9r
+ MY7GinrPiCmEgvNkRYtSygH49dtSf/0q65Xr0Ifqw4OGNNsIcWRjDwQIaxRdbEaq
+ gmdhlw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49juy6u8qs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 08:28:53 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-853f011da26so154715785a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 01:28:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759738054; x=1760342854;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1759739332; x=1760344132;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fIP3nj/kaZqoURQHnILt3INTmC8e4a2ZYKLYXuyFz/8=;
- b=VU4doqtBbn6oqEzmx0IHdB+NeeJ6+mRt0ZL+2xxr7vCOg0Nh8R/U+a/UeJH608JuoP
- ACQBIW9seAV/SArBflDtejjZnQXj2Uaqp1LqjpSQSpaWisKiMB/awwrccrPh4AB3xH7N
- 494LIuJATg6/pyXWRnU/9MByiY8QvWPne2zxWsCw2Ptnoai6hG99IPfuftD9sj/vTiFq
- DVhI7lW0jcln6Xy8F4gNeWqk3YEAoJT/LW2DYuWLFzEm1kiUxdTBPlAFJTGaK3CudjfR
- ZUs+3YHHrmRyWpeu6kkFmaYxOhIj7/UJaVU4mZupRHv+8FKVlKwq3SlXEwCVfgdUvSnw
- GDmw==
+ bh=fySFI0+vB4C2jZwTubej+JIBaPURTzcto53v2iuju/0=;
+ b=DKp5QkTwO7zM0kwc6RtNl8vSwcAtwj/L4NaAPcWq2RTufB3+7eznFoq9VbOccpfpRS
+ 8Bu3YILDK0jkboWJzdxUM/m7WDF2LkAGeLtr7zEc1tPqrjmAA9Bme03boq7QYVuIA98a
+ cF5M8HnfJezFqwl2PAdj3hRUSQOtWOtPvNKqFEitRC9i2UI+B+VsWtGBtA0tOXSgaXYv
+ 5Hr0ZoR2FT9w7S+nDs87TDx8h598z820HlT0iO7sjPisZ/iBrKn05G7BkQ8kA3iCJIj2
+ mQehuI9XtWzgM02tB+pDbL6dXy92lweQKQHWNglixeuO+CfwePXkqtbZh2J4CePX7qzU
+ 5SNQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcGpwUNbQB1aLmSoxive7z+WfegC/Ea9PWITwEjQwWqpcjlRJGPRDKXVSupGSntgYLTZc6iTrtor4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyIc4FQ2nL0l0+PKjZEIBscWKgPSfjSfWeEygPqvr+nyGQ0l1X3
- kRpFZpFk3OfyB9doIvixGkPWuDrmVjyNIl5vYMEZSjtVxPc3s4KrZ+MSOqDlazrIl8E=
-X-Gm-Gg: ASbGncuCUECFfPWOEun+4/DcfmkQVXNxwtcG8cIs9Pd3V/p2P3hg3+/fNRM1HFt3lX7
- aYH05n/jYSOtEcOkIlW2G6LYOcpwu1DCurGOYQS0Xfxj2uAnjXFf8HCB4R7nyjYec2KpxtOJdT7
- /mfEFcNm2jnV8KOEh853YOafH0dEMZzpNoRENSbGrY193AiiBHvAA0tmyNJXfUb/D/rcjIOk8U+
- TEAMUzmWUnBSO6nFiSaBQIGW0qHE8p+xvNSVe2R7l1hZ+iY8HWSIr/iKgPMV31lHtAVmCjGHbAY
- 4srt+bG5xZw91qGtDyDGJzNHeGgpEKlEW/ShWCxfCmHPWr84aAv4PX11fnSO7itSTO/bjCmmjlN
- pZ89gPZGuGdUYafTlhVH0VpLbLytLmZLVH0+CXj231Pg7b+LvalaYd7BKv+syIwWTf96MImJw+G
- 5+UU6noPpKg6iA
-X-Google-Smtp-Source: AGHT+IEPOZAD4VRyHv8G07fK+SBrRsq0r0Hw/6N9Dx+r87/odXDC5BnpiOYuk9CtEdQgvS4jobcOWw==
-X-Received: by 2002:a05:600c:1d12:b0:46e:32d4:46a1 with SMTP id
- 5b1f17b1804b1-46e7113f48fmr66978345e9.22.1759738053649; 
- Mon, 06 Oct 2025 01:07:33 -0700 (PDT)
-Received: from localhost
- (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de.
- [2003:f6:5f06:ab04::1b9]) by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-4255d8e9724sm19466682f8f.28.2025.10.06.01.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Oct 2025 01:07:33 -0700 (PDT)
-Date: Mon, 6 Oct 2025 10:07:31 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Javier Garcia <rampxxxx@gmail.com>
-Cc: deller@gmx.de, tzimmermann@suse.de, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
-Message-ID: <ewca4jzmahwdl47rbojxtynbizu2vuompjxrprsz7aelovnvao@kzpxjjbjj6px>
-References: <20251005173812.1169436-1-rampxxxx@gmail.com>
+ AJvYcCWHKt63GW1rF22v74p4NwYbdyZhW1naJE0ChRTeYrKzjURgwjwdstyp8MRiUzVVcl8TDygmWbhili0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9XCKDb6zF3CloI2OxCsBVRx0yYZD1LL3/3mmJPr6LYSytmHDK
+ Yakez5Nf7HmS34IpKLRbzQUgQY9BL5U/7bA8eTRWuVIOJWc41SiedffDdf2LgNQgA6H4z6wZZ0a
+ n7u3aPVArQdtv6zSagvkS325TYmUakbuUE3izZwoQ9BOvi2swy2797QbYk/faVv9zGPPiiY4=
+X-Gm-Gg: ASbGncufMrHfsRbmp7s7NjQ/QmqwBVrgfm+wmAVhpRQyELB5f8q6dcLy9JmpUTBVSAc
+ kOKT/KJMUMmKn+Jgs0XsDLzijbWFYBT2JF8Vbl4/zx7rLEQXVfXbM+B/CkIhlxQNavDmDg8VEeD
+ BaoIBa0rq+e2WoYlhHlhDmP8+S2ZRh8Y1RtbNAMyMbOj1AvkDNRIw2oBQl/YyXrvGhIgGhsWVM0
+ WeReWueqlkpO2/xaeahqsiBQ5jXQBt0Y9UEtAAIY/GtbIRIZxu9zyA5h1fQvjEeg0UWe3zVIwWF
+ Pe1Mcb8P1+cxQqqwsctmj0BnIZ7u0jU3crOAZHFbqdQClWHoIRstlQb/JXzu0FPvw8SJWgNxQW4
+ 47ryfK+aLKO14BOSePNJrjjfHQAg=
+X-Received: by 2002:a05:620a:28cc:b0:855:b82a:eba5 with SMTP id
+ af79cd13be357-87a342f8541mr1018833585a.2.1759739332416; 
+ Mon, 06 Oct 2025 01:28:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IExpG1GPi83h7oEKjeN5OxS64YtQ149fVac/bi4Nb1qP6pl8aEItSm3iduplFbNPRMuPJyo9Q==
+X-Received: by 2002:a05:620a:28cc:b0:855:b82a:eba5 with SMTP id
+ af79cd13be357-87a342f8541mr1018831185a.2.1759739331800; 
+ Mon, 06 Oct 2025 01:28:51 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b4865a83f6csm1105339366b.31.2025.10.06.01.28.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Oct 2025 01:28:51 -0700 (PDT)
+Message-ID: <565924dc-84d4-40cc-8826-5143338cca21@oss.qualcomm.com>
+Date: Mon, 6 Oct 2025 10:28:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251005173812.1169436-1-rampxxxx@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/7] drm/msm/dsi: add DSI support for QCS8300
+To: Ayushi Makhija <quic_amakhija@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: robdclark@gmail.com, dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonathan@marek.ca, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_rajeevny@quicinc.com,
+ quic_vproddut@quicinc.com
+References: <20251006013924.1114833-1-quic_amakhija@quicinc.com>
+ <20251006013924.1114833-6-quic_amakhija@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251006013924.1114833-6-quic_amakhija@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=IrITsb/g c=1 sm=1 tr=0 ts=68e37dc5 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=rHxuBsFVyQJAZ78EHecA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: lfHv6Kw_6sg-T67e0kcsARSUJY_YFtGI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyOSBTYWx0ZWRfX3IvH76D+shZx
+ bLI4DIvtSCgf6FZMgaSGje19sKy7Un6BBuIv0AFtRXFTB9QMY4Adb/jP5pneh03l2lHaFU8wO6l
+ q7eCilkyw8Chhb6vwjZQA7YqfjoD6IDo7E4cU2w1Z6mmohwXmstdQMjCKmuRurSbPsyy1L8Xxhm
+ rkAl3rEVWmvyI3wBj5gduN52IznilFv6IbmcAyI5ahkC4IA3laiA/Ydv7poRJpupDWO6Fh4PobF
+ dliuveU9GhQ2enX/L658VUy9ax8h5vTjtGldHtFZSKf/g3ClVpfCDQ/QfeqI3p9W5PTM+3n19pR
+ cGNT+3kn893sQFTGXGlMgu+8THBEpR7zrlZ9ENPRdc9jIeSCyP7zcV7YPrS+3H/ZStHXhldGHMX
+ WhWedSiUceE/qQQVFcELjgHuD8/zhQ==
+X-Proofpoint-ORIG-GUID: lfHv6Kw_6sg-T67e0kcsARSUJY_YFtGI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-06_03,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040029
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,172 +131,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 10/6/25 3:39 AM, Ayushi Makhija wrote:
+> Add DSI Controller v2.5.1 support for QCS8300 SoC.
+> 
+> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_cfg.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+> index fed8e9b67011..b60384ea0b32 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+> @@ -226,6 +226,17 @@ static const struct regulator_bulk_data sa8775p_dsi_regulators[] = {
+>  	{ .supply = "refgen" },
+>  };
+>  
+> +static const struct msm_dsi_config qcs8300_dsi_cfg = {
+> +	.io_offset = DSI_6G_REG_SHIFT,
+> +	.regulator_data = sa8775p_dsi_regulators,
+> +	.num_regulators = ARRAY_SIZE(sa8775p_dsi_regulators),
+> +	.bus_clk_names = dsi_v2_4_clk_names,
+> +	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
+> +	.io_start = {
+> +		{ 0xae94000},
 
-On Sun, Oct 05, 2025 at 07:38:12PM +0200, Javier Garcia wrote:
-> This patch wraps the relevant code blocks with #ifdef CONFIG_FB_DEVICE,
-> allowing the driver to be built and used even if CONFIG_FB_DEVICE is not =
-selected.
->=20
-> The sysfs only give access to show some controller and cursor registers so
-> it's not needed to allow driver works correctly.
->=20
-> Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+"{ 0xae94000 },"
 
-I don't understand this patch. CONFIG_FB_DEVICE is about legacy /dev/fb*
-stuff, and this patch make the creation of a sysfs file dependent on
-that.
+But there is no need to introduce this ops (vs 8775), if the secondary
+IO base is never requested, it will simply be left unused
 
-> diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/f=
-bdev/mb862xx/mb862xxfbdrv.c
-> index ade88e7bc760..a691a5fefb25 100644
-> --- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> +++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> @@ -530,6 +530,7 @@ static int mb862xxfb_init_fbinfo(struct fb_info *fbi)
->  	return 0;
->  }
-> =20
-> +#ifdef CONFIG_FB_DEVICE
->  /*
->   * show some display controller and cursor registers
->   */
-> @@ -569,6 +570,7 @@ static ssize_t dispregs_show(struct device *dev,
->  }
-> =20
->  static DEVICE_ATTR_RO(dispregs);
-> +#endif
-> =20
->  static irqreturn_t mb862xx_intr(int irq, void *dev_id)
->  {
-> @@ -759,9 +761,11 @@ static int of_platform_mb862xx_probe(struct platform=
-_device *ofdev)
-> =20
->  	dev_set_drvdata(dev, info);
-> =20
-> +#ifdef CONFIG_FB_DEVICE
->  	if (device_create_file(dev, &dev_attr_dispregs))
->  		dev_err(dev, "Can't create sysfs regdump file\n");
->  	return 0;
-> +#endif
-
-That looks wrong. Without CONFIG_FB_DEVICE set the success return is
-removed and all resources are freed essentially making the
-CONFIG_FB_MB862XX_LIME part of the driver unusable.
-
->  rel_cmap:
->  	fb_dealloc_cmap(&info->cmap);
-> @@ -801,7 +805,9 @@ static void of_platform_mb862xx_remove(struct platfor=
-m_device *ofdev)
->  	free_irq(par->irq, (void *)par);
->  	irq_dispose_mapping(par->irq);
-> =20
-> +#ifdef CONFIG_FB_DEVICE
->  	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
-> +#endif
-> =20
->  	unregister_framebuffer(fbi);
->  	fb_dealloc_cmap(&fbi->cmap);
-> @@ -1101,8 +1107,10 @@ static int mb862xx_pci_probe(struct pci_dev *pdev,
-> =20
->  	pci_set_drvdata(pdev, info);
-> =20
-> +#ifdef CONFIG_FB_DEVICE
->  	if (device_create_file(dev, &dev_attr_dispregs))
->  		dev_err(dev, "Can't create sysfs regdump file\n");
-> +#endif
-> =20
->  	if (par->type =3D=3D BT_CARMINE)
->  		outreg(ctrl, GC_CTRL_INT_MASK, GC_CARMINE_INT_EN);
-> @@ -1151,7 +1159,9 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
-> =20
->  	mb862xx_i2c_exit(par);
-> =20
-> +#ifdef CONFIG_FB_DEVICE
->  	device_remove_file(&pdev->dev, &dev_attr_dispregs);
-> +#endif
-> =20
->  	unregister_framebuffer(fbi);
->  	fb_dealloc_cmap(&fbi->cmap);
-
-The amount of ifdefs could be greatly reduced using the following patch:
-
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbd=
-ev/mb862xx/mb862xxfbdrv.c
-index a691a5fefb25..3f79dfc27a53 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -530,7 +530,6 @@ static int mb862xxfb_init_fbinfo(struct fb_info *fbi)
- 	return 0;
- }
-=20
--#ifdef CONFIG_FB_DEVICE
- /*
-  * show some display controller and cursor registers
-  */
-@@ -570,7 +569,6 @@ static ssize_t dispregs_show(struct device *dev,
- }
-=20
- static DEVICE_ATTR_RO(dispregs);
--#endif
-=20
- static irqreturn_t mb862xx_intr(int irq, void *dev_id)
- {
-@@ -761,11 +759,9 @@ static int of_platform_mb862xx_probe(struct platform_d=
-evice *ofdev)
-=20
- 	dev_set_drvdata(dev, info);
-=20
--#ifdef CONFIG_FB_DEVICE
--	if (device_create_file(dev, &dev_attr_dispregs))
-+	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dis=
-pregs))
- 		dev_err(dev, "Can't create sysfs regdump file\n");
- 	return 0;
--#endif
-=20
- rel_cmap:
- 	fb_dealloc_cmap(&info->cmap);
-@@ -805,9 +801,8 @@ static void of_platform_mb862xx_remove(struct platform_=
-device *ofdev)
- 	free_irq(par->irq, (void *)par);
- 	irq_dispose_mapping(par->irq);
-=20
--#ifdef CONFIG_FB_DEVICE
--	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
--#endif
-+	if (IS_ENABLED(CONFIG_FB_DEVICE))
-+		device_remove_file(&ofdev->dev, &dev_attr_dispregs);
-=20
- 	unregister_framebuffer(fbi);
- 	fb_dealloc_cmap(&fbi->cmap);
-@@ -1107,10 +1102,8 @@ static int mb862xx_pci_probe(struct pci_dev *pdev,
-=20
- 	pci_set_drvdata(pdev, info);
-=20
--#ifdef CONFIG_FB_DEVICE
--	if (device_create_file(dev, &dev_attr_dispregs))
-+	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dis=
-pregs))
- 		dev_err(dev, "Can't create sysfs regdump file\n");
--#endif
-=20
- 	if (par->type =3D=3D BT_CARMINE)
- 		outreg(ctrl, GC_CTRL_INT_MASK, GC_CARMINE_INT_EN);
-@@ -1159,9 +1152,8 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
-=20
- 	mb862xx_i2c_exit(par);
-=20
--#ifdef CONFIG_FB_DEVICE
--	device_remove_file(&pdev->dev, &dev_attr_dispregs);
--#endif
-+	if (IS_ENABLED(CONFIG_FB_DEVICE))
-+		device_remove_file(&pdev->dev, &dev_attr_dispregs);
-=20
- 	unregister_framebuffer(fbi);
- 	fb_dealloc_cmap(&fbi->cmap);
-
-(It would still be questionable however to make the device file creation
-dependent on FB_DEVICE.)
-
-Best regards
-Uwe
+Konrad
