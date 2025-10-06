@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E791ABBDE5E
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 13:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2083DBBDE67
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 13:41:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5AA10E34F;
-	Mon,  6 Oct 2025 11:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6301E10E357;
+	Mon,  6 Oct 2025 11:41:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="MMZpYfqp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="my/QQ51+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE3010E34F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 11:40:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759750843; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=C8pwcjsJ+qowHJ37zlXp12Ma1w0Ko/I/NzluVBpY+/82lmGqlPpQvMpphsi4l9HCJpYdFV3dIJotUDRoRbIzK1u6ioMrJtEmt2FeIWl9tKwOqWP9xOq11BwfRRCYCeYEGXkX8gE5YRTUJrf9FsmKfBnMPytChaMtIyvSFrXRggk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759750843;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=2zSa8t0BLFbE2sFL8sEge/sB6GfievzXdAQnRQjaaHE=; 
- b=npgMq/QsQ/ncrLWzA2MOJFVNkUM49rUnZfnuxYOiG++NPcP5dp0wk2W4d2JT/tcHCvch/mfY/S0OWF9kuMJn+j/C4pGf+UYoMPBPmGlIA9GsnOLlFulC9AVMVoXiifzsLZy5fTlu7FBrkE3xZCoVO3SnmPBdt1Y1q3JVC9oDafk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759750843; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=2zSa8t0BLFbE2sFL8sEge/sB6GfievzXdAQnRQjaaHE=;
- b=MMZpYfqpYfrc7dXHgD412byATIiTHhnz7W4rKmFMt2MG3Zl2+7d0+d0Ced8fa1W1
- iBcyNF/oSgkohtiQC+CM3LAixL1bPSoHqFOaTAqQP+eHRAE4iMk2jsDArs+EnEt5AiJ
- L4Jk/8QKvYFz2ARu1LgCLJ4C0C0B7pp+XYoUnv/o=
-Received: by mx.zohomail.com with SMTPS id 1759750841484642.2099292517786;
- Mon, 6 Oct 2025 04:40:41 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 7/7] pmdomain: mediatek: Add support for MFlexGraphics
-Date: Mon, 06 Oct 2025 13:40:35 +0200
-Message-ID: <2323923.iZASKD2KPV@workhorse>
-In-Reply-To: <8586490.T7Z3S40VBb@workhorse>
-References: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
- <CAPaKu7QWBShwr+YhFi+nUFo0kJ06k4PK3zggcCefWGjqUmTx5w@mail.gmail.com>
- <8586490.T7Z3S40VBb@workhorse>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5EB10E357
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 11:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759750873;
+ bh=hUUotr5MYYM9aMcAKjEfjPvHV8s0XExBA23OlR2mXR8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=my/QQ51+SkDZGZdItelA0xu/CEBqSp22WzT1IV5M1OPTHxOkMK8+apad66Cjsxg+W
+ T4xtxfXbS+xvPvoYGT/tTH0nnaG5f52Mp5aOlYynlMTFNPxOi2qzmryOc9In4dZJsZ
+ 4RM7bu6U69cW0f8mLkXssfSUorbb3qsrAyMssRdQg4ivFXBdTyIzMdJpe2OCHK4Q9H
+ tGopfrl/BgQTfH9NrdnjyOzo6ZROCiOAepaJy592ls/mDmMBFpYWsbi9K/45JvyDvD
+ k673KzmXvbXjihnvpeJHcuqDTC7AozU6SVeEhNpeteAVsvdtwB1cwmm4We9dZyfJbY
+ 0V5PQ8GrXQOzw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 143C917E0AC3;
+ Mon,  6 Oct 2025 13:41:13 +0200 (CEST)
+Date: Mon, 6 Oct 2025 13:41:08 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] drm/gpuvm: add deferred vm_bo cleanup
+Message-ID: <20251006134108.6a5cdcb7@fedora>
+In-Reply-To: <CAH5fLgjteqdWVBfzU_2iq2v=9MV9rD+s3z6i2ZjrmqBUq6_byQ@mail.gmail.com>
+References: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
+ <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
+ <DD71GUKZKFPR.2OVPQ9KOI89YG@kernel.org>
+ <CAH5fLghM_fmaHn561_e7StHAwdV=8gPxAwUToDxPQiBY8E+aVA@mail.gmail.com>
+ <20251001171346.482142eb@fedora>
+ <CAH5fLgjteqdWVBfzU_2iq2v=9MV9rD+s3z6i2ZjrmqBUq6_byQ@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,148 +73,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, 6 October 2025 12:58:55 Central European Summer Time Nicolas Fra=
-ttaroli wrote:
-> On Friday, 3 October 2025 23:41:16 Central European Summer Time Chia-I Wu=
- wrote:
-> > On Fri, Oct 3, 2025 at 1:16=E2=80=AFPM Nicolas Frattaroli
-> > <nicolas.frattaroli@collabora.com> wrote:
+On Mon, 6 Oct 2025 13:31:51 +0200
+Alice Ryhl <aliceryhl@google.com> wrote:
+
+> On Wed, Oct 1, 2025 at 5:13=E2=80=AFPM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > On Wed, 1 Oct 2025 16:42:35 +0200
+> > Alice Ryhl <aliceryhl@google.com> wrote:
+> > =20
+> > > On Wed, Oct 1, 2025 at 4:01=E2=80=AFPM Danilo Krummrich <dakr@kernel.=
+org> wrote: =20
+> > > >
+> > > > On Wed Oct 1, 2025 at 12:41 PM CEST, Alice Ryhl wrote: =20
+> > > > > +/*
+> > > > > + * Must be called with GEM mutex held. After releasing GEM mutex,
+> > > > > + * drm_gpuvm_bo_defer_free_unlocked() must be called.
+> > > > > + */
+> > > > > +static void
+> > > > > +drm_gpuvm_bo_defer_free_locked(struct kref *kref)
+> > > > > +{
+> > > > > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct dr=
+m_gpuvm_bo,
+> > > > > +                                               kref);
+> > > > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> > > > > +
+> > > > > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
+> > > > > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
+> > > > > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
+> > > > > +     }
+> > > > > +
+> > > > > +     list_del(&vm_bo->list.entry.gem);
+> > > > > +}
+> > > > > +
+> > > > > +/*
+> > > > > + * GEM mutex must not be held. Called after drm_gpuvm_bo_defer_f=
+ree_locked().
+> > > > > + */
+> > > > > +static void
+> > > > > +drm_gpuvm_bo_defer_free_unlocked(struct drm_gpuvm_bo *vm_bo)
+> > > > > +{
+> > > > > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> > > > > +
+> > > > > +     llist_add(&vm_bo->list.entry.bo_defer, &gpuvm->bo_defer);
+> > > > > +}
+> > > > > +
+> > > > > +static void
+> > > > > +drm_gpuvm_bo_defer_free(struct kref *kref)
+> > > > > +{
+> > > > > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct dr=
+m_gpuvm_bo,
+> > > > > +                                               kref);
+> > > > > +
+> > > > > +     mutex_lock(&vm_bo->obj->gpuva.lock);
+> > > > > +     drm_gpuvm_bo_defer_free_locked(kref);
+> > > > > +     mutex_unlock(&vm_bo->obj->gpuva.lock);
+> > > > > +
+> > > > > +     /*
+> > > > > +      * It's important that the GEM stays alive for the duration=
+ in which we
+> > > > > +      * hold the mutex, but the instant we add the vm_bo to bo_d=
+efer,
+> > > > > +      * another thread might call drm_gpuvm_bo_deferred_cleanup(=
+) and put
+> > > > > +      * the GEM. Therefore, to avoid kfreeing a mutex we are hol=
+ding, we add
+> > > > > +      * the vm_bo to bo_defer *after* releasing the GEM's mutex.
+> > > > > +      */
+> > > > > +     drm_gpuvm_bo_defer_free_unlocked(vm_bo);
+> > > > > +} =20
+> > > >
+> > > > So, you're splitting drm_gpuvm_bo_defer_free() into two functions, =
+one doing the
+> > > > work that is required to be called with the gpuva lock held and one=
+ that does
+> > > > the work that does not require a lock, which makes perfect sense.
+> > > >
+> > > > However, the naming chosen for the two functions, i.e.
+> > > > drm_gpuvm_bo_defer_free_unlocked() and drm_gpuvm_bo_defer_free_lock=
+ed() is
+> > > > confusing:
+> > > >
+> > > > What you mean semantically mean is "do part 1 with lock held" and "=
+do part 2
+> > > > without lock held", but the the chosen names suggest that both func=
+tions are
+> > > > identical, with the only difference that one takes the lock interna=
+lly and the
+> > > > other one requires the caller to take the lock.
+> > > >
+> > > > It's probably better to name them after what they do and not what t=
+hey're part
+> > > > of. If you prefer the latter, that's fine with me too, but please c=
+hoose a name
+> > > > that makes this circumstance obvious. =20
 > > >
-> > > Various MediaTek SoCs use GPU integration silicon named "MFlexGraphic=
-s"
-> > > by MediaTek. On the MT8196 and MT6991 SoCs, interacting with this
-> > > integration silicon is required to power on the GPU.
-> > >
-> > > This glue silicon is in the form of an embedded microcontroller runni=
-ng
-> > > special-purpose firmware, which autonomously adjusts clocks and
-> > > regulators.
-> > >
-> > > Implement a driver, modelled as a pmdomain driver with a
-> > > set_performance_state operation, to support these SoCs.
-> [...]
-> > > +static int mtk_mfg_probe(struct platform_device *pdev)
-> > > +{
-> > > +       struct device_node *shmem __free(device_node);
-> > > +       struct mtk_mfg *mfg;
-> > > +       struct device *dev =3D &pdev->dev;
-> > > +       const struct mtk_mfg_variant *data =3D of_device_get_match_da=
-ta(dev);
-> > > +       struct resource res;
-> > > +       int ret, i;
-> > > +
-> > > +       mfg =3D devm_kzalloc(dev, sizeof(*mfg), GFP_KERNEL);
-> > > +       if (!mfg)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       mfg->pdev =3D pdev;
-> > > +       mfg->variant =3D data;
-> > > +
-> > > +       dev_set_drvdata(dev, mfg);
-> > > +
-> > > +       mfg->gpr =3D devm_platform_ioremap_resource(pdev, 0);
-> > > +       if (IS_ERR(mfg->gpr))
-> > > +               return dev_err_probe(dev, PTR_ERR(mfg->gpr),
-> > > +                                    "Couldn't retrieve GPR MMIO regi=
-sters\n");
-> > > +
-> > > +       mfg->rpc =3D devm_platform_ioremap_resource(pdev, 1);
-> > > +       if (IS_ERR(mfg->rpc))
-> > > +               return dev_err_probe(dev, PTR_ERR(mfg->rpc),
-> > > +                                    "Couldn't retrieve RPC MMIO regi=
-sters\n");
-> > > +
-> > > +       mfg->clk_eb =3D devm_clk_get(dev, "eb");
-> > > +       if (IS_ERR(mfg->clk_eb))
-> > > +               return dev_err_probe(dev, PTR_ERR(mfg->clk_eb),
-> > > +                                    "Couldn't get 'eb' clock\n");
-> > > +
-> > > +       mfg->gpu_clks =3D devm_kcalloc(dev, data->num_clks, sizeof(*m=
-fg->gpu_clks),
-> > > +                                    GFP_KERNEL);
-> > > +       if (!mfg->gpu_clks)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       for (i =3D 0; i < data->num_clks; i++)
-> > > +               mfg->gpu_clks[i].id =3D data->clk_names[i];
-> > > +
-> > > +       ret =3D devm_clk_bulk_get(dev, data->num_clks, mfg->gpu_clks);
-> > > +       if (ret)
-> > > +               return dev_err_probe(dev, ret, "Couldn't get GPU cloc=
-ks\n");
-> > > +
-> > > +       mfg->gpu_regs =3D devm_kcalloc(dev, data->num_regulators,
-> > > +                                    sizeof(*mfg->gpu_regs), GFP_KERN=
-EL);
-> > > +       if (!mfg->gpu_regs)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       for (i =3D 0; i < data->num_regulators; i++)
-> > > +               mfg->gpu_regs[i].supply =3D data->regulator_names[i];
-> > > +
-> > > +       ret =3D devm_regulator_bulk_get(dev, data->num_regulators, mf=
-g->gpu_regs);
-> > > +       if (ret)
-> > > +               return dev_err_probe(dev, ret, "Couldn't get GPU regu=
-lators\n");
-> > > +
-> > > +       ret =3D of_reserved_mem_region_to_resource(dev->of_node, 0, &=
-res);
-> > > +       if (ret)
-> > > +               return dev_err_probe(dev, ret, "Couldn't get GPUEB sh=
-ared memory\n");
-> > > +
-> > > +       mfg->shared_mem =3D devm_ioremap(dev, res.start, resource_siz=
-e(&res));
-> > > +       if (!mfg->shared_mem)
-> > > +               return dev_err_probe(dev, -ENOMEM, "Can't ioremap GPU=
-EB shared memory\n");
-> > > +       mfg->shared_mem_size =3D resource_size(&res);
-> > > +       mfg->shared_mem_phys =3D res.start;
-> > > +
-> > > +       if (data->init) {
-> > > +               ret =3D data->init(mfg);
-> > > +               if (ret)
-> > > +                       return dev_err_probe(dev, ret, "Variant init =
-failed\n");
-> > > +       }
-> > > +
-> > > +       mfg->pd.name =3D dev_name(dev);
-> > > +       mfg->pd.attach_dev =3D mtk_mfg_attach_dev;
-> > > +       mfg->pd.detach_dev =3D mtk_mfg_detach_dev;
-> > > +       mfg->pd.power_off =3D mtk_mfg_power_off;
-> > > +       mfg->pd.power_on =3D mtk_mfg_power_on;
-> > > +       mfg->pd.set_performance_state =3D mtk_mfg_set_performance;
-> > > +       mfg->pd.flags =3D GENPD_FLAG_OPP_TABLE_FW;
-> > > +
-> > > +       ret =3D pm_genpd_init(&mfg->pd, NULL, false);
-> > > +       if (ret)
-> > > +               return dev_err_probe(dev, ret, "Failed to initialise =
-power domain\n");
-> > We need to clean up mgf->md on errors from this point on. Maybe we can
-> > move this to a later point?
-> >=20
-> > > +
-> > > +       ret =3D mtk_mfg_init_mbox(mfg);
-> > > +       if (ret)
-> > > +               return dev_err_probe(dev, ret, "Couldn't initialise m=
-ailbox\n");
-> > We need to free the mboxes from this point on.
-> >=20
+> > > Fair point. Do you have naming suggestions? Otherwise I can name them
+> > > drm_gpuvm_bo_defer_free_part1() and drm_gpuvm_bo_defer_free_part2().
+> > > :) =20
+> >
+> > drm_gpuvm_bo_free_deferral_extract_locked() and
+> > drm_gpuvm_bo_free_deferral_enqueue()? Definitely not short names though=
+. =20
 >=20
-> For this and the one above, does .remove not get called on probe failure?=
- If not,
-> I'll definitely do this. Otherwise it seems redundant, though with the ad=
-ded
-> concern that .remove does not check before calling those functions.
+> With those names I have to do some additional line breaks. How about:
 >=20
+> drm_gpuvm_bo_into_zombie()
+> drm_gpuvm_bo_defer_zombie()
 
-Alright nevermind, I'm being confused by devres vs. remove callback.
-
-=2Eremove does not get called if the probe function fails, but devres
-handlers still do get called.
-
-Sorry for the confusion, will fix things accordingly.
-
-
-
+Sounds good. I think I'd prefer if the second one was called
+drm_gpuvm_bo_defer_zombie_cleanup() to make clear what the deferral is
+about, but feel free to ignore this if you think it's too long.
