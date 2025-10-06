@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89BEBBE74E
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 17:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DDEBBE81B
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 17:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A4410E0AC;
-	Mon,  6 Oct 2025 15:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1D6A10E318;
+	Mon,  6 Oct 2025 15:37:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Op4soA22";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Fe/cNu0r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF2B510E0AC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 15:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759763620; x=1791299620;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=mYl/jWIZpcM7NOIheKXXnCr8a3Fz+M9vKWd5YhidvIE=;
- b=Op4soA22QTEC1XTP3SnmZtL13RNYljR4Xb7tuILmBYsaAizn6wkt6TiZ
- xvtLySJuAXtAKj+tKHGXBeaanbLxW2hYLeAt6t1sjVsKL89VzdsyM4EaP
- /r7c9HO5g7UZuL9xUgylAsNAhZgqmnJRKM3820XiwO2mtXOvIXkW/pNMh
- 6fn2OewnhSsLX5jdV4tawQwxdCMPMZaGN046MSj1/OQjEk9dDTlb7+rVy
- 1nGMyLaa1eLbD0UiL1yVSNSEnhPPAGk2bdIfxMB0HlwM1pb2hYgrbOP8B
- VL5w2GWXBH1ncP9HHNQfKH+gavKaoaDi6ZMuvRONR5xYn5hnPef8eDqwG w==;
-X-CSE-ConnectionGUID: 4nAUNAnXTK6Mul1T0MzhNQ==
-X-CSE-MsgGUID: XA9DIw23SWeHqJ7+I5Y+Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="65584142"
-X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; d="scan'208";a="65584142"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2025 08:13:39 -0700
-X-CSE-ConnectionGUID: HcAZOHZyTJ+yzL4oq3jJBw==
-X-CSE-MsgGUID: HlBBfMv6SkuUcV2XCG/WUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; d="scan'208";a="179178387"
-Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.162])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2025 08:13:33 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org, airlied@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org, simona@ffwll.ch,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com
-Cc: tomi.valkeinen@ideasonboard.com, praneeth@ti.com, vigneshr@ti.com,
- aradhya.bhatia@linux.dev, s-jain1@ti.com, s-wang12@ti.com,
- r-donadkar@ti.com, h-shenoy@ti.com, devarsht@ti.com
-Subject: Re: [PATCH v2] drm/bridge: sii902x: Fix HDMI detection with
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-In-Reply-To: <20251006150714.3144368-1-devarsht@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251006150714.3144368-1-devarsht@ti.com>
-Date: Mon, 06 Oct 2025 18:13:30 +0300
-Message-ID: <d14f940ed04e04df4a112588cdb6fa4df770b9fb@intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Oct 2025 15:37:33 UTC
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C962010E318
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 15:37:33 +0000 (UTC)
+Message-ID: <ff21cbd1-dc77-43ae-85a8-dc6a56a1cefa@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1759764625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nXyoKN4j7tjDil/ht3RE4A/98xpfn+XOg18nSC63YxI=;
+ b=Fe/cNu0rr623OU3+9Ti9ilVTCZn9uAu/4R9seUwKi1wiqTULHwiFAtmOQfNqBi/s98yzjN
+ GERZwA4JTt8odBfVuDE6VeHz2PmiluWbhv/obSptS1gcMUx/ZcQ3Us/dAVtmGn5r5OyVHg
+ 0z4dog6KEnfJc3NI3xAgiS/dd3DYNyA=
+Date: Mon, 6 Oct 2025 16:30:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v13 3/4] drm/atomic-helper: Re-order bridge chain
+ pre-enable and post-disable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+To: Vicente Bergas <vicencb@gmail.com>
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ alexander.sverdlin@siemens.com, andrzej.hajda@intel.com, devarsht@ti.com,
+ dri-devel <dri-devel@lists.freedesktop.org>, jernej.skrabec@gmail.com,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, lumag@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, nm@ti.com, rfoss@kernel.org, simona@ffwll.ch,
+ tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de, vigneshr@ti.com,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Damon Ding <damon.ding@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Linux Rockchip Support List <linux-rockchip@lists.infradead.org>,
+ Devarsh Thakkar <devarsht@ti.com>
+References: <CAAMcf8BfxMJx+5ttEXx0kONP2OYWSLFqEYF6rfVBKoRg5TKZzQ@mail.gmail.com>
+ <bea50d14-2311-46ad-bb30-9d60a4c5e3a2@linux.dev>
+Content-Language: en-US
+In-Reply-To: <bea50d14-2311-46ad-bb30-9d60a4c5e3a2@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,62 +74,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 06 Oct 2025, Devarsh Thakkar <devarsht@ti.com> wrote:
-> The SII902x HDMI bridge driver wasn't working properly with drivers that
-> use the newer bridge connector architecture with the
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, like TIDSS.  This caused HDMI audio to
-> fail since the driver wasn't properly setting the sink_is_hdmi flag when
-> the bridge was attached without a connector since .get_modes() is never
-> called in this case. Fix it by setting sink_is_hdmi flag when reading
-> the EDID block itself.
->
-> Fixes: 3de47e1309c2 ("drm/bridge: sii902x: use display info is_hdmi")
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V2: Use drm_edid_connector_update to detect HDMI as suggested
->
-> Link to V1:
-> https://lore.kernel.org/all/20251003143642.4072918-1-devarsht@ti.com/
-> ---
->  drivers/gpu/drm/bridge/sii902x.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-> index d537b1d036fb..d36466d73385 100644
-> --- a/drivers/gpu/drm/bridge/sii902x.c
-> +++ b/drivers/gpu/drm/bridge/sii902x.c
-> @@ -296,6 +296,10 @@ static const struct drm_edid *sii902x_edid_read(struct sii902x *sii902x,
->  	mutex_lock(&sii902x->mutex);
->  
->  	drm_edid = drm_edid_read_ddc(connector, sii902x->i2cmux->adapter[0]);
-> +	if (drm_edid) {
-> +		drm_edid_connector_update(connector, drm_edid);
++rockchip maintainers
 
-Mmmh, as a rule, you should do drm_edid_connector_update() even if it's
-NULL to reset all the previous stuff.
+Hi Vicente, all,
 
-BR,
-Jani.
 
-> +		sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
-> +	}
->  
->  	mutex_unlock(&sii902x->mutex);
->  
-> @@ -309,14 +313,11 @@ static int sii902x_get_modes(struct drm_connector *connector)
->  	int num = 0;
->  
->  	drm_edid = sii902x_edid_read(sii902x, connector);
-> -	drm_edid_connector_update(connector, drm_edid);
->  	if (drm_edid) {
->  		num = drm_edid_connector_add_modes(connector);
->  		drm_edid_free(drm_edid);
->  	}
->  
-> -	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
-> -
->  	return num;
->  }
+I went through the drivers and the affected areas in the gru-kevin
+chromebook pipeline last week, but nothing has stood out.
+
+
+Pipeline:
+
+rockchip,display-subsystem / rk3399-vop (Big/Lite) (CRTC) ->
+rk3399-edp (Encoder) -> analogix_dp_core (Bridge) ->
+sharp,lq123p (edp-panel)
+
+I am unable to debug this further since I do not have the hardware.
+
+I could use some help, especially from folks who understand the hardware
+requirements better.
+
+
+On 11/09/25 09:01, Aradhya Bhatia wrote:
+> Hi Vicente,
+> 
+> Thank you for the bisection and reporting the issue.
+> 
+> On 10/09/25 16:17, Vicente Bergas wrote:
+>> Hi,
+>> this patch causes a regression. It has been reported in
+>> https://bugzilla.kernel.org/show_bug.cgi?id=220554
+>>
+>> It affects the gru/kevin platform (arm64,RK3399) with the Panfrost DRM driver.
+> 
+> I believe the Panfrost DRM driver may only be for the GPU.
+> 
+> Based on the dts files in arm64/rockchip/, this is the pipeline of the
+> gru-kevin setup that I understand.
+> 
+> 	rk3399-vop (Big/Lite) -> rk3399-edp -> sharp,lq123p (edp-panel)
+> 
+> The setup seems to be using the drm/rockchip drivers for the display
+> controller and for the bridge.
+> 
+>>
+>> When it boots in console mode, the blinking of the cursor keeps the display on.
+>> If it is turned off via /sys/class/graphics/fbcon/cursor_blink, then
+>> the display briefly shows each key press presented on screen for less
+>> than one second and then powers off.
+>>
+>> When starting the graphical mode (wayland), if there are no
+>> applications drawing on the screen, the only way to keep the display
+>> on is by continuously moving the mouse.
+>>
+> 
+> Okay!
+> 
+> I will have a look through the drivers. In the meanwhile, please do
+> report back if you find any other observations.
+> 
+> 
 
 -- 
-Jani Nikula, Intel
+Regards
+Aradhya
+
