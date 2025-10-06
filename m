@@ -2,100 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5A2BBDF34
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3497CBBE1CF
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 15:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4754310E314;
-	Mon,  6 Oct 2025 12:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 398F410E362;
+	Mon,  6 Oct 2025 13:01:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XrCExbDG";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E597mMN/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C9610E070;
- Mon,  6 Oct 2025 12:02:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D87610E412;
+ Mon,  6 Oct 2025 10:47:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 88E4D60487;
- Mon,  6 Oct 2025 12:02:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB346C4CEF5;
- Mon,  6 Oct 2025 12:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759752167;
- bh=cUe8CtrafWoQsXn9fWcPDQv7fF4kzWcQD9k5yUC/Uwg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XrCExbDGUw0LYXohARq0wj5ixhBkiguFlV69LWhd/t5NkqihItIxVGgkJYVYebHeS
- bbGyaUuLZY+rwJSwZdtdSVGYP6I24TmlPhVDqN3Wu92pv+ho39wr+IsgKQ4bTbIXIF
- /rxkzb2rUvpt4jA4wBfhlKXw9LrjD5ZY3pm0GvalCYvKo8YZv0RDduhtmOOi5uTZcr
- 5QGgim6xn/vbzvVz0I6jiD9IgFzb0QM0DR+KeRrjaciAgfDTBhDRWzcUBYkJdaez7v
- oj403k6Xyt+lqNwWRmPTY+GWjQCnvIg51e+wjQY/qGWc5qLIda+gQeEaowTaVrk0Rs
- AiZqBRuYNrzoQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org,
- Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- linux-arm-kernel@lists.infradead.org, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ by tor.source.kernel.org (Postfix) with ESMTP id 7F5B860454;
+ Mon,  6 Oct 2025 10:47:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FDD7C4CEF5;
+ Mon,  6 Oct 2025 10:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1759747669;
+ bh=FX1Lzu7+bvM9e8qmukvbO1hpPMzmlxgfp1qFo7AK/EQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E597mMN/x7YVkjNX1Bc0G8W7GHt89kk8u2seksXgi5q2H3Gw9DqBry/MoIgd7Hl/f
+ QcuYuZ/DwxfZxXg04LwRoNwgtiAl8T7SsOstK7UXK8SyqkUmffohAckrwzORjzcTe+
+ /i/1SV3Pn0pttPu3dXePy8Hlmyjuwx9fL801o6Qw=
+Date: Mon, 6 Oct 2025 12:47:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Eliav Farber <farbere@amazon.com>
+Cc: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+ dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, tony.luck@intel.com, qiuxu.zhuo@intel.com,
+ james.morse@arm.com, rric@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robdclark@gmail.com,
+ sean@poorly.run, jdelvare@suse.com, linux@roeck-us.net,
+ linus.walleij@linaro.org, dmitry.torokhov@gmail.com, maz@kernel.org,
+ wens@csie.org, jernej.skrabec@gmail.com, agk@redhat.com,
+ snitzer@redhat.com, dm-devel@redhat.com, davem@davemloft.net,
+ kuba@kernel.org, mcoquelin.stm32@gmail.com,
+ krzysztof.kozlowski@canonical.com, malattia@linux.it,
+ hdegoede@redhat.com, mgross@linux.intel.com, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, sakari.ailus@linux.intel.com,
+ clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, jack@suse.com,
+ tytso@mit.edu, adilger.kernel@dilger.ca, dushistov@mail.ru,
+ luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
+ senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+ linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
+ akpm@linux-foundation.org, yoshfuji@linux-ipv6.org,
+ dsahern@kernel.org, pablo@netfilter.org, kadlec@netfilter.org,
+ fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
+ shuah@kernel.org, willy@infradead.org, sashal@kernel.org,
+ quic_akhilpo@quicinc.com, ruanjinjie@huawei.com,
+ David.Laight@aculab.com, herve.codina@bootlin.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
- Hans de Goede <hansg@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Subject: Re: [PATCH v5 00/39] drm/atomic: Get rid of existing states (not
- really)
-Date: Mon,  6 Oct 2025 14:02:42 +0200
-Message-ID: <175975215493.792368.2468724280200785252.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
-References: <20250930-drm-no-more-existing-state-v5-0-eeb9e1287907@kernel.org>
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+ netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: Re: [PATCH v2 07/19 5.15.y] minmax: simplify and clarify
+ min_t()/max_t() implementation
+Message-ID: <2025100648-capable-register-101b@gregkh>
+References: <20251003130006.41681-1-farbere@amazon.com>
+ <20251003130006.41681-8-farbere@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251003130006.41681-8-farbere@amazon.com>
+X-Mailman-Approved-At: Mon, 06 Oct 2025 13:01:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,19 +97,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Sep 2025 12:59:15 +0200, Maxime Ripard wrote:
-> Here's a series to get rid of the drm_atomic_helper_get_existing_*_state
-> accessors.
+On Fri, Oct 03, 2025 at 12:59:54PM +0000, Eliav Farber wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
 > 
-> The initial intent was to remove the __drm_*_state->state pointer to
-> only rely on old and new states, but we still need it now to know which
-> of the two we need to free: if a state has not been committed (either
-> dropped or checked only), then we need to free the new one, if it has
-> been committed we need to free the old state.
+> [ Upstream commit 017fa3e89187848fd056af757769c9e66ac3e93d ]
 > 
-> [...]
+> This simplifies the min_t() and max_t() macros by no longer making them
+> work in the context of a C constant expression.
+> 
+> That means that you can no longer use them for static initializers or
+> for array sizes in type definitions, but there were only a couple of
+> such uses, and all of them were converted (famous last words) to use
+> MIN_T/MAX_T instead.
+> 
+> Cc: David Laight <David.Laight@aculab.com>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Eliav Farber <farbere@amazon.com>
 
-Applied to misc/kernel.git (drm-misc-next).
+Eliav, your testing infrastructure needs some work, this patch breaks
+the build on this kernel tree:
 
-Thanks!
-Maxime
+In file included from ./include/linux/kernel.h:16,
+                 from ./include/linux/list.h:9,
+                 from ./include/linux/wait.h:7,
+                 from ./include/linux/wait_bit.h:8,
+                 from ./include/linux/fs.h:6,
+                 from fs/erofs/internal.h:10,
+                 from fs/erofs/zdata.h:9,
+                 from fs/erofs/zdata.c:6:
+fs/erofs/zdata.c: In function ‘z_erofs_decompress_pcluster’:
+fs/erofs/zdata.h:185:61: error: ISO C90 forbids variable length array ‘pages_onstack’ [-Werror=vla]
+  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
+      |                                                             ^~~~
+./include/linux/minmax.h:49:23: note: in definition of macro ‘__cmp_once_unique’
+   49 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+      |                       ^
+./include/linux/minmax.h:164:27: note: in expansion of macro ‘__cmp_once’
+  164 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+      |                           ^~~~~~~~~~
+fs/erofs/zdata.h:185:9: note: in expansion of macro ‘min_t’
+  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
+      |         ^~~~~
+fs/erofs/zdata.c:847:36: note: in expansion of macro ‘Z_EROFS_VMAP_ONSTACK_PAGES’
+  847 |         struct page *pages_onstack[Z_EROFS_VMAP_ONSTACK_PAGES];
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+
+
+I'll drop this whole series, please do a bit more testing before sending
+out a new version.
+
+thanks,
+
+greg k-h
