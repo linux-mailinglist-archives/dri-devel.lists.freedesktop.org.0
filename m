@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF57ABBD74E
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 11:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FC8BBD7EC
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 11:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 291C310E2F8;
-	Mon,  6 Oct 2025 09:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F4410E22E;
+	Mon,  6 Oct 2025 09:48:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oqea8QCy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ur8POXtb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32B2510E2F8
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 09:36:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759743371;
- bh=Xp3by8t0maP1Vb90Nju6hz9/zSoF5Ht9B7xI4C7ASrY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oqea8QCyl47tPr2p/I2JBWilB27/dytrdw7oUiy72JMtI+hZdP+/GK6bMH2b1ME3U
- tBJTqozUMuhy57OsKjw9xE+X2Mn2TK0KFsoxYVqVEPoT8sm3MhgeDQnLL6eHT8KN6P
- yfxg1uwEWuCeR7B/NKGiy645OImZrboJpCg5VUzChTWyElKansn6MrrDbbzT3Pbmvi
- 9myQ4DYvltdcxXoVbXZM5kIIDecRP7QVtSNFTJLIZLEzNBlbFZt6m1c0TsshyPYifc
- Vmb1J6wn5DEuCDQG3hAdm9SOVs6Mcb42/H3Wtw/ACt0oshGypbrkCRrFxmkYeUq1J0
- TbpwM/i587E1Q==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C34CF17E0FC2;
- Mon,  6 Oct 2025 11:36:10 +0200 (CEST)
-Message-ID: <137811e2-f28e-4605-a6b2-935a0a8b463b@collabora.com>
-Date: Mon, 6 Oct 2025 11:36:10 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7D410E347
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 09:48:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C5D0143A7D;
+ Mon,  6 Oct 2025 09:48:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE33C4CEF5;
+ Mon,  6 Oct 2025 09:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759744098;
+ bh=11bNMYyZMUwsQqMUsvi0X3mz9BqFp/BUiE3cpj9uHmo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ur8POXtbkzOL6qjhq7MdssPEc9+vJgK2MlLDJHH5kGeZzO37hzg7/oKpSR3wJGmdz
+ yPdejFaHMgc7Z5+vN+u+XHgdqARpXB/5UQnKM2FM3rMXa+MvwjkIFRxMTpdatfj0Z7
+ bkvmlzOITPBMvyXOdN0IgZxg4KlCVBS4RJPzOQrckxJx7xTAL4ZUpMsG14MpBpMedB
+ oIiLv14nfvIsxk7IqNBr/ycF4kjkjCZGPSVMFW9+u+ZrOBBxxRN2XE/nAzUC0YD5+r
+ EQX3ujGdZeENoFoGCpNKgzqBAF0vKrZW60mjiNC6mYkgwsouXKp/Halnfn99NV5279
+ EUnH8fjywB6gw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+ (envelope-from <johan@kernel.org>) id 1v5hpH-000000007MH-34s4;
+ Mon, 06 Oct 2025 11:48:16 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, Ma Ke <make24@iscas.ac.cn>,
+ Sjoerd Simons <sjoerd@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] drm/mediatek: fix device use-after-free on unbind
+Date: Mon,  6 Oct 2025 11:39:37 +0200
+Message-ID: <20251006093937.27869-1-johan@kernel.org>
+X-Mailer: git-send-email 2.49.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/7] dt-bindings: power: Add MT8196 GPU frequency
- control binding
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Chia-I Wu <olvaffe@gmail.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-hardening@vger.kernel.org, linux-pm@vger.kernel.org
-References: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
- <20251003-mt8196-gpufreq-v6-2-76498ad61d9e@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20251003-mt8196-gpufreq-v6-2-76498ad61d9e@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,19 +64,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 03/10/25 22:15, Nicolas Frattaroli ha scritto:
-> On the MT8196 and MT6991 SoCs, the GPU power and frequency is controlled
-> by some integration logic, referred to as "MFlexGraphics" by MediaTek,
-> which comes in the form of an embedded controller running
-> special-purpose firmware.
-> 
-> This controller takes care of the regulators and PLL clock frequencies
-> to squeeze the maximum amount of power out of the silicon.
-> 
-> Add a binding which models it as a power domain.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+A recent change fixed device reference leaks when looking up drm
+platform device driver data during bind() but failed to remove a partial
+fix which had been added by commit 80805b62ea5b ("drm/mediatek: Fix
+kobject put for component sub-drivers").
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+This results in a reference imbalance on component bind() failures and
+on unbind() which could lead to a user-after-free.
 
+Make sure to only drop the references after retrieving the driver data
+by effectively reverting the previous partial fix.
+
+Note that holding a reference to a device does not prevent its driver
+data from going away so there is no point in keeping the reference.
+
+Fixes: 1f403699c40f ("drm/mediatek: Fix device/node reference count leaks in mtk_drm_get_all_drm_priv")
+Reported-by: Sjoerd Simons <sjoerd@collabora.com>
+Link: https://lore.kernel.org/r/20251003-mtk-drm-refcount-v1-1-3b3f2813b0db@collabora.com
+Cc: stable@vger.kernel.org
+Cc: Ma Ke <make24@iscas.ac.cn>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 384b0510272c..a94c51a83261 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -686,10 +686,6 @@ static int mtk_drm_bind(struct device *dev)
+ 	for (i = 0; i < private->data->mmsys_dev_num; i++)
+ 		private->all_drm_private[i]->drm = NULL;
+ err_put_dev:
+-	for (i = 0; i < private->data->mmsys_dev_num; i++) {
+-		/* For device_find_child in mtk_drm_get_all_priv() */
+-		put_device(private->all_drm_private[i]->dev);
+-	}
+ 	put_device(private->mutex_dev);
+ 	return ret;
+ }
+@@ -697,18 +693,12 @@ static int mtk_drm_bind(struct device *dev)
+ static void mtk_drm_unbind(struct device *dev)
+ {
+ 	struct mtk_drm_private *private = dev_get_drvdata(dev);
+-	int i;
+ 
+ 	/* for multi mmsys dev, unregister drm dev in mmsys master */
+ 	if (private->drm_master) {
+ 		drm_dev_unregister(private->drm);
+ 		mtk_drm_kms_deinit(private->drm);
+ 		drm_dev_put(private->drm);
+-
+-		for (i = 0; i < private->data->mmsys_dev_num; i++) {
+-			/* For device_find_child in mtk_drm_get_all_priv() */
+-			put_device(private->all_drm_private[i]->dev);
+-		}
+ 		put_device(private->mutex_dev);
+ 	}
+ 	private->mtk_drm_bound = false;
+-- 
+2.49.1
 
