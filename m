@@ -2,59 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7429EBBDE3D
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 13:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E791ABBDE5E
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 13:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C1210E30C;
-	Mon,  6 Oct 2025 11:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5AA10E34F;
+	Mon,  6 Oct 2025 11:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KggantfS";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="MMZpYfqp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0D810E30C
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 11:38:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759750724;
- bh=lUyf8dRTZJ7H+iCSUJCsHO6JJYThEWG8/fGHYur8uXI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=KggantfSacRddPWuPTYjy0Vo9SJFsnxyKDMjdMxtJA2lOfn+8ZbuYwYYTtsw+LFpm
- TWC7DcRAVyQlPNFNQh2aTWTmcDHwqVPY0zzo1curXryvy1HFC1PhctEqUXy0kkGQdp
- 7oSZEzx2fxof7oSJUuMWAGwXvNwUbLaYlJvgLgm8chzhSu/HU3dCybidZMPtzwc9Ar
- rCQ6w4Fxe86teKnTm3zJIwrMzq1APHGTHuIuYH2TnmaKXTA2xKlhRguo245AcDchv4
- oeEEbnadKNn3WfFesMDILKQ2Migox/dXrpwPgZAQVicdFDGj4tq5i2BdHwSoXmxhdx
- 0VonwL9gEWhIw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5229717E0AC3;
- Mon,  6 Oct 2025 13:38:44 +0200 (CEST)
-Date: Mon, 6 Oct 2025 13:38:32 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Message-ID: <20251006133832.6d385b23@fedora>
-In-Reply-To: <CAH5fLgipghDp3W+Gr0YfHT0HOp3vcF+mfBAbtiAiLOKRYt43Sw@mail.gmail.com>
-References: <20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com>
- <20251001-vmbo-defer-v3-1-a3fe6b6ae185@google.com>
- <CAH5fLgipghDp3W+Gr0YfHT0HOp3vcF+mfBAbtiAiLOKRYt43Sw@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE3010E34F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 11:40:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1759750843; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=C8pwcjsJ+qowHJ37zlXp12Ma1w0Ko/I/NzluVBpY+/82lmGqlPpQvMpphsi4l9HCJpYdFV3dIJotUDRoRbIzK1u6ioMrJtEmt2FeIWl9tKwOqWP9xOq11BwfRRCYCeYEGXkX8gE5YRTUJrf9FsmKfBnMPytChaMtIyvSFrXRggk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1759750843;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=2zSa8t0BLFbE2sFL8sEge/sB6GfievzXdAQnRQjaaHE=; 
+ b=npgMq/QsQ/ncrLWzA2MOJFVNkUM49rUnZfnuxYOiG++NPcP5dp0wk2W4d2JT/tcHCvch/mfY/S0OWF9kuMJn+j/C4pGf+UYoMPBPmGlIA9GsnOLlFulC9AVMVoXiifzsLZy5fTlu7FBrkE3xZCoVO3SnmPBdt1Y1q3JVC9oDafk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759750843; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=2zSa8t0BLFbE2sFL8sEge/sB6GfievzXdAQnRQjaaHE=;
+ b=MMZpYfqpYfrc7dXHgD412byATIiTHhnz7W4rKmFMt2MG3Zl2+7d0+d0Ced8fa1W1
+ iBcyNF/oSgkohtiQC+CM3LAixL1bPSoHqFOaTAqQP+eHRAE4iMk2jsDArs+EnEt5AiJ
+ L4Jk/8QKvYFz2ARu1LgCLJ4C0C0B7pp+XYoUnv/o=
+Received: by mx.zohomail.com with SMTPS id 1759750841484642.2099292517786;
+ Mon, 6 Oct 2025 04:40:41 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Subject: Re: [PATCH v6 7/7] pmdomain: mediatek: Add support for MFlexGraphics
+Date: Mon, 06 Oct 2025 13:40:35 +0200
+Message-ID: <2323923.iZASKD2KPV@workhorse>
+In-Reply-To: <8586490.T7Z3S40VBb@workhorse>
+References: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
+ <CAPaKu7QWBShwr+YhFi+nUFo0kJ06k4PK3zggcCefWGjqUmTx5w@mail.gmail.com>
+ <8586490.T7Z3S40VBb@workhorse>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +80,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Oct 2025 13:30:59 +0200
-Alice Ryhl <aliceryhl@google.com> wrote:
-
-> On Wed, Oct 1, 2025 at 12:41=E2=80=AFPM Alice Ryhl <aliceryhl@google.com>=
+On Monday, 6 October 2025 12:58:55 Central European Summer Time Nicolas Fra=
+ttaroli wrote:
+> On Friday, 3 October 2025 23:41:16 Central European Summer Time Chia-I Wu=
  wrote:
-> >
-> > When using GPUVM in immediate mode, it is necessary to call
-> > drm_gpuvm_unlink() from the fence signalling critical path. However,
-> > unlink may call drm_gpuvm_bo_put(), which causes some challenges:
-> >
-> > 1. drm_gpuvm_bo_put() often requires you to take resv locks, which you
-> >    can't do from the fence signalling critical path.
-> > 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often going
-> >    to be unsafe to call from the fence signalling critical path.
-> >
-> > To solve these issues, add a deferred version of drm_gpuvm_unlink() that
-> > adds the vm_bo to a deferred cleanup list, and then clean it up later.
-> >
-> > The new methods take the GEMs GPUVA lock internally rather than letting
-> > the caller do it because it also needs to perform an operation after
-> > releasing the mutex again. This is to prevent freeing the GEM while
-> > holding the mutex (more info as comments in the patch). This means that
-> > the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
-> >
-> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Alice Ryhl <aliceryhl@google.com> =20
+> > On Fri, Oct 3, 2025 at 1:16=E2=80=AFPM Nicolas Frattaroli
+> > <nicolas.frattaroli@collabora.com> wrote:
+> > >
+> > > Various MediaTek SoCs use GPU integration silicon named "MFlexGraphic=
+s"
+> > > by MediaTek. On the MT8196 and MT6991 SoCs, interacting with this
+> > > integration silicon is required to power on the GPU.
+> > >
+> > > This glue silicon is in the form of an embedded microcontroller runni=
+ng
+> > > special-purpose firmware, which autonomously adjusts clocks and
+> > > regulators.
+> > >
+> > > Implement a driver, modelled as a pmdomain driver with a
+> > > set_performance_state operation, to support these SoCs.
+> [...]
+> > > +static int mtk_mfg_probe(struct platform_device *pdev)
+> > > +{
+> > > +       struct device_node *shmem __free(device_node);
+> > > +       struct mtk_mfg *mfg;
+> > > +       struct device *dev =3D &pdev->dev;
+> > > +       const struct mtk_mfg_variant *data =3D of_device_get_match_da=
+ta(dev);
+> > > +       struct resource res;
+> > > +       int ret, i;
+> > > +
+> > > +       mfg =3D devm_kzalloc(dev, sizeof(*mfg), GFP_KERNEL);
+> > > +       if (!mfg)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       mfg->pdev =3D pdev;
+> > > +       mfg->variant =3D data;
+> > > +
+> > > +       dev_set_drvdata(dev, mfg);
+> > > +
+> > > +       mfg->gpr =3D devm_platform_ioremap_resource(pdev, 0);
+> > > +       if (IS_ERR(mfg->gpr))
+> > > +               return dev_err_probe(dev, PTR_ERR(mfg->gpr),
+> > > +                                    "Couldn't retrieve GPR MMIO regi=
+sters\n");
+> > > +
+> > > +       mfg->rpc =3D devm_platform_ioremap_resource(pdev, 1);
+> > > +       if (IS_ERR(mfg->rpc))
+> > > +               return dev_err_probe(dev, PTR_ERR(mfg->rpc),
+> > > +                                    "Couldn't retrieve RPC MMIO regi=
+sters\n");
+> > > +
+> > > +       mfg->clk_eb =3D devm_clk_get(dev, "eb");
+> > > +       if (IS_ERR(mfg->clk_eb))
+> > > +               return dev_err_probe(dev, PTR_ERR(mfg->clk_eb),
+> > > +                                    "Couldn't get 'eb' clock\n");
+> > > +
+> > > +       mfg->gpu_clks =3D devm_kcalloc(dev, data->num_clks, sizeof(*m=
+fg->gpu_clks),
+> > > +                                    GFP_KERNEL);
+> > > +       if (!mfg->gpu_clks)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       for (i =3D 0; i < data->num_clks; i++)
+> > > +               mfg->gpu_clks[i].id =3D data->clk_names[i];
+> > > +
+> > > +       ret =3D devm_clk_bulk_get(dev, data->num_clks, mfg->gpu_clks);
+> > > +       if (ret)
+> > > +               return dev_err_probe(dev, ret, "Couldn't get GPU cloc=
+ks\n");
+> > > +
+> > > +       mfg->gpu_regs =3D devm_kcalloc(dev, data->num_regulators,
+> > > +                                    sizeof(*mfg->gpu_regs), GFP_KERN=
+EL);
+> > > +       if (!mfg->gpu_regs)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       for (i =3D 0; i < data->num_regulators; i++)
+> > > +               mfg->gpu_regs[i].supply =3D data->regulator_names[i];
+> > > +
+> > > +       ret =3D devm_regulator_bulk_get(dev, data->num_regulators, mf=
+g->gpu_regs);
+> > > +       if (ret)
+> > > +               return dev_err_probe(dev, ret, "Couldn't get GPU regu=
+lators\n");
+> > > +
+> > > +       ret =3D of_reserved_mem_region_to_resource(dev->of_node, 0, &=
+res);
+> > > +       if (ret)
+> > > +               return dev_err_probe(dev, ret, "Couldn't get GPUEB sh=
+ared memory\n");
+> > > +
+> > > +       mfg->shared_mem =3D devm_ioremap(dev, res.start, resource_siz=
+e(&res));
+> > > +       if (!mfg->shared_mem)
+> > > +               return dev_err_probe(dev, -ENOMEM, "Can't ioremap GPU=
+EB shared memory\n");
+> > > +       mfg->shared_mem_size =3D resource_size(&res);
+> > > +       mfg->shared_mem_phys =3D res.start;
+> > > +
+> > > +       if (data->init) {
+> > > +               ret =3D data->init(mfg);
+> > > +               if (ret)
+> > > +                       return dev_err_probe(dev, ret, "Variant init =
+failed\n");
+> > > +       }
+> > > +
+> > > +       mfg->pd.name =3D dev_name(dev);
+> > > +       mfg->pd.attach_dev =3D mtk_mfg_attach_dev;
+> > > +       mfg->pd.detach_dev =3D mtk_mfg_detach_dev;
+> > > +       mfg->pd.power_off =3D mtk_mfg_power_off;
+> > > +       mfg->pd.power_on =3D mtk_mfg_power_on;
+> > > +       mfg->pd.set_performance_state =3D mtk_mfg_set_performance;
+> > > +       mfg->pd.flags =3D GENPD_FLAG_OPP_TABLE_FW;
+> > > +
+> > > +       ret =3D pm_genpd_init(&mfg->pd, NULL, false);
+> > > +       if (ret)
+> > > +               return dev_err_probe(dev, ret, "Failed to initialise =
+power domain\n");
+> > We need to clean up mgf->md on errors from this point on. Maybe we can
+> > move this to a later point?
+> >=20
+> > > +
+> > > +       ret =3D mtk_mfg_init_mbox(mfg);
+> > > +       if (ret)
+> > > +               return dev_err_probe(dev, ret, "Couldn't initialise m=
+ailbox\n");
+> > We need to free the mboxes from this point on.
+> >=20
 >=20
-> In this version, I got rid of the kref_put_mutex() usage, but I
-> realized that maybe we should bring it back. With the current code,
-> it's actually possible to observe a zombie vm_bo in the GEM's list
-> because we don't drop the refcount while holding the mutex.
+> For this and the one above, does .remove not get called on probe failure?=
+ If not,
+> I'll definitely do this. Otherwise it seems redundant, though with the ad=
+ded
+> concern that .remove does not check before calling those functions.
+>=20
 
-Alright, let's get back to the kref_put_mutex() approach then.
+Alright nevermind, I'm being confused by devres vs. remove callback.
+
+=2Eremove does not get called if the probe function fails, but devres
+handlers still do get called.
+
+Sorry for the confusion, will fix things accordingly.
+
+
+
