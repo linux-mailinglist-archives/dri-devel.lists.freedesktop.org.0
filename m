@@ -2,57 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAD8BBE098
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE82BBDF4C
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:06:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D669910E06B;
-	Mon,  6 Oct 2025 12:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C29D110E070;
+	Mon,  6 Oct 2025 12:06:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ECqVf6WV";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ElicBdxw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D8110E06B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 12:33:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759754025; x=1791290025;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PADTH9sK7B55j6KgpHnnj5DFwgLJqfvprH+XlV1LZxM=;
- b=ECqVf6WV9Z4WWkBm/IKgLFvur/6TnXoeWA2rtMpssuidEUR1mwJdUaJb
- 24F/ffYGouFy+8VleUgkJHmUh0HdmcW1HEsM6+t1ww4gifUdScI13SPIg
- 1b9obMwfo27RIQtYY3sVFpEa/6aTum9WbwMEgQMF9enGeV/8Rrd3BpjXH
- 5mcxkMP3SVN8OTjKYotjFAzZosM/ezQ39VmLsscNlbNe9jz+8JvBbau/1
- 7shpbZ+A2uIrteM4fw6f0HhY6etMjVsauXJSHOr3APhs490mzb3RjlQsO
- L62H6F3FGjFaha68LssDibIerZxBtwiMIXJ6Lq4tYZ6o9j1u3bbLkDkeW w==;
-X-CSE-ConnectionGUID: pfDKQR5sRU2mQSsy1y4LlQ==
-X-CSE-MsgGUID: hyJJ37WGTKen+IRfTOpD7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="64544766"
-X-IronPort-AV: E=Sophos;i="6.18,319,1751266800"; d="scan'208";a="64544766"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2025 05:33:45 -0700
-X-CSE-ConnectionGUID: VAWjOYKxS/aQYleBG0UndA==
-X-CSE-MsgGUID: Y+eenKFMQlaZJqa5wM5U1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,319,1751266800"; d="scan'208";a="179485871"
-Received: from intel-s2600wft.iind.intel.com (HELO biaas-d105.iind.intel.com)
- ([10.223.26.161])
- by orviesa009.jf.intel.com with ESMTP; 06 Oct 2025 05:33:41 -0700
-From: Aakash Deep Sarkar <aakash.deep.sarkar@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: jeevaka.badrappan@intel.com, rodrigo.vivi@intel.com,
- matthew.brost@intel.com, carlos.santa@intel.com, matthew.auld@intel.com,
- Aakash Deep Sarkar <aakash.deep.sarkar@intel.com>
-Subject: [PATCH] gpu/trace: add a gpu work period tracepoint
-Date: Mon,  6 Oct 2025 11:57:39 +0000
-Message-ID: <20251006115741.3687113-1-aakash.deep.sarkar@intel.com>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
+ [209.85.221.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D20010E070
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 12:06:05 +0000 (UTC)
+Received: by mail-wr1-f73.google.com with SMTP id
+ ffacd0b85a97d-3ecdc9dbc5fso2638796f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 05:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1759752364; x=1760357164;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=/OB7xMh5+T9ypw6dAsTTgtORxWZ55dw+sNCcskl6+uI=;
+ b=ElicBdxw85OLW75TYPEoQrTgarmhXV9+aLF6DelauQNsgmdFUeOxfZUWH8n9v9acjt
+ 1+rBicaBeFgjWUxBC8Utw3BDr6DKnx2Eh+FwU3MgwCTvhnX6p62Oc+w78dtMvgJ9NWDH
+ KO/Hnaw+kP9MWsUQMp3yjcoi6kcdr5Ct7kN/K6UwCtGrOKl32bKksI65rLsA93/M05a0
+ 3iqwZE6Eo1Lg0IfE0z9nXQI8jh5AiKPUovVaA3g3xzXCT+yp3fwgKS/kXEdmsu+7jEae
+ SSG8l/VJkMtbV+2nPsRX45JaG5Ro68rjlqF5NevHmbE1gTKvUIwz4tK4BVdM08I0kvcy
+ Zz5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759752364; x=1760357164;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/OB7xMh5+T9ypw6dAsTTgtORxWZ55dw+sNCcskl6+uI=;
+ b=vSIEE+Xfy6SMZrmeay/WoM6TaCg4cUnUnIvU9uuG4WGrrgD0yXs5mv/Sm35hN9TXt7
+ brAFKiUMsE57npT8VA7bSEXWOAd8c6mz6of4Pcung/2Of2mfYdgt41cj28y3UmFa/U8+
+ TxSkHxwO6SvqMBUlBbwGxJasDqFxK3XjsViA0TkQhKcTsyZRMJdyFEheFN3SbEbjcMPr
+ u58ydto82NXGL5htJ2kalMYb1daaozfltQfv/mwI5JFJz+rtbPNmIRCgDQKnI+3owcfZ
+ CgjeflOL5R11zpHuLdBPJ7WQEpNSu5rSZ4tSIe/4P+kCZ1zecFynwFCT0/wGB9EyV40H
+ +gVg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQXdowVU7m4AKSDtyYFzc1WXlkZyfTk02CTqr+/NpNIrbQJlkLInab2y+XS5yAyKNDoVZV/Wsw6Xs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJ9+ySswjheqZ1eOylWedvoerX0e7/fW1dDv/fApon5Wc5OmZd
+ nALS0Wmh9xfmK2Qs/6L4cmAlp6zfHvJA20urX58E/Mx7xxjbQxUFHUc5ImQwtF45VuMp3coK3KM
+ en0Z7fM3dKl9/QixeaQ==
+X-Google-Smtp-Source: AGHT+IGZiwn/2wr4en+CfzEIAktdUh7Xr9CEeu2eqUOcO9id7QGmI8fMYngV1eXRgRmIk6O9kosqt6M4YuIVHFI=
+X-Received: from wrrd12.prod.google.com ([2002:adf:fd8c:0:b0:3ec:df8a:fad0])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:400f:b0:414:a552:86b1 with SMTP id
+ ffacd0b85a97d-425671c2cd5mr8127141f8f.63.1759752363933; 
+ Mon, 06 Oct 2025 05:06:03 -0700 (PDT)
+Date: Mon, 06 Oct 2025 12:05:54 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAKKw42gC/23N0Q6CIBTG8VdxXEc7gCh01Xu0LlAPypbSoLGa8
+ 91DL1quLr+z/f5nJhGDw0hOxUwCJhedn/IoDwVpBzP1SF2XN+HAJWiQNI2Npx1aDFRYYzV0ijM
+ rSQb3gNY9t9jlmvfg4sOH19ZObL3+zSRGgdYGmRGKN1Vdnnvv+xseWz+StZP4t9U7y7PVSsiuF
+ qUGpX+s+FgGwHZWZGuExaqp8ncld3ZZljey9oPqHQEAAA==
+X-Change-Id: 20250905-vmbo-defer-3faf90d821f5
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3010; i=aliceryhl@google.com; 
+ h=from:subject:message-id;
+ bh=0nkElAd5E12QHlg7Kb8WPr3y/YHY+cnYvzDlo0JgOKs=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBo47ClY4kic2ueCmjFDZtvoHdJ9lRrq9D/h2+aK
+ c5IeVhtg/WJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaOOwpQAKCRAEWL7uWMY5
+ RrT9EAC0eBYJqZ0YqLg7uTb+b64n+6kwas/1IE95oVSribxOWjqYBvkfZJcY58pw0jTPloLNvMi
+ QisNu+vuY96By4D7jTRyd5V46+5jSM30A/Ll0iwefwlZd+Qdl977XgdsgydphsFZlCrcOEb8z6l
+ CA7mDys9ZOxDeVxML2FT//LX/Henv3DFOcA/yiqiXn+L5oMQSskfYpltLBsXFlsqYnXi641s8xF
+ uwvAbiGKXosPdqqpVHRN2y8CIWgnVsYO8a7ojpaotas3tQyHS6UVA4xAnhZFbaB2sUolAxuKi/d
+ JvRb1ZZ0cr/xpkHY4CixAFRimX1R4YNE8D2KJxMFmXZJZievFlPbmgMRYO8hMs6RO4gdnJIHIUv
+ s+JM0Al2XuB53wsPU0n323zrzEjnl1Eg1MrewjbygLK2nEW0waSPHcw/9LH5EwHbV44uieQf5Yn
+ cnkb2jgAZUj6XYEaeK+tpSa6251n1RUkhaxoO7I+QLmbaBwejm5RGGJsS6RFr/ABC4QsWZaRwiw
+ MNVWX5ai9ew9QMZy/c8xIMoLJTqq1COhGMWuUox+je59lZBfr6gfduUsUTmZd9uwkeB9cPxJEqu
+ 7GqRpp9BGq38ODG9DR1WI8KEDWaw/Gew3f567FubQ2DomJEVWb762jPeSyffVpvEaipypC3PA7m
+ URQQFoOae7CXIlw==
+X-Mailer: b4 0.14.2
+Message-ID: <20251006-vmbo-defer-v4-0-30cbd2c05adb@google.com>
+Subject: [PATCH v4 0/2] Defer vm_bo cleanup in GPUVM with
+ DRM_GPUVM_IMMEDIATE_MODE
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ "=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,132 +110,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds the GPU work period kernel tracepoint as required
-by the Android platforms. GPU work period event defines a
-non-overlapping, non-zero period of time from start_time_ns
-(inclusive) until end_time_ns (exclusive) for a given uid, and
-includes details of how much work the GPU was performing for uid
-during the period.
+There are two main ways that GPUVM might be used:
 
-The GPU work period event is required to have the following format:
+* staged mode, where VM_BIND ioctls update the GPUVM immediately so that
+  the GPUVM reflects the state of the VM *including* staged changes that
+  are not yet applied to the GPU's virtual address space.
+* immediate mode, where the GPUVM state is updated during run_job(),
+  i.e., in the DMA fence signalling critical path, to ensure that the
+  GPUVM and the GPU's virtual address space has the same state at all
+  times.
 
-Defines the structure of the kernel tracepoint:
-/sys/kernel/tracing/events/power/gpu_work_period
+Currently, only Panthor uses GPUVM in immediate mode, but the Rust
+drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
+worth to support both staged and immediate mode well in GPUVM. To use
+immediate mode, we must manage the vm_bos and vas during the fence
+signalling critical path.
 
-A value that uniquely identifies the GPU within the system.
-  uint32_t gpu_id;
+The first part of that work was the introduction of a fence signalling
+safe mutex for the GEMs GPUVA list in commit e7fa80e2932c ("drm_gem: add
+mutex to drm_gem_object.gpuva").
 
-The UID of the application (i.e. persistent, unique ID of the Android
-app) that submitted work to the GPU.
-  uint32_t uid;
+This is series the second part of that work: Dropping a vm_bo object in
+the fence signalling critical path is problematic for two reasons:
 
-The start time of the period in nanoseconds. The clock must be
-CLOCK_MONOTONIC_RAW, as returned by the ktime_get_raw_ns(void) function.
-  uint64_t start_time_ns;
+* When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
+  the extobj/evicted lists during the fence signalling path.
+* Dropping a vm_bo could lead to the GEM object getting destroyed.
+  The requirement that GEM object cleanup is fence signalling safe is
+  dubious and likely to be violated in practice.
 
-The end time of the period in nanoseconds. The clock must be
-CLOCK_MONOTONIC_RAW, as returned by the ktime_get_raw_ns(void) function.
-  uint64_t end_time_ns;
+Panthor already has its own custom implementation of postponing vm_bo
+cleanup. Take inspiration from that by moving the logic into GPUVM, and
+adjust Panthor to use the new GPUVM logic.
 
-The amount of time the GPU was running GPU work for |uid| during the
-period, in nanoseconds, without double-counting parallel GPU work for the
-same |uid|. For example, this might include the amount of time the GPU
-spent performing shader work (vertex work, fragment work, etc.) for
-|uid|.
-  uint64_t total_active_duration_ns;
-
-Signed-off-by: Aakash Deep Sarkar <aakash.deep.sarkar@intel.com>
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- drivers/gpu/trace/Kconfig       | 12 +++++++
- include/trace/gpu_work_period.h | 59 +++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 include/trace/gpu_work_period.h
+Changes in v4:
+- Go back to using kref_put_mutex().
+- Change terminology of deferral methods to 'zombie' and improve their
+  docs.
+- Link to v3: https://lore.kernel.org/r/20251001-vmbo-defer-v3-0-a3fe6b6ae185@google.com
 
-diff --git a/drivers/gpu/trace/Kconfig b/drivers/gpu/trace/Kconfig
-index cd3d19c4a201..33ffe865739b 100644
---- a/drivers/gpu/trace/Kconfig
-+++ b/drivers/gpu/trace/Kconfig
-@@ -11,3 +11,15 @@ config TRACE_GPU_MEM
- 	  Tracepoint availability varies by GPU driver.
- 
- 	  If in doubt, say "N".
-+
-+config TRACE_GPU_WORK_PERIOD
-+        bool "Enable GPU work period tracepoint"
-+        default n
-+        help
-+          Choose this option to enable tracepoint for tracking
-+          GPU usage based on the UID. Intended for performance
-+          profiling and required for Android.
-+
-+          Tracepoint availability varies by GPU driver.
-+
-+          If in doubt, say "N".
-diff --git a/include/trace/gpu_work_period.h b/include/trace/gpu_work_period.h
-new file mode 100644
-index 000000000000..e06467625705
---- /dev/null
-+++ b/include/trace/gpu_work_period.h
-@@ -0,0 +1,59 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM power
-+
-+#if !defined(_TRACE_GPU_WORK_PERIOD_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_GPU_WORK_PERIOD_H
-+
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(gpu_work_period,
-+
-+	TP_PROTO(
-+		u32 gpu_id,
-+		u32 uid,
-+		u64 start_time_ns,
-+		u64 end_time_ns,
-+		u64 total_active_duration_ns
-+	),
-+
-+	TP_ARGS(gpu_id, uid, start_time_ns, end_time_ns, total_active_duration_ns),
-+
-+	TP_STRUCT__entry(
-+		__field(u32, gpu_id)
-+		__field(u32, uid)
-+		__field(u64, start_time_ns)
-+		__field(u64, end_time_ns)
-+		__field(u64, total_active_duration_ns)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->gpu_id = gpu_id;
-+		__entry->uid = uid;
-+		__entry->start_time_ns = start_time_ns;
-+		__entry->end_time_ns = end_time_ns;
-+		__entry->total_active_duration_ns = total_active_duration_ns;
-+	),
-+
-+	TP_printk("gpu_id=%u uid=%u start_time_ns=%llu end_time_ns=%llu total_active_duration_ns=%llu",
-+		__entry->gpu_id,
-+		__entry->uid,
-+		__entry->start_time_ns,
-+		__entry->end_time_ns,
-+		__entry->total_active_duration_ns)
-+);
-+
-+#endif /* _TRACE_GPU_WORK_PERIOD_H */
-+
-+/* This part must be outside protection */
-+
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE gpu_work_period
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+
-+#include <trace/define_trace.h>
+Changes in v3:
+- Unpin in panthor on drm_gpuvm_bo_create() failure.
+- Use llist for bo_defer list.
+- Rename drm_gpuvm_bo_is_dead() to drm_gpuvm_bo_is_zombie().
+- Rename drm_gpuvm_bo_defer() to drm_gpuvm_bo_defer_free().
+- Link to v2: https://lore.kernel.org/r/20250909-vmbo-defer-v2-0-9835d7349089@google.com
+
+Changes in v2:
+- Fix missing kfree in Panthor.
+- Rework mutex_lock() calls to be less confusing.
+- Add note about resv lock in drm_gpuvm_bo_is_dead() docs.
+- Link to v1: https://lore.kernel.org/r/20250905-vmbo-defer-v1-0-7ae1a382b674@google.com
+
+---
+Alice Ryhl (2):
+      drm/gpuvm: add deferred vm_bo cleanup
+      panthor: use drm_gpuva_unlink_defer()
+
+ drivers/gpu/drm/drm_gpuvm.c           | 191 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.c | 110 ++++----------------
+ include/drm/drm_gpuvm.h               |  16 +++
+ 3 files changed, 226 insertions(+), 91 deletions(-)
+---
+base-commit: b2ec5ca9d5c2c019e2316f7ba447596d1dcd8fde
+change-id: 20250905-vmbo-defer-3faf90d821f5
+
+Best regards,
 -- 
-2.49.0
+Alice Ryhl <aliceryhl@google.com>
 
