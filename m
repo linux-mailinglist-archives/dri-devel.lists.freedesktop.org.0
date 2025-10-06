@@ -2,99 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFB4BBEADF
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 18:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B61BBEAEB
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 18:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F79110E42C;
-	Mon,  6 Oct 2025 16:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB00410E429;
+	Mon,  6 Oct 2025 16:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YauurWJr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O3jkLius";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED4A210E42D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 16:40:33 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id
- 41be03b00d2f7-b552e730f4aso68367a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 09:40:33 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10A7B10E429
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 16:42:02 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-46b303f7469so33485485e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 09:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759768833; x=1760373633; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LBA6fOaVmQat7EDMxIX5UPGSZ7U9w/6YSIQNIRnUw64=;
- b=YauurWJrREVBnozB2Q7B+T94yIsqTkvl2kzowEVT9V9GsgwkF2Z8hpEp9DefnjWUUS
- M1MCm0rsIT3vYrKkKpDubIE06MpEx33AuGZt1GHFgmHJxYzybCV3Llo90F+FwR5xJVQy
- CsMup65BngHZFS8Ysl61TrFZrujfUtO68FVIzhTSAkjMyqne0thiNtpJkWEFGJE65/yF
- 7j/D6r0dX9NOwm+ZLOEhAntirlYA6PfY6YBLcF+ixg6USEGbQrSCISyH1iTyWyrwbaKv
- ctAF+wFNAcyPksaOaUBKjLXKg/6QWOZLhZAOV8rRvnXCImuuR7BCgj8e9EzSxngh2tFJ
- b3jw==
+ d=gmail.com; s=20230601; t=1759768920; x=1760373720; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=B1m3A2SK0UP4dwSyRm6Qf6w7bJhm1Ficb4+Tgp0EQaQ=;
+ b=O3jkLiusEszcuAq2DWNPr33h9jEuKunUTldbZXnbsOT5STDq2qrd68er8fxFoioffp
+ inrxOBLElXf7GoYBGbfaC8ZJlkrw0vIUBwKyQSUH5r7OpLrBprVu0IirLEE7P8razhWQ
+ PtvRMElJQRK6e9aKxJ1czR6Dp4c4plr+ndemnIfWCiVMAKoAq00I2aTeIJKLsc63QZ6q
+ UvYVygCl5D3fvLcbU6Wd++O5Mqg0ow1KwuRtiJQW4mtD83PYpX2qi113bEEeB2LiIfku
+ lMG9tdeoQyrBPJwJPhnKzW4FO6GyryT5muqKLRnc9K1/rGHGGRWoI/ccySqipsK3lMKz
+ tLtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759768833; x=1760373633;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LBA6fOaVmQat7EDMxIX5UPGSZ7U9w/6YSIQNIRnUw64=;
- b=W485B6HF/6cHQ6JK1fArUOaB93svxp4SR9yQQgAACjoAqEJIe11OzV7by86UWTcGVL
- uQyEhMG2LFx2QmCi0jqDr/fLTGaryoMGAfsZZHvzC1YR0bwiRIfgu7UzRkfq+ntTOjhH
- g+ya+HHMzhDeO1oIAboMCnMhq2o7876siBI0xcLCxol+ce2oS8ciFcYfz6/vsI6sFmEF
- wb03dB6GKUaNk3hasnHfls/GK8t3UTxl6r9zOfZ8eyd8yTEqK7ZXgsS4gyx7YrGf4ave
- a0ZaSJ+URE9F+9QtelQJnMjiGBLOEsPIzeIsa8COfN9Yim0duRg+txLS6QbHAdfAe/bN
- DXIA==
+ d=1e100.net; s=20230601; t=1759768920; x=1760373720;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B1m3A2SK0UP4dwSyRm6Qf6w7bJhm1Ficb4+Tgp0EQaQ=;
+ b=w1lD6fGz9VFoPTE0yTU5bdJ/8x0kM5g9pynn6VNdxX1+QpVVI7i+g5Poq/4EIkHXqx
+ o6SETdBOXJ+4whoJbjg92Ys1lgHtw7cOpkoEJEyvqZQVT3h36b28+tPn25C+obEJyJkQ
+ Z//oLvY+vCo7NhpWC/WP7/OW4gJdzNwvpH6W3JQvIxrfJ3NAZPMNePk4nJQOIyb75+WL
+ i6DDQwpDToqU88sX70lrZI/3IHdXpuMWkY0JkXqLT9nIAxlQ3kX0etyGKfFZ0uzFwqKu
+ qiFkEq//BuLCAV+kOxIQxL1EYAyeu89VvPz9Bn2xiVdsQOdQ7KCjIn+b4dPl1afdSt5J
+ /v7Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVq2rOLLRROc6XtW70URz5ejRelJQXRlcy7pKO257XcKMJ/Xh/zo4t4R4/D7/sNQ1I6XAyCKDF1w7E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDUWnRWDZTlIX+pq5j9yjwElQTSpRwWqhhqSqOCEZfOgPqzgSV
- +tA0HlIqAOuDXU0DrlcKBlMg8bTSmdv+soMEs4CQulnudiHopi4vcAz+yQMh9hxn8gsQCkgxV6N
- +KUNwcGLybqTs1Q6snMh/tws0+lmH+68=
-X-Gm-Gg: ASbGnctCOJ9rxdvvM2qKJCfcj9PYAokN3W59Gn5bvmEzUT3toADq1/2uqlSU/dHqL+U
- 9EqfxnhwUslFwJ9B3t1LjZxVRz4JTaoxN1EfDZzeMdRe8fiTppDcs4H4VX+yveVa4u9Z/KTvSmY
- oJ8LYseYraJnH/UdgK22m5PMNFr/zs5bleDECdUA95ilns1dScvtSf368VwBEJhtMxI1Kejn/Jt
- KfAytHPmetexJxcaKnQjK6iVLyUAQ3SBkPBCZTsiP8OaQSWTVMLpjJ72Ve/lZpMYT3i2nkob/Kr
- AUtdK26Hgdq3JLH+oTSMvG5aKZ3H9TNTUQ2iPjyxfDIpVIlB2Jzzwce2JuiY
-X-Google-Smtp-Source: AGHT+IED5q3x4DCSIrQmSNaI/hNM8JVZko4zCwH8pMSwHQyx8XQQtYie0DUOqb6XI3JebRYkGwAJqCnOXAShGoi26PE=
-X-Received: by 2002:a17:902:d4cb:b0:25c:b66e:9c2a with SMTP id
- d9443c01a7336-28e9a6d01b1mr103155035ad.6.1759768833343; Mon, 06 Oct 2025
- 09:40:33 -0700 (PDT)
+ AJvYcCVTWXOnbuj2zsAQZxubnlNihvitksFvgGvSFCSann4tbjtc4eG2uTy7GhYDvl3e5wy3ovtA3Jw4imU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKTNI52bP1r6NGg+MGxo0+to93ks+Y0+6W7ce88nUpGraZNEc9
+ o5Rwr3V2NyalR2aPZAWhGXf9xOQ5MGlV3vqbMKNizr639hYuxlNL7WsJ
+X-Gm-Gg: ASbGncu6CcVVynSAZev9gc5p2X2A9wGfAx1KqbIH3VA8NRYs/bjoPgu7sPqRushNH0C
+ Wi2EutG4XCDOxv+3Czdzf4J0D1/hniMR5pEfimYPeJgPh0In5fDXMJe2nuTzV5PMak/6zcyoZnG
+ fOzvun4PirOmiRiM5VxDuIItw1q7x5yhRl5BSS6L/TZ0iKp/XvT81msWnUM4FcIN2u6BFGIeb4V
+ QbEihuibD/GnfizmJtzALQJIH96lI6lx7/HurhhQk5hIg+AOJU1kJOcKhtT5SRKEXQceXOa0b47
+ aP0bAgleNmC0LwldZU8N3BOWkRZHaJ3T3DKc7TfI+aG5ePT//KQW1ik7Z8fmExcJ0oCz+8VlCA/
+ PbnzhVTygvM7FME1sGD6mZnz9REOocZlqXy+mj2knFzF3ea/9ptK12v7HrBAc4o1T5u1vJZp+V/
+ 79qbxEi2SAeSbIjhyHdIEsXRKl
+X-Google-Smtp-Source: AGHT+IHm3Tu9iRyGiCt6V9SEZWDXWNqwJokz4bgw1HkknIkQ71kli9dOgCeRNWFNMzpZwV0p36UR6Q==
+X-Received: by 2002:a05:600c:628b:b0:46e:456e:ada5 with SMTP id
+ 5b1f17b1804b1-46e71146994mr75585645e9.28.1759768920064; 
+ Mon, 06 Oct 2025 09:42:00 -0700 (PDT)
+Received: from dell (117.red-81-33-123.dynamicip.rima-tde.net. [81.33.123.117])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46e5b5f3015sm151246565e9.1.2025.10.06.09.41.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Oct 2025 09:41:59 -0700 (PDT)
+From: Javier Garcia <rampxxxx@gmail.com>
+To: deller@gmx.de,
+	u.kleine-koenig@baylibre.com,
+	tzimmermann@suse.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shuah@kernel.org,
+ Javier Garcia <rampxxxx@gmail.com>
+Subject: [PATCH v2] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
+Date: Mon,  6 Oct 2025 18:41:43 +0200
+Message-ID: <20251006164143.1187434-1-rampxxxx@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20250930144537.3559207-1-joelagnelf@nvidia.com>
- <20250930144537.3559207-7-joelagnelf@nvidia.com>
- <DD7GCYCZU3P3.1KK174S7MQ5BW@nvidia.com>
- <81490b32-6ea2-400f-a97e-ad2e33e6daab@nvidia.com>
- <DD949OHGD5WP.1X9TCLIEKSHGB@nvidia.com>
- <4324469D-4C47-441E-9AD3-54CEE379537C@nvidia.com>
-In-Reply-To: <4324469D-4C47-441E-9AD3-54CEE379537C@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 6 Oct 2025 18:40:20 +0200
-X-Gm-Features: AS18NWCxy-Hq0OsmWL4xZOPiIrqjK1XDIHFlDGJPGtRa1Eva01va6UDuU96QULw
-Message-ID: <CANiq72mC5pWz92KYtOhtgOcMuTeuzOeM9xrbkna+HkrwHAQqVw@mail.gmail.com>
-Subject: Re: [PATCH v5 6/9] rust: bitfield: Add KUNIT tests for bitfield
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "dakr@kernel.org" <dakr@kernel.org>, 
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, 
- "joel@joelfernandes.org" <joel@joelfernandes.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>, 
- Yury Norov <yury.norov@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Andrea Righi <arighi@nvidia.com>, 
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,28 +90,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 4, 2025 at 6:14=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.co=
-m> wrote:
->
-> Well, it can be efficient. It really depends. I have been contributing up=
-stream for about 15 years if you see the git log, often when someone chats =
-privately with me like you did and they told me they are ok with a patch, I=
- save them the trouble and add their review tag especially after they alrea=
-dy added their tag to all my other patches. Surprisingly though this is pro=
-bably the first time anyone has been pissed off about it.  Anyway I will no=
-t add your tag henceforth unless you publicly reply (or you let me know oth=
-erwise by chat).
+This patch wraps the relevant code blocks with `IS_ENABLED(ifdef CONFIG_FB_DEVICE)`,
+allowing the driver to be built and used even if CONFIG_FB_DEVICE is not selected.
 
-If they just say they are OK with a patch, that would just mean an
-Acked-by, not a Reviewed-by.
+The sysfs only give access to show some controller and cursor registers so
+it's not needed to allow driver works correctly.
 
-In any case, the documentation states those tags cannot be added
-without permission -- if someone gives you a tag privately, it is best
-that you tell them to please send it in the mailing list instead. That
-way there is no confusion and others (including tooling, e.g.
-patchwork and b4) can see it.
+This align with Documentation/drm/todo.rst
+"Remove driver dependencies on FB_DEVICE"
 
-Thanks!
+Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+---
+v1 -> v2:
+      * Fix error and improvement , thanks Uwe Kleine-Koenig.
+      * v1 https://lore.kernel.org/lkml/20251005173812.1169436-1-rampxxxx@gmail.com
 
-Cheers,
-Miguel
+
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index ade88e7bc760..dc99b8c9ff0f 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -17,6 +17,7 @@
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
++#include "linux/kconfig.h"
+ #include <linux/pci.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -759,7 +760,7 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
+ 
+ 	dev_set_drvdata(dev, info);
+ 
+-	if (device_create_file(dev, &dev_attr_dispregs))
++	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dispregs))
+ 		dev_err(dev, "Can't create sysfs regdump file\n");
+ 	return 0;
+ 
+@@ -801,7 +802,8 @@ static void of_platform_mb862xx_remove(struct platform_device *ofdev)
+ 	free_irq(par->irq, (void *)par);
+ 	irq_dispose_mapping(par->irq);
+ 
+-	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
++	if(IS_ENABLED(CONFIG_FB_DEVICE))
++		device_remove_file(&ofdev->dev, &dev_attr_dispregs);
+ 
+ 	unregister_framebuffer(fbi);
+ 	fb_dealloc_cmap(&fbi->cmap);
+@@ -1101,7 +1103,7 @@ static int mb862xx_pci_probe(struct pci_dev *pdev,
+ 
+ 	pci_set_drvdata(pdev, info);
+ 
+-	if (device_create_file(dev, &dev_attr_dispregs))
++	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dispregs))
+ 		dev_err(dev, "Can't create sysfs regdump file\n");
+ 
+ 	if (par->type == BT_CARMINE)
+@@ -1151,7 +1153,8 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
+ 
+ 	mb862xx_i2c_exit(par);
+ 
+-	device_remove_file(&pdev->dev, &dev_attr_dispregs);
++	if(IS_ENABLED(CONFIG_FB_DEVICE))
++		device_remove_file(&pdev->dev, &dev_attr_dispregs);
+ 
+ 	unregister_framebuffer(fbi);
+ 	fb_dealloc_cmap(&fbi->cmap);
+-- 
+2.50.1
+
