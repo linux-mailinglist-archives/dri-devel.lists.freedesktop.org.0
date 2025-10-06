@@ -2,64 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62D3BBF996
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 23:46:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0C6BBFB8B
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 00:44:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD1F410E133;
-	Mon,  6 Oct 2025 21:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34DA210E167;
+	Mon,  6 Oct 2025 22:44:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="KFYSjOjI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gIK75P3O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E0610E133
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 21:46:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759787161; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ay0t1l9JfgIaawXIxQw1dROat1r2NMtghzBfipE5sB87NVh2eADNaVt5/R+G0sACKoxdGMyqC+nEsum8GYgCa0+ukHbyJSnABeGFlgqY0jQiaRmz+M6BYZfYlpvP37lp7RLIAlZ56jUGep1fqQjDUi5fCBmzLm3yvtYQ96nVaN0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759787161;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=2gaJe6SKSeZfX6MubIGKK6GSgb4FoNa0aGAlBeaOd9U=; 
- b=Z+lYwpbH86eL3r+XGMK88p/IIuaGvfyjwraJaoXcDKsK6Gacqh8InRMyF3Vh2rVm5A6brC5TY5GkWHhazlXXhMveam9Q2h22OU9RDilwg5kxD3w+IHnmJOVnHY4QQzn21utcqlBSA2Qzy36Hz+Wqv6LbENu7ypyPvcMPPmss44w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759787161; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=2gaJe6SKSeZfX6MubIGKK6GSgb4FoNa0aGAlBeaOd9U=;
- b=KFYSjOjIhIlBgriRyhAAlK9Q00qsYg1Fzi2BhDAQkJH/buQYRlWyjgqBAgfXZ5rJ
- bnt4Ol0k5Fn2gobHdZgJBxhWKA16rUWjjGMeWl0J9qZl/zf/8vffJge2v+q98WIvGZg
- X/lDVnOlinTvsUtAh/76rL9DRJbrpJDaGA8NYvqA=
-Received: by mx.zohomail.com with SMTPS id 175978715775463.74686780919694;
- Mon, 6 Oct 2025 14:45:57 -0700 (PDT)
-Message-ID: <11358030-ec48-4e07-b056-d5be29a38707@collabora.com>
-Date: Tue, 7 Oct 2025 00:45:54 +0300
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A242810E409
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 13:49:54 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-71d6051aeafso52084237b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 06:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759758594; x=1760363394; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=naBllE4IE535a1UhrtE/NG5vtCFsBFvSt2Qvtj+AiGw=;
+ b=gIK75P3OAx5O6fuQl4eqDJZqarZpAz5TP1er8YhnnDomyEWJdezSDhqac+xw8KyvlR
+ D5WJcPwANKgSvR1kNqUe3Uzdwey6OD0Eu6RYVm5nmNOr5g9crbZIocVuuiucMs3AGWuQ
+ NbR90F6EjIKLcx1CymFROo3W5XWw4CH/JaZd+WpeqQdLT+ghixjc+1D+dSN9IjuKpMwz
+ vas5ZHf8TpZ5y687n737Wdq4zte7KPghkobPBSyLamUKFXqxd+wQ/DkuDpk18KqlrQEG
+ 3KaS0+KuqSKIYJQuQWb2NwzyjA2U4ywbGDNjzWAELPqWVfdq3I09ZCpC9EV61/JJVSPm
+ GwhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759758594; x=1760363394;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=naBllE4IE535a1UhrtE/NG5vtCFsBFvSt2Qvtj+AiGw=;
+ b=Js+jI5wkWuGhFuIzpvFa0cUkz2YeXTo5ARdEUARCAiZtP5XlB5+4yK/HpsGHprvKkd
+ jpIoXxr0yy5o8DvFUivzUHOC3RAbyMr5X3GuHduk5z6eMoikS75DqibLzViugdh92imN
+ pwNQ1C8t2Wa4rqTvP4DsQ739rnwcqnjePDG/EXXTgy4wMl6UqHzEQWuBE9EHr6fUKZSO
+ m5pMzWoa2A8os4ageZYSL71aITuWtmOIM8gxV4C7ms7Uxfh6adrLuyJ9XipOl5G5Nd4m
+ y32m9dxmXNuuFPXSYHmj1n5Z6SM1MOFFsrOPZsjW4Jv2ubS4ckpIlnlmWSDa3cSNzner
+ U4/A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUB7RMGSueO0kkyJ54nbMJy2vH1YDRhKc26GtZtG6GNZGHvT9XK2YyZ+RjomTYExiCsBAljqtzNJZA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZ/g6UrHRMT4mPrXiS+uXlyOiFkcqX0Xkcm2iT3g0jL1JpKWiv
+ Z2bZGqY6VImKNTWR2BTPrB0eaH5Jo4+a8eeDQcUoSwe/0LhYrGcnPAdQ
+X-Gm-Gg: ASbGncvptpn82owlZqEvsnzTfUyHX0/vB/Kk68JEKGV5n0rTt8XgO6uOgl7cRAiqwXu
+ 2jD/5uGfgyxRIMsFX/f1CvBJvrdbSnZHSO5+K3OPPP5UsQE0izFOliRHBmpznrfCaSbOncMNj4C
+ RegMJ8i1VfpwlMWmUL1rcQ0vJOPkl/L9r9se0L+x6PY/0OwSDJwg7AsdUT0NmV/1L9I533O1PuZ
+ u/18rAvMWsxjkWst0ilz+hvEIQcVaqEqMxqWeQ30kYbEVGoM+Kxo0ednCefhf3OCd9+KXLdLdsG
+ RwjbMBJv21EM+RGLvrcdxsoiaCQ8u8vCdry8zn5IPPGbX+qSxPODby4NraycVC9tHKlgUjq61jQ
+ LrfSjv1bJt6j775vk8KYt4FvJgZsQKci//n+5sqqFmulFdlWz2O83eVtVI1GvCTwxUqyt3bLvBB
+ lf/vnpBspHUsNd8M/2+8eB1iaAi9HCDA==
+X-Google-Smtp-Source: AGHT+IF95I/GWMOy7K0yQH9P573Gh61Ga6VWxZPEu4GIRjFsPKAyfm6hJudD/c1aH+Spd7nOuM10XA==
+X-Received: by 2002:a05:690c:f8f:b0:731:76db:a5e0 with SMTP id
+ 00721157ae682-77f946a89e6mr163041287b3.25.1759758593563; 
+ Mon, 06 Oct 2025 06:49:53 -0700 (PDT)
+Received: from ?IPV6:2600:1700:6165:1c10:83e:4131:1b09:7d81?
+ ([2600:1700:6165:1c10:83e:4131:1b09:7d81])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-77fa19a7d6asm27562527b3.55.2025.10.06.06.49.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Oct 2025 06:49:53 -0700 (PDT)
+Message-ID: <51030f00-48c6-49b6-a4be-0b4e238f71bd@gmail.com>
+Date: Mon, 6 Oct 2025 09:49:48 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/virtio: Add support for saving and restoring
- virtio_gpu_objects
-To: "Kim, Dongwon" <dongwon.kim@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "nirmoyd@nvidia.com" <nirmoyd@nvidia.com>
-References: <20251003053402.732218-1-dongwon.kim@intel.com>
- <20251003053402.732218-3-dongwon.kim@intel.com>
- <059d3074-dc1f-47cf-9bdd-ca582e150511@collabora.com>
- <PH0PR11MB51125B8A88CBFAE48E7BDC62FAE4A@PH0PR11MB5112.namprd11.prod.outlook.com>
- <ef77d1e3-adea-4120-a23f-b2925ca23b38@collabora.com>
- <PH0PR11MB5112BF73084A79F3F0E785F6FAE4A@PH0PR11MB5112.namprd11.prod.outlook.com>
- <0fef25c6-c423-4d00-bbca-1744c2305afb@collabora.com>
- <PH0PR11MB511295459D829356E4416957FAE3A@PH0PR11MB5112.namprd11.prod.outlook.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
+To: sukrut heroorkar <hsukrut3@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>,
+ Bernie Thompson <bernie@plugable.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Zsolt Kajtar <soci@c64.rulez.org>,
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org
+References: <20250924175743.6790-1-hsukrut3@gmail.com>
+ <202509272320.3K8kdDCw-lkp@intel.com>
+ <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
+ <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
 Content-Language: en-US
-In-Reply-To: <PH0PR11MB511295459D829356E4416957FAE3A@PH0PR11MB5112.namprd11.prod.outlook.com>
+From: David Hunter <david.hunter.linux@gmail.com>
+In-Reply-To: <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-Mailman-Approved-At: Mon, 06 Oct 2025 22:44:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,109 +105,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/25 21:35, Kim, Dongwon wrote:
-> Hi Dmitry,
-> 
->> Subject: Re: [PATCH v5 2/3] drm/virtio: Add support for saving and restoring
->> virtio_gpu_objects
->>
->> On 10/3/25 21:59, Kim, Dongwon wrote:
->>> Hi Dmitry,
+On 10/2/25 02:35, sukrut heroorkar wrote:
+>>> kernel test robot noticed the following build errors:
 >>>
->>>> Subject: Re: [PATCH v5 2/3] drm/virtio: Add support for saving and
->>>> restoring virtio_gpu_objects
->>>>
->>>> On 10/3/25 20:01, Kim, Dongwon wrote:
->>>>> Hi Dmitry,
->>>>>
->>>>>> Subject: Re: [PATCH v5 2/3] drm/virtio: Add support for saving and
->>>>>> restoring virtio_gpu_objects
->>>>>>
->>>>>> On 10/3/25 08:34, dongwon.kim@intel.com wrote:
->>>>>>> +int virtio_gpu_object_restore_all(struct virtio_gpu_device *vgdev) {
->>>>>>> +	struct virtio_gpu_object *bo, *tmp;
->>>>>>> +	struct virtio_gpu_mem_entry *ents;
->>>>>>> +	unsigned int nents;
->>>>>>> +	int ret = 0;
->>>>>>> +
->>>>>>> +	spin_lock(&vgdev->obj_restore_lock);
->>>>>>> +	list_for_each_entry_safe(bo, tmp, &vgdev->obj_restore_list, list) {
->>>>>>> +		ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
->>>>>>> +		if (ret)
->>>>>>> +			break;
->>>>>>> +
->>>>>>> +		if (bo->params.blob) {
->>>>>>> +			virtio_gpu_cmd_resource_create_blob(vgdev, bo, &bo-
->>>>>>> params,
->>>>>>> +							    ents, nents);
->>>>>>> +		} else if (bo->params.virgl) {
->>>>>>> +			virtio_gpu_cmd_resource_create_3d(vgdev, bo, &bo-
->>>>>>> params,
->>>>>>> +							  NULL, NULL);
->>>>>>> +
->>>>>>> +			if (bo->attached) {
->>>>>>> +				bo->attached = false;
->>>>>>> +				virtio_gpu_object_attach(vgdev, bo, ents,
->>>>>> nents);
->>>>>>> +			}
->>>>>>> +		} else {
->>>>>>
->>>>>> No need to restore blob and 3d resources that we don't support
->>>>>> restore of and that won't be in the obj_restore_list since only
->>>>>> shmem objs are added to the list.
->>>>>>
->>>>>
->>>>> We are very interested in restoration of blob as well. It is
->>>>> actually the primary type of resource we want to recover because
->>>>> those are used as guest frame buffer we render in QEMU.  Can you
->>>>> tell me why it should be excluded? Would it be because of ambiguity
->>>>> of the location of
->>>> backing pages for it (e.g. VRAM)?
->>>>>
->>>>> And 3D is not our primary interest so I don't have any issue
->>>>> excluding it but it would be great if you can explain the reason for it as well.
->>>>>
->>>>> Thanks!
->>>>
->>>> Good point, only host blobs should be excluded. We can't restore VRAM
->>>> on resume as hostmem is lost on host side after entering S4.
->>>>
->>>> Actually, now I don't see where imported dmabuf guest blob added to
->>>> the restore_list in virtgpu_dma_buf_init_obj(). Please make sure
->>>> restoring guest blobs tested properly.
->>>
->>> Right, you got some critical point there.. I forgot about this object with
->> imported dmabuf.
->>> We will have to store the case virtio_gpu_objects backed by imported
->>> dmabuf as well in case the backing storage is still valid. By the way,
->>> so far we are not using imported buffer as a guest framebuffer. All
->>> scanouts are originated from virtio_gpu itself, which would be the reason it
->> has worked so far.
->>>
->>> Anyhow, no matter whether it's imported or created by virtio-gpu
->>> driver, I guess storing only blobs with bo->attached=true would be
->>> enough assuming host blob doesn't have any backing pages. What do you
->> think?
->>> (I will also modify the code to store objects backed by imported dmabuf.)
+>> Did you compile and test this code before submitting this patch?
 >>
->> The bo->attached only means whether pages are attached to shmem BO on
->> host at the moment.
 >>
->> The whole state should be restored on resume - all shmem BOs re-created and
->> pages attached to them when bo->attached=true.
-> 
-> Got it. By the way, regarding exclusion of host blob, I guess you meant only blobs with
-> "!guest_blob && host3d_blob". If that is the case, it is automatically excluded as 
-> virtio_gpu_object_create is not even called. Or did you also mean blobs with both 
-> flags - host3d_blob and guest_blob set should also be excluded?
+> Yes, I had compiled & loaded the udlfb module with no errors. Please
+> let me know how to proceed
+> in this case.
 
-There is no need to re-create resources on host that we can't restore,
-i.e. "!guest_blob && host3d_blob". Restore all BOs that can be fully
-restored on resume.
+Hey Sukrut,
 
-Also, reject hibernation on PM_HIBERNATION_PREPARE with a error msg if
-virgl is enabled.
+When you make code that deletes something from the kernel, you need to
+make sure that all other code that references that code will still
+function properly.
 
--- 
-Best regards,
-Dmitry
+When you surround things in the #ifdev, depending on the config file,
+the compiler strips those things out and compiles without them. That
+means that you actually need to compile and test under two conditions.
+Once when CONFIG_FB_DEVICE=y and another time when CONFIG_FB_DEVICE=n.
+
+The test robot gave you a sample config file that you can use. Please
+ensure that you have the proper version of Clang on your Host machine
+for that particular config file, if you choose to use it.
+
+Also, I strongly recommend that you run the code on a sufficient
+hardware or emulator after you test it so that you can verify that the
+code does what you think it does.
+
+Thanks,
+David Hunter
+
+
+
