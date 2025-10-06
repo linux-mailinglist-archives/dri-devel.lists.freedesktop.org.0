@@ -2,69 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D0FBBE004
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E14BBE03E
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E7C10E34C;
-	Mon,  6 Oct 2025 12:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B888610E095;
+	Mon,  6 Oct 2025 12:23:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="j8w2nfgu";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="StnkxfXW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E563710E34C
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 12:16:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759752989; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=a6x7zuYkIf6pcWAp1t84saCIQagHj6w7SvYm40DB6O4vOCK8JkwoMBEhoa5dujrzLm8m9U7Z+fLMobrYy8+U4eG/X7kY+FfbYf5e5Q7n1PsUVwjlI1FHk3rj+78KYhqr6YJC1GUxrHqqwAZM4/qerIjywq1daQMIPEjGFWYm3eI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759752989;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=xzolk6m0qZ/E++3QNlLoa9z0TzMad5MeklLKYrPsI5A=; 
- b=he0euUpyZen3eJWtsT6mHoJlusD8TdcJDKTPrBRGnbQdJ5qJ61T0itmskwDXiRwD8xqJCQAoSizonffxlL6zA4uHF4xvS4gVZ81KyD34sBaCJ/5ZJ6Bi/ZyaOe3Vw8aBtQfPvTE4eU60Q4MudWKJ63qzAs9MHuIUdhJgCZsMgo0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759752989; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=xzolk6m0qZ/E++3QNlLoa9z0TzMad5MeklLKYrPsI5A=;
- b=j8w2nfguUCjVtBHEGUD2kliwcNRekCVM/F3ivqwnqFGqeZ3cddCU2c5z1A8A6pIk
- cFr4jPgQssRHCSaVxvRBr0J7RhL0Kav70tcQmvwt/ZHo0urjfuoShO2+G6U9j7qqhaf
- aylj+KCZYezaEQMCzrp73IHudQHmOVnpp4eVDbmw=
-Received: by mx.zohomail.com with SMTPS id 1759752987761633.2600925458459;
- Mon, 6 Oct 2025 05:16:27 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011042.outbound.protection.outlook.com [52.101.62.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B0510E095;
+ Mon,  6 Oct 2025 12:23:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WOoFKZf0w9jHyhVVKYg3035KmakBPNYcZ0j2833VDcXPY6LCtT+6frW8aXkOgmhIy/us9gIvA4pwVg6ujYyLijoYHmrrrod+AUAct6mZ4ag/qJKehhytg0dny413W38fsbyX/elXHsTQx9XRr/QOUh8r/rqNSh3x9y8Z16UxOsqdaPzZtQCISWhPsBatVWe/DnY6AfIhhi2h+aD0QYYoWTUjPhfPvT0msjxzFlXgP5NdYRG5tpSPN0vufTSRrzLFo/hn2zI9OxIdThYxXLmDh+/qe+BCWlOlj5zYtvxIcZkbG/KIddtSLzAKa1seb1fc3t7xPVKjBEXVm6qjc77MLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Ygn5fHCdx2XW0lnzgqEG49sJkZrQf0+4p9qBQnVR7o=;
+ b=FXVrGiEK1O90A/BG6/fRmF0I9/xEDr7teaBl5lYqghCKipW9xLdTFpNUwnK5XkVSyiA+CE275IcT+m5I2HgBEn3O/yxEPxRQHN9CJjk2OspuhqzzVRDo35Z0DxU2GrlfGhyFy2KKgU6cEOp7/8XNI3Vw9B/tmyxTpezK+Sr9CJWsn+XIe6MO1/uN1gbpfmofthwWdYkc7ktU4NHDyi9hEm0E5AJHmVa100L++P9Z5GXVXHKlEfJ/s8JcOt8MfPX/X8EqqvLtHwz0YW9tfK1qa/CXDr430fW6HB4eaZaY9QUYpZSB45jy1d+iB/YMmrwT8ktLL4TSpF1dLAGD+hxFiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Ygn5fHCdx2XW0lnzgqEG49sJkZrQf0+4p9qBQnVR7o=;
+ b=StnkxfXWhJ11ElkV+ABQT01sqIdn4un4tYpcO3AdaszYIxnx2DYYCKjjyGf89kK8mT1Ouzgu8Sik090n6RdmkFBWHd3fvLCgJYJBcLvLx/OXlLPTcZt9l0srEIRRCGjVZP1SbjiOKq/pX6hJw0d8t+3xffEJzXIuX7w4WHcNxzRSnD3JMbad46N8/OOEBNVwUzIchsfsLNSKIjnNBVKsoazEM1AJ8JHDCsIbFjImtkDaeXYA4/Mg8Ck8frgaMVJc11ql6wWJ3oOB78YAJBn8glHln+xNiVdWOWGuUPeMTNrQetACWOUbT1lFaFTrsxC+T+9crohqsL2m0B3LvzZslQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by LV2PR12MB5822.namprd12.prod.outlook.com (2603:10b6:408:179::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
+ 2025 12:23:32 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9182.017; Mon, 6 Oct 2025
+ 12:23:32 +0000
+Date: Mon, 6 Oct 2025 08:23:30 -0400
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dakr@kernel.org,
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 7/7] pmdomain: mediatek: Add support for MFlexGraphics
-Date: Mon, 06 Oct 2025 14:16:16 +0200
-Message-ID: <4457422.ejJDZkT8p0@workhorse>
-In-Reply-To: <94866bc6-0fdb-4e6c-ba78-5ebd7138f193@collabora.com>
-References: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
- <8586490.T7Z3S40VBb@workhorse>
- <94866bc6-0fdb-4e6c-ba78-5ebd7138f193@collabora.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
+ Yury Norov <yury.norov@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH] nova-core: vbios: Rework BiosImage composition to use
+ AsRef and traits
+Message-ID: <20251006122330.GA2205242@joelbox2>
+References: <20251005220847.805405-1-joelagnelf@nvidia.com>
+ <DDB0EGNAS7N8.X5GFDGYLHUPX@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DDB0EGNAS7N8.X5GFDGYLHUPX@nvidia.com>
+X-ClientProxiedBy: BN9PR03CA0654.namprd03.prod.outlook.com
+ (2603:10b6:408:13b::29) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|LV2PR12MB5822:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee6fa2cf-76a1-4639-0150-08de04d32a05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?O+sNuoA3syux/K/o46MfT1cjju5vy3Rpb5FkpjdSjBMfPMUy10edTLtM14+s?=
+ =?us-ascii?Q?fU4G92dmDBRxgg/j2mNiGpnbs/X+S5lkDHyblLg7GwqKZQ/pjqppHOiNHTgL?=
+ =?us-ascii?Q?qFHUuTvvE6uNDLyakC3r+2xvfnrK4g2fMDpp9/1v6D6cI7Iquu5VEBruRZD1?=
+ =?us-ascii?Q?C4EqJHLLdwiF3+wBKMc9mhUI6GEe5ddBcXJ+ab0PO/VV1H0Iuk7s2VWKujkF?=
+ =?us-ascii?Q?sErT9KskZYcaERLKVey1kzEz5OsTJIDnBapGkQfDBaZSG0vneNHCPRjHojg3?=
+ =?us-ascii?Q?ara22Je4S/xw6h7TvswdA8JsgMGBDClXLva5K1g1FGeBMXsg3NJl35ckU5IQ?=
+ =?us-ascii?Q?6xG+9wOg5jzslwuSIM3hI3ZTLCOwl1GkMYy3g0X2ibqHfwhTeptnhyXobWNq?=
+ =?us-ascii?Q?/4d/PR+XGgn5NmlsiEA9G0J7SRN5+WimxtfOm7PpxONyQ1XOOqB2Wwezvv9Y?=
+ =?us-ascii?Q?8w0cUQVP6My0wluqxsYOChL4Nb2cMVin1QK8r4VNP058WTHaSK7fTMzhqABP?=
+ =?us-ascii?Q?pguSWqqwS15DYP/5zn/lNE/bsbngeSpkBbeWZ3sQtTIaoZFvK50OxGwHLqYx?=
+ =?us-ascii?Q?Hzeg9DwKvdjo0K1ReRPJKuMS4BUl+YBvV78OywxadVjc/PQpnBrsSni9LU0n?=
+ =?us-ascii?Q?E9HIhUYkgC2gxjY5Gzy64+OvGjhOrm/Egd02NICYP0pN2hdy7srQdsEKA4lP?=
+ =?us-ascii?Q?Sg4bZFsbzVGmvisQkNCT6t+FN/X5/SciqDE7o6ZiNRMtmoZIEiHwFd7GJxnb?=
+ =?us-ascii?Q?CFK2AsVgR/j/DB83iuJFYJ92Fl0MOWrN3aNXWyo+NLEO8sgjfOW/oySRlKXs?=
+ =?us-ascii?Q?h+Xk+kf0UchL1GWyu3mhfO4u5k5GynLZwlChKUpOovTXBQFgNqztzsHrEu7E?=
+ =?us-ascii?Q?eT4uELdS+T3YP6IXzCf37J2ngvIjzIBcZa6SNosKQZUxS3fS5QBobVDJT8DR?=
+ =?us-ascii?Q?Xh8AUJtjYx3GryHb8yhOwrV69bkJgqRHGoXzBhpOQI6q3TH3YAU/6O3KnWy2?=
+ =?us-ascii?Q?Z80o2iwmRigcx5mCJb+z7vRbHeUro1EbXHnW7Mm+y5G/5wKdR7IeOymoRIPe?=
+ =?us-ascii?Q?Bw+nmpF6RS8JwE5l1EQnx98Jt2hufZ6ElMrMjXSlhluonNuzLPlDXK3nSIr3?=
+ =?us-ascii?Q?9OsWR1GrPp6pynziD/EUaInIsVQpDpSsj6QxDsJyB2kNCGxgOEtFHTI8C1Ja?=
+ =?us-ascii?Q?7/gRYU3KEgwmzRJ3IslBUiZRkN7JPXF+788VbU+d/VufhMpuvdUOuD7vWD6k?=
+ =?us-ascii?Q?ro5LGuDX31yEkfAsp9NPXPcgR43hYbvhyNYFRL/umjDEbR+9K2Dxt1x3qUFz?=
+ =?us-ascii?Q?9JI2vuTP9ocdRXlzGaQDXVWMUNfPhkyJGy1CMda+PnAepmLFVYym5Hhun4Yw?=
+ =?us-ascii?Q?S3Pmyu50SOd6avvC7XAul75wmr36ZebF0e73fkMbpg2YWPQ6nnuzqvuFemIY?=
+ =?us-ascii?Q?GMHcD5nxkMi3+a7O/PInWnGyshzmQlXw?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DJ34gxFLZ8fE0ur2oU5F/TQfN76Eirws26+M13q+YDYe+w4eFEVRCUcfuHlI?=
+ =?us-ascii?Q?KwEEGqeaIhwNzbDzPIULC1ayXrmvfqZfmMsI2vcuIIJy2I+UaTak4mdOxw3R?=
+ =?us-ascii?Q?2Fq/nBRZo01cA183AY8Ist3Mfl1l2aoiL4OGRo2GTXEXXAlCed7qacfRlJGd?=
+ =?us-ascii?Q?3o/JJZwNquPlq1Liy0NvxjFYiSsbjKRPfdXpTU+6CpHNDdFK2rUd2JnH/Zqr?=
+ =?us-ascii?Q?yrtSfgb34wftmtwdU7RCMNZ1BU+/To/mmyAZzg3/gzIYqy6g075ZurhmYYYj?=
+ =?us-ascii?Q?KOp17qK73mfKkWmjKJMxmylkV7AxfLpzN/ZCHSUoZ7Rrr5scvzgOvLPFnaPX?=
+ =?us-ascii?Q?vUrzwYO3xqV4XfPg+4GOfhjqANMZAEo8UmoNkSHeJ0PJsgdxzqat2y6mWmtI?=
+ =?us-ascii?Q?Fsx7YEwo5b/dnYemLmKYJfPUwkQ3Y1fCaH9mKCbGUf5HyUzRjK4QSBozD1Mp?=
+ =?us-ascii?Q?bYxLAuqASc5OnyxYWgU35dLtcMydn9qTjUpK4YSatmvh/T02/1cUv2bn7dLx?=
+ =?us-ascii?Q?9IcXfO+NgXO+ahKgQQF7rbUZhnplTkT0vp4J33cqRAuMIMSXVHVGpRkW7kCe?=
+ =?us-ascii?Q?XxxUMYewYcOwomnTpvXPDRi/tRdPOahqpsNbSrkojrzdQ+WoRRr2glg42v8b?=
+ =?us-ascii?Q?Xfo67XBtWE4B3Evv/nNAALlWWNiArHna6zwpeBI7TeTD5/dIDp2KJvgWm8bb?=
+ =?us-ascii?Q?++92MrgmS1SrJhgTHoP1yRMGKXMIDe5SEV8TsVlEdr1xNqGTYrJnkQv17BIa?=
+ =?us-ascii?Q?JsJhz8l2dvF6aVG+CJtHXqOCZatU3nZI10fh5fyL5xpOwVCnPau7lH5f0QEZ?=
+ =?us-ascii?Q?OBjhxnCQgABxH/RgbE0Mzr0g3P307n0O7zAVlXdMs3m6Opk7zw/5/dfEDoNZ?=
+ =?us-ascii?Q?xQOgMR5baJ8bDNwWi06OJhO47znwkCsY9R48Cf3+O8qh1JFyG+D/o0qfnef/?=
+ =?us-ascii?Q?Yx+gImWY/tr/LwGujlTKGcrC1iIo6efqpjXDpr6k7ISpDlSpCAqRGB1BpsT3?=
+ =?us-ascii?Q?sjxC9zRPnRsrYf5AEcI2oFgJDakpTggFQHFQ6X/uQB3EXvHwLEjsorOPrv6p?=
+ =?us-ascii?Q?fkfIzmE+De5Oo7IO9z5FsDoO3awi4Q/vKoaS7uozHoXAb8SsAlKhPFuf52un?=
+ =?us-ascii?Q?2ZFpfnmKiJsbdOINEWA91wM5xdHkNYO8KMB9dTkWpcQ/aqAZR49giakonwK0?=
+ =?us-ascii?Q?Z+M+ZSSvdhUtp58F9dT+gTT4buTNr6/hFou58NxnFVEfmujo8xirjoh4XZY4?=
+ =?us-ascii?Q?JMRBcMSunhYOgqGGEUBJKm4Kcm+YJOz/DXjOK+DRDZf7RP8PK+8V8mYzpnM+?=
+ =?us-ascii?Q?69v2GM7YMvMN0L9giOyxpOaRjMljO5K4Cnr8gsFIg2sgURLu7tx9ZrClTc7S?=
+ =?us-ascii?Q?diUn0OfjBxpLggpCGY7XSD91rMVP1iFkEyBuSAPkhOuSjCoesCO3hMOS7mnC?=
+ =?us-ascii?Q?RBcpomIETRwtf8jivZ+trykCQzFGhUjma9CG7SR01u/G7YhYriQ//bdKzfiq?=
+ =?us-ascii?Q?KX65p7Dq/D0puignRXaWcrNuLS86mdi28EEuj9Q+M4W0BvOdeb/P0oTrT7Fa?=
+ =?us-ascii?Q?BTGvPVdz+cEk6lLpSI8Xj5M6Vd5y44GUfe981DkL?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee6fa2cf-76a1-4639-0150-08de04d32a05
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 12:23:32.4461 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YuuLEEAPOqqdTSInZxOupDF50qslW2S9R9ghum3KXRwAE4pHLXHtI6B161XjQwKZFmjAUgZFcWwvhuFLrbI3sQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5822
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,260 +161,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, 6 October 2025 13:37:28 Central European Summer Time AngeloGioac=
-chino Del Regno wrote:
-> Il 06/10/25 12:58, Nicolas Frattaroli ha scritto:
-> > On Friday, 3 October 2025 23:41:16 Central European Summer Time Chia-I =
-Wu wrote:
-> >> On Fri, Oct 3, 2025 at 1:16=E2=80=AFPM Nicolas Frattaroli
-> >> <nicolas.frattaroli@collabora.com> wrote:
-> >>>
-> >>> Various MediaTek SoCs use GPU integration silicon named "MFlexGraphic=
-s"
-> >>> by MediaTek. On the MT8196 and MT6991 SoCs, interacting with this
-> >>> integration silicon is required to power on the GPU.
-> >>>
-> >>> This glue silicon is in the form of an embedded microcontroller runni=
-ng
-> >>> special-purpose firmware, which autonomously adjusts clocks and
-> >>> regulators.
-> >>>
-> >>> Implement a driver, modelled as a pmdomain driver with a
-> >>> set_performance_state operation, to support these SoCs.
-> >> I like this model a lot. Thanks!
-> >>
-> >> panthor might potentially need to interact with this driver beyond
-> >> what pmdomain provides. I am thinking about querying
-> >> GF_REG_SHADER_PRESENT. Not sure if we've heard back from the vendor.
-> >=20
-> > We did. The vendor confirmed this value is read by the EB firmware
-> > from an efuse, but considers the efuse address to be confidential.
-> > Consequently, we are not allowed to know the efuse address, or any
-> > of the other information required to read the efuse ourselves
-> > directly, such as what clocks and power domains it depends on.
-> >=20
-> > We therefore likely need to pass GF_REG_SHADER_PRESENT onward, but
-> > I do have an idea for that: struct generic_pm_domain has a member
-> > "cpumask_var_t cpus", which is there to communicate a mask of which
-> > CPUs are attached to a power domain if the power domain has the flag
-> > GENPD_FLAG_CPU_DOMAIN set. If the flag isn't set, the member is
-> > unused.
->=20
-> cpumask_var_t is not going to be the right type for anything else that is
-> not a cpumask, as that is limited by NR_CPUS.
+On Mon, Oct 06, 2025 at 03:01:42PM +0900, Alexandre Courbot wrote:
+> Hi Joel,
+> 
+> On Mon Oct 6, 2025 at 7:08 AM JST, Joel Fernandes wrote:
+> <snip>
+> > +/// Trait for all BIOS image types
+> > +#[expect(dead_code)]
+> > +trait BiosImageTrait: AsRef<BiosImage> {
+> 
+> I see that this trait is implemented 4 times, but it has no user.
+> Actually I can remove the trait definition, its implementations, and the
+> `AsRef` implementations added by this patch, and the code builds just
+> fine - only with 50 less lines of code. Is this needed at all?
+> 
 
-Hmmm, good point, I thought that would be done by the allocation
-but nope.
-=20
-> You'd have to declare a new bitmap, suitable for generic devices, which m=
-ay
-> get a little complicated on deciding how many bits would be enough... and
-> if we look at GPUs... AMD and nV have lots of cores, so that becomes a bit
-> unfeasible to put in a bitmap.
->=20
-> Not sure then how generic that would be.
+Indeed! So in the previous edition of this code, the pattern was: iterate
+over specific image types and then call the common methods, from the main
+loop. Now the pattern is iterate over the common type and firectly call the
+common methods.
 
-Yeah, at this point I'm rapidly approaching "shove stuff into pmdomain
-for no obvious pmdomain reason" territory, because we're not really
-communicating that this pmdomain is only tied to these cores, but
-rather that only these cores are present. Subtle difference that
-could come bite us in the rear once some other chip has several power
-domains that tie to different GPU shader cores.
+So I inadvertently simplified the usecase thus removing the need for the
+"function routing" in the first place!
 
->=20
-> >=20
-> > This means we could overload its meaning, e.g. with a new flag, to
-> > communicate such masks for other purposes, since it's already the
-> > right type and all. This would be quite a generic way for hardware
-> > other than cpus to communicate such core masks. I was planning to
-> > develop and send out an RFC series for this, to gauge how much Ulf
-> > Hansson hates that approach.
-> >=20
-> > A different solution could be that mtk-mfg-pmdomain could act as an
-> > nvmem provider, and then we integrate generic "shader_present is
-> > stored in nvmem" support in panthor, and adjust the DT binding for
-> > this.
-> >=20
-> > This approach would again be generic across vendors from panthor's
-> > perspective. It would, however, leak into DT the fact that we have
-> > to implement this in the gpufreq device, rather than having the
-> > efuse read directly.
-> >=20
-> >> Have you considered moving this to drivers/soc/mediatek such that we
-> >> can provide include/linux/mtk-mfg.h to panthor?
-> >=20
-> > Having panthor read data structures from mtk-mfg-pmdomain would be a
-> > last resort for me if none of the other approaches work out, as I'm
-> > not super keen on adding vendor-specific code paths to panthor
-> > itself. A new generic code path in panthor that is only used by one
-> > vendor for now is different in that it has the potential to be used
-> > by a different vendor's integration logic in the future as well.
-> >=20
-> > So for now I'd like to keep it out of public includes and panthor as
-> > much as possible, unless the two other approaches don't work out for
-> > us.
-> >=20
->=20
-> I don't really like seeing more and more vendor specific APIs: MediaTek d=
-oes
-> suffer quite a lot from that, with cmdq being one of the examples - and t=
-he
-> fact that it's not just MediaTek having those, but also others like Qualc=
-omm,
-> Rockchip, etc, is not an excuse to keep adding new ones when there are ot=
-her
-> alternatives.
->=20
-> Also another fact there is that I don't think that panthor should get any
-> vendor specific "things" added (I mean, that should be avoided as much as
-> possible).
+That is good news, so I will just submit a new patch reworking this without
+the new traits and AsRef.
 
-The big issue to me is that vendors will always prefer to shoehorn
-more vendor specific hacks into panthor, because the alternative is
-to tell us how the hardware actually works. Which they all hate
-doing. I definitely agree that we should work from the assumption
-that panthor can support a Mali implementation without adding too
-much special code for it, because in 10 years there will still be
-new devices that use panthor as a driver, but few people will still
-be testing MT8196 codepaths within panthor, which makes refactoring
-prone to subtle breakage.
+That will result in 50 lines lesser as you mentioned! So please discard
+this patch, thanks! Should we need routing to common methods, we can always
+add that in the future.
 
-Not to mention that we don't want to rewrite all the vendor specific
-code for Tyr.
-
-> That said - what you will be trying to pass is really a value that is read
-> from eFuse, with the EB firmware being a wrapper over that: if we want, we
-> could see that yet-another-way of interfacing ourselves with reading nvmem
-> where, instead of a direct MMIO read, we're asking a firmware to give us a
-> readout.
->=20
-> This leads me to think that one of the possible options could be to actua=
-lly
-> register (perhaps as a new platform device, because I'm not sure that it =
-could
-> be feasible to register a pmdomain driver as a nvmem provider, but ultima=
-tely
-> that is Ulf and Srinivas' call I guess) a nvmem driver that makes an IPI =
-call
-> to GPUEB and gives back the value to panthor through generic bindings.
-
-Lee Jones will probably tell me to use MFD instead and that I'm silly
-for not using MFD, so we might as well. Should I do that for v7 or
-should v7 be less disruptive? Also, would I fillet out the clock
-provider stuff into an MFD cell as well, or is that too much?
-
-Also, nb: there is no IPI call for getting the SHADER_PRESENT value
-that we know of. It's a location in the reserved shared memory
-populated by the EB during the shared mem init, which ideally isn't
-done multiple times by multiple drivers because that's dumb.
-
-On the other hand, I don't really know what we get out of splitting
-this up into several drivers, other than a more pleasing directory
-structure and get_maintainers picking up the right subsystem people.
-
-> >>>
-> >>> The driver also exposes the actual achieved clock rate, as read back
-> >>> from the MCU, as common clock framework clocks, by acting as a clock
-> >>> provider as well.
-> >>>
-> >>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> >>> ---
-> >>>   drivers/pmdomain/mediatek/Kconfig            |   16 +
-> >>>   drivers/pmdomain/mediatek/Makefile           |    1 +
-> >>>   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c | 1027 +++++++++++++++=
-+++++++++++
-> >>>   3 files changed, 1044 insertions(+)
-> >> [...]
-> >>> +static int mtk_mfg_init_shared_mem(struct mtk_mfg *mfg)
-> >>> +{
-> >>> +       struct device *dev =3D &mfg->pdev->dev;
-> >>> +       struct mtk_mfg_ipi_msg msg =3D {};
-> >>> +       int ret;
-> >>> +
-> >>> +       dev_dbg(dev, "clearing GPUEB shared memory, 0x%X bytes\n", mf=
-g->shared_mem_size);
-> >>> +       memset_io(mfg->shared_mem, 0, mfg->shared_mem_size);
-> >>> +
-> >>> +       msg.cmd =3D CMD_INIT_SHARED_MEM;
-> >>> +       msg.u.shared_mem.base =3D mfg->shared_mem_phys;
-> >>> +       msg.u.shared_mem.size =3D mfg->shared_mem_size;
-> >>> +
-> >>> +       ret =3D mtk_mfg_send_ipi(mfg, &msg);
-> >>> +       if (ret)
-> >>> +               return ret;
-> >>> +
-> >>> +       if (readl(mfg->shared_mem) !=3D GPUEB_MEM_MAGIC) {
-> >> Add the offset GF_REG_MAGIC, even though it is 0.
-> >=20
-> > Good catch, will do!
-> >=20
-> >>
-> >>> +               dev_err(dev, "EB did not initialise shared memory cor=
-rectly\n");
-> >>> +               return -EIO;
-> >>> +       }
-> >>> +
-> >>> +       return 0;
-> >>> +}
-> >> [...]
-> >>> +static int mtk_mfg_mt8196_init(struct mtk_mfg *mfg)
-> >>> +{
-> >>> +       void __iomem *e2_base;
-> >>> +
-> >>> +       e2_base =3D devm_platform_ioremap_resource_byname(mfg->pdev, =
-"hw-revision");
-> >>> +       if (IS_ERR(e2_base))
-> >>> +               return dev_err_probe(&mfg->pdev->dev, PTR_ERR(e2_base=
-),
-> >>> +                                    "Couldn't get hw-revision regist=
-er\n");
-> >>> +
-> >>> +       if (readl(e2_base) =3D=3D MFG_MT8196_E2_ID)
-> >>> +               mfg->ghpm_en_reg =3D RPC_DUMMY_REG_2;
-> >>> +       else
-> >>> +               mfg->ghpm_en_reg =3D RPC_GHPM_CFG0_CON;
-> >>> +
-> >>> +       return 0;
-> >>> +};
-> >> Extraneous semicolon.
-> >=20
-> > Good catch, will fix!
-> >=20
-> >>
-> >>> +static int mtk_mfg_init_mbox(struct mtk_mfg *mfg)
-> >>> +{
-> >>> +       struct device *dev =3D &mfg->pdev->dev;
-> >>> +       struct mtk_mfg_mbox *gf;
-> >>> +       struct mtk_mfg_mbox *slp;
-> >>> +
-> >>> +       gf =3D devm_kzalloc(dev, sizeof(*gf), GFP_KERNEL);
-> >>> +       if (!gf)
-> >>> +               return -ENOMEM;
-> >>> +
-> >>> +       gf->rx_data =3D devm_kzalloc(dev, GPUEB_MBOX_MAX_RX_SIZE, GFP=
-_KERNEL);
-> >> It looks like gfx->rx_data can simply be "struct mtk_mfg_ipi_msg rx_da=
-ta;".
-> >=20
-> > Hmmm, good point. I'll change it to that.
-> >=20
->=20
-> Honestly, I prefer the current version. No strong opinions though.
-
-And I just realised you're sorta right in that; struct mtk_mfg_mbox is
-a type used by both the gpufreq mbox and the sleep mbox. The struct
-mtk_mfg_ipi_msg type is only the right type to use for the gpufreq
-mbox. By making rx_data a `struct mtk_mfg_ipi_msg` type, we're
-allocating it for both channels, and in the case of the sleep mailbox,
-it's the wrong type to boot (though not like sleep replies).
-
-So yeah I think I'll keep the current construct. If this driver grows
-another limb in the future that talks to yet another mailbox channel,
-we'll appreciate not having to untangle that.
-
-> [...]
-
-Kind regards,
-Nicolas Frattaroli
-
-
+(Just to note, we can discard another 20 or so lines once we have the support
+to generate the enum TryFrokm boilerplate).
