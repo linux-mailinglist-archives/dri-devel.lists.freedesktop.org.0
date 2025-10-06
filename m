@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97C1BBD833
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 11:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786CBBBD83C
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 11:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E93EA10E3D6;
-	Mon,  6 Oct 2025 09:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2563F10E3DD;
+	Mon,  6 Oct 2025 09:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="AarXZqbn";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="AnUZCl6y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011010.outbound.protection.outlook.com [40.107.208.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1D9210E3D3;
- Mon,  6 Oct 2025 09:53:11 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010042.outbound.protection.outlook.com
+ [40.93.198.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9833610E3DD;
+ Mon,  6 Oct 2025 09:53:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SbV0FJuIeJ7/td45nE9voKD4Krk56H6b5mM/LyJ6lRfr8tXehWZiEgsS8t+yRPIwHsoT0rIw53VLg1UvzbY8p5Xbw8esYW/7J3K8mkLjP0orccVFuCZhtO0BytDU191YFSJeFjx+BEeQrMQKSv9NvpabvNtoQOnUx3mcBlWxe89SfrwrvMrIDaZFpU3A5CeHLAn/NP9705Fhfsva3p23PP0hYhnZOJE/IJkpl9MNDEqvg2vH7XgFcSxmjYDZGebQ31e34mkOV34nzSQ+pMh+9xV9kzAwij5rnfNtaqEGOLaYIGPydWMPOu7dWD5hW8HEzg2RZC3KGhK2gMO448q5zQ==
+ b=yJykG7mR8eldNsH/RwNa7I3IwsK3J9ebJg3BgGQEBJgX6NYaAHZ8+Ov0vb71YhuKlwj7WIPjdVPWmljZXPs9eZu9AQ5hRtIlX7Th87K1UjBJkYA58C/6Y5nbRQn3epr+gjbtQGvtZb9LF4T4S1fnVWLDsBQHJQZ4Ub+77IN/yedbjt+OhhSF9frI83bUzwzbyGNRzqDFv5ey2qmRp2ToNXf/Ph8M9udL4iTkEJEScl9GGoTFR7B9Wl0QfMFcvfugVtVnJxp7Hj13XUY4UH1k7dbiiAKOWye5xrzNjtxWJo0D00A9JFUpgSxlP7E96IEsj1XMbU8F6RE/wm+T5lcFUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e6PIPeHk6qzd5dt/PidSkgCiCcj6HFwaFQsx4xiWkes=;
- b=il7Cad0NNIB8skI/vnDSEe/BVZ/GzRRF9xQz7mDJo+qJcGU1/yFksqv6xLr+rZxsMKsPJckVk+iRK9cAlf8iT6ApNWW6cSvWIXChyhI/T5IZRrg+ZQvLBgvK1QDDm2qp8b1v7QAM1U5iLHriHPmZprVA5qAAufKR2hZNUJL1lXW7TFgqDjmCxGAra+fVhM3wWFxIfBBJPATjc8EIYPGX8qRJuOlwWAXoqMW64ffHkatX2hJyA/Y8uzRprLkhoUysmPMMT+NPfTsnUxAWwdKHpxIO19nX10LHmyRuqcL2KKkKaujKY7eul4W3L9qWjzpQ27/jGBuO4NHobvOk9vlaPA==
+ bh=dIjrBKm4497k1qcjlWLdwEMGAYB/8ciTfupWnLZtxso=;
+ b=OCq732tLMyieGYZQUAvHuUDmMPWtAOSjbxsnT1/tEpPx4+jdGCZEBhI5vw6KUvf0pt9ylIEflEs+4Ec+JuOgxwb8HwaaQkO9twxFWEHZwBBAEqlRFvLsr6lNuYni23eAYRQj2P4UKYDk/ZNFlzfgjm08NYbiWMkv1ZWaJkpwkfTXszn3F/5DIWVfIw0oWP+t+uzkvdmNs4D/FUonkQN3iVGpIvLS1tkj5M1YgyyTJYqFB4q87Lt/6+2QAoxqu6YaIvvLCHsMS9vSWuBbTg5qjOpVOdT3owGVqD1e4UT/EtC0vECpbihZehXf4g9RtrVFHgqQNCqn1pThCdtOgd4nvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e6PIPeHk6qzd5dt/PidSkgCiCcj6HFwaFQsx4xiWkes=;
- b=AarXZqbn7+qA9Xpc0eoZl8PEUl71vHFjyT/SzQnI4e/gpqVyhaSrPzsM4/k4eQvB9DYLGyFWcTomZdsiAio4IGxEP8lwZz0HNGvcnR8hyZZNTHEB9N1EXnhJuVEV6GGWVIVmlR5oh8xigrxcSfIoAjvvK4LBpO1fX8SHEfytqV8=
-Received: from BYAPR08CA0072.namprd08.prod.outlook.com (2603:10b6:a03:117::49)
- by DM6PR12MB4420.namprd12.prod.outlook.com (2603:10b6:5:2a7::8) with
+ bh=dIjrBKm4497k1qcjlWLdwEMGAYB/8ciTfupWnLZtxso=;
+ b=AnUZCl6y7oSvr0il2XYmkB4HCBPx0C4NGkRZBqQzZGaDuNe+UhCNRDNnln7a8ydqcXcYlhyLYzrbCNOQ/79URv2UAzATkq8p/5ohPct2d4nmGQKZZLvEnaw9Xkt26Ae87CjZxeHZjRSYOEfL2tokff29CowJBHOCHHdcSYgidZI=
+Received: from SJ0PR03CA0117.namprd03.prod.outlook.com (2603:10b6:a03:333::32)
+ by DS0PR12MB8248.namprd12.prod.outlook.com (2603:10b6:8:f3::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 09:53:01 +0000
-Received: from SJ5PEPF0000020A.namprd05.prod.outlook.com
- (2603:10b6:a03:117:cafe::9b) by BYAPR08CA0072.outlook.office365.com
- (2603:10b6:a03:117::49) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.18; Mon, 6 Oct
+ 2025 09:53:06 +0000
+Received: from SJ5PEPF00000205.namprd05.prod.outlook.com
+ (2603:10b6:a03:333:cafe::4b) by SJ0PR03CA0117.outlook.office365.com
+ (2603:10b6:a03:333::32) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.20 via Frontend Transport; Mon,
- 6 Oct 2025 09:53:01 +0000
+ 6 Oct 2025 09:53:05 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,23 +49,24 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF0000020A.mail.protection.outlook.com (10.167.244.43) with Microsoft
+ SJ5PEPF00000205.mail.protection.outlook.com (10.167.244.38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9203.9 via Frontend Transport; Mon, 6 Oct 2025 09:53:01 +0000
+ 15.20.9203.9 via Frontend Transport; Mon, 6 Oct 2025 09:53:05 +0000
 Received: from arun-nv33.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 6 Oct
- 2025 02:52:57 -0700
+ 2025 02:53:01 -0700
 From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 To: <christian.koenig@amd.com>, <matthew.auld@intel.com>,
  <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
  <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
 CC: <alexander.deucher@amd.com>, <jani.nikula@linux.intel.com>,
  <peterz@infradead.org>, <samuel.pitoiset@gmail.com>, Arunpravin Paneer Selvam
- <Arunpravin.PaneerSelvam@amd.com>, <stable@vger.kernel.org>
-Subject: [PATCH v8 2/3] drm/buddy: Separate clear and dirty free block trees
-Date: Mon, 6 Oct 2025 15:21:23 +0530
-Message-ID: <20251006095124.1663-2-Arunpravin.PaneerSelvam@amd.com>
+ <Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH v8 3/3] drm/buddy: Add KUnit tests for allocator performance
+ under fragmentation
+Date: Mon, 6 Oct 2025 15:21:24 +0530
+Message-ID: <20251006095124.1663-3-Arunpravin.PaneerSelvam@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251006095124.1663-1-Arunpravin.PaneerSelvam@amd.com>
 References: <20251006095124.1663-1-Arunpravin.PaneerSelvam@amd.com>
@@ -76,53 +78,53 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF0000020A:EE_|DM6PR12MB4420:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15d806c9-ab02-4d92-f647-08de04be234c
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000205:EE_|DS0PR12MB8248:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3bf4ee2e-d667-40d3-a360-08de04be25a0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|1800799024|376014|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?A9UpYG3Ci7R4xrtn40IqDJdFTr7jaWYgwekvBUBGjYrGogmaoejLfefdMebV?=
- =?us-ascii?Q?0uIAFgN1ymRDryiRLcd649UR0YVSxiGERMFgQspz4rss0xRxIeOSTh+44Qk+?=
- =?us-ascii?Q?KhliBvPna7Mt1EhV4gIEh7Dtpiw6MMZQ/TCk2h7bzQy5JK9vRi6aRjFDNNzw?=
- =?us-ascii?Q?UYKERlkbtWDZGzlYPhxCr866rKU8I6kxuk7ghYujxRZPZXUM9K2tuqePAn7y?=
- =?us-ascii?Q?t0e3AHOwNIEmpbbqXD7Wf4770blHwDJFjY6U2TSCekudRKTy7/vCmL4/0LhO?=
- =?us-ascii?Q?6wnH0NLnjVtubNb70pQQVSC+0eOmHB6Wg6GT7fGuTIAgNAdek83FQHvK/NDL?=
- =?us-ascii?Q?I0UqlkJvmW5f47KNvfr/N0s5hKJrxu8SHzHLND9WWu9dUmEasN2TTENm9rg9?=
- =?us-ascii?Q?ec/WwuXT7rl2SjlapixmrvvPMALzcua3bxQ3M0HxkEKfcD1Osv/RN13neZXd?=
- =?us-ascii?Q?Mc6Hdz2WV1Ps4HMSzmIPhZ3PM8JsjiB8i95scMYJ7OxPtlIK+A4txvFM3QwF?=
- =?us-ascii?Q?XGyn7IQGD4gwTc6mBmK3/0u5vA978ZC9UwCfR/VhbZ9Honq8QAji2C9R97e1?=
- =?us-ascii?Q?rJlaZ1NBDGJHAzEw8dAMj4mwzQSQMpoiodmGUv+9nyZzQJxCyNOOjmpZ1bjg?=
- =?us-ascii?Q?xo2dulwaVT9LrnQLbN1KalsbKvCtYXvil4yxDG/Bq6M59SWKXUFZDt5/ACxP?=
- =?us-ascii?Q?D3F/+rdm5sxJaxVPvSPrZBVR3U8giIORiZw/czAi0ExLc2YuUKluFO4SS0Fp?=
- =?us-ascii?Q?9fM8mMQrgDrvyfYh1s2XJPsLnkxaMi88vPxI3mnIvaHPI0cLyaitWhFjwd9f?=
- =?us-ascii?Q?c7TCM8dQg/2YSPYvEBE2+wrHJcHUCdIE7p89Ta/PLaUIXRcqAbAVTJce07zf?=
- =?us-ascii?Q?Ulyp1qJGxRjzd34f9cTRLTOAtv7xWRzTqPhHSerQ1NaBS+lXsdCgSTV1nu6m?=
- =?us-ascii?Q?08XSLmIXfcRIWQTS+nJgn3ogmeAXYRUs0Oa3rg+CXbOfNW/K37CQ+vAXxLYb?=
- =?us-ascii?Q?NLTQKR8APh1Xs7Lz9jvpN45QoJIlWVg91FQTiCAR7xa77vubPeWSNxtRimBG?=
- =?us-ascii?Q?sM8hbYlQF20efhKrZ4oil/ezEQkH65nNwB8YsyM6/H6/sCKWh1FPN1bS8zET?=
- =?us-ascii?Q?yzx0o18bccTMJLfG5Sy1CN+mGAwx6nCAeAvzU8vJSRSB0VWNHfXt4uElhk7z?=
- =?us-ascii?Q?lFV4cmTYW8PTg33x+4YsaI/9iRJnRZzsQ5YQ9Ogd9KK0VEiAQneUsy7sSoqu?=
- =?us-ascii?Q?dvgbJSayKdXdt+JnpD9pYM2p1xAGxgX4JcGKDeaUthtDX/CxTn+6xYUfNqO3?=
- =?us-ascii?Q?8vFKblH5K7UNtp+6S6OirJpKSQDfPCAzpqXfYshLVXUKQIJh0p0aqiG1DZDV?=
- =?us-ascii?Q?ekvVkbfcJFGyY0+rYDRgq9oZcH3XSX/l/BvejrEGzrfsBqqk/KPChVutgrTU?=
- =?us-ascii?Q?lUstJzzt0eySNCQfCfuFFHkyEMFHCzxxwGa3pfIewb6pQcF8QU3HO7gQvY6b?=
- =?us-ascii?Q?8BBIL4ceGSWLuwwHpx01qnFzwJE5hYktEPIGVJLhKhzkqgsi83mtG3bkymB4?=
- =?us-ascii?Q?BNlRNXNUQq4lLHbKHK0=3D?=
+ ARA:13230040|82310400026|1800799024|36860700013|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?r01tkH3b80xrfz+c0DIG1J4QMijPXmBs2oS+KYYvwK7X0wOEnWwCXPiyvV5E?=
+ =?us-ascii?Q?Jf63AVFQBI1QFx4QE3z+SYXr5F834+ulDIdvqtbPYxDKigb/0lYUGfNZcfca?=
+ =?us-ascii?Q?gUXZFW+FMu7n+yIoZiFmHC0yslCCUFHgJ3AZRiohFOfGvjMLerc2n9AnSGN3?=
+ =?us-ascii?Q?JmUJUWb/XUr3yhcXYrT2K8IEu5KZzVqjC6XSkQGgjLte84iOOR+9BS25sm4L?=
+ =?us-ascii?Q?gpBcTYs5qcLXhLeSuXOdoyanFoDAnRdFWOVO8f8+UykxcWuZ36pEimOo4BUr?=
+ =?us-ascii?Q?+aY41QJN6o+yPfAKyVjBDja24is12CumOsVVTgAUQ3daGUodFixLzr5edELI?=
+ =?us-ascii?Q?Ezc0V6awaI/iGUKwNKsGsjnD9/QqWqpyIYfAWcjQNOfUD/ECk5wEvKaTqGxV?=
+ =?us-ascii?Q?EIMLXAZ3iW8YzwiJkpK5FhHlTBfPIRiYQq7oulppe9wUpxd1gQtPMo/XNswz?=
+ =?us-ascii?Q?+ZkbojAA93/dmfmJabSxH9bco8iL9hjlhcEjNECw+WZmoprbBeCFWciL2raT?=
+ =?us-ascii?Q?RoDnne/qgL7pZAiJi8g7rEXav589g8Nw49Wytp9MRVZ28CwVrRYBe1z4GALs?=
+ =?us-ascii?Q?4Fc1XWV2QRk51FwWos+wgVxnicuAyF1XQNPseYGhppc1P4bgbCZ5NSZv6yYJ?=
+ =?us-ascii?Q?kS1A282hp9jmFDsKkfk4ady+9Vq5tQYPjBbS6PSUWwkRS2Y8Oda10j/vmGjC?=
+ =?us-ascii?Q?TMIKQN1rwu81hNrJCC1J+jZC/WN6vLMJ85XcGKeXiQoIUXqb0/HER5sgewQ+?=
+ =?us-ascii?Q?aMMzFHG3OR8QeyhWFZeuaSSdMszYmAZaj0+DFSGadE1KtebieIS1hWQpqX5C?=
+ =?us-ascii?Q?4SkP5EVXHC0QLEQs77F5stys+rMtXiiExNWkb+Yi6YGAGXJ5bMC1K7/vyDRj?=
+ =?us-ascii?Q?mrSPM6SUnJZmdr5nEIDrfe7wg5GtWDcpx3CKBxioZDlDyx1t6UJ0VQgsWCky?=
+ =?us-ascii?Q?puyVdJY+N7z755+CI6PU3piFppJiWt3QvmOccbEm8Clfcw2dKGNALbn2g4tK?=
+ =?us-ascii?Q?bP35q6PaFcj9VnixkeIjXp1+CqLju25wwJPKP2LYKbNcALAnT9I8wnaKWR+b?=
+ =?us-ascii?Q?kjE/hM8I2Xj1x7rm3gQBg/NZKOkWfbuK8OfBNyqNzaXvSN8/K1rn0WEJ6fLL?=
+ =?us-ascii?Q?GHIiGmeJTYfMqSwoeX23GtZN/YEYnOL7A+lCw2odeBcKKGGgTGdo7r/HSK3x?=
+ =?us-ascii?Q?bsG7oY7tnTewWoRIpBT5xls8/kXMFNEj9L+3N8yhVw5/sbQy483QH4/lnJlc?=
+ =?us-ascii?Q?K3Vq2mbUVEyNFnaDI504Cl6jpk4+cYZ0XU9DCw1RhjwcCrN3t1VTdlqx2Yg9?=
+ =?us-ascii?Q?PkIDH8JzLoQr7tgpAY1EOfxu0S17kbr2ttqX62SPnJbLh69183xr3zWV4yEG?=
+ =?us-ascii?Q?KchfFmMwSD9caBTOpHz5rPNNYMIeKs9260ngtwEHwdPDP9ePI3GpsCLNG13L?=
+ =?us-ascii?Q?fRcamllhEERAoFBhhUwMg4PoyN6j6tWCJC+u0vLwKVDZfZdymV2R9h40TrXn?=
+ =?us-ascii?Q?ZVCFLrgx0LZ9u1iDXwUC+9MJtyoDd2IJVaWcVl5MxjZFaTpw5FSTYvjnSD5n?=
+ =?us-ascii?Q?FkUW8O4FHTE2RIvrecQ=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(13003099007);
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014)(7053199007);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 09:53:01.4394 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15d806c9-ab02-4d92-f647-08de04be234c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 09:53:05.3429 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bf4ee2e-d667-40d3-a360-08de04be25a0
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF0000020A.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF00000205.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4420
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8248
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,631 +140,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maintain two separate RB trees per order - one for clear (zeroed) blocks
-and another for dirty (uncleared) blocks. This separation improves
-code clarity and makes it more obvious which tree is being searched
-during allocation. It also improves scalability and efficiency when
-searching for a specific type of block, avoiding unnecessary checks
-and making the allocator more predictable under fragmentation.
+Add KUnit test cases that create severe memory fragmentation and
+measure allocation/free performance.
 
-The changes have been validated using the existing drm_buddy_test
-KUnit test cases, along with selected graphics workloads,
-to ensure correctness and avoid regressions.
+The tests simulate two scenarios -
 
-v2: Missed adding the suggested-by tag. Added it in v2.
+1. Allocation under severe fragmentation
+   - Allocate the entire 4 GiB space as 8 KiB blocks with 64 KiB alignment,
+     split them into two groups and free with mixed flags to block coalescing.
+   - Repeatedly allocate and free 64 KiB blocks while timing the loop.
+   - Freelist runtime: 76475 ms(76.5 seconds), soft-lockup triggered.
+     RB-tree runtime: 186 ms.
 
-v3(Matthew):
-  - Remove the double underscores from the internal functions.
-  - Rename the internal functions to have less generic names.
-  - Fix the error handling code.
-  - Pass tree argument for the tree macro.
-  - Use the existing dirty/free bit instead of new tree field.
-  - Make free_trees[] instead of clear_tree and dirty_tree for
-    more cleaner approach.
+2. Reverse free order under fragmentation
+   - Create a similarly fragmented space, free half the blocks, reverse
+     the order of the remainder, and release them with the cleared flag.
+   - Freelist runtime: 85620 ms(85.6 seconds).
+     RB-tree runtime: 114 ms.
 
-v4:
-  - A bug was reported by Intel CI and it is fixed by
-    Matthew Auld.
-  - Replace the get_root function with
-    &mm->free_trees[tree][order] (Matthew)
-  - Remove the unnecessary rbtree_is_empty() check (Matthew)
-  - Remove the unnecessary get_tree_for_flags() function.
-  - Rename get_tree_for_block() name with get_block_tree() for more
-    clarity.
-
-v5(Jani Nikula):
-  - Don't use static inline in .c files.
-  - enum free_tree and enumerator names are quite generic for a header
-    and usage and the whole enum should be an implementation detail.
-
-v6:
-  - Rewrite the __force_merge() function using the rb_last() and rb_prev().
-
-v7(Matthew):
-  - Replace the open-coded tree iteration for loops with the
-    for_each_free_tree() macro throughout the code.
-  - Fixed out_free_roots to prevent double decrement of i,
-    addressing potential crash.
-  - Replaced enum drm_buddy_free_tree with unsigned int
-    in for_each_free_tree loops.
-
-Cc: stable@vger.kernel.org
-Fixes: a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
 Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Suggested-by: Matthew Auld <matthew.auld@intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4260
 ---
- drivers/gpu/drm/drm_buddy.c | 333 ++++++++++++++++++++----------------
- include/drm/drm_buddy.h     |   2 +-
- 2 files changed, 188 insertions(+), 147 deletions(-)
+ drivers/gpu/drm/tests/drm_buddy_test.c | 105 +++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index c87210a06c31..f2c92902e4a3 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -12,9 +12,16 @@
- 
- #include <drm/drm_buddy.h>
- 
-+enum drm_buddy_free_tree {
-+	DRM_BUDDY_CLEAR_TREE = 0,
-+	DRM_BUDDY_DIRTY_TREE,
-+	DRM_BUDDY_MAX_FREE_TREES,
-+};
-+
- static struct kmem_cache *slab_blocks;
- 
--#define rbtree_get_free_block(node) rb_entry((node), struct drm_buddy_block, rb)
-+#define for_each_free_tree(tree) \
-+	for ((tree) = 0; (tree) < DRM_BUDDY_MAX_FREE_TREES; (tree)++)
- 
- static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
- 					       struct drm_buddy_block *parent,
-@@ -45,6 +52,30 @@ static void drm_block_free(struct drm_buddy *mm,
- 	kmem_cache_free(slab_blocks, block);
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 7a0e523651f0..5f40b5343bd8 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -21,6 +21,110 @@ static inline u64 get_size(int order, u64 chunk_size)
+ 	return (1 << order) * chunk_size;
  }
  
-+static enum drm_buddy_free_tree
-+get_block_tree(struct drm_buddy_block *block)
++static void drm_test_buddy_fragmentation_performance(struct kunit *test)
 +{
-+	return drm_buddy_block_is_clear(block) ?
-+	       DRM_BUDDY_CLEAR_TREE : DRM_BUDDY_DIRTY_TREE;
-+}
++	struct drm_buddy_block *block, *tmp;
++	int num_blocks, i, ret, count = 0;
++	LIST_HEAD(allocated_blocks);
++	unsigned long elapsed_ms;
++	LIST_HEAD(reverse_list);
++	LIST_HEAD(test_blocks);
++	LIST_HEAD(clear_list);
++	LIST_HEAD(dirty_list);
++	LIST_HEAD(free_list);
++	struct drm_buddy mm;
++	u64 mm_size = SZ_4G;
++	ktime_t start, end;
 +
-+static struct drm_buddy_block *
-+rbtree_get_free_block(const struct rb_node *node)
-+{
-+	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
-+}
++	/*
++	 * Allocation under severe fragmentation
++	 *
++	 * Create severe fragmentation by allocating the entire 4 GiB address space
++	 * as tiny 8 KiB blocks but forcing a 64 KiB alignment. The resulting pattern
++	 * leaves many scattered holes. Split the allocations into two groups and
++	 * return them with different flags to block coalescing, then repeatedly
++	 * allocate and free 64 KiB blocks while timing the loop. This stresses how
++	 * quickly the allocator can satisfy larger, aligned requests from a pool of
++	 * highly fragmented space.
++	 */
++	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, SZ_4K),
++			       "buddy_init failed\n");
 +
-+static struct drm_buddy_block *
-+rbtree_last_free_block(struct rb_root *root)
-+{
-+	return rbtree_get_free_block(rb_last(root));
-+}
++	num_blocks = mm_size / SZ_64K;
 +
-+static bool rbtree_is_empty(struct rb_root *root)
-+{
-+	return RB_EMPTY_ROOT(root);
-+}
++	start = ktime_get();
++	/* Allocate with maximum fragmentation - 8K blocks with 64K alignment */
++	for (i = 0; i < num_blocks; i++)
++		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_64K,
++								    &allocated_blocks, 0),
++					"buddy_alloc hit an error size=%u\n", SZ_8K);
 +
- static bool drm_buddy_block_offset_less(const struct drm_buddy_block *block,
- 					const struct drm_buddy_block *node)
- {
-@@ -59,37 +90,28 @@ static bool rbtree_block_offset_less(struct rb_node *block,
- }
- 
- static void rbtree_insert(struct drm_buddy *mm,
--			  struct drm_buddy_block *block)
-+			  struct drm_buddy_block *block,
-+			  enum drm_buddy_free_tree tree)
- {
- 	rb_add(&block->rb,
--	       &mm->free_tree[drm_buddy_block_order(block)],
-+	       &mm->free_trees[tree][drm_buddy_block_order(block)],
- 	       rbtree_block_offset_less);
- }
- 
- static void rbtree_remove(struct drm_buddy *mm,
- 			  struct drm_buddy_block *block)
- {
-+	unsigned int order = drm_buddy_block_order(block);
-+	enum drm_buddy_free_tree tree;
- 	struct rb_root *root;
- 
--	root = &mm->free_tree[drm_buddy_block_order(block)];
--	rb_erase(&block->rb, root);
-+	tree = get_block_tree(block);
-+	root = &mm->free_trees[tree][order];
- 
-+	rb_erase(&block->rb, root);
- 	RB_CLEAR_NODE(&block->rb);
- }
- 
--static struct drm_buddy_block *
--rbtree_last_entry(struct drm_buddy *mm, unsigned int order)
--{
--	struct rb_node *node = rb_last(&mm->free_tree[order]);
--
--	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
--}
--
--static bool rbtree_is_empty(struct drm_buddy *mm, unsigned int order)
--{
--	return RB_EMPTY_ROOT(&mm->free_tree[order]);
--}
--
- static void clear_reset(struct drm_buddy_block *block)
- {
- 	block->header &= ~DRM_BUDDY_HEADER_CLEAR;
-@@ -112,10 +134,13 @@ static void mark_allocated(struct drm_buddy *mm,
- static void mark_free(struct drm_buddy *mm,
- 		      struct drm_buddy_block *block)
- {
-+	enum drm_buddy_free_tree tree;
-+
- 	block->header &= ~DRM_BUDDY_HEADER_STATE;
- 	block->header |= DRM_BUDDY_FREE;
- 
--	rbtree_insert(mm, block);
-+	tree = get_block_tree(block);
-+	rbtree_insert(mm, block, tree);
- }
- 
- static void mark_split(struct drm_buddy *mm,
-@@ -201,7 +226,7 @@ static int __force_merge(struct drm_buddy *mm,
- 			 u64 end,
- 			 unsigned int min_order)
- {
--	unsigned int order;
-+	unsigned int tree, order;
- 	int i;
- 
- 	if (!min_order)
-@@ -210,45 +235,48 @@ static int __force_merge(struct drm_buddy *mm,
- 	if (min_order > mm->max_order)
- 		return -EINVAL;
- 
--	for (i = min_order - 1; i >= 0; i--) {
--		struct rb_root *root = &mm->free_tree[i];
--		struct rb_node *iter;
-+	for_each_free_tree(tree) {
-+		for (i = min_order - 1; i >= 0; i--) {
-+			struct rb_node *iter = rb_last(&mm->free_trees[tree][i]);
- 
--		iter = rb_last(root);
--
--		while (iter) {
--			struct drm_buddy_block *block, *buddy;
--			u64 block_start, block_end;
-+			while (iter) {
-+				struct drm_buddy_block *block, *buddy;
-+				u64 block_start, block_end;
- 
--			block = rbtree_get_free_block(iter);
--			iter = rb_prev(iter);
-+				block = rbtree_get_free_block(iter);
-+				iter = rb_prev(iter);
- 
--			if (!block || !block->parent)
--				continue;
-+				if (!block || !block->parent)
-+					continue;
- 
--			block_start = drm_buddy_block_offset(block);
--			block_end = block_start + drm_buddy_block_size(mm, block) - 1;
-+				block_start = drm_buddy_block_offset(block);
-+				block_end = block_start + drm_buddy_block_size(mm, block) - 1;
- 
--			if (!contains(start, end, block_start, block_end))
--				continue;
-+				if (!contains(start, end, block_start, block_end))
-+					continue;
- 
--			buddy = __get_buddy(block);
--			if (!drm_buddy_block_is_free(buddy))
--				continue;
-+				buddy = __get_buddy(block);
-+				if (!drm_buddy_block_is_free(buddy))
-+					continue;
- 
--			WARN_ON(drm_buddy_block_is_clear(block) ==
--				drm_buddy_block_is_clear(buddy));
-+				WARN_ON(drm_buddy_block_is_clear(block) ==
-+					drm_buddy_block_is_clear(buddy));
- 
--			if (iter == &buddy->rb)
--				iter = rb_prev(iter);
-+				/*
-+				 * Advance to the next node when the current node is the buddy,
-+				 * as freeing the block will also remove its buddy from the tree.
-+				 */
-+				if (iter == &buddy->rb)
-+					iter = rb_prev(iter);
- 
--			rbtree_remove(mm, block);
--			if (drm_buddy_block_is_clear(block))
--				mm->clear_avail -= drm_buddy_block_size(mm, block);
-+				rbtree_remove(mm, block);
-+				if (drm_buddy_block_is_clear(block))
-+					mm->clear_avail -= drm_buddy_block_size(mm, block);
- 
--			order = __drm_buddy_free(mm, block, true);
--			if (order >= min_order)
--				return 0;
-+				order = __drm_buddy_free(mm, block, true);
-+				if (order >= min_order)
-+					return 0;
-+			}
- 		}
- 	}
- 
-@@ -269,7 +297,7 @@ static int __force_merge(struct drm_buddy *mm,
-  */
- int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
- {
--	unsigned int i;
-+	unsigned int i, j, root_count = 0;
- 	u64 offset = 0;
- 
- 	if (size < chunk_size)
-@@ -291,14 +319,22 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
- 
- 	BUG_ON(mm->max_order > DRM_BUDDY_MAX_ORDER);
- 
--	mm->free_tree = kmalloc_array(mm->max_order + 1,
--				      sizeof(struct rb_root),
--				      GFP_KERNEL);
--	if (!mm->free_tree)
-+	mm->free_trees = kmalloc_array(DRM_BUDDY_MAX_FREE_TREES,
-+				       sizeof(*mm->free_trees),
-+				       GFP_KERNEL);
-+	if (!mm->free_trees)
- 		return -ENOMEM;
- 
--	for (i = 0; i <= mm->max_order; ++i)
--		mm->free_tree[i] = RB_ROOT;
-+	for_each_free_tree(i) {
-+		mm->free_trees[i] = kmalloc_array(mm->max_order + 1,
-+						  sizeof(struct rb_root),
-+						  GFP_KERNEL);
-+		if (!mm->free_trees[i])
-+			goto out_free_tree;
-+
-+		for (j = 0; j <= mm->max_order; ++j)
-+			mm->free_trees[i][j] = RB_ROOT;
++	list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
++		if (count % 4 == 0 || count % 4 == 3)
++			list_move_tail(&block->link, &clear_list);
++		else
++			list_move_tail(&block->link, &dirty_list);
++		count++;
 +	}
- 
- 	mm->n_roots = hweight64(size);
- 
-@@ -308,8 +344,6 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
- 	if (!mm->roots)
- 		goto out_free_tree;
- 
--	i = 0;
--
- 	/*
- 	 * Split into power-of-two blocks, in case we are given a size that is
- 	 * not itself a power-of-two.
-@@ -328,24 +362,26 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
- 
- 		mark_free(mm, root);
- 
--		BUG_ON(i > mm->max_order);
-+		BUG_ON(root_count > mm->max_order);
- 		BUG_ON(drm_buddy_block_size(mm, root) < chunk_size);
- 
--		mm->roots[i] = root;
-+		mm->roots[root_count] = root;
- 
- 		offset += root_size;
- 		size -= root_size;
--		i++;
-+		root_count++;
- 	} while (size);
- 
- 	return 0;
- 
- out_free_roots:
--	while (i--)
--		drm_block_free(mm, mm->roots[i]);
-+	while (root_count--)
-+		drm_block_free(mm, mm->roots[root_count]);
- 	kfree(mm->roots);
- out_free_tree:
--	kfree(mm->free_tree);
-+	while (i--)
-+		kfree(mm->free_trees[i]);
-+	kfree(mm->free_trees);
- 	return -ENOMEM;
- }
- EXPORT_SYMBOL(drm_buddy_init);
-@@ -381,8 +417,9 @@ void drm_buddy_fini(struct drm_buddy *mm)
- 
- 	WARN_ON(mm->avail != mm->size);
- 
-+	for_each_free_tree(i)
-+		kfree(mm->free_trees[i]);
- 	kfree(mm->roots);
--	kfree(mm->free_tree);
- }
- EXPORT_SYMBOL(drm_buddy_fini);
- 
-@@ -406,8 +443,7 @@ static int split_block(struct drm_buddy *mm,
- 		return -ENOMEM;
- 	}
- 
--	mark_free(mm, block->left);
--	mark_free(mm, block->right);
-+	mark_split(mm, block);
- 
- 	if (drm_buddy_block_is_clear(block)) {
- 		mark_cleared(block->left);
-@@ -415,7 +451,8 @@ static int split_block(struct drm_buddy *mm,
- 		clear_reset(block);
- 	}
- 
--	mark_split(mm, block);
-+	mark_free(mm, block->left);
-+	mark_free(mm, block->right);
- 
- 	return 0;
- }
-@@ -448,6 +485,7 @@ EXPORT_SYMBOL(drm_get_buddy);
-  */
- void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
++
++	/* Free with different flags to ensure no coalescing */
++	drm_buddy_free_list(&mm, &clear_list, DRM_BUDDY_CLEARED);
++	drm_buddy_free_list(&mm, &dirty_list, 0);
++
++	for (i = 0; i < num_blocks; i++)
++		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_64K, SZ_64K,
++								    &test_blocks, 0),
++					"buddy_alloc hit an error size=%u\n", SZ_64K);
++	drm_buddy_free_list(&mm, &test_blocks, 0);
++
++	end = ktime_get();
++	elapsed_ms = ktime_to_ms(ktime_sub(end, start));
++
++	kunit_info(test, "Fragmented allocation took %lu ms\n", elapsed_ms);
++
++	drm_buddy_fini(&mm);
++
++	/*
++	 * Reverse free order under fragmentation
++	 *
++	 * Construct a fragmented 4 GiB space by allocating every 8 KiB block with
++	 * 64 KiB alignment, creating a dense scatter of small regions. Half of the
++	 * blocks are selectively freed to form sparse gaps, while the remaining
++	 * allocations are preserved, reordered in reverse, and released back with
++	 * the cleared flag. This models a pathological reverse-ordered free pattern
++	 * and measures how quickly the allocator can merge and reclaim space when
++	 * deallocation occurs in the opposite order of allocation, exposing the
++	 * cost difference between a linear freelist scan and an ordered tree lookup.
++	 */
++	ret = drm_buddy_init(&mm, mm_size, SZ_4K);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	start = ktime_get();
++	/* Allocate maximum fragmentation */
++	for (i = 0; i < num_blocks; i++)
++		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_64K,
++								    &allocated_blocks, 0),
++					"buddy_alloc hit an error size=%u\n", SZ_8K);
++
++	list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
++		if (count % 2 == 0)
++			list_move_tail(&block->link, &free_list);
++		count++;
++	}
++	drm_buddy_free_list(&mm, &free_list, DRM_BUDDY_CLEARED);
++
++	list_for_each_entry_safe_reverse(block, tmp, &allocated_blocks, link)
++		list_move(&block->link, &reverse_list);
++	drm_buddy_free_list(&mm, &reverse_list, DRM_BUDDY_CLEARED);
++
++	end = ktime_get();
++	elapsed_ms = ktime_to_ms(ktime_sub(end, start));
++
++	kunit_info(test, "Reverse-ordered free took %lu ms\n", elapsed_ms);
++
++	drm_buddy_fini(&mm);
++}
++
+ static void drm_test_buddy_alloc_range_bias(struct kunit *test)
  {
-+	enum drm_buddy_free_tree src_tree, dst_tree;
- 	u64 root_size, size, start;
- 	unsigned int order;
- 	int i;
-@@ -462,19 +500,24 @@ void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
- 		size -= root_size;
- 	}
+ 	u32 mm_size, size, ps, bias_size, bias_start, bias_end, bias_rem;
+@@ -772,6 +876,7 @@ static struct kunit_case drm_buddy_tests[] = {
+ 	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
+ 	KUNIT_CASE(drm_test_buddy_alloc_clear),
+ 	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
++	KUNIT_CASE(drm_test_buddy_fragmentation_performance),
+ 	{}
+ };
  
-+	src_tree = is_clear ? DRM_BUDDY_DIRTY_TREE : DRM_BUDDY_CLEAR_TREE;
-+	dst_tree = is_clear ? DRM_BUDDY_CLEAR_TREE : DRM_BUDDY_DIRTY_TREE;
-+
- 	for (i = 0; i <= mm->max_order; ++i) {
-+		struct rb_root *root = &mm->free_trees[src_tree][i];
- 		struct drm_buddy_block *block, *tmp;
- 
--		rbtree_postorder_for_each_entry_safe(block, tmp, &mm->free_tree[i], rb) {
--			if (is_clear != drm_buddy_block_is_clear(block)) {
--				if (is_clear) {
--					mark_cleared(block);
--					mm->clear_avail += drm_buddy_block_size(mm, block);
--				} else {
--					clear_reset(block);
--					mm->clear_avail -= drm_buddy_block_size(mm, block);
--				}
-+		rbtree_postorder_for_each_entry_safe(block, tmp, root, rb) {
-+			rbtree_remove(mm, block);
-+			if (is_clear) {
-+				mark_cleared(block);
-+				mm->clear_avail += drm_buddy_block_size(mm, block);
-+			} else {
-+				clear_reset(block);
-+				mm->clear_avail -= drm_buddy_block_size(mm, block);
- 			}
-+
-+			rbtree_insert(mm, block, dst_tree);
- 		}
- 	}
- }
-@@ -664,27 +707,17 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
- }
- 
- static struct drm_buddy_block *
--get_maxblock(struct drm_buddy *mm, unsigned int order,
--	     unsigned long flags)
-+get_maxblock(struct drm_buddy *mm,
-+	     unsigned int order,
-+	     enum drm_buddy_free_tree tree)
- {
- 	struct drm_buddy_block *max_block = NULL, *block = NULL;
-+	struct rb_root *root;
- 	unsigned int i;
- 
- 	for (i = order; i <= mm->max_order; ++i) {
--		struct rb_node *iter = rb_last(&mm->free_tree[i]);
--		struct drm_buddy_block *tmp_block;
--
--		while (iter) {
--			tmp_block = rbtree_get_free_block(iter);
--
--			if (!block_incompatible(tmp_block, flags)) {
--				block = tmp_block;
--				break;
--			}
--
--			iter = rb_prev(iter);
--		}
--
-+		root = &mm->free_trees[tree][i];
-+		block = rbtree_last_free_block(root);
- 		if (!block)
- 			continue;
- 
-@@ -708,39 +741,37 @@ alloc_from_freetree(struct drm_buddy *mm,
- 		    unsigned long flags)
- {
- 	struct drm_buddy_block *block = NULL;
-+	struct rb_root *root;
-+	enum drm_buddy_free_tree tree;
- 	unsigned int tmp;
- 	int err;
- 
-+	tree = (flags & DRM_BUDDY_CLEAR_ALLOCATION) ?
-+		DRM_BUDDY_CLEAR_TREE : DRM_BUDDY_DIRTY_TREE;
-+
- 	if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
--		block = get_maxblock(mm, order, flags);
-+		block = get_maxblock(mm, order, tree);
- 		if (block)
- 			/* Store the obtained block order */
- 			tmp = drm_buddy_block_order(block);
- 	} else {
- 		for (tmp = order; tmp <= mm->max_order; ++tmp) {
--			struct rb_node *iter = rb_last(&mm->free_tree[tmp]);
--			struct drm_buddy_block *tmp_block;
--
--			while (iter) {
--				tmp_block = rbtree_get_free_block(iter);
--
--				if (!block_incompatible(tmp_block, flags)) {
--					block = tmp_block;
--					break;
--				}
--
--				iter = rb_prev(iter);
--			}
--
-+			/* Get RB tree root for this order and tree */
-+			root = &mm->free_trees[tree][tmp];
-+			block = rbtree_last_free_block(root);
- 			if (block)
- 				break;
- 		}
- 	}
- 
- 	if (!block) {
--		/* Fallback method */
-+		/* Try allocating from the other tree */
-+		tree = (tree == DRM_BUDDY_CLEAR_TREE) ?
-+			DRM_BUDDY_DIRTY_TREE : DRM_BUDDY_CLEAR_TREE;
-+
- 		for (tmp = order; tmp <= mm->max_order; ++tmp) {
--			block = rbtree_last_entry(mm, tmp);
-+			root = &mm->free_trees[tree][tmp];
-+			block = rbtree_last_free_block(root);
- 			if (block)
- 				break;
- 		}
-@@ -885,10 +916,9 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
- {
- 	u64 rhs_offset, lhs_offset, lhs_size, filled;
- 	struct drm_buddy_block *block;
-+	unsigned int tree, order;
- 	LIST_HEAD(blocks_lhs);
--	struct rb_node *iter;
- 	unsigned long pages;
--	unsigned int order;
- 	u64 modify_size;
- 	int err;
- 
-@@ -898,40 +928,45 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
- 	if (order == 0)
- 		return -ENOSPC;
- 
--	if (rbtree_is_empty(mm, order))
--		return -ENOSPC;
-+	for_each_free_tree(tree) {
-+		struct rb_root *root;
-+		struct rb_node *iter;
- 
--	iter = rb_last(&mm->free_tree[order]);
--
--	while (iter) {
--		block = rbtree_get_free_block(iter);
--
--		/* Allocate blocks traversing RHS */
--		rhs_offset = drm_buddy_block_offset(block);
--		err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
--					       &filled, blocks);
--		if (!err || err != -ENOSPC)
--			return err;
--
--		lhs_size = max((size - filled), min_block_size);
--		if (!IS_ALIGNED(lhs_size, min_block_size))
--			lhs_size = round_up(lhs_size, min_block_size);
--
--		/* Allocate blocks traversing LHS */
--		lhs_offset = drm_buddy_block_offset(block) - lhs_size;
--		err =  __drm_buddy_alloc_range(mm, lhs_offset, lhs_size,
--					       NULL, &blocks_lhs);
--		if (!err) {
--			list_splice(&blocks_lhs, blocks);
--			return 0;
--		} else if (err != -ENOSPC) {
-+		root = &mm->free_trees[tree][order];
-+		if (rbtree_is_empty(root))
-+			continue;
-+
-+		iter = rb_last(root);
-+		while (iter) {
-+			block = rbtree_get_free_block(iter);
-+
-+			/* Allocate blocks traversing RHS */
-+			rhs_offset = drm_buddy_block_offset(block);
-+			err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
-+						       &filled, blocks);
-+			if (!err || err != -ENOSPC)
-+				return err;
-+
-+			lhs_size = max((size - filled), min_block_size);
-+			if (!IS_ALIGNED(lhs_size, min_block_size))
-+				lhs_size = round_up(lhs_size, min_block_size);
-+
-+			/* Allocate blocks traversing LHS */
-+			lhs_offset = drm_buddy_block_offset(block) - lhs_size;
-+			err =  __drm_buddy_alloc_range(mm, lhs_offset, lhs_size,
-+						       NULL, &blocks_lhs);
-+			if (!err) {
-+				list_splice(&blocks_lhs, blocks);
-+				return 0;
-+			} else if (err != -ENOSPC) {
-+				drm_buddy_free_list_internal(mm, blocks);
-+				return err;
-+			}
-+			/* Free blocks for the next iteration */
- 			drm_buddy_free_list_internal(mm, blocks);
--			return err;
--		}
--		/* Free blocks for the next iteration */
--		drm_buddy_free_list_internal(mm, blocks);
- 
--		iter = rb_prev(iter);
-+			iter = rb_prev(iter);
-+		}
- 	}
- 
- 	return -ENOSPC;
-@@ -1243,11 +1278,17 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
- 
- 	for (order = mm->max_order; order >= 0; order--) {
- 		struct drm_buddy_block *block, *tmp;
-+		struct rb_root *root;
- 		u64 count = 0, free;
-+		unsigned int tree;
-+
-+		for_each_free_tree(tree) {
-+			root = &mm->free_trees[tree][order];
- 
--		rbtree_postorder_for_each_entry_safe(block, tmp, &mm->free_tree[order], rb) {
--			BUG_ON(!drm_buddy_block_is_free(block));
--			count++;
-+			rbtree_postorder_for_each_entry_safe(block, tmp, root, rb) {
-+				BUG_ON(!drm_buddy_block_is_free(block));
-+				count++;
-+			}
- 		}
- 
- 		drm_printf(p, "order-%2d ", order);
-diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-index 9ee105d4309f..d7891d08f67a 100644
---- a/include/drm/drm_buddy.h
-+++ b/include/drm/drm_buddy.h
-@@ -73,7 +73,7 @@ struct drm_buddy_block {
-  */
- struct drm_buddy {
- 	/* Maintain a free list for each order. */
--	struct rb_root *free_tree;
-+	struct rb_root **free_trees;
- 
- 	/*
- 	 * Maintain explicit binary tree(s) to track the allocation of the
 -- 
 2.34.1
 
