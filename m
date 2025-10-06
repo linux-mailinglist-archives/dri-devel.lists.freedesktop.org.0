@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D3DBBD37B
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 09:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4AABBD388
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 09:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D1210E065;
-	Mon,  6 Oct 2025 07:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9661B10E2F9;
+	Mon,  6 Oct 2025 07:34:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="frPhOAL8";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PoQ/YiiM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E987310E065;
- Mon,  6 Oct 2025 07:33:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 057DF10E2F9;
+ Mon,  6 Oct 2025 07:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759736032;
- bh=JN355CCyCVKvUpgMjATr9ZWbBiGHbvnXdiVQNUERFYg=;
+ s=mail; t=1759736090;
+ bh=cyJ5srnHpafo4ER0mz30QQ3DiJ+SG1hcqAgPohc0gWQ=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=frPhOAL8JAjtRfCY41p0+tUStstyq2+cTGabzZX6jdO8BwpAzqmjmN6541GXDLYvm
- 5IJXI1yDrGUot6bFS9DIxsoL8LQu35b+sUnYk9Cnwt8R2+/kLTJEEUAw2iPJAPRnsg
- J1p5zI1PI1n000TCUJVMmcJMG/iAfE37SD4A+cysHJp0XM5PU6ZjUV2ZxMmKTPGyCb
- +BFlRatiA9+SbxINJvvV8fERS9FMmgNz6HTRTdZrCc76Tf3DDXrmhtjCBQll522VO9
- 5djNQua/PgXxlS2Jv3l1tU8XRvg7bpiIPKsh7VR1OJ/q7szUKSzgR/2EZ00pWY2L91
- 6t3VDn0pBfMxg==
+ b=PoQ/YiiMvz9JD0Hb2DlORjF32GeBQwm7MmS6druJoNptw3EwNamn/Z0oO9tzIvLRv
+ hLw+gK9eAYt4GxcA08aws73XWzFgJwl/UAQCVRHPiBHBzslqXRSVFCEq/vazN+TXzz
+ DPHdwPkR1uqUBaTM5QzP1qHfx6lfuHEyh0jqTgU1BlWU1jZrigD//eidkOss/R+0O7
+ yKngUsRiMKYisxTVLwNVxj7IcAbFrSceEmq9rPgtmqxwvkdjxrxMIquDI6Rfli1MFa
+ NT/VB1RL0trcZaqMKJ6ZOhoTveHq+sHWPDIgcnZUcq+OXSwOxSJRCvv8X8Jita3C2c
+ LE6T/vymqWWkQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 681EF17E127C;
- Mon,  6 Oct 2025 09:33:51 +0200 (CEST)
-Date: Mon, 6 Oct 2025 09:33:47 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9BCDB17E0B83;
+ Mon,  6 Oct 2025 09:34:49 +0200 (CEST)
+Date: Mon, 6 Oct 2025 09:34:46 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
@@ -51,12 +51,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  Christopher Healy <healych@amazon.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-mm@kvack.org, kernel@collabora.com
-Subject: Re: [PATCH v3 09/10] drm/panfrost: Introduce huge tmpfs mount point
+Subject: Re: [PATCH v3 07/10] drm/panthor: Introduce huge tmpfs mount point
  option
-Message-ID: <20251006093347.74ea0f51@fedora>
-In-Reply-To: <20251004093054.21388-10-loic.molinari@collabora.com>
+Message-ID: <20251006093446.2e1fd0a8@fedora>
+In-Reply-To: <20251004093054.21388-8-loic.molinari@collabora.com>
 References: <20251004093054.21388-1-loic.molinari@collabora.com>
- <20251004093054.21388-10-loic.molinari@collabora.com>
+ <20251004093054.21388-8-loic.molinari@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -77,10 +77,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat,  4 Oct 2025 11:30:52 +0200
+On Sat,  4 Oct 2025 11:30:50 +0200
 Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-> Introduce the 'panfrost.transparent_hugepage' boolean module parameter
+> Introduce the 'panthor.transparent_hugepage' boolean module parameter
 > (false by default). When the parameter is set to true, a new tmpfs
 > mount point is created and mounted using the 'huge=3Dwithin_size'
 > option. It's then used at GEM object creation instead of the default
@@ -91,153 +91,149 @@ Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 > - use huge tmpfs mountpoint in drm_device
 >=20
 > Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-A couple minor nits below.
-
 > ---
->  drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
->  drivers/gpu/drm/panfrost/panfrost_drv.c    |  6 ++++++
->  drivers/gpu/drm/panfrost/panfrost_drv.h    | 11 +++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.c    | 19 +++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.h    |  2 ++
->  5 files changed, 41 insertions(+)
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+>  drivers/gpu/drm/panthor/panthor_device.c |  3 +++
+>  drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
+>  drivers/gpu/drm/panthor/panthor_drv.h    | 11 +++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.c    | 19 +++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
+>  5 files changed, 42 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
 >=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm=
-/panfrost/panfrost_device.c
-> index 04bec27449cb..a189bfaac959 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -12,6 +12,7 @@
->  #include "panfrost_device.h"
->  #include "panfrost_devfreq.h"
->  #include "panfrost_features.h"
-> +#include "panfrost_gem.h"
->  #include "panfrost_issues.h"
->  #include "panfrost_gpu.h"
->  #include "panfrost_job.h"
-> @@ -266,6 +267,8 @@ int panfrost_device_init(struct panfrost_device *pfde=
-v)
->  	if (err)
->  		goto out_job;
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index 81df49880bd8..3c0387156bb9 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -17,6 +17,7 @@
+>  #include "panthor_devfreq.h"
+>  #include "panthor_device.h"
+>  #include "panthor_fw.h"
+> +#include "panthor_gem.h"
+>  #include "panthor_gpu.h"
+>  #include "panthor_hw.h"
+>  #include "panthor_mmu.h"
+> @@ -269,6 +270,8 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		goto err_unplug_fw;
 > =20
-> +	panfrost_gem_init(pfdev);
+> +	panthor_gem_init(ptdev);
 > +
->  	return 0;
->  out_job:
->  	panfrost_job_fini(pfdev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_drv.c
-> index 22350ce8a08f..e376e70a3379 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -862,6 +862,12 @@ static const struct drm_driver panfrost_drm_driver =
+>  	/* ~3 frames */
+>  	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+>  	pm_runtime_use_autosuspend(ptdev->base.dev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index fdbe89ef7f43..a2be3b904ca2 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1556,6 +1556,7 @@ static const struct file_operations panthor_drm_dri=
+ver_fops =3D {
+>  	.read =3D drm_read,
+>  	.llseek =3D noop_llseek,
+>  	.mmap =3D panthor_mmap,
+> +	.get_unmapped_area =3D drm_gem_get_unmapped_area,
+>  	.show_fdinfo =3D drm_show_fdinfo,
+>  	.fop_flags =3D FOP_UNSIGNED_OFFSET,
+>  };
+> @@ -1623,6 +1624,12 @@ static const struct drm_driver panthor_drm_driver =
 =3D {
 >  #endif
 >  };
 > =20
 > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +bool panfrost_transparent_hugepage;
-> +module_param_named(transparent_hugepage, panfrost_transparent_hugepage, =
-bool, 0400);
+> +bool panthor_transparent_hugepage;
+> +module_param_named(transparent_hugepage, panthor_transparent_hugepage, b=
+ool, 0400);
 > +MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount poin=
 t with Transparent Hugepage enabled (false =3D default)");
-
-Same here, I'd go for [panfrost_]enable_thp.
-
 > +#endif
 > +
->  static int panfrost_probe(struct platform_device *pdev)
+>  static int panthor_probe(struct platform_device *pdev)
 >  {
->  	struct panfrost_device *pfdev;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.h b/drivers/gpu/drm/pa=
-nfrost/panfrost_drv.h
+>  	struct panthor_device *ptdev;
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/pant=
+hor/panthor_drv.h
 > new file mode 100644
-> index 000000000000..60454611b6a6
+> index 000000000000..27fe9b6f77bd
 > --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.h
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.h
 > @@ -0,0 +1,11 @@
 > +// SPDX-License-Identifier: GPL-2.0 or MIT
 > +/* Copyright 2025 Amazon.com, Inc. or its affiliates */
 > +
-> +#ifndef __PANFROST_DRV_H__
-> +#define __PANFROST_DRV_H__
+> +#ifndef __PANTHOR_DRV_H__
+> +#define __PANTHOR_DRV_H__
 > +
 > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +extern bool panfrost_transparent_hugepage;
+> +extern bool panthor_transparent_hugepage;
 > +#endif
 > +
 > +#endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.c
-> index 85d6289a6eda..c3883a639e13 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 156c7a0b62a2..49b7d288bfdf 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0 or MIT
 >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>  /* Copyright 2023 Collabora ltd. */
 > +/* Copyright 2025 Amazon.com, Inc. or its affiliates */
 > =20
 >  #include <linux/cleanup.h>
->  #include <linux/err.h>
-> @@ -9,9 +10,27 @@
+>  #include <linux/dma-buf.h>
+> @@ -11,10 +12,28 @@
+>  #include <drm/panthor_drm.h>
 > =20
->  #include <drm/panfrost_drm.h>
->  #include "panfrost_device.h"
-> +#include "panfrost_drv.h"
->  #include "panfrost_gem.h"
->  #include "panfrost_mmu.h"
+>  #include "panthor_device.h"
+> +#include "panthor_drv.h"
+>  #include "panthor_fw.h"
+>  #include "panthor_gem.h"
+>  #include "panthor_mmu.h"
 > =20
-> +void panfrost_gem_init(struct panfrost_device *pfdev)
+> +void panthor_gem_init(struct panthor_device *ptdev)
 > +{
 > +	int err;
 > +
-> +	if (!panfrost_transparent_hugepage)
+> +	if (!panthor_transparent_hugepage)
 > +		return;
 > +
-> +	err =3D drm_gem_huge_mnt_create(pfdev->ddev, "within_size");
+> +	err =3D drm_gem_huge_mnt_create(&ptdev->base, "within_size");
 > +	if (err && err !=3D -EEXIST) {
-> +		drm_warn(pfdev->ddev, "Can't use Transparent Hugepage (%d)\n",
+> +		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
 > +			 -err);
-
-I think errors are printed as negative values elsewhere, so I'd stick to err
-not -err here.
-
 > +		return;
 > +	}
 > +
-> +	drm_info(pfdev->ddev, "Using Transparent Hugepage\n");
-
-
-Here's a shorter version of the same thing (I dropped the EEXIST based on
-my comment on patch 3).
+> +	drm_info(&ptdev->base, "Using Transparent Hugepage\n");
 
 	if (err)
-		drm_warn(pfdev->ddev, "Can't use Transparent Hugepage (err=3D%d)\n", err);
+		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (err=3D%d)\n", err=
+);
 	else
-		drm_info(pfdev->ddev, "Using Transparent Hugepage\n");
+		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
 
 > +}
 > +
 >  #ifdef CONFIG_DEBUG_FS
->  static void panfrost_gem_debugfs_bo_add(struct panfrost_device *pfdev,
->  					struct panfrost_gem_object *bo)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/pa=
-nfrost/panfrost_gem.h
-> index 8de3e76f2717..1a62529ff06f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -124,6 +124,8 @@ drm_mm_node_to_panfrost_mapping(struct drm_mm_node *n=
-ode)
->  	return container_of(node, struct panfrost_gem_mapping, mmnode);
+>  static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
+>  {
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index 80c6e24112d0..2eefe9104e5e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_g=
+em_object *obj)
+>  	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_objec=
+t, base);
 >  }
 > =20
-> +void panfrost_gem_init(struct panfrost_device *pfdev);
+> +void panthor_gem_init(struct panthor_device *ptdev);
 > +
->  struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev=
+>  struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev=
 , size_t size);
 > =20
->  struct drm_gem_object *
+>  int
 
