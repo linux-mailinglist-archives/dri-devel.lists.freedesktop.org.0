@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5FEBBEAEC
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 18:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7841BBEA31
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 18:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036EA10E42D;
-	Mon,  6 Oct 2025 16:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A5B10E09F;
+	Mon,  6 Oct 2025 16:25:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="LTiKi6Z8";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pz3OrF77";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1765 seconds by postgrey-1.36 at gabe;
- Mon, 06 Oct 2025 16:42:06 UTC
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18EAF10E42D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 16:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=iXu/BjphqvmX/CYLnd0fPL/OA1yDnmIawr3/8ZnbNHY=; b=LTiKi6Z8zlcWUaANPlIsQJIOX9
- slQeqEJE8VYeeKvX42KXOapTvxea2HhhtHQsvNdQE34Pci7gRm/Jn8ZBUYbn4CPewLxpj/i972Zqj
- Uulc2/7ShxLFnD+IL4Lyv1RJWWcW7zB0iEI96T/ZbE+xlNIepvdiiO7bvJrFtYACamAA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1v5npG-00AJ6H-11; Mon, 06 Oct 2025 18:12:38 +0200
-Date: Mon, 6 Oct 2025 18:12:38 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 159EC10E09F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 16:25:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D3D1FB0B;
+ Mon,  6 Oct 2025 18:23:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1759767833;
+ bh=t96uReInL8jGo3Qf+o1CqcdutAZiZPvLUIz8oEspw+Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pz3OrF77gW3c1hVlJxiEGrX3qW1NwAm1e/KKNUZkcI0cwuC4WaFkUJ+W6d29CselO
+ CMFni65/6k+eTAXCg08FqkbzNhBYSluunBjHTl5hCVW8YWmnWhxnT4DHRbhzyQ4WPA
+ It+n/FyPIP4KHasiFIhHTUkDL/U87iZkeBVZ5X4k=
+Date: Mon, 6 Oct 2025 19:25:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
@@ -44,15 +43,16 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Maxime Ripard <mripard@kernel.org>,
  Muhammed Efe Cetin <efectn@6tel.net>, Ondrej Jirman <megi@xff.cz>,
  Rob Herring <robh@kernel.org>, Sandy Huang <hjc@rock-chips.com>
-Subject: Re: [PATCH v2 5/5] arm64: dts: rockchip: Add
- rk3588s-orangepi-cm5-base device tree
-Message-ID: <adbae38a-8b12-4631-805c-18606395d76c@lunn.ch>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: rk3588-dw-hdmi-qp: Add
+ tmds-enable-gpios property
+Message-ID: <20251006162518.GJ5944@pendragon.ideasonboard.com>
 References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
- <20251005235542.1017-6-laurent.pinchart@ideasonboard.com>
+ <20251005235542.1017-2-laurent.pinchart@ideasonboard.com>
+ <c5kwmvu3j72evbgdmjn6qn5nqx7ywbiwpzhnpeh6hjjhbz5vwo@jpe3onblwhmy>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251005235542.1017-6-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <c5kwmvu3j72evbgdmjn6qn5nqx7ywbiwpzhnpeh6hjjhbz5vwo@jpe3onblwhmy>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,12 +68,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Changes since v1:
+On Mon, Oct 06, 2025 at 02:19:24PM +0300, Dmitry Baryshkov wrote:
+> On Mon, Oct 06, 2025 at 02:55:37AM +0300, Laurent Pinchart wrote:
+> > From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> > 
+> > Add an optional property to RK3588 HDMI TX Controller binding describing
+> > a GPIO line to be asserted when operating in HDMI 1.4/2.0 TMDS mode and
+> > deasserted for HDMI 2.1 FRL.
+> > 
+> > This is used to control an external level shifter for HDMI data lines.
+> > 
+> > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml   | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+> > index 96b4b088eebe..eec0d40c91ea 100644
+> > --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+> > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+> > @@ -113,6 +113,13 @@ properties:
+> >      description:
+> >        Additional HDMI QP related data is accessed through VO GRF regs.
+> >  
+> > +  tmds-enable-gpios:
+> > +    description:
+> > +      Optional GPIO line to be asserted when operating in HDMI 1.4/2.0
+> > +      TMDS mode and deasserted for HDMI 2.1 FRL. It can be used to control
+> > +      an external level shifter for HDMI data lines.
+> > +    maxItems: 1
+> 
+> Just my 2c: since TMDS is assumed to be a default mode, shouldn't this
+> be a frl-enable-gpios instead?
 
-...
+I don't mind either way. Cristian, any opinion ?
 
-> - Drop tx_delay from gmac1
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
 
-Thanks, that seems much more logical.
+-- 
+Regards,
 
-	Andrew
+Laurent Pinchart
