@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16792BBED82
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 19:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524DBBBED88
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 19:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6AF10E0FE;
-	Mon,  6 Oct 2025 17:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE9A810E352;
+	Mon,  6 Oct 2025 17:49:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L9UdeXvD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m/4UrNwT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05AAF10E0FE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 17:49:11 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-46e34bd8eb2so59829075e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 10:49:10 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10AAC10E0FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 17:49:12 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-46e4ad36541so57774145e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 10:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759772949; x=1760377749; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OwPjYDue993F4kdSpEJug+JsTugVch4hbG5zN8v6Sko=;
- b=L9UdeXvDQD7pN3gPRCr1Z9WHbQUteX+voKgZnbVi3cLu9f/sP4485Mi8Y8NnKUJMfL
- F4kvWs66QFGifIO98mjKyjnPmgInXtOI70wyO60QhqVvg36f/6Rf6UBoQRujTEOZQfFw
- vLi6akT4pMeWeCymfGLqcaGrTHmy8Foz4qqxhCfA2WWKe84Ea4pAlA3SI1fBpG2XeddH
- SWwbIhRM843Yx48aYK1RW8UwvZAe6cwCbB+HwhmFJQNnelVOa2tPyzwN+FeHbL4+4Fei
- wn64EES5YqJ7XsNoeefDr0Xvd2S69emKtY+jD6L+N7h6ujJ2tsedfhMtSQfHzpnbKWqw
- m3hg==
+ d=gmail.com; s=20230601; t=1759772950; x=1760377750; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=duPio0RPtDjdOCnFYeiJ23Ow5gw9QiPbk3qi6TQ0F40=;
+ b=m/4UrNwTas79AitCJ3gm+gQU+FjbVks54Rm0GPIKSbj/oX1WrLYROqx1fH/WFzFaE1
+ yuqbhVyNiEaIgZiLItXGvxtOQa8V00YQ6oykI720dk0cjceIWAkH4ri6KeAst1S7PAJz
+ P4e2esc+YkRSrw5aA2ZcbD+dLJPKGa3QlK1lUIUQ1m/y10CZ2SkYt/c0LNNTRXzRHDJI
+ CToPXq9FekYrdyo7sl1sN8QV/FXlIA8v9XMJ73xitxiWo9eK6TWMyDNoenWyJ5FrWlud
+ 1D7EF7cNyyKmmY6RacFbfncSFq37NJO2aOYLFBm6ocs4Seu34jYz9i48wAGO0Pp78X9a
+ nbxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759772949; x=1760377749;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OwPjYDue993F4kdSpEJug+JsTugVch4hbG5zN8v6Sko=;
- b=bLRquu66jtIcyHGn6d3qMtBMQ1JJRhKISDAa8C8MhL8HlpDSTXuL8mZCGfpV5szg85
- yPOsKdbmF21ZHhX7GuxxMdHjEStkEikD9UBSgDYQeaLwRz85GgQgTehTty1z33owicK9
- A5KyzFZe9x9347mfV/vkhCob86WpiwSumjRjXh0FSAY/nm/77WGfV5ifSv0BJeUzG5mh
- Ugur2+v+TXsBlkd1FfUtAKq7rSqflvMd8DJvQIPykOh7i/9tgt6PFosQxvt32+te5f3P
- CbWqZaLgosmOGQGGtp6oq16SCZCcmkf/wUdV8TXwSuifsjIF03q5O8Dp7geQ+eL1H5om
- aXUA==
+ d=1e100.net; s=20230601; t=1759772950; x=1760377750;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=duPio0RPtDjdOCnFYeiJ23Ow5gw9QiPbk3qi6TQ0F40=;
+ b=QbhspZegYELoEygb2nz2AnGWQcuwpJSr+2vs/4xXGfK8TF5/EHfMJbkLi9qkEpQLqb
+ lcAJJ1jy7RQnupxB1k3F5iF5UAyNpQGyHHFSfHiWVW03fVyCesE5JrHz8Fssxjaj9zTW
+ oa/Yqjg/KD+oaoQIuc1aNGTN4i+Vs/bx2np4JVPiQ6Ex15jFlJJ0EKB0CYUbD2fQFRlJ
+ e5vHZSAE4miPrJZiMvX3fAy9MO+DKnE2vQ5Gp5s3EeiPBKJ7AQEKC7ZfLB/4ODW6dGGl
+ t/GqccO15+0I8JCW9MkyQnRzHwv8VELGkvP2oqHPbhuiqphI/Hf8weIpv/U8CvOmjXH+
+ 0yTg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWGU/r+BkFNvMrjBJugjpG8pSR/fjZ5FhPcwhUHC+aVqRg6/kZQJs2SarcqEV9ipGbAT6jGOh4JYLM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSX26vWCY15qArfxNrLCz1l+XQB5HyZfJPyU9Hm3nYCXEQ8FFr
- 6D68D47i9ReEmTAG17aQPdw0K6++/q4o0bEyWHk4n9EJXLSjJxLWWsug
-X-Gm-Gg: ASbGncs832IFsiEXF0aPp80dIvvlkQQeKqLBHb1QtHq2jikkXDM7r1x25xOuL4ai/bE
- zeZoFGS1xfBCnWmHhr2MTipFk4tEsaFoYKxW+2hRcjf6Sa7HX+zZrppR6Ms2QhoFzzxgxcY7Kc2
- r3IDGlRrZGwtBok6+zqqp54YwK/TCNmAK7VsZGPe5sFOfngNZy6YiWZloBlkJ78a1vNjIQlXG91
- xYVWycPXLN3VCfxVxioARfXfiX9yNVo8jGxOFbbhaA1MFfgv7hlhBQgyG7XVW5I2Kg+bwckbpot
- l8SRYp7CgPwyjpkazSZxMDjI6Yn52g+0vHTQZfoYQWreVI6SuOI+qlmMBgXHqQKj1LLxXJ9GZt6
- qBAsE32y0SeHKbC7xYi5ZS2dk5YskjcfoFsJfhxmFT1guA1Ax/aYUmoh7C3Mtr6+RXau8K+y/fQ
- +16FvIAbWhLp4gThz51qZ94TVRvov2dB2PAg==
-X-Google-Smtp-Source: AGHT+IGoQmqa08yh2oAWYFi0h/YVWQM5hhY6UDRLPAIKA3rUms7L/IUnK3x7/0LeBb8VrVVo34J77Q==
-X-Received: by 2002:a05:600c:46d1:b0:46e:4c02:c2f9 with SMTP id
- 5b1f17b1804b1-46e71157990mr93102665e9.36.1759772949081; 
- Mon, 06 Oct 2025 10:49:09 -0700 (PDT)
+ AJvYcCVPkNZb0tLjjejPw+C5wMTe1FtV5VN0hfbzK5R3bRn3RIg3LkCFTkgvPIRd3egCmYHwkudQPDCFEKM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNeQOcg2pvSoo1Grl+MLTt5oRa9EE9HxqewTw7GYzQt47jxyCv
+ +BxB+eeTseg5Npt/G4QncemqY6HTbiQsbIP9wvFM2JtgSwV/4piYZbFZ
+X-Gm-Gg: ASbGnctYjrCJlraOiUqTvqsNWREjk/c0BaDrwzoDgXEmgSqefzht+hqykfCxlUPAqgH
+ zie5r555FuhLY7b+uEzoXShwD320ULdWdPEl5Jt0FXpn2H8/0UApRkcI8ueQoEDp5xT0FmMo+5p
+ vAMSSboGduKzR/j9LWJcd397s/DFhBhZ+S3P0TELUUAwb8npzL5WtGGqbRlB5dBfydvW0oxrlSJ
+ rv52uu4wSxr5cLMBPZDOEpnhPN9M+8IfBJ0Naiq9CShUlvlH7xJzKcWFo2C054fr3HUcmp0aGYU
+ 8zCLZem5QvYZpFKDaa1ACAcav7ogiwz+pBl1t6/Qyt9HE77P+nm98r0zpi9rwhsGbSo8yIb0zcb
+ XTS8RvVjKz2ObIY/gm1dkkjJ+Xs9aEjiChENkNTJJYqsXS2dY/m4Yb3s4OHIF0CbJTVNLWxDDjc
+ CkKaVnHBL+h7wz85k6hifGWYtVjwKTsn/Ylg==
+X-Google-Smtp-Source: AGHT+IHkSj9MNsUJw9ZpyQogvi/IDNzd+bwC8lC7GyQvo3xrlRnEdWW+dT6LIGRmyJoozLw5MWRCWw==
+X-Received: by 2002:a05:600c:a14:b0:46e:3403:63df with SMTP id
+ 5b1f17b1804b1-46e711043a5mr98333235e9.8.1759772950265; 
+ Mon, 06 Oct 2025 10:49:10 -0700 (PDT)
 Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.139.156])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46e723431f5sm165583805e9.2.2025.10.06.10.49.08
+ 5b1f17b1804b1-46e723431f5sm165583805e9.2.2025.10.06.10.49.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Oct 2025 10:49:08 -0700 (PDT)
+ Mon, 06 Oct 2025 10:49:09 -0700 (PDT)
 From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Subject: [PATCH v3 0/3] drm/sitronix/st7920: Add support for the ST7920
- controller
-Date: Mon, 06 Oct 2025 19:48:52 +0200
-Message-Id: <20251006-st7920-v3-0-4f89d656fa03@gmail.com>
+Date: Mon, 06 Oct 2025 19:48:53 +0200
+Subject: [PATCH v3 1/3] dt-bindings: display: sitronix,st7920: Add DT
+ schema
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAQB5GgC/2WMyw7CIBBFf6VhLWYK9IEr/8O4GCq0k9hioCGap
- v8u7UJNXJ6be87Cog1kIzsVCws2USQ/ZZCHgnUDTr3ldMvMBIgKWqh5nBstgNsGDUphJJqa5fM
- jWEfPPXS5Zh4ozj689m4qt/UvkUoOvFZoKpTKaYRzPyLdj50f2ZZI4qtp0B9NZE2BdqrV4Ezlf
- rV1Xd/Krf2s0wAAAA==
-X-Change-ID: 20250806-st7920-e7aba32b3ab6
+Message-Id: <20251006-st7920-v3-1-4f89d656fa03@gmail.com>
+References: <20251006-st7920-v3-0-4f89d656fa03@gmail.com>
+In-Reply-To: <20251006-st7920-v3-0-4f89d656fa03@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -100,71 +97,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch-series adds support for the Sitronix ST7920 controller, which
-is a monochrome dot-matrix graphical LCD controller that has SPI and
-parallel interfaces.
-
-The st7920 driver only has support for SPI so displays using other
-transport protocols are currently not supported.
-
-* Patch #1 adds the driver.
-* Patch #2 adds the DT binding schema.
-* Patch #3 adds the MAINTAINERS information.
-
----
-Changes in v3:
-- Reorganize the patch documenting compatible (DT bindings) before their
-  use.
-- Drop reduntant information from DT bindings.
-- Use a goto label to ensure drm_dev_exit() is called in the error path
-  of drm_gem_fb_begin_cpu_access().
-- Link to v2: https://lore.kernel.org/r/20250909-st7920-v2-0-409f4890fb5f@gmail.com
-
-Changes in v2:
-- Refactor SPI communication:
-  * Internalize error handling and delays within the st7920_spi_write()
-    helper.
-  * Split the main SPI write function into smaller, command-specific
-    helpers for clarity.
-- Improve DRM/KMS logic:
-  * Relocate CPU access calls (drm_gem_fb...) to the atomic_update hook.
-  * Use standard DRM helpers (drm_crtc_helper_mode_valid_fixed and
-    drm_connector_helper_get_modes_fixed) for mode validation and
-    creation.
-- General code cleanup:
-  * Remove dead code related to ST7920_FAMILY.
-  * Replace WARN_ON() with drm_WARN_ON_ONCE().
-  * Ensure single variable assignments per line.
-- Fix probe initialization order:
-  * Move spi_set_drvdata() and st7920_init() to occur before device
-    registration.
-- Devicetree:
-  * Update bindings to address feedback from review (e.g., reference
-    common SPI properties).
-- MAINTAINERS:
-  * Add a proper commit message to the patch.
-- Link to v1: https://lore.kernel.org/r/20250806-st7920-v1-0-64ab5a34f9a0@gmail.com
----
+Add binding for Sitronix ST7920 display.
 
 Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
-
 ---
-Iker Pedrosa (3):
-      dt-bindings: display: sitronix,st7920: Add DT schema
-      drm: Add driver for Sitronix ST7920 LCD displays
-      MAINTAINERS: Add entry for Sitronix ST7920 driver
+ .../bindings/display/sitronix,st7920.yaml          | 50 ++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
- .../bindings/display/sitronix,st7920.yaml          |  50 ++
- MAINTAINERS                                        |   7 +
- drivers/gpu/drm/sitronix/Kconfig                   |  10 +
- drivers/gpu/drm/sitronix/Makefile                  |   1 +
- drivers/gpu/drm/sitronix/st7920.c                  | 892 +++++++++++++++++++++
- 5 files changed, 960 insertions(+)
----
-base-commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
-change-id: 20250806-st7920-e7aba32b3ab6
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7920.yaml b/Documentation/devicetree/bindings/display/sitronix,st7920.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..b4c16825f254f1b8345a2532271042350e3a5e26
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sitronix,st7920.yaml
+@@ -0,0 +1,50 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sitronix,st7920.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix ST7920 LCD Display Controllers
++
++maintainers:
++  - Iker Pedrosa <ikerpedrosam@gmail.com>
++
++description:
++  The Sitronix ST7920 is a controller for monochrome dot-matrix graphical LCDs,
++  most commonly used for 128x64 pixel displays.
++
++properties:
++  compatible:
++    const: sitronix,st7920
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 600000
++
++required:
++  - compatible
++  - reg
++  - spi-max-frequency
++
++allOf:
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "sitronix,st7920";
++            reg = <0>;
++            spi-max-frequency = <600000>;
++            spi-cs-high;
++        };
++    };
 
-Best regards,
 -- 
-Iker Pedrosa <ikerpedrosam@gmail.com>
+2.51.0
 
