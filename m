@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD55BBD2B0
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 08:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124ABBBD2C2
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 09:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C943A10E2FB;
-	Mon,  6 Oct 2025 06:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E28E10E305;
+	Mon,  6 Oct 2025 07:02:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Zf5e3uLc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bBocWT++";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE9E10E2FB;
- Mon,  6 Oct 2025 06:58:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9878D10E305;
+ Mon,  6 Oct 2025 07:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759733927;
- bh=T/Ja1FOgn9EpgL2xm0d3pUaom2fzzJpJ3Tr2OK+bn6U=;
+ s=mail; t=1759734156;
+ bh=SF0ALPBwvbte57Fc2haYtm+cDJgEczDMsnovSsSgABs=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Zf5e3uLcS6C4R0EznG+pU2ETh3nNYwFJCsPuTxX9DH9Nt2oab3AHIzKVfKP3NhKMl
- 1reRRVxi0l0bdJIq5hGeTPMzlQYUqT/2sMhAqxqet/lFKU+n6XlcX6JM/bdnelbugF
- 1eNq/3GhfoLsie/T9EWeqXjiC0+T0h+fVR0fdlynHlez/s9Lg+lWOausjAhOWvSf5k
- vESRzzc9TvEaCMu5WG7AD5c8Vm0HwPQvd2dHIXCCXUf4U7zWkHyMmxs38i0afTon1i
- z/d5DcpiRVxJNkRdIGB7MEW7IM0Tk3cxgacB7Kp5Cw1ZoXGWn00fQWhe7a01RKQ4wj
- xL0111m9iCWxA==
+ b=bBocWT++fjToLaQ8OVH+JO/4nQBd8eHbvW1kGRHUAVDG9oG5EGWcfwV98p2qjMKDr
+ q/6OAQ0jnmZdZRPFiyHKZxI1yMCFAJEihccHs4oXTZGvgUsLU/kXIgSD2nHHIIc2fJ
+ Mw/zfZQ0LHjTLbsHSjq9thCYYDtOpMAg/AS0ikKp5fwAvPysbJsaC3rvIfspaRet4T
+ AfllxcnxIYnZ1s2ioHUdYEYSkv5Xs6nYPO46hbauyRkA3tlp9C1GWrRUBxjoSaNoyi
+ Qpe225aUxmNXIPW2TbeUegux2qUu91WC27GWiiY+2wdNMEjNvv6iuCEuLmImjTbUtK
+ sfnWfYNKXe++Q==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 389F617E11FD;
- Mon,  6 Oct 2025 08:58:46 +0200 (CEST)
-Date: Mon, 6 Oct 2025 08:58:42 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 19F0E17E090E;
+ Mon,  6 Oct 2025 09:02:35 +0200 (CEST)
+Date: Mon, 6 Oct 2025 09:02:30 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
@@ -52,7 +52,7 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-mm@kvack.org, kernel@collabora.com
 Subject: Re: [PATCH v3 03/10] drm/gem: Add huge tmpfs mount point helper
-Message-ID: <20251006085842.047231b0@fedora>
+Message-ID: <20251006090230.087021bd@fedora>
 In-Reply-To: <20251004093054.21388-4-loic.molinari@collabora.com>
 References: <20251004093054.21388-1-loic.molinari@collabora.com>
  <20251004093054.21388-4-loic.molinari@collabora.com>
@@ -161,15 +161,6 @@ called
 > +
 > +	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
 > +		return -EOPNOTSUPP;
-
-If we return 0 here, we can get rid of the
-
-	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-
-tests in all the drivers and let them call drm_gem_huge_mnt_create()
-unconditionally.
-
-
 > +
 > +	type =3D get_fs_type("tmpfs");
 > +	if (unlikely(!type))
@@ -177,6 +168,11 @@ unconditionally.
 > +
 > +	if (unlikely(dev->huge_mnt))
 > +		return -EEXIST;
+
+Do we even care about reporting an error when the huge mount point
+already exists? Can we just return 0 in that case, which simplifies the
+call sites since they don't have to check for EEXIST anymore.
+
 > +
 > +	fc =3D fs_context_for_mount(type, SB_KERNMOUNT);
 > +	if (IS_ERR(fc))
