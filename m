@@ -2,79 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B61BBEAEB
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 18:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742A6BBEAFF
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 18:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB00410E429;
-	Mon,  6 Oct 2025 16:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCA2F10E42E;
+	Mon,  6 Oct 2025 16:43:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O3jkLius";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="p1YtwLrU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A7B10E429
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 16:42:02 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-46b303f7469so33485485e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 09:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759768920; x=1760373720; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=B1m3A2SK0UP4dwSyRm6Qf6w7bJhm1Ficb4+Tgp0EQaQ=;
- b=O3jkLiusEszcuAq2DWNPr33h9jEuKunUTldbZXnbsOT5STDq2qrd68er8fxFoioffp
- inrxOBLElXf7GoYBGbfaC8ZJlkrw0vIUBwKyQSUH5r7OpLrBprVu0IirLEE7P8razhWQ
- PtvRMElJQRK6e9aKxJ1czR6Dp4c4plr+ndemnIfWCiVMAKoAq00I2aTeIJKLsc63QZ6q
- UvYVygCl5D3fvLcbU6Wd++O5Mqg0ow1KwuRtiJQW4mtD83PYpX2qi113bEEeB2LiIfku
- lMG9tdeoQyrBPJwJPhnKzW4FO6GyryT5muqKLRnc9K1/rGHGGRWoI/ccySqipsK3lMKz
- tLtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759768920; x=1760373720;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=B1m3A2SK0UP4dwSyRm6Qf6w7bJhm1Ficb4+Tgp0EQaQ=;
- b=w1lD6fGz9VFoPTE0yTU5bdJ/8x0kM5g9pynn6VNdxX1+QpVVI7i+g5Poq/4EIkHXqx
- o6SETdBOXJ+4whoJbjg92Ys1lgHtw7cOpkoEJEyvqZQVT3h36b28+tPn25C+obEJyJkQ
- Z//oLvY+vCo7NhpWC/WP7/OW4gJdzNwvpH6W3JQvIxrfJ3NAZPMNePk4nJQOIyb75+WL
- i6DDQwpDToqU88sX70lrZI/3IHdXpuMWkY0JkXqLT9nIAxlQ3kX0etyGKfFZ0uzFwqKu
- qiFkEq//BuLCAV+kOxIQxL1EYAyeu89VvPz9Bn2xiVdsQOdQ7KCjIn+b4dPl1afdSt5J
- /v7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTWXOnbuj2zsAQZxubnlNihvitksFvgGvSFCSann4tbjtc4eG2uTy7GhYDvl3e5wy3ovtA3Jw4imU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKTNI52bP1r6NGg+MGxo0+to93ks+Y0+6W7ce88nUpGraZNEc9
- o5Rwr3V2NyalR2aPZAWhGXf9xOQ5MGlV3vqbMKNizr639hYuxlNL7WsJ
-X-Gm-Gg: ASbGncu6CcVVynSAZev9gc5p2X2A9wGfAx1KqbIH3VA8NRYs/bjoPgu7sPqRushNH0C
- Wi2EutG4XCDOxv+3Czdzf4J0D1/hniMR5pEfimYPeJgPh0In5fDXMJe2nuTzV5PMak/6zcyoZnG
- fOzvun4PirOmiRiM5VxDuIItw1q7x5yhRl5BSS6L/TZ0iKp/XvT81msWnUM4FcIN2u6BFGIeb4V
- QbEihuibD/GnfizmJtzALQJIH96lI6lx7/HurhhQk5hIg+AOJU1kJOcKhtT5SRKEXQceXOa0b47
- aP0bAgleNmC0LwldZU8N3BOWkRZHaJ3T3DKc7TfI+aG5ePT//KQW1ik7Z8fmExcJ0oCz+8VlCA/
- PbnzhVTygvM7FME1sGD6mZnz9REOocZlqXy+mj2knFzF3ea/9ptK12v7HrBAc4o1T5u1vJZp+V/
- 79qbxEi2SAeSbIjhyHdIEsXRKl
-X-Google-Smtp-Source: AGHT+IHm3Tu9iRyGiCt6V9SEZWDXWNqwJokz4bgw1HkknIkQ71kli9dOgCeRNWFNMzpZwV0p36UR6Q==
-X-Received: by 2002:a05:600c:628b:b0:46e:456e:ada5 with SMTP id
- 5b1f17b1804b1-46e71146994mr75585645e9.28.1759768920064; 
- Mon, 06 Oct 2025 09:42:00 -0700 (PDT)
-Received: from dell (117.red-81-33-123.dynamicip.rima-tde.net. [81.33.123.117])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46e5b5f3015sm151246565e9.1.2025.10.06.09.41.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Oct 2025 09:41:59 -0700 (PDT)
-From: Javier Garcia <rampxxxx@gmail.com>
-To: deller@gmx.de,
-	u.kleine-koenig@baylibre.com,
-	tzimmermann@suse.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shuah@kernel.org,
- Javier Garcia <rampxxxx@gmail.com>
-Subject: [PATCH v2] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
-Date: Mon,  6 Oct 2025 18:41:43 +0200
-Message-ID: <20251006164143.1187434-1-rampxxxx@gmail.com>
-X-Mailer: git-send-email 2.50.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09FA710E42E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 16:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759768977;
+ bh=MJpXLH2WyUVVbdTuWfHINRtUwiFCM4iGx0TBERf8ldA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=p1YtwLrUcTQd2vh/f18Hp0b/5gML91x22BaAvA3JhDCTTN6r+8UcPX3jjHgp0cZyz
+ OXYa5bWkAcjehab+PZFYKN065fcf2xEbL8v9/4EzN1PYwfwmzp6iyuhJVNlW34XH37
+ qG0mKLuW5kZI6dtMxFcQp91koW7cuH0afLLviwqW8Uvtqof26ZUcZIThOMfTrLyszV
+ G4ykG9jZUMaNq25VKnEgSONSmgpco4bKZMPn9bkMwleMd/Qn2gV3KSwg/KpPSNlpXk
+ ahVYebKW6tc9D1rig9xVgrJ0DwiCfLapaLUkWqmi/1idLR9JyD/AlOIyshKSetrVqy
+ VhA7WZ0qxdxUw==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A51F517E02B0;
+ Mon,  6 Oct 2025 18:42:56 +0200 (CEST)
+Message-ID: <d423560e-dcd4-45d8-a1e4-5a8b2a21ef86@collabora.com>
+Date: Mon, 6 Oct 2025 19:42:56 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: rk3588-dw-hdmi-qp: Add
+ tmds-enable-gpios property
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Cenk Uluisik <cenk.uluisik@googlemail.com>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Jimmy Hon <honyuenkwun@gmail.com>, Kever Yang <kever.yang@rock-chips.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard
+ <mripard@kernel.org>, Muhammed Efe Cetin <efectn@6tel.net>,
+ Ondrej Jirman <megi@xff.cz>, Rob Herring <robh@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>
+References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
+ <20251005235542.1017-2-laurent.pinchart@ideasonboard.com>
+ <c5kwmvu3j72evbgdmjn6qn5nqx7ywbiwpzhnpeh6hjjhbz5vwo@jpe3onblwhmy>
+ <20251006162518.GJ5944@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20251006162518.GJ5944@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,75 +75,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch wraps the relevant code blocks with `IS_ENABLED(ifdef CONFIG_FB_DEVICE)`,
-allowing the driver to be built and used even if CONFIG_FB_DEVICE is not selected.
+On 10/6/25 7:25 PM, Laurent Pinchart wrote:
+> On Mon, Oct 06, 2025 at 02:19:24PM +0300, Dmitry Baryshkov wrote:
+>> On Mon, Oct 06, 2025 at 02:55:37AM +0300, Laurent Pinchart wrote:
+>>> From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>
+>>> Add an optional property to RK3588 HDMI TX Controller binding describing
+>>> a GPIO line to be asserted when operating in HDMI 1.4/2.0 TMDS mode and
+>>> deasserted for HDMI 2.1 FRL.
+>>>
+>>> This is used to control an external level shifter for HDMI data lines.
+>>>
+>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> ---
+>>>  .../display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml   | 10 ++++++++++
+>>>  1 file changed, 10 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+>>> index 96b4b088eebe..eec0d40c91ea 100644
+>>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+>>> @@ -113,6 +113,13 @@ properties:
+>>>      description:
+>>>        Additional HDMI QP related data is accessed through VO GRF regs.
+>>>  
+>>> +  tmds-enable-gpios:
+>>> +    description:
+>>> +      Optional GPIO line to be asserted when operating in HDMI 1.4/2.0
+>>> +      TMDS mode and deasserted for HDMI 2.1 FRL. It can be used to control
+>>> +      an external level shifter for HDMI data lines.
+>>> +    maxItems: 1
+>>
+>> Just my 2c: since TMDS is assumed to be a default mode, shouldn't this
+>> be a frl-enable-gpios instead?
+> 
+> I don't mind either way. Cristian, any opinion ?
 
-The sysfs only give access to show some controller and cursor registers so
-it's not needed to allow driver works correctly.
+No strong opinion either; we could go for Dmitry's suggestion.
 
-This align with Documentation/drm/todo.rst
-"Remove driver dependencies on FB_DEVICE"
-
-Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
----
-v1 -> v2:
-      * Fix error and improvement , thanks Uwe Kleine-Koenig.
-      * v1 https://lore.kernel.org/lkml/20251005173812.1169436-1-rampxxxx@gmail.com
-
-
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index ade88e7bc760..dc99b8c9ff0f 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -17,6 +17,7 @@
- #include <linux/module.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
-+#include "linux/kconfig.h"
- #include <linux/pci.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -759,7 +760,7 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
- 
- 	dev_set_drvdata(dev, info);
- 
--	if (device_create_file(dev, &dev_attr_dispregs))
-+	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dispregs))
- 		dev_err(dev, "Can't create sysfs regdump file\n");
- 	return 0;
- 
-@@ -801,7 +802,8 @@ static void of_platform_mb862xx_remove(struct platform_device *ofdev)
- 	free_irq(par->irq, (void *)par);
- 	irq_dispose_mapping(par->irq);
- 
--	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
-+	if(IS_ENABLED(CONFIG_FB_DEVICE))
-+		device_remove_file(&ofdev->dev, &dev_attr_dispregs);
- 
- 	unregister_framebuffer(fbi);
- 	fb_dealloc_cmap(&fbi->cmap);
-@@ -1101,7 +1103,7 @@ static int mb862xx_pci_probe(struct pci_dev *pdev,
- 
- 	pci_set_drvdata(pdev, info);
- 
--	if (device_create_file(dev, &dev_attr_dispregs))
-+	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dispregs))
- 		dev_err(dev, "Can't create sysfs regdump file\n");
- 
- 	if (par->type == BT_CARMINE)
-@@ -1151,7 +1153,8 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
- 
- 	mb862xx_i2c_exit(par);
- 
--	device_remove_file(&pdev->dev, &dev_attr_dispregs);
-+	if(IS_ENABLED(CONFIG_FB_DEVICE))
-+		device_remove_file(&pdev->dev, &dev_attr_dispregs);
- 
- 	unregister_framebuffer(fbi);
- 	fb_dealloc_cmap(&fbi->cmap);
--- 
-2.50.1
+>>> +
+>>>  required:
+>>>    - compatible
+>>>    - reg
+> 
 
