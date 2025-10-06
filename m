@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1957CBBD73E
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 11:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF57ABBD74E
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 11:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA3810E062;
-	Mon,  6 Oct 2025 09:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291C310E2F8;
+	Mon,  6 Oct 2025 09:36:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lZVnTSMd";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oqea8QCy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C76410E062
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 09:35:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B2510E2F8
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 09:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759743329;
- bh=Zk8Jo5SPmzAsmHMFK8+ptR1vnmkxF9QjVRBwUXv/GcQ=;
+ s=mail; t=1759743371;
+ bh=Xp3by8t0maP1Vb90Nju6hz9/zSoF5Ht9B7xI4C7ASrY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lZVnTSMdtFXdu9MAyZ4uke97TZskIr4QYzIH9ZEwEq5Kjo/T1Qwi/eagTJodWRdoU
- fAAn1tBR7rwBTkz/46bBSXS9W0co3anMfYBIuZBvZZ6Fvn2Y/25g3+dlIHBfFDj90w
- Xwti81iw1rHNLI8p0QR1GBtVff/pcpBH2y8iN08nE/8d/eos2M0aYGXZRrvx+svaZu
- zvkoxLSbh+q3i3d5WG+8BMiauD8TGkEO9qdtYNjaFMMDKJTFSrwpncqe+r7CpHrvIU
- Gd75dNAEMJT8eQA2KttK8aKdxsFk+oeoLznjhQg4qwHsxhgXNUIjcI8ODxTo8hcp0G
- oBLRNjIuYXN3g==
+ b=oqea8QCyl47tPr2p/I2JBWilB27/dytrdw7oUiy72JMtI+hZdP+/GK6bMH2b1ME3U
+ tBJTqozUMuhy57OsKjw9xE+X2Mn2TK0KFsoxYVqVEPoT8sm3MhgeDQnLL6eHT8KN6P
+ yfxg1uwEWuCeR7B/NKGiy645OImZrboJpCg5VUzChTWyElKansn6MrrDbbzT3Pbmvi
+ 9myQ4DYvltdcxXoVbXZM5kIIDecRP7QVtSNFTJLIZLEzNBlbFZt6m1c0TsshyPYifc
+ Vmb1J6wn5DEuCDQG3hAdm9SOVs6Mcb42/H3Wtw/ACt0oshGypbrkCRrFxmkYeUq1J0
+ TbpwM/i587E1Q==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B079417E0FC2;
- Mon,  6 Oct 2025 11:35:28 +0200 (CEST)
-Message-ID: <e92fea15-86c7-4160-aa8d-28c8052b1697@collabora.com>
-Date: Mon, 6 Oct 2025 11:35:28 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C34CF17E0FC2;
+ Mon,  6 Oct 2025 11:36:10 +0200 (CEST)
+Message-ID: <137811e2-f28e-4605-a6b2-935a0a8b463b@collabora.com>
+Date: Mon, 6 Oct 2025 11:36:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/7] dt-bindings: gpu: mali-valhall-csf: add
- mediatek,mt8196-mali variant
+Subject: Re: [PATCH v6 2/7] dt-bindings: power: Add MT8196 GPU frequency
+ control binding
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Jassi Brar <jassisinghbrar@gmail.com>, Chia-I Wu <olvaffe@gmail.com>,
@@ -57,10 +57,10 @@ Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  linux-hardening@vger.kernel.org, linux-pm@vger.kernel.org
 References: <20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com>
- <20251003-mt8196-gpufreq-v6-1-76498ad61d9e@collabora.com>
+ <20251003-mt8196-gpufreq-v6-2-76498ad61d9e@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20251003-mt8196-gpufreq-v6-1-76498ad61d9e@collabora.com>
+In-Reply-To: <20251003-mt8196-gpufreq-v6-2-76498ad61d9e@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,15 +79,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 03/10/25 22:15, Nicolas Frattaroli ha scritto:
-> The Mali-based GPU on the MediaTek MT8196 SoC uses a separate MCU to
-> control the power and frequency of the GPU. This is modelled as a power
-> domain and clock provider.
+> On the MT8196 and MT6991 SoCs, the GPU power and frequency is controlled
+> by some integration logic, referred to as "MFlexGraphics" by MediaTek,
+> which comes in the form of an embedded controller running
+> special-purpose firmware.
 > 
-> It lets us omit the OPP tables from the device tree, as those can now be
-> enumerated at runtime from the MCU.
+> This controller takes care of the regulators and PLL clock frequencies
+> to squeeze the maximum amount of power out of the silicon.
 > 
-> Add the necessary schema logic to handle what this SoC expects in terms
-> of clocks and power-domains.
+> Add a binding which models it as a power domain.
 > 
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
