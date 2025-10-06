@@ -2,114 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CE1BBF299
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 22:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8653BBF29F
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 22:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C8910E0E1;
-	Mon,  6 Oct 2025 20:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3501610E45E;
+	Mon,  6 Oct 2025 20:14:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q4eG8C5D";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="O/+Njtc2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B8910E0E1
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 20:14:42 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 596F0YIs002759
- for <dri-devel@lists.freedesktop.org>; Mon, 6 Oct 2025 20:14:42 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACBA10E45F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 20:14:53 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 596F1Piw031750
+ for <dri-devel@lists.freedesktop.org>; Mon, 6 Oct 2025 20:14:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YafftRWByjLDaFGPU4UHzyU88JZd5Y6+rQcB/WOpZU4=; b=Q4eG8C5DypE2DTt7
- Bc4GnsGjFuklJUwlxMUDbeuWMYMlJg8+s1LJnwyqKp0gLPWbt9IULqaZJC3A75BD
- /jds4cD8tOoIM+Dc66lAQrXBvPGrT4q9flm1Y4rLKE6GoLfV6Yq45XW7x1MOKjFb
- nZ1qfVQrLXubjFna6WJYDI2rPFFofAxLN8Bngmisu2ayOk3mM/m6jaBhItNAunQW
- +XxwYHUypw1vK1Hvn0cjDgNosTp26QrVh2CwFBcPg9v0PM/Ix4ZFd2YxDxXUOTnA
- Ln32E/o006on6A0+uiw1GyIX+epNUrlMBAMka43Xt92DBoZ/LV5zxNV4gpTBMbuN
- nrGcqA==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jrxn592c-1
+ vEyKAN1vZzuHQohePa8sXUurcflNDuWo3yDRiLif28w=; b=O/+Njtc2P3rF6Ro1
+ O406W+XGTHFJwHmHdNpSGhjKBHf1frLRiPyMtceZ+TeIhiDbjbHd2rQYs3daCyb7
+ VOcF4McaQLwak02K05GWj/tZGA5fqvTBSxGZP2c+pE/pjaqSVG2ZDJYBXETN9wGC
+ sK3765dpMRvPmTJDiN7XsJ52juo7pK7jg+tnv6V5CaeunaAM2x3vlVcZ4xEeJ8Mp
+ lA5XNpN+kC8HIufn8PdnZ09pWqEp23zxv8cnMiGcgCSYDssZdZcWhVZKpk8385KM
+ OJLG9zPtrbeOP0VyUfFnmuwPLA5pry0iYeHAkDCO3DEFWUHNjcq9C9sTUlKLQePl
+ nb5ttw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jvv7mv56-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 20:14:41 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b5a013bc46dso3751146a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 13:14:41 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 20:14:52 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-277f0ea6ee6so68574535ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 13:14:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759781680; x=1760386480;
+ d=1e100.net; s=20230601; t=1759781692; x=1760386492;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YafftRWByjLDaFGPU4UHzyU88JZd5Y6+rQcB/WOpZU4=;
- b=l1r9e2yZi3WM0dT2ca7tpXynzrpbzMRLB3tUFw5cXNbjMwlxQ0odUtYi8b0Ar7QKjJ
- kRrIA4cRCr8Owri7xnWSABiEvmuDch1SBOmYIkR5r7xol2xPNjR1JR4mvg89UnwynRfS
- hB7Qe8/RrXZNaNS0E1noTkRRilNKPuTeCJcL8Q8YHYMfwyghMfOfq3YnPyP+7WuDXupl
- Af5w1ddjFRiZpWe1GpYqsX7Y+D+RG74qmY23m8EcVp94oUus5okKcAAQA4fOHEenSUGc
- PaGNu/4l9rEhvroMOLtCAC04yYNg3zp+oN45PzQVO5fywW/0ab5YJYZ8WK6e83vZRTBj
- Lfug==
+ bh=vEyKAN1vZzuHQohePa8sXUurcflNDuWo3yDRiLif28w=;
+ b=kJQCaey6JHjKZg+6bzI/Ay+KmyqvmXJBeCMfUOHZWG6FmDstl8T4E2B7W0+Yx44EJV
+ 85XKwfVLqj56O1YJ4nkmG64dSZEfm19bePFiDdQhtagwZ5hFIchLq5keLu+Kf/sYxznV
+ +boUzEp8SJLNRrnx6XDjM/qGR4rbBV9si0W2dbZvR2oNykBOuAZDKVb2E9DAqb760ojv
+ eDfi2VgsctIhKiKzX94ElG1VmT9p+DXhK46RAooOKgo7tffK9i3uxAUZhqxhqsNH2BCu
+ Fm+p8gLKs0cNtPCSh/nSRcDEaU+1pvF/XHZh7FTNN3zunOsWzxZH1C/XCFlSiTuDXbbm
+ e7BQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVOUBWj4r87nfuHyXR+sNxw9N1C/JmWeVvXPYUsMdyGgiCaeI9N3e7nCmpMZVJuPfJKtICkIZrO4io=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1LinHf65fJFTepLKu+6oHSXfznrX1zajn0ox34EElsFP+2D7m
- ZK1r6lQvvGTXxlOPA2xq3LG84vz8Li9XQSh3A6zdvTjwMlTDgHOJ0vmnJSPdmvnF9BUNck9Um9d
- pCDCY8k8fIxa14fck2cljE/uTxa6KdvazLvN1B6Pz5q/WWM/eJr6dm+F0NXJPmzXHs0taW6k=
-X-Gm-Gg: ASbGncsbg8IJoBn/dIWNxQde51guGJLwRo+Nfj9HBIkdja4PV1mRvja9z3pM8sdrvPy
- lPKNo8ZGooLk1XodqgI6FbhdI74q9qV5s7fnNwF+cGtkNrgviuluz2ngpzel8+4eAnddKsncbgG
- v62goGCqhK6ZfTCETKOvXxyJbigx/fYM23zEw9z+ZyoD8nGV/pbCrry12Jq9iaostF2kxP9YPbn
- nPBXlPdrl66klZSwhNvJTK5upcMWs6RhNL0K723TVovueuTb5zy81AIustBpz/PEAHBoMus43qh
- nvsdUGAdAEgOuONtH/lWe0jqxMAGUT/8WzeVnYI92Lw76HPZ/ZM5yPHlh+iXTQ+5TutkI6RBDXC
- W+0ApNHPHqY7BLwqY3pk=
-X-Received: by 2002:a17:903:3c25:b0:28e:9427:68f6 with SMTP id
- d9443c01a7336-28e9a593d32mr160462375ad.27.1759781680553; 
- Mon, 06 Oct 2025 13:14:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFMy6IH1KAtr1j9MdJ9iYW2madM3BGB3q4dXxdL4hFhciKoi1zB57zp/KlO68jvuc7tMpkzXQ==
-X-Received: by 2002:a17:903:3c25:b0:28e:9427:68f6 with SMTP id
- d9443c01a7336-28e9a593d32mr160462145ad.27.1759781680134; 
- Mon, 06 Oct 2025 13:14:40 -0700 (PDT)
+ AJvYcCWDGdiO92GJwAxyPpzXu+Atm9b8KChkrKu19hU+llG1+A6mQw4jbUkmI2/A7LbsxGvASVycFn6vW0s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywKvIgH4O4Uz20I2VtmS+6jMpV51kKDjlrBot7+F1deggRr9XX
+ 5qJt0cnGnt9oc+yesdrX4lvZLQACZMCiWPwwDzZkBL7f69PbDqeJs/SWZol/8ZZ9+0CniPoKDoJ
+ xmr0Oj6uTuecE2MJejX5ZpnQeNI+x1LQ4dxuQ0nvm25MDBx/7EGQ2kUVYEPbN/iIanDhW/mU=
+X-Gm-Gg: ASbGnctdVyPDP7yr5I6O7X6gOa+YFzrmooFPeif+GRjAkbq+VBqO+Z4IPnhL1QCt5PZ
+ n3pRhRfhN8ZEme6p1rN1CBFV88ND3b+J9tpaX+uDHdEcm9gv0WOyJK3ejE52A9QIZAAwTdxM2SW
+ aJNrhuKEJQoj9bPHhUMQ6mv8MnnXsjBmWNn4odt7RKF7M8q6SiORpTxMFAsPergiqEJayJoGxNO
+ 06C41YHl/yQigh3DTAQHs989TZLLIeICaKm3aPA2N8zRRF0GPxAJblBKcYFXiYgm/+1vWCTxGNe
+ DaxZg7NMrdbhAk+JueFKzdBFLeM7pAboEBFZgEGcyYdVrsrEb9h7IN6KxuWOGS6Kot1tIncrKCT
+ Ag/WCH1IPIBVeBoykano=
+X-Received: by 2002:a17:902:e785:b0:24c:cc32:788b with SMTP id
+ d9443c01a7336-28e9a5462aemr167629615ad.3.1759781692104; 
+ Mon, 06 Oct 2025 13:14:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHyuhuX8XSBXFG1NNSSZ4gnA7eVmFPYvb/qOVtcgIaGnkKWe/CMWBH2rUUBP8WFesCSxm/CbQ==
+X-Received: by 2002:a17:902:e785:b0:24c:cc32:788b with SMTP id
+ d9443c01a7336-28e9a5462aemr167629375ad.3.1759781691660; 
+ Mon, 06 Oct 2025 13:14:51 -0700 (PDT)
 Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-28e8d11080csm141732895ad.1.2025.10.06.13.14.39
+ d9443c01a7336-28e8d1b9e4fsm141410375ad.73.2025.10.06.13.14.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Oct 2025 13:14:39 -0700 (PDT)
-Message-ID: <1d46a5a2-3495-4111-97c2-b726452d239e@oss.qualcomm.com>
-Date: Mon, 6 Oct 2025 14:14:38 -0600
+ Mon, 06 Oct 2025 13:14:51 -0700 (PDT)
+Message-ID: <6b91d49a-37ee-4847-81af-a1e5b0b0d4f4@oss.qualcomm.com>
+Date: Mon, 6 Oct 2025 14:14:49 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] accel/qaic: Replace kzalloc + copy_from_user with
- memdup_user
+Subject: Re: [PATCH 2/2] accel/qaic: Replace kcalloc + copy_from_user with
+ memdup_array_user
 To: Thorsten Blum <thorsten.blum@linux.dev>,
  Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
  Oded Gabbay <ogabbay@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250917124805.90395-2-thorsten.blum@linux.dev>
+ <20250917124805.90395-4-thorsten.blum@linux.dev>
 Content-Language: en-US
 From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250917124805.90395-2-thorsten.blum@linux.dev>
+In-Reply-To: <20250917124805.90395-4-thorsten.blum@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwMSBTYWx0ZWRfX0CB+BVXItU0R
- btWR7ktHPdpEG8QvplMOOd/jrZRIvYretGp2Who1LM8zNCEBSKnayLLfWFobj7S484PTfsmNIRE
- bu5xHUsc1JJixraQHpVFTMDLgBo2fsSMBW8n7SkRkkL02bPO18251PXe0lrC/M1iM6l6/VRWlrI
- CYEG+5NlnTcDzNnL3mOLFXiaePkmaS8YtFTNXcnTD2HTIcev6VL/v5a02sHf5RnwBXvkoHy2XB3
- Jm4eovMu3EXFf4E1Z7TPh0DCTTPvDGYqmIG0tQcc4Nj2iU5Ibs8lkq/f46B2/w4tYeO+C0oCQjq
- LSrGcllmYjeT6Dm8zRItyT/Fbrfuk90AJkfOLzugMSJBt6+5WvSo1OXoztb4ef6h1HYeLrlJdnW
- c7BzWLHW0RKFDdLQaeI7QMFfUIPcnA==
-X-Proofpoint-GUID: B6WY5D6-rpvcNm1YuRM32MigokqF3s-1
-X-Proofpoint-ORIG-GUID: B6WY5D6-rpvcNm1YuRM32MigokqF3s-1
-X-Authority-Analysis: v=2.4 cv=EqnfbCcA c=1 sm=1 tr=0 ts=68e42331 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=mx5ec8yL7mgqVsH1_UkA:9
- a=QEXdDO2ut3YA:10 a=vyftHvtinYYA:10 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAzNyBTYWx0ZWRfXwMo5ZlIBeCr/
+ Yu4XSVWEss39ChTaJsJpQhTQm4Ew+BrJ8eHD8fT2jJBMM0qCZNprxyCwAzZizTgLv8Bs2Ks0xF9
+ N+LTrboIh2DNFDbM7ncZbb4wWFHpFB3UsC+BweIWtrfYm8UObmC1jNk/JXy/kfZijh8MIgq6ycj
+ 41n9OdLBlS5DNb0KyE2dEvuodJ96+zsYnb47qfe0LxUCaJWYnexy1ff2BaqqZ443nISxgUGRthV
+ /y9YjS/fwfqDZCEzBSv8F7+YzQpfDy/4QVMn7GqHO4HRDa+fR9tnHashTp3efy9iAEYxuu9F1GU
+ v8KTElNH747jgJDi5zWN1qTITO08Ptyos9sAsmedgZvCmPvMd8EMURPAE5uAuJSipSu1XMFxzKm
+ dw9tK9lDGy4F2yboDKxmK9cOoC0T7Q==
+X-Proofpoint-ORIG-GUID: 5yB__Llx6U-vdGQnS0lTPO4a2DnrpWNl
+X-Authority-Analysis: v=2.4 cv=WIdyn3sR c=1 sm=1 tr=0 ts=68e4233c cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=MFX6GGzU5ss6K9bJXPMA:9
+ a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-GUID: 5yB__Llx6U-vdGQnS0lTPO4a2DnrpWNl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-06_06,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0 malwarescore=0
- adultscore=0 suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1015
+ suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040001
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,8 +127,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/17/2025 6:48 AM, Thorsten Blum wrote:
-> Replace kzalloc() followed by copy_from_user() with memdup_user() to
-> improve and simplify qaic_attach_slice_bo_ioctl().
+> Replace kcalloc() followed by copy_from_user() with memdup_array_user()
+> to improve and simplify both __qaic_execute_bo_ioctl() and
+> qaic_perf_stats_bo_ioctl().
+> 
+> In __qaic_execute_bo_ioctl(), return early if an error occurs and remove
+> the obsolete 'free_exec' label.
+> 
+> Since memdup_array_user() already checks for multiplication overflow,
+> remove the manual check in __qaic_execute_bo_ioctl(). Remove any unused
+> local variables accordingly.
+> 
+> Since 'ret = copy_from_user()' has been removed, initialize 'ret = 0' to
+> preserve the same return value on success.
 > 
 > No functional changes intended.
 > 
