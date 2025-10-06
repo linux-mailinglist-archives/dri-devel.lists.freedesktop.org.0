@@ -2,93 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F590BBE173
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D07CBBE295
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 15:17:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCAC10E34E;
-	Mon,  6 Oct 2025 12:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA16810E06D;
+	Mon,  6 Oct 2025 13:17:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yazp4ydm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
- [209.85.222.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A35AE10E34E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 12:49:43 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id
- a1e0cc1a2514c-8fb58f2b820so3087581241.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 05:49:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759754982; x=1760359782;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OwPjpMz/0J4A8goGwBvaeTijAxI7KyJ1C6GbFZyEwbs=;
- b=SYTXvWiDt4Dm+X8UKZ3N3ZgUU1fYLFcAjOH9SWq7Qk3N0UMnjdxVxdcruiZv+xm/T0
- FrOf8QUBH6zhg9HCKupHdXYFixiDxaQEq0cugWCrcZT/1kYXxcN/08v7jctoYZinVc9M
- vHbBWPBvymEph0KceWm9tE/cbpDnH9vKslD1TtyicyrX7dyfoJHj7/I91+sGgCu7DrQV
- 4FRG/PdjXNWvXAdN7qZ9oiAFlVO481WVZ3fWjhuukXPlL/5cCCXcO6t0Ae6abGzNw7nI
- rNOER8h7j8Nsg1be4xxwy4fkyYYk5fpwTRxuqztEdebTOaX1MEN2+c1lU9pFrDukaxbV
- YlEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVECSovijJ5Mdvql6X+/pXXkum8uXgibNz0M20I3vnKvZvUMgSV+tJZOQsO6tVD3PwrWO32CAhpoQc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYxyghNEYSlpciXVcQQe784GM/k5ne/oWPRNzqzPgehVNs8aeF
- 2a82dz+ZPw3zvbDVQ4r6MKt/txsYYNS4TXNNMl+vZI5OcqzDelJ2OjICxCVI4wJF
-X-Gm-Gg: ASbGncuNYumk3Ph313nHaikSgWM92YXlHgLw45eXSMUBjip/PTiAGKy3Eg/ytrqMRKI
- C4rGe3t3VfI0cR6tyqL+Wcl48/3zVtDKG3fmijgBCznWQpNTnfvC6mdBUWxNO/+nrgt8/Vq3odm
- n6v4M/lFv6pApn8NhlIw6YuavTd5NSf3jlZecpyQmwemLFaHtS1uozklBim+MRfYx4/QWqq2BhH
- UXEBhmXDJd5HJpZ7dOQdRMlFJywvzEZd7xKE8/FxGwPZf1OdjD2fj1a9a/O44xsP+K++V0oeDf/
- /lTjF9KECVHpjAHyIIOw0oPC0nsAjK1qiBGLtnoY00+c1YG0quUfZVmkY4XxJV9nADl1nw+nB59
- nmHrq+VMsZqhnNqyMe3B0zwUnw20vQb5Zjdej/s9BnaFnByQdeIX6PH+NohYxSHlPQR2WtUT8yt
- SMsdrtLxH4
-X-Google-Smtp-Source: AGHT+IHfCfVNDgVKLAhEcjFJx0cCmlmCZKrhDSZM10jwCj4RqAd1L4Z3UYZEkngkWDebOayN7NfOSw==
-X-Received: by 2002:a05:6102:5111:b0:523:d0d7:b964 with SMTP id
- ada2fe7eead31-5d41d0588acmr5044492137.12.1759754982296; 
- Mon, 06 Oct 2025 05:49:42 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
- [209.85.222.45]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-92eb4ee14e6sm2863092241.16.2025.10.06.05.49.40
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Oct 2025 05:49:41 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id
- a1e0cc1a2514c-8d02f793882so2833857241.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 05:49:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX8TYGL39EwukBYGX8SjsB1f8HHxL9rWk42jd8urqNA1Z1GZg88VW+NWhL05YggWrFJtmVHd560jwI=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:1620:b0:520:c4ea:4bcd with SMTP id
- ada2fe7eead31-5d41d055f58mr4323006137.9.1759754980548; Mon, 06 Oct 2025
- 05:49:40 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD21710E06D;
+ Mon,  6 Oct 2025 13:17:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759756651; x=1791292651;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=sfSv9fYv9nOhLTBD7eimpi5VBEzSTOTKcLZcBb3pzk4=;
+ b=Yazp4ydm44pedq2K6aFVGARvnXXvx43R53t/gILzDFyA0gpk81XY9x5v
+ Ot2l7VTfxWy2X3EkZWcYQhJBAO7MbeCj15jvSxrRGHgChVE7mh0hSNxB0
+ 17GRshmwkRnGwsr9IxNqp0bCnT5dL5bO31luvR7Ee5COqjJ7rMTgN/Zb3
+ Ea2vsP/j2pTvOTkD8lR0zpe/bXLOzA2UWl7MnQ6zB/lETE6f5TL6lTsv4
+ k/K+CY/OY7H3rUDpZyHHKpxYXc0dj9IwzMXwaHIdwdvTg1upZ2oPn6GpZ
+ 9EEF/U7rS3Xs7YqStW3gdDrWfPt6sxBUpkn/vvjfRzDkRP7vb32SGz3Qq w==;
+X-CSE-ConnectionGUID: 0FfvOlY7TjaLN5W611cEdw==
+X-CSE-MsgGUID: 22FP9WTHTEC1VJRNAD05/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="62097008"
+X-IronPort-AV: E=Sophos;i="6.18,319,1751266800"; d="scan'208";a="62097008"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2025 06:17:15 -0700
+X-CSE-ConnectionGUID: slTp9S8RR8anH9MEtiRNAg==
+X-CSE-MsgGUID: eGQa/UOLQyuT7ySjKYtl7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,319,1751266800"; d="scan'208";a="185052276"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2025 06:17:14 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 6 Oct 2025 06:17:14 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 6 Oct 2025 06:17:14 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.17) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 6 Oct 2025 06:17:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RSP+1eNy7d1od1DPkCEkahfdj9ng/RM32fRuAhbEa33BygccTwv1AKlRmO064Od3MFIlaD9ZHFrRB8mL8HpqHXQbAmwMKx+WO9pi2Kyg9jbY8KGHU/f0vtMQYBgP0q50mkTKuSIcV0nZPQKSrjVHjeB1TUIKos8Zq3TxAu7f4t+CRwQi7ntJDUVYBXKlm7DztKf61tFVSN3FG/n0UkFULQ5mMhcNLTRzEE9dYQ5rQJJ5tqBwWTCJ9Wk8NrfjTFtnCXIjbFkrXFDATAMWCoKacrfykTzxU8R631NyTb+Zl7c8hSEZzkw8uXMPe91kxBF/LSL6uD0AchECukrdKFY5/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FkTdh6ZnKkg3Z+ho02gSq9aEKMFh6nvTdyAXuG2mzpw=;
+ b=R93+QLsktX1cBtlGNRrOcd1eHWE86sm6vQjuBT4tZz+pAA9ramuvZBPQhBGmqOBGGex6jdKT9Pn7yrB7XHieLawOG/eDxNxzocVb6WYDz9OyVCN07sUMcIGg4KNZyAy5BBztin0FBJXKSvS+msI/buFHEovAsVlglqdpUA1sv+ssSdX2XA0q6g3f90Irk7sX1ruteDGo6Ixd5f6IniNbvaoz/ax5Ct9Yufj/7wBVBZ6dcioYUm/ntPqMeExUEamxTXUZhUxPsBp404R945Os3yjQnkjAEzYXa4lyEZkR6Ybz6psIFmqbPAwSTceiBy06ku7KYjLYWrFuSOscxmH8tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SJ0PR11MB4861.namprd11.prod.outlook.com (2603:10b6:a03:2ac::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.16; Mon, 6 Oct
+ 2025 13:17:08 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.9182.017; Mon, 6 Oct 2025
+ 13:17:07 +0000
+Date: Mon, 6 Oct 2025 06:17:05 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <christian.koenig@amd.com>, <pstanner@redhat.com>, <dakr@kernel.org>
+Subject: Re: [RFC PATCH v2 1/4] drm/sched: Add pending job list iterator
+Message-ID: <aOPBURqjbeoOjQEO@lstrano-desk.jf.intel.com>
+References: <20251003201156.1995113-1-matthew.brost@intel.com>
+ <20251003201156.1995113-2-matthew.brost@intel.com>
+ <d95920d45821d0e1e73737889e3e1481102c2e3b@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <d95920d45821d0e1e73737889e3e1481102c2e3b@intel.com>
+X-ClientProxiedBy: BY3PR05CA0033.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::8) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-References: <20251002161728.186024-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251002161728.186024-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20251002161728.186024-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 6 Oct 2025 14:49:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUugFOOvHqjRyoPErh6rqpVuAS_Yr6mGqerKT0VQ-Y6KQ@mail.gmail.com>
-X-Gm-Features: AS18NWBb9B-DekEKpQfUFSovMcE6-nb-Pn4OxZ0U_p0Jp7pux_ucj5r-aIzp9-s
-Message-ID: <CAMuHMdUugFOOvHqjRyoPErh6rqpVuAS_Yr6mGqerKT0VQ-Y6KQ@mail.gmail.com>
-Subject: Re: [PATCH v9 6/6] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB4861:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2d97188-a03d-487e-bbfc-08de04daa67b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5H6/uRmc20ifJCoUCoajO9xTiRFMOO9Pe6L0YjAfLaZh2hNgx7SZshmcQDW5?=
+ =?us-ascii?Q?kh3KUdIdjecaCWieN8yXySCj+WQAG/vZfnRv4bQG35ZlGqNnTN5NKIVwU3F2?=
+ =?us-ascii?Q?1v9juzfdYX2kDZqsxSWqNB7dWeq+CfYueIAW+xCJt/0x8YlvIn9WKP+0qjCF?=
+ =?us-ascii?Q?HCr385BHGHBJFCw56oBKAC9nWTZ/B1o8q9H7J89iWybIYu7W8USMvPzd2qdP?=
+ =?us-ascii?Q?Xs+vH4IBzjVre22SsxxqzzDGCZ797aPV6P0IhENUroAML05jk6e/YT/mcWJf?=
+ =?us-ascii?Q?oL8CzNbudzwF7YX2wf81wrgQn8FUfygfZyHTWwhxHQ4aw1RUjLbxLxAyOon3?=
+ =?us-ascii?Q?iGcmGE5aebzO+iU9LKwS7v9H1CUviL1SQ1GzPt8Jnj3DpT2+WC95dpG2VHiJ?=
+ =?us-ascii?Q?nKw7Sji0un775uAfdGyTfn9ql7NLg6WCxmo9W64uucAknTIE6v1gpj773qWN?=
+ =?us-ascii?Q?lw66GA5EW1z66IITZF7qJxlJB5DH4NBii4YI073bCS5zDOcYQNr50ud3dEL4?=
+ =?us-ascii?Q?GblYP6Sj/x3wag2v6V96NDzF4Bbo/SMEY78v+h/sYdZK5r5YO9bpMCKf3JDd?=
+ =?us-ascii?Q?T9PzgmugfY9Ae3uPxY+BVx7sr7tXrCgTKkyA2MTscmxlQZe71FC0jkatue+w?=
+ =?us-ascii?Q?cKb14Z/WQ7liRPfl4Wx+7WzlAkWm5D9kyloHwQSwkofQrp4Ub3K3AbGBPzJj?=
+ =?us-ascii?Q?sk25wCBxVTlwhCFYz9236/DXvCXmEChgpWvOOKgzPOpVnDBgL1n8IcF1xhtB?=
+ =?us-ascii?Q?+/c4Z5+mxuyn3cZTCe2x9PxlmBFYmO9GPpaLLjKcW0jwe55Aj9TO0ULVeGJV?=
+ =?us-ascii?Q?tmVVGmZFl9PYmZoslBXjnoMwCacoKJoA+5KMjJb/g9IQb5n0wHmfbQn2YXJ1?=
+ =?us-ascii?Q?crouvtuLksDhbROXskGuPSlonwptGPkJgwf1OwSEPfAzFDWWAl2daR65hn6i?=
+ =?us-ascii?Q?/fqdnz/gAfwlB61lSuukU2TlFPGQHsucTQO2iQjGQ4a5++B6nDsGH7IsUDlU?=
+ =?us-ascii?Q?z2NoWy2U8Okvd2N41C9i8rqQVhJis22U/jId+jZ/L/ylLYF+X1QsekxaCmra?=
+ =?us-ascii?Q?u7tDrPt3RhsLXPGdgDuuiHRC36q1/qyZHW/4JplPuFvx/mPR7Spw9imNcENr?=
+ =?us-ascii?Q?PoWHR2uW4go+w1V8E3gcHRQ2NM41YHj+39jNHlLP3ufHUiJYGefIx0FLjDrg?=
+ =?us-ascii?Q?RynlYojg2uzWt471a5gN8BcJI5CGdjPbc2SNGXdxlpeuf4nooP2TZwzeq6+D?=
+ =?us-ascii?Q?rxw6kpnGZdr7Nqnqn4F2PyEUH6vvzla5zTQ+Ke9QYGefHjt7XvMu05umKaRK?=
+ =?us-ascii?Q?xIemk++8cFVUk8Nnr1kNtA5YowREFZdzkA6ojHBjStSfFSOejJEMa1hu93n5?=
+ =?us-ascii?Q?wBwTJJg7Bftox/ExaAnzTxToBot7qDNbKu3/gbXl8aJMmzFxOQkMU7oYlIkM?=
+ =?us-ascii?Q?etWR+Ipchelisk9yGovPQxYNx8YDTaPG?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3n7R56e8jFK5Ra23FRkRWxFUsBusk/VdR0D4WHq/0Tf8iQrgRaK6zC1hnMP2?=
+ =?us-ascii?Q?1isCyv0PVwvGNyqrazf2VLiiRMjAX+C0VJfbNNq7Klyrh2L1SViAffNrDjHi?=
+ =?us-ascii?Q?FrwSYnEj47azGJIC623vihJZDfHppcxe3edxiLxm2LQzZMoZRzZi28JCHQ7g?=
+ =?us-ascii?Q?1ljB1DOOsD4S+itSPUYE3z45C3MH+lW0EaeBUKf2eVjDXe49F0lDBr0df8E7?=
+ =?us-ascii?Q?f9B1VLLINssdTDNemv7NfpMNCrL/hKFBb6oWd1ZEoxFhFiYMxlshdwyeVLs6?=
+ =?us-ascii?Q?lZf+lq5ficpdkeHnzeZpLtf/g/5DDPFfeYY62BnaeG7WfVYIKZ5lIHjORINU?=
+ =?us-ascii?Q?Nz0UOXz60TOt7Y5rbehEXPayLbCpdGCrUkQWVcb1MFR+CpnS6X4SbWKkTidR?=
+ =?us-ascii?Q?ZiWgcPpg4FWPTP/tAeXWikod0UFCkv5jChtnjIMFfqrZeNKXSpB0kF9aEU4m?=
+ =?us-ascii?Q?bSCelOOov9ZY+n2Bssu2LumtpDjUBHCe8TvirDOorfrm5fhhrKPJ2HEZEdWC?=
+ =?us-ascii?Q?v3ci9w+nosR1/DK0riWz/n8MQYzt4x+khhfnzameNKebnlvm2qhWhWamhPEJ?=
+ =?us-ascii?Q?sUwwNVjvbTauqFC6zvgVImG9sC4s/C2EqPk533Me7NfM3gFqb/5B57tP9PuE?=
+ =?us-ascii?Q?BBaiGB6oOJKt8/smnTdnCMsm9IMK9IIP8Z1EOEt5MvNCG8BU4VTQ3LTKuZID?=
+ =?us-ascii?Q?TDmCZ+z3QZMc3APgSXI5CvRfsgdxZyhpL2/HCDg1d1HhuH35o2YYGWm4C49m?=
+ =?us-ascii?Q?YOjYhg2gFkql+gYbPC/x1HQwGi3mVmEZLXIoLMY4Os8Iz4VjxWwbgcRMfdTy?=
+ =?us-ascii?Q?6yprzOCwkw2soewIod4gdvRkYVLIjZEcy5oCvkWt64hiZgj8ZrOrnmMoj1XE?=
+ =?us-ascii?Q?nOBEcHivln5Flq9pHGFcmd/5HHf826P0w39TBwmCEmgj9RS5BFQt66pzzhsv?=
+ =?us-ascii?Q?GwumnIKDKqfc1o+1lZw0bnpG1N8xxUwY9FNquTC3Eth8EkoWxTWxtctRH402?=
+ =?us-ascii?Q?dTd5emzih2yfnK2HLGWK1NPH1TLYFFm+8x+wT7ALuAos0NdEZRhtGnLAsK3u?=
+ =?us-ascii?Q?AYGUxYY9MIUhZEDd/yNldKHSRl8QM8z1gbgJIvR2qp14j4FftTJzTHagniCy?=
+ =?us-ascii?Q?KpnynmQzEpRZMeTyU4kql+UIH7C623TRbMvXeRflSYiBgTGhZMNGoXLHcXnL?=
+ =?us-ascii?Q?iAzsMZSNVyqJEjEfbj6FWVg8IVCqIOxVPd5jtdHtZci5t+lLdFsz/DgPWgNX?=
+ =?us-ascii?Q?BXBrI+ZO4r3D6/d00g2ga62QLho8Fdv7jwwE0NsSaxxREHqWtTPQ+Gfd87cm?=
+ =?us-ascii?Q?IzfXvOyJgrIc7Eqfhp56xCFilCLJ/JpYbRQ28JvsBnnYBJ+qz8lyPQND+LpA?=
+ =?us-ascii?Q?E0eRsIc7QuvjES30LXGUBnzCfEgkMmNdIl2S9i4PzvN+aG20fd7llGq5vcyc?=
+ =?us-ascii?Q?Xel6KjcltZ5zbK5meCiNHWDxampBKni9vReQSqVjm7UHsHQ+uhj77gnVGqI/?=
+ =?us-ascii?Q?Fb+rz7g6+3cmbBr1cWMpFKa0m23mdXyXM+P00BBf5S4idrJkSaVtZ4260DJ/?=
+ =?us-ascii?Q?wG/vstrV038jbOoVP2qKcUTaK/bdwRX595isWfoLFnEu9nl3Ax3vNReGlIjw?=
+ =?us-ascii?Q?ng=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2d97188-a03d-487e-bbfc-08de04daa67b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 13:17:07.9183 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cYb7Pu4CP540JbE2rOh6sm3yezQDxnzx4DbfozC27bd5aN1g+zoFikHDAko/SyoC3aZZusIB5UNrkqRmkX/AnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4861
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,63 +179,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
+On Mon, Oct 06, 2025 at 12:19:29PM +0300, Jani Nikula wrote:
+> On Fri, 03 Oct 2025, Matthew Brost <matthew.brost@intel.com> wrote:
+> > Stop open coding pending job list in drivers. Add pending job list
+> > iterator which safely walks DRM scheduler list either locklessly
+> > asserting DRM scheduler is stopped or takes pending job list lock.
+> >
+> > v2:
+> >  - Fix checkpatch (CI)
+> >
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  include/drm/gpu_scheduler.h | 64 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 64 insertions(+)
+> >
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index fb88301b3c45..bb49d8b715eb 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -698,4 +698,68 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+> >  				   struct drm_gpu_scheduler **sched_list,
+> >  				   unsigned int num_sched_list);
+> >  
+> > +/* Inlines */
+> 
+> Do they need to be inlines for perf reasons? Otherwise, inlines just
+> make proper encapsulation harder, proliferate header interdependencies,
+> and make the incremental builds slower.
+> 
 
-On Thu, 2 Oct 2025 at 18:17, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Add MIPI DSI support for the Renesas RZ/V2H(P) SoC. Compared to the
-> RZ/G2L family, the RZ/V2H(P) requires dedicated D-PHY PLL programming,
-> different clock configuration, and additional timing parameter handling.
-> The driver introduces lookup tables and helpers for D-PHY timings
-> (TCLK*, THS*, TLPX, and ULPS exit) as specified in the RZ/V2H(P) hardware
-> manual. ULPS exit timing depends on the LPCLK rate and is now handled
-> explicitly.
->
-> The implementation also adds support for 16 bpp RGB format, updates the
-> clock setup path to use the RZ/V2H PLL divider limits, and provides new
-> .dphy_init, .dphy_conf_clks, and .dphy_startup_late_init callbacks to
-> match the RZ/V2H sequence.
->
-> With these changes, the RZ/V2H(P) can operate the MIPI DSI interface in
-> compliance with its hardware specification while retaining support for
-> existing RZ/G2L platforms.
->
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
-> v8->v9:
-> - Updated Kconfig to select CLK_RZV2H
-> - Updated to use renesas.h
-> - Added reviewed-by tag from Tomi
+The iterator needs to b inline as it is a macro. Everything else, no.
+All the inlines are in this series are a couple of lines so stuck them
+in header, easy enough to move if needed.
 
-Thanks for the update!
+> Have you tried running the header through the compiler to see if it's
+> self-contained?
+> 
 
-> --- a/drivers/gpu/drm/renesas/rz-du/Kconfig
-> +++ b/drivers/gpu/drm/renesas/rz-du/Kconfig
-> @@ -19,6 +19,7 @@ config DRM_RZG2L_USE_MIPI_DSI
->         depends on DRM_BRIDGE && OF
->         depends on DRM_RZG2L_DU || COMPILE_TEST
->         default DRM_RZG2L_DU
-> +       select CLK_RZV2H
+I would think they are self-contained but I'm not exactly sure what this
+means.
 
-As the kernel test robot has already told you, this is not a good idea.
-RZ/V2H support is optional, just rely on (dummy) rzv2h_get_pll_*()
-helpers returning false if CLK_RZV2H is not enabled.
+Matt
 
->         help
->           Enable support for the RZ/G2L Display Unit embedded MIPI DSI encoders.
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Unfortunately, DRM_HEADER_TEST still depends on BROKEN so we don't get
+> that check as part of the build. :(
+> 
+> BR,
+> Jani.
+> 
+> 
+> > +
+> > +/**
+> > + * struct drm_sched_pending_job_iter - DRM scheduler pending job iterator state
+> > + * @sched: DRM scheduler associated with pending job iterator
+> > + * @stopped: DRM scheduler stopped state associated with pending job iterator
+> > + */
+> > +struct drm_sched_pending_job_iter {
+> > +	struct drm_gpu_scheduler *sched;
+> > +	bool stopped;
+> > +};
+> > +
+> > +/* Drivers should never call this directly */
+> > +static inline struct drm_sched_pending_job_iter
+> > +__drm_sched_pending_job_iter_begin(struct drm_gpu_scheduler *sched, bool stopped)
+> > +{
+> > +	struct drm_sched_pending_job_iter iter = {
+> > +		.sched = sched,
+> > +		.stopped = stopped,
+> > +	};
+> > +
+> > +	if (stopped)
+> > +		WARN_ON(!READ_ONCE(sched->pause_submit));
+> > +	else
+> > +		spin_lock(&sched->job_list_lock);
+> > +
+> > +	return iter;
+> > +}
+> > +
+> > +/* Drivers should never call this directly */
+> > +static inline void
+> > +__drm_sched_pending_job_iter_end(const struct drm_sched_pending_job_iter iter)
+> > +{
+> > +	if (iter.stopped)
+> > +		WARN_ON(!READ_ONCE(iter.sched->pause_submit));
+> > +	else
+> > +		spin_unlock(&iter.sched->job_list_lock);
+> > +}
+> > +
+> > +DEFINE_CLASS(drm_sched_pending_job_iter, struct drm_sched_pending_job_iter,
+> > +	     __drm_sched_pending_job_iter_end(_T),
+> > +	     __drm_sched_pending_job_iter_begin(__sched, __stopped),
+> > +	     struct drm_gpu_scheduler *__sched, bool __stopped);
+> > +static inline void
+> > +*class_drm_sched_pending_job_iter_lock_ptr(class_drm_sched_pending_job_iter_t *_T)
+> > +{return _T; }
+> > +#define class_drm_sched_pending_job_iter_is_conditional false
+> > +
+> > +/**
+> > + * drm_sched_for_each_pending_job() - Iterator for each pending job in scheduler
+> > + * @__job: Current pending job being iterated over
+> > + * @__sched: DRM scheduler to iterate over pending jobs
+> > + * @__entity: DRM scheduler entity to filter jobs, NULL indicates no filter
+> > + * @__stopped: DRM scheduler stopped state
+> > + *
+> > + * Iterator for each pending job in scheduler, filtering on an entity, and
+> > + * enforcing locking rules (either scheduler fully stopped or correctly takes
+> > + * job_list_lock).
+> > + */
+> > +#define drm_sched_for_each_pending_job(__job, __sched, __entity, __stopped)	\
+> > +	scoped_guard(drm_sched_pending_job_iter, (__sched), (__stopped))	\
+> > +		list_for_each_entry((__job), &(__sched)->pending_list, list)	\
+> > +			for_each_if(!(__entity) || (__job)->entity == (__entity))
+> > +
+> >  #endif
+> 
+> -- 
+> Jani Nikula, Intel
