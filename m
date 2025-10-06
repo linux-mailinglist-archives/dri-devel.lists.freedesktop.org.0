@@ -2,86 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3497CBBE1CF
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 15:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAD8BBE098
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 14:33:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 398F410E362;
-	Mon,  6 Oct 2025 13:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D669910E06B;
+	Mon,  6 Oct 2025 12:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E597mMN/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ECqVf6WV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D87610E412;
- Mon,  6 Oct 2025 10:47:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7F5B860454;
- Mon,  6 Oct 2025 10:47:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FDD7C4CEF5;
- Mon,  6 Oct 2025 10:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1759747669;
- bh=FX1Lzu7+bvM9e8qmukvbO1hpPMzmlxgfp1qFo7AK/EQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E597mMN/x7YVkjNX1Bc0G8W7GHt89kk8u2seksXgi5q2H3Gw9DqBry/MoIgd7Hl/f
- QcuYuZ/DwxfZxXg04LwRoNwgtiAl8T7SsOstK7UXK8SyqkUmffohAckrwzORjzcTe+
- /i/1SV3Pn0pttPu3dXePy8Hlmyjuwx9fL801o6Qw=
-Date: Mon, 6 Oct 2025 12:47:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Eliav Farber <farbere@amazon.com>
-Cc: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
- dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
- hpa@zytor.com, tony.luck@intel.com, qiuxu.zhuo@intel.com,
- james.morse@arm.com, rric@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robdclark@gmail.com,
- sean@poorly.run, jdelvare@suse.com, linux@roeck-us.net,
- linus.walleij@linaro.org, dmitry.torokhov@gmail.com, maz@kernel.org,
- wens@csie.org, jernej.skrabec@gmail.com, agk@redhat.com,
- snitzer@redhat.com, dm-devel@redhat.com, davem@davemloft.net,
- kuba@kernel.org, mcoquelin.stm32@gmail.com,
- krzysztof.kozlowski@canonical.com, malattia@linux.it,
- hdegoede@redhat.com, mgross@linux.intel.com, jejb@linux.ibm.com,
- martin.petersen@oracle.com, sakari.ailus@linux.intel.com,
- clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, jack@suse.com,
- tytso@mit.edu, adilger.kernel@dilger.ca, dushistov@mail.ru,
- luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
- senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
- akpm@linux-foundation.org, yoshfuji@linux-ipv6.org,
- dsahern@kernel.org, pablo@netfilter.org, kadlec@netfilter.org,
- fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
- shuah@kernel.org, willy@infradead.org, sashal@kernel.org,
- quic_akhilpo@quicinc.com, ruanjinjie@huawei.com,
- David.Laight@aculab.com, herve.codina@bootlin.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
- linux-kselftest@vger.kernel.org, stable@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Subject: Re: [PATCH v2 07/19 5.15.y] minmax: simplify and clarify
- min_t()/max_t() implementation
-Message-ID: <2025100648-capable-register-101b@gregkh>
-References: <20251003130006.41681-1-farbere@amazon.com>
- <20251003130006.41681-8-farbere@amazon.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07D8110E06B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 12:33:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759754025; x=1791290025;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PADTH9sK7B55j6KgpHnnj5DFwgLJqfvprH+XlV1LZxM=;
+ b=ECqVf6WV9Z4WWkBm/IKgLFvur/6TnXoeWA2rtMpssuidEUR1mwJdUaJb
+ 24F/ffYGouFy+8VleUgkJHmUh0HdmcW1HEsM6+t1ww4gifUdScI13SPIg
+ 1b9obMwfo27RIQtYY3sVFpEa/6aTum9WbwMEgQMF9enGeV/8Rrd3BpjXH
+ 5mcxkMP3SVN8OTjKYotjFAzZosM/ezQ39VmLsscNlbNe9jz+8JvBbau/1
+ 7shpbZ+A2uIrteM4fw6f0HhY6etMjVsauXJSHOr3APhs490mzb3RjlQsO
+ L62H6F3FGjFaha68LssDibIerZxBtwiMIXJ6Lq4tYZ6o9j1u3bbLkDkeW w==;
+X-CSE-ConnectionGUID: pfDKQR5sRU2mQSsy1y4LlQ==
+X-CSE-MsgGUID: hyJJ37WGTKen+IRfTOpD7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="64544766"
+X-IronPort-AV: E=Sophos;i="6.18,319,1751266800"; d="scan'208";a="64544766"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2025 05:33:45 -0700
+X-CSE-ConnectionGUID: VAWjOYKxS/aQYleBG0UndA==
+X-CSE-MsgGUID: Y+eenKFMQlaZJqa5wM5U1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,319,1751266800"; d="scan'208";a="179485871"
+Received: from intel-s2600wft.iind.intel.com (HELO biaas-d105.iind.intel.com)
+ ([10.223.26.161])
+ by orviesa009.jf.intel.com with ESMTP; 06 Oct 2025 05:33:41 -0700
+From: Aakash Deep Sarkar <aakash.deep.sarkar@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jeevaka.badrappan@intel.com, rodrigo.vivi@intel.com,
+ matthew.brost@intel.com, carlos.santa@intel.com, matthew.auld@intel.com,
+ Aakash Deep Sarkar <aakash.deep.sarkar@intel.com>
+Subject: [PATCH] gpu/trace: add a gpu work period tracepoint
+Date: Mon,  6 Oct 2025 11:57:39 +0000
+Message-ID: <20251006115741.3687113-1-aakash.deep.sarkar@intel.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251003130006.41681-8-farbere@amazon.com>
-X-Mailman-Approved-At: Mon, 06 Oct 2025 13:01:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,57 +68,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 03, 2025 at 12:59:54PM +0000, Eliav Farber wrote:
-> From: Linus Torvalds <torvalds@linux-foundation.org>
-> 
-> [ Upstream commit 017fa3e89187848fd056af757769c9e66ac3e93d ]
-> 
-> This simplifies the min_t() and max_t() macros by no longer making them
-> work in the context of a C constant expression.
-> 
-> That means that you can no longer use them for static initializers or
-> for array sizes in type definitions, but there were only a couple of
-> such uses, and all of them were converted (famous last words) to use
-> MIN_T/MAX_T instead.
-> 
-> Cc: David Laight <David.Laight@aculab.com>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Eliav Farber <farbere@amazon.com>
+This patch adds the GPU work period kernel tracepoint as required
+by the Android platforms. GPU work period event defines a
+non-overlapping, non-zero period of time from start_time_ns
+(inclusive) until end_time_ns (exclusive) for a given uid, and
+includes details of how much work the GPU was performing for uid
+during the period.
 
-Eliav, your testing infrastructure needs some work, this patch breaks
-the build on this kernel tree:
+The GPU work period event is required to have the following format:
 
-In file included from ./include/linux/kernel.h:16,
-                 from ./include/linux/list.h:9,
-                 from ./include/linux/wait.h:7,
-                 from ./include/linux/wait_bit.h:8,
-                 from ./include/linux/fs.h:6,
-                 from fs/erofs/internal.h:10,
-                 from fs/erofs/zdata.h:9,
-                 from fs/erofs/zdata.c:6:
-fs/erofs/zdata.c: In function ‘z_erofs_decompress_pcluster’:
-fs/erofs/zdata.h:185:61: error: ISO C90 forbids variable length array ‘pages_onstack’ [-Werror=vla]
-  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
-      |                                                             ^~~~
-./include/linux/minmax.h:49:23: note: in definition of macro ‘__cmp_once_unique’
-   49 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-      |                       ^
-./include/linux/minmax.h:164:27: note: in expansion of macro ‘__cmp_once’
-  164 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-      |                           ^~~~~~~~~~
-fs/erofs/zdata.h:185:9: note: in expansion of macro ‘min_t’
-  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
-      |         ^~~~~
-fs/erofs/zdata.c:847:36: note: in expansion of macro ‘Z_EROFS_VMAP_ONSTACK_PAGES’
-  847 |         struct page *pages_onstack[Z_EROFS_VMAP_ONSTACK_PAGES];
-      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
+Defines the structure of the kernel tracepoint:
+/sys/kernel/tracing/events/power/gpu_work_period
 
+A value that uniquely identifies the GPU within the system.
+  uint32_t gpu_id;
 
-I'll drop this whole series, please do a bit more testing before sending
-out a new version.
+The UID of the application (i.e. persistent, unique ID of the Android
+app) that submitted work to the GPU.
+  uint32_t uid;
 
-thanks,
+The start time of the period in nanoseconds. The clock must be
+CLOCK_MONOTONIC_RAW, as returned by the ktime_get_raw_ns(void) function.
+  uint64_t start_time_ns;
 
-greg k-h
+The end time of the period in nanoseconds. The clock must be
+CLOCK_MONOTONIC_RAW, as returned by the ktime_get_raw_ns(void) function.
+  uint64_t end_time_ns;
+
+The amount of time the GPU was running GPU work for |uid| during the
+period, in nanoseconds, without double-counting parallel GPU work for the
+same |uid|. For example, this might include the amount of time the GPU
+spent performing shader work (vertex work, fragment work, etc.) for
+|uid|.
+  uint64_t total_active_duration_ns;
+
+Signed-off-by: Aakash Deep Sarkar <aakash.deep.sarkar@intel.com>
+---
+ drivers/gpu/trace/Kconfig       | 12 +++++++
+ include/trace/gpu_work_period.h | 59 +++++++++++++++++++++++++++++++++
+ 2 files changed, 71 insertions(+)
+ create mode 100644 include/trace/gpu_work_period.h
+
+diff --git a/drivers/gpu/trace/Kconfig b/drivers/gpu/trace/Kconfig
+index cd3d19c4a201..33ffe865739b 100644
+--- a/drivers/gpu/trace/Kconfig
++++ b/drivers/gpu/trace/Kconfig
+@@ -11,3 +11,15 @@ config TRACE_GPU_MEM
+ 	  Tracepoint availability varies by GPU driver.
+ 
+ 	  If in doubt, say "N".
++
++config TRACE_GPU_WORK_PERIOD
++        bool "Enable GPU work period tracepoint"
++        default n
++        help
++          Choose this option to enable tracepoint for tracking
++          GPU usage based on the UID. Intended for performance
++          profiling and required for Android.
++
++          Tracepoint availability varies by GPU driver.
++
++          If in doubt, say "N".
+diff --git a/include/trace/gpu_work_period.h b/include/trace/gpu_work_period.h
+new file mode 100644
+index 000000000000..e06467625705
+--- /dev/null
++++ b/include/trace/gpu_work_period.h
+@@ -0,0 +1,59 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2025 Intel Corporation
++ */
++
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM power
++
++#if !defined(_TRACE_GPU_WORK_PERIOD_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_GPU_WORK_PERIOD_H
++
++#include <linux/tracepoint.h>
++
++TRACE_EVENT(gpu_work_period,
++
++	TP_PROTO(
++		u32 gpu_id,
++		u32 uid,
++		u64 start_time_ns,
++		u64 end_time_ns,
++		u64 total_active_duration_ns
++	),
++
++	TP_ARGS(gpu_id, uid, start_time_ns, end_time_ns, total_active_duration_ns),
++
++	TP_STRUCT__entry(
++		__field(u32, gpu_id)
++		__field(u32, uid)
++		__field(u64, start_time_ns)
++		__field(u64, end_time_ns)
++		__field(u64, total_active_duration_ns)
++	),
++
++	TP_fast_assign(
++		__entry->gpu_id = gpu_id;
++		__entry->uid = uid;
++		__entry->start_time_ns = start_time_ns;
++		__entry->end_time_ns = end_time_ns;
++		__entry->total_active_duration_ns = total_active_duration_ns;
++	),
++
++	TP_printk("gpu_id=%u uid=%u start_time_ns=%llu end_time_ns=%llu total_active_duration_ns=%llu",
++		__entry->gpu_id,
++		__entry->uid,
++		__entry->start_time_ns,
++		__entry->end_time_ns,
++		__entry->total_active_duration_ns)
++);
++
++#endif /* _TRACE_GPU_WORK_PERIOD_H */
++
++/* This part must be outside protection */
++
++#undef TRACE_INCLUDE_FILE
++#define TRACE_INCLUDE_FILE gpu_work_period
++#undef TRACE_INCLUDE_PATH
++#define TRACE_INCLUDE_PATH .
++
++#include <trace/define_trace.h>
+-- 
+2.49.0
+
