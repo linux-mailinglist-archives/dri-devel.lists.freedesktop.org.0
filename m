@@ -2,139 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC4CBBE4BB
-	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 16:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FE2BBE517
+	for <lists+dri-devel@lfdr.de>; Mon, 06 Oct 2025 16:21:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B060289622;
-	Mon,  6 Oct 2025 14:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0379C10E0E8;
+	Mon,  6 Oct 2025 14:21:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="S7YQfYE2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gHnPCNuJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010039.outbound.protection.outlook.com [52.101.46.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDDA10E1ED
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 14:13:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M7VltRONjiYx9WjrBn6m388InhZ+516L97er7v63cB2doh/pXe122uT0pc7Hg39HjTJyPElJYO/Qc5R97s9HUnHe/fSACElYwST/RyXtif4L17W03zNHYWN6SaYba4OgbuHaF/EbG+NcnRbC4+LbtMWbiIB5UCq5MDYbuvaEZR8FNGHII4++V4ND5d3gfANlugCsSOEBvVF8D80vs8jlJhr5ALtxmiRZqlFqmx/dCVAyTjLKfT+XEvJ0jilA5cby8dRLnrpb3GOl2j0RrvsW6a+tMHwS1m9KFdpGn/LHTf/NzDSzTXwxWC/kdL3zceCnegBuftt32MGpFb6Uaefgeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6sQa6o+p21EFdCPkGKLwYq/cs3pSo02VT+D1oj3EBt8=;
- b=uXv8WkDKggmm6Z53iV2nFceMQhoO8y+sYGTvIw5TXE3FCzhg99KLxZoxWZBgOVyP5n3hUiRzwfGGLMCrmxUqRIvD3h6JTMXwVO6RObGu060XCSXN6dmSHVDkahVeU7h8SzV+IZFm4lh3cH85sK+Usbe2w0JGHbHc5Pigtbb849ry/YTlLuK7aFs69Y6BCVAo+Gqd42OT9g3/7v4PUE7TZjY8PFw14ZJ4PhTmByF+ivwz07ogWxVEUawJEC4VMxQRMEDO6cC11uyr1Xe0X+jEI47+z/XimR4ypLhrNI4Kp6giLPH+WfTYhGdq+TSEo4W7PT/WJk/JkmWKJKqbpd3+qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6sQa6o+p21EFdCPkGKLwYq/cs3pSo02VT+D1oj3EBt8=;
- b=S7YQfYE2deKh+FOj9vacVsbmH2VAKD4nrFlwcbGzksKJevEDpKH8ePXhpStFHQeK8zpLsuVnQ4SuMSLVVBwv5UDJC4f0ADtwCBGK/bnV//q6cCFf8DdcbIrahAylu1D8743BKOShKGspsqP54M7k1IgGj8PKhLaW9yBDWF0EGTlkB+9tUljjivANKobvgTKfbeVjg9EFiWGmEpd8J4hWixtmofxuXW3vlZjFVkSXG4WMh5pM55jLcxgs9iQTX95R4t8ZCSSWFm/vOUjaJsbT19R9GzLfise50v/AOtEYlb4rFiwGWdc0S/KcSF2KJfg65NuQnalijVzhnnep9v72Lg==
-Received: from CH3P220CA0029.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:1e8::11)
- by IA1PR12MB7591.namprd12.prod.outlook.com (2603:10b6:208:429::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 14:13:05 +0000
-Received: from CH2PEPF00000141.namprd02.prod.outlook.com
- (2603:10b6:610:1e8:cafe::b) by CH3P220CA0029.outlook.office365.com
- (2603:10b6:610:1e8::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.19 via Frontend Transport; Mon,
- 6 Oct 2025 14:13:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH2PEPF00000141.mail.protection.outlook.com (10.167.244.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9182.15 via Frontend Transport; Mon, 6 Oct 2025 14:13:04 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Mon, 6 Oct
- 2025 07:12:45 -0700
-Received: from [10.221.129.102] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 6 Oct
- 2025 07:12:44 -0700
-Message-ID: <3ab9a8d4-48d0-473f-be54-de4efec9d07b@nvidia.com>
-Date: Mon, 6 Oct 2025 16:11:41 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7A910E0E8
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Oct 2025 14:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759760476; x=1791296476;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Fp376nVq+wIQoJGkMhuZJoRqEDA/Rk+mt3rzGpm7YSA=;
+ b=gHnPCNuJ5JO7iakp69Ndd3IACnu8faXMwrMFtUaLt+OTn0gYWfNApBaJ
+ Mh6Uv4m+Mq/b94fZkZ2X6OrBdvg0x5md3iqYtFh564TIOJUOG8FkDLmdm
+ Wwg3kztvd/c74nm1q0JIty7kk9DiIfZUJtBpU37J4LK2os+3bZlutU3Us
+ zlD6+XFMJM3Wf9Cz0ZiKcSjdR0vjLqDAJoqrMYPz5CHBb5UEqzspCd8Hy
+ /7nnA/n9mV1wCjkBku1NyAk5KC58kx1gqb62z+lmeF8sRxmBg/jZ4LmPs
+ g8vYLkAx5Zv6FzIUsXvgt+4MwFNvHWCVR58bzR/Uq5KFmP6ePS3/wgGw3 w==;
+X-CSE-ConnectionGUID: ++65te5MQ4uc2cgNNwpVdg==
+X-CSE-MsgGUID: MCqXc2a3T16JiW9eW743ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="72186230"
+X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; d="scan'208";a="72186230"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2025 07:21:16 -0700
+X-CSE-ConnectionGUID: z1RxdS1TRNOHN0ICA0hcnQ==
+X-CSE-MsgGUID: gS3MNeTPTsmsQ5v4jixy4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; d="scan'208";a="180322397"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.93])
+ ([10.245.245.93])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2025 07:21:13 -0700
+Message-ID: <cf6e96ae-746c-43c6-a761-a3304745cf0c@linux.intel.com>
+Date: Mon, 6 Oct 2025 16:21:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] Virtio-GPU S4 support
-To: <dongwon.kim@intel.com>, <dri-devel@lists.freedesktop.org>
-CC: <dmitry.osipenko@collabora.com>
-References: <20251003053402.732218-1-dongwon.kim@intel.com>
+Subject: Re: [PATCH] drm/vgem-fence: Fix potential deadlock on release
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+References: <20250926152628.2165080-2-janusz.krzysztofik@linux.intel.com>
+ <2b562fa8-6312-4464-8c8d-26d13fbad673@amd.com>
+ <4655664.8F6SAcFxjW@jkrzyszt-mobl2.ger.corp.intel.com>
 Content-Language: en-US
-From: Nirmoy Das <nirmoyd@nvidia.com>
-In-Reply-To: <20251003053402.732218-1-dongwon.kim@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000141:EE_|IA1PR12MB7591:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b31d4ed-69d8-471d-10c4-08de04e2778b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1dndUw0TWZYdy9DTnptVTlyNXZvUW95V3FiMFFCdmtuRFZiSlpSTTBVTGpK?=
- =?utf-8?B?V3I5VHVURUp0czA4MmN2MVhJUXIwQlFHd1RsOVpDb0ZnZjRUb2s5UmZZU2JC?=
- =?utf-8?B?RTgrU2RCUjdaek94QStJL21BOWdOalV3NXFXTXlRVW1TcXhOc2graGtOZERG?=
- =?utf-8?B?V0llckZIaEh4UDltWjRhYUh4bW4rcm9lYWcxTlVuUFpNS1ROdjlHT2kxT0RW?=
- =?utf-8?B?Wkh1cEc1ZWE5RkRWMjR0T3RQclRDdkhBMHkrRUIvTHZjV0F3UGVaOXdwdVM5?=
- =?utf-8?B?Q3M2WlVMRTFRenp3ZUExUENIYXY4NUp4UnNTd2NvTzdtbzhybzJIZjhXb0Zz?=
- =?utf-8?B?aVFJdjRYUDl3VVFrMm13ZVRMUW0xUkpzdGVZTVZURHdQZjRJNnlxUXZsU2hz?=
- =?utf-8?B?VnlwQWdRNlpxRW9vTVpRTjI0RmIyY3Rha3BTMTJVVDNXeGZiaW9vTkpNeXZx?=
- =?utf-8?B?VFdNNTRwZmRBaGJGOWtnNmxmYnloTGRPSmJEQlFIalBvZExmUlJPd2I3QVI1?=
- =?utf-8?B?K0dGSHdxdlNtdHhsbTV5cEFlcU1nL0FjN2RzeFk3Mnc1cGxvNE55V2FDMWp4?=
- =?utf-8?B?d21rcDQvTzMxbGNYdGVNdTE5SHJkeGxsdFpFZ3BIWnh6MU5GYkVZQWM4OVJ0?=
- =?utf-8?B?V1hMTDFIZ0JSUTZXVEpaMWFQekZyS25MOTVCSWg4WU9ienB1dW9wMUdKQUt1?=
- =?utf-8?B?Q3VjYnFIN2xOd2ZSakYwUkxMdjF2UklHdXJBSTk1d3Q4cmpBUjVvL0RtUG5M?=
- =?utf-8?B?cHdmOHFZWDBPNVkvVEo1QzVRclZJM0JxYzNsbURCUXVKaXNXT3IyYzVWVmpv?=
- =?utf-8?B?dzFRT2syaExuamdsN1JYNXNPZmtPekVJNHMvMFVQSnAwc1lwQ0NzcFJ0NlQ1?=
- =?utf-8?B?ZXJmTGxwaEtDTGRsQzcvVW9TN29tdlBicWxocFFHSzI0a2RiMXJVbEtOdWJH?=
- =?utf-8?B?dUFJbjhlc3pnS1dWY0V0TjlpaTBxYWE1a0lTUFdJeWdkckVLUngzcUgyaGx2?=
- =?utf-8?B?YUNTZHVwV0pOaitSOXVGNWlFSVlYU05PK2JBbGdOR0czMjZYN2hVSUdmeVZR?=
- =?utf-8?B?ZWlSQThCcy8xdUY5c0ZKcFVhNHB4cnlOdmpnUU9wTm5pdTZQR2FPcm1uc3F6?=
- =?utf-8?B?Vk1QbEZtcmVIYTVGaC8wRlFHUmtqRjFGOWhhQVlhN2N3RFJ4ZGJhT25xczN0?=
- =?utf-8?B?RUd6OURZRFRKRER4UDhEczg3ZFlRUmxuK2dqWGQyYVQwVTlNUk5Ka29xeWhh?=
- =?utf-8?B?WkE0dks1bHAvZ253MnRORFE4WTJTV0FtZ3U4TmMvc0N6ZVlDaHV1SitYUXV1?=
- =?utf-8?B?YUJkMUtwMVc2bExmQjdDeFhMd05kYUhLNWt5TjYxVDFyUnlZME9MMlZWVEEw?=
- =?utf-8?B?L3ZHcm9kdk02TEJGN0s5WHRJMTNybnRRTmx3dk43NGxRdkF3MXoyZU1GaTR5?=
- =?utf-8?B?VUNsN0FXbUg5d0dOb2NueWNkenNmSy8wODZLcjZGMzRVeUFEMkxob1o0ZWFM?=
- =?utf-8?B?YmF3V3FRTDJXRG9VaHhmOExIL0xmRWR6VjQwNEIydkNJZVJxelBFQmh3Q25R?=
- =?utf-8?B?T1R5VnA3UTd0V3ltNTVDeGNmdkVJeEJsbWtxNFlObUQ0THBWZW1CN2IwakNk?=
- =?utf-8?B?cXNCU1pQQk9KWVo0Zyt1dkxuM0kwRk1pV0V4REdRYW9qZzFlTjZOeXY5VGRV?=
- =?utf-8?B?U2Z3bzVPS1M3ekZDbUt5NlNnaU5ud3U2bUlxQWY1SGhRQmx2NXJmTGRaczhS?=
- =?utf-8?B?NEJYcnBWSVlpWE8xV2FUYzNPbHNNbFZGWGlGNVIwR0JYOUYxUU1NV3k1Mk5x?=
- =?utf-8?B?TlFiankrbzR6M2RaKzlWd3JFSFk3QmZDSGZ3K1NGWHh1ZjRMRWREaE01N24w?=
- =?utf-8?B?b0ZVREVFMjIvQXNiSVJDMUxKd0V4RGQwbFZwT05ZeEhsUXB6QXhSUy92R2ZK?=
- =?utf-8?B?L21HQ2htMFl2QWQ0djQzWVI4dTFEQnkwMDZhQi9LZlorNVVZZ200S29Oci9L?=
- =?utf-8?B?Si9PVTA4UzNEcTZvK29oSmxQSmcxN085YXlkcXVRQUI5TzhObDBoVml2NHRX?=
- =?utf-8?B?c2lrSVpjcldBRUFLaVRrNWtiRzlhdmU1VitNVGQyYW9mdXFuNDNMU1RUOEti?=
- =?utf-8?Q?D1Wc=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 14:13:04.6193 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b31d4ed-69d8-471d-10c4-08de04e2778b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000141.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7591
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <4655664.8F6SAcFxjW@jkrzyszt-mobl2.ger.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,67 +77,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-How was this tested ? Example command+steps would be nice have in this 
-cover letter.
+Hey,
 
+Den 2025-09-29 kl. 14:42, skrev Janusz Krzysztofik:
+> Hi Christian,
+> 
+> Thank you for looking at it and providing your R-b.
+> 
+> On Sunday, 28 September 2025 16:00:57 CEST Christian König wrote:
+>> On 26.09.25 17:26, Janusz Krzysztofik wrote:
+>>> A timer that expires a vgem fence automatically in 10 seconds is now
+>>> released with timer_delete_sync() from fence->ops.release() called on last
+>>> dma_fence_put().  In some scenarios, it can run in IRQ context, which is
+>>> not safe unless TIMER_IRQSAFE is used.  One potentially risky scenario was
+>>> demonstrated in Intel DRM CI trybot, BAT run on machine bat-adlp-6, while
+>>> working on new IGT subtests syncobj_timeline@stress-* as user space
+>>> replacements of some problematic test cases of a dma-fence-chain selftest
+> ...
+>>> Make the timer IRQ safe.
+>>>
+>>> [1] https://patchwork.freedesktop.org/series/154987/#rev2
+>>>
+>>> Fixes: 4077798484459 ("drm/vgem: Attach sw fences to exported vGEM dma-buf (ioctl)")
+>>> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+>>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>
+>> We should also consider to lower the timeout massively. This needs to be in the range of 100m-1s to not cause the same trouble as the sw_sync framework.
+> 
+> Assuming you are referring to potential hard lockups observed in sw_sync based 
+> version of the exercise, which piece of kernel code you would expect to loop 
+> for too long with interrupts disabled due to the vgem fences auto expiry 
+> timeout of 10s?
+> 
+>>
+>> 10seconds is just way to long for that.
+> 
+> Do you think DRM objects can't be busy for that long in real life?  What about 
+> long running GPU compute tasks?
+> 
+> Thanks,
+> Janusz
+> 
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>> ---
+>>>  drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+>>> index fd76730fd38c0..07db319c3d7f9 100644
+>>> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+>>> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+>>> @@ -79,7 +79,7 @@ static struct dma_fence *vgem_fence_create(struct vgem_file *vfile,
+>>>  	dma_fence_init(&fence->base, &vgem_fence_ops, &fence->lock,
+>>>  		       dma_fence_context_alloc(1), 1);
+>>>  
+>>> -	timer_setup(&fence->timer, vgem_fence_timeout, 0);
+>>> +	timer_setup(&fence->timer, vgem_fence_timeout, TIMER_IRQSAFE);
+>>>  
+>>>  	/* We force the fence to expire within 10s to prevent driver hangs */
+>>>  	mod_timer(&fence->timer, jiffies + VGEM_FENCE_TIMEOUT);
+>>
+>>
+> 
+> 
+> 
+> 
+Pushed the ptach, thanks.
 
-Nirmoy
+I'm imagining it's mostly because of potential chaining of multiple fences, which can worsen the worst-case timeout easily.
 
-On 03.10.25 07:33, dongwon.kim@intel.com wrote:
-> From: Dongwon Kim <dongwon.kim@intel.com>
->
-> This patch series implements functions for .freeze and .restore hooks for
-> virtio-gpu driver as well as pm-notifier to handle object restoration in
-> S4(hiberation) case.
->
-> First patch adds `virtgpu_freeze` and `virtgpu_restore` functions.
-> These functions handle the deletion of virtio queues before suspension and
-> their recreation during the restoration process.
->
-> Second patch implements a mechanism for restoring `virtio_gpu_object` instances.
-> This is necessary because the host (QEMU) deletes all associated resources during
-> the virtio-gpu reset, which occurs as part of hiberation/resume process.
->
-> Third patch adds pm-notifier to the driver that handles resubmission of virtio-gpu
-> objects to the QEMU once the guest resumes from hibenation.
->
-> These changes ensure that the virtio-gpu driver can properly handle hibernation
-> scenarios without resource loss.
->
-> v2: 10ms sleep is added in virtgpu_freeze to avoid the situation
->      the driver is locked up during resumption.
->
-> v3: Plain 10ms delay (v2) is replaced with wait calls which wait until
->      the virtio queue is empty.
->      (Dmitry Osipenko)
->
-> v4: New version of patchset only covers S4 case because loss of resources in S3
->      case can be avoided by skipping virtio-gpu-reset in QEMU (hw/display/virtio-gpu.c).
->      To skip virtio-gpu-reset (soft-reset), virtio-gpu-pci device should be attached to
->      PCIE bus AND a PCIE option, 'x-pcie-pm-no-soft-reset' should added and set to 'true'.
->      (e.g. -device virtio-gpu-pci,bus=port,x-pcie-pm-no-soft-reset=true)
->
-> v5: Remove virtio_gpu_object from the restore list before freeing the object
->      to prevent an use-after-free situation.
->      (Nirmoy Das)
->
->      Protect restore list operations with a spinlock
->      (Nirmoy Das)
->
->      Move restore list node into virtio_gpu_bo struct to reduce memory usage
->      (Dmitry Osipenko)
->
->      Remove unused header - drm_atomic_helper.h
->      (Dmitry Osipenko)
->
-> Dongwon Kim (3):
->    drm/virtio: Freeze and restore hooks to support suspend and resume
->    drm/virtio: Add support for saving and restoring virtio_gpu_objects
->    drm/virtio: Add PM notifier to restore objects after hibernation
->
->   drivers/gpu/drm/virtio/virtgpu_drv.c    | 60 +++++++++++++++++++++++-
->   drivers/gpu/drm/virtio/virtgpu_drv.h    | 12 +++++
->   drivers/gpu/drm/virtio/virtgpu_kms.c    | 51 ++++++++++++++++++---
->   drivers/gpu/drm/virtio/virtgpu_object.c | 61 +++++++++++++++++++++++++
->   4 files changed, 177 insertions(+), 7 deletions(-)
->
+Kind regards,
+~Maarten
