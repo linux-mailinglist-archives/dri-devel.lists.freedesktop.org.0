@@ -2,112 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEF2BC1D18
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 16:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF7EBC1DBD
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:06:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF1910E1B1;
-	Tue,  7 Oct 2025 14:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C267710E6C9;
+	Tue,  7 Oct 2025 15:06:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d8FyE9qq";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hXOWE5CL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nQexImio";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hXOWE5CL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nQexImio";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDA0F10E1B1
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 14:54:21 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ETKbL020772
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 14:54:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7pFzOCBtK6ecgFU0LGwGZWUqpH1ZlyB2kreE3/tCZLM=; b=d8FyE9qqk8UryWyx
- x3Ul+nxMDVsGuGCKpdTYYbF940w3zw116aVU11bmFLM9vsyXrs78K730m6x9i6Gl
- 8CG5/AQcooZpTzmKUKeOhI+5soqK6dOWehzYAdGleqQvwlzz76cJjqpnKlKcyrnO
- gbEwvJbBpjk6iS9ofG//q5ZUfo7MYkSuVknAjvGNNddnuSrSXWVaKf+xoDIaNQcp
- yCNPQMMarbp7esC8AfGrshhjF3ELCcxURK+t+6MpCqCLu0Qq6m432v2Y5l5C2fhE
- BlKhi23Vu3F7vcr3MvarhsIphvnPCdh6A7Qbx2/8JbSngnZq+NsZYb4GKQw+hadb
- cDQbMQ==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49js9dyqxv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 14:54:21 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-781269a9049so10630632b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 07:54:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759848860; x=1760453660;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7pFzOCBtK6ecgFU0LGwGZWUqpH1ZlyB2kreE3/tCZLM=;
- b=Rk3OJtTtb2Ucv7PZi51cq2eFhi+wsv2f1DQG2UyAh/RORQAt9I7VpzJGIMEuoHDgZA
- nXRFqO3KPfKZxk8UW56utfHPK3jN9Un6+FcNneuX/pX/YXrs0evZ0N0VwKtxDIJR7RG0
- noKS41D6HVWBrOADeXwSGtUSbZRg90VmRG8gHglBR8zKIuhDWV2rqKxOAKmQNlPhRWw5
- zRgA+9ltEtWUzJWZF12EVzpHy9oGHUNzUW+ovsbreFVoMztbSrTQYjUpYBiHF2V1m1sw
- h8DRZ7V/QkUPcwYm5mfz271IwpwSbXcNaF5SBclJR7NEowlvIKThqofGn1vXjp9A3Vnx
- 1Jsw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeXZrlCdOyFSBjCVE/JrIpGdOqwMjr/KSgJOctqqXJ5iM1KcA2yPy3N9mKJyKwN5F6uNIzpsZV3yQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsydkYKw9l7B3ex4U0lQqZExtVPC+C44h+u6g1cMEADH8wX8qy
- ngzLP4el4qraPkODezPucXh3M7cR5r9llWDZR2Z8Ku1dabZIH2KGJ/a9nGMHG7Worpyo/dmo4NG
- yzKmaLxos3M6liU80HLjhX8tVRFPQkibA5vxIhgYvpu5Kk17IxxhPKJ1t36RUkf6o04EZwjM=
-X-Gm-Gg: ASbGnctbIyzzkM6y/yOawLTcR0QZpWp/md7l4uGGMy8GgHpRZrk19Hdg/jQ5XMJaYrg
- wiY2SrCx+QYxLVSUPO1cP9mu2Vo3ba/U1XqBmAWv++AgfMhXzXM8mp5YcwA4kEJWLiUdd87/Ruz
- 3XZEe3ZR+pkeJEEvdrt3500nVt1vtBnPOKiwO4Oo0RKS+2/ou4w1xbhbHOQKaXbDEKWgFUHiWUU
- pek/FBfbEu0MyuvwaZwuzqCeLlbw5D2FqUsjbsZ2cZLVm4/nsvQ5lzfXBKMLhoxv7d6rRl8aBJX
- O4BfQrFcUAYumiJPbXwJX46gJyPjyLFeFP9OuUeY5wfcCdm4t2Xd4c/BBXbLq/nc/usykuQVehy
- kqfqaeITQE1CW5OnUGCw=
-X-Received: by 2002:a05:6a00:6c99:b0:78a:f784:e8cf with SMTP id
- d2e1a72fcca58-78c98cdf03bmr18407544b3a.27.1759848860361; 
- Tue, 07 Oct 2025 07:54:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHhSYJFCY2HmFmO62HSCj/gXDdC0WfxDGB9Dp2AWx7lEP+Fycqkc55xdmsqIISZWFnevOe1UA==
-X-Received: by 2002:a05:6a00:6c99:b0:78a:f784:e8cf with SMTP id
- d2e1a72fcca58-78c98cdf03bmr18407511b3a.27.1759848859839; 
- Tue, 07 Oct 2025 07:54:19 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-78b0209005asm16319500b3a.81.2025.10.07.07.54.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Oct 2025 07:54:19 -0700 (PDT)
-Message-ID: <6b057daf-42d3-435a-af93-8c57e31550b7@oss.qualcomm.com>
-Date: Tue, 7 Oct 2025 08:54:18 -0600
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D0210E6CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:06:31 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B81E033717;
+ Tue,  7 Oct 2025 15:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1759849589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=18uBbTxZnbM/gSRZJ4T2jShyQzswKvXfGCXzkN10udY=;
+ b=hXOWE5CLBrZYRHbOkWmKPmjTpNGZPWhq0ybYdeDNTdGGZg1FWhb8gMAhS5eXFejQHyqSrR
+ 5YjlInthpy4Z2pC4YYeZRU9di3DmnN4ctYC86kP5IncktPjPynvyhvuVYkKamwRMb3eMc4
+ qC8XXg5I6UBpv5qlXm8S0d+ZUiFrIYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1759849589;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=18uBbTxZnbM/gSRZJ4T2jShyQzswKvXfGCXzkN10udY=;
+ b=nQexImioYViuyW8duNP1cDFHUjLOvUHZXCC7AEFcZX4/yvQtDAe8Drz4gsPut/E9vL54wH
+ L+VmcHzt+rGQV8Bw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hXOWE5CL;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nQexImio
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1759849589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=18uBbTxZnbM/gSRZJ4T2jShyQzswKvXfGCXzkN10udY=;
+ b=hXOWE5CLBrZYRHbOkWmKPmjTpNGZPWhq0ybYdeDNTdGGZg1FWhb8gMAhS5eXFejQHyqSrR
+ 5YjlInthpy4Z2pC4YYeZRU9di3DmnN4ctYC86kP5IncktPjPynvyhvuVYkKamwRMb3eMc4
+ qC8XXg5I6UBpv5qlXm8S0d+ZUiFrIYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1759849589;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=18uBbTxZnbM/gSRZJ4T2jShyQzswKvXfGCXzkN10udY=;
+ b=nQexImioYViuyW8duNP1cDFHUjLOvUHZXCC7AEFcZX4/yvQtDAe8Drz4gsPut/E9vL54wH
+ L+VmcHzt+rGQV8Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 949B613693;
+ Tue,  7 Oct 2025 15:06:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id GJfaInUs5Wh1SAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 07 Oct 2025 15:06:29 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/5] drm/ast: Remove model-specific branches from mode-setting
+ pipeline
+Date: Tue,  7 Oct 2025 16:54:41 +0200
+Message-ID: <20251007150343.273718-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Return correct job error status
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-References: <20251007083527.2817045-1-karol.wachowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251007083527.2817045-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Hrl72kTS c=1 sm=1 tr=0 ts=68e5299d cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=QyXUC8HyAAAA:8 a=JViXSQ18S5ioEFei0h4A:9
- a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-GUID: l7LXZX1ZD1JHuNXIbkb-gfemxyfHPrLo
-X-Proofpoint-ORIG-GUID: l7LXZX1ZD1JHuNXIbkb-gfemxyfHPrLo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwNCBTYWx0ZWRfX9AXwxQeWvtuo
- EI6LlwcVWEsRizFZWPX4kE0s3+34TuX+MdhisRKzlVnZSodS+HWjFKoU5ZHMNvuqeB5vb9WNbo+
- MWBe9uulWGDoehIUXK1o01B0MEN8P00uJNvr2AcP0ZiuXckjA4fLNqX6k7+fQ4/qrzPwefTO9oL
- 3VX3736GMxItGYCAYrAwD9q7shyPNuAOYTgyuNNwqDslffvBsv2M3JN4XgB5fKOlZEQehulapbg
- wMIeKlG/oLMWomQvGMIQWvI6a4bBsgmA20he3xaZ0y6pQBxNl/14R0VJ7xY+QCuqjA8eZnhoPO6
- kYS56HZGSFtGFeQRLNJY3uIX2tfV392WGoYqd5sdg0uNd3jLMEBl4dtXvNnK2wjPfKiLhTtvTKZ
- PJ34saPKTQcw6gdWQo2BuHmC/wOIfg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-07_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040004
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B81E033717
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ FROM_EQ_ENVFROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
+ RCPT_COUNT_THREE(0.00)[4]; DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,21 +115,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/7/2025 2:35 AM, Karol Wachowski wrote:
-> From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> 
-> The driver was returning ABORTED for all error that trigger engine reset.
+Store additional information in struct ast_device and struct
+ast_device_quirk to describe each model. Replace the per-Gen
+branching in the mode-setting code with the new data. Makes mode
+setting more flexible and puts more of the per-Gen information
+in a single source file per model.
 
-"is returning" right? The driver currently does this (without this patch)?
+Tested on AST2600 hardware.
 
-Is this a bad thing? Should the driver do something different? I feel 
-like there should be more explanation here.
+Next to address will be the remaining per-Gen cases in the POST and
+in the DP501 code. After that there will be a single specific source
+file per hardware generation.
 
-> Refactor ivpu_job_signal_and_destroy() by extracting engine error
-> handling logic into a new function ivpu_job_handle_engine_error().
-> This simplifies engine error handling logic by removing necessity of
-> calling ivpu_job_singal_and_destroy() multiple times by a single job
-> changing it's behavior based on job status.
-> 
-> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Thomas Zimmermann (5):
+  drm/ast: Store DRAM clock table in struct ast_device
+  drm/ast: Support device quirks
+  drm/ast: Store CRTC memory request threshold in device quirks
+  drm/ast: Store precatch settings in struct ast_device_quirks
+  drm/ast: Store HSync adjustment in device quirks
+
+ drivers/gpu/drm/ast/ast_2000.c |  9 ++++++-
+ drivers/gpu/drm/ast/ast_2100.c |  9 ++++++-
+ drivers/gpu/drm/ast/ast_2200.c |  9 ++++++-
+ drivers/gpu/drm/ast/ast_2300.c |  9 ++++++-
+ drivers/gpu/drm/ast/ast_2400.c |  9 ++++++-
+ drivers/gpu/drm/ast/ast_2500.c | 10 +++++++-
+ drivers/gpu/drm/ast/ast_2600.c | 11 +++++++-
+ drivers/gpu/drm/ast/ast_drv.c  |  4 ++-
+ drivers/gpu/drm/ast/ast_drv.h  | 27 +++++++++++++++++++-
+ drivers/gpu/drm/ast/ast_mode.c | 46 +++++++++++-----------------------
+ 10 files changed, 103 insertions(+), 40 deletions(-)
+
+-- 
+2.51.0
+
