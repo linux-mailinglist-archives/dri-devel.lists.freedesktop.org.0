@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A40BBC131E
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 13:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21121BC135D
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 13:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E30B10E18D;
-	Tue,  7 Oct 2025 11:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8ED10E695;
+	Tue,  7 Oct 2025 11:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="uuSHBBh2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YNtkdE93";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5010110E18D
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 11:23:24 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 597BNBo43748368;
- Tue, 7 Oct 2025 06:23:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1759836191;
- bh=4KNIFjNPxwNPgtviTOOqfAT97sq7NEDYsdF9WCpvtF4=;
- h=From:To:CC:Subject:Date;
- b=uuSHBBh2/xiKm8wz6ta+YL1PdG30U/vG9IOaW4Xl91Du/RwYrywFKZFFJz0o41sdV
- KHXV9IR8RXH9wz2EgZd0sdfaP5PTJ9Y/ZvaXCSbuROaZT1vkLLdNWDTxLyi/9FGKs8
- TmhyLiQTJdrdvruOYCSzdnfRfQ9Dcqcf741d7XAE=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 597BNBEc650378
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 7 Oct 2025 06:23:11 -0500
-Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 7
- Oct 2025 06:23:10 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 7 Oct 2025 06:23:10 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.233.157] (may be forged))
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 597BN9Dj1039554;
- Tue, 7 Oct 2025 06:23:10 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>,
- <dri-devel@lists.freedesktop.org>, <jani.nikula@intel.com>,
- <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>,
- <dmitry.baryshkov@oss.qualcomm.com>
-CC: <tomi.valkeinen@ideasonboard.com>, <praneeth@ti.com>, <vigneshr@ti.com>,
- <aradhya.bhatia@linux.dev>, <s-jain1@ti.com>, <s-wang12@ti.com>,
- <r-donadkar@ti.com>, <h-shenoy@ti.com>, <devarsht@ti.com>
-Subject: [PATCH v3] drm/bridge: sii902x: Fix HDMI detection with
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Tue, 7 Oct 2025 16:53:09 +0530
-Message-ID: <20251007112309.1103811-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6875210E69C
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 11:28:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759836505;
+ bh=X8ibm6mwXUKuf5zA0Klh9+LelexJixD5qsdcA0p0dgA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YNtkdE93NWeExvFMBV1th1X1miySswXnQH2ejOYwNWulYNu2BC+rkKuvDj4CghJS2
+ wXUTYLskMAiNNYC34pn4p+zxB9UOmVzeaoD0zlGVx87VV/+58Gte+7h809pO7B8L5h
+ odPyDUl1mQ4YwdpQZv/ME92tJZmpreB/3GbcULufPWV5biHnt0cVATCGWvIySqV4c+
+ 7c7wJ3IQY8QaAVHX902LX4b+vJAHkUwQ4gUJFVoksML8S1Nl8C9C8imaI7Kl7XJu1F
+ XLo8atMA9UqHav/GhOxtWrhRJeXCA6Rfp3fHsKW6VN6lynGNTjvxAUuRlcKdfmMpC/
+ bMs1YyvaVNmkg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 87E1217E1256;
+ Tue,  7 Oct 2025 13:28:24 +0200 (CEST)
+Date: Tue, 7 Oct 2025 13:28:19 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
+ Price <steven.price@arm.com>, kernel@collabora.com, Rob Herring
+ <robh@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>
+Subject: Re: [PATCH] drm/panfrost: Name scheduler queues after their job slots
+Message-ID: <20251007132819.24fcb395@fedora>
+In-Reply-To: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
+References: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,56 +65,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SII902x HDMI bridge driver wasn't working properly with drivers that
-use the newer bridge connector architecture with the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, like TIDSS.  This caused HDMI audio to
-fail since the driver wasn't properly setting the sink_is_hdmi flag when
-the bridge was attached without a connector since .get_modes() is never
-called in this case. Fix it by setting sink_is_hdmi flag when reading
-the EDID block itself.
+On Thu,  2 Oct 2025 18:11:37 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Fixes: 3de47e1309c2 ("drm/bridge: sii902x: use display info is_hdmi")
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V3: Use drm_edid_connector_update without edid NULL check
-V2: Use drm_edid_connector_update to detect HDMI
+> Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
+> queues"), give scheduler queues proper names that reflect the function
+> of their JM slot, so that this will be shown when gathering DRM
+> scheduler tracepoints.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
-Link to V2:
-https://lore.kernel.org/all/20251006150714.3144368-1-devarsht@ti.com/
-Link to V1:
-https://lore.kernel.org/all/20251003143642.4072918-1-devarsht@ti.com/
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
- drivers/gpu/drm/bridge/sii902x.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 6 ------
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +++++-
+>  drivers/gpu/drm/panfrost/panfrost_job.h | 2 ++
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_drv.c
+> index 22350ce8a08f..d08c87bc63a2 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -668,12 +668,6 @@ static void panfrost_gpu_show_fdinfo(struct panfrost=
+_device *pfdev,
+>  	 *   job spent on the GPU.
+>  	 */
+> =20
+> -	static const char * const engine_names[] =3D {
+> -		"fragment", "vertex-tiler", "compute-only"
+> -	};
+> -
+> -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) !=3D NUM_JOB_SLOTS);
+> -
+>  	for (i =3D 0; i < NUM_JOB_SLOTS - 1; i++) {
+>  		if (pfdev->profile_mode) {
+>  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_job.c
+> index c47d14eabbae..0f0340ffee19 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -28,6 +28,10 @@
+>  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+>  #define job_read(dev, reg) readl(dev->iomem + (reg))
+> =20
+> +const char * const engine_names[] =3D {
+> +	"fragment", "vertex-tiler-compute", "compute-only"
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index d537b1d036fb..bb613d4c281f 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -296,6 +296,8 @@ static const struct drm_edid *sii902x_edid_read(struct sii902x *sii902x,
- 	mutex_lock(&sii902x->mutex);
- 
- 	drm_edid = drm_edid_read_ddc(connector, sii902x->i2cmux->adapter[0]);
-+	drm_edid_connector_update(connector, drm_edid);
-+	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
- 
- 	mutex_unlock(&sii902x->mutex);
- 
-@@ -309,14 +311,11 @@ static int sii902x_get_modes(struct drm_connector *connector)
- 	int num = 0;
- 
- 	drm_edid = sii902x_edid_read(sii902x, connector);
--	drm_edid_connector_update(connector, drm_edid);
- 	if (drm_edid) {
- 		num = drm_edid_connector_add_modes(connector);
- 		drm_edid_free(drm_edid);
- 	}
- 
--	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
--
- 	return num;
- }
- 
--- 
-2.39.1
+As you already pointed out in a private discussion, it's probably better
+if we keep the existing names, so we don't risk regressing fdinfo users.
+
+> +};
+> +
+>  struct panfrost_queue_state {
+>  	struct drm_gpu_scheduler sched;
+>  	u64 fence_context;
+> @@ -846,7 +850,6 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  		.num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+>  		.credit_limit =3D 2,
+>  		.timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -		.name =3D "pan_js",
+>  		.dev =3D pfdev->dev,
+>  	};
+>  	struct panfrost_job_slot *js;
+> @@ -887,6 +890,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+> =20
+>  	for (j =3D 0; j < NUM_JOB_SLOTS; j++) {
+>  		js->queue[j].fence_context =3D dma_fence_context_alloc(1);
+> +		args.name =3D engine_names[j];
+> =20
+>  		ret =3D drm_sched_init(&js->queue[j].sched, &args);
+>  		if (ret) {
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/pa=
+nfrost/panfrost_job.h
+> index 5a30ff1503c6..52ff10b8d3d0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
+>  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+>  };
+> =20
+> +extern const char * const engine_names[];
+> +
+>  int panfrost_jm_ctx_create(struct drm_file *file,
+>  			   struct drm_panfrost_jm_ctx_create *args);
+>  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
+>=20
+> base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
 
