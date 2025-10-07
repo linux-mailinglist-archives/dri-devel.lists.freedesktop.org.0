@@ -2,107 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94D2BC0342
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 07:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A55EBC037F
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 07:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8496710E16B;
-	Tue,  7 Oct 2025 05:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A40910E506;
+	Tue,  7 Oct 2025 05:45:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jn63fSad";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JGMf02Dz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990A610E16B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 05:38:56 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5972Xj8r029299
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 05:38:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=u5VbFaNdj1KsSZoq81OM0MFIv5v/4ss3PBG
- tpWI2cVs=; b=jn63fSadN0a6wR0srsn1S09I88b1muAcvYXufevs2vrpP4eyJZL
- YqxvDB//wh9gONskomLqLlIvKvKHbP1uecS46fu60yiFGTne5AIE0OoW+Zcbmpum
- c5hx9FhDUC4Adl75QHG7GX81+hYyj1/Vwcc7r/v7zW1ekoEJJRX6DT5lvp0NjxI3
- f8VYVn/sunDzH+iWpSrZQjlnCMOQvmZKzhSpkkAM62IRGEKXrAIXuvl96XU8YOAQ
- tRUEWM9mjB7fwMRa3wuPiySotF2Gj6LqbfH9jsEZc7rkhr8EwxaKIny14iUo5GS9
- 7QQN8yZBm7uU+6eS+dDbqnimnO2XwIolgaQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jut1p32u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 05:38:56 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4dfc05dec2fso221763681cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 22:38:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759815535; x=1760420335;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u5VbFaNdj1KsSZoq81OM0MFIv5v/4ss3PBGtpWI2cVs=;
- b=AN6Pp3reEX+G2mECUbdDMABBvc9xla9Vk89dX5Q5S7OaWkbcbdCYdxOSetX1wgfF6k
- Ns+wVV+AAFVl88Q20rtYB56zQz2Wn2uT4ELbhHS5agvcj/H4g9ZdebYzCPU+uOb8XDy+
- sQAEJ7d70oTmGR0LfiZqUopQnPAFmcQZow69r4zkZHZxezwi1hwX1KgABDZeKWdME0b/
- LSPMvobgEs9JSstbfik7nzmrm9RfEhphAeBxX4pN2450wh28TC63VSW960RJCHK/CXqX
- yX6RifRQDQYWIwSnXBpGMTuTfloIuwL6typuF0f3xboyURHv3OLfdmW1M+A7s/Q0Ox1z
- ES0A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2TCsq9qEnIh3BmJ9yJvm93khY75CaPry1juT00SnYlwOCP316pswUD2Tw/9jtfmCCeL173dOqDw0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPAt4azY7Sosk+xuypmig0w8jzFIoEnXqEG9KZ7sbkm4bj+tyk
- 4xB1LjaSmPW9I2HnHflGKtTa1+KjSR5cqpAC9dzAKwwqbsShRnXzeJlbkIaXGH/NBnnTdpHRjjP
- vZR1bh/aqdGO7KTl4MG7S6QPyxO0S0vNiXlaPWa0zSVy7nGg9DFglGSzQ8wYmrYbZhGtbJxk=
-X-Gm-Gg: ASbGnctK+zmePqzqB+2IShQd+jPTwXFskekD96AaVVatZda+Zcww8huXFKWQ7L4aYGK
- GbgODEFrsfiO2EWunkN8QI1XkoqcVfklKzWBiKA6tP2xwSHPqA9bFJdsIzttopQjU5OXFQK3O0f
- rYj96ZTk0Z4Z6v/FvvERedn3LU7wT+va4FAmWcKk4tms/OuvA2N92dKvAf8zD5X70X6piZNQU3A
- cbf+LQg5HjlxNKCTcbC57fdOwBgKHxdGPbjM/q8J+c8voMdr1cxz7DgEg0nz5jAWZb8rbF5bXU2
- hQ8v9/BNF+f00D4SWG5EOr+xBV79UbQqjKoab4pBoZ15S13R60KEvyuLHLz1M3tzqGHwPhEPC1h
- 8JZCeIbFZYg==
-X-Received: by 2002:a05:622a:446:b0:4b6:15d:b3f7 with SMTP id
- d75a77b69052e-4e576a5c2e6mr214458861cf.12.1759815534707; 
- Mon, 06 Oct 2025 22:38:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHILkrqUNaq2KlDxS2cga8lcDXCJEqx3IiH5NckbA+jy0DSn6hkossQwJsWjs8+vyaBrocQXQ==
-X-Received: by 2002:a05:622a:446:b0:4b6:15d:b3f7 with SMTP id
- d75a77b69052e-4e576a5c2e6mr214458671cf.12.1759815534248; 
- Mon, 06 Oct 2025 22:38:54 -0700 (PDT)
-Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b4865a7ee4esm1289021966b.28.2025.10.06.22.38.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Oct 2025 22:38:53 -0700 (PDT)
-From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_pkanojiy@quicinc.com
-Subject: [PATCH] accel/qaic: Add support to export dmabuf fd
-Date: Tue,  7 Oct 2025 07:38:53 +0200
-Message-ID: <20251007053853.193608-1-youssef.abdulrahman@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7721E10E08C;
+ Tue,  7 Oct 2025 05:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759815951; x=1791351951;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aRM3qd+6F6N7GpoYtfIBeQSbvfWgtoGFVl5Adw4VJro=;
+ b=JGMf02DzGMSOeno+Ub/QUkKAXwM9RTbpncd+q1dsAieXtXqsvYvL68/Q
+ RWodZ9NdH3HdagXEiMRGIBkVmQBp5Fr0q9Mus3CLxiuq1iySWl/Nhvkjo
+ +lTemLxX9SmlrLjU/YS0BEGd/hRQBlijCqMddzITGSEKzV3r1/he/w3vU
+ lnokvGQXkdJDUBcrbEbKWonLL7XDhqKhlJ+WykF+kybttKo5lyI3xg2cQ
+ atWr4xEPoj9Sq8v882wyGms0mFD/+RqnDAfxOZdNjB6AqdrtsRgMUG3FD
+ 4+nXKv2CXr/No6w66RlwZCQ9EX4vS8AJoMksAC0gTHbuzmzd5pvJk1EIW A==;
+X-CSE-ConnectionGUID: X6ajwoohQOWvJbQOXmEaXg==
+X-CSE-MsgGUID: 77amCyd1R+qDXZhLjXbtTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="61027899"
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="61027899"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2025 22:45:50 -0700
+X-CSE-ConnectionGUID: yVoRrmGNR8Sx0wUO6LVKnw==
+X-CSE-MsgGUID: /dgv+ZRHR/COnS6B1I5Jsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="180479325"
+Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
+ by fmviesa008.fm.intel.com with ESMTP; 06 Oct 2025 22:45:41 -0700
+From: Suraj Kandpal <suraj.kandpal@intel.com>
+To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, kernel-list@raspberrypi.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, ankit.k.nautiyal@intel.com,
+ arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
+ harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, laurent.pinchart+renesas@ideasonboard.com,
+ mcanal@igalia.com, dave.stevenson@raspberrypi.com,
+ tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com,
+ Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: [PATCH v2 0/7] Refactor drm_writeback_connector structure
+Date: Tue,  7 Oct 2025 11:15:22 +0530
+Message-Id: <20251007054528.2900905-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: ZpKfm_uVmRu2dXvT8zsxz5qDtd7ErVFu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyNyBTYWx0ZWRfX85fGZ9wAD43I
- jOkwNqVl1KNUuAsod0j+GfbAChM1Rn0aP7yub/d9+WtYjb+fayMyxT0bx+I8G0k9dx5i3MjT7Z8
- IQ3Pk24/OAMAEJlW2DvBDcXxeeQi8Sca2rtPepQVWasnmu5pBzM+BkExvD9IS39pMiTfGVsZb/1
- mdxLA67nXG0swWiS0sn38DCpQ8UC/WsjA4XtPgDd/3OEuz/Pwu2Gky4IaPtQz2C/U9ipd1A306/
- /5UYZZUygCON09vE44YB1CFxCEcnDAugUotNSQbGZzB/StQlT835fP5Z4Av6cBNrXXQ8ZIA2va8
- XCB5PWwV7q/UqO+QsfKYdDDCaQVlkGJw2gVdwokLTVcS7kBVk044Ov1DEn7zaiEhse4RJlhcwzH
- lBK+32AYOIwJ5ptZa+pkNGj9kDwyFg==
-X-Authority-Analysis: v=2.4 cv=Vqcuwu2n c=1 sm=1 tr=0 ts=68e4a770 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=maDFTXuAomIAUVjzP7IA:9
- a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: ZpKfm_uVmRu2dXvT8zsxz5qDtd7ErVFu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 clxscore=1011 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040027
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,58 +79,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+Some drivers cannot work with the current design where the connector
+is embedded within the drm_writeback_connector such as intel and
+some drivers that can get it working end up adding a lot of checks
+all around the code to check if it's a writeback conenctor or not.
+This is due to the inheritance limitation in C.
+This series intends to solve it by moving the drm_writeback_connector
+within the drm_connector and remove the drm_connector base which was in
+drm_writeback_connector. This is done in union with hdmi connector
+within drm_connector to save memory and since drm_connector cannot be
+both hdmi and writeback it serves is well.
+A RFC version was floated and discussion had taken place at [1] which
+kicked of this more cleaner series. 
+We do all other required modifications that come with these changes
+along with addition of new function which returns the drm_connector when
+drm_writeback_connector is present.
+This series also contains some writeback API cleanups as a consequence
+of writeback connector moving into drm_connector
+All drivers will be expected to allocate the drm_connector.
+This discussion was tiggered from [2] and sits on top of Dmitry's series
+see [3].
 
-Add support to export BO as DMABUF to enable userspace to reuse buffers
-and reduce number of copy.
+[1] https://patchwork.freedesktop.org/series/152758/
+[2] https://patchwork.freedesktop.org/series/152106/
+[3] https://patchwork.freedesktop.org/series/152420/
 
-Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
----
- drivers/accel/qaic/qaic_data.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index 797289e9d780..63248c7215d2 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -643,8 +643,36 @@ static void qaic_free_object(struct drm_gem_object *obj)
- 	kfree(bo);
- }
- 
-+static struct sg_table *qaic_get_sg_table(struct drm_gem_object *obj)
-+{
-+	struct qaic_bo *bo = to_qaic_bo(obj);
-+	struct scatterlist *sg, *sg_in;
-+	struct sg_table *sgt, *sgt_in;
-+	int i;
-+
-+	sgt_in = bo->sgt;
-+
-+	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
-+	if (!sgt)
-+		return ERR_PTR(-ENOMEM);
-+
-+	if (sg_alloc_table(sgt, sgt_in->orig_nents, GFP_KERNEL)) {
-+		kfree(sgt);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	sg = sgt->sgl;
-+	for_each_sgtable_sg(sgt_in, sg_in, i) {
-+		memcpy(sg, sg_in, sizeof(*sg));
-+		sg = sg_next(sg);
-+	}
-+
-+	return sgt;
-+}
-+
- static const struct drm_gem_object_funcs qaic_gem_funcs = {
- 	.free = qaic_free_object,
-+	.get_sg_table = qaic_get_sg_table,
- 	.print_info = qaic_gem_print_info,
- 	.mmap = qaic_gem_object_mmap,
- 	.vm_ops = &drm_vm_ops,
+Suraj Kandpal (7):
+  drm: writeback: Refactor drm_writeback_connector structure
+  drm: writeback: Modify writeback init helpers
+  drm: writeback: Modify drm_writeback_queue_job params
+  drm: writeback: Modify drm_writeback_signal_completion param
+  drm: writeback: Modify params for drm_writeback_get_out_fence
+  drm/connector: Modify prepare_writeback_job helper
+  drm/connector: Modify cleanup_writeback_job helper
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 +--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c  | 12 +--
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  2 +-
+ .../gpu/drm/arm/display/komeda/komeda_kms.h   |  6 +-
+ .../arm/display/komeda/komeda_wb_connector.c  | 11 +--
+ drivers/gpu/drm/arm/malidp_crtc.c             |  2 +-
+ drivers/gpu/drm/arm/malidp_drv.h              |  2 +-
+ drivers/gpu/drm/arm/malidp_mw.c               |  7 +-
+ drivers/gpu/drm/drm_atomic_uapi.c             |  4 +-
+ drivers/gpu/drm/drm_writeback.c               | 51 ++++++++-----
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  9 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h |  4 +-
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.h    |  4 +-
+ .../drm/renesas/rcar-du/rcar_du_writeback.c   | 12 ++-
+ drivers/gpu/drm/vc4/vc4_txp.c                 |  8 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |  2 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c         | 15 ++--
+ include/drm/drm_connector.h                   | 69 ++++++++++++++++-
+ include/drm/drm_modeset_helper_vtables.h      |  4 +-
+ include/drm/drm_writeback.h                   | 76 ++-----------------
+ 22 files changed, 162 insertions(+), 160 deletions(-)
+
 -- 
-2.43.0
+2.34.1
 
