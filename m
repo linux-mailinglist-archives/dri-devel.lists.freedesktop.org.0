@@ -2,108 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB7CBC2D28
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 00:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF83BC2D4F
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 00:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B2010E707;
-	Tue,  7 Oct 2025 22:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7678F10E712;
+	Tue,  7 Oct 2025 22:15:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZJ++I17H";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OqSIUPOn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA4A810E707
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 22:12:15 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ET8o2007126
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 22:12:15 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2D4310E716
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 22:15:31 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ETIAY027969
+ for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 22:15:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=Xg5m10CEppQ0xzXGimFATjslzJR1gZK01TR
- wTSTNwyE=; b=ZJ++I17HsrqyyE3mNJYv9cczfIfkZcZFxzCAk3SlbdAaQnv3ELt
- kXDqWlX6bd/u6VgVpCiv6SsXvc5b+f19Vb4iJ+4uSNokXK9I38coYozW+ySq5cuw
- My82aiVlY2e5Db45eOh7FjMKj3Li6z1eY8SyY873o4ZlLgai6R7wy8Tt6YKCFO7m
- qHnp54D1wezceGp2mCBXbZF2qL9+Pn9Eg1lqfYjUhabS2YzEX8UqSNdvbn+JijTd
- 375eqZ8CE7T5sHfmWJ38D7gEfOD/uuIvt1jYHZXXbytqo2j5Fe1x4fV8xYt2i1ot
- ubuu4+OYihZy+hfxgzDwiG6M/4waXHVuoZQ==
+ :subject:to; s=qcppdkim1; bh=qzg0RGVNtw8UQBRce7wlFPpWaHbpTEgKV1P
+ 6tB6CS1E=; b=OqSIUPOnge5TUlz8U+/HWjmTkw0F9EY7v4ef27nlrUHInpFMrjs
+ Z5KttfL1SDzrK9OvrOSQcA+FS0lKw40djNg7KRhulyeD3H9yOQZbRvRmSmecu3WL
+ 2o7VoIBIQnHOOEmG6revGwrSXAZaOxhvLdf10GgOLfZBh0xrk8BAlKKf1o2l3RoG
+ mPcs9t2u7BEtP1qeYr/4fMZtonOQgtmysi5hCtAfCDgza2OGS0nt85znWlfa3pCP
+ tcVu+EuyBholzC7nl4z4dPAmnFq6DoOyTDUH4XhUduuRHG7dtlZo9IQd04NiNneh
+ hCvE+TAbouqq2dHaH7orotiFkkP3fnZSirA==
 Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
  [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jvv7rjmx-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mgd0mest-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 22:12:15 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 22:15:30 +0000 (GMT)
 Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4e1f265b8b5so153524181cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 15:12:15 -0700 (PDT)
+ d75a77b69052e-4e57359997aso85995251cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 15:15:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759875134; x=1760479934;
+ d=1e100.net; s=20230601; t=1759875330; x=1760480130;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Xg5m10CEppQ0xzXGimFATjslzJR1gZK01TRwTSTNwyE=;
- b=jTs+ySrqpbcZidbw07bJIu3D+Pm8WYFDR5aM4lA/5/F+C9NVLmZ5jWoXKqDB86NFGI
- FbOsBsqohN0kjrtCAML+j8egA7KjTJZq2yg5/8BEHl9hbiMUpblpxgTQE6XuEGAJ3SWy
- KS/tBtz47rD7+9IEljfmaUWfHr1cmdIQtY5dIgN/cm7SnwTKwHpkyB7YDFwwcKAvZema
- OiG8xMyqGQdetBp6QYB3tkfOnVleYgpzTjwz2fRvBSliVnXlod6dtIbX9IuFBpkHOUHG
- Vup3/5rwaV9+aJxuBMwWkExJ+wM8FyTgEG10KehvLF7CH3wGzmlm4BesdPbAqHaW3UxK
- 0HyQ==
+ bh=qzg0RGVNtw8UQBRce7wlFPpWaHbpTEgKV1P6tB6CS1E=;
+ b=PTiT1xAUoK4nvDiYdXp0+RNxJRgIYgj2UhY8xObuspqlTxwoliw+6YcVEuizI2L1jW
+ RvU1C0OCN8BGvqbNL+qboTuq0/63yKwzAswDyrWzYDSAxOI6y8BhQ89w1dNfQ9KM2MXY
+ 78ngU0e3VP3YfJO3d7D9zlrkAUEBd+1XPs/8pPetLwZzcXIO57mxyisHfRXPL+7rTWmV
+ W+KLmbr45x77PL5FQmpi5/5sl6j9txmQzq4PPX1Ac9aE8GWPCNP+9H569xxqcEJoa9Ym
+ aDf/mgPQmY6weKrJ0sbZHWtYxLVeX30SkMQXxfxVfsnR/uX5QvKzY50xKSTEPJCOKSBK
+ ktGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRQxxV9NO8TPZ0p0PwRhLQVXKk6PK2WT1TweuLXZdXfN8qUW3dqSMy/eoOy0UFLdFwS3HcO/fVzxE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyaZb369J/lJznZGaiKnu73YaLIfeOJlFZf0THYfmUAAaE8p0T7
- c1pExnODcMwUiYLWzk+1H4shKkN3w5n5r80wjm4FkZxHeOEhv0qOPJ3ybgLCcpMCz4RPWp/jb+B
- LTTEqRmxgtSXcNURawyAKCGV7wzK6nCJpgj3MV3mZm2ux3+PEP3m66FmV1cRrQKlqmuSXCjM=
-X-Gm-Gg: ASbGncsHNaLusr+bZP871nea8QpBMbpoNrRgRG18SQm+GOzVf6Od4TL0CzWCkYz25lx
- hOrJrtuvWW+ev5cTHBqgfLxiDDhd+hmOf8I/XlPbzhK/Qi7mTz5FMm24eGU9jy4Cu31/6YC9XEz
- aDexyOc6gS4GI5IzSsL4jv6O0ajeXd3m2GdvILorbGu99XHTdksYcy/xL1Hq29VlRYfkYHtj98Q
- zzSIPUxDdVk7TnQ1ns0FD9zd129A+Dbrz/gUdAV9uO3rlL0eFHx1HdxQ/3vuY6l2IFgLPRX83uv
- 32SsPEDnk7DpDCmb7v3cj01Jr/uybPf7CGVBmDldcHCTiA5Gvm+aGYjV60Z3CYxD1UBAleCV2m1
- YRRGCFkPuKA==
-X-Received: by 2002:a05:622a:30a:b0:4b7:a92d:3d99 with SMTP id
- d75a77b69052e-4e6eaccbe4cmr19293451cf.1.1759875133615; 
- Tue, 07 Oct 2025 15:12:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsW7IJmcCaiKfH0qMCqGiVY2cA1KkP9PYbwomikj5gixk5mB1EP5eChI96s7SbKEPjTn5o/Q==
-X-Received: by 2002:a05:622a:30a:b0:4b7:a92d:3d99 with SMTP id
- d75a77b69052e-4e6eaccbe4cmr19293061cf.1.1759875133128; 
- Tue, 07 Oct 2025 15:12:13 -0700 (PDT)
+ AJvYcCXOMx1KdfCkJHNwOkSjFwag5gZEEZaIAsr2hHwuIcTwrDK43hZzju4ePTLTqp0K6oKr1PgjpgMWT6w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9coUevkvoRKadK5HlSYr72b1SmT1FQw5ILkL8coBm8gn6Qmnu
+ NlipaRc0shGJFXgqu2x2hWtWZZN7QF5xUJUZVnXd6ptYryJ2khVkCL0opoTiDEPsBOHvXN083OB
+ fzo2pEI6qKFGf8UTGMrP3+r60pOBLImMvPov9d3USW0KNiquYwmCNyXXqL8QNJe7G12BUhEI=
+X-Gm-Gg: ASbGncvqtC7TAtfzEUc2DQcBs27cx2f4K1PKxcWdqoijJ+iZOVSgWPGil4sIW5j7I+/
+ l23FD6POSug2MHdHYVl+ZmA5L5sDf2yir1LtFLs7JNN87J3qSBcToYKWWWiZDrpNhR14o0JC5yj
+ 0KIMCZoBkP1pmp8gnr0qQqBc2AoJzJVpao8G9g668d48hLQoGKr9/n5DR1naTuQ21ciylf8IKJv
+ t6zkuEVimxRzLiyyPe0IWbRhy5V13qA+zwOF77Y/qqvym5smNhw6pm9QvKiRY3ULKlgBtnybC9f
+ NPUMK+IOjl1vpsmwfYCzsj0okcAipiYvE4TSW9xWt26k/ecdTLKucEwKPj19UZbdjHqaJ2ipPJ+
+ bVzJp4bdx/A==
+X-Received: by 2002:a05:622a:1dca:b0:4e4:f9f8:9d3d with SMTP id
+ d75a77b69052e-4e6ead87103mr20760961cf.84.1759875329918; 
+ Tue, 07 Oct 2025 15:15:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3pPRZAE0QnEmi7VS3Mj/VxmscKCog2juZMtHF0Ws48wIhs/gnODvFUSnxyYtXuwllAMz8SA==
+X-Received: by 2002:a05:622a:1dca:b0:4e4:f9f8:9d3d with SMTP id
+ d75a77b69052e-4e6ead87103mr20760471cf.84.1759875329351; 
+ Tue, 07 Oct 2025 15:15:29 -0700 (PDT)
 Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b48652aa62csm1451441566b.19.2025.10.07.15.12.12
+ a640c23a62f3a-b48652aa035sm1454173466b.15.2025.10.07.15.15.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Oct 2025 15:12:12 -0700 (PDT)
+ Tue, 07 Oct 2025 15:15:28 -0700 (PDT)
 From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
  troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
 Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/qaic: Ensure entry belongs to DBC in
- qaic_perf_stats_bo_ioctl()
-Date: Wed,  8 Oct 2025 00:12:12 +0200
-Message-ID: <20251007221212.559474-1-youssef.abdulrahman@oss.qualcomm.com>
+Subject: [PATCH] accel/qaic: Add xbl_config image entry for AIC200
+Date: Wed,  8 Oct 2025 00:15:28 +0200
+Message-ID: <20251007221528.561242-1-youssef.abdulrahman@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAzNyBTYWx0ZWRfX5FuIA3WAnd9q
- XnN0QM35LFkzcKwiCtvZjSi16n4zREPXnvquIXzfutSqOaaDBotuz0EPiTKqeqYi3acvrHCiNtK
- mfhJ5Jvfu58B9iOcz8huitLU/xr+RAeOIIrs5xGvnAPGp7bnV96ukDljZIJmjMRtISc0g+jlbzA
- kia6nj4KBuKGdQgACZClk3DKPuJje6eYV4caPAtspJmfo57wfW8A2ZwzfegozS8Bemy1urajBrJ
- MLGhpQCsTw56MxaQ7tshFnh26DYvcgENkP3VQpxxn4Yd18tr8Gb3sMmrx4fhFYmHrLQf1g1d/N0
- 88Xz2sh6FvgwQD8DdjFRrv+rOKR6pGLc567pSftQtCbifLX4DLUI5izoWNaYqFk6yWZm5ng+BCg
- 91pt0Jp+OMT/4UQvzlv4HLMhh/mNlg==
-X-Proofpoint-ORIG-GUID: 0oV8_VNMD2qNysE4ZF7ye8QpP7eUjubP
-X-Authority-Analysis: v=2.4 cv=WIdyn3sR c=1 sm=1 tr=0 ts=68e5903f cx=c_pps
+X-Proofpoint-GUID: m4jKqDsfb5pRW-2q6DMpna93T5MeZcbg
+X-Authority-Analysis: v=2.4 cv=T8aBjvKQ c=1 sm=1 tr=0 ts=68e59102 cx=c_pps
  a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=NS4B5lQ4yxVAsqoyy1cA:9
- a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 0oV8_VNMD2qNysE4ZF7ye8QpP7eUjubP
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=9t2MsrROHLuJ27tN7sEA:9
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: m4jKqDsfb5pRW-2q6DMpna93T5MeZcbg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDEyMyBTYWx0ZWRfX3y5KcBCZum12
+ rvp1xxwbNa1qxEMurhdIxuS4Vor9e8cGJ6/mHbr5WHKV1ttUfgMQxoCOuAEKcRidsXJX0LvJn8u
+ q46psYlfoypuPCGwkcWftwFNjgnH0a7yXZ9nBXyu7ogt8/ZGUIZ2lPJuyyPrLAFvvLL9DMExZRv
+ pLin8FkY9FegpnF06QFI4N39iaT144SXoZi2cCcn1eVV91Gy5W69VVMbtVEeRTqVTLbPLgdP4OP
+ 4Ed6D4+PFYW01XU9kMKSz9C+hUcFyfy/lq218K9Yt3DtWqIeLGEgrZlI2GWWIVLsJEUJQQ0OjjK
+ hPr5xRrm9x9JW2+ZbMGEkMYniaHvhraaYd9tiQax1Tx1Nwy5u+EEeZBPgA2ekP8xpqk7biRbRaB
+ VjGYDEsYptVYDP2rESy9Qo07NmH9KA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- bulkscore=0 spamscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
+ spamscore=0 adultscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040037
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,44 +118,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Youssef Samir <quic_yabdulra@quicinc.com>
+From: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
 
-struct qaic_perf_stats is defined to have a DBC specified in the header,
-followed by struct qaic_perf_stats_entry instances, each pointing to a BO
-that is associated with the DBC. Currently, qaic_perf_stats_bo_ioctl() does
-not check if the entries belong to the DBC specified in the header.
-Therefore, add checks to ensure that each entry in the request is sliced
-and belongs to hdr.dbc_id.
+Update the Sahara image table for the AIC200 to add an entry for xbl_config image at id 38.
 
-Co-developed-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
-Signed-off-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
+Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
 Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 ---
- drivers/accel/qaic/qaic_data.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/accel/qaic/sahara.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index 797289e9d780..bad587b56b1d 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -1781,6 +1781,16 @@ int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data, struct drm_file
- 			goto free_ent;
- 		}
- 		bo = to_qaic_bo(obj);
-+		if (!bo->sliced) {
-+			drm_gem_object_put(obj);
-+			ret = -EINVAL;
-+			goto free_ent;
-+		}
-+		if (bo->dbc->id != args->hdr.dbc_id) {
-+			drm_gem_object_put(obj);
-+			ret = -EINVAL;
-+			goto free_ent;
-+		}
- 		/*
- 		 * perf stats ioctl is called before wait ioctl is complete then
- 		 * the latency information is invalid.
+diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
+index 3ebcc1f7ff58..04e8acb94c04 100644
+--- a/drivers/accel/qaic/sahara.c
++++ b/drivers/accel/qaic/sahara.c
+@@ -194,6 +194,7 @@ static const char * const aic200_image_table[] = {
+ 	[23] = "qcom/aic200/aop.mbn",
+ 	[32] = "qcom/aic200/tz.mbn",
+ 	[33] = "qcom/aic200/hypvm.mbn",
++	[38] = "qcom/aic200/xbl_config.elf",
+ 	[39] = "qcom/aic200/aic200_abl.elf",
+ 	[40] = "qcom/aic200/apdp.mbn",
+ 	[41] = "qcom/aic200/devcfg.mbn",
 -- 
 2.43.0
 
