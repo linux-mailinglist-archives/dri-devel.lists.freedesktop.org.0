@@ -2,87 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28348BC2E4B
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 00:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A3DBC2ED2
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 01:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEEC10E0F3;
-	Tue,  7 Oct 2025 22:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9CB10E716;
+	Tue,  7 Oct 2025 23:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WvyH8B/e";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UmPw9hbd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF5B10E716
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 22:46:03 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-4256866958bso3003933f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 15:46:03 -0700 (PDT)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5784E10E716
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 23:16:30 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id
+ ca18e2360f4ac-8ca2e53c37bso582575039f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 16:16:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759877161; x=1760481961; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3pQQY2keBFswywTklmwxwyGGVpvzk59ZMACKy3TjyoA=;
- b=WvyH8B/eMRguMiSUiNHuTOhuiMctOqFVPJKQEbOs/YxXGZMaXLSn3OIHtUYiBBQ5G+
- jff4k9jAK1N/MBWGwGPSyHuOaxagXRgoAs/HIaQN3qW7tL+DU6fVyHjRX/ArTXMarFbc
- 6iyTfOmobTdoQitqgDbjcNafZxhFYkWuWiOWF8G6TJn65T4x7SnbbFhoLM7RAgZR64rs
- dlGFePP/tmn7de4PrBOQ4MqbeBSm1tobbfQukcuDFzyPsKxES8u7IQswKGvOkrs0acxT
- 8OVxv6eXUGGqW2oBE4Mt7PnJihm9V32kbXjuRUnyPYFfujfzBWipQuhGK3bVqE0iPhDd
- iMmA==
+ d=linuxfoundation.org; s=google; t=1759878989; x=1760483789;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SD5yIh7mchDzfy+pmfKeaAbFqsdOLLaDl138ZLpTy7s=;
+ b=UmPw9hbd/G/AtLRvInQjYUomCvAmln1YcNi7ff/20UuUYGD9bt34bKrMUpqruglR5B
+ eD4XphkdSs4i1SzPa16rlONMOhL9OzHERFozb/f8tKilV/8/BI1FAy34QpzkZQ7LqcMF
+ ntiMiczEdiAulVGvYMhZNjOxYY6ub3hEq37TI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759877161; x=1760481961;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3pQQY2keBFswywTklmwxwyGGVpvzk59ZMACKy3TjyoA=;
- b=sJlOpdP8U7P8Ljvhp9WPLybuP6IZ+vJn/mhiKZ31bagljCGNhfrn62Sc1KhGV79RVf
- W9dxIyf5DwFEq3zwpRaDRUOJC5WlKJGrtvE8R/n9TVBqFgCuRjSPOtVE1+Gmut5910i7
- SesszkzaipFoVFRNrug/ud3bg8erVvyDXoyFeGlI4srVW5PAuO48vu/SBkpmJtaIMoEb
- VsaRGcVh4cI8lzf0qSRHhT7amT+scyU6rXIkCvHTUExpqvQViUMq0Zlc1ckaOFetsWVT
- mq6SOk7KPASlRgsKn+QSZ715q7NMSCDllV3aqyRPGKD5HuRDNYBuxRmLFMhBt7txLEk7
- aDlA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW9EwVtCsiu36yjbl2ws/U5KUhJ9iuYDVG/Ej54W6Q9jocpBNjqSZv2HYEbq1GrDj+8+HVfrUMEcn0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yze2KJSspVI10rJyM73i9Sk7/Ozq2dq8FHGLjMnPy8RHHc9c6Fe
- rqYPih1iKAN6RlUmlba3q1uPDdY6h9bhAaw2NddfI86DytMq8MKUiriJ
-X-Gm-Gg: ASbGncs2Em4l4G6Jt9HaKHLpTThRM1oE8zAaZntxiseoetdGYM7DGmnFFzAxWb3zhKa
- UvyMe6oz9y/CypCb0LSpEY0FWB3SxQn48kYZlExgwWHCQTopyfnyn1PstvmbyAMwsU7zOaDDXNa
- fisUl6lgKb5ozuOrNoj/HHnPOu8hGWRJ+TyOG22PPq1Ect4OhgoMEq4EqEmW2iq+gTXY7RR0gsa
- +qjeWidrbQWlowZiBzBNq1oGqBUaMMBxHPhBB3mnPZJow5N62Ar7zLfAEnYFdJJopUbgh3lzm2/
- LkbYp7zBbf7dxM3GruaKXHOcyjSH8zPAjnP6NVqd7Jp6AcK2FZSIyyOT0U7jCBY0LqxYq8av6sU
- +EjbvzVHVlVADp2KAivzJRf62ZZvuG6TXVndHsSSg6NGhSWtvgQabA0Hs0M1ta3c=
-X-Google-Smtp-Source: AGHT+IGpUoeWYYfKgtD3wk2UP4YLDCFnN42FiNw3j98CkNvoabTKCMcEKd8fM1WEcK58BkjWgmbiLQ==
-X-Received: by 2002:a05:6000:1a8e:b0:3ff:17ac:a34c with SMTP id
- ffacd0b85a97d-4266e8e46b1mr536653f8f.59.1759877161371; 
- Tue, 07 Oct 2025 15:46:01 -0700 (PDT)
-Received: from ekhafagy-ROG-Strix.. ([41.37.1.171])
+ d=1e100.net; s=20230601; t=1759878989; x=1760483789;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SD5yIh7mchDzfy+pmfKeaAbFqsdOLLaDl138ZLpTy7s=;
+ b=oGXdjRyNtWnYJN8Yw+pCGzZrquBJ08xa1lDmOZdSMZVEzOopsq6OU5pv2PVYbMsMTF
+ 21otD7ENtFC32s3b6lqGjBhlvtHuS/nEg6Yo4VNeiRl/svHk7IWR9KUU0gr4H2yxHI28
+ UpG39hizHOw54nTZ6OEmsnCzyYgKIXHB2s9eavLrF4OoyTIdc95kQ7EEmHVJu68f9huy
+ QJAFVZjNAcXIDjqvkY+lM2QwCQR8cDQHcltvugGB0pjmBUHgj8fDGPo+b7TxXg45OXiu
+ 1f/p9oR/ollDb/KwADWR+SXHrf95EDdV7YCZdY5EADndQllSKe/CSRRtq7bjc2WIhj4D
+ IHBQ==
+X-Gm-Message-State: AOJu0YxED9axVk6kIWHbeBFxrnW5IoJAdTMZyBhoQImiw2uXUQzYectc
+ sQnjHP9md2LLzxU5tTgi/Qrs3+FKIxdypTyBEfKQrld00Y7AIqhe7bJ4NFe6h86fUEY6EFc8qs2
+ ao4jC
+X-Gm-Gg: ASbGncuuEkfSEvC0NYwaj5qKaINK1eJzeotj5m4w81XbjHCK/VmUIcaBbQMaKiMvphH
+ MHbJ1Ur+ts02CPV1d3h/wot/+ZRDqYNhXcY/tu6xO+k6n+JsW7SdITF8/N+NIYi/wKvbxF+wVUL
+ OfUCEchyuBOCRiPF2NiOQ/QQfBiFcpNcB4T7koowK3ibZ/KD9WTYgstgI4eU/ULqxWbKqVsyjOu
+ a9lWzR4UGl3BrJ+uhGdH2F+3WPBKaECjVs/y+5EUDTnb4VP/oeZyld1uNcOn6HtD52AaPvYQ7HX
+ C2TKdAn6qXrVgFvQZf0PycwL21itki/ojhNxioTa1VqAr4YzWqj0DXWEShA07IC7RxxcA8wldol
+ osiKtjvTgtjSz2OutXNu1lPYLH1qnEJecYM5QAQ0T6fcndRuNNvC6tAw7tLk=
+X-Google-Smtp-Source: AGHT+IFtnjgHVUKlgejgjQmfrY8NhWm0K4ECYfhZKgNrEOhgOUSbX5KisBkAd+fZ7CYn0EsvLjgWXg==
+X-Received: by 2002:a05:6e02:2581:b0:428:7f76:4ec4 with SMTP id
+ e9e14a558f8ab-42f873d2956mr11775395ab.16.1759878989058; 
+ Tue, 07 Oct 2025 16:16:29 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.187.108])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4255d8f01a0sm26925335f8f.48.2025.10.07.15.45.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Oct 2025 15:46:01 -0700 (PDT)
-From: Eslam Khafagy <eslam.medhat1993@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Alex Hung <alex.hung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>,
- Dominik Kaszewski <dominik.kaszewski@amd.com>,
- Yilin Chen <Yilin.Chen@amd.com>,
- amd-gfx@lists.freedesktop.org (open list:AMD DISPLAY CORE),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Cc: eslam.medhat1993@gmail.com
-Subject: [PATCH RESEND] drm/amd/display: Initialize return value in
- dm_cache_state()
-Date: Wed,  8 Oct 2025 01:45:44 +0300
-Message-ID: <20251007224549.87548-1-eslam.medhat1993@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ e9e14a558f8ab-42e7bd2f139sm58970215ab.8.2025.10.07.16.16.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Oct 2025 16:16:28 -0700 (PDT)
+Message-ID: <f774da25-ab98-4731-b78d-394d8e3a4c3a@linuxfoundation.org>
+Date: Tue, 7 Oct 2025 17:16:27 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/komeda: Convert logging in komeda_crtc.c to drm_*
+ with drm_device parameter
+To: Rahul Kumar <rk0006818@gmail.com>, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Shuah Khan <skhan@linuxfoundation.org>
+References: <20250926093008.1949131-1-rk0006818@gmail.com>
+ <CAKY2RybMM5jcOzO_mknsdH+m9-T+Qe3yMhRrdpV_VE4paUrAKw@mail.gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAKY2RybMM5jcOzO_mknsdH+m9-T+Qe3yMhRrdpV_VE4paUrAKw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,30 +92,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize the return variable "r" to 0 in dm_cache_state() to fix
-a potential use of uninitialized variable warning.
+On 10/3/25 11:51, Rahul Kumar wrote:
+> Hi Liviu,
+> 
+> Just following up to ask if anything more is needed from my side for
+> this patch, or if you plan to pick it up in this merge window.
+> 
+> Thanks,
+> Rahul
+> 
 
-The return value for this function might not be a PTR_ERR, in casse if
-condition fails. In that case we ensure predictable reutrn.
+Rahul, no top posting. Please give people time to respond before
+sending a second email asking for feedback. I see two messages
+back to back from you - perhaps an error during send.
 
-Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Fri, Sep 26, 2025 at 3:00 PM Rahul Kumar <rk0006818@gmail.com> wrote:
+>>
+>> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
+>> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
+>> corresponding drm_err(), drm_warn(), and drm_info() helpers.
+>>
+>> The new drm_*() logging functions take a struct drm_device * as the
+>> first argument. This allows the DRM core to prefix log messages with
+>> the specific DRM device name and instance, which is essential for
+>> distinguishing logs when multiple GPUs or display controllers are present.
+>>
+>> This change aligns komeda with the DRM TODO item: "Convert logging to
+>> drm_* functions with drm_device parameter".
+>>
+>> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+>> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>> ---
+>> Changes since v2:
+>> - Added Reviewed-by tag from Liviu Dudau
+>>
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 8e1622bf7a42..6b4f3eb9ce48 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3115,7 +3115,7 @@ static void hpd_rx_irq_work_suspend(struct amdgpu_display_manager *dm)
- 
- static int dm_cache_state(struct amdgpu_device *adev)
- {
--	int r;
-+	int r = 0;
- 
- 	adev->dm.cached_state = drm_atomic_helper_suspend(adev_to_drm(adev));
- 	if (IS_ERR(adev->dm.cached_state)) {
--- 
-2.43.0
-
+thanks,
+-- Shuah
