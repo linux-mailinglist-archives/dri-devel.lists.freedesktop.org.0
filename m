@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D94BC198D
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 15:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD87CBC19E4
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 16:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF59010E678;
-	Tue,  7 Oct 2025 13:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7D710E682;
+	Tue,  7 Oct 2025 14:00:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kXPTj4di";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ok9rKzoY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7483D10E686;
- Tue,  7 Oct 2025 13:58:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A2910E682;
+ Tue,  7 Oct 2025 14:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,31 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=K7k/W/nw9BnpuYRwkpRKAp4kP4uAjGVlXbg4Wg1Zcrs=; b=kXPTj4diebF5kwA20P9EWUdA3L
- TTdKHqOUTN+bNZUDpnY5CagT2IsXLtXUr+ID3p0w02ebqCY0xW2NtH0ZyQ0st4LVNNIniWR3oQbaU
- J7jOB1Mtcdg3Kgw//S/aqvQ6NYHO+H5kfKav84KO8AZ6UxRfabjGdLxAjU3DComO6nI8vxErR8MTi
- C8PQRBPj7mcSVfPRSI3+0KOwYiuQVnyk68WnZqLOO1sjx3SByA/s7pm1TFsw5ekK0QgLLuTbFMlgq
- 0nyDViioaRYeEtkOpbjewPlPNKEt5QDY1TZF4H/E2dywWXlY6Z8vHhRXemvEyYairlkCV/2DNuYVv
- L7gac6gA==;
+ bh=fj+w9qCSetqnQirycPUXo4URE/Vljwlqx5kJHAQSAaA=; b=ok9rKzoYjpcgYDiAojiVxXH00R
+ wttIXam1nWE8oqsl3/lXZ4JV7HmKW+M9d7MgPn0tQ8ZgSTMY+1pfyxHdmQs/Q4j8EZ9lwTGrumr0O
+ fovRFc656/Hhz8l/EEMtCNqeHcAUFgCMvEzXLTxZ034jF+yoFpfKwROy4Q3IjG7FaU5ZdYZZDMRMT
+ dJF2QNjzW2N6JEQE1aogqFeKdRiMUmxyM46eFXkTUmzgf9dwMg+mJz0U3sfr3/y4NsLm9ClJQvHr/
+ SzuQt7rPl5QNciJI9NmY/8NbZ5XogHkfLOFHVG9kEOJrqs3KmH11I18FxrUK7b4xa7WCgMMn889A+
+ tuxQ1nDw==;
 Received: from [84.66.36.92] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v68CV-006D8j-7i; Tue, 07 Oct 2025 15:57:59 +0200
-Message-ID: <cfb8ec02-4870-469a-9d23-51e3c0f1778c@igalia.com>
-Date: Tue, 7 Oct 2025 14:57:58 +0100
+ id 1v68FA-006DDm-Rt; Tue, 07 Oct 2025 16:00:44 +0200
+Message-ID: <c3cb4df5-d6db-4cff-ba4c-c51f6503181c@igalia.com>
+Date: Tue, 7 Oct 2025 15:00:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 4/5] drm/ttm: Allow drivers to specify maximum beneficial
- TTM pool size
+Subject: Re: [RFC v2 1/5] drm/ttm: Add getter for some pool properties
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>
 References: <20251003135836.41116-1-tvrtko.ursulin@igalia.com>
- <20251003135836.41116-5-tvrtko.ursulin@igalia.com>
- <dddd1c34-94ba-487f-ba0b-14e10410dd12@amd.com>
+ <20251003135836.41116-2-tvrtko.ursulin@igalia.com>
+ <b9a866ea-0f67-4e34-bb30-f8e297ee26f2@amd.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <dddd1c34-94ba-487f-ba0b-14e10410dd12@amd.com>
+In-Reply-To: <b9a866ea-0f67-4e34-bb30-f8e297ee26f2@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,110 +65,218 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 06/10/2025 10:49, Christian König wrote:
+On 06/10/2025 09:38, Christian König wrote:
 > On 03.10.25 15:58, Tvrtko Ursulin wrote:
->> GPUs typically benefit from contiguous memory via reduced TLB pressure and
->> improved caching performance, where the maximum size of contiguous block
->> which adds a performance benefit is related to hardware design.
->>
->> TTM pool allocator by default tries (hard) to allocate up to the system
->> MAX_PAGE_ORDER blocks. This varies by the CPU platform and can also be
->> configured via Kconfig.
->>
->> If that limit was set to be higher than the GPU can make an extra use of,
->> lets allow the individual drivers to let TTM know over which allocation
->> order can the pool allocator afford to make a little bit less effort with.
->>
->> We implement this by disabling direct reclaim for those allocations, which
->> reduces the allocation latency and lowers the demands on the page
->> allocator, in cases where expending this effort is not critical for the
->> GPU in question.
+>> No functional change but to allow easier refactoring in the future.
 >>
 >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 >> ---
->>   drivers/gpu/drm/ttm/ttm_pool.c |  8 ++++++++
->>   include/drm/ttm/ttm_pool.h     | 10 ++++++++--
->>   2 files changed, 16 insertions(+), 2 deletions(-)
+>>   drivers/gpu/drm/ttm/ttm_pool.c | 28 ++++++++++++++--------------
+>>   drivers/gpu/drm/ttm/ttm_tt.c   |  9 +++++----
+>>   include/drm/ttm/ttm_pool.h     | 10 ++++++++++
+>>   3 files changed, 29 insertions(+), 18 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
->> index 0323531d216a..c0bd92259394 100644
+>> index baf27c70a419..a9430b516fc3 100644
 >> --- a/drivers/gpu/drm/ttm/ttm_pool.c
 >> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->> @@ -135,6 +135,7 @@ static DECLARE_RWSEM(pool_shrink_rwsem);
->>   static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
->>   					unsigned int order)
->>   {
->> +	const unsigned int beneficial_order = ttm_pool_beneficial_order(pool);
->>   	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
->>   	struct ttm_pool_dma *dma;
->>   	struct page *p;
->> @@ -148,6 +149,13 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>> @@ -148,7 +148,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
 >>   		gfp_flags |= __GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_NOWARN |
 >>   			__GFP_THISNODE;
 >>   
->> +	/*
->> +	 * Do not add latency to the allocation path for allocations orders
->> +	 * device tolds us do not bring them additional performance gains.
->> +	 */
->> +	if (beneficial_order && order > beneficial_order)
->> +		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
->> +
->>   	if (!ttm_pool_uses_dma_alloc(pool)) {
+>> -	if (!pool->use_dma_alloc) {
+>> +	if (!ttm_pool_uses_dma_alloc(pool)) {
 >>   		p = alloc_pages_node(pool->nid, gfp_flags, order);
 >>   		if (p)
+>>   			p->private = order;
+>> @@ -200,7 +200,7 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+>>   		set_pages_wb(p, 1 << order);
+>>   #endif
+>>   
+>> -	if (!pool || !pool->use_dma_alloc) {
+>> +	if (!pool || !ttm_pool_uses_dma_alloc(pool)) {
+>>   		__free_pages(p, order);
+>>   		return;
+>>   	}
+>> @@ -243,7 +243,7 @@ static int ttm_pool_map(struct ttm_pool *pool, unsigned int order,
+>>   {
+>>   	dma_addr_t addr;
+>>   
+>> -	if (pool->use_dma_alloc) {
+>> +	if (ttm_pool_uses_dma_alloc(pool)) {
+>>   		struct ttm_pool_dma *dma = (void *)p->private;
+>>   
+>>   		addr = dma->addr;
+>> @@ -265,7 +265,7 @@ static void ttm_pool_unmap(struct ttm_pool *pool, dma_addr_t dma_addr,
+>>   			   unsigned int num_pages)
+>>   {
+>>   	/* Unmapped while freeing the page */
+>> -	if (pool->use_dma_alloc)
+>> +	if (ttm_pool_uses_dma_alloc(pool))
+>>   		return;
+>>   
+>>   	dma_unmap_page(pool->dev, dma_addr, (long)num_pages << PAGE_SHIFT,
+>> @@ -339,7 +339,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>>   						  enum ttm_caching caching,
+>>   						  unsigned int order)
+>>   {
+>> -	if (pool->use_dma_alloc)
+>> +	if (ttm_pool_uses_dma_alloc(pool))
+>>   		return &pool->caching[caching].orders[order];
+>>   
+>>   #ifdef CONFIG_X86
+>> @@ -348,7 +348,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>>   		if (pool->nid != NUMA_NO_NODE)
+>>   			return &pool->caching[caching].orders[order];
+>>   
+>> -		if (pool->use_dma32)
+>> +		if (ttm_pool_uses_dma32(pool))
+>>   			return &global_dma32_write_combined[order];
+>>   
+>>   		return &global_write_combined[order];
+>> @@ -356,7 +356,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>>   		if (pool->nid != NUMA_NO_NODE)
+>>   			return &pool->caching[caching].orders[order];
+>>   
+>> -		if (pool->use_dma32)
+>> +		if (ttm_pool_uses_dma32(pool))
+>>   			return &global_dma32_uncached[order];
+>>   
+>>   		return &global_uncached[order];
+>> @@ -396,7 +396,7 @@ static unsigned int ttm_pool_shrink(void)
+>>   /* Return the allocation order based for a page */
+>>   static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+>>   {
+>> -	if (pool->use_dma_alloc) {
+>> +	if (ttm_pool_uses_dma_alloc(pool)) {
+>>   		struct ttm_pool_dma *dma = (void *)p->private;
+>>   
+>>   		return dma->vaddr & ~PAGE_MASK;
+>> @@ -719,7 +719,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>>   	if (ctx->gfp_retry_mayfail)
+>>   		gfp_flags |= __GFP_RETRY_MAYFAIL;
+>>   
+>> -	if (pool->use_dma32)
+>> +	if (ttm_pool_uses_dma32(pool))
+>>   		gfp_flags |= GFP_DMA32;
+>>   	else
+>>   		gfp_flags |= GFP_HIGHUSER;
+>> @@ -977,7 +977,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+>>   		return -EINVAL;
+>>   
+>>   	if ((!ttm_backup_bytes_avail() && !flags->purge) ||
+>> -	    pool->use_dma_alloc || ttm_tt_is_backed_up(tt))
+>> +	    ttm_pool_uses_dma_alloc(pool) || ttm_tt_is_backed_up(tt))
+>>   		return -EBUSY;
+>>   
+>>   #ifdef CONFIG_X86
+>> @@ -1014,7 +1014,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+>>   	if (flags->purge)
+>>   		return shrunken;
+>>   
+>> -	if (pool->use_dma32)
+>> +	if (ttm_pool_uses_dma32(pool))
+>>   		gfp = GFP_DMA32;
+>>   	else
+>>   		gfp = GFP_HIGHUSER;
+>> @@ -1068,7 +1068,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+>>   {
+>>   	unsigned int i, j;
+>>   
+>> -	WARN_ON(!dev && use_dma_alloc);
+>> +	WARN_ON(!dev && ttm_pool_uses_dma_alloc(pool));
+>>   
+>>   	pool->dev = dev;
+>>   	pool->nid = nid;
+>> @@ -1239,7 +1239,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
+>>   {
+>>   	unsigned int i;
+>>   
+>> -	if (!pool->use_dma_alloc && pool->nid == NUMA_NO_NODE) {
+>> +	if (!ttm_pool_uses_dma_alloc(pool) && pool->nid == NUMA_NO_NODE) {
+>>   		seq_puts(m, "unused\n");
+>>   		return 0;
+>>   	}
+>> @@ -1250,7 +1250,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
+>>   	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+>>   		if (!ttm_pool_select_type(pool, i, 0))
+>>   			continue;
+>> -		if (pool->use_dma_alloc)
+>> +		if (ttm_pool_uses_dma_alloc(pool))
+>>   			seq_puts(m, "DMA ");
+>>   		else
+>>   			seq_printf(m, "N%d ", pool->nid);
+>> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+>> index 506e257dfba8..3b21ec33c877 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+>> @@ -93,7 +93,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+>>   	 * mapped TT pages need to be decrypted or otherwise the drivers
+>>   	 * will end up sending encrypted mem to the gpu.
+>>   	 */
+>> -	if (bdev->pool.use_dma_alloc && cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
+>> +	if (ttm_pool_uses_dma_alloc(&bdev->pool) &&
+>> +	    cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
+>>   		page_flags |= TTM_TT_FLAG_DECRYPTED;
+>>   		drm_info_once(ddev, "TT memory decryption enabled.");
+>>   	}
+>> @@ -378,7 +379,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>>   
+>>   	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+>>   		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
+>> -		if (bdev->pool.use_dma32)
+>> +		if (ttm_pool_uses_dma32(&bdev->pool))
+>>   			atomic_long_add(ttm->num_pages,
+>>   					&ttm_dma32_pages_allocated);
+>>   	}
+>> @@ -416,7 +417,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>>   error:
+>>   	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+>>   		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
+>> -		if (bdev->pool.use_dma32)
+>> +		if (ttm_pool_uses_dma32(&bdev->pool))
+>>   			atomic_long_sub(ttm->num_pages,
+>>   					&ttm_dma32_pages_allocated);
+>>   	}
+>> @@ -439,7 +440,7 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+>>   
+>>   	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
+>>   		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
+>> -		if (bdev->pool.use_dma32)
+>> +		if (ttm_pool_uses_dma32(&bdev->pool))
+>>   			atomic_long_sub(ttm->num_pages,
+>>   					&ttm_dma32_pages_allocated);
+>>   	}
 >> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
->> index d898186765f1..b2114e2d0695 100644
+>> index 54cd34a6e4c0..22154d84fef9 100644
 >> --- a/include/drm/ttm/ttm_pool.h
 >> +++ b/include/drm/ttm/ttm_pool.h
->> @@ -59,8 +59,9 @@ struct ttm_pool_type {
->>   	struct list_head pages;
->>   };
+>> @@ -100,4 +100,14 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>>   int ttm_pool_mgr_init(unsigned long num_pages);
+>>   void ttm_pool_mgr_fini(void);
 >>   
->> -#define TTM_POOL_USE_DMA_ALLOC 	BIT(0) /* Use coherent DMA allocations. */
->> -#define TTM_POOL_USE_DMA32	BIT(1) /* Use GFP_DMA32 allocations. */
->> +#define TTM_POOL_BENEFICIAL_ORDER(n)	((n) & 0xff) /* Max order which caller can benefit from */
+>> +static inline bool ttm_pool_uses_dma_alloc(struct ttm_pool *pool)
+>> +{
+>> +	return pool->use_dma_alloc;
+>> +}
+>> +
+>> +static inline bool ttm_pool_uses_dma32(struct ttm_pool *pool)
+>> +{
+>> +	return pool->use_dma32;
+>> +}
+>> +
 > 
-> Looks good in general, but I'm not 100% convinced that we want to mix this value into the flags.
+> Please not in the header. Neither drivers nor other TTM modules should mess with such properties.
 > 
-> On the one hand it makes your live easier because you don't need to change all drivers using it, on the other hand changing all drivers using it would potentially be cleaner and document the value better.
+> That is all internal to the pool.
 
-I was not 100% convinced either but it looked a reasonable compromise.
-
-My thinking was to not simply add an int after the existing two booleans 
-but to try and clean it up at the same time. Once I replaced them with 
-flags then the option were to either add a new int argument or add some 
-flags like TTM_POOL_BENEFICIAL_SIZE_2M, TTM_POOL_BENEFICIAL_SIZE_64K, 
-with the thinking there probably isn't a full range of page sizes. But 
-then I thought why not just put the order in some bits. Advantages being 
-it adds names to anonymous booleans and is extensible with no further churn.
-
-But I don't know, I am happy to change it to something else if you are 
-sure this isn't the way.
-
-If we add a new int then it has to have some "stick with default" 
-semantics. Like -1 or whatnot. With is also meh. I wouldn't do a zero 
-because it feels conflated.
+Hmm IMHO it is not that bad. Especially that ttm_pool.c and ttm_tt.c 
+need to have access to them. Alternatiev is a new header for internal 
+helpers which sounds a bit too much. But if you insist I can create it.
 
 Regards,
 
 Tvrtko
-
->> +#define TTM_POOL_USE_DMA_ALLOC 		BIT(8) /* Use coherent DMA allocations. */
->> +#define TTM_POOL_USE_DMA32		BIT(9) /* Use GFP_DMA32 allocations. */
->>   
->>   /**
->>    * struct ttm_pool - Pool for all caching and orders
->> @@ -111,4 +112,9 @@ static inline bool ttm_pool_uses_dma32(struct ttm_pool *pool)
->>   	return pool->flags & TTM_POOL_USE_DMA32;
->>   }
->>   
->> +static inline bool ttm_pool_beneficial_order(struct ttm_pool *pool)
->> +{
->> +	return pool->flags & 0xff;
->> +}
->> +
->>   #endif
-> 
 
