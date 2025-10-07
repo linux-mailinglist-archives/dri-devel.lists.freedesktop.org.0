@@ -2,113 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FEABC1D00
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 16:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEF2BC1D18
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 16:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6BD810E6A0;
-	Tue,  7 Oct 2025 14:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF1910E1B1;
+	Tue,  7 Oct 2025 14:54:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BsX74Pvg";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d8FyE9qq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179D510E6A0
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 14:51:35 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ETNU6022566
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 14:51:34 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDA0F10E1B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 14:54:21 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ETKbL020772
+ for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 14:54:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SOCW2rZ9r9iWkoujOSTsHNr4e6m0l3aCF7JRUUZi9ZA=; b=BsX74PvguuoWFObY
- af81foHuUgxLLDzx73unfPClUi3AEtH0thuPR9GECtOtxOPxf0o6FjvEgegTIHr6
- I5brLgKVDconJaCJTfZePlnFudVAKcf7+K801ED0HPCGSy/0il1oCVGosIonFTFT
- 6N7dKd1C8rMNm1VaO3kTW+cgM/9sv4yb1LZSoxdNXsviGeHao5ZDkBeTnn8/HfVm
- YCTmNmr36N6jmwjvkm+f8Ii8OJgoInry4R/xl0UfmQneZTLglAZUQU895bSi693w
- YW0JvvU+M6TQfFGhrq5XvjQDtwRMjGHWzwq1wn5POn3DdgHc5N8HkpJi1BH0NO1r
- g4ENbA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49junu7jm8-1
+ 7pFzOCBtK6ecgFU0LGwGZWUqpH1ZlyB2kreE3/tCZLM=; b=d8FyE9qqk8UryWyx
+ x3Ul+nxMDVsGuGCKpdTYYbF940w3zw116aVU11bmFLM9vsyXrs78K730m6x9i6Gl
+ 8CG5/AQcooZpTzmKUKeOhI+5soqK6dOWehzYAdGleqQvwlzz76cJjqpnKlKcyrnO
+ gbEwvJbBpjk6iS9ofG//q5ZUfo7MYkSuVknAjvGNNddnuSrSXWVaKf+xoDIaNQcp
+ yCNPQMMarbp7esC8AfGrshhjF3ELCcxURK+t+6MpCqCLu0Qq6m432v2Y5l5C2fhE
+ BlKhi23Vu3F7vcr3MvarhsIphvnPCdh6A7Qbx2/8JbSngnZq+NsZYb4GKQw+hadb
+ cDQbMQ==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49js9dyqxv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 14:51:34 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-267fa90a2fbso79255925ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 07:51:33 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 14:54:21 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id
+ d2e1a72fcca58-781269a9049so10630632b3a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 07:54:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759848693; x=1760453493;
+ d=1e100.net; s=20230601; t=1759848860; x=1760453660;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SOCW2rZ9r9iWkoujOSTsHNr4e6m0l3aCF7JRUUZi9ZA=;
- b=BtAqIt7TfhA76anU2BMBQQ919LU6LafeRtlH/Rsf6xWlbRqNxeitvgvp0K/PHPbdQO
- wVV6NVpqCcx/Bk5tqUDyE03yMak5Fuo3d9PUIM9uS6EvZrfWaZEvP7e4DM+d6vBWJxep
- vSwAxZF0sP5L1qk+MEpnj+6yR8zPbctUFhVEqFmFifzgrsrcooXqObbuOPDX/zcUuDyg
- N0EUJDs8mwYdADsMiTurlgFSYcTidVJ5KOdE3zpim6mhzG2Bs2BizW+MOn8bWJcQj5Sp
- 92fqP9pMYqAegTk4Ob4l/lOjUgFHwm1UO9yd6s0A0DrCAlaOHcDM6cYZXOlacd+L9BlC
- 9ekA==
+ bh=7pFzOCBtK6ecgFU0LGwGZWUqpH1ZlyB2kreE3/tCZLM=;
+ b=Rk3OJtTtb2Ucv7PZi51cq2eFhi+wsv2f1DQG2UyAh/RORQAt9I7VpzJGIMEuoHDgZA
+ nXRFqO3KPfKZxk8UW56utfHPK3jN9Un6+FcNneuX/pX/YXrs0evZ0N0VwKtxDIJR7RG0
+ noKS41D6HVWBrOADeXwSGtUSbZRg90VmRG8gHglBR8zKIuhDWV2rqKxOAKmQNlPhRWw5
+ zRgA+9ltEtWUzJWZF12EVzpHy9oGHUNzUW+ovsbreFVoMztbSrTQYjUpYBiHF2V1m1sw
+ h8DRZ7V/QkUPcwYm5mfz271IwpwSbXcNaF5SBclJR7NEowlvIKThqofGn1vXjp9A3Vnx
+ 1Jsw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXEh+2i52GhwHIB7gDn0nNVNsL0ttF6QAaiOa+VJmqKwAOi5YvPT5LAE8qOWl4R2c5GwwXEDI0ZHx8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6cIIAFHvDUFz7aS3hdDc30zLVPpcq8bQgCrl598KbiFg+9Bdf
- CqeW4c5GyBppYaQg3dv/+54JC1MbPiVkC1rq2F+YH90RHEVbwKssx1pBs5HtoOtVLmmH6ETnXBe
- 7Y1fgjUncRc1C3wSCG7A+2jXe2O3h/VHeQXBj1QaqOoJ/JIZFASzCWcDtvMGFZ6JKG6MnbTw=
-X-Gm-Gg: ASbGnctDXGn+V+OrCzzvEq5p6e6wjlPnBGQIi/mYBBORB1id2MKnGD7/lm5lnwpypeo
- bylGo/Qik0CmCQHfg7Cfa+FFcPJuYZHZs50NwfSQMkltYxbpm0/vFQao68OyhIPW8jMAvYkRk2L
- nGolW9eQ+QTWVHGDCPCUfZnHrK12l4hVxPzrXPoVCa8ZWB97+jHIB8T864u+WqtoBx2N7zpuJvh
- 58zPCY3nUBnQX5MB8jH+Cx9HMZhn6rQhQBsBI4cfuugEjQVJNKvy6eVXvtxsu7dS+yeycwJsSnt
- 1kbwp6XwLbcZ7tQLSxc5lr/AgP3w/Rf2BKBh8D935Xe46pKGXeol3OUS/ozcBmvW+VEAkJXoc6P
- J02EBlCRKw7eo0n/M28Y=
-X-Received: by 2002:a17:902:f790:b0:267:8049:7c87 with SMTP id
- d9443c01a7336-28ec9c50919mr48391875ad.14.1759848692811; 
- Tue, 07 Oct 2025 07:51:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHOmH2506cQVkPq01K7wDTvpevLyZD2fZ7HFWKnxDuV3j2vf5b09vsharrCpHFawP0DIcCOHQ==
-X-Received: by 2002:a17:902:f790:b0:267:8049:7c87 with SMTP id
- d9443c01a7336-28ec9c50919mr48391495ad.14.1759848692279; 
- Tue, 07 Oct 2025 07:51:32 -0700 (PDT)
+ AJvYcCXeXZrlCdOyFSBjCVE/JrIpGdOqwMjr/KSgJOctqqXJ5iM1KcA2yPy3N9mKJyKwN5F6uNIzpsZV3yQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsydkYKw9l7B3ex4U0lQqZExtVPC+C44h+u6g1cMEADH8wX8qy
+ ngzLP4el4qraPkODezPucXh3M7cR5r9llWDZR2Z8Ku1dabZIH2KGJ/a9nGMHG7Worpyo/dmo4NG
+ yzKmaLxos3M6liU80HLjhX8tVRFPQkibA5vxIhgYvpu5Kk17IxxhPKJ1t36RUkf6o04EZwjM=
+X-Gm-Gg: ASbGnctbIyzzkM6y/yOawLTcR0QZpWp/md7l4uGGMy8GgHpRZrk19Hdg/jQ5XMJaYrg
+ wiY2SrCx+QYxLVSUPO1cP9mu2Vo3ba/U1XqBmAWv++AgfMhXzXM8mp5YcwA4kEJWLiUdd87/Ruz
+ 3XZEe3ZR+pkeJEEvdrt3500nVt1vtBnPOKiwO4Oo0RKS+2/ou4w1xbhbHOQKaXbDEKWgFUHiWUU
+ pek/FBfbEu0MyuvwaZwuzqCeLlbw5D2FqUsjbsZ2cZLVm4/nsvQ5lzfXBKMLhoxv7d6rRl8aBJX
+ O4BfQrFcUAYumiJPbXwJX46gJyPjyLFeFP9OuUeY5wfcCdm4t2Xd4c/BBXbLq/nc/usykuQVehy
+ kqfqaeITQE1CW5OnUGCw=
+X-Received: by 2002:a05:6a00:6c99:b0:78a:f784:e8cf with SMTP id
+ d2e1a72fcca58-78c98cdf03bmr18407544b3a.27.1759848860361; 
+ Tue, 07 Oct 2025 07:54:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhSYJFCY2HmFmO62HSCj/gXDdC0WfxDGB9Dp2AWx7lEP+Fycqkc55xdmsqIISZWFnevOe1UA==
+X-Received: by 2002:a05:6a00:6c99:b0:78a:f784:e8cf with SMTP id
+ d2e1a72fcca58-78c98cdf03bmr18407511b3a.27.1759848859839; 
+ Tue, 07 Oct 2025 07:54:19 -0700 (PDT)
 Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-28e8d126078sm168548775ad.31.2025.10.07.07.51.31
+ d2e1a72fcca58-78b0209005asm16319500b3a.81.2025.10.07.07.54.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Oct 2025 07:51:31 -0700 (PDT)
-Message-ID: <d87317b6-bc92-48a6-abed-05857afc9479@oss.qualcomm.com>
-Date: Tue, 7 Oct 2025 08:51:30 -0600
+ Tue, 07 Oct 2025 07:54:19 -0700 (PDT)
+Message-ID: <6b057daf-42d3-435a-af93-8c57e31550b7@oss.qualcomm.com>
+Date: Tue, 7 Oct 2025 08:54:18 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Trigger engine reset for additional job
- status codes
+Subject: Re: [PATCH] accel/ivpu: Return correct job error status
 To: Karol Wachowski <karol.wachowski@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-References: <20251007083511.2817021-1-karol.wachowski@linux.intel.com>
+ Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+References: <20251007083527.2817045-1-karol.wachowski@linux.intel.com>
 Content-Language: en-US
 From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251007083511.2817021-1-karol.wachowski@linux.intel.com>
+In-Reply-To: <20251007083527.2817045-1-karol.wachowski@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: hk1HrWIGP1_5NSotMmYOS684T9PIPOiu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyMyBTYWx0ZWRfXx8PegjxW181X
- qcyI5B48lQWhvaADtwYmh1603Nf+uBIDMskWOkoM3F2k56HsdV2OfoPZlleq8iK+dlUi7uxm1P4
- G0HEKXwxBrf/tTrWgLnxfE4WoJbqtiP/Q07pwdV/PLKd69cu71SYAfKe/Vh6v/H77mbKBu7Glv5
- ODrHgg6pmKgVK42WwP6G69r7nmok8NaDjpErP6PfBSiDS59io6tHiMmwjRHhIIDuKqF5A1lrpWf
- nFqnYjnO4AVBCuc9WwREg9LUlRBSVDv54gNohC760lc3m1Ozy4wKWF6Dx7b3yzMq0ySyzddWrbH
- QUlqkImchlUlBgFHi3wL8W/083fx7zA/aQvXm5Cm5TZpE7j0DtQsBr15nX3CYix6hLa7vHxq1dQ
- 23Jp8Nn7FyGnHpP/MOwdZvZhaqvlFQ==
-X-Authority-Analysis: v=2.4 cv=CbIFJbrl c=1 sm=1 tr=0 ts=68e528f6 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
- a=WipgGoFZFPbmpiL_MuMA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-GUID: hk1HrWIGP1_5NSotMmYOS684T9PIPOiu
+X-Authority-Analysis: v=2.4 cv=Hrl72kTS c=1 sm=1 tr=0 ts=68e5299d cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=QyXUC8HyAAAA:8 a=JViXSQ18S5ioEFei0h4A:9
+ a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-GUID: l7LXZX1ZD1JHuNXIbkb-gfemxyfHPrLo
+X-Proofpoint-ORIG-GUID: l7LXZX1ZD1JHuNXIbkb-gfemxyfHPrLo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwNCBTYWx0ZWRfX9AXwxQeWvtuo
+ EI6LlwcVWEsRizFZWPX4kE0s3+34TuX+MdhisRKzlVnZSodS+HWjFKoU5ZHMNvuqeB5vb9WNbo+
+ MWBe9uulWGDoehIUXK1o01B0MEN8P00uJNvr2AcP0ZiuXckjA4fLNqX6k7+fQ4/qrzPwefTO9oL
+ 3VX3736GMxItGYCAYrAwD9q7shyPNuAOYTgyuNNwqDslffvBsv2M3JN4XgB5fKOlZEQehulapbg
+ wMIeKlG/oLMWomQvGMIQWvI6a4bBsgmA20he3xaZ0y6pQBxNl/14R0VJ7xY+QCuqjA8eZnhoPO6
+ kYS56HZGSFtGFeQRLNJY3uIX2tfV392WGoYqd5sdg0uNd3jLMEBl4dtXvNnK2wjPfKiLhTtvTKZ
+ PJ34saPKTQcw6gdWQo2BuHmC/wOIfg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-07_01,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
+ clxscore=1015 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040023
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,13 +124,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/7/2025 2:35 AM, Karol Wachowski wrote:
-> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+> From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 > 
-> Trigger engine reset for any status code in the range.
-> This allows to add additional status codes in the future without
-> breaking compatibility between the firmware and the driver.
-> 
-> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> The driver was returning ABORTED for all error that trigger engine reset.
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+"is returning" right? The driver currently does this (without this patch)?
+
+Is this a bad thing? Should the driver do something different? I feel 
+like there should be more explanation here.
+
+> Refactor ivpu_job_signal_and_destroy() by extracting engine error
+> handling logic into a new function ivpu_job_handle_engine_error().
+> This simplifies engine error handling logic by removing necessity of
+> calling ivpu_job_singal_and_destroy() multiple times by a single job
+> changing it's behavior based on job status.
+> 
+> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
