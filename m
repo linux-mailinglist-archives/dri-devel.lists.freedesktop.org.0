@@ -2,107 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B1FBC20C9
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 18:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E581FBC20D1
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 18:12:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F0F10E1BA;
-	Tue,  7 Oct 2025 16:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE9E10E6E1;
+	Tue,  7 Oct 2025 16:12:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lCf3OOsa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CHGR4XKy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA0A10E1BA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 16:11:52 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ET7Ge016046
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 16:11:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=D+Ak4gwFqAVs77B8frtei1K3dA7jAuRqHZi
- zyd63ZVE=; b=lCf3OOsaE2Y2HIgebXZ1kyX0VFqvAziM4CxVbAA9dX4Cgb9R3b9
- wJOtGrQj9GGJiWYEhsbDehpMxXsxUq+0PZFgRd86tsWE/F7tFgwMC3EaPh87iYms
- WljItPflwG1/Qq8T8S5Jb4OCPpThP5n7GGgYicdWEfpxUzJUKmw6BJdesXY/fWOl
- NsTABBB2LRLMmcOBGAbxAAxRtNDGXfutq6sKWou7fSDDHmJlfm3fJ3XkpuDxRlA3
- HJaJuFxW1hQA76bHIeFZsmHXnEWAZgXQ235Eo+eaHONcHRm6KBtjU3cEeDIGYOyc
- mrLcQGLQLy/AJ6HPBfFW8xK5HJeYPEB/gsw==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mg6abj0a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 16:11:51 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id
- 71dfb90a1353d-54aa22d5862so3236793e0c.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 09:11:51 -0700 (PDT)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E7810E6E1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 16:12:20 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-b6319dc3fc1so50446a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 09:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1759853540; x=1760458340; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5E7iWUmZ2vIjSTqtzT1C1NtPApyBCh7aJPO7S699wwM=;
+ b=CHGR4XKyAuhKXhgngWTLtRQhUQaMf3rm/8JD+SZ95duuwGhcosnlouIgAq194mV0Y0
+ q2swAiVcVD7Rq5vzHaJOpIGaenHKiSkng+BP60rw9FJZ47ikzBTot1pc1HRJG51TIrnm
+ JurFTPpZ/run7+bNOREIY6R2aW4mnkzubNVH2khduwrmgyP6pWjkFf3mhIfyF50ETmc5
+ u0YuSxICtHYAu4s1gAuaLJNbhC8nI5/T8eZSm65qPo40UqZz4ooW71rbDOGH2RhoTGrK
+ 9QflvJUrM1jGQnPthgAl/UHK0nUURh5drSmwU9R5Z7C22x8RKz13EMNPVTG0PLxZjtId
+ gRIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759853510; x=1760458310;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D+Ak4gwFqAVs77B8frtei1K3dA7jAuRqHZizyd63ZVE=;
- b=l+CrYZq4seqFJqrkYC/1xss/N3M0PLFRS3k2bh5t2xKJwHH/omyFtZufYiBH6ITVcG
- YywX8TwWpL5eHQg84X+U9WHOItMBt8OfkkYmGy+aImYYlTx6ONoFcPUZi+gVldUWrFCp
- /cnddYECXxqtW+MqrfTU+h+MFbI+F9FYLSee8rortr4trJHbXyUNHVGTJb87pifcAQPs
- AY9FELjSRUSHkOECdoWfcci3IJ89ZQVUvOUwbsOFhnQGj3nNJQPC2TyKcREKNxpImhrB
- t8M/R1sx3AszykrZQZTeOA1e8B7WLDMyQW8McVxO4knV3NQST2t5Mjhjt8eZ0pUMOlzb
- pJag==
+ d=1e100.net; s=20230601; t=1759853540; x=1760458340;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5E7iWUmZ2vIjSTqtzT1C1NtPApyBCh7aJPO7S699wwM=;
+ b=Sxl7viNFkNZ2bhLUNKI0OFmJmt7tfgCPu9Y6A9N3vhJbNaDgrfcoYnaVG3cN+HkpJ5
+ aU5WcklewLafQiRpT1LIartj8w2/LnSXb6II9DATQQWkOMab8vqHtPBqzrAnQrSBYSFO
+ U9GMeBG1cPEphyfAbnjqNbk4puhItthXPXLSPzi+Ogg+WPzJ5gpRSS6nEJjy6ItpYbzg
+ 8RjL5JS0UiImtesl5BGzhH/IeBxDbXZ3wOkV7443huXzrspxCAQDfwnMuRCpuRG+tIEY
+ xFz7QE67ZE5gExxqL/WFzSGLqOlu6xeMRu/udBnOER8WHL84hl/25XwQrWgKVW/tXJ5Y
+ VRFA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLHW5qfpHqVRSD6KHzS6T/RQtdZuWugbIVuodpqpTu8rxyr4LNZI7bmatEX+nkWTW8mR5wbLds3DI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8YhMcj7G747HrrRwKkQeNorVAlWAmqFzpwGQUeoRIBDHCW7Iz
- uhaskQHRl24wRFzF3kPDWfWVe2Y73GPh+w/FnhSYaQFXsyfnXZi3gxWLkC9vIC5oxGDoiyTT09D
- potWmWGyiBmuErzyyvH+kZpLVvXPGLl/q2FVVF+RaXmgWwdUzvZhwZIKyyTeJ6R0inDPYdAs=
-X-Gm-Gg: ASbGncsVDMdEhPE0ngUSBOb4ubLRsVcv3Cr6ZxgPAm11NQ8Kv5zPzHjQxqQK2v2B5q5
- eJjKoKkXJlKnGNk7ONRCTIQOwMtepXGIsPqxmvFQSyl0ktJV7nHBHLyZX+H+pm03HdN8f6VCy7e
- 5JWOg0w6f2em9Jz+y33Hl6pu/M7bRCri59sYbbAlK/8wetZwmu7vr62CB51SKoLTIExB9cznfoP
- reAFlrIl/wfN2MWBcW8efXXuIa9nI5rsnqmUH9F0T858ms1YXZvZHqbvQTE9HFetiqct+aAlI7r
- k1hNqOL/1vZtDxDfxBTg6iSMMZ9o4Nos3MDH0PHup7z2F5/yiPWVKhB6uTysS9y9inDjUoxd+iY
- K9xuTUXL7eg==
-X-Received: by 2002:a05:6122:1d11:b0:54a:8690:71a7 with SMTP id
- 71dfb90a1353d-554b8c5298amr19653e0c.9.1759853510378; 
- Tue, 07 Oct 2025 09:11:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH758MjnEekfWoNbj5c0dYpqeOPnZYknAlmmCW5+WHLoPONkdGMestmm1pOExyAyyl+83B/5w==
-X-Received: by 2002:a05:6122:1d11:b0:54a:8690:71a7 with SMTP id
- 71dfb90a1353d-554b8c5298amr19575e0c.9.1759853509881; 
- Tue, 07 Oct 2025 09:11:49 -0700 (PDT)
-Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-637881000e8sm12820638a12.32.2025.10.07.09.11.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Oct 2025 09:11:49 -0700 (PDT)
-From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/qaic: Remove redundant retry_count = 0 statement
-Date: Tue,  7 Oct 2025 18:11:48 +0200
-Message-ID: <20251007161148.422744-1-youssef.abdulrahman@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+ AJvYcCViZO9/F3rusOOuMtzFAm6MJ+S5LxWGZgwKCGh2wo4yKmoTd/mxMYPNNmS1v6m2ehJ9mAVrfDxfOLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1nU2QdLnGicHLSGr9bHTehMuBq8O6R+ZF1rcAT5NDVtNqDi/N
+ Kt7botwCYgxtNCxEw465CkVpqeTipJjTHgnw1suHP6W+rMA0pytn8gvF0S6uifTDaJfVNEv96wI
+ bfQ/RRp4nNxWXZVJIQybw3rwghw7bjEg=
+X-Gm-Gg: ASbGncuUER+DyyEfT+MDYffoRveb7k+J4Ey74+WedeqpDwPv6Xr7Vq68m4OJ2zXw0rL
+ 34I1mwx/nHONTAqV9RqMOoR7lp6AmhheAXks+s6H9QS7QxJ60r2mGr0Il/yDlxvmBXV9ItZ/0PM
+ ybOheyFAMlyuNzQxzJxaPNg7m1O23GWsSwDjuml0r9g3Rv0dXHfFipYjNm6v1rUfKsvrlpk6jxy
+ qjFid+XTYToH2GjBoBY+C74DnfS5QRl2uE1aZcwuyyncLSoNZNuIomykX2gFB1h2NQD5OBHwt1a
+ TtvjCvQE1VgBjr11XOR6Hjm+R+JyNf3bWPZ5kzORpUgUvo9ihA==
+X-Google-Smtp-Source: AGHT+IFCzHpcrXLGR1ie60smXpk8UuckeKOb000I2PbnwCKR7UoPdsv6hdVQqjL0vFW9FH9QZdEfImMvB9toz+HjmvQ=
+X-Received: by 2002:a17:903:1a68:b0:274:944f:9d84 with SMTP id
+ d9443c01a7336-2902733fb0dmr2059795ad.11.1759853540296; Tue, 07 Oct 2025
+ 09:12:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=QtdTHFyd c=1 sm=1 tr=0 ts=68e53bc7 cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=iJyH9J4HpORdeUluUeMA:9
- a=hhpmQAJR8DioWGSBphRh:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Phm2FCOck3cCU21fcKSRepFBRijMTgjk
-X-Proofpoint-GUID: Phm2FCOck3cCU21fcKSRepFBRijMTgjk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDEyMSBTYWx0ZWRfXyN5hXGi/r+dl
- MfNt+SGIGckh/9sLg27340gHBZY4xgXy+jGRdbyS68mZicptYHaCdP79f/oI2zwxZJIARSnT50c
- tPHUlNFXuPQrNOqlJIvEhXCKq4ICXYRXR8rZM25oSZvP8Q2XfmnCHhOhZoWYe1EYks2KhHiHvGu
- NsnLOZ8UIQivmsY1Tr5h8t2JD6JMRyetu3rJtXYypYFU+jGfESc+IzJIqkQN9mcB+Y6/+mqILnh
- pKyP0UP79Zc7EV9mAGMDqb5G9+MDuwsPg0w8KhX/1hNlvXIL4iWdDatDNmDpjO+hxV1tXsTd1eq
- 8PceknSO61Ca8dqPp8pY/DsDox3u7S7anZkEiwdR19iiiHLEf9gBqbE0NfRwUwPPDP/ohXrXc1s
- Jp+8mXW/Y4ldEdddq16jcvFB47LOEg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
- adultscore=0 clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060121
+References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
+ <aORCwckUwZspBMfv@yury> <DDC0VAHL5OCP.DROT6CPKE5H5@nvidia.com>
+ <CANiq72m1eiGVJHNyym+JwM=tQ9bGnmoW0+OuKQ3Vxo_AQOy5dg@mail.gmail.com>
+ <DDC4DA0BPHRC.3P5M2CXSJYYTI@nvidia.com>
+In-Reply-To: <DDC4DA0BPHRC.3P5M2CXSJYYTI@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 7 Oct 2025 18:12:07 +0200
+X-Gm-Features: AS18NWAPdykPHVe-VPSk9QmwsEQUF86AhW888gSoYNbxgNmy_9MCu-o1i7ygLqA
+Message-ID: <CANiq72kykzwdv2fOmRMeJ_FPztkkU2a=PFDH1fo9+XbGAeKsaQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/5] Introduce bitfield and move register macro to
+ rust/kernel/
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Yury Norov <yury.norov@gmail.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, dakr@kernel.org, 
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, 
+ joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, Andrea Righi <arighi@nvidia.com>,
+ nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,32 +103,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Youssef Samir <quic_yabdulra@quicinc.com>
+On Tue, Oct 7, 2025 at 3:21=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.c=
+om> wrote:
+>
+> Ack - how do you expect things to work in terms of code flow? Do we need
+> to have a dedicated tree and send you pull requests? If so, should we
+> host it under the Rust-for-Linux Github org?
 
-If msg_xfer() is called and the channel ring does not have enough room
-to accommodate the whole message, the function sleeps and tries again.
-It uses retry_count to keep track of the number of retrials done. This
-variable is not used after the space check succeeds. So, remove the
-retry_count = 0 statement used later in the function.
+In general, if there is a better tree (i.e. an existing C subsystem),
+then what we always do is ask those maintainers first.
 
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
----
- drivers/accel/qaic/qaic_control.c | 1 -
- 1 file changed, 1 deletion(-)
+But, otherwise, if there is no good choice because it is something too
+generic/core, then yes, what you propose would be ideal (and it should
+be easy since you are already maintainers of other trees etc.).
 
-diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index d8bdab69f800..5aa49e0e1869 100644
---- a/drivers/accel/qaic/qaic_control.c
-+++ b/drivers/accel/qaic/qaic_control.c
-@@ -1079,7 +1079,6 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
- 
- 	list_for_each_entry(w, &wrappers->list, list) {
- 		kref_get(&w->ref_count);
--		retry_count = 0;
- 		ret = mhi_queue_buf(qdev->cntl_ch, DMA_TO_DEVICE, &w->msg, w->len,
- 				    list_is_last(&w->list, &wrappers->list) ? MHI_EOT : MHI_CHAIN);
- 		if (ret) {
--- 
-2.43.0
+If the amount of patches ends up being very low, we can skip the tree
+and I can take the patches, but PRs are simpler and scale better for
+me.
 
+Thanks!
+
+Cheers,
+Miguel
