@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC95BC2649
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 20:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776BDBC2805
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 21:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30BE710E0A5;
-	Tue,  7 Oct 2025 18:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BA810E2E2;
+	Tue,  7 Oct 2025 19:25:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CWPMJlo2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tbv/NqEw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F6E10E0A5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 18:35:45 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-637e74e92easo11175692a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 11:35:45 -0700 (PDT)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C1B10E27A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 19:25:00 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-781257bd4e2so715145b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 12:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1759862144; x=1760466944;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZpJtd1jW6/1i7crN8sSSQKSLeCc/A80YMIDTIdTXw+o=;
- b=CWPMJlo2Z5frys2jYKrUeQZ8E0mDdvc3YGnnQT/BvbFKsvxhV5wSRm+aIAEei5KyBZ
- oupQG7eoIEnL7a8M4RxCoslJDwP0uhtV1tBmckhGd3Z+M3IIW8STZAgNUsBHM2/SY0dL
- 2EU5jT2ljHFrp9/cuJTmNasw5GFnnrTuu0uII=
+ d=gmail.com; s=20230601; t=1759865099; x=1760469899; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9+iej964gqYmw3EStGTseOsB/VJ0n3f1dmiT9VwkheM=;
+ b=Tbv/NqEwbX69R4LdWWFgBfOH2njNPwOFNtrydKLnI8jxco/ZoFf2ZMbwRB8CFwcSFD
+ gptBWV/EcJMWRAzu795PDhSdjXyCL/6s6S965KQpOyHF2vLroM/yvICbmMLzMB7W03Vd
+ Br70Bhnci8btsi5Z0ZCnwtZczs6LNNXIR6Hvr1widpuieX7v3v8L6KLHUhlEHa44ygIc
+ kniGe7at8CGlOk/10M57Jml9eb7vDUUqO4pPRV2+ZzCv+nHBPS0PbkpCgBznKEVxcpfB
+ ToZjU2R11vsQ0WnzFGn9yxGQYXh12Irf5b6MhuTr1AH6p3Pi0qYFUGSbSp2TBFUfpi4G
+ EaMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759862144; x=1760466944;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZpJtd1jW6/1i7crN8sSSQKSLeCc/A80YMIDTIdTXw+o=;
- b=gM4xrxsFuuSEH4NRpd7ExNiBCrE9RR/b7NqH5fxpQPXNhHXoAaTJOB8dAvHOluDLPB
- TXHfL0JRhGc82zrOZMDnZu04VOvTOu9q2W2+SsC8Ey7gsv6zDmAAsPU2PyAoDQVVzb2o
- 0u/RrX325/umXIcMt5QtYoMAj6ikBut+k+10H1xJYKHPrXu/yyuxBkBguxBAAPwE7OSN
- ZVGpRO6sjx5j83p4UjPpNAv4ebkSxLEtTjJHRGiW7MskT7uM2z5qvGtvUHa2BGH5VYK5
- crWEYd6v378NydiGsMCPoUYeJ6MApz/VXWRty4ajqmSx0kzY9UijRii1g3qJWBOk6PCW
- xc1Q==
+ d=1e100.net; s=20230601; t=1759865099; x=1760469899;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9+iej964gqYmw3EStGTseOsB/VJ0n3f1dmiT9VwkheM=;
+ b=Kv/cUiDmVjlOcZGG5tPEy0Eg6iRLh7Bwza6O0139ZhsI5uHLMD2IGxWaC2Qd6zM7j/
+ I+JdAMVj+12ZsvILLl0XuvNUfhLoqBghk1LpY90JsY8xeQAzWLYJjdqgo1zo+bvmMh+X
+ KVNZEqII83omu/Hhp4vOaoRT6E5iACKwKa8s9yusIstk+E+NoOpKZxX+LmDhiUw0M06e
+ zqNtRjM7xRADEIEbNr5Ycqf1ayYeMXHpko8R7s44Fy+SsGDQCvHaT3hKDzYT5RIy3QZL
+ w3FqwVDFxIbkF6pwEEvtbZ0kyng0C2bRoHXxy5KvGSp4HzzbaYC7Y2ClVT9ziu5quGTJ
+ UejQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUkJgaw/3hYyoV0sUsG8ZwoneagwlptTrQmGjAa/04nzSx/E4PHICTOnv0A8vOqAqUYiD17/DkNOU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpvAd+nYnyNMMxc4rN3qHnbMFPszeeFXa2UhXAiLlgTloAwiUQ
- HqS5HgyjvCu/9jkrXMn/BegY4GE+816mLJS9oiWwkg4dZ0Ee3shnOc59hBuqBoJfI0TIgToZx7i
- TbCQ8ynQ=
-X-Gm-Gg: ASbGncv0mAzSdIolNZiq4E74gJeqdsfDLfkWQcM82ntQ2AWQbOU9ZOFi0jQo9E3J+n1
- vZt1Qgd8RwPIeTuJ80HImTLQtoYf7hSJ7HecD139THmoRj7uKQBL7jfjjbWonL7Df4M8oeffNW7
- oAv0jHH76yJH+9NMLC2vE8i5WFM+Hmm17KUbYPwf94u1ZuHYtC9nbNxzX6uq5gh3nW3M9aKEA4Z
- tLx/D9f/Yn2l895evSvbwuRDE/f6DWpkh9GdbUYWPn3NeqDZSR64CFxqSej6if4ILVT312sImHe
- qn5WS7/4MwZ4wDznTFyN1F97OuO98FsCuh+7qSYltj1oukJzsht0LeMWGsqootuIY2O9Ru1uRDl
- Ftjx2xGAXhGluwAhh/tFsqCeHDBZXNHNTojFEKOqdZoUl4RQaRPPDWY8HjvfUhH29Hhw1zj1LkP
- nz0iW5PEgM9ZF7VLY9hjOa
-X-Google-Smtp-Source: AGHT+IF9uM96BsfUNfV9iXtbymJGeHp/mBvmVMFTJhqPEbsyD4cjU7snkW0j3a3T0z8CVNgSqqf7Rw==
-X-Received: by 2002:a05:6402:510e:b0:634:7224:c6b5 with SMTP id
- 4fb4d7f45d1cf-639d5c593d5mr367389a12.28.1759862143683; 
- Tue, 07 Oct 2025 11:35:43 -0700 (PDT)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
- [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63781c46688sm12933670a12.22.2025.10.07.11.35.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Oct 2025 11:35:43 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-62fa062a1abso12356243a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 11:35:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkM1VYicXtf7R7fzvUipjohxZZGV3JMmkE0ieZ+jP809fquujTuz3LO1Dr5Ieck5P4pTV/wSFs3vc=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:848:b0:639:720d:72d with SMTP id
- 4fb4d7f45d1cf-639d5c5942amr376403a12.29.1759862142459; Tue, 07 Oct 2025
- 11:35:42 -0700 (PDT)
+ AJvYcCV8tW4zQyy8jDYNExAY/pB/gbYVZCNB9oeraAdtg530rcVTx376nXqlqF1DjljsLZq6GpgsjArt86k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoBL4ZhsotHkH1aAJQJFq/plP9wF+O/3OxBtJXk94XF6tnHGhu
+ 5aH3ihOEwwARl98S8wsgzdm6b59Sr72aVJbHCAsVu8JsL7+4l5yS9K+MY2nW8VxHT98xwvPGoPl
+ 77hF8IJ9qJsoDcHhxpWlwm2OqKrB5lDg=
+X-Gm-Gg: ASbGncvMaJAaIDzhe/ko93mcfakYLmmmi93kjlL1/3uf+ijm0nreQgg9V6ULPJDnR0J
+ Eai5iQBtGWJ8hhZZNCAk9eJx6znMaZqsmE5x1e18WhlLNkzsE6OOrJEuJyv+6JKwFuzQkkoKW24
+ r71CELkB6G/tcUykw04MluJCdr0gVQF+dLrc+HeDcog65ht7hRG42hdJltGRGm0OeoPaWsZOUJi
+ NARE8S12CWd5NnSRF169gs+ZXduWqG5xLtymhEx8TkjhOsdCEkx9TBbMH1F3+3HxmT2X7AvGIwD
+ h+V6HCubmvuO5d0X5Xxu34TqJEQ7zCuGhuKOmBj3/UXpQg1wQQ==
+X-Google-Smtp-Source: AGHT+IHRFimerlEMqF3boAdKkBiNG8MkW5f1eh9EAmm670Jbl+52qtss8zZiJX+57J7MzfxLc/d3NZ0jQ1LQJ9RjfUM=
+X-Received: by 2002:a17:902:ea07:b0:264:cda8:7fd3 with SMTP id
+ d9443c01a7336-2902743e550mr5868445ad.6.1759865099543; Tue, 07 Oct 2025
+ 12:24:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
  <CANiq72kq5YHovH=_a9c0JQgfrAx9gRsQvVo1VfHd-FaupOp7rQ@mail.gmail.com>
@@ -77,20 +64,21 @@ References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
  <3771775.lGaqSPkdTl@hyperion>
  <CAHk-=wj4_zaYJ9ieazt9dnL69R+SL1PEfJtquGVOqsNCVt_rDA@mail.gmail.com>
  <CANiq72kDB1cX1XXX7sc3yQvnaUUYB8q1wVKNxykv8=OV-=rWuQ@mail.gmail.com>
-In-Reply-To: <CANiq72kDB1cX1XXX7sc3yQvnaUUYB8q1wVKNxykv8=OV-=rWuQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 7 Oct 2025 11:35:26 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whe8NLsT-TnBxzzW8sCL_X3BN7zv5ELVufy6=sZ_k=uGw@mail.gmail.com>
-X-Gm-Features: AS18NWATnozGm7Su-mFLcwXGFGAOFpvtF286zK8E9C7vCjhWFJcx0N9ni2DQ11g
-Message-ID: <CAHk-=whe8NLsT-TnBxzzW8sCL_X3BN7zv5ELVufy6=sZ_k=uGw@mail.gmail.com>
+ <CAHk-=whe8NLsT-TnBxzzW8sCL_X3BN7zv5ELVufy6=sZ_k=uGw@mail.gmail.com>
+In-Reply-To: <CAHk-=whe8NLsT-TnBxzzW8sCL_X3BN7zv5ELVufy6=sZ_k=uGw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 7 Oct 2025 21:24:47 +0200
+X-Gm-Features: AS18NWCFJirSOJNc7E5--qS2zoXHw3wCzCsVJLxEt1b3tIkqnjp9hJnURlrXm5E
+Message-ID: <CANiq72nwosJkFp8PyqY=XLt6ZMS2rnsTHaN-arzQUemR5cuqRg@mail.gmail.com>
 Subject: Re: [git pull] drm for 6.18-rc1
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Maarten ter Huurne <maarten@treewalker.org>,
  John Hubbard <jhubbard@nvidia.com>, 
  Dave Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
  Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,48 +94,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Oct 2025 at 10:21, Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Tue, Oct 7, 2025 at 8:35=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> We can use a trick today to approximate that, which is adding a
-> comment after one of the commas, e.g.
+> Although that example actually made me go "WTF?" regardless of the
+> changes involved.
 >
->     use crate::{
->         fmt,
->         page::AsPageIter, //
->     };
+> I clearly do not understand the sorting rules either. Why are the
+> "device::" entries not sorted?
 
-Ok, I think that's pretty ugly, but as a "waiting for official support
-for the magic comma", it's probably about the best we can do.
+Essentially, `self` (a special case) is placed first, then it puts
+things like modules (i.e. `lower_case`), then things like types (i.e.
+`CamelCase`), and then things like constants (i.e. `UPPERCASE`):
 
-> By the way, I also took a very quick look at the "trailing comma" idea
-> to see how complex it could be upstream (it could be either a "just
-> accept the multiline formatting if there is a trailing comma" approach
-> or the "take the comma as a hint to reformat accordingly" one
-> mentioned), and it seems doable. But we will see what they think about
-> it -- they don't have much bandwidth, I think.
+    use crate::{
+        self, myitem1,
+        myitem1::{myitem2, MyItem2, MYITEM2},
+        myitem3, MyItem1,
+        MyItem1::{myitem2, MyItem2, MYITEM2},
+        MyItem3, MYITEM1,
+        MYITEM1::{myitem2, MyItem2, MYITEM2},
+        MYITEM3,
+    };
 
-I wonder how common the magic comma is in the python world - maybe
-some Rust people are already familiar with the notion and it might be
-an easy thing to convince them of.
+This got substantially changed for the next edition (2024), though --
+they decided to just do version sorting (I added a 256 to show that
+too):
 
-Those python formatting tools may be _written_ in rust (well, at least
-Ruff seems to be), but I don't know if there's much cross-pollination
-of ideas.
+    use crate::{
+        self, MYITEM1,
+        MYITEM1::{MYITEM2, MyItem2, myitem2},
+        MYITEM3, MyItem1,
+        MyItem1::{MYITEM2, MyItem2, myitem2},
+        MyItem3, myitem1,
+        myitem1::{MYITEM2, MyItem2, myitem2},
+        myitem3, myitem256,
+    };
 
-> I ran a quick test for the reformatting approach on the kernel, and
-> the diff isn't terribly big (e.g. +183 -45). One gets things like [1]
-> -- notice how the nested one (`property::`) is kept as a one liner
-> because there is no comma there, but the others are reformatted as
-> vertical on purpose. And if one adds a comma after `NArgs`, then it
-> will make it multiline.
+https://github.com/rust-lang/rust/issues/123800
 
-That example change looks sensible to me.
+You can play with the new one in Compiler Explorer (right-click ->
+Format Document).
 
-Although that example actually made me go "WTF?" regardless of the
-changes involved.
-
-I clearly do not understand the sorting rules either. Why are the
-"device::" entries not sorted?
-
-             Linus
+Cheers,
+Miguel
