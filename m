@@ -2,107 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8224BBC145A
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 13:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F04BC157F
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 14:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF94C10E11C;
-	Tue,  7 Oct 2025 11:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0CC10E191;
+	Tue,  7 Oct 2025 12:18:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MZBVIrIe";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jy1eqSnq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 547DD10E11C
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 11:57:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59738kmo005144
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 11:57:53 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B60A210E191
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 12:18:48 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59744m5W031103
+ for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 12:18:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=x3FrYPMxnfKh2xjFx0tCvhblzRITWQjtLSz
- NuYM15SQ=; b=MZBVIrIeaHSPY3TV+FU++iJ8jwgOjyqsV4ws6tuSLyXLBLkCxLd
- 8pxWFllqE23Nud1i1oRKk43Kr85cmyexW5TUNRYzLl+00mN1GQVY0i1Kkk3qXszS
- TRtAz+lWTmNGQU40hjAMBFzvn2Iq+BELDX9iIgzu2SG2FpjPW3Rdl9I9SkZYQFhM
- S6Ny5M7IqHqz+PBxqE6naIHZo4NrmCxzHAsof4p6W6V4cyuuqmyAlP37XdOXXzgS
- yQgq0Hx8q41k3a7ThLSFLnej/aYEANtCDcYn1cTClvy0dvjttx1svwiL1tVJizdJ
- TW9hcPTb0epH/9aZNHdo7xWiVZOPcB0vHtA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jrxn7d9t-1
+ :subject:to; s=qcppdkim1; bh=5dWz3ECxHXJJo7so4Ok0l1Cq4x4gampn3mT
+ o1GLrOWI=; b=jy1eqSnquNtQLr8vUZ5rqa6talz3DHZE5MzK+RIim9W02QO6hC/
+ mEo79N6ARJ6QfOA/tXIvKglnzXWDn4KeYMDR+CjBxAiUvzMsGNcy6LtJkh5/BxuS
+ 4wuKTq9t5p9RXTaTnQoueC+C01IuMN1doSF7V5/IwbAnYjIleewEFCR1jD4ZaPGd
+ Llw8+aiyYaUyzuHWEj0wS9sSGhP0p6YNYfATCDvz8m1t910fV2ijK7ZhkY8siy9E
+ +71tCtUp6WWTbkzJ2cf+NCXppMvmuMVvCsrt80Su+VrmTEPec7F9kzwtzMAX/YWL
+ Unr1o6mfSZEOA5F/oFBQ/CNvx5QkC8L/CIQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jtwgq6p2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 11:57:53 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4de801c1446so133848771cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 04:57:53 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 12:18:47 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4d6a82099cfso160718651cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 05:18:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759838272; x=1760443072;
+ d=1e100.net; s=20230601; t=1759839527; x=1760444327;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=x3FrYPMxnfKh2xjFx0tCvhblzRITWQjtLSzNuYM15SQ=;
- b=Wm2pJYOe+nreTyK+sn3uv9AXY2l8YMANvhEtlzwZscXdEh8Afg995UR1KFcJ28wPn4
- wqUWx72V5MWQN6aOjszSjIC4fQXL2LVxj2e50g3RmH3BJtu+otA0+JnIiLk4MGgPfZOm
- MwrKS4V7+l5woKpGXD6DJfeg3DT1F0Qdj3FbGM2uxPEoab5jmlyNEA38ExcK/o/Fy82f
- rWGtJEpAUOs6iV0gRyFV9SCTrjO1ULihMGgCLqJ1YHgiedv+hKkZfGO819z/KzbwtFVu
- caE7tuzfJ+uNOoOmmNwvZ+GO9MUh4vpBQAPSbuVmcjqwqlEpyVFGtYXvQvyklRTxD2vJ
- XyNA==
+ bh=5dWz3ECxHXJJo7so4Ok0l1Cq4x4gampn3mTo1GLrOWI=;
+ b=Gt/dj1AJiYe6CN1M7fPAi/gBFnDDWkkUTSlmSOleyQmdBEkOGBm0w5kw+JEosa5pRB
+ pky2KxQ/Ryig4s0+Rg2nNBAmXXa03bTASLPB8MJ5vhgVgIsRsCXwKXoE0x+sD8BiRd6I
+ SUdV5cNWi2mOlnAoNtQwkmoeplnJd/RM1vXiGnZrDLLanV7cIp5UOSrmyEh7tX3e5pFt
+ jPdvcHFWu+4Ztje2Fus7d38j8LABm0eI9tcCUuPhFDU8mncnSLMl+hDRokcB/ql3xBfx
+ Q67Rj+le+G6nyg5GZuwTBqs1MU1cAMJHJilVRB/xix4oZmZhy3TZeRbKAgfO1cbOGj1h
+ UBNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXoq5RoBpT7PuB0vz3fy7iKhPGNyo/rpf74RP5R7Btp0ORrOvCndhwGkHZ43c8mXlmTjUR4N3KW1V4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzpFSHX+55aGkM5goycK4Rj6NRYVBrWV3godiAKE7l2Lw2/ddaz
- 97v2zdcbto8Pay+pFKAGhLRCZyMkX10CmcEUALLLt4fSctwWEVknFmQe3b6myZidDf+b4W/2y1x
- Hi+3qtRV1bs8bigB5fanw+1AYtTq+/wkaSpUIXuP5qyaQV/E5At83c/zXor0Oqnm+4DbGZKM=
-X-Gm-Gg: ASbGnct7ZA4dENqDAP7oqimvnmg5DPE8QXA2FaFstZhmATLOSYjNDLLG92STPIPLhxU
- DAJIrom9IZ59S9oA4vheJtLRQDs9JqgtnmQe+MlE+yktQSu7UYkcSgxQTEHgwLf4uRYMg5qtUNX
- gH49f9uyObYELQjqaCDWt55BLRFwag1BvEIoTbAFSC0kIxeVOPxzVXLYgKSG4CnGsI5IizNBXrN
- xHoCWll6YT2TZP/NPKt/6oAXTbQq6qfYKoCGwie0UG1UPvMK8Ni7dN7UChkJXwMZMCt5NuQ0xaQ
- iRgjOQgtdq9gbzB2k+i7l7Y1Hs2FHAKEDkLWU+h3KNeL5qPl5Pvb0eEiYwlXoVJAA6gPVQuccV9
- CjDtPhIke8A==
-X-Received: by 2002:ac8:74d2:0:b0:4e5:834b:ca45 with SMTP id
- d75a77b69052e-4e5834bcae5mr105583141cf.63.1759838272434; 
- Tue, 07 Oct 2025 04:57:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFU+Ujm7vTcAuTiF9tQ87c412Co2eQ7Yw6aihhoqBCStMmXR9FP97MI9cAvWh2to76AohJlAg==
-X-Received: by 2002:ac8:74d2:0:b0:4e5:834b:ca45 with SMTP id
- d75a77b69052e-4e5834bcae5mr105582871cf.63.1759838271803; 
- Tue, 07 Oct 2025 04:57:51 -0700 (PDT)
+ AJvYcCVFJFNsI35y1Rukh+aeIk2eDz4TelDijBuYX9V1i6+c8vW45bE0AWrzbuMwaGded4m5CAzOfAor6ns=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxeeXY7y9/7E7cWpUATgr/5sUs9Zow80ofViXqwO4NImlihgh5L
+ tmArT7r3in66ts9Hfdy3if6wvRvYcbkUqotHaYxa6o4B368EuZEKJCTKRZNYDX/uPpsDWjg7Ack
+ MmJ3uTojREs6IkNnbqrZv5K/wjb/McWmtsiFixg+ZNE8Wy+KR2mbseI7gWsOx3Gkyx8qpcdg=
+X-Gm-Gg: ASbGncvHSXUaCQUM4KjOz2pgXLlSK/dIgbqwDNhCcY4Oq2gLLsrJO4rPdV6f4YBhZXt
+ TLZJsQXU2eVNJvdboyr7y4h3ohyFpN04bOdX3i2f+v/K+xzn8KlLDNTHXsj1QLSBS1nOObrnm0Z
+ XvvmDvhwBH/6Mz/GRidoU/R8V2XPDZoENzKA/yWJWNAxzO0VSqZ2UUshT93L6EKJ/7jBue9/eM2
+ X1TmqZdFnGjoEY6oGJtrznYpQPkqHOFHKHOAuVVpEtlBxYj7s/67XM8uM7Pppetc6TkPtUzTpI0
+ XtoMdBCplG/MpF+rnLzzKvgToCf3S7cMhq60EIoxFcmkAZ2iG9ipS8nJLk+3afOQd59hf8YVrHl
+ FRGdlNfUghw==
+X-Received: by 2002:a05:622a:4012:b0:4b7:aa99:5459 with SMTP id
+ d75a77b69052e-4e576af2716mr221230621cf.76.1759839526742; 
+ Tue, 07 Oct 2025 05:18:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE6SQQh91mohrrjxHh6JP8YOjkEi4tK0iTQoftOGQeGK+nLYdlU4L68WfYoOUfov+vajrKWJw==
+X-Received: by 2002:a05:622a:4012:b0:4b7:aa99:5459 with SMTP id
+ d75a77b69052e-4e576af2716mr221229981cf.76.1759839526230; 
+ Tue, 07 Oct 2025 05:18:46 -0700 (PDT)
 Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b48652aa62csm1339064066b.19.2025.10.07.04.57.50
+ a640c23a62f3a-b486970b315sm1383081066b.64.2025.10.07.05.18.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Oct 2025 04:57:50 -0700 (PDT)
+ Tue, 07 Oct 2025 05:18:45 -0700 (PDT)
 From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
  troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
 Cc: ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/qaic: Fix bootlog initialization ordering
-Date: Tue,  7 Oct 2025 13:57:50 +0200
-Message-ID: <20251007115750.332169-1-youssef.abdulrahman@oss.qualcomm.com>
+Subject: [PATCH] accel/qaic: Use kvcalloc() for slice requests allocation
+Date: Tue,  7 Oct 2025 14:18:45 +0200
+Message-ID: <20251007121845.337382-1-youssef.abdulrahman@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwMSBTYWx0ZWRfX0m/uzsPd+7zO
- aS/5gMYNnAz6e2RZ8k9KMp+223Z55ILa2O7YDIncGwUBzZExbdN+k+/5D8iBZFzFv4TO2v3HI1h
- 3/QPHNfTevGoS5IRgygK8UhWh7ionaPbNBgWgipJYgYPCFKDV01r40uFSV1xKOf8BeeF1wB9py4
- niw9PaZnQ51xlJQzlclfA6PyVDYPOJ+Xt58yUS2KeaVACll8q2Lmwm5r5/eN0A7EfdnqCRqyRqi
- Sw89ZEs8b/7xix04g3IUVTGUcsUbpWyLYHpjBn1NMDAsHVUqNyKrOdpvvoOWDGFm7vnaVd4GXu1
- KwcpntCG3FH717V5trjiTHVz69dGX4JoUuK3xCyaO6nYn5305YjtlFAWa0w0YzQv6ogp2ZNclj7
- B8SWHs+LJXVKZYy8IGJz2Qzl4Z72zQ==
-X-Proofpoint-GUID: wpoXHnhde5RiSaaFUVpIk49sUBMTi8Rw
-X-Proofpoint-ORIG-GUID: wpoXHnhde5RiSaaFUVpIk49sUBMTi8Rw
-X-Authority-Analysis: v=2.4 cv=EqnfbCcA c=1 sm=1 tr=0 ts=68e50041 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=aVJJzlxB05kmw2s4GJQA:9
- a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxOSBTYWx0ZWRfX0m9xMVLRrmkY
+ 3NEzY9K5bg+A0h5mIvzdaU3gapbKaXmvpQK9Fv4K1EZrpPBa82x2hMWH5NXf7LQSMHJf/izLZol
+ xK/XUZk5mHsHmgw4ejlbcu75UkiabZ14KO+uj7lm4fiJXG/R4SkKBmGIM0tiM3Wiuvncl+kqBEo
+ dFz0tb2m5YINF3rh3OyvoU5TzozkBFasJ8cjQyUfQvP7W1rvlJ/HKnnrs6P0hg9qs+ybV8xIY6C
+ qdxHxlDi8zX4AuxCc4EWGxDEuun8i5tiRSILT69BSvpg1YlBj1T7jkLLr29U6VMNkfMuM4SgjKB
+ a9rvFRAegGtPxnI1QQ3Kr1tcHzndSYbtodbNcpDNiNbLOL6Hs2ivN67/HnUwLVBIl7fLqXBEXzv
+ VEfgZSH5JaS4PerYND9E0ddDqTKbVQ==
+X-Authority-Analysis: v=2.4 cv=B6O0EetM c=1 sm=1 tr=0 ts=68e50527 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=CJ3JEFviXy7-Y_lWR7YA:9
+ a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 3qEE8IVMnaEJ0i6VqX967MoBbjyb1r1G
+X-Proofpoint-ORIG-GUID: 3qEE8IVMnaEJ0i6VqX967MoBbjyb1r1G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
+ definitions=2025-10-07_01,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0 malwarescore=0
- adultscore=0 suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040001
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ impostorscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2510040019
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,49 +119,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+From: Youssef Samir <quic_yabdulra@quicinc.com>
 
-As soon as we queue MHI buffers to receive the bootlog from the device,
-we could be receiving data. Therefore all the resources needed to
-process that data need to be setup prior to queuing the buffers.
+When a BO is created, qaic will use the page allocator to request the
+memory chunks that the BO will be composed of in-memory. The number of
+chunks increases when memory is segmented. For example, a 16MB BO can
+be composed of four 4MB chunks or 4096 4KB chunks.
 
-We currently initialize some of the resources after queuing the buffers
-which creates a race between the probe() and any data that comes back
-from the device. If the uninitialized resources are accessed, we could
-see page faults.
+A BO is then sliced into a single or multiple slices to be transferred
+to the device on the DBC's xfer queue. For that to happen, the slice
+needs to encode its memory chunks into DBC requests and keep track of
+them in an array, which is allocated using kcalloc(). Knowing that the
+BO might be very fragmented, this array can grow so large that the
+allocation may fail to find contiguous memory for it.
 
-Fix the init ordering to close the race.
+Replace kcalloc() with kvcalloc() to allocate the DBC requests array
+for a slice.
 
-Fixes: 5f8df5c6def6 ("accel/qaic: Add bootlog debugfs")
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
 Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 ---
- drivers/accel/qaic/qaic_debugfs.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/accel/qaic/qaic_data.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/qaic/qaic_debugfs.c b/drivers/accel/qaic/qaic_debugfs.c
-index a991b8198dc4..8dc4fe5bb560 100644
---- a/drivers/accel/qaic/qaic_debugfs.c
-+++ b/drivers/accel/qaic/qaic_debugfs.c
-@@ -218,6 +218,9 @@ static int qaic_bootlog_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_d
- 	if (ret)
- 		goto destroy_workqueue;
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index 797289e9d780..27c24eb351c7 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -165,7 +165,7 @@ static void free_slice(struct kref *kref)
+ 	drm_gem_object_put(&slice->bo->base);
+ 	sg_free_table(slice->sgt);
+ 	kfree(slice->sgt);
+-	kfree(slice->reqs);
++	kvfree(slice->reqs);
+ 	kfree(slice);
+ }
  
-+	dev_set_drvdata(&mhi_dev->dev, qdev);
-+	qdev->bootlog_ch = mhi_dev;
-+
- 	for (i = 0; i < BOOTLOG_POOL_SIZE; i++) {
- 		msg = devm_kzalloc(&qdev->pdev->dev, sizeof(*msg), GFP_KERNEL);
- 		if (!msg) {
-@@ -233,8 +236,6 @@ static int qaic_bootlog_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_d
- 			goto mhi_unprepare;
+@@ -404,7 +404,7 @@ static int qaic_map_one_slice(struct qaic_device *qdev, struct qaic_bo *bo,
+ 		goto free_sgt;
  	}
  
--	dev_set_drvdata(&mhi_dev->dev, qdev);
--	qdev->bootlog_ch = mhi_dev;
+-	slice->reqs = kcalloc(sgt->nents, sizeof(*slice->reqs), GFP_KERNEL);
++	slice->reqs = kvcalloc(sgt->nents, sizeof(*slice->reqs), GFP_KERNEL);
+ 	if (!slice->reqs) {
+ 		ret = -ENOMEM;
+ 		goto free_slice;
+@@ -430,7 +430,7 @@ static int qaic_map_one_slice(struct qaic_device *qdev, struct qaic_bo *bo,
  	return 0;
  
- mhi_unprepare:
+ free_req:
+-	kfree(slice->reqs);
++	kvfree(slice->reqs);
+ free_slice:
+ 	kfree(slice);
+ free_sgt:
 -- 
 2.43.0
 
