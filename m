@@ -2,108 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A08BC1E42
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB6CBC1E6C
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B6310E6EF;
-	Tue,  7 Oct 2025 15:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC7310E6DB;
+	Tue,  7 Oct 2025 15:21:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="lAG0BcZ4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YDVfWEjp";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lAG0BcZ4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YDVfWEjp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oPHUri4k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5CDB10E6E5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:20:24 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 59B4F1F38F;
- Tue,  7 Oct 2025 15:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1759850423;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iQc0YRJr7IJHOyz4OppGQkW0tWxTiIJn5XmaoGwBjS4=;
- b=lAG0BcZ4FjfT3tnysBTEvSnxqZGB9x2gDzP3Sc1I3J6/TzO29zunuKpk12k1SkSFpBJv6p
- DVVwPXrURoX5HESTPo7rV2Vi/JInQJXcTG8Kre86MelbJFgZUkArGudSLZUaWR+o7TcKrv
- poWWmGmlSa9DRU2AhzOGQg0jqdU/jTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1759850423;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iQc0YRJr7IJHOyz4OppGQkW0tWxTiIJn5XmaoGwBjS4=;
- b=YDVfWEjpewz5QgRZyehDGqnlndL38xs45wRXPPBvlqtB2ZfQ9j7KNuSN5HvqX1bK4E35nI
- l2NnYe1u57d40rCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1759850423;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iQc0YRJr7IJHOyz4OppGQkW0tWxTiIJn5XmaoGwBjS4=;
- b=lAG0BcZ4FjfT3tnysBTEvSnxqZGB9x2gDzP3Sc1I3J6/TzO29zunuKpk12k1SkSFpBJv6p
- DVVwPXrURoX5HESTPo7rV2Vi/JInQJXcTG8Kre86MelbJFgZUkArGudSLZUaWR+o7TcKrv
- poWWmGmlSa9DRU2AhzOGQg0jqdU/jTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1759850423;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iQc0YRJr7IJHOyz4OppGQkW0tWxTiIJn5XmaoGwBjS4=;
- b=YDVfWEjpewz5QgRZyehDGqnlndL38xs45wRXPPBvlqtB2ZfQ9j7KNuSN5HvqX1bK4E35nI
- l2NnYe1u57d40rCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B60DF13693;
- Tue,  7 Oct 2025 15:20:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id lYhSKLYv5WjUTAAAD6G6ig
- (envelope-from <pvorel@suse.cz>); Tue, 07 Oct 2025 15:20:22 +0000
-Date: Tue, 7 Oct 2025 17:20:21 +0200
-From: Petr Vorel <pvorel@suse.cz>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: "airlied@gmail.com" <airlied@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dakr@kernel.org" <dakr@kernel.org>
-Subject: Re: [PATCH] nouveau: add option to avoid 535 firmware in initramfs
-Message-ID: <20251007152021.GA139177@pevik>
-References: <20251007013207.1469618-1-airlied@gmail.com>
- <d57eb562b87f9c3ead50acc81d76526e947d0ab9.camel@nvidia.com>
- <CAPM=9tx3Q4NdAc5NDGUjdjOH-ZPagKNu43+zOUZTVcpEO9zSsQ@mail.gmail.com>
- <a02a0105aed482a977b06e66391b35e5a6f39cd0.camel@nvidia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D12A10E6DB
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:21:01 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ETJGn016478
+ for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 15:21:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 0iWmS6lQW7nrNfAJ3oL/Wk5t1P1Ffsn1nlDPeOvhMDs=; b=oPHUri4kXtf7+GBY
+ mXmBNWcOFME67KOtWsMTCxZnjQAO2qYBph8+cwyFMRhUwPVjN+kbClxXGM/cZqkf
+ Z7xeIRmvF5kHxt2dePovX6Niv7T3gNIa6GXMKone81AdaNxzwo2Q11yqVy3Dafc8
+ w5OECZhZhy/HsqdFfjcHxYcHENb8aQSug5Tu0EdxefN3egQAwxUEWNj+pUK9QSh+
+ 9SBjI4Gt/yfZnNolL/u0F8QuQGN2zpIRtyZjRbBhQg1cA5pxhZXD5MvQuNnHM1eu
+ 0ysFJOalm/lSEkDQlGKB85jbzCGbFXRjQ/5PoAJ7qqXAHrPUtjVx/5jUGDi6Hwha
+ rO5eNA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mg6abcnw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 15:21:00 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-28bd8b3fa67so57268855ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 08:21:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759850459; x=1760455259;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0iWmS6lQW7nrNfAJ3oL/Wk5t1P1Ffsn1nlDPeOvhMDs=;
+ b=k5Eh3YvuT6A6j1xGxdgL0J2YMOkLBe4QlO6Ews6RPLeUzKp6rQpwYH44x8yPpeqMp9
+ tMGbHDpYU2u2yeNQe+psdWETI/IENlS+dZ0ighDk7S4okPB8Hy6JIWR73NrtWXZYjEkk
+ ksOx2m229F3OU8gJBzRkapAWoNzjc4Xd3VwNCN5/vy3EAIu+Bnzg0lLJqhCqKJak6qlh
+ l2FNKlGEs0klotsbeqrY/2dA6v9Cxz4b6IL2X5zDXMB7Kqq12HWlig+vA+rOB4u5L8mn
+ QCbM6MPivVpDUPRBb3d6S2is2guXLrE+mYRIS+wMtDJzu9N+a5hRJXI7gDQEkmwJgexk
+ gD5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbvDXa1fyWAL9ZPXy/ExgmU9fF1GVWkuuZS+UMWhZe5UDzo7Ul7CFOqSnZD+FsI+cHrJWIT3Wl8MA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyx3DMdz76GrQZLfr/V1Cysses4dx4CkO/vUkOcIOk0xTdNKNow
+ wI+rTDgLxsEpJ8m844eGgO8WO7UlSc7PZAyPphQQdn/AOzFUqg1SPfRAUBnvzKtKAtDLIU1iX6S
+ XYlQHbkx3cZI5NNwdGI7pYyh9ESoP0Fje4hrZ4u7HnB8Pj//u3xQF4xNwIZ27odKjR6Qok4W939
+ oANx0=
+X-Gm-Gg: ASbGnct90dQLUeo+sr0h98RyMLFJ9hrm28OSRZoxjfzx1++AJwPZPGenCIMEeEYDpxA
+ WvXkB4fR7fWAcJzj77wMF7cRMGvD6MTcqnFzqFTTPxr5Mmb3ZpXmZSdaF445Bfi+nLFmZ6kbnFe
+ ZXoLHPd9/SWRY8n0dAYx0aRJn7Nh/+E/wITjhjzhga07N+GAUAgkjy1m+Wi3Pc0+Lvg7PsuJamE
+ +/04p+ii6Yv4MZNHkMC8sWDT4E1VyRRUp0VSGvWAnm625dphbydqQgagJJvCuqFsb5UDI+DnzPr
+ 4/Evy3OJZTi7TSEh6tpjJS9pdPSFlZ2yJcCMsWaB21FUYdc2POP22pJI7MohdpNaDquz6xboLS8
+ d933+zPrB3WZmfoX0fDY=
+X-Received: by 2002:a17:903:388c:b0:269:a4ed:13c3 with SMTP id
+ d9443c01a7336-290272161edmr2236925ad.5.1759850459407; 
+ Tue, 07 Oct 2025 08:20:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEvtqCZgIqPAZF1VGaqwpoCFs09dOwY6K4MD8ALYKP9O+yrxMmdbHcIeQr/kqofot5UmriisA==
+X-Received: by 2002:a17:903:388c:b0:269:a4ed:13c3 with SMTP id
+ d9443c01a7336-290272161edmr2236485ad.5.1759850458968; 
+ Tue, 07 Oct 2025 08:20:58 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-28e8d112797sm167816485ad.22.2025.10.07.08.20.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Oct 2025 08:20:58 -0700 (PDT)
+Message-ID: <28aafc68-4dcf-4a55-9762-c2c3e1ddfe98@oss.qualcomm.com>
+Date: Tue, 7 Oct 2025 09:20:57 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a02a0105aed482a977b06e66391b35e5a6f39cd0.camel@nvidia.com>
-X-Spamd-Result: default: False [-3.50 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_RHS_NOT_FQDN(0.50)[];
- HAS_REPLYTO(0.30)[pvorel@suse.cz];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; TO_DN_EQ_ADDR_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- MISSING_XM_UA(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,kernel.org];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_FIVE(0.00)[5];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:replyto,imap1.dmz-prg2.suse.org:helo]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; REPLYTO_EQ_FROM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.50
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/qaic: Add support to export dmabuf fd
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_pkanojiy@quicinc.com
+References: <20251007053853.193608-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251007053853.193608-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=QtdTHFyd c=1 sm=1 tr=0 ts=68e52fdc cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=qTQW5CXGkwUWSGTXi8sA:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: u438o0V6bX4CdPB3slYEIWhttWpOWJPV
+X-Proofpoint-GUID: u438o0V6bX4CdPB3slYEIWhttWpOWJPV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDEyMSBTYWx0ZWRfXylTdpmzp9XAC
+ shE9h835CZopdQzTBY+cBEqW0eGpA3OvlghxTGQC/Un+Rn69l9R3sFYt1StnGIXvX9sLzfZsTvQ
+ 0ahF5BQoMvCCpyYMxZFDVanhsecE+MdcALX9SGgsm9Q/el9EN5kFHTl2XZSdIeGko60c9RvyoEF
+ m8quhbR4l7dz7tkajNzwSGa+fNDR8ZwshV6+6Bu8y86Ht+4c7i1hLFKAhIztxwCs+kFftOHWM/h
+ MBMBvb24/beEonZYfqrdZKxn0qs8XI3AMBxvXEg9KjGVdU0d0gK9qSVaXBwFxRuEOOwRZXOaWIQ
+ aAaEqY3Lnc4Us5tIW6tJB7naoCyHdx8u+OG3xn2qVGAQpSvnOPw/FerwNUdTTv1c1WPNXHqnHxt
+ xtSPOYtcQ/GuWxbBqBTH2RDqaUDcpA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,44 +123,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Petr Vorel <pvorel@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On 10/6/2025 11:38 PM, Youssef Samir wrote:
+> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> 
+> Add support to export BO as DMABUF to enable userspace to reuse buffers
+> and reduce number of copy.
+> 
+> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+>
 
-> On Tue, 2025-10-07 at 13:31 +1000, Dave Airlie wrote:
-> > We can't do that, because if we moved to 580, and distros have this
-> > option on for 570, they would fail unless they had the 580 firmware,
-> > so it needs to be versioned.
-
-> Hmmm then how about making it a choice of which version to support:
-
-> choice
->   prompt "Firmware version supported"
->   default DRM_NOUVEAU_ANY
-
-You probably know it, in case you don't: DRM_NOUVEAU_ANY needs to be also as
-config:
-
-config DRM_NOUVEAU_ANY
-	bool "Support all firmware versions"
-	...
-
-> config DRM_NOUVEAU_535_ONLY
-> ...
-
-> config DRM_NOUVEAU_535_ONLY
-> ...
-
-> endchoice
-
-+1
-
-> Or something like that.  I can't figure out how choices work, but the idea is that the defconfig
-
-Kind regards,
-Petr
-
-> defaults to allowing all versions, but you can pick a specific one.
-
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
