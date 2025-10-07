@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EDCBC0A7B
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 10:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4A6BC0A81
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 10:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEEB210E5B6;
-	Tue,  7 Oct 2025 08:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA0E10E5BE;
+	Tue,  7 Oct 2025 08:35:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Hq8HOPY5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZCsHGBrQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E21910E5B6
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 08:35:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B45C10E5BC
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 08:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759826124; x=1791362124;
+ t=1759826135; x=1791362135;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=gzWCPLO0v4sckXdmDFYnpOwDJWmvi9R4+FfQM7YYRXA=;
- b=Hq8HOPY5fl/fQ/HT9WrtNuZKmnTf0eeUIaPIfHV5B6lkdi8q/py+khhA
- BEhOH3Wx1kHR4/H6HnjiHMrkPMkVXrfnmCeg5MU1kyaYaQa/DlE46rrM3
- rPRoRgE/z0fDJOJXeIlr25ayqgWh28+8lo9Tzo9IwKvNlyq8D4GbhpeLE
- grRVUivdcw9uA3oO8PM3fRWJ1rwoJNmUeqVSx8LqCDN7QVV83zgA9PQM7
- PnKrhr3QwufeiqLSyIgM34KJ0FX/rGMgIRPyBdsNgQldyt2EAtkYqeh0P
- yOsi/+OcfhgNTJpnHZ7ybpO2FUQyxBG1xputPIab0lgei77W48ogRJcKv w==;
-X-CSE-ConnectionGUID: FfDKFDMXS7uDey/5vE7G3w==
-X-CSE-MsgGUID: vOSSxYPAQneo6llogLsV7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="62167666"
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="62167666"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ bh=8pmra/hB4bacKlQnj3zwucWeAPti1WggCXw1oVGudaI=;
+ b=ZCsHGBrQv0RuGR7arqDw4WdLvH5RS53ALrbHTxlZSt+kBjvTL2ndIvCA
+ 4X1to+7apPYDKMww2IMD51ldj8CO7hSCYmiIyuMer3Ldz6viVEFoTs9Fl
+ AojATOo8GgUVsrBfDIs5H8SkEMsoo9xOqs8cLOpE53i80OcN6qVrZsprs
+ Z9m0AIjtvG4Vo8cXWnoerGq9Uaccion7tb/pjevGRvwTx/8IT96Oixp1H
+ yH9y38XKwdxuvyhz3JrJNBAiIZM73quqD5DJ8F+OqMX65B7/YrYAP2Ttp
+ 2KH3FU2j4SpyYfqdYQUyxUVZ4hRG71e9zaf5VqHSDHk6GH/OOqgAsPjYu A==;
+X-CSE-ConnectionGUID: ykMtkVpmTvu1Jg3LL4yHPw==
+X-CSE-MsgGUID: l/AUbmJzSWuY2UgqE2AJ1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="62167686"
+X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="62167686"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2025 01:35:23 -0700
-X-CSE-ConnectionGUID: kGmprpOTTe+NhITsL4W8Pg==
-X-CSE-MsgGUID: 1zNkA+5LSHSDE+klFqqy1w==
+ 07 Oct 2025 01:35:34 -0700
+X-CSE-ConnectionGUID: iVw9AeovShS8qz15dKlVMg==
+X-CSE-MsgGUID: S4GU4yFzRLiZzgRpbIqaNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="211062252"
 Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2025 01:35:20 -0700
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2025 01:35:32 -0700
 From: Karol Wachowski <karol.wachowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
  maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
+ Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
  Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Trigger engine reset for additional job status
- codes
-Date: Tue,  7 Oct 2025 10:35:11 +0200
-Message-ID: <20251007083511.2817021-1-karol.wachowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Return correct job error status
+Date: Tue,  7 Oct 2025 10:35:27 +0200
+Message-ID: <20251007083527.2817045-1-karol.wachowski@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,46 +67,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 
-Trigger engine reset for any status code in the range.
-This allows to add additional status codes in the future without
-breaking compatibility between the firmware and the driver.
+The driver was returning ABORTED for all error that trigger engine reset.
 
-Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Refactor ivpu_job_signal_and_destroy() by extracting engine error
+handling logic into a new function ivpu_job_handle_engine_error().
+This simplifies engine error handling logic by removing necessity of
+calling ivpu_job_singal_and_destroy() multiple times by a single job
+changing it's behavior based on job status.
+
+Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_job.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/accel/ivpu/ivpu_job.c | 49 ++++++++++++++++++++++++-----------
+ drivers/accel/ivpu/ivpu_job.h |  3 +++
+ 2 files changed, 37 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 17273c68f84c..fd548028f1d6 100644
+index fd548028f1d6..ba4535a75aa7 100644
 --- a/drivers/accel/ivpu/ivpu_job.c
 +++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -574,7 +574,11 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
+@@ -564,25 +564,26 @@ static struct ivpu_job *ivpu_job_remove_from_submitted_jobs(struct ivpu_device *
+ 	return job;
+ }
+ 
+-static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32 job_status)
++bool ivpu_job_handle_engine_error(struct ivpu_device *vdev, u32 job_id, u32 job_status)
+ {
+-	struct ivpu_job *job;
+-
+ 	lockdep_assert_held(&vdev->submitted_jobs_lock);
+ 
+-	job = xa_load(&vdev->submitted_jobs_xa, job_id);
+-	if (!job)
+-		return -ENOENT;
+-
+ 	switch (job_status) {
+ 	case VPU_JSM_STATUS_PROCESSING_ERR:
+ 	case VPU_JSM_STATUS_ENGINE_RESET_REQUIRED_MIN ... VPU_JSM_STATUS_ENGINE_RESET_REQUIRED_MAX:
+ 	{
++		struct ivpu_job *job = xa_load(&vdev->submitted_jobs_xa, job_id);
++
++		if (!job)
++			return false;
++
+ 		/* Trigger an engine reset */
+ 		guard(mutex)(&job->file_priv->lock);
+ 
++		job->job_status = job_status;
++
+ 		if (job->file_priv->has_mmu_faults)
+-			return 0;
++			return false;
+ 
+ 		/*
+ 		 * Mark context as faulty and defer destruction of the job to jobs abort thread
+@@ -591,26 +592,42 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
+ 		 */
+ 		job->file_priv->has_mmu_faults = true;
+ 		queue_work(system_wq, &vdev->context_abort_work);
+-		return 0;
++		return true;
+ 	}
+ 	default:
+ 		/* Complete job with error status, engine reset not required */
+ 		break;
+ 	}
+ 
+-	job = ivpu_job_remove_from_submitted_jobs(vdev, job_id);
++	return false;
++}
++
++static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32 job_status)
++{
++	struct ivpu_job *job;
++
++	lockdep_assert_held(&vdev->submitted_jobs_lock);
++
++	job = xa_load(&vdev->submitted_jobs_xa, job_id);
  	if (!job)
  		return -ENOENT;
  
--	if (job_status == VPU_JSM_STATUS_MVNCI_CONTEXT_VIOLATION_HW) {
-+	switch (job_status) {
-+	case VPU_JSM_STATUS_PROCESSING_ERR:
-+	case VPU_JSM_STATUS_ENGINE_RESET_REQUIRED_MIN ... VPU_JSM_STATUS_ENGINE_RESET_REQUIRED_MAX:
-+	{
-+		/* Trigger an engine reset */
- 		guard(mutex)(&job->file_priv->lock);
- 
- 		if (job->file_priv->has_mmu_faults)
-@@ -589,6 +593,10 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
- 		queue_work(system_wq, &vdev->context_abort_work);
- 		return 0;
- 	}
-+	default:
-+		/* Complete job with error status, engine reset not required */
-+		break;
+-	if (job->file_priv->has_mmu_faults)
+-		job_status = DRM_IVPU_JOB_STATUS_ABORTED;
++	ivpu_job_remove_from_submitted_jobs(vdev, job_id);
++
++	if (job->job_status == VPU_JSM_STATUS_SUCCESS) {
++		if (job->file_priv->has_mmu_faults)
++			job->job_status = DRM_IVPU_JOB_STATUS_ABORTED;
++		else
++			job->job_status = job_status;
 +	}
  
- 	job = ivpu_job_remove_from_submitted_jobs(vdev, job_id);
- 	if (!job)
+-	job->bos[CMD_BUF_IDX]->job_status = job_status;
++	job->bos[CMD_BUF_IDX]->job_status = job->job_status;
+ 	dma_fence_signal(job->done_fence);
+ 
+ 	trace_job("done", job);
+ 	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d cmdq_id %u engine %d status 0x%x\n",
+-		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx, job_status);
++		 job->job_id, job->file_priv->ctx.id, job->cmdq_id, job->engine_idx,
++		 job->job_status);
+ 
+ 	ivpu_job_destroy(job);
+ 	ivpu_stop_job_timeout_detection(vdev);
+@@ -1030,7 +1047,9 @@ ivpu_job_done_callback(struct ivpu_device *vdev, struct ivpu_ipc_hdr *ipc_hdr,
+ 	payload = (struct vpu_ipc_msg_payload_job_done *)&jsm_msg->payload;
+ 
+ 	mutex_lock(&vdev->submitted_jobs_lock);
+-	ivpu_job_signal_and_destroy(vdev, payload->job_id, payload->job_status);
++	if (!ivpu_job_handle_engine_error(vdev, payload->job_id, payload->job_status))
++		/* No engine error, complete the job normally */
++		ivpu_job_signal_and_destroy(vdev, payload->job_id, payload->job_status);
+ 	mutex_unlock(&vdev->submitted_jobs_lock);
+ }
+ 
+diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
+index d2fc4c151614..3ab61e6a5616 100644
+--- a/drivers/accel/ivpu/ivpu_job.h
++++ b/drivers/accel/ivpu/ivpu_job.h
+@@ -51,6 +51,7 @@ struct ivpu_cmdq {
+  * @cmdq_id:             Command queue ID used for submission
+  * @job_id:              Unique job ID for tracking and status reporting
+  * @engine_idx:          Engine index for job execution
++ * @job_status:          Status reported by firmware for this job
+  * @primary_preempt_buf: Primary preemption buffer for job
+  * @secondary_preempt_buf: Secondary preemption buffer for job (optional)
+  * @bo_count:            Number of buffer objects associated with this job
+@@ -64,6 +65,7 @@ struct ivpu_job {
+ 	u32 cmdq_id;
+ 	u32 job_id;
+ 	u32 engine_idx;
++	u32 job_status;
+ 	struct ivpu_bo *primary_preempt_buf;
+ 	struct ivpu_bo *secondary_preempt_buf;
+ 	size_t bo_count;
+@@ -83,6 +85,7 @@ void ivpu_cmdq_abort_all_jobs(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id)
+ 
+ void ivpu_job_done_consumer_init(struct ivpu_device *vdev);
+ void ivpu_job_done_consumer_fini(struct ivpu_device *vdev);
++bool ivpu_job_handle_engine_error(struct ivpu_device *vdev, u32 job_id, u32 job_status);
+ void ivpu_context_abort_work_fn(struct work_struct *work);
+ 
+ void ivpu_jobs_abort_all(struct ivpu_device *vdev);
 -- 
 2.43.0
 
