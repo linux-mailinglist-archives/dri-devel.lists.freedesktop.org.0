@@ -2,108 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C7ABC04F7
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 08:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD07BC051E
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 08:22:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4BB710E023;
-	Tue,  7 Oct 2025 06:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B9E10E554;
+	Tue,  7 Oct 2025 06:22:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nkHgWGw+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="abjo5rzD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E8310E023
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 06:18:40 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5972ruDf015546
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 06:18:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=CvVAhQAfNLcTGM/vG6Rm69/dUho9Nxx7Jaf
- 86sBi5ko=; b=nkHgWGw+89M0BCpEVqUAXsOCTIGSCQMKtZqRCA9HNC0O2I6UvG+
- Ec0IbnaGuChPd7hJvbOQ+o9WRYcmR2cUdkEfJ42gkzJ0YcEJ+5B3PCCq98EtNrd+
- zdOI/qgmb5NJlGxznYXKDGHC5/TXeCnigf3GOpSaI9SXubrd6jkPAsa87NSLnSJw
- kySuMIROyj4tCQVlL7GUc/jvXWkTO4ZEvFHhtsST2yGLyVDq/tMg2XMylLGnQdhS
- +zrPGMCaRsIKZqnF6qnA7x0B2TE/sXTVz6WL6BAxtTHuGZEDlIbOZvaOzvaUgKIP
- ProPa+nKOH8ouAYa74h+bKeLtRGxwtJUwow==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49junu67v4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 06:18:39 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4e576157d54so97205801cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Oct 2025 23:18:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759817919; x=1760422719;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CvVAhQAfNLcTGM/vG6Rm69/dUho9Nxx7Jaf86sBi5ko=;
- b=vRwUk2GAgutEMmtuGYLOjlGxC+A2nn+Z8X/ic6hmvFNmUn+AmFIbhlR1LjntvwpfZS
- ra9AMkVseYaCB9kBDEenhc4iZlgrWAy/4p65AYWGn6NCFqBhQHyRNsod5mN7mf/igXS0
- 7ByezuMAUZ7ei9CWgMTkdfkWqafI+QPPFr1dP3YL2B5B8DI6DSuEfQKz3ebKxeiGBQzQ
- 8k6Sag+5RpB6LHcnt4n55MP4oRaziYmcmyPaK/5hb6nZfc3OKVbSOl/6yV+2Mj86/zAz
- spuU2CPc0Ws3+oOvGZ8+rk1nRDfUfGFZdEpplSoY2KxSwoOqLbtZpxc8ZxoEuUeZ/OgS
- reqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWCR8/ZCbtnpaLGhsmzmuyMPKuadlzqQcHWjN+acBa5sRaZPBa2N6OTawiJjqqFF/sTG6f6JLo09Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyi3XSJGygZRNFgosoGNpkb6x+J2OLrU0tI/ZRvM8Ae3AMG+7gG
- IZZOmoXeeKpglw56aCfIxtaOaE/4uO7E2amNbbmVW8MDWiKss1BUwW8eIIdCRvuxbwk8mVaF4ME
- ziW29U2u1fH+o+CCNkBSLNiM3Iyq26shSOjTIADY8rzAxFrqDzKaq4X3JCb6dwFoHG2kgu8M=
-X-Gm-Gg: ASbGncsZdKYFNsqqnePP/qDMRzpB0I5d2VpXokCRW06geYvm2Gde8KM0W7k6aIV5EGJ
- 0q4qjOCOzqQjpZgSx7S7fbNXM3WVgJUs1NwoeeZ+d+bwkT0zUol6jbmhyhm/GOZtGiOB3kom+wC
- ahxxlZ2MH55QMxPCWqVVPQnUQDZ5odsC5VKUQGXeH4HlsUSOkIuh2ej4s3f88CgQFGgL1UqXroR
- b3M6wIRCRvSrP4CGxlLJjDMI4Wkl3R1oe+EZbRBG5DWOxvX34orjpMFkzomObeUqHEdLQ8Rktb6
- tJlaz4EBOBeOAgkclZt8aWVJgeC8CSegl0R90xt+pKc3ormf6GkBjWzkLWpHF0cutkzi5iIITrV
- M3FVMnOnUZA==
-X-Received: by 2002:a05:622a:2590:b0:4b7:a44f:527e with SMTP id
- d75a77b69052e-4e576b0dea4mr215667881cf.76.1759817918941; 
- Mon, 06 Oct 2025 23:18:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHFJrfWMCsFZ1Rs7jGV7XjlmrBbdRdCEQ8jIKTB0560Sw5sTHLIUZVcwwvmG8Bg0Q6IP6cLtg==
-X-Received: by 2002:a05:622a:2590:b0:4b7:a44f:527e with SMTP id
- d75a77b69052e-4e576b0dea4mr215667711cf.76.1759817918499; 
- Mon, 06 Oct 2025 23:18:38 -0700 (PDT)
-Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-639773d4d8esm5864519a12.30.2025.10.06.23.18.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Oct 2025 23:18:38 -0700 (PDT)
-From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_pkanojiy@quicinc.com
-Subject: [PATCH] accel/qaic: Synchronize access to DBC request queue head &
- tail pointer
-Date: Tue,  7 Oct 2025 08:18:37 +0200
-Message-ID: <20251007061837.206132-1-youssef.abdulrahman@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA0110E554
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 06:22:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2444560539;
+ Tue,  7 Oct 2025 06:22:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF23C4CEF1;
+ Tue,  7 Oct 2025 06:21:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759818122;
+ bh=m9l0GR2ClUtN+ciiYusPN4tTbjjNy3iFq1z02WpEF1I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=abjo5rzDXeCd294Zg+iSQe5/I9Bq95Y6MEc5VEeFGc2NwtAlUWop/7nZpdk9mLR5p
+ Fm1zBEQ7tw+KuITElHfBr6J6wtlXJVjiygbFgvv/5i76dsMk32xbl+qpTAFRomhNbR
+ FUX2Lkav/a7XJNNiR6JBT8Nnk/HhKii0H/mcLnCB4AMwmzmPXe0Xe6m0qkye4UL1L9
+ xTJmamK5ON3lgECZ3QWOTTQ4e3Ptsuj4Ek+4dewQ/e+2Ev58QZbQp7mvOiWcVscWuP
+ +fffNhZ1qHdrACOy13QITaY02r4OhXeKwTtcGMMewoHf2bXGGJQJ1p9r5riVmC2PKU
+ 332zR9eT/zfmw==
+Message-ID: <e2511655-1907-42db-bed5-8943a8c835c2@kernel.org>
+Date: Tue, 7 Oct 2025 15:21:53 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/6] dt-bindings: display: mediatek: disp-tdshp: Add
+ support for MT8196
+To: =?UTF-8?B?SmF5IExpdSAo5YiY5Y2aKQ==?= <Jay.Liu@mediatek.com>
+Cc: "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20250808125512.9788-1-jay.liu@mediatek.com>
+ <20250808125512.9788-5-jay.liu@mediatek.com>
+ <20250811-boisterous-skinny-ammonite-a4ca7b@kuoka>
+ <ee7b16097fbc7c5cc6b8c3163447d48ead0d44f5.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <ee7b16097fbc7c5cc6b8c3163447d48ead0d44f5.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: yJdNhUI_sh56HoiEKSCmKB119jvGcb91
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyMyBTYWx0ZWRfX+sexK7w0dPEh
- KZeFFI7sTmFd+m5kJLExBIfq1BEVWQvLmXk/vvKnKoHwly96GZWUXKxxQnUXOkXGdK79cU5Kaj/
- 1ZY0byEEBFwQoCvOcnxJ69pzSH0algaLco/lAqJ6eroVlVb0D44IuFmDMDITxLX5tIJrgF7Qqpd
- MNm1z3m1gR8hlFAlPbtJEVCyMXn+O3hyBNWX8NotgSxbL2QHKJtUhT/moj7RG3PnuXjmRdHB/Et
- JagAoQAvn2y5vp9Jrud9/Cs7akYy8CQkuPdgL0qMv0LWJJpZ62WYUKUf4l8A9QXQG1rAKqdMQ9G
- //TbJoMMq2LxEQppDjHgddq4EHQug0DVNLr9qA+jy/b+Qb2P0IwBZOfN/gYgIzcVKcv25GWCAXn
- sKORv+p4SeB7Eut2bQZNYMDzxRVdSA==
-X-Authority-Analysis: v=2.4 cv=CbIFJbrl c=1 sm=1 tr=0 ts=68e4b0bf cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=L090aUOemVNa8NMnONAA:9
- a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: yJdNhUI_sh56HoiEKSCmKB119jvGcb91
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040023
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,94 +121,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+On 21/09/2025 13:39, Jay Liu (刘博) wrote:
+>>> +
+>>> +maintainers:
+>>> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+>>> +  - Philipp Zabel <p.zabel@pengutronix.de>
+>>> +
+>>> +description: |
+>>> +  MediaTek display 2D sharpness processor, namely TDSHP, provides
+>>> a
+>>> +  operation used to adjust sharpness in display system.
+>>> +  TDSHP device node must be siblings to the central MMSYS_CONFIG
+>>> node.
+>>
+>> Heh? Why would this have to be a sibling? This is really odd, because
+>> you cannto actually rely on that.
+>>
+> hi Krzysztof,
+> disp-tdshp is one of components of display pipeline. just like OVL,
+> color, etc. MMSYS_CONFIG controls the clock of display pipeline,
 
-Two threads of the same process can potential read and write parallelly to
-head and tail pointers of the same DBC request queue. This could lead to a
-race condition and corrupt the DBC request queue.
 
-Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
----
- drivers/accel/qaic/qaic.h      |  2 ++
- drivers/accel/qaic/qaic_data.c | 12 ++++++++++--
- drivers/accel/qaic/qaic_drv.c  |  3 +++
- 3 files changed, 15 insertions(+), 2 deletions(-)
+Read feedback again.
 
-diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-index c31081e42cee..820d133236dd 100644
---- a/drivers/accel/qaic/qaic.h
-+++ b/drivers/accel/qaic/qaic.h
-@@ -97,6 +97,8 @@ struct dma_bridge_chan {
- 	 * response queue's head and tail pointer of this DBC.
- 	 */
- 	void __iomem		*dbc_base;
-+	/* Synchronizes access to Request queue's head and tail pointer */
-+	struct mutex		req_lock;
- 	/* Head of list where each node is a memory handle queued in request queue */
- 	struct list_head	xfer_list;
- 	/* Synchronizes DBC readers during cleanup */
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index 797289e9d780..c4f117edb266 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -1356,13 +1356,17 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
- 		goto release_ch_rcu;
- 	}
- 
-+	ret = mutex_lock_interruptible(&dbc->req_lock);
-+	if (ret)
-+		goto release_ch_rcu;
-+
- 	head = readl(dbc->dbc_base + REQHP_OFF);
- 	tail = readl(dbc->dbc_base + REQTP_OFF);
- 
- 	if (head == U32_MAX || tail == U32_MAX) {
- 		/* PCI link error */
- 		ret = -ENODEV;
--		goto release_ch_rcu;
-+		goto unlock_req_lock;
- 	}
- 
- 	queue_level = head <= tail ? tail - head : dbc->nelem - (head - tail);
-@@ -1370,11 +1374,12 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
- 	ret = send_bo_list_to_device(qdev, file_priv, exec, args->hdr.count, is_partial, dbc,
- 				     head, &tail);
- 	if (ret)
--		goto release_ch_rcu;
-+		goto unlock_req_lock;
- 
- 	/* Finalize commit to hardware */
- 	submit_ts = ktime_get_ns();
- 	writel(tail, dbc->dbc_base + REQTP_OFF);
-+	mutex_unlock(&dbc->req_lock);
- 
- 	update_profiling_data(file_priv, exec, args->hdr.count, is_partial, received_ts,
- 			      submit_ts, queue_level);
-@@ -1382,6 +1387,9 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
- 	if (datapath_polling)
- 		schedule_work(&dbc->poll_work);
- 
-+unlock_req_lock:
-+	if (ret)
-+		mutex_unlock(&dbc->req_lock);
- release_ch_rcu:
- 	srcu_read_unlock(&dbc->ch_lock, rcu_id);
- unlock_dev_srcu:
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index e31bcb0ecfc9..e162f4b8a262 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -454,6 +454,9 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev,
- 			return NULL;
- 		init_waitqueue_head(&qdev->dbc[i].dbc_release);
- 		INIT_LIST_HEAD(&qdev->dbc[i].bo_lists);
-+		ret = drmm_mutex_init(drm, &qdev->dbc[i].req_lock);
-+		if (ret)
-+			return NULL;
- 	}
- 
- 	return qdev;
--- 
-2.43.0
+Unfortunately Mediatek produces way too many poor quality patches and
+review has so many obstacles like not addressing the comments. Example
+above. You need to pay more attention and invest more time, before
+pinging or replying to maintainers.
 
+> 
+>> You just added unverifiable unusual ABI with no explanation.
+
+Best regards,
+Krzysztof
