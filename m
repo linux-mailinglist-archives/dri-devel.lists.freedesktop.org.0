@@ -2,94 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB0FBC1F56
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C3FBC1F89
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E36710E6DE;
-	Tue,  7 Oct 2025 15:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6CB10E6D5;
+	Tue,  7 Oct 2025 15:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mVmqv1/X";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OgWsgG8/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4AA10E6DE
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:41:05 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-71d603acc23so70820997b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 08:41:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759851664; x=1760456464; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=FaFNh20XxOdj2oQlwRRyR9v75gYMq+FkiOKklphUgxg=;
- b=mVmqv1/X04O8Qjb97KYfk5ljI7LVl83SdwYb71TWQKDRibogq3GxlTQwqEOxdN90sM
- XIoeXBn+501miIglcKzhr8PZC0mhBGACGqWMxo6+t103lFrawfNIrw870lvJd3NtitVu
- xeCj7etCpzF0zyO6H80PWwB2uddzbMi3yuz0WNgeiq+OPVmbWZE3/aLImK8v8W9iJris
- 1MLlFtr9dhoaDctCMYI3q3AdRtJZdcLvIdEJw2fQVHRPv0Pv2Ci4wcZFRgf/k17sNC7I
- 6oAgVT4INfHaUV5OLzovdfv23lbA/hp/zOuSvwH7YODA7NTxsQpIzqe3vxlwkIIpjIzE
- jkSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759851664; x=1760456464;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FaFNh20XxOdj2oQlwRRyR9v75gYMq+FkiOKklphUgxg=;
- b=EgaHVd4qHbekSIJ0RX9pOoHK8W06B/vhRVBC3+xCO079Bb/1mHn/BNLGLUL8A28fMK
- AQxcV8iTkRrX+h+jJHbzp7CFsSi7Eck9gwGH0VgajzPCM/gD72Iy3cqSwUjaTiW8la4+
- 4nptMeQR7QmnzLsNZ0VwVxVGi/8XUOL9rySRIUlGb2PlAffMT+Kgr3CXPIBy6dZeJxRi
- 4ioED+xSSUZDUGrRUr4rGIKp981q5Z99eAOmRQEURWsD/LwNLYLnexv0XZqeAkk6r0S6
- t8OJ3Dtx4KdyH7W8lvecnKIfbOM4dNnV/JeDZQPcIfEAj8uLxTplvZsNbr4kxkbfFihr
- hAPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTRrAbig/y6+OlxOtXD5MZPJ4HbSk7VLIUpAC2oDJnoqmQ8RLnq5mqw8ZJMStBglIHqdhf7A1QAoY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyoX3A0YrLQzEPBTvgtnX7MGhGnbdPTqY3ynOD/4tawywaydOFq
- tmA6abSpoe3qQFcCbtH4uOEgC3VnMha2JUS2eEyXAxbvMfZLy6LpTiWE
-X-Gm-Gg: ASbGncubj8caPx5MGXMVcdaVXL4Kvr6tamgPbPTkEl1KNefXHdNwpDMDgu5OQAatTdn
- PAQwPM8f+2Q5csR9EZ5acNdzAwuF7mkCrOdR8gKWoAUCIm9pGpP7wwA9DbvayJKrgIQ2gx/pANx
- v3y4di+o/ShOzQiUmmKe+LpOQXW6fb6jR0vVnPEabsvgcerGrGt6LFdH1gsT1x4KpUar13TOA53
- C892J5HIw0M4lXcBHMOtztMicdO4CaGZCnSjI/cfOwN4QbcZW8N61bbhIjLUO7pFHT8bOKcNX82
- Mv3saD67FN3QLiyqgWW0xxy8r0r+Rlpoebaz1SgNgfJRDWKEebBCnqfhh4L9+4T7Mo1FZ/sIz9w
- oHNXzZn0tqPHQ6QLsnC1ahJ7PdbGhmjw6C7ApwWX+kGCaDkI7v9XQQCuODcVhhCvUPhjgYYaQim
- lizMM=
-X-Google-Smtp-Source: AGHT+IEkcHgYm3I1MFNRw2OsYxWZ79jw7Dqd1n6B3m6dIb5JmohqIcLJaaJ9AQ+WvnlX2m3w3mdRiA==
-X-Received: by 2002:a05:690c:688d:b0:768:70a1:46c2 with SMTP id
- 00721157ae682-780e15f2ee7mr2747787b3.48.1759851664152; 
- Tue, 07 Oct 2025 08:41:04 -0700 (PDT)
-Received: from localhost (c-73-105-0-253.hsd1.fl.comcast.net. [73.105.0.253])
- by smtp.gmail.com with ESMTPSA id
- 00721157ae682-77f81d342basm54065697b3.48.2025.10.07.08.41.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Oct 2025 08:41:03 -0700 (PDT)
-Date: Tue, 7 Oct 2025 11:41:02 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v6 0/5] Introduce bitfield and move register macro to
- rust/kernel/
-Message-ID: <aOU0joJQZiU61GBB@yury>
-References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
- <aORCwckUwZspBMfv@yury> <DDC0VAHL5OCP.DROT6CPKE5H5@nvidia.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B7010E1C2;
+ Tue,  7 Oct 2025 15:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1759851875;
+ bh=tdvi4W0xjX37x+KyKt5JT1k5u+Wzab6OWefO1NyCTMc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=OgWsgG8/2zlJTXxDwMQaGCO9N4mZ2PHYuIKJfKDy/qtc5dnikAJwJn7AHudLWcNmr
+ qcCbRrqte4yOi/ab4r6sKUP98DIeF5mSYzzKZ8fwZJvZTqZRbVTh1YfIxptw7Vkm5K
+ nD6ty+pwCnfAfyR3l5cwMiHD0QVhIjospljKQ1/MUL3z1blLmqIUPT9KnrmKnePkIU
+ rBUWDo49xHg5ZYISCSWSzK88XviPtVfpRGjcwf3OTnrzzamwj6e/k/5O1B9BdWTUEj
+ x15i9hUBUt92SONWztJfCm1DqkWRZDyqe1faitrUCXS6recp8ClqE386PBCl8Msarj
+ ag3zuuzuTuJMA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 49DBC17E10B7;
+ Tue,  7 Oct 2025 17:44:34 +0200 (CEST)
+Date: Tue, 7 Oct 2025 17:44:29 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Philipp Stanner <phasta@mailbox.org>, phasta@kernel.org, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ intel-xe@lists.freedesktop.org, cgroups@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Leo Liu <Leo.Liu@amd.com>, =?UTF-8?B?TWHDrXJh?=
+ Canal <mcanal@igalia.com>, Matthew Brost <matthew.brost@intel.com>, Michal
+ =?UTF-8?B?S291dG7DvQ==?= <mkoutny@suse.com>, Michel =?UTF-8?B?RMOkbnpl?=
+ =?UTF-8?B?cg==?= <michel.daenzer@mailbox.org>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>, Rob Clark <robdclark@gmail.com>,
+ Tejun Heo <tj@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu
+ Dudau <liviu.dudau@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Boqun Feng <boqunf@netflix.com>,
+ =?UTF-8?B?R3LDqWdvaXJlIFDDqWFu?= <gpean@netflix.com>, Simona Vetter
+ <simona@ffwll.ch>, airlied@gmail.com
+Subject: Re: [RFC v8 00/21] DRM scheduling cgroup controller
+Message-ID: <20251007174429.0fc0ad84@fedora>
+In-Reply-To: <aa7dedae-8f31-49f9-ad73-009cb8550b93@kernel.org>
+References: <20250903152327.66002-1-tvrtko.ursulin@igalia.com>
+ <DD5CCG4MIODH.1718JI1Z7GH8T@kernel.org>
+ <4453e5989b38e99588efd53af674b69016b2c420.camel@mailbox.org>
+ <20250930121229.4f265e0c@fedora>
+ <DD62YFG2CJ36.1NFKRTR2ZKD6V@kernel.org>
+ <20250930135736.02b69c65@fedora>
+ <aa7dedae-8f31-49f9-ad73-009cb8550b93@kernel.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DDC0VAHL5OCP.DROT6CPKE5H5@nvidia.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,75 +86,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 07, 2025 at 07:36:21PM +0900, Alexandre Courbot wrote:
-> Hi Yuri,
+On Tue, 7 Oct 2025 16:44:59 +0200
+Danilo Krummrich <dakr@kernel.org> wrote:
+
+> On 9/30/25 1:57 PM, Boris Brezillon wrote:
+> > Can you remind me what the problem is? I thought the lifetime issue was
+> > coming from the fact the drm_sched ownership model was lax enough that
+> > the job could be owned by both drm_gpu_scheduler and drm_sched_entity
+> > at the same time.  
 > 
-> On Tue Oct 7, 2025 at 7:29 AM JST, Yury Norov wrote:
-> <snip>
-> > Regardless, I don't think that this is the right path to move the
-> > bitfields into the core. The natural path for a feature that has
-> > been originally developed on driver side is to mature in there and
-> > get merged to core libraries after a while. Resctrl from Intel is one
-> > recent example.
-> >
-> > With that said, I'm OK if you move the bitfields as a whole, like you
-> > do in v5, and I'm also OK if you split out the part essential for nova
-> > and take it into the driver. In that case the bitfields will stay in 
-> > drivers and you'll be able to focus on the features that _you_ need,
-> > not on generic considerations.
-> >
-> > I'm not OK to move bitfields in their current (v6) incomplete form in
-> > rust/kernel. We still have no solid understanding on the API and
-> > implementation that we've been all agreed on.
+> I don't think that's (directly) a thing from the perspective of the drm_sched
+> design. A job should be either in the entity queue for the pending_list of the
+> scheduler.
 > 
-> Initially the plan was indeed to give this code some more time to mature
-> in nova-core before moving it out.
+> However, different drivers do implement their own lifetime (and ownership) model
+> on top of that, because they ultimately have to deal with jobs being either tied
+> to the entity or the scheduler lifetime, which is everything else but strait
+> forward in error cases and tear down paths.
 > 
-> The reason for the early move is that we have another driver (Tyr) who
-> wants to start using the register macro. Without it, they would be left
-> with the option of either reinventing the wheel, or poking at registers
-> the old-fashioned way, which I think we can agree is not going to be any
-> safer than the current macro. :)
+> And the fundamental problem why drivers implement their own rules on top of this
+> is because it is hard to deal with jobs being tied to entirely different
+> lifetime model depending on their state.
 > 
-> IIUC your remaining concern is with the possible loss of data when
-> setting a field that is smaller than its primitive type? That should be
-> addressed by [0], but as it introduces a new core feature I expect some
-> discussion to take place before it can be merged. In the meantime, it
-> would be great if we can make the register macro available.
+> So, what I'm saying is that from the perspective of the component itself it's
+> probably fine, but for the application in drivers it's the root cause for a lot
+> of the hacks we see on top of the scheduler in drivers.
 > 
-> Because letting it fully mature within nova-core also has the drawback
-> that we might miss the perspective of other potential users, which may
-> make us draw ourselves into a corner that will make the macro less
-> useful generally speaking. We are at a stage where we can still make
-> design changes if needed, but we need to hear from other users, and
-> these won't come as long as the macro is in nova-core.
+> Some of those hacks even make their way into the scheduler [1].
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/scheduler/sched_main.c#L1439
+> 
+> >> Instead, I think the new Jobqueue should always own and always dispatch jobs
+> >> directly and provide some "control API" to be instructed by an external
+> >> component (orchestrator) on top of it when and to which ring to dispatch jobs.  
+> > 
+> > Feels to me that we're getting back to a model where the JobQueue needs
+> > to know about the upper-layer in charge of the scheduling. I mean, it
+> > can work, but you're adding some complexity back to JobQueue, which I
+> > was expecting to be a simple FIFO with a dep-tracking logic.  
+> 
+> Yes, the Jobqueue would need an interface to the orchestrator. I rather have the
+> complexity encapsulated in the Jobqueue, rather than pushing the complexity to
+> drivers by having a more complex lifetime and ownership model that leaks into
+> drivers as mentioned above.
+> 
+> > I have a hard time seeing how it can fully integrate in this
+> > orchestrator model. We can hook ourselves in the JobQueue::run_job()
+> > and schedule the group for execution when we queue a job to the
+> > ringbuf, but the group scheduler would still be something on the side.  
+> 
+> Can you please expand a bit more on the group model?
+> 
+> My understanding is that you have a limited number of firmware rings (R) and
+> each of those rings has N slots, where N is the number of queue types supported
+> by the GPU.
 
-Hi Alexandre,
+Honestly, the naming is a bit confusing, because for us, the ring
+buffer is what gets attached to each queue and contains the jobs to be
+executed on that queue. But other than this naming issue, that's pretty
+much it, yes.
 
-Thanks for the broader perspective.
+> 
+> So, you need something that can schedule "groups" of queues over all available
+> firmware rings, because it would be pointless to schedule each individual queue
+> independently, as a firmware ring has slots for each of those. Is that correct?
 
-So if there's another user for register!(), then yeah - it's worth to
-move it out of the nova earlier. It doesn't mean that we need to split
-bitfields out of it immediately.
- 
-> [0] https://lore.kernel.org/rust-for-linux/20251002-bounded_ints-v1-0-dd60f5804ea4@nvidia.com/
-
-This resembles the _BitInt from C23 standard, and it looks quite
-reasonable to me. I'll get back to your RFC shortly.
-
-https://en.cppreference.com/w/c/language/arithmetic_types.html
-
---
-
-I'm glad that we started this discussion. From my point, what happens now
-is inventing the whole new language, and basic bit operations is the heart
-of it.
-
-I would really like to avoid adopting an API that will frustrate people
-for decades after invention. Please read the following rant to taste
-exactly what I mean:
-
-https://lore.kernel.org/all/CAHk-=whoOUsqPKb7OQwhQf9H_3=5sXGPJrDbfQfwLB3Bi13tcQ@mail.gmail.com/
-
-Thanks,
-Yury
+It's not just that it would be pointless, it's not even an option,
+because there are inter-queue synchronization mechanisms that only work
+if the queues belong to the same group.
