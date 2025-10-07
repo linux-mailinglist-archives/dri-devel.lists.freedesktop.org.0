@@ -2,89 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D48BC0C81
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 10:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EE7BC0CBD
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 10:58:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BADA10E5B7;
-	Tue,  7 Oct 2025 08:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C11410E077;
+	Tue,  7 Oct 2025 08:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NSa1fb+m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5oCTVcZK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NSa1fb+m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5oCTVcZK";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hwOzE82p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MKjjC1m5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hwOzE82p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MKjjC1m5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA0B10E5B7
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 08:51:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C96B910E077
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 08:58:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4F7541F7B7;
- Tue,  7 Oct 2025 08:51:30 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7844B224E9;
+ Tue,  7 Oct 2025 08:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1759827090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1759827532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tbJTJpLwjBmXuAyfWKpVEI1MdnKtyIlz2dYDnFjI3gQ=;
- b=NSa1fb+mroZbWuVXq6mZWIU5oS5c7U1Wk207zvfWPHTGbvMp8usgqkU/VVJ0xtKMJxCzVB
- D+NJDP2EVPWiqarCiFlnxFBcjww1Q0ozeipCWjCzWMCZJQRePgUUxtbvH/LJJDsjRRe77H
- 8KnhlifmhERrFIOZirHK1rJ+XOwbzsg=
+ bh=pVWDZ3aQOBqjBdBa7geF/0I0mRQxaxWEpypNj3U5CSI=;
+ b=hwOzE82pVqJsXjzWrqPoiVVHOkivvZskxjb9FbrqQw1dX+CD50gVVmrIQ4RDKM83bTeMMP
+ jmwC5loi3pnsr6f/ASxssKlIHQ0Eph4C3/B3VZbuOPMc8BUDodDOF5V5Bya+95TqnWujTW
+ mmyAy0MnWjeC3mYDWpB5qmBnqikxHA4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1759827090;
+ s=susede2_ed25519; t=1759827532;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tbJTJpLwjBmXuAyfWKpVEI1MdnKtyIlz2dYDnFjI3gQ=;
- b=5oCTVcZK4x7g2SpV47mf3wL9bi/YYKBhz1U36JYYo8xMXG2k2qFVZGDNa0icOqm0Pb3pX3
- HECwi8r4Mu0aTXBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=pVWDZ3aQOBqjBdBa7geF/0I0mRQxaxWEpypNj3U5CSI=;
+ b=MKjjC1m56v1OoxjPMiDT8OVTluHgiBBmz4gyrLs9iUbQ/kr34PnDy8fDFOG0uJOXz11mIs
+ QkQOjtkt//5QawCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hwOzE82p;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MKjjC1m5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1759827090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1759827532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tbJTJpLwjBmXuAyfWKpVEI1MdnKtyIlz2dYDnFjI3gQ=;
- b=NSa1fb+mroZbWuVXq6mZWIU5oS5c7U1Wk207zvfWPHTGbvMp8usgqkU/VVJ0xtKMJxCzVB
- D+NJDP2EVPWiqarCiFlnxFBcjww1Q0ozeipCWjCzWMCZJQRePgUUxtbvH/LJJDsjRRe77H
- 8KnhlifmhERrFIOZirHK1rJ+XOwbzsg=
+ bh=pVWDZ3aQOBqjBdBa7geF/0I0mRQxaxWEpypNj3U5CSI=;
+ b=hwOzE82pVqJsXjzWrqPoiVVHOkivvZskxjb9FbrqQw1dX+CD50gVVmrIQ4RDKM83bTeMMP
+ jmwC5loi3pnsr6f/ASxssKlIHQ0Eph4C3/B3VZbuOPMc8BUDodDOF5V5Bya+95TqnWujTW
+ mmyAy0MnWjeC3mYDWpB5qmBnqikxHA4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1759827090;
+ s=susede2_ed25519; t=1759827532;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tbJTJpLwjBmXuAyfWKpVEI1MdnKtyIlz2dYDnFjI3gQ=;
- b=5oCTVcZK4x7g2SpV47mf3wL9bi/YYKBhz1U36JYYo8xMXG2k2qFVZGDNa0icOqm0Pb3pX3
- HECwi8r4Mu0aTXBg==
+ bh=pVWDZ3aQOBqjBdBa7geF/0I0mRQxaxWEpypNj3U5CSI=;
+ b=MKjjC1m56v1OoxjPMiDT8OVTluHgiBBmz4gyrLs9iUbQ/kr34PnDy8fDFOG0uJOXz11mIs
+ QkQOjtkt//5QawCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2258813693;
- Tue,  7 Oct 2025 08:51:30 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D495613693;
+ Tue,  7 Oct 2025 08:58:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id HDT0BpLU5GjZQwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Oct 2025 08:51:30 +0000
-Content-Type: multipart/mixed; boundary="------------BKHzetE687peU8NbqM0brEVV"
-Message-ID: <e0104f10-9230-41e5-acd1-4ca95c38220e@suse.de>
-Date: Tue, 7 Oct 2025 10:51:29 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id nJkPMkrW5GgXRgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 07 Oct 2025 08:58:50 +0000
+Message-ID: <bef19ef2-b22d-4adb-9513-b267d0e53330@suse.de>
+Date: Tue, 7 Oct 2025 10:58:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: AST2500 BMC video output disabled by reboot (regression)
-To: Nick Bowler <nbowler@draconx.ca>
-Cc: Doug Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, regressions@lists.linux.dev
-References: <wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi>
- <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
- <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
- <ef6558a9-c44a-4c66-967c-187f260f73e1@suse.de>
- <xeipdyk2i2lpkg4rrvz4cl2l3ch62sl4zoa73qvlms3ek3zkci@y7xqbgjulaet>
- <cox6kpackepnunrlhpsssvgdmjd24477cc7mide52xptmmoxyr@ijjotb3xju3v>
- <f1de37ae-2ae4-4513-98fd-18617016704a@suse.de>
- <5949fd73-3ca4-4bd9-8092-2d9923dcbfd3@suse.de>
- <qjyncqymjja57h2wxxv3ebuqpip5qu7yjalccons5xmtzfw5h5@m3u4rvbqzcxt>
+Subject: Re: [PATCH v3] drm/gud: Use kmalloc_array() instead of kmalloc()
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, mingo@kernel.org, tglx@linutronix.de, jfalempe@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ rubenru09@aol.com, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251007083320.29018-1-mehdi.benhadjkhelifa@gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -111,25 +111,38 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <qjyncqymjja57h2wxxv3ebuqpip5qu7yjalccons5xmtzfw5h5@m3u4rvbqzcxt>
+In-Reply-To: <20251007083320.29018-1-mehdi.benhadjkhelifa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.20 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_BASE64_TEXT(0.10)[];
- MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+,1:+,2:+,3:+]; ARC_NA(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
- HAS_ATTACHMENT(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Score: -3.20
+X-Rspamd-Queue-Id: 7844B224E9
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,linutronix.de,redhat.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com,kernel.org,aol.com,lists.linuxfoundation.org];
+ RCVD_COUNT_TWO(0.00)[2];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,55 +158,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------BKHzetE687peU8NbqM0brEVV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
 Hi
 
-Am 04.10.25 um 02:31 schrieb Nick Bowler:
-> On Wed, Oct 01, 2025 at 09:26:28AM +0200, Thomas Zimmermann wrote:
->> Am 18.09.25 um 13:17 schrieb Thomas Zimmermann:
->>> Am 18.09.25 um 04:04 schrieb Nick Bowler:
->>>> On Wed, Sep 17, 2025 at 11:14:45AM -0400, Nick Bowler wrote:
->>>>> On Fri, Aug 29, 2025 at 03:07:14PM +0200, Thomas Zimmermann wrote:
->>>>>> The ast driver doesn't do much during shutdown. Could you
->>>>>> please out-comment the lines at either [2] xor [3] and report
->>>>>> on either effect?
-> [...]
->>>>>> [2] https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L835
->>>>>> [3] https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L839
-> [...]
->>>>     - Deleting [3] (only) appears sufficient to make things work again,
->>>>       that is, deleting the following line in ast_mode.c:
->>>>
->>>>         ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
->>> Please test if the attached patch fixes the problem for you.
->> Have you been able to test the patch?
-> In the normal scenario where everything is working and I reboot, then
-> the display remains on for the firmware (this would seem to be an
-> improvement).
+Am 07.10.25 um 10:32 schrieb Mehdi Ben Hadj Khelifa:
+> Replace kmalloc with kmalloc array in drm/gud/gud_pipe.c since the
+> calculation inside kmalloc is dynamic 'width * height'
 >
-> But it introduces a new problem: the screen no longer turns back on if
-> I boot the patched kernel from the "display off" state.  The unpatched
-> 6.17 kernel would at least turn the display back on from this.
-> Furthermore, rebooting from this state keeps the display off.
->
-> The earlier change [3] above has no such problems.
+> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
 
-Thanks again for testing. Looks like your BMC is especially picky about 
-these settings. :)
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Attached are two patches; each trying to eliminate one of the possible 
-causes. Could you please test them individually and report the results?
+As Ruben already acked the previous patch, you should add such acks to 
+any later patches. But no need to resend a new iteration now. I'll add 
+Ruben's a-b when I merge the patch.
 
 Best regards
 Thomas
 
+> ---
+> Changelog:
 >
-> Thanks,
->    Nick
+> Changes since v2:
+> -Reversed width and height in parameter order.
+> Link:https://lore.kernel.org/all/20250923085144.22582-1-mehdi.benhadjkhelifa@gmail.com/
+> Changes since v1:
+> - Use of width as element count and height as size of element to
+> eliminate the mentionned calculation and overflow issues.
+> Link:https://lore.kernel.org/all/20250922174416.226203-1-mehdi.benhadjkhelifa@gmail.com/
+>   drivers/gpu/drm/gud/gud_pipe.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+> index 8d548d08f127..c32a798ccadf 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -70,7 +70,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
+>   	height = drm_rect_height(rect);
+>   	len = drm_format_info_min_pitch(format, 0, width) * height;
+>   
+> -	buf = kmalloc(width * height, GFP_KERNEL);
+> +	buf = kmalloc_array(height, width, GFP_KERNEL);
+>   	if (!buf)
+>   		return 0;
+>   
 
 -- 
 --
@@ -205,116 +212,3 @@ GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
 HRB 36809 (AG Nuernberg)
 
 
---------------BKHzetE687peU8NbqM0brEVV
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-ast-Use-VGACR17-sync-enable-and-VGACRB6-sync-off.patch"
-Content-Disposition: attachment;
- filename*0="0001-ast-Use-VGACR17-sync-enable-and-VGACRB6-sync-off.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSAzZWE5MTc2MmFkMDc3ZjQ5MTQzYWU2Y2JmNDgwMjAzODZhMmVjYzY1IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogVGh1LCAxOCBTZXAgMjAyNSAwOTo1MDoyOCArMDIwMApTdWJqZWN0
-OiBbUEFUQ0hdIGFzdDogVXNlIFZHQUNSMTcgc3luYyBlbmFibGUgYW5kIFZHQUNSQjYgc3lu
-YyBvZmYKCkJsYW5rIHRoZSBkaXNwbGF5IGJ5IGRpc2FibGluZyBzeW5jIHB1bHNlcyB3aXRo
-IFZHQUNSMTc8Nz4uIFNvbWUKQk1DJ3MgZG9uJ3QgaGFuZGxlIFZHQUNSQjYgY29ycmVjdGx5
-LiBBbmQgZG9uJ3QgbW9kaWZ5IFZHQVNSMSdzIFNECmJpdCwgd2hpY2ggb25seSBkaXNhYmxl
-cyBHUFUgYWNjZXNzIHRvIFZSQU0uCi0tLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9k
-ZS5jIHwgMTggKysrKysrKysrKy0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9y
-ZWcuaCAgfCAgMSArCiAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDggZGVs
-ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5j
-IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmluZGV4IDZiOWQ1MTBjNTA5ZC4u
-ZmU4MDg5MjY2ZGI1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2Rl
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBAIC04MzYsMjIgKzgz
-NiwyNCBAQCBhc3RfY3J0Y19oZWxwZXJfYXRvbWljX2ZsdXNoKHN0cnVjdCBkcm1fY3J0YyAq
-Y3J0YywKIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2hlbHBlcl9hdG9taWNfZW5hYmxlKHN0cnVj
-dCBkcm1fY3J0YyAqY3J0Yywgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogewog
-CXN0cnVjdCBhc3RfZGV2aWNlICphc3QgPSB0b19hc3RfZGV2aWNlKGNydGMtPmRldik7CisJ
-dTggdmdhY3IxNyA9IDB4MDA7CisJdTggdmdhY3JiNiA9IDB4MDA7CiAKLQlhc3Rfc2V0X2lu
-ZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQUNSSSwgMHhiNiwgMHhmYywgMHgwMCk7Ci0J
-YXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19WR0FTUkksIDB4MDEsIDB4ZGYs
-IDB4MDApOworCXZnYWNyMTcgfD0gQVNUX0lPX1ZHQUNSMTdfU1lOQ19FTkFCTEU7CisJdmdh
-Y3JiNiAmPSB+KEFTVF9JT19WR0FDUkI2X1ZTWU5DX09GRiB8IEFTVF9JT19WR0FDUkI2X0hT
-WU5DX09GRik7CisKKwlhc3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQUNS
-SSwgMHgxNywgMHg3ZiwgdmdhY3IxNyk7CisJYXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3Qs
-IEFTVF9JT19WR0FDUkksIDB4YjYsIDB4ZmMsIHZnYWNyYjYpOwogfQogCiBzdGF0aWMgdm9p
-ZCBhc3RfY3J0Y19oZWxwZXJfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9jcnRjICpjcnRj
-LCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpCiB7CiAJc3RydWN0IGRybV9jcnRj
-X3N0YXRlICpvbGRfY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29sZF9jcnRjX3N0YXRl
-KHN0YXRlLCBjcnRjKTsKIAlzdHJ1Y3QgYXN0X2RldmljZSAqYXN0ID0gdG9fYXN0X2Rldmlj
-ZShjcnRjLT5kZXYpOwotCXU4IHZnYWNyYjY7CisJdTggdmdhY3IxNyA9IDB4ZmY7CiAKLQlh
-c3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQVNSSSwgMHgwMSwgMHhkZiwg
-QVNUX0lPX1ZHQVNSMV9TRCk7Ci0KLQl2Z2FjcmI2ID0gQVNUX0lPX1ZHQUNSQjZfVlNZTkNf
-T0ZGIHwKLQkJICBBU1RfSU9fVkdBQ1JCNl9IU1lOQ19PRkY7Ci0JYXN0X3NldF9pbmRleF9y
-ZWdfbWFzayhhc3QsIEFTVF9JT19WR0FDUkksIDB4YjYsIDB4ZmMsIHZnYWNyYjYpOworCXZn
-YWNyMTcgJj0gfkFTVF9JT19WR0FDUjE3X1NZTkNfRU5BQkxFOworCWFzdF9zZXRfaW5kZXhf
-cmVnX21hc2soYXN0LCBBU1RfSU9fVkdBQ1JJLCAweDE3LCAweDdmLCB2Z2FjcjE3KTsKIAog
-CS8qCiAJICogSFcgY3Vyc29ycyByZXF1aXJlIHRoZSB1bmRlcmx5aW5nIHByaW1hcnkgcGxh
-bmUgYW5kIENSVEMgdG8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X3Jl
-Zy5oIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfcmVnLmgKaW5kZXggZTE1YWRhZjNhODBl
-Li4zMDU3OGUzYjA3ZTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X3Jl
-Zy5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X3JlZy5oCkBAIC0yOSw2ICsyOSw3
-IEBACiAjZGVmaW5lIEFTVF9JT19WR0FHUkkJCQkoMHg0RSkKIAogI2RlZmluZSBBU1RfSU9f
-VkdBQ1JJCQkJKDB4NTQpCisjZGVmaW5lIEFTVF9JT19WR0FDUjE3X1NZTkNfRU5BQkxFCUJJ
-VCg3KSAvKiBjYWxsZWQgIkhhcmR3YXJlIHJlc2V0IiBpbiBkb2NzICovCiAjZGVmaW5lIEFT
-VF9JT19WR0FDUjgwX1BBU1NXT1JECQkoMHhhOCkKICNkZWZpbmUgQVNUX0lPX1ZHQUNSOTlf
-VkdBTUVNX1JTUlZfTUFTSwlHRU5NQVNLKDEsIDApCiAjZGVmaW5lIEFTVF9JT19WR0FDUkEx
-X1ZHQUlPX0RJU0FCTEVECUJJVCgxKQotLSAKMi41MS4wCgo=
---------------BKHzetE687peU8NbqM0brEVV
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-ast-Use-VGACR17-sync-enable-and-VGASR01-screen-disab.patch"
-Content-Disposition: attachment;
- filename*0="0001-ast-Use-VGACR17-sync-enable-and-VGASR01-screen-disab.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
-
-RnJvbSA2N2U5Y2JiNjZiZTQ3ZmQyYWVhZGQyYWQ5MWZlMTVlMDc2MzQwMTQwIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogVGh1LCAxOCBTZXAgMjAyNSAwOTo1MDoyOCArMDIwMApTdWJqZWN0
-OiBbUEFUQ0hdIGFzdDogVXNlIFZHQUNSMTcgc3luYyBlbmFibGUgYW5kIFZHQVNSMDEgc2Ny
-ZWVuIGRpc2FibGUKCkJsYW5rIHRoZSBkaXNwbGF5IGJ5IGRpc2FibGluZyBzeW5jIHB1bHNl
-cyB3aXRoIFZHQUNSMTc8Nz4uIFNvbWUKQk1DJ3MgZG9uJ3QgaGFuZGxlIFZHQUNSQjYgY29y
-cmVjdGx5LiBLZWVwIHRoZSBjaGFuZ2UgdG8gVkdBU1IxJ3MKU0QgYml0LCBhcyBzb21lIEJN
-Q3MgZGlzYWJsZSBHUFUgYWNjZXNzIHRvIFZSQU0uCi0tLQogZHJpdmVycy9ncHUvZHJtL2Fz
-dC9hc3RfbW9kZS5jIHwgMTggKysrKysrKysrKy0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-YXN0L2FzdF9yZWcuaCAgfCAgMSArCiAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMo
-KyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmluZGV4IDZiOWQ1
-MTBjNTA5ZC4uOGUzZDU2Nzk4ZTllIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBAIC04
-MzYsMjIgKzgzNiwyNCBAQCBhc3RfY3J0Y19oZWxwZXJfYXRvbWljX2ZsdXNoKHN0cnVjdCBk
-cm1fY3J0YyAqY3J0YywKIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2hlbHBlcl9hdG9taWNfZW5h
-YmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yywgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0
-YXRlKQogewogCXN0cnVjdCBhc3RfZGV2aWNlICphc3QgPSB0b19hc3RfZGV2aWNlKGNydGMt
-PmRldik7CisJdTggdmdhY3IxNyA9IDB4MDA7CisJdTggdmdhc3IwMSA9IDB4MDA7CiAKLQlh
-c3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQUNSSSwgMHhiNiwgMHhmYywg
-MHgwMCk7Ci0JYXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19WR0FTUkksIDB4
-MDEsIDB4ZGYsIDB4MDApOworCXZnYWNyMTcgfD0gQVNUX0lPX1ZHQUNSMTdfU1lOQ19FTkFC
-TEU7CisJdmdhc3IwMSAmPSB+QVNUX0lPX1ZHQVNSMV9TRDsKKworCWFzdF9zZXRfaW5kZXhf
-cmVnX21hc2soYXN0LCBBU1RfSU9fVkdBQ1JJLCAweDE3LCAweDdmLCB2Z2FjcjE3KTsKKwlh
-c3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQVNSSSwgMHgwMSwgMHhkZiwg
-dmdhc3IwMSk7CiB9CiAKIHN0YXRpYyB2b2lkIGFzdF9jcnRjX2hlbHBlcl9hdG9taWNfZGlz
-YWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpz
-dGF0ZSkKIHsKIAlzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9jcnRjX3N0YXRlID0gZHJt
-X2F0b21pY19nZXRfb2xkX2NydGNfc3RhdGUoc3RhdGUsIGNydGMpOwogCXN0cnVjdCBhc3Rf
-ZGV2aWNlICphc3QgPSB0b19hc3RfZGV2aWNlKGNydGMtPmRldik7Ci0JdTggdmdhY3JiNjsK
-LQotCWFzdF9zZXRfaW5kZXhfcmVnX21hc2soYXN0LCBBU1RfSU9fVkdBU1JJLCAweDAxLCAw
-eGRmLCBBU1RfSU9fVkdBU1IxX1NEKTsKKwl1OCB2Z2FjcjE3ID0gMHhmZjsKIAotCXZnYWNy
-YjYgPSBBU1RfSU9fVkdBQ1JCNl9WU1lOQ19PRkYgfAotCQkgIEFTVF9JT19WR0FDUkI2X0hT
-WU5DX09GRjsKLQlhc3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQUNSSSwg
-MHhiNiwgMHhmYywgdmdhY3JiNik7CisJdmdhY3IxNyAmPSB+QVNUX0lPX1ZHQUNSMTdfU1lO
-Q19FTkFCTEU7CisJYXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19WR0FDUkks
-IDB4MTcsIDB4N2YsIHZnYWNyMTcpOwogCiAJLyoKIAkgKiBIVyBjdXJzb3JzIHJlcXVpcmUg
-dGhlIHVuZGVybHlpbmcgcHJpbWFyeSBwbGFuZSBhbmQgQ1JUQyB0bwpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfcmVnLmggYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
-dF9yZWcuaAppbmRleCBlMTVhZGFmM2E4MGUuLjMwNTc4ZTNiMDdlNCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfcmVnLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fz
-dC9hc3RfcmVnLmgKQEAgLTI5LDYgKzI5LDcgQEAKICNkZWZpbmUgQVNUX0lPX1ZHQUdSSQkJ
-CSgweDRFKQogCiAjZGVmaW5lIEFTVF9JT19WR0FDUkkJCQkoMHg1NCkKKyNkZWZpbmUgQVNU
-X0lPX1ZHQUNSMTdfU1lOQ19FTkFCTEUJQklUKDcpIC8qIGNhbGxlZCAiSGFyZHdhcmUgcmVz
-ZXQiIGluIGRvY3MgKi8KICNkZWZpbmUgQVNUX0lPX1ZHQUNSODBfUEFTU1dPUkQJCSgweGE4
-KQogI2RlZmluZSBBU1RfSU9fVkdBQ1I5OV9WR0FNRU1fUlNSVl9NQVNLCUdFTk1BU0soMSwg
-MCkKICNkZWZpbmUgQVNUX0lPX1ZHQUNSQTFfVkdBSU9fRElTQUJMRUQJQklUKDEpCi0tIAoy
-LjUxLjAKCg==
-
---------------BKHzetE687peU8NbqM0brEVV--
