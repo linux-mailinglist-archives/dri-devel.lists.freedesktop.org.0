@@ -2,60 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01140BC1EAE
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB7DBC1E17
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:15:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9E010E1B7;
-	Tue,  7 Oct 2025 15:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC1110E6D9;
+	Tue,  7 Oct 2025 15:15:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yv7FohHD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WyEcLNTH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3B910E1B7;
- Tue,  7 Oct 2025 15:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759850614; x=1791386614;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Xv7NSpTiJfMyU1jjqxNjehW3TYHK3kedSXtXPjlgYK0=;
- b=Yv7FohHDGjsCIoBTBFYl55e2O9YD6bDOX6eyEO8FRLBJiUQaEEa2ctpq
- o1UtgYeCsLOS05lE7qdbJUISDgUAbAAYnM0EA0NtnPu3xwwr6yySZDlid
- jPFEvp/9VD0C9XPg2wdaw/wAp7uV+piti5yB9e6HWSwRbyPXVoHUruNuG
- Qnc056IT2Aat0l3pL3/MI1xRP9htLgHPUi9eMvoHC95MDuzY0yZLQo8Op
- kdooeygT658y25yMVyqQZU2jrQXN9ph7tsiSqnYPOpB8nbZJXOX8p1pqt
- /HFaiNCY/uibaMNGvEDYJAADLLX4nOP9bnadh7CgCtfdTOmIcPpWLz/75 w==;
-X-CSE-ConnectionGUID: xwRbexI6TXiFpmZTYNK60g==
-X-CSE-MsgGUID: K22+t/toS/6zqGDHKwT+Cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="62196468"
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="62196468"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2025 08:23:34 -0700
-X-CSE-ConnectionGUID: HLTKCs0+SNeIuM2R8KxfGg==
-X-CSE-MsgGUID: fQZbXq4uQR27/5rQVCbVVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,321,1751266800"; d="scan'208";a="179439849"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.245.245.225])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2025 08:23:31 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: igt-dev@lists.freedesktop.org
-Cc: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH i-g-t v3] tests/syncobj_timeline: Exercise signaling of
- awaited points
-Date: Tue,  7 Oct 2025 17:14:59 +0200
-Message-ID: <20251007152315.3403250-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A62F310E6E7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:15:15 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ETEhS006859
+ for <dri-devel@lists.freedesktop.org>; Tue, 7 Oct 2025 15:15:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ lAIkMXz0tNDmoCBjrAhuARcVZ/kd32yHfQHf7dX+8Ds=; b=WyEcLNTHzQtrCrNR
+ /jyTwA8X9V8UplZbMwz4+1fJj5MPQwfpXW2EWyQn45SdQ/gddaqDGhXKd9MT974b
+ 3KT23ZHnpHTlsGM2nMG8xJgQjBtGukVInzwx3NOl/Gi5NhBfy/zsEw7IgirU2Cbc
+ 7pyI6WZVvN1F+P5L0+w6Xs5LkVgzKhRF8TzRubeXV0yg1DnjWRW3QTbG/teXqgwV
+ InDzbISrIYHFLUwP/g5vIYb0I7JLosXKH9lFfmgxawRT7vxOTmnSdAJaVpTcjbVK
+ ZuvjGtrErTQLTEz5YOyyREmBoVPqKJIU9jQgpDEJ5dBiunB3UeXZLXvOlsJCjF+/
+ EEaHbQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jut1qkf4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 15:15:15 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-26e4fcc744dso38757585ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 08:15:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759850107; x=1760454907;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lAIkMXz0tNDmoCBjrAhuARcVZ/kd32yHfQHf7dX+8Ds=;
+ b=b2M9aW7enl9k/sVC/A0y5ww04vR71WKGEMCMiJK1AXQI5OEZsstGqkGBANNMYYGEG0
+ xyTjbaChop1C9h6e4WWMYGt4Q/TNjZEMcj0igs1J5MGPdC0MtgXPvGusVU46iBi9r0Am
+ 03+O9SR4VcmaxcEzn6w+7Pv9L0v7nn5KF2jsls2l77ZYYidjl8c+S6zCZqyQylfdfwFY
+ 3LMh4/bllJKzfrc3XPa0GQVUu3dM2DSHSCPTXAji2MdSYqyTn5MZuWTvDT4AiCjDx+0l
+ bk8mKhp1vqOH/gPhr2Nt8DYYv8wqu6Fg6lkA10bZoLpM0/PEDskSzEuhHOA1zrMIOmpT
+ tblg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSx9Ru1Et/Mqy4aVEb+/rMRdRxk0vRaR7BJxLm/ZgHB6IyqOK7/5lcKrC5dKNBx3c5HAWv5nHD2lA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYqHPBo+z0BjPDU/n/dDO+lolqized2OpEj9N4uO/SqvaBnK3Y
+ qGpa466D7huySsKArqeO6vCz353umcALjPDucZN3H0cBpKfX9klyHvSp3JMmPi3cmgowGPgIQG2
+ kdAyziftQJIVSlGrL4vUMRWYhLqowJFZVxbY34Uva2URoYl6D2hpB/Kjh4Aulh9n+Z2e3TFg=
+X-Gm-Gg: ASbGncvnZVw8Ug+qy1h3Ca5ouYc+bwQy1x5O+VPrpixmkG8omqeSejBEwrpSPKWcWBs
+ Qx0AbMTvxsOIqQjOyQ+Zr5guV0Y9s+j6tjHi7FEUC+t0I/6vr/3IR9EC9xvQxVPp4i7xXx1XxlH
+ xljFWIFGMPtbuu6DNn+6CpHhBMxnqac/RH7re5MGNfsnDKlpOrV+2BAVNLLARBg0elGBCXb96Bb
+ VK4w+EYjb7b30RDVkUPLvs+DZIeOY9xOc4firhOYGlXTDT0BVD5hXxcEzLIRID5Zt92KaGupXSr
+ 4ganK7ke4y5F7tPE1+E8j1mfwzsWRJyljiah8LqKf2jo+xNxuN96a7B91Fh2kga6zKpGqk7LyxB
+ nl1ZjTyf0AV/B1gUaG7o=
+X-Received: by 2002:a17:903:2a87:b0:24a:d213:9e74 with SMTP id
+ d9443c01a7336-290272dfbb7mr1731755ad.49.1759850107033; 
+ Tue, 07 Oct 2025 08:15:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEPqAih4wb7aA5h14uRu3iHi2SVpItnu6Q4K6o3HMbJEvzoe0GtD2go7KnfCkfhD2VmLGPqlA==
+X-Received: by 2002:a17:903:2a87:b0:24a:d213:9e74 with SMTP id
+ d9443c01a7336-290272dfbb7mr1731175ad.49.1759850106541; 
+ Tue, 07 Oct 2025 08:15:06 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-28eb1520260sm89939275ad.19.2025.10.07.08.15.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Oct 2025 08:15:06 -0700 (PDT)
+Message-ID: <0c6554b4-ab77-4e6d-b690-7cbbed982e85@oss.qualcomm.com>
+Date: Tue, 7 Oct 2025 09:15:04 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/qaic: Use kvcalloc() for slice requests allocation
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20251007121845.337382-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251007121845.337382-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: _a8chJ8dy6dKQyHDeWFg7xmmezLpSFYc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyNyBTYWx0ZWRfX9Qs77T4aBZ7h
+ ac1nc18+xXsVgFDvj1Vg3g/xCBUFZYiuY0+Is1qLdM4gIY12ZrCgpkU+OaEet2BhL9oBuZEfVyN
+ zrFer/igqmeU1DoaUmrR/XAJowxbW6wfDINs2KM6vAnivFw5EPAaB8OH7tVGUwhdWYqDw+7EaXV
+ xx1N53s4PZxtpWBBtk9fiDFIV6SyUbUSXunhngJo26/14xvNatnyQcHBy5JNd7FQ4pN5Gk62wK+
+ JiMUx40KAHjQpPEJZahenm6EcP6S1SQAFaFQGB4afV7HtMur2HcCPLu4pxk0b6aKvjkxU3evp4q
+ yyNqSbINTCJlWn1Aw2ymbPeq/N23usZ33jHgUoPApW6VY/joR48k/mJlWKXiGokheOe9wDPIYUD
+ d63K+V0gkAEfUniBFh7cL6ud+9SDFQ==
+X-Authority-Analysis: v=2.4 cv=Vqcuwu2n c=1 sm=1 tr=0 ts=68e52e83 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=57TA5eHKvZbov0TpALUA:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: _a8chJ8dy6dKQyHDeWFg7xmmezLpSFYc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040027
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,369 +125,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CI reports kernel soft lockups when running a wait_backward test case of
-igt@dmabuf@all-tests@dma_fence_chain selftest on less powerful machines.
-A kernel fix has been developed that has proven to resolve the issue, but
-it hasn't been accepted upstream, with a recommendation for dropping that
-test case as a "nonsense"[1].
+On 10/7/2025 6:18 AM, Youssef Samir wrote:
+> From: Youssef Samir <quic_yabdulra@quicinc.com>
+> 
+> When a BO is created, qaic will use the page allocator to request the
+> memory chunks that the BO will be composed of in-memory. The number of
+> chunks increases when memory is segmented. For example, a 16MB BO can
+> be composed of four 4MB chunks or 4096 4KB chunks.
+> 
+> A BO is then sliced into a single or multiple slices to be transferred
+> to the device on the DBC's xfer queue. For that to happen, the slice
+> needs to encode its memory chunks into DBC requests and keep track of
+> them in an array, which is allocated using kcalloc(). Knowing that the
+> BO might be very fragmented, this array can grow so large that the
+> allocation may fail to find contiguous memory for it.
+> 
+> Replace kcalloc() with kvcalloc() to allocate the DBC requests array
+> for a slice.
+> 
+> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 
-Before we decide to take that path, try to implement the problematic test
-case in user space as an IGT subtest.  Since no kernel uAPIs have been
-found that allow strict reimplementation of exact algorithm of the
-problematic test case, where every link of a dma-fence chain is signaled
-one by one from a loop running in kernel space, provide two approximate
-variants, one that signals each fence with an individual system call, and
-one that depends on vgem fences being signaled automatically on their
-consecutive expiry under presumably the same schedule as they were
-created.
-
-For more comprehensive testing, also implement the _forward and _random
-scenarios from the original selftest, as well as simplified variants that
-don't enable signaling on each link of the dma-fence chain.
-
-v3: Skip if CPU is not powerful enough for setting up all timeline points
-    before vgem fences start to expire,
-  - also skip if CPU is not powerful enough to signal all vgem fences
-    before they start to expire automatically when signaling manually,
-  - fail autoexpire variants if vgem fences don't start to expire in 10s,
-  - wait virtually infinitely for last timeline point being signaled, let
-    igt_runner unlikely kill the test and report timeout if per test
-    timeout expires first.
-v2: Fix incorrectly calculated backward ordering of syncobj points,
-  - replace problematic sw_sync timeline points with vgem object fences,
-  - drop wait-all subtest variants, those add no value over enable-all,
-  - to simplify the code, enable signaling of each point, if requested,
-    right after it is added to the syncobj timeline.
-
-[1] https://lore.kernel.org/dri-devel/20250814094824.217142-6-janusz.krzysztofik@linux.intel.com/
-
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- tests/syncobj_timeline.c | 287 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 287 insertions(+)
-
-diff --git a/tests/syncobj_timeline.c b/tests/syncobj_timeline.c
-index a77896ec1d..7c17c2eacd 100644
---- a/tests/syncobj_timeline.c
-+++ b/tests/syncobj_timeline.c
-@@ -27,9 +27,14 @@
- #include <unistd.h>
- #include <time.h>
- #include <sys/ioctl.h>
-+#include <sys/param.h>
- #include <pthread.h>
- #include <signal.h>
-+
-+#include "dmabuf_sync_file.h"
- #include "drm.h"
-+#include "igt_vgem.h"
-+
- /**
-  * TEST: syncobj timeline
-  * Description: Tests for the drm timeline sync object API
-@@ -427,6 +432,42 @@
-  *
-  * SUBTEST: wait-zero-handles
-  * Description: Verifies that waiting on an empty list of syncobj handles is accepted
-+ *
-+ * SUBTEST: stress-wait-last-signal-forward
-+ * Description: Signals each fence of a large timeline while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-wait-last-signal-backward
-+ * Description: Signals each fence of a large timeline in reverse order while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-wait-last-signal-random
-+ * Description: Signals each fence of a large timeline in random order while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-wait-last-signal-all-forward
-+ * Description: Signals all fences of a large timeline while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-wait-last-signal-all-backward
-+ * Description: Signals all fences of a large reverse ordered timeline while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-wait-last-signal-all-random
-+ * Description: Signals all fences of a large randomly ordered timeline while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-enable-all-signal-forward
-+ * Description: Signals each fence of a large timeline with signaling enabled on each point while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-enable-all-signal-backward
-+ * Description: Signals each fence of a large timeline in reversed order with signaling enabled on each point while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-enable-all-signal-random
-+ * Description: Signals each fence of a large timeline in random order with signaling enabled on each point while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-enable-all-signal-all-forward
-+ * Description: Signals all fences of a large timeline with signaling enabled on each point while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-enable-all-signal-all-backward
-+ * Description: Signals all fences of a large reversed ordered timeline with signaling enabled on each point while another thread is waiting on that timeline
-+ *
-+ * SUBTEST: stress-enable-all-signal-all-random
-+ * Description: Signals all fences of a large randomly ordered timeline with signaling enabled on each point while another thread is waiting on that timeline
-  */
- 
- IGT_TEST_DESCRIPTION("Tests for the drm timeline sync object API");
-@@ -1675,6 +1716,236 @@ test_32bits_limit(int fd)
- 	close(timeline);
- }
- 
-+#define STRESS_FLAGS_ENABLE_ALL		(0x1 << 0)
-+#define STRESS_FLAGS_SIGNAL_ALL		(STRESS_FLAGS_ENABLE_ALL << 1)
-+#define STRESS_FLAGS_SIGNAL_BACKWARD	(STRESS_FLAGS_SIGNAL_ALL << 1)
-+#define STRESS_FLAGS_SIGNAL_RANDOM	(STRESS_FLAGS_SIGNAL_BACKWARD << 1)
-+
-+const char *stress_descriptions[] = {
-+	/* stress-wait-last-signal-forward */
-+	[0] =
-+		"Signals each fence of a large timeline while another thread is waiting on that timeline",
-+	/* stress-wait-last-signal-backward */
-+	[STRESS_FLAGS_SIGNAL_BACKWARD] =
-+		"Signals each fence of a large timeline in reverse order while another thread is waiting on that timeline",
-+	/* stress-wait-last-signal-random */
-+	[STRESS_FLAGS_SIGNAL_RANDOM] =
-+		"Signals each fence of a large timeline in random order while another thread is waiting on that timeline",
-+	/* stress-wait-last-signal-all-forward */
-+	[STRESS_FLAGS_SIGNAL_ALL] =
-+		"Signals all fences of a large timeline while another thread is waiting on that timeline",
-+	/* stress-wait-last-signal-all-backward */
-+	[STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =
-+		"Signals all fences of a large reverse ordered timeline while another thread is waiting on that timeline",
-+	/* stress-wait-last-signal-all-random */
-+	[STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =
-+		"Signals all fences of a large randomly ordered timeline while another thread is waiting on that timeline",
-+	/* stress-enable-all-signal-forward */
-+	[STRESS_FLAGS_ENABLE_ALL] =
-+		"Signals each fence of a large timeline with signaling enabled on each point while another thread is waiting on that timeline",
-+	/* stress-enable-all-signal-backward */
-+	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =
-+		"Signals each fence of a large timeline in reversed order with signaling enabled on each point while another thread is waiting on that timeline",
-+	/* stress-enable-all-signal-random */
-+	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =
-+		"Signals each fence of a large timeline in random order with signaling enabled on each point while another thread is waiting on that timeline",
-+	/* stress-enable-all-signal-all-forward */
-+	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL] =
-+		"Signals all fences of a large timeline with signaling enabled on each point while another thread is waiting on that timeline",
-+	/* stress-enable-all-signal-all-backward */
-+	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =
-+		"Signals all fences of a large reversed ordered timeline with signaling enabled on each point while another thread is waiting on that timeline",
-+	/* stress-enable-all-signal-all-random */
-+	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =
-+		"Signals all fences of a large randomly ordered timeline with signaling enabled on each point while another thread is waiting on that timeline",
-+};
-+
-+#define TL_LENGTH 4096
-+
-+struct stress_timeline {
-+	int fd;
-+	int vgem;
-+	int dmabuf;
-+	int sync_file;
-+	uint32_t syncobj;
-+	uint32_t tmp_syncobj;
-+	struct vgem_bo *vgem_bos;
-+	uint32_t *vgem_fences;
-+	uint64_t *order;
-+	uint64_t length;
-+	unsigned int flags;
-+};
-+
-+static void stress_init(int fd, struct stress_timeline **timeline, unsigned int flags)
-+{
-+	struct stress_timeline *tl;
-+	int i, err = -ETIME;
-+	uint64_t point;
-+
-+	tl = calloc(TL_LENGTH, sizeof(*tl));
-+	igt_assert(tl);
-+	*timeline = tl;
-+
-+	tl->fd = fd;
-+	tl->length = TL_LENGTH;
-+	tl->flags = flags;
-+	tl->dmabuf = -1;
-+	tl->sync_file = -1;
-+
-+	tl->vgem = drm_open_driver(DRIVER_VGEM);
-+	tl->syncobj = syncobj_create(fd, 0);
-+
-+	tl->vgem_bos = calloc(tl->length, sizeof(*tl->vgem_bos));
-+	igt_assert(tl->vgem_bos);
-+	for (i = 0; i < tl->length; i++) {
-+		tl->vgem_bos[i].width = 1;
-+		tl->vgem_bos[i].height = 1;
-+		tl->vgem_bos[i].bpp = 4;
-+	}
-+
-+	tl->vgem_fences = calloc(tl->length, sizeof(*tl->vgem_fences));
-+	igt_assert(tl->vgem_fences);
-+
-+	tl->order = calloc(tl->length, sizeof(*tl->order));
-+	igt_assert(tl->order);
-+	for (i = 0; i < tl->length; i++)
-+		tl->order[i] = flags & STRESS_FLAGS_SIGNAL_BACKWARD ? tl->length - 1 - i : i;
-+	if (flags & STRESS_FLAGS_SIGNAL_RANDOM)
-+		igt_permute_array(tl->order, tl->length, igt_exchange_int64);
-+
-+	for (i = 0; i < tl->length; i++) {
-+		vgem_create(tl->vgem, &tl->vgem_bos[i]);
-+		tl->vgem_fences[i] = vgem_fence_attach(tl->vgem, &tl->vgem_bos[i], 0);
-+	}
-+
-+	for (point = 1; point <= tl->length; point++) {
-+		bool busy;
-+
-+		i = tl->order[point - 1];
-+		tl->dmabuf = prime_handle_to_fd(tl->vgem, tl->vgem_bos[i].handle);
-+		igt_assert_fd(tl->dmabuf);
-+
-+		tl->sync_file = dmabuf_export_sync_file(tl->dmabuf, DMA_BUF_SYNC_RW);
-+		igt_assert_fd(tl->sync_file);
-+		close(tl->dmabuf);
-+		tl->dmabuf = -1;
-+
-+		busy = sync_file_busy(tl->sync_file);
-+		if (busy) {
-+			tl->tmp_syncobj = syncobj_create(fd, 0);
-+			syncobj_import_sync_file(fd, tl->tmp_syncobj, tl->sync_file);
-+		}
-+		close(tl->sync_file);
-+		tl->sync_file = -1;
-+		if (igt_debug_on(!busy)) {
-+			err = 0;
-+			break;
-+		}
-+
-+		syncobj_binary_to_timeline(fd, tl->syncobj, point, tl->tmp_syncobj);
-+		syncobj_destroy(fd, tl->tmp_syncobj);
-+		tl->tmp_syncobj = 0;
-+
-+		if (flags & STRESS_FLAGS_ENABLE_ALL) {
-+			err = syncobj_timeline_wait_err(tl->fd, &tl->syncobj, &point,
-+							1, 0, 0);
-+			if (igt_debug_on(err != -ETIME))
-+				break;
-+		}
-+	}
-+
-+	igt_require_f(err == -ETIME,
-+		      "CPU power sufficient for setting up still %ld timeline points before vgem fences start to expire\n",
-+		      tl->length - point + 1);
-+}
-+
-+static void test_stress_enable_wait_signal(int fd, struct stress_timeline **timeline,
-+					   unsigned int flags)
-+{
-+	struct stress_timeline *tl;
-+	int64_t dt;
-+
-+	stress_init(fd, timeline, flags);
-+	tl = *timeline;
-+
-+	if (flags & STRESS_FLAGS_SIGNAL_ALL) {
-+		/* store current time in case vgem fences already started to expire */
-+		dt = -gettime_ns();
-+
-+		/* wait for expiry of the first vgem fence */
-+		tl->dmabuf = prime_handle_to_fd(tl->vgem, tl->vgem_bos[0].handle);
-+		igt_assert_fd(tl->dmabuf);
-+
-+		tl->sync_file = dmabuf_export_sync_file(tl->dmabuf, DMA_BUF_SYNC_RW);
-+		igt_assert_fd(tl->sync_file);
-+
-+		igt_set_timeout(11, "vgem fence should expire automatically in 10 seconds but it hasn't");
-+		while (sync_file_busy(tl->sync_file))
-+			dt = -gettime_ns();
-+		igt_reset_timeout();
-+	} else {
-+		int i;
-+
-+		dt = -gettime_ns();
-+		for (i = 0; i < tl->length; i++) {
-+			igt_require_f(!__vgem_fence_signal(tl->vgem, tl->vgem_fences[i]),
-+				      "CPU power sufficient for manually signaling still %ld vgem fences before they start to expire automatically\n",
-+				      tl->length - i);
-+		}
-+	}
-+	/* wait for the last point of the timeline being signaled */
-+	igt_assert_eq(syncobj_timeline_wait_err(tl->fd, &tl->syncobj, &tl->length, 1,
-+						MAX(600 * NSECS_PER_SEC - dt, gettime_ns()), 0), 0);
-+	dt += gettime_ns();
-+
-+	igt_info("%s: %ld signals in %ld ns\n", __func__, tl->length, dt);
-+}
-+
-+static void stress_cleanup(struct stress_timeline *timeline)
-+{
-+	int i;
-+
-+	if (!timeline)
-+		return;
-+
-+	if (timeline->order)
-+		free(timeline->order);
-+
-+	if (timeline->sync_file >= 0)
-+		igt_warn_on(close(timeline->sync_file));
-+
-+	if (timeline->dmabuf >= 0)
-+		igt_warn_on(close(timeline->dmabuf));
-+
-+	if (timeline->vgem_fences) {
-+		for (i = 0; i < timeline->length; i++)
-+			if (timeline->vgem_fences[i])
-+				igt_ignore_warn(__vgem_fence_signal(timeline->vgem,
-+								    timeline->vgem_fences[i]));
-+
-+		free(timeline->vgem_fences);
-+	}
-+
-+	if (timeline->vgem_bos) {
-+		for (i = 0; i < timeline->length; i++)
-+			if (timeline->vgem_bos[i].handle)
-+				gem_close(timeline->vgem, timeline->vgem_bos[i].handle);
-+
-+		free(timeline->vgem_bos);
-+	}
-+
-+	if (timeline->vgem >= 0)
-+		igt_warn_on(close(timeline->vgem));
-+
-+	if (timeline->tmp_syncobj)
-+		syncobj_destroy(timeline->fd, timeline->tmp_syncobj);
-+
-+	if (timeline->syncobj)
-+		syncobj_destroy(timeline->fd, timeline->syncobj);
-+
-+	free(timeline);
-+}
-+
- static bool
- has_syncobj_timeline_wait(int fd)
- {
-@@ -1934,6 +2205,22 @@ igt_main
- 	igt_subtest("32bits-limit")
- 		test_32bits_limit(fd);
- 
-+	for (unsigned int flags = 0;
-+	     flags < (STRESS_FLAGS_SIGNAL_BACKWARD | STRESS_FLAGS_SIGNAL_RANDOM); flags++) {
-+		struct stress_timeline *timeline = NULL;
-+
-+		igt_describe(stress_descriptions[flags]);
-+		igt_subtest_f("stress-%s-signal%s-%s",
-+			      (flags & STRESS_FLAGS_ENABLE_ALL) ? "enable-all" : "wait-last",
-+			      (flags & STRESS_FLAGS_SIGNAL_ALL) ? "-all" : "",
-+			      (flags & STRESS_FLAGS_SIGNAL_RANDOM) ? "random" :
-+			      (flags & STRESS_FLAGS_SIGNAL_BACKWARD) ? "backward" : "forward")
-+			test_stress_enable_wait_signal(fd, &timeline, flags);
-+
-+		igt_fixture
-+			stress_cleanup(READ_ONCE(timeline));
-+	}
-+
- 	igt_fixture {
- 		drm_close_driver(fd);
- 	}
--- 
-2.51.0
-
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
