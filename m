@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4348BC1D75
-	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085D3BC1D7B
+	for <lists+dri-devel@lfdr.de>; Tue, 07 Oct 2025 17:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B6F10E6AF;
-	Tue,  7 Oct 2025 15:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5887010E6B5;
+	Tue,  7 Oct 2025 15:03:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ikwGah4J";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="S+EBPdpg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 909F110E6B5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:03:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759849376; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2856010E6B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Oct 2025 15:03:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1759849380; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=S/Fezolv+PXE93x+RcJ5X7QOmH2gP2Gx4sJgs/PvlCUmu/E4ftbAJMSFbz7YpISQ1JufHBuWXydFsZtUlgzw5IHYRgaiC/uHty33hVOfFHyrynKzdvZ3G16+Dwk5H61QvW3Olrlx1YwLhP4Nh9lA8i3olbL3PpsueBcmbNtyKtQ=
+ b=nm0WT/qadDM0Z8fWz3IzbWjHMwHCexNxrPSlCGvlo3HtIrP5yuzFShZ7Z8xHdtyeZLLpJsNjfO9aFgFlw03x9a9oYCYdG02goi49/aXtgsU1Ys6zEb73gnaSuTiUMNfQlPNAb5rXY33iEWZfV+voW2M8zcju5+6Zuoc0TP/xjno=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759849376;
+ s=zohoarc; t=1759849380;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=1RWyHXqz63Fh1czRFGMUMY4EX3/Y7d1ckzNs3+kR1PU=; 
- b=UH53g2HJ0Qax/765mvzGUBhbSKwGV1uFVYTf5KdD60wek2enLwnBXEIKXuTF6AmpaGHOBoIgro6nyd13P94erQJXGpi8n8dSxq4JCYvQOGvWj8TlboFfr+PJQyrF6eP31lKIa0UF2RmQzPvfRBb/Syp+0r1pgcN9VajRRWCcdaU=
+ bh=70FjaiThuT7qTXV0nl1HBteiuVcXcVL/CMGCpnJb+9M=; 
+ b=WD3danlsKA6jmQ0K0UH1sVNuEM8nGK8IazA2etltzHzB6F4XN1o8Jd/tV2wQ7TV5LxWhKTKafzjAhLWxNzsl8VkarT/oqMqSuu4RiIZsfnf9NbGGCe/VjD/Yjh+mvPNQ8No0SyOHFE14Y/iKOM55pYULz2QZPPG2h4MVskvDgw4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759849376; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759849380; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=1RWyHXqz63Fh1czRFGMUMY4EX3/Y7d1ckzNs3+kR1PU=;
- b=ikwGah4JS+yLRdbdJ/p8pMgGRDQ6eRHNvahQRJ2puxYKw+8e3IO0iWztnWTrOPtm
- GWQlLdTLD25ds53nUdLfXJ+pRfgrv5XhVGz5YqF5yPAUwMI4CIYX08RqkiA47jJmh8Q
- kA5gXnfavRaZZEsuJGGx+0LQp+VOq7JYxH2EEwyA=
-Received: by mx.zohomail.com with SMTPS id 1759849374688828.4781470927335;
- Tue, 7 Oct 2025 08:02:54 -0700 (PDT)
+ bh=70FjaiThuT7qTXV0nl1HBteiuVcXcVL/CMGCpnJb+9M=;
+ b=S+EBPdpgSLXDjxBbW6TKyLg7sLl5sTr21ulUFYwVHHeWsy9atLWFnizwJ9iPJQ2m
+ 2Gr2YMoGFLFZz8lc9vPeJzLotL4mSHk2Gx0NMwzFXfUekrFH9dlENG+GnyjearOVYzB
+ x62iZHz3f+uJk/oqOdu/O4l1wcE2DlTyAyxblxNo=
+Received: by mx.zohomail.com with SMTPS id 1759849377965272.4479680101483;
+ Tue, 7 Oct 2025 08:02:57 -0700 (PDT)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
@@ -47,10 +47,9 @@ Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v5 05/12] drm/panfrost: Check sgt to know whether pages are
- already mapped
-Date: Tue,  7 Oct 2025 16:01:47 +0100
-Message-ID: <20251007150216.254250-6-adrian.larumbe@collabora.com>
+Subject: [PATCH v5 06/12] drm/panfrost: Handle page mapping failure
+Date: Tue,  7 Oct 2025 16:01:48 +0100
+Message-ID: <20251007150216.254250-7-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251007150216.254250-1-adrian.larumbe@collabora.com>
 References: <20251007150216.254250-1-adrian.larumbe@collabora.com>
@@ -72,83 +71,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the MMU's page fault ISR for a heap object, determine whether the
-faulting address belongs to a 2MiB block that was already mapped by
-checking its corresponding sgt in the Panfrost BO.
-
-Also avoid retrieving pages from the shmem file if last one in the block
-was already present, as this means all of them had already been fetched.
-
-This is done in preparation for a future commit in which the MMU mapping
-helper might fail, but the page array is left populated, so this cannot
-be used as a check for an early bail-out.
+When mapping the pages of a BO, either a heap type at page fault time or
+else a non-heap BO at object creation time, if the ARM page table mapping
+function fails, we unmap what had been mapped so far and bail out.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 41 +++++++++++++++----------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 49 ++++++++++++++++++++++---
+ 1 file changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index cf272b167feb..72864d0d478e 100644
+index 72864d0d478e..7bf386d25453 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -600,32 +600,39 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		refcount_set(&bo->base.pages_use_count, 1);
- 	} else {
- 		pages = bo->base.pages;
--		if (pages[page_offset]) {
--			/* Pages are already mapped, bail out. */
--			goto out;
--		}
+@@ -393,13 +393,32 @@ static void panfrost_mmu_flush_range(struct panfrost_device *pfdev,
+ 	pm_runtime_put_autosuspend(pfdev->base.dev);
+ }
+ 
++static void mmu_unmap_range(struct panfrost_mmu *mmu, u64 iova, size_t len)
++{
++	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
++	size_t pgsize, unmapped_len = 0;
++	size_t unmapped_page, pgcount;
++
++	while (unmapped_len < len) {
++		pgsize = get_pgsize(iova, len - unmapped_len, &pgcount);
++
++		unmapped_page = ops->unmap_pages(ops, iova, pgsize, pgcount, NULL);
++		WARN_ON(unmapped_page != pgsize * pgcount);
++
++		iova += pgsize * pgcount;
++		unmapped_len += pgsize * pgcount;
 +	}
++}
 +
-+	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
-+	if (sgt->sgl) {
-+		/* Pages are already mapped, bail out. */
-+		goto out;
- 	}
+ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+ 		      u64 iova, int prot, struct sg_table *sgt)
+ {
+ 	unsigned int count;
+ 	struct scatterlist *sgl;
+ 	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
++	size_t total_mapped = 0;
+ 	u64 start_iova = iova;
++	int ret;
  
- 	mapping = bo->base.base.filp->f_mapping;
- 	mapping_set_unevictable(mapping);
+ 	for_each_sgtable_dma_sg(sgt, sgl, count) {
+ 		unsigned long paddr = sg_dma_address(sgl);
+@@ -413,10 +432,14 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+ 			size_t pgcount, mapped = 0;
+ 			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
  
--	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
--		/* Can happen if the last fault only partially filled this
--		 * section of the pages array before failing. In that case
--		 * we skip already filled pages.
-+	if (!pages[page_offset + NUM_FAULT_PAGES - 1]) {
-+		/* Pages are retrieved sequentially, so if the very last
-+		 * one in the subset we want to map is already assigned, then
-+		 * there's no need to further iterate.
- 		 */
--		if (pages[i])
--			continue;
--
--		pages[i] = shmem_read_mapping_page(mapping, i);
--		if (IS_ERR(pages[i])) {
--			ret = PTR_ERR(pages[i]);
--			pages[i] = NULL;
--			goto err_unlock;
-+		for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
-+			/* Can happen if the last fault only partially filled this
-+			 * section of the pages array before failing. In that case
-+			 * we skip already filled pages.
-+			 */
-+			if (pages[i])
-+				continue;
+-			ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
++			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+ 				       GFP_KERNEL, &mapped);
++			if (ret)
++				goto err_unmap_pages;
 +
-+			pages[i] = shmem_read_mapping_page(mapping, i);
-+			if (IS_ERR(pages[i])) {
-+				ret = PTR_ERR(pages[i]);
-+				pages[i] = NULL;
-+				goto err_unlock;
-+			}
- 		}
- 	}
+ 			/* Don't get stuck if things have gone wrong */
+ 			mapped = max(mapped, pgsize);
++			total_mapped += mapped;
+ 			iova += mapped;
+ 			paddr += mapped;
+ 			len -= mapped;
+@@ -426,6 +449,10 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
+ 	panfrost_mmu_flush_range(pfdev, mmu, start_iova, iova - start_iova);
  
--	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
- 	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
- 					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
+ 	return 0;
++
++err_unmap_pages:
++	mmu_unmap_range(mmu, start_iova, total_mapped);
++	return ret;
+ }
+ 
+ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+@@ -436,6 +463,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
+ 	struct sg_table *sgt;
+ 	int prot = IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE;
++	int ret;
+ 
+ 	if (WARN_ON(mapping->active))
+ 		return 0;
+@@ -447,11 +475,18 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	if (WARN_ON(IS_ERR(sgt)))
+ 		return PTR_ERR(sgt);
+ 
+-	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
+-		   prot, sgt);
++	ret = mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
++			 prot, sgt);
++	if (ret)
++		goto err_put_pages;
++
+ 	mapping->active = true;
+ 
+ 	return 0;
++
++err_put_pages:
++	drm_gem_shmem_put_pages_locked(shmem);
++	return ret;
+ }
+ 
+ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping)
+@@ -642,8 +677,10 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
  	if (ret)
+ 		goto err_map;
+ 
+-	mmu_map_sg(pfdev, bomapping->mmu, addr,
+-		   IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
++	ret = mmu_map_sg(pfdev, bomapping->mmu, addr,
++			 IOMMU_WRITE | IOMMU_READ | IOMMU_CACHE | IOMMU_NOEXEC, sgt);
++	if (ret)
++		goto err_mmu_map_sg;
+ 
+ 	bomapping->active = true;
+ 	bo->heap_rss_size += SZ_2M;
+@@ -657,6 +694,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 
+ 	return 0;
+ 
++err_mmu_map_sg:
++	dma_unmap_sgtable(pfdev->base.dev, sgt, DMA_BIDIRECTIONAL, 0);
+ err_map:
+ 	sg_free_table(sgt);
+ err_unlock:
 -- 
 2.51.0
 
