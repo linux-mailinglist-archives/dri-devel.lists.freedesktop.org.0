@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F04CBC4B29
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A120FBC4B2C
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F2310E7F1;
-	Wed,  8 Oct 2025 12:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A2310E7D7;
+	Wed,  8 Oct 2025 12:04:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QX12AYWH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dDgd+4ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0EE10E7F3;
- Wed,  8 Oct 2025 12:04:45 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BB610E7D7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:04:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 65098418FD;
- Wed,  8 Oct 2025 12:04:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F9AC113D0;
- Wed,  8 Oct 2025 12:04:44 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 51E5561F86;
+ Wed,  8 Oct 2025 12:04:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A759DC4CEF4;
+ Wed,  8 Oct 2025 12:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759925085;
- bh=EEqrXHeQyUV5KhyidWTHlNQZBT90TP2mQNaogHzkeos=;
+ s=k20201202; t=1759925088;
+ bh=kcgztMywCVC5zHgHOWmmvASZINWD+eVeJsx6EDd+h3k=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=QX12AYWH+LaKdhUBuEk7NBcF0Td7wWj6ZwkpF36pqVyWdFw+dVl+ChVsnVnvVouhk
- V3fnSeulqXxaODStVWtzFLp0PWz55+v1EeJebh3eVAM9VpAqpR/q4tNpp9A4ltiia4
- VAsYYEx+Cp1J4L2bR0iVWI3GDS+srguDptQR+zypJtfP33BauDvkEtXfvqznnyikGO
- B00K2phiHjcnIJfsv2c16dBhsrnsXoAorR8u7XNTjsmbTHEw70Km3qK9kYmdmlszL9
- qShW+n+ik3KH6GQeHYc6uVTBApwZ0JevilKV0e971oze6mQistFGTGod+Nxg6NU6MM
- qu5VaFX5hmfKA==
+ b=dDgd+4ksQswF1l0VlNu2AEEFcmyGQZOmq4gBayro1iLH1zIr/vFmH0Hdes4VUXsFI
+ zxoo/i9kJNPrTxD+vuJGXc64EsNb+RlLrIXnqkK8faFIM8IEkqeAgpxCgLqynQLI1t
+ Pu8c9L8cS+P3ZxnYBJ9+/xbzX9O19jkdVzwBiOdebEF7aHH/28z1Xd3IZuL3cRM/go
+ qPpNDfLPim1S5Dw2mxtWpy7d8huJHZCGNKsp1DLHPj7mWMed9YFAPcJUA3+IjH5oXs
+ NClSXKvBQuZddb+Qcqju5dQuseQNbDOzfYdZvaySFaJacEhv2GTvgC4+pQ1JEvX/fa
+ 6rwdbW6Qv6GVw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 08 Oct 2025 14:04:09 +0200
-Subject: [PATCH 11/16] drm/msm: dpu1: Switch private_obj initialization to
- reset
+Date: Wed, 08 Oct 2025 14:04:10 +0200
+Subject: [PATCH 12/16] drm/omapdrm: Switch private_obj initialization to reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251008-drm-private-obj-reset-v1-11-805ab43ae65a@kernel.org>
+Message-Id: <20251008-drm-private-obj-reset-v1-12-805ab43ae65a@kernel.org>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 In-Reply-To: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2948; i=mripard@kernel.org;
- h=from:subject:message-id; bh=EEqrXHeQyUV5KhyidWTHlNQZBT90TP2mQNaogHzkeos=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgs2V931i3HpDZ/cE5f+x179On18aFjH/aECCYXXWj
- KKVrz/qd0xlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJbF7L2NB4qLbmacLZO80z
- GwU+23J3+vEaLZkSuuxUVPklM9bur9u2nNC5LX2fO+Xt5Efaz8pUwxjry++q+lbMD90iNkOj+93
- 9yZtStU7+iLSOFbks13psj/jzHxauIauyp8+Xdfn1+vIshfXeAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2104; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=kcgztMywCVC5zHgHOWmmvASZINWD+eVeJsx6EDd+h3k=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgi0eR1atPrBK09JwzdMscXOrx3y/svfdL/n/4/zxr
+ kuMLKVBHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAivOsYG9bzrJ36Trx6/fI3
+ zDvrnMvPO6xZV6D8POuVhjZrF3N/aN2/zR4/WQrDbHafecXJN/nCb8aGK4oPbuUzMKc47OnNZ65
+ 6uqu8dlFATOH2eZG1ZUYrE7tfv7kQJ8QVxC/8iOld+80LEw0B
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,7 +68,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM dpu1 driver relies on a drm_private_obj, that is initialized by
+The omapdrm driver relies on a drm_private_obj, that is initialized by
 allocating and initializing a state, and then passing it to
 drm_private_obj_init.
 
@@ -86,82 +80,59 @@ Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 ---
 
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_drv.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index a306077647c317af9345eeff13082230906b5767..04baf072e8510ce8260f1ec609ba8f2b22f7c11e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -365,10 +365,30 @@ static void dpu_kms_global_destroy_state(struct drm_private_obj *obj,
- 	struct dpu_global_state *dpu_state = to_dpu_global_state(state);
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index 794267f0f007850e43949f93be5c98d0e32a84ea..4c556da5a5cae3685d929679f43260c51459e8a9 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -272,25 +272,37 @@ static void omap_global_destroy_state(struct drm_private_obj *obj,
+ 	struct omap_global_state *omap_state = to_omap_global_state(state);
  
- 	kfree(dpu_state);
+ 	kfree(omap_state);
  }
  
-+static void dpu_kms_global_reset(struct drm_private_obj *obj)
++static void omap_global_reset(struct drm_private_obj *obj)
 +{
-+	struct drm_device *dev = obj->dev;
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
-+	struct dpu_global_state *dpu_state;
++	struct omap_global_state *state;
 +
 +	if (obj->state) {
-+		dpu_kms_global_destroy_state(obj, obj->state);
++		omap_global_destroy_state(obj, obj->state);
 +		obj->state = NULL;
 +	}
 +
-+	dpu_state = kzalloc(sizeof(*dpu_state), GFP_KERNEL);
-+	if (!dpu_state)
++	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	if (!state)
 +		return;
 +
-+	__drm_atomic_helper_private_obj_reset(obj, &dpu_state->base);
-+	dpu_state->rm = &dpu_kms->rm;
++	__drm_atomic_helper_private_obj_reset(obj, &state->base);
 +}
 +
- static void dpu_kms_global_print_state(struct drm_printer *p,
- 				       const struct drm_private_state *state)
- {
- 	const struct dpu_global_state *global_state = to_dpu_global_state(state);
- 
-@@ -377,26 +397,19 @@ static void dpu_kms_global_print_state(struct drm_printer *p,
- 
- static const struct drm_private_state_funcs dpu_kms_global_state_funcs = {
- 	.atomic_duplicate_state = dpu_kms_global_duplicate_state,
- 	.atomic_destroy_state = dpu_kms_global_destroy_state,
- 	.atomic_print_state = dpu_kms_global_print_state,
-+	.reset = dpu_kms_global_reset,
+ static const struct drm_private_state_funcs omap_global_state_funcs = {
+ 	.atomic_duplicate_state = omap_global_duplicate_state,
+ 	.atomic_destroy_state = omap_global_destroy_state,
++	.reset = omap_global_reset,
  };
  
- static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
+ static int omap_global_obj_init(struct drm_device *dev)
  {
--	struct dpu_global_state *state;
--
+ 	struct omap_drm_private *priv = dev->dev_private;
+-	struct omap_global_state *state;
+ 
 -	state = kzalloc(sizeof(*state), GFP_KERNEL);
 -	if (!state)
 -		return -ENOMEM;
 -
- 	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
--				    &state->base,
-+				    NULL,
- 				    &dpu_kms_global_state_funcs);
- 
--	state->rm = &dpu_kms->rm;
--
+-	drm_atomic_private_obj_init(dev, &priv->glob_obj, &state->base,
++	drm_atomic_private_obj_init(dev, &priv->glob_obj, NULL,
+ 				    &omap_global_state_funcs);
  	return 0;
  }
  
- static void dpu_kms_global_obj_fini(struct dpu_kms *dpu_kms)
- {
+ static void omap_global_obj_fini(struct omap_drm_private *priv)
 
 -- 
 2.51.0
