@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4D7BC4A70
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 13:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C88BC4A76
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 13:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA4F10E11A;
-	Wed,  8 Oct 2025 11:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBA3010E7E0;
+	Wed,  8 Oct 2025 11:57:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dnEoXnlW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O7mhQ2es";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 276FB10E11A;
- Wed,  8 Oct 2025 11:57:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F38E10E7D8;
+ Wed,  8 Oct 2025 11:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759924633; x=1791460633;
+ t=1759924640; x=1791460640;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ptDJvPNPj/sE3dLDhd7RJuMYXS3dB28wv7k4eSgtbFA=;
- b=dnEoXnlW0eiOueZcO6yaI3ECE+tUNrazG+l+pjDg7VhPVi6K7blEfuEp
- BkEifXTqvhp4Y3NgWpmSGLNrdP512uaD/jTzXr8v1DR9QYFgvgdAGT2+3
- 9wjJYDkr0ZbzD9SCcrMptJQVjMCWkETPYDfwJFsafs1l5INtYkqruYmjO
- Iy/JhI9qIoR+cAIAC6Sd44RF1QhHNmTkGFj8R6EHta+378ERGm+gQx2qY
- c/EfpvnFP7gOmD3GKJp5eeipPZxAJ9UCto8ZAsorZwD0/KXCw+orkV/QN
- yhGRSGA40JA3Suq1nvWCjVWJe4m+qOjJV8XzFXhSWPzYHdqvnf6BnmO2C g==;
-X-CSE-ConnectionGUID: PPoYDfNVQ0q6ZhWG2YSb0A==
-X-CSE-MsgGUID: Pj0JBCGuSGmA65LXbnL+yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="49672023"
-X-IronPort-AV: E=Sophos;i="6.19,323,1754982000"; d="scan'208";a="49672023"
+ bh=SvHccNgBdnQZ2CjVF/Wlfjp2ge03F4soHV0UsGLstBQ=;
+ b=O7mhQ2es3BtlBFG2iDgU+azI2iARRrrqCsBVYDM0L2OXrxmiMR40LHWz
+ Lqw40fPPJxo6PEKfGhlO2dGsJKaYn0RBcVNheXOxpziqVGZoSWhQ7kugf
+ jtjW6GVjXKvejyZCSGPOOBVIXV4QBeclm+qUCNFhmoXAub/Ns9vIROWUU
+ djTmwIsXm34eqjNV6ZEza043aKmBKpuzYbo58PvfeRaghDu/ogKG/P12n
+ CBAxp55MsqORMsnsLivJ9LLcYz/2lHgV8ovN8QBP2+mDf5T6KWHDmJoCm
+ FJeqbGkCkQDg3ZU+lOSLG3ZA9N1UjqjzaNyhtjiE0lzFDC5r6XTqecCOa A==;
+X-CSE-ConnectionGUID: wF85PgtKR8qeJO9zGv/JZQ==
+X-CSE-MsgGUID: RcWaxfnVSFKJiC0/PFwoGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="49672038"
+X-IronPort-AV: E=Sophos;i="6.19,323,1754982000"; d="scan'208";a="49672038"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2025 04:57:12 -0700
-X-CSE-ConnectionGUID: +ik/jqawRj6t5aU+gKUfsA==
-X-CSE-MsgGUID: iLE+fIktTa2iUtAey/MEMg==
+ 08 Oct 2025 04:57:20 -0700
+X-CSE-ConnectionGUID: 6v2WGbpuQfyZYTpAAvwUYQ==
+X-CSE-MsgGUID: dm2+09g9TmyLkx4ZEwUXjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,323,1754982000"; d="scan'208";a="180452874"
+X-IronPort-AV: E=Sophos;i="6.19,323,1754982000"; d="scan'208";a="180452901"
 Received: from kniemiec-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.245.244.147])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2025 04:57:09 -0700
+ 08 Oct 2025 04:57:16 -0700
 From: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
@@ -51,10 +51,10 @@ Cc: Adrian Larumbe <adrian.larumbe@collabora.com>,
  Krzysztof Karas <krzysztof.karas@intel.com>,
  Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
  Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Subject: [PATCH v2 1/2] drm/i915: Change semantics of context isolation
- reporting to UM
-Date: Wed,  8 Oct 2025 13:56:32 +0200
-Message-ID: <20251008115632.16333-3-krzysztof.niemiec@intel.com>
+Subject: [PATCH v2 2/2] drm/i915: force getparam ioctl return bool for
+ HAS_CONTEXT_ISOLATION
+Date: Wed,  8 Oct 2025 13:56:33 +0200
+Message-ID: <20251008115632.16333-4-krzysztof.niemiec@intel.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20251008115632.16333-2-krzysztof.niemiec@intel.com>
 References: <20251008115632.16333-2-krzysztof.niemiec@intel.com>
@@ -77,39 +77,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Adrian Larumbe <adrian.larumbe@collabora.com>
 
-I915_PARAM_HAS_CONTEXT_ISOLATION was already being used as a boolean by
-both Iris and Vulkan, and stood for the guarantee that, when creating a
-new context, it would not contain register state from preexisting ones.
-
-However, the actual param ioctl was returning a bitmask for the
-engines in which isolation is supported, and IGT gem_ctx_isolation was
-exploiting this wrong semantics when making decisions about which
-engines support it.
-
-This is a uAPI documentation change that precedes the actual change in
-the getparam ioctl.
+In a previous commit, the uAPI documentation for this param was updated
+to reflect the actual usage expected by Iris. Now make sure the driver
+does indeed return a boolean value rather than an engine bitmask.
 
 Signed-off-by: Adrian Larumbe <adrian.larumbe@collabora.com>
 Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
 ---
- include/uapi/drm/i915_drm.h | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_user.c | 14 ++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_engine_user.h |  1 +
+ drivers/gpu/drm/i915/i915_getparam.c        |  2 +-
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 535cb68fdb5c..5aff550034fc 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -724,10 +724,6 @@ typedef struct drm_i915_irq_wait {
-  * supports) that all state set by this context will not leak to any other
-  * context.
-  *
-- * As not every engine across every gen support contexts, the returned
-- * value reports the support of context isolation for individual engines by
-- * returning a bitmask of each engine class set to true if that class supports
-- * isolation.
-  */
- #define I915_PARAM_HAS_CONTEXT_ISOLATION 50
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+index 833987015b8b..1f8e2bc540a9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+@@ -324,3 +324,17 @@ unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915)
  
+ 	return which;
+ }
++
++bool engines_context_isolated(struct drm_i915_private *i915)
++{
++	struct intel_engine_cs *engine;
++
++	if (!DRIVER_CAPS(i915)->has_logical_contexts)
++		return false;
++
++	for_each_uabi_engine(engine, i915)
++		if (!engine->default_state)
++			return false;
++
++	return true;
++}
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.h b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+index 3dc7e8ab9fbc..760167db07d5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_user.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+@@ -15,6 +15,7 @@ struct intel_engine_cs *
+ intel_engine_lookup_user(struct drm_i915_private *i915, u8 class, u8 instance);
+ 
+ unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915);
++bool engines_context_isolated(struct drm_i915_private *i915);
+ 
+ void intel_engine_add_user(struct intel_engine_cs *engine);
+ void intel_engines_driver_register(struct drm_i915_private *i915);
+diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+index 6fcda6d7b5b7..34999ab51a6f 100644
+--- a/drivers/gpu/drm/i915/i915_getparam.c
++++ b/drivers/gpu/drm/i915/i915_getparam.c
+@@ -163,7 +163,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 			value = -EINVAL;
+ 		break;
+ 	case I915_PARAM_HAS_CONTEXT_ISOLATION:
+-		value = intel_engines_has_context_isolation(i915);
++		value = engines_context_isolated(i915);
+ 		break;
+ 	case I915_PARAM_SLICE_MASK:
+ 		/* Not supported from Xe_HP onward; use topology queries */
 -- 
 2.45.2
 
