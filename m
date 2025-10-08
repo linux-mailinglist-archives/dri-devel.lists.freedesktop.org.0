@@ -2,57 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84142BC4B4D
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29EBBC4BDC
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:17:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B67AE10E7F3;
-	Wed,  8 Oct 2025 12:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82CFB10E7F6;
+	Wed,  8 Oct 2025 12:17:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kzZrXAQN";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Icgycpf4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l6Lx18U6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TxIVBXk3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wvFTqYft";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9501110E7F3
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:05:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 12F2461F82;
- Wed,  8 Oct 2025 12:05:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44D93C113D0;
- Wed,  8 Oct 2025 12:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759925099;
- bh=BTgQdBclKo7NmIGWYu9StywY/1kmhTQ15BwCuZnntRc=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=kzZrXAQNSr6viEPDa1qjEI0oSgRDEGd/9rhVxe9Dv65adHB6smzMJbb1yrfYy/w2B
- 5/N27Awi8hVG/IUA0tcxJQ4zCcF12/74xRLrmNQ4qNiPhKvIVJsKUiCvpUwYn57f+2
- +LgFKULVAlWY3Bb279f2BisEnkzavGEq+4mmh6JK4tRzsbrk14/NysnLWUtp8ddnvs
- 4mfDu2W/4XtFajvlTyongQeUJDyR3n/iK2REJyoeuVBLFCUiQikx8Msf+UmJj38L1z
- 5LuAwasw35uW8Cw4NMr24V/p4cSiTAzQEtUJ9j5eKKwgOKMjVJCxljArHeTusm/Xn5
- 84vTpm72T3enA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 08 Oct 2025 14:04:14 +0200
-Subject: [PATCH 16/16] drm/mode_config: Call private obj reset with the
- other objects
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3900F10E809
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:17:42 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E92121F79F;
+ Wed,  8 Oct 2025 12:17:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1759925861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5wObbyiJlGh5lzZbXgep/HCNowXb5U4wB4EHGf4feMs=;
+ b=Icgycpf4a2Sdm0+4fMOwVsSgiG7wbeO4mW4+YtGIXzFw9r0Mr/pRQeC3hRp/tXusPSw7wX
+ 0h1sHH8m/H0pglqSn7hzCcG7unNe3vHvKGEMUjAP8GRLlo+KPX1H/Yjz0N/9TuEQ/VTysz
+ 6a0TF+DOnIGvdeQ8Tb1N/pCmeFZnbkM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1759925861;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5wObbyiJlGh5lzZbXgep/HCNowXb5U4wB4EHGf4feMs=;
+ b=l6Lx18U6rmfbJqHOLgte8dOMEPXTlPvyTJx6aK4aTysglXa4cn7rD4X3HpholOJHlta8fm
+ lbfQpdUEn1hmv5Cg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TxIVBXk3;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wvFTqYft
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1759925860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5wObbyiJlGh5lzZbXgep/HCNowXb5U4wB4EHGf4feMs=;
+ b=TxIVBXk3Jcsd9aHVpmoVe0cl/6JOerRrdJ+j2kOSZDLxKBfK/IgmmeIaDlqSFo+6zKVZL1
+ NoPuBomA2R0XCcdoYUD7lJh48b0yPIy0+GpR87Mmtg5dnoDtPajSbjevtgYlGdtBVxXAqY
+ QCvmSn3uE+8jPR5rJoCRwHczaT2jX3I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1759925860;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5wObbyiJlGh5lzZbXgep/HCNowXb5U4wB4EHGf4feMs=;
+ b=wvFTqYftMbj9mOHigH58NQO8avnq0iNhCu84ll8hj78Wdoyu/5BzGzhPNIefhHex4rnCob
+ wSsPpvveJqsATdAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A5E8713A3D;
+ Wed,  8 Oct 2025 12:17:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id UpZQJ2RW5mhKOQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 08 Oct 2025 12:17:40 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/cirrus-qemu: Use vblank timer
+Date: Wed,  8 Oct 2025 14:14:36 +0200
+Message-ID: <20251008121450.227997-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251008-drm-private-obj-reset-v1-16-805ab43ae65a@kernel.org>
-References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
-In-Reply-To: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2169; i=mripard@kernel.org;
- h=from:subject:message-id; bh=BTgQdBclKo7NmIGWYu9StywY/1kmhTQ15BwCuZnntRc=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgi2fa2cIWUjc2eC4J9Xu1KpXKZI7uXdlcmZNZ9gw5
- XvZgy/nOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBE9nIxNnws/nMzT0HInUd+
- 2lPlFcWRYm5n1RevPh3TYvKx/5FJfJjECduybUpf54ZMfhyr01ucyNjw959Zau2W28Z1Ew9cvVG
- 0wuHD9LJEzWYjjadJnTeXfmjYXWgiVp0W985j2jOpOTGuMjYA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: E92121F79F
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[9]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,70 +115,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have all the drm_private_obj users relying on the reset
-implementation, we can move that call from drm_private_obj_init, where
-it was initially supposed to happen, to drm_mode_config_reset, which is
-the location reset is called for every other object in KMS.
+Use a vblank timer to simulate the vblank interrupt. The DRM vblank
+helpers provide an implementation on top of Linux' hrtimer. Cirrus-qemu
+enables and disables the timer as part of the CRTC. The atomic_flush
+callback sets up the event. Like vblank interrupts, the vblank timer
+fires at the rate of the display refresh.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Most userspace limits its page flip rate according to the DRM vblank
+event. Cirrus-qemu' virtual hardware does not provide vblank interrupts,
+so DRM sends each event ASAP. With the fast access times of virtual display
+memory, the event rate is much higher than the display mode's refresh
+rate; creating the next page flip almost immediately. This leads to
+excessive CPU overhead from even small display updates, such as moving
+the mouse pointer.
+
+This problem affects cirrus-qemu and all other virtual displays. See [1]
+for a discussion in the context of hypervdrm.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://lore.kernel.org/dri-devel/SN6PR02MB415702B00D6D52B0EE962C98D46CA@SN6PR02MB4157.namprd02.prod.outlook.com/ # [1]
 ---
- drivers/gpu/drm/drm_atomic.c      | 3 ---
- drivers/gpu/drm/drm_mode_config.c | 6 ++++++
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tiny/cirrus-qemu.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index e409919b0ccb632e869b4a6f8462731484755b73..5e76ae017117ca25a2620b8b3cad4f0d622448fe 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -791,13 +791,10 @@ drm_atomic_private_obj_init(struct drm_device *dev,
- 	drm_modeset_lock_init(&obj->lock);
+diff --git a/drivers/gpu/drm/tiny/cirrus-qemu.c b/drivers/gpu/drm/tiny/cirrus-qemu.c
+index 97a93adc5669..f728fa48ac88 100644
+--- a/drivers/gpu/drm/tiny/cirrus-qemu.c
++++ b/drivers/gpu/drm/tiny/cirrus-qemu.c
+@@ -45,6 +45,8 @@
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_module.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_vblank.h>
++#include <drm/drm_vblank_helper.h>
  
- 	obj->dev = dev;
- 	obj->funcs = funcs;
- 	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
--
--	if (obj->funcs->reset)
--		obj->funcs->reset(obj);
- }
- EXPORT_SYMBOL(drm_atomic_private_obj_init);
+ #define DRIVER_NAME "cirrus-qemu"
+ #define DRIVER_DESC "qemu cirrus vga"
+@@ -404,11 +406,15 @@ static void cirrus_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ #endif
  
- /**
-  * drm_atomic_private_obj_fini - finalize private object
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 25f376869b3a41d47bbe72b0df3e35cad142f3e6..76fcf80fdcec4337992b35ac741189bb32ee670d 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -21,10 +21,11 @@
-  */
- 
- #include <linux/export.h>
- #include <linux/uaccess.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_file.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_managed.h>
-@@ -193,12 +194,17 @@ void drm_mode_config_reset(struct drm_device *dev)
- {
- 	struct drm_crtc *crtc;
- 	struct drm_plane *plane;
- 	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
-+	struct drm_private_obj *obj;
- 	struct drm_connector_list_iter conn_iter;
- 
-+	drm_for_each_privobj(obj, dev)
-+		if (obj->funcs->reset)
-+			obj->funcs->reset(obj);
+ 	drm_dev_exit(idx);
 +
- 	drm_for_each_plane(plane, dev)
- 		if (plane->funcs->reset)
- 			plane->funcs->reset(plane);
++	drm_crtc_vblank_on(crtc);
+ }
  
- 	drm_for_each_crtc(crtc, dev)
-
+ static const struct drm_crtc_helper_funcs cirrus_crtc_helper_funcs = {
+ 	.atomic_check = cirrus_crtc_helper_atomic_check,
++	.atomic_flush = drm_crtc_vblank_atomic_flush,
+ 	.atomic_enable = cirrus_crtc_helper_atomic_enable,
++	.atomic_disable = drm_crtc_vblank_atomic_disable,
+ };
+ 
+ static const struct drm_crtc_funcs cirrus_crtc_funcs = {
+@@ -418,6 +424,7 @@ static const struct drm_crtc_funcs cirrus_crtc_funcs = {
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++	DRM_CRTC_VBLANK_TIMER_FUNCS,
+ };
+ 
+ static const struct drm_encoder_funcs cirrus_encoder_funcs = {
+@@ -493,6 +500,10 @@ static int cirrus_pipe_init(struct cirrus_device *cirrus)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = drm_vblank_init(dev, 1);
++	if (ret)
++		return ret;
++
+ 	return 0;
+ }
+ 
 -- 
 2.51.0
 
