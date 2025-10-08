@@ -2,118 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E4EBC689B
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 22:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5281BC68D8
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 22:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7858410E8D6;
-	Wed,  8 Oct 2025 20:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A800E10E8D5;
+	Wed,  8 Oct 2025 20:18:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LMx6Ohwh";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EEafHjNq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE43310E8A4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 20:05:59 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5Kw8004532
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 20:05:59 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D832D10E8D5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 20:18:11 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5OXN019623
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 20:18:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=95/iYHyDl4vmA4hj/jHcPunB
- Q7LfZPuixFnm3qR123E=; b=LMx6OhwhRPYy3byRvajlWZ0h6d91KiH9Hg9+6QJI
- E1+ZIW9ydOhsHjiQI6cLTaGrrMWq2Im5D3mQyaXZar5/f2ae6JzA8YM29+c4aNgq
- 2z0cpBNo+t5B7Zh2PbyAgVN2p6JO3wOv9V1V0nQ1HBfW3vZb7E5yvOuDid5R8UxO
- Qlu/Ywnrtl3oelhMmvqeE1UuKvSW9giWcwcttNES+mwRKm+1nzHLvNF+Bk1G0nB5
- 9bGGAoJvL6EUkXx+9pS+45U/YxMy9QE7cj66eR7Pv6CC8YQ0bYG26h1LyJK4LlKH
- m1mcubK8SdOCwtuCl1za/2PCQey5edNG4Tb9TkktWucZKw==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4krerr-1
+ :references:subject:to; s=qcppdkim1; bh=kNooSgQObBXHDW2EZd4lPNQf
+ XkC1kUoaAl1kKd85Nyg=; b=EEafHjNql4kicFMEu1N4GmRpeEnZWAOvK1cv4hst
+ W8sT2ELEpo++OmEEPV/jMOCexj6+RT+uSOWFjKYQ2SZdEdkd/WEEmxlpcSdk4iP+
+ ASpBwRKpl/8IGMuL3qaxVijU1Q170qAk/2Ywq5qnFc0AoGbxq+/B9pqH446OP5KR
+ 0Q1xyRxsil8ASV24lpPLV6ioRoj9yQFeEnIy2Kzz85j4mkC3KQv5xaAXPlLNhURz
+ uCQATreTatxIB7q6GSio1iJVTd+Vg7ZMyWXN2k0uUxiwNBNPbhOWM8tTYPTAnpZf
+ kyHk+ANWLcqApzl0o9zrh7ytDf6Yv41VaT1dI63dg1amxA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv9a8fjm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 20:05:59 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id
- 71dfb90a1353d-54aa5401327so103197e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 13:05:58 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 20:18:10 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4deb67c61caso8967001cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 13:18:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759953958; x=1760558758;
+ d=1e100.net; s=20230601; t=1759954690; x=1760559490;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=95/iYHyDl4vmA4hj/jHcPunBQ7LfZPuixFnm3qR123E=;
- b=IiF352yxdsq/AfCAKINSuRwhEs3rEuy2tcfyjvLcqbMdYo6EMoAfVfuNJBLd9lfl1A
- SjCmCgZ5qOiHH0Lsb7LU3nyOOxuV529Z3nHE8sk4D7Agb+EVpovtrzfb7laPkXxb8M+Q
- NVcchLHAJJKNhST4fJI+9KnstngbJqHqwxmWc0sV2qYAbqX6HjosUxbnmrLHEP/xZwkb
- 4oZDL4KBKyiphoVq52+GTs6zlCThPJ3gs3CMrrdUAmXSYJ5KpbzBHn22gWGRX4jgDc3e
- 7108KPCSq2IoSwtni73U4I3A7bUj7LLvgTStymmeuKw0iEUDXh6fkUHwm6o+GY7D4OpJ
- eCsg==
+ bh=kNooSgQObBXHDW2EZd4lPNQfXkC1kUoaAl1kKd85Nyg=;
+ b=g01P/0cBZQCyjFnRB8TTlIVK2yP17zkWZAf77OYG2k1Ep7tSSfq6f+r47p6sq5LygA
+ 00OdvMAv92w4IvWtTfb/ne1wiQ2jgMA8wFOPHeD/p8jeE1VfnMYNPf5fLMTHUGw/nTIM
+ Q795LSGY50SRowKvPKP7YWd5lIViZb5tMPDQ0abtT53YD7XBc1/lF3lcMOg4kwimrZhz
+ wzm/Mu8bIF/sqtBeTNf9S9ZyVPqG6B1XVD+XysDDwQdwXu6jtUSZupKIKSD/Pec4GGqq
+ 6vaXit3wLaB+dzcKQXl4TZuFXcRecH4uGYzZZKal2eS3SROcUIMAk15x8GELMGyk8psN
+ 6lGg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIedNKGb0+bCKBt/0N+WtuaNBG5LQmkckSu8jO5WdX8OSIREqFiWFQjVPD4PypwyZYuVf/VEwwzkA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0udtmnGOCU7+RTHGjYY0pyG0rXqpj+OaUR5EP0yfaA9+AjWQJ
- cgoQGxceHl7Ep4odDk8GFpDXaAVmvSxxy1qpS9iUMvrSpgO3CviHkEQH7Y0k+5WnLY6ES8y9VzP
- AgVAD8BuX5cJuWOm8IrDsm3H/2r/vmuBzZKau+0TVHB2vg/5xyoMeFlKXZxpA3LQI7UCTEAE=
-X-Gm-Gg: ASbGncvagLVs0TdDvJmA4gQMILE9fGtiw9sIcuqeygfclwGEU1Fyl5tle7ZKJ53Dj2Q
- pQa4iRo1loB60YbTcM9ubdVtUGh7N4gsk8ujjLWzlSRZjtb4wx+JhMNNKgiJZF2Nh/9ixBbSoTe
- k9N5m3eeqnGWzTs1zCU4yj/zwsh94++/IvU9eWiIsipBBa+FaxGdX2S7/NV6+RHBPkM2AxYlHvb
- WfKg/rbD5IXkwgC7Zr0TqP6Ni+/UnolF4MaicWMx9cWoAgzYYSNrOw2gFgnAZexfXzcH12Pn2ve
- 8m+T5zASocSWvQumPz/L6l4iveFiBRAq/TLBSEzR5QFNzve3hAckG1+Q6k21TRNzcGXjFt/Eu7g
- pcjG5jgXQgzqZE3NpsCF15Svxoqz6qVNOtmT6rK6XHn4PLxaYKmqcEEh74g==
-X-Received: by 2002:a05:6122:8c7:b0:53b:1998:dbf5 with SMTP id
- 71dfb90a1353d-554b8b39aa1mr2239510e0c.1.1759953957629; 
- Wed, 08 Oct 2025 13:05:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEl7fOxPxx20GF4ALLTOqSR9r8TJV/qd+qF65hUWvLJA7cdPGmSfYQqV14+SKxf9ofMClXmnw==
-X-Received: by 2002:a05:6122:8c7:b0:53b:1998:dbf5 with SMTP id
- 71dfb90a1353d-554b8b39aa1mr2239490e0c.1.1759953957141; 
- Wed, 08 Oct 2025 13:05:57 -0700 (PDT)
+ AJvYcCXEO/PRSGkzTre6uKhIrKWicgOOC4FeENlYhZtKxkjMmThT0VKqUiTfVztLjScv3Tsl4FMc6Lc/AsM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4ZjsdPDXNIxuRVLshuaTLn330XtFuqnWAn7kt+bge+Uul1kIs
+ F5ol2TxPzBxJzlFhYGJ8GvivNabiWopeCQM00M0r4hlqtkYmT9ob+UbAyFmrVx7wkacPPKBBiGi
+ 05PZsKKxktvGWcs5h07y0sKJPX+iS9c4H9RYmablgQUNY74KjsgkQa8l14hzkA09BzVzBsl4=
+X-Gm-Gg: ASbGncvVQD3OAFS/JueCVaFx4yfn9u1+hFUm0mul+dldVIKXkGSnJeeEn6Hx0uriRdA
+ LYZRTwaU3BVFgYwnBuWVYnLSn5vf6Llo9ZPQuLDpNi5kBkrIWWX3D+kXOhvZo3yNATbNKOQ6KCj
+ pgpm6wy31UD6BpfHtvDm53R0r2Fspb/HpZoZhdjdtd5tJdSa3DTXVphGLKbzVSK7z5TBSEGhwCZ
+ s3piI/D3E2j3dsBzpFWvUj6toicjYxwxuxiqW5vV9ERyU132JZT0LrmlERkLHqN56b/77n6pjZw
+ YmRngkuqjZMuraRY+QTs25QE9Ebpw2EYY6vQozhAl3NWYvAbWbbCDXH7aBxc4ttFVPGh8Cwa1CT
+ S2Oj40QFKC3CNnbwxcML9VfIkfNNpNZJPt7aVhXxTn0CbzdNvUbg3ZQdSOg==
+X-Received: by 2002:ac8:6f13:0:b0:4e6:d87a:280 with SMTP id
+ d75a77b69052e-4e6ead55458mr70978501cf.55.1759954689772; 
+ Wed, 08 Oct 2025 13:18:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEYxqvReUu2GqoRvVHckRUinvJTU/UNQ6t7PoprPmB+pZQtpos6Wn/tSoiodgEp8Lq4K561kw==
+X-Received: by 2002:ac8:6f13:0:b0:4e6:d87a:280 with SMTP id
+ d75a77b69052e-4e6ead55458mr70978041cf.55.1759954689320; 
+ Wed, 08 Oct 2025 13:18:09 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5907ad9e048sm301512e87.75.2025.10.08.13.05.54
+ 38308e7fff4ca-375f3b8213csm22079521fa.48.2025.10.08.13.18.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 13:05:55 -0700 (PDT)
-Date: Wed, 8 Oct 2025 23:05:53 +0300
+ Wed, 08 Oct 2025 13:18:08 -0700 (PDT)
+Date: Wed, 8 Oct 2025 23:18:05 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: "Garg, Nemesa" <nemesa.garg@intel.com>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "G M, Adarsh" <adarsh.g.m@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH 01/10] drm/drm_crtc: Introduce sharpness strength property
-Message-ID: <mqvmv3bqikoekjhhwqifzatzouxym4yy4eab6bb2zjhzlv2tfw@l5iumy2ybngl>
-References: <20251001063500.1259687-1-nemesa.garg@intel.com>
- <20251001063500.1259687-2-nemesa.garg@intel.com>
- <epzspujsf2o4wq5ykswe7a3hvrb3vy5wgenglfopmkuepyfstm@5kkpxstpyc3r>
- <IA1PR11MB6467E47D1D61DE21DCC2B9EAE3E1A@IA1PR11MB6467.namprd11.prod.outlook.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, jani.nikula@intel.com,
+ simona@ffwll.ch, linux-kernel@vger.kernel.org,
+ tomi.valkeinen@ideasonboard.com, praneeth@ti.com, vigneshr@ti.com,
+ aradhya.bhatia@linux.dev, s-jain1@ti.com, s-wang12@ti.com,
+ r-donadkar@ti.com, h-shenoy@ti.com
+Subject: Re: [PATCH v3] drm/bridge: sii902x: Fix HDMI detection with
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Message-ID: <4rbyxn2jr4nsogt4wfdin3jpzumjqj4mcplq7on6yyqvq4wu34@qng22gczlfyn>
+References: <20251007112309.1103811-1-devarsht@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <IA1PR11MB6467E47D1D61DE21DCC2B9EAE3E1A@IA1PR11MB6467.namprd11.prod.outlook.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX5Vrx7MEWZdqK
- dZFQQGGpf5ErKf1o1z3tbckfHnxfMrlGAzhB0mitnSkt4kZK3EIdklkgUEW1AO6gQGQFajjX/RT
- mU1S1B5jhccntmZdlUFS9KQ+Hc4PiCzEu7+HdD4tE9NGZYUEWrxE3t4Ge7kaMDtMxfaRrljO94b
- m1ospEXn8O5FjVXtt9NibkZfuBNPHmLVlY7SGYi8D4HtkodltgxVTmD6FKF2bqyJlCmBqfO8AYB
- xhNcGYc3IG3CAa/0cp5tnoXQGH7FVlFfBU5ifezTwyyClA5TrHl5yccEGOMbHM4QCMFJoU5RcLX
- VKjw/EGQvkKZNBFFoBxwyFPmenKpZ88xSP3mFWP4pVlmiMTw8Vm3Py8dlAiwsEhX7LWICdqUIdS
- nfLYu4ocTi7liCqO0JHTZ7ZKZU9ldw==
-X-Proofpoint-GUID: cf-rWvUnXQdM2KMPqFSOnnHSLUVJyE5h
-X-Proofpoint-ORIG-GUID: cf-rWvUnXQdM2KMPqFSOnnHSLUVJyE5h
-X-Authority-Analysis: v=2.4 cv=SJxPlevH c=1 sm=1 tr=0 ts=68e6c427 cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8
- a=a-h1K1YzEVxaE0wpvGgA:9 a=CjuIK1q_8ugA:10 a=XD7yVLdPMpWraOa8Un9W:22
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20251007112309.1103811-1-devarsht@ti.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMiBTYWx0ZWRfX6DqmSk76M6dn
+ IMuqdWTI1DYgDSurMpu3DVLcIM53uzAE6Ya2i5EJLHQw0CIrF9uYa+V8Yi/p9IbAw2EuwjIdonU
+ aCPCnlKQTKqnbVslELGEj/fmrBSzGZGLv8Mk9h07Bjc8wjZ08VCaEIm/KqeuNpAULTsP3cVvu6y
+ hMfJeuadZ5oRjbDkugyOTgb9CavSi4YRIUBt7V9XacM9pWAx4ghGJxz4+Da9wdcXG65QtQD1YwE
+ ohVJoOpWUNjjOGcyrWFNGiAxs31AFNTuLsdjSCscGX1mIfR76WjlP0R0wKk3/TxpXNvKVBSxFlr
+ rh8+/GkibMaZRTnTBe1leJ5fFDYwkt6rYsR7JaDWR2ygMRVbXvJk7LZeKpyIpJFKqaQnGuehn51
+ ELHWTOR0F9KpsUttxhrI4csUog6JqA==
+X-Proofpoint-GUID: w0i4ljQlZK6Qh29emhVIKWTvxe7dk2zc
+X-Proofpoint-ORIG-GUID: w0i4ljQlZK6Qh29emhVIKWTvxe7dk2zc
+X-Authority-Analysis: v=2.4 cv=JPk2csKb c=1 sm=1 tr=0 ts=68e6c702 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=sozttTNsAAAA:8 a=WDkIgKykSkWkz4MvAP8A:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_05,2025-10-06_01,2025-03-28_01
+ definitions=2025-10-08_07,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 phishscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080122
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,119 +128,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 07:22:00AM +0000, Garg, Nemesa wrote:
+On Tue, Oct 07, 2025 at 04:53:09PM +0530, Devarsh Thakkar wrote:
+> The SII902x HDMI bridge driver wasn't working properly with drivers that
+> use the newer bridge connector architecture with the
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, like TIDSS.  This caused HDMI audio to
+> fail since the driver wasn't properly setting the sink_is_hdmi flag when
+> the bridge was attached without a connector since .get_modes() is never
+> called in this case. Fix it by setting sink_is_hdmi flag when reading
+> the EDID block itself.
 > 
+> Fixes: 3de47e1309c2 ("drm/bridge: sii902x: use display info is_hdmi")
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+> V3: Use drm_edid_connector_update without edid NULL check
+> V2: Use drm_edid_connector_update to detect HDMI
 > 
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > Sent: Saturday, October 4, 2025 3:38 PM
-> > To: Garg, Nemesa <nemesa.garg@intel.com>
-> > Cc: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
-> > devel@lists.freedesktop.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>;
-> > G M, Adarsh <adarsh.g.m@intel.com>; Simona Vetter
-> > <simona.vetter@ffwll.ch>
-> > Subject: Re: [PATCH 01/10] drm/drm_crtc: Introduce sharpness strength
-> > property
-> > 
-> > On Wed, Oct 01, 2025 at 12:04:51PM +0530, Nemesa Garg wrote:
-> > > Introduce a new crtc property "SHARPNESS_STRENGTH" that allows the
-> > > user to set the intensity so as to get the sharpness effect.
-> > > The value of this property can be set from 0-255.
-> > > It is useful in scenario when the output is blurry and user want to
-> > > sharpen the pixels. User can increase/decrease the sharpness level
-> > > depending on the content displayed.
-> > >
-> > > v2: Rename crtc property variable [Arun]
-> > >     Add modeset detail in uapi doc[Uma]
-> > > v3: Fix build issue
-> > > v4: Modify the subject line[Ankit]
-> > >
-> > > Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
-> > > Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > > Tested-by: Adarsh G M <Adarsh.g.m@intel.com>
-> > > Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-> > > ---
-> > >  drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
-> > >  drivers/gpu/drm/drm_crtc.c        | 35 +++++++++++++++++++++++++++++++
-> > >  include/drm/drm_crtc.h            | 18 ++++++++++++++++
-> > >  3 files changed, 57 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
-> > > b/drivers/gpu/drm/drm_atomic_uapi.c
-> > > index 85dbdaa4a2e2..b2cb5ae5a139 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > > @@ -419,6 +419,8 @@ static int drm_atomic_crtc_set_property(struct
-> > drm_crtc *crtc,
-> > >  		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
-> > >  	} else if (property == crtc->scaling_filter_property) {
-> > >  		state->scaling_filter = val;
-> > > +	} else if (property == crtc->sharpness_strength_property) {
-> > > +		state->sharpness_strength = val;
-> > >  	} else if (crtc->funcs->atomic_set_property) {
-> > >  		return crtc->funcs->atomic_set_property(crtc, state, property,
-> > val);
-> > >  	} else {
-> > > @@ -456,6 +458,8 @@ drm_atomic_crtc_get_property(struct drm_crtc
-> > *crtc,
-> > >  		*val = 0;
-> > >  	else if (property == crtc->scaling_filter_property)
-> > >  		*val = state->scaling_filter;
-> > > +	else if (property == crtc->sharpness_strength_property)
-> > > +		*val = state->sharpness_strength;
-> > >  	else if (crtc->funcs->atomic_get_property)
-> > >  		return crtc->funcs->atomic_get_property(crtc, state, property,
-> > val);
-> > >  	else {
-> > > diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> > > index 46655339003d..a7797d260f1e 100644
-> > > --- a/drivers/gpu/drm/drm_crtc.c
-> > > +++ b/drivers/gpu/drm/drm_crtc.c
-> > > @@ -229,6 +229,25 @@ struct dma_fence *drm_crtc_create_fence(struct
-> > drm_crtc *crtc)
-> > >   * 		Driver's default scaling filter
-> > >   * 	Nearest Neighbor:
-> > >   * 		Nearest Neighbor scaling filter
-> > > + * SHARPNESS_STRENGTH:
-> > > + *	Atomic property for setting the sharpness strength/intensity by
-> > userspace.
-> > > + *
-> > > + *	The value of this property is set as an integer value ranging
-> > > + *	from 0 - 255 where:
-> > > + *
-> > > + *	0: Sharpness feature is disabled(default value).
-> > > + *
-> > > + *	1: Minimum sharpness.
-> > > + *
-> > > + *	255: Maximum sharpness.
-> > > + *
-> > > + *	User can gradually increase or decrease the sharpness level and can
-> > > + *	set the optimum value depending on content.
-> > > + *	This value will be passed to kernel through the UAPI.
-> > > + *	The setting of this property does not require modeset.
-> > > + *	The sharpness effect takes place post blending on the final composed
-> > output.
-> > > + *	If the feature is disabled, the content remains same without any
-> > sharpening effect
-> > > + *	and when this feature is applied, it enhances the clarity of the
-> > content.
-> > 
-> > I can repeat my question from XDC: should we extend this to negative values,
-> > allowing softening (unsharpening) the image?
-> > 
-> Hi Dmitry,
-> The un-sharpening or blurring is a very valid usecase in pre-blending where certain layers (data
-> From clients) can be un-sharpened while some other layers can be enhanced with sharpening.
-> This helps give  focus to the particular content and suppress the background.
+> Link to V2:
+> https://lore.kernel.org/all/20251006150714.3144368-1-devarsht@ti.com/
+> Link to V1:
+> https://lore.kernel.org/all/20251003143642.4072918-1-devarsht@ti.com/
 > 
-> However, this current property is targeted for post blending so will be
-> applied to the entire frame on screen, here sharpening only is the intended objective.
+>  drivers/gpu/drm/bridge/sii902x.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> We can pursue a pre-blending solution to target the un-sharpening case as well as a separate interface.
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> index d537b1d036fb..bb613d4c281f 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -296,6 +296,8 @@ static const struct drm_edid *sii902x_edid_read(struct sii902x *sii902x,
+>  	mutex_lock(&sii902x->mutex);
+>  
+>  	drm_edid = drm_edid_read_ddc(connector, sii902x->i2cmux->adapter[0]);
+> +	drm_edid_connector_update(connector, drm_edid);
+> +	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
+>  
+>  	mutex_unlock(&sii902x->mutex);
+>  
+> @@ -309,14 +311,11 @@ static int sii902x_get_modes(struct drm_connector *connector)
+>  	int num = 0;
+>  
+>  	drm_edid = sii902x_edid_read(sii902x, connector);
+> -	drm_edid_connector_update(connector, drm_edid);
+>  	if (drm_edid) {
+>  		num = drm_edid_connector_add_modes(connector);
+>  		drm_edid_free(drm_edid);
+>  	}
 
-Indeed, I'm more interested in a per-plane sharpen / unsharpen property.
+The EDID read / free can also be dropped, they don't serve any purpose
+now.
 
-> Hope this is fine.
+>  
+> -	sii902x->sink_is_hdmi = connector->display_info.is_hdmi;
+> -
+>  	return num;
+>  }
+>  
+> -- 
+> 2.39.1
+> 
 
 -- 
 With best wishes
