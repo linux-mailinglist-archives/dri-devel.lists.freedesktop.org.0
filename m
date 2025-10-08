@@ -2,140 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8BDBC65B6
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBFABC65C8
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A79710E8B9;
-	Wed,  8 Oct 2025 18:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0911310E8A1;
+	Wed,  8 Oct 2025 18:52:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pm35HvVw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Db7NaxiD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E15210E8A5
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:50:59 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5s1b005405
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:50:59 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 848EF10E8A1
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:52:42 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5IQW027653
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:52:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- uITwFPVVtm5HGcZZqlMQJExGS43mnTAbnaIunuo1244=; b=pm35HvVwKYtocXkC
- KgBjxl7KJX/a84PN3g7r4RKb4r25FiSljFfF0+W+PA8oUpzKh7i19OAwbJAeQwCr
- uK4H5eZoRKU5++bwJFddNVJd+ffIZEZTvGMqtUvedUt4Vtp77DThSZmodrglKARL
- FQetzyS0hXMvZCfYIRLI51jKH9BSPfL7W9Yfsl94SY1qy7SGCRajgJyFEJcZboHR
- 993RwCxyAeMkuFZlhjJtL5Bu7ESP8uLnmbefsmT9ZbgN3gS6r3Br47WlCrPpyOMn
- yDv33Tiwo6b3L3xKLwUMFrw2332qL/ViUXzWVX0/lNZsOsx3odEH5pHneOK2jail
- wvpZ8g==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4kr8wy-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=vVjFLGcYouerL8vzkeewUnxc
+ jHzrBIUbHKdll+Bz7uY=; b=Db7NaxiD0ZwtrnfNKZgSVIJ/QQg28eIDUuF49WIC
+ mvE68AKvGhPgZfncdtpkrmxLbXWE6JslwbJk4YG+kBNUwwpDHTyVLVB6kUgyH174
+ jtMrmlBzwtOW82C+fwWLVA1riP0PgMeizIjJlZ21VYtgq1LUc6zWa01dk0gXeNwR
+ RWzNjGxgHogSHW0NGT2NHEfFcUzYJq8D1A7fG0MFVqT/1/SU/n+v6tLRWBdAa6Mq
+ xl95tB/dyhEbQEsPk6nV435fAkuUgQhSfp/mLfPNkJ8UWbDI0vMGwUF1dUgX7jym
+ TPYvwHnF0dTJLVMhbsEH9BguPOq90MQQ/c/U/5u/pb83lg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nr9hy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:50:58 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4d8b8c3591fso4384311cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:50:58 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:52:41 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4ddc5a484c9so4060091cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:52:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759949457; x=1760554257;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uITwFPVVtm5HGcZZqlMQJExGS43mnTAbnaIunuo1244=;
- b=n4VKMmTi7vIGMV0WCQbU+9omeHruXhSU6l8TpRXdlCnYAYzlP/Q60MYSEZKEAUEOyG
- ygIC1d9/h8ZXSbBXjBpbZEcSfDKHOKXQRrNWLiGs1R69M2qlDpS71jAVJQy5CX94aKS0
- s6x0FvYgLbZefagqfjQpoHZ1eAcP/28jnhlqywUPuaHdJYpVhcN/tono2qGAqDZED9Lp
- QV3ekgncPYMN4v3MckYZQ+MXM0CnN/xVhX5tPK1+CrB5ehH24bXwIa4rsw0wAFgPkxJa
- 67AbPFfLCIeRAczr3t7s7S3OJc2X9XIi2Xem2k76w5chsWAoNwz61GXe5CBsTMRW1b73
- /TAw==
+ d=1e100.net; s=20230601; t=1759949560; x=1760554360;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vVjFLGcYouerL8vzkeewUnxcjHzrBIUbHKdll+Bz7uY=;
+ b=WggfpBCFmd/1NRvMCIQ+hu4Yl/ANe/zgsZ5Y1HZ2QWqHwCtRwcNw6+jnPVoFcdA7Z0
+ 2bQh0elnEHDgxCH2RdZdIy7Fm0KSKeFQb94WIs+9TOkXL1vq06blycsTr5G9aN55URPZ
+ nFnLVB8rSVcUKmsJ5kIz/f8tg4DULqeDhxyjDmu2hf/XsW6GYHC44PhHwxLRq1jH814F
+ WxvppI5gGgGqoUPpOPdSUSyeP7MwZP+HW+xPHJzX+iPTrp7BqDvJid/fhJo5XPGWukUa
+ DAP053Dw0ttDWrCE5ZXXIqSNGqG0w1GQZiuCxmA1ATpNeNBJFsQTkx1qmKsZPgVhzUfJ
+ QEEA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXu+6z8A3OvKvyt1pxMKuO0JagFlhYTZ1sY3sbAdeoVrW+onqH4KgobXkL6436prQQxN7CcFvV7QF4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKL/bPKLO8/hDIrcfgf388zijsIeDqQ3qvbWqzhrw8vWXqGJpO
- mt32w+Cu/+vn9Bu4lHrTD6bTq75Nu38KekZGmSRWqHKt7ZTB+xhaZiKfFFzzOEKEEdcXHxrV7kZ
- KnlnCljAbup9L+F4THejO/nncDZLb9VrkwelxbfyNg9CMHukZKZCbXnCDZqYbl6Tp33Sk3Cw=
-X-Gm-Gg: ASbGncvqYElLyF50hAAtFdsb58+E6/suclPUWtChJndoJQt70en6TeGfpegcqoxltsg
- ThpbUlfEi1YBU4+nly/cffOpQOoG2oDCoH+CdGOcjVKdzvZYScO2wZ08hCr9ZBYok7Dm9zAIoRH
- /QjhBYqwM//1WiXTLVkLMnhC+R++OJ4ctwyBPrZm3luARChVW4etdmUvtdhZ3dLCH0BxAvWMcSU
- d6fivqbfbYFflSxkIxujyLNZrt9j1fW91NM8Amoadoim0Fa3qOytako5KVn/Wvqf93uleIYDks7
- Bpr2LumB3EhQoUlKkKtrKySNYukSEYpJp4ztDYpEmKGt4mwcIK7quuA65P0bhNnBpoom/nY86x0
- wjTmMy+HoGgrS+2CHeUs3ol5w8ElUghPaoYxtyvmuqA9N1FVPGJFpS+EApw==
-X-Received: by 2002:ac8:6f0c:0:b0:4e2:f1b3:3465 with SMTP id
- d75a77b69052e-4e6ead76f15mr74281781cf.38.1759949457207; 
- Wed, 08 Oct 2025 11:50:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGUO4IzyC2eM+Rm083vlD0OKO2yWrQqJ+L80WsUVjuOU8S6+ZWJh0vpPqNVGqSnwQ0XcRPA2Q==
-X-Received: by 2002:ac8:6f0c:0:b0:4e2:f1b3:3465 with SMTP id
- d75a77b69052e-4e6ead76f15mr74280941cf.38.1759949456598; 
- Wed, 08 Oct 2025 11:50:56 -0700 (PDT)
+ AJvYcCUa/BcRGzmpspvf40gCXFC091Wwa1V3YdrjBtiegUOM69LP5tpK6UCB3q7Ak+9MtCK3t7dNrtAz/xk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzAYRNafucVWeGOBrbHyLbD6eqQskLBana1U6Ja66J+G7wOuuB9
+ 5QccojjoGA+zn//Xr8ObTOGMYSCRYXao//1Fg3kvZBczKfT5DYxuBrygh+0fbnm0vxpRBl0Hf0E
+ 1pKe2EDdUYmHaCkUdjsNAiInMEx0XixTR/6Vb25+GC4WwJEuGcT/IOCp9CTvBMzaM/nxYcXT+f/
+ YcvCQ=
+X-Gm-Gg: ASbGncsjJL8ror2+eIwpSDKPdmaRiQcbD25sdefl8OwEUgdFlsJpAOeu/OXIKPTyUHf
+ Zke50bHpbHyOf0O32HN8CforL4V+VRQ5ioyaBKo2EwhH2XQmOl9rSJpVPABI3olprKAWac+aoIb
+ rromzYqK2X4uWWHPCVCXxmPgkaL/zCy8Qt8oUPFxOJ5he3LJY+TcNgfcTS6tdHSCDfg5Wt3pqyM
+ ElyZraHIRkWBRcLDzrL+nLueUTfT5yr6+9486Md7ZangxYRAYqaeysrV0Onfslknn+vvShdSnBO
+ WuvXb0/xlFV87VdbH/ud48J/xfTmTv/HPHkpYMOyYTjbnXp0FVqVu19GvEMwEIxXh5QO9Nk2L+x
+ 01s7Xt/WuYCZVrBVH7573D5BQLVqJNfYcTp6sNmZ6Pw80mZ/o6haiFJ5huQ==
+X-Received: by 2002:ac8:5aca:0:b0:4de:9079:6755 with SMTP id
+ d75a77b69052e-4e6ead6bd19mr71866801cf.81.1759949560321; 
+ Wed, 08 Oct 2025 11:52:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRDMJgxozu7GpE8vuClwMhxKzfh1N0FOWqji908B8PsWLJ24hNfcQXzKF+rht0ZjikHxaJwQ==
+X-Received: by 2002:ac8:5aca:0:b0:4de:9079:6755 with SMTP id
+ d75a77b69052e-4e6ead6bd19mr71866341cf.81.1759949559845; 
+ Wed, 08 Oct 2025 11:52:39 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-375f39d509bsm22551021fa.12.2025.10.08.11.50.55
+ 38308e7fff4ca-375f39d2fe6sm22333091fa.1.2025.10.08.11.52.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 11:50:55 -0700 (PDT)
-Date: Wed, 8 Oct 2025 21:50:53 +0300
+ Wed, 08 Oct 2025 11:52:39 -0700 (PDT)
+Date: Wed, 8 Oct 2025 21:52:37 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- amd-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 15/16] drm/atomic: Remove state argument to
- drm_atomic_private_obj_init
-Message-ID: <wy7atek2mqkfg2nkawobibq7abt3w6g5wiu4d25nkctkxwkce4@mffhmrlfrqdy>
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 16/16] drm/mode_config: Call private obj reset with the
+ other objects
+Message-ID: <zunipasyu3abuscjqrpqtehsrqp3pbxojpmf54kmjui4dq4kot@46e7zpokjgqn>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
- <20251008-drm-private-obj-reset-v1-15-805ab43ae65a@kernel.org>
+ <20251008-drm-private-obj-reset-v1-16-805ab43ae65a@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251008-drm-private-obj-reset-v1-15-805ab43ae65a@kernel.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX4zJIgjo5Oekn
- OZbdIyX1QHeJT0gOWf5ToO1KbEjWoiOV52QzPqRyg94Y8xCxMKJdRYuWHTHRGZ2XTvXEEoZ4+lQ
- IazaX9rDYH6ZBlJlmWbf6/EYbW/aX0RPQsHdk258Ndi8OmuBIT1nKMjRTvn2x5TvxWi4nWfxY0X
- CkfNX6+dK7Wy1KZGCngH4eH0agObXbnU2IrZrXIyfLc8ELjlf/+IsRE4mGcLvhwcFOUyD73A/FX
- GiTtZ9nbeg+vwKMqEKdgvE0wKMQVdUNQfE1MmBx2SCmUawyL2ON8smmvR3bdntxyCwUpNBC0CWw
- OWucTPbMW+jzzNgBKHxMVA8UdADCKDofw2jRixGqlejbuXgGjGnePy/DkXHO2JPTMThf1nUoTsl
- GgJzVR+NiBpYVGYPPWnv/vzVEOvfGg==
-X-Proofpoint-GUID: 2aoaOd3g3M1gjHjKKl1ADfeZnwKyJXLu
-X-Proofpoint-ORIG-GUID: 2aoaOd3g3M1gjHjKKl1ADfeZnwKyJXLu
-X-Authority-Analysis: v=2.4 cv=SJxPlevH c=1 sm=1 tr=0 ts=68e6b292 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=QyXUC8HyAAAA:8
- a=KKAkSRfTAAAA:8 a=ER_8r6IbAAAA:8 a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8
- a=Ikd4Dj_1AAAA:8 a=RF00TdSWAAAA:8 a=V2sgnzSHAAAA:8 a=EUspDBNiAAAA:8
- a=tVI0ZWmoAAAA:8 a=e5mUnYsNAAAA:8 a=4fa6rhvZphqvzmXW0hwA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=dawVfQjAaf238kedN5IG:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=cvBusfyB2V15izCimMoJ:22 a=9LHmKk7ezEChjTCyhBa9:22 a=D0XLA9XvdZm18NrgonBM:22
- a=_nx8FpPT0le-2JWwMI5O:22 a=Z31ocT7rh6aUJxSkT1EX:22 a=-BPWgnxRz2uhmvdm1NTO:22
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20251008-drm-private-obj-reset-v1-16-805ab43ae65a@kernel.org>
+X-Proofpoint-ORIG-GUID: qIKHYZBXeGIK8rcSkZXMZzHo53Kc5vAi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXwp02nd0s/Lvy
+ HSc7Be9wULESO3DEZp1W5K29O9NbXKo05hukzcuW833bHW6NutT9NpI3wS55j45Wk6wDwPlm0MM
+ vNBxY09r2noL1UVEHMI3Sp+1HBHkmH235VK/Z8GKRDqAi/lOtQBHE7KHgieqlR4FMe+v/UamiEz
+ TKvJghMryvmaMia48PWz/KeeUrGBxTYDA3zLYYSPd56m0+En1LFzUjOHPFTND+1vedCsK7LUHOp
+ +aVaW+7LcV1OqXeOTKYD/c+D17bEdC1XwZjw+pBVl6+91iZlgpWurlBTB2qU0/pHzYwz8/EwtkO
+ LE7nP/D9oWdxVXoSJcirjOy+/advFP0v30l8kecQTcpnn57QP720Ckf7eYvE/jLxr8AzfaxyeEX
+ f9OPkdCK2cx36rmuu9fo/gRaBBoJEg==
+X-Proofpoint-GUID: qIKHYZBXeGIK8rcSkZXMZzHo53Kc5vAi
+X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e6b2f9 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=XNMsMLdGYLHsCiX4oUYA:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-08_05,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 phishscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -153,56 +126,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 02:04:13PM +0200, Maxime Ripard wrote:
-> Now that all drm_private_objs users have been converted to use reset
-> instead of the old ad-hoc initialization, we can remove the state
-> parameter from drm_private_obj_init and the fallback code.
+On Wed, Oct 08, 2025 at 02:04:14PM +0200, Maxime Ripard wrote:
+> Now that we have all the drm_private_obj users relying on the reset
+> implementation, we can move that call from drm_private_obj_init, where
+> it was initially supposed to happen, to drm_mode_config_reset, which is
+> the location reset is called for every other object in KMS.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> 
 > ---
-> 
-> To: Liviu Dudau <liviu.dudau@arm.com>
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Paul Cercueil <paul@crapouillou.net>
-> To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> To: Thierry Reding <thierry.reding@gmail.com>
-> To: Mikko Perttunen <mperttunen@nvidia.com>
-> To: Jonathan Hunter <jonathanh@nvidia.com>
-> To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Rodrigo Siqueira <siqueira@igalia.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: "Maíra Canal" <mcanal@igalia.com>
-> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: linux-tegra@vger.kernel.org
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       |  1 -
->  drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c | 16 ++++++++--------
->  drivers/gpu/drm/display/drm_dp_mst_topology.c           |  1 -
->  drivers/gpu/drm/display/drm_dp_tunnel.c                 |  2 +-
->  drivers/gpu/drm/drm_atomic.c                            | 17 ++---------------
->  drivers/gpu/drm/drm_bridge.c                            |  1 -
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c               |  2 +-
->  drivers/gpu/drm/ingenic/ingenic-ipu.c                   |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c                 |  1 -
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c                |  1 -
->  drivers/gpu/drm/omapdrm/omap_drv.c                      |  2 +-
->  drivers/gpu/drm/tegra/hub.c                             |  2 +-
->  drivers/gpu/drm/vc4/vc4_kms.c                           |  4 +---
->  include/drm/drm_atomic.h                                |  1 -
->  14 files changed, 16 insertions(+), 37 deletions(-)
+>  drivers/gpu/drm/drm_atomic.c      | 3 ---
+>  drivers/gpu/drm/drm_mode_config.c | 6 ++++++
+>  2 files changed, 6 insertions(+), 3 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
