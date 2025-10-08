@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD72BC392A
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EC4BC392F
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2656110E765;
-	Wed,  8 Oct 2025 07:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0784F10E767;
+	Wed,  8 Oct 2025 07:31:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PlX7ItaK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jMibvx1K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E998410E767
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:31:28 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-586883eb9fbso2494842e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:31:28 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D6E10E766
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:31:30 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5906665139cso1801511e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759908687; x=1760513487; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759908689; x=1760513489; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rAO9OwRfZdFmlMl3mS0tub2HzSBi7qv3ODFvIZHKgFU=;
- b=PlX7ItaK4NG2HuGOwt6MMAm1y3hrL3FDA1//dsIla54KnJmfWol4q+v3+p8pRgQwlx
- BvT8FYgztxdJ1rab/OpMp1KRJnYtPwpF+OGpQ9J/XybofkI19Jkzn/IvBIZPXKZuHT4s
- qvFDvIxkISqcpQLrJS44DxHw94gpN68yOMzHV2JMWMk17q1VQ6l/VcWrHPWMQA38Muax
- 7QK5ljen8fQV52i0zwVh9D5/lgnFyfFyC6aLknUns/MSEOaFRmGNkJTOZDqCiZaRpfP+
- mbF1VlJ9IB8TpeIcgvUKuxkMGZUGND7iywKZ1jC+a/0tFq6zyLX9UJCTJHS16uEJE9gZ
- pr3g==
+ bh=PboKxjSSvW6h8IWsKUFqt3oWZleCNVGyc+XkVJL1pxE=;
+ b=jMibvx1KobimDotgFhaojZfzowFNBOJex3Pe+Qtrde3mw9LRISWXQV53RAMFo5m6Ud
+ ogaP9BUcKNFGi/XPGtRfgJCo3UPlaVf6mZIpRS5zFdNOSMBXjDHCsakEw1buhO1tUd9f
+ Zr8/DIRMHLu920mVe5PYBFDgpaeN/IEqKvn+0JRnOaheFUV3NmxRBASp2/f5bESLLDXJ
+ 8O1B06QYhBTLgAamjiMlw5hcXY2QZrrwz6PdqJXls0OO5076o7SIz4zKFN8TyA7WJB36
+ /da7xinTY289jESOp8OIubQ6mJixhYSAz1n1IfX7lBSnWcDLElkBTaLJRA5VQ4ltPhij
+ AEOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759908687; x=1760513487;
+ d=1e100.net; s=20230601; t=1759908689; x=1760513489;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rAO9OwRfZdFmlMl3mS0tub2HzSBi7qv3ODFvIZHKgFU=;
- b=h85zn0rfLz+rdDCk0wwqIA7G5pt4dKkETxA8ofJnPyIcgFaEPmuL2Wtk9xCFuvapLk
- XJPN2k7ClhqYBA84GpdENhDO3M4Y6skVa0/LSsFwd83padU/yKJ5qsR5AQpAh4mVli4c
- 3yaFufU4FqQCGPu4FRSkYyOoxT0eVJt2Z1cd4shuuIZzaXWj25ehFOz4vr0PDFbq7TEZ
- YYXQBGPzGk9aj2zWo/Q322rV2wX3F6IL6ivrx/ZSWZj2LNhp7/LamfHPqbkgJKXQzMFM
- 0fQnayIbPGGvOXO+qgj147/lAilNHuCYybeO1RkWiXFA0r/Dm3XL2SGvzWNvUmhtwqfC
- +6Cg==
-X-Gm-Message-State: AOJu0YyznAmCumA290rMQcZ7L0GaLha3lDkgErhAcpmKMDifqJSKIXqZ
- +vLrKm8T1HIDnb/zI466PYyIKZgLagFbLFstHQIFsj5FulNMKKPTwXmb
-X-Gm-Gg: ASbGnctlEDMimW7bJa/+3rmVVYotkrhChm9MeiXkXXNvpnpPMdMr45Nz6HAcgTuqUEZ
- 29FCu9R9g5t9CmAsB33p345M72SSqhS8bXLSQaao47rYVletPoUcKJ1KmCV34NzDjeb6mmd4atg
- Poy4X4NziIDweCt8n1COwAGPauzxVTmPRrTseAQhdtjRvStMrAjXsU2CUXojRKIBjCMJBuvdihG
- xd8uyK0925ZG7J4Dzic567bt1e9MDjNZ9G1YD8a0SmXggBWa/O43Guvm3TmRbDA7CzOilQse5d+
- XOkRdV+Jm4SVuH1pHjKcLq+bLTC5Q6jtbS2JyleX8B6R62x2BPrN76/a5UFlnBmSJ6gKd2apq2y
- y+rUBQGMlYYw5vVJG7YXVUUo7Tjnyhq+yivGiXew33TrcSi+x
-X-Google-Smtp-Source: AGHT+IE+7DyJpwvFP5qOZN8PeNT6/Gm3MISOvz3ifkWRFTEcK846nRXZ88LLrVfYB+NusyJQJau+2g==
-X-Received: by 2002:a05:6512:3f28:b0:590:656c:d10c with SMTP id
- 2adb3069b0e04-5906d88b1aemr661760e87.16.1759908687027; 
- Wed, 08 Oct 2025 00:31:27 -0700 (PDT)
+ bh=PboKxjSSvW6h8IWsKUFqt3oWZleCNVGyc+XkVJL1pxE=;
+ b=cFNCjWezrTJJemDqSXbx7DAlEsaQz1OMwZVNyPiUoLESmFuBDq2190bQ5K724Z4Z+z
+ +2CMoVo2fCS4NZHksgyHuzWhg695sPhqzwTdLcaQzAp4vQ5hCfnq523C5SZ+F6iNBarq
+ B6Xi99UZNZZ+uXw3pWGEGb9l+03SMbqVw/q9znnYrWsOlLUx600WYaO6J7Fr7UYakJWF
+ 1DgONgD+fG514rFAV54wC7taKMrS8OT/roGe17qSzHYY5foT8B5sYYvm4Pn1S/5Slbd8
+ oUI2PYZvId32hCojCfRppXdoeoJUor+j0pbt9JrPx+xa5b9KPgUqBOsvHrivO7pGyN/Z
+ iyEQ==
+X-Gm-Message-State: AOJu0Yw3MJdnWuToQ173QWeCQQR2YqKNdcuo9+Adl0c796bGEb/HE/Uz
+ y4+9Fa5RxPBpel+Ozzc6BF6SB9bDlGcPB6VTVH0KuNCHDvfVVwKDGKuu
+X-Gm-Gg: ASbGncs3l7r0YSiDJdZUJNKAEsy9lYtNiVndK2rE7jOg5qFwbxnwEYbhPLTzdE+0YLG
+ aXzD1uff7sKv6dhFGxe+AnUTtsyXEvkfJohwdBJ3Hzn2juq4aJNnQrSjkv3JxUpA8HNUb3/5KLw
+ urpMDEtVZhbuKhfGEHUMcMvICM/vOccDHaM74O/irPmxQ2mxLmXJboGrdM0ukVz3RoRUmtC/Xe4
+ b2LPtx6bOLA6Gtkoa207BOX+YUTKlzMyC1cZNg2L9XBHbUEvoinK/jBXYkPVhsuVfkPGfOMc3NR
+ pmi0d3geqEx4i2WNLyjppcbpzVf8APYb1pA/RPIIpbDDf7QCapxa7TLFvH4+zGxBauXigovclLr
+ utgJwf8AVvPeWoBmtaAq4Kmsw3du1rIJxGgymPg==
+X-Google-Smtp-Source: AGHT+IGnZcqKqG0CeOtJ+fmzvG5biXeb/ChpdaHmR1TP85hnqOnS5yRC3IE90h8eaQFZIrYCt7o/qw==
+X-Received: by 2002:a05:6512:b96:b0:579:fbe5:449d with SMTP id
+ 2adb3069b0e04-5906dc14a3dmr717226e87.24.1759908688715; 
+ Wed, 08 Oct 2025 00:31:28 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b0118d22bsm6911016e87.85.2025.10.08.00.31.25
+ 2adb3069b0e04-58b0118d22bsm6911016e87.85.2025.10.08.00.31.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 00:31:26 -0700 (PDT)
+ Wed, 08 Oct 2025 00:31:28 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -86,10 +86,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v4 08/24] staging: media: tegra-video: vi: add flip controls
- only if no source controls are provided
-Date: Wed,  8 Oct 2025 10:30:30 +0300
-Message-ID: <20251008073046.23231-9-clamor95@gmail.com>
+Subject: [PATCH v4 09/24] staging: media: tegra-video: csi: move CSI helpers
+ to header
+Date: Wed,  8 Oct 2025 10:30:31 +0300
+Message-ID: <20251008073046.23231-10-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251008073046.23231-1-clamor95@gmail.com>
 References: <20251008073046.23231-1-clamor95@gmail.com>
@@ -110,46 +110,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because the current Tegra video driver is video-centric, it exposes all
-controls via /dev/video. If both the camera sensor and the VI provide
-hflip and vflip, the driver will fail because only one control is allowed.
-To address this, hflip and vflip should be added from the SoC only if the
-camera sensor doesn't provide those controls.
+Move CSI helpers into the header for easier access from SoC-specific video
+driver parts.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/staging/media/tegra-video/csi.c | 11 -----------
+ drivers/staging/media/tegra-video/csi.h | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 856b7c18b551..90473729b546 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -961,6 +961,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
- 	}
- #else
- 	struct v4l2_subdev *subdev;
-+	struct v4l2_ctrl *hflip, *vflip;
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 604185c00a1a..74c92db1032f 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -20,17 +20,6 @@
  
- 	/* custom control */
- 	v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl, NULL);
-@@ -986,11 +987,13 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
- 		return ret;
- 	}
+ #define MHZ			1000000
  
--	if (chan->vi->soc->has_h_v_flip) {
-+	hflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
-+	if (chan->vi->soc->has_h_v_flip && !hflip)
- 		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
--		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
--	}
+-static inline struct tegra_csi *
+-host1x_client_to_csi(struct host1x_client *client)
+-{
+-	return container_of(client, struct tegra_csi, client);
+-}
+-
+-static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
+-{
+-	return container_of(subdev, struct tegra_csi_channel, subdev);
+-}
+-
+ /*
+  * CSI is a separate subdevice which has 6 source pads to generate
+  * test pattern. CSI subdevice pad ops are used only for TPG and
+diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
+index 3e6e5ee1bb1e..3ed2dbc73ce9 100644
+--- a/drivers/staging/media/tegra-video/csi.h
++++ b/drivers/staging/media/tegra-video/csi.h
+@@ -151,6 +151,16 @@ struct tegra_csi {
+ 	struct list_head csi_chans;
+ };
  
-+	vflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
-+	if (chan->vi->soc->has_h_v_flip && !vflip)
-+		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
- #endif
- 
- 	/* setup the controls */
++static inline struct tegra_csi *host1x_client_to_csi(struct host1x_client *client)
++{
++	return container_of(client, struct tegra_csi, client);
++}
++
++static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
++{
++	return container_of(subdev, struct tegra_csi_channel, subdev);
++}
++
+ void tegra_csi_error_recover(struct v4l2_subdev *subdev);
+ void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
+ 				u8 csi_port_num,
 -- 
 2.48.1
 
