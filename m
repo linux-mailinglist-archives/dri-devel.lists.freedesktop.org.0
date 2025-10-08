@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CF6BC65FB
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F422FBC6643
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:59:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D20710E8A5;
-	Wed,  8 Oct 2025 18:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E54D10E8B4;
+	Wed,  8 Oct 2025 18:59:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="R2GoJ7F3";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aPKn5zfy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630D010E8A5
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:57:15 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5Hgr012818
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:57:15 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC6310E8B4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:59:22 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5PNw029339
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:59:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=p0aFc3N38iuPS4vCQK31JPdb
- 4dpa2Mqsozy5bXu0/V4=; b=R2GoJ7F3SYGrVEq4uMK+ZL8vTobBrxcZfv/eO4ww
- 6b7LbBTBAph8LzAQ47y9uDcOpdAvKlORHFG+BNBzsKIok6yKOJ+nriAgDhL5nkdM
- ZfR9b4ch6DG1XQNwrnFwuki9zTO43j5YJyasu40KJGGjBrYj3cCBSd0rYUKwqdxR
- OEEApb7RPdUkJU9DsdKLF3LyDhWUCKlmOrEzQK76gEMQAfZ4aEc6kQ2M5TxJaEJw
- tAKesKlZ3bsbj/FHFk/S587AlueDtiRWsj+E29TzK4ts6SmhBOx/3vK5S1EAu9Vf
- YLHkFDvzP5zXLroFfnllR55+PDQB+9SMOY4Zi8DcFiM+RA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4j0a1p-1
+ :references:subject:to; s=qcppdkim1; bh=0UdkETRPI6ZWbVUbfsUgaXMe
+ BnN/d50E+m0AcvlG3Bk=; b=aPKn5zfyCDXgHyxBiNSZBLkmEvt47oUi2RWDinGN
+ uQyvvHaFX7LMl4N+6Xg7E0U3ZeVF21BWfHPP8/CZu+uu5h34dEKRoIbzQB8J0TiE
+ DvOiVboPksV3SiAiPr6QtYJTignIEKkUErz5spHye4nfnnfOqKUBBAQoGQyTMiD3
+ ZI4+mGUQUxc6mOcJVvXDWreZvdia3EDeMCn4p3gz5nnLqZMjoF+PwYiZKnDaCdDW
+ hHwXINXjJlzCADrcoRbbyK468HCH703v1rkrq2SgJvhihFsk28r0YhAFs2+8Iok1
+ tSkAzrPEffpnZnS+t63g3pd0//gAPGz7VU8cmZOD8FpGTA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4sgaey-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:57:14 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4e1015c48c8so33711571cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:57:14 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:59:21 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4d77ae03937so4748331cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:59:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759949833; x=1760554633;
+ d=1e100.net; s=20230601; t=1759949961; x=1760554761;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p0aFc3N38iuPS4vCQK31JPdb4dpa2Mqsozy5bXu0/V4=;
- b=JeAhgpAjD9d78bmOrdCvj1ZFxkUU4OnCzNhFmf0rxCdxNmFeF2ZgYGZWq1Lzra8tJu
- z+3w4KzEhc/Z5+uQ7MQrX05lFR7ks2ckjy342zgtubygEA/9OUcMNIQL8xjH427OeqAB
- 8n+glmbOyRb/uPbHDWLiHB5U8JgtKbvPvRvM6BfIFWw0nKZa8KsQpx8ABA795RTQDs6V
- GqJhziHIUXfMVlm6EFgX8HWsIamiPhkrLhxS/o/IiyhByfDtDgZrTqUJP5WsNjDTloQk
- hUyal5UrCOSS7q8pSTLcm+FVq/N0sbi84ZzMSDneDLsW65mEqXSYCbRn1Md5laattHAF
- t4Aw==
+ bh=0UdkETRPI6ZWbVUbfsUgaXMeBnN/d50E+m0AcvlG3Bk=;
+ b=cfLADgxH3+7IMApdFRiGngdcLnaVDV6SL0LRtLKajoubRCncF0brNT11Tifwdx4i7X
+ yCZ+PQF98jFK1oAov5yfS7e8VkUbnAXMXvVq2lGytMtd9uRhtpHN6whY51rqyKCy1qi3
+ sNJRZ0oMRJu+QD7XHo8ZW+4EJU5x8JeqOduuMqik4WDo/QO5Byh/9qgvClNg+65XRCXF
+ AGMm1xLF0CXHrthllmw+zD+wb1fqXMcVVLd/Brv77kmYt3E7O/nlU4vuzfLCQqhrDvQj
+ a2CYWH8Hz3RqCW4haWroQOZHseROb2ba1w1FlU2EoHUpk9hIyVTirN8MUumKSnxFu9HM
+ 9wyg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6C2u/K3YdL+ADY0r+ZTltGQ9IGqpRFrJ17nRdLJkIM0e2tqRgjqx8CAeDcAXGuflPqGyiDtPkoJI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJICD8bsR/oAjLehY6ne3XYeBB0zYM8shMUa+JKNdGeck7IUeK
- 8eUyXy6NQHYgmcRJEQp3v/r0j+rq+rQH1rYfiEh59/TrohSkHcTyPagvsxLzsm2RBfHubLwlxxZ
- 5CteHXXkL+vYFvwecmwnFdcbkaJfm1ZfwHPLjI0A3g9k4pLFemKrXW5xV7rTOdjUvsX9GBNc=
-X-Gm-Gg: ASbGncvDXG1/HzbLyix5Rga31+aawnRAiNNNbTERqXO5FqLFIL61Be8fZBHG56ZpzBV
- 7XcPR+KDRRxGKJk7LTT/emg1Q+Z/jhnnZb1etaP3vngtk3DPy1PBsVnUdqx6tNHuUuOreE472+d
- DFLePqIJxdkzG5WBb1BRX3gwL0Lav/eUO98mPrLZWIQjbgXvmgZvmGomG/vNhMwOcZ1MqkqUgaY
- RDpTLMQt+CMhbpPBFsMt9P2TMMkUo8tX+DompRdYKLN0eeLAZdfhpWfnThiP1rWAfnUB9rFYd5D
- CLe2IyT2aThNTgxIx/kwZZJFX/N7WnbWAs3ZLdzmrOVuCSpP8UmxmPVVbfhUXrmLNL/i/A4acKV
- vB66pBavJ6Z5mHoQEAT6xO75XxD64wJzpWZ8qEBk5PMF9+tKRAnrfAHWZ0w==
-X-Received: by 2002:a05:622a:190f:b0:4d5:eedd:688d with SMTP id
- d75a77b69052e-4e6de8a86efmr125502811cf.30.1759949833114; 
- Wed, 08 Oct 2025 11:57:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFtgnvDZEe3R26wa60RX9Q/fh5xcAmGuy8cV2NOzK3jPw+TTeGR+oVDeRwF6NVJ0ITQRNBStA==
-X-Received: by 2002:a05:622a:190f:b0:4d5:eedd:688d with SMTP id
- d75a77b69052e-4e6de8a86efmr125501911cf.30.1759949831413; 
- Wed, 08 Oct 2025 11:57:11 -0700 (PDT)
+ AJvYcCV+qIzXieJY5bF7HhNo/b36ECpZNA6xYjx2/U03e8kqKEvsui01aycOznbXo/F622SvXmM77qdEijI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyH2Sjh41APnZa8vvKN88qkbIYs4+MvKr7EpudX5mkf2dnqZEGq
+ HyfFUxzxDAnYfLC3kz1Jvqpok8ZRD5R4OyGAsmv0KXM6kwhUdnjirEy1xTYcrHQlur2Cct2h8KA
+ 3YZDRldIjjMw8pFxko9PCrTL5lXG2pkiOxYr9KtYcK0xyJAhVUQvm06mlIh3cvoLePjp3klA=
+X-Gm-Gg: ASbGncuxnMwjWHkRE45f66M7uIpOIXQ6wE10krLQ17mUj/2jDOshwFC0LXCgwaHx+BS
+ W7lgxnvXJ7BDQ0PKqVhoM4bvCF0ELObwJGorI4QQ6d/2ed8i+3bNhzh3eeauMsY7ZkCVa5r2NDE
+ PljaKbPTts6rH/BygLjvIZIYHI+GLmmhOgyaSZN5lfIdg1o/W71LBBOcY0834lzs2pSpiaqyJ0V
+ KizLFqKGyENe6UWtDx7nqlJylwlfO2b6mSOEVPFvuLNf3PaXoOU4jUtUX0zx20z80I12Jy1aJ4r
+ lukHqoka0mJEzoTRCvTR2XmT5bLNYf7RGS4Po0X5Cu6zSwQF5wqS9+VErlDl4YTitLTQYQcBKPw
+ Qzj8nQFWMQYdIsarWV9FJ+hHShAMjm4uoA/Tva67+fUi6BuO3Vcpj/oaCTA==
+X-Received: by 2002:a05:622a:1b24:b0:4e3:970:661a with SMTP id
+ d75a77b69052e-4e6ead91fe2mr67087761cf.75.1759949960509; 
+ Wed, 08 Oct 2025 11:59:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGaXzhWAKXAgn1FOnUImvO0Ih0s0vnFPkEOMy8MA4cgd7lRzHdrWt6cw5JjIrgIzgwo4fpdJg==
+X-Received: by 2002:a05:622a:1b24:b0:4e3:970:661a with SMTP id
+ d75a77b69052e-4e6ead91fe2mr67087441cf.75.1759949960070; 
+ Wed, 08 Oct 2025 11:59:20 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5907ac0d417sm263816e87.34.2025.10.08.11.57.10
+ 2adb3069b0e04-5907ac00be6sm263748e87.23.2025.10.08.11.59.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 11:57:10 -0700 (PDT)
-Date: Wed, 8 Oct 2025 21:57:08 +0300
+ Wed, 08 Oct 2025 11:59:19 -0700 (PDT)
+Date: Wed, 8 Oct 2025 21:59:17 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: david@ixit.cz
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -91,34 +91,35 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC
- with panel
-Message-ID: <7askbazrkbny5jlw6cpxcpjyw5nyiozmksoyj5b5momcc7w5hn@r3x6kddatf3u>
+Subject: Re: [PATCH v2 5/7] drm/panel: Add Samsung S6E3FC2X01 DDIC with
+ AMS641RW panel
+Message-ID: <6yp5udhm2g42basxeyjnn3onfons2k2besxfqwemnqrafsai6q@tfr74bfz7s7t>
 References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
- <20251008-s6e3fc2x01-v2-1-21eca1d5c289@ixit.cz>
+ <20251008-s6e3fc2x01-v2-5-21eca1d5c289@ixit.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251008-s6e3fc2x01-v2-1-21eca1d5c289@ixit.cz>
-X-Proofpoint-GUID: 0Ds6oUTaDodKSUGnEK5HImGllYbodyMn
-X-Proofpoint-ORIG-GUID: 0Ds6oUTaDodKSUGnEK5HImGllYbodyMn
-X-Authority-Analysis: v=2.4 cv=f91FxeyM c=1 sm=1 tr=0 ts=68e6b40a cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=pqhIxt2ABfSOU_N1PyUA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXyxdywpkr98QP
- bWDWPVgtIWsU/5CJuKJTmf6Z+RsOnOo+mUmpWiK6H41ln/FcHzcGXQ0hHW+eyY7CEjwAqVOyfIp
- 6lDmaXLCywZniO9OVQS2fx5bl7yKmR6HN6qkjHS+DghQeB8gdcOZLWwoSOmRWniELKXlDda6DfQ
- lEo6nmsMfFHgb3486XKyCMuT4pcIPTfoyc3A9jc7Gk6nHKimSWcFulhSVoWhAhhwA/SDXofL159
- nPZeW3PJ90MIW/8oGg6hn1ePEdjMXhmisRcT1y25I7b4KDU3pyahd5G5BiP0JdBtxbeyx3eig/u
- 4CqmsCcxNDf7mOJ+Jnuo17G4kJJo7SRkhxfxpr5nb7IN6Sw8cCiQg4a1J46pyeTVSf3b4NgHb0A
- 7TfqbigbcNo/zptoVjQGu1YWoQvO+Q==
+In-Reply-To: <20251008-s6e3fc2x01-v2-5-21eca1d5c289@ixit.cz>
+X-Proofpoint-GUID: fex2b_WPz40Z4KiRVWHaJ9dYWsAb_z2G
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX0IVOZFGQJV61
+ yXSerPtSVThn+8YN+EL39w4hTA64GUK9lwtm14ckJiubSnaVvMeKRQzlM79Zv1ePbyoPiNzH5+O
+ l1l6R6JgHBtZEaRKzCvZnX4UEyFCXcUK6t6CVtNabtC9oUsQUwmuuDQcTY5o9xpn0Hagz+t9qUb
+ ybOhFBgbha9mddrmNjTqrFKW4aLyfA7Y4dlDh7/+4EzF/l9bjPcACa8A7XFvhnkdq4AXyNRZvgS
+ xrMsTCGIYY63szY1KqsEpNd1d0FAk+wbLjq3FoUnO3neWU3OsP9ybseLC+UbmFr+RdfBg4KHBrS
+ m/cOBiByMuAdyHOCnl8SRxtZofDN4ZL37RPyiNTQ0hnsM2XyeAWvNXavlxIUQLNU3jxD0Jz55Vk
+ EB2VQZmYnG5D4WdiN44vp/OdODwhWg==
+X-Authority-Analysis: v=2.4 cv=SfL6t/Ru c=1 sm=1 tr=0 ts=68e6b489 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=WFa1dZBpAAAA:8 a=bBqXziUQAAAA:8 a=SYGtE8pA4Zq6nJvkfUIA:9
+ a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=MZguhEFr_PtxzKXayD1K:22
+ a=BjKv_IHbNJvPKzgot4uq:22
+X-Proofpoint-ORIG-GUID: fex2b_WPz40Z4KiRVWHaJ9dYWsAb_z2G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-08_05,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0
+ adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0 priorityscore=1501
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,23 +137,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 04:05:28PM +0200, David Heidelberg via B4 Relay wrote:
+On Wed, Oct 08, 2025 at 04:05:32PM +0200, David Heidelberg via B4 Relay wrote:
 > From: David Heidelberg <david@ixit.cz>
 > 
-> Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
+> Add panel driver used in the OnePlus 6T.
 > 
-> Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
+> No datasheet, based mostly on EDK2 init sequence and the downstream driver.
+> 
+> Based on work of:
+>   Casey Connolly <casey@connolly.tech>
+>   Joel Selvaraj <foss@joelselvaraj.com>
+>   Nia Espera <a5b6@riseup.net>
 > 
 > Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
->  .../bindings/display/panel/samsung,s6e3fc2x01.yaml | 78 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 83 insertions(+)
+>  MAINTAINERS                                      |   1 +
+>  drivers/gpu/drm/panel/Kconfig                    |  13 +
+>  drivers/gpu/drm/panel/Makefile                   |   1 +
+>  drivers/gpu/drm/panel/panel-samsung-s6e3fc2x01.c | 402 +++++++++++++++++++++++
+>  4 files changed, 417 insertions(+)
 > 
+> +static const struct of_device_id s6e3fc2x01_of_match[] = {
+> +	{ .compatible = "samsung,s6e3fc2x01-ams641rw", .data = &ams641rw_mode },
 
-Please also describe, why it's not enough to use defined compatible,
-samsung,s6e3fc2x01. Why do we need a separate schema and can't use the
-panel-simple-dsi.yaml
+Again, why can't we use defined compatible here?
+
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, s6e3fc2x01_of_match);
+> +
+> +static struct mipi_dsi_driver s6e3fc2x01_driver = {
+> +	.probe = s6e3fc2x01_probe,
+> +	.remove = s6e3fc2x01_remove,
+> +	.driver = {
+> +		.name = "panel-samsung-s6e3fc2x01",
+> +		.of_match_table = s6e3fc2x01_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(s6e3fc2x01_driver);
+> +
+> +MODULE_AUTHOR("David Heidelberg <david@ixit.cz>");
+> +MODULE_DESCRIPTION("DRM driver for Samsung S6E3FC2X01 DDIC");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.51.0
+> 
+> 
 
 -- 
 With best wishes
