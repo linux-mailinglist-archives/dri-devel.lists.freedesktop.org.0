@@ -2,96 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A77BBC56EC
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24859BC570C
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:34:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDD910E848;
-	Wed,  8 Oct 2025 14:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E096610E3A6;
+	Wed,  8 Oct 2025 14:34:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MFAsxLEG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Hplfqz1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4676F10E83C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 14:28:19 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-7900f7f4ba9so72564126d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 07:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759933698; x=1760538498; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=C3nyMQNps0AyLL97xzttuk+phB0DdoZh7JjDzOjB4po=;
- b=MFAsxLEGjCRTAdsXcqihNtVC6waBb8ZYlCNYSdQlhMwUM8A83fJpW0lpgIPTODBtrk
- FPjjNaKjD24dI8fbVDpcBBhTT90YCn6fwVMnrGk/HnQ2STGx2tMi1O+dNb+/AkunXV+b
- mFx8+0o8LMkIglLKMAgUU5lXRWpOXFIjCMqlB+aGYrT7Mg3TgTspT4+nJsqAthqvb9Gi
- ODmc78XC2Jn1v69t7tTqVyFIHmkVWlPxCGyeCWy6CCITohfuwoQk8yyjvwox9D7W8SY0
- N+sHpM7qiv/TSrdYendR4j5ss/Op4gypgH8on+NiAH/ci1naS2PHbfHNZdE9+rrmB5D7
- 5qNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759933698; x=1760538498;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C3nyMQNps0AyLL97xzttuk+phB0DdoZh7JjDzOjB4po=;
- b=M58a97fDzxJgpfgg6IQ4MWpPBz5u10ooUyrBzHZBQCjQoAme3SLAXdFdzyDM5k52ja
- Sz4Gqh6EmcrGQfWAwWN67y3Goca5ukbI7LKqDVUYey1QTjmMBwD4lvk5DEGNIDLxoAKj
- U1/1W4B++By6SSIss1uVPgOljai3lOT/fANKkwFDrhwKExMtv3QCbe+vI/MhgVo3roKu
- YUP1KLSiTG7Z9dh8TcTk3yzLRxj/JyeOPenerN11FtiwT4omC5fOJNN+2IvwUHuVRJog
- 6MGNfWkNsyNucPx+Td1SxrDmATXYPaZMrk+K9cgpp/SlHMqYkuOVMkmc/L0uVXGrr6pk
- YvEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUvMNCEBuHKgvVs/3zLCoxvu9Zf/XR5I7hzFyl+0zKyaB96hFwgOjU86oUaSpiHbMYYUWrZkS26Y0M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz6EGC2vEkKxj/M87hbYM6aLASBBxbG1PtoKyXdyOGy6alQE8tG
- tffPfrv6ryst0X7OgKvuDPsB/Hc7lB/WD/n3OgkEImNMFmQ6bLRBP/2q
-X-Gm-Gg: ASbGncuMFtMFzilpicEolWXQ7giGIFkVFnKmg19D2ASPB/6JxwL8a5bQFFR4Aj9aQ8L
- CZrgG4ys9P+wawJMRRKW2J3IsQbYvCAK6yZ1ni83kqi8y+M746opnC2boJBxS/6nEJs2a14LHuu
- nqZaDnW7HLMCV0OKq6qjhzIkXyKlMeAqO+FF3p3DDnTv26xERbh6UCU6LCQuAfw/8YmUWGUyr9v
- p83grocHyMkN6UejUUcOkPlsVqPZJ6MiKM+aCqdWpwaknVgfo1mybKTo2x3h6iL1OgSiVPXAF4J
- R5Lln4DtMTGqY8aEAmtJMUp+D/PSFgygrLuYDpsOEsz4aJjMFJX4rCQEPUP7fAfxR4qfpLjf2Mx
- 3aLmylXicxd5hJ+GBhHN3lTHAQzeojpaOJccNRVp8Pwg=
-X-Google-Smtp-Source: AGHT+IFntZefp3Ss0mi+6jECEAXuwb7eOj/bzue7nh8gRQKVbgbOiMWHYq2oEKWHI2USmbbKcqsDDg==
-X-Received: by 2002:a05:6214:2a87:b0:789:d698:d384 with SMTP id
- 6a1803df08f44-87b2103104bmr48809406d6.20.1759933697907; 
- Wed, 08 Oct 2025 07:28:17 -0700 (PDT)
-Received: from localhost ([12.22.141.131]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-878be61f6bcsm163723216d6.65.2025.10.08.07.28.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 07:28:17 -0700 (PDT)
-Date: Wed, 8 Oct 2025 10:28:15 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v6 0/5] Introduce bitfield and move register macro to
- rust/kernel/
-Message-ID: <aOZ0_7YQw81lyMWt@yury>
-References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
- <aORCwckUwZspBMfv@yury> <DDC0VAHL5OCP.DROT6CPKE5H5@nvidia.com>
- <DDC49ZIRX79X.2Q4KW0UY7WUF3@kernel.org>
- <faa99188-7ccb-4c7c-b705-3a207f5acd17@nvidia.com>
- <DDCFLM3P5MCC.NEBRVTU7X2G3@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE0410E143;
+ Wed,  8 Oct 2025 14:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759934089; x=1791470089;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iLuyFQG2Afb+xt6uL7qrGHtrCZf4OyE7GAQI/NQO9V4=;
+ b=Hplfqz1TPEta0LVnHMsP34b+tbkOcgalGtzmSr8a9+XaLU4df+GNZRWN
+ Q4wN0upHdjRxJJBZLwydTufLNafLyaCZ091bjIZ1+Ms46zM3i7xB2gGcu
+ bm4n6BX5G0OsXLXQ/4CT62vnkjr678Ohujpqwgpjs2qqeeeYoawtjRSIR
+ Y1WGcdxfASHX+briKt+TV+Y7XYT8P6tJjrmWiLMnsYGs2t2ivnm1lBfP2
+ sFnUpdkSzIevTItzBvZ/gWxaaMJs0u/sD3FGSHCtooZzs16TUOof9JVut
+ 9BXxb7xKDBtyzSoSPa+/JkflBBvSsWiY6pOt7yvGnZLgwrdxpy6chVPbU Q==;
+X-CSE-ConnectionGUID: 1T8tI6tES4yIAEJE+ByTxQ==
+X-CSE-MsgGUID: 9VVjcPeSS2qbdLfEpHBGrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62046431"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="62046431"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2025 07:34:48 -0700
+X-CSE-ConnectionGUID: IOx6BZseTAC/y5Y8B3bl0Q==
+X-CSE-MsgGUID: Cuixql9wTmWtWQAIz+FAfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; d="scan'208";a="217561598"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.136])
+ ([10.245.244.136])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2025 07:34:44 -0700
+Message-ID: <fe98edc2-cc18-4c44-a4cb-5c41b60834e6@intel.com>
+Date: Wed, 8 Oct 2025 15:34:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DDCFLM3P5MCC.NEBRVTU7X2G3@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
+ latency
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
+References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
+ <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
+ <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,25 +85,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 12:08:59AM +0200, Danilo Krummrich wrote:
+On 08/10/2025 14:50, Tvrtko Ursulin wrote:
+> 
+> On 08/10/2025 13:35, Christian König wrote:
+>> On 08.10.25 13:53, Tvrtko Ursulin wrote:
+>>> Disclaimer:
+>>> Please note that as this series includes a patch which touches a good 
+>>> number of
+>>> drivers I will only copy everyone in the cover letter and the 
+>>> respective patch.
+>>> Assumption is people are subscribed to dri-devel so can look at the 
+>>> whole series
+>>> there. I know someone is bound to complain for both the case when 
+>>> everyone is
+>>> copied on everything for getting too much email, and also for this 
+>>> other case.
+>>> So please be flexible.
+>>>
+>>> Description:
+>>>
+>>> All drivers which use the TTM pool allocator end up requesting large 
+>>> order
+>>> allocations when allocating large buffers. Those can be slow due 
+>>> memory pressure
+>>> and so add latency to buffer creation. But there is often also a size 
+>>> limit
+>>> above which contiguous blocks do not bring any performance benefits. 
+>>> This series
+>>> allows drivers to say when it is okay for the TTM to try a bit less 
+>>> hard.
+>>>
+>>> We do this by allowing drivers to specify this cut off point when 
+>>> creating the
+>>> TTM device and pools. Allocations above this size will skip direct 
+>>> reclaim so
+>>> under memory pressure worst case latency will improve. Background 
+>>> reclaim is
+>>> still kicked off and both before and after the memory pressure all 
+>>> the TTM pool
+>>> buckets remain to be used as they are today.
+>>>
+>>> This is especially interesting if someone has configured 
+>>> MAX_PAGE_ORDER to
+>>> higher than the default. And even with the default, with amdgpu for 
+>>> example,
+>>> the last patch in the series makes use of the new feature by telling 
+>>> TTM that
+>>> above 2MiB we do not expect performance benefits. Which makes TTM not 
+>>> try direct
+>>> reclaim for the top bucket (4MiB).
+>>>
+>>> End result is TTM drivers become a tiny bit nicer mm citizens and 
+>>> users benefit
+>>> from better worst case buffer creation latencies. As a side benefit 
+>>> we get rid
+>>> of two instances of those often very unreadable mutliple nameless 
+>>> booleans
+>>> function signatures.
+>>>
+>>> If this sounds interesting and gets merge the invidual drivers can 
+>>> follow up
+>>> with patches configuring their thresholds.
+>>>
+>>> v2:
+>>>   * Christian suggested to pass in the new data by changing the 
+>>> function signatures.
+>>>
+>>> v3:
+>>>   * Moved ttm pool helpers into new ttm_pool_internal.h. (Christian)
+>>
+>> Patch #3 is Acked-by: Christian König <christian.koenig@amd.com>.
+>>
+>> The rest is Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> Thank you!
+> 
+> So I think now I need acks to merge via drm-misc for all the drivers 
+> which have their own trees. Which seems to be just xe.
+> 
+> Also interesting for other drivers is that when this lands folks can 
+> start passing in their "max size which leads to performance gains" via 
+> TTM_POOL_BENEFICIAL_ORDER and get the worst case allocation latency 
+> improvements.
+> 
+> I am thinking xe also maxes out at 2MiB pages, for others I don't know.
 
-> Regarding the bitfields for page table management: Are we
-> sure that we can use raw bitfields for this?
+Yeah, next level up from 2M GTT page is still 1G GTT page. I think we 
+especially need 64K/2M system memory pages on igpu to get some perf back 
+when enabling iommu on some platforms IIRC. Not aware of really needing 
+ > 2M so sounds like we might also benefit by maxing out at 2M, if it 
+reduces allocation latency in some cases.
 
-As per my current understanding we can't. Bitfields are not suitable for
-direct I/O and considered as a data storage. In the current scheme:
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>> v1 thread:
+>>> https://lore.kernel.org/dri-devel/20250919131127.90932-1- 
+>>> tvrtko.ursulin@igalia.com/
+>>>
+>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>> Cc: Dave Airlie <airlied@redhat.com>
+>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Cc: Lyude Paul <lyude@redhat.com>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>> Cc: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Zack Rusin <zack.rusin@broadcom.com>
+>>>
+>>> Tvrtko Ursulin (5):
+>>>    drm/ttm: Add getter for some pool properties
+>>>    drm/ttm: Replace multiple booleans with flags in pool init
+>>>    drm/ttm: Replace multiple booleans with flags in device init
+>>>    drm/ttm: Allow drivers to specify maximum beneficial TTM pool size
+>>>    drm/amdgpu: Configure max beneficial TTM pool allocation order
+>>>
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  7 +--
+>>>   drivers/gpu/drm/drm_gem_vram_helper.c         |  2 +-
+>>>   drivers/gpu/drm/i915/intel_region_ttm.c       |  2 +-
+>>>   drivers/gpu/drm/loongson/lsdc_ttm.c           |  2 +-
+>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c         |  4 +-
+>>>   drivers/gpu/drm/qxl/qxl_ttm.c                 |  2 +-
+>>>   drivers/gpu/drm/radeon/radeon_ttm.c           |  4 +-
+>>>   drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 16 +++----
+>>>   .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  2 +-
+>>>   drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 31 +++++--------
+>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 22 ++++-----
+>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  7 +--
+>>>   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 23 +++++-----
+>>>   drivers/gpu/drm/ttm/ttm_device.c              |  7 ++-
+>>>   drivers/gpu/drm/ttm/ttm_pool.c                | 45 +++++++++++--------
+>>>   drivers/gpu/drm/ttm/ttm_pool_internal.h       | 24 ++++++++++
+>>>   drivers/gpu/drm/ttm/ttm_tt.c                  | 10 +++--
+>>>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +-
+>>>   drivers/gpu/drm/xe/xe_device.c                |  2 +-
+>>>   include/drm/ttm/ttm_device.h                  |  2 +-
+>>>   include/drm/ttm/ttm_pool.h                    | 13 +++---
+>>>   21 files changed, 125 insertions(+), 106 deletions(-)
+>>>   create mode 100644 drivers/gpu/drm/ttm/ttm_pool_internal.h
+>>>
+>>
+> 
 
-        regs::NV_PFALCON_FALCON_DMATRFBASE::default()
-            .set_base((dma_start >> 8) as u32)
-            .write(bar, &E::ID);
-
-we account for endianess in the .write() method, which would be a part
-of register API, not bitfields.
-
-FYI: ARM64 is in process of dropping BE, and Linus announced the end
-of BE support for RISC-V:
-
-https://lore.kernel.org/all/CAHk-=wgYcOiFvsJzFb+HfB4n6Wj6zM5H5EghUMfpXSCzyQVSfA@mail.gmail.com/
-
-Thanks,
-Yury
