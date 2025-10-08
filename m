@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7EFBC4B11
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264E0BC4B17
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1107C10E320;
-	Wed,  8 Oct 2025 12:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E45610E7F0;
+	Wed,  8 Oct 2025 12:04:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C1dN5gPQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mlKRGsRX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CDB10E7F0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:04:37 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E540C10E7F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:04:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 391A361F7F;
- Wed,  8 Oct 2025 12:04:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D08FC4CEF4;
- Wed,  8 Oct 2025 12:04:36 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CCCA8418FD;
+ Wed,  8 Oct 2025 12:04:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58FC8C4CEF4;
+ Wed,  8 Oct 2025 12:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759925076;
- bh=6cr7a4Oi7nR6tykRdmPtBan+JL2S8tj3pWBBjqTArYI=;
+ s=k20201202; t=1759925079;
+ bh=CdvOfveanFDKEPKkm80bIuNwKY3LEyqDrkHmrGH0vOQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=C1dN5gPQtSN5+wSct/4iBKoIFpTNWSRfn4VBvj7XK2wMqOPbXabGyw+EBmpvGLz91
- FBieFScsrCURkmSfk4LDfQUKEsmMTjFbFlWHgdu5nKGOVAEvXVnEiSHsUY0+se6dLT
- +ZXd/P9ALDDvl47KXakccuRqRydIxgsjtxJ6qUwN2jOkCb1QPOrF6QgC2fB5w0vPud
- ZFQhykotiYrBLAF2w93BtNRU93cIxC8GOxHjXlScJ7Z4LgkOtRdv7wexufKXaA3AO5
- c2CAGafNdCIfdAextzJNHo106qFYPZWBjeFZmnqCNYxD6qvzs/J5iNhnjPnIMmahP0
- U7PKx7Qlylqxw==
+ b=mlKRGsRXj6+yzCMk7TNDv2dufJ8oCZSiySlBkCAA39V9SsBpIIfFV4bTLmA0JDHss
+ RbeY2KJy65TenBSvkHpzklnsdJDjOMJvLDOBPMWpe8PLLPIIBVSLg9Ca0GsJRmPUsa
+ Dfo8GO3cOezCh4Vt7/3cexu361jYMbIup0GZHlWXm/mmBVAU6mD5psZnhLR+br9OmR
+ Y3BoTRkQGIBdNw8dd6aie3gVEZbESQZlJ9HbCwPpnHiESGhruimC2PNaNkZKZgDzWt
+ T6rSVg13j5YJppwb7+4j+8BOM3p88VFXQGtApHiCChHSXLcqfzxzKBBrDMAfNpIC26
+ bCmYJhtoWAh/w==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 08 Oct 2025 14:04:06 +0200
-Subject: [PATCH 08/16] drm/arm: komeda: Switch private_obj initialization
- to reset
+Date: Wed, 08 Oct 2025 14:04:07 +0200
+Subject: [PATCH 09/16] drm/ingenic: Switch private_obj initialization to reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251008-drm-private-obj-reset-v1-8-805ab43ae65a@kernel.org>
+Message-Id: <20251008-drm-private-obj-reset-v1-9-805ab43ae65a@kernel.org>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 In-Reply-To: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Liviu Dudau <liviu.dudau@arm.com>
+ Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12544; i=mripard@kernel.org;
- h=from:subject:message-id; bh=6cr7a4Oi7nR6tykRdmPtBan+JL2S8tj3pWBBjqTArYI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgs3q/uzsPWZswqgZ1bPhw+PlkecbRGp2W6qW+/Kaf
- r3Lv+l/x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIvwrGOivBpPccW/n4zn2r
- n8w7W/v9j7Xh5i4T7x0sMDtUo3tae07E3tLfs3qCjC6peWsdCre4y9jQ+vpa/PfJeyoyfD7cdp5
- 4/+nDsGsTnx6cdEdAwFK0KzMulvmqiknMkYOrVpww1G0yPHEGAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6270; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=CdvOfveanFDKEPKkm80bIuNwKY3LEyqDrkHmrGH0vOQ=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgs2u7a9vOM127hTbtynlh56VvWOXsO5Q1zrkzb1Bt
+ 399yWSNjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRE4cYG7pnZbaIcAi8Zjpk
+ MjlnX8qeFOcw181njedOndy5+9D8eZMVX939HPcsdcfSrEtMv8w69jLWx0ZctX2W/vmK694ps+a
+ VejbPt9fZPU8r5m+I/rVOJn6OPZufLYve7H36/oW9qbMnm+yWAQA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,9 +68,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ARM komeda driver relies on a number of drm_private_objs, that are
-initialized by allocating and initializing a state, and then passing it
-to drm_private_obj_init.
+The ingenic driver relies on two drm_private_objs, that are initialized
+by allocating and initializing a state, and then passing it to
+drm_private_obj_init.
 
 Since we're gradually moving away from that pattern to the more
 established one relying on a reset implementation, let's migrate this
@@ -81,420 +80,180 @@ Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 ---
 
-Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: linux-mips@vger.kernel.org
 ---
- .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   2 +
- .../drm/arm/display/komeda/komeda_private_obj.c    | 232 +++++++++++++++------
- 2 files changed, 170 insertions(+), 64 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 30 +++++++++++++++++++-----------
+ drivers/gpu/drm/ingenic/ingenic-ipu.c     | 30 ++++++++++++++++++------------
+ 2 files changed, 37 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-index ac8725e248537e5737d16cd36860401c42073500..37b9e92202443cc72adc0666ed047d4f77d79782 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
-@@ -126,10 +126,12 @@ struct komeda_component {
- 	 * @funcs: chip functions to access HW
- 	 */
- 	const struct komeda_component_funcs *funcs;
- };
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index 9db1ceaed5188a4ef0897280dc72108eb3815b5f..18f20d96f6e4a7d9e5209ee770c7b4fc81adbad7 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -947,10 +947,26 @@ static void ingenic_drm_destroy_state(struct drm_private_obj *obj,
+ 	struct ingenic_drm_private_state *priv_state = to_ingenic_drm_priv_state(state);
  
-+#define to_component(o)	container_of(o, struct komeda_component, obj)
-+
- /**
-  * struct komeda_component_output
-  *
-  * a component has multiple outputs, if want to know where the data
-  * comes from, only know the component is not enough, we still need to know
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c b/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c
-index 914400c4af73824e52dda76425a73a74e681a146..0c7b7a5dd10900016f64df2a86d54f9178d1cf5e 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c
-@@ -38,26 +38,39 @@ komeda_layer_atomic_destroy_state(struct drm_private_obj *obj,
- 	struct komeda_layer_state *st = to_layer_st(priv_to_comp_st(state));
- 
- 	kfree(st);
+ 	kfree(priv_state);
  }
  
-+static void
-+komeda_layer_reset(struct drm_private_obj *obj)
++static void ingenic_drm_reset(struct drm_private_obj *obj)
 +{
-+	struct komeda_layer_state *st;
++	struct ingenic_drm_private_state *priv_state;
 +
 +	if (obj->state) {
-+		komeda_layer_atomic_destroy_state(obj, obj->state);
++		ingenic_drm_destroy_state(obj, obj->state);
 +		obj->state = NULL;
 +	}
 +
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
++	priv_state = kzalloc(sizeof(*priv_state), GFP_KERNEL);
++	if (!priv_state)
 +		return;
 +
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
++	__drm_atomic_helper_private_obj_reset(obj, &priv_state->base);
 +}
 +
- static const struct drm_private_state_funcs komeda_layer_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_layer_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_layer_atomic_destroy_state,
-+	.reset			= komeda_layer_reset,
+ DEFINE_DRM_GEM_DMA_FOPS(ingenic_drm_fops);
+ 
+ static const struct drm_driver ingenic_drm_driver_data = {
+ 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+ 	.name			= "ingenic-drm",
+@@ -1029,10 +1045,11 @@ static struct drm_mode_config_helper_funcs ingenic_drm_mode_config_helpers = {
  };
  
- static int komeda_layer_obj_add(struct komeda_kms_dev *kms,
- 				struct komeda_layer *layer)
+ static const struct drm_private_state_funcs ingenic_drm_private_state_funcs = {
+ 	.atomic_duplicate_state = ingenic_drm_duplicate_state,
+ 	.atomic_destroy_state = ingenic_drm_destroy_state,
++	.reset = ingenic_drm_reset,
+ };
+ 
+ static void ingenic_drm_unbind_all(void *d)
  {
--	struct komeda_layer_state *st;
+ 	struct ingenic_drm *priv = d;
+@@ -1080,11 +1097,10 @@ static void ingenic_drm_atomic_private_obj_fini(struct drm_device *drm, void *pr
+ }
+ 
+ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+-	struct ingenic_drm_private_state *private_state;
+ 	const struct jz_soc_info *soc_info;
+ 	struct ingenic_drm *priv;
+ 	struct clk *parent_clk;
+ 	struct drm_plane *primary;
+ 	struct drm_bridge *bridge;
+@@ -1380,23 +1396,17 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	if (ret) {
+ 		dev_err(dev, "Unable to register clock notifier\n");
+ 		goto err_devclk_disable;
+ 	}
+ 
+-	private_state = kzalloc(sizeof(*private_state), GFP_KERNEL);
+-	if (!private_state) {
+-		ret = -ENOMEM;
+-		goto err_clk_notifier_unregister;
+-	}
 -
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &layer->base;
--	drm_atomic_private_obj_init(&kms->base, &layer->base.obj, &st->base.obj,
-+	drm_atomic_private_obj_init(&kms->base, &layer->base.obj, NULL,
- 				    &komeda_layer_obj_funcs);
+-	drm_atomic_private_obj_init(drm, &priv->private_obj, &private_state->base,
++	drm_atomic_private_obj_init(drm, &priv->private_obj, NULL,
+ 				    &ingenic_drm_private_state_funcs);
+ 
+ 	ret = drmm_add_action_or_reset(drm, ingenic_drm_atomic_private_obj_fini,
+ 				       &priv->private_obj);
+ 	if (ret)
+-		goto err_private_state_free;
++		goto err_clk_notifier_unregister;
+ 
+ 	ret = drm_dev_register(drm, 0);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to register DRM driver\n");
+ 		goto err_clk_notifier_unregister;
+@@ -1404,12 +1414,10 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 
+ 	drm_client_setup(drm, NULL);
+ 
  	return 0;
+ 
+-err_private_state_free:
+-	kfree(private_state);
+ err_clk_notifier_unregister:
+ 	clk_notifier_unregister(parent_clk, &priv->clock_nb);
+ err_devclk_disable:
+ 	if (priv->lcd_clk)
+ 		clk_disable_unprepare(priv->lcd_clk);
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index 26ebf424d63ec21ccee80221745c3e8bcc6b3d7f..ddaf80052f03b8e366c89a6562b430a400b6dacd 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -748,13 +748,30 @@ static void ingenic_ipu_destroy_state(struct drm_private_obj *obj,
+ 	struct ingenic_ipu_private_state *priv_state = to_ingenic_ipu_priv_state(state);
+ 
+ 	kfree(priv_state);
  }
  
- static struct drm_private_state *
-@@ -80,27 +93,40 @@ komeda_scaler_atomic_destroy_state(struct drm_private_obj *obj,
- 				   struct drm_private_state *state)
- {
- 	kfree(to_scaler_st(priv_to_comp_st(state)));
- }
- 
-+static void
-+komeda_scaler_reset(struct drm_private_obj *obj)
++static void ingenic_ipu_reset(struct drm_private_obj *obj)
 +{
-+	struct komeda_scaler_state *st;
++	struct ingenic_ipu_private_state *priv_state;
 +
 +	if (obj->state) {
-+		komeda_scaler_atomic_destroy_state(obj, obj->state);
++		ingenic_ipu_destroy_state(obj, obj->state);
 +		obj->state = NULL;
 +	}
 +
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
++	priv_state = kzalloc(sizeof(*priv_state), GFP_KERNEL);
++	if (!priv_state)
 +		return;
 +
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
++	__drm_atomic_helper_private_obj_reset(obj, &priv_state->base);
 +}
 +
- static const struct drm_private_state_funcs komeda_scaler_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_scaler_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_scaler_atomic_destroy_state,
-+	.reset			= komeda_scaler_reset,
+ static const struct drm_private_state_funcs ingenic_ipu_private_state_funcs = {
+ 	.atomic_duplicate_state = ingenic_ipu_duplicate_state,
+ 	.atomic_destroy_state = ingenic_ipu_destroy_state,
++	.reset = ingenic_ipu_reset,
  };
  
- static int komeda_scaler_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_scaler *scaler)
+ static irqreturn_t ingenic_ipu_irq_handler(int irq, void *arg)
  {
--	struct komeda_scaler_state *st;
--
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &scaler->base;
- 	drm_atomic_private_obj_init(&kms->base,
--				    &scaler->base.obj, &st->base.obj,
-+				    &scaler->base.obj, NULL,
- 				    &komeda_scaler_obj_funcs);
- 	return 0;
- }
- 
- static struct drm_private_state *
-@@ -123,26 +149,39 @@ komeda_compiz_atomic_destroy_state(struct drm_private_obj *obj,
- 				   struct drm_private_state *state)
- {
- 	kfree(to_compiz_st(priv_to_comp_st(state)));
- }
- 
-+static void
-+komeda_compiz_reset(struct drm_private_obj *obj)
-+{
-+	struct komeda_compiz_state *st;
-+
-+	if (obj->state) {
-+		komeda_compiz_atomic_destroy_state(obj, obj->state);
-+		obj->state = NULL;
-+	}
-+
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return;
-+
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
-+}
-+
- static const struct drm_private_state_funcs komeda_compiz_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_compiz_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_compiz_atomic_destroy_state,
-+	.reset			= komeda_compiz_reset,
+ 	struct ingenic_ipu *ipu = arg;
+@@ -791,11 +808,10 @@ static const struct regmap_config ingenic_ipu_regmap_config = {
  };
  
- static int komeda_compiz_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_compiz *compiz)
+ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
  {
--	struct komeda_compiz_state *st;
+ 	struct platform_device *pdev = to_platform_device(dev);
+-	struct ingenic_ipu_private_state *private_state;
+ 	const struct soc_info *soc_info;
+ 	struct drm_device *drm = d;
+ 	struct drm_plane *plane;
+ 	struct ingenic_ipu *ipu;
+ 	void __iomem *base;
+@@ -885,24 +901,14 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
+ 	if (err) {
+ 		dev_err(dev, "Unable to prepare clock\n");
+ 		return err;
+ 	}
+ 
+-	private_state = kzalloc(sizeof(*private_state), GFP_KERNEL);
+-	if (!private_state) {
+-		err = -ENOMEM;
+-		goto err_clk_unprepare;
+-	}
 -
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &compiz->base;
--	drm_atomic_private_obj_init(&kms->base, &compiz->base.obj, &st->base.obj,
-+	drm_atomic_private_obj_init(&kms->base, &compiz->base.obj, NULL,
- 				    &komeda_compiz_obj_funcs);
+-	drm_atomic_private_obj_init(drm, &ipu->private_obj, &private_state->base,
++	drm_atomic_private_obj_init(drm, &ipu->private_obj, NULL,
+ 				    &ingenic_ipu_private_state_funcs);
  
  	return 0;
- }
- 
-@@ -166,27 +205,40 @@ komeda_splitter_atomic_destroy_state(struct drm_private_obj *obj,
- 				     struct drm_private_state *state)
- {
- 	kfree(to_splitter_st(priv_to_comp_st(state)));
- }
- 
-+static void
-+komeda_splitter_reset(struct drm_private_obj *obj)
-+{
-+	struct komeda_splitter_state *st;
-+
-+	if (obj->state) {
-+		komeda_splitter_atomic_destroy_state(obj, obj->state);
-+		obj->state = NULL;
-+	}
-+
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return;
-+
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
-+}
-+
- static const struct drm_private_state_funcs komeda_splitter_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_splitter_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_splitter_atomic_destroy_state,
-+	.reset			= komeda_splitter_reset,
- };
- 
- static int komeda_splitter_obj_add(struct komeda_kms_dev *kms,
- 				   struct komeda_splitter *splitter)
- {
--	struct komeda_splitter_state *st;
 -
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &splitter->base;
- 	drm_atomic_private_obj_init(&kms->base,
--				    &splitter->base.obj, &st->base.obj,
-+				    &splitter->base.obj, NULL,
- 				    &komeda_splitter_obj_funcs);
- 
- 	return 0;
+-err_clk_unprepare:
+-	clk_unprepare(ipu->clk);
+-	return err;
  }
  
-@@ -209,27 +261,40 @@ static void komeda_merger_atomic_destroy_state(struct drm_private_obj *obj,
- 					       struct drm_private_state *state)
+ static void ingenic_ipu_unbind(struct device *dev,
+ 			       struct device *master, void *d)
  {
- 	kfree(to_merger_st(priv_to_comp_st(state)));
- }
- 
-+static void
-+komeda_merger_reset(struct drm_private_obj *obj)
-+{
-+	struct komeda_merger_state *st;
-+
-+	if (obj->state) {
-+		komeda_merger_atomic_destroy_state(obj, obj->state);
-+		obj->state = NULL;
-+	}
-+
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return;
-+
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
-+}
-+
- static const struct drm_private_state_funcs komeda_merger_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_merger_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_merger_atomic_destroy_state,
-+	.reset			= komeda_merger_reset,
- };
- 
- static int komeda_merger_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_merger *merger)
- {
--	struct komeda_merger_state *st;
--
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &merger->base;
- 	drm_atomic_private_obj_init(&kms->base,
--				    &merger->base.obj, &st->base.obj,
-+				    &merger->base.obj, NULL,
- 				    &komeda_merger_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -253,26 +318,39 @@ komeda_improc_atomic_destroy_state(struct drm_private_obj *obj,
- 				   struct drm_private_state *state)
- {
- 	kfree(to_improc_st(priv_to_comp_st(state)));
- }
- 
-+static void
-+komeda_improc_reset(struct drm_private_obj *obj)
-+{
-+	struct komeda_improc_state *st;
-+
-+	if (obj->state) {
-+		komeda_improc_atomic_destroy_state(obj, obj->state);
-+		obj->state = NULL;
-+	}
-+
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return;
-+
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
-+}
-+
- static const struct drm_private_state_funcs komeda_improc_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_improc_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_improc_atomic_destroy_state,
-+	.reset			= komeda_improc_reset,
- };
- 
- static int komeda_improc_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_improc *improc)
- {
--	struct komeda_improc_state *st;
--
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &improc->base;
--	drm_atomic_private_obj_init(&kms->base, &improc->base.obj, &st->base.obj,
-+	drm_atomic_private_obj_init(&kms->base, &improc->base.obj, NULL,
- 				    &komeda_improc_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -296,26 +374,39 @@ komeda_timing_ctrlr_atomic_destroy_state(struct drm_private_obj *obj,
- 					 struct drm_private_state *state)
- {
- 	kfree(to_ctrlr_st(priv_to_comp_st(state)));
- }
- 
-+static void
-+komeda_timing_ctrlr_reset(struct drm_private_obj *obj)
-+{
-+	struct komeda_timing_ctrlr_state *st;
-+
-+	if (obj->state) {
-+		komeda_timing_ctrlr_atomic_destroy_state(obj, obj->state);
-+		obj->state = NULL;
-+	}
-+
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return;
-+
-+	__drm_atomic_helper_private_obj_reset(obj, &st->base.obj);
-+	komeda_component_state_reset(&st->base);
-+	st->base.component = to_component(obj);
-+}
-+
- static const struct drm_private_state_funcs komeda_timing_ctrlr_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_timing_ctrlr_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_timing_ctrlr_atomic_destroy_state,
-+	.reset			= komeda_timing_ctrlr_reset,
- };
- 
- static int komeda_timing_ctrlr_obj_add(struct komeda_kms_dev *kms,
- 				       struct komeda_timing_ctrlr *ctrlr)
- {
--	struct komeda_compiz_state *st;
--
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->base.component = &ctrlr->base;
--	drm_atomic_private_obj_init(&kms->base, &ctrlr->base.obj, &st->base.obj,
-+	drm_atomic_private_obj_init(&kms->base, &ctrlr->base.obj, NULL,
- 				    &komeda_timing_ctrlr_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -340,26 +431,39 @@ komeda_pipeline_atomic_destroy_state(struct drm_private_obj *obj,
- 				     struct drm_private_state *state)
- {
- 	kfree(priv_to_pipe_st(state));
- }
- 
-+static void
-+komeda_pipeline_reset(struct drm_private_obj *obj)
-+{
-+	struct komeda_pipeline_state *st;
-+
-+	if (obj->state) {
-+		komeda_pipeline_atomic_destroy_state(obj, obj->state);
-+		obj->state = NULL;
-+	}
-+
-+	st = kzalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
-+		return;
-+
-+	__drm_atomic_helper_private_obj_reset(obj, &st->obj);
-+	st->active_comps = 0;
-+	st->pipe = container_of(obj, struct komeda_pipeline, obj);
-+}
-+
- static const struct drm_private_state_funcs komeda_pipeline_obj_funcs = {
- 	.atomic_duplicate_state	= komeda_pipeline_atomic_duplicate_state,
- 	.atomic_destroy_state	= komeda_pipeline_atomic_destroy_state,
-+	.reset			= komeda_pipeline_reset,
- };
- 
- static int komeda_pipeline_obj_add(struct komeda_kms_dev *kms,
- 				   struct komeda_pipeline *pipe)
- {
--	struct komeda_pipeline_state *st;
--
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return -ENOMEM;
--
--	st->pipe = pipe;
--	drm_atomic_private_obj_init(&kms->base, &pipe->obj, &st->obj,
-+	drm_atomic_private_obj_init(&kms->base, &pipe->obj, NULL,
- 				    &komeda_pipeline_obj_funcs);
- 
- 	return 0;
- }
- 
 
 -- 
 2.51.0
