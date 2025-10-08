@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21481BC545B
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 15:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF01BC554D
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 15:58:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71E310E81A;
-	Wed,  8 Oct 2025 13:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5621510E0D7;
+	Wed,  8 Oct 2025 13:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OX71dsqK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XOOi85NF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD9410E063;
- Wed,  8 Oct 2025 13:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7vRYQ2XT4plbLRuwXv+aUPv2Y3zF3oaW6wkowRvrdqk=; b=OX71dsqKV24RgtzhRR13vLG1B1
- OTE7Gz7jSb8swvnyFi9s0Zxt4/MKgl+TyhY7jjx+TNHJkGcknlkFlsnT7Z49Cjf9YVXk7o/Z1I5rF
- vDPtx8irDZMBMo0kS9VcFrb6m6SVu5grsN1QunYX/g3vi7qhu/Jx7GCDwmbPW0NY/q4zbNS+wTnna
- /Q8HWiaYqtLtkPVbCd7zjLF5QyIzLk3UzdvEIO50UCq7BI+wRUA0jWtk0MveTTaUw51ctrRlprj8d
- uteR9x1TR7ssqmH/wTLQA+SGtH/HOkxf4oO3JK74hXaZkSZ8wBxix4IFgr3Hy/Ma2XbtnKcE/7y6X
- d7Mwwk+A==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v6UYa-006f5w-2k; Wed, 08 Oct 2025 15:50:16 +0200
-Message-ID: <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
-Date: Wed, 8 Oct 2025 14:50:14 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4358310E0D7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 13:57:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 6BD6E61EE2;
+ Wed,  8 Oct 2025 13:57:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD56C4CEE7;
+ Wed,  8 Oct 2025 13:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1759931875;
+ bh=7W274DIEAcbVbUFnAm7Dz1UUk92d5eL3JrG4sX+1xkc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XOOi85NFwxmQ5r+FC5yC79G8GfIgoymwZT+B3ETxWD5pIuS9zIhcC8Bt8x76EARL6
+ QZFynuAnf83EX4oSlTnMxrYMBndg7N2VOxgUafqBpkSsK07kfHZQ/LvXb5LucXeAm1
+ BypCBQ0uK6JGo+wfLFWaJv3hgVcbTXOleTirQrnpaGJm6Z56kbFMjwIb3cRFQVNeI2
+ tB+sKVeWgjdyn+6RJcxawl3Um4y7VXyLZD3jE8YoYQ2qFUgoWElJP3bjulW7yFomLf
+ nXSN3cfxD605cA3DX9DCO/aC1CfcWFcL0NelIuc+JCXpYIS3vkaQG6x+hZCS8WPmyW
+ i3a17Y5iw7ysA==
+Date: Wed, 8 Oct 2025 15:57:52 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Subject: Re: [PATCH 00/29] drm: Implement state readout support
+Message-ID: <20251008-nondescript-snobbish-rattlesnake-d486a7@houat>
+References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
+ <f87700f1-ed9c-40fe-9327-efe574820139@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
- latency
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
-References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
- <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ikx42ojfqow65kg7"
+Content-Disposition: inline
+In-Reply-To: <f87700f1-ed9c-40fe-9327-efe574820139@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,120 +67,126 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 08/10/2025 13:35, Christian König wrote:
-> On 08.10.25 13:53, Tvrtko Ursulin wrote:
->> Disclaimer:
->> Please note that as this series includes a patch which touches a good number of
->> drivers I will only copy everyone in the cover letter and the respective patch.
->> Assumption is people are subscribed to dri-devel so can look at the whole series
->> there. I know someone is bound to complain for both the case when everyone is
->> copied on everything for getting too much email, and also for this other case.
->> So please be flexible.
->>
->> Description:
->>
->> All drivers which use the TTM pool allocator end up requesting large order
->> allocations when allocating large buffers. Those can be slow due memory pressure
->> and so add latency to buffer creation. But there is often also a size limit
->> above which contiguous blocks do not bring any performance benefits. This series
->> allows drivers to say when it is okay for the TTM to try a bit less hard.
->>
->> We do this by allowing drivers to specify this cut off point when creating the
->> TTM device and pools. Allocations above this size will skip direct reclaim so
->> under memory pressure worst case latency will improve. Background reclaim is
->> still kicked off and both before and after the memory pressure all the TTM pool
->> buckets remain to be used as they are today.
->>
->> This is especially interesting if someone has configured MAX_PAGE_ORDER to
->> higher than the default. And even with the default, with amdgpu for example,
->> the last patch in the series makes use of the new feature by telling TTM that
->> above 2MiB we do not expect performance benefits. Which makes TTM not try direct
->> reclaim for the top bucket (4MiB).
->>
->> End result is TTM drivers become a tiny bit nicer mm citizens and users benefit
->> from better worst case buffer creation latencies. As a side benefit we get rid
->> of two instances of those often very unreadable mutliple nameless booleans
->> function signatures.
->>
->> If this sounds interesting and gets merge the invidual drivers can follow up
->> with patches configuring their thresholds.
->>
->> v2:
->>   * Christian suggested to pass in the new data by changing the function signatures.
->>
->> v3:
->>   * Moved ttm pool helpers into new ttm_pool_internal.h. (Christian)
-> 
-> Patch #3 is Acked-by: Christian König <christian.koenig@amd.com>.
->
-> The rest is Reviewed-by: Christian König <christian.koenig@amd.com>
+--ikx42ojfqow65kg7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/29] drm: Implement state readout support
+MIME-Version: 1.0
 
-Thank you!
+Hi Tomi,
 
-So I think now I need acks to merge via drm-misc for all the drivers 
-which have their own trees. Which seems to be just xe.
+Thanks for having a look.
 
-Also interesting for other drivers is that when this lands folks can 
-start passing in their "max size which leads to performance gains" via 
-TTM_POOL_BENEFICIAL_ORDER and get the worst case allocation latency 
-improvements.
+On Wed, Oct 08, 2025 at 04:07:57PM +0300, Tomi Valkeinen wrote:
+> On 02/09/2025 11:32, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Here's a series that implement what i915 calls "fastboot", ie,
+> > initializing the initial KMS state from the hardware state at boot, to
+> > skip the first modeset if the firmware already set up the display.
+> >=20
+> > This series creates the infrastructure in KMS to create that state by
+> > relying on driver specific hooks. It also implements some infrastructure
+> > to check during non-blocking commits that the readout helpers work
+> > properly by reading out the state that was just committed and comparing
+> > it to what was supposed to be commited.
+> >=20
+> > This relies on another set of driver hooks to compare the entities
+> > states, with helpers providing the default implementation.
+> >=20
+> > It then implements the readout support in the TIDSS driver, and was
+> > tested with the SK-AM62 board. This board in particular is pretty
+> > interesting, since it relies on an DPI to HDMI bridge, and uses the
+> > drm_bridge_connector infrastructure.
+> >=20
+> > So the readout works with the current state of the art on embedded-ish
+> > platforms.
+> >=20
+> > The whole thing feels a bit clunky at the moment:
+> >=20
+> >   - The initial state buildup ties everything together in a state in the
+> >     old state pointer. It's useful for the initial readout because
+> >     accessors can then use the usual state accessors to look into the
+> >     state of other entities. But one of the argument for it was also
+> >     that for state comparison, it allows to compare the new state
+> >     (committed) to the old state (readout). It doesn't really work in
+> >     practice, since in such a case the old state contains the previous
+> >     hardware state to be freed, and thus we would end up with a memory
+> >     leak
+> >=20
+> >   - The framebuffer refcounting is broken.
+> >=20
+> >   - The tidss atomic_flush waits for the go bit on the initial
+> >     modesetting, except that if the state is readout we didn't commit
+> >     anything and the driver will wait forever, eventually resulting in
+> >     commit timeout
+>=20
+> Isn't atomic flush part of the modeset? Why is it called if there's no
+> modeset.
 
-I am thinking xe also maxes out at 2MiB pages, for others I don't know.
+No, atomic_flush is ran when we update the planes, so it will trigger
+here on the first page flip.
 
-Regards,
+> >   - The tidss_crtc_state fields are not read properly at the moment
+> >     either.
+>=20
+> Just because no implemented, or was there something funny with them? I
+> guess there's some reverse-mapping that needs to be done.
 
-Tvrtko
+The bus_format field isn't read properly, I wasn't quite sure what was
+going on there.
 
->> v1 thread:
->> https://lore.kernel.org/dri-devel/20250919131127.90932-1-tvrtko.ursulin@igalia.com/
->>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Cc: Gerd Hoffmann <kraxel@redhat.com>
->> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->> Cc: Lyude Paul <lyude@redhat.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Cc: Sui Jingfeng <suijingfeng@loongson.cn>
->> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Zack Rusin <zack.rusin@broadcom.com>
->>
->> Tvrtko Ursulin (5):
->>    drm/ttm: Add getter for some pool properties
->>    drm/ttm: Replace multiple booleans with flags in pool init
->>    drm/ttm: Replace multiple booleans with flags in device init
->>    drm/ttm: Allow drivers to specify maximum beneficial TTM pool size
->>    drm/amdgpu: Configure max beneficial TTM pool allocation order
->>
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  7 +--
->>   drivers/gpu/drm/drm_gem_vram_helper.c         |  2 +-
->>   drivers/gpu/drm/i915/intel_region_ttm.c       |  2 +-
->>   drivers/gpu/drm/loongson/lsdc_ttm.c           |  2 +-
->>   drivers/gpu/drm/nouveau/nouveau_ttm.c         |  4 +-
->>   drivers/gpu/drm/qxl/qxl_ttm.c                 |  2 +-
->>   drivers/gpu/drm/radeon/radeon_ttm.c           |  4 +-
->>   drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 16 +++----
->>   .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  2 +-
->>   drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 31 +++++--------
->>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 22 ++++-----
->>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  7 +--
->>   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 23 +++++-----
->>   drivers/gpu/drm/ttm/ttm_device.c              |  7 ++-
->>   drivers/gpu/drm/ttm/ttm_pool.c                | 45 +++++++++++--------
->>   drivers/gpu/drm/ttm/ttm_pool_internal.h       | 24 ++++++++++
->>   drivers/gpu/drm/ttm/ttm_tt.c                  | 10 +++--
->>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +-
->>   drivers/gpu/drm/xe/xe_device.c                |  2 +-
->>   include/drm/ttm/ttm_device.h                  |  2 +-
->>   include/drm/ttm/ttm_pool.h                    | 13 +++---
->>   21 files changed, 125 insertions(+), 106 deletions(-)
->>   create mode 100644 drivers/gpu/drm/ttm/ttm_pool_internal.h
->>
-> 
+And also, for bridges, I've yet to figure out a way to read / find the
+input/output formats.
 
+> > The main thing works though: the state is picked up properly, doesn't
+> > trigger a modeset if what was programmed is the one the first modeset
+> > tries to pick as well, will switch properly if it isn't, etc.
+>=20
+> This is pretty interesting work. I haven't tested, and I'm sure it still
+> breaks in a million ways if used with anything else but the HW you're
+> using =3D).
+
+Thanks :D
+
+> This is related to the boot-splash screen work I've been working on for
+> quite a while, although at a different stage.
+
+As far as I'm concerned, once this lands, your work isn't needed at all.
+
+> In my patches I have been trying to avoid hw reset, so that if the DSS
+> has been set up by the bootloader, we'll just let it run until we get
+> a modeset.
+
+We really only need to power up the hardware around
+drm_mode_config_reset.
+
+Once we're done, either the hardware will be active or inactive, but
+we'll know for sure.
+
+> And now your series would potentially remove that modeset too, so, in
+> theory, we could get up to X/Weston from bootloader with just a single
+> modeset in the bootloader.
+>=20
+> Of course, fbdev/simpledrm will mess things up there. I had some hacks
+> for fbdev too, to retain the bootsplash image, but it was just hacking.
+
+And it works also with fbdev, since fbdev or whatever will trigger a
+new commit we can compare to.
+
+Maxime
+
+--ikx42ojfqow65kg7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaOZt3AAKCRAnX84Zoj2+
+duN8AYDRcC+kqLWawVkJWZWy/tituvRwMjHasePkmeDvyIH8xmjdqXaguaObaN9z
+pwuLXxMBgOtuTfUQ5NTo06cqR292ZLzNu1UUTJmPRWl5Vjoro+qDRZdTBzk1LWKu
+Mp5VEzI8ww==
+=c02J
+-----END PGP SIGNATURE-----
+
+--ikx42ojfqow65kg7--
