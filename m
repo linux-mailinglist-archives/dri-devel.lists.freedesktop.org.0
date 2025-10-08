@@ -2,82 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C92BC64FB
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36561BC6504
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C34110E8C1;
-	Wed,  8 Oct 2025 18:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4D810E8B5;
+	Wed,  8 Oct 2025 18:40:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mTpGM9hx";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AwPc2PKj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C93A10E8B6
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:36:32 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-46f53f88e0bso1193435e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759948591; x=1760553391; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FXl25NV/bCKQtXQE+8UoQ32n8mgGUsnabyuLmYWSLFM=;
- b=mTpGM9hxaNAEpfBAXZeYE8yi5iK6Ddh5J5tCGFbwlvJgz5NqLhdr8ShHuaXMxr1D37
- 61OR+Xays7bi97oAWto421fwS/wS2LxnONtrXeMIH94A0GGbxgBb4u2BkZbwlnK5DUD2
- rb23AgrlTMU48JpD8qiWWhNucfsLxWeuxEu5KprTGSPqnC1JhU6u3ELiBpj1PSV+lgKd
- mKKmaBY5y6JDl/csshC5KcjWESb6HUK4sGWL/esIWrM1C6W9gdspQ9HOx2kB3qUeCGsS
- KxZh9UkTsJIoK5vY94j/BwROBB9jJMROHIVzsdiRpVXIzF6A+9GbvHnLjphqR0LWdayr
- 753g==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E451810E8B5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:40:12 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5HTI012814
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:40:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=UiT3NrhTXsOL+mLqzQf+cdCZ
+ y5nzolk3LPjCkdb6l2M=; b=AwPc2PKjdpxLnlw1/jffYKBgSBaaZQ9AOZzAX/qn
+ h0G3YDONRztkv+UX06/kgefHxHTH76N7KjS/VK9hY8bLS2dcIUnc/pwG1eYpxjfc
+ Up6NJiD9OQeHV35fbYAoXdYNPncMlOZpBBGz/dPjGcW6Yne5zywrvrIVZW+QtEi/
+ QoK+ehKUbv04quFhODUxnZIbw/+9/Eyg8Whs6xl10MWWGsT1U0+X63r0h/WzOgZn
+ WVyVsLul4l2xmBYTXlfyUlNb1qTqOj0qgd+9RMDiQPK5XC2Iy1yCIV9aQvHvkgm1
+ TWWGeTit9zB9kVhmriq7RIn1gtg5+05RE3VbTKZlkY1WKg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4j08qw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:40:12 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4db75c7fa8dso4374601cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:40:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759948591; x=1760553391;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FXl25NV/bCKQtXQE+8UoQ32n8mgGUsnabyuLmYWSLFM=;
- b=qqupj9eu+3Kc00Hc2JZ3D6k+wMgPzrfclSxNheK2nTyWfb2U/7NuImyTOcPG6+u1bs
- ZjOnkWtiNfuUruIpTT+sfUiev8qY4d8g+U0fNvWLFq4cxDoafDLIX8piwJPpqpNCN9Sb
- hjobAelKIm/JoLt7TSHDFBpxS8UnEHTRlUwPeG5hymHlErdtiGXEuu7t/nLTUZKE5TQO
- rfLj3l842vooOzPQgJUljyxocIOqmCqzsbI+WGiOXYkLFrAiUrm08W9pb1njL5byraTW
- sPOY8la1gdl6qR2y0m7U6BsOZlrhzdMMC35WlHntuBB4Z7bmdCRFigIl+wWU849/ErZ3
- wqAQ==
+ d=1e100.net; s=20230601; t=1759948811; x=1760553611;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UiT3NrhTXsOL+mLqzQf+cdCZy5nzolk3LPjCkdb6l2M=;
+ b=DyQFAfRoUcGksOXRrvcE0iFUsLeCqJbHYYU/JrjVqt+R5rZxqS9VLZJrsLk7peH3Il
+ LfKnqUAnogAGbyOkuZ0w6kMlXGdec1SfzXsrD1p0AtqVkIvbfiRBBHk3z5JHh5/tJBkl
+ Wt4a873oSk/ppmdSkaPKBEY3h0+9RdYohvbwoPMUgDU3gA8XqqnTrOluY7LePYOFzh57
+ hndbko2l2AZ1We1FSkAWOMkT7ISEE8fRwRFW1yOP3JOynNKbInaE7n2kK4Do5wwe4ds9
+ 2pTdvVvUudaxCW1hjhACWXcerIv1LquN7OsY4TCuUXGJdqPjsqc6bDqKcwWhgP2gul1y
+ 41uA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyCQ1LrNC0vYuo2CJ3CDpQJ0Vq88tfsKlxOiUW67hYvbYHc989sIpQG+qQs47a3VqG9kNyEEy5siA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxAMMfQPdYky/itbbjdMWoUDoG4SIzQeSnUuM+fWj8nV6p4RNKT
- 5yTbbrAGigsjz/0HPN0Q++QZyze0Rb0bjlJnMqX4zEwiWPadmyVlLah3
-X-Gm-Gg: ASbGncvCVonDoE6P6R52tddimit81YS3qCCN/60xyYap5usGSn41bXFrLNEfp3p71tJ
- O2X1QsktytUSsBwaVRiRC0IB9v3y1p730dgWQZLAkyGS8mVKukBwvwjc/iymMzoKC5p5ck+VFEH
- G+mijEmDF1KaVmp2GkdBiRwxmXlm60wwdLIaAZnm75fuM4mcgfM0YYp7erjCLFAnvjD0ZvX9gFO
- DRfcTXsSP2PNmnqMlrL1fdwoBW1nNc5e7wm/n0FVJVrOnKZzXlBDyhBEnlQ/hpz7bOeJSOQ0W2D
- +0bE54ut0iPE2kdtaISuk0FU5bFPOK4z6nzGlwOxKCH7O6n46aY5nyC7staPGaFQYdHPyYJSkqf
- gMBnm/p+VYGoyuoH/UK1Bx22R8oO4qPwM7/okQzCX+ItXii/9nlTVD9sQ/5m6foKYpa0qoZBg+D
- V7mUo=
-X-Google-Smtp-Source: AGHT+IHMaf049Vy0bK5HqZ7v24YZjjYWkYmfKtcVF11hqH5XCAA615OXjCUg7WY+wO3hElGgf+q6Og==
-X-Received: by 2002:a05:600c:1e87:b0:46f:a95d:e9e7 with SMTP id
- 5b1f17b1804b1-46fa9a22e8cmr29602565e9.0.1759948590639; 
- Wed, 08 Oct 2025 11:36:30 -0700 (PDT)
-Received: from dell (117.red-81-33-123.dynamicip.rima-tde.net. [81.33.123.117])
+ AJvYcCVmiry6L4uMv1j5rlOj+JKaeYnVm5AZGZ+xs217Lun5pBU4HIwWQmD4NGEyy61KflXsghmpTw4rt60=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8UEFTAc1B3DN9pUJLsjWJSEk+8xlFhB/SIMUdOPTsn1RMJyGe
+ SWW3fdTE/daKL4wmwLdQxE7HBnJYzKkf5zqPNb9M8OwuBhom+WVBctrXwFegScW6JWW+HW2sgrL
+ PbrdB/n5K21+vpGe/0H/tkuObsSbjypcUwijtAzjT1kd3AkC5UIR+20ogfr7nYjgVqkCxYxE=
+X-Gm-Gg: ASbGncvLUpnJsycbU5nyW+XV2G6fMiSpLHhnOrl/+r0GLXQ/i14+4oHLD6XeFT5NVIq
+ xWsJpVSDkLKxvqFLvGF8q60ii7l4v4Y2EVL6ODxTDlT1Xj48BmfGMb3fe0O5SAfner5j7JKDMtI
+ uqZHmPj35cogj3IPK/rQkqu1hhhdjaCZxlkhqoryjEZpM5LERxkLMGuNgGENTvtwM2vigYL1QiR
+ PcLoK6MvrmlXzMeKrrsqIIYqvsSpueuNoo6jR8zdHKvsabDv6Sl3+GDWDANmFyCyKYx6MkYXaRv
+ oGEyp0DWybxU80smYIH79QycYYuSSpp1FMVN6oIpRuyl6vl/VZt09HB5IPJ7zyJU/PdU0jjT6O9
+ J6B/kBQSyBnqjvXI2KnZ3xBL5+J65KALdaI1zjdwtbgR7BJCGwjHaccqPPg==
+X-Received: by 2002:a05:622a:996:b0:4d0:cf85:9f9b with SMTP id
+ d75a77b69052e-4e6ead54473mr65102041cf.46.1759948810942; 
+ Wed, 08 Oct 2025 11:40:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEI5B2XZljG4oOKO3AfTzTqlvSbaPEHBPtyXj4hrP/UU5eo568Viqbds0+vMLw0ny5GnHT4tg==
+X-Received: by 2002:a05:622a:996:b0:4d0:cf85:9f9b with SMTP id
+ d75a77b69052e-4e6ead54473mr65101621cf.46.1759948810424; 
+ Wed, 08 Oct 2025 11:40:10 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fab5250ddsm18839465e9.6.2025.10.08.11.36.29
+ 2adb3069b0e04-5907ac20da8sm250800e87.47.2025.10.08.11.40.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 11:36:30 -0700 (PDT)
-From: Javier Garcia <rampxxxx@gmail.com>
-To: deller@gmx.de,
-	u.kleine-koenig@baylibre.com,
-	tzimmermann@suse.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shuah@kernel.org,
- Javier Garcia <rampxxxx@gmail.com>
-Subject: [PATCH v3] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
-Date: Wed,  8 Oct 2025 20:36:27 +0200
-Message-ID: <20251008183627.1279115-1-rampxxxx@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251006164143.1187434-1-rampxxxx@gmail.com>
-References: <20251006164143.1187434-1-rampxxxx@gmail.com>
+ Wed, 08 Oct 2025 11:40:09 -0700 (PDT)
+Date: Wed, 8 Oct 2025 21:40:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 04/16] drm/bridge: Switch private_obj initialization to
+ reset
+Message-ID: <lkqjoldgevvo3zcmc2px6tqmgxznma4xfsipqcituwnz4ggaum@ye2eyfbinytn>
+References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
+ <20251008-drm-private-obj-reset-v1-4-805ab43ae65a@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251008-drm-private-obj-reset-v1-4-805ab43ae65a@kernel.org>
+X-Proofpoint-GUID: 7VZ_P9yJ75k5Y1NVIuSuS_6OZaSg2Of2
+X-Proofpoint-ORIG-GUID: 7VZ_P9yJ75k5Y1NVIuSuS_6OZaSg2Of2
+X-Authority-Analysis: v=2.4 cv=f91FxeyM c=1 sm=1 tr=0 ts=68e6b00c cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=KKAkSRfTAAAA:8
+ a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=X3hUXv4obAWQg-54axYA:9
+ a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
+ a=D0XLA9XvdZm18NrgonBM:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX+6heKRBuyg9N
+ 02XzDCUjzR+4cYg1+ikq/IgqLgDPKjjveQ2P4OPn4qKyp2FYeaFo7BLaNDquRdLCrQGskqnX4JV
+ S1L0Sygh+6AfboXgOT8lMZTXvyz9RtLGxMWV/3yePs3gNwCog7gFyGm3bOGXtBpIomCFuKdFh+6
+ 9lN6+26j8vJ5Lvm1EyIaFVeGMF+pLPcPAzsA5yiGmLmh3JhQ4rzOoB9Nm/5LqE0Cg7PIt9mPYJJ
+ FXUC33iC8wASzGDeno8nl4sIG3D/CcFUw+1LmCS0seg+ab3JDTwrWkHBK58UwhRiZwWT/0784Dt
+ nHc4Vufi19bpMu5QWyJO6tsSIGMnwT1dxY6hs6/NEMa03lY4KWj0WXdQYD7BI+6zIWVdxCFckFH
+ iFJGoy8SAS4AVMP1EXtIAubMfEcWLg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-08_05,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,71 +130,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch wraps the relevant code blocks with `IS_ENABLED(CONFIG_FB_DEVICE)`.
+On Wed, Oct 08, 2025 at 02:04:02PM +0200, Maxime Ripard wrote:
+> The bridge implementation relies on a drm_private_obj, that is
+> initialized by allocating and initializing a state, and then passing it
+> to drm_private_obj_init.
+> 
+> Since we're gradually moving away from that pattern to the more
+> established one relying on a reset implementation, let's migrate this
+> instance to the new pattern.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 
+> ---
+> 
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 31 ++++++++++++++++---------------
+>  1 file changed, 16 insertions(+), 15 deletions(-)
+> 
+> @@ -462,30 +476,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>  		ret = bridge->funcs->attach(bridge, encoder, flags);
+>  		if (ret < 0)
+>  			goto err_reset_bridge;
+>  	}
+>  
+> -	if (drm_bridge_is_atomic(bridge)) {
+> -		struct drm_bridge_state *state;
+> -
+> -		state = bridge->funcs->atomic_reset(bridge);
+> -		if (IS_ERR(state)) {
+> -			ret = PTR_ERR(state);
+> -			goto err_detach_bridge;
+> -		}
+> -
+> +	if (drm_bridge_is_atomic(bridge))
+>  		drm_atomic_private_obj_init(bridge->dev, &bridge->base,
+> -					    &state->base,
+> +					    NULL,
+>  					    &drm_bridge_priv_state_funcs);
 
-Allows the driver to be used for framebuffer text console, even if
-support for the /dev/fb device isn't compiled-in (CONFIG_FB_DEVICE=n).
+This is now very idiomatic, I like it!
 
-This align with Documentation/drm/todo.rst
-"Remove driver dependencies on FB_DEVICE"
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-I've not the card so I was not able to test it.
-
-Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
----
-v2 -> v3:
-      * Change commit msg , thanks Helge Deller.
-      * Delete not used include , thanks Uwe Kleine-Koenig.
-      * v1 https://lore.kernel.org/lkml/20251006164143.1187434-1-rampxxxx@gmail.com/
-v1 -> v2:
-      * Fix error and improvement , thanks Uwe Kleine-Koenig.
-      * v1 https://lore.kernel.org/lkml/20251005173812.1169436-1-rampxxxx@gmail.com
-
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index ade88e7bc760..3f79dfc27a53 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -759,7 +759,7 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
- 
- 	dev_set_drvdata(dev, info);
- 
--	if (device_create_file(dev, &dev_attr_dispregs))
-+	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dispregs))
- 		dev_err(dev, "Can't create sysfs regdump file\n");
- 	return 0;
- 
-@@ -801,7 +801,8 @@ static void of_platform_mb862xx_remove(struct platform_device *ofdev)
- 	free_irq(par->irq, (void *)par);
- 	irq_dispose_mapping(par->irq);
- 
--	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
-+	if (IS_ENABLED(CONFIG_FB_DEVICE))
-+		device_remove_file(&ofdev->dev, &dev_attr_dispregs);
- 
- 	unregister_framebuffer(fbi);
- 	fb_dealloc_cmap(&fbi->cmap);
-@@ -1101,7 +1102,7 @@ static int mb862xx_pci_probe(struct pci_dev *pdev,
- 
- 	pci_set_drvdata(pdev, info);
- 
--	if (device_create_file(dev, &dev_attr_dispregs))
-+	if (IS_ENABLED(CONFIG_FB_DEVICE) && device_create_file(dev, &dev_attr_dispregs))
- 		dev_err(dev, "Can't create sysfs regdump file\n");
- 
- 	if (par->type == BT_CARMINE)
-@@ -1151,7 +1152,8 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
- 
- 	mb862xx_i2c_exit(par);
- 
--	device_remove_file(&pdev->dev, &dev_attr_dispregs);
-+	if (IS_ENABLED(CONFIG_FB_DEVICE))
-+		device_remove_file(&pdev->dev, &dev_attr_dispregs);
- 
- 	unregister_framebuffer(fbi);
- 	fb_dealloc_cmap(&fbi->cmap);
 -- 
-2.50.1
-
+With best wishes
+Dmitry
