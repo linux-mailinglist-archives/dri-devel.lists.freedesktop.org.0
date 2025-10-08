@@ -2,113 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5B7BC3B7D
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F3EBC3C63
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 10:15:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9161110E02F;
-	Wed,  8 Oct 2025 07:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95D310E1D9;
+	Wed,  8 Oct 2025 08:15:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="W2n2fsyj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jAfJD4JJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE1110E02F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:49:38 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5987aW1F003354
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 07:49:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- f6FGKMqGT/it1BXXMf4DBINopGEsg63OAjTDH201qHg=; b=W2n2fsyjCenGht8j
- lqlxGr8dFa8Y01EWBRjea6EnfbpvECALOYs5Sc2CMrqJcry1m2xF9HR4QHA3X/vO
- BH4qE1LnsCzB9SfMgRNsVwRp6Egw3gP1Mqh/PH/GYgkDH+HxGyjvMtzpdGxwU/Na
- XOTgaKiwi6vSc1fIjhFvHAvqNKTfLzyf2n9EFx2m8tRPZ+hzC8HkoM1MFPtTyVgX
- CPeXOo3YI9MBNC4y1N3xe1bwKDDjQ6nVqL09zup6VCICEyWahxgoAin/ojBv8GNh
- yqVqk0I/p4tDzlzBxf573kEkA1CvoUdhe8Q0THNT4lXl14ziHqKSb5k4cU6Q/vij
- Uweqmg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49juy71q0a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 07:49:37 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4e4b4e6f75fso20934361cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:49:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759909777; x=1760514577;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f6FGKMqGT/it1BXXMf4DBINopGEsg63OAjTDH201qHg=;
- b=I8DRF9Uk1/uxKIVuF9lWKk6YYU3C87tSEYYjTHYKA6Bxn7p/P+pku6EbHH/VQfS+uA
- +x+muQ5CSWGTmzKKJr74xcsf90hHnDU2wKwdARc78QtHrGPOjTB+NVNPaKYP12vK1tSC
- +48UaNOoEQGrWmMkk9MnPvkCBuki1PYzO7uIiXz2fw6BQkOaLY1Vx3XxM57FkNFUeipO
- RVrwHEGpA+TbLi36q3Q711ucKJpQQ493DgCAbvn7wDDlAdCOVhllR3tjOf3CL8cVIala
- 8XOqy2Hxm10lPD3tylpbVJxO2Se8qI8/6k5JrGYueuidy3uh8eQnkFU+D+E/nYPXszTB
- yofA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWu3EmdL/RpuoBd1FvG2gAYykRmvu0et5sr4lsHdudbIIWd206C32fHoohjf6s4V8trxn2ljXzle+o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzCCQzoYR1Gx5t0d2abeikRZMb4IPBFe1cKr32ymlk7DIDvyNAB
- 7CR8//G1Nc9JKzmLE87pCDgeceDdqA9GHGVIyR3WodJwPFcRzqLr74TBZnjhmvSbKuJxujB21ia
- 74b2QJmaZMnQSjv8oGEzSHzATyRm13qkTkeBdqXDx+XUGdxkzOvV5md86cBl7mNX0sc8ilg0=
-X-Gm-Gg: ASbGncumZJV8AvxLfsmMzNq6EhtPBe/f5kDtFTZJ2hxnAh9dogKL/Uz4UXMJtkoWvD5
- /Ko4/x05f4byQJr8JvFlT7eUfWwvEOnGa2+rvwSwptTcmdSqR1EZ3i6vMC2hD+ajP/p/RoneQoQ
- nfgAhYLZs0G2oe6LyGgCIm8MaPETHax2oYukKbYHCXcZPLUJmLZx0bSsOpJLcoyVgLo/Lze7AhQ
- N9PZI9zfFkfljYeGQEUWlFj6ftHaSaQDB2FFeF04EyqShFFByRtVdL0rBeOqANkAGHFdJIY4nU2
- bX30v2rulBNdy4BCGAiH3vqwFuSVKjsDTdC3rlbNFyexc8Ec/lgCkOFN4BlqRPZkYlPRefijix1
- Wf6rCXqzcKjpAWyP3+3NkRsDGWo4=
-X-Received: by 2002:ac8:738a:0:b0:4d1:7b86:3618 with SMTP id
- d75a77b69052e-4e6eaf20fccmr18572931cf.3.1759909776725; 
- Wed, 08 Oct 2025 00:49:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMQVUQpo51JuaeXpfR2ayI65xP1qWadO5lRPd+cQm1e8LxV0RZwtOpSEe047HzmkSgyMLPsQ==
-X-Received: by 2002:ac8:738a:0:b0:4d1:7b86:3618 with SMTP id
- d75a77b69052e-4e6eaf20fccmr18572771cf.3.1759909776153; 
- Wed, 08 Oct 2025 00:49:36 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-639d4a67888sm1577799a12.1.2025.10.08.00.49.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Oct 2025 00:49:35 -0700 (PDT)
-Message-ID: <c3339f06-aaca-490b-997c-8b6b145c93c8@oss.qualcomm.com>
-Date: Wed, 8 Oct 2025 09:49:33 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B568510E1D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 08:15:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (82-203-166-19.bb.dnainternet.fi
+ [82.203.166.19])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ECADF191B;
+ Wed,  8 Oct 2025 10:13:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1759911212;
+ bh=tsaypD/DbPUWMTuZH0R026MpaDXXQ9sm7bRAfALfNJg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jAfJD4JJX4a9In7LufZltWn8J6npzIvGlDXb8HmftJmNA76CuiIxrgz/njxp20d8K
+ GNr2kd4pjRvwTA/siGW+bAV5KVcHpZKiTYDg7SfoG/iSj3uAws7iQp1vlhdlysevgg
+ e2WMrb9xIBgf3L3Z6hSJW0ivjPCz6Nz17WipET/Q=
+Date: Wed, 8 Oct 2025 11:14:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Cenk Uluisik <cenk.uluisik@googlemail.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Jimmy Hon <honyuenkwun@gmail.com>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Muhammed Efe Cetin <efectn@6tel.net>, Ondrej Jirman <megi@xff.cz>,
+ Rob Herring <robh@kernel.org>, Sandy Huang <hjc@rock-chips.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: rk3588-dw-hdmi-qp: Add
+ tmds-enable-gpios property
+Message-ID: <20251008081459.GF16422@pendragon.ideasonboard.com>
+References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
+ <20251005235542.1017-2-laurent.pinchart@ideasonboard.com>
+ <c5kwmvu3j72evbgdmjn6qn5nqx7ywbiwpzhnpeh6hjjhbz5vwo@jpe3onblwhmy>
+ <20251006162518.GJ5944@pendragon.ideasonboard.com>
+ <d423560e-dcd4-45d8-a1e4-5a8b2a21ef86@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Add xbl_config image entry for AIC200
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251007221528.561242-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251007221528.561242-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=IrITsb/g c=1 sm=1 tr=0 ts=68e61791 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=3QUyYiSUeFS93uMjaC0A:9
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: aBcDIBazQxcR6X91QcIlrjY9KJVNTBDj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyOSBTYWx0ZWRfX9IltnbgoEYsd
- u+wAcEn8VzZiKL26LsuQP1huDnvxt2nN4K/UBaPfE1l3QCRJDjJ0egdYV9Vwrbp9B/OFDbeZ5qX
- 57Cug8vyXhHi6YpFiOvtFFkq6ZSfz8QIpOlrFzCu0Cj/b3nvTKjmJsRLJNUrnQTJZ/O9aqfHqHj
- quu2r3VKx3Fo1rOTjmx0sVgMI1r836X1QdChWa3EqfIOOi+ivchhTm6wWiPE4PB3RyB9iIeAjKK
- TPiCZnXvySiJeOduXQtdjRPsvVV7pZ8pyGHoOPpTZWS6ch9fCQ+tsFfefMbxJ+Sh59IHaWZBjsb
- VZnZ9dq4MmQJePNiAInA5aI19hVuWgmXaWVXdOPhwfn5csazv4K0ERiyY1t/JuckjbHWEoom0x8
- eAOOidCDr9z+CX26/LMuWrNpRbMw9A==
-X-Proofpoint-ORIG-GUID: aBcDIBazQxcR6X91QcIlrjY9KJVNTBDj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
- spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040029
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d423560e-dcd4-45d8-a1e4-5a8b2a21ef86@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,30 +70,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/25 12:15 AM, Youssef Samir wrote:
-> From: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+On Mon, Oct 06, 2025 at 07:42:56PM +0300, Cristian Ciocaltea wrote:
+> On 10/6/25 7:25 PM, Laurent Pinchart wrote:
+> > On Mon, Oct 06, 2025 at 02:19:24PM +0300, Dmitry Baryshkov wrote:
+> >> On Mon, Oct 06, 2025 at 02:55:37AM +0300, Laurent Pinchart wrote:
+> >>> From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> >>>
+> >>> Add an optional property to RK3588 HDMI TX Controller binding describing
+> >>> a GPIO line to be asserted when operating in HDMI 1.4/2.0 TMDS mode and
+> >>> deasserted for HDMI 2.1 FRL.
+> >>>
+> >>> This is used to control an external level shifter for HDMI data lines.
+> >>>
+> >>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> ---
+> >>>  .../display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml   | 10 ++++++++++
+> >>>  1 file changed, 10 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+> >>> index 96b4b088eebe..eec0d40c91ea 100644
+> >>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+> >>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+> >>> @@ -113,6 +113,13 @@ properties:
+> >>>      description:
+> >>>        Additional HDMI QP related data is accessed through VO GRF regs.
+> >>>  
+> >>> +  tmds-enable-gpios:
+> >>> +    description:
+> >>> +      Optional GPIO line to be asserted when operating in HDMI 1.4/2.0
+> >>> +      TMDS mode and deasserted for HDMI 2.1 FRL. It can be used to control
+> >>> +      an external level shifter for HDMI data lines.
+> >>> +    maxItems: 1
+> >>
+> >> Just my 2c: since TMDS is assumed to be a default mode, shouldn't this
+> >> be a frl-enable-gpios instead?
+> > 
+> > I don't mind either way. Cristian, any opinion ?
 > 
-> Update the Sahara image table for the AIC200 to add an entry for xbl_config image at id 38.
-> 
-> Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
-> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-> ---
->  drivers/accel/qaic/sahara.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
-> index 3ebcc1f7ff58..04e8acb94c04 100644
-> --- a/drivers/accel/qaic/sahara.c
-> +++ b/drivers/accel/qaic/sahara.c
-> @@ -194,6 +194,7 @@ static const char * const aic200_image_table[] = {
->  	[23] = "qcom/aic200/aop.mbn",
->  	[32] = "qcom/aic200/tz.mbn",
->  	[33] = "qcom/aic200/hypvm.mbn",
-> +	[38] = "qcom/aic200/xbl_config.elf",
+> No strong opinion either; we could go for Dmitry's suggestion.
 
-This is the third oneliner extending this array you sent within 24h,
-please get the list of required files and update this list once and
-for good
+OK, I'll flip it.
 
-Konrad
+> >>> +
+> >>>  required:
+> >>>    - compatible
+> >>>    - reg
 
+-- 
+Regards,
+
+Laurent Pinchart
