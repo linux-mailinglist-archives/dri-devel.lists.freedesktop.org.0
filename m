@@ -2,112 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286DEBC5827
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 17:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918FFBC5BBF
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 17:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84AA010E840;
-	Wed,  8 Oct 2025 15:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2AD10E852;
+	Wed,  8 Oct 2025 15:39:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="X6WOrroF";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="l7gtyMeg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0923B10E840
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 15:04:09 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59890LmM001555
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 15:04:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- D1FsHI8tDKC12GU64drWYojuDzJtnmaPmMWYps3VYB4=; b=X6WOrroFhitCv3Rj
- ny0xeMxH6m8/vXluRrpZc3TNXidH0yVFcldDkFotO+Drsl/U6hL7FUs0UpjLMicy
- HVGn6JIZF7zmTCfX4faAP+48ZkWGkIV3Bs65nraPozStlQpdZNsFsMw16xVgGFej
- xXIsIf1o7nIhd4w9JwwGnNBeopVQ/Owx5Or7hHRSAHciaThf3wkKRr0OAXfG1eE/
- bUTmfQueJSiORxOUkKBeU1zXx4p9f3A7pNVgVj5y4YbVFTJvT5uSZFt6fGmjGdwC
- q/Kl8d/Qu/VxAY4pMPOsCgYuzLRLbiT+dmIl2BtCOfF7COhcn/HGiOid+y8TdHs7
- YxTfKA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jrxnb9pd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 15:04:02 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-33428befc5bso22195a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 08:04:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759935841; x=1760540641;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D1FsHI8tDKC12GU64drWYojuDzJtnmaPmMWYps3VYB4=;
- b=jpPT0Ew8Q645N7+K7EzUvuYesdjHAU7Ji2/wKbXldFJ4Hh2/z6bxsC+QbuFUBIeXjw
- dlhcjVvVZV1K8ofTTnmouV+sOkBGbZPp0OHIoxEdCHflcmeZiFC+4MZM1jsmbshAoFSz
- rTWwhBhpoz3dXWle7fhEVoIEXPz/e/NZb0tmlXNL7WieX1muywxAW6WPpO6fuEnYCTHk
- zYYDKFeGKdNdw5nxAWz2XVUAoUCLXpQDcTL1MYQFRv5NZq6zxgQSpqDA2O/5HsFsgOIS
- 3+1Nx4JeSfgVPzAyFAauuBrlNZFd8v6BTb5aFkKt7poj996x7tr4qVAIPmvpGSZfEWbg
- ZwZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVeSW5VExnAA99lwDshik1fLACUyVLIsh/roAp6s8QEj/PI6ekV6OrRnEzfBvFG1LVNhwKdjM4Iz/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxrKRYnP6OcqM5+Cu7QjYhYA1c4+7e0ov26LzViUqIXv+09fj5D
- 32Q8/bqZK7j6FIdJ/8qSy89t+5dZaP5ReFRHXkxwAgxOtE1sLhCzg7R22vAOTq6TYC0slecTYvY
- WcKk4TAcJ4DQDZKZPp0xK4QjjouDXe7S6ZuOmVO/0Zl7RmVEhN+KrG22jfcHIxg3G0xjasew=
-X-Gm-Gg: ASbGncvHnfEe978pS+Us9ikjtaHiS5yIMs629rEFU5On2KpS76e1Rh3ViVDNBgtF1pE
- 5KHuvw5uN+9tWeuGXY/bIwrSZh59ohd9L9CIC7IhwjqrsUQBBltmtAc/NSKxX+09UD/PPkOpMwt
- dz1cDUJPgN6AsXDeYvaIUq7/fBdQRM1fo8y3L9fMH89feIkNgVmkGKV+KII+3ZiiHoHpt5AtwDJ
- lM2EzBMUIDAOTN28rCIbW13dabnIwc5/W6u2m338ww33LPh2+9sMxrrp5TRFDNkzk6/TWx+rL7m
- FDHK6UqnPk6Oe9XVyEJnnaqU3H/+4ffKHZ4B1mHg145RNcLz3H1WdN6taVXv89Ds3EQl8CAw/lV
- B2zvoLlU8skMoIJ+dAP8=
-X-Received: by 2002:a17:90b:4c89:b0:321:9366:5865 with SMTP id
- 98e67ed59e1d1-33b513b4afemr4474911a91.33.1759935840672; 
- Wed, 08 Oct 2025 08:04:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHXb2r25FrUlFtQmKCbW4C/1VTz8aMkN2qm5ZdQ8T7jblUuJ7YHZkg4PXB1eDjHmdFUyYJMXg==
-X-Received: by 2002:a17:90b:4c89:b0:321:9366:5865 with SMTP id
- 98e67ed59e1d1-33b513b4afemr4474795a91.33.1759935839738; 
- Wed, 08 Oct 2025 08:03:59 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33b51394fe0sm3768860a91.19.2025.10.08.08.03.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Oct 2025 08:03:59 -0700 (PDT)
-Message-ID: <b84df96a-16c9-4369-b3a2-7f4204416261@oss.qualcomm.com>
-Date: Wed, 8 Oct 2025 09:03:57 -0600
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010064.outbound.protection.outlook.com [52.101.85.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E2E10E853
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 15:39:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AI0ii6aZfZJuQXHuGlMPe4Gw8alo8QNootFzgMM3uoq+kVajf04HfnAMx5X/DYob3hgZt/0EDNw6aAxA9WTg8lvGpxCI0bVmslRwXWjiWPijxKmDNFG/3bjfIRcikDEPq/nwXCUjW2ou1w15A/Liv0DKUV4NEQ6gwzq0IstSv+QpY2p0XNelkmiKw1TmwdJN9W1QX6vzdVu1esODfq4lZxQK4S4W4JbxnhIrEpRnchdiot1KddgANjj6O7bsPMqDmGEEoexKCnKsqh0ZnhWdu8miyra5rrjgplBZJTQX06h20AApE8ersIwUtuOdXz3r75RSIZupNK2j23IvKnisNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XEDVgizYt4GRa2Gn036yws4I4xjA1X9qZo0d4FnWQM8=;
+ b=Two7i2kdk4Rz7g/S/exYakBpWcVn3N9KB0o+WF1BahF7gIu/06H1xMpjmkHX9nEJMDMAR6zk05whCwI7J4GBCA3jppqpof6+nCdWuKcGWVBQfkBhIOHzsqbU2iPSDaQahCw/AhbKNJjcbynNbbbHSgV0MSrP4uwPZU68i4A0zrNMXV/Oh7g/o0O85mrT37/o/hhxh0pvl7OGpjBo+5XhsrYVJgcc496aoMnE5WseE8THVu4JNTzgWN0SSNmtxi70c8jGQayGGpJ672JXJnhE9F3bPEyYoHFraSqe3u2ZwQEKkA+J8NroWYFp1ssAdphS+uv7zAqzk4aBLmuCc0r7kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XEDVgizYt4GRa2Gn036yws4I4xjA1X9qZo0d4FnWQM8=;
+ b=l7gtyMegAv8cRxO+rE+e3ee8LU9n3QmdrGZG/DfqUnu6Ob9iDEtAwSU3+pMPRgl1T27idFyCHwL4Ev60c8aQA2dbNroyfyLXOymDiVpRNBGRWUsx2ensYgX0Foz6sRG8WyLEql+6Gli0rwBiloLQRgYLPk+5JlQnIQpfvWP2+mM=
+Received: from DS7PR03CA0167.namprd03.prod.outlook.com (2603:10b6:5:3b2::22)
+ by DS0PR12MB7994.namprd12.prod.outlook.com (2603:10b6:8:149::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Wed, 8 Oct
+ 2025 15:39:48 +0000
+Received: from DS1PEPF0001709A.namprd05.prod.outlook.com
+ (2603:10b6:5:3b2:cafe::30) by DS7PR03CA0167.outlook.office365.com
+ (2603:10b6:5:3b2::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.20 via Frontend Transport; Wed,
+ 8 Oct 2025 15:39:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ DS1PEPF0001709A.mail.protection.outlook.com (10.167.18.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9203.9 via Frontend Transport; Wed, 8 Oct 2025 15:39:47 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 8 Oct
+ 2025 08:39:47 -0700
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 8 Oct
+ 2025 10:39:47 -0500
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 8 Oct 2025 08:39:46 -0700
+Message-ID: <f4a9ad2a-9258-7b4b-9e46-19378e1fd76a@amd.com>
+Date: Wed, 8 Oct 2025 08:39:46 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/ivpu: Return correct job error status
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-References: <20251008061255.2909794-1-karol.wachowski@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/amdxdna: Resume power for creating and destroying
+ hardware context
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251008061255.2909794-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwMSBTYWx0ZWRfX9HieCVq+aQWe
- oiNHS/kTnMq00D89qeiOl+5w6mCok7E+YWl9F/0c/oEpQ+JvTFYqLoNiitaAgVoLS/TZsQ7K4RA
- 13bAkaPe1Px02J2vaDnN4j+plXBiTub8X1pi4/69ZxpTAWKhy4U/L5zJmbXBglUywkiILTGDwFT
- soLK6DY0ovMszASIZouOrbjsK9ubgpz10MXY8IIA5geq4r4yh3ZqQzNFE7q5BaLw/hlSUFX98Sc
- BVvavWI4F/43/at/nB/h7psYEMcTUhJb7v3Yp6Z0zhC6cvRJKq/haJLyzN2DA3xGQVixlIy/T8b
- OzNZCcnjP/qqfGpG4fwdJWsUSYq80FZ4fKVGXO2X4nFN5eORKHhEBcAi8xciHKPVdebwHDd0VIw
- TJ0mAIulE7nsUaeUJXVKPcXSAzyr9g==
-X-Proofpoint-GUID: SeKwT3_Vas9zudgZpAO37RJGkMydreCU
-X-Proofpoint-ORIG-GUID: SeKwT3_Vas9zudgZpAO37RJGkMydreCU
-X-Authority-Analysis: v=2.4 cv=EqnfbCcA c=1 sm=1 tr=0 ts=68e67d62 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
- a=hcH7oEWeSakXkJ_fsSoA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0 malwarescore=0
- adultscore=0 suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040001
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251008045324.4171807-1-lizhi.hou@amd.com>
+ <bb0e5610-2c59-4d74-9585-d9238e7143d6@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <bb0e5610-2c59-4d74-9585-d9238e7143d6@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001709A:EE_|DS0PR12MB7994:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4b5ec25-a585-4699-ae54-08de0680e9a6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|82310400026|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Qk4vZDJaRHAzVStGWEl5VkZSbXQwWXlGQ2hNZjB0TFRNUklCc3ZEWjlrdFlY?=
+ =?utf-8?B?cXZ5UWZSRFAxZ2NFZzZqdDlHcUxVSHIzd1FIN25YYzBDV0krSUlQcFMxZU91?=
+ =?utf-8?B?V2dVZVlYL05ZaU9tQnZCbGc5VkN1RUtINTRFb29Jam5yazY3YTZQNXY2eUJJ?=
+ =?utf-8?B?bkkvZ3FicWYwQ1NIeHVQUWlNUGsvSnJJcEVMdThUNXJyUlFkWjhIZzRTaGpB?=
+ =?utf-8?B?b3ZxTFd0V3hFek9uL2x3cEdTSHNXd0xLTjlFRXg4RWw1YnczODM2RDA3cnlQ?=
+ =?utf-8?B?TW5kU0lhSHVuY0o2SU53ZHdYSnBGTGUyME83eThvUWFOcENSR3djTWh1cUxY?=
+ =?utf-8?B?Z0NndjJUTnlVUlBhWjRhRm81elNlTzBrZ1o2ei8xK2lhK1JDNFBLbi80QzIz?=
+ =?utf-8?B?ekYzT0ZsODFobGUxQndtSXh3Q05qL3RKcEdyNUZ5azJNWUR0WVFJNU1lRG8y?=
+ =?utf-8?B?Y1BETzJEb1JXTXV1VlVPUkp4UFBIajNxNHVWb1pIL1ZPY2NoalgrUWsya1Jm?=
+ =?utf-8?B?ZUVLNTM4eUdTaWhHU0QyZTJIWTRsUHZGeVVsUW9Cb1lDN0dta3ZDc0VXcW9u?=
+ =?utf-8?B?SnRkb0E4eVQ3bDZGQ2liUmdMV00rNnByOU5aTnZnMjhoWXdDZzNjcUxvNnRZ?=
+ =?utf-8?B?NGtpVUhRZTBBSitzYVBBT0JUc25PS05ObFhLRnhhMk9kSFdzRTZOVTVIU1N5?=
+ =?utf-8?B?ekg2SjlrTHlzRXlsUE9zMW1Wb0RvamVNSHRsN2pSck1sTXZpMXJBS0VhOTkr?=
+ =?utf-8?B?UlBqN0wvNlNTcDQwRFpoM01odmIzTUtSL21RU2kxVnV4MW9iR09IM2NCVG9z?=
+ =?utf-8?B?cDg3ZE01R0NISmRqWDY3S3hQNWNKNWE0OTNiS2JtcHcwMUgrSXFFelptcFBk?=
+ =?utf-8?B?c1lJbTlUVGZ4MDR4bThXampyOENIRGJERmZuYVp0Z1VCN0NlM0xkYUhPNFBJ?=
+ =?utf-8?B?NlhUVlUvb3owVWlRcUZwd05QTTczVjVVQ25XdEpjZVpGOE1UNXZwdklPcDZs?=
+ =?utf-8?B?dEpGODZRK2FQRkFTSlFRdVZHaExQQXdDNmlFTXFHdWVQMldDZC9mM3pxQUhL?=
+ =?utf-8?B?ZTk5U0c3dkFGbWdOVjdpUHc1b2FhTlRYK1ZmRHVzRWlOVkdMNWRYZC83YnRF?=
+ =?utf-8?B?S3pNcnVMK2xyUnB0dG5Dak93QWpRbjFRcTRFV1dmTUlwalZOVVd0VCtkL1hp?=
+ =?utf-8?B?TkJYYWJQRDNLeDhPY1pjalBvMDNIbFlTdFZnQ2l2VTlDQVhUODV3Y0J0NzVs?=
+ =?utf-8?B?R0RPeEJpN25hdTh1V3FDZjN2aWNyS1RtNXBZckpDdTFMZHk3N2FoTnNhdUw0?=
+ =?utf-8?B?WnVVMSt1OHoyTmlDdVptUUdZODZESzNZakFuOFlvb0plZ2ZSbUV1aEpUWUww?=
+ =?utf-8?B?OWtQL1E4WjhCNWlQUUVlSkc5bDBnZzMwVmxMYTZSOXNaK2tCNmk1elZBUHNr?=
+ =?utf-8?B?aCtFZnovM3dDbTNLenJ6aW1pSXNncXBpa1dvRG5ENlFtR2JnZXhBQlg1V1A0?=
+ =?utf-8?B?akhiWUxhcFNSdnVTZ2M3S2lqR3AySmhIb2QzWUQvNTNsZHBjc2s5WlBPV0Zs?=
+ =?utf-8?B?N1FEN3ZlVGFxZitMRng4M1RhUmF0Vm9lOEYxblREMktFVHVLRkdocVd0NFJV?=
+ =?utf-8?B?WWh5Y1RJMFlUNmVSUnlDK1FHMVRjSUVLSk9IUERDQURNR0EzeDIyNzhTQkVO?=
+ =?utf-8?B?c2UxbU5IcE50SUtVWnJBNUVRbDl0OEMvVG1SZmxaSzZyNkRuS3lKSWtsQnlF?=
+ =?utf-8?B?WUsyTHBGay9HOHhNck14eFdVVHk2eHQ4OWkyMnRLSEpWcFhQQmtMV05SUnZm?=
+ =?utf-8?B?dkV6UVJXWE9uSEdVTmtWVjJBRFpKSUhSSkVYZVlYLysvTmJOODN3aXdkSnZm?=
+ =?utf-8?B?MXpxbHFlbmhNMnVsdXVGT1U1YUlZa3Z1VVgvQytFT25MN1B1NFRDY3VUUHkz?=
+ =?utf-8?B?WmZVekExMHRhbXVkamNsUmFSUjI1YmhyUHBLRnI3L2xndmloSXFFcDAydlFB?=
+ =?utf-8?B?WjVsakREckM0eS9rTjliVWhSMTNrcTJmalNkSmZiNkNwSk1RNlpBL0h1RU5y?=
+ =?utf-8?B?WTBCaWQ0OXg5c0dlbG1HSHcvbUJObWdkQ2pJVE5kQlhhRUNMMVZKZ3BCTTYv?=
+ =?utf-8?Q?+M4M=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 15:39:47.7973 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4b5ec25-a585-4699-ae54-08de0680e9a6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0001709A.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7994
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,29 +155,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/2025 12:12 AM, Karol Wachowski wrote:
-> From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> 
-> The driver was returning ABORTED for all errors that trigger engine reset.
+Applied to drm-misc-next
 
-This is past tense (was). I believe coding style says that commit text 
-should be in the present tense (is). "The driver is returning ABORTED..."
-
-> It is better to distinguish between different error types by returning
-> the actual error code reported by firmware. This allows userspace to
-> take different actions based on the error type and improves
-> debuggability.
-> 
-> Refactor ivpu_job_signal_and_destroy() by extracting engine error
-> handling logic into a new function ivpu_job_handle_engine_error().
-> This simplifies engine error handling logic by removing necessity of
-> calling ivpu_job_singal_and_destroy() multiple times by a single job
-> changing it's behavior based on job status.
-> 
-> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-
-I don't see a need for a v3 to do a minor tweak to the commit text when 
-it seems reasonable to just inline that at merge.
-
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+On 10/8/25 08:03, Mario Limonciello wrote:
+> On 10/7/25 11:53 PM, Lizhi Hou wrote:
+>> When the hardware is powered down by auto-suspend, creating or 
+>> destroying
+>> a hardware context without resuming power will fail.
+>> Call amdxdna_pm_resume_get() before requesting the hardware to create or
+>> destroy a hardware context.
+>>
+>> Fixes: 063db451832b ("accel/amdxdna: Enhance runtime power management")
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>
+>> ---
+>>   drivers/accel/amdxdna/aie2_ctx.c | 9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/aie2_ctx.c 
+>> b/drivers/accel/amdxdna/aie2_ctx.c
+>> index 691fdb3b008f..ab4d66f1325d 100644
+>> --- a/drivers/accel/amdxdna/aie2_ctx.c
+>> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+>> @@ -610,10 +610,14 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>>           goto free_entity;
+>>       }
+>>   +    ret = amdxdna_pm_resume_get(xdna);
+>> +    if (ret)
+>> +        goto free_col_list;
+>> +
+>>       ret = aie2_alloc_resource(hwctx);
+>>       if (ret) {
+>>           XDNA_ERR(xdna, "Alloc hw resource failed, ret %d", ret);
+>> -        goto free_col_list;
+>> +        goto suspend_put;
+>>       }
+>>         ret = aie2_map_host_buf(xdna->dev_handle, hwctx->fw_ctx_id,
+>> @@ -628,6 +632,7 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>>           XDNA_ERR(xdna, "Create syncobj failed, ret %d", ret);
+>>           goto release_resource;
+>>       }
+>> +    amdxdna_pm_suspend_put(xdna);
+>>         hwctx->status = HWCTX_STAT_INIT;
+>>       ndev = xdna->dev_handle;
+>> @@ -640,6 +645,8 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>>     release_resource:
+>>       aie2_release_resource(hwctx);
+>> +suspend_put:
+>> +    amdxdna_pm_suspend_put(xdna);
+>>   free_col_list:
+>>       kfree(hwctx->col_list);
+>>   free_entity:
+>
