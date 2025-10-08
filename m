@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E748BBC5F82
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 18:12:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E42CBC5FA3
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 18:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21C6D10E190;
-	Wed,  8 Oct 2025 16:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F060A10E860;
+	Wed,  8 Oct 2025 16:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UEnDJEx0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KtrRo2Qi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C6C10E190
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 16:12:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B881D10E85A;
+ Wed,  8 Oct 2025 16:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759939960; x=1791475960;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=mrbASxvENWAO+clv33wB/uGBnnto9P4VQRQy/cTV96U=;
- b=UEnDJEx0A69j7bBzAX8j5O3n7gZZ7DqwS5JwQ8HLt/G04tKYksMT3ptl
- jCrxRcw45k2NmP1EctIsj1op+jzCF7MnmBWmfANP5B2r6X8GVLnp9z2vL
- 2rpKwa0ybjUYCWA5/rx/WjJwNv0o6WH/QIYHa2eWZzxKV0fyYUlDR05Tu
- HYesDvUHXam7BXbm95lieWZVF8t157A9/+QB2E+yfF7pF0+SgHWefQySb
- YJX2K9bR8sFe67HLU51xVAPNn/MSYekrhkiokhjWUAZEFkcFItpSixhUe
- 54B7pSv6Q7fp5vaarX972zt+5weC8QHGWT1xCB5cFEcvBRHKOabyiV1Fw Q==;
-X-CSE-ConnectionGUID: UWsy1GjxR5iqM8grYJdp6Q==
-X-CSE-MsgGUID: gVcPwiKuToWlarRxJLFAMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="73242872"
-X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; d="scan'208";a="73242872"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2025 09:12:33 -0700
-X-CSE-ConnectionGUID: yIXVc1aDR7KipG4lmgvQJw==
-X-CSE-MsgGUID: c6oE+s7qTNyNx1uVSh1rhg==
+ t=1759940012; x=1791476012;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=X1rwxtngSDPqY9ul850ONg/ASG3h11VPEslk6OGO9yo=;
+ b=KtrRo2Qi48ZN1BRCGN+S54d0pHQg5rBXXCyIUJf6tbxLoysv5WF1aGZZ
+ Hel0l+7RmkdPmLNkzPAWkFdUJ47CVEdPVGqYjUst1hFw7KC8xi0nmjKCk
+ StyYaonWCcuW3Np0DsRwLIR6wKDG1HkZUrH810OtEFCezM77x+KCMb06d
+ 5llPhNeiiFQvexUfwBFSA6wjOhpeWX49Gwd56QsbYJRdbKqoj2+I9qKhF
+ 6gGQZyNn8cBDZP5bwpKSyQ2wf9j6vmGWPKvH6vMzHJ/1tWQuFPeM7o9Bt
+ 3cS96+tu1xV1o441Tb1ngtWqxe5E9jdEQjsMZVagWJc5PSyl5xbIpVR5o A==;
+X-CSE-ConnectionGUID: kEfMhtrqQualJSXa3fIIKw==
+X-CSE-MsgGUID: bgVfWQNRS2atGKSGNVx2jA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="79784463"
+X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; d="scan'208";a="79784463"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2025 09:13:31 -0700
+X-CSE-ConnectionGUID: ZoMCsWO8QZ+Gy0vvt0cqvg==
+X-CSE-MsgGUID: sQq2IKv8ScGeVgMB6CjjAQ==
 X-ExtLoop1: 1
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.244.175])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2025 09:12:30 -0700
-Date: Wed, 8 Oct 2025 19:12:28 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH 05/16] drm/dp_mst: Switch private_obj initialization to
- reset
-Message-ID: <aOaNbCo8a-DDlDAc@intel.com>
-References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
- <20251008-drm-private-obj-reset-v1-5-805ab43ae65a@kernel.org>
- <aOZv88NgbjmT49N1@intel.com>
- <20251008-phenomenal-industrious-elk-eaa232@houat>
+X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; d="scan'208";a="180294920"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
+ jkrzyszt-mobl2.intranet) ([10.245.244.124])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2025 09:13:28 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH 3/3] drm/i915: Wait for page_sizes_gtt in gtt selftest on
+ CHV/BXT+VTD
+Date: Wed,  8 Oct 2025 18:12:28 +0200
+Message-ID: <20251008161258.3568573-8-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251008161258.3568573-5-janusz.krzysztofik@linux.intel.com>
+References: <20251008161258.3568573-5-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251008-phenomenal-industrious-elk-eaa232@houat>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,82 +77,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 04:53:20PM +0200, Maxime Ripard wrote:
-> On Wed, Oct 08, 2025 at 05:06:43PM +0300, Ville Syrjälä wrote:
-> > On Wed, Oct 08, 2025 at 02:04:03PM +0200, Maxime Ripard wrote:
-> > > The DP MST implementation relies on a drm_private_obj, that is
-> > > initialized by allocating and initializing a state, and then passing it
-> > > to drm_private_obj_init.
-> > > 
-> > > Since we're gradually moving away from that pattern to the more
-> > > established one relying on a reset implementation, let's migrate this
-> > > instance to the new pattern.
-> > > 
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 39 ++++++++++++++++++---------
-> > >  1 file changed, 26 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > index 64e5c176d5cce9df9314f77a0b4c97662c30c070..255fbdcea9f0b6376d15439e3da1dc02be472a20 100644
-> > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > @@ -5181,10 +5181,34 @@ static void drm_dp_mst_destroy_state(struct drm_private_obj *obj,
-> > >  
-> > >  	kfree(mst_state->commit_deps);
-> > >  	kfree(mst_state);
-> > >  }
-> > >  
-> > > +static void drm_dp_mst_reset(struct drm_private_obj *obj)
-> > > +{
-> > > +	struct drm_dp_mst_topology_mgr *mgr =
-> > > +		to_dp_mst_topology_mgr(obj);
-> > > +	struct drm_dp_mst_topology_state *mst_state;
-> > > +
-> > > +	if (obj->state) {
-> > > +		drm_dp_mst_destroy_state(obj, obj->state);
-> > > +		obj->state = NULL;
-> > 
-> > I'm not a big fan of this "free+reallocate without any way to handle
-> > failures" pattern.
-> > 
-> > Currently i915 does not do any of this, and so there are no unhandled
-> > points of failure. But the mst and tunneling changes here force it on
-> > i915 as well.
-> 
-> A very theoretical point of failure. If I'm counting right,
-> drm_dp_mst_topology_state takes 72 bytes. Any GFP_KERNEL allocation
-> of less than 8 pages cannot fail.
+VMA binding to GGTT is now asynchronous in CHV / BXT+VDT enviroments, then
+vma->resource->page_sizes_gtt the test uses as shift count may still be
+not populated (equal 0) after i915_vma_pin() returns.  Wait for VMA bind
+completion in those cases to avoid shift-out-of-bounds kernel warnings and
+the test case failing with -EBADSLT.
 
-Until you start to inject failures, or you blow up the size of the
-state. You wouldn't think to check for potential NULL pointer
-dereferences before doing that, nor should you have to.
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+---
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I'd rather not leave potential footguns lying around intentionally.
-
-> So, sure, it's less satisfying to look at, but that's about it. It's
-> just as safe and reliable.
-> 
-> > I think for the common things it would be nicer to just implement
-> > the reset as just that "a reset of the current state", and leave
-> > the "let's play fast and loose with kmalloc() failures" to the
-> > drivers that want it.
-> 
-> I'm sorry, but I have no idea what you mean by that. It's using the
-> exact same pattern we've been using since forever for every driver
-> (except, apparently, i915).
-
-The reset() stuff was added specifically to deal with drivers
-that didn't have readout. i915 has always had full readout and
-never needed it.
-
-> What would you like to change to that pattern to accomodate i915
-> requirements?
-
-I think the reset should be ideally done without reallocation,
-or perhaps just don't implement reset for the things that don't
-need it (mst and tunneling in this case).
-
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+index 7ab4c4e602648..0a86e48575394 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+@@ -1118,6 +1118,10 @@ static int misaligned_case(struct i915_address_space *vm, struct intel_memory_re
+ 		goto err_put;
+ 	}
+ 
++	/* make sure page_sizes_gtt has been populated before use */
++	if (i915_is_ggtt(vm) && intel_vm_no_concurrent_access_wa(vm->i915))
++		i915_vma_wait_for_bind(vma);
++
+ 	expected_vma_size = round_up(size, 1 << (ffs(vma->resource->page_sizes_gtt) - 1));
+ 	expected_node_size = expected_vma_size;
+ 
 -- 
-Ville Syrjälä
-Intel
+2.51.0
+
