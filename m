@@ -2,69 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5647DBC317C
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 02:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46B1BC31CF
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 03:38:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 697F210E02A;
-	Wed,  8 Oct 2025 00:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A7910E025;
+	Wed,  8 Oct 2025 01:38:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Do0npa/Q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CHSf5Uj9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D931410E02A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 00:53:24 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3149910E025
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 01:38:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 534234873D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 00:53:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 357C4C19425
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 00:53:24 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 268DB604FB;
+ Wed,  8 Oct 2025 01:38:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED1EC4CEF1;
+ Wed,  8 Oct 2025 01:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759884804;
- bh=D6FweyKYmmdqK4i8JM+DNzHo424r1zBspUkYHqnYvCk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Do0npa/QgiFr2rpTxYu8fCoLwb8676EQpVlzpUYIxx452a/AiTCg6u+2SYyt4Bcil
- DqyE6Z/rDQVO2Y3qjE3LcIpnPBKjQD6oxmllHdx16Cce7FnNv07xhqaNRB6ePSN0NA
- RrjsyAcv8GAcYb1mjhlzcA3MuU5fn/1n6ziVT1FRWxFSi0SWPjcM3euTiVjR8NfLYY
- qf1ZiwpZdLyvhCdUB0rybmjLTk017mQ2tw0s09IQWaA/xe5dHK/zZy7EayUilkJy/m
- 5jOZPFMOZ4/r07rjcUpCqRxj3OgFZVEUatHXUxOI/WAX85/X7bPtoKUlDMq/957tAI
- 1bvnTo5fV3hxA==
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-57e03279bfeso511732e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 17:53:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQYq917GqvydCyiXBddzl3g5tVm8kwmH1daW3+RZ66DMPv8RGgtdO6aZIQI/wDH+Kdo/+d6YRBlmc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzAZ3MZCwthO8i1L/IlVfmvMcIb0SOm464oQB8P/VQNkyC+iS7S
- ZCrt7vRwqK0WcxEU3lF89cpq8rGAIrCGmUc2emhW4VkkYj24tdjdRfKtCPoMKJQwUmm2oKYmqnN
- tpdGQ+GglcH8QBrNlW13ZIrYodFafAO4=
-X-Google-Smtp-Source: AGHT+IG/2mh+7aGFp6yuZ/PHAh5VmeA0UzQePRnzK9Z9+tu50SDI+hbN8RUBkkU8FkCKt3PSGQusoMls3HZeIoqjddo=
-X-Received: by 2002:a05:6512:3d26:b0:586:a95f:cac1 with SMTP id
- 2adb3069b0e04-5906f3107bbmr359245e87.12.1759884802311; Tue, 07 Oct 2025
- 17:53:22 -0700 (PDT)
+ s=k20201202; t=1759887493;
+ bh=g9HKatffLmG7PZQzs7MEvfVFFeFvciAqfzfnc7tu7pA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CHSf5Uj926ugwsG9Rn6jt2cBtFtu+AtRIRoqF+rz047j4GZ/y2ofcRmbk3B+azBPr
+ uYqvq5Iv65Ae4qpDrJh24qZXGZzIpN2QSOMmbKcdc+D8ve/hTD1w/oAPyPuLRutsCi
+ h5I033Go4OIDSyU7oBgNKXKzLJrFlAZYbFT/kT8TBewVXQPU7Xkxo8jwBaC8fg59uY
+ DdrM+jGI1q9Dqmc8TO8e6pbEmqzVZlvfSwy/Oy5qLy/Q88V1FN8HZNUPQsd3KyU6Rk
+ xx2Zhjb70Dy3EEkQjN6Z0synZrCxy51HZE8GtT3vevmzzDhHrob7EvltEykGDj3+3f
+ 3kb1jhS3/zdXQ==
+Date: Tue, 7 Oct 2025 20:38:12 -0500
+From: Rob Herring <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Doug Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v1 1/8] dt-bindings: display: panel: properly document LG
+ LD070WX3 panel
+Message-ID: <20251008013812.GA1911585-robh@kernel.org>
+References: <20250929142455.24883-1-clamor95@gmail.com>
+ <20250929142455.24883-2-clamor95@gmail.com>
+ <CAD=FV=Vd=muLeMJYszC2SqRBThN=Srm_bKXBEmjjqND7bqHo2g@mail.gmail.com>
+ <CAPVz0n23qNrnyP7ttchaCoLit=gBm_++7RX7B8MxR_nx+8LGHw@mail.gmail.com>
+ <CAD=FV=UCcQ1AweLwNucYP8kNHx+K1UF=VbEZdqE4hXN=bHqGuQ@mail.gmail.com>
+ <20251006221308.GA653118-robh@kernel.org>
+ <CAPVz0n0VfjW_=E9oM0FAhjqzAQnPXaL40gDqOsz2mwBaaA_0Fg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20251002210044.1726731-2-ardb+git@google.com>
- <5824c012-dcb2-4312-9b16-810656290831@amd.com>
- <CAMj1kXHUjL7=CPz0viSBvfeX=BKNYuUkrpTizn9H1ZgJecB6cQ@mail.gmail.com>
- <CAMj1kXEzNPJOE_-gndNcFmE9CjLpsFCjfytaXbvm-1Khu62XRA@mail.gmail.com>
-In-Reply-To: <CAMj1kXEzNPJOE_-gndNcFmE9CjLpsFCjfytaXbvm-1Khu62XRA@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 7 Oct 2025 17:53:08 -0700
-X-Gmail-Original-Message-ID: <CAMj1kXHhQ41WCgGFeb_dPLVbp+SZG-JvG4uxV9pMTCs3bnGyog@mail.gmail.com>
-X-Gm-Features: AS18NWCbTXTjj2ZApuB9b1_e6m6Cn170sDL3ZYdCcXcNdRu-0RV8hzeUMtrgZ4g
-Message-ID: <CAMj1kXHhQ41WCgGFeb_dPLVbp+SZG-JvG4uxV9pMTCs3bnGyog@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix unsafe uses of kernel mode FPU
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, will@kernel.org, 
- catalin.marinas@arm.com, mark.rutland@arm.com, broonie@kernel.org, 
- Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n0VfjW_=E9oM0FAhjqzAQnPXaL40gDqOsz2mwBaaA_0Fg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,78 +77,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Oct 2025 at 13:52, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Mon, 6 Oct 2025 at 12:59, Ard Biesheuvel <ardb@kernel.org> wrote:
+On Tue, Oct 07, 2025 at 08:24:06AM +0300, Svyatoslav Ryhel wrote:
+> вт, 7 жовт. 2025 р. о 01:13 Rob Herring <robh@kernel.org> пише:
 > >
-> > On Mon, 6 Oct 2025 at 19:42, Christian K=C3=B6nig <christian.koenig@amd=
-.com> wrote:
+> > On Thu, Oct 02, 2025 at 02:35:42PM -0700, Doug Anderson wrote:
+> > > Hi,
 > > >
-> > > On 02.10.25 23:00, Ard Biesheuvel wrote:
-> > > > From: Ard Biesheuvel <ardb@kernel.org>
+> > > On Mon, Sep 29, 2025 at 10:03 PM Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 > > > >
-> > > > The point of isolating code that uses kernel mode FPU in separate
-> > > > compilation units is to ensure that even implicit uses of, e.g., SI=
-MD
-> > > > registers for spilling occur only in a context where this is permit=
-ted,
-> > > > i.e., from inside a kernel_fpu_begin/end block.
+> > > > вт, 30 вер. 2025 р. о 06:12 Doug Anderson <dianders@chromium.org> пише:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Mon, Sep 29, 2025 at 7:25 AM Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > > > > >
+> > > > > > LG LD070WX3-SL01 was mistakenly documented as a simple DSI panel, which it
+> > > > > > clearly is not. Address this by adding the proper schema for this panel.
+> > > > > >
+> > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > > ---
+> > > > > >  .../bindings/display/panel/lg,ld070wx3.yaml   | 60 +++++++++++++++++++
+> > > > > >  .../display/panel/panel-simple-dsi.yaml       |  2 -
+> > > > > >  2 files changed, 60 insertions(+), 2 deletions(-)
+> > > > > >  create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+> > > > > >
+> > > > > > diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..0a82cf311452
+> > > > > > --- /dev/null
+> > > > > > +++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+> > > > > > @@ -0,0 +1,60 @@
+> > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > > +%YAML 1.2
+> > > > > > +---
+> > > > > > +$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3.yaml#
+> > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > +
+> > > > > > +title: LG Corporation 7" WXGA TFT LCD panel
+> > > > > > +
+> > > > > > +maintainers:
+> > > > > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > > +
+> > > > > > +allOf:
+> > > > > > +  - $ref: panel-common.yaml#
+> > > > > > +
+> > > > > > +properties:
+> > > > > > +  compatible:
+> > > > > > +    items:
+> > > > > > +      - const: lg,ld070wx3-sl01
+> > > > > > +
+> > > > > > +  reg:
+> > > > > > +    maxItems: 1
+> > > > > > +
+> > > > > > +  vdd-supply: true
+> > > > > > +  vcc-supply: true
+> > > > > > +
+> > > > > > +  backlight: true
+> > > > > > +  port: true
+> > > > > > +
+> > > > > > +required:
+> > > > > > +  - compatible
+> > > > > > +  - vdd-supply
+> > > > > > +  - vcc-supply
+> > > > >
+> > > > > I suspect you'll get a NAK here because you're not preserving backward
+> > > > > compatibility for existing device trees. While there can sometimes be
+> > > > > reasons to do that, you'd need to provide a very strong justification.
+> > > > >
+> > > > >
+> > > > > It seems like instead of breaking compatibility you could just have
+> > > > > two supplies:
+> > > > >
+> > > > > * power-supply - The name for the "dvdd" supply.
+> > > > > * avdd-supply - The name for the "avdd" supply.
+> > > > >
+> > > > > ...and then you make both of them not "required". Maybe you'd add some
+> > > > > documentation saying that things might not work 100% correctly if they
+> > > > > weren't provided but that old device trees didn't specify them?
 > > > >
-> > > > This is important on arm64, which uses -mgeneral-regs-only to build=
- all
-> > > > kernel code, with the exception of such compilation units where FP =
-or
-> > > > SIMD registers are expected to be used. Given that the compiler may
-> > > > invent uses of FP/SIMD anywhere in such a unit, none of its code ma=
-y be
-> > > > accessible from outside a kernel_fpu_begin/end block.
-> > > >
-> > > > This means that all callers into such compilation units must use th=
-e
-> > > > DC_FP start/end macros, which must not occur there themselves. For
-> > > > robustness, all functions with external linkage that reside there s=
-hould
-> > > > call dc_assert_fp_enabled() to assert that the FPU context was set =
-up
-> > > > correctly.
-> > >
-> > > Thanks a lot for that, I've pointed out this restriction before as we=
-ll.
-> > >
-> > > Since we had that issue multiple times now would it be somehow possib=
-le to automate rejecting new code getting this wrong?
-> > >
-> > > E.g. adding something to the DC_FP_START()/DC_FP_END() or kernel_fpu_=
-begin/end macros to make sure that they fail to compile on compolation unit=
-s where FP use is enabled?
-> > >
+> > > > Schema describes hardware. If it does not (and in this case it clearly
+> > > > DOES NOT), then such schema should be adjusted according to hardware.
 > >
-> > Something like the below perhaps?
+> > The priority is:
 > >
->
-> Never mind, that doesn't work. dc_fpu_begin() is an out-of-line
-> function, and so it is the DC_FP_START() macro that evaluates to
-> something that includes an arch-provided assert. I'll code something
-> and send it out.
+> > 1) ABI
+> > 2) describe h/w accurately
+> >
+> > IMO, if there are 2 rails on the h/w and you have 2 supplies in the DT,
+> > then you have described the h/w. names are less important.
+> >
+> > > > If there are any users of such binding, they should be adjusted too
+> > > > (third commit of this patchset does exactly that). Panel datasheet is
+> > > > explicit, panel has ONLY vdd supply and vcc supply, names are taken
+> > > > from there too.
+> > >
+> > > I'm more than happy to defer to DT people on this, but the general
+> > > argument is that "device tree" is supposed to remain forever forward
+> > > compatible. In other words, someone could have taken a snapshot of the
+> > > "tegra114-tn7.dts" device tree at any point in time and then shipped
+> > > it in some BIOS. Presumably the old "tegra114-tn7.dts" (for some
+> > > reason) managed to init the panel properly in the past and the idea is
+> > > that there should still be a way to init the panel with the old device
+> > > tree now.
+> > >
+> > > Obviously, that's an ideal version of the world and sometimes
+> > > hard/impossible to make a reality, but it's supposed to be what we
+> > > strive for.
+> > >
+> > > >From a more practical standpoint, the dts changes and code changes
+> > > will go through different trees and so making them mutually depend on
+> > > each other can leave people broken if they happen to have one patch
+> > > but not the other.
+> > >
+> > > I suppose one way to handle this (if DT people like it) is to keep the
+> > > bindings the way you have it but then add some layer of backward
+> > > compatibility in the driver. It will mean that anyone with the old DTS
+> > > would officially not "validate" properly against the new bindings, but
+> > > I think that could be OK as long as it was explicitly mentioned in the
+> > > commit message. Obviously, though, DT bindings reviewers would have
+> > > the last word there...
+> >
+> > That's fine, but then I prefer we keep 'power-supply' as deprecated.
+> > Then if we ever validate that drivers only use documented properties,
+> > it would pass. We already check drivers use documented compatible
+> > strings, so that wouldn't be too hard to do.
+> >
+> 
+> Sure, but ATM there is only one user of this compatible in the
+> mainline Linux kernel, which is Nvidia tablet Tegra Note 7 and:
+> 
+> 1. Node used in its tree is addressed in the third commit of this patchset
+> 2. Its panel is broken anyway since it cannot init properly if
+> bootloader does not leave a pre-inited panel, it cannot suspend
+> properly and it has a loose regulator which relies on always-on
+> property rather then being hooked to the panel.
 
-OK, so as it turns out, the logic already exists to force a build time
-error in this case. However, due to the way the amdgpu driver
-constructs its own API around kernel_fpu_begin() and kernel_fpu_end(),
-the logic never fires for the users for DC_FP_START.
+Then put all this justification in the commit message.
 
-It is sufficient to include linux/fpu.h:
+> I can assure you that besides me there seems to be no one interested
+> in this tablet.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/os_types.h
-b/drivers/gpu/drm/amd/display/dc/os_types.h
-index 782316348941..6ef9b7f5e099 100644
---- a/drivers/gpu/drm/amd/display/dc/os_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/os_types.h
-@@ -32,6 +32,7 @@
- #include <linux/delay.h>
- #include <linux/mm.h>
- #include <linux/vmalloc.h>
-+#include <linux/fpu.h>
+Okay, then it is on you if anyone does care.
 
- #include <asm/byteorder.h>
-
-Maybe this could be folded into this patch?
+Rob
