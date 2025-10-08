@@ -2,58 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC00FBC5EBB
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 18:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0613ABC5F4F
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 18:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 509D110E853;
-	Wed,  8 Oct 2025 16:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36E410E17F;
+	Wed,  8 Oct 2025 16:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jE/MAz4+";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="MgoJ1EsJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 242DA10E182;
- Wed,  8 Oct 2025 16:01:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 953064409C;
- Wed,  8 Oct 2025 16:01:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22906C4CEE7;
- Wed,  8 Oct 2025 16:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759939316;
- bh=Z/pj9EeEZpiRWDMECyNi+t/QOBBplB0dNcZFdOYufDo=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=jE/MAz4+Nz4X3fT4mtJ3cMIdN4wPoZHinJvgnfIAk9QPL4FOJhWLZ4qI+oip4xdef
- tCYXw292xXo5ZiaIMREIpNY88NFlwD52X0X+EEZh0LOWF/3IEfgwRNFacnf6Lkd3qs
- qjB4Vs06mgAg+RBSHu6ajV1Jyu+kYwdeXna1AjhCAfCGp4m1SvJ6LlWACdxRJisT8/
- wFxrPJPo1LI76WAghoEMLk8iMlIIc3gy0vBX5IsB4iJClG/bXIwrDLp1L27mZuBDoG
- 8IH36Zom0hPrchFgv9GMEimHKlSIJRnEaoVWTYLOrp1H8hBu1xfzCWe5Bwu33C3PwC
- mgEOPDeIiT/JQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Oct 2025 18:01:50 +0200
-Message-Id: <DDD2F1NSSTVN.1VDRSX5O9ZIKM@kernel.org>
-Subject: Re: [PATCH v4 02/13] gpu: nova-core: Create initial Gsp
-Cc: <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <acourbot@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>
-To: "Alistair Popple" <apopple@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20251008001253.437911-1-apopple@nvidia.com>
- <20251008001253.437911-3-apopple@nvidia.com>
-In-Reply-To: <20251008001253.437911-3-apopple@nvidia.com>
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F5310E17F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 16:09:22 +0000 (UTC)
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 1CCF853406A3;
+ Wed, 08 Oct 2025 18:09:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1759939760;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=YOgG961E7N9spfp9K8oULCnB39OlXHniOAgWijfU3wo=;
+ b=MgoJ1EsJrJNeYlVN3d/ZnuTzyCJ6AB5iuap1mEZzKg91/TUYsXEZJphU/+LGBnBKZg99zo
+ aj3osmYX/GvGVuj0CWMP4GrI9K95HVsFfznMKUR1aOD706OTjKtkzgji6UBhXujXCAI3/l
+ LTn3KAL5LaeV9uXMmr/31AZrT9p4n9A=
+Message-ID: <17b5977b-d0e6-4027-98f9-171b9e18b1bc@ixit.cz>
+Date: Wed, 8 Oct 2025 18:09:19 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/7] arm64: dts: qcom: sdm845-oneplus-fajita: Use the
+ freshly introduced driver
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
+ <20251008-s6e3fc2x01-v2-3-21eca1d5c289@ixit.cz>
+ <visvxwdwh2mcympwre6kx7xesvsysdjw6j33kewwibzfbgrbsi@dkcilnw7gk7c>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <visvxwdwh2mcympwre6kx7xesvsysdjw6j33kewwibzfbgrbsi@dkcilnw7gk7c>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,217 +117,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Oct 8, 2025 at 2:12 AM CEST, Alistair Popple wrote:
-> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-> index 221281da1a45..63099df77348 100644
-> --- a/drivers/gpu/nova-core/gsp.rs
-> +++ b/drivers/gpu/nova-core/gsp.rs
-> @@ -2,25 +2,94 @@
-> =20
->  mod boot;
-> =20
-> +use kernel::device;
-> +use kernel::dma::CoherentAllocation;
-> +use kernel::dma::DmaAddress;
-> +use kernel::dma_write;
-> +use kernel::pci;
->  use kernel::prelude::*;
->  use kernel::ptr::Alignment;
-> +use kernel::transmute::AsBytes;
-> =20
->  pub(crate) use fw::{GspFwWprMeta, LibosParams};
-> =20
->  mod fw;
-> =20
-> +use fw::LibosMemoryRegionInitArgument;
-> +
->  pub(crate) const GSP_PAGE_SHIFT: usize =3D 12;
->  pub(crate) const GSP_PAGE_SIZE: usize =3D 1 << GSP_PAGE_SHIFT;
->  pub(crate) const GSP_HEAP_ALIGNMENT: Alignment =3D Alignment::new::<{ 1 =
-<< 20 }>();
+On 08/10/2025 17:54, Dmitry Baryshkov wrote:
+> On Wed, Oct 08, 2025 at 04:05:30PM +0200, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+>>
+>> Switch from older effort to support different panels within one driver
+>> (which already dropped support for the HW) to the freshly written one.
+> 
+> Please disconnect the driver and the DT description. DT can be used by
+> other instances (U-Boot, OpenBSD, etc.).
 
-This looks like it could depend on the firmware version in the future, henc=
-e it
-should probably defined somewhere in fw/ with a corresponding comment. The
-actual version switch is fine to omit for now of course (we agreed to add t=
-he
-infrastructure for the version switch subsequently).
+Just to note, there are no users (anywhere) for this compatible.
 
-> +/// Number of GSP pages to use in a RM log buffer.
-> +const RM_LOG_BUFFER_NUM_PAGES: usize =3D 0x10;
+Would be the change of the commit wording enough in this case?
 
-Why 0x10? Is there a specific reason?
+If not, I would then propose to use for OnePlus 6T just an extension as
 
-> +
->  /// GSP runtime data.
-> -///
-> -/// This is an empty pinned placeholder for now.
->  #[pin_data]
-> -pub(crate) struct Gsp {}
-> +pub(crate) struct Gsp {
-> +    libos: CoherentAllocation<LibosMemoryRegionInitArgument>,
-> +    pub loginit: CoherentAllocation<u8>,
-> +    pub logintr: CoherentAllocation<u8>,
-> +    pub logrm: CoherentAllocation<u8>,
+compatible = "samsung,s6e3fc2x01-ams641rw", "samsung,s6e3fc2x01";
 
-This creates warnings for older compiler version, please use pub(crate) ins=
-tead.
+Thank you
 
-> +}
-> +
-> +#[repr(C)]
-> +struct PteArray<const NUM_ENTRIES: usize>([u64; NUM_ENTRIES]);
-> +/// SAFETY: arrays of `u64` implement `AsBytes` and we are but a wrapper=
- around it.
-> +unsafe impl<const NUM_ENTRIES: usize> AsBytes for PteArray<NUM_ENTRIES> =
-{}
+> 
+>>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>>   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts b/arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts
+>> index 7e75decfda052..55b3e94dd9726 100644
+>> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts
+>> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts
+>> @@ -32,7 +32,7 @@ battery: battery {
+>>   &display_panel {
+>>   	status = "okay";
+>>   
+>> -	compatible = "samsung,s6e3fc2x01";
+>> +	compatible = "samsung,s6e3fc2x01-ams641rw";
+>>   };
+>>   
+>>   &i2c4 {
+>>
+>> -- 
+>> 2.51.0
+>>
+>>
+> 
 
-Please separate struct definitions and impl blocks with an empty line.
+-- 
+David Heidelberg
 
-> +impl<const NUM_PAGES: usize> PteArray<NUM_PAGES> {
-> +    fn new(handle: DmaAddress) -> Self {
-
-No check that NUM_PAGES actually fits the size of the DMA buffer handle pas=
-sed
-in? What happens if they do not match?
-
-> +        let mut ptes =3D [0u64; NUM_PAGES];
-> +        for (i, pte) in ptes.iter_mut().enumerate() {
-> +            *pte =3D handle + ((i as u64) << GSP_PAGE_SHIFT);
-
-I think this should be handle.checked_add(). Additionally we should add the
-following compile time check to make sure that the shift can never overflow=
-:
-
-	const _MAX_OFFSET: usize =3D NUM_PAGES << GSP_PAGE_SHIFT;
-
-> +        }
-> +
-> +        Self(ptes)
-> +    }
-> +}
-> +
-> +/// Creates a new `CoherentAllocation<A>` with `name` of `size` elements=
-, and
-> +/// register it into the `libos` object at argument position `libos_arg_=
-nr`.
-> +fn create_logbuffer_dma_object(
-> +    dev: &device::Device<device::Bound>,
-> +) -> Result<CoherentAllocation<u8>> {
-> +    let mut obj =3D CoherentAllocation::<u8>::alloc_coherent(
-> +        dev,
-> +        RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE,
-> +        GFP_KERNEL | __GFP_ZERO,
-> +    )?;
-> +    let ptes =3D PteArray::<RM_LOG_BUFFER_NUM_PAGES>::new(obj.dma_handle=
-());
-> +
-> +    // SAFETY: `obj` has just been created and we are its sole user.
-> +    unsafe {
-> +        // Copy the self-mapping PTE at the expected location.
-> +        obj.as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
-> +            .copy_from_slice(ptes.as_bytes())
-> +    };
-> +
-> +    Ok(obj)
-> +}
-
-I think we should just create a new gsp::Logbuffer type for this rather tha=
-n
-have a function as object constructor.
-
-> =20
->  impl Gsp {
-> -    pub(crate) fn new() -> impl PinInit<Self> {
-> -        pin_init!(Self {})
-> +    pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl =
-PinInit<Self, Error>> {
-> +        let dev =3D pdev.as_ref();
-> +        let libos =3D CoherentAllocation::<LibosMemoryRegionInitArgument=
->::alloc_coherent(
-> +            dev,
-> +            GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>(),
-> +            GFP_KERNEL | __GFP_ZERO,
-> +        )?;
-> +        let loginit =3D create_logbuffer_dma_object(dev)?;
-> +        dma_write!(libos[0] =3D LibosMemoryRegionInitArgument::new("LOGI=
-NIT", &loginit))?;
-> +        let logintr =3D create_logbuffer_dma_object(dev)?;
-> +        dma_write!(libos[1] =3D LibosMemoryRegionInitArgument::new("LOGI=
-NTR", &logintr))?;
-> +        let logrm =3D create_logbuffer_dma_object(dev)?;
-> +        dma_write!(libos[2] =3D LibosMemoryRegionInitArgument::new("LOGR=
-M", &logrm))?;
-> +
-> +        Ok(try_pin_init!(Self {
-> +            libos,
-> +            loginit,
-> +            logintr,
-> +            logrm,
-> +        }))
->      }
->  }
-> diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/=
-fw.rs
-> index 181baa401770..dd1e7fc85d85 100644
-> --- a/drivers/gpu/nova-core/gsp/fw.rs
-> +++ b/drivers/gpu/nova-core/gsp/fw.rs
-> @@ -7,8 +7,10 @@
-> =20
->  use core::ops::Range;
-> =20
-> +use kernel::dma::CoherentAllocation;
->  use kernel::ptr::Alignable;
->  use kernel::sizes::SZ_1M;
-> +use kernel::transmute::{AsBytes, FromBytes};
-> =20
->  use crate::gpu::Chipset;
->  use crate::gsp;
-> @@ -99,3 +101,40 @@ pub(crate) fn wpr_heap_size(&self, chipset: Chipset, =
-fb_size: u64) -> u64 {
->  /// addresses of the GSP bootloader and firmware.
->  #[repr(transparent)]
->  pub(crate) struct GspFwWprMeta(bindings::GspFwWprMeta);
-> +
-> +#[repr(transparent)]
-> +pub(crate) struct LibosMemoryRegionInitArgument(bindings::LibosMemoryReg=
-ionInitArgument);
-
-Please add some documentation for the type.
-
-> +
-> +// SAFETY: Padding is explicit and will not contain uninitialized data.
-> +unsafe impl AsBytes for LibosMemoryRegionInitArgument {}
-> +
-> +// SAFETY: This struct only contains integer types for which all bit pat=
-terns
-> +// are valid.
-> +unsafe impl FromBytes for LibosMemoryRegionInitArgument {}
-> +
-> +impl LibosMemoryRegionInitArgument {
-> +    pub(crate) fn new<A: AsBytes + FromBytes>(
-> +        name: &'static str,
-> +        obj: &CoherentAllocation<A>,
-> +    ) -> Self {
-> +        /// Generates the `ID8` identifier required for some GSP objects=
-.
-> +        fn id8(name: &str) -> u64 {
-> +            let mut bytes =3D [0u8; core::mem::size_of::<u64>()];
-> +
-> +            for (c, b) in name.bytes().rev().zip(&mut bytes) {
-> +                *b =3D c;
-> +            }
-> +
-> +            u64::from_ne_bytes(bytes)
-> +        }
-> +
-> +        Self(bindings::LibosMemoryRegionInitArgument {
-> +            id8: id8(name),
-> +            pa: obj.dma_handle(),
-> +            size: obj.size() as u64,
-> +            kind: bindings::LibosMemoryRegionKind_LIBOS_MEMORY_REGION_CO=
-NTIGUOUS as u8,
-> +            loc: bindings::LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_=
-SYSMEM as u8,
-
-Please prefer into() if possible.
