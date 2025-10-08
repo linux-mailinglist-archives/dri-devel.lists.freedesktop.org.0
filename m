@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7282BC3D31
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 10:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5A0BC3D2E
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 10:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78FAD10E70A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B12810E1E3;
 	Wed,  8 Oct 2025 08:28:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="go+WOI79";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X4Za41mg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A24D10E17A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 08:28:40 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-57b7c83cc78so721592e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 01:28:40 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCA410E1E3
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 08:28:41 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-57db15eeb11so9023259e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 01:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759912119; x=1760516919; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759912120; x=1760516920; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OifoNvdWUvVz1qHCNeTwOsRbnki2weR8++KzH+uzE4Q=;
- b=go+WOI796iIyflnrrJqsjKTMWjzJe08Y9Zxslk1lzqB/rwJ/bZw90pk4tWwpVrcI9Z
- GdAcLTJ1bNndiyE6h0FcReqkxHpdkNMPIJxfHyDh+ifbQV60zrBzEsfsSjiRC4KdM0yG
- cuX0mR3k8cHDDghV8k/CfhtyQMZ9220cQngGp5E1JeultseVG4C2e2PKpZaXdTrHEXn1
- 2HwPMvb2STJnnL2cSxr14bcZ9haKQIictPU/qVq3EJRKCiLxz/SjA5tf6hdKsBoj5qE+
- hmd8gmo8xLupZaX3VAYVKvt34LsYCBGmHW0s/7AO3Hh4kqWbQcjTKIuKWcRL+Z0c629D
- Okxw==
+ bh=u3xRBN1mi5cHuuVpp9O4YBgVhxFa3PfPjekhp6r+JtA=;
+ b=X4Za41mgPWv2v1WFs0Pb9NMVn3wyXKFqJuXjhUFLyLMWh8FLt0mkG4XykCDD25XqB7
+ 9oWyt3sK8i2oatk+MFJQ8XSLhfEmiFHQg5RrzsnWY6rZ8AayG7J22kmKovWCjXD9f5zF
+ fkSzfcAe0efKE0S9UScNrGQ12f4cA8/LK6zVTJT6nkKkAq1Z5r+oosOwWDRC9+kxXJGb
+ l/VT9CDHnJ8KmZRfz6WhM12KrT0knq+emxev9X9gjbXfFjm+s1Ved/Z/KNZOHBzSuznW
+ /aBEHdCszZ3XqvN1PxutkEtVyTYQZrF7i1xFt1yNsejugEiFz8+Qu4QmYDZjpsHHo5K3
+ oVww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759912119; x=1760516919;
+ d=1e100.net; s=20230601; t=1759912120; x=1760516920;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OifoNvdWUvVz1qHCNeTwOsRbnki2weR8++KzH+uzE4Q=;
- b=h5uGIRUTLM1qURNWfX+K/YuWvc3nkH6GSDvTOdX0UU4zrzEkd8zjPQDm+9V2GjAEQM
- D7dWaNofz4/K4kUcuAsuJjYcFR62FxGCSGMgqs6mMy/MLnSVXRopOMWYaQNkMiJ7rQkp
- pqkvFZUFAjviDD1ZCkDc3L0Guy2+FFpMcnKNZFEgtfQi5KSOITea6t1rCVjqty8mJ1Wq
- BC0Yokq8JC1vvnIDfHqCFoVD3Ny9jPSpeNAZk6xtQyjMm7y7f2aSIA1+ontT2rDhDZFN
- dL9f6nNu3epYN0h0tQFSga6LxK8Qd8+2o4QkJbQgA+P+furVX5vS6FFOU8JYDjMO4Vl8
- hd+A==
-X-Gm-Message-State: AOJu0YxebHtLSOv56spIhYfh22ulWj9o3yCo1NE5/uzCH/ly7QXVXdB6
- 2N+ga+o9fgq96Q5Tk5miOL2XEzBZbGcuKuLUsFgV3vMHKwr3+6Q6Fo91
-X-Gm-Gg: ASbGnctS86Lm+cJChHYkmbY2BqHGml5V9vubuoRbLNIxzbEhKrP4raU2wJaOZueKW5T
- /K1y1zC/yLwB9D8O1s29BsH90pkOhdjsusBsy/TnfmnyH856e3fCACOCggTYd86gwRaYFSxv/h4
- nprFdzZJnVaQBP+kdv/bucPCCtFaw68yTVA9p92AeAR5yGl48tC4nTTJhW5zNPIsxihX8HX6iZF
- nr/EPT5SFLaYXvRFWhHEAI23+sd3TbDqZ3qVSL1/7pxBQt8vZVjz9lzxqsWcMoz2c28nCzEU4Kd
- v5u8LDs0hK4TxsU1Oqjcb1b/xijOiqVsYIjudWOdiyTgrIwOnfjSDjZFOjwoZRSPAAS3JOQTFls
- lyo7A9EkuCuQXE+W2h+YN4/ltw1+LhfzZnXNHFHMXC1uKBWUP
-X-Google-Smtp-Source: AGHT+IHfIjb+vp+D8iidYlh2VgbHqf5szlozN2l0NR3ftIsB0ghBzmQUoPOzH+DwkkgGa53YEvsiXQ==
-X-Received: by 2002:a05:6512:31c3:b0:583:9860:1405 with SMTP id
- 2adb3069b0e04-5905e1d2d85mr1863965e87.4.1759912118491; 
- Wed, 08 Oct 2025 01:28:38 -0700 (PDT)
+ bh=u3xRBN1mi5cHuuVpp9O4YBgVhxFa3PfPjekhp6r+JtA=;
+ b=pgd/LSweoJIkCrI4JGIyHVM6Ze/rzBBZ01GV0mrZ68zsV7xj2Woj0TEf5SF7h6pXM2
+ Y8vMV6h3jys7uuWeL3ILNRUz6ALxkvyRqIJym39qp1mO/epO5Lf0KdmqT0GZ/uHT16TU
+ uOKSqFFkDbtw1gQfjQuj88205l//Z0jesKsi3Ntgl9n/+lsOoWh33mC73YXV28QGy92g
+ CNXGUxwRu/7bX0J4sHVWi8sD1tbzsEdXHylvnjk1X/XAj4s2i2Cl5uu1fxrHGErU2szH
+ bWFRsrdPCXOqIAyUjGHJOnp48m9ArN2iZK9cshSLnvEMk/VIXWfZRu5rnRNJIC0o3kg6
+ J+2g==
+X-Gm-Message-State: AOJu0YzAgOvP8ebS5w5uUt0+3VKCJq38o2Ubh9OR29uY6l4p9Di2ueNV
+ VMXPtj/9KHSgir85xYoYAl0eB03eDfwnJyjC1n+TMCLQGIt3e+0CIhwf
+X-Gm-Gg: ASbGncs37af4m/1EpNUKAZMvvbNzVoVTDpDbhADX3EsM6sLznZGaCzidIzqu2UK21yb
+ wzUvDfi1JNiInHB1qV6GyGqlxY5VuTddMMzX5RxuTu0aE5Errz67gyxG8EpO51exCk57y0jJ/zC
+ lu6VXLJyv+a3Uyzs2j+8Ls/iL+VHYPoK1euw5IxAHANnY8NI0uI49NL3BVBjjRAdJvLuc3o/Sto
+ X/xvykU0l9SGTpThAD7FI/GgUJtNX3ihDY0C25iZJoGeeQ180nZXerHR7dZDkeT6UzLh6dMJl3S
+ fWQYVYQh7BeU3rW2hXmE7uIQlQPNx3qh7VR7dpQNYivXeWrr996qaSSiI+YJ+iTrHBd/Rax7etk
+ SjibuPUWHRrVNmMeecKv88V1ksJqR/0uyCcHmWPJQ0jz6Wduj
+X-Google-Smtp-Source: AGHT+IGLrCwrsQv0XCIyjqKTtF+BFVlHEsZ9yYyA7OEnC9q3xAjSOV3+49l6SGHi0aXqi7XUO0tuhg==
+X-Received: by 2002:a05:6512:3f28:b0:580:ecd1:30af with SMTP id
+ 2adb3069b0e04-5906d8ee866mr663657e87.30.1759912119702; 
+ Wed, 08 Oct 2025 01:28:39 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b01124649sm6968733e87.15.2025.10.08.01.28.37
+ 2adb3069b0e04-58b01124649sm6968733e87.15.2025.10.08.01.28.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 01:28:38 -0700 (PDT)
+ Wed, 08 Oct 2025 01:28:39 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
@@ -74,15 +74,14 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 1/7] dt-bindings: display: panel: properly document LG
- LD070WX3 panel
-Date: Wed,  8 Oct 2025 11:27:53 +0300
-Message-ID: <20251008082800.67718-2-clamor95@gmail.com>
+Subject: [PATCH v2 2/7] gpu/drm: panel: add support for LG LD070WX3-SL01 MIPI
+ DSI panel
+Date: Wed,  8 Oct 2025 11:27:54 +0300
+Message-ID: <20251008082800.67718-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251008082800.67718-1-clamor95@gmail.com>
 References: <20251008082800.67718-1-clamor95@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,105 +98,301 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LG LD070WX3-SL01 was mistakenly documented as a simple DSI panel, which it
-clearly is not. Address this by adding the proper schema for this panel.
+The LD070WX3 is a Color Active Matrix Liquid Crystal Display with an
+integral Light Emitting Diode (LED) backlight system. The matrix employs
+a-Si Thin Film Transistor as the active element. It is a transmissive type
+display operating in the normally Black mode. This TFT-LCD has 7.0 inches
+diagonally measured active display area with WXGA resolution (800 by 1280
+pixel array).
 
-There is only one user of this panel binding in the mainline Linux kernel,
-which is the Nvidia tablet Tegra Note 7. Its panel is broken anyway since
-it cannot initialize properly if the bootloader does not leave a
-pre-initialized panel. It also cannot suspend or re-initialize properly,
-since no DSI configuration is set and it has a loose regulator which
-relies on an always-on property rather than being hooked to the panel
-where it belongs.
-
-Tegra Note 7 device tree is adjusted as a part of this series.
+LG LD070WX3-SL01 MIPI DSI panel was treated as simple DSI panel when it is
+actually not and requires proper setup for correct work. Simple panel work
+relied on preliminary configuration done by bootloader.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../bindings/display/panel/lg,ld070wx3.yaml   | 60 +++++++++++++++++++
- .../display/panel/panel-simple-dsi.yaml       |  2 -
- 2 files changed, 60 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+ drivers/gpu/drm/panel/Kconfig             |  13 ++
+ drivers/gpu/drm/panel/Makefile            |   1 +
+ drivers/gpu/drm/panel/panel-lg-ld070wx3.c | 184 ++++++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c      |  31 ----
+ 4 files changed, 198 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/gpu/drm/panel/panel-lg-ld070wx3.c
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 56d9377934c4..cf6174da5105 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -408,6 +408,19 @@ config DRM_PANEL_LG_LB035Q02
+ 	  (found on the Gumstix Overo Palo35 board). To compile this driver as
+ 	  a module, choose M here.
+ 
++config DRM_PANEL_LG_LD070WX3
++	tristate "LG LD070WX3 MIPI DSI panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	select VIDEOMODE_HELPERS
++	help
++	  Say Y here if you want to enable support for the LD070WX3 MIPI DSI
++	  panel found in the NVIDIA Tegra Note 7 tablet.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called panel-lg-ld070wx3.
++
+ config DRM_PANEL_LG_LG4573
+ 	tristate "LG4573 RGB/SPI panel"
+ 	depends on OF && SPI
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index 0356775a443a..9281221183ac 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -41,6 +41,7 @@ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
+ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
+ obj-$(CONFIG_DRM_PANEL_LINCOLNTECH_LCD197) += panel-lincolntech-lcd197.o
+ obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
++obj-$(CONFIG_DRM_PANEL_LG_LD070WX3) += panel-lg-ld070wx3.o
+ obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
+ obj-$(CONFIG_DRM_PANEL_LG_SW43408) += panel-lg-sw43408.o
+ obj-$(CONFIG_DRM_PANEL_MAGNACHIP_D53E6EA8966) += panel-magnachip-d53e6ea8966.o
+diff --git a/drivers/gpu/drm/panel/panel-lg-ld070wx3.c b/drivers/gpu/drm/panel/panel-lg-ld070wx3.c
 new file mode 100644
-index 000000000000..0a82cf311452
+index 000000000000..00cbfc5518a5
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
-@@ -0,0 +1,60 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-lg-ld070wx3.c
+@@ -0,0 +1,184 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+title: LG Corporation 7" WXGA TFT LCD panel
++#include <linux/array_size.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/property.h>
++#include <linux/regulator/consumer.h>
 +
-+maintainers:
-+  - Svyatoslav Ryhel <clamor95@gmail.com>
++#include <video/mipi_display.h>
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_probe_helper.h>
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: lg,ld070wx3-sl01
++static const struct regulator_bulk_data lg_ld070wx3_supplies[] = {
++	{ .supply = "vdd" }, { .supply = "vcc" },
++};
 +
-+  reg:
-+    maxItems: 1
++struct lg_ld070wx3 {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
 +
-+  vdd-supply: true
-+  vcc-supply: true
++	struct regulator_bulk_data *supplies;
++};
 +
-+  backlight: true
-+  port: true
++static inline struct lg_ld070wx3 *to_lg_ld070wx3(struct drm_panel *panel)
++{
++	return container_of(panel, struct lg_ld070wx3, panel);
++}
 +
-+required:
-+  - compatible
-+  - vdd-supply
-+  - vcc-supply
++static int lg_ld070wx3_prepare(struct drm_panel *panel)
++{
++	struct lg_ld070wx3 *priv = to_lg_ld070wx3(panel);
++	struct mipi_dsi_multi_context ctx = { .dsi = priv->dsi };
++	struct device *dev = panel->dev;
++	int ret;
 +
-+additionalProperties: false
++	ret = regulator_bulk_enable(ARRAY_SIZE(lg_ld070wx3_supplies), priv->supplies);
++	if (ret < 0) {
++		dev_err(dev, "failed to enable power supplies: %d\n", ret);
++		return ret;
++	}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++	/*
++	 * According to spec delay between enabling supply is 0,
++	 * for regulators to reach required voltage ~5ms needed.
++	 * MIPI interface signal for setup requires additional
++	 * 110ms which in total results in 115ms.
++	 */
++	mdelay(115);
 +
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	mipi_dsi_dcs_soft_reset_multi(&ctx);
++	mipi_dsi_msleep(&ctx, 20);
 +
-+        panel@0 {
-+            compatible = "lg,ld070wx3-sl01";
-+            reg = <0>;
++	/* Differential input impedance selection */
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xae, 0x0b);
 +
-+            vdd-supply = <&vdd_3v3_lcd>;
-+            vcc-supply = <&vcc_1v8_lcd>;
++	/* Enter test mode 1 and 2*/
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xee, 0xea);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xef, 0x5f);
 +
-+            backlight = <&backlight>;
++	/* Increased MIPI CLK driving ability */
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xf2, 0x68);
 +
-+            port {
-+                endpoint {
-+                    remote-endpoint = <&dsi0_out>;
-+                };
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index 9b92a05791cc..f9f1e76a810c 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -42,8 +42,6 @@ properties:
-       - kingdisplay,kd097d04
-         # LG ACX467AKM-7 4.95" 1080×1920 LCD Panel
-       - lg,acx467akm-7
--        # LG Corporation 7" WXGA TFT LCD panel
--      - lg,ld070wx3-sl01
-         # LG Corporation 5" HD TFT LCD panel
-       - lg,lh500wx1-sd03
-         # Lincoln LCD197 5" 1080x1920 LCD panel
++	/* Exit test mode 1 and 2 */
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xee, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xef, 0x00);
++
++	return ctx.accum_err;
++}
++
++static int lg_ld070wx3_unprepare(struct drm_panel *panel)
++{
++	struct lg_ld070wx3 *priv = to_lg_ld070wx3(panel);
++	struct mipi_dsi_multi_context ctx = { .dsi = priv->dsi };
++
++	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
++
++	msleep(50);
++
++	regulator_bulk_disable(ARRAY_SIZE(lg_ld070wx3_supplies), priv->supplies);
++
++	/* power supply must be off for at least 1s after panel disable */
++	msleep(1000);
++
++	return 0;
++}
++
++static const struct drm_display_mode lg_ld070wx3_mode = {
++	.clock = (800 + 32 + 48 + 8) * (1280 + 5 + 3 + 1) * 60 / 1000,
++	.hdisplay = 800,
++	.hsync_start = 800 + 32,
++	.hsync_end = 800 + 32 + 48,
++	.htotal = 800 + 32 + 48 + 8,
++	.vdisplay = 1280,
++	.vsync_start = 1280 + 5,
++	.vsync_end = 1280 + 5 + 3,
++	.vtotal = 1280 + 5 + 3 + 1,
++	.width_mm = 94,
++	.height_mm = 151,
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++};
++
++static int lg_ld070wx3_get_modes(struct drm_panel *panel,
++				 struct drm_connector *connector)
++{
++	return drm_connector_helper_get_modes_fixed(connector, &lg_ld070wx3_mode);
++}
++
++static const struct drm_panel_funcs lg_ld070wx3_panel_funcs = {
++	.prepare = lg_ld070wx3_prepare,
++	.unprepare = lg_ld070wx3_unprepare,
++	.get_modes = lg_ld070wx3_get_modes,
++};
++
++static int lg_ld070wx3_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct lg_ld070wx3 *priv;
++	int ret;
++
++	priv = devm_drm_panel_alloc(dev, struct lg_ld070wx3, panel,
++				    &lg_ld070wx3_panel_funcs,
++				    DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
++
++	ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(lg_ld070wx3_supplies),
++					    lg_ld070wx3_supplies, &priv->supplies);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to get supplies\n");
++
++	priv->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, priv);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM;
++
++	ret = drm_panel_of_backlight(&priv->panel);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to get backlight\n");
++
++	drm_panel_add(&priv->panel);
++
++	ret = devm_mipi_dsi_attach(dev, dsi);
++	if (ret < 0) {
++		drm_panel_remove(&priv->panel);
++		return dev_err_probe(dev, ret, "failed to attach to DSI host\n");
++	}
++
++	return 0;
++}
++
++static void lg_ld070wx3_remove(struct mipi_dsi_device *dsi)
++{
++	struct lg_ld070wx3 *priv = mipi_dsi_get_drvdata(dsi);
++
++	drm_panel_remove(&priv->panel);
++}
++
++static const struct of_device_id lg_ld070wx3_of_match[] = {
++	{ .compatible = "lg,ld070wx3-sl01" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, lg_ld070wx3_of_match);
++
++static struct mipi_dsi_driver lg_ld070wx3_driver = {
++	.driver = {
++		.name = "panel-lg-ld070wx3",
++		.of_match_table = lg_ld070wx3_of_match,
++	},
++	.probe = lg_ld070wx3_probe,
++	.remove = lg_ld070wx3_remove,
++};
++module_mipi_dsi_driver(lg_ld070wx3_driver);
++
++MODULE_AUTHOR("Svyatoslav Ryhel <clamor95@gmail.com>");
++MODULE_DESCRIPTION("LG LD070WX3-SL01 DSI panel driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 0019de93be1b..81350ef50295 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -5565,34 +5565,6 @@ static const struct panel_desc_dsi boe_tv080wum_nl0 = {
+ 	.lanes = 4,
+ };
+ 
+-static const struct drm_display_mode lg_ld070wx3_sl01_mode = {
+-	.clock = 71000,
+-	.hdisplay = 800,
+-	.hsync_start = 800 + 32,
+-	.hsync_end = 800 + 32 + 1,
+-	.htotal = 800 + 32 + 1 + 57,
+-	.vdisplay = 1280,
+-	.vsync_start = 1280 + 28,
+-	.vsync_end = 1280 + 28 + 1,
+-	.vtotal = 1280 + 28 + 1 + 14,
+-};
+-
+-static const struct panel_desc_dsi lg_ld070wx3_sl01 = {
+-	.desc = {
+-		.modes = &lg_ld070wx3_sl01_mode,
+-		.num_modes = 1,
+-		.bpc = 8,
+-		.size = {
+-			.width = 94,
+-			.height = 151,
+-		},
+-		.connector_type = DRM_MODE_CONNECTOR_DSI,
+-	},
+-	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+-	.format = MIPI_DSI_FMT_RGB888,
+-	.lanes = 4,
+-};
+-
+ static const struct drm_display_mode lg_lh500wx1_sd03_mode = {
+ 	.clock = 67000,
+ 	.hdisplay = 720,
+@@ -5716,9 +5688,6 @@ static const struct of_device_id dsi_of_match[] = {
+ 	}, {
+ 		.compatible = "boe,tv080wum-nl0",
+ 		.data = &boe_tv080wum_nl0
+-	}, {
+-		.compatible = "lg,ld070wx3-sl01",
+-		.data = &lg_ld070wx3_sl01
+ 	}, {
+ 		.compatible = "lg,lh500wx1-sd03",
+ 		.data = &lg_lh500wx1_sd03
 -- 
 2.48.1
 
