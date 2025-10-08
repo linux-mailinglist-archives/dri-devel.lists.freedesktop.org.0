@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6347BC3FF7
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 10:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D58EBC4001
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 10:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADFAB10E7C4;
-	Wed,  8 Oct 2025 08:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 254E210E7C2;
+	Wed,  8 Oct 2025 08:54:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dHEVS/uw";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iWZerwsN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C816F10E7B6;
- Wed,  8 Oct 2025 08:54:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8E010E7B2;
+ Wed,  8 Oct 2025 08:54:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,26 +22,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=qBWrhyAwMfLbV3SyFe2WNEL08nCotZiD1lZA/HutUUo=; b=dHEVS/uwBRPAUn1NplZE6BQpEM
- eQyKV/PQmIuhzUKIGPYSPzBziOYAsOUU7UvA4eAX6aFRxanP70kB03+u0XAr4X/12k9nckHZsN9z0
- KdODUOGyMzVWIdHydS0LbZqnSsOnStL0XEo1XaYJxuc1YQFFRmMfzrolnVY6IokPFIgytX2sv7rJO
- DWc9NDNFEfm6Sa7Qoh47QaXZyKeBLR1NuZFUDcIkI5Dli3rdsNbACKU3qiyU4lXm7oPF8LoHngoAX
- txTj2VX0p+ZYvR18zpNvAYrbDoYCMzKFSewrbLtiYD8UC4ovpTpB8j2/xWr9ETyyP3mUolbBjpNOr
- o+9KaQGQ==;
+ bh=wVMIE02VRj5EiuizMfTJthQ/QT1855V0QHy2KjokpAk=; b=iWZerwsNGxRcOThtArWV9T63j+
+ TkwrqWeOPifg6Wpaa95aE1iKLh50R30EdcpU3HO7fj+09R83XqjpOxlCOWb9Si3yhQ1Qy5PU/SfIt
+ L2X0/pH/n9+jbZVPTFtvxyAjs1HbbD/YJ0GdFKFWy/+CM3Wn8FajYYvrQEMPc0+1f/OlASmZwzojo
+ hrGX0adrsxYpcoyf/cSXKo+10DLlfhHsXSPleYrP1wBQdKweQWmQfMg5HAfuRbVnZsK06+lJJSdkx
+ wIzQlS7iWEfXPCPjL86iaVOjOWdr6iEA1yq2ehr5EazB4Vw4yUYuLxeW48s08Gl03rZ3+RYdtPoMb
+ 90LK/pTQ==;
 Received: from [84.66.36.92] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1v6PwK-006Z2J-3K; Wed, 08 Oct 2025 10:54:28 +0200
+ id 1v6PwK-006Z2S-R4; Wed, 08 Oct 2025 10:54:28 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: [PATCH 25/28] drm/sched: Remove drm_sched_init_args->num_rqs usage
-Date: Wed,  8 Oct 2025 09:53:56 +0100
-Message-ID: <20251008085359.52404-26-tvrtko.ursulin@igalia.com>
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH 26/28] drm/v3d: Remove drm_sched_init_args->num_rqs usage
+Date: Wed,  8 Oct 2025 09:53:57 +0100
+Message-ID: <20251008085359.52404-27-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
 References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
@@ -66,27 +65,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>
-Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: "Maíra Canal" <mcanal@igalia.com>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 1 -
+ drivers/gpu/drm/v3d/v3d_sched.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-index 8e9ae7d980eb..14403a762335 100644
---- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-+++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-@@ -290,7 +290,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 0ec06bfbbebb..8978b21d6aa3 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -868,7 +868,6 @@ v3d_queue_sched_init(struct v3d_dev *v3d, const struct drm_sched_backend_ops *op
+ 		     enum v3d_queue queue, const char *name)
  {
  	struct drm_sched_init_args args = {
- 		.ops		= &drm_mock_scheduler_ops,
--		.num_rqs	= DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit	= U32_MAX,
- 		.hang_limit	= 1,
- 		.timeout	= timeout,
+-		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit = 1,
+ 		.timeout = msecs_to_jiffies(500),
+ 		.dev = v3d->drm.dev,
 -- 
 2.48.0
 
