@@ -2,161 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E95BC4D7A
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE0EBC4E05
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE4B10E7FB;
-	Wed,  8 Oct 2025 12:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB01C10E380;
+	Wed,  8 Oct 2025 12:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OTGvk7aY";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hBd04cJg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010011.outbound.protection.outlook.com [52.101.46.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F4710E380;
- Wed,  8 Oct 2025 12:36:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xjx6g0Q55ra0Imm+y6e/54Xn459kW/W/6BgEPLPh/A0HWo5gx6kuarsOEKWBoncZg2nnzMNZpd7qphpzsUGpn/G2arVS44r1ab2e0qNJG/ym8oLm1V0YqdyqKMR+9ybUGm7oIvqxjNoHzK1sfK9UsYxv6pb2TTzib0Yoo2kfNsJYZXnH32jeG9CLUReNftSIIYQU9NWTQKAZZuRU/N5qA1STQIV60V/r3iVWUIYya9AahKh8em+aYPs8NplSc+ke5yvUhsGoLeKi1ZdnpaiiikSGkuP55kcDzv7cAtzlFhUWqqpR+yHMyCHFHj9lQqsvJ3OqY9q3p7cBx27rdiALxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nmmvU5tqFjQenZXnEnmnMr8vhjtV++K3y3gg1+K0DTw=;
- b=zMLofgkgfa+Gm5WLSDM131Dydpgp1ZRNJvyqAbvf2MVVUFAzYt+I+Rij0VvjTjTuUtRHmQL0K5G0JYMmQCIS9zBqDrnQbp/ZmezGO/27hFRtj3yB+W8s9AYD/qqVSPIgsLBSB1Ll1M4zh3Unbf3xhyu+iIYEf4kJoGKZGDfFDl1aT7k1iT03AIV3Q3ukxD5eTsgqeRDU1NsQ5rjuZXWYyuSK5RLrWrrgIeiQFXDdnBXrZl1rme2RpAdS3xBhoKs57Sai6gWBer4/BVCQnaG9uXdsOz7ABJDRtIT/7XYtEjoTbEBDRl0U6U48YnyJ23SdfNTyNVroBWgbqs4kDjdbmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nmmvU5tqFjQenZXnEnmnMr8vhjtV++K3y3gg1+K0DTw=;
- b=OTGvk7aYEv1EBNztxF98S1z+KZzdRC4/iTsGaN1cS7CvzUjOWLd+9MbtIBMktETMh9KQiakceVamftz/dglo4RKrve7FWY/yFmFMeK8SRhAQ7xJnE7R0LVUGrICkqcEqx7WQce3U3yw92Dev4j6KAMU55tN5DxxrcMuoPE7rzTo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM6PR12MB4418.namprd12.prod.outlook.com (2603:10b6:5:28e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Wed, 8 Oct
- 2025 12:36:04 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9182.017; Wed, 8 Oct 2025
- 12:36:04 +0000
-Message-ID: <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
-Date: Wed, 8 Oct 2025 14:35:58 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
- latency
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
-References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0046.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cc::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF81F10E396
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:40:42 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59890nrB010197
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 12:40:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ M4OPP5rGtbcoGt2hmvhc+u4aKUyzxDw05x/alaaMMrU=; b=hBd04cJgCs6FMEwT
+ SLJv6hQIebpXckG7rSWR5WFqC0HAU3YzOqpBfUqFEbgMvU3Xc06MuQzjHrLsqdwt
+ h8Ne8CmeNfpDQcCFgxPdgr9088KLmQcUJ6WknNvlJeMX/WPbctqMXCS4uJPYAI55
+ 2sta4654l/LibwERamb75M6AUI26ZJgtDStfAFLJF52818MNZxQIpzcnGlK0ye7T
+ 4UDigkvXMMEymCQfW8bOWuyTcJ0nExA3Vj3Q2l1d74UpiSK5uBihcP/VVfRrfmRD
+ gq4Ky1onVbv6UtGwEYtK9uFvTQzRF24dfgGA+07skz++WYq/NeKviK0zVWpgy3Es
+ QNDw5A==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49junuah1m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 12:40:41 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-7abea94d621so17294446d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 05:40:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759927241; x=1760532041;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=M4OPP5rGtbcoGt2hmvhc+u4aKUyzxDw05x/alaaMMrU=;
+ b=Qj0bmXOFsj1KhclvvP2bApXgNG8YzRj93okA9dNjUMPLdfvJXxCx4gs5tGNkO1ZCwx
+ yZAKw3sAbW4w9IusbHub+D80LPwgheQT4hkwKC41bePu1+bRej3N77KTdWHtUrAap/J5
+ V5N9iX0WewNsF7IWOg0BQf4kPaopJoSCl/1SZMGWdzQU4Y9Eh+gW6oQMk72cdyLjDEvd
+ L7Wvt/zNCl4oIBsGtly1NpWhFlxyCXMhwT+vqsbrhxjk3bMMYw6CKWrhEahloS009Zq/
+ RVDH68EvqWnhDHHVpYVrZgua4fPVnAxmRJHs2x0mQ21+/qCNOhMqnPxYTGHZhGTKD8Rc
+ 7ldA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU896OByYuB1Rgv9SOw7Q628PJ+LX0d1PekXrDBCHGywh/Mkk4jWXXUwcZdyQ+tPKQPJYCAvVkzoug=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnGBujiK9QZG9Ny/W6LwAmpQFY+n3HQ3naY63PtGHBbS1doYZU
+ x3cq02NBKfU2oTyFUjp0uXjaCgvdlNrgLkQjLGFQzZMEwuUDRza4j64qnxwHHw+AsSe4t3cNiBz
+ MeVoov+THY+F+28k6BUkNtYyoPtQk3R/eRoY/CbF4M02MbiEDZL5qmK8WFzruCzOndgYYfmI=
+X-Gm-Gg: ASbGncv5DNHEgii5n/QYq5T5sFDaAVov1yiCuY7uiAeKsI8NNKftIt7pMxSPEw9FMBe
+ 17sS4POozxfD63WcmSo5xSL44489hCvwyiB3pM18tDXLh2ZKBFNvIqiJRm6Li6AWmCLnlzf+QJj
+ ZAhpRD3gC5kZCkXJl0+YS9Wt2Hlq5EH28ct2C95Cz1HXkypS8OJIS70mHY3plmbk8x38oZwvoU9
+ THW4DpON+fiRuc8Kr9qqyNMCjUxBqvCCY3A+apG/7mnI2pmdvY70Mi9f1+WB6UwEHBfCpQSD53e
+ TMs1DdURUZB927PMtEJwgwQwvYuhxhgkwf3Zaqs4IEpCPoW+PTgIofSTCiw9l7h5q4dQmirWmCB
+ IU7jwqvkrSGQoIGGim3jUuGbZev0=
+X-Received: by 2002:ad4:596a:0:b0:784:4f84:22f9 with SMTP id
+ 6a1803df08f44-87b2ef94002mr25131406d6.7.1759927240942; 
+ Wed, 08 Oct 2025 05:40:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE3QYIdes0zzXDXLbtN1GZArLUcJtOk9G7EMYv269Ezp7bFtd3e0tnh7OnfT4Sdj7S94CaghQ==
+X-Received: by 2002:ad4:596a:0:b0:784:4f84:22f9 with SMTP id
+ 6a1803df08f44-87b2ef94002mr25130856d6.7.1759927240350; 
+ Wed, 08 Oct 2025 05:40:40 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-6378810112bsm14570055a12.26.2025.10.08.05.40.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Oct 2025 05:40:39 -0700 (PDT)
+Message-ID: <e3400ab5-c4ea-455a-b8ea-d4fba2ece85d@oss.qualcomm.com>
+Date: Wed, 8 Oct 2025 14:40:35 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4418:EE_
-X-MS-Office365-Filtering-Correlation-Id: fca2ddbc-96a5-4e60-67e6-08de06673eab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NjIzWjVEUXNSNHk4RUJiUTkxcEtCOVNuL0twM1VJcFQ1UmZZNGRHcWdWdjA5?=
- =?utf-8?B?WVMvSGpnUWJPeWZTMzNLNXQ2SXF5OFh2YXoyaTdnT0M3ZzZXVXI4bzBOdWhr?=
- =?utf-8?B?dkdiZHJZeExzdlVieEtRdFV1ZThKemtlcExSNjNGSkE3a0U0SnQ4SHY5N0cz?=
- =?utf-8?B?QnZNZlJWeVBvVG1qdFUwQnpTb2VXOGtwa3hqS0t5bUNOZWI2cUl0OU03amlT?=
- =?utf-8?B?WkRzdTFURUFKOXA5WG93bG5Fd0lxL0ttU0pkQlpBZ1BmUXVDVmFNUmxXR2JN?=
- =?utf-8?B?bWY2cGo0Q2JZZXRQdzVsR01vZDFWZzlZMk9sUEZNZkVGOFc3Y0VrdW5PRmNL?=
- =?utf-8?B?ZGFyVHlmL2FlWVFTNGJlT2xJRGl5bXNKbS9XQ2JUTEo2MTlDbk4wbS9FYm1r?=
- =?utf-8?B?K2hNdVMrTkkzMFU5d2tmcjVWWUZoakJ5NnJYRmV6NEt0cG95dFo3RXdhQW9t?=
- =?utf-8?B?bXZxRVBWT2IyekNCNU4ycDJGa0JEVUk2VHl6TGxmMnZrUnorVjBwT281Tnht?=
- =?utf-8?B?TmwwSFJTMFhZckJsdityTytEOHJhc3pwb3lVQWV4WEtXWjlEa0tvOUN5YkVX?=
- =?utf-8?B?VUNkb0sxT3hTL2RMZXR0WW9EbnU0Q0IybjQ0UEtSaEV5QUtBYW4yUnZJT2Fp?=
- =?utf-8?B?akRIYmNERWFnUTRONTZWbW1UL1gxbjVEa2doc2g2ZXEzRFR0azgxdTRXN3pq?=
- =?utf-8?B?QzQwSGlXUFJwbTVHdFUyRGhEc2JMcVl5T01BT1JuNTRlaHZCL1pHTi9xVjJ0?=
- =?utf-8?B?eEQwOTRzSlN6U2hscWN0SDZsY2pjaHJDMzF3WGhIbFB3R0cyWG5KcjBlYlRV?=
- =?utf-8?B?SHRWN0kzYW83V01lMUJmeEFXbFdiODhaNVdpdzBhMnVENFBMT0lqQk01bmN6?=
- =?utf-8?B?YXEvN1NvWElJWm15Y0FKamh2NGtpenFZZ2lMai9MZ1ZEUUJsR2QxcUhhelkz?=
- =?utf-8?B?aFh0UStqREw3aEdLWHpvVzlRTG51Y05VQlVRZUw4anE2Z24ySGxSRCtFTk9m?=
- =?utf-8?B?akMrUFRUQnhjWXZvMnh4dlNSYWZmbEhGMDRITW54WDJ2dUJXdy9jYmFtYUlo?=
- =?utf-8?B?RHpFNmhWSU95cm1CRHJFRk11eXdoVmZGN082QklnM2k2ZXB1ZHBCMkZGNXY4?=
- =?utf-8?B?WGZsUmFzWlVwbUJJcm40d05TNTZlZ1BkaTVWRU85bjRvVE9OQXF2TENEa2hB?=
- =?utf-8?B?MGVjVW9yamJpdGZENDlyTFFVam9QeG16V2VNeWliYXVCekt1WUwyT0RSWWp0?=
- =?utf-8?B?RmppU3c4UXBMMGhodmE2L2ZnYldpK2IrdTI1WDdZSDlNK0I5M0JObWw3eG81?=
- =?utf-8?B?UjFOSElRNkVCZGVQMkdZN1FvMVRvU1VHRlQySks4eXV2MnArTi8rTk8vdm5u?=
- =?utf-8?B?U0M2OTd6NDA4TzFIY050YWNHSWVScXFPakZ6aTRjQTg1aGZmU1FpVzJxdWx4?=
- =?utf-8?B?aXg0QkZpTXZOVURsNis0NmdraHVYNmtKNXhJWk02eU5ZMGZoeHB3NGFKanBu?=
- =?utf-8?B?dDc5N1VhMkNraisvREg4aXJqMmtMbzZVc3hCdFo1cUtRd1lpSUlhUmVUdDJk?=
- =?utf-8?B?eU9yVmlkdjJDUGJMY052cjhVTjFBK0NBQU9FUll5MkRVdzVKVmpHQTNQN2R5?=
- =?utf-8?B?M3JSZnNiVkZMZDhYUHB0M2kyZG1BOHg1ZnIwaEtsaU5vdXdpUVE3WWp3bGlv?=
- =?utf-8?B?MUtHWVczaHVtM21UMk83L3NETkU5VHNTcGtiSmpIQ25QWjU3ZGxaTm5WYUdr?=
- =?utf-8?B?eitrWXBubDRSZldTNDFETEE4WE9XRHM4bnJRdmowa1FhaE52V25VeXQ5SGJ6?=
- =?utf-8?B?bXFyWXlEWU1tRDRHVGorak9vdGE5VTVvQTVkOC9xRFlxYTBwQ0tkdEYvTUFI?=
- =?utf-8?B?bGRucU9JR2xvVnRodWlsaTh4U08wOFZRdzY3a0JFdkppUUE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OE1qbm9Sdzl4bmdlSkNFM1hGZTNYNmZrWjhkMWR3YnlOZWxmOStxcnVDN29U?=
- =?utf-8?B?WjFZRzVyaSszaFpuMXFPamtWYTFYRS84bjJaMEo4SWV6bnhPam1BMlNEaG11?=
- =?utf-8?B?Wmp1VmRYb0VaVW9YeDZ4N3J0U2h4b3JWMGUwZkFuSDBQM3FvSWw0TlNob1pR?=
- =?utf-8?B?cjdMZlNuZEQvUzNQdmI2U0tpczRsVDdTNjRSRkRzMkNwU0NydEtRS3R2amky?=
- =?utf-8?B?ZDlidE1OMWVlWG9VbUtZK0k0Y2UvQkpuVXViZndWbGQ5OGpXb0FLbS9VUjBx?=
- =?utf-8?B?ZGlzKzI3Ly8zcUFIQXRaMHFacSswTFIvbHRvSVdpYUxiZUdiWU1LVzI4M0Nl?=
- =?utf-8?B?NlF2MVBBbnJ3aUo1ZXBRQ0Z1dVVJYnR1VEwva1hteXZ3d0MrZEd2R3UzcWkv?=
- =?utf-8?B?VGZXOE0zYTRZMGJBVmFRanpPT0ZjSGtVU1M5SUNvVWlmQTdacTNQdkg5Q2wv?=
- =?utf-8?B?cWNqOXBSZDB3eUtDMlNXZ0NPdXhpNG5OVDdPS0k1dFNrSXNUKzVZNkY0bTVj?=
- =?utf-8?B?bkJPK1NWakRLTnlCc0tSTGxQcWJON0Fkc1Y1OWdNZkJ2d3ltYnl1NlE4K0FE?=
- =?utf-8?B?R3BsSlVtVE9kZDM1bmllVTBldmEwR1ViaTdSekptOXlBMGljcWlzSVNZSEFO?=
- =?utf-8?B?NlpGdHNoL2NPZStIbU85OGRyWE5VbFhtdHpXb2lPbzJkQVFsbnhsTGpIQlBR?=
- =?utf-8?B?dHdoS1dpRnRSTU4yNGIwMXNIN29RT1N5MWF2OGRmK2N3WUZxN0g5R2ZkT2Zl?=
- =?utf-8?B?VGRocXNIWVFuTFkyS0ZuNUV0MkZlaFZ5eE44R05pSGp4WTduZVNKU2VWT041?=
- =?utf-8?B?Y3pWM1ZnRE1rVVNmOGhMUndURmtkWU5sdisxOGhLTWp2NFQyaFl6Y3o3ajVZ?=
- =?utf-8?B?bUNIM1RQYWZmVHBmSnJjZklVK0F0M0F4YlByRzdUUWNBZVptOEVSdGx4Y1FL?=
- =?utf-8?B?eEt1dGd0d2xYQlVacGtHQlVCd2pMMmNtdnQ1TXVoK2M5aDA4L1dsUjl3d2F0?=
- =?utf-8?B?d2U0UUM0WW02dUEvRUc2aTNnbFRiMUhkaEo3VVlRMUtweS9SS2lMNkFmMnRH?=
- =?utf-8?B?YTVkNnVOQm9nZGE5V1FreWlKQURxMTJrWDJjTHNKckVsUUtTYVBRNFZzaUZv?=
- =?utf-8?B?clVSbjNaNktGOWUwYzM1aXVjbzBRRGtrOEt2V0RTeVlHMXkzcGNlWDllcmlu?=
- =?utf-8?B?Zkdnc3NtY3lDSVZQWmdhU2tDTHFJVzVXc0drNDBEUE4xRmpxRHJMaklwMnVp?=
- =?utf-8?B?WDZhbU9FV0ZDOGdibmIrSzZjZERrTXZJZTJrOTh5MXZnTU9TSkZNNTB3ZGx6?=
- =?utf-8?B?eno3bUpkTWJucEJTWGxaTVNqdW4yRGJTdW1PbEN1VDZDZTFrcmM3MXNKT0Q0?=
- =?utf-8?B?alVNZWhuNVFrVzNtRjVMTElwU1FVZzVEaTRQL2hOWkZxNTlUZXh0QkNwcEEv?=
- =?utf-8?B?Qks1Mm4yeEZKZmd5bHVNaHVzZ0ZXSEN3UVVUNU5wZUFOcmhCeHF1akJxQXVB?=
- =?utf-8?B?SFR4bUZJTGpEc2d2YmRvOXgzaU9BeDFtV0swbHVSUVp3OHZaamlXU1NvbkJa?=
- =?utf-8?B?cVlWeTJpcUZQdU5RVWZSRmZ6VytFWkEzb0FGTnBaaWZRTFVsN016ck1YNTVZ?=
- =?utf-8?B?czRubTlBM2NqRFp4T2t3U0p3RHlocW42ZXZ0K0R4a3lCV3p6RWx0VEpObjRq?=
- =?utf-8?B?MnZnVG1HMHNaQ0dVWjFGcG4vY3lyUWlIN2hLK3FORFQ5NW11ZkVjSXhNMG41?=
- =?utf-8?B?ellKeVVialBCWGNxUmd6V2hoNXhDdmlpSDIvZzg5UkJzVjhzdE50NU5xdWkz?=
- =?utf-8?B?YW16RjFzYjg2SHhFWll4TFJ3SDJjeFRCd0x1aFVWdHM0QzJOTHpJWGRPT0pH?=
- =?utf-8?B?TDFaQVpwamlBa1ljcHRCSnovQTR0eFVqSFNsYi9hWnVIeHhXcEVyMEVGV2ky?=
- =?utf-8?B?MTF5S3dycmJEMXpYcXhQUnpEQTRnellkTHg1SjBrUFBmb0Y3akpsMUxSMWpH?=
- =?utf-8?B?RkRpUHFFNWRxMVloUWtTWE9abGVNOHdJbmw4eUlVS0R2cHYzT0hhVFRqaDYx?=
- =?utf-8?B?OUNhL25lT0JreFF1UCtzM2VscFBibllWOE5ZQlVuVVBBV1N3TXVwL2NQZ1c5?=
- =?utf-8?Q?bYYjLyeHAC5Gueypr/SHdHiSd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fca2ddbc-96a5-4e60-67e6-08de06673eab
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 12:36:03.9605 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rAN3qz2GGMBfuiDdOQnP18tXNkGKJsnJ9Fw/t4Yv8OM+clneCjHuScSSsXNJP4xH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4418
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] arm64: dts: qcom: lemans: add mdss1 displayPort
+ device nodes
+To: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>,
+ dmitry.baryshkov@oss.qualcomm.com, marijn.suijten@somainline.org,
+ swboyd@chromium.org, mripard@kernel.org, abel.vesa@linaro.org,
+ andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
+ jessica.zhang@oss.qualcomm.com, abhinav.kumar@linux.dev,
+ sean@poorly.run, airlied@gmail.com, simona@ffwll.ch,
+ alex.vinarskis@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_riteshk@quicnic.com, quic_amitsi@quicnic.com
+References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
+ <20250926085956.2346179-3-quic_mkuntuma@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250926085956.2346179-3-quic_mkuntuma@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: i7wR4LddIdV-v5Anjs_rkG_4ew0njUlJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyMyBTYWx0ZWRfX4JOHrgY8ctTk
+ ixXf/vM/1GX5i94f6otaAkrYZhAcCkRGDFkdHHhcconWkbbQBEGCBC4+tOx7hW3HcDPmQ5I85L6
+ ul+BthogJwkNfKbi5kTvyUBoJGzdRLRnnNP++35MIjAvmuqxMG8RvRoVUdVknlGpL9yIMpiLUeG
+ 3zn/vgKlS//9bh7AeauNCR/sfpX1Y55k2c4HJyM0vXX52M2+vYVgC5Uz76Fi87CqxUYTHKCpcxz
+ g5HPmCWaJcVIAD8zmp+hs2sVesAlqZci3bjoPFrcoRLBKLFuoZIBJZjF8Jz+X9HMBMpWI7iNVFF
+ pR3qllFfhTGONe+HM18Md5OUrsnybGAcsDb1ppAK4nBp+lSXReRl4OwFHA6t8r9xj28PauQ7tZy
+ JvgHUhxatVpJn7kdgb0t94PYb4y2sQ==
+X-Authority-Analysis: v=2.4 cv=CbIFJbrl c=1 sm=1 tr=0 ts=68e65bc9 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=5YqVK4ek60l4VI_saP8A:9
+ a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: i7wR4LddIdV-v5Anjs_rkG_4ew0njUlJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040023
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,106 +134,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08.10.25 13:53, Tvrtko Ursulin wrote:
-> Disclaimer:
-> Please note that as this series includes a patch which touches a good number of
-> drivers I will only copy everyone in the cover letter and the respective patch.
-> Assumption is people are subscribed to dri-devel so can look at the whole series
-> there. I know someone is bound to complain for both the case when everyone is
-> copied on everything for getting too much email, and also for this other case.
-> So please be flexible.
+On 9/26/25 10:59 AM, Mani Chandana Ballary Kuntumalla wrote:
+> Add device tree nodes for the mdss1 DPTX0 and DPTX1 controllers
+> with their corresponding PHYs.
 > 
-> Description:
-> 
-> All drivers which use the TTM pool allocator end up requesting large order
-> allocations when allocating large buffers. Those can be slow due memory pressure
-> and so add latency to buffer creation. But there is often also a size limit
-> above which contiguous blocks do not bring any performance benefits. This series
-> allows drivers to say when it is okay for the TTM to try a bit less hard.
-> 
-> We do this by allowing drivers to specify this cut off point when creating the
-> TTM device and pools. Allocations above this size will skip direct reclaim so
-> under memory pressure worst case latency will improve. Background reclaim is
-> still kicked off and both before and after the memory pressure all the TTM pool
-> buckets remain to be used as they are today.
-> 
-> This is especially interesting if someone has configured MAX_PAGE_ORDER to
-> higher than the default. And even with the default, with amdgpu for example,
-> the last patch in the series makes use of the new feature by telling TTM that
-> above 2MiB we do not expect performance benefits. Which makes TTM not try direct
-> reclaim for the top bucket (4MiB).
-> 
-> End result is TTM drivers become a tiny bit nicer mm citizens and users benefit
-> from better worst case buffer creation latencies. As a side benefit we get rid
-> of two instances of those often very unreadable mutliple nameless booleans
-> function signatures.
-> 
-> If this sounds interesting and gets merge the invidual drivers can follow up
-> with patches configuring their thresholds.
-> 
-> v2:
->  * Christian suggested to pass in the new data by changing the function signatures.
-> 
-> v3:
->  * Moved ttm pool helpers into new ttm_pool_internal.h. (Christian)
+> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+> ---
 
-Patch #3 is Acked-by: Christian König <christian.koenig@amd.com>.
+[...]
 
-The rest is Reviewed-by: Christian König <christian.koenig@amd.com>
+> +			mdss1_dp0: displayport-controller@22154000 {
+> +				compatible = "qcom,sa8775p-dp";
+> +
+> +				reg = <0x0 0x22154000 0x0 0x104>,
 
-Thanks,
-Christian.
+sz = 0x200
 
-> 
-> v1 thread:
-> https://lore.kernel.org/dri-devel/20250919131127.90932-1-tvrtko.ursulin@igalia.com/
-> 
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Sui Jingfeng <suijingfeng@loongson.cn>
-> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Zack Rusin <zack.rusin@broadcom.com>
-> 
-> Tvrtko Ursulin (5):
->   drm/ttm: Add getter for some pool properties
->   drm/ttm: Replace multiple booleans with flags in pool init
->   drm/ttm: Replace multiple booleans with flags in device init
->   drm/ttm: Allow drivers to specify maximum beneficial TTM pool size
->   drm/amdgpu: Configure max beneficial TTM pool allocation order
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  7 +--
->  drivers/gpu/drm/drm_gem_vram_helper.c         |  2 +-
->  drivers/gpu/drm/i915/intel_region_ttm.c       |  2 +-
->  drivers/gpu/drm/loongson/lsdc_ttm.c           |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_ttm.c         |  4 +-
->  drivers/gpu/drm/qxl/qxl_ttm.c                 |  2 +-
->  drivers/gpu/drm/radeon/radeon_ttm.c           |  4 +-
->  drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 16 +++----
->  .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  2 +-
->  drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 31 +++++--------
->  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 22 ++++-----
->  drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  7 +--
->  drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 23 +++++-----
->  drivers/gpu/drm/ttm/ttm_device.c              |  7 ++-
->  drivers/gpu/drm/ttm/ttm_pool.c                | 45 +++++++++++--------
->  drivers/gpu/drm/ttm/ttm_pool_internal.h       | 24 ++++++++++
->  drivers/gpu/drm/ttm/ttm_tt.c                  | 10 +++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +-
->  drivers/gpu/drm/xe/xe_device.c                |  2 +-
->  include/drm/ttm/ttm_device.h                  |  2 +-
->  include/drm/ttm/ttm_pool.h                    | 13 +++---
->  21 files changed, 125 insertions(+), 106 deletions(-)
->  create mode 100644 drivers/gpu/drm/ttm/ttm_pool_internal.h
-> 
+> +				      <0x0 0x22154200 0x0 0x0c0>,
 
+sz = 0x200
+
+> +				      <0x0 0x22155000 0x0 0x770>,
+
+sz = 0xc00> +				      <0x0 0x22156000 0x0 0x09c>,
+> +				      <0x0 0x22157000 0x0 0x09c>,
+> +				      <0x0 0x22158000 0x0 0x09c>,
+> +				      <0x0 0x22159000 0x0 0x09c>,
+
+sz = 0x400 for all 0x9c
+
+> +				      <0x0 0x2215a000 0x0 0x23c>,
+> +				      <0x0 0x2215b000 0x0 0x23c>;
+
+0x23c -> 0x600
+
+[...]
+
+
+> +			mdss1_dp1: displayport-controller@2215c000 {
+> +				compatible = "qcom,sa8775p-dp";
+> +
+> +				reg = <0x0 0x2215c000 0x0 0x104>,
+> +				      <0x0 0x2215c200 0x0 0x0c0>,
+> +				      <0x0 0x2215d000 0x0 0x770>,
+> +				      <0x0 0x2215e000 0x0 0x09c>,
+> +				      <0x0 0x2215f000 0x0 0x09c>,
+> +				      <0x0 0x22160000 0x0 0x09c>,
+> +				      <0x0 0x22161000 0x0 0x09c>,
+> +				      <0x0 0x22162000 0x0 0x23c>,
+> +				      <0x0 0x22163000 0x0 0x23c>;
+
+0x2216_2000 and _3000 don't exist, there's no MST2/3
+
+sizes should be changed similarly 
+
+[...]
+
+>  		dispcc1: clock-controller@22100000 {
+> @@ -6872,6 +7115,8 @@ dispcc1: clock-controller@22100000 {
+>  				 <&rpmhcc RPMH_CXO_CLK>,
+>  				 <&rpmhcc RPMH_CXO_CLK_A>,
+>  				 <&sleep_clk>,
+> +				 <&mdss1_dp0_phy 0>, <&mdss1_dp0_phy 1>,
+> +				 <&mdss1_dp1_phy 0>, <&mdss1_dp1_phy 1>,
+>  				 <0>, <0>, <0>, <0>,
+
+You need to remove the same amount of zeroes that you added
+
+Konrad
+
+>  				 <0>, <0>, <0>, <0>;
+>  			power-domains = <&rpmhpd SA8775P_MMCX>;
