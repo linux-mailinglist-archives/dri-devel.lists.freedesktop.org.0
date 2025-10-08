@@ -2,73 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46014BC6AC0
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 23:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EE5BC6B2F
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 23:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9491610E0C3;
-	Wed,  8 Oct 2025 21:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C5B10E8E3;
+	Wed,  8 Oct 2025 21:40:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aVUTLXxW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kBU8802L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2B510E0C3
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 21:22:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7D2E86210C;
- Wed,  8 Oct 2025 21:22:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D60BC4CEE7;
- Wed,  8 Oct 2025 21:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759958573;
- bh=sOcycTE/foc4/tAc4gOrV9tZDXRBT7DUDt7ayt+7Ris=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aVUTLXxWBoYM0/HW7KulNWhVQ5C7mB1Gqyqtqr/HQdQ1i+2hjgMjBAYEdpoJsaH+r
- zYkg4PHbCmxMDiBZPpVAoqHIKnS+WDjrGArjes3Dj0dwcCx9eM/jWACMc0rMDHBZox
- BGZJ4F1ysu6wMBkolk+pT/zbz/NTd7EzXdWEt19OsvluqIOoZaLzppDOWsgDsU+u7F
- oiz63lbePsa4CkbOlSDg3spbBhmYwAZ2OWOgTjm/Cun5cZ+CZwjbIOS9IhISdC2t8V
- d9aqR4hIL7TwFjuKNGv2Ff3JDWDvmIno2Q+P6elJXLmPL/VKEJdZva/TS+fIQGIWQN
- 2RVJ62Ft1/fYw==
-Date: Wed, 8 Oct 2025 22:22:45 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
- Dmitry Osipenko <digetx@gmail.com>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
- Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 22/24] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <20251008-broaden-antennae-02de66094ad3@spud>
-References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-23-clamor95@gmail.com>
- <20251008-canopener-marsupial-a92355b656ef@spud>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDB610E8E3
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 21:40:15 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5IoN002413
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 21:40:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=8PqFyFEB6Vdzy/Ws3S18XYPm
+ NAlesFbDUqjTCNEtSp0=; b=kBU8802L1DozH4D73b8pf6uGldSd8MEH2QJC1a2V
+ P3O/fKC4BRyXuEP5ValpF1U/7JxeTqKqKB7weVRLgvh9G9YxgHkqc7HcB2WeHw8o
+ d0qPYjzt3hFDP2HcfKsTtnfVmJs2jP7Wild93IWUCPnnrSKWAXA8XxYwVsBn7sVw
+ IEehhVKSfKup3yw9P8/e+4UCgYMwbsou+LOjELiLZq0UrJjsgvVC9+eiSMUkqXY9
+ r72oXfDaAXUh4v0ZFSE5CdK44KKVJvCFx1vpnufc2Rtjb+41XOk6RpRqx4j7w2Re
+ mH5ZwH0N5BUdm2MirDTzxr4KnkT7DZHRvOjrw9KXrzUidg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4m0pes-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 21:40:14 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4d77ae03937so10233901cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 14:40:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759959608; x=1760564408;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8PqFyFEB6Vdzy/Ws3S18XYPmNAlesFbDUqjTCNEtSp0=;
+ b=FpLvYmYneHW7rxRsLsPdDGsXquLJ7VH4fcg9OL1lSo98ljSMct9QrMP49zq1dCs2wr
+ gEQOo9hFTRL48RJn65auWI98Hk4ERQ+duAbpsqraStlq0BaPNfxBcYsFU0AulmqRHJxG
+ UvmsquE76gm34RjveqlVgHTL62TjiOuXULzPgRCCUmmClVpoZb43tbSYJwLfcxeegyjf
+ ddgx5E9asatuPVFf3tDQGJIGGOC5OXMxCvM/nyKxmLiCz0wL1pT0abEmDNMKpzylL9Tf
+ wDVCK3y177daJBFP5n7Z1p4/htj4+rzfxJWuX+GR56Hbrbeuum6SgJatw8BgdD/dSQ6h
+ 64oQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWitgKzZVVnMTis6ide1ZdVlaZfkxam4k5ccniG0Y0N5nf3/FpR+vYymgGGFhCugN1H5Jc5egTO0GQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnMFr54l2IpV/gl2aJgmb5hZoATbScs/3MQGUvpPvHsUEQM7lY
+ xLARs8VLQDHiGNrigTY5qQ4PocVdPW0ixETbV/Zie6gyJ5BTFP/y4mopeO49+/dUpxFVIEnKk4Q
+ uKjpYux/RJ1bmQrLglx93Uftq0owbayDiDsR/rP8oLSiQtyz8AMPZKqnmRY09e6qnx9hqbio=
+X-Gm-Gg: ASbGncuNduXoUqSbXU+xw9RqBhq1ILE3jPalj7zFasU9TBXU+DmfHJ2YDKhM6XPD48A
+ 1bf6/pU5zo0MupBNN0/e3ASJU4idAgnJuejvFebHxlfQVtHTbwnGIUna4h0Ij04QC0C7+JfJJu6
+ uXzbH4OIF02PI0GYTAHDua+TkIqhIYA8+9vcZFiE33Guy5vN/QWs/7fbAj4eQFIygHSzW1IpYp7
+ xBvN5FuibNESY9fXWhHE+iRl5LALDUMzxiOZGD5XVfTDITSDmsJRgdCcQFICcVIs/PwlhM6EoC1
+ xEI1nRcqQEyrVvRJzmLyJvWka8l3BRIgT/d/pRnRk+ym0Z5xmeje4duRyypHzEzFAD1XfcG0DiI
+ gWlw/0lBYDr4DDMJ/yOlgcXS5o4uMb7bVBK5tR6J6RVkTwj7MARkZw7gjRg==
+X-Received: by 2002:ac8:5751:0:b0:4de:74f8:b2a4 with SMTP id
+ d75a77b69052e-4e6ead7789cmr70880261cf.53.1759959608108; 
+ Wed, 08 Oct 2025 14:40:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEtsj8agBcjTN5kFH9CtNM0OzQ1jTxuKqFj+4DXfwj0ka8iE7f9si9r17U108+0JLIV8tG54w==
+X-Received: by 2002:ac8:5751:0:b0:4de:74f8:b2a4 with SMTP id
+ d75a77b69052e-4e6ead7789cmr70879791cf.53.1759959607556; 
+ Wed, 08 Oct 2025 14:40:07 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5907adb2512sm375052e87.94.2025.10.08.14.40.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Oct 2025 14:40:05 -0700 (PDT)
+Date: Thu, 9 Oct 2025 00:40:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ kong.kongxinwei@hisilicon.com, liangjian010@huawei.com,
+ chenjianmin@huawei.com, fengsheng5@huawei.com, libaihan@huawei.com,
+ shenjian15@huawei.com, shaojijie@huawei.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 drm-dp 1/4] drm/hisilicon/hibmc: fix dp
+ probabilistical detect errors after HPD irq
+Message-ID: <w54im5c6zbeoik44jrzvwnfrcxpbf3pzke74a7r4kcgq6balvh@d33v6xpmua6s>
+References: <20250926011500.2545817-1-shiyongbang@huawei.com>
+ <20250926011500.2545817-2-shiyongbang@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="RwPRYaE9Gdjg3a7O"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251008-canopener-marsupial-a92355b656ef@spud>
+In-Reply-To: <20250926011500.2545817-2-shiyongbang@huawei.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX3MLpHc/ZA/6s
+ 4mWZSVPZU+af4qeYvqi4kBAcbnzAV9GrwyvPs5xHjSf1vPoFnjjvjKcJlnEt7jg/SEKNu/66Rrg
+ 4xnFpw/LmZHcn7FucO64sxr9hPvnfAqCD+7Mnvy3Xh+JkaFjrSWU9Rq9VsnUdTS2xLq8PDwzMFS
+ VRTkWPmk9tiKc9LzIQ7zOcuQmFZqe7xQmubcAYbxlfar8zOCuDoGlDBQ8TazsXt3OmTWP6mnfzm
+ hlxqcCba3z1srvphe7zn2IR/Z6NKaU8sO+Qr5BvpiUbFehEUkNgW89gwnvuwCFSMCftiiQMXTws
+ CcPwhxV77TsFtvG1A+pAri1Yzc1K5wQ4MMNrQ6YC7lqjV9PZqIqUOOCFu/8R1hq9yxySgy8kyqi
+ I6M+OvvJn2fjjkQ2QCXGdbYSODHJcA==
+X-Authority-Analysis: v=2.4 cv=B6G0EetM c=1 sm=1 tr=0 ts=68e6da3f cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=i0EeH86SAAAA:8
+ a=EUspDBNiAAAA:8 a=QVYvikxniASighArfegA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: d49U6QMhfYvuePaciF-QnYrjeJHRrJ9I
+X-Proofpoint-ORIG-GUID: d49U6QMhfYvuePaciF-QnYrjeJHRrJ9I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-08_07,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,238 +129,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 26, 2025 at 09:14:57AM +0800, Yongbang Shi wrote:
+> From: Baihan Li <libaihan@huawei.com>
+> 
+> The issue is that drm_connector_helper_detect_from_ddc() returns wrong
+> status when plugging or unplugging the monitor. Use HPD pin status in
+> DP's detect_ctx() for real physcal monitor in/out, and implementation
+> a complete DP detection including read DPCD, check if it's a branch
+> device and its sink count for different situations.
+> 
+> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
+> Signed-off-by: Baihan Li <libaihan@huawei.com>
+> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+> ---
+> ChangeLog:
+> v7 -> v8:
+>   - fix build errors reported by kernel test robot <lkp@intel.com>
+>     Closes: https://lore.kernel.org/oe-kbuild-all/202509241625.o4mNleVb-lkp@intel.com/
+> v6 -> v7:
+>   - add the check about branch devices, suggested by Dmitry Baryshkov.
+> v5 -> v6:
+>   - use HPD status in DP detect_ctx(), suggested by Dmitry Baryshkov.
+> v4 -> v5:
+>   - fix the commit message and DP detect_ctx(), suggested by Dmitry Baryshkov.
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  4 ++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 12 +++++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  6 +++
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  3 ++
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 48 ++++++++++++++++++-
+>  5 files changed, 71 insertions(+), 2 deletions(-)
+> 
 
---RwPRYaE9Gdjg3a7O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 08, 2025 at 10:21:06PM +0100, Conor Dooley wrote:
-> On Wed, Oct 08, 2025 at 10:30:44AM +0300, Svyatoslav Ryhel wrote:
-> > Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> >=20
-> > The #nvidia,mipi-calibrate-cells is not an introduction of property, su=
-ch
-> > property already exists in nvidia,tegra114-mipi.yaml and is used in
-> > multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
-> > mipi calibration function and CSI function, in Tegra114+ mipi calibrati=
-on
-> > got a dedicated hardware block which is already supported. This property
-> > here is used to align with mipi-calibration logic used by Tegra114+.
-> >=20
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++++
-> >  1 file changed, 135 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvi=
-dia,tegra20-csi.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegr=
-a20-csi.yaml
-> > new file mode 100644
-> > index 000000000000..817b3097846b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-cs=
-i.yaml
-> > @@ -0,0 +1,135 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.ya=
-ml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: NVIDIA Tegra20 CSI controller
-> > +
-> > +maintainers:
-> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - nvidia,tegra20-csi
-> > +      - nvidia,tegra30-csi
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks: true
-> > +  clock-names: true
-> > +
-> > +  avdd-dsi-csi-supply:
-> > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  "#nvidia,mipi-calibrate-cells":
-> > +    description:
-> > +      The number of cells in a MIPI calibration specifier. Should be 1.
-> > +      The single cell specifies an id of the pad that need to be
-> > +      calibrated for a given device. Valid pad ids for receiver would =
-be
-> > +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    const: 1
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +patternProperties:
-> > +  "^channel@[0-1]$":
-> > +    type: object
-> > +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> > +    additionalProperties: false
-> > +
-> > +    properties:
-> > +      reg:
-> > +        maximum: 1
-> > +
-> > +      nvidia,mipi-calibrate:
-> > +        description: Should contain a phandle and a specifier specifyi=
-ng
-> > +          which pad is used by this CSI channel and needs to be calibr=
-ated.
-> > +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +
-> > +      "#address-cells":
-> > +        const: 1
-> > +
-> > +      "#size-cells":
-> > +        const: 0
-> > +
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: port receiving the video stream from the sensor
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            required:
-> > +              - data-lanes
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: port sending the video stream to the VI
-> > +
-> > +    required:
-> > +      - reg
-> > +      - "#address-cells"
-> > +      - "#size-cells"
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra20-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +
-> > +        clock-names: false
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra30-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +            - description: PAD A clock
-> > +            - description: PAD B clock
-> > +
-> > +        clock-names:
-> > +          items:
-> > +            - const: csi
-> > +            - const: csia-pad
-> > +            - const: csib-pad
->=20
-> This clocks section seems like it could get simpler. Since the clock
-> descriptions are shared, and tegra20 has no clock-names, you could just
-> move the detail of the properties out to where you have the ": true"
-> stuff (we prefer that properties are defined outside of if/then/else
-> blocks) and just restrict them here. For tegra20 that'd be
->=20
-> if:
->   properties:
->     compatible:
->       contains:
->         enum:
->           - nvidia,tegra20-csi
-> then:
->   properties:
->     clocks:
->       maxItems: 1
->=20
->     clock-names: false
->=20
-> (although it could easily be maxItems: 1 ?)
-> and for tegra30
->=20
-> if:
->   properties:
->     compatible:
->       contains:
->         enum:
->           - nvidia,tegra30-csi
-> then:
->   properties:
->     clocks:
->       minItems: 3
->=20
->     clock-names:
->       maxItems: 3
->=20
-> Of course you'd then have to add minItems: 1 and maxItems: 3 to the
-> extracted definitions.
-
-Oh, also: if you want clock-names to ever actually be usable, you have
-to require it. Otherwise a driver must be written to handle it not being
-there.
-
-> > +additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - power-domains
-> > +  - "#address-cells"
-> > +  - "#size-cells"
-> > +
-> > +# see nvidia,tegra20-vi.yaml for an example
-> > --=20
-> > 2.48.1
-> >=20
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
-
---RwPRYaE9Gdjg3a7O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaObWJQAKCRB4tDGHoIJi
-0rdMAP0bO7fuCRBzgXRuU9adBFwpVmla4J/0SDMk3NczvgKdfQD/XkdtkeingVqx
-rtKfHJ5Y7NcgOigGl5g3m0wmDawYkQg=
-=/lHa
------END PGP SIGNATURE-----
-
---RwPRYaE9Gdjg3a7O--
+-- 
+With best wishes
+Dmitry
