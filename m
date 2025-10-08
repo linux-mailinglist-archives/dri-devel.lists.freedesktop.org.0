@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2D1BC30E5
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 02:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E158BC30EB
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 02:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E821B10E723;
-	Wed,  8 Oct 2025 00:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD14D10E724;
+	Wed,  8 Oct 2025 00:14:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="AMuYmrz3";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="tbqYaejy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013016.outbound.protection.outlook.com
- [40.93.196.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4825810E72F;
- Wed,  8 Oct 2025 00:13:56 +0000 (UTC)
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010045.outbound.protection.outlook.com [52.101.201.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A695110E724;
+ Wed,  8 Oct 2025 00:14:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XVPCZN4t00toua7pkIvlich5jlyMZuaVS+q4eP0jnnzicDjopsUXu5sLcPNi0Ugggl2Q2IT0HL0V00kryhjgAdv368akX9KdutHt5xdf/fuOJHkqmsH1Fv9sPTyA9YsxKA3h0aV4++izqDmUuOpGaH92KSF1+7/Rdts+ygqWIaz4wrYJv0P0SE+MdP9WW+O+fTiY56TJvwB4ItHY8Nu0XYbTaqRgWfxv596WnDf/FdEFSF45aMU/O8PwEGe8cYqjmZuSWa1DR8S94njlhi1i7rHzmyhvbseo8E0KowniW3FK9w3CT4+GjasPn9H1iXDu+weBeflbTE1H9Iqrs+vHWg==
+ b=nvLNr2MM0hByFiw4vl4JbfQC6n7N/VbmyG/Y6xAXuDHd8vQdiu7WsL/s/DXH1zQk6MsgBett4w/0CKogmjFfHvuH4H5dOo8WWI6MD3hdqDnsw1WIVTf6HZMsUl9lw8NTAVanyK2LTyuN31W8xht9W+1xdwybFWoaDeAwqSXYvneYxBfKoNEPcuDL5Uk/Fef/8BJJ+w2BQ1VZsgVbbGsRDXo6FVW/C+gVKfncuFEc0Io5Kh5bGEw5rfTgQoBxCom6NPmBDIjKMXCJpf4+k/gqclK31pB7eB6aQaIUcjPxO3Zg5lIFEdqkhiScOBLRVEqKnAOPNF+v+DVMks3aV9eqgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0cffpN8hcpRRsdi58aTwANFiqddvxpjQxxOg+gpQsxs=;
- b=Z6Oal547ZKtgZ6Lx4zLT8cKkefAWBj90bltju+bx5NyNMZ13jb4CGKZkCnMDbfXFep14jQUoray+rXDXqQW/1y9aAgKr1CMisvZfweYZHtLDVM9x9zXlSTemvyf/JpMBKhuCQhRnokdcgWQezcsAMB5RhUE+0tMauw0WH29Qh9ElxdCG24BaGbAmuIk4Ehj4JAnjmgLbqGvNrJ3xlNl6YWbfOQgPkbQfleJpzShw/2zTplrScLjXFCTqhGozv+ia/66hPDJqJhz+Y7Zor0hDlQmWrJERG5qL75RasDV5zmaf4sx6mXWg3jBD4HmRstXtvPG32HCVjb28xqlzBRSyXQ==
+ bh=t2Yo8gtp0PUBYwRnmyV467u44C/wH9Ye2NzQEtfjuWw=;
+ b=IQt/4pv8eN1WbVsD0zYqvXXiWxTTB8fsFdZ/ahAsEyupRqFFo8C6Zgk+EnAPPRyEiBP0TSDRiyoILOT5uHDrhG07j0DncKJU/0iNn2tI/fQgWoJnjM1NTK7kKbjBBqTbXQlkRVGRo0d4Nzjr9r8jV8LLwhAV8PafyyZfHiJyneAYS6bopM+BcbiaoiQtw2yakcMvdMZSz1BcHWk14yYhB7aPPyKW5YpgUAqfOj1uk64z81szUaHwsqiuss3WOgBLXjtHQE33c3TrObFg1C3x9qPrU90s6UuT/u/MUZdtbaS450hMJhYiGGEocrgFEGacIeDWB+wHBpc7iX0TW0WNtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0cffpN8hcpRRsdi58aTwANFiqddvxpjQxxOg+gpQsxs=;
- b=AMuYmrz3O1Y+I+7NUWKgkX58eL+RSWRSY30xo2z84tYd88uYXfv8kbN2JgdLhYBd/oQmnrKqcgrA9GBUqJM+Sx8cIvkN2w6Qh9BChY9Qc4zkllAZ0pBg5JiEBqqsZKeFEuDtJ2JeBPcjdAdYB3Y+KMXgM8JEkUQdGN2U/ZrlU8MoD0qxjygF9WVKMZ1Q1W6S8LjcVf54zooJQ0fayWJmw8bXzDNUHE5sFn8HmgGOfz+KayqaiiGzbz4BgJJQxVR0LCtqSxXTDQAW5m4eppB/n3CW5Nthw+6of66XGuzVJUcL2RJ4ZHAnn024P+8P555Y/CxrIn+TsJxPDBIvo7c0wA==
+ bh=t2Yo8gtp0PUBYwRnmyV467u44C/wH9Ye2NzQEtfjuWw=;
+ b=tbqYaejyxv8E8pjt/auBm7VjdHB4vswXSvuq17bfNApykN04CbeqnMeTEQhlqpL4IwsetkoUcKpJgCHAHqPmcoA4PAkgJBX2uho7ylF46XAv2Z0yckHzsJm9/tIakDpOrZW+ZJqN9C/6tvetiBbOtb5zP9DF7JwKc39EUdT9DI4RtaR/4mdBIukHv8VCVZFzPjOnMoV5/eKAxtFym8aYxVN1xmvpL8wL01OuJg5Kjt3NKwbka+IuAamlrJuCQYsvzikDwZPL9AptzD7JiSpjjnmQ6rszW+7Y5aKjW65GlX663p4WXXQBRz5aB9Vv1QZhECX2a5KYMkLULdbjEKqRNw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
  CH2PR12MB4071.namprd12.prod.outlook.com (2603:10b6:610:7b::16) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9203.9; Wed, 8 Oct 2025 00:13:49 +0000
+ 15.20.9203.9; Wed, 8 Oct 2025 00:13:54 +0000
 Received: from DS0PR12MB7726.namprd12.prod.outlook.com
  ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
  ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9182.017; Wed, 8 Oct 2025
- 00:13:49 +0000
+ 00:13:54 +0000
 From: Alistair Popple <apopple@nvidia.com>
 To: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  dakr@kernel.org, acourbot@nvidia.com
@@ -58,91 +57,91 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
  Timur Tabi <ttabi@nvidia.com>, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH v4 09/13] gpu: nova-core: Add bindings for the GSP RM registry
- tables
-Date: Wed,  8 Oct 2025 11:12:48 +1100
-Message-ID: <20251008001253.437911-10-apopple@nvidia.com>
+ nouveau@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>
+Subject: [PATCH v4 10/13] gpu: nova-core: gsp: Create RM registry and sysinfo
+ commands
+Date: Wed,  8 Oct 2025 11:12:49 +1100
+Message-ID: <20251008001253.437911-11-apopple@nvidia.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251008001253.437911-1-apopple@nvidia.com>
 References: <20251008001253.437911-1-apopple@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SYCPR01CA0036.ausprd01.prod.outlook.com
- (2603:10c6:10:e::24) To DS0PR12MB7726.namprd12.prod.outlook.com
+X-ClientProxiedBy: SY8PR01CA0011.ausprd01.prod.outlook.com
+ (2603:10c6:10:29c::14) To DS0PR12MB7726.namprd12.prod.outlook.com
  (2603:10b6:8:130::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|CH2PR12MB4071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 226bc0be-b305-477e-7b80-08de05ff8def
+X-MS-Office365-Filtering-Correlation-Id: 8b65dbaf-c517-47b4-2f0a-08de05ff90f0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?sG8AvhVxJai4Pt0cOCvhKilaN8L6y0DBul1WZvfmtDstHzFj+ZD70/+3if+8?=
- =?us-ascii?Q?eZq5oLCrRarnY3Nx89rgU1CUgVWwf5qgDPrxi4MPvhJf0MB/DhSFHbSYOtin?=
- =?us-ascii?Q?Lys/HncCXaudDLB0vh+yUsDJ3qDCg4pIWsOfQYamQChe/9QlqNazXdy7m6ap?=
- =?us-ascii?Q?tS5+NqzcHQiMSMvZsnynPQmCdCUUy+036EUG5dJteq4TSA5dCdN2464/1vKg?=
- =?us-ascii?Q?17TwWnGVpeIb70KOnat3mjiBb2daCB9oSlmYe7woqKcGpMu9LPj5Xxv2pDqs?=
- =?us-ascii?Q?aOZfdM/yyZmLZVialLYqKw9hOAEqhyspn6vtQBIylntV6C3RP4xx4gZah2HZ?=
- =?us-ascii?Q?IEQJGWBswjSSk0RKIKuL7ZmC31d/eSL1jAMsZ5R+GVtEL5K21t1Bl4To5YAN?=
- =?us-ascii?Q?slF/M66irsBbm1KP1TZXolbWIJlGSYbcQuKkq+zMqw6NvNKQI1M85deauHLe?=
- =?us-ascii?Q?KLghhO1zP2uqyTKbfi2AzARSJYxfO5OGpMgm7X1f8AxD1U/838EJnpPis4Xr?=
- =?us-ascii?Q?EWMvBuCa2aewYw/4c1misx4Vy8mh0IH5tMj8eS9VFl4SRv85Q9KLqh72yFu+?=
- =?us-ascii?Q?IWFOp7X0qiwUKEwEAxCEp1Q4OMGs9w9GJCy/fGQ78u6+MGIxJMP15lPZCVRu?=
- =?us-ascii?Q?AZRTE9fSQnLahuKowUG/4eUCuaatK+tPRU3UfBONe3TN8UdK7V9I+XKYi+uS?=
- =?us-ascii?Q?114UwafpjKBI3PFBWivEU5J+vsFMLHHDGn9bfd5zOcvrNB7NpfgnC4+i5FWz?=
- =?us-ascii?Q?v2e7LSWpCyXHA/aQBvUf/7gbPI8PFfN7dQ7XH0cryKU3TSB1axsM1DVi9p1p?=
- =?us-ascii?Q?ix4nSPRlTSrYaEfz7zvEpREAdG+rdQrIomEXHBdTIQd5yZAYICBpgVsuQh3K?=
- =?us-ascii?Q?TcbsPtw+LXYe8+A+kHNOVzUnsT23PG1pOxJePXqlU/nFec9gStLSQR/tXgn2?=
- =?us-ascii?Q?YSSIhAn5hHv3vkQRSXoI+w/DeCRKmTlexxaoRKRpSDBmO9GKnsF2X2/+qw73?=
- =?us-ascii?Q?dcWeJktGlSGIt2Oy3sEHeMus7k9gvBuefsXVa2HUQXiU1aapoGbxCGlH2469?=
- =?us-ascii?Q?atCTO2WonDe8FLuDeb59NjpSGcJIuhgFsLCH+sa1uubKOdPW2co48ya55ydQ?=
- =?us-ascii?Q?iKMIimd3FOeIAoDOtXyiGe3oJEf3oLRudPd2guZp9JN1Z1wxVGbfrYYVqijG?=
- =?us-ascii?Q?Z+HJdQBlu0DcJtQbmZ1q9BhTWejgZTpkWWQY7R2E6HRsToGaoAMsHTe6P484?=
- =?us-ascii?Q?Ne0KthiNGbW4p1XIJAyqf70JmeKPAK1PHzDY8dcI0fUNZj8Zx5LX21a0pIwj?=
- =?us-ascii?Q?4v8H78QEE59TAhNDpwV5gR/8htolusa2Dqu4ElTOGbsMQBjYzdDU2VQHIufW?=
- =?us-ascii?Q?sH9l8vVxOK1LX5qxTbU0DWZGfB+mpTXDEiR+64vBLK7l5679RVwcJhh6erF6?=
- =?us-ascii?Q?1RHxPbDD+jmmMsSVB2sR1EARXlenhQGb?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?MdLonnnIiTOk0wtCtsPDi9ST4YnJHuzsbKBG8uQJOyU6BbjTQI2dUqTWMquf?=
+ =?us-ascii?Q?UtB8pwzDM7hGWamBqsyMHWpUzHJnUQ5SD+4th6CUbJXBIkxumukbm+0A3rsR?=
+ =?us-ascii?Q?HEsZx0b69qVnYditrABltX3GrF7/lqXvz/960iDyGvv0QBIKjZiZVOJGWGEf?=
+ =?us-ascii?Q?gu6L2bqdeOw+a8RkGEkZZSqv6Jt47sQkIeNZk2mUUnNmMaH3F9Rd6WXRjVp3?=
+ =?us-ascii?Q?NSHzSBNvrXiD+oot6nyd9b8p4eN5aFrtpFBkP2pWQ7sCkBkFftMoBxx5hL2r?=
+ =?us-ascii?Q?q519TtDBwGp+v8l2rS6ph8awyZuBLFt+EJzZhkFnPoQfmm6y21tEqmj94EDY?=
+ =?us-ascii?Q?AcevSDil7GEAFEtDJZmRjrrqiui1a83XlfHyuIYchY+SQEELgE253w6RJ/fw?=
+ =?us-ascii?Q?VUCeMFl5/tnFaTV4W9VVbvUGy8E3QXBM/a60tI23e8QSz6OLbldcfwK+9j4B?=
+ =?us-ascii?Q?lg1s7fl5YhhNP//9dhJqdlRNLNCrmLVxCso3BP4attWy3HCKOAe5xzPXbiH8?=
+ =?us-ascii?Q?zjxOWquSd0M7xeI9zrb169xCsA5742JLVkOH6RW7I3+ev9nXKGt9AfFTTekK?=
+ =?us-ascii?Q?1LtZcHdnMcmUhwSBXFk+TofadaSkoobPajzE9w5yRxx5Us5REo0mE/Ddav+S?=
+ =?us-ascii?Q?5OXl6G4+g2rQLX+zKwg1t7aCahVJhgm4lUe0lJ0xHzS5cHQ2EAERaDBD52c9?=
+ =?us-ascii?Q?OCHzqXoNiptNrzJIHSrTXTm7oVzKsoXIuPgYggZqgXayG8oLkqDmPgaWwSsx?=
+ =?us-ascii?Q?gV9B7vMSOZ4HucCN9RenEc1ed35JLv8j8k1Ek9yRfNKUj3LOfzO+bLJgBTCE?=
+ =?us-ascii?Q?QtwPyXQpaE4z5EBv4pKQJNbiG0aprLlUm986hIydxmtxaCBOsnFNdcA7PGNp?=
+ =?us-ascii?Q?g61dvHHEG1H7YdZdrYrtxT18Ph0hLGA7aKmEM1UlBwneAjAvoHhDseMt7h+h?=
+ =?us-ascii?Q?viofJkWYxxCbPY8p/EQWeS5dgQhiuCHWBKjI0Ev97RAv4fizYyvTM1qdqIEI?=
+ =?us-ascii?Q?Pgocj1BG/odD3bh+2gdx8jx2qH8HtgDRhzm4zXOqTRcrhIVwiSfGcjFzpOrn?=
+ =?us-ascii?Q?uTXaqOdHdp1VjHh0tb414GWjcCQWYQ1gZiju5yJlUlYdgI5vU6gXsxO5x92G?=
+ =?us-ascii?Q?7r8zIUmEVDomb8e9ZMoJQZ+T88X1rmNEvzJ2VSZlVe9SqJJ3bYxlsXudjNtf?=
+ =?us-ascii?Q?0GJq0LYQvnBcgVJnGekqkEHr5nEsS457Roqvnsp8MxYKrAa+NzaQyWZJfVAA?=
+ =?us-ascii?Q?u075TFiy/GPaJ2dhuglda+CG1tNqKAobidOBrACNLDc2dMc+LIPoQeapSCNN?=
+ =?us-ascii?Q?NUwGblMtGmDl8uLXsrHDCU+2YN2Eg29aX4Tc9ANFYgjBzFHXWSb7dfYodyBi?=
+ =?us-ascii?Q?23hcBTEAoMyV1JS9J7SPyRi+V/pTF6GlR6kLBko1YAFQmXI6tY4pKfgI99af?=
+ =?us-ascii?Q?VBzIaXBMBYsoyg7/EeClD6vUDti+XpeJ?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?41NGDuqUSZemVgBLSJ4pgzH86uJrLs98Drki7E7BXlVwi8C7fE32efS3HXzF?=
- =?us-ascii?Q?R0GyEN2w451ZFM2EhpSOy6sG4qufvJ1Im5mK0b1MVswuiYR86pzEE3j3efms?=
- =?us-ascii?Q?BzTKRw3vpLt4nv1EpyOJRssVuNwuzYo4Pctsj0jy4mTgY3vygzJ/dceKG4Hc?=
- =?us-ascii?Q?DdIiDOnpid0dRGadha+lQtG/YgKAYF/IMs4aGSOIaz7bCM3stjdl91bqrM5P?=
- =?us-ascii?Q?3Tw5wDz0kgQ3ZABK+FcCDJYrV7y9AILEMxKpgh9XlPz4Jb6dKgZPLmiFkRzP?=
- =?us-ascii?Q?4uOrmEwZp9oTW6oAWqQiQS7mffsf4bLssNz4R1xP/tB115EoqkGHQpxpd+yc?=
- =?us-ascii?Q?PfgMi/V54qHX6+sgqDgF2meRQUuU0gkS4+LbXPvtrWY12A6KFnbL5q5Wq4BE?=
- =?us-ascii?Q?VX9YSkJi6/2sBXM06zuqrXUHH7fMAxrCc36iqyUKOyV+0wLtO6BhQYVJgBan?=
- =?us-ascii?Q?vWy/6eu8vP1/xRGxE61jpEiiGswXSvYbYYOXGnl5ajahjZSo/Q7ZSRrJI90z?=
- =?us-ascii?Q?nfItuJePJuD0x5lnNnMzLgPEWCAS/XyKmruoEHXpPEEsO/grCPk/vhQtV6ow?=
- =?us-ascii?Q?t1iDCZOq8buiEeeWv7BYy6FNrJZHs1wIDSE4bTsfSSzB26tClwiZzp7iw9C4?=
- =?us-ascii?Q?BVxIkgu8jlJiwuHRwS/yuBhk0qLrkFextq2dVFlrbI87NY9JeH70RkkYNQ7F?=
- =?us-ascii?Q?Kw4T1o9cHOY188y7W2+g5iCwDKr56IQcUrb7w9i9FlFVeunA0YVNOlh7+T7v?=
- =?us-ascii?Q?UmvsigzE9xCpSYQUCgOC3DTx/xYONJCFBbKK7VdfO16WxQI9KsIHIANKC3lx?=
- =?us-ascii?Q?655RlGTRB+knlwgIZtXfArzL25U8U54W9JlUj5YPpwpgATDkNzzIMXnPl+sZ?=
- =?us-ascii?Q?rWYtS/gc6vr0gj5Hf6zZtMvf/6a6zT1YgKDfONUjZFJuy4/92bI2qcbfo5Lv?=
- =?us-ascii?Q?sNLZ28NpQM1E0vLZx5P92z8OY5rmdPzqGJI0SN//9FV4wHFE4ZLn7eL9QDMg?=
- =?us-ascii?Q?wKtF/7xAzsT2mG1RFQ0WviSU3U/fHDCpJy9tV8hojRXCsNzOlQLEQFlq6fln?=
- =?us-ascii?Q?lwN4hm/2lCDSmUQ0GfuD68S3qU6Bm0nZL6wzR+ihSb6eHKJWlb/HfiP3bpuC?=
- =?us-ascii?Q?v30yPVNnXPfTix9UjJFxvZwAbliNQ685mjaQ3cXedcJgj9fvJw3n1BYVJ2FP?=
- =?us-ascii?Q?+htNe1/e7J7iUAc/i79drCncPlbomTBrt762JP8mrfWLHCX6DIprCRP2eupo?=
- =?us-ascii?Q?YYK/bg3lZPS+fR44HJ9A5ucXLX6YBVG2SQVg6DkCyZ4rlD+BL/r/nJ2d+RnQ?=
- =?us-ascii?Q?KTLiuabI72+3orJ/IH/q3n6EP+McHeK+wiyIO+k7oNcELgxaWoWc4/e0pqWj?=
- =?us-ascii?Q?yC5hNwmi63Uu0eCWzxVB1pGRwk2GpbREqeZ5tWev14bNCOhGHS+BsCVxRMnw?=
- =?us-ascii?Q?4Dxlx8+juP4UmgvVX98s7AY6UpSzKqgfozS+EavOqdznqF7j1mstGheGKU14?=
- =?us-ascii?Q?YMslnvz2iknf50ZpRiUvk0uRqTkDAAQ+JLqvrp/666rmJvimFiXMN7pm6JTq?=
- =?us-ascii?Q?K1ymY2qw8xZxulm35ewSi3OD7OT+nD0WopAoaM/R?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EqQAc3oiFFZ90y8e4Lv8BCARN9t9EpQHVUuAkeVngEZoJPnTlX9dNj4ZeI6G?=
+ =?us-ascii?Q?8uuyiRAcd6MtRt/bXRFgL+G3zv5q/OL2Fo8qQGZZigC3LshZv1EDosgLaj9T?=
+ =?us-ascii?Q?3D2jZ9d29TGpzjFOBD2zNWqiSO9lWcYH5thSiPrsBJwSrgmAqImakSnd27cR?=
+ =?us-ascii?Q?qRlOntkmRKTrl4e9N+CZSMSivZMZgs9sUvk8oDrhm2ge3iOwHdEs9ZDtMIM4?=
+ =?us-ascii?Q?0hLRjg7+IP+FIjvybHfvlUVuPHQa/COk0Fd6d0wXHMZrCq+4To2aRqA2So0/?=
+ =?us-ascii?Q?unjdIIt7NGojIzJyHc2Bqj7+HunjCJAX7nOawH/cGKfwLeoWhcf5yKRpCgb8?=
+ =?us-ascii?Q?LVCUQ8IScfB2PolBEmjv0qloqdm8mBSLqtYe2aMp3IAxhCKJw050njet6IMW?=
+ =?us-ascii?Q?Elyo2r2fAa6HOFYP0w1GtNWGiA81ojj0pw6OB0GpjXtU8DMQpezqoQ1Fc6LC?=
+ =?us-ascii?Q?TyMKw87cktAAa2PpyIuH9pKtA3jg4T6aojkVAgm6rR2lyBzZPtlc2zvDj0iX?=
+ =?us-ascii?Q?zVmyjRQ4hPm/wnJaSjzV/j0wlBzZDDlaifDxaw2HUaEuovVHwqKjvKcTdSXE?=
+ =?us-ascii?Q?HmLjKA0EOoCdHup8llIM64+E7qYBrAx+2e6pGjSHXXZ0ulccRlMpw28ABR5r?=
+ =?us-ascii?Q?lwG2qD41BBKIKwobKpkIDZfD6uBJpw4Kqdtx37Wpwp7FiOS1HrEzEH9nLTlj?=
+ =?us-ascii?Q?F2sPhor8vdmnYcHQImyy3U0f8QKPsXGPVv37zjweWTefyNYZM5pJtZlsRbYS?=
+ =?us-ascii?Q?V7S1fyxkmNvAu89b2WxCCer6mtjKTeBzaVbhndhhb1GgF+uA85DPz0eVXx8u?=
+ =?us-ascii?Q?9R7nFmV17wXPrzJ6Ub7xsHYnX8Tulsjy6d4GpbHl4lIdNnzUFEyGS157xe7P?=
+ =?us-ascii?Q?jzbRkNCutAZ4A42OyR+92kM/Yx6yeUhjtjHnz9vX6lIwt+d3PInPzr/BE4Zo?=
+ =?us-ascii?Q?PTNSrVL2dPlxEAV35/jTP+1uqzBvqg3xRa7pfq7DVFy2qO87n1Ffiz91Y61i?=
+ =?us-ascii?Q?RjBAJgjhr2/I4zAkkM7DIns2GtWDTVO/KKyWuYIoWedU9G9RD7bkh4dRpMug?=
+ =?us-ascii?Q?RBKxRfe5j/eCkj08Zlv+2u9AKPjDosDtUFN4GImGcG0eEWeJpSXqN2XpyPn0?=
+ =?us-ascii?Q?JN0CNlrLqglDqVn3BjnBl/Y3a2VxGXYgTwRbQY7ux6hsoBtnZ1TYypIntSuh?=
+ =?us-ascii?Q?nlQs/PTT3KID/86dF9H0ykT5uEvaX351gsty4cX/cpiwau9rIwXQYsZflvUV?=
+ =?us-ascii?Q?/SvbNcFsNdBUxTsKXKPv/FGepkRK0N0SY7EOsKJ2QAnaIJHpwSkYdS2R98fZ?=
+ =?us-ascii?Q?khy4KApRs/bD9ewPIgzH3O3FgAr8SMEvtxBQzP6J0oMJGsqGxnvkEwI9YhAa?=
+ =?us-ascii?Q?WzKEcVlLyM1g4QxqPdj6u4kFkGxPGshK17l4VcUAxdOz3wpr7HWFn3TsLuX3?=
+ =?us-ascii?Q?vkvP0KlZdbgdgUDOkzX1RnuHFsfnsZd2nA6dMoGP8eWklM8bJ4WxXGmL3HU3?=
+ =?us-ascii?Q?niF4tSOkZj6zfaNhuHtm3sdcXUgIS81/dyNJ9TqxJS5Z1zeuOgchhX8jy4AI?=
+ =?us-ascii?Q?a1lP1WZXn75OyTaF5kZ8IaRx0ctkW+ek4r46Kciu?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 226bc0be-b305-477e-7b80-08de05ff8def
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b65dbaf-c517-47b4-2f0a-08de05ff90f0
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 00:13:49.2729 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 00:13:54.1990 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6FCq+DszBqUr6iRhEX+ybS15hY9Dch0uctYLRiPwnNEbSS6LwzKmuOrarWx1rq0LJfttuhDqDKA9hxtZYNfLPA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8mGueQSDIpeaXf+CzQHyfBZOWjEuhXxIiBeA4tZU3e6QJRyALVWL/B8u/0csTsgUtnAf5MxLaqeu22RqwZfmyQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,116 +158,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds bindings and constructors for PACKED_REGISTRY_TABLE and
-PACKED_REGISTRY_ENTRY structures.
+Add the RM registry and system information commands that enable the host
+driver to configure GSP firmware parameters during initialization.
+
+The RM registry is serialized into a packed format and sent via the
+command queue. For now only two parameters which are required to boot
+GSP are hardcoded. In future a kernel module parameter will be added to
+enable other parameters to be added.
+
+Also add the system info command, which provides required hardware
+information to the GSP. These commands use the GSP command queue
+infrastructure to issue commands to the GSP which is read during GSP
+boot.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
 ---
 
 Changes for v4:
  - Use `init!` macros
- - Add comments around only supporting DWORD entry types
+ - Update to use send_gsp_command_with_payload() for the registry
+ - Add RMDevidCheckIgnore registry setting (thanks Timur)
 
 Changes for v3:
- - New for v3
----
- drivers/gpu/nova-core/gsp/fw/commands.rs      | 49 +++++++++++++++++++
- .../gpu/nova-core/gsp/fw/r570_144/bindings.rs | 17 +++++++
- 2 files changed, 66 insertions(+)
+ - Use MsgFunction enum
+ - Rename GspCmdq to Cmdq
+ - Rename GspCommandToGsp to CommandToGsp
+ - Rename GspMessageFromGsp to MessageFromGsp
+ - Split bindings into separate patch
 
-diff --git a/drivers/gpu/nova-core/gsp/fw/commands.rs b/drivers/gpu/nova-core/gsp/fw/commands.rs
-index 53e2c9098c48..008c1331bb5a 100644
---- a/drivers/gpu/nova-core/gsp/fw/commands.rs
-+++ b/drivers/gpu/nova-core/gsp/fw/commands.rs
-@@ -53,3 +53,52 @@ unsafe impl AsBytes for GspSystemInfo {}
- // SAFETY: These structs don't meet the no-padding requirements of FromBytes but
- //         that is not a problem because they are not used outside the kernel.
- unsafe impl FromBytes for GspSystemInfo {}
+Changes for v2:
+ - Rebased on Alex's latest tree
+---
+ drivers/gpu/nova-core/gsp.rs          |   1 +
+ drivers/gpu/nova-core/gsp/boot.rs     |   6 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs     |   2 -
+ drivers/gpu/nova-core/gsp/commands.rs | 115 ++++++++++++++++++++++++++
+ drivers/gpu/nova-core/sbuffer.rs      |   1 -
+ 5 files changed, 121 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/nova-core/gsp/commands.rs
+
+diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+index ef48da6afacd..9b6abb9755ba 100644
+--- a/drivers/gpu/nova-core/gsp.rs
++++ b/drivers/gpu/nova-core/gsp.rs
+@@ -23,6 +23,7 @@
+ use fw::GspArgumentsCached;
+ 
+ pub(crate) mod cmdq;
++pub(crate) mod commands;
+ 
+ pub(crate) const GSP_PAGE_SHIFT: usize = 12;
+ pub(crate) const GSP_PAGE_SIZE: usize = 1 << GSP_PAGE_SHIFT;
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index 1d2448331d7a..0b306313ec53 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -16,6 +16,7 @@
+     FIRMWARE_VERSION,
+ };
+ use crate::gpu::Chipset;
++use crate::gsp::commands::{build_registry, set_system_info};
+ use crate::gsp::GspFwWprMeta;
+ use crate::regs;
+ use crate::vbios::Vbios;
+@@ -105,7 +106,7 @@ fn run_fwsec_frts(
+     ///
+     /// Upon return, the GSP is up and running, and its runtime object given as return value.
+     pub(crate) fn boot(
+-        self: Pin<&mut Self>,
++        mut self: Pin<&mut Self>,
+         pdev: &pci::Device<device::Bound>,
+         bar: &Bar0,
+         chipset: Chipset,
+@@ -139,6 +140,9 @@ pub(crate) fn boot(
+             CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
+         dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
+ 
++        set_system_info(&mut self.cmdq, pdev, bar)?;
++        build_registry(&mut self.cmdq, bar)?;
 +
-+#[repr(transparent)]
-+pub(crate) struct PackedRegistryEntry(bindings::PACKED_REGISTRY_ENTRY);
-+
-+impl PackedRegistryEntry {
-+    pub(crate) fn new(offset: u32, value: u32) -> Self {
-+        Self({
-+            bindings::PACKED_REGISTRY_ENTRY {
-+                nameOffset: offset,
-+
-+                // We only support DWORD types for now. Support for other types
-+                // will come later if required.
-+                type_: bindings::REGISTRY_TABLE_ENTRY_TYPE_DWORD as u8,
-+                __bindgen_padding_0: Default::default(),
-+                data: value,
-+                length: 0,
-+            }
-+        })
-+    }
-+}
-+
-+// SAFETY: Padding is explicit and will not contain uninitialized data.
-+unsafe impl AsBytes for PackedRegistryEntry {}
-+
-+#[repr(transparent)]
-+pub(crate) struct PackedRegistryTable {
-+    inner: bindings::PACKED_REGISTRY_TABLE,
-+}
-+
-+impl PackedRegistryTable {
-+    #[allow(non_snake_case)]
-+    pub(crate) fn init(num_entries: u32, size: u32) -> impl Init<Self> {
-+        type InnerPackedRegistryTable = bindings::PACKED_REGISTRY_TABLE;
-+        let init_inner = init!(InnerPackedRegistryTable {
-+            numEntries: num_entries,
-+            size,
-+            entries: Default::default()
-+        });
-+
-+        init!(PackedRegistryTable { inner <- init_inner })
-+    }
-+}
-+
-+// SAFETY: Padding is explicit and will not contain uninitialized data.
-+unsafe impl AsBytes for PackedRegistryTable {}
-+
-+// SAFETY: This struct only contains integer types for which all bit patterns
-+// are valid.
-+unsafe impl FromBytes for PackedRegistryTable {}
-diff --git a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-index 427fff82f7c1..7ad1981e471c 100644
---- a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-+++ b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
-@@ -42,6 +42,7 @@ fn fmt(&self, fmt: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
- pub const GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS3_BAREMETAL_MAX_MB: u32 = 280;
- pub const GSP_FW_WPR_META_REVISION: u32 = 1;
- pub const GSP_FW_WPR_META_MAGIC: i64 = -2577556379034558285;
-+pub const REGISTRY_TABLE_ENTRY_TYPE_DWORD: u32 = 1;
- pub type __u8 = ffi::c_uchar;
- pub type __u16 = ffi::c_ushort;
- pub type __u32 = ffi::c_uint;
-@@ -649,6 +650,22 @@ pub struct LibosMemoryRegionInitArgument {
+         Ok(())
+     }
  }
- #[repr(C)]
- #[derive(Debug, Default, Copy, Clone)]
-+pub struct PACKED_REGISTRY_ENTRY {
-+    pub nameOffset: u32_,
-+    pub type_: u8_,
-+    pub __bindgen_padding_0: [u8; 3usize],
-+    pub data: u32_,
-+    pub length: u32_,
+diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+index 317767d8f521..389f78c7e6e1 100644
+--- a/drivers/gpu/nova-core/gsp/cmdq.rs
++++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+@@ -292,7 +292,6 @@ fn notify_gsp(bar: &Bar0) {
+         NV_PGSP_QUEUE_HEAD::default().set_address(0).write(bar);
+     }
+ 
+-    #[expect(unused)]
+     pub(crate) fn send_gsp_command<M, E>(&mut self, bar: &Bar0, init: impl Init<M, E>) -> Result
+     where
+         M: CommandToGsp,
+@@ -345,7 +344,6 @@ struct FullCommand<M> {
+         Ok(())
+     }
+ 
+-    #[expect(unused)]
+     pub(crate) fn send_gsp_command_with_payload<M, E>(
+         &mut self,
+         bar: &Bar0,
+diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-core/gsp/commands.rs
+new file mode 100644
+index 000000000000..92fbafeaf69c
+--- /dev/null
++++ b/drivers/gpu/nova-core/gsp/commands.rs
+@@ -0,0 +1,115 @@
++// SPDX-License-Identifier: GPL-2.0
++
++use kernel::build_assert;
++use kernel::device;
++use kernel::pci;
++use kernel::prelude::*;
++use kernel::transmute::AsBytes;
++
++use super::fw::commands::*;
++use super::fw::MsgFunction;
++use crate::driver::Bar0;
++use crate::gsp::cmdq::Cmdq;
++use crate::gsp::cmdq::{CommandToGsp, CommandToGspWithPayload};
++use crate::gsp::GSP_PAGE_SIZE;
++use crate::sbuffer::SBuffer;
++
++// For now we hard-code the registry entries. Future work will allow others to
++// be added as module parameters.
++const GSP_REGISTRY_NUM_ENTRIES: usize = 3;
++pub(crate) struct RegistryEntry {
++    key: &'static str,
++    value: u32,
 +}
-+#[repr(C)]
-+#[derive(Debug, Default)]
-+pub struct PACKED_REGISTRY_TABLE {
-+    pub size: u32_,
-+    pub numEntries: u32_,
-+    pub entries: __IncompleteArrayField<PACKED_REGISTRY_ENTRY>,
++
++pub(crate) struct RegistryTable {
++    entries: [RegistryEntry; GSP_REGISTRY_NUM_ENTRIES],
 +}
-+#[repr(C)]
-+#[derive(Debug, Default, Copy, Clone)]
- pub struct msgqTxHeader {
-     pub version: u32_,
-     pub size: u32_,
++
++impl CommandToGsp for PackedRegistryTable {
++    const FUNCTION: MsgFunction = MsgFunction::SetRegistry;
++}
++impl CommandToGspWithPayload for PackedRegistryTable {}
++
++impl RegistryTable {
++    fn write_payload<'a, I: Iterator<Item = &'a mut [u8]>>(
++        &self,
++        mut sbuffer: SBuffer<I>,
++    ) -> Result {
++        let string_data_start_offset = size_of::<PackedRegistryTable>()
++            + GSP_REGISTRY_NUM_ENTRIES * size_of::<PackedRegistryEntry>();
++
++        // Array for string data.
++        let mut string_data = KVec::new();
++
++        for entry in self.entries.iter().take(GSP_REGISTRY_NUM_ENTRIES) {
++            sbuffer.write_all(
++                PackedRegistryEntry::new(
++                    (string_data_start_offset + string_data.len()) as u32,
++                    entry.value,
++                )
++                .as_bytes(),
++            )?;
++
++            let key_bytes = entry.key.as_bytes();
++            string_data.extend_from_slice(key_bytes, GFP_KERNEL)?;
++            string_data.push(0, GFP_KERNEL)?;
++        }
++
++        sbuffer.write_all(string_data.as_slice())
++    }
++
++    fn size(&self) -> usize {
++        let mut key_size = 0;
++        for i in 0..GSP_REGISTRY_NUM_ENTRIES {
++            key_size += self.entries[i].key.len() + 1; // +1 for NULL terminator
++        }
++        GSP_REGISTRY_NUM_ENTRIES * size_of::<PackedRegistryEntry>() + key_size
++    }
++}
++
++pub(crate) fn build_registry(cmdq: &mut Cmdq, bar: &Bar0) -> Result {
++    let registry = RegistryTable {
++        entries: [
++            // RMSecBusResetEnable - enables PCI secondary bus reset
++            RegistryEntry {
++                key: "RMSecBusResetEnable",
++                value: 1,
++            },
++            // RMForcePcieConfigSave - forces GSP-RM to preserve PCI
++            //   configuration registers on any PCI reset.
++            RegistryEntry {
++                key: "RMForcePcieConfigSave",
++                value: 1,
++            },
++            // RMDevidCheckIgnore - allows GSP-RM to boot even if the PCI dev ID
++            //   is not found in the internal product name database.
++            RegistryEntry {
++                key: "RMDevidCheckIgnore",
++                value: 1,
++            },
++        ],
++    };
++
++    cmdq.send_gsp_command_with_payload(
++        bar,
++        registry.size(),
++        PackedRegistryTable::init(GSP_REGISTRY_NUM_ENTRIES as u32, registry.size() as u32),
++        |sbuffer| registry.write_payload(sbuffer),
++    )
++}
++
++impl CommandToGsp for GspSystemInfo {
++    const FUNCTION: MsgFunction = MsgFunction::GspSetSystemInfo;
++}
++
++pub(crate) fn set_system_info(
++    cmdq: &mut Cmdq,
++    dev: &pci::Device<device::Bound>,
++    bar: &Bar0,
++) -> Result {
++    build_assert!(size_of::<GspSystemInfo>() < GSP_PAGE_SIZE);
++    cmdq.send_gsp_command(bar, GspSystemInfo::init(dev))?;
++
++    Ok(())
++}
+diff --git a/drivers/gpu/nova-core/sbuffer.rs b/drivers/gpu/nova-core/sbuffer.rs
+index bde80cc3fa63..5acfd005a86b 100644
+--- a/drivers/gpu/nova-core/sbuffer.rs
++++ b/drivers/gpu/nova-core/sbuffer.rs
+@@ -159,7 +159,6 @@ fn get_slice_mut(&mut self, len: usize) -> Option<&'a mut [u8]> {
+ 
+     /// Ideally we would implement `Write`, but it is not available in `core`.
+     /// So mimic `std::io::Write::write_all`.
+-    #[expect(unused)]
+     pub(crate) fn write_all(&mut self, mut src: &[u8]) -> Result {
+         while !src.is_empty() {
+             match self.get_slice_mut(src.len()) {
 -- 
 2.50.1
 
