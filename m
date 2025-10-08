@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BA7BC394A
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB5BBC3959
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:31:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A5910E769;
-	Wed,  8 Oct 2025 07:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5F010E76E;
+	Wed,  8 Oct 2025 07:31:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j8p2yP6z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j1D8X5Kp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 172FF10E76E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:31:39 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-57f1b88354eso7113074e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:31:39 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADC1210E769
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:31:40 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-58afb2f42e3so8513274e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759908697; x=1760513497; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759908699; x=1760513499; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WXtaPkh3GXutadYrt9/amMN99qvUxpYxHtsBwRH0BwI=;
- b=j8p2yP6zEuzKkKUUku7nWj3jF55EvY/7mlSYrg44AZMuC37ntiuazwNvn0Q5VBGgGJ
- 3tOd62RzqVuaJAWsiXCX9kme7oSF7df+AEDqOfDAsAYmWImyRauuOZGHbZb/i8DZoHhr
- y2fuu4fZL2xYX0XvHaxm7p1bBVunk/1Vs8CTZYmpqFSwfgKQyEvwDl4j/fdy69SsAyfh
- icJIlK4LyO7EnaQ0j1xciRWT9/cwA2VSXZCQJD8pXxmOBhngAEb/QzgBIf41Fctso8Bf
- keAnTJYjQr5ZyQosFaHDRUAhSF+crvHxz7SoXqic02okCSpLGZS2DELSXr55G2p8+n3p
- 65Cw==
+ bh=hswO6VHAbXRS9t5lyAgR5F2WC+ilzEfgsXiR8FyXf7w=;
+ b=j1D8X5KpdEukQGnD/et4e56+lwnW/1pJtJV8f/gz/5Co2MeuHRcC2IM/lF0OVx2Y6z
+ s/GlZon8gz7nmH/23wMi/VngA4lMS4iGo2iESpr/auCNEUUOB1e2VhPj7/63d9ScFxWf
+ 4d0chsgC5fNrqNz0PtAzA5f1Q/XPthQdHw9U1lRkfBkk9b5Iy8XUEPRQb9fgqg9gfFIb
+ cxDf1DseM0YUJa77EZZtg7agWma7VbeBTrF9JGfovJaomuEJlG9DdXl4jZtp7N5NYRgC
+ CevjY7vTJUkGp6v5d5BHqfemL4133aMSqFoPBEFBnoNac/OUwDCA2OPdo4Lo65APAw4S
+ xy5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759908697; x=1760513497;
+ d=1e100.net; s=20230601; t=1759908699; x=1760513499;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WXtaPkh3GXutadYrt9/amMN99qvUxpYxHtsBwRH0BwI=;
- b=XHSzPIFSgNDkZMl0ETEJG2tzODCXzjh3hCQHTnHttiQY9qta3eDkqJIYozwfacZDb4
- AEVy0tQO26jL8S2oEZ1Nu5ohHgFDLTybtgpiG+DP6hulzvOZPl6W1KA0/TP1cFXEUXsn
- 7M7z/1n7QBf5/AI0x4kloFEnwi05KMLnSp8fuZzOu5nPVUA3zU0XNfhSzt5hQWpeXCwf
- 4fOyn8nnAuGq3wLVyi4dtXzU2UFzRgPgCHQUcuwfRa+2t0ipu0hQxlMi3i9Gt4Zixpl6
- 8s00gi+dD9bXeOdxSCPzuxJ7c2mlOpT+PdOa70yLPe4m6xnwK1DkBXToNzhi666+seBL
- QYpA==
-X-Gm-Message-State: AOJu0YxnzIl0Y/pV+sdkanS6SLRxdNzmKUx6W9bDMIZSa2/xPqKlPZ79
- nKpaXVXRGSthpEAgx1TZS5ZoxY/W4hgULdoDELkiAxtOZrxKIZAvzRr6
-X-Gm-Gg: ASbGnctG4MMpOPNAKUMA6ISLdFGchSoj9juh5CEIlYuGwGFJJ2MwD/LE0rZZRf6Dr57
- /LLThiIZXVSVHMetq/Qzl7TESiKqcFMTtud2ELMAaZviFdWjrAW8JpAwuGfhogCZaa2bLZSa92z
- EZhWhkQrjbQZAa0WWhzi6dkP5P0AeesXajTzFLdRNo9rlbt4TvBpNFOsIHzhk0pX+VUVnQgu760
- +GNExRZkHdU94ubw4xmiw2qdNRExvcM1BH8wtt9tfzC8MXTsNk6COuiz3CwO05LGtYZSGxtg7r9
- +63AwEnhBdBVgxN6QzJRBW7+2UBE0kWp23WOtw/ckAtzSTHMgXLyYBQIa3C3oGMRnvljyCzNsfQ
- TQxY51hkUipoyiSJoKykON4ysln7nYJrMOz0WSg==
-X-Google-Smtp-Source: AGHT+IEjBzSywNMkFOAbwPQ/jDGY7x/5cVSXXn3BDGuPeQ0omEve1y2ZqSoYQ22QYGSRP1UJUPETlA==
-X-Received: by 2002:a05:6512:230c:b0:58b:5f:d97 with SMTP id
- 2adb3069b0e04-5906d896c1dmr693727e87.2.1759908697218; 
- Wed, 08 Oct 2025 00:31:37 -0700 (PDT)
+ bh=hswO6VHAbXRS9t5lyAgR5F2WC+ilzEfgsXiR8FyXf7w=;
+ b=IOzbke3ypJnsBD7YgfSeMFaRzOSF2fKrxQAr/rGZmIKySWzHSmKc4tpqf9pBRU0Q9C
+ 4TeXmVTo3fdEz9vPJBeqs7E3CNhB18Qe6hSyNKETNbOTcZjaML2moAZ4Ton0lhlNhMP7
+ 7biYn/HA7hvRpGouuGNSMzSbFR1Phuu9Re5f152JdR6OmbRZok9nhzKeVXLbVdAgFCZD
+ RnolKsiSyjO2T4v7rxBzxbrzvqt4SVRHp65s33J008+9ZE2GJ5yRVh3khWTiahFb34u/
+ w5C6TlKeVjW3eMI7vNtQFNe1yWEfd5M4HdcUFk4tv+gYXqp17/BggOs/LknAwuUBo93v
+ vXLg==
+X-Gm-Message-State: AOJu0YxPoaXMIam0wB7LbnBbZuzphbz07jztJSDoRrqFOj7w11IzLxOx
+ bl4damboCR7vZv1X9hsMS9RwqVi48NZ+S84a/RLT8noUx9cMLbb6Cggn
+X-Gm-Gg: ASbGncvKuzoZx5DvZQFIlTTACtnn/tux2njAEriT/M4fC4QQ51o5hmCKoQU6O6vMteU
+ 4C6UUclGF9ubVNeaHC8pXQzM+3Xhnqgd94B+t875tbBnmpv6V+2BQDPNymoFMdyPKvM+WyK2wVN
+ HbrH/r1CX5DQI4ef7laLJ5QJ/5twX+yBmNS3+EpJftoNlN7c9ZCJUjAi6sKsqKO2mpBhQt+ZA4K
+ T/aBHv9Bboj6CSAMwlXWtXmLTRD8BqnVSVFyH3p/aWZ0Cvfnc0kD0GTuBMjWOsevEU8njD8vTdK
+ qgTkzlzttMmJXBJSNxugvUvrgp9Z8u56Is/kRSPMqEG1PEIUUI++mpNujOtrp8jd5hnfDicpQN3
+ 5rLxMvicLrRtbITg5CTDWMzUxQys5Fy44hRt8SZMtoZsWTLUD
+X-Google-Smtp-Source: AGHT+IEFplvbNC950NzSCz1hsTj2zh7bFgfmbElqdtfxWz+oMV6+2KVz4G+D8Gd8rLXbzooyRNyKYw==
+X-Received: by 2002:a05:6512:b96:b0:553:2c58:f96f with SMTP id
+ 2adb3069b0e04-5906db0ccc5mr608183e87.1.1759908698844; 
+ Wed, 08 Oct 2025 00:31:38 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b0118d22bsm6911016e87.85.2025.10.08.00.31.35
+ 2adb3069b0e04-58b0118d22bsm6911016e87.85.2025.10.08.00.31.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 00:31:36 -0700 (PDT)
+ Wed, 08 Oct 2025 00:31:38 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -86,9 +86,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v4 14/24] arm64: tegra: move avdd-dsi-csi-supply into CSI node
-Date: Wed,  8 Oct 2025 10:30:36 +0300
-Message-ID: <20251008073046.23231-15-clamor95@gmail.com>
+Subject: [PATCH v4 15/24] staging: media: tegra-video: tegra20: set correct
+ maximum width and height
+Date: Wed,  8 Oct 2025 10:30:37 +0300
+Message-ID: <20251008073046.23231-16-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251008073046.23231-1-clamor95@gmail.com>
 References: <20251008073046.23231-1-clamor95@gmail.com>
@@ -109,49 +110,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-avdd-dsi-csi-supply belongs in CSI node, not VI.
+Maximum width and height for Tegra20 and Tegra30 is determined by
+respective register field, rounded down to factor of 2, which is 8191U
+rounded down to 8190U.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     | 4 ++--
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-index 584461f3a619..4a64fe510f03 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-@@ -20,10 +20,10 @@ dpaux@54040000 {
- 		vi@54080000 {
- 			status = "okay";
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index 7b8f8f810b35..3e2d746638b6 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -23,11 +23,10 @@
  
--			avdd-dsi-csi-supply = <&vdd_dsi_csi>;
--
- 			csi@838 {
- 				status = "okay";
-+
-+				avdd-dsi-csi-supply = <&vdd_dsi_csi>;
- 			};
- 		};
+ #define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
  
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index ec0e84cb83ef..f1d2606d9808 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -64,10 +64,10 @@ dpaux@54040000 {
- 		vi@54080000 {
- 			status = "okay";
+-/* This are just good-sense numbers. The actual min/max is not documented. */
+ #define TEGRA20_MIN_WIDTH	32U
++#define TEGRA20_MAX_WIDTH	8190U
+ #define TEGRA20_MIN_HEIGHT	32U
+-#define TEGRA20_MAX_WIDTH	2048U
+-#define TEGRA20_MAX_HEIGHT	2048U
++#define TEGRA20_MAX_HEIGHT	8190U
  
--			avdd-dsi-csi-supply = <&vdd_sys_1v2>;
--
- 			csi@838 {
- 				status = "okay";
-+
-+				avdd-dsi-csi-supply = <&vdd_sys_1v2>;
- 			};
- 		};
- 
+ /* --------------------------------------------------------------------------
+  * Registers
 -- 
 2.48.1
 
