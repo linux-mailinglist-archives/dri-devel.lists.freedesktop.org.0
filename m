@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A120FBC4B2C
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C12BC4B2F
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A2310E7D7;
-	Wed,  8 Oct 2025 12:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C58010E7FD;
+	Wed,  8 Oct 2025 12:04:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dDgd+4ks";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gaAqtzyL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BB610E7D7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:04:48 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10FFF10E7F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:04:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 51E5561F86;
- Wed,  8 Oct 2025 12:04:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A759DC4CEF4;
- Wed,  8 Oct 2025 12:04:47 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E98BD40498;
+ Wed,  8 Oct 2025 12:04:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72143C4CEF4;
+ Wed,  8 Oct 2025 12:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759925088;
- bh=kcgztMywCVC5zHgHOWmmvASZINWD+eVeJsx6EDd+h3k=;
+ s=k20201202; t=1759925090;
+ bh=0gtutMtC7G6Koopz+Hd0U01yUAtxMe8/UQ8i/BOsXd4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=dDgd+4ksQswF1l0VlNu2AEEFcmyGQZOmq4gBayro1iLH1zIr/vFmH0Hdes4VUXsFI
- zxoo/i9kJNPrTxD+vuJGXc64EsNb+RlLrIXnqkK8faFIM8IEkqeAgpxCgLqynQLI1t
- Pu8c9L8cS+P3ZxnYBJ9+/xbzX9O19jkdVzwBiOdebEF7aHH/28z1Xd3IZuL3cRM/go
- qPpNDfLPim1S5Dw2mxtWpy7d8huJHZCGNKsp1DLHPj7mWMed9YFAPcJUA3+IjH5oXs
- NClSXKvBQuZddb+Qcqju5dQuseQNbDOzfYdZvaySFaJacEhv2GTvgC4+pQ1JEvX/fa
- 6rwdbW6Qv6GVw==
+ b=gaAqtzyL37EYymYORZXEmaI628QkIM/O2Y3FmfrGPvmmIqfWRy2+2UDdcVei1VS16
+ 3W8nR6iIXm/QxBGfkEvAreQfvaiJAB4P0cW8j7VaHT2TSJHnY4neD/U2tlEHQ/GF2B
+ GoasvAd4FLrsQP6HpW6Qvq+VRnQ16ba3bFF5hUIqbc3JcT43wLnzcYDvsSWamZN6k8
+ iLQcVRhSi1miJZI/ghy8dc4gov8u5GTPcim86WVWzYe9jzgfiFvYorHAZ7bDcqMrSf
+ ywBu+MYQ4XUdj2yGr0cmaSl7xQ7TrQt6kRpqXmoxzXXFgRlrg0FYmBJoMhvKoDz9Xn
+ Mu8D1CD+hFrJQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 08 Oct 2025 14:04:10 +0200
-Subject: [PATCH 12/16] drm/omapdrm: Switch private_obj initialization to reset
+Date: Wed, 08 Oct 2025 14:04:11 +0200
+Subject: [PATCH 13/16] drm/tegra: Switch private_obj initialization to
+ reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251008-drm-private-obj-reset-v1-12-805ab43ae65a@kernel.org>
+Message-Id: <20251008-drm-private-obj-reset-v1-13-805ab43ae65a@kernel.org>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 In-Reply-To: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2104; i=mripard@kernel.org;
- h=from:subject:message-id; bh=kcgztMywCVC5zHgHOWmmvASZINWD+eVeJsx6EDd+h3k=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgi0eR1atPrBK09JwzdMscXOrx3y/svfdL/n/4/zxr
- kuMLKVBHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAivOsYG9bzrJ36Trx6/fI3
- zDvrnMvPO6xZV6D8POuVhjZrF3N/aN2/zR4/WQrDbHafecXJN/nCb8aGK4oPbuUzMKc47OnNZ65
- 6uqu8dlFATOH2eZG1ZUYrE7tfv7kQJ8QVxC/8iOld+80LEw0B
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2527; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=0gtutMtC7G6Koopz+Hd0U01yUAtxMe8/UQ8i/BOsXd4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgi1MrX9MWG/zpXb5w1NnUxat9DSctGfCAne/20ZfX
+ NK+Wk2u7JjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATichjrFPt5TBYc2VmdOyO
+ oCXSX1nCo3Quchd9LVvoYr9ims255LoZrwXfV+1ZzHHnyl7tLkPPyYwN/z4Wc+6ZLJJwgdlRd3X
+ H27hdtzdbXnfKXvpU/+XxzW3y77t+79yXGW37UNctkEnqpYA7AA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,7 +71,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omapdrm driver relies on a drm_private_obj, that is initialized by
+The tegra driver relies on a drm_private_obj, that is initialized by
 allocating and initializing a state, and then passing it to
 drm_private_obj_init.
 
@@ -80,59 +83,68 @@ Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 ---
 
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-tegra@vger.kernel.org
 ---
- drivers/gpu/drm/omapdrm/omap_drv.c | 24 ++++++++++++++++++------
+ drivers/gpu/drm/tegra/hub.c | 24 ++++++++++++++++++------
  1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 794267f0f007850e43949f93be5c98d0e32a84ea..4c556da5a5cae3685d929679f43260c51459e8a9 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -272,25 +272,37 @@ static void omap_global_destroy_state(struct drm_private_obj *obj,
- 	struct omap_global_state *omap_state = to_omap_global_state(state);
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index 8f779f23dc0904d38b14d3f3a928a07fc9e601ad..6cae71bc3744a22e4b3804b19869e8b16fd60ecd 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -822,13 +822,30 @@ static void tegra_display_hub_destroy_state(struct drm_private_obj *obj,
+ 		to_tegra_display_hub_state(state);
  
- 	kfree(omap_state);
+ 	kfree(hub_state);
  }
  
-+static void omap_global_reset(struct drm_private_obj *obj)
++static void tegra_display_hub_reset(struct drm_private_obj *obj)
 +{
-+	struct omap_global_state *state;
++	struct tegra_display_hub_state *hub_state;
 +
 +	if (obj->state) {
-+		omap_global_destroy_state(obj, obj->state);
++		tegra_display_hub_destroy_state(obj, obj->state);
 +		obj->state = NULL;
 +	}
 +
-+	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	if (!state)
++	hub_state = kzalloc(sizeof(*hub_state), GFP_KERNEL);
++	if (!hub_state)
 +		return;
 +
-+	__drm_atomic_helper_private_obj_reset(obj, &state->base);
++	__drm_atomic_helper_private_obj_reset(obj, &hub_state->base);
 +}
 +
- static const struct drm_private_state_funcs omap_global_state_funcs = {
- 	.atomic_duplicate_state = omap_global_duplicate_state,
- 	.atomic_destroy_state = omap_global_destroy_state,
-+	.reset = omap_global_reset,
+ static const struct drm_private_state_funcs tegra_display_hub_state_funcs = {
+ 	.atomic_duplicate_state = tegra_display_hub_duplicate_state,
+ 	.atomic_destroy_state = tegra_display_hub_destroy_state,
++	.reset = tegra_display_hub_reset,
  };
  
- static int omap_global_obj_init(struct drm_device *dev)
+ static struct tegra_display_hub_state *
+ tegra_display_hub_get_state(struct tegra_display_hub *hub,
+ 			    struct drm_atomic_state *state)
+@@ -938,17 +955,12 @@ void tegra_display_hub_atomic_commit(struct drm_device *drm,
+ static int tegra_display_hub_init(struct host1x_client *client)
  {
- 	struct omap_drm_private *priv = dev->dev_private;
--	struct omap_global_state *state;
+ 	struct tegra_display_hub *hub = to_tegra_display_hub(client);
+ 	struct drm_device *drm = dev_get_drvdata(client->host);
+ 	struct tegra_drm *tegra = drm->dev_private;
+-	struct tegra_display_hub_state *state;
  
 -	state = kzalloc(sizeof(*state), GFP_KERNEL);
 -	if (!state)
 -		return -ENOMEM;
 -
--	drm_atomic_private_obj_init(dev, &priv->glob_obj, &state->base,
-+	drm_atomic_private_obj_init(dev, &priv->glob_obj, NULL,
- 				    &omap_global_state_funcs);
- 	return 0;
- }
+-	drm_atomic_private_obj_init(drm, &hub->base, &state->base,
++	drm_atomic_private_obj_init(drm, &hub->base, NULL,
+ 				    &tegra_display_hub_state_funcs);
  
- static void omap_global_obj_fini(struct omap_drm_private *priv)
+ 	tegra->hub = hub;
+ 
+ 	return 0;
 
 -- 
 2.51.0
