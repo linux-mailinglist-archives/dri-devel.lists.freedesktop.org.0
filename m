@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08873BC60F7
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 18:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAEFBC611F
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 18:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D1F10E86F;
-	Wed,  8 Oct 2025 16:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 141D410E12A;
+	Wed,  8 Oct 2025 16:47:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="FfAbmqg7";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="NFmYHSZk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D241C10E86F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 16:42:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1759941723; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABD010E12A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 16:47:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1759942041; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=SAEerhnyRtCTvkcy9M0Re6Pd7eGgMaWRbOxJJNgSzikl5BHVBD9HsOYTswe0oKTS52ckyV4YQjJ5uMZ9p9fu1L+Xuq0JRxaBce5D0aKj66kFrZcziXMhTzNqkCyLL1ixRtUOJzlKa8VA2UTxSho/mVfaiNmFsg7iBSHcvcwq4d0=
+ b=Z5CCErlDgBmAxEFsXbfgQngcgx7bfZmxnr4dwcsWQkCd1Lmsngw9oorjJ8o0+twLS9IqmVoq7R4Y7aTIM9gJubAi1o6sHMlUqzaKIIz5b2mCVH7ySh5EF53lCSZMZdG9nSVaowxoBRWt4QJF8YYzPD8TE2L2QggsfdJjzDM0lTo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1759941723;
+ s=zohoarc; t=1759942041;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=T4+9Egmgtw2ntKsYRRssTR5erKK1MvF0GFC1tVxfSlA=; 
- b=dK32XGfn84a2H1cvey36yefSyYWuc8yrZ1Lm+vTQqtqRr1AgX8sBtgfgU9Ifhgg6Bw0kBKU4qRcSWUPzlRoJz35mRCY7mZEf72/2BO2Y7JQxS4rXejP57GpsPds+ciMHn6dJnwTnWqMgeBVxcitlC6yH7HrtgBWXdut0I0ofGD8=
+ bh=LWXaENrud5lMIOoh2ZuAwZH2Oo66P4MKxQD5hdzO0oI=; 
+ b=FdOp1pqv99+ayHDj83J9cswJtDpmYJvwGCL4z9N+g1Q4LiWBOb9PuJHbbkQqwiBNmfxLdb+6sc5F+6TSJ4c/qmiOJt41IFP5w/Nb5mZWnSOPuuUCpxp+chT/iQajL0PRZHFcIzjXuMju1t5s5YeLfiNNBa8/wEYquyERJs2gU0Q=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759941723; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759942041; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=T4+9Egmgtw2ntKsYRRssTR5erKK1MvF0GFC1tVxfSlA=;
- b=FfAbmqg7IPznFvTP1MznSffSxMedDpP42tycNT3F7ZeMrPOhMVL5pL64PMoYEJ0l
- 3KXwwCushI/HY/b0UdFS2+FSMnEhgAU0oz8NdFgU6zDumkanGc7z9GuLz08MQR+bLQL
- knivijmWxOt8nig/Yak6iI5M1Pd4Y4rt8O0jlLTk=
-Received: by mx.zohomail.com with SMTPS id 1759941718659770.561042562623;
- Wed, 8 Oct 2025 09:41:58 -0700 (PDT)
-Message-ID: <bee245fa-f9c0-4f69-a373-d03da98c6e6d@collabora.com>
-Date: Wed, 8 Oct 2025 19:41:49 +0300
+ bh=LWXaENrud5lMIOoh2ZuAwZH2Oo66P4MKxQD5hdzO0oI=;
+ b=NFmYHSZkkpu+wq4DY2cDL+M9e/1Dbp3TNq7z2Mb51TVN9syyRQEOGzMXKKEkTwi3
+ /KTO7HxKrlFzQCzMFrH8tD806eNk0Q+jtmQ7oyGVPMbk381G+uET1mUIzCi3VDyE756
+ E1JBOQ0lJZOO3h7z0SlHozEFysdRJC55coUHX7tI=
+Received: by mx.zohomail.com with SMTPS id 1759942038267496.8933381449177;
+ Wed, 8 Oct 2025 09:47:18 -0700 (PDT)
+Message-ID: <00734e4b-ad39-42bd-b65e-13dcc67a95a0@collabora.com>
+Date: Wed, 8 Oct 2025 19:47:11 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/virtgpu: Use vblank timer
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- kraxel@redhat.com, gurchetansingh@chromium.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org
-References: <20251008130701.246988-1-tzimmermann@suse.de>
+Subject: Re: [PATCH 5.10] gpu/drm/virtio: fix error return in
+ vgdev_output_init()
+To: Alexandr Sapozhnkiov <alsp705@gmail.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev
+Cc: lvc-project@linuxtesting.org
+References: <20250922144418.41-1-alsp705@gmail.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20251008130701.246988-1-tzimmermann@suse.de>
+In-Reply-To: <20250922144418.41-1-alsp705@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -69,37 +73,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/25 16:06, Thomas Zimmermann wrote:
-> Use a vblank timer to simulate the vblank interrupt. The DRM vblank
-> helpers provide an implementation on top of Linux' hrtimer. Virtgpu
-> enables and disables the timer as part of the CRTC. The atomic_flush
-> callback sets up the event. Like vblank interrupts, the vblank timer
-> fires at the rate of the display refresh.
+On 9/22/25 17:44, Alexandr Sapozhnkiov wrote:
+> From: Alexandr Sapozhnikov <alsp705@gmail.com>
 > 
-> Most userspace limits its page flip rate according to the DRM vblank
-> event. Virtgpu's virtual hardware does not provide vblank interrupts, so
-> DRM sends each event ASAP. With the fast access times of virtual display
-> memory, the event rate is much higher than the display mode's refresh
-> rate; creating the next page flip almost immediately. This leads to
-> excessive CPU overhead from even small display updates, such as moving
-> the mouse pointer.
+> Return value of function drm_crtc_init_with_planes(), 
+> called at virtgpu_display.c:276, is not checked, 
+> but it is usually checked for this function
 > 
-> This problem affects virtgpu and all other virtual displays. See [1] for
-> a discussion in the context of hypervdrm.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/dri-devel/SN6PR02MB415702B00D6D52B0EE962C98D46CA@SN6PR02MB4157.namprd02.prod.outlook.com/ # [1]
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
 > ---
->  drivers/gpu/drm/virtio/virtgpu_display.c | 29 ++++++++++++++++++++++--
->  1 file changed, 27 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+> index ad924a8502e9..59b652e8a630 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> @@ -253,6 +253,7 @@ static const struct drm_connector_funcs virtio_gpu_connector_funcs = {
+>  
+>  static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
+>  {
+> +	int ret;
+>  	struct drm_device *dev = vgdev->ddev;
+>  	struct virtio_gpu_output *output = vgdev->outputs + index;
+>  	struct drm_connector *connector = &output->conn;
+> @@ -273,8 +274,10 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
+>  	cursor = virtio_gpu_plane_init(vgdev, DRM_PLANE_TYPE_CURSOR, index);
+>  	if (IS_ERR(cursor))
+>  		return PTR_ERR(cursor);
+> -	drm_crtc_init_with_planes(dev, crtc, primary, cursor,
+> +	ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor,
+>  				  &virtio_gpu_crtc_funcs, NULL);
+> +	if (ret)
+> +		return ret;
+>  	drm_crtc_helper_add(crtc, &virtio_gpu_crtc_helper_funcs);
+>  
+>  	drm_connector_init(dev, connector, &virtio_gpu_connector_funcs,
 
-This makes KDE Plasma boot splash animation play at a normal 60fps pace
-with virtio-gpu and virgl instead of 1000fps. Thanks for fixing this.
-Didn't expect vblank wasn't working properly. Will apply soon.
+Patch will need a cosmetic correction for the indentation that I'll
+change while applying, thanks.
 
 Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
 -- 
 Best regards,
 Dmitry
+
