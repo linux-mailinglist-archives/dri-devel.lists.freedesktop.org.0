@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAA2BC3716
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 08:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95126BC3719
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 08:12:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE70710E1E2;
-	Wed,  8 Oct 2025 06:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52DF10E751;
+	Wed,  8 Oct 2025 06:12:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rTW6kSYY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YIfVNhzr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B838010E1E2
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:11:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B8F776026F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:11:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BFA0C4CEF4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:11:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759903904;
- bh=nDDP/KqH9/Lr735BLNjZ1OHq4EgGfEFnFkbbAHgJgTg=;
- h=From:To:Subject:Date:From;
- b=rTW6kSYY35RaD26Dremgc0obeVGUZT7l0+WK+iPifBdTEsHhViWGmN+9WArxkacIb
- t0XCidDktisnBJONUplOlXhwnw5rtRkTsydTVE8X0UiPfBYdi4DVgD8NifHyRTY1DT
- /69YVjE+8LKytLTpdBFavj/+gJvHUchOeErss6NKFQAuA4d4vgUtpfD2Sx/rtxZWgU
- YxKMFfYdr7vSIyXsBm3BQ64G04OXGte2JQ+1o24x5XDq3piumtPorxw6cLTFBiKR2T
- pVGgQkgvra7OYjQX6TXaeEHZr2pb7GShgsz4tRCAVOD9d7xBdmfZ7SYpfZXdGKj43I
- etPjOEBgePsbA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 602F1C41612; Wed,  8 Oct 2025 06:11:44 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220640] New: Hardware: - GPU: AMD Radeon RX 6600 / 6600 XT /
- 6600M (Navi 23) - Subsystem: XFX Limited [1eae:6505] - Kernel driver: amdgpu
- - Kernel: 6.14.0-33-generic - OS: Ubuntu 24.04 (upstream testing)  Issue:
- During normal usage in GNOME, the GPU occasionally loses
-Date: Wed, 08 Oct 2025 06:11:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: etkinator@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-220640-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D90B10E751
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759903972; x=1791439972;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Y6GTacm5TpGrAvRU87TGRsD66ToAyAyRcV/qzREfMKU=;
+ b=YIfVNhzryCbM8gZMYjNvSJ2W6mFwU2EIaUtZDCYnl6qWD+aBnk/Sgr4/
+ xFDbngynGSHHVUstKid6dJ4KD/2W32Bp7gx+yaBOB2+7vfSabuuY0WCsi
+ m/Xda/LPHrwNZqUr4KuSfm+x7oVU0EaY/XcxQFJ9TCeyZqO60CpW/RYPv
+ VFjFoBoV+vRT2qN9SNB1HnXLTAGZy+H8WoXiNepoYzV9daHU+hou+bQd4
+ TPU09tVWs7ZdoT0M/MutM4CGqY38PP5FYWU9CA4+9t/KhWa2+W9t+dVGU
+ c5XrAKWoYq81xxk8VXc3x44/tRY2/fUl0mRWKD6UvRT2iY2Cti89C5mBI Q==;
+X-CSE-ConnectionGUID: V5sDNQ0SQPiabQyWfwD3lw==
+X-CSE-MsgGUID: /qFytaQxRdSPx0A0EXEfKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="65737203"
+X-IronPort-AV: E=Sophos;i="6.18,323,1751266800"; d="scan'208";a="65737203"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2025 23:12:52 -0700
+X-CSE-ConnectionGUID: 0364bUxpSjq+wfRpn4ooNA==
+X-CSE-MsgGUID: S48hjOwCQUa7geQmO3BkVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,323,1751266800"; d="scan'208";a="185646866"
+Received: from unknown (HELO [10.102.88.35]) ([10.102.88.35])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2025 23:12:50 -0700
+Message-ID: <c05b50a3-7493-43ae-a37f-7c667d52ab87@linux.intel.com>
+Date: Wed, 8 Oct 2025 08:12:48 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Return correct job error status
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com,
+ lizhi.hou@amd.com, Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+References: <20251007083527.2817045-1-karol.wachowski@linux.intel.com>
+ <6b057daf-42d3-435a-af93-8c57e31550b7@oss.qualcomm.com>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <6b057daf-42d3-435a-af93-8c57e31550b7@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,87 +73,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220640
+Thanks for pointing this out. Returning ABORTED was not generally a
+problem, but it limited user space ability to distinguish between
+different failure modes.
+Changing this improves debugability and allows applications to take
+actions based on separate return codes accordingly.
 
-            Bug ID: 220640
-           Summary: Hardware: - GPU: AMD Radeon RX 6600 / 6600 XT / 6600M
-                    (Navi 23) - Subsystem: XFX Limited [1eae:6505] -
-                    Kernel driver: amdgpu - Kernel: 6.14.0-33-generic -
-                    OS: Ubuntu 24.04 (upstream testing)  Issue: During
-                    normal usage in GNOME, the GPU occasionally loses
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: etkinator@gmail.com
-        Regression: No
+I have improved clarification of the change in commit message in PATCHv2.
 
-Created attachment 308775
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308775&action=3Dedit
-kernel logs showing context lost events, GPU resets, and SMU/PSP messages.
+Karol
 
-Hardware:
-- GPU: AMD Radeon RX 6600 / 6600 XT / 6600M (Navi 23)
-- Subsystem: XFX Limited [1eae:6505]
-- Kernel driver: amdgpu
-- Kernel: 6.14.0-33-generic
-- OS: Ubuntu 24.04 (upstream testing)
-
-Issue:
-During normal usage in GNOME, the GPU occasionally loses context, resulting=
- in
-visible system issues:
-
-- White, sometimes noisy, screen (GPU output frozen)
-- System freeze / unresponsive graphical session
-- GPU reset occurs automatically
-- Kernel log shows:
-
-    amdgpu: The CS has cancelled because the context is lost. This context =
-is
-innocent.
-    amdgpu 0000:09:00.0: GPU reset(2) succeeded!
-
-BACO (Bus Active/Chip Off) for runtime power management is enabled.
-
-Logs indicate repeated SMU / PSP resume sequences and GPU mode resets:
-
-    amdgpu 0000:09:00.0: Using BACO for runtime pm
-    amdgpu 0000:09:00.0: SMU is resumed successfully!
-
-Steps to reproduce:
-1. Boot Ubuntu 24.04 with kernel 6.14.0-33-generic.
-2. Use system normally (GNOME shell active).
-3. Intermittently, observe:
-   - White / noisy screen
-   - GPU reset in kernel logs
-   - Temporary freeze of graphical session
-
-Additional info:
-- SMU driver interface version does not match firmware (driver 0x0f, fw 0x1=
-3),
-but GPU resumes.
-- GPU operates normally after reset.
-- BACO active for runtime PM.
-
-Impact:
-- System instability: freezes, temporary loss of graphical output.
-- Potential interference with GPU workloads.
-- Annoying / disruptive for desktop usage.
-
-Request:
-- Investigate root cause of context loss leading to visible screen corrupti=
-on.
-- Verify interaction with BACO power management.
-- Advise on firmware/driver fixes or workarounds.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+On 10/7/2025 4:54 PM, Jeff Hugo wrote:
+> On 10/7/2025 2:35 AM, Karol Wachowski wrote:
+>> From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+>>
+>> The driver was returning ABORTED for all error that trigger engine
+>> reset.
+>
+> "is returning" right? The driver currently does this (without this
+> patch)?
+>
+> Is this a bad thing? Should the driver do something different? I feel
+> like there should be more explanation here.
+>
+>> Refactor ivpu_job_signal_and_destroy() by extracting engine error
+>> handling logic into a new function ivpu_job_handle_engine_error().
+>> This simplifies engine error handling logic by removing necessity of
+>> calling ivpu_job_singal_and_destroy() multiple times by a single job
+>> changing it's behavior based on job status.
+>>
+>> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
