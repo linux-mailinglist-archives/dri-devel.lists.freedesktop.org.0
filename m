@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EE4BC5751
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43766BC575D
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C8010E834;
-	Wed,  8 Oct 2025 14:39:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9677D10E841;
+	Wed,  8 Oct 2025 14:39:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SZfo9MWN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eHNIYW4k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDC3910E833
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 14:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1759934362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8dS3VrXH/Wj3Njw5p4E/WMxSMMioPrPsVYVVQTexlOE=;
- b=SZfo9MWNPrT2su0T/aEJjmex/FhRqdnQI0RcXSE3IpPAiueboUyVWTYiSsGkl/IJvTo9gh
- +p2x+LkINJGruqWEZYWI09Xn65XQJvCZmqnC+AgZpuMlFgRwY88FsfAJGXqLY6I4aWUoVv
- jXEuxl6Dy8Vf2qBXK2Wki6EsJxhVVIo=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-584-0S20ODdGMT-YzMm3EJw9GQ-1; Wed,
- 08 Oct 2025 10:39:19 -0400
-X-MC-Unique: 0S20ODdGMT-YzMm3EJw9GQ-1
-X-Mimecast-MFC-AGG-ID: 0S20ODdGMT-YzMm3EJw9GQ_1759934358
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DCB13195608E; Wed,  8 Oct 2025 14:39:17 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.45.224.183])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 1A10918004D8; Wed,  8 Oct 2025 14:39:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A02CB180009C; Wed, 08 Oct 2025 16:39:14 +0200 (CEST)
-Date: Wed, 8 Oct 2025 16:39:14 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: airlied@redhat.com, dmitry.osipenko@collabora.com, 
- gurchetansingh@chromium.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, 
- airlied@gmail.com, simona@ffwll.ch, virtualization@lists.linux.dev, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/virtgpu: Use vblank timer
-Message-ID: <zxbzjfc7cekudagy43fykeetrcxn5t2zsbulrse4kj5rv3j72w@gyj5ea7utvcg>
-References: <20251008130701.246988-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C78210E836;
+ Wed,  8 Oct 2025 14:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1759934372; x=1791470372;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=G+qiQDHHViVNMPeYGuH1bOozVLR4PAcdtEr/vJX0luA=;
+ b=eHNIYW4kJcBfGw7RYUR/v7bPEWYg/n2p+THZjq01JoqSov3ADgvnT1ll
+ U6JC+v1OCUpRrG4FURtnnmmgiQhEAbpES15cftKO7OiKrPXhDaIg4idf2
+ bpQogalWZkepLS7+ZVsTaQRuajqyb+cqxHBz5bJB77reHxzGn2bEHiolQ
+ jG5ZA70ZaWB56TUOnLJNb/M/fcLPD7tWacQiU31veiN/RJrSE+60+99eM
+ uh34OCBfw/LubIliXlnomKdM48kJIE64YS0fDgoZNTvTinqKxQmqccWM2
+ Nbz4PFbTafCK/i6WE+M1PdeuQvexxA0mLzYDtZxq0TtvY36uGGkLftUL7 A==;
+X-CSE-ConnectionGUID: 7ekhOoH6TNeeLNBBJhkXig==
+X-CSE-MsgGUID: F7WJAOmzR0iSBkzpTHi+mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="72392567"
+X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; d="scan'208";a="72392567"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2025 07:39:31 -0700
+X-CSE-ConnectionGUID: ZJe75O3iTiegst/SvmbQAQ==
+X-CSE-MsgGUID: OsZW+6fuRHC13BchAqT1wg==
+X-ExtLoop1: 1
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.244.126])
+ ([10.245.244.126])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2025 07:39:27 -0700
+Message-ID: <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
+Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
+ latency
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko
+ Ursulin <tvrtko.ursulin@igalia.com>, amd-gfx@lists.freedesktop.org, Lucas
+ De Marchi	 <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi	 <rodrigo.vivi@intel.com>
+Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>, Danilo
+ Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, Gerd
+ Hoffmann <kraxel@redhat.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Lyude Paul <lyude@redhat.com>, Maarten
+ Lankhorst	 <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>, Thadeu Lima
+ de Souza Cascardo <cascardo@igalia.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
+Date: Wed, 08 Oct 2025 16:39:25 +0200
+In-Reply-To: <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
+References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
+ <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
+ <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
+ <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-In-Reply-To: <20251008130701.246988-1-tzimmermann@suse.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 3bdsFOM0yPpWyvraDPaB7F4DZjhUa64V909TKjpF-jM_1759934358
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,26 +83,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 03:06:51PM +0200, Thomas Zimmermann wrote:
-> Use a vblank timer to simulate the vblank interrupt. The DRM vblank
-> helpers provide an implementation on top of Linux' hrtimer. Virtgpu
-> enables and disables the timer as part of the CRTC. The atomic_flush
-> callback sets up the event. Like vblank interrupts, the vblank timer
-> fires at the rate of the display refresh.
-> 
-> Most userspace limits its page flip rate according to the DRM vblank
-> event. Virtgpu's virtual hardware does not provide vblank interrupts, so
-> DRM sends each event ASAP. With the fast access times of virtual display
-> memory, the event rate is much higher than the display mode's refresh
-> rate; creating the next page flip almost immediately. This leads to
-> excessive CPU overhead from even small display updates, such as moving
-> the mouse pointer.
-> 
-> This problem affects virtgpu and all other virtual displays. See [1] for
-> a discussion in the context of hypervdrm.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/dri-devel/SN6PR02MB415702B00D6D52B0EE962C98D46CA@SN6PR02MB4157.namprd02.prod.outlook.com/ # [1]
+On Wed, 2025-10-08 at 16:02 +0200, Christian K=C3=B6nig wrote:
+> On 08.10.25 15:50, Tvrtko Ursulin wrote:
+> >=20
+> > On 08/10/2025 13:35, Christian K=C3=B6nig wrote:
+> > > On 08.10.25 13:53, Tvrtko Ursulin wrote:
+> > > > Disclaimer:
+> > > > Please note that as this series includes a patch which touches
+> > > > a good number of
+> > > > drivers I will only copy everyone in the cover letter and the
+> > > > respective patch.
+> > > > Assumption is people are subscribed to dri-devel so can look at
+> > > > the whole series
+> > > > there. I know someone is bound to complain for both the case
+> > > > when everyone is
+> > > > copied on everything for getting too much email, and also for
+> > > > this other case.
+> > > > So please be flexible.
+> > > >=20
+> > > > Description:
+> > > >=20
+> > > > All drivers which use the TTM pool allocator end up requesting
+> > > > large order
+> > > > allocations when allocating large buffers. Those can be slow
+> > > > due memory pressure
+> > > > and so add latency to buffer creation. But there is often also
+> > > > a size limit
+> > > > above which contiguous blocks do not bring any performance
+> > > > benefits. This series
+> > > > allows drivers to say when it is okay for the TTM to try a bit
+> > > > less hard.
+> > > >=20
+> > > > We do this by allowing drivers to specify this cut off point
+> > > > when creating the
+> > > > TTM device and pools. Allocations above this size will skip
+> > > > direct reclaim so
+> > > > under memory pressure worst case latency will improve.
+> > > > Background reclaim is
+> > > > still kicked off and both before and after the memory pressure
+> > > > all the TTM pool
+> > > > buckets remain to be used as they are today.
+> > > >=20
+> > > > This is especially interesting if someone has configured
+> > > > MAX_PAGE_ORDER to
+> > > > higher than the default. And even with the default, with amdgpu
+> > > > for example,
+> > > > the last patch in the series makes use of the new feature by
+> > > > telling TTM that
+> > > > above 2MiB we do not expect performance benefits. Which makes
+> > > > TTM not try direct
+> > > > reclaim for the top bucket (4MiB).
+> > > >=20
+> > > > End result is TTM drivers become a tiny bit nicer mm citizens
+> > > > and users benefit
+> > > > from better worst case buffer creation latencies. As a side
+> > > > benefit we get rid
+> > > > of two instances of those often very unreadable mutliple
+> > > > nameless booleans
+> > > > function signatures.
+> > > >=20
+> > > > If this sounds interesting and gets merge the invidual drivers
+> > > > can follow up
+> > > > with patches configuring their thresholds.
+> > > >=20
+> > > > v2:
+> > > > =C2=A0 * Christian suggested to pass in the new data by changing th=
+e
+> > > > function signatures.
+> > > >=20
+> > > > v3:
+> > > > =C2=A0 * Moved ttm pool helpers into new ttm_pool_internal.h.
+> > > > (Christian)
+> > >=20
+> > > Patch #3 is Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>=
+.
+> > >=20
+> > > The rest is Reviewed-by: Christian K=C3=B6nig
+> > > <christian.koenig@amd.com>
+> >=20
+> > Thank you!
+> >=20
+> > So I think now I need acks to merge via drm-misc for all the
+> > drivers which have their own trees. Which seems to be just xe.
+>=20
+> I think you should ping the XE guys for their opinion, but since
+> there shouldn't be any functional change for them you can probably go
+> ahead and merge the patches to drm-misc-next when there is no reply
+> in time.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+I will try to do a review tonight. One thing that comes up though, is
+the change to ttm_device_init() where you add pool_flags. I had another
+patch series a number of months ago that added a struct with flags
+there instead to select the return value given when OOM. Now that we're
+adding an argument, should we try to use a struct instead so that we
+can use it for more that pool behavior?
+
+
+I'll be able to find a pointer to that series later today.
+
+/Thomas
 
