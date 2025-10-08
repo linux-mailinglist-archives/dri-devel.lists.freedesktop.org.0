@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014A6BC52B6
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 15:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC4CBC52DD
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 15:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 087F610E808;
-	Wed,  8 Oct 2025 13:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72D5910E395;
+	Wed,  8 Oct 2025 13:24:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="grL33OV+";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lLGSJkqB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB8B10E808
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 13:21:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D07EC10E395
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 13:24:12 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7DB0019C4;
- Wed,  8 Oct 2025 15:19:51 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C20D19C4;
+ Wed,  8 Oct 2025 15:22:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1759929591;
- bh=umPT5IU0xNKxG6bAEb1U35kB3C/2sHFIrihzI48NNDs=;
+ s=mail; t=1759929757;
+ bh=AGqZ3ix74WutpNd82fPqxmrty3SMDnE81PbTuni4WTg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=grL33OV+0v7TD+zNz9h7nVBTiPTfKKsUcQwz1nyicIcXxcHoKNy50QnotUbNNFnKu
- 4QLHWcck7tRXYekCqPuUBThc2pctXVd5XIegPIrsh2T6n6969TJehYRATb6niKo5Td
- /6qcL9JOlZ72GyD8Q3Yh0PkHoWRi91V9ZDThK5gE=
-Message-ID: <0bf14295-8c47-4fb3-b4d7-f54cbe9b6435@ideasonboard.com>
-Date: Wed, 8 Oct 2025 16:21:22 +0300
+ b=lLGSJkqBf7K/WuU4R168WhjZ/r5LW3+nGAMcx81lyEAMZ1Dzgx6ZeAubWIiBoGdfm
+ tmM8F/vhmNKCq5NCblbbegZEqGDw0BFa4T4i8EQEPhRZ8TGLOtDWVvoWbUwbzASXLD
+ ZIUk/428oxFrwYBsJ3bi5Dg0DPpbeFHJNNgPt8sE=
+Message-ID: <cb7cb1ce-e90f-4c7c-9ff2-ef20bc280608@ideasonboard.com>
+Date: Wed, 8 Oct 2025 16:24:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/16] drm/atomic: Add dev pointer to drm_private_obj
+Subject: Re: [PATCH 02/16] drm/atomic: Add reset to drm_private_obj
 To: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
- <20251008-drm-private-obj-reset-v1-1-805ab43ae65a@kernel.org>
+ <20251008-drm-private-obj-reset-v1-2-805ab43ae65a@kernel.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -84,7 +84,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251008-drm-private-obj-reset-v1-1-805ab43ae65a@kernel.org>
+In-Reply-To: <20251008-drm-private-obj-reset-v1-2-805ab43ae65a@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,60 +104,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 08/10/2025 15:03, Maxime Ripard wrote:
-> All the objects that need to implement some callbacks in KMS have a
-> pointer in there structure to the main drm_device.
+On 08/10/2025 15:04, Maxime Ripard wrote:
+> The drm_private_obj initialization was inconsistent with the rest of the
+> KMS objects. Indeed, it required to pass a preallocated state in
+> drm_private_obj_init(), while all the others objects would have a reset
+> callback that would be called later on to create the state.
 > 
-> However, it's not the case for drm_private_objs, which makes it harder
-> than it needs to be to implement some of its callbacks. Let's add that
-> pointer.
+> Let's prepare for the migration of all private objs implementation by
+> introducing a reset callback in drm_private_state_funcs, and by calling
+> it if the passed state is NULL.
+> 
+> The latter will be removed eventually, once every driver has been
+> converted.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
+>  drivers/gpu/drm/drm_atomic.c | 15 +++++++++++++--
+>  include/drm/drm_atomic.h     |  9 +++++++++
+>  2 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 39cb1479ac4d58cd71cf41d27d0d2a8a58ef5791..45c26294e712fd36b43e87548072c3c0e9af1887 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -791,15 +791,26 @@ drm_atomic_private_obj_init(struct drm_device *dev,
+>  	memset(obj, 0, sizeof(*obj));
+>  
+>  	drm_modeset_lock_init(&obj->lock);
+>  
+>  	obj->dev = dev;
+> -	obj->state = state;
+>  	obj->funcs = funcs;
+>  	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
+>  
+> -	state->obj = obj;
+> +	/*
+> +	 * Not all users of drm_atomic_private_obj_init have been
+> +	 * converted to using &drm_private_obj_funcs.reset yet. For the
+> +	 * time being, let's only call reset if the passed state is
+> +	 * NULL. Otherwise, we will fallback to the previous behaviour.
+> +	 */
+> +	if (!state) {
+> +		if (obj->funcs->reset)
+> +			obj->funcs->reset(obj);
+> +	} else {
+> +		obj->state = state;
+> +		state->obj = obj;
+> +	}
+>  }
+>  EXPORT_SYMBOL(drm_atomic_private_obj_init);
+>  
+>  /**
+>   * drm_atomic_private_obj_fini - finalize private object
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index dac70f685361d8d29844acd1b0cc2f04f43a9499..fbac6d4c75fc86535cf153745b6132f8705c808a 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -205,10 +205,19 @@ struct drm_private_state;
+>   * added to the atomic states is expected to have an implementation of these
+>   * hooks and pass a pointer to its drm_private_state_funcs struct to
+>   * drm_atomic_get_private_obj_state().
+>   */
+>  struct drm_private_state_funcs {
+> +	/**
+> +	 * @reset:
+> +	 *
+> +	 * Resets the private state to its default state, and the
+> +	 * hardware to off if any.. This function isn't called by the
+
+The text above may need some massaging. The double period, at least.
+"Reset private hardware and software state to off" ?
+
+Other than that:
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
 
->  drivers/gpu/drm/drm_atomic.c | 1 +
->  include/drm/drm_atomic.h     | 5 +++++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index ed5359a71f7e2cd8fa52b993e62ee65f8fed4537..39cb1479ac4d58cd71cf41d27d0d2a8a58ef5791 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -790,10 +790,11 @@ drm_atomic_private_obj_init(struct drm_device *dev,
->  {
->  	memset(obj, 0, sizeof(*obj));
->  
->  	drm_modeset_lock_init(&obj->lock);
->  
-> +	obj->dev = dev;
->  	obj->state = state;
->  	obj->funcs = funcs;
->  	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
->  
->  	state->obj = obj;
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 38636a593c9d98cadda85ccd67326cb152f0dd27..dac70f685361d8d29844acd1b0cc2f04f43a9499 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -282,10 +282,15 @@ struct drm_private_state_funcs {
->   * commit to complete as the first step of
->   * &drm_mode_config_helper_funcs.atomic_commit_tail, similar to
->   * drm_atomic_helper_wait_for_dependencies().
->   */
->  struct drm_private_obj {
-> +	/**
-> +	 * @dev: parent DRM device
+> +	 * core directly, only through drm_mode_config_reset().
 > +	 */
-> +	struct drm_device *dev;
+> +	void (*reset)(struct drm_private_obj *obj);
 > +
 >  	/**
->  	 * @head: List entry used to attach a private object to a &drm_device
->  	 * (queued to &drm_mode_config.privobj_list).
->  	 */
->  	struct list_head head;
+>  	 * @atomic_duplicate_state:
+>  	 *
+>  	 * Duplicate the current state of the private object and return it. It
+>  	 * is an error to call this before obj->state has been initialized.
 > 
 
