@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B0CBC5806
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 17:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E89FBC5821
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 17:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7D2310E83F;
-	Wed,  8 Oct 2025 15:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96F110E849;
+	Wed,  8 Oct 2025 15:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="izyx4qeJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TTG5irjh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E92710E84B;
- Wed,  8 Oct 2025 15:00:15 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8478E10E85F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 15:03:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AAC2A61F91;
- Wed,  8 Oct 2025 15:00:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45284C4CEE7;
- Wed,  8 Oct 2025 15:00:03 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 346FC40475;
+ Wed,  8 Oct 2025 15:03:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1CEC4CEE7;
+ Wed,  8 Oct 2025 15:03:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759935608;
- bh=Zq4M4h4026xT+BGlmoGtIh/JGWUmGo07HG7ivwnX4b0=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=izyx4qeJQb2C5pEgtTwRd/dt0xDjWrxPxH8kFxMtHeiiYKekpB8WovdQserdiWVhd
- WOo8964xcCQppMRCby6GiMdy3k/9W9KueVb4PjVc0TbTV2r2qhay+jSZxbQPEUQEXt
- BNeKJsyP43lV8j6MTXpe7eNCCLDDdNYQW2MmEfDDNcS3Rml/gQ9ej2+1l+mP/iyCDf
- hweGdyr1kKNpG9WbuhWi+TMj7zOmro6ptx9WXG/Hs1/oxvFcdKaGVC9W9zScrvfgjw
- W3gzBvZLqQbJHyqegaPD1TBtEpyUSdM5DWxRWfath0BAxZ46fkIvwfiikI5d2S+GXB
- mNg8GebtPo/cQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Oct 2025 17:00:01 +0200
-Message-Id: <DDD13PUEPSZO.ALDND33ZFFC7@kernel.org>
-Subject: Re: [PATCH v6 0/5] Introduce bitfield and move register macro to
- rust/kernel/
-Cc: "Joel Fernandes" <joelagnelf@nvidia.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Andrea Righi"
- <arighi@nvidia.com>, <nouveau@lists.freedesktop.org>
-To: "Yury Norov" <yury.norov@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
- <aORCwckUwZspBMfv@yury> <DDC0VAHL5OCP.DROT6CPKE5H5@nvidia.com>
- <DDC49ZIRX79X.2Q4KW0UY7WUF3@kernel.org>
- <faa99188-7ccb-4c7c-b705-3a207f5acd17@nvidia.com>
- <DDCFLM3P5MCC.NEBRVTU7X2G3@kernel.org> <aOZ0_7YQw81lyMWt@yury>
-In-Reply-To: <aOZ0_7YQw81lyMWt@yury>
+ s=k20201202; t=1759935825;
+ bh=bTO4eQ7sdiDVbau4hRFaoBOduo/himBoHKTVgRQAWak=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TTG5irjh+c4NlBzW0xbWfcvnyEKO0TJm56Yz86sy8os96eeiooHK92V+nCVCArA6X
+ Dn2weJ4Eoc0N90LHBkKRcTcAJsm7j8KMhPLa6ecA3ct45Ryjf81KATSX+bzkC8V9tC
+ TeWD+o1Sw4WBJRVDQ3r2eOnp4ofxz3y2zwxJNNqrUEPHe3Z/eIxA4q79peKPkGmKfs
+ RHyWAionzRgxxvjLCWTKkS37xlB0Sgil6Xs4+cNI9SKeXRp/AZ06LrGxputlxp8903
+ auY8MdTBIm5QIjGTZd7nc8ep11Dfn8YdvFdK+Gho6Eyrr+UYYo2VNtmOWlNLsKLztd
+ RCSQ87tbkweMw==
+Message-ID: <bb0e5610-2c59-4d74-9585-d9238e7143d6@kernel.org>
+Date: Wed, 8 Oct 2025 10:03:43 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/amdxdna: Resume power for creating and destroying
+ hardware context
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, maciej.falkowski@linux.intel.com,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
+References: <20251008045324.4171807-1-lizhi.hou@amd.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20251008045324.4171807-1-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,49 +61,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Oct 8, 2025 at 4:28 PM CEST, Yury Norov wrote:
-> On Wed, Oct 08, 2025 at 12:08:59AM +0200, Danilo Krummrich wrote:
->
->> Regarding the bitfields for page table management: Are we
->> sure that we can use raw bitfields for this?
->
-> As per my current understanding we can't. Bitfields are not suitable for
-> direct I/O and considered as a data storage. In the current scheme:
->
->         regs::NV_PFALCON_FALCON_DMATRFBASE::default()
->             .set_base((dma_start >> 8) as u32)
->             .write(bar, &E::ID);
->
-> we account for endianess in the .write() method, which would be a part
-> of register API, not bitfields.
+On 10/7/25 11:53 PM, Lizhi Hou wrote:
+> When the hardware is powered down by auto-suspend, creating or destroying
+> a hardware context without resuming power will fail.
+> Call amdxdna_pm_resume_get() before requesting the hardware to create or
+> destroy a hardware context.
+> 
+> Fixes: 063db451832b ("accel/amdxdna: Enhance runtime power management")
+> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 
-I know, I proposed this register API design about a year ago, and Alex came=
- up
-with an awesome implementation for it. :)
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-And yes, your understanding is correct, the idea is that the I/O backend th=
-at
-knows about the underlying bus, etc. takes care of the endianess.
+> ---
+>   drivers/accel/amdxdna/aie2_ctx.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+> index 691fdb3b008f..ab4d66f1325d 100644
+> --- a/drivers/accel/amdxdna/aie2_ctx.c
+> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+> @@ -610,10 +610,14 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>   		goto free_entity;
+>   	}
+>   
+> +	ret = amdxdna_pm_resume_get(xdna);
+> +	if (ret)
+> +		goto free_col_list;
+> +
+>   	ret = aie2_alloc_resource(hwctx);
+>   	if (ret) {
+>   		XDNA_ERR(xdna, "Alloc hw resource failed, ret %d", ret);
+> -		goto free_col_list;
+> +		goto suspend_put;
+>   	}
+>   
+>   	ret = aie2_map_host_buf(xdna->dev_handle, hwctx->fw_ctx_id,
+> @@ -628,6 +632,7 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>   		XDNA_ERR(xdna, "Create syncobj failed, ret %d", ret);
+>   		goto release_resource;
+>   	}
+> +	amdxdna_pm_suspend_put(xdna);
+>   
+>   	hwctx->status = HWCTX_STAT_INIT;
+>   	ndev = xdna->dev_handle;
+> @@ -640,6 +645,8 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>   
+>   release_resource:
+>   	aie2_release_resource(hwctx);
+> +suspend_put:
+> +	amdxdna_pm_suspend_put(xdna);
+>   free_col_list:
+>   	kfree(hwctx->col_list);
+>   free_entity:
 
-However, we might still be able to use bitfields natively for page table
-management structures: In [1] I asked for the NV_PMC_BOOT_1 register, which
-might provide some endianess switch to ensure that we always match CPU
-endianess.
-
-> FYI: ARM64 is in process of dropping BE, and Linus announced the end
-> of BE support for RISC-V:
-
-Yeah, I'm aware of the thread. Also note that for RISC-V it was also clarif=
-ied
-that if it turns out that BE for RISC-V becomes relevant it would also find=
- its
-way into the kernel. If that's likely is of course a different question.
-
-However, there are still architectures such as s390x that could be supporte=
-d.
-
-So, long story short, my question from above is more meant to challenge if =
-we
-can really always guarantee that CPU and GPU endianess match for nova-core.
-
-[1] https://lore.kernel.org/lkml/DDCV84IJHUML.126CB1CT0XMX5@kernel.org/
