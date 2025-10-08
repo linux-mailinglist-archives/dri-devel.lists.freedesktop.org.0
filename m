@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7169BC55D2
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F44BC55BF
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 122CC10E82E;
-	Wed,  8 Oct 2025 14:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF4B810E820;
+	Wed,  8 Oct 2025 14:05:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rqVIxxcJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FHkFArTi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7F710E820
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B40110E825
  for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 14:05:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4167662037;
+ by sea.source.kernel.org (Postfix) with ESMTP id 3AA4B48A1D;
  Wed,  8 Oct 2025 14:05:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 03E62C116B1;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 16D2BC19422;
  Wed,  8 Oct 2025 14:05:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1759932331;
- bh=3tJVUsaowdxp80K3Fs3VhRaBsb6TetaqSeHKjLqO0jw=;
+ bh=HSYJCjE24K+57IxjnTOBA3vYmKAgeNl1JgEZHnukAHQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=rqVIxxcJO148BVvATmBNP60JwSd8Bt6TK58/BoU4jM4VzHkys8LxMYWWtFt7HLUUx
- gxAFGFiD1hnpqL1Zt5Y5fRp3EEqVngnEXP5GfM8ilubnHNc8/WCuWtJin5uga09Nci
- Eye/d9goSGSXfmyoOridtOpDgZmycluw0P9t5+97tAIvBCoz5Q1JE8BrzyFkwjqBBA
- v8V6uQreZHIPmLl683yvKVL31x30+JPxVblOHsy5WPokuQ3fp7D6LvhGAc1bgCB9GE
- fKDUIxRVlSC9zgsb25ckbkie+d/d/KuLM5VZ3DglIeteSvTZkf8jWFTcOSr5W2G8Ly
- tTulIaYm1xNUQ==
+ b=FHkFArTiqLjHtD8UBeA9BjDpTEDP/ze8wv76kxhwQ5ee+Z/LQ5l+TxLM/T5Uje6S3
+ ZzZ+MnVufUO4SVls5xUeaS9ZzEmaUEk1NqKXcowndG6T7HACqYHUdFoV1vTW4Kc3K2
+ T0BYjAcmdJPuGQg1tMmGFVqpiFRSY4J0CiGBGaqUGH0EV5rF/g5MbJMXX2clr8uy3x
+ wjMylQ24HaRr5QaaCSBqLBiU800+UlMIq5LL5W5xl8suoBoTM8VGwIIBcNHTowg8zi
+ j1oynPpClm7CgY76SZifUR2vWQMwfPB4utrUlQ66QhstJsbf1v4Zy7lXJxI3oKasmj
+ 2nYBBBLTxpmCQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id EF60ECAC5BB;
- Wed,  8 Oct 2025 14:05:30 +0000 (UTC)
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 0ACB3CCA470;
+ Wed,  8 Oct 2025 14:05:31 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Wed, 08 Oct 2025 16:05:33 +0200
-Subject: [PATCH v2 6/7] arm64: dts: qcom: sdm845-oneplus: Group panel pinctrl
+Date: Wed, 08 Oct 2025 16:05:34 +0200
+Subject: [PATCH v2 7/7] arm64: dts: qcom: sdm845-oneplus: Implement panel
+ sleep pinctrl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251008-s6e3fc2x01-v2-6-21eca1d5c289@ixit.cz>
+Message-Id: <20251008-s6e3fc2x01-v2-7-21eca1d5c289@ixit.cz>
 References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
 In-Reply-To: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -58,21 +59,21 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1999; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1489; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=5GvFr+5VUexi+/uUvkg17qDYTvfgOqthqFHsVHOQK9s=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo5m+pSpDF0SJRbsFIkbOPU53ElSfE6bo5AUBbn
- l3JVHR30AiJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaOZvqQAKCRBgAj/E00kg
- coq/EACxm8V+s0Y/GDc4+gVDvkY1g+g4y3f0RhQEwClSHssMxMNmbCxY7f9eueSAqwxXBfrWr4z
- 4aFp7r9k9rlwakNfvhT3ipco+ytuYDQqttfn5Ss/HXY77th0irTQqReLr/d3kGWR4OkGM+KAz61
- 5EcmdBz51zP8WI7VAS1dDnMVJhve6iF5ZFf0hDKmQD0wczm1TC7r0sfaSIvC+wyeJ1V5Q4P49ly
- IPBQuOaCw6Sw5x4jlb/0Z4g6VaaSAkcj3Chjb9qOEgvVCKunKWPNTFjXOKtCCSbj6gOeIzyHz02
- thIkj0TS/br95Z9InQZsug2jkT5OEMBoZ3de7K8scYn/22869iTEoT0tlWn/D8cu1PVYy2zd7AJ
- KTwcQS8/FasiJzL7JH508Q3EFuOfAwSGQ+IS5j/4P2Cjk/7pxhtj4Imlbgvp8KeNLHS9UUavvfU
- qURiaqUyGbokyCe7HYITHjVvgpgd3PinlpQ84Xa3UitAl+9wMYbVq7NpxqP2F+8WilgUFR5jqsS
- 7XDDEsKKrYdoGZSgly4Xthg4Zo+c/J6yo/Ow3zqbYAwsHvPKLiHDAYcfWHjyqStub7JINVR6w7h
- FaFKkEJRehg5RLyqYr+6PR2GKK7eiEucsqaY4ttAgLsaM05yANZ56h5PoXhuZhuG33SCxmiatqY
- nGSVzyYqbupIkXA==
+ bh=mp3HRjBZ7F75KJMOIKY0ujssyiub4Jy/WN4kGAY5j8g=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo5m+piiWLIGs1xMLHjYcw1Kxi+dVr02ZH7Mmqu
+ OeABLuKSjSJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaOZvqQAKCRBgAj/E00kg
+ ctV3D/9lubFbmrou5+gTBa2JMEdcOKJUmBFaw+Vy/vJFor0U3Uxr5rhDtLdAK9/eQ3o2dfZ9LUM
+ MJRT5qoA3SorlFBSrV5nVa5HdxdW5b+3hqIupb45Dhr0dm2DfAzT8UFHE1fj60Z57LgEEkVhFVq
+ xVY9s9zGXToPHmA1QCvS5RDXCIMyQY76fKWEkKfB5e59hMJHTk0OsE2bbsyRwlMt1u9IWPArgrn
+ hzRdI5DQerHDgdav/UHwrw83n/nS2t5R69n3BRGX0inbVaBiTtJZ7AzcDx6dN2sK00TyqYcRRiY
+ FN680Vy6dXpP3Hbm6d07dFJbJ3Fm852k4Wc05+8bb0C693tE2JN5XjzFxDxCCggx+yGmhkrMuxo
+ v6DqgVAlC1Xt33L0TXhFkslf5ULO1g/dMX3m4Dj7FGdT372tyY4n1J07zXihjgmsjMtZ0SkQTfF
+ j1sfS2Q9TVq/f7gHXHhNvUysJitJXJeY7uneJ2ZxJvisOGJHWPh3ljoeOQdlD6350h3WAcgzSAZ
+ 86felmyHVVn3k08JiNEwuvnD+pb0kJSyzuYhc9235+xO35LPjEXTWmNKgnh3EF1ziQm9m27xrbm
+ HtL7grNbnYgi29vGxCd8+pZUUCDMhhzsaDgYLIEMrxxUkV6MBpcuOCKXuehVmMkSwQdDcq/L4qT
+ 6H3nus+UNFuUMBA==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -95,31 +96,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-As these pins won't be used outside the group, let's group them.
+We can DSI pin from 8mA to 2mA while suspend, do it.
+
+In theory, should give us extra 2 hours of idle battery life.
 
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 46 +++++++++++-----------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 26 +++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index 75989b377f8bc..c216369fae237 100644
+index c216369fae237..fa538b37ef25b 100644
 --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -464,7 +464,7 @@ display_panel: panel@0 {
+@@ -463,8 +463,9 @@ display_panel: panel@0 {
+ 		te-gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
  		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
  
- 		pinctrl-names = "default";
--		pinctrl-0 = <&panel_reset_pins &panel_te_pin &panel_esd_pin>;
-+		pinctrl-0 = <&panel_default>;
+-		pinctrl-names = "default";
++		pinctrl-names = "default", "sleep";
+ 		pinctrl-0 = <&panel_default>;
++		pinctrl-1 = <&panel_sleep>;
  
  		port {
  			panel_in: endpoint {
-@@ -848,6 +848,29 @@ panel_poc_default: poc-state {
- 		bias-disable;
+@@ -871,6 +872,29 @@ te-pins {
+ 		};
  	};
  
-+	panel_default: panel-default-state {
++	panel_sleep: panel-sleep-state {
 +		esd-pins {
 +			pins = "gpio30";
 +			function = "gpio";
@@ -130,8 +135,8 @@ index 75989b377f8bc..c216369fae237 100644
 +		reset-pins {
 +			pins = "gpio6";
 +			function = "gpio";
-+			drive-strength = <8>;
-+			bias-disable;
++			drive-strength = <2>;
++			bias-pull-down;
 +		};
 +
 +		te-pins {
@@ -144,34 +149,6 @@ index 75989b377f8bc..c216369fae237 100644
 +
  	tri_state_key_default: tri-state-key-default-state {
  		pins = "gpio40", "gpio42", "gpio26";
- 		function = "gpio";
-@@ -862,27 +885,6 @@ ts_default_pins: ts-int-state {
- 		bias-pull-up;
- 	};
- 
--	panel_reset_pins: panel-reset-state {
--		pins = "gpio6";
--		function = "gpio";
--		drive-strength = <8>;
--		bias-disable;
--	};
--
--	panel_te_pin: panel-te-state {
--		pins = "gpio10";
--		function = "mdp_vsync";
--		drive-strength = <2>;
--		bias-disable;
--	};
--
--	panel_esd_pin: panel-esd-state {
--		pins = "gpio30";
--		function = "gpio";
--		drive-strength = <2>;
--		bias-pull-down;
--	};
--
- 	speaker_default: speaker-default-state {
- 		pins = "gpio69";
  		function = "gpio";
 
 -- 
