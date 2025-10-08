@@ -2,79 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CE8BC4AEA
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1974BC4AF6
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 14:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB6C10E7E1;
-	Wed,  8 Oct 2025 12:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5293C10E7E4;
+	Wed,  8 Oct 2025 12:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KAp33rVW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Avh0R3ZC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6684410E7E1;
- Wed,  8 Oct 2025 12:04:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F95910E7E4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 12:04:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 59BD46120D;
- Wed,  8 Oct 2025 12:04:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DBCCC4CEF4;
- Wed,  8 Oct 2025 12:04:12 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 9EC956120A;
+ Wed,  8 Oct 2025 12:04:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30F4C4CEF4;
+ Wed,  8 Oct 2025 12:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759925053;
- bh=hp6KAum/wSHP4jTL4LN3EtHOtSRvXYWkShztC5IovwE=;
- h=From:Subject:Date:To:Cc:From;
- b=KAp33rVWxmgy5qa+lyBrWZ8LAjg5ZJLLOvBvJYVPBMEbiYmR6R+qB7lihj9Gxwdbr
- TYlTYpXlcp8jbXTe2IJ29xTovV88AM2+wvPaJr15D8xM0/qRezSv5YdqFBF6NTrvoa
- O/z7OWTNNoEDLl2LdTED+vmYWCrArcc8A1gqCKthFCbdBbnstVFC4lFIYsYNtNniij
- 8BoCxa4p1o0WjpjYrEbfT0C8eKI44ge/sTC6fn02tlhm02vFdCnXeyJy24uz2XK5hN
- WVypG/tpimvKGA9fpFAjtklWWdwzGh/EQGioBSzyV6RStgAA5GBeww5kxPr/uK+a/O
- jKhQDqOpsSDsw==
+ s=k20201202; t=1759925056;
+ bh=5dKks1K3ZK9dx+Z+U9/WnU7AGFVH+KHxNtepnGehzdA=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=Avh0R3ZCz8Vdxg68V+wXq2imn73RWMhZvTPGNWIXdt+5CiBR/g1kiOEsOLi7R4qvw
+ AOmUtjDfyv32wC8Q8dGirHzytJN7JpDJq2+Nmj5gIl7TFrfdYIAsy8AEUF8Pe3SkAj
+ NtpWwN3VGD8n3ty148tovdEYe/EbgDercmPIWLkLFcOKQKILtNwrrQE9SR53daKJRd
+ gBL/cD5ZsARd4GvZB6Au58JyuVlV/8jB1EBcGHDsa5o2YBFOlF96Gv+epLWqYIISzj
+ FQIftcD2WKFd2MSQv+L5ntuVA5hPmdgObfjdMHYLMu3tGerdeuXV+xIvuYHw7psOEZ
+ aCA08h+WIihzQ==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 00/16] drm/atomic: Switch drm_private_obj to reset
-Date: Wed, 08 Oct 2025 14:03:58 +0200
-Message-Id: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
+Date: Wed, 08 Oct 2025 14:03:59 +0200
+Subject: [PATCH 01/16] drm/atomic: Add dev pointer to drm_private_obj
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAC5T5mgC/x3MSwqAMAxF0a1IxgbaoihuRRxUfWoEP6RSBHHvF
- odncO9DASoI1GQPKaIEOfYEm2c0LH6fwTImkzOutMbUPOrGp0r0F/joV1YEXOxh4arCGld5Su2
- pmOT+v233vh8PWkNgZwAAAA==
-X-Change-ID: 20251008-drm-private-obj-reset-ae1e2741027a
+Message-Id: <20251008-drm-private-obj-reset-v1-1-805ab43ae65a@kernel.org>
+References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
+In-Reply-To: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- amd-gfx@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>, 
- Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- kernel-list@raspberrypi.com
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3101; i=mripard@kernel.org;
- h=from:subject:message-id; bh=hp6KAum/wSHP4jTL4LN3EtHOtSRvXYWkShztC5IovwE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgo3mR/6/kzlTdaeC1ITW9Ys8Zy29FZd8ucZHofWIt
- cOsBF7pjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARVTbG+uTHT5yPH9sSfzB7
- ZYjomjUamiGW7pt031QffFr1PcNh3Y7955PMpI6I33j4Ouu89ErPU4wNC7z3vtqjW1P4YP69qH9
- POS5l2HJNEF/C3qOQsi678sido5GsD+cJFTdt/Fu9ffqx+6sVAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1726; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=5dKks1K3ZK9dx+Z+U9/WnU7AGFVH+KHxNtepnGehzdA=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnPgo2D1v7a3qt6pOZRVeDlOpF0z8/XWe9fSgz2ZnjxW
+ +72pKmXOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEOHYzNkxt2vGS+Y/Xya05
+ bz5zHfzzfdn1lPzP4ms6vTsOzBGaanLe8cP9XsV3axqilxX0lD3Tu8rYcGbG7KIUWdEnfAp7Z96
+ 8vH5N/B355tNvjGt3F1y8OnHWw93WVlwtAumFPXqCRxassqvSBgA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,68 +67,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+All the objects that need to implement some callbacks in KMS have a
+pointer in there structure to the main drm_device.
 
-This series started from my work on the hardware state readout[1], and
-was suggested by Dmitry[2].
-
-This series deal with the fact that drm_private_obj (and thus bridges)
-are not initialized using the same pattern than any other object. This
-series solves that inconsistency by aligning it to what we're doing for
-all the other objects.
-
-This was tested on a TI SK-AM62, with three bridges.
-
-Let me know what you think,
-Maxime
-
-1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
-2: https://lore.kernel.org/dri-devel/zvqtehg66dbrrdmik6ylo2kdk74umfzo5hbfkizwsb352nlyqv@jgouvmbfwa4x/
+However, it's not the case for drm_private_objs, which makes it harder
+than it needs to be to implement some of its callbacks. Let's add that
+pointer.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Maxime Ripard (16):
-      drm/atomic: Add dev pointer to drm_private_obj
-      drm/atomic: Add reset to drm_private_obj
-      drm/atomic-helper: Add private_obj reset helper
-      drm/bridge: Switch private_obj initialization to reset
-      drm/dp_mst: Switch private_obj initialization to reset
-      drm/dp_tunnel: Switch private_obj initialization to reset
-      drm/amdgpu: Switch private_obj initialization to reset
-      drm/arm: komeda: Switch private_obj initialization to reset
-      drm/ingenic: Switch private_obj initialization to reset
-      drm/msm: mdp5: Switch private_obj initialization to reset
-      drm/msm: dpu1: Switch private_obj initialization to reset
-      drm/omapdrm: Switch private_obj initialization to reset
-      drm/tegra: Switch private_obj initialization to reset
-      drm/vc4: Switch private_obj initialization to reset
-      drm/atomic: Remove state argument to drm_atomic_private_obj_init
-      drm/mode_config: Call private obj reset with the other objects
+ drivers/gpu/drm/drm_atomic.c | 1 +
+ include/drm/drm_atomic.h     | 5 +++++
+ 2 files changed, 6 insertions(+)
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  53 ++---
- .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   2 +
- .../drm/arm/display/komeda/komeda_private_obj.c    | 232 +++++++++++++++------
- drivers/gpu/drm/display/drm_dp_mst_topology.c      |  38 ++--
- drivers/gpu/drm/display/drm_dp_tunnel.c            |  28 ++-
- drivers/gpu/drm/drm_atomic.c                       |   6 +-
- drivers/gpu/drm/drm_atomic_state_helper.c          |  24 +++
- drivers/gpu/drm/drm_bridge.c                       |  30 +--
- drivers/gpu/drm/drm_mode_config.c                  |   6 +
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  30 ++-
- drivers/gpu/drm/ingenic/ingenic-ipu.c              |  30 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  30 ++-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  30 ++-
- drivers/gpu/drm/omapdrm/omap_drv.c                 |  24 ++-
- drivers/gpu/drm/tegra/hub.c                        |  24 ++-
- drivers/gpu/drm/vc4/vc4_kms.c                      |  73 +++++--
- include/drm/drm_atomic.h                           |  15 +-
- include/drm/drm_atomic_state_helper.h              |   3 +
- 18 files changed, 473 insertions(+), 205 deletions(-)
----
-base-commit: aa1c2b073ad23847dd2e7bdc7d30009f34ed7f59
-change-id: 20251008-drm-private-obj-reset-ae1e2741027a
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index ed5359a71f7e2cd8fa52b993e62ee65f8fed4537..39cb1479ac4d58cd71cf41d27d0d2a8a58ef5791 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -790,10 +790,11 @@ drm_atomic_private_obj_init(struct drm_device *dev,
+ {
+ 	memset(obj, 0, sizeof(*obj));
+ 
+ 	drm_modeset_lock_init(&obj->lock);
+ 
++	obj->dev = dev;
+ 	obj->state = state;
+ 	obj->funcs = funcs;
+ 	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
+ 
+ 	state->obj = obj;
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index 38636a593c9d98cadda85ccd67326cb152f0dd27..dac70f685361d8d29844acd1b0cc2f04f43a9499 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -282,10 +282,15 @@ struct drm_private_state_funcs {
+  * commit to complete as the first step of
+  * &drm_mode_config_helper_funcs.atomic_commit_tail, similar to
+  * drm_atomic_helper_wait_for_dependencies().
+  */
+ struct drm_private_obj {
++	/**
++	 * @dev: parent DRM device
++	 */
++	struct drm_device *dev;
++
+ 	/**
+ 	 * @head: List entry used to attach a private object to a &drm_device
+ 	 * (queued to &drm_mode_config.privobj_list).
+ 	 */
+ 	struct list_head head;
 
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.51.0
 
