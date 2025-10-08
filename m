@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244DEBC5313
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 15:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B558DBC5346
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 15:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 673AD10E80A;
-	Wed,  8 Oct 2025 13:27:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA64B10E80E;
+	Wed,  8 Oct 2025 13:29:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B30tVejt";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mPKj2dmu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B1010E80A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 13:27:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0323610E80B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 13:29:54 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F47519C4;
- Wed,  8 Oct 2025 15:26:05 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD79919C4;
+ Wed,  8 Oct 2025 15:28:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1759929965;
- bh=+jDpXlBGm196RVdxZD2HUvqj1z2+6UEYORkCtuVTM7I=;
+ s=mail; t=1759930099;
+ bh=aMZEdow4bjK1TOh6Jb45iAw4dvwwe9jpP3sC/Ki9AOM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=B30tVejtpnsn2jgawr7w+k1N1xyO7BUy2viRmO2F5w+7H5+DT8omC5ewm8nhyvs2W
- Y3U4u4zw8LceSm80WOFb2bzQU6APnRsrERwgrQMSjmA3mP8KS7z6h/Oe68VG/xRxRs
- LAHHbY1qT8brB/j4akKwbfj3RLp+zCiOhi6QlgT4=
-Message-ID: <d43eeb11-f26b-4f9a-88b2-c0445bfc0402@ideasonboard.com>
-Date: Wed, 8 Oct 2025 16:27:36 +0300
+ b=mPKj2dmuwnsZXSjoMegUSCq5njsR8ydCJV8jsDH9BfB0cgxjGTaDoboB+HLjm8yZK
+ ryc2GXcLCowe2YFyVwLK1RGAxIFO89+6DkkXu9/kPqISRVPZdCPnUjbhR3alhhTvjj
+ w1D8KkY3Rn5Gt3XEF93+IQ/G4Y12gwIK0aPDFaOc=
+Message-ID: <09e37bb9-5f8a-4436-88c7-0eabb4533ab6@ideasonboard.com>
+Date: Wed, 8 Oct 2025 16:29:49 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/16] drm/atomic-helper: Add private_obj reset helper
+Subject: Re: [PATCH 12/16] drm/omapdrm: Switch private_obj initialization to
+ reset
 To: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
- <20251008-drm-private-obj-reset-v1-3-805ab43ae65a@kernel.org>
+ <20251008-drm-private-obj-reset-v1-12-805ab43ae65a@kernel.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -84,7 +85,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251008-drm-private-obj-reset-v1-3-805ab43ae65a@kernel.org>
+In-Reply-To: <20251008-drm-private-obj-reset-v1-12-805ab43ae65a@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,85 +106,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 08/10/2025 15:04, Maxime Ripard wrote:
-> Now that we have a reset callback for drm_private_objs, we can provide a
-> helper for it.
+> The omapdrm driver relies on a drm_private_obj, that is initialized by
+> allocating and initializing a state, and then passing it to
+> drm_private_obj_init.
 > 
-> It's somewhat different from the other similar helpers though, because
-> we definitely expect drm_private_obj to be subclassed. It wouldn't make
-> sense for a driver to use it as-is.
-> 
-> So we can't provide a straight implementation of the reset callback, but
-> rather we provide the parts that will deal with the drm_private_obj
-> initialization, and we will leave the allocation and initialization of
-> the subclass to drivers.
+> Since we're gradually moving away from that pattern to the more
+> established one relying on a reset implementation, let's migrate this
+> instance to the new pattern.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 
+> ---
+> 
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
 
->  drivers/gpu/drm/drm_atomic_state_helper.c | 24 ++++++++++++++++++++++++
->  include/drm/drm_atomic_state_helper.h     |  3 +++
->  2 files changed, 27 insertions(+)
+>  drivers/gpu/drm/omapdrm/omap_drv.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 7142e163e618ea0d7d9d828e1bd9ff2a6ec0dfeb..f88007fe8dba2e79d5942deec3cfdd7757c1a460 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -707,10 +707,34 @@ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
->  	__drm_atomic_helper_connector_destroy_state(state);
->  	kfree(state);
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index 794267f0f007850e43949f93be5c98d0e32a84ea..4c556da5a5cae3685d929679f43260c51459e8a9 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -272,25 +272,37 @@ static void omap_global_destroy_state(struct drm_private_obj *obj,
+>  	struct omap_global_state *omap_state = to_omap_global_state(state);
+>  
+>  	kfree(omap_state);
 >  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
 >  
-> +/**
-> + * __drm_atomic_helper_private_obj_reset - reset state on private objects
-> + * @obj: private object
-> + * @state: new state to initialize
-> + *
-> + * Initializes the newly allocated @state and assigns it to the
-> + * &drm_private_obj->state pointer of @obj, usually required when
-> + * initializing the drivers or when called from the
-> + * &drm_private_state_funcs.reset hook.
-> + *
-> + * @obj is assumed to be zeroed.
-> + *
-> + * This is useful for drivers that use private states.
-> + */
-> +void __drm_atomic_helper_private_obj_reset(struct drm_private_obj *obj,
-> +					   struct drm_private_state *state)
+> +static void omap_global_reset(struct drm_private_obj *obj)
 > +{
-> +	if (state)
-> +		state->obj = obj;
+> +	struct omap_global_state *state;
 > +
-> +	obj->state = state;
+> +	if (obj->state) {
+> +		omap_global_destroy_state(obj, obj->state);
+> +		obj->state = NULL;
+> +	}
+> +
+> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> +	if (!state)
+> +		return;
+> +
+> +	__drm_atomic_helper_private_obj_reset(obj, &state->base);
 > +}
-> +EXPORT_SYMBOL(__drm_atomic_helper_private_obj_reset);
 > +
->  /**
->   * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
->   * @obj: CRTC object
->   * @state: new private object state
->   *
-> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-> index b9740edb26586d58f99a5223902bb8e333ac75a2..150ea227c595eab8c45b106baf09ce5b27a89a5a 100644
-> --- a/include/drm/drm_atomic_state_helper.h
-> +++ b/include/drm/drm_atomic_state_helper.h
-> @@ -82,10 +82,13 @@ struct drm_connector_state *
->  drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector);
->  void
->  __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state);
->  void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
->  					  struct drm_connector_state *state);
-> +
-> +void __drm_atomic_helper_private_obj_reset(struct drm_private_obj *obj,
-> +					   struct drm_private_state *state);
->  void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
->  						     struct drm_private_state *state);
+>  static const struct drm_private_state_funcs omap_global_state_funcs = {
+>  	.atomic_duplicate_state = omap_global_duplicate_state,
+>  	.atomic_destroy_state = omap_global_destroy_state,
+> +	.reset = omap_global_reset,
+>  };
 >  
->  void __drm_atomic_helper_bridge_duplicate_state(struct drm_bridge *bridge,
->  						struct drm_bridge_state *state);
+>  static int omap_global_obj_init(struct drm_device *dev)
+>  {
+>  	struct omap_drm_private *priv = dev->dev_private;
+> -	struct omap_global_state *state;
+>  
+> -	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (!state)
+> -		return -ENOMEM;
+> -
+> -	drm_atomic_private_obj_init(dev, &priv->glob_obj, &state->base,
+> +	drm_atomic_private_obj_init(dev, &priv->glob_obj, NULL,
+>  				    &omap_global_state_funcs);
+>  	return 0;
+>  }
+>  
+>  static void omap_global_obj_fini(struct omap_drm_private *priv)
 > 
 
