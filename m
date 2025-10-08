@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2918BC370D
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 08:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAA2BC3716
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 08:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2CBB10E0BB;
-	Wed,  8 Oct 2025 06:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE70710E1E2;
+	Wed,  8 Oct 2025 06:11:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oUt7p4Yr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rTW6kSYY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED51F10E0BB
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:10:33 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B838010E1E2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:11:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 854E644231;
- Wed,  8 Oct 2025 06:10:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A64FC4CEF4;
- Wed,  8 Oct 2025 06:10:33 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B8F776026F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:11:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BFA0C4CEF4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 06:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1759903833;
- bh=Dc569KT1YS0VQ3qzLz5ms49L7ZBR3t8zH8folwCiWa8=;
- h=From:To:Cc:Subject:Date:From;
- b=oUt7p4YrY+IuLquT8CkeUy70jH9EPO23jENfxHkTIYmyBQQBC1rqAL69/ljqsWt9T
- 1eVRGYfHCByz90XkdQ+Pd/nAVHKIM15vHMK/PFOubWNLj0yb/8s4uQRxuDkPugWX2Z
- DjgzVpIT9G9qI/f0KYfmN2S9+ij0yOdy2JLOzVdB8+N0o8Smeic5WcB+GdLXD/MmN1
- tkKktcAsOGY/jufEVMVbeIKoh3jLf9vJlDfdY19w5/0gJjiLc2AROIQ360/YAMAsxc
- tgyzRovP9z048Kz8m6BXCrsHMfoMuS2ORyO2e3ScMMiZ5WutaLzQagV8oq7pq2yTqG
- bog/slmI6n8AQ==
-From: Kees Cook <kees@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
- syzbot+a9391462075ffb9f77c6@syzkaller.appspotmail.com,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: [PATCH] dma-buf: use SB_I_NOEXEC and SB_I_NODEV
-Date: Tue,  7 Oct 2025 23:10:32 -0700
-Message-Id: <20251008061027.work.515-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+ s=k20201202; t=1759903904;
+ bh=nDDP/KqH9/Lr735BLNjZ1OHq4EgGfEFnFkbbAHgJgTg=;
+ h=From:To:Subject:Date:From;
+ b=rTW6kSYY35RaD26Dremgc0obeVGUZT7l0+WK+iPifBdTEsHhViWGmN+9WArxkacIb
+ t0XCidDktisnBJONUplOlXhwnw5rtRkTsydTVE8X0UiPfBYdi4DVgD8NifHyRTY1DT
+ /69YVjE+8LKytLTpdBFavj/+gJvHUchOeErss6NKFQAuA4d4vgUtpfD2Sx/rtxZWgU
+ YxKMFfYdr7vSIyXsBm3BQ64G04OXGte2JQ+1o24x5XDq3piumtPorxw6cLTFBiKR2T
+ pVGgQkgvra7OYjQX6TXaeEHZr2pb7GShgsz4tRCAVOD9d7xBdmfZ7SYpfZXdGKj43I
+ etPjOEBgePsbA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 602F1C41612; Wed,  8 Oct 2025 06:11:44 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220640] New: Hardware: - GPU: AMD Radeon RX 6600 / 6600 XT /
+ 6600M (Navi 23) - Subsystem: XFX Limited [1eae:6505] - Kernel driver: amdgpu
+ - Kernel: 6.14.0-33-generic - OS: Ubuntu 24.04 (upstream testing)  Issue:
+ During normal usage in GNOME, the GPU occasionally loses
+Date: Wed, 08 Oct 2025 06:11:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: etkinator@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-220640-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1929; i=kees@kernel.org;
- h=from:subject:message-id; bh=Dc569KT1YS0VQ3qzLz5ms49L7ZBR3t8zH8folwCiWa8=;
- b=owGbwMvMwCVmps19z/KJym7G02pJDBnPGMIvvjnZz8Y1Y7b5isuyJ5568nE21L+vtb9k+Mkn9
- nO/9D7jjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgInMi2b4wxP2aK6KqInRk67H
- 1z88+XNBde6Mi7VnVB6ZdK6/8uWSkQEjw6MdiyfJ2D0vu2v/Rdj6+JqlDRMy1/x4X3TiiVZdzfz
- G59wA
-X-Developer-Key: i=kees@kernel.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +77,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dma-buf pseudo-filesystem should never have executable mappings nor
-device nodes. Set SB_I_NOEXEC and SB_I_NODEV on the superblock to enforce
-this at the filesystem level, similar to secretmem, commit 98f99394a104
-("secretmem: use SB_I_NOEXEC").
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220640
 
-Fix the syzbot-reported warning from the exec code to enforce this
-requirement:
+            Bug ID: 220640
+           Summary: Hardware: - GPU: AMD Radeon RX 6600 / 6600 XT / 6600M
+                    (Navi 23) - Subsystem: XFX Limited [1eae:6505] -
+                    Kernel driver: amdgpu - Kernel: 6.14.0-33-generic -
+                    OS: Ubuntu 24.04 (upstream testing)  Issue: During
+                    normal usage in GNOME, the GPU occasionally loses
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: etkinator@gmail.com
+        Regression: No
 
-> WARNING: CPU: 1 PID: 6000 at fs/exec.c:119 path_noexec+0x1af/0x200 fs/exec.c:118
-> Modules linked in:
-> CPU: 1 UID: 0 PID: 6000 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full)
-> RIP: 0010:path_noexec+0x1af/0x200 fs/exec.c:118
-> Call Trace:
->  <TASK>
->  do_mmap+0xa43/0x10d0 mm/mmap.c:469
->  vm_mmap_pgoff+0x2a6/0x4d0 mm/util.c:580
->  ksys_mmap_pgoff+0x51f/0x760 mm/mmap.c:604
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Created attachment 308775
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308775&action=3Dedit
+kernel logs showing context lost events, GPU resets, and SMU/PSP messages.
 
-Reported-by: syzbot+a9391462075ffb9f77c6@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/68dc3ade.a70a0220.10c4b.015b.GAE@google.com/
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: syzbot+a9391462075ffb9f77c6@syzkaller.appspotmail.com
-Cc: <linux-media@vger.kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>
-Cc: <linaro-mm-sig@lists.linaro.org>
----
- drivers/dma-buf/dma-buf.c | 2 ++
- 1 file changed, 2 insertions(+)
+Hardware:
+- GPU: AMD Radeon RX 6600 / 6600 XT / 6600M (Navi 23)
+- Subsystem: XFX Limited [1eae:6505]
+- Kernel driver: amdgpu
+- Kernel: 6.14.0-33-generic
+- OS: Ubuntu 24.04 (upstream testing)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 2bcf9ceca997..6e2ab1a4560d 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -189,6 +189,8 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
- {
- 	struct pseudo_fs_context *ctx;
- 
-+	fc->s_iflags |= SB_I_NOEXEC;
-+	fc->s_iflags |= SB_I_NODEV;
- 	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
- 	if (!ctx)
- 		return -ENOMEM;
--- 
-2.34.1
+Issue:
+During normal usage in GNOME, the GPU occasionally loses context, resulting=
+ in
+visible system issues:
 
+- White, sometimes noisy, screen (GPU output frozen)
+- System freeze / unresponsive graphical session
+- GPU reset occurs automatically
+- Kernel log shows:
+
+    amdgpu: The CS has cancelled because the context is lost. This context =
+is
+innocent.
+    amdgpu 0000:09:00.0: GPU reset(2) succeeded!
+
+BACO (Bus Active/Chip Off) for runtime power management is enabled.
+
+Logs indicate repeated SMU / PSP resume sequences and GPU mode resets:
+
+    amdgpu 0000:09:00.0: Using BACO for runtime pm
+    amdgpu 0000:09:00.0: SMU is resumed successfully!
+
+Steps to reproduce:
+1. Boot Ubuntu 24.04 with kernel 6.14.0-33-generic.
+2. Use system normally (GNOME shell active).
+3. Intermittently, observe:
+   - White / noisy screen
+   - GPU reset in kernel logs
+   - Temporary freeze of graphical session
+
+Additional info:
+- SMU driver interface version does not match firmware (driver 0x0f, fw 0x1=
+3),
+but GPU resumes.
+- GPU operates normally after reset.
+- BACO active for runtime PM.
+
+Impact:
+- System instability: freezes, temporary loss of graphical output.
+- Potential interference with GPU workloads.
+- Annoying / disruptive for desktop usage.
+
+Request:
+- Investigate root cause of context loss leading to visible screen corrupti=
+on.
+- Verify interaction with BACO power management.
+- Advise on firmware/driver fixes or workarounds.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
