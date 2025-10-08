@@ -2,99 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FB3BC7705
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 07:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4802BC7B6A
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 09:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6576410E1F0;
-	Thu,  9 Oct 2025 05:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 980C810E940;
+	Thu,  9 Oct 2025 07:29:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M1MzS/CU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RzLtpaF/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E577710E1F0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 05:35:35 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3f2cf786abeso470047f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 22:35:35 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FD810E08F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 03:43:55 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-2698e4795ebso68188395ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Oct 2025 20:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759988134; x=1760592934; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wojdy8oISaReFb3V/aujCr+dYfQppmzTEbdq6Sq+uyc=;
- b=M1MzS/CU+hHlC4GERE6reHiIFBQezJyRrvOatFQkEvS0Lraz4HGW0ZZBuw6Pl0REZc
- +Sf4ocqevVkjgzKMPMgAUXSpXKb4NyCTjDaAb0InYxE5tYy1d7oq/AFUl3fvhfbpmf1r
- YWm3o8oDOUJcLfSc7O5XQcm7z27VhLO02r+dsIYBztvMM5ObcaLaoKB18mAaEpjV7qeo
- qo5UY4tODim42jv3C2q2yTDo3BiiKNItwKKNhC/h+ssncGy/iwrfQPwf8eKtbHBsVw6y
- X/c1Ea2HSuznkBXhoVOXGVPgCRacSqd5xOXhc1z1MiuXogVHHashM9b9w3um1GqV8hGq
- ILYQ==
+ d=gmail.com; s=20230601; t=1759895034; x=1760499834; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VInhF7vun+ADbuDP4f7RWZ7/1hOQvgwkDekOvwy950Y=;
+ b=RzLtpaF/gvGic+vswu1mIWUsdRlliGZ4UyNS/OVTfHMDEBhhjVu8KQVE5ZSBsIpFMQ
+ opQq+1nZV3YiH4yRr9I3Wj1+ZUhR9zS2E7+kglWpjKWeUPRs42weFq7cF3ueueDonhLf
+ VuK100TLokb6SC4XP3P63zlOgG5vIqdJ23CmXjEjfzHqHcDbN/ATMxC0C0UF7c+L+uyY
+ Y/Qe/dNbnLkbPNvJgXLe6M2BbNKGlGOVaAGw15H7FJ0XmfycS3c5vZUyarbMcn6qAxtL
+ AWjZqok53aMb6WQgZLPTeyYiojQSGhuWHmkai/yPpuYCBZbzygVrhsvJnrI1FLY2DCS7
+ i7RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759988134; x=1760592934;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wojdy8oISaReFb3V/aujCr+dYfQppmzTEbdq6Sq+uyc=;
- b=VckgP8XUj4xAerbPhPiKnikL25PuxbSQttvFRjid1VUgd1elZorS0solAvfBo8l0SN
- QNXObEhOw4AZOaj0KLsMf2FYymSIj/3oQitScgNqbnuXOirc2yHmRdFdTdjGAVnFhQAr
- 1f3AVPfQR56fbFFUXhzC8uiYBuTjlBRN+ZodJ4YaFQzTSZdPBPFPYlz42CXjXx0fMhXD
- ppxgq/ZM8kZHwF6khnnZyQ73jTIL0y6S+aHNngkJbwM1dgNn+1sLVtsWKJ71py8GjMzk
- Y1n3TARLfyS52zHnex7DHuorEFjLN9DGEstC5QdmKXpVzYQ25GMeuqVxFIiWp4JssTOM
- RrTA==
+ d=1e100.net; s=20230601; t=1759895034; x=1760499834;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VInhF7vun+ADbuDP4f7RWZ7/1hOQvgwkDekOvwy950Y=;
+ b=opsto9K2ZGvxxURo+2rx6gINM2b18tuwj4G6vIcq4y3Lr7vXCKNLMFzb0WnOuUAtMp
+ gMpH9JMfOIPbxENKVw8qorbtGozWkp9oG0wskrYYQZzUmbVL5uposNakpA9jD4XmCrs3
+ 22Rxbed9P8J5povnyk0sQLDgm4RqWOUSi7fjT9J9F8DOxqbTJfYHhz2sd0lReCysVY8N
+ 2S3u5vU7wEXdghUmaDWQeQdor83gCn/Tr5Q9NH22cvmYzXw6AMW3+A8NLgsKh5ZPss6q
+ TPUO9H+oKglQBGpmTHBauKz0YkFnIcjvQexLagmJdDm7ihn09tNWeWMTRfHIZpiBKQyG
+ 2ahQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDqwF45g6g3f7FYj3C7fndMjtdP14HXdV2fvIeA6tXN+qVPGxTCILD3ZuvOZDjofiqow+htzY2ojs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsI6D1EgA981A7L3RMldg1Fpty1WPGp0ZCHN+f0DEI9NceJC7o
- PKsoDMtnqJqnCvXbh5RrrdY0tgllmpTAb8FJROEWrfTCjgsPKEsecumU2V0ASHWPmzGKFNIlgg2
- 22+WXRBi8YACh28zRr1r8NUnP9xhzsEg=
-X-Gm-Gg: ASbGncsyKj05PXVURRLhur1QGt16XxuH913j3DUqeUZyH6Fx8gzN9yZ93VmH4Mlwfy+
- wG4XaIxjSszOreP6PeaTWNUaWDHnmaoy4I5Dmg0FOpsjMBvkV10rRVuwYkVdcNaB70HD8NaaSIi
- 2A67AwDzmtIiAu7NgTzLjPnVHfl/wtmnRnouCxvdJZgSTALgpSTHpupv7I+/QeL60i7frZNvPUc
- Dn1LcqJvoxlv+QgiEfgqA3e/b0O66vo6fH9PmCZWxQ=
-X-Google-Smtp-Source: AGHT+IGSKa0WWY8sQb7NirdhuUY9zlBVWAF8olfr4D2aOoKgmjKIIKXTBxs4oAP40QHdR3v89s2ItSY5dd09ZKpNd5w=
-X-Received: by 2002:a05:6000:186c:b0:3ed:e1d8:bd68 with SMTP id
- ffacd0b85a97d-42666ac6107mr3102943f8f.7.1759988134193; Wed, 08 Oct 2025
- 22:35:34 -0700 (PDT)
+ AJvYcCUfOuNhdtvGy9CWOK9fIbyT2+ZQFACLK0v71T+S2gk+27CO6tYb77iqCt3znA3XOYXofO97Oj6BJ7Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpOC33n7MYO1LQJExQ6vLvzdpOJFN+RCtQOW/qlw17ngRurmKO
+ BmczcWzyFdJh8V5ouxwP2bgtLtQ4ML52w2EMjicni4Vlkuc/OnHtKMEO
+X-Gm-Gg: ASbGnctpKvvo4+ciWcCAA8rlxSlJW/ubBy3K3Qoovgd+nUpHeGNYtDME4zZayDpohNf
+ xDr0s4I2sJi0ZFl7KK9aH5Kr7xVjdB/ucdsURaueacBekg0HOGFEkNr0oiXuxvvO/NlrMxjI+/M
+ SqQdgkDSoNk0s2ST4oyfTpBlI10gUcdSjJyO+JZ4lMF+eu1jO3dDp/1HE4Zr1ayfttFS/MwI8Ep
+ b6Wi/dt8tkcodjACRf8Y3N9DmK5Y+NGfm1LpyBHf8mt4aCNZ7urzqsND2cFM+xgy73g7lkfPo1D
+ gzvU6l927sg3FCkD7jELQwp7pSjUKOlc9ozmoGPaDJ4voXP1R2fL0O8boIhkvwr1356pVqitiiN
+ e4dsP4yxhZeyoMU9BNcfneSG8hw36teY5DKfAP0q7Me9sLd8KihzxL7IM+OnF9XmdnXxzOvtA11
+ bOX4Bfdzo3IqxGcvBkuXtHsdtSKN+ZRSC46TZt4g==
+X-Google-Smtp-Source: AGHT+IG54xKXiUdy0DJwzKQZzIjcR2wGAtdfxZQRffoyREgsAb1SOl9FlsAzbJO0UqlUtTWKuOGgcw==
+X-Received: by 2002:a17:902:ce0d:b0:26b:da03:60db with SMTP id
+ d9443c01a7336-29027373dabmr24286355ad.13.1759895034268; 
+ Tue, 07 Oct 2025 20:43:54 -0700 (PDT)
+Received: from localhost.localdomain ([155.117.84.221])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-28e8d1280c9sm182813505ad.53.2025.10.07.20.43.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Oct 2025 20:43:53 -0700 (PDT)
+From: Gui-Dong Han <hanguidong02@gmail.com>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
+ Gui-Dong Han <hanguidong02@gmail.com>, stable@vger.kernel.org
+Subject: [PATCH] drm/amdgpu: use atomic functions with memory barriers for vm
+ fault info
+Date: Wed,  8 Oct 2025 03:43:27 +0000
+Message-Id: <20251008034327.2475547-1-hanguidong02@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-23-clamor95@gmail.com>
- <20251008-canopener-marsupial-a92355b656ef@spud>
- <20251008-broaden-antennae-02de66094ad3@spud>
-In-Reply-To: <20251008-broaden-antennae-02de66094ad3@spud>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 9 Oct 2025 08:35:22 +0300
-X-Gm-Features: AS18NWAoEWc39K5OD4GIBOR3Awt1LVDq6NQUxGEQwh6PoTXJKtyEajbgSJmBgBo
-Message-ID: <CAPVz0n1NYL+t-KC1FwHYXuQ0C483ay3g8zP4SmBKVC2rh=x4Bg@mail.gmail.com>
-Subject: Re: [PATCH v4 22/24] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-To: Conor Dooley <conor@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
- Linus Walleij <linus.walleij@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
- Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 09 Oct 2025 07:29:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,278 +91,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D1=87=D1=82, 9 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 00:22=
- Conor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Wed, Oct 08, 2025 at 10:21:06PM +0100, Conor Dooley wrote:
-> > On Wed, Oct 08, 2025 at 10:30:44AM +0300, Svyatoslav Ryhel wrote:
-> > > Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> > >
-> > > The #nvidia,mipi-calibrate-cells is not an introduction of property, =
-such
-> > > property already exists in nvidia,tegra114-mipi.yaml and is used in
-> > > multiple device trees. In case of Tegra30 and Tegra20 CSI block combi=
-nes
-> > > mipi calibration function and CSI function, in Tegra114+ mipi calibra=
-tion
-> > > got a dedicated hardware block which is already supported. This prope=
-rty
-> > > here is used to align with mipi-calibration logic used by Tegra114+.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++=
-++
-> > >  1 file changed, 135 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/tegra/n=
-vidia,tegra20-csi.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,t=
-egra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,te=
-gra20-csi.yaml
-> > > new file mode 100644
-> > > index 000000000000..817b3097846b
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-=
-csi.yaml
-> > > @@ -0,0 +1,135 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.=
-yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: NVIDIA Tegra20 CSI controller
-> > > +
-> > > +maintainers:
-> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - nvidia,tegra20-csi
-> > > +      - nvidia,tegra30-csi
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks: true
-> > > +  clock-names: true
-> > > +
-> > > +  avdd-dsi-csi-supply:
-> > > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +  "#nvidia,mipi-calibrate-cells":
-> > > +    description:
-> > > +      The number of cells in a MIPI calibration specifier. Should be=
- 1.
-> > > +      The single cell specifies an id of the pad that need to be
-> > > +      calibrated for a given device. Valid pad ids for receiver woul=
-d be
-> > > +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    const: 1
-> > > +
-> > > +  "#address-cells":
-> > > +    const: 1
-> > > +
-> > > +  "#size-cells":
-> > > +    const: 0
-> > > +
-> > > +patternProperties:
-> > > +  "^channel@[0-1]$":
-> > > +    type: object
-> > > +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> > > +    additionalProperties: false
-> > > +
-> > > +    properties:
-> > > +      reg:
-> > > +        maximum: 1
-> > > +
-> > > +      nvidia,mipi-calibrate:
-> > > +        description: Should contain a phandle and a specifier specif=
-ying
-> > > +          which pad is used by this CSI channel and needs to be cali=
-brated.
-> > > +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > +
-> > > +      "#address-cells":
-> > > +        const: 1
-> > > +
-> > > +      "#size-cells":
-> > > +        const: 0
-> > > +
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        unevaluatedProperties: false
-> > > +        description: port receiving the video stream from the sensor
-> > > +
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +            required:
-> > > +              - data-lanes
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: port sending the video stream to the VI
-> > > +
-> > > +    required:
-> > > +      - reg
-> > > +      - "#address-cells"
-> > > +      - "#size-cells"
-> > > +      - port@0
-> > > +      - port@1
-> > > +
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - nvidia,tegra20-csi
-> > > +    then:
-> > > +      properties:
-> > > +        clocks:
-> > > +          items:
-> > > +            - description: module clock
-> > > +
-> > > +        clock-names: false
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - nvidia,tegra30-csi
-> > > +    then:
-> > > +      properties:
-> > > +        clocks:
-> > > +          items:
-> > > +            - description: module clock
-> > > +            - description: PAD A clock
-> > > +            - description: PAD B clock
-> > > +
-> > > +        clock-names:
-> > > +          items:
-> > > +            - const: csi
-> > > +            - const: csia-pad
-> > > +            - const: csib-pad
-> >
-> > This clocks section seems like it could get simpler. Since the clock
-> > descriptions are shared, and tegra20 has no clock-names, you could just
-> > move the detail of the properties out to where you have the ": true"
-> > stuff (we prefer that properties are defined outside of if/then/else
-> > blocks) and just restrict them here. For tegra20 that'd be
-> >
-> > if:
-> >   properties:
-> >     compatible:
-> >       contains:
-> >         enum:
-> >           - nvidia,tegra20-csi
-> > then:
-> >   properties:
-> >     clocks:
-> >       maxItems: 1
-> >
-> >     clock-names: false
-> >
-> > (although it could easily be maxItems: 1 ?)
-> > and for tegra30
-> >
-> > if:
-> >   properties:
-> >     compatible:
-> >       contains:
-> >         enum:
-> >           - nvidia,tegra30-csi
-> > then:
-> >   properties:
-> >     clocks:
-> >       minItems: 3
-> >
-> >     clock-names:
-> >       maxItems: 3
-> >
-> > Of course you'd then have to add minItems: 1 and maxItems: 3 to the
-> > extracted definitions.
+The atomic variable vm_fault_info_updated is used to synchronize access to
+adev->gmc.vm_fault_info between the interrupt handler and
+get_vm_fault_info().
 
-What do you mean by your last statement? Add minItems: 1 and maxItems:
-3 like this?
+The default atomic functions like atomic_set() and atomic_read() do not
+provide memory barriers. This allows for CPU instruction reordering,
+meaning the memory accesses to vm_fault_info and the vm_fault_info_updated
+flag are not guaranteed to occur in the intended order. This creates a
+race condition that can lead to inconsistent or stale data being used.
 
-This does to common properties
-  clocks:
-    minItems: 1
-    maxItems: 3
-    items:
-      - description: module clock
-      - description: PAD A clock
-      - description: PAD B clock
+The previous implementation, which used an explicit mb(), was incomplete
+and inefficient. It failed to account for all potential CPU reorderings,
+such as the access of vm_fault_info being reordered before the atomic_read
+of the flag. This approach is also more verbose and less performant than
+using the proper atomic functions with acquire/release semantics.
 
-  clock-names:
-    minItems: 1
-    maxItems: 3
-    items:
-      - const: csi
-      - const: csia-pad
-      - const: csib-pad
+Fix this by switching to atomic_set_release() and atomic_read_acquire().
+These functions provide the necessary acquire and release semantics,
+which act as memory barriers to ensure the correct order of operations.
+It is also more efficient and idiomatic than using explicit full memory
+barriers.
 
-This goes to conditional
- if:
-   properties:
-     compatible:
-       contains:
-         enum:
-           - nvidia,tegra20-csi
- then:
-   properties:
-     clocks:
-       maxItems: 1
+Fixes: b97dfa27ef3a ("drm/amdgpu: save vm fault information for amdkfd")
+Cc: stable@vger.kernel.org
+Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 5 ++---
+ drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c            | 7 +++----
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c            | 7 +++----
+ 3 files changed, 8 insertions(+), 11 deletions(-)
 
-     clock-names: false
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index b16cce7c22c3..ac09bbe51634 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -2325,10 +2325,9 @@ void amdgpu_amdkfd_gpuvm_unmap_gtt_bo_from_kernel(struct kgd_mem *mem)
+ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct amdgpu_device *adev,
+ 					  struct kfd_vm_fault_info *mem)
+ {
+-	if (atomic_read(&adev->gmc.vm_fault_info_updated) == 1) {
++	if (atomic_read_acquire(&adev->gmc.vm_fault_info_updated) == 1) {
+ 		*mem = *adev->gmc.vm_fault_info;
+-		mb(); /* make sure read happened */
+-		atomic_set(&adev->gmc.vm_fault_info_updated, 0);
++		atomic_set_release(&adev->gmc.vm_fault_info_updated, 0);
+ 	}
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+index a8d5795084fc..cf30d3332050 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c
+@@ -1066,7 +1066,7 @@ static int gmc_v7_0_sw_init(struct amdgpu_ip_block *ip_block)
+ 					GFP_KERNEL);
+ 	if (!adev->gmc.vm_fault_info)
+ 		return -ENOMEM;
+-	atomic_set(&adev->gmc.vm_fault_info_updated, 0);
++	atomic_set_release(&adev->gmc.vm_fault_info_updated, 0);
+ 
+ 	return 0;
+ }
+@@ -1288,7 +1288,7 @@ static int gmc_v7_0_process_interrupt(struct amdgpu_device *adev,
+ 	vmid = REG_GET_FIELD(status, VM_CONTEXT1_PROTECTION_FAULT_STATUS,
+ 			     VMID);
+ 	if (amdgpu_amdkfd_is_kfd_vmid(adev, vmid)
+-		&& !atomic_read(&adev->gmc.vm_fault_info_updated)) {
++		&& !atomic_read_acquire(&adev->gmc.vm_fault_info_updated)) {
+ 		struct kfd_vm_fault_info *info = adev->gmc.vm_fault_info;
+ 		u32 protections = REG_GET_FIELD(status,
+ 					VM_CONTEXT1_PROTECTION_FAULT_STATUS,
+@@ -1304,8 +1304,7 @@ static int gmc_v7_0_process_interrupt(struct amdgpu_device *adev,
+ 		info->prot_read = protections & 0x8 ? true : false;
+ 		info->prot_write = protections & 0x10 ? true : false;
+ 		info->prot_exec = protections & 0x20 ? true : false;
+-		mb();
+-		atomic_set(&adev->gmc.vm_fault_info_updated, 1);
++		atomic_set_release(&adev->gmc.vm_fault_info_updated, 1);
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+index b45fa0cea9d2..0d4c93ff6f74 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+@@ -1179,7 +1179,7 @@ static int gmc_v8_0_sw_init(struct amdgpu_ip_block *ip_block)
+ 					GFP_KERNEL);
+ 	if (!adev->gmc.vm_fault_info)
+ 		return -ENOMEM;
+-	atomic_set(&adev->gmc.vm_fault_info_updated, 0);
++	atomic_set_release(&adev->gmc.vm_fault_info_updated, 0);
+ 
+ 	return 0;
+ }
+@@ -1474,7 +1474,7 @@ static int gmc_v8_0_process_interrupt(struct amdgpu_device *adev,
+ 	vmid = REG_GET_FIELD(status, VM_CONTEXT1_PROTECTION_FAULT_STATUS,
+ 			     VMID);
+ 	if (amdgpu_amdkfd_is_kfd_vmid(adev, vmid)
+-		&& !atomic_read(&adev->gmc.vm_fault_info_updated)) {
++		&& !atomic_read_acquire(&adev->gmc.vm_fault_info_updated)) {
+ 		struct kfd_vm_fault_info *info = adev->gmc.vm_fault_info;
+ 		u32 protections = REG_GET_FIELD(status,
+ 					VM_CONTEXT1_PROTECTION_FAULT_STATUS,
+@@ -1490,8 +1490,7 @@ static int gmc_v8_0_process_interrupt(struct amdgpu_device *adev,
+ 		info->prot_read = protections & 0x8 ? true : false;
+ 		info->prot_write = protections & 0x10 ? true : false;
+ 		info->prot_exec = protections & 0x20 ? true : false;
+-		mb();
+-		atomic_set(&adev->gmc.vm_fault_info_updated, 1);
++		atomic_set_release(&adev->gmc.vm_fault_info_updated, 1);
+ 	}
+ 
+ 	return 0;
+-- 
+2.25.1
 
- if:
-   properties:
-     compatible:
-       contains:
-         enum:
-           - nvidia,tegra30-csi
- then:
-   properties:
-     clocks:
-       minItems: 3
-
-     clock-names:
-       maxItems: 3
-
->
-> Oh, also: if you want clock-names to ever actually be usable, you have
-> to require it. Otherwise a driver must be written to handle it not being
-> there.
->
-
-Yes, driver takes this into account and handles it.
-
-> > > +additionalProperties: false
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - power-domains
-> > > +  - "#address-cells"
-> > > +  - "#size-cells"
-> > > +
-> > > +# see nvidia,tegra20-vi.yaml for an example
-> > > --
-> > > 2.48.1
-> > >
->
->
