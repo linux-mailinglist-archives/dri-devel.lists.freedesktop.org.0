@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CB8BC3917
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB66BC390E
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 09:31:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F7110E763;
-	Wed,  8 Oct 2025 07:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9871310E762;
+	Wed,  8 Oct 2025 07:31:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DpRgA6Mo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eIFOQjMF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE8510E762
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:31:20 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-57edfeaa05aso8453320e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:31:20 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE6710E762
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 07:31:22 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-57dfd0b6cd7so8387387e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 00:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1759908679; x=1760513479; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1759908680; x=1760513480; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=C/43znEe061f/mLeX5mGh0JaDqN09K9lxSSjlK2dh/Q=;
- b=DpRgA6MooIioxpDr6/7uRJwwhOyxnz323ng7LfcvJ3vBAg3eKfuhmHNiFR3QXdsPcs
- anIFquJUUdeLnXDDaZGyMHSwifHRH3oFD3GtNyE4ioTC9kXqaxd4+LLzSa3SRmYILp5q
- jOhvt+S0Fs4ae9UAgAk9I+kZFCuhqGNJvlzDXL2t39x4dmuyTc87aeFRBh8970uiuhu5
- 98hOb6OWotr+/SGmIqHzRIwVot6xgS76fYng/Hgb6D5K88+RzKrwY5fAmJ+LIRNKDcaQ
- w3NWcjFY4PyWQ0GFJaB7jHDasHbFYDjMUaeCqk7fKjboE4zzlH7l9ubAF0HLRhi2ZyXi
- tSfg==
+ bh=Pg0HJx9UF6cc43KSohy1sFUTcyD1/BLQvc4mTLXMxcE=;
+ b=eIFOQjMFxgrHvZzlHwJtdRLgdChNLEWr/nnUyY1neooueuLdoqTg73Ps8ZXxdNIhK8
+ 14RqPWDvMSb+vvanpuJGb/GlMo699PIRBjxbBWjBb3J37y7e3GnQ0RO+ID8+5iMdt1H4
+ kCP09o5SA6nkTMomHBnPKWC8hmhTvjqb++VSV1HO2UBiPZYJHiFLanjN7x7z9WwdzvyX
+ VH6MeVPyYW6W0vLkF61ORP6iGmGWQAMqZsUdl5tXp/HFZTbBRB940v/yM9uFdN/G8y0g
+ ci12vnoYKo3TFDmfcc1r8B+UHQDRIa1wveWNHUEIuK9X0Xpzs9efn1SAZyb/8S3fvpwe
+ SyAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759908679; x=1760513479;
+ d=1e100.net; s=20230601; t=1759908680; x=1760513480;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C/43znEe061f/mLeX5mGh0JaDqN09K9lxSSjlK2dh/Q=;
- b=XbQtNwHuUalBJ963wzqLWMzqS3ky+0jqTv9h8oadwC6lC/IPczN6lZqwxWHavEqHDe
- eQqkDSryxluyKfEW/f0UQ4aRSP7YG2RdWJBKD/tozupBDj9hGhqd43jT0DYzUveQeWub
- TWgRv7xE5TFN+yimgl4ANq0jLe4zMTkVDoMSvSYayQ8bgMrJFPEEdArRTO9GUaSe+DN3
- LjtxgizcyriCoC/G28w9HxInHrMPcUJK2Qf5sItCNtiZM7ycPgE/sz9jMXzuQsAxssJd
- yUjyu7YmC+B6+8vQQ855+L9NYe9hF9RQr1Di5O1Eng6BL0ROwRpF+Iq7vlSljGVZV/ND
- vSIA==
-X-Gm-Message-State: AOJu0Yw5jAHdJJ13pgBbKuoEy5Jx6ILtKXXB4FB1nW7ahxLubOyi0iB3
- 1Y/lTrPOYmCMFgM+OH+vlreVL6cD1tDV7Whccqv1e532Bcj3LqMSj6OV
-X-Gm-Gg: ASbGncuaSEMeT6dnZIUCw6adlG2zUgDW0AvWAp0e0OwkAMgZ+jgm5zqoRmvNNZRhJEr
- pdlaLx2hz1ZkGjSg3vhgbk+m+nx5vIQgYvJNvk4GpoLg6kVqrSR9BvPLeqcO9oaB/eQS7ELAZ6K
- BbGPZfgvyO/zaaTKKqK2OIRgLx8PvvXeZh2BWBCI2qM/liYXZ5903WWB3T+feRTKm9ODoLYL+/K
- +b5c7TeYTqqm4Lr+MAvCticQpetvDK8qMACR0rjQALEG9mn1wumnvOUn65sn0LKfX0xX91AVi8J
- 2ko5dLf/YtgePJbpVS00PbpRHmJ8jXcSDWhvT/scsqOvvTBqe+cpxnR6Xo13IFM3LnTxODIx2K/
- iriLhCMNR0wTFzVFCyu4QMyQxWrcb0hcceBvAEQ==
-X-Google-Smtp-Source: AGHT+IH6yVzn596rSyB3yJ9XBLWXz7u+miIMTSdihRGfwsNDTc+rfVY8kk2V15qCy1XHoAjhkBFITg==
-X-Received: by 2002:a05:6512:3daa:b0:585:c51e:e99d with SMTP id
- 2adb3069b0e04-5906d896bc4mr657722e87.3.1759908678413; 
- Wed, 08 Oct 2025 00:31:18 -0700 (PDT)
+ bh=Pg0HJx9UF6cc43KSohy1sFUTcyD1/BLQvc4mTLXMxcE=;
+ b=j9bI5jH0VhjszQceeLbDQWH1HBGBaLzpamy2ppZNzbgV7eLi5+z6Ghb49LBjKMlhlK
+ nfIvLsk7DN9NHbWz7gX4XW6bRKSCkQou8CFv1czBFFDxw337C1zNlykN6RR66ZHWPQfe
+ /XCWcUEt7tiDvj7HVIREN6kUHkUzchxLffoSDfZ4aowc3gwlbrSj7sr9LfPGFWGmhVST
+ CtkZQLSJcbVikSnS6EWm7Yq0tYKnQuhirllLaE1tGsk1q/xH3VFWzyLXILrMeFWDWWKx
+ ccNo4bpQAg3RevnQV2dkz60Go8P6oMYHX+xuxT7xxFAM+S9WKd8fFdiyUew/ItKANZts
+ oZDw==
+X-Gm-Message-State: AOJu0YyhQSOjGPbevlRR1hAxsOgEPHeHZJOiXBltqmd0eiIdHmb1Xr96
+ 959BCj/DlrECsb34zJ2juFMAvGt+y+DxB9kd5fDtBFo+Vk9AQGGRM9rQ
+X-Gm-Gg: ASbGncuGZh56KtAE+47tFa+GSWkwb24cGOd2ERvarNQu/2SlQ80H9Mno5Yt94j3zohw
+ YKR+pAZCWTM5vsdX3QEXMF4784SEk90BHAnqx4y9qxnFH3q6nlCAKOqcxnUUXLyriqhtocX2NCO
+ cqDhquyd2dPwlQgiX6b7eYWsZp+ZheMrcldHI22LEWspOOxGtPPXsrjh0v95avp7WsKYcrSJvtX
+ YBr0mx2PuVB71rnzuJELsQ8UtACMP6+eINEJAdluhc3Avy6g1u9Lbrsii1Lu5rJWLd30TVv5gIq
+ 55qGvIJFZJMVQBSDehn5wz+8vbsO9pLCUjSSd9yKFaULLAMe5FFX1o50wztwartAe3IwkeQ2IKW
+ l+BuUlQwMgkKvBVlxwLvag9EBB0xWH2TlK0MX5MW8BVRYut3Y
+X-Google-Smtp-Source: AGHT+IEZP4fCBr+12IlYOXrH9a+CoFe5hewGhtwyyj6VYBFCCNVd4VpYfDkKVBWv8lYOk7dl7gjLUg==
+X-Received: by 2002:a05:6512:2312:b0:590:6598:4edf with SMTP id
+ 2adb3069b0e04-5906d9e92camr655190e87.47.1759908680085; 
+ Wed, 08 Oct 2025 00:31:20 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-58b0118d22bsm6911016e87.85.2025.10.08.00.31.16
+ 2adb3069b0e04-58b0118d22bsm6911016e87.85.2025.10.08.00.31.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 00:31:18 -0700 (PDT)
+ Wed, 08 Oct 2025 00:31:19 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -86,10 +86,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v4 03/24] dt-bindings: clock: tegra30: Add IDs for CSI pad
- clocks
-Date: Wed,  8 Oct 2025 10:30:25 +0300
-Message-ID: <20251008073046.23231-4-clamor95@gmail.com>
+Subject: [PATCH v4 04/24] clk: tegra30: add CSI pad clock gates
+Date: Wed,  8 Oct 2025 10:30:26 +0300
+Message-ID: <20251008073046.23231-5-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251008073046.23231-1-clamor95@gmail.com>
 References: <20251008073046.23231-1-clamor95@gmail.com>
@@ -110,42 +109,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra30 has CSI pad clock enable bits embedded into PLLD/PLLD2 registers.
-Add ids for these clocks. Additionally, move TEGRA30_CLK_CLK_MAX into
-clk-tegra30 source.
+Tegra30 has CSI pad bits in both PLLD and PLLD2 clocks that are required
+for the correct work of the CSI block. Add CSI pad A and pad B clock gates
+with PLLD/PLLD2 parents, respectively. Add a plld2 spinlock, like one plld
+uses, to prevent simultaneous access since both the PLLDx and CSIx_PAD
+clocks use the same registers
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/clk/tegra/clk-tegra30.c         | 1 +
- include/dt-bindings/clock/tegra30-car.h | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/clk/tegra/clk-tegra30.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
-index ca367184e185..ca738bc64615 100644
+index ca738bc64615..61fe527ee6c1 100644
 --- a/drivers/clk/tegra/clk-tegra30.c
 +++ b/drivers/clk/tegra/clk-tegra30.c
-@@ -53,6 +53,7 @@
- #define SYSTEM_CLK_RATE 0x030
+@@ -154,6 +154,7 @@ static unsigned long input_freq;
  
- #define TEGRA30_CLK_PERIPH_BANKS	5
-+#define TEGRA30_CLK_CLK_MAX		311
+ static DEFINE_SPINLOCK(cml_lock);
+ static DEFINE_SPINLOCK(pll_d_lock);
++static DEFINE_SPINLOCK(pll_d2_lock);
  
- #define PLLC_BASE 0x80
- #define PLLC_MISC 0x8c
-diff --git a/include/dt-bindings/clock/tegra30-car.h b/include/dt-bindings/clock/tegra30-car.h
-index f193663e6f28..763b81f80908 100644
---- a/include/dt-bindings/clock/tegra30-car.h
-+++ b/include/dt-bindings/clock/tegra30-car.h
-@@ -271,6 +271,7 @@
- #define TEGRA30_CLK_AUDIO3_MUX 306
- #define TEGRA30_CLK_AUDIO4_MUX 307
- #define TEGRA30_CLK_SPDIF_MUX 308
--#define TEGRA30_CLK_CLK_MAX 309
-+#define TEGRA30_CLK_CSIA_PAD 309
-+#define TEGRA30_CLK_CSIB_PAD 310
+ #define TEGRA_INIT_DATA_MUX(_name, _parents, _offset,	\
+ 			    _clk_num, _gate_flags, _clk_id)	\
+@@ -859,7 +860,7 @@ static void __init tegra30_pll_init(void)
  
- #endif	/* _DT_BINDINGS_CLOCK_TEGRA30_CAR_H */
+ 	/* PLLD2 */
+ 	clk = tegra_clk_register_pll("pll_d2", "pll_ref", clk_base, pmc_base, 0,
+-			    &pll_d2_params, NULL);
++			    &pll_d2_params, &pll_d2_lock);
+ 	clks[TEGRA30_CLK_PLL_D2] = clk;
+ 
+ 	/* PLLD2_OUT0 */
+@@ -1008,6 +1009,16 @@ static void __init tegra30_periph_clk_init(void)
+ 				    0, 48, periph_clk_enb_refcnt);
+ 	clks[TEGRA30_CLK_DSIA] = clk;
+ 
++	/* csia_pad */
++	clk = clk_register_gate(NULL, "csia_pad", "pll_d", CLK_SET_RATE_PARENT,
++				clk_base + PLLD_BASE, 26, 0, &pll_d_lock);
++	clks[TEGRA30_CLK_CSIA_PAD] = clk;
++
++	/* csib_pad */
++	clk = clk_register_gate(NULL, "csib_pad", "pll_d2", CLK_SET_RATE_PARENT,
++				clk_base + PLLD2_BASE, 26, 0, &pll_d2_lock);
++	clks[TEGRA30_CLK_CSIB_PAD] = clk;
++
+ 	/* csus */
+ 	clk = tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
+ 					     clk_base, 0, TEGRA30_CLK_CSUS,
 -- 
 2.48.1
 
