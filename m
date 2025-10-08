@@ -2,72 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43766BC575D
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04359BC579C
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 16:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9677D10E841;
-	Wed,  8 Oct 2025 14:39:32 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eHNIYW4k";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2D410E83A;
+	Wed,  8 Oct 2025 14:48:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C78210E836;
- Wed,  8 Oct 2025 14:39:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1759934372; x=1791470372;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=G+qiQDHHViVNMPeYGuH1bOozVLR4PAcdtEr/vJX0luA=;
- b=eHNIYW4kJcBfGw7RYUR/v7bPEWYg/n2p+THZjq01JoqSov3ADgvnT1ll
- U6JC+v1OCUpRrG4FURtnnmmgiQhEAbpES15cftKO7OiKrPXhDaIg4idf2
- bpQogalWZkepLS7+ZVsTaQRuajqyb+cqxHBz5bJB77reHxzGn2bEHiolQ
- jG5ZA70ZaWB56TUOnLJNb/M/fcLPD7tWacQiU31veiN/RJrSE+60+99eM
- uh34OCBfw/LubIliXlnomKdM48kJIE64YS0fDgoZNTvTinqKxQmqccWM2
- Nbz4PFbTafCK/i6WE+M1PdeuQvexxA0mLzYDtZxq0TtvY36uGGkLftUL7 A==;
-X-CSE-ConnectionGUID: 7ekhOoH6TNeeLNBBJhkXig==
-X-CSE-MsgGUID: F7WJAOmzR0iSBkzpTHi+mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="72392567"
-X-IronPort-AV: E=Sophos;i="6.19,213,1754982000"; d="scan'208";a="72392567"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2025 07:39:31 -0700
-X-CSE-ConnectionGUID: ZJe75O3iTiegst/SvmbQAQ==
-X-CSE-MsgGUID: OsZW+6fuRHC13BchAqT1wg==
-X-ExtLoop1: 1
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.244.126])
- ([10.245.244.126])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2025 07:39:27 -0700
-Message-ID: <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
-Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
- latency
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko
- Ursulin <tvrtko.ursulin@igalia.com>, amd-gfx@lists.freedesktop.org, Lucas
- De Marchi	 <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi	 <rodrigo.vivi@intel.com>
-Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>, Danilo
- Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, Gerd
- Hoffmann <kraxel@redhat.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Lyude Paul <lyude@redhat.com>, Maarten
- Lankhorst	 <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>, Thadeu Lima
- de Souza Cascardo <cascardo@igalia.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 08 Oct 2025 16:39:25 +0200
-In-Reply-To: <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
-References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
- <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
- <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
- <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 98FAC10E839
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 14:48:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE04122FC;
+ Wed,  8 Oct 2025 07:48:08 -0700 (PDT)
+Received: from [10.1.28.50] (e122027.cambridge.arm.com [10.1.28.50])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C5F2B3F738;
+ Wed,  8 Oct 2025 07:48:14 -0700 (PDT)
+Message-ID: <5f095b02-2561-49d7-88a9-0fd82a1c9e00@arm.com>
+Date: Wed, 8 Oct 2025 15:48:12 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: Name scheduler queues after their job slots
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,103 +52,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-10-08 at 16:02 +0200, Christian K=C3=B6nig wrote:
-> On 08.10.25 15:50, Tvrtko Ursulin wrote:
-> >=20
-> > On 08/10/2025 13:35, Christian K=C3=B6nig wrote:
-> > > On 08.10.25 13:53, Tvrtko Ursulin wrote:
-> > > > Disclaimer:
-> > > > Please note that as this series includes a patch which touches
-> > > > a good number of
-> > > > drivers I will only copy everyone in the cover letter and the
-> > > > respective patch.
-> > > > Assumption is people are subscribed to dri-devel so can look at
-> > > > the whole series
-> > > > there. I know someone is bound to complain for both the case
-> > > > when everyone is
-> > > > copied on everything for getting too much email, and also for
-> > > > this other case.
-> > > > So please be flexible.
-> > > >=20
-> > > > Description:
-> > > >=20
-> > > > All drivers which use the TTM pool allocator end up requesting
-> > > > large order
-> > > > allocations when allocating large buffers. Those can be slow
-> > > > due memory pressure
-> > > > and so add latency to buffer creation. But there is often also
-> > > > a size limit
-> > > > above which contiguous blocks do not bring any performance
-> > > > benefits. This series
-> > > > allows drivers to say when it is okay for the TTM to try a bit
-> > > > less hard.
-> > > >=20
-> > > > We do this by allowing drivers to specify this cut off point
-> > > > when creating the
-> > > > TTM device and pools. Allocations above this size will skip
-> > > > direct reclaim so
-> > > > under memory pressure worst case latency will improve.
-> > > > Background reclaim is
-> > > > still kicked off and both before and after the memory pressure
-> > > > all the TTM pool
-> > > > buckets remain to be used as they are today.
-> > > >=20
-> > > > This is especially interesting if someone has configured
-> > > > MAX_PAGE_ORDER to
-> > > > higher than the default. And even with the default, with amdgpu
-> > > > for example,
-> > > > the last patch in the series makes use of the new feature by
-> > > > telling TTM that
-> > > > above 2MiB we do not expect performance benefits. Which makes
-> > > > TTM not try direct
-> > > > reclaim for the top bucket (4MiB).
-> > > >=20
-> > > > End result is TTM drivers become a tiny bit nicer mm citizens
-> > > > and users benefit
-> > > > from better worst case buffer creation latencies. As a side
-> > > > benefit we get rid
-> > > > of two instances of those often very unreadable mutliple
-> > > > nameless booleans
-> > > > function signatures.
-> > > >=20
-> > > > If this sounds interesting and gets merge the invidual drivers
-> > > > can follow up
-> > > > with patches configuring their thresholds.
-> > > >=20
-> > > > v2:
-> > > > =C2=A0 * Christian suggested to pass in the new data by changing th=
-e
-> > > > function signatures.
-> > > >=20
-> > > > v3:
-> > > > =C2=A0 * Moved ttm pool helpers into new ttm_pool_internal.h.
-> > > > (Christian)
-> > >=20
-> > > Patch #3 is Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>=
-.
-> > >=20
-> > > The rest is Reviewed-by: Christian K=C3=B6nig
-> > > <christian.koenig@amd.com>
-> >=20
-> > Thank you!
-> >=20
-> > So I think now I need acks to merge via drm-misc for all the
-> > drivers which have their own trees. Which seems to be just xe.
->=20
-> I think you should ping the XE guys for their opinion, but since
-> there shouldn't be any functional change for them you can probably go
-> ahead and merge the patches to drm-misc-next when there is no reply
-> in time.
+On 02/10/2025 18:11, Adrián Larumbe wrote:
+> Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
+> queues"), give scheduler queues proper names that reflect the function
+> of their JM slot, so that this will be shown when gathering DRM
+> scheduler tracepoints.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-I will try to do a review tonight. One thing that comes up though, is
-the change to ttm_device_init() where you add pool_flags. I had another
-patch series a number of months ago that added a struct with flags
-there instead to select the return value given when OOM. Now that we're
-adding an argument, should we try to use a struct instead so that we
-can use it for more that pool behavior?
+Two minor things below, but with those fixed:
 
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-I'll be able to find a pointer to that series later today.
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 6 ------
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +++++-
+>  drivers/gpu/drm/panfrost/panfrost_job.h | 2 ++
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 22350ce8a08f..d08c87bc63a2 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -668,12 +668,6 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+>  	 *   job spent on the GPU.
+>  	 */
+>  
+> -	static const char * const engine_names[] = {
+> -		"fragment", "vertex-tiler", "compute-only"
+> -	};
+> -
+> -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
 
-/Thomas
+NIT: We could move this to panfrost_job.c and keep the BUILD_BUG_ON.
+
+> -
+>  	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+>  		if (pfdev->profile_mode) {
+>  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index c47d14eabbae..0f0340ffee19 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -28,6 +28,10 @@
+>  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+>  #define job_read(dev, reg) readl(dev->iomem + (reg))
+>  
+> +const char * const engine_names[] = {
+> +	"fragment", "vertex-tiler-compute", "compute-only"
+> +};
+> +
+>  struct panfrost_queue_state {
+>  	struct drm_gpu_scheduler sched;
+>  	u64 fence_context;
+> @@ -846,7 +850,6 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+>  		.credit_limit = 2,
+>  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -		.name = "pan_js",
+>  		.dev = pfdev->dev,
+>  	};
+>  	struct panfrost_job_slot *js;
+> @@ -887,6 +890,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  
+>  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+>  		js->queue[j].fence_context = dma_fence_context_alloc(1);
+> +		args.name = engine_names[j];
+>  
+>  		ret = drm_sched_init(&js->queue[j].sched, &args);
+>  		if (ret) {
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+> index 5a30ff1503c6..52ff10b8d3d0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
+>  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+>  };
+>  
+> +extern const char * const engine_names[];
+
+NIT: Now this is no longer a local variable I think we should prefix it,
+e.g. panfrost_engine_names.
+
+> +
+>  int panfrost_jm_ctx_create(struct drm_file *file,
+>  			   struct drm_panfrost_jm_ctx_create *args);
+>  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
+> 
+> base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
 
