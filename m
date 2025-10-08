@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E674FBC653D
-	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855CDBC6561
+	for <lists+dri-devel@lfdr.de>; Wed, 08 Oct 2025 20:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFC2110E0EB;
-	Wed,  8 Oct 2025 18:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF31610E8A2;
+	Wed,  8 Oct 2025 18:49:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZaHxiZdY";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ShAk860b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE1D110E0EB
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:47:50 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5IxE027645
- for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:47:50 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD9010E8A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Oct 2025 18:49:02 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5SlH003269
+ for <dri-devel@lists.freedesktop.org>; Wed, 8 Oct 2025 18:49:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=X3OK73bHBwsSCsPnoqJcEPf6
- LmWfF1FEv1wyHSAhwNI=; b=ZaHxiZdYlT7+2IktgpTpOzhGSkLjGR295GpDPaw6
- 8l8B3bvaL7vdSbSAoSY941nFJm5pCfNKHEi0YFqrI5jIKGtIdX706UXIRd9i+722
- YWAujWCZ3W6jPj59Bt9cUEKWL+6vdZegQbxvyNfiK3UiV7k6PRtJWDxp2Xkj0aHA
- Zal1+mHOKtNdGRbS66QXyeDQ3qovBTvc2P7uinSv8omTGOxxCWfADCy4D7MW65Zl
- cMxXKOX5Mkn/7vb/nwJvWPpSgfmO11mtjq4BjeEs3gYksBVFC2twrzy8l9tz17+4
- r3h/5dv3KvcGBqYB4rGiZh7TXZNbsej4qu1NFfJh8Wl7Ew==
+ :references:subject:to; s=qcppdkim1; bh=ODPOfu15xqG3giQgLQz8qy9q
+ u7JTNTnroFNBqpeEc4M=; b=ShAk860bLdkRDmTXy9xSkwY5CSyE5qzM9u9Obzk6
+ rcDMUNkLFauoBMVVA0bati67BruEFTLu+I0S+xLFxerQOU1DCmvejBHTC7Dgf3Eb
+ jOxUu/ewFeqQOnp6J451/oZUU0GRrFT9b+wVB91S+CUFfeFX7Azmw1MxFVNoK/xp
+ ncWA0gbrsrP/Tv0LiEzhbWjnAIkTuW2GpqvogFJxs+CIj1CxezZi93lUHg9KTBwR
+ r3hSgMPJqvmk9tghmfuhKe9WAhIYjaWkTuUt77W0pf71mpfE1hlDs9W9r/2nvZ7s
+ f1ofXV2SW18ZmrtMQ4ZW2ZgNGUlT/qhxK9e8ew2Zi+eqhw==
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
  [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nr94b-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4m09rp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:47:49 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 18:49:02 +0000 (GMT)
 Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4e1015c48c8so33451261cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:47:49 -0700 (PDT)
+ d75a77b69052e-4de53348322so7399861cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 11:49:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759949269; x=1760554069;
+ d=1e100.net; s=20230601; t=1759949341; x=1760554141;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=X3OK73bHBwsSCsPnoqJcEPf6LmWfF1FEv1wyHSAhwNI=;
- b=rmNIypLQHbv0SUmeLfNyWuIcJk80fohRfafIVnT7fn9GCLlHhwtYDsDyi6xqs/fmK+
- UwRsGgefNqAmCGzSSshiZ2t5PLqgNer06nn7V3mW1Q7LKIVtT546zKucAGSi27zr2fa2
- S3iremYv84L9Awgph+b6e9WdlpfXiuvkCFZPtgM8HgU4KoLkqOIjgBJE4Q8+6njQykTi
- hdoFF92EIemb9Ga0vPmRi4Lvb27+LIqUKTzq+lszjAdjEzNkUNwKbgRiXyoJdMsGBck9
- gKRDsN4Uwg61x/GB3HVmbWb+fEfToR2Y05kIfdvu0DHEaSNhDDhR2tapskuEj6xuLRFm
- 6mVA==
+ bh=ODPOfu15xqG3giQgLQz8qy9qu7JTNTnroFNBqpeEc4M=;
+ b=lE9XKrTdowim4cIMMTWOw5IZm2xg4R5/NDNLHNkacOvU/mckmjnVWFp2ZD1H91fbZd
+ apXCr8lUVDYOgiMJoKi9Y1IAiCSFFKWIILEZ2m8eH5e4i0/j8xbp/uI9162eci9oECSZ
+ CRTL6CdhEJltd9ppVRB0rZ8L0LpYb0EQJaEhwvaDzEUw/PNwMUnzZ86CEjg0gvioGSMZ
+ 5sEZN/oqHHS0eJ11j0RlVYj0T520uVaSRMWU+mqwNc4j0ySeXrmJt+LD7itnSG3HEny3
+ nWL4WYVcSU5jfGPU4zP8APxh7AWxXzam0x/gKNzOz/V9hzPuX8avp5mJetQ+LtMIfjpK
+ QpQw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSCI257N7pYWLLQpSLBIjvtX8mi7/7lqFNf9Y01SJQqjVGwCj6yS+AzHRgOFydsmtapZ+pMIsNevQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypUmDnnNg4vh2Z9aCPrO4PWmTAHYr1JBi1hcjmbwRmKIcj/OfJ
- qXtaCCtaEoyLVXv6sOyzXTMQer25XiSCcihLf2JmltVSrAbkc+GBKQfTKTVGL9XgrBnbskbXQkk
- Z54gn1uuwv0mCVQiX+b1p13fkZ+2oEkWuVh1lLZnzUX3A/xLjgANVIiImXJK3uSYbTxolWFY=
-X-Gm-Gg: ASbGnctarp3XGSc0vyc3Wb23jjsmROBWfEOOd6B7VdkVodLk0uwzdSDM4fshtPnGF0R
- JcK8ncfwF6YvsctPSGupsu1exOId0Rg3/z/xt+ni+CoIXZu+Z9QELHVkDTZv/u7Nk6IRTdlRmwA
- brhNPVjrVkiumR6PqGuLzPkTDO7dPRN0TifHRKJ3Wg61atnzg1k3ZBPyMzjTOPDYGALZVEspXbe
- 62mKXpz/R6+vVw5QkkdZLJpJiSs6gxbdpbJU0On3h/uRlcq60cevfIKl15/nbQaVDIeIvp/wyg9
- UChw3QxAcAEfOhRm0FB52UcUjXPrMr4VkOPa0ow/KC/MRCMLRKfr46a75QkKgeTo2bioeIhrDwh
- U8zE9s2HzJ0MkhfTjdZunSVymx6YTzRdvpXomqNCyWoTgzldZfEbtQeKWVQ==
-X-Received: by 2002:ac8:5d4d:0:b0:4d2:ba6f:28fa with SMTP id
- d75a77b69052e-4e6de8b5d39mr136839601cf.34.1759949269004; 
- Wed, 08 Oct 2025 11:47:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHQKQvzko3qbaxFgsjx82A+PL+c822Ka1T/cMhgVoRCIXqgJtpZtPaiuhGC8/IySiPYiH8Eyg==
-X-Received: by 2002:ac8:5d4d:0:b0:4d2:ba6f:28fa with SMTP id
- d75a77b69052e-4e6de8b5d39mr136839181cf.34.1759949268518; 
- Wed, 08 Oct 2025 11:47:48 -0700 (PDT)
+ AJvYcCVo1BtN6cbfyJdAnonHVobNwIDQB97ClvIxjGDZj9+16o5bOyM2Bq5OIlCwJHrx5InpisH6yaUUies=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzeSLBxMxdJEl7Na6dcpLM0I7VCRNJLYY6tJEY2q9l+Wd5yUI4y
+ u5DRd4qF8SU4KUAqAbRF22Gjy5cYU5TsaIG3zxW509OqKGe0nDad3R2DRkb3p8YxU/lzLItQZw3
+ Ni5bHDXiKs2cY0Tbwrd2LHrFRaulGLRaDORLrGgXOG0q9YEG8rujRw7uLX5WRFbsct0hrlBE=
+X-Gm-Gg: ASbGncvZCGcryMKeN2qfolFNgOYCFgBZncDX7mqYwI1qwYxeir6xAfGA8pHka58Ai+Z
+ wmT/iWRHktl0Chn5LPgH+zht0SN8aUwf7Jq/7hiwKdHu7YeZN46w5OopppzJQM2JNl+XF2Jl+oK
+ 7wiMeYMlvtO+UEBBfc73N3lQmFUQgFGsMLHHMIAX3pVnLKxtMvcFRS1YO8riqNoJoG3iHukPQwi
+ UjMq1BiMqU3gv+fGZ1haR82QSrAj79HdSMM8Sr9/oNDjFDLDZusBK01XC6BMGrblxJFpdBXDFEl
+ ilefV+I8I6ElNh4L5mwQlFD9LqRNMNqyiUXJxN6+vyVUy3mp0mlcKm2Wa4XIH0QL9gKF9YuVi3R
+ zomlDgT5uJr1HEh3HlwqVZ6TSh/UxEjkw1q6RHkxYEqVFbXu2nz7F+T0Q5g==
+X-Received: by 2002:ac8:57c3:0:b0:4de:10a5:2c7f with SMTP id
+ d75a77b69052e-4e6eada7dfamr74153991cf.84.1759949340735; 
+ Wed, 08 Oct 2025 11:49:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFB3TEGZ+Gflu/39qNY+/p7xX+0/YYfiskGcmubHdrhtp3slU9kmFASOY5QbLqqoFf3Gd89DA==
+X-Received: by 2002:ac8:57c3:0:b0:4de:10a5:2c7f with SMTP id
+ d75a77b69052e-4e6eada7dfamr74153531cf.84.1759949340077; 
+ Wed, 08 Oct 2025 11:49:00 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5907adb26f3sm246089e87.103.2025.10.08.11.47.46
+ 38308e7fff4ca-375f3b833d2sm22261501fa.51.2025.10.08.11.48.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Oct 2025 11:47:47 -0700 (PDT)
-Date: Wed, 8 Oct 2025 21:47:44 +0300
+ Wed, 08 Oct 2025 11:48:59 -0700 (PDT)
+Date: Wed, 8 Oct 2025 21:48:55 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -86,35 +86,35 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 11/16] drm/msm: dpu1: Switch private_obj initialization
+Subject: Re: [PATCH 10/16] drm/msm: mdp5: Switch private_obj initialization
  to reset
-Message-ID: <2gpgdmamnljxpmgvrkgmojnrkv63c4tcmo4xglbswtv4yc4h2i@hk7op2aug6mx>
+Message-ID: <m3c3thrjbajskitjnkktmvp624v7qqfyluggcbmol5axvjno5n@aqnqk5nsu2zw>
 References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
- <20251008-drm-private-obj-reset-v1-11-805ab43ae65a@kernel.org>
+ <20251008-drm-private-obj-reset-v1-10-805ab43ae65a@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251008-drm-private-obj-reset-v1-11-805ab43ae65a@kernel.org>
-X-Proofpoint-ORIG-GUID: RgtpFWfg2QONwL615daTRW2j7yhk7Gdf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX+IwbZqwQUrho
- eyvdXaOIfJEz7b2sMUVGh7yE7UAgChhqLohQ+tPhCYhStoHu+rjodEYa0+LJb5UtB9fZGakkCeb
- uhT1ObMWvOuP59KTP82PK0++/XYftAFQSNI/FFcrLwHH1vtJg5khrfk17nn7OvV6Q1ncFwu4tLB
- 10o6AKV2GtaywQYWxaiEQPwvyTresNaCp4mW1W38B0jb8XtkdIgS6GAyPNg7aMwW9h3rIhslCDn
- 6uVgFZGrfvXX9SrYnqOp5+di1qvFlTdfvM6iTrQH/ruzuNjBKTZAlKWvWl68hBevuGhwqDEvz9I
- C4VAj/q4AUAzWaVsCGy/1vV6kwuVDqFgepoA1pTPeXA8408XNnavJss0Mz7p2/MX3vznhEMjA5z
- qp1b/vSNJ2P16Tp+bntPgYymre24PQ==
-X-Proofpoint-GUID: RgtpFWfg2QONwL615daTRW2j7yhk7Gdf
-X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e6b1d5 cx=c_pps
+In-Reply-To: <20251008-drm-private-obj-reset-v1-10-805ab43ae65a@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXwVdJxwdjPY09
+ AISi133RLmrmW/d7o1a5SBowpO+8cEiyr/2SPXpR/QyW3+G77xZ+RqSKtPGVOQO0eBsKqHKfAKS
+ PAzWTC0QdOjV2FailU7+Dr7iB9EiXx4T9D7ZEyiLYzSj9TBgBQayXy2jdz0+BYuBjgUbG9Q/cy7
+ 0qdd8Z8VsCbKZVTSyu1+DEjX6hvlbRXOKb+kzlnfK5CS4ZXhyHSfiZCXPeJJPbObvXZL0cUkegc
+ XU27znEOsOoM6QYOa8jXbYDiQhACywY9VZrFCjucKK/WYKgIIavpqM4fzdLA9F26jsX6x6rJTR3
+ LhXG+zZUc95zT5HbnIDHMmFpM+PBRoyBOmZZZeGzAe73Hjg6NjDkFt7DUbcpBeb3ZkOYzqtatQ3
+ 5TF4oOkmqzSTlrO6/oRoe5jqT9lYMg==
+X-Authority-Analysis: v=2.4 cv=B6G0EetM c=1 sm=1 tr=0 ts=68e6b21e cx=c_pps
  a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=tVI0ZWmoAAAA:8
  a=e5mUnYsNAAAA:8 a=MY5GpsA41Snrp9pqcaIA:9 a=CjuIK1q_8ugA:10
  a=kacYvNCVWA4VmyqE58fU:22 a=-BPWgnxRz2uhmvdm1NTO:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: 7_4ML22BiwoYukYEBzwsQKGVC_LVQpoF
+X-Proofpoint-ORIG-GUID: 7_4ML22BiwoYukYEBzwsQKGVC_LVQpoF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-08_05,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,8 +132,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 08, 2025 at 02:04:09PM +0200, Maxime Ripard wrote:
-> The MSM dpu1 driver relies on a drm_private_obj, that is initialized by
+On Wed, Oct 08, 2025 at 02:04:08PM +0200, Maxime Ripard wrote:
+> The MSM mdp5 driver relies on a drm_private_obj, that is initialized by
 > allocating and initializing a state, and then passing it to
 > drm_private_obj_init.
 > 
@@ -154,41 +154,31 @@ On Wed, Oct 08, 2025 at 02:04:09PM +0200, Maxime Ripard wrote:
 > Cc: linux-arm-msm@vger.kernel.org
 > Cc: freedreno@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 31 ++++++++++++++++++++++---------
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 31 ++++++++++++++++++++++---------
 >  1 file changed, 22 insertions(+), 9 deletions(-)
 > 
->  static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
+>  
+>  static int mdp5_global_obj_init(struct mdp5_kms *mdp5_kms)
 
-It can become static void now (up to you though).
+static void (up to you). Or just inline it.
 
 >  {
-> -	struct dpu_global_state *state;
+> -	struct mdp5_global_state *state;
 > -
 > -	state = kzalloc(sizeof(*state), GFP_KERNEL);
 > -	if (!state)
 > -		return -ENOMEM;
 > -
->  	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
+> -	state->mdp5_kms = mdp5_kms;
+> -
+>  	drm_atomic_private_obj_init(mdp5_kms->dev, &mdp5_kms->glob_state,
 > -				    &state->base,
 > +				    NULL,
->  				    &dpu_kms_global_state_funcs);
->  
-> -	state->rm = &dpu_kms->rm;
-> -
+>  				    &mdp5_global_state_funcs);
 >  	return 0;
 >  }
 >  
->  static void dpu_kms_global_obj_fini(struct dpu_kms *dpu_kms)
-
-Possibly we should also inline these two functions now.
-
-Anyway:
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-
-
->  {
+>  static void mdp5_enable_commit(struct msm_kms *kms)
 > 
 > -- 
 > 2.51.0
