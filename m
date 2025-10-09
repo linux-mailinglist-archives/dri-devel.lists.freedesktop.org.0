@@ -2,62 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FC7BCA2BB
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54B3BCA270
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:23:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFEA910EAA7;
-	Thu,  9 Oct 2025 16:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 248C710E203;
+	Thu,  9 Oct 2025 16:23:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="TU40tq/K";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Cqci1QN9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4800010EAA7
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:26:13 +0000 (UTC)
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 2C55125D78;
- Thu,  9 Oct 2025 18:26:12 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 3ZFCy1-9eO58; Thu,  9 Oct 2025 18:26:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1760027171; bh=8diuaNzW7qVQ7niTvw1wN0Etv/g7mng4EK/QYqTyxdo=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=TU40tq/K0HzL3XUqs8j6An15BOmyTWpnFPCUxBzywglO6Q/tvW40P+kOXzsHTW0vO
- lR5Hw9BoYCvlstHACNO2IkqvhKPO7RJKr/h5EzIwpceGKp7huishwO+TLGIL9DoiSC
- 9wBFOhSp9nverpvonV4zLlpTGbqE2TwLjYdU83M1VjiwPYmtx/JLDtQFKi0VRoesaq
- L/Xj9aAJcTvkmksc5eoSdoZsbOLLkaZ82qL9008GXezC3afaYemwLlD1DEDrrFZ5a9
- nxutTT4nKN7T9ejtM49ESbsWkhzFYobD7zRWnWXJMs+vFWmwrkd02bugsosu5zP007
- WvxD4T2STHtBw==
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Thu, 09 Oct 2025 21:52:11 +0530
-Subject: [PATCH RESEND v5 2/2] drm: panel: add support for Synaptics TDDI
- series DSI panels
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1589510E203
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:23:13 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 599F6TK2020128
+ for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 16:23:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=bt39X8dW+ZDv9jSNO3RMlOzt
+ N0nkdVf4IKuaB0k3nl4=; b=Cqci1QN97/teVcqE1BVo4WyOolpPKOXmhP86rTTe
+ 8ablEGLhj9fFsU9s985Tl1Z1dMi/kpDskgXb9j1AyPCJWvua/8YGu0f1PFl9aByj
+ 5/EkUJlKgKzkpjvV7gAcXUmxIItNXXBGbGWz9fz7pbC4RDIGLjbnJmIziaUIajfn
+ XsPMG4FSEtXP2iJivh+TkgEihFQMzuyJJkjTRjWqs0f52DIhZhBsSF5oPlpzquCU
+ ZjG5/RkpmodNzNLNcEuPtiYDjZYihWa+RieBSkyTxkBSjWQ+Z2JR7/LEEZA9lcV+
+ xKm54IxR9QyJ3mLxjWBSX2xuc7ciZ6ql00hGMK3dNtdujQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nujna-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 16:23:12 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4de36c623f6so41989051cf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 09:23:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760026991; x=1760631791;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bt39X8dW+ZDv9jSNO3RMlOztN0nkdVf4IKuaB0k3nl4=;
+ b=AsVbiH5AgQhx74PuAUyqml/w1VAwNIVJbICTQep3Vcpi5rrDlVBeuvKzRdN3n+d6FG
+ RPYGQy5fCSt4+jVOonlxvpxZsO0Ur1TGAsQRIrfLHWRjcDpKsmT2dWhi3FCNOJ0A3FgY
+ I4xfU//WaJCAgB+jU+i0zvzjGvKoRZGb0vgeSVVBK6+qT4ooTp0kCx6l0iQ5LrRCPRPx
+ LyyAAegSIJPxG4iQNuA348tmqUU58ZFdY5aWJvLMknxKvC3wSoHh6WO9xcSbms/gsk+d
+ oIs2L1sUGauBhs05upFIRKxO3qcm2JO5418PmesTauz2oTsBNsifSDIDV+p2wtc9wmVV
+ eFdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWAtBIrON1gzAcQ4S42zARdMLIfp9OjagWVYhfR9cEV9Z+5O6POdAxGWMIiW8lw26fwXyiBU8W4yCk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiAiVbsXfits6sH/CPZYuAvXeJUdMBXLxsjCxhLhsbaef8cWUI
+ 5ZTSM4GknXxAqD9HqC0zc2heQdDz9zcyThyuhkZMKKoxS5LZt2s2i2BgXq7IsCqFM74+cUty55U
+ 06YLEEmraLmw/YT4X4RUw8oR6i4xnFRNIZHP+MOJc5nVWD/TmiBrjiKlQyYxzrN1PNM8/E14=
+X-Gm-Gg: ASbGnculDXdUhnEhV0lAZik4pO5HWDqy5uvxwdLnsC84mkVt+29GocbLjDWy0UbMOT6
+ 70rrft4mRfX5t8JaRBfpN+DCDtb6/snPZmerha2wmcuYUX0GrPoMDivbRlrwebN91z16tG0R7fm
+ iqb3LCLK6YEidCMZ5rgY9IIWXke0CWT8/AXUvqczh2J38cA+t0xXcWS5UEhLCgr9TXHCdLNLF/U
+ Gdy7h7Q9aAQzR/ntzoKic5EqkNUuDJF+OVTJ2c7kFM0IDgVliKKbFHQF5gW3F9aeT0LMgcqGfbZ
+ G56mZo/BalTSQb+xmAOxCj4HFfW/C2XMzzN6XtU6U2uY/P5uzTlzPYbBW1mVb7NhThuEFwJhW1C
+ 8O/2H2AlgtP8KqrlT36bP42IzEfnkKX/7/kFrkudBR+D7quVRkqy+5wIBxA==
+X-Received: by 2002:a05:622a:355:b0:4bd:f73d:eee3 with SMTP id
+ d75a77b69052e-4e6ead54c1fmr111202991cf.39.1760026991316; 
+ Thu, 09 Oct 2025 09:23:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGg801ObE8F+R8kZBeMVN+M/a5YBBI9id+lFXKMYLvZEjycOY0KP+OvFKokNNP+wtFnRV298w==
+X-Received: by 2002:a05:622a:355:b0:4bd:f73d:eee3 with SMTP id
+ d75a77b69052e-4e6ead54c1fmr111202101cf.39.1760026990405; 
+ Thu, 09 Oct 2025 09:23:10 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5907ac00a78sm1182099e87.19.2025.10.09.09.23.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Oct 2025 09:23:09 -0700 (PDT)
+Date: Thu, 9 Oct 2025 19:23:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC
+ with panel
+Message-ID: <ylnjckdtgfktz4x7tcgy5g5qebpppregubhjn23e6cx7s5w23b@7tq35tvwx2qi>
+References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
+ <20251008-s6e3fc2x01-v2-1-21eca1d5c289@ixit.cz>
+ <7askbazrkbny5jlw6cpxcpjyw5nyiozmksoyj5b5momcc7w5hn@r3x6kddatf3u>
+ <74893f76-1b7d-4cfb-ba7a-9fd64427762b@oss.qualcomm.com>
+ <bmsxmwfdwx7wlmngaqpvz7c2nudcoukspkxgq6zqh2mdlolfxg@fsdbafotp5q2>
+ <75011ead-8bd8-4939-ae7b-1c127eba8aa8@ixit.cz>
+ <3mbngf2r3rvbn5fr4vxbk64ouvm3voo5o2r63vg3clyswnceoh@64r6ujb5qr65>
+ <9018af52-1c81-4d2d-8717-44e5372dbffa@ixit.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251009-panel-synaptics-tddi-v5-2-59390997644e@disroot.org>
-References: <20251009-panel-synaptics-tddi-v5-0-59390997644e@disroot.org>
-In-Reply-To: <20251009-panel-synaptics-tddi-v5-0-59390997644e@disroot.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760027068; l=10512;
- i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=8diuaNzW7qVQ7niTvw1wN0Etv/g7mng4EK/QYqTyxdo=;
- b=wKMZb2rMYDc/dsXk/WgtUvqc9Z1pjcsXITVYmk1GLvE259dwqj6SfK4joWX2Iz0T9Jik1kY0r
- llICE2q8sbVBI9syGu9lRhPcvmIRNdTh9DzD8iMoox1Q8Y+9neEZ4Lf
-X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
- pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9018af52-1c81-4d2d-8717-44e5372dbffa@ixit.cz>
+X-Proofpoint-ORIG-GUID: q3ykJloc1vucWLq338to-4SQ1UgVW9Gj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXytOJhdaPZeAX
+ DeIi3wy0Did6oyx1LQkiUSg+DsH0A5pD8vBcNVVTeX7JiEXu8ISn+q47kVKLmNcq6+fL37Ejqre
+ BAgQ/QGUm//fkeJb+/Vqgldf8a+9w/1dAUXWFaCtwZsw/KqDoNx798HXasdN+4+4CDlAtNu7+Rl
+ f+wGkjUGZLyPQMq9X5KHJQiNNqoE/jxGCRLa4CYMEOMUnkwJZN3gTofmNl+1Q5P15anVyuapGNc
+ E0FRBhjTXosSB0mv5Nz4c8BEjXlr79MJBS6y3lNbJm6fOdDl04zAPpukpjDrhUEyjt/X5AXWk8r
+ PZsdkzpWpIM2OJ+EL8ebpP84kEvykGFscAcy/diYHH1rf/wujddw5njm5d62jH0uPT1iKK/1VlE
+ UfsEQYkg+QpQ/TYNDocYytc9FkrbQg==
+X-Proofpoint-GUID: q3ykJloc1vucWLq338to-4SQ1UgVW9Gj
+X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e7e170 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=7einrZQClg3FUqyrEHMA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_05,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,335 +143,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Synaptics TDDI (Touch/Display Integration) panels utilize a single chip
-for display and touch controllers. Implement a simple device driver for
-such panels, along with its built-in LED backlight controller, and add
-support for TD4101 and TD4300 panels in the driver.
+On Thu, Oct 09, 2025 at 05:44:46PM +0200, David Heidelberg wrote:
+> On 09/10/2025 16:26, Dmitry Baryshkov wrote:
+> > On Thu, Oct 09, 2025 at 03:32:22PM +0200, David Heidelberg wrote:
+> > > 
+> > > 
+> > > On 09/10/2025 15:21, Dmitry Baryshkov wrote:
+> > > > On Thu, Oct 09, 2025 at 10:51:31AM +0200, Konrad Dybcio wrote:
+> > > > > On 10/8/25 8:57 PM, Dmitry Baryshkov wrote:
+> > > > > > On Wed, Oct 08, 2025 at 04:05:28PM +0200, David Heidelberg via B4 Relay wrote:
+> > > > > > > From: David Heidelberg <david@ixit.cz>
+> > > > > > > 
+> > > > > > > Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
+> > > > > > > 
+> > > > > > > Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
+> > > > > > > 
+> > > > > > > Signed-off-by: David Heidelberg <david@ixit.cz>
+> > > > > > > ---
+> > > > > > >    .../bindings/display/panel/samsung,s6e3fc2x01.yaml | 78 ++++++++++++++++++++++
+> > > > > > >    MAINTAINERS                                        |  5 ++
+> > > > > > >    2 files changed, 83 insertions(+)
+> > > > > > > 
+> > > > > > 
+> > > > > > Please also describe, why it's not enough to use defined compatible,
+> > > > > > samsung,s6e3fc2x01. Why do we need a separate schema and can't use the
+> > > > > > panel-simple-dsi.yaml
+> > > > > 
+> > > > > panel-simple works for 'dumb' (perhaps a harsh word for 'made with
+> > > > > just the in-spec DCS commands in mind') panels, but Samsungs are
+> > > > > widely known to require a ton of vendor magic
+> > > > 
+> > > > The question is about the _schema_. I think it's fine to have a driver
+> > > > for a panel covered by panel-simple-dsi.yaml.
+> > > 
+> > > see display/panel/samsung,amoled-mipi-dsi.yaml
+> > > the OLED display don't fit well, but I wouldn't mind consolidating at some
+> > > point, but since we know very little (no datasheets), it's hard to do for
+> > > now. Maybe in the future when there will be more panels schemas, we can find
+> > > a way to consolidate into one big?
+> > 
+> > I'm looking for a simple answer ATM: it doesn't fit
+> > panel-simple-dsi.yaml because it needs foo bar baz, which is not a part
+> > of that schema.
+> 
+> v3 will have:
+> 
+>     dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC with panel
+> 
+>     Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
+> 
+>     Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
+> 
+>     panel-simple-dsi cannot be used because it's limited to one
+>     power-supply, while we use three.
 
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
----
- drivers/gpu/drm/panel/Kconfig                |  11 ++
- drivers/gpu/drm/panel/Makefile               |   1 +
- drivers/gpu/drm/panel/panel-synaptics-tddi.c | 276 +++++++++++++++++++++++++++
- 3 files changed, 288 insertions(+)
+Perfect, thank you. If the bindings for samsumg,s6e3fc2x01 are
+incorrect, they should be dropped too.
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 407c5f6a268b2ec66e5d0eddae26b3368e4cb2cb..98708979ab45281628620bbe803fe8b597eb812d 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -1045,6 +1045,17 @@ config DRM_PANEL_SYNAPTICS_R63353
- 	  Say Y if you want to enable support for panels based on the
- 	  Synaptics R63353 controller.
- 
-+config DRM_PANEL_SYNAPTICS_TDDI
-+	tristate "Synaptics TDDI display panels"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y if you want to enable support for the Synaptics TDDI display
-+	  panels. There are multiple MIPI DSI panels manufactured under the TDDI
-+	  namesake, with varying resolutions and data lanes. They also have a
-+	  built-in LED backlight and a touch controller.
-+
- config DRM_PANEL_TDO_TL070WSH30
- 	tristate "TDO TL070WSH30 DSI panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 3615a761b44f9de0b4a653be157d8e0bcbc8f6b7..2535e1c9df76451d1c66d7d211ac9bfbf18dc80e 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -100,6 +100,7 @@ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
- obj-$(CONFIG_DRM_PANEL_SUMMIT) += panel-summit.o
- obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) += panel-synaptics-r63353.o
-+obj-$(CONFIG_DRM_PANEL_SYNAPTICS_TDDI) += panel-synaptics-tddi.o
- obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
- obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
- obj-$(CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521) += panel-sony-tulip-truly-nt35521.o
-diff --git a/drivers/gpu/drm/panel/panel-synaptics-tddi.c b/drivers/gpu/drm/panel/panel-synaptics-tddi.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..a4b3cbdebb6ca4062c02c6e7ac184f3ec245926a
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-synaptics-tddi.c
-@@ -0,0 +1,276 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Synaptics TDDI display panel driver.
-+ *
-+ * Copyright (C) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+struct tddi_panel_data {
-+	u8 lanes;
-+	/* wait timings for panel enable */
-+	u8 delay_ms_sleep_exit;
-+	u8 delay_ms_display_on;
-+	/* wait timings for panel disable */
-+	u8 delay_ms_display_off;
-+	u8 delay_ms_sleep_enter;
-+};
-+
-+struct tddi_ctx {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct drm_display_mode mode;
-+	struct backlight_device *backlight;
-+	const struct tddi_panel_data *data;
-+	struct regulator_bulk_data *supplies;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *backlight_gpio;
-+};
-+
-+static const struct regulator_bulk_data tddi_supplies[] = {
-+	{ .supply = "vio" },
-+	{ .supply = "vsn" },
-+	{ .supply = "vsp" },
-+};
-+
-+static inline struct tddi_ctx *to_tddi_ctx(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct tddi_ctx, panel);
-+}
-+
-+static int tddi_update_status(struct backlight_device *backlight)
-+{
-+	struct tddi_ctx *ctx = bl_get_data(backlight);
-+	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
-+	u8 brightness = backlight_get_brightness(backlight);
-+
-+	if (!ctx->panel.enabled)
-+		return 0;
-+
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi, brightness);
-+
-+	return dsi.accum_err;
-+}
-+
-+static int tddi_prepare(struct drm_panel *panel)
-+{
-+	struct tddi_ctx *ctx = to_tddi_ctx(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(5000, 6000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(5000, 6000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 11000);
-+
-+	gpiod_set_value_cansleep(ctx->backlight_gpio, 0);
-+	usleep_range(5000, 6000);
-+
-+	return 0;
-+}
-+
-+static int tddi_unprepare(struct drm_panel *panel)
-+{
-+	struct tddi_ctx *ctx = to_tddi_ctx(panel);
-+
-+	gpiod_set_value_cansleep(ctx->backlight_gpio, 1);
-+	usleep_range(5000, 6000);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(5000, 6000);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
-+
-+	return 0;
-+}
-+
-+static int tddi_enable(struct drm_panel *panel)
-+{
-+	struct tddi_ctx *ctx = to_tddi_ctx(panel);
-+	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
-+	u8 brightness = ctx->backlight->props.brightness;
-+
-+	mipi_dsi_dcs_write_seq_multi(&dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x0c);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi);
-+	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_sleep_exit);
-+
-+	/* sync the panel with the backlight's brightness level */
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi, brightness);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi);
-+	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_display_on);
-+
-+	return dsi.accum_err;
-+};
-+
-+static int tddi_disable(struct drm_panel *panel)
-+{
-+	struct tddi_ctx *ctx = to_tddi_ctx(panel);
-+	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
-+
-+	mipi_dsi_dcs_set_display_off_multi(&dsi);
-+	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_display_off);
-+
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi);
-+	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_sleep_enter);
-+
-+	return dsi.accum_err;
-+}
-+
-+static int tddi_get_modes(struct drm_panel *panel,
-+			  struct drm_connector *connector)
-+{
-+	struct tddi_ctx *ctx = to_tddi_ctx(panel);
-+
-+	return drm_connector_helper_get_modes_fixed(connector, &ctx->mode);
-+}
-+
-+static const struct backlight_ops tddi_bl_ops = {
-+	.update_status = tddi_update_status,
-+};
-+
-+static const struct backlight_properties tddi_bl_props = {
-+	.type = BACKLIGHT_PLATFORM,
-+	.brightness = 255,
-+	.max_brightness = 255,
-+};
-+
-+static const struct drm_panel_funcs tddi_drm_panel_funcs = {
-+	.prepare = tddi_prepare,
-+	.unprepare = tddi_unprepare,
-+	.enable = tddi_enable,
-+	.disable = tddi_disable,
-+	.get_modes = tddi_get_modes,
-+};
-+
-+static int tddi_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct tddi_ctx *ctx;
-+	int ret;
-+
-+	ctx = devm_drm_panel_alloc(dev, struct tddi_ctx, panel,
-+				   &tddi_drm_panel_funcs, DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
-+
-+	ctx->data = of_device_get_match_data(dev);
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(tddi_supplies),
-+					    tddi_supplies, &ctx->supplies);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to get regulators\n");
-+
-+	ctx->backlight_gpio = devm_gpiod_get_optional(dev, "backlight", GPIOD_ASIS);
-+	if (IS_ERR(ctx->backlight_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->backlight_gpio),
-+				     "failed to get backlight-gpios\n");
-+
-+	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "failed to get reset-gpios\n");
-+
-+	ret = of_get_drm_panel_display_mode(dev->of_node, &ctx->mode, NULL);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "failed to get panel timings\n");
-+
-+	ctx->backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
-+							ctx, &tddi_bl_ops,
-+							&tddi_bl_props);
-+	if (IS_ERR(ctx->backlight))
-+		return dev_err_probe(dev, PTR_ERR(ctx->backlight),
-+				     "failed to register backlight device");
-+
-+	dsi->lanes = ctx->data->lanes;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_VIDEO_NO_HFP;
-+
-+	ctx->panel.prepare_prev_first = true;
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = devm_mipi_dsi_attach(dev, dsi);
-+	if (ret < 0) {
-+		drm_panel_remove(&ctx->panel);
-+		return dev_err_probe(dev, ret, "failed to attach to DSI host\n");
-+	}
-+
-+	return 0;
-+}
-+
-+static void tddi_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct tddi_ctx *ctx = mipi_dsi_get_drvdata(dsi);
-+
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static const struct tddi_panel_data td4101_panel_data = {
-+	.lanes = 2,
-+	/* wait timings for panel enable */
-+	.delay_ms_sleep_exit = 100,
-+	.delay_ms_display_on = 0,
-+	/* wait timings for panel disable */
-+	.delay_ms_display_off = 20,
-+	.delay_ms_sleep_enter = 90,
-+};
-+
-+static const struct tddi_panel_data td4300_panel_data = {
-+	.lanes = 4,
-+	/* wait timings for panel enable */
-+	.delay_ms_sleep_exit = 100,
-+	.delay_ms_display_on = 0,
-+	/* wait timings for panel disable */
-+	.delay_ms_display_off = 0,
-+	.delay_ms_sleep_enter = 0,
-+};
-+
-+static const struct of_device_id tddi_of_device_id[] = {
-+	{
-+		.compatible = "syna,td4101-panel",
-+		.data = &td4101_panel_data,
-+	}, {
-+		.compatible = "syna,td4300-panel",
-+		.data = &td4300_panel_data,
-+	}, { }
-+};
-+MODULE_DEVICE_TABLE(of, tddi_of_device_id);
-+
-+static struct mipi_dsi_driver tddi_dsi_driver = {
-+	.probe = tddi_probe,
-+	.remove = tddi_remove,
-+	.driver = {
-+		.name = "panel-synaptics-tddi",
-+		.of_match_table = tddi_of_device_id,
-+	},
-+};
-+module_mipi_dsi_driver(tddi_dsi_driver);
-+
-+MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
-+MODULE_DESCRIPTION("Synaptics TDDI Display Panel Driver");
-+MODULE_LICENSE("GPL");
+> > > > > Perhaps the original change was made with an "oh it just works
+> > > > > surely there's no drawbacks possible" attitude, as the panel
+> > > > > was left initialized by the bootloader
 
 -- 
-2.51.0
-
+With best wishes
+Dmitry
