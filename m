@@ -2,80 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E7EBC8211
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9734FBC7F6E
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:14:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A73510E977;
-	Thu,  9 Oct 2025 08:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52CD210E950;
+	Thu,  9 Oct 2025 08:14:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="REIGecYO";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eklmgPlV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw
- [219.87.157.213])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E086810E950
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 08:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=deeQIG0vQzHbpuB0zFGYYbYCNUxkMTVvua037765riE=;
- b=REIGecYOugwtYpxwZrNXBhYh0e94sLShU7dO5PZZ4GlWDKRCDtI2du9v
- ddEzdugWkDaZKGNQNqACco3UJ8kbeCBrSXiQhYcs+EcDxT01S84h2fVct
- nNcFKEdYVVmk0Yb+h5SAaxcNwSwJ0T2jSbKWbLBGdYx+3R5KMBu+tH2Bu
- XVyt+8YqtG4SSgi3aBO/Q2rb5ZI0LhJiX9WwfMZa3yjH46CNDIzG4rdgc
- WcG4fh0KopZWQVLgmbxhNt1G6OIAsknO0L5dQcFHbGrUA17AWz8Cubr5H
- qAikdGtO4is/ULbu5vRFC3pgC9FZk2v9NGz3KaMiOLmbXcEMxLrJ9n92E w==;
-X-CSE-ConnectionGUID: nlf/221NSAuyq2OkJjmOYw==
-X-CSE-MsgGUID: 6LvJ5cEEQ8Sd0WdWjkX1zw==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 09 Oct 2025 16:03:05 +0800
-Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw
- [192.168.35.58]) by mse.ite.com.tw with ESMTP id 59982xPe072680;
- Thu, 9 Oct 2025 16:02:59 +0800 (+08)
- (envelope-from Pet.Weng@ite.com.tw)
-Received: from [127.0.1.1] (192.168.72.40) by HSCMAIL1.internal.ite.com.tw
- (192.168.35.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Thu, 9 Oct
- 2025 16:02:57 +0800
-From: Pet Weng <pet.weng@ite.com.tw>
-Date: Thu, 9 Oct 2025 16:02:36 +0800
-Subject: [PATCH v3 3/3] MAINTAINERS: Add entry for ITE IT61620 MIPI to HDMI
- bridge driver
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6D8E10E100
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 08:14:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759997650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=z/B31lhY4bVYeZNnk+dMlfOVrRbTYtHHzwgcdMMaTVE=;
+ b=eklmgPlVwxUbD5RGKNTMAISiecA9nE5fWKvBUBlE1Eaa5aW9+2nYOpVnuT0ItCXsQ2jK3l
+ ceI+GP+B/aJdI56cbRLWcJg6OveIIRtDiv/L1fXBz0TXjWhPVqP8FttRgfzbAPME09OqRg
+ 6nC3+3g8hGxfyzITX7ZUeHxupzqIIOg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-43-8YNVDUf9OQObXYd98kreyQ-1; Thu, 09 Oct 2025 04:14:09 -0400
+X-MC-Unique: 8YNVDUf9OQObXYd98kreyQ-1
+X-Mimecast-MFC-AGG-ID: 8YNVDUf9OQObXYd98kreyQ_1759997648
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-46b303f6c9cso4511785e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 01:14:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759997648; x=1760602448;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z/B31lhY4bVYeZNnk+dMlfOVrRbTYtHHzwgcdMMaTVE=;
+ b=n1QaFj/wYmW+BshK5bZfi7lOeoEC4RtlbjYqD05c7mJ6sj6Y3SSw+jgw8hX4O57HG5
+ njfETi09tDXcGzEpF+mXgTT2bJ5iM38nLrtce9SzRq1IPkKYz6lIFFTq1klhKLvYRwE5
+ lcu/VUMFQeGdXlVt3l5WuiHT/Smjqdl3DwG+7DN3h9FWXccwBX1Ze+YYrXUlaRJS8FJu
+ XmZm9Cm5HPQts+Ga9ckYQIt6Zcn2MGLgFK4XlXrj1WIAAZz8dS9eZAC+1GL8FSYHf+en
+ 1aMeJgcth9oIxWTG3xJoc5tkDmrU51LsUwEh27RrL1xbN7Qz3sqdfZpC7MdRmVX4CCs9
+ LXIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWm71ruH/HJuDBdSnHRMlZHqHPAwBSuLpXYcZHn8MXJYE/11MT3XDFchy5QThiCGG2iAaHHOiX0VIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnFOe0A7TLhyIiP+85pMr6uG6frBLKYDP6Jep4otbeVOhYEiAt
+ TVzgEoMxFaLDIkkV3JHQ8QLeH4u84ykkZg6O+8vZDgAeSuPqe4+INIklkV0UZTwPnuF21Br/6fV
+ 174rLdQWcc5555YfhMTH/PK3QsVxhpWjgP7uYOKRY2ftGxETNqlkH3d+GPW+aLdE+LQ/hhA==
+X-Gm-Gg: ASbGncuqozgUVLhXRzH5FUqDH5iALRw0J65YwEzvIn4dK05HZxlUPzcW+nTr6QjYVGe
+ s5J9D4K4LwbzfaP8gCxsWW2zH0K0fRypk4DHW6FM4AhMw3cp9I5emdNNS89OXP+c5e+LyAS2gkE
+ jMnkFf0vEkkPKGlS8ksCAcmc8FfUqFCCMgdixaG9quk8saM+MtqFKWhzAeKhEbbT+Wdb3oSXzv0
+ hH0b2ByFQbuUsZemCUOWQZ5TKAANoiwQ9vkVKC4LG9+IAx6ofS9TiRQK6MRE3ERWRsvmpYvjHeO
+ nMWlhHT3lrU1B242EFQYJKsBIihq56vkqJYLuEVj6yvT+4JSTi/2aT6xlNNCKoRiEiIWr7gvMxQ
+ zRNT1y3BH
+X-Received: by 2002:a05:600c:4750:b0:45f:28d2:bd38 with SMTP id
+ 5b1f17b1804b1-46fa9af3095mr47092715e9.18.1759997648086; 
+ Thu, 09 Oct 2025 01:14:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGo93r/upxlN0XWroa/gVbVuSE1HI9H4cBHGhOGnkYv+FuHkp7MlpzQ4ByJt+h+2JF6rzGBiQ==
+X-Received: by 2002:a05:600c:4750:b0:45f:28d2:bd38 with SMTP id
+ 5b1f17b1804b1-46fa9af3095mr47092215e9.18.1759997647608; 
+ Thu, 09 Oct 2025 01:14:07 -0700 (PDT)
+Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com.
+ [80.187.83.189]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46fa9d6fb41sm71628175e9.17.2025.10.09.01.14.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Oct 2025 01:14:07 -0700 (PDT)
+Message-ID: <9361c75a-ab37-4d7f-8680-9833430d93d4@redhat.com>
+Date: Thu, 9 Oct 2025 10:14:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251009-it61620-0714-v3-3-5d682d028441@ite.com.tw>
-References: <20251009-it61620-0714-v3-0-5d682d028441@ite.com.tw>
-In-Reply-To: <20251009-it61620-0714-v3-0-5d682d028441@ite.com.tw>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Hermes Wu <hermes.Wu@ite.com.tw>, Kenneth
- Hung <kenneth.Hung@ite.com.tw>, Pet Weng <pet.weng@ite.com.tw>, Pin-yen Lin
- <treapking@google.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1759996978; l=1089;
- i=pet.weng@ite.com.tw; s=20250702; h=from:subject:message-id;
- bh=2AH6cdUaZXwlNnFx/ldZyqIX/ucVa+bfES0Z5P+o6e4=;
- b=dU+LzgjtCQD9jnD7rDce2Wgo7OI+HYadVtVJU2unFfjCY8CuE4XlK8MR46ELOemvDiJncWSUd
- KhyoNX+crFrBbaVxehKxAKNw+imWqVUt1iFgZYPrn8SIk+upe6+hKgx
-X-Developer-Key: i=pet.weng@ite.com.tw; a=ed25519;
- pk=wd08uBtTLb93x2ixbKVNsxiZPdMh1Ov4z5klodh2bqo=
-X-Originating-IP: [192.168.72.40]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- HSCMAIL1.internal.ite.com.tw (192.168.35.58)
-X-TM-SNTS-SMTP: 9296EBCF0C107F6D862EF5CEF443C99F90E953BF5856D10F699AD9CB46901EAD2002:8
-X-MAIL: mse.ite.com.tw 59982xPe072680
-X-Mailman-Approved-At: Thu, 09 Oct 2025 08:52:15 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
+ folio sizes when registering hstate
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ linux-kernel@vger.kernel.org
+Cc: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-9-david@redhat.com>
+ <3e043453-3f27-48ad-b987-cc39f523060a@csgroup.eu>
+ <d3fc12d4-0b59-4b1f-bb5c-13189a01e13d@redhat.com>
+ <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: DtaMpxQ6TlslEtKNUs0ZbWgxWrrRUzQA2aHE5gj6E3A_1759997648
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,35 +176,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new entry for the ITE IT61620 MIPI to HDMI bridge driver to the
-MAINTAINERS file, include the responsible maintainer, mailing list, and
-file patterns.
+On 09.10.25 10:04, Christophe Leroy wrote:
+> 
+> 
+> Le 09/10/2025 à 09:22, David Hildenbrand a écrit :
+>> On 09.10.25 09:14, Christophe Leroy wrote:
+>>> Hi David,
+>>>
+>>> Le 01/09/2025 à 17:03, David Hildenbrand a écrit :
+>>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>>>> index 1e777cc51ad04..d3542e92a712e 100644
+>>>> --- a/mm/hugetlb.c
+>>>> +++ b/mm/hugetlb.c
+>>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
+>>>>         BUILD_BUG_ON(sizeof_field(struct page, private) * BITS_PER_BYTE <
+>>>>                 __NR_HPAGEFLAGS);
+>>>> +    BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
+>>>>         if (!hugepages_supported()) {
+>>>>             if (hugetlb_max_hstate || default_hstate_max_huge_pages)
+>>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int order)
+>>>>         }
+>>>>         BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+>>>>         BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
+>>>> +    WARN_ON(order > MAX_FOLIO_ORDER);
+>>>>         h = &hstates[hugetlb_max_hstate++];
+>>>>         __mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
+>>>>         h->order = order;
+>>
+>> We end up registering hugetlb folios that are bigger than
+>> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger that
+>> (and if we have to support that).
+>>
+> 
+> MAX_FOLIO_ORDER is defined as:
+> 
+> #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+> #define MAX_FOLIO_ORDER		PUD_ORDER
+> #else
+> #define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
+> #endif
+> 
+> MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via
+> /sys/kernel/mm/hugepages/ but bigger pages can be created at boottime
+> with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
+> 
+>     hugepagesz=64m hugepages=1 hugepagesz=256m hugepages=1
+> 
+> Gives:
+> 
+> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+> HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+> HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
+> HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
+> HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
+> HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
+> HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
+> HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
+> HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
+> HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
 
-Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I think it's a violation of CONFIG_ARCH_HAS_GIGANTIC_PAGE. The existing 
+folio_dump() code would not handle it correctly as well.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5257d52679d60d084b85e2f023730286aa79311d..6859c06dce3ad3d615a1e42f3542fb1da8da4fc2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13107,6 +13107,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
- F:	drivers/gpu/drm/bridge/ite-it6263.c
- 
-+ITE IT61620 MIPI DSI TO HDMI BRIDGE DRIVER
-+M:	Pet Weng <pet.weng@ite.com.tw>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/devicetree/bindings/display/bridge/ite,it61620.yaml
-+F:	drivers/gpu/drm/bridge/ite-it61620.c
-+
- ITE IT66121 HDMI BRIDGE DRIVER
- M:	Phong LE <ple@baylibre.com>
- M:	Neil Armstrong <neil.armstrong@linaro.org>
+See how snapshot_page() uses MAX_FOLIO_NR_PAGES.
 
 -- 
-2.34.1
+Cheers
+
+David / dhildenb
 
