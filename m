@@ -2,80 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BF0BC81F0
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3937BC81F9
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:51:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D390D10E0E6;
-	Thu,  9 Oct 2025 08:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FB010E11D;
+	Thu,  9 Oct 2025 08:51:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="HyA1t7j/";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g6asApzf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7606A10E0E6
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 08:50:44 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-b3ee18913c0so105197466b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 01:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759999842; x=1760604642;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mqcknWB6eCX2VYrA61jN3BkPJkr8rXkQ5glVIbwi/1I=;
- b=HyA1t7j/q+8Rwiw6jKsNOlNL1VGMYKKRB2sm5O0RIFQ2fspgSzcY1NGMSv5sWidX8J
- xpqLV6Ym9QO31nkO0RKNfy7TjpYLsN7xhCPlgAoSUpENlAfdpp/GSO9TfxwGf0g4vLl8
- 5ZyOl3gl5sU1SAiSSJzjSIRO2t9MGnLaJMmRETo1yZ24r4GmdOQeu+sl6NkNeHqWJE7N
- 2N0VHxITDuZE4xMukMSQYz927JISFIzMWoIghW31mqb4rYRg8o0oDTeI85l0KL1iSRXK
- fxZ1GcFTa8tpgMXdtJG/G7UDe+vMw8pn/84jpAb1bUF69LJAWntwJmrqylA725bh3jjQ
- tFBg==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F59B10E11D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 08:51:36 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EIx1004929
+ for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 08:51:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ rozNwP9rNVxJdTGVPBs6oK2WCT/2tAO/uW1pQSfTVxU=; b=g6asApzfeKmK3zLb
+ wl//PB0rnxxAAX8m5sv+CLKGbSipro+ye5sHZr8Z5NIxdtKNP9/TDb9EFWeAz72m
+ ejccBed6/GW/q8T72DY7ps+OE4IT8hICP+uHj3ZlapAZ291LsDX6SZTzXtWHIcWr
+ H99zwm/DMUKXiIlE1NHBJMKebjumVwQknEGuup3lqjBaMoWuKt6SZEtqmxr9zJbu
+ vyoNeFzLoNVXfXaO2sWYHxkN0s1iGDwgFsHpvZ4b68/iu2BCeGQmnfc6LFSZZpEw
+ +6myKfy1NMuu7oGtUTB+icHtMBtOfOoW+ka7MKoGbNLvVbYKzt5dSiujbfwqOm1Q
+ k7TlKQ==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4u248t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 08:51:35 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-87bbee3b92cso333136d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 01:51:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759999842; x=1760604642;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mqcknWB6eCX2VYrA61jN3BkPJkr8rXkQ5glVIbwi/1I=;
- b=jUvy5N2wgh+2Gj959RR7oqDHHX2BkOQ4eq0ykRkzjdMH+DwCZp5g81htsZVevsLN4L
- B9gXOcA8S/WwAYprsFxHC1k0AfE6P1GzqsS+xLSNJ/qydyrilrvc7WbizELOEau2NKZA
- a/uh04GYL3jHZl11cKguyK1FCRDKlcolERDVwdtztkwW3uA+HMEq3X75W2waA07/i/V4
- RVvWso9jLgW7q3kBEZcFTQXP9WbJ1aK4xYuSnK+rJjxeA1RAoAHvmQ21jDahVMv3AgwK
- eVxS1n+unUjzFke3fc/YKp1rtJhd3mxA8nLvLwbAr7YbgdriPF6XugZjSqHS4C65a53R
- vMyg==
+ d=1e100.net; s=20230601; t=1759999895; x=1760604695;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rozNwP9rNVxJdTGVPBs6oK2WCT/2tAO/uW1pQSfTVxU=;
+ b=GfqUZD10vVwlubW9M7Js39hxBXLCIfeZvJmpjlXUPN0ckltrXzKgwavM+UazC+R60T
+ oHwPcjyLFA3L8Dq5qaC7cxs0oMSOB9/2LBQ++mRdqGVxSEJG+GK+vHRKtpuxoaljgjFo
+ B9ipOqNoM0vfeaFns1Qz6gu6vd+Wh4CjWfMFocFZ6Vu8rCDv02QL6t0yYWYQAzIEcqEj
+ griZGTx2FnOYrmk+u5Xx8NUyC/Gug47+xCLs77IrmoqVV5/aGqsgwo2hQLB05r0nJTX/
+ LNWgHy2llK+7p/S0CQwUhittx3mxmO1GpO+eDoFM91DEz5CAN5ftA7A0xSaIlcSyTjnS
+ umQw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUE8U6U9rLdGtTsSy4c26RgIrEpwxn/IUHtfoeQOeoEdNnIUiSZ5mO3s2pNlSXKww37mJVHcp2fvzk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqW4tkjIA580V8IepFmJiapOBJ+3kDXW0yiEGV4hFxlXZEownk
- Evb3CqWLV2FlMg0UOuioLAlD2GWbgo4jpHuEf10NnmnyjXo4B03suX21p1u3rdCbxEw=
-X-Gm-Gg: ASbGncv6Ho+UBNYyr8ERPPgy9ikTLOCzmVPJqGiAoWBfm9FC8Rue8sdjAy//FMLJlJq
- KxTtc5UrFsEqbr2t4AWEe9i+aY4wtdrrfD0z0jHAibwpjkOabAkNGEoqEFO80pA9ITbW+1ijGvX
- szrx6AMH9sdpgVOS9ImsqBfoXHLf+p8Pn/9BbEuzXcNiDtHOc/csrl6HQPys2oztZIwTE5VLbBU
- +Eq5H/M4BQB6qW444gMK6rUHUwzck6ZrDNoiDCohUt6Cs7rMoH6f0741cTVVicVjrrCOdsBCvR2
- 9uFTYS3c2uFzf4WfSiZwUno3QnRWY6QYjvDgxlycjw87ygrfWbD720t7gWANVwOj9BWm6+rCImZ
- rbLLsBE3gmhtBiowKx5H7P3+DqonL1lYQpdEdU+cW70jlCh/I3Jo=
-X-Google-Smtp-Source: AGHT+IHTCsyomQHU3pUrJjrilmhEN+1Nd+VpUwPLw6bAW+0LgCwbEc5fSDmHQ9jLfCM8ldZVWEaKhA==
-X-Received: by 2002:a17:906:d54b:b0:b45:66f6:6a0a with SMTP id
- a640c23a62f3a-b50abed1a00mr678418766b.44.1759999842334; 
- Thu, 09 Oct 2025 01:50:42 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
- by smtp.gmail.com with UTF8SMTPSA id
- a640c23a62f3a-b4c855585d1sm1116706366b.67.2025.10.09.01.50.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Oct 2025 01:50:41 -0700 (PDT)
-Date: Thu, 9 Oct 2025 10:50:39 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Javier Garcia <rampxxxx@gmail.com>
-Cc: deller@gmx.de, tzimmermann@suse.de, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v3] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
-Message-ID: <dis2jb72ejrbmv26jdj3rwawrdmhmde5fahrkdn6y3elsgg4p7@wsjopejnmz5f>
-References: <20251006164143.1187434-1-rampxxxx@gmail.com>
- <20251008183627.1279115-1-rampxxxx@gmail.com>
+ AJvYcCUiUG7lTCgBuMCt4qVx1Oeztl6Detxae+8cxoImQT/+ZbUmtqG/toNI1yXJKbsKsOzt7YVB0/6iyD8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxmeuxsV3AAFoG/j1N9GemIhMmKEN0Sk/eg9hXEAvze3oVfCOp
+ 0xDn1SwudP7SoH4Iu54M0IV7ivGyB3BGdZsKG1OdjSs8gG2Fej3d/MD2pLs/FqJJDNDSLSr7225
+ Xic3NxzOsEqVZfIW7VA0F2a5RLKkGKQY1zl2HOfjT+KXJRenwPQY9LdbrCjUWFBuuzEbszig=
+X-Gm-Gg: ASbGncvyklaSLzxqGYk926eXFYRl/ev/wXoGWgIDSmsgVLKOK12gor4DpJFU0ozpKR9
+ uPo6LewiWBQ6Sef7Vr7336IevAy2tEV9vr2Q500r4exyrmNB+QRq5mA5tGSmGf5Tfll2HwE3leg
+ 2fTEEOJoZlMDUNW5dZideArphOVpTqUP8jna5tt5Lve9L9AYM7ZW1kvc7iAdDu8Ho3MtvudTthb
+ KbnZmdR37L3g0DDvng3B3V4C/CS0RMmv3J7b3qfZTzB2KrCKU8lVOqsYzMOgMGHeuVMW+4S8VKw
+ fjj3O6XHfW8B68F306yxcoG7y7NI1MyjdihIxI6si+CCvC1IjijDb37B3uvS0fEki4QBmM4bt32
+ wiIouLmcfbHobme7wRryryc7yDCs=
+X-Received: by 2002:ad4:576d:0:b0:87a:a954:4073 with SMTP id
+ 6a1803df08f44-87b21027da1mr56827896d6.2.1759999894537; 
+ Thu, 09 Oct 2025 01:51:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEdr0m1qJjPCGx95tl5+kQQ8Lc5k1Lvq51C86DjFACuanr/UCQghW1BHHi6401yO2k5MyRZFA==
+X-Received: by 2002:ad4:576d:0:b0:87a:a954:4073 with SMTP id
+ 6a1803df08f44-87b21027da1mr56827646d6.2.1759999894039; 
+ Thu, 09 Oct 2025 01:51:34 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-639f40f23f2sm1850757a12.38.2025.10.09.01.51.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Oct 2025 01:51:33 -0700 (PDT)
+Message-ID: <74893f76-1b7d-4cfb-ba7a-9fd64427762b@oss.qualcomm.com>
+Date: Thu, 9 Oct 2025 10:51:31 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2pqbmbzj5q22iux5"
-Content-Disposition: inline
-In-Reply-To: <20251008183627.1279115-1-rampxxxx@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC
+ with panel
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, david@ixit.cz
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
+ <20251008-s6e3fc2x01-v2-1-21eca1d5c289@ixit.cz>
+ <7askbazrkbny5jlw6cpxcpjyw5nyiozmksoyj5b5momcc7w5hn@r3x6kddatf3u>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <7askbazrkbny5jlw6cpxcpjyw5nyiozmksoyj5b5momcc7w5hn@r3x6kddatf3u>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Vrcuwu2n c=1 sm=1 tr=0 ts=68e77797 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=LME89Ewccn7mWiF1t2gA:9
+ a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-GUID: VhqHNt1jBjjnV4O-jGc7AP049waJ5b-u
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXy9UrS1yaJhta
+ KiyRO801cpDMnewYqCByfH5hWLD6/tnes7uiA4D52kTsGXuhxYNIV+n1L4qtHZBZi7C2KxPZFGn
+ MTQWkOiHJfQRMGwyP1aJClt/ZK4cDWjlkwPQ3Y6JH6LN4dQaxaorY4wrc421Cy2IzC3ajReR+Rd
+ lg6RmF5KW6/lsR2z9vD0zEopMxeCw+ZXlrwMYGy34drxOd4nUTugEMw6jD4Oq70tjR4NvthcOL9
+ R03dVJEWIH9KolTfjXUAdwh18xqg2eZLM2EcaNkS2B5Rah+jghYZaL6lMKKABGUNkXUrTzD5typ
+ 11UdPZaywJWkS6IL9InjnU2MkB1PP+m4cJv5x0nlDTIQUZkMV33dtNITrmO2ZYSTOkr5SHyHLhR
+ a8vaoHS9MhCX3FZ8GEM2zfpOD+C5/w==
+X-Proofpoint-ORIG-GUID: VhqHNt1jBjjnV4O-jGc7AP049waJ5b-u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,50 +138,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/8/25 8:57 PM, Dmitry Baryshkov wrote:
+> On Wed, Oct 08, 2025 at 04:05:28PM +0200, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+>>
+>> Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
+>>
+>> Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
+>>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>>  .../bindings/display/panel/samsung,s6e3fc2x01.yaml | 78 ++++++++++++++++++++++
+>>  MAINTAINERS                                        |  5 ++
+>>  2 files changed, 83 insertions(+)
+>>
+> 
+> Please also describe, why it's not enough to use defined compatible,
+> samsung,s6e3fc2x01. Why do we need a separate schema and can't use the
+> panel-simple-dsi.yaml
 
---2pqbmbzj5q22iux5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] fbdev: mb862xxfbdrv: Make CONFIG_FB_DEVICE optional
-MIME-Version: 1.0
+panel-simple works for 'dumb' (perhaps a harsh word for 'made with
+just the in-spec DCS commands in mind') panels, but Samsungs are
+widely known to require a ton of vendor magic
 
-Hello Javier,
+Perhaps the original change was made with an "oh it just works
+surely there's no drawbacks possible" attitude, as the panel
+was left initialized by the bootloader
 
-On Wed, Oct 08, 2025 at 08:36:27PM +0200, Javier Garcia wrote:
-> This patch wraps the relevant code blocks with `IS_ENABLED(CONFIG_FB_DEVI=
-CE)`.
->=20
-> Allows the driver to be used for framebuffer text console, even if
-> support for the /dev/fb device isn't compiled-in (CONFIG_FB_DEVICE=3Dn).
->=20
-> This align with Documentation/drm/todo.rst
-> "Remove driver dependencies on FB_DEVICE"
->=20
-> I've not the card so I was not able to test it.
-
-I still don't understand why the creation of the dispregs sysfs file
-should be conditional on FB_DEVICE. Either they have nothing to do with
-each other, or I'm missing something. The former makes this patch wrong,
-the latter would be an indication that the commit log is still
-non-optimal.
-
-Best regards
-Uwe
-
---2pqbmbzj5q22iux5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjnd1sACgkQj4D7WH0S
-/k7BbAf/QLsyGkuDfs6LkdXxSM3JUBB+yt7DzUjuOuGak31kVLqt/53SRBN6dK5H
-hutjVuB8TOyFnQe5u+U5sL4xHApig5CPAl6OZmT+rAiNMTf78uJI5vO0kHeDhhcE
-9dvxQvzxWZ1v52BcqSmNZNN0zXF+K8PvCSmbsTK5dqGYWi0YtrI1/U7SGzaUuPHY
-jfMHmpOs9nNjJw0xjaXgSt2dP5Qjp7OvhAMf/VqXZVU/xTgKyndHZykUV4HnmVWb
-RojLM4msHiUv14Njgqio0sR90BzGq734oI9JZE50PcMhB/Ch/1LGCKNJOVHfRNcQ
-9/kD0Fn12tVy8Zz5XjBV+Sq9rUPI4A==
-=RLfl
------END PGP SIGNATURE-----
-
---2pqbmbzj5q22iux5--
+Konrad
