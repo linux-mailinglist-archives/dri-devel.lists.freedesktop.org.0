@@ -2,105 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380AABC955E
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 15:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE5BBC967F
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B257B10EA54;
-	Thu,  9 Oct 2025 13:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 931D510EA61;
+	Thu,  9 Oct 2025 14:01:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="k3WpSNn8";
+	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="dgwpcWys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7E210EA54
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 13:38:47 +0000 (UTC)
-Received: from [10.59.7.204] (unknown [193.86.240.59])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519) (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 497EC5341173;
- Thu, 09 Oct 2025 15:38:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1760017125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XlnzkuebGGT9/FA8dDB4u+rfWyPNwzNC3qtitZmMTMg=;
- b=k3WpSNn8ImhYXkslG9+iSc8SQ6ZfJrMe9h5k0lOypoJlj2XKrEqVPrGRuS28ePSSBZOeEz
- BmhXMaxrlSKKShxeVPKx/7PxH1MF0+VET/uoxvLMyF+1qIACHLf15guIL9KuVl2iRsdBdH
- iSMWo7EOghiHvTmQoz7zVZCisAQvc8k=
-Message-ID: <2ab48275-37bd-4a04-bce3-769aa635451d@ixit.cz>
-Date: Thu, 9 Oct 2025 15:38:45 +0200
+Received: from DUZPR83CU001.outbound.protection.outlook.com
+ (mail-northeuropeazon11012013.outbound.protection.outlook.com [52.101.66.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F72710EA61
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:01:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bydkwP+feyn0fq9hTq1N2eJuPVxTixKFlgkZGd2JNsTGqiJD78HZyzr1OXWG4/cLUpCi7wW9658+oeLL02qljEX998lWRlvq5+rQ5r6FLB0WNKg8/de/lK6NGWZBdvwuKlhe0mLDGeLDnea9klU+A7OSVCwjlWgi7hlCimWTU0s9Dwi5/VJRpofhJyIUSRyPIBBCnbSGA3X2Fe80FS0y7pR7sNPLaz/Q6J7v251mKerNOYdMq9KMplsqEfh05idqgCmIHLg7y9gRBxH5V95t8FKbuSnSkP+Dp2Q4ugERNcuJbXgEEnPBeHseWl26u4wrWJmk6fxifcQchnrfqkmx0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xOl/OINWVC0ueC6zgTVcPv4RkNj9b9tbYcsjjVDJk3E=;
+ b=QrNLC0Pj+wi9Vc9sm85odiStkI0BJRccgkD3fi6k7/pcVifYu0TK20DxiFXnZXkpnWRKYIoC/riYhMOLqPvXwlpanSNvxgug2rZNrjDUHZ9to1aPuq6iJ2PzMlmcUZ0VcgOLmizNdwLut/L6+yK1VfJgHzkCAhlmZUhjM0WapKAA8vkwMlNWf3yzRV5fgOQTdvbSkQoQAUisTTJ6hgblzF76SV69Q1y3F0oxG0QHjD5L9wzBfBL98qfh0RXUkm+vUgRddnKvZvTvHjor5VAcOzG3mUjj+N2q2qABP99UzZnJdCtvnUlCX4UYIBXog3dm/Z1vhieOJBi8OsAdxv6sXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xOl/OINWVC0ueC6zgTVcPv4RkNj9b9tbYcsjjVDJk3E=;
+ b=dgwpcWys/5z+wgilVvn4uXULJ9jDIbKMy21Jv0txdv3uR7L6Hzm6MtrSqDAxLtTcZlOi7GoB2cdEA1aiKKNEB0KxMidL3anytFvy/ZWhwBgDmPX2WjVt2aRMsEg4GGgq3QTW+3nrj9DJyNTt4Tmn0Jbt+68qdZkZowM2r7b3W13+CyyNMKqoZweRP76U5YdQnwqYwz5+Hg0Z9+FQlIwGKIC7a+rq/W0MJUpbCgC4NMGaU9d/WsVcsl8PySZitzM0lL8ihSwRnlvRFnZZFRnJSf/ZXJC0qd7/HkcCUEo+NCsah8dN/E3n9bEcfBJJcCj8t3kiqqLGFxzFfigEDukMNg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from DB9PR04MB9627.eurprd04.prod.outlook.com (2603:10a6:10:30a::13)
+ by DB9PR04MB9774.eurprd04.prod.outlook.com (2603:10a6:10:4c5::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.18; Thu, 9 Oct
+ 2025 14:01:19 +0000
+Received: from DB9PR04MB9627.eurprd04.prod.outlook.com
+ ([fe80::c5f7:3093:4ebd:1a2]) by DB9PR04MB9627.eurprd04.prod.outlook.com
+ ([fe80::c5f7:3093:4ebd:1a2%6]) with mapi id 15.20.9182.017; Thu, 9 Oct 2025
+ 14:01:18 +0000
+From: Rain Yang <jiyu.yang@oss.nxp.com>
+To: imx@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: boris.brezillon@collabora.com, steven.price@arm.com, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, Rain Yang <jiyu.yang@nxp.com>,
+ Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
+Subject: [PATCH] drm/panthor: attach the driver's multiple power domains
+Date: Thu,  9 Oct 2025 22:00:39 +0800
+Message-Id: <20251009140039.101189-1-jiyu.yang@oss.nxp.com>
+X-Mailer: git-send-email 2.39.5
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0015.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::21) To DB9PR04MB9627.eurprd04.prod.outlook.com
+ (2603:10a6:10:30a::13)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
- <20251008-s6e3fc2x01-v2-4-21eca1d5c289@ixit.cz>
- <6b9ae65c-08f0-4b13-94cb-b899764bfc8c@oss.qualcomm.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <6b9ae65c-08f0-4b13-94cb-b899764bfc8c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9627:EE_|DB9PR04MB9774:EE_
+X-MS-Office365-Filtering-Correlation-Id: 48279450-3051-4eaf-e042-08de073c518d
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|52116014|7416014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?QkGs9Kw3I48grJUCN7KEJIR1QqDMpBFAVAGkqAjFPIuMeeX1Dd7PkqHllUSL?=
+ =?us-ascii?Q?pe5yVUoUIuMHEOA4j5/XEpnWNIPSswUV3Me9MLzMnYi7RP+pRBqUVLpHL+iD?=
+ =?us-ascii?Q?6o45abJ0zJtDkGexXI7kB+//PNF7cVjkfe1OT7j5P8dzHH/kmU4R+UZ2nCJU?=
+ =?us-ascii?Q?D1lHF7daF28NIW3n7dEgBib10dAlv3ku4SyDB8gaBDVJdB7mnxXmrzy47sRB?=
+ =?us-ascii?Q?HUe0cYnx3G8CXGUEe1EKj8DuhV6hTsw5fdyjemqK09Ud8yPBGwLv7m0IUu7i?=
+ =?us-ascii?Q?w8qAE+pLCoAAOV4Zj4EQcsxei0ktCLf9RGODlOe+V95eEc55QICOznEgFjuG?=
+ =?us-ascii?Q?0UufcnJKo2H6qg2uMh2jWmPRcfcFhA9ne/d/HZ/qCa4cMjcs2OkFkNjeoOhE?=
+ =?us-ascii?Q?8EE+N5tqfb2W0bksrnZvHJiUuIb6UtNwA/6HMYAhWafvSGm5vfQp2OuDC9t/?=
+ =?us-ascii?Q?8384T5kHJ0zQuoE1IcgK+wnS92GRGriQQR6vJUI/E8I/mZ6Ai28bXM7eG8y3?=
+ =?us-ascii?Q?UBiFIAMBdSYzxDbNMkhRTzjIihIGYRs9qE5C5qBz2sEARe3HOAxdu6ak60j3?=
+ =?us-ascii?Q?H9MGa9edFF15SiQJuwpDr6xxE1YGFQBsXSViUKnLFnGQ7e4UYn0QOCg4K1zy?=
+ =?us-ascii?Q?MfmjMyRm+OVaPkcReVEddgwCKcxEWEi7TIeym64dXpkeLX9aA8WbFsHgBiqy?=
+ =?us-ascii?Q?b4q+jNZchpiWwDwmCX4mL2OD8tujqvih/NADqEpajq4JtceLjbMnhTjTvqm6?=
+ =?us-ascii?Q?jq8lVLs/7GQxWRsQH61dXXDhiXtuycysuY0/WpFIGVHP36zQaYz15bdvKxh0?=
+ =?us-ascii?Q?ak/OH4aYGngdfVhYjoUTEQHf056T1QvK1ve2r67MKAa6hWK3Uv9x3Kfc6PAN?=
+ =?us-ascii?Q?NcwWTw0yQbzotIhBI7DHhrQKS1RuSCj2/wMMkECIfn8GTrHqnXEQYEnHRB3r?=
+ =?us-ascii?Q?19aWAMHI4wGv82t0Am/46KVsfcjJxSQOrGOTp4kJeZzMuUgPjSTwFsBnQ5I5?=
+ =?us-ascii?Q?udhqoIG8VwltVpzqEwzqz8GokJOI75EVMdNHuP7QNR4T6SMUgO3aGOeXvqQu?=
+ =?us-ascii?Q?kD8voyrl/NAnes0dsT9s58eYlJDGnN6CmLtXAOraRu8QpHc4ho7NHV9n40KV?=
+ =?us-ascii?Q?LcNnbRYNk3jL83poLmO+2YcFLzcfR3UGA7rwAMQ2NDtH45gW5wCEmgNwNPBn?=
+ =?us-ascii?Q?AC908Bo6lWqUIaXsyO560SWajg+XgNVEDNPRx6wydVNu+BqRBua+jF7898nz?=
+ =?us-ascii?Q?u/5U/1ffVTNc7OAcrPx3KJX8g3ossgwpUYA+G/wYs4daEXjAtY3w8nK9/aYZ?=
+ =?us-ascii?Q?HCUvK0v5PxU+BTCVV6oGShlo0fMm364O8fjWlzwZK79a8Nbut96wYMwSFZJ3?=
+ =?us-ascii?Q?cd2DvXlCQ6mKf/Zese7LPRBSoj+E5zMi6RC+epWX0W/oPoQVJ4anBUyqrL1f?=
+ =?us-ascii?Q?mL3OXXspnsSN25PeXf1Cfs0sW5miRQx/fMROhDEcHUqm5+adKoNUpf1rkKqr?=
+ =?us-ascii?Q?btgVK2JYUWB+cBDExm7u23CCF3hWS+AXiLXX?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB9PR04MB9627.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(52116014)(7416014)(376014)(1800799024)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WOHyaUuWN6IoYyWg+SjDXTbrNj5BJ/WrsMOl+oLlBsOH2ioi6pihw179LzjF?=
+ =?us-ascii?Q?xF312on26SB9cENbiX2C0sMZnr6mjJMzrNik2GMXtkPTW+msGHtkxywPqsVg?=
+ =?us-ascii?Q?f8qAtVxYvdqLjMDnRs8tIZCTI1OJcDSfdI3LMtA17R4Cx7xLzSi56V77x0su?=
+ =?us-ascii?Q?iuK3jnrzBAcQLeppP1YbKhC8Kb951vKePpKk3x1lKz+GCNFjhTBojdzxKMJl?=
+ =?us-ascii?Q?+/KbT/CFYxSCtwbLcV44oqq4WXtOJW33uvDYeRTrpi9c5YuD0C1jlLtODjNm?=
+ =?us-ascii?Q?ciA9gHZT0tY/JR8oYdoUgbvcIDTdEzvc/5IO7QL/MmaPj4MhbGhi6BbYB6+u?=
+ =?us-ascii?Q?sVsw5hl/n1RwIWrwziPllOT+DQKairGHtDafWBmgUAo9agPPM/xJa0BAtR26?=
+ =?us-ascii?Q?wdpq4SxXgxg28LUeoB0L6kqF2lIkfB8sLlWSaAVIB4Canx0rCVFjdLzUoFvF?=
+ =?us-ascii?Q?D1/rwi4KxicjIJya2ti9xz0s482bnb2HR1G4NASu9XCi1SmvriXdUcX/QnKH?=
+ =?us-ascii?Q?DPxtrIaxo9ECY7pLHXivJsluYVwK5rk/Me1ak25kadE6pRDbE166R1m8BocJ?=
+ =?us-ascii?Q?jqejh/mOVCGDLICqXTY7NIBv7M3UJ4vNjrP8vQKKVwtj0Dp6PuAbldsUflWY?=
+ =?us-ascii?Q?XThaHmcavGSDbpZMP/IdSqWQLtLGOR6mM1YPyBg0pme3cmuQgrPLph5AHB5t?=
+ =?us-ascii?Q?NjPxxk9mominANAUGOMS+hJssV4Liji57RUXgkqn7F4lyjllCBBN0lFz33Ky?=
+ =?us-ascii?Q?jEDitNEgrr1ugZNFpxyAIiKugVSI7rXxf++A/Ypr0ngpHv8B2TeGWboINX11?=
+ =?us-ascii?Q?PphkVhRcqvz5tIZ9wz71dPvIH2GADLur24XB6ieAbcj6BlrFscXkwJeCW33r?=
+ =?us-ascii?Q?K9kGpv9RIA1fXowBXXF/pPnjFJ1ffIAmya35UGyoUXFrleUP+8+93xep3fP/?=
+ =?us-ascii?Q?KsXz5zJevuKaxwuMpcWcdg5NueZ2beu9tjRd38z+NjQFxtQ5N7YIHOrSoZIR?=
+ =?us-ascii?Q?oPFdLTK5W/TyXBKswJsBDgGyzemROt5/o+O3fCtZWUltmsdrk4IqTA6hcQjg?=
+ =?us-ascii?Q?5CrUt6xuin9fBpTK16x/Bkf5xkXvi/tASXiILrtPnIADSJD2ByHWJgv9fHHq?=
+ =?us-ascii?Q?Rsw8TV4l1raE4dvdqd2zU3+VnyJnXf0B/FiErr256sXdiX5jRh5poGlQrUYA?=
+ =?us-ascii?Q?EXt1miv1ERfWIzR36nnO+gihPQTrpcQ9xSa5HSG+kbgBNC+QjQHQmQ8bew72?=
+ =?us-ascii?Q?YpJW5L8U/1/GWoqIfmk4i6cVkigkOk1kK1n21VB8iDVAR2O6bgf/Xwjvr5Af?=
+ =?us-ascii?Q?0lF6Pt+uj5w/MvS0xj1AMpIeI9sSgkfFipR8KobNHUlWyEyFMgeNXXfP4kbP?=
+ =?us-ascii?Q?m091tDeBC9Nx8XzKWhENekKQ+zFGPeS+tJ04KFB3jzdVk4AVPrDAd/5G1o9R?=
+ =?us-ascii?Q?VNuDe1oW1ptZt60DSS7W8AqKOZavR760HH2OeyuUzuMliPDtoFgtlR/j/b98?=
+ =?us-ascii?Q?iGQLMiPkaLqBh99toLGKv2Y7k6/Lh36TsggOBU2O8Ffwo6hBLnrAmoGGdp0U?=
+ =?us-ascii?Q?qpQC+V4joFDSPF5ncE7jqlrpJqcbcfoPgW2r8d0p?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48279450-3051-4eaf-e042-08de073c518d
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9627.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 14:01:18.5094 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vUi6Zdhds/+xvplTuC2qUhMnp7PccjfdcDoYebUkLAw1vT04zxwvWkD15SxQK3DBlvLCIavMBh7slqZUktSWzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9774
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,41 +151,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2025 14:54, Konrad Dybcio wrote:
-> On 10/8/25 4:05 PM, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> Describe panel Tearing Effect (TE) GPIO line.
->>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>   arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
->> index 1cf03047dd7ae..75989b377f8bc 100644
->> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
->> @@ -460,6 +460,7 @@ display_panel: panel@0 {
->>   		vci-supply = <&panel_vci_3v3>;
->>   		poc-supply = <&panel_vddi_poc_1p8>;
->>   
->> +		te-gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
-> 
-> Wait, I just noticed nothing consumes this..
+From: Rain Yang <jiyu.yang@nxp.com>
 
-It's well defined in the
-display/panel/panel-common.yaml and the device-tree should be 
-independent on the driver, so that seems perfectly fine.
+Some platforms, such as i.MX95, utilize multiple power domains that need
+to be attached explicitly. This patch ensures that the driver properly
+attaches all available power domains using devm_pm_domain_attach_list().
 
-sdm845-samsung-starqltechn.dts have it exactly same way.
+Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
+Signed-off-by: Rain Yang <jiyu.yang@nxp.com>
+---
+ drivers/gpu/drm/panthor/panthor_device.c | 6 ++++++
+ drivers/gpu/drm/panthor/panthor_device.h | 2 ++
+ 2 files changed, 8 insertions(+)
 
-David
-
-> 
-> Konrad
-
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index f0b2da5b2b96..6f40d053b16c 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -218,6 +218,12 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = devm_pm_domain_attach_list(ptdev->base.dev, NULL, &ptdev->pd_list);
++	if (ret < 0) {
++		drm_err(&ptdev->base, "attach power domains failed, ret=%d", ret);
++		return ret;
++	}
++
+ 	ret = panthor_devfreq_init(ptdev);
+ 	if (ret)
+ 		return ret;
+diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+index 4fc7cf2aeed5..5ecb541ec67b 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.h
++++ b/drivers/gpu/drm/panthor/panthor_device.h
+@@ -196,6 +196,8 @@ struct panthor_device {
+ 		/** @recovery_needed: True when a resume attempt failed. */
+ 		atomic_t recovery_needed;
+ 	} pm;
++	/** @pm: Power management related data. */
++	struct dev_pm_domain_list  *pd_list;
+ 
+ 	/** @profile_mask: User-set profiling flags for job accounting. */
+ 	u32 profile_mask;
 -- 
-David Heidelberg
+2.39.5
 
