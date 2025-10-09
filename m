@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02EEBC8DCA
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E409EBC8DFB
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C034B10E9D3;
-	Thu,  9 Oct 2025 11:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8235E10E9D1;
+	Thu,  9 Oct 2025 11:43:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UhcDCo/V";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="YuIjomby";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D634310E9D3
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:41:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760010089;
- bh=J6gOtlXNGiadx1WV9Jrsfa9A9Mo7GEanyAvz8BWuZfg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UhcDCo/VFw8EUeX1askLaZJwGhGmzayOECoCTQAA+mbSvRoMXXroPrLvNH5qJpgwP
- kLbBG5Az1XLGWkRh7gGcB/KsOgRB03/Yd70YwobnJPGeqXyifcNWQYfsswsyqjIkg5
- 92e95GjlMMqLWysVaZEsYYKeaoZjw6CH9mmcwAnlpdQ34+i8e+6fl2AgAa5agnNO4M
- k7PbDB5JqdcRyNjr9HzCvLLahDKAQoz6ryFPZvjGy4+IVhmmIakoRrPY0xR887d07v
- Xv3DSx/v+FyQdOolGjE4C+ItL6S6GZx44Q6+/EsZeNRynx9hp8cF8+u+5qsGwzn4CR
- YCth/5VZ/s6Iw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 94FBB17E0A30;
- Thu,  9 Oct 2025 13:41:28 +0200 (CEST)
-Message-ID: <6f1f74b3-ac2e-4ea6-abce-14ef12ea10dd@collabora.com>
-Date: Thu, 9 Oct 2025 13:41:28 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25F4910E9D1
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:43:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1760010210; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dpA5l7ftdFKWIIK2OexE05gFblMgrMpryGOYEKchoGxrNY9RIZCdtd6gkm0hFpu/7y5+/rlmNgNYhV9ZFMkaYps/IltMYzHLxBw/UEGH5jQ9Ao3nv9JHQOIpt/73EfFiqb4JCRbnYBzxTaKVX5+76HFmzv8CBCnZ0wWJUEA17RM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1760010210;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=c4zXG31VEmip+0b8RFc9/Hhvu/aREmShl6nTjypkjmY=; 
+ b=loKMuPjdVEXkDPQggIF+Ir3Fys7OTPTcFkiYkVaKkhqZs09K7+xcrBYE2udISvjoNQvsJfoqqF5Kl9Skz60hyDwhEiXCVxaYMQJVTc6CTBq6H3Y0tkzVTjqAGcEyHZkCiT+QhhJbdiz6SM3ysmvS116a+MP+FolfdR421TKnY1I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760010210; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=c4zXG31VEmip+0b8RFc9/Hhvu/aREmShl6nTjypkjmY=;
+ b=YuIjombym5u84o0G1ovH2QXfR6lhk+aeOmbS0FNgiwM1jmUtPxg8DY5dYTjQt27O
+ eZyGfAZi/NJY1Z9mTT+erJw0rCPYj52r9wf/uUVSo0Wn/WOd0yHNnE85Dhd8kFnqg3t
+ xseBZ07Yt08B7PWxU1zglPPCfPavaehp5OKMF2jU=
+Received: by mx.zohomail.com with SMTPS id 1760010208813178.71792539993703;
+ Thu, 9 Oct 2025 04:43:28 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: healych@amazon.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/panfrost: Name scheduler queues after their job slots
+Date: Thu,  9 Oct 2025 12:43:00 +0100
+Message-ID: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 12/20] soc: mediatek: Add programming flow for
- unsupported subsys ID hardware
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>,
- Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- Chen-yu Tsai <wenst@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
- <20250827114006.3310175-13-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250827114006.3310175-13-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,84 +69,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/08/25 13:37, Jason-JH Lin ha scritto:
-> To support hardware without subsys IDs on new SoCs, add a programming
-> flow that checks whether the subsys ID is valid.
-> 
-> If the subsys ID is valid, the flow will call cmdq_pkt_write_subsys()
-> and cmdq_pkt_write_mask_subsys() instead of the original
-> cmdq_pkt_write() and cmdq_pkt_write_mask().
-> 
-> If the subsys ID is invalid, the flow will call cmdq_pkt_write_pa() and
-> cmdq_pkt_write_mask_pa() to achieve the same functionality.
-> 
-> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-> ---
->   drivers/soc/mediatek/mtk-mmsys.c | 12 +++++++++---
->   drivers/soc/mediatek/mtk-mutex.c |  8 ++++++--
->   2 files changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index bb4639ca0b8c..0c324846e334 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -167,9 +167,15 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
->   	u32 tmp;
->   
->   	if (mmsys->cmdq_base.size && cmdq_pkt) {
-> -		ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
-> -					  mmsys->cmdq_base.offset + offset, val,
-> -					  mask);
-> +		offset += mmsys->cmdq_base.offset;
-> +		if (mmsys->cmdq_base.subsys != CMDQ_SUBSYS_INVALID)
-> +			ret = cmdq_pkt_write_mask_subsys(cmdq_pkt, mmsys->cmdq_base.subsys,
-> +							 mmsys->cmdq_base.pa_base, offset,
-> +							 val, mask);
-> +		else /* only MMIO access, no need to check mminfro_offset */
+Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
+queues"), give scheduler queues proper names that reflect the function
+of their JM slot, so that this will be shown when gathering DRM
+scheduler tracepoints.
 
-nit: fix typo -> mminfra_offset
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++----------
+ drivers/gpu/drm/panfrost/panfrost_job.c |  8 +++++++-
+ drivers/gpu/drm/panfrost/panfrost_job.h |  2 ++
+ 3 files changed, 15 insertions(+), 11 deletions(-)
 
-and also it would be nice if you could also say in a comment that all GCEs support
-write_mask_pa() without subsys, but it is less performant - so for the platforms
-that do support it, we prefer using it.
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 22350ce8a08f..607a5b8448d0 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -668,23 +668,19 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+ 	 *   job spent on the GPU.
+ 	 */
+ 
+-	static const char * const engine_names[] = {
+-		"fragment", "vertex-tiler", "compute-only"
+-	};
+-
+-	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
+-
+ 	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+ 		if (pfdev->profile_mode) {
+ 			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+-				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
++				   panfrost_engine_names[i],
++				   panfrost_priv->engine_usage.elapsed_ns[i]);
+ 			drm_printf(p, "drm-cycles-%s:\t%llu\n",
+-				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
++				   panfrost_engine_names[i],
++				   panfrost_priv->engine_usage.cycles[i]);
+ 		}
+ 		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
+-			   engine_names[i], pfdev->pfdevfreq.fast_rate);
++			   panfrost_engine_names[i], pfdev->pfdevfreq.fast_rate);
+ 		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
+-			   engine_names[i], pfdev->pfdevfreq.current_frequency);
++			   panfrost_engine_names[i], pfdev->pfdevfreq.current_frequency);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index c47d14eabbae..0cc80da12562 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -28,6 +28,10 @@
+ #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+ #define job_read(dev, reg) readl(dev->iomem + (reg))
+ 
++const char * const panfrost_engine_names[] = {
++	"fragment", "vertex-tiler", "compute-only"
++};
++
+ struct panfrost_queue_state {
+ 	struct drm_gpu_scheduler sched;
+ 	u64 fence_context;
+@@ -846,12 +850,13 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit = 2,
+ 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+-		.name = "pan_js",
+ 		.dev = pfdev->dev,
+ 	};
+ 	struct panfrost_job_slot *js;
+ 	int ret, j;
+ 
++	BUILD_BUG_ON(ARRAY_SIZE(panfrost_engine_names) != NUM_JOB_SLOTS);
++
+ 	/* All GPUs have two entries per queue, but without jobchain
+ 	 * disambiguation stopping the right job in the close path is tricky,
+ 	 * so let's just advertise one entry in that case.
+@@ -887,6 +892,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 
+ 	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+ 		js->queue[j].fence_context = dma_fence_context_alloc(1);
++		args.name = panfrost_engine_names[j];
+ 
+ 		ret = drm_sched_init(&js->queue[j].sched, &args);
+ 		if (ret) {
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+index 5a30ff1503c6..458666bf684b 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.h
++++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+@@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
+ 	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+ };
+ 
++extern const char * const panfrost_engine_names[];
++
+ int panfrost_jm_ctx_create(struct drm_file *file,
+ 			   struct drm_panfrost_jm_ctx_create *args);
+ int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
 
-Of course that has to be properly reworded, but that's the idea anyway :-)
-
-after which
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-> +			ret = cmdq_pkt_write_mask_pa(cmdq_pkt, mmsys->cmdq_base.subsys,
-> +						     mmsys->cmdq_base.pa_base, offset, val, mask);
-> +
->   		if (ret)
->   			pr_debug("CMDQ unavailable: using CPU write\n");
->   		else
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index 38179e8cd98f..9b22d7e09d99 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -990,6 +990,7 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
->   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
->   						 mutex[mutex->id]);
->   	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
-> +	dma_addr_t en_addr = mtx->addr + DISP_REG_MUTEX_EN(mutex->id);
->   
->   	WARN_ON(&mtx->mutex[mutex->id] != mutex);
->   
-> @@ -998,8 +999,11 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
->   		return -ENODEV;
->   	}
->   
-> -	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
-> -		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
-> +	if (mtx->cmdq_reg.subsys != CMDQ_SUBSYS_INVALID)
-> +		cmdq_pkt_write_subsys(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
-> +	else /* only MMIO access, no need to check mminfro_offset */
-> +		cmdq_pkt_write_pa(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
-> +
->   	return 0;
->   }
->   EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
-
+base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
+-- 
+2.51.0
 
