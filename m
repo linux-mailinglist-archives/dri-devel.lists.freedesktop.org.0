@@ -2,132 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54B3BCA270
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BF8BCA2FD
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 248C710E203;
-	Thu,  9 Oct 2025 16:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05CA610EAB8;
+	Thu,  9 Oct 2025 16:29:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Cqci1QN9";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xT5j5KuY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1589510E203
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:23:13 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 599F6TK2020128
- for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 16:23:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=bt39X8dW+ZDv9jSNO3RMlOzt
- N0nkdVf4IKuaB0k3nl4=; b=Cqci1QN97/teVcqE1BVo4WyOolpPKOXmhP86rTTe
- 8ablEGLhj9fFsU9s985Tl1Z1dMi/kpDskgXb9j1AyPCJWvua/8YGu0f1PFl9aByj
- 5/EkUJlKgKzkpjvV7gAcXUmxIItNXXBGbGWz9fz7pbC4RDIGLjbnJmIziaUIajfn
- XsPMG4FSEtXP2iJivh+TkgEihFQMzuyJJkjTRjWqs0f52DIhZhBsSF5oPlpzquCU
- ZjG5/RkpmodNzNLNcEuPtiYDjZYihWa+RieBSkyTxkBSjWQ+Z2JR7/LEEZA9lcV+
- xKm54IxR9QyJ3mLxjWBSX2xuc7ciZ6ql00hGMK3dNtdujQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nujna-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 16:23:12 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4de36c623f6so41989051cf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 09:23:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760026991; x=1760631791;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bt39X8dW+ZDv9jSNO3RMlOztN0nkdVf4IKuaB0k3nl4=;
- b=AsVbiH5AgQhx74PuAUyqml/w1VAwNIVJbICTQep3Vcpi5rrDlVBeuvKzRdN3n+d6FG
- RPYGQy5fCSt4+jVOonlxvpxZsO0Ur1TGAsQRIrfLHWRjcDpKsmT2dWhi3FCNOJ0A3FgY
- I4xfU//WaJCAgB+jU+i0zvzjGvKoRZGb0vgeSVVBK6+qT4ooTp0kCx6l0iQ5LrRCPRPx
- LyyAAegSIJPxG4iQNuA348tmqUU58ZFdY5aWJvLMknxKvC3wSoHh6WO9xcSbms/gsk+d
- oIs2L1sUGauBhs05upFIRKxO3qcm2JO5418PmesTauz2oTsBNsifSDIDV+p2wtc9wmVV
- eFdQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAtBIrON1gzAcQ4S42zARdMLIfp9OjagWVYhfR9cEV9Z+5O6POdAxGWMIiW8lw26fwXyiBU8W4yCk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiAiVbsXfits6sH/CPZYuAvXeJUdMBXLxsjCxhLhsbaef8cWUI
- 5ZTSM4GknXxAqD9HqC0zc2heQdDz9zcyThyuhkZMKKoxS5LZt2s2i2BgXq7IsCqFM74+cUty55U
- 06YLEEmraLmw/YT4X4RUw8oR6i4xnFRNIZHP+MOJc5nVWD/TmiBrjiKlQyYxzrN1PNM8/E14=
-X-Gm-Gg: ASbGnculDXdUhnEhV0lAZik4pO5HWDqy5uvxwdLnsC84mkVt+29GocbLjDWy0UbMOT6
- 70rrft4mRfX5t8JaRBfpN+DCDtb6/snPZmerha2wmcuYUX0GrPoMDivbRlrwebN91z16tG0R7fm
- iqb3LCLK6YEidCMZ5rgY9IIWXke0CWT8/AXUvqczh2J38cA+t0xXcWS5UEhLCgr9TXHCdLNLF/U
- Gdy7h7Q9aAQzR/ntzoKic5EqkNUuDJF+OVTJ2c7kFM0IDgVliKKbFHQF5gW3F9aeT0LMgcqGfbZ
- G56mZo/BalTSQb+xmAOxCj4HFfW/C2XMzzN6XtU6U2uY/P5uzTlzPYbBW1mVb7NhThuEFwJhW1C
- 8O/2H2AlgtP8KqrlT36bP42IzEfnkKX/7/kFrkudBR+D7quVRkqy+5wIBxA==
-X-Received: by 2002:a05:622a:355:b0:4bd:f73d:eee3 with SMTP id
- d75a77b69052e-4e6ead54c1fmr111202991cf.39.1760026991316; 
- Thu, 09 Oct 2025 09:23:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGg801ObE8F+R8kZBeMVN+M/a5YBBI9id+lFXKMYLvZEjycOY0KP+OvFKokNNP+wtFnRV298w==
-X-Received: by 2002:a05:622a:355:b0:4bd:f73d:eee3 with SMTP id
- d75a77b69052e-4e6ead54c1fmr111202101cf.39.1760026990405; 
- Thu, 09 Oct 2025 09:23:10 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5907ac00a78sm1182099e87.19.2025.10.09.09.23.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Oct 2025 09:23:09 -0700 (PDT)
-Date: Thu, 9 Oct 2025 19:23:07 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC
- with panel
-Message-ID: <ylnjckdtgfktz4x7tcgy5g5qebpppregubhjn23e6cx7s5w23b@7tq35tvwx2qi>
-References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
- <20251008-s6e3fc2x01-v2-1-21eca1d5c289@ixit.cz>
- <7askbazrkbny5jlw6cpxcpjyw5nyiozmksoyj5b5momcc7w5hn@r3x6kddatf3u>
- <74893f76-1b7d-4cfb-ba7a-9fd64427762b@oss.qualcomm.com>
- <bmsxmwfdwx7wlmngaqpvz7c2nudcoukspkxgq6zqh2mdlolfxg@fsdbafotp5q2>
- <75011ead-8bd8-4939-ae7b-1c127eba8aa8@ixit.cz>
- <3mbngf2r3rvbn5fr4vxbk64ouvm3voo5o2r63vg3clyswnceoh@64r6ujb5qr65>
- <9018af52-1c81-4d2d-8717-44e5372dbffa@ixit.cz>
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011048.outbound.protection.outlook.com [52.101.62.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0298410EABA;
+ Thu,  9 Oct 2025 16:29:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MEodHyqag/aOqjrqJx61CI3Tn0Y0bBel23maIU6EP+cY2ukIDJMlkXdVQFyLAjWp4wiQMuyo467qcGBtGdZSRcj6o3EPwSV78nE/0ZmqhUdEE3UB2jCwLxGeaRXdBb47oCSumRlOMXFwk3tlI7eo6I2jxSXoBTkj5XB+cqPz5scKfvbaEy5TXlMSDdLqehE56jhBpuhObI7K+SLI2cepEAGt3LIFweLNSvBppCIXj+CCF2BLLjlYqoU6VQWT8UmtW/rgwcvg9EwQx/O3Qak3H1wSzq37KiQn9xLw8dGU6VhCkouK9hTCNcRCWXv+1GYRm6vCPKZOTjarasSMklSxxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l/KA/VhvaZWrg+2lNPSmM/fMaVEAzzlBxejF5gv+t9E=;
+ b=vVq1LDzYx8PhocXLzUa25liDBeinqOKKCwSvb9Id3hWe39HfohDLmi9pYZvEr33+v/nm6xO+JFre/9ql1VxXSI454Fl0JAcPZYIEK7N2aWBA3v+/+T4fhbvqIKUi4X4DL0z0fsLZEUODpfOlEgAQ+7D+JBa2wlK85F2vrtB2xyas2XTdldthSaL6TcdcFExwHHn4odORIh22WU+skwuc05EKl8noAae6mMh7EhoBBvTw/rMqXOqTv6I4Szkx04Y4h2AjPObU8Upvfov3//LeeimTBS/sqsY22vgfVDRVsHB5kfn7m2lqA9YeggOF3a59p3Zt6Dmk1zhidvRzdrqTiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l/KA/VhvaZWrg+2lNPSmM/fMaVEAzzlBxejF5gv+t9E=;
+ b=xT5j5KuYFjjo8gAuTUPT1OYsa4lyl3TytqJ4PPipHLTsIZaJq4nfaeKWrXDMAO9RcRMNeqO4BLCa8swy2U0/tv/LiGss5yhsz5WP/xEgaWr+XDPoBaDUI3iiJsV8K18y3MA2wtQq9c89gahc1rVIbXgmoFltaX9aObxQQvhlo8A=
+Received: from BN8PR04CA0062.namprd04.prod.outlook.com (2603:10b6:408:d4::36)
+ by MN0PR12MB5761.namprd12.prod.outlook.com (2603:10b6:208:374::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Thu, 9 Oct
+ 2025 16:29:31 +0000
+Received: from BN2PEPF000055DD.namprd21.prod.outlook.com
+ (2603:10b6:408:d4:cafe::d0) by BN8PR04CA0062.outlook.office365.com
+ (2603:10b6:408:d4::36) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.10 via Frontend Transport; Thu,
+ 9 Oct 2025 16:29:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN2PEPF000055DD.mail.protection.outlook.com (10.167.245.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9228.3 via Frontend Transport; Thu, 9 Oct 2025 16:29:31 +0000
+Received: from tr4.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 9 Oct
+ 2025 09:29:28 -0700
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-next-6.18
+Date: Thu, 9 Oct 2025 12:29:14 -0400
+Message-ID: <20251009162915.981503-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9018af52-1c81-4d2d-8717-44e5372dbffa@ixit.cz>
-X-Proofpoint-ORIG-GUID: q3ykJloc1vucWLq338to-4SQ1UgVW9Gj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXytOJhdaPZeAX
- DeIi3wy0Did6oyx1LQkiUSg+DsH0A5pD8vBcNVVTeX7JiEXu8ISn+q47kVKLmNcq6+fL37Ejqre
- BAgQ/QGUm//fkeJb+/Vqgldf8a+9w/1dAUXWFaCtwZsw/KqDoNx798HXasdN+4+4CDlAtNu7+Rl
- f+wGkjUGZLyPQMq9X5KHJQiNNqoE/jxGCRLa4CYMEOMUnkwJZN3gTofmNl+1Q5P15anVyuapGNc
- E0FRBhjTXosSB0mv5Nz4c8BEjXlr79MJBS6y3lNbJm6fOdDl04zAPpukpjDrhUEyjt/X5AXWk8r
- PZsdkzpWpIM2OJ+EL8ebpP84kEvykGFscAcy/diYHH1rf/wujddw5njm5d62jH0uPT1iKK/1VlE
- UfsEQYkg+QpQ/TYNDocYytc9FkrbQg==
-X-Proofpoint-GUID: q3ykJloc1vucWLq338to-4SQ1UgVW9Gj
-X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e7e170 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=7einrZQClg3FUqyrEHMA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_05,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055DD:EE_|MN0PR12MB5761:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7082b303-92b6-4be8-cb9c-08de0751065a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|36860700013|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UEhtc2ZEcmpNdGpIaExNVXVTclp4SUVoRndYdHNJZkVpVTZJMWw2WFlBM2FM?=
+ =?utf-8?B?aFV1T0d6NytqR2Nram5sZE1BZnAxUnlVOXpYbkRiVDBRNjFEM3VyTlUyZXJM?=
+ =?utf-8?B?VDJRa3V6alphdmRpV21Nc2VqdlJrQW90cTMrNExqdHF5WkNtYlpZbHk2b0hC?=
+ =?utf-8?B?UUcwQ2l2UjFVUG9sV0ZMK1NSeld5RW9QM2hxVjYyNFZwQWZNS0k0TGN0UFBu?=
+ =?utf-8?B?MmxyK3RNZ3J4ZUhkZ1BTeFdwUXdMQ2xoT0RPU1l5RlVFSTRUandTc2NZaits?=
+ =?utf-8?B?K0J6YkY5OTVaVTdERms1Tjdabjk4VlJKV1BRRStVQ0JMaDc5cVl2OVl5OGpO?=
+ =?utf-8?B?N1V4L2ROaW1KTGVYTCtTNFVyRFdWcS8rQStDRkoxRFcySlNGenF4YS8zQVpU?=
+ =?utf-8?B?ZHJtUTYwMmYyeSttK1QwZUtIS0xsU1FRQThjZThsQzVGdTJxQm93RU81NmEw?=
+ =?utf-8?B?YUlMZ2RscWN1R1N4VHZIUWdXQ05WN2FHbXdCL1JBVStJQ3ZadWdpa1pHYlNF?=
+ =?utf-8?B?cHBweGZVMTMwaEMyQVhqR3hQQVl6SHdVNnFQZzFDZHFVek9QeFNiZTkrZC9l?=
+ =?utf-8?B?eDMveHFtTE9SUTQ3TWhDQ2tEZmNKanBpQWxJZUlBTzQxbTZiWk5JTnZmOWo4?=
+ =?utf-8?B?aDJEMTlhbXdST2I1bnRUMURjMkk0WTFJekkxcHZOY2h2U2g5S1VzeE8xNFZN?=
+ =?utf-8?B?Vm9VRDBYY0h6WW1mMEpKazk1SHJXTlhvUXA3aHFqeUZEeFdqbUc5cmJjdk12?=
+ =?utf-8?B?UHhUU0RMWGcwQ3R6T0JncTNPcEhwYXJXSGhncStETFgzTU9qMm9EaXVJSEN0?=
+ =?utf-8?B?WTUwV2wrNDQ5WU5ST0FZODNBWWE5Tm1HQis1TDUxNE8vN256QzJlYzhXN0Fm?=
+ =?utf-8?B?c01XSUtSdTZDRFQ0SHU2a3BYOHJyUXg0V29ab3kzS1JNcjFTWmNOd2JpVFdw?=
+ =?utf-8?B?blk2NktWSXBZSG1wNG5kZkRiTzVRWGhtSWVnVUxCRG9kdjE5cmZRZnI4SkEw?=
+ =?utf-8?B?NGJGelhrNHZrZFI5M0tsbkdtTE5RazlzT1MxblJqdVdreHJmcHNxVlJ3eWpm?=
+ =?utf-8?B?Zm1KcmtVRFRFeU52V3BDV0tBRFlwVkxPNG9IUmdxaVB6TlMyM2RUQnh2Z1Jz?=
+ =?utf-8?B?L1ZqcmdtdDlQRkx1SUZEeHIvdFN6c0pVQTNoM0hHMHlzTVg2UFFCeWppb2ZR?=
+ =?utf-8?B?SHZEeWo4NUxVZlFsSWJneG0weE5LcXJaUkJLN0d3NDUzMDhoeWFsbXRtcGhJ?=
+ =?utf-8?B?RWtIaU05VEJEVzVwalh6YjlCeWZuemVjZjFIVlpZMGVoZFlBdjFGT3RPQXd5?=
+ =?utf-8?B?NTI3eU5uUEZqUk5GZzE5WnVVM3ZCUEJCakpUTk00YlhKcHM3Tzl4RGZ0NFl1?=
+ =?utf-8?B?RzMzRGE1ZTR3bDFQNFozQ2VWODlld0xBOUZoazU4OVdvb2hvMkJMZ0hKRHVn?=
+ =?utf-8?B?WXdMQ3A1RENUSlAwRFdkTmZ1SzZiYVFST3pUazV0TjR2dVQ0eDYrbnFpQUpl?=
+ =?utf-8?B?S080MzAzdU1iVmhuR2FKZStyY3N5WUFPKzJtRmVQVjdnSWhNMm1ZRy90cVNT?=
+ =?utf-8?B?RExzVEh4Nm50aEZQZDI1MjZ0OWpMVzM4UUpiS3kwSnVxUmgweUgrTldzV01m?=
+ =?utf-8?B?aG93eGljQ1NQTzVsc0FsQUNWdmhPWTFZbFdBZUZxRjd1amlMMFRMVFZRV3BW?=
+ =?utf-8?B?QVJEenR5bTc4d0FlbFJ3U0g5TkJ0ZXoyNFF0Q1hTVG9iZmVqN1JIaFdTNzYx?=
+ =?utf-8?B?V0p1R21sUktrczM5UzlINVdGRzNhNWFRMThCMER3ZFJRT1Q3WnBlNlVpNEov?=
+ =?utf-8?B?eXVVKzNhZmkwL05MV09jem1MeUFQVzFaeml2Z0RWMGJCMnh4cHRZaUpLVjk4?=
+ =?utf-8?B?NmhneDB3dmxlemRzWWtSNmhqZGR0OXBPcjRFRmJocXU3WnhHV1dUZkQ2UUkx?=
+ =?utf-8?B?VHZ5eDErODJITkVaNUx3RHp1cHppWlFwQjlEblhGY0ZkaVNpQ05NS1hZS0U2?=
+ =?utf-8?Q?7N0/fOp7ssN3eYKKmDEqlIMdsHGbQc=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 16:29:31.3124 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7082b303-92b6-4be8-cb9c-08de0751065a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055DD.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5761
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,67 +140,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 09, 2025 at 05:44:46PM +0200, David Heidelberg wrote:
-> On 09/10/2025 16:26, Dmitry Baryshkov wrote:
-> > On Thu, Oct 09, 2025 at 03:32:22PM +0200, David Heidelberg wrote:
-> > > 
-> > > 
-> > > On 09/10/2025 15:21, Dmitry Baryshkov wrote:
-> > > > On Thu, Oct 09, 2025 at 10:51:31AM +0200, Konrad Dybcio wrote:
-> > > > > On 10/8/25 8:57 PM, Dmitry Baryshkov wrote:
-> > > > > > On Wed, Oct 08, 2025 at 04:05:28PM +0200, David Heidelberg via B4 Relay wrote:
-> > > > > > > From: David Heidelberg <david@ixit.cz>
-> > > > > > > 
-> > > > > > > Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
-> > > > > > > 
-> > > > > > > Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
-> > > > > > > 
-> > > > > > > Signed-off-by: David Heidelberg <david@ixit.cz>
-> > > > > > > ---
-> > > > > > >    .../bindings/display/panel/samsung,s6e3fc2x01.yaml | 78 ++++++++++++++++++++++
-> > > > > > >    MAINTAINERS                                        |  5 ++
-> > > > > > >    2 files changed, 83 insertions(+)
-> > > > > > > 
-> > > > > > 
-> > > > > > Please also describe, why it's not enough to use defined compatible,
-> > > > > > samsung,s6e3fc2x01. Why do we need a separate schema and can't use the
-> > > > > > panel-simple-dsi.yaml
-> > > > > 
-> > > > > panel-simple works for 'dumb' (perhaps a harsh word for 'made with
-> > > > > just the in-spec DCS commands in mind') panels, but Samsungs are
-> > > > > widely known to require a ton of vendor magic
-> > > > 
-> > > > The question is about the _schema_. I think it's fine to have a driver
-> > > > for a panel covered by panel-simple-dsi.yaml.
-> > > 
-> > > see display/panel/samsung,amoled-mipi-dsi.yaml
-> > > the OLED display don't fit well, but I wouldn't mind consolidating at some
-> > > point, but since we know very little (no datasheets), it's hard to do for
-> > > now. Maybe in the future when there will be more panels schemas, we can find
-> > > a way to consolidate into one big?
-> > 
-> > I'm looking for a simple answer ATM: it doesn't fit
-> > panel-simple-dsi.yaml because it needs foo bar baz, which is not a part
-> > of that schema.
-> 
-> v3 will have:
-> 
->     dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC with panel
-> 
->     Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
-> 
->     Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
-> 
->     panel-simple-dsi cannot be used because it's limited to one
->     power-supply, while we use three.
+Hi Dave, Simona,
 
-Perfect, thank you. If the bindings for samsumg,s6e3fc2x01 are
-incorrect, they should be dropped too.
+Fixes for 6.18.
 
-> > > > > Perhaps the original change was made with an "oh it just works
-> > > > > surely there's no drawbacks possible" attitude, as the panel
-> > > > > was left initialized by the bootloader
+The following changes since commit b2ec5ca9d5c2c019e2316f7ba447596d1dcd8fde:
 
--- 
-With best wishes
-Dmitry
+  Merge tag 'amd-drm-next-6.18-2025-09-26' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-09-30 09:26:31 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.18-2025-10-09
+
+for you to fetch changes up to d07e142641417e67f3bfc9d8ba3da8a69c39cfcd:
+
+  drm/amd/display: Incorrect Mirror Cositing (2025-10-07 14:09:20 -0400)
+
+----------------------------------------------------------------
+amd-drm-next-6.18-2025-10-09:
+
+amdgpu:
+- DC DCE6 fixes
+- GPU reset fixes
+- Secure diplay messaging cleanup
+- MES fix
+- GPUVM locking fixes
+- PMFW messaging cleanup
+- PCI US/DS switch handling fix
+- VCN queue reset fix
+- DC FPU handling fix
+- DCN 3.5 fix
+- DC mirroring fix
+
+amdkfd:
+- Fix kfd process ref leak
+- mmap write lock handling fix
+- Fix comments in IOCTL
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: Add additional DCE6 SCL registers
+
+Ard Biesheuvel (1):
+      drm/amd/display: Fix unsafe uses of kernel mode FPU
+
+Christian König (1):
+      drm/amdgpu: partially revert "revert to old status lock handling v3"
+
+Fangzhi Zuo (1):
+      drm/amd/display: Enable Dynamic DTBCLK Switch
+
+Felix Kuehling (1):
+      drm/amdkfd: Fix two comments in kfd_ioctl.h
+
+Heng Zhou (1):
+      drm/amdgpu: Fix for GPU reset being blocked by KIQ I/O.
+
+Jesse Agate (1):
+      drm/amd/display: Incorrect Mirror Cositing
+
+Jesse.Zhang (3):
+      drm/amdgpu: Merge amdgpu_vm_set_pasid into amdgpu_vm_init
+      drm/amdgpu: Fix general protection fault in amdgpu_vm_bo_reset_state_machine
+      drm/amd/pm: Disable VCN queue reset on SMU v13.0.6 due to regression
+
+Lijo Lazar (3):
+      drm/amd/pm: Avoid interface mismatch messaging
+      drm/amdgpu: Check swus/ds for switch state save
+      drm/amdgpu: Report individual reset error
+
+Mario Limonciello (1):
+      drm/amd: Check whether secure display TA loaded successfully
+
+Philip Yang (2):
+      drm/amdkfd: Fix kfd process ref leaking when userptr unmapping
+      drm/amdkfd: Fix mmap write lock not release
+
+Shaoyun Liu (1):
+      drm/amd/amdgpu: Fix the mes version that support inv_tlbs
+
+Timur Kristóf (4):
+      drm/amd/display: Add missing DCE6 SCL_HORZ_FILTER_INIT* SRIs
+      drm/amd/display: Properly clear SCL_*_FILTER_CONTROL on DCE6
+      drm/amd/display: Properly disable scaling on DCE6
+      drm/amd/display: Disable scaling on DCE6 for now
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   9 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  48 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   5 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 211 +++++++++++----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |  20 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |   4 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   2 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   4 +
+ drivers/gpu/drm/amd/display/dc/dce/dce_transform.c |  21 +-
+ drivers/gpu/drm/amd/display/dc/dce/dce_transform.h |   4 +
+ .../gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c   |   4 +
+ .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |   6 +-
+ .../gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c |   4 +-
+ .../amd/display/dc/resource/dce60/dce60_resource.c |   4 +-
+ .../amd/display/dc/resource/dcn35/dcn35_resource.c |  16 +-
+ .../display/dc/resource/dcn351/dcn351_resource.c   |  17 +-
+ .../amd/display/dc/resource/dcn36/dcn36_resource.c |  16 +-
+ drivers/gpu/drm/amd/display/dc/sspl/dc_spl.c       |  10 +-
+ .../gpu/drm/amd/include/asic_reg/dce/dce_6_0_d.h   |   7 +
+ .../drm/amd/include/asic_reg/dce/dce_6_0_sh_mask.h |   2 +
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |   3 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |   5 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |   2 +
+ include/uapi/linux/kfd_ioctl.h                     |   4 +-
+ 28 files changed, 276 insertions(+), 174 deletions(-)
