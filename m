@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97472BC8247
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07101BC8275
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF49110E97E;
-	Thu,  9 Oct 2025 08:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA02B10E984;
+	Thu,  9 Oct 2025 08:58:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="W9QnvyaA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nm+Chcyo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5626B10E97E;
- Thu,  9 Oct 2025 08:54:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB9510E983;
+ Thu,  9 Oct 2025 08:58:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,43 +22,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lzpCTZWnRfLQVDW0GWNREfGnRAfsG2gycX5qOTFzxP8=; b=W9QnvyaAi0+OrRCViYFwxnDBnj
- nLFp+66+cu73x04aUEjXzb0OP5Qj7MkpJVtFTH5nBhNw/JZOxrLD65uJfYsgVFknJL6LvMB46U2GR
- m6ZUFoaPt+jnBElUiBaIrq8XBxtvaATRqJYDOXFAZKadzn+mv0h+AnBJ1P/1dHbHZag3cAJahyCOR
- De2dnFRDboF2jpzy1iU1T20cAyRGngQmpEyvyYjB6KyJkjWUHh3DgSwjMUs0kvEgBQSsu4d3XNAvZ
- mRnSXfxIh84AfySxcr2Yaaxg0nzANvY7shVrsTUlkFhdxaFYeFQVkqr+0f145mdRbXh7G+mLRAkIu
- HzBmsPBA==;
+ bh=eVPxHSD4tXRnns6Wf4cFigHIr+ypRZwxW9OZpBHx9Cw=; b=nm+ChcyoDeDLUYCFLRV8kFI9r3
+ MswRySj48b66qCPy5DqT/f/i0I5fD5BkxvysDUgkBS4zTynbZI85zjt8q30/X7vIVhvJZPLMmUNWI
+ ewj65cH1qLnFKP/iOKzDyILiLmlR5eLTHxDfDbUf7Po3Iv5fJogYLSsrDSRL8iBHWP4xSWD4bT4vn
+ jrAKEpgsaVDz+/J1BazlFsEvJ05UKIcLh22+ou4rfPd29WLItCXFcsQ9mxVAddRFH7D8m58Ous3ti
+ L8Nn5e6V8P13zraiq0ahKUSMR+FvVVtYapmCBi6hWQiCGq9ZlQG5ZAiUkdGRzbPZylhsqbwywTHjT
+ E1UPkYAQ==;
 Received: from [84.66.36.92] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v6mPO-007NLx-NW; Thu, 09 Oct 2025 10:53:58 +0200
-Message-ID: <a300e417-c9df-4e2b-a75f-319aab384b44@igalia.com>
-Date: Thu, 9 Oct 2025 09:53:57 +0100
+ id 1v6mTi-007NRp-An; Thu, 09 Oct 2025 10:58:26 +0200
+Message-ID: <01bacdec-f1bd-4ddc-a537-6a091c1a1eb8@igalia.com>
+Date: Thu, 9 Oct 2025 09:58:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
- latency
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+Subject: Re: [PATCH v3 5/5] drm/amdgpu: Configure max beneficial TTM pool
+ allocation order
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
  Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
+ thomas.hellstrom@linux.intel.com
 References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
- <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
- <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
- <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
- <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
+ <20251008115314.55438-6-tvrtko.ursulin@igalia.com>
+ <aObxU8vEbEQEf7QO@lstrano-desk.jf.intel.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
+In-Reply-To: <aObxU8vEbEQEf7QO@lstrano-desk.jf.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,119 +68,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 08/10/2025 15:39, Thomas Hellström wrote:
-> On Wed, 2025-10-08 at 16:02 +0200, Christian König wrote:
->> On 08.10.25 15:50, Tvrtko Ursulin wrote:
->>>
->>> On 08/10/2025 13:35, Christian König wrote:
->>>> On 08.10.25 13:53, Tvrtko Ursulin wrote:
->>>>> Disclaimer:
->>>>> Please note that as this series includes a patch which touches
->>>>> a good number of
->>>>> drivers I will only copy everyone in the cover letter and the
->>>>> respective patch.
->>>>> Assumption is people are subscribed to dri-devel so can look at
->>>>> the whole series
->>>>> there. I know someone is bound to complain for both the case
->>>>> when everyone is
->>>>> copied on everything for getting too much email, and also for
->>>>> this other case.
->>>>> So please be flexible.
->>>>>
->>>>> Description:
->>>>>
->>>>> All drivers which use the TTM pool allocator end up requesting
->>>>> large order
->>>>> allocations when allocating large buffers. Those can be slow
->>>>> due memory pressure
->>>>> and so add latency to buffer creation. But there is often also
->>>>> a size limit
->>>>> above which contiguous blocks do not bring any performance
->>>>> benefits. This series
->>>>> allows drivers to say when it is okay for the TTM to try a bit
->>>>> less hard.
->>>>>
->>>>> We do this by allowing drivers to specify this cut off point
->>>>> when creating the
->>>>> TTM device and pools. Allocations above this size will skip
->>>>> direct reclaim so
->>>>> under memory pressure worst case latency will improve.
->>>>> Background reclaim is
->>>>> still kicked off and both before and after the memory pressure
->>>>> all the TTM pool
->>>>> buckets remain to be used as they are today.
->>>>>
->>>>> This is especially interesting if someone has configured
->>>>> MAX_PAGE_ORDER to
->>>>> higher than the default. And even with the default, with amdgpu
->>>>> for example,
->>>>> the last patch in the series makes use of the new feature by
->>>>> telling TTM that
->>>>> above 2MiB we do not expect performance benefits. Which makes
->>>>> TTM not try direct
->>>>> reclaim for the top bucket (4MiB).
->>>>>
->>>>> End result is TTM drivers become a tiny bit nicer mm citizens
->>>>> and users benefit
->>>>> from better worst case buffer creation latencies. As a side
->>>>> benefit we get rid
->>>>> of two instances of those often very unreadable mutliple
->>>>> nameless booleans
->>>>> function signatures.
->>>>>
->>>>> If this sounds interesting and gets merge the invidual drivers
->>>>> can follow up
->>>>> with patches configuring their thresholds.
->>>>>
->>>>> v2:
->>>>>    * Christian suggested to pass in the new data by changing the
->>>>> function signatures.
->>>>>
->>>>> v3:
->>>>>    * Moved ttm pool helpers into new ttm_pool_internal.h.
->>>>> (Christian)
->>>>
->>>> Patch #3 is Acked-by: Christian König <christian.koenig@amd.com>.
->>>>
->>>> The rest is Reviewed-by: Christian König
->>>> <christian.koenig@amd.com>
->>>
->>> Thank you!
->>>
->>> So I think now I need acks to merge via drm-misc for all the
->>> drivers which have their own trees. Which seems to be just xe.
+On 09/10/2025 00:18, Matthew Brost wrote:
+> On Wed, Oct 08, 2025 at 12:53:14PM +0100, Tvrtko Ursulin wrote:
+>> Let the TTM pool allocator know that we can afford for it to expend less
+>> effort for satisfying contiguous allocations larger than 2MiB. The latter
+>> is the maximum relevant PTE entry size and the driver and hardware are
+>> happy to get larger blocks only opportunistically.
 >>
->> I think you should ping the XE guys for their opinion, but since
->> there shouldn't be any functional change for them you can probably go
->> ahead and merge the patches to drm-misc-next when there is no reply
->> in time.
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 > 
-> I will try to do a review tonight. One thing that comes up though, is
-> the change to ttm_device_init() where you add pool_flags. I had another
-> patch series a number of months ago that added a struct with flags
-> there instead to select the return value given when OOM. Now that we're
-> adding an argument, should we try to use a struct instead so that we
-> can use it for more that pool behavior?
+> +Thomas - Seems like we'd want to do this in Xe too?
 > 
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index 948c6d0a422b..723b885210a7 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -1837,7 +1837,7 @@ static int amdgpu_ttm_pools_init(struct amdgpu_device *adev)
+>>   	for (i = 0; i < adev->gmc.num_mem_partitions; i++) {
+>>   		ttm_pool_init(&adev->mman.ttm_pools[i], adev->dev,
+>>   			      adev->gmc.mem_partitions[i].numa.node,
+>> -			      0);
+>> +			      TTM_POOL_BENEFICIAL_ORDER(get_order(2 * SZ_1M)));
 > 
-> I'll be able to find a pointer to that series later today.
+> SZ_2M btw.
 
-Found it: 
-https://lore.kernel.org/dri-devel/20241002122422.287276-1-thomas.hellstrom@linux.intel.com/
-
-Glad to see in that thread it isn't just me permanently slowed down by 
-"false, false" and similar. :)
-
-I considered using a struct too and I guess there wasn't too much of a 
-sway that I went with flags. I thought not to overcomplicate with the on 
-stack struct which is mostly not needed for something so low level, and 
-to stick with the old school C visual patterns.
-
-Since you only needed a single boolean in your series I suppose you 
-could just follow up on my series if you find it acceptable. Or I can go 
-with yours, no problem either.
+I thought I grepped exactly to see if that existed but apparently I did 
+not, thanks!
 
 Regards,
 
 Tvrtko
+
+> 
+> Matt
+> 
+>>   	}
+>>   	return 0;
+>>   }
+>> @@ -1931,7 +1931,8 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+>>   			       adev_to_drm(adev)->anon_inode->i_mapping,
+>>   			       adev_to_drm(adev)->vma_offset_manager,
+>>   			       (adev->need_swiotlb ? TTM_POOL_USE_DMA_ALLOC : 0) |
+>> -			       (dma_addressing_limited(adev->dev) ? TTM_POOL_USE_DMA32 : 0));
+>> +			       (dma_addressing_limited(adev->dev) ? TTM_POOL_USE_DMA32 : 0) |
+>> +			       TTM_POOL_BENEFICIAL_ORDER(get_order(2 * SZ_1M)));
+>>   	if (r) {
+>>   		dev_err(adev->dev,
+>>   			"failed initializing buffer object driver(%d).\n", r);
+>> -- 
+>> 2.48.0
+>>
 
