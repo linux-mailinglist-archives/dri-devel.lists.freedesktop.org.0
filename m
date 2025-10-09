@@ -2,83 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A868BC91E5
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2017EBC9221
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:54:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C941510EA2A;
-	Thu,  9 Oct 2025 12:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C1610EA2F;
+	Thu,  9 Oct 2025 12:54:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KBs2SXuY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZHOtDTn5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C9010EA2A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:51:17 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-27c369f8986so8287215ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 05:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760014277; x=1760619077; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MDMFuxtj7DOoK9vdG1w2+Ih86u05O/nr3t6ARiKVfns=;
- b=KBs2SXuYG3959W2dmGeV/CirJhE0YalSxjL4PymSJQP4BOwszW/g/Zv/6P58QEvtc/
- wWt4Imig8sqBWF/CuyOmnQqfm5sTdVeyj+Qf01pmyZ++jjOZlJyJVKydjFspJbhba0C+
- iV8gZX1e0QhwUnDeBMw+UdiISGqhQlfztU0ecxfixXfx8ZHLkwaSuobpg2fX0L8YVKPn
- FWU2qfWuLiBQYN7+gJyEPB3voqfMPlvLf6IFKMYc8aYp52tlg0tj/rdQjTvEkhBkNuyr
- U7GYydPiCcs0jruaJIhtLiTHSNqAeb44GHr8VXvjghA4hPJ8NRAAp3JcyKFtgeS3WwfJ
- VCfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760014277; x=1760619077;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MDMFuxtj7DOoK9vdG1w2+Ih86u05O/nr3t6ARiKVfns=;
- b=QyOCCV1tEO5apDhiEyAg1GD93CrBcjPjqOqnrr95pCv2gmzvxQve9b9UWWsOU5dv2k
- 2VJCy9ygEdwV+ZRvimTHQ7goWG1/Y394zL0GoZXv0pLrQhmFVW/2SdB8o6XpLG8PuvFd
- T72m4TVf2zRC85NPVWcgE7iRPrX5pbshaRIoWX5dKcCBJ7q+85D7BAeedQOe8EFBWXV+
- 5oPu7PENLmqjdJIvTdzgQaGjb50uYzM26xVISDcssyMqTwUVGDx+W/J5rhttuarixdeG
- TeuegUxAqY44ZCA5CmhOWgqP/XKFzKCLiDe17LpZ7GqBrMZZdLNw8oaWfJ7IbSNvlotj
- HOiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8AO1aM2kfeSKV3u+MXcZ2WvD4H5PhT7zP6iUZhKqQi6UFpKOPqM7gxJMI0tTBSp5wiR2bkcV+U4A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnV1DocdzPjO6OrwQesdnpmKdyto/aqo4SzAnVNbVlGyQR+2Qu
- McttKF00JBPGtKgpr2es/LCCLwYtpPbMxDf3MCkl8PGRYf7VFRi9lMAylqf6zODXWXjVZEKPd1V
- k11gsZJKJY6OJ1gz9B1PyhcyTm0kFFho=
-X-Gm-Gg: ASbGncu+Z5kPU8CQD+5IWR8AYYiZymr4+GtUkhyFUVeQlowMR3x+ieDL/fTYfo6sqUz
- HNUFFlyMkVNM2jypcEo7bhJkKmTflKUYkqT9iE3z86yVgz5y35iNWb1umbmRwk7W/m9FJDfDkuI
- MNdrTUDLEK5YNPYiT2tvSIyo3pXUXW4UpZJgRimWw1CFx9TPQ8oo3RomsSs6hoX30E+xfja848B
- v2rhmU/qzXddk0oycMv71WZWiUnuBlurAnnVXMcohk+RYlya4GTV4/asMJQ
-X-Google-Smtp-Source: AGHT+IEhAV1wqwmuEfqj9eDPRuTr5xhy6QzH+Fe4j6lHSFhQoyHt9bJp9C/EYN1+uc18PLR1t+1Bf7rHPlE1k2VNj6E=
-X-Received: by 2002:a17:902:f608:b0:263:b8f:77dd with SMTP id
- d9443c01a7336-2902741d0a7mr98644915ad.57.1760014276668; Thu, 09 Oct 2025
- 05:51:16 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F97D10EA2F;
+ Thu,  9 Oct 2025 12:54:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7A3ED622D7;
+ Thu,  9 Oct 2025 12:54:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4AF2C4CEE7;
+ Thu,  9 Oct 2025 12:54:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760014456;
+ bh=R1TORzTxYknOCobqa5N2Ym/eV3oIkS/TL69ydYBPELo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZHOtDTn5E5ki97MoLFbg/hqT6PHek9RAtK++CrFn/XyiyBMbFi4k1QwsKrqf6cJKG
+ 4NQyQB7rM4j5LUn3I7Ys3/kuTjEPoWBu9aTR/zvv9riMPS3x2YvltdyvnRqojfieOK
+ w6Kd53MaLy02LrSMe/3oprCkG0+IX+Q6aGG8DWk+loOmJOi8ohYdfRorqkbx0BRAlc
+ NxskVlGcPMtrsq1gKH6OV7Nu4UCO2YYDRSG/SPJ2VZJvOr3qSttg6EqXMSJ0OLAXCa
+ V7Kw4G3OmpyPjie7YjAsSnCTxT9lQ7jK8k4ro7YPK2UIU4IuSQ3I1CTkdWLzScVUNX
+ hKULQMpCJMzGA==
+Message-ID: <807fe91b-acc6-4faf-834c-ced0dead2605@kernel.org>
+Date: Thu, 9 Oct 2025 14:54:09 +0200
 MIME-Version: 1.0
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
-In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Thu, 9 Oct 2025 15:53:34 +0300
-X-Gm-Features: AS18NWAD-sPW--RGZUkk020BQr_wBUAqvEISI-DaoXi4Qt_J4rUCZMsA_rvkqkw
-Message-ID: <CAEnQRZCFk=07=tDgEPJeXx_xDp_6LGXi+2o9GAADoP86mWYZ2A@mail.gmail.com>
-Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org, 
- l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/5] rust: Move register and bitfield macros out of Nova
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Dirk Behme <dirk.behme@de.bosch.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
+ Yury Norov <yury.norov@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
+References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
+ <20251003154748.1687160-5-joelagnelf@nvidia.com>
+ <5a5bd549-f5b7-41ec-b493-bda427d1218f@de.bosch.com>
+ <DDDQZ8LM2OGP.VSEG03ZE0K04@kernel.org>
+ <DDDR8DIW6K4L.21F81P26KM64W@nvidia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <DDDR8DIW6K4L.21F81P26KM64W@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,12 +77,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 8:30=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
-m> wrote:
->
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
->
-> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
+On 10/9/25 1:28 PM, Alexandre Courbot wrote:
+> On Thu Oct 9, 2025 at 8:16 PM JST, Danilo Krummrich wrote:
+>> On Thu Oct 9, 2025 at 8:59 AM CEST, Dirk Behme wrote:
+>>> Assuming that register.rs is supposed to become the "generic" way to 
+>>> access hardware registers I started to have a look to it. Some weeks 
+>>> back testing interrupts I used some quite simple timer with 4 registers 
+>>> [1]. Now, thinking about converting it to register!() I have three 
+>>> understanding / usage questions:
+>>>
+>>> * At the moment register!() is for 32-bit registers, only? So it can't 
+>>> be used for my example having 8-bit and 16-bit registers as well?
+>>
+>> Yes, currently the register!() macro always generates a 32-bit register type
+>> (mainly because nova-core did not need anything else). However, this will of
+>> course be generalized (which should be pretty straight forward).
+>>
+>> Having a brief look at the TMU datasheet it looks like you should be able to
+>> treat TSTR and TCR as 32-bit registers without any issues for testing the
+>> register!() macro today. I.e. you can just define it as:
+>>
+>> 	register!(TSTR @ 0x04, "Timer Start Register" {
+>> 	    2:2    str2 as bool, "Specifies whether TCNT2 is operated or stopped.";
+>> 	    1:1    str1 as bool, "Specifies whether TCNT1 is operated or stopped.";
+>> 	    0:0    str0 as bool, "Specifies whether TCNT0 is operated or stopped.";
+>> 	});
+>>
+>> Same for TCR.
+> 
+> Patch 2 of this series actually adds support for 16 and 8 bit register
+> storage.
 
-Tested-by: Daniel Baluta <daniel.baluta@nxp.com>
+Heh! I knew I saw a patch for this already somewhere, seems like I missed the
+forest for the trees. :)
