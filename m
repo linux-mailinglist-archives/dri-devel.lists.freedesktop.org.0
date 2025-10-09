@@ -2,119 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879B2BCAFCE
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 23:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF65BCB040
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 00:06:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3318D10E247;
-	Thu,  9 Oct 2025 21:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E234710E24B;
+	Thu,  9 Oct 2025 22:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QyUTD9rm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ljS2CHaj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4924C10E247
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 21:56:48 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 599En4Li004918
- for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 21:56:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=aXc6K5FtfcVXCLUBSxVt1McR
- pcSj+yDNhIZwNeN9Dac=; b=QyUTD9rmA8NOJa8IAHnoJvNHyfr1M5380oyJsX3b
- R4DqEb+ay1JHcls/T/Hh2H4+ZXJdFtqmUuZbM3/oG0sX8n8y1/VE7RONq8l0pkxM
- njzgs115RQ7eMC8o+DC2TcEU2zR9R3uDau0fRg2krkRwJeZLiVn/O/1WFFvhl8fI
- kCUPEmG2MuZLbuhYawhUHGsTa4mMmcVViUxmShgs6d0LcjAmRFeDcUEEhHAH1Y+Z
- 7vLtyLuUScfZFMon3sCuyCuI1AlG8YCvgNEkigwWYn3euk+fIGWGGrzbCoULSYu+
- Lio6gXm17TL58qigBe2HL4DxdeEvdDXgXaXeg08oaBR1cQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4u4crd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 21:56:47 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-857003e911fso478005185a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 14:56:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760047006; x=1760651806;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aXc6K5FtfcVXCLUBSxVt1McRpcSj+yDNhIZwNeN9Dac=;
- b=xKBpINzuWPw4ozFWirzEstIyy1b5bms5y1jPM3/o0Rn0zGmS8rgWrU7g6ZquNDgpTo
- HfhHf9rtx8lxVUDY0uKPVZ7TH+ejXhrSvrol/SzlvEV96lsnlqbJc0twFf+RZuDApNCu
- yMisp9UYYCTc+QoZMQNmhJkynlxSJQcRPH0WRqFAiYspNCPHFgpJkOKRSIHBdim632UE
- qYg4YTcFH0q4fxben6xOPrci3+jcc5K3AiGYUnprgNZAeFcG9jYeGK1ZvBQ9hsV9JLBk
- zLYnECuijeWgv38Vus71ONND65oi1z8EQVAu9sDlgTDmpj+OQ/kIvTxkwrbmHFyLddAK
- wxVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUR4CeVpckLNIeXZNsljzZqLWhZe1SJ+aWiu+1LCIyRAlJaBkfoCRcdEOTtZ73o4qXtUiej9DuLLM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxrG2bIPLC292jUHqw/h4Iylir2deX7jZV7IH+m2ZxFi3/ay5aB
- 8UnBgmjY2W4b4VrYdyDK9L8c/J9WjFpaSCLm903drR4ccY9ETtquVFoDVwnGKH5U+CyHBveuutD
- YfK758V4KNVAODpJNo4n/n5xmPpgNCm2nIpuzD85G03Z7jQOrVszwbVI2ifaGbgJgLiZQK5Q=
-X-Gm-Gg: ASbGncupoQYhvzJ5MDA0zVHSPB7ByiXJrPvnyFJ0+a8/y4sF5QYscHdroAqLcDUmvRe
- NZMIJ6Z9hfYF0ZGNpxK4t9MM4K0RexLwhC5KUhn+JtCp1TK1fOBgukE5bX7B9mqVAPo9aWKwAxO
- Wj+vhYvCkrU5Yug4Wr436Gx1FZ3ljnKUPBTxKGF4PrujeDW3ht8AVH/4xHY7ZYxuReBLtngjQeK
- Vho1Tsmr+nBPr2PZYFPDJrIGFO7MSzsMLz+tQoh3DsM/dUEZINHpSvTjJH9MsDcqF7pZGvsT50m
- ku2XVu6Cej4zmxYxfUWNFCm7+qXXYK4gEiF5Ebi5n1dDT0FOBznrzgVgMyl3agQIiiyiTpJqlcu
- QrqfeVPPA/LVwpbno+wnxLutvkqcxhuhGVd0sygeE8KwmW7KlUPnWJyXnHQ==
-X-Received: by 2002:a05:620a:1a05:b0:84d:a352:1853 with SMTP id
- af79cd13be357-883502b5269mr1331694985a.10.1760047006499; 
- Thu, 09 Oct 2025 14:56:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHSe8X1c6l0Woc6nK1FL8k1XI8rlfvjiZmvEQKYodTgIRwNv66o2mRudxwpcphaC7lwUMm+yw==
-X-Received: by 2002:a05:620a:1a05:b0:84d:a352:1853 with SMTP id
- af79cd13be357-883502b5269mr1331691785a.10.1760047005925; 
- Thu, 09 Oct 2025 14:56:45 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-590881e4f99sm225146e87.7.2025.10.09.14.56.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Oct 2025 14:56:45 -0700 (PDT)
-Date: Fri, 10 Oct 2025 00:56:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] drm/msm/dpu: Remove dead-code in
- dpu_encoder_helper_reset_mixers()
-Message-ID: <vipgohc4rdankw2lcitdeypzpnqicbpccqcs72e37itpxj6wt5@5govlfjwyqxl>
-References: <8e3b2fbbf5440aa219feb667f5423c7479eb2656.1760040536.git.christophe.jaillet@wanadoo.fr>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A65A710E24B
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 22:06:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 449AA44790
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 22:06:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D7C6C4CEE7
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 22:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760047601;
+ bh=SReWxODZELon9STPitbRAI5oZoAcN4PqEDbR6qBKRY4=;
+ h=From:To:Subject:Date:From;
+ b=ljS2CHajP1cJ2CjnQ6RNFLqiowQsmnT6y34z2wlNAIOpydQubX3IDnKrys9oue7Ro
+ 6fd0CpuQ9Mm6LmVNxyiI3Q+qZtMZ7We0bkj5iJPV2VVQBJ4FJnjftnOp5JiJAdcEmE
+ Q3N8ftR9rAztvpeKM/lHOrysa0iWy28fAdCxWItwzJxEbR+8dbod5l8T3+kNL3kTGO
+ OIxeSsZMHhM+B09dq3+sjie4nItjjzaVUVcyL+61nfC5nLZqwVnZjn+8dsu4llVzI1
+ 4VLtLWcHoqBlQhhKcR8coHkCQCM02fWkMygrTUJvqt7dhUJ9EJrXPQXdLcHztzkBzc
+ ynkM5WPzoPvcA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 10653C53BBF; Thu,  9 Oct 2025 22:06:41 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220653] New: RX6700XT fails to do S3 resume, then hangup on
+ recovery
+Date: Thu, 09 Oct 2025 22:06:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: blade@debian.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-220653-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e3b2fbbf5440aa219feb667f5423c7479eb2656.1760040536.git.christophe.jaillet@wanadoo.fr>
-X-Authority-Analysis: v=2.4 cv=Vrcuwu2n c=1 sm=1 tr=0 ts=68e82f9f cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=_rVczFtdL_8dPuQia7UA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: _HKRF-ypbzK864cOYeb65Xd-4irHBNHY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX+EbFTKFsJ1ML
- EyJWJ/8x0a5eozCgDa+L5D0uXYcl01tzkCop9m9ZPB+haJBmKCnrk/uyPwTjVC+VEgs1RVsNBHP
- lRgiVOl0FyPfepSvGg92wwHkaJtGgrvTqatv7gVMpTx5jRnbfJYs9MnGjxMJ9XNArfySOFyLLdf
- KGlrK4hCY3bsvBt4jPrVTCDfAFqXEt6JfIbuDc93ThWqFndYwUVTGqrZrrOC7fMVK76HUEPJm6q
- YUh00FQdKi3g3A8fCNlHzltJkSXyY1SmUzzx43TfEPUr2hidQSYPlrKeoqmBElXGQ7hNVPT+XdG
- CaTvEZ9Agiz2Tyf8sBb6qK/qItQXFRdr0sW1ZIA/kLFJq4aSVNGohlczhrU+zrc8RiI7DLFJKox
- h0ZlVAkXIvoPDavWbRv9dPArB8TcuQ==
-X-Proofpoint-ORIG-GUID: _HKRF-ypbzK864cOYeb65Xd-4irHBNHY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_07,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 adultscore=0
- bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,18 +75,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 09, 2025 at 10:09:32PM +0200, Christophe JAILLET wrote:
-> 'mixer' is only zeroed and is not use. Remove it.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220653
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+            Bug ID: 220653
+           Summary: RX6700XT fails to do S3 resume, then hangup on
+                    recovery
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: blade@debian.org
+        Regression: No
+
+Created attachment 308784
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308784&action=3Dedit
+S3 suspend failing for RX6700XT
+
+Symptoms:
+
+you try a suspend-to-rum (ACPI-S3) and the system simply doesn't do it, ins=
+tead
+some devices (hdd) wake up again after a few seconds but the system is "in =
+the
+limbo", semi-dead, only sync and reboot with magic-sysrq s/u/b works. See
+attachment.
 
 
--- 
-With best wishes
-Dmitry
+Good/bad versions:
+
+Kernels v6.16.x were fine
+Kernels v6.17.0-rc<something> started failing
+
+
+Results of bi-secting: see below.
+
+I didn't want to start bitching around but seriously, for me this kind of
+suspend-resume-freeze-fu*up-in-a-RELEASED-kernel has happened a couple of t=
+imes
+now. Isn't there any kind of quality control in AMD's integration team for =
+the
+"older" RX 6xxx generation?
+
+
+=C2=B1 git bisect bad
+440cec4ca1c242d72e309a801995584a55af25c6 is the first bad commit
+commit 440cec4ca1c242d72e309a801995584a55af25c6 (HEAD)
+Author: Lijo Lazar <lijo.lazar@amd.com>
+Date:   Fri Jul 18 18:50:58 2025 +0530
+
+    drm/amdgpu: Wait for bootloader after PSPv11 reset
+
+    Some PSPv11 SOCs take a longer time for PSP based mode-1 reset. Instead
+    of checking for C2PMSG_33 status, add the callback wait_for_bootloader.
+    Wait for bootloader to be back to steady state is already part of the
+    generic mode-1 reset flow. Increase the retry count for bootloader wait
+    and also fix the mask to prevent fake pass.
+
+    Fixes: 8345a71fc54b ("drm/amdgpu: Add more checks to PSP mailbox")
+    Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4531
+    Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+    Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+    (cherry picked from commit 32f73741d6ee41fd5db8791c1163931e313d0fdc)
+
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
