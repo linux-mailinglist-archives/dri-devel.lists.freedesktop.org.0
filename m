@@ -2,124 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC8BBC8220
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97472BC8247
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06ED910E979;
-	Thu,  9 Oct 2025 08:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF49110E97E;
+	Thu,  9 Oct 2025 08:54:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xrw+H4t2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="W9QnvyaA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2727110E979
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 08:52:39 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EJor019131
- for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 08:52:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- mz3R/+d2HRB2j4ZAAYNbKPbcU1+9mJalbUWZyK8B4cM=; b=Xrw+H4t2gQxnEgFS
- dxv+K9WlSIoBBBrj/ny7tiQn2lGq3Y+40pV21TdG40PO0bvvblR5bscNgV8ZBOn0
- NR5ZYiWL8QWFoguVwfz/fuQfFrppThsY3Q6L0ubkm6qsz5BlViVelyt6shk7GNjg
- avD6M4JFFF5Q7ZU3EEXJ3AI/QwJ9mtGweAHnTnft2xYkzftNm04PoQN2Jnbs0dtB
- PiXMI2iiKa+pVEaaVykHgKIiFJpoNi3Gq+3SzjvHtA0bqUvBQ6RsfKL74sJvSRbc
- AYFN1sIRcanio+cS6t5fRfrGcpOXBkpeoFpQ5OX2bXJdDG/WoLXi/SwnFEPSGQLv
- HNQbAw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nt3ra-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 08:52:38 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4e0f9bedf1aso2578081cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 01:52:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759999957; x=1760604757;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mz3R/+d2HRB2j4ZAAYNbKPbcU1+9mJalbUWZyK8B4cM=;
- b=wKeaIey26CJ1lNh2dxKU1iXPh/htmlNx74LxewP5sc2myMjy+w2fzNCRFXmfDtfwg9
- hxQJ259SNW9nYmi0FGI/t3AN0/zBWhtGBqokrjm+ka6NuGKBNhgE0PZ/7eDEb2Jspi9N
- cUwIzu3VW5K7Yq2EXl/B5clnlPAxAdrUOgYSAEKB5nyTCxSQE86uYT63jfrHGZ3ktOQB
- 7mZkIu8s1IhQMMFfLo3F8FX+eCFWifMV30QUkFrUTk8RSgY/etE6ycDPrsxe6GRT8Djs
- TMU5Q/pUp9nRGeAvMIS5VAeemYPmcVUXtoLB6qoi+9WGO2bLXbRcHRuCEwq7XfV41HeK
- EfGw==
-X-Gm-Message-State: AOJu0YykpkJ/Mqze/a9QAvfPLrgNwIKtXf8VDSP33Avl0x5WJn242XOr
- Hw6CMnQ9asANEAEdaeZv0DHIybciQcPm6zOcjpCXLOBOuUEm2TCDawtqow8BL9+mw1CuRu8OqM1
- GEWrdmmdVvwP6eagx74OsEA/q9WN7vcHWVpUlCRohvBzrFcRXF4kSHj3+3bMhUPR1CCvjUEQ=
-X-Gm-Gg: ASbGncuCZxfa4TyqUyJTGn9FCVHPqDZVXiFUbwSlLKobZqLh1Ax2+i+WcN0IPA1LBxU
- MTFN4Ur855uUJC+UU9q32Ypao+/a2DoGY6ttMqOr6LIROQQvh6Px59WqgZDp5oGvNRXhczQqoiK
- Ns9yMCYhecG2oNeZr8w8j4dqMZH3ArbKQlh8Xvyx8NovPzbQodjTx9CtVNBUGdxTOVIaeyqH6wQ
- UI8JBhawDkfntZQvjvIy3GuQG0iAWA0k7u38waTusut5NajG7waz5pCFNWAcvBXnWav2aM68a+8
- VLFTZ9AUcS/wAgs+fIYaa/drmJ6TGoPQ/8UXSEZVTXeRJaccW2uho0hJcnPvf04nvBUOahPEnBk
- UaKgsx8lhI4IMnm08t/P06UGmrkk=
-X-Received: by 2002:ac8:5fc3:0:b0:4b5:e9b6:c96 with SMTP id
- d75a77b69052e-4e6ead1deb0mr60152811cf.7.1759999957510; 
- Thu, 09 Oct 2025 01:52:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEt0uEiEbh1bGs1o55s5jlT8wv6t3qr229hu5kTSl6GIzd3si4d6C3k4g7aU0DhbZYlQXIyoQ==
-X-Received: by 2002:ac8:5fc3:0:b0:4b5:e9b6:c96 with SMTP id
- d75a77b69052e-4e6ead1deb0mr60152511cf.7.1759999956930; 
- Thu, 09 Oct 2025 01:52:36 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b48652a9bfcsm1836499866b.17.2025.10.09.01.52.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Oct 2025 01:52:36 -0700 (PDT)
-Message-ID: <3e115b9c-41b2-47c8-ac92-22969766ec3e@oss.qualcomm.com>
-Date: Thu, 9 Oct 2025 10:52:34 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5626B10E97E;
+ Thu,  9 Oct 2025 08:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lzpCTZWnRfLQVDW0GWNREfGnRAfsG2gycX5qOTFzxP8=; b=W9QnvyaAi0+OrRCViYFwxnDBnj
+ nLFp+66+cu73x04aUEjXzb0OP5Qj7MkpJVtFTH5nBhNw/JZOxrLD65uJfYsgVFknJL6LvMB46U2GR
+ m6ZUFoaPt+jnBElUiBaIrq8XBxtvaATRqJYDOXFAZKadzn+mv0h+AnBJ1P/1dHbHZag3cAJahyCOR
+ De2dnFRDboF2jpzy1iU1T20cAyRGngQmpEyvyYjB6KyJkjWUHh3DgSwjMUs0kvEgBQSsu4d3XNAvZ
+ mRnSXfxIh84AfySxcr2Yaaxg0nzANvY7shVrsTUlkFhdxaFYeFQVkqr+0f145mdRbXh7G+mLRAkIu
+ HzBmsPBA==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1v6mPO-007NLx-NW; Thu, 09 Oct 2025 10:53:58 +0200
+Message-ID: <a300e417-c9df-4e2b-a75f-319aab384b44@igalia.com>
+Date: Thu, 9 Oct 2025 09:53:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] drm/panel: Add Samsung S6E3FC2X01 DDIC with
- AMS641RW panel
-To: david@ixit.cz, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
+ latency
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
- <20251008-s6e3fc2x01-v2-5-21eca1d5c289@ixit.cz>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251008-s6e3fc2x01-v2-5-21eca1d5c289@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: KtXuuIm7mpaBRCywuGMzGBqsH20vpsWz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX6s2zPc2mss+1
- 06OFPOrcy391GBAJ3myMAlBUs/1Oe4MqAqd+0Z4c93rJq9DFv155/WhuDptrC+92IRvayhNH1QY
- bxl4rY6QG95laX9wWENTp6UezXWeeYdLpx2Mijxx7tVu4btWc7MjdTAaA+QYZzZXgt8ZAQiRWR5
- PfUtbj4F3FVrgxus7CJf2wYnvVn6KcZUZQjRxfV38vQX7k4UXHDx0IY4Ex6hFufgXV5P2hLVgWL
- BoA4W8Snj9j9+JYs/gitJtVsDpNPjqBXZ/Wjts+CKNBMaq7r+uUmlj7JrQKsAnjn1OdZUsbaqVC
- oyGrzNM4PB7M+Bxgd+g1cDXobzVKQG9/Moicvy+7ODtkZtJL/EOAhY36+1Fw8bqgHq7Ya6LzvM1
- xrsSCzCSuFLx9tr4tnQiu/ABlXxKqw==
-X-Proofpoint-GUID: KtXuuIm7mpaBRCywuGMzGBqsH20vpsWz
-X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e777d6 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=WFa1dZBpAAAA:8 a=bBqXziUQAAAA:8
- a=cYgmbtr1Y_meZTC9yNIA:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=MZguhEFr_PtxzKXayD1K:22 a=BjKv_IHbNJvPKzgot4uq:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_02,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+ Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
+References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
+ <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
+ <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
+ <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
+ <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,30 +76,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/25 4:05 PM, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
-> 
-> Add panel driver used in the OnePlus 6T.
-> 
-> No datasheet, based mostly on EDK2 init sequence and the downstream driver.
-> 
-> Based on work of:
->   Casey Connolly <casey@connolly.tech>
->   Joel Selvaraj <foss@joelselvaraj.com>
->   Nia Espera <a5b6@riseup.net>
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
 
-[...]
+On 08/10/2025 15:39, Thomas Hellström wrote:
+> On Wed, 2025-10-08 at 16:02 +0200, Christian König wrote:
+>> On 08.10.25 15:50, Tvrtko Ursulin wrote:
+>>>
+>>> On 08/10/2025 13:35, Christian König wrote:
+>>>> On 08.10.25 13:53, Tvrtko Ursulin wrote:
+>>>>> Disclaimer:
+>>>>> Please note that as this series includes a patch which touches
+>>>>> a good number of
+>>>>> drivers I will only copy everyone in the cover letter and the
+>>>>> respective patch.
+>>>>> Assumption is people are subscribed to dri-devel so can look at
+>>>>> the whole series
+>>>>> there. I know someone is bound to complain for both the case
+>>>>> when everyone is
+>>>>> copied on everything for getting too much email, and also for
+>>>>> this other case.
+>>>>> So please be flexible.
+>>>>>
+>>>>> Description:
+>>>>>
+>>>>> All drivers which use the TTM pool allocator end up requesting
+>>>>> large order
+>>>>> allocations when allocating large buffers. Those can be slow
+>>>>> due memory pressure
+>>>>> and so add latency to buffer creation. But there is often also
+>>>>> a size limit
+>>>>> above which contiguous blocks do not bring any performance
+>>>>> benefits. This series
+>>>>> allows drivers to say when it is okay for the TTM to try a bit
+>>>>> less hard.
+>>>>>
+>>>>> We do this by allowing drivers to specify this cut off point
+>>>>> when creating the
+>>>>> TTM device and pools. Allocations above this size will skip
+>>>>> direct reclaim so
+>>>>> under memory pressure worst case latency will improve.
+>>>>> Background reclaim is
+>>>>> still kicked off and both before and after the memory pressure
+>>>>> all the TTM pool
+>>>>> buckets remain to be used as they are today.
+>>>>>
+>>>>> This is especially interesting if someone has configured
+>>>>> MAX_PAGE_ORDER to
+>>>>> higher than the default. And even with the default, with amdgpu
+>>>>> for example,
+>>>>> the last patch in the series makes use of the new feature by
+>>>>> telling TTM that
+>>>>> above 2MiB we do not expect performance benefits. Which makes
+>>>>> TTM not try direct
+>>>>> reclaim for the top bucket (4MiB).
+>>>>>
+>>>>> End result is TTM drivers become a tiny bit nicer mm citizens
+>>>>> and users benefit
+>>>>> from better worst case buffer creation latencies. As a side
+>>>>> benefit we get rid
+>>>>> of two instances of those often very unreadable mutliple
+>>>>> nameless booleans
+>>>>> function signatures.
+>>>>>
+>>>>> If this sounds interesting and gets merge the invidual drivers
+>>>>> can follow up
+>>>>> with patches configuring their thresholds.
+>>>>>
+>>>>> v2:
+>>>>>    * Christian suggested to pass in the new data by changing the
+>>>>> function signatures.
+>>>>>
+>>>>> v3:
+>>>>>    * Moved ttm pool helpers into new ttm_pool_internal.h.
+>>>>> (Christian)
+>>>>
+>>>> Patch #3 is Acked-by: Christian König <christian.koenig@amd.com>.
+>>>>
+>>>> The rest is Reviewed-by: Christian König
+>>>> <christian.koenig@amd.com>
+>>>
+>>> Thank you!
+>>>
+>>> So I think now I need acks to merge via drm-misc for all the
+>>> drivers which have their own trees. Which seems to be just xe.
+>>
+>> I think you should ping the XE guys for their opinion, but since
+>> there shouldn't be any functional change for them you can probably go
+>> ahead and merge the patches to drm-misc-next when there is no reply
+>> in time.
+> 
+> I will try to do a review tonight. One thing that comes up though, is
+> the change to ttm_device_init() where you add pool_flags. I had another
+> patch series a number of months ago that added a struct with flags
+> there instead to select the return value given when OOM. Now that we're
+> adding an argument, should we try to use a struct instead so that we
+> can use it for more that pool behavior?
+> 
+> 
+> I'll be able to find a pointer to that series later today.
 
-> +	/*  This panel needs the high and low bytes swapped
-> +	 *  for the brightness value
-> +	 */
-> +	brightness = __swab16(brightness);
-> +
-> +	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
+Found it: 
+https://lore.kernel.org/dri-devel/20241002122422.287276-1-thomas.hellstrom@linux.intel.com/
 
-mipi_dsi_dcs_set_display_brightness_large()
+Glad to see in that thread it isn't just me permanently slowed down by 
+"false, false" and similar. :)
 
-Konrad
+I considered using a struct too and I guess there wasn't too much of a 
+sway that I went with flags. I thought not to overcomplicate with the on 
+stack struct which is mostly not needed for something so low level, and 
+to stick with the old school C visual patterns.
+
+Since you only needed a single boolean in your series I suppose you 
+could just follow up on my series if you find it acceptable. Or I can go 
+with yours, no problem either.
+
+Regards,
+
+Tvrtko
+
