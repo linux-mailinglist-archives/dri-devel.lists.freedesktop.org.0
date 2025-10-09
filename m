@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC63BC913E
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06668BC9141
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:40:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B511110EA1F;
-	Thu,  9 Oct 2025 12:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B75810EA22;
+	Thu,  9 Oct 2025 12:40:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dRlqJ0d5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RZaqXbC2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073BA10E163
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:40:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA2E610EA22
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:40:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760013631;
+ s=mimecast20190719; t=1760013653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=by1DYuf2TSU2XMOmO640g7rt0oGjp77MHz02LN2aofU=;
- b=dRlqJ0d5lMHC6+n4cYP6MPIOtXecHiD4j5l/hmNtSCRhYikkz5JcCu5KxMBAHYRjycH7zw
- 52+p2j2c26HkujFHIB+5dtGiDqeplRSHhJrkI5NXROl7bs3aBQAgKWKYP66ELgSt7qjHYW
- N1SOo6rsWYIZRStFlO0rDDhpnJICp9c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h/lGwpht0FzByi5I8SnfLTev6FDqWYG/TdjkCJElbqo=;
+ b=RZaqXbC2XEIlTZF/QOCdFE6fOYUfARaz5xYA6p4eE48xsKSePBdX1g0roCzbLpwHpUkRIb
+ FFD1fO+iDBtrkfFY1NO0qyh7Yjs6KVvy0Ff43kgbmE1z/qBKCU5IOPRqe5C4Pal955pXfV
+ Bi4HK5/scU21j3jqsXfH7JRiMe+1hJI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-HJopG-NkNsWUBkqTZqzg9w-1; Thu, 09 Oct 2025 08:40:29 -0400
-X-MC-Unique: HJopG-NkNsWUBkqTZqzg9w-1
-X-Mimecast-MFC-AGG-ID: HJopG-NkNsWUBkqTZqzg9w_1760013628
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-46e502a37cdso6302885e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 05:40:29 -0700 (PDT)
+ us-mta-447-mOAuHvhqMFyFZd2JN_2e7g-1; Thu, 09 Oct 2025 08:40:49 -0400
+X-MC-Unique: mOAuHvhqMFyFZd2JN_2e7g-1
+X-Mimecast-MFC-AGG-ID: mOAuHvhqMFyFZd2JN_2e7g_1760013649
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3efa77de998so1105086f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 05:40:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760013628; x=1760618428;
+ d=1e100.net; s=20230601; t=1760013648; x=1760618448;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=by1DYuf2TSU2XMOmO640g7rt0oGjp77MHz02LN2aofU=;
- b=SgG8Ty07obB+CDh9OjVt6GC9X0iOlFX0PT3EjjrAsBDPNTdkuicndu/k9bXA0t/Uoy
- WbW6sppXgDROHj2DvQRX5wxmvHYbqKd4AlQClP306W5PAd4Bf9Uc9VssU7U6X8+Mg4Ds
- nQHzdbJ/88KuK0bGY+7OeGTbHKZGrAw+/ly5WzSVTyGzE4qCHehIBnE+ZiouNIyvq9Mp
- Ch9SqceAKq+24YRSKXoge8SkU4pOVlUNbQHCRHoML/XZeFvrmqPH2Hc8ooD1evonFcJZ
- XWFYMAMVwJ55iH0BY6Ef+uJMzVA+CyIQFuGN37qgusNFyE2Z+bgDNli0chIlp0L7hUXV
- MHcw==
-X-Gm-Message-State: AOJu0YzxNh6y8FZpMYE8H5CXG+ZgcGfRwxSU4x/QFGuQa1V/It3xJBEj
- Hlb3eTk5vyJtO234mbcMm61Riq84IZhgnzrhB3DZYtgr6DlgWz/wSx+/M+aYvWuMxjpXBpDPs3+
- g2YdRw34Iy5adzxpbTFIrRt8WXyvB2tNC5AhPlPw76KZIIeneq4oGdzrVGWe5vTy1jGbHMg==
-X-Gm-Gg: ASbGncsD5fvRdQdgrIkWNegwKGaLZERJlBnxG8u6aF5Vqv62Vn3ss58RNlKKtKrn1Cl
- rxGqjgi1n+gwdMJoO0NUNFm9/psYQDTBJXwXOeLpp4cZteHgsfeDiwoccqDy55DPfeJRz1alLcH
- Can0SH2trmnjsxx1I9HtzoHUjDXX8IkmE17Ek7ohUtAt1W2IVSbUvZsYAvUibjagTctISj+17os
- PlUq+5o9EDCoHOTalr8hbSxH73A35d2mOIFp0ziRLThRQE2WXb4lM4GgCxmVfbSctu20OGWRG04
- fSwpzDKJwDbDNBCtBLu+aZlYg5cme8vr7eO7zLsssnVs/q/9VhpuD2W06neuDQ7aMXYY2LsSq5B
- PnwF/34UrEg==
-X-Received: by 2002:a05:600c:a309:b0:46f:b42e:e39e with SMTP id
- 5b1f17b1804b1-46fb42ee4femr1452015e9.39.1760013628378; 
- Thu, 09 Oct 2025 05:40:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBbsh7gIH+B/PZp+dO+aTsNbkV+y2cJfp3z0dqB0n2aenocE0HwvpvMuTPSnRc3JPNv5zmYw==
-X-Received: by 2002:a05:600c:a309:b0:46f:b42e:e39e with SMTP id
- 5b1f17b1804b1-46fb42ee4femr1451865e9.39.1760013627945; 
- Thu, 09 Oct 2025 05:40:27 -0700 (PDT)
+ bh=h/lGwpht0FzByi5I8SnfLTev6FDqWYG/TdjkCJElbqo=;
+ b=UAHhcLJSHfKD5YBixpHFg0DQYZHpI8SY7kCiL1xvfknYZKTxSiHt/axZ0q6i784YwU
+ PqIbPTBMWj2eCZARxfw8skl9l+nmvK3q8jEmAHRAS+5fxIg672pZEcK1XyYvHLiinYft
+ qva8ikwZos1NV9qwFZF8Ooa80/bz4Meg9My4N15q0Cu2dt7VjyYpdQC3lp/pimPaSvNi
+ UAMHKvH53IaNWJll3uR0WTSJUyboAIoKvWDTJJjSYtAAzBZy49H+pdJAiBq+mxPYnGx1
+ i9yrrXj/yeUzu6QH9Gdmzwd+FzMtRzifoOAHlcspINLR6T8SzFY2UlgyeBWLR57HLxBR
+ ZWxQ==
+X-Gm-Message-State: AOJu0YzGcu0vVziNLGf1HGMPXXbvpRH8q7WJK3P/uQAdQ0ZgzJuCDRBY
+ uEMETwsr15+7ioclv9ZRPKP2k2bYkpYnUZ4/87S1zCO6TLrt0ZHwxV/jlbZZCo+oPWqmQMAP5Ox
+ Bu3ndbolX+yz2Ig9PJLvx7HjNgTBXOQmQhbjNUjvRPWgPsoAVe3ZMMAE833xPx48jXlSiVw==
+X-Gm-Gg: ASbGncv5dMyrRVZrQzYD6lde+BtNqe9YbfF7FEAzroac0QwvRqts0fljE28UZK6Gzru
+ bnvvB3HmC9t19aaoH4DZ5UtQPwG/lxuH85kXfH+3DVyj3hjT5yCy1gls6OotpOOQF7ghpEPQ/RG
+ wuPw4R0lS5rolTsPqJEy138K/jIv6JKj6biExd03WK1B40TgJ3ae67AACdy75ev90Z3lmKuxjD9
+ MAXQoBHGYdp2ONHkOnn0qu1bRZrFpJFA8U07nTGRwx6eMb+BKm8GaZMBVDu5Q/B83aSeAEqlI8e
+ Dw9BNQ+JLrIjvtLkQPLgrO7QE5o5KnCl2RF53iWOrKv3kZXwmoUmGbZ2E0VNYSX80ZDgKaUe4z6
+ KpOtMXLsljw==
+X-Received: by 2002:a05:6000:1848:b0:3da:27c2:f51d with SMTP id
+ ffacd0b85a97d-4266e8dd68fmr4880285f8f.45.1760013648493; 
+ Thu, 09 Oct 2025 05:40:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHwNzw4sgMffGc1VNsWmgDShDl/fsnjlTo62iEFlTeqQogW/kQQo3Unwn3hNTNPVjzxLStEJw==
+X-Received: by 2002:a05:6000:1848:b0:3da:27c2:f51d with SMTP id
+ ffacd0b85a97d-4266e8dd68fmr4880265f8f.45.1760013648041; 
+ Thu, 09 Oct 2025 05:40:48 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
  ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fab3d7df4sm38893085e9.1.2025.10.09.05.40.26
+ ffacd0b85a97d-4255d8e9703sm35005728f8f.30.2025.10.09.05.40.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Oct 2025 05:40:27 -0700 (PDT)
-Message-ID: <2b0343e4-6ce5-480c-9e05-9b814818d87c@redhat.com>
-Date: Thu, 9 Oct 2025 14:40:24 +0200
+ Thu, 09 Oct 2025 05:40:43 -0700 (PDT)
+Message-ID: <b91f70ed-6da4-4933-9b32-72dbec10810b@redhat.com>
+Date: Thu, 9 Oct 2025 14:40:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] drm/ast: Store DRAM clock table in struct ast_device
+Subject: Re: [PATCH 2/5] drm/ast: Support device quirks
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org
 References: <20251007150343.273718-1-tzimmermann@suse.de>
- <20251007150343.273718-2-tzimmermann@suse.de>
+ <20251007150343.273718-3-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251007150343.273718-2-tzimmermann@suse.de>
+In-Reply-To: <20251007150343.273718-3-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 0GNZKU4Z6AwodkKsPyLhI-qYo6od4oAPZAB5FRCSbnQ_1760013628
+X-Mimecast-MFC-PROC-ID: 26UmqYZLoRXVrW2q8EWKa82QZId0F-KqujQt-cFiI30_1760013649
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -102,150 +102,230 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/7/25 16:54, Thomas Zimmermann wrote:
-> Init the new field dclk_table in struct ast_device to the per-gen
-> table of DRAM clock parameters. Use the field during modesetting.
-> 
-> The table is static, so a setup is only required once. Removes the
-> call to IS_AST_GEN() from the atomic commit's code path.
+> Define struct ast_device_quirks and add an instance for each hardware
+> generation. The type will provide information about per-gen constants
+> and oddities.
 
 Thanks, it looks good to me.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-> 
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>>
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_2000.c | 2 ++
->   drivers/gpu/drm/ast/ast_2100.c | 2 ++
->   drivers/gpu/drm/ast/ast_2200.c | 2 ++
->   drivers/gpu/drm/ast/ast_2300.c | 2 ++
->   drivers/gpu/drm/ast/ast_2400.c | 2 ++
->   drivers/gpu/drm/ast/ast_2500.c | 2 ++
->   drivers/gpu/drm/ast/ast_2600.c | 2 ++
->   drivers/gpu/drm/ast/ast_drv.h  | 2 ++
->   drivers/gpu/drm/ast/ast_mode.c | 7 +------
->   9 files changed, 17 insertions(+), 6 deletions(-)
+>   drivers/gpu/drm/ast/ast_2000.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_2100.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_2200.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_2300.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_2400.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_2500.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_2600.c | 5 ++++-
+>   drivers/gpu/drm/ast/ast_drv.c  | 4 +++-
+>   drivers/gpu/drm/ast/ast_drv.h  | 8 +++++++-
+>   9 files changed, 38 insertions(+), 9 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ast/ast_2000.c b/drivers/gpu/drm/ast/ast_2000.c
-> index 03b0dcea43d1..74a041e99061 100644
+> index 74a041e99061..ae4d7a2a0ec8 100644
 > --- a/drivers/gpu/drm/ast/ast_2000.c
 > +++ b/drivers/gpu/drm/ast/ast_2000.c
-> @@ -230,6 +230,8 @@ struct drm_device *ast_2000_device_create(struct pci_dev *pdev,
+> @@ -211,6 +211,9 @@ void ast_2000_detect_tx_chip(struct ast_device *ast, bool need_post)
+>   	__ast_device_set_tx_chip(ast, tx_chip);
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2000_dclk_table;
+> +static const struct ast_device_quirks ast_2000_device_quirks = {
+> +};
 > +
->   	ast_2000_detect_tx_chip(ast, need_post);
+>   struct drm_device *ast_2000_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -228,7 +231,7 @@ struct drm_device *ast_2000_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	if (need_post) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2000_device_quirks);
+>   
+>   	ast->dclk_table = ast_2000_dclk_table;
+>   
 > diff --git a/drivers/gpu/drm/ast/ast_2100.c b/drivers/gpu/drm/ast/ast_2100.c
-> index 540972daec52..eb3336c84833 100644
+> index eb3336c84833..01e064e67cf7 100644
 > --- a/drivers/gpu/drm/ast/ast_2100.c
 > +++ b/drivers/gpu/drm/ast/ast_2100.c
-> @@ -451,6 +451,8 @@ struct drm_device *ast_2100_device_create(struct pci_dev *pdev,
+> @@ -432,6 +432,9 @@ static void ast_2100_detect_widescreen(struct ast_device *ast)
+>   		ast->support_wuxga = true;
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2000_dclk_table;
+> +static const struct ast_device_quirks ast_2100_device_quirks = {
+> +};
 > +
->   	ast_2000_detect_tx_chip(ast, need_post);
+>   struct drm_device *ast_2100_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -449,7 +452,7 @@ struct drm_device *ast_2100_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	if (need_post) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2100_device_quirks);
+>   
+>   	ast->dclk_table = ast_2000_dclk_table;
+>   
 > diff --git a/drivers/gpu/drm/ast/ast_2200.c b/drivers/gpu/drm/ast/ast_2200.c
-> index 4795966dc2a7..391034d5f425 100644
+> index 391034d5f425..46b6fc6cf7eb 100644
 > --- a/drivers/gpu/drm/ast/ast_2200.c
 > +++ b/drivers/gpu/drm/ast/ast_2200.c
-> @@ -62,6 +62,8 @@ struct drm_device *ast_2200_device_create(struct pci_dev *pdev,
+> @@ -43,6 +43,9 @@ static void ast_2200_detect_widescreen(struct ast_device *ast)
+>   		ast->support_wuxga = true;
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2000_dclk_table;
+> +static const struct ast_device_quirks ast_2200_device_quirks = {
+> +};
 > +
->   	ast_2000_detect_tx_chip(ast, need_post);
+>   struct drm_device *ast_2200_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -60,7 +63,7 @@ struct drm_device *ast_2200_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	if (need_post) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2200_device_quirks);
+>   
+>   	ast->dclk_table = ast_2000_dclk_table;
+>   
 > diff --git a/drivers/gpu/drm/ast/ast_2300.c b/drivers/gpu/drm/ast/ast_2300.c
-> index d1d63e58f3d6..3c9e1960b90c 100644
+> index 3c9e1960b90c..b76a80d6aea6 100644
 > --- a/drivers/gpu/drm/ast/ast_2300.c
 > +++ b/drivers/gpu/drm/ast/ast_2300.c
-> @@ -1426,6 +1426,8 @@ struct drm_device *ast_2300_device_create(struct pci_dev *pdev,
+> @@ -1407,6 +1407,9 @@ static void ast_2300_detect_widescreen(struct ast_device *ast)
+>   		ast->support_wuxga = true;
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2000_dclk_table;
+> +static const struct ast_device_quirks ast_2300_device_quirks = {
+> +};
 > +
->   	ast_2300_detect_tx_chip(ast);
+>   struct drm_device *ast_2300_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -1424,7 +1427,7 @@ struct drm_device *ast_2300_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	if (need_post) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2300_device_quirks);
+>   
+>   	ast->dclk_table = ast_2000_dclk_table;
+>   
 > diff --git a/drivers/gpu/drm/ast/ast_2400.c b/drivers/gpu/drm/ast/ast_2400.c
-> index 596338ea22f4..be866d1cd06a 100644
+> index be866d1cd06a..2b41ff69ab0b 100644
 > --- a/drivers/gpu/drm/ast/ast_2400.c
 > +++ b/drivers/gpu/drm/ast/ast_2400.c
-> @@ -63,6 +63,8 @@ struct drm_device *ast_2400_device_create(struct pci_dev *pdev,
+> @@ -44,6 +44,9 @@ static void ast_2400_detect_widescreen(struct ast_device *ast)
+>   		ast->support_wuxga = true;
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2000_dclk_table;
+> +static const struct ast_device_quirks ast_2400_device_quirks = {
+> +};
 > +
->   	ast_2300_detect_tx_chip(ast);
+>   struct drm_device *ast_2400_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -61,7 +64,7 @@ struct drm_device *ast_2400_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	if (need_post) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2400_device_quirks);
+>   
+>   	ast->dclk_table = ast_2000_dclk_table;
+>   
 > diff --git a/drivers/gpu/drm/ast/ast_2500.c b/drivers/gpu/drm/ast/ast_2500.c
-> index 2c56db644f06..086c74682a55 100644
+> index 086c74682a55..6d305a8ccc51 100644
 > --- a/drivers/gpu/drm/ast/ast_2500.c
 > +++ b/drivers/gpu/drm/ast/ast_2500.c
-> @@ -637,6 +637,8 @@ struct drm_device *ast_2500_device_create(struct pci_dev *pdev,
+> @@ -618,6 +618,9 @@ static void ast_2500_detect_widescreen(struct ast_device *ast)
+>   		ast->support_wuxga = true;
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2500_dclk_table;
+> +static const struct ast_device_quirks ast_2500_device_quirks = {
+> +};
 > +
->   	ast_2300_detect_tx_chip(ast);
+>   struct drm_device *ast_2500_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -635,7 +638,7 @@ struct drm_device *ast_2500_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	if (need_post) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2500_device_quirks);
+>   
+>   	ast->dclk_table = ast_2500_dclk_table;
+>   
 > diff --git a/drivers/gpu/drm/ast/ast_2600.c b/drivers/gpu/drm/ast/ast_2600.c
-> index 30490c473797..1f709486f491 100644
+> index 1f709486f491..df3b429e8174 100644
 > --- a/drivers/gpu/drm/ast/ast_2600.c
 > +++ b/drivers/gpu/drm/ast/ast_2600.c
-> @@ -78,6 +78,8 @@ struct drm_device *ast_2600_device_create(struct pci_dev *pdev,
+> @@ -59,6 +59,9 @@ static void ast_2600_detect_widescreen(struct ast_device *ast)
+>   		ast->support_wuxga = true;
+>   }
 >   
->   	ast_device_init(ast, chip, config_mode, regs, ioregs);
->   
-> +	ast->dclk_table = ast_2500_dclk_table;
+> +static const struct ast_device_quirks ast_2600_device_quirks = {
+> +};
 > +
->   	ast_2300_detect_tx_chip(ast);
+>   struct drm_device *ast_2600_device_create(struct pci_dev *pdev,
+>   					  const struct drm_driver *drv,
+>   					  enum ast_chip chip,
+> @@ -76,7 +79,7 @@ struct drm_device *ast_2600_device_create(struct pci_dev *pdev,
+>   		return ERR_CAST(ast);
+>   	dev = &ast->base;
 >   
->   	switch (ast->tx_chip) {
+> -	ast_device_init(ast, chip, config_mode, regs, ioregs);
+> +	ast_device_init(ast, chip, config_mode, regs, ioregs, &ast_2600_device_quirks);
+>   
+>   	ast->dclk_table = ast_2500_dclk_table;
+>   
+> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+> index a89735c6a462..b9a9b050b546 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.c
+> +++ b/drivers/gpu/drm/ast/ast_drv.c
+> @@ -51,8 +51,10 @@ void ast_device_init(struct ast_device *ast,
+>   		     enum ast_chip chip,
+>   		     enum ast_config_mode config_mode,
+>   		     void __iomem *regs,
+> -		     void __iomem *ioregs)
+> +		     void __iomem *ioregs,
+> +		     const struct ast_device_quirks *quirks)
+>   {
+> +	ast->quirks = quirks;
+>   	ast->chip = chip;
+>   	ast->config_mode = config_mode;
+>   	ast->regs = regs;
 > diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 35c476c85b9a..b2b30a0e4ffb 100644
+> index b2b30a0e4ffb..2a2c28693dc6 100644
 > --- a/drivers/gpu/drm/ast/ast_drv.h
 > +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -174,6 +174,8 @@ struct ast_device {
->   	enum ast_config_mode config_mode;
->   	enum ast_chip chip;
+> @@ -164,9 +164,14 @@ to_ast_connector(struct drm_connector *connector)
+>    * Device
+>    */
 >   
-> +	const struct ast_vbios_dclk_info *dclk_table;
+> +struct ast_device_quirks {
+> +};
 > +
->   	void __iomem	*vram;
->   	unsigned long	vram_base;
->   	unsigned long	vram_size;
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 6b9d510c509d..a9ffda1b1dea 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -370,12 +370,7 @@ static void ast_set_dclk_reg(struct ast_device *ast,
->   			     struct drm_display_mode *mode,
->   			     const struct ast_vbios_enhtable *vmode)
->   {
-> -	const struct ast_vbios_dclk_info *clk_info;
-> -
-> -	if (IS_AST_GEN6(ast) || IS_AST_GEN7(ast))
-> -		clk_info = &ast_2500_dclk_table[vmode->dclk_index];
-> -	else
-> -		clk_info = &ast_2000_dclk_table[vmode->dclk_index];
-> +	const struct ast_vbios_dclk_info *clk_info = &ast->dclk_table[vmode->dclk_index];
+>   struct ast_device {
+>   	struct drm_device base;
 >   
->   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xc0, 0x00, clk_info->param1);
->   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xc1, 0x00, clk_info->param2);
+> +	const struct ast_device_quirks *quirks;
+> +
+>   	void __iomem *regs;
+>   	void __iomem *ioregs;
+>   	void __iomem *dp501_fw_buf;
+> @@ -414,7 +419,8 @@ void ast_device_init(struct ast_device *ast,
+>   		     enum ast_chip chip,
+>   		     enum ast_config_mode config_mode,
+>   		     void __iomem *regs,
+> -		     void __iomem *ioregs);
+> +		     void __iomem *ioregs,
+> +		     const struct ast_device_quirks *quirks);
+>   void __ast_device_set_tx_chip(struct ast_device *ast, enum ast_tx_chip tx_chip);
+>   
+>   /* ast_2000.c */
 
