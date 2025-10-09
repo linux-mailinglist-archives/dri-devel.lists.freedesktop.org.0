@@ -2,172 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A3FBC9965
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D514BBC99BC
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:48:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1416E10EA79;
-	Thu,  9 Oct 2025 14:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D7DB10EA7A;
+	Thu,  9 Oct 2025 14:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ko8TKkc4";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RppZRULH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4269F10EA79
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760021073; x=1791557073;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=h4AEHkZY4wjZP8hGY6LWN2qEZEr+IcFdOtTO5Sfcrow=;
- b=Ko8TKkc437O3NBR2Mget+aKluiiHg4McmV+qtWD8RFosM9WiAteCysQO
- /GtkTwczcOLpq0Vijt4VML8VJoSLper7u8J+3Qo18DQ1sebHT+xI08ujp
- TToPxX1ijaj/CQiGilaAI2VK7s8SZRTV09P+eb/4eDV5W73bG/a3vOZRb
- MUxsP7O5fJx2cua5c+MgzT2z0DYJQnHu7DQGXt+S2p5FAfm8LC1y6lOZK
- kcpRuDa4qH1pQSnJYYvoCvdR+rzPGf2MBb5uk5a9wLjnPxdoxqVNq/DBJ
- rBW+/gTqIdmEOBM9lEBBvpvGBTNFv+dLdPm4/0Wjbdnev7hMgG7hmO1Bi g==;
-X-CSE-ConnectionGUID: iJck/XseTiKEr0bGbpjF/Q==
-X-CSE-MsgGUID: HhJfEZBhQPW0bDTJh04+hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66061202"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="66061202"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 07:44:33 -0700
-X-CSE-ConnectionGUID: u0zJOOb4SG6dbbA1mrAPvg==
-X-CSE-MsgGUID: lAGcxgQ8Ruudz3pScCFOlQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="180307947"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 07:44:33 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 9 Oct 2025 07:44:32 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 9 Oct 2025 07:44:32 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.71) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 9 Oct 2025 07:44:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L02QAlsH4yMCwbA4ZKIoN+N7qwu4TWF04nEPbLJTrPLd36rMVqSMcKDl3LRV22p9RicPTYZzaNzPHe/+4DO4d4NWYX0fp+8o2wJrU4/hJ6zrvL2oWH0+1Lewc/1td3nWq5jLILHomp2wBeeTx5UuiIlxvWVW945pXISM7cnTQ11bLIDbPqD5Hk8IH7Awl6sAVng/ehFUwReEFKgKMOqqfIiJMioOxj7e/YuUAQy5SFXQZwkwtphrE8IijFW3bKO67NJoukkzB4ApIPIEnX5IZvhhQqgKf7tD5pvJp2ILH5HZi+4BOz1QIcrpL9JxAsBDv7/B+EmRDwzpZnWx8ABW7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2jP5qeFNuRRP24mMUlmUVE+yWPvTR9zLw2SWnK+5HoY=;
- b=hRDRc5Ce9khi999IqA1C6vaC5qHELDyiTSgVIx6xAPMPGdK98oeQOKAs6IyY7PbTjSNJjMQSmYD/Xg821h0IRplk3IRljNCdvpWbSPgqIR31kDmKCL52raFhSbrLCQTpbbTtslTcIA+G8UX8ek7C6RhcPYcPvYrOOmDaUXnkq5QQH2IRORQDDuMTU+Ly8uqic43HcZRV+72pM5krBnfdkbqLRHuKqqCEXQpI+8HpwMmnQEBZlyqYhnExY9gkeAljV4+wVUZZAmUv0z2h58XYRmHeHj7pSlhww4LoU4iTebZV+nV6V+m9tDaX8Eli9T08S9hp6gGj/CLudxGI7nQ+GA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by IA1PR11MB9469.namprd11.prod.outlook.com (2603:10b6:208:5b1::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Thu, 9 Oct
- 2025 14:44:30 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9203.007; Thu, 9 Oct 2025
- 14:44:30 +0000
-Date: Thu, 9 Oct 2025 10:44:25 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
- <alex.zuo@intel.com>, <matthew.auld@intel.com>,
- <himal.prasad.ghimiray@intel.com>, <matthew.brost@intel.com>,
- <ville.syrjala@linux.intel.com>, <jani.nikula@linux.intel.com>,
- <krzysztof.karas@intel.com>, <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH] drm: Prevent sign extension on hdisplay and vdisplay
-Message-ID: <aOfKSSO7EeuZWPYD@intel.com>
-References: <20251007153645.90920-2-jonathan.cavitt@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251007153645.90920-2-jonathan.cavitt@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0132.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::17) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|IA1PR11MB9469:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4ec9dde-1c9b-402f-2294-08de07425a54
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?u95PyvoI+UTK2RKNHGhSLyb694aAkf5PIPm4M1DZs5wLeHoFyDi+Vlo+JS?=
- =?iso-8859-1?Q?RWqPcpO07CwFmQKv2T73StbcGP8Eaj+MljrNpVDaqCbaF7lLqXEUuFZ9ss?=
- =?iso-8859-1?Q?i3OEHRRWzUYdHBCoVIy+WkI4bF6ZHXl26AiTFIPcukXeIz2fhepBNlqI5y?=
- =?iso-8859-1?Q?YvE9CxvJkKSjXbLwmzHlUwKtwqIF13LKAYpNDIukJAmHwtkGvBu2mJ8CQJ?=
- =?iso-8859-1?Q?dk76jgSjybomqaaojrNI5WCSylt7ekiTi+XzQ+CqoKgPjdhCL5fsgr/JSV?=
- =?iso-8859-1?Q?35HJRNN3y2CSSpFu3icG7gqMvfGm3432DISrrkpBdE9ogvtb3KHD1NsqVL?=
- =?iso-8859-1?Q?aIIGFndi14F+OBnK0kFtyLPqPylQkp00+93FdbgRKI6v91dt1OGANyY6XS?=
- =?iso-8859-1?Q?X8RWjhWENLNlWdYZfrU6iqB5U4us4NyKkyXQMyEsDwBWNOzdJwpVAfEyJu?=
- =?iso-8859-1?Q?Re3zeWd5RSJM80tIl1UJvRBdgLWjjdfc5711jcurdQejEJWJ5w/7ZZQv48?=
- =?iso-8859-1?Q?7GygUA4Y6RR3bPnWEyNhSel9RWLXtSCtVwVa1IBXeXqTSIGgx31qHIdpKc?=
- =?iso-8859-1?Q?dKWI55KYQ0QgHcZb3PgYPDeJtCgu9RHlpyE/U3Y4vBvb1sDDIww+uSn2Bf?=
- =?iso-8859-1?Q?K6XJJgFMLkl9SFqD+IuXPqiVkS//EobESoXGIcLv3KYnRDQaRYhwVxwG5U?=
- =?iso-8859-1?Q?KbhRbeO8e0Xv3kUV0k9a/ZgTPmz2801r4IG+0/psa5OQKkNXG7lznbJHec?=
- =?iso-8859-1?Q?W07zzQIEe/t+l0aCycCtdg+hx/bKTGMfZ0162l5KfRIiBaU8PPjLZlKjkc?=
- =?iso-8859-1?Q?d+fGmojQYhUryzNPM2xnw62fIUPHDkQS0qHeoh2ELsYWjNy4QDHxNQNGZn?=
- =?iso-8859-1?Q?Vvje5zSJUQX2w7bednOy0DwDviGp8IYtlHOHtsGhgSLfFgw0Xb1LsJY7iA?=
- =?iso-8859-1?Q?HgpbHK8mzrAV/Cc81f6iD2WhSEui7gY5jpI2jiVr0s5Gbq40hluqiEp76l?=
- =?iso-8859-1?Q?SLiaKfx4VkuxZ7AMRpolT7JHdqLQpLA3vmVoqCCnfRa9/gQdDVhRjxvfjC?=
- =?iso-8859-1?Q?qm8YfiVAl/4IqeatgIsruNdlJ6opM3WMJioVNNxTYbOYUC8E73drJo8yv0?=
- =?iso-8859-1?Q?GeyRRjHkDZr+9fvCWOJwW2QKYABsla+TOkaTqXlaZtAnqbAIwx/JTrsKsE?=
- =?iso-8859-1?Q?7hfZQz8vOlX47+zv5XCG4adl3FMZ63JQe/ZnSCqryBgqzBkz06RVyStlm0?=
- =?iso-8859-1?Q?5PldV+anZN5Yll9kf9ivtEo7uoWDQoGPbbcyqQK9KcrauZ5KoW+SNuM1hS?=
- =?iso-8859-1?Q?Q/1EOiYGnmS3ryOaSBDgdQIH2uBe1idAh45B4Dg+0P0yBMmg8jicddcVGz?=
- =?iso-8859-1?Q?8iGRXl0G6P+Grua117jt0+tHAlc4TR5dhyfg+LvMbnt5DGMxBdl7u75Kxq?=
- =?iso-8859-1?Q?2MACSVcXoHRX61621DF6d7GF00I93Ei+rG6lFX5xPaG4IhBweDMBT25UPd?=
- =?iso-8859-1?Q?dzA+YzT9zG/OzJlYUBTV7m?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?fJUfVIJeterHWMApu2RJToJKIyRC7M7+QxD54VyslKkrj0kqh0gZsA6YDM?=
- =?iso-8859-1?Q?qFMffY1pNCbZy537ZtW/s1ghsdi9QiaPgVdLSl5VqnTWjDZfowZTMM1W6d?=
- =?iso-8859-1?Q?iFFwwuA52bQw2loV3aQXZSuHp4TKqRJ0EK8rjbRtQpBxXcpmA1ZXtdb+FM?=
- =?iso-8859-1?Q?xITjiYbEyIZ4gpRJJU5ULUjXsjK1Ruf/0j5PeRddR6zTZEHC4aSjKr5sFF?=
- =?iso-8859-1?Q?fqe9zAaxVOArSED4fQLZrfVhTgqP26nZ8jWBX4JVoErEiOk93/8VdPpvhT?=
- =?iso-8859-1?Q?ygz8CQ30mQqNPjkUzSNxRMnPqDgEN/IbMtFXi8crSg59A9JZCgDzlQhqTL?=
- =?iso-8859-1?Q?5xeL0AHA615/TGzyG2I5aQDkJ0mf8iTrtH3HdsgwMTEDlIAma3dAM3rdNv?=
- =?iso-8859-1?Q?m1AzxrXgbt2Y1oDQ0qUiVs0DbbePB7klYgP8QLsev+BLAISRv1btKJUNd8?=
- =?iso-8859-1?Q?Sc3vdD8i/IVf0mzS+MT+8VAn7iLq4GjckX/q8z8fqUnuHff0a84ZldUU4Q?=
- =?iso-8859-1?Q?rLFHA3GcVI2ld14X0XT7/v6Y/j6g1i1dvS4o6pwy72AEzg5lAQhG4Kioqp?=
- =?iso-8859-1?Q?quBhWaNpOJ0eAXJYEbktYZXmgXHSzalbad7i0rSTL+u1bXsVNaH6u4qCxp?=
- =?iso-8859-1?Q?NZyURI3jCpH3AepHpF9mBc014Xu0wL4T+WacrbYJIbjq3hxT+p+lEnYDce?=
- =?iso-8859-1?Q?eKkyBzmoRf96sjch2h/s69R4rA8rqZy14rOyuvQ848Zqw9jF5mYTN7UZ6T?=
- =?iso-8859-1?Q?3sWDI3K7SwjWEO6vGbam+AeNDxcbiTn82bHn58b1XEPH+ruVp7R1LMw4Jc?=
- =?iso-8859-1?Q?CnzoWGbY5Ibi7x43s/dG/DXOtpZQ6Bq3pQr5GyyFBxIjtjIF1cXMd3bMEW?=
- =?iso-8859-1?Q?39ogBNgn1iVpznBdr5Bh543SppgiqkpJY4kqZmwxCIzU1vzcR2tF/HLgxU?=
- =?iso-8859-1?Q?UF17x/yHujw9v85n0XMvt4uk9LpzQ3jgPimOAunH3kRUy+wz9KlA+WLdJS?=
- =?iso-8859-1?Q?bT5ggNUccZu5y0HAx5Qx3GtQkJJgkFjMzoRdjCpoZcQ2i3RKB9+5DWcV1J?=
- =?iso-8859-1?Q?UQYME7p7gndgZWEcA72SdOg5i3/kIb573c1oh2po7jL4t1M8Z+VwMno5je?=
- =?iso-8859-1?Q?lc6VWmNAQY8/PYRt5AwYjP9/wzAheu701xIyGGZRDSSQ1D7sPfIzq5H9da?=
- =?iso-8859-1?Q?MxL8uEfrwxaQZ7o3N93aqbSnOrMIGx9u7K3qN0nDQLIcivhLQJE2YMVivp?=
- =?iso-8859-1?Q?l3+yJnQiW6CIbrXPODs6FoWpcAXVnShpoAG5g/a2TSQEQk3G+g2PPUtKrH?=
- =?iso-8859-1?Q?6NXikMidHOxK2kV59eUzTKvs5rKPiW6DIZoDkdxYGVYJG+3uEUoSiw16YS?=
- =?iso-8859-1?Q?DJnsfspE0Su4Bp9mew2ZCUGTPJTbFoxZ60wBqnDomw/CsUAnSS5Rx4hMNM?=
- =?iso-8859-1?Q?hvixxWkcjKS3Y4IXxQuT9YLd16OnNTgPvMc0cSAKajvQlvL3y/Z1pSI5FK?=
- =?iso-8859-1?Q?l56t0m88OUwBOYMhWX/wZg4wEQ3FrqIw48xWfjirztTFa0Z+45FQk7++Vz?=
- =?iso-8859-1?Q?S0Ic0Y30tna5le14yHCXKjzIb9i6A8eawUK3je+3eb0dRqIHjkw076P8TP?=
- =?iso-8859-1?Q?vF+Byaq2YDLtAMJeyWbriUVb1dEJxm4WPGIyXp86ncrlvAsEr2/xKiXw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4ec9dde-1c9b-402f-2294-08de07425a54
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 14:44:30.1555 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2PyK8mMQRtizau2e368New30z/Y4iv+8Tr2GFcIQmLn9SGhWM3DhHKAXhGP7J2vzdEf/xaWQ69KKowF6gX1fYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB9469
-X-OriginatorOrg: intel.com
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFB310EA7A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:48:41 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id A9657C035A6;
+ Thu,  9 Oct 2025 14:48:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 333FB6062C;
+ Thu,  9 Oct 2025 14:48:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 5B9FE102F21E6; 
+ Thu,  9 Oct 2025 16:48:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1760021318; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=2BXVPAf+Zyjz0Z65WvQt1vEXD+kLBRlZ5SJ4YbUfsYs=;
+ b=RppZRULHTtjGtOvaMPzcHof8Owz1eSQfVHq0um03NJL6V6LEHhA+NXJ623g/lUDJZaRb1l
+ dGrshILqhUXpOcLyyk/NtbMza0iT+cNkKL8dEltUz4jcI9uDWX59dS2FREdz9GLMzhZzCi
+ XA13DALSFN+dr5oIVfdWEflaqISj3LNGOhs/8mg2t8etSEiesdeIs+nI5YSdwvGKx4TgQA
+ 0Myq/Hjh0vEZMvXNKbLJ8Pyb/4U8DETnITVS+A3ljmt3vscZpdCtJ/gggVZIHF9qrQssQh
+ zdSR0OVWmjqq5GyfFUExBhE5x79dFFNkRRZvfx/lx/w/JkLFUH134vbVEaa6gA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Oct 2025 16:48:25 +0200
+Message-Id: <DDDVHDWG1Y0R.3NFMCH6135JMP@bootlin.com>
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov" <lumag@kernel.org>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Maxime Ripard" <mripard@kernel.org>
+X-Mailer: aerc 0.20.1
+References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
+ <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
+ <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
+ <20250820131302.6a2da5ef@booty>
+ <20250827-charming-arcane-stingray-cfb8b6@houat>
+ <20250908154906.16693078@booty>
+ <20250910-glittering-serval-of-piety-b32844@houat>
+ <20250910184752.6c42f004@booty> <20250915-benign-rare-marmot-9fbb96@penduick>
+ <20250915165156.35378299@booty>
+ <20251007-charming-successful-foxhound-1ca192@penduick>
+In-Reply-To: <20251007-charming-successful-foxhound-1ca192@penduick>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,59 +79,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 07, 2025 at 03:36:46PM +0000, Jonathan Cavitt wrote:
-> Some functions in drm multiply hdisplay and vdisplay with a third
-> factor, which can result in a sign extension according to static
-> analysis due to an implicit s32 promotion.  Use a cast to u32 to
-> prevent this.
-> 
-> Suggested-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Krzystof Karas <krzysztof.karas@intel.com>
-> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Andi Shyti <andi.shyti@intel.com>
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 2 +-
->  drivers/gpu/drm/drm_mipi_dbi.c        | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 90760d0ca071..0bec6f66682b 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -967,7 +967,7 @@ drm_vram_helper_mode_valid_internal(struct drm_device *dev,
->  
->  	max_fbpages = (vmm->vram_size / 2) >> PAGE_SHIFT;
->  
-> -	fbsize = mode->hdisplay * mode->vdisplay * max_bpp;
-> +	fbsize = (u32)mode->hdisplay * mode->vdisplay * max_bpp;
->  	fbpages = DIV_ROUND_UP(fbsize, PAGE_SIZE);
->  
->  	if (fbpages > max_fbpages)
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index e33c78fc8fbd..b488c91c20a5 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -691,7 +691,7 @@ int mipi_dbi_dev_init(struct mipi_dbi_dev *dbidev,
->  		      const struct drm_simple_display_pipe_funcs *funcs,
->  		      const struct drm_display_mode *mode, unsigned int rotation)
->  {
-> -	size_t bufsize = mode->vdisplay * mode->hdisplay * sizeof(u16);
-> +	size_t bufsize = (u32)mode->vdisplay * mode->hdisplay * sizeof(u16);
+Hi Maxime,
 
+On Tue Oct 7, 2025 at 5:09 PM CEST, Maxime Ripard wrote:
+>> > First off, why do we need to have drm_bridge_unplug and
+>> > drm_bridge_remove separate?
+>> >
+>> > If we were to mirror drm_dev_enter and drm_dev_unplug, drm_dev_unplug
+>> > calls drm_dev_unregister itself, and I can't find a reason where we
+>> > might want to split the two.
+>>
+>> I think it could make sense and I'm definitely open to it.
+>>
+>> After a quick analysis I have mostly one concern. Calls
+>> to drm_bridge_add() and drm_bridge_remove() are balanced in current
+>> code and that's very intuitive. If drm_bridge_unplug() were to call
+>> drm_bridge_remove(), that symmetry would disappear. Some drivers would
+>> still need to call drm_bridge_remove() directly (e.g. the DSI host
+>> drivers which _add/remove() in the DSI attach/detach callbacks), while
+>> other wouldn't because drm_bridge_unplug() would do that.
+>>
+>> What do you think about this?
+>
+> Which DSI host do you have in mind there? Because it's really not what
+> we document.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Most DSI host drivers (but not all). I did a classification a few months
+ago (~v6.15) and found that the following drivers do the same
+(drm_bridge_add in the DSI host attach callback, drm_bridge_remove in the
+DSI host detach callback):
 
-and pushed to drm-misc-next. No, I didn't considered to push it to -fixes
-because it is a theoretical case that doesn't occur with real world pixels size.
+     drivers/gpu/drm/bridge/samsung-dsim.c           (see below)
+     drivers/gpu/drm/vc4/vc4_dsi.c
+     drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+     drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+     drivers/gpu/drm/mediatek/mtk_dsi.c
+     drivers/gpu/drm/bridge/tc358768.c
+     drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+     drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+     drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+     drivers/gpu/drm/adp/adp-mipi.c
 
->  
->  	dbidev->drm.mode_config.preferred_depth = 16;
->  
-> -- 
-> 2.43.0
-> 
+while these do differently:
+
+   - drm_bridge_add/remove() in driver probe/remove:
+       drivers/gpu/drm/omapdrm/dss/dsi.c
+       drivers/gpu/drm/bridge/nwl-dsi.c
+   - drm_bridge_add/remove() in component_ops.bind/unbind:
+       drivers/gpu/drm/mcde/mcde_dsi.c
+
+I had sent a patch to change this in the samsung-dsim driver a while ago:
+https://lore.kernel.org/lkml/20250725-drm-bridge-samsung-dsim-add-in-probe-=
+v1-1-b23d29c23fbd@bootlin.com/
+
+However your review to that patch suggested to me that you consider OK what
+samsung-dsim and most other DSI host drivers currently do (but it's being
+discussed in the above-linked thread, I'd say let's keep it there).
+
+Now I am confused. Do you mean that those drivers' DSI host detach callback
+should call drm_bridge_unplug(), which in turn would call
+drm_bridge_remove()?
+
+I was assuming drm_bridge_unplug() would always be called in the driver
+.remove callback.
+
+>> Another concern I initially had is about drivers whose usage of
+>> drm_bridge is more complex than the average. Most simple drivers just
+>> call drm_bridge_remove() in their .remove callback and that's
+>> straightforward. I was suspicious about drivers such as
+>> imx8qxp-pixel-combiner which instantiate multiple bridges, and whether
+>> they need do all the drm_bridge_unplug()s before all the
+>> drm_bridge_remove()s. However I don't think that's a real need because,
+>> except for probe and removal, operations on bridges happen on a
+>> per-bridge basis, so each bridge is independent from others, at least
+>> for the driver I mentioned.
+>
+> In this particular case, they would be unplugged all at the same time,
+> right? In which case, we would disable all the bridges starting from the
+> one in the chain that just got removed, and then we just have to remove
+> all of them.
+>
+> All in all, I think it's ok to somewhat break things here: all this was
+> broken before.
+
+...
+
+> If we want to bring some consistency, we will have to
+> reduce what bridges are allowed to do. Let's figure out something that
+> works for all reasonable cases (straightforward, component framework,
+> DSI device, DSI host, and DSI device on another bus), and the hacky
+> drivers will move eventually.
+
+I agree with the principle in the quoted lines. But I'm not sure exactly
+which "something that works for all reasonable cases" you are suggesting:
+moving drm_bridge_remove() inside drm_bridge_unplug()?
+
+> That's pretty easy to solve with a documentation update :)
+>
+> We can just further restrict the order in which
+
+Oops, unfinished sentence?
+
+>> > > static void sn65dsi83_atomic_disable()
+>> > > {
+>> > > 	if (!drm_bridge_enter(bridge, &idx))
+>> > > 		return;
+>> > >
+>> > > 	/* These 3 lines will be replaced by devm_release_action() */
+>> > > 	ctx->disable_resources_needed =3D false;
+>> > > 	sn65dsi83_monitor_stop(ctx);
+>> > > 	regulator_disable(ctx->vcc);
+>> > >
+>> > > 	drm_bridge_exit(idx);
+>> > > }
+>> > >
+>> > > Here the xyz_disable() in my pseudocode is the sn65dsi83_monitor_sto=
+p()
+>> > > + regulator_disable().
+>> > >
+>> > > If sn65dsi83_remove() and sn65dsi83_atomic_disable() were to happen
+>> > > concurrently, this sequence of events could happen:
+>> > >
+>> > > 1. atomic_disable:  drm_bridge_enter() -> OK, can go
+>> > > 2. remove:          drm_bridge_remove()
+>> > > 3. remove:          sn65dsi83_monitor_stop()
+>> > > 4. remove:          regulator_disable()
+>> > > 5. remove:          drm_bridge_unplug() -- too late to stop atomic_d=
+isable
+>> >
+>> > drm_dev_unplug would also get delayed until drm_dev_exit is called,
+>> > mitigating your issue here.
+>>
+>> I don't think I got what you mean. With the above code the regulator
+>> would still be subject to an en/disable imbalance.
+>
+> My point was that drm_bridge_remove wouldn't be allowed to execute until
+> after atomic_disable has called drm_bridge_exit. So we wouldn't have the
+> sequence of events you described. atomic_disable would disable the
+> bridge, and then drm_bridge_remove wouln't have anything to disable
+> anymore by the time it runs.
+
+Ah, I think you was reasoning about the case with drm_bridge_remove()
+called by drm_bridge_unplug(). If that's the case, yes, that's probably
+right, e.g. with this drm_bridge_unplug() implementation:
+
+void drm_bridge_unplug(struct drm_bridge *bridge)
+{
+	bridge->unplugged =3D true;
+
+	synchronize_srcu(&drm_bridge_unplug_srcu);
+
+	drm_bridge_remove();
+}
+
+Oh, wow, this looks suspiciourly similar to drm_dev_unplug(). ;)
+
+>> However I realized the problem does not exist when using devres,
+>> because devres itself takes care of executing each release function only
+>> once, by means of a spinlock.
+>>
+>> I think using devres actually solves my concerns about removal during
+>> atomic[_post]_disable, but also for the atomic[_pre]_enable and other
+>> call paths. Also, I think it makes the question of which goes first
+>> (drm_bridge_unplug() or _remove()) way less relevant.
+>>
+>> The concern is probably still valid for drivers which don't use devres.
+>> However the concern is irrelevant until there is a need for a bridge to
+>> become hot-pluggable. At that point a driver needs to either move to
+>> devres or take other actions to avoid incurring in the same issue.
+>
+> I disagree with that statement. We never considered !devres as outdated,
+> and thus we need to support both. Especially if it's about races we know
+> about in a code path we might never run.
+
+I didn't mean that, sorry if I was not clear.
+
+I was meaning: for drivers which don't care about supporting hotplug, this
+whole discussion is quite irrelevant. Those which will need to support
+hotplug will have to ensure to release device resources exactly once, and
+can do that either using devres or by other means.
+
+>> > Another thing that just crossed my mind is why we don't call
+>> > atomic_disable when we're tearing down the bridge too. We're doing it
+>> > for the main DRM devices, it would make sense to me to disable the
+>> > encoder -> bridge -> connector (and possibly CRTC) chain if we remove =
+a
+>> > bridge automatically.
+>>
+>> Uh, interesting idea.
+>>
+>> Do you mean something like:
+>>
+>> void drm_bridge_unplug(struct drm_bridge *bridge)
+>> {
+>>     bridge->unplugged =3D true;
+>>     synchronize_srcu(&drm_bridge_unplug_srcu);
+>>
+>>     drm_bridge_remove(bridge); // as per discussion above
+>>
+>>     drm_atomic_helper_shutdown(bridge->dev);
+>> }
+>>
+>> ?
+>>
+>> I'm not sure which is the right call to tear down the pipeline though.
+>
+> No, the shutdown needs to happen before marking the bridge unplugged,
+> otherwise you'll never run the disable callbacks.
+
+OK.
+
+> And we probably shouldn't disable the whole device, just everything from
+> the CRTC that feeds the bridge.
+
+OK, I'll need to figure out how todo that exactly. If you have hints, that
+would be great.
+
+Anyway I think it's better to do this in steps: first introduce
+drm_bridge_unplug() as discussed, and at a later step augment it to disable
+the involved pipeline components on bridge removal. Sounds good?
+
+Best regards,
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
