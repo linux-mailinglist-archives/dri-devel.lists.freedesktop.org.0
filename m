@@ -2,58 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E409EBC8DFB
+	by mail.lfdr.de (Postfix) with ESMTPS id 6367FBC8DF5
 	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8235E10E9D1;
-	Thu,  9 Oct 2025 11:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B9310E223;
+	Thu,  9 Oct 2025 11:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="YuIjomby";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="AbZ19RRZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KdqOzkuK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TKWwB8UU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uLhpTnJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25F4910E9D1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:43:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1760010210; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=dpA5l7ftdFKWIIK2OexE05gFblMgrMpryGOYEKchoGxrNY9RIZCdtd6gkm0hFpu/7y5+/rlmNgNYhV9ZFMkaYps/IltMYzHLxBw/UEGH5jQ9Ao3nv9JHQOIpt/73EfFiqb4JCRbnYBzxTaKVX5+76HFmzv8CBCnZ0wWJUEA17RM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1760010210;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=c4zXG31VEmip+0b8RFc9/Hhvu/aREmShl6nTjypkjmY=; 
- b=loKMuPjdVEXkDPQggIF+Ir3Fys7OTPTcFkiYkVaKkhqZs09K7+xcrBYE2udISvjoNQvsJfoqqF5Kl9Skz60hyDwhEiXCVxaYMQJVTc6CTBq6H3Y0tkzVTjqAGcEyHZkCiT+QhhJbdiz6SM3ysmvS116a+MP+FolfdR421TKnY1I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760010210; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=c4zXG31VEmip+0b8RFc9/Hhvu/aREmShl6nTjypkjmY=;
- b=YuIjombym5u84o0G1ovH2QXfR6lhk+aeOmbS0FNgiwM1jmUtPxg8DY5dYTjQt27O
- eZyGfAZi/NJY1Z9mTT+erJw0rCPYj52r9wf/uUVSo0Wn/WOd0yHNnE85Dhd8kFnqg3t
- xseBZ07Yt08B7PWxU1zglPPCfPavaehp5OKMF2jU=
-Received: by mx.zohomail.com with SMTPS id 1760010208813178.71792539993703;
- Thu, 9 Oct 2025 04:43:28 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: healych@amazon.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/panfrost: Name scheduler queues after their job slots
-Date: Thu,  9 Oct 2025 12:43:00 +0100
-Message-ID: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.51.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E1B10E223
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:43:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E10A31F78B;
+ Thu,  9 Oct 2025 11:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760010212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=M+fSniwpzHs25VKtHpH5PnHd4TBNPg09lmllWBQnnco=;
+ b=AbZ19RRZ1Gab04QEHkQPCyOtss3ILjUzWwC/lvzQIk/SFAtOBFIwLADl8BURL0TcEsc6AY
+ hsmvgJyzoMzgHgjHDY7F/+D1oaWWrVoYmJv8qpjLBQTabd1+yBl4uXnkwbSQ++AZHaLsj2
+ Jl6/ew7yAhr7J27AhoB/SDGv/NEYMOY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760010212;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=M+fSniwpzHs25VKtHpH5PnHd4TBNPg09lmllWBQnnco=;
+ b=KdqOzkuKiBzOlokeBmqCshd1Bk4JID/z6u6ObLZYXv/4N5bHGqQq3ULNrKSnay7nhSbEwG
+ zeN6flV8ea8/FuCg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TKWwB8UU;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uLhpTnJ8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760010211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=M+fSniwpzHs25VKtHpH5PnHd4TBNPg09lmllWBQnnco=;
+ b=TKWwB8UUrfInlb7JV6Ue7b6Qa+HmUsNABoZi5KlPU1oWYbba1wOr8D0apRcsmYmFgI4Q1j
+ TfBiSIE6W6XyzyQFcVaEEBiEPPOMpBnLXOGhQ2mhRSQ7RqPDArHU6TaRHOMyM3GEW3Caqg
+ 9T0yI0sCG7Ad+Rbmp4Ff29QEdna2SiE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760010211;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=M+fSniwpzHs25VKtHpH5PnHd4TBNPg09lmllWBQnnco=;
+ b=uLhpTnJ8cNQbj9gep1wfo+f/Uz4hDyqiBjnfAiIXfmGJxtIx0ZPoFxvEhSEKRaQDI33S9n
+ Wd+uNOQVrQxDfQDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A46C613A61;
+ Thu,  9 Oct 2025 11:43:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id vlyuJuOf52h8VwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Oct 2025 11:43:31 +0000
+Message-ID: <a4e604bf-eeb9-46ce-bc89-5a7b39acecbc@suse.de>
+Date: Thu, 9 Oct 2025 13:43:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: Fix logic error in "offb" name match
+To: Finn Thain <fthain@linux-m68k.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>
+Cc: stable@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <f91c6079ef9764c7e23abd80ceab39a35f39417f.1759964186.git.fthain@linux-m68k.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <f91c6079ef9764c7e23abd80ceab39a35f39417f.1759964186.git.fthain@linux-m68k.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[linux-m68k.org,ffwll.ch,gmx.de,redhat.com];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email,linux-m68k.org:email];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: E10A31F78B
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,105 +151,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
-queues"), give scheduler queues proper names that reflect the function
-of their JM slot, so that this will be shown when gathering DRM
-scheduler tracepoints.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++----------
- drivers/gpu/drm/panfrost/panfrost_job.c |  8 +++++++-
- drivers/gpu/drm/panfrost/panfrost_job.h |  2 ++
- 3 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 22350ce8a08f..607a5b8448d0 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -668,23 +668,19 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
- 	 *   job spent on the GPU.
- 	 */
- 
--	static const char * const engine_names[] = {
--		"fragment", "vertex-tiler", "compute-only"
--	};
--
--	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
--
- 	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
- 		if (pfdev->profile_mode) {
- 			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
--				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
-+				   panfrost_engine_names[i],
-+				   panfrost_priv->engine_usage.elapsed_ns[i]);
- 			drm_printf(p, "drm-cycles-%s:\t%llu\n",
--				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-+				   panfrost_engine_names[i],
-+				   panfrost_priv->engine_usage.cycles[i]);
- 		}
- 		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
--			   engine_names[i], pfdev->pfdevfreq.fast_rate);
-+			   panfrost_engine_names[i], pfdev->pfdevfreq.fast_rate);
- 		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
--			   engine_names[i], pfdev->pfdevfreq.current_frequency);
-+			   panfrost_engine_names[i], pfdev->pfdevfreq.current_frequency);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index c47d14eabbae..0cc80da12562 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -28,6 +28,10 @@
- #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
- #define job_read(dev, reg) readl(dev->iomem + (reg))
- 
-+const char * const panfrost_engine_names[] = {
-+	"fragment", "vertex-tiler", "compute-only"
-+};
-+
- struct panfrost_queue_state {
- 	struct drm_gpu_scheduler sched;
- 	u64 fence_context;
-@@ -846,12 +850,13 @@ int panfrost_job_init(struct panfrost_device *pfdev)
- 		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = 2,
- 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
--		.name = "pan_js",
- 		.dev = pfdev->dev,
- 	};
- 	struct panfrost_job_slot *js;
- 	int ret, j;
- 
-+	BUILD_BUG_ON(ARRAY_SIZE(panfrost_engine_names) != NUM_JOB_SLOTS);
-+
- 	/* All GPUs have two entries per queue, but without jobchain
- 	 * disambiguation stopping the right job in the close path is tricky,
- 	 * so let's just advertise one entry in that case.
-@@ -887,6 +892,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
- 
- 	for (j = 0; j < NUM_JOB_SLOTS; j++) {
- 		js->queue[j].fence_context = dma_fence_context_alloc(1);
-+		args.name = panfrost_engine_names[j];
- 
- 		ret = drm_sched_init(&js->queue[j].sched, &args);
- 		if (ret) {
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-index 5a30ff1503c6..458666bf684b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-@@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
- 	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
- };
- 
-+extern const char * const panfrost_engine_names[];
-+
- int panfrost_jm_ctx_create(struct drm_file *file,
- 			   struct drm_panfrost_jm_ctx_create *args);
- int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
+Am 09.10.25 um 00:56 schrieb Finn Thain:
+> A regression was reported to me recently whereby /dev/fb0 had disappeared
+> from a PowerBook G3 Series "Wallstreet". The problem shows up when the
+> "video=ofonly" parameter is passed to the kernel, which is what the
+> bootloader does when "no video driver" is selected. The cause of the
+> problem is the "offb" string comparison, which got mangled when it got
+> refactored. Fix it.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 93604a5ade3a ("fbdev: Handle video= parameter in video/cmdline.c")
+> Reported-and-tested-by: Stan Johnson <userm57@yahoo.com>
+> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 
-base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/video/fbdev/core/fb_cmdline.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/core/fb_cmdline.c b/drivers/video/fbdev/core/fb_cmdline.c
+> index 4d1634c492ec..594b60424d1c 100644
+> --- a/drivers/video/fbdev/core/fb_cmdline.c
+> +++ b/drivers/video/fbdev/core/fb_cmdline.c
+> @@ -40,7 +40,7 @@ int fb_get_options(const char *name, char **option)
+>   	bool enabled;
+>   
+>   	if (name)
+> -		is_of = strncmp(name, "offb", 4);
+> +		is_of = !strncmp(name, "offb", 4);
+>   
+>   	enabled = __video_get_options(name, &options, is_of);
+>   
+
 -- 
-2.51.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
