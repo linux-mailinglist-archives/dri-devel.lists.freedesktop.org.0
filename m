@@ -2,114 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22C7BC7B58
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 09:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF38DBC7805
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 08:12:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3481110E939;
-	Thu,  9 Oct 2025 07:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6891F10E914;
+	Thu,  9 Oct 2025 06:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="N2qfZelM";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GVkoDJJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com
- (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8885E10E84B;
- Wed,  8 Oct 2025 15:35:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1759937737; x=1791473737;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=k0dUe76w+6n5/NfsPbyefGVCom+xh3GGcFcV3Olhmks=;
- b=N2qfZelMt7jwppptReH5RJjvLCAq/b1xUidl0CPU0Jqs9jNAU3oMFvB9
- XYCZdeHegjtZW/9XGw/3HUhrp+yq6EAvzU6sYt8/fK9EVwmrSvRq21SRk
- prqQkmq+gGIlkZz6INpg5ORldB3fmTgFPpCCXqNXDmlRRlquoLq9MKWsP
- yZgTngtkf9dwOXU/mZxmw7V0MgJpLWy/T6ygeYDI42YS55Cc+DnARBUnI
- BGYgpx02EFU10P1sE5xYiEFez+kjhdOIf7lWCrPzIjLLXHT/ZEPDHlvOC
- VkTVVcI3OmX/zpBsRGH/sD87HOfAnJl+gAqhSgcxm0KjcwIoExm5b91OJ w==;
-X-CSE-ConnectionGUID: b75d3iYwTRuB7tX10Wtizg==
-X-CSE-MsgGUID: Px2S2wuYSNWDoNTkGsZEDg==
-X-IronPort-AV: E=Sophos;i="6.19,213,1754956800"; 
-   d="scan'208";a="4410969"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO
- smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
- by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2025 15:35:35 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:3268]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.15.171:2525]
- with esmtp (Farcaster)
- id b6cae892-4a8e-4639-abaf-f3ab0bbe7767; Wed, 8 Oct 2025 15:35:35 +0000 (UTC)
-X-Farcaster-Flow-ID: b6cae892-4a8e-4639-abaf-f3ab0bbe7767
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Wed, 8 Oct 2025 15:35:34 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 8 Oct 2025
- 15:35:20 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
- <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
- <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
- <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
- <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
- <rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
- <jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
- <dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
- <jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
- <dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
- <mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
- <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
- <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
- <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
- <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
- <adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
- <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
- <senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
- <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
- <akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, 
- <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
- <jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
- <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
- <quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
- <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
- <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
- <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
- <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
- <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
- <linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
-CC: Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- Dan Carpenter <dan.carpenter@linaro.org>, "Jason A. Donenfeld"
- <Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, "Pedro
- Falcato" <pedro.falcato@gmail.com>
-Subject: [PATCH v3 19/19 5.15.y] minmax.h: remove some #defines that are only
- expanded once
-Date: Wed, 8 Oct 2025 15:29:44 +0000
-Message-ID: <20251008152946.29285-20-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251008152946.29285-1-farbere@amazon.com>
-References: <20251008152946.29285-1-farbere@amazon.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 660FE10E1F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 06:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1759990354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NRkB3HnbXEauvObRKfhLALPNCnH0LKvnQC+gj83VPV0=;
+ b=GVkoDJJ8aDT8Kvu1DJaGC0dgC3KWKucpfi8R0VXt/7MVnua55dMQSUnb3fPmK4MYyNODLd
+ YelcsTyUT1slnGvreP71T0+rwJXY/u8QwPwgaLtG0R5vvw76UjqDe+64p2Y1B/5GD2Myf7
+ v48vFz7Vzj9e/WoLXXnNXrxi/Cigkvs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-lgCMi6kTOyKeYb16rtqgBg-1; Thu, 09 Oct 2025 02:12:31 -0400
+X-MC-Unique: lgCMi6kTOyKeYb16rtqgBg-1
+X-Mimecast-MFC-AGG-ID: lgCMi6kTOyKeYb16rtqgBg_1759990350
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-46e502a37cdso3885585e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Oct 2025 23:12:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1759990350; x=1760595150;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NRkB3HnbXEauvObRKfhLALPNCnH0LKvnQC+gj83VPV0=;
+ b=GCDAA1c8TtU636dzsoDgI0TXRIjSaYROlxI/7pn7adfR18+/rc7rj3emZCXEP4jo08
+ Jm32ypaGWqfgB6eeXidu6ruxIJr7HCFIHnmqAelItxSuqd6+SaP6AgzaPO7Jt/aWEn4f
+ whHMJNa00KrnmGGuinqZ1NZvqr5Kit6KXYdt+MoZ5FcNjiQ5p9w6YRBQJoQDhQRpv2+c
+ SR/Gx//D/yaoeIdjFbENqZzynroEB0vBslDzxe9+oDfHlDDXvv4qy2HZlUK8kqcMmAQu
+ BQG+EG0btjU6oSvpvUdE+RGbX60ooQ9BptdhjHYeYWhKWpdQDF7Mob2QZADrUKEbSRWl
+ cQDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCViLQnrobFvtvnAZAtXdOV3DNK/WiJBnJH1zrUg87OpEPIqJaEy86OOE8ed5H3WGaJkz10INoKWTRI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxH5DRktyp1YpeixzcfkmW+AVh4D8jxGCSbBXopigWPRfy6h4G4
+ rSoNu9hXbxUnH+Z7IbjzQ+dD7zNJ1BNp0mS1l7OLA3SHaXfD1SOnayAB8IFppVM43IvwAgTK8uI
+ s2ZT+UbxPISeshiiwLOSgST1d5182e2NCuEgCcF74/5SLCP0p4G9MwvRB8bqwxruIrgLXRw==
+X-Gm-Gg: ASbGnctb5QTN9HNLBDZORysm+39dwE41uBaJyXCMyTiRLLfibh7+H1NFHDPzzGjGtnH
+ 7Wajr/CYm9TbOruZOPVycFsiJK4VR0Gu5uJstHBIv4jb9jqvSeB52tCap1zNMwjaAC7r8a/6KFA
+ 4Qau+QCT6dp+xLZjM5iGJvGfBaUJORcpSiyjQAfNrA7VAkZoJYB/AIt6/dN4INgI7ycQLDMgkBw
+ xLOBQ+xkJeYfsuazLLsJS2AeGsC2NzbKtZdPIkrH/G33w7d31vDjQGHdT7wm/FXYFCs5iQRgXsu
+ IuhQhXGR2z0TJ5puslgjHDQjYr3Z5Ee3vAx+aeDvpcKK3WBqT6O4B/dF0xJ9JHOF1uK8152qdLL
+ SD84AVr1F
+X-Received: by 2002:a05:600c:34cc:b0:46e:59dd:1b4d with SMTP id
+ 5b1f17b1804b1-46fa9aa2076mr63277775e9.16.1759990350192; 
+ Wed, 08 Oct 2025 23:12:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGgr3EwtW4kZSC4wN79xTrMonutG/ORyGxtzc7Y7j2Fbu8/LN9oI7c3abBPFzy3SYjFVQbwOQ==
+X-Received: by 2002:a05:600c:34cc:b0:46e:59dd:1b4d with SMTP id
+ 5b1f17b1804b1-46fa9aa2076mr63277065e9.16.1759990349745; 
+ Wed, 08 Oct 2025 23:12:29 -0700 (PDT)
+Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com.
+ [80.187.83.189]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4255d869d50sm33971611f8f.0.2025.10.08.23.12.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Oct 2025 23:12:29 -0700 (PDT)
+Message-ID: <5a5013ca-e976-4622-b881-290eb0d78b44@redhat.com>
+Date: Thu, 9 Oct 2025 08:12:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.19.116.181]
-X-ClientProxiedBy: EX19D036UWC004.ant.amazon.com (10.13.139.205) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-X-Mailman-Approved-At: Thu, 09 Oct 2025 07:29:03 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 06/35] mm/page_alloc: reject unreasonable
+ folio/compound page sizes in alloc_contig_range_noprof()
+To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org
+Cc: Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
+ Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
+ Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
+ Zi Yan <ziy@nvidia.com>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-7-david@redhat.com>
+ <fa2e262c-d732-48e3-9c59-6ed7c684572c@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <fa2e262c-d732-48e3-9c59-6ed7c684572c@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Ux1kGi-PZIOV1oqvoehMDXC0u5T1EvCMlxR4EJiorfA_1759990350
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,81 +172,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Laight <David.Laight@ACULAB.COM>
+On 09.10.25 06:21, Balbir Singh wrote:
+> On 8/22/25 06:06, David Hildenbrand wrote:
+>> Let's reject them early, which in turn makes folio_alloc_gigantic() reject
+>> them properly.
+>>
+>> To avoid converting from order to nr_pages, let's just add MAX_FOLIO_ORDER
+>> and calculate MAX_FOLIO_NR_PAGES based on that.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   include/linux/mm.h | 6 ++++--
+>>   mm/page_alloc.c    | 5 ++++-
+>>   2 files changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index 00c8a54127d37..77737cbf2216a 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -2055,11 +2055,13 @@ static inline long folio_nr_pages(const struct folio *folio)
+>>   
+>>   /* Only hugetlbfs can allocate folios larger than MAX_ORDER */
+>>   #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+>> -#define MAX_FOLIO_NR_PAGES	(1UL << PUD_ORDER)
+>> +#define MAX_FOLIO_ORDER		PUD_ORDER
+> 
+> Do we need to check for CONTIG_ALLOC as well with CONFIG_ARCH_HAS_GIGANTIC_PAGE?
+> 
 
-[ Upstream commit 2b97aaf74ed534fb838d09867d09a3ca5d795208 ]
+I don't think so, can you elaborate?
 
-The bodies of __signed_type_use() and __unsigned_type_use() are much the
-same size as their names - so put the bodies in the only line that expands
-them.
+>>   #else
+>> -#define MAX_FOLIO_NR_PAGES	MAX_ORDER_NR_PAGES
+>> +#define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
+>>   #endif
+>>   
+>> +#define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
+>> +
+>>   /*
+>>    * compound_nr() returns the number of pages in this potentially compound
+>>    * page.  compound_nr() can be called on a tail page, and is defined to
+>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>> index ca9e6b9633f79..1e6ae4c395b30 100644
+>> --- a/mm/page_alloc.c
+>> +++ b/mm/page_alloc.c
+>> @@ -6833,6 +6833,7 @@ static int __alloc_contig_verify_gfp_mask(gfp_t gfp_mask, gfp_t *gfp_cc_mask)
+>>   int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+>>   			      acr_flags_t alloc_flags, gfp_t gfp_mask)
+>>   {
+>> +	const unsigned int order = ilog2(end - start);
+> 
+> Do we need a VM_WARN_ON(end < start)?
 
-Similarly __signed_type() is defined separately for 64bit and then used
-exactly once just below.
+I don't think so.
 
-Change the test for __signed_type from CONFIG_64BIT to one based on gcc
-defined macros so that the code is valid if it gets used outside of a
-kernel build.
+> 
+>>   	unsigned long outer_start, outer_end;
+>>   	int ret = 0;
+>>   
+>> @@ -6850,6 +6851,9 @@ int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+>>   					    PB_ISOLATE_MODE_CMA_ALLOC :
+>>   					    PB_ISOLATE_MODE_OTHER;
+>>   
+>> +	if (WARN_ON_ONCE((gfp_mask & __GFP_COMP) && order > MAX_FOLIO_ORDER))
+>> +		return -EINVAL;
+>> +
+>>   	gfp_mask = current_gfp_context(gfp_mask);
+>>   	if (__alloc_contig_verify_gfp_mask(gfp_mask, (gfp_t *)&cc.gfp_mask))
+>>   		return -EINVAL;
+>> @@ -6947,7 +6951,6 @@ int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+>>   			free_contig_range(end, outer_end - end);
+>>   	} else if (start == outer_start && end == outer_end && is_power_of_2(end - start)) {
+>>   		struct page *head = pfn_to_page(start);
+>> -		int order = ilog2(end - start);
+>>   
+>>   		check_new_pages(head, order);
+>>   		prep_new_page(head, order, gfp_mask, 0);
+> 
+> Acked-by: Balbir Singh <balbirs@nvidia.com>
 
-Link: https://lkml.kernel.org/r/9386d1ebb8974fbabbed2635160c3975@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pedro.falcato@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
----
- include/linux/minmax.h | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Thanks for the review, but note that this is already upstream.
 
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2bbdd5b5e07e..eaaf5c008e4d 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -46,10 +46,8 @@
-  * comparison, and these expressions only need to be careful to not cause
-  * warnings for pointer use.
-  */
--#define __signed_type_use(ux) (2 + __is_nonneg(ux))
--#define __unsigned_type_use(ux) (1 + 2 * (sizeof(ux) < 4))
- #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
--	__signed_type_use(ux) : __unsigned_type_use(ux))
-+	(2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
- 
- /*
-  * Check whether a signed value is always non-negative.
-@@ -57,7 +55,7 @@
-  * A cast is needed to avoid any warnings from values that aren't signed
-  * integer types (in which case the result doesn't matter).
-  *
-- * On 64-bit any integer or pointer type can safely be cast to 'long'.
-+ * On 64-bit any integer or pointer type can safely be cast to 'long long'.
-  * But on 32-bit we need to avoid warnings about casting pointers to integers
-  * of different sizes without truncating 64-bit values so 'long' or 'long long'
-  * must be used depending on the size of the value.
-@@ -66,12 +64,12 @@
-  * them, but we do not use s128 types in the kernel (we do use 'u128',
-  * but they are handled by the !is_signed_type() case).
-  */
--#ifdef CONFIG_64BIT
--  #define __signed_type(ux) long
-+#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-+#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
- #else
--  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L))
-+#define __is_nonneg(ux) statically_true( \
-+	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
- #endif
--#define __is_nonneg(ux) statically_true((__signed_type(ux))(ux) >= 0)
- 
- #define __types_ok(ux, uy) \
- 	(__sign_use(ux) & __sign_use(uy))
 -- 
-2.47.3
+Cheers
+
+David / dhildenb
 
