@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3B0BC84C2
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D0EBC84CE
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:28:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5B610E1F5;
-	Thu,  9 Oct 2025 09:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28CE10E995;
+	Thu,  9 Oct 2025 09:28:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RUkrNBoB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fwqfoC17";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB3B10E1F5;
- Thu,  9 Oct 2025 09:27:38 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFCB010E98D;
+ Thu,  9 Oct 2025 09:28:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 38E30408A6;
- Thu,  9 Oct 2025 09:27:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60378C4CEE7;
- Thu,  9 Oct 2025 09:27:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D8D506220E;
+ Thu,  9 Oct 2025 09:28:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2795BC4CEE7;
+ Thu,  9 Oct 2025 09:28:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760002058;
- bh=I3sLHxzMovxpwAghE20DGfe7zKwDb4xETeSgGQyYhbE=;
+ s=k20201202; t=1760002092;
+ bh=hdLBw2ulLgxAHyUrxIG7+MSZxPrW8MEg1/GNmkw7i/c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RUkrNBoB6EvLP+UzqqjZmimBX3vW87XFTci6v2eBxGdoFbdVnkSokTuIvDUgQbFKp
- e9MRGvWWtP1PhbyAGRxlEKCSEzuTzrv40elvf+2pgEOZTQlMLddAqlbhpmLEqYYtbw
- WspmVVeA5WHdF/jRX+LmVdGWI6m51pRBrDkvO+07A52eafJuFCZa+3wTpD5ame5wKz
- vmIHgi9RqCALqr6PaUv/8qFJxWsY/da1vCeZPW5LVLTf67PkZyAX0+utVVFcwZXu0I
- dRNxjS6MUgJ4EHxAyw+Turp1iHmcdOwta+5ETqQd7iT/MkMbTA4nU3y69gAHrT9a9c
- n9jUqGtbUKtKQ==
-Message-ID: <24dd250e-f2a3-47ea-af21-b0e418ed8028@kernel.org>
-Date: Thu, 9 Oct 2025 18:27:24 +0900
+ b=fwqfoC174X/fAI8pnVKV3Q64VB006eaadal5kr7vjoC9Pp5mTZ0YzYFoysAViBxgw
+ b3hnPk61o+DPVGdHEt7nGvtZvaM+TCqGK70y2oS5IMTyjNPGVBGwSzrodps5UyFPL+
+ hvkKCS5JWXe2E4QmdGxyofF5f9PTuPtbql+H7lhV5sXjucSAAuFDK2Lq72qJXkjssk
+ W7MKVSPf5RFi/mHj0w/zcfqrQQpUj9qupaXwQ4TnUG+X/7fjqEvZY9nvKWuDwhcYbL
+ VB5AfHpynakIZqIP8YniVBcwuzmeTp1dL07gU3O/IoBqwFGHr4c++6L3BX5XSn9yw3
+ pl60zDWyKFP3Q==
+Message-ID: <0f487d25-b05a-48dd-9d37-00262a742010@kernel.org>
+Date: Thu, 9 Oct 2025 18:28:00 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: phy: Add edp reference clock for
- qcom,edp-phy
+Subject: Re: [PATCH 3/5] phy: qcom: edp: Add support for edp reference clock
+ vote
 To: Ritesh Kumar <quic_riteshk@quicinc.com>, robin.clark@oss.qualcomm.com,
  lumag@kernel.org, abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com,
  sean@poorly.run, marijn.suijten@somainline.org,
@@ -50,7 +50,7 @@ Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-scsi@vger.kernel.org, quic_vproddut@quicinc.com
 References: <20251009071127.26026-1-quic_riteshk@quicinc.com>
- <20251009071127.26026-2-quic_riteshk@quicinc.com>
+ <20251009071127.26026-4-quic_riteshk@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251009071127.26026-2-quic_riteshk@quicinc.com>
+In-Reply-To: <20251009071127.26026-4-quic_riteshk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,13 +115,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/10/2025 16:11, Ritesh Kumar wrote:
-> Add edp reference clock for qcom,edp-phy which is required
-> to be enabled before eDP PHY initialization.
+> Commit 77d2fa54a9457 ("scsi: ufs: qcom : Refactor phy_power_on/off
+> calls") lead to edp reference clock to be turned off, leading to
+> below phy poweron failure on lemans edp phy.
 > 
 
-No, you need to first look what is happening in community.
-
-https://lore.kernel.org/all/20250909-phy-qcom-edp-add-missing-refclk-v3-1-4ec55a0512ab@linaro.org/
+Also NAK, duplicated work.
 
 Best regards,
 Krzysztof
