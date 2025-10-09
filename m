@@ -2,66 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2017EBC9221
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCF3BC9239
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:55:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C1610EA2F;
-	Thu,  9 Oct 2025 12:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D901710EA31;
+	Thu,  9 Oct 2025 12:54:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZHOtDTn5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SLRg7YqF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F97D10EA2F;
- Thu,  9 Oct 2025 12:54:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7A3ED622D7;
- Thu,  9 Oct 2025 12:54:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4AF2C4CEE7;
- Thu,  9 Oct 2025 12:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760014456;
- bh=R1TORzTxYknOCobqa5N2Ym/eV3oIkS/TL69ydYBPELo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZHOtDTn5E5ki97MoLFbg/hqT6PHek9RAtK++CrFn/XyiyBMbFi4k1QwsKrqf6cJKG
- 4NQyQB7rM4j5LUn3I7Ys3/kuTjEPoWBu9aTR/zvv9riMPS3x2YvltdyvnRqojfieOK
- w6Kd53MaLy02LrSMe/3oprCkG0+IX+Q6aGG8DWk+loOmJOi8ohYdfRorqkbx0BRAlc
- NxskVlGcPMtrsq1gKH6OV7Nu4UCO2YYDRSG/SPJ2VZJvOr3qSttg6EqXMSJ0OLAXCa
- V7Kw4G3OmpyPjie7YjAsSnCTxT9lQ7jK8k4ro7YPK2UIU4IuSQ3I1CTkdWLzScVUNX
- hKULQMpCJMzGA==
-Message-ID: <807fe91b-acc6-4faf-834c-ced0dead2605@kernel.org>
-Date: Thu, 9 Oct 2025 14:54:09 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48E8710EA31
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:54:58 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5998V2f2031782
+ for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 12:54:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 4x8fFSQ8NWhJBwrNV1vx5VXfQmCnGeigKLq2KnoY1LU=; b=SLRg7YqFiIrQ1lPE
+ HxPLUZq3yZZj8Q5DeiJi5m6x4PXLMRRhEwrZcCpl3ttbOdGECbfQMJBE5QE3VsxA
+ iCKo8lcK/4cCCC3y4P8yBOC3F5VE7F+IIjWaJhGMAH5jv/QPyiXaAerm6HXkVuh1
+ 51leb8oUthYCfIVHO+Ez6G5i1qwMotkesJOZ/kHyJ0RAZ0h6dirMFKBIetPLCzQj
+ yqbwqUsDpgGf8i5CE9/wRO/5ozxn6IYAHlSnhRLr1kd8WEutwtv0LeJWFpZRV6Yx
+ Ca1dQOsm9kB90uHfgq0OjPp0mOQCy2d9EoHtYft5SprMcN8iYvJ04CAkOy8vdOlv
+ JkRBcw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49p9m0rrbp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 12:54:57 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4e015898547so3194861cf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 05:54:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760014497; x=1760619297;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4x8fFSQ8NWhJBwrNV1vx5VXfQmCnGeigKLq2KnoY1LU=;
+ b=Lc/q1O9OYG6dz6tJIAaNW+E8iEMXCdNFpDNxXi/yKyhNk3nG0WyAmhOGWjpHinmtuM
+ KqAC0PwRxiUNxViLLNQ0PKf3zkvpSPqsaGKsB13rmF90PBrFe+qiCzbWveoco+u/ySb7
+ CBymWVWMkybN0Gt2rYgHu9zADQacXS3Pg43EDa55Ue+nDdMcGMZSx3dNqn9qI4kRYB0w
+ YE6eP9f2N8vMZWpgbkmrcnSSwHhamb/Fh2vcCrpCgKNawH6ouKDfV+fSG8NS2Dou+wts
+ 38dcmONFJQEOgbKULaQb4HeGO4SigDrSjFjmcmZH5pWGb5/fjEL0acwhkAcBXTODQGCs
+ d5sQ==
+X-Gm-Message-State: AOJu0YzHLOjnYYpovCq195yBEX1SePPscLsyKOhb98v6FnMtyQ2zUuWg
+ kApahAmDZjURJWzibAT4cTEse021vnbWMR0SlgnNaJCLwcXUC6AxGciQWt5UqSFUUUFIMvT0Zkj
+ m3KoK+aO8NjJj0wDo2pmb1RgtD44KI1fZcashcQXJbBip1BLnmojS/05BHgMFQk69NbpS5Eg=
+X-Gm-Gg: ASbGncvmT9sJx2SsHzaeZSKHXH4BR0d//5ityzHp+MuPkOUHlXnHr3IH5ZzYJBKEzNT
+ iXyWhD5h1rrwKxZ3WrQwDQ8oPtOAGT5Ny/YaZ/ZORx0q/jPwsIofz/86MrM1rG2SAV5gAgRREFB
+ Sv0110RbM2mMV3VDzUXqZHBhCMD/QPgOSjg9IlcZgCumdYrTWURtooTrKK8A82bXDlWAXDJSlhF
+ NHuEpGEB/H4ZvGUkbNMhK1r43Y10P6nbNejfIvIGSU9RPNquXjh6j2TsbUYLCLLLB2Rc4K56KFk
+ YGR7eiXm8zBFKxl6hNg1B3VJXzEmvrcx+lSM20JFxMMoOEwEluzolQaGLZykt5EFRDAQ5IeCHbo
+ CI90b400JEcb7AtqseQrs4o5KeRY=
+X-Received: by 2002:a05:622a:4586:b0:4e7:462:76fb with SMTP id
+ d75a77b69052e-4e7046278bbmr3443501cf.4.1760014496719; 
+ Thu, 09 Oct 2025 05:54:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEX5/sWgll0CtsSoWnbnw8OuK/4gzjMQpFI0vobMt8d6Sm2EXkMS+OFvldQCCANHXNk1w5jSA==
+X-Received: by 2002:a05:622a:4586:b0:4e7:462:76fb with SMTP id
+ d75a77b69052e-4e7046278bbmr3443201cf.4.1760014496195; 
+ Thu, 09 Oct 2025 05:54:56 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b48652aa01esm1926375966b.2.2025.10.09.05.54.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Oct 2025 05:54:55 -0700 (PDT)
+Message-ID: <6b9ae65c-08f0-4b13-94cb-b899764bfc8c@oss.qualcomm.com>
+Date: Thu, 9 Oct 2025 14:54:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/5] rust: Move register and bitfield macros out of Nova
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Dirk Behme <dirk.behme@de.bosch.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH v2 4/7] arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
+To: david@ixit.cz, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Yury Norov <yury.norov@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
-References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
- <20251003154748.1687160-5-joelagnelf@nvidia.com>
- <5a5bd549-f5b7-41ec-b493-bda427d1218f@de.bosch.com>
- <DDDQZ8LM2OGP.VSEG03ZE0K04@kernel.org>
- <DDDR8DIW6K4L.21F81P26KM64W@nvidia.com>
-From: Danilo Krummrich <dakr@kernel.org>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
+ <20251008-s6e3fc2x01-v2-4-21eca1d5c289@ixit.cz>
 Content-Language: en-US
-In-Reply-To: <DDDR8DIW6K4L.21F81P26KM64W@nvidia.com>
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251008-s6e3fc2x01-v2-4-21eca1d5c289@ixit.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=a/U9NESF c=1 sm=1 tr=0 ts=68e7b0a1 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=qaMgwUmbLaqo04ox7REA:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: 0K3IDg_L9OtnriIhDFZwlIJsm7ZDffyo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA5MDA0NyBTYWx0ZWRfX5klRl1UUODPZ
+ rmkLFRRsbiTDENQLOJtfHq6VyoCKjvZ0F+lbIZE6K3OyZq7M8RDug65ZDJC98JJ+E8ctdjt4QV+
+ Sxw/N0y78v+yuX3Ne+77/UHoEPZric0+9M8M/UCVmae/VTWI9Xm8b1/7IaQ1Rz3raifGWzcYHsO
+ Z0mTulKlWp97cfsbo2h53erN0Zc8lVyXo5hbXFBwTUbHsI+IRdIYSY4yr/q2UEWHcC4cvsSSsTA
+ QRZR3UbiqSu03t8B5CmT4VQuE6VLbgvBXygy+D8Wt9wxAfWVAfhgRwjN0LLspYQnnNMnKyIMOdV
+ ue/01cM+r9rzcp+rVoXI74ZtCJbmk7pQFziLvGbdUBH0+6qORwMSx7J2HvV75uPt0lUogvSvwzg
+ Fih57jM3aFbpKw/iQbihUMpb3dlhzg==
+X-Proofpoint-ORIG-GUID: 0K3IDg_L9OtnriIhDFZwlIJsm7ZDffyo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 phishscore=0 suspectscore=0 adultscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510090047
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,36 +134,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/25 1:28 PM, Alexandre Courbot wrote:
-> On Thu Oct 9, 2025 at 8:16 PM JST, Danilo Krummrich wrote:
->> On Thu Oct 9, 2025 at 8:59 AM CEST, Dirk Behme wrote:
->>> Assuming that register.rs is supposed to become the "generic" way to 
->>> access hardware registers I started to have a look to it. Some weeks 
->>> back testing interrupts I used some quite simple timer with 4 registers 
->>> [1]. Now, thinking about converting it to register!() I have three 
->>> understanding / usage questions:
->>>
->>> * At the moment register!() is for 32-bit registers, only? So it can't 
->>> be used for my example having 8-bit and 16-bit registers as well?
->>
->> Yes, currently the register!() macro always generates a 32-bit register type
->> (mainly because nova-core did not need anything else). However, this will of
->> course be generalized (which should be pretty straight forward).
->>
->> Having a brief look at the TMU datasheet it looks like you should be able to
->> treat TSTR and TCR as 32-bit registers without any issues for testing the
->> register!() macro today. I.e. you can just define it as:
->>
->> 	register!(TSTR @ 0x04, "Timer Start Register" {
->> 	    2:2    str2 as bool, "Specifies whether TCNT2 is operated or stopped.";
->> 	    1:1    str1 as bool, "Specifies whether TCNT1 is operated or stopped.";
->> 	    0:0    str0 as bool, "Specifies whether TCNT0 is operated or stopped.";
->> 	});
->>
->> Same for TCR.
+On 10/8/25 4:05 PM, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
 > 
-> Patch 2 of this series actually adds support for 16 and 8 bit register
-> storage.
+> Describe panel Tearing Effect (TE) GPIO line.
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> index 1cf03047dd7ae..75989b377f8bc 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> @@ -460,6 +460,7 @@ display_panel: panel@0 {
+>  		vci-supply = <&panel_vci_3v3>;
+>  		poc-supply = <&panel_vddi_poc_1p8>;
+>  
+> +		te-gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
 
-Heh! I knew I saw a patch for this already somewhere, seems like I missed the
-forest for the trees. :)
+Wait, I just noticed nothing consumes this..
+
+Konrad
