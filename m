@@ -2,163 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9734FBC7F6E
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A610BC813C
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52CD210E950;
-	Thu,  9 Oct 2025 08:14:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006A110E976;
+	Thu,  9 Oct 2025 08:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eklmgPlV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kV6+JiOC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D8E10E100
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 08:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1759997650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=z/B31lhY4bVYeZNnk+dMlfOVrRbTYtHHzwgcdMMaTVE=;
- b=eklmgPlVwxUbD5RGKNTMAISiecA9nE5fWKvBUBlE1Eaa5aW9+2nYOpVnuT0ItCXsQ2jK3l
- ceI+GP+B/aJdI56cbRLWcJg6OveIIRtDiv/L1fXBz0TXjWhPVqP8FttRgfzbAPME09OqRg
- 6nC3+3g8hGxfyzITX7ZUeHxupzqIIOg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-43-8YNVDUf9OQObXYd98kreyQ-1; Thu, 09 Oct 2025 04:14:09 -0400
-X-MC-Unique: 8YNVDUf9OQObXYd98kreyQ-1
-X-Mimecast-MFC-AGG-ID: 8YNVDUf9OQObXYd98kreyQ_1759997648
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-46b303f6c9cso4511785e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 01:14:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1759997648; x=1760602448;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z/B31lhY4bVYeZNnk+dMlfOVrRbTYtHHzwgcdMMaTVE=;
- b=n1QaFj/wYmW+BshK5bZfi7lOeoEC4RtlbjYqD05c7mJ6sj6Y3SSw+jgw8hX4O57HG5
- njfETi09tDXcGzEpF+mXgTT2bJ5iM38nLrtce9SzRq1IPkKYz6lIFFTq1klhKLvYRwE5
- lcu/VUMFQeGdXlVt3l5WuiHT/Smjqdl3DwG+7DN3h9FWXccwBX1Ze+YYrXUlaRJS8FJu
- XmZm9Cm5HPQts+Ga9ckYQIt6Zcn2MGLgFK4XlXrj1WIAAZz8dS9eZAC+1GL8FSYHf+en
- 1aMeJgcth9oIxWTG3xJoc5tkDmrU51LsUwEh27RrL1xbN7Qz3sqdfZpC7MdRmVX4CCs9
- LXIg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWm71ruH/HJuDBdSnHRMlZHqHPAwBSuLpXYcZHn8MXJYE/11MT3XDFchy5QThiCGG2iAaHHOiX0VIQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnFOe0A7TLhyIiP+85pMr6uG6frBLKYDP6Jep4otbeVOhYEiAt
- TVzgEoMxFaLDIkkV3JHQ8QLeH4u84ykkZg6O+8vZDgAeSuPqe4+INIklkV0UZTwPnuF21Br/6fV
- 174rLdQWcc5555YfhMTH/PK3QsVxhpWjgP7uYOKRY2ftGxETNqlkH3d+GPW+aLdE+LQ/hhA==
-X-Gm-Gg: ASbGncuqozgUVLhXRzH5FUqDH5iALRw0J65YwEzvIn4dK05HZxlUPzcW+nTr6QjYVGe
- s5J9D4K4LwbzfaP8gCxsWW2zH0K0fRypk4DHW6FM4AhMw3cp9I5emdNNS89OXP+c5e+LyAS2gkE
- jMnkFf0vEkkPKGlS8ksCAcmc8FfUqFCCMgdixaG9quk8saM+MtqFKWhzAeKhEbbT+Wdb3oSXzv0
- hH0b2ByFQbuUsZemCUOWQZ5TKAANoiwQ9vkVKC4LG9+IAx6ofS9TiRQK6MRE3ERWRsvmpYvjHeO
- nMWlhHT3lrU1B242EFQYJKsBIihq56vkqJYLuEVj6yvT+4JSTi/2aT6xlNNCKoRiEiIWr7gvMxQ
- zRNT1y3BH
-X-Received: by 2002:a05:600c:4750:b0:45f:28d2:bd38 with SMTP id
- 5b1f17b1804b1-46fa9af3095mr47092715e9.18.1759997648086; 
- Thu, 09 Oct 2025 01:14:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGo93r/upxlN0XWroa/gVbVuSE1HI9H4cBHGhOGnkYv+FuHkp7MlpzQ4ByJt+h+2JF6rzGBiQ==
-X-Received: by 2002:a05:600c:4750:b0:45f:28d2:bd38 with SMTP id
- 5b1f17b1804b1-46fa9af3095mr47092215e9.18.1759997647608; 
- Thu, 09 Oct 2025 01:14:07 -0700 (PDT)
-Received: from [192.168.3.141] (tmo-083-189.customers.d1-online.com.
- [80.187.83.189]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fa9d6fb41sm71628175e9.17.2025.10.09.01.14.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Oct 2025 01:14:07 -0700 (PDT)
-Message-ID: <9361c75a-ab37-4d7f-8680-9833430d93d4@redhat.com>
-Date: Thu, 9 Oct 2025 10:14:02 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB3010E3A5;
+ Thu,  9 Oct 2025 08:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KI8uRmmfqGOWp/w2THZwVCQfpnxvfCgEqP5k1maGyb4=; b=kV6+JiOCULHNZ6P7Fip+6YPcQ+
+ FiJP3hstnuKyNaI6pUCXbaekd++Zeyar7hAkskBbFd524hoCO0f91EsVyfe1WbqWV56KxXxobJShF
+ JurnGP32VkHNwYM7BFsP+FKPD28htaltYNiVO/ObHTf/7cAm2QFpj1OJ/SGQS9xboJjX3kNHe8uAP
+ l8akDzEMiHMoVxW3Jd6Z91tLvWNms1omSuyrmkx3WoyDTNPatjJzCZS9W1M3wG/nzzl/mEz6FI7Lh
+ Wi0TSoeUYuLOvN8OVutTDbraTMVl4E3Y46/qS2zI7UiWIxf8WCfuNLOSB7utNC9gdfn3l4TBrWMwA
+ TYa6PY5A==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1v6mDA-007N5p-7c; Thu, 09 Oct 2025 10:41:20 +0200
+Message-ID: <887248b2-98ff-4a04-869a-7a1668771251@igalia.com>
+Date: Thu, 9 Oct 2025 09:41:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
- folio sizes when registering hstate
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
- linux-kernel@vger.kernel.org
-Cc: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-9-david@redhat.com>
- <3e043453-3f27-48ad-b987-cc39f523060a@csgroup.eu>
- <d3fc12d4-0b59-4b1f-bb5c-13189a01e13d@redhat.com>
- <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: DtaMpxQ6TlslEtKNUs0ZbWgxWrrRUzQA2aHE5gj6E3A_1759997648
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
+ latency
+To: Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
+References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
+ <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
+ <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
+ <fe98edc2-cc18-4c44-a4cb-5c41b60834e6@intel.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <fe98edc2-cc18-4c44-a4cb-5c41b60834e6@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -176,72 +76,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09.10.25 10:04, Christophe Leroy wrote:
-> 
-> 
-> Le 09/10/2025 à 09:22, David Hildenbrand a écrit :
->> On 09.10.25 09:14, Christophe Leroy wrote:
->>> Hi David,
+
+On 08/10/2025 15:34, Matthew Auld wrote:
+> On 08/10/2025 14:50, Tvrtko Ursulin wrote:
+>>
+>> On 08/10/2025 13:35, Christian König wrote:
+>>> On 08.10.25 13:53, Tvrtko Ursulin wrote:
+>>>> Disclaimer:
+>>>> Please note that as this series includes a patch which touches a 
+>>>> good number of
+>>>> drivers I will only copy everyone in the cover letter and the 
+>>>> respective patch.
+>>>> Assumption is people are subscribed to dri-devel so can look at the 
+>>>> whole series
+>>>> there. I know someone is bound to complain for both the case when 
+>>>> everyone is
+>>>> copied on everything for getting too much email, and also for this 
+>>>> other case.
+>>>> So please be flexible.
+>>>>
+>>>> Description:
+>>>>
+>>>> All drivers which use the TTM pool allocator end up requesting large 
+>>>> order
+>>>> allocations when allocating large buffers. Those can be slow due 
+>>>> memory pressure
+>>>> and so add latency to buffer creation. But there is often also a 
+>>>> size limit
+>>>> above which contiguous blocks do not bring any performance benefits. 
+>>>> This series
+>>>> allows drivers to say when it is okay for the TTM to try a bit less 
+>>>> hard.
+>>>>
+>>>> We do this by allowing drivers to specify this cut off point when 
+>>>> creating the
+>>>> TTM device and pools. Allocations above this size will skip direct 
+>>>> reclaim so
+>>>> under memory pressure worst case latency will improve. Background 
+>>>> reclaim is
+>>>> still kicked off and both before and after the memory pressure all 
+>>>> the TTM pool
+>>>> buckets remain to be used as they are today.
+>>>>
+>>>> This is especially interesting if someone has configured 
+>>>> MAX_PAGE_ORDER to
+>>>> higher than the default. And even with the default, with amdgpu for 
+>>>> example,
+>>>> the last patch in the series makes use of the new feature by telling 
+>>>> TTM that
+>>>> above 2MiB we do not expect performance benefits. Which makes TTM 
+>>>> not try direct
+>>>> reclaim for the top bucket (4MiB).
+>>>>
+>>>> End result is TTM drivers become a tiny bit nicer mm citizens and 
+>>>> users benefit
+>>>> from better worst case buffer creation latencies. As a side benefit 
+>>>> we get rid
+>>>> of two instances of those often very unreadable mutliple nameless 
+>>>> booleans
+>>>> function signatures.
+>>>>
+>>>> If this sounds interesting and gets merge the invidual drivers can 
+>>>> follow up
+>>>> with patches configuring their thresholds.
+>>>>
+>>>> v2:
+>>>>   * Christian suggested to pass in the new data by changing the 
+>>>> function signatures.
+>>>>
+>>>> v3:
+>>>>   * Moved ttm pool helpers into new ttm_pool_internal.h. (Christian)
 >>>
->>> Le 01/09/2025 à 17:03, David Hildenbrand a écrit :
->>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->>>> index 1e777cc51ad04..d3542e92a712e 100644
->>>> --- a/mm/hugetlb.c
->>>> +++ b/mm/hugetlb.c
->>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
->>>>         BUILD_BUG_ON(sizeof_field(struct page, private) * BITS_PER_BYTE <
->>>>                 __NR_HPAGEFLAGS);
->>>> +    BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
->>>>         if (!hugepages_supported()) {
->>>>             if (hugetlb_max_hstate || default_hstate_max_huge_pages)
->>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int order)
->>>>         }
->>>>         BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
->>>>         BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
->>>> +    WARN_ON(order > MAX_FOLIO_ORDER);
->>>>         h = &hstates[hugetlb_max_hstate++];
->>>>         __mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
->>>>         h->order = order;
+>>> Patch #3 is Acked-by: Christian König <christian.koenig@amd.com>.
+>>>
+>>> The rest is Reviewed-by: Christian König <christian.koenig@amd.com>
 >>
->> We end up registering hugetlb folios that are bigger than
->> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger that
->> (and if we have to support that).
+>> Thank you!
+>>
+>> So I think now I need acks to merge via drm-misc for all the drivers 
+>> which have their own trees. Which seems to be just xe.
+>>
+>> Also interesting for other drivers is that when this lands folks can 
+>> start passing in their "max size which leads to performance gains" via 
+>> TTM_POOL_BENEFICIAL_ORDER and get the worst case allocation latency 
+>> improvements.
+>>
+>> I am thinking xe also maxes out at 2MiB pages, for others I don't know.
+> 
+> Yeah, next level up from 2M GTT page is still 1G GTT page. I think we 
+> especially need 64K/2M system memory pages on igpu to get some perf back 
+> when enabling iommu on some platforms IIRC. Not aware of really needing 
+>  > 2M so sounds like we might also benefit by maxing out at 2M, if it 
+> reduces allocation latency in some cases.
+
+To clarify a bit, the current semantics of the series is not to max out 
+at the order specified by the driver as the "max beneficial", but to 
+just skip doing direct reclaim above it. Otherwise TTM pool allocator 
+keeps the current behaviour of trying from MAX_PAGE_ORDER and down. As 
+that is 4MB by default on x86 (and configurable on some platforms via 
+Kconfig), idea is not to pay the latency cost of direct reclaim for 
+sizes which bring no additional performance benefit to the GPU. And 
+since it will kick off background reclaim, both past and future 
+allocation can still get the larger order blocks.
+
+If in the future we want to actually max out at the driver specified 
+size that could be discussed. But for now I wanted to have the smallest 
+change in behaviour possible.
+
+Regards,
+
+Tvrtko
+
+>>>> v1 thread:
+>>>> https://lore.kernel.org/dri-devel/20250919131127.90932-1- 
+>>>> tvrtko.ursulin@igalia.com/
+>>>>
+>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>> Cc: Dave Airlie <airlied@redhat.com>
+>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>>> Cc: Lyude Paul <lyude@redhat.com>
+>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>>> Cc: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Cc: Zack Rusin <zack.rusin@broadcom.com>
+>>>>
+>>>> Tvrtko Ursulin (5):
+>>>>    drm/ttm: Add getter for some pool properties
+>>>>    drm/ttm: Replace multiple booleans with flags in pool init
+>>>>    drm/ttm: Replace multiple booleans with flags in device init
+>>>>    drm/ttm: Allow drivers to specify maximum beneficial TTM pool size
+>>>>    drm/amdgpu: Configure max beneficial TTM pool allocation order
+>>>>
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  7 +--
+>>>>   drivers/gpu/drm/drm_gem_vram_helper.c         |  2 +-
+>>>>   drivers/gpu/drm/i915/intel_region_ttm.c       |  2 +-
+>>>>   drivers/gpu/drm/loongson/lsdc_ttm.c           |  2 +-
+>>>>   drivers/gpu/drm/nouveau/nouveau_ttm.c         |  4 +-
+>>>>   drivers/gpu/drm/qxl/qxl_ttm.c                 |  2 +-
+>>>>   drivers/gpu/drm/radeon/radeon_ttm.c           |  4 +-
+>>>>   drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 16 +++----
+>>>>   .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  2 +-
+>>>>   drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 31 +++++--------
+>>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 22 ++++-----
+>>>>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  7 +--
+>>>>   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 23 +++++-----
+>>>>   drivers/gpu/drm/ttm/ttm_device.c              |  7 ++-
+>>>>   drivers/gpu/drm/ttm/ttm_pool.c                | 45 ++++++++++ 
+>>>> +--------
+>>>>   drivers/gpu/drm/ttm/ttm_pool_internal.h       | 24 ++++++++++
+>>>>   drivers/gpu/drm/ttm/ttm_tt.c                  | 10 +++--
+>>>>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +-
+>>>>   drivers/gpu/drm/xe/xe_device.c                |  2 +-
+>>>>   include/drm/ttm/ttm_device.h                  |  2 +-
+>>>>   include/drm/ttm/ttm_pool.h                    | 13 +++---
+>>>>   21 files changed, 125 insertions(+), 106 deletions(-)
+>>>>   create mode 100644 drivers/gpu/drm/ttm/ttm_pool_internal.h
+>>>>
+>>>
 >>
 > 
-> MAX_FOLIO_ORDER is defined as:
-> 
-> #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
-> #define MAX_FOLIO_ORDER		PUD_ORDER
-> #else
-> #define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
-> #endif
-> 
-> MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via
-> /sys/kernel/mm/hugepages/ but bigger pages can be created at boottime
-> with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
-> 
->     hugepagesz=64m hugepages=1 hugepagesz=256m hugepages=1
-> 
-> Gives:
-> 
-> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
-> HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
-> HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
-> HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
-> HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
-> HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
-> HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
-> HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
-> HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
-> HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
-
-I think it's a violation of CONFIG_ARCH_HAS_GIGANTIC_PAGE. The existing 
-folio_dump() code would not handle it correctly as well.
-
-See how snapshot_page() uses MAX_FOLIO_NR_PAGES.
-
--- 
-Cheers
-
-David / dhildenb
 
