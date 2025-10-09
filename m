@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BFFBC7BFB
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 09:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCECABC7E6C
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50B9E10E1A1;
-	Thu,  9 Oct 2025 07:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A3810E974;
+	Thu,  9 Oct 2025 08:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1441 seconds by postgrey-1.36 at gabe;
- Thu, 09 Oct 2025 07:44:34 UTC
 Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC0C610E171;
- Thu,  9 Oct 2025 07:44:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5632810E973;
+ Thu,  9 Oct 2025 08:04:38 +0000 (UTC)
 Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4cj22T4GVLz9sSy;
- Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+ by localhost (Postfix) with ESMTP id 4cj2Td0Mj6z9sSL;
+ Thu,  9 Oct 2025 10:04:37 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from pegase2.c-s.fr ([172.26.127.65])
  by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e-hrpkSiMM5A; Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+ with ESMTP id qQ36Dhni13kk; Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4cj22T2bCVz9sSq;
- Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4cj2Tc5kJ8z9sSC;
+ Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 3E1858B768;
- Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id A8FDF8B770;
+ Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
  by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id iEsvyTlwygx4; Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+ with ESMTP id CnXkw3FAfnqR; Thu,  9 Oct 2025 10:04:36 +0200 (CEST)
 Received: from [192.168.235.99] (unknown [192.168.235.99])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 4940A8B767;
- Thu,  9 Oct 2025 09:44:31 +0200 (CEST)
-Message-ID: <1fb2259f-65e1-4cd0-ae70-b355843970e4@csgroup.eu>
-Date: Thu, 9 Oct 2025 09:44:30 +0200
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id AE04F8B76D;
+ Thu,  9 Oct 2025 10:04:34 +0200 (CEST)
+Message-ID: <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
+Date: Thu, 9 Oct 2025 10:04:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
@@ -97,39 +95,56 @@ Le 09/10/2025 à 09:22, David Hildenbrand a écrit :
 >> Hi David,
 >>
 >> Le 01/09/2025 à 17:03, David Hildenbrand a écrit :
->>> Let's check that no hstate that corresponds to an unreasonable folio 
->>> size
->>> is registered by an architecture. If we were to succeed registering, we
->>> could later try allocating an unsupported gigantic folio size.
->>>
->>> Further, let's add a BUILD_BUG_ON() for checking that HUGETLB_PAGE_ORDER
->>> is sane at build time. As HUGETLB_PAGE_ORDER is dynamic on powerpc, 
->>> we have
->>> to use a BUILD_BUG_ON_INVALID() to make it compile.
->>>
->>> No existing kernel configuration should be able to trigger this check:
->>> either SPARSEMEM without SPARSEMEM_VMEMMAP cannot be configured or
->>> gigantic folios will not exceed a memory section (the case on sparse).
->>>
->>> Reviewed-by: Zi Yan <ziy@nvidia.com>
->>> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->> I get following warning on powerpc with linus tree, bisected to commit
->> 7b4f21f5e038 ("mm/hugetlb: check for unreasonable folio sizes when
->> registering hstate")
+>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>>> index 1e777cc51ad04..d3542e92a712e 100644
+>>> --- a/mm/hugetlb.c
+>>> +++ b/mm/hugetlb.c
+>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
+>>>        BUILD_BUG_ON(sizeof_field(struct page, private) * BITS_PER_BYTE <
+>>>                __NR_HPAGEFLAGS);
+>>> +    BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
+>>>        if (!hugepages_supported()) {
+>>>            if (hugetlb_max_hstate || default_hstate_max_huge_pages)
+>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int order)
+>>>        }
+>>>        BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+>>>        BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
+>>> +    WARN_ON(order > MAX_FOLIO_ORDER);
+>>>        h = &hstates[hugetlb_max_hstate++];
+>>>        __mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
+>>>        h->order = order;
 > 
-> Do you have the kernel config around? Is it 32bit?
+> We end up registering hugetlb folios that are bigger than 
+> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger that 
+> (and if we have to support that).
 > 
-> That would be helpful.
 
-That's corenet64_smp_defconfig
+MAX_FOLIO_ORDER is defined as:
 
-Boot on QEMU with:
+#ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+#define MAX_FOLIO_ORDER		PUD_ORDER
+#else
+#define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
+#endif
 
-	qemu-system-ppc64 -smp 2 -nographic -M ppce500 -cpu e5500 -m 1G
+MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via 
+/sys/kernel/mm/hugepages/ but bigger pages can be created at boottime 
+with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
 
+   hugepagesz=64m hugepages=1 hugepagesz=256m hugepages=1
+
+Gives:
+
+HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
+HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
+HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
+HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
+HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
 
 
 Christophe
