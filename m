@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07101BC8275
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 10:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A620BC8322
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA02B10E984;
-	Thu,  9 Oct 2025 08:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66BB310E98A;
+	Thu,  9 Oct 2025 09:08:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nm+Chcyo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C9/ejS7q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB9510E983;
- Thu,  9 Oct 2025 08:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=eVPxHSD4tXRnns6Wf4cFigHIr+ypRZwxW9OZpBHx9Cw=; b=nm+ChcyoDeDLUYCFLRV8kFI9r3
- MswRySj48b66qCPy5DqT/f/i0I5fD5BkxvysDUgkBS4zTynbZI85zjt8q30/X7vIVhvJZPLMmUNWI
- ewj65cH1qLnFKP/iOKzDyILiLmlR5eLTHxDfDbUf7Po3Iv5fJogYLSsrDSRL8iBHWP4xSWD4bT4vn
- jrAKEpgsaVDz+/J1BazlFsEvJ05UKIcLh22+ou4rfPd29WLItCXFcsQ9mxVAddRFH7D8m58Ous3ti
- L8Nn5e6V8P13zraiq0ahKUSMR+FvVVtYapmCBi6hWQiCGq9ZlQG5ZAiUkdGRzbPZylhsqbwywTHjT
- E1UPkYAQ==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v6mTi-007NRp-An; Thu, 09 Oct 2025 10:58:26 +0200
-Message-ID: <01bacdec-f1bd-4ddc-a537-6a091c1a1eb8@igalia.com>
-Date: Thu, 9 Oct 2025 09:58:25 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 509E810E98A;
+ Thu,  9 Oct 2025 09:08:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760000924; x=1791536924;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=fvep23//chNCFYNAfdSyIgM69wVc23KqWs+OFcZMV3M=;
+ b=C9/ejS7qX38gnAToJq4L/zP0wb/Xk6erkdeBQhvj3wyPYt4Pb6hcPKXg
+ /WB/j9uoK5ZoSJB1IxYGUpRL2t5TSjP4semYui7/4g10C9tLcbkKKuD5F
+ HzDx1pX5VcghqEkrxvJqjVMOt8hw6BfZIsEcXlDP3x20R2DqBMduhH8Vp
+ +qGc8GSS2BXTKNJE4mbrY/2BMWv97uJlbGP+Mayaejypyw3hKu2OMQ8Ud
+ xyRgrDoBlshmeffqwo3cItPUaLxrf/FpBRRN19IBsP8C5dyhxpQlg51ij
+ lFHhCUvV38zX2AkbnmClW3qULli80QkH6OQ7191W//Rp0PRRZpd8z4+Al w==;
+X-CSE-ConnectionGUID: LOFPpNZ9SjOl98MisUfyrQ==
+X-CSE-MsgGUID: k0JM+q4+R8ujF3orJkgIBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="87665405"
+X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; d="scan'208";a="87665405"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 02:08:44 -0700
+X-CSE-ConnectionGUID: R9f6YEemRR2+qcwBj/C+NQ==
+X-CSE-MsgGUID: KkKt9yUnTLelgy75V39/Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; d="scan'208";a="184927120"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.113])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 02:08:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?B?6rmA6rCV66+8?= <km.kim1503@gmail.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, rodrigo.vivi@intel.com,
+ tursulin@ursulin.net, airlied@gmail.com, simona@ffwll.ch,
+ ville.syrjala@linux.intel.com, nitin.r.gote@intel.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzkaller@googlegroups.com
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference in
+ eb_release_vmas
+In-Reply-To: <CAGfirfdACPUrW7hxOKXEpaPZ6=Lkwde24CfHov9=75JhXiPApg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAGfirffPy5biFVLtSNEW60UCXa6_=-=NrQbU7iLQ8+BXnFQ=1A@mail.gmail.com>
+ <175922381867.30706.10351894191632562572@jlahtine-mobl>
+ <CAGfirfdDe879wFzABVZkTV7grEimpnc0XrrKpj2SX1w_TLtgNg@mail.gmail.com>
+ <aN0X3ck-egLMn_Xy@ashyti-mobl2.lan>
+ <CAGfirffg4JzGkwaKTm9fL9Nyud4kBALvfW3Et33ZF60e8cVO1g@mail.gmail.com>
+ <CAGfirfdACPUrW7hxOKXEpaPZ6=Lkwde24CfHov9=75JhXiPApg@mail.gmail.com>
+Date: Thu, 09 Oct 2025 12:08:36 +0300
+Message-ID: <27ca005b5505e66cb51bb4917a71ef44b0afc7c0@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] drm/amdgpu: Configure max beneficial TTM pool
- allocation order
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- thomas.hellstrom@linux.intel.com
-References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
- <20251008115314.55438-6-tvrtko.ursulin@igalia.com>
- <aObxU8vEbEQEf7QO@lstrano-desk.jf.intel.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <aObxU8vEbEQEf7QO@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,62 +81,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 07 Oct 2025, =EA=B9=80=EA=B0=95=EB=AF=BC <km.kim1503@gmail.com> wro=
+te:
+> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15062
+> <https://l.mailtrack.com/l/a23538b60e872501ef9881ddb3a7e5ffc2cbce55?u=3D1=
+2392148>
 
-On 09/10/2025 00:18, Matthew Brost wrote:
-> On Wed, Oct 08, 2025 at 12:53:14PM +0100, Tvrtko Ursulin wrote:
->> Let the TTM pool allocator know that we can afford for it to expend less
->> effort for satisfying contiguous allocations larger than 2MiB. The latter
->> is the maximum relevant PTE entry size and the driver and hardware are
->> happy to get larger blocks only opportunistically.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> 
-> +Thomas - Seems like we'd want to do this in Xe too?
-> 
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> index 948c6d0a422b..723b885210a7 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> @@ -1837,7 +1837,7 @@ static int amdgpu_ttm_pools_init(struct amdgpu_device *adev)
->>   	for (i = 0; i < adev->gmc.num_mem_partitions; i++) {
->>   		ttm_pool_init(&adev->mman.ttm_pools[i], adev->dev,
->>   			      adev->gmc.mem_partitions[i].numa.node,
->> -			      0);
->> +			      TTM_POOL_BENEFICIAL_ORDER(get_order(2 * SZ_1M)));
-> 
-> SZ_2M btw.
+Please do not send HTML messages in general, and especially not with
+tracking links.
 
-I thought I grepped exactly to see if that existed but apparently I did 
-not, thanks!
 
-Regards,
+Thanks,
+Jani.
 
-Tvrtko
 
-> 
-> Matt
-> 
->>   	}
->>   	return 0;
->>   }
->> @@ -1931,7 +1931,8 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
->>   			       adev_to_drm(adev)->anon_inode->i_mapping,
->>   			       adev_to_drm(adev)->vma_offset_manager,
->>   			       (adev->need_swiotlb ? TTM_POOL_USE_DMA_ALLOC : 0) |
->> -			       (dma_addressing_limited(adev->dev) ? TTM_POOL_USE_DMA32 : 0));
->> +			       (dma_addressing_limited(adev->dev) ? TTM_POOL_USE_DMA32 : 0) |
->> +			       TTM_POOL_BENEFICIAL_ORDER(get_order(2 * SZ_1M)));
->>   	if (r) {
->>   		dev_err(adev->dev,
->>   			"failed initializing buffer object driver(%d).\n", r);
->> -- 
->> 2.48.0
->>
-
+--=20
+Jani Nikula, Intel
