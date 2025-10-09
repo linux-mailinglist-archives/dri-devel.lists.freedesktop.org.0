@@ -2,65 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A304BC7B19
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 09:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BFFBC7BFB
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 09:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB2610E923;
-	Thu,  9 Oct 2025 07:24:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UQf22LZE";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50B9E10E1A1;
+	Thu,  9 Oct 2025 07:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAEBF10E923
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 07:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1759994666;
- bh=SZTeonF4D7wa7CnlmXUx/9cIUWtW40SMGZWYRcsw+qU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UQf22LZE6wT8E8eisCIK4JaZSOmu+V/vPG5Y0I6YS5BgLJzvV7v6HTVsmUgpk3T50
- pzj6kPYViehSf/BaQtWYQ5s9qMgq2LrQqZzlcjTVS8V0IQhlhgiSIhaBJcIsQE3QVL
- PKsLlXRFdMl5vlC/VgTCOhVze9tyYhf/maGVOtdtUscvLdQZivjSJoNedFRpmEP/QL
- iChhvyA21+FGs2vuM4uDi8QLwby2xaDyGMuhiTI2xNzl7svpIicnR/wzKwzhtud4Ff
- Cq/iLWkSvaWZKVgks5vnr9col8ZoNGqnuiNVFZx0hnjnQS1QWMv3Ly4q5x7xcit/cF
- PAI7HGKqQ93uQ==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6F98117E1256;
- Thu,  9 Oct 2025 09:24:25 +0200 (CEST)
-Message-ID: <bfb68ced-e6ec-4636-816e-9b8fe8aa10b4@collabora.com>
-Date: Thu, 9 Oct 2025 10:24:25 +0300
+X-Greylist: delayed 1441 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Oct 2025 07:44:34 UTC
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC0C610E171;
+ Thu,  9 Oct 2025 07:44:34 +0000 (UTC)
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4cj22T4GVLz9sSy;
+ Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id e-hrpkSiMM5A; Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4cj22T2bCVz9sSq;
+ Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 3E1858B768;
+ Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id iEsvyTlwygx4; Thu,  9 Oct 2025 09:44:33 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 4940A8B767;
+ Thu,  9 Oct 2025 09:44:31 +0200 (CEST)
+Message-ID: <1fb2259f-65e1-4cd0-ae70-b355843970e4@csgroup.eu>
+Date: Thu, 9 Oct 2025 09:44:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] drm/rockchip: dw_hdmi_qp: Improve error handling
- with dev_err_probe()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Cenk Uluisik <cenk.uluisik@googlemail.com>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Jimmy Hon <honyuenkwun@gmail.com>, Kever Yang <kever.yang@rock-chips.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard
- <mripard@kernel.org>, Muhammed Efe Cetin <efectn@6tel.net>,
- Ondrej Jirman <megi@xff.cz>, Rob Herring <robh@kernel.org>,
- Sandy Huang <hjc@rock-chips.com>
-References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
- <20251005235542.1017-3-laurent.pinchart@ideasonboard.com>
- <gai5hfvu6xbbqpk4mu3i6nejolijeokjy3mkzca5xwzb4xwic7@jmee36svmwnb>
- <8706f168-5598-4f91-9ad0-fdbd04b410b7@collabora.com>
- <20251006162631.GK5944@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20251006162631.GK5944@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
+ folio sizes when registering hstate
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-9-david@redhat.com>
+ <3e043453-3f27-48ad-b987-cc39f523060a@csgroup.eu>
+ <d3fc12d4-0b59-4b1f-bb5c-13189a01e13d@redhat.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Language: fr-FR
+In-Reply-To: <d3fc12d4-0b59-4b1f-bb5c-13189a01e13d@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +90,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/25 7:26 PM, Laurent Pinchart wrote:
-> On Mon, Oct 06, 2025 at 05:37:23PM +0300, Cristian Ciocaltea wrote:
->> On 10/6/25 3:02 PM, Dmitry Baryshkov wrote:
->>> On Mon, Oct 06, 2025 at 02:55:38AM +0300, Laurent Pinchart wrote:
->>>> From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>>
->>>> The error handling in dw_hdmi_qp_rockchip_bind() is quite inconsistent,
->>>> i.e. in some cases the error code is not included in the message, while
->>>> in some other cases there is no check for -EPROBE_DEFER.
->>>>
->>>> Since this is part of the probe path, address the aforementioned issues
->>>> by switching to dev_err_probe(), which also reduces the code a bit.
->>>>
->>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>> ---
->>>>  .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 62 +++++++------------
->>>>  1 file changed, 24 insertions(+), 38 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
->>>> index 7d531b6f4c09..4e7794aa2dde 100644
->>>> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
->>>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
->>>> @@ -457,10 +457,8 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
->>>>  		return -ENODEV;
->>>>  
->>>>  	if (!cfg->ctrl_ops || !cfg->ctrl_ops->io_init ||
->>>> -	    !cfg->ctrl_ops->irq_callback || !cfg->ctrl_ops->hardirq_callback) {
->>>> -		dev_err(dev, "Missing platform ctrl ops\n");
->>>> -		return -ENODEV;
->>>> -	}
->>>> +	    !cfg->ctrl_ops->irq_callback || !cfg->ctrl_ops->hardirq_callback)
->>>> +		return dev_err_probe(dev, -ENODEV, "Missing platform ctrl ops\n");
->>>
->>> This only makes sense for the purpose of unification.
+
+
+Le 09/10/2025 à 09:22, David Hildenbrand a écrit :
+> On 09.10.25 09:14, Christophe Leroy wrote:
+>> Hi David,
 >>
->> Right, as mentioned in the commit description, the intention was to ensure
->> consistent error handling across the probe path rather than limiting the scope
->> to -EPROBE_DEFER exclusively.
+>> Le 01/09/2025 à 17:03, David Hildenbrand a écrit :
+>>> Let's check that no hstate that corresponds to an unreasonable folio 
+>>> size
+>>> is registered by an architecture. If we were to succeed registering, we
+>>> could later try allocating an unsupported gigantic folio size.
+>>>
+>>> Further, let's add a BUILD_BUG_ON() for checking that HUGETLB_PAGE_ORDER
+>>> is sane at build time. As HUGETLB_PAGE_ORDER is dynamic on powerpc, 
+>>> we have
+>>> to use a BUILD_BUG_ON_INVALID() to make it compile.
+>>>
+>>> No existing kernel configuration should be able to trigger this check:
+>>> either SPARSEMEM without SPARSEMEM_VMEMMAP cannot be configured or
+>>> gigantic folios will not exceed a memory section (the case on sparse).
+>>>
+>>> Reviewed-by: Zi Yan <ziy@nvidia.com>
+>>> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>
+>> I get following warning on powerpc with linus tree, bisected to commit
+>> 7b4f21f5e038 ("mm/hugetlb: check for unreasonable folio sizes when
+>> registering hstate")
 > 
-> Should I revert this change in v3 or keep it ? I see value in
-> unification, but I don't mind either way. Dmitry, what's your preference
-> ?
+> Do you have the kernel config around? Is it 32bit?
+> 
+> That would be helpful.
 
-I missed to point out this patch has been also sent a while ago as part of
-another series [1] which should be ready for merging.  It'd be great if there's
-no need to revert any changes, otherwise we need to keep those in sync.
+That's corenet64_smp_defconfig
 
-Regardless, I'll let you know if that gets applied first, allowing us to drop
-this one after rebasing.
+Boot on QEMU with:
 
-[1] https://lore.kernel.org/all/20250903-rk3588-hdmi-cec-v4-3-fa25163c4b08@collabora.com/
+	qemu-system-ppc64 -smp 2 -nographic -M ppce500 -cpu e5500 -m 1G
 
-Regards,
-Cristian
+
+
+Christophe
