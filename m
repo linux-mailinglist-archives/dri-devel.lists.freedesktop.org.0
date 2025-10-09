@@ -2,83 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717D0BC8F3C
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDB6BC9045
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1E410E9D5;
-	Thu,  9 Oct 2025 12:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31DE210EA08;
+	Thu,  9 Oct 2025 12:30:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dBrJn10o";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0347910E224;
- Thu,  9 Oct 2025 12:08:09 +0000 (UTC)
-Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4cj7tc3BBqz9sSy;
- Thu,  9 Oct 2025 14:08:08 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t-GI2jPxTJia; Thu,  9 Oct 2025 14:08:08 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4cj7tc1MWCz9sSv;
- Thu,  9 Oct 2025 14:08:08 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 08F7B8B76C;
- Thu,  9 Oct 2025 14:08:08 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id dX5DSkuE_w6O; Thu,  9 Oct 2025 14:08:07 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id BC52E8B767;
- Thu,  9 Oct 2025 14:08:05 +0200 (CEST)
-Message-ID: <4632e721-0ac8-4d72-a8ed-e6c928eee94d@csgroup.eu>
-Date: Thu, 9 Oct 2025 14:08:05 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B827810EA08
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760013021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yfXby9RG/E2bm8lZbmljaLyZVcFvDDfxPZJ7gYNKWp8=;
+ b=dBrJn10o6IBUoNyAdLSe2yqk1OQg6cni6036f9P8XQxrYornps9vD20jFd4x7SfJidhK7r
+ m7z+CDaYyBi2GxTjiljJSA1oXrGC0XhTb5Bg1fYvT09sX0KL1xzPcPJ3fTzOsAZZeEHydS
+ AuqIIR5g7lD6SSs42h5BmozVedCSODY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-221-0AGHXA23Ona6NSfcX5mCaw-1; Thu,
+ 09 Oct 2025 08:30:15 -0400
+X-MC-Unique: 0AGHXA23Ona6NSfcX5mCaw-1
+X-Mimecast-MFC-AGG-ID: 0AGHXA23Ona6NSfcX5mCaw_1760013013
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id B1F001800294; Thu,  9 Oct 2025 12:30:13 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.45.225.212])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 2C6BC1800578; Thu,  9 Oct 2025 12:30:09 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH 0/6] drm/panic: Fixes found with kunit.
+Date: Thu,  9 Oct 2025 14:24:47 +0200
+Message-ID: <20251009122955.562888-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
- folio sizes when registering hstate
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-9-david@redhat.com>
- <3e043453-3f27-48ad-b987-cc39f523060a@csgroup.eu>
- <d3fc12d4-0b59-4b1f-bb5c-13189a01e13d@redhat.com>
- <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
- <9361c75a-ab37-4d7f-8680-9833430d93d4@redhat.com>
- <03671aa8-4276-4707-9c75-83c96968cbb2@csgroup.eu>
- <1db15a30-72d6-4045-8aa1-68bd8411b0ba@redhat.com>
- <0c730c52-97ee-43ea-9697-ac11d2880ab7@csgroup.eu>
- <543e9440-8ee0-4d9e-9b05-0107032d665b@redhat.com>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Content-Language: fr-FR
-In-Reply-To: <543e9440-8ee0-4d9e-9b05-0107032d665b@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,235 +71,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+A few fixes for drm panic, that I found when writing unit tests with kunit.
+
+Jocelyn Falempe (6):
+  drm/panic: Fix drawing the logo on a small narrow screen
+  drm/panic: Fix overlap between qr code and logo
+  drm/panic: Fix qr_code, ensure vmargin is positive
+  drm/panic: Fix kmsg text drawing rectangle
+  drm/panic: Fix divide by 0 if the screen width < font width
+  drm/panic: Fix 24bit pixel crossing page boundaries
+
+ drivers/gpu/drm/drm_panic.c | 60 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 54 insertions(+), 6 deletions(-)
 
 
-Le 09/10/2025 à 12:27, David Hildenbrand a écrit :
-> On 09.10.25 12:01, Christophe Leroy wrote:
->>
->>
->> Le 09/10/2025 à 11:20, David Hildenbrand a écrit :
->>> On 09.10.25 11:16, Christophe Leroy wrote:
->>>>
->>>>
->>>> Le 09/10/2025 à 10:14, David Hildenbrand a écrit :
->>>>> On 09.10.25 10:04, Christophe Leroy wrote:
->>>>>>
->>>>>>
->>>>>> Le 09/10/2025 à 09:22, David Hildenbrand a écrit :
->>>>>>> On 09.10.25 09:14, Christophe Leroy wrote:
->>>>>>>> Hi David,
->>>>>>>>
->>>>>>>> Le 01/09/2025 à 17:03, David Hildenbrand a écrit :
->>>>>>>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->>>>>>>>> index 1e777cc51ad04..d3542e92a712e 100644
->>>>>>>>> --- a/mm/hugetlb.c
->>>>>>>>> +++ b/mm/hugetlb.c
->>>>>>>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
->>>>>>>>>           BUILD_BUG_ON(sizeof_field(struct page, private) *
->>>>>>>>> BITS_PER_BYTE <
->>>>>>>>>                   __NR_HPAGEFLAGS);
->>>>>>>>> +    BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
->>>>>>>>>           if (!hugepages_supported()) {
->>>>>>>>>               if (hugetlb_max_hstate ||
->>>>>>>>> default_hstate_max_huge_pages)
->>>>>>>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int
->>>>>>>>> order)
->>>>>>>>>           }
->>>>>>>>>           BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
->>>>>>>>>           BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
->>>>>>>>> +    WARN_ON(order > MAX_FOLIO_ORDER);
->>>>>>>>>           h = &hstates[hugetlb_max_hstate++];
->>>>>>>>>           __mutex_init(&h->resize_lock, "resize mutex", &h-
->>>>>>>>>> resize_key);
->>>>>>>>>           h->order = order;
->>>>>>>
->>>>>>> We end up registering hugetlb folios that are bigger than
->>>>>>> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger
->>>>>>> that
->>>>>>> (and if we have to support that).
->>>>>>>
->>>>>>
->>>>>> MAX_FOLIO_ORDER is defined as:
->>>>>>
->>>>>> #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
->>>>>> #define MAX_FOLIO_ORDER        PUD_ORDER
->>>>>> #else
->>>>>> #define MAX_FOLIO_ORDER        MAX_PAGE_ORDER
->>>>>> #endif
->>>>>>
->>>>>> MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via
->>>>>> /sys/kernel/mm/hugepages/ but bigger pages can be created at boottime
->>>>>> with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
->>>>>>
->>>>>>       hugepagesz=64m hugepages=1 hugepagesz=256m hugepages=1
->>>>>>
->>>>>> Gives:
->>>>>>
->>>>>> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
->>>>>> HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
->>>>>> HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
->>>>>> HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
->>>>>> HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
->>>>>> HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
->>>>>> HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
->>>>>> HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
->>>>>> HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
->>>>>> HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
->>>>>
->>>>> I think it's a violation of CONFIG_ARCH_HAS_GIGANTIC_PAGE. The 
->>>>> existing
->>>>> folio_dump() code would not handle it correctly as well.
->>>>
->>>> I'm trying to dig into history and when looking at commit 4eb0716e868e
->>>> ("hugetlb: allow to free gigantic pages regardless of the
->>>> configuration") I understand that CONFIG_ARCH_HAS_GIGANTIC_PAGE is
->>>> needed to be able to allocate gigantic pages at runtime. It is not
->>>> needed to reserve gigantic pages at boottime.
->>>>
->>>> What am I missing ?
->>>
->>> That CONFIG_ARCH_HAS_GIGANTIC_PAGE has nothing runtime-specific in its
->>> name.
->>
->> In its name for sure, but the commit I mention says:
->>
->>       On systems without CONTIG_ALLOC activated but that support gigantic
->> pages,
->>       boottime reserved gigantic pages can not be freed at all.  This 
->> patch
->>       simply enables the possibility to hand back those pages to memory
->>       allocator.
-> 
-> Right, I think it was a historical artifact.
-> 
->>
->> And one of the hunks is:
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index 7f7fbd8bd9d5b..7a1aa53d188d3 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -19,7 +19,7 @@ config ARM64
->>           select ARCH_HAS_FAST_MULTIPLIER
->>           select ARCH_HAS_FORTIFY_SOURCE
->>           select ARCH_HAS_GCOV_PROFILE_ALL
->> -       select ARCH_HAS_GIGANTIC_PAGE if CONTIG_ALLOC
->> +       select ARCH_HAS_GIGANTIC_PAGE
->>           select ARCH_HAS_KCOV
->>           select ARCH_HAS_KEEPINITRD
->>           select ARCH_HAS_MEMBARRIER_SYNC_CORE
->>
->> So I understand from the commit message that it was possible at that
->> time to have gigantic pages without ARCH_HAS_GIGANTIC_PAGE as long as
->> you didn't have to be able to free them during runtime.
-> 
-> Yes, I agree.
-> 
->>
->>>
->>> Can't we just select CONFIG_ARCH_HAS_GIGANTIC_PAGE for the relevant
->>> hugetlb config that allows for *gigantic pages*.
->>>
->>
->> We probably can, but I'd really like to understand history and how we
->> ended up in the situation we are now.
->> Because blind fixes often lead to more problems.
-> 
-> Yes, let's figure out how to to it cleanly.
-> 
->>
->> If I follow things correctly I see a helper gigantic_page_supported()
->> added by commit 944d9fec8d7a ("hugetlb: add support for gigantic page
->> allocation at runtime").
->>
->> And then commit 461a7184320a ("mm/hugetlb: introduce
->> ARCH_HAS_GIGANTIC_PAGE") is added to wrap gigantic_page_supported()
->>
->> Then commit 4eb0716e868e ("hugetlb: allow to free gigantic pages
->> regardless of the configuration") changed gigantic_page_supported() to
->> gigantic_page_runtime_supported()
->>
->> So where are we now ?
-> 
-> In
-> 
-> commit fae7d834c43ccdb9fcecaf4d0f33145d884b3e5c
-> Author: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Date:   Tue Feb 27 19:23:31 2024 +0000
-> 
->      mm: add __dump_folio()
-> 
-> 
-> We started assuming that a folio in the system (boottime, dynamic, 
-> whatever)
-> has a maximum of MAX_FOLIO_NR_PAGES.
-> 
-> Any other interpretation doesn't make any sense for MAX_FOLIO_NR_PAGES.
-> 
-> 
-> So we have two questions:
-> 
-> 1) How to teach MAX_FOLIO_NR_PAGES that hugetlb supports gigantic pages
-> 
-> 2) How do we handle CONFIG_ARCH_HAS_GIGANTIC_PAGE
-> 
-> 
-> We have the following options
-> 
-> (A) Rename existing CONFIG_ARCH_HAS_GIGANTIC_PAGE to something else that is
-> clearer and add a new CONFIG_ARCH_HAS_GIGANTIC_PAGE.
-> 
-> (B) Rename existing CONFIG_ARCH_HAS_GIGANTIC_PAGE -> to something else 
-> that is
-> clearer and derive somehow else that hugetlb in that config supports 
-> gigantic pages.
-> 
-> (c) Just use CONFIG_ARCH_HAS_GIGANTIC_PAGE if hugetlb on an architecture
-> supports gigantic pages.
-> 
-> 
-> I don't quite see why an architecture should be able to opt in into 
-> dynamically
-> allocating+freeing gigantic pages. That's just CONTIG_ALLOC magic and 
-> not some
-> arch-specific thing IIRC.
-> 
-> 
-> Note that in mm/hugetlb.c it is
-> 
->      #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
->      #ifdef CONFIG_CONTIG_ALLOC
-> 
-> Meaning that at least the allocation side is guarded by CONTIG_ALLOC.
-
-Yes but not the freeing since commit 4eb0716e868e ("hugetlb: allow to 
-free gigantic pages regardless of the configuration")
-
-> 
-> So I think (C) is just the right thing to do.
-> 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 0bfdaecaa8775..12c11eb9279d3 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -283,6 +283,8 @@ config HUGETLB_PMD_PAGE_TABLE_SHARING
->          def_bool HUGETLB_PAGE
->          depends on ARCH_WANT_HUGE_PMD_SHARE && SPLIT_PMD_PTLOCKS
-> 
-> +# An architecture must select this option if there is any mechanism 
-> (esp. hugetlb)
-> +# could obtain gigantic folios.
->   config ARCH_HAS_GIGANTIC_PAGE
->          bool
-> 
-> 
-
-I gave it a try. That's not enough, it fixes the problem for 64 Mbytes 
-pages and 256 Mbytes pages, but not for 1 Gbytes pages.
-
-Max folio is defined by PUD_ORDER, but PUD_SIZE is 256 Mbytes so we need 
-to make MAX_FOLIO larger. Do we change it to P4D_ORDER or is it too much 
-? P4D_SIZE is 128 Gbytes
-
-Christophe
+base-commit: e4bea919584ff292c9156cf7d641a2ab3cbe27b0
+-- 
+2.51.0
 
