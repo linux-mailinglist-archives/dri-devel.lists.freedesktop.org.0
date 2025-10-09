@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D60EBC9721
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:11:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82309BC9745
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D301D10EA63;
-	Thu,  9 Oct 2025 14:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF33710EA6A;
+	Thu,  9 Oct 2025 14:13:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bf1IYdKX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VDYFH281";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A5110EA63
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:10:57 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F5610EA6A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:13:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8F08740ADF;
- Thu,  9 Oct 2025 14:10:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1EEC4CEE7;
- Thu,  9 Oct 2025 14:10:49 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E0100622B1;
+ Thu,  9 Oct 2025 14:13:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1A09C4CEE7;
+ Thu,  9 Oct 2025 14:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760019057;
- bh=PoEG6fDXpXMai/sSIp6QQMuKBTRgdRjl+qPUXydwNpw=;
+ s=k20201202; t=1760019219;
+ bh=0QbKXOl53q1FcMIsqBYn7Bt94Tpp9EL4A6kX7LOYyB0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Bf1IYdKXmC8awfWh5+A7QBJAsxJ+E+Bf05nCys9w0sTb5mm+lSJ+FK4a/oac6gkNJ
- KXHj+HGfjFvupJMuF/wUIeCpDOh6Y+whjHf/YjOtib0BkUEfDT5AYlDtNmBxh0z6ib
- 1kDPhwLzCW8F2JlS6PKcx3LCqsjOqchXPbEPoCzY6CFQB+K3fwGO/6OEzy9YDS8WVG
- 0r75jsKihRRFBpBMKqdOo7D4oyOdyN9iB+a7+fA3jF54IIgs32H1xPPYm955M7BZoE
- OVv9Aqs6WG9CzhlLNfH27EZwY4TM0cWDi3CmngRjaqT33xB2LmH+MEwWN4hVgXx9V0
- Gdy9vxPYc6HXA==
-Message-ID: <c1f932ad-3c64-44ff-810d-f1c3e43ba8c6@kernel.org>
-Date: Thu, 9 Oct 2025 23:10:46 +0900
+ b=VDYFH281TenRBuTm1KFqcBJh921PBH6JgJnc67DgGzhdiH53vm6W1c+8wPlxAkcyg
+ QsjeDVRgpntcxb8MHEKzQw+ppishQSdS/O1IoIJPs2+tPLHdeZ7Qp4sxxs62AqmsEP
+ f7hAro1Neve+pyiwuIEBE9D7yZSkCEat+ZB5t0JT6XZW7RKSyZr6LnS5Ft4TZ57Det
+ csBd2aQtRkBgImf3QsNNugprjjw3yFo+9K0xkaIoV8ep+JD7M2eCxzvm6RBTlalal5
+ 1fV+NO6vpD3QCD4pwJses/dP6Zci4gthfZ2CqfWEOxsl/7OSIlbqsO43a3fuoLxNEB
+ iNWTZrs9W9TFw==
+Message-ID: <fc4b2eff-5224-4c73-b21a-16716e833b8c@kernel.org>
+Date: Thu, 9 Oct 2025 23:13:29 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] MAINTAINERS: Add entry for ITE IT61620 MIPI to
- HDMI bridge driver
+Subject: Re: [PATCH v3 1/3] dt-binding: display: Add ITE IT61620 MIPI DSI to
+ HDMI bridge
 To: Pet Weng <pet.weng@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -49,7 +49,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Hermes Wu <hermes.Wu@ite.com.tw>,
  Kenneth Hung <kenneth.Hung@ite.com.tw>, Pin-yen Lin <treapking@google.com>
 References: <20251009-it61620-0714-v3-0-5d682d028441@ite.com.tw>
- <20251009-it61620-0714-v3-3-5d682d028441@ite.com.tw>
+ <20251009-it61620-0714-v3-1-5d682d028441@ite.com.tw>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251009-it61620-0714-v3-3-5d682d028441@ite.com.tw>
+In-Reply-To: <20251009-it61620-0714-v3-1-5d682d028441@ite.com.tw>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,31 +114,124 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/10/2025 17:02, Pet Weng wrote:
-> Add a new entry for the ITE IT61620 MIPI to HDMI bridge driver to the
-> MAINTAINERS file, include the responsible maintainer, mailing list, and
-> file patterns.
-> 
-> Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5257d52679d60d084b85e2f023730286aa79311d..6859c06dce3ad3d615a1e42f3542fb1da8da4fc2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13107,6 +13107,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
->  F:	drivers/gpu/drm/bridge/ite-it6263.c
->  
-> +ITE IT61620 MIPI DSI TO HDMI BRIDGE DRIVER
-> +M:	Pet Weng <pet.weng@ite.com.tw>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +  The HDMI transmitter side supports up to 4Kx2K@30Hz resolutions, and is
+> +  compliant with HDMI 1.4b and HDCP 1.4.
+> +
+> +  For audio, the IT61620 supports up to 8-channel LPCM via I2S (multi-line or
+> +  TDM mode), with optional S/PDIF or DSD (for SACD). It supports audio
+> +  sampling rates up to 192kHz.
+> +
+> +allOf:
+> +  - $ref: /schemas/sound/dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ite,it61620
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: interrupt specifier of INT pin
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO specifier of RESET pin
 
-If you do not have commit rights, above T: is pretty pointless.
-Subsystem entry defines it. People just copy paste this needlessly.
+
+If you are going to send new version: drop description, pretty
+redundant. Cannot be anything else.
+
+> +
+> +  ivdd-supply:
+> +    description: core voltage
+> +
+> +  ovdd-supply:
+> +    description: I/O voltage
+> +
+> +  ovdd1833-supply:
+> +    description: flexible I/O votage
+> +
+> +  pinctrl-names:
+> +    items:
+> +      - const: default
+> +
+> +  pinctrl-0:
+> +    maxItems: 1
+
+
+Both pinctrl properties are usually redundant here. Does your driver
+actually require them?
+
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Input port for MIPI DSI
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes: true
+
+
+Drop properties, already part of video interfaces.
+
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output port for HDMI output
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Audio input port (I2S)
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reset-gpios
+> +  - ivdd-supply
+> +  - ovdd-supply
+> +  - ovdd1833-supply
+> +  - ports
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        bridge@58 {
+> +                compatible = "ite,it61620";
+
+Pretty messed indentation.
+
+Use 4 spaces for example indentation.
+
 
 Best regards,
 Krzysztof
