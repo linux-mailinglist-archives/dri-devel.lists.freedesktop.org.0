@@ -2,144 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAACEBC9A58
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6EEBC9AF7
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 17:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AA010EA7C;
-	Thu,  9 Oct 2025 14:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35DC910EA88;
+	Thu,  9 Oct 2025 15:04:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="LimE+SOI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="B4OJ+xIf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011060.outbound.protection.outlook.com [52.101.65.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7837C10EA7C
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:55:53 +0000 (UTC)
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011020.outbound.protection.outlook.com [52.101.52.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CF810E162;
+ Thu,  9 Oct 2025 15:04:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JCi3pdX2E/xMRUvJAVOv0JowY9pWxHD7eUk28PCOPZLNOY1hsRNelC6RU0df+dgj2UKsfmfiv5sfyPV2A3E0DPe/caa+cl/qfxvNQP0Xjbngq29YP0gjvNpcIgnDe0ZED8oeLzkycyL56/VW2+goFURrGo2rxBLuk0s1IkxH4nkuzeBFFHeUSUs9St8XCj4XKrrjMbT4Tym+WiSuDAXyA9ggYFigCsyNwoPXK9pqj9bRaosvlDDUnUasGEXptlHFUvq5xPeR17inbk3g1Yf7QPaaYGv1mS9tEOVg0JUKh4HIlNXL0xfne2Sa+YYZ1Df0OTusOr299hNfxq5V6q6b9w==
+ b=Jo/leYUzH/kje3u78LDaXNnK8XrhdYNcOAvo3lAhd9UE3uDlSXVLqIiTTCyT05HVajjoXn604+JXygjT+UWbLd+Eus72q/CHI1bP5JvYKY3BOc85lpX0MbqackB/w9i6lMAz0yf/lNsVOtPWs7POsY9Mt5GNOM7Ci1fOsFtzx9NtEavXFHg9YNMSnAoUi4kUKQDrtZ0eDOkMinrl/YuUqsT/H26ymiTTNha83TFXl1eHZKjfufZ22Yb2U+t1DvAspLlgED9lYh/fKBoPbRAEx4rc/mOEHjgs+JSAxfBj8XJ8Sw4oHfIIowxRrC/OK1uBPP4cZQlBT6xIYwqAdXT+GQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YLChmunCSRnMw1JfoFpkn6qlUSuUPB/1kRbMajXh2M0=;
- b=T7TMZV757kkp33fJF2OJi19jdECPMl4SJ75E2HqxO1EU6kqAiafGA+MAADTJcKLi8BixA7dWekTIVQDdQg7N20X9087T7dWiRZiwxdx0X9TXcUE3/9OHuWt1hes6lyOPdTHzP97YGNOqcUch5SPTaC11V8IpKKjQmwi2Ay+jAfFVvzQj48B9R0H0KfiTWX3A8gKlY+/6BkD1Nojnjj6nKV5nuNn9mtcpOGlnSOzvYCbanwN07+99IZLIYqG1aHc9Zi2aI00RGtQjj/Ym3BoLmYw6vy167oqs42jgYyBZz1jVkI8cy0EMHGg7MF5fwysrvNVEwpFuap8vpjXzC7IS2A==
+ bh=rReh1pir7hbJT00WJDlEE9ZTUqxVgHkB8wTV3nQ3qJM=;
+ b=w8ck8kXMzpS1dJ1mtDpb+Vz6YJDBh2M8NuA7JclAQ5To5vSW6+r9Empd4M9q39VkpxJ53yP7FQrdRxCaJXhQpUygjb8rQOg8qdq5vk51/QFGz3ayezpCPByCiPGQTzye9ucB8a+AxTBz4SvmGBkVRTE6o4TF62yCcliMQEv8mF269egg35L0yvcgLAO4X1DksFgs/m3foUgWB8frv8bPDFpDOHrI3voy88EauPoHJNPxLffhWAbVC3ea7lYPJ3htO8ps2rE0IzimbRD4XTNIh0f3AMXpQpbpfDMi2Gc77Nf2tVHZEjL5CBzJs2QuPjBCwUV0Thd/Hit31MRMsKEDXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YLChmunCSRnMw1JfoFpkn6qlUSuUPB/1kRbMajXh2M0=;
- b=LimE+SOIgQVqkCLWDr3d3Er80ZERj2rpyELhWMISg2F8XXd4ENZLiPG7Jw1cxTzQ2cm9w2qBRd9+IC9EbW95uBxSnnYpbTwHwFi/g0d0dOwxBYDHiW3l6iQy/7p9m19w4K6qbhUg0CmgkM3sHKR+n4F8RAMzjDtcndhGb5iECqtRagJNqV59+dqpTGFVK5BJ6MgE51mp2zmJn1aHttYrTWA2dIRHLhMcTlR61Gh/fMZ0DQqNluEB2RGU2tSTGjoN+a7mCuhtgIVl4RdjK7VlwcKj0Kg5uf55B/Vzg2bCPwtyavnYRVy5gwgL6OBr0un9u2rQYKdgOfHyAJAcPOnbMA==
+ bh=rReh1pir7hbJT00WJDlEE9ZTUqxVgHkB8wTV3nQ3qJM=;
+ b=B4OJ+xIf7NST38m2/btEhyx6r6J1Qcrdc4ThIRuk7ljbBsuE1klT3Z3cqUWlweCSXIGLFfhqj8tjk+F3zPdjOwyi2kAhCQz7ryax2iTPhgd55zWFY1va5GxP5zz5/y1P6b7lyeIpQq2lLe22k8YGSxJ3+Eqaq8BT/qeCPV8EqZY=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by DBAPR04MB7383.eurprd04.prod.outlook.com (2603:10a6:10:1b3::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Thu, 9 Oct
- 2025 14:55:50 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9203.007; Thu, 9 Oct 2025
- 14:55:50 +0000
-Date: Thu, 9 Oct 2025 10:55:42 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: maudspierings@gocontroll.com
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 1/4] dt-bindings: backlight: Add max25014 bindings
-Message-ID: <aOfM7jnlPO77YSu1@lizhi-Precision-Tower-5810>
-References: <20251009-max25014-v4-0-6adb2a0aa35f@gocontroll.com>
- <20251009-max25014-v4-1-6adb2a0aa35f@gocontroll.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251009-max25014-v4-1-6adb2a0aa35f@gocontroll.com>
-X-ClientProxiedBy: PH7P220CA0066.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:32c::21) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB6678.namprd12.prod.outlook.com (2603:10b6:806:251::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Thu, 9 Oct
+ 2025 15:04:44 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9203.009; Thu, 9 Oct 2025
+ 15:04:44 +0000
+Message-ID: <14de5473-534c-4294-bb1d-41d1a43fb46d@amd.com>
+Date: Thu, 9 Oct 2025 17:04:38 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Avoid killing entity last used by parent on
+ child SIGKILL
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+To: David Rosca <david.rosca@amd.com>, Philipp Stanner <phasta@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
+Cc: amd-gfx@lists.freedesktop.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>
+References: <20251002150524.7552-3-david.rosca@amd.com>
+ <d67cbd3a-5cd8-43b8-badf-3f264885429d@amd.com>
+Content-Language: en-US
+In-Reply-To: <d67cbd3a-5cd8-43b8-badf-3f264885429d@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0036.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|DBAPR04MB7383:EE_
-X-MS-Office365-Filtering-Correlation-Id: a34859c9-96a9-4918-b1c9-08de0743f00d
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6678:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24a99b9f-4fe2-4cf8-3c1f-08de07452e2d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|52116014|19092799006|1800799024|366016|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+CW53xzV9Teh1Q4/MF4RaHFHQMiVeZS7c9RjfKPRr2SUv2EgVrM/JLPnTZdI?=
- =?us-ascii?Q?zH5HDZiGSbVNhGyQyDfQwhB1t//a6yoDNQJGZVny4RKYQAIpl/4PmfHW9PgS?=
- =?us-ascii?Q?HzcpNSA2O+7sP2eUKAF9jZsLEefop5R86iIDIGYU6nBC+8xmt9/z050Or4DI?=
- =?us-ascii?Q?GcNotmqnZZbB6mYD6ONOxThBH/3VtHeYg5/Zdn+tfTQRVox6C+v11NGSJ/Kc?=
- =?us-ascii?Q?amQB6tOcS7B3bkbjPJ5AAN/VruvKma7LqU821qdTKUb7wX+WOIdqXYFk775e?=
- =?us-ascii?Q?IiW7c/Xahfan4/KNtim65oe2dikn2r+Eo9m/w8xnCJDWILfWO7SD93PVwzlW?=
- =?us-ascii?Q?BY+dhCQVq1rReYoqJ2P0va+sfG0EeNuTxQA4HgNbDjGrNWnEB3XsBoTSXVas?=
- =?us-ascii?Q?m/AczGEKJPujtVGLgT4esyCmeprpCVWEi6nGAxXTWDB5qfQJlm+7H4uY4V7M?=
- =?us-ascii?Q?dfoWk8H9zGRmZb2MD/2mi72DZBLDoAe0sS24vBAYg/QedTpCgSDLr9E6nsQ+?=
- =?us-ascii?Q?roh9E6IwLGWN4u7gNQrXWwg1HbZS8LqV8IukfgE2eGZMJLoFb++XXd40i5lB?=
- =?us-ascii?Q?F8qXwq3IhlM7p0J5KeBj/R75ZyCzhf8lIxo9VsROtxhs7kW6sXMUhuVV6C4y?=
- =?us-ascii?Q?K1O/7GMbTPIYYh55gShqIMyAXUEvy/qpOkUo0rptnDKNO+ZmMfFywYj6dsog?=
- =?us-ascii?Q?OlQanpJq+N+Zo/e3/qAqCP+rEbVBM64IlpJkV4mp3xQbwg41HWIGZn+CK3/U?=
- =?us-ascii?Q?mhMmj6ECbQ3TrQB9Si9G1jIUBGK4XkpDVRul+Ojo+NnehjMk9tS72EyPUFYP?=
- =?us-ascii?Q?2RPHVtZfiLI95O22c7IN8O+BYSSBrAxHfOF2tpmekuZViY48lswFd1ge4XhG?=
- =?us-ascii?Q?+kKvARbrsPkV9VrDhwPiV4jFZq6r3owt2AtYOovY/zVykXe+YkBlVYn+ftkt?=
- =?us-ascii?Q?lqeaLZaLCwvFHCR8IepUrzHbApHxJfCSNnzfnXrgP8q9j/zmzWeVXsfjaSGF?=
- =?us-ascii?Q?wynieZpbfuPPKnXEGKqbqkPrRyJvK4M6cJsvjYuZ/ltwmWcU78i3yyi09UBE?=
- =?us-ascii?Q?9Chs/3ktyD3xD8m+0Hn1DAR7gqZd9PmoMMWt5iEOdx6cvuTmhAzjs6OEceAx?=
- =?us-ascii?Q?vXc3A/mJsa0ZporsKvLhp19ted4NOR6gcEyzQh8+tMhkamFXwkDEZxmgI/oE?=
- =?us-ascii?Q?+mXrmvF/W8reQBnpuKQMH0bTdcodToNFKh9rlcNLL72kUm8HguHZ3Vk37naM?=
- =?us-ascii?Q?Ax9mh+5pruHixNFAdOIajQBLRh768ygVVJNWzNogKL3KT0U5SaqoVS0frWAD?=
- =?us-ascii?Q?EoLY1vbULstpdj2xVrwMcXAJzZGqynQ3THIpC8D+iy854o/JzGjO5v+6jx7K?=
- =?us-ascii?Q?/Wh6QP2K6lILBpMm9NzJ7iXYYTDV+pRiZ7+/ZNVu8TTZo9xm/JVWuIizAkRT?=
- =?us-ascii?Q?J3mwvNWfXDXjiYHe0kTb28QCBU9vNihIZxT8IE/X1jERbti0hVvmoA=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RnpUNnB1bXdwYkx6dXVQaGNua3JtZ2lCOTRtT29jTHA3TUxFME9xbThyZXJt?=
+ =?utf-8?B?WTBsaERhMy9RNjNKSkpXSkV4TU9MVWZhajM5aTR5VWhzUCtWcVBqMjZYd01x?=
+ =?utf-8?B?eGpLQzN4QlE2MmlEZnlqSXdFMHp1aWcxYnJqdW50ZWcyNXlscjJlUWlBNTg4?=
+ =?utf-8?B?dTgxVnY0MDNoc20xMjVrRVh0UFZEcnlZaVZsN3pPWldLWDB5UFRPOTU0N1JG?=
+ =?utf-8?B?Vmt3b0NpOFFIRzFKbnI0OWUrKzFyeFFkcVVuOXRSWXR0dFl6Rnp2UnpOY01S?=
+ =?utf-8?B?UkRyYnVEQytBcFF3V2pNZzRhd0FxRC9CUWNpT3Q4NGd3RG9rQVcwNW9qUlgv?=
+ =?utf-8?B?UzloNGJOeFM0U1RMam9aYVlXVmJuTHdQTUdKcmNkUDZlMFFmazhuZFJkTGVi?=
+ =?utf-8?B?aU1lMDVpOUpVd2tBSWFud0E5QXZTVERaSDhESExucDF4Y2p2VHM1T3Y0Ky9r?=
+ =?utf-8?B?ZzZubUovdytUa3JMTkZtcGJlUmgxZjBReHp3WnlPcWJ5dklRbmhLMUxsTHcv?=
+ =?utf-8?B?UjR1dS94dGhDUTlseEVwUktDeFQ5clhDbUFiSDlJUnpoQnZKZUxHQTRUcGZS?=
+ =?utf-8?B?WmIrQnpSc0dJajQrckNySlNkdndzZ0E2NWxwcTFBeGloVVNEeHZDQS95TEVI?=
+ =?utf-8?B?NzR1TkNtOHdGMFRxR1B1bGFwN2c3MThqbTJGM0c3aGhSakRtNmNWcEgxQVBu?=
+ =?utf-8?B?bDIxai8xTG05NFQ1RGlMK1Y5T1RDZXVvdkZOemV0OHJOSW1ybzkrRGpYQUMz?=
+ =?utf-8?B?bDZ3OGd3ZGRSK2haQWJLNENJVkVRUkdPNkZnZjI2dXNvY2V3VEZDNWZ5cTRt?=
+ =?utf-8?B?L1VMOG9jQ2JNOWFLSFE2emNScS9aUCtsUnV2bW5peVpzVzE2UEtsQk5yQmF1?=
+ =?utf-8?B?MVZHUTFSenpYbnJTWEpybU4zUEhPUkJHeXh4TlBKRkxPckp5MXE3MEJxelZB?=
+ =?utf-8?B?MXV6dWxmVDU3cjhkRnlmdkZ0aVJxSTk0ZFBYajBjR0VTNHU0emxHVSs1bk9m?=
+ =?utf-8?B?MG1CTUMrZ1VSUzZmUXNPaXR3clM5VUNxSUo5VWxXQmtTR3djSU5wM1VUY3hn?=
+ =?utf-8?B?ckZ6ZytTUXl6b2JjUldVcHdVaGV5VUdLaWJsMEd2QmdCWi90RlhZZ3hsWGlC?=
+ =?utf-8?B?N2RUUUd3a0pzNWppeTlqbzRnTHgvNU13WDJjWkttV1UwYzVlNmZaY000Q3dk?=
+ =?utf-8?B?MStmNlU5QnZRRStlVno1MmFmMFVpZHFINnU3Z1YxSFQ5V2J1cnRVc3NWTFNk?=
+ =?utf-8?B?cVlLdTQ2Y1daV2NRMmJhYko2NmNIcUJsblBQV1NveE5HcE5JLzlIUmU1L2Ri?=
+ =?utf-8?B?ako1bmF0Y2pNN1Q1eW9SODFKZFcvY0FKcGIrYzdBcCsvclE4TFJYMHJuSnNO?=
+ =?utf-8?B?VlpYZGw5OFJQZWYrNWhjRktrOWh6WEZrOTJicmVZb0g0T2VPaWlKU0llVFFY?=
+ =?utf-8?B?S21Ia0JQdmJSeFd3dTBnTHpmN0pDeEVIR0I3SUhDdHE4UWxUelRZc3pTN3Bl?=
+ =?utf-8?B?Q3pDenNDZ2hOcXZmVUNOREVEdFRKY3crNk12ZTBGSm5mQ0JxK3pvWklDSHd5?=
+ =?utf-8?B?NjhHaS9RUFg3M090cVJWcXhnNzZtUDh1TUxmdG5NbkNybzRQVnVsdUN6YXkv?=
+ =?utf-8?B?OTBnQzVMbElXM0pOb0ExZEJjT3JuYkhUcVdZdjdjbnB0Vlo2TGV3MVlSZFgy?=
+ =?utf-8?B?anZhK3l3aSs3Z0dybWluNUFQZVpVRjhtRk50NklGaXlBZkdEKy9yWnpFc2g1?=
+ =?utf-8?B?NUwzNDc0Rm9UckRKVjlycGV6aHIrTWJDd0JDWFNydTVaM3pyQzlLTnoxdWc4?=
+ =?utf-8?B?MUREMUFCSjhDblpmUm1LejhUOEx4VjFlOGRCYmdLcmo2cHlTR0JIZUoyV09x?=
+ =?utf-8?B?QXExcHlaakFGaG5ITmdKSzAySEx3b2oyVG1FSHRVZkhwUkZFMjIrckdwV2l4?=
+ =?utf-8?Q?oSLg9dJHlooDEagUt2QvAG8WeWjkD4jy?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXSPRMB0053.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(52116014)(19092799006)(1800799024)(366016)(38350700014)(7053199007);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a8ckxTjVPvaucD4d4Ytyed0BvSuMhsxYWJcF7k3oVbptk4IOgw52Eu5jocBi?=
- =?us-ascii?Q?gMMmSEEGDGbf4SVY+px+BJgWXBmOOg0G/mw2A7h+uGORSjEC/plNs9vg19EG?=
- =?us-ascii?Q?5y+kn7ag7abPWXHz9YOeixEgl2p8wD41y3W0vrg20STFJSIWjmDgOVqZ8u/B?=
- =?us-ascii?Q?laFt65T+pQmujGx/eAzP6UmrLCx3ILRyfN7xIWYIYvq8jz+8vS5+lGtXXVI9?=
- =?us-ascii?Q?27+FPTPH0zMmhJV6XHrVMiUevCEIiTlHb6ycA5JYMDYCPyM1jU7F3FOk/455?=
- =?us-ascii?Q?NDUMu9gzVd8dXlZJOEGVpbzeMQtETCwUzq4h7gCSj1v7limLRERZJ5/2q0/v?=
- =?us-ascii?Q?/2sDD9UjJFzufC4wHTGdot5nl3bH8oQ/bD8IOXcV6RQO3R1i050oy5v9/iRk?=
- =?us-ascii?Q?AA0NNMgmCnXtoZ2Krz5KK6PpHWTxa9eGGMukxQlkDMlzA1ulzx4J4XOo1BT8?=
- =?us-ascii?Q?hvKWjCvaOdLV6USVSChJz/BJGjc/ZpxkPMiIPr5w9ywYgsUtg+MeS1x51qVg?=
- =?us-ascii?Q?K7FSjtP5CK6VZmtXiJFDTElE9bCzw0nFLM3A//ul/889OuOPK7cnqyG5HkLN?=
- =?us-ascii?Q?OaRkXqb3tT0zlxVUmEpdkReWJEU6msCl6atRx/Rl4rxSSGrWQIVlMvj7uX1z?=
- =?us-ascii?Q?JXzUagn1tA9taFmkjOF5mASvX8XjHOnT26alkYvyfK2Yc42c9LSZhluOO2Id?=
- =?us-ascii?Q?JmOIx1m2W0PGIEWJwKkcsi1P8nyiUft/klD8Xr4sqIiwmcqwR7AfV9G1Y4lA?=
- =?us-ascii?Q?cL0Xm+H1fXkRDSNgfTEDyVG2bGaCivKdB2zuhWXfUIvqQ+bPye2vkrJPfg/0?=
- =?us-ascii?Q?upEOsTEumaSC1SRjLNCQgFLgiBx7kVv0M+fcDc+744j/gWMzllh0biRj1qE5?=
- =?us-ascii?Q?YCFePT2mPPOtOY45cOtePbxsGz2YN38PAT6vGJPGCXzPCfKQ5bikvI5zzge5?=
- =?us-ascii?Q?1yf+GcCmT383I617ICUp2vd60iqEMrAYjCWkAudfGPxXZFkprRfAxU12papH?=
- =?us-ascii?Q?hHc5MB54irjAuKS13x3S0WKhV6Cz+eYhlvyHQdUqf8g1TCSoh299nsXPhLQ/?=
- =?us-ascii?Q?MC4QdpOA4WjOwmK/sJjRtaquTkOf1dgs82Z83mixwgETSpvY68+EMqcdVkN8?=
- =?us-ascii?Q?+K6WL/hm8+tFX4z939vhYo1sGL5dSsvA5xs0WF/9k5ynmTOSFksW06e7S9oh?=
- =?us-ascii?Q?ADwfmw4rnzvX/ulO0fURFaC6mPmjx8K5X/GPkIJjXlx16wqIE6RlIg/ExwzH?=
- =?us-ascii?Q?rNWQl6lajsXv2mlRGr69xUWjcP2eBg/Y9o/Y/5SnQixm/2hjndERnXEFI6y4?=
- =?us-ascii?Q?0jrROdB9MiFzYAoxMsicDW0GmXLZRdNxDTzvOGLF3ixV+47W7UhZS+ZfB1Vq?=
- =?us-ascii?Q?wkpZZ/6vkjw33KGPMMESod3sWzXNrjxpdvyx2HIuoc7PJMt+klQMUmOSsrdK?=
- =?us-ascii?Q?PtCcJlpBiQSFTUQbGU8MdIt6kt5kXZX6aZkBI3Bpm92Y/B22skEaIzrUILH3?=
- =?us-ascii?Q?d1VFBtjuTTULm+sIfLfZks8Gliv6Bj8xdvCWb2XsQz9en4OWDv1H6sVm8zDy?=
- =?us-ascii?Q?t2k66u2AtLh9Ux1MneA=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a34859c9-96a9-4918-b1c9-08de0743f00d
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3BGdkdIKzJoSlNiZTY0R1hXR2o3Rmh5THUyd3hyS2pBdTR6VnI1dTZlSEs5?=
+ =?utf-8?B?Q1h1RHdERjZDOTNNS2JNajNuc29pSGdlWVQ3T2FmQ3ovdUUrK2VaTFV5Q3Ry?=
+ =?utf-8?B?UWxFL210bzV6Q2luMCtCTzJsT1BOSjh5MGg0WE44dHArNkNCd3kzeXhWSTR6?=
+ =?utf-8?B?bXg1Qk5sdUNwVXlpbUNHQ28zSEdxSXVwNWpDTGovb1lQL0pHa0hxY2JqMjl3?=
+ =?utf-8?B?VUxKUXJwWjByQjlUbFZEaDN4eUZNQVkwRC9yRkJnWE8wdFlkS3AzUDZVOGdI?=
+ =?utf-8?B?emxxdTJ5eDBxd1lnSUZCV2ZQeWJHbWIxZ0J3dlVEYVcxY00zMlM1SVZ5UTVr?=
+ =?utf-8?B?dng0ZTY2emNjTUNVbUlmTzdoTUdKTG5FWlltanYyc0tPckxpcUw1d0lZcnZ4?=
+ =?utf-8?B?OENuZnQzclZoRnFZcDVBVTlSdzd0NVBvTzdDaUkwYWdkRzNFRGpEN0xPZC9l?=
+ =?utf-8?B?a2I1K3pqbU1RN3QzV3RrdHo3NXd3ZmxzZ3c4SWoreVlzTm53VmRlWG5jL1gz?=
+ =?utf-8?B?SXJ0enRjRHhqT3IwbWpHditMMENTLy9lYnJOL0lvM3dnL1BjaEI5SllEeVRW?=
+ =?utf-8?B?a1RpblFndWs3MzV6THRiNVQvSGZOY0Q2a0ZGZjhIVG5qQktPZU0vTGRRSlhh?=
+ =?utf-8?B?MVZabWNya0M3dXh5UnREelUwaVFpTlVXM0gwRWFrNm4zSyt2cmRGeXB0dSt1?=
+ =?utf-8?B?N09LQUw5bkk1RkJ2SFFmc0pteGxRZGpGUnZ2bWJENTNSa0VzM2M3RDBYN244?=
+ =?utf-8?B?MHBWYjZUNmpkUVY3MXNKektsd3U0SENVU05tcWRSMk41enNnVjVTYkxnVm9j?=
+ =?utf-8?B?ZmttY0xuT0NVUzNOM2VLSldmU0owWEhGS3JhR29kUkVUcEpReDU0cmtIYVo3?=
+ =?utf-8?B?dktqbkJWYTJiQnhDQkxBUXo2ZjNucEdISWl5dUt4amJiS2YzSmNtcjBzVTVu?=
+ =?utf-8?B?d3RWZmF6eDlNdEYwV0F1dktaYXpkRUlFMS8ySnZ5bzVnRTVramh5YkdVWGRQ?=
+ =?utf-8?B?VTVUdmhrOVRNUDlGMmlkT1JaQjRrbEtuUWFOQTRHeStPbFBEelE2TEI2L1dR?=
+ =?utf-8?B?OWpESmxMRytuUlYwTzV2VXF6dFJCb2RlUnRPL0dpU0dDZnlGTUx5cHNkbHZT?=
+ =?utf-8?B?N0RxeE5zR2kvdzJIMXVKeWNzRlV2b2FpdnpVSnJCQ3o4YmJUcTIzUFRBV2Vx?=
+ =?utf-8?B?MWlLRnkxdllERzNuMGhNeC9pbFZtNUdxM2lUc01BbUgzUGxuVXdHK3NwRUtw?=
+ =?utf-8?B?VTlyVDBvM24yUE1zVkE0SEwwWFR1R3NYVVJ3Y0RNek1Wc2R6ay84cDYvSWV1?=
+ =?utf-8?B?SXBRdkYzbi8vT3NlUXNPTlBES0dicUp3UnIrZjlGNCtkSER5QUZta2lXY3hX?=
+ =?utf-8?B?RjJVdmhkK0JCbGRWamNocWYzWHlDVGlPbnprcXFwWDQwTHVBRVlnZUQxbEVW?=
+ =?utf-8?B?UVdXc2xKbzBJRjA5WVlQTjlxYVVWaHdhSkZ2d0FtMklnb2dNOEw0NmpNVzA4?=
+ =?utf-8?B?amxpUm92TUN6eS9GMUpvRGw1eE9HVGJrTGZmVjBwclplTGpWbk5LQnpQOXZU?=
+ =?utf-8?B?WkRZeDBGR0tGWGpDUmtkeUtoekZ0cS9qSnQzcUlKTlJRK295akl4VmpUYmJ5?=
+ =?utf-8?B?enVCYzZPWTRyaC96VVREU2lPWkd1ZzlCN3BHTHpsNUhMQ1B0cEgxMHErRjFX?=
+ =?utf-8?B?ZGtqazY5bTFBcGthSWZoa3ZaUmw1elJlRGMwN3kwREs5WXBMdlRJQnFaaUhH?=
+ =?utf-8?B?WjdRTDVQYVZBZmFtc3FXYUxTZ21yL3kyRFlRVVdVb29GUTJFeWZyQW90Z09X?=
+ =?utf-8?B?MlU2UFRwdnpLK2R3Z000N1p3Rk9ya210S2ZUWkJmVG5Oa01lcGdTeVBMYUVZ?=
+ =?utf-8?B?c3hRM09wWlBnbkh3RXRGZVdZbkxkem9yQ0N4RWQvV2JGbU5kWU9UODhJWExt?=
+ =?utf-8?B?RW9iREoxTWI3ckgvditSamgzZktrT3FUazRnU2JwUGE0WEsrTE92TmFIRW1l?=
+ =?utf-8?B?UytvcXhndWQxaGZoRm9wTHFVYW1PMUd3YVN0M2JXSGcveXpIV0JSdmpMaUc1?=
+ =?utf-8?B?WEVzQm1tR2xNeTNyekFoNXhLZmJkT2kwc2E3TkRyTW9BV085NHVqTTd5Q2lE?=
+ =?utf-8?Q?t/CF1To0DBNcMgkW8ZXTKICHr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24a99b9f-4fe2-4cf8-3c1f-08de07452e2d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 14:55:50.6668 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 15:04:44.7497 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gJ4e8sKsjA8wzy/WYA55fr2Gjo0XJRyMfr4Si2UEoDfnAUBrnRATgTvMKWj2J7JjTOME32w1cW1yZusOC6BFmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7383
+X-MS-Exchange-CrossTenant-UserPrincipalName: HorBiFk0WZrno5jdOOdOY+rW4vBz4AWyPX8z5c7iDEkGPDVvUrCUJLlZB6aBvJo1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6678
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,174 +166,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 09, 2025 at 08:48:25AM +0200, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maudspierings@gocontroll.com>
+FYI
 
-Subject needn't double bindings.
+On 09.10.25 09:01, Christian König wrote:
+> On 02.10.25 17:05, David Rosca wrote:
+>> drm_sched_entity_flush should only kill the entity if the current
+>> process is the last user of the entity. The last_user is only set
+>> when adding new job, so entities that had no jobs submitted to them
+>> have NULL last_user and would always be killed.
+>> Another issue is setting last_user to NULL from drm_sched_entity_flush,
+>> which causes subsequent calls to kill the entity.
+>>
+>> Signed-off-by: David Rosca <david.rosca@amd.com>
+>> Fixes: 51564e9f06f0 ("drm/amdgpu: Avoid extra evict-restore process.")
+> 
+> Good catch, but in general please CC the relevant maintainers and mailing lists for scheduler patches.
+> 
+>> ---
+>>  drivers/gpu/drm/scheduler/sched_entity.c | 5 ++---
+>>  1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 8867b95ab089..a325e4a59990 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>  	entity->guilty = guilty;
+>>  	entity->num_sched_list = num_sched_list;
+>>  	entity->priority = priority;
+>> +	entity->last_user = current->group_leader;
+>>  	/*
+>>  	 * It's perfectly valid to initialize an entity without having a valid
+>>  	 * scheduler attached. It's just not valid to use the scheduler before it
+>> @@ -278,7 +279,6 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+>>  long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>>  {
+>>  	struct drm_gpu_scheduler *sched;
+>> -	struct task_struct *last_user;
+>>  	long ret = timeout;
+>>  
+>>  	if (!entity->rq)
+>> @@ -301,8 +301,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>>  	}
+>>  
+>>  	/* For killed process disable any more IBs enqueue right now */
+>> -	last_user = cmpxchg(&entity->last_user, current->group_leader, NULL);
+>> -	if ((!last_user || last_user == current->group_leader) &&
+>> +	if (entity->last_user == current->group_leader &&
+> 
+> You still need the cmpxchg() here or otherwise drm_sched_entity_kill() would run multiple times.
+> 
+> Regards,
+> Christian.
+> 
+>>  	    (current->flags & PF_EXITING) && (current->exit_code == SIGKILL))
+>>  		drm_sched_entity_kill(entity);
+>>  
+> 
 
-dt-bindings: backlight: Add max25014 support
-
->
-> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> with integrated boost controller.
->
-> In the current implementation the control registers for channel 1,
-> control all channels. So only one led subnode with led-sources is
-> supported right now. If at some point the driver functionality is
-> expanded the bindings can be easily extended with it.
-
-Need descript hardware, not driver. Need descript full functions even though
-driver have not implement yet.
-
->
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> ---
->  .../bindings/leds/backlight/maxim,max25014.yaml    | 109 +++++++++++++++++++++
->  MAINTAINERS                                        |   5 +
->  2 files changed, 114 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> new file mode 100644
-> index 0000000000000..496520e1374e5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim max25014 backlight controller
-> +
-> +maintainers:
-> +  - Maud Spierings <maudspierings@gocontroll.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - maxim,max25014
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-supply:
-> +    description: Regulator which controls the boost converter input rail.
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  maxim,iset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 15
-> +    default: 11
-> +    description:
-> +      Value of the ISET register field. This controls the current scale of the
-> +      outputs, a higher number means more current.
-
-Can't use register value directly, need use standard unit. or percentage
-
-100: means max, 0: min.
-
-> +
-> +patternProperties:
-> +  "^led@[01]$":
-> +    type: object
-> +    description: Properties for a string of connected LEDs.
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        const: 0
-> +
-> +      led-sources:
-> +        allOf:
-> +          - minItems: 1
-> +            maxItems: 4
-> +            items:
-> +              minimum: 0
-> +              maximum: 3
-> +            default: [0, 1, 2, 3]
-> +
-> +      default-brightness:
-> +        minimum: 0
-> +        maximum: 100
-> +        default: 50
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-
-there are $ref, should use unevaluatedProperties: false
-
-Frank
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        backlight@6f {
-> +            compatible = "maxim,max25014";
-> +            reg = <0x6f>;
-> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> +            interrupt-parent = <&gpio1>;
-> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-> +            power-supply = <&reg_backlight>;
-> +            pwms = <&pwm1>;
-> +            maxim,iset = <7>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            led@0 {
-> +                reg = <0>;
-> +                led-sources = <0 1 2 3>;
-> +                default-brightness = <50>;
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 47fbc5e06808f..be5e2515900ce 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15171,6 +15171,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
->  F:	drivers/media/i2c/max2175*
->  F:	include/uapi/linux/max2175.h
->
-> +MAX25014 BACKLIGHT DRIVER
-> +M:	Maud Spierings <maudspierings@gocontroll.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> +
->  MAX31335 RTC DRIVER
->  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
->  L:	linux-rtc@vger.kernel.org
->
-> --
-> 2.51.0
->
->
