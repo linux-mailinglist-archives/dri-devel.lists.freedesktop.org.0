@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CACABC8B9B
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300CCBC8BAB
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:18:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189B710E10B;
-	Thu,  9 Oct 2025 11:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6FFD10E9B4;
+	Thu,  9 Oct 2025 11:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FHiXdRUB";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="h9+5kUwJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75010E10B;
- Thu,  9 Oct 2025 11:16:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D4CD862285;
- Thu,  9 Oct 2025 11:16:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B916C4CEE7;
- Thu,  9 Oct 2025 11:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760008606;
- bh=NvnFH5fFMQlfkVMuPWti/OYzM0/+PyGHmbs5QNfgrNI=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=FHiXdRUB//Rz1OI/dzkHif7nW0zmpkYr0fQ8K87690DYj2qDidMcGlWTajyGVus5n
- 53NHp8MmzaP51UjX0UKF4GBs8O4vCb3IT1pp/9jYFmHfeiHHcEv14Vk9SCB4D00QqE
- FHEhyFcvBOdhzjN5gOdLEyElZ9gZCcLCefEXhX2GpUPq/iceSKw/LWrkXsYhuF/bzp
- OIXFpXITbZ/1bcr+ZOEXIdPE5w8hyRx9LMDWCxMaRi9L+QWvAY0swMHtuZ/r4tH+Bh
- /REu+bue1A5QNeyg/MV2+MJCBdDqL6R4nhqLqLdT4GsKpXpYfZe/NEM/Z0b/Da14r5
- 1MXW8zJk7JOlg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 09 Oct 2025 13:16:39 +0200
-Message-Id: <DDDQZ8LM2OGP.VSEG03ZE0K04@kernel.org>
-Subject: Re: [PATCH v6 4/5] rust: Move register and bitfield macros out of Nova
-Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <acourbot@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Yury
- Norov" <yury.norov@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Andrea Righi" <arighi@nvidia.com>,
- <nouveau@lists.freedesktop.org>
-To: "Dirk Behme" <dirk.behme@de.bosch.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
- <20251003154748.1687160-5-joelagnelf@nvidia.com>
- <5a5bd549-f5b7-41ec-b493-bda427d1218f@de.bosch.com>
-In-Reply-To: <5a5bd549-f5b7-41ec-b493-bda427d1218f@de.bosch.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCA410E9B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:18:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1760008672; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=aXXXc+MP5g5u3E3lvYWr8hZSDGFZxad+YYP596bM6JcHLaO3KR38ZMuKihDpI/5PLyU6TfiagIvwIkfE5ySVbeluERy6Zww2bgq358cM6OcZlP9ajsDCqLH5aYAV5GMKyERz9pq+VYaw5TZo8+bE4V+7pj+/TG9y1UFKdbE1l5I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1760008672;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Zv8FOCsnzKpGuE8xNKu6EI9WjoVXNITDjzFPQjht36c=; 
+ b=M1lu5ao9FyMBvuzWyuj0CXL5dhxN9G2WvKSoyt7B1mOuEsXRu3Jo7fTnc+QnbPvcbFcbuv/74uXTC+Dqbistio1cXfFDiDaBsFusP+YGWfckx7vLF/DLzn9EDhbSE4icGR/RcPZIfC3MsRLwNpRYNoZSF+Wk9tHq8ubmAkN23aU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760008672; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=Zv8FOCsnzKpGuE8xNKu6EI9WjoVXNITDjzFPQjht36c=;
+ b=h9+5kUwJ0kZ0aU9AerpWdTfjndIfJG/B9KS/mDoVnvr5P6fl9Gz8gfiCldJXLAc6
+ iDu75NY3L62zvqXAuZJPDY+OpZxDBz4XrgO3t8lR63L25GDG8HUjq9njQpUtByKTyfy
+ 47ClJ5wcqQqntaxDBlk2eK+ooO6GSk9y7Q/jKRxw=
+Received: by mx.zohomail.com with SMTPS id 1760008669186699.0718515873037;
+ Thu, 9 Oct 2025 04:17:49 -0700 (PDT)
+Date: Thu, 9 Oct 2025 12:17:44 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Rob Herring <robh@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH] drm/panfrost: Name scheduler queues after their job slots
+Message-ID: <ffzu4ekyatmcjekfngtjmdbrwuxc25s5mpzq7sqfgsjgjifiq6@gb3ilo3aecil>
+References: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
+ <5f095b02-2561-49d7-88a9-0fd82a1c9e00@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f095b02-2561-49d7-88a9-0fd82a1c9e00@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,140 +71,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Oct 9, 2025 at 8:59 AM CEST, Dirk Behme wrote:
-> Assuming that register.rs is supposed to become the "generic" way to=20
-> access hardware registers I started to have a look to it. Some weeks=20
-> back testing interrupts I used some quite simple timer with 4 registers=
-=20
-> [1]. Now, thinking about converting it to register!() I have three=20
-> understanding / usage questions:
+On 08.10.2025 15:48, Steven Price wrote:
+> On 02/10/2025 18:11, Adrián Larumbe wrote:
+> > Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
+> > queues"), give scheduler queues proper names that reflect the function
+> > of their JM slot, so that this will be shown when gathering DRM
+> > scheduler tracepoints.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 >
-> * At the moment register!() is for 32-bit registers, only? So it can't=20
-> be used for my example having 8-bit and 16-bit registers as well?
-
-Yes, currently the register!() macro always generates a 32-bit register typ=
-e
-(mainly because nova-core did not need anything else). However, this will o=
-f
-course be generalized (which should be pretty straight forward).
-
-Having a brief look at the TMU datasheet it looks like you should be able t=
-o
-treat TSTR and TCR as 32-bit registers without any issues for testing the
-register!() macro today. I.e. you can just define it as:
-
-	register!(TSTR @ 0x04, "Timer Start Register" {
-	    2:2    str2 as bool, "Specifies whether TCNT2 is operated or stopped."=
-;
-	    1:1    str1 as bool, "Specifies whether TCNT1 is operated or stopped."=
-;
-	    0:0    str0 as bool, "Specifies whether TCNT0 is operated or stopped."=
-;
-	});
-
-Same for TCR.
-
-> * In my example I used io.try_write*() and io.try_read*() for the=20
-> register access. What is the relationship between these and the=20
-> register!() accessors (e.g. from the examples BOOT_0::read(&bar);)? Will=
-=20
-> both stay? When to use which?
-
-The try_*() variants should only be used of the offset of the register is n=
-ot
-known at compile time.
-
-If it is known at compile time (such as in your case) you should use the
-infallible variants that perform a range check at compile time.
-
-For this to work you need to specify the minimum MMIO range your driver exp=
-ects,
-i.e. instead of
-
-	let iomem =3D Arc::pin_init(request.iomap()?, GFP_KERNEL)?;
-
-you call
-
-	let iomem =3D Arc::pin_init(request.iomap_sized::<TMU_MMIO_SIZE>()?, GFP_K=
-ERNEL)?;
-
-where TMU_MMIO_SIZE is the minimum MMIO region size your driver is able to
-operate on. In your case this would be 0x12, given that TCR has a width of
-16-bit. However, if you treat it as 32-bit register it would be 0x14.
-
-Even without the register!() macro this would be a huge improvement. For
-instance, your IRQ handler from [1] can do
-
-	let tcr =3D io.read16_relaxed(TCR);
-	if tcr & (0x1 << 8) !=3D 0 {
-	    io.write16_relaxed(tcr & !(0x1 << 8), TCR);
-	}
-
-instead of
-
-	let tcr =3D io.try_read16_relaxed(TCR).unwrap_or(0);
-	if tcr & (0x1 << 8) !=3D 0 {
-	    io.try_write16_relaxed(tcr & !(0x1 << 8), TCR).unwrap_or(());
-	}
-
-And with the register macro it becomes
-
-	let tcr =3D TCR::read(io);
-	if tcr.underflow() {
-		tcr.set_underflow(false);
-		tcr.write(io);
-	}
-
-Note that you can also extend the generated TCR type accordingly, for insta=
-nce:
-
-	impl TCR {
-	    fn handle_underflow<const SIZE: usize, T>(io: &T)
-	    where
-	        T: Deref<Target =3D Io<SIZE>>,
-	    {
-	        let this =3D Self::read(io);
-	        if this.underflow() {
-	            this.set_underflow(false);
-	            this.write(io);
-	        }
-	    }
-	}
-
-and then from your IRQ handler you can just call
-
-	TCR::handle_underflow();
-
-> Note: Due to the file move obviously not the full content of the "new"=20
-> file register.rs is shown in this patch. Therefore, let me try it this=20
-> way, citing from register.rs:
+> Two minor things below, but with those fixed:
 >
-> -- cut --
-> ...
-> /// This defines a `BOOT_0` type which can be read or written from=20
-> offset `0x100` of an `Io`
-> /// region
-> ....
-> /// ```ignore
-> /// // Read from the register's defined offset (0x100).
-> /// let boot0 =3D BOOT_0::read(&bar);
-> -- cut --
+> Reviewed-by: Steven Price <steven.price@arm.com>
 >
-> * What is "&bar" in this example? Is it the `Io` region the explanation=
-=20
-> talks about?
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_drv.c | 6 ------
+> >  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +++++-
+> >  drivers/gpu/drm/panfrost/panfrost_job.h | 2 ++
+> >  3 files changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > index 22350ce8a08f..d08c87bc63a2 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > @@ -668,12 +668,6 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+> >  	 *   job spent on the GPU.
+> >  	 */
+> >
+> > -	static const char * const engine_names[] = {
+> > -		"fragment", "vertex-tiler", "compute-only"
+> > -	};
+> > -
+> > -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
+>
+> NIT: We could move this to panfrost_job.c and keep the BUILD_BUG_ON.
+>
+> > -
+> >  	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+> >  		if (pfdev->profile_mode) {
+> >  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index c47d14eabbae..0f0340ffee19 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -28,6 +28,10 @@
+> >  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+> >  #define job_read(dev, reg) readl(dev->iomem + (reg))
+> >
+> > +const char * const engine_names[] = {
+> > +	"fragment", "vertex-tiler-compute", "compute-only"
+> > +};
+> > +
+> >  struct panfrost_queue_state {
+> >  	struct drm_gpu_scheduler sched;
+> >  	u64 fence_context;
+> > @@ -846,7 +850,6 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+> >  		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+> >  		.credit_limit = 2,
+> >  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > -		.name = "pan_js",
+> >  		.dev = pfdev->dev,
+> >  	};
+> >  	struct panfrost_job_slot *js;
+> > @@ -887,6 +890,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+> >
+> >  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+> >  		js->queue[j].fence_context = dma_fence_context_alloc(1);
+> > +		args.name = engine_names[j];
+> >
+> >  		ret = drm_sched_init(&js->queue[j].sched, &args);
+> >  		if (ret) {
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+> > index 5a30ff1503c6..52ff10b8d3d0 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> > @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
+> >  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+> >  };
+> >
+> > +extern const char * const engine_names[];
+>
+> NIT: Now this is no longer a local variable I think we should prefix it,
+> e.g. panfrost_engine_names.
 
-Yes, it's the I/O backend (a pci::Bar in this case). However, we should pro=
-bably
-use a more generic name in the examples.
+On top of this, I'm also keeping the original engine names to avoid
+breaking UM uitlities which depend on fdinfo.
 
-> [1]=20
-> https://lore.kernel.org/rust-for-linux/dd34e5f4-5027-4096-9f32-129c8a067d=
-0a@de.bosch.com/
->
-> The registers:
->
-> const TSTR: usize =3D  0x4; //  8 Bit register
-> const TCOR: usize =3D  0x8; // 32 Bit register
-> const TCNT: usize =3D  0xC; // 32 Bit register
-> const TCR:  usize =3D 0x10; // 16 Bit register
+> > +
+> >  int panfrost_jm_ctx_create(struct drm_file *file,
+> >  			   struct drm_panfrost_jm_ctx_create *args);
+> >  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
+> >
+> > base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
+
+
+Adrian Larumbe
