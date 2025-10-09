@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F974BC9058
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53224BC90F3
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:37:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9C210EA0E;
-	Thu,  9 Oct 2025 12:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79DE610EA21;
+	Thu,  9 Oct 2025 12:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LxfF2qG5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uLPaI5z0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F56B10EA11
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760013042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hyzFZxJbO2L5avzgNukRA/OHc7c+vIBxWzW6CopjW/U=;
- b=LxfF2qG58XU55Lx3CEY7AxaDL+/Gqk6jF6+f9HpbJybSC/wpXzVsFi9DjE+0YJ/vkDtdxM
- fanpHD+NOb1yFZ4pan9X36uUgFGYUgIFDNTShbTZymotuRpHeyH11AyfVl62baprlLEDYI
- cNa9oYSx1afxHf16muKkaubwJCgQ5qw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-303-Ys3Hi_-hOVit_MVKA0Ie8g-1; Thu,
- 09 Oct 2025 08:30:39 -0400
-X-MC-Unique: Ys3Hi_-hOVit_MVKA0Ie8g-1
-X-Mimecast-MFC-AGG-ID: Ys3Hi_-hOVit_MVKA0Ie8g_1760013038
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 027001800587; Thu,  9 Oct 2025 12:30:38 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.225.212])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A9328180035E; Thu,  9 Oct 2025 12:30:34 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH 6/6] drm/panic: Fix 24bit pixel crossing page boundaries
-Date: Thu,  9 Oct 2025 14:24:53 +0200
-Message-ID: <20251009122955.562888-7-jfalempe@redhat.com>
-In-Reply-To: <20251009122955.562888-1-jfalempe@redhat.com>
-References: <20251009122955.562888-1-jfalempe@redhat.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0415210EA21;
+ Thu,  9 Oct 2025 12:37:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 49D3548E09;
+ Thu,  9 Oct 2025 12:37:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6DBEC4CEE7;
+ Thu,  9 Oct 2025 12:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760013460;
+ bh=aBDQiL8M6tlhzQPRf36HvQHITXaP9VMPI3YdAfgTYjo=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=uLPaI5z0H/AGqRbfnAY/6dZMqsExqSC/5Vy60ccYAF5DDtB+/obHLb3EEOmuTIAnv
+ srnQRecn8BcQ45g2HW+Twd1agmu4z00AAUn4EtLtDyWZqtHxw7Wj1e4y2o+DTGaWb1
+ Ny6+G7iX6eOtzMXgiTeGzVPvV6rB7SJVICUR/STfhDHIDDPm9yJizr6Lx15OGaiiUQ
+ iOdDZ9+ZUnflH307xWhlQ2Lh872oRoBGr38JFhsBw+ZA18QfR3/lL383VRq/FKeiEk
+ OPbmtWAnlRVbi51r4gph29hE+qZd7CJFF/DgH3q7NG9f9Yw5L+N9rMo7Xv/WskAX9b
+ BwVxTaax2ck8A==
+Date: Thu, 09 Oct 2025 07:37:38 -0500
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: kishon@kernel.org, konradybcio@kernel.org, conor+dt@kernel.org, 
+ James.Bottomley@HansenPartnership.com, sean@poorly.run, 
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ abhinav.kumar@linux.dev, devicetree@vger.kernel.org, 
+ linux-phy@lists.infradead.org, mripard@kernel.org, 
+ marijn.suijten@somainline.org, tzimmermann@suse.de, lumag@kernel.org, 
+ airlied@gmail.com, krzk+dt@kernel.org, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, linux-arm-msm@vger.kernel.org, 
+ simona@ffwll.ch, quic_mahap@quicinc.com, linux-scsi@vger.kernel.org, 
+ quic_vproddut@quicinc.com, mani@kernel.org, 
+ cros-qcom-dts-watchers@chromium.org, robin.clark@oss.qualcomm.com, 
+ dri-devel@lists.freedesktop.org, andersson@kernel.org, vkoul@kernel.org, 
+ martin.petersen@oracle.com
+To: Ritesh Kumar <quic_riteshk@quicinc.com>
+In-Reply-To: <20251009071127.26026-2-quic_riteshk@quicinc.com>
+References: <20251009071127.26026-1-quic_riteshk@quicinc.com>
+ <20251009071127.26026-2-quic_riteshk@quicinc.com>
+Message-Id: <176001310712.1845653.12786933655118707340.robh@kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: phy: Add edp reference clock for
+ qcom,edp-phy
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,89 +70,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using page list framebuffer, and using RGB888 format, some
-pixels can cross the page boundaries, and this case was not handled,
-leading to writing 1 or 2 bytes on the next virtual address.
 
-Add a check and a specific function to handle this case.
+On Thu, 09 Oct 2025 12:41:23 +0530, Ritesh Kumar wrote:
+> Add edp reference clock for qcom,edp-phy which is required
+> to be enabled before eDP PHY initialization.
+> 
+> Signed-off-by: Ritesh Kumar <quic_riteshk@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
 
-Fixes: c9ff2808790f0 ("drm/panic: Add support to scanout buffer as array of pages")
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_panic.c | 46 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index bc5158683b2b..d4b6ea42db0f 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -174,6 +174,33 @@ static void drm_panic_write_pixel24(void *vaddr, unsigned int offset, u32 color)
- 	*p = color & 0xff;
- }
- 
-+/*
-+ * Special case if the pixel crosses page boundaries
-+ */
-+static void drm_panic_write_pixel24_xpage(void *vaddr, struct page *next_page,
-+					  unsigned int offset, u32 color)
-+{
-+	u8 *vaddr2;
-+	u8 *p = vaddr + offset;
-+
-+	vaddr2 = kmap_local_page_try_from_panic(next_page);
-+
-+	*p++ = color & 0xff;
-+	color >>= 8;
-+
-+	if (offset == PAGE_SIZE - 1)
-+		p = vaddr2;
-+
-+	*p++ = color & 0xff;
-+	color >>= 8;
-+
-+	if (offset == PAGE_SIZE - 2)
-+		p = vaddr2;
-+
-+	*p = color & 0xff;
-+	kunmap_local(vaddr2);
-+}
-+
- static void drm_panic_write_pixel32(void *vaddr, unsigned int offset, u32 color)
- {
- 	u32 *p = vaddr + offset;
-@@ -231,7 +258,14 @@ static void drm_panic_blit_page(struct page **pages, unsigned int dpitch,
- 					page = new_page;
- 					vaddr = kmap_local_page_try_from_panic(pages[page]);
- 				}
--				if (vaddr)
-+				if (!vaddr)
-+					continue;
-+
-+				// Special case for 24bit, as a pixel might cross page boundaries
-+				if (cpp == 3 && offset + 3 > PAGE_SIZE)
-+					drm_panic_write_pixel24_xpage(vaddr, pages[page + 1],
-+								      offset, fg32);
-+				else
- 					drm_panic_write_pixel(vaddr, offset, fg32, cpp);
- 			}
- 		}
-@@ -321,7 +355,15 @@ static void drm_panic_fill_page(struct page **pages, unsigned int dpitch,
- 				page = new_page;
- 				vaddr = kmap_local_page_try_from_panic(pages[page]);
- 			}
--			drm_panic_write_pixel(vaddr, offset, color, cpp);
-+			if (!vaddr)
-+				continue;
-+
-+			// Special case for 24bit, as a pixel might cross page boundaries
-+			if (cpp == 3 && offset + 3 > PAGE_SIZE)
-+				drm_panic_write_pixel24_xpage(vaddr, pages[page + 1],
-+							      offset, color);
-+			else
-+				drm_panic_write_pixel(vaddr, offset, color, cpp);
- 		}
- 	}
- 	if (vaddr)
--- 
-2.51.0
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
+	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sa8775p-mdss.example.dtb: phy@aec2a00 (qcom,sa8775p-edp-phy): clocks: [[4294967295, 11], [4294967295, 1]] is too short
+	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.example.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clock-names: ['aux', 'cfg_ahb'] is too short
+	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.example.dtb: phy@aec2a00 (qcom,sc7280-edp-phy): clocks: [[4294967295, 0], [4294967295, 183]] is too short
+	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251009071127.26026-2-quic_riteshk@quicinc.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
