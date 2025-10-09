@@ -2,66 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3D1BC8EB2
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16351BC8EE3
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3098910E9EE;
-	Thu,  9 Oct 2025 11:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55BFE10E9FA;
+	Thu,  9 Oct 2025 12:00:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CmhDm10o";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="B/rXXZl4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KjEJKJ2b";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B/rXXZl4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KjEJKJ2b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC19C10E9EB
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760011002;
- bh=GCdo2WRMgThuwdhdaxtmNPngX0ETlYCYQ7iuLMzkZt0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CmhDm10oocxKkaF5tmsjNvE52BrCVUfY7m30lN8iDm/aVW6yLyk8S1fhLyy9JJ//o
- lG0OcN2d0Z2SWsBUAI3OhbZXzKXhfR1yZcmyvHpZzUL6pTFpJfFuIh4XnSaab5jd8B
- o0N9PVKK0WHJAcGZ/8dxQ3XfceDixM5FEzlZW05IATAEtz1pQT5b1UI9+OdKH3d35n
- PnWEquwvVQmvNo7qyjKcaJ/9B+VTxIAVwzLTtq7/Qsbl4/WQnklBP9buv+0imB3nYw
- JI9zcHMU6Gzh7EVV/ISC+9s/fRIs50+wXg36F+NQ3IxHGdjohcrHAP+Gsb4lt7x8Lb
- Ejw8718SW052g==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 017EC10E9F5
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:00:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6940117E0125;
- Thu,  9 Oct 2025 13:56:41 +0200 (CEST)
-Message-ID: <dc04ae37-7707-4d32-8b01-f4804cd0cd90@collabora.com>
-Date: Thu, 9 Oct 2025 13:56:41 +0200
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 616011F78B;
+ Thu,  9 Oct 2025 12:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760011206; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=i6G5/1TwbrzWJRHdTvVUGqp0US8zz6kdIVACWYC9/Hg=;
+ b=B/rXXZl4qASgyWJeyQbylRnmZCDlcolH/uTkCGQh/tE3tUAs+iOLgKd75HwWpmm6KvjfiY
+ znqm8e3l6hMUX0aWtwLKaAh6OBAOq/018caC5QB6tZa8qkPGJJTRolIkY1q8vFnAohOKq6
+ B0P/2k3v1W6t9NOi/OgaMU7hmebXgEc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760011206;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=i6G5/1TwbrzWJRHdTvVUGqp0US8zz6kdIVACWYC9/Hg=;
+ b=KjEJKJ2bKGpnhDHd8aOXtOXfJbrSAEEiKJy7qtDOYoP4PNi/uNB2/stQaPgDdE8C0C1GFJ
+ oYxiNeK91A9wGKDw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="B/rXXZl4";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KjEJKJ2b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760011206; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=i6G5/1TwbrzWJRHdTvVUGqp0US8zz6kdIVACWYC9/Hg=;
+ b=B/rXXZl4qASgyWJeyQbylRnmZCDlcolH/uTkCGQh/tE3tUAs+iOLgKd75HwWpmm6KvjfiY
+ znqm8e3l6hMUX0aWtwLKaAh6OBAOq/018caC5QB6tZa8qkPGJJTRolIkY1q8vFnAohOKq6
+ B0P/2k3v1W6t9NOi/OgaMU7hmebXgEc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760011206;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=i6G5/1TwbrzWJRHdTvVUGqp0US8zz6kdIVACWYC9/Hg=;
+ b=KjEJKJ2bKGpnhDHd8aOXtOXfJbrSAEEiKJy7qtDOYoP4PNi/uNB2/stQaPgDdE8C0C1GFJ
+ oYxiNeK91A9wGKDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E827F13A61;
+ Thu,  9 Oct 2025 12:00:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 7cAzN8Wj52iUXAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Oct 2025 12:00:05 +0000
+Date: Thu, 9 Oct 2025 14:00:04 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20251009120004.GA17570@linux.fritz.box>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 11/20] soc: mediatek: mtk-cmdq: Add mminfra_offset
- adjustment for DRAM addresses
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>,
- Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- Chen-yu Tsai <wenst@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
- <20250827114006.3310175-12-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250827114006.3310175-12-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 616011F78B
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[16]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,18 +125,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/08/25 13:37, Jason-JH Lin ha scritto:
-> Since GCE has been moved to MMINFRA in MT8196, all transactions from
-> MMINFRA to DRAM will have their addresses adjusted by subtracting a
-> mminfra_offset.
-> 
-> Therefore, the CMDQ helper driver needs to get the mminfra_offset value
-> of the SoC from cmdq_mbox_priv of cmdq_pkt and then add it to the DRAM
-> address when generating instructions to ensure GCE accesses the correct
-> DRAM address. CMDQ users can then call CMDQ helper APIs as usual.
-> 
-> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+Hi Dave, Sima,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+this is the weekly PR from drm-misc-fixes.
 
+Best regards
+Thomas
 
+drm-misc-fixes-2025-10-09:
+Short summary of fixes pull:
+
+nouveau:
+- Return errno code from TTM move helper
+
+vmwgfx:
+- Fix null-ptr access in cursor code
+- Fix UAF in validation
+- Use correct iterator in validation
+The following changes since commit 7d9c3442b02ab7dd3c44e20095a178fd57d2eccb:
+
+  drm/panthor: Defer scheduler entitiy destruction to queue release (2025-09-25 09:52:03 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-10-09
+
+for you to fetch changes up to e4bea919584ff292c9156cf7d641a2ab3cbe27b0:
+
+  drm/nouveau: fix bad ret code in nouveau_bo_move_prep (2025-10-07 22:15:25 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+nouveau:
+- Return errno code from TTM move helper
+
+vmwgfx:
+- Fix null-ptr access in cursor code
+- Fix UAF in validation
+- Use correct iterator in validation
+
+----------------------------------------------------------------
+Ian Forbes (2):
+      drm/vmwgfx: Fix Use-after-free in validation
+      drm/vmwgfx: Fix copy-paste typo in validation
+
+Shuhao Fu (1):
+      drm/nouveau: fix bad ret code in nouveau_bo_move_prep
+
+Zack Rusin (1):
+      drm/vmwgfx: Fix a null-ptr access in the cursor snooper
+
+ drivers/gpu/drm/nouveau/nouveau_bo.c       |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    | 17 ++++++++++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  6 ++++--
+ 3 files changed, 17 insertions(+), 8 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
