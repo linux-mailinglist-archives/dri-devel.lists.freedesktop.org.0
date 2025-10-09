@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300CCBC8BAB
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A6FBC8C98
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:27:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6FFD10E9B4;
-	Thu,  9 Oct 2025 11:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A2E10E9B6;
+	Thu,  9 Oct 2025 11:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="h9+5kUwJ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kszlChMx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCA410E9B4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:18:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1760008672; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aXXXc+MP5g5u3E3lvYWr8hZSDGFZxad+YYP596bM6JcHLaO3KR38ZMuKihDpI/5PLyU6TfiagIvwIkfE5ySVbeluERy6Zww2bgq358cM6OcZlP9ajsDCqLH5aYAV5GMKyERz9pq+VYaw5TZo8+bE4V+7pj+/TG9y1UFKdbE1l5I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1760008672;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Zv8FOCsnzKpGuE8xNKu6EI9WjoVXNITDjzFPQjht36c=; 
- b=M1lu5ao9FyMBvuzWyuj0CXL5dhxN9G2WvKSoyt7B1mOuEsXRu3Jo7fTnc+QnbPvcbFcbuv/74uXTC+Dqbistio1cXfFDiDaBsFusP+YGWfckx7vLF/DLzn9EDhbSE4icGR/RcPZIfC3MsRLwNpRYNoZSF+Wk9tHq8ubmAkN23aU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760008672; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=Zv8FOCsnzKpGuE8xNKu6EI9WjoVXNITDjzFPQjht36c=;
- b=h9+5kUwJ0kZ0aU9AerpWdTfjndIfJG/B9KS/mDoVnvr5P6fl9Gz8gfiCldJXLAc6
- iDu75NY3L62zvqXAuZJPDY+OpZxDBz4XrgO3t8lR63L25GDG8HUjq9njQpUtByKTyfy
- 47ClJ5wcqQqntaxDBlk2eK+ooO6GSk9y7Q/jKRxw=
-Received: by mx.zohomail.com with SMTPS id 1760008669186699.0718515873037;
- Thu, 9 Oct 2025 04:17:49 -0700 (PDT)
-Date: Thu, 9 Oct 2025 12:17:44 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Rob Herring <robh@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/panfrost: Name scheduler queues after their job slots
-Message-ID: <ffzu4ekyatmcjekfngtjmdbrwuxc25s5mpzq7sqfgsjgjifiq6@gb3ilo3aecil>
-References: <20251002171139.2067139-1-adrian.larumbe@collabora.com>
- <5f095b02-2561-49d7-88a9-0fd82a1c9e00@arm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73FEB10E9B5
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760009233;
+ bh=IArN+RtuYOyMN6ifHcTZqjTU9T5GXTomdxvkjyTpvog=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kszlChMxGCiSID1BGesFoQO5o1WuBuD0hz3VjE50XvSAyfFhRQA/CGlbeNy5kT/K+
+ RFtHcv4v29QHI5tgz6rZLLlDBlYm0o9gXfXFgIP5rmcjK6iH9iJ2YIZMn+Dz8I1qfG
+ VN1yJ+X/m/FE8MQxNJbhJjzZigYMZ1XKcuiFDo0TYhE1KnIybMG7ucfgiuj66F3g1X
+ m1RrZ0qyxwuB02TWCt60RmfvNckDCiHqVbnhtq3u8u19gIkG2rzV8Qu8qnUFHJodZu
+ 62Z5BSDKJgef74B5rK+9oBx2Yo+m+44xk9WUhZqDP0WLploZa+xYYq9gB8hRo5tXZq
+ jFyJoQsjtdklQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E97CA17E01F5;
+ Thu,  9 Oct 2025 13:27:11 +0200 (CEST)
+Message-ID: <2834b895-d4e5-44f4-b8b3-c892f84ccffe@collabora.com>
+Date: Thu, 9 Oct 2025 13:27:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f095b02-2561-49d7-88a9-0fd82a1c9e00@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 08/20] mailbox: mtk-cmdq: Add driver data to support
+ for MT8196
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Chen-yu Tsai <wenst@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ CK Hu <ck.hu@mediatek.com>
+References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
+ <20250827114006.3310175-9-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250827114006.3310175-9-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,98 +78,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08.10.2025 15:48, Steven Price wrote:
-> On 02/10/2025 18:11, Adrián Larumbe wrote:
-> > Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
-> > queues"), give scheduler queues proper names that reflect the function
-> > of their JM slot, so that this will be shown when gathering DRM
-> > scheduler tracepoints.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->
-> Two minor things below, but with those fixed:
->
-> Reviewed-by: Steven Price <steven.price@arm.com>
->
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c | 6 ------
-> >  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +++++-
-> >  drivers/gpu/drm/panfrost/panfrost_job.h | 2 ++
-> >  3 files changed, 7 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > index 22350ce8a08f..d08c87bc63a2 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > @@ -668,12 +668,6 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-> >  	 *   job spent on the GPU.
-> >  	 */
-> >
-> > -	static const char * const engine_names[] = {
-> > -		"fragment", "vertex-tiler", "compute-only"
-> > -	};
-> > -
-> > -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
->
-> NIT: We could move this to panfrost_job.c and keep the BUILD_BUG_ON.
->
-> > -
-> >  	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
-> >  		if (pfdev->profile_mode) {
-> >  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > index c47d14eabbae..0f0340ffee19 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > @@ -28,6 +28,10 @@
-> >  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
-> >  #define job_read(dev, reg) readl(dev->iomem + (reg))
-> >
-> > +const char * const engine_names[] = {
-> > +	"fragment", "vertex-tiler-compute", "compute-only"
-> > +};
-> > +
-> >  struct panfrost_queue_state {
-> >  	struct drm_gpu_scheduler sched;
-> >  	u64 fence_context;
-> > @@ -846,7 +850,6 @@ int panfrost_job_init(struct panfrost_device *pfdev)
-> >  		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
-> >  		.credit_limit = 2,
-> >  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-> > -		.name = "pan_js",
-> >  		.dev = pfdev->dev,
-> >  	};
-> >  	struct panfrost_job_slot *js;
-> > @@ -887,6 +890,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
-> >
-> >  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
-> >  		js->queue[j].fence_context = dma_fence_context_alloc(1);
-> > +		args.name = engine_names[j];
-> >
-> >  		ret = drm_sched_init(&js->queue[j].sched, &args);
-> >  		if (ret) {
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> > index 5a30ff1503c6..52ff10b8d3d0 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> > @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
-> >  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
-> >  };
-> >
-> > +extern const char * const engine_names[];
->
-> NIT: Now this is no longer a local variable I think we should prefix it,
-> e.g. panfrost_engine_names.
+Il 27/08/25 13:37, Jason-JH Lin ha scritto:
+> MT8196 has 2 new hardware configuration compared with the previous SoC,
+> which correspond to the 2 new driver data:
+> 
+> 1. mminfra_offset: For GCE data path control
+>     Since GCE has been moved into mminfra, GCE needs to append the
+>     mminfra offset to the DRAM address when accessing the DRAM.
+> 
+> 2. gce_vm: For GCE hardware virtualization control
+>     Currently, the first version of the mt8196 mailbox controller only
+>     requires setting the VM-related registers to enable the permissions
+>     of a host VM.
+> 
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-On top of this, I'm also keeping the original engine names to avoid
-breaking UM uitlities which depend on fdinfo.
-
-> > +
-> >  int panfrost_jm_ctx_create(struct drm_file *file,
-> >  			   struct drm_panfrost_jm_ctx_create *args);
-> >  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
-> >
-> > base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
-Adrian Larumbe
