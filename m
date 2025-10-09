@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E54ABCA455
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A114BCA4AF
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 19:01:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A16710EAB2;
-	Thu,  9 Oct 2025 16:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2F2E10EABE;
+	Thu,  9 Oct 2025 17:01:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OWZ0G6lj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PCCETPWS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7D310EAB2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:58:05 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9006810EABF
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 17:01:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 81E12446F6
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:58:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60F45C4CEF8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:58:05 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id BBE5E623C1;
+ Thu,  9 Oct 2025 17:01:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3E3C4CEE7;
+ Thu,  9 Oct 2025 17:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760029085;
- bh=O2di2kPmChIDNKdlThHbw5OgD1CHTfrcNtHgZ3fTYAI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=OWZ0G6ljnm8IzCuR88bL56Hy990ybrRjuKfXJGmDhuS0+aB5vjyxrNn8s1sXaZpsE
- 39njD0BofViEDZdVINVraXKC8TiWBbLUr7v3ZudK/lvynOHbi7MFqIugNLBnZSLZES
- 5AfJSWQHJsYdr70RXR7213ZFT9r/xDhW9Z05D/3Zn9WYAR1GFnLAswfzcQUEnwjIJW
- 9jNerxHjtUxby7yvKUn9ygM+q8tKpJL8++Dsg9cRSLGla3iNCYmbUSg6DVjwtvzlB4
- lgj+fUzJnGlNkF2a925vMDAJnHeyQ6g5PY0dJguSBvZ9yJuXmYw0ZMNPapgiVt/fKf
- Jj0TxAhyE3EXQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 5AFE9C4160E; Thu,  9 Oct 2025 16:58:05 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220650] Kernel panic in amdgpu_cs_ioctl during Xwayland operation
-Date: Thu, 09 Oct 2025 16:58:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tamir.z3@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc cf_kernel_version
-Message-ID: <bug-220650-2300-dfxwCiC6cy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220650-2300@https.bugzilla.kernel.org/>
-References: <bug-220650-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1760029276;
+ bh=aMf++jwj8QFA9sKQnz+f+0P/SV7dw4FDOkJnsMu2xSA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PCCETPWSyIoHtesMP73HgaIIM4lNd5BH3mpIB5GbDos26H+m8xNIGbTfmG4NP42nM
+ oy7HC0QVrtmSjLArjLpxhFD6r0L6NHCpJcbrsjCshygAsmPm2uFwKQAMQ1+7HNJsFx
+ 2aYHPAWl3nyidOB4zC6516LLapqfSdJnJ8uYySsBoBSmJ2Bd1GyCzrPYPPgKKIOF/p
+ tTxcbZzE6+hiScv1UdyFHMcwrVFvxfSd7P4Zvh4PjnWL0ZrBeNp6yM+ztDFXu3AlnU
+ 09lnoXeYpN/odoVBf4AukdPCkeZfDaKdfcyqZkktPw7owr9xD1dywyFTdTpJ04ZjSl
+ vwYtHinJwA0dg==
+Date: Thu, 9 Oct 2025 18:01:10 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] dt-bindings: display: panel: properly document LG
+ LD070WX3 panel
+Message-ID: <20251009-primer-speckled-7071ab2b0b0a@spud>
+References: <20251008082800.67718-1-clamor95@gmail.com>
+ <20251008082800.67718-2-clamor95@gmail.com>
+ <20251008-safely-reach-9274474a2ec8@spud>
+ <CAPVz0n2pbAS3Qjm9WQGvcuJhkNnyjGCyJtVi=VMuUgPoQNE+wA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="XkuHu91RJ5hQ906D"
+Content-Disposition: inline
+In-Reply-To: <CAPVz0n2pbAS3Qjm9WQGvcuJhkNnyjGCyJtVi=VMuUgPoQNE+wA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,17 +74,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220650
 
-tamir.z3@gmail.com changed:
+--XkuHu91RJ5hQ906D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |tamir.z3@gmail.com
-     Kernel Version|                            |6.17.1
+On Thu, Oct 09, 2025 at 08:06:20AM +0300, Svyatoslav Ryhel wrote:
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070=
+wx3.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+> > > new file mode 100644
+> > > index 000000000000..0a82cf311452
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3.yaml
+> > > @@ -0,0 +1,60 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3.yaml#
+> >
+> > Could you make the filename match the compatible please?
+>=20
+> Filename matches compatible, -XXNN after lg,ld070wx3 indicate
+> revision.
 
---=20
-You may reply to this email to add a comment.
+Then it doesn't match!!!
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - const: lg,ld070wx3-sl01
+
+--XkuHu91RJ5hQ906D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaOfqVgAKCRB4tDGHoIJi
+0tm2AQDRbBchJP6yN1cz4q5/UPJ+qaCeDoWF6fS6DznaqyPrbAD+NiGhOdJxJ+6d
+6IzdZBjXu637FUo5ZnafwHCz1p2rXAs=
+=7uMp
+-----END PGP SIGNATURE-----
+
+--XkuHu91RJ5hQ906D--
