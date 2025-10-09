@@ -2,76 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316D5BCAF43
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 23:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F53FBCAF4F
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 23:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 393EF10EB27;
-	Thu,  9 Oct 2025 21:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF53910EB2B;
+	Thu,  9 Oct 2025 21:41:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l5e+9iO6";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pd3JUIXm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D2110EB23
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 21:40:25 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-33255011eafso1563606a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 14:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760046025; x=1760650825; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fsXu8E/zxrsszSMAnsLE4IzVi2sOh4hhreBruYhjhZ0=;
- b=l5e+9iO6XCmA9//pBjQBXPOjqIYPOlk87cVvGEygzmARUcAoiRUS3t3+dhzFRG00tf
- c+nEas5z6GMJGYZ9050IMCZMerL2V2UiIZUCagPOPBrOQh4eNb1vudAqWq3iU6yKngZV
- K3s7wfp2CDE3JK75me7Bbz9MjSdAuHPrC1AyYW26vtMS84dOjRwlRBM+cg76b5qEB8iU
- hNDB4gJ54c826OTAzdYewh4DC/l/nky4XXPmmn4VNUsv8aSvsKPqX8i2GAnB6PVM6P+m
- s28jMkb4lCBS9P7jYsS63AJBTswKfYbxhJw18x07lnAysLHFkM4HQSNRXU568o6mO5n5
- 8EKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760046025; x=1760650825;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fsXu8E/zxrsszSMAnsLE4IzVi2sOh4hhreBruYhjhZ0=;
- b=am3t6cCosroKvoWxfHJoNlyzdLOHhnTMYi7wMk+13CFeyiR/tFnq9vOlGdwEjZT2xq
- 32d9Ov06vV/6TaHSO4P02hyBKLGFGnwQNomuUBz3Hsmj5uH/M32EXxXv0dzJnlUi4bYP
- jiuRhq0L2QfjzlASVZUa7nD/N0xy4ruwE5oazsUJn4FPff+iho1DGvgNX6+PKi+iS965
- 9T/6x8uFRsH1H4XJFFCExXtskxESjUvWw6VraaXcAupjpeOCoZJElylG14oguqHDgjL8
- fqvQwRCg36VMOlkXJat27rVpwIUzohMWrszOpZhn+Duz0VEeiVP7LqYDi4NSX+UB7Fxd
- QbOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+YmsEV8aXmzn4OfE6dc5wzZ9a9SkFwLrpkQXBIgaumlrfA3M5xXMpPK9M9pv8Z57DbqUleQ1Hm08=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQg7/zTy9oM+bVHtzXdKmsD4xaCMPptWmVfBT6GnRJdsUJQ//c
- eyL7wCxj4EAVs9LzA6fonL77gyDaWRXaHFD2HUAMLFidIFheg0tt6Egvl8XTEpsVBWAg1Qv1Egh
- p/Cqc9HXuupo3d2cb4tIP33kISXjl4Y0=
-X-Gm-Gg: ASbGnctVp6/Fg1DSFWDjz8vTvaVBz0QHWXUkvG4kZaeECNvVWNL8lOgkU5g8J/t2iqc
- A7avUTZFEb9c7e3sdmYrv0o6Lhfnyz0cI2uSQExh96bbuugzXM8+ngqN8PnUaLa+0Jx1NtG+XmS
- kaLhCkEas517AUrqXolNiuYbDGVNeAlUS7P3LRaQM5dwS6xxVhLWIyNht/WJ2CV8wDDHIibS1SU
- teOE7mjCSw7Ud7z+JRsBat9kbUZRqG/nrggJilp
-X-Google-Smtp-Source: AGHT+IFuyysCgeoHc2eKdp7pwqyz/aMmKl6mTh26Ym/Ip0FadeQSceFpDgODfzO48H+nrSERpahgmUbRxjCJkCGIcOc=
-X-Received: by 2002:a17:90b:4f4e:b0:338:3789:6c60 with SMTP id
- 98e67ed59e1d1-33b513eb6a6mr11782833a91.36.1760046024882; Thu, 09 Oct 2025
- 14:40:24 -0700 (PDT)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010009.outbound.protection.outlook.com [52.101.56.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27BD10EB23;
+ Thu,  9 Oct 2025 21:41:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rPTWYKxEA0gS2R5lUteRrlqtaF6kcnkm1hBk8i4O3hjB43TOluqlVLJYzMVxNQo/ogrqloXcCShZFRwsJmCraDNEe+IIoBraNEqnrkzITs9DwCWd+qnQkPamVNLfiOlZQuiqiop4LE+Nepd4aCczqh4visEc5wl2gajQCgLHjw31lZcOGfPE37eLHCCmVwlD+m5fTibLVZHouSD8Jh9QYDsHOJpURcg2uDa3CXrkOIgxoi1ivpseYODlPRtqKLPGYKN4BoIRx4+iCNr9pq+c8JdN0itUN3FVQfP1fpREAGXZR3k3U68M3vIzABOP+faA9C/QsOGKT/WPyXW+3QjdcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S/rXxko3KXBw5fqKv8KZ3qF9OJFZgsRBl3aj9jTP0sU=;
+ b=VsieZmzdFHJM4bD/hs5GVE7mNowfZCD0eCO4yWj+fW0lpq+LrPpyPjKYx+xYSnjoyLNmesx+G3KgsVhxgQr4fEcfLVQKRfgbr0ZqxV0rJSfZ85AKDFuvVEwX6H++bWFvSLhMsHFc7pQ99UIjzbMJ2TniE3P1n9Ob/iqLDD5Kk3raP97Gvc0JTk8eImNwQ/POBNwq5vjpuNtJ7UNzSNfJ8LlZBsbOw4Fn6I5XxCpMT95CvxRW6nsjwZ1AAaaGL/HgKUDknptsSUgOj5uwI8Y8zUxSBPCX7EDC1ynnK/WcJxWWS8jy1oS2Xh2WUAJchZsWEn4RlkaHgwbeAJj1PtFpzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S/rXxko3KXBw5fqKv8KZ3qF9OJFZgsRBl3aj9jTP0sU=;
+ b=pd3JUIXmRHGdFuSjYHFOFKyJ/mQvcxwmLo5QZOYwKv6PUetnWqoYvuUOSG0zjwIhLW58DvU1rAuIlg1j3kI3NA0dmV4t2iDs9BDHe88b8BbiKZQw9Lwc2VR4hgs2Q03CS35V2SzjIiGa6aVwseZUzGBASRA9CCiY1uxCAfMILTrIWQYiPy4QvFhDfYb2UuPj27qD9Gfkn1Al3Uw3XAmLPvOYtMNLZ9HuMsfQFm/Po8ERNf5FG4ceqjTq9YYaSZ0skEfF3dEW7miGRnFM9HlyuGwxW4oVGitFab4TGcsJaBJKUzdQpuipj1/6gehYPos1eUlyV8xXRspoewIdoDnuIg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by SA1PR12MB8724.namprd12.prod.outlook.com (2603:10b6:806:38b::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Thu, 9 Oct
+ 2025 21:41:39 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9203.009; Thu, 9 Oct 2025
+ 21:41:39 +0000
+Message-ID: <f2592e5a-1aff-455b-a640-477f8c2be562@nvidia.com>
+Date: Thu, 9 Oct 2025 17:41:36 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 04/13] gpu: nova-core: Add a slice-buffer (sbuffer)
+ datastructure
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Alistair Popple <apopple@nvidia.com>
+Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org, acourbot@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Lyude Paul <lyude@redhat.com>
+References: <20251008001253.437911-1-apopple@nvidia.com>
+ <20251008001253.437911-5-apopple@nvidia.com>
+ <CANiq72k5f3f8Kys40sRmaKR8eeq8-4DsDkWDkwMPZ0A1JSFj8g@mail.gmail.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <CANiq72k5f3f8Kys40sRmaKR8eeq8-4DsDkWDkwMPZ0A1JSFj8g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0267.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::32) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-References: <20250618204400.21808-1-gert.wollny@collabora.com>
- <20250630202703.13844-1-gert.wollny@collabora.com>
- <20250630202703.13844-5-gert.wollny@collabora.com>
-In-Reply-To: <20250630202703.13844-5-gert.wollny@collabora.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 9 Oct 2025 23:40:13 +0200
-X-Gm-Features: AS18NWCcLXKq5DI12bX6G3B_1m5n8NJHUooi5c2xo-HfW6-Q8wPaQrSFbb-e5Sw
-Message-ID: <CAH9NwWdNabvh+FJATuD=0KxHvQv77OuYpLgd5iQAcSNNPbS4ew@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] drm/etnaviv: Add PPU flop reset
-To: Gert Wollny <gert.wollny@collabora.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SA1PR12MB8724:EE_
+X-MS-Office365-Filtering-Correlation-Id: b900d33e-70bf-42e2-cc1d-08de077ca0d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aCtSNWpnamVxZzdYbXdERm1OOW1WeFpsTGwyUDc5TU50Z3Btb1JtOVVmZnpv?=
+ =?utf-8?B?VzFjNDc2YXZISUl6aUU1UnZCK0dnZENodmJlN1hXOFpNSWlPakpMUWRPNGJr?=
+ =?utf-8?B?SURvWkV5MEpFUldFclJsS2NOV1h2VklrTEkzVCtRbEpxbGVxaEVtajVPMFdk?=
+ =?utf-8?B?SUxTcDJXODJ1Z0hqeEdSSjVHY2lXZlFNTnRISXFyTnFmM05SOC91MGlObVNw?=
+ =?utf-8?B?VFRsUXREY0JhcFNmSzYzQW1WVDF5TGtHemFSdkptNlhQNXBXZTdEZlRzTEk1?=
+ =?utf-8?B?eGN1VDZrNXRhU3d0YjcvMFlkSDRXYS9wMjFHdTFOUkRWbUVYNmMwWng0MEFQ?=
+ =?utf-8?B?SEcvbkxCaUFuV0lhVHduSEJrZXUveExRNHZLYW1ORXZxS1pkR2hiTGhwT0Zr?=
+ =?utf-8?B?aXVMbE5kVnNxbUZOZVU0K0ZrNlIvaExjUnhXNnYwTlBGVXVzTTA2bXgxYWJJ?=
+ =?utf-8?B?QSs2eDQ2bnF2bjdDSVFGK2U2c3YvSkRJN2NUT3NVRDVLWTZpUW40SFhaMHpJ?=
+ =?utf-8?B?QUVSQitiSkNDTndFVi85dWR0QklJUjM1TWgwWVQ3Z2U2ejBwTCtyRVBDQ2RM?=
+ =?utf-8?B?UDRpdGdNSkZDU2hxeDNKTXBMWTJXbVE0VGtueW93YjFRRmRFQ1hmd1BTZDlZ?=
+ =?utf-8?B?NFNpZmh1Rm50U05Md28vSGlpWU9ZcHJoY3dRdUg3ZVNDQTZmbnNaeGpVdVFV?=
+ =?utf-8?B?VXdEaXhINTU5QmR2V3BZZi9NVmZjN2VQY1AzRjZWb3Zxdjc4T2R0WDlnODhX?=
+ =?utf-8?B?czQxZk41SndGRmZUdWw3dUw2ZC9QZzVERUdqREs1d2JaMWpMN21CczhSTVJu?=
+ =?utf-8?B?Z0lYWDJ0NEdRcm5WQU1WUWJLRlYyMnBhcEhwckZyc0tJczJIbE1tOStmOUJh?=
+ =?utf-8?B?Y21rWFloTndYcmMxQnA3M0sxU2tGaExyYnNQSUlIbmFFN25tNk9UWkZraUNB?=
+ =?utf-8?B?K0lvUXV3RGRXQ2Fvd2kvS2NQaUNFMGZZOE5jRnBJd0VHUzhWZTFGMDNQNU56?=
+ =?utf-8?B?NS81UGlBNEo0cVE5Wk44NGZaWG9rZDFlOVpvRE9CSU04YnJQYjVReWdvWWdR?=
+ =?utf-8?B?b3VuNXJ3dklIRTUrWWQrZ1pFWFUyY1dtUEk3a3I5emdBVVVWb2VsaGdPZEFi?=
+ =?utf-8?B?UVdWNUlMSXJIbzdyZS8wbEFaMWU5WGRtRkptSlZucjBhL3NlWHBuM0pTLzhX?=
+ =?utf-8?B?S0VNa2phVkRKZ05ZL1hRcmtUaGdTbm5RSlVGU0hzZWdtOGZNNDNhK3ZDcENp?=
+ =?utf-8?B?SzY0ajRVc0lncXBwMzRjdzBrSXhXdTM0b0E4S1BHYUhsZjd2Mko2eVVQTFRV?=
+ =?utf-8?B?VS9qS3BjY1NkcVloYVlLUnVuYjROZ0dSR1I5MWx4YnkvWGt2djdyNENza2E2?=
+ =?utf-8?B?WndXY3JTVmtSMExrSzByZGdMcUJsbHRHU2dvQ1p5QWtWMVFER21zNkVpS1VF?=
+ =?utf-8?B?YU9iS01hejRoS2JSTG1DbFJzeVlld0JKQTBwTjBRUURucnZFV0s4OWcxb3N4?=
+ =?utf-8?B?WU9mYUpVY2cwczYvZDMwZUlmOEJ4WGtPb01OODNRRnhlRDhnbE83T215TUlM?=
+ =?utf-8?B?OXk0N0dtZFRZbkIwa00yb2tkVlRsVFhtZ1hoSjdobE8yaWlQdDdDYTNoOWYw?=
+ =?utf-8?B?ZUZZTW5RTW9YR2FYSzhvRUtOREdweHM0eUU5cE5kc3dFelBGK2Nra29DRUlm?=
+ =?utf-8?B?emJmcmRsZXhjL0VLREV1MDd4WTVUR0tNYTZCdmlqR1BqVEpROXJQQlZOaGdO?=
+ =?utf-8?B?dFNUdGR1N3R0S0dLUjRURTF1aCtLd1AzZWdmM0k2dkprWUd0UXFRZGZtVHdB?=
+ =?utf-8?B?Z1RRdXdSYmh6REE3cVVhNWsvMFcxV3BqRzlITlVXWTMwSDBJMVd2N3hsY2Ru?=
+ =?utf-8?B?S2tlTWpVQXNZd1pVd2kyVzBJU055T3NQNmhFUjZjblNWb2Ixa2MvbU40R0pm?=
+ =?utf-8?B?V1EybjUrRE4wbmdxU3h1b3JsRTNDTUhhSFpHRmZ5TFo3KzIxenkvS3lTWklY?=
+ =?utf-8?B?YVBnMHJIMmJnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2xtVEpTall6TlZoL0FhczZEQk96dGVLLytudzdBSnM4T3pOeFkvdmpuRnVp?=
+ =?utf-8?B?OUllc040Zm0wMFc5ek5GY29nYkZLcVV5dnNYT053bkdYS1hSeG80SW5CWGsr?=
+ =?utf-8?B?dEMyWU5Nc3d1Z0VwNFkwZkFXdmhXNVZpQldOWTNyeEFYUlJ4NWN6aFJWOXc5?=
+ =?utf-8?B?NmZ6akl6ZWVNR0dUMDNtMFNMRXFMdHcrbVg4cllDb3JOWW1EK1UwUEhLVnRM?=
+ =?utf-8?B?K3YyOEJuUnFnUmRHTXY5TExSN3YyTGMwVmtiQVhZYVNwOXlhYXFYc0dJZ1cw?=
+ =?utf-8?B?ODF0Vk5aM2QwbER5SS96cDZIUXJhNEVkUUlTeFgzS0REazNBNmpNUk1ib2F0?=
+ =?utf-8?B?ekROb3JNV3UzNDlPTGZ2NXl3WE9GeUlqekVGaGhTQlArQndEZDBuK2F0Qm1M?=
+ =?utf-8?B?SzY4Nko4eFRQNHJ6QTE3Q3JaTTI1ZUQ5dmtFbmRBeHA1NGZZdi9ZYlVOQURh?=
+ =?utf-8?B?Qk5KYnBIcGpaL0lBMG16UUM0TG4wVUk3K1NQcld4VldQMmtaSmJnN2MycHRE?=
+ =?utf-8?B?OFhLM1dBT1ZMaEROSnpFclBmSjE3SHJGQUUzVHRndEMrbXdqQk92cnFKZUZ6?=
+ =?utf-8?B?WWhhTXRNc1ZqejRXNmh3K2hRblFZaVFDQzNxVWdWR2EvVmRoS2VoSUlkdlBn?=
+ =?utf-8?B?TTdBaHV6bGkyYS9DdmVocHVjbjY4bzZoSDlyVldoZ3hLelFjbEhNU1ptWGxK?=
+ =?utf-8?B?azlTZG10bXR3TXQxK0dXeFBiQ0podVpScVI2Y01hUVowK3oxNnhFYkhKUUlG?=
+ =?utf-8?B?UDgwa3pqVks3bVlqNHRXYjNSWXRPMFNlc2didURYS2xzdHVBM2dKa0x1MkJW?=
+ =?utf-8?B?anhMYm51SDJ3NEJDUWxyQTNoa0RqK3hKUC9JNmRGVVRtUVNza2VhNG9mcGFT?=
+ =?utf-8?B?Zmc4dVVWYzVOQUZQd2VtMDkrbG5XV1hXYVBnbkFobGlXTHpuM283NEFpWGZl?=
+ =?utf-8?B?ekFZajVmRVd6M1hqL0tMNDZVMTdJQlZ2cmUyT3pMaDdoeXk2R3RwWGxnajcz?=
+ =?utf-8?B?bm5mZWhPVnBFQXNMNGMwSUY5SjhFVjlJNlUwdkV3UTJpbkZ3OFZ4Rm5EVnNT?=
+ =?utf-8?B?T0hqVnBuWklCb1Q5SzN2UTNoZjBVaW5Hd3ZpVHRod3pyUzZ1c2lvWlRyNlJ2?=
+ =?utf-8?B?R3Z6M1VvdURQQW5RZE5qZFk3bHVGRnZXbStnTCtWN2tYell5RnpSNlEyUjRK?=
+ =?utf-8?B?cUplOW5kRnEyUlRYZHk3b3Z0RHRmNjNnYmpEeGhDaTBJTVVrMERMMUlRZ1pL?=
+ =?utf-8?B?NDlSSzM4N1A3a1pOOUxoRGdvUytzTmlKZTRUNjRNdVQ0VVMvdG1uNEJRNEQ5?=
+ =?utf-8?B?MnBnWExJN2tVVWJ2a1o2RDhkWDJIQUVtT0llU1BhVS9MYVhGNTBFQUZKblRV?=
+ =?utf-8?B?Z21ZUVQ2NFJlQnpRN21zbnIvN0gvOVgxWEpyWGYzOW5pNmlHcTk3UXFpYWtl?=
+ =?utf-8?B?M29NTVdCMlZ4ZUdWYXN3VE9vZ3ZDNUVxa0JrUTRzc1A5dURzM01Ud3czSnZ4?=
+ =?utf-8?B?c0xCQmNORFA4QXE5NkM0ZGtHdTVMdUREV2tpTXl5eWdKemZ0ekZhWGZELzZI?=
+ =?utf-8?B?VGlFR1JCdTM4YUdnTlNhVm5qOFg4TGExOFdGekFqUWNDYjlKSEVuVThwdnY3?=
+ =?utf-8?B?bXB1bTBEZlc4RmZPcUtZeURDZVBoYVhlQWVJeTA4Z3paRlRBa1pYK1pJWU9C?=
+ =?utf-8?B?dUFaYlNlZFpRUVVHanBrc083ekkzc2FKREJvZFI3U3dDajVNVE50VHBUK1ZJ?=
+ =?utf-8?B?VXNHZC82WGl1QU9mN0tBRU1FVFdiZSs2eUcwR0hFUnBYYXI1bmhwRkdsMHRE?=
+ =?utf-8?B?Wit5ZU5FWjVoNFVYd2Erbmt5WWxMZlZZa2pBMDQxQ2huSlZCMFFGOFdvODM2?=
+ =?utf-8?B?Q3UwVTFvYmpxMTluWEt1U1FUc2hxVFFhVXJaa1UvRWFPN296TzhwOHFqWjdt?=
+ =?utf-8?B?WlI2ZmEvSDBqUEdKTVRoY0Rlc1RnQ2tRV2s5SkdQdFhiWDZ3VVo1a3pVS0pq?=
+ =?utf-8?B?TTlrSXUyQXJ1MjFuNFh4NkhpSVI4TkhGSnhKK0U2RUczTDFtN1Zva1llWkNQ?=
+ =?utf-8?B?S1hTdUhlS1gwTVJuUkRScU8rV2VjTDJXeEtTcWZ4R3RhNUFxMk5uRVJOcE5v?=
+ =?utf-8?B?ZXUramxNYzgxRXMwVG5qNU05bVlKUkwwR0pYbklVK0JQd0dIKzdHTldBc0hJ?=
+ =?utf-8?B?QXc9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b900d33e-70bf-42e2-cc1d-08de077ca0d6
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 21:41:39.6533 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qGZhxNWtGE9RmWci4L3wiBJjdhYA71tFnaMCGRtWZbKsvJn8wc0KeJkv8e9xKZy+K/bH9aEcfo5x/l1NKT2NxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8724
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,417 +180,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gert,
-
->
-> The PPU flop reset is required on some hardware to clear the
-> temporary registers. This code follows the implementation
-> of the PPU flop reset as found in the public galcore kernel
-> module. Compared to that code some superfluous parts were
-> removed and only the code path for SoC chip_model = 0x8000
-> and revision = 0x6205 is implemented and tested.
->
-> v2: - Move flop reset data to etnaviv_drm_private and initialize it
->       from etnaviv_gpu_bind (Lucas)
->     - Prepare code for more chip IDs and other flop reset types
->     - Do some cleanups and rename some functions
->
-> v3: - Move initialization of flop reset data to etnaviv_gpu_init (Lucas)
->     - Free PPU data suballocation (Lucas)
->
-> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-> ---
->  drivers/gpu/drm/etnaviv/Makefile             |   1 +
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |   6 +
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c        |   3 +
->  drivers/gpu/drm/etnaviv/etnaviv_drv.h        |   3 +
->  drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c | 206 +++++++++++++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h |  25 +++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |   5 +
->  7 files changed, 249 insertions(+)
->  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
->  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
->
-> diff --git a/drivers/gpu/drm/etnaviv/Makefile b/drivers/gpu/drm/etnaviv/Makefile
-> index 46e5ffad69a6..903101e8751a 100644
-> --- a/drivers/gpu/drm/etnaviv/Makefile
-> +++ b/drivers/gpu/drm/etnaviv/Makefile
-> @@ -14,6 +14,7 @@ etnaviv-y := \
->         etnaviv_iommu.o \
->         etnaviv_mmu.o \
->         etnaviv_perfmon.o \
-> +       etnaviv_flop_reset.o \
->         etnaviv_sched.o
->
->  obj-$(CONFIG_DRM_ETNAVIV)      += etnaviv.o
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index 9e007d977efe..a2da3212592f 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -18,6 +18,8 @@
->  #include "state_3d.xml.h"
->  #include "cmdstream.xml.h"
->
-> +#include "etnaviv_flop_reset.h"
-> +
->  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
->         struct etnaviv_cmdbuf *buffer, u8 pipe)
->  {
-> @@ -100,6 +102,10 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
->         /* initialize buffer */
->         buffer->user_size = 0;
->
-> +       /* Queue in PPU flop reset */
-> +       if (etnaviv_flop_reset_ppu_require(&gpu->identity))
-> +               etnaviv_flop_reset_ppu_run(gpu);
-> +
->         CMD_WAIT(buffer, gpu->fe_waitcycles);
->         CMD_LINK(buffer, 2,
->                  etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 3e91747ed339..0e916e6785c8 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -600,6 +600,9 @@ static void etnaviv_unbind(struct device *dev)
->
->         component_unbind_all(dev, drm);
->
-> +       etnaviv_cmdbuf_free(priv->flop_reset_data_ppu);
-> +       kfree(priv->flop_reset_data_ppu);
-> +
->         etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
->
->         xa_destroy(&priv->active_contexts);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> index b3eb1662e90c..20dad16fd554 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> @@ -48,6 +48,9 @@ struct etnaviv_drm_private {
->         /* list of GEM objects: */
->         struct mutex gem_lock;
->         struct list_head gem_list;
-> +
-> +       /* ppu flop reset data */
-> +       struct etnaviv_cmdbuf *flop_reset_data_ppu;
->  };
->
->  int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-> new file mode 100644
-> index 000000000000..138af3c33b5d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-> @@ -0,0 +1,206 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2025 Etnaviv Project
-> + */
-> +
-> +#include "asm-generic/int-ll64.h"
-
-I think you want to use #include <linux/types.h>
 
 
-> +#include "etnaviv_buffer.h"
-> +#include "etnaviv_cmdbuf.h"
-> +#include "state_3d.xml.h"
-> +
-> +#include "etnaviv_flop_reset.h"
-> +
-> +enum etnaviv_flop_reset_type {
-> +       flop_reset_ppu = 1 << 0,
-> +       flop_reset_nn = 1 << 1,
-> +       flop_reset_tp = 1 << 2
-> +};
+On 10/8/2025 12:56 PM, Miguel Ojeda wrote:
+> On Wed, Oct 8, 2025 at 2:13 AM Alistair Popple <apopple@nvidia.com> wrote:
+>>
+>> +/// Example:
+>> +///
+>> +/// let mut buf1 = [0u8; 3];
+>> +/// let mut buf2 = [0u8; 5];
+>> +/// let mut sbuffer = SWriteBuffer::new([&buf1, &buf2]);
+>> +///
+>> +/// let data = b"hellowo";
+>> +/// let result = sbuffer.write_all(0, data);
+>> +///
+>> +/// A sliding window of slices to proceed.
+> 
+> Please write documentation in the expected format, i.e. using a code
+> block and a header:
+> 
+>     https://docs.kernel.org/rust/coding-guidelines.html#code-documentation
 
-As this patch series only adds support for flop_reset_ppu I think we should
-drop this enum for now.
+Sorry about that. I will fix this up for the next series posting.
 
-> +
-> +#define PPU_IMAGE_STRIDE 64
-> +#define PPU_IMAGE_XSIZE 64
-> +#define PPU_IMAGE_YSIZE 6
-> +
-> +#define PPU_FLOP_RESET_INSTR_DWORD_COUNT 16
-> +
-> +static void
-> +etnaviv_emit_flop_reset_state_ppu(struct etnaviv_cmdbuf *cmdbuf,
+> Eventually, this documentation will get rendered just like the
+> `kernel` crate (and the examples building/running as tests etc.),
+> which requires following the expected conventions.
+> 
+> By the way, is the sentence "A sliding window of slices to proceed." cut?
+> 
+It is a typo, should be "A sliding window of slices to process". Will fix :)
 
-Return type on separate line is unusual in kernel code - found in
-multiple places.
+thanks,
 
-
-> +                                 u32 buffer_base,
-> +                                 u32 input_offset,
-> +                                 u32 output_offset,
-> +                                 u32 shader_offset,
-> +                                 u32 shader_size,
-> +                                 u32 shader_register_count)
-> +{
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_API_MODE,
-> +                              VIVS_GL_API_MODE_OPENCL);
-> +       CMD_SEM(cmdbuf, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-> +       CMD_STALL(cmdbuf, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-> +
-> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_SH_HALTI5_UNIFORMS(0), 4);
-> +
-> +       OUT(cmdbuf, buffer_base + input_offset);
-> +       OUT(cmdbuf, PPU_IMAGE_STRIDE);
-> +       OUT(cmdbuf, PPU_IMAGE_XSIZE | (PPU_IMAGE_YSIZE  << 16));
-> +       OUT(cmdbuf, 0x444051f0);
-> +       OUT(cmdbuf, 0xffffffff);
-> +
-> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_SH_HALTI5_UNIFORMS(4), 4);
-> +       OUT(cmdbuf, buffer_base + output_offset);
-> +       OUT(cmdbuf, PPU_IMAGE_STRIDE);
-> +       OUT(cmdbuf, PPU_IMAGE_XSIZE | (PPU_IMAGE_YSIZE  << 16));
-> +       OUT(cmdbuf, 0x444051f0);
-> +       OUT(cmdbuf, 0xffffffff);
-> +
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_CONFIG,
-> +                              VIVS_CL_CONFIG_DIMENSIONS(2) |
-> +                              VIVS_CL_CONFIG_VALUE_ORDER(3));
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_ICACHE_INVALIDATE, 0x1f);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_VARYING_NUM_COMPONENTS(0), 0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_TEMP_REGISTER_CONTROL,
-> +                              shader_register_count);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_SAMPLER_BASE, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_UNIFORM_BASE, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_NEWRANGE_LOW, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_NEWRANGE_HIGH,
-> +                              shader_size / 16);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_INST_ADDR,
-> +                              buffer_base + shader_offset);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_SH_CONFIG,
-> +                              VIVS_SH_CONFIG_RTNE_ROUNDING);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_ICACHE_CONTROL,
-> +                              VIVS_VS_ICACHE_CONTROL_ENABLE);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_ICACHE_COUNT,
-> +                              shader_size / 16 - 1);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_INPUT_COUNT, 0x1f01);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_HALTI5_UNK008A0, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PA_VS_OUTPUT_COUNT, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_VARYING_TOTAL_COMPONENTS, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_CONTROL_EXT, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_OUTPUT_COUNT, 0x1);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_HALTI5_SH_SPECIALS, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_ICACHE_PREFETCH, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_UNK00924, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_THREAD_ALLOCATION, 0x1);
-> +
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_X, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_Y, 0x0);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_Z, 0x0);
-> +
-> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_CL_WORKGROUP_COUNT_X, 9);
-> +       OUT(cmdbuf, 0xf);
-> +       OUT(cmdbuf, 0x5);
-> +       OUT(cmdbuf, 0xffffffff);
-> +       OUT(cmdbuf, 0x0);
-> +       OUT(cmdbuf, 0x0);
-> +       OUT(cmdbuf, 0x3ff);
-> +       OUT(cmdbuf, 0x0);
-> +       OUT(cmdbuf, 0x4);
-> +       OUT(cmdbuf, 0x1);
-> +       OUT(cmdbuf, 0x0);
-> +
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_KICKER, 0xbadabeeb);
-> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_FLUSH_CACHE,
-> +                              VIVS_GL_FLUSH_CACHE_SHADER_L1 |
-> +                              VIVS_GL_FLUSH_CACHE_UNK10 |
-> +                              VIVS_GL_FLUSH_CACHE_UNK11);
-> +}
-> +
-> +static void
-> +etnaviv_flop_reset_ppu_fill_input(u32 *buffer, u32 size)
-> +{
-> +       for (int i = 0; i < size/4; ++i, ++buffer)
-> +               *buffer = 0x01010101;
-
-Maybe just use memset32(..)?
-
-> +}
-> +
-> +static void
-> +etnaviv_flop_reset_ppu_set_shader(u8 *dest)
-> +{
-> +       const u32 inst[PPU_FLOP_RESET_INSTR_DWORD_COUNT] = {
-
-static const
-
-> +               /* img_load.u8 r1, c0, r0.xy */
-> +               0x78011779, 0x39000804, 0x00A90050, 0x00000000,
-> +               /* img_load.u8 r2, c0, r0.xy */
-> +               0x78021779, 0x39000804, 0x00A90050, 0x00000000,
-> +               /* dp2x8 r1, r1, r2, c3_512 */
-> +               0xB8017145, 0x390018FC, 0x01C90140, 0x40390028,
-> +               /* img_store.u8 r1, c2, r0.xy, r1 */
-> +               0x380007BA, 0x39001804, 0x00A90050, 0x00390018,
-> +       };
-> +       memcpy(dest, inst, sizeof(inst));
-> +}
-> +
-> +static struct etnaviv_flop_reset_entry {
-
-static const
-
-> +       u16 chip_model;
-> +       u16 revision;
-> +       u32 flags;
-> +} etnaviv_flop_reset_db [] = {
-> +       {
-> +               .chip_model = 0x8000,
-> +               .revision = 0x6205,
-> +               .flags = flop_reset_ppu
-> +       },
-> +};
-> +
-> +bool
-> +etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id)
-> +{
-> +       const struct etnaviv_flop_reset_entry *e = etnaviv_flop_reset_db;
-> +
-> +       for (int i = 0; i < ARRAY_SIZE(etnaviv_flop_reset_db); ++i, ++e) {
-> +               if (chip_id->model == e->chip_model &&
-> +                   chip_id->revision == e->revision)
-> +                       return (e->flags & flop_reset_ppu) != 0;
-> +       }
-> +
-> +       return false;
-> +}
-> +
-> +static const u32 image_data_size = PPU_IMAGE_STRIDE * PPU_IMAGE_YSIZE;
-> +static const u32 output_offset = ALIGN(image_data_size, 64);
-> +static const u32 shader_offset = ALIGN(output_offset + image_data_size, 64);
-> +static const u32 shader_size = PPU_FLOP_RESET_INSTR_DWORD_COUNT * sizeof(u32);
-> +static const u32 shader_register_count = 3;
-> +static const u32 buffer_size = shader_offset + shader_size;
-> +
-> +void
-I think we need to return an error here - so let's go with an int.
-
-> +etnaviv_flop_reset_ppu_init(struct etnaviv_drm_private *priv)
-> +{
-> +       /* Get some space from the rung buffer to put the payload
-> +        * (input and output image, and shader), we keep this buffer
-> +        * for the whole life time the driver is bound
-> +        */
-> +       priv->flop_reset_data_ppu =
-> +         kzalloc(sizeof(*priv->flop_reset_data_ppu), GFP_KERNEL);
-> +
-
-Missing NULL check for priv->flop_reset_data_ppu.
-
-> +       etnaviv_cmdbuf_init(priv->cmdbuf_suballoc,
-> +                           priv->flop_reset_data_ppu, buffer_size);
-> +
-
-etnaviv_cmdbuf_init can fail too.
+ - Joel
 
 
-> +       void *buffer_base = priv->flop_reset_data_ppu->vaddr;
-> +
-> +       u32 *input_data = (u32 *)buffer_base;
-> +       etnaviv_flop_reset_ppu_fill_input(input_data, image_data_size);
-> +
-> +       u8 *shader_data = (u8 *)buffer_base + shader_offset;
-> +       etnaviv_flop_reset_ppu_set_shader(shader_data);
-> +}
-> +
-> +void
-> +etnaviv_flop_reset_ppu_run(struct etnaviv_gpu *gpu)
-> +{
-> +       struct etnaviv_drm_private *priv = gpu->drm->dev_private;
-> +
-> +       if (!priv->flop_reset_data_ppu) {
-> +               pr_err("Flop reset data was not initialized, skipping\n");
-
-dev_err(gpu->dev, "Flop reset data was not initialized, skipping\n");
-
-
-> +               return;
-> +       }
-
-How can this happen?
-
-> +
-> +       u32 buffer_base = etnaviv_cmdbuf_get_va(priv->flop_reset_data_ppu,
-> +                                               &gpu->mmu_context->cmdbuf_mapping);
-> +
-> +       etnaviv_emit_flop_reset_state_ppu(&gpu->buffer,
-> +                                         buffer_base,
-> +                                         0,
-> +                                         output_offset,
-> +                                         shader_offset,
-> +                                         shader_size,
-> +                                         shader_register_count);
-> +}
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
-> new file mode 100644
-> index 000000000000..f51cece75507
-> --- /dev/null
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
-> @@ -0,0 +1,25 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2025 Etnaviv Project
-> + */
-> +
-> +
-> +#ifndef etnaviv_flop_reset_h
-> +#define etnaviv_flop_reset_h
-
-To keep the style consistent: __ETNAVIV_FLOP_RESET_H__
-
-> +
-> +#include <linux/types.h>
-> +
-> +struct etnaviv_chip_identity;
-> +struct etnaviv_drm_private;
-> +struct etnaviv_gpu;
-> +
-> +bool
-> +etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id);
-> +
-> +void
-> +etnaviv_flop_reset_ppu_init(struct etnaviv_drm_private *priv);
-> +
-> +void
-> +etnaviv_flop_reset_ppu_run(struct etnaviv_gpu *gpu);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index cf0d9049bcf1..0aac01c1021c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -18,6 +18,7 @@
->
->  #include "etnaviv_cmdbuf.h"
->  #include "etnaviv_dump.h"
-> +#include "etnaviv_flop_reset.h"
->  #include "etnaviv_gpu.h"
->  #include "etnaviv_gem.h"
->  #include "etnaviv_mmu.h"
-> @@ -837,6 +838,10 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
->                 goto fail;
->         }
->
-> +       if (etnaviv_flop_reset_ppu_require(&gpu->identity) &&
-> +           !priv->flop_reset_data_ppu)
-> +               etnaviv_flop_reset_ppu_init(priv);
-> +
->         if (gpu->identity.nn_core_count > 0)
->                 dev_warn(gpu->dev, "etnaviv has been instantiated on a NPU, "
->                                     "for which the UAPI is still experimental\n");
-> --
-> 2.49.0
->
-
-I am not sure about the overall code style - you did run checkpatch.pl ?
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
