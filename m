@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2206BCA4BB
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 19:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A5DBCA4E8
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 19:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3CD10EABF;
-	Thu,  9 Oct 2025 17:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E354010EAC0;
+	Thu,  9 Oct 2025 17:02:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OgnRtmso";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gmhMLwPW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B14610EAC0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 17:02:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86FC410EAC0
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 17:02:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 721DE623B5;
- Thu,  9 Oct 2025 17:01:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24FF9C4CEF7;
- Thu,  9 Oct 2025 17:01:52 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id DEF51623B5;
+ Thu,  9 Oct 2025 17:02:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A7DC4CEE7;
+ Thu,  9 Oct 2025 17:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760029319;
- bh=9upHRd42x7l6b9LCEj08BJQfsR/nvj8yR/xiIjTzuYk=;
+ s=k20201202; t=1760029378;
+ bh=CuPJwPQaNVIp3hY6I0ilMYciVhwSPCyur8NOlazcDsE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OgnRtmsozWz6KlaxCM+dOnbdf+iYvesMFPD5uIItqRbIiN7maUnoOQqXguOX86wJt
- 8nKK629UUb7ipmVVYxILxSCZClWRMT/6yGN3kGRn4nPNTb07Pc3P5VzHFmVtsEZsL2
- yH8jS4OgZDGbZYB4hA0cAwr33BqpoElLMzj7KDbNTU4C5wYcBHlf2h3CUwzL1sP6Dy
- ApkqO9cjlIJvknDYp5q8lotWoG8n6+W79obnzdEBVBmn9Hs2PRydRGEBmiu/jYlaKQ
- AFKzQGQb57fTHQq2XC9yIohw94XdGjZuBjAuci7w9CYMRCRmpIzXiSjIRrL4v0MoBZ
- E+GMbkNi3eJww==
-Date: Thu, 9 Oct 2025 18:01:51 +0100
+ b=gmhMLwPWUgZNhmXKJHZbPHhNG7RPCnqifoKOQeiolKjtiJSUuZiBCpDUWHHH/YZ4g
+ f9U+fGjqSrDWxVLOBatg3qI67patjZf+MXsbirkV3VMTJVRXgylrUDxqQwLlSTZQiJ
+ nqxetvkQYaMcc2tbuGiuqUzLWM90TNbG0z00yz2XbvSmXhL1xfPSx7MTzNDz5y8eC0
+ yw4As8939N37U7HtitFC2C1Mf7a+Dbpj/xuj8veR5/Ez8SaSokPhboNwrW4SJh5uYD
+ lPkcV4OnOBmp1X4sS5zxKW88sEasIN4KJpAGBf+S5ifI0QRKQEGqh/ZZ0hIyfcfoMv
+ 9KtH2Iplk5qFg==
+Date: Thu, 9 Oct 2025 18:02:50 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -58,18 +58,19 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 11/24] dt-bindings: display: tegra: document Tegra132
- MIPI calibration device
-Message-ID: <20251009-sycamore-blouse-ffa49a433f18@spud>
+Subject: Re: [PATCH v4 22/24] dt-bindings: display: tegra: document Tegra20
+ and Tegra30 CSI
+Message-ID: <20251009-steerable-babied-7b5f7a2c58da@spud>
 References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-12-clamor95@gmail.com>
- <20251008-craving-composite-81aa70b6e882@spud>
- <CAPVz0n1OEA=WHTzBtVBLQ=6vTAwG_uP1tC3Vbrb67wZDUtyVYA@mail.gmail.com>
+ <20251008073046.23231-23-clamor95@gmail.com>
+ <20251008-canopener-marsupial-a92355b656ef@spud>
+ <20251008-broaden-antennae-02de66094ad3@spud>
+ <CAPVz0n1NYL+t-KC1FwHYXuQ0C483ay3g8zP4SmBKVC2rh=x4Bg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="lLfqPiIZi9+97oI7"
+ protocol="application/pgp-signature"; boundary="HSF292molu88Asuo"
 Content-Disposition: inline
-In-Reply-To: <CAPVz0n1OEA=WHTzBtVBLQ=6vTAwG_uP1tC3Vbrb67wZDUtyVYA@mail.gmail.com>
+In-Reply-To: <CAPVz0n1NYL+t-KC1FwHYXuQ0C483ay3g8zP4SmBKVC2rh=x4Bg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,68 +87,51 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---lLfqPiIZi9+97oI7
+--HSF292molu88Asuo
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 09, 2025 at 08:12:11AM +0300, Svyatoslav Ryhel wrote:
+On Thu, Oct 09, 2025 at 08:35:22AM +0300, Svyatoslav Ryhel wrote:
 > =D1=87=D1=82, 9 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 00:=
-14 Conor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+22 Conor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 > >
-> > On Wed, Oct 08, 2025 at 10:30:33AM +0300, Svyatoslav Ryhel wrote:
-> > > Document MIPI calibration device found in Tegra132.
-> >
-> > Could you explain why a fallback is not suitable? The patchset is really
-> > too big for me to trivially check that the change is correct.
+> > On Wed, Oct 08, 2025 at 10:21:06PM +0100, Conor Dooley wrote:
+> > > On Wed, Oct 08, 2025 at 10:30:44AM +0300, Svyatoslav Ryhel wrote:
+> > > Of course you'd then have to add minItems: 1 and maxItems: 3 to the
+> > > extracted definitions.
 >=20
-> First of all, this compatible already exists in Linux kernel, I have
-> just documented it to satisfy warnings. Secondly, each Tegra SoC
-> generation has unique set of registers which should be configured.
-> They all differ, hence fallback is not suitable here.
-
-Okay, then put that in your commit message.
-
+> What do you mean by your last statement? Add minItems: 1 and maxItems:
+> 3 like this?
 >=20
-> > With an explanation,
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> >
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml  | 1=
- +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,t=
-egra114-mipi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,=
-tegra114-mipi.yaml
-> > > index 193ddb105283..9a500f52f01d 100644
-> > > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114=
--mipi.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114=
--mipi.yaml
-> > > @@ -18,6 +18,7 @@ properties:
-> > >      enum:
-> > >        - nvidia,tegra114-mipi
-> > >        - nvidia,tegra124-mipi
-> > > +      - nvidia,tegra132-mipi
-> > >        - nvidia,tegra210-mipi
-> > >        - nvidia,tegra186-mipi
-> > >
-> > > --
-> > > 2.48.1
-> > >
+> This does to common properties
+>   clocks:
+>     minItems: 1
+>     maxItems: 3
+>     items:
+>       - description: module clock
+>       - description: PAD A clock
+>       - description: PAD B clock
+>=20
+>   clock-names:
+>     minItems: 1
+>     maxItems: 3
+>     items:
+>       - const: csi
+>       - const: csia-pad
+>       - const: csib-pad
 
---lLfqPiIZi9+97oI7
+Yes, that is what I meant.
+
+--HSF292molu88Asuo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaOfqfgAKCRB4tDGHoIJi
-0kyqAQCsM5oWNYYCPRvdfAibdHsLxF4cH4/ZYVzWrAFPREawOgEArA+RrpQ+YL+2
-AfZZhjMQ2m8oD8KgCtb0KJ1/vdD7WQo=
-=yp0k
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaOfqugAKCRB4tDGHoIJi
+0hG0AP9Mkkygk9Q2BjWzrDg0CFZgtvVwKgrrBLgJV/EnbFfz5AEA1V+4UBvnLGFD
+xZ7p4fN/kJGOCld/pw6BT+OMgI/sUAk=
+=94WG
 -----END PGP SIGNATURE-----
 
---lLfqPiIZi9+97oI7--
+--HSF292molu88Asuo--
