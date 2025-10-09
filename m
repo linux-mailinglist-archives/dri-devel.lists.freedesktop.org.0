@@ -2,122 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74737BC8353
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4366BC8400
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA7E10E989;
-	Thu,  9 Oct 2025 09:10:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="X4WQfNsp";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAB910E991;
+	Thu,  9 Oct 2025 09:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC58210E989
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 09:10:19 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EOBW010854
- for <dri-devel@lists.freedesktop.org>; Thu, 9 Oct 2025 09:10:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1gLto9BCDROKFQE4dD3C8sxYVc2P8E3H62tB0Tiz5aY=; b=X4WQfNspdGcNJbZr
- DSXD7I7PL3YF1t3vwZYpAGpfgw+Mu1lbIA7nVDCrIFIm1E4oZLZ+1Iz4gfCl6qwR
- +XQQ2B+EuWj3+o4fEwHRRPKu3D5zusxKR8IeO3tyCmtcXBqKKNK4gWlxi1hNM5dl
- kD5fI0QVZxVlTpS6c8Oog0RfYtCkyqwImFsxGlnDBWumvZLtuPVJS4SItj1n//qL
- 2ShnL2sun68DlebdMrRZLQw76EnwyaIhpKMdaVT5kQEeSfJpvJ2A26uEDxxi9iKp
- NMBmzzkvbl3d85tcfXYgNPsvk3nf6hOZrSqwgZ7ue+MConDu1ULj1wLbk8J0QUle
- RP9v5A==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv9aa5us-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 09:10:18 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-85bb4e88394so23184085a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 02:10:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760001018; x=1760605818;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1gLto9BCDROKFQE4dD3C8sxYVc2P8E3H62tB0Tiz5aY=;
- b=bOSurRDbsxVyMnBMGQdibNuPPsp/AFiqMhBYGAxSncJmecaF/VJmW0spSFgLSbAzF6
- EzkUZozU7xMXBk5fanisMsJeyP51SyihlZe22Yl3kpq42VHowlVwXIjWnUFt4Ri9Odaf
- hjwuWO5F2kdxKtCywaWf9aHj5vPMYiXsIKIacems42VcAOLl2SWlbJTD+y9Kku5EwEIr
- 3BsRYwmoa6TLAz1o8X0JAkopOHiZJ565t13mB9ErJLQW8j4OJKHgVEsSeFivglY83nNm
- pMYc0ZzwGxc5jWbwzfg3oF6iSb7mIHqggl1OwFaxgFZfNFu9dK7mGXlJb3QRlJgRdKk5
- 3BBw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUeaeCx1ZYWNMZMccG+gLeu08+Q614Zn1DKereInxkiDyYICEhPm87VSQmDDApo9b5i1NELk4R2yuc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwcxKFURFq3p5a5EiVeYeWNWFYS1LIcYN/qPY6JPV5QKXUpBXZ0
- 4h7/8zTiYZzsDHnuSEwObDwNvY6ZK1S+7gfc0EyPZemaUX5o7Mfp2hi2vHDZTvOpUhtBUo4iDS+
- GLPsXHDfNwmbvG1ah7L+9f14kuHMBJpvV8Rd0NvJZUfx/ioIs4X81yhwuyJXUZisXu0j27iA=
-X-Gm-Gg: ASbGncu87PHiBrDkXntP6nOFilN+nVGJ59JvZJ/mm3DoYtuTUKKJLkXTjBLKDzhjU9y
- WVRzuPp6XuAyDP4xkJBjTfWBUxNgL1wgrKkZ/IBtYrM4GjhItx+cN2vMuh+7XXkFcdRq2HAwPB2
- 9kkU5q8jyz6CBmcQIcjAGNvtQpamxIn8X6NYHInHyLmdmRIzrPmAZMqn9Q/4bhFPclqgNOMUErx
- pEcK5btCrGI9m+BX1kDjoaU9F4YF2ZQkvVcGZwZ2OXNNKY1I74L4Z43e9krgLs1cOGT/y4nuQSy
- tlyJgrYDKzd/EA+ZTKYEpozrGkNxnjuwOHsGHQxlXwm7ZBfRsTPB8gE2Uh3pmPd4fSS3XliY37S
- 03kzt+VmGL+CjdWEChP5XHafbhak=
-X-Received: by 2002:a05:620a:7104:b0:835:e76b:ba25 with SMTP id
- af79cd13be357-88353e1a4e2mr585135785a.9.1760001018070; 
- Thu, 09 Oct 2025 02:10:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6MZb6QOnbhBTE/91nRDArgRgqRLTEI+IVWFn1NxgCnvCATzVRomE0Pl/cQ96//aeLXvp+jA==
-X-Received: by 2002:a05:620a:7104:b0:835:e76b:ba25 with SMTP id
- af79cd13be357-88353e1a4e2mr585131285a.9.1760001017473; 
- Thu, 09 Oct 2025 02:10:17 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b4c83adec08sm1153029466b.56.2025.10.09.02.10.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Oct 2025 02:10:16 -0700 (PDT)
-Message-ID: <597ae997-37a4-447b-967c-8fd362098265@oss.qualcomm.com>
-Date: Thu, 9 Oct 2025 11:10:13 +0200
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D446610E991;
+ Thu,  9 Oct 2025 09:16:56 +0000 (UTC)
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4cj4530nVNz9sSY;
+ Thu,  9 Oct 2025 11:16:55 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1xW49BLVjvgf; Thu,  9 Oct 2025 11:16:55 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4cj4526L27z9sSX;
+ Thu,  9 Oct 2025 11:16:54 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id BC2658B773;
+ Thu,  9 Oct 2025 11:16:54 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id ecZHQXz6ERX1; Thu,  9 Oct 2025 11:16:54 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id BE4258B770;
+ Thu,  9 Oct 2025 11:16:52 +0200 (CEST)
+Message-ID: <03671aa8-4276-4707-9c75-83c96968cbb2@csgroup.eu>
+Date: Thu, 9 Oct 2025 11:16:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] Add eDP reference clock voting support
-To: Ritesh Kumar <quic_riteshk@quicinc.com>, robin.clark@oss.qualcomm.com,
- lumag@kernel.org, abhinav.kumar@linux.dev,
- jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, quic_mahap@quicinc.com, andersson@kernel.org,
- konradybcio@kernel.org, mani@kernel.org,
- James.Bottomley@HansenPartnership.com, martin.petersen@oracle.com,
- vkoul@kernel.org, kishon@kernel.org, cros-qcom-dts-watchers@chromium.org
-Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, quic_vproddut@quicinc.com
-References: <20251009071127.26026-1-quic_riteshk@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251009071127.26026-1-quic_riteshk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMiBTYWx0ZWRfXyWyNZzyOqsPi
- j+sFAlvwZOrILk6bw9F35JsUJMw6E+1IDRbLLKEvBKxrU2aCa+aDlnuwRDRI0TkHgH9+Q9qMfAO
- hqYm7p3WJUE7Pn6hA9BxhImeF0bC+KJVGIANksqWPGh3elS/zmHc/BUu+CUmIDSgFOvbUO3pZLy
- NBg+dWA1ytI5DnuA3POU4uo3HWIlfJl9rW3lMCZRZfXUplw+RaTWfM10cSu8Ztq6pxV1uT/L60t
- K1vcbRFUDUs8CmMGIK1fXRNJNaZRPHO7ms7+MiOaJHZKBCZA3x5qkzbErXMuxfIiFyfk9pEAW2/
- UKrIhsoNWg63OC0k/vLT9HvwMJUR/eYW3RP85zSN4qTeudtXbEUMzbbv7L/1cSLdHjoFVKDNCFM
- AvlcW9LPHlvdAklLfH+ohtUNA/S8wA==
-X-Proofpoint-GUID: h-pcpsR6LLu44GdxxR2ZgNNfMzJlMwWj
-X-Proofpoint-ORIG-GUID: h-pcpsR6LLu44GdxxR2ZgNNfMzJlMwWj
-X-Authority-Analysis: v=2.4 cv=JPk2csKb c=1 sm=1 tr=0 ts=68e77bfa cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=rf8yBW790zp7CXIHNmUA:9
- a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080122
+Subject: Re: (bisected) [PATCH v2 08/37] mm/hugetlb: check for unreasonable
+ folio sizes when registering hstate
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-9-david@redhat.com>
+ <3e043453-3f27-48ad-b987-cc39f523060a@csgroup.eu>
+ <d3fc12d4-0b59-4b1f-bb5c-13189a01e13d@redhat.com>
+ <faf62f20-8844-42a0-a7a7-846d8ead0622@csgroup.eu>
+ <9361c75a-ab37-4d7f-8680-9833430d93d4@redhat.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Language: fr-FR
+In-Reply-To: <9361c75a-ab37-4d7f-8680-9833430d93d4@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,11 +90,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/25 9:11 AM, Ritesh Kumar wrote:
-> eDP reference clock is required to be enabled before eDP PHY
-> initialization. On lemans chipset it is being voted from
-> qmp ufs phy driver.
 
-?????????????????????????????????????????????????????????
 
-Konrad
+Le 09/10/2025 à 10:14, David Hildenbrand a écrit :
+> On 09.10.25 10:04, Christophe Leroy wrote:
+>>
+>>
+>> Le 09/10/2025 à 09:22, David Hildenbrand a écrit :
+>>> On 09.10.25 09:14, Christophe Leroy wrote:
+>>>> Hi David,
+>>>>
+>>>> Le 01/09/2025 à 17:03, David Hildenbrand a écrit :
+>>>>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>>>>> index 1e777cc51ad04..d3542e92a712e 100644
+>>>>> --- a/mm/hugetlb.c
+>>>>> +++ b/mm/hugetlb.c
+>>>>> @@ -4657,6 +4657,7 @@ static int __init hugetlb_init(void)
+>>>>>         BUILD_BUG_ON(sizeof_field(struct page, private) * 
+>>>>> BITS_PER_BYTE <
+>>>>>                 __NR_HPAGEFLAGS);
+>>>>> +    BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
+>>>>>         if (!hugepages_supported()) {
+>>>>>             if (hugetlb_max_hstate || default_hstate_max_huge_pages)
+>>>>> @@ -4740,6 +4741,7 @@ void __init hugetlb_add_hstate(unsigned int 
+>>>>> order)
+>>>>>         }
+>>>>>         BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+>>>>>         BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
+>>>>> +    WARN_ON(order > MAX_FOLIO_ORDER);
+>>>>>         h = &hstates[hugetlb_max_hstate++];
+>>>>>         __mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
+>>>>>         h->order = order;
+>>>
+>>> We end up registering hugetlb folios that are bigger than
+>>> MAX_FOLIO_ORDER. So we have to figure out how a config can trigger that
+>>> (and if we have to support that).
+>>>
+>>
+>> MAX_FOLIO_ORDER is defined as:
+>>
+>> #ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+>> #define MAX_FOLIO_ORDER        PUD_ORDER
+>> #else
+>> #define MAX_FOLIO_ORDER        MAX_PAGE_ORDER
+>> #endif
+>>
+>> MAX_PAGE_ORDER is the limit for dynamic creation of hugepages via
+>> /sys/kernel/mm/hugepages/ but bigger pages can be created at boottime
+>> with kernel boot parameters without CONFIG_ARCH_HAS_GIGANTIC_PAGE:
+>>
+>>     hugepagesz=64m hugepages=1 hugepagesz=256m hugepages=1
+>>
+>> Gives:
+>>
+>> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+>> HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+>> HugeTLB: registered 64.0 MiB page size, pre-allocated 1 pages
+>> HugeTLB: 0 KiB vmemmap can be freed for a 64.0 MiB page
+>> HugeTLB: registered 256 MiB page size, pre-allocated 1 pages
+>> HugeTLB: 0 KiB vmemmap can be freed for a 256 MiB page
+>> HugeTLB: registered 4.00 MiB page size, pre-allocated 0 pages
+>> HugeTLB: 0 KiB vmemmap can be freed for a 4.00 MiB page
+>> HugeTLB: registered 16.0 MiB page size, pre-allocated 0 pages
+>> HugeTLB: 0 KiB vmemmap can be freed for a 16.0 MiB page
+> 
+> I think it's a violation of CONFIG_ARCH_HAS_GIGANTIC_PAGE. The existing 
+> folio_dump() code would not handle it correctly as well.
+
+I'm trying to dig into history and when looking at commit 4eb0716e868e 
+("hugetlb: allow to free gigantic pages regardless of the 
+configuration") I understand that CONFIG_ARCH_HAS_GIGANTIC_PAGE is 
+needed to be able to allocate gigantic pages at runtime. It is not 
+needed to reserve gigantic pages at boottime.
+
+What am I missing ?
+
+> 
+> See how snapshot_page() uses MAX_FOLIO_NR_PAGES.
+> 
+
