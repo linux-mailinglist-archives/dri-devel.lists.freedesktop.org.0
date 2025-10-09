@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FE1BC851F
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0A9BC8522
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 11:32:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0352F10E99D;
-	Thu,  9 Oct 2025 09:32:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645AC10E99F;
+	Thu,  9 Oct 2025 09:32:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mjJvVj69";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gza8tDRV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0238E10E99B;
- Thu,  9 Oct 2025 09:32:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6487710E9A6;
+ Thu,  9 Oct 2025 09:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760002350; x=1791538350;
- h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=EYfwn1pUYxghZzghPOJFciEij0VOCsYVD2XFAjkvycg=;
- b=mjJvVj69wz3pND8DCXHGkSKnncZ5NCJIS8halRVrX2p3NK4aIZFpbHEZ
- b8DRwF7Upyt5PMFZCOLcQgGud6xFWEgtKY16swU0qeCDUy/JGBX+sIVZ5
- X4baDPVq62uK5+i2ORnCdCeMeA95a2xzWK3i5DuKVWcoa9rF0zQ9Ubu5j
- sjqOCU/gShIJHJTsKja/gmZfqGwMpWG7kEI/Wc/GWO2a3cQ3vpx1e8pPX
- oAItIiKm3jFBoBHK6UHq6/OgmuZTLwnNoPz8umX2O4mZ7QssSgIx8BA6o
- CxyePThnaF5X3l9vJlPIgi74FYaySOq+bxg+52u1+UaJke3X9iJdFkOcO g==;
-X-CSE-ConnectionGUID: P0uaFRrRTh670G804StDbw==
-X-CSE-MsgGUID: x4Fox85lTfy2mcZZeMpgzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="66060800"
-X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; d="scan'208";a="66060800"
+ t=1760002354; x=1791538354;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=J+4GjmtoEyG3JkGh+lYeAOaUkWx7PsKOsvmAqlc4ey8=;
+ b=Gza8tDRVegkgzHrmEhyrw135OGQSZeoD5pNKGuj9ii784OIn40xZXRo4
+ O6AktNhh7wEBjr2leE7BZlqTcsI2p46PD88aRXtBDGAhXHJ4PR1CtsAyb
+ q6pIvhqb0RRVl/gVHYYwEusuzqnViNa/n3Qm/51XoLfwe3ct74cpbQ8SO
+ w7lwz7tmfGoL/dxMckPhuDUk54F30ep9b1ycvjbF2tiqe6lVmOxxHPetn
+ yETWhNpGKzDaLtbYKdEqay430+nuu6dBfEN1IyUrJLF9WiFuznO601kXM
+ p6Xz7joACi2x88AHXtqG0LiHoE624dT4AsxJV5qzRdnGNDcan3uGsYq6i g==;
+X-CSE-ConnectionGUID: bkFImZMWQ9yf/1UtW3jj0A==
+X-CSE-MsgGUID: pgJaZULyQrCB/4Q7dMsMPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="66060834"
+X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; d="scan'208";a="66060834"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 02:32:29 -0700
-X-CSE-ConnectionGUID: 0yG+u7quTDeOcunO8TcQgQ==
-X-CSE-MsgGUID: CeocDiQSRn+jP0GVlNltYw==
+ 09 Oct 2025 02:32:34 -0700
+X-CSE-ConnectionGUID: AiLZnkyoSCeys+8cSMZuuw==
+X-CSE-MsgGUID: 6MpP28y3RoGkQJq6l65bWg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; d="scan'208";a="185789524"
+X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; d="scan'208";a="185789596"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa005.jf.intel.com with ESMTP; 09 Oct 2025 02:32:24 -0700
+ by orviesa005.jf.intel.com with ESMTP; 09 Oct 2025 02:32:29 -0700
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Subject: [PATCH v6 0/5] User readable error codes on atomic_ioctl failure
-Date: Thu, 09 Oct 2025 15:02:48 +0530
-Message-Id: <20251009-atomic-v6-0-d209709cc3ba@intel.com>
+Date: Thu, 09 Oct 2025 15:02:49 +0530
+Subject: [PATCH v6 1/5] drm: Define user readable error codes for atomic ioctl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAECB52gC/0XMQQrDIBCF4auEWdcSNWrTVe9RuhAdm4GqQSUUQ
- u5eKZQuP3j/26FiIaxwHXYouFGlnDr0aQC32PRERr4bxCjUaMSF2ZYjOeZmw2XwUhmcoI/XgoH
- e36P7ozuUHFlbCtp/roX55RtnnGk7O8u5l15NN0oNX2eXIxzHBxxDymqWAAAA
-X-Change-ID: 20250728-atomic-c9713fd357e4
+Message-Id: <20251009-atomic-v6-1-d209709cc3ba@intel.com>
+References: <20251009-atomic-v6-0-d209709cc3ba@intel.com>
+In-Reply-To: <20251009-atomic-v6-0-d209709cc3ba@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -77,38 +75,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The series focuses on providing a user readable error value on a failure
-in drm_atomic_ioctl(). Usually -EINVAL is returned in most of the error
-cases and it is difficult for the user to decode the error and get to
-know the real cause for the error. If user gets to know the reason for
-the error then corrective measurements can be taken up.
-
-TODO: driver specific error codes are to be added and will be done in
-the follow-up patches.
-
-The IGT related changes are pushed for review @
-https://patchwork.freedesktop.org/series/153330/
+There can be multiple reasons for a failure in atomic_ioctl. Most often
+in these error conditions -EINVAL is returned. User/Compositor would
+have to blindly take a call on failure of this ioctl so as to use
+ALLOW_MODESET or any. It would be good if user/compositor gets a
+readable error code on failure so they can take proper corrections in
+the next commit.
+The struct drm_mode_atomic is being passed by the user/compositor which
+holds the properties for modeset/flip. Reusing the same struct for
+returning the error code in case of failure can save by creating a new
+uapi/interface for returning the error code.
+The element 'reserved' in the struct drm_mode_atomic is used for
+returning the user readable error code. This points to the struct
+drm_mode_atomic_err_code. Failure reasons have been initialized in
+DRM_MODE_ATOMIC_FAILURE_REASON.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
-Arun R Murthy (5):
-      drm: Define user readable error codes for atomic ioctl
-      drm/atomic: Add error_code element in atomic_state
-      drm/atomic: Allocate atomic_state at the beginning of atomic_ioctl
-      drm/atomic: Return user readable error in atomic_ioctl
-      drm/i915/display: Error codes for async flip failures
+ include/uapi/drm/drm_mode.h | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
- drivers/gpu/drm/drm_atomic.c                 | 31 ++++++++++
- drivers/gpu/drm/drm_atomic_uapi.c            | 92 +++++++++++++++++++---------
- drivers/gpu/drm/i915/display/intel_display.c | 25 ++++----
- include/drm/drm_atomic.h                     | 10 +++
- include/uapi/drm/drm_mode.h                  | 41 +++++++++++++
- 5 files changed, 159 insertions(+), 40 deletions(-)
----
-base-commit: a7101e35f29e03562f24ce1220f08350260fc0fc
-change-id: 20250728-atomic-c9713fd357e4
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 1e0e02a79b5c8db200cf9fd35edfe163d701cbd5..1e9eeae472e74bbd1b5e0b6f79f9782cafaf5b6e 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -45,6 +45,7 @@ extern "C" {
+ #define DRM_CONNECTOR_NAME_LEN	32
+ #define DRM_DISPLAY_MODE_LEN	32
+ #define DRM_PROP_NAME_LEN	32
++#define DRM_MODE_ATOMIC_FAILURE_STRING_LEN	128
+ 
+ #define DRM_MODE_TYPE_BUILTIN	(1<<0) /* deprecated */
+ #define DRM_MODE_TYPE_CLOCK_C	((1<<1) | DRM_MODE_TYPE_BUILTIN) /* deprecated */
+@@ -1205,6 +1206,46 @@ struct drm_mode_destroy_dumb {
+ 		DRM_MODE_ATOMIC_NONBLOCK |\
+ 		DRM_MODE_ATOMIC_ALLOW_MODESET)
+ 
++/**
++ * enum drm_mode_atomic_err_code -  error codes for failures in atomic_ioctl
++ * @DRM_MODE_ATOMIC_INVALID_API_USAGE: invallid API usage(DRM_ATOMIC not
++ *				       enabled, invalid falg, page_flip event
++ *				       with test-only, etc)
++ * @DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET: Need full modeset on this crtc
++ * @DRM_MODE_ATOMIC_NEED_FULL_MODESET: Need full modeset on all connected crtc's
++ * @DRM_MODE_ATOMIC_ASYN_NOTSUPP_PLANE: Aync flip not supported on this plane
++ * DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPP: Modifier not supported by async flip
++ * @DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED: Property changed in async flip
++ */
++enum drm_mode_atomic_failure_codes {
++	DRM_MODE_ATOMIC_INVALID_API_USAGE,
++	DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
++	DRM_MODE_ATOMIC_NEED_FULL_MODESET,
++	DRM_MODE_ATOMIC_ASYNC_NOT_SUPP_PLANE,
++	DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPP,
++	DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED,
++};
++
++/**
++ * drm_mode_atomic_err_code - struct to store the error code
++ *
++ * pointer to this struct will be stored in reserved variable of
++ * struct drm_mode_atomic to report the failure cause to the user.
++ *
++ * @failure_code: error codes defined in enum drm_moide_atomic_failure_code
++ * @failure_string_ptr: pointer to user readable error message string
++ * @failure_obj_ptr: pointer to the drm_object that caused error
++ * @reserved: reserved for future use
++ * @count_objs: count of drm_objects if multiple drm_objects caused error
++ */
++struct drm_mode_atomic_err_code {
++	__u64 failure_code;
++	__u64 failure_objs_ptr;
++	__u64 reserved;
++	__u32 count_objs;
++	char failure_string[DRM_MODE_ATOMIC_FAILURE_STRING_LEN];
++};
++
+ struct drm_mode_atomic {
+ 	__u32 flags;
+ 	__u32 count_objs;
 
-Best regards,
 -- 
-Arun R Murthy <arun.r.murthy@intel.com>
+2.25.1
 
