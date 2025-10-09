@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EFFBC8D64
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:35:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155C0BC8D97
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC9E10E9C4;
-	Thu,  9 Oct 2025 11:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB9C10E9CE;
+	Thu,  9 Oct 2025 11:39:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FqNEEpMA";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Zke8aiqn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4433610E9C4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760009751;
- bh=Z0E5Ui2XxRD/RtSI3wRkIkjJDJlHxUBHJsvJwXR2IHc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FqNEEpMAGBk0Mc1/tb6CS85/YBxMY+XW72k7bSSh7lUpqvu2Fh3zIkzgg9LKe7Unj
- BXPXZAX6Kv8WfI5J6Qn7hw0pQHwHiGZHVODQxK2jmqh2vNoj2nY9HyhBMQNk54wsgL
- sRVV7EzEFq47OSde/2j/vhSyWyv8OJaFm6Sah9DzpXb2CPlA+JzES4SaXK1sXWU+Nq
- X2Qp+VnafoXkIRT/ZEYsZvGGASt0kljvMsgWjAKfTgAvyfi/JrFHOFJBaLTGX/Uee9
- 88mwX+isXesAIfHJjalyi+7jsBW7zVgmTKJhh4snxm0TnkoPMLZZzQj4UR1PY1w/uZ
- IY0y0TMYh05iA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C891117E0125;
- Thu,  9 Oct 2025 13:35:50 +0200 (CEST)
-Message-ID: <e18a0772-3031-4fff-a625-b1d4e1aab605@collabora.com>
-Date: Thu, 9 Oct 2025 13:35:50 +0200
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F63C10E9C8
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:39:17 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 36D2B4E40FB2;
+ Thu,  9 Oct 2025 11:39:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id E2B6A6062C;
+ Thu,  9 Oct 2025 11:39:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 26ECA102F21B6; 
+ Thu,  9 Oct 2025 13:39:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1760009953; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=hfVcbnLGjx4Znw2zLlmguUyQgxO9dRHalaOneqN03RI=;
+ b=Zke8aiqnuai6wA9G+lfSgOgUhtL7HhJC/mN5Ym0BcEr8debI/EmSFsnfinioYWxc6J5CWA
+ b4slEyLb0t62OejVa0o8rO2dSplAyH87lKXl2RLkD//nHF2DmtwQgvk5oEqtJBct7ukvTu
+ KgVs1ejZ0ZpdnGBdq0CfoZPQRIyIIVUXB8JYjfed8XzjpaltVB4FNII6IoKC4seWafgHq0
+ qsIqpvfFoJTIsPZH5HqYrJPu3NwgvjZJhEdOoqXbw7pcPzPlldxQxCEJ9XEXL5wyYhYXrK
+ 0DEHOmNxIW4O5yZOXjPdGfyMIFhN32hLjmZC3JQgZRSeQ853WM5nVQF60nLXkA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 0/7] drm/bridge: protect encoder bridge chain with a mutex
+Date: Thu, 09 Oct 2025 13:38:55 +0200
+Message-Id: <20251009-drm-bridge-alloc-encoder-chain-mutex-v3-0-c90ed744efec@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/20] soc: mediatek: mtk-cmdq: Add pa_base parsing for
- hardware without subsys ID support
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>,
- Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- Chen-yu Tsai <wenst@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
- <20250827114006.3310175-10-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250827114006.3310175-10-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAM+e52gC/42NQQ6CMBBFr0K6dkwptqAr72Fc0HaQSaA1LRIM4
+ e4WEk3csXwzP+/NLGIgjOySzSzgSJG8S1AcMmba2j0QyCZmggvJz0KCDT3oQDZ96q7zBtAZbzF
+ AmpOD/jXgBLqsrBK8koiSJdUzYEPTlrndE7cUBx/eW3XM1+s3oPYFxhw4iEIrYU5lIVV91d4PH
+ bmj8T1bE6P4aXPOi51akbRlpRuVy4rXXP1rl2X5AB+5NRQxAQAA
+X-Change-ID: 20250925-drm-bridge-alloc-encoder-chain-mutex-b78d62085ee5
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,103 +72,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/08/25 13:37, Jason-JH Lin ha scritto:
-> When GCE executes instructions, it typically locates the corresponding
-> hardware register using the subsys ID. For hardware that does not
-> support subsys ID, the subsys ID is set to an invalid value, and the
-> physical address must be used to generate GCE instructions.
-> 
-> The main advantage of using subsys ID is to reduce the number of
-> instructions. Without subsys ID, an additional `ASSIGN` instruction
-> is needed to assign the high bytes of the physical address, which can
-> impact performance if too many instructions are required. However, if
-> the hardware does not support subsys ID, using the physical address
-> is the only option to achieve the same functionality.
-> 
-> This commit adds a pa_base parsing flow to the cmdq_client_reg structure
-> to handle hardware without subsys ID support.
-> 
-> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-> ---
->   drivers/soc/mediatek/mtk-cmdq-helper.c | 15 +++++++++++++--
->   include/linux/soc/mediatek/mtk-cmdq.h  |  3 +++
->   2 files changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 4b1591e5b1ae..41e1997cdd53 100644
-> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -8,6 +8,7 @@
->   #include <linux/module.h>
->   #include <linux/mailbox_controller.h>
->   #include <linux/of.h>
-> +#include <linux/of_address.h>
->   #include <linux/soc/mediatek/mtk-cmdq.h>
->   
->   #define CMDQ_WRITE_ENABLE_MASK	BIT(0)
-> @@ -60,20 +61,30 @@ int cmdq_dev_get_client_reg(struct device *dev,
->   			    struct cmdq_client_reg *client_reg, int idx)
->   {
->   	struct of_phandle_args spec;
-> +	struct resource res;
->   	int err;
->   
->   	if (!client_reg)
->   		return -ENOENT;
->   
+This series ensures that the bridge chain of the encoder will not be
+modified while some other concurrent code flows are iterating over it.
 
-	err = of_address_to_resource( ... )
-	if (err) {
-		dev_err(....)
-		return;
-	}
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-after which:
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
+            (drm-misc-next)
+       2. ✔ drm_bridge_get_prev_bridge() (drm-misc-next)
+       3. ✔ drm_bridge_get_next_bridge() (drm-misc-next)
+       4. ✔ drm_for_each_bridge_in_chain() (drm-misc-next)
+       5. ✔ drm_bridge_connector_init (drm-misc-next)
+       6. ➜ protect encoder bridge chain with a mutex
+       7. of_drm_find_bridge
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. … enforce drm_bridge_add before drm_bridge_attach
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list removed bridges (drm-misc-next)
+ 2. … handle gracefully atomic updates during bridge removal
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+The per-encoder bridge chain is currently assumed to be static once it is
+fully initialized. Work is in progress to add hot-pluggable bridges,
+breaking that assumption.
 
-> +	if (of_address_to_resource(dev->of_node, 0, &res) != 0) {
-> +		dev_err(dev, "Missing reg in %s node\n", dev->of_node->full_name);
-> +		return -EINVAL;
-> +	}
-> +	client_reg->pa_base = res.start;
-> +
->   	err = of_parse_phandle_with_fixed_args(dev->of_node,
->   					       "mediatek,gce-client-reg",
->   					       3, idx, &spec);
->   	if (err < 0) {
-> -		dev_warn(dev,
-> +		dev_dbg(dev,
->   			"error %d can't parse gce-client-reg property (%d)",
->   			err, idx);
->   
-> -		return err;
-> +		/* make subsys invalid */
-> +		client_reg->subsys = CMDQ_SUBSYS_INVALID;
-> +
-> +		return 0;
->   	}
->   
->   	client_reg->subsys = (u8)spec.args[0];
-> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> index 5e3a0e807980..3699229a7375 100644
-> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> @@ -23,6 +23,8 @@
->   #define CMDQ_THR_SPR_IDX2	(2)
->   #define CMDQ_THR_SPR_IDX3	(3)
->   
-> +#define CMDQ_SUBSYS_INVALID	(U8_MAX)
-> +
->   struct cmdq_pkt;
->   
->   enum cmdq_logic_op {
-> @@ -52,6 +54,7 @@ struct cmdq_operand {
->   
->   struct cmdq_client_reg {
->   	u8 subsys;
-> +	phys_addr_t pa_base;
->   	u16 offset;
->   	u16 size;
->   };
+With hotplug and especially hot-unplug, bridges will be added and removed
+without notice, and thus be added/removed to/from the encoder chain in
+drm_bridge_attach/detach(), concurrently to the code iterating on the
+chain. This can result in disruption of the code iterating over the
+chain. The rationale is explained by a detailed example in patch 2.
+
+Avoid bugs by introducing a mutex to make list insertion, removal and
+iterations mutually exclusive.
+
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v3:
+- Re-added the drm_bridge_put() in the for_each macros, leading to largely
+  rewrite them
+- Removed the drm_encoder_chain_[un]lock() wrappers
+- Fixed a potential ABBA deadlock in patch
+- Improved some commit messages
+- Link to v2: https://lore.kernel.org/r/20251003-drm-bridge-alloc-encoder-chain-mutex-v2-0-78bf61580a06@bootlin.com
+
+Changes in v2:
+- Improve commit messages and add documentation as per v1 review
+- Patch 4: fixed infinite loop when encoder->bridge_chain is empty
+- Link to v1: https://lore.kernel.org/r/20250926-drm-bridge-alloc-encoder-chain-mutex-v1-0-23b62c47356a@bootlin.com
+
+---
+Luca Ceresoli (7):
+      drm/encoder: add mutex to protect the bridge chain
+      drm/encoder: drm_encoder_cleanup: lock the encoder chain mutex during removal
+      drm/bridge: drm_bridge_attach: lock the encoder chain mutex during insertion
+      drm/bridge: lock the encoder chain in scoped for_each loops
+      drm/bridge: prevent encoder chain changes while iterating with list_for_each_entry_from()
+      drm/bridge: prevent encoder chain changes while iterating with list_for_each_entry_reverse()
+      drm/bridge: prevent encoder chain changes in pre_enable/post_disable
+
+ drivers/gpu/drm/drm_bridge.c  | 83 ++++++++++++++++++++++---------------------
+ drivers/gpu/drm/drm_encoder.c | 18 ++++++++--
+ include/drm/drm_bridge.h      | 73 +++++++++++++++++++++++--------------
+ include/drm/drm_encoder.h     |  4 +++
+ 4 files changed, 109 insertions(+), 69 deletions(-)
+---
+base-commit: a036f5fceedb9fbd715565fef7b824a121503de7
+change-id: 20250925-drm-bridge-alloc-encoder-chain-mutex-b78d62085ee5
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
