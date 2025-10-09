@@ -2,82 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1909CBCB37F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 01:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74B1BCB385
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 01:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E11410EB38;
-	Thu,  9 Oct 2025 23:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19AF910EB35;
+	Thu,  9 Oct 2025 23:42:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JBODc7yS";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="jGreVek6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770D410EB35
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 23:41:09 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-279e2554b5fso12212935ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 16:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760053269; x=1760658069; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m+Sj/FlLClIAaIi47L5d+OmfIP9+1/M40ysaJFq8xtE=;
- b=JBODc7ySjExkVzt7IsGX3IrIk34ZimI9TsI7P4Yo5htd2MLIS7lK/JlJEOnYIGVJyu
- rK121U8imZ9Qs58pnWXXbGdJu6WW+AwCxl/EWHJaoQLPQveHAxUSl0spNtGOaZFik8WS
- ysfx/x21n2sh1DO3RT9uLeeaxzO/KIm+IR8IDn+LkQkP4NtYLNU8vencBeBghrmewpP/
- YExrYCvOGCqsh/7Z5M8Y8hp2xqTC90nMKEXsJXCz2VmNLpt9MeyNzqD/mtE1G3Gc/JCH
- fjKc+hWa40vc1R1GnQMpO1yOPGQ1+k5uSGXzktwW2AHWg+J/mDG95kiMuDlSlNK5D1yQ
- re7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760053269; x=1760658069;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m+Sj/FlLClIAaIi47L5d+OmfIP9+1/M40ysaJFq8xtE=;
- b=Wn9fs7VNl0oopnoCFhgEd+SQdy3Lg1vafAfHwya9j2SIytjya7QH7t+fK5XL5NfQ/5
- U1Vx9vyO/G9HY4MRgfEGVQrX55Wc/J1IpRCerdnGs9ieeRP2j4L/9/brwt4YDFAxXaOm
- pnp9hqbo4SKI1qxzP5rqL0TXdY2k3jq4U3Xaw8ImFVr9U1vIAAqMkqB5kVKejPw5o/0V
- AyYGQQvoJJYPo5eUvybGqQm36Ql+UHpQxDOsBgpTsg30SBOEz/xcm94ZVHOYp7mp6eza
- IuE27we45Apmd//23c0Q/odZLs7IpDsMvM5oBuJcIMQWFVn+51fOGB0IY+gBFIqG/lcJ
- u8lA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXCLc2TIn58zMThDoy9+u3ZmhPs/9ce83yRJiNDwMDXygYJ7ifHo+6CN6ahCPlzbHtK0TOu5s22hH4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz6etek4NwnCyE+PQ+4hwYM4dSYZpU01mYPcS37HyT5rl1YoU4o
- w5kpQvmNNTfCdMqzLDEdwlKINqITnZqmooudooFxpswNA70JlmR1ENOFN6fakwJitsJ4pq6xnf3
- KLdlMEd6txyI/4V9R/nOboPF2+B6mYzQ=
-X-Gm-Gg: ASbGncsZtM0XLuUbdb89Ir4ejWPfUm+Dic3gYjg1SsVVqy5rYE14zEH8ljrUO5Y/83p
- aeArVPb3j5zM0UEOHWaL2gDTLYdUzGfXarh7cO08eCRBijD7jBckfcNlvdyr4wdlcXb1Oaor5e2
- tjovva0+3pxDvd4pc+pMQwmID3ftNOepEw0YQzRjtSluFQYdislcoprb3fRheQMUPsNNRUL07iR
- nTm5/oqSzEOJbfd17PkdDHuSBCW
-X-Google-Smtp-Source: AGHT+IFG8GuaAnTC9mm4pLh5wMTiHUgLi3ZgKsO3tOKCTCi2fMgbktYjlP/dKWBXn3a/6oaAReEJJC4o43voe3I/mKc=
-X-Received: by 2002:a17:903:1acf:b0:269:b2e5:900d with SMTP id
- d9443c01a7336-29027e5ee48mr125511745ad.5.1760053268902; Thu, 09 Oct 2025
- 16:41:08 -0700 (PDT)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74FCF10EB35
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 23:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=FMd471QT/VhvjFXorUXuE2WlEYMkCwcbF7uR1pYLSH4=; b=jGreVek6OZbEDqwbPYSBdqw5Gd
+ dPlT4qbvlXaRMpjpPGrFMmjZ/5KDhssnGVQx9omVGaTsOHBx4XRzf1sxQLZN6viJD3JXd2HO9GN5m
+ +31C3251pm7/+xzqLiEBODFk7qGkDMYMo5fNVxpuDly02opd4rPo5bLDDQvlLYbsQVm7xar92d9ZT
+ jqnqJZ+6fgpoXtnFe6IsXnqC0z1doYUnXwEiC6KaMEcXZjE/81+yWN/arG3ylFilc87KF4fZGG/Px
+ 2/yXDR3UzSKdo8cQFyrvaI4jvrgOfPlmVDn3ZWZo6lvXNi0AAJgGPlu1LI9XJgzV6HlloP3a/OF9B
+ 1QTiG/ug==;
+Received: from i53875bdd.versanet.de ([83.135.91.221] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1v70Gy-00080d-IE; Fri, 10 Oct 2025 01:42:12 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: damon.ding@rock-chips.com, m.szyprowski@samsung.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Fix connector status detection
+ for bridges
+Date: Fri, 10 Oct 2025 01:42:11 +0200
+Message-ID: <3572997.QJadu78ljV@diego>
+In-Reply-To: <v6aqic6kffc3x42dkb4bika5tvoqdpmmloroqio2656g74pkws@7fe3bsfzbasn>
+References: <20251009193028.4952-1-heiko@sntech.de>
+ <v6aqic6kffc3x42dkb4bika5tvoqdpmmloroqio2656g74pkws@7fe3bsfzbasn>
 MIME-Version: 1.0
-References: <20251006191329.277485-1-mohamedahmedegypt2001@gmail.com>
- <20251006191329.277485-3-mohamedahmedegypt2001@gmail.com>
- <DDBISJ2DUDF6.150HCB14ZRPH3@kernel.org>
- <CAA+WOBvu2Gq=SM2TBdahsQ-RVi+vn_U-oDa7-DG6kj9Arq5tpA@mail.gmail.com>
- <DDE2BDLEZHBW.253EO66P7ZH2P@kernel.org>
-In-Reply-To: <DDE2BDLEZHBW.253EO66P7ZH2P@kernel.org>
-From: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
-Date: Fri, 10 Oct 2025 02:40:57 +0300
-X-Gm-Features: AS18NWD1KmuNQjj2ajk1Vp9hVJ3FbFP6Rph0sUtrDfNLzUy8yptTDSkt7HErI0Y
-Message-ID: <CAA+WOBuAJpQARp70XRpLWBMUG6hJCY0+1-dDKJrxQAQg3SwaLQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drm/nouveau/uvmm: Allow larger pages
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Mary Guillemard <mary@mary.zone>, Faith Ekstrand <faith.ekstrand@collabora.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,28 +62,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry about that, I misunderstood what you meant and thought you meant
-to remove select_page_shift() entirely and move the shift selection
-logic into op_map_prepare(). Done and sent v2.
+Hi Dmitry,
 
-On Thu, Oct 9, 2025 at 11:09=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> On Thu Oct 9, 2025 at 6:51 PM CEST, Mohamed Ahmed wrote:
-> >> Let's move the call to select_page_shift() into op_map_prepare().
-> >
-> > How would this work? Originally when we were working on this, we did
-> > place it in op_map_prepare() but we ran into the issue where
-> > nouveau_uvmm_vmm_put() needed the page_shift retrieved (see
-> > nouveau_uvmm_sm_prepare_unwind()).
->
-> -                       ret =3D op_map_prepare(uvmm, &new->map, &op->map,=
- args, PAGE_SHIFT);
-> +                       ret =3D op_map_prepare(uvmm, &new->map, &op->map,=
- args,
-> +                                            select_page_shift(uvmm, &op-=
->map));
->
-> You can move this call to select_page_shift() into op_map_prepare(), that=
-'s not
-> related to nouveau_uvmm_sm_prepare_unwind(), right?
+Am Freitag, 10. Oktober 2025, 00:30:11 Mitteleurop=C3=A4ische Sommerzeit sc=
+hrieb Dmitry Baryshkov:
+> On Thu, Oct 09, 2025 at 09:30:28PM +0200, Heiko Stuebner wrote:
+> > Right now if there is a next bridge attached to the analogix-dp control=
+ler
+> > the driver always assumes this bridge is connected to something, but th=
+is
+> > is of course not always true, as that bridge could also be a hotpluggab=
+le
+> > dp port for example.
+> >=20
+> > On the other hand, as stated in commit cb640b2ca546 ("drm/bridge: displ=
+ay-
+> > connector: don't set OP_DETECT for DisplayPorts"), "Detecting the monit=
+or
+> > for DisplayPort targets is more complicated than just reading the HPD p=
+in
+> > level" and we should be "letting the actual DP driver perform detection=
+=2E"
+> >=20
+> > So use drm_bridge_detect() to detect the next bridge's state but ignore
+> > that bridge if the analogix-dp is handling the hpd-gpio.
+> >=20
+> > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> > ---
+> > As this patch stands, it would go on top of v6 of Damon's bridge-connec=
+tor
+> > work, but could very well be also integrated into one of the changes th=
+ere.
+> >=20
+> > I don't know yet if my ordering and/or reasoning is the correct one or =
+if
+> > a better handling could be done, but with that change I do get a nice
+> > hotplug behaviour on my rk3588-tiger-dp-carrier board, where the
+> > Analogix-DP ends in a full size DP port.
+> >=20
+> >  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drive=
+rs/gpu/drm/bridge/analogix/analogix_dp_core.c
+> > index c04b5829712b..cdc56e83b576 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> > @@ -983,8 +983,12 @@ analogix_dp_bridge_detect(struct drm_bridge *bridg=
+e, struct drm_connector *conne
+> >  	struct analogix_dp_device *dp =3D to_dp(bridge);
+> >  	enum drm_connector_status status =3D connector_status_disconnected;
+> > =20
+> > -	if (dp->plat_data->next_bridge)
+> > -		return connector_status_connected;
+> > +	/*
+> > +	 * An optional next bridge should be in charge of detection the
+> > +	 * connection status, except if we manage a actual hpd gpio.
+> > +	 */
+> > +	if (dp->plat_data->next_bridge && !dp->hpd_gpiod)
+> > +		return drm_bridge_detect(dp->plat_data->next_bridge, connector);
+>=20
+> And it's also not correct because the next bridge might be a retimer
+> with the bridge next to it being a one with the actual detection
+> capabilities. drm_bridge_connector solves that in a much better way. See
+> the series at [1]
+>=20
+> [1] https://lore.kernel.org/dri-devel/41c2a141-a72e-4780-ab32-f22f3a2e017=
+9@samsung.com/
+
+Hence my comment above about that possibly not being the right variant.
+Sort of asking for direction :-) .
+
+I am working on top of Damon's drm-bridge-connector series as noted above,
+but it looks like the detect function still is called at does then stuff.
+
+My board is the rk3588-tiger-displayport-carrier [0], with a dp-connector
+which is the next bridge, so _without_ any changes, the analogix-dp
+always assumes "something" is connected and I end up with
+
+[    9.869198] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get=
+ hpd single ret =3D -110
+[    9.980422] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get=
+ hpd single ret =3D -110
+[   10.091522] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get=
+ hpd single ret =3D -110
+[   10.202419] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get=
+ hpd single ret =3D -110
+[   10.313651] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get=
+ hpd single ret =3D -110
+
+when no display is connected.
+
+With this change I do get the expected hotplug behaviour, so something is
+missing still even with the bridge-connector series.
+
+
+Heiko
+
+
+[0] v3: https://lore.kernel.org/r/20250812083217.1064185-3-heiko@sntech.de
+    v4: https://lore.kernel.org/r/20251009225050.88192-3-heiko@sntech.de
+    (moved hpd-gpios from dp-connector back to analogix-dp per dp-connector
+    being not able to detect dp-monitors)
+>=20
+> > =20
+> >  	if (!analogix_dp_detect_hpd(dp))
+> >  		status =3D connector_status_connected;
+>=20
+>=20
+
+
+
+
