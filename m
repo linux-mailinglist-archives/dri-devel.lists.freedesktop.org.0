@@ -2,90 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F56BC915F
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2D7BC91AD
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0594410EA25;
-	Thu,  9 Oct 2025 12:42:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="D1FqyXZ/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E0010EA27;
+	Thu,  9 Oct 2025 12:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7171310EA25
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:42:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760013721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kSkwsHp8oAa0DAmFsIWLiQzxk/uK9SKHg1W2Wnk28BU=;
- b=D1FqyXZ/w5r82XhbsmaJBfvWeDDR8g9oaMdkilJ977yQQl5YRhg62eUnSyG4GEQ+s+q3A3
- Nk5D61rfUDhzf5Uc5BlxG4wLT8WxOZtU2kLhE7CxB2o5axglLnZcTrJtXMBOy83FDaWx7F
- GEXIA4x5S2vNd5KQ5mHlIDi78+pmjOU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-529-Awn2sK_QPFCGMpJv-L3_Gg-1; Thu, 09 Oct 2025 08:42:00 -0400
-X-MC-Unique: Awn2sK_QPFCGMpJv-L3_Gg-1
-X-Mimecast-MFC-AGG-ID: Awn2sK_QPFCGMpJv-L3_Gg_1760013719
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3f93db57449so638381f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 05:42:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760013719; x=1760618519;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kSkwsHp8oAa0DAmFsIWLiQzxk/uK9SKHg1W2Wnk28BU=;
- b=Zq9WiMQyV92KT85vt1BmJKSaxS2vf0qGgO2aqLzZ2xgCrxvmJb8KriPbKFu6ljyHKL
- tw1Arqj/S7mH2tPNl/K0ka374fjZ9AP8As4je7D6c1bTQIUOx2J9yNWXIG3HXSFG02Qt
- xVMQie3Ys2UeZ9jkat9YohoP21WHcKTzlEmHa6memW2QvJB9oYIw7WrlaoISVMQAIzWJ
- tlquEzk9aLuWVDWALauAqroAsUSx0tyGvAS7RHI2n9UYxMn85BbB8wuo0Iir3XAhRe/1
- 2jS23orBlW8raw2eF+270YtjcEDW8MwBVmqwPEGwRle94lFIQYLrjk+GAHyfUm5OLT17
- BDvg==
-X-Gm-Message-State: AOJu0YxC9/eRumcEQq2LLFZJDA1zZ8OjZqSNSn8ffiL9ozTMWVu56tzN
- PZyZ/gIAvP6peu5fdweuz52JjrA3DFKkPgNCgo5t2OJR23HyzJQE3hsOw2m44Es89xpPVSmRjbW
- xpCEt/Q8t657svUufLWUux0Epu+oTQG53CQlDrY+tSglY03jlkXFv8ec8iP1sVu1JPJrQTw==
-X-Gm-Gg: ASbGncvK9rFwjmrxF+3aN+8X0KgOmcsEZZYCFhExX0u+TasAjtb/hUFqWzkDNLBouPc
- wFR71SqiTYXk3G9Lm5MxXRGoG98QZalYInQ0NPnMhWcXQV+H0NWIkQPOfTY4weOXoVEaA5mRSSX
- hVnuVh4sy7u7TlvLTn0jccikpVEJzCIyUorpqLiVMs6cyMr745Wo3w69OeEgY0h9aivA0yc3hXy
- LONgVnieTFYg/iVSfVTQ5eHJwrnmf4sVjMWbXXHRZaXmxB0beg24JAacvwFWpstw0wpf+tM4zOm
- YExxTdL7fILhUrAkLY1OtwC9on8flSMpUFq2lQZ/WGdeoF8xm7qPU51cazcgt7lPF7fTQOMNzLp
- NqakNTmoCcw==
-X-Received: by 2002:a5d:5c8a:0:b0:425:8125:ac79 with SMTP id
- ffacd0b85a97d-42666ab97f0mr4792493f8f.25.1760013719268; 
- Thu, 09 Oct 2025 05:41:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGj5ZtPW3wj8BTr8a3k5V0GuJKzOJ7gnykrfgivzj0mXGnWaS3ccYCwqufWIeXe76tpr5p9OQ==
-X-Received: by 2002:a5d:5c8a:0:b0:425:8125:ac79 with SMTP id
- ffacd0b85a97d-42666ab97f0mr4792476f8f.25.1760013718886; 
- Thu, 09 Oct 2025 05:41:58 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4255d8f0846sm35346392f8f.45.2025.10.09.05.41.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Oct 2025 05:41:58 -0700 (PDT)
-Message-ID: <38517a7e-41fd-4a53-9d41-01f77757f33c@redhat.com>
-Date: Thu, 9 Oct 2025 14:41:56 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6195910EA27
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:45:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3232176A;
+ Thu,  9 Oct 2025 05:45:42 -0700 (PDT)
+Received: from [10.1.34.29] (e122027.cambridge.arm.com [10.1.34.29])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1AE323F66E;
+ Thu,  9 Oct 2025 05:45:48 -0700 (PDT)
+Message-ID: <4400c6b4-d2ad-429a-b84c-60a2f593cff1@arm.com>
+Date: Thu, 9 Oct 2025 13:45:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] drm/ast: Store HSync adjustment in device quirks
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20251007150343.273718-1-tzimmermann@suse.de>
- <20251007150343.273718-6-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251007150343.273718-6-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fjhcCGSvjTL8C6BrcNiZKU6EaAFijbgnJ3DShnje3SY_1760013719
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2] drm/panfrost: Name scheduler queues after their job
+ slots
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: healych@amazon.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+References: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,61 +53,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/7/25 16:54, Thomas Zimmermann wrote:
-> Add the add4 flag to struct ast_device_quirks and set it on AST2600.
-> Replaces a call to IS_AST_GEN7() in ast_set_crtc_reg().
-
-Thanks, it looks good to me.
-
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/ast/ast_2600.c | 1 +
->   drivers/gpu/drm/ast/ast_drv.h  | 6 ++++++
->   drivers/gpu/drm/ast/ast_mode.c | 3 +--
->   3 files changed, 8 insertions(+), 2 deletions(-)
+On 09/10/2025 12:43, Adrián Larumbe wrote:
+> Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
+> queues"), give scheduler queues proper names that reflect the function
+> of their JM slot, so that this will be shown when gathering DRM
+> scheduler tracepoints.
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_2600.c b/drivers/gpu/drm/ast/ast_2600.c
-> index 7cde5ce9c41f..dee78fd5b022 100644
-> --- a/drivers/gpu/drm/ast/ast_2600.c
-> +++ b/drivers/gpu/drm/ast/ast_2600.c
-> @@ -63,6 +63,7 @@ static const struct ast_device_quirks ast_2600_device_quirks = {
->   	.crtc_mem_req_threshold_low = 160,
->   	.crtc_mem_req_threshold_high = 224,
->   	.crtc_hsync_precatch_needed = true,
-> +	.crtc_hsync_add4_needed = true,
->   };
->   
->   struct drm_device *ast_2600_device_create(struct pci_dev *pdev,
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 76969244d36f..7be36a358e74 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -176,6 +176,12 @@ struct ast_device_quirks {
->   	 * by AST2500PreCatchCRT in VBIOS mode flags.
->   	 */
->   	bool crtc_hsync_precatch_needed;
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++----------
+>  drivers/gpu/drm/panfrost/panfrost_job.c |  8 +++++++-
+>  drivers/gpu/drm/panfrost/panfrost_job.h |  2 ++
+>  3 files changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 22350ce8a08f..607a5b8448d0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -668,23 +668,19 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+>  	 *   job spent on the GPU.
+>  	 */
+>  
+> -	static const char * const engine_names[] = {
+> -		"fragment", "vertex-tiler", "compute-only"
+> -	};
+> -
+> -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
+> -
+>  	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+>  		if (pfdev->profile_mode) {
+>  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+> -				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
+> +				   panfrost_engine_names[i],
+> +				   panfrost_priv->engine_usage.elapsed_ns[i]);
+>  			drm_printf(p, "drm-cycles-%s:\t%llu\n",
+> -				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
+> +				   panfrost_engine_names[i],
+> +				   panfrost_priv->engine_usage.cycles[i]);
+>  		}
+>  		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
+> -			   engine_names[i], pfdev->pfdevfreq.fast_rate);
+> +			   panfrost_engine_names[i], pfdev->pfdevfreq.fast_rate);
+>  		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
+> -			   engine_names[i], pfdev->pfdevfreq.current_frequency);
+> +			   panfrost_engine_names[i], pfdev->pfdevfreq.current_frequency);
+>  	}
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index c47d14eabbae..0cc80da12562 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -28,6 +28,10 @@
+>  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+>  #define job_read(dev, reg) readl(dev->iomem + (reg))
+>  
+> +const char * const panfrost_engine_names[] = {
+> +	"fragment", "vertex-tiler", "compute-only"
+> +};
 > +
-> +	/*
-> +	 * Workaround for modes with HSync Time that is not a multiple
-> +	 * of 8 (e.g., 1920x1080@60Hz, HSync +44 pixels).
-> +	 */
-> +	bool crtc_hsync_add4_needed;
->   };
->   
->   struct ast_device {
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index ebb1ec82d904..a8917ab7028c 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -288,8 +288,7 @@ static void ast_set_crtc_reg(struct ast_device *ast, struct drm_display_mode *mo
->   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xAC, 0x00, jregAC);
->   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xAD, 0x00, jregAD);
->   
-> -	// Workaround for HSync Time non octave pixels (1920x1080@60Hz HSync 44 pixels);
-> -	if (IS_AST_GEN7(ast) && (mode->crtc_vdisplay == 1080))
-> +	if (ast->quirks->crtc_hsync_add4_needed && mode->crtc_vdisplay == 1080)
->   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xFC, 0xFD, 0x02);
->   	else
->   		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xFC, 0xFD, 0x00);
+>  struct panfrost_queue_state {
+>  	struct drm_gpu_scheduler sched;
+>  	u64 fence_context;
+> @@ -846,12 +850,13 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+>  		.credit_limit = 2,
+>  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -		.name = "pan_js",
+>  		.dev = pfdev->dev,
+>  	};
+>  	struct panfrost_job_slot *js;
+>  	int ret, j;
+>  
+> +	BUILD_BUG_ON(ARRAY_SIZE(panfrost_engine_names) != NUM_JOB_SLOTS);
+> +
+>  	/* All GPUs have two entries per queue, but without jobchain
+>  	 * disambiguation stopping the right job in the close path is tricky,
+>  	 * so let's just advertise one entry in that case.
+> @@ -887,6 +892,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  
+>  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+>  		js->queue[j].fence_context = dma_fence_context_alloc(1);
+> +		args.name = panfrost_engine_names[j];
+>  
+>  		ret = drm_sched_init(&js->queue[j].sched, &args);
+>  		if (ret) {
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+> index 5a30ff1503c6..458666bf684b 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
+>  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+>  };
+>  
+> +extern const char * const panfrost_engine_names[];
+> +
+>  int panfrost_jm_ctx_create(struct drm_file *file,
+>  			   struct drm_panfrost_jm_ctx_create *args);
+>  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
+> 
+> base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
 
