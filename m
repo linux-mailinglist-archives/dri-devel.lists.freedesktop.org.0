@@ -2,184 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C76BC8990
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 12:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935AEBC8A86
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:00:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C441010E219;
-	Thu,  9 Oct 2025 10:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC6F10E9C9;
+	Thu,  9 Oct 2025 11:00:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XYMVmkNH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AGxgnV+m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC2010E209;
- Thu,  9 Oct 2025 10:52:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A30410E9B5;
+ Thu,  9 Oct 2025 11:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760007142; x=1791543142;
- h=message-id:date:subject:to:references:from:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=an+VGZlpeCt07XVMMF8rvt8ayM3Hqd1uSE9fF5pRAL8=;
- b=XYMVmkNHMqb5TN54Kj10uX5073L61t7L5b1oloGHIgUkdlwT7rJ9mqg4
- 2RynPQ54NZPl6QR0FT1c/+FtLKLZ2kWjJj0KGL9I3a2GrRvSXLUb+hT4I
- jaTlFq4XZZU4Zin6kbz82MM/NmQKgLMR/31iudR+FFSS+7LKRooJTt8e9
- p9TppPQAwW69SkgsGS+KfDyx4zldPcrdtRHECOccSFENdFN/s3ouWk7F+
- nXE/kDSutAnB5JR/58RWN6iVYYv7RobBIHz0ZPUPIa1Cm9Ct8BUr0obo+
- ibJnDMERFib+TqjrpN9K2qD+J3IICZ7Sk91elgpJa/suCyLP7fr9Cfca5 g==;
-X-CSE-ConnectionGUID: ET0gjTgQRjyJAU7oxYoAUg==
-X-CSE-MsgGUID: fss6MMM1SQOu1lh4tYzvbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="64832881"
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="64832881"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 03:52:21 -0700
-X-CSE-ConnectionGUID: hOt08gExQGOuEXGF51zFdw==
-X-CSE-MsgGUID: 992QJLTmTlykJTVvyn33pw==
+ t=1760007634; x=1791543634;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=DHVXkUH0kbTqDYgktOHT3YfalcOlPhqKAyqM2cWdVLM=;
+ b=AGxgnV+mYMIL1O8HkWXtq7JmuUALr96SuGlek/qj/Hgo+zN7KfQTTGcj
+ xi3Tl05Bwjcz54Af+ipE3uOqYTIonImuX2ItR1P+/0mIDm1p8OYuErCWO
+ wDKjaiBUS/mwhHD6IwYoLSjp1L4wcSUQsL11E9cFQDk1wP4i9DZU7yTuA
+ ZaFNd1NsWGuSQhneczOZfXKQH2r4h5oDXBsMILlQGnCwvQv6Fu7SgszlX
+ IqiK4CekC9jdfsL2OHCYXcuO2dtJs2jnTAu7/eXgzIF60Ys7CKTMIoCNg
+ n2Nd20Q87mlSWqS91DtzPfIhzDhEl69DrUbb4DczLOT9Q67fpQDUpH6lb A==;
+X-CSE-ConnectionGUID: 4B53u588QBSxSio+0qAI8A==
+X-CSE-MsgGUID: yXYMCTKYScOntScj7rM6JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="87673765"
+X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="87673765"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 04:00:32 -0700
+X-CSE-ConnectionGUID: 50MBqxj2SeiZ3qERiRBOmQ==
+X-CSE-MsgGUID: wMTYu246QzmU0qKkXg8y9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="211323649"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 03:52:22 -0700
+X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="180710040"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 04:00:32 -0700
 Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 9 Oct 2025 03:52:20 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ 15.2.2562.27; Thu, 9 Oct 2025 04:00:31 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
  FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 9 Oct 2025 03:52:20 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.23) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Thu, 9 Oct 2025 04:00:31 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.62) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 9 Oct 2025 03:52:20 -0700
+ 15.2.2562.27; Thu, 9 Oct 2025 04:00:31 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fMs+z8wHl+VNj6mbjk+xqxE1V+fVncDo7kpTevD4KE6uXL0VrzsoGfae5Pp4Uat1VVPbWgR0m5XQZ39R5EjBvnWuvaOq+hKYDs9DEg4tU2Tpf1f58zVP0WkhNUdIWE64DiZm+ZCIhYUDYFwj/7l7nNGLzL0OvSbjI7FO13BRfdNZ6O3n5jzDS/bY0C68ym0K4fXKlAOWvMyVBs7fxq3tj0OI2yNxFbo1+ae4qJqIjf3GNhfSi5JC06hBHTMZb2WKFPexaOemANLOAxq9F8GKdHS7TI6bGFK2Gep/nbs8bpMMAGC1YWVhQMP6CIMrrQWj4K3eTO/hzJmmYnA9JSHA4A==
+ b=whP6G1FmNljWfvQ4mvFeIUyuIOB9Uj5SPgnOTBfWoeNNthcVCVy7xW23Xrs3BDUzRwoAbDHjsRTk/60ikrzf/cfOhXSzya7ifVO+WR3s2nLtNknqTZz0fD64IEgv9oCWHmTVVLxJevHhIvDleD5BDnRZ5ACGcu7WPiCbhkYWmTNHIttMjJ43ThSeai+HxuQlahhD3En29qhCUtGvhfv3zU+NB6ewJY3eFNec7xWT73mLyIzGZ1lpuz130XWzNqbL+xVW5ARhXdudcZBQr0/Ewsu5SM7Ekg/dZIEVFIBwQcUcg0SjBVGnUe84+rl5wZTVT0J/gYL26az1QNsCgdPzAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XK4aOXHvaqOs1G3mNcOBd5qlRiu1od59PF/GPeBk9nw=;
- b=VW0IYFYgfnWsf48fDUZ4EXNf8tgdfPZyFBiLrDay19J4X1MmAmox2wQnp4zJ7qYxsVdNtGtY/JU5UenK+w/iFzMbA0mCSqL2ZpC+iSw66lyLZX+pSzKi2r/IxCsBWCOvFRkYQhYSHxnXSWbeTOyL26/mI5wAscNwdrQCA79lXmtkQZMDQykuQ1VnRzWHaI++yiIFWCp3NWXcDqfjViV6r7jyXsW4AjP9KwU08m3c78wnQVyj4V/PhPtPLnCyY+SCNw4YzdT882jRfEmHMSe6iDgbDj1Ys1sLn97APgVy2BLKd+NphUIWNksF0iUJr9yPpzhBDTTI5K3KrOkW3uXnAA==
+ bh=Y8dtjfGTfGhG74GuNCrQ3TTQ6YCHUCBN4ULNumABCuc=;
+ b=iewEg9mVNoaxRsZzNM4LQIi76TVEAbHmFi8OVA+ZQk5sNEsDSxVsz1DruDVNfhGwmEcCOD8Hcgm0Iwhb3YKkZi5gd3Qk58UlERlYiHDLkZKxNf/lMYsmebK+e7oeAOvovCx7QZVvaSFmVnVrM/VJplvOwrg16v+2NJTqFJ4ZG1B33FCHi16IoAe4OEhFM7Xrx7dsPD/LxC0cEXokxQiOKKMdn882UO27FLBklCPExaRmZ451NHqP4iKFk4ZQ5MsA5suVvZlqg6cysZhrPW1+rxz16s58uXip+nawj014SXbK9o6fInjZiDyOPf6wJBBu4p7EaLM1mZFv2/w4XOXsqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by BL3PR11MB6316.namprd11.prod.outlook.com (2603:10b6:208:3b3::6) with
+ by PH7PR11MB6474.namprd11.prod.outlook.com (2603:10b6:510:1f2::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Thu, 9 Oct
- 2025 10:52:17 +0000
+ 2025 11:00:29 +0000
 Received: from DM4PR11MB5341.namprd11.prod.outlook.com
  ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
  ([fe80::397:7566:d626:e839%7]) with mapi id 15.20.9203.009; Thu, 9 Oct 2025
- 10:52:17 +0000
-Message-ID: <35451049-3933-431a-9603-aec868d1d105@intel.com>
-Date: Thu, 9 Oct 2025 16:22:10 +0530
+ 11:00:29 +0000
+Message-ID: <aa510447-53d5-4b27-aed1-03ecc6d36d32@intel.com>
+Date: Thu, 9 Oct 2025 16:30:21 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/10] drm/i915/display: Compute the scaler coefficients
-To: Nemesa Garg <nemesa.garg@intel.com>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 01/10] drm/drm_crtc: Introduce sharpness strength property
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Garg, Nemesa"
+ <nemesa.garg@intel.com>
+CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "G M,
+ Adarsh" <adarsh.g.m@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
 References: <20251001063500.1259687-1-nemesa.garg@intel.com>
- <20251001063500.1259687-6-nemesa.garg@intel.com>
+ <20251001063500.1259687-2-nemesa.garg@intel.com>
+ <epzspujsf2o4wq5ykswe7a3hvrb3vy5wgenglfopmkuepyfstm@5kkpxstpyc3r>
+ <IA1PR11MB6467E47D1D61DE21DCC2B9EAE3E1A@IA1PR11MB6467.namprd11.prod.outlook.com>
+ <mqvmv3bqikoekjhhwqifzatzouxym4yy4eab6bb2zjhzlv2tfw@l5iumy2ybngl>
 Content-Language: en-US
 From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <20251001063500.1259687-6-nemesa.garg@intel.com>
+In-Reply-To: <mqvmv3bqikoekjhhwqifzatzouxym4yy4eab6bb2zjhzlv2tfw@l5iumy2ybngl>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0042.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:175::10) To DM4PR11MB5341.namprd11.prod.outlook.com
+X-ClientProxiedBy: MA5P287CA0067.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b3::15) To DM4PR11MB5341.namprd11.prod.outlook.com
  (2603:10b6:5:390::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|BL3PR11MB6316:EE_
-X-MS-Office365-Filtering-Correlation-Id: fd774591-f328-4e06-f81e-08de0721e983
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|PH7PR11MB6474:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a64ff5a-208a-42a3-a970-08de07230eda
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QXVpSDA0L3lTTEl6ODl1K3RoVy9iTituNExGWlY2ZU1zUXp0bG5qSXRYNUxa?=
- =?utf-8?B?NFh3UEpweG5kTDI2WTZqWlJldFVEbitxQk5ydGFOdTI2cFNvWVRqS3l3Q1pz?=
- =?utf-8?B?cVpjSFJqaE9waHliNzF1dUNhMlR3SWFMYUJvRlhobDZIbDB1NzIrZnpEbU9q?=
- =?utf-8?B?ZmFUS0UvSmxpU2tiazMrODdPVVhMSC9hSDJ3d2lEQ2FLa0hYZHd5anNKUE1B?=
- =?utf-8?B?a1RkbXJqNWh3c1pldXhUeWViZ3E0U0ZBdXFXK05xRDlqRzNhdy9wb1BkVmwx?=
- =?utf-8?B?a0ZpZDVqdGh4VzdXL2cwN2huRlI1ckd3REppOHQ0ZWlLYVAxdkRyTnNXSUJl?=
- =?utf-8?B?ck5Jc2Q2WENBcDNKOVlTdG1uYXc4L2podmZWZjF1cDk5b2NCUUpsSjgrRk1a?=
- =?utf-8?B?L1doclNtYlFQS2Ivck1DVUo1TGhZbURJT1dxYnpwNGdhZXVEcnllY21QeVVN?=
- =?utf-8?B?bE9naTQyQUpFdWhqL3hoeXRIblowYzlpL01uWFUyeXlSdU4wZ1dhTVNQeEls?=
- =?utf-8?B?RlRiTmFRbXROMDcvdXpIZjFFTUNpRkptMnZVUGdId3BRR2RpMHhKZm1OanJu?=
- =?utf-8?B?SVljOVFMM1BGVkxWbHRhcmthQkxPb21yc1lxbHhoK3ZNdnpYRkhhS3dxY1dS?=
- =?utf-8?B?eHZnMjlUWTgweTlvM0p4eS91WER3TURDWnF0U1RFaCs4dUtqazBvb0lVR2tY?=
- =?utf-8?B?bXlBSGpYWTF0SmFtenpnVkpleW54Wk9EMDYyU0JYZWVzSGUxazlkR3cyUGJp?=
- =?utf-8?B?Tkg0K1Q1TTVEQ2w3ZDEvUTN6aGwvQ0ZIMlJaNlk0S1N4bXlGS0ZkWks1dFFH?=
- =?utf-8?B?dmJpbzdXL213WG1jbmZacTczZ0k4aGpSYnBpS0dwdTdoTjE3TXA4SHlUbGxN?=
- =?utf-8?B?VGFqQ0VvbUhVLzg1ZW5HMDZKeU44elZveHJ6b3AwOWxEK1Y0dGkxOWZXYTd1?=
- =?utf-8?B?ZUxMVDAwZVJLZWd4cGxPOUlTWGREd3lZMnEzTnFSK2piNEZrcVVEeWRrdGUv?=
- =?utf-8?B?dzBoY1FsR3NqdThaYmNCZVRra1VNUGZOS1VodHBlWG1JN1hUREdmd0IrMVpp?=
- =?utf-8?B?V2lLSEVWT0pNbmdFdW1NcjlHdlc5Ym1VeVJwL3VzOExMcVd6Ung2VTVtakpL?=
- =?utf-8?B?MTB3V1VQNkxWWW9hdjFsTDMyOUVlWkJBL1lMdGh4dGZCTVNHUVpVT2RTWVNK?=
- =?utf-8?B?YjRoakVOYzNXYXc2Tk9aUlhwYXZ5M0Mwb2FZQ3ZPWGZpZ0EzNVUySkt4S2ZM?=
- =?utf-8?B?THRkdWpCRStUcXhUQnp0VzVSMnBaR1pLR1FRZmV4REk4Y3drTldoZ0VCMHZY?=
- =?utf-8?B?VnBLaW1mU29HQ3A5TkhtUERVdE02WEc2WDhpcjJTRGRrTTJCcXJScVpGTjcz?=
- =?utf-8?B?UUZqN000Sk04Z1NnUjdHNW5ZeGxUT1IzYStaZTM5WEROdk1VdkduVk95WlFx?=
- =?utf-8?B?RzRwVzByM0lUQitwZEw4aUxMN3BETE52MTVKOFlRY0w5eTAzelpRTE9pS0dY?=
- =?utf-8?B?RUEwQ2tCUWhvVDBiUXR4bVh6OUxBVmZvN3dwRG1mdmtxSmtEcEVQWUdWSzBX?=
- =?utf-8?B?V3A0dlpXSkNuQzZ1WDB5WjVKQU5QL1Z1ZmF2eXdPU2w1S0hqZ2U2UEE3OXMw?=
- =?utf-8?B?Z3kwNi9HcEIrZzZSb05FWVRYS0ZhTkIxRnhMWVl3d1JkL2M5SjY1ZFdtYnly?=
- =?utf-8?B?V3RxYUtjK3JudkZ2bTR3dy9sRUEycW5ZS1dZRUVidnF4MVpOQWw0UDBzTlNp?=
- =?utf-8?B?RWlLTWFjR0RIUEVUMkoyODZMc1ZlU3k5MW1jejE4RFVpLzdQMGlXMk8wMVky?=
- =?utf-8?B?aWpYczZLV3FudVI5SU1tcWhvazdsM2tiZ0ZxdTZQdndmbmlBSHRWYjBzKzFI?=
- =?utf-8?B?QnN5bW4yaXpJbGt2NXdHaTAwT1dSdzFrWnZOaWs2VFRYN3lkc1duNWN1TlU2?=
- =?utf-8?Q?wFy3cD63M94kDWoIxQHJ/gf6mNzNq9dO?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?blM3QUNYL29nMnVNR1YzYmJ4c0RhS0JTTC9sQThRS3FvdWdRQ1U4RFVKMmg4?=
+ =?utf-8?B?Y2VBZDhiN0l6NUhDNnJINzYxL2pIU3diOTVTbWtRQlBDYUFWME5idGNvc3Fx?=
+ =?utf-8?B?dnhpeURVTnlHRXI0OURTazV0cUlTMkhuMXBXb0ZKRkxVaXJoYTZ6VkxiS0pl?=
+ =?utf-8?B?V1Y4UnkrVHpiRHdTV3RVdmd6TjAwV3M0K1A3TnFVZnVBMzFvakRvMGs1dHdx?=
+ =?utf-8?B?TEc0UXpUUDFHQnRnbzBBUjhYazZUa0NmUXZScmVPOHI2VS95L1NKUDJldjJa?=
+ =?utf-8?B?ayswR21MWjRqSk0yamsrS294UVJXV1ExSDVHOWRnLys4MFEvK2lORVE3OE5E?=
+ =?utf-8?B?SXBDOWNtU1NSbi9EN0s5bnIwamh2Sit4Mlg2RjZ4K0U0V1RxN2JwT3pRb3Nx?=
+ =?utf-8?B?RTVhd0JadGZ0aGJ2QTNNMFhHZVpuRDJJT2xneCtkaWY1QjhrdURCZGdWYXYx?=
+ =?utf-8?B?a3lNbjZwRnpkWEpqSVc2dmlHYy9KMjcvekRTa0FERmZ5SGRtU1lWczVvbTdi?=
+ =?utf-8?B?WWYySjBVekkyUC9nV3dFRXFQZnMrdmN4MjlSRko3aHVlRzJPYzV5YUxPNUZs?=
+ =?utf-8?B?ZVRUbGlvekh0aXdXd0loSHVKbzBRSFhtVWRNTDlub0U3ckVLU09Wc1dZc0hG?=
+ =?utf-8?B?YVBvbUEwVEI4d21DaWtPWnZxd29RZDBGSDlmdmZFaGR2WFM0TE15a3QrNG5S?=
+ =?utf-8?B?cVlLeVFoMlNoNTdJMjRIVSs3TFJGZU9jT215YzQranJjU2dNNWlIRm92SVk1?=
+ =?utf-8?B?alJ3eWpnd2kvR3U4WkcrRzRMZUZrNXB2YlRhOEVyYTVJZzFJNldxZmZoTDI2?=
+ =?utf-8?B?TkRPc0JlZFpVZnRMZU5HYzdCOG1ET0l3OFovRmdnQUk4MTk0UG9VSkkxM2Ex?=
+ =?utf-8?B?SVd6U251YUVzeEViTk41ZVJlWXBVRGFtakhoZGlJZTVYZjBta2NQNnplSHdv?=
+ =?utf-8?B?Z0kweHlBYmJPbERIbTdOTzh6Q3dKdndUUzhJYncwTGdGTkxGamhVTUYxaklP?=
+ =?utf-8?B?SzhqUGZoVXhhY2g2SXkyV0orQjE1cHRUTUtFaU1SRTNQZThEWE9ORWFsNFFp?=
+ =?utf-8?B?VlZzcHJHMzd5R1o4cVRZZGhHUElsOEZHNjVYK0JvY1pyMjhPVEx5TE5MSWl0?=
+ =?utf-8?B?TFh1UmRYbWpkOFFXMHhYU0VhaHR0TWdwRDlpWW4zK1NBWUhlMnBkUDgxZVlp?=
+ =?utf-8?B?WHVsTWhkemZkTTg5VVRPakRyV056WEVyUVdaUE15cDU3aU1qeDM0NkpEYUFp?=
+ =?utf-8?B?V2loUUhrQWZ5ZUVPQktGcHlPdUhhQTFSR09KVEptN24rMG44RFlwZktwVi9J?=
+ =?utf-8?B?dDI5dDdWRExyaHJMcmlnNHBvUTYzYnh0ajlDNjl5TVRVSGwveW1lUGNraWNq?=
+ =?utf-8?B?WVJGbExnbUlpS2lKZ2xrUEVqT1V6czNrdDNPOGNtLzh3QkJUbjFtWkhqNE8x?=
+ =?utf-8?B?WjNMTlRqOGQzNmdCeXMrSTdXZE83ZTR5aWZDZ09aRXNSY2N1dVlCTjFLSTJW?=
+ =?utf-8?B?ZGNwMnpTVVlUQzdydE1Obkd3QzNpVmJEaU4wVDBLSHdNbVR4elBNVjROM0FH?=
+ =?utf-8?B?MEU2UVl3TitSZG1kUTZxekVjZ0VLVTF5Sm9PUEk1ZVQ1KzVOQVBsd04zYm5H?=
+ =?utf-8?B?bzMxcHg2QnVkUS84T0ltZDdnVTU4TnZDQjhjQUJvK3UyRjNlUFp0anEzTHU0?=
+ =?utf-8?B?cWdUc2FIR2lSaFh5TDZSV09iV2lDcVFIMGFjd3d0RGQ2SnVGOHhoRXRRTVJ2?=
+ =?utf-8?B?QXRBUlpXM3FVc1ZaZDZEanVMUTdSSEtRMzVlZU9vMlRWZmFSNzdwaGVqQUdW?=
+ =?utf-8?B?K09GY3pRNFAzVklHeisvQlRsTjhjdDJhNU0zS25VbDg1a1Npd0JublA5WlpJ?=
+ =?utf-8?B?N2lRaWdXMnhtWlAvWGFlM0pBeHQ0Sm4vYTRhVTZ0bWdGU0NFallma2NJcTEv?=
+ =?utf-8?Q?RBmGWgZ4ZCQVeXALKIo02wIKMjd176fs?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QW05MEI1REFIVmxlUE1lWFJYRmlsMVV6WElOU1ZweU9sRTVTUkhyZnNLUUFO?=
- =?utf-8?B?RUFDanNXNjZhc1lvK2lWWVBMZHRQUVRhYWptczkwaVQyb3FkZHRJUnFoenBL?=
- =?utf-8?B?M2tKQ3BIN2ZuYUdFVnoyWWkwcjZsSng4T1NTdWIwTktkSmR1eHFXWkplK25v?=
- =?utf-8?B?OTNhWEJJZ1RMVFFJcVc5aUJOVm9OWXpDeTdqUjQ2d2VPVUJPZVZnaU93UGZJ?=
- =?utf-8?B?dE9ieWo4NkZzV0l2eVYwWWdZN2dYenFzT1pSTFdYZkNHZnZFWm43ZFJORkZ4?=
- =?utf-8?B?RWk4Rkx4dWNSRnJWd3JxSmpKWDdjL0Z3a0RnZ0EyT0tIOHd6SGVGUVM0YUtM?=
- =?utf-8?B?TG5iTlV4U3pMQ3dxV3cyczNONlFvVThQemFoZmRUcGxOR2tUcHhtVHcwYy9W?=
- =?utf-8?B?Z0dlSmlyVy81Ym5UcStvUjdmRW1BRjZ1eGYvdUUxN2QzQ2cyT2pBeUJZWng0?=
- =?utf-8?B?Sks3YnBSTXdRSDNwbHB1WjhLNnlmczY3Qi9CSnFVMTFYNGFKM2VaLzBUb0cr?=
- =?utf-8?B?dXpzblNVZURtYlI3TEk0Y2ZaNW9ISVJVVUJRblBBUjF3QUx5OC90VDFmV3do?=
- =?utf-8?B?OW5NVHRsb3A5dXNrNkphMm0rR0Z2VWQ3OERqQ3krRmtQWGRuQ2gvUGdnOEg1?=
- =?utf-8?B?UVlVL0pxaFB6Z0ZhODBYcGpyM0hkMlV2NGtDcEh6L25JYXRHQlJGQjNOL0pp?=
- =?utf-8?B?Z0dwaXN0ZFVXSUlXMjIyNHdoR0kzQkxsSFdQWUtxRG9CRW00ejFwdURzdWFO?=
- =?utf-8?B?czd4L2V3SUJkRTlGSk5WdzRiK3JabzFlaTZ4UGhodm5LU216cHEvR0RtRm95?=
- =?utf-8?B?dmNiVjNDRVhQOE9BYlJBaVF3NVhpS2QxQmpyY0lqbytlcFRpb2ZQbHUyTWhK?=
- =?utf-8?B?cVAyTVhvamRwaCt0TjhyRlY0UjBSci9yM0JGck0ySzJYUXcxNGwwWjMyWVoy?=
- =?utf-8?B?UkFaYmkyRUdqaTJFVGszYjltK0NXd1FWWDFjK1RFTFVCbEttMlNSeXJuWDIw?=
- =?utf-8?B?ZW0zalRxb2taK0t6Y01OOEtZQ0V4b0VtR0J3KysyOVpWdk1lL0VEMzZKZFll?=
- =?utf-8?B?anZSRWw3RURyTUZkd054Wnp6WDhBcldka21EdnVNZi80NENDbjN0bWsxRjhv?=
- =?utf-8?B?VFNwb3A5UFhtaEFtSVRiTHBYeFdPNXVFOW56S1EvUTVoYVZnVWZKeStmVE1V?=
- =?utf-8?B?US90TTZ3VERmakdGOU5JdWlTOEQ2YnlBR1VqZHFSQ3hWdFJ3N3h1Uncyb1JM?=
- =?utf-8?B?Q092L1o5TFY0anE1UmJWUFI5MDZnSUFXTTVIWlYvUVAxQ2JHT3N5bTdKYmda?=
- =?utf-8?B?ZW9Mb0FoK0hEQjFYcWZpVjgyVkRPR2xwSUJvRjl6NXZkdU5Dc1JYRVlhUERX?=
- =?utf-8?B?VmUvU29MZVdOUUxwZkNhc1lBODBHdXg1aFFQRm9NUDd6N2w3dnlxcDluc1pF?=
- =?utf-8?B?QjV1dGdjRVpsWWErdmp3bk0rVElWWmxDNEY5U09waFhVM3ZUYVZXOFFMMjV3?=
- =?utf-8?B?TFVBNUZkM25DTVk2Z2JLWXNiSVY5clRzNWxFL3p3Q0Y4eWNLQ3lqdU9JRXd3?=
- =?utf-8?B?eHlHbVFLbDZaTlRsM2pyMmR0cTlhUUg3YTNmU0RmZ3d2Y3JRbW9rRjN2NnJQ?=
- =?utf-8?B?UW5UaXhrK2JRNW9Vd2w3K3BTMTdJMEJxWnhDRWFhK1owaFIyTHZ4NUtvcWtJ?=
- =?utf-8?B?MWMwa1pqSVRBUDRYcVcxR3dJZDM5Z0lJVzFZMzhQTHRsSWJ0bkhCYm91YTVQ?=
- =?utf-8?B?VE9QODZ2MUNmcmIvYnRZOS9rZFVueVRWNU8vWSs2cWkvRnJ5UDVpSURnVkoy?=
- =?utf-8?B?b2liT2ptNEw1aEc1QmxkVHBwNWRKajA4ZW1YU204WjZ0YzA4OTQwWUk5UTIv?=
- =?utf-8?B?cjRicDNNTVhiWmZ2SzJDaFRmMktrcEZvbjdPU3BpUDVmVjJUeUNRalMySHp1?=
- =?utf-8?B?UkZnS3IzZE8zeEE3NWxlZXgwbUN1V2x5cFhlVnBYVmxVa0pCbWo2VEZ2WHdh?=
- =?utf-8?B?Q1diNEkwZDZRcXZTUUxKUUxMQUJqc2REWDd2SHYyanBCcXJ6RHl2UUFQcjNq?=
- =?utf-8?B?SnBmYno2RXNxUTE3R1JKay9mWWg4VUtSY3RMRlJRU29tb21waU5sZ0ZDRmtx?=
- =?utf-8?B?b0lSRnc3TnNVejNMdStlZE9mSXNXak5XeURzYjNZRW96YTlLUlRHLzJxNkpJ?=
- =?utf-8?B?VXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd774591-f328-4e06-f81e-08de0721e983
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eExTdktJODAwVjBRbDVqK0lHVW0zbU5YUlBzNHJpRHVKbWdpNzRLclNJbG11?=
+ =?utf-8?B?cm5RSVZRSlJJdjkxK25LMHkyeFZkQVRtNk1xZ2hLb0dzMHY1UGhqRTlITlN3?=
+ =?utf-8?B?VnFqa2p1UldjbVo3SDBEYWx3UU1PMDJSSks1UjVQOEpWZGVhMXFGQTZjYjVS?=
+ =?utf-8?B?UFlyenBiL3kvVzVoNVZtSkpqNVBtSTZjZzBEN24xQ1FkOHJ4WHkxV3VCUTd6?=
+ =?utf-8?B?UmFpYWhveEl2SFBVczQyQ1MyYUxuNW1JNVBWT2Z5VERIdkhNenRCZERmanVN?=
+ =?utf-8?B?TUpMNE9yekFLbDFTSU5ROWxZeVdMT3p3a2hzczF5dDBMOGtPakowa25MM2Vx?=
+ =?utf-8?B?QUdvSjZzQ1c4OUNyTDJFRWVRNHVna21pWVZ4elM0SmV6aUZSZHVVcXBBMHBt?=
+ =?utf-8?B?WDNXc3MwZmdLeWxNTHFXdTVDV01EanQvMEI2cFdiQ3Nyck9NczJKOWhCWDY3?=
+ =?utf-8?B?UWlQcGdmY0t4YnVpU0NVWXlnWld0a2pTRnRmbjNQakpiNUZsMEFEVFY5MlBS?=
+ =?utf-8?B?UFBrM096T0w0Tjg4b3NvcEdMRitWeWpCMWhGbjdHYlROYnd4NmJwaVo0Rmxt?=
+ =?utf-8?B?SHcyWGZEY3FQb25JSDlqaFBNbEg0YTlRTEdRWkM0M1VpTThsVzc0MVFwZTRU?=
+ =?utf-8?B?dU5hVzQ5SXliaWZuTG5vMDVvcjNTcXhrcmpKZkRZZlowcm9qd0RHMmNZUlRn?=
+ =?utf-8?B?UFVOLzNmSGpoM3k3Qk9CZWlsYzJRMEpUbXd2Vm5zekw3SGJOZ0p6MGc1dGwr?=
+ =?utf-8?B?eUJwTktyN1MvcTJxUE0wNWJuWmsxS2Vhb3NuUkhSNzZDT3NqN3dUWmsrOTlG?=
+ =?utf-8?B?aEJtSTdoTXBEdW1sY1RHZ0F2VmN6c3d1WDNiL2dLYXk2SXpUQ3ZaekJ0WTlH?=
+ =?utf-8?B?ZHdHQ21qdzV0T0plWWRIbis4K2gxSHFuRkFXcnhoQUxQWEkxNGY3M1lwdkVF?=
+ =?utf-8?B?YW9mTGh1dFhQK3lPMU40SU5vaTVIMGFNa2NtRGo2MzBZbmxXdlZnTC9LZDB0?=
+ =?utf-8?B?NzMyQW5LdVdDamxaWlkwaUJYKzRIbjdjZTgxNzZMZlRSd1VsaElzcjYzNnI1?=
+ =?utf-8?B?bkViUUxyamJubVFIcXRuajN5WnkvZmZzMTQzZVFqYTM1V3pwa3NGWndLTUpx?=
+ =?utf-8?B?ZzBkckM3dkkvZjF6cmpsSmhYTFRDL3NVYm9VaFFRSmcrd3lsU05wRWJQMVV0?=
+ =?utf-8?B?SVBsSUNjeC9URGljRlhOZWpLQUh4eWlsZDkzZysrMnlnYUlLK0FPQWpaQkx3?=
+ =?utf-8?B?dGEwWWxOY2Z3Qnh5UUZXK1VONnRaT3V1K0Y3TmxXcU5sUHZUZUdFVXFmZ1dy?=
+ =?utf-8?B?azlaQStpZ1NTZDhQMjVzY0R1RTFjSCtleFVXUGFjaEJXcHpJMi9MdUV0Tml0?=
+ =?utf-8?B?cGFvdXJUMk4xK29jZzdHZU1QVWxTUDY2aTBXVkR4bEgya3hlLzZ2Y25sbFo3?=
+ =?utf-8?B?b2NWQU1qVklrMkNGM2dBSitkT0x5enVlSWUvMjQwTEFRR01Pb0R1MFZZdG56?=
+ =?utf-8?B?WUtISlZ2SUFSa3BCNFk4cVJ1dzhGdFpVdUxKUHY5YjNac3NabUFBV0pLd2t2?=
+ =?utf-8?B?QzVKd0RUeG9seVFTR3ViWDNmWURDczFwNkt5QkNGOTZmRmVvMmZUTEJ3WXdS?=
+ =?utf-8?B?V3cxYXhGWWJlQ0lBQ2tQaUh6UHdXZXl2QjUrWHRSZzNXeDB0TEl5elFucTFw?=
+ =?utf-8?B?cUpDMzVsZktKUHN6UWwrRVFDbnB1SWxMWWpabEJVUnV0Wjl6bHpIV2ZCcm14?=
+ =?utf-8?B?aU9TNVA1akI1dmNTN0t4SkJOSndnODkyOGMwNDhRMk9VcDNWajUxZnY1Y0xz?=
+ =?utf-8?B?QjQza2pWMVVCbm5tcjhoZmNlUUR1QUw1NkdIV2ovcDZXMUNnZTB6TzRudlp4?=
+ =?utf-8?B?anpFWktzWXV2aWRJalZ2UDJSWHRidFlxaXU1ZHJ3WTcrS1BEekZ6MEtwcWtw?=
+ =?utf-8?B?c0o3bFg3YmE2VEtYejVlMDZIY1FFclJqeTRoVFFuVUJIRndxcG12emRlRlpu?=
+ =?utf-8?B?VTdna2xuYWd6MCs5bXcyOUxrdmZPUTZKUXpBTnk4WnpwajdFdXBiblpkbmpq?=
+ =?utf-8?B?YmROMzUzQ3J5T3pSRVVHbGtkSnhDTGtHSGlYelRBVXBZVGZrcGdJTWY1YS9o?=
+ =?utf-8?B?VnFXQUFVMGp6K0ZyTDVFOTRiOVoxaHVPeENDK3lGRXFaSVBKYS9yNVloWW1K?=
+ =?utf-8?B?SHc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a64ff5a-208a-42a3-a970-08de07230eda
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 10:52:16.9849 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 11:00:29.3167 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SkdrgMqF3DNRjZdiqZtBT87PMgmgLTZvjGCkd/4YStigYA1DyLryCN5RvD6pVAY2/ORYDHrxQoAxjfekpjaIc/N8uxXsl0tQmsPGadLERRM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6316
+X-MS-Exchange-CrossTenant-UserPrincipalName: ByyLMNG21QeDsI0hLkVMZGkBWxzFIOIY7EsH0HPb8N88gms1Huz4x+SFMy11hIIGEoXIcqbfx3vaamFnUk9gg6EHVuersn9mPmVBVrMBi8s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6474
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -197,192 +204,128 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 10/1/2025 12:04 PM, Nemesa Garg wrote:
-> The sharpness property requires the use of one of the scaler
-> so need to set the sharpness scaler coefficient values.
-> These values are based on experiments and vary for different
-> tap value/win size. These values are normalized by taking the
-> sum of all values and then dividing each value with a sum.
->
-> Add helper to compute and set the scaler coefficients.
->
-> v2: Fix ifndef header naming issue reported by kernel test robot
-> v3: Rename file name[Arun]
->      Replace array size number with macro[Arun]
-> v4: Correct the register format[Jani]
->      Add brief comment and expalin about file[Jani]
->      Remove coefficient value from crtc_state[Jani]
-> v5: Fix build issue
-> v6: Add new function for writing coefficients[Ankit]
-> v7: Add cooments and add a scaler id check [Ankit]
-> v8: Remove casf_enable from here[Ankit]
-> v9: Removed REG and use shift operator[Jani]
-> v10: Remove filter macros
-> v11: Add casf_write_coeff funtion to casf_enable
->
-> Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+On 10/9/2025 1:35 AM, Dmitry Baryshkov wrote:
+> On Wed, Oct 08, 2025 at 07:22:00AM +0000, Garg, Nemesa wrote:
+>>
+>>> -----Original Message-----
+>>> From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>> Sent: Saturday, October 4, 2025 3:38 PM
+>>> To: Garg, Nemesa <nemesa.garg@intel.com>
+>>> Cc: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
+>>> devel@lists.freedesktop.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>;
+>>> G M, Adarsh <adarsh.g.m@intel.com>; Simona Vetter
+>>> <simona.vetter@ffwll.ch>
+>>> Subject: Re: [PATCH 01/10] drm/drm_crtc: Introduce sharpness strength
+>>> property
+>>>
+>>> On Wed, Oct 01, 2025 at 12:04:51PM +0530, Nemesa Garg wrote:
+>>>> Introduce a new crtc property "SHARPNESS_STRENGTH" that allows the
+>>>> user to set the intensity so as to get the sharpness effect.
+>>>> The value of this property can be set from 0-255.
+>>>> It is useful in scenario when the output is blurry and user want to
+>>>> sharpen the pixels. User can increase/decrease the sharpness level
+>>>> depending on the content displayed.
+>>>>
+>>>> v2: Rename crtc property variable [Arun]
+>>>>      Add modeset detail in uapi doc[Uma]
+>>>> v3: Fix build issue
+>>>> v4: Modify the subject line[Ankit]
+>>>>
+>>>> Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+>>>> Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+>>>> Tested-by: Adarsh G M <Adarsh.g.m@intel.com>
+>>>> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
+>>>>   drivers/gpu/drm/drm_crtc.c        | 35 +++++++++++++++++++++++++++++++
+>>>>   include/drm/drm_crtc.h            | 18 ++++++++++++++++
+>>>>   3 files changed, 57 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> b/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> index 85dbdaa4a2e2..b2cb5ae5a139 100644
+>>>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> @@ -419,6 +419,8 @@ static int drm_atomic_crtc_set_property(struct
+>>> drm_crtc *crtc,
+>>>>   		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+>>>>   	} else if (property == crtc->scaling_filter_property) {
+>>>>   		state->scaling_filter = val;
+>>>> +	} else if (property == crtc->sharpness_strength_property) {
+>>>> +		state->sharpness_strength = val;
+>>>>   	} else if (crtc->funcs->atomic_set_property) {
+>>>>   		return crtc->funcs->atomic_set_property(crtc, state, property,
+>>> val);
+>>>>   	} else {
+>>>> @@ -456,6 +458,8 @@ drm_atomic_crtc_get_property(struct drm_crtc
+>>> *crtc,
+>>>>   		*val = 0;
+>>>>   	else if (property == crtc->scaling_filter_property)
+>>>>   		*val = state->scaling_filter;
+>>>> +	else if (property == crtc->sharpness_strength_property)
+>>>> +		*val = state->sharpness_strength;
+>>>>   	else if (crtc->funcs->atomic_get_property)
+>>>>   		return crtc->funcs->atomic_get_property(crtc, state, property,
+>>> val);
+>>>>   	else {
+>>>> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+>>>> index 46655339003d..a7797d260f1e 100644
+>>>> --- a/drivers/gpu/drm/drm_crtc.c
+>>>> +++ b/drivers/gpu/drm/drm_crtc.c
+>>>> @@ -229,6 +229,25 @@ struct dma_fence *drm_crtc_create_fence(struct
+>>> drm_crtc *crtc)
+>>>>    * 		Driver's default scaling filter
+>>>>    * 	Nearest Neighbor:
+>>>>    * 		Nearest Neighbor scaling filter
+>>>> + * SHARPNESS_STRENGTH:
+>>>> + *	Atomic property for setting the sharpness strength/intensity by
+>>> userspace.
+>>>> + *
+>>>> + *	The value of this property is set as an integer value ranging
+>>>> + *	from 0 - 255 where:
+>>>> + *
+>>>> + *	0: Sharpness feature is disabled(default value).
+>>>> + *
+>>>> + *	1: Minimum sharpness.
+>>>> + *
+>>>> + *	255: Maximum sharpness.
+>>>> + *
+>>>> + *	User can gradually increase or decrease the sharpness level and can
+>>>> + *	set the optimum value depending on content.
+>>>> + *	This value will be passed to kernel through the UAPI.
+>>>> + *	The setting of this property does not require modeset.
+>>>> + *	The sharpness effect takes place post blending on the final composed
+>>> output.
+>>>> + *	If the feature is disabled, the content remains same without any
+>>> sharpening effect
+>>>> + *	and when this feature is applied, it enhances the clarity of the
+>>> content.
+>>>
+>>> I can repeat my question from XDC: should we extend this to negative values,
+>>> allowing softening (unsharpening) the image?
+>>>
+>> Hi Dmitry,
+>> The un-sharpening or blurring is a very valid usecase in pre-blending where certain layers (data
+>>  From clients) can be un-sharpened while some other layers can be enhanced with sharpening.
+>> This helps give  focus to the particular content and suppress the background.
+>>
+>> However, this current property is targeted for post blending so will be
+>> applied to the entire frame on screen, here sharpening only is the intended objective.
+>>
+>> We can pursue a pre-blending solution to target the un-sharpening case as well as a separate interface.
+> Indeed, I'm more interested in a per-plane sharpen / unsharpen property.
 
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Makes sense to have a separate interface for the per-plane sharp/unsharp 
+property, that can be used for hardware that support per plane / pre 
+blending sharpness.
+
+Currently Intel display hardware does not have pre-blending sharpness 
+support, but surely would be a good feature to have.
+
+Regards,
+
+Ankit
 
 
-> ---
->   drivers/gpu/drm/i915/display/intel_casf.c     | 99 +++++++++++++++++++
->   drivers/gpu/drm/i915/display/intel_casf.h     |  1 +
->   .../drm/i915/display/intel_display_types.h    |  8 ++
->   3 files changed, 108 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_casf.c b/drivers/gpu/drm/i915/display/intel_casf.c
-> index 313ed6b10317..91f2362405b9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_casf.c
-> +++ b/drivers/gpu/drm/i915/display/intel_casf.c
-> @@ -133,6 +133,8 @@ int intel_casf_compute_config(struct intel_crtc_state *crtc_state)
->   
->   	intel_casf_compute_win_size(crtc_state);
->   
-> +	intel_casf_scaler_compute_config(crtc_state);
-> +
->   	return 0;
->   }
->   
-> @@ -156,6 +158,101 @@ void intel_casf_sharpness_get_config(struct intel_crtc_state *crtc_state)
->   	}
->   }
->   
-> +static int casf_coeff_tap(int i)
-> +{
-> +	return i % SCALER_FILTER_NUM_TAPS;
-> +}
-> +
-> +static u32 casf_coeff(struct intel_crtc_state *crtc_state, int t)
-> +{
-> +	struct scaler_filter_coeff value;
-> +	u32 coeff;
-> +
-> +	value = crtc_state->hw.casf_params.coeff[t];
-> +	value.sign = 0;
-> +
-> +	coeff = value.sign << 15 | value.exp << 12 | value.mantissa << 3;
-> +	return coeff;
-> +}
-> +
-> +/*
-> + * 17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
-> + * To enable casf:  program scaler coefficients with the coeffients
-> + * that are calculated and stored in hw.casf_params.coeff as per
-> + * SCALER_COEFFICIENT_FORMAT
-> + */
-> +static void intel_casf_write_coeff(struct intel_crtc_state *crtc_state)
-> +{
-> +	struct intel_display *display = to_intel_display(crtc_state);
-> +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-> +	int id = crtc_state->scaler_state.scaler_id;
-> +	int i;
-> +
-> +	if (id != 1) {
-> +		drm_WARN(display->drm, 0, "Second scaler not enabled\n");
-> +		return;
-> +	}
-> +
-> +	intel_de_write_fw(display, GLK_PS_COEF_INDEX_SET(crtc->pipe, id, 0),
-> +			  PS_COEF_INDEX_AUTO_INC);
-> +
-> +	for (i = 0; i < 17 * SCALER_FILTER_NUM_TAPS; i += 2) {
-> +		u32 tmp;
-> +		int t;
-> +
-> +		t = casf_coeff_tap(i);
-> +		tmp = casf_coeff(crtc_state, t);
-> +
-> +		t = casf_coeff_tap(i + 1);
-> +		tmp |= casf_coeff(crtc_state, t) << 16;
-> +
-> +		intel_de_write_fw(display, GLK_PS_COEF_DATA_SET(crtc->pipe, id, 0),
-> +				  tmp);
-> +	}
-> +}
-> +
-> +static void convert_sharpness_coef_binary(struct scaler_filter_coeff *coeff,
-> +					  u16 coefficient)
-> +{
-> +	if (coefficient < 25) {
-> +		coeff->mantissa = (coefficient * 2048) / 100;
-> +		coeff->exp = 3;
-> +	} else if (coefficient < 50) {
-> +		coeff->mantissa = (coefficient * 1024) / 100;
-> +		coeff->exp = 2;
-> +	} else if (coefficient < 100) {
-> +		coeff->mantissa = (coefficient * 512) / 100;
-> +		coeff->exp = 1;
-> +	} else {
-> +		coeff->mantissa = (coefficient * 256) / 100;
-> +		coeff->exp = 0;
-> +	}
-> +}
-> +
-> +void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state)
-> +{
-> +	const u16 *filtercoeff;
-> +	u16 filter_coeff[SCALER_FILTER_NUM_TAPS];
-> +	u16 sumcoeff = 0;
-> +	int i;
-> +
-> +	if (crtc_state->hw.casf_params.win_size == 0)
-> +		filtercoeff = filtercoeff_1;
-> +	else if (crtc_state->hw.casf_params.win_size == 1)
-> +		filtercoeff = filtercoeff_2;
-> +	else
-> +		filtercoeff = filtercoeff_3;
-> +
-> +	for (i = 0; i < SCALER_FILTER_NUM_TAPS; i++)
-> +		sumcoeff += *(filtercoeff + i);
-> +
-> +	for (i = 0; i < SCALER_FILTER_NUM_TAPS; i++) {
-> +		filter_coeff[i] = (*(filtercoeff + i) * 100 / sumcoeff);
-> +		convert_sharpness_coef_binary(&crtc_state->hw.casf_params.coeff[i],
-> +					      filter_coeff[i]);
-> +	}
-> +}
-> +
->   void intel_casf_enable(struct intel_crtc_state *crtc_state)
->   {
->   	struct intel_display *display = to_intel_display(crtc_state);
-> @@ -164,6 +261,8 @@ void intel_casf_enable(struct intel_crtc_state *crtc_state)
->   
->   	intel_casf_filter_lut_load(crtc, crtc_state);
->   
-> +	intel_casf_write_coeff(crtc_state);
-> +
->   	sharpness_ctl = FILTER_EN | FILTER_STRENGTH(crtc_state->hw.casf_params.strength);
->   
->   	sharpness_ctl |= crtc_state->hw.casf_params.win_size;
-> diff --git a/drivers/gpu/drm/i915/display/intel_casf.h b/drivers/gpu/drm/i915/display/intel_casf.h
-> index e8432b4bc52b..13e5003a23fc 100644
-> --- a/drivers/gpu/drm/i915/display/intel_casf.h
-> +++ b/drivers/gpu/drm/i915/display/intel_casf.h
-> @@ -16,5 +16,6 @@ void intel_casf_update_strength(struct intel_crtc_state *new_crtc_state);
->   void intel_casf_sharpness_get_config(struct intel_crtc_state *crtc_state);
->   void intel_casf_enable(struct intel_crtc_state *crtc_state);
->   void intel_casf_disable(const struct intel_crtc_state *crtc_state);
-> +void intel_casf_scaler_compute_config(struct intel_crtc_state *crtc_state);
->   
->   #endif /* __INTEL_CASF_H__ */
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 771026f788d8..0eae95add055 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -946,7 +946,15 @@ struct intel_csc_matrix {
->   	u16 postoff[3];
->   };
->   
-> +struct scaler_filter_coeff {
-> +	u16 sign;
-> +	u16 exp;
-> +	u16 mantissa;
-> +};
-> +
->   struct intel_casf {
-> +#define SCALER_FILTER_NUM_TAPS 7
-> +	struct scaler_filter_coeff coeff[SCALER_FILTER_NUM_TAPS];
->   	u8 strength;
->   	u8 win_size;
->   	bool casf_enable;
+>> Hope this is fine.
