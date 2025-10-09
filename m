@@ -2,69 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4BEBC9EB3
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61052BC9F69
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 18:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C14010EAAD;
-	Thu,  9 Oct 2025 16:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C592410EA9F;
+	Thu,  9 Oct 2025 16:07:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nwawPwfj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mQXWXej6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D36510EA9F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760025843; x=1791561843;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=kUtizUfIe2efDM69TtiiHbA7DYqcbTxWTqdkPB8IZ4I=;
- b=nwawPwfjo5tINyLdJCytAMHb90fHVzkTuqIYf1tRCW/EOXevfRV1lhFA
- FdwX7WNUrHjoUOF90LU+pVvmvP6raAtDE2q3qQq6gUrXvCnD7H+e3PKe6
- n4YpfiP34QD6tD4+ezd4tkV90L6j0JzC5Q/FD4+0sunyDXc5PSxMJ4WGW
- gUNZQnWojqR/pUDULFQz+v9GjP0XzbN/wW4zPb2Q8WSVFBA9VwZchWiFX
- uF3ZMozPLNkwEyvwNJLEfLIhWzn6IK3d39rXBestD6Ufod/vE5gt7cAU7
- o1Ics/oYyqs8TPzByClSjMbX8I644ECM4Ua9T4GP6NDgqb7L2bq686ZQj g==;
-X-CSE-ConnectionGUID: 0hvBc4QUTGqpqLADPI8FpQ==
-X-CSE-MsgGUID: T6mhgLdlRfm2WGXjmgnY9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62336420"
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="62336420"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 09:04:03 -0700
-X-CSE-ConnectionGUID: hOVRPuV6SCqorm9Tg+Zy+w==
-X-CSE-MsgGUID: Tjni/0IIR2qfEfCUoeHzSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="181518329"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.245.21])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 09:04:00 -0700
-Date: Thu, 9 Oct 2025 19:03:57 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9F0F10EA9F
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 16:07:40 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3fa528f127fso877652f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Oct 2025 09:07:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760026059; x=1760630859; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ah71RYYCwhvPLrflp/SE2C1CvVpY05ssrF2NMUD4q1o=;
+ b=mQXWXej6u8oLaugTvLjKOG8BcQ/JxKkkNe4M+biqu4eDPtVkjwFMUmRJC65JUp1uK+
+ Y/SMB/aARFFPZkHb/iSgCDYfjLc+/Z3awSTmBwtSjRhrtXMHfylzaUbmaXlVXIIn6qtZ
+ qFg0oCbM+M8q32wYvLRygTqYVOAIAfBCl3zqYrO5DFPGtgX4Ia2HJwWJyNmy6LqcDKfc
+ wXnRuiPUPU18zG2xvy4+9sNyivw1pQxo67owp0oD7Pq2pHb4yc5nWGgnfzj1IoRAA0vp
+ ZakawYpxhA2pODb4tnZ/uVY28Gl14iGn8VQrMDNwPVGW2qHU7oDh61vRJe0+eFpUAWtg
+ wMGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760026059; x=1760630859;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ah71RYYCwhvPLrflp/SE2C1CvVpY05ssrF2NMUD4q1o=;
+ b=fk34oYtZtbQbrUVcZG6Ir6qMZOPnBF9UZbGMXBZ9jfvDdJaRpO3X5ptNGpTwq6jzWl
+ +oSzLtUx1DVdgdcDaflWomyy2O5PmvW4Q7FBwtKF9craFZE4uHLVWiLJvg8LmwfOnVaC
+ qJ8U2pY/40chGBeef5VJPkHWTkA8aVgOX+PdreGr/JB0rOUwIBg3EownlNsFHZJv3fjo
+ ctCMq/QaGZaanKGF/lrRSGIiXmU/WO98Fcm03lmRmzk/00m5GHlu7kZJnPiNWphaRDt5
+ 6s/Wb1ndU44UpHd7oZhTqJhiUj7sBwHN/pehDAXpOwV8zg8y8Z9WjA7D90qwSzzY2xAf
+ Nmog==
+X-Gm-Message-State: AOJu0YwljqK3XjNdr5VQN8q/aa5zP77rUq2NFIfToC3zj+Q3dYEOjH0m
+ pZj0zwV6BJg1/JODkBMFERl4szQnPFvhjucfQy3+6HsvphBWe6RzBmXA
+X-Gm-Gg: ASbGnctvRJPwdVENGezF8z9yFYxRsgDRM92yKHf1UyFbKOrcx561tkhA3FVjSYTNoei
+ pOUjxOziS7cgnDEeKpeE/9RQs+TeVoAJk90Psw2DyLR3PWMzBqOKVsvpVVR4wzRvCm8DLB3DXxR
+ c3Bkeb5Ad1eAOdKM30oiccoejZOlyT4HdazREQ9BuPbQKEu40fiE9kOqC7/Kyq+BnRMmNF5/JvB
+ 1BQ/mcuron3MsTvL0rLFOGpCaPQaWWrU+fWA6hAi+ObQN92+8/0YIaFkLF5ujcmj7DcV5uYBi0O
+ ai3uUU6XCOI/8j73b+oKSdZ41QNTlGJme93LWoSu8aPdmQ6Py62M+Vyt01XRGI3lt/D4ezx/rth
+ yYZXvrlFJ/r0+4dW7JfxoVUxpjQXx3+G7tJSMoSegYoogF8iBT35erJz3B5qs5jkMlq43dWJfXL
+ ipkX6L
+X-Google-Smtp-Source: AGHT+IGxuBNO3H+uGp5GLq88cFcoq8l3NQrqENv31LLcKHd2kWMzfztWuUeSeIUqEX0lkAYgro4w9w==
+X-Received: by 2002:a05:6000:1845:b0:3ee:1494:27f5 with SMTP id
+ ffacd0b85a97d-42666aad658mr6085490f8f.13.1760026059072; 
+ Thu, 09 Oct 2025 09:07:39 -0700 (PDT)
+Received: from iku.example.org ([2a06:5906:61b:2d00:480c:edeb:2884:a92a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-426cd93e45fsm94632f8f.4.2025.10.09.09.07.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Oct 2025 09:07:38 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH 05/16] drm/dp_mst: Switch private_obj initialization to
- reset
-Message-ID: <aOfc7ajsjOT5yNjN@intel.com>
-References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
- <20251008-drm-private-obj-reset-v1-5-805ab43ae65a@kernel.org>
- <aOZv88NgbjmT49N1@intel.com>
- <20251008-phenomenal-industrious-elk-eaa232@houat>
- <aOaNbCo8a-DDlDAc@intel.com>
- <20251009-rigorous-nonchalant-cobra-f8bfa9@houat>
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v10 0/6] Add support for DU/DSI clocks and DSI driver support
+ for the Renesas RZ/V2H(P) SoC
+Date: Thu,  9 Oct 2025 17:07:26 +0100
+Message-ID: <20251009160732.1623262-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251009-rigorous-nonchalant-cobra-f8bfa9@houat>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,130 +104,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 09, 2025 at 04:42:15PM +0200, Maxime Ripard wrote:
-> On Wed, Oct 08, 2025 at 07:12:28PM +0300, Ville Syrjälä wrote:
-> > On Wed, Oct 08, 2025 at 04:53:20PM +0200, Maxime Ripard wrote:
-> > > On Wed, Oct 08, 2025 at 05:06:43PM +0300, Ville Syrjälä wrote:
-> > > > On Wed, Oct 08, 2025 at 02:04:03PM +0200, Maxime Ripard wrote:
-> > > > > The DP MST implementation relies on a drm_private_obj, that is
-> > > > > initialized by allocating and initializing a state, and then passing it
-> > > > > to drm_private_obj_init.
-> > > > > 
-> > > > > Since we're gradually moving away from that pattern to the more
-> > > > > established one relying on a reset implementation, let's migrate this
-> > > > > instance to the new pattern.
-> > > > > 
-> > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 39 ++++++++++++++++++---------
-> > > > >  1 file changed, 26 insertions(+), 13 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > index 64e5c176d5cce9df9314f77a0b4c97662c30c070..255fbdcea9f0b6376d15439e3da1dc02be472a20 100644
-> > > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > > @@ -5181,10 +5181,34 @@ static void drm_dp_mst_destroy_state(struct drm_private_obj *obj,
-> > > > >  
-> > > > >  	kfree(mst_state->commit_deps);
-> > > > >  	kfree(mst_state);
-> > > > >  }
-> > > > >  
-> > > > > +static void drm_dp_mst_reset(struct drm_private_obj *obj)
-> > > > > +{
-> > > > > +	struct drm_dp_mst_topology_mgr *mgr =
-> > > > > +		to_dp_mst_topology_mgr(obj);
-> > > > > +	struct drm_dp_mst_topology_state *mst_state;
-> > > > > +
-> > > > > +	if (obj->state) {
-> > > > > +		drm_dp_mst_destroy_state(obj, obj->state);
-> > > > > +		obj->state = NULL;
-> > > > 
-> > > > I'm not a big fan of this "free+reallocate without any way to handle
-> > > > failures" pattern.
-> > > > 
-> > > > Currently i915 does not do any of this, and so there are no unhandled
-> > > > points of failure. But the mst and tunneling changes here force it on
-> > > > i915 as well.
-> > > 
-> > > A very theoretical point of failure. If I'm counting right,
-> > > drm_dp_mst_topology_state takes 72 bytes. Any GFP_KERNEL allocation
-> > > of less than 8 pages cannot fail.
-> > 
-> > Until you start to inject failures, or you blow up the size of the
-> > state. You wouldn't think to check for potential NULL pointer
-> > dereferences before doing that, nor should you have to.
-> > 
-> > I'd rather not leave potential footguns lying around intentionally.
-> 
-> I'm not sure it's reasonable to expect a structure to grow by three
-> orders of magnitude, but we can add static build checks on the size of
-> the structure if it makes you more comfortable.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I'm not really talking about any specific state structures here,
-but in general. This thing should be robust even if someone needs
-to add a private object with a ginormouse state.
+Hi All,
 
-> 
-> > > So, sure, it's less satisfying to look at, but that's about it. It's
-> > > just as safe and reliable.
-> > > 
-> > > > I think for the common things it would be nicer to just implement
-> > > > the reset as just that "a reset of the current state", and leave
-> > > > the "let's play fast and loose with kmalloc() failures" to the
-> > > > drivers that want it.
-> > > 
-> > > I'm sorry, but I have no idea what you mean by that. It's using the
-> > > exact same pattern we've been using since forever for every driver
-> > > (except, apparently, i915).
-> > 
-> > The reset() stuff was added specifically to deal with drivers
-> > that didn't have readout. i915 has always had full readout and
-> > never needed it.
-> > 
-> > > What would you like to change to that pattern to accomodate i915
-> > > requirements?
-> > 
-> > I think the reset should be ideally done without reallocation,
-> > or perhaps just don't implement reset for the things that don't
-> > need it (mst and tunneling in this case).
-> 
-> I'll be leaving aside i915 because it's quite far from actually using
-> all that infrastructure. From what I understand, your main concern is
-> that the drm_private_obj would be reset during a suspend, and the DP
-> objs should actually persist.
+This patch series adds DU/DSI clocks and provides support for the
+MIPI DSI interface on the RZ/V2H(P) SoC.
 
-With my i915 hat on, yes. That would be a functional change
-you're introducing here that may or may not be good.
+v9->v10:
+- Dropped rzv2h_get_pll_div_pars() helper and opencoded instead.
+- Dropped rzv2h_get_pll_dtable_pars() helper and opencoded instead.
+- Added dummy helpers rzv2h_get_pll_pars() and rzv2h_get_pll_divs_pars()
+  in renesas.h for !CONFIG_CLK_RZV2H case.
+- Dropped selecting CLK_RZV2H for DSI driver.
 
-But in general I think simply getting rid of that unchecked 
-kmalloc() would be a good idea. There's no real reason to keep it
-other than being lazy and not implementing the state reset without
-it.
+v8->v9:
+- Dropped `renesas-rzv2h-cpg-pll.h` header and merged into `renesas.h`
+- Exported the symbols for PLL calculation apis
+- Updated commit message for patch 2
+- Dropped reviewed-by tags for patch 2
+- Updated to use renesas.h
+- Updated Kconfig to select CLK_RZV2H
+- Added reviewed-by tag from Tomi for patch 5 and 6
 
-> 
-> Thomas has been floating the idea recently to create a new helper to
-> supersede reset which would only reset the state itself, and not the
-> hardware. If we're doing that split, I guess it would mean that we would
-> need a new callback to allocate the initial state, since reset does both.
-> 
-> Would you feel better about creating an atomic_create_state hook or
-> something?
+v7->v8:
+- Added reviewed-by tags from Tomi, Geert and Biju
+- Dropped rzv2h_get_pll_dsi_info() helper and opencoded instead.
+- Dropped is_plldsi parameter from rzv2h_cpg_pll_clk_register()
+- Updated commit message for patch 5/6 and 6/6
+- Switched to use devm_clk_get() instead of devm_clk_get_optional()
+  as lpclk clock is available on all SoCs.
+- Simplified check in rzv2h_mipi_dsi_dphy_init() for PLL parameters
+- Renamed start_index member to base_value in struct rzv2h_mipi_dsi_timings
+- Added comments in the code for DSI arrays and their usage
+- Added comments in the code for sleeps
+- Rebased the changes on next-20250902
 
-I suppose you could add a hook for it. Sort of the initial version
-of .duplicate_state() I guess.
+v6->v7:
+- Renamed pllclk to pllrefclk in DT binding
+- Added a new patch to add instance field to struct pll
+- Renamed rzv2h_pll_div_limits to rzv2h_pll_limits
+- Included fout_min and fout_max in the rzv2h_pll_limits structure
+- Renamed rzv2h_plldsi_parameters to rzv2h_pll_div_pars and re-structured
+  for readability
+- Dropped rzv2h_dsi_get_pll_parameters_values() instead added modular apis
+  to calculate the PLL parameters ie rzv2h_get_pll_pars/rzv2h_get_pll_div_pars/
+  rzv2h_get_pll_dtable_pars
+- Dropped plldsi_limits from rzv2h_cpg_info structure
+- Updated the DSI driver to use the new PLL APIs
+- Included the LPCLK patch
+- Rebased the changes on next-20250728
 
-Doesn't really need a hook though when you could just either just:
-- pass the state to the init (which I guess was exactly what private
-  objs did, but other object types didn't do)
-- add a new function that just sets the obj->state pointer, if you
-  want to hide that from the drivers a bit more
-- just set the obj->state pointer by hand (which we do eg. in i915
-  intel_crtc_alloc())
+v5-> v6:
+- Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
+- Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
+  CPG_PLL_CLK1_DIV_P macros to use GENMASK
+- Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
+- Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
+- Dropped rzv2h_cpg_plldsi_round_rate() and implemented
+  rzv2h_cpg_plldsi_determine_rate() instead
+- Made use of FIELD_PREP()
+- Moved CPG_CSDIV1 macro in patch 2/4
+- Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
+- Used mul_u32_u32() while calculating output_m and output_k_range
+- Used div_s64() instead of div64_s64() while calculating
+  pll_k
+- Used mul_u32_u32() while calculating fvco and fvco checks
+- Rounded the final output using DIV_U64_ROUND_CLOSEST()
+- Renamed CLK_DIV_PLLETH_LPCLK to CLK_CDIV4_PLLETH_LPCLK
+- Renamed CLK_CSDIV_PLLETH_LPCLK to CLK_PLLETH_LPCLK_GEAR
+- Renamed CLK_PLLDSI_SDIV2 to CLK_PLLDSI_GEAR
+- Renamed plldsi_sdiv2 to plldsi_gear
+- Preserved the sort order (by part number).
+- Added reviewed tag from Geert.
+- Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+  PHYTCLKSETR_* and PHYTHSSETR_* macros.
+- Replaced 10000000UL with 10 * MEGA
+- Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+- Replaced `i -= 1;` with `i--;`
+- Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+  RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
 
-Or did you want to use this also after the object init somewhere?
-.duplicate_state() is often implemented with a memdup() so wouldn't
-really help there at least.
+Cheers,
+Prabhakar
+
+Lad Prabhakar (6):
+  clk: renesas: rzv2h-cpg: Add instance field to struct pll
+  clk: renesas: rzv2h-cpg: Add support for DSI clocks
+  clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
+  dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
+    RZ/V2N
+  drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
+  drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
+
+ .../bindings/display/bridge/renesas,dsi.yaml  | 120 +++-
+ drivers/clk/renesas/r9a09g057-cpg.c           |  62 +++
+ drivers/clk/renesas/rzv2h-cpg.c               | 514 +++++++++++++++++-
+ drivers/clk/renesas/rzv2h-cpg.h               |  29 +-
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 453 +++++++++++++++
+ .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+ include/linux/clk/renesas.h                   | 145 +++++
+ 7 files changed, 1317 insertions(+), 40 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.51.0
+
