@@ -2,56 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AE3BC952B
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 15:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380AABC955E
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 15:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F26A710EA4D;
-	Thu,  9 Oct 2025 13:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B257B10EA54;
+	Thu,  9 Oct 2025 13:38:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UDo0BlK1";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="k3WpSNn8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B35F610EA4D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 13:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760016897;
- bh=CAmBj03hKuHqdR7xKw0lp59hnQtMwoRdZApMK9PloWA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=UDo0BlK1bY2MLwNpd5YVH+CHWNw5G63UBvAVGj/BkG/VP4kuPByH2IWmbIEiGaicL
- QYUeAYV9ciGVt68LEtuQ7V+44rF85lTfkJAGtzFgqJJqsDgpUbUse2XAjZmUHRICk7
- Yd0BvPd06UqmwI9NKInUowqXAqUNRWRPUmyX5t7H3085PENTGfj9jYffvqUqLYOGG6
- xx5Y5rB2AWuwWBnf6rTuqxLz9hNXTobh6lxZGdW+KUMadhGK5ss/TLavIFHfD5pEF+
- ssvX3fcDHEGtNkHz/++xvX4h2iUEPo/TaqLlp0pmJifbaNhY/YaxQFSoqjYKj/DWcR
- aBf3A9Ea5bLlA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D6A8817E1060;
- Thu,  9 Oct 2025 15:34:56 +0200 (CEST)
-Date: Thu, 9 Oct 2025 15:34:54 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org, healych@amazon.com, Rob Herring
- <robh@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/panfrost: Name scheduler queues after their job
- slots
-Message-ID: <20251009153454.5d04a85d@fedora>
-In-Reply-To: <4400c6b4-d2ad-429a-b84c-60a2f593cff1@arm.com>
-References: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
- <4400c6b4-d2ad-429a-b84c-60a2f593cff1@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7E210EA54
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 13:38:47 +0000 (UTC)
+Received: from [10.59.7.204] (unknown [193.86.240.59])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519) (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 497EC5341173;
+ Thu, 09 Oct 2025 15:38:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1760017125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XlnzkuebGGT9/FA8dDB4u+rfWyPNwzNC3qtitZmMTMg=;
+ b=k3WpSNn8ImhYXkslG9+iSc8SQ6ZfJrMe9h5k0lOypoJlj2XKrEqVPrGRuS28ePSSBZOeEz
+ BmhXMaxrlSKKShxeVPKx/7PxH1MF0+VET/uoxvLMyF+1qIACHLf15guIL9KuVl2iRsdBdH
+ iSMWo7EOghiHvTmQoz7zVZCisAQvc8k=
+Message-ID: <2ab48275-37bd-4a04-bce3-769aa635451d@ixit.cz>
+Date: Thu, 9 Oct 2025 15:38:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/7] arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz>
+ <20251008-s6e3fc2x01-v2-4-21eca1d5c289@ixit.cz>
+ <6b9ae65c-08f0-4b13-94cb-b899764bfc8c@oss.qualcomm.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <6b9ae65c-08f0-4b13-94cb-b899764bfc8c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,119 +116,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 Oct 2025 13:45:47 +0100
-Steven Price <steven.price@arm.com> wrote:
+On 09/10/2025 14:54, Konrad Dybcio wrote:
+> On 10/8/25 4:05 PM, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+>>
+>> Describe panel Tearing Effect (TE) GPIO line.
+>>
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>>   arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+>> index 1cf03047dd7ae..75989b377f8bc 100644
+>> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+>> @@ -460,6 +460,7 @@ display_panel: panel@0 {
+>>   		vci-supply = <&panel_vci_3v3>;
+>>   		poc-supply = <&panel_vddi_poc_1p8>;
+>>   
+>> +		te-gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
+> 
+> Wait, I just noticed nothing consumes this..
 
-> On 09/10/2025 12:43, Adri=C3=A1n Larumbe wrote:
-> > Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
-> > queues"), give scheduler queues proper names that reflect the function
-> > of their JM slot, so that this will be shown when gathering DRM
-> > scheduler tracepoints.
-> >=20
-> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> =20
->=20
-> Reviewed-by: Steven Price <steven.price@arm.com>
+It's well defined in the
+display/panel/panel-common.yaml and the device-tree should be 
+independent on the driver, so that seems perfectly fine.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+sdm845-samsung-starqltechn.dts have it exactly same way.
 
->=20
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++----------
-> >  drivers/gpu/drm/panfrost/panfrost_job.c |  8 +++++++-
-> >  drivers/gpu/drm/panfrost/panfrost_job.h |  2 ++
-> >  3 files changed, 15 insertions(+), 11 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/=
-panfrost/panfrost_drv.c
-> > index 22350ce8a08f..607a5b8448d0 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > @@ -668,23 +668,19 @@ static void panfrost_gpu_show_fdinfo(struct panfr=
-ost_device *pfdev,
-> >  	 *   job spent on the GPU.
-> >  	 */
-> > =20
-> > -	static const char * const engine_names[] =3D {
-> > -		"fragment", "vertex-tiler", "compute-only"
-> > -	};
-> > -
-> > -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) !=3D NUM_JOB_SLOTS);
-> > -
-> >  	for (i =3D 0; i < NUM_JOB_SLOTS - 1; i++) {
-> >  		if (pfdev->profile_mode) {
-> >  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-> > -				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
-> > +				   panfrost_engine_names[i],
-> > +				   panfrost_priv->engine_usage.elapsed_ns[i]);
-> >  			drm_printf(p, "drm-cycles-%s:\t%llu\n",
-> > -				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-> > +				   panfrost_engine_names[i],
-> > +				   panfrost_priv->engine_usage.cycles[i]);
-> >  		}
-> >  		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
-> > -			   engine_names[i], pfdev->pfdevfreq.fast_rate);
-> > +			   panfrost_engine_names[i], pfdev->pfdevfreq.fast_rate);
-> >  		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
-> > -			   engine_names[i], pfdev->pfdevfreq.current_frequency);
-> > +			   panfrost_engine_names[i], pfdev->pfdevfreq.current_frequency);
-> >  	}
-> >  }
-> > =20
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/=
-panfrost/panfrost_job.c
-> > index c47d14eabbae..0cc80da12562 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > @@ -28,6 +28,10 @@
-> >  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
-> >  #define job_read(dev, reg) readl(dev->iomem + (reg))
-> > =20
-> > +const char * const panfrost_engine_names[] =3D {
-> > +	"fragment", "vertex-tiler", "compute-only"
-> > +};
-> > +
-> >  struct panfrost_queue_state {
-> >  	struct drm_gpu_scheduler sched;
-> >  	u64 fence_context;
-> > @@ -846,12 +850,13 @@ int panfrost_job_init(struct panfrost_device *pfd=
-ev)
-> >  		.num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
-> >  		.credit_limit =3D 2,
-> >  		.timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
-> > -		.name =3D "pan_js",
-> >  		.dev =3D pfdev->dev,
-> >  	};
-> >  	struct panfrost_job_slot *js;
-> >  	int ret, j;
-> > =20
-> > +	BUILD_BUG_ON(ARRAY_SIZE(panfrost_engine_names) !=3D NUM_JOB_SLOTS);
-> > +
-> >  	/* All GPUs have two entries per queue, but without jobchain
-> >  	 * disambiguation stopping the right job in the close path is tricky,
-> >  	 * so let's just advertise one entry in that case.
-> > @@ -887,6 +892,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
-> > =20
-> >  	for (j =3D 0; j < NUM_JOB_SLOTS; j++) {
-> >  		js->queue[j].fence_context =3D dma_fence_context_alloc(1);
-> > +		args.name =3D panfrost_engine_names[j];
-> > =20
-> >  		ret =3D drm_sched_init(&js->queue[j].sched, &args);
-> >  		if (ret) {
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/=
-panfrost/panfrost_job.h
-> > index 5a30ff1503c6..458666bf684b 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> > @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
-> >  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
-> >  };
-> > =20
-> > +extern const char * const panfrost_engine_names[];
-> > +
-> >  int panfrost_jm_ctx_create(struct drm_file *file,
-> >  			   struct drm_panfrost_jm_ctx_create *args);
-> >  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
-> >=20
-> > base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d =20
->=20
+David
+
+> 
+> Konrad
+
+-- 
+David Heidelberg
 
