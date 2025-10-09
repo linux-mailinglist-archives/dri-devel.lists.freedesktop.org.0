@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048A1BC8EA6
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3D1BC8EB2
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 13:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5217A10E9E1;
-	Thu,  9 Oct 2025 11:56:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3098910E9EE;
+	Thu,  9 Oct 2025 11:56:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nqBTzWtI";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CmhDm10o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB05710E9E1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:56:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC19C10E9EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 11:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760010985;
- bh=6gUz+9JoOYVGPpIwvEyu26OypnA//W1aFpeDtPUjxaQ=;
+ s=mail; t=1760011002;
+ bh=GCdo2WRMgThuwdhdaxtmNPngX0ETlYCYQ7iuLMzkZt0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nqBTzWtIwjw7fCRFp/gWpyyfyqCXm/UzYttMnMyC/r1TKf7qGYKGgn5yqtrInqUHl
- Jid+rfe2P65rn6jVjolgn1z4JPa4Iofyy3x4l2K3zZBEfCwIxJIo826gYYL/OJin01
- mH0fV0lG135kAvX+eScECWBYLLZyS22U5sPhorLN/DPseuEWedVJTLYA3LunjwBp8q
- D45/YX7uTqKi+Jb/tJsQsI7pnjqpt7qc+lhKEKmnHUtFoYmPgZQmhecXl2oeedGZvB
- MU3RPYN33wgluOO2P9LeoepkZ2WfYOxBtpEDxnoQ0OrwjqPjoiktUY8wIIfmRBg0f5
- JfX8GTG6naTxQ==
+ b=CmhDm10oocxKkaF5tmsjNvE52BrCVUfY7m30lN8iDm/aVW6yLyk8S1fhLyy9JJ//o
+ lG0OcN2d0Z2SWsBUAI3OhbZXzKXhfR1yZcmyvHpZzUL6pTFpJfFuIh4XnSaab5jd8B
+ o0N9PVKK0WHJAcGZ/8dxQ3XfceDixM5FEzlZW05IATAEtz1pQT5b1UI9+OdKH3d35n
+ PnWEquwvVQmvNo7qyjKcaJ/9B+VTxIAVwzLTtq7/Qsbl4/WQnklBP9buv+0imB3nYw
+ JI9zcHMU6Gzh7EVV/ISC+9s/fRIs50+wXg36F+NQ3IxHGdjohcrHAP+Gsb4lt7x8Lb
+ Ejw8718SW052g==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 70DDE17E0125;
- Thu,  9 Oct 2025 13:56:24 +0200 (CEST)
-Message-ID: <9abaae2b-8e66-4e28-99c3-14cf3de13c8c@collabora.com>
-Date: Thu, 9 Oct 2025 13:56:24 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6940117E0125;
+ Thu,  9 Oct 2025 13:56:41 +0200 (CEST)
+Message-ID: <dc04ae37-7707-4d32-8b01-f4804cd0cd90@collabora.com>
+Date: Thu, 9 Oct 2025 13:56:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 16/20] soc: mediatek: mtk-cmdq: Remove shift_pa
- parameter from cmdq_pkt_jump()
+Subject: Re: [PATCH v7 11/20] soc: mediatek: mtk-cmdq: Add mminfra_offset
+ adjustment for DRAM addresses
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
@@ -56,10 +56,10 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
- <20250827114006.3310175-17-jason-jh.lin@mediatek.com>
+ <20250827114006.3310175-12-jason-jh.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20250827114006.3310175-17-jason-jh.lin@mediatek.com>
+In-Reply-To: <20250827114006.3310175-12-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,18 +78,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 27/08/25 13:37, Jason-JH Lin ha scritto:
-> Since shift_pa will be stored in the cmdq_mbox_priv structure within
-> cmdq_pkt, all shift_pa parameters in CMDQ helper APIs can be removed.
+> Since GCE has been moved to MMINFRA in MT8196, all transactions from
+> MMINFRA to DRAM will have their addresses adjusted by subtracting a
+> mminfra_offset.
 > 
-> Remove the shift_pa parameters from cmdq_pkt_jump(), cmdq_pkt_jump_abs(),
-> and cmdq_pkt_jump_rel().
+> Therefore, the CMDQ helper driver needs to get the mminfra_offset value
+> of the SoC from cmdq_mbox_priv of cmdq_pkt and then add it to the DRAM
+> address when generating instructions to ensure GCE accesses the correct
+> DRAM address. CMDQ users can then call CMDQ helper APIs as usual.
 > 
-> Fixes: ade176534112 ("soc: mediatek: cmdq: Add parameter shift_pa to cmdq_pkt_jump()")
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 
-Drop those fixes tags, they're not pointing to any upstream commit, and then, those
-are not fixes per-se, as you are performing migration, not fixing anything.
-
-Cheers,
-Angelo
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
