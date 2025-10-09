@@ -2,53 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E5EBC970C
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:09:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D60EBC9721
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 16:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D5C10EA62;
-	Thu,  9 Oct 2025 14:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D301D10EA63;
+	Thu,  9 Oct 2025 14:10:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Pk3zf2dv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bf1IYdKX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F289910EA62
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:09:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760018975;
- bh=j3fvdTP5LeV3hmbBm4jbLzzkKOJwia0rD/fyP8CvJbs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Pk3zf2dvmJVX4v86gul22n38Hb7RU1JIbuLBeCVCdw53zlPUbELxfdD32Bnz4XAdC
- t+msyr8WbCe7xMN9o1o53VA1bRe8zdwWPgECP35N4TZnc0B2WrlEq3KTgzLBjR7VkZ
- DkTIW9FhujERuTwruc2KL/BJrcVwpJZC99hptzRgoque5eVL6NAbRyAYLc4eo92SmK
- D/4wBaKSucLHLbULlyQV3z/a0EtmEizcEXt6ocmhj2TS4sLE4psYFXkYNtJxX1mVZh
- CDneW+VImYTHA0ZjL0VfWXKkxzXNmwxmrD5pChpblql38ciVS7Kkx5AYhWjiUVnuh9
- QsErMH9tw3BpQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D70C17E038B;
- Thu,  9 Oct 2025 16:09:35 +0200 (CEST)
-Date: Thu, 9 Oct 2025 16:09:29 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rain Yang <jiyu.yang@oss.nxp.com>
-Cc: imx@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, steven.price@arm.com, liviu.dudau@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, Rain Yang <jiyu.yang@nxp.com>, Prabhu
- Sundararaj <prabhu.sundararaj@nxp.com>
-Subject: Re: [PATCH] drm/panthor: attach the driver's multiple power domains
-Message-ID: <20251009160929.1b36b9ea@fedora>
-In-Reply-To: <20251009160820.74f04ead@fedora>
-References: <20251009140039.101189-1-jiyu.yang@oss.nxp.com>
- <20251009160820.74f04ead@fedora>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A5110EA63
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 14:10:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8F08740ADF;
+ Thu,  9 Oct 2025 14:10:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1EEC4CEE7;
+ Thu,  9 Oct 2025 14:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760019057;
+ bh=PoEG6fDXpXMai/sSIp6QQMuKBTRgdRjl+qPUXydwNpw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Bf1IYdKXmC8awfWh5+A7QBJAsxJ+E+Bf05nCys9w0sTb5mm+lSJ+FK4a/oac6gkNJ
+ KXHj+HGfjFvupJMuF/wUIeCpDOh6Y+whjHf/YjOtib0BkUEfDT5AYlDtNmBxh0z6ib
+ 1kDPhwLzCW8F2JlS6PKcx3LCqsjOqchXPbEPoCzY6CFQB+K3fwGO/6OEzy9YDS8WVG
+ 0r75jsKihRRFBpBMKqdOo7D4oyOdyN9iB+a7+fA3jF54IIgs32H1xPPYm955M7BZoE
+ OVv9Aqs6WG9CzhlLNfH27EZwY4TM0cWDi3CmngRjaqT33xB2LmH+MEwWN4hVgXx9V0
+ Gdy9vxPYc6HXA==
+Message-ID: <c1f932ad-3c64-44ff-810d-f1c3e43ba8c6@kernel.org>
+Date: Thu, 9 Oct 2025 23:10:46 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] MAINTAINERS: Add entry for ITE IT61620 MIPI to
+ HDMI bridge driver
+To: Pet Weng <pet.weng@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hermes Wu <hermes.Wu@ite.com.tw>,
+ Kenneth Hung <kenneth.Hung@ite.com.tw>, Pin-yen Lin <treapking@google.com>
+References: <20251009-it61620-0714-v3-0-5d682d028441@ite.com.tw>
+ <20251009-it61620-0714-v3-3-5d682d028441@ite.com.tw>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251009-it61620-0714-v3-3-5d682d028441@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,65 +113,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 Oct 2025 16:08:20 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On 09/10/2025 17:02, Pet Weng wrote:
+> Add a new entry for the ITE IT61620 MIPI to HDMI bridge driver to the
+> MAINTAINERS file, include the responsible maintainer, mailing list, and
+> file patterns.
+> 
+> Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5257d52679d60d084b85e2f023730286aa79311d..6859c06dce3ad3d615a1e42f3542fb1da8da4fc2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13107,6 +13107,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
+>  F:	drivers/gpu/drm/bridge/ite-it6263.c
+>  
+> +ITE IT61620 MIPI DSI TO HDMI BRIDGE DRIVER
+> +M:	Pet Weng <pet.weng@ite.com.tw>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
 
-> On Thu,  9 Oct 2025 22:00:39 +0800
-> Rain Yang <jiyu.yang@oss.nxp.com> wrote:
-> 
-> > From: Rain Yang <jiyu.yang@nxp.com>
-> > 
-> > Some platforms, such as i.MX95, utilize multiple power domains that need
-> > to be attached explicitly. This patch ensures that the driver properly
-> > attaches all available power domains using devm_pm_domain_attach_list().
-> > 
-> > Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
-> > Signed-off-by: Rain Yang <jiyu.yang@nxp.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_device.c | 6 ++++++
-> >  drivers/gpu/drm/panthor/panthor_device.h | 2 ++
-> >  2 files changed, 8 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> > index f0b2da5b2b96..6f40d053b16c 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> > @@ -218,6 +218,12 @@ int panthor_device_init(struct panthor_device *ptdev)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	ret = devm_pm_domain_attach_list(ptdev->base.dev, NULL, &ptdev->pd_list);
-> > +	if (ret < 0) {
-> > +		drm_err(&ptdev->base, "attach power domains failed, ret=%d", ret);
-> > +		return ret;
-> > +	}
-> > +
-> >  	ret = panthor_devfreq_init(ptdev);
-> >  	if (ret)
-> >  		return ret;
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> > index 4fc7cf2aeed5..5ecb541ec67b 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> > @@ -196,6 +196,8 @@ struct panthor_device {
-> >  		/** @recovery_needed: True when a resume attempt failed. */
-> >  		atomic_t recovery_needed;
-> >  	} pm;  
-> 
-> Add a blank line here.
-> 
-> > +	/** @pm: Power management related data. */
+If you do not have commit rights, above T: is pretty pointless.
+Subsystem entry defines it. People just copy paste this needlessly.
 
-Also, the comment is wrong, and it would probably make sense to move
-that to the pm sub-struct since this is PM related.
-
-> > +	struct dev_pm_domain_list  *pd_list;
-> >    
-> 
-> Do we even need to keep the pd_list in panthor_device if we don't do
-> anything with it?
-> 
-> >  	/** @profile_mask: User-set profiling flags for job accounting. */
-> >  	u32 profile_mask;  
-> 
-
+Best regards,
+Krzysztof
