@@ -2,42 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2D7BC91AD
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5196BC91D1
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 14:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E0010EA27;
-	Thu,  9 Oct 2025 12:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826A510E228;
+	Thu,  9 Oct 2025 12:49:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JopefJMY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6195910EA27
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:45:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3232176A;
- Thu,  9 Oct 2025 05:45:42 -0700 (PDT)
-Received: from [10.1.34.29] (e122027.cambridge.arm.com [10.1.34.29])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1AE323F66E;
- Thu,  9 Oct 2025 05:45:48 -0700 (PDT)
-Message-ID: <4400c6b4-d2ad-429a-b84c-60a2f593cff1@arm.com>
-Date: Thu, 9 Oct 2025 13:45:47 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B7D10E228
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Oct 2025 12:49:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760014144; x=1791550144;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=OSFdQafboDaUi8Wy4vbAAqnWvuafTu2QD+cLsjQEGus=;
+ b=JopefJMYDLlXf0LPIJwLVmpAAItYKKSzxe+/9eAx5BMk5kMZRHqRjdUB
+ Y7CyL4QThf23Zwj6YTI7DyS9QYPFo6gjuvHagGdkvnsQx9fnyvKiO0UvS
+ s7uNBZTq+LGbdjkRZFtSgUmFl/3V3xPAeKLphvtKnHWHiefwwxRfzsnGg
+ c++IidBnCoYJHmTH/+TZqm04O4QGrNldWyi+A6O2KI/L2d/nWMlZpZsMM
+ st3sa7fNIFLvrUb6RWzyKWg+iyH75GI9KZ2br63Bt3bGYkW1O63Kp9x8M
+ ZzwqpbfJGU6ZYaJUJJEaoy+c/kyqE3v6qSGRUCxhxMxIqO49fgEJeHyl/ A==;
+X-CSE-ConnectionGUID: qc8OuPVqRKeG8dK6a7m8pg==
+X-CSE-MsgGUID: ODrMn/SNSs2NYD59RUVTvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="84842101"
+X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="84842101"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 05:49:03 -0700
+X-CSE-ConnectionGUID: f0f9xGnmTki9Z4zY4Af96A==
+X-CSE-MsgGUID: qSApt77rQmKInxe4CHo9rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; d="scan'208";a="180650592"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.113])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 05:48:56 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Pet Weng <pet.weng@ite.com.tw>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hermes Wu <hermes.Wu@ite.com.tw>, Kenneth
+ Hung <kenneth.Hung@ite.com.tw>, Pet Weng <pet.weng@ite.com.tw>, Pin-yen Lin
+ <treapking@google.com>
+Subject: Re: [PATCH v3 2/3] drm/bridge: Add ITE IT61620 MIPI DSI to HDMI
+ bridge driver
+In-Reply-To: <20251009-it61620-0714-v3-2-5d682d028441@ite.com.tw>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251009-it61620-0714-v3-0-5d682d028441@ite.com.tw>
+ <20251009-it61620-0714-v3-2-5d682d028441@ite.com.tw>
+Date: Thu, 09 Oct 2025 15:48:54 +0300
+Message-ID: <088cbc524dbb05757f244a6c7f26f3228e554f61@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/panfrost: Name scheduler queues after their job
- slots
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: healych@amazon.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251009114313.1374948-1-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,107 +81,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2025 12:43, Adrián Larumbe wrote:
-> Drawing from commit d2624d90a0b7 ("drm/panthor: assign unique names to
-> queues"), give scheduler queues proper names that reflect the function
-> of their JM slot, so that this will be shown when gathering DRM
-> scheduler tracepoints.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++----------
->  drivers/gpu/drm/panfrost/panfrost_job.c |  8 +++++++-
->  drivers/gpu/drm/panfrost/panfrost_job.h |  2 ++
->  3 files changed, 15 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 22350ce8a08f..607a5b8448d0 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -668,23 +668,19 @@ static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
->  	 *   job spent on the GPU.
->  	 */
->  
-> -	static const char * const engine_names[] = {
-> -		"fragment", "vertex-tiler", "compute-only"
-> -	};
-> -
-> -	BUILD_BUG_ON(ARRAY_SIZE(engine_names) != NUM_JOB_SLOTS);
-> -
->  	for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
->  		if (pfdev->profile_mode) {
->  			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-> -				   engine_names[i], panfrost_priv->engine_usage.elapsed_ns[i]);
-> +				   panfrost_engine_names[i],
-> +				   panfrost_priv->engine_usage.elapsed_ns[i]);
->  			drm_printf(p, "drm-cycles-%s:\t%llu\n",
-> -				   engine_names[i], panfrost_priv->engine_usage.cycles[i]);
-> +				   panfrost_engine_names[i],
-> +				   panfrost_priv->engine_usage.cycles[i]);
->  		}
->  		drm_printf(p, "drm-maxfreq-%s:\t%lu Hz\n",
-> -			   engine_names[i], pfdev->pfdevfreq.fast_rate);
-> +			   panfrost_engine_names[i], pfdev->pfdevfreq.fast_rate);
->  		drm_printf(p, "drm-curfreq-%s:\t%lu Hz\n",
-> -			   engine_names[i], pfdev->pfdevfreq.current_frequency);
-> +			   panfrost_engine_names[i], pfdev->pfdevfreq.current_frequency);
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index c47d14eabbae..0cc80da12562 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -28,6 +28,10 @@
->  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
->  #define job_read(dev, reg) readl(dev->iomem + (reg))
->  
-> +const char * const panfrost_engine_names[] = {
-> +	"fragment", "vertex-tiler", "compute-only"
-> +};
+On Thu, 09 Oct 2025, Pet Weng <pet.weng@ite.com.tw> wrote:
+> +static void it61620_set_capability_from_edid_parse(struct it61620 *it61620,
+> +						   const struct edid *edid)
+> +{
+> +	struct drm_device *drm = it61620->drm;
 > +
->  struct panfrost_queue_state {
->  	struct drm_gpu_scheduler sched;
->  	u64 fence_context;
-> @@ -846,12 +850,13 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
->  		.credit_limit = 2,
->  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-> -		.name = "pan_js",
->  		.dev = pfdev->dev,
->  	};
->  	struct panfrost_job_slot *js;
->  	int ret, j;
->  
-> +	BUILD_BUG_ON(ARRAY_SIZE(panfrost_engine_names) != NUM_JOB_SLOTS);
-> +
->  	/* All GPUs have two entries per queue, but without jobchain
->  	 * disambiguation stopping the right job in the close path is tricky,
->  	 * so let's just advertise one entry in that case.
-> @@ -887,6 +892,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  
->  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
->  		js->queue[j].fence_context = dma_fence_context_alloc(1);
-> +		args.name = panfrost_engine_names[j];
->  
->  		ret = drm_sched_init(&js->queue[j].sched, &args);
->  		if (ret) {
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> index 5a30ff1503c6..458666bf684b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -53,6 +53,8 @@ struct panfrost_jm_ctx {
->  	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
->  };
->  
-> +extern const char * const panfrost_engine_names[];
-> +
->  int panfrost_jm_ctx_create(struct drm_file *file,
->  			   struct drm_panfrost_jm_ctx_create *args);
->  int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
-> 
-> base-commit: 30531e9ca7cd4f8c5740babd35cdb465edf73a2d
+> +	it61620->is_hdmi = drm_detect_hdmi_monitor(edid);
+> +	it61620->en_audio = drm_detect_monitor_audio(edid);
 
+Please don't add new users of drm_detect_monitor_audio() or
+drm_detect_hdmi_monitor(). They're basically deprecated.
+
+Use drm_edid_connector_update() and you can get at the same info via
+connector->display_info.{is_hdmi,has_audio} members.
+
+> +
+> +	drm_dbg(drm, "%s mode, monitor %ssupport audio",
+> +		it61620->is_hdmi ? "HDMI" : "DVI",
+> +		it61620->en_audio ? "" : "not ");
+> +}
+
+> +static const struct drm_edid *it61620_bridge_edid_read(struct drm_bridge *bridge,
+> +						       struct drm_connector *connector)
+> +{
+> +	struct it61620 *it61620 = bridge_to_it61620(bridge);
+> +	struct device *dev = it61620->dev;
+> +	const struct drm_edid *cached_edid;
+> +
+> +	cached_edid = drm_edid_read_custom(connector, it61620_get_edid_block,
+> +					   it61620);
+> +
+> +	if (!cached_edid) {
+> +		dev_dbg(dev, "failed to get edid!");
+> +		return NULL;
+> +	}
+> +
+> +	it61620_set_capability_from_edid_parse(it61620,
+> +					       drm_edid_raw(cached_edid));
+
+Please don't add new users of drm_edid_raw(). It's for transitioning
+from struct edid to struct drm_edid only, and you should not add new
+uses of struct edid either.
+
+BR,
+Jani.
+
+> +	return cached_edid;
+> +}
+
+-- 
+Jani Nikula, Intel
