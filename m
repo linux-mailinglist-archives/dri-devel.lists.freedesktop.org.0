@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB73ABCAC09
-	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 22:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D855BCAC11
+	for <lists+dri-devel@lfdr.de>; Thu, 09 Oct 2025 22:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC9E10EB08;
-	Thu,  9 Oct 2025 20:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5221710EB0D;
+	Thu,  9 Oct 2025 20:09:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="YDAMtM0x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jfyCDari";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr
- [80.12.242.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9A510EB04;
- Thu,  9 Oct 2025 20:09:39 +0000 (UTC)
-Received: from fedora ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
- by smtp.orange.fr with ESMTPA
- id 6wxDv47sFn3LW6wxEv5BUC; Thu, 09 Oct 2025 22:09:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1760040578;
- bh=vdngJh840tLkhFfzkI4vmR2f7NaB/3n76TsJ3oZYjGk=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=YDAMtM0xZMWyEyZyFOpLw3BPZcgOCTeNhBmVMuEp+UkHWCM0ozvZxecpUC7n9H7kh
- yR7dQpViv8LJDXDzIufxxZtY+g5rxaiZaWHTCTSKr9PT4fbLyGYpApgrBInpW7gkCA
- GBqefHBgpVMd1hC0XLiEcbF3IuwkJqCxI5/zTjkG8YqXXBTFtlUCf8mux+DlYWZN1i
- njzyx68pxSjAg37NCU5CPYxWCkcliygO19GFqM6mezHSQ9L+qnxl3/Z9E04nAc+w9k
- stta+Wy/Fx1v3UqysT8i40J/2tfPKN8P82HFxTVVMkW5HhUi0ZOHNJWsu9sUladSkG
- gRbycFMByQEew==
-X-ME-Helo: fedora
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 09 Oct 2025 22:09:38 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dpu: Remove dead-code in
- dpu_encoder_helper_reset_mixers()
-Date: Thu,  9 Oct 2025 22:09:32 +0200
-Message-ID: <8e3b2fbbf5440aa219feb667f5423c7479eb2656.1760040536.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5062210EB0A;
+ Thu,  9 Oct 2025 20:09:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 73CBD602F4;
+ Thu,  9 Oct 2025 20:09:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA4CC4CEE7;
+ Thu,  9 Oct 2025 20:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760040587;
+ bh=YpM7f2AlYfeNrk/FXsfKdNh/0ocylryEsJVj0mQ6sAE=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=jfyCDariiNtG4Mqtxt7MwAqyAC3lb4kqQ6eRDk5MCrWno0Zk9zEF7A1Pl9wvCsFPT
+ XQUw7nE1Ft9umT7IISl/owHkaHS5EtWeglbvfzMNjuuz/gCKYS7IZa7NXOtXgSOJ9o
+ lK7eh7iXQ1dqKR782fSypHMWRRB+pyyu4ICRwGCNE32uvd3cJPafqwNwGiPqvXJubZ
+ +Jn7JwOp85GNZ5QcGBlYyikmhrGdq7IK1vcTnyIktc5pebcTz05OxRcvG+ecHKAocv
+ v5eRgkKJ+gqWrmYFnIvxij0jMTM5uoEmjzlh67THMZl0tW6UXY0hPqX45LPS3U/wV3
+ hv91ume/dFsoQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Oct 2025 22:09:42 +0200
+Message-Id: <DDE2BDLEZHBW.253EO66P7ZH2P@kernel.org>
+To: "Mohamed Ahmed" <mohamedahmedegypt2001@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 2/5] drm/nouveau/uvmm: Allow larger pages
+Cc: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>, "Mary
+ Guillemard" <mary@mary.zone>, "Faith Ekstrand"
+ <faith.ekstrand@collabora.com>, "Lyude Paul" <lyude@redhat.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <nouveau@lists.freedesktop.org>
+References: <20251006191329.277485-1-mohamedahmedegypt2001@gmail.com>
+ <20251006191329.277485-3-mohamedahmedegypt2001@gmail.com>
+ <DDBISJ2DUDF6.150HCB14ZRPH3@kernel.org>
+ <CAA+WOBvu2Gq=SM2TBdahsQ-RVi+vn_U-oDa7-DG6kj9Arq5tpA@mail.gmail.com>
+In-Reply-To: <CAA+WOBvu2Gq=SM2TBdahsQ-RVi+vn_U-oDa7-DG6kj9Arq5tpA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,33 +65,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'mixer' is only zeroed and is not use. Remove it.
+On Thu Oct 9, 2025 at 6:51 PM CEST, Mohamed Ahmed wrote:
+>> Let's move the call to select_page_shift() into op_map_prepare().
+>
+> How would this work? Originally when we were working on this, we did
+> place it in op_map_prepare() but we ran into the issue where
+> nouveau_uvmm_vmm_put() needed the page_shift retrieved (see
+> nouveau_uvmm_sm_prepare_unwind()).
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 ---
- 1 file changed, 3 deletions(-)
+-			ret =3D op_map_prepare(uvmm, &new->map, &op->map, args, PAGE_SHIFT);
++			ret =3D op_map_prepare(uvmm, &new->map, &op->map, args,
++					     select_page_shift(uvmm, &op->map));
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 258edaa18fc0..94de83e125f1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2171,15 +2171,12 @@ void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
- 
- static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
- {
--	struct dpu_hw_mixer_cfg mixer;
- 	int i, num_lm;
- 	struct dpu_global_state *global_state;
- 	struct dpu_hw_blk *hw_lm[2];
- 	struct dpu_hw_mixer *hw_mixer[2];
- 	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
- 
--	memset(&mixer, 0, sizeof(mixer));
--
- 	/* reset all mixers for this encoder */
- 	if (ctl->ops.clear_all_blendstages)
- 		ctl->ops.clear_all_blendstages(ctl);
--- 
-2.51.0
-
+You can move this call to select_page_shift() into op_map_prepare(), that's=
+ not
+related to nouveau_uvmm_sm_prepare_unwind(), right?
