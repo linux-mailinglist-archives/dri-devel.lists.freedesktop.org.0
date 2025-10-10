@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9D4BCDB08
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0389BCDB73
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0D6510E2AF;
-	Fri, 10 Oct 2025 15:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7444610EC48;
+	Fri, 10 Oct 2025 15:08:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QlSeOYEH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VQbIct5G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E0910E2AF
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:03:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BD110EC48
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:08:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760108630;
- bh=4FGMVgsGPzAVK0BsdHczbO8gdSDaKRsaND22atTo13U=;
+ s=mail; t=1760108913;
+ bh=7ayOEb/6QjakoXaje73y7gqyfsylx4Z/vrfyLGORarU=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=QlSeOYEHz9BqiK89QPHpcKo2EZi2GQg63GQE8ng1USv8uwL523BiGuO5bnfD9tdZk
- JSwBZ+TyTKGWtSFBDMGhJG3Ou+rdaFhagGrcAAlWMbUcF7SOhnFx8yYwJFr7q5lToZ
- oGJ5vz6fiMvgxEPGP3K2y0hXbAWBYQlJrv9EmVKRpc3gRbpq5VRVdgCMlq764JY9pC
- Mo47miclHYPZ//FCrCd3IEdsX4TngZ+DJHYDjdsFkuhGiGzGD3icMvKqJCmTT6dfc4
- i8MeovMD3xI3t9fthbPblgUlwEbt18ahGGpuPcmhJqIJRr+n7Lohtq/aN1y5k1n0Wz
- qBYSfKxzofRmQ==
+ b=VQbIct5GHgbE4ijxW/+44tJBcHCf3lpRhqm52LBt2fu1LK0bZWn3WmayEmY8XUBZm
+ f9Y/xK+iGFTtVB1euHtNDh8ksXNxR04iTxqv9Lz9RaWIJsGexxRsASOtAhAj8f6LVo
+ nVWAAElX56hU/iwhMWTVletFSOoVL7vNIMy7Kfl58Y6Rs/oGrZYXPwWw/HtllLTkgx
+ V7ciDfyx0cG28zheru9n3E8PMfO7cLESJcyEM7OL9Xi5SFwzMCIfz2BIuQuFS+Ltyo
+ Nh3cucbSj7CFJD1arQICbacXnp+dDrG4hZllnUrwxpdato79Tl7TiyJ15zS9ghZG+E
+ dwCbZxLHVOvJQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 72FF117E0FC2;
- Fri, 10 Oct 2025 17:03:50 +0200 (CEST)
-Date: Fri, 10 Oct 2025 17:03:46 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EDD8717E0CF8;
+ Fri, 10 Oct 2025 17:08:32 +0200 (CEST)
+Date: Fri, 10 Oct 2025 17:08:27 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
@@ -41,13 +41,13 @@ Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
  <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: Re: [PATCH v2 02/13] drm/prime: Provide default
- ::{begin,end}_cpu_access() implementations
-Message-ID: <20251010170346.38e76026@fedora>
-In-Reply-To: <6ed1980c-48f0-41fc-90a6-7f74311cb977@arm.com>
+Subject: Re: [PATCH v2 04/13] drm/panthor: Expose the selected coherency
+ protocol to the UMD
+Message-ID: <20251010170827.37b750aa@fedora>
+In-Reply-To: <9664ba34-c02e-446a-bfc7-5b7f32a60833@arm.com>
 References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
- <20251010101147.3290604-3-boris.brezillon@collabora.com>
- <6ed1980c-48f0-41fc-90a6-7f74311cb977@arm.com>
+ <20251010101147.3290604-5-boris.brezillon@collabora.com>
+ <9664ba34-c02e-446a-bfc7-5b7f32a60833@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -68,90 +68,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Oct 2025 15:11:54 +0100
+On Fri, 10 Oct 2025 15:22:50 +0100
 Steven Price <steven.price@arm.com> wrote:
 
 > On 10/10/2025 11:11, Boris Brezillon wrote:
-> > Hook-up drm_gem_dmabuf_{begin,end}_cpu_access() to drm_gem_sync() so
-> > that drivers relying on the default prime_dmabuf_ops can still have
-> > a way to prepare for CPU accesses from outside the UMD.
+> > If we want to be able to skip CPU cache maintenance operations on
+> > CPU-cached mappings, the UMD needs to know the kind of coherency
+> > in place. Add a field to drm_panthor_gpu_info to do that. We can re-use
+> > a padding field for that since this object is write-only from the
+> > KMD perspective, and the UMD should just ignore it.
 > > 
 > > v2:
 > > - New commit
 > > 
 > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > > ---
-> >  drivers/gpu/drm/drm_prime.c | 36 ++++++++++++++++++++++++++++++++++++
-> >  include/drm/drm_prime.h     |  5 +++++
-> >  2 files changed, 41 insertions(+)
+> >  drivers/gpu/drm/panthor/panthor_device.c |  6 +++-
+> >  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
+> >  include/uapi/drm/panthor_drm.h           | 39 ++++++++++++++++++++++--
+> >  3 files changed, 42 insertions(+), 5 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> > index 43a10b4af43a..03c09f9ab129 100644
-> > --- a/drivers/gpu/drm/drm_prime.c
-> > +++ b/drivers/gpu/drm/drm_prime.c
-> > @@ -823,6 +823,40 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
-> >  }
-> >  EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > index c7033d82cef5..afe24a03a71c 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> > @@ -25,6 +25,8 @@
 > >  
-> > +int drm_gem_dmabuf_begin_cpu_access(struct dma_buf *dma_buf,
-> > +				    enum dma_data_direction direction)
-> > +{
-> > +	struct drm_gem_object *obj = dma_buf->priv;
-> > +	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_CPU_ACCESS;
-> > +
-> > +	if (direction == DMA_FROM_DEVICE)
-> > +		access |= DRM_GEM_OBJECT_READ_ACCESS;
-> > +	else if (direction == DMA_BIDIRECTIONAL)
-> > +		access |= DRM_GEM_OBJECT_RW_ACCESS;
-> > +	else
-> > +		return -EINVAL;
-> > +
-> > +	return drm_gem_sync(obj, 0, obj->size, access);
-> > +}
-> > +EXPORT_SYMBOL(drm_gem_dmabuf_begin_cpu_access);
-> > +
-> > +int drm_gem_dmabuf_end_cpu_access(struct dma_buf *dma_buf,
-> > +				  enum dma_data_direction direction)
-> > +{
-> > +	struct drm_gem_object *obj = dma_buf->priv;
-> > +	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_DEV_ACCESS;
-> > +
-> > +	if (direction == DMA_TO_DEVICE)
-> > +		access |= DRM_GEM_OBJECT_READ_ACCESS;
-> > +	else if (direction == DMA_BIDIRECTIONAL)
-> > +		access |= DRM_GEM_OBJECT_RW_ACCESS;
-> > +	else
-> > +		return -EINVAL;
-> > +
-> > +	return drm_gem_sync(obj, 0, obj->size, access);
-> > +}
-> > +EXPORT_SYMBOL(drm_gem_dmabuf_end_cpu_access);  
+> >  static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
+> >  {
+> > +	/* Start with no coherency, and update it if the device is flagged coherent. */
+> > +	ptdev->gpu_info.selected_coherency = GPU_COHERENCY_NONE;
+> >  	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
+> >  
+> >  	if (!ptdev->coherent)
+> > @@ -34,8 +36,10 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
+> >  	 * ACE protocol has never been supported for command stream frontend GPUs.
+> >  	 */
+> >  	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
+> > -		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
+> > +		      GPU_COHERENCY_PROT_BIT(ACE_LITE))) {
+> > +		ptdev->gpu_info.selected_coherency = GPU_COHERENCY_PROT_BIT(ACE_LITE);
+> >  		return 0;
+> > +	}
+> >  
+> >  	drm_err(&ptdev->base, "Coherency not supported by the device");
+> >  	return -ENOTSUPP;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > index 9d98720ce03f..a95c0b94ef58 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > @@ -49,7 +49,7 @@ struct panthor_gpu {
+> >  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+> >  {
+> >  	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
+> > -		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
+> > +		  ptdev->gpu_info.selected_coherency);  
 > 
-> I feel I must be missing something, but why does
-> drm_gem_dmabuf_begin_cpu_access() reject DMA_TO_DEVICE and
-> drm_gem_dmabuf_end_cpu_access() reject DMA_FROM_DEVICE?
+> It looks like an existing bug, but GPU_COHERENCY_PROTOCOL doesn't take a
+> bit mask. So we should be just writing GPU_COHERENCY_ACE_LITE not
+> GPU_COHERENCY_PROT_BIT(ACE_LITE).
 
-Not really sure what it means to prepare for dev access and synchronize
-with what the device might have changed in memory. Sounds like device
--> device synchronization, which is not what this API is for.
-
-Similarly preparing for CPU access with TO_DEVICE (AKA forcing previous
-CPU changes to be visible to the device) doesn't make sense either.
+Oops. Should I prepare a fix, or does someone at Arm intend to send a
+fix for this one?
 
 > 
-> My understanding is that these begin/end calls should be bracketing the
-> operation and the same direction should be specified for each.
+> >  }
+> >  
+> >  static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
+> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> > index 467d365ed7ba..b9e483ff5e21 100644
+> > --- a/include/uapi/drm/panthor_drm.h
+> > +++ b/include/uapi/drm/panthor_drm.h
+> > @@ -245,6 +245,26 @@ enum drm_panthor_dev_query_type {
+> >  	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
+> >  };
+> >  
+> > +/**
+> > + * enum drm_panthor_gpu_coherency: Type of GPU coherency
+> > + */
+> > +enum drm_panthor_gpu_coherency {
+> > +	/**
+> > +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE Lite coherency.
+> > +	 */
+> > +	DRM_PANTHOR_GPU_COHERENCY_ACE_LITE = 1 << 0,
+> > +
+> > +	/**
+> > +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE coherency.  
+> 
+> Copy/paste mistake                       ^^^^^
 
-If [1] is correct and the begin/end_cpu_access() is based on the
-dma_sync_ semantics, nope, that's not how it's supposed to work. The
-way I see it, it just expresses the cache operations you want to take
-place around your CPU access.
+Will fix.
 
-If you read data from the CPU, you want dir=FROM_DEVICE in your
-begin_cpu_access(), so that the CPU caches are invalidated. If you
-write from the CPU, you want dir=TO_DEVICE in your end_cpu_access. If
-you know you will be reading again soon, you might want to pass
-dir=BIDIR in your end_cpu_access(), though I'm not too sure what's the
-benefit of that to be honest.
+> 
+> > +	 */
+> > +	DRM_PANTHOR_GPU_COHERENCY_ACE = 1 << 1,
+> > +
+> > +	/**
+> > +	 * @DRM_PANTHOR_GPU_COHERENCY_NONE: No coherency.
+> > +	 */
+> > +	DRM_PANTHOR_GPU_COHERENCY_NONE = 31,
+> > +};  
+> 
+> This is a mix of bit mask and non-bit mask. I'm assuming this was
+> intended for the newly added selected_coherency field, in which case it
+> shouldn't be shifting - the values are 0 and 1 for ace_lite and ace.
 
-[1]https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/tegra/gem.c#L684
+Yeah, I think I went back and forth on this, and just picked the worst
+option in the end. I'll make it a real enum with the mapping you
+suggested.
