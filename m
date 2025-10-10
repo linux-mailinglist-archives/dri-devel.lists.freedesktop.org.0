@@ -2,76 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468C9BCDBBB
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F3EBCDCF8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:34:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A384910EC45;
-	Fri, 10 Oct 2025 15:12:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WArYYeRp";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8431010EB6F;
+	Fri, 10 Oct 2025 15:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2578110EC45
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760109132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qHCdZi6C7ELhvkHmBE99ONw5f0wTBtemnyHf1SDAuNY=;
- b=WArYYeRpONYKxlsi3oc/h0RB9tdATlCzaD5Vm9iXtdo7ZM42xWGVZD+g22XEbIk+4yn9xm
- KqEBO34sNcGFYzohIbjTa/TQyvAC3cqIfd6SXf+mxPG9/q4qWxtaZEAj71pT8nCnZwryWR
- cnEi1+M2ZH+2MQAdAuHooB9zNrDMXnU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-266-5gxgZ7HqORGcbXAp1Yrqxg-1; Fri,
- 10 Oct 2025 11:12:07 -0400
-X-MC-Unique: 5gxgZ7HqORGcbXAp1Yrqxg-1
-X-Mimecast-MFC-AGG-ID: 5gxgZ7HqORGcbXAp1Yrqxg_1760109125
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id B964918005BF; Fri, 10 Oct 2025 15:12:03 +0000 (UTC)
-Received: from [10.45.224.32] (unknown [10.45.224.32])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id E0D821955F42; Fri, 10 Oct 2025 15:11:56 +0000 (UTC)
-Date: Fri, 10 Oct 2025 17:11:49 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-cc: Helge Deller <deller@gmx.de>, sukrut heroorkar <hsukrut3@gmail.com>, 
- David Hunter <david.hunter.linux@gmail.com>, 
- kernel test robot <lkp@intel.com>, Bernie Thompson <bernie@plugable.com>, 
- Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
- Zsolt Kajtar <soci@c64.rulez.org>, 
- Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>, 
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
- oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-In-Reply-To: <6b1f8366-7ec8-4c1f-9563-29e06a8060e2@suse.de>
-Message-ID: <b8472f68-982b-c00b-55cc-547c72bef34c@redhat.com>
-References: <20250924175743.6790-1-hsukrut3@gmail.com>
- <202509272320.3K8kdDCw-lkp@intel.com>
- <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
- <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
- <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
- <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de>
- <CAHCkknrAKGxzAYE-R3QX20W4faR9Wfjgn37peyHRJcZ6PRLENA@mail.gmail.com>
- <c1d86274-44e2-4ceb-b887-5c4af45d8b37@gmx.de>
- <6b1f8366-7ec8-4c1f-9563-29e06a8060e2@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4E2FB10EB6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:34:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E2181595;
+ Fri, 10 Oct 2025 08:34:10 -0700 (PDT)
+Received: from [10.57.35.12] (unknown [10.57.35.12])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B0B73F66E;
+ Fri, 10 Oct 2025 08:34:15 -0700 (PDT)
+Message-ID: <06087818-e5a9-437d-83c6-337ade252cb6@arm.com>
+Date: Fri, 10 Oct 2025 16:34:14 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="-1463811712-636264779-1760108298=:3315052"
-Content-ID: <b28657e4-9db0-51fc-5872-290b4927a66a@redhat.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/13] drm/prime: Provide default
+ ::{begin,end}_cpu_access() implementations
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
+References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
+ <20251010101147.3290604-3-boris.brezillon@collabora.com>
+ <6ed1980c-48f0-41fc-90a6-7f74311cb977@arm.com>
+ <20251010170346.38e76026@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251010170346.38e76026@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,55 +56,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
----1463811712-636264779-1760108298=:3315052
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <77da2ba4-763b-3169-d87c-f655b00b6162@redhat.com>
-
-
-
-On Tue, 7 Oct 2025, Thomas Zimmermann wrote:
-
-> Hi
+On 10/10/2025 16:03, Boris Brezillon wrote:
+> On Fri, 10 Oct 2025 15:11:54 +0100
+> Steven Price <steven.price@arm.com> wrote:
 > 
-> Am 03.10.25 um 21:50 schrieb Helge Deller:
-> > On 10/3/25 20:43, sukrut heroorkar wrote:
-> > > On Thu, Oct 2, 2025 at 8:52 AM Thomas Zimmermann <tzimmermann@suse.de>
-> > > wrote:
-> > > > Am 02.10.25 um 08:41 schrieb Helge Deller:
-> > > > > > > > kernel test robot noticed the following build errors:
-> > > > > > > 
-> > > > > > > Did you compile and test this code before submitting this patch?
-> > > > > > 
-> > > > > > Yes, I had compiled & loaded the udlfb module with no errors. Please
-> > > > > > let me know how to proceed in this case.
-> > > > > 
-> > > > > Look at the reported build error, which seems to happen in dev_dbg().
-> > > > > So, maybe in your testing you did not have debugging enabled?
-> > > > > The report contains the .config file with which you can test.
-> > > > 
-> > > > Can we rather make an effort to remove the udlfb driver entirely? A few
-> > > > years back, there was one user who was still using it because of some
-> > > > problems with the DRM udl driver. But I think we've addressed them. The
-> > > > discussion is at [1].
+>> On 10/10/2025 11:11, Boris Brezillon wrote:
+>>> Hook-up drm_gem_dmabuf_{begin,end}_cpu_access() to drm_gem_sync() so
+>>> that drivers relying on the default prime_dmabuf_ops can still have
+>>> a way to prepare for CPU accesses from outside the UMD.
+>>>
+>>> v2:
+>>> - New commit
+>>>
+>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/drm_prime.c | 36 ++++++++++++++++++++++++++++++++++++
+>>>  include/drm/drm_prime.h     |  5 +++++
+>>>  2 files changed, 41 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>>> index 43a10b4af43a..03c09f9ab129 100644
+>>> --- a/drivers/gpu/drm/drm_prime.c
+>>> +++ b/drivers/gpu/drm/drm_prime.c
+>>> @@ -823,6 +823,40 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
+>>>  }
+>>>  EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
+>>>  
+>>> +int drm_gem_dmabuf_begin_cpu_access(struct dma_buf *dma_buf,
+>>> +				    enum dma_data_direction direction)
+>>> +{
+>>> +	struct drm_gem_object *obj = dma_buf->priv;
+>>> +	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_CPU_ACCESS;
+>>> +
+>>> +	if (direction == DMA_FROM_DEVICE)
+>>> +		access |= DRM_GEM_OBJECT_READ_ACCESS;
+>>> +	else if (direction == DMA_BIDIRECTIONAL)
+>>> +		access |= DRM_GEM_OBJECT_RW_ACCESS;
+>>> +	else
+>>> +		return -EINVAL;
+>>> +
+>>> +	return drm_gem_sync(obj, 0, obj->size, access);
+>>> +}
+>>> +EXPORT_SYMBOL(drm_gem_dmabuf_begin_cpu_access);
+>>> +
+>>> +int drm_gem_dmabuf_end_cpu_access(struct dma_buf *dma_buf,
+>>> +				  enum dma_data_direction direction)
+>>> +{
+>>> +	struct drm_gem_object *obj = dma_buf->priv;
+>>> +	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_DEV_ACCESS;
+>>> +
+>>> +	if (direction == DMA_TO_DEVICE)
+>>> +		access |= DRM_GEM_OBJECT_READ_ACCESS;
+>>> +	else if (direction == DMA_BIDIRECTIONAL)
+>>> +		access |= DRM_GEM_OBJECT_RW_ACCESS;
+>>> +	else
+>>> +		return -EINVAL;
+>>> +
+>>> +	return drm_gem_sync(obj, 0, obj->size, access);
+>>> +}
+>>> +EXPORT_SYMBOL(drm_gem_dmabuf_end_cpu_access);  
+>>
+>> I feel I must be missing something, but why does
+>> drm_gem_dmabuf_begin_cpu_access() reject DMA_TO_DEVICE and
+>> drm_gem_dmabuf_end_cpu_access() reject DMA_FROM_DEVICE?
+> 
+> Not really sure what it means to prepare for dev access and synchronize
+> with what the device might have changed in memory. Sounds like device
+> -> device synchronization, which is not what this API is for.
+> 
+> Similarly preparing for CPU access with TO_DEVICE (AKA forcing previous
+> CPU changes to be visible to the device) doesn't make sense either.
 
-It was me - and I am still using it on an ARM64 MacchiatoBIN board because 
-the board doesn't have graphics output.
+Well those operations might well be no-ops, but we shouldn't return an
+error just because of that.
 
-The problems with the UDL DRM driver were:
+>>
+>> My understanding is that these begin/end calls should be bracketing the
+>> operation and the same direction should be specified for each.
+> 
+> If [1] is correct and the begin/end_cpu_access() is based on the
+> dma_sync_ semantics, nope, that's not how it's supposed to work. The
+> way I see it, it just expresses the cache operations you want to take
+> place around your CPU access.
 
-* crashes with full-screen framebuffer applications, such as "links2 -g", 
-"fbi" or "fbgs". On UDLFB, there are no crashes.
+Well that function completely ignored the direction flag. Looking at a
+caller of the APIs it seems very common to bracket the work with the
+same direction - admittedly they are all DMA_FROM_DEVICE examples I've
+found. E.g. a random FB driver:
 
-* worse performance - the UDL DRM driver updates everything in a given 
-rectangle, while the UDLFB driver keeps back-buffer and front-buffer and 
-updates only differences between them.
+https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/solomon/ssd130x.c#L1026
 
-* crash when you unplug the card while Xorg was running (already fixed)
+> 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
 
-Mikulas
----1463811712-636264779-1760108298=:3315052--
+I have to admit I don't really know what the point of this is - and the
+error return isn't used beyond a drm_err(). But we don't want to spam
+the logs with errors!
+
+> If you read data from the CPU, you want dir=FROM_DEVICE in your
+> begin_cpu_access(), so that the CPU caches are invalidated. If you
+> write from the CPU, you want dir=TO_DEVICE in your end_cpu_access. If
+> you know you will be reading again soon, you might want to pass
+> dir=BIDIR in your end_cpu_access(), though I'm not too sure what's the
+> benefit of that to be honest.
+> 
+> [1]https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/tegra/gem.c#L684
+
+The documentation[2] states:
+
+>  * - Fallback operations in the kernel, for example when a device is connected
+>  *   over USB and the kernel needs to shuffle the data around first before
+>  *   sending it away. Cache coherency is handled by bracketing any transactions
+>  *   with calls to dma_buf_begin_cpu_access() and dma_buf_end_cpu_access()
+>  *   access.
+
+So I guess the purpose is where it's not "cache coherency" as such, but
+actually having to shuffle the data between different memories.
+
+Thanks,
+Steve
+
+[2]
+https://elixir.bootlin.com/linux/v6.17.1/source/drivers/dma-buf/dma-buf.c#L1282
 
