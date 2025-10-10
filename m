@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7053BCD005
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 15:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4FABCD452
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 15:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABEBE10EBF5;
-	Fri, 10 Oct 2025 13:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E64B210E2A0;
+	Fri, 10 Oct 2025 13:31:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="IrxOznIy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cLMDkBYV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C44010EBF5;
- Fri, 10 Oct 2025 13:00:36 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cjn0c10kdz9syH;
- Fri, 10 Oct 2025 15:00:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1760101232; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TLIhDU/p+IflmAdqbIOQxZ/XHaPTSJJIRgHYZPVXxSk=;
- b=IrxOznIyKyysWbmObTYvoiH845IbhzpA6l72vSYF2GoOagWDeXfT5TWY0spiVju4BEvGEU
- 2qRQNnLEMRjOIs6Yz9VTwI2xNRaQK2pBwjaesON6jDEquBopPkNn6tRXGS37SYk7ZuA6T4
- +6cURS6Jc1RUrg8JkjrvrRa1TornwZGfspM1gYIFxGq9E+wWu2ZkTyCH7h1arIO9S1USWI
- TrlRrnipA6IWobuhPfj6IQ9dsoT3xCt1ys4SMznYFGJs81XoCpzEks7J40k89cgyfgC5j3
- LWsVC2XYgt6MovCnpXv+EPgokJiORpVBo2rM29DTDdcNkFqWENr7itd3Npvxvw==
-Message-ID: <c45f98141507f25e4bf7d22a99a63ac048071bd2.camel@mailbox.org>
-Subject: Re: [PATCH 28/28] drm/sched: Remove drm_sched_init_args->num_rqs
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-Date: Fri, 10 Oct 2025 15:00:25 +0200
-In-Reply-To: <20251008085359.52404-29-tvrtko.ursulin@igalia.com>
-References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-29-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 621E710E2A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 13:31:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 231164033E;
+ Fri, 10 Oct 2025 13:31:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E9EC4CEF1;
+ Fri, 10 Oct 2025 13:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760103091;
+ bh=DBBGRFqDlMVt5G1ikqwvqLGMEPnfjnHGilMhjC87DJQ=;
+ h=Date:From:To:Subject:From;
+ b=cLMDkBYV3nNQ67EHcMPOETbVwjTgVdaJ17impKXuFxM7IaSvWpmR0yxb6/lz9fMfT
+ m7vsAF1E2MBFUxHNJE5PvYSGeQ2UzuqgibaTx0WzSNr6euijOSH70A9STnQpcy9I3q
+ KLV4Qe1fxscm6mUxtEu5uqrqQXqvsHhmiVzOH+Wl9vOvAOKbQxjaDfNPHeJcNJwCm5
+ sEa5N9wesZaC8NpRUtu62bCJzLmeVug9CjYsK53nCI9l2iARWF33gR7buUv8Q/SFnO
+ qMtLIkm+35cKSr9Xkwe+3A7a9WqfgyJE0Ep31WQOCgMVwFkwXPzbqWPN6ZJYHlDSrZ
+ 2YQeeD5K1vMDg==
+Date: Fri, 10 Oct 2025 15:31:26 +0200
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev updates for v6.18-rc1
+Message-ID: <aOkKroU5EAorYET0@carbonx1>
 MIME-Version: 1.0
-X-MBO-RS-META: rffjtbziqsi7x5p4qcm6u6iywdm7nfss
-X-MBO-RS-ID: b4b61756596c27f9b73
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +52,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
-> Remove member no longer used by the scheduler core.
+Hi Linus,
 
-"scheduler core and all drivers."
+please pull the fbdev updates for 6.18-rc1.
 
-Apart from that, very nice that we can simplify the init-interface.
+Beside the usual bunch of smaller bug fixes, the majority of changes
+were by Zsolt Kajtar to improve the s3fb driver.
 
-P.
+All patches have been a few days in for-next.
+Last minute I decided to drop one patch yesterday, which is why it seems the
+newest patch isn't that long in for-next yet....
 
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> ---
-> =C2=A0include/drm/gpu_scheduler.h | 3 ---
-> =C2=A01 file changed, 3 deletions(-)
->=20
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 21129c98ce56..910c43fedcb9 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -607,8 +607,6 @@ struct drm_gpu_scheduler {
-> =C2=A0 * @ops: backend operations provided by the driver
-> =C2=A0 * @submit_wq: workqueue to use for submission. If NULL, an ordered=
- wq is
-> =C2=A0 *	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 allocated and used.
-> - * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORIT=
-Y_COUNT,
-> - *	=C2=A0=C2=A0=C2=A0=C2=A0 as there's usually one run-queue per priorit=
-y, but may be less.
-> =C2=A0 * @credit_limit: the number of credits this scheduler can hold fro=
-m all jobs
-> =C2=A0 * @hang_limit: number of times to allow a job to hang before dropp=
-ing it.
-> =C2=A0 *		This mechanism is DEPRECATED. Set it to 0.
-> @@ -622,7 +620,6 @@ struct drm_sched_init_args {
-> =C2=A0	const struct drm_sched_backend_ops *ops;
-> =C2=A0	struct workqueue_struct *submit_wq;
-> =C2=A0	struct workqueue_struct *timeout_wq;
-> -	u32 num_rqs;
-> =C2=A0	u32 credit_limit;
-> =C2=A0	unsigned int hang_limit;
-> =C2=A0	long timeout;
+Thanks,
+Helge
 
+----------------------------------------------------------------
+The following changes since commit e5f0a698b34ed76002dc5cff3804a61c80233a7a:
+
+  Linux 6.17 (2025-09-28 14:39:22 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.18-rc1
+
+for you to fetch changes up to 15df28699b28d6b49dc305040c4e26a9553df07a:
+
+  fbdev: Fix logic error in "offb" name match (2025-10-10 00:31:13 +0200)
+
+----------------------------------------------------------------
+fbdev fixes & enhancements for 6.18-rc1:
+
+Bug fixes:
+- Add bounds checking in bit_putcs to fix vmalloc-out-of-bounds (Albin Babu Varghese)
+- Fix logic error in "offb" name match (Finn Thain)
+- simplefb: Fix use after free in simplefb_detach_genpds() (Janne Grunau)
+- s3fb: Various fixes and powersave improvements (Zsolt Kajtar)
+
+Enhancements & code cleanups:
+- Various fixes in the documentation (Bagas Sanjaya)
+- Use string choices helpers (Chelsy Ratnawat)
+- xenfb: Use vmalloc_array to simplify code (Qianfeng Rong)
+- mb862xxfb: Use int type to store negative error codes (Qianfeng Rong)
+- Make drivers depend on LCD_CLASS_DEVICE (Thomas Zimmermann)
+- radeonfb: Remove stale product link in Kconfig (Sukrut Heroorkar)
+
+----------------------------------------------------------------
+Albin Babu Varghese (1):
+      fbdev: Add bounds checking in bit_putcs to fix vmalloc-out-of-bounds
+
+Bagas Sanjaya (3):
+      Documentation: fb: Split toctree
+      Documentation: fb: ep93xx: Demote section headings
+      Documentation: fb: Retitle driver docs
+
+Chelsy Ratnawat (1):
+      fbdev: Use string choices helpers
+
+Finn Thain (1):
+      fbdev: Fix logic error in "offb" name match
+
+Janne Grunau (1):
+      fbdev: simplefb: Fix use after free in simplefb_detach_genpds()
+
+Qianfeng Rong (2):
+      fbdev: xenfb: Use vmalloc_array to simplify code
+      fbdev: mb862xxfb: Use int type to store negative error codes
+
+Sukrut Heroorkar (1):
+      fbdev: radeonfb: Remove stale product link in Kconfig
+
+Thomas Zimmermann (1):
+      fbdev: Make drivers depend on LCD_CLASS_DEVICE
+
+Zsolt Kajtar (4):
+      fbdev: s3fb: Implement powersave for S3 FB
+      fbdev: s3fb: Implement 1 and 2 BPP modes, improve 4 BPP
+      fbdev: core: Fix ubsan warning in pixel_to_pat
+      fbdev: s3fb: Revert mclk stop in suspend
+
+ Documentation/fb/aty128fb.rst              |   8 +-
+ Documentation/fb/efifb.rst                 |   6 +-
+ Documentation/fb/ep93xx-fb.rst             |   4 -
+ Documentation/fb/gxfb.rst                  |   8 +-
+ Documentation/fb/index.rst                 |  80 +++++++------
+ Documentation/fb/lxfb.rst                  |   9 +-
+ Documentation/fb/matroxfb.rst              |   9 +-
+ Documentation/fb/pvr2fb.rst                |   6 +-
+ Documentation/fb/sa1100fb.rst              |   9 +-
+ Documentation/fb/sisfb.rst                 |   6 +-
+ Documentation/fb/sm712fb.rst               |   6 +-
+ Documentation/fb/tgafb.rst                 |   6 +-
+ Documentation/fb/udlfb.rst                 |   6 +-
+ Documentation/fb/vesafb.rst                |   6 +-
+ drivers/video/fbdev/Kconfig                |   8 +-
+ drivers/video/fbdev/core/bitblit.c         |  17 +++
+ drivers/video/fbdev/core/fb_cmdline.c      |   2 +-
+ drivers/video/fbdev/core/fb_fillrect.h     |   3 +-
+ drivers/video/fbdev/core/fbmon.c           |   7 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c |   2 +-
+ drivers/video/fbdev/nvidia/nvidia.c        |   3 +-
+ drivers/video/fbdev/pxafb.c                |   3 +-
+ drivers/video/fbdev/s3fb.c                 | 177 ++++++++++++++++++++---------
+ drivers/video/fbdev/simplefb.c             |  31 +++--
+ drivers/video/fbdev/xen-fbfront.c          |   2 +-
+ 25 files changed, 259 insertions(+), 165 deletions(-)
