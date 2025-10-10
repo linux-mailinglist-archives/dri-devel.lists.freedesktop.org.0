@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4ABBCDA8A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42D0BCDA96
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D98CD10EC3F;
-	Fri, 10 Oct 2025 15:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4299010EC42;
+	Fri, 10 Oct 2025 15:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7C01210EC3F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:00:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5823110EC42
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:01:06 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 317781595;
- Fri, 10 Oct 2025 08:00:42 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 068A21595;
+ Fri, 10 Oct 2025 08:00:58 -0700 (PDT)
 Received: from [10.57.35.12] (unknown [10.57.35.12])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDF6E3F66E;
- Fri, 10 Oct 2025 08:00:47 -0700 (PDT)
-Message-ID: <ae4cb263-ac1c-49ee-a3fb-3937c6982e1c@arm.com>
-Date: Fri, 10 Oct 2025 16:00:45 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A5AD03F66E;
+ Fri, 10 Oct 2025 08:01:03 -0700 (PDT)
+Message-ID: <a6cb480f-5530-4bd6-a27d-18a1af9b9fe9@arm.com>
+Date: Fri, 10 Oct 2025 16:01:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/13] drm/panfrost: Add flag to map GEM object
- Write-Back Cacheable
+Subject: Re: [PATCH v2 13/13] drm/panfrost: Bump the driver version to 1.6
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
@@ -33,10 +32,10 @@ Cc: dri-devel@lists.freedesktop.org,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
 References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
- <20251010101147.3290604-13-boris.brezillon@collabora.com>
+ <20251010101147.3290604-14-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20251010101147.3290604-13-boris.brezillon@collabora.com>
+In-Reply-To: <20251010101147.3290604-14-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,92 +56,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 10/10/2025 11:11, Boris Brezillon wrote:
 > From: Faith Ekstrand <faith.ekstrand@collabora.com>
 > 
-> Will be used by the UMD to optimize CPU accesses to buffers
-> that are frequently read by the CPU, or on which the access
-> pattern makes non-cacheable mappings inefficient.
-> 
-> Mapping buffers CPU-cached implies taking care of the CPU
-> cache maintenance in the UMD, unless the GPU is IO coherent.
+> Bump the driver version to reflect the new cached-CPU mapping
+> capability.
 > 
 > v2:
-> - Add more to the commit message
+> - Quickly describe what the new version exposes in the commit message
 > 
 > Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Should we not expose the PANFROST_BO_WB_MMAP flag through
-DRM_IOCTL_PANFROST_QUERY_BO_INFO? The documentation states that we
-return "Flags passed at creation time", but then this new flag isn't
-returned.
-
-Thanks,
-Steve
+Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++--
->  drivers/gpu/drm/panfrost/panfrost_gem.c |  3 +++
->  include/uapi/drm/panfrost_drm.h         |  1 +
->  3 files changed, 12 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 00c0881fa2f0..0f51b1dc1abc 100644
+> index 0f51b1dc1abc..9316daa91543 100644
 > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -125,6 +125,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  	return 0;
->  }
+> @@ -934,6 +934,9 @@ static void panfrost_debugfs_init(struct drm_minor *minor)
+>   * - 1.4 - adds SET_LABEL_BO
+>   * - 1.5 - adds JM_CTX_{CREATE,DESTROY} ioctls and extend SUBMIT to allow
+>   *	   context creation with configurable priorities/affinity
+> + * - 1.6 - adds PANFROST_BO_MAP_WB, PANFROST_IOCTL_SYNC_BO,
+> + *	   PANFROST_IOCTL_QUERY_BO_INFO and
+> + *	   DRM_PANFROST_PARAM_SELECTED_COHERENCY
+>   */
+>  static const struct drm_driver panfrost_drm_driver = {
+>  	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+> @@ -946,7 +949,7 @@ static const struct drm_driver panfrost_drm_driver = {
+>  	.name			= "panfrost",
+>  	.desc			= "panfrost DRM",
+>  	.major			= 1,
+> -	.minor			= 5,
+> +	.minor			= 6,
 >  
-> +#define PANFROST_BO_FLAGS	(PANFROST_BO_NOEXEC | \
-> +				 PANFROST_BO_HEAP | \
-> +				 PANFROST_BO_WB_MMAP)
-> +
->  static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  		struct drm_file *file)
->  {
-> @@ -134,8 +138,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  	struct panfrost_gem_mapping *mapping;
->  	int ret;
->  
-> -	if (!args->size || args->pad ||
-> -	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
-> +	if (!args->size || args->pad || (args->flags & ~PANFROST_BO_FLAGS))
->  		return -EINVAL;
->  
->  	/* Heaps should never be executable */
-> @@ -661,6 +664,9 @@ static int panfrost_ioctl_query_bo_info(struct drm_device *dev, void *data,
->  
->  		if (bo->is_heap)
->  			args->create_flags |= PANFROST_BO_HEAP;
-> +
-> +		if (bo->base.map_wc)
-> +			args->create_flags |= PANFROST_BO_WB_MMAP;
->  	}
->  
->  	drm_gem_object_put(gem_obj);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index da0362202d94..0e8028ee9d1f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -320,6 +320,9 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
->  	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
->  	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
->  
-> +	if (flags & PANFROST_BO_WB_MMAP)
-> +		bo->base.map_wc = false;
-> +
->  	return bo;
->  }
->  
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 5832a291adc4..2c1e28f9dd07 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -104,6 +104,7 @@ struct drm_panfrost_wait_bo {
->  /* Valid flags to pass to drm_panfrost_create_bo */
->  #define PANFROST_BO_NOEXEC	1
->  #define PANFROST_BO_HEAP	2
-> +#define PANFROST_BO_WB_MMAP	4
->  
->  /**
->   * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
+>  	.gem_create_object	= panfrost_gem_create_object,
+>  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
 
