@@ -2,120 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE96FBCCF33
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 14:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E6BBCCFDB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 14:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 365A810EBF6;
-	Fri, 10 Oct 2025 12:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C15B310EBEF;
+	Fri, 10 Oct 2025 12:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VJ6CoIt9";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aT1fNQp9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE0610EBF6
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 12:43:05 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59A6Wi0C009942
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 12:43:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VNsUbT10s5zSfVe/NID+AupK44Pimf1cna/+6kSnqDA=; b=VJ6CoIt95oBJ80un
- 2gMnh/GiQqHK97PV63qSektfmunXEeLtZZ12JITb+nGjrCeiA6CSo00VxOiRUBVM
- PZNq7xieoiKe3XKvYIPVK8NgJbZ90ZvVYUVeCJsjULHQArMP1TOHURivkT7Wt170
- B/vM2wNagv20ShNkRKLKExcvNL3pZS7iLggZMjf74RLRr7oJxHGU4+/qG/+KW5Uv
- kGDkYD2KO2ieu6qrOSzO708popFfV1xpgShF5/eFDgj2ZDz6ScjAQtPH/cKTfZ/Z
- Tr5ikGxlPTAGH/9V+DB3jjS/yAIXl2aeGF25DjTA57F+En0cVJAC73oxwxAb74Ie
- HsYqnw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4nxe66-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 12:43:04 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4e6e51d9dd9so82040771cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 05:43:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760100184; x=1760704984;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VNsUbT10s5zSfVe/NID+AupK44Pimf1cna/+6kSnqDA=;
- b=fL7WBpVtutq/KkqsOn/OdfZWFZCmtc8Er8ueIhCLN9VKxqCvaXt+NR2FW5ObqqlYZl
- ADrSU4JQ96d5GhQKBQqVuxjfum59VeMw1mZrrn021EfcuW7MFjCvxjBVhG7wl8W0YlZW
- R/Rl8Skk0fzG7ZXnIPaKVRtTijAVx1b2TdovS2ZHPYAbZ6zuovgN+Q8cxjrMYwBXzrjt
- WR97U6Br5cRY4lMTyF5YQxCBjtOsx7e1cBjzZXPz3uGqYVldCEAgK1nphPSqzBzlwGvQ
- g7be3h7oOkRJAuJca/hOzXHrRpYwYm8z6aLVvLfgug/sHCigM3avhVHPGqDgL2SJ5fyu
- 7Ykw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsHT3G4554JNRbyc0PYpfiOmXrEkkmyrDrZZgkZyec/0+8+mnIlskp45kyuPWKLYsaQSMv6izzm1U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy63YRvomjqj330f4ikjum4bfuCEZxzwpy6o79SjgzsFhPKEdaD
- 4YsnmWNXUEzCUOruTgqvtz6mwwwpUBtlwyDjHZuSwno6VULjPXIXk2oE3rrJicWuD2mwTmYccoi
- m1jgeSIQZ5W3BHvOeGdxIj1vahk8qCMssedTZOMYD4o7bxZ+jWzG5bhizzTkM4zCkINHpdwc=
-X-Gm-Gg: ASbGncvQT8TGGHjRM84gGHH3O6Fsr33GHB2ZqsI9DCB+wlWfjQrRAS+WhWL6hqHVzkA
- MbWQRAtpvaVUdkLas5fF9dertZ2QMSQCIzEsDOVBF5037bQXKhpaGbcQ8UHgGihBGFnGn5Ig6iz
- 5tofI0wDatVjOlCyVJldx3aMCnFAaFXBbTeH+rSbmhaUgRul1RZamHh3Xgcb0bxKp3qEDu507G8
- FV5oCm4utWsOon1tx6YIemBlbYhheAl93BWnVOFvezIW8PzzN0P2ypEc4csGHOODWwDqQwE4+hH
- uNdayeEiCmDNQP6KKEjdPq/nCCtP55RlQm18lrSSHYyMphUKchdVqiJZ24WdSCIwIvuPyS4EFaL
- fNGXoHqyOpcm9wUxuT3Y/FmkvGElB31tfre2j2MP3vLXNP+RU9R2o
-X-Received: by 2002:ac8:7d0a:0:b0:4e4:beb1:73d4 with SMTP id
- d75a77b69052e-4e6eacf551amr173804501cf.31.1760100183546; 
- Fri, 10 Oct 2025 05:43:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1ZudeCrHVqgLFSFdYWiioumPJG3NkOroOV8K0GCBnWR2pTMVmS9VaAdEuh0dVymq3W77cGA==
-X-Received: by 2002:ac8:7d0a:0:b0:4e4:beb1:73d4 with SMTP id
- d75a77b69052e-4e6eacf551amr173804061cf.31.1760100183037; 
- Fri, 10 Oct 2025 05:43:03 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3762ea3aafasm6103321fa.49.2025.10.10.05.43.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Oct 2025 05:43:02 -0700 (PDT)
-Date: Fri, 10 Oct 2025 15:43:00 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, m.szyprowski@samsung.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] drm/bridge: analogix_dp: Fix connector status detection
- for bridges
-Message-ID: <wzeleliof47ogogxqrlwswfbnvummoydtegpgwf463k5ve3uue@tpemjilgagpl>
-References: <20251009193028.4952-1-heiko@sntech.de>
- <v6aqic6kffc3x42dkb4bika5tvoqdpmmloroqio2656g74pkws@7fe3bsfzbasn>
- <3572997.QJadu78ljV@diego>
- <b47c5579-511e-4831-b86e-48ad4cefaa6c@rock-chips.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010029.outbound.protection.outlook.com [52.101.61.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A4C10E184;
+ Fri, 10 Oct 2025 12:49:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jTFW8COIX+6m+rqhKS6lwSaYJoSr4Ol+3n98bVKRjxoVEaq31/b0/ibCO/1/hIdZyiky9A99sTjS4vNSZlRtONU2hkidqVs8ErRfym6P8uovEHJfOdz6K6ZKRIIEztgI3vkI1X8+p2SYzKmgtRKH3DYejRZrAXUbvsdE5kTCk11fO1uPX/E3QFx5Gd8bIXnYz0UfYdb1j89Y3ZmDMKGKs41WPZ/vClk6tK+28137efQQhCN5v6BtqT17aq7G0CqWSqip1u8aCU+uhZzmtzf3SjymrdpI0ZhPFeXkCZFuRxipV1wO/F5wwmqR2HLqv5SmP/0081gBZx8U43tSDKEx5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/FQ6oBAx7ZiIijcXnrIdqews987soO+3fwIa/2/qMoo=;
+ b=nY6CNmzcRj4+kjLRfDVREIowx4dU3Mv9BnlTFXxJbgLeQCpsFInN8M5iQQEW5l1cIZJ25m5Ww8bAUIRpV3C/Yknn1CcD2763VL9PSaiQdNxpIEC3S+G7ynzAGZPuFrp15gAQgUsJsEg0g0u+Nbngap3uKIIQ9t/JSeG7aUgmIN8a0EARMqlHTX+Z/dyumK9sskDvtJJlp5seELUiz8vOq7rwx2PSK0fWHCWwLHeqqJjBKox5T0loXHLjkBxf8uHQ1abXtXg8VB7lW3Gv3H096c1IM/92b7WqDvqcrtdocrBGa15Ymztmo7y09XKuSIo71gZUfjHxUeO0FWMq5pcvVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/FQ6oBAx7ZiIijcXnrIdqews987soO+3fwIa/2/qMoo=;
+ b=aT1fNQp9zNStr0xhmR8zcsp8dDfin9+Flrow/7ustKJdaBYxp69gxZJXms7QH6t42LDO+BAirbax8n9PNNA2Ar8PuE30saM7Xf8iReMPb1gspolp53wigp3NoOwGEEGQAFi79T/aXhE3Zwv6WSZgo8Xn74X/Sjc4191UiGc+xSI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB6770.namprd12.prod.outlook.com (2603:10b6:510:1c5::11)
+ by BL4PR12MB9536.namprd12.prod.outlook.com (2603:10b6:208:590::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Fri, 10 Oct
+ 2025 12:48:58 +0000
+Received: from PH8PR12MB6770.namprd12.prod.outlook.com
+ ([fe80::5da3:7c42:3309:eb4c]) by PH8PR12MB6770.namprd12.prod.outlook.com
+ ([fe80::5da3:7c42:3309:eb4c%3]) with mapi id 15.20.9182.015; Fri, 10 Oct 2025
+ 12:48:58 +0000
+Message-ID: <11bc4d38-de19-4ffe-a49c-2b5b7a7be2b4@amd.com>
+Date: Fri, 10 Oct 2025 14:48:53 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Avoid killing entity last used by parent on
+ child SIGKILL
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+Cc: amd-gfx@lists.freedesktop.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>
+References: <20251002150524.7552-3-david.rosca@amd.com>
+ <d67cbd3a-5cd8-43b8-badf-3f264885429d@amd.com>
+ <14de5473-534c-4294-bb1d-41d1a43fb46d@amd.com>
+ <4cc2b216-e778-4b4e-bd13-01af0ded5427@amd.com>
+Content-Language: en-US
+From: David Rosca <david.rosca@amd.com>
+In-Reply-To: <4cc2b216-e778-4b4e-bd13-01af0ded5427@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b47c5579-511e-4831-b86e-48ad4cefaa6c@rock-chips.com>
-X-Proofpoint-ORIG-GUID: 0_t4UKwRhwqy7pf2xaNILb1idvF4SwqS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX2BHn3kYZkMBf
- kSWkgu8YWOWwfBDZmNq3b8yS0tHJj9sQd6WPb1fsYJM8czPN5xmcll+IMnGIc6Vqo8+u8g1qXt/
- 3IYmfEq+Zr01wNs3KSyj9j4LjUpZGPtBf6Q0MGoxobaVsLw0/kn8tPYQpkjxPt8Uv/HHVOyu/1N
- kjNxQvNNiPgE6gGnT+6jsRMq1FLh55h7P03vacXScNaVNTK7hNkLoaHAG/cAQ6Z84l/d/XQyLRH
- hFDnTyi9lOAe0PlZR84b4vR/gLjCtrypnPINOy0gGIRD2cNhvtHYTZoeNhjNTTBTO06+s2GwnpF
- AN07vyoe9GuUB8Xhv0lEGRwKVZ9NkBskPRQ1WfEkBkmBuZn2RSIM6JAJRrE9VJr6P7bnwbws/mY
- QmFQ8HEmNM852prc+Iq0/HdYp1xv9g==
-X-Proofpoint-GUID: 0_t4UKwRhwqy7pf2xaNILb1idvF4SwqS
-X-Authority-Analysis: v=2.4 cv=b6a/I9Gx c=1 sm=1 tr=0 ts=68e8ff58 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=hD80L64hAAAA:8 a=s8YR1HE3AAAA:8
- a=V7SD_xnUNx52fGP0aLEA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
- a=dawVfQjAaf238kedN5IG:22 a=jGH_LyMDp9YhSvY-UuyI:22 a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-10_02,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+X-ClientProxiedBy: YQZPR01CA0061.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:88::22) To PH8PR12MB6770.namprd12.prod.outlook.com
+ (2603:10b6:510:1c5::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB6770:EE_|BL4PR12MB9536:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52c407ec-75f3-46ed-d12b-08de07fb60de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YTBoRmVWaXhzSHYrTU9JMzNNMENieUtIWWxSLzZ0N1NudFp1N09zRVNTaVhK?=
+ =?utf-8?B?NDJKSzF5T2JCTFNDV0ZxU2VxNUpLY1ZQSVVBajlZTURpZGVPMHIwcEpUSENI?=
+ =?utf-8?B?b3V1SHJMTzZyYkE0Qm1pZVB5Q0QyMlVNaVhZekJxWkpQdGdNcW9ycUFtc0hp?=
+ =?utf-8?B?dGVWK2twZis3VTQwTVZ5WmRveHRIZlZYY0d5VnBmbWZKMmpwRW1yYll1b0g4?=
+ =?utf-8?B?TXhOdlpmSGU0U0p1bURybU42UUZENzYrN0cwTi9TZlZaMHZaL25aaDV3K01q?=
+ =?utf-8?B?VkMxa01ySUtUNVYrWWgxWUxYRjRMRWxHSjhhRHhhbFM3MVZ5OVl1MTViV0VC?=
+ =?utf-8?B?NndTcG1CQStJR0RMRTBBUUt3bmsvdmlRM0JocjIrRVBiNDBkOFo0L3doOHhW?=
+ =?utf-8?B?NndKUElYR05GSFpSTGMyTG1lajdoNVdQM1ZhNlJ0NWN1TzEvTDJhYzhiRS9Y?=
+ =?utf-8?B?WStDZTBVb1FJR2o4NVZkcWQ3TjdidkNyQVN0RUMrZDRIK0NGeWlCa3pHYnI0?=
+ =?utf-8?B?OU56TnM1bnp1cFBLUFYxRHB1SzdwTjJDcG4vcDlGR0FLQnBDcFJrU2lSWjM4?=
+ =?utf-8?B?VlpoWTBKV0ErQmdVZXBUejZiZDRWaklMRkUyRzRIQlRXWTJ4bGN5c0JmSU9O?=
+ =?utf-8?B?QnlIcUZxTVh6Q0N0QkNpMDlFOUxtbTl2TTFYQVM4UHRNQzU1eTByYUEvYTVl?=
+ =?utf-8?B?c1lDUGY5dW1KV0pyaHFOdDZRUjNpaHV2dGllbW1CREltSzNpY1c5MG9yOWxO?=
+ =?utf-8?B?Vmt5RTF0bW1pVDB1RDlWUElTZG9TVk1jNE1sTTJJT1VyaDRCVnVNRkVpUVBC?=
+ =?utf-8?B?ZHFWbVBpVjFaSDRReHBkWWFHT2hjcEsveWlWdjM0Q2NOWFlmQUkxakNCL1dC?=
+ =?utf-8?B?QlNZWkdJcmk3OWxqeCtQZjJQQU1HYWpJZkZKdzJvREJxVU42S0NjMmFaQzRm?=
+ =?utf-8?B?bjYzVFk1QXZzc3g2WS9vNk1lV0l1aGJla0dFd0lpYmltK2ptTW4vM0NkMkNK?=
+ =?utf-8?B?VTNLVk8zQklYL2tXYThyTlRIb0VCcC9UU1BrOHJsUEd0OTRDVmVSbVE2azF2?=
+ =?utf-8?B?aDVZZzRuRUVibUQ3dnNpeFpjYnNLN2szYTNjZ0tXczdJVysyMEtpT1V4ZitH?=
+ =?utf-8?B?VGNtZnhUZ0wzRW5EY0xCLzBZMXhkYWhBUGtHQ2Q5S1NZMStyREVzRnlVakg1?=
+ =?utf-8?B?ay9lWWQ1SVEzVTBmRzRrblA3dmorSi93L3FTaXB1cFpDbFIwdDBhV2R6RVVU?=
+ =?utf-8?B?SmV4L0tXa1dMVlJIUkM4c1ZoNW9pZTk3Rm13cmdWRlJoM3BkTFNOL09kOTMx?=
+ =?utf-8?B?eVFFcW5SRXM1ZStrT0NNT25oRmtnWitJalY3dzBFeFViVWZNN2UvdCtFemFS?=
+ =?utf-8?B?MldPTDZ0YlV3aFh3c2ZFcHhFTEk4b0hzaE95WjdaU1poa0JlY0Iyb3EyK0tF?=
+ =?utf-8?B?U3phaHVDNVdZL21QcnhhVysrZDZEdm9xYjZKekg3L1VtYzc4YW9FSWk0bmxH?=
+ =?utf-8?B?YmxCYTltT2hKK255TTRrbzc3SEptSW05bGtGQ0dGZUZ4eEUzQjdSeU5JcXl4?=
+ =?utf-8?B?NDVPSlFGR1dzRXM0QzQwbXM0VU1VZUNJMGc1cHBJN0RvNW5EZXdibXBsK1Z2?=
+ =?utf-8?B?cFQ5SEdlQ2ZFNVVhejVCWFBINkRKZE1SZldNVm94cnByY3ZtbVB0Y1dqUm9i?=
+ =?utf-8?B?cm9UNmJTMVZ1TTZiVlFQU1R4VkM0SFFoTUFEWmliajRlUjF6VU1IdHJZUXFx?=
+ =?utf-8?B?NCswM0FvV3ZmQ3QxZ1ZIdkRSM2Vha2dBUlNpR25LM0Y4TDRwVWZIcnJtL0tz?=
+ =?utf-8?B?U1J3NlVaZVlVNGpZUytjZkdIN200QXd6cTF6Z3pvNmhLQzBlS1lNeURGU1FV?=
+ =?utf-8?B?N05wbXBwTWhDZFRQNkJPMFNkZTBiZS9sUHhpTnp1SndaU0hBR1QwUHNtajBI?=
+ =?utf-8?Q?X4SSLlNKbjEdsd+3Nc6wsF4sA7dn37wU?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB6770.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0pUaThHRXdPM3hrUEE1azBzWnRQK3licm9CQmVOdlNYREdXek9ZZXVGM3JC?=
+ =?utf-8?B?KzdEdEp0V0xka1dua3NkSzZZblZHTC9nRXVCZVB2TWpnUW9qSTg4UWg3V0Y4?=
+ =?utf-8?B?WXB0SDJ1Rko4czlUdGRieStQSlk4VldWWUJ0KzVsSzM0VU9VWE1nelhrT1ZW?=
+ =?utf-8?B?enVwNUFxbTlvbXRsZGxCVFZHOVNQRDA5SUdmTzZRYWxpY2JpL2t5Q2NWK0VE?=
+ =?utf-8?B?OUJNbjNVUlhiY1QyK2JaSGRWclFXMVZDTndBallkcFRtOVBpQm9Nckoya0U0?=
+ =?utf-8?B?S3N5MnFFeWVOWGZ0Z29vV2hydkk1WmtBSHlxbXhNRDVJTTRtelFJN1NIUSts?=
+ =?utf-8?B?TTBFeHZSb25hOUtoVE9GYWN0bGUvMlF6eWVXNFZqN3NQMXJ3bUcvdnEraGdu?=
+ =?utf-8?B?bHB1NjI0YnhOSS95T1FKWS9HTXBoWEdPNndQWkJJVEVrUzkzTXZwdEF1TTFY?=
+ =?utf-8?B?UGlVd2lXaWxSejhEMVZsbnYwM0RDVTdoSWFUdmZQRW5NU3FXRU5iaURNbG9W?=
+ =?utf-8?B?T0k2cWl2ZnhYUEd4Y1hHa05QVUhiZXF1b2xtZEtoTm51ajBzMXU4WTEwVVNo?=
+ =?utf-8?B?d2k3dTJabytSdGxYYW1LaTY2RVpleG1uKzQ5dzd2U1pDaDd2SU4yaTlZS2dl?=
+ =?utf-8?B?bXNvdTB0VTZ0U1ZKVTJST09DT3N4bWJlRFlJRnEwYlViZnFFL3NTSGRJRUI5?=
+ =?utf-8?B?Wk85dDJWT1ZTeUc5bEZZb0h6ekUyOXlyL3kvMmdLQVBUYVZBVVR5YithVVVI?=
+ =?utf-8?B?RWI2RVkxTm1sdVBJRnFTNzVmTDFaaFdiUkEzWm9ZbGx2ODdsWjdsL3RmQUNJ?=
+ =?utf-8?B?SlUraFJWMDhRQnZya3REV0pnOGcrL0JaN1UxWkFyR1hrUi9lMmxrZERBRjRB?=
+ =?utf-8?B?a0ZlNlA3NUt2NXB3dzlyUGdGNWoxQ1BMOXlkUFYyS3dkeWJHVS9lTzR1UzJr?=
+ =?utf-8?B?VWZ3WXkveEkxZjdzeThncy84eFcvNkNEamw4dTVSeFFTZENlUGp6Yno0T2lp?=
+ =?utf-8?B?anhKM2xTcXBHK3hDSWhvZWgxUEdNVG9sNFRqdjFwRFhWWGFnOGk5K1RLME9y?=
+ =?utf-8?B?eGZaU2ZLdkhFNXBxYTNKYW9hYjVsUFRNUm41TDlNNTdPeUxzeXFVMEJONmhQ?=
+ =?utf-8?B?ZzhQSTRsdzZQMlNZbloxS1BYVXVQeFZKTmtPSkdvajBqS3QxU1p1OXcydjFq?=
+ =?utf-8?B?WWc3ZUhQS2N3VGUySmpCaUh4TTQyUjY1TW00K0NnOTNZWEt2QVZ5RVB6d3BL?=
+ =?utf-8?B?MEVyTUg5V3Ywcm9FdC8xVU5PaUhDYUU1M0xDOTdvS0ZXMXRhd0tYby9GLzhs?=
+ =?utf-8?B?SlhnWVFOL1VzOUFqT3FjVXFROC9heUJUWDRTSWNFZGxqMEhTSkszTU1HQXN0?=
+ =?utf-8?B?RnlEbmV3YlRBNnUyWjI1azhOUE03WUFRZFlURCtFeUp6YUJGZUQ2R2p6V2Y0?=
+ =?utf-8?B?blZza09YelhWQUgrd2s2Z0toNDNkcmJJR28yamwySGd5MGVLWGI3ZWI4SzNV?=
+ =?utf-8?B?MVhxRmRBcW4vbC9DOWhBSWUrN1M1cCs2RFNOYUtwRlVoRUhjUlZXcGsyMGN2?=
+ =?utf-8?B?VGEyWnFWa1g2aDFGNytrQTFlYnhuMEFxV2dBc1B3bzNvcVhNR2lqbXFqQ0R2?=
+ =?utf-8?B?RzRSZlFpUzFqa0loOU5jWGdiOEJHK1lmem5lUnh2c0JWK3NYMUluTE94MGVv?=
+ =?utf-8?B?bStBajJjNTM4R3c5a2M0VDFhVVVveE5YNmorZjJJNkRrVUVaa3BvRXdrRzZu?=
+ =?utf-8?B?QVhVSXVUVWczOEdNeTlrWHNpbWhPOGFOcGcxVjUrc2V5c0RBR0swekdPMlor?=
+ =?utf-8?B?RG56TXFpSFpDVVd2QWJxa0FJd2xoMzhCdDlLd2NKV0JMY1VoU05zeG1uTDVS?=
+ =?utf-8?B?U3UrZ0tITzhLV0NoMlpsMFh6YWtaZE9nTnpRb00yR1owMmMzT3JHK0N4dEVZ?=
+ =?utf-8?B?VGFwZ3daVUdiY0NTRk1oRzdoNGkvTVZoZEZ0SHZ2YXRRaDVqZTcydEp2MnJt?=
+ =?utf-8?B?WHdtVk1TV2o5TVl3d081Y3BhQmVycmJBZngxRnVLOElHM2VyeU9DTGJPUGZI?=
+ =?utf-8?B?SnF4ZUZoTjBvS3laR1RUVGdDZFVpbExFSDcyY1NYaUZDaTdSWWhIQzU5a1NS?=
+ =?utf-8?Q?ynBabNhQhyEPVsEiiSnlGFg3K?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52c407ec-75f3-46ed-d12b-08de07fb60de
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6770.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 12:48:57.9395 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BxDHTjKaKuFZ97Woi2uKKKU76qUnUnc0NWqIFg8YjVhQlGpXtlhCiR0dWfLFMI/HuWNAXrCNWlEvBrHnwDcYjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9536
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,193 +169,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 10, 2025 at 12:02:43PM +0800, Damon Ding wrote:
-> Hi,
-> 
-> On 10/10/2025 7:42 AM, Heiko Stübner wrote:
-> > Hi Dmitry,
-> > 
-> > Am Freitag, 10. Oktober 2025, 00:30:11 Mitteleuropäische Sommerzeit schrieb Dmitry Baryshkov:
-> > > On Thu, Oct 09, 2025 at 09:30:28PM +0200, Heiko Stuebner wrote:
-> > > > Right now if there is a next bridge attached to the analogix-dp controller
-> > > > the driver always assumes this bridge is connected to something, but this
-> > > > is of course not always true, as that bridge could also be a hotpluggable
-> > > > dp port for example.
-> > > > 
-> > > > On the other hand, as stated in commit cb640b2ca546 ("drm/bridge: display-
-> > > > connector: don't set OP_DETECT for DisplayPorts"), "Detecting the monitor
-> > > > for DisplayPort targets is more complicated than just reading the HPD pin
-> > > > level" and we should be "letting the actual DP driver perform detection."
-> > > > 
-> > > > So use drm_bridge_detect() to detect the next bridge's state but ignore
-> > > > that bridge if the analogix-dp is handling the hpd-gpio.
-> > > > 
-> > > > Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> > > > ---
-> > > > As this patch stands, it would go on top of v6 of Damon's bridge-connector
-> > > > work, but could very well be also integrated into one of the changes there.
-> > > > 
-> > > > I don't know yet if my ordering and/or reasoning is the correct one or if
-> > > > a better handling could be done, but with that change I do get a nice
-> > > > hotplug behaviour on my rk3588-tiger-dp-carrier board, where the
-> > > > Analogix-DP ends in a full size DP port.
-> > > > 
-> > > >   drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 8 ++++++--
-> > > >   1 file changed, 6 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > > index c04b5829712b..cdc56e83b576 100644
-> > > > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > > > @@ -983,8 +983,12 @@ analogix_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *conne
-> > > >   	struct analogix_dp_device *dp = to_dp(bridge);
-> > > >   	enum drm_connector_status status = connector_status_disconnected;
-> > > > -	if (dp->plat_data->next_bridge)
-> > > > -		return connector_status_connected;
-> > > > +	/*
-> > > > +	 * An optional next bridge should be in charge of detection the
-> > > > +	 * connection status, except if we manage a actual hpd gpio.
-> > > > +	 */
-> > > > +	if (dp->plat_data->next_bridge && !dp->hpd_gpiod)
-> > > > +		return drm_bridge_detect(dp->plat_data->next_bridge, connector);
-> 
-> I have tried to use the drm_bridge_detect() API to do this as simple-bridge
-> driver, but it does not work well for bridges that do not declare OP_DETECT.
-> 
-> Take nxp-ptn3460 as an example, the connected status will be treated as
-> connector_status_unknown via the following call stack:
-> 
-> drm_helper_probe_single_connector_modes()
->   -> drm_helper_probe_detect()
->      -> drm_bridge_connector_detect()
->         -> analogix_dp_bridge_detect()
->            -> drm_bridge_detect()
->               -> return connector_status_unknown due to !OP_DETECT
-> 
-> However, the connected status will be connector_status_connected as expected
-> if Analogix DP does not declare OP_DETECT[0]:
-> 
-> drm_helper_probe_single_connector_modes()
->   -> drm_helper_probe_detect()
->      -> drm_bridge_connector_detect()
->         -> return connector_status_connected due to CONNECTOR_LVDS
-> 
-> Base on Andy's commit 5d156a9c3d5e ("drm/bridge: Pass down connector to drm
-> bridge detect hook"), the drm_connector becomes available in
-> drm_bridge_detect().
-> 
-> It may be better to unify the logic of drm_bridge_detect() and
-> drm_bridge_connector_detect(), which sets the connected status according to
-> the connector_type. Then the codes will be more reasonable and become
-> similar to the simple-bridge demo via
-> 'drm_bridge_detect(dp->plat_data->next_bridge, connector)'.
 
-I'm not sure, what you are trying to achieve here. The
-drm_bridge_connector should handle the OP_DETECT and use the last bridge
-in the chain that supports detection.
+On 10. 10. 25 14:28, Christian KÃ¶nig wrote:
+> David any objections that I take this patch and make the necessary modifications?
 
-Note: OP_HPD and OP_DETECT are not that tightly connected, especially
-for DP bridges. It is fine to have a later bridge which generates HPD
-events, while Analogix DP bridge responds to .hpd_notify() events and
-performs its duties.
+Sure, please go ahead.
 
-For example, it's perfectly fine to have dp-connector with the HPD GPIO
-pin routed to the connector (in which case it will declare OP_HPD). But
-the Analogix bridge should perform actual detection. Normally this is
-handled by reading DPCD and ensuring that there is an actual connected
-device (i.e. either a non-branch device or a branch with at least 1
-sink).
+Thanks,
+David
 
-> 
-> But we still need a specific check for DP-connector to resolve this issue.
-> The '!dp->hpd_gpiod' may not be well-considered. Perhaps we could introduce
-> a new API, similar to drm_bridge_is_panel(), called
-> drm_bridge_is_display_connector()?
-> 
-> > > 
-> > > And it's also not correct because the next bridge might be a retimer
-> > > with the bridge next to it being a one with the actual detection
-> > > capabilities. drm_bridge_connector solves that in a much better way. See
-> > > the series at [1]
-> > > 
-> > > [1] https://lore.kernel.org/dri-devel/41c2a141-a72e-4780-ab32-f22f3a2e0179@samsung.com/
-> > 
-> > Hence my comment above about that possibly not being the right variant.
-> > Sort of asking for direction :-) .
-> > 
-> > I am working on top of Damon's drm-bridge-connector series as noted above,
-> > but it looks like the detect function still is called at does then stuff.
-> > 
-> > My board is the rk3588-tiger-displayport-carrier [0], with a dp-connector
-> > which is the next bridge, so _without_ any changes, the analogix-dp
-> > always assumes "something" is connected and I end up with
-> > 
-> > [    9.869198] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
-> > [    9.980422] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
-> > [   10.091522] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
-> > [   10.202419] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
-> > [   10.313651] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
-> > 
-> > when no display is connected.
-> > 
-> > With this change I do get the expected hotplug behaviour, so something is
-> > missing still even with the bridge-connector series.
-> > 
-> > 
-> > Heiko
-> > 
-> > 
-> > [0] v3: https://lore.kernel.org/r/20250812083217.1064185-3-heiko@sntech.de
-> >      v4: https://lore.kernel.org/r/20251009225050.88192-3-heiko@sntech.de
-> >      (moved hpd-gpios from dp-connector back to analogix-dp per dp-connector
-> >      being not able to detect dp-monitors)
-> > > 
-> > > >   	if (!analogix_dp_detect_hpd(dp))
-> > > >   		status = connector_status_connected;
-> > > 
-> > > 
-> > 
-> > 
-> 
-> I see... There is also a way to leave the connected status check in Analogix
-> DP bridge:
-> 
-> 1.If the later bridge does not support HPD function, the 'force-hpd'
-> property must be set under the DP DT node. The DT modifications may be
-> large by this way.
-
-Well... The drivers should continue to work with old DTs, if they did so
-before.
-
-> 2.If the later bridge do support HPD function like the DP-connector, the
-> connected status detection method is GPIO HPD or functional pin HPD.
-
-dp-connector should set OP_HPD
-analogix-dp should set OP_DETECT
-
-> 
-> With the DT modifications for above 1, the analogix_dp_bridge_detect() can
-> be simplified to:
-> 
-> static enum drm_connector_status
-> analogix_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector
-> *connector)
-> {
-> 	struct analogix_dp_device *dp = to_dp(bridge);
-> 	enum drm_connector_status status = connector_status_disconnected;
-> 
-> 	if (!analogix_dp_detect_hpd(dp))
-> 		status = connector_status_connected;
-> 
-> 	return status;
-> }
-> 
-> Best regards,
-> Damon
-> 
-> [0]https://lore.kernel.org/all/22a5119c-01da-4a7a-bafb-f657b1552a56@rock-chips.com/
-> 
-
--- 
-With best wishes
-Dmitry
+>
+> People are pinging me about the problem.
+>
+> Regards,
+> Christian.
+>
+> On 09.10.25 17:04, Christian KÃ¶nig wrote:
+>> FYI
+>>
+>> On 09.10.25 09:01, Christian KÃ¶nig wrote:
+>>> On 02.10.25 17:05, David Rosca wrote:
+>>>> drm_sched_entity_flush should only kill the entity if the current
+>>>> process is the last user of the entity. The last_user is only set
+>>>> when adding new job, so entities that had no jobs submitted to them
+>>>> have NULL last_user and would always be killed.
+>>>> Another issue is setting last_user to NULL from drm_sched_entity_flush,
+>>>> which causes subsequent calls to kill the entity.
+>>>>
+>>>> Signed-off-by: David Rosca <david.rosca@amd.com>
+>>>> Fixes: 51564e9f06f0 ("drm/amdgpu: Avoid extra evict-restore process.")
+>>> Good catch, but in general please CC the relevant maintainers and mailing lists for scheduler patches.
+>>>
+>>>> ---
+>>>>   drivers/gpu/drm/scheduler/sched_entity.c | 5 ++---
+>>>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> index 8867b95ab089..a325e4a59990 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>>>   	entity->guilty = guilty;
+>>>>   	entity->num_sched_list = num_sched_list;
+>>>>   	entity->priority = priority;
+>>>> +	entity->last_user = current->group_leader;
+>>>>   	/*
+>>>>   	 * It's perfectly valid to initialize an entity without having a valid
+>>>>   	 * scheduler attached. It's just not valid to use the scheduler before it
+>>>> @@ -278,7 +279,6 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+>>>>   long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>>>>   {
+>>>>   	struct drm_gpu_scheduler *sched;
+>>>> -	struct task_struct *last_user;
+>>>>   	long ret = timeout;
+>>>>   
+>>>>   	if (!entity->rq)
+>>>> @@ -301,8 +301,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>>>>   	}
+>>>>   
+>>>>   	/* For killed process disable any more IBs enqueue right now */
+>>>> -	last_user = cmpxchg(&entity->last_user, current->group_leader, NULL);
+>>>> -	if ((!last_user || last_user == current->group_leader) &&
+>>>> +	if (entity->last_user == current->group_leader &&
+>>> You still need the cmpxchg() here or otherwise drm_sched_entity_kill() would run multiple times.
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>   	    (current->flags & PF_EXITING) && (current->exit_code == SIGKILL))
+>>>>   		drm_sched_entity_kill(entity);
+>>>>   
