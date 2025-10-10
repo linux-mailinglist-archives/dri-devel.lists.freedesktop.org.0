@@ -2,118 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0B4BCE168
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 19:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C29EBCE183
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 19:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8821810EC60;
-	Fri, 10 Oct 2025 17:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC2C10EC5F;
+	Fri, 10 Oct 2025 17:31:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iLdLx7Xf";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="ReTpBktO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5595E10EC5F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 17:30:10 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59AFRS3P024975
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 17:30:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ATXrLGPewk+USu4WH2tPmXTpI3iF7n/KZMdGkOVu4WY=; b=iLdLx7Xfko/0GgWa
- hbPzFA1YEUyGGpWqBgTsZYy7efzDlklzJJDrDRQ3e5AI4TCr+7RK8nF3S/IC01wG
- X+tvOzVklpiyOdaLJj1WRX6C2C+2RhOSWdZ2GU0i9I2aR4KhuJwLcD3/HGzPunLc
- 1qHNDnxOEuM+vgPZtHh+sj205MMZ65m0r5h0J1BCd61SaSk/0+5KNK8CLb+pbD8C
- ttBfrI5LjG/tva5xb/94+AhEoeFAj+8lkemNN8S3eqtpvcaqVBWYN5in7kCsA8Hy
- KpbWabNKwKJZtcvMOB+qpbBm3iRFyBEKZsj0gl+mnQHuKhC2X0UT91XTp7BD3+HT
- Q6l+yQ==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4ky7n0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 17:30:09 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id
- ada2fe7eead31-5d5e5b2df67so371550137.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:30:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760117408; x=1760722208;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ATXrLGPewk+USu4WH2tPmXTpI3iF7n/KZMdGkOVu4WY=;
- b=SWRmQCRnEmvqhir+W4/EZtX8VacIupCUh/XUQyhg+qMRO5ZpznzlHX35fyOK8+AUAx
- XuesgJL2WrAV0vL7QbuiTYA86/MyB11HTM+jA2g+Zjbz4IibVAzH2vp8/cEmvttgWg6K
- YCYnPRxSZYM8mFHfKO5fppIAXnSqkFB/xX0dVQTwu0mXODaQzSHhbdNw0rXDR8eqNl/p
- p2Lk/wVovjZTWwEKP8EzdKP/sdZYN6V3IMW4WDM3XMMe+6H22M6nUr28OWON1s2J9zEr
- jQWB6fxpPebF6VC8J2TIHlrkU8mYW/DByO+aPIwrEMbIHUj1PycvMfAM79bVGA0fb/V8
- DCGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFrwmofRfZV4jVZ9Y4UCSQsJDNaYQbCDfvxODtHL9460XJOKr5GEpM+jDFQaaJSgJce/i7uRtX3vU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZUx7vRt7qgZHpEmhIT/cAe5vXMUiW9H4IGWk9rY0qewI4FDRF
- FMLgA+i3Z3mde5UZtjzMjpoE+r8vNDFQZoJwPvC+5K4bD8OkiFj/gCyOryYt3SkPLw/Xl7sfiY0
- flOXcbzx/XlZ8Lq8mOEyGKVVPZxYWnDSjIU9yTy1oyR5Si3FaM1i0QZOYWYQigKqqqO/RZdE=
-X-Gm-Gg: ASbGncv7W4g6aDwH5Cpy9sKCljlRz47tNeSamqhWSa/rsiJtuIjcDn/n8ocUmwGS2cp
- JPhIxcsT2fxb4RBGzZqDa4nhoWrK1PPA7/sfjqgv0Dfs5I7qM0on/FT2kcuoA+eAPuJaikzhdow
- ix+DyTlaI2w6kRRm8okrNmQesnQen9ULkCHO/yjdd55+QM+xb9qu+Mq4I4XdUUgeR0WjYrjb4Io
- fYb55oYHTRIceeS5/+3rAg+9iAgHq0wLjJSgF+XWs8Z5p6+IP8JNovEXKYgdIFvxqA33NArToNL
- WsZbWndG42+oPxizEvP7Nh1lZuXXLRjSzvirhtaoGNVIFZSpyuXBRt/+uuOPh4Nq+ezerUO3Dp4
- ucFfljEXO23EFRtIYGrISmg==
-X-Received: by 2002:a05:6122:e0cf:b0:554:b341:2764 with SMTP id
- 71dfb90a1353d-554b890a550mr1451429e0c.0.1760117408374; 
- Fri, 10 Oct 2025 10:30:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEHD0hhK6b4JamkLYHPshkWQ8JHKI3MVUIkzRHAZmhbAXRpyPdpO2PcbsweVGgxi06rXqhX5g==
-X-Received: by 2002:a05:6122:e0cf:b0:554:b341:2764 with SMTP id
- 71dfb90a1353d-554b890a550mr1451416e0c.0.1760117407888; 
- Fri, 10 Oct 2025 10:30:07 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63a5c321341sm2786754a12.38.2025.10.10.10.30.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Oct 2025 10:30:06 -0700 (PDT)
-Message-ID: <eb15cf16-f51a-4eb9-992f-158e2510184e@oss.qualcomm.com>
-Date: Fri, 10 Oct 2025 19:30:04 +0200
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336F210EC5F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 17:31:52 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59AFtuHH024282;
+ Fri, 10 Oct 2025 17:31:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=corp-2025-04-25; bh=pvqj9d+nmeXKOy0CEZnhLNS80ooNK
+ N6MuIq0IKC5Ikg=; b=ReTpBktOBu4s826Dr0WZ3h/pSlsod2VqzOluFcc5osMLj
+ vZkNEjNg3gZ8BAL7aGlDrkDpJTpGPnVwT0ubx0Qrdz9UvdFH5yTlcdivakqUyW10
+ zcGIvRamJpcCp4iDRdyBowEjvOiqSUgpKFZCrKp2hwPr6lWnilnsgSFBNXkzdXGh
+ tTzKviBwoLLBYpJp/CkJNARwqYrmB8k2ng78rgiqoZb44eUgpFDK88rW81HOAvmd
+ Gth96SrdifQIvlfywDj3ermkBLmbrQriGGZY5m6htrc3DsccNSL2GeNQXLoXbriF
+ GyOc2XCB8VrcTMiaZLRfAhQACi4in/sPo/6p+FrRA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49nv6dv51x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Oct 2025 17:31:47 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 59AGj6SC037020; Fri, 10 Oct 2025 17:31:46 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 49nv65hg6j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Oct 2025 17:31:46 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59AHRHoQ026524;
+ Fri, 10 Oct 2025 17:31:46 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
+ [10.129.136.47])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 49nv65hg5t-1; Fri, 10 Oct 2025 17:31:45 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: dri-devel@lists.freedesktop.org, simona@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org, hjc@rock-chips.com,
+ heiko@sntech.de, andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com
+Cc: alok.a.tiwari@oracle.com, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH] drm/rockchip: dw_hdmi: use correct SCLIN mask for RK3228
+Date: Fri, 10 Oct 2025 10:31:41 -0700
+Message-ID: <20251010173143.72733-1-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/msm: make sure last_fence is always updated
-To: Anna Maniscalco <anna.maniscalco2000@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Antonino Maniscalco <antomani103@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251010-close_fence_wait_fix-v2-1-adb332dbff65@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251010-close_fence_wait_fix-v2-1-adb332dbff65@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX9urYAE8nmyyz
- FPSrrkwZsZUTohDDLdybcquKyVZmiCHTEu1Z+WqZMxtU8p3KRw2RXU6WY/7WahIZV8XtS3Gviwi
- zWpgZOgctdQXw8ML99B4B+3q456urxcFg120kycOW3pM45ZjMOQeVeiHCJrrBNvVC8n3FmE5bAl
- y0EsME2e9w6Ac7IdKmNpjyefd4YfMQ/Nu4PZfBgfGsUKUhF/littIxlr7wpOeJW+jkjwN1YeihG
- +sY6xtHjocSmzafxLipSLbLN3GzYNf1wohP0Dgy7wR5pX5fiVBQ2weBD8hyFF6QMjDfF+UohM0e
- YuoRqvMKix6mOsV1uQg78rpQo9SyKsZo5LOGOvV99SFQ+6ZwBVHF1UJ0A3Qcpa4QaK5tD2lI/xv
- uSXVRO9PF8aVI1EGTE0uYB7jwwq5aw==
-X-Proofpoint-GUID: 2TOj6Up0VM_yx_2O-KzSkXrv5BaYHZiU
-X-Proofpoint-ORIG-GUID: 2TOj6Up0VM_yx_2O-KzSkXrv5BaYHZiU
-X-Authority-Analysis: v=2.4 cv=SJxPlevH c=1 sm=1 tr=0 ts=68e942a1 cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=pGLkceISAAAA:8 a=XV8jktkr_dr238JMAFQA:9
- a=QEXdDO2ut3YA:10 a=-aSRE8QhW-JAV6biHavz:22
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-10_04,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 phishscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 mlxlogscore=999
+ phishscore=0 spamscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510020000
+ definitions=main-2510100100
+X-Proofpoint-ORIG-GUID: 1kCLmOmOeBvPerFi8ZXjR7rqpdlvd2mZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX9ZT5rePrLrmb
+ h8ZSgos+obPgt5kO5JNF2Wnh80tZXf+eYOEdbgI05FkHWwn9jBNTjnEgl0ENucH7d1fdT0gMcRf
+ Fci+nkyQbiftHvvV34Dm9/8AYBMxVBcO56xMqvt4ij0T4FoQ6WZsNWmyjMnOHNqX5wS2RhHdqJ1
+ 7ssOtY/CJoxH0WheIfoCtPguCmOK+25IqjE4XLBh3tCpMcesdIzBXDAwy43XL5qKNCo57Ke4/U9
+ tBHHr4/2H8GlooaS1cAUh/yJ4difs7BSG/LKkxjUqJI8M0vQaQVgtCj3Z4cQV/sb0jaNbpc582b
+ c4ESVXLZvDzDks192Pw706231jxklDds3DmNxW8qX5sNst/MGYbED4yMkExVnjpbF3+XxcEfgFt
+ MMPkaUvfmSL1dkqIehvZjyPqXxQLMH66arieYULxyK1ZJ039ML0=
+X-Authority-Analysis: v=2.4 cv=etHSD4pX c=1 sm=1 tr=0 ts=68e94303 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117
+ a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=x6icFKpwvdMA:10 a=yPCof4ZbAAAA:8 a=_APh9P-1HUCL8KmDz24A:9 cc=ntf
+ awl=host:13624
+X-Proofpoint-GUID: 1kCLmOmOeBvPerFi8ZXjR7rqpdlvd2mZ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,19 +99,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/10/25 4:39 PM, Anna Maniscalco wrote:
-> Update last_fence in the vm-bind path instead of kernel managed path.
-> 
-> last_fence is used to wait for work to finish in vm_bind contexts but not
-> used for kernel managed contexts.
-> 
-> This fixes a bug where last_fence is not waited on context close leading
-> to faults as resources are freed while in use.
-> 
-> Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
-> ---
-> Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+In dw_hdmi_rk3228_setup_hpd(), the SCLIN mask incorrectly references
+the RK3328 variant. This change updates it to the RK3228-specific mask
+RK3228_HDMI_SCLIN_MSK using FIELD_PREP_WM16, ensuring proper HPD and
+I2C pin configuration for RK3228.
 
-Your sign-off will be removed by git, as it appears below the '---' line
+Change: RK3328_HDMI_SCLIN_MSK -> RK3228_HDMI_SCLIN_MSK
 
-Konrad
+Fixes: 63df37f3fc71 ("drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros")
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+---
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index 7b613997bb50..727cdf768161 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -361,7 +361,7 @@ static void dw_hdmi_rk3228_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
+ 
+ 	regmap_write(hdmi->regmap, RK3228_GRF_SOC_CON2,
+ 		     FIELD_PREP_WM16(RK3228_HDMI_SDAIN_MSK, 1) |
+-		     FIELD_PREP_WM16(RK3328_HDMI_SCLIN_MSK, 1));
++		     FIELD_PREP_WM16(RK3228_HDMI_SCLIN_MSK, 1));
+ }
+ 
+ static enum drm_connector_status
+-- 
+2.50.1
+
