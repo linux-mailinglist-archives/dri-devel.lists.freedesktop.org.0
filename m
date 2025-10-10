@@ -2,96 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E57BCD8F2
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 16:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0275BBCD91C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 16:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F0D10EC2F;
-	Fri, 10 Oct 2025 14:39:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CZ0B2/ZC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525C710EC35;
+	Fri, 10 Oct 2025 14:41:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B785910EC21
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 14:39:50 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-637e74e9104so2853811a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 07:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760107189; x=1760711989; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FwwnIs4n2nwe2j9PHCbA/jSqUczTe3Hq9okgytcenuo=;
- b=CZ0B2/ZCFoBwwg4maLThPFpZLH1RwTrcfvt0QIVniro3fofCENrJvBa94+Ds27x2Y3
- mjKpT4Fl+7udfVOFIlfGxGP+BTGZgjFk9b8l8LPKmxzfSj2W5e8u77cxEQ18z4QGayAk
- GJsamIxy8bDfaNp+gTnW3sPRY8JDrLW/vgBuPLqdF9JFVU2PPigqbWV+pGhFPgi1Pty3
- YKap766tfa1UayBNMzpANQZk65Eb0zOblgBnJi8y5HkjPTwKis7EZJsEdjFYU0SRP4Qg
- ERhGss5l9liyy/FV83hNsBioH0i6k1xTVKMuTQ3tks4Jz+dBYWzwdh9YESZMeqN7TzhT
- /hFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760107189; x=1760711989;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FwwnIs4n2nwe2j9PHCbA/jSqUczTe3Hq9okgytcenuo=;
- b=ZJ1uE8Z5U86AMoIRujA3cFaHH6sJqvvt+6siPQ8Oc20AVNHQ7EMOXGj42wptyMXZMN
- BVMWqeG7BWIm74BEWSF++q21UG9wHgrMCcwRwzYslQNzjdNMKb0qRHbYkGHj/PQLbddN
- YWhQrsVON3jmOqh6Yh7qlBrLuiwLC0kp16CM9BfS4sVAuqtlAa1/lsGbiNwQVUxSb1x3
- uBGRzSLlDipXr4AGI/MvWKXWmn/d8qK0/PeRluNP1DD6a7cdFpjvay5KH0Udjh9G8P1A
- AQjLtlD68iLGVjiyuKM/OUBEh91BMgWK2zSt8CQ5qtQJ9g+NUGypDi8jXyWzmBxgpUfw
- 8w0A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgbqM1fk/eMN13BoUqX5cQU5d4o3wi+7kkebxV9V8WtOllxRltM6pk9znlFRoV/02RmxVLXyf4kA4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxeFog+p7ghyqaUNYqUNQbgOuRronykbQZ+U2J7hSNdau/1wP4
- U/e9XCaja4hsgbKsCHjXeYsQVjQhrnIlo3CetAS9xnnymenNleLyeuo=
-X-Gm-Gg: ASbGnctyMKRuXJoaEg1gjcwDdMs4jbBySSC1X7EvNulqYFAcaof2PXQvq3a4iQqVMpm
- /yK4AElcIQFtcqYbnGUJjIJZRzK//3LpUPDMXWeTzncp5x5F4vDn56wB5EyhkihZ6ZkxEoA0VC/
- RURO2NWAjw8/rmtrj7tsIyDitfWV4iEZbOtJTTSDnhJtNvSH+4OyHaZAA2Z8y8dmLIkVoDdUzvt
- /wfancuCWZt33Gew9yEBzZGnwAnVz5R2iN1gnx9/013cF4tqbqTjimo6i/9xSjCmHIL1rHQPhVF
- qzcCY9w/64bgYJkRAWuQUh/wpRsm2CsqRjwMJyLnyxAgMYYzZVeYAt3DdJvpko3V8/rmp62BAly
- eRwDxZeJWlKRlz5T5aj5BAWlJIP99gErJZu/fRvVCmHXkNE2M1dxtDRTfzGKZo9xanKEGqCEPd8
- 3W7+fSCRfSfTYDZ/QXMDsHIP/WeGrBxVGSwK7l0QtiuKJqm7Y=
-X-Google-Smtp-Source: AGHT+IGOxrusc6smb8SBR5+x6xl3cRKldjSb/YyljGP/mQFy81n104iuywGj7F8eOKDVZgA1+4ttoA==
-X-Received: by 2002:a05:6402:50d1:b0:634:a32f:abbc with SMTP id
- 4fb4d7f45d1cf-639d5c53171mr10356947a12.25.1760107188733; 
- Fri, 10 Oct 2025 07:39:48 -0700 (PDT)
-Received: from [192.168.1.17] (host-79-26-169-51.retail.telecomitalia.it.
- [79.26.169.51]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63a5c321453sm2488482a12.39.2025.10.10.07.39.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Oct 2025 07:39:48 -0700 (PDT)
-From: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Date: Fri, 10 Oct 2025 16:39:13 +0200
-Subject: [PATCH v2] drm/msm: make sure last_fence is always updated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0026310EC37
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 14:41:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A92D21596;
+ Fri, 10 Oct 2025 07:41:05 -0700 (PDT)
+Received: from [10.57.35.12] (unknown [10.57.35.12])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F1C0B3F59E;
+ Fri, 10 Oct 2025 07:41:10 -0700 (PDT)
+Message-ID: <864f8e49-894c-4838-b4b8-fd5494115214@arm.com>
+Date: Fri, 10 Oct 2025 15:41:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251010-close_fence_wait_fix-v2-1-adb332dbff65@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAJAa6WgC/22NQQqDMBREryJ/3ZT8WBd21XsUkZCM+kFNScS2i
- HdvKl12+R7Mm40SoiDRtdgoYpUkYc5gTgW5wc49lPjMZLSpWOtauTEktB1mh/ZpZWk7eSmtwc5
- UhgFQnj4isj6y9ybzIGkJ8X28rPy1vyDr/8GVFavOlyjri3fW+1s/WRnPLkzU7Pv+AXHhIvu4A
- AAA
-X-Change-ID: 20251009-close_fence_wait_fix-00e1c2521eee
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Antonino Maniscalco <antomani103@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Anna Maniscalco <anna.maniscalco2000@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760107187; l=1927;
- i=anna.maniscalco2000@gmail.com; s=20240815; h=from:subject:message-id;
- bh=JLP84YwDYtnkcXuPlWz/96ycTDjsV2Qn2l1fDXZT63Y=;
- b=r93EYYuxOS7qVpQn9TokcRRHfgbS1UN9XfMZSXufiJ35KVgn9pUtggYZJti3JgShe7zze7EqV
- sbCZEmnUlg6CLUfVvrDIgKLtFk5jdMJy033dsQQyz3R0nViU5K6XefK
-X-Developer-Key: i=anna.maniscalco2000@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/13] drm/panthor: Add flag to map GEM object
+ Write-Back Cacheable
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
+ kernel@collabora.com
+References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
+ <20251010101147.3290604-8-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251010101147.3290604-8-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,58 +56,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update last_fence in the vm-bind path instead of kernel managed path.
+On 10/10/2025 11:11, Boris Brezillon wrote:
+> From: Loïc Molinari <loic.molinari@collabora.com>
+> 
+> Will be used by the UMD to optimize CPU accesses to buffers
+> that are frequently read by the CPU, or on which the access
+> pattern makes non-cacheable mappings inefficient.
+> 
+> Mapping buffers CPU-cached implies taking care of the CPU
+> cache maintenance in the UMD, unless the GPU is IO coherent.
+> 
+> v2:
+> - Add more to the commit message
+> - Tweak the doc
+> - Make sure we sync the section of the BO pointing to the CS
+>   syncobj before we read its seqno
+> 
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c   |  8 +++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.c   |  3 +++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 18 ++++++++++++++++--
+>  include/uapi/drm/panthor_drm.h          |  9 +++++++++
+>  4 files changed, 35 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 9004d0ba0e45..af9b431255a4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -900,7 +900,8 @@ static int panthor_ioctl_vm_destroy(struct drm_device *ddev, void *data,
+>  	return panthor_vm_pool_destroy_vm(pfile->vms, args->id);
+>  }
+>  
+> -#define PANTHOR_BO_FLAGS		DRM_PANTHOR_BO_NO_MMAP
+> +#define PANTHOR_BO_FLAGS		(DRM_PANTHOR_BO_NO_MMAP | \
+> +					 DRM_PANTHOR_BO_WB_MMAP)
+>  
+>  static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
+>  				   struct drm_file *file)
+> @@ -919,6 +920,10 @@ static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
+>  		goto out_dev_exit;
+>  	}
+>  
+> +	if ((args->flags & DRM_PANTHOR_BO_NO_MMAP) &&
+> +	    (args->flags & DRM_PANTHOR_BO_WB_MMAP))
+> +		return -EINVAL;
+> +
+>  	if (args->exclusive_vm_id) {
+>  		vm = panthor_vm_pool_get_vm(pfile->vms, args->exclusive_vm_id);
+>  		if (!vm) {
+> @@ -1450,6 +1455,7 @@ static int panthor_ioctl_bo_query_info(struct drm_device *ddev, void *data,
+>  		return -ENOENT;
+>  
+>  	bo = to_panthor_bo(obj);
+> +
 
-last_fence is used to wait for work to finish in vm_bind contexts but not
-used for kernel managed contexts.
+NIT: Stray newline added.
 
-This fixes a bug where last_fence is not waited on context close leading
-to faults as resources are freed while in use.
+>  	args->pad = 0;
+>  	args->create_flags = bo->flags;
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 617e04134d30..a0ccc316e375 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -280,6 +280,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  	bo = to_panthor_bo(&shmem->base);
+>  	bo->flags = flags;
+>  
+> +	if (flags & DRM_PANTHOR_BO_WB_MMAP)
+> +		shmem->map_wc = false;
+> +
+>  	if (exclusive_vm) {
+>  		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
+>  		drm_gem_object_get(bo->exclusive_vm_root_gem);
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 0cc9055f4ee5..5f9dba3a9d65 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -868,8 +868,11 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
+>  	struct iosys_map map;
+>  	int ret;
+>  
+> -	if (queue->syncwait.kmap)
+> -		return queue->syncwait.kmap + queue->syncwait.offset;
+> +	if (queue->syncwait.kmap) {
+> +		bo = container_of(queue->syncwait.obj,
+> +				  struct panthor_gem_object, base.base);
+> +		goto out_sync;
+> +	}
+>  
+>  	bo = panthor_vm_get_bo_for_va(group->vm,
+>  				      queue->syncwait.gpu_va,
+> @@ -886,6 +889,17 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
+>  	if (drm_WARN_ON(&ptdev->base, !queue->syncwait.kmap))
+>  		goto err_put_syncwait_obj;
+>  
+> +out_sync:
+> +	/* Make sure the CPU caches are invalidated before the seqno is read.
+> +	 * drm_gem_shmem_sync() is a NOP if wap_wc=false, so no need to check
 
-Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
----
-Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
----
-Changes in v2:
-- Only update last_fence on vm_bind path
-- Link to v1: https://lore.kernel.org/r/20251010-close_fence_wait_fix-v1-1-fd3e394dcadd@gmail.com
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+NIT: s/wap_wc/map_wc
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 3ab3b27134f93b01236fec5833a18a6e2ad2cf5e..75d9f357437006ff261db148901e176eae670d41 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -414,6 +414,11 @@ static void submit_attach_object_fences(struct msm_gem_submit *submit)
- 					 submit->user_fence,
- 					 DMA_RESV_USAGE_BOOKKEEP,
- 					 DMA_RESV_USAGE_BOOKKEEP);
-+
-+		last_fence = vm->last_fence;
-+		vm->last_fence = dma_fence_unwrap_merge(submit->user_fence, last_fence);
-+		dma_fence_put(last_fence);
-+
- 		return;
- 	}
- 
-@@ -427,10 +432,6 @@ static void submit_attach_object_fences(struct msm_gem_submit *submit)
- 			dma_resv_add_fence(obj->resv, submit->user_fence,
- 					   DMA_RESV_USAGE_READ);
- 	}
--
--	last_fence = vm->last_fence;
--	vm->last_fence = dma_fence_unwrap_merge(submit->user_fence, last_fence);
--	dma_fence_put(last_fence);
- }
- 
- static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
-
----
-base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
-change-id: 20251009-close_fence_wait_fix-00e1c2521eee
-
-Best regards,
--- 
-Anna Maniscalco <anna.maniscalco2000@gmail.com>
+> +	 * it here.
+> +	 */
+> +	drm_gem_shmem_sync(&bo->base, queue->syncwait.offset,
+> +			   queue->syncwait.sync64 ?
+> +				   sizeof(struct panthor_syncobj_64b) :
+> +				   sizeof(struct panthor_syncobj_32b),
+> +			   DRM_GEM_OBJECT_CPU_ACCESS | DRM_GEM_OBJECT_READ_ACCESS);
+> +
+>  	return queue->syncwait.kmap + queue->syncwait.offset;
+>  
+>  err_put_syncwait_obj:
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 54502286c8b1..e77d65e51c64 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -681,6 +681,15 @@ struct drm_panthor_vm_get_state {
+>  enum drm_panthor_bo_flags {
+>  	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
+>  	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_BO_WB_MMAP: Force "Write-Back Cacheable" CPU mapping.
+> +	 *
+> +	 * CPU map the buffer object in userspace by forcing the "Write-Back
+> +	 * Cacheable" cacheability attribute. The mapping otherwise uses the
+> +	 * "Non-Cacheable" attribute if the GPU is not IO coherent.
+> +	 */
+> +	DRM_PANTHOR_BO_WB_MMAP = (1 << 1),
+>  };
+>  
+>  /**
 
