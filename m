@@ -2,83 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8A1BCE2BE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 19:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABD1BCE35D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 20:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F87A10EC65;
-	Fri, 10 Oct 2025 17:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 031C210E150;
+	Fri, 10 Oct 2025 18:24:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Mc1wGhAn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="X+JWwdZd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7723A10EC65
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 17:56:22 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-280fc0e9f50so3985345ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760118982; x=1760723782; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QCmMvXhYPJMDbeiu4F6ExT6qgUVkPhneV+v5LfsjIUQ=;
- b=Mc1wGhAnosv7CIo8R621uqgnu1Gb7PAmmpi2MuDBm7jOvlTXkrgMMojd6lVyIAhT3R
- CUgtc67y7ikvKYeG0Xm9ChYaRabfGjqNphOHQwIOgA42o+LFDYzvtluPvJOd1YX1+Swm
- UAVcgRiIJSuZDhz15lNfyGuNJ6+7UOzSS542zSpILblX1Fp+WQpjeeuWfTArUURcTgwV
- a1X0cejupBEsX4mPX577BCW3JuHaCJyRrG4QPTBsqjjXEqa/cxFXME1th6GId3/lZX+J
- jjP4FXAduReV2qpwvlohvN4ceWkjDPMjpnq7P9rMkD9jvwjm3VMlEGYWYjyBekasmbYr
- cetw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB39510E150
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 18:24:51 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59AEx40Y002873
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 18:24:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9upVP/EYtvQuDS97rpn85pAn6Fk2yzF+mqttaZezhaA=; b=X+JWwdZdAeZ3rDg6
+ 97b9XDrZ/xBR0ZSPHDZS3h2jz4QC5InXWMJqQ1bQv0nAWAQNMBTcASa84rg8MPxQ
+ EgJKPsqcBKkMoofLZu5cj57izKqDqDlRvIpFC3qWsPzAj1onspnHiqMCWOxWsrDQ
+ qRW7dRCDAlThIgGOwZN1sYVe4twiXPXggsd4a6pFiDQBItqzAyL2nr2psV6iZuWO
+ USVwvIUJZPpATqCcYysbx1YyaenK2g7jK0qs2/EWieXSkkej1222AWQKWr2rpDV+
+ dBUX2oxt54stYhZd/BW8uRvSIU93lesPCGWqlxrIAUO5lrZrwRH7rfqDmhlpHqRy
+ VjhQUA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49pgdsuv0w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 18:24:50 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-85e23ce41bdso104098085a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 11:24:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760118982; x=1760723782;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QCmMvXhYPJMDbeiu4F6ExT6qgUVkPhneV+v5LfsjIUQ=;
- b=tNa2kencwHuaYxBdfRNLVHfVScyLk0Scqbj/Rbkdnk9X4eHO8PrRzFJ93zfXXGsaaw
- 4oIzAu8ggJ2ttFwHRnT296g+gWUxMxfK//DaOKgCXTRh9gyLBKm2i/PY5mxaocetEt5Y
- fnlBGipqhHNRZSfj+sgk/3rcGBcD/OQHSwX8WSOrrtU3aSfxSX/wSBuaQIU2LltKaxUZ
- aSGhZ0q4PDQX+xrLUdtl5i6RDp1eWkkwLnvJMJe/tQoXLloCZbzlBXq3w3eHBRIAlB4e
- GFbBRTKMKucGpEY9OM8rpRMlVBFfzxDz8Gpmgs8b3tXZKJPna38Eb1PtFbbXr4PCzf/z
- WYww==
+ d=1e100.net; s=20230601; t=1760120690; x=1760725490;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9upVP/EYtvQuDS97rpn85pAn6Fk2yzF+mqttaZezhaA=;
+ b=ksxakT79XGcA1yZR5VnYwc/tkGH+oAVbbfLp3nMjwIX+TWMWr8xHcalyaHJjKyVcIR
+ xwN9fuym8lVUxRApSt5GnATq4IZi4ZRquMe9fGfOAHRQHIwO9EGxlbHdjhGW4o7OrREX
+ usm3potQ6tvkjJbUkbZRPB9AIjAGSneS1x3qt15iTedJT/vVrhMtj8lRvwcGkD16ZhWx
+ sJWFvCvEDrPJ6FEl4pOk/5hk8mDuoyCpRQkD+7Qz+aP3kHbsRN/NlH923daUoLnIqlwe
+ 62PNIg8tk2zD9ZPBo7di9xj570QciwVwwRKumpN60c3HhR5sqyUhUslnyim5iHqhAfd6
+ z2cQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUarwCFuFIFtag8T9VeVhCCOPVxs7R6NI9mLjP3mdt47q6FMPo+52djTHZ1ElodiagAsp+9xZMGZeM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3qorp/XUkDK5LjMs9v5y31n6ds4lksj8F13fU/k1ZI7stLzMB
- g+8BxwFfkF6RUmRCfDz7mPrI3AFacZxeDAUNH44b43HJ0PyFJAKmCsl7D+i7gmB9kXEVCxChVrF
- zhn9DfsS3STxAU55GwI6Vlb3jW26mhxk=
-X-Gm-Gg: ASbGnctnj+V9AOWkLZtnPTWKXoOhfJ9Du15YlLoIYTEJJpj/0fCvatoJ5PJa12QUFJq
- cXxo9XAGX8PdnH5LPi33XADaNX7nqieQggCYKJujywZBinMH/0ZmphivzT7DsWRge5+J+g3z5fE
- Eo6Bci6WajM51HUfE4S3mrjC0CPEgR9S/mOEzrXQJ7M3G2zkmAX/ATnSWVFXuGMRYyD5UE4vPR9
- jX+sR4VHlEczeKl1XHAYfUcaIPoaG5svQJR2su+Yd2r7tNi/VfJq1ID8df6mZSAwXY6Wi1u6v/z
- IYQtl9vmjkflwp9QYVg2smj0E9YeiZ8AI/xjKcBZgwql
-X-Google-Smtp-Source: AGHT+IErDZhGht8Q40upZIbRDfo9H5F5zwiTUHyBtlxroHX0A9XfFZxl4TsHpOiRcasjpaOjRktRyfefCj5CGQhZNo0=
-X-Received: by 2002:a17:902:da87:b0:269:8407:499a with SMTP id
- d9443c01a7336-2902723ba15mr96224555ad.1.1760118981915; Fri, 10 Oct 2025
- 10:56:21 -0700 (PDT)
+ AJvYcCXC+ud0f+tBpU9IGAN3kxGjOFv4WI62O+lt2TUF69qy0toOgeWVaUE17n7ROa56VoDKay5Qk6KoUv4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzW2Fjx8BOMgS+l1ROiIntsHo4fWwJRZwRlywzrifEFlzzob+Fq
+ zQpaQy1pdQ39ss2zGIDYYYzRLwFApZutIchlyXt5GZFwhOK1cprb1nrcNyzYQJMjv9KH1Y7iAc2
+ KFZ25oyWR8rr8l6Yy2kpmmVCC/1Hppyvaa5c65GsAHaC6YQpTSl9td3cTITX9nzI07SO4Q1A=
+X-Gm-Gg: ASbGncvCrVJtf3Cn99AUitqLZh5iMNhU3uwRIKMUu9W+1kHY4zp8PcLsZPcoBDIlK5x
+ ktsS1fKqn61dmw/1Dw5IlZG1ta1yq4vpCwhXH6i22uOXJUIJJzF0PXOhpcknGlz29jwMDxbq2cE
+ HgIwLFSDORL9vywcgihK+nYcreJ7tueKBIHgXsM9uUi8NS7JB2pOdUIRZX3b4RYb0rz1URXi1dN
+ /gQT/whcMFn7K+MfI+DKO5Xye+rqmj1gZXChUVvSb8vlRJNuNeEoHsjAVrfIyCP0vvBgbNYyZng
+ JDf30EZG5ZCC8pJP/jzFngAiLuewp7ThnzFcNDSa2l/PDi9caY1DS/BSRd0eJdbOKIimUGXKUvT
+ A8RoB+jW6U09l4n4So03AWA==
+X-Received: by 2002:a05:620a:3905:b0:878:7b3e:7bbf with SMTP id
+ af79cd13be357-883527ca0b4mr1292956285a.3.1760120689955; 
+ Fri, 10 Oct 2025 11:24:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGJDHOXXLxWpzMVsdELZY+jNe3rRfKX4hd2hb4fDYH/CA8/2CoNx4Yo+5Y9x92+KWGKQNrRvw==
+X-Received: by 2002:a05:620a:3905:b0:878:7b3e:7bbf with SMTP id
+ af79cd13be357-883527ca0b4mr1292953585a.3.1760120689465; 
+ Fri, 10 Oct 2025 11:24:49 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b55d67d2ce9sm288483766b.35.2025.10.10.11.24.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Oct 2025 11:24:49 -0700 (PDT)
+Message-ID: <7f10f4b4-a5d6-47e7-9e27-8b6e48866e8c@oss.qualcomm.com>
+Date: Fri, 10 Oct 2025 20:24:46 +0200
 MIME-Version: 1.0
-References: <CAPM=9tzYUBfz+YmifRDgdBsuTL=FpBxQVfxu23it48kGRzJNPQ@mail.gmail.com>
- <CANiq72kq5YHovH=_a9c0JQgfrAx9gRsQvVo1VfHd-FaupOp7rQ@mail.gmail.com>
- <bd004ac5-9e51-4e90-a3a4-025d74941a38@nvidia.com>
- <3771775.lGaqSPkdTl@hyperion>
- <CAHk-=wj4_zaYJ9ieazt9dnL69R+SL1PEfJtquGVOqsNCVt_rDA@mail.gmail.com>
- <CANiq72kDB1cX1XXX7sc3yQvnaUUYB8q1wVKNxykv8=OV-=rWuQ@mail.gmail.com>
- <CAHk-=whe8NLsT-TnBxzzW8sCL_X3BN7zv5ELVufy6=sZ_k=uGw@mail.gmail.com>
-In-Reply-To: <CAHk-=whe8NLsT-TnBxzzW8sCL_X3BN7zv5ELVufy6=sZ_k=uGw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 10 Oct 2025 19:56:09 +0200
-X-Gm-Features: AS18NWBHmzOKd8qIpJZZyZFAg4-H2OpmRvLlXowYddpXdIHzElTdr46iW0guefI
-Message-ID: <CANiq72mhc6b35=cZ0Y4N+gRpX_x8FYJnnJZPgS359KnREcwWAw@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.18-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Maarten ter Huurne <maarten@treewalker.org>,
- John Hubbard <jhubbard@nvidia.com>, 
- Dave Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- Sima Vetter <sima@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] drm/msm: Workaround IFPC counters bug
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251010-ifpc_counters_fix-v1-1-9187962b7d20@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251010-ifpc_counters_fix-v1-1-9187962b7d20@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: qXEPjvx_XEnRqCC4Gh6p8vaIKHoZnua1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA5MDA5OCBTYWx0ZWRfX+0CcdEtFChBZ
+ yWiXGCoE4fFYuA5iUT+wmGzvTvkgQyPIAglasU59yFDWLy1256hSLgesxgXtg8FH47T2FG/8N7p
+ ls85243VXWD8PHR2G6QS8YsbCtL9cek8p7PHtmdnaMd97gAKYDkvzE6ZG5HdG9kEgbioFhSHqrW
+ eEyk+rGGyBOI2lT4GfzWXdmvn8UIiTG7gi2RlwMg84I58dPF99GeqaoS11D3YCpUECxlZXmvwrz
+ hkR4TIyh3V4hCUl2W4PHkWw2GTtWr+IBOaQ5MdfW0QuI6heeLzE2dyR+9qoczcfQKSOEju/FPgN
+ WzUX7S/Z1Nh6OkuLGCmpCRAFzJMfB4teCrQTGh10yNOqc0f8/fIPwAuduX+32hoWTbmUUeCy33X
+ R6zCJ8uJLpBXOYYRHJ0Y5Txo5EOAvA==
+X-Authority-Analysis: v=2.4 cv=DISCIiNb c=1 sm=1 tr=0 ts=68e94f72 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=pGLkceISAAAA:8 a=LTEgcuO_lhVDbfJd3wgA:9
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: qXEPjvx_XEnRqCC4Gh6p8vaIKHoZnua1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-10_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 phishscore=0 impostorscore=0 adultscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510090098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,27 +130,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 7, 2025 at 8:35=E2=80=AFPM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, 7 Oct 2025 at 10:21, Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > We can use a trick today to approximate that, which is adding a
-> > comment after one of the commas, e.g.
-> >
-> >     use crate::{
-> >         fmt,
-> >         page::AsPageIter, //
-> >     };
->
-> Ok, I think that's pretty ugly, but as a "waiting for official support
-> for the magic comma", it's probably about the best we can do.
+On 10/10/25 7:49 PM, Anna Maniscalco wrote:
+> When keepalive vote is set to false IFPC will be re-enabled even if the
+> perfcounter oob vote is set.
+> 
+> Workaround this by not setting keepalive vote when sysprof is active.
+> 
+> ---
+> I have little confidence that this is the proper solution hence why
+> this is an RFC.
+> 
+> Hopefully something better can be found.
+> 
+> Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
 
-Sent:
+Your sign-off is in the non-git-logged section here as well
 
-    https://lore.kernel.org/rust-for-linux/20251010174351.948650-1-ojeda@ke=
-rnel.org/
-
-Cheers,
-Miguel
+Konrad
