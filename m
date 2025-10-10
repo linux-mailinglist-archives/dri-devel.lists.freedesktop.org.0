@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45260BCC7CE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 12:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C9BBCC7C5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 12:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87AEB10E292;
-	Fri, 10 Oct 2025 10:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A26D10E29B;
+	Fri, 10 Oct 2025 10:12:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B/E/2x7F";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Xn/nmCHs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3AA710E292
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:12:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F43610E293
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760091123;
- bh=Y4thYJ2rOh7SGpzUvKf30owEm1YzHduoZ95TOLdu+64=;
+ s=mail; t=1760091124;
+ bh=wZ80paQIXwM/zrAnwP293KZE4Gz5zUSm7dyuMdwrT8A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=B/E/2x7FapzvCQ/7MQ7duXCFNExxjzuY6edXb8dlw1EZXZK9FvOx0QTUsoYsMgEVI
- x8hOE1tMF2KHwhQSt51/zpDZb3D9GSgupX3sFPEMuHm9spF+E8UVXfxgNMoo3QfboD
- u+l1Z3iXoI6ruxsaY9c5rvf+Lz/xiSTlAOXneJqEDkCMQRkW17Pjdaub6LkZ0o5Gqb
- cvBQaYH1NChRRGlRosYKlxhCTq2L9OcypNfyltnt9nDqekGAUGW9Fn5yRYyIEQ2v6p
- VAlwNRoWR3VcXIwz2bpAd3OEjaGeMWxrjrA0BbBL4PrYLiKkizoehpOriP/Gkj7CuW
- /2ukAYOBS8zBQ==
+ b=Xn/nmCHsyPillw3PFQKLj2buvr+9+6+5/l5ReufxOWoct6qbL78zgdHp69qHVO4wo
+ qc7n4yB3nyr41/c+GNF3GKpVKAX01ZRvCstuODuW62cnwtITI8AMF1KJ5E80DgHeIC
+ 7V7ADJKNCSoeyEciigenMCi90GgvQCJCjzoY6KBpGrZLL85AzTSWw+4Z4MF4T15qpN
+ bTARY8lOJyLXEzBz+ygjSynA2XGlsW7G+Mkj1owl0Hc+n67ZB1k0gyqRkTP/Bvwwx5
+ Sdyir7BQfLKJ63bPbzA/q8PxP8bkyCEFhT5MCJUox4gB9C0aykXwDW9nF+McHqnmtb
+ 9+361PxZoCjKA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0E16617E013C;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9BB2317E04DA;
  Fri, 10 Oct 2025 12:12:03 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -42,9 +42,9 @@ Cc: dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
  Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: [PATCH v2 10/13] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
-Date: Fri, 10 Oct 2025 12:11:43 +0200
-Message-ID: <20251010101147.3290604-11-boris.brezillon@collabora.com>
+Subject: [PATCH v2 11/13] drm/panfrost: Add an ioctl to query BO flags
+Date: Fri, 10 Oct 2025 12:11:44 +0200
+Message-ID: <20251010101147.3290604-12-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251010101147.3290604-1-boris.brezillon@collabora.com>
 References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
@@ -65,210 +65,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
-
-This will be used by the UMD to synchronize CPU-cached mappings when
-the UMD can't do it directly (no usermode cache maintenance instruction
-on Arm32).
+This is useful when importing BOs, so we can know about cacheability
+and flush the caches when needed.
 
 v2:
-- Add more to the commit message
-- Change the flags to better match the drm_gem_shmem_sync semantics
+- New commit
 
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 57 +++++++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.c | 20 +++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +
- include/uapi/drm/panfrost_drm.h         | 47 ++++++++++++++++++++
- 4 files changed, 126 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 33 +++++++++++++++++++++++++
+ include/uapi/drm/panfrost_drm.h         | 19 ++++++++++++++
+ 2 files changed, 52 insertions(+)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 3ffcd08f7745..cabf544f0437 100644
+index cabf544f0437..00c0881fa2f0 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -579,6 +579,62 @@ static int panfrost_ioctl_jm_ctx_destroy(struct drm_device *dev, void *data,
- 	return panfrost_jm_ctx_destroy(file, args->handle);
+@@ -635,6 +635,38 @@ static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
+ 	return ret;
  }
  
-+#define PANFROST_BO_SYNC_OP_FLAGS                               \
-+	(PANFROST_BO_SYNC_FOR_DEV | PANFROST_BO_SYNC_FOR_READ | \
-+	 PANFROST_BO_SYNC_FOR_WRITE)
-+
-+static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
-+				  struct drm_file *file)
++static int panfrost_ioctl_query_bo_info(struct drm_device *dev, void *data,
++					struct drm_file *file_priv)
 +{
-+	struct drm_panfrost_sync_bo *args = data;
-+	struct drm_panfrost_bo_sync_op *ops;
-+	struct drm_gem_object *obj;
-+	int ret;
-+	u32 i;
++	struct drm_panfrost_query_bo_info *args = data;
++	struct drm_gem_object *gem_obj;
++	struct panfrost_gem_object *bo;
 +
-+	if (args->pad)
-+		return -EINVAL;
-+
-+	ops = kvmalloc_array(args->op_count, sizeof(*ops), GFP_KERNEL);
-+	if (!ops) {
-+		DRM_DEBUG("Failed to allocate incoming BO sync ops array\n");
-+		return -ENOMEM;
++	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
++	if (!gem_obj) {
++		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
++		return -ENOENT;
 +	}
 +
-+	if (copy_from_user(ops, (void __user *)(uintptr_t)args->ops,
-+			   args->op_count * sizeof(*ops))) {
-+		DRM_DEBUG("Failed to copy in BO sync ops\n");
-+		ret = -EFAULT;
-+		goto err_ops;
++	bo = to_panfrost_bo(gem_obj);
++	args->pad = 0;
++	args->create_flags = 0;
++	args->extra_flags = 0;
++
++	if (drm_gem_is_imported(gem_obj)) {
++		args->extra_flags |= DRM_PANFROST_BO_IS_IMPORTED;
++	} else {
++		if (bo->noexec)
++			args->create_flags |= PANFROST_BO_NOEXEC;
++
++		if (bo->is_heap)
++			args->create_flags |= PANFROST_BO_HEAP;
 +	}
 +
-+	for (i = 0; i < args->op_count; i++) {
-+		if (ops[i].flags & ~PANFROST_BO_SYNC_OP_FLAGS) {
-+			ret = -EINVAL;
-+			goto err_ops;
-+		}
-+
-+		obj = drm_gem_object_lookup(file, ops[i].handle);
-+		if (!obj) {
-+			ret = -ENOENT;
-+			goto err_ops;
-+		}
-+
-+		ret = panfrost_gem_sync(obj, ops[i].flags,
-+					ops[i].offset, ops[i].size);
-+
-+		drm_gem_object_put(obj);
-+
-+		if (ret)
-+			goto err_ops;
-+	}
-+
-+err_ops:
-+	kvfree(ops);
-+
-+	return ret;
++	drm_gem_object_put(gem_obj);
++	return 0;
 +}
 +
  int panfrost_unstable_ioctl_check(void)
  {
  	if (!unstable_ioctls)
-@@ -648,6 +704,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
- 	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
+@@ -705,6 +737,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
  	PANFROST_IOCTL(JM_CTX_CREATE,	jm_ctx_create,	DRM_RENDER_ALLOW),
  	PANFROST_IOCTL(JM_CTX_DESTROY,	jm_ctx_destroy,	DRM_RENDER_ALLOW),
-+	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
+ 	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
++	PANFROST_IOCTL(QUERY_BO_INFO,	query_bo_info,	DRM_RENDER_ALLOW),
  };
  
  static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 85d6289a6eda..da0362202d94 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -365,6 +365,26 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
- 	kfree_const(old_label);
- }
- 
-+int
-+panfrost_gem_sync(struct drm_gem_object *obj, u32 flags,
-+		  u32 offset, u32 size)
-+{
-+	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-+	enum drm_gem_object_access_flags gem_access_flags = 0;
-+
-+	if (flags & PANFROST_BO_SYNC_FOR_DEV)
-+		gem_access_flags |= DRM_GEM_OBJECT_DEV_ACCESS;
-+	else
-+		gem_access_flags |= DRM_GEM_OBJECT_CPU_ACCESS;
-+
-+	if (flags & PANFROST_BO_SYNC_FOR_READ)
-+		gem_access_flags |= DRM_GEM_OBJECT_READ_ACCESS;
-+	if (flags & PANFROST_BO_SYNC_FOR_WRITE)
-+		gem_access_flags |= DRM_GEM_OBJECT_WRITE_ACCESS;
-+
-+	return drm_gem_shmem_sync(&bo->base, offset, size, gem_access_flags);
-+}
-+
- void
- panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label)
- {
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-index 8de3e76f2717..6a0e090aa59b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-@@ -148,6 +148,8 @@ int panfrost_gem_shrinker_init(struct drm_device *dev);
- void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
- 
- void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
-+int panfrost_gem_sync(struct drm_gem_object *obj, u32 flags,
-+		      u32 offset, u32 size);
- void panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label);
- 
- #ifdef CONFIG_DEBUG_FS
 diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index d3f6c005463c..fcc9f930df5f 100644
+index fcc9f930df5f..5832a291adc4 100644
 --- a/include/uapi/drm/panfrost_drm.h
 +++ b/include/uapi/drm/panfrost_drm.h
-@@ -24,6 +24,7 @@ extern "C" {
- #define DRM_PANFROST_SET_LABEL_BO		0x09
+@@ -25,6 +25,7 @@ extern "C" {
  #define DRM_PANFROST_JM_CTX_CREATE		0x0a
  #define DRM_PANFROST_JM_CTX_DESTROY		0x0b
-+#define DRM_PANFROST_SYNC_BO			0x0c
+ #define DRM_PANFROST_SYNC_BO			0x0c
++#define DRM_PANFROST_QUERY_BO_INFO		0x0d
  
  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
-@@ -35,6 +36,7 @@ extern "C" {
- #define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
+@@ -37,6 +38,7 @@ extern "C" {
  #define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
  #define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
-+#define DRM_IOCTL_PANFROST_SYNC_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SYNC_BO, struct drm_panfrost_sync_bo)
+ #define DRM_IOCTL_PANFROST_SYNC_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SYNC_BO, struct drm_panfrost_sync_bo)
++#define DRM_IOCTL_PANFROST_QUERY_BO_INFO	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_QUERY_BO_INFO, struct drm_panfrost_query_bo_info)
  
  /*
   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
-@@ -266,6 +268,51 @@ struct drm_panfrost_set_label_bo {
- 	__u64 label;
+@@ -313,6 +315,23 @@ struct drm_panfrost_sync_bo {
+ 	__u32 pad;
  };
  
-+/* Valid flags to pass to drm_panfrost_bo_sync_op */
-+#define PANFROST_BO_SYNC_FOR_CPU	(0 << 0)
-+#define PANFROST_BO_SYNC_FOR_DEV	(1 << 0)
-+#define PANFROST_BO_SYNC_FOR_READ	(1 << 1)
-+#define PANFROST_BO_SYNC_FOR_WRITE	(1 << 2)
++/** BO comes from a different subsystem. */
++#define DRM_PANFROST_BO_IS_IMPORTED (1 << 0)
 +
-+/**
-+ * struct drm_panthor_bo_flush_map_op - BO map sync op
-+ */
-+struct drm_panfrost_bo_sync_op {
-+	/** @handle: Handle of the buffer object to sync. */
++struct drm_panfrost_query_bo_info {
++	/** Handle of the object being queried. */
 +	__u32 handle;
 +
-+	/** @flags: Flags controlling the sync operation. */
-+	__u32 flags;
++	/** Extra flags that are not coming from the BO_CREATE ioctl(). */
++	__u32 extra_flags;
 +
-+	/**
-+	 * @offset: Offset into the BO at which the sync range starts.
-+	 *
-+	 * This will be rounded down to the nearest cache line as needed.
-+	 */
-+	__u32 offset;
++	/** Flags passed at creation time. */
++	__u32 create_flags;
 +
-+	/**
-+	 * @size: Size of the range to sync
-+	 *
-+	 * @size + @offset will be rounded up to the nearest cache line as
-+	 * needed.
-+	 */
-+	__u32 size;
-+};
-+
-+/**
-+ * struct drm_panfrost_sync_bo - ioctl argument for syncing BO maps
-+ */
-+struct drm_panfrost_sync_bo {
-+	/** Array of struct drm_panfrost_bo_sync_op */
-+	__u64 ops;
-+
-+	/** Number of BO sync ops */
-+	__u32 op_count;
-+
++	/** Will be zero on return. */
 +	__u32 pad;
 +};
 +
