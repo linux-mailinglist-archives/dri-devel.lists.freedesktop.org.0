@@ -2,42 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5493BCD880
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 16:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E57BCD8F2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 16:39:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 967C710EC1D;
-	Fri, 10 Oct 2025 14:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F0D10EC2F;
+	Fri, 10 Oct 2025 14:39:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CZ0B2/ZC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A77EB10EC1D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 14:31:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66D4C1596;
- Fri, 10 Oct 2025 07:31:48 -0700 (PDT)
-Received: from [10.57.35.12] (unknown [10.57.35.12])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E1A573F59E;
- Fri, 10 Oct 2025 07:31:53 -0700 (PDT)
-Message-ID: <1dab7ee4-ce78-4604-8124-bf6ecdd6578a@arm.com>
-Date: Fri, 10 Oct 2025 15:31:51 +0100
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B785910EC21
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 14:39:50 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-637e74e9104so2853811a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 07:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760107189; x=1760711989; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FwwnIs4n2nwe2j9PHCbA/jSqUczTe3Hq9okgytcenuo=;
+ b=CZ0B2/ZCFoBwwg4maLThPFpZLH1RwTrcfvt0QIVniro3fofCENrJvBa94+Ds27x2Y3
+ mjKpT4Fl+7udfVOFIlfGxGP+BTGZgjFk9b8l8LPKmxzfSj2W5e8u77cxEQ18z4QGayAk
+ GJsamIxy8bDfaNp+gTnW3sPRY8JDrLW/vgBuPLqdF9JFVU2PPigqbWV+pGhFPgi1Pty3
+ YKap766tfa1UayBNMzpANQZk65Eb0zOblgBnJi8y5HkjPTwKis7EZJsEdjFYU0SRP4Qg
+ ERhGss5l9liyy/FV83hNsBioH0i6k1xTVKMuTQ3tks4Jz+dBYWzwdh9YESZMeqN7TzhT
+ /hFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760107189; x=1760711989;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FwwnIs4n2nwe2j9PHCbA/jSqUczTe3Hq9okgytcenuo=;
+ b=ZJ1uE8Z5U86AMoIRujA3cFaHH6sJqvvt+6siPQ8Oc20AVNHQ7EMOXGj42wptyMXZMN
+ BVMWqeG7BWIm74BEWSF++q21UG9wHgrMCcwRwzYslQNzjdNMKb0qRHbYkGHj/PQLbddN
+ YWhQrsVON3jmOqh6Yh7qlBrLuiwLC0kp16CM9BfS4sVAuqtlAa1/lsGbiNwQVUxSb1x3
+ uBGRzSLlDipXr4AGI/MvWKXWmn/d8qK0/PeRluNP1DD6a7cdFpjvay5KH0Udjh9G8P1A
+ AQjLtlD68iLGVjiyuKM/OUBEh91BMgWK2zSt8CQ5qtQJ9g+NUGypDi8jXyWzmBxgpUfw
+ 8w0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWgbqM1fk/eMN13BoUqX5cQU5d4o3wi+7kkebxV9V8WtOllxRltM6pk9znlFRoV/02RmxVLXyf4kA4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxeFog+p7ghyqaUNYqUNQbgOuRronykbQZ+U2J7hSNdau/1wP4
+ U/e9XCaja4hsgbKsCHjXeYsQVjQhrnIlo3CetAS9xnnymenNleLyeuo=
+X-Gm-Gg: ASbGnctyMKRuXJoaEg1gjcwDdMs4jbBySSC1X7EvNulqYFAcaof2PXQvq3a4iQqVMpm
+ /yK4AElcIQFtcqYbnGUJjIJZRzK//3LpUPDMXWeTzncp5x5F4vDn56wB5EyhkihZ6ZkxEoA0VC/
+ RURO2NWAjw8/rmtrj7tsIyDitfWV4iEZbOtJTTSDnhJtNvSH+4OyHaZAA2Z8y8dmLIkVoDdUzvt
+ /wfancuCWZt33Gew9yEBzZGnwAnVz5R2iN1gnx9/013cF4tqbqTjimo6i/9xSjCmHIL1rHQPhVF
+ qzcCY9w/64bgYJkRAWuQUh/wpRsm2CsqRjwMJyLnyxAgMYYzZVeYAt3DdJvpko3V8/rmp62BAly
+ eRwDxZeJWlKRlz5T5aj5BAWlJIP99gErJZu/fRvVCmHXkNE2M1dxtDRTfzGKZo9xanKEGqCEPd8
+ 3W7+fSCRfSfTYDZ/QXMDsHIP/WeGrBxVGSwK7l0QtiuKJqm7Y=
+X-Google-Smtp-Source: AGHT+IGOxrusc6smb8SBR5+x6xl3cRKldjSb/YyljGP/mQFy81n104iuywGj7F8eOKDVZgA1+4ttoA==
+X-Received: by 2002:a05:6402:50d1:b0:634:a32f:abbc with SMTP id
+ 4fb4d7f45d1cf-639d5c53171mr10356947a12.25.1760107188733; 
+ Fri, 10 Oct 2025 07:39:48 -0700 (PDT)
+Received: from [192.168.1.17] (host-79-26-169-51.retail.telecomitalia.it.
+ [79.26.169.51]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-63a5c321453sm2488482a12.39.2025.10.10.07.39.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Oct 2025 07:39:48 -0700 (PDT)
+From: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Date: Fri, 10 Oct 2025 16:39:13 +0200
+Subject: [PATCH v2] drm/msm: make sure last_fence is always updated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/13] drm/panthor: Add an ioctl to query BO flags
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
- <20251010101147.3290604-7-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251010101147.3290604-7-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251010-close_fence_wait_fix-v2-1-adb332dbff65@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAJAa6WgC/22NQQqDMBREryJ/3ZT8WBd21XsUkZCM+kFNScS2i
+ HdvKl12+R7Mm40SoiDRtdgoYpUkYc5gTgW5wc49lPjMZLSpWOtauTEktB1mh/ZpZWk7eSmtwc5
+ UhgFQnj4isj6y9ybzIGkJ8X28rPy1vyDr/8GVFavOlyjri3fW+1s/WRnPLkzU7Pv+AXHhIvu4A
+ AAA
+X-Change-ID: 20251009-close_fence_wait_fix-00e1c2521eee
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Antonino Maniscalco <antomani103@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Anna Maniscalco <anna.maniscalco2000@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760107187; l=1927;
+ i=anna.maniscalco2000@gmail.com; s=20240815; h=from:subject:message-id;
+ bh=JLP84YwDYtnkcXuPlWz/96ycTDjsV2Qn2l1fDXZT63Y=;
+ b=r93EYYuxOS7qVpQn9TokcRRHfgbS1UN9XfMZSXufiJ35KVgn9pUtggYZJti3JgShe7zze7EqV
+ sbCZEmnUlg6CLUfVvrDIgKLtFk5jdMJy033dsQQyz3R0nViU5K6XefK
+X-Developer-Key: i=anna.maniscalco2000@gmail.com; a=ed25519;
+ pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,148 +107,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/10/2025 11:11, Boris Brezillon wrote:
-> This is useful when importing BOs, so we can know about cacheability
-> and flush the caches when needed.
-> 
-> We can also know when the buffer comes from a different subsystem and
-> take proper actions (avoid CPU mappings, or do kernel-based syncs
-> instead of userland cache flushes).
-> 
-> v2:
-> - New commit
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Update last_fence in the vm-bind path instead of kernel managed path.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+last_fence is used to wait for work to finish in vm_bind contexts but not
+used for kernel managed contexts.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 24 +++++++++++
->  include/uapi/drm/panthor_drm.h        | 57 +++++++++++++++++++++++++++
->  2 files changed, 81 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 857954d2ac7b..9004d0ba0e45 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1438,6 +1438,29 @@ static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
->  	return ret;
->  }
->  
-> +static int panthor_ioctl_bo_query_info(struct drm_device *ddev, void *data,
-> +				       struct drm_file *file)
-> +{
-> +	struct drm_panthor_bo_query_info *args = data;
-> +	struct panthor_gem_object *bo;
-> +	struct drm_gem_object *obj;
-> +
-> +	obj = drm_gem_object_lookup(file, args->handle);
-> +	if (!obj)
-> +		return -ENOENT;
-> +
-> +	bo = to_panthor_bo(obj);
-> +	args->pad = 0;
-> +	args->create_flags = bo->flags;
-> +
-> +	args->extra_flags = 0;
-> +	if (drm_gem_is_imported(&bo->base.base))
-> +		args->extra_flags |= DRM_PANTHOR_BO_IS_IMPORTED;
-> +
-> +	drm_gem_object_put(obj);
-> +	return 0;
-> +}
-> +
->  static int
->  panthor_open(struct drm_device *ddev, struct drm_file *file)
->  {
-> @@ -1513,6 +1536,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
->  	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(BO_QUERY_INFO, bo_query_info, DRM_RENDER_ALLOW),
->  };
->  
->  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 4b10b3c289e9..54502286c8b1 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -147,6 +147,13 @@ enum drm_panthor_ioctl_id {
->  
->  	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
->  	DRM_PANTHOR_BO_SYNC,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_BO_QUERY_INFO: Query information about a BO.
-> +	 *
-> +	 * This is useful for imported BOs.
-> +	 */
-> +	DRM_PANTHOR_BO_QUERY_INFO,
->  };
->  
->  /**
-> @@ -1137,6 +1144,54 @@ struct drm_panthor_bo_sync {
->  	struct drm_panthor_obj_array ops;
->  };
->  
-> +/**
-> + * enum drm_panthor_bo_extra_flags - Set of flags returned on a BO_QUERY_INFO request
-> + *
-> + * Those are flags reflecting BO properties that are not directly coming from the flags
-> + * passed are creation time, or information on BOs that were imported from other drivers.
-> + */
-> +enum drm_panthor_bo_extra_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_BO_IS_IMPORTED: BO has been imported from an external driver.
-> +	 *
-> +	 * Note that imported dma-buf handles are not flagged as imported if they
-> +	 * where exported by panthor. Only buffers that are coming from other drivers
-> +	 * (dma heaps, other GPUs, display controllers, V4L, ...).
-> +	 *
-> +	 * It's also important to note that all imported BOs are mapped cached and can't
-> +	 * be considered IO-coherent even if the GPU is. This means they require explicit
-> +	 * syncs that must go through the DRM_PANTHOR_BO_SYNC ioctl (userland cache
-> +	 * maintenance is not allowed in that case, because extra operations might be
-> +	 * needed to make changes visible to the CPU/device, like buffer migration when the
-> +	 * exporter is a GPU with its own VRAM).
-> +	 */
-> +	DRM_PANTHOR_BO_IS_IMPORTED = (1 << 0),
-> +};
-> +
-> +/**
-> + * struct drm_panthor_bo_query_info - Query BO info
-> + */
-> +struct drm_panthor_bo_query_info {
-> +	/** @handle: Handle of the buffer object to query flags on. */
-> +	__u32 handle;
-> +
-> +	/**
-> +	 * @extra_flags: Combination of enum drm_panthor_bo_extra_flags flags.
-> +	 */
-> +	__u32 extra_flags;
-> +
-> +	/**
-> +	 * @create_flags: Flags passed at creation time.
-> +	 *
-> +	 * Combination of enum drm_panthor_bo_flags flags.
-> +	 * Will be zero if the buffer comes from a different driver.
-> +	 */
-> +	__u32 create_flags;
-> +
-> +	/** @pad: Will be zero on return. */
-> +	__u32 pad;
-> +};
-> +
->  /**
->   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
->   * @__access: Access type. Must be R, W or RW.
-> @@ -1185,6 +1240,8 @@ enum {
->  		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
->  	DRM_IOCTL_PANTHOR_BO_SYNC =
->  		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
-> +	DRM_IOCTL_PANTHOR_BO_QUERY_INFO =
-> +		DRM_IOCTL_PANTHOR(WR, BO_QUERY_INFO, bo_query_info),
->  };
->  
->  #if defined(__cplusplus)
+This fixes a bug where last_fence is not waited on context close leading
+to faults as resources are freed while in use.
+
+Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
+---
+Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+---
+Changes in v2:
+- Only update last_fence on vm_bind path
+- Link to v1: https://lore.kernel.org/r/20251010-close_fence_wait_fix-v1-1-fd3e394dcadd@gmail.com
+---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 3ab3b27134f93b01236fec5833a18a6e2ad2cf5e..75d9f357437006ff261db148901e176eae670d41 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -414,6 +414,11 @@ static void submit_attach_object_fences(struct msm_gem_submit *submit)
+ 					 submit->user_fence,
+ 					 DMA_RESV_USAGE_BOOKKEEP,
+ 					 DMA_RESV_USAGE_BOOKKEEP);
++
++		last_fence = vm->last_fence;
++		vm->last_fence = dma_fence_unwrap_merge(submit->user_fence, last_fence);
++		dma_fence_put(last_fence);
++
+ 		return;
+ 	}
+ 
+@@ -427,10 +432,6 @@ static void submit_attach_object_fences(struct msm_gem_submit *submit)
+ 			dma_resv_add_fence(obj->resv, submit->user_fence,
+ 					   DMA_RESV_USAGE_READ);
+ 	}
+-
+-	last_fence = vm->last_fence;
+-	vm->last_fence = dma_fence_unwrap_merge(submit->user_fence, last_fence);
+-	dma_fence_put(last_fence);
+ }
+ 
+ static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
+
+---
+base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
+change-id: 20251009-close_fence_wait_fix-00e1c2521eee
+
+Best regards,
+-- 
+Anna Maniscalco <anna.maniscalco2000@gmail.com>
 
