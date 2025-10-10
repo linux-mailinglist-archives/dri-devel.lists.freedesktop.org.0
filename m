@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34005BCE7B8
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 22:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A199BCE925
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 23:00:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552D210E00B;
-	Fri, 10 Oct 2025 20:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0762F10E079;
+	Fri, 10 Oct 2025 21:00:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IsjKrzA5";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="URdI7/KP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B617910E00B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 20:22:46 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-7946137e7a2so28917526d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 13:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760127766; x=1760732566; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=kOlXU3CUoKeK/3MB4H/Hutp9m6wXAv/MJRLCHZaC5v4=;
- b=IsjKrzA5KXs9VRp+TqJcjjJ9E2QkJH98Em0FedEBFS14AnS0fpYDDTsbYiegn6DStH
- /VG3GpNvxqKDwtwzs5kqHt5FUjmk/y/XQbXqPEjgcEP7JAtWVkfq0hG47CvTkxFAokh0
- wKkPJSSFRD2zc8gfaxZfUaWo6h4iAd16vFKHpGFmrrkA1CFaezri5ELSbm0zlteF+OW6
- jela0ra5vCEdqrG2YGaFFdE+ZzrDhHCL5fREvAs53N264EVQk+DBP5pU6sZGWK/mxO6i
- OS/gabPS532RRZtnKhgUj83s+5GiOQpVYqWvrQEBOushfllCpA22BXvPYQH+SJDYV1bF
- 71ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760127766; x=1760732566;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kOlXU3CUoKeK/3MB4H/Hutp9m6wXAv/MJRLCHZaC5v4=;
- b=ciKnXtKcZKcOYl8pA8286BhhB1Zd5sHkeZVsntUNM39KHmio+sea/oOCsmyWP5JmJB
- NYaYmxKrLCAGg5MEZyCwV2x8XeM15R8QISiyIAEmWkswpTaxbAkE8Df1egrPS8yWFly+
- Bmcx0395DGlngQHiCBxhD7ON1bin7BvVNpeuOQOcvOhhKuOrFADRfq83tj/I9TG0R6+R
- W/xL5y5HNjiA0mk8TFMspGWKzJQZ3T7bp2Z9fri+TCj2JqW0FvBLXzvxWBtO2a+6oLyA
- CidQE53DvUXh2GHI65EDTU2Dwsjzigkpk9fN3UZnjpksRYI0/ta/GUWZxgFlGsTgxgbe
- 4wMQ==
-X-Gm-Message-State: AOJu0YzXrhPfis5e6SyWuGLJtjVxgJulV8vFbvl6c1AZdJ0gby4W/vYq
- Iyu2Sm7UwN6AFNhiOMR3GGbrV/SHGuFTssyu7gxpsRPidCC50lyLBcpPwiVM0NdUc7lgTA32lGI
- 2q8Vb7UCtB+UW5jzF/UBiYAZkivzF5Dg=
-X-Gm-Gg: ASbGncs2QtZH3yCvxu3VGSZkNF+i4BrDSYQdeZBWDuXrm2/vvZXTWUulxX/+MCxMybE
- XQzy7ZoUYbeFsnXaMiP1VUadwKUgKD0soxmgSnPJ88NAeYJb7m+jSsPUDNBsr64lXMz+bsG+ndA
- 2KE1tUxtvXWgxHHz0UPepeaCRV1DiPF5xFjLRLNcJqhydfDfScxCINtiGIDoc4i/0bbh7/81qVI
- oywKS8WCGCrJMYXRe/KdsXoYEMlXrG2JhbB+opz0FqrMw==
-X-Google-Smtp-Source: AGHT+IFRBVsqFinOd4zTYiRWveXS359GwGwHzVPRkzgxnHxzaIBwEyLo8p0XGX9557suH3OnFdez/xvaECXYxImIuAE=
-X-Received: by 2002:a05:6214:27e9:b0:803:3b8e:e9a5 with SMTP id
- 6a1803df08f44-87b2efc2c78mr178005776d6.36.1760127765447; Fri, 10 Oct 2025
- 13:22:45 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B200010E079
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 21:00:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1760130022; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dNsLnuXKe8UFgg9g0TIytkHuxqJwEXV9BBDPda28muy+AXlVX8BsyOkHxo8UMbVBYZl8kowuJkdSRruENts6TosWDD5INkTgquUCuHjprvZ0TzgryDxM4ge98iNgT5B/FXvYmSz++jzD/PBG8r/kdc1+gmGt8AvT3aIoe3iAu0c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1760130022;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=4OeIkartm93on5oAc/a8vf8nlOu9F7BGT4mVfpQiEsc=; 
+ b=fy1QCgQ16NzV87X7H0HW8yfiCCsv/vATGH9L7gA0dj8OqCPAhAZhB37B82takPJYTG9BbpkC/Q7qm6K6bKhdiKHULBhxn1Ujk7jUuZ9t6mfCaQ8gNt1uiG0BJ2Lwp6Aq3hAOiZiKvV8r/Cv3mAJ62IJTbq9ANfLApkw5DSQMmTc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760130022; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=4OeIkartm93on5oAc/a8vf8nlOu9F7BGT4mVfpQiEsc=;
+ b=URdI7/KPUKRgOo3n77+kSdOIRchPUdlJRuSm8l7sAuRJGqMtcwCf8jPSQRF3neLh
+ Pclrcv4EDgalguyw9MaL7YGWFWu9YCLNSq+UhgJl2e64Vgbrflv554ro08K2sFyqkNO
+ XgrQKlbRZnWJLfpbQsD3p5240dWHxwxCn9ETZPqs=
+Received: by mx.zohomail.com with SMTPS id 1760130020205726.9321883233297;
+ Fri, 10 Oct 2025 14:00:20 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+Cc: dri-devel@lists.freedesktop.org, simona@ffwll.ch, airlied@gmail.com,
+ tzimmermann@suse.de, mripard@kernel.org, hjc@rock-chips.com, heiko@sntech.de, 
+ andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ linux-rockchip@lists.infradead.org, alok.a.tiwari@oracle.com,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH] drm/rockchip: dw_hdmi: use correct SCLIN mask for RK3228
+Date: Fri, 10 Oct 2025 23:00:16 +0200
+Message-ID: <5980548.GXAFRqVoOG@workhorse>
+In-Reply-To: <20251010173143.72733-1-alok.a.tiwari@oracle.com>
+References: <20251010173143.72733-1-alok.a.tiwari@oracle.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 11 Oct 2025 06:22:34 +1000
-X-Gm-Features: AS18NWAVMCkrlDV90Tmk-ZHzHs4WJK4jFJRa3qb-mFFk11CtCG6cKQIhbqS-TcI
-Message-ID: <CAPM=9tx8Hiozxaf+0WkOH3GrXKhCr_ccqVtd1v7WkP_V9DmeJQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.18-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,64 +67,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Friday, 10 October 2025 19:31:41 Central European Summer Time Alok Tiwari wrote:
+> In dw_hdmi_rk3228_setup_hpd(), the SCLIN mask incorrectly references
+> the RK3328 variant. This change updates it to the RK3228-specific mask
+> RK3228_HDMI_SCLIN_MSK using FIELD_PREP_WM16, ensuring proper HPD and
+> I2C pin configuration for RK3228.
+> 
+> Change: RK3328_HDMI_SCLIN_MSK -> RK3228_HDMI_SCLIN_MSK
+> 
+> Fixes: 63df37f3fc71 ("drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros")
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> ---
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> index 7b613997bb50..727cdf768161 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> @@ -361,7 +361,7 @@ static void dw_hdmi_rk3228_setup_hpd(struct dw_hdmi *dw_hdmi, void *data)
+>  
+>  	regmap_write(hdmi->regmap, RK3228_GRF_SOC_CON2,
+>  		     FIELD_PREP_WM16(RK3228_HDMI_SDAIN_MSK, 1) |
+> -		     FIELD_PREP_WM16(RK3328_HDMI_SCLIN_MSK, 1));
+> +		     FIELD_PREP_WM16(RK3228_HDMI_SCLIN_MSK, 1));
+>  }
+>  
+>  static enum drm_connector_status
+> 
 
-Some fixes leftover from our fixes branch, just nouveau and vmwgfx.
+Oops, thanks.
 
-Thanks,
-Dave.
+Reviewed-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-drm-fixes-2025-10-11:
-drm fixes for 6.18-rc1
+In the future, please use something like get_maintainers or b4 to
+make sure all recipients that should be included are included; in
+this case, I'm very much interested in hearing of problems I
+created.
 
-nouveau:
-- Return errno code from TTM move helper
+Kind regards,
+Nicolas Frattaroli
 
-vmwgfx:
-- Fix null-ptr access in cursor code
-- Fix UAF in validation
-- Use correct iterator in validation
-The following changes since commit e5f0a698b34ed76002dc5cff3804a61c80233a7a:
 
-  Linux 6.17 (2025-09-28 14:39:22 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-10-11
-
-for you to fetch changes up to 5ca5f00a167cdd28bcfeeae6ddd370b13ac00a2a:
-
-  Merge tag 'drm-misc-fixes-2025-10-09' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-(2025-10-11 06:17:13 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.18-rc1
-
-nouveau:
-- Return errno code from TTM move helper
-
-vmwgfx:
-- Fix null-ptr access in cursor code
-- Fix UAF in validation
-- Use correct iterator in validation
-
-----------------------------------------------------------------
-Dave Airlie (1):
-      Merge tag 'drm-misc-fixes-2025-10-09' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-
-Ian Forbes (2):
-      drm/vmwgfx: Fix Use-after-free in validation
-      drm/vmwgfx: Fix copy-paste typo in validation
-
-Shuhao Fu (1):
-      drm/nouveau: fix bad ret code in nouveau_bo_move_prep
-
-Zack Rusin (1):
-      drm/vmwgfx: Fix a null-ptr access in the cursor snooper
-
- drivers/gpu/drm/nouveau/nouveau_bo.c       |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    | 17 ++++++++++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  6 ++++--
- 3 files changed, 17 insertions(+), 8 deletions(-)
