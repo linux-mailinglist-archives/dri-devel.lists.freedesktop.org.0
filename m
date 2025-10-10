@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3F6BCC97B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 12:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBC1BCC7AD
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 12:12:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACC1910E3A2;
-	Fri, 10 Oct 2025 10:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051E310E0A1;
+	Fri, 10 Oct 2025 10:12:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="HsHlnNcY";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="H51l7HbO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1266 seconds by postgrey-1.36 at gabe;
- Fri, 10 Oct 2025 08:32:03 UTC
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com
- [113.46.200.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1016A10E26F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 08:32:03 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=pdS1EW9jcK370UHJoQR6CtbmqQ6PWXVjAxzle3L9Fds=;
- b=HsHlnNcYVhU624rtF4gVCBRGSm6QevKAjeAVyk+nDQh/iN3GmWQPRazFKi5w33JjEXhA28bKb
- HFsfw2YT28eVCDfozrAsMGB02Xfe5pWsquqwCgwhksFcHP/bkRgGYY1bWAGfYgKdcLVQIYjBbXy
- NStE2vFEpFFTLzzw+TXq3l0=
-Received: from mail.maildlp.com (unknown [172.19.88.105])
- by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4cjg225DzWz1T4Fp;
- Fri, 10 Oct 2025 16:31:22 +0800 (CST)
-Received: from dggpemf200018.china.huawei.com (unknown [7.185.36.31])
- by mail.maildlp.com (Postfix) with ESMTPS id 473731402C8;
- Fri, 10 Oct 2025 16:32:00 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by dggpemf200018.china.huawei.com
- (7.185.36.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 10 Oct
- 2025 16:31:59 +0800
-From: Quanmin Yan <yanquanmin1@huawei.com>
-To: <tzimmermann@suse.de>
-CC: <simona@ffwll.ch>, <deller@gmx.de>, <linux-kernel@vger.kernel.org>,
- <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <yanquanmin1@huawei.com>, <wangkefeng.wang@huawei.com>, <zuoze1@huawei.com>,
- <sunnanyong@huawei.com>
-Subject: [PATCH v2] fbcon: Set fb_display[i]->mode to NULL when the mode is
- released
-Date: Fri, 10 Oct 2025 16:16:59 +0800
-Message-ID: <20251010081659.3609082-1-yanquanmin1@huawei.com>
-X-Mailer: git-send-email 2.43.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D3010E0A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760091117;
+ bh=xwpt2loKoTA2acf46V7KINCf1zYDEBb8KR3mkW4IrP0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=H51l7HbOuqHYxmgRNofQ3EXV0YGpe058pcLKj9jPL8dpMtJFcQQGfY0kxnt2oL0Ob
+ 9z6uo99DfWpcGyOu21oZbGTBfeYpYFFtO7Ozgd5oNJZ/PyWKNo/Z4o9Wc+7kl2mR5P
+ dUGglxzL+kEAA32MiyIJxfCPPJ6doWA009CA9bh5OJEtv0qqISEPOBSTaWOORogM79
+ fd3t3VsPs/13DzhbKoqhw5VjTWTyT9T0BvmByV+80SabMdXk8BQJ8G2uqqEnPg98YQ
+ wkMjcIkrE9FdAV+sGVEvyQBUQLeprU/CrHkQC8yB2meVR/sDtej4mcNROp0vB8q4Gu
+ Bc5rMzqbLWE0g==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 32DCB17E013C;
+ Fri, 10 Oct 2025 12:11:57 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
+Subject: [PATCH v2 00/13] drm/panfrost,
+ panthor: Cached maps and explicit flushing
+Date: Fri, 10 Oct 2025 12:11:33 +0200
+Message-ID: <20251010101147.3290604-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.50.85.135]
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemf200018.china.huawei.com (7.185.36.31)
-X-Mailman-Approved-At: Fri, 10 Oct 2025 10:47:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,119 +65,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently, we discovered the following issue through syzkaller:
+This series implements cached maps and explicit flushing for both panfrost
+and panthor.  To avoid code/bug duplication, the tricky guts of the cache
+flusing ioctl which walk the sg list are broken into a new common shmem
+helper which can be used by any driver.
 
-BUG: KASAN: slab-use-after-free in fb_mode_is_equal+0x285/0x2f0
-Read of size 4 at addr ff11000001b3c69c by task syz.xxx
-...
-Call Trace:
- <TASK>
- dump_stack_lvl+0xab/0xe0
- print_address_description.constprop.0+0x2c/0x390
- print_report+0xb9/0x280
- kasan_report+0xb8/0xf0
- fb_mode_is_equal+0x285/0x2f0
- fbcon_mode_deleted+0x129/0x180
- fb_set_var+0xe7f/0x11d0
- do_fb_ioctl+0x6a0/0x750
- fb_ioctl+0xe0/0x140
- __x64_sys_ioctl+0x193/0x210
- do_syscall_64+0x5f/0x9c0
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
+The PanVK MR to use this lives here:
 
-Based on experimentation and analysis, during framebuffer unregistration,
-only the memory of fb_info->modelist is freed, without setting the
-corresponding fb_display[i]->mode to NULL for the freed modes. This leads
-to UAF issues during subsequent accesses. Here's an example of reproduction
-steps:
-1. With /dev/fb0 already registered in the system, load a kernel module
-   to register a new device /dev/fb1;
-2. Set fb1's mode to the global fb_display[] array (via FBIOPUT_CON2FBMAP);
-3. Switch console from fb to VGA (to allow normal rmmod of the ko);
-4. Unload the kernel module, at this point fb1's modelist is freed, leaving
-   a wild pointer in fb_display[];
-5. Trigger the bug via system calls through fb0 attempting to delete a mode
-   from fb0.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
 
-Add a check in do_unregister_framebuffer(): if the mode to be freed exists
-in fb_display[], set the corresponding mode pointer to NULL.
+Changes in v2:
+- Expose the coherency so userspace can know when it should skip cache
+  maintenance
+- Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
+  can be implemented generically
+- Revisit the semantics of the flags passed to gem_sync()
+- Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
+  let the UMD know when cache maintenance is needed on those
 
-Signed-off-by: Quanmin Yan <yanquanmin1@huawei.com>
----
+Boris Brezillon (6):
+  drm/gem: Add a drm_gem_object_funcs::sync() and a drm_gem_sync()
+    helper
+  drm/prime: Provide default ::{begin,end}_cpu_access() implementations
+  drm/panthor: Expose the selected coherency protocol to the UMD
+  drm/panthor: Add an ioctl to query BO flags
+  drm/panfrost: Expose the selected coherency protocol to the UMD
+  drm/panfrost: Add an ioctl to query BO flags
 
-Changes from v1
-(https://lore.kernel.org/all/20250923110608.3385083-1-yanquanmin1@huawei.com/)
-- Focus on fixing the issue specifically in the framebuffer unregistration
-  path, as other paths do not encounter this problem.
-- Adjusted according to Thomas's suggestions.
+Faith Ekstrand (6):
+  drm/shmem: Add a drm_gem_shmem_sync() helper
+  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+  drm/panthor: Bump the driver version to 1.6
+  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+  drm/panfrost: Bump the driver version to 1.6
 
- drivers/video/fbdev/core/fbcon.c | 19 +++++++++++++++++++
- drivers/video/fbdev/core/fbmem.c |  1 +
- include/linux/fbcon.h            |  2 ++
- 3 files changed, 22 insertions(+)
+Loïc Molinari (1):
+  drm/panthor: Add flag to map GEM object Write-Back Cacheable
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 96cc9b389246..9bd3c3814b5c 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2810,6 +2810,25 @@ int fbcon_mode_deleted(struct fb_info *info,
- 	return found;
- }
- 
-+static void fbcon_delete_mode(struct fb_videomode *m)
-+{
-+	struct fbcon_display *p;
-+
-+	for (int i = first_fb_vc; i <= last_fb_vc; i++) {
-+		p = &fb_display[i];
-+		if (p->mode == m)
-+			p->mode = NULL;
-+	}
-+}
-+
-+void fbcon_delete_modelist(struct list_head *head)
-+{
-+	struct fb_modelist *modelist;
-+
-+	list_for_each_entry(modelist, head, list)
-+		fbcon_delete_mode(&modelist->mode);
-+}
-+
- #ifdef CONFIG_VT_HW_CONSOLE_BINDING
- static void fbcon_unbind(void)
- {
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 53f1719b1ae1..eff757ebbed1 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -544,6 +544,7 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
- 		fb_info->pixmap.addr = NULL;
- 	}
- 
-+	fbcon_delete_modelist(&fb_info->modelist);
- 	fb_destroy_modelist(&fb_info->modelist);
- 	registered_fb[fb_info->node] = NULL;
- 	num_registered_fb--;
-diff --git a/include/linux/fbcon.h b/include/linux/fbcon.h
-index 81f0e698acbf..f206370060e1 100644
---- a/include/linux/fbcon.h
-+++ b/include/linux/fbcon.h
-@@ -18,6 +18,7 @@ void fbcon_suspended(struct fb_info *info);
- void fbcon_resumed(struct fb_info *info);
- int fbcon_mode_deleted(struct fb_info *info,
- 		       struct fb_videomode *mode);
-+void fbcon_delete_modelist(struct list_head *head);
- void fbcon_new_modelist(struct fb_info *info);
- void fbcon_get_requirement(struct fb_info *info,
- 			   struct fb_blit_caps *caps);
-@@ -38,6 +39,7 @@ static inline void fbcon_suspended(struct fb_info *info) {}
- static inline void fbcon_resumed(struct fb_info *info) {}
- static inline int fbcon_mode_deleted(struct fb_info *info,
- 				     struct fb_videomode *mode) { return 0; }
-+static inline void fbcon_delete_modelist(struct list_head *head) {}
- static inline void fbcon_new_modelist(struct fb_info *info) {}
- static inline void fbcon_get_requirement(struct fb_info *info,
- 					 struct fb_blit_caps *caps) {}
+ drivers/gpu/drm/drm_gem.c                  |  10 ++
+ drivers/gpu/drm/drm_gem_shmem_helper.c     |  89 +++++++++++
+ drivers/gpu/drm/drm_prime.c                |  36 +++++
+ drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 106 ++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  23 +++
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |   2 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    |  18 ++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c   |   6 +-
+ drivers/gpu/drm/panthor/panthor_drv.c      |  85 +++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.c      |  24 +++
+ drivers/gpu/drm/panthor/panthor_gem.h      |   3 +
+ drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c    |  18 ++-
+ include/drm/drm_gem.h                      |  45 ++++++
+ include/drm/drm_gem_shmem_helper.h         |  11 ++
+ include/drm/drm_prime.h                    |   5 +
+ include/uapi/drm/panfrost_drm.h            |  74 +++++++++
+ include/uapi/drm/panthor_drm.h             | 171 ++++++++++++++++++++-
+ 20 files changed, 717 insertions(+), 14 deletions(-)
+
 -- 
-2.43.0
+2.51.0
 
