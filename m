@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6AEBCC7D1
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 12:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599DDBCC7BC
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 12:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6CB10E297;
-	Fri, 10 Oct 2025 10:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35EED10E296;
+	Fri, 10 Oct 2025 10:12:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZjpM5sNo";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="m8TW9KaW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E855010E292
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:12:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 865EF10E293
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 10:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760091124;
- bh=oXNXGvad2Op/VpCOIAexyRJ+OJizWeTB/V9GGTmGsEQ=;
+ s=mail; t=1760091125;
+ bh=GdIOjyf/JTGAXDDB3rw4TpHU7QeF/ob9brr1krWeluc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZjpM5sNoO/Syq5NuKlXC94P8tz9IgaEJ1yQp5BGaza8o8SRaF3W67wvsEI7xWQ790
- 8JShFLoS3L2yH2JIfaHlTJDvsUzwZ/EcFv0ilJgQ+gw0sD3FYw7q63qCRVVm31C282
- urjQq0BMGn2T52ProIoJ40DRwbX8YGeUWQY7Q3P1JKyEMSjp9rl5CNr/8YjGcehT1r
- 1HZ9KXnW/VSvItM54E8kdwPxCOihCR18Ch+bC4GNrb0il5iUYRPlZcAvhQsKk7jbvL
- egqfDQrIKeAC6WRXmnVxKyXht/LbvufqVCzZpqYq78G+Iy8c6nXsDdL9A4yzw4sb0X
- fvWoNyzCVI0Pg==
+ b=m8TW9KaWqSKNIXHRpeaKOW1SWpuZJJ8WFt/lb7Vlk3W5FOBWc0qk/7+1G8bBcVv9O
+ d48xEAA8d/7ovdVpIJeTFbiOqRz3c4pLfVuIEvNrLRkPmfHUJc5bphp0hn/LlgyEsK
+ pQI7CU/TPkWJYO81s9tbOpOnY3YHc/T9w3Wn8jaPLFl01Zmd74dPNY3js6ye1aw3GM
+ puO/QKU/QKA5EbLC6BMs3av4pe7iH5JMf3jofly5gWOWrSVXmcxWglgZY7HtuCf0pw
+ Q/9G6z9zqWVo6PDrw4RmCZXF4dr9pk7LbUubRsCCOsn6fgd1eBaJQmXoxnASvgxgM7
+ VJnGgb2hwwQ/Q==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3480717E01F5;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C2E6917E10B7;
  Fri, 10 Oct 2025 12:12:04 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -42,10 +42,9 @@ Cc: dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
  Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: [PATCH v2 12/13] drm/panfrost: Add flag to map GEM object Write-Back
- Cacheable
-Date: Fri, 10 Oct 2025 12:11:45 +0200
-Message-ID: <20251010101147.3290604-13-boris.brezillon@collabora.com>
+Subject: [PATCH v2 13/13] drm/panfrost: Bump the driver version to 1.6
+Date: Fri, 10 Oct 2025 12:11:46 +0200
+Message-ID: <20251010101147.3290604-14-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251010101147.3290604-1-boris.brezillon@collabora.com>
 References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
@@ -68,85 +67,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Faith Ekstrand <faith.ekstrand@collabora.com>
 
-Will be used by the UMD to optimize CPU accesses to buffers
-that are frequently read by the CPU, or on which the access
-pattern makes non-cacheable mappings inefficient.
-
-Mapping buffers CPU-cached implies taking care of the CPU
-cache maintenance in the UMD, unless the GPU is IO coherent.
+Bump the driver version to reflect the new cached-CPU mapping
+capability.
 
 v2:
-- Add more to the commit message
+- Quickly describe what the new version exposes in the commit message
 
 Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++--
- drivers/gpu/drm/panfrost/panfrost_gem.c |  3 +++
- include/uapi/drm/panfrost_drm.h         |  1 +
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 00c0881fa2f0..0f51b1dc1abc 100644
+index 0f51b1dc1abc..9316daa91543 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -125,6 +125,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
- 	return 0;
- }
+@@ -934,6 +934,9 @@ static void panfrost_debugfs_init(struct drm_minor *minor)
+  * - 1.4 - adds SET_LABEL_BO
+  * - 1.5 - adds JM_CTX_{CREATE,DESTROY} ioctls and extend SUBMIT to allow
+  *	   context creation with configurable priorities/affinity
++ * - 1.6 - adds PANFROST_BO_MAP_WB, PANFROST_IOCTL_SYNC_BO,
++ *	   PANFROST_IOCTL_QUERY_BO_INFO and
++ *	   DRM_PANFROST_PARAM_SELECTED_COHERENCY
+  */
+ static const struct drm_driver panfrost_drm_driver = {
+ 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+@@ -946,7 +949,7 @@ static const struct drm_driver panfrost_drm_driver = {
+ 	.name			= "panfrost",
+ 	.desc			= "panfrost DRM",
+ 	.major			= 1,
+-	.minor			= 5,
++	.minor			= 6,
  
-+#define PANFROST_BO_FLAGS	(PANFROST_BO_NOEXEC | \
-+				 PANFROST_BO_HEAP | \
-+				 PANFROST_BO_WB_MMAP)
-+
- static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
-@@ -134,8 +138,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
- 	struct panfrost_gem_mapping *mapping;
- 	int ret;
- 
--	if (!args->size || args->pad ||
--	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
-+	if (!args->size || args->pad || (args->flags & ~PANFROST_BO_FLAGS))
- 		return -EINVAL;
- 
- 	/* Heaps should never be executable */
-@@ -661,6 +664,9 @@ static int panfrost_ioctl_query_bo_info(struct drm_device *dev, void *data,
- 
- 		if (bo->is_heap)
- 			args->create_flags |= PANFROST_BO_HEAP;
-+
-+		if (bo->base.map_wc)
-+			args->create_flags |= PANFROST_BO_WB_MMAP;
- 	}
- 
- 	drm_gem_object_put(gem_obj);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index da0362202d94..0e8028ee9d1f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -320,6 +320,9 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
- 	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
- 	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
- 
-+	if (flags & PANFROST_BO_WB_MMAP)
-+		bo->base.map_wc = false;
-+
- 	return bo;
- }
- 
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 5832a291adc4..2c1e28f9dd07 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -104,6 +104,7 @@ struct drm_panfrost_wait_bo {
- /* Valid flags to pass to drm_panfrost_create_bo */
- #define PANFROST_BO_NOEXEC	1
- #define PANFROST_BO_HEAP	2
-+#define PANFROST_BO_WB_MMAP	4
- 
- /**
-  * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
+ 	.gem_create_object	= panfrost_gem_create_object,
+ 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
 -- 
 2.51.0
 
