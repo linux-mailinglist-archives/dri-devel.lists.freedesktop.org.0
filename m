@@ -2,156 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA6FBCCE3D
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 14:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F22ABCCE4C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 14:29:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB3B710EBD4;
-	Fri, 10 Oct 2025 12:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6810510EBD8;
+	Fri, 10 Oct 2025 12:29:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HOTC0rJ1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZH92PC/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011007.outbound.protection.outlook.com [52.101.62.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770C910EBC6;
- Fri, 10 Oct 2025 12:28:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nmrCtlYzlV6Ncw48kHxgJ+9gwPj3nXbGIGwLR9nz+Rc7L2Ptmhy9PaIRv0XuAxYkElajow+85in+T9zsuJ751HShvskmKOnAZnJk7pu0ccpm8DM5pXMGjJUinn26smF+a+LxzmeYVfN1zqIrAxq51vHKpEc6EXiJ2RPCHq7Zkq7w2Z0cM70HPTDhQe+TWi4ci5WNaTausfmjTn3OWxk0MK9+K23m8JIJgG2sSy3mNQEQHBoik6pLwoamrFnwZzieXo9OYbEsJHjajnBdF2OF8iCg3rlatr4yoONRsxQ6Iyjq3OzijkmgGJ/6b/e9Fek4XALISpDPIDmBN8Nx+fbB+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kp1UNJNakX+dMorEgtu5kRkYHwvRld7qJk3rxiimnfE=;
- b=l+I400Cm+KI0j+zfxxnVG2eXrLyXoy9Mni5SlO2uzIB++JvIQdAZr4B/bzmlUNk75+yib6MlPk3t4BWliXW1SnZLrATd68n2tJ5ju4vv26zkwwyvcIrYx62VeFI+fbMh5jQ1C4TosctTW6l7XsQR6TOLcO2/gBgFhDe6QFQpJx2iXNqHPBqQbK4OLXDXbVZxBjvG8BZl0JFGwtCM/1Y16yibNZ+IMHXaZo9oFB+cgq7v7VDRZQaoNJgVwZeRs3MiWtwIwqNE7F2kAbcjMwJczfSbKl2akoZ6zmZdsuWHbVuMgMBWK7ZIouxIBeIeCTWERUcPQ/3MOwFijy+IswHCRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kp1UNJNakX+dMorEgtu5kRkYHwvRld7qJk3rxiimnfE=;
- b=HOTC0rJ1mkfiNXS3zcL94xavjAAftCBFBH9UQQ9pptwKBwIJJiZFMTBvKikE/auwsac0/CozPzoeUXH4DXVkPw0hyzC3zOuy2/RLgw1nQuqFi98IHb2M99+91AYDtDlxEg09qw9qY5J6OkFx15U7aipIpeGBA9ZQYbY6ajeOuhI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH0PR12MB8097.namprd12.prod.outlook.com (2603:10b6:510:295::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Fri, 10 Oct
- 2025 12:28:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
- 12:28:17 +0000
-Message-ID: <4cc2b216-e778-4b4e-bd13-01af0ded5427@amd.com>
-Date: Fri, 10 Oct 2025 14:28:12 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Avoid killing entity last used by parent on
- child SIGKILL
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-To: David Rosca <david.rosca@amd.com>, Philipp Stanner <phasta@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
-Cc: amd-gfx@lists.freedesktop.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>
-References: <20251002150524.7552-3-david.rosca@amd.com>
- <d67cbd3a-5cd8-43b8-badf-3f264885429d@amd.com>
- <14de5473-534c-4294-bb1d-41d1a43fb46d@amd.com>
-Content-Language: en-US
-In-Reply-To: <14de5473-534c-4294-bb1d-41d1a43fb46d@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN0PR04CA0190.namprd04.prod.outlook.com
- (2603:10b6:408:e9::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8738B10EBD8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 12:29:30 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59A6X2D5025148
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 12:29:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=QF1LCWZ7o2I4/kgoswe5lA0f
+ Npob/JHWxWB1T8GiLZs=; b=ZH92PC/efiibFtSAKcdeB0aGO0KlblkrH20NiB9o
+ wAwrCieUXIVnoacwPH0TnnGV/7NbGBAYCDiINGWkRtvfYeFNBRvKRQpUUQdcKdg4
+ rkzMagfAVZWEtMr5LkBKV8hsl+G9PH+hdhNXZAwzkGcX0H90b3pHbD7CAv0EyEFQ
+ mQ7jipYzVrhiSTJwgKIVzVRNyzicXoYyqEj3BAqx5bLodqvUePGIA06ikD8dtarm
+ OoZS4PXYxzmvkMlzHxLr81Sog5yF02IwMEjHOIZGPoHvy3AiYJci+98Si7S7b6G5
+ 6CtFOrfcHk3KyLrp54tErDuW3zSSiM5TAGLjDH7EDQZkCA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4kxbtk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 12:29:30 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4e5739a388bso72940791cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 05:29:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760099369; x=1760704169;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QF1LCWZ7o2I4/kgoswe5lA0fNpob/JHWxWB1T8GiLZs=;
+ b=pwN5mdpsJ4I56jPY+bxmHo41E83Q/7dcBYQsEvXYXg2mb+/o5tU27Bed0nvLkdEzEF
+ bbjy9OQi0oesiKTiUY2M01cDwirQ8+LMwdKzZmOYIIEbiiMpUm4X9SX/RgDhdvCbk9c9
+ /ZtJ8PngPbDyTlq08rSFWj9kUDF2eZ1En91rsg22fgKyJlhavdZY5Qj6BvW29/47cWvf
+ 4LQhNFWzhriMPjEUh6xNrhAd9e0hNyNDXsBsYEWvmvsVFbJU2D5pvH0LIjz0KQyS7mCw
+ o8oaulSk4nROg2KKLT1nHga0fV4FQjXtEATyBUt9a82f+uZblLqvhxgM23nWLUKtxQv+
+ jAvg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZRjvWACCKwXgIOog6aDoe11DmpsQ+OeY50bJv2jdwyaSuOT4zMGgB9SuBAeGv7oNtaSLv5hf8Gzs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJpNZgYqsNF9b8m75USFciNoAdS1PHMAsv31KXfdkUa4EtFblS
+ RfCg7g/cVlzOLxtZsuG9XszCznLXlfZimnamnrLkUUe+CB1AG/Lw389PWPQr+vmuPoPTgtE9XSz
+ zLLngpbnziZdXHO2XFMMhxDZCeELdXIS3iRh+H8NX5ebXMxGoExIBvKacqR+luEeAB5jWaCU=
+X-Gm-Gg: ASbGnctCO8pGzWzl6DuJZ68Mjxv2Pb8qxeUg4jSheAsjQ7fs/fO2S0toIMTVINUnPkk
+ ZrrxN3z7+C1yjLhHcg2Z2nKlAxYstrLfpAyvFZNRBYxRzlMX1wyIHhypoZZqhf/JaNcDlztO9N1
+ nksr/kK/tG9dJRz4x3VU6Xe2svUKD8MfqzdereusU8JGiScaWwmRsJfBnpPCVIcdPDDpMRAVkft
+ 7HYqKo7G/HQPcggoPGRFInmHRatPNyDjhKwWRRmgCNDlSOXndc+YrEYF6i2S3RjT7pAAOs5CQLi
+ ODHejnDNLHzzr1XRUgLvdGkbGoi7cgFWKbjTNcYV67YP/fOPvwKQVbuV0aeESVHdtDEuzfax7GP
+ lRnp5Tnahx7Ag7mjqGaWyUz8c2o1AJd2ZOL3q+Bc2KCoDvMmLXuCy
+X-Received: by 2002:a05:622a:5889:b0:4d7:df9a:ee60 with SMTP id
+ d75a77b69052e-4e6eaceba97mr157154021cf.29.1760099368553; 
+ Fri, 10 Oct 2025 05:29:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGV3B8k5DizM201gFV+CcWBFvlDAiV9V446D58E7Th6jRZxc+76CNwjo7AV1LWg7IhxRUybgg==
+X-Received: by 2002:a05:622a:5889:b0:4d7:df9a:ee60 with SMTP id
+ d75a77b69052e-4e6eaceba97mr157153401cf.29.1760099368013; 
+ Fri, 10 Oct 2025 05:29:28 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-590881e4f26sm847059e87.9.2025.10.10.05.29.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Oct 2025 05:29:27 -0700 (PDT)
+Date: Fri, 10 Oct 2025 15:29:25 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm/panel: Add driver for Ilitek IL79900A-based
+ panels
+Message-ID: <g7vgqpqjhen74fzgs3k3git33bmb6fa553ndsslu3chuqh267w@uwtuutrnuue5>
+References: <20251010093751.2793492-1-yelangyan@huaqin.corp-partner.google.com>
+ <20251010093751.2793492-3-yelangyan@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB8097:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca6be4d5-ded6-4e36-f1e8-08de07f87d6b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WkI1YVQycUIvZzBRVUZWQXRCOVJEMzk5NjVVWERwMDh5TVU1S0R5RWtSWm1C?=
- =?utf-8?B?MjZTQyt4NHZtbVhOcFhzQ0Zwb3ZvN29ScytyYkhpakdNRkphQml4clBZODh5?=
- =?utf-8?B?Q1Rvcmg5UktZWDRZOWRoOHoxRjNnU09jbnVDSEZBcmVGVzJIV0l5UkRoL2Ni?=
- =?utf-8?B?emlYR3B5cE1mR1lUVGNraVdWSHFaQU9RZERNOStoaEw3Q2J5RXpTNlFHZEhJ?=
- =?utf-8?B?d09MT0Y4WDNWcm5MTmM1WDhlNkVpUEdqcjZyZ2JXMEhTMUJGVWRnbUZ1ZHM5?=
- =?utf-8?B?R0pvMU5JelFBTks5RmhkYTlzOUJTek5TOEFudmxuZjJQK3EyYjJ0b2tKYzd6?=
- =?utf-8?B?MWVlWHJ0anh5NVZ2d1V6RHdONnEyYm5xbzVrNTZZWS9KK3c0b29pZkJ3Q2x5?=
- =?utf-8?B?ei9EMlRSVzB4ZGZYWE94a1ZKaVpzMFo0dGc3YVJtK2FoU21wcFNibnZUU2J0?=
- =?utf-8?B?bW1NVjI0QjJqM1ZGVmhDaWNFdmZQanBhWWMvUGorS2FJdnVEbXVNbG80a0Nm?=
- =?utf-8?B?SHEzRkNzdUp3OFJyNHRqaVZXVlk2QkdWakpWTHZ5RFpuMTVUWG1NRkhKSmRy?=
- =?utf-8?B?RkgvWmdXeHd1NEIwbDNJM1Y1RVdyYmhZNHhMdGJNT2Rtenl5SFZYbWJsZTBT?=
- =?utf-8?B?WUNJVHV5M2pRZ3dlQ1VFUHE1NVlFOGRWLzFNbmNYTDdvSXcrUTFib2IyZzZN?=
- =?utf-8?B?ZjV4d29jem1Vc0ZxVnVGNHFzeGlJbHg4NTQ4RDBDWG5FbGxWTGswcUtiK2J1?=
- =?utf-8?B?d2NDVVFLVW1zNFhZRmNxMGxZNlRodkc3ZDE3dDM4dVVNSXczeTczWGJiMjhu?=
- =?utf-8?B?Nm1NV1VVYXF2YWliYVQ1bWpLb0tSdkZMSDg5aFZiL2ZXTzA0ZHBCUmVnZ3hh?=
- =?utf-8?B?SU96TFZQTkNreVBDalZSY3B0QmdtRFUrZys4Y1N3enNVNk9SbjcwUElBN0c4?=
- =?utf-8?B?WHdITEZXZnU2UE1FMXI1TDdoVmxvUUF3RTVabmQ2cFJlVFFmTnJMM0NBait1?=
- =?utf-8?B?UGdGbHZ3QkxRQTdaV0Z6Z0JydlNCZ1k4aE92RnB6RFNTbXpEdnRYU2I0ZFgz?=
- =?utf-8?B?cUF3SjRsUTVEMmROajE0bmRqUHFvazR4YzgwU3psZG9ldXh2bEhZblhFSmZX?=
- =?utf-8?B?ajV3NUZDRW4xM0J6RGVYSnVXWlladTlxbGtOOTd0Qnp6RWtzaUZEUUlxNkRC?=
- =?utf-8?B?bWFITURRejJya05HUFVMdTFjd1BOTmxlQi9pQ1Z4N1pWYVdqTTRDZmQ0d1g3?=
- =?utf-8?B?cDgxR2hLakd3azJmdTFWVERCTG1EdFB0MHE2c1FqTEp2N01pU1kvNCtvUklw?=
- =?utf-8?B?emc2ZkpObWVsZjBFeTFxbkZoNGVBOWFlNmhMK0ZaRFdhOW1qZHhpOEJKaldO?=
- =?utf-8?B?Snc5bGwvc2U1VUw2bllDL1hiSjZlQ2ZOZGN0TWVyS1pwWm82allZVTVSdzAx?=
- =?utf-8?B?eWNnSk5tTllSU0RSL0o0SFdYc3ovTGQxa3RRWTlNK2lFRVJ0OFN5Qm9FTDlF?=
- =?utf-8?B?bmpzQnJCTTY2Sm5VUGt6dUdhOHZkODlNNnYxYUI5MkhpNlhhQ3hPeDFTSmZK?=
- =?utf-8?B?c1cwY29pU1krVElQaEVwSmZEZTFCbFgrRTlzRHlvZW4wc0Jtdys4NyttR3Fv?=
- =?utf-8?B?a25xY2I4eCtOSTVtTUtXc0YzZnc0Z2E2b2VMcDdiOXd4Y20wRTNPNGFWZUJK?=
- =?utf-8?B?czVuN3ZoTXhrTXpqYVZES3B3YXZCTitHRjJYeGh5NmhOQW1zeFFGclRGcVVv?=
- =?utf-8?B?ZTJwUFZHcGxNSXVranRtTWV4b2dDOWxualRlTkFBSVorS05pRmVkRFg1TTls?=
- =?utf-8?B?cjJkZFFhbXNhS3A4TUhqRzJPVFZlT3FHSm5lUy9qcVZxa0hXQytGeGFTVmha?=
- =?utf-8?B?cFBYenJWdEczVm13ZUhnNzNtTzI5Qlh1Q2JVRm9jZXZLS1c0R085d2ZVbGFO?=
- =?utf-8?Q?CHXTgmvvVnXYDOyHJiu0eQdcaM6KfdsU?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnFEWVRQaHVpYVd5UmlGSTV2bVJ1VFgyZldYaCtxZTFKWFZSblpaMlVTaXlE?=
- =?utf-8?B?Q0liR1duYjV4RUZOTXRIaVdFS20vM0dBWU9pL2hndDRDeFhCODYyKzl4T1pB?=
- =?utf-8?B?TG1KcWpnTlJKbXoreDZqNGtLQ2lISTg1TTNHL2pwdis4UWhiK2loaCtCWXo5?=
- =?utf-8?B?dmRoZmdTK2VMbEhib0V5MXFIU2tnNWVkNnNrYy8vMWVtb3pqTFlVUHY3Slc2?=
- =?utf-8?B?bDlzZjVPUjZ0S2xaazlUL3d3SG00bi96dWI4UFVSNE9kdTd2b2oreE9vckVF?=
- =?utf-8?B?ZkVKTnlZM0drbkorNnNITElyTkxxMHBweXZQdktNNCt4TVJPYTUwaUVadHFY?=
- =?utf-8?B?aWNoaDE1SmkxYnNvMTNKSndmUmtuQ2l2cGZMQTRpN2JuUmRGckJsQVJIdkRk?=
- =?utf-8?B?UVNzbEgzK1NmcGFDMGxuSkcrY05FNE5DSkpkU2hRSzRqNWJ5bFk0T3kxMlFS?=
- =?utf-8?B?c0VqakNiK3VTVXl4eDMvT1A5TGRsOFJlcE9YSmlvUTB3QTNEbFhnaStWZ2l4?=
- =?utf-8?B?d0ZNYVBONmxINjBKSnlJazZibm9vRXNFNW5wamJGSkFCeHhnWmlhdkJlV001?=
- =?utf-8?B?NCtRVnliVTZSRnRKRUVSaEhuTEExdnNuMTNZUFFMR1VRbkZRYlpuYjNDaWRu?=
- =?utf-8?B?cEFZOTh6ZTJpWG1JRHh3OG9xZjV4OE1JZExoQmJlVHN1RHZyUUZNZ3VvVk0w?=
- =?utf-8?B?SWl1NWNNaTRnd1VYYXNrZm9NMUs5QjdBOTZlUkVrYWRyaDFVdm9EQ3c4SlV4?=
- =?utf-8?B?U3UwaGxFSEdaSHFqcnkvVUhTOXFYT1daSysyV2o2cG5BNTBqNFpCWlkvaFMx?=
- =?utf-8?B?anI4ajF4UFFubU95VWl4RFY2NVBqZnBtelZpS1JVVjB4Q0czQjhWKzZxMkRK?=
- =?utf-8?B?OXJoODRsYzhhdzN6LzhzcDRuVGk0QU0yWG5DbFpJQWtKcGRXREJvWGdyNHV6?=
- =?utf-8?B?LzUxUC9CNUE0c0lndGF1NGNHUHp4cEhHUlQ2cDFLNGhMamlBNVlLN2t5eWpD?=
- =?utf-8?B?TWhEbUcxWFFoWnFIRUtYSGdveTVFUWtZRUVSelBEWlBUOXI5bWFiQnUrSzYw?=
- =?utf-8?B?U1BOYWlSLzk3Y3NCMGVrcnNTeE85ZldhME1UZUU0TzQwV1Y2Q2ExWmVmUGYz?=
- =?utf-8?B?K25SWEFzVkRaZWJyelI5bFRFT09oaDQ4aTBXak5ZdHhFRHE0V3hYQXI4VUNQ?=
- =?utf-8?B?cTFKZVZXeHVRdmQvOHNYYkRHMlFad0JjUkl2eXJTQXczYnNPSldJWFh0VVcz?=
- =?utf-8?B?L1A5UllFRGpQRUpwZFRmN3JHMEJjQUFKOTFmSWxNY0puUjVZQU9DVmNaaGh5?=
- =?utf-8?B?Y0dKUkJWalp0cGRXOW9yeVQ4NW5xeVRPNk5kbkJZZ0Nncm5tNXM5QVFOLzRR?=
- =?utf-8?B?ZTlhUzlpWUtvSGQ5NjZtNWdKclRlM0k4c3owYmFnNWRYS1c5Y3g1R0V2U0pI?=
- =?utf-8?B?cVViWE9aNklQUFRibHBRaWlLaTRiRVpmOUhOeHBXelgzeGFJRGh4dXlwZitX?=
- =?utf-8?B?dmNxb0RjbkdMdXZVQ0ZoOXJVZ2ZROEd3cmdQMW03QUppUFg4NDhHOTV0d2Zh?=
- =?utf-8?B?R2hxTjRJT0JwWUI1UWh3cWxNQlA2RTdhbHU1bi9hc3ljc0g1T3o0dkNXTmlm?=
- =?utf-8?B?NVpIZTdRY3EwK0haN0x1bzAzYW5NYmhGb1RGRmViczc2ZDZoR3JhZnJuN3B2?=
- =?utf-8?B?RkZGb29NZjJ6U1BCaUplazBhTVVSUW9rVVVmR295WmVjVWZXQVBIL0VwN0c2?=
- =?utf-8?B?Y1RUYStnMDRqelRvOFZ6VEFPWGR5VzF3YXNqSE5UbjlndVJWU2FVNW9aQ1Nk?=
- =?utf-8?B?eW1pWlIrMVVhVldrSzFreWJLL2xiTjV1V3JKSnFJTjErdVVXS2Yyb0RlK1RG?=
- =?utf-8?B?THNGb0VsWHNDeGZZVnQrV2ZVUGpocGlyNUMzOG13a1FWNmt4WUQ0ck12d2Fr?=
- =?utf-8?B?M2tsU0dLbWZjMGFXSXRlV1Z3KzlTY0JGa0E2NGdPSkJJY0VNTjRhcUtvb1dP?=
- =?utf-8?B?NnBFdHM1amRhTkFpZ0RpZUlOTW9jZEF1eDNVY0RBcUkvQUR3UWxTb3VXQ3Bk?=
- =?utf-8?B?UkYrNFZLb1BWNE1wdVB4U2s0UXQvY3JDb0l6dmVHSWNZVzJoK3B5QTlsVUZq?=
- =?utf-8?Q?c9LxNQT9SVSKRqkI4zsME/tZ6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca6be4d5-ded6-4e36-f1e8-08de07f87d6b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 12:28:17.3310 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dtIMmXMol6bKk59UUHmhfwlkk3k55GvkQFEfNC9Jx31QsIfWeSHEm7rCqRrvbuR2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8097
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251010093751.2793492-3-yelangyan@huaqin.corp-partner.google.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX647tRC3xnrO8
+ afFSh41Dr/JCA4Y/KtxEbLzP3zY+wZyfB/AC+5ocZkL1T4XnNTtD0v6Na6Gs646zwX9iojhdVi5
+ 8/ARLHbdHZNuLxucarmPzXmwaVaD4rnWd/TAnBkg01sBRHIE20eh+Bt1EFurw+gy/6k+TD+JUmg
+ LtFrwJanqGuUEbhqqxpJTsdtUkmxxATJp1m/yTY4wOjGelh8xiEnTW3n//gY9tvX43j1rAoIxWC
+ ciwxaybiYW5Y6GfM7J0/PKdu3EmlKrG2pd0semNi/B+9FJfrF6SnNscMZdFYznzBb6qS5FZ6CuY
+ Bd8ZVj8+Nqv4IFdgUGbzoNl4IkU9wVP3tHFB0ig+AIQ6XNYm6cEgq+265d7aiz6cWKJpyvTmFr/
+ xF4PLmA7LBvd+smlkBZvVCNOh2+mJw==
+X-Proofpoint-GUID: -BIz7UauiUGIEEcO_ovNJOZwxt3PxxMk
+X-Proofpoint-ORIG-GUID: -BIz7UauiUGIEEcO_ovNJOZwxt3PxxMk
+X-Authority-Analysis: v=2.4 cv=SJxPlevH c=1 sm=1 tr=0 ts=68e8fc2a cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=1XWaLZrsAAAA:8 a=wy7oPuJDPKlYPVI7QQcA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-10_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 phishscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,70 +127,462 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-David any objections that I take this patch and make the necessary modifications?
-
-People are pinging me about the problem.
-
-Regards,
-Christian.
-
-On 09.10.25 17:04, Christian König wrote:
-> FYI
+On Fri, Oct 10, 2025 at 05:37:51PM +0800, Langyan Ye wrote:
+> Add a DRM panel driver for the Ilitek IL79900A MIPI-DSI LCD controller.
 > 
-> On 09.10.25 09:01, Christian König wrote:
->> On 02.10.25 17:05, David Rosca wrote:
->>> drm_sched_entity_flush should only kill the entity if the current
->>> process is the last user of the entity. The last_user is only set
->>> when adding new job, so entities that had no jobs submitted to them
->>> have NULL last_user and would always be killed.
->>> Another issue is setting last_user to NULL from drm_sched_entity_flush,
->>> which causes subsequent calls to kill the entity.
->>>
->>> Signed-off-by: David Rosca <david.rosca@amd.com>
->>> Fixes: 51564e9f06f0 ("drm/amdgpu: Avoid extra evict-restore process.")
->>
->> Good catch, but in general please CC the relevant maintainers and mailing lists for scheduler patches.
->>
->>> ---
->>>  drivers/gpu/drm/scheduler/sched_entity.c | 5 ++---
->>>  1 file changed, 2 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index 8867b95ab089..a325e4a59990 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->>>  	entity->guilty = guilty;
->>>  	entity->num_sched_list = num_sched_list;
->>>  	entity->priority = priority;
->>> +	entity->last_user = current->group_leader;
->>>  	/*
->>>  	 * It's perfectly valid to initialize an entity without having a valid
->>>  	 * scheduler attached. It's just not valid to use the scheduler before it
->>> @@ -278,7 +279,6 @@ static void drm_sched_entity_kill(struct drm_sched_entity *entity)
->>>  long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
->>>  {
->>>  	struct drm_gpu_scheduler *sched;
->>> -	struct task_struct *last_user;
->>>  	long ret = timeout;
->>>  
->>>  	if (!entity->rq)
->>> @@ -301,8 +301,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
->>>  	}
->>>  
->>>  	/* For killed process disable any more IBs enqueue right now */
->>> -	last_user = cmpxchg(&entity->last_user, current->group_leader, NULL);
->>> -	if ((!last_user || last_user == current->group_leader) &&
->>> +	if (entity->last_user == current->group_leader &&
->>
->> You still need the cmpxchg() here or otherwise drm_sched_entity_kill() would run multiple times.
->>
->> Regards,
->> Christian.
->>
->>>  	    (current->flags & PF_EXITING) && (current->exit_code == SIGKILL))
->>>  		drm_sched_entity_kill(entity);
->>>  
->>
+> The controller is used in panels such as the Tianma TL121BVMS07-00.
+> It requires multiple power supplies (AVDD, AVEE, 1.8V logic), an enable
+> GPIO, and a backlight device.
+> 
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-ilitek-il79900a.c | 394 ++++++++++++++++++
+>  1 file changed, 394 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-ilitek-il79900a.c
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-il79900a.c b/drivers/gpu/drm/panel/panel-ilitek-il79900a.c
+> new file mode 100644
+> index 000000000000..2134f8af673e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-il79900a.c
+> @@ -0,0 +1,394 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Panels based on the Ilitek IL79900A display controller.
+> + */
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_panel.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +struct il79900a;
+> +
+> +/*
+> + * Use this descriptor struct to describe different panels using the
+> + * Ilitek IL79900A display controller.
+> + */
+> +struct panel_desc {
+> +	const struct drm_display_mode *modes;
+> +	unsigned int bpc;
+> +
+> +	/**
+> +	 * @width_mm: width of the panel's active display area
+> +	 * @height_mm: height of the panel's active display area
+> +	 */
+> +	struct {
+> +		unsigned int width_mm;
+> +		unsigned int height_mm;
+> +	} size;
+
+
+Move these to the mode
+
+> +
+> +	unsigned long mode_flags;
+> +	enum mipi_dsi_pixel_format format;
+> +	int (*init)(struct il79900a *boe);
+> +	unsigned int lanes;
+> +};
+> +
+> +struct il79900a {
+> +	struct drm_panel base;
+> +	struct mipi_dsi_device *dsi;
+> +
+> +	const struct panel_desc *desc;
+> +
+> +	enum drm_panel_orientation orientation;
+> +	struct regulator *pp1800;
+> +	struct regulator *avee;
+> +	struct regulator *avdd;
+> +	struct gpio_desc *enable_gpio;
+> +};
+> +
+> +/* IL79900A-specific commands, add new commands as you decode them */
+> +#define IL79900A_DCS_SWITCH_PAGE	0xFF
+> +
+> +#define il79900a_switch_page(ctx, page) \
+> +	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
+> +				     0x5a, 0xa5, (page))
+> +
+> +static int tianma_il79900a_init(struct il79900a *ili)
+> +{
+> +	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
+> +
+> +	usleep_range(5000, 5100);
+
+mipi_dsi_usleep_range
+
+> +
+> +	il79900a_switch_page(&ctx, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
+> +
+> +	il79900a_switch_page(&ctx, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
+> +
+> +	il79900a_switch_page(&ctx, 0x07);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
+> +
+> +	il79900a_switch_page(&ctx, 0x06);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
+> +
+> +	il79900a_switch_page(&ctx, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_EXIT_SLEEP_MODE);
+> +	if (ctx.accum_err)
+> +		return ctx.accum_err;
+
+Drop
+
+> +
+> +	msleep(120);
+
+mipi_dsi_msleep
+
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_SET_DISPLAY_ON);
+> +	if (ctx.accum_err)
+> +		return ctx.accum_err;
+
+drop
+
+> +
+> +	msleep(80);
+
+mipi_dsi_msleep
+> +
+> +	return 0;
+> +};
+> +
+> +static inline struct il79900a *to_il79900a(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct il79900a, base);
+> +}
+> +
+> +static int il79900a_enter_sleep_mode(struct il79900a *ili)
+> +{
+> +	struct mipi_dsi_device *dsi = ili->dsi;
+> +	int ret;
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_set_display_off(dsi);
+
+_multi
+
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+
+_multi
+
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int il79900a_disable(struct drm_panel *panel)
+> +{
+> +	struct il79900a *ili = to_il79900a(panel);
+> +	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
+> +	int ret;
+> +
+> +	il79900a_switch_page(&ctx, 0x00);
+> +	if (ctx.accum_err)
+> +		return ctx.accum_err;
+> +
+> +	ret = il79900a_enter_sleep_mode(ili);
+
+Pass context to that function
+
+> +	if (ret < 0) {
+> +		dev_err(panel->dev, "failed to set panel off: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	msleep(150);
+
+mipi_dsi_msleep
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int il79900a_unprepare(struct drm_panel *panel)
+> +{
+> +	struct il79900a *ili = to_il79900a(panel);
+> +
+> +	gpiod_set_value(ili->enable_gpio, 0);
+> +	usleep_range(1000, 2000);
+> +	regulator_disable(ili->avee);
+> +	regulator_disable(ili->avdd);
+> +	usleep_range(5000, 7000);
+> +	regulator_disable(ili->pp1800);
+> +
+> +	return 0;
+> +}
+> +
+> +static int il79900a_prepare(struct drm_panel *panel)
+> +{
+> +	struct il79900a *ili = to_il79900a(panel);
+> +	int ret;
+> +
+> +	gpiod_set_value(ili->enable_gpio, 0);
+> +	usleep_range(1000, 1500);
+> +
+> +	ret = regulator_enable(ili->pp1800);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	usleep_range(3000, 5000);
+> +
+> +	ret = regulator_enable(ili->avdd);
+> +	if (ret < 0)
+> +		goto poweroff1v8;
+> +	ret = regulator_enable(ili->avee);
+> +	if (ret < 0)
+> +		goto poweroffavdd;
+> +
+> +	usleep_range(10000, 11000);
+> +
+> +	// MIPI needs to keep the LP11 state before the lcm_reset pin is pulled high
+> +	ret = mipi_dsi_dcs_nop(ili->dsi);
+> +	if (ret < 0) {
+> +		dev_err(&ili->dsi->dev, "Failed to send NOP: %d\n", ret);
+> +		goto poweroff;
+> +	}
+> +	usleep_range(1000, 2000);
+> +
+> +	gpiod_set_value(ili->enable_gpio, 1);
+> +	usleep_range(1000, 2000);
+> +	gpiod_set_value(ili->enable_gpio, 0);
+> +	usleep_range(10000, 11000);
+> +	gpiod_set_value(ili->enable_gpio, 1);
+> +	usleep_range(20000, 21000);
+> +
+> +	ret = ili->desc->init(ili);
+> +	if (ret < 0)
+> +		goto poweroff;
+> +
+> +	return 0;
+> +
+> +poweroff:
+> +	gpiod_set_value(ili->enable_gpio, 0);
+> +	regulator_disable(ili->avee);
+> +poweroffavdd:
+> +	regulator_disable(ili->avdd);
+> +poweroff1v8:
+> +	usleep_range(5000, 7000);
+> +	regulator_disable(ili->pp1800);
+> +
+> +	return ret;
+> +}
+> +
+> +static int il79900a_enable(struct drm_panel *panel)
+> +{
+> +	msleep(130);
+
+Why?
+
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode tianma_il79900a_default_mode = {
+> +	.clock = 264355,
+> +	.hdisplay = 1600,
+> +	.hsync_start = 1600 + 20,
+> +	.hsync_end = 1600 + 20 + 4,
+> +	.htotal = 1600 + 20 + 4 + 20,
+> +	.vdisplay = 2560,
+> +	.vsync_start = 2560 + 82,
+> +	.vsync_end = 2560 + 82 + 2,
+> +	.vtotal = 2560 + 82 + 2 + 36,
+> +};
+> +
+> +static const struct panel_desc tianma_il79900a_desc = {
+> +	.modes = &tianma_il79900a_default_mode,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width_mm = 163,
+> +		.height_mm = 260,
+> +	},
+> +	.lanes = 3,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+> +		      MIPI_DSI_MODE_LPM,
+> +	.init = tianma_il79900a_init,
+> +};
+> +
+> +static int il79900a_get_modes(struct drm_panel *panel,
+> +			      struct drm_connector *connector)
+> +{
+> +	struct il79900a *ili = to_il79900a(panel);
+> +	const struct drm_display_mode *m = ili->desc->modes;
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, m);
+> +	if (!mode) {
+> +		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
+> +			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
+> +		return -ENOMEM;
+> +	}
+> +
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_set_name(mode);
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	connector->display_info.width_mm = ili->desc->size.width_mm;
+> +	connector->display_info.height_mm = ili->desc->size.height_mm;
+
+drm_connector_helper_get_modes_fixed()
+
+> +	connector->display_info.bpc = ili->desc->bpc;
+> +
+> +	return 1;
+> +}
+> +
+> +static enum drm_panel_orientation il79900a_get_orientation(struct drm_panel *panel)
+> +{
+> +	struct il79900a *ili = to_il79900a(panel);
+> +
+> +	return ili->orientation;
+> +}
+> +
+> +static const struct drm_panel_funcs il79900a_funcs = {
+> +	.disable = il79900a_disable,
+> +	.unprepare = il79900a_unprepare,
+> +	.prepare = il79900a_prepare,
+> +	.enable = il79900a_enable,
+> +	.get_modes = il79900a_get_modes,
+> +	.get_orientation = il79900a_get_orientation,
+> +};
+> +
+> +static int il79900a_add(struct il79900a *ili)
+> +{
+> +	struct device *dev = &ili->dsi->dev;
+> +	int err;
+> +
+> +	ili->avdd = devm_regulator_get(dev, "avdd");
+> +	if (IS_ERR(ili->avdd))
+> +		return PTR_ERR(ili->avdd);
+> +
+> +	ili->avee = devm_regulator_get(dev, "avee");
+> +	if (IS_ERR(ili->avee))
+> +		return PTR_ERR(ili->avee);
+> +
+> +	ili->pp1800 = devm_regulator_get(dev, "pp1800");
+> +	if (IS_ERR(ili->pp1800))
+> +		return PTR_ERR(ili->pp1800);
+> +
+> +	ili->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ili->enable_gpio)) {
+> +		dev_err(dev, "cannot get reset-gpios %ld\n",
+> +			PTR_ERR(ili->enable_gpio));
+> +		return PTR_ERR(ili->enable_gpio);
+> +	}
+> +
+> +	gpiod_set_value(ili->enable_gpio, 0);
+> +
+> +	drm_panel_init(&ili->base, dev, &il79900a_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	err = of_drm_get_panel_orientation(dev->of_node, &ili->orientation);
+> +	if (err < 0) {
+> +		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
+> +		return err;
+> +	}
+> +
+> +	err = drm_panel_of_backlight(&ili->base);
+> +	if (err)
+> +		return err;
+> +
+> +	ili->base.funcs = &il79900a_funcs;
+> +	ili->base.dev = &ili->dsi->dev;
+> +
+> +	drm_panel_add(&ili->base);
+> +
+> +	return 0;
+> +}
+> +
+> +static int il79900a_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct il79900a *ili;
+> +	int ret;
+> +	const struct panel_desc *desc;
+> +
+> +	ili = devm_kzalloc(&dsi->dev, sizeof(*ili), GFP_KERNEL);
+> +	if (!ili)
+> +		return -ENOMEM;
+> +
+> +	desc = of_device_get_match_data(&dsi->dev);
+> +	dsi->lanes = desc->lanes;
+> +	dsi->format = desc->format;
+> +	dsi->mode_flags = desc->mode_flags;
+> +	ili->desc = desc;
+> +	ili->dsi = dsi;
+> +	ret = il79900a_add(ili);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	mipi_dsi_set_drvdata(dsi, ili);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret)
+> +		drm_panel_remove(&ili->base);
+> +
+> +	return ret;
+> +}
+> +
+> +static void il79900a_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct il79900a *ili = mipi_dsi_get_drvdata(dsi);
+> +	int ret;
+> +
+> +	ret = mipi_dsi_detach(dsi);
+> +	if (ret < 0)
+> +		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
+> +
+> +	if (ili->base.dev)
+> +		drm_panel_remove(&ili->base);
+> +}
+> +
+> +static const struct of_device_id il79900a_of_match[] = {
+> +	{ .compatible = "tianma,il79900a",
+> +	  .data = &tianma_il79900a_desc
+> +	},
+
+Single line
+
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, il79900a_of_match);
+> +
+> +static struct mipi_dsi_driver il79900a_driver = {
+> +	.driver = {
+> +		.name = "panel-il79900a",
+> +		.of_match_table = il79900a_of_match,
+> +	},
+> +	.probe = il79900a_probe,
+> +	.remove = il79900a_remove,
+> +};
+> +module_mipi_dsi_driver(il79900a_driver);
+> +
+> +MODULE_AUTHOR("Langyan Ye <yelangyan@huaqin.corp-partner.google.com>");
+> +MODULE_DESCRIPTION("Ilitek IL79900A-based panels driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.34.1
 > 
 
+-- 
+With best wishes
+Dmitry
