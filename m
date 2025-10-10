@@ -2,177 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F256EBCBA38
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 06:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F2DBCBB23
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 07:18:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8ED10E042;
-	Fri, 10 Oct 2025 04:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3C010E31A;
+	Fri, 10 Oct 2025 05:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Cll9Fijh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MVxWw1k6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE4210E042
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 04:25:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE1510E267;
+ Fri, 10 Oct 2025 05:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760070332; x=1791606332;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=bY49TMdeScu4DFIJGdqAhsDmrj/ffTqZbDt5XQvMUPw=;
- b=Cll9Fijhmxv5tSqGt6GggN6rIpHfgX4W8m2fyg2DP6dYRTKADaw8Bgl1
- QDJ6+fASge3cidQ5GXqWX1XcZJjLkqor2XhWMX5J1IK4F2R3MnjVLy7Si
- yiu0h+dReP/YNkkYQDdDzGgLpQxMPNR4vv4C0iGteLTTLbfEpUpDajHwj
- Judmv7DywtLnxTsYnyrmZtREtwIX4ObmtXIl9cs6271nmhK1N5cZ6wqqn
- enYBqVBJ3gtOwNnM+5VPxU4KGXhnKrQg27cnRiXM5kFXo30nuriAw96sv
- PrKGpukQGZV/sLnQzVzuFpImCQgfqxy82HAhaZZmmO55DvL4kD7dumNCH w==;
-X-CSE-ConnectionGUID: KUh0z5eCSB6INdj98v8mZg==
-X-CSE-MsgGUID: AkC+jsVcQdi6K0tj0FcLLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62446162"
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; d="scan'208";a="62446162"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 21:25:31 -0700
-X-CSE-ConnectionGUID: ll5Om9gVR8SxfzOL7p+Z7Q==
-X-CSE-MsgGUID: D/dc8sQ7RNiM91h5fgTSZQ==
+ t=1760073494; x=1791609494;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=E7j14qcwzWpTxL+k0qaacvD1pC0B2f50TVA8EF8+v48=;
+ b=MVxWw1k6KR2SZRkaALyuYjg0PhHD2g9BOGxxH6a8aWyzvIFrmQqjNPBO
+ pJwuz8hMBZC6QhSJESg2sYiM+0wMy/OOncpWm+7U282XFo1fPQ+JNLb3i
+ MxwqoK8UgOSmpOUkKMKeL1rqoWw7PtvL+//W93xI3k2LbBfGPIOf9M30F
+ rez+kkeUnCjKMObyRjnUZWTcQr3joL5LUa/qIObgvvBg0AItBIXLbCbgY
+ 0WwPB8xCVihE4SHtTUJLXUcDcbE+GqaumCLIdZRNn3c3WeqSSazbluxV8
+ RSCXZHo73kwfmzaZNtx/nEyvKlzWQ0sSp2OBP2ZTiI4JHmTIr4gTcKR0t g==;
+X-CSE-ConnectionGUID: 1QQD3e+iTcaMZIZYt8RUaA==
+X-CSE-MsgGUID: sEa3eW8+SviX5Wae5kkgMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73634655"
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; d="scan'208";a="73634655"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 22:18:13 -0700
+X-CSE-ConnectionGUID: RkdhuccrQnOQ//kCk3TvnQ==
+X-CSE-MsgGUID: eK1ID/E9Ro+K0tdNluxQKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; d="scan'208";a="185259689"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2025 21:25:30 -0700
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; d="scan'208";a="180479565"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2025 22:18:13 -0700
 Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 9 Oct 2025 21:25:30 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ 15.2.2562.27; Thu, 9 Oct 2025 22:18:12 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
  FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 9 Oct 2025 21:25:30 -0700
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.9) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Thu, 9 Oct 2025 22:18:12 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.23) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 9 Oct 2025 21:25:29 -0700
+ 15.2.2562.27; Thu, 9 Oct 2025 22:18:12 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rRAI8n6h/QUMQmUqajZzXHuNtT8dBFDNpLrxv4+pp/3TvlWkmzUcGZZ+5e3aTC9P4LChhbJDNx3DMakeZglLOoWTald4Jrd1Zdsx/UiShbJ+FU3YXAje3ZSalzX5ahkGrgzRtcFasryeblMw/MDdTYa4o7+yCWvvhVVps7AJNt2bvKfo2W+nneu22wHQSXiEv8VpX92z6R1/q8urvERI5LvP3JRoQMBPwbVamLB8DBrEr2j7aWPTl5EQaiu/jQtSGxbAuVvQvFw79wg6QnVZDZKoS0ES69w6+wB6DqlA4skKT/v5xUwUehdaHmhyfUkzyWAz3sUaNNCRbSW4cJtbig==
+ b=h5boiKLOgWHRYgc+lpxkhcyJDcDfDTVLxAhzmoX1scBYqu0YlekoJtzi/qqdTnpcgrs2evVwYuFY4wXE5D61geyata8r01EYGNAH12TZk59rM7OeQhNN5xSCMWQ5KnvENEnsWuK92ZXoVXqOiMN7qkQIKgdiz5Zukcm293soMwo4592MdOT3QCU6DA2n3+gtEKXUELuPWHsHfIcQBdVtWmmCDP0KYsBryEUatk3b68/DUnDinbZQ9YZG3u3vxuzkUd9GQ7/m1bsvLgYWtUNlor4Ir5uyv4RAai3A+jiVSFR8ccbKPQ0ye0XO2uU+b5YnkDyEXOBdG7sJmVvGQyXOgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v+hMejNlS8AV0LoIeWA3ezJuID0JdfIZm6NRCwYvXaQ=;
- b=amXgFcKiZiJFDGVu06EAsyM662xQlp1cH6BZijZI+EYOKDQbpXtOn4HyJ1gDmQnMaazmTS6rM/lwjwp07QeTnXF2uhvfIJPogSnE0xGF3lmMDT3U3qurv1MRICEUKsoh1kagegSXeCWJdhXk0oszOjV4g1o4Gp7Vm7muwcANXmMcAYDOtCfUobJABpqd2QkEY4EENQc1bhp+so6Zo0D6odU1AEjvpmf0e5XV9MXGmtXysGRQIQlQ2i6DGxCrv+chqRHwHJbliz97MDEI3xO/YYJTgAqJgl/lCqsssOuSHhReKG/3Zt4ExGOk3GmbXUir91SZnHVWtxeXmeLeesP7Lw==
+ bh=aGlXz7D/WJKGc1zHLX27WxHmi9sV8NI+0SACgG+oyfU=;
+ b=hUq97LCTZpbqqjoHcfVPOrkOB6oc/LZDYN8Vxkp4HPk4vJLEgxC9lVrwKJekQRGFtH3oHn3QFYW6kJUzhki/lNUaDVZdWEZ6bUAzXK/kxwt+BRf8J523tR5TE+Z2a4VVacfs54+jjpnJgDqvOa9Mu+rGEA4Q7+m9kOYkUZZf0i8Bo8+I9lSlupdvmE72RofbfAOtFsCrm7O8zbUZQtHwwBEAkQZlFRUqpB/UolktI8fPfmHwnnXpHiv47jI/6yDN9xWSN2nXB+ZGsUW6ymEnc2s2we3hPmYMZfUbEm2hc08wLlRTbfbGNFmZveWSiUY+rS9NdphmLSDvCrL0EZrYdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by CH3PR11MB7180.namprd11.prod.outlook.com (2603:10b6:610:148::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Fri, 10 Oct
- 2025 04:25:15 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9203.007; Fri, 10 Oct 2025
- 04:25:15 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "airlied@redhat.com"
- <airlied@redhat.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "dmitry.osipenko@collabora.com" <dmitry.osipenko@collabora.com>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
- <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
-CC: "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/virtgpu: Use vblank timer
-Thread-Topic: [PATCH] drm/virtgpu: Use vblank timer
-Thread-Index: AQHcOFTh4O7Et3uiykydidDxo4mQL7S4trEQgADdw4CAAJRHwA==
-Date: Fri, 10 Oct 2025 04:25:15 +0000
-Message-ID: <IA0PR11MB71850152C033B443032AA519F8EFA@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20251008130701.246988-1-tzimmermann@suse.de>
- <IA0PR11MB7185D91EB0CD01FD63D21AA7F8EEA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <dd80279d-5469-42db-bfa0-7b9ee3323bc9@suse.de>
-In-Reply-To: <dd80279d-5469-42db-bfa0-7b9ee3323bc9@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|CH3PR11MB7180:EE_
-x-ms-office365-filtering-correlation-id: 75e15877-cd22-4e6c-28c6-08de07b5031c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|13003099007|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?+puOu1XibqC1uPnLw8xm+unJY0utT7NSAZZ141zKgfdwT3pWJtwZ6jFqxhic?=
- =?us-ascii?Q?22U9/08i6fgIZs70TV7XRXCRXJKcRIeBeK6LLL+x3gI7JtXMXKr6+cZxlGHi?=
- =?us-ascii?Q?+2ZPoqwgI4IQVvlN+YvRkpn3nw9pXiFyYyFnnMmuGm1q7Cv9zuofLr/Z2Sx5?=
- =?us-ascii?Q?CSGD8wBXBQWN/ii678FQAF/tqr9FeAaBvz9p8v8LCe8MTfIFFwBk33A29lyJ?=
- =?us-ascii?Q?+qOqrRYSGoxMEoE77vveE/8MO4Cdud8rjf9zOxVfBKlvCRFAfkaLRvKBFGFn?=
- =?us-ascii?Q?CEYzPZwWY7DCCjbZ/Xi8TeH7xBfnm+qldfD2JlHrCQLrUpd6f5rdjLlYgWF6?=
- =?us-ascii?Q?jhXUgGbStHTNiJRtKR7D288jJ3wd51Jd7UX8dqpP9lqcJQ+OpPrelO4+SQYS?=
- =?us-ascii?Q?rtLBiUr8vhXtUW+XOuIyVgC8n6qptz5wtItCSGaKjzyIUOJKoIbmQ4JL9+tH?=
- =?us-ascii?Q?oKbpXtBkd2eCMv01ltn4X9MP4ZtzlbW63iLRrhyKW7YDM4M6tuyr8q2R/URO?=
- =?us-ascii?Q?gyryUW5pLPCHNibHaLKoQHWV4je/XIYD4FC7vQsbZ5zUp1G74MzzhcwOZsu4?=
- =?us-ascii?Q?sIGQbAEEeRlSpgtuWjgkFof3Sm/J2sGGGFb+EFeVHkl0dHqXUboUBQ86CQtZ?=
- =?us-ascii?Q?3HiCYr2IH0M4I8uIKdr0XBLIMwkfnWeDVwu70CDte40QQvt22906iPaAE8xK?=
- =?us-ascii?Q?ectgwD3UwuJW/JWhTrTxV/c+IgB85k/SwCAaXQY0DrGFKPc0op79YivYwdU9?=
- =?us-ascii?Q?wgspaTYUP5VBG0o+zSMtIdj9mESE5l1Mw8JqUw2HiSr11O7zK36VdeUF3ptu?=
- =?us-ascii?Q?3o5V0ueTzIa7XVLAZBNf/WNAeqDJhCQJrtyDzgusZ+nw9NGZU5F9aiQCnSAZ?=
- =?us-ascii?Q?76YwPxSSu+onfyk0v7sBDrD/l6J1Ev6QW1GyTaHK9DGeRjk89zwAEWeBTdpx?=
- =?us-ascii?Q?S52md350OzUncXRxXk4FTAbs1V7aVxbvUimSFlLQ2YDoCLLtbxjLQLoM0WwA?=
- =?us-ascii?Q?C+qX7ru2xNGW8cnTUsuQaQ2W3S9CTs65t92ommH8BFMjUNzVnu+x25LHZ6ZO?=
- =?us-ascii?Q?NSMdC2JViU08vO1RpYYLHvroLv0HKmA/5PFDkv+7Q/f3KNLj0krAK3DAMK0v?=
- =?us-ascii?Q?C+sa0eYGixJJ27p1elXTvNibLnGoNwKiGfWAfdoUzdEJfZTgJNKFw/PZuZrw?=
- =?us-ascii?Q?0LA+kSPgzlAuk3TPLXT9xQbvaEhWM2/3QgmXl1vKZ5xDuGOLD7odm5JpeWxx?=
- =?us-ascii?Q?VVLpy6cdmMtnMetXDZn8wdHRZTYgDKTKe6woRWh/Y6Czdc2JRIwQ7HBYjaM4?=
- =?us-ascii?Q?3w8O9nkD05hYfTb4NYD6L8xJIvXpmOx/Xxya3Gubs5Bv4DyNYGl+dTFqaZ6P?=
- =?us-ascii?Q?vzPyCAbVDE93eG2O54klNTza7kUY3y3NgTltpCCO8ycEClrCW3a9hhg4ekBX?=
- =?us-ascii?Q?tiu9gn0b3MjGRDghXy0fYfLHQKQ8j2LSF775WqN1XkOg81WDg4EoFg=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(13003099007)(38070700021);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hXgYZdL2OYOnsWL2u+DlLwDzDeOyfhHytyC2uMHvEtPHzQtg+fY1z+DR45I9?=
- =?us-ascii?Q?zwxg2HLjWcm0JW+oA3GijpT7Bd1lO6TYzBKJ5za9fw0XnGrkmlSVERkTPt+O?=
- =?us-ascii?Q?3kHhZ2VxshV7P/58gMQGMqfzaKR0PtCSXy3OIR9XA058jwQckUGYSecuMLxg?=
- =?us-ascii?Q?TN/ehxAdPWmSe4iByPjvSTP7o+EEx5mXYGxeWKV0ldR3gWXoXzBVjm0jI5Zl?=
- =?us-ascii?Q?aZajvqU1EtfaHxUwSB/tfIUfGaLiM1LU2qbVxnYvC8lFaRvq0wZbHA/ZFVJj?=
- =?us-ascii?Q?xEu6eM8CBjSsOZcfQ3lXRZQnLf5GuCNhA9JmVaA2NCas0nAtxMfGo8XByWNt?=
- =?us-ascii?Q?qYT67TeoxYsT3hpP3kULEFOUUtiTfCPnyCLVMKV4exNOCMy77EVVz6v84O05?=
- =?us-ascii?Q?GWq+imK9Glrz7bCRwkfjTZNe7YEWZM/E0bgyuRRILs9UD+c2uTjFrWfMy/wy?=
- =?us-ascii?Q?7pAY9nA/KlG7e3qvrcaavFDKQmuUcbD9+VKoUfLodlOQ8gTbkEq6OQrMOpnz?=
- =?us-ascii?Q?fCwYCmCY+YuxCjTyB9ouf4VZ8+DJpWJ3DUkZUqErBjdR675aPOkWuwC+PUYE?=
- =?us-ascii?Q?z9xehpVYFaM90tnlveOApQnzZyhC2wcp0mAUEHFVHZwydWHPBM3fke/IICTr?=
- =?us-ascii?Q?p6FvSxM2LOEYt3WPJ5Wd/a8rY2xSzN7GdiO7BAqSjQD4HPHv4wdjNSgCg1Rw?=
- =?us-ascii?Q?1YonJDnxY/wX+EGes4u1FAS0Jz3lnZW/4ktFDQ14B6V9F1p598o2W3y5fptA?=
- =?us-ascii?Q?QSktCg8DRh+1aWoIDLvBYLfFaY7R7Q+GCZ/NxPK+Im8XkiLshE+dkO8ooHaq?=
- =?us-ascii?Q?T+9JByLyRYWb2LmFFGz0URPYUgrDB/znjRv2Abg7GAAOAsc27FX0YkfgGNpo?=
- =?us-ascii?Q?nBDP6J9RJM9SMaiz6BUfu3uefCQRhAcre1WPprwsQKzcPEaLt3I5tMPmGBIq?=
- =?us-ascii?Q?yPEsoblJ05SLDF/tqRQm7FyQHutvB8HM+Mw43QC2EJtXtiz7cA93f9QylZfr?=
- =?us-ascii?Q?m6MBq/W5WsJ8SArcp3C+NP1+aQqvuhMsCPBX2580YmYRMXJDcjjOlpL7WIOm?=
- =?us-ascii?Q?Dx+BJQOO47HekUEfRtQt+8kSgBPrfIKuymJs9edVan87gPFBXiZO2rbbFMPm?=
- =?us-ascii?Q?Bq0Nm+3QxqN894OnV/VH5CvhYcRlnz+9yecpiWgumZ2tt18fEpbtnsqdgp8U?=
- =?us-ascii?Q?2FpE5k+hvpvj1jZsXVCPCtTza3tzXtpZ83JmmEndPNv90X3WeeEbn+OBNILY?=
- =?us-ascii?Q?Zfz6zzkHr8v3MoGb1AEjvT2PeEbdPBg3ayyeEchuGwuHOpJDWwrMmYg9exvT?=
- =?us-ascii?Q?hlCFbVYv430cB0WDt7PPQGMBn/jZ6jaUOmv/3a4FJ2eQpcjFBOZJd3SAURT3?=
- =?us-ascii?Q?67/6N0uDLhRYr2rS3+3oaqsYhrgvesf8QKhzshC9LoAlhTRiaFMuareVP5Yz?=
- =?us-ascii?Q?KPzsA9LhYNGN+TAx0gXqRNEREErcTi2jyOwoslVJNOiPBMNv8e8MHtYkRond?=
- =?us-ascii?Q?PjaNoYy6+5aWWfL5vixYwsMBTw5TYBlr1f/2X+vLjmcS0QQ+9IbyCv42NtSG?=
- =?us-ascii?Q?8ZxwjGXuLl5y4cX9mOFbV1XqzXxE9Kk7XsTCsUwy?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA1PR11MB5827.namprd11.prod.outlook.com (2603:10b6:806:236::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Fri, 10 Oct
+ 2025 05:18:10 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9203.007; Fri, 10 Oct 2025
+ 05:18:10 +0000
+Date: Fri, 10 Oct 2025 00:18:03 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <linux-pci@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Icenowy Zheng <uwu@icenowy.me>, "Vivian
+ Wang" <wangruikang@iscas.ac.cn>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Simon Richter
+ <Simon.Richter@hogyros.de>, LKML <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>
+Subject: Re: [PATCH 2/2] drm/xe: Move rebar to be done earlier
+Message-ID: <epq2fe6hanziuyhvcihcrpgjgp24aik2wospyga2cjzbgsjk2h@7fr5zatwnbfg>
+References: <20250918-xe-pci-rebar-2-v1-0-6c094702a074@intel.com>
+ <20250918-xe-pci-rebar-2-v1-2-6c094702a074@intel.com>
+ <5osrqzgrh47n6rpjulvsixwbhbh5vwxrrn6p6hpodnwisjfung@lmivgjb66oed>
+ <dfdd45b2-5a8c-cfea-ecd3-495e947022d1@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dfdd45b2-5a8c-cfea-ecd3-495e947022d1@linux.intel.com>
+X-ClientProxiedBy: SJ0PR05CA0161.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::16) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB5827:EE_
+X-MS-Office365-Filtering-Correlation-Id: d312291e-cf31-4c7f-8e18-08de07bc6759
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?Ra4EtJH0FLbMr5elhncWG2RuxUgvoHDG/RR7z1mLArhIdknqyTwNDkMIUt?=
+ =?iso-8859-1?Q?xWoOyL4IKf1Gn/Cp4zyVuyuuNe+KDDRdrPxD2rinvDGc8hH16CMOm8ZcTt?=
+ =?iso-8859-1?Q?WmLeF5ay2nYilzk9+SaJA/G1kerSJnGJN0idOiwMR13xIPeGksB8dbSkMt?=
+ =?iso-8859-1?Q?zXOIyUxZYdd5DJ3dlkMEfgkxglAG7ahcvZLj6o/sVEJwxI+F+rhSEyBlVS?=
+ =?iso-8859-1?Q?1mB2SYoh1ipzJyMBNDYYcXbe5aw8uDO0xw17kY2kSlX9Dh4GKebdNLIMCX?=
+ =?iso-8859-1?Q?TX+JQO00am2A2t3/UCRpA7ZPKnkmS2uHsuC5u9tontOiykn7vzhZq9xo16?=
+ =?iso-8859-1?Q?esZqtOx+VIZxmOM7oPBr7EqVivzWrv9Lgp38l8kBCGrkQ/mAwoAOA7NaUS?=
+ =?iso-8859-1?Q?Txip7Y7WHSrBoOBajxPNmAXAJbuSb5FVpMtBDOBZdX5e+gz31nqTy4rNpK?=
+ =?iso-8859-1?Q?EaM/SdQef+spRM58kK3jySPMnLQtGL+Afkcl+7tfwotW6ZEdq7KvEcrYFg?=
+ =?iso-8859-1?Q?gHjNd3RQDYABCUGJiQ7ABTBxiRWma86tqt6ruQoATudaStwpW65LiIxq58?=
+ =?iso-8859-1?Q?cRrvqcYrrcY+uZVL+Kb+B2EXr2+s3xMj8dmRfWHMDFzpy96+q9MUs3BMRv?=
+ =?iso-8859-1?Q?XNk+EN0hYV+pWs9vodq673LSGOhY4AelaJ8UfV+kUDAgLg0qzQOmaJv2/3?=
+ =?iso-8859-1?Q?NEYgnGJ7+0XLySVmBrosM4kQm4ReKYYsjD8wJI34i/ZjauCNBCmXVamz2C?=
+ =?iso-8859-1?Q?B0tHxb6FpYFCEvK3s75NnNN5cr+c1pA33EmFqxuVY69OamPk+XCRYYYWNK?=
+ =?iso-8859-1?Q?M+EgCa6HUnnUm+UQgkXNDyi/Lkv53FR4rz24NSVZUWm3m/6l444GlYQ+IQ?=
+ =?iso-8859-1?Q?fDg0vvIyXA3N/xEVzgkbP7rK+1V2hBWEr+sek6+2ae012QiKUggZJl73eY?=
+ =?iso-8859-1?Q?O1WsyM9BBM/6Tji3/yGbS+yb4XK1k2aa3IvNdr1Uc2EMBQaCM0B/+F76NY?=
+ =?iso-8859-1?Q?+IK8waDcfsXegk0jqfqLh+Ux92EtrHw150xpLqdFiFsMrjcg/jk1TdDZJY?=
+ =?iso-8859-1?Q?036Sx4zLvjmGG1clXDxiIndRx3b9wIhPG00CGcCr2Nqb443qALYc1WY++x?=
+ =?iso-8859-1?Q?zVJ5NEqofe3ZYuAbKpc3CVHjTzrHJn6ywlgo8wSgEZ/LNF6ZZTD1tIkwbk?=
+ =?iso-8859-1?Q?qH9ZqnNz1lia4AGCr7E9fI1LKuhhBzo3MTRi2LKbJ6iN0zsZ0DJUPk4ZYh?=
+ =?iso-8859-1?Q?nWxv3EE/MUJ7bzAbqOnTj+pKrjnpWaBmhtgHguPRIiGcqVrjTh4VFo2Ln+?=
+ =?iso-8859-1?Q?kxPxKTBgCTRfxeXLsQCXKZxqgA7l4kh9xY2y6xn1YoNWUJsXWqKrIACRuN?=
+ =?iso-8859-1?Q?qCtktRo5wfNFvHG1MqlJ46BaVWRpQNBsig4kKwDIMgVyKH/FTNctrfW0f/?=
+ =?iso-8859-1?Q?UzApQPKzFlN1y/4a+GDlHrd6Jzz1NjJXi9UEtPc2pADO60ohedfJCVHrOj?=
+ =?iso-8859-1?Q?nR8gUP1ac6nhZytTsnPBXG?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?g1n6JSnuCJJtRCfO10oTIEPyJMbfMglStxuwRUlIEuZ+dh1HUIE7ElR/SE?=
+ =?iso-8859-1?Q?/hCU7sHz0Z/y3jmIVOmNKGLSGtPLXe7jpXpqgHBAKgjEX7ddy04RgYUBcO?=
+ =?iso-8859-1?Q?CGdfootQ0cPtIkLuabFF/vqu26aCvKGPQV9ThSeHNPHoy0MQ4bjh31tLoY?=
+ =?iso-8859-1?Q?MZ8EcljzvCbPLX67ZzhC9B1MgM9SJAp71nA2xLTkKTK8kzNO6rdA2gzoqW?=
+ =?iso-8859-1?Q?4M9AT6UVlziFjV2Wr8fx93lPADGxIlQ7BKA3p/IsIdQDfBEANC7MxQF73j?=
+ =?iso-8859-1?Q?CHKlOmFlr6533VTUhVjWHTAh70o8pWiZJ9xrRcjHD5lNNRoejk82C53Al9?=
+ =?iso-8859-1?Q?LRU19SnEx59Mdqm9nRV/n4G/hsseC2dhZrireowmbuPpxGJikcrO66Nquz?=
+ =?iso-8859-1?Q?qhK2Rd536uBz/Wk2uuioOpOLi4xSF53+wYSDC1fk+Q6ZMbdRCAhjiRPkB8?=
+ =?iso-8859-1?Q?a1xeol8YqU60aMUZWYX91df7ZXgrzUqvus8UgDzPdyXxhY8c6jxArpmyZ1?=
+ =?iso-8859-1?Q?CYUlmoKXDEWMx6WCxiQ4ekKhfhEtdSCWs9zCRR4YGTUEs3b8bmGrOk+Bry?=
+ =?iso-8859-1?Q?QJqyrq/7TlGJp077md2+O2wV2SLvvAfKNdO2r4R4k7IJxwrGzunOm1Ru5F?=
+ =?iso-8859-1?Q?gC3F7U1yS9/1qUo/puiG+sA0imLJm3j0cw8pMdwXExD5mLlZJ2303roEym?=
+ =?iso-8859-1?Q?B6ebOKLElfHerUah7QUlqKovjvTIEBkuEuuwXmZs9J8+1GhNVxz8i9FSGR?=
+ =?iso-8859-1?Q?+I0QopLTX8d7fI/bIBDhxV+6TdQSqv+c6bOS6QQgLMhfAUrDgWwhKTLSjG?=
+ =?iso-8859-1?Q?FRDBMMgkWgTbZZ+wWUAoVUo2V29TIzdLyz2FbVpcgzSeKbKdaC7OWEdSX1?=
+ =?iso-8859-1?Q?X9cw6NIZZ5aIgqVwKwtf0CWvG+vyGGAV/+5SXQE9MsRgmRrjNZRwPR4gJx?=
+ =?iso-8859-1?Q?6hlDqG6Q+2HKYfbm+c4YlKdtIeV6qPezIRzqy6f3Gz4m83xbI1+a4GQIRe?=
+ =?iso-8859-1?Q?0TmhMJJQirSkc1JnYLoF1gp64kFDdekrFiinoQ9eb4CV94x9ktrxlXQQA3?=
+ =?iso-8859-1?Q?ofLsK0X1Sr5GTM+TJSrQHWbSLqIMsfgd2Ophas36iRu+3Bw9IiOgruf7Pu?=
+ =?iso-8859-1?Q?ScpUCOE494slVVMV5Z+X9/+9gxA5tRw3K6cQk2xKaRyPlZ4sLZp8UXzGcG?=
+ =?iso-8859-1?Q?zf3wGr1IYSaDsd3I1W/uI5tKx1MsNjD2BN8n53SdTGvNUK2kRHm6StlcvR?=
+ =?iso-8859-1?Q?QPU+7W3v9+69WLWMqtCTjH9udy5d4fVj663SNFwmFP7fMlrDoDAD1tLIYP?=
+ =?iso-8859-1?Q?7qU75AIEL0eerrvEci0uCfIiaCUvdDtRTx5+HyVURmbuE9kMEX/f5xsxQs?=
+ =?iso-8859-1?Q?11bx4kn1SIm5wd6U7pzRL6ohyywDKNxMW2KeQ84LXtO6fIyYnFTWCbC9vH?=
+ =?iso-8859-1?Q?CFOqSo8UlACJcNAmybC9JzIVaCXkgyAgCRJd6KiTOdL5iBYWjlKPB4brxV?=
+ =?iso-8859-1?Q?Zj9zQTJgzqT39/o4Q0RX392u+howK4nQM2v9Cw2dPGH2Sz2/3wS1eVz6b9?=
+ =?iso-8859-1?Q?wc4yo+VFmCDRWjHeE1O9foKr5Q63hq7BTN1VUp0Qdf4KFiSU/NYnIUZsaW?=
+ =?iso-8859-1?Q?XnTE5T3ivFiXRHPAjt99nIzANuWJVA/LEqYH9kWH4ZHZXiRGEFUeUT6g?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d312291e-cf31-4c7f-8e18-08de07bc6759
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75e15877-cd22-4e6c-28c6-08de07b5031c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2025 04:25:15.5433 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xSCVcf6suKe0rcP/zbbtszoOd63J/mYduVxiMaYQW3NvbQZU111u+NAe/QQ9C0XoePJrUFxUnrhyPnpCO2GM8ktvDA5vJpAHLNElkZVMiPs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7180
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 05:18:10.5950 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TkW+PNXHSrHVg4gPUZtAl9yuDJ8Chz9j/df9O8fvKFoD53sH9Zo0jh87mhQXA4W+zPrY5f0+6QHYAIcQhlmabThdjZpFfgy6rwqL5PvMFa4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5827
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -189,290 +188,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Mon, Sep 29, 2025 at 04:56:03PM +0300, Ilpo Järvinen wrote:
+>On Mon, 29 Sep 2025, Lucas De Marchi wrote:
+>
+>> Hi,
+>>
+>> On Thu, Sep 18, 2025 at 01:58:57PM -0700, Lucas De Marchi wrote:
+>> > There may be cases in which the BAR0 also needs to move to accommodate
+>> > the bigger BAR2. However if it's not released, the BAR2 resize fails.
+>> > During the vram probe it can't be released as it's already in use by
+>> > xe_mmio for early register access.
+>> >
+>> > Add a new function in xe_vram and let xe_pci call it directly before
+>> > even early device probe. This allows the BAR2 to resize in cases BAR0
+>> > also needs to move:
+>> >
+>> > 	[] xe 0000:03:00.0: vgaarb: deactivate vga console
+>> > 	[] xe 0000:03:00.0: [drm] Attempting to resize bar from 8192MiB ->
+>> > 16384MiB
+>> > 	[] xe 0000:03:00.0: BAR 0 [mem 0x83000000-0x83ffffff 64bit]: releasing
+>> > 	[] xe 0000:03:00.0: BAR 2 [mem 0x4000000000-0x41ffffffff 64bit pref]:
+>> > releasing
+>> > 	[] pcieport 0000:02:01.0: bridge window [mem 0x4000000000-0x41ffffffff
+>> > 64bit pref]: releasing
+>> > 	[] pcieport 0000:01:00.0: bridge window [mem 0x4000000000-0x41ffffffff
+>> > 64bit pref]: releasing
+>> > 	[] pcieport 0000:01:00.0: bridge window [mem 0x4000000000-0x43ffffffff
+>> > 64bit pref]: assigned
+>> > 	[] pcieport 0000:02:01.0: bridge window [mem 0x4000000000-0x43ffffffff
+>> > 64bit pref]: assigned
+>> > 	[] xe 0000:03:00.0: BAR 2 [mem 0x4000000000-0x43ffffffff 64bit pref]:
+>> > assigned
+>> > 	[] xe 0000:03:00.0: BAR 0 [mem 0x83000000-0x83ffffff 64bit]: assigned
+>> > 	[] pcieport 0000:00:01.0: PCI bridge to [bus 01-04]
+>> > 	[] pcieport 0000:00:01.0:   bridge window [mem 0x83000000-0x840fffff]
+>> > 	[] pcieport 0000:00:01.0:   bridge window [mem
+>> > 0x4000000000-0x44007fffff 64bit pref]
+>> > 	[] pcieport 0000:01:00.0: PCI bridge to [bus 02-04]
+>> > 	[] pcieport 0000:01:00.0:   bridge window [mem 0x83000000-0x840fffff]
+>> > 	[] pcieport 0000:01:00.0:   bridge window [mem
+>> > 0x4000000000-0x43ffffffff 64bit pref]
+>> > 	[] pcieport 0000:02:01.0: PCI bridge to [bus 03]
+>> > 	[] pcieport 0000:02:01.0:   bridge window [mem 0x83000000-0x83ffffff]
+>> > 	[] pcieport 0000:02:01.0:   bridge window [mem
+>> > 0x4000000000-0x43ffffffff 64bit pref]
+>> > 	[] xe 0000:03:00.0: [drm] BAR2 resized to 16384M
+>> > 	[] xe 0000:03:00.0: [drm:xe_pci_probe [xe]] BATTLEMAGE  e221:0000
+>> > dgfx:1 gfx:Xe2_HPG (20.02) ...
+>> >
+>> > As shown above, it happens even before we try to read any register for
+>> > platform identification.
+>> >
+>> > All the rebar logic is more pci-specific than xe-specific and can be
+>> > done very early in the probe sequence. In future it would be good to
+>> > move it out of xe_vram.c, but this refactor is left for later.
+>>
+>> Ilpo, can you take a look on this patch? It fixed the issue that I had
+>> with BMG. It needs the first patch for the full fix, but the fixes are
+>> more or less orthogonal.
+>
+>FWIW, it looks okay to me from PCI perspective,
+>
+>Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-> Subject: Re: [PATCH] drm/virtgpu: Use vblank timer
->=20
-> Hi
->=20
-> Am 09.10.25 um 05:23 schrieb Kasireddy, Vivek:
-> > Hi Thomas,
-> >
-> >> Subject: [PATCH] drm/virtgpu: Use vblank timer
-> >>
-> >> Use a vblank timer to simulate the vblank interrupt. The DRM vblank
-> >> helpers provide an implementation on top of Linux' hrtimer. Virtgpu
-> >> enables and disables the timer as part of the CRTC. The atomic_flush
-> >> callback sets up the event. Like vblank interrupts, the vblank timer
-> >> fires at the rate of the display refresh.
-> >>
-> >> Most userspace limits its page flip rate according to the DRM vblank
-> >> event. Virtgpu's virtual hardware does not provide vblank interrupts, =
-so
-> >> DRM sends each event ASAP. With the fast access times of virtual displ=
-ay
-> >> memory, the event rate is much higher than the display mode's refresh
-> >> rate; creating the next page flip almost immediately. This leads to
-> >> excessive CPU overhead from even small display updates, such as moving
-> >> the mouse pointer.
-> >>
-> >> This problem affects virtgpu and all other virtual displays. See [1] f=
-or
-> >> a discussion in the context of hypervdrm.
-> > When running Virtio-gpu with some of the UIs (gtk, spice, etc) in Qemu,
-> the
->=20
-> We still need a solution for the other UIs, including the kernel's fbcon
-> output.
->=20
-> > Guest display updates are synchronized with a timer (or repaint callbac=
-k
-> in
-> > the case of Gtk) the UI layer provides particularly when blob=3Dtrue. I=
-n other
-> > words, the Guest's atomic commit does not complete until the Host
-> signals
-> > (via a fence) that the update (or flush) is done.
->=20
-> I know little about virtgpu's hypervisor interfaces. Let's see if I get
-> the full picture.
->=20
-> It's the fences list that's being processed at [1], right? This fence
-> signals the completion of the display update. The plane update sends out
-> a command to the host and then waits for the ack at [2]. The ack happend
-> at [3], which calls into [1]. At [4] the guest are available again to be
-> released. How long the display update takes is up to the host and the
-> guest's scheduler.
-When the Guest submits a display update, it is made to wait (but only when
-blob=3Dtrue) here:
-https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/virtio/virt=
-gpu_plane.c#L222
+I'm pushing this to drm-xe-next. The first one may go through pci or drm
+tree when it's reviewed.
 
-So, in this case, the time it takes for the Guest's update to finish is mos=
-tly
-dependent on the Host's UI update submission.
+Merged to drm-xe-next, thanks!
 
->=20
-> That's definitely something different than the vblank, as vblanks happen
-> at fixed intervals.
-The Qemu UI timer also runs at regular fixed intervals, so the Guest update=
-s
-would run at 30 or 60 FPS based on the timer frequency. And, in the case of
-Gtk, the repaint callback is indirectly tied to the Host's Vblank, and it a=
-lso
-occurs at regular intervals when there are pending updates.
+[2/2] drm/xe: Move rebar to be done earlier
+       commit: 45e33f220fd625492c11e15733d8e9b4f9db82a4
 
->=20
-> [1]
-> https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/virtio/vi=
-rtg
-> pu_fence.c#L120
-> [2]
-> https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/virtio/vi=
-rtg
-> pu_vq.c#L397
-> [3]
-> https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/virtio/vi=
-rtg
-> pu_vq.c#L56
-> [4]
-> https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/virtio/vi=
-rtg
-> pu_vq.c#L265
->=20
->=20
-> >
-> > This is because when blob=3Dtrue, the Guest's FB is accessed by the Hos=
-t
-> without
-> > making any copies. So, to avoid tearing, the Guest needs to be prevente=
-d
-> from
-> > accessing its FB until the Host is done. Therefore, I think for virtio-=
-gpu, the
-> virtual
-> > vblank timer can only be helpful when blob=3Dfalse as this is the only =
-case
-> where
-> > Guest's display updates are unbounded (and Host makes a copy of the
-> Guest's FB).
->=20
-> Because virtgpu did not initialize vblanking, DRM always sent out a
-> vblank event after the completed commit. [5] It's not synchronized to
-> the display output. This means that virtgpu has always been subject to
-> tearing and the guest always required to hold buffers until the host
-> completed its display update. IOW adding vblank timers into the mix
-> should not change the behavior of virtgpu. It just limits the output
-As I mentioned, the output or display update frequency is already limited
-when blob=3Dtrue, so adding a vblank timer would be redundant in this case.
-Note that blob=3Dtrue is a performance optimization where we create a
-dmabuf (on the Host) backed by Guest FB's memory that is shared with the
-UI layer. And, AFAIK, the only case where virtio-gpu updates are not limite=
-d
-is when blob=3Dfalse. Even in this case, there would be no tearing issues s=
-een
-because the Guest is made to wait until the Host makes a copy of its FB.
-
-> frequency. If GNOME's pageflip is synchronized to the vblank, it should
-> immediately benefit.
->=20
-> The GTK repaint callback is an interface for applications. How does it
-> affect, or is affected by, any of this?
-So, virtio-gpu is almost always coupled with a UI (on the Host) in order
-to display the Guest's desktop content (fbcon and compositor's FB data)
-on the Host locally (Gtk, SDL, etc) or streamed to a remote system (Spice,
-Vnc, etc). And, the rate at which the UI updates are submitted (to the
-Host compositor for local UIs) is controlled by the UI timer.=20
-=20
-However, in the case of Qemu Gtk UI, the UI timer is used as a backup
-as we mostly rely on the repaint callback to figure out when to submit
-updates. This is because the repaint callback is a more reliable mechanism
-to determine when it is appropriate to submit an update to the Host
-compositor.
-
-And, until the UI's update is not submitted (and executed by the Host
-GPU and signaled via an EGL fence), the Guest's update fence is not
-signaled. We can reliably achieve 60 FPS this way (assuming the Host's
-refresh rate is 60) for Guest's display updates.
-
-Thanks,
-Vivek
-
->=20
-> [5]
-> https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/drm_atomi
-> c_helper.c#L2606
->=20
-> Best regards
-> Thomas
->=20
-> >
-> > I am not sure how this would affect virgl use-cases but Dmitry can help
-> explain if
-> > the vblank timer would be useful there or not.
-> >
-> > Thanks,
-> > Vivek
-> >
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Link: https://lore.kernel.org/dri-
-> >>
-> devel/SN6PR02MB415702B00D6D52B0EE962C98D46CA@SN6PR02MB4157.n
-> >> amprd02.prod.outlook.com/ # [1]
-> >> ---
-> >>   drivers/gpu/drm/virtio/virtgpu_display.c | 29
-> ++++++++++++++++++++++--
-> >>   1 file changed, 27 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c
-> >> b/drivers/gpu/drm/virtio/virtgpu_display.c
-> >> index c3315935d8bc..ee134e46eeba 100644
-> >> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
-> >> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-> >> @@ -32,6 +32,8 @@
-> >>   #include <drm/drm_gem_framebuffer_helper.h>
-> >>   #include <drm/drm_probe_helper.h>
-> >>   #include <drm/drm_simple_kms_helper.h>
-> >> +#include <drm/drm_vblank.h>
-> >> +#include <drm/drm_vblank_helper.h>
-> >>
-> >>   #include "virtgpu_drv.h"
-> >>
-> >> @@ -55,6 +57,7 @@ static const struct drm_crtc_funcs
-> virtio_gpu_crtc_funcs
-> >> =3D {
-> >>   	.reset                  =3D drm_atomic_helper_crtc_reset,
-> >>   	.atomic_duplicate_state =3D drm_atomic_helper_crtc_duplicate_state,
-> >>   	.atomic_destroy_state   =3D drm_atomic_helper_crtc_destroy_state,
-> >> +	DRM_CRTC_VBLANK_TIMER_FUNCS,
-> >>   };
-> >>
-> >>   static const struct drm_framebuffer_funcs virtio_gpu_fb_funcs =3D {
-> >> @@ -99,6 +102,7 @@ static void virtio_gpu_crtc_mode_set_nofb(struct
-> >> drm_crtc *crtc)
-> >>   static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
-> >>   					  struct drm_atomic_state *state)
-> >>   {
-> >> +	drm_crtc_vblank_on(crtc);
-> >>   }
-> >>
-> >>   static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
-> >> @@ -108,6 +112,8 @@ static void virtio_gpu_crtc_atomic_disable(struct
-> >> drm_crtc *crtc,
-> >>   	struct virtio_gpu_device *vgdev =3D dev->dev_private;
-> >>   	struct virtio_gpu_output *output =3D
-> >> drm_crtc_to_virtio_gpu_output(crtc);
-> >>
-> >> +	drm_crtc_vblank_off(crtc);
-> >> +
-> >>   	virtio_gpu_cmd_set_scanout(vgdev, output->index, 0, 0, 0, 0, 0);
-> >>   	virtio_gpu_notify(vgdev);
-> >>   }
-> >> @@ -121,9 +127,10 @@ static int virtio_gpu_crtc_atomic_check(struct
-> >> drm_crtc *crtc,
-> >>   static void virtio_gpu_crtc_atomic_flush(struct drm_crtc *crtc,
-> >>   					 struct drm_atomic_state *state)
-> >>   {
-> >> -	struct drm_crtc_state *crtc_state =3D
-> >> drm_atomic_get_new_crtc_state(state,
-> >> -									  crtc);
-> >> +	struct drm_device *dev =3D crtc->dev;
-> >> +	struct drm_crtc_state *crtc_state =3D
-> >> drm_atomic_get_new_crtc_state(state, crtc);
-> >>   	struct virtio_gpu_output *output =3D
-> >> drm_crtc_to_virtio_gpu_output(crtc);
-> >> +	struct drm_pending_vblank_event *event;
-> >>
-> >>   	/*
-> >>   	 * virtio-gpu can't do modeset and plane update operations
-> >> @@ -133,6 +140,20 @@ static void virtio_gpu_crtc_atomic_flush(struct
-> >> drm_crtc *crtc,
-> >>   	 */
-> >>   	if (drm_atomic_crtc_needs_modeset(crtc_state))
-> >>   		output->needs_modeset =3D true;
-> >> +
-> >> +	spin_lock_irq(&dev->event_lock);
-> >> +
-> >> +	event =3D crtc_state->event;
-> >> +	crtc_state->event =3D NULL;
-> >> +
-> >> +	if (event) {
-> >> +		if (drm_crtc_vblank_get(crtc) =3D=3D 0)
-> >> +			drm_crtc_arm_vblank_event(crtc, event);
-> >> +		else
-> >> +			drm_crtc_send_vblank_event(crtc, event);
-> >> +	}
-> >> +
-> >> +	spin_unlock_irq(&dev->event_lock);
-> >>   }
-> >>
-> >>   static const struct drm_crtc_helper_funcs virtio_gpu_crtc_helper_fun=
-cs
-> =3D {
-> >> @@ -356,6 +377,10 @@ int virtio_gpu_modeset_init(struct
-> virtio_gpu_device
-> >> *vgdev)
-> >>   	for (i =3D 0 ; i < vgdev->num_scanouts; ++i)
-> >>   		vgdev_output_init(vgdev, i);
-> >>
-> >> +	ret =3D drm_vblank_init(vgdev->ddev, vgdev->num_scanouts);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >>   	drm_mode_config_reset(vgdev->ddev);
-> >>   	return 0;
-> >>   }
-> >> --
-> >> 2.51.0
-> >>
->=20
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->=20
-
+thanks
+Lucas De Marchi
