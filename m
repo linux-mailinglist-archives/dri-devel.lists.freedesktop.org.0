@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0389BCDB73
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AB4BCDB91
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7444610EC48;
-	Fri, 10 Oct 2025 15:08:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E799C10EC4B;
+	Fri, 10 Oct 2025 15:10:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VQbIct5G";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k5IVefFh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BD110EC48
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760108913;
- bh=7ayOEb/6QjakoXaje73y7gqyfsylx4Z/vrfyLGORarU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VQbIct5GHgbE4ijxW/+44tJBcHCf3lpRhqm52LBt2fu1LK0bZWn3WmayEmY8XUBZm
- f9Y/xK+iGFTtVB1euHtNDh8ksXNxR04iTxqv9Lz9RaWIJsGexxRsASOtAhAj8f6LVo
- nVWAAElX56hU/iwhMWTVletFSOoVL7vNIMy7Kfl58Y6Rs/oGrZYXPwWw/HtllLTkgx
- V7ciDfyx0cG28zheru9n3E8PMfO7cLESJcyEM7OL9Xi5SFwzMCIfz2BIuQuFS+Ltyo
- Nh3cucbSj7CFJD1arQICbacXnp+dDrG4hZllnUrwxpdato79Tl7TiyJ15zS9ghZG+E
- dwCbZxLHVOvJQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EDD8717E0CF8;
- Fri, 10 Oct 2025 17:08:32 +0200 (CEST)
-Date: Fri, 10 Oct 2025 17:08:27 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
- <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: Re: [PATCH v2 04/13] drm/panthor: Expose the selected coherency
- protocol to the UMD
-Message-ID: <20251010170827.37b750aa@fedora>
-In-Reply-To: <9664ba34-c02e-446a-bfc7-5b7f32a60833@arm.com>
-References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
- <20251010101147.3290604-5-boris.brezillon@collabora.com>
- <9664ba34-c02e-446a-bfc7-5b7f32a60833@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1448110EC4B;
+ Fri, 10 Oct 2025 15:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760109054; x=1791645054;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=3bq+lll4selOwzI1mzp5ZL0CdqpCdCpTxCSOWeZ+iEU=;
+ b=k5IVefFhDljtKUomTgMS8VuHmYHKNhT6Ud+wZvyeNlJiiwudDtuE8LeQ
+ PGmV0J4B6sUlU4Gwqp0QoRQBy2IYXa+zJC21cnbeRlUXpxebvipdqmq5s
+ ilg25cJ21ue0EE70GpDpWMA6qMKpGkfPRSpscRwyCVkDdgP+DbOl74Zpj
+ nB/nV3YqEXzV2uaijpo8ksiUdzGx5DVR8UGJ+r+uHlHqXe3BEB3swJUgs
+ bW/oi11dHHk7O8BB8Sb2F/tDrVzsT0r0/dq5aoUnfRy6wy6paey5QP0nK
+ mYSG4gLbjXRQsNUNOG/PIh+UpXUJj/eeF1eKd3ysvJe0YEzXxQOXmqmBQ Q==;
+X-CSE-ConnectionGUID: mK7jiFAiTp6hHygGJJnXlw==
+X-CSE-MsgGUID: A0IAWMr4RY2wyIQiGAWhLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="61538623"
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; d="scan'208";a="61538623"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2025 08:10:53 -0700
+X-CSE-ConnectionGUID: 8AIej7TsQ7a7dKDVguZulg==
+X-CSE-MsgGUID: XkdFaoXqRjKmjW8GIcRLPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; d="scan'208";a="181425613"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 10 Oct 2025 08:10:52 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v7Eld-0002t1-1w;
+ Fri, 10 Oct 2025 15:10:49 +0000
+Date: Fri, 10 Oct 2025 23:10:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH v3 2/5] drm/ttm: Replace multiple booleans with flags in
+ pool init
+Message-ID: <202510102220.inEYOJoK-lkp@intel.com>
+References: <20251008115314.55438-3-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251008115314.55438-3-tvrtko.ursulin@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,111 +75,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Oct 2025 15:22:50 +0100
-Steven Price <steven.price@arm.com> wrote:
+Hi Tvrtko,
 
-> On 10/10/2025 11:11, Boris Brezillon wrote:
-> > If we want to be able to skip CPU cache maintenance operations on
-> > CPU-cached mappings, the UMD needs to know the kind of coherency
-> > in place. Add a field to drm_panthor_gpu_info to do that. We can re-use
-> > a padding field for that since this object is write-only from the
-> > KMD perspective, and the UMD should just ignore it.
-> > 
-> > v2:
-> > - New commit
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_device.c |  6 +++-
-> >  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
-> >  include/uapi/drm/panthor_drm.h           | 39 ++++++++++++++++++++++--
-> >  3 files changed, 42 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> > index c7033d82cef5..afe24a03a71c 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> > @@ -25,6 +25,8 @@
-> >  
-> >  static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
-> >  {
-> > +	/* Start with no coherency, and update it if the device is flagged coherent. */
-> > +	ptdev->gpu_info.selected_coherency = GPU_COHERENCY_NONE;
-> >  	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
-> >  
-> >  	if (!ptdev->coherent)
-> > @@ -34,8 +36,10 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
-> >  	 * ACE protocol has never been supported for command stream frontend GPUs.
-> >  	 */
-> >  	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> > -		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-> > +		      GPU_COHERENCY_PROT_BIT(ACE_LITE))) {
-> > +		ptdev->gpu_info.selected_coherency = GPU_COHERENCY_PROT_BIT(ACE_LITE);
-> >  		return 0;
-> > +	}
-> >  
-> >  	drm_err(&ptdev->base, "Coherency not supported by the device");
-> >  	return -ENOTSUPP;
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> > index 9d98720ce03f..a95c0b94ef58 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> > @@ -49,7 +49,7 @@ struct panthor_gpu {
-> >  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
-> >  {
-> >  	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> > -		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
-> > +		  ptdev->gpu_info.selected_coherency);  
-> 
-> It looks like an existing bug, but GPU_COHERENCY_PROTOCOL doesn't take a
-> bit mask. So we should be just writing GPU_COHERENCY_ACE_LITE not
-> GPU_COHERENCY_PROT_BIT(ACE_LITE).
+kernel test robot noticed the following build errors:
 
-Oops. Should I prepare a fix, or does someone at Arm intend to send a
-fix for this one?
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-xe/drm-xe-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.17 next-20251009]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> >  }
-> >  
-> >  static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
-> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> > index 467d365ed7ba..b9e483ff5e21 100644
-> > --- a/include/uapi/drm/panthor_drm.h
-> > +++ b/include/uapi/drm/panthor_drm.h
-> > @@ -245,6 +245,26 @@ enum drm_panthor_dev_query_type {
-> >  	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
-> >  };
-> >  
-> > +/**
-> > + * enum drm_panthor_gpu_coherency: Type of GPU coherency
-> > + */
-> > +enum drm_panthor_gpu_coherency {
-> > +	/**
-> > +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE Lite coherency.
-> > +	 */
-> > +	DRM_PANTHOR_GPU_COHERENCY_ACE_LITE = 1 << 0,
-> > +
-> > +	/**
-> > +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE coherency.  
-> 
-> Copy/paste mistake                       ^^^^^
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-ttm-Add-getter-for-some-pool-properties/20251010-052711
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20251008115314.55438-3-tvrtko.ursulin%40igalia.com
+patch subject: [PATCH v3 2/5] drm/ttm: Replace multiple booleans with flags in pool init
+config: sh-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510102220.inEYOJoK-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510102220.inEYOJoK-lkp@intel.com/reproduce)
 
-Will fix.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510102220.inEYOJoK-lkp@intel.com/
 
-> 
-> > +	 */
-> > +	DRM_PANTHOR_GPU_COHERENCY_ACE = 1 << 1,
-> > +
-> > +	/**
-> > +	 * @DRM_PANTHOR_GPU_COHERENCY_NONE: No coherency.
-> > +	 */
-> > +	DRM_PANTHOR_GPU_COHERENCY_NONE = 31,
-> > +};  
-> 
-> This is a mix of bit mask and non-bit mask. I'm assuming this was
-> intended for the newly added selected_coherency field, in which case it
-> shouldn't be shifting - the values are 0 and 1 for ace_lite and ace.
+All errors (new ones prefixed by >>):
 
-Yeah, I think I went back and forth on this, and just picked the worst
-option in the end. I'll make it a real enum with the mapping you
-suggested.
+   drivers/gpu/drm/ttm/tests/ttm_pool_test.c: In function 'ttm_pool_alloc_basic':
+>> drivers/gpu/drm/ttm/tests/ttm_pool_test.c:167:21: error: implicit declaration of function 'ttm_pool_uses_dma_alloc'; did you mean 'ttm_pool_restore_and_alloc'? [-Wimplicit-function-declaration]
+     167 |                 if (ttm_pool_uses_dma_alloc(pool)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+         |                     ttm_pool_restore_and_alloc
+--
+   drivers/gpu/drm/ttm/tests/ttm_device_test.c: In function 'ttm_device_init_pools':
+>> drivers/gpu/drm/ttm/tests/ttm_device_test.c:177:37: error: implicit declaration of function 'ttm_pool_uses_dma_alloc'; did you mean 'ttm_pool_restore_and_alloc'? [-Wimplicit-function-declaration]
+     177 |                                 if (ttm_pool_uses_dma_alloc(pool))
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                     ttm_pool_restore_and_alloc
+
+
+vim +167 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
+
+   130	
+   131	KUNIT_ARRAY_PARAM(ttm_pool_alloc_basic, ttm_pool_basic_cases,
+   132			  ttm_pool_alloc_case_desc);
+   133	
+   134	static void ttm_pool_alloc_basic(struct kunit *test)
+   135	{
+   136		struct ttm_pool_test_priv *priv = test->priv;
+   137		struct ttm_test_devices *devs = priv->devs;
+   138		const struct ttm_pool_test_case *params = test->param_value;
+   139		struct ttm_tt *tt;
+   140		struct ttm_pool *pool;
+   141		struct page *fst_page, *last_page;
+   142		enum ttm_caching caching = ttm_uncached;
+   143		unsigned int expected_num_pages = 1 << params->order;
+   144		size_t size = expected_num_pages * PAGE_SIZE;
+   145		int err;
+   146	
+   147		tt = ttm_tt_kunit_init(test, 0, caching, size);
+   148		KUNIT_ASSERT_NOT_NULL(test, tt);
+   149	
+   150		pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
+   151		KUNIT_ASSERT_NOT_NULL(test, pool);
+   152	
+   153		ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, params->flags);
+   154	
+   155		KUNIT_ASSERT_PTR_EQ(test, pool->dev, devs->dev);
+   156		KUNIT_ASSERT_EQ(test, pool->nid, NUMA_NO_NODE);
+   157		KUNIT_ASSERT_EQ(test, pool->flags, params->flags);
+   158	
+   159		err = ttm_pool_alloc(pool, tt, &simple_ctx);
+   160		KUNIT_ASSERT_EQ(test, err, 0);
+   161		KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
+   162	
+   163		fst_page = tt->pages[0];
+   164		last_page = tt->pages[tt->num_pages - 1];
+   165	
+   166		if (params->order <= MAX_PAGE_ORDER) {
+ > 167			if (ttm_pool_uses_dma_alloc(pool)) {
+   168				KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
+   169				KUNIT_ASSERT_NOT_NULL(test, (void *)last_page->private);
+   170			} else {
+   171				KUNIT_ASSERT_EQ(test, fst_page->private, params->order);
+   172			}
+   173		} else {
+   174			if (ttm_pool_uses_dma_alloc(pool)) {
+   175				KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
+   176				KUNIT_ASSERT_NULL(test, (void *)last_page->private);
+   177			} else {
+   178				/*
+   179				 * We expect to alloc one big block, followed by
+   180				 * order 0 blocks
+   181				 */
+   182				KUNIT_ASSERT_EQ(test, fst_page->private,
+   183						min_t(unsigned int, MAX_PAGE_ORDER,
+   184						      params->order));
+   185				KUNIT_ASSERT_EQ(test, last_page->private, 0);
+   186			}
+   187		}
+   188	
+   189		ttm_pool_free(pool, tt);
+   190		ttm_tt_fini(tt);
+   191		ttm_pool_fini(pool);
+   192	}
+   193	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
