@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AB4BCDB91
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468C9BCDBBB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 17:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E799C10EC4B;
-	Fri, 10 Oct 2025 15:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A384910EC45;
+	Fri, 10 Oct 2025 15:12:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k5IVefFh";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WArYYeRp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1448110EC4B;
- Fri, 10 Oct 2025 15:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760109054; x=1791645054;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3bq+lll4selOwzI1mzp5ZL0CdqpCdCpTxCSOWeZ+iEU=;
- b=k5IVefFhDljtKUomTgMS8VuHmYHKNhT6Ud+wZvyeNlJiiwudDtuE8LeQ
- PGmV0J4B6sUlU4Gwqp0QoRQBy2IYXa+zJC21cnbeRlUXpxebvipdqmq5s
- ilg25cJ21ue0EE70GpDpWMA6qMKpGkfPRSpscRwyCVkDdgP+DbOl74Zpj
- nB/nV3YqEXzV2uaijpo8ksiUdzGx5DVR8UGJ+r+uHlHqXe3BEB3swJUgs
- bW/oi11dHHk7O8BB8Sb2F/tDrVzsT0r0/dq5aoUnfRy6wy6paey5QP0nK
- mYSG4gLbjXRQsNUNOG/PIh+UpXUJj/eeF1eKd3ysvJe0YEzXxQOXmqmBQ Q==;
-X-CSE-ConnectionGUID: mK7jiFAiTp6hHygGJJnXlw==
-X-CSE-MsgGUID: A0IAWMr4RY2wyIQiGAWhLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="61538623"
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; d="scan'208";a="61538623"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2025 08:10:53 -0700
-X-CSE-ConnectionGUID: 8AIej7TsQ7a7dKDVguZulg==
-X-CSE-MsgGUID: XkdFaoXqRjKmjW8GIcRLPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; d="scan'208";a="181425613"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
- by fmviesa009.fm.intel.com with ESMTP; 10 Oct 2025 08:10:52 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1v7Eld-0002t1-1w;
- Fri, 10 Oct 2025 15:10:49 +0000
-Date: Fri, 10 Oct 2025 23:10:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v3 2/5] drm/ttm: Replace multiple booleans with flags in
- pool init
-Message-ID: <202510102220.inEYOJoK-lkp@intel.com>
-References: <20251008115314.55438-3-tvrtko.ursulin@igalia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2578110EC45
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 15:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760109132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qHCdZi6C7ELhvkHmBE99ONw5f0wTBtemnyHf1SDAuNY=;
+ b=WArYYeRpONYKxlsi3oc/h0RB9tdATlCzaD5Vm9iXtdo7ZM42xWGVZD+g22XEbIk+4yn9xm
+ KqEBO34sNcGFYzohIbjTa/TQyvAC3cqIfd6SXf+mxPG9/q4qWxtaZEAj71pT8nCnZwryWR
+ cnEi1+M2ZH+2MQAdAuHooB9zNrDMXnU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-266-5gxgZ7HqORGcbXAp1Yrqxg-1; Fri,
+ 10 Oct 2025 11:12:07 -0400
+X-MC-Unique: 5gxgZ7HqORGcbXAp1Yrqxg-1
+X-Mimecast-MFC-AGG-ID: 5gxgZ7HqORGcbXAp1Yrqxg_1760109125
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id B964918005BF; Fri, 10 Oct 2025 15:12:03 +0000 (UTC)
+Received: from [10.45.224.32] (unknown [10.45.224.32])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E0D821955F42; Fri, 10 Oct 2025 15:11:56 +0000 (UTC)
+Date: Fri, 10 Oct 2025 17:11:49 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+cc: Helge Deller <deller@gmx.de>, sukrut heroorkar <hsukrut3@gmail.com>, 
+ David Hunter <david.hunter.linux@gmail.com>, 
+ kernel test robot <lkp@intel.com>, Bernie Thompson <bernie@plugable.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ Zsolt Kajtar <soci@c64.rulez.org>, 
+ Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>, 
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
+In-Reply-To: <6b1f8366-7ec8-4c1f-9563-29e06a8060e2@suse.de>
+Message-ID: <b8472f68-982b-c00b-55cc-547c72bef34c@redhat.com>
+References: <20250924175743.6790-1-hsukrut3@gmail.com>
+ <202509272320.3K8kdDCw-lkp@intel.com>
+ <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com>
+ <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com>
+ <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
+ <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de>
+ <CAHCkknrAKGxzAYE-R3QX20W4faR9Wfjgn37peyHRJcZ6PRLENA@mail.gmail.com>
+ <c1d86274-44e2-4ceb-b887-5c4af45d8b37@gmx.de>
+ <6b1f8366-7ec8-4c1f-9563-29e06a8060e2@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251008115314.55438-3-tvrtko.ursulin@igalia.com>
+Content-Type: multipart/mixed;
+ BOUNDARY="-1463811712-636264779-1760108298=:3315052"
+Content-ID: <b28657e4-9db0-51fc-5872-290b4927a66a@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,111 +87,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-xe/drm-xe-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.17 next-20251009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-ttm-Add-getter-for-some-pool-properties/20251010-052711
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20251008115314.55438-3-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH v3 2/5] drm/ttm: Replace multiple booleans with flags in pool init
-config: sh-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510102220.inEYOJoK-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510102220.inEYOJoK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510102220.inEYOJoK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/ttm/tests/ttm_pool_test.c: In function 'ttm_pool_alloc_basic':
->> drivers/gpu/drm/ttm/tests/ttm_pool_test.c:167:21: error: implicit declaration of function 'ttm_pool_uses_dma_alloc'; did you mean 'ttm_pool_restore_and_alloc'? [-Wimplicit-function-declaration]
-     167 |                 if (ttm_pool_uses_dma_alloc(pool)) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-         |                     ttm_pool_restore_and_alloc
---
-   drivers/gpu/drm/ttm/tests/ttm_device_test.c: In function 'ttm_device_init_pools':
->> drivers/gpu/drm/ttm/tests/ttm_device_test.c:177:37: error: implicit declaration of function 'ttm_pool_uses_dma_alloc'; did you mean 'ttm_pool_restore_and_alloc'? [-Wimplicit-function-declaration]
-     177 |                                 if (ttm_pool_uses_dma_alloc(pool))
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                     ttm_pool_restore_and_alloc
+---1463811712-636264779-1760108298=:3315052
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: 8BIT
+Content-ID: <77da2ba4-763b-3169-d87c-f655b00b6162@redhat.com>
 
 
-vim +167 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
 
-   130	
-   131	KUNIT_ARRAY_PARAM(ttm_pool_alloc_basic, ttm_pool_basic_cases,
-   132			  ttm_pool_alloc_case_desc);
-   133	
-   134	static void ttm_pool_alloc_basic(struct kunit *test)
-   135	{
-   136		struct ttm_pool_test_priv *priv = test->priv;
-   137		struct ttm_test_devices *devs = priv->devs;
-   138		const struct ttm_pool_test_case *params = test->param_value;
-   139		struct ttm_tt *tt;
-   140		struct ttm_pool *pool;
-   141		struct page *fst_page, *last_page;
-   142		enum ttm_caching caching = ttm_uncached;
-   143		unsigned int expected_num_pages = 1 << params->order;
-   144		size_t size = expected_num_pages * PAGE_SIZE;
-   145		int err;
-   146	
-   147		tt = ttm_tt_kunit_init(test, 0, caching, size);
-   148		KUNIT_ASSERT_NOT_NULL(test, tt);
-   149	
-   150		pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-   151		KUNIT_ASSERT_NOT_NULL(test, pool);
-   152	
-   153		ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, params->flags);
-   154	
-   155		KUNIT_ASSERT_PTR_EQ(test, pool->dev, devs->dev);
-   156		KUNIT_ASSERT_EQ(test, pool->nid, NUMA_NO_NODE);
-   157		KUNIT_ASSERT_EQ(test, pool->flags, params->flags);
-   158	
-   159		err = ttm_pool_alloc(pool, tt, &simple_ctx);
-   160		KUNIT_ASSERT_EQ(test, err, 0);
-   161		KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
-   162	
-   163		fst_page = tt->pages[0];
-   164		last_page = tt->pages[tt->num_pages - 1];
-   165	
-   166		if (params->order <= MAX_PAGE_ORDER) {
- > 167			if (ttm_pool_uses_dma_alloc(pool)) {
-   168				KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-   169				KUNIT_ASSERT_NOT_NULL(test, (void *)last_page->private);
-   170			} else {
-   171				KUNIT_ASSERT_EQ(test, fst_page->private, params->order);
-   172			}
-   173		} else {
-   174			if (ttm_pool_uses_dma_alloc(pool)) {
-   175				KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-   176				KUNIT_ASSERT_NULL(test, (void *)last_page->private);
-   177			} else {
-   178				/*
-   179				 * We expect to alloc one big block, followed by
-   180				 * order 0 blocks
-   181				 */
-   182				KUNIT_ASSERT_EQ(test, fst_page->private,
-   183						min_t(unsigned int, MAX_PAGE_ORDER,
-   184						      params->order));
-   185				KUNIT_ASSERT_EQ(test, last_page->private, 0);
-   186			}
-   187		}
-   188	
-   189		ttm_pool_free(pool, tt);
-   190		ttm_tt_fini(tt);
-   191		ttm_pool_fini(pool);
-   192	}
-   193	
+On Tue, 7 Oct 2025, Thomas Zimmermann wrote:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Hi
+> 
+> Am 03.10.25 um 21:50 schrieb Helge Deller:
+> > On 10/3/25 20:43, sukrut heroorkar wrote:
+> > > On Thu, Oct 2, 2025 at 8:52 AM Thomas Zimmermann <tzimmermann@suse.de>
+> > > wrote:
+> > > > Am 02.10.25 um 08:41 schrieb Helge Deller:
+> > > > > > > > kernel test robot noticed the following build errors:
+> > > > > > > 
+> > > > > > > Did you compile and test this code before submitting this patch?
+> > > > > > 
+> > > > > > Yes, I had compiled & loaded the udlfb module with no errors. Please
+> > > > > > let me know how to proceed in this case.
+> > > > > 
+> > > > > Look at the reported build error, which seems to happen in dev_dbg().
+> > > > > So, maybe in your testing you did not have debugging enabled?
+> > > > > The report contains the .config file with which you can test.
+> > > > 
+> > > > Can we rather make an effort to remove the udlfb driver entirely? A few
+> > > > years back, there was one user who was still using it because of some
+> > > > problems with the DRM udl driver. But I think we've addressed them. The
+> > > > discussion is at [1].
+
+It was me - and I am still using it on an ARM64 MacchiatoBIN board because 
+the board doesn't have graphics output.
+
+The problems with the UDL DRM driver were:
+
+* crashes with full-screen framebuffer applications, such as "links2 -g", 
+"fbi" or "fbgs". On UDLFB, there are no crashes.
+
+* worse performance - the UDL DRM driver updates everything in a given 
+rectangle, while the UDLFB driver keeps back-buffer and front-buffer and 
+updates only differences between them.
+
+* crash when you unplug the card while Xorg was running (already fixed)
+
+Mikulas
+---1463811712-636264779-1760108298=:3315052--
+
