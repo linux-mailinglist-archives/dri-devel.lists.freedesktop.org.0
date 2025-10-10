@@ -2,82 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71002BCBF89
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 09:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67539BCC110
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Oct 2025 10:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE9AF10E280;
-	Fri, 10 Oct 2025 07:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4142610EB61;
+	Fri, 10 Oct 2025 08:05:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VTpLJMRl";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wR+6BkHk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8JWRKwNE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wTsn/O0v";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W1WJpnCL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47D0710E280;
- Fri, 10 Oct 2025 07:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760082552; x=1791618552;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=WITPA9UX0mo7jnNcZhH/peun2UL7jtO3QDe+jYYMhxE=;
- b=VTpLJMRlpF4a+Mgo057Kf0YeQocPbKz5l+cg+gUBRj50xFmXrom1UfC1
- BFwV9dWkRrz8cWtYfGQar+pmBS05Fn4sXc+2cmzDMuLa63xg7aa99Zjhg
- Vkn3qQPivmEPSe9GFCcESlQYdGr1q70ELuMQLLNYz+EfmXQuFEnBQBcL/
- Yw5QnzuYEPFG0Cs+/L63hKDB4Z/E9JleS1oFmR7PmzC6yH1TTD7SgjJSf
- 1zSJ1wiZT3Rxi1k0F2ENNc/cjIk7TY4CtfqWdtPnJzSdU31vnTvpCQ2it
- 47L1bBht03A1BAlsBIjGWozYYM/J97Q62A1PF9HsIya9mS/UDUMRH5D8/ g==;
-X-CSE-ConnectionGUID: D5iKfcGUQEenjN9d2cLcUQ==
-X-CSE-MsgGUID: J9X3qpnmTXmyEA9bbmJSHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="64921809"
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; d="scan'208";a="64921809"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2025 00:49:12 -0700
-X-CSE-ConnectionGUID: mXA4EAEiTXqigEW2vYLEcw==
-X-CSE-MsgGUID: PgyogO0/TP2+AFnJYA+RAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; d="scan'208";a="185304299"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 10 Oct 2025 00:49:05 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1v77s6-0002Ql-34;
- Fri, 10 Oct 2025 07:49:02 +0000
-Date: Fri, 10 Oct 2025 15:48:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Christopher Healy <healych@amazon.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v3 02/10] drm/gem: Introduce drm_gem_get_unmapped_area()
- fop
-Message-ID: <202510101507.UiRzhiAP-lkp@intel.com>
-References: <20251004093054.21388-3-loic.molinari@collabora.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C2510EB61
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Oct 2025 08:05:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C456322256;
+ Fri, 10 Oct 2025 08:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760083527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IS1STlROBFliAHGj9qR2lNNKpklIWgOwVN9GrvrG0QY=;
+ b=wR+6BkHkl9X3fFW3x0I8lJ3gzvztYlQJTp2bI1rk/9PvwgBGBaLu0ymSyAMtmQW06ybjoH
+ 0iXorxF1309eDVfs0aiZSvzSQniuBA170WJtL43KsKj+GYKwAFo76jnTd1Ij+Gsqs60roR
+ rS9RCVl1oq6Uy5QhxNCgjZ7eTCi8HMQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760083527;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IS1STlROBFliAHGj9qR2lNNKpklIWgOwVN9GrvrG0QY=;
+ b=8JWRKwNE3wYStH7yh4SqRVy2MKnAHsmf2px2asLkqXmr7vX00lbWX0bJ2pQ2DXAv7VkQ6V
+ Nfe1EfKD5NTUWwAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760083522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IS1STlROBFliAHGj9qR2lNNKpklIWgOwVN9GrvrG0QY=;
+ b=wTsn/O0vDBU+tEclaSspIcFtCfpOEGoIwR8uz2uo+3VwBxWLPdwy7emxllsBwTnSrBxCgG
+ oKTSoc0rYmqTeQn/gukx4nWrFVVDQW/FSvQ5VN/bsawlhyqncSPhb6cx2y5yI46ErTTKll
+ OHZ/YAXiK5CxHns1Sek4QsDK9Zb3Jjc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760083522;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IS1STlROBFliAHGj9qR2lNNKpklIWgOwVN9GrvrG0QY=;
+ b=W1WJpnCLPlEJyb5iYGdx1GD5EstMp2YkQqz708WhX1r8A8iAXJqrrnG6AwI6R6Et1f86x3
+ RrDbeYfC87aiQhDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A2A71375D;
+ Fri, 10 Oct 2025 08:05:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id N2pHIEK+6GjHIAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 10 Oct 2025 08:05:22 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, dianders@chromium.org,
+ nbowler@draconx.ca
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/ast: Blank with VGACR17 sync enable,
+ always clear VGACRB6 sync off
+Date: Fri, 10 Oct 2025 10:02:17 +0200
+Message-ID: <20251010080233.21771-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251004093054.21388-3-loic.molinari@collabora.com>
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain];
+ SEM_URIBL_UNKNOWN_FAIL(0.00)[lists.freedesktop.org:query timed out];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ SEM_URIBL_FRESH15_UNKNOWN_FAIL(0.00)[draconx.ca:query timed
+ out,lists.freedesktop.org:query timed out]; 
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[7];
+ TO_DN_SOME(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,162 +108,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Loïc,
+Blank the display by disabling sync pulses with VGACR17<7>. Unblank
+by reenabling them. This VGA setting should be supported by all Aspeed
+hardware.
 
-kernel test robot noticed the following build errors:
+Ast currently blanks via sync-off bits in VGACRB6. Not all BMCs handle
+VGACRB6 correctly. After disabling sync during a reboot, some BMCs do
+not reenable it after the soft reset. The display output remains dark.
+When the display is off during boot, some BMCs set the sync-off bits in
+VGACRB6, so the display remains dark. Observed with Blackbird AST2500
+BMC. Clearing the sync-off bits unconditionally fixes these issues.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.17 next-20251009]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Also do not modify VGASR1's SD bit for blanking, as it only disables GPU
+access to video memory.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-shmem-helper-Add-huge-page-fault-handler/20251004-173347
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251004093054.21388-3-loic.molinari%40collabora.com
-patch subject: [PATCH v3 02/10] drm/gem: Introduce drm_gem_get_unmapped_area() fop
-config: riscv-randconfig-001-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101507.UiRzhiAP-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101507.UiRzhiAP-lkp@intel.com/reproduce)
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: ce3d99c83495 ("drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers")
+Tested-by: Nick Bowler <nbowler@draconx.ca>
+Reported-by: Nick Bowler <nbowler@draconx.ca>
+Closes: https://lore.kernel.org/dri-devel/wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi/
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.7+
+---
+ drivers/gpu/drm/ast/ast_mode.c | 18 ++++++++++--------
+ drivers/gpu/drm/ast/ast_reg.h  |  1 +
+ 2 files changed, 11 insertions(+), 8 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101507.UiRzhiAP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     804 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     812 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     820 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     829 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     838 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     847 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/drm_gem.c:28:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/gpu/drm/drm_gem.c:1271:10: error: call to undeclared function 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1271 |                 return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
-         |                        ^
-   drivers/gpu/drm/drm_gem.c:1271:10: note: did you mean '__get_unmapped_area'?
-   include/linux/mm.h:3337:1: note: '__get_unmapped_area' declared here
-    3337 | __get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
-         | ^
-   7 warnings and 1 error generated.
-
-
-vim +/mm_get_unmapped_area +1271 drivers/gpu/drm/drm_gem.c
-
-  1239	
-  1240	/**
-  1241	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
-  1242	 * @filp: DRM file pointer
-  1243	 * @uaddr: User address hint
-  1244	 * @len: Mapping length
-  1245	 * @pgoff: Offset (in pages)
-  1246	 * @flags: Mapping flags
-  1247	 *
-  1248	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
-  1249	 * mmap calls on the DRM file descriptor will first try to find a free linear
-  1250	 * address space large enough for a mapping. Since GEM objects are backed by
-  1251	 * shmem buffers, this should preferably be handled by the shmem virtual memory
-  1252	 * filesystem which can appropriately align addresses to huge page sizes when
-  1253	 * needed.
-  1254	 *
-  1255	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
-  1256	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
-  1257	 * the right file pointer.
-  1258	 *
-  1259	 * If a GEM object is not available at the given offset or if the caller is not
-  1260	 * granted access to it, fall back to mm_get_unmapped_area().
-  1261	 */
-  1262	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
-  1263						unsigned long len, unsigned long pgoff,
-  1264						unsigned long flags)
-  1265	{
-  1266		struct drm_gem_object *obj;
-  1267		unsigned long ret;
-  1268	
-  1269		obj = drm_gem_object_lookup_from_offset(filp, pgoff, len >> PAGE_SHIFT);
-  1270		if (IS_ERR(obj))
-> 1271			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
-  1272						    flags);
-  1273	
-  1274		ret = shmem_get_unmapped_area(obj->filp, uaddr, len, 0, flags);
-  1275	
-  1276		drm_gem_object_put(obj);
-  1277	
-  1278		return ret;
-  1279	}
-  1280	EXPORT_SYMBOL(drm_gem_get_unmapped_area);
-  1281	
-
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 6b9d510c509d..fe8089266db5 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -836,22 +836,24 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct ast_device *ast = to_ast_device(crtc->dev);
++	u8 vgacr17 = 0x00;
++	u8 vgacrb6 = 0x00;
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0x00);
+-	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0x00);
++	vgacr17 |= AST_IO_VGACR17_SYNC_ENABLE;
++	vgacrb6 &= ~(AST_IO_VGACRB6_VSYNC_OFF | AST_IO_VGACRB6_HSYNC_OFF);
++
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
+ }
+ 
+ static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+ 	struct ast_device *ast = to_ast_device(crtc->dev);
+-	u8 vgacrb6;
++	u8 vgacr17 = 0xff;
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
+-
+-	vgacrb6 = AST_IO_VGACRB6_VSYNC_OFF |
+-		  AST_IO_VGACRB6_HSYNC_OFF;
+-	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
++	vgacr17 &= ~AST_IO_VGACR17_SYNC_ENABLE;
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
+ 
+ 	/*
+ 	 * HW cursors require the underlying primary plane and CRTC to
+diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
+index e15adaf3a80e..30578e3b07e4 100644
+--- a/drivers/gpu/drm/ast/ast_reg.h
++++ b/drivers/gpu/drm/ast/ast_reg.h
+@@ -29,6 +29,7 @@
+ #define AST_IO_VGAGRI			(0x4E)
+ 
+ #define AST_IO_VGACRI			(0x54)
++#define AST_IO_VGACR17_SYNC_ENABLE	BIT(7) /* called "Hardware reset" in docs */
+ #define AST_IO_VGACR80_PASSWORD		(0xa8)
+ #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
+ #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
