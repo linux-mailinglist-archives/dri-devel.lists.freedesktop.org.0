@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02F6BCED90
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 03:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262C3BCEE7D
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 04:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5159110E0C6;
-	Sat, 11 Oct 2025 01:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D218E10E144;
+	Sat, 11 Oct 2025 02:16:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="N7SbZjP3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="USJytzyI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m15597.qiye.163.com (mail-m15597.qiye.163.com
- [101.71.155.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07F110E0C6
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 01:04:22 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2580dfba9;
- Sat, 11 Oct 2025 09:04:16 +0800 (GMT+08:00)
-Message-ID: <16181573-f53b-4e76-abe9-953c1e967d75@rock-chips.com>
-Date: Sat, 11 Oct 2025 09:04:16 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D1E10E144
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 02:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760148961; x=1791684961;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HAjCWKolC3ZacDQUc7fPdoNjpnlO+ipcnTC8RVumBKA=;
+ b=USJytzyIrD7mKYDVL6MWRLivcwbIAA8DeQtSr1lryjDOJNqZX2R6HnwW
+ HvvUYoA4HFDM4t1HcwbzOrB+5/70kXfnntB/oKnXTIVK/y22oY7MPQIeR
+ 0Sb/uhfO4dNfS9Hvgxnldxe3fNrQM18LGZciJ2cIKr1kd8qb1fsqNWDwX
+ EvcUkb8I7vcKpJYPnQSTzne93MTT+3IlfDHFzyM57SpMedr7fi00nA5kr
+ Dap0E/K2YkJR7JfMjpdTsUFtP8q8lgwnVnaBUlRMqNE/ds75TnUmbJEqQ
+ hljghcFRfWfKbzm9iVzbBBHdZ1pMbdrcDT8byaDYkjw4U+DtHgahqY4CD g==;
+X-CSE-ConnectionGUID: L9JA35hMRZGkBLdAAFkBog==
+X-CSE-MsgGUID: N8/FojHbT9iIaCVhRa/QhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="72622591"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; d="scan'208";a="72622591"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2025 19:16:01 -0700
+X-CSE-ConnectionGUID: syYBh3+sTeewNeZ3Ptu+lQ==
+X-CSE-MsgGUID: XvEfwxtORbWo/K4ShDxF5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; d="scan'208";a="180365077"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+ by orviesa010.jf.intel.com with ESMTP; 10 Oct 2025 19:15:57 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v7P9H-0003QF-08;
+ Sat, 11 Oct 2025 02:15:55 +0000
+Date: Sat, 11 Oct 2025 10:15:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sched: Add warning for removing hack in
+ drm_sched_fini()
+Message-ID: <202510110929.AxIiHbe0-lkp@intel.com>
+References: <20251009125928.250652-2-phasta@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 11/18] drm/display: bridge_connector: Ensure last
- bridge determines EDID/modes detection capabilities
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- jingoohan1@gmail.com, p.zabel@pengutronix.de, hjc@rock-chips.com,
- heiko@sntech.de, andy.yan@rock-chips.com, dianders@chromium.org,
- m.szyprowski@samsung.com, jani.nikula@intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20250930090920.131094-1-damon.ding@rock-chips.com>
- <20250930090920.131094-12-damon.ding@rock-chips.com>
- <20251001180922.6bbe42ac@booty>
- <a42ebdca-1cbc-498c-b859-336557823f26@rock-chips.com>
- <dkblceiweall37j4anpgkumizxc5zni3axnxb5hyokv2jlsta5@immpjaczktnh>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <dkblceiweall37j4anpgkumizxc5zni3axnxb5hyokv2jlsta5@immpjaczktnh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a99d0cc08f803a3kunm26ee5aba1a2ddc
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGR8dSVZPThhPHRkaTx0aHklWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
- 1VSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
- b=N7SbZjP3/qQp/MbHh1FRivi1ZDZmlC1sUSNZ9BpOLHrS2WK1bnoUCFeU5/H4i5NrXj53d0oPjddq1lBuYM+9CWUWpFMHwiExq5KveU9KQo05BWcro9WNi3RFuyb3KMJi+VkkddY2/VtPvGbobSY7JZNMM8tIkSTiJqcELilOiAc=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=eV9amtj4CCoD8Gk1h+Z3/oynWPk9WjFeER7mS5pHxCc=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251009125928.250652-2-phasta@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,179 +78,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Philipp,
 
-On 10/10/2025 10:02 PM, Dmitry Baryshkov wrote:
-> On Thu, Oct 09, 2025 at 12:10:42PM +0800, Damon Ding wrote:
->> Hi Luca,
->>
->> On 10/2/2025 12:09 AM, Luca Ceresoli wrote:
->>> Hello Damon,
->>>
->>> On Tue, 30 Sep 2025 17:09:13 +0800
->>> Damon Ding <damon.ding@rock-chips.com> wrote:
->>>
->>>> When multiple bridges are present, EDID detection capability
->>>> (DRM_BRIDGE_OP_EDID) takes precedence over modes detection
->>>> (DRM_BRIDGE_OP_MODES). To ensure the above two capabilities are
->>>> determined by the last bridge in the chain, we handle three cases:
->>>>
->>>> Case 1: The later bridge declares only DRM_BRIDGE_OP_MODES
->>>>    - If the previous bridge declares DRM_BRIDGE_OP_EDID, set
->>>>      &drm_bridge_connector.bridge_edid to NULL and set
->>>>      &drm_bridge_connector.bridge_modes to the later bridge.
->>>>    - Ensure modes detection capability of the later bridge will not
->>>>      be ignored.
->>>>
->>>> Case 2: The later bridge declares only DRM_BRIDGE_OP_EDID
->>>>    - If the previous bridge declares DRM_BRIDGE_OP_MODES, set
->>>>      &drm_bridge_connector.bridge_modes to NULL and set
->>>>      &drm_bridge_connector.bridge_edid to the later bridge.
->>>>    - Although EDID detection capability has higher priority, this
->>>>      operation is for balance and makes sense.
->>>>
->>>> Case 3: the later bridge declares both of them
->>>>    - Assign later bridge as &drm_bridge_connector.bridge_edid and
->>>>      and &drm_bridge_connector.bridge_modes to this bridge.
->>>>    - Just leave transfer of these two capabilities as before.
->>>
->>> I think the whole explanation can be more concisely rewritten as:
->>>
->>> If the later bridge declares OP_EDID, OP_MODES or both, then both
->>> .bridge_modes and .bridge_edid should be set to NULL (if any was set
->>> from a previous bridge), and then .bridge_modes and/or .bridge_edid be
->>> set to the later bridge as is done already.
->>>
->>> Does this look correct (i.e. does it convey the same meaning)?
->>>
->>>> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
->>>> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
->>>> @@ -640,6 +640,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>>>    	struct drm_connector *connector;
->>>>    	struct i2c_adapter *ddc = NULL;
->>>>    	struct drm_bridge *bridge, *panel_bridge = NULL;
->>>> +	struct drm_bridge *pre_bridge_edid, *pre_bridge_modes;
->>>>    	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
->>>>    	unsigned int max_bpc = 8;
->>>>    	bool support_hdcp = false;
->>>> @@ -668,6 +669,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>>>    	 */
->>>>    	connector_type = DRM_MODE_CONNECTOR_Unknown;
->>>>    	drm_for_each_bridge_in_chain(encoder, bridge) {
->>>> +		pre_bridge_edid = bridge_connector->bridge_edid;
->>>> +		pre_bridge_modes = bridge_connector->bridge_modes;
->>>> +
->>>>    		if (!bridge->interlace_allowed)
->>>>    			connector->interlace_allowed = false;
->>>>    		if (!bridge->ycbcr_420_allowed)
->>>> @@ -681,6 +685,44 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>>>    			bridge_connector->bridge_detect = bridge;
->>>>    		if (bridge->ops & DRM_BRIDGE_OP_MODES)
->>>>    			bridge_connector->bridge_modes = bridge;
->>>> +
->>>> +		/*
->>>> +		 * When multiple bridges are present, EDID detection capability
->>>> +		 * (DRM_BRIDGE_OP_EDID) takes precedence over modes detection
->>>> +		 * (DRM_BRIDGE_OP_MODES). To ensure the above two capabilities
->>>> +		 * are determined by the last bridge in the chain, we handle
->>>> +		 * three cases:
->>>> +		 *
->>>> +		 * Case 1: The later bridge declares only DRM_BRIDGE_OP_MODES
->>>> +		 *  - If the previous bridge declares DRM_BRIDGE_OP_EDID, set
->>>> +		 *    &drm_bridge_connector.bridge_edid to NULL and set
->>>> +		 *    &drm_bridge_connector.bridge_modes to the later bridge.
->>>> +		 *  - Ensure modes detection capability of the later bridge
->>>> +		 *    will not be ignored.
->>>> +		 *
->>>> +		 * Case 2: The later bridge declares only DRM_BRIDGE_OP_EDID
->>>> +		 *  - If the previous bridge declares DRM_BRIDGE_OP_MODES, set
->>>> +		 *    &drm_bridge_connector.bridge_modes to NULL and set
->>>> +		 *    &drm_bridge_connector.bridge_edid to the later bridge.
->>>> +		 *  - Although EDID detection capability has higher priority,
->>>> +		 *    this operation is for balance and makes sense.
->>>> +		 *
->>>> +		 * Case 3: the later bridge declares both of them
->>>> +		 *  - Assign later bridge as &drm_bridge_connector.bridge_edid
->>>> +		 *    and &drm_bridge_connector.bridge_modes to this bridge.
->>>> +		 *  - Just leave transfer of these two capabilities as before.
->>>> +		 */
->>>> +		if (bridge->ops & DRM_BRIDGE_OP_EDID &&
->>>> +		    !(bridge->ops & DRM_BRIDGE_OP_MODES)) {
->>>> +			if (pre_bridge_modes)
->>>> +				bridge_connector->bridge_modes = NULL;
->>>> +		}
->>>> +		if (bridge->ops & DRM_BRIDGE_OP_MODES &&
->>>> +		    !(bridge->ops & DRM_BRIDGE_OP_EDID)) {
->>>> +			if (pre_bridge_edid)
->>>> +				bridge_connector->bridge_edid = NULL;
->>>> +		}
->>>> +
->>>
->>> If the above rewrite is correct, then I think this patch can be
->>> rewritten in a simple way (build tested only):
->>>
->>> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
->>> index a5bdd6c10643..bd5dbafe88bc 100644
->>> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
->>> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
->>> @@ -672,14 +672,18 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->>>                   if (!bridge->ycbcr_420_allowed)
->>>                           connector->ycbcr_420_allowed = false;
->>> -               if (bridge->ops & DRM_BRIDGE_OP_EDID)
->>> -                       bridge_connector->bridge_edid = bridge;
->>> +               if (bridge->ops & DRM_BRIDGE_OP_EDID || bridge->ops & DRM_BRIDGE_OP_MODES) {
->>> +                       bridge_connector->bridge_edid = NULL;
->>> +                       bridge_connector->bridge_modes = NULL;
->>> +                       if (bridge->ops & DRM_BRIDGE_OP_EDID)
->>> +                               bridge_connector->bridge_edid = bridge;
->>> +                       if (bridge->ops & DRM_BRIDGE_OP_MODES)
->>> +                               bridge_connector->bridge_modes = bridge;
->>> +               }
->>>                   if (bridge->ops & DRM_BRIDGE_OP_HPD)
->>>                           bridge_connector->bridge_hpd = bridge;
->>>                   if (bridge->ops & DRM_BRIDGE_OP_DETECT)
->>>                           bridge_connector->bridge_detect = bridge;
->>> -               if (bridge->ops & DRM_BRIDGE_OP_MODES)
->>> -                       bridge_connector->bridge_modes = bridge;
->>>                   if (bridge->ops & DRM_BRIDGE_OP_HDMI) {
->>>                           if (bridge_connector->bridge_hdmi)
->>>                                   return ERR_PTR(-EBUSY);
->>>
->>
->> Yes, this is correct and maintains functional equivalence with the previous
->> implementation.
->>
->> I previously attempted to implement this feature by modifying the logic in
->> this section. However, that approach would obscure the explicit propagation
->> semantics of the bridge chain flags (OP_EDID/OP_HPD/OP_DETECT/OP_MODES).
->> Therefore, I finally decided to implemented it as a specific check after
->> this code block.
->>
->> Dmitry, what's your take on this?
-> 
-> I think I prefer Luca's code, it is simpler and easier to understand. It
-> doesn't need a huge comment, something like "leave the last bridge which
-> provides either OP_EDID or OP_MODES" should be enough.
-> 
+kernel test robot noticed the following build warnings:
 
-Yes, I will update the code in v7.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.17 next-20251010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->>
->>> Another thing to note is that this patch conflicts with [0], which I
->>> plan to apply in the next few days. The two patches are orthogonal but
->>> they insist on the same lines (those assigning
->>> bridge_connector->bridge_* = bridge). Not a big deal, whichever patch
->>> comes later will be easily adapted. Just wanted to ensure you are aware.
->>>
->>> [0] https://lore.kernel.org/all/20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com/
->>>
->>
->> This is indeed a clever approach to the managing bridge resource cleanup in
->> drm_bridge_connector. Thanks a lot for the heads-up! I'll resolve this
->> conflict and rebase the patch series.
->>
->> Apologies for the delayed reply as I was on vacation. ;-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/drm-sched-Add-warning-for-removing-hack-in-drm_sched_fini/20251010-120556
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251009125928.250652-2-phasta%40kernel.org
+patch subject: [PATCH] drm/sched: Add warning for removing hack in drm_sched_fini()
+config: parisc-randconfig-r072-20251011 (https://download.01.org/0day-ci/archive/20251011/202510110929.AxIiHbe0-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110929.AxIiHbe0-lkp@intel.com/reproduce)
 
-Best regards,
-Damon
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110929.AxIiHbe0-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/wait.h:7,
+                    from drivers/gpu/drm/scheduler/sched_main.c:70:
+   drivers/gpu/drm/scheduler/sched_main.c: In function 'drm_sched_fini':
+>> include/linux/list.h:784:2: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+     for (pos = list_first_entry(head, typeof(*pos), member); \
+     ^~~
+   drivers/gpu/drm/scheduler/sched_main.c:1422:3: note: in expansion of macro 'list_for_each_entry'
+      list_for_each_entry(s_entity, &rq->entities, list)
+      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/scheduler/sched_main.c:1446:4: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+       s_entity->stopped = true;
+       ^~~~~~~~
+
+
+vim +/for +784 include/linux/list.h
+
+4d70c74659d9746 Andy Shevchenko 2022-11-30  767  
+e130816164e244b Andy Shevchenko 2020-10-15  768  /**
+e130816164e244b Andy Shevchenko 2020-10-15  769   * list_entry_is_head - test if the entry points to the head of the list
+e130816164e244b Andy Shevchenko 2020-10-15  770   * @pos:	the type * to cursor
+e130816164e244b Andy Shevchenko 2020-10-15  771   * @head:	the head for your list.
+e130816164e244b Andy Shevchenko 2020-10-15  772   * @member:	the name of the list_head within the struct.
+e130816164e244b Andy Shevchenko 2020-10-15  773   */
+e130816164e244b Andy Shevchenko 2020-10-15  774  #define list_entry_is_head(pos, head, member)				\
+2932fb0a927d306 Wei Yang        2024-02-08  775  	list_is_head(&pos->member, (head))
+e130816164e244b Andy Shevchenko 2020-10-15  776  
+^1da177e4c3f415 Linus Torvalds  2005-04-16  777  /**
+^1da177e4c3f415 Linus Torvalds  2005-04-16  778   * list_for_each_entry	-	iterate over list of given type
+8e3a67a99231f9f Randy Dunlap    2006-06-25  779   * @pos:	the type * to use as a loop cursor.
+^1da177e4c3f415 Linus Torvalds  2005-04-16  780   * @head:	the head for your list.
+3943f42c11896ce Andrey Utkin    2014-11-14  781   * @member:	the name of the list_head within the struct.
+^1da177e4c3f415 Linus Torvalds  2005-04-16  782   */
+^1da177e4c3f415 Linus Torvalds  2005-04-16  783  #define list_for_each_entry(pos, head, member)				\
+93be3c2eb3371f0 Oleg Nesterov   2013-11-12 @784  	for (pos = list_first_entry(head, typeof(*pos), member);	\
+e130816164e244b Andy Shevchenko 2020-10-15  785  	     !list_entry_is_head(pos, head, member);			\
+8120e2e5141a420 Oleg Nesterov   2013-11-12  786  	     pos = list_next_entry(pos, member))
+^1da177e4c3f415 Linus Torvalds  2005-04-16  787  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
