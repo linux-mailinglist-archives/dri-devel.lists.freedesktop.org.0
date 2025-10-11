@@ -2,131 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE36EBCF86B
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 18:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF0EBCF991
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 19:04:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7F210E0D6;
-	Sat, 11 Oct 2025 16:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10CC510E33D;
+	Sat, 11 Oct 2025 17:04:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EvAdmvm6";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="YD7lKh4Z";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fpp2uCXH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16A1810E0D6
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:51:48 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59B4BT70024733
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:51:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=xDql/hmPHmbhLyPjNWGht0Ir
- lePqDSoVlgpyDaLxB/g=; b=EvAdmvm6JMiBwFtspv0DVRebMaZ0aXzHvBjDTmh6
- Pl60vwPGKB0cy3LVeUlVVjqCfimlC7XL7NnbIhmMZ5worXFZG91+Siul6cbVZs0L
- /tYDYwhfev7fPrgJq8VIpAhQ7xY1tndC7UIOZzQNtAtgIOpFU9lLhrlSlZ/tMh00
- G4rXeTkQIwVKyC9ovm5cMzFOzx94tfTYYTPcIji09/iwL63WTS2Gd45X9PBAW6MA
- YYde0awJMTCsglI/bbJwhzW00Y2bz+0MQmivyjvX1rPJD0xqfMcU8RutgBgNGbY1
- HiCWWxsnlZUDXyE/g5bcjD72dU2gQvJZLDvITIxdLDojUg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0brva7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:51:47 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-856c1aa079bso1725567085a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 09:51:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760201506; x=1760806306;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xDql/hmPHmbhLyPjNWGht0IrlePqDSoVlgpyDaLxB/g=;
- b=Gv4o/mdri8nbF4tWjxUc4j9W/q1GcScWBJ3dtrILy1NsRwQy66thf7T+q9buD/t1Dw
- m0/Imo1mwvy+qvbaYd1JwLUDuKE0pGLFQmLb4wESaRxejQyuzjpxbuLvq/EpFfWhrajE
- s9T3k8k21fwvVJJquSsKKg8QE6LoNao51o144lLpdY+dODbzpuwJUXTkYMs0Ux0Q8yqc
- 5jwLG1HNXvx8R7EjXPw9kM8exQqGpG3xjZvOods26A/L0wC8lmgNCi351wLgvNacGh2E
- TMWjxskPEEiWCk3gdaGSLoPntf8l0t7rPlDO6hxf1YRH8sdSnS9l+2lE0LZ0VwNwNzEX
- FLzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCViv57zx+gmwlhExsN2VvFuiC+EXX2dGd2LilkmNbCJ3nT1LglnHPyx01IWCPROkjQ58TYIK+UWzNQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjaTfJvweXe30J4T6EvIDhU9c/QoeHCE4YLJsziIT/svUTJOMs
- Ni6s2yjXcWoaydDoGPI6p6U4w6KtYwISFhSErET/lw3hroHY24L5eMj1+7q4sgxFuO/VsWUMDod
- znt3siY/erDf2DUCVlNX5s1zC0F76pQXbHgZLlKx436sr/VCD9X9UaOFFTFQzvJxepiq/kjU=
-X-Gm-Gg: ASbGncudm2Ay4SncikauXU6I38Djanggr7uBOisyAD4tOZ29BHU4sb8uVv+66figTf3
- vM4Y5NT/DV1L57aIv5b+veD6RG9zZxwasj61ihKLkv0UknrrxbCvG4Bqa7SQQa8Ji1gwdRvnJqs
- r+NirAVYL7q3iDI9TfbdgG+l7zSOqnV+miX8yhF6KgB9J6zsQKB5dNfP6GpsZZzxsOPSqz7Mdrs
- aHxAbBT0PLUHKBg8zDwh9I8AWtkJZQrLXD9HPJ6od9uw715ktVGs6SKG2U/EhucuAPEtE6rsCap
- DkETPj4wf6xMQcua2ThLh4B6k7QUNlD1GPRvYHhNE+UvVPgA6JLj9W13nmDms/21qGQXwuYA2TW
- zYqxI3tI3vPPlcCPFiYbAXSApOdTBC432Hik4VMsNms+10edZWeca
-X-Received: by 2002:a05:620a:690f:b0:878:7b3e:7bc4 with SMTP id
- af79cd13be357-8820b47d5cemr2727435185a.11.1760201506220; 
- Sat, 11 Oct 2025 09:51:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1knLg1ejAD4VBlbVpVAYhUPHuhDgVtfBnPSvgk3VxA9bjqCPn8ECh/NUyGL80y7radiIDxw==
-X-Received: by 2002:a05:620a:690f:b0:878:7b3e:7bc4 with SMTP id
- af79cd13be357-8820b47d5cemr2727433485a.11.1760201505751; 
- Sat, 11 Oct 2025 09:51:45 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5908856394bsm2060654e87.66.2025.10.11.09.51.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Oct 2025 09:51:44 -0700 (PDT)
-Date: Sat, 11 Oct 2025 19:51:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chaoyi Chen <kernel@airkyi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 1/8] usb: typec: Add default HPD device when register
- DisplayPort altmode
-Message-ID: <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
-References: <20251011033233.97-1-kernel@airkyi.com>
- <20251011033233.97-2-kernel@airkyi.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB25D10E33D
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 17:04:15 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ckVML5Ssxz9tH5;
+ Sat, 11 Oct 2025 19:04:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760202254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xPiyri8B7k2bct+4e5c5xnBcOdZcRZjBPgHNHY8UKtw=;
+ b=YD7lKh4Zdf76nSMCJAStIiM4bNPfP83U5mHSGc7jOe8IoG7sEJjLs/hUyPsc28E1gdMCdw
+ aSUz5TVuvEwk/5NNlLD3wDiBC6DdB+g5GN3W7x3WBJBCG4hMoWDKuhL9mC1viULyKjOg1/
+ xfH2Ncz6xbELzrH13+MUci1zwASXsZjLN3RRsJPBD/mXOOJu+QOj9HIYMTqD5LPJ/rf1Xv
+ UqPXHNcFzQ5rD8bOP2d9pwvgmiXeqxALuqiuCqDAWWzXH1WuTM5vqy4HPblLGxz4Zl71cJ
+ 1KZG1LPu0M0tURJ3uMbjOXZvh20jPE52r8bnpcz8GlVmINHVzCP8Uu7NFRauUQ==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=fpp2uCXH;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
+ 2001:67c:2050:b231:465::102 as permitted sender)
+ smtp.mailfrom=marek.vasut@mailbox.org
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760202252;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xPiyri8B7k2bct+4e5c5xnBcOdZcRZjBPgHNHY8UKtw=;
+ b=fpp2uCXHh9XD4JyA5nrRXLCt89JMZD68UW2GptC0MJOAZzUetKaPCyrUniPt6MAQkkeRzF
+ nOP85GjwcWMHFAYxLsSlhe2rrwCwC+KDSsj8hWpP/AGPxqwVhNmo/KCBRYqPcA2UaPRBd4
+ WEj8An3sdIo22BNhCfL6oe54ng0C0cPNpY/MeWMQseG/NrRtZ+Xqc1nWD5FzxYsg1EU0Hi
+ ko7Gw/vc9o5DaoYkWaPwfW/K8Wzl+Cohn9cVSplZiIvwuGQ+aQy6C/CPxv3exPlM7TXgJp
+ 9MEg+Xsxap9B/jZcP28e4M4SfCf1a0T0gsaC67G7lpipBzv2pXL4EW1rMKgOcQ==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: [PATCH 29/39] dt-bindings: display: bridge: Document Freescale i.MX95
+ MIPI DSI
+Date: Sat, 11 Oct 2025 18:51:44 +0200
+Message-ID: <20251011170213.128907-30-marek.vasut@mailbox.org>
+In-Reply-To: <20251011170213.128907-1-marek.vasut@mailbox.org>
+References: <20251011170213.128907-1-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251011033233.97-2-kernel@airkyi.com>
-X-Proofpoint-GUID: tRHGfGNtjv5n8RxGnO9PQp0gjrr1PvPm
-X-Proofpoint-ORIG-GUID: tRHGfGNtjv5n8RxGnO9PQp0gjrr1PvPm
-X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68ea8b23 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=s8YR1HE3AAAA:8 a=RXhTPAuaP42idGtAG2cA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfX4IYSl3nWoPPl
- MqQInPl4tT6gYjFy7Mjvrj961RNtVafj0ysbQvfu+dC09dtBJvVRi7B0cDmN+4XZTo8P12oAImI
- X/ciT8Vaj50lIAfnhXpOqc+YwO0Nq9RMkfz+1DqUi25HI1vPxYTkbiSUdLlcqHHh5IckfkBSX+k
- U0GtvS8Su0yOInbYgu8VaQYLYJKp8AuGF0czPGWKK7w2TU0jJL/ZirVFvpuJqRdMim4EXObe5iU
- urH44RpHgjgJBZ/SuGkbz1yXzahAAz9zs4R1s11Y5C9Do9Sp3puiCWYCneQuqwdb/VA+Noak0dU
- xUpPq8JJvoRnRPXKtQ8bD0bFNCAjOrnrT81J2gTWGN5xlTR/bhe86UqVSLcQgmxJ18VFl8ofp1L
- JymJOPUGpv8o7e7ivUK2L299CuzkKA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110022
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 85zz6hyigpakz4rsiia6ykwknitchfqo
+X-MBO-RS-ID: a8076b6bb914c6c52ba
+X-Rspamd-Queue-Id: 4ckVML5Ssxz9tH5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,51 +91,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 11:32:26AM +0800, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> Add default DRM AUX HPD bridge device when register DisplayPort
-> altmode. That makes it redundant for each Type-C driver to implement
-> a similar registration process in embedded scenarios.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
-> 
-> Changes in v5:
-> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
-> - Place the helper functions in the same compilation unit.
-> - Add more comments about parent device.
-> 
->  drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
->  include/linux/usb/typec_altmode.h |  2 ++
->  2 files changed, 28 insertions(+)
-> 
->  
-> +static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
-> +{
-> +	if (alt->svid != USB_TYPEC_DP_SID)
-> +		return;
-> +
-> +	/*
-> +	 * alt->dev.parent->parent : USB-C controller device
-> +	 * alt->dev.parent         : USB-C connector device
-> +	 */
-> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
-> +						  to_of_node(alt->dev.parent->fwnode));
+Freescale i.MX95 SoC embeds a Synopsys Designware MIPI DSI host
+controller and a Synopsys Designware MIPI DPHY. Unlike the i.MX93
+PHY, the i.MX95 PHY uses more syscon interfaces to configure the
+PHY.
 
-You can not do this, unless you make TYPEC core:
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+---
+Cc: Abel Vesa <abelvesa@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-clk@vger.kernel.org
+---
+ .../display/bridge/fsl,imx93-mipi-dsi.yaml    | 48 +++++++++++++++++--
+ 1 file changed, 43 insertions(+), 5 deletions(-)
 
-depends on DRM || DRM=n
-select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-
-> +	if (IS_ERR(alt->hpd_dev))
-> +		alt->hpd_dev = NULL;
-> +}
-> +
->  static struct typec_altmode *
->  typec_register_altmode(struct device *parent,
->  		       const struct typec_altmode_desc *desc)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
+index d6e51d0cf5464..388301c4f95c1 100644
+--- a/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
+@@ -14,12 +14,11 @@ description: |
+   Designware MIPI DPHY embedded in Freescale i.MX93 SoC.  Some configurations
+   and extensions to them are controlled by i.MX93 media blk-ctrl.
+ 
+-allOf:
+-  - $ref: snps,dw-mipi-dsi.yaml#
+-
+ properties:
+   compatible:
+-    const: fsl,imx93-mipi-dsi
++    enum:
++      - fsl,imx93-mipi-dsi
++      - fsl,imx95-mipi-dsi
+ 
+   clocks:
+     items:
+@@ -46,13 +45,52 @@ properties:
+       controller and MIPI DPHY PLL related configurations through PLL SoC
+       interface.
+ 
++  fsl,disp-master-csr:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      i.MX95 Display Master CSR is a syscon which includes registers to
++      control DSI clock settings, clock gating, and pixel link select.
++
++  fsl,disp-stream-csr:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      i.MX95 Display Stream CSR is a syscon which includes configuration
++      and status registers for the DSI host.
++
++  fsl,mipi-combo-phy-csr:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      i.MX95 Display Stream CSR is a syscon which configuration and status
++      registers for the MIPI Tx DPHY module in the Camera domain.
++
+   power-domains:
+     maxItems: 1
+ 
++allOf:
++  - $ref: snps,dw-mipi-dsi.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx93-mipi-dsi
++    then:
++      required:
++        - fsl,media-blk-ctrl
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx95-mipi-dsi
++    then:
++      required:
++        - fsl,disp-master-csr
++        - fsl,disp-stream-csr
++        - fsl,mipi-combo-phy-csr
++
+ required:
+   - compatible
+   - interrupts
+-  - fsl,media-blk-ctrl
+   - power-domains
+ 
+ unevaluatedProperties: false
 -- 
-With best wishes
-Dmitry
+2.51.0
+
