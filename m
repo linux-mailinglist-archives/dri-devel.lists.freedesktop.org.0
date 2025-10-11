@@ -2,72 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9109BCF98E
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 19:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE36EBCF86B
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 18:51:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D5010E33E;
-	Sat, 11 Oct 2025 17:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7F210E0D6;
+	Sat, 11 Oct 2025 16:51:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="s9ByYmY/";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JEjGKGlJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EvAdmvm6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F7010E33C
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 17:04:13 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ckVMH6spdz9srG;
- Sat, 11 Oct 2025 19:04:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760202252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wH5Oywl+53G65dp8ULRyl1Gb1Vx4oyWZL4/EGnhp3CA=;
- b=s9ByYmY/V3UCNoI3qv2JObgbp7q6z0s5hCoYuyd5BcMULVt+H2DveSEX1lMYn6CaLX4cjK
- gNFzeKHCRCBMsiC8gnvupfvmsLSTj53T+gnFo4yWwbnJ5DsOi50nQTzIQ+xLf4yD4uB7qs
- G1pYA5jqMOKwDPCGP8tvs8Dc5hN7MamPlOjCG+XGCsBBWCDI4BEunMeyt3jpByXyOxHsjs
- rYUrluXzHw5s9GvZQhMLGXB/xJCNkO9429AeN+KEIlT84znxmIzozToE6dYMAz4QKgbKn2
- qQ/22QeKJIJ86DavcG6uEzSxYblH6VHJzUOW39YRSQWrSbMnoi7vGeCkLlhX2Q==
-From: Marek Vasut <marek.vasut@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760202250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wH5Oywl+53G65dp8ULRyl1Gb1Vx4oyWZL4/EGnhp3CA=;
- b=JEjGKGlJQQiz71zkDIx8/sSTS5HUm8PdKqy1NJoYUhja4OZ+gNeRjGarL+Zs4CQNn5gs6x
- iIsYJcw5Z92cl9KIJ781UMGNOKoYk5MGYDTHUfp4//MP9xpOAeuhX0U/c4ov4Hb/B9oOF7
- GeprK87JQSGAP6fEnjwjjnLoF84xTS1bvebMlJ1iScoIPThrUs5rrlw3ee0PAjM83GsMku
- yESlCT5cQrU+9dclNX+UFV4mE/BTwLFTJkT9BW8joMNpE+NInV8lBg0Ioja4JU6qCR6YSg
- +nsaPTwcw9Jsz7t7OJxYo72sQoQujz135IcAb/+d44KbZBjdVU8dGd8LQMCnlQ==
-To: dri-devel@lists.freedesktop.org
-Cc: Liu Ying <victor.liu@nxp.com>, Marek Vasut <marek.vasut@mailbox.org>,
- Sandor Yu <Sandor.yu@nxp.com>, Abel Vesa <abelvesa@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-Subject: [PATCH 28/39] drm/bridge: imx: Add NXP i.MX95 pixel link support
-Date: Sat, 11 Oct 2025 18:51:43 +0200
-Message-ID: <20251011170213.128907-29-marek.vasut@mailbox.org>
-In-Reply-To: <20251011170213.128907-1-marek.vasut@mailbox.org>
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16A1810E0D6
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:51:48 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59B4BT70024733
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:51:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=xDql/hmPHmbhLyPjNWGht0Ir
+ lePqDSoVlgpyDaLxB/g=; b=EvAdmvm6JMiBwFtspv0DVRebMaZ0aXzHvBjDTmh6
+ Pl60vwPGKB0cy3LVeUlVVjqCfimlC7XL7NnbIhmMZ5worXFZG91+Siul6cbVZs0L
+ /tYDYwhfev7fPrgJq8VIpAhQ7xY1tndC7UIOZzQNtAtgIOpFU9lLhrlSlZ/tMh00
+ G4rXeTkQIwVKyC9ovm5cMzFOzx94tfTYYTPcIji09/iwL63WTS2Gd45X9PBAW6MA
+ YYde0awJMTCsglI/bbJwhzW00Y2bz+0MQmivyjvX1rPJD0xqfMcU8RutgBgNGbY1
+ HiCWWxsnlZUDXyE/g5bcjD72dU2gQvJZLDvITIxdLDojUg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0brva7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:51:47 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-856c1aa079bso1725567085a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 09:51:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760201506; x=1760806306;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xDql/hmPHmbhLyPjNWGht0IrlePqDSoVlgpyDaLxB/g=;
+ b=Gv4o/mdri8nbF4tWjxUc4j9W/q1GcScWBJ3dtrILy1NsRwQy66thf7T+q9buD/t1Dw
+ m0/Imo1mwvy+qvbaYd1JwLUDuKE0pGLFQmLb4wESaRxejQyuzjpxbuLvq/EpFfWhrajE
+ s9T3k8k21fwvVJJquSsKKg8QE6LoNao51o144lLpdY+dODbzpuwJUXTkYMs0Ux0Q8yqc
+ 5jwLG1HNXvx8R7EjXPw9kM8exQqGpG3xjZvOods26A/L0wC8lmgNCi351wLgvNacGh2E
+ TMWjxskPEEiWCk3gdaGSLoPntf8l0t7rPlDO6hxf1YRH8sdSnS9l+2lE0LZ0VwNwNzEX
+ FLzQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCViv57zx+gmwlhExsN2VvFuiC+EXX2dGd2LilkmNbCJ3nT1LglnHPyx01IWCPROkjQ58TYIK+UWzNQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyjaTfJvweXe30J4T6EvIDhU9c/QoeHCE4YLJsziIT/svUTJOMs
+ Ni6s2yjXcWoaydDoGPI6p6U4w6KtYwISFhSErET/lw3hroHY24L5eMj1+7q4sgxFuO/VsWUMDod
+ znt3siY/erDf2DUCVlNX5s1zC0F76pQXbHgZLlKx436sr/VCD9X9UaOFFTFQzvJxepiq/kjU=
+X-Gm-Gg: ASbGncudm2Ay4SncikauXU6I38Djanggr7uBOisyAD4tOZ29BHU4sb8uVv+66figTf3
+ vM4Y5NT/DV1L57aIv5b+veD6RG9zZxwasj61ihKLkv0UknrrxbCvG4Bqa7SQQa8Ji1gwdRvnJqs
+ r+NirAVYL7q3iDI9TfbdgG+l7zSOqnV+miX8yhF6KgB9J6zsQKB5dNfP6GpsZZzxsOPSqz7Mdrs
+ aHxAbBT0PLUHKBg8zDwh9I8AWtkJZQrLXD9HPJ6od9uw715ktVGs6SKG2U/EhucuAPEtE6rsCap
+ DkETPj4wf6xMQcua2ThLh4B6k7QUNlD1GPRvYHhNE+UvVPgA6JLj9W13nmDms/21qGQXwuYA2TW
+ zYqxI3tI3vPPlcCPFiYbAXSApOdTBC432Hik4VMsNms+10edZWeca
+X-Received: by 2002:a05:620a:690f:b0:878:7b3e:7bc4 with SMTP id
+ af79cd13be357-8820b47d5cemr2727435185a.11.1760201506220; 
+ Sat, 11 Oct 2025 09:51:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG1knLg1ejAD4VBlbVpVAYhUPHuhDgVtfBnPSvgk3VxA9bjqCPn8ECh/NUyGL80y7radiIDxw==
+X-Received: by 2002:a05:620a:690f:b0:878:7b3e:7bc4 with SMTP id
+ af79cd13be357-8820b47d5cemr2727433485a.11.1760201505751; 
+ Sat, 11 Oct 2025 09:51:45 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5908856394bsm2060654e87.66.2025.10.11.09.51.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Oct 2025 09:51:44 -0700 (PDT)
+Date: Sat, 11 Oct 2025 19:51:43 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Chaoyi Chen <kernel@airkyi.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 1/8] usb: typec: Add default HPD device when register
+ DisplayPort altmode
+Message-ID: <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
+References: <20251011033233.97-1-kernel@airkyi.com>
+ <20251011033233.97-2-kernel@airkyi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 6bb21575346cb44c0a1
-X-MBO-RS-META: d9x9ksg3dmityi96ijfr5ex4tsykdr9t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251011033233.97-2-kernel@airkyi.com>
+X-Proofpoint-GUID: tRHGfGNtjv5n8RxGnO9PQp0gjrr1PvPm
+X-Proofpoint-ORIG-GUID: tRHGfGNtjv5n8RxGnO9PQp0gjrr1PvPm
+X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68ea8b23 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=s8YR1HE3AAAA:8 a=RXhTPAuaP42idGtAG2cA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfX4IYSl3nWoPPl
+ MqQInPl4tT6gYjFy7Mjvrj961RNtVafj0ysbQvfu+dC09dtBJvVRi7B0cDmN+4XZTo8P12oAImI
+ X/ciT8Vaj50lIAfnhXpOqc+YwO0Nq9RMkfz+1DqUi25HI1vPxYTkbiSUdLlcqHHh5IckfkBSX+k
+ U0GtvS8Su0yOInbYgu8VaQYLYJKp8AuGF0czPGWKK7w2TU0jJL/ZirVFvpuJqRdMim4EXObe5iU
+ urH44RpHgjgJBZ/SuGkbz1yXzahAAz9zs4R1s11Y5C9Do9Sp3puiCWYCneQuqwdb/VA+Noak0dU
+ xUpPq8JJvoRnRPXKtQ8bD0bFNCAjOrnrT81J2gTWGN5xlTR/bhe86UqVSLcQgmxJ18VFl8ofp1L
+ JymJOPUGpv8o7e7ivUK2L299CuzkKA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,255 +142,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liu Ying <victor.liu@nxp.com>
+On Sat, Oct 11, 2025 at 11:32:26AM +0800, Chaoyi Chen wrote:
+> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> 
+> Add default DRM AUX HPD bridge device when register DisplayPort
+> altmode. That makes it redundant for each Type-C driver to implement
+> a similar registration process in embedded scenarios.
+> 
+> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> ---
+> 
+> Changes in v5:
+> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+> - Place the helper functions in the same compilation unit.
+> - Add more comments about parent device.
+> 
+>  drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
+>  include/linux/usb/typec_altmode.h |  2 ++
+>  2 files changed, 28 insertions(+)
+> 
+>  
+> +static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
+> +{
+> +	if (alt->svid != USB_TYPEC_DP_SID)
+> +		return;
+> +
+> +	/*
+> +	 * alt->dev.parent->parent : USB-C controller device
+> +	 * alt->dev.parent         : USB-C connector device
+> +	 */
+> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
+> +						  to_of_node(alt->dev.parent->fwnode));
 
-Add NXP i.MX95 pixel link bridge support.
+You can not do this, unless you make TYPEC core:
 
-Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
-Reviewed-by: Sandor Yu <Sandor.yu@nxp.com>
----
-Cc: Abel Vesa <abelvesa@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Peng Fan <peng.fan@nxp.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-clk@vger.kernel.org
----
- drivers/gpu/drm/bridge/imx/Kconfig            |   9 +
- drivers/gpu/drm/bridge/imx/Makefile           |   1 +
- drivers/gpu/drm/bridge/imx/imx95-pixel-link.c | 184 ++++++++++++++++++
- 3 files changed, 194 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/imx/imx95-pixel-link.c
+depends on DRM || DRM=n
+select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
 
-diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index 3e1b1d825d7bf..8baa335deac49 100644
---- a/drivers/gpu/drm/bridge/imx/Kconfig
-+++ b/drivers/gpu/drm/bridge/imx/Kconfig
-@@ -97,4 +97,13 @@ config DRM_IMX95_PIXEL_INTERLEAVER
- 	  Choose this to enable pixel interleaver found in NXP i.MX95
- 	  processors.
- 
-+config DRM_IMX95_PIXEL_LINK
-+	tristate "NXP i.MX95 display pixel link"
-+	depends on OF && MFD_SYSCON
-+	select DRM_KMS_HELPER
-+	select REGMAP_MMIO
-+	help
-+	  Choose this to enable display pixel link found in NXP i.MX95
-+	  processors.
-+
- endif # ARCH_MXC || COMPILE_TEST
-diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index 583054c70f002..b6b2e1bc8d4bd 100644
---- a/drivers/gpu/drm/bridge/imx/Makefile
-+++ b/drivers/gpu/drm/bridge/imx/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
- obj-$(CONFIG_DRM_IMX93_MIPI_DSI) += imx93-mipi-dsi.o
- obj-$(CONFIG_DRM_IMX95_PIXEL_INTERLEAVER) += imx95-pixel-interleaver.o
-+obj-$(CONFIG_DRM_IMX95_PIXEL_LINK) += imx95-pixel-link.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx95-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx95-pixel-link.c
-new file mode 100644
-index 0000000000000..747d2d77b59ef
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/imx/imx95-pixel-link.c
-@@ -0,0 +1,184 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Copyright 2023 NXP
-+ */
-+
-+#include <linux/bits.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_bridge.h>
-+
-+#define CTRL		0x8
-+#define  PL_VALID(n)	BIT(1 + 4 * (n))
-+#define  PL_ENABLE(n)	BIT(4 * (n))
-+
-+#define OUT_ENDPOINTS	2
-+
-+#define DRIVER_NAME	"imx95-pixel-link"
-+
-+struct imx95_pixel_link_bridge {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct device *dev;
-+	struct regmap *regmap;
-+	u8 stream_id;
-+};
-+
-+static int imx95_pixel_link_bridge_attach(struct drm_bridge *bridge,
-+					  struct drm_encoder *encoder,
-+					  enum drm_bridge_attach_flags flags)
-+{
-+	struct imx95_pixel_link_bridge *pl = bridge->driver_private;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		dev_err(pl->dev, "do not support creating a drm_connector\n");
-+		return -EINVAL;
-+	}
-+
-+	return drm_bridge_attach(encoder, pl->next_bridge, bridge,
-+				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+}
-+
-+static void imx95_pixel_link_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct imx95_pixel_link_bridge *pl = bridge->driver_private;
-+	unsigned int id = pl->stream_id;
-+
-+	regmap_update_bits(pl->regmap, CTRL, PL_ENABLE(id), 0);
-+	regmap_update_bits(pl->regmap, CTRL, PL_VALID(id), 0);
-+}
-+
-+static void imx95_pixel_link_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct imx95_pixel_link_bridge *pl = bridge->driver_private;
-+	unsigned int id = pl->stream_id;
-+
-+	regmap_update_bits(pl->regmap, CTRL, PL_VALID(id), PL_VALID(id));
-+	regmap_update_bits(pl->regmap, CTRL, PL_ENABLE(id), PL_ENABLE(id));
-+}
-+
-+static u32 *
-+imx95_pixel_link_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+						  struct drm_bridge_state *bridge_state,
-+						  struct drm_crtc_state *crtc_state,
-+						  struct drm_connector_state *conn_state,
-+						  u32 output_fmt,
-+						  unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	if (output_fmt != MEDIA_BUS_FMT_RGB888_1X36_CPADLO &&
-+	    output_fmt != MEDIA_BUS_FMT_FIXED)
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	return input_fmts;
-+}
-+
-+static const struct drm_bridge_funcs imx95_pixel_link_bridge_funcs = {
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.attach			= imx95_pixel_link_bridge_attach,
-+	.disable		= imx95_pixel_link_bridge_disable,
-+	.enable			= imx95_pixel_link_bridge_enable,
-+	.atomic_get_input_bus_fmts =
-+				imx95_pixel_link_bridge_atomic_get_input_bus_fmts,
-+};
-+
-+static int imx95_pixel_link_bridge_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *remote, *np = dev->of_node;
-+	struct imx95_pixel_link_bridge *pl;
-+	int i, ret;
-+
-+	pl = devm_drm_bridge_alloc(dev, struct imx95_pixel_link_bridge, bridge,
-+				   &imx95_pixel_link_bridge_funcs);
-+	if (IS_ERR(pl))
-+		return PTR_ERR(pl);
-+
-+	pl->dev = dev;
-+	platform_set_drvdata(pdev, pl);
-+
-+	pl->regmap = syscon_regmap_lookup_by_phandle(np, "fsl,syscon");
-+	if (IS_ERR(pl->regmap))
-+		return dev_err_probe(dev, PTR_ERR(pl->regmap), "failed to get regmap\n");
-+
-+	ret = of_property_read_u8(np, "fsl,dc-stream-id", &pl->stream_id);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to get stream index\n");
-+
-+	pl->bridge.driver_private = pl;
-+	pl->bridge.of_node = of_graph_get_port_by_id(np, 0);
-+	if (!pl->bridge.of_node)
-+		return dev_err_probe(dev, -ENODEV, "failed to get port@0\n");
-+	of_node_put(pl->bridge.of_node);
-+
-+	for (i = 0; i < OUT_ENDPOINTS; i++) {
-+		remote = of_graph_get_remote_node(np, 1, i);
-+		if (!remote) {
-+			dev_dbg(dev, "no remote node for port@1 ep%u\n", i);
-+			continue;
-+		}
-+
-+		pl->next_bridge = of_drm_find_bridge(remote);
-+		if (!pl->next_bridge) {
-+			dev_dbg(dev, "failed to find next bridge for port@1 ep%u\n", i);
-+			of_node_put(remote);
-+			return -EPROBE_DEFER;
-+		}
-+
-+		of_node_put(remote);
-+
-+		drm_bridge_add(&pl->bridge);
-+
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static void imx95_pixel_link_bridge_remove(struct platform_device *pdev)
-+{
-+	struct imx95_pixel_link_bridge *pl = platform_get_drvdata(pdev);
-+
-+	drm_bridge_remove(&pl->bridge);
-+}
-+
-+static const struct of_device_id imx95_pixel_link_bridge_dt_ids[] = {
-+	{ .compatible = "fsl,imx95-dc-pixel-link", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx95_pixel_link_bridge_dt_ids);
-+
-+static struct platform_driver imx95_pixel_link_bridge_driver = {
-+	.probe	= imx95_pixel_link_bridge_probe,
-+	.remove	= imx95_pixel_link_bridge_remove,
-+	.driver	= {
-+		.of_match_table = imx95_pixel_link_bridge_dt_ids,
-+		.name = DRIVER_NAME,
-+	},
-+};
-+
-+module_platform_driver(imx95_pixel_link_bridge_driver);
-+
-+MODULE_DESCRIPTION("i.MX95 display pixel link bridge driver");
-+MODULE_AUTHOR("NXP Semiconductor");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:" DRIVER_NAME);
+> +	if (IS_ERR(alt->hpd_dev))
+> +		alt->hpd_dev = NULL;
+> +}
+> +
+>  static struct typec_altmode *
+>  typec_register_altmode(struct device *parent,
+>  		       const struct typec_altmode_desc *desc)
+
 -- 
-2.51.0
-
+With best wishes
+Dmitry
