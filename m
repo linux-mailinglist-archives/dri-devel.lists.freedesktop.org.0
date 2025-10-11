@@ -2,143 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083F7BCF7F9
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 17:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0CBBCF847
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 18:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C511410E073;
-	Sat, 11 Oct 2025 15:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 302DA10E08B;
+	Sat, 11 Oct 2025 16:22:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="axcgdL96";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YaPNEiOk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="axcgdL96";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YaPNEiOk";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FMLfauyv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1291110E073
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 15:51:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6912E21296;
- Sat, 11 Oct 2025 15:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1760197862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=528W4/qVB1Wf3tFEq/Ya6ioC2jcpbXkDV6ZqrnD9rVg=;
- b=axcgdL96+tU9xnnM57BBJDFZlq2l4aTdmH84TA5pnMOpxGs3riShXhJJ0lXNTqH5OkemHp
- Bcj9SWUt/n+evuHmZYEnzSa3bm/Leq9ecQ6xXew+MErtrmhhGoawgPF4e3cQHQtb+BHzqt
- lRmSDbMP2GNFzVLrj92Mb2FwjV/MGS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1760197862;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=528W4/qVB1Wf3tFEq/Ya6ioC2jcpbXkDV6ZqrnD9rVg=;
- b=YaPNEiOkqbg4W6KNM/xKLFC8YTMmnKSPhO/kdhOqLGTjKlhstiGveBIpRkIDTZ2WVr0ekF
- 9WEkw1Af+4j2cyAg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=axcgdL96;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YaPNEiOk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1760197862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=528W4/qVB1Wf3tFEq/Ya6ioC2jcpbXkDV6ZqrnD9rVg=;
- b=axcgdL96+tU9xnnM57BBJDFZlq2l4aTdmH84TA5pnMOpxGs3riShXhJJ0lXNTqH5OkemHp
- Bcj9SWUt/n+evuHmZYEnzSa3bm/Leq9ecQ6xXew+MErtrmhhGoawgPF4e3cQHQtb+BHzqt
- lRmSDbMP2GNFzVLrj92Mb2FwjV/MGS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1760197862;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=528W4/qVB1Wf3tFEq/Ya6ioC2jcpbXkDV6ZqrnD9rVg=;
- b=YaPNEiOkqbg4W6KNM/xKLFC8YTMmnKSPhO/kdhOqLGTjKlhstiGveBIpRkIDTZ2WVr0ekF
- 9WEkw1Af+4j2cyAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4381613834;
- Sat, 11 Oct 2025 15:51:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ESbWDuZ86mjXDAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Sat, 11 Oct 2025 15:51:02 +0000
-Message-ID: <5d035de6-460c-480c-b9a9-9591433d30fb@suse.de>
-Date: Sat, 11 Oct 2025 17:51:01 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5143710E08B
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:22:02 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59BEomev021319
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:22:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=g8FFHOPe9WZ0qfEDRJQ4s+Em
+ qP5GvoOF3Cid2qQ3DFk=; b=FMLfauyvLPAMdTLUCHawYF3KQUCKFw1arN700rQz
+ HFia4AXyBMSSSrpWAr+/6NSvwHPDmFLF/oBqsSTa6lcAyFOQHoddNdUdnX8tvQR0
+ OrBnwH5KYkGY+++9HmOboyFhGez8Ifh1yReKD7xOE9Mrw0ojGR7XIphEpjYwv/xH
+ hV7zW9jsSetAGVnmOMthRiJSknAvJBpLFOdA/kId/Q0FBEEZXLxa7Fm2ZET96dTT
+ xOIq4BUroCiBmvdM1IFTuvoVXNz3fE5FnlFdb+fOWf6EvNFOKyXwMF/LcZ4vzFa6
+ KX81UoxpOUjJl0bGeiMW0EWlCAGxbIyPJ6kd/dDJKDLMKg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfa80wet-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:22:01 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-8715f5037beso1566356185a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 09:22:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760199720; x=1760804520;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g8FFHOPe9WZ0qfEDRJQ4s+EmqP5GvoOF3Cid2qQ3DFk=;
+ b=VWS/WSn6wHpaxm4HjkqZAYSRjhuerfQtKCJpPQRIwQzbkfiu+tGa6b3PQb8E2R+fre
+ +I8nYd0B/AETJlTsPWWdfOduMSl1TuX6uNfzRxQkH5CI+n3L7yvYDx1r6cAmpiQzciNq
+ 8nhRzDC6YbWUx3T1uSUkpQI2UZRYGNJFhNFYwed+45SCKN8svZKRW+ymP+eVDHRU9U68
+ IyiEvvlRaz9fWmMHycARuqww7ajkVlfW9mtqPpODDU4DOzXDbCduFD1uogjUQO/C6KIe
+ +wOcTUO0XSgZWlQbOLaqRGDv6CMRWTHrcZtamTT4nQ2CaWIFzruEyrEGeLm9gqN3XU5h
+ sJTQ==
+X-Gm-Message-State: AOJu0Yx1Dzt15k+BGWZYg4k0N4D3dnFKpNKZJoG4QT3QMfDwHsR+D4GC
+ 3pVj1OhY2LaDdc0n9Fl40aicktuOpogaLH8S56WA0EcCCX1+JcR79xVJ5ZlY+1MXJO+zcz9UVTJ
+ gAWK6bfglNPSciwtDNqCBiUUQkLSRO6To38NiKGvzSVXm9FXlJZFlYbn5JDYEnUGa8NK441A=
+X-Gm-Gg: ASbGncspL/zvRaTEnxIghJXpbl0ao+y02Snsf5hxnh8AlPvZJmJe7UUUffZCt7sVDc3
+ +vF+hhV2DqsZ0lY1oN77JaFy2u6Me5SMFwLvOro2jReHevzrprfwSt+hCFUiJz4SrtbBFMFIZjE
+ g3PovXy9vlWQU5kBrslzE9hxAPmummB8lo7WvbTeZM7ZKrE8D7LKQbFHpqK5JW1xLvMcRYSuoJE
+ PsKpqUEQSkcs/9OcTf4v7+WQmN0tC5/tuj2VAFHQKo6VeoFHYq147vHChFJgjqDayMoPxMylp2c
+ TCSD90FaN7prCqlp5J+Rty0fYLA9YcgUepoFYYE9F4miLllFSF5l/rr/cdV8WtHuDNepme2xYGs
+ ilLXx/qlIkDz5dT4xCNMJqfDEVaUNQzHJDJxJN3HII04biHyM4y9U
+X-Received: by 2002:a05:620a:178b:b0:857:82f:baf1 with SMTP id
+ af79cd13be357-88354ea76d4mr2288479485a.41.1760199720552; 
+ Sat, 11 Oct 2025 09:22:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGMIiofGBSU0RdNKFge6LmV+r/Eyul+acpIzJv3v86Lmfj2bEPzd0LpxRs5pSdc7dbXWfgojQ==
+X-Received: by 2002:a05:620a:178b:b0:857:82f:baf1 with SMTP id
+ af79cd13be357-88354ea76d4mr2288475685a.41.1760199720095; 
+ Sat, 11 Oct 2025 09:22:00 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3762e7b4cc4sm15171841fa.18.2025.10.11.09.21.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Oct 2025 09:21:58 -0700 (PDT)
+Date: Sat, 11 Oct 2025 19:21:55 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/bridge: lt9211: Drop check for last nibble of
+ version register
+Message-ID: <dbpmx272tgpx2px27lrfusxzycyftedk3njmwuc4ggrql5rten@lcghetnxvfn5>
+References: <20251011110017.12521-1-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Adding EDID support to simpledrm on top of the EFI sysfb ?
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hans de Goede <hansg@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- nickblack@linux.com
-References: <301d7da1-5101-4f16-90cd-5bb4ac41c87b@kernel.org>
- <b99e3a32-6d3e-48a0-9936-a67999354a44@suse.de>
-Content-Language: en-US
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <b99e3a32-6d3e-48a0-9936-a67999354a44@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6912E21296
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUBJECT_ENDS_QUESTION(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FROM_HAS_DN(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; TO_DN_EQ_ADDR_SOME(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_THREE(0.00)[4];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, dreamwidth.org:url, gnu.org:url, uefi.org:url,
- suse.de:mid, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251011110017.12521-1-marek.vasut@mailbox.org>
+X-Proofpoint-GUID: C3lFUfhAriqi4LxT1c4j8s0zJbPkG4BT
+X-Proofpoint-ORIG-GUID: C3lFUfhAriqi4LxT1c4j8s0zJbPkG4BT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxNyBTYWx0ZWRfX/pWdeTjC96v0
+ 8mMNqMgQbwyWP0p5sNOlsuK/p6YDnUZTDkqJF64pFPjzEpZ/dwITyyQ4pOgNZnVEWiEZPKaHQ7C
+ Tyyrs5e6gtZ+xb1qsvf1G2B/2/4xraaXjCxGKLtsNt6qfivq3bZnQqY2IUcX1V58tw9jiLoiRCT
+ ZM1e4+pwbzHNnwreW8TvkUFidoMJBsztl1VtB+843Z5VEnA0XfjHBPM20Of8LMRNOAy9tYOR+O/
+ s5KUQcQ4stLMFWlsA/OT6aDE7OK7R5xiqErBgTLOJfId9vg/plzalNbW2PuY/ZHFjV75IGYS4ts
+ Ty2A2nF1McGF7aFfduimMRk8n9zqs+rUsIdCDMyd46auD45eyXMZkRMYVgsKQQkor5hxt4OhE8r
+ w9GwuxLNgPCfMFMdLmNqGFZAgQ1wFQ==
+X-Authority-Analysis: v=2.4 cv=JLw2csKb c=1 sm=1 tr=0 ts=68ea8429 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=b3CbU_ItAAAA:8 a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8
+ a=P1BnusSwAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8
+ a=EUspDBNiAAAA:8 a=mBvL99Qz1nDROh_LWmsA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=Rv2g8BkzVjQTVhhssdqe:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110017
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,76 +130,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cc nickblack@linux.com
+On Sat, Oct 11, 2025 at 12:59:53PM +0200, Marek Vasut wrote:
+> There is now a new LT9211 rev. U5, which reports chip ID 0x18 0x01 0xe4 .
+> The previous LT9211 reported chip ID 0x18 0x01 0xe3 , which is what the
+> driver checks for right now. Since there is a possibility there will be
+> yet another revision of the LT9211 in the future, drop the last version
+> nibble check to allow all future revisions of the chip to work with this
+> driver.
+> 
+> This fix makes LT9211 rev. U5 work with this driver.
+> 
+> Fixes: 8ce4129e3de4 ("drm/bridge: lt9211: Add Lontium LT9211 bridge driver")
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9211.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
 
-Am 11.10.25 um 17:17 schrieb Thomas Zimmermann:
-> Hi Hans
->
-> Am 11.10.25 um 12:02 schrieb Hans de Goede:
->> Hi,
->>
->> A while ago I did a blogpost about not having the native GPU drivers in
->> the initrd: https://hansdegoede.dreamwidth.org/28291.html
->>
->> With the Fedora /boot partition size increase there has been renewed
->> interest in this and as a result I got an interesting comment on
->> the blog post pointing out that there are EFI protocols to get EDID
->> info for the monitor (presumably for the one the GOP has lit up).
->>
->> It would be useful to see if we can hook this up so that the simpledrm
->> device can report the physical dimensions of the screen and the boot
->> splash does not need to guess the DPI and thus does not need to guess
->> whether to do hiDPI scaling or not. The comment is here:
->>
->> https://hansdegoede.dreamwidth.org/28291.html?thread=14467#cmt14467
->>
->> and it points to:
->>
->> https://uefi.org/sites/default/files/resources/2_-_AMD_UEFI_Plugfest_EDID_Spring2012.pdf 
->>
->> https://uefi.org/specs/UEFI/2.9_A/12_Protocols_Console_Support.html
->>
->> Unfortunately I do not have time to work on this myself, hence this
->> email in the hope that someone else can pick this idea up.
->
-> There are now efidrm and vesadrm, which support specifically the 
-> features that we get from the rsp. standards, hardware  and 
-> bootloader. For VESA and EFI the EDID can be transferred from grub via 
-> bootparams. A patch [1] is on its way into upstream grub. The Linux 
-> kernel stores that data in edid_info, from where it is picked up by 
-> efidrm and vesadrm.  If the EFI framebuffer comes directly from the 
-> EFI calls, we need to implement this in the kernel, but the principle 
-> is the same. I also have ideas for making this work on Coreboot.
->
-> For simpledrm, I'd rather strip if from the ability to use EFI/VESA 
-> framebuffers and focus on simple-framebuffer DT nodes. These sometimes 
-> come with DPI information. Maybe we could extend the DT to support 
-> EDID as well.
->
-> [1] https://lists.gnu.org/archive/html/grub-devel/2025-10/msg00043.html
->
-> I have long been working on all this and it is now slowly coming 
-> together.
->
-> Best regards
-> Thomas
->
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+With best wishes
+Dmitry
