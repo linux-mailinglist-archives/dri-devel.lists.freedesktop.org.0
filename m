@@ -2,86 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F3FBCEF45
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 05:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A79BCF136
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 09:34:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5670C10E2CF;
-	Sat, 11 Oct 2025 03:39:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="vogFWZv8";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E9810E2DA;
+	Sat, 11 Oct 2025 07:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 388 seconds by postgrey-1.36 at gabe;
- Sat, 11 Oct 2025 03:39:54 UTC
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0A2D10E2CF
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 03:39:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1760153992;
- bh=1RfAR5qe3fDpGYWfe4IMPee9wlWopj1wjBrVtJQSHJQ=;
- h=From:To:Subject:Date:Message-Id;
- b=vogFWZv8SeKgL41nPB+t3yUgNnDUcwJlIXH4/mgT7cKaXR17IQzYlbyRfR4+s3gBn
- sgcvTbZEGO6yME6G3ZM0fym9cKNMb8ivu/JtIFSVQgHggXGGGhk87k26hxg2PQrYkr
- zTRzqFtPCv5q+CLiUx4Z7vwaAJOZnV0OzpcEqt+M=
-X-QQ-mid: zesmtpgz4t1760153589tf3f483c8
-X-QQ-Originating-IP: RV/noW7IO/PwVdiPJ/7fNUy8rXDx1YHNEpFMmvBdOaM=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 11 Oct 2025 11:33:07 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1551251511132232998
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 8/8] arm64: dts: rockchip: rk3399-evb-ind: Add support for
- DisplayPort
-Date: Sat, 11 Oct 2025 11:32:33 +0800
-Message-Id: <20251011033233.97-9-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251011033233.97-1-kernel@airkyi.com>
-References: <20251011033233.97-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: OO2wLqYBHUeBDmcIlIZlPSsil5SJ5XtcHZ+QrR/jOBiRwZVjJ2R3XADd
- on7sPEUZ2iaKaCQfltOhnaKC3dxSytD+K3iO4MoCKRKCPjwrm2HRSDBhGS7Bsd2A8z0mtfN
- HAFgAplMAMjEF7rVtwZJb29Hv/51vPqETxpoP5yCDd4e2X/FBr57Z7JDmupHHGbBwoqQKIt
- BaGhJB0pHBLOwkQy69eMeDqCvhNcgk4RyIVQgxgO1JrnhOfTX8Ehcep3oEPoxUsALBa70vK
- NzwPsKEyXhdqesBaBNou1a6IWrGJeoDsjmFMH1DO7seaku6UQO96oBeNwm/EgALbEcHDhDG
- 7TMmtPCAqV9yp64yND3ySOSOwW5Xzj4vYjkT71JZo6Z9cQN7Z1e5hT2FVUsAVgLp9TR1CJt
- Z3Dlyi6XM6ae4o9SfYy91C9ZmTMzHGYMSAcCrvob/exEKFu9nuYgkgUbIoUaXORjC+D2gd5
- h48v7hh2uMpZAWMTvm/Y0OdFJUqHRfr5Vywly38RIWsik5h+4BceP8jCd3AXEJlRcaAWaJ7
- dBIs2FClpGh1Vl8GjxgW31Pg1xlGWZFa61IjnbwsDmhV5k+sZWGkrTByj8A9Rq0yMP9zBA6
- vUK9v8vIfweviL2bk0XIJtP+ZSUn3SXSBrUifRKPhYhRqoAumcs187V03iOFiZY0TKqbDh+
- hkyzMbp13qUxrBmCTQvVpcP/Xb7e08ZheupFCG4GMBfifn0DDN/UKTsEVts8AMj23U7OwTx
- SjYJ6JFIAKAnPuZvDmwqux6WGWtsg0lTfriDxhOy3CEUkN6oIp1Oiokj+7hk42SnEGb9DPt
- BPJJoxmzzEQpwy7DsfKxcfNXkzTmHC3+6OHU7CrP3JqwEQhSpoIuTCTGp94ql60JOFsglV7
- SatbqLuPywI0euFCik+K7kf7zWvWLICXaqoxYeUOoEBhmOz3TXSUo9EpBGkQyxr/QkhwCXk
- v9FrthOMjG56PSbsJNP4yCIILtPsSIBRWsFM9Oj+cTpe3Alq46YU9Fx90MpfXJNfj3nQeZQ
- O9xR6mNA==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3E6F10E02B
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 07:34:07 +0000 (UTC)
+Received: from Jtjnmail201615.home.langchao.com
+ by ssh248.corpemail.net ((D)) with ASMTP (SSL) id 202510111533589541;
+ Sat, 11 Oct 2025 15:33:58 +0800
+Received: from jtjnmailAR02.home.langchao.com (10.100.2.43) by
+ Jtjnmail201615.home.langchao.com (10.100.2.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Sat, 11 Oct 2025 15:33:58 +0800
+Received: from inspur.com (10.100.2.108) by jtjnmailAR02.home.langchao.com
+ (10.100.2.43) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Sat, 11 Oct 2025 15:33:58 +0800
+Received: from localhost.localdomain.com (unknown [10.94.17.204])
+ by app4 (Coremail) with SMTP id bAJkCsDwybRmCOpoD_EGAA--.846S4;
+ Sat, 11 Oct 2025 15:33:58 +0800 (CST)
+From: Chu Guangqing <chuguangqing@inspur.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>
+CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>, Chu
+ Guangqing <chuguangqing@inspur.com>
+Subject: [PATCH v9 0/1] [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc
+ chipset
+Date: Sat, 11 Oct 2025 15:32:52 +0800
+Message-ID: <20251011073253.41422-1-chuguangqing@inspur.com>
+X-Mailer: git-send-email 2.43.7
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: bAJkCsDwybRmCOpoD_EGAA--.846S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxXr43GrWDArWfXF4UWr18AFb_yoWrGrW5pF
+ 4xCFyYkr1UKF4aywn3t3WxAFy3ta1xJFW3Gwn7Xw13uw4UZFy7ZFZYya45uFyDJF97Ja10
+ qrnaqF1SgF17AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
+ 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+ 6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbSfO7UUUU
+ U==
+X-CM-SenderInfo: 5fkxw35dqj1xlqj6x0hvsx2hhfrp/
+X-CM-DELIVERINFO: =?B?k9xv/ZRRTeOiUs3aOqHZ50hzsfHKF9Ds6CbXmDm38RucXu3DYXJR7Zlh9zE0nt/Iac
+ D+KYwe0BX3M8xKr62CjdfVXGvWdzm7YiQZ5F18Nc31q0zvicJhtN+6x1xgfgdqdRRrGdKu
+ b13jC4C5vDgvmQAcljA=
+Content-Type: text/plain
+tUid: 202510111533580813d9f6bb974be7680eb6812d86db14
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,239 +79,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+v9:
+ - Remove the check that will not occur
+ - Call drm_edid_connector_update to reset when drm_edid is empty.
+v8:
+ - Use YHGCH uniformly and add the company's official website.
 
-The RK3399 EVB IND board has a Type-C interface DisplayPort.
-It use fusb302 chip as Type-C controller.
+v7:
+ - Delete the three preceding function definitions
+ - delete Delete the redundant code and comments
+(https://lore.kernel.org/all/20250929063103.7375-1-chuguangqing@inspur.com/)
 
-fusb302 chip ---> USB/DP PHY0 <----> CDN-DP controller
+v6:
+ - simplify to return drm_atomic_helper_check_plane_state()
+ - remove empty line
+ - remove call drm_probe_ddc and smidebug
+ - replace drm_err with drm_dbg_kms
+ - add callback .disable
+ (https://lore.kernel.org/all/20250928054123.32895-1-chuguangqing@inspur.com/)
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
+v5:
+  - remove extra level of subdiretories, change to driver/gpu/drm/yhgch
+  - remove else from > +        else if (!new_plane_state->visible)
+  - remove extra check in function yhgch_plane_atomic_check
+  - remove the extra parentheses
+  - change the author like other modules
+  - use drm_edit_read function instead drm_get_edit
+  - remove debug info drm_warn call
+  - rename function name smi_connector_helper_detect_from_ddc to
+     yhgch_connector_helper_detect_from_ddc, remove extra return statement.
+  (https://lore.kernel.org/all/20250925091715.12739-1-chuguangqing@inspur.com/)
 
-(no changes since v4)
+v4:
+  - remove  VRAM helpers from Kconfig
+  - use the coding style in ast/mgag200 for the DDC
+  - use plane_state->dst instead of crtc_h/w/x/y.
+  - delete duplicate framebuffer's atomic_check.
+  - use FIELD_PREP() directly.
+  - use dev->mode_config.
+  - delete unnecessary drm_atomic_helper_shutdown call
+  - add AUTHOR
+  - using .enable instead
+  (https://lore.kernel.org/all/20250924064954.3921-1-chuguangqing@inspur.com/)
 
-Changes in v3:
-- Fix wrong vdo value.
-- Fix port node in usb-c-connector.
+v3:
+  - The order of the code blocks has been adjusted, and the "warn-on" branch
+     has been removed.
+  - removed the related formats for the alpha channel.
+  - removed the atomic_flush function.
+  - have removed the empty line.
+  - have removed the error message here.
+  - replaced it with the drmm_encoder_init function.
+  (https://lore.kernel.org/all/20250910022311.2655-1-chuguangqing@inspur.com/)
 
-Changes in v2:
-- Add endpoint to link DP PHY and DP controller.
-- Fix devicetree coding style.
+v2:
+  - Delete unnecessary comments
+  - Delete unnecessary branch
+  - Use drm_atomic_helper_check_plane_state
+  - remove the alpha formats form this list.
+  - use w,h rather than x, y
+  - delete type casting
+  - use a simple call to drm_atomic_helper_shutdown()
+  - delete yhgch_load function
+  - delete vblanking code
+  - delete unneeded i2c type
+  (https://lore.kernel.org/all/20250903054533.68540-1-chuguangqing@inspur.com/)
 
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++++++++++++++
- 1 file changed, 146 insertions(+)
+v1:
+  (https://lore.kernel.org/all/20250808053508.52202-1-chuguangqing@inspur.com/)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-index 70aee1ab904c..aeeee6bd2973 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-@@ -4,6 +4,7 @@
-  */
- 
- /dts-v1/;
-+#include <dt-bindings/usb/pd.h>
- #include "rk3399.dtsi"
- 
- / {
-@@ -19,6 +20,21 @@ chosen {
- 		stdout-path = "serial2:1500000n8";
- 	};
- 
-+	sound: sound {
-+		compatible = "rockchip,rk3399-gru-sound";
-+		rockchip,cpu = <&i2s0 &spdif>;
-+	};
-+
-+	vbus_typec: regulator-vbus-typec {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&vcc5v0_typec0_en>;
-+		regulator-name = "vbus_typec";
-+		vin-supply = <&vcc5v0_sys>;
-+	};
-+
- 	vcc5v0_sys: regulator-vcc5v0-sys {
- 		compatible = "regulator-fixed";
- 		enable-active-high;
-@@ -31,6 +47,11 @@ vcc5v0_sys: regulator-vcc5v0-sys {
- 	};
- };
- 
-+&cdn_dp {
-+	phys = <&tcphy0_dp>;
-+	status = "okay";
-+};
-+
- &cpu_b0 {
- 	cpu-supply = <&vdd_cpu_b>;
- };
-@@ -55,6 +76,12 @@ &cpu_l3 {
- 	cpu-supply = <&vdd_cpu_l>;
- };
- 
-+&dp_out {
-+	dp_controller_output: endpoint {
-+		remote-endpoint = <&dp_phy_in>;
-+	};
-+};
-+
- &emmc_phy {
- 	status = "okay";
- };
-@@ -341,6 +368,71 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c4 {
-+	i2c-scl-rising-time-ns = <475>;
-+	i2c-scl-falling-time-ns = <26>;
-+	status = "okay";
-+
-+	usbc0: typec-portc@22 {
-+		compatible = "fcs,fusb302";
-+		reg = <0x22>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&usbc0_int>;
-+		vbus-supply = <&vbus_typec>;
-+
-+		usb_con: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+			try-power-role = "sink";
-+			op-sink-microwatt = <1000000>;
-+			sink-pdos =
-+				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
-+			source-pdos =
-+				<PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
-+
-+			altmodes {
-+				displayport {
-+					svid = /bits/ 16 <0xff01>;
-+					vdo = <0x00001c46>;
-+				};
-+			};
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					usbc_hs: endpoint {
-+						remote-endpoint = <&u2phy0_typec_hs>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					usbc_ss: endpoint {
-+						remote-endpoint = <&tcphy0_typec_ss>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					usbc_dp: endpoint {
-+						remote-endpoint = <&tcphy0_typec_dp>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2s2 {
- 	status = "okay";
- };
-@@ -354,6 +446,16 @@ &io_domains {
- };
- 
- &pinctrl {
-+	usb-typec {
-+		usbc0_int: usbc0-int {
-+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+
-+		vcc5v0_typec0_en: vcc5v0-typec0-en {
-+			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	pmic {
- 		pmic_int_l: pmic-int-l {
- 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
-@@ -400,10 +502,48 @@ &sdmmc {
- 	status = "okay";
- };
- 
-+&sound {
-+	rockchip,codec = <&cdn_dp>;
-+	status = "okay";
-+};
-+
-+&spdif {
-+	status = "okay";
-+};
-+
- &tcphy0 {
- 	status = "okay";
- };
- 
-+&tcphy0_dp {
-+	mode-switch;
-+
-+	port {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		tcphy0_typec_dp: endpoint@0 {
-+			reg = <0>;
-+			remote-endpoint = <&usbc_dp>;
-+		};
-+
-+		dp_phy_in: endpoint@1 {
-+			reg = <1>;
-+			remote-endpoint = <&dp_controller_output>;
-+		};
-+	};
-+};
-+
-+&tcphy0_usb3 {
-+	orientation-switch;
-+
-+	port {
-+		tcphy0_typec_ss: endpoint {
-+			remote-endpoint = <&usbc_ss>;
-+		};
-+	};
-+};
-+
- &tcphy1 {
- 	status = "okay";
- };
-@@ -418,6 +558,12 @@ &tsadc {
- 
- &u2phy0 {
- 	status = "okay";
-+
-+	port {
-+		u2phy0_typec_hs: endpoint {
-+			remote-endpoint = <&usbc_hs>;
-+		};
-+	};
- };
- 
- &u2phy0_host {
+Chu Guangqing (1):
+  [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc chipset
+
+ MAINTAINERS                            |   6 +
+ drivers/gpu/drm/Kconfig                |   2 +
+ drivers/gpu/drm/Makefile               |   1 +
+ drivers/gpu/drm/yhgch/Kconfig          |  11 +
+ drivers/gpu/drm/yhgch/Makefile         |   4 +
+ drivers/gpu/drm/yhgch/yhgch_drm_de.c   | 391 +++++++++++++++++++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_drv.c  | 309 +++++++++++++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_drv.h  |  51 ++++
+ drivers/gpu/drm/yhgch/yhgch_drm_i2c.c  | 114 +++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_regs.h | 208 +++++++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_vdac.c | 136 +++++++++
+ 11 files changed, 1233 insertions(+)
+ create mode 100644 drivers/gpu/drm/yhgch/Kconfig
+ create mode 100644 drivers/gpu/drm/yhgch/Makefile
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_de.c
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_drv.c
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_drv.h
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_i2c.c
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_regs.h
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
+
 -- 
-2.49.0
+2.43.7
 
