@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22181BCEEF8
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 05:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4F6BCEEE8
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 05:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9756A10E2C5;
-	Sat, 11 Oct 2025 03:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB3B10E1DB;
+	Sat, 11 Oct 2025 03:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="ZXOUrBAY";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="Xh28myMq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D16510E2C5
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 03:33:46 +0000 (UTC)
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.58.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8091C10E2C5
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 03:33:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1760153578;
- bh=wwgcFk1rqH+p7dv0YhigDs5nbBu8CmNY3pNEURrA3U4=;
+ s=altu2504; t=1760153581;
+ bh=nQG0w7dhU7Aew5bKV30plkPn0nBnVdgTnfwSbxYLntU=;
  h=From:To:Subject:Date:Message-Id;
- b=ZXOUrBAYeKL/wI3nrvhpOyFIcldRUbURuP9ta0rgrrLYSK9yVysB7ojFABsOWahE+
- 3x7DF2Ex8jR/ZsxyyV31hxdB6Nt79KJemdwbfgr2mHtQcN/05Gp21HA07g5HOOQp/f
- ghaiJUvHlgGkLGfR27kBwB3Y9z3PFSdUkr+tbxB8=
-X-QQ-mid: zesmtpgz4t1760153576t79eb2061
-X-QQ-Originating-IP: MsjTdjXOtbpLDUqFopOqkAaQaYefGgccpSyNy4463zQ=
+ b=Xh28myMqhV9i2CVkS8+rCBcb8w9Fjo+ujmgXLyD8nw1TmDZ3gvnGlIQ6GyYqEIVj3
+ pCBDjI0Sgt6einiW79bKQYyQOPY2h/+XbzYx1Kn1ModeIYwmufAnGUFm4EJH+6DbB0
+ SNsV0QzNpUipMYLt24whCSY2aHBKP/kia3y2Y4mY=
+X-QQ-mid: zesmtpgz4t1760153579t96022b44
+X-QQ-Originating-IP: Frmd3Nj0ACfLGSy/LlGB4y0vuie5FM7XIF9dzJwwTnM=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 11 Oct 2025 11:32:54 +0800 (CST)
+ id ; Sat, 11 Oct 2025 11:32:57 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12447018638261968175
+X-BIZMAIL-ID: 15541258530940907442
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -53,31 +53,32 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 4/8] phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
-Date: Sat, 11 Oct 2025 11:32:29 +0800
-Message-Id: <20251011033233.97-5-kernel@airkyi.com>
+Subject: [PATCH v5 5/8] drm/rockchip: cdn-dp: Support handle lane info without
+ extcon
+Date: Sat, 11 Oct 2025 11:32:30 +0800
+Message-Id: <20251011033233.97-6-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251011033233.97-1-kernel@airkyi.com>
 References: <20251011033233.97-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: Ns2J6Ww7lX5lBkVzXyAUDOjmQd++5KHqGyHJtAM6GTNig5/qVW61Dc15
- JrQXbAk7/qGVjEW3aLhmuIerMVKvwTh1luCnsLDdgVj/PoXrxotCOj7hVxaL6eenUAnSzfd
- PgCJvsf1MWtUNHkIATdJOL+Atx3lV8FQLajiqKJzBcffunr3IRrt3udFtf0fBbc9HyL8Nhk
- UwrbJohstqOkupTW6JSen2fXIQ4/9f66E2ebjlfjJxYX8V/YyDI/s0Ik3SzM0AL1ifFPpa6
- RLH5K3JsX704OePWdH+eDYRsuJjFFxPIpR3i6FPODdz3tsBYZXX6/wbtJ0aiytX83u04LwL
- J5q01dNfzQF5aZ+RjAUfrypRVZzcTsKLGmR/m/YSVA5dQX/Cr2hq5UHG/+SSHOq3/tObZYz
- 3mIkVEVgu8RK2a60FlrdkKWCsFmx4WNnxHzIOyLRK6w+3iBMyj2yi3ptCSc4IeKk8ByH/XK
- Ji5FShNS3W/P7H6bUtUq8DHclXSlcWooW9laLivb8EOzKCsMz4u7cDp5FigfPvMsHqItXl0
- unhra5+nY3LVoZOba/xGT35oSHlTsgut+xGtVf9loMt+dBwrv6Gk2r2V2uYqvtxbM7Y6xJT
- /XqGvcI3RDf837C9WN8j1h6W+TeyeGuKrz+E79cwRrRRp/x+7xsz66lm8GU3EZJZvbK/ygc
- vU0EuOwSNFBOylcq9DcvbQ6Y7DFvtC1Vp0SCC8CbnUfiErpzXeQGsfG5nW12aaejqLgsoaM
- TMHR9hSxcB+JnBNgjGiWxGEOvrVzgvuqlwpJG8goyeV1Mj2liXIG7VLi9jmzO9B7l2cmthj
- yv4c9Y06nFdtoX8ZDKf1CFbtK6B2fGmT5aJEEUH3dOzM1PkC+WR+7VkS3yrlPUMhUyncyjy
- eSpqc4L36yumW5zr+6dJ0OlrTUHJpdJjvv5R0WoXIKtRrw0i0L9S/tnpel9OQXFqn0nqxqk
- rcwdt+C/PvPB/u5J1RE+YgdjotOOlF8aW3zmatgb1q0CmXNTNRKw+VW+7U16sVojvWeP5k/
- 92IDPXxqFWIRcUmPUNlfIX59R3rP4=
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-XMAILINFO: NZl/JFjf+G/9FTJlWA5PNBORUHPb7Z0wurMcHGaduVm0sgCvZ7qmY8+f
+ AF2HT5kzJL4PiYo0FIKJoxcUdSR8yRpEAV/otHwiiNuFWKFw4jjfQEkfXqD59n06whOS8M+
+ REMekiVs2kSRmuSS2EMm8/fp7RyElekN3kdjZmdkpWL0Bjz7k48Lf29OUUVooIRZqqlkUkZ
+ XbIhHAhTx4v2lnX45EHzOiSW4z6+V2XttV/p3jaQCn9epoCythco2hMgsnzMykB/9qsgK6H
+ tLj8nGv5iWV6mDH3DoZvPyUrPeIajychfSbaG4saFYu+AHzfSnLVDDvQrQAXmLxGJIa6j4L
+ 4/08PFeso/Ggky2Hx4WCSMzkpsmWRmi7NoS2YObOUUq2aCZq7nfKxjquAfq/GfiFvbGt6bL
+ y/Ag7WXtIP1hoEcEk9qk62aXHWU14JxiMWtXVKUD4sxdfjtcjjOC6aBZJ/FvGOjvojzdevT
+ MY8cfPeJanZY9Y3BPBkDGj2XNFZL8I31R91+2G7Sg4I7aolXgilHTolSRYVWrv+b+SeHKSs
+ Wvz27OcyU48+eZqCrDD2xzTATI78xY/hW/JZ3lrCwYgFa3McMrkGfOOBWu6yx6lMe8qQdVR
+ Al7oWRDQO/ga/bbgbwCUlcnaQ1+BLGS4xIaSJwzXOjE1/ASftzIJRgmtbqDF+k/93MeIUGW
+ FB5D0bC5FCwzFUU4wyjEbDej7BriOCk7/5s7Dy/EKXve94VpupAbuhVCjBIk5iVDHa7dEMQ
+ E6NwD1nCWw64nIAOO0K+9QHSTj9x0qFKMKcC17ilMTfkLa3ByHl5Q/xmVoW9SChNeYGX3/0
+ z1iZGeH87yvRIfX2TcNOgOCYTK7iEHp3DsKi7tkPhHIF7h01/EplFRcNWSmaiwN8HAc5LjO
+ SLw/tVrPxOcSDRSGT2ZGBfC5ahzOgNAyjzurZO8Nak5CNjIzt2MZTMeO8E58kB/E6Ue7+Su
+ 5kRzhiE4YJ7R/Lp3vuToKoa4IQTQoKll2bsOezZTk68r+66jwZ13E1ym2K15d2W9YUVDOj8
+ WajnJYc2UBMOeNlAjr
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,105 +97,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Using the DRM_AUX_BRIDGE helper to create the transparent DRM bridge
-device.
+This patch add support for get PHY lane info without help of extcon.
+
+There is no extcon needed if the Type-C controller is present. In this
+case, the lane info can be get from PHY instead of extcon.
+
+The extcon device should still be supported if Type-C controller is
+not present.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 ---
- drivers/phy/rockchip/phy-rockchip-typec.c | 52 +++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-typec.c b/drivers/phy/rockchip/phy-rockchip-typec.c
-index 4a1dfa8d65c7..8003a41de5c6 100644
---- a/drivers/phy/rockchip/phy-rockchip-typec.c
-+++ b/drivers/phy/rockchip/phy-rockchip-typec.c
-@@ -36,6 +36,7 @@
-  * orientation, false is normal orientation.
-  */
+(no changes since v5)
+
+Changes in v4:
+- Remove cdn_dp_hpd_notify().
+
+(no changes since v3)
+
+Changes in v2:
+- Ignore duplicate HPD events.
+
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index b7e3f5dcf8d5..1e27301584a4 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -156,6 +156,9 @@ static int cdn_dp_get_port_lanes(struct cdn_dp_port *port)
+ 	int dptx;
+ 	u8 lanes;
  
-+#include <linux/auxiliary_bus.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-@@ -56,6 +57,7 @@
- #include <linux/phy/phy.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
-+#include <drm/bridge/aux-bridge.h>
++	if (!edev)
++		return phy_get_bus_width(port->phy);
++
+ 	dptx = extcon_get_state(edev, EXTCON_DISP_DP);
+ 	if (dptx > 0) {
+ 		extcon_get_property(edev, EXTCON_DISP_DP,
+@@ -219,7 +222,7 @@ static bool cdn_dp_check_sink_connection(struct cdn_dp_device *dp)
+ 	 * some docks need more time to power up.
+ 	 */
+ 	while (time_before(jiffies, timeout)) {
+-		if (!extcon_get_state(port->extcon, EXTCON_DISP_DP))
++		if (port->extcon && !extcon_get_state(port->extcon, EXTCON_DISP_DP))
+ 			return false;
  
- #define CMN_SSM_BANDGAP			(0x21 << 2)
- #define CMN_SSM_BIAS			(0x22 << 2)
-@@ -415,6 +417,7 @@ struct rockchip_usb3phy_port_cfg {
+ 		if (!cdn_dp_get_sink_count(dp, &sink_count))
+@@ -385,11 +388,14 @@ static int cdn_dp_enable_phy(struct cdn_dp_device *dp, struct cdn_dp_port *port)
+ 		goto err_power_on;
+ 	}
  
- struct rockchip_typec_phy {
- 	struct device *dev;
-+	struct auxiliary_device dp_port_dev;
- 	void __iomem *base;
- 	struct extcon_dev *extcon;
- 	struct typec_mux_dev *mux;
-@@ -1296,6 +1299,51 @@ static void tcphy_typec_mux_unregister(void *data)
- 	typec_mux_unregister(tcphy->mux);
- }
+-	ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
+-				  EXTCON_PROP_USB_TYPEC_POLARITY, &property);
+-	if (ret) {
+-		DRM_DEV_ERROR(dp->dev, "get property failed\n");
+-		goto err_power_on;
++	property.intval = 0;
++	if (port->extcon) {
++		ret = extcon_get_property(port->extcon, EXTCON_DISP_DP,
++					  EXTCON_PROP_USB_TYPEC_POLARITY, &property);
++		if (ret) {
++			DRM_DEV_ERROR(dp->dev, "get property failed\n");
++			goto err_power_on;
++		}
+ 	}
  
-+static void tcphy_dp_port_dev_release(struct device *dev)
-+{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-+
-+	of_node_put(adev->dev.of_node);
-+}
-+
-+static void tcphy_dp_port_unregister_adev(void *_adev)
-+{
-+	struct auxiliary_device *adev = _adev;
-+
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+}
-+
-+static int tcphy_aux_bridge_register(struct rockchip_typec_phy *tcphy, struct device_node *np)
-+{
-+	struct auxiliary_device *adev = &tcphy->dp_port_dev;
-+	int ret;
-+
-+	adev->name = "dp_port";
-+	adev->dev.parent = tcphy->dev;
-+	adev->dev.of_node = of_node_get(np);
-+	adev->dev.release = tcphy_dp_port_dev_release;
-+
-+	ret = auxiliary_device_init(adev);
-+
-+	if (ret) {
-+		of_node_put(adev->dev.of_node);
-+		return ret;
-+	}
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret) {
-+		auxiliary_device_uninit(adev);
-+		return ret;
-+	}
-+
-+	devm_add_action_or_reset(tcphy->dev, tcphy_dp_port_unregister_adev, adev);
-+
-+	ret = drm_aux_bridge_register(&adev->dev);
-+
-+	return 0;
-+}
-+
- static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
- {
- 	struct typec_mux_desc mux_desc = {};
-@@ -1309,6 +1357,10 @@ static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
- 	if (!of_property_read_bool(np, "mode-switch"))
- 		goto put_np;
+ 	port->lanes = cdn_dp_get_port_lanes(port);
+@@ -1028,6 +1034,9 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+ 	for (i = 0; i < dp->ports; i++) {
+ 		port = dp->port[i];
  
-+	ret = tcphy_aux_bridge_register(tcphy, np);
-+	if (ret)
-+		goto put_np;
++		if (!port->extcon)
++			continue;
 +
- 	mux_desc.drvdata = tcphy;
- 	mux_desc.fwnode = device_get_named_child_node(tcphy->dev, "dp-port");
- 	mux_desc.set = tcphy_typec_mux_set;
+ 		port->event_nb.notifier_call = cdn_dp_pd_event;
+ 		ret = devm_extcon_register_notifier(dp->dev, port->extcon,
+ 						    EXTCON_DISP_DP,
+@@ -1120,14 +1129,14 @@ static int cdn_dp_probe(struct platform_device *pdev)
+ 		    PTR_ERR(phy) == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 
+-		if (IS_ERR(extcon) || IS_ERR(phy))
++		if (IS_ERR(phy) || PTR_ERR(extcon) != -ENODEV)
+ 			continue;
+ 
+ 		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+ 		if (!port)
+ 			return -ENOMEM;
+ 
+-		port->extcon = extcon;
++		port->extcon = IS_ERR(extcon) ? NULL : extcon;
+ 		port->phy = phy;
+ 		port->dp = dp;
+ 		port->id = i;
 -- 
 2.49.0
 
