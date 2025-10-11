@@ -2,132 +2,195 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A32EBCFB11
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 20:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E9DBCFB69
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 21:40:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 558F210E039;
-	Sat, 11 Oct 2025 18:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF7110E101;
+	Sat, 11 Oct 2025 19:39:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SVdsgXu+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mfpcPSdz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6C410E039
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 18:52:11 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59BIjH9d016915
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 18:52:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=/+pzSiIjVBnWxA/hQntIwuWV
- dEB2AAtnUsGXY13DWPI=; b=SVdsgXu+Dv9XNolVHUB2L3Cuv0aSMuggEYDMC+i9
- 6k5APB5vDU1bJiw9zKOgXB+sCZqw8MNDqdi1wl+bbjsaYb1xX5y99eqorLOmFN9/
- En7o9HnNswuxn7OzMK5UmryBhtbd/WZZPtur3trLWlPfz2a6rPezyR0VRrn7yTM8
- ZoZzBoI7ojkheJ/5uAaGE3yTASujDDp4UPtmiCMEcfXAtzyk3SZC34Udr6jJhuJ8
- 2mCaEtTfuVKF/zpdBVIx7rCX1A9TAz82niaGoknye/d/Npl0auFXVvlaAJ/qQHH7
- KI3wuOvexIohrqY0k2X7OHrD5HoBqN2ByGjcNNG/jIPAwA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfd8s24h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 18:52:11 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-827061b4ca9so1547876185a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 11:52:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760208730; x=1760813530;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/+pzSiIjVBnWxA/hQntIwuWVdEB2AAtnUsGXY13DWPI=;
- b=W/GiATUN/aBHqW7Pfz0iBe8p9bcxNFSbthaBPL2+2Cal81bksp84g0PcqU3La/K1xl
- F65QFf89wBtij/uSsXxazoWlJxNLuC2QzVdLbd139yg8aIHh+UqsZ+Cx3pH2KJI15m7C
- ZNQJVF0i3POpr2FDr09GOGKrJKhk8HUiwGn26FHZdmVEiHNYtFZ4QZ9IyYHhDBB64Xh9
- b0PaxIBA5MFukoraERA/IRfDYTOcnl+wn3RDkJ1df7scb64zR2KkRfOFg8XgxVZ3ote3
- rMd+DX3VRGSkT/T9XiEbGHvfOcfD7xPSfOglZq5TIpgeaYrh038AbPM/+ptDAj5O/j1L
- Lm+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUXJT8sous70Z58NCs34iCZC2Mx0oOrnzbFYejmVyt/9tYSHore5c4PlvNXzpX+WOWPq+Jv8uxo6Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyS7nHMQKLBrOxyzsP1gNEgnDeYqCOWoYbw+86CPA8h4PDAhktK
- ooCnzWpjMxyCr2SLOtpAOQDcx63+Gez9MRkhB6CAG4vGtgWKEd7DVOTCMpuYSbuAMq554Jezvgu
- lO7uJjbz2OFtrzUoK+gr38M6dVG7zSJ6KTb4RKV9iISVBFa4z3+6sCmdNHcJ3OL4/6Aj6iY4=
-X-Gm-Gg: ASbGncsUkr5YM49zAZYwowwg8X6Hf2zt5D3iugYhWQ3BNbhPhH0oN3Sh9Sk0Ass8+/1
- DY7+9t/lOgF+voyu//Zr9i8mzn4F3ZJ/3yKyft5s0NzaS5HedHJfnHYgEpmn5Qzz9ETajGF0jga
- psbdnCQ9NxOqKcDEVMAaHxxEbl4cnQlPWSiijjMhyAB1ObQf5GZy9DwMM5wUGDYdlztuX6mzgye
- eUkAJHDZ2JZyftQdKB2fluYkGPFimZKA6vH7VIdJ8mJTJhfKnJPiHB3FVQuOuk0lRPuraGxa+W/
- rFQ+La477SHQmUk9ksvOWz8wpl+FR5BRzI8yplG0xzra2t8jD54miqw17hf5K47IMuLhk8xM6ly
- 4SbSGJGDe8kn+SgCsQFc0BRghd7tZPKmwlaOkXwIbr6BLNj+Yo3nD
-X-Received: by 2002:a05:620a:400f:b0:85b:a906:127c with SMTP id
- af79cd13be357-88353558d25mr2318572385a.54.1760208729777; 
- Sat, 11 Oct 2025 11:52:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/k0JIMwDDe8wKbfoitr+GmGj4WmEClMNGgNYD1vA6WxUaESVw6RtRzEdEu71iz8UzlrWicA==
-X-Received: by 2002:a05:620a:400f:b0:85b:a906:127c with SMTP id
- af79cd13be357-88353558d25mr2318568685a.54.1760208729193; 
- Sat, 11 Oct 2025 11:52:09 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-590881f88ddsm2167029e87.31.2025.10.11.11.52.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Oct 2025 11:52:08 -0700 (PDT)
-Date: Sat, 11 Oct 2025 21:52:06 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chaoyi Chen <kernel@airkyi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 6/8] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-Message-ID: <qzcdulyj2enho7l6vyvad7ln46zk2u4z7rnsjv2nv4tbw5j6jf@6oenbixoh3sp>
-References: <20251011033233.97-1-kernel@airkyi.com>
- <20251011033233.97-7-kernel@airkyi.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F39A10E0EF;
+ Sat, 11 Oct 2025 19:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760211598; x=1791747598;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=wFl7RuXuWuDizP5OuBF7oN/PTJmlSw7PyuPpC/+1R6k=;
+ b=mfpcPSdz2JkQj51mSoG2cG0A9EERFf4YBYqol+pyt/zLT6ptOdL+TgOA
+ iT3rVS4SEe0hNya/Pyaw7Q8hp/YGthXcN90P4oUhgDV9he0LcwYb+Jx+q
+ yaoOLgARSr0VY4WVDchjRwhAP2Bvt7WCAVOSYp+dOqzq6N8cWdwCDv/x8
+ O+4gM0oG43EOliU5FOHDgB3u3jrN++3ciNaIGwKrMUukqD+RuqhO+nWvI
+ sMWza5wW75ZdsE81GEo449woMx6FJmr1MyhOL8WtQN4R1U8tZIbbSM4CD
+ ipNpnUJVs0yvzZ8Rnd5tL64KGa4DhSOlQSOnicIQZuxmvxUSsDUrTjPRO g==;
+X-CSE-ConnectionGUID: OXwuf+hITwqAgwFRXCpIVQ==
+X-CSE-MsgGUID: 2CAD4rr4TayxewKQ3ruSAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="61607848"
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; d="scan'208";a="61607848"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2025 12:39:58 -0700
+X-CSE-ConnectionGUID: +YO6mGofSM6BJXMe+bfNPw==
+X-CSE-MsgGUID: xd9o+6OrSauMCPg1vvYjzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; d="scan'208";a="181661448"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2025 12:39:57 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sat, 11 Oct 2025 12:39:56 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Sat, 11 Oct 2025 12:39:56 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.70) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sat, 11 Oct 2025 12:39:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NyX0g//C8qAY3lqRYbWNNgDNurLh4xTQMJ0id3IHDF39/cN97G4rH0NpTwOXTuDNcoZzzovSAaynI6GBOpxLYYMqmNKnQPkw7Tf370EnZdYuJC2y87uFDh0SaDISAxZRKSMVi1c0Tmpeg05LIkStEdWd6FdB1IpAIfa9S8++2x6vCQO324y7LwHZ/YYpz5pWGVHDPnB1efOIEOlePONSGXLlXoMor9YlLisxrCYQ0SlVR5j8UB8NN3tEMcTu1T+Sl7OCYyDs5rJtlAM56VL8vJt8OK9DyFJgT22D6FZe3x5laClxb6Xk6oMLRJLB5UerUT50VkJbWhGhXFeE9y8bUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gZa+qDVBcDgX/0nWXtJnzN1IMvgDNcC2Ehty2jBLM1U=;
+ b=OSLNVeHujPwsTw4sz/9+mrMd2VO6DO7miwobbobBYkBrjZ+twyU1FEF/lYGS0n8hVp6nTOyzEL/51ucRd7V+CDksGN3z0QiUShzpAjw6u/UYGH18A8uMlDOYurqPaHMtbwNLmBm61ds8K4PpZySjBhn6AdK+7ISEUJiOj2Ir/nxhsn4ti2A51POQfOrpqYEAEIUhQcfkMgMJk5mhCSDlxdnoIy1k4FGp4yj5J+egqtYLwPIze5gKGpEcIHckkLXIDtzohM+QSe9oFm0aqQvcoD1ZYQj6zh75yG7xW9o5FdvjgHmICg8zmkXO0khw3d9UEXjtophtETkeeUlo8t/awQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ DM3PPFF2E67D388.namprd11.prod.outlook.com (2603:10b6:f:fc00::f60)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Sat, 11 Oct
+ 2025 19:39:54 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9203.007; Sat, 11 Oct 2025
+ 19:39:54 +0000
+From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, =?UTF-8?q?Thomas=20Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
+ <kevin.tian@intel.com>, Shameer Kolothum
+ <shameerali.kolothum.thodi@huawei.com>, <intel-xe@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, Matthew Brost
+ <matthew.brost@intel.com>, Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
+ Laguna" <lukasz.laguna@intel.com>, =?UTF-8?q?Micha=C5=82=20Winiarski?=
+ <michal.winiarski@intel.com>
+Subject: [PATCH 00/26] vfio/xe: Add driver variant for Xe VF migration
+Date: Sat, 11 Oct 2025 21:38:21 +0200
+Message-ID: <20251011193847.1836454-1-michal.winiarski@intel.com>
+X-Mailer: git-send-email 2.50.1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: WA0P291CA0016.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::28) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251011033233.97-7-kernel@airkyi.com>
-X-Proofpoint-ORIG-GUID: rlRoZeUK1m7-dvL--DNdj3zh3PjlwZOa
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX9fxMffyBm0Xu
- jTchLS6R5g5ywqTjp7NHTyabZ/rSX8gU0mkftMT6UYs+QL7oOMYBfNDAOKlpEhp3y5LlHoxwXTW
- xaPMEFSFPEojCdAIur0CsBOpY1oPz7IXV2ZqylQpCc4XZjApXZT1IVtU+AaQUYlfpfMv29uYdmW
- jFiMkmOmNnUI7/IESMgvjFnnzQam+22E/mVYgBvdG1c7mtDHJbScI7B4bkeCNj1WMa4pqXZip+Q
- sNG7q7Mp8NiIOJQ55xc76l6Oj+JFqGnLVL4MTlcv4sIqc9kSk/Is+WesgVOuFVqCpvHFw63m8gs
- GKSJcskbmQ3CizijQ5IjEeDZ+PyMyKFMBd2N1itLgOhrr+miV4bF51ACSmy4XGgW+XtvJzSOWbw
- jfmOnwhbgXagTM+MsdzTDePzD6oKgA==
-X-Proofpoint-GUID: rlRoZeUK1m7-dvL--DNdj3zh3PjlwZOa
-X-Authority-Analysis: v=2.4 cv=PdTyRyhd c=1 sm=1 tr=0 ts=68eaa75b cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=s8YR1HE3AAAA:8 a=Vq1njTOzTen_YWzSrCwA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=jGH_LyMDp9YhSvY-UuyI:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|DM3PPFF2E67D388:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09d0b8a7-9273-4f93-334c-08de08fdf377
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cTBlT00wcUd5Mmxhc2IvWEhseW50MmJxWUxISDZtTlVWTklvMlBiQUVOc2tV?=
+ =?utf-8?B?dmVRTmRVQm8wUG5BR0k5Y1Izbks1R1l0YVJUaDJnRkxCbzJWcXpXZVk4TW9V?=
+ =?utf-8?B?cE1qYkhTZS94YlVlV0pnbmE4bThYRU03WEtKRE5JUnZWeWphdTlxM3dRcldL?=
+ =?utf-8?B?U2VKQ0Q0WXUvZDZTWSt5M2pmYlBlUFRCK1dHMDhZSnVCY3VzcVEyL3B3Q01p?=
+ =?utf-8?B?ei9UbmV1TmlicmE1dmRwWmg4SDRQZW9adExWWC8zQVY5U0l6bjlFN25jR2lH?=
+ =?utf-8?B?aGZpM0VjdVpRMDFxTFdKK0p5d0lWam9VWkcraExQYmhLNkYrQlh4bm9OQnUz?=
+ =?utf-8?B?a2JtYkNaVHFiWjM3UmFscWF5Nkh6WDNJQ0YxQUNOL1EvTk15VXU2cFVKN2VS?=
+ =?utf-8?B?Mmp4S05xbUxkN2o3b0ZqNFMwd0prRHJ1c3hRNnQ1dmpVcUN6ZlRhZVVQaFlX?=
+ =?utf-8?B?L3lnd3JyeW42VlZ1WmU3TlZWWDlwdmxFdXYzZUFvK09SVlNHazMzZDkyN3R2?=
+ =?utf-8?B?aTVjMDQ0MDFIcWtFeTB2WmdkVnRTY2JWMHl0SnhWYitsQ1pQVHJRZEVCcW5V?=
+ =?utf-8?B?SUpPUi9hd3JaZWpEZXUzN0cvRE9iVEpuNjN3OUgwcFUvL0REbmNKVUY5S2tT?=
+ =?utf-8?B?dmJ6SVV1VENZUnBGdDJDVlFSOGFyeGlBd01xVUVvdW9oQU1HZmUwaHFtT3d1?=
+ =?utf-8?B?M2VXS2F1eEwzR25OVys2OFhPR0lBNVZXaGdRQTYxaVZkNm12UnVDSkhnakhP?=
+ =?utf-8?B?VTJvc093NHVrMGVnK00rYklWVVZXeXNSM2hpTk5MQVhoZjUwTWhSbEdGL1pJ?=
+ =?utf-8?B?T3Z6RUZqVmtiSDN1ZjArWDBoS095cGI3N3lRMUduZnJUUjhHdGlNZXF3cDFT?=
+ =?utf-8?B?TDhSTGlGNU1uUGlIOENuR3RzcHV6eURJRWYvdXg3dG1WdnZnMWFvNEhkc0Jh?=
+ =?utf-8?B?NkdWQjlYcmpsdTBIeUlQLzlnNi9PRmNVMkMvK3NLNHdTejBoUzJadU9FbmFC?=
+ =?utf-8?B?S3BHQStIT2lHUGFDMkNhdTREL3ZLeHpKeXM0WVhNL3ptTS9lUW10STVwSmhU?=
+ =?utf-8?B?VlVjK0U1VXd6ek02R1pLUHUxV1hJSllaMkhjYlBJbDlUWHlXMzIwaFRWU1JI?=
+ =?utf-8?B?MG1NY1h6S0Y3Qi9mY0hjeU9sSXlWeGpITzFHNllFRTVnc1Fad2NrV1dnL0lC?=
+ =?utf-8?B?dDkyM3JxZWRNeFpRc3BweXo3MkVOaHl5NFF4ejlBTU4yck5MeEVUT3c1R2Fk?=
+ =?utf-8?B?UG40ck9uM2grNWJIL1RCWXQvd2NlZHI4YnQ5bkthNEx2S1hkc3pBRjUxZWZv?=
+ =?utf-8?B?T2dDSXdRNUN3M3czRnNDdVlQKzlRSG4xSC9MSkcvaDh0eW9Xa1MxTTRVOFQ3?=
+ =?utf-8?B?SUJhWGY0SVJ5UWZ0TXVPbXN3RENkUHJzUkRoUTlSSFpXckVobFFUV0Ura1pr?=
+ =?utf-8?B?Q0grbHdkcTVqa2RBN245Zk50dHp4U05xRWpza2JFdmtkVlk0R1RrcHcveDhn?=
+ =?utf-8?B?Z3J2WmhJMTZrN3NnSFVObE01QUxpbTdEV29QQjhaYlUyY3hqd1ZNUC9XVmdx?=
+ =?utf-8?B?N1puZVViNVFycytGRXg3dFUxVkhOcysybHlpdjFqUHB5UDA5dVVnVFVSaWxT?=
+ =?utf-8?B?Mi9vQ05wTFlFWXNEUjBMOG93b3RDNGg2SGp5d2tPeGZHaStmVFg3VC9DSmJF?=
+ =?utf-8?B?SDAwYVIyV3ZDWFh3ekowRWgyTkhhT1dkaWlHaCs2NXh2S0MwTkQxcGljZmZX?=
+ =?utf-8?B?ZDEwUExYYmg5UzNnNE02R1VZVWNFenM1TnplSGtteTNTT3E2N0dmSUh6RVIv?=
+ =?utf-8?B?eUpVYlliNXBXT1hhVStVTXZRNy9heUdTTWZoRUFYN2RUemxQN00vaEg3SVhU?=
+ =?utf-8?B?UThZVmJhN1E1RExjTEpVQUpNOWoxamJocm9uS1BEM1hvclZrQXo0T2Jackd4?=
+ =?utf-8?B?NGNHVFdpMFVQNmdzdmNoOUo4UWo1NDJUZ09rZ2l3Z0hpZ21zNEpRdWNpUXFj?=
+ =?utf-8?Q?2NxFP52mCN8HoTePaf8Vpsmx4L2baI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3UzbDRlTHZCRXZHY2Q2VDByaDJsK0RaOXJhU0JwakRqSVF0V2NmUCtYRTIv?=
+ =?utf-8?B?SlFHWWtxeDV5ZzhBem9MUzAxYlFjR3c4dFBzc2JvSUdHQ1FsMmFHM0RnL2ow?=
+ =?utf-8?B?S2h6MjdMd0ZTOTkyNDc1SW4wZmo0SUczazBjdFVNa2Z5eGJrTXVRYTc3Mllj?=
+ =?utf-8?B?N0JCVnJsa2lNVjVQWG1iZWZjWEx6QXpJOUNvWVMyNUlyaUl5ZTZ2a2RkTGpk?=
+ =?utf-8?B?QmdHU0lRTmNrN3VoOENxNmpVR0pNUGl2RkFYNlZYWnd4aEpsakpBbFJPSzlJ?=
+ =?utf-8?B?UjZ0bnhjVmlTWlhjZ3RIcjk5cXhBVVh1TWNUdmM3UnpNdm5QcWNxZ094alQw?=
+ =?utf-8?B?V1hoMTRtUlUyOG11RHFwTWFwUDRRVWtCSCt5ZTliZzVxUUhKTW5ZYWI3cVQx?=
+ =?utf-8?B?RDJkWjBrZndTb25wMmhaaHRaa05Xc1ZXb0RBTHVTR1RMM3haOG5xaXREcldu?=
+ =?utf-8?B?STdZOE8xY3RiYXFNSGt2OE9BZXpYUktyV2ltSkNCcHlnd0lZS0g0N1FTY0NR?=
+ =?utf-8?B?M0lUS0lPQ29Edzc3YzVXRC9OT0lDTU1Rb01zVnQ4TG9aNTVYMzFYVzdxWVNJ?=
+ =?utf-8?B?TTJoT1lCdXRFc3paY3l1STFEQnZML1grZWh4eFNTaC9QSW9sTlpVYkN1cjAw?=
+ =?utf-8?B?WlhuY3k1bFRZaE5rYlNBcUtNbDI0dW5iMUVzbkhDOEczT0dlUlVPM281b2ZI?=
+ =?utf-8?B?ZGluek9ZbVBVZkE1RlpiajNjZVBRRUdUVGdFaE5QWmFnQ0FMSlB0V1ZITzEz?=
+ =?utf-8?B?aUdWL2krUFNKRENZQ3BSL0ZPMDRYS0F4ekJkUUZTVHRtb0s1RXEwdjQ0WTZn?=
+ =?utf-8?B?bDFtWUZLYkovSUpTN1BSdG5tKzNiZGxGdlNxa1YxUnowNUJCQVpIUFJkM0cr?=
+ =?utf-8?B?SG8rVk4xczdGbzFIMTlNSFA3YjQ5YjVUblBDN3UxajNwSkZwUHpwenJCSEVp?=
+ =?utf-8?B?c0hPZHJvNXhYd3lzWFZZd3VUN0dpZDFPbEdYM0xUY0w2NG41ZGVzRzZkWjBB?=
+ =?utf-8?B?aVJtWklmUEczdkFXeERnOHMwQmxWNG1XbW5IQThCby9sblZXWmNYMVY2ZmVx?=
+ =?utf-8?B?RnBHWlJJbVp0Z0dsYmh4N1FGZDZvM1N0Z04xL0MrK0VvRklMN2txSkxEYVlT?=
+ =?utf-8?B?U0d6aFd5akFCZlpGdjd1ZGhabUovdHhmKzJQYXdvVjdWYU5QcERTbXBFdGdY?=
+ =?utf-8?B?d2I4djJ2cHIwbm5RZ2gySUlMQldOcW41YU5XVkVvNFNyRTBqNlRCekpuZUZo?=
+ =?utf-8?B?YVM4SEpNY0V3R3EyOVU1ajdLcGZYdEJYbXBxblVQMmd4SHJjRlNzeHlCWUZ0?=
+ =?utf-8?B?d0pNU3VyT1JIVmU1aDdzdW5iRFFKSmhYVStSTXQvV0V1bG9JSFo1Qk8vbEdu?=
+ =?utf-8?B?MDJBMXNDNXpTejFnVmQwL1krQ1IrZHo2V2FPRW5JOC9aWUlDckNOT3JtODN4?=
+ =?utf-8?B?M3I3Q211WUpWTThGMnFnRzA5RlRKQ1Y4UHRrcjh5VGJUMUNpRGw0TS9RTENX?=
+ =?utf-8?B?NVkvVUt5eC8rM3krSEZzOENIaXZEOEM5QVgxQU1vSGszNzJJVHRXWmk5cHM4?=
+ =?utf-8?B?WmFQVWlMNlQ0aUpvdWxuQnNBSTBDUkl1Q1FPT2YzSHAvb3RMVzJhQ0g2VGQx?=
+ =?utf-8?B?QTdHc2dBdkxMOWpVQ1F6dGxZRm1VNGsrOVJFYWFnQmQ3M1FpdzkyNUVRVS8y?=
+ =?utf-8?B?eXpQQUJOZERuUEtNUnU2QlgyR3REc2x2VXJ4RG5qaHJnV0Frakp6eGg1OCtw?=
+ =?utf-8?B?UWVybjExbjY0MVVrdG9ZU0dmaHAvdUc1bzVUOEtCZXVBM2I4amkxL3l4YWZU?=
+ =?utf-8?B?R1lEdDdjYW1DeEhQYzlQSlhVR0l1NTVyYzd6NFZrd1NHQUxwZWdid3FXaXM4?=
+ =?utf-8?B?d0grL0NmdEEycWVQNzg3Y29NL3dvdFZnZGV3bG5zODUyU1NWVDZhWklubURm?=
+ =?utf-8?B?NFBkVkF6SFBwclFVTW9zWTN0c3VLK0IrVVd4STg0d2pSLzllV0gvL25pQTBO?=
+ =?utf-8?B?N0luRStiZEhmNDR0TnJBdlpSWXhGWFlnSjlONWdvME90QzdKT29HckMzWFRH?=
+ =?utf-8?B?SVR4eFV4UUpCam9ibk91NDRaMXM2cXp3cDVIN2hscFQ5bVE3RUxZN1Vsc2ZU?=
+ =?utf-8?B?ZWJCanhGSktmc2lCZFFPbXB5QXErTHZmbkdXNHNkQWhJdW9KN0tTMWFzdCs2?=
+ =?utf-8?B?c2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09d0b8a7-9273-4f93-334c-08de08fdf377
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2025 19:39:54.0076 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3qt6Uox9nobxCSpS5Vg/4755nfci4Hrt8xaC1B+9BhuMf4wmjmTMZyupPRotYMeNJr3UvA0edb45D3ippK1Bkrr4Yghsls4BCzeABH0NCKA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPFF2E67D388
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,185 +206,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 11:32:31AM +0800, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
-> the CDN-DP can be switched to output to one of the PHYs. If both ports
-> are plugged into DP, DP will select the first port for output.
-> 
-> This patch adds support for multiple bridges, enabling users to flexibly
-> select the output port. For each PHY port, a separate encoder and bridge
-> are registered.
-> 
-> The change is based on the DRM AUX HPD bridge, rather than the
-> extcon approach. This requires the DT to correctly describe the
-> connections between the first bridge in bridge chain and DP
-> controller. For example, the bridge chain may be like this:
-> 
-> PHY aux birdge -> fsa4480 analog audio switch bridge ->
-> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
-> 
-> In this case, the connection relationships among the PHY aux bridge
-> and the DP contorller need to be described in DT.
-> 
-> In addition, the cdn_dp_parse_hpd_bridge_dt() will parses it and
-> determines whether to register one or two bridges.
-> 
-> Since there is only one DP controller, only one of the PHY ports can
-> output at a time. The key is how to switch between different PHYs,
-> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
-> 
-> There are two cases:
-> 
-> 1. Neither bridge is enabled. In this case, both bridges can
-> independently read the EDID, and the PHY port may switch before
-> reading the EDID.
-> 
-> 2. One bridge is already enabled. In this case, other bridges are not
-> allowed to read the EDID. So we will try to return the cached EDID.
-> 
-> Since the scenario of two ports plug in at the same time is rare,
-> I don't have a board which support two TypeC connector to test this.
-> Therefore, I tested forced switching on a single PHY port, as well as
-> output using a fake PHY port alongside a real PHY port.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
-> 
-> Changes in v5:
-> - By parsing the HPD bridge chain, set the connector's of_node to the
-> of_node corresponding to the USB-C connector.
-> - Return EDID cache when other port is already enabled.
-> 
->  drivers/gpu/drm/rockchip/Kconfig       |   2 +
->  drivers/gpu/drm/rockchip/cdn-dp-core.c | 355 +++++++++++++++++++++----
->  drivers/gpu/drm/rockchip/cdn-dp-core.h |  24 +-
->  3 files changed, 324 insertions(+), 57 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index faf50d872be3..7472ec923cfd 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -55,6 +55,8 @@ config ROCKCHIP_CDN_DP
->  	select DRM_DISPLAY_HELPER
->  	select DRM_BRIDGE_CONNECTOR
->  	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_AUX_BRIDGE
-> +	select DRM_AUX_HPD_BRIDGE
+Xe is a DRM driver supporting Intel GPUs and for SR-IOV capable
+devices, it enables the creation of SR-IOV VFs.
+This series adds xe-vfio-pci driver variant that interacts with Xe
+driver to control VF device state and read/write migration data,
+allowing it to extend regular vfio-pci functionality with VFIO migration
+capability.
+The driver doesn't expose PRE_COPY support, as currently supported
+hardware lacks the capability to track dirty pages.
 
-You are not using them in this driver, so this is not correct. Please
-declare Kconfig dependencies for the drivers that actually call the API,
-otherwise the LKP or somebody else can get compile errors because this
-driver wasn't selected.
+While Xe driver already had the capability to manage VF device state,
+management of migration data was something that needed to be implemented
+and constitutes the majority of the series.
 
->  	help
->  	  This selects support for Rockchip SoC specific extensions
->  	  for the cdn DP driver. If you want to enable Dp on
+The migration data is processed asynchronously by the Xe driver, and is
+organized into multiple migration data packet types representing the
+hardware interfaces of the device (GGTT / MMIO / GuC FW / VRAM).
+Since the VRAM can potentially be larger than available system memory,
+it is copied in multiple chunks. The metadata needed for migration
+compatibility decisions is added as part of descriptor packet (currently
+limited to PCI device ID / revision).
+Xe driver abstracts away the internals of packet processing and takes
+care of tracking the position within individual packets.
+The API exported to VFIO is similar to API exported by VFIO to
+userspace, a simple .read()/.write().
 
-[...]
+Note that some of the VF resources are not virtualized (e.g. GGTT - the
+GFX device global virtual address space). This means that the VF driver
+needs to be aware that migration has occured in order to properly
+relocate (patching or reemiting data that contains references to GGTT
+addresses) before resuming operation.
+The code to handle that is already present in upstream Linux and in
+production VF drivers for other OSes.
 
-> +
-> +	/*
-> +	 *
-> +	 * &dp_out {
-> +	 *	dp_controller_output0: endpoint@0 {
-> +	 * 		remote-endpoint = <&dp_phy0_in>
-> +	 * 	};
-> +	 *
-> +	 * 	dp_controller_output1: endpoint@1 {
-> +	 * 		remote-endpoint = <&dp_phy1_in>
-> +	 * 	};
-> +	 * };
-> +	 *
-> +	 * &tcphy0_dp {
-> +	 * 	port {
-> +	 * 		tcphy0_typec_dp: endpoint@0 {
-> +	 * 			reg = <0>;
-> +	 * 			remote-endpoint = <&usbc0_dp>;
-> +	 * 		};
-> +	 *
-> +	 * 		dp_phy0_in: endpoint@1 {
-> +	 * 			reg = <1>;
-> +	 * 			remote-endpoint = <&dp_controller_output0>;
-> +	 * 		};
-> +	 * 	};
-> +	 * };
-> +	 *
-> +	 * &tcphy1_dp {
-> +	 * 	...
-> +	 * };
-> +	 *
-> +	 */
-> +
-> +	/* One endpoint may correspond to one HPD bridge. */
-> +	for_each_of_graph_port_endpoint(port, dp_ep) {
-> +		struct device_node *phy_bridge_node __free(device_node) =
-> +			of_graph_get_remote_port_parent(dp_ep);
-> +
-> +		bridge = of_drm_find_bridge(phy_bridge_node);
-> +		if (!bridge) {
-> +			ret = -EPROBE_DEFER;
-> +			goto out;
-> +		}
-> +
-> +		dp->hpd_bridge_valid = true;
-> +		dp->hpd_bridge_list[count].bridge = bridge;
-> +		dp->hpd_bridge_list[count].parent = dp;
-> +		dp->hpd_bridge_list[count].id = count;
+Lukasz Laguna (2):
+  drm/xe/pf: Add helper to retrieve VF's LMEM object
+  drm/xe/migrate: Add function for raw copy of VRAM and CCS
 
-This looks misnamed. They are not necessarily HPD bridges. There can be
-a random chain between your controller and the actual output / connector
-/etc.
+Michał Winiarski (24):
+  drm/xe/pf: Remove GuC version check for migration support
+  drm/xe: Move migration support to device-level struct
+  drm/xe/pf: Add save/restore control state stubs and connect to debugfs
+  drm/xe/pf: Extract migration mutex out of its struct
+  drm/xe/pf: Add data structures and handlers for migration rings
+  drm/xe/pf: Add helpers for migration data allocation / free
+  drm/xe/pf: Add support for encap/decap of bitstream to/from packet
+  drm/xe/pf: Add minimalistic migration descriptor
+  drm/xe/pf: Expose VF migration data size over debugfs
+  drm/xe: Add sa/guc_buf_cache sync interface
+  drm/xe: Allow the caller to pass guc_buf_cache size
+  drm/xe/pf: Increase PF GuC Buffer Cache size and use it for VF
+    migration
+  drm/xe/pf: Remove GuC migration data save/restore from GT debugfs
+  drm/xe/pf: Don't save GuC VF migration data on pause
+  drm/xe/pf: Switch VF migration GuC save/restore to struct migration
+    data
+  drm/xe/pf: Handle GuC migration data as part of PF control
+  drm/xe/pf: Add helpers for VF GGTT migration data handling
+  drm/xe/pf: Handle GGTT migration data as part of PF control
+  drm/xe/pf: Add helpers for VF MMIO migration data handling
+  drm/xe/pf: Handle MMIO migration data as part of PF control
+  drm/xe/pf: Handle VRAM migration data as part of PF control
+  drm/xe/pf: Add wait helper for VF FLR
+  drm/xe/pf: Export helpers for VFIO
+  vfio/xe: Add vendor-specific vfio_pci driver for Intel graphics
 
-> +		count++;
-> +	}
-> +
-> +out:
-> +	dp->bridge_count = count ? count : 1;
-> +	return ret;
-> +}
-> +
-> +static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
-> +{
-> +	struct cdn_dp_device *dp = dev_get_drvdata(dev);
-> +	struct drm_bridge *bridge, *hpd_bridge;
-> +	struct drm_encoder *encoder;
-> +	struct cdn_dp_port *port;
-> +	struct drm_device *drm_dev = data;
-> +	struct cdn_dp_bridge *bridge_list;
-
-Why is it bridge_list?
-
-> +	int ret, i;
-> +
-> +	ret = cdn_dp_parse_dt(dp);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = cdn_dp_parse_hpd_bridge_dt(dp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dp->drm_dev = drm_dev;
-> +	dp->connected = false;
-> +	dp->active = false;
-> +	dp->active_port = -1;
-> +	dp->fw_loaded = false;
-> +
-> +	for (i = 0; i < dp->bridge_count; i++) {
-> +		bridge_list = devm_drm_bridge_alloc(dev, struct cdn_dp_bridge, bridge,
-> +						    &cdn_dp_bridge_funcs);
-> +		if (IS_ERR(bridge_list))
-> +			return PTR_ERR(bridge_list);
-> +		bridge_list->id = i;
-> +		bridge_list->parent = dp;
-> +		if (!dp->hpd_bridge_valid)
-> +			bridge_list->connected = true;
-> +		dp->bridge_list[i] = bridge_list;
-> +	}
-> +
+ MAINTAINERS                                   |   7 +
+ drivers/gpu/drm/xe/Makefile                   |   4 +
+ drivers/gpu/drm/xe/tests/xe_guc_buf_kunit.c   |   2 +-
+ drivers/gpu/drm/xe/xe_ggtt.c                  |  92 ++
+ drivers/gpu/drm/xe/xe_ggtt.h                  |   2 +
+ drivers/gpu/drm/xe/xe_ggtt_types.h            |   2 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.c           |  88 ++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.h           |  19 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c    |  94 ++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h    |   6 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c   | 436 ++++++++-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h   |   7 +
+ .../gpu/drm/xe/xe_gt_sriov_pf_control_types.h |  23 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c   |  47 -
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c | 901 ++++++++++++++----
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h |  34 +-
+ .../drm/xe/xe_gt_sriov_pf_migration_types.h   |  27 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h     |   6 +-
+ drivers/gpu/drm/xe/xe_guc.c                   |   4 +-
+ drivers/gpu/drm/xe/xe_guc_buf.c               |  15 +-
+ drivers/gpu/drm/xe/xe_guc_buf.h               |   3 +-
+ drivers/gpu/drm/xe/xe_migrate.c               | 214 ++++-
+ drivers/gpu/drm/xe/xe_migrate.h               |   4 +
+ drivers/gpu/drm/xe/xe_sa.c                    |  21 +
+ drivers/gpu/drm/xe/xe_sa.h                    |   1 +
+ drivers/gpu/drm/xe/xe_sriov_pf.c              |   6 +
+ drivers/gpu/drm/xe/xe_sriov_pf_control.c      | 125 +++
+ drivers/gpu/drm/xe/xe_sriov_pf_control.h      |   5 +
+ drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c      | 117 +++
+ drivers/gpu/drm/xe/xe_sriov_pf_migration.c    | 281 ++++++
+ drivers/gpu/drm/xe/xe_sriov_pf_migration.h    |  48 +
+ .../gpu/drm/xe/xe_sriov_pf_migration_data.c   | 566 +++++++++++
+ .../gpu/drm/xe/xe_sriov_pf_migration_data.h   |  39 +
+ .../gpu/drm/xe/xe_sriov_pf_migration_types.h  |  46 +
+ drivers/gpu/drm/xe/xe_sriov_pf_types.h        |   8 +
+ drivers/gpu/drm/xe/xe_sriov_vfio.c            | 252 +++++
+ drivers/vfio/pci/Kconfig                      |   2 +
+ drivers/vfio/pci/Makefile                     |   2 +
+ drivers/vfio/pci/xe/Kconfig                   |  12 +
+ drivers/vfio/pci/xe/Makefile                  |   3 +
+ drivers/vfio/pci/xe/main.c                    | 470 +++++++++
+ include/drm/intel/xe_sriov_vfio.h             |  28 +
+ 42 files changed, 3747 insertions(+), 322 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration_data.c
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration_data.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_vfio.c
+ create mode 100644 drivers/vfio/pci/xe/Kconfig
+ create mode 100644 drivers/vfio/pci/xe/Makefile
+ create mode 100644 drivers/vfio/pci/xe/main.c
+ create mode 100644 include/drm/intel/xe_sriov_vfio.h
 
 -- 
-With best wishes
-Dmitry
+2.50.1
+
