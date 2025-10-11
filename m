@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D805BCF593
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 15:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993EDBCF5A3
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 15:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C8510E06B;
-	Sat, 11 Oct 2025 13:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8AD010E2FC;
+	Sat, 11 Oct 2025 13:21:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XWI2ruxr";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oPEnUtU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D855B10E06B;
- Sat, 11 Oct 2025 13:09:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62C010E2FB;
+ Sat, 11 Oct 2025 13:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,21 +22,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=OCPW0SDal0uwV8yY5PVb9QdHF16rzrQ/y9/G1/JavLM=; b=XWI2ruxrzrWCcD7DiltSyzZctl
- BrWbUvHkz6OLHXnuvUG/YSB0V1IHqYu0YtgNYgW+9iavDQPhmyHg0VfOYHtrFIdr9lFkqn7xq9Ssg
- u6qF5K+Z5lfRG68SpJvFnDewcJX/Q27FoYduc8ktbYyDvQVklv5BazNzqCXsmoc7DC052rFuOPs/j
- gEEtUwLINBiMmQMWDJiFKfELqtQmIyUnXs+/68cGsFCmK/kvk4pfyTA4TE3aSOAXfv7arIpAwLRmN
- CO3d4Unh9ih00gV+sPyQPK5w2rf9L8l2mFzNX2+8FoiZiMIm3ZIcd/R0/znJepYzXZx+8yknEZNBx
- 4snwHDZQ==;
+ bh=iQKFnoJ4BUy9ka/IBM8sT4YJR+IuQFvoEpJxll/7bP4=; b=oPEnUtU/KUMTpwOWs1OQwHk7/j
+ pkW9o1eSQ2YIvcnQBzT/tgu3uzoqzzlFcllNZmlvIx09eRxLFk68BXmWEcuT2yuWfTpExScLJxNXg
+ mvkvPz1iDFW8+DTP3LEz27cfMVONr/yJ6Xcep+Iypv5bDN3T64gmoiG0b7TmG/MR6KAm7awn2l7q5
+ V+ywHQrQ0F3I+H7T7NZ7pQ/iXG1xf+uJK1UB8jwXmNnnipjc7Uf9zwykSBHetnKb3CFyTpOJh+60I
+ TjMP67NDiLHe3+HTUtHFSYJ0+UXyH4pQfy8GwXee619uUwg7WutETha4SjNB0SVvnsnMcryWJ09re
+ QaCiUDzw==;
 Received: from [84.66.36.92] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v7ZLa-008Eqi-K5; Sat, 11 Oct 2025 15:09:18 +0200
-Message-ID: <6b286ef2-3d7e-4c09-8d1d-accae89a3d4a@igalia.com>
-Date: Sat, 11 Oct 2025 14:09:17 +0100
+ id 1v7ZX1-008F5A-NF; Sat, 11 Oct 2025 15:21:07 +0200
+Message-ID: <64149773-e4b2-4874-8afc-43dffa63a5a2@igalia.com>
+Date: Sat, 11 Oct 2025 14:21:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/28] drm/sched: Add some scheduling quality unit tests
+Subject: Re: [PATCH 03/28] drm/sched: Add some more scheduling quality unit
+ tests
 To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
@@ -44,11 +45,11 @@ Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
  Matthew Brost <matthew.brost@intel.com>,
  Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-3-tvrtko.ursulin@igalia.com>
- <22d13bb8c39123fe9ca12184981b1e2ab99efbda.camel@mailbox.org>
+ <20251008085359.52404-4-tvrtko.ursulin@igalia.com>
+ <ffe8556a939fac3edaf9c7007c3c4b5cf1c7c74d.camel@mailbox.org>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <22d13bb8c39123fe9ca12184981b1e2ab99efbda.camel@mailbox.org>
+In-Reply-To: <ffe8556a939fac3edaf9c7007c3c4b5cf1c7c74d.camel@mailbox.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,113 +68,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 10/10/2025 10:38, Philipp Stanner wrote:
+On 10/10/2025 10:48, Philipp Stanner wrote:
 > On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
->> To make evaluating different scheduling policies easier (no need for
->> external benchmarks) and perfectly repeatable, lets add some synthetic
->> workloads built upon mock scheduler unit test infrastructure.
->>
->> Focus is on two parallel clients (two threads) submitting different job
->> patterns and logging their progress and some overall metrics. This is
->> repeated for both scheduler credit limit 1 and 2.
+>> This time round we explore the rate of submitted job queue processing
+>> with multiple identical parallel clients.
 >>
 >> Example test output:
 >>
->>    Normal and low:
->>                      pct1 cps1 qd1;  pct2 cps2 qd2
->>          +     0ms:   0     0    0;   0     0    0
->>          +   104ms: 100  1240  112; 100  1240  125
->>          +   209ms: 100     0   99; 100     0  125
->>          +   313ms: 100     0   86; 100     0  125
->>          +   419ms: 100     0   73; 100     0  125
->>          +   524ms: 100     0   60; 100     0  125
->>          +   628ms: 100     0   47; 100     0  125
->>          +   731ms: 100     0   34; 100     0  125
->>          +   836ms: 100     0   21; 100     0  125
->>          +   939ms: 100     0    8; 100     0  125
->>          +  1043ms:               ; 100     0  120
->>          +  1147ms:               ; 100     0  107
->>          +  1252ms:               ; 100     0   94
->>          +  1355ms:               ; 100     0   81
->>          +  1459ms:               ; 100     0   68
->>          +  1563ms:               ; 100     0   55
->>          +  1667ms:               ; 100     0   42
->>          +  1771ms:               ; 100     0   29
->>          +  1875ms:               ; 100     0   16
->>          +  1979ms:               ; 100     0    3
->>      0: prio=normal sync=0 elapsed_ms=1015ms (ideal_ms=1000ms) cycle_time(min,avg,max)=134,222,978 us latency_time(min,avg,max)=134,222,978
->> us
->>      1: prio=low sync=0 elapsed_ms=2009ms (ideal_ms=1000ms) cycle_time(min,avg,max)=134,215,806 us latency_time(min,avg,max)=134,215,806 us
+>> 3 clients:
+>>          t               cycle:     min  avg max : ...
+>>          +     0ms                   0    0    0 :   0   0   0
+>>          +   102ms                   2    2    2 :   2   2   2
+>>          +   208ms                   5    6    6 :   6   5   5
+>>          +   310ms                   8    9    9 :   9   9   8
+>> ...
+>>          +  2616ms                  82   83   83 :  83  83  82
+>>          +  2717ms                  83   83   83 :  83  83  83
+>>      avg_max_min_delta(x100)=60
 >>
->> There we have two clients represented in the two respective columns, with
->> their progress logged roughly every 100 milliseconds. The metrics are:
->>
->>   - pct - Percentage progress of the job submit part
->>   - cps - Cycles per second
->>   - qd  - Queue depth - number of submitted unfinished jobs
-> 
-> Could make sense to print a legend above the test table, couldn't it?
-> So new users don't have to search in the code what the output means.
-
-Done.
-
->> The cycles per second metric is inherent to the fact that workload
->> patterns are a data driven cycling sequence of:
->>
->>   - Submit 1..N jobs
->>   - Wait for Nth job to finish (optional)
->>   - Sleep (optional)
->>   - Repeat from start
->>
->> In this particular example we have a normal priority and a low priority
->> clients both spamming the scheduler with 8ms jobs with no sync and no
-> 
-> s/clients/client
-> 
->> sleeping. Hence they build a very deep queues and we can see how the low
-> 
-> s/a//
-
-Done and done.
-
->> priority client is completely starved until the normal finishes.
->>
->> Note that the PCT and CPS metrics are irrelevant for "unsync" clients
->> since they manage to complete all of their cycles instantaneously.
->>
->> A different example would be:
->>
->>    Heavy and interactive:
->>                      pct1 cps1 qd1;  pct2 cps2 qd2
->>          +     0ms:   0     0    0;   0     0    0
->>          +   106ms:   5    40    3;   5    40    0
->>          +   209ms:   9    40    0;   9    40    0
->>          +   314ms:  14    50    3;  14    50    0
->>          +   417ms:  18    40    0;  18    40    0
->>          +   522ms:  23    50    3;  23    50    0
->>          +   625ms:  27    40    0;  27    40    1
->>          +   729ms:  32    50    0;  32    50    0
->>          +   833ms:  36    40    1;  36    40    0
->>          +   937ms:  40    40    0;  40    40    0
->>          +  1041ms:  45    50    0;  45    50    0
->>          +  1146ms:  49    40    1;  49    40    1
->>          +  1249ms:  54    50    0;  54    50    0
->>          +  1353ms:  58    40    1;  58    40    0
->>          +  1457ms:  62    40    0;  62    40    1
->>          +  1561ms:  67    50    0;  67    50    0
->>          +  1665ms:  71    40    1;  71    40    0
->>          +  1772ms:  76    50    0;  76    50    0
->>          +  1877ms:  80    40    1;  80    40    0
->>          +  1981ms:  84    40    0;  84    40    0
->>          +  2085ms:  89    50    0;  89    50    0
->>          +  2189ms:  93    40    1;  93    40    0
->>          +  2293ms:  97    40    0;  97    40    1
->>
->> In this case client one is submitting 3x 2.5ms jobs, waiting for the 3rd
->> and then sleeping for 2.5ms (in effect causing 75% GPU load, minus the
->> overheads). Second client is submitting 1ms jobs, waiting for each to
->> finish and sleeping for 9ms (effective 10% GPU load). Here we can see
->> the PCT and CPS reflecting real progress.
+>> Every 100ms for the duration of the test test logs how many jobs each
+>> client had completed, prefixed by minimum, average and maximum numbers.
+>> When finished overall average delta between max and min is output as a
+>> rough indicator to scheduling fairness.
 >>
 >> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 >> Cc: Christian König <christian.koenig@amd.com>
@@ -183,615 +99,124 @@ Done and done.
 >> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 >> Acked-by: Christian König <christian.koenig@amd.com>
 >> ---
->>   drivers/gpu/drm/scheduler/tests/Makefile      |   3 +-
->>   .../gpu/drm/scheduler/tests/tests_scheduler.c | 694 ++++++++++++++++++
->>   2 files changed, 696 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+>>   .../gpu/drm/scheduler/tests/tests_scheduler.c | 186 +++++++++++++++++-
+>>   1 file changed, 185 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/scheduler/tests/Makefile b/drivers/gpu/drm/scheduler/tests/Makefile
->> index 5bf707bad373..9ec185fbbc15 100644
->> --- a/drivers/gpu/drm/scheduler/tests/Makefile
->> +++ b/drivers/gpu/drm/scheduler/tests/Makefile
->> @@ -2,6 +2,7 @@
->>   
->>   drm-sched-tests-y := \
->>           mock_scheduler.o \
->> -        tests_basic.o
->> +        tests_basic.o \
->> +        tests_scheduler.o
->>   
->>   obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) += drm-sched-tests.o
 >> diff --git a/drivers/gpu/drm/scheduler/tests/tests_scheduler.c b/drivers/gpu/drm/scheduler/tests/tests_scheduler.c
->> new file mode 100644
->> index 000000000000..c66c151a66d2
->> --- /dev/null
+>> index c66c151a66d2..77b02c5e8d52 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/tests_scheduler.c
 >> +++ b/drivers/gpu/drm/scheduler/tests/tests_scheduler.c
->> @@ -0,0 +1,694 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/* Copyright (c) 2025 Valve Corporation */
+>> @@ -195,6 +195,7 @@ struct drm_sched_client_params {
+>>   
+>>   struct drm_sched_test_params {
+>>   	const char *description;
+>> +	unsigned int num_clients;
+>>   	struct drm_sched_client_params client[2];
+>>   };
+>>   
+>> @@ -689,6 +690,189 @@ static struct kunit_suite drm_sched_scheduler_two_clients2 = {
+>>   	.test_cases = drm_sched_scheduler_two_clients_tests,
+>>   };
+>>   
 >> +
->> +#include <linux/delay.h>
->> +#include <linux/kthread.h>
->> +#include <linux/ktime.h>
->> +#include <linux/math64.h>
->> +
->> +#include "sched_tests.h"
->> +
->> +/*
->> + * DRM scheduler scheduler tests exercise load balancing decisions ie. entity
->> + * selection logic.
->> + */
->> +
->> +static int drm_sched_scheduler_init(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched;
->> +
->> +	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
->> +	sched->base.credit_limit = 1;
->> +
->> +	test->priv = sched;
->> +
->> +	return 0;
->> +}
->> +
->> +static int drm_sched_scheduler_init2(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched;
->> +
->> +	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
->> +	sched->base.credit_limit = 2;
->> +
->> +	test->priv = sched;
->> +
->> +	return 0;
->> +}
->> +
->> +static void drm_sched_scheduler_exit(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +
->> +	drm_mock_sched_fini(sched);
->> +}
->> +
->> +static void drm_sched_scheduler_queue_overhead(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_entity *entity;
->> +	const unsigned int job_us = 1000;
->> +	const unsigned int jobs = 1000;
->> +	const unsigned int total_us = jobs * job_us;
->> +	struct drm_mock_sched_job *job, *first;
->> +	ktime_t start, end;
->> +	bool done;
->> +	int i;
->> +
->> +	/*
->> +	 * Deep queue job at a time processing (single credit).
->> +	 *
->> +	 * This measures the overhead of picking and processing a job at a time
->> +	 * by comparing the ideal total "GPU" time of all submitted jobs versus
->> +	 * the time actually taken.
->> +	 */
->> +
->> +	KUNIT_ASSERT_EQ(test, sched->base.credit_limit, 1);
->> +
->> +	entity = drm_mock_sched_entity_new(test,
->> +					   DRM_SCHED_PRIORITY_NORMAL,
->> +					   sched);
->> +
->> +	for (i = 0; i <= jobs; i++) {
->> +		job = drm_mock_sched_job_new(test, entity);
->> +		if (i == 0)
->> +			first = job; /* Extra first job blocks the queue */
->> +		else
->> +			drm_mock_sched_job_set_duration_us(job, job_us);
->> +		drm_mock_sched_job_submit(job);
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_scheduled(first, HZ);
->> +	KUNIT_ASSERT_TRUE(test, done);
->> +
->> +	start = ktime_get();
->> +	i = drm_mock_sched_advance(sched, 1); /* Release the queue */
->> +	KUNIT_ASSERT_EQ(test, i, 1);
->> +
->> +	/* Wait with a safe margin to avoid every failing. */
->> +	done = drm_mock_sched_job_wait_finished(job,
->> +						usecs_to_jiffies(total_us) * 5);
->> +	end = ktime_get();
->> +	KUNIT_ASSERT_TRUE(test, done);
->> +
->> +	pr_info("Expected %uus, actual %lldus\n",
->> +		total_us,
->> +		ktime_to_us(ktime_sub(end, start)));
->> +
->> +	drm_mock_sched_entity_free(entity);
->> +}
->> +
->> +static void drm_sched_scheduler_ping_pong(struct kunit *test)
->> +{
->> +	struct drm_mock_sched_job *job, *first, *prev = NULL;
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_entity *entity[2];
->> +	const unsigned int job_us = 1000;
->> +	const unsigned int jobs = 1000;
->> +	const unsigned int total_us = jobs * job_us;
->> +	ktime_t start, end;
->> +	bool done;
->> +	int i;
->> +
->> +	/*
->> +	 * Two entitites in inter-dependency chain.
->> +	 *
->> +	 * This measures the overhead of picking and processing a job at a time,
->> +	 * where each job depends on the previous one from the diffferent
->> +	 * entity, by comparing the ideal total "GPU" time of all submitted jobs
->> +	 * versus the time actually taken.
->> +	 */
->> +
->> +	KUNIT_ASSERT_EQ(test, sched->base.credit_limit, 1);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		entity[i] = drm_mock_sched_entity_new(test,
->> +						      DRM_SCHED_PRIORITY_NORMAL,
->> +						      sched);
->> +
->> +	for (i = 0; i <= jobs; i++) {
->> +		job = drm_mock_sched_job_new(test, entity[i & 1]);
->> +		if (i == 0)
->> +			first = job; /* Extra first job blocks the queue */
->> +		else
->> +			drm_mock_sched_job_set_duration_us(job, job_us);
->> +		if (prev)
->> +			drm_sched_job_add_dependency(&job->base,
->> +						     dma_fence_get(&prev->base.s_fence->finished));
->> +		drm_mock_sched_job_submit(job);
->> +		prev = job;
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_scheduled(first, HZ);
->> +	KUNIT_ASSERT_TRUE(test, done);
->> +
->> +	start = ktime_get();
->> +	i = drm_mock_sched_advance(sched, 1); /* Release the queue */
->> +	KUNIT_ASSERT_EQ(test, i, 1);
->> +
->> +	/* Wait with a safe margin to avoid every failing. */
->> +	done = drm_mock_sched_job_wait_finished(job,
->> +						usecs_to_jiffies(total_us) * 5);
->> +	end = ktime_get();
->> +	KUNIT_ASSERT_TRUE(test, done);
->> +
->> +	pr_info("Expected %uus, actual %lldus\n",
->> +		total_us,
->> +		ktime_to_us(ktime_sub(end, start)));
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		drm_mock_sched_entity_free(entity[i]);
->> +}
->> +
->> +static struct kunit_case drm_sched_scheduler_overhead_tests[] = {
->> +	KUNIT_CASE_SLOW(drm_sched_scheduler_queue_overhead),
->> +	KUNIT_CASE_SLOW(drm_sched_scheduler_ping_pong),
->> +	{}
->> +};
->> +
->> +static struct kunit_suite drm_sched_scheduler_overhead = {
->> +	.name = "drm_sched_scheduler_overhead_tests",
->> +	.init = drm_sched_scheduler_init,
->> +	.exit = drm_sched_scheduler_exit,
->> +	.test_cases = drm_sched_scheduler_overhead_tests,
->> +};
->> +
->> +/*
->> + * struct drm_sched_client_params - describe a workload emitted from a client
->> + *
->> + * A simulated client will create an entity with a scheduling @priority and emit
->> + * jobs in a loop where each iteration will consist of:
->> + *
->> + * 1. Submit @job_cnt jobs, each with a set duration of @job_us.
->> + * 2. If @sync is true wait for last submitted job to finish.
->> + * 3. Sleep for @wait_us micro-seconds.
->> + * 4. Repeat.
->> + */
->> +struct drm_sched_client_params {
->> +	enum drm_sched_priority priority;
->> +	unsigned int job_cnt;
->> +	unsigned int job_us;
->> +	bool sync;
->> +	unsigned int wait_us;
->> +};
->> +
->> +struct drm_sched_test_params {
->> +	const char *description;
->> +	struct drm_sched_client_params client[2];
->> +};
->> +
->> +static const struct drm_sched_test_params drm_sched_cases[] = {
+>> +static const struct drm_sched_test_params drm_sched_many_cases[] = {
 >> +	{
->> +		.description = "Normal and normal",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +	},
->> +	{
->> +		.description = "Normal and low",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_LOW,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +	},
->> +	{
->> +		.description = "High and normal",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_HIGH,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +	},
->> +	{
->> +		.description = "High and low",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_HIGH,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_LOW,
->> +			.job_cnt = 1,
->> +			.job_us = 8000,
->> +			.wait_us = 0,
->> +			.sync = false,
->> +		},
->> +	},
->> +	{
->> +		.description = "50 and 50",
-> 
-> I still think that this should have a more obvious description.
-
-Renamed to "50% and 50%". And all other tests which mention 
-low/normal/high I qualified with "priority" in all cases (ie. "Normal 
-priority and low priority").
-
-> 
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 1500,
->> +			.wait_us = 1500,
->> +			.sync = true,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 2500,
->> +			.wait_us = 2500,
->> +			.sync = true,
->> +		},
->> +	},
->> +	{
->> +		.description = "50 and 50 low",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 1500,
->> +			.wait_us = 1500,
->> +			.sync = true,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_LOW,
->> +			.job_cnt = 1,
->> +			.job_us = 2500,
->> +			.wait_us = 2500,
->> +			.sync = true,
->> +		},
->> +	},
->> +	{
->> +		.description = "50 high and 50",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_HIGH,
->> +			.job_cnt = 1,
->> +			.job_us = 1500,
->> +			.wait_us = 1500,
->> +			.sync = true,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 2500,
->> +			.wait_us = 2500,
->> +			.sync = true,
->> +		},
->> +	},
->> +	{
->> +		.description = "Low hog and interactive",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_LOW,
->> +			.job_cnt = 3,
->> +			.job_us = 2500,
->> +			.wait_us = 500,
->> +			.sync = false,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 500,
->> +			.wait_us = 10000,
->> +			.sync = true,
->> +		},
->> +	},
->> +	{
->> +		.description = "Heavy and interactive",
->> +		.client[0] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 3,
->> +			.job_us = 2500,
->> +			.wait_us = 2500,
->> +			.sync = true,
->> +		},
->> +		.client[1] = {
->> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
->> +			.job_us = 1000,
->> +			.wait_us = 9000,
->> +			.sync = true,
->> +		},
->> +	},
->> +	{
->> +		.description = "Very heavy and interactive",
+>> +		.description = "2 clients",
+>> +		.num_clients = 2,
 >> +		.client[0] = {
 >> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
 >> +			.job_cnt = 4,
->> +			.job_us = 50000,
->> +			.wait_us = 1,
+>> +			.job_us = 1000,
+>> +			.wait_us = 0,
 >> +			.sync = true,
 >> +		},
->> +		.client[1] = {
+>> +	},
+>> +	{
+>> +		.description = "3 clients",
+>> +		.num_clients = 3,
+>> +		.client[0] = {
 >> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
->> +			.job_cnt = 1,
+>> +			.job_cnt = 4,
 >> +			.job_us = 1000,
->> +			.wait_us = 9000,
+>> +			.wait_us = 0,
+>> +			.sync = true,
+>> +		},
+>> +	},
+>> +	{
+>> +		.description = "7 clients",
+>> +		.num_clients = 7,
+>> +		.client[0] = {
+>> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
+>> +			.job_cnt = 4,
+>> +			.job_us = 1000,
+>> +			.wait_us = 0,
+>> +			.sync = true,
+>> +		},
+>> +	},
+>> +	{
+>> +		.description = "13 clients",
+>> +		.num_clients = 13,
+>> +		.client[0] = {
+>> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
+>> +			.job_cnt = 4,
+>> +			.job_us = 1000,
+>> +			.wait_us = 0,
+>> +			.sync = true,
+>> +		},
+>> +	},
+>> +	{
+>> +		.description = "31 clients",
+>> +		.num_clients = 31,
+>> +		.client[0] = {
+>> +			.priority = DRM_SCHED_PRIORITY_NORMAL,
+>> +			.job_cnt = 2,
+>> +			.job_us = 1000,
+>> +			.wait_us = 0,
 >> +			.sync = true,
 >> +		},
 >> +	},
 >> +};
 >> +
->> +static void
->> +drm_sched_desc(const struct drm_sched_test_params *params, char *desc)
->> +{
->> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
->> +}
->> +
->> +KUNIT_ARRAY_PARAM(drm_sched_scheduler_two_clients,
->> +		  drm_sched_cases,
+>> +KUNIT_ARRAY_PARAM(drm_sched_scheduler_many_clients,
+>> +		  drm_sched_many_cases,
 >> +		  drm_sched_desc);
 >> +
->> +/*
->> + * struct test_client_stats - track client stats
->> + *
->> + * For each client executing a simulated workload we track some timings for
->> + * which we are interested in the minimum of all iterations (@min_us), maximum
->> + * (@max_us) and the overall total for all iterations (@tot_us).
->> + */
->> +struct test_client_stats {
->> +	unsigned int min_us;
->> +	unsigned int max_us;
->> +	unsigned long tot_us;
->> +};
->> +
->> +/*
->> + * struct test_client - a simulated userspace client submitting scheduler work
->> + *
->> + * Each client executing a simulated workload is represented by one of these.
->> + *
->> + * Each of them instantiates a scheduling @entity and executes a workloads as
->> + * defined in @params. Based on those @params the theoretical execution time of
->> + * the client is calculated as @ideal_duration, while the actual wall time is
->> + * tracked in @duration (calculated based on the @start and @end client time-
->> + * stamps).
->> + *
->> + * Numerical @id is assigned to each for logging purposes.
->> + *
->> + * @worker and @work are used to provide an independent execution context from
->> + * which scheduler jobs are submitted.
->> + *
->> + * During execution statistics on how long it took to submit and execute one
->> + * iteration (whether or not synchronous) is kept in @cycle_time, while
->> + * @latency_time tracks the @cycle_time minus the ideal duration of the one
->> + * cycle.
->> + *
->> + * Once the client has completed the set number of iterations it will write the
->> + * completion status into @done.
->> + */
->> +struct test_client {
->> +	struct kunit *test; /* Backpointer to the kunit test. */
->> +
->> +	struct drm_mock_sched_entity	*entity;
->> +
->> +	struct kthread_worker	*worker;
->> +	struct kthread_work	work;
-> 
-> The formatting here is strange / differs from below.
-
-Done something about this.
-
-Regards,
-
-Tvrtko
-
-> 
-> 
-> P.
-> 
->> +
->> +	unsigned int id;
->> +	ktime_t duration;
->> +
->> +	struct drm_sched_client_params params;
->> +
->> +	ktime_t ideal_duration;
->> +	unsigned int cycles;
->> +	unsigned int cycle;
->> +	ktime_t	start;
->> +	ktime_t	end;
->> +	bool done;
->> +
->> +	struct test_client_stats cycle_time;
->> +	struct test_client_stats latency_time;
->> +};
->> +
->> +static void
->> +update_stats(struct test_client_stats *stats, unsigned int us)
->> +{
->> +	if (us > stats->max_us)
->> +		stats->max_us = us;
->> +	if (us < stats->min_us)
->> +		stats->min_us = us;
->> +	stats->tot_us += us;
->> +}
->> +
->> +static unsigned int
->> +get_stats_avg(struct test_client_stats *stats, unsigned int cycles)
->> +{
->> +	return div_u64(stats->tot_us, cycles);
->> +}
->> +
->> +static void drm_sched_client_work(struct kthread_work *work)
->> +{
->> +	struct test_client *client = container_of(work, typeof(*client), work);
->> +	const long sync_wait = MAX_SCHEDULE_TIMEOUT;
->> +	unsigned int cycle, work_us, period_us;
->> +	struct drm_mock_sched_job *job = NULL;
->> +
->> +	work_us = client->params.job_cnt * client->params.job_us;
->> +	period_us = work_us + client->params.wait_us;
->> +	client->cycles =
->> +		DIV_ROUND_UP((unsigned int)ktime_to_us(client->duration),
->> +			     period_us);
->> +	client->ideal_duration = us_to_ktime(client->cycles * period_us);
->> +
->> +	client->start = ktime_get();
->> +
->> +	for (cycle = 0; cycle < client->cycles; cycle++) {
->> +		ktime_t cycle_time;
->> +		unsigned int batch;
->> +		unsigned long us;
->> +
->> +		if (READ_ONCE(client->done))
->> +			break;
->> +
->> +		cycle_time = ktime_get();
->> +		for (batch = 0; batch < client->params.job_cnt; batch++) {
->> +			job = drm_mock_sched_job_new(client->test,
->> +						     client->entity);
->> +			drm_mock_sched_job_set_duration_us(job,
->> +							   client->params.job_us);
->> +			drm_mock_sched_job_submit(job);
->> +		}
->> +
->> +		if (client->params.sync)
->> +			drm_mock_sched_job_wait_finished(job, sync_wait);
->> +
->> +		cycle_time = ktime_sub(ktime_get(), cycle_time);
->> +		us = ktime_to_us(cycle_time);
->> +		update_stats(&client->cycle_time, us);
->> +		if (ktime_to_us(cycle_time) >= (long)work_us)
->> +			us = ktime_to_us(cycle_time) - work_us;
->> +		else if (WARN_ON_ONCE(client->params.sync)) /* GPU job took less than expected. */
->> +			us = 0;
->> +		update_stats(&client->latency_time, us);
->> +		WRITE_ONCE(client->cycle, cycle);
->> +
->> +		if (READ_ONCE(client->done))
->> +			break;
->> +
->> +		if (client->params.wait_us)
->> +			fsleep(client->params.wait_us);
->> +		else if (!client->params.sync)
->> +			cond_resched(); /* Do not hog the CPU if fully async. */
->> +	}
->> +
->> +	client->done = drm_mock_sched_job_wait_finished(job, sync_wait);
->> +	client->end = ktime_get();
->> +}
->> +
->> +static const char *prio_str(enum drm_sched_priority prio)
->> +{
->> +	switch (prio) {
->> +	case DRM_SCHED_PRIORITY_KERNEL:
->> +		return "kernel";
->> +	case DRM_SCHED_PRIORITY_LOW:
->> +		return "low";
->> +	case DRM_SCHED_PRIORITY_NORMAL:
->> +		return "normal";
->> +	case DRM_SCHED_PRIORITY_HIGH:
->> +		return "high";
->> +	default:
->> +		return "???";
->> +	}
->> +}
->> +
->> +static bool client_done(struct test_client *client)
->> +{
->> +	return READ_ONCE(client->done); /* READ_ONCE to document lockless read from a loop. */
->> +}
->> +
->> +static void drm_sched_scheduler_two_clients_test(struct kunit *test)
+>> +static void drm_sched_scheduler_many_clients_test(struct kunit *test)
 >> +{
 >> +	const struct drm_sched_test_params *params = test->param_value;
 >> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct test_client client[2] = { };
->> +	unsigned int prev_cycle[2] = { };
->> +	unsigned int i, j;
+>> +	const unsigned int clients = params->num_clients;
+>> +	unsigned int i, j, delta_total = 0, loops = 0;
+>> +	struct test_client *client;
+>> +	unsigned int *prev_cycle;
 >> +	ktime_t start;
+>> +	char *buf;
 >> +
 >> +	/*
->> +	 * Same job stream from two clients.
+>> +	 * Many clients with deep-ish async queues.
 >> +	 */
 >> +
->> +	for (i = 0; i < ARRAY_SIZE(client); i++)
+>> +	buf = kunit_kmalloc(test, PAGE_SIZE, GFP_KERNEL);
+>> +	client = kunit_kcalloc(test, clients, sizeof(*client), GFP_KERNEL);
+>> +	prev_cycle = kunit_kcalloc(test, clients, sizeof(*prev_cycle),
+>> +				   GFP_KERNEL);
+> 
+> No error handling necessary??
+
+Ha, fixed. I probably got confused thinking kunit does it for us.
+
+>> +
+>> +	for (i = 0; i < clients; i++)
 >> +		client[i].entity =
 >> +			drm_mock_sched_entity_new(test,
->> +						  params->client[i].priority,
+>> +						  DRM_SCHED_PRIORITY_NORMAL,
 >> +						  sched);
 >> +
->> +	for (i = 0; i < ARRAY_SIZE(client); i++) {
+>> +	for (i = 0; i < clients; i++) {
 >> +		client[i].test = test;
 >> +		client[i].id = i;
->> +		client[i].duration = ms_to_ktime(1000);
->> +		client[i].params = params->client[i];
+>> +		client[i].params = params->client[0];
+>> +		client[i].duration = ms_to_ktime(1000 / clients);
 >> +		client[i].cycle_time.min_us = ~0U;
 >> +		client[i].latency_time.min_us = ~0U;
 >> +		client[i].worker =
@@ -805,122 +230,105 @@ Tvrtko
 >> +		kthread_init_work(&client[i].work, drm_sched_client_work);
 >> +	}
 >> +
->> +	for (i = 0; i < ARRAY_SIZE(client); i++)
+>> +	for (i = 0; i < clients; i++)
 >> +		kthread_queue_work(client[i].worker, &client[i].work);
 >> +
->> +	/*
->> +	 * The clients (workers) can be a mix of async (deep submission queue),
->> +	 * sync (one job at a time), or something in between. Therefore it is
->> +	 * difficult to display a single metric representing their progress.
->> +	 *
->> +	 * Each struct drm_sched_client_params describes the actual submission
->> +	 * pattern which happens in the following steps:
->> +	 *  1. Submit N jobs
->> +	 *  2. Wait for last submitted job to finish
->> +	 *  3. Sleep for U micro-seconds
->> +	 *  4. Goto 1. for C cycles
->> +	 *
->> +	 * Where number of cycles is calculated to match the target client
->> +	 * duration from the respective struct drm_sched_test_params.
->> +	 *
->> +	 * To asses scheduling behaviour what we output for both clients is:
->> +	 *  - pct: Percentage progress of the jobs submitted
->> +	 *  - cps: "Cycles" per second (where one cycle is one complete
->> +	 *         iteration from the above)
->> +	 *  -  qd: Number of outstanding jobs in the client/entity
->> +	 */
->> +
 >> +	start = ktime_get();
->> +	pr_info("%s:\n\t            pct1 cps1 qd1;  pct2 cps2 qd2\n",
->> +		params->description);
->> +	while (!client_done(&client[0]) || !client_done(&client[1])) {
->> +		const unsigned int period_ms = 100;
->> +		const unsigned int frequency = 1000 / period_ms;
->> +		unsigned int pct[2], qd[2], cycle[2], cps[2];
+>> +	pr_info("%u clients:\n\tt\t\tcycle:\t  min    avg    max : ...\n", clients);
+>> +	for (;;) {
+>> +		unsigned int min = ~0;
+> 
+> Why is min initialized to UINT_MAX?
+
+So that "if (val < min) min = val" works.
+
+>> +		unsigned int max = 0;
+>> +		unsigned int total = 0;
+>> +		bool done = true;
+>> +		char pbuf[16];
 >> +
->> +		for (i = 0; i < ARRAY_SIZE(client); i++) {
->> +			qd[i] = spsc_queue_count(&client[i].entity->base.job_queue);
->> +			cycle[i] = READ_ONCE(client[i].cycle);
->> +			cps[i] = DIV_ROUND_UP(100 * frequency *
->> +					      (cycle[i] - prev_cycle[i]),
->> +					      100);
->> +			if (client[i].cycles)
->> +				pct[i] = DIV_ROUND_UP(100 * (1 + cycle[i]),
->> +						      client[i].cycles);
->> +			else
->> +				pct[i] = 0;
->> +			prev_cycle[i] = cycle[i];
+>> +		memset(buf, 0, PAGE_SIZE);
+>> +		for (i = 0; i < clients; i++) {
+>> +			unsigned int cycle, cycles;
+>> +
+>> +			cycle = READ_ONCE(client[i].cycle);
+>> +			cycles = READ_ONCE(client[i].cycles);
+> 
+> I think I had asked why READ_ONCE is necessary. It's not super obvious.
+
+Those values are updated in a different thread, and even though I don't 
+think compiler can omit those with the kernel settings, I like to use 
+READ_ONCE/WRITE_ONCE pairs for documentation. I added a comment.
+
+Regards,
+
+Tvrtko
+
+> 
+> 
+> P.
+> 
+>> +
+>> +			snprintf(pbuf, sizeof(pbuf), " %3d", cycle);
+>> +			strncat(buf, pbuf, PAGE_SIZE);
+>> +
+>> +			total += cycle;
+>> +			if (cycle < min)
+>> +				min = cycle;
+>> +			if (cycle > max)
+>> +				max = cycle;
+>> +
+>> +			if (!min || (cycle + 1) < cycles)
+>> +				done = false;
 >> +		}
 >> +
->> +		if (client_done(&client[0]))
->> +			pr_info("\t+%6lldms:               ; %3u %5u %4u\n",
->> +				ktime_to_ms(ktime_sub(ktime_get(), start)),
->> +				pct[1], cps[1], qd[1]);
->> +		else if (client_done(&client[1]))
->> +			pr_info("\t+%6lldms: %3u %5u %4u;\n",
->> +				ktime_to_ms(ktime_sub(ktime_get(), start)),
->> +				pct[0], cps[0], qd[0]);
->> +		else
->> +			pr_info("\t+%6lldms: %3u %5u %4u; %3u %5u %4u\n",
->> +				ktime_to_ms(ktime_sub(ktime_get(), start)),
->> +				pct[0], cps[0], qd[0],
->> +				pct[1], cps[1], qd[1]);
+>> +		loops++;
+>> +		delta_total += max - min;
 >> +
->> +		msleep(period_ms);
+>> +		pr_info("\t+%6lldms\t\t  %3u  %3u  %3u :%s\n",
+>> +			ktime_to_ms(ktime_sub(ktime_get(), start)),
+>> +			min, DIV_ROUND_UP(total, clients), max, buf);
+>> +
+>> +		if (done)
+>> +			break;
+>> +
+>> +		msleep(100);
 >> +	}
 >> +
->> +	for (i = 0; i < ARRAY_SIZE(client); i++) {
+>> +	pr_info("    avg_max_min_delta(x100)=%u\n",
+>> +		loops ? DIV_ROUND_UP(delta_total * 100, loops) : 0);
+>> +
+>> +	for (i = 0; i < clients; i++) {
 >> +		kthread_flush_work(&client[i].work);
 >> +		kthread_destroy_worker(client[i].worker);
 >> +	}
 >> +
->> +	for (i = 0; i < ARRAY_SIZE(client); i++)
->> +		KUNIT_ASSERT_TRUE(test, client[i].done);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(client); i++) {
->> +		pr_info("    %u: prio=%s sync=%u elapsed_ms=%lldms (ideal_ms=%lldms) cycle_time(min,avg,max)=%u,%u,%u us latency_time(min,avg,max)=%u,%u,%u us",
->> +			i,
->> +			prio_str(params->client[i].priority),
->> +			params->client[i].sync,
->> +			ktime_to_ms(ktime_sub(client[i].end, client[i].start)),
->> +			ktime_to_ms(client[i].ideal_duration),
->> +			client[i].cycle_time.min_us,
->> +			get_stats_avg(&client[i].cycle_time, client[i].cycles),
->> +			client[i].cycle_time.max_us,
->> +			client[i].latency_time.min_us,
->> +			get_stats_avg(&client[i].latency_time, client[i].cycles),
->> +			client[i].latency_time.max_us);
+>> +	for (i = 0; i < clients; i++)
 >> +		drm_mock_sched_entity_free(client[i].entity);
->> +	}
 >> +}
 >> +
->> +static const struct kunit_attributes drm_sched_scheduler_two_clients_attr = {
+>> +static const struct kunit_attributes drm_sched_scheduler_many_clients_attr = {
 >> +	.speed = KUNIT_SPEED_SLOW,
 >> +};
 >> +
->> +static struct kunit_case drm_sched_scheduler_two_clients_tests[] = {
->> +	KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
->> +			      drm_sched_scheduler_two_clients_gen_params,
->> +			      drm_sched_scheduler_two_clients_attr),
+>> +static struct kunit_case drm_sched_scheduler_many_clients_tests[] = {
+>> +	KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_many_clients_test,
+>> +			      drm_sched_scheduler_many_clients_gen_params,
+>> +			      drm_sched_scheduler_many_clients_attr),
 >> +	{}
 >> +};
 >> +
->> +static struct kunit_suite drm_sched_scheduler_two_clients1 = {
->> +	.name = "drm_sched_scheduler_two_clients_one_credit_tests",
->> +	.init = drm_sched_scheduler_init,
->> +	.exit = drm_sched_scheduler_exit,
->> +	.test_cases = drm_sched_scheduler_two_clients_tests,
->> +};
->> +
->> +static struct kunit_suite drm_sched_scheduler_two_clients2 = {
->> +	.name = "drm_sched_scheduler_two_clients_two_credits_tests",
+>> +static struct kunit_suite drm_sched_scheduler_many_clients = {
+>> +	.name = "drm_sched_scheduler_many_clients_tests",
 >> +	.init = drm_sched_scheduler_init2,
 >> +	.exit = drm_sched_scheduler_exit,
->> +	.test_cases = drm_sched_scheduler_two_clients_tests,
+>> +	.test_cases = drm_sched_scheduler_many_clients_tests,
 >> +};
 >> +
->> +kunit_test_suites(&drm_sched_scheduler_overhead,
->> +		  &drm_sched_scheduler_two_clients1,
->> +		  &drm_sched_scheduler_two_clients2);
+>>   kunit_test_suites(&drm_sched_scheduler_overhead,
+>>   		  &drm_sched_scheduler_two_clients1,
+>> -		  &drm_sched_scheduler_two_clients2);
+>> +		  &drm_sched_scheduler_two_clients2,
+>> +		  &drm_sched_scheduler_many_clients);
 > 
 
