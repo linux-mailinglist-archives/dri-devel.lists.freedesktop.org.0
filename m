@@ -2,118 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DFBBCF85F
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 18:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06531BCF88F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 19:02:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D1510E0D0;
-	Sat, 11 Oct 2025 16:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46BCF10E0E8;
+	Sat, 11 Oct 2025 17:02:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PLqgqwoR";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="v17tz+tJ";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fOf3IvO2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B03E10E0D0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:43:00 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59B4df8i002209
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:42:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oU8z37jW2RVoQp1KEkGDZ9URJlR67NRQMN6KJdRrleY=; b=PLqgqwoRduc24kB7
- JOpguXw3AHarqLRhvmEjCA7orCb1Yb5Vp54N2JNiik9hZw3Q5GS/CsGGr/rn+kbH
- XvlUV3qMnnc/n+eNif3+p3JHDijyFWyyLIN+tFhr/Q8P08EzZpODZ0+g1C7kfCZs
- mIpN9J9IWg6ZB/x+4qwN0AORRBIRjFKzXWllgMI3mveizK8XNgCk67fP3A5Vt04n
- BGDZXHguWHe2rMbKJ+1hkklsXlpndtaiYdQXyyzOb0fqBVT+4gv2MS8E8MRdxF5Y
- LFkJ6RMyHyid/aB1e3J0SKC4CGFkhZiPfP4h2xhh4X8Zo4FEI3z6Q+qqnLAiAUK3
- NqOAzg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qgdfrtmy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 16:42:59 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8589058c59bso2534144785a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 09:42:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760200978; x=1760805778;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oU8z37jW2RVoQp1KEkGDZ9URJlR67NRQMN6KJdRrleY=;
- b=UMWwibMccaYgt2GLyQgOLjhMBRuWJkMxrKxysZQj9+W9apTgbQusmm3/RmKHnckBuP
- gZk+vdsxkxRKXvbuX12rBP8xwAWAqsDanuX/JCUKvgMdhtu2XCLBLRVfhDx+v2/6NSXY
- 3mE9Tz7QpuwD7TA47UjXF56yz89qFhdvhQce6Bpcn/osphOklsl4v07uHgKbXb8SPh0U
- TRChuQnncjWfBeMa5+GzpCcETBr9oE1tgJOWvZ6yzo80DVmsFOnT4JBnXjMy7hog9aJA
- Dcwf3YoDcRgk/BJYodxpk4l6niPJJuZFGaSKkLxhd0aKMbmyxEStyr0W89jjTWFhGW0v
- C28Q==
-X-Gm-Message-State: AOJu0Yzpmpuix804PncalxH3f58YmHweQlNiodHv8oFfO03wqdVLFkIh
- NskpCQtFX6c8sZ8OeloI/zsvHrl7byDJ2RGKbpu6uagXA1hfP7/eT65+UJebSl0+m0Z059hnUkR
- EVa1onjj/hkrLRlcQPt5ckgbTvr4rabBvMTTXkZFn009kBo7+PRDz6loIWbLFvELOHw5kzqA=
-X-Gm-Gg: ASbGncspxf8gRU/J3xJ1aO9C6lP9ZPLVw0dG1GI5C/5AbkDPxkSX1gkVK812kczWcZP
- Kqx0t5/fXjl+W7Qko19MxzXvWbiWoJydYY5rV5Zx3S7+Rl1EOynYlPD2EvCjteNLfvGVELJ/jCk
- q3BmBCcAplJoi8DLIn+WjjKs8NwvBd+2rkb7/+YJtC7ujrcPYGN0fzQOF5YHbEbIyNsnWcK3vLu
- xjhxtI7dSBqrl3U4GLHF2Y1HNmd+aiTBq6vq11bGKQ0zqbcbMtTEtNCYrhRfytBLUIQoyJ95YEC
- /z06/aigOd/FZOdXh4gjkFIb2ko2Fz+lPVuNiitqyAc08+46OKUZqF4K+iIY8z4NzlUjH11/41P
- +ZxfL5Xqasw00jqADF2kSwM/+hxTn8w+bC5379kLRna+VgT2qhkpE
-X-Received: by 2002:a05:620a:28cd:b0:85a:8ea3:6bc with SMTP id
- af79cd13be357-883530825dfmr2224386185a.76.1760200978133; 
- Sat, 11 Oct 2025 09:42:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyRBrA5ub0D9xiLSTTyD8F4ZQVZbG4+qt8sq5D9lCrfjQaUF2g0CmtNStaGtHg0F16Uqmspg==
-X-Received: by 2002:a05:620a:28cd:b0:85a:8ea3:6bc with SMTP id
- af79cd13be357-883530825dfmr2224383885a.76.1760200977643; 
- Sat, 11 Oct 2025 09:42:57 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59088583b94sm2060261e87.120.2025.10.11.09.42.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Oct 2025 09:42:56 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org, Marek Vasut <marek.vasut@mailbox.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9BC310E0E8
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 17:02:53 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ckVKm1Lvnz9t8r;
+ Sat, 11 Oct 2025 19:02:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760202172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mL1+Jl7MA/4qoWAJdJa7Mwpah/QL/KBofTWVwpT9vcQ=;
+ b=v17tz+tJ4Qd2MFf5nMyiML7pzfojjVnwMlVGf8YZXLnmCNdiV6kKloKsx/Cy3k1xpDbJlO
+ 2kAMjXrPo02ZKS65uG+KuIMey6tCA20VVnbSlE/su/6H1fbq2ReJ9lvhwhmgBNlVN5Aov2
+ fE762fqdNpdt0xbjaz1qFqFA2DpdIigssugTTtE31oqZeiRu1NUeoVgxWNxHPUXVKqcAAD
+ WfUk2vebvtAMOejZ11+tREEcXN9LZjz5DNT5Ze9hi80ueP6iZ+tYZTrqeeP4rwnyi9XKdG
+ CttMdmpYKRkTJUFx+FHa7kN61mrqrc8R1BkpviVISC9mavHy14mnHNndiWmnVw==
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760202170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mL1+Jl7MA/4qoWAJdJa7Mwpah/QL/KBofTWVwpT9vcQ=;
+ b=fOf3IvO2feDe+e8hnSxNLxlH3hILMtTs5FU4j9NwAOvSzaD5bmd/zkR7MkHSicKr1CASif
+ v9kJwCIxGljdV0I/HpqKoYNzIGpOluun+FOmmIAarOyRXQEv3VSNaCLW6TEUhTw/5sJQ30
+ 1LsCwmnjVk50O6gp4Oyogd+gjT96SrGKmlkN7070/Zs0iQf7vIsC+GHvD3fxpEVXrb/5F7
+ vNUN7bsQVKNT/iPawQdzUWBxHG475I7k0IcwpUP+uleVATOk+xs8f3+idJHY+AEzMKny/k
+ ziCzErMXp/BfSGjDh4g/X64PTrfH8PyRP3OrGw/qDIe9TwUyFNJ/6xlfBWxRiA==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20251011110017.12521-1-marek.vasut@mailbox.org>
-References: <20251011110017.12521-1-marek.vasut@mailbox.org>
-Subject: Re: [PATCH] drm/bridge: lt9211: Drop check for last nibble of
- version register
-Message-Id: <176020097648.1820151.12050934300163392170.b4-ty@oss.qualcomm.com>
-Date: Sat, 11 Oct 2025 19:42:56 +0300
+ Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: [PATCH 00/39] Add i.MX95 DPU/DSI/LVDS support
+Date: Sat, 11 Oct 2025 18:51:15 +0200
+Message-ID: <20251011170213.128907-1-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyNSBTYWx0ZWRfX3bu5OBkmFBNa
- D1XqFtYUYT8naNUh13SSavYygMFsI4UFSZ8n4tPW0iJt7ur0C/kXQSTf/mXz+hY/qdD4qlmk1wY
- Qw/6UoAaRVaGe2EqPoV9LbBfH0GQILvoXQvbeo5Vl8roD9tRWgPneh3sooRHycXd/oZcXislYgm
- LAvn4ONqQKHpQI5p5ow3A7/9HqDoZ16om6jrR1fHcIG8+KqMfV9kiw1sr5uy6doee/D4GYdnqau
- FGcWBFUlwfnTEBXhmX9cwyIb0jFbw+WhzmVtBa6jwQhzEMqTqkH84rHhAWaRtXpC1aoSzH5KZYA
- lefr3SL8UzYLY2HuZeD0AjxsQGvmkL+90hpnQF74TsEwxkc+HppdWUBTxB3j1mZMseiCSubyRZs
- n6iew+8yhSMqyOCikwh9Lb743U5NwQ==
-X-Proofpoint-GUID: lUAnib4r6U7_TmEbBXdv6OLiMuJvv3J2
-X-Proofpoint-ORIG-GUID: lUAnib4r6U7_TmEbBXdv6OLiMuJvv3J2
-X-Authority-Analysis: v=2.4 cv=J4ynLQnS c=1 sm=1 tr=0 ts=68ea8913 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=x6icFKpwvdMA:10 a=t-dOTaZRNLiD7Fd0zFAA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- bulkscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110025
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: x47qkkhta4xd3ewnu1awe5y7riujfwoj
+X-MBO-RS-ID: 238e2e9e1fd66030e55
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,24 +79,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 11 Oct 2025 12:59:53 +0200, Marek Vasut wrote:
-> There is now a new LT9211 rev. U5, which reports chip ID 0x18 0x01 0xe4 .
-> The previous LT9211 reported chip ID 0x18 0x01 0xe3 , which is what the
-> driver checks for right now. Since there is a possibility there will be
-> yet another revision of the LT9211 in the future, drop the last version
-> nibble check to allow all future revisions of the chip to work with this
-> driver.
-> 
-> [...]
+This large series adds support for the i.MX95 display pipeline, including
+DPU, DSI and LVDS support. Most of the components extend existin drivers,
+DPU is added into DC driver, DSI into iMX93 DSI driver, LVDS into iMX8MP
+LDB. Pixel link and pixel interleaver drivers are reworked to work as two
+independent channels, since there seems to be no dependency between their
+two channels. The i.MX95 DTSI changes are also included.
 
-Applied to drm-misc-fixes, thanks!
+Since the DPU chapter is missing from the i.MX95 RM, this is based on the
+NXP downstream kernel fork code and there might be issues.
 
-[1/1] drm/bridge: lt9211: Drop check for last nibble of version register
-      commit: db74b04edce1bc86b9a5acc724c7ca06f427ab60
+Majority of this series are DPU patches on top of the DC driver, I tried
+to keep them separate and easy to review. Later part adds LVDS and DSI
+support, this can be split into separate series.
 
-Best regards,
+Both DSI-to-HDMI path using LT8912 bridge and LVDS single-lane with Logic
+Techno LT170410-2WHC panel were tested on Toradex i.MX95 Verdin EVK v1.2 .
+
+Liu Ying (2):
+  drm/bridge: imx: Add NXP i.MX95 pixel interleaver support
+  drm/bridge: imx: Add NXP i.MX95 pixel link support
+
+Marek Vasut (36):
+  dt-bindings: display: imx: Document i.MX95 Display Controller
+    DomainBlend
+  drm/imx: Add i.MX95 Display Controller DomainBlend
+  dt-bindings: display: imx: Document i.MX95 Display Controller
+    processing units
+  drm/imx: dc: Use bulk clock
+  drm/imx: dc: Rework dc_subdev_get_id() to drop ARRAY_SIZE() use
+  drm/imx: dc: Rename i.MX8QXP specific Link IDs
+  drm/imx: dc: cf: Pass struct dc_subdev_info via OF match data
+  drm/imx: dc: de: Pass struct dc_de_subdev_match_data via OF match data
+  drm/imx: dc: ed: Rework dc_ed_pec_src_sel() to drop ARRAY_SIZE() use
+  drm/imx: dc: ed: Pass struct dc_ed_subdev_match_data via OF match data
+  drm/imx: dc: fg: Parametrize register access
+  drm/imx: dc: ed: Pass struct dc_fg_subdev_match_data via OF match data
+  drm/imx: dc: fu: Describe remaining register offsets
+  drm/imx: dc: fu: Inline FRAC_OFFSET into FetchLayer and FetchWrap
+  drm/imx: dc: fu: Pass struct dc_fu_subdev_match_data via OF match data
+  drm/imx: dc: lb: Pass struct dc_lb_subdev_match_data via OF match data
+  drm/imx: dc: tc: Pass struct dc_tc_subdev_match_data via OF match data
+  drm/imx: dc: ic: Pass struct dc_ic_subdev_match_data via OF match data
+  drm/imx: dc: ic: Use DT node as interrupt controller name
+  drm/imx: dc: Configure display CSR clock feed select
+  drm/imx: dc: crtc: Do not check disabled CRTCs
+  drm/imx: dc: Keep FU unit running on i.MX95
+  drm/imx: dc: Add OF match data for i.MX95
+  drm/imx: Add more RGB swizzling options
+  dt-bindings: display: bridge: Document NXP i.MX95 pixel interleaver
+    support
+  dt-bindings: display: bridge: Document NXP i.MX95 pixel link support
+  dt-bindings: display: bridge: Document Freescale i.MX95 MIPI DSI
+  drm/bridge: imx93-mipi-dsi: Add i.MX95 PLL initialization
+  dt-bindings: clock: Split support for i.MX95 LVDS CSR
+  dt-bindings: display: bridge: Document i.MX95 LVDS display bridge
+    binding
+  dt-bindings: display: bridge: ldb: Add an i.MX95 entry
+  drm/bridge: fsl-ldb: Parse register offsets from DT
+  drm/bridge: fsl-ldb: Add i.MX95 support
+  dt-bindings: interrupt-controller: fsl,irqsteer: Add i.MX95 support
+  dt-bindings: clock: support i.MX95 Display Stream CSR module
+  arm64: dts: imx95: Describe display pipeline
+
+Sandor Yu (1):
+  drm: bridge: imx: Add i.MX95 LVDS Display Bridge (LDB) driver
+
+ .../bindings/clock/nxp,imx95-blk-ctl.yaml     |   1 -
+ .../clock/nxp,imx95-lvds-blk-ctl.yaml         |  80 ++
+ .../display/bridge/fsl,imx93-mipi-dsi.yaml    |  48 +-
+ .../display/bridge/fsl,imx95-lvds.yaml        | 140 ++++
+ .../bridge/fsl,imx95-pixel-interleaver.yaml   |  85 +++
+ .../display/bridge/fsl,imx95-pixel-link.yaml  | 101 +++
+ .../bindings/display/bridge/fsl,ldb.yaml      |   2 +
+ .../imx/fsl,imx8qxp-dc-constframe.yaml        |   4 +-
+ .../imx/fsl,imx8qxp-dc-display-engine.yaml    |  45 +-
+ .../display/imx/fsl,imx8qxp-dc-extdst.yaml    |   4 +-
+ .../display/imx/fsl,imx8qxp-dc-fetchunit.yaml |   1 +
+ .../display/imx/fsl,imx8qxp-dc-framegen.yaml  |  13 +-
+ .../imx/fsl,imx8qxp-dc-layerblend.yaml        |   4 +-
+ .../imx/fsl,imx8qxp-dc-pixel-engine.yaml      |  52 +-
+ .../display/imx/fsl,imx8qxp-dc-tcon.yaml      |   5 +-
+ .../bindings/display/imx/fsl,imx8qxp-dc.yaml  |  53 +-
+ .../display/imx/fsl,imx95-dc-domainblend.yaml |  32 +
+ .../imx/nxp,imx95-display-stream-csr.yaml     |  41 +
+ .../interrupt-controller/fsl,irqsteer.yaml    |   2 +
+ arch/arm64/boot/dts/freescale/imx95.dtsi      | 710 ++++++++++++++++++
+ drivers/gpu/drm/bridge/fsl-ldb.c              |  65 +-
+ drivers/gpu/drm/bridge/imx/Kconfig            |  28 +
+ drivers/gpu/drm/bridge/imx/Makefile           |   3 +
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.h   |   2 +
+ drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   | 612 ++++++++++++++-
+ drivers/gpu/drm/bridge/imx/imx95-ldb.c        | 470 ++++++++++++
+ .../drm/bridge/imx/imx95-pixel-interleaver.c  | 217 ++++++
+ drivers/gpu/drm/bridge/imx/imx95-pixel-link.c | 184 +++++
+ drivers/gpu/drm/imx/dc/Kconfig                |   4 +-
+ drivers/gpu/drm/imx/dc/Makefile               |   2 +-
+ drivers/gpu/drm/imx/dc/dc-cf.c                |  41 +-
+ drivers/gpu/drm/imx/dc/dc-crtc.c              |   6 +
+ drivers/gpu/drm/imx/dc/dc-db.c                | 227 ++++++
+ drivers/gpu/drm/imx/dc/dc-de.c                |  83 +-
+ drivers/gpu/drm/imx/dc/dc-de.h                |  14 +
+ drivers/gpu/drm/imx/dc/dc-drv.c               |  45 +-
+ drivers/gpu/drm/imx/dc/dc-drv.h               |  11 +-
+ drivers/gpu/drm/imx/dc/dc-ed.c                |  67 +-
+ drivers/gpu/drm/imx/dc/dc-fg.c                | 157 ++--
+ drivers/gpu/drm/imx/dc/dc-fl.c                | 145 +++-
+ drivers/gpu/drm/imx/dc/dc-fu.c                |  46 +-
+ drivers/gpu/drm/imx/dc/dc-fu.h                |   7 +-
+ drivers/gpu/drm/imx/dc/dc-fw.c                |  54 +-
+ drivers/gpu/drm/imx/dc/dc-ic.c                | 192 +++--
+ drivers/gpu/drm/imx/dc/dc-kms.h               |   6 +
+ drivers/gpu/drm/imx/dc/dc-lb.c                | 109 ++-
+ drivers/gpu/drm/imx/dc/dc-pe.c                |  12 +-
+ drivers/gpu/drm/imx/dc/dc-pe.h                |  41 +-
+ drivers/gpu/drm/imx/dc/dc-plane.c             |  18 +-
+ drivers/gpu/drm/imx/dc/dc-tc.c                |  55 +-
+ 50 files changed, 4000 insertions(+), 346 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/nxp,imx95-lvds-blk-ctl.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx95-lvds.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx95-pixel-interleaver.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx95-pixel-link.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx95-display-stream-csr.yaml
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx95-ldb.c
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx95-pixel-interleaver.c
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx95-pixel-link.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-db.c
+
+---
+Cc: Abel Vesa <abelvesa@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-clk@vger.kernel.org
+
 -- 
-With best wishes
-Dmitry
-
+2.51.0
 
