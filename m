@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B18BCF8E4
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 19:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3091BCF8F2
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 19:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8687210E313;
-	Sat, 11 Oct 2025 17:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3524410E314;
+	Sat, 11 Oct 2025 17:03:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="EqO43FLI";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZVePI4yq";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="qknFBvHm";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iARN/8+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5446C10E313
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 17:03:22 +0000 (UTC)
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EA610E318
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 17:03:25 +0000 (UTC)
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ckVLK1BZFz9t1g;
- Sat, 11 Oct 2025 19:03:21 +0200 (CEST)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ckVLN33TQz9skc;
+ Sat, 11 Oct 2025 19:03:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760202201;
+ s=mail20150812; t=1760202204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e7FprWKfv6NkWU+IK5Uxmm4Vashq7YlDd7qRaerBYZ0=;
- b=EqO43FLIInxWNkEbVnpAiT1ydZCdg6oZs6hgx7w6QYAXbmoZEkEMgU9UNh9lDGVIy8MJaz
- WJ4WOmOkKGmjk7/HudAIJ59sXv4a0FgE2Lb+iU6VIA/azkO6PKjDx0Vj8h+5gRD1Fopyhc
- iWN05KQreCW1sjNoLN+enQYuArepaeYswBG7sPSHXCErGIUoQcJRCs+5GtVBTLfJontU+w
- qAYbpRdUT5EGOjrj9B7QD/wcW2MLeuu8Zsp7+S5iGpzzJDAoORbBGwCu603ixtbxr2LzGw
- BNJmw7hUSB1vTun9yVgQAHqB0sDHD50l3ny4+5Frn8qxGfFbwbakq9TJmEJuuQ==
+ bh=G5/7Lt+eNMZQ+TGwwFETdn83sCmAOjop8aki964TaUc=;
+ b=qknFBvHmJgz6b5Aer3Bk6XWF7PFgAGODUhithYwwRL4aoum67M7NZENKN/x0ML2mM2XSNb
+ sWfyRZvwgCPVsGF8kyFLKLNshiguX2zIms4v6X6PrAwnB6jhDr5o09AtCszIR492dqeY4I
+ 5MzO046gqIUpEiJTgFtXYuFkKsP8z/PxF0R9xZYlEeSQOYn61/dgwf/xVERIXX89S+RfZh
+ WUZxD2ZgpdkzC3APWsCT9iYKBorr7yeRWZW0LJ8Vu969QO31kNFvjJ5ldmUmVurVT5nrwV
+ phE9lQQxBYvbwPwgM/Ei4TS1R7RGjOMNMf3mPQgx0Smf2TfWwvdovggmVM3ABQ==
 From: Marek Vasut <marek.vasut@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760202199;
+ s=mail20150812; t=1760202202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e7FprWKfv6NkWU+IK5Uxmm4Vashq7YlDd7qRaerBYZ0=;
- b=ZVePI4yqMI2W73BIo3FtxrWwvwsPzc+3ugiu6fIcaiEitjMfGcHDLh/9tlfRGjsB7y3tau
- 2KmFdS8fdekouOiqiJ5nOoi9ud3IbGz9j4UWn35LnWTvQ+8DSCwE3DSg++4lbhCobYdQlP
- yOp+//fRrME8zlCIrc9+7AqmZKjSddysxDqhPEBDq8CD8q2Xdbe0EhOzvR8VnF4bq4CIxd
- CVQLelFnmFGt7ctWP2rkh3qAvbQ6DUWj3Rg7IyFXdxctvIcbPcivm+ffTwL0A2TbsirmM1
- qsaXYuklJ1UaywhQ0a5M7Om7XK2A9rG4HXQK8lhgQQ81VjhLQqPOppeorSk1OQ==
+ bh=G5/7Lt+eNMZQ+TGwwFETdn83sCmAOjop8aki964TaUc=;
+ b=iARN/8+NTr1tb+7SIF15ATKw2f44+/GH3Dv2xDcE4M0kc1pl8oGDCcLvM1ZMbL2mJT+NZL
+ 3XkNj9JKmvOl8ZXEqA+yIvXotHNRUyJw2XRNwCm1yQmGEkar+n3z+ReZCdtJO2ZZEQXEEK
+ XFo2uwByH9XN6j9GP3/AZ6JKmr8LeGwf62MYUd7Ok4+ha8vtrjc6bwjSiPSxY02BdOtNfK
+ vhgrr6VMJGg4EVBl/sh+IaoQ4YE422tS2w2XRqN3N1kfOYwgcx4VaGK69JFx8Pb+gDp+AW
+ XZZlC01ma96ZY2jgIYF2S8Bv964W2w92NZIbrkRCHvFZqolP9UtyBwo7af9wXg==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut@mailbox.org>, Abel Vesa <abelvesa@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
@@ -59,16 +59,15 @@ Cc: Marek Vasut <marek.vasut@mailbox.org>, Abel Vesa <abelvesa@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH 10/39] drm/imx: dc: ed: Pass struct dc_ed_subdev_match_data
- via OF match data
-Date: Sat, 11 Oct 2025 18:51:25 +0200
-Message-ID: <20251011170213.128907-11-marek.vasut@mailbox.org>
+Subject: [PATCH 11/39] drm/imx: dc: fg: Parametrize register access
+Date: Sat, 11 Oct 2025 18:51:26 +0200
+Message-ID: <20251011170213.128907-12-marek.vasut@mailbox.org>
 In-Reply-To: <20251011170213.128907-1-marek.vasut@mailbox.org>
 References: <20251011170213.128907-1-marek.vasut@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: c3a95c61710d4cd17b4
-X-MBO-RS-META: bktexf8x8epk3i57k5rwy1upm9qr7yzm
+X-MBO-RS-ID: e82f7a823f4d9d513e8
+X-MBO-RS-META: 3h7y4g8eyge9xajw4q4kdnray3cfydw8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,12 +83,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce struct dc_ed_subdev_match_data which describes the differences
-between i.MX8QXP and i.MX95, which in this case is src_sels mapping and
-address space offsets, and pass it as OF match data into the driver, so
-the driver can use the match data to apply correct src_sels value to the
-IP registers on each SoC. This is a preparatory patch for i.MX95 addition.
-No functional change.
+Pass register offset for the second half of the register area around.
+This is done in preparation for i.MX95 support addition, which has the
+registers at offset 0x24 instead of 0x00. No functional change so far.
 
 Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 ---
@@ -111,106 +107,186 @@ Cc: imx@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-clk@vger.kernel.org
 ---
- drivers/gpu/drm/imx/dc/dc-ed.c | 24 +++++++++++++++++++-----
- drivers/gpu/drm/imx/dc/dc-pe.h |  1 +
- 2 files changed, 20 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/imx/dc/dc-fg.c | 62 ++++++++++++++++++----------------
+ 1 file changed, 32 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/dc/dc-ed.c b/drivers/gpu/drm/imx/dc/dc-ed.c
-index 2fdd22a903dec..63dcad30ecced 100644
---- a/drivers/gpu/drm/imx/dc/dc-ed.c
-+++ b/drivers/gpu/drm/imx/dc/dc-ed.c
-@@ -9,6 +9,7 @@
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
+diff --git a/drivers/gpu/drm/imx/dc/dc-fg.c b/drivers/gpu/drm/imx/dc/dc-fg.c
+index 5fadd67aa911b..05e635fdb4f9c 100644
+--- a/drivers/gpu/drm/imx/dc/dc-fg.c
++++ b/drivers/gpu/drm/imx/dc/dc-fg.c
+@@ -49,35 +49,37 @@
+ #define  ROW(x)			FIELD_PREP(GENMASK(29, 16), (x))
+ #define  COL(x)			FIELD_PREP(GENMASK(13, 0), (x))
  
- #include "dc-drv.h"
-@@ -35,7 +36,12 @@
- #define CONTROL			0xc
- #define  GAMMAAPPLYENABLE	BIT(0)
- 
--static const struct dc_subdev_info dc_ed_info[] = {
-+struct dc_ed_subdev_match_data {
-+	const enum dc_link_id		*src_sels;
-+	const struct dc_subdev_info	*info;
-+};
+-#define PACFG			0x54
+-#define SACFG			0x58
++#define OFFSET_MX8QXP		0x00
 +
-+static const struct dc_subdev_info dc_ed_info_imx8qxp[] = {
- 	{ .reg_start = 0x56180980, .id = 0, },
- 	{ .reg_start = 0x56180a00, .id = 1, },
- 	{ .reg_start = 0x561809c0, .id = 4, },
-@@ -106,7 +112,7 @@ static const struct regmap_config dc_ed_cfg_regmap_config = {
- 	.max_register = CONTROL,
++#define PACFG(o)		(0x54 + (o))
++#define SACFG(o)		(0x58 + (o))
+ #define  STARTY(x)		FIELD_PREP(GENMASK(29, 16), ((x) + 1))
+ #define  STARTX(x)		FIELD_PREP(GENMASK(13, 0), ((x) + 1))
+ 
+-#define FGINCTRL		0x5c
+-#define FGINCTRLPANIC		0x60
++#define FGINCTRL(o)		(0x5c + (o))
++#define FGINCTRLPANIC(o)	(0x60 + (o))
+ #define  FGDM_MASK		GENMASK(2, 0)
+ #define  ENPRIMALPHA		BIT(3)
+ #define  ENSECALPHA		BIT(4)
+ 
+-#define FGCCR			0x64
++#define FGCCR(o)		(0x64 + (o))
+ #define  CCGREEN(x)		FIELD_PREP(GENMASK(19, 10), (x))
+ 
+-#define FGENABLE		0x68
++#define FGENABLE(o)		(0x68 + (o))
+ #define  FGEN			BIT(0)
+ 
+-#define FGSLR			0x6c
++#define FGSLR(o)		(0x6c + (o))
+ #define  SHDTOKGEN		BIT(0)
+ 
+-#define FGTIMESTAMP		0x74
++#define FGTIMESTAMP(o)		(0x74 + (o))
+ #define  FRAMEINDEX(x)		FIELD_GET(GENMASK(31, 14), (x))
+ #define  LINEINDEX(x)		FIELD_GET(GENMASK(13, 0), (x))
+ 
+-#define FGCHSTAT		0x78
++#define FGCHSTAT(o)		(0x78 + (o))
+ #define  SECSYNCSTAT		BIT(24)
+ #define  SFIFOEMPTY		BIT(16)
+ 
+-#define FGCHSTATCLR		0x7c
++#define FGCHSTATCLR(o)		(0x7c + (o))
+ #define  CLRSECSTAT		BIT(16)
+ 
+ enum dc_fg_syncmode {
+@@ -98,15 +100,15 @@ static const struct dc_subdev_info dc_fg_info[] = {
+ static const struct regmap_range dc_fg_regmap_write_ranges[] = {
+ 	regmap_reg_range(FGSTCTRL, VTCFG2),
+ 	regmap_reg_range(PKICKCONFIG, SKICKCONFIG),
+-	regmap_reg_range(PACFG, FGSLR),
+-	regmap_reg_range(FGCHSTATCLR, FGCHSTATCLR),
++	regmap_reg_range(PACFG(OFFSET_MX8QXP), FGSLR(OFFSET_MX8QXP)),
++	regmap_reg_range(FGCHSTATCLR(OFFSET_MX8QXP), FGCHSTATCLR(OFFSET_MX8QXP)),
  };
  
--static const enum dc_link_id src_sels[] = {
-+static const enum dc_link_id src_sels_imx8qxp[] = {
- 	LINK_ID_NONE,
- 	LINK_ID_CONSTFRAME0,
- 	LINK_ID_CONSTFRAME1,
-@@ -119,6 +125,11 @@ static const enum dc_link_id src_sels[] = {
- 	LINK_ID_LAST	/* sentinel */
+ static const struct regmap_range dc_fg_regmap_read_ranges[] = {
+ 	regmap_reg_range(FGSTCTRL, VTCFG2),
+ 	regmap_reg_range(PKICKCONFIG, SKICKCONFIG),
+-	regmap_reg_range(PACFG, FGENABLE),
+-	regmap_reg_range(FGTIMESTAMP, FGCHSTAT),
++	regmap_reg_range(PACFG(OFFSET_MX8QXP), FGENABLE(OFFSET_MX8QXP)),
++	regmap_reg_range(FGTIMESTAMP(OFFSET_MX8QXP), FGCHSTAT(OFFSET_MX8QXP)),
  };
  
-+static const struct dc_ed_subdev_match_data dc_ed_match_data_imx8qxp = {
-+	.src_sels = src_sels_imx8qxp,
-+	.info = dc_ed_info_imx8qxp,
-+};
-+
- static inline void dc_ed_pec_enable_shden(struct dc_ed *ed)
+ static const struct regmap_access_table dc_fg_regmap_write_table = {
+@@ -126,7 +128,7 @@ static const struct regmap_config dc_fg_regmap_config = {
+ 	.fast_io = true,
+ 	.wr_table = &dc_fg_regmap_write_table,
+ 	.rd_table = &dc_fg_regmap_read_table,
+-	.max_register = FGCHSTATCLR,
++	.max_register = FGCHSTATCLR(OFFSET_MX8QXP),
+ };
+ 
+ static inline void dc_fg_enable_shden(struct dc_fg *fg)
+@@ -172,15 +174,15 @@ void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m)
+ 	regmap_write(fg->reg, SKICKCONFIG, COL(kick_col) | ROW(kick_row) | EN);
+ 
+ 	/* primary and secondary area position configuration */
+-	regmap_write(fg->reg, PACFG, STARTX(0) | STARTY(0));
+-	regmap_write(fg->reg, SACFG, STARTX(0) | STARTY(0));
++	regmap_write(fg->reg, PACFG(OFFSET_MX8QXP), STARTX(0) | STARTY(0));
++	regmap_write(fg->reg, SACFG(OFFSET_MX8QXP), STARTX(0) | STARTY(0));
+ 
+ 	/* alpha */
+-	regmap_write_bits(fg->reg, FGINCTRL,      ENPRIMALPHA | ENSECALPHA, 0);
+-	regmap_write_bits(fg->reg, FGINCTRLPANIC, ENPRIMALPHA | ENSECALPHA, 0);
++	regmap_write_bits(fg->reg, FGINCTRL(OFFSET_MX8QXP), ENPRIMALPHA | ENSECALPHA, 0);
++	regmap_write_bits(fg->reg, FGINCTRLPANIC(OFFSET_MX8QXP), ENPRIMALPHA | ENSECALPHA, 0);
+ 
+ 	/* constant color is green(used in panic mode)  */
+-	regmap_write(fg->reg, FGCCR, CCGREEN(0x3ff));
++	regmap_write(fg->reg, FGCCR(OFFSET_MX8QXP), CCGREEN(0x3ff));
+ 
+ 	ret = clk_set_rate(fg->clk_disp, m->clock * HZ_PER_KHZ);
+ 	if (ret < 0)
+@@ -189,34 +191,34 @@ void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m)
+ 
+ static inline void dc_fg_displaymode(struct dc_fg *fg, enum dc_fg_dm mode)
  {
- 	regmap_write_bits(ed->reg_pec, PIXENGCFG_STATIC, SHDEN, SHDEN);
-@@ -144,8 +155,8 @@ void dc_ed_pec_src_sel(struct dc_ed *ed, enum dc_link_id src)
- {
- 	int i = 0;
- 
--	while (src_sels[i] != LINK_ID_LAST) {
--		if (src_sels[i++] == src) {
-+	while (ed->src_sels[i] != LINK_ID_LAST) {
-+		if (ed->src_sels[i++] == src) {
- 			regmap_write(ed->reg_pec, PIXENGCFG_DYNAMIC, src);
- 			return;
- 		}
-@@ -192,6 +203,8 @@ void dc_ed_init(struct dc_ed *ed)
- 
- static int dc_ed_bind(struct device *dev, struct device *master, void *data)
- {
-+	const struct dc_ed_subdev_match_data *dc_ed_match_data = device_get_match_data(dev);
-+	const struct dc_subdev_info *dc_ed_info = dc_ed_match_data->info;
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct dc_drm_device *dc_drm = data;
- 	struct resource *res_pec;
-@@ -227,6 +240,7 @@ static int dc_ed_bind(struct device *dev, struct device *master, void *data)
- 		return ed->irq_shdload;
- 
- 	ed->dev = dev;
-+	ed->src_sels = dc_ed_match_data->src_sels;
- 
- 	id = dc_subdev_get_id(dc_ed_info, res_pec);
- 	if (id < 0) {
-@@ -274,7 +288,7 @@ static void dc_ed_remove(struct platform_device *pdev)
+-	regmap_write_bits(fg->reg, FGINCTRL, FGDM_MASK, mode);
++	regmap_write_bits(fg->reg, FGINCTRL(OFFSET_MX8QXP), FGDM_MASK, mode);
  }
  
- static const struct of_device_id dc_ed_dt_ids[] = {
--	{ .compatible = "fsl,imx8qxp-dc-extdst" },
-+	{ .compatible = "fsl,imx8qxp-dc-extdst", .data = &dc_ed_match_data_imx8qxp },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dc_ed_dt_ids);
-diff --git a/drivers/gpu/drm/imx/dc/dc-pe.h b/drivers/gpu/drm/imx/dc/dc-pe.h
-index 1e1e04cc39d4b..7928f947b0cef 100644
---- a/drivers/gpu/drm/imx/dc/dc-pe.h
-+++ b/drivers/gpu/drm/imx/dc/dc-pe.h
-@@ -56,6 +56,7 @@ struct dc_ed {
- 	struct regmap *reg_pec;
- 	struct regmap *reg_cfg;
- 	int irq_shdload;
-+	const enum dc_link_id *src_sels;
- };
+ static inline void dc_fg_panic_displaymode(struct dc_fg *fg, enum dc_fg_dm mode)
+ {
+-	regmap_write_bits(fg->reg, FGINCTRLPANIC, FGDM_MASK, mode);
++	regmap_write_bits(fg->reg, FGINCTRLPANIC(OFFSET_MX8QXP), FGDM_MASK, mode);
+ }
  
- struct dc_lb {
+ void dc_fg_enable(struct dc_fg *fg)
+ {
+-	regmap_write(fg->reg, FGENABLE, FGEN);
++	regmap_write(fg->reg, FGENABLE(OFFSET_MX8QXP), FGEN);
+ }
+ 
+ void dc_fg_disable(struct dc_fg *fg)
+ {
+-	regmap_write(fg->reg, FGENABLE, 0);
++	regmap_write(fg->reg, FGENABLE(OFFSET_MX8QXP), 0);
+ }
+ 
+ void dc_fg_shdtokgen(struct dc_fg *fg)
+ {
+-	regmap_write(fg->reg, FGSLR, SHDTOKGEN);
++	regmap_write(fg->reg, FGSLR(OFFSET_MX8QXP), SHDTOKGEN);
+ }
+ 
+ u32 dc_fg_get_frame_index(struct dc_fg *fg)
+ {
+ 	u32 val;
+ 
+-	regmap_read(fg->reg, FGTIMESTAMP, &val);
++	regmap_read(fg->reg, FGTIMESTAMP(OFFSET_MX8QXP), &val);
+ 
+ 	return FRAMEINDEX(val);
+ }
+@@ -225,7 +227,7 @@ u32 dc_fg_get_line_index(struct dc_fg *fg)
+ {
+ 	u32 val;
+ 
+-	regmap_read(fg->reg, FGTIMESTAMP, &val);
++	regmap_read(fg->reg, FGTIMESTAMP(OFFSET_MX8QXP), &val);
+ 
+ 	return LINEINDEX(val);
+ }
+@@ -249,21 +251,21 @@ bool dc_fg_secondary_requests_to_read_empty_fifo(struct dc_fg *fg)
+ {
+ 	u32 val;
+ 
+-	regmap_read(fg->reg, FGCHSTAT, &val);
++	regmap_read(fg->reg, FGCHSTAT(OFFSET_MX8QXP), &val);
+ 
+ 	return !!(val & SFIFOEMPTY);
+ }
+ 
+ void dc_fg_secondary_clear_channel_status(struct dc_fg *fg)
+ {
+-	regmap_write(fg->reg, FGCHSTATCLR, CLRSECSTAT);
++	regmap_write(fg->reg, FGCHSTATCLR(OFFSET_MX8QXP), CLRSECSTAT);
+ }
+ 
+ int dc_fg_wait_for_secondary_syncup(struct dc_fg *fg)
+ {
+ 	unsigned int val;
+ 
+-	return regmap_read_poll_timeout(fg->reg, FGCHSTAT, val,
++	return regmap_read_poll_timeout(fg->reg, FGCHSTAT(OFFSET_MX8QXP), val,
+ 					val & SECSYNCSTAT, 5, 100000);
+ }
+ 
 -- 
 2.51.0
 
