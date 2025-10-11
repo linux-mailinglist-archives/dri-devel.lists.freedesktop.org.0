@@ -2,56 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3B8BCEE93
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 04:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BD8BCEF3F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 05:39:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A4310E2BD;
-	Sat, 11 Oct 2025 02:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D22610E2D0;
+	Sat, 11 Oct 2025 03:39:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="S2D9oCYG";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="qr6jH453";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3287.qiye.163.com (mail-m3287.qiye.163.com
- [220.197.32.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC7810E2BD
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 02:48:06 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2583d42b4;
- Sat, 11 Oct 2025 10:47:59 +0800 (GMT+08:00)
-Message-ID: <7d13fd2a-090e-4a58-b862-050f9ee4ff43@rock-chips.com>
-Date: Sat, 11 Oct 2025 10:47:59 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: analogix_dp: Fix connector status detection
- for bridges
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20251009193028.4952-1-heiko@sntech.de>
- <v6aqic6kffc3x42dkb4bika5tvoqdpmmloroqio2656g74pkws@7fe3bsfzbasn>
- <3572997.QJadu78ljV@diego>
- <b47c5579-511e-4831-b86e-48ad4cefaa6c@rock-chips.com>
- <wzeleliof47ogogxqrlwswfbnvummoydtegpgwf463k5ve3uue@tpemjilgagpl>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <wzeleliof47ogogxqrlwswfbnvummoydtegpgwf463k5ve3uue@tpemjilgagpl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a99d12afe2403a3kunme96870ed1c85ea
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxhIS1ZNHkhLSkJCGENMTktWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=S2D9oCYGGbu2NFv47nBijW+b2It8nOu6OPjaH0bEfyhlxOv+fJGk/cQhEwTpaHzqJyTcEV1rWfwCi0Sfw5mc0qO/An7Y9c7nxNr0uYxbYU9S/HymPkvmjU+kMYcpDK4CqElV0eE5rEwlrO8whFuUmzZUPiyuJ1+h0mJDd/3h5DM=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=5+ihUYu0S1qJ7LbunOf2GjCHQGLK8SqoKsSPOioSnbk=;
- h=date:mime-version:subject:message-id:from;
+X-Greylist: delayed 351 seconds by postgrey-1.36 at gabe;
+ Sat, 11 Oct 2025 03:39:37 UTC
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5CF10E2CE
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 03:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1760153973;
+ bh=1ifJLk8873eX1hlHsp6hKpNT8S+IOtOqXiAmk6qv8rw=;
+ h=From:To:Subject:Date:Message-Id;
+ b=qr6jH453OlUMFfcTPpD4aXh5nxyyWS8jdaTuBZV2etQ950lnh0Eas4GyHgQOpqRpK
+ ThnowTQU7lj29LwDL42/ZfuJsbEHCrepwhgyk6mmFOPaesF0TdfNBOMyILpcrg7+VF
+ 18TZiL70AI5lQBA00ZLco0hsKhkcV5nkTzdToJUs=
+X-QQ-mid: zesmtpgz4t1760153563t46dff691
+X-QQ-Originating-IP: vSCtcccqW2noE7PwTMsxNxd6jA273YQLY2Nnsk4ppuI=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Sat, 11 Oct 2025 11:32:40 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11891270749055428238
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/8] Add Type-C DP support for RK3399 EVB IND board
+Date: Sat, 11 Oct 2025 11:32:25 +0800
+Message-Id: <20251011033233.97-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: MX2TrL0qDY4jf57SwMknBNBS0cnZ9NLpTHlWKZy63+3wpB6lRJEDYCeh
+ wvla4hGqHIHxVl2qvg2UUHpleuOBB3gGXu2hLANng8WrKFGIrI+fDY+rHIfxJusXVkwU4bT
+ TnjeB2nnDMbWgxUj9heB2V1cIZ0okZ43nKfnXMTFDEBqa/KIz52EZ4VP9eGt9VkcASMBqpi
+ pKB5ji2h6KgvTTmxQTRLzPDI1d5Ia1/31/xGN9/sEyfuWifAsnfZTj933zlz5BGyJVEr48C
+ hrLwNO3kFbvLDaK5rKmBMmuDdv86BRbTrmtqs3ms4v1IRIJ9oS4vk3RuSM773YOj6w5AJru
+ 5BggkBvVKeeEgvIlKT1KLRc9gGzwb0QEtbiwtzuf5nbg5iBn0HbgCryfYAibQReo/xw7SqO
+ XbfO/LhlZy8cuhks83vrGl4Z1UPOdr6CDmQGtrXM7X4kNsoDnj3iCJMqh3n1kztFYx6qFGE
+ An4Bu8WJlMYJKgzYQ7gLUOL7w5Q3M4LUieC4ufKabIfdb2+Zsslhw4YqbqCTFFzAyhnlshe
+ nS1zTLIPtqW6Judqm0qhC6kCOcvR0ru13YvrKmnuIob+3lIf0HmTH+1CGo8QAHOz5Hyk7cH
+ WnHC59jTIFmEDADkNeCQi2SOZpxaxHAqVGZiEgxKFRmrDf3Q5MnbZJT0/yAf3IEDaphLH/z
+ ZCdbMGFXsnE038iI7PK/OhCaVDM91HgQ8tZ8rGy5lTjCIzur3BuO1DfJgsMCzi0RjNobFJU
+ lsa70rGPYVrCFcdJ+cl6LLGKZzJnIJ4L5bBsqNWyGLZPDo7czuchA0KiFxyyS3UOTLLL9aA
+ mOigku4cvhm/rHBb+v4QQkEHiXx/CJNMscF4qmovBI4Ig6A925CL0wb1F56CXWQ/fHEwqjW
+ 04enNOqbjSkU1N3VIV6qgzBJZ7qt8NUs9F5fPRm8+ha4TD83zL9jCa3yyj8eslj7aSLCOaX
+ 9qJlQaChowsc8KSexOhbEr6hezh9FwjxvxbS8Bz0lelwuHiFoQhCvtgh0Y/yQP9BZcqETu0
+ hZVw7QIw==
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,212 +94,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-On 10/10/2025 8:43 PM, Dmitry Baryshkov wrote:
-> On Fri, Oct 10, 2025 at 12:02:43PM +0800, Damon Ding wrote:
->> Hi,
->>
->> On 10/10/2025 7:42 AM, Heiko Stübner wrote:
->>> Hi Dmitry,
->>>
->>> Am Freitag, 10. Oktober 2025, 00:30:11 Mitteleuropäische Sommerzeit schrieb Dmitry Baryshkov:
->>>> On Thu, Oct 09, 2025 at 09:30:28PM +0200, Heiko Stuebner wrote:
->>>>> Right now if there is a next bridge attached to the analogix-dp controller
->>>>> the driver always assumes this bridge is connected to something, but this
->>>>> is of course not always true, as that bridge could also be a hotpluggable
->>>>> dp port for example.
->>>>>
->>>>> On the other hand, as stated in commit cb640b2ca546 ("drm/bridge: display-
->>>>> connector: don't set OP_DETECT for DisplayPorts"), "Detecting the monitor
->>>>> for DisplayPort targets is more complicated than just reading the HPD pin
->>>>> level" and we should be "letting the actual DP driver perform detection."
->>>>>
->>>>> So use drm_bridge_detect() to detect the next bridge's state but ignore
->>>>> that bridge if the analogix-dp is handling the hpd-gpio.
->>>>>
->>>>> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
->>>>> ---
->>>>> As this patch stands, it would go on top of v6 of Damon's bridge-connector
->>>>> work, but could very well be also integrated into one of the changes there.
->>>>>
->>>>> I don't know yet if my ordering and/or reasoning is the correct one or if
->>>>> a better handling could be done, but with that change I do get a nice
->>>>> hotplug behaviour on my rk3588-tiger-dp-carrier board, where the
->>>>> Analogix-DP ends in a full size DP port.
->>>>>
->>>>>    drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 8 ++++++--
->>>>>    1 file changed, 6 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->>>>> index c04b5829712b..cdc56e83b576 100644
->>>>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->>>>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->>>>> @@ -983,8 +983,12 @@ analogix_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *conne
->>>>>    	struct analogix_dp_device *dp = to_dp(bridge);
->>>>>    	enum drm_connector_status status = connector_status_disconnected;
->>>>> -	if (dp->plat_data->next_bridge)
->>>>> -		return connector_status_connected;
->>>>> +	/*
->>>>> +	 * An optional next bridge should be in charge of detection the
->>>>> +	 * connection status, except if we manage a actual hpd gpio.
->>>>> +	 */
->>>>> +	if (dp->plat_data->next_bridge && !dp->hpd_gpiod)
->>>>> +		return drm_bridge_detect(dp->plat_data->next_bridge, connector);
->>
->> I have tried to use the drm_bridge_detect() API to do this as simple-bridge
->> driver, but it does not work well for bridges that do not declare OP_DETECT.
->>
->> Take nxp-ptn3460 as an example, the connected status will be treated as
->> connector_status_unknown via the following call stack:
->>
->> drm_helper_probe_single_connector_modes()
->>    -> drm_helper_probe_detect()
->>       -> drm_bridge_connector_detect()
->>          -> analogix_dp_bridge_detect()
->>             -> drm_bridge_detect()
->>                -> return connector_status_unknown due to !OP_DETECT
->>
->> However, the connected status will be connector_status_connected as expected
->> if Analogix DP does not declare OP_DETECT[0]:
->>
->> drm_helper_probe_single_connector_modes()
->>    -> drm_helper_probe_detect()
->>       -> drm_bridge_connector_detect()
->>          -> return connector_status_connected due to CONNECTOR_LVDS
->>
->> Base on Andy's commit 5d156a9c3d5e ("drm/bridge: Pass down connector to drm
->> bridge detect hook"), the drm_connector becomes available in
->> drm_bridge_detect().
->>
->> It may be better to unify the logic of drm_bridge_detect() and
->> drm_bridge_connector_detect(), which sets the connected status according to
->> the connector_type. Then the codes will be more reasonable and become
->> similar to the simple-bridge demo via
->> 'drm_bridge_detect(dp->plat_data->next_bridge, connector)'.
-> 
-> I'm not sure, what you are trying to achieve here. The
-> drm_bridge_connector should handle the OP_DETECT and use the last bridge
-> in the chain that supports detection.
-> 
-> Note: OP_HPD and OP_DETECT are not that tightly connected, especially
-> for DP bridges. It is fine to have a later bridge which generates HPD
-> events, while Analogix DP bridge responds to .hpd_notify() events and
-> performs its duties.
-> 
-> For example, it's perfectly fine to have dp-connector with the HPD GPIO
-> pin routed to the connector (in which case it will declare OP_HPD). But
-> the Analogix bridge should perform actual detection. Normally this is
-> handled by reading DPCD and ensuring that there is an actual connected
-> device (i.e. either a non-branch device or a branch with at least 1
-> sink).
-> 
+This series focuses on adding Type-C DP support for USBDP PHY and DP
+driver. The USBDP PHY and DP will perceive the changes in cable status
+based on the USB PD and Type-C state machines provided by TCPM. Before
+this, the USBDP PHY and DP controller of RK3399 sensed cable state
+changes through extcon, and devices such as the RK3399 Gru-Chromebook
+rely on them. This series should not break them.
 
-I see. Your kind explanation helped me understand OP_HPD and OP_DETECT 
-better.
+====
+1. DisplayPort HPD status notify
 
-Back to Heiko's issue, the v3, in which dp-connector declares OP_HPD, 
-should be better (refers to arm64/qcom/qcs6490-rb3gen2 and 
-arm64/qcom/sa8295p-adp). And the .hpd_notify() of Analogix DP bridge 
-will be supported in the future if something needs to be handle with the 
-HPD status changes (refers to driver drivers/gpu/drm/msm/dp/dp_display.c).
+Before v4, I implemented a variety of DP HPD status notify. However,
+they all had various problems and it was difficult to become a common
+solution.
 
-Additionally, I will keep analogix_dp_bridge_detect() the same as before.
+Under Dmitry's guidance, I try to add default DRM AUX HPD device when
+register DisplayPort altmode in patch 1. That makes it redundant for
+each Type-C chip driver to implement a similar registration process
+in embedded scenarios.
 
->>
->> But we still need a specific check for DP-connector to resolve this issue.
->> The '!dp->hpd_gpiod' may not be well-considered. Perhaps we could introduce
->> a new API, similar to drm_bridge_is_panel(), called
->> drm_bridge_is_display_connector()?
->>
->>>>
->>>> And it's also not correct because the next bridge might be a retimer
->>>> with the bridge next to it being a one with the actual detection
->>>> capabilities. drm_bridge_connector solves that in a much better way. See
->>>> the series at [1]
->>>>
->>>> [1] https://lore.kernel.org/dri-devel/41c2a141-a72e-4780-ab32-f22f3a2e0179@samsung.com/
->>>
->>> Hence my comment above about that possibly not being the right variant.
->>> Sort of asking for direction :-) .
->>>
->>> I am working on top of Damon's drm-bridge-connector series as noted above,
->>> but it looks like the detect function still is called at does then stuff.
->>>
->>> My board is the rk3588-tiger-displayport-carrier [0], with a dp-connector
->>> which is the next bridge, so _without_ any changes, the analogix-dp
->>> always assumes "something" is connected and I end up with
->>>
->>> [    9.869198] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
->>> [    9.980422] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
->>> [   10.091522] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
->>> [   10.202419] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
->>> [   10.313651] [drm:analogix_dp_bridge_atomic_enable] *ERROR* failed to get hpd single ret = -110
->>>
->>> when no display is connected.
->>>
->>> With this change I do get the expected hotplug behaviour, so something is
->>> missing still even with the bridge-connector series.
->>>
->>>
->>> Heiko
->>>
->>>
->>> [0] v3: https://lore.kernel.org/r/20250812083217.1064185-3-heiko@sntech.de
->>>       v4: https://lore.kernel.org/r/20251009225050.88192-3-heiko@sntech.de
->>>       (moved hpd-gpios from dp-connector back to analogix-dp per dp-connector
->>>       being not able to detect dp-monitors)
->>>>
->>>>>    	if (!analogix_dp_detect_hpd(dp))
->>>>>    		status = connector_status_connected;
->>>>
->>>>
->>>
->>>
->>
->> I see... There is also a way to leave the connected status check in Analogix
->> DP bridge:
->>
->> 1.If the later bridge does not support HPD function, the 'force-hpd'
->> property must be set under the DP DT node. The DT modifications may be
->> large by this way.
-> 
-> Well... The drivers should continue to work with old DTs, if they did so
-> before.
-> 
->> 2.If the later bridge do support HPD function like the DP-connector, the
->> connected status detection method is GPIO HPD or functional pin HPD.
-> 
-> dp-connector should set OP_HPD
-> analogix-dp should set OP_DETECT
-> 
+====
+2. Altmode switching and orientation switching for USBDP PHY
 
-Got it.
+For USB Type-C interfaces, an external Type-C controller chip assists
+by detecting cable attachment, determining plug orientation, and
+reporting USB PD message. The USB/DP combo PHY supports software
+configurable pin mapping and DisplayPort lane assignment. Based on
+these message, the combo PHY can perform both altmode switching and
+orientation switching via software.
 
->>
->> With the DT modifications for above 1, the analogix_dp_bridge_detect() can
->> be simplified to:
->>
->> static enum drm_connector_status
->> analogix_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector
->> *connector)
->> {
->> 	struct analogix_dp_device *dp = to_dp(bridge);
->> 	enum drm_connector_status status = connector_status_disconnected;
->>
->> 	if (!analogix_dp_detect_hpd(dp))
->> 		status = connector_status_connected;
->>
->> 	return status;
->> }
->>
->> Best regards,
->> Damon
->>
->> [0]https://lore.kernel.org/all/22a5119c-01da-4a7a-bafb-f657b1552a56@rock-chips.com/
->>
-> 
+The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
+fusb302 chip as Type-C controller. The connection diagram is shown below:
 
-Best regards,
-Damon
+fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
+             |
+             +---> USB/DP PHY0 +--> CDN-DP controller
+                               |
+                               +--> DWC3 USB controller
+
+====
+3. Multiple bridge model for RK3399 CDN-DP
+
+The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+the CDN-DP can be switched to output to one of the PHYs.
+
+USB/DP PHY0 ---+
+               | <----> CDN-DP controller
+USB/DP PHY1 ---+
+
+In previous versions, if both PHY ports were connected to DP,
+the CDN-DP driver would select the first PHY port for output.
+
+On Dmitry's suggestion, we introduced a multi-bridge model to support
+flexible selection of the output PHY port. For each PHY port, a
+separate encoder and bridge are registered.
+
+The change is based on the DRM AUX HPD bridge, rather than the
+extcon approach. This requires the DT to correctly describe the
+connections between the first bridge in bridge chain and DP
+controller. And Once the first bridge is obtained, we can get the
+last bridge corresponding to the USB-C connector, and then set the
+DRM connector's fwnode to the corresponding one to enable HPD
+notification.
+
+====
+Patch1 add default HPD device when register Displayport altmode.
+Patch2 add new Type-C mode switch for RK3399 USBDP phy binding.
+Patch3 add typec_mux and typec_switch for RK3399 USBDP PHY.
+Patch4 add DRM AUX bridge support for RK3399 USBDP PHY.
+Patch5 drops CDN-DP's extcon dependency when Type-C is present.
+Patch6 add multiple bridges to support PHY port selection. 
+Patch7 add missing dp_out port for RK3399 CDN-DP.
+Patch8 add Type-C DP support for RK3399 EVB IND board.
+
+Changes in v5:
+- Link to V4: https://lore.kernel.org/all/20250922012039.323-1-kernel@airkyi.com/
+- Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+- Place the helper functions in the same compilation unit.
+- Add more comments about parent device.
+- Add DRM AUX bridge support for RK3399 USBDP PHY
+- By parsing the HPD bridge chain, set the connector's of_node to the
+of_node corresponding to the USB-C connector.
+- Return EDID cache when other port is already enabled. 
+
+Changes in v4:
+- Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
+- Add default HPD device for DisplayPort altmode.
+- Introduce multiple bridges for CDN-DP.
+- ...
+
+Changes in v3:
+- Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
+- Add more descriptions to clarify the role of the PHY in switching.
+- Fix wrong vdo value.
+- Fix port node in usb-c-connector.
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+- Fix compile error when CONFIG_TYPEC is not enabled.
+- Notify DP HPD state by USB/DP PHY.
+- Ignore duplicate HPD events.
+- Add endpoint to link DP PHY and DP controller.
+- Fix devicetree coding style.
+
+Chaoyi Chen (8):
+  usb: typec: Add default HPD device when register DisplayPort altmode
+  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+  phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+  phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
+  drm/rockchip: cdn-dp: Support handle lane info without extcon
+  drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
+    selection
+  arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
+
+ .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
+ .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++
+ drivers/gpu/drm/rockchip/Kconfig              |   2 +
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        | 380 +++++++++++++---
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |  24 +-
+ drivers/phy/rockchip/phy-rockchip-typec.c     | 417 +++++++++++++++++-
+ drivers/usb/typec/class.c                     |  26 ++
+ include/linux/usb/typec_altmode.h             |   2 +
+ 9 files changed, 931 insertions(+), 82 deletions(-)
+
+-- 
+2.49.0
 
