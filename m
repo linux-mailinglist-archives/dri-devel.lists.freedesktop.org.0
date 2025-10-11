@@ -2,54 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCD0BCF5B2
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 15:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF008BCF5CC
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Oct 2025 15:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB53510E305;
-	Sat, 11 Oct 2025 13:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C73C410E06D;
+	Sat, 11 Oct 2025 13:45:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nWHXK56K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DLXlVJy8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E22BA10E03B;
- Sat, 11 Oct 2025 13:30:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ge4RspZCC66++F0c4E7jPYV4Xjaovkzjqi7j2p2HMOk=; b=nWHXK56K9J7M/nqd/IKpshC7UW
- Mro22WY4mqvvnXy55YcepZzNEQbIJC4YK7GFhPAl1I8S+pE6qAh/Zrh3/QGmW85mu+z9iH47qpZMt
- XzvTBPQkc5FTp0757pl0pB3qrPONQARnIkSqRofomB8fYJKofzJ0jHioueODYBDEG3fIHtCFxTEmW
- REVE2WeYrMBqxs/Ic/k5ZwIFG1e7D1+NJq5j+qr8WalUL428IXtRbkA7vZ8XpepIDYaVzwrH9M7sx
- N7f3k6VxoqorRR4gQ3kKycNVPmUGFFVhbesWc/H7LlwGgTlH+0ji9ZbjpNJQfiUX8PeM4Pp/MUbXQ
- SLoZnO1A==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v7ZgD-008FDl-PI; Sat, 11 Oct 2025 15:30:37 +0200
-Message-ID: <88775f5a-780a-4030-8750-1461fd22b501@igalia.com>
-Date: Sat, 11 Oct 2025 14:30:36 +0100
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824E210E06D
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 13:45:42 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-63963066fb0so5949923a12.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Oct 2025 06:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760190341; x=1760795141; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eSN6YJly2uz/i5kBQYAcGqHNw257xKcldfsRLDm9KbU=;
+ b=DLXlVJy8+DGzyfkKSDCBAnFxq/PeSBHE2UQL+HVh1kGUyYytNlQE/b3uWB0RTlpp5Q
+ UZxCpnWRSS1FqpnJtlIVMqNDTOw8hxTeKFxhifY6PMlcY3Ux/8bWvudVoSNgnVsAqHQ5
+ aBUSVREIsoIVq3oDvT7KHew5C7eHhTQSY+IrIfR4+pLVnJS41YqOShIl+o5L2xegXqWW
+ DYRv7p92V0mlUREZXf/P/vMB4f82UhzBkdCg46MbBgTm5aHAv3JEkKUMTU1GM/dvwRU5
+ kTNON9OuhWu9Lizyf1UiCbUprTvUMvuUO4jGrKUbulR3igXTobg6ynOZK6Uq4fmV1eDi
+ zbfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760190341; x=1760795141;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eSN6YJly2uz/i5kBQYAcGqHNw257xKcldfsRLDm9KbU=;
+ b=jn2bndo4rq1kmYRq34RxtjXJyYME2XOpJWzgqY/EbNkqVCJvYizueTlLDwtF/kY92Y
+ yvgLpAh7zJbTf47Lp5403ECbZQrPULvqnEka75Bk+Oqa4VU7MTp/IyTVRB0yPuQPHViw
+ oCj9aDr1P/HCnDdSQ58pZIIoSr08g25AmjCiOGx2UAlE/r/3EGZ5mCf+L0Wd2MHu+nCa
+ 0sFPH9UXfBTzfE7Q0OMpxVWHC10CIbCqoFobvIgbvQQJtE9eRb/Ubu6INns/ZEwOaj2G
+ LaNf+3CtseZ7Fl1NuLjIpmHxkuV8rKrYgQl4RcK/14dbpnENp8d6OosN3mG97KjmwjAC
+ vcwA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX99TR9mLx6NwwUAc79SzGzmnyWGpqOKBOv0y+K5/D1hrjOTMqMlFe6qc9bn9lRdG/Qem5055NEUCA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1RGb0T2UeEeuw4MvI41yj5i4MpVkYWoCh1OnCP6dYnqj6CM/a
+ nhhbX0z+PJWP/sktVE1CA7ya0lvdb+D5FW+raxTo154CP8Hmdf28e5M=
+X-Gm-Gg: ASbGncv4acjs8ro2zV1Z3xK4SJv7dD7RfMnqpYewMVLOEy99JI7crr2KtvH2VXGEa48
+ nkdy6WWOvSL0j/wMIYFpzy5KZGDLy9d7rX26KQRRFBHeL/ivynIlDIztuc5Kb5umtLwfRIRYoI+
+ kX88XgvBHXA2itS9H2KywasjhOTa2PgPb20JFW7VLe043+uFuFRVugPvKdRS63t6aszCnhLZ2t5
+ D2Ls1R7xYK0mIQZHjP2i97RZQjB4apq5mxBaj7ksysqBL7zKwir0q/keYv/Ipj3KSDeNzOxIvWd
+ hrPDZFdCK5ah4Zk4iULSrfYzsXlsusl/SELDFKej4P07vnk+hrfuDQxY13Wp3Em2Qyz+vm0Gest
+ iaaayhhBrssUDbzojCp3DkbsZX8WwmRMUb5/+nafCP8+sLDUEsfUafRbs4C7QaK7NHLGsfDfvp/
+ F5pHxKMpS88RC5GlqIHx2WDy9qaJl2egPUytHOehs=
+X-Google-Smtp-Source: AGHT+IFxwNevxZuakuH1AwVGVUxgynpTEfjH50O/959om/vjv//gOoU0pSJRYKc+s8OpRyguD6wedQ==
+X-Received: by 2002:a17:907:3e05:b0:b33:671:8a58 with SMTP id
+ a640c23a62f3a-b50ac0cb5dcmr1592525966b.37.1760190340665; 
+ Sat, 11 Oct 2025 06:45:40 -0700 (PDT)
+Received: from [192.168.1.17] (host-87-19-169-144.retail.telecomitalia.it.
+ [87.19.169.144]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b55d61ccb09sm470963166b.19.2025.10.11.06.45.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Oct 2025 06:45:40 -0700 (PDT)
+From: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Date: Sat, 11 Oct 2025 15:45:10 +0200
+Subject: [PATCH v3] drm/msm: make sure last_fence is always updated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/28] drm/sched: Implement RR via FIFO
-To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-5-tvrtko.ursulin@igalia.com>
- <d5dc0f456835f86a6b67791e535f69ae72c7dff0.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <d5dc0f456835f86a6b67791e535f69ae72c7dff0.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251011-close_fence_wait_fix-v3-1-5134787755ff@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAGVf6mgC/43NQQrCMBCF4auUrI1kEivUlfcQKWkyaQfapiQlK
+ qV3Ny0uXLhw+T+YbxYWMRBGdikWFjBRJD/mUIeCmU6PLXKyuZkUsgQhKm56H7F2OBqsH5rm2tG
+ TC4FgZCkBEVk+nQLmeWdv99wdxdmH1/4lwbZ+QBC/wQQcuLMKVXWyRlt7bQdN/dH4gW1gkv8gM
+ iPaNkpJ2zh3Lr+RdV3fF0yhQ/0AAAA=
+X-Change-ID: 20251009-close_fence_wait_fix-00e1c2521eee
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Antonino Maniscalco <antomani103@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Anna Maniscalco <anna.maniscalco2000@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760190339; l=2066;
+ i=anna.maniscalco2000@gmail.com; s=20240815; h=from:subject:message-id;
+ bh=iFYvEtWlC7xxF1kiaqDFQ3ELFe/iyBZgt0MDdURh88Y=;
+ b=0JggH6t/TIHGmWfFVBv+owfEoMyqVT7mhRAb3nxyr2ha5tqUUZN4EesSAzkWYqalqgfHTvUq8
+ DGbonyZztQrCEgdQZF7aL8H5sjt6yJwRvyVXi4tzO0dhOQpo283VE+a
+X-Developer-Key: i=anna.maniscalco2000@gmail.com; a=ed25519;
+ pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,314 +107,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Update last_fence in the vm-bind path instead of kernel managed path.
 
-On 10/10/2025 11:18, Philipp Stanner wrote:
-> On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
->> Round-robin being the non-default policy and unclear how much it is used,
->> we can notice that it can be implemented using the FIFO data structures if
->> we only invent a fake submit timestamp which is monotonically increasing
->> inside drm_sched_rq instances.
->>
->> So instead of remembering which was the last entity the scheduler worker
->> picked we can simply bump the picked one to the bottom of the tree, which
->> ensures round-robin behaviour between all active queued jobs.
->>
->> If the picked job was the last from a given entity, we remember the
->> assigned fake timestamp and use it to re-insert the job once it re-joins
->> the queue. This ensures job neither overtakes all already queued jobs,
-> 
-> s/job/the job
+last_fence is used to wait for work to finish in vm_bind contexts but not
+used for kernel managed contexts.
 
-Done.
+This fixes a bug where last_fence is not waited on context close leading
+to faults as resources are freed while in use.
 
-> 
->> neither it goes last. Instead it keeps the position after the currently
->> queued jobs and before the ones which haven't yet been queued at the point
->> the entity left the queue.
-> 
-> I think I got how it works. If you want you can phrase it a bit more
-> direct that the "last_entity" field is only needed for RR.
+Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
+Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+---
+Changes in v3:
+- Fixed Signed-off-by tag
+- Link to v2: https://lore.kernel.org/r/20251010-close_fence_wait_fix-v2-1-adb332dbff65@gmail.com
 
-I assume you mean rq->current_entity. I chose not to mention that since 
-it only got replaced with rq->rr_ts. So I think focusing only on the 
-code removal (the next paragraph) is clearer.
->> Advantage is that we can consolidate to a single code path and remove a
->> bunch of code. Downside is round-robin mode now needs to lock on the job
->> pop path but that should not be visible.
-> 
-> s/visible/have a measurable performance impact
-Done.
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c | 51 ++++++++++------
->>   drivers/gpu/drm/scheduler/sched_main.c   | 76 ++----------------------
->>   include/drm/gpu_scheduler.h              | 16 +++--
->>   3 files changed, 51 insertions(+), 92 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 5a4697f636f2..4852006f2308 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -456,9 +456,24 @@ drm_sched_job_dependency(struct drm_sched_job *job,
->>   	return NULL;
->>   }
->>   
->> +static ktime_t
->> +drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_entity *entity)
->> +{
->> +	ktime_t ts;
->> +
->> +	lockdep_assert_held(&entity->lock);
->> +	lockdep_assert_held(&rq->lock);
->> +
->> +	ts = ktime_add_ns(rq->rr_ts, 1);
->> +	entity->rr_ts = ts;
->> +	rq->rr_ts = ts;
-> 
-> This also updates / set the time stamp. Any idea for a better function
-> name?
+Changes in v2:
+- Only update last_fence on vm_bind path
+- Link to v1: https://lore.kernel.org/r/20251010-close_fence_wait_fix-v1-1-fd3e394dcadd@gmail.com
+---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-I renamed it to drm_sched_rq_next_rr_ts() wit the rationale that there 
-is more "prior art" for "next" in function names to change some internal 
-state.
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 3ab3b27134f93b01236fec5833a18a6e2ad2cf5e..75d9f357437006ff261db148901e176eae670d41 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -414,6 +414,11 @@ static void submit_attach_object_fences(struct msm_gem_submit *submit)
+ 					 submit->user_fence,
+ 					 DMA_RESV_USAGE_BOOKKEEP,
+ 					 DMA_RESV_USAGE_BOOKKEEP);
++
++		last_fence = vm->last_fence;
++		vm->last_fence = dma_fence_unwrap_merge(submit->user_fence, last_fence);
++		dma_fence_put(last_fence);
++
+ 		return;
+ 	}
+ 
+@@ -427,10 +432,6 @@ static void submit_attach_object_fences(struct msm_gem_submit *submit)
+ 			dma_resv_add_fence(obj->resv, submit->user_fence,
+ 					   DMA_RESV_USAGE_READ);
+ 	}
+-
+-	last_fence = vm->last_fence;
+-	vm->last_fence = dma_fence_unwrap_merge(submit->user_fence, last_fence);
+-	dma_fence_put(last_fence);
+ }
+ 
+ static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
 
->> +
->> +	return ts;
->> +}
->> +
->>   struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>   {
->> -	struct drm_sched_job *sched_job;
->> +	struct drm_sched_job *sched_job, *next_job;
->>   
->>   	sched_job = drm_sched_entity_queue_peek(entity);
->>   	if (!sched_job)
->> @@ -491,21 +506,21 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>   	 * Update the entity's location in the min heap according to
->>   	 * the timestamp of the next job, if any.
->>   	 */
->> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
->> -		struct drm_sched_job *next;
->> +	next_job = drm_sched_entity_queue_peek(entity);
->> +	if (next_job) {
->> +		struct drm_sched_rq *rq;
->> +		ktime_t ts;
->>   
->> -		next = drm_sched_entity_queue_peek(entity);
->> -		if (next) {
->> -			struct drm_sched_rq *rq;
->> -
->> -			spin_lock(&entity->lock);
->> -			rq = entity->rq;
->> -			spin_lock(&rq->lock);
->> -			drm_sched_rq_update_fifo_locked(entity, rq,
->> -							next->submit_ts);
->> -			spin_unlock(&rq->lock);
->> -			spin_unlock(&entity->lock);
->> -		}
->> +		spin_lock(&entity->lock);
->> +		rq = entity->rq;
->> +		spin_lock(&rq->lock);
->> +		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> +			ts = next_job->submit_ts;
->> +		else
->> +			ts = drm_sched_rq_get_rr_ts(rq, entity);
->> +		drm_sched_rq_update_fifo_locked(entity, rq, ts);
->> +		spin_unlock(&rq->lock);
->> +		spin_unlock(&entity->lock);
->>   	}
->>   
->>   	/* Jobs and entities might have different lifecycles. Since we're
->> @@ -612,9 +627,9 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>   
->>   		spin_lock(&rq->lock);
->>   		drm_sched_rq_add_entity(rq, entity);
->> -
->> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> -			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
->> +		if (drm_sched_policy == DRM_SCHED_POLICY_RR)
->> +			submit_ts = entity->rr_ts;
->> +		drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
->>   
->>   		spin_unlock(&rq->lock);
->>   		spin_unlock(&entity->lock);
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 8b8c55b25762..8e62541b439a 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -185,7 +185,6 @@ static void drm_sched_rq_init(struct drm_sched_rq *rq,
->>   	spin_lock_init(&rq->lock);
->>   	INIT_LIST_HEAD(&rq->entities);
->>   	rq->rb_tree_root = RB_ROOT_CACHED;
->> -	rq->current_entity = NULL;
->>   	rq->sched = sched;
->>   }
->>   
->> @@ -231,74 +230,13 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->>   	atomic_dec(rq->sched->score);
->>   	list_del_init(&entity->list);
->>   
->> -	if (rq->current_entity == entity)
->> -		rq->current_entity = NULL;
->> -
->> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> -		drm_sched_rq_remove_fifo_locked(entity, rq);
->> +	drm_sched_rq_remove_fifo_locked(entity, rq);
->>   
->>   	spin_unlock(&rq->lock);
->>   }
->>   
->>   /**
->> - * drm_sched_rq_select_entity_rr - Select an entity which could provide a job to run
->> - *
->> - * @sched: the gpu scheduler
->> - * @rq: scheduler run queue to check.
->> - *
->> - * Try to find the next ready entity.
->> - *
->> - * Return an entity if one is found; return an error-pointer (!NULL) if an
->> - * entity was ready, but the scheduler had insufficient credits to accommodate
->> - * its job; return NULL, if no ready entity was found.
->> - */
->> -static struct drm_sched_entity *
->> -drm_sched_rq_select_entity_rr(struct drm_gpu_scheduler *sched,
->> -			      struct drm_sched_rq *rq)
->> -{
->> -	struct drm_sched_entity *entity;
->> -
->> -	spin_lock(&rq->lock);
->> -
->> -	entity = rq->current_entity;
->> -	if (entity) {
->> -		list_for_each_entry_continue(entity, &rq->entities, list) {
->> -			if (drm_sched_entity_is_ready(entity))
->> -				goto found;
->> -		}
->> -	}
->> -
->> -	list_for_each_entry(entity, &rq->entities, list) {
->> -		if (drm_sched_entity_is_ready(entity))
->> -			goto found;
->> -
->> -		if (entity == rq->current_entity)
->> -			break;
->> -	}
->> -
->> -	spin_unlock(&rq->lock);
->> -
->> -	return NULL;
->> -
->> -found:
->> -	if (!drm_sched_can_queue(sched, entity)) {
->> -		/*
->> -		 * If scheduler cannot take more jobs signal the caller to not
->> -		 * consider lower priority queues.
->> -		 */
->> -		entity = ERR_PTR(-ENOSPC);
->> -	} else {
->> -		rq->current_entity = entity;
->> -		reinit_completion(&entity->entity_idle);
->> -	}
->> -
->> -	spin_unlock(&rq->lock);
->> -
->> -	return entity;
->> -}
->> -
->> -/**
->> - * drm_sched_rq_select_entity_fifo - Select an entity which provides a job to run
->> + * drm_sched_rq_select_entity - Select an entity which provides a job to run
->>    *
->>    * @sched: the gpu scheduler
->>    * @rq: scheduler run queue to check.
->> @@ -310,8 +248,8 @@ drm_sched_rq_select_entity_rr(struct drm_gpu_scheduler *sched,
->>    * its job; return NULL, if no ready entity was found.
->>    */
->>   static struct drm_sched_entity *
->> -drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
->> -				struct drm_sched_rq *rq)
->> +drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
->> +			   struct drm_sched_rq *rq)
->>   {
->>   	struct rb_node *rb;
->>   
->> @@ -1093,15 +1031,13 @@ void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
->>   static struct drm_sched_entity *
->>   drm_sched_select_entity(struct drm_gpu_scheduler *sched)
->>   {
->> -	struct drm_sched_entity *entity;
->> +	struct drm_sched_entity *entity = NULL;
->>   	int i;
->>   
->>   	/* Start with the highest priority.
->>   	 */
->>   	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
->> -		entity = drm_sched_policy == DRM_SCHED_POLICY_FIFO ?
->> -			drm_sched_rq_select_entity_fifo(sched, sched->sched_rq[i]) :
->> -			drm_sched_rq_select_entity_rr(sched, sched->sched_rq[i]);
->> +		entity = drm_sched_rq_select_entity(sched, sched->sched_rq[i]);
->>   		if (entity)
->>   			break;
->>   	}
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index fb88301b3c45..8992393ed200 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -94,7 +94,8 @@ struct drm_sched_entity {
->>   	 * @lock:
->>   	 *
->>   	 * Lock protecting the run-queue (@rq) to which this entity belongs,
->> -	 * @priority and the list of schedulers (@sched_list, @num_sched_list).
->> +	 * @priority, the list of schedulers (@sched_list, @num_sched_list) and
->> +	 * the @rr_ts field.
->>   	 */
->>   	spinlock_t			lock;
->>   
->> @@ -142,6 +143,13 @@ struct drm_sched_entity {
->>   	 */
->>   	enum drm_sched_priority         priority;
->>   
->> +	/**
->> +	 * @rr_ts:
->> +	 *
->> +	 * Fake timestamp of the last popped job from the entity.
->> +	 */
->> +	ktime_t				rr_ts;
->> +
->>   	/**
->>   	 * @job_queue: the list of jobs of this entity.
->>   	 */
->> @@ -239,8 +247,8 @@ struct drm_sched_entity {
->>    * struct drm_sched_rq - queue of entities to be scheduled.
->>    *
->>    * @sched: the scheduler to which this rq belongs to.
->> - * @lock: protects @entities, @rb_tree_root and @current_entity.
->> - * @current_entity: the entity which is to be scheduled.
->> + * @lock: protects @entities, @rb_tree_root and @rr_ts.
->> + * @rr_ts: monotonically incrementing fake timestamp for RR mode
-> 
-> nit: add a full stop '.', as most other docu lines have one
+---
+base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
+change-id: 20251009-close_fence_wait_fix-00e1c2521eee
 
-Done.
-
-Regards,
-
-Tvrtko
->>    * @entities: list of the entities to be scheduled.
->>    * @rb_tree_root: root of time based priority queue of entities for FIFO scheduling
->>    *
->> @@ -253,7 +261,7 @@ struct drm_sched_rq {
->>   
->>   	spinlock_t			lock;
->>   	/* Following members are protected by the @lock: */
->> -	struct drm_sched_entity		*current_entity;
->> +	ktime_t				rr_ts;
->>   	struct list_head		entities;
->>   	struct rb_root_cached		rb_tree_root;
->>   };
-> 
+Best regards,
+-- 
+Anna Maniscalco <anna.maniscalco2000@gmail.com>
 
