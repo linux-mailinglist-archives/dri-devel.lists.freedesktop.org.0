@@ -2,168 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE937BD0373
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Oct 2025 16:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0ACFBD0664
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Oct 2025 17:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC8410E167;
-	Sun, 12 Oct 2025 14:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0543210E14F;
+	Sun, 12 Oct 2025 15:47:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U59mQzZA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="rR0Hf5Bl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C99910E167;
- Sun, 12 Oct 2025 14:22:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760278950; x=1791814950;
- h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
- bh=YqpbUChYAbcnauAsAKbilzY+4rPbgvMGu+Jfs9PRZ4A=;
- b=U59mQzZAAJR/JE1id5p10LxUd/Ntu1IQd6BvZqlzfjNzFuTsT1d88RoX
- /NFrQC3BIDreUXplBlpHdjFCuRE6O2LTKUTv9FH97CAgGQuVTbu9yHdHF
- zjqXCNOBR06zAlLVnvtKHkOFhbd9YoBUw1M/wEJ/zNeg9fB431b/sm5h1
- uHx7/mgZQFLBZ2uOOFJTZCWRkhfAyWPD5HN6IIsomINHl42usDylt0W6L
- MX94lcmhxQWiScL9A37KSJq2FyUGe0UAd+TERNE2htkwsvZQ3Xx1wLE8m
- SPsqluL7np2mHDJFRH0Ak11+04mY5wvaZGvHInWiMWr59VP5DF7nE/95G g==;
-X-CSE-ConnectionGUID: QDOetsFNSciYYzWl/E60Ew==
-X-CSE-MsgGUID: T1Ax2oZmT2mLXyUdEczWww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="85058731"
-X-IronPort-AV: E=Sophos;i="6.19,223,1754982000"; d="scan'208";a="85058731"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2025 07:22:30 -0700
-X-CSE-ConnectionGUID: yB+K1ybHRTeGB6cH6rioGQ==
-X-CSE-MsgGUID: YjYT//ksR0CEAt9qRoznLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,223,1754982000"; d="scan'208";a="180504879"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2025 07:22:30 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sun, 12 Oct 2025 07:22:29 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Sun, 12 Oct 2025 07:22:29 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.34) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sun, 12 Oct 2025 07:22:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hG5dNK+5MVUPPVyd5GOxQPEEqGU3s8LCKQsajhPtkhet2Y0qJZAYxAclFj/ws3UcGci3PdnPve6QL2LEVzXXPcwqhY7nK5/Iu+R3DQ1YLM8WrSYQubi2bpZhdiGeVIvGUCIs1u9r+7QQ+VFa4Us/2Tmk6wTlSn3aGuKoRS+Gq+oMPYB6RCmF2k0KAk5DkkIif1likMrcMChDyJYFZn93c5J4WKWK2U1CsQBqxhsyka4VZMh71J42XLbkHHROnk8nIKhgB69WFoktReDb5UM5POQVmoc48/prVdLXiq9tJvOR5Es7svL8em4ld9xJDXhJ6RVFxaLWOZhVWaji3kJOgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nrmPgeE/ShugFEd0m0M/Gz2C8Mh+X5SBju32Ug0Bx5I=;
- b=uonI41yCHUIuoy6DDFDsWAijxXaz6dXPuCQUv0+E3ReUVq1XaIVa/OLU9v/jWhRyDT2K/wf9Ht3rRmNXZoJr3zZ25hMFBHRmDFRhga3+Vd5EDXCblGzU8D6MV8yQw4NRkVjMWsUE79k0PBLPdv4wA242OwvaoxXK798Qe5ITiEYHEVPMk0oBcVWZwjqjZQWR9+OqiC2gE3fP3mIZ+1M+cgGn122g4b7Cewb5X3yhjt89664bbt91jNA96duiikYGZcVaj3E5as+5dJglmMMYiYrhBod1RQnN5FIOJq9L9gPeEeuA7DUUbH65ZM5s+orzcVZkg7GKNas1lgpkL9QaEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by CH3PR11MB8154.namprd11.prod.outlook.com (2603:10b6:610:15f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.11; Sun, 12 Oct
- 2025 14:22:26 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9203.009; Sun, 12 Oct 2025
- 14:22:26 +0000
-Date: Sun, 12 Oct 2025 22:22:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb+git@google.com>, <linux-kernel@vger.kernel.org>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
- Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>, "Harry
- Wentland" <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, "Rodrigo
- Siqueira" <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/amd: Permit DC_FP_START/END only in non-FP
- compilation units
-Message-ID: <aOu5l1EM8PnoKEgD@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251009150621.3886079-2-ardb+git@google.com>
-X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [91.218.175.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6035B10E14F
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 15:47:23 +0000 (UTC)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSHjmB4hpOryClV0lqt7Z2DCOaPDmWzZ8Agm0EVUXH1fxDLPpqDzqtuXqtcRVkkjK7rb8ARxH/xmM=@lists.freedesktop.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1760284040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Jx1siiS1fIaEuoSsnbHqhfsPiky05Z0AF/a/E5n05I=;
+ b=rR0Hf5BljZOa7Ba25bgpxVRX7/v55OqzTvuvaavUyCJLeyGQ5fOag1p3cWh7hGiLesdRtN
+ OrT/OD97VIdE1D3wYVf7d4t2Xzz50rDaKrHRiYdmu0THf8d6vLZZieAAlplU6zbyD9ZI1P
+ 9xWljbLRaAa7NULq0a9vIUALddpfWGs=
+X-Gm-Message-State: AOJu0YzSzhLcioSw0AY/NCVs4aFk35jC461/abiQNQQK5ykLIGuuG8de
+ 6/31nbMc2p8sz18zSBZNxT9IpaJMbKIsU8jqOgCb+/rv1/gTgE1Pu3Cgq80qESjlfnQUv6DmuE0
+ i1QCHwu7Xo5w4gEW6iDO9/H7F/tCmgt8=
+X-Google-Smtp-Source: AGHT+IGU4is0tfGyAf+Y4eW/H1uhqTUANrqoJRsnGW1pXXpN0gbGnn4Uzr/64CQuR05MJPbhXZu3PZbIRbRVL68AkiE=
+X-Received: by 2002:a05:6214:2121:b0:782:3caf:668e with SMTP id
+ 6a1803df08f44-87b2efa9a8fmr222378096d6.40.1760284037401; Sun, 12 Oct 2025
+ 08:47:17 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|CH3PR11MB8154:EE_
-X-MS-Office365-Filtering-Correlation-Id: f20a7b6e-eed5-408e-f72e-08de099ac493
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Kt00sA8StgTKrtvry9k6DPh1UmOj5fKPu9LIbqcx614R+sahUsfNxzzWzs33?=
- =?us-ascii?Q?3L0M5nC7QT5sh0eR+0kDauwZyiyMOAZbbUxPnBadzkuTBY8Q3ImKQriJP7Z5?=
- =?us-ascii?Q?+K0g3DgV3+j1Ty5kDUii+38J5MEScpL04Dy75R8a7IuWINQxVnpkr2BJHpIn?=
- =?us-ascii?Q?52fNlj39T148JfOD3hLmG/0c7WdetHXzhu2pwIq5AAhkkEKiOXXT1EOH/Wt4?=
- =?us-ascii?Q?u7aMlbMNfJ022q5oa0ROnIr74Ge4qO3TV4pN+RBr2JDwNK4EpOazuc28wiwK?=
- =?us-ascii?Q?X/kFAr/Gltsornn8oSUhYngmKiUwm4WnLKrrQ2cr7ZYj6sIdD8oGlVHQpuxV?=
- =?us-ascii?Q?ulEBnwqV2ECQo+rN22jWzBixLrqlhEXCMJKACm1+tQq2/OErv+k55kfPgwsF?=
- =?us-ascii?Q?DrzyOuEL03yi4VMvayTQ+OXPmbMjUJy8sMf9RUVwKAbcAUqt0FOKAMTpFpZL?=
- =?us-ascii?Q?21aUuqDKVcjsetUR7W97wTbFduL5tznL3FUHSnoKEIk818uSaZAMKUZ5HojK?=
- =?us-ascii?Q?94gnDWmjUTCBWadCnuc1h29lODUU65Y5TOPGZp2ZFXg7Iy4evhuzQB4q8GXK?=
- =?us-ascii?Q?ntr3KCZiUuOEdPgJFatZYBWd8AXFEUiKlAALDTOzR0FhOURtQUH+kR5grc0/?=
- =?us-ascii?Q?B+VXYqEeIn8wdF4b5VN7Tu2MLZBymC3VgvvxSTILghpQ9JkPWIAsK8u1o7Rf?=
- =?us-ascii?Q?cWv6O7dTDaEayV6YXFKO6W4j4TxFyNEgEKL2Mnktkd2+g/EM3cQSIjNtU51O?=
- =?us-ascii?Q?h89pmHtm10fCbA8CFUIEbrCEqjF49zYfaL4UsOCrLCFxrNpIgd1C1Wo982xB?=
- =?us-ascii?Q?mCNyelYkbpqg8fZx+2Bs3WhWdkGU3sSiFQY+u5Eq267XITo7+bWZZ/QM6tVU?=
- =?us-ascii?Q?D1QKR32AOzfPBI6ErpoBayHqOhswgmJ96zGSXH4yMeynQSkqVmqBnWptqnB0?=
- =?us-ascii?Q?Pi3OUdfPbawFDv1j3PI2C8unPehHoLydKLZSkhtNN6mNod4N101LlkOWPubb?=
- =?us-ascii?Q?s0FoUBOZgf6qy8iD4b6eGz6DZr4CyRoFj0hjuh8QIGDic6a9Wp4IMyL9YpMg?=
- =?us-ascii?Q?3eSJnD8oXJfSIsE58I/yTB2Z3MgGevqfoLSzBoW6w2IsFMagYZwBdQFktqq1?=
- =?us-ascii?Q?bl0K76PpRvI8r4Y1L15I3bdQmDMHnsMG1vG4e9C+F6UXAfWl8KH1i3QzOoot?=
- =?us-ascii?Q?6QXJEqU8id0JjijQINRgkSLCA+nGBn8DV+6XsdxpcOlSiai5TN9gooOOYvWW?=
- =?us-ascii?Q?lfUkf1Lj5CvjbgEG9BSGTXA91JzktnQ9mDXVX9RTnKlsjrwicGd3buJREoC8?=
- =?us-ascii?Q?SahKpWS3/Vp7hYX3QSxhPmzNQ4OF35WikNaysZnS1MN+t0A2CCKhTFY2RI6d?=
- =?us-ascii?Q?dU5n6kIx9c5MD5OwI7K0tmesHGhAg3qXCWNJcRpSSdhRLRz5qw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4165.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/klI575KobwEIQYgnidnE0LsnDCPF37ZuzG84mjdQ1FD65g+MbAIx3qbUMz9?=
- =?us-ascii?Q?+V0phwZtTHV6x5kJdzdXNrNU53G+u/gKqS4Xr9B3Sj8F+vAkuUflM7Efcdf8?=
- =?us-ascii?Q?XJGRSRxUZw3+9zB6vSUd1ETBnbkq3ZSMORNTsE9W4uOLZ9u+UQ3/ctTiakOd?=
- =?us-ascii?Q?X87rEm1cLLZkG4G3S0DFacoLwCd1bSDIQLW88voxLLEH/I36C3kW1QxKidhQ?=
- =?us-ascii?Q?Kk1zIxZuVVeRyrgUtWK6Vu0SURvyFfb8t5BEjlVz415SUtlqFTyGaJgqkdc/?=
- =?us-ascii?Q?5xy8+U1q3C7wV6tshU5vbBMC0tC3eEHggE6lzJnBlREC+fo+9tIaPvWDuE7b?=
- =?us-ascii?Q?x/0b0HooBC2U9ZOPFbAcmV1OiK3Ni4rkMmdGj/9wrBkP6TTfVXzXgRMepVvR?=
- =?us-ascii?Q?IZj4P0lRMgtsuGOyS1Lo1QDsu6hx5QSTSlju6ott8urckBs6KGiNWR68ifU2?=
- =?us-ascii?Q?6TlPOJaRdXwGJdcPqHi0+y57008ZOQ6sARZr2LQFhK4wTy5IWk8AqQZBRXrX?=
- =?us-ascii?Q?rzX/DIQg5rTzDXovPhXOhKAPn01FgmJYSC0wJurL40dOBVQoFXZmG8YNSv7s?=
- =?us-ascii?Q?lunG5cbV2WGkTlMvYkrobMStLgiPCSoR5w9SUEzOsh+o4aAAQ5XrWfgoy3gy?=
- =?us-ascii?Q?axPdrirh11iHtgJCJn57HmM6I5lomwLbRM5WlRaGKf5ps+9s7W6BGB90ttna?=
- =?us-ascii?Q?tnRmf5oFavL4XjOqUkAJAWWA3zCt14gebQF/dBD35kPyWh6I4DgW3MEDPUUA?=
- =?us-ascii?Q?6xzxEC43PiXznNunP+n4+mqtZm94J13J+pAGduzJYxhzZM8w40Xfud4GY00V?=
- =?us-ascii?Q?B6JrEHD5aYDfQbgTp7PaN1FhIiYdJs2QiHV7fO4IycpcR2PZCKwpG4dfrWZJ?=
- =?us-ascii?Q?IyI2OxEI08Y4zr/MwC2uskwoYMiMJ51NlJ03KJ80noctoghueO2dOfcu4E6U?=
- =?us-ascii?Q?0zHc68P3MuZi6ZW3GAIaVPPuzVALQGSWpbyAQVxp6bmZ201yLJGv/CKG1L8V?=
- =?us-ascii?Q?A37q0ZHaCQBHUEib4PzBqMUl6pdJqvs54LUPqHQq0JTk6x26Gb7k1EyLuAh/?=
- =?us-ascii?Q?VKgzgLOfpmgA9O/g8C8LfadJNtOhYShwdzAN3WUi8sKZGiiTqSEKf13j/cnq?=
- =?us-ascii?Q?+b1eUw3OQWyV56ocAtWujQpF5y8xMWVczpL1JZXk6HEdZ4q5trWwj+WpI+Vc?=
- =?us-ascii?Q?9+LchRaeaAPCGgIW+/sfb8cr9AbDp9cW0edfOdpDs7RyecFB+U8wJHeD1pgu?=
- =?us-ascii?Q?6U3+6EdqrBwuhBqeG/h9HlyrlCvccdzf60uUMQ+OHRw2Meu2m4Qp+Eu9QVcS?=
- =?us-ascii?Q?otXIWMURm1bNyzLj/EBzuT1wCwOSX8t6H4AqjFBO82O7/59wIpKpwvmsKZ2M?=
- =?us-ascii?Q?QWxGjpjSJDgRyKI34qWI3jJur8MhhFo7S6Vgl5mdeV5q8zNU65AuUsqCzWH0?=
- =?us-ascii?Q?zM8IE0GbhWf1KLZZ6Q7YW2G6XTbSOUn6/0/2lgtk4O458UV2H50d+xewAWqq?=
- =?us-ascii?Q?v+nFZGLf4jwOvk1pKgGAMoFPORDSlFuLLZZliVMi+9KKUAZaXWVVJIZGgWhO?=
- =?us-ascii?Q?dYFhSe2AfGhMHxs9xnqOGfH8nKQivPhC9U+DnF7S?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f20a7b6e-eed5-408e-f72e-08de099ac493
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2025 14:22:26.4629 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +fREswVULYZCz4gFQZs0YQBPohztuLti7WD5YHdOzS0rQxej7uYh5RcA1CsA5gr7y3wI+Q6uJV7ZWuz/vFdpCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8154
-X-OriginatorOrg: intel.com
+References: <20251001065707.920170-1-balbirs@nvidia.com>
+ <20251001065707.920170-4-balbirs@nvidia.com>
+In-Reply-To: <20251001065707.920170-4-balbirs@nvidia.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+Date: Sun, 12 Oct 2025 23:46:39 +0800
+X-Gmail-Original-Message-ID: <CABzRoyYg1o8Oyjx1AQ8or-Vxm94zQXeAx7mWco2qs7=w4mBcMw@mail.gmail.com>
+X-Gm-Features: AS18NWAW-r80P4VIv9gONLI57HYmyaK4SvQH1hgWyVYA6Kk8PKp1BoVJHXMPTaE
+Message-ID: <CABzRoyYg1o8Oyjx1AQ8or-Vxm94zQXeAx7mWco2qs7=w4mBcMw@mail.gmail.com>
+Subject: Re: [v7 03/16] mm/huge_memory: add device-private THP support to PMD
+ operations
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mm@kvack.org, akpm@linux-foundation.org, 
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, 
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>, 
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,113 +87,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ard,
+On Wed, Oct 1, 2025 at 4:20=E2=80=AFPM Balbir Singh <balbirs@nvidia.com> wr=
+ote:
+>
+> Extend core huge page management functions to handle device-private THP
+> entries.  This enables proper handling of large device-private folios in
+> fundamental MM operations.
+>
+> The following functions have been updated:
+>
+> - copy_huge_pmd(): Handle device-private entries during fork/clone
+> - zap_huge_pmd(): Properly free device-private THP during munmap
+> - change_huge_pmd(): Support protection changes on device-private THP
+> - __pte_offset_map(): Add device-private entry awareness
+>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Cc: Rakie Kim <rakie.kim@sk.com>
+> Cc: Byungchul Park <byungchul@sk.com>
+> Cc: Gregory Price <gourry@gourry.net>
+> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> Cc: Mika Penttil=C3=A4 <mpenttil@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Francois Dugast <francois.dugast@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Acked-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+> ---
+>  include/linux/swapops.h | 32 +++++++++++++++++++++++
+>  mm/huge_memory.c        | 56 ++++++++++++++++++++++++++++++++++-------
+>  mm/pgtable-generic.c    |  2 +-
+>  3 files changed, 80 insertions(+), 10 deletions(-)
+>
+> diff --git a/include/linux/swapops.h b/include/linux/swapops.h
+> index 64ea151a7ae3..2687928a8146 100644
+> --- a/include/linux/swapops.h
+> +++ b/include/linux/swapops.h
+> @@ -594,10 +594,42 @@ static inline int is_pmd_migration_entry(pmd_t pmd)
+>  }
+>  #endif  /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>
+> +#if defined(CONFIG_ZONE_DEVICE) && defined(CONFIG_ARCH_ENABLE_THP_MIGRAT=
+ION)
+> +
+> +/**
+> + * is_pmd_device_private_entry() - Check if PMD contains a device privat=
+e swap entry
+> + * @pmd: The PMD to check
+> + *
+> + * Returns true if the PMD contains a swap entry that represents a devic=
+e private
+> + * page mapping. This is used for zone device private pages that have be=
+en
+> + * swapped out but still need special handling during various memory man=
+agement
+> + * operations.
+> + *
+> + * Return: 1 if PMD contains device private entry, 0 otherwise
+> + */
+> +static inline int is_pmd_device_private_entry(pmd_t pmd)
+> +{
+> +       return is_swap_pmd(pmd) && is_device_private_entry(pmd_to_swp_ent=
+ry(pmd));
+> +}
+> +
+> +#else /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
+> +
+> +static inline int is_pmd_device_private_entry(pmd_t pmd)
+> +{
+> +       return 0;
+> +}
+> +
+> +#endif /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
+> +
+>  static inline int non_swap_entry(swp_entry_t entry)
+>  {
+>         return swp_type(entry) >=3D MAX_SWAPFILES;
+>  }
+>
+> +static inline int is_pmd_non_present_folio_entry(pmd_t pmd)
+> +{
+> +       return is_pmd_migration_entry(pmd) || is_pmd_device_private_entry=
+(pmd);
+> +}
+> +
+>  #endif /* CONFIG_MMU */
+>  #endif /* _LINUX_SWAPOPS_H */
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 1b81680b4225..8e0a1747762d 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -1703,17 +1703,45 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struc=
+t mm_struct *src_mm,
+>         if (unlikely(is_swap_pmd(pmd))) {
+>                 swp_entry_t entry =3D pmd_to_swp_entry(pmd);
+>
+> -               VM_BUG_ON(!is_pmd_migration_entry(pmd));
+> -               if (!is_readable_migration_entry(entry)) {
+> -                       entry =3D make_readable_migration_entry(
+> -                                                       swp_offset(entry)=
+);
+> +               VM_WARN_ON(!is_pmd_non_present_folio_entry(pmd));
+> +
+> +               if (is_writable_migration_entry(entry) ||
+> +                   is_readable_exclusive_migration_entry(entry)) {
+> +                       entry =3D make_readable_migration_entry(swp_offse=
+t(entry));
+>                         pmd =3D swp_entry_to_pmd(entry);
+>                         if (pmd_swp_soft_dirty(*src_pmd))
+>                                 pmd =3D pmd_swp_mksoft_dirty(pmd);
+>                         if (pmd_swp_uffd_wp(*src_pmd))
+>                                 pmd =3D pmd_swp_mkuffd_wp(pmd);
+>                         set_pmd_at(src_mm, addr, src_pmd, pmd);
+> +               } else if (is_device_private_entry(entry)) {
+> +                       /*
+> +                        * For device private entries, since there are no
+> +                        * read exclusive entries, writable =3D !readable
+> +                        */
+> +                       if (is_writable_device_private_entry(entry)) {
+> +                               entry =3D make_readable_device_private_en=
+try(swp_offset(entry));
+> +                               pmd =3D swp_entry_to_pmd(entry);
+> +
+> +                               if (pmd_swp_soft_dirty(*src_pmd))
+> +                                       pmd =3D pmd_swp_mksoft_dirty(pmd)=
+;
+> +                               if (pmd_swp_uffd_wp(*src_pmd))
+> +                                       pmd =3D pmd_swp_mkuffd_wp(pmd);
+> +                               set_pmd_at(src_mm, addr, src_pmd, pmd);
+> +                       }
+> +
+> +                       src_folio =3D pfn_swap_entry_folio(entry);
+> +                       VM_WARN_ON(!folio_test_large(src_folio));
+> +
+> +                       folio_get(src_folio);
+> +                       /*
+> +                        * folio_try_dup_anon_rmap_pmd does not fail for
+> +                        * device private entries.
+> +                        */
+> +                       folio_try_dup_anon_rmap_pmd(src_folio, &src_folio=
+->page,
+> +                                                       dst_vma, src_vma)=
+;
+>                 }
+> +
+>                 add_mm_counter(dst_mm, MM_ANONPAGES, HPAGE_PMD_NR);
+>                 mm_inc_nr_ptes(dst_mm);
+>                 pgtable_trans_huge_deposit(dst_mm, dst_pmd, pgtable);
+> @@ -2211,15 +2239,16 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct v=
+m_area_struct *vma,
+>                         folio_remove_rmap_pmd(folio, page, vma);
+>                         WARN_ON_ONCE(folio_mapcount(folio) < 0);
+>                         VM_BUG_ON_PAGE(!PageHead(page), page);
+> -               } else if (thp_migration_supported()) {
+> +               } else if (is_pmd_non_present_folio_entry(orig_pmd)) {
+>                         swp_entry_t entry;
+>
+> -                       VM_BUG_ON(!is_pmd_migration_entry(orig_pmd));
+>                         entry =3D pmd_to_swp_entry(orig_pmd);
+>                         folio =3D pfn_swap_entry_folio(entry);
+>                         flush_needed =3D 0;
+> -               } else
+> -                       WARN_ONCE(1, "Non present huge pmd without pmd mi=
+gration enabled!");
+> +
+> +                       if (!thp_migration_supported())
+> +                               WARN_ONCE(1, "Non present huge pmd withou=
+t pmd migration enabled!");
+> +               }
+>
+>                 if (folio_test_anon(folio)) {
+>                         zap_deposited_table(tlb->mm, pmd);
+> @@ -2239,6 +2268,12 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm=
+_area_struct *vma,
+>                                 folio_mark_accessed(folio);
+>                 }
+>
+> +               if (folio_is_device_private(folio)) {
+> +                       folio_remove_rmap_pmd(folio, &folio->page, vma);
+> +                       WARN_ON_ONCE(folio_mapcount(folio) < 0);
+> +                       folio_put(folio);
+> +               }
 
-kernel test robot noticed the following build errors:
+IIUC, a device-private THP is always anonymous, right? would it make sense
+to move this folio_is_device_private() block inside the folio_test_anon()
+check above?
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.17 next-20251010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/drm-amd-Permit-DC_FP_START-END-only-in-non-FP-compilation-units/20251010-120206
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20251009150621.3886079-2-ardb%2Bgit%40google.com
-patch subject: [PATCH] drm/amd: Permit DC_FP_START/END only in non-FP compilation units
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: x86_64-randconfig-071-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110219.Z6t2PJbZ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110219.Z6t2PJbZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510110219.Z6t2PJbZ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_wrapper.c:563:2: error: call to '__compiletime_assert_610' declared with 'error' attribute: BUILD_BUG failed
-     563 |         DC_FP_START();
-         |         ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.h:38:23: note: expanded from macro 'DC_FP_START'
-      38 | #define DC_FP_START()   BUILD_BUG()
-         |                         ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:583:2: note: expanded from macro '_compiletime_assert'
-     583 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:576:4: note: expanded from macro '__compiletime_assert'
-     576 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:39:1: note: expanded from here
-      39 | __compiletime_assert_610
-         | ^
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_wrapper.c:615:2: error: call to '__compiletime_assert_612' declared with 'error' attribute: BUILD_BUG failed
-     615 |         DC_FP_START();
-         |         ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.h:38:23: note: expanded from macro 'DC_FP_START'
-      38 | #define DC_FP_START()   BUILD_BUG()
-         |                         ^
-   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:583:2: note: expanded from macro '_compiletime_assert'
-     583 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:576:4: note: expanded from macro '__compiletime_assert'
-     576 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:45:1: note: expanded from here
-      45 | __compiletime_assert_612
-         | ^
-   2 errors generated.
-
-
-vim +563 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml2_wrapper.c
-
-7966f319c66d94 Qingqing Zhuo    2023-07-28  547  
-269c1d1443d668 Yan Li           2025-05-14  548  bool dml2_validate(const struct dc *in_dc, struct dc_state *context, struct dml2_context *dml2,
-269c1d1443d668 Yan Li           2025-05-14  549  	enum dc_validate_mode validate_mode)
-7966f319c66d94 Qingqing Zhuo    2023-07-28  550  {
-7966f319c66d94 Qingqing Zhuo    2023-07-28  551  	bool out = false;
-7966f319c66d94 Qingqing Zhuo    2023-07-28  552  
-cc263c3a0c9f38 Joshua Aberback  2024-03-07  553  	if (!dml2)
-7966f319c66d94 Qingqing Zhuo    2023-07-28  554  		return false;
-cc263c3a0c9f38 Joshua Aberback  2024-03-07  555  	dml2_apply_debug_options(in_dc, dml2);
-7966f319c66d94 Qingqing Zhuo    2023-07-28  556  
-00c391102abc13 Aurabindo Pillai 2024-03-20  557  	/* DML2.1 validation path */
-00c391102abc13 Aurabindo Pillai 2024-03-20  558  	if (dml2->architecture == dml2_architecture_21) {
-269c1d1443d668 Yan Li           2025-05-14  559  		out = dml21_validate(in_dc, context, dml2, validate_mode);
-00c391102abc13 Aurabindo Pillai 2024-03-20  560  		return out;
-00c391102abc13 Aurabindo Pillai 2024-03-20  561  	}
-7966f319c66d94 Qingqing Zhuo    2023-07-28  562  
-366e77cd4923c3 Huacai Chen      2025-03-27 @563  	DC_FP_START();
-366e77cd4923c3 Huacai Chen      2025-03-27  564  
-269c1d1443d668 Yan Li           2025-05-14  565  	/* Use dml_validate_only for DC_VALIDATE_MODE_ONLY and DC_VALIDATE_MODE_AND_STATE_INDEX path */
-269c1d1443d668 Yan Li           2025-05-14  566  	if (validate_mode != DC_VALIDATE_MODE_AND_PROGRAMMING)
-b02b0fc488ba6e Yan Li           2025-05-21  567  		out = dml2_validate_only(context, validate_mode);
-7966f319c66d94 Qingqing Zhuo    2023-07-28  568  	else
-b02b0fc488ba6e Yan Li           2025-05-21  569  		out = dml2_validate_and_build_resource(in_dc, context, validate_mode);
-366e77cd4923c3 Huacai Chen      2025-03-27  570  
-366e77cd4923c3 Huacai Chen      2025-03-27  571  	DC_FP_END();
-366e77cd4923c3 Huacai Chen      2025-03-27  572  
-7966f319c66d94 Qingqing Zhuo    2023-07-28  573  	return out;
-7966f319c66d94 Qingqing Zhuo    2023-07-28  574  }
-7966f319c66d94 Qingqing Zhuo    2023-07-28  575  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> +
+>                 spin_unlock(ptl);
+>                 if (flush_needed)
+>                         tlb_remove_page_size(tlb, &folio->page, HPAGE_PMD=
+_SIZE);
+> @@ -2367,7 +2402,7 @@ int change_huge_pmd(struct mmu_gather *tlb, struct =
+vm_area_struct *vma,
+>                 struct folio *folio =3D pfn_swap_entry_folio(entry);
+>                 pmd_t newpmd;
+>
+> -               VM_BUG_ON(!is_pmd_migration_entry(*pmd));
+> +               VM_WARN_ON(!is_pmd_non_present_folio_entry(*pmd));
+>                 if (is_writable_migration_entry(entry)) {
+>                         /*
+>                          * A protection check is difficult so
+> @@ -2380,6 +2415,9 @@ int change_huge_pmd(struct mmu_gather *tlb, struct =
+vm_area_struct *vma,
+>                         newpmd =3D swp_entry_to_pmd(entry);
+>                         if (pmd_swp_soft_dirty(*pmd))
+>                                 newpmd =3D pmd_swp_mksoft_dirty(newpmd);
+> +               } else if (is_writable_device_private_entry(entry)) {
+> +                       entry =3D make_readable_device_private_entry(swp_=
+offset(entry));
+> +                       newpmd =3D swp_entry_to_pmd(entry);
+>                 } else {
+>                         newpmd =3D *pmd;
+>                 }
+> diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+> index 567e2d084071..0c847cdf4fd3 100644
+> --- a/mm/pgtable-generic.c
+> +++ b/mm/pgtable-generic.c
+> @@ -290,7 +290,7 @@ pte_t *___pte_offset_map(pmd_t *pmd, unsigned long ad=
+dr, pmd_t *pmdvalp)
+>
+>         if (pmdvalp)
+>                 *pmdvalp =3D pmdval;
+> -       if (unlikely(pmd_none(pmdval) || is_pmd_migration_entry(pmdval)))
+> +       if (unlikely(pmd_none(pmdval) || !pmd_present(pmdval)))
+>                 goto nomap;
+>         if (unlikely(pmd_trans_huge(pmdval)))
+>                 goto nomap;
+> --
+> 2.51.0
+>
+>
