@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41B9BD0B00
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Oct 2025 21:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3BDBD0AFA
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Oct 2025 21:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD2010E1A2;
-	Sun, 12 Oct 2025 19:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D9F10E19F;
+	Sun, 12 Oct 2025 19:23:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FJ9oNq/q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TPv0O0P2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0C110E19D
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 19:23:45 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-b4539dddd99so728691766b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 12:23:45 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBFBC10E19D
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 19:23:46 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-b3e7cc84b82so668381366b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 12:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760297024; x=1760901824; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760297025; x=1760901825; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fXCSCCah2zJTGYn4GhhYKHAkgqZ3YCUPfwGM8ymVWuc=;
- b=FJ9oNq/qMsAZ7Pn2FgqKza65JQl1H74F7eRQFUQCMIvY4mmtk/jKo9evxr2GjCtt0g
- +Dl+w8O0NKjP4PrPyBcvcsxzY0XSSEtHapbeRORTeV6Gd+JGZ7VaMlNMyPlcEtC00SjO
- LjKGNTLOG8ZmtG8n+zZnx3YvSVKcTGls9Jt/PY9HhntZ7q9T0tZjPcaHtBM03z52Yqvz
- FXxZ4rdO/sdrJ1PKcnSKMHVpHEKBQuWIGspQyUFPuA7sVeAIPDIDM+0UCJUwB7OiUwkb
- BB8lDdYFZ7j/yU9SRuK0NiNW2/wz7/X5so+kM8v+WUCGLGn1s2+7V7CZkFXCQcDqST2e
- UckA==
+ bh=hnlOJ2n+kaG3xIG2KBBQJX6KsaJhFDRkiLuLt3jD0qw=;
+ b=TPv0O0P2AQWBRTt3bOQP8tnBywETt8tEhCVPGq/kQh1rmScNlW0KPk0TcnjeWpW60B
+ M9G1qF8GzfLI0OxJrhKZ8UTheIe7hDTUNxTBG/3uPfFP3sxg41hVcBQowObliI9e19QR
+ qigcUjfzwr3I9FXl0zS2rYJMWmRs/yoyWo6Oylgwelaaazb88HnIpuHqXJyr/ig1/ztR
+ zc74fkI+sexCYgLcdzAjRLEItwuAvsA0plMAMVqrXVIgCTrZ19mqPeYL02XW28NUOS3K
+ R8VrAr5IrjFDYr1x+pqxHVfD2FWGwInavz7EjyoddGV1+kZibn8MTGdgOgCcKjxf6AVw
+ 9bGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760297024; x=1760901824;
+ d=1e100.net; s=20230601; t=1760297025; x=1760901825;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fXCSCCah2zJTGYn4GhhYKHAkgqZ3YCUPfwGM8ymVWuc=;
- b=uJ9q5VW2J0hci7lSCYiS/6JgqUCu98JjPsOpD/Lb1PABBTKFJfnAbSlKrG4Csl4G5Q
- rLlUfA95d9NZL0IsxzvJAIa8dj4NMgPUGCpWYD/xq9eP+ONZmovGdlv4T4qrZYan1he2
- 7CsY4GTJ1YxCSkGkWOvAWS5t+UHDy06N1WtSUm0VaGf2YdhJ2of8pigHI4NfFgwkC35J
- WBWWNojwMBqUK1i1R8Ph+z/VgG9oD/zo0XJqKxDK5UN/x5fcrzbCfFMYg21xNemJma6+
- CnCH/FQwXpov6zYvLqKSnDKC2IrDBSTLJ7SbynhFx/HQQl7tWcAEjyGd8ir1PzRZQqQ/
- k6aw==
+ bh=hnlOJ2n+kaG3xIG2KBBQJX6KsaJhFDRkiLuLt3jD0qw=;
+ b=hJR9PWaFQnDdMtQFsiUxb8NfTPijAOqMAoek3Q0BsHChJvyARLe65jChtQo8DtnEAH
+ kpiOgxZCn1UsWEuBOvEzh1INtXWNs7UPk+P9Fk/cNnILHabNpRpwofcDCE2ArorsvhnO
+ ClPXf0zBclznm+CVXWNYsDcMC8s/zHohcp9GOqkYC7pSJ239V7SkSES5AWFOYR7nA6NN
+ ypwJMZ73h4oDf5u35stzOnUQLGjfwrkJvdW/AJqp6Aw/f2dkwqhSBL7VpKNKa9S/RZep
+ Evktj9CVg0eQ3F8YXwkAH1bvSSARO1Nsnkus8xLgsYVVvgq5OfYjoJvesG2xdzMHKIk2
+ sCxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXayKU7Bt5hoN+yx5mfDyNeWQ3KZTviLfmJub+bvy1/cLNtfBBza1JrcPca02asBHChDtJC36RIf/0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRuIrDBQdUWcH2JSD88IXseUTLg3nNnuBN3rQRxf+gFsw5B6ek
- iOHtNYB950W3QfcNeFTfBD9Gt3P5JZeYOexUGk/9B76GbD6XfxPh6ZOa
-X-Gm-Gg: ASbGncuFrQy3okE2RNXrF9+sMTwO2F59SMo/vsdtYRQoMyL0lVI9np0Z0SUem0AvudS
- baRQ9lV1h2FyvNxtWMp1lrIGsiyOQVbeu5TD9m4n1NOEUx4FXGMyNrJsooVzbsp+cg5qKvemZ7q
- JDlFncfgnQI3ZLTrnoRKmf+HZfg8PHyjIRxxUvVLPI4UUOt1NwBNHqw8m106Cm8CKdy4bYjFFBg
- J2k2SDsWm9iwbYUTNrvKDGwJOaZgp8G20Dh7OWKKnB0IC0XtHl/sfYA7pqpevQV8rgh2kEP0cOY
- mUPcy+cxAOJL5S3l7F2FUSVMl6fcmGCJrS94MTJ7ET4QjKwAY5cophauubqxinVKr/NwXhv3vaI
- qEcetfM8Odo9Blkt7SS84nNPUIy5JBHNsknyB5PuDGIgI8zibTza2iI6ZVuvp2O9MJESXxDgAx7
- BjF1k6seM5nPSqdwsaCg0kx/rLBQe9xWNWIuH9KhniLw==
-X-Google-Smtp-Source: AGHT+IEiNoS/+6UzRTSzo2B8Y29/AU5s+BLBdQ9yTmKb3fJBI9Fgd7dqesLSL2/Rv8CrMfvApRR4kg==
-X-Received: by 2002:a17:906:f584:b0:b43:b7ec:b8a1 with SMTP id
- a640c23a62f3a-b50aa38724bmr1988751866b.24.1760297024252; 
- Sun, 12 Oct 2025 12:23:44 -0700 (PDT)
+ AJvYcCWJ9LZxUHUywQjWCAPTZQqSsyGmx96Ncr7jhXdkrPbKpiRP/LcuGa63Zq3mHk2MrH2kQApZ6hKbpiY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVob3BXISYX2HFN3oiDCeVgytTe6YgfNIoGDGuwcU4SHKAfvj/
+ mh2u4JXj25+V9/u3eAU3dN1sIHuuvICHiMdoQbYiuI9RlorYtE7cYZXM
+X-Gm-Gg: ASbGncvCIHQJIVljWSYumU9aj7D/hBOcnCfP2opyEtjRrJ+e/bt8attZb7hSv0FEwHr
+ avGNESxOe52dn7oZjy7LYnhiAZKTOEgLfPSZF7BgdIJENZSMkaSp/nAd1sOaLm5+QVz/Rl2PmSk
+ 3FYLe8iy4lGRKqCGTaldXJXAwYKmTkP6xPk/MeDzXbUcCXpcXvZGxhFSj66zj1yXi5i3l+U5i7w
+ dnQbRYrQD0P3APQ2InekIqwyZLu4CM1OYLTBTvPLXUMICcUUfzzkmMeOaR2G7TBaot7Ib63gfAs
+ FtrF+jVc8bOVA7d/z56RYboHXiL27WZX0ksxV+gL5acl4tP4fz75qEo/bASdfKX7ZHeLauR3IYg
+ 7LwOTFpclli/NgKPS+b8FDplc1vCjYKoyGnHLAdOYkskNi17WjFjEB8T1FMHPC6BgAWOtYmvXox
+ q9GuL02UIC5dAoJG9yBnzy
+X-Google-Smtp-Source: AGHT+IFJXFSppj2HoIPfT0DNF82Abv4mtxDvrxkAHw6b76kGPg7cFa3ESgHvRApJqFhlZJceziWZkw==
+X-Received: by 2002:a17:906:c149:b0:b45:60ad:daf1 with SMTP id
+ a640c23a62f3a-b50aa8a92e3mr1797895266b.22.1760297025416; 
+ Sun, 12 Oct 2025 12:23:45 -0700 (PDT)
 Received: from jernej-laptop (178-79-73-218.dynamic.telemach.net.
  [178.79.73.218]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b55d67d8283sm760176466b.38.2025.10.12.12.23.43
+ a640c23a62f3a-b55d67d8283sm760176466b.38.2025.10.12.12.23.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Oct 2025 12:23:43 -0700 (PDT)
+ Sun, 12 Oct 2025 12:23:45 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	wens@csie.org
@@ -70,10 +70,10 @@ Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
  simona@ffwll.ch, samuel@sholland.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 04/30] drm/sun4i: ui_layer: Move check from update to check
+Subject: [PATCH 05/30] drm/sun4i: vi_layer: Move check from update to check
  callback
-Date: Sun, 12 Oct 2025 21:23:04 +0200
-Message-ID: <20251012192330.6903-5-jernej.skrabec@gmail.com>
+Date: Sun, 12 Oct 2025 21:23:05 +0200
+Message-ID: <20251012192330.6903-6-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251012192330.6903-1-jernej.skrabec@gmail.com>
 References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
@@ -94,37 +94,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM requires that all checks are done in atomic_check callback. Move
+DRM requires that all check are done in atomic_check callback. Move
 one check from atomic_commit to atomic_update callback.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 18 +++++++++++-------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 18 +++++++++++-------
  1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 9b786e5c7f3c..fce7b265c5d8 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -134,16 +134,11 @@ static int sun8i_ui_layer_update_formats(struct sun8i_mixer *mixer, int channel,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index bd6c7915bbc4..c80bdece5ffc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -217,16 +217,11 @@ static int sun8i_vi_layer_update_formats(struct sun8i_mixer *mixer, int channel,
  	struct drm_plane_state *state = plane->state;
+ 	u32 val, ch_base, csc_mode, hw_fmt;
  	const struct drm_format_info *fmt;
- 	u32 val, ch_base, hw_fmt;
 -	int ret;
  
  	ch_base = sun8i_channel_base(mixer, channel);
  
  	fmt = state->fb->format;
 -	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
--	if (ret || fmt->is_yuv) {
+-	if (ret) {
 -		DRM_DEBUG_DRIVER("Invalid format\n");
--		return -EINVAL;
+-		return ret;
 -	}
 +	sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
  
- 	val = hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
+ 	val = hw_fmt << SUN8I_MIXER_CHAN_VI_LAYER_ATTR_FBFMT_OFFSET;
  	regmap_update_bits(mixer->engine.regs,
-@@ -201,7 +196,9 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+@@ -322,7 +317,9 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
  	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
  	struct drm_crtc *crtc = new_plane_state->crtc;
  	struct drm_crtc_state *crtc_state;
@@ -135,15 +135,15 @@ index 9b786e5c7f3c..fce7b265c5d8 100644
  
  	if (!crtc)
  		return 0;
-@@ -211,6 +208,13 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+@@ -332,6 +329,13 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
  	if (WARN_ON(!crtc_state))
  		return -EINVAL;
  
 +	fmt = new_plane_state->fb->format;
 +	ret = sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
-+	if (ret || fmt->is_yuv) {
++	if (ret) {
 +		DRM_DEBUG_DRIVER("Invalid plane format\n");
-+		return -EINVAL;
++		return ret;
 +	}
 +
  	min_scale = DRM_PLANE_NO_SCALING;
