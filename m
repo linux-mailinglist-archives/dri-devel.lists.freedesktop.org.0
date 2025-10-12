@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6F0BD0AF1
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Oct 2025 21:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB2EBD0AF4
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Oct 2025 21:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B22E510E19B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B055710E03F;
 	Sun, 12 Oct 2025 19:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MeqPKIsS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LrfifgeY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91FD10E03F
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 19:23:42 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-b3e234fcd4bso593986266b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 12:23:42 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1E210E03F
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 19:23:43 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-b00a9989633so650754066b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 12:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760297021; x=1760901821; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760297022; x=1760901822; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ftu6zu8GSme2+XDOtZSOO4FVxV/p+JAxG+4qy5/uDJg=;
- b=MeqPKIsS6p7jmGClsgWLdupiX43XTB7Uwf6hdpF0lm8RR6ziuIu9aaJ53TaxYlJh8x
- hW8mt45QGLr13hdGYv94oy6IjNNAdyxjzRsIoloG/ugIFJMJj6qq7EHUkcQrih3bl3Yc
- Z1CfxbjmS5/1Ai6bS+yR0pAdE2VQ9PS5AKpyrw5aiAyRJuDPUUgYLzRtleCdeEy6cwSU
- Sv98GaaxdB4p6g4cC/FqS322w+PbY8P7qg/Tsr9zHMQ/oD+0HxVLOVx13XB12jvFuMjt
- EVoIpxKqzMSr20h3igrYfORLP3/QKnyqRC1DWdVBcNJKAG1NqR5a430SRWe4ydAAcdN0
- WLmA==
+ bh=O9pllFFRdLbfJa3CzMw9MDenjUagmZAUwkBtCn+ZhPI=;
+ b=LrfifgeYh3dBia0qJT1AhFqAFN+cHXon2ku7kylDYbfOuHa7j77uAl4PwHYNRXgYRa
+ CxuIXxL203U/G7pfiYXiFgeIp2EQVCsuXWO1dSIVP5VmDUfuK/8PARbZbTzPNXCfhfq7
+ 4Z0CBj1OaAzWZMEO/6LySV8Aqo7YOO5dwz2Me1U7EBthXweRR3gwzvuiPghCdZNfA7Fv
+ s09r2DTlTLsu0si8ZVoSPdHIFXVAACeyL6PXtyNQjcUOdpmR4sS0JHu2P76KTV7sO9Po
+ zC2leoPBeaxTO2eBtSvJWYYrlqXsMoVeFfcSgNWKMvzDJ9YMfGfy+m023gqaJC5nNGCw
+ i0og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760297021; x=1760901821;
+ d=1e100.net; s=20230601; t=1760297022; x=1760901822;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ftu6zu8GSme2+XDOtZSOO4FVxV/p+JAxG+4qy5/uDJg=;
- b=YFT0vVEQOn57osfSv1ajVOv3chKHbdEVQM92d0VzqegMxwGbAmm4yhB1WWKrMv2FgL
- F/yfEPQz975R9uihMNhuQoZ7hxwRq6YcTElpi4riccHogSCIr8sDfit2sL9UtZpugau+
- Uyhza68HNOfAWoXyqETb7aPIf6C9dE+001ENgwdAIUlxWNHD2zDBn5QAOEfhLI7MTqVj
- VH1L53ecjfH7MPmagyvnBNTyR17gDV8jWYyRU0JIyEXik+sLo054l49u9GEOb1XGqxUO
- r149+FpHbPy2MJTDmXyyvTbOotr7dj73vkp5dLs5S90YpdApxzVqiOLS6galZhFfJAOP
- TxjQ==
+ bh=O9pllFFRdLbfJa3CzMw9MDenjUagmZAUwkBtCn+ZhPI=;
+ b=U2P/9pWPWBIxtBw96zCeOXQn8DqCMTxfBGgaYdj9Dg0XZz2Q2HgJoEY8+7bIUqBBB0
+ fRgL+rLMiepABvvZaugc4oQIG5fFStar3ZEYzZHdjq3iaEfpu3Psv+SeESAmKDwQnwzk
+ GxR8d8cV5CxVtvKMfJ3NKCCqV6fDKawZ26ZTPY4y33XejAIOe2PpGjiHNUtznea1tqkd
+ assbWlzNVwG3Byomoy9h75udQyhYwdnPhka991xy2KQtQ/T1iODpbymjlRO+ekqLdClq
+ +x4BThcnTbTyf2Y7fJ3DbpNXUE+rvN635mAfdwZ//a47DWlrbUCCF6SwZZN/mr+c0qCh
+ fsnQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXuYQ6Ghyu7UwTAF+3uyzm6H9nm3Lp+r2rPAbHa3kpK5wq5sDQQGGL7GP1YzQGRIC2u+/1wqexjrfU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyI/RZhtkQVw+D21T6pKbtWKDD0ALXf+tzIMlXboj4oxXO3Thyx
- wexI50QVnL8nUSMpOcJEoOM7j03bMWDjQdWr2jc5V7effUZObCPQ7EJR
-X-Gm-Gg: ASbGncvyaaIcFNU6TjZ4PgX/ij80qMKOadq75xccAuL6rH21cTHXdYJqqQaZrV++xAG
- OzK997D6d2fgLyHJOhOxpKY1IH3mKR7awakHcbYiO+bOAvTzxFEwRM1Jt2JgOshBUsNAiumZxKX
- 1YsXHSWPQjzrp7gpTuwEStV+MCigEqG4EkXZLS09FCYwUdZtRu8P6/C/sk88kOqlVE0P+N6iLVf
- PAiaRApfBALzbSJ6U5m289Bzr9i/ycQBnTopfcP0/VAYxLemvucOIxuRc9C/7S7ut0dVXzucxt6
- uCQHrJBdm4NQX8jhCvbFQcgSZFvkOy+TBWB9JtOPSGVCO3g4e8wtrNNHG9oTG9iFPD6aDfUbQit
- 7kbVif0w/h4jhCxc0sDe3zn8sK11uG382hA7k8NfBPSg5yBGns5Fa5Kwn3bZPlgCBkn6jXY2+/W
- LFp0xFFbiDnnp0DuEFooWnWRU2i1+hZfU=
-X-Google-Smtp-Source: AGHT+IG0sfEJIgIhhCJn3/nqxzgHPFNNqWX+VjerNb/aGPJmXt/GeMNgqqdE+ygKI0NpsjQeQpcZAA==
-X-Received: by 2002:a17:907:2d22:b0:b49:3ee4:d4a6 with SMTP id
- a640c23a62f3a-b50aab9d96bmr2151162666b.18.1760297020857; 
- Sun, 12 Oct 2025 12:23:40 -0700 (PDT)
+ AJvYcCV9WqZuPC4pDguKHUxuTelHo81D/8yTcpR5ogaaR5S4Av8R2vqD4KWgKGTYr7xdJdCSoR3vuqitWGM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxufjuktMKDg6y8FlRXqNOvu1uXEmX4OyPsJimD5o3gE4nsmnYI
+ VTjx5zv6piPxlYColcSYXk58gYFiNQiv94sz/LPW5V/fB5vpll5Byt7u
+X-Gm-Gg: ASbGncvw3qLEyoUUXfFaL1AGzCr7hBPedGQ+m/VnUjhIf7g7rKSo1Q0AwdBrZPw1wga
+ 3SeeZbXosfsrXbw/xYi5viA2bTtmfvuxm/HBJJu4vJOOfZBGtpK/DmpwvJIMjxWdJwwOOOhAcaf
+ AcDL1jJxb/42pKC3X2lUVKVFN7d3GWN1G7ZRrB1vzQxj/q87i/RZqE26rdVG/n+4qI8EsOb2Z7i
+ h98VvS+yd/x6WUm2OW0Un2/z3X3uZHs+1nvYOWqy6CeyMv10Hm2CVgyDTFvSIbDX0m0gROV1ROF
+ XmOIxVFo+CHwUMHBPm6fiIsikiUbnT+q6EvhGITxS6QfVnXT5CrLu2fIxVSxkp2cM+z5AzFGbMI
+ 5eP2Zwtms0kRezRcBwP/1KdFI+UPYR/eMM5ycSOJp8udZhHLANN9H0mc5Mi96TYn3RctX/JxKE9
+ +FEo0DOBFj+2EZHsuBnOsg
+X-Google-Smtp-Source: AGHT+IHSovbe/H5UYTgSA1JPDJbOFUPVXMxcZWI/chJwYDsAxjOuahQb+OA171YuZ238MSsvaekD/g==
+X-Received: by 2002:a17:906:6a16:b0:b23:20e7:b480 with SMTP id
+ a640c23a62f3a-b50bedbf4f1mr2357634066b.18.1760297021975; 
+ Sun, 12 Oct 2025 12:23:41 -0700 (PDT)
 Received: from jernej-laptop (178-79-73-218.dynamic.telemach.net.
  [178.79.73.218]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b55d67d8283sm760176466b.38.2025.10.12.12.23.39
+ a640c23a62f3a-b55d67d8283sm760176466b.38.2025.10.12.12.23.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Oct 2025 12:23:40 -0700 (PDT)
+ Sun, 12 Oct 2025 12:23:41 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	wens@csie.org
@@ -70,9 +70,9 @@ Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
  simona@ffwll.ch, samuel@sholland.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 01/30] drm/sun4i: mixer: Fix up DE33 channel macros
-Date: Sun, 12 Oct 2025 21:23:01 +0200
-Message-ID: <20251012192330.6903-2-jernej.skrabec@gmail.com>
+Subject: [PATCH 02/30] drm/sun4i: mixer: Remove ccsc cfg for >= DE3
+Date: Sun, 12 Oct 2025 21:23:02 +0200
+Message-ID: <20251012192330.6903-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251012192330.6903-1-jernej.skrabec@gmail.com>
 References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
@@ -93,37 +93,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Properly define macros. Till now raw numbers and inappropriate macro was
-used.
+Those engine versions don't need ccsc argument, since CSC units are
+located on different position and for each layer.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index a1c1cbccc654..b5badfa2c997 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -39,6 +39,9 @@
- #define DE3_CH_BASE				0x1000
- #define DE3_CH_SIZE				0x0800
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 31a8409b98f4..f7f210a925f8 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -790,7 +790,6 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1_cfg = {
+ };
  
-+#define DE33_CH_BASE				0x1000
-+#define DE33_CH_SIZE				0x20000
-+
- #define SUN8I_MIXER_BLEND_PIPE_CTL(base)	((base) + 0)
- #define SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, x)	((base) + 0x4 + 0x10 * (x))
- #define SUN8I_MIXER_BLEND_ATTR_INSIZE(base, x)	((base) + 0x8 + 0x10 * (x))
-@@ -242,7 +245,7 @@ static inline u32
- sun8i_channel_base(struct sun8i_mixer *mixer, int channel)
- {
- 	if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
--		return mixer->cfg->map[channel] * 0x20000 + DE2_CH_SIZE;
-+		return DE33_CH_BASE + mixer->cfg->map[channel] * DE33_CH_SIZE;
- 	else if (mixer->cfg->de_type == SUN8I_MIXER_DE3)
- 		return DE3_CH_BASE + channel * DE3_CH_SIZE;
- 	else
+ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
+-	.ccsc		= CCSC_MIXER0_LAYOUT,
+ 	.de_type	= SUN8I_MIXER_DE3,
+ 	.mod_rate	= 600000000,
+ 	.scaler_mask	= 0xf,
+@@ -800,7 +799,6 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg = {
+ };
+ 
+ static const struct sun8i_mixer_cfg sun50i_h616_mixer0_cfg = {
+-	.ccsc		= CCSC_MIXER0_LAYOUT,
+ 	.de_type	= SUN8I_MIXER_DE33,
+ 	.mod_rate	= 600000000,
+ 	.scaler_mask	= 0xf,
 -- 
 2.51.0
 
