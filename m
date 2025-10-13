@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4E0BD1194
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 03:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D0EBD11C4
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 03:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 072E910E2E9;
-	Mon, 13 Oct 2025 01:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A0710E1D6;
+	Mon, 13 Oct 2025 01:48:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="BtDpGjCh";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bXX03/8s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49235.qiye.163.com (mail-m49235.qiye.163.com
- [45.254.49.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D565410E1D6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 01:31:17 +0000 (UTC)
-Received: from [127.0.0.1] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 25a425d33;
- Mon, 13 Oct 2025 09:31:09 +0800 (GMT+08:00)
-Message-ID: <b0a41372-f28a-4e2f-9590-94fe2a86f7d8@rock-chips.com>
-Date: Mon, 13 Oct 2025 09:31:03 +0800
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
+ [91.218.175.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 756F210E1D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 01:48:47 +0000 (UTC)
+Message-ID: <83492e9c-3f17-42e5-8897-9c0ed5aa76e7@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1760320125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8gj2RUXsmZP7PFmKR9Hbs9L37/EeDx8LOSN13TezBQY=;
+ b=bXX03/8sypLzEqxjMgSLg6S6KJ4kx88F2oJNJoY6wtz8ODzWzwFRiwv3G4HvihQLWuiaDt
+ q+Ms2lDX8Ihlvl+anmvX0mKnUGSooXoDL0DkZ2LxLt38QiCGv6rOwsg2pSk49MIw/U8I2i
+ UYzxgrVRyXndoEgLT2uTa1/GMhKbM2I=
+Date: Mon, 13 Oct 2025 09:48:35 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/8] usb: typec: Add default HPD device when register
- DisplayPort altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Chaoyi Chen <kernel@airkyi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251011033233.97-1-kernel@airkyi.com>
- <20251011033233.97-2-kernel@airkyi.com>
- <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
+Subject: Re: [v7 03/16] mm/huge_memory: add device-private THP support to PMD
+ operations
 Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <4eizpzejw43gqt5jauvkeij65rracols2voa2osflwyjrwbvun@sovgqfuhg6mc>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, akpm@linux-foundation.org,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20251001065707.920170-1-balbirs@nvidia.com>
+ <20251001065707.920170-4-balbirs@nvidia.com>
+ <CABzRoyYg1o8Oyjx1AQ8or-Vxm94zQXeAx7mWco2qs7=w4mBcMw@mail.gmail.com>
+ <1b311458-957a-4f0d-b7f9-51e75bbabd55@nvidia.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <1b311458-957a-4f0d-b7f9-51e75bbabd55@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a99db315d3303abkunmf2c18e8ff96737
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkgYS1ZIQh9LSU1ITEJJH0lWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=BtDpGjChpSP48XE1NKo9jcl4Ni8DKvg9gZwmx1ejEbB52Pfa+kRYrhK7oEn5aQ5AakDYb/7RggtO5dn567l+twFPbz45HrVLLzoOI81hMA76pKtG8j7aBsmYKJIDji/YO4B/Lud3EvzLmEHni0K6Bgrj0VWBL7P9W8ve4ol9ntw=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=FbJ61tTmug1JcWEYVwCZO9erg1Aurz+LDUFUiiNDiT4=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +76,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/2025 12:51 AM, Dmitry Baryshkov wrote:
-
-> On Sat, Oct 11, 2025 at 11:32:26AM +0800, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> Add default DRM AUX HPD bridge device when register DisplayPort
->> altmode. That makes it redundant for each Type-C driver to implement
->> a similar registration process in embedded scenarios.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
->>
->> Changes in v5:
->> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
->> - Place the helper functions in the same compilation unit.
->> - Add more comments about parent device.
->>
->>   drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
->>   include/linux/usb/typec_altmode.h |  2 ++
->>   2 files changed, 28 insertions(+)
->>
->>   
->> +static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
->> +{
->> +	if (alt->svid != USB_TYPEC_DP_SID)
->> +		return;
->> +
->> +	/*
->> +	 * alt->dev.parent->parent : USB-C controller device
->> +	 * alt->dev.parent         : USB-C connector device
->> +	 */
->> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
->> +						  to_of_node(alt->dev.parent->fwnode));
-> You can not do this, unless you make TYPEC core:
->
-> depends on DRM || DRM=n
-> select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-
-You are right, Kconfig should be configured by the actual caller. Will fix in v6.
 
 
->
->> +	if (IS_ERR(alt->hpd_dev))
->> +		alt->hpd_dev = NULL;
->> +}
->> +
->>   static struct typec_altmode *
->>   typec_register_altmode(struct device *parent,
->>   		       const struct typec_altmode_desc *desc)
+On 2025/10/13 08:01, Balbir Singh wrote:
+> On 10/13/25 02:46, Lance Yang wrote:
+>> On Wed, Oct 1, 2025 at 4:20 PM Balbir Singh <balbirs@nvidia.com> wrote:
+>>>
+>>> Extend core huge page management functions to handle device-private THP
+>>> entries.  This enables proper handling of large device-private folios in
+>>> fundamental MM operations.
+>>>
+>>> The following functions have been updated:
+>>>
+>>> - copy_huge_pmd(): Handle device-private entries during fork/clone
+>>> - zap_huge_pmd(): Properly free device-private THP during munmap
+>>> - change_huge_pmd(): Support protection changes on device-private THP
+>>> - __pte_offset_map(): Add device-private entry awareness
+>>>
+>>> Cc: David Hildenbrand <david@redhat.com>
+>>> Cc: Zi Yan <ziy@nvidia.com>
+>>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+>>> Cc: Rakie Kim <rakie.kim@sk.com>
+>>> Cc: Byungchul Park <byungchul@sk.com>
+>>> Cc: Gregory Price <gourry@gourry.net>
+>>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+>>> Cc: Alistair Popple <apopple@nvidia.com>
+>>> Cc: Oscar Salvador <osalvador@suse.de>
+>>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+>>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+>>> Cc: Nico Pache <npache@redhat.com>
+>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+>>> Cc: Dev Jain <dev.jain@arm.com>
+>>> Cc: Barry Song <baohua@kernel.org>
+>>> Cc: Lyude Paul <lyude@redhat.com>
+>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>> Cc: Ralph Campbell <rcampbell@nvidia.com>
+>>> Cc: Mika Penttilä <mpenttil@redhat.com>
+>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>> Cc: Francois Dugast <francois.dugast@intel.com>
+>>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>>> Acked-by: Zi Yan <ziy@nvidia.com>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+>>> ---
+>>>   include/linux/swapops.h | 32 +++++++++++++++++++++++
+>>>   mm/huge_memory.c        | 56 ++++++++++++++++++++++++++++++++++-------
+>>>   mm/pgtable-generic.c    |  2 +-
+>>>   3 files changed, 80 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/include/linux/swapops.h b/include/linux/swapops.h
+>>> index 64ea151a7ae3..2687928a8146 100644
+>>> --- a/include/linux/swapops.h
+>>> +++ b/include/linux/swapops.h
+>>> @@ -594,10 +594,42 @@ static inline int is_pmd_migration_entry(pmd_t pmd)
+>>>   }
+>>>   #endif  /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>>>
+>>> +#if defined(CONFIG_ZONE_DEVICE) && defined(CONFIG_ARCH_ENABLE_THP_MIGRATION)
+>>> +
+>>> +/**
+>>> + * is_pmd_device_private_entry() - Check if PMD contains a device private swap entry
+>>> + * @pmd: The PMD to check
+>>> + *
+>>> + * Returns true if the PMD contains a swap entry that represents a device private
+>>> + * page mapping. This is used for zone device private pages that have been
+>>> + * swapped out but still need special handling during various memory management
+>>> + * operations.
+>>> + *
+>>> + * Return: 1 if PMD contains device private entry, 0 otherwise
+>>> + */
+>>> +static inline int is_pmd_device_private_entry(pmd_t pmd)
+>>> +{
+>>> +       return is_swap_pmd(pmd) && is_device_private_entry(pmd_to_swp_entry(pmd));
+>>> +}
+>>> +
+>>> +#else /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>>> +
+>>> +static inline int is_pmd_device_private_entry(pmd_t pmd)
+>>> +{
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +#endif /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
+>>> +
+>>>   static inline int non_swap_entry(swp_entry_t entry)
+>>>   {
+>>>          return swp_type(entry) >= MAX_SWAPFILES;
+>>>   }
+>>>
+>>> +static inline int is_pmd_non_present_folio_entry(pmd_t pmd)
+>>> +{
+>>> +       return is_pmd_migration_entry(pmd) || is_pmd_device_private_entry(pmd);
+>>> +}
+>>> +
+>>>   #endif /* CONFIG_MMU */
+>>>   #endif /* _LINUX_SWAPOPS_H */
+>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>>> index 1b81680b4225..8e0a1747762d 100644
+>>> --- a/mm/huge_memory.c
+>>> +++ b/mm/huge_memory.c
+>>> @@ -1703,17 +1703,45 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+>>>          if (unlikely(is_swap_pmd(pmd))) {
+>>>                  swp_entry_t entry = pmd_to_swp_entry(pmd);
+>>>
+>>> -               VM_BUG_ON(!is_pmd_migration_entry(pmd));
+>>> -               if (!is_readable_migration_entry(entry)) {
+>>> -                       entry = make_readable_migration_entry(
+>>> -                                                       swp_offset(entry));
+>>> +               VM_WARN_ON(!is_pmd_non_present_folio_entry(pmd));
+>>> +
+>>> +               if (is_writable_migration_entry(entry) ||
+>>> +                   is_readable_exclusive_migration_entry(entry)) {
+>>> +                       entry = make_readable_migration_entry(swp_offset(entry));
+>>>                          pmd = swp_entry_to_pmd(entry);
+>>>                          if (pmd_swp_soft_dirty(*src_pmd))
+>>>                                  pmd = pmd_swp_mksoft_dirty(pmd);
+>>>                          if (pmd_swp_uffd_wp(*src_pmd))
+>>>                                  pmd = pmd_swp_mkuffd_wp(pmd);
+>>>                          set_pmd_at(src_mm, addr, src_pmd, pmd);
+>>> +               } else if (is_device_private_entry(entry)) {
+>>> +                       /*
+>>> +                        * For device private entries, since there are no
+>>> +                        * read exclusive entries, writable = !readable
+>>> +                        */
+>>> +                       if (is_writable_device_private_entry(entry)) {
+>>> +                               entry = make_readable_device_private_entry(swp_offset(entry));
+>>> +                               pmd = swp_entry_to_pmd(entry);
+>>> +
+>>> +                               if (pmd_swp_soft_dirty(*src_pmd))
+>>> +                                       pmd = pmd_swp_mksoft_dirty(pmd);
+>>> +                               if (pmd_swp_uffd_wp(*src_pmd))
+>>> +                                       pmd = pmd_swp_mkuffd_wp(pmd);
+>>> +                               set_pmd_at(src_mm, addr, src_pmd, pmd);
+>>> +                       }
+>>> +
+>>> +                       src_folio = pfn_swap_entry_folio(entry);
+>>> +                       VM_WARN_ON(!folio_test_large(src_folio));
+>>> +
+>>> +                       folio_get(src_folio);
+>>> +                       /*
+>>> +                        * folio_try_dup_anon_rmap_pmd does not fail for
+>>> +                        * device private entries.
+>>> +                        */
+>>> +                       folio_try_dup_anon_rmap_pmd(src_folio, &src_folio->page,
+>>> +                                                       dst_vma, src_vma);
+>>>                  }
+>>> +
+>>>                  add_mm_counter(dst_mm, MM_ANONPAGES, HPAGE_PMD_NR);
+>>>                  mm_inc_nr_ptes(dst_mm);
+>>>                  pgtable_trans_huge_deposit(dst_mm, dst_pmd, pgtable);
+>>> @@ -2211,15 +2239,16 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>>>                          folio_remove_rmap_pmd(folio, page, vma);
+>>>                          WARN_ON_ONCE(folio_mapcount(folio) < 0);
+>>>                          VM_BUG_ON_PAGE(!PageHead(page), page);
+>>> -               } else if (thp_migration_supported()) {
+>>> +               } else if (is_pmd_non_present_folio_entry(orig_pmd)) {
+>>>                          swp_entry_t entry;
+>>>
+>>> -                       VM_BUG_ON(!is_pmd_migration_entry(orig_pmd));
+>>>                          entry = pmd_to_swp_entry(orig_pmd);
+>>>                          folio = pfn_swap_entry_folio(entry);
+>>>                          flush_needed = 0;
+>>> -               } else
+>>> -                       WARN_ONCE(1, "Non present huge pmd without pmd migration enabled!");
+>>> +
+>>> +                       if (!thp_migration_supported())
+>>> +                               WARN_ONCE(1, "Non present huge pmd without pmd migration enabled!");
+>>> +               }
+>>>
+>>>                  if (folio_test_anon(folio)) {
+>>>                          zap_deposited_table(tlb->mm, pmd);
+>>> @@ -2239,6 +2268,12 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>>>                                  folio_mark_accessed(folio);
+>>>                  }
+>>>
+>>> +               if (folio_is_device_private(folio)) {
+>>> +                       folio_remove_rmap_pmd(folio, &folio->page, vma);
+>>> +                       WARN_ON_ONCE(folio_mapcount(folio) < 0);
+>>> +                       folio_put(folio);
+>>> +               }
+>>
+>> IIUC, a device-private THP is always anonymous, right? would it make sense
+>> to move this folio_is_device_private() block inside the folio_test_anon()
+>> check above?
+>>
+> Yes, they are, there is discussion on file-backed mapping at
+> https://lwn.net/Articles/1016124/. I don't see a benefit from moving it, do you?
 
--- 
-Best,
-Chaoyi
+Ah, I see. Never mind :)
+
+Cheers,
+Lance
 
