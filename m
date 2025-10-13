@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADCDBD5D51
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 21:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45451BD5D5A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 21:02:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0916D10E4C4;
-	Mon, 13 Oct 2025 19:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0B410E4CB;
+	Mon, 13 Oct 2025 19:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Qy2Rxf6X";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UIcur+N0";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="NEU6NP0V";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="h/YTL95m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F67D10E4C4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 19:02:33 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E566510E4CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 19:02:36 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4clmtv5glTz9t0S;
- Mon, 13 Oct 2025 21:02:31 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4clmtz3sgXz9v10;
+ Mon, 13 Oct 2025 21:02:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760382151;
+ s=mail20150812; t=1760382155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=qg44q0VVpNZ3OyYCRjYUw+XIcf+qYUx8J25GphoeznQ=;
- b=Qy2Rxf6Xekle6nc5iX9/WQPMEXyGRW4RxX3U/jO9SMR+Ns7rHt+cB0Pkq0Kkoxt6ELP8Kp
- ERbilmOrkdv8MIjOqvGEWOlmhzj1kfk5hr70RC2Uzg4KEYWPMp0yHL9+rn/czUXS5HzJoF
- eFKVRYfNrXvHJWrzopf3SxfwDurQNv2dmmORkfFXgu3EiK90DyDUg1EBammkgu6OcZiSIs
- GahENHa3jaSs5BezXNS8LW2VrB+V3tjC9LD5BPifBJfBK2gauUwj7JXkmFOa/f3u/DaJDY
- cCe/RtVGX6ITwoN1VTiwNJ8TV+UkVatn19pprYbDrXe20/4WvWW6rbc5vxEUzg==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RgEGPlNUK43rhNDXnUBKVU3d22Z0I72vU1ZHl0FA+5M=;
+ b=NEU6NP0VJ9Uar8v/MJPQNoOOq9sDmy69JNJOHp54Bz9j337NYDY1p6UYICf7Zs52rROYxK
+ TT3obK2au2EDzWVl/PbyqPi15kU4sDN8DrWlen6o98qkFUhPChs4YWaWZ0C6P/W3Z0F+4e
+ ax692jpLk7DxslQY5lQyYbkhaWaC1WqEIKNuh25Qy/d/44XCV7rfOZz2QUNv4jjqcZlYlo
+ BXZ/aFSFMTAH3FHk8q1WTDVDSs7CoAbB4NGLL7svApHvNcPrTtFchyfQTadPMybg7h36Fe
+ ADOkcixHfRgE8kF/POquVEukjfxbJ1C+lxIbpg3WPlQYFT+cVBgjDZ9n4ujSLg==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="h/YTL95m";
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
+ designates 2001:67c:2050:b231:465::202 as permitted sender)
+ smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760382149;
+ s=mail20150812; t=1760382153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=qg44q0VVpNZ3OyYCRjYUw+XIcf+qYUx8J25GphoeznQ=;
- b=UIcur+N0qOo/kizLBR9bNsH5j4FBVb9HQ8eNT+uzmc4V3YOVoephjiLCaxvmZRn3uOJoNW
- GbQIN2A3FJQAeHwihmv6Gs17h8P6ezOqF85TmliPwa6ARmM4JD8kPdl7ikkNcHim4DSiBH
- i0JION5Vr89i4/z8DcY+PNFa2JBpXMkfY/ieFPOe4ziPeGCVKU7CSc/P1b642Qx1qAy3vk
- zWUBw4tNdFxKWKyjSEtCkM4d2jpSk8P6Fa6l5j7XvMutn6DnW8WW4m2r6RdqU6mKFAEX+a
- FMJR+5FVaoREc1CpKkmo9uDd30EPsWHnFUXU5a44+2JNy/IJBIH8oQJ0rWfvWA==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RgEGPlNUK43rhNDXnUBKVU3d22Z0I72vU1ZHl0FA+5M=;
+ b=h/YTL95mjqwfTRKo/7x3jZWSAxBUUgW5yAvJUbyE+Sf1551P+mzDlADqtkPnIKKZMSjUpA
+ Kkv8FWIH6UFHPFS59z08Hx/S4ar1Fngn+Y2NXQsKT+xD/mfPmhPS28Lo1RF0rWprgwuThs
+ 4RF6X9q2vYAy/6m7V3FseKhgcJkUZJE14I6dUNoZ82NxGjhqXCur4rLKQCBRsSEpqJgU75
+ kY+z2AeH8/oON5BC8TSH9UgzEbB2hf2NiZ1Mx8YnfF6NAUxtMDueHRWNiDqU3DqJMjSGIB
+ Fti0WkrSXFfhA+jcstSUTaC4UN2liBpx2lh3gST/bxgKN8AR5/7Fn2RZ8Bb+3A==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
@@ -58,14 +66,16 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/3] dt-bindings: gpu: img,
- powervr-rogue: Document GX6250 GPU in Renesas R-Car M3-W/M3-W+
-Date: Mon, 13 Oct 2025 21:01:17 +0200
-Message-ID: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+Date: Mon, 13 Oct 2025 21:01:18 +0200
+Message-ID: <20251013190210.142436-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 87dbecb418ff6fbe859
-X-MBO-RS-META: cnajsto9a5ybxf448khspd6zh4y7sud1
+X-MBO-RS-ID: 0b0558fdda1c0b00138
+X-MBO-RS-META: 5rj5rxchy4bzmxkt8mwszpzp5iyyk97c
+X-Rspamd-Queue-Id: 4clmtz3sgXz9v10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,8 +91,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-present in Renesas R-Car R8A77960 M3-W and R8A77961 M3-W+ SoC.
+Describe Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
+present in Renesas R-Car R8A77960 M3-W SoC.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -104,29 +114,32 @@ Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
-See https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/13
-for related userspace bits.
----
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml          | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index c87d7bece0ecd..c9680a2560114 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -13,6 +13,12 @@ maintainers:
- properties:
-   compatible:
-     oneOf:
-+      - items:
-+          - enum:
-+              - renesas,r8a77960-gpu
-+              - renesas,r8a77961-gpu
-+          - const: img,img-gx6250
-+          - const: img,img-rogue
-       - items:
-           - enum:
-               - ti,am62-gpu
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index 6d039019905de..4f7b2e838c026 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -2565,6 +2565,18 @@ gic: interrupt-controller@f1010000 {
+ 			resets = <&cpg 408>;
+ 		};
+ 
++		gpu: gpu@fd000000 {
++			compatible = "renesas,r8a77960-gpu",
++				     "img,img-gx6250",
++				     "img,img-rogue";
++			reg = <0 0xfd000000 0 0x40000>;
++			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 112>;
++			clock-names = "core";
++			power-domains = <&sysc R8A7796_PD_3DG_B>;
++			resets = <&cpg 112>;
++		};
++
+ 		pciec0: pcie@fe000000 {
+ 			compatible = "renesas,pcie-r8a7796",
+ 				     "renesas,pcie-rcar-gen3";
 -- 
 2.51.0
 
