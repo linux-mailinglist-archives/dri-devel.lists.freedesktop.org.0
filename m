@@ -2,63 +2,199 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535D7BD2EF0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C08BD2F08
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3913D10E268;
-	Mon, 13 Oct 2025 12:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE9AD10E1EF;
+	Mon, 13 Oct 2025 12:18:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bCAoPb2w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QSSik9s4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B73610E268
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:15:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D025961242;
- Mon, 13 Oct 2025 12:15:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C43C4CEE7;
- Mon, 13 Oct 2025 12:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760357753;
- bh=BH73D8X4Lo6g3RTcuSv+XHBu00phhwmp0nmSDlsT/Hw=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=bCAoPb2wmQVllBkskusRuCmqyz2kDC8Jaoo1062znpmdkN1yu1bQxmUXI9fQVawBJ
- qQfvUhTSxML5b9XP1pUXNJJJcso6G+8v+kVYY7X3iirUO90b/H3mBjtGYBNEculco/
- VDIB2CIWyVqnXjq4f7tJTcqihpx7DdtKSRO/0wdfg0BdOTe0SC2pgsGaim3Nvl2Vja
- WNwwmt72ZM8PGrs1GAS7V2SU8gbr1g4i6trHqKmPWaoT6lLJAe14XPnEjXIAr3sldr
- QzNqh0hxF89o+xixA6x0J/Ebg4HeYY+wan3Y2EiMzZeJg/Pa1dlugHKNb6T2Vr/tzW
- dEznpQR7SlL3w==
-Date: Mon, 13 Oct 2025 07:15:51 -0500
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8CF510E11A;
+ Mon, 13 Oct 2025 12:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760357887; x=1791893887;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=tGm1I8DSdxUIqn2CJpK9uu9Ycm7NZwOoZpGfIpvuQd0=;
+ b=QSSik9s49cBrJSqLgs6K4BZR0oC3UYGfzKy83LZxDxRw9kIC9wpPPshs
+ N7huDJv7bIwnNld9TEix4+hYafci4tbyr0g7oenqph03IoeAbWcixXRDq
+ sdO7b4GJx/N9XuYPqJQ/AaQpUMQ8+5xU30dbIau90kEwIuA4nZMjX6jwn
+ VMN6eHOmG3I41XzDdAe5lEO0i7xedZAwgDeBazJvhDhY7KNT2qfoJg0vT
+ 7VVxesqG+Tk0OyY+BD/XTjbdnPOWSo7L8/MN9t0ALcBW60yp5RpMdI4JV
+ LkYUmOtlDcKFmHqF7DHhHRhnZcJMot24UqJtkRacsWdB2JenCa9qlF6cH A==;
+X-CSE-ConnectionGUID: A9wxZDCXTl67QXs4KrsAgA==
+X-CSE-MsgGUID: 9hIp3SLrTIKwESc+GSJeMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="72752797"
+X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; d="scan'208";a="72752797"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2025 05:18:06 -0700
+X-CSE-ConnectionGUID: XQ9a8dmITt2t7gdknQEH6A==
+X-CSE-MsgGUID: FHHG/8ZdTcChRk28YZeB9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; d="scan'208";a="185597179"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2025 05:18:05 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 13 Oct 2025 05:18:05 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 13 Oct 2025 05:18:05 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.62) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 13 Oct 2025 05:18:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZVM7KRFu2tiWCZdz5c9Y7k0CUlk2cTlm/sX/l3U2i+U2Qq6BpuGp8ieKdffsI7AVh4J/84wBr4cm9+c/HNFpwtG3QVzxYl5DU4skRCgFi09I+KmULozc3/jEacJ2Mv5jw+sRD3wdh1uzeez675jTl/uCosKWHkBc7buRLo5Ct2xj2K1jYAbtK4/5CCQKQVnhUjxi8WtYUvMwfQtcX5qmWg7OXo8R/FDqn1a5TO397qExxzbVmwNrkG+ZM5SQabiRjDgohJkKZyIglYrtCrSbrCIgCwQBMv1XK/yzSgPQz0/tVejr9i/mzWH7tUNNDuArqfdABws1HWdhMWQrgKHcjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ReTAbn1Tojdg3hZy9QMHWk4nWKiexM373G/vNbH9LE4=;
+ b=EZo16SMkPVgL+z+GLD10hbCm0BiUSiH7QuoczHDPZ+EACWwGIwtesGoCo7Ztcht6DWz81tkj5FhjLvn3Or1P5YEqMKwqzJF2DE3EfpANOyaTpRguAPRTQWbDrefkrz9Tbf4qJo6HsEBqbmvZa5Nd8PTfhUkrpCEi4ARSNiDf0fH02LAHN7M3Fkt5ygbxHVRvQIP8XMUR8+5y6M2OHqLxy5PZHszd8iQC1n34TKwZjlG7ILFOOS+dQifkkV0qy4s5ewbfJsqjmfxqej+Gsm2UlCXuv6TY00/kXZbtGyqCmx1YDnj56Qv63qOPkOGarGgoZ+MNVk0lvrtEUr4CIYuJsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
+ by SJ0PR11MB7704.namprd11.prod.outlook.com (2603:10b6:a03:4e7::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
+ 2025 12:18:03 +0000
+Received: from MN0PR11MB6011.namprd11.prod.outlook.com
+ ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
+ ([fe80::bbbc:5368:4433:4267%6]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 12:18:03 +0000
+Message-ID: <83f83d86-a89d-4315-aa01-9c48e782bd60@intel.com>
+Date: Mon, 13 Oct 2025 14:17:56 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 17/26] drm/xe/pf: Add helpers for VF GGTT migration data
+ handling
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, "Alex
+ Williamson" <alex.williamson@redhat.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
+ <kevin.tian@intel.com>, Shameer Kolothum
+ <shameerali.kolothum.thodi@huawei.com>, <intel-xe@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, Matthew Brost
+ <matthew.brost@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, "Joonas
+ Lahtinen" <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Lukasz Laguna <lukasz.laguna@intel.com>
+References: <20251011193847.1836454-1-michal.winiarski@intel.com>
+ <20251011193847.1836454-18-michal.winiarski@intel.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20251011193847.1836454-18-michal.winiarski@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BE0P281CA0008.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:a::18) To MN0PR11MB6011.namprd11.prod.outlook.com
+ (2603:10b6:208:372::6)
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>, linux-rockchip@lists.infradead.org, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Amit Sunil Dhamne <amitsd@google.com>, linux-phy@lists.infradead.org, 
- David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Yubing Zhang <yubing.zhang@rock-chips.com>, 
- Dragan Simic <dsimic@manjaro.org>, devicetree@vger.kernel.org, 
- Frank Wang <frank.wang@rock-chips.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Johan Jonker <jbx6244@gmail.com>, 
- dri-devel@lists.freedesktop.org, Diederik de Haas <didi.debian@cknow.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org, 
- Vinod Koul <vkoul@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Peter Robinson <pbrobinson@gmail.com>
-To: Chaoyi Chen <kernel@airkyi.com>
-In-Reply-To: <20251011033233.97-1-kernel@airkyi.com>
-References: <20251011033233.97-1-kernel@airkyi.com>
-Message-Id: <176035740777.2901291.16736462870856416206.robh@kernel.org>
-Subject: Re: [PATCH v5 0/8] Add Type-C DP support for RK3399 EVB IND board
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|SJ0PR11MB7704:EE_
+X-MS-Office365-Filtering-Correlation-Id: 732e383f-8d15-4904-e296-08de0a528e84
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RHJkRG91bmpoby9LN21sdEY3TDAwamdzZ1JXKzFPeElDbld3ZzhvTzIzWjFz?=
+ =?utf-8?B?RzY2VFo1T2tPMDRYRlpoeVBDY0hDamJKM2Vsbzl5VlVuVmVmNHVkMFEvVml0?=
+ =?utf-8?B?WHlYZWhPeUd3NHVjclF6TUR5eGhhczZrNGFYM2YxME4xRE5UOVpreWVMbjNw?=
+ =?utf-8?B?SktuN0JJTndWb0hFOEZOMEpqc1hwU3VWWEFTREdab3dxeW52cE9RY0NTUXM4?=
+ =?utf-8?B?bEZXdk15WWd0aS9WOU5WVXBuczN5NFg1bFhydkxxWm1sSlFWRmVPbmZuekxG?=
+ =?utf-8?B?OFRZcWdNYklDa2dQV3dPbzh2OHNtNkMxaVEzYkJhaE90UnVEVEdFbC9BNUVR?=
+ =?utf-8?B?NFp5dmZaU2ROWU4yVGZZUXNJS1o3dDkyWTN4TlFpMU9MQzNDTkVJSE1SaTYz?=
+ =?utf-8?B?TFp5MDlGZXlxWHNqbHlJNXEvczlJeTlLMHVocEx0YTlrUC9RaXZWakxMQlk2?=
+ =?utf-8?B?TEY5OFp6eTFoa095V3RKZDhzVUY1d2I0ajV6OW9LTWpRRnBEU3RFS28zbXB6?=
+ =?utf-8?B?OGx6SGRnQ3JuZDZSOXVNT2lnVHplbVNYZmhoRXYyOGNneFVlYUZKaEtmS2xx?=
+ =?utf-8?B?ejZQbW1ZV0dXWUdYM0lLSmRvVzZJblY1bVMxRTV0a0dvTXRvREFSOEZQNUtU?=
+ =?utf-8?B?R3A0eDgxd3k5U0V1TVcvZTU1dlVLZW91QXNQRUJEYVNwK3Y4SlYxL05JSWFy?=
+ =?utf-8?B?NkU0b1pTNTUwck11OFp0ZXE4Qks3c3ovbXM5RTBVZ2g5QnNuYmZsUUptb0Rl?=
+ =?utf-8?B?blAwMnlnYUJrRkN6L3VVU1BBZDh6L2RSVlhpOFJwREJIalBjMVdtMDFWeWdh?=
+ =?utf-8?B?emp6WUhHSmRVSFoxVmxBdGZTdlpkd05wSHV5STQ2Q3JaazIrUUdiUVZPbFps?=
+ =?utf-8?B?elExR3d0cEVYdG5ma3hwclFKU3o3M2FNYTIrbnFuSHdYaFZGWXRRbWF3amZ6?=
+ =?utf-8?B?azVudi94ZWROb3BTUENZQzlSR3RVQVZERUxJUHpBZmd5WEtqZjhOV1VLUlpL?=
+ =?utf-8?B?RkcrVEg5b3NVZXFPQ0RkNStjZE1FbmNBZllvVTRQY2RIL0d3dXJkQXBqRFFB?=
+ =?utf-8?B?OTkxY2IvbHJ3aGFJSjM3QkRPMDlidTd6b29tdlRRb3dWcUlJb21VVGdVdkRT?=
+ =?utf-8?B?TUZxUWFsR2ZpY0ZDZDRFZmU4cStFMGtIUkpmVHRtWmFacGZwakM2NzYrdHhi?=
+ =?utf-8?B?eXBtck44OVVsWk9FZjhjTURDZzBUaUJ6bGpUQ1JaWUFBcTYxRklqYkovVlFk?=
+ =?utf-8?B?VEZ4NVR1MDlOQngxaHFoTG1JOURXNk4vOU5GNzdlOFgydEx5UmNzcS91RHR2?=
+ =?utf-8?B?ZjZIc2FPZUZyQUtBOERKYk1iMFRGbGtNUmVRNklHZWJpZ3lZbEVzY1lvN3U1?=
+ =?utf-8?B?Z204Tk53ZWpVSlFHbE5YOTY2MzluWlVmaFhlWDMwS3pRSE9PQkJlTXlUZnJ6?=
+ =?utf-8?B?R21BWEJhTy9paVFKTlhqVU5wUU5DSkhwR1VWRlpSWHN5TUpuYlpIV1d6MjNj?=
+ =?utf-8?B?RkRua2djbkx1UldYNXZkMVNSekNFUDFncytnVitmQ2xyWGZSU1Rrdlg2WGoy?=
+ =?utf-8?B?eWVoV3pSb2pWRkJhWXZuTVE5RjJrUHV5MTQ5ajlXWUxUOVZhQWMveHo3eS85?=
+ =?utf-8?B?dEt5SFFwUUJPT2V1eUZvL2RqMHpGWnZ5V05JZGJzNThzZzgwTGtVQzFnOTBG?=
+ =?utf-8?B?VlNZU3k0aXlvNzdQVVY1U3V2cUNqazVGZFEybnF4bG5RZHVNQmtCbWVQbE51?=
+ =?utf-8?B?OTRvTDVheHNHdDhSVzZUKzFJd0M4b2RTU2lCemdpNEZoTUpaMmN4b1l6Rk9E?=
+ =?utf-8?B?RUhzY1ZINGxWU2YwZ2MweXB2T2VTTWZRVk1DV3M4NmxzQS9TN29tU2EwSFBE?=
+ =?utf-8?B?Umlxdmp4VWJOcFhUYU1ITTBoSkVQUnpoTTgxU1BqYk10WE0wemdIU1JZVUJF?=
+ =?utf-8?B?aTdCU2NWWnpNZXlOa0UxaTREZ1FPZjRmblhZV1FWRTc5R1dRTU1hcit2bVdH?=
+ =?utf-8?Q?VHVi95a1WI/pNH+BnCK6R8jpEaQBJM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6011.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkFXZVNNdUhWcTNBZTFET1Fscm1YbTMvbjkzSWhoWTZtb0F2dC9ZS0hlRGlm?=
+ =?utf-8?B?RTNIZGNFZjRIelFqSEZKWUI3ZGErRDl5ZWVTS1pVeHR2cWhXRU9uS0ZsOTFr?=
+ =?utf-8?B?bm0xcURQd0tVMk5uY3EwcWJaNWIvV2V6Z3Rlelc5aHNIYjFKazVYU05iZDJW?=
+ =?utf-8?B?dlQ3dXo4eVpmMkRIaFNZekVpZCsyWFlOaUk0UXZUK2t3WXM2TVBRMzFFdm44?=
+ =?utf-8?B?ZGFvOU5FeVZpWHJPSG56MzBkT2pwMDJpQVhkTHZ1RVZVY2xQVEo1RStscGpk?=
+ =?utf-8?B?M3RwdXR1N3o1QkRPbWFqUU9QNTJCSUdNT3piWUkzV1R6bG0vbXA1UUFRa280?=
+ =?utf-8?B?aUhFLzJJYkpkSmgrZVpnUHBlcFMwNmpkb2hFZWRWbVlLY3pDNEV3MlFrWkJz?=
+ =?utf-8?B?cDhjbk5icExoYmRyclBCeDQ3QStXb2FnOE9iTmZDY0liZmwyMnVINHRxQTBP?=
+ =?utf-8?B?eEFLQlV4Yjl3ajV0dmFIQTJUWGd4QjVUdndqZmpDczA3UkhsV2hYbWIyRmZS?=
+ =?utf-8?B?OFRFV1hPb2tWRmV4OERHL0FTdEJ4MjdDSWJ1b2JiTVI0RHRVRGlzM2hsZ2JW?=
+ =?utf-8?B?QlJFSEJKWHdqNXd2NVJxNEtSZVdBMTM4eEo1WkFRMGlXdG5YVXNlMU4ybnhD?=
+ =?utf-8?B?SzFoVWd1QUNiOExYdlNNZXVVZFRHRlZ1bGdMa2F6WlVFKzB0SHRKSFg0YlJQ?=
+ =?utf-8?B?azJqTGlQeGxFblUrczlKeUhJYkZ0aG9Bbk1YVy9GQnR6ejdsTVJLdTFTZFlp?=
+ =?utf-8?B?V0tYekd3bUxyTitwTWdUeUkzODIwZnpaSGF6NEszdVUrYVlVQWZHNHlDQUdr?=
+ =?utf-8?B?QzdMZUJQVEJFbHhLWVdQMHRndmtyV0svVVA2VXdjR2EzUnhDNmR4OFlPV29L?=
+ =?utf-8?B?b0ZFbVA4bEVROTNCM0hoS2RZd2oxM0hlNWc5aDNrK3J6Q1BmTzluRGtmVUNm?=
+ =?utf-8?B?YTUxU3lPMS9YencvaWI3UzZ4TVF1NGJwOUQ3dXpiL3hHMWZUT1FnVmFhWHpF?=
+ =?utf-8?B?ditXSHhSclRLS1Z1ek9Kam1HYThYcDQ3QWQ0cWlPZTkwWlo3V21NeVVUamlF?=
+ =?utf-8?B?UVZHY3ZydTJpZndKWHhteVg2cnVOSHJDMGNFK1lrbWtHQlNuYjM1MGZ2anZM?=
+ =?utf-8?B?SVNEdUFIYitUdjYyb1dHZUdJMGdDRHJSNkdSN1FtMUxMY2t4QUVwL2xWZ0ZU?=
+ =?utf-8?B?M1poQVJBbDMzWHBBUGxSdWY0SENUeWxtN1gvN1FCc2MrUGtTak5PNzBrNGRE?=
+ =?utf-8?B?TnVwRnF0cERhRVB3d2ErdVo4NEpKMDVtOFUycGkyNTdIMGZ4VUJ4OVVuOEl5?=
+ =?utf-8?B?MHFQQkZBOGNxU0w1bmgzcFVaa0FOS0VhN3g5aEgzQTI0dnduMmhFZm9OZUVP?=
+ =?utf-8?B?S2d1ZVpZeUdhNythRWY4NEF3d2pUcVdoZk9hR3BnTVJFZUQyanVWYTVQZHB6?=
+ =?utf-8?B?NnVLdGVaeEJnd0dySmN6UlVWSStKbDQ2OVhQYzZ1dVp3YVVVNm1pZk1EZDBB?=
+ =?utf-8?B?UUxRNDhybTFGbWNEQ2JucWMwTGEwekpnQlY0WFBxVHJYeEhFSGJCTkRtTzVz?=
+ =?utf-8?B?OHNPUDhNdVZ4dkVUZkUrWVVDcVJOQWJRSGtvbkx0aFBtNmttbldsbWxCNllG?=
+ =?utf-8?B?aFpGU0lVTENqZDhMOFVWYkxzdGJPWEZUSUlyNnJJZ2daNlcxaXIyOWVJM2Z5?=
+ =?utf-8?B?eWJTNzVhN3dWZ2hnaXpOZTJ0RTQ0UFBXWWNLbGlTck56THhPK0pXRzFxNncr?=
+ =?utf-8?B?Zm5zbGFyME41TEVOaHlYK1ltWnBmL2tWdlhESEtDUnVzYUJwZ3FxSDE1Y2hJ?=
+ =?utf-8?B?czE4ejhzSmdNT21HTFBVVWNjTnRoRXM1TUNlWW1IVUFRRkRIRWxVQ3NsbVpv?=
+ =?utf-8?B?SnphSkVZMmVnL1doVmRuNVVFMkEwWUVWYmxHcFZxOFVsL0JMcWFnckZ1T014?=
+ =?utf-8?B?eSt4eVl3NWx3R1Jza05GcDh6Zko4eGZPWWxWczE5bnZLcWE1NTRvb0RQd2l5?=
+ =?utf-8?B?OUdRY1lVb2ptcTdwYnRCTWM0NExscmtDNENpeW9iWnk4bGlTYzFwOUZRZENG?=
+ =?utf-8?B?cEJVaFRPcjVHczlGUXJ1d1F0RWRMNlBQSFlLQ0g2RWMyaVEwS2IrM3lRbVF0?=
+ =?utf-8?B?Q0NVT3cyUnpWc2dubGNhSGp6R1REWmpiYUgzSlNYaU5GWVNIL2NZLzlKb2Uz?=
+ =?utf-8?B?bGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 732e383f-8d15-4904-e296-08de0a528e84
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 12:18:02.9542 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: abx30jOOKjppoTyKpxws91XzTn+F2UXedcBVU/sQynAXaDBQomUMXMnXPCbCsVRiPUO/zIq1OhLNzCR++tdYKiktXp1iFux7nQ2bhUrGeoU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB7704
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,175 +211,298 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sat, 11 Oct 2025 11:32:25 +0800, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> This series focuses on adding Type-C DP support for USBDP PHY and DP
-> driver. The USBDP PHY and DP will perceive the changes in cable status
-> based on the USB PD and Type-C state machines provided by TCPM. Before
-> this, the USBDP PHY and DP controller of RK3399 sensed cable state
-> changes through extcon, and devices such as the RK3399 Gru-Chromebook
-> rely on them. This series should not break them.
-> 
-> ====
-> 1. DisplayPort HPD status notify
-> 
-> Before v4, I implemented a variety of DP HPD status notify. However,
-> they all had various problems and it was difficult to become a common
-> solution.
-> 
-> Under Dmitry's guidance, I try to add default DRM AUX HPD device when
-> register DisplayPort altmode in patch 1. That makes it redundant for
-> each Type-C chip driver to implement a similar registration process
-> in embedded scenarios.
-> 
-> ====
-> 2. Altmode switching and orientation switching for USBDP PHY
-> 
-> For USB Type-C interfaces, an external Type-C controller chip assists
-> by detecting cable attachment, determining plug orientation, and
-> reporting USB PD message. The USB/DP combo PHY supports software
-> configurable pin mapping and DisplayPort lane assignment. Based on
-> these message, the combo PHY can perform both altmode switching and
-> orientation switching via software.
-> 
-> The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
-> fusb302 chip as Type-C controller. The connection diagram is shown below:
-> 
-> fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
->              |
->              +---> USB/DP PHY0 +--> CDN-DP controller
->                                |
->                                +--> DWC3 USB controller
-> 
-> ====
-> 3. Multiple bridge model for RK3399 CDN-DP
-> 
-> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
-> the CDN-DP can be switched to output to one of the PHYs.
-> 
-> USB/DP PHY0 ---+
->                | <----> CDN-DP controller
-> USB/DP PHY1 ---+
-> 
-> In previous versions, if both PHY ports were connected to DP,
-> the CDN-DP driver would select the first PHY port for output.
-> 
-> On Dmitry's suggestion, we introduced a multi-bridge model to support
-> flexible selection of the output PHY port. For each PHY port, a
-> separate encoder and bridge are registered.
-> 
-> The change is based on the DRM AUX HPD bridge, rather than the
-> extcon approach. This requires the DT to correctly describe the
-> connections between the first bridge in bridge chain and DP
-> controller. And Once the first bridge is obtained, we can get the
-> last bridge corresponding to the USB-C connector, and then set the
-> DRM connector's fwnode to the corresponding one to enable HPD
-> notification.
-> 
-> ====
-> Patch1 add default HPD device when register Displayport altmode.
-> Patch2 add new Type-C mode switch for RK3399 USBDP phy binding.
-> Patch3 add typec_mux and typec_switch for RK3399 USBDP PHY.
-> Patch4 add DRM AUX bridge support for RK3399 USBDP PHY.
-> Patch5 drops CDN-DP's extcon dependency when Type-C is present.
-> Patch6 add multiple bridges to support PHY port selection.
-> Patch7 add missing dp_out port for RK3399 CDN-DP.
-> Patch8 add Type-C DP support for RK3399 EVB IND board.
-> 
-> Changes in v5:
-> - Link to V4: https://lore.kernel.org/all/20250922012039.323-1-kernel@airkyi.com/
-> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
-> - Place the helper functions in the same compilation unit.
-> - Add more comments about parent device.
-> - Add DRM AUX bridge support for RK3399 USBDP PHY
-> - By parsing the HPD bridge chain, set the connector's of_node to the
-> of_node corresponding to the USB-C connector.
-> - Return EDID cache when other port is already enabled.
-> 
-> Changes in v4:
-> - Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
-> - Add default HPD device for DisplayPort altmode.
-> - Introduce multiple bridges for CDN-DP.
-> - ...
-> 
-> Changes in v3:
-> - Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
-> - Add more descriptions to clarify the role of the PHY in switching.
-> - Fix wrong vdo value.
-> - Fix port node in usb-c-connector.
-> 
-> Changes in v2:
-> - Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
-> - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
-> - Fix compile error when CONFIG_TYPEC is not enabled.
-> - Notify DP HPD state by USB/DP PHY.
-> - Ignore duplicate HPD events.
-> - Add endpoint to link DP PHY and DP controller.
-> - Fix devicetree coding style.
-> 
-> Chaoyi Chen (8):
->   usb: typec: Add default HPD device when register DisplayPort altmode
->   dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
->   phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
->   phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
->   drm/rockchip: cdn-dp: Support handle lane info without extcon
->   drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
->     selection
->   arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
->   arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
-> 
->  .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
->  arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
->  .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++
->  drivers/gpu/drm/rockchip/Kconfig              |   2 +
->  drivers/gpu/drm/rockchip/cdn-dp-core.c        | 380 +++++++++++++---
->  drivers/gpu/drm/rockchip/cdn-dp-core.h        |  24 +-
->  drivers/phy/rockchip/phy-rockchip-typec.c     | 417 +++++++++++++++++-
->  drivers/usb/typec/class.c                     |  26 ++
->  include/linux/usb/typec_altmode.h             |   2 +
->  9 files changed, 931 insertions(+), 82 deletions(-)
-> 
-> --
-> 2.49.0
-> 
-> 
-> 
 
+On 10/11/2025 9:38 PM, Michał Winiarski wrote:
+> In an upcoming change, the VF GGTT migration data will be handled as
+> part of VF control state machine. Add the necessary helpers to allow the
+> migration data transfer to/from the HW GGTT resource.
+> 
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_ggtt.c               | 92 ++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_ggtt.h               |  2 +
+>  drivers/gpu/drm/xe/xe_ggtt_types.h         |  2 +
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 64 +++++++++++++++
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |  5 ++
+>  5 files changed, 165 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
+> index aca7ae5489b91..89c0ad56c6a8a 100644
+> --- a/drivers/gpu/drm/xe/xe_ggtt.c
+> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
+> @@ -138,6 +138,14 @@ static void xe_ggtt_set_pte_and_flush(struct xe_ggtt *ggtt, u64 addr, u64 pte)
+>  	ggtt_update_access_counter(ggtt);
+>  }
+>  
+> +static u64 xe_ggtt_get_pte(struct xe_ggtt *ggtt, u64 addr)
+> +{
+> +	xe_tile_assert(ggtt->tile, !(addr & XE_PTE_MASK));
+> +	xe_tile_assert(ggtt->tile, addr < ggtt->size);
+> +
+> +	return readq(&ggtt->gsm[addr >> XE_PTE_SHIFT]);
+> +}
+> +
+>  static void xe_ggtt_clear(struct xe_ggtt *ggtt, u64 start, u64 size)
+>  {
+>  	u16 pat_index = tile_to_xe(ggtt->tile)->pat.idx[XE_CACHE_WB];
+> @@ -220,16 +228,19 @@ void xe_ggtt_might_lock(struct xe_ggtt *ggtt)
+>  static const struct xe_ggtt_pt_ops xelp_pt_ops = {
+>  	.pte_encode_flags = xelp_ggtt_pte_flags,
+>  	.ggtt_set_pte = xe_ggtt_set_pte,
+> +	.ggtt_get_pte = xe_ggtt_get_pte,
+>  };
+>  
+>  static const struct xe_ggtt_pt_ops xelpg_pt_ops = {
+>  	.pte_encode_flags = xelpg_ggtt_pte_flags,
+>  	.ggtt_set_pte = xe_ggtt_set_pte,
+> +	.ggtt_get_pte = xe_ggtt_get_pte,
+>  };
+>  
+>  static const struct xe_ggtt_pt_ops xelpg_pt_wa_ops = {
+>  	.pte_encode_flags = xelpg_ggtt_pte_flags,
+>  	.ggtt_set_pte = xe_ggtt_set_pte_and_flush,
+> +	.ggtt_get_pte = xe_ggtt_get_pte,
+>  };
+>  
+>  static void __xe_ggtt_init_early(struct xe_ggtt *ggtt, u32 reserved)
+> @@ -914,6 +925,87 @@ void xe_ggtt_assign(const struct xe_ggtt_node *node, u16 vfid)
+>  	xe_ggtt_assign_locked(node->ggtt, &node->base, vfid);
+>  	mutex_unlock(&node->ggtt->lock);
+>  }
+> +
+> +/**
+> + * xe_ggtt_node_save - Save a &struct xe_ggtt_node to a buffer
+> + * @node: the &struct xe_ggtt_node to be saved
+> + * @dst: destination buffer
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+correct me: this is buffer for the PTEs
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+> + * @size: destination buffer size in bytes
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+and this is size of above buffer
 
-  pip3 install dtschema --upgrade
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_ggtt_node_save(struct xe_ggtt_node *node, void *dst, size_t size)
+> +{
+> +	struct xe_ggtt *ggtt;
+> +	u64 start, end;
+> +	u64 *buf = dst;
+> +
+> +	if (!node || !node->ggtt)
+> +		return -ENOENT;
 
+hmm, non-NULL node must be initialized by xe_ggtt_node_init() which sets the .ggtt so this second check is redundant
 
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/next-20251010 (best guess, 8/9 blobs matched)
- Base: tags/next-20251010 (use --merge-base to override)
+> +
+> +	mutex_lock(&node->ggtt->lock);
 
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
+	guard(mutex)(&node->ggtt->lock);
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/rockchip/' for 20251011033233.97-1-kernel@airkyi.com:
+> +
+> +	ggtt = node->ggtt;
+> +	start = node->base.start;
+> +	end = start + node->base.size - 1;
+> +
+> +	if (node->base.size < size) {
 
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
+so that's looks wrong, we are about to save 64bit PTEs of that node
 
+we should compare size of all PTEs not the size of address space allocated by this node
 
+> +		mutex_unlock(&node->ggtt->lock);
+> +		return -EINVAL;
+> +	}
+> +
+> +	while (start < end) {
+> +		*buf++ = ggtt->pt_ops->ggtt_get_pte(ggtt, start) & ~GGTT_PTE_VFID;
+> +		start += XE_PAGE_SIZE;
+> +	}
+> +
+> +	mutex_unlock(&node->ggtt->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xe_ggtt_node_load - Load a &struct xe_ggtt_node from a buffer
+> + * @node: the &struct xe_ggtt_node to be loaded
+> + * @src: source buffer
+> + * @size: source buffer size in bytes
+> + * @vfid: VF identifier
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_ggtt_node_load(struct xe_ggtt_node *node, const void *src, size_t size, u16 vfid)
+> +{
+> +	struct xe_ggtt *ggtt;
+> +	u64 start, end;
+> +	const u64 *buf = src;
+> +	u64 vfid_pte = xe_encode_vfid_pte(vfid);
 
+try to define vars in reverse xmas tree order
 
+> +
+> +	if (!node || !node->ggtt)
+> +		return -ENOENT;
+> +
+> +	mutex_lock(&node->ggtt->lock);
+
+use guard(mutex)
+
+> +
+> +	ggtt = node->ggtt;
+> +	start = node->base.start;
+> +	end = start + size - 1;
+> +
+> +	if (node->base.size != size) {
+> +		mutex_unlock(&node->ggtt->lock);
+> +		return -EINVAL;
+> +	}
+> +
+> +	while (start < end) {
+> +		ggtt->pt_ops->ggtt_set_pte(ggtt, start, (*buf & ~GGTT_PTE_VFID) | vfid_pte);
+> +		start += XE_PAGE_SIZE;
+> +		buf++;
+> +	}
+> +	xe_ggtt_invalidate(ggtt);
+> +
+> +	mutex_unlock(&node->ggtt->lock);
+> +
+> +	return 0;
+> +}
+> +
+>  #endif
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/xe/xe_ggtt.h b/drivers/gpu/drm/xe/xe_ggtt.h
+> index 75fc7a1efea76..469b3a6ca14b4 100644
+> --- a/drivers/gpu/drm/xe/xe_ggtt.h
+> +++ b/drivers/gpu/drm/xe/xe_ggtt.h
+> @@ -43,6 +43,8 @@ u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer
+>  
+>  #ifdef CONFIG_PCI_IOV
+>  void xe_ggtt_assign(const struct xe_ggtt_node *node, u16 vfid);
+> +int xe_ggtt_node_save(struct xe_ggtt_node *node, void *dst, size_t size);
+> +int xe_ggtt_node_load(struct xe_ggtt_node *node, const void *src, size_t size, u16 vfid);
+>  #endif
+>  
+>  #ifndef CONFIG_LOCKDEP
+> diff --git a/drivers/gpu/drm/xe/xe_ggtt_types.h b/drivers/gpu/drm/xe/xe_ggtt_types.h
+> index c5e999d58ff2a..dacd796f81844 100644
+> --- a/drivers/gpu/drm/xe/xe_ggtt_types.h
+> +++ b/drivers/gpu/drm/xe/xe_ggtt_types.h
+> @@ -78,6 +78,8 @@ struct xe_ggtt_pt_ops {
+>  	u64 (*pte_encode_flags)(struct xe_bo *bo, u16 pat_index);
+>  	/** @ggtt_set_pte: Directly write into GGTT's PTE */
+>  	void (*ggtt_set_pte)(struct xe_ggtt *ggtt, u64 addr, u64 pte);
+> +	/** @ggtt_get_pte: Directly read from GGTT's PTE */
+> +	u64 (*ggtt_get_pte)(struct xe_ggtt *ggtt, u64 addr);
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+> index b2e5c52978e6a..51027921b2988 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+> @@ -726,6 +726,70 @@ int xe_gt_sriov_pf_config_set_fair_ggtt(struct xe_gt *gt, unsigned int vfid,
+>  	return xe_gt_sriov_pf_config_bulk_set_ggtt(gt, vfid, num_vfs, fair);
+>  }
+>  
+> +/**
+> + * xe_gt_sriov_pf_config_ggtt_save - Save a VF provisioned GGTT data into a buffer.
+> + * @gt: the &struct xe_gt
+> + * @vfid: VF identifier
+> + * @buf: the GGTT data destination buffer
+> + * @size: the size of the buffer
+> + *
+> + * This function can only be called on PF.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_gt_sriov_pf_config_ggtt_save(struct xe_gt *gt, unsigned int vfid,
+> +				    void *buf, size_t size)
+> +{
+> +	struct xe_gt_sriov_config *config;
+> +	ssize_t ret;
+
+int
+
+> +
+> +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
+> +	xe_gt_assert(gt, vfid);
+> +	xe_gt_assert(gt, !(!buf ^ !size));
+
+there seems to be no "query" option for this call, so both buf & size must be valid
+
+> +
+> +	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
+> +	config = pf_pick_vf_config(gt, vfid);
+> +	size = size / sizeof(u64) * XE_PAGE_SIZE;
+
+?? something is wrong here - why do we have to change the size of the buf?
+
+> +
+> +	ret = xe_ggtt_node_save(config->ggtt_region, buf, size);
+> +
+> +	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_config_ggtt_restore - Restore a VF provisioned GGTT data from a buffer.
+> + * @gt: the &struct xe_gt
+> + * @vfid: VF identifier
+> + * @buf: the GGTT data source buffer
+> + * @size: the size of the buffer
+> + *
+> + * This function can only be called on PF.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_gt_sriov_pf_config_ggtt_restore(struct xe_gt *gt, unsigned int vfid,
+> +				       const void *buf, size_t size)
+> +{
+> +	struct xe_gt_sriov_config *config;
+> +	ssize_t ret;
+> +
+> +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
+> +	xe_gt_assert(gt, vfid);
+> +	xe_gt_assert(gt, !(!buf ^ !size));
+> +
+> +	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
+> +	config = pf_pick_vf_config(gt, vfid);
+> +	size = size / sizeof(u64) * XE_PAGE_SIZE;
+> +
+> +	ret = xe_ggtt_node_load(config->ggtt_region, buf, size, vfid);
+> +
+> +	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
+> +
+> +	return ret;
+> +}
+
+ditto
+
+> +
+>  static u32 pf_get_min_spare_ctxs(struct xe_gt *gt)
+>  {
+>  	/* XXX: preliminary */
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+> index 513e6512a575b..6916b8f58ebf2 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+> @@ -61,6 +61,11 @@ ssize_t xe_gt_sriov_pf_config_save(struct xe_gt *gt, unsigned int vfid, void *bu
+>  int xe_gt_sriov_pf_config_restore(struct xe_gt *gt, unsigned int vfid,
+>  				  const void *buf, size_t size);
+>  
+> +int xe_gt_sriov_pf_config_ggtt_save(struct xe_gt *gt, unsigned int vfid,
+> +				    void *buf, size_t size);
+> +int xe_gt_sriov_pf_config_ggtt_restore(struct xe_gt *gt, unsigned int vfid,
+> +				       const void *buf, size_t size);
+> +
+>  bool xe_gt_sriov_pf_config_is_empty(struct xe_gt *gt, unsigned int vfid);
+>  
+>  int xe_gt_sriov_pf_config_init(struct xe_gt *gt);
 
