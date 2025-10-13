@@ -2,53 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B06BD1930
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 08:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8C8BD1D38
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 09:35:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A4710E381;
-	Mon, 13 Oct 2025 06:02:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TAFlBh2a";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9131110E3E0;
+	Mon, 13 Oct 2025 07:35:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87ABC10E37A;
- Mon, 13 Oct 2025 06:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760335360;
- bh=gCTdPchWuc1xiR4tpvlqqw30LOOS9lTJyDFe5on17HM=;
- h=From:To:Cc:Subject:Date:From;
- b=TAFlBh2aNv23DXPQ8OmreZbzQmFTLIEjl9J0KbxvbjC5MtwEDNbXW5ujofaTRW+XL
- KO2ISTQK6VLqg6gIt8eK01iUC61DOl72IhIbVAd8Uh2RUP0MV+1sbBup1PxcUL3Udr
- rNFUwfDC3qq0kgUl0qUdx5t3dkfn+cHIOCN7SIWrLYmNfGvL7Dar5Jx6QYWjcHmEpA
- ZmH/LzM1ZfJ5fjq8ANRpuElYt405PKG/Rru0AscGlyxSihbzvzzmy/vF0/u9uZL1Io
- 7KVmdMeZ3vp1bYNvsFVYPV/gZX1Wn7B/AL6tw4uOItj3wuAmFt97FfOZiW9LFpAlDN
- ltp9kK/V6HuoA==
-Received: from debian (unknown [171.76.80.157])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BC90217E0CA3;
- Mon, 13 Oct 2025 08:02:36 +0200 (CEST)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
- simona.vetter@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
- lumag@kernel.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1] drm/ci: disable broken MR check in sanity job
-Date: Mon, 13 Oct 2025 11:32:10 +0530
-Message-ID: <20251013060212.14583-1-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.51.0
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C8FE010E06A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 01:03:29 +0000 (UTC)
+X-AuditID: a67dfc5b-c2dff70000001609-68-68ec4fde8eb0
+Date: Mon, 13 Oct 2025 10:03:21 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+ will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+ joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+ duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+ tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+ longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+ yeoreum.yun@arm.com, netdev@vger.kernel.org,
+ matthew.brost@intel.com, her0gyugyu@gmail.com,
+ catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ sumit.semwal@linaro.org, gustavo@padovan.org,
+ christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+ petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+ paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+ mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+ chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+ Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+ anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+ broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+ shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+ yuzhao@google.com, baolin.wang@linux.alibaba.com,
+ usamaarif642@gmail.com, joel.granados@kernel.org,
+ richard.weiyang@gmail.com, geert+renesas@glider.be,
+ tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it,
+ guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+ masahiroy@kernel.org, brauner@kernel.org,
+ thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+ andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
+Message-ID: <20251013010321.GA52546@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-29-byungchul@sk.com>
+ <87ldlssg1b.fsf@trenco.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ldlssg1b.fsf@trenco.lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTdxTH87v3d29vG2uuFcNvkCVbnTE04mMx5vyxqJuJuYQsumG2ZGbZ
+ bqRZq7zWymvJljIKQzRbdQFCAWlRK0IR1iIoDoM0Y3alSmVox0ZR7AB5yKaUhzpYL2aZ/5x8
+ 8j0n3/PI4WhVDRvH6TOOag0ZYpqaVWDF9Cp74vC+Kd3WZ9cTIDJbgqG62clCiauSgb6LjQiG
+ IyUIiq4sY5hd/F0Gy509CJ60LLEw6XmMoOJhAYYZxwkEy0NjFDjCSxSEu75B8E/5Eaitc7Pw
+ zH+LBvv9IRrGW6J6a08IQX94NfwamWHBW3achelANQU1VacQFJ5pZiEw+ZyCRte74LPUUdEG
+ LJT/EAtVFYVUNIxTUNZ0lYJFR4MMHKYNUOXvZ2Ck3hqdzJYJPY1jMhj6rgzDxelbDEyOnmKh
+ 3XRPBq7ffkJQ0hHB4HpwhwF78VkMlaf/YOHHTi+G/o5qFk60XGIg5FxmwFQ1H12+y8dA81iQ
+ Al/PDQxe6wUM9+8FGXD7e2kIWv5E0PSoLnqGOQe9O1WYL/oWCw3uNkpwnnYiYfZcIS0UWaLk
+ mZqhBbM7Vzjnm2KFp5EBVuics2HhlzoinPQnClesQzLBfG1QJthc2YK7XrM/8SPFW6naNH2O
+ 1rBl56cKnaczhLPOsHn14fdNqJgpRXKO8NuJwzeBShG3wkG7QZIxv4H0Pr3ESszyG0kwuEhL
+ JTH8G2Ti2AelSMHR/Pl48v1ozUrNWn4XuTngRBIreSA1Ac8Kq3gzIn/3ii/0NcRbGcYS07yG
+ BJceUpInzceT80ucJMv5TWTeMkJLvI5fT7rafqakXoQflZPqghB6MfIr5Hp9EFsQb33J1vqS
+ rfV/WxuiG5BKn5GTLurTtm/W5Wfo8zYfykx3oejTOr58fvAyetyX0o14DqlXKXVXJ3UqRswx
+ 5qd3I8LR6hjlyeJxnUqZKuZ/oTVkfmLITtMau1E8h9WxyjfnclNV/GfiUe0RrTZLa/gvS3Hy
+ OBNKTkjI3ZEd9478wrUHE0/yyre0epKTim6KC5rBvUnp9h3v/cVS3YrXFYMHYu4Gbnw+0n7Q
+ vL+jaeOj2Nsfakwtx3et3rPPf/vjA1lfDx7L2Z3k7F//Vcrb87XimgLzApXcW7vXtGfAdji8
+ ra3JuNblzeoThgMpr7XufHVhbGvKppCuvUKNjTpxm4Y2GMV/AZ3vxSmwAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxbZRTHfe7Lc28bO68VtycjfrDuJRJBl+k8cUaXqNkNUXQz2Xxjrt2u
+ tuGlyy3D4WLCWxFxaqlp2dp1MtgKgbJ1BRaRdEEaWbaBDJFRdYV1qQxGkaiwhgLFdsa4Lye/
+ 8z///8n5cHhaHWfX8obCIkku1OZrsJJR5mytyBx7Pap/ytWWBdfKehiYn6tm4PhZD4Zq3zEW
+ rp5pRTA+X40gtuikwdy1wsCytY+DuYXfOFjx9yGwD1lp8HSUUfC3N4FhOvAXAls4gqFuqoyB
+ WfcRBI4JJwdTP2yHmfFuFlZCtygYvRNF4I4kKIj0fIpg2Z4H3zS0Y1gcGKShznYVwclwiIZJ
+ b3LY0TeGwN9cjuF3SycNw5FV8PP8LIZLts8xzAwdp+APL4b6cj8LLqcVQUXjWQx2l4+Brhvf
+ cTA0vUTBdbuVglbfazDunmDgiqWBSt6XdJ1bA866CipZJimwtXVTsOBu4aC/8ToD7tL14BwY
+ ZuFms4ODpfAmWKk3Ql/rLQ5CX9kYODMzyG6zITFm/pIRW9rPU6L5p2Usek54kLgYtyJx7nQF
+ LZotyTYQnaXFyvaPxNNXoliMz49g0X+nnhEvNxCxdiBT7HKEOLHywq/cG8+9o3x+v5RvKJbk
+ J1/Yq9QH/GPMgUZ8qDmysxRVsTWI54nwNAmelGuQgmeE9aQ/3olTjIWNJBhcoFOWNGEduf3Z
+ rhqk5GmhKZ18PeG663lIeJH8OOJBKVYJQFxDgbusFioR+bNf+6/+ILl0LMKkmBYySDAxRaV2
+ 0kI6aUrwKVkhPEFilpt0ih8WHiM95y9SFqRy3JN23JN2/J+uR3QLSjMUFhdoDfnPZJny9CWF
+ hkNZ+4wFPpT8SPcnS7Xfornh7b1I4JHmfpW+e1qvZrXFppKCXkR4WpOmqq2a1KtV+7UlH0uy
+ 8X35YL5k6kXpPKNZo8reLe1VCx9qi6Q8STogyf9NKV6xthS5r+VIl2U245eD0cAjh+/b4jWe
+ em/j6Pe6dFfuznc/CDlWb6jLzlzep9PZSXlr7aPPvt0SfOXwjuwLqzdn9DpHXlLciK17tWkC
+ F9U8MCX4ir2d4qqcPbmzm31HwqNuz+Dtl+UtRp05trVKEX/z8Q7YlgiVNOTKF0+95Qwf5dp0
+ G77QMCa9dlMGLZu0/wCekX8tjQMAAA==
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Mon, 13 Oct 2025 07:35:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +136,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GitLab recently changed the required permissions for the
-are-developers-allowed-to-push-to-my-MR check:
-https://gitlab.freedesktop.org/freedesktop/ci-templates/-/issues/81
+On Thu, Oct 02, 2025 at 11:36:16PM -0600, Jonathan Corbet wrote:
+> Byungchul Park <byungchul@sk.com> writes:
+> 
+> > This document describes the concept and APIs of dept.
+> >
+> > Signed-off-by: Byungchul Park <byungchul@sk.com>
+> > ---
+> >  Documentation/dependency/dept.txt     | 735 ++++++++++++++++++++++++++
+> >  Documentation/dependency/dept_api.txt | 117 ++++
+> >  2 files changed, 852 insertions(+)
+> >  create mode 100644 Documentation/dependency/dept.txt
+> >  create mode 100644 Documentation/dependency/dept_api.txt
+> 
+> As already suggested, this should be in RST; you're already 95% of the
+> way there.  Also, please put it under Documentation/dev-tools; we don't
+> need another top-level directory for this.
 
-Until that’s resolved, disable the check - it’s mostly obsolete anyway.
+Sure.  I will.  Thanks!
 
-Based on https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/37782
-
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
- drivers/gpu/drm/ci/gitlab-ci.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index d502d146b177..56638814bb28 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -280,7 +280,7 @@ sanity:
-     GIT_STRATEGY: none
-   script:
-     # ci-fairy check-commits --junit-xml=check-commits.xml
--    - ci-fairy check-merge-request --require-allow-collaboration --junit-xml=check-merge-request.xml
-+    # - ci-fairy check-merge-request --require-allow-collaboration --junit-xml=check-merge-request.xml
-     - |
-       set -eu
-       image_tags=(
--- 
-2.51.0
-
+	Byungchul
+> 
+> Thanks,
+> 
+> jon
