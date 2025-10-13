@@ -2,87 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394F5BD2F2F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26551BD2FA4
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:31:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6816E10E233;
-	Mon, 13 Oct 2025 12:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8D610E31E;
+	Mon, 13 Oct 2025 12:31:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="roVeR1Tl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RG5gfZkD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DF210E233
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:21:28 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-46e3cdc1a6aso30245485e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760358087; x=1760962887;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3ABCeOI0Ueeiv4CUdV7HP2uy/+8hpV76uJWq4TqSIBQ=;
- b=roVeR1Tl/zjpBrLCC9rrfdgXalQW+VBPMhHOWowTgH6ijPGr7ZYDFQ6eKyuu26720q
- 5toaS3y6EQbhf1qT2YOVc8sLfSDYpOuyVhzjjV/8lGhq/wKckDY6XmII/x9/Cs+h5U5n
- xoykv4C1/RE07vB9VCc7+uE0uCx4UaYS3oyg/nKT2/UWyw1Bd7/HVb8hsT5coUWEkoBh
- vq6pEmwZVMkyZeaRMCVdvUw8OMk+9MHAVoJEVOUZBmHT4ivA6fSdJSPVRu3l5T+Tg0Y8
- D2SskpFWN/fGuHCMWURR1Pb0BOH2HOrsRc7AIz/fb974TSobW9NTW9O+fZ+3Kr4KtxgN
- QrZg==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B170A10E04F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:31:49 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59DBeQo0019864
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:31:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ cYNxqbays5cmz2HSt+aik4gYTlT8HzRJE2TAcbJc00E=; b=RG5gfZkDPqOcbesY
+ rfVW6bPEGX9tzIziEyGZZR8sGsmTBwq27ET3o7go0P3gkwiHQmViKW2ezPPKShIU
+ 5PRayu/Zk0QPs0Li9tMb/in2D4S0jkp/yDhgXdrVJFHDtoeZiVmWK9wIAKhPWRoy
+ ezlE3z89gkWNjqJ3Twrwo25XY1kDNgvzl9AaDWNBBXkurwP8PGATBG8DLk+83/7K
+ CCNpEt+RhRRO9hvVxPiOlf1eopM1xx6h8HLnb2iqF4UaJ9p8o+TWtdFmE7Rgf/TX
+ YJzAEjSzx02ty/fzRU1OtLfFwyJMN1n/jeYwzcNLyGpjPh3UkWytZyU49Ql+WTBT
+ qSIJdg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49rtrt196c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:31:48 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-870d82c566fso2080220185a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:31:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760358087; x=1760962887;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1760358708; x=1760963508;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3ABCeOI0Ueeiv4CUdV7HP2uy/+8hpV76uJWq4TqSIBQ=;
- b=BJJYIZypUJuQ3aYnYJPXSj86tiqDxjqRnuVveYt/6cRYEevEuB4hFR7Xaf+acIKYgC
- kU4WijcxZUM0meBCeTI6Nb/bWFuCFHL8lpuJFPk1Klqd7FBjC08ZOHBV0uyRHD89EUP6
- /1To4nEFaRttuJ2Em/sK56J5meCR8WXaYyEeh4C41kpqRLnpXSdNu2B8NYvMIYIyuC/s
- VrCCHTspcwc+1Dn/2vfEf4mpq1mD4BtZVefJYDjITOpwKSz2ojmvBt47OIn9fJVuqRrG
- iGvaxjEb0OjplDKsuZnKLSivqpvDqiDUo25TC98XGnhldOJt3q/xbuzRrTVLShZcdOOf
- AWJA==
+ bh=cYNxqbays5cmz2HSt+aik4gYTlT8HzRJE2TAcbJc00E=;
+ b=R13ZHu3ctiehOESAlrCUfvLwcF+QXjfi3YQdZm9q11ua0elmKhI2TOU/7bHPP+vBSk
+ Mlar25jdC5PQdGeOsLM8slMZt5iDf2b7xHStoDQl6fc5gmb+sXVVn+4TWemDg7Kptnw8
+ gj8GcnaLFpWEBtpiu4e5fSAKW1dFZh/ZX6qNR8mvlFu5jjs1uRdOemEkQ0JQejBGjoif
+ xY6dbetHbOfaE8jmSsMXy80OfAlqZNichsp9XVbUwrS4+FkNFQRNuZzsA0SnLb5oT3Kz
+ vI3Ww6mkHZGzdACLmyeI5ORYBd0a+RozAkE59GazdH304H1aAoR6wMvp5nJUU2ykOY78
+ sSYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXE3f7khOBjc8qTg0/pFNYWEaVp/9bsW+fbb6uvo3nFm+pPZbDyuS0p/IDl58IKzqYrbSmvn/Lp5vQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0FchT3Gfs/mByOmVZqVDlcMMwxr37Rvm3q2RdNZBFzlO7Jp4v
- XQFHmuG6tma7ZckII6gMygcwptDNArlW3IC8nTR6VX7NBojtbPJl4Mstj1wZedr4pj0=
-X-Gm-Gg: ASbGncsy/G2ColZVq1d5Ka/WxwpyxEFsuKnz5qw/D7cZOl+QdN1QF9FINW5ckFVHQxm
- rS6BFQBlacobrDi7x1UN0/ZWxH9Ii5lR7ZIMQE2BRxwvRtpI8ZwlKBp7cUttTfKG4jgMddosBoX
- QxVIEO5s8znbvgJgH66TTDAtkdln8CbEVEciw3LYFuZRq9haMvJlFcZKsq7UWz4gBNcnXkuby8P
- xFoTXM3ZLFEEamjHs1R3uuGdICbQv4N0XcgtErGobvQZVtJSI2ochaL6YMj+Duk25embMX1KVCG
- w1S2++sOmu3EjxNezEwc73YvZwc2gy5SoC0SQy9W8v8ZeW3RnJBOcjan2GwkC0j/rd9Ik2IvODT
- j5i/YLejNUITZwKVAE4BSgcCJqbspMcPzTSkOefU3AUkzZUABk/qBIg==
-X-Google-Smtp-Source: AGHT+IGZu4vLoKcsEs0prOUdg2NRu/m5YMAG/vLWkjgsWlICHV6YrbIFcE3Ys3pz0mcx8tQ8BIpSgw==
-X-Received: by 2002:a05:600c:609b:b0:45d:dbf0:4831 with SMTP id
- 5b1f17b1804b1-46fa9e39456mr143776135e9.0.1760358086690; 
- Mon, 13 Oct 2025 05:21:26 -0700 (PDT)
-Received: from [192.168.0.101] ([84.66.36.92])
+ AJvYcCXDQuJiSGIysnwPst5M17eb0rPrY3x3ffHCDxbaHsBrCBkZ3QLfT/Dj+/ztiAQA1ugh4wrAFi6ky7g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHpks0FhvJgLBNQq6PuwEcvgXaq+EHJ6gP5qsLuVJIA/8P+F5i
+ Ex7msq0u0AzXg2dlcKvVfHnohrEfi3v/fgJNp+WaKE2oRVEKiOvArswl2qcS163aSXDQWy23KSO
+ 7fCJrtc+jL65b5gf6BDYI5G3fdhlsyIA9S6cnsNyGdlQj4oLZTlpycOTpOzI0XNhwMJy+N8Y=
+X-Gm-Gg: ASbGncuG5pfEW35hx1lSIsE5t/LNldcYFWuWwofdWOYLpKE5hGwg41Vu4ocM5UofKKw
+ ns13vCtSUl93pHiZRCHCZV+MjFm2K87yX55DeITbm1IyEzv1mVuDpq30F2yJYTzhIgQ8/97+zMO
+ XCnpmoCKykq/P68LVRNFf2PpBB+D4uMWsJAHROK7N/8FcEJbRVVjqeHLuDIJ58W9+afMfEywiSm
+ pStQ2N+7oIEOYvNLw99TMRlzDQS1AXvsS0tZhk8Ci5rx7JppEs4GZ92ogPfEs6Z5wgzchwQ7vZX
+ mXC6UyH3vygnqV9plj+JLVPj5dqoLIJGnKtKFGd3WvvlspjRKzid5YP5+W+63xeSLtQKY8vIBjz
+ FPTFPdzwkc/S5pvrh2uz8JMhqA9Q+6BQpTe9oLQUzK2WxG96hjvVB
+X-Received: by 2002:a05:620a:3954:b0:813:3a81:1a49 with SMTP id
+ af79cd13be357-8820b47d622mr3460912185a.12.1760358707765; 
+ Mon, 13 Oct 2025 05:31:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxWv8jBSeEMJrjh9fglJwfOjWcpLkZZq9O6emnAaN6L/NdN9TASZgfwtditG4j7n9Ie4Y6Dg==
+X-Received: by 2002:a05:620a:3954:b0:813:3a81:1a49 with SMTP id
+ af79cd13be357-8820b47d622mr3460906385a.12.1760358707218; 
+ Mon, 13 Oct 2025 05:31:47 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb483bcf9sm188213965e9.6.2025.10.13.05.21.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Oct 2025 05:21:26 -0700 (PDT)
-Message-ID: <24affb5a-af97-4d1e-abdf-aaa061bdce4b@ursulin.net>
-Date: Mon, 13 Oct 2025 13:21:25 +0100
+ 38308e7fff4ca-3762e7b47ddsm31234111fa.21.2025.10.13.05.31.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Oct 2025 05:31:46 -0700 (PDT)
+Date: Mon, 13 Oct 2025 15:31:44 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Junjie Cao <caojunjie650@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Jonathan Marek <jonathan@marek.ca>, Eugene Lepshy <fekz115@gmail.com>,
+ Jun Nie <jun.nie@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
+Message-ID: <icj24ghckurcunjormsfhhscng4wfcxiyadl2z5xduitxxqqmp@iws3pssew5dx>
+References: <20251001135914.13754-1-caojunjie650@gmail.com>
+ <20251001135914.13754-3-caojunjie650@gmail.com>
+ <cwgn24f6tnmytd4omr2tul4e5jjin3ijji3ff3qkumqm2xe3t3@ntayu3m5kai3>
+ <CAK6c68jBwykcWZm3ckm3nwab-X9Are4rD-eauE4rXA2+XvuX1w@mail.gmail.com>
+ <9cafccd5-35d4-46c5-aa57-1b0b8ec116e8@oss.qualcomm.com>
+ <CAK6c68iV=n3BvMMa30FuehbMs7-U01s0saZnsYwPVoiyw0VTrg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Fix potential double free in
- drm_sched_job_add_resv_dependencies
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Dan Carpenter <dan.carpenter@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- stable@vger.kernel.org
-References: <20251003092642.37065-1-tvrtko.ursulin@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251003092642.37065-1-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK6c68iV=n3BvMMa30FuehbMs7-U01s0saZnsYwPVoiyw0VTrg@mail.gmail.com>
+X-Proofpoint-ORIG-GUID: 1EQ2H1wIv5q_GoH8v3JySi8ghmWe7VPH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAyMiBTYWx0ZWRfX5upfOMfipQU4
+ fQ06M1tIo+PeLnRgf5d5RN91IxJcFuJixa2ucnol/MhHXOQLcCPtzYyEIexlQK3ywYiRvI2Hc+Q
+ 4qMxbfkTiGqd1SjmB9Ao0WmUh57hryOBfuiIeqEy704raLQ0dlsecWhG7w47mod0Kn+2IRhdWSK
+ pRD3QaImXOKDk8Q6bmLSqk0QTLNPWKEsj6B3pu4s2UMPfwbNvBSJUSMJ37RVl+tsdzF0F8yI2cT
+ wML9g1xvZG+kMurlNLFZmD5HF2CwzfiMMl8f1HIDEC881cIQC6tz8LJcdF0udgNaHAIULAhPzVp
+ wnDs7G5Bf/hrwbUsx3A7AMih9MtmIZrOrvOWmXSo6Ar6r4XHZQ0jL5rFV+EP0IQH2i7M/kuI4MV
+ Nqmgt5ihNGgheq3WpLudUYn5UvDfIA==
+X-Authority-Analysis: v=2.4 cv=SfD6t/Ru c=1 sm=1 tr=0 ts=68ecf134 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=RAbU-raeAAAA:8
+ a=pGLkceISAAAA:8 a=Vo2vBpsxqBqMA0PNVwMA:9 a=lqcHg5cX4UMA:10 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+ a=JiizpSU_mAIq9zsZDqn2:22
+X-Proofpoint-GUID: 1EQ2H1wIv5q_GoH8v3JySi8ghmWe7VPH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-13_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,102 +146,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 13, 2025 at 07:04:43PM +0800, Junjie Cao wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2025年10月13日周一 17:39写道：
+> > On 13/10/2025 04:52, 曹俊杰 wrote:
+> > >  >Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com
+> > > <mailto:dmitry.baryshkov@oss.qualcomm.com>> 于2025年10月2日周四 10:04写道：
+> > >  >On Wed, Oct 01, 2025 at 09:59:13PM +0800, Junjie Cao wrote:
+> > >  >> From: Jun Nie <jun.nie@linaro.org <mailto:jun.nie@linaro.org>>
+> > >  >>
+> > >  >> Some panels support multiple slice to be sent in a single DSC
+> > > packet. And
+> > >  >> this feature is a must for specific panels, such as JDI LPM026M648C.
+> > > Add a
+> > >  >> dsc_slice_per_pkt member into struct mipi_dsi_device and support the
+> > >  >> feature in msm mdss driver.
+> > >  >>
+> > >  >> Co-developed-by: Jonathan Marek <jonathan@marek.ca
+> > > <mailto:jonathan@marek.ca>>
+> > >  >> Signed-off-by: Jonathan Marek <jonathan@marek.ca
+> > > <mailto:jonathan@marek.ca>>
+> > >  >> Signed-off-by: Jun Nie <jun.nie@linaro.org <mailto:jun.nie@linaro.org>>
+> > >  >> Signed-off-by: Junjie Cao <caojunjie650@gmail.com
+> > > <mailto:caojunjie650@gmail.com>>
+> > >  >> ---
+> > >  >>  drivers/gpu/drm/msm/dsi/dsi_host.c | 25 ++++++++++---------------
+> > >  >>  include/drm/drm_mipi_dsi.h         |  2 ++
+> > >  >>  2 files changed, 12 insertions(+), 15 deletions(-)
+> > >  >
+> > >  >Please extract the generic part, so that it can be merged through a
+> > >  >generic tree.
+> > >  >
+> > >
+> > > Sorry, I don't get it.  The generic part, generic tree? Do you mean
+> > > the drm tree? `slice_per_pkt >= 2` is seen on the panels of these
+> > > tablets that are equipped with qcom chips. I don't know if these
+> > > panels are used on other platforms, and if it is necessary to do it
+> > > in drm.
+> >
+> > There are two changes here:
+> > - MIPI DSI header change
+> > - msm DSI driver
+> >
+> > I've asked to split it to those two commits so that he change for
+> > drm_mipi_dsi.h is more obvious for reviewers and so that it can be
+> > merged through a drm-misc tree (or through drm-msm tree provided it gets
+> > a necessary ack).
+> >
+> 
+> Thanks for your clear explanation.
+> 
+> I don't mind to add the field separately. But should I submit it
+> with the panel driver together? Otherwise, this field is unused
+> for a while.
+> 
+> However, as you mentioned, this is not a part of standard, neither
+> mipi dsi nor VESA DSC. Recently, only Qualcomm devices require it
+> to calculate parameters, then we use them to program registers. Why
+> don't we parse the field from devicetree?
 
-A gentle ping - any takers to double check my analysis and review the below?
+Because the value is uniquelly identified by the panel's compat string.
 
-Regards,
-
-Tvrtko
-
-On 03/10/2025 10:26, Tvrtko Ursulin wrote:
-> Drm_sched_job_add_dependency() consumes the fence reference both on
-> success and failure, so in the latter case the dma_fence_put() on the
-> error path (xarray failed to expand) is a double free.
-> 
-> Interestingly this bug appears to have been present ever since
-> ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code back
-> then looked like this:
-> 
-> drm_sched_job_add_implicit_dependencies():
-> ...
->         for (i = 0; i < fence_count; i++) {
->                 ret = drm_sched_job_add_dependency(job, fences[i]);
->                 if (ret)
->                         break;
->         }
-> 
->         for (; i < fence_count; i++)
->                 dma_fence_put(fences[i]);
-> 
-> Which means for the failing 'i' the dma_fence_put was already a double
-> free. Possibly there were no users at that time, or the test cases were
-> insufficient to hit it.
-> 
-> The bug was then only noticed and fixed after
-> 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
-> landed, with its fixup of
-> 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
-> 
-> At that point it was a slightly different flavour of a double free, which
-> 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
-> noticed and attempted to fix.
-> 
-> But it only moved the double free from happening inside the
-> drm_sched_job_add_dependency(), when releasing the reference not yet
-> obtained, to the caller, when releasing the reference already released by
-> the former in the failure case.
-> 
-> As such it is not easy to identify the right target for the fixes tag so
-> lets keep it simple and just continue the chain.
-> 
-> We also drop the misleading comment about additional reference, since it
-> is not additional but the only one from the point of view of dependency
-> tracking.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.16+
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 14 +++++---------
->   1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 46119aacb809..aff34240f230 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -960,20 +960,16 @@ int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
->   {
->   	struct dma_resv_iter cursor;
->   	struct dma_fence *fence;
-> -	int ret;
-> +	int ret = 0;
->   
->   	dma_resv_assert_held(resv);
->   
->   	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
-> -		/* Make sure to grab an additional ref on the added fence */
-> -		dma_fence_get(fence);
-> -		ret = drm_sched_job_add_dependency(job, fence);
-> -		if (ret) {
-> -			dma_fence_put(fence);
-> -			return ret;
-> -		}
-> +		ret = drm_sched_job_add_dependency(job, dma_fence_get(fence));
-> +		if (ret)
-> +			break;
->   	}
-> -	return 0;
-> +	return ret;
->   }
->   EXPORT_SYMBOL(drm_sched_job_add_resv_dependencies);
->   
-
+-- 
+With best wishes
+Dmitry
