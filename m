@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E93EBD38E5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 16:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F397BD38F1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 16:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D8810E468;
-	Mon, 13 Oct 2025 14:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 884FD10E470;
+	Mon, 13 Oct 2025 14:35:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mlSozhbj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UT/btOhC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D0910E0D7
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C562610E45E
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 14:35:08 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-62fa062a1abso8036411a12.2
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-634a3327ff7so8760833a12.1
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 07:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1760366107; x=1760970907; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IMqpKkdL6ZBRa5OiGdzGfwCdJ5Bw5+ePeaPQokiKa3M=;
- b=mlSozhbjaecRzOPoFLtXeWaKkzTnpg8RuNov1BHfyyEtrjI6TmKokeoU2mNzi4EtAI
- JWHIcKOmu9Ul2FiO2cmpkP8GmTO89+TYdKGIush8B9FSAX4u8HI2Tr8h6jwnC9JD5z44
- MtAiHXVURwZ9rsg2d9TXCz/fsMzOKu+xDN7k0BpasTN6PxEc5Ci8wsmPi9wmn3dZwzQa
- uzoVolxJ57OWZFXGTHVSxRAwcMnkx1WKCt6j39eZM0gkqDo763Z5tp/KGYEF/V+8HYXL
- UlSasNLuVrxOqT5HjXAu3QW8q0hZ/HrgxYnMyQ7wQkFlerWsCwf5P0Vay8ee0rl0dsds
- jZIw==
+ bh=+cKN9AU7Y/YB0yoyxMzRxoxdlCRywZ5g5HyMWHOjzjA=;
+ b=UT/btOhCWirvU/G30SwgUOkicyRfPE6ttwEa3+9wBoqu05xD0i7WY6kujXo28zw1k4
+ UjHujtz060AbTts+HNvfSpjISj4ci5P6RIyu7alFDHgsmHqJo4EE4W0+CHmEk50K1OHn
+ 7BfDc4wN49zcsXiRbTY9qgSaOdJstt1JN+iZ2d1eAAEyeae9OZeTG+sIUNJvamxWH6Cd
+ dSRASdDC8XySjdGQ77j3ntvgoq/pyiRSZziWHvEmo55elID1MrSBLgDBhzuUAS550tYy
+ xiNRaJ8uN+qc4S6kOPrQ1+ED3DsJ91CkDOrbo3AcotzosC90gXjRegMy1dyo2H2okL6T
+ adCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1760366107; x=1760970907;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IMqpKkdL6ZBRa5OiGdzGfwCdJ5Bw5+ePeaPQokiKa3M=;
- b=NT1mYxj+xB/nZfyum4psllg/fQtvvmS2mD67Uf/b89OLi7AEZhjRY5IbCt8YHwf020
- 2Hl2xcfVeUQ2I353uJHtVG2HH2XvoBS/6Vtd99d+H9IWOfTw2I0hqe6qiSCD+u6bM/MC
- Dwp3it+YFSTF0dBpB14eVWvYjkY+WoBosg5+WsjpyOAgne8Pox87SYhfLe+0J9uwT4es
- 9wKPnF97R9wmVwdCrkCvPf0nS7G+RZxKG7/ZR4r2JxImWiLuHs5bqV26oquVhKY+FcdU
- cNzLSx0eebe8E5uXfDcCYFH3M0GwYfRzBucBnugG4NTMEnzt6UeuUEiU76xjbXvnv/Yn
- Vf2Q==
-X-Gm-Message-State: AOJu0Yw9K/CAv3xbDGj6NTuE8ZAn+xWjr9e5/4UxAWsWQA+UU3otkGUa
- 5zpVsrfQ09bFd6Qh3B5s5uCXLL9qzkVe5P11TyhRWEX4nGqU0RGjNFOq
-X-Gm-Gg: ASbGncu8QGl11Ja4Pto1iI/KczBUqalaBFAC5b7ak5aVygOs2ZMduCxfzLGdtBT1jW/
- +aYfvM1EkOkeIRsQjdmRpy1Tea0PQ+JAISIm4d/D4aXxHVjc25gTaL2VdMp1GpFbNgJAmU9Or3Q
- m10z4G4Cjn0qpPfeVcqAKleZA7lP3Rx7+Ln2k66DTC8G4DMyR+Vdq33WohiV44Pn0HbOAP+7B4H
- y85bDSCJdhpPTi67yLL0Z5Oh/BOOvpAT07LAk15FGpTFYEdRhRvAgImKIq3MpNAt3ddjDEbzCSK
- y+GwXBIKkSB4p1RVzsM6jgFmtu5EWqaUnsQEc5sd7R+bceVb8E9O1rJb+WzVSTGcKcHWYb/zVmO
- MB08dmf+KB/mzh/gyr0vBiqjWtXR+I6qmGq1JkojjIEbxlL8a+/9no/vNyVv2K9RO3bSBOCmJvG
- CT
-X-Google-Smtp-Source: AGHT+IEV48NzA+YJBNB8eWl6C5nP0fMs0kn0nxEPC7hBgx75AXDeIY4WUcq0HKdMM9yQ6ZUNqABFyQ==
-X-Received: by 2002:a05:6402:518c:b0:62f:67e0:55 with SMTP id
- 4fb4d7f45d1cf-639d5c371demr20012302a12.24.1760366106514; 
- Mon, 13 Oct 2025 07:35:06 -0700 (PDT)
+ bh=+cKN9AU7Y/YB0yoyxMzRxoxdlCRywZ5g5HyMWHOjzjA=;
+ b=biQVShEkuA9AVHl+Bj2OPUN/hTu4xCkWkHXQiyqj6e0ppws9gHAwULBzBMuZYOqXBh
+ 3eNJavZrqvDOkeM5+m9XIX9QeWTH8xNiImHEYU6RAesn7I7v+6Id2iR/XPcQRPmrkq6R
+ 1KDLHlrisl45o+JmYw11mPo3UxYK6FzmwxoJTtlolRkQJ3LoDsEb0XIUKakGzFyLGn9K
+ 84gQGvC5+93yoRF0PQ7fQcei0ejQzJfw1Zr6COiTZR/lBJN0u9TIwRMC9IRGbW3ltbGl
+ RI8x4IcdXe3YtgG9stiyrtm8W65+9pBb24HIrYgVrMA2XVlz8869kZ2OBk8UrSNOQf/s
+ dGSg==
+X-Gm-Message-State: AOJu0Yx+J1ybrWglJJu+2acKQoTaHJwd4mTouyIq411aofHRKk0UhFY+
+ PgAQuYs/80vC53VgmWqSJd7D3SPuwy67ZAgi8TPNqAEan2zpkozj0U8Z
+X-Gm-Gg: ASbGncu5erEqdIwtDgtCS6Oldr13opDQ3TX28fCkJf4uWdqqNDIMslNuUWFi8Ipuh5e
+ aAgIqfQgwOlM0idM37Z+xuFgdk5wDripAhHDB+ow34e0FDXv0RCepw0N9BOqwIdb78zVfHI60WU
+ VckBM5yUpagjyvO81raANeWFASXfYlr17ku/FE59R7HnkEZOoSvG9zSLOGxyy6emJbMdHKsyKG3
+ aMDz+7pVfN7fyTAe2ZayArbmoGEhi+Y6pEnCCeNsgwc5LDOogpBRPXMtSFL668DcOjAWX98wl3Y
+ AKUnxsAVnU6DxX+gwtzvwFI2hxZgZSkmd5MMtWPA8d/XJqjZN5scB6+YLL3eT2yIzS76w+zAEmM
+ zg56siB2Pewvr+R6h7xdmz0inItSdv6XzQdGXakD1bKRg0x9iJoGOUM8=
+X-Google-Smtp-Source: AGHT+IG/CUtUVBR6Y/ki5zW2kFGYrqJzrdCzbUoiHkTmwekq0RRF8b6p2opfvyqBaZviM0jrWrJzpA==
+X-Received: by 2002:a05:6402:3550:b0:639:fd12:65a2 with SMTP id
+ 4fb4d7f45d1cf-639fd1267d4mr13643389a12.15.1760366107187; 
+ Mon, 13 Oct 2025 07:35:07 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:151b:dc00:15d1:ebc5:76e6:730f])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63a5c321453sm8942037a12.39.2025.10.13.07.35.05
+ 4fb4d7f45d1cf-63a5c321453sm8942037a12.39.2025.10.13.07.35.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Oct 2025 07:35:06 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -68,9 +67,9 @@ To: phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
  tursulin@ursulin.net
 Cc: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 02/15] dma-buf: rework stub fence initialisation
-Date: Mon, 13 Oct 2025 15:48:29 +0200
-Message-ID: <20251013143502.1655-3-christian.koenig@amd.com>
+Subject: [PATCH 03/15] dma-buf: protected fence ops by RCU
+Date: Mon, 13 Oct 2025 15:48:30 +0200
+Message-ID: <20251013143502.1655-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251013143502.1655-1-christian.koenig@amd.com>
 References: <20251013143502.1655-1-christian.koenig@amd.com>
@@ -92,66 +91,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of doing this on the first call of the function just initialize
-the stub fence during kernel load.
-
-This has the clear advantage of lower overhead and also doesn't rely on
-the ops to not be NULL any more.
+At first glance it is counter intuitive to protect a constant function
+pointer table by RCU, but this allows modules providing the function
+table to unload by waiting for an RCU grace period.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-fence.c | 32 +++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 17 deletions(-)
+ drivers/dma-buf/dma-fence.c | 65 +++++++++++++++++++++++++++----------
+ include/linux/dma-fence.h   | 18 ++++++++--
+ 2 files changed, 62 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index f0539c73ed57..51ee13d005bc 100644
+index 51ee13d005bc..982f2b2a62c0 100644
 --- a/drivers/dma-buf/dma-fence.c
 +++ b/drivers/dma-buf/dma-fence.c
-@@ -121,29 +121,27 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
- 	.get_timeline_name = dma_fence_stub_get_name,
- };
- 
-+static int __init dma_fence_init_stub(void)
-+{
-+	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
-+		       &dma_fence_stub_lock, 0, 0);
-+
-+	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-+		&dma_fence_stub.flags);
-+
-+	dma_fence_signal_locked(&dma_fence_stub);
-+	return 0;
-+}
-+subsys_initcall(dma_fence_init_stub);
-+
- /**
-  * dma_fence_get_stub - return a signaled fence
-  *
-- * Return a stub fence which is already signaled. The fence's
-- * timestamp corresponds to the first time after boot this
-- * function is called.
-+ * Return a stub fence which is already signaled. The fence's timestamp
-+ * corresponds to the initialisation time of the linux kernel.
-  */
- struct dma_fence *dma_fence_get_stub(void)
+@@ -498,6 +498,7 @@ EXPORT_SYMBOL(dma_fence_signal);
+ signed long
+ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
  {
--	spin_lock(&dma_fence_stub_lock);
--	if (!dma_fence_stub.ops) {
--		dma_fence_init(&dma_fence_stub,
--			       &dma_fence_stub_ops,
--			       &dma_fence_stub_lock,
--			       0, 0);
--
--		set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
--			&dma_fence_stub.flags);
--
--		dma_fence_signal_locked(&dma_fence_stub);
++	const struct dma_fence_ops *ops;
+ 	signed long ret;
+ 
+ 	if (WARN_ON(timeout < 0))
+@@ -509,15 +510,21 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+ 
+ 	dma_fence_enable_sw_signaling(fence);
+ 
+-	if (trace_dma_fence_wait_start_enabled()) {
+-		rcu_read_lock();
+-		trace_dma_fence_wait_start(fence);
++	rcu_read_lock();
++	ops = rcu_dereference(fence->ops);
++	trace_dma_fence_wait_start(fence);
++	if (ops->wait) {
++		/*
++		 * Implementing the wait ops is deprecated and not supported for
++		 * issuer independent fences, so it is ok to use the ops outside
++		 * the RCU protected section.
++		 */
++		rcu_read_unlock();
++		ret = ops->wait(fence, intr, timeout);
++	} else {
+ 		rcu_read_unlock();
 -	}
--	spin_unlock(&dma_fence_stub_lock);
+-	if (fence->ops->wait)
+-		ret = fence->ops->wait(fence, intr, timeout);
+-	else
+ 		ret = dma_fence_default_wait(fence, intr, timeout);
++	}
+ 	if (trace_dma_fence_wait_end_enabled()) {
+ 		rcu_read_lock();
+ 		trace_dma_fence_wait_end(fence);
+@@ -538,6 +545,7 @@ void dma_fence_release(struct kref *kref)
+ {
+ 	struct dma_fence *fence =
+ 		container_of(kref, struct dma_fence, refcount);
++	const struct dma_fence_ops *ops;
+ 
+ 	rcu_read_lock();
+ 	trace_dma_fence_destroy(fence);
+@@ -569,12 +577,12 @@ void dma_fence_release(struct kref *kref)
+ 		spin_unlock_irqrestore(fence->lock, flags);
+ 	}
+ 
+-	rcu_read_unlock();
 -
- 	return dma_fence_get(&dma_fence_stub);
+-	if (fence->ops->release)
+-		fence->ops->release(fence);
++	ops = rcu_dereference(fence->ops);
++	if (ops->release)
++		ops->release(fence);
+ 	else
+ 		dma_fence_free(fence);
++	rcu_read_unlock();
  }
- EXPORT_SYMBOL(dma_fence_get_stub);
+ EXPORT_SYMBOL(dma_fence_release);
+ 
+@@ -593,6 +601,7 @@ EXPORT_SYMBOL(dma_fence_free);
+ 
+ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+ {
++	const struct dma_fence_ops *ops;
+ 	bool was_set;
+ 
+ 	lockdep_assert_held(fence->lock);
+@@ -603,14 +612,18 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return false;
+ 
+-	if (!was_set && fence->ops->enable_signaling) {
++	rcu_read_lock();
++	ops = rcu_dereference(fence->ops);
++	if (!was_set && ops->enable_signaling) {
+ 		trace_dma_fence_enable_signal(fence);
+ 
+-		if (!fence->ops->enable_signaling(fence)) {
++		if (!ops->enable_signaling(fence)) {
++			rcu_read_unlock();
+ 			dma_fence_signal_locked(fence);
+ 			return false;
+ 		}
+ 	}
++	rcu_read_unlock();
+ 
+ 	return true;
+ }
+@@ -983,8 +996,13 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+  */
+ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+ {
+-	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
+-		fence->ops->set_deadline(fence, deadline);
++	const struct dma_fence_ops *ops;
++
++	rcu_read_lock();
++	ops = rcu_dereference(fence->ops);
++	if (ops->set_deadline && !dma_fence_is_signaled(fence))
++		ops->set_deadline(fence, deadline);
++	rcu_read_unlock();
+ }
+ EXPORT_SYMBOL(dma_fence_set_deadline);
+ 
+@@ -1024,7 +1042,12 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+ 
+ 	kref_init(&fence->refcount);
+-	fence->ops = ops;
++	/*
++	 * At first glance it is counter intuitive to protect a constant
++	 * function pointer table by RCU, but this allows modules providing the
++	 * function table to unload by waiting for an RCU grace period.
++	 */
++	RCU_INIT_POINTER(fence->ops, ops);
+ 	INIT_LIST_HEAD(&fence->cb_list);
+ 	fence->lock = lock;
+ 	fence->context = context;
+@@ -1104,11 +1127,14 @@ EXPORT_SYMBOL(dma_fence_init64);
+  */
+ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+ {
++	const struct dma_fence_ops *ops;
++
+ 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+ 			 "RCU protection is required for safe access to returned string");
+ 
++	ops = rcu_dereference(fence->ops);
+ 	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+-		return fence->ops->get_driver_name(fence);
++		return ops->get_driver_name(fence);
+ 	else
+ 		return "detached-driver";
+ }
+@@ -1136,11 +1162,14 @@ EXPORT_SYMBOL(dma_fence_driver_name);
+  */
+ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+ {
++	const struct dma_fence_ops *ops;
++
+ 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+ 			 "RCU protection is required for safe access to returned string");
+ 
++	ops = rcu_dereference(fence->ops);
+ 	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+-		return fence->ops->get_driver_name(fence);
++		return ops->get_driver_name(fence);
+ 	else
+ 		return "signaled-timeline";
+ }
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 64639e104110..38421a0c7c5b 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -66,7 +66,7 @@ struct seq_file;
+  */
+ struct dma_fence {
+ 	spinlock_t *lock;
+-	const struct dma_fence_ops *ops;
++	const struct dma_fence_ops __rcu *ops;
+ 	/*
+ 	 * We clear the callback list on kref_put so that by the time we
+ 	 * release the fence it is unused. No one should be adding to the
+@@ -418,13 +418,19 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
+ static inline bool
+ dma_fence_is_signaled_locked(struct dma_fence *fence)
+ {
++	const struct dma_fence_ops *ops;
++
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return true;
+ 
+-	if (fence->ops->signaled && fence->ops->signaled(fence)) {
++	rcu_read_lock();
++	ops = rcu_dereference(fence->ops);
++	if (ops->signaled && ops->signaled(fence)) {
++		rcu_read_unlock();
+ 		dma_fence_signal_locked(fence);
+ 		return true;
+ 	}
++	rcu_read_unlock();
+ 
+ 	return false;
+ }
+@@ -448,13 +454,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+ static inline bool
+ dma_fence_is_signaled(struct dma_fence *fence)
+ {
++	const struct dma_fence_ops *ops;
++
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return true;
+ 
+-	if (fence->ops->signaled && fence->ops->signaled(fence)) {
++	rcu_read_lock();
++	ops = rcu_dereference(fence->ops);
++	if (ops->signaled && ops->signaled(fence)) {
++		rcu_read_unlock();
+ 		dma_fence_signal(fence);
+ 		return true;
+ 	}
++	rcu_read_unlock();
+ 
+ 	return false;
+ }
 -- 
 2.43.0
 
