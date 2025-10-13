@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24366BD4222
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 17:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B5CBD422B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 17:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2A410E125;
-	Mon, 13 Oct 2025 15:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B7110E085;
+	Mon, 13 Oct 2025 15:26:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QI46AevF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YttuaUVj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD7F10E011
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 15:26:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 563A210E085
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 15:26:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id ABF2C48AA4;
- Mon, 13 Oct 2025 15:26:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F303AC4CEFE;
- Mon, 13 Oct 2025 15:26:26 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 3AB0E48B12;
+ Mon, 13 Oct 2025 15:26:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 844F5C4CEE7;
+ Mon, 13 Oct 2025 15:26:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760369187;
- bh=iwT2J/6Ee3JNCasRQZJmlsM7yv8uBxsSvtO7x8CH+0Y=;
- h=From:To:Cc:Subject:Date:From;
- b=QI46AevFpmY08Ci9IDO9Gbh1+r/WU2BxnmEGrp2cn2WKFO9huEbazJLddAk4lN5GX
- b5c/n1Xuj+sMBclqJh5bm30LuSPzc6gcOuf3MBJoABy1hwPlYjR9mrnXGr0b+7QdBH
- fhxk9/aQRt4ipCV+PI/GqslOGkkvvHIuFGClxI7pj6yC11uh2TNxiWya2U/uyAT24m
- ZNi8xuJ0//k5X/ObU507wts9lR7ncxAQFX2BVBDLEAaxW0xvMTsRJHR/EzMS3LIB1a
- WgkAoZ71H1kPSiyyABQNvnMsFUwlG5bAg4iD17Ru5KX1wb5ub49SkfrHTpAFNdvccF
- ulvZnDXcm9buA==
+ s=k20201202; t=1760369192;
+ bh=nDcAY6cfJF+Hz/RDzBDDYPPxaUyhkXABHvgRNxvqTpw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YttuaUVj+Kp9Af1Z/wOmzqR4x6u6MKQoxsIMYnkRbbYgEmRoCGzLAnLZ8udyX3+Nj
+ fbHvebL0J/revALUa7eNsii3rFnEF/H1FJS7IDEAjRJFFBCbS0Z7DiQ4HFwJx2pfiy
+ 5kltRqFbwykOv4pNIESnT4GACAyFkqxIDZ1vnJcAFikQT0VKqYLp5lH/8XM3+J/T0j
+ I7LnUgPKS8O6T4tnF2v/I89rZGyKSv+sv44qeoxlig01HaC9vpwRzbr4NDAj0F0qH9
+ ske2ZxLB8xL/DHHOBUalLCImj/dreE+P0o8GWO2gOx47UIgYlr2eZnxqOn5kaoyjof
+ Vt4E9qGd5TdqQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
+Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Bjorn Helgaas <bhelgaas@google.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -46,11 +46,13 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>,
  Robin Murphy <robin.murphy@arm.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v5 0/9] vfio/pci: Allow MMIO regions to be exported through
- dma-buf
-Date: Mon, 13 Oct 2025 18:26:02 +0300
-Message-ID: <cover.1760368250.git.leon@kernel.org>
+Subject: [PATCH v5 1/9] PCI/P2PDMA: Separate the mmap() support from the core
+ logic
+Date: Mon, 13 Oct 2025 18:26:03 +0300
+Message-ID: <1044f7aa09836d63de964d4eb6e646b3071c1fdb.1760368250.git.leon@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1760368250.git.leon@kernel.org>
+References: <cover.1760368250.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,122 +70,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changelog:
-v5:
- * Rebased on top of v6.18-rc1.
- * Added more validation logic to make sure that DMA-BUF length doesn't
-   overflow in various scenarios.
- * Hide kernel config from the users.
- * Fixed type conversion issue. DMA ranges are exposed with u64 length,
-   but DMA-BUF uses "unsigned int" as a length for SG entries.
- * Added check to prevent from VFIO drivers which reports BAR size
-   different from PCI, do not use DMA-BUF functionality.
-v4: https://lore.kernel.org/all/cover.1759070796.git.leon@kernel.org
- * Split pcim_p2pdma_provider() to two functions, one that initializes
-   array of providers and another to return right provider pointer.
-v3: https://lore.kernel.org/all/cover.1758804980.git.leon@kernel.org
- * Changed pcim_p2pdma_enable() to be pcim_p2pdma_provider().
- * Cache provider in vfio_pci_dma_buf struct instead of BAR index.
- * Removed misleading comment from pcim_p2pdma_provider().
- * Moved MMIO check to be in pcim_p2pdma_provider().
-v2: https://lore.kernel.org/all/cover.1757589589.git.leon@kernel.org/
- * Added extra patch which adds new CONFIG, so next patches can reuse
- * it.
- * Squashed "PCI/P2PDMA: Remove redundant bus_offset from map state"
-   into the other patch.
- * Fixed revoke calls to be aligned with true->false semantics.
- * Extended p2pdma_providers to be per-BAR and not global to whole
- * device.
- * Fixed possible race between dmabuf states and revoke.
- * Moved revoke to PCI BAR zap block.
-v1: https://lore.kernel.org/all/cover.1754311439.git.leon@kernel.org
- * Changed commit messages.
- * Reused DMA_ATTR_MMIO attribute.
- * Returned support for multiple DMA ranges per-dMABUF.
-v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
+From: Leon Romanovsky <leonro@nvidia.com>
 
----------------------------------------------------------------------------
-Based on "[PATCH v6 00/16] dma-mapping: migrate to physical address-based API"
-https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/ series.
----------------------------------------------------------------------------
+Currently the P2PDMA code requires a pgmap and a struct page to
+function. The was serving three important purposes:
 
-This series extends the VFIO PCI subsystem to support exporting MMIO
-regions from PCI device BARs as dma-buf objects, enabling safe sharing of
-non-struct page memory with controlled lifetime management. This allows RDMA
-and other subsystems to import dma-buf FDs and build them into memory regions
-for PCI P2P operations.
+ - DMA API compatibility, where scatterlist required a struct page as
+   input
 
-The series supports a use case for SPDK where a NVMe device will be
-owned by SPDK through VFIO but interacting with a RDMA device. The RDMA
-device may directly access the NVMe CMB or directly manipulate the NVMe
-device's doorbell using PCI P2P.
+ - Life cycle management, the percpu_ref is used to prevent UAF during
+   device hot unplug
 
-However, as a general mechanism, it can support many other scenarios with
-VFIO. This dmabuf approach can be usable by iommufd as well for generic
-and safe P2P mappings.
+ - A way to get the P2P provider data through the pci_p2pdma_pagemap
 
-In addition to the SPDK use-case mentioned above, the capability added
-in this patch series can also be useful when a buffer (located in device
-memory such as VRAM) needs to be shared between any two dGPU devices or
-instances (assuming one of them is bound to VFIO PCI) as long as they
-are P2P DMA compatible.
+The DMA API now has a new flow, and has gained phys_addr_t support, so
+it no longer needs struct pages to perform P2P mapping.
 
-The implementation provides a revocable attachment mechanism using dma-buf
-move operations. MMIO regions are normally pinned as BARs don't change
-physical addresses, but access is revoked when the VFIO device is closed
-or a PCI reset is issued. This ensures kernel self-defense against
-potentially hostile userspace.
+Lifecycle management can be delegated to the user, DMABUF for instance
+has a suitable invalidation protocol that does not require struct page.
 
-The series includes significant refactoring of the PCI P2PDMA subsystem
-to separate core P2P functionality from memory allocation features,
-making it more modular and suitable for VFIO use cases that don't need
-struct page support.
+Finding the P2P provider data can also be managed by the caller
+without need to look it up from the phys_addr.
 
------------------------------------------------------------------------
-The series is based originally on
-https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
-but heavily rewritten to be based on DMA physical API.
------------------------------------------------------------------------
-The WIP branch can be found here:
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v5
+Split the P2PDMA code into two layers. The optional upper layer,
+effectively, provides a way to mmap() P2P memory into a VMA by
+providing struct page, pgmap, a genalloc and sysfs.
 
-Thanks
+The lower layer provides the actual P2P infrastructure and is wrapped
+up in a new struct p2pdma_provider. Rework the mmap layer to use new
+p2pdma_provider based APIs.
 
-Leon Romanovsky (7):
-  PCI/P2PDMA: Separate the mmap() support from the core logic
-  PCI/P2PDMA: Simplify bus address mapping API
-  PCI/P2PDMA: Refactor to separate core P2P functionality from memory
-    allocation
-  PCI/P2PDMA: Export pci_p2pdma_map_type() function
-  types: move phys_vec definition to common header
-  vfio/pci: Enable peer-to-peer DMA transactions by default
-  vfio/pci: Add dma-buf export support for MMIO regions
+Drivers that do not want to put P2P memory into VMA's can allocate a
+struct p2pdma_provider after probe() starts and free it before
+remove() completes. When DMA mapping the driver must convey the struct
+p2pdma_provider to the DMA mapping code along with a phys_addr of the
+MMIO BAR slice to map. The driver must ensure that no DMA mapping
+outlives the lifetime of the struct p2pdma_provider.
 
-Vivek Kasireddy (2):
-  vfio: Export vfio device get and put registration helpers
-  vfio/pci: Share the core device pointer while invoking feature
-    functions
+The intended target of this new API layer is DMABUF. There is usually
+only a single p2pdma_provider for a DMABUF exporter. Most drivers can
+establish the p2pdma_provider during probe, access the single instance
+during DMABUF attach and use that to drive the DMA mapping.
 
- block/blk-mq-dma.c                 |   7 +-
- drivers/iommu/dma-iommu.c          |   4 +-
- drivers/pci/p2pdma.c               | 175 ++++++++---
- drivers/vfio/pci/Kconfig           |   3 +
- drivers/vfio/pci/Makefile          |   2 +
- drivers/vfio/pci/vfio_pci_config.c |  22 +-
- drivers/vfio/pci/vfio_pci_core.c   |  63 ++--
- drivers/vfio/pci/vfio_pci_dmabuf.c | 446 +++++++++++++++++++++++++++++
- drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
- drivers/vfio/vfio_main.c           |   2 +
- include/linux/pci-p2pdma.h         | 120 +++++---
- include/linux/types.h              |   5 +
- include/linux/vfio.h               |   2 +
- include/linux/vfio_pci_core.h      |   1 +
- include/uapi/linux/vfio.h          |  25 ++
- kernel/dma/direct.c                |   4 +-
- mm/hmm.c                           |   2 +-
- 17 files changed, 785 insertions(+), 121 deletions(-)
- create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+DMABUF provides an invalidation mechanism that can guarantee all DMA
+is halted and the DMA mappings are undone prior to destroying the
+struct p2pdma_provider. This ensures there is no UAF through DMABUFs
+that are lingering past driver removal.
 
+The new p2pdma_provider layer cannot be used to create P2P memory that
+can be mapped into VMA's, be used with pin_user_pages(), O_DIRECT, and
+so on. These use cases must still use the mmap() layer. The
+p2pdma_provider layer is principally for DMABUF-like use cases where
+DMABUF natively manages the life cycle and access instead of
+vmas/pin_user_pages()/struct page.
+
+In addition, remove the bus_off field from pci_p2pdma_map_state since
+it duplicates information already available in the pgmap structure.
+The bus_offset is only used in one location (pci_p2pdma_bus_addr_map)
+and is always identical to pgmap->bus_offset.
+
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/pci/p2pdma.c       | 43 ++++++++++++++++++++------------------
+ include/linux/pci-p2pdma.h | 19 ++++++++++++-----
+ 2 files changed, 37 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 78e108e47254..59cd6fb40e83 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -28,9 +28,8 @@ struct pci_p2pdma {
+ };
+ 
+ struct pci_p2pdma_pagemap {
+-	struct pci_dev *provider;
+-	u64 bus_offset;
+ 	struct dev_pagemap pgmap;
++	struct p2pdma_provider mem;
+ };
+ 
+ static struct pci_p2pdma_pagemap *to_p2p_pgmap(struct dev_pagemap *pgmap)
+@@ -204,8 +203,8 @@ static void p2pdma_page_free(struct page *page)
+ {
+ 	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(page_pgmap(page));
+ 	/* safe to dereference while a reference is held to the percpu ref */
+-	struct pci_p2pdma *p2pdma =
+-		rcu_dereference_protected(pgmap->provider->p2pdma, 1);
++	struct pci_p2pdma *p2pdma = rcu_dereference_protected(
++		to_pci_dev(pgmap->mem.owner)->p2pdma, 1);
+ 	struct percpu_ref *ref;
+ 
+ 	gen_pool_free_owner(p2pdma->pool, (uintptr_t)page_to_virt(page),
+@@ -270,14 +269,15 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ 
+ static void pci_p2pdma_unmap_mappings(void *data)
+ {
+-	struct pci_dev *pdev = data;
++	struct pci_p2pdma_pagemap *p2p_pgmap = data;
+ 
+ 	/*
+ 	 * Removing the alloc attribute from sysfs will call
+ 	 * unmap_mapping_range() on the inode, teardown any existing userspace
+ 	 * mappings and prevent new ones from being created.
+ 	 */
+-	sysfs_remove_file_from_group(&pdev->dev.kobj, &p2pmem_alloc_attr.attr,
++	sysfs_remove_file_from_group(&p2p_pgmap->mem.owner->kobj,
++				     &p2pmem_alloc_attr.attr,
+ 				     p2pmem_group.name);
+ }
+ 
+@@ -328,10 +328,9 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 	pgmap->nr_range = 1;
+ 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
+ 	pgmap->ops = &p2pdma_pgmap_ops;
+-
+-	p2p_pgmap->provider = pdev;
+-	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
+-		pci_resource_start(pdev, bar);
++	p2p_pgmap->mem.owner = &pdev->dev;
++	p2p_pgmap->mem.bus_offset =
++		pci_bus_address(pdev, bar) - pci_resource_start(pdev, bar);
+ 
+ 	addr = devm_memremap_pages(&pdev->dev, pgmap);
+ 	if (IS_ERR(addr)) {
+@@ -340,7 +339,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 	}
+ 
+ 	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
+-					 pdev);
++					 p2p_pgmap);
+ 	if (error)
+ 		goto pages_free;
+ 
+@@ -972,16 +971,16 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+ 
+-static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+-						    struct device *dev)
++static enum pci_p2pdma_map_type
++pci_p2pdma_map_type(struct p2pdma_provider *provider, struct device *dev)
+ {
+ 	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+-	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
++	struct pci_dev *pdev = to_pci_dev(provider->owner);
+ 	struct pci_dev *client;
+ 	struct pci_p2pdma *p2pdma;
+ 	int dist;
+ 
+-	if (!provider->p2pdma)
++	if (!pdev->p2pdma)
+ 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+ 
+ 	if (!dev_is_pci(dev))
+@@ -990,7 +989,7 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 	client = to_pci_dev(dev);
+ 
+ 	rcu_read_lock();
+-	p2pdma = rcu_dereference(provider->p2pdma);
++	p2pdma = rcu_dereference(pdev->p2pdma);
+ 
+ 	if (p2pdma)
+ 		type = xa_to_value(xa_load(&p2pdma->map_types,
+@@ -998,7 +997,7 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 	rcu_read_unlock();
+ 
+ 	if (type == PCI_P2PDMA_MAP_UNKNOWN)
+-		return calc_map_type_and_dist(provider, client, &dist, true);
++		return calc_map_type_and_dist(pdev, client, &dist, true);
+ 
+ 	return type;
+ }
+@@ -1006,9 +1005,13 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
+ 		struct device *dev, struct page *page)
+ {
+-	state->pgmap = page_pgmap(page);
+-	state->map = pci_p2pdma_map_type(state->pgmap, dev);
+-	state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
++	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(page_pgmap(page));
++
++	if (state->mem == &p2p_pgmap->mem)
++		return;
++
++	state->mem = &p2p_pgmap->mem;
++	state->map = pci_p2pdma_map_type(&p2p_pgmap->mem, dev);
+ }
+ 
+ /**
+diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+index 951f81a38f3a..1400f3ad4299 100644
+--- a/include/linux/pci-p2pdma.h
++++ b/include/linux/pci-p2pdma.h
+@@ -16,6 +16,16 @@
+ struct block_device;
+ struct scatterlist;
+ 
++/**
++ * struct p2pdma_provider
++ *
++ * A p2pdma provider is a range of MMIO address space available to the CPU.
++ */
++struct p2pdma_provider {
++	struct device *owner;
++	u64 bus_offset;
++};
++
+ #ifdef CONFIG_PCI_P2PDMA
+ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 		u64 offset);
+@@ -139,11 +149,11 @@ enum pci_p2pdma_map_type {
+ };
+ 
+ struct pci_p2pdma_map_state {
+-	struct dev_pagemap *pgmap;
++	struct p2pdma_provider *mem;
+ 	enum pci_p2pdma_map_type map;
+-	u64 bus_off;
+ };
+ 
++
+ /* helper for pci_p2pdma_state(), do not use directly */
+ void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
+ 		struct device *dev, struct page *page);
+@@ -162,8 +172,7 @@ pci_p2pdma_state(struct pci_p2pdma_map_state *state, struct device *dev,
+ 		struct page *page)
+ {
+ 	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
+-		if (state->pgmap != page_pgmap(page))
+-			__pci_p2pdma_update_state(state, dev, page);
++		__pci_p2pdma_update_state(state, dev, page);
+ 		return state->map;
+ 	}
+ 	return PCI_P2PDMA_MAP_NONE;
+@@ -181,7 +190,7 @@ static inline dma_addr_t
+ pci_p2pdma_bus_addr_map(struct pci_p2pdma_map_state *state, phys_addr_t paddr)
+ {
+ 	WARN_ON_ONCE(state->map != PCI_P2PDMA_MAP_BUS_ADDR);
+-	return paddr + state->bus_off;
++	return paddr + state->mem->bus_offset;
+ }
+ 
+ #endif /* _LINUX_PCI_P2P_H */
 -- 
 2.51.0
 
