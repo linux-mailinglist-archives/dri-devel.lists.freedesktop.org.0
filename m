@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B202BD5B45
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 20:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273F1BD5B57
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 20:27:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0434D10E4B2;
-	Mon, 13 Oct 2025 18:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5193010E4B3;
+	Mon, 13 Oct 2025 18:27:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KjlM5bfb";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="cveAs0di";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF0010E4B0;
- Mon, 13 Oct 2025 18:27:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4CE3F40121;
- Mon, 13 Oct 2025 18:27:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E8A0C4CEF8;
- Mon, 13 Oct 2025 18:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760380024;
- bh=VE/HEIwj1bQ+ebqbNdMwxt3bASigE0XM2z92yrmXfDo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=KjlM5bfbkT+4+m5BdOU5B0W5Wv4D5UrDDNYxdMQ/MaC3ZoJfWGavHfNJuvgpEPiiZ
- v3oI+ocDKLhoIlKWsp137pL/07yXexaPsQZG3Nm9i2NH3JgsuvBbyTyKOtzynco1uO
- jOI7OtlewXS65VF7txuvDT3vvZk1dFjYZkNdB6OgWW0L+pun+P9HRnr6V8iNyIJKXT
- 3Mj/gD+0JqBzHq3XXAjk/QZE+jjna//o4L/VUco4+G2semqAQzRbb9DaH9Ze09aVpY
- X5FAf2uUwAVchWhZc4RaES27DC2l+9PRvwMP9fyLwQ00SP1h/dh/C+pMigoJ8gAGnn
- //3Krfwf5bpoA==
-Message-ID: <92a24599-efc7-4684-abc0-bcf3fb203744@kernel.org>
-Date: Mon, 13 Oct 2025 13:27:02 -0500
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1A410E4B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 18:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760380053;
+ bh=BIcA4osUmV/1VbMUUXeGDi2zOdw1yTeJ2CK9wzGmF+4=;
+ h=From:Subject:Date:To:Cc:From;
+ b=cveAs0diTCznavmi+DTpudynnyzFIosDn4AGMJvnJPUPqziS0Uy2rgoK1if1yZekL
+ 34HcPgvmF25JDHLM2rLf8msrZyJ5tH9Hl1k/93AnPEKflr/aIkM+6RVQOfW/mzr+cN
+ 63OWEQNlInMr0dcpV6yc5/rkMPXrPXSH2Ochb1RZFuVW7uTGqhNdvcuWOsyDZXaXo/
+ Lj1y1WotdICF9Qh9vdnfhyjmfP0vYzOGliZUq4+Gp8tUPWnViOOMuqlaxN5hILMfbI
+ jyRups+UT8H06V54a+wupmKLxHd7dvHRIhCWzV2bEWETXkySlt1Ugz/vdejz7oTQWl
+ BOYyHDU294pkw==
+Received: from localhost (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id CBBC317E124A;
+ Mon, 13 Oct 2025 20:27:32 +0200 (CEST)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v2 0/2] Introduce BACKGROUND_COLOR DRM CRTC property
+Date: Mon, 13 Oct 2025 21:27:17 +0300
+Message-Id: <20251013-rk3588-bgcolor-v2-0-25cc3810ba8c@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/3] PM: hibernate: Nominally skip thaw sequence for
- all devices
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, dakr@kernel.org, gregkh@linuxfoundation.org,
- lenb@kernel.org, pavel@kernel.org, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-References: <20251013174729.1101186-1-superm1@kernel.org>
- <20251013174729.1101186-2-superm1@kernel.org>
- <CAJZ5v0jC9BBniDkODH-RnfvPNP8yYZd2QyYSAOiANfO-jCeyPw@mail.gmail.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <CAJZ5v0jC9BBniDkODH-RnfvPNP8yYZd2QyYSAOiANfO-jCeyPw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIVE7WgC/13MSw7CIBSF4a00dywGMARw5D5MBzxbYi3mYoimY
+ e9inTn8T3K+DUrAFAqchw0w1FRSXnvwwwBuNusUSPK9gVMuqOKa4O0klCJ2cnnJSBwz0mojqLQ
+ O+umBIabXDl7H3nMqz4zv3a/su/4oTfk/VRmhJHotfdTMKx0vfV+MzWiOLt9hbK19AL42yM2wA
+ AAA
+X-Change-ID: 20250829-rk3588-bgcolor-c1a7b9a507bc
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>
+Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ Matt Roper <matthew.d.roper@intel.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,116 +71,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/13/25 12:58 PM, Rafael J. Wysocki wrote:
-> On Mon, Oct 13, 2025 at 7:48 PM Mario Limonciello (AMD)
-> <superm1@kernel.org> wrote:
->>
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> After the hibernation snapshot is created all devices will have
->> their thaw() callback called before the next stage.  For the most
->> common scenarios of hibernation this is not necessary because the
->> device will be powered off anyway.
-> 
-> And how exactly is the image going to be saved?
-> 
-> It is only in memory when the "thaw" callbacks are invoked.
+Some display controllers can be hardware-configured to present non-black
+colors for pixels which are not covered by any plane (or are exposed
+through transparent regions of higher planes).
 
-Ah; right.
+The first patch of the series introduces the BACKGROUND_COLOR DRM
+property that can be attached to a CRTC via a dedicated helper function.
+A 64-bit ARGB color value format is also defined and can be manipulated
+with the help of a few utility macros.
 
-I suppose one option would be to thaw "just" the backing device, but 
-this could turn into a relatively complex mess because it would have 
-relationships (parent/child or device link) to other devices that need 
-to thaw too then.
+Note this is a reworked version of the patch [1] submitted (many) years
+ago by Matt Roper.  The main changes are:
 
-> 
->> If the hibernation snapshot was successfully created skip thawing
->> devices until it's needed for userspace created hibernation image
->> or hybrid sleep. To accomplish this use PMSG_INVALID in
->> hibernation_snapshot() and set the dpm functions to skip running.
->>
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>   drivers/base/power/main.c |  6 ++++++
->>   kernel/power/hibernate.c  | 13 ++++++++++---
->>   kernel/power/user.c       |  3 +++
->>   3 files changed, 19 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
->> index 8179fd53171dc..58f5270a173e8 100644
->> --- a/drivers/base/power/main.c
->> +++ b/drivers/base/power/main.c
->> @@ -1143,6 +1143,9 @@ void dpm_resume(pm_message_t state)
->>          struct device *dev;
->>          ktime_t starttime = ktime_get();
->>
->> +       if (state.event == PM_EVENT_INVALID)
->> +               return;
->> +
->>          trace_suspend_resume(TPS("dpm_resume"), state.event, true);
->>
->>          pm_transition = state;
->> @@ -1245,6 +1248,9 @@ void dpm_complete(pm_message_t state)
->>   {
->>          struct list_head list;
->>
->> +       if (state.event == PM_EVENT_INVALID)
->> +               return;
->> +
->>          trace_suspend_resume(TPS("dpm_complete"), state.event, true);
->>
->>          INIT_LIST_HEAD(&list);
->> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
->> index aadf82f57e868..7af2e392c574a 100644
->> --- a/kernel/power/hibernate.c
->> +++ b/kernel/power/hibernate.c
->> @@ -480,13 +480,14 @@ int hibernation_snapshot(int platform_mode)
->>          if (error || !in_suspend)
->>                  swsusp_free();
->>
->> -       msg = in_suspend ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG_RESTORE;
->> +       msg = in_suspend ? (error ? PMSG_RECOVER : PMSG_INVALID) : PMSG_RESTORE;
->>          dpm_resume(msg);
->>
->> -       if (error || !in_suspend)
->> +       if (error || !in_suspend) {
->>                  pm_restore_gfp_mask();
->> +               console_resume_all();
->> +       }
->>
->> -       console_resume_all();
->>          dpm_complete(msg);
->>
->>    Close:
->> @@ -707,7 +708,13 @@ static void power_down(void)
->>
->>   #ifdef CONFIG_SUSPEND
->>          if (hibernation_mode == HIBERNATION_SUSPEND) {
->> +               /* recover from hibernation_snapshot() */
->> +               dpm_resume(PMSG_THAW);
->> +               console_resume_all();
->> +               dpm_complete(PMSG_THAW);
->>                  pm_restore_gfp_mask();
->> +
->> +               /* run suspend sequence */
->>                  error = suspend_devices_and_enter(mem_sleep_current);
->>                  if (!error)
->>                          goto exit;
->> diff --git a/kernel/power/user.c b/kernel/power/user.c
->> index 3f9e3efb9f6e7..d70c963b1ba88 100644
->> --- a/kernel/power/user.c
->> +++ b/kernel/power/user.c
->> @@ -310,6 +310,9 @@ static long snapshot_ioctl(struct file *filp, unsigned int cmd,
->>                  pm_restore_gfp_mask();
->>                  error = hibernation_snapshot(data->platform_support);
->>                  if (!error) {
->> +                       dpm_resume(PMSG_THAW);
->> +                       console_resume_all();
->> +                       dpm_complete(PMSG_THAW);
->>                          error = put_user(in_suspend, (int __user *)arg);
->>                          data->ready = !freezer_test_done && !error;
->>                          freezer_test_done = false;
->> --
->> 2.43.0
->>
+* Renamed DRM_ARGB_<COMP>() to DRM_ARGB64_GET<C>_BPC() while providing
+  convenience wrappers to extract all 16 bits of a specific color via
+  DRM_ARGB64_GET<C>()
+* Replaced drm_argb() function with DRM_ARGB64_PREP_BPC() macro, to
+  improve uAPI consistency and readability; additionally fixed a bug in
+  case of using bpc < 16: the unused least-significant bits of a given
+  component in the output value would contain the unused
+  most-significant bits of the following component in the input value,
+  instead of being set to 0
+* Replaced GENMASK_ULL(63, 0) with U64_MAX when calling
+  drm_property_create_range() to create the BACKGROUND_COLOR property
+* Moved crtc_state->bgcolor initialization from
+  __drm_atomic_helper_crtc_reset() to
+  __drm_atomic_helper_crtc_state_reset()
+* Replaced '*bgcolor*' occurrences to '*background_color*' for
+  consistency with the actual property name in both storage field and
+  helper functions names
+
+The second patch adds background color support to the VOP2 display
+controller used in the RK3568, RK3576, and RK3588 Rockchip SoC families.
+
+Initially this has been validated using a modetest wrapper script [2],
+which is able to execute several tests - see an example of a generated
+report at the end.
+
+In the meantime, the implementation on Weston side has been finalized,
+providing support for the BACKGROUND_COLOR CRTC property to the DRM
+backend via the merge request [3].  It relies on the already existing
+background-color setting in weston.ini:
+
+  [shell]
+  background-color=0xAARRGGBB
+
+All tests were performed on the Radxa boards listed below.  Please note
+that as of next-20250901, there are a few known regressions; for each
+case, I mentioned the actual problem and its related fix/workaround
+accordingly:
+
+* ROCK 3A (RK3568)
+ - issue: broken networking
+ - fix: revert commit da114122b831 ("net: ethernet: stmmac: dwmac-rk: Make
+   the clk_phy could be used for external phy")
+
+* ROCK 4D (RK3576)
+ - issue: random freezes right after booting
+ - fix: add regulator_ignore_unused to kernel cmdline
+
+* ROCK 5B (RK3588)
+ - issue: broken networking
+ - fix: apply patch [4]
+
+[1] https://lore.kernel.org/all/20190930224707.14904-2-matthew.d.roper@intel.com/
+[2] https://gitlab.collabora.com/cristicc/linux-next/-/commits/drm-vop2-bgcolor-test
+[3] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1845
+[4] https://lore.kernel.org/all/20250827230943.17829-1-inochiama@gmail.com/
+
+Validation report on ROCK 5B
+============================
+
+$ tools/testing/rk-bgcol-test.sh
+
+---------------------------------------------------------------
+ Available Rockchip display connectors
+---------------------------------------------------------------
+id	type	status	crtc_id	plane_id
+85	11	2	0	34
+88	11	1	83	40
+
+Selected connector: id=88 crtc=83 plane=40
+
+---------------------------------------------------------------
+ Check initial state
+---------------------------------------------------------------
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0x0 g=0x0 b=0x0
+
+---------------------------------------------------------------
+ Set/get DRM property
+---------------------------------------------------------------
+Changing prop value to: 0xffff00000000ffff
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+    Connector: HDMI-A-2
+	background color (10bpc): r=0x0 g=0x0 b=0x3ff
+
+---------------------------------------------------------------
+ Plane display test 40@83:960x540+480+270
+---------------------------------------------------------------
+
+Changing prop value to 0xffffffff00000000
+Press ENTER to continue..
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+testing 960x540@XR24 overlay plane 40
+
+Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0x3ff g=0x0 b=0x0
+
+Changing prop value to 0xffff0000ffff0000
+Press ENTER to continue..
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+testing 960x540@XR24 overlay plane 40
+
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0x0 g=0x3ff b=0x0
+
+Changing prop value to 0xffff00000000ffff
+Press ENTER to continue..
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+testing 960x540@XR24 overlay plane 40
+
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+    Connector: HDMI-A-2
+	background color (10bpc): r=0x0 g=0x0 b=0x3ff
+
+---------------------------------------------------------------
+ Restoring state
+---------------------------------------------------------------
+Changing prop value to: 0xffff000000000000
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0x0 g=0x0 b=0x0
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Changes in v2:
+- Improved uAPI consistency and readability by introducing
+  DRM_ARGB64_PREP*() and DRM_ARGB64_GET*() helper macros
+- Updated several code comment sections
+- Referenced the counterpart Weston support in the cover letter
+- Rebased series onto v6.18-rc1
+- Link to v1: https://lore.kernel.org/r/20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com
+
+---
+Cristian Ciocaltea (2):
+      drm: Add CRTC background color property
+      drm/rockchip: vop2: Support setting custom background color
+
+ drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c            |  4 +++
+ drivers/gpu/drm/drm_blend.c                  | 39 +++++++++++++++++++++++++---
+ drivers/gpu/drm/drm_mode_config.c            |  6 +++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 +++
+ include/drm/drm_blend.h                      |  4 ++-
+ include/drm/drm_crtc.h                       | 12 +++++++++
+ include/drm/drm_mode_config.h                |  5 ++++
+ include/uapi/drm/drm_mode.h                  | 36 +++++++++++++++++++++++++
+ 10 files changed, 118 insertions(+), 6 deletions(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
 
