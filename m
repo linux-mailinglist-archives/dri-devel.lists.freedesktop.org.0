@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1641DBD51C2
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 18:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25735BD5362
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 18:49:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0427D89067;
-	Mon, 13 Oct 2025 16:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66BFF10E1EE;
+	Mon, 13 Oct 2025 16:49:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="LbzQKNNh";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="neFJ31bP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011008.outbound.protection.outlook.com [52.101.70.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D74E610E394
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 16:38:38 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11013006.outbound.protection.outlook.com
+ [52.101.83.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2CE410E1EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 16:49:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fxBT+efA8P9q7x6UqLFJUR9N/WhK3qNlD9WtHrEAxCAnD/LHg5Y4UyIQ1hNvLXUDlPlcuntyuCgXeGVBCQ6Xvs/0AXB5DQgsIATEd/wpJz46z7snFif8Q5uigvJ897iLoAm1Y5m/YA4yIgMyRU2gKsYk4c8s7xcJs7Wa3jAl88XVhuuZnJLOlT165xZoG9otNX9FZ7kfxjBfLT/5Hx6QwVpljdhkCvKakEL14TmWRkwY1ywJkSZZs89GaRxJBBqUABjcKXIHyOJnOU4W5OlFyjkFBq13YKidk3XtoEul34wtKFS30OuTrA2J86fGx++Trg4pMpekMnbPSgyYGw1cKw==
+ b=c+ygpIG5Z1Us6PlCrFy6DQeMkpPXq3UkOySKKJTlEHlCvzVR/EI9Lkssohi5rb2tC6mu2s94lOlHemu3rrqJdZt55f8UoQplb3WICLYA8VA6v8gT+CI+dJbkDK6vGPPo363a+jOFNdWtUlZpFRS8pbuc6eVc8U1+Xxe0zBZrVEFy48K4VRt0nqiVh9Onmza3fdhY4f5S3JUB0wa+V230VPSMZyX+kzGp8rZsFy8IJx5niKKxEs1onpbZPT9u+LjRZDiN/3d6CBSdj0vjjTx9JXvxLZaFHE/AKqgIUkpvsFvVb/9AwhXsw3JCLrixeaGMN0jTt318+jh3kiNDKqeb6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G3y6XMHzJDYSiOn9Bi4+wtiY5q16nu0gZyVSaGsy0TA=;
- b=JLNkRcL4kjB8q3b6m/a1nJ6WqlOzj6pSq9M5gyaX8V9dWnIRaYiHDskJUdfnQB6LwEjiMR/JZozxUMsU1mtOEf/UIR2lQbMbMnBUBBaBsqq5dGxxtwXQXeJdz/7/sp/8TpsxkMip118zair2pmz1XcJxgt4K3jB6jErWsVNgNUJwbyX3hsnKcasTCJgDqAU3S3REYnQcoK+E9B6Uc55py/PesdA9JdTggLjEs+H2NdiJbMTcIBW1lnEc1jAw3rx1wmyQaLX9UUi41v4xsapOyklOdPEJhzYSezDYtyGHjKCtzdZUF6k7veGh26qggOqXUKBPh4btbt4tnyn6B0KboQ==
+ bh=yiq5O/wv/Vh9vl9iFRuI6H8xyEesFiCQ9wPcLjy/jGE=;
+ b=rDBsHoiH8xeuPKyo76P4Uy9e7rC9/58MR56omDa5qKEGGvRekpePDpnZsRt+TaXgggPJhJqtmLq1riWA34Yc4TEjj7ptLnGoLqpV4r8qmB+LXBKqzimJpQOZ+hfb09cwuP5mJQ7/HTXZtSdLGFpry40VX5ECrKU3YcGX60L2zRw7tt7cWMLCdrB/VJak73ZwzHvaBXPyV3PsLGHXfPOw3tMDPDC4cD9X2KUE/9yct+nXWqDRryDsGoKwXONGG3nMpqSou4mM5ea0B0pTUkebrR1xaMz5YDRuDUy0XA21XRSUQ6ZvASaAOKI+GtLPocTWg4X5Z0xcv0IorLfN9rjtUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G3y6XMHzJDYSiOn9Bi4+wtiY5q16nu0gZyVSaGsy0TA=;
- b=LbzQKNNh6WRaf85YahAGnjtzg8FJJlKTYX06MHR6tL+cSiLqGYXk4bHj74Kli1h6YKaU/jWR8/OcUBN7Tzgf1wfMeaK0sEJeuct/YcOr2PPh/ohMmuG+sPKKGk30vKy6QldcDH0Wdqwf5s3JvRPTp7wMndgZqUvfSgXmDR/WXryVEuHakeR+j4pTFcjiiDKY0sEzHaInKMn2qo7aKSSVjmwnlT9lyv5V3JTfoRd0LOnPWMgmErFfvgFD7AohG4Khb8qZcEgg7vMCJzMkfRdK8aCVC4Llf4nKGdkYwkXjuxEGeasWxNKiexwg1VQ6gXM8l63Kb+7UupLwblqMdh18Bg==
+ bh=yiq5O/wv/Vh9vl9iFRuI6H8xyEesFiCQ9wPcLjy/jGE=;
+ b=neFJ31bPNkP8sjAVMAq/3jOUOAEnHbVJ3ceDuYQneTrpISNTaDBuOcdJEZjwwayxlXUwnHvfdCgjH9FDUbcGderFwuYu2tcQXm4jTWu0Vd03FxV91i+1YoTshr0fHX/GB+QYq3U8T4uyi8M5fnZIToIcKNfogwPWnPKoy3ssUaAqOACgktCONy4ZO9vuRs02RMdSZgQXqaYoWNNotQfLfia7BhpaOOhuufsx22yDdAQtP/YOYUmABuviUDgT6D087TqVBGqUpYcNPCSBcvQwOoQ07f4S8N12NJ2nKgSCOkYn8dMs+4yR14ifEer4PdLLC4W721JPkaD8rpEwg/RnGQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by AM9PR04MB7521.eurprd04.prod.outlook.com (2603:10a6:20b:2df::16)
+ by PAXPR04MB9304.eurprd04.prod.outlook.com (2603:10a6:102:2b6::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 16:38:35 +0000
+ 2025 16:49:38 +0000
 Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
  ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
  ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 16:38:35 +0000
-Date: Mon, 13 Oct 2025 12:38:28 -0400
+ 16:49:38 +0000
+Date: Mon, 13 Oct 2025 12:49:29 -0400
 From: Frank Li <Frank.li@nxp.com>
 To: Marek Vasut <marek.vasut@mailbox.org>
 Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
@@ -55,93 +56,94 @@ Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-clk@vger.kernel.org
-Subject: Re: [PATCH 02/39] drm/imx: Add i.MX95 Display Controller DomainBlend
-Message-ID: <aO0rBBzI3cGWzO34@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH 03/39] dt-bindings: display: imx: Document i.MX95 Display
+ Controller processing units
+Message-ID: <aO0tmUWA5H0J80Ov@lizhi-Precision-Tower-5810>
 References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-3-marek.vasut@mailbox.org>
+ <20251011170213.128907-4-marek.vasut@mailbox.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251011170213.128907-3-marek.vasut@mailbox.org>
-X-ClientProxiedBy: CH5P223CA0023.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:610:1f3::28) To AS4PR04MB9621.eurprd04.prod.outlook.com
+In-Reply-To: <20251011170213.128907-4-marek.vasut@mailbox.org>
+X-ClientProxiedBy: PH2PEPF0000385B.namprd17.prod.outlook.com
+ (2603:10b6:518:1::69) To AS4PR04MB9621.eurprd04.prod.outlook.com
  (2603:10a6:20b:4ff::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|AM9PR04MB7521:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ea40dcf-de5d-4b1b-f844-08de0a76f441
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|PAXPR04MB9304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3cca731d-e6d0-4eaf-e80b-08de0a787f3f
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|19092799006|52116014|7416014|376014|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yvcms/qvd7BimrATUL4IJcDQQwIeFzXdHuatFpk0dI5znrNntEIqAa64Nf14?=
- =?us-ascii?Q?Kb3EWmH5I3yUcqIiBAxnpeSHAk5FqTbosJYPq6yHecF4FZ4jQy7BDTfpT6Yl?=
- =?us-ascii?Q?Bqdl1WyYe2Wy8cgY7QzfVx6MWOB+deg3FzXOKjDy1R04K4cPZ58O41MaCch8?=
- =?us-ascii?Q?rRxTuEYjz14YsVxjjTPeIDwX6+rzFBybUstYnyk32lEBZa93BTO9UtXUHnSM?=
- =?us-ascii?Q?GK7pERq1alxhwKFny2n8lUncNVuMVO0/UgvlT20kzyKK0axXE7V8PyzbJOvc?=
- =?us-ascii?Q?mLYirlSirUPaP/x+F4l3BrRTP5vrTCbx2zGEPllpgj/NPBBvSXbc7rWp/g5H?=
- =?us-ascii?Q?QIjBomPiWx8ykt3gxKATsET3Y5R6kMZWIT4mIox3+t0rkwklLc0zpSSVLd71?=
- =?us-ascii?Q?YhjkzKPOQ3WYAYxJGMUWVwq2ZnlfMHdRF2jc7s+FGcUFun8Jh9c860nz0mIp?=
- =?us-ascii?Q?zE1fNRnVJgnSRxr0AEeH9PBZuERPRUvdYYBMNRWLgKxGe3pJx9/W4vpSxlhI?=
- =?us-ascii?Q?AsP73ZOk3CC0Irh+VVmcnTltDbxM731tA2gcNgpmU6AhbmD1SrsjMUP+GxyG?=
- =?us-ascii?Q?N/lQLwZJladUnstLc3SkdjOMTBR0M7+TYd4hopTm6hTRhEj3QgXI5WE6djY0?=
- =?us-ascii?Q?wsHTbUr9nVxr5BkfdkcUeSIg9baSZuH0n7yn+ouyeybdZ8s7/wKx13CUhK/t?=
- =?us-ascii?Q?jHBprDc1WjT0JxzzFi/jkjr/aURm5ggziV4W+Hnqy2WljCBJ0D2EtUV4zeBb?=
- =?us-ascii?Q?ek3FyENG/bor0j8Exkn1irlNwQj1R9kGoGLSxAPaeP4f/zF2o9ejAL2ComVX?=
- =?us-ascii?Q?c1Pxni4uaklvZ8m/PKedbcv8i40vPmylLcSDjmbi9ekVf96YFkGRTwP2vCJn?=
- =?us-ascii?Q?vcGvkXs3r2j/6pBn8SUcdhquVYkIu6U/jpuECcaN6/7/Mo3wOmIXzScEfPbY?=
- =?us-ascii?Q?RuMBo2HUBNXdBa0HEF6SPLcchmbdSqKgfHkaUzhg+xsAGJ8Lua5CO+s+780B?=
- =?us-ascii?Q?jxtmRFMCLcEzi/aIAPbXVppmVlmpO1yf8IalC7LWITLn+Mi4TWoRKC3/Bg57?=
- =?us-ascii?Q?z9u8LovSHiPmXCc+gIQ/VsqnsakCnoinkoGpYuT5jsYwQb84QpNPr786MM1L?=
- =?us-ascii?Q?dltSIFpRmsARoF1gJBci24D9F/LjfSvN26h8mtS1AQ6i4fGN6Nacrn8d6aM0?=
- =?us-ascii?Q?/z3/wtlHKx4a0bWJpQJFHWfndsYCHF0E2nT4fB4r+vmIhCcmvd7efH0z3IXI?=
- =?us-ascii?Q?tD5qPKw8vXDqQUcRpNwL3+UK3TXxhbXdZGa3Da7QXYbNtoRSjxOWvZvXolO1?=
- =?us-ascii?Q?d7Qf+/XMRwwmMjzcllMjHoKjlbQYnbH9/tTg9GKT4NGMB3oDM5lhsgf5LEMj?=
- =?us-ascii?Q?2YHou7j20/yBqfcAOktgJsIEoQHCJTW5duCpyssCqBwDj3C2OO7b8Ttxe4Mv?=
- =?us-ascii?Q?6QgJay2Pj3DhDYZHCYw/qvCH3MUZUeciZYpgmWiqRr5kH7xAQDnvxZRt5blj?=
- =?us-ascii?Q?qSqdr2qXEhgk7Mzsk8OgxN51wbkUSp/HwPRh?=
+ ARA:13230040|1800799024|366016|19092799006|376014|7416014|52116014|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GqeO4zRp13pGsHeDa7r9nxj3RLnxrJEktl8hejtvE9kbG9MRGrclzpxUIVQj?=
+ =?us-ascii?Q?sG0k2UVy/9mfbxIJBpjaKWTv6qV/K0rUSRZeFQayODumwgH2WO69uTCTCmtc?=
+ =?us-ascii?Q?f8nMUVDGr8ydpiGCuT88YeIXAJlPU5AqpdmvPZWkJ7Ipp/HjG+kMYvvjV4WX?=
+ =?us-ascii?Q?YWbjWi6xTS0L/Pc1UP5btXEu5l6qrT01AJWqZLEz70OJ/fwc3Mp7AKXzzjSL?=
+ =?us-ascii?Q?Tl4xOGSOntLaqgphvdQ/YIzo73JMtkejAyInLDeVLmyuEFHzp3j2mgB1gBrJ?=
+ =?us-ascii?Q?KEPpj/AV6GoyIqYC0u4DeXG2055B/0I1obZeG+sHnfpv5wN9sXHYJHQ/gwfT?=
+ =?us-ascii?Q?eOCCJPaAqOSQ61cP/IYuJI16r8CvHKOV+ZoyugphDdVAVWGCT6kDUbRpGoXN?=
+ =?us-ascii?Q?N5mYWTBYSdpQvqqz5aGwChKJpo0KlWXjd4jn1wopHEYgOqxAjjSnprTabTqo?=
+ =?us-ascii?Q?6VSK4ZyYEBRjKwX/HIs+GagaEaJBlAhy/fZDm62u+yiuimnNTlNW+/DjcNfo?=
+ =?us-ascii?Q?HnyTPtmYUUFxiXhNqZXL08CXhZMPYWJABBpCKuIDr97wPfW7BTC+pkY+0l7A?=
+ =?us-ascii?Q?2G8Eh05GmHBd6j6a3FIa79YFUSkCn9JraF1L99Uv1mvNy8JJqmmYQpBoiPSD?=
+ =?us-ascii?Q?KnuBKKKMhvj3QurLwIHI23wV+hA0hWxR3cC+WMxrpakj81Gj4mEA48pwt71H?=
+ =?us-ascii?Q?1PssFzo8o1DJulCGdMe2WIgXTTQ+aJCBJrJaoemcMdR0OSQfZvxFleveBu7H?=
+ =?us-ascii?Q?pBXrRKkdg5DghffJKtw6gxnutoUasRNqqcnSPi3tL3JKKN0UiRrOvJ9eeKNT?=
+ =?us-ascii?Q?FLN5vVWPEzSyR+233kwWlsU34u7AYw4PjFZSpCBbPAd7BLbVa0LxXVR91m18?=
+ =?us-ascii?Q?l+rVrh4dpqVlYSR86S4UN74SVBSXTOzNHusfyBBVmo29/jAKnMUDziPfr0df?=
+ =?us-ascii?Q?1y1B9OtgiPqKpTRQEwmATpKXxHiQZvha+xOCPxpvMu6Dlw+PRQD2S9EmN1v9?=
+ =?us-ascii?Q?vb5y2WD9BXcQhflIKHRFXiZsukMBccLO4ZqlEx59JUKy5MUIHkGkk04Mp8L2?=
+ =?us-ascii?Q?6P3rsUjB4zcAHxBn4ra4SwGngdfwOrV2AzkrL1PQ6MrJ7cEVLiT4dIMyasn1?=
+ =?us-ascii?Q?V1Tz92dIdvbiOLrJNc4RZDr7qHDgXa2j8dQWq74w1C5ku2eFsXCxezwD61Xp?=
+ =?us-ascii?Q?CZDwDZ1YYCph8d7lfiwtTz1QsNQsenogvYF+lRSpi8euhxuCbZyv8dHytDdK?=
+ =?us-ascii?Q?ej680bWhjvFPQaJjXHr4ixygEkyc5JkBXMRbzgLcyYaC7bO0DBuEV4YmRfxB?=
+ =?us-ascii?Q?XFdgG73U8ohSIpwNxcjRf983+iCJrBt6msvlbkmWZ1MtW9eBZbocbMLueCje?=
+ =?us-ascii?Q?S2w4YKKG+O+VJWSQmlmewJjH1JsRpxz+cV8q90POb6qnlTFjBt64OgMYupHa?=
+ =?us-ascii?Q?0uWJd/Bwv+yj0NTxmAKnuFb+JhplMsdhWZJX8rSbO90s3rshfrx/HCYSd8Of?=
+ =?us-ascii?Q?1lPjJI5FGVDqydifAmj6suai7ogaDRJxtLHi?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(19092799006)(52116014)(7416014)(376014)(7053199007)(38350700014);
+ SFS:(13230040)(1800799024)(366016)(19092799006)(376014)(7416014)(52116014)(38350700014)(7053199007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p/OUFL/WOySkw8dKH1lnNrI35zTLTe1wz5V1wAY8hUoQmE/YJqphC3ZY1f/o?=
- =?us-ascii?Q?2VSu5L9a2bowpz6+X7pQK6ErS8HqccGElsiR482/mYi8pp2zEb8IMAiDL48k?=
- =?us-ascii?Q?pb/JfIrZgjXB22yqLVXaSfKWHX+AXWLUU6SaKaiYAaQjTBX9dQe+gVMHYBx4?=
- =?us-ascii?Q?+WwI5sfQSJ4gbH0BJWjuthkiJ5D62KKbICiIp0lyGrgNicYKufD1Ay3x0wZY?=
- =?us-ascii?Q?tt+DMWTHNbiVJUk06vs1wZzCSfvRfMKLXFEvNN/51Ovr6kDiqKBIi96wgq4M?=
- =?us-ascii?Q?bwpfM/uQ/ny7hKcEeP6vWzYRZT8d2oKelWIYUT0pR3sTzD+kBfpHzIv5VRJu?=
- =?us-ascii?Q?ziF50X1v/O4bxv1fnrvE9Yzw6bx1hE+xv2qSNXppkFBrFhS0XORTS7+rE8GE?=
- =?us-ascii?Q?BF6JF0yBkAjzreyWGUtLhFImmb0I+XSI6WR3fK7mkH66RAg65g3305I7Ju9r?=
- =?us-ascii?Q?OPgMLslOZNW3jQhOOODDX45K1rYdiuRe1ximMr/0am3MowcT93WzFF4lmtZD?=
- =?us-ascii?Q?jHGA9/SihrYT7w2ykdjG/2XfVTrz7JMQxl0QnmrTZ8/jBC8Di93uRvzWLE4G?=
- =?us-ascii?Q?klprEJ5IhrfrYAqjrO0WgosA9PRIhm9dSQia72lL+youaALW6DX19wUwi/OO?=
- =?us-ascii?Q?wrWxZhv2o4WmteIzIQCItMTnrUjThY45tn24c8Pvd1v5nycrVetO1/FWQ0Vb?=
- =?us-ascii?Q?Wpdvpj7qAh2gpTqeFBG8EuHt9KrEBZNRbtsTPArgSokNX3PWMYHaT/QqHG2G?=
- =?us-ascii?Q?n/PXEC/ZZwviC8ZI5sCJnBA1b4wdzlJMyc55AODt589t8EBnKaRMahuFjm9z?=
- =?us-ascii?Q?Ku41mLy2sU/PlZ3wR3ofi9aZP+T/7RguXz1GEVd0FZJ/E+KQ6lRUYYDJtsUJ?=
- =?us-ascii?Q?+lOKTIkrvulvrP+tiNxf0y24+eSPSIWHIEhb7YLsIHDG3Nh4tgh+y3wLoe6W?=
- =?us-ascii?Q?SVjG7UoNq7nrhab30P+JhayEFimdfzBomlW5tqsGQAeEq40SRT2oBoEEJKL0?=
- =?us-ascii?Q?ocf8dl/NKR3+FCHVT0DSBTXIs+PZGXA4lkGWfWLlPbVeG1qwg7fFW6aLukaU?=
- =?us-ascii?Q?9Ht76xRGfx8IA5428j02+eeDJRVQ7k3FVP2iWIp1DAbjV2QibfXIqUnbBJ3d?=
- =?us-ascii?Q?mWAP3Smk1Qd9ldC5cIlQPGcL9Gvp/UlHtR8glWNxtCWhO8ua7BDE70LD+gf+?=
- =?us-ascii?Q?jtbRAQksEvPgr6d0f7n1EqI/ZM6QdLnJrk6akfEjqJFIeXJpsfBtRGXw0elN?=
- =?us-ascii?Q?i+E6KlHDvEXAknxidalQJ+1B65OE76An9e/r8jG5BQxGOdgOZ2XHDCfLLAaj?=
- =?us-ascii?Q?waxrKzyCmXs92fUjRZdqfH2i7sFdbv1/Tr++GL48P6IK0C/d1TJm8rinOq+R?=
- =?us-ascii?Q?FpDYAt2Vh085/6CTdjLm32YURzRCRN9385NUfGUiACI+wWBMAEvVeC8D30Wb?=
- =?us-ascii?Q?C1cVspgACI6qVBjZlLX0gq+mrK99kYx4ruKUYeteLObbqk/6nwA8ZRY4B2vH?=
- =?us-ascii?Q?2cQDwhLkva3mjog8i5mWoLWSU92NcirF4G+YZilN5ITHA7cN7QCCWdzNJqBJ?=
- =?us-ascii?Q?s7jqgVbo/T6RAjhOI/tb6NnT8Ob76e/LtUh8L1Xv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZdKD1GxlxG4Ml8W82tbYqK8mvOt+bQFY+1UZZ1srxcf8T/kzpdS4rsuF+YgE?=
+ =?us-ascii?Q?yOv5ooWWTuhtxYg/2uy076Im+HdAMTpG0hh4YXCUOgppmarTkZoxXDF4luHL?=
+ =?us-ascii?Q?PbZk2iF9ePLfFkVSutqn5vKTXkTgimcuycd4JXVghitni4mORTFyBhP7Q+GS?=
+ =?us-ascii?Q?HyhqnvH+Whhor02GbD5mpT7NhUv8L7O5MyZRnRue+UAke5gMxQL9QImDa6b3?=
+ =?us-ascii?Q?hCZAPFfH3SdIdrnnK7vMGaexLyVXPB84AEr3viXDEeY1Tx0pCPlnAm44hDd1?=
+ =?us-ascii?Q?791ct5OXY4sK7bsn8D9IIa1ncH4J+hddqqTUJp06DZnU1q4IsPB6CVWfgSEL?=
+ =?us-ascii?Q?uRw0+nKlg1tnCIbAOiImgfPflIJk267oIwI70MZpRLcaBTdXKwQva8d17sMV?=
+ =?us-ascii?Q?6jh8/clu1XWUL6C093RBcoyDlaXC1dvGbYMRvtjzql7APzKlJ/VF7bUTT5n3?=
+ =?us-ascii?Q?mlxvMSxXq3mIngwzS1N43VepZg9wuVGgXC6zTpf4L/saaMEshEpZR8reRj/p?=
+ =?us-ascii?Q?10TgntWU++uAk1N/+CuQUR19o4aYPYyC5Ip9Ou3nVsNfaxt3nwoSDk3MB/Za?=
+ =?us-ascii?Q?XoMkEzZgQpVex4zH+JSkapw4pEX8eQ3KcVSl9ie76RS9hsaOJ983RwrSXXwz?=
+ =?us-ascii?Q?/T6EvaVQe2ufAP6NNbp9Za1eHLw+rLCLWqzHfmspN/eS9Yf/Nf91gKu4fPAh?=
+ =?us-ascii?Q?+53xFpo7asOYktZIj/KjSG6rZLYMCo0F4FITgUa+452UdDKIkxZG1UvQyqfh?=
+ =?us-ascii?Q?GgWVuF9gSj7ScpiNfOue5Fnn2nJ9IzKCMH6C3869xnVUHZ4lNBOySBcntkn+?=
+ =?us-ascii?Q?+EJgdxN91KKD/ByaRUAoor79WOztIkqU4cpIfjdpkB4ZnBli7ZU4Hxf5hvJO?=
+ =?us-ascii?Q?+AwdmIjFBRwmQxkm0WiULUnxBpJFcSyR3hOB9WkMs4FGG/94eMnuBtkDtF+c?=
+ =?us-ascii?Q?FF5O7QtVowOOMdp3ZowNfwf+Rk/0yLF1SOloIthuzKKLdYKX2hbybfhaszvY?=
+ =?us-ascii?Q?6CaTRxEW/nVbKUT9qX6mFlSQl1THSBhuWHaxPQyIs5J/yoyVxEGXQTV4uitM?=
+ =?us-ascii?Q?gJQpKjx8c5+TEcJO4QEIf6ZuKqnA5II+qhmAoIKLCIpZWDmeYB8Ib6udVtUn?=
+ =?us-ascii?Q?pwBYTjFU19JKH9OuBHjBxcnRMv4gk+52+0ZFvlJm93LrUr5gHVKPiuPXMtvq?=
+ =?us-ascii?Q?n1uEOUny6zIqXYCw2fh420GQO3WSEm+sbJgnwcW0QBiI7x3BydjqYrHIM0LM?=
+ =?us-ascii?Q?ZZ1+jNKudgefMMO2sFzpGSOrniDZdJqLLsYryjG7FmmbZ/epceIG9cK5b5iJ?=
+ =?us-ascii?Q?A1uXC2+6Fh5dK4DPElvhw6sskxykPd8ctYBG/0XGv+eCa7feQt86x/o2viS3?=
+ =?us-ascii?Q?V2Hx4hvz4+3P0U64MdEGKRstEQm5LCRoewVaIIgl4p9lE0xe9nOOpFgQNzQD?=
+ =?us-ascii?Q?gwbcE9OSOz7aEvF0M65aPaGXEmw/l4NxTSwqzR3PrNCT4m59Y4CalRwBFSZf?=
+ =?us-ascii?Q?QYG1OetqmlCMG4LXPCKIHQPW5k7jt0sY2f3UDOmPX6UpOuDUJzm9+H2EtMgr?=
+ =?us-ascii?Q?XfKWIb4YlcDKcpju3BEiq7jr3OO5uzUwSrPsgNBr?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ea40dcf-de5d-4b1b-f844-08de0a76f441
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cca731d-e6d0-4eaf-e80b-08de0a787f3f
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 16:38:35.6424 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 16:49:38.7699 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sY/qPOW32r2jiokJmlGge/hTZw1gdG43WJH4dd9RtnDBRr5epWFCuFh5maf1GHRFjbymDryA0hESb0p8a2MSsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7521
+X-MS-Exchange-CrossTenant-UserPrincipalName: nbJAZYchIlAF2MJQyaGigiFVm/u//1FNoFFjV19RgtGCbmU1tumH8kf2zEKnay4iMY1HL/OPNcCv2Pd1UH85LA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9304
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,11 +159,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 06:51:17PM +0200, Marek Vasut wrote:
-> i.MX95 Display Controller display engine consists of all processing
-> units that operate in a display clock domain. Add DomainBlend driver
-> which is specific to i.MX95 and required to get any display output on
-> that SoC.
+On Sat, Oct 11, 2025 at 06:51:18PM +0200, Marek Vasut wrote:
+> Freescale i.MX95 Display Controller is implemented as construction set of
+> building blocks with unified concept and standardized interfaces. Document
+> all new processing units present in i.MX95.
 >
 > Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 > ---
@@ -183,236 +184,308 @@ On Sat, Oct 11, 2025 at 06:51:17PM +0200, Marek Vasut wrote:
 > Cc: linux-arm-kernel@lists.infradead.org
 > Cc: linux-clk@vger.kernel.org
 > ---
->  drivers/gpu/drm/imx/dc/Makefile  |   2 +-
->  drivers/gpu/drm/imx/dc/dc-crtc.c |   2 +
->  drivers/gpu/drm/imx/dc/dc-db.c   | 226 +++++++++++++++++++++++++++++++
->  drivers/gpu/drm/imx/dc/dc-de.c   |   2 +
->  drivers/gpu/drm/imx/dc/dc-de.h   |  11 ++
->  drivers/gpu/drm/imx/dc/dc-drv.c  |   1 +
->  drivers/gpu/drm/imx/dc/dc-drv.h  |   3 +
->  drivers/gpu/drm/imx/dc/dc-kms.h  |   4 +
->  8 files changed, 250 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/imx/dc/dc-db.c
+>  .../imx/fsl,imx8qxp-dc-constframe.yaml        |  4 +-
+>  .../imx/fsl,imx8qxp-dc-display-engine.yaml    | 45 +++++++++++++---
+>  .../display/imx/fsl,imx8qxp-dc-extdst.yaml    |  4 +-
+>  .../display/imx/fsl,imx8qxp-dc-fetchunit.yaml |  1 +
+>  .../display/imx/fsl,imx8qxp-dc-framegen.yaml  | 13 ++++-
+>  .../imx/fsl,imx8qxp-dc-layerblend.yaml        |  4 +-
+>  .../imx/fsl,imx8qxp-dc-pixel-engine.yaml      | 52 +++++++++++++++---
+>  .../display/imx/fsl,imx8qxp-dc-tcon.yaml      |  5 +-
+>  .../bindings/display/imx/fsl,imx8qxp-dc.yaml  | 53 ++++++++++++++++---
+>  9 files changed, 153 insertions(+), 28 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/imx/dc/Makefile b/drivers/gpu/drm/imx/dc/Makefile
-> index b9d33c074984a..20386e4082e56 100644
-> --- a/drivers/gpu/drm/imx/dc/Makefile
-> +++ b/drivers/gpu/drm/imx/dc/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->
-> -imx8-dc-drm-objs := dc-cf.o dc-crtc.o dc-de.o dc-drv.o dc-ed.o dc-fg.o dc-fl.o \
-> +imx8-dc-drm-objs := dc-cf.o dc-crtc.o dc-db.o dc-de.o dc-drv.o dc-ed.o dc-fg.o dc-fl.o \
->  		    dc-fu.o dc-fw.o dc-ic.o dc-kms.o dc-lb.o dc-pe.o \
->  		    dc-plane.o dc-tc.o
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
+> index 94f6785636085..3a585b3b9a789 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
+> @@ -18,7 +18,9 @@ maintainers:
 >
 ...
-> +
-> +#include "dc-drv.h"
-> +#include "dc-pe.h"
-> +
-> +#define PIXENGCFG_DYNAMIC			0x8
-> +#define  PIXENGCFG_DYNAMIC_PRIM_SEL_MASK	GENMASK(5, 0)
-> +#define  PIXENGCFG_DYNAMIC_PRIM_SEL(x)		\
-> +		FIELD_PREP(PIXENGCFG_DYNAMIC_PRIM_SEL_MASK, (x))
-> +#define  PIXENGCFG_DYNAMIC_SEC_SEL_MASK		GENMASK(13, 8)
-> +#define  PIXENGCFG_DYNAMIC_SEC_SEL(x)		\
-> +		FIELD_PREP(PIXENGCFG_DYNAMIC_SEC_SEL_MASK, (x))
-> +
-> +#define STATICCONTROL				0x8
-> +#define  SHDTOKSEL_MASK				GENMASK(6, 4)
-> +#define  SHDTOKSEL(x)				FIELD_PREP(SHDTOKSEL_MASK, (x))
-> +#define  SHDLDSEL_MASK				GENMASK(3, 1)
-> +#define  SHDLDSEL(x)				FIELD_PREP(SHDLDSEL_MASK, (x))
-
-Can you keep bit fields as consistent order,  from 31..0 or 0..31.
-
-> +
-> +#define CONTROL					0xc
-> +#define  SHDTOKGEN				BIT(0)
-> +
-...
-> +
-> +enum dc_db_blend_func {
-> +	DC_DOMAINBLEND_BLEND_ZERO,
-> +	DC_DOMAINBLEND_BLEND_ONE,
-> +	DC_DOMAINBLEND_BLEND_PRIM_ALPHA,
-> +	DC_DOMAINBLEND_BLEND_ONE_MINUS_PRIM_ALPHA,
-> +	DC_DOMAINBLEND_BLEND_SEC_ALPHA,
-> +	DC_DOMAINBLEND_BLEND_ONE_MINUS_SEC_ALPHA,
-> +	DC_DOMAINBLEND_BLEND_CONST_ALPHA,
-> +	DC_DOMAINBLEND_BLEND_ONE_MINUS_CONST_ALPHA,
-> +};
-> +
-> +enum dc_db_shadow_sel {
-> +	SW = 0x4,
-> +	SW_PRIM = 0x5,
-> +	SW_SEC = 0x6,
-> +};
-> +
-> +static const struct dc_subdev_info dc_db_info[] = {
-> +	{ .reg_start = 0x4b6a0000, .id = 0, },
-> +	{ .reg_start = 0x4b720000, .id = 1, },
-> +};
-
-Not sure why need map register address to id? Does graphic link or use
-dt cells pass it as argument.
-
-I have find use .id at this driver.
-
-> +
-> +static const struct regmap_range dc_db_regmap_ranges[] = {
-> +	regmap_reg_range(STATICCONTROL, BLENDCONTROL),
-> +};
-> +
-...
-> +
-> +static inline void dc_db_enable_shden(struct dc_db *db)
-> +{
-> +	regmap_write_bits(db->reg_cfg, STATICCONTROL, SHDEN, SHDEN);
-> +}
-> +
-> +static inline void dc_db_shdtoksel(struct dc_db *db, enum dc_db_shadow_sel sel)
-> +{
-> +	regmap_write_bits(db->reg_cfg, STATICCONTROL, SHDTOKSEL_MASK,
-> +			  SHDTOKSEL(sel));
-> +}
-> +
-> +static inline void dc_db_shdldsel(struct dc_db *db, enum dc_db_shadow_sel sel)
-> +{
-> +	regmap_write_bits(db->reg_cfg, STATICCONTROL, SHDLDSEL_MASK,
-> +			  SHDLDSEL(sel));
-> +}
-> +
-> +void dc_db_shdtokgen(struct dc_db *db)
-> +{
-> +	regmap_write(db->reg_cfg, CONTROL, SHDTOKGEN);
-> +}
-> +
-> +static void dc_db_mode(struct dc_db *db, enum dc_db_mode mode)
-> +{
-> +	regmap_write(db->reg_cfg, MODECONTROL, mode);
-> +}
-> +
-> +static inline void dc_db_alphamaskmode_disable(struct dc_db *db)
-> +{
-> +	regmap_write_bits(db->reg_cfg, ALPHACONTROL, ALPHAMASKENABLE, 0);
-> +}
-
-This helper function just write value to one register, not helper much
-at all.
-
-> +
-> +static inline void dc_db_blendcontrol(struct dc_db *db)
-> +{
-> +	u32 val = PRIM_A_BLD_FUNC(DC_DOMAINBLEND_BLEND_ZERO) |
-> +		  SEC_A_BLD_FUNC(DC_DOMAINBLEND_BLEND_ZERO) |
-> +		  PRIM_C_BLD_FUNC(DC_DOMAINBLEND_BLEND_ZERO) |
-> +		  SEC_C_BLD_FUNC(DC_DOMAINBLEND_BLEND_ONE);
-> +
-> +	regmap_write(db->reg_cfg, BLENDCONTROL, val);
-> +}
-> +
-> +void dc_db_init(struct dc_db *db)
-> +{
-> +	dc_db_enable_shden(db);
-> +	dc_db_shdtoksel(db, SW);
-> +	dc_db_shdldsel(db, SW);
-> +	dc_db_mode(db, DB_PRIMARY);
-> +	dc_db_alphamaskmode_disable(db);
-> +	dc_db_blendcontrol(db);
-> +}
-> +
-...
 >
-> +struct dc_db {
-> +	struct device *dev;
-> +	struct regmap *reg_cfg;
-> +	int id;
+>      properties:
+>        compatible:
+> -        const: fsl,imx8qxp-dc-framegen
+> +        enum:
+> +          - fsl,imx8qxp-dc-framegen
+> +          - fsl,imx95-dc-framegen
+>
+>    "^gammacor@[0-9a-f]+$":
+>      type: object
+> @@ -90,13 +102,15 @@ patternProperties:
+>        compatible:
+>          const: fsl,imx8qxp-dc-signature
+>
+> -  "^tcon@[0-9a-f]+$":
+> +  "^tcon(@[0-9a-f]+)?$":
 
-where actually use this id?
+why here allow no address unit tcon?
 
 Frank
 
-> +};
+>      type: object
+>      additionalProperties: true
+>
+>      properties:
+>        compatible:
+> -        const: fsl,imx8qxp-dc-tcon
+> +        enum:
+> +          - fsl,imx8qxp-dc-tcon
+> +          - fsl,imx95-dc-tcon
+>
+...
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
+> index 9d1dc3a9de90e..dd83ac669478b 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
+> @@ -16,18 +16,27 @@ maintainers:
+>
+>  properties:
+>    compatible:
+> -    const: fsl,imx8qxp-dc-framegen
+> +    enum:
+> +      - fsl,imx8qxp-dc-framegen
+> +      - fsl,imx95-dc-framegen
+>
+>    reg:
+>      maxItems: 1
+>
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 6
 > +
->  struct dc_fg {
->  	struct device *dev;
->  	struct regmap *reg;
-> @@ -30,6 +36,7 @@ struct dc_tc {
->  struct dc_de {
->  	struct device *dev;
->  	struct regmap *reg_top;
-> +	struct dc_db *db;
->  	struct dc_fg *fg;
->  	struct dc_tc *tc;
->  	int irq_shdload;
-> @@ -37,6 +44,10 @@ struct dc_de {
->  	int irq_seqcomplete;
->  };
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 6
 >
-> +/* Domain Blend Unit */
-> +void dc_db_init(struct dc_db *db);
-> +void dc_db_shdtokgen(struct dc_db *db);
+>    interrupts:
+> +    minItems: 6
+>      maxItems: 8
+>
+>    interrupt-names:
+> +    minItems: 6
+
+Need if branch to keep the same restriction for exited compatible string
+
+>      items:
+>        - const: int0
+>        - const: int1
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
+> index 2a6ab8a0ed7fc..6565b7acf47e4 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
+> @@ -13,7 +13,9 @@ maintainers:
+>
+>  properties:
+>    compatible:
+> -    const: fsl,imx8qxp-dc-layerblend
+> +    enum:
+> +      - fsl,imx8qxp-dc-layerblend
+> +      - fsl,imx95-dc-layerblend
+>
+>    reg:
+>      maxItems: 2
+...
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
+> index 633443a6cc380..2d0ee83e30b25 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-pixel-engine.yaml
+> @@ -17,19 +17,28 @@ maintainers:
+>
+>  properties:
+>    compatible:
+> -    const: fsl,imx8qxp-dc-pixel-engine
+> +    oneOf:
+> +      - const: fsl,imx8qxp-dc-pixel-engine
+> +      - items:
+> +          - const: fsl,imx95-dc-pixel-engine
+> +          - const: fsl,imx8qxp-dc-pixel-engine
+>
+>    reg:
+>      maxItems: 1
+>
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
 > +
->  /* Frame Generator Unit */
->  void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m);
->  void dc_fg_enable(struct dc_fg *fg);
-> diff --git a/drivers/gpu/drm/imx/dc/dc-drv.c b/drivers/gpu/drm/imx/dc/dc-drv.c
-> index 04f021d2d6cfc..f108964bf89f4 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-drv.c
-> +++ b/drivers/gpu/drm/imx/dc/dc-drv.c
-> @@ -263,6 +263,7 @@ static struct platform_driver dc_driver = {
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 2
 >
->  static struct platform_driver * const dc_drivers[] = {
->  	&dc_cf_driver,
-> +	&dc_db_driver,
->  	&dc_de_driver,
->  	&dc_ed_driver,
->  	&dc_fg_driver,
-> diff --git a/drivers/gpu/drm/imx/dc/dc-drv.h b/drivers/gpu/drm/imx/dc/dc-drv.h
-> index eb61b8c762693..17ce2d748262b 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-drv.h
-> +++ b/drivers/gpu/drm/imx/dc/dc-drv.h
-> @@ -40,6 +40,8 @@ struct dc_drm_device {
->  	struct dc_ed *ed_safe[DC_DISPLAYS];
->  	/** @ed_cont: extdst list(content stream) */
->  	struct dc_ed *ed_cont[DC_DISPLAYS];
-> +	/** @lb: domainblend list */
-> +	struct dc_db *db[DC_DISPLAYS];
->  	/** @fg: framegen list */
->  	struct dc_fg *fg[DC_DISPLAYS];
->  	/** @fu_disp: fetchunit list(used by display engine) */
-> @@ -71,6 +73,7 @@ void dc_kms_uninit(struct dc_drm_device *dc_drm);
->  int dc_plane_init(struct dc_drm_device *dc_drm, struct dc_plane *dc_plane);
+>    "#address-cells":
+> -    const: 1
+> +    enum: [1, 2]
 >
->  extern struct platform_driver dc_cf_driver;
-> +extern struct platform_driver dc_db_driver;
->  extern struct platform_driver dc_de_driver;
->  extern struct platform_driver dc_ed_driver;
->  extern struct platform_driver dc_fg_driver;
-> diff --git a/drivers/gpu/drm/imx/dc/dc-kms.h b/drivers/gpu/drm/imx/dc/dc-kms.h
-> index cd7860eff986a..3e61dbb87afe7 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-kms.h
-> +++ b/drivers/gpu/drm/imx/dc/dc-kms.h
-> @@ -48,6 +48,8 @@ struct dc_crtc {
->  	struct dc_ed *ed_cont;
->  	/** @ed_safe: safety stream extdst */
->  	struct dc_ed *ed_safe;
-> +	/** @db: domain blend */
-> +	struct dc_db *db;
->  	/** @fg: framegen */
->  	struct dc_fg *fg;
->  	/**
-> @@ -122,6 +124,8 @@ struct dc_plane {
->  	struct dc_fu *fu;
->  	/** @cf: content stream constframe */
->  	struct dc_cf *cf;
-> +	/** @db: domainblend */
-> +	struct dc_db *db;
->  	/** @lb: layerblend */
->  	struct dc_lb *lb;
->  	/** @ed: content stream extdst */
+>    "#size-cells":
+> -    const: 1
+> +    enum: [1, 2]
+>
+>    ranges: true
+>
+...
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx95-dc-pixel-engine
+> +    then:
+> +      properties:
+> +        "#address-cells":
+> +          const: 2
+> +        "#size-cells":
+> +          const: 2
+> +    else:
+> +      properties:
+> +        "#address-cells":
+> +          const: 1
+> +        "#size-cells":
+> +          const: 1
+
+
+Need keep the same restriction for clocks and clock-names.
+
+> +
+>  additionalProperties: false
+>
+>  examples:
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+> index 7a3b77ea92c73..1f935b342f461 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+> @@ -15,7 +15,9 @@ maintainers:
+>
+>  properties:
+>    compatible:
+> -    const: fsl,imx8qxp-dc-tcon
+> +    enum:
+> +      - fsl,imx8qxp-dc-tcon
+> +      - fsl,imx95-dc-tcon
+>
+>    reg:
+>      maxItems: 1
+> @@ -26,7 +28,6 @@ properties:
+>
+>  required:
+>    - compatible
+> -  - reg
+>    - port
+>
+>  additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
+> index 0a72f9f0b5fda..1e8f559acb4de 100644
+> --- a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc.yaml
+> @@ -48,13 +48,20 @@ maintainers:
+>
+>  properties:
+>    compatible:
+> -    const: fsl,imx8qxp-dc
+> +    enum:
+> +      - fsl,imx8qxp-dc
+> +      - fsl,imx95-dc
+>
+>    reg:
+>      maxItems: 1
+>
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 6
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 6
+>
+>    resets:
+>      maxItems: 2
+> @@ -68,10 +75,15 @@ properties:
+>      maxItems: 1
+>
+>    "#address-cells":
+> -    const: 1
+> +    enum: [1, 2]
+>
+>    "#size-cells":
+> -    const: 1
+> +    enum: [1, 2]
+> +
+> +  fsl,syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      A phandle which points to Control and Status Registers (CSR) module.
+
+Why need this one? is it possible to abstract it to standard interface,
+like phy, clock, reset ...
+
+Frank
+>
+>    ranges: true
+>
+> @@ -90,7 +102,9 @@ patternProperties:
+>
+>      properties:
+>        compatible:
+> -        const: fsl,imx8qxp-dc-display-engine
+> +        enum:
+> +          - fsl,imx8qxp-dc-display-engine
+> +          - fsl,imx95-dc-display-engine
+>
+>    "^interrupt-controller@[0-9a-f]+$":
+>      type: object
+> @@ -98,7 +112,9 @@ patternProperties:
+>
+>      properties:
+>        compatible:
+> -        const: fsl,imx8qxp-dc-intc
+> +        enum:
+> +          - fsl,imx8qxp-dc-intc
+> +          - fsl,imx95-dc-intc
+>
+>    "^pixel-engine@[0-9a-f]+$":
+>      type: object
+> @@ -106,7 +122,11 @@ patternProperties:
+>
+>      properties:
+>        compatible:
+> -        const: fsl,imx8qxp-dc-pixel-engine
+> +        oneOf:
+> +          - const: fsl,imx8qxp-dc-pixel-engine
+> +          - items:
+> +              - const: fsl,imx95-dc-pixel-engine
+> +              - const: fsl,imx8qxp-dc-pixel-engine
+>
+>    "^pmu@[0-9a-f]+$":
+>      type: object
+> @@ -125,6 +145,25 @@ required:
+>    - "#size-cells"
+>    - ranges
+>
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx95-dc
+> +    then:
+> +      properties:
+> +        "#address-cells":
+> +          const: 2
+> +        "#size-cells":
+> +          const: 2
+> +    else:
+> +      properties:
+> +        "#address-cells":
+> +          const: 1
+> +        "#size-cells":
+> +          const: 1
+> +
+>  additionalProperties: false
+>
+>  examples:
 > --
 > 2.51.0
 >
