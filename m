@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6DDBD393F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 16:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40896BD3933
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 16:35:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A24C10E48D;
-	Mon, 13 Oct 2025 14:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64B7C10E476;
+	Mon, 13 Oct 2025 14:35:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cNoYKg0C";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G4j2mli7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43FA810E47F
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 024C310E482
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 14:35:16 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-6318855a83fso9693670a12.2
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-63babfdb52cso1615022a12.3
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 07:35:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1760366115; x=1760970915; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R0CSe+Vq+fu1du/WruIHtASks3BoMmFt7VrBHSdFdfY=;
- b=cNoYKg0CnrewyRNlWAemzWTLYblYOZufbohV6sjqL5VnBymL8IbttL7++KMsD1KM3V
- RW+eNuhjnuDX3Lz46RSZzaJlS9I3milF5kjaozywEURaLNSh1hepEcnesd6N0ciQByWQ
- kh58pkpsZI2xJtbirb1fXDLPtdxKfPzvDMrbAopterINQNe+YN0SsxvcnCgdhyX7sCow
- j+17IjANHh9qFQsYXhDEWbK6l3857xeA9a3Qg3tNgFFyb4+PCNrB5UCUV8TdGx3j8ymn
- t30FiWzbSoEmKLrngIUvVRfXN9i8BsWb7V2l9tksuIyR/suBZOcrJTmT7V2eq7NeQ5vN
- Anow==
+ bh=Jwl6XaBMnrWtOkCeylltwJV5yddo3L+rehYMfN8Q8HY=;
+ b=G4j2mli7dZrWjTp4xQvQ7d2M/v6OWPjqYH3Ue/pQ5VSc8+H/nxbld2i0AKkGEpOEeK
+ s/R2jbKBoSnnB1s0napT+R4HokTHd7Kckc6ngAdqu1pildbTYuO6fyV0aT3U52AsFenT
+ jgO7DSssRRp9hF4cIXE/DlaTMeGQ1qNsqObEiKyI++Q35z4tQmG9qRCbBgb4uOLLZhZB
+ 631IUoaHvRhO7ufhF2e+zIr3kcZ7GUJMh6XtVDfFHI0zNZgl0Loa33o/C2OG7nK+Tgva
+ bN385XUiD37vNNSJ1WGJWQjY8mgRpw+paB0JxspEWCZMg4m1wIes8uJa+faFpOKvsNtt
+ 3J4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1760366115; x=1760970915;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R0CSe+Vq+fu1du/WruIHtASks3BoMmFt7VrBHSdFdfY=;
- b=L4Szk3zIxmLrCxffFWkMBbBq54vE2WXDL+sOrVWt2ZOVyn2gTcZMEvi37Rv3DQOj+3
- werzdbCMYuQEJpGQlicJ89R1r7NnrHUnvLMPFoJODw0OJZffmu4Gvl3xe+h4esuDnu1M
- flRs8swbqIa4EBvI5BcBzBjLyXUNsAkBAZM6vrYTcEoW6RXlsQJwX1Qnpv8OjEX8A8md
- BXwdu9gafOsd56hDg8SQUyBXCbDQxVBFeV8GvYTXAQ/3bs9FJ8im//H/I0kpYba+GpLr
- 1/n373wS+/ceSfa8VFkGsE0cuClmEtOfJx0DnGwA/CmIFKI2RkWs3wA/HHPhlTCS+4Ll
- LBlA==
-X-Gm-Message-State: AOJu0YzQaWVo01y1CBy6IBRK4t6FKWEU3daW9z4T7RzFN97pHhCJrhcC
- 4JQ0u5gFw8Or7tcd1br5GlC7+9O8bnKaImuzuXJAGJatzTE8D5eSCEW1
-X-Gm-Gg: ASbGnctkFN4QIN5JH1+LsaSTCLzjYbhVfZNHJlYD3HffHHEHcvahkgEUoVDChjDmNyV
- CaLrWST4+H/G4z0q1D6PMJW+1P3S0tLRDzHxwqJc4wC1I0rkJL/Q21RV6sQa10dDTeTxxwcJLjA
- 3mA4j2bjzSnCJvc9efQofN9Sw5BFBEnUMztGhBhJZ4E77qY72wRyAYD0CVXocakTLKtZlCM7zA5
- KbAYqRVaL3M2OBsFhgifg7PXU8HwrIs1bQlxdenAt1R5CfkPUQBKLz7sQ/miYcBaOSXExbA/HhN
- 5hWOX8pwl3xAhym6Hl3YbyJlRtiKs8IL8GuW9az+CcNCxEmguGU5JVdDELChmcJJnl5grr35yZM
- bgrB6cld2u4Tu3Mct/8c1Ez2x/zJ5sWzjihUo7nHmRPE17dUp0Fcz7AU=
-X-Google-Smtp-Source: AGHT+IFyPfcbbuza955t3CZkwiaWRYXDIgxI8rg6290fvp/qHcZzB7/xefEdgV0gcu+fEZ2xRGv1gQ==
-X-Received: by 2002:a05:6402:23c9:b0:634:c03f:c605 with SMTP id
- 4fb4d7f45d1cf-639d5c75dbfmr19259428a12.36.1760366114700; 
- Mon, 13 Oct 2025 07:35:14 -0700 (PDT)
+ bh=Jwl6XaBMnrWtOkCeylltwJV5yddo3L+rehYMfN8Q8HY=;
+ b=VrABT4chT4sCPFaOVA9i6IP+UZaggSe27PmU8/Qyj7qauB/fkOHC7/+lDDYMWALmUZ
+ MDK/v9oVqkXzcfNrXJ/eSSAxb9xC3iV+bIqdmOXTLr3pBlNuu1u+l8h5++9uWkZZGruY
+ OYaVofIYifhCgg/RPzYeqNJvZ9eaEdvOx6MVZOxFFiXpMoJEvV1BLIONC/c2ETcemPk7
+ 5LvPFfzDr7gg5MUFcOjuE5cQ58zaQ3X7cn0wW5oLScu6lQxLgUl3rdw7D0vPb7b4aq0g
+ +vdF5Qi4TNxnk02rNlZMxhvinpSzjxSMfjDiMrZrCWerxiShuzd/5fj7xtBKqdHVxcQy
+ K65w==
+X-Gm-Message-State: AOJu0Yz7zkZBBgTXMtJsRvOZGGVVN8aTKtc412xENVLW2ZhSxhmuXH+R
+ KRfkQ0Ua25nAWOgfSawCJR32EgDk9MvqIsYjnLqh21VdYdCAjNNmFVs0
+X-Gm-Gg: ASbGncvVPZeVXL5P0QBqUTLxxdCS+8gyGHrOG6ij0Uw4cxp8XfcFHqKWDMQX9GVUrt+
+ T7dAeYMsIeE0GiUo78ZN2lsAj8b28J0YGRaQPnGLDrTURuakJ/ocPiQCIww06HJSPtplNMmjLbP
+ ROa0fwjZrSnMS8NukDJf0+dy0XiPqTh9ViYiWshBHcZVsmG4dElQg0+4Bfemo5ShOCH9o21Ts4a
+ sqEYwAUixjV3fwfIvd7NSak8B4IHiaCy3gdNxoHPqJ86Ztgvg36rOQe5SepPgRttcqgJy6EQ2BS
+ FRZVkwOWpj2bmzVpqjh0e8FccAzdNrbxqHxG9s5jFUSKKrxzYKuOFal8mEWsC6gi/fnNGrnoZPG
+ HFgRYPrgiW1Ln3uBPTTBjcE0h7SfK8y6BhX5sCm48JCYW6yLxXUp5lnM=
+X-Google-Smtp-Source: AGHT+IHNw71CXQOpB2p7JUhDHo0Due1lg1gSXVJ7u4nJoIdZ2N7vLWMyij3q2B64/uzbtZ0jMMKMwA==
+X-Received: by 2002:a17:907:da9:b0:b3b:ff00:5d4 with SMTP id
+ a640c23a62f3a-b50aa586a25mr2177321966b.5.1760366115362; 
+ Mon, 13 Oct 2025 07:35:15 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:151b:dc00:15d1:ebc5:76e6:730f])
  by smtp.gmail.com with ESMTPSA id
  4fb4d7f45d1cf-63a5c321453sm8942037a12.39.2025.10.13.07.35.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Oct 2025 07:35:14 -0700 (PDT)
+ Mon, 13 Oct 2025 07:35:15 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -67,9 +67,9 @@ To: phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
  tursulin@ursulin.net
 Cc: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 14/15] drm/amdgpu: independence for the amdkfd_fence!
-Date: Mon, 13 Oct 2025 15:48:41 +0200
-Message-ID: <20251013143502.1655-15-christian.koenig@amd.com>
+Subject: [PATCH 15/15] drm/amdgpu: independence for the amdgpu_userq__fence!
+Date: Mon, 13 Oct 2025 15:48:42 +0200
+Message-ID: <20251013143502.1655-16-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251013143502.1655-1-christian.koenig@amd.com>
 References: <20251013143502.1655-1-christian.koenig@amd.com>
@@ -91,153 +91,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This should allow amdkfd_fences to outlive the amdgpu module.
+This should allow amdgpu_userq_fences to outlive the amdgpu module.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  6 ++++
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  | 36 +++++++------------
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  7 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c          |  4 +--
- 4 files changed, 24 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 13 +----
+ .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.c   | 54 ++++---------------
+ .../gpu/drm/amd/amdgpu/amdgpu_userq_fence.h   |  8 ---
+ 3 files changed, 11 insertions(+), 64 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index 9e120c934cc1..35c59c784b7b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -196,6 +196,7 @@ int kfd_debugfs_kfd_mem_limits(struct seq_file *m, void *data);
- #endif
- #if IS_ENABLED(CONFIG_HSA_AMD)
- bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm);
-+void amdkfd_fence_signal(struct dma_fence *f);
- struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f);
- void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo);
- int amdgpu_amdkfd_evict_userptr(struct mmu_interval_notifier *mni,
-@@ -210,6 +211,11 @@ bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm)
- 	return false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index b4c41b19cb88..808a5907a325 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -3136,11 +3136,7 @@ static int __init amdgpu_init(void)
+ 
+ 	r = amdgpu_sync_init();
+ 	if (r)
+-		goto error_sync;
+-
+-	r = amdgpu_userq_fence_slab_init();
+-	if (r)
+-		goto error_fence;
++		return r;
+ 
+ 	DRM_INFO("amdgpu kernel modesetting enabled.\n");
+ 	amdgpu_register_atpx_handler();
+@@ -3157,12 +3153,6 @@ static int __init amdgpu_init(void)
+ 
+ 	/* let modprobe override vga console setting */
+ 	return pci_register_driver(&amdgpu_kms_pci_driver);
+-
+-error_fence:
+-	amdgpu_sync_fini();
+-
+-error_sync:
+-	return r;
  }
  
-+static inline
-+void amdkfd_fence_signal(struct dma_fence *f)
-+{
-+}
-+
- static inline
- struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
- {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-index 09c919f72b6c..69bca4536326 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-@@ -127,29 +127,9 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
- 		if (!svm_range_schedule_evict_svm_bo(fence))
- 			return true;
- 	}
--	return false;
+ static void __exit amdgpu_exit(void)
+@@ -3172,7 +3162,6 @@ static void __exit amdgpu_exit(void)
+ 	amdgpu_unregister_atpx_handler();
+ 	amdgpu_acpi_release();
+ 	amdgpu_sync_fini();
+-	amdgpu_userq_fence_slab_fini();
+ 	mmu_notifier_synchronize();
+ 	amdgpu_xcp_drv_release();
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+index 761bad98da3e..9e0d558c1e4c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+@@ -33,26 +33,6 @@
+ #include "amdgpu_userq_fence.h"
+ 
+ static const struct dma_fence_ops amdgpu_userq_fence_ops;
+-static struct kmem_cache *amdgpu_userq_fence_slab;
+-
+-int amdgpu_userq_fence_slab_init(void)
+-{
+-	amdgpu_userq_fence_slab = kmem_cache_create("amdgpu_userq_fence",
+-						    sizeof(struct amdgpu_userq_fence),
+-						    0,
+-						    SLAB_HWCACHE_ALIGN,
+-						    NULL);
+-	if (!amdgpu_userq_fence_slab)
+-		return -ENOMEM;
+-
+-	return 0;
 -}
 -
--/**
-- * amdkfd_fence_release - callback that fence can be freed
-- *
-- * @f: dma_fence
-- *
-- * This function is called when the reference count becomes zero.
-- * Drops the mm_struct reference and RCU schedules freeing up the fence.
-- */
--static void amdkfd_fence_release(struct dma_fence *f)
+-void amdgpu_userq_fence_slab_fini(void)
 -{
--	struct amdgpu_amdkfd_fence *fence = to_amdgpu_amdkfd_fence(f);
--
--	/* Unconditionally signal the fence. The process is getting
--	 * terminated.
--	 */
--	if (WARN_ON(!fence))
--		return; /* Not an amdgpu_amdkfd_fence */
--
- 	mmdrop(fence->mm);
--	kfree_rcu(f, rcu);
-+	fence->mm = NULL;
-+	return false;
+-	rcu_barrier();
+-	kmem_cache_destroy(amdgpu_userq_fence_slab);
+-}
+ 
+ static inline struct amdgpu_userq_fence *to_amdgpu_userq_fence(struct dma_fence *f)
+ {
+@@ -226,7 +206,7 @@ void amdgpu_userq_fence_driver_put(struct amdgpu_userq_fence_driver *fence_drv)
+ 
+ static int amdgpu_userq_fence_alloc(struct amdgpu_userq_fence **userq_fence)
+ {
+-	*userq_fence = kmem_cache_alloc(amdgpu_userq_fence_slab, GFP_ATOMIC);
++	*userq_fence = kmalloc(sizeof(**userq_fence), GFP_ATOMIC);
+ 	return *userq_fence ? 0 : -ENOMEM;
  }
  
- /**
-@@ -174,9 +154,19 @@ bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm)
+@@ -242,12 +222,11 @@ static int amdgpu_userq_fence_create(struct amdgpu_usermode_queue *userq,
+ 	if (!fence_drv)
+ 		return -EINVAL;
+ 
+-	spin_lock_init(&userq_fence->lock);
+ 	INIT_LIST_HEAD(&userq_fence->link);
+ 	fence = &userq_fence->base;
+ 	userq_fence->fence_drv = fence_drv;
+ 
+-	dma_fence_init64(fence, &amdgpu_userq_fence_ops, &userq_fence->lock,
++	dma_fence_init64(fence, &amdgpu_userq_fence_ops, NULL,
+ 			 fence_drv->context, seq);
+ 
+ 	amdgpu_userq_fence_driver_get(fence_drv);
+@@ -317,35 +296,22 @@ static bool amdgpu_userq_fence_signaled(struct dma_fence *f)
+ 	rptr = amdgpu_userq_fence_read(fence_drv);
+ 	wptr = fence->base.seqno;
+ 
+-	if (rptr >= wptr)
++	if (rptr >= wptr) {
++		amdgpu_userq_fence_driver_put(fence->fence_drv);
++		fence->fence_drv = NULL;
++
++		kvfree(fence->fence_drv_array);
++		fence->fence_drv_array = NULL;
+ 		return true;
++	}
+ 
  	return false;
  }
  
-+void amdkfd_fence_signal(struct dma_fence *f)
-+{
-+	struct amdgpu_amdkfd_fence *fence = to_amdgpu_amdkfd_fence(f);
-+
-+	if (fence) {
-+		mmdrop(fence->mm);
-+		fence->mm = NULL;
-+	}
-+	dma_fence_signal(f);
-+}
-+
- static const struct dma_fence_ops amdkfd_fence_ops = {
- 	.get_driver_name = amdkfd_fence_get_driver_name,
- 	.get_timeline_name = amdkfd_fence_get_timeline_name,
- 	.enable_signaling = amdkfd_fence_enable_signaling,
--	.release = amdkfd_fence_release,
+-static void amdgpu_userq_fence_free(struct rcu_head *rcu)
+-{
+-	struct dma_fence *fence = container_of(rcu, struct dma_fence, rcu);
+-	struct amdgpu_userq_fence *userq_fence = to_amdgpu_userq_fence(fence);
+-	struct amdgpu_userq_fence_driver *fence_drv = userq_fence->fence_drv;
+-
+-	/* Release the fence driver reference */
+-	amdgpu_userq_fence_driver_put(fence_drv);
+-
+-	kvfree(userq_fence->fence_drv_array);
+-	kmem_cache_free(amdgpu_userq_fence_slab, userq_fence);
+-}
+-
+-static void amdgpu_userq_fence_release(struct dma_fence *f)
+-{
+-	call_rcu(&f->rcu, amdgpu_userq_fence_free);
+-}
+-
+ static const struct dma_fence_ops amdgpu_userq_fence_ops = {
+ 	.get_driver_name = amdgpu_userq_fence_get_driver_name,
+ 	.get_timeline_name = amdgpu_userq_fence_get_timeline_name,
+ 	.signaled = amdgpu_userq_fence_signaled,
+-	.release = amdgpu_userq_fence_release,
  };
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index ddfe30c13e9d..779d7701bac9 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1177,7 +1177,7 @@ static void kfd_process_wq_release(struct work_struct *work)
- 	synchronize_rcu();
- 	ef = rcu_access_pointer(p->ef);
- 	if (ef)
--		dma_fence_signal(ef);
-+		amdkfd_fence_signal(ef);
  
- 	kfd_process_remove_sysfs(p);
- 	kfd_debugfs_remove_process(p);
-@@ -1986,7 +1986,6 @@ kfd_process_gpuid_from_node(struct kfd_process *p, struct kfd_node *node,
- static int signal_eviction_fence(struct kfd_process *p)
- {
- 	struct dma_fence *ef;
--	int ret;
+ /**
+@@ -558,7 +524,7 @@ int amdgpu_userq_signal_ioctl(struct drm_device *dev, void *data,
+ 	r = amdgpu_userq_fence_create(queue, userq_fence, wptr, &fence);
+ 	if (r) {
+ 		mutex_unlock(&userq_mgr->userq_mutex);
+-		kmem_cache_free(amdgpu_userq_fence_slab, userq_fence);
++		kfree(userq_fence);
+ 		goto put_gobj_write;
+ 	}
  
- 	rcu_read_lock();
- 	ef = dma_fence_get_rcu_safe(&p->ef);
-@@ -1994,10 +1993,10 @@ static int signal_eviction_fence(struct kfd_process *p)
- 	if (!ef)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
+index d76add2afc77..6f04782f3ea9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.h
+@@ -31,11 +31,6 @@
  
--	ret = dma_fence_signal(ef);
-+	amdkfd_fence_signal(ef);
- 	dma_fence_put(ef);
+ struct amdgpu_userq_fence {
+ 	struct dma_fence base;
+-	/*
+-	 * This lock is necessary to synchronize the
+-	 * userqueue dma fence operations.
+-	 */
+-	spinlock_t lock;
+ 	struct list_head link;
+ 	unsigned long fence_drv_array_count;
+ 	struct amdgpu_userq_fence_driver *fence_drv;
+@@ -58,9 +53,6 @@ struct amdgpu_userq_fence_driver {
+ 	char timeline_name[TASK_COMM_LEN];
+ };
  
--	return ret;
-+	return 0;
- }
- 
- static void evict_process_worker(struct work_struct *work)
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 91609dd5730f..01ce2d853602 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -428,7 +428,7 @@ static void svm_range_bo_release(struct kref *kref)
- 
- 	if (!dma_fence_is_signaled(&svm_bo->eviction_fence->base))
- 		/* We're not in the eviction worker. Signal the fence. */
--		dma_fence_signal(&svm_bo->eviction_fence->base);
-+		amdkfd_fence_signal(&svm_bo->eviction_fence->base);
- 	dma_fence_put(&svm_bo->eviction_fence->base);
- 	amdgpu_bo_unref(&svm_bo->bo);
- 	kfree(svm_bo);
-@@ -3628,7 +3628,7 @@ static void svm_range_evict_svm_bo_worker(struct work_struct *work)
- 	mmap_read_unlock(mm);
- 	mmput(mm);
- 
--	dma_fence_signal(&svm_bo->eviction_fence->base);
-+	amdkfd_fence_signal(&svm_bo->eviction_fence->base);
- 
- 	/* This is the last reference to svm_bo, after svm_range_vram_node_free
- 	 * has been called in svm_migrate_vram_to_ram
+-int amdgpu_userq_fence_slab_init(void);
+-void amdgpu_userq_fence_slab_fini(void);
+-
+ void amdgpu_userq_fence_driver_get(struct amdgpu_userq_fence_driver *fence_drv);
+ void amdgpu_userq_fence_driver_put(struct amdgpu_userq_fence_driver *fence_drv);
+ int amdgpu_userq_fence_driver_alloc(struct amdgpu_device *adev,
 -- 
 2.43.0
 
