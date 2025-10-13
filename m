@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFBEBD227C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 10:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D96BBBD2150
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 10:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E75F910E407;
-	Mon, 13 Oct 2025 08:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1777810E3FE;
+	Mon, 13 Oct 2025 08:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ar36uzXP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="udRzakzM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87D2710E407
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 08:54:04 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3CD10E1D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 08:35:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2813960273;
- Mon, 13 Oct 2025 08:35:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76092C116B1;
- Mon, 13 Oct 2025 08:35:26 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1040B45BE7;
+ Mon, 13 Oct 2025 08:35:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCE1C4CEFE;
+ Mon, 13 Oct 2025 08:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760344526;
- bh=lUw9GHG4vdm6ouZncuqfKqupuE9bzmklFJzA4Z/pqzg=;
+ s=k20201202; t=1760344529;
+ bh=M2vThTE/nI9A0eTijjOxBfcDZbixVCE8PiHlBxnoWQA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ar36uzXPghn/6XpfCNjCmvOdqTHBYAt0yZtSKxOeTfb8iSPc6AW078/YPCytyh/NK
- uqSMbumS5lFRZDZuunYla3fzj49PpXjYHIwGE9CAtoauqqc75fA/JiXsUpPOjODKSQ
- bXSNYablIiFUbEY2p3OmDDJagf7NxlJf+z+Sf3ZNC2fqzloEFNlluP8+qv1eDZ9OCN
- VndYhufDiZ594L2Tk2lV/tWkgudaAtunB8UDwaIaxf1Xb2oqxQqYY0NKXzXVCnoriT
- LgPfMcZKDgKDCmRJcFocHjSllRSL7zm1CXynLnqk7XZHQjJuUq3Juq8oSOEQzLvLwh
- 2Vcoh3qxPMNrg==
+ b=udRzakzMd65x34EnOiiJO3y0lmwBPB59JEsxf5CiiZGpioeiYJ2Z1WkKEAfdwPcSv
+ Y25ihnMa3oxJIV79BNsn3ZKjjqXaBYwzBtpJhmQZP4onwtG2wtoLNTH+eQDs2dxnfn
+ +1Mrwpopx9n9OrTNCi5M6vdZXhKwsn70zWwQCfL6R+AaTUKzmYhQjb4g/tePHoa5wN
+ /+CSa2Kbnisjnx1m+8ePqyi3EkHGDshcQ81sZ1iHIi7VHY5QcE47KKfoIS/vhzm5xH
+ e1y/V7epIlUYbY5eE3cQworkNeLzsbU4PmS72hjmcqL3M9fex5e+B4J/z37VpCMiVj
+ zI5bn+jm7XRhw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 13 Oct 2025 10:35:17 +0200
-Subject: [PATCH v8 2/5] dma-buf: heaps: cma: Register list of CMA regions
- at boot
+Date: Mon, 13 Oct 2025 10:35:18 +0200
+Subject: [PATCH v8 3/5] dma: contiguous: Register reusable CMA regions at boot
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-dma-buf-ecc-heap-v8-2-04ce150ea3d9@kernel.org>
+Message-Id: <20251013-dma-buf-ecc-heap-v8-3-04ce150ea3d9@kernel.org>
 References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 In-Reply-To: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -68,105 +67,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to create a CMA heap instance for each CMA region found in the
-system, we need to register each of these instances.
+In order to create a CMA dma-buf heap instance for each CMA heap region
+in the system, we need to collect all of them during boot.
 
-While it would appear trivial, the CMA regions are created super early
-in the kernel boot process, before most of the subsystems are
-initialized. Thus, we can't just create an exported function to create a
-heap from the CMA region being initialized.
+They are created from two main sources: the reserved-memory regions in
+the device tree, and the default CMA region created from the
+configuration or command line parameters, if no default region is
+provided in the device tree.
 
-What we can do however is create a two-step process, where we collect
-all the CMA regions into an array early on, and then when we initialize
-the heaps we iterate over that array and create the heaps from the CMA
-regions we collected.
+Let's collect all the device-tree defined CMA regions flagged as
+reusable.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- MAINTAINERS                       |  1 +
- drivers/dma-buf/heaps/cma_heap.c  | 14 ++++++++++++++
- include/linux/dma-buf/heaps/cma.h | 16 ++++++++++++++++
- 3 files changed, 31 insertions(+)
+ kernel/dma/contiguous.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 46126ce2f968e4f9260263f1574ee29f5ff0de1c..c4edcc29368eec722432a85ac5c420a08c2680ea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7306,10 +7306,11 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/driver-api/dma-buf.rst
- F:	Documentation/userspace-api/dma-buf-alloc-exchange.rst
- F:	drivers/dma-buf/
- F:	include/linux/*fence.h
- F:	include/linux/dma-buf.h
-+F:	include/linux/dma-buf/
- F:	include/linux/dma-resv.h
- K:	\bdma_(?:buf|fence|resv)\b
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index d9b9dcba6ff7cf5904ac93b72c061fd59072c41b..d67e95094749d45f43c1809c175e491a3f55b2e1 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -40,10 +40,11 @@
+ #include <asm/page.h>
  
- DMA GENERIC OFFLOAD ENGINE SUBSYSTEM
- M:	Vinod Koul <vkoul@kernel.org>
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 0df007111975447d555714d61ead9699287fd65a..2a901af635ed76cdb085915c03258c235e302792 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -12,10 +12,11 @@
- 
- #define pr_fmt(fmt) "cma_heap: " fmt
- 
- #include <linux/cma.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf/heaps/cma.h>
- #include <linux/dma-heap.h>
- #include <linux/dma-map-ops.h>
+ #include <linux/memblock.h>
  #include <linux/err.h>
- #include <linux/highmem.h>
- #include <linux/io.h>
-@@ -25,10 +26,23 @@
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
+ #include <linux/sizes.h>
++#include <linux/dma-buf/heaps/cma.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/cma.h>
+ #include <linux/nospec.h>
  
- #define DEFAULT_CMA_NAME "default_cma_region"
+ #ifdef CONFIG_CMA_SIZE_MBYTES
+@@ -491,9 +492,13 @@ static int __init rmem_cma_setup(struct reserved_mem *rmem)
+ 	rmem->priv = cma;
  
-+static struct cma *dma_areas[MAX_CMA_AREAS] __initdata;
-+static unsigned int dma_areas_num __initdata;
-+
-+int __init dma_heap_cma_register_heap(struct cma *cma)
-+{
-+	if (dma_areas_num >= ARRAY_SIZE(dma_areas))
-+		return -EINVAL;
-+
-+	dma_areas[dma_areas_num++] = cma;
-+
-+	return 0;
-+}
-+
- struct cma_heap {
- 	struct dma_heap *heap;
- 	struct cma *cma;
- };
+ 	pr_info("Reserved memory: created CMA memory pool at %pa, size %ld MiB\n",
+ 		&rmem->base, (unsigned long)rmem->size / SZ_1M);
  
-diff --git a/include/linux/dma-buf/heaps/cma.h b/include/linux/dma-buf/heaps/cma.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..e751479e21e703e24a5f799b4a7fc8bd0df3c1c4
---- /dev/null
-+++ b/include/linux/dma-buf/heaps/cma.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef DMA_BUF_HEAP_CMA_H_
-+#define DMA_BUF_HEAP_CMA_H_
++	err = dma_heap_cma_register_heap(cma);
++	if (err)
++		pr_warn("Couldn't register CMA heap.");
 +
-+struct cma;
-+
-+#ifdef CONFIG_DMABUF_HEAPS_CMA
-+int dma_heap_cma_register_heap(struct cma *cma);
-+#else
-+static inline int dma_heap_cma_register_heap(struct cma *cma)
-+{
-+	return 0;
-+}
-+#endif // CONFIG_DMABUF_HEAPS_CMA
-+
-+#endif // DMA_BUF_HEAP_CMA_H_
+ 	return 0;
+ }
+ RESERVEDMEM_OF_DECLARE(cma, "shared-dma-pool", rmem_cma_setup);
+ #endif
 
 -- 
 2.51.0
