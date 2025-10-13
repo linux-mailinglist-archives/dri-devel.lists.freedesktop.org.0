@@ -2,84 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0310CBD643F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 22:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE26EBD64AB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 22:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 349EB10E516;
-	Mon, 13 Oct 2025 20:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE3B10E51B;
+	Mon, 13 Oct 2025 20:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XUOOGFhu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T5G5vHFP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F246410E516
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 20:52:25 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-33082aed31dso4807982a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 13:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760388745; x=1760993545; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PRJbkM4wepO56t2Jx9Mj/0XBiWzZWPdz2VVmdtIvIJA=;
- b=XUOOGFhu2+ZydzfQn550ccW8FxfOLDU5Kdg9tlX5BHU1OB961O8eRXoyJbgA+oAF5a
- v+GI6qT+Qyzh9+TYlg7lPHbqP69TtzRG69qK0OA2wmOno7Kw0pCEqa2PIKM829qFpfcI
- kRoZntE59uV6tc4tg/MOGYFkzEYbuySQ4yR6Zs/tduAbkAXg4D3Va9m7quRqhSnMe5wi
- 75kEcrVXAaFt4+aIwFggKzn5yJzQ+z3wDbVjA9u20OmCXpAPmH/E3NqbozhF87dLBCUE
- CVDbzz5Z7ENq5UFw6djKz7UwYL6ACn7iMhinDe1eHIRPZm/td0fo9igcAoKtfdWKVqzH
- PMSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760388745; x=1760993545;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PRJbkM4wepO56t2Jx9Mj/0XBiWzZWPdz2VVmdtIvIJA=;
- b=PlZMl5MdtRYu8PsFkiTPIpAr1zuFLoTflxmuCSE3/MG77zQ2wNN9NfaBcZ8iYdF9kl
- +H/ZHdqTIwqHQ99rbz1LVq6q9/cCJJ+l7uoNh/ALcaMYCiTB2IR1KKk6hJDt26gNbjzi
- fNHIJWOojTqIAFM6cpC7gfnVfnkoUKJfa4adj9Vp5M1iAVLF1zeD0g3C2yje9ErS1und
- RfmWvRCNbV7NYtCMxhXUYz05sxb8T6/kr4FfRt2/cpCLEj4qGWm1If9llqrGjzlBv1HO
- vR88xtfsmiQMk0yoeS47DTMLw1RcuLR17OLnNA3J9xhnrQ4z7zchSSuvPHvxCZOJLVq5
- 8OuA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDFN8C0sCQVBI35NdWOhUe3XWRHTrvYkb+JK57BeDIIgTCnF78ixS2heqgZReciRGa6YQfwPdRH1I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbWJnAdxNqxsI66vO+E8sABlrajrXWKs/fqmYISq8m0V5nEmZ3
- i9L6RUl1dZf2Ztyjk5hBwpTWifRUf4vTFoxQ+SgXdXWmpu49g+gxe/gC
-X-Gm-Gg: ASbGnctZxmGsetPaWjYsAMXg0pevuWxUj5LBnwM30RlfVjxbVkuc68pC5Gp13qafjX7
- mYyD02FWDag+gFDuxvDH6EU1fuR7BwFnmHmkdlvfJCkdgWwcfAY1z0C42MJgWZ8EadJ6c+kQ8dX
- 7EEx7CGwB7czetv4FbwRteHOeJ0j0q1DYweQA4KsZqFxGW2MqgWqn+7Z0YX93wU9trjokLdMUMS
- AgTHtdsVVZgzXZfzM7HLco0bK06r+w76GZaOa5lBOQy/4auTI4JVoXCth7HAlRTDzFGo+RrtEmd
- STI+LLGdhy0fjrJr6B+OGxVTrHnJJWbgmOp6eXozay0oV/N6DELwrhxOo8za9UK1ZpBI4kgdJLd
- Xh4KDzEyuAnmTpus++E4b2AErxoqnglXRpdxTx2U/AS8d0G45WCsj7qI=
-X-Google-Smtp-Source: AGHT+IEbc0HqY8CLIHs2k8aq/yJ+qGsFrnOrDj32getTUXol/oijADm5b/7xs/AL3ljfJbDbndG3kw==
-X-Received: by 2002:a17:90b:4b04:b0:32e:8c14:5d09 with SMTP id
- 98e67ed59e1d1-33b51105bbfmr33280515a91.7.1760388745433; 
- Mon, 13 Oct 2025 13:52:25 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:cc82:37a1:ecfc:e51c])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33b61acc413sm13445147a91.20.2025.10.13.13.52.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Oct 2025 13:52:25 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: victor.liu@nxp.com
-Cc: marex@denx.de, stefan@agner.ch, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- shawnguo@kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH RESEND v4 3/3] ARM: dts: imx6sl: Provide a more specific lcdif
- compatible
-Date: Mon, 13 Oct 2025 17:51:55 -0300
-Message-Id: <20251013205155.1187947-3-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251013205155.1187947-1-festevam@gmail.com>
-References: <20251013205155.1187947-1-festevam@gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1AC10E51B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 20:55:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id CC7BE61EC4;
+ Mon, 13 Oct 2025 20:55:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F502C4CEF8;
+ Mon, 13 Oct 2025 20:55:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760388932;
+ bh=IvZ5qPiJg4nsDInLimGBW6RVw9VdP4KCLc7lgSkyw10=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=T5G5vHFPwfAcHGzeDU91/NjU01oUDsKPTDIGWz+CamLMXtBTA5Iq/VDCzC86z8O5G
+ 79eKJ6WSDySyqA8FnEkp2QPNZr7rAiG7sbf74nRlQJ5IplElaiw5Q0NsA/uaYME0vr
+ h6NW3fvu/dXA20Ydzib4rccOLFEHYe84IsaxZaqmMNzrkeW1+YZ/oKcsUbIpJ5zJEE
+ xMdeP7LroxWj7ZUKYcplqw2BTHjfY6HEkSu9khTaioRfgwN379LKCoKsUa+hsdlxYS
+ 0S98arvkgF7hwNRckqPnF49sJlU/u8Ah7tQAqz4nWY5EsbF2hGH7RAxyh7fLJkNhdr
+ ozG+/vvFuNj1w==
+Date: Mon, 13 Oct 2025 15:55:31 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>, regressions@lists.linux.dev
+Subject: Re: [PATCH v10 2/4] PCI/VGA: Replace vga_is_firmware_default() with
+ a screen info check
+Message-ID: <20251013205531.GA863704@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251012182302.GA3412@sol>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,47 +67,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCDIF IP on i.MX6SL and i.MX6SLL is compatible with i.MX6SX.
+[+cc regressions]
 
-Provide a more specific "fsl,imx6sx-lcdif" compatible and still keep
-"fsl,imx28-lcdif" for DT compatibility.
+On Sun, Oct 12, 2025 at 11:23:02AM -0700, Eric Biggers wrote:
+> On Mon, Aug 11, 2025 at 11:26:04AM -0500, Mario Limonciello (AMD) wrote:
+> > vga_is_firmware_default() checks firmware resources to find the owner
+> > framebuffer resources to find the firmware PCI device.  This is an
+> > open coded implementation of screen_info_pci_dev().  Switch to using
+> > screen_info_pci_dev() instead.
+> > 
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> 
+> I'm getting a black screen on boot on mainline, and it bisected to this
+> commit.  Reverting this commit fixed it.
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Reviewed-by: Frank Li <Frank.Li@nxp.com
----
- arch/arm/boot/dts/nxp/imx/imx6sl.dtsi  | 3 ++-
- arch/arm/boot/dts/nxp/imx/imx6sll.dtsi | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
-index 7381fb7f8912..074c48b04519 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
-@@ -776,7 +776,8 @@ epdc: epdc@20f4000 {
- 			};
- 
- 			lcdif: lcdif@20f8000 {
--				compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
-+				compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif",
-+					     "fsl,imx28-lcdif";
- 				reg = <0x020f8000 0x4000>;
- 				interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
- 				clocks = <&clks IMX6SL_CLK_LCDIF_PIX>,
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
-index 8c5ca4f9b87f..745f3640e114 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
-@@ -657,7 +657,8 @@ pxp: pxp@20f0000 {
- 			};
- 
- 			lcdif: lcd-controller@20f8000 {
--				compatible = "fsl,imx6sll-lcdif", "fsl,imx28-lcdif";
-+				compatible = "fsl,imx6sll-lcdif", "fsl,imx6sx-lcdif",
-+					     "fsl,imx28-lcdif";
- 				reg = <0x020f8000 0x4000>;
- 				interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
- 				clocks = <&clks IMX6SLL_CLK_LCDIF_PIX>,
--- 
-2.34.1
-
+#regzbot introduced: 337bf13aa9dd ("PCI/VGA: Replace vga_is_firmware_default() with a screen info check")
+#regzbot link: https://lore.kernel.org/r/20251013154441.1000875-1-superm1@kernel.org
