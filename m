@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D7BBD2FE3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CAEBD2FF5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:34:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0CE210E04F;
-	Mon, 13 Oct 2025 12:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A4A10E32E;
+	Mon, 13 Oct 2025 12:34:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cHKE6Szt";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TXcT0qSB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E47410E2A5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:34:35 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59DAUnv4023971
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:34:34 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386AD10E2A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:34:55 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59D7QgMg013035
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:34:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=0c/YLYaDMoEGnP2p+UDoLSwW
- bwVJnzjUv4KnwNKCfEY=; b=cHKE6Szt423RB8gknU+LDvdj0Cuw4qswyTZSaxAw
- 3Vln1wH/aKoGO3yopYn8nbYnpcw2S5NHX7Sm79VwKwLYqcQLc+ZXI9mJfef7hziV
- AKyPZ2BlBcuN5v238ZNwTY7D5BQ55vFbmhOXJXLfe40w7C6yQPCZFlJkWD+9Scay
- ynngzBZIK4MUfj9Pj6V8NhLYw4l6QgLJ27bWbS19Ao6+8gDR/kWDmmWrjCyZLQJS
- Drz4A2m+5QZP+VC6nw07jEHuiMMqSvOsKt+L4sJGzjlqmM7rq0O7DHaJwuV9FO5I
- WjOXqD+QR0hcatHH0bdFdVzbAjOv4iTSBuOaVcQi0GtIuw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfa84j3q-1
+ :references:subject:to; s=qcppdkim1; bh=gObp1VGk4sT3wo0aNUTQnaxb
+ hlPxOaJ9VK/6dcghZLQ=; b=TXcT0qSBuY5yfp/PNTnIrw7XNb+s9/QYCReqou30
+ gtIGh5w1O98le1QLr/UGIlqf0FRAMWKyhoiDDhQq/h5jYDxRoxHhe6PFGxmTGO4+
+ iKvu+DfCH4bBE45FfhsCs0Kr6YXrVVfvxA52xvansO5wQ7lI0sOFFKbBRHrR6CF0
+ h8H2/uLaBv/6+Iq89Xp4/B79JK/GTDI0ThFUGtYMDBywKpLJu8svaMWw/lmLFzZu
+ R+K8n4dJuanKaKDQH7sH9oCVV5sXmIT25qvxdKQhxYsCoq+ieJP5tDS+KCFNMaG+
+ OCfDv0LxPObPXHhVyDS8uCiV5xNtoVyaJw4sHJ0TQhqPDw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49rw1a8uta-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:34:34 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-78f2b1bacfcso211138616d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:34:34 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:34:54 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-859df490f9dso1015788185a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:34:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760358873; x=1760963673;
+ d=1e100.net; s=20230601; t=1760358893; x=1760963693;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0c/YLYaDMoEGnP2p+UDoLSwWbwVJnzjUv4KnwNKCfEY=;
- b=owGv9NtbLzEgqhSKbQfg4ZoJoWfYiagLedop30Q7EsIrd9geMgIg4DZmErAeaeRREJ
- SuKbI4+A+uUrhzhM9o0UmhzlZ67CKALy4RTbbYZULbbrXxRqEonWgt64EScRXViXUZlU
- mg2sdsJijyaCOzpr3oHbxj27LeDjRfbPDY4EmddeiEJFxb9dYkvudkC091QTyzuL8JgV
- DpMsTovlSGS6RC8dkawcrXbvECc/dvvPD3hRB2iyOoDyiUE59rXfb/ab2p5rF9nYZ2yG
- CkPeUN9tc2fyJJwjvy9xact07dEnzlCxCsTToP87s/FOmDpvjf39ocVt+nhiozZ9Iu0Q
- 5XsQ==
+ bh=gObp1VGk4sT3wo0aNUTQnaxbhlPxOaJ9VK/6dcghZLQ=;
+ b=FBH0AQvthZsanwoHLY85QwdT2rHRjiXCMqTPePGOHBPNd8gpuTlbkd5zS5l+bxehAn
+ P64+AXOb4qdYDPxWOxPR/N5P/b2rP3NYrDtcDx7qH2zenrK8SlvEBW+DRVN+wrVb9KQk
+ Dw81lSCTMQu+tLBpmnRcuU34pcDrUgEr5Cfn6SQQzosJpZRSrsdv8axnzM2axslD7zuY
+ poPsfmy/p7EdMeSeVrpn+oibMH/adStOK9Jejc+LHuAdqzEhwguVtnb3xIWTfKZPqKzE
+ vvrnktzTV5HblE1PXxp4Xu48nsLnn9RQ2l8Laizs58E0jfHSLtg2aHplXX9toNAMNjq1
+ wHQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVpil/DMiIlf0izAQ9r5U2FUesTE//E1TD1OHT6ngJpl1eSDiwnNs9DbuL7bbXlkURUPCD4wGAQMg4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzgh4Rayu1atMPzTq1FGGDky2M+IJb7f1bG9RhfRBUQxtOob0+b
- f0zzxLVXZo5YH15diHvarFw6N0F3fg45FEU0K4Ri81GYKF5/bEidJ9zUWbjoyGWGcPA42WTZy0w
- 5rTyh1zLM0UTOOf8n6WSIzWC1fIvc4vc3Uzt/wrclYf0eS5gyE9pqFS1yqR0UPBf6RB+dEN0=
-X-Gm-Gg: ASbGnct/pmMtiqSBvfgR5NTyhjyzwQKWTtl/dIcLSQGWw/rHk1/C6Jv0H3zO2zgI3TT
- CUkDhOAekXoACnUUqlkUgUqTBIhBuXlt/omtd6YHYmMmRsU5CfbnI/Gs4VT0QJ4tH3rkkBsFKjd
- YGbIXi29ltGTgsIDQWO4e8m5tcb38kJPgku4mgijVDBe2T1CpTmbdGQDb7MW8rHarPH1y+FfcIz
- TYL5rbJPsci0PufaPskuIslH8u+lADnYDUrQjpgi77UCNNTMQQZUmdw7MeqSUZjVwWZf+bNzpm4
- YlCe/3/yA+xUi+s9ahmXgYPQ/PVLHwibcF37mwesI3cQqYDPIkqxvDUPtk/5Om3eWA90HCQG6HK
- Rs8G0jOtYsn+9m9X00lcyYI9qidcEuttJ4IcqRUl2lSdrFyoz0aWu
-X-Received: by 2002:ac8:5d46:0:b0:4ce:9cdc:6f2f with SMTP id
- d75a77b69052e-4e72122afacmr71752531cf.13.1760358873385; 
- Mon, 13 Oct 2025 05:34:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGNbh12YwL4Iy4NRipEsFChMHtKqDe+smfm+D7B0YFilvKsxmQIYfhkB/7L1zjAmITtmN+oiA==
-X-Received: by 2002:ac8:5d46:0:b0:4ce:9cdc:6f2f with SMTP id
- d75a77b69052e-4e72122afacmr71751921cf.13.1760358872891; 
- Mon, 13 Oct 2025 05:34:32 -0700 (PDT)
+ AJvYcCU8zYoouVPqaEour/r/YqFy2oADUJTcLeHoeK7oZ6WjW8rzzuO9gxAiwsTyaB4MtaEE0g5Z1Dpure0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxT/2TptgQGOX+GjfdoRV77MTBFEsaFwaz47RHAAD85nCtX3KHV
+ Qa0xdGZCHi8+zYPB6EoF+g+lMQa/0Frly8arebPpgE7oQF7efhspl7e6ZK+dwhUvISiOGqbIx4D
+ e3ntkCAa9m2r7JYqYQjhuhu+dqNhsLmwlHlGJuqQkFhc30u/trQCEeGfYguqS7hBmaQTS6f4=
+X-Gm-Gg: ASbGncvQXM582XppYgaJ0mUO6pbw6WFa4jHrt0+NhKioXdbpKksVYLYJWWH1r0/dfAT
+ fUsLUiuK7OLAYKHApMy9bNBupyJDujwvM5L1GKJ+DstozYLgVy+kDjRmax8HK73UbFU33bn8vMh
+ E/Q8SbNf/2rVlPS64/USUicQldUclue2hg7JIji9feTk2zXzVBdRNiKlK2deC+lCFYnNrRsBAUN
+ TC3re3tEGp3uNa1NhJMJT7P6G5g73mFiTN5N3UO7j2R3wDCnzNX4xUFNLQ0E9ngl7N+5NWbEUga
+ OWWF18onJDmR+coArWwGclbIfyHpDarjsRHRCNgtgkU9TEyF+qRz5fCVPi1H5Ab+BKZEls69Gmy
+ 318QUl+4Q6NhARxOuf7k5rKdSkotmkdc9k5lqQCRqLfw24pGv6mnY
+X-Received: by 2002:ac8:5885:0:b0:4b7:9581:a211 with SMTP id
+ d75a77b69052e-4e6eace7e6cmr280428011cf.24.1760358893370; 
+ Mon, 13 Oct 2025 05:34:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG5+lAIUbag3KQ/uyAYMUw2tzUdGLO9/5D5HdSvdyoQpY7sOU2YLiAsMhiWrQQX23CCsWeehA==
+X-Received: by 2002:ac8:5885:0:b0:4b7:9581:a211 with SMTP id
+ d75a77b69052e-4e6eace7e6cmr280427561cf.24.1760358892867; 
+ Mon, 13 Oct 2025 05:34:52 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-590881f862asm4116608e87.27.2025.10.13.05.34.31
+ 2adb3069b0e04-59088563b53sm4075703e87.84.2025.10.13.05.34.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Oct 2025 05:34:32 -0700 (PDT)
-Date: Mon, 13 Oct 2025 15:34:30 +0300
+ Mon, 13 Oct 2025 05:34:52 -0700 (PDT)
+Date: Mon, 13 Oct 2025 15:34:50 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Ritesh Kumar <quic_riteshk@quicinc.com>
 Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
@@ -90,34 +90,36 @@ Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
  quic_vproddut@quicinc.com
-Subject: Re: [PATCH v2 0/3] Add edp reference clock for lemans
-Message-ID: <7jmk3txdrnit6zn7ufra7davmomggd3graizdu6wqonp3lljza@mfnxt2owpknq>
+Subject: Re: [PATCH v2 1/3] dt-bindings: phy: qcom-edp: Add edp ref clk for
+ sa8775p
+Message-ID: <aifibm7pjva3rkb4gkzyxun46sraxyeh7jh6vgcirv5tsbf6ad@7f5bbs4ix7sa>
 References: <20251013104806.6599-1-quic_riteshk@quicinc.com>
+ <20251013104806.6599-2-quic_riteshk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013104806.6599-1-quic_riteshk@quicinc.com>
-X-Proofpoint-GUID: Hak8Uotm1IFjQZy5o3BCZOHBDSJWkWDv
-X-Proofpoint-ORIG-GUID: Hak8Uotm1IFjQZy5o3BCZOHBDSJWkWDv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxNyBTYWx0ZWRfX5CVDh3jaAjpy
- VLHpo4BQXM8RvautsIwmCKjfbqL1ALhcRxdNRgTIXIYeM6tAh+UdwdVAq2epubiFrETx4c5Nebp
- 8dqdu8RwIFnvkOboq/RH1gfdOJVpOHzg0w56wEZ5MkNpLcbhfIXbcruDKIiWpPgSsHb3Ny9zHzY
- ejEdMZQzxVWbtS1xVriZU8UUkqRWV1y98D10H09HXSmUw0o5v2S7wSxfaTkU+PLQ02GYdFt8aTo
- SI0yH9ggJZ38vGLKNDz5b4NQUwU1PPdDcSNmGqtiEq1pnDI0yFGKi0qRMAu1xUTCToJzqp0h00z
- BXZAW29kSb+cNve5oI5pXw5NdyxIeYN/EUnKW2rPq0TbRsFHzmZHVgau5l1N+JF0HSTKFshUhkW
- tc9DHPW7pUHACYT2sWuMRsv8PjEl9A==
-X-Authority-Analysis: v=2.4 cv=JLw2csKb c=1 sm=1 tr=0 ts=68ecf1da cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=sf-Njp88EExxdhEklOUA:9 a=CjuIK1q_8ugA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
+In-Reply-To: <20251013104806.6599-2-quic_riteshk@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=K88v3iWI c=1 sm=1 tr=0 ts=68ecf1ee cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=yLsOkrEfH68IAt7CJG4A:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: ZgVug3cdCNlxdkxEkM3thxClzwrII_Bh
+X-Proofpoint-ORIG-GUID: ZgVug3cdCNlxdkxEkM3thxClzwrII_Bh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAzNSBTYWx0ZWRfX76Wg4v+Dqymr
+ CwBNeBkWPlQW+VV3RgVi/Yp5E7/nepInl538TuSU46zh6nHqwRwA+VWPB5hrOoa7IWcyfWZOxPJ
+ Kr2IhhqxbIpkdIJoV7hZsP0Jktcit54dyXQ0LHD/N9xXl4N6aCXSeY21OtTu/ricDQg3TNnlobv
+ T/pIqNkxYmu5ZHPSg2ZAlLxNiYnqaMbUsL67URhslZrtLNlIfqKP/SPpImwUA3MDcqxWSLAJe7W
+ 5YVWm1RoapK2HYCwzuewH7p4tymSLSvDcweDONQh+yQgcpnOXe/tGYu7eAqiVTJoCwFIO/6h8Qv
+ uJP9pJN//8BQq6jXpVMByHvUKRRsnjiNuXWhHWnErihjeNCMeRs51Q4Nbpplo5F+8MThBSFgzB6
+ U0SGx8T0tGnNNoNfxgas3L4BK+Yh9A==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-13_04,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ malwarescore=0 spamscore=0 impostorscore=0 priorityscore=1501 phishscore=0
+ adultscore=0 clxscore=1015 bulkscore=0 suspectscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110017
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130035
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,15 +135,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 13, 2025 at 04:18:03PM +0530, Ritesh Kumar wrote:
-> On lemans chipset, edp reference clock is being voted by ufs mem phy
-> (ufs_mem_phy: phy@1d87000). But after commit 77d2fa54a9457
-> ("scsi: ufs: qcom : Refactor phy_power_on/off calls") edp reference
-> clock is getting turned off, leading to below phy poweron failure on
-> lemans edp phy.
+On Mon, Oct 13, 2025 at 04:18:04PM +0530, Ritesh Kumar wrote:
+> Add edp reference clock for sa8775p edp phy.
+> 
+> Signed-off-by: Ritesh Kumar <quic_riteshk@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml
+> index bfc4d75f50ff..b0e4015596de 100644
+> --- a/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml
+> @@ -73,6 +73,7 @@ allOf:
+>          compatible:
+>            enum:
+>              - qcom,x1e80100-dp-phy
+> +            - qcom,sa8775p-edp-phy
 
-How does UFS turn on eDP reference clock?
+Usually such lists are sorted.
 
+>      then:
+>        properties:
+>          clocks:
+> -- 
+> 2.17.1
+> 
 
 -- 
 With best wishes
