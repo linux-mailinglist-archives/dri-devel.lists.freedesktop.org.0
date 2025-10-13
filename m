@@ -2,199 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B86EBD2B42
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 13:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BE1BD2B6A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 13:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAED10E424;
-	Mon, 13 Oct 2025 11:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42FDD10E428;
+	Mon, 13 Oct 2025 11:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X76P4JXa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fBEAtij7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E3B10E0EA;
- Mon, 13 Oct 2025 11:04:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760353488; x=1791889488;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=4w/9gp3qlOLGvTYlIWfMwjwX5UboElKpKn58GmhUxJc=;
- b=X76P4JXathXVOmhD1SF2OoFgW6Qrrz8ZzIYO29PAS8WKzKdluDnQ8dYU
- pUI5QI9DlNS5rFMtst16OjS5Luq7JmFS4etDYdjopdtnr6+r3+Oqs/K2z
- 72InCSVT/rMJg9iGoWaDtopX1J3cvDtXE3WOBgRx7Yyz1gv8t5b5AFWFB
- DUO/NEYtPD3aWdqRFdqYwihj0xGfS79EIcIYYEU+J+qqjV4ja4OBdAHny
- JOelBVo6G+meaYcVydfNRKQ4w9kMzkFQc2/nOxkKwix9m/Y9l8t4WaIYL
- nl2IEpJPuq9KIlokOM2u8gU1gV7c88HMK+VJOFNEvhbsf0zmyfNGo1/aR g==;
-X-CSE-ConnectionGUID: XuAdOlmPReu0Y0TLPQTMBQ==
-X-CSE-MsgGUID: GJVKkOyqTu+gR76Y5/OXWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="66143452"
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; d="scan'208";a="66143452"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2025 04:04:33 -0700
-X-CSE-ConnectionGUID: wHCgcRlCT4a3KkaHCGTLiQ==
-X-CSE-MsgGUID: p/El7mEjSdOfgVWvvyDCCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; d="scan'208";a="182330963"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2025 04:04:33 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 13 Oct 2025 04:04:31 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 13 Oct 2025 04:04:31 -0700
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.27) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 13 Oct 2025 04:04:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aLlH2ns8SFweu5LPsxVmyxev328TBaFDRvs3VvafW51JASoZ4wrPSKeJjZTCjX5ApS2Y2kp3ZVy8+5KEpHmubpEf2/NTYEikZ7KTBuDeGxYmrU+hUle5J/+E2ST1Nepj1RSM9pJxw9OS5p07ahY3xIAKHufRqUQbXxgsrGka+IkRWGbo8a6BalOjUGSYC8iF2lKp4L/6U0ptsY40ZB90qgYNmn2c9gGL/z7c78iHueW02X9OtHJfEXCEmVER7brtJvN91nJnP+F4hTPiFCHdAQiuDJv275ImzB4mJuztUip3Hnjx3O5sIzhtZPnjp+fzq4CeqCdKVwkRGXzZ5Qv4rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZjzU+fTJyNUAmxOzU76LH/ycswa4CA37rOhl59a43GE=;
- b=w+U7+tjurIi65sldKrvEDtd2AgSY9/0kKZiHa7TNON3iqn0oAtmFdmkwnCapc2S9g4m/Ri3WCv8/kJQ2b+7tNODAmZIGh0Dqb7DxdgokZ6JfpDQpdtdo9HsIR8On21cO+jAN9t86hsQNxfMxS8JK3MDi2nJ74cP0g8GZNZsQTzkyCphLcJnJ5xBMlj0LEqnuxBzCedgZhn0YoMOgxsjzMFxr1cfL2DxdnYx4xd/EecmZTMNAa7GsUBpp1zj1BM2wuh5qYCYR7cCoOhhJUWpVJdo9rF6YNSOFILjPRNKPvFobMwIZyFQmPDcSK4OoPDcxAN8dXiPaaeA5PMhpOvVntQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
- by SA1PR11MB6709.namprd11.prod.outlook.com (2603:10b6:806:259::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 11:04:29 +0000
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267%6]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 11:04:29 +0000
-Message-ID: <d3e0f5df-4c9c-4b8b-8441-71561282c4dd@intel.com>
-Date: Mon, 13 Oct 2025 13:04:22 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/26] drm/xe/pf: Expose VF migration data size over
- debugfs
-To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, "Alex
- Williamson" <alex.williamson@redhat.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, Shameer Kolothum
- <shameerali.kolothum.thodi@huawei.com>, <intel-xe@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, Matthew Brost
- <matthew.brost@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, "Joonas
- Lahtinen" <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lukasz Laguna <lukasz.laguna@intel.com>
-References: <20251011193847.1836454-1-michal.winiarski@intel.com>
- <20251011193847.1836454-10-michal.winiarski@intel.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <20251011193847.1836454-10-michal.winiarski@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR07CA0142.eurprd07.prod.outlook.com
- (2603:10a6:802:16::29) To MN0PR11MB6011.namprd11.prod.outlook.com
- (2603:10b6:208:372::6)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D588110E428
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 11:06:11 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id
+ 4fb4d7f45d1cf-62fc89cd68bso4063759a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 04:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760353570; x=1760958370; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+aUxvhazo+fI5qnE1t9OWiNPdeUT1J2KZzqa5v9i4n4=;
+ b=fBEAtij7lJs+NfnOBKyccZb/Q8M3z94RAikU2Da87ARIVxHLLuYOb+/LBaDB2o91if
+ 3cbhyLjV3INwYESW70lAZItKdCRxpOKlU/Fvj/v05HfYLgv2uAwAQOR+GxMxibpitRzy
+ Cya5ijfGfV7IYDAbvfNvE2Mw7n0fsdavD9P3ibgqtIe1O/DWJh0DmlzOyHi+z7hWORzy
+ z9Bq8FVFX8pa1/0Z440KCNK5vmdOGD7blS/XuLY/Ab76zsrkCzt33PyYQHyMOS+Y5W3k
+ UvS7Fa2WSrqVrQ1g9R2EbaqnKjhNiZRGZ4VXwzsIPCFpfjqU/7qy3AHimg80WEAQ+cNp
+ SzTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760353570; x=1760958370;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+aUxvhazo+fI5qnE1t9OWiNPdeUT1J2KZzqa5v9i4n4=;
+ b=mdWwyjUF5bgFVVzBsiePk1+k4BpRVWYtI0+AqYno3nxrAgEbSOy3XGJLF7PJ5lq7Mo
+ pV4vAcMQKFKEUyq0rWt5lbBc95AKvERg8EFPRdnwPZ8VmcZ3+y1YC09pkZ5QNFs7VLwv
+ H9bNUkhrAcoMEslNCCMqbEspejk/rm5gm8X51wvjD1JdO8G+E1ZrsO2+Yy+obuTTR7f8
+ mmT68tKwHMRHBcX+TRzvNkgGE4El5hxmg2S3vgu4ocI75FKb0h7i+1N4ntouKpjKHEVU
+ Qd7RZKZu7hBLl7zHZUf3B1a7K2YOk5/e0UeuqjPDPKUPqsggR/iPX3dh4IlZuaLjwrSx
+ jyig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyzPsCU3mrHoApFmf12jsXirwcW6DZcdhE6kB6SkJfM/8bwBF94HQeYx0wdfolRGoGbtjS3oa1D64=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9uwHSTGyprGsuRe9NXnA4h7xARDvj84k++Iz+pzUf2b9GmzyS
+ nOsW6KACOb9CJ9cLQMX0nh0t4G/rutVx5gdXPfCVpWbuk5nxaW4HVnKRhaEweFkxat5urZ7v6GT
+ ZwzJZmVBIphez0ScttlLOjZCN6WhcHgo=
+X-Gm-Gg: ASbGncssOmMs9KV+467dntTMpeligZHezNvAeyFQQ8ESpK8RxeoJnHXj1/RM+l+REKT
+ 4bHQDwKMkQgfDsjseFaioLZRYcnmeXWL8mDg5z5YzUXxIh54FN66d15vdMAS5whGQtVgsKkpJmQ
+ qBzlJD92aNA2/L+pRNvqvIHVUSES7Mgwzcl32+JULMBNIIGuVoY/diDYCxjUBp3YZgg9mXRe3RK
+ 9CExg/k5JpBpF/7K9gyq1KBmQ==
+X-Google-Smtp-Source: AGHT+IGKDAXHZdvVmAlgzfekl2q5ywgCmcwxWyGOCrVIW3K2IvCUoc7P8HxcJHgwR9akx4wiqqa3iRMeNlO7r8vGrAA=
+X-Received: by 2002:a05:6402:144e:b0:63a:294:b02a with SMTP id
+ 4fb4d7f45d1cf-63a0294b35fmr13389237a12.13.1760353570084; Mon, 13 Oct 2025
+ 04:06:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|SA1PR11MB6709:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b6df5e6-a397-4870-daf2-08de0a4847df
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZnBWU3htMWVoNndPSWp4dVFEeXpXenFzUzNYN2U0eEF4UWxlbmhXMUhhS3E4?=
- =?utf-8?B?VnpJdnZIYzlKaU9BcktCK3VxNExvS3gyQW1jaTIxTjFZb0pTUW5wTWdYOGVq?=
- =?utf-8?B?aXZtYmVycVA4L3Vxd253dnNVNDRXMEg0YnR4Z3h4QkVwY1pkeC85cjFTQUpD?=
- =?utf-8?B?N0hCZituSWNGeFRCdXBmSlo4MW0yR2M0OTlqZUVYOGlvdXdEYVVFYXhQMVd3?=
- =?utf-8?B?N3JGcXdEVDBoeSs1aU1Cdyt2SUhRRDVKcXplbDRGSVRRbFBkVVd0cWszS1lC?=
- =?utf-8?B?OG96eWY0SHRidXZ6bmFHU1ZjcWV6c0t4UzJNTi81TmtZUGdCaFlxeXNOQ0hl?=
- =?utf-8?B?b3ZXUE41SWZTRWZueTh1Q01jVlJMNmR4THA0WFJmVXNPWTRFSzlYQVpQSVcx?=
- =?utf-8?B?ZlhnNmpKRVc3YU5CSDBNR3dXa09Va2pCZDRTTlN0dnpLVWp0cEJmNlViSnly?=
- =?utf-8?B?YlR4T0JzSTh1OFVydjIyV25PaGI3YUkxeTMzRWYyRVExTE5RM3Q3WlBoS2l6?=
- =?utf-8?B?SWcwZG5OaCtvNE5ycloxaURzaHdWWSt1WXFRU0xjeHg2YU9FQlUxYVhkT1l2?=
- =?utf-8?B?ZytRRm0wb0R5Y3cydkxSVHpKRTlON2szYnBBTXkzSE1DQlN4Y29MVUxHYk8w?=
- =?utf-8?B?ckR5cFlQZ3dTdFA5RVhSZVNIbjVkRllIbXdGRkI0OTlQN0YvMmNmNVZSeXhO?=
- =?utf-8?B?Z3YvcUgraEhMaWVDcERMMkZQdnJDc2xRdk5uM25CdndxRmZJNzdycnNBLy9q?=
- =?utf-8?B?aGE3czd4dFNaZmZWRHNwYlRkUWZmdU9LdFJsSml3V2tNOXNyY3lIeUgxcCtR?=
- =?utf-8?B?YXZPdk5kNWxseDJhR0Zzc05ZR1A0MVFKV0VONTc1U0VxekladjlXQVhzb2NY?=
- =?utf-8?B?dElVRTJtVWU4all6bWtIMlJWNksyTXIzd1k5QlNnN0NzRXBpNFJlS2JoUEFs?=
- =?utf-8?B?ZU85dXR6WjltZlI2NmFjNUQwSkl5MkdyVTd2WUJsSDRnd0pYYzNWdUZqQllQ?=
- =?utf-8?B?Q3c5aXV5azFPcGhYejNvM2lDYkxIa25qdldRQ2xJYkI3enR3eWJuNTdwc0tT?=
- =?utf-8?B?TnpvazgvUVpHZHl4dFhJcHNaSzdNR01ZWDJzTHVhVTdIYXFSRC96N3Y1MTZQ?=
- =?utf-8?B?cFBXcVMyUi9GM2VzenR5b2dVczZKNmY0TjdQSTF5TXEyR0ZqOVIvc0E2aFZD?=
- =?utf-8?B?WldGalNEMkpBaEhGcms1Zk8wTDFGVnR4RFVOTnVMVTJwV1RqVUd3TGlpU05w?=
- =?utf-8?B?ZHJHdHRidno5aE43dmY0cnZSQ2tCSnB1eEpLSEwxekRKaEc0Rm9uelZsRFpX?=
- =?utf-8?B?cklMcklWTENwVnZPUm9RUHRYQnA5VE5RWGo4YWdEOGtIUVNUZDlvRzZHdjcr?=
- =?utf-8?B?Yk81MmhRZXB2ZFZvS2tOUjczK0FLakdhWkFVZ09iUWI4cVFQaUVkSFNwNzJ4?=
- =?utf-8?B?cGpqbDArU2MrYVcxK2J1VGdJNG1ybi9zMnhHWXlaRGQ3QVdiVjdDbzRRODN3?=
- =?utf-8?B?WHliY2F5UitJTlR1aTMzcW1rdzIyOU1iclByZ1dpUWpsaWdwRkNKZFBZRzFa?=
- =?utf-8?B?ZUV2U1Y1SDE0UDF2Zkh2K0Irbm5NZk5wdTUzWnZINHQ3eG1hNllsR3hmV0pC?=
- =?utf-8?B?MDZPQmV0aHFrV0xrRnUwVlZtUjV0NVo0N3R1UzJOQWxIdE1VdnpGMzhHOUdI?=
- =?utf-8?B?UEFORksrV2RPblc0cS8rMnlZeVV1bnE2RVlxTVpya2JEVjAzV21FejVxWmM3?=
- =?utf-8?B?bThTd0pBemZEUm9DK0tyaHpBNUZGM0JxOWtxakJQSGowSm50QzJ3K0hZb0ls?=
- =?utf-8?B?UktmSkNEUWxOSW0zOVNNaDhSY0taTUlFTG14LytaQUZBb2p5ckF2TU5kNHVV?=
- =?utf-8?B?L3RDZ2t4d2c2T1d6K3FaWkU3YSthUlhwVkkwbzVpdE1lMzljK3dSaEpJNnl2?=
- =?utf-8?B?Y2xLSjJpaU8xSitlZldueHQwVWJleTZoemx5dVNsRUJ3Z01Ga0NRaGNPd096?=
- =?utf-8?Q?pmPRCZY1JP1gfyuP/5gxfa+VCwK0UQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6011.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YTlTaGxMNURHWGFKSlhkenc0VzdDZDRXek5maUk2WmRkMDNha0NWVkJQVVZj?=
- =?utf-8?B?WEpTTk11MEVWTWdSNWlJZi9Yd3ExaUZzME9CT2dwdzZjS2lIT1kyU0MrM0hH?=
- =?utf-8?B?Q0pSUEltaS83Wm9qOGt5cEhaZkdQK1FEL2ZCVE94UnZCZXk2emN0V2pzcitJ?=
- =?utf-8?B?WkNQWnp6UnBKK2dsVU9SdnBPLzJTdmxXaGF3ejZOVFR5aDYycHM2eG9iVEJN?=
- =?utf-8?B?aW1ub2tsaEpuYUVVRm5rSkh2Vm54QUt5OHh5MWwrd1ZkSlVGekZLVVBueS9v?=
- =?utf-8?B?SzNsUVlabFhKdzVUaVBKYXFDM2M0SG9Ibmcwc0pyNUVieWpNV3FRbzFmajdq?=
- =?utf-8?B?MVk0MlNEZE85NFI4ZTB4RFVNL3U4SHFGZnJxQmE0aXN5SHlBcXBqTDQrRW9J?=
- =?utf-8?B?REFLb2Zaend5TWJCYlJpQ2ROa2pLYmxraDUvS01rWWFQK09LeE45UVJ1VGhL?=
- =?utf-8?B?MnEwVUtmWUZkUnZjZ0lvOExSMGliWXN1RXhXZ2M3b1daMWtaQVlBVkJmdExz?=
- =?utf-8?B?Wk1ZUWordHcxSGFyZ2xpM005ZFFVTlkvK1huTnQrZmhqM1VlMy84WVRlWXJT?=
- =?utf-8?B?SmNSaTgybDU2YWtXaTBhMmdWMUNKWHpySmNBc1lPTnV1dXd1ZzF5ZjJjWWpT?=
- =?utf-8?B?WEFNamdPRE4rOUZNY2ZGenMvQmlWdHE5TkRYSy80NFJ1SzVscXFNZXE5OHQx?=
- =?utf-8?B?R1J5Vjd0RHpLTTdWNWVDTHU3UEFWdURub3luQUkrQndxWHJuZmIybllGTFlO?=
- =?utf-8?B?a3pwUnlkMFdEQnlnQ0MvVE1uNDdabHdkY1FZUnNoWGlKbmdxcVZ2MTcrVUVm?=
- =?utf-8?B?akZkY3l6bVgyaEphaTJxS3c2ZzZtQThJelR3bnlXUGFIM0d4VjZwbkJlQ1A3?=
- =?utf-8?B?UTFJMkhNeFNLdDBoYkZqVWFUbUFRMVNrYVR5NTJWYkZMNzVLSGFQR3JoZFQ2?=
- =?utf-8?B?aXFxZW1wV1N1SHpXc0lITEY5bUVkcHlOdm5VVGFnZWIvditwR3NPYThKYzkr?=
- =?utf-8?B?MkFHT2pzc2c1VmJCYi9BcnFRMjE0Q1AzWWxKK0JOcDNqQzQ5Q29vdWRocjJv?=
- =?utf-8?B?cTZBUTJsWlVEM1NBOHN5WGM5dWJ0b1BqeW8vbDJXakdIQWtJcE9INjU4ampZ?=
- =?utf-8?B?cjlEV0pJSXJQUitkeGFubGQwOGRjWEwyR0pzWUpGZDNwQzgzaitaRkVoaHZ1?=
- =?utf-8?B?bnJEK1A3amUyc1Q4cldseGVoSHd6ZkFSSFRiRkplRkFDaStFOXF1VThGZ240?=
- =?utf-8?B?MFFlMHY1ME8xczk1QUNIbytCRHNKWWwxcllDb0N5WWZWS3BLNW55UFo4M1lM?=
- =?utf-8?B?M3JzRnRZNkZ4dHlQSkt1ZGdUOGo1Rk93OGxpOXZPN3BNS3M0OGwySktwUWg5?=
- =?utf-8?B?Y3U3TWsrOEw2dWdjVkZVNmh0eGZEWG9yV21ZSWtKVDZ4SnkvMGdXb1orTFEx?=
- =?utf-8?B?QnpuSTA5ZGx5U2s5VTNrUlptM2F2KzVBQk1NUzVOajdKZjZYRUIzT2o2eXdF?=
- =?utf-8?B?QktoS0pJUzUxUE9iQ095V1lPMndKSGNKWXRDQ3BwK0w5RGozOGpFT2l5QkVh?=
- =?utf-8?B?UkVyd1p3RW5QVnFOdFo5Vkx5dUthU2ZWUStjMEtDallicDBleVBpaUd0NE1h?=
- =?utf-8?B?QWhlaWJOSENMS0hPenhWSitSUnF6ajRzbVhrSUhZUEtTcFptRmxhYUVWaGNk?=
- =?utf-8?B?NnVBUFNXdGlNTEI3bjNnZVZ4OXRYUkNvZnVEbVNpMGdRNWZxV2xJUUp4Q1Vz?=
- =?utf-8?B?OVZoSlJoOTZSc2RGV3hFRGlWNlFreVV1MzcyZWhHekp3TndTbjFKNmc1eU13?=
- =?utf-8?B?R3cyYk5qM3lKMitUUzJBczFYRWNtbFhlNHFPbjQ2TTlJZG9DMVMxdUhJWjZl?=
- =?utf-8?B?bFRxNFNLNnBlWHE4eXBSQWM5c2x3d09vK3FWQ084VnFhV0ZJTUdsallKVEhG?=
- =?utf-8?B?ZElZZmRrc2RGZ25mV296aW9yT1VsbnFtRkVLc0h6VWNkTTdpT3R4OXN2dkY1?=
- =?utf-8?B?VjRjb01EN0lMMC9JakszMEtGYnU2UTFwYnorVm9RWjcxd3JKcVhwT0pobHph?=
- =?utf-8?B?bStVQWVNeW0zb0xsMU1FRU9wcGNwN3lFam55Y1YyL0MyMlpyN0VCVWZvNjJy?=
- =?utf-8?B?Qk5Ld0czZUlFRnlNcjQ4K1JvaFJpZ2FhOE9Hd1VWZytsSnBmbjhTeEppczgw?=
- =?utf-8?B?cEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b6df5e6-a397-4870-daf2-08de0a4847df
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 11:04:29.5168 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ye3Wvj1CDgSLVjDLkWL6W7+sIOEe+ZBR5PGasNVbpTtdK0VkQ9pASgSAAtYre45Q/Tvx3NWX4QyVhMCii0apjYUGWlTjY8NpWk2MlLPbEaM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6709
-X-OriginatorOrg: intel.com
+References: <20251001135914.13754-1-caojunjie650@gmail.com>
+ <20251001135914.13754-3-caojunjie650@gmail.com>
+ <cwgn24f6tnmytd4omr2tul4e5jjin3ijji3ff3qkumqm2xe3t3@ntayu3m5kai3>
+ <CAK6c68jBwykcWZm3ckm3nwab-X9Are4rD-eauE4rXA2+XvuX1w@mail.gmail.com>
+ <9cafccd5-35d4-46c5-aa57-1b0b8ec116e8@oss.qualcomm.com>
+In-Reply-To: <9cafccd5-35d4-46c5-aa57-1b0b8ec116e8@oss.qualcomm.com>
+From: Junjie Cao <caojunjie650@gmail.com>
+Date: Mon, 13 Oct 2025 19:04:43 +0800
+X-Gm-Features: AS18NWAHjO2WhOdNhja1yiGzTv7NF2-hQQdiny2sVnNEXy9aQKZ9xWdUII5sYvA
+Message-ID: <CAK6c68iV=n3BvMMa30FuehbMs7-U01s0saZnsYwPVoiyw0VTrg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Antonino Maniscalco <antomani103@gmail.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Eugene Lepshy <fekz115@gmail.com>,
+ Jun Nie <jun.nie@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -210,182 +104,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=B4=
+10=E6=9C=8813=E6=97=A5=E5=91=A8=E4=B8=80 17:39=E5=86=99=E9=81=93=EF=BC=9A
+> On 13/10/2025 04:52, =E6=9B=B9=E4=BF=8A=E6=9D=B0 wrote:
+> >  >Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com
+> > <mailto:dmitry.baryshkov@oss.qualcomm.com>> =E4=BA=8E2025=E5=B9=B410=E6=
+=9C=882=E6=97=A5=E5=91=A8=E5=9B=9B 10:04=E5=86=99=E9=81=93=EF=BC=9A
+> >  >On Wed, Oct 01, 2025 at 09:59:13PM +0800, Junjie Cao wrote:
+> >  >> From: Jun Nie <jun.nie@linaro.org <mailto:jun.nie@linaro.org>>
+> >  >>
+> >  >> Some panels support multiple slice to be sent in a single DSC
+> > packet. And
+> >  >> this feature is a must for specific panels, such as JDI LPM026M648C=
+.
+> > Add a
+> >  >> dsc_slice_per_pkt member into struct mipi_dsi_device and support th=
+e
+> >  >> feature in msm mdss driver.
+> >  >>
+> >  >> Co-developed-by: Jonathan Marek <jonathan@marek.ca
+> > <mailto:jonathan@marek.ca>>
+> >  >> Signed-off-by: Jonathan Marek <jonathan@marek.ca
+> > <mailto:jonathan@marek.ca>>
+> >  >> Signed-off-by: Jun Nie <jun.nie@linaro.org <mailto:jun.nie@linaro.o=
+rg>>
+> >  >> Signed-off-by: Junjie Cao <caojunjie650@gmail.com
+> > <mailto:caojunjie650@gmail.com>>
+> >  >> ---
+> >  >>  drivers/gpu/drm/msm/dsi/dsi_host.c | 25 ++++++++++---------------
+> >  >>  include/drm/drm_mipi_dsi.h         |  2 ++
+> >  >>  2 files changed, 12 insertions(+), 15 deletions(-)
+> >  >
+> >  >Please extract the generic part, so that it can be merged through a
+> >  >generic tree.
+> >  >
+> >
+> > Sorry, I don't get it.  The generic part, generic tree? Do you mean
+> > the drm tree? `slice_per_pkt >=3D 2` is seen on the panels of these
+> > tablets that are equipped with qcom chips. I don't know if these
+> > panels are used on other platforms, and if it is necessary to do it
+> > in drm.
+>
+> There are two changes here:
+> - MIPI DSI header change
+> - msm DSI driver
+>
+> I've asked to split it to those two commits so that he change for
+> drm_mipi_dsi.h is more obvious for reviewers and so that it can be
+> merged through a drm-misc tree (or through drm-msm tree provided it gets
+> a necessary ack).
+>
 
+Thanks for your clear explanation.
 
-On 10/11/2025 9:38 PM, Michał Winiarski wrote:
-> The size is normally used to make a decision on when to stop the device
-> (mainly when it's in a pre_copy state).
-> 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c | 18 ++++++++++
->  drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h |  2 ++
->  drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c      | 34 +++++++++++++++++++
->  drivers/gpu/drm/xe/xe_sriov_pf_migration.c    | 30 ++++++++++++++++
->  drivers/gpu/drm/xe/xe_sriov_pf_migration.h    |  1 +
->  5 files changed, 85 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-> index 582aaf062cbd4..50f09994e2854 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-> @@ -395,6 +395,24 @@ ssize_t xe_gt_sriov_pf_migration_write_guc_state(struct xe_gt *gt, unsigned int
->  }
->  #endif /* CONFIG_DEBUG_FS */
->  
-> +/**
-> + * xe_gt_sriov_pf_migration_size() - Total size of migration data from all components within a GT
-> + * @gt: the &struct xe_gt
-> + * @vfid: the VF identifier
-> + *
-> + * This function is for PF only.
-> + *
-> + * Return: total migration data size in bytes or a negative error code on failure.
-> + */
-> +ssize_t xe_gt_sriov_pf_migration_size(struct xe_gt *gt, unsigned int vfid)
-> +{
-> +	ssize_t total = 0;
-> +
-> +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
-> +
+I don't mind to add the field separately. But should I submit it
+with the panel driver together? Otherwise, this field is unused
+for a while.
 
-as this is so trivial now, maybe add some note why it is like that for now
+However, as you mentioned, this is not a part of standard, neither
+mipi dsi nor VESA DSC. Recently, only Qualcomm devices require it
+to calculate parameters, then we use them to program registers. Why
+don't we parse the field from devicetree?
 
-> +	return total;
-> +}
-> +
->  /**
->   * xe_gt_sriov_pf_migration_ring_empty() - Check if a migration ring is empty
->   * @gt: the &struct xe_gt
-> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
-> index 1e4dc46413823..e5298d35d7d7e 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
-> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
-> @@ -15,6 +15,8 @@ int xe_gt_sriov_pf_migration_init(struct xe_gt *gt);
->  int xe_gt_sriov_pf_migration_save_guc_state(struct xe_gt *gt, unsigned int vfid);
->  int xe_gt_sriov_pf_migration_restore_guc_state(struct xe_gt *gt, unsigned int vfid);
->  
-> +ssize_t xe_gt_sriov_pf_migration_size(struct xe_gt *gt, unsigned int vfid);
-> +
->  bool xe_gt_sriov_pf_migration_ring_empty(struct xe_gt *gt, unsigned int vfid);
->  int xe_gt_sriov_pf_migration_ring_produce(struct xe_gt *gt, unsigned int vfid,
->  					  struct xe_sriov_pf_migration_data *data);
-> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
-> index ce780719760a6..b06e893fe54cf 100644
-> --- a/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
-> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
-> @@ -13,6 +13,7 @@
->  #include "xe_sriov_pf_control.h"
->  #include "xe_sriov_pf_debugfs.h"
->  #include "xe_sriov_pf_helpers.h"
-> +#include "xe_sriov_pf_migration.h"
->  #include "xe_sriov_pf_migration_data.h"
->  #include "xe_sriov_pf_service.h"
->  #include "xe_sriov_printk.h"
-> @@ -203,6 +204,38 @@ static const struct file_operations data_vf_fops = {
->  	.llseek		= default_llseek,
->  };
->  
-> +static ssize_t size_read(struct file *file, char __user *ubuf, size_t count, loff_t *ppos)
-> +{
-> +	struct dentry *dent = file_dentry(file);
-> +	struct dentry *vfdentry = dent->d_parent;
-> +	struct dentry *migration_dentry = vfdentry->d_parent;
-> +	unsigned int vfid = (uintptr_t)vfdentry->d_inode->i_private;
-> +	struct xe_device *xe = migration_dentry->d_inode->i_private;
+>
+> --
+> With best wishes
+> Dmitry
 
-use helpers
-
-> +	char buf[21];
-> +	ssize_t ret;
-> +	int len;
-> +
-> +	xe_assert(xe, vfid);
-> +	xe_sriov_pf_assert_vfid(xe, vfid);
-
-it doesn't matter for this function, so why assert here?
-
-> +
-> +	xe_pm_runtime_get(xe);
-> +	ret = xe_sriov_pf_migration_size(xe, vfid);
-> +	xe_pm_runtime_put(xe);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	len = scnprintf(buf, sizeof(buf), "%zd\n", ret);
-> +
-> +	return simple_read_from_buffer(ubuf, count, ppos, buf, len);
-> +}
-> +
-> +static const struct file_operations size_vf_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.open		= simple_open,
-> +	.read		= size_read,
-> +	.llseek		= default_llseek,
-> +};
-> +
->  static void pf_populate_vf(struct xe_device *xe, struct dentry *vfdent)
->  {
->  	debugfs_create_file("pause", 0200, vfdent, xe, &pause_vf_fops);
-> @@ -212,6 +245,7 @@ static void pf_populate_vf(struct xe_device *xe, struct dentry *vfdent)
->  	debugfs_create_file("save", 0600, vfdent, xe, &save_vf_fops);
->  	debugfs_create_file("restore", 0600, vfdent, xe, &restore_vf_fops);
->  	debugfs_create_file("migration_data", 0600, vfdent, xe, &data_vf_fops);
-> +	debugfs_create_file("migration_size", 0400, vfdent, xe, &size_vf_fops);
->  }
->  
->  static void pf_populate_with_tiles(struct xe_device *xe, struct dentry *dent, unsigned int vfid)
-> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
-> index a0cfac456ba0b..6b247581dec65 100644
-> --- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
-> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
-> @@ -249,3 +249,33 @@ int xe_sriov_pf_migration_produce(struct xe_device *xe, unsigned int vfid,
->  
->  	return xe_gt_sriov_pf_migration_ring_produce(gt, vfid, data);
->  }
-> +
-> +/**
-> + * xe_sriov_pf_migration_size() - Total size of migration data from all components within a device
-> + * @xe: the &struct xe_device
-> + * @vfid: the VF identifier
-> + *
-> + * This function is for PF only.
-> + *
-> + * Return: total migration data size in bytes or a negative error code on failure.
-> + */
-> +ssize_t xe_sriov_pf_migration_size(struct xe_device *xe, unsigned int vfid)
-> +{
-> +	size_t size = 0;
-> +	struct xe_gt *gt;
-> +	ssize_t ret;
-> +	u8 gt_id;
-> +
-> +	xe_assert(xe, IS_SRIOV_PF(xe));
-> +
-> +	for_each_gt(gt, xe, gt_id) {
-> +		ret = xe_gt_sriov_pf_migration_size(gt, vfid);
-> +		if (ret < 0) {
-> +			size = ret;
-> +			break;
-
-just:
-			return ret;
-> +		}
-> +		size += ret;
-> +	}
-> +
-> +	return size;
-> +}
-> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
-> index f2020ba19c2da..887ea3e9632bd 100644
-> --- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
-> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
-> @@ -14,6 +14,7 @@ struct xe_device;
->  #ifdef CONFIG_PCI_IOV
->  int xe_sriov_pf_migration_init(struct xe_device *xe);
->  bool xe_sriov_pf_migration_supported(struct xe_device *xe);
-> +ssize_t xe_sriov_pf_migration_size(struct xe_device *xe, unsigned int vfid);
->  struct xe_sriov_pf_migration_data *
->  xe_sriov_pf_migration_consume(struct xe_device *xe, unsigned int vfid);
->  int xe_sriov_pf_migration_produce(struct xe_device *xe, unsigned int vfid,
-
+Regards,
+Junjie
