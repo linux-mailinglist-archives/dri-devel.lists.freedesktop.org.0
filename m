@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B82BD5B9C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 20:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2BDBD5BB7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 20:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFE410E4BD;
-	Mon, 13 Oct 2025 18:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E1E10E4BF;
+	Mon, 13 Oct 2025 18:34:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="SNtHeaJ3";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="M3l6GtmK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com
- (mail-northeuropeazon11012013.outbound.protection.outlook.com [52.101.66.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE91B10E4B9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 18:31:47 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com
+ (mail-norwayeastazon11013048.outbound.protection.outlook.com [40.107.159.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 945BB10E4B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 18:34:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pM7cpajlq7kfXbx9HuI9z2g/MYXmFJfN1cUTZAeLVwI4I2cZcJceYfCqQTPyXjcRyGnHZSFCZQciDjqyVgbGHigb7oHVnm6tdQxbdER8fuzMFUCmogxWcnjqazmneRPt68RC8ei8r7UfYzdUZU40+HlybD1S0StiXg2AMsL6DFOME/z0Zp+Q7z6+u6/xUPFCTqN3DXVb9k0kjwuz7HuM8Sut13qWzHxkY9IYoV/Egzshaa0fPnIDSJvzuYGGKGOmQdKvamx/RwXktOVxD7VYmlXUAWDIiX2sl3u8FCwy47lZifFurUyhm/wOm6c6MYmKMF/I/sFK61nJGp3Mped31A==
+ b=Ho3d43YxHjFmrcJLiSt6Sjv9v9+n1GtcBfWIRynfzk2hrrgm9zB87MgByzUP55GW5pezk6KkkiVhQTkYPlJrb49b1wimNbRp8lXgvSMcfExH7gFJDmDduO/PhWCiQw5dk0AaV+0E8uLD4JM99yEWJ4j3h6UzQ8aJ5cZbGQgg6o/1UmlpaRw+yWILwt3DtXOJftOwJYsE8DG0JGahfx4iZgAT4vJ0jQQXEGrR9iGAiYeAJT7b3E80seCiXUZ25cfXe4DF8QtMYEB8fhQv43B05q4w9LwDpV2wBS1R5OUV56owKfcDtPgcEZnvTxCoCbFyxxZBklJHF+sjMcSz+KT4/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M+QYGLxmECyUwP0mAJR/AYb2pBzF42AvLYb24pnR75U=;
- b=eDDP5xjA7wkP98ShGfYcLuvUwmKNPSNHnftw6/z+M5rbS24gBLJcaCUh+QciRB3rM3C5iQ0IF4nFy+YMBfnZjq9gQvtRmiqIXpGoC+OOJ+hgEbjIpGwguWzSALO3aOZ0M22RF+ADQetL9uwg4RqVlQi+n7x0qW7WypAwcXP9UOAwitTWoU6aEk+6TEB6YdXniNasOtnzeiovllu03T/2B/h42/aqKNsWMvSYZjNiKEzQv6D4CIV9wneNg30AbqzaBw/z/8lRxLyAsYxSjeSZwVcpGfxplNxxQ/BhrfY+Q0FJmWr0RlDjqYz/JQCX+88LDEU0BwcCgi8dd24lhuyNrQ==
+ bh=JtPpCPyLzKH5tA4Vg4MFuqFsAbRWtFnQP3zc8NG/C9E=;
+ b=Unb0CSpx1PclnK3U5LLgUMGiGXJmy8FECmBEKBVw67dxxxjrM0xLunV39HnjA3SPWE7wbEcYiTINDdEk4zVSdWX+TcM7vG67bK36rCQs19y54aZcrnzg+CPHzBxDTVStYozdCn3C6nzlwcE+0mRTgg0Fp1qLancp06iG5YyIquVrj8GNNLapZ6eZTAiLyRioj2gUyhKWreXsX1o1bQ2Tsn7jPIvCgXGYWwKWDk0kvI9yxvT/rmlPF+OJ/kCnLZBnwVjmlovP0YAWc9CbI1N+YilL0kndmpHTGwRVofZHRbTm2QFQPhJmk4QqOS2hzhJcvRq8fawnTLMsyOBSo5ov6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M+QYGLxmECyUwP0mAJR/AYb2pBzF42AvLYb24pnR75U=;
- b=SNtHeaJ3v5Z9RvwTMfxmblZCJRWmBiWEpx+teETKfbEGy35k1AaEVSqnQI1UNyYAVNmf2iKTzRhRvkqZkp4biFdRbICTkj3qMO5/zHbVIvdgL9P7CcxbA3acBoR9wRjT86BgWDqHVfG/H1ZpgaBt1onTC+mv11+InEl7VE/AOIBw3Xxur3djzOhiHWpLuidVfB7FKQz3JZe+V2aKFVNojNAANUK1tEfTIxC6oPjA5M8Jn6giJh9eT5HwWO1q2TXLRLAzpI2KK18nTpHEUOiQOM296hwuNMySLbI9S/CyhJV2WNfPyMYpGzCh+wj0tJysMTwfNktgJeiYGF/CWbfhig==
+ bh=JtPpCPyLzKH5tA4Vg4MFuqFsAbRWtFnQP3zc8NG/C9E=;
+ b=M3l6GtmKYwcPoey0copnC8WPVH8SvXfEb14eJcEheyfJci7ifGLpCXP0c+TyeeUqkgjMssxLVsk/4WKxO9gLbJUUE3QrcifMVun7DJsjJQrtkifjaIeTLWkvJZWD/JsT7YVkS2bTn6FadxD7CH20YVRueRe37syf+PovFjlnHYsIa8G9oXUjAsgV8tNMJGcBP3wQ56QsisMeQjuVpYZ/LckyTr13YAgfCSF+9MSXunIQ+/okqGcq/2aan1Uf1nZ6eYSOsWWFFBVYvrKQvevCr2++2oKjYDGfs7xb6f979jHNi/cq2Rvcjbu5cfFaGho3rx6YbZ2mMxCgWuD/S8EYag==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by AS1PR04MB9383.eurprd04.prod.outlook.com (2603:10a6:20b:4d9::13)
+ by DU4PR04MB11755.eurprd04.prod.outlook.com (2603:10a6:10:621::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Mon, 13 Oct
- 2025 18:31:45 +0000
+ 2025 18:34:23 +0000
 Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
  ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
  ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 18:31:45 +0000
-Date: Mon, 13 Oct 2025 14:31:36 -0400
+ 18:34:23 +0000
+Date: Mon, 13 Oct 2025 14:34:13 -0400
 From: Frank Li <Frank.li@nxp.com>
 To: Marek Vasut <marek.vasut@mailbox.org>
 Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
@@ -55,94 +55,93 @@ Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-clk@vger.kernel.org
-Subject: Re: [PATCH 12/39] drm/imx: dc: ed: Pass struct
- dc_fg_subdev_match_data via OF match data
-Message-ID: <aO1FiCu9cHKtwT94@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH 13/39] drm/imx: dc: fu: Describe remaining register offsets
+Message-ID: <aO1GJX/2MsA0a2x9@lizhi-Precision-Tower-5810>
 References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-13-marek.vasut@mailbox.org>
+ <20251011170213.128907-14-marek.vasut@mailbox.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251011170213.128907-13-marek.vasut@mailbox.org>
-X-ClientProxiedBy: PH8PR21CA0013.namprd21.prod.outlook.com
- (2603:10b6:510:2ce::22) To AS4PR04MB9621.eurprd04.prod.outlook.com
+In-Reply-To: <20251011170213.128907-14-marek.vasut@mailbox.org>
+X-ClientProxiedBy: SJ0PR05CA0088.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::33) To AS4PR04MB9621.eurprd04.prod.outlook.com
  (2603:10a6:20b:4ff::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|AS1PR04MB9383:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8fcc09a4-b5bf-48b7-0358-08de0a86c2f1
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|DU4PR04MB11755:EE_
+X-MS-Office365-Filtering-Correlation-Id: 564d3438-1fc4-4e01-207b-08de0a872146
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|52116014|19092799006|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qGLmZBMne/PXAdl/TdJLgOFYyAikI2Hr4an9or58jRf+da423tBPNgCatuAp?=
- =?us-ascii?Q?ljmgiqOwfSvVyRAIkq1cqlD3mNmJGGmWExReqt1IIT+cxojlU+vye1wKCv+g?=
- =?us-ascii?Q?tjqzY1x3aSCgS1VJ4kURquXjTw7vHECA4OK5xOWCX5TfM8Qxv6ZRgPj9zX4W?=
- =?us-ascii?Q?dGAOsMeXTzDhYynUU0M1szL2tuyS114j5qMKZFombaqSxVd9S2L2Mw2wGk4M?=
- =?us-ascii?Q?MRvfFHdbfoMJNQ4KE/vLlj5d0nRU9NQXF+AAR9/AaeRju8SJeJVszxE8o3c7?=
- =?us-ascii?Q?hsTmN1jlfdkRuIVUTZgiYqH6tjQtimzPN8WcPwFwYyxvtRFV1gpxgoURE2Sp?=
- =?us-ascii?Q?JfECMc2+zXEC4RnM5DsmUDAdHWFx47JyRyaZgmEkPaWuWi30FY1l3FybDLBa?=
- =?us-ascii?Q?puS5JJuqlbBgvIxTWH/lLYsu1VNuxnFz5+/t7+kkWJ3h+BWeHkbV0f06EEA8?=
- =?us-ascii?Q?rwag1E+zAGvxZrl9i4m8Y5rdj+EejtDAaAP+nOnhnuhzt1rcfXeq4cenEJgI?=
- =?us-ascii?Q?Y7wKTPQNX7xdtES/s6fJNVU7Rd+U4tz0ApsENQMPOgtwbeocGZzp4reQkDFE?=
- =?us-ascii?Q?r6TZWU4raSnMYCD95Ke3TY84HYRyMsBamT9nWt/0xi9a8vS3AwJ2SEZQ0Ig2?=
- =?us-ascii?Q?7N3b9p+OXkcBWfbtSb9mt3pBPU5SPUqukrw5LGPDQOb40Cv0sfMOdtWUV1L0?=
- =?us-ascii?Q?NnR0r0sD3W2i6ZEuABAfhbUmOcQ/QVzKl4XnKCUqIfdmTkYFZPloyWrHA0KV?=
- =?us-ascii?Q?2NPEumMpi3Qh4juF0taDLa1+bzRnguvmsgBP2ShN/RtP5Jd83IRoXwo/dV3n?=
- =?us-ascii?Q?/Vzogt+Na1NxGtgYvNpYe/kckulV/B29JWTju16XTgV3OFAq5z/a6+CPm0ZK?=
- =?us-ascii?Q?q6CaqCc1d+jUzxb/qfWSROaGFu2/viJ1hztmxDAfrSlnIFvNk3mmZbJnH8im?=
- =?us-ascii?Q?+j/xn7b8bU1TmylR4N97TdVx9O2FOouYtWQRdnQnokyCRtMaoYxnf6wP6Kkt?=
- =?us-ascii?Q?RVfCmuyOdYfBzlZQvOlm1td1av+n2xGuK0RNZ4wid9wEUbVUnIaQPkbmwcpe?=
- =?us-ascii?Q?NKBkftsNNBJb4/FXuORlnjGwKs8Y8i8CSlwWz6zYBo9QHtVJn6FD42NLlHp0?=
- =?us-ascii?Q?FTlotzEOS2da8+fVY+9fsbPX9hU4c7GTFZfVlpjO6ib1fA0BFK8gNhvfU8DA?=
- =?us-ascii?Q?tfsc9hXicwi0geRXlif1SsofbjGVdyLJWUrIveqE+IpHJ+C6hee8cTXOPN6C?=
- =?us-ascii?Q?Am7Ifs91gMy+uC+zl3vLt/w6GiqMT6zaKBmXPkYKGSquZoJwNsUpqwXoWRXL?=
- =?us-ascii?Q?6N0JitWiQYvZ7uo7vcs0+VqLth1CN8RdqY1FjO9Mzbnf6+c91SEL6r+sRSoh?=
- =?us-ascii?Q?3SOqfwdnL01EjEKC7Riw3b/xIxfCKWTm87jhwJce2f/mv3Xvb6FAfyb2fr+4?=
- =?us-ascii?Q?48CpdN1mxhbIRyIPaR7lK0dnhi9cSR3OcLR4k8exzImc8IAzt5+HVCQcg6dX?=
- =?us-ascii?Q?cgTZ8a555C10y//SqB/e8bpMR/UHEECDRn15?=
+ ARA:13230040|1800799024|366016|376014|7416014|52116014|19092799006|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LNuAjDGEBuBD/XT3ORe/mEeIj64Tnr5pLXGJtBw/7HtrwuL/DfOkUKAPPDNg?=
+ =?us-ascii?Q?ml/j0d4fSorbRCBHgXFuYRWVjsM4hycabd+CDxW61aPcwjOcU0RKLHBlTJTH?=
+ =?us-ascii?Q?mRV3TaskWrc06i9z58do0vzQefeQe3QQRbsixyjVDKyx2HTk4kLlhvdlr/oS?=
+ =?us-ascii?Q?KagC9BwXrTyGwgpHtTqznH+NY9h7pljUwyjCWkGX0vGbVaZwh2kEM3v/4THI?=
+ =?us-ascii?Q?wvLjTGkvZZeTCrYicQw/g9gpH/SqEjo5uVEPEzJ2/cPg6XB5XTMlZuiGPnSs?=
+ =?us-ascii?Q?75BeOZVmgPCS3smOxHNV4q0HQJSxShq/yJJOOWjqMUvpa9JEPmW98BnOSEzh?=
+ =?us-ascii?Q?rmiv7y2TtQWGcCI5QzWBAXhIMgywwh0sJUhEiP0ZYsikjDSJKK0oRiVcyCAD?=
+ =?us-ascii?Q?n7/WLmiYQXUwwE8pGPQz/TcFszqeRZrsDj20JD2ZEPLvaEM98R5UGAQMqJoj?=
+ =?us-ascii?Q?y/eoY0cQ9bO141IlzpYr1J4sg+B6OblZs6E3qI8vx7VZ0wyQSWBVJV/hae/l?=
+ =?us-ascii?Q?syLtlEu0QpTasIwiTyqH/m5arZl1V+5DO/Q4SMKnM+YF9LIVWnIHfYx2WVRi?=
+ =?us-ascii?Q?9dAuYK1mQ+acxJ64CdKpngcML+bzqZcR/QhkCiJZOR8hxSyUZLwyJE6G4l7u?=
+ =?us-ascii?Q?kc++3quhC77DM5/+FDoZvkKSeo1ptqmwlE8Slh76zzbIjEDbdMQpQI8blW1N?=
+ =?us-ascii?Q?/9UqNxlYSpFRcvBvS9VZJbegDG+jhCQPP2Gma+E7Y0H2cnMgUmjDpOC8Nkzc?=
+ =?us-ascii?Q?6DyfvTC9+5ZRVtfBvuj6WJvJJYOeOM3NUcwHLyv6S8H6lc+eXw9G5ybh/IRH?=
+ =?us-ascii?Q?X42I2k48pv4N2lYjDTgbEkIQWm4pFHKPxsaFDweWESKuxbRK3LXRtXf7va83?=
+ =?us-ascii?Q?7z+v3yyTr3ZNfF7BYZjhWnyHa5K4I+OEkOAdxj32NINyBLZZwpsv5cJCnCFU?=
+ =?us-ascii?Q?3hxlgUMH3nTmw2F5t+bzCDBGHB9tsF50D4kJU0s2P+IvyBJ20pqkQpNnCRiv?=
+ =?us-ascii?Q?f11AxhfpEmxH4i4zImWYOMqUpjI5dXS6FffB0TRBuptBjN0E95pD6WKUfGa5?=
+ =?us-ascii?Q?Xw9FQxaKBrhI0FfA5x7K8o+AcnWhTzlOQ1QFdyFG6syU2JnZ0YRalWrCeH/T?=
+ =?us-ascii?Q?AzLempVw5y6f28Jm+2aZRD3eyPL0rPlEMXTKrsnPW5aswkz9OdR4PLK4TjgB?=
+ =?us-ascii?Q?hR1FFWtnMAyjGGJRv84hFquiLRI9AuTqwE9aqq7kFVcJzZ48TlAumm66n2Nq?=
+ =?us-ascii?Q?eBA3uxGVn9ljNHt4QPq9lq21D36BOFyoTXmLXb1B3As2yHsCiW5FTja4ZkI5?=
+ =?us-ascii?Q?m+qnIuikkBMlP3An9Cx/qpRGxySktu/aRri9xXBOtaumgCFUuTDt8Q7KBF/v?=
+ =?us-ascii?Q?l+ToH9b5nqNQUa6GKXhRFADKCf3cej2qcmm9XGYNXFA3TdEHCT8VjLfuPrxr?=
+ =?us-ascii?Q?bQMRHk4cUe5BsUqRRPXbIVB45SDdZljO6MihIxD4jPc1el9O4Muat2dwRBNd?=
+ =?us-ascii?Q?2C3PL9dYcT1TbIUrYzzRNF+qm9bg4hm/3StW?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(19092799006)(366016)(7053199007)(38350700014);
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(19092799006)(7053199007)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R5uFmoZTlb+lqkwaV/yrFlBEYIfympb89iQbiE03BpgttLvg2M8IdYbdMeC1?=
- =?us-ascii?Q?32m+FZxgfu5Q3zo0PZXjkOBcLG3suRIbFOWfz/qpXpwJ4mzSptO+XhrEQxBV?=
- =?us-ascii?Q?6SoXzufGf2fbEs0k9lp030YSiBUJHQbldwM1unJqKgmslnEd0+VbG/NPvuIV?=
- =?us-ascii?Q?5rCgFqeYghqgPIMQsLdetDj75q49UMBFipzwMgkolFDwOAMXdpCiGNe3YIeU?=
- =?us-ascii?Q?3SSTLv9Ffpe1Dq6C1H5K7amTySRljBhcoJaWf2m8EzI0chLHYj8w76rrU8BS?=
- =?us-ascii?Q?1IfHFmV82Xl/kxAdWD8YXSvJxfM6rdzp1fhlIwq7dFVnHkLqIKsXUGjIPNzL?=
- =?us-ascii?Q?/qX5MkRdDV4LaaNm3V6a5dUJboMCc3e5tysup1BRLk2BrQXlA+I0hWQB5229?=
- =?us-ascii?Q?pCMa6x4r5vWXsyr99qLx4aGXa3DmMVjYam5vzDvWE1C0+cpzA8IMAQsWJTSI?=
- =?us-ascii?Q?6w+gniCPYSO2qSKp9iOe/5EljzMVNmpXfcm1tIdtQqPT2eNaW0knB5orRz1E?=
- =?us-ascii?Q?rVTstYUwm+9rohUQIyzp5n7Q2rp1rxdxhIRTeEpDU3qdYVweb65W6rMFUTDT?=
- =?us-ascii?Q?ii8//tSk5gUoR9QaGmWHosUxDsK0Z4YGZI1+MS5twoUlU756Rn7iXvvEW4kp?=
- =?us-ascii?Q?85lXH1YIpvniXySaSd3phLO2z8pySe84mG7bime9dltd+SCVfpGeFSMt7QSs?=
- =?us-ascii?Q?Qq48XAQtgXz8NwlpzC74J4CQ+nnre/UtOkWIukdPHCTGGbc7YG62r6EbI/rV?=
- =?us-ascii?Q?5l47ZfeFYqf/7KrtrwS1Nj3ZyrlyWPpImc5Phjl1uB256XyHxFnzzNkIV/DL?=
- =?us-ascii?Q?GK0uoafR4gcePxSTrRDndZO0gtrglzo/3j229EHEGRAiAUG/gRQBAQVOsl1L?=
- =?us-ascii?Q?2jV+r5uTHitE0pLguJyz352e4Fwjn7WNlMziSjwGXQeqvgszICeCLBYw5DOF?=
- =?us-ascii?Q?6kp4T8ml/ePycgg9RObvUEyZrhOrTMNJIWTJiWNFTSGfT3SZ6J12S19Jd/fy?=
- =?us-ascii?Q?WEApWhE/Digg1Y0nSj2eAmJXKD1nUxrF+MIHBc9tl1VsISee92y/aUEFpVa8?=
- =?us-ascii?Q?WzhzAhDdv2us9utWkh//siNbhZTRML8aTcDhBfR7FcLcJGfAGqw/xoNa23HW?=
- =?us-ascii?Q?awR0juN5i+RM09AgWlR2/5JHw4f5kZ1eArTHzCd8zKy4iuV0Y3odAULE/6xu?=
- =?us-ascii?Q?NZdMVGxc/q9DyzBSNdnLjLyztGQXgC/ACr51PEo7d/C6Z8xGioMfcKiAPvRa?=
- =?us-ascii?Q?dHDEnV/0/+rK2O3vYAyBkgfd97NvBeNXzjiu8AIf4U6fPCLbVy2VpAs4dgSo?=
- =?us-ascii?Q?MwAOB4X0Uu+UXF40EE8Gl9V8ONe8zTNnc50kGu+vQXacjeC8JqtVf1IJZeFl?=
- =?us-ascii?Q?2ZuTu+FA6V3s30538MSuiIwWx1V9jT0X+NKllDPvS1hPY+4NQH8WtAdwmq2z?=
- =?us-ascii?Q?P9NHy+Jc6imOXQDSR2RTwTeH5d/nxDz6MRMmud/v1XgiqEbO4r3RX/jRdtOv?=
- =?us-ascii?Q?YQkl+u7NKWcv5cCzdGZM5dyBSY92/qBfuXy+Nri/TBNBq1nFiZAbBE44bB9g?=
- =?us-ascii?Q?sQK1sAKuHHtNz2DADfaSSBiHUkgZHS8BIMgaAakq?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lWLCSFClvNYNKDvhNh8pkEbAsW5D9rpKgW8YUAcenRTtE/vUXT3nOzuJ4WYI?=
+ =?us-ascii?Q?3ZpkawuWz91fafmf0hmwPwYgHsDhEyFTpuZoQLj36GkTj/4iR41yZryPPktT?=
+ =?us-ascii?Q?4Zu6qPlOSgNuuTGimRk0UWpl0jnsmt2PJ+kwtI/XsnwNnS04RiQy8mcDxtI5?=
+ =?us-ascii?Q?kp9AiiIs9Xq1OZghz+ZULbCFyBa11zLtaeIN4JrQYVXeL7duHTdgkOZr6Mla?=
+ =?us-ascii?Q?goD7DYEutygPPU7bY41XabkI6MfQuyluNmQtIWaY9i8lFmVQf+2Ft4CwkyK6?=
+ =?us-ascii?Q?ERSb7DJ/Upj5DuJAAGKOqM5aQHe3BdHZU3KYZThqp6NWQ6HwdaN19ozDmWRL?=
+ =?us-ascii?Q?RbYvGBC1hfCBJ343cE8PvbX5NdKS8aHXJwvjMpQt2mqFpT+3GReaQhk6d1cR?=
+ =?us-ascii?Q?8AjeLczxiw0H6lYfxvCVHFCMNqU1jXCo87y2QF+BYOJWd37NsUbkFqgHGIf4?=
+ =?us-ascii?Q?Cdswlw6GejiOwJrErk9L/HWSB9Sz4veSse7K701CdIunIPKoleQ49xiM24Jz?=
+ =?us-ascii?Q?m7N5o1N6gKcLOTw3KH62fzKn88mPvBMU6e99VcKMDXpDvDNtKFzfwoIkKu5Y?=
+ =?us-ascii?Q?httnYSHmEl03C+UOONNNXo496iFkrsslbpFEjzS4UW2nRHbRNUev3fgucjwp?=
+ =?us-ascii?Q?F2/CUI1qhyQrZDP4rmrqsKcmDoN111IPs1AlOwX2jr5qdfudpSBAor+rWYoC?=
+ =?us-ascii?Q?fH0uNPJ6ojFR30Ulu03rQ7zQdNIDUbdfVD2xrwfRnTVlkYz74acrwyRhV+ZN?=
+ =?us-ascii?Q?zV2Rsi9VsU+Fbaf780vzee3cXEH+MkCHWMNkXXO9x6QiOqlgm2hLJMDGY3rF?=
+ =?us-ascii?Q?2/t8YyUPs6wGGg4Gqxd5WbRsnvtg+fTAWZVciuRtUQLwa/APl84E7pL/5gBc?=
+ =?us-ascii?Q?GKaV0PXWy3PdE/zPC9/Naal8jT5hLR13Hygh9RzbPiKtRAJPi9LKRmFcSd09?=
+ =?us-ascii?Q?GXv2sXihyqj1HPGDmfKoa8VzNbepGNuCA8WXFhDx6YnW9jSvHeXtBCEPaJnM?=
+ =?us-ascii?Q?BOWl4HG3hxucCelfa7e6Hf7EKkScqp3IMRHRo/c1kndFGJHIsaesczCgwSuk?=
+ =?us-ascii?Q?NtBWGEK4JxihK5K6x39kYC4Y/LsLI+iGT5wzqUEEb622VoEpAK5+CmIzbb4G?=
+ =?us-ascii?Q?lbfw/FdVqEdgiYTSNP5FGbpBjdwEjoWe1mRjeY2rFyM0LRDf69YqA2yEOzTx?=
+ =?us-ascii?Q?NOtqKERLRsbxc33vxKexz46VY1kBHITMEWGRBlwuRkqTtlLt00hFiGo5AAWC?=
+ =?us-ascii?Q?d3uZYgBcsDxq7ver5/7jPeiUSldp9nb6Ysz3Vlad4w3FwzxFjeKosKuKi2lU?=
+ =?us-ascii?Q?21VGn9XGdKTYggICfDO+G+SWuSpQrkSCNardILsBSSAe+McxWrCwgVVgF/bB?=
+ =?us-ascii?Q?TqjieC0tkqMi9X2bEMsAi8dtrOzys70o1pL9+TXHmfGQaDJeGlXirYDdIw/e?=
+ =?us-ascii?Q?Dl1fOlnd1luQEBdNvFNxbFVAyfyeup9KzUzNXrY1ntEuaG8zFEjna/F4tIhI?=
+ =?us-ascii?Q?SWqirP/em9HJ+Dxra1k8cTLhMuPCaSUrE6wBtKv3NVoywu89p0NzmYUpLHZn?=
+ =?us-ascii?Q?iSE0rMs6COMfo3uTbr2ACYzcFcSJBRmc66rAyI3/?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fcc09a4-b5bf-48b7-0358-08de0a86c2f1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 564d3438-1fc4-4e01-207b-08de0a872146
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 18:31:44.9359 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 18:34:23.1118 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MsGPUG0dU6AHAHDk9Zk3pWaECdlnsO2Pne/Lg2qPovO9kHXGjxCPXFMvuyHbmg9JKINeuDc3t8FLq5ER66iWvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9383
+X-MS-Exchange-CrossTenant-UserPrincipalName: MYqlYYghmU67SNWEBWKEKyHc055C831taqCcE2ikEKauF+WJQcIRtnoTDyTNuIUVFaS3cG5kP26dYMF3ULQp4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11755
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,13 +157,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 06:51:27PM +0200, Marek Vasut wrote:
-> Introduce struct dc_fg_subdev_match_data which describes the differences
-> between i.MX8QXP and i.MX95, which in this case is registers offset and
-> address space offsets, and pass it as OF match data into the driver, so
-> the driver can use the match data to apply correct offset to access the
-> IP registers on each SoC. This is a preparatory patch for i.MX95 addition.
-> No functional change.
+On Sat, Oct 11, 2025 at 06:51:28PM +0200, Marek Vasut wrote:
+> Describe the rest of register offsets in struct dc_fu { } and
+> use them throughout the driver. This is a preparatory change
+> for i.MX95 addition. No functional change.
+
+Nit: wrap at 75 chars to try to use full line.
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
 >
 > Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 > ---
@@ -186,247 +187,147 @@ On Sat, Oct 11, 2025 at 06:51:27PM +0200, Marek Vasut wrote:
 > Cc: linux-arm-kernel@lists.infradead.org
 > Cc: linux-clk@vger.kernel.org
 > ---
->  drivers/gpu/drm/imx/dc/dc-de.h |  1 +
->  drivers/gpu/drm/imx/dc/dc-fg.c | 74 +++++++++++++++++++++-------------
->  2 files changed, 46 insertions(+), 29 deletions(-)
+>  drivers/gpu/drm/imx/dc/dc-fl.c | 12 ++++++++----
+>  drivers/gpu/drm/imx/dc/dc-fu.c |  6 +++---
+>  drivers/gpu/drm/imx/dc/dc-fu.h |  4 ++++
+>  drivers/gpu/drm/imx/dc/dc-fw.c | 10 +++++++---
+>  4 files changed, 22 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/imx/dc/dc-de.h b/drivers/gpu/drm/imx/dc/dc-de.h
-> index e054ad88190e1..797056a09ddb4 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-de.h
-> +++ b/drivers/gpu/drm/imx/dc/dc-de.h
-> @@ -26,6 +26,7 @@ struct dc_fg {
->  	struct device *dev;
->  	struct regmap *reg;
->  	struct clk *clk_disp;
-> +	unsigned int reg_offset;
-
-the same as other comments, pointer to dc_fg_subdev_match_data.
-
-Frank
->  };
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fl.c b/drivers/gpu/drm/imx/dc/dc-fl.c
+> index d4e746f8c4297..8571871c6a683 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fl.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-fl.c
+> @@ -63,20 +63,20 @@ static void dc_fl_set_fmt(struct dc_fu *fu, enum dc_fu_frac frac,
 >
->  struct dc_tc {
-> diff --git a/drivers/gpu/drm/imx/dc/dc-fg.c b/drivers/gpu/drm/imx/dc/dc-fg.c
-> index 05e635fdb4f9c..e13b057a92ffb 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-fg.c
-> +++ b/drivers/gpu/drm/imx/dc/dc-fg.c
-> @@ -12,6 +12,7 @@
->  #include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include <linux/regmap.h>
->  #include <linux/units.h>
+>  	dc_fu_set_src_bpp(fu, frac, format->cpp[0] * 8);
 >
-> @@ -82,6 +83,12 @@
->  #define FGCHSTATCLR(o)		(0x7c + (o))
->  #define  CLRSECSTAT		BIT(16)
+> -	regmap_write_bits(fu->reg_cfg, LAYERPROPERTY(frac),
+> +	regmap_write_bits(fu->reg_cfg, fu->reg_layerproperty[frac],
+>  			  YUVCONVERSIONMODE_MASK,
+>  			  YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF));
 >
-> +struct dc_fg_subdev_match_data {
-> +	const struct regmap_config	*regmap_config;
-> +	unsigned int			reg_offset;
-> +	const struct dc_subdev_info	*info;
-> +};
-> +
->  enum dc_fg_syncmode {
->  	FG_SYNCMODE_OFF,	/* No side-by-side synchronization. */
->  };
-> @@ -91,46 +98,52 @@ enum dc_fg_dm {
->  	FG_DM_SEC_ON_TOP = 0x5,	/* Both inputs overlaid with secondary on top. */
->  };
+>  	dc_fu_get_pixel_format_bits(fu, format->format, &bits);
+>  	dc_fu_get_pixel_format_shifts(fu, format->format, &shifts);
 >
-> -static const struct dc_subdev_info dc_fg_info[] = {
-> +static const struct dc_subdev_info dc_fg_info_imx8qxp[] = {
->  	{ .reg_start = 0x5618b800, .id = 0, },
->  	{ .reg_start = 0x5618d400, .id = 1, },
->  	{ /* sentinel */ },
->  };
->
-> -static const struct regmap_range dc_fg_regmap_write_ranges[] = {
-> +static const struct regmap_range dc_fg_regmap_write_ranges_imx8qxp[] = {
->  	regmap_reg_range(FGSTCTRL, VTCFG2),
->  	regmap_reg_range(PKICKCONFIG, SKICKCONFIG),
->  	regmap_reg_range(PACFG(OFFSET_MX8QXP), FGSLR(OFFSET_MX8QXP)),
->  	regmap_reg_range(FGCHSTATCLR(OFFSET_MX8QXP), FGCHSTATCLR(OFFSET_MX8QXP)),
->  };
->
-> -static const struct regmap_range dc_fg_regmap_read_ranges[] = {
-> +static const struct regmap_range dc_fg_regmap_read_ranges_imx8qxp[] = {
->  	regmap_reg_range(FGSTCTRL, VTCFG2),
->  	regmap_reg_range(PKICKCONFIG, SKICKCONFIG),
->  	regmap_reg_range(PACFG(OFFSET_MX8QXP), FGENABLE(OFFSET_MX8QXP)),
->  	regmap_reg_range(FGTIMESTAMP(OFFSET_MX8QXP), FGCHSTAT(OFFSET_MX8QXP)),
->  };
->
-> -static const struct regmap_access_table dc_fg_regmap_write_table = {
-> -	.yes_ranges = dc_fg_regmap_write_ranges,
-> -	.n_yes_ranges = ARRAY_SIZE(dc_fg_regmap_write_ranges),
-> +static const struct regmap_access_table dc_fg_regmap_write_table_imx8qxp = {
-> +	.yes_ranges = dc_fg_regmap_write_ranges_imx8qxp,
-> +	.n_yes_ranges = ARRAY_SIZE(dc_fg_regmap_write_ranges_imx8qxp),
->  };
->
-> -static const struct regmap_access_table dc_fg_regmap_read_table = {
-> -	.yes_ranges = dc_fg_regmap_read_ranges,
-> -	.n_yes_ranges = ARRAY_SIZE(dc_fg_regmap_read_ranges),
-> +static const struct regmap_access_table dc_fg_regmap_read_table_imx8qxp = {
-> +	.yes_ranges = dc_fg_regmap_read_ranges_imx8qxp,
-> +	.n_yes_ranges = ARRAY_SIZE(dc_fg_regmap_read_ranges_imx8qxp),
->  };
->
-> -static const struct regmap_config dc_fg_regmap_config = {
-> +static const struct regmap_config dc_fg_regmap_config_imx8qxp = {
->  	.reg_bits = 32,
->  	.reg_stride = 4,
->  	.val_bits = 32,
->  	.fast_io = true,
-> -	.wr_table = &dc_fg_regmap_write_table,
-> -	.rd_table = &dc_fg_regmap_read_table,
-> +	.wr_table = &dc_fg_regmap_write_table_imx8qxp,
-> +	.rd_table = &dc_fg_regmap_read_table_imx8qxp,
->  	.max_register = FGCHSTATCLR(OFFSET_MX8QXP),
->  };
->
-> +static const struct dc_fg_subdev_match_data dc_fg_match_data_imx8qxp = {
-> +	.regmap_config = &dc_fg_regmap_config_imx8qxp,
-> +	.reg_offset = OFFSET_MX8QXP,
-> +	.info = dc_fg_info_imx8qxp,
-> +};
-> +
->  static inline void dc_fg_enable_shden(struct dc_fg *fg)
->  {
->  	regmap_write_bits(fg->reg, FGSTCTRL, SHDEN, SHDEN);
-> @@ -174,15 +187,15 @@ void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m)
->  	regmap_write(fg->reg, SKICKCONFIG, COL(kick_col) | ROW(kick_row) | EN);
->
->  	/* primary and secondary area position configuration */
-> -	regmap_write(fg->reg, PACFG(OFFSET_MX8QXP), STARTX(0) | STARTY(0));
-> -	regmap_write(fg->reg, SACFG(OFFSET_MX8QXP), STARTX(0) | STARTY(0));
-> +	regmap_write(fg->reg, PACFG(fg->reg_offset), STARTX(0) | STARTY(0));
-> +	regmap_write(fg->reg, SACFG(fg->reg_offset), STARTX(0) | STARTY(0));
->
->  	/* alpha */
-> -	regmap_write_bits(fg->reg, FGINCTRL(OFFSET_MX8QXP), ENPRIMALPHA | ENSECALPHA, 0);
-> -	regmap_write_bits(fg->reg, FGINCTRLPANIC(OFFSET_MX8QXP), ENPRIMALPHA | ENSECALPHA, 0);
-> +	regmap_write_bits(fg->reg, FGINCTRL(fg->reg_offset), ENPRIMALPHA | ENSECALPHA, 0);
-> +	regmap_write_bits(fg->reg, FGINCTRLPANIC(fg->reg_offset), ENPRIMALPHA | ENSECALPHA, 0);
->
->  	/* constant color is green(used in panic mode)  */
-> -	regmap_write(fg->reg, FGCCR(OFFSET_MX8QXP), CCGREEN(0x3ff));
-> +	regmap_write(fg->reg, FGCCR(fg->reg_offset), CCGREEN(0x3ff));
->
->  	ret = clk_set_rate(fg->clk_disp, m->clock * HZ_PER_KHZ);
->  	if (ret < 0)
-> @@ -191,34 +204,34 @@ void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m)
->
->  static inline void dc_fg_displaymode(struct dc_fg *fg, enum dc_fg_dm mode)
->  {
-> -	regmap_write_bits(fg->reg, FGINCTRL(OFFSET_MX8QXP), FGDM_MASK, mode);
-> +	regmap_write_bits(fg->reg, FGINCTRL(fg->reg_offset), FGDM_MASK, mode);
+> -	regmap_write(fu->reg_cfg, COLORCOMPONENTBITS(frac), bits);
+> -	regmap_write(fu->reg_cfg, COLORCOMPONENTSHIFT(frac), shifts);
+> +	regmap_write(fu->reg_cfg, fu->reg_colorcomponentbits[frac], bits);
+> +	regmap_write(fu->reg_cfg, fu->reg_colorcomponentshift[frac], shifts);
 >  }
 >
->  static inline void dc_fg_panic_displaymode(struct dc_fg *fg, enum dc_fg_dm mode)
+>  static void dc_fl_set_framedimensions(struct dc_fu *fu, int w, int h)
 >  {
-> -	regmap_write_bits(fg->reg, FGINCTRLPANIC(OFFSET_MX8QXP), FGDM_MASK, mode);
-> +	regmap_write_bits(fg->reg, FGINCTRLPANIC(fg->reg_offset), FGDM_MASK, mode);
+> -	regmap_write(fu->reg_cfg, FRAMEDIMENSIONS,
+> +	regmap_write(fu->reg_cfg, fu->reg_framedimensions,
+>  		     FRAMEWIDTH(w) | FRAMEHEIGHT(h));
 >  }
 >
->  void dc_fg_enable(struct dc_fg *fg)
->  {
-> -	regmap_write(fg->reg, FGENABLE(OFFSET_MX8QXP), FGEN);
-> +	regmap_write(fg->reg, FGENABLE(fg->reg_offset), FGEN);
->  }
->
->  void dc_fg_disable(struct dc_fg *fg)
->  {
-> -	regmap_write(fg->reg, FGENABLE(OFFSET_MX8QXP), 0);
-> +	regmap_write(fg->reg, FGENABLE(fg->reg_offset), 0);
->  }
->
->  void dc_fg_shdtokgen(struct dc_fg *fg)
->  {
-> -	regmap_write(fg->reg, FGSLR(OFFSET_MX8QXP), SHDTOKGEN);
-> +	regmap_write(fg->reg, FGSLR(fg->reg_offset), SHDTOKGEN);
->  }
->
->  u32 dc_fg_get_frame_index(struct dc_fg *fg)
->  {
->  	u32 val;
->
-> -	regmap_read(fg->reg, FGTIMESTAMP(OFFSET_MX8QXP), &val);
-> +	regmap_read(fg->reg, FGTIMESTAMP(fg->reg_offset), &val);
->
->  	return FRAMEINDEX(val);
->  }
-> @@ -227,7 +240,7 @@ u32 dc_fg_get_line_index(struct dc_fg *fg)
->  {
->  	u32 val;
->
-> -	regmap_read(fg->reg, FGTIMESTAMP(OFFSET_MX8QXP), &val);
-> +	regmap_read(fg->reg, FGTIMESTAMP(fg->reg_offset), &val);
->
->  	return LINEINDEX(val);
->  }
-> @@ -251,21 +264,21 @@ bool dc_fg_secondary_requests_to_read_empty_fifo(struct dc_fg *fg)
->  {
->  	u32 val;
->
-> -	regmap_read(fg->reg, FGCHSTAT(OFFSET_MX8QXP), &val);
-> +	regmap_read(fg->reg, FGCHSTAT(fg->reg_offset), &val);
->
->  	return !!(val & SFIFOEMPTY);
->  }
->
->  void dc_fg_secondary_clear_channel_status(struct dc_fg *fg)
->  {
-> -	regmap_write(fg->reg, FGCHSTATCLR(OFFSET_MX8QXP), CLRSECSTAT);
-> +	regmap_write(fg->reg, FGCHSTATCLR(fg->reg_offset), CLRSECSTAT);
->  }
->
->  int dc_fg_wait_for_secondary_syncup(struct dc_fg *fg)
->  {
->  	unsigned int val;
->
-> -	return regmap_read_poll_timeout(fg->reg, FGCHSTAT(OFFSET_MX8QXP), val,
-> +	return regmap_read_poll_timeout(fg->reg, FGCHSTAT(fg->reg_offset), val,
->  					val & SECSYNCSTAT, 5, 100000);
->  }
->
-> @@ -305,6 +318,8 @@ void dc_fg_init(struct dc_fg *fg)
->
->  static int dc_fg_bind(struct device *dev, struct device *master, void *data)
->  {
-> +	const struct dc_fg_subdev_match_data *dc_fg_match_data = device_get_match_data(dev);
-> +	const struct dc_subdev_info *dc_fg_info = dc_fg_match_data->info;
->  	struct platform_device *pdev = to_platform_device(dev);
->  	struct dc_drm_device *dc_drm = data;
->  	struct resource *res;
-> @@ -320,7 +335,7 @@ static int dc_fg_bind(struct device *dev, struct device *master, void *data)
->  	if (IS_ERR(base))
->  		return PTR_ERR(base);
->
-> -	fg->reg = devm_regmap_init_mmio(dev, base, &dc_fg_regmap_config);
-> +	fg->reg = devm_regmap_init_mmio(dev, base, dc_fg_match_data->regmap_config);
->  	if (IS_ERR(fg->reg))
->  		return PTR_ERR(fg->reg);
->
-> @@ -336,6 +351,7 @@ static int dc_fg_bind(struct device *dev, struct device *master, void *data)
+> @@ -133,12 +133,16 @@ static int dc_fl_bind(struct device *dev, struct device *master, void *data)
+>  		fu->reg_baseaddr[i]		  = BASEADDRESS(i);
+>  		fu->reg_sourcebufferattributes[i] = SOURCEBUFFERATTRIBUTES(i);
+>  		fu->reg_sourcebufferdimension[i]  = SOURCEBUFFERDIMENSION(i);
+> +		fu->reg_colorcomponentbits[i]     = COLORCOMPONENTBITS(i);
+> +		fu->reg_colorcomponentshift[i]    = COLORCOMPONENTSHIFT(i);
+>  		fu->reg_layeroffset[i]		  = LAYEROFFSET(i);
+>  		fu->reg_clipwindowoffset[i]	  = CLIPWINDOWOFFSET(i);
+>  		fu->reg_clipwindowdimensions[i]	  = CLIPWINDOWDIMENSIONS(i);
+>  		fu->reg_constantcolor[i]	  = CONSTANTCOLOR(i);
+>  		fu->reg_layerproperty[i]	  = LAYERPROPERTY(i);
 >  	}
+> +	fu->reg_burstbuffermanagement = BURSTBUFFERMANAGEMENT;
+> +	fu->reg_framedimensions = FRAMEDIMENSIONS;
+>  	snprintf(fu->name, sizeof(fu->name), "FetchLayer%d", id);
 >
->  	fg->dev = dev;
-> +	fg->reg_offset = dc_fg_match_data->reg_offset;
->  	dc_drm->fg[id] = fg;
+>  	dc_fl_set_ops(fu);
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fu.c b/drivers/gpu/drm/imx/dc/dc-fu.c
+> index f94c591c81589..cc8b0d05891fd 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fu.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-fu.c
+> @@ -113,13 +113,13 @@ void dc_fu_shdldreq_sticky(struct dc_fu *fu, u8 layer_mask)
 >
->  	return 0;
-> @@ -363,7 +379,7 @@ static void dc_fg_remove(struct platform_device *pdev)
+>  static inline void dc_fu_set_linemode(struct dc_fu *fu, enum dc_linemode mode)
+>  {
+> -	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT, LINEMODE_MASK,
+> +	regmap_write_bits(fu->reg_cfg, fu->reg_burstbuffermanagement, LINEMODE_MASK,
+>  			  mode);
 >  }
 >
->  static const struct of_device_id dc_fg_dt_ids[] = {
-> -	{ .compatible = "fsl,imx8qxp-dc-framegen" },
-> +	{ .compatible = "fsl,imx8qxp-dc-framegen", .data = &dc_fg_match_data_imx8qxp },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, dc_fg_dt_ids);
+>  static inline void dc_fu_set_numbuffers(struct dc_fu *fu, unsigned int num)
+>  {
+> -	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT,
+> +	regmap_write_bits(fu->reg_cfg, fu->reg_burstbuffermanagement,
+>  			  SETNUMBUFFERS_MASK, SETNUMBUFFERS(num));
+>  }
+>
+> @@ -132,7 +132,7 @@ static void dc_fu_set_burstlength(struct dc_fu *fu, dma_addr_t baddr)
+>  	burst_size = min(burst_size, 128U);
+>  	burst_length = burst_size / 8;
+>
+> -	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT,
+> +	regmap_write_bits(fu->reg_cfg, fu->reg_burstbuffermanagement,
+>  			  SETBURSTLENGTH_MASK, SETBURSTLENGTH(burst_length));
+>  }
+>
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fu.h b/drivers/gpu/drm/imx/dc/dc-fu.h
+> index e016e1ea5b4e0..2a330c0abf6a1 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fu.h
+> +++ b/drivers/gpu/drm/imx/dc/dc-fu.h
+> @@ -105,11 +105,15 @@ struct dc_fu {
+>  	u32 reg_baseaddr[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_sourcebufferattributes[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_sourcebufferdimension[DC_FETCHUNIT_FRAC_NUM];
+> +	u32 reg_colorcomponentbits[DC_FETCHUNIT_FRAC_NUM];
+> +	u32 reg_colorcomponentshift[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_layeroffset[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_clipwindowoffset[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_clipwindowdimensions[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_constantcolor[DC_FETCHUNIT_FRAC_NUM];
+>  	u32 reg_layerproperty[DC_FETCHUNIT_FRAC_NUM];
+> +	u32 reg_burstbuffermanagement;
+> +	u32 reg_framedimensions;
+>  	unsigned int id;
+>  	enum dc_link_id link_id;
+>  	struct dc_fu_ops ops;
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fw.c b/drivers/gpu/drm/imx/dc/dc-fw.c
+> index c1131b7b17c2f..dc036121f0d23 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fw.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-fw.c
+> @@ -91,15 +91,15 @@ static void dc_fw_set_fmt(struct dc_fu *fu, enum dc_fu_frac frac,
+>  	regmap_write_bits(fu->reg_cfg, CONTROL, RASTERMODE_MASK,
+>  			  RASTERMODE(RASTERMODE_NORMAL));
+>
+> -	regmap_write_bits(fu->reg_cfg, LAYERPROPERTY(frac),
+> +	regmap_write_bits(fu->reg_cfg, fu->reg_layerproperty[frac],
+>  			  YUVCONVERSIONMODE_MASK,
+>  			  YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF));
+>
+>  	dc_fu_get_pixel_format_bits(fu, format->format, &bits);
+>  	dc_fu_get_pixel_format_shifts(fu, format->format, &shifts);
+>
+> -	regmap_write(fu->reg_cfg, COLORCOMPONENTBITS(frac), bits);
+> -	regmap_write(fu->reg_cfg, COLORCOMPONENTSHIFT(frac), shifts);
+> +	regmap_write(fu->reg_cfg, fu->reg_colorcomponentbits[frac], bits);
+> +	regmap_write(fu->reg_cfg, fu->reg_colorcomponentshift[frac], shifts);
+>  }
+>
+>  static void dc_fw_set_framedimensions(struct dc_fu *fu, int w, int h)
+> @@ -170,12 +170,16 @@ static int dc_fw_bind(struct device *dev, struct device *master, void *data)
+>  		fu->reg_baseaddr[i]		  = BASEADDRESS(i);
+>  		fu->reg_sourcebufferattributes[i] = SOURCEBUFFERATTRIBUTES(i);
+>  		fu->reg_sourcebufferdimension[i]  = SOURCEBUFFERDIMENSION(i);
+> +		fu->reg_colorcomponentbits[i]     = COLORCOMPONENTBITS(i);
+> +		fu->reg_colorcomponentshift[i]    = COLORCOMPONENTSHIFT(i);
+>  		fu->reg_layeroffset[i]		  = LAYEROFFSET(i);
+>  		fu->reg_clipwindowoffset[i]	  = CLIPWINDOWOFFSET(i);
+>  		fu->reg_clipwindowdimensions[i]	  = CLIPWINDOWDIMENSIONS(i);
+>  		fu->reg_constantcolor[i]	  = CONSTANTCOLOR(i);
+>  		fu->reg_layerproperty[i]	  = LAYERPROPERTY(i);
+>  	}
+> +	fu->reg_burstbuffermanagement = BURSTBUFFERMANAGEMENT;
+> +	fu->reg_framedimensions = FRAMEDIMENSIONS;
+>  	snprintf(fu->name, sizeof(fu->name), "FetchWarp%d", id);
+>
+>  	dc_fw_set_ops(fu);
 > --
 > 2.51.0
 >
