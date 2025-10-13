@@ -2,65 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D0EBD11C4
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 03:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3BBBD11F7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 03:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A0710E1D6;
-	Mon, 13 Oct 2025 01:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9599510E31B;
+	Mon, 13 Oct 2025 01:52:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bXX03/8s";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M51VJscT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
- [91.218.175.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 756F210E1D6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 01:48:47 +0000 (UTC)
-Message-ID: <83492e9c-3f17-42e5-8897-9c0ed5aa76e7@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1760320125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8gj2RUXsmZP7PFmKR9Hbs9L37/EeDx8LOSN13TezBQY=;
- b=bXX03/8sypLzEqxjMgSLg6S6KJ4kx88F2oJNJoY6wtz8ODzWzwFRiwv3G4HvihQLWuiaDt
- q+Ms2lDX8Ihlvl+anmvX0mKnUGSooXoDL0DkZ2LxLt38QiCGv6rOwsg2pSk49MIw/U8I2i
- UYzxgrVRyXndoEgLT2uTa1/GMhKbM2I=
-Date: Mon, 13 Oct 2025 09:48:35 +0800
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C6610E1D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 01:52:49 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id
+ 4fb4d7f45d1cf-63a10267219so7027943a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 18:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760320368; x=1760925168; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=YRrC5ujv29o4Dn7uYuCsIN4DoTMp+m253g/eeBCZNpc=;
+ b=M51VJscTzHTKbJDjAlrzRlY8huiQdUm3HMMMItQS0gqd2tXs2NRaVa0MVs2SU/4VSC
+ Ru5a5L32SvLRFGrqZhVqjf+VOStGfHUzjy9AkHJ47iRx7Knf40M18lI1FVUL7CF/VR7u
+ YEBLEbb+SxjlakwXgn0zrzytHzc7qx78vWnjzY4FM4NFMWlNRp78l5EiX7eL9VzrBLWu
+ d8uh6PPnP1tcXy8iOf5+kAOuoT5gn4cVcdvG877bNLW88Cjje5DgxmspmxVOI6c3gAco
+ Z9eoaUNlMTZ/V1ZVBqdPqAXWU50DnzVVzOwNkiBA/t1XAL/f92meMDsZ/UtYrkkSzNSU
+ fwqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760320368; x=1760925168;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YRrC5ujv29o4Dn7uYuCsIN4DoTMp+m253g/eeBCZNpc=;
+ b=Rx1/0sm4tQ0Efk54tllWBHeBnGvt5Ed6ATzKXknKi13adCSt4AV9jQb5tVuoU6JVUx
+ x3aFm98DJcWFAB2RCbtO+5ccO2CYIb7RYGF7WB/B7W18cjdYkpqxVgapi9KDaXwvFPP0
+ FJw7o3xwOn1fextYv2X9ma1GBDVNGXMzwdpK6YsosGIYnd+AaIHv6/3cK1OBXLxDDTQ3
+ tJZa+wxmPeZGKA5qHjF9+61ZDG8nKZhqC7mdSrXlKkhIEGq6kyxgaBMAiXtDESkY43Gd
+ K74k0RDGm4xbCzsPczEPFNnLvuCs/FSIJg2iyUxDvJOwGcF+PZEZoCL5/cf9iTLVs2DB
+ miGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWujdCiDv1UY8qnnTcEPVYu59GVelV4ITX5LzMogQJjbMKJqVl54BlR1bUevX2XiItWFSLXTyOnYec=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPAenrMFkJ/nKHVwbyhJYHghEqUo2SDcpFE4dzIE8NI7cThXtd
+ pF73ISkr3O+7jbrh6mY7qKpuA00pslk2bWvYK5fY99eBES4tKmFfU1r4fe262JzUjZZhxW0BvfX
+ ntAU9NMmPO+6OxgQH+vr+RqlNl+2MNsY=
+X-Gm-Gg: ASbGncvnhmu7ny8XPNBpXroFHZgtOTZaX7cy45YFVyVrL343Ga4Oqq0/MDN5uK9payZ
+ enl2UNr1m9AkOoUvcXAkZjOV9GHfgdkPjVyFXoU1Vk/Woic8watB0o6kd9VgEKWvo8ZLL+5jyEr
+ H+SK6pQe7zgaXaNbAh5B8WzYZtTzADE9A2ATashH7S7LnZyrH2B7f/SquWCngMGMRNIamsxlc+x
+ 4AhjU6q2rJ8u+Vni4j6GbvZmA==
+X-Google-Smtp-Source: AGHT+IGVwit7EnJqjWJCndPnOaagwjFwRfHJs7DHjGaz2CJNOtKY3nJ4z/ccrJw0qhRGNyC1RhAM+KOBqlgUZm2HII4=
+X-Received: by 2002:aa7:c58e:0:b0:62f:c8fc:dce5 with SMTP id
+ 4fb4d7f45d1cf-639bb229269mr18330933a12.10.1760320367440; Sun, 12 Oct 2025
+ 18:52:47 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [v7 03/16] mm/huge_memory: add device-private THP support to PMD
- operations
-Content-Language: en-US
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, akpm@linux-foundation.org,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20251001065707.920170-1-balbirs@nvidia.com>
- <20251001065707.920170-4-balbirs@nvidia.com>
- <CABzRoyYg1o8Oyjx1AQ8or-Vxm94zQXeAx7mWco2qs7=w4mBcMw@mail.gmail.com>
- <1b311458-957a-4f0d-b7f9-51e75bbabd55@nvidia.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <1b311458-957a-4f0d-b7f9-51e75bbabd55@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20251001135914.13754-1-caojunjie650@gmail.com>
+ <20251001135914.13754-3-caojunjie650@gmail.com>
+ <cwgn24f6tnmytd4omr2tul4e5jjin3ijji3ff3qkumqm2xe3t3@ntayu3m5kai3>
+In-Reply-To: <cwgn24f6tnmytd4omr2tul4e5jjin3ijji3ff3qkumqm2xe3t3@ntayu3m5kai3>
+From: =?UTF-8?B?5pu55L+K5p2w?= <caojunjie650@gmail.com>
+Date: Mon, 13 Oct 2025 09:52:34 +0800
+X-Gm-Features: AS18NWAwf-hT5rzEa8wZmFlK7aIZOX32p7ZERcY3_A8yYvmRn0M2ZAgY7d92ZDE
+Message-ID: <CAK6c68jBwykcWZm3ckm3nwab-X9Are4rD-eauE4rXA2+XvuX1w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Antonino Maniscalco <antomani103@gmail.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Eugene Lepshy <fekz115@gmail.com>,
+ Jun Nie <jun.nie@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="0000000000003136b206410086f8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,198 +100,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--0000000000003136b206410086f8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On 2025/10/13 08:01, Balbir Singh wrote:
-> On 10/13/25 02:46, Lance Yang wrote:
->> On Wed, Oct 1, 2025 at 4:20 PM Balbir Singh <balbirs@nvidia.com> wrote:
->>>
->>> Extend core huge page management functions to handle device-private THP
->>> entries.  This enables proper handling of large device-private folios in
->>> fundamental MM operations.
->>>
->>> The following functions have been updated:
->>>
->>> - copy_huge_pmd(): Handle device-private entries during fork/clone
->>> - zap_huge_pmd(): Properly free device-private THP during munmap
->>> - change_huge_pmd(): Support protection changes on device-private THP
->>> - __pte_offset_map(): Add device-private entry awareness
->>>
->>> Cc: David Hildenbrand <david@redhat.com>
->>> Cc: Zi Yan <ziy@nvidia.com>
->>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->>> Cc: Rakie Kim <rakie.kim@sk.com>
->>> Cc: Byungchul Park <byungchul@sk.com>
->>> Cc: Gregory Price <gourry@gourry.net>
->>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->>> Cc: Alistair Popple <apopple@nvidia.com>
->>> Cc: Oscar Salvador <osalvador@suse.de>
->>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->>> Cc: Nico Pache <npache@redhat.com>
->>> Cc: Ryan Roberts <ryan.roberts@arm.com>
->>> Cc: Dev Jain <dev.jain@arm.com>
->>> Cc: Barry Song <baohua@kernel.org>
->>> Cc: Lyude Paul <lyude@redhat.com>
->>> Cc: Danilo Krummrich <dakr@kernel.org>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Simona Vetter <simona@ffwll.ch>
->>> Cc: Ralph Campbell <rcampbell@nvidia.com>
->>> Cc: Mika Penttilä <mpenttil@redhat.com>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Francois Dugast <francois.dugast@intel.com>
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Acked-by: Zi Yan <ziy@nvidia.com>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->>> ---
->>>   include/linux/swapops.h | 32 +++++++++++++++++++++++
->>>   mm/huge_memory.c        | 56 ++++++++++++++++++++++++++++++++++-------
->>>   mm/pgtable-generic.c    |  2 +-
->>>   3 files changed, 80 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/include/linux/swapops.h b/include/linux/swapops.h
->>> index 64ea151a7ae3..2687928a8146 100644
->>> --- a/include/linux/swapops.h
->>> +++ b/include/linux/swapops.h
->>> @@ -594,10 +594,42 @@ static inline int is_pmd_migration_entry(pmd_t pmd)
->>>   }
->>>   #endif  /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
->>>
->>> +#if defined(CONFIG_ZONE_DEVICE) && defined(CONFIG_ARCH_ENABLE_THP_MIGRATION)
->>> +
->>> +/**
->>> + * is_pmd_device_private_entry() - Check if PMD contains a device private swap entry
->>> + * @pmd: The PMD to check
->>> + *
->>> + * Returns true if the PMD contains a swap entry that represents a device private
->>> + * page mapping. This is used for zone device private pages that have been
->>> + * swapped out but still need special handling during various memory management
->>> + * operations.
->>> + *
->>> + * Return: 1 if PMD contains device private entry, 0 otherwise
->>> + */
->>> +static inline int is_pmd_device_private_entry(pmd_t pmd)
->>> +{
->>> +       return is_swap_pmd(pmd) && is_device_private_entry(pmd_to_swp_entry(pmd));
->>> +}
->>> +
->>> +#else /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
->>> +
->>> +static inline int is_pmd_device_private_entry(pmd_t pmd)
->>> +{
->>> +       return 0;
->>> +}
->>> +
->>> +#endif /* CONFIG_ZONE_DEVICE && CONFIG_ARCH_ENABLE_THP_MIGRATION */
->>> +
->>>   static inline int non_swap_entry(swp_entry_t entry)
->>>   {
->>>          return swp_type(entry) >= MAX_SWAPFILES;
->>>   }
->>>
->>> +static inline int is_pmd_non_present_folio_entry(pmd_t pmd)
->>> +{
->>> +       return is_pmd_migration_entry(pmd) || is_pmd_device_private_entry(pmd);
->>> +}
->>> +
->>>   #endif /* CONFIG_MMU */
->>>   #endif /* _LINUX_SWAPOPS_H */
->>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>> index 1b81680b4225..8e0a1747762d 100644
->>> --- a/mm/huge_memory.c
->>> +++ b/mm/huge_memory.c
->>> @@ -1703,17 +1703,45 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
->>>          if (unlikely(is_swap_pmd(pmd))) {
->>>                  swp_entry_t entry = pmd_to_swp_entry(pmd);
->>>
->>> -               VM_BUG_ON(!is_pmd_migration_entry(pmd));
->>> -               if (!is_readable_migration_entry(entry)) {
->>> -                       entry = make_readable_migration_entry(
->>> -                                                       swp_offset(entry));
->>> +               VM_WARN_ON(!is_pmd_non_present_folio_entry(pmd));
->>> +
->>> +               if (is_writable_migration_entry(entry) ||
->>> +                   is_readable_exclusive_migration_entry(entry)) {
->>> +                       entry = make_readable_migration_entry(swp_offset(entry));
->>>                          pmd = swp_entry_to_pmd(entry);
->>>                          if (pmd_swp_soft_dirty(*src_pmd))
->>>                                  pmd = pmd_swp_mksoft_dirty(pmd);
->>>                          if (pmd_swp_uffd_wp(*src_pmd))
->>>                                  pmd = pmd_swp_mkuffd_wp(pmd);
->>>                          set_pmd_at(src_mm, addr, src_pmd, pmd);
->>> +               } else if (is_device_private_entry(entry)) {
->>> +                       /*
->>> +                        * For device private entries, since there are no
->>> +                        * read exclusive entries, writable = !readable
->>> +                        */
->>> +                       if (is_writable_device_private_entry(entry)) {
->>> +                               entry = make_readable_device_private_entry(swp_offset(entry));
->>> +                               pmd = swp_entry_to_pmd(entry);
->>> +
->>> +                               if (pmd_swp_soft_dirty(*src_pmd))
->>> +                                       pmd = pmd_swp_mksoft_dirty(pmd);
->>> +                               if (pmd_swp_uffd_wp(*src_pmd))
->>> +                                       pmd = pmd_swp_mkuffd_wp(pmd);
->>> +                               set_pmd_at(src_mm, addr, src_pmd, pmd);
->>> +                       }
->>> +
->>> +                       src_folio = pfn_swap_entry_folio(entry);
->>> +                       VM_WARN_ON(!folio_test_large(src_folio));
->>> +
->>> +                       folio_get(src_folio);
->>> +                       /*
->>> +                        * folio_try_dup_anon_rmap_pmd does not fail for
->>> +                        * device private entries.
->>> +                        */
->>> +                       folio_try_dup_anon_rmap_pmd(src_folio, &src_folio->page,
->>> +                                                       dst_vma, src_vma);
->>>                  }
->>> +
->>>                  add_mm_counter(dst_mm, MM_ANONPAGES, HPAGE_PMD_NR);
->>>                  mm_inc_nr_ptes(dst_mm);
->>>                  pgtable_trans_huge_deposit(dst_mm, dst_pmd, pgtable);
->>> @@ -2211,15 +2239,16 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>>                          folio_remove_rmap_pmd(folio, page, vma);
->>>                          WARN_ON_ONCE(folio_mapcount(folio) < 0);
->>>                          VM_BUG_ON_PAGE(!PageHead(page), page);
->>> -               } else if (thp_migration_supported()) {
->>> +               } else if (is_pmd_non_present_folio_entry(orig_pmd)) {
->>>                          swp_entry_t entry;
->>>
->>> -                       VM_BUG_ON(!is_pmd_migration_entry(orig_pmd));
->>>                          entry = pmd_to_swp_entry(orig_pmd);
->>>                          folio = pfn_swap_entry_folio(entry);
->>>                          flush_needed = 0;
->>> -               } else
->>> -                       WARN_ONCE(1, "Non present huge pmd without pmd migration enabled!");
->>> +
->>> +                       if (!thp_migration_supported())
->>> +                               WARN_ONCE(1, "Non present huge pmd without pmd migration enabled!");
->>> +               }
->>>
->>>                  if (folio_test_anon(folio)) {
->>>                          zap_deposited_table(tlb->mm, pmd);
->>> @@ -2239,6 +2268,12 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>>                                  folio_mark_accessed(folio);
->>>                  }
->>>
->>> +               if (folio_is_device_private(folio)) {
->>> +                       folio_remove_rmap_pmd(folio, &folio->page, vma);
->>> +                       WARN_ON_ONCE(folio_mapcount(folio) < 0);
->>> +                       folio_put(folio);
->>> +               }
+>Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=
+=B410=E6=9C=882=E6=97=A5=E5=91=A8=E5=9B=9B 10:04=E5=86=99=E9=81=93=EF=BC=9A
+>On Wed, Oct 01, 2025 at 09:59:13PM +0800, Junjie Cao wrote:
+>> From: Jun Nie <jun.nie@linaro.org>
 >>
->> IIUC, a device-private THP is always anonymous, right? would it make sense
->> to move this folio_is_device_private() block inside the folio_test_anon()
->> check above?
+>> Some panels support multiple slice to be sent in a single DSC packet. An=
+d
+>> this feature is a must for specific panels, such as JDI LPM026M648C. Add
+a
+>> dsc_slice_per_pkt member into struct mipi_dsi_device and support the
+>> feature in msm mdss driver.
 >>
-> Yes, they are, there is discussion on file-backed mapping at
-> https://lwn.net/Articles/1016124/. I don't see a benefit from moving it, do you?
+>> Co-developed-by: Jonathan Marek <jonathan@marek.ca>
+>> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+>> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+>> Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
+>> ---
+>>  drivers/gpu/drm/msm/dsi/dsi_host.c | 25 ++++++++++---------------
+>>  include/drm/drm_mipi_dsi.h         |  2 ++
+>>  2 files changed, 12 insertions(+), 15 deletions(-)
+>
+>Please extract the generic part, so that it can be merged through a
+>generic tree.
+>
 
-Ah, I see. Never mind :)
+Sorry, I don't get it.  The generic part, generic tree? Do you mean
+the drm tree? `slice_per_pkt >=3D 2` is seen on the panels of these
+tablets that are equipped with qcom chips. I don't know if these
+panels are used on other platforms, and if it is necessary to do it
+in drm.
 
-Cheers,
-Lance
+>--
+>With best wishes
+>Dmitry
 
+Regards,
+Junjie
+
+--0000000000003136b206410086f8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">&gt;Dmitry Baryshkov &lt;<a href=3D"mailto:dmitry.baryshko=
+v@oss.qualcomm.com">dmitry.baryshkov@oss.qualcomm.com</a>&gt; =E4=BA=8E2025=
+=E5=B9=B410=E6=9C=882=E6=97=A5=E5=91=A8=E5=9B=9B 10:04=E5=86=99=E9=81=93=EF=
+=BC=9A<br>&gt;On Wed, Oct 01, 2025 at 09:59:13PM +0800, Junjie Cao wrote:<b=
+r>&gt;&gt; From: Jun Nie &lt;<a href=3D"mailto:jun.nie@linaro.org">jun.nie@=
+linaro.org</a>&gt;<br>&gt;&gt;<br>&gt;&gt; Some panels support multiple sli=
+ce to be sent in a single DSC packet. And<br>&gt;&gt; this feature is a mus=
+t for specific panels, such as JDI LPM026M648C. Add a<br>&gt;&gt; dsc_slice=
+_per_pkt member into struct mipi_dsi_device and support the<br>&gt;&gt; fea=
+ture in msm mdss driver.<br>&gt;&gt;<br>&gt;&gt; Co-developed-by: Jonathan =
+Marek &lt;<a href=3D"mailto:jonathan@marek.ca">jonathan@marek.ca</a>&gt;<br=
+>&gt;&gt; Signed-off-by: Jonathan Marek &lt;<a href=3D"mailto:jonathan@mare=
+k.ca">jonathan@marek.ca</a>&gt;<br>&gt;&gt; Signed-off-by: Jun Nie &lt;<a h=
+ref=3D"mailto:jun.nie@linaro.org">jun.nie@linaro.org</a>&gt;<br>&gt;&gt; Si=
+gned-off-by: Junjie Cao &lt;<a href=3D"mailto:caojunjie650@gmail.com">caoju=
+njie650@gmail.com</a>&gt;<br>&gt;&gt; ---<br>&gt;&gt; =C2=A0drivers/gpu/drm=
+/msm/dsi/dsi_host.c | 25 ++++++++++---------------<br>&gt;&gt; =C2=A0includ=
+e/drm/drm_mipi_dsi.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A02 ++<br>&gt;&gt; =
+=C2=A02 files changed, 12 insertions(+), 15 deletions(-)<br>&gt;<br>&gt;Ple=
+ase extract the generic part, so that it can be merged through a<br>&gt;gen=
+eric tree.<br>&gt;<br><br>Sorry, I don&#39;t get it.=C2=A0 The generic part=
+, generic tree? Do you mean<br>the drm tree? `slice_per_pkt &gt;=3D 2` is s=
+een on the panels of these<br>tablets that are equipped with qcom chips. I =
+don&#39;t know if these<br>panels are used on other platforms, and if it is=
+ necessary to do it<br>in drm.<br><br>&gt;-- <br>&gt;With best wishes<br>&g=
+t;Dmitry <br><br>Regards,<br>Junjie</div>
+
+--0000000000003136b206410086f8--
