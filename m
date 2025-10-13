@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5567BD755F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 06:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5EEFBD7563
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 06:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 635D710E1E0;
-	Tue, 14 Oct 2025 04:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65C0310E530;
+	Tue, 14 Oct 2025 04:57:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=josie.lol header.i=@josie.lol header.b="HSaSN1J5";
+	dkim=pass (1024-bit key; secure) header.d=estudante.ufscar.br header.i=@estudante.ufscar.br header.b="P8+sa8XC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Mon, 13 Oct 2025 18:21:33 UTC
-Received: from mail-108-mta221.mxroute.com (mail-108-mta221.mxroute.com
- [136.175.108.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A67B810E202
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 18:21:33 +0000 (UTC)
-Received: from filter006.mxroute.com ([140.82.40.27] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta221.mxroute.com (ZoneMTA) with ESMTPSA id
- 199dec9bf33000d597.004 for <dri-devel@lists.freedesktop.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Mon, 13 Oct 2025 18:16:27 +0000
-X-Zone-Loop: 321f1444bbbb6e22d402b2280d67d07eb08eccc90e9d
-X-Originating-IP: [140.82.40.27]
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=josie.lol; 
- s=x;
- h=Content-Transfer-Encoding:MIME-Version:Date:Subject:Cc:To:From:Sender:
- Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References;
- bh=oOaIP4PXPZ8f4MFafQwb1jy9OdKZ3lVY4r0RmSBbOYc=; b=HSaSN1J5I8FNryB3n37i1G5Nj3
- 9Ur9+osRIP5M1fIYe9kiT0lauaT0li9zLudc/B0yWggsFhVgVwIf95raG53xexIzoC2PESdFyG3MH
- GGxfTSvazj1fOJ8VFEe6ftEd5ef1vTYElL4sZJnUxFHQNGraSh/RWtzBzVv9y4grZeT4IZk/TlgGC
- LZMYKM0p+BrlMgbJIeagqUISQH0Fgep+11kB64L0j+0cyiL+WzgN6U538MsPibGyAz8lpfNz/G5he
- WbjNgEt/DWpnlsHEAerndc3yCx3HZSTWIF4nDWmq+kepJ63lx0hZ/YT/K0tkCCFxrtIP0/mAX3rBY
- UDNmQzLw==;
-From: Josephine Pfeiffer <hi@josie.lol>
-To: Koby Elbaz <koby.elbaz@intel.com>,
- Konstantin Sinyuk <konstantin.sinyuk@intel.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] accel/habanalabs: Replace sprintf with snprintf for buffer
- safety
-Date: Mon, 13 Oct 2025 20:16:20 +0200
-Message-ID: <20251013181620.2026326-1-hi@josie.lol>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 321C610E4B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 18:31:33 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2698384978dso31377735ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 11:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=estudante.ufscar.br; s=google; t=1760380292; x=1760985092;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=CyHScNioNUxAqCRLSGCVsNbNpblsxmwE5o0+kKeDGUI=;
+ b=P8+sa8XCtnNyXCHL+xYremb/I7OvrTXsk61LXoswPvPACotS3/cIZ7Vi/zLAXi9QzA
+ vMsRr0Sa09pepxue0Cbd7CHbjQw5D+QQ9MfIG7y6LzpDYHC8BJ+CONy4ZrZ5YDypq4l8
+ pE8koADkJCNwGWK+UP1PLeys6oMhGizP5jQqQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760380292; x=1760985092;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CyHScNioNUxAqCRLSGCVsNbNpblsxmwE5o0+kKeDGUI=;
+ b=iBOmBneWK3OGziuFWEeRPiqGMphIE77bR1loaSE3ZOoRu7BngBiH5BjI8jhAXxFNK4
+ Z/rLG7gVLENfipT69YNKmR8ssxKnW9Uvjc8FWdPvv7k5v7d9gl8zdP2HFRmkCY8Hz7zz
+ yIOl3cfAWy1NzzF2nfFXJWXMO8Hc4f3JIqnjRea9l1FNRvjBwej5Ss+0wiqeB6iNw8K/
+ zSPedr6simuL+l2pi95zz/ln5gnQNFlsPLDBVNqNhnztU8ywzEjZqlZ8lpPaApo3uKRs
+ Q7qSngDmn/IrpYrpIxrY6srNC4zyw/y8iC7qktmByKS9T3WYEIC5G+OX91Dyj5RC1jMK
+ urVg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWzBDU+j7/+acA0zzJ0Nvm0fCJnUTGud+LoAsVl6fNQE0xjaJXjMVxnnQ1zHigBuhsyuAcEEmlSj5A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7fguI9nbcDiIYXdvm9pko+skHANGzaBHFB/Q+bxmdHA1b4OSE
+ /ddr2CTZsaA9VvbXQrPT+HN2Xcms3YejXwx7J68bOH2Z9UMdiNadXKde+8zze/WI1ZY=
+X-Gm-Gg: ASbGncsAP64oxAnpyLHfOt0Zlv8tNDfgHz5pgowVKq5vofKB9uW5Vdwki+KwNnyOpKy
+ D7G01VVB0fSm6Q1SL027rgD7gzaHdMXFbv7drvcMDW+wtr0wjkRus9YvWnncWpQhVLJrTbLodtj
+ ZNEleA1luG2P1MTO/LGu9ecWvoc+i+9B2EFIdTKPpuLt1YPSm/zwQo1/yS2YAaTWxaXwee3F/f8
+ 3bkwKyfjdUzDT9DofwG8Nd7dUL+Mcz7s/77M9Wcb9oEbtOnRd0YBnjw0aMws+9R1PTZZmJwSosE
+ xxCGEDRYSOT+TmINx8rxcPKdjGRb6d4p8kN9TaymCzZ4+nykrW2VmCWgLDzqxiA6XnLndXcuBpv
+ X0/L567248ucT/p4MnYkTRyYx9vqu37H5n7qrHcXAE1P4GJXS0MHAm6cTU4lJ7PvmwbiWGC62UI
+ zqjW0mPMVuKw==
+X-Google-Smtp-Source: AGHT+IHV+d2j74/e1G29FQZ2NJM2pqXZ75ajkDMvhMXEO7mXX2cQxMO76M1rFTKKeG0aEbIEAAVgLQ==
+X-Received: by 2002:a17:902:ef10:b0:27e:eabd:4b41 with SMTP id
+ d9443c01a7336-29027216505mr311772135ad.7.1760380292414; 
+ Mon, 13 Oct 2025 11:31:32 -0700 (PDT)
+Received: from pop-os.. ([189.7.87.127]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29034cba155sm139865065ad.0.2025.10.13.11.31.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Oct 2025 11:31:31 -0700 (PDT)
+From: Marlon Henrique Sanches <marlonsanches@estudante.ufscar.br>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Marlon Henrique Sanches <marlonsanches@estudante.ufscar.br>
+Subject: [PATCH] drm/i915/gem: fix typo in comment (I915_EXEC_NO_RELOC)
+Date: Mon, 13 Oct 2025 15:31:23 -0300
+Message-Id: <20251013183123.438573-1-marlonsanches@estudante.ufscar.br>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: hi@josie.lol
 X-Mailman-Approved-At: Tue, 14 Oct 2025 04:57:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,86 +87,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace unbounded sprintf() calls with snprintf() in the RAZWI error
-handler function gaudi2_ack_module_razwi_event_handler() to prevent
-potential buffer overflows. The initiator_name buffer has a fixed size
-of 64 bytes, and using snprintf() ensures writes cannot exceed this
-boundary.
+The comment referenced the flag name incorrectly as 'I915_EXEC_NORELOC'
+(missing underscore). This patch corrects the spelling in the comment
+only; there is no functional change.
 
-This change affects error reporting for different accelerator components
-(TPC, MME, EDMA, PDMA, NIC, DEC, ROT, ARC_FARM) when Router AXI Write
-Initiator errors occur on the Gaudi2 AI accelerator.
-
-All 8 sprintf() calls in the switch statement have been converted to use
-snprintf() with sizeof(initiator_name) as the size parameter.
-
-Signed-off-by: Josephine Pfeiffer <hi@josie.lol>
+Signed-off-by: Marlon Henrique Sanches <marlonsanches@estudante.ufscar.br>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index b8c0689dba64..367902ac17a9 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -8479,7 +8479,7 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
- 
- 	switch (module) {
- 	case RAZWI_TPC:
--		sprintf(initiator_name, "TPC_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "TPC_%u", module_idx);
- 		if (hdev->tpc_binning) {
- 			binned_idx = __ffs(hdev->tpc_binning);
- 			if (binned_idx == module_idx)
-@@ -8490,7 +8490,7 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
- 		lbw_rtr_id = gaudi2_tpc_initiator_lbw_rtr_id[module_idx];
- 		break;
- 	case RAZWI_MME:
--		sprintf(initiator_name, "MME_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "MME_%u", module_idx);
- 		switch (module_sub_idx) {
- 		case MME_WAP0:
- 			hbw_rtr_id = gaudi2_mme_initiator_rtr_id[module_idx].wap0;
-@@ -8533,20 +8533,20 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
- 		lbw_rtr_mstr_if_base_addr = mmSFT0_LBW_RTR_IF_MSTR_IF_RR_SHRD_HBW_BASE +
- 								dcore_id * SFT_DCORE_OFFSET;
- 		via_sft = true;
--		sprintf(initiator_name, "EDMA_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "EDMA_%u", module_idx);
- 		break;
- 	case RAZWI_PDMA:
- 		hbw_rtr_id = gaudi2_pdma_initiator_hbw_rtr_id[module_idx];
- 		lbw_rtr_id = gaudi2_pdma_initiator_lbw_rtr_id[module_idx];
--		sprintf(initiator_name, "PDMA_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "PDMA_%u", module_idx);
- 		break;
- 	case RAZWI_NIC:
- 		hbw_rtr_id = gaudi2_nic_initiator_hbw_rtr_id[module_idx];
- 		lbw_rtr_id = gaudi2_nic_initiator_lbw_rtr_id[module_idx];
--		sprintf(initiator_name, "NIC_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "NIC_%u", module_idx);
- 		break;
- 	case RAZWI_DEC:
--		sprintf(initiator_name, "DEC_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "DEC_%u", module_idx);
- 		if (hdev->decoder_binning) {
- 			binned_idx = __ffs(hdev->decoder_binning);
- 			if (binned_idx == module_idx)
-@@ -8558,12 +8558,12 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
- 	case RAZWI_ROT:
- 		hbw_rtr_id = gaudi2_rot_initiator_hbw_rtr_id[module_idx];
- 		lbw_rtr_id = gaudi2_rot_initiator_lbw_rtr_id[module_idx];
--		sprintf(initiator_name, "ROT_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "ROT_%u", module_idx);
- 		break;
- 	case RAZWI_ARC_FARM:
- 		lbw_rtr_id = DCORE1_RTR5;
- 		hbw_rtr_id = DCORE1_RTR7;
--		sprintf(initiator_name, "ARC_FARM_%u", module_idx);
-+		snprintf(initiator_name, sizeof(initiator_name), "ARC_FARM_%u", module_idx);
- 		break;
- 	default:
- 		return;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 39c7c32e1e74..7a0dee4111cb 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -142,7 +142,7 @@ enum {
+  * we want to leave the object where it is and for all the existing relocations
+  * to match. If the object is given a new address, or if userspace thinks the
+  * object is elsewhere, we have to parse all the relocation entries and update
+- * the addresses. Userspace can set the I915_EXEC_NORELOC flag to hint that
++ * the addresses. Userspace can set the I915_EXEC_NO_RELOC flag to hint that
+  * all the target addresses in all of its objects match the value in the
+  * relocation entries and that they all match the presumed offsets given by the
+  * list of execbuffer objects. Using this knowledge, we know that if we haven't
 -- 
-2.51.0
+2.34.1
 
