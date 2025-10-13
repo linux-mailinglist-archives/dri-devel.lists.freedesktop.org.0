@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6326ABD2153
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 10:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68B3BD2159
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 10:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970E610E1D8;
-	Mon, 13 Oct 2025 08:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19BFC10E1D9;
+	Mon, 13 Oct 2025 08:35:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XWiLvI7J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sl+YtXJN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1380410E1D8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 08:35:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05FEB10E1D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 08:35:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id ED6B745C04;
- Mon, 13 Oct 2025 08:35:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B715C4CEE7;
- Mon, 13 Oct 2025 08:35:32 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E046F4337C;
+ Mon, 13 Oct 2025 08:35:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ABFAC116B1;
+ Mon, 13 Oct 2025 08:35:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760344532;
- bh=86W+tMqIGJ9AE1Kqrh+zL9da/Dha/yDtcLOGrEf75Ss=;
+ s=k20201202; t=1760344535;
+ bh=KLq6UV149iWlcbOb9BAgyPNNCpzPtwQ5QaRQCIh5ebk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=XWiLvI7JXavv2mgEVXeUOzPMjY+KBbO+7mMEdBx6I35dBuc41wnN/wTfkd899wAek
- xxVLhIT86GOTeK8YeNP/hmMfP/xO8wgUmxfu4rHa+rG0QL7TBMEUkQb3u3XnTsUcvB
- OJNh+SsL1SnzH2G7tattrwNfm/T8CkSvuxsyV4XYK+CYh5W4smRW03MdXuJ/k+p0h6
- ZszoBCReQlhGFhJKmjVVmSJvARYZ7lpepzifbp6vpCggzfbzvQW5Gxfjk5NoRVi/j9
- 5INvGi+N3jc4JNGGG2kEtNdGB23rvI5czBKQqAK/r5l06Ygl2uCFk1ijeFJuW5Zyt3
- WafdFcjzgWndQ==
+ b=Sl+YtXJNxiPzUTKnj5nq7CzD43piYS7wBecQAXfiXUxaN94nXtUgXkTFnKXYLWHJ2
+ //ttm99e5QkvlcJSSlRjvk2r9KxeHpidc/j/xyNP4xZdsmAaLg+e2Cf7s9AtBqnO3C
+ pSDXZGssVOarVlUO1MmNkp7PO/mQoofCC3ur/DX1n3LkOXiLEhvBgUevaaD7in4059
+ rbgkE5z1rRx6XiG2IjkZty8gHd8FPYtqHixT7yFWMWDhuJ/iXCAc4S/eMw8KQlxMFc
+ oFSXtPJSwsYIiXrcFSRAfN4eLWO4bJ0rAXdSg5aSjTmIhlPo3ZQk+0ZGJmOjZSjRzM
+ tWecRHFZNPHQg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 13 Oct 2025 10:35:19 +0200
-Subject: [PATCH v8 4/5] dma: contiguous: Reserve default CMA heap
+Date: Mon, 13 Oct 2025 10:35:20 +0200
+Subject: [PATCH v8 5/5] dma-buf: heaps: cma: Create CMA heap for each CMA
+ reserved region
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-dma-buf-ecc-heap-v8-4-04ce150ea3d9@kernel.org>
+Message-Id: <20251013-dma-buf-ecc-heap-v8-5-04ce150ea3d9@kernel.org>
 References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 In-Reply-To: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -67,47 +68,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CMA code, in addition to the reserved-memory regions in the device
-tree, will also register a default CMA region if the device tree doesn't
-provide any, with its size and position coming from either the kernel
-command-line or configuration.
+Aside from the main CMA region, it can be useful to allow userspace to
+allocate from the other CMA reserved regions.
 
-Let's register that one for use to create a heap for it.
+Indeed, those regions can have specific properties that can be useful to
+a specific us-case.
+
+For example, one of them platform I've been with has ECC enabled on the
+entire memory but for a specific region. Using that region to allocate
+framebuffers can be particular beneficial because enabling the ECC has a
+performance and memory footprint cost.
+
+Thus, exposing these regions as heaps user-space can allocate from and
+import wherever needed allows to cover that use-case.
+
+For now, only shared-dma-pools regions with the reusable property (ie,
+backed by CMA) are supported, but eventually we'll want to support other
+DMA pools types.
+
+Since we collected all the CMA regions created during boot, we can
+simply iterate over all of them to create the heaps.
+
+This has a weird interaction with the recent work on the CMA name, in
+particular the backward compatibility code created by commit
+854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name").
+
+Indeed, the old name was either 'reserved', or the name of the
+reserved-memory region device tree node if the linux,cma-default
+property was set.
+
+In both these cases, we have now collected this region during boot, and
+we're using the same name. So we're now largely redundant with the
+code to handle backward compatibility code, and we can thus remove it
+and the associated Kconfig option.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- kernel/dma/contiguous.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/userspace-api/dma-buf-heaps.rst |  9 +++++---
+ drivers/dma-buf/heaps/Kconfig                 | 10 --------
+ drivers/dma-buf/heaps/cma_heap.c              | 33 +++++++++++++--------------
+ 3 files changed, 22 insertions(+), 30 deletions(-)
 
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index d67e95094749d45f43c1809c175e491a3f55b2e1..d8fd6f779f797f711b8e0fd628f868d644b8f784 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -240,17 +240,23 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
- 		selected_size = max(size_bytes, cma_early_percent_memory());
- #endif
+diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+index 17bf6829efd7963bc849765db54d327644e8c395..b78d2faeba62cda721a1f49d49e02bcb520ad429 100644
+--- a/Documentation/userspace-api/dma-buf-heaps.rst
++++ b/Documentation/userspace-api/dma-buf-heaps.rst
+@@ -22,8 +22,11 @@ following heaps:
+    through the ``cma`` parameter, a memory region Device-Tree node with
+    the ``linux,cma-default`` property set, or through the
+    ``CMA_SIZE_MBYTES`` or ``CMA_SIZE_PERCENTAGE`` Kconfig options. Prior
+    to Linux 6.17, its name wasn't stable and could be called
+    ``reserved``, ``linux,cma``, or ``default-pool``, depending on the
+-   platform. From Linux 6.17 onwards, the creation of these heaps is
+-   controlled through the ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option for
+-   backwards compatibility.
++   platform.
++
++ - A heap will be created for each reusable region in the device tree
++   with the ``shared-dma-pool`` compatible, using the full device tree
++   node name as its name. The buffer semantics are identical to
++   ``default-cma-region``.
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index bb369b38b001af51721b56e065df92825022f1f1..a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -10,15 +10,5 @@ config DMABUF_HEAPS_CMA
+ 	depends on DMABUF_HEAPS && DMA_CMA
+ 	help
+ 	  Choose this option to enable dma-buf CMA heap. This heap is backed
+ 	  by the Contiguous Memory Allocator (CMA). If your system has these
+ 	  regions, you should say Y here.
+-
+-config DMABUF_HEAPS_CMA_LEGACY
+-	bool "Legacy DMA-BUF CMA Heap"
+-	default y
+-	depends on DMABUF_HEAPS_CMA
+-	help
+-	  Add a duplicate CMA-backed dma-buf heap with legacy naming derived
+-	  from the CMA area's devicetree node, or "reserved" if the area is not
+-	  defined in the devicetree. This uses the same underlying allocator as
+-	  CONFIG_DMABUF_HEAPS_CMA.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 2a901af635ed76cdb085915c03258c235e302792..42f88193eab9f8f4571064c7b3b8a73bca20fdf4 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -20,10 +20,12 @@
+ #include <linux/err.h>
+ #include <linux/highmem.h>
+ #include <linux/io.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_reserved_mem.h>
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ 
+ #define DEFAULT_CMA_NAME "default_cma_region"
+@@ -407,35 +409,32 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
  	}
  
- 	if (selected_size && !dma_contiguous_default_area) {
-+		int ret;
-+
- 		pr_debug("%s: reserving %ld MiB for global area\n", __func__,
- 			 (unsigned long)selected_size / SZ_1M);
- 
- 		dma_contiguous_reserve_area(selected_size, selected_base,
- 					    selected_limit,
- 					    &dma_contiguous_default_area,
- 					    fixed);
-+
-+		ret = dma_heap_cma_register_heap(dma_contiguous_default_area);
-+		if (ret)
-+			pr_warn("Couldn't register default CMA heap.");
- 	}
+ 	return 0;
  }
  
- void __weak
- dma_contiguous_early_fixup(phys_addr_t base, unsigned long size)
+-static int __init add_default_cma_heap(void)
++static int __init add_cma_heaps(void)
+ {
+ 	struct cma *default_cma = dev_get_cma_area(NULL);
+-	const char *legacy_cma_name;
++	unsigned int i;
+ 	int ret;
+ 
+-	if (!default_cma)
+-		return 0;
++	if (default_cma) {
++		ret = __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
++		if (ret)
++			return ret;
++	}
+ 
+-	ret = __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
+-	if (ret)
+-		return ret;
++	for (i = 0; i < dma_areas_num; i++) {
++		struct cma *cma = dma_areas[i];
+ 
+-	if (IS_ENABLED(CONFIG_DMABUF_HEAPS_CMA_LEGACY)) {
+-		legacy_cma_name = cma_get_name(default_cma);
+-		if (!strcmp(legacy_cma_name, DEFAULT_CMA_NAME)) {
+-			pr_warn("legacy name and default name are the same, skipping legacy heap\n");
+-			return 0;
++		ret = __add_cma_heap(cma, cma_get_name(cma));
++		if (ret) {
++			pr_warn("Failed to add CMA heap %s", cma_get_name(cma));
++			continue;
+ 		}
+ 
+-		ret = __add_cma_heap(default_cma, legacy_cma_name);
+-		if (ret)
+-			pr_warn("failed to add legacy heap: %pe\n",
+-				ERR_PTR(ret));
+ 	}
+ 
+ 	return 0;
+ }
+-module_init(add_default_cma_heap);
++module_init(add_cma_heaps);
+ MODULE_DESCRIPTION("DMA-BUF CMA Heap");
 
 -- 
 2.51.0
