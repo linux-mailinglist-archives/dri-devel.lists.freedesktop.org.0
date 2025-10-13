@@ -2,70 +2,217 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8CABD244C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 11:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BC8BD245B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 11:23:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7755D10E411;
-	Mon, 13 Oct 2025 09:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578D810E413;
+	Mon, 13 Oct 2025 09:23:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="H5Cvd6H0";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="Zzkes6rk";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="lucbqs7D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A189510E414;
- Mon, 13 Oct 2025 09:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=9b7jJxYUgIx2oIfX09EtMqln7uvx2ScKR4gu0lCUark=; b=H5Cvd6H0JaiYQvdKPZtO0gvDiB
- baHF0/h5b1y2SxU58Gc6mDZu2ioZ6p2e2zY95IQ4uA1TGlyYclRmv0p/Gr1aRn/5DeM1fKIasBUUm
- 0KGbsDuc9RW11DWzQZQdQCntVC4HqN57PR4c9eroE9zh1xbgmrf3tYYdjGDoGETPL+Gf/iz2chTyS
- +5tSgtAuf9qX20kqwdCdPb1Rdb0js5JliYN5BWRJ2HRxy1Zpr+QBOYqJ7+6h+LltHJww54y5ioPqH
- H+hRYi1tu2PBgcKp+dsC816Iv8uIFl0RfYw6RK2X1p1DRTaERL/rd2dUnxxSm/S6g8tDHin0OF5HZ
- WhAUX6+A==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v8Eli-008rf0-D3; Mon, 13 Oct 2025 11:23:02 +0200
-Message-ID: <f8c057e3-6d9a-49b0-89ac-9e35c009b4b1@igalia.com>
-Date: Mon, 13 Oct 2025 10:23:01 +0100
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 119E810E413
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 09:23:44 +0000 (UTC)
+X-UUID: 4ed000b2a81611f0b33aeb1e7f16c2b6-20251013
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=2iN1wrHDZnx18qrvDu+jG/8Ewjjh0U3dRWc19acjSSM=; 
+ b=Zzkes6rkkv/0+4mDCw1pLKvO190u+JcE+JFNNpEjkZpdOPsVJuN4yFz8dK1o2idTC56FyXptPsZVv/hbgIEyk1z/XdhGJl5i8zHMArf4X8qK9632XXH3n8rdCfJOcPWKY8SmLoD15BIqgaPnnGVI14OQ/PCQpSuB/yv/6Ed52vA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6, REQID:a4c2e36e-ef9a-4b3e-bbd0-9f80cd21ba7a, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:a9d874c, CLOUDID:f34eff50-c509-4cf3-8dc0-fcdaad49a6d3,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|888|898,
+ TC:-5,Content:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:nil,Bulk:nil,QS:nil,
+ BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 4ed000b2a81611f0b33aeb1e7f16c2b6-20251013
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1227287640; Mon, 13 Oct 2025 17:23:41 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 13 Oct 2025 17:23:37 +0800
+Received: from SI4PR04CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1748.10 via Frontend Transport; Mon, 13 Oct 2025 17:23:37 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yIfTTw/6ieXPkIY8NYxE9AwtyonKG5cLY3a+pUrQPC73oCwTdxgme8FDYUjhaWp5TcvFjhmND/zctbY0DuXG8PPtCCNsML/InLpY+2ar+hFfwlm47m4XchCJe9hyMc7AP3jn0nOIn6ucj/RXAJnTe1e/aJm20hibkzc38PcoQb4LHzimJWrQbPJvOW9z82QUCX/DsDomprkW2vj6G3XjGKtmf+LJ40cHhIFpXh83Ubul2xvpYZiO+qOHcP1nmlt7JF1UNCWK6eyi0mjyPertTcNlgFMt4u/+bpPb+v8FhzTem8WV/lIXcHz2WMUlSRhJjDnH1UoGTMSLFF4zQTT4uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vNAXwEBCMp+8x8I7CHTOCZlBarnb9/Do9coa31402So=;
+ b=Pw8S0atI/jSgljjYwqGS8U2Q8uYnt1KXek9Fq10ztdzHiNPIY1YMu/c1IeG1dYmlKDG1vl4WD1WTHXgXJb58dserKzbwfczZPFdmxF5fPQ6s+tJRCNUN5dr8xZehRdu7AI237q9+T7DYdWnwJxl8Xuj37uZgWxwfFEzCiI5+fS0xPk4nlQYIRVxKPNO+yVBuDHJSM9QcETr1kGpJTKCX9MGX4f8Q6xdUqjQMqSsz0JR/CwJT+GWhjdutKrJMNzPLIj4RfD5zfm2F2kOXT4hSfgfem9F2Ls9x6/gmOSuURYSQASBFS7xegHUzdDf4LyvcyMtLv4B1+qYAr3OHGayjjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vNAXwEBCMp+8x8I7CHTOCZlBarnb9/Do9coa31402So=;
+ b=lucbqs7Dn7ReP2yEbe6dzABZQu77oQ/mBffAzhcT4g1V4+5HLO8pPXwgBLS5UiL5FN97AyFl9NuFLbh/t0vt91u3iSI5ILGt+gE11HpeYfGqQnkOy3uPIvB4yAqvUPVV7otK/0ERNwb0nid0fgTNAp9vrbLDJ82v1eetfKRIlEo=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by SI6PR03MB8653.apcprd03.prod.outlook.com (2603:1096:4:251::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
+ 2025 09:23:36 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6%7]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 09:23:36 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, "conor+dt@kernel.org"
+ <conor+dt@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ =?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>, "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?= <Paul-pl.Chen@mediatek.com>,
+ =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v7 16/20] soc: mediatek: mtk-cmdq: Remove shift_pa
+ parameter from cmdq_pkt_jump()
+Thread-Topic: [PATCH v7 16/20] soc: mediatek: mtk-cmdq: Remove shift_pa
+ parameter from cmdq_pkt_jump()
+Thread-Index: AQHcORPOer0ghUttd0uroYIrBxEpIrS/0/MA
+Date: Mon, 13 Oct 2025 09:23:36 +0000
+Message-ID: <f95ca970c775fe2ab1acd95781d62a11b7242fd8.camel@mediatek.com>
+References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
+ <20250827114006.3310175-17-jason-jh.lin@mediatek.com>
+ <9abaae2b-8e66-4e28-99c3-14cf3de13c8c@collabora.com>
+In-Reply-To: <9abaae2b-8e66-4e28-99c3-14cf3de13c8c@collabora.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|SI6PR03MB8653:EE_
+x-ms-office365-filtering-correlation-id: 6ee32a03-97b6-4592-1e92-08de0a3a3056
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|1800799024|7416014|376014|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?WVdHNXFpd0pSaStPdDF1OXRNWWlCWGJMdlFVcENqNGhudnJ6a0pGZnlUbmJt?=
+ =?utf-8?B?QmJualZ3VUIyeUg4d1ZvaUFGT1k3eW9MVUtFandGVG5LZGxzbEdRRE1VazR4?=
+ =?utf-8?B?SUVTNStyTGZ5M0dWTHNxb3BWUWlDZmZ3N05UVFl2YStDeEdXSjRQRjJaS1JZ?=
+ =?utf-8?B?cEhIVXFmMVBvbkRlSStaL1BFdzlLTmZ6OEdKUG9HYjBwbkZMYUFBbUY2UUN0?=
+ =?utf-8?B?K0crQUlwRGtLajgrV1dQbWVTeWxKNFY1MzdzczhYUFNDSjhoUFYwVkNyeFhB?=
+ =?utf-8?B?ejEybjN0VUFDaitxeFB5UlAvQU81eS9jcEw5dWlXOUxndHNsVTVhT1Z6RXBG?=
+ =?utf-8?B?NldRVEpsYS8xODV2NmdZUWh1VUo4OGI0dVJ4SDJ2U0RncEZ5cHZtWGxvWU14?=
+ =?utf-8?B?V3N1OXhJek1tOWhpRlNuNTU4VWpJd0d4Skx5UUhmOVQ3Um1BSG1YWit4WVV2?=
+ =?utf-8?B?amRKZDdqTEpjUTI0a3ZvS1dKaDNyYWZncE5xZTJ5WUdKWGhDSnBDak54M3BC?=
+ =?utf-8?B?SXZNSWlsSENNZ1hXVXRiMWE2eGJEZC9yeERBcmZjNHliRTIvVi91TXMzZGRT?=
+ =?utf-8?B?UEJ5S0VvUjJjTGtxSTMvc29NbnBucEhtaW9icm5ubUFnb0V5dnVhTmdGYUpz?=
+ =?utf-8?B?NGloYmhmQWZQM1ZPL1lTS0ZqZEdqRmRXcDJoWmIveGpSVUd1TTg1VHZXZ3Jp?=
+ =?utf-8?B?STZ2RHpIdFhMZEVRd2RRSVV2YkpBb0Y2d1RFanpITFhya0t6dVg2cU1TWXZ6?=
+ =?utf-8?B?Y2Flcit1R0lMR3dMNGlVL0I4L25qWjQzazRNSmlOMGlnaURrdldRMWlZQVAw?=
+ =?utf-8?B?dURNbWlyN0RZc2haL1l6dVI2SlQwZUhkeG5nZE1vU0dYV2NUVHRsZ2JHYWt1?=
+ =?utf-8?B?a1VnUDZxVHExYlhRTXVEMGs2dG80T0pSeksyaTNSVGM5cms1ZnpOb2tsZmhl?=
+ =?utf-8?B?YVpWanM4bExrVXBydU1JR1pCU25DN3h4WVV5YUVMeDkrc2RjQXJDQTZuOWpR?=
+ =?utf-8?B?Z3BMckJUcjg3Vy8xMXU4cDZtRnRtZGhHUFh6NkI2NHhqcXJmMEVXMnlneHNv?=
+ =?utf-8?B?OHc4cE5aaTh0TmwwbzAvZmdzaWxrOEhwTjZsZFBJekVDUmlOYkl3MmFwSk84?=
+ =?utf-8?B?Mm1qV2g0VUIvckNWS3kycTF1Uy91Qy91UWFtN25selBEM05FU29WcE5tSmVk?=
+ =?utf-8?B?SEU1RFk5ZjVFQTJoY1VoUEJCa0JwaGhJejFMbDA2Y1VUM3NqQVNtb2dSd1dN?=
+ =?utf-8?B?ZmtBWnVVaTJWdytjVU1sU2NPUThQczMwS1ZFVy9yNm5SMXJQVlBwZW9JSTRC?=
+ =?utf-8?B?cnFLYnFHazQ0QU5BL1ZyRFBMMjhVdnVTRm5qTFA4Ymc0THlXU2lybTY4WVhF?=
+ =?utf-8?B?c09QTy84ZzRXUkh6WC9zdFBFOVk0T2pZcXM0a215dnQ4QXk5azhVS2EwQVNs?=
+ =?utf-8?B?eTc2YklBVEcrR3JyUnViM3lnNDQ0c0xQaDVITGMrUEg0ZDlIbWN2NDVMa01i?=
+ =?utf-8?B?WUZKLzlFVndWUHRQVDczYVBsWGhQcTdmbkFvTzdQMTY0Sm5pQnhqbFFkckxH?=
+ =?utf-8?B?c1lhcmNHQUo1UnZLMjdDWnh1OVA3WDYrT2lTU2NDTEtad0c1U1Y5NzVqMnBw?=
+ =?utf-8?B?MTlYNFVNeVdHbEE2SjRyYjFiZzFHZU53RGFqcjJCYkhxam9mbFdmOVFDSHRF?=
+ =?utf-8?B?RDZodk1BV3dMS2VLMnVUaVFQVlZudTRBYXpVSFpkK3VBenNqMDcrNlhpbnly?=
+ =?utf-8?B?VldNN2dRSE9KV203RlBKYTNxYmFFbHFDelQ0Z2F4M2gwbW1saFFndjQ0d0pM?=
+ =?utf-8?B?NHh1d2JvOHNzcDFzSHNhUzl0ZlhweGVxOVJKYy9SbUo0SUhTOTRqYTRTaHhD?=
+ =?utf-8?B?SGFmcFlyTVdEeTlMa3RZNHl4MmhqTVNXdGJtaWxuMStydWV2YjFBTkx3UG1j?=
+ =?utf-8?B?SHJVbTgzbzhLS3ViU25EWWllMERQdGl4dHlOdldiM1BwSGhSVW0xTktkS25l?=
+ =?utf-8?B?VkVSWVF6OUl1L0xpYndkYmhyWXZOb1h1bUgzdVBDUHdUbVZZZFFzUUYrZ3E0?=
+ =?utf-8?Q?66MGVy?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZEdxakF6ekJJQVA0WWpyOXhyaWFHZWlVaDBkOUIza1FBTndybS9UclU3M0Vt?=
+ =?utf-8?B?SklIbnhVZWRBVWZIYWthZHZmZ2I1allBRllNck1oeHRKb3RicDNURVRiWG53?=
+ =?utf-8?B?TjQ3ODJkN3ZBZkcyby91elgwWjZHVUloU3M1eVFUQWp5blc2SmZTK0JQeVZW?=
+ =?utf-8?B?M2xqMzB0VFJOTzFsbkV6OHZaOUE4WW5jU29rellzTjg4RmswbGczeWNwQUhD?=
+ =?utf-8?B?V0p2Y3YxR1ZDeUh6TkJBTll0V0NOY3pDNmFzRjNPN0lOUWg1azRRR2VQeldu?=
+ =?utf-8?B?azA1U1FPVUxrVGRqelFRVUhwWUhhT2VzZ2lkUFBwbmZlOHErZkM3ajJJTmRV?=
+ =?utf-8?B?TzVpS2g4cDNNS1liUGZUNDVabkhzdzBkbXFDREhDRmcwVnFBNnBHV2kxU3ho?=
+ =?utf-8?B?RGZ5ZUw4WXF6b01OZS9nWGI0SHYrNUdmcy9DVzQwa0FnTGlVd0NCYkYwOEFz?=
+ =?utf-8?B?a25paHZEQTVxelJocEZVUHJlT0JvZllSdTBFbW00MW55R3I5UUVYN2hmcmE2?=
+ =?utf-8?B?cEh2WGozNWZ5VEx5OWxBbVF6ditTQWNUOGF5OEZOWGh5ZlAwbEpOaUJqU29I?=
+ =?utf-8?B?QXBoMXQ1ZEtrRndRdUFYUmo1Z21UemZBY1NYajJxOTdwMGNkemoyeDNKSVEx?=
+ =?utf-8?B?QkExQzRpSVgweml1dzlYeVJLdG82L1VqVTZEU01OT3FiRFkvb1RCV2R1bjZH?=
+ =?utf-8?B?R0cxOU5JQVpFY3A0K3pqbXBrbmZmaFd4UXBRWWdGSXNCLzRUaGVqYVphSS9R?=
+ =?utf-8?B?aFpHR1VhNHlIaExTNG16YjVseE1TZk1HWURmT2ZHdjkxTDBqakNBU0pGWDRK?=
+ =?utf-8?B?SjFudWtMWHdoa3hUN1VvMjNPYjdETUY2TUlyRyt6aVRMRWl6Q2tNaUtQVURC?=
+ =?utf-8?B?N3JoSFFDMTBwRlRZYU1NZHR5MjRQSjgwT2VSZlhGODRnU3BvcGdGYUJWMkhu?=
+ =?utf-8?B?V2lISGJuUE1JMnlqeGNNUmdGS09XeUFRVFV4UE5QQXgxWlBHeVVLeTJxaGxx?=
+ =?utf-8?B?S3hGWkNjaXRRZ2hkS3VvYzRRSXpSZmZubUtYRWttRmxUZjhvZURRc3lSSG1y?=
+ =?utf-8?B?NVYwb0hCcnpnT3VUeFl0Y1d4dnNJNVc5MkNYZDhXOVRuYXFsK3p5dCtVRUZC?=
+ =?utf-8?B?cEFwUVZESi9TN205ZlVtRGZJOURIKzhYdnN2U05EbE92OUJZZ2F3MGtmS242?=
+ =?utf-8?B?ZEpTQXVLWXRVLzNJM0gyMW81a1F2aWl4WERpdlhUS3lHRmE5c3RYOFBRRHR3?=
+ =?utf-8?B?YVFwb1g4ZHNZRjBwWVhKbFAxNG9ySmJLV2JvNXREMmx6MWpONTZ2Nkx4aE12?=
+ =?utf-8?B?VTFEaUwyYkM5T29mNkNOcThxY1VPRldvaWNnUGg4RUJ2OHUwdFRjbnlodnM1?=
+ =?utf-8?B?R2JpQ2NZSXhPWUp3bWZiVmlGT29SYUdQMTh6K0RJSEc5ZzZuVnVVUXp3dlYv?=
+ =?utf-8?B?VHRNZFBLQWltR2p2dmtYMGlDUG1BV2pqLzNXaXI0YUc2WW1ZWi9QY001TFhV?=
+ =?utf-8?B?SXVXU0Q0R1dHWEtaMGFsMExmdklJUWxvZnNOMmpmNmtqSDFhZzBTV1d6M2h0?=
+ =?utf-8?B?WG1iMVYzMEZyYmw3Lys4M1cwbHArYzRZRTQvb0hnUitRRHR3VEcvMzZRZmgv?=
+ =?utf-8?B?RHl6VnJzT3d0TGxmYXRVaWIyNCtrTzZUakU5bWpQV3k2R0ZoV251YmVzSWQ1?=
+ =?utf-8?B?VnU5WnlVRFI5VGc3YTN0MzhxblhYbG4zcStjRXdUWHorRDU5TlRXWmJLOEtO?=
+ =?utf-8?B?MmsxcnhYNXh4U2FQWVozNTAxelNGdnFMbFgyMWRpcFNZcmJiTW5BWnBpMzJ3?=
+ =?utf-8?B?ZVMyQmFBV0hKbEQrb2p6NEh2VjBSRlpSRHZidjN2VGJ4TUdsdUpueWpIbG02?=
+ =?utf-8?B?UkFPcWlFSVJ5V0RURjZmODU2SlFYeDhvVnZrNDVGZ05ZS1VZNVg2Ymlud2Ir?=
+ =?utf-8?B?N2Q4WHQydFcrdis1MC9UeFBGV2FqOVp1TDIzaVNtdnNRTDdxRUYrOW1tV1FJ?=
+ =?utf-8?B?M0J0dGtaZmw5OXZPZlRpdFZEV0ozaUg1TlI1Z1FiN3d5c293QWpxMnFyOVM1?=
+ =?utf-8?B?bnVtOWdLK2hyU0tpcWczeVRuQnJJSUtFR2ZTai9jVHdlOXNpcS9WRDIzbk5O?=
+ =?utf-8?B?aDZ2cVMrVXM5SHpDY043Zyt3Y2x6ZEgzdE13dFpjNWVraFExdzZoVW52MHFa?=
+ =?utf-8?B?Rnc9PQ==?=
+Content-ID: <B7DD5AD2EABBCD4E91A97A7520661F75@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Improving the worst case TTM large allocation
- latency
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: kernel-dev@igalia.com, Alex Deucher <alexander.deucher@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zack Rusin <zack.rusin@broadcom.com>
-References: <20251008115314.55438-1-tvrtko.ursulin@igalia.com>
- <6bba6d25-91f3-49a6-81fc-7a03d891cd1d@amd.com>
- <22228578-a03c-4fc1-85b2-d281525a2b6f@igalia.com>
- <9bb3c06e-25c1-43d8-a4e8-e529c53ff77d@amd.com>
- <45973012f925dbbfdf0636c10f9d051c34f97e2e.camel@linux.intel.com>
- <a300e417-c9df-4e2b-a75f-319aab384b44@igalia.com>
- <d3c56f60ab638891d3d78200876ea11780f5ec21.camel@linux.intel.com>
- <69279852-e1ed-4caf-a92b-a352ba4b613b@igalia.com>
- <a0ff3751a71eab1f8f1c105e84b88b12cd43d65f.camel@linux.intel.com>
- <bf0f3f58-3693-46c7-97d4-e018edb72333@igalia.com>
-Content-Language: en-GB
-In-Reply-To: <bf0f3f58-3693-46c7-97d4-e018edb72333@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ee32a03-97b6-4592-1e92-08de0a3a3056
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2025 09:23:36.8164 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tZY+o0A7SeaiOoM4iGkPA3uF8HtAg8sGsUL0VJifmcPsQC+PH5yz/wicKx+ycx5RNOWLYoNqQsA+YvyFtGI5FznWEYvHaIzuWOkzWmEcNcw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI6PR03MB8653
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_001_516175195.640457546"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,223 +228,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--__=_Part_Boundary_001_516175195.640457546
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 13/10/2025 10:17, Tvrtko Ursulin wrote:
-> 
-> On 13/10/2025 09:48, Thomas Hellström wrote:
->> Hi, Tvrtko,
->>
->> On Sat, 2025-10-11 at 09:00 +0100, Tvrtko Ursulin wrote:
->>>
->>> On 10/10/2025 15:11, Thomas Hellström wrote:
->>>> On Thu, 2025-10-09 at 09:53 +0100, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 08/10/2025 15:39, Thomas Hellström wrote:
->>>>>> On Wed, 2025-10-08 at 16:02 +0200, Christian König wrote:
->>>>>>> On 08.10.25 15:50, Tvrtko Ursulin wrote:
->>>>>>>>
->>>>>>>> On 08/10/2025 13:35, Christian König wrote:
->>>>>>>>> On 08.10.25 13:53, Tvrtko Ursulin wrote:
->>>>>>>>>> Disclaimer:
->>>>>>>>>> Please note that as this series includes a patch which
->>>>>>>>>> touches
->>>>>>>>>> a good number of
->>>>>>>>>> drivers I will only copy everyone in the cover letter
->>>>>>>>>> and
->>>>>>>>>> the
->>>>>>>>>> respective patch.
->>>>>>>>>> Assumption is people are subscribed to dri-devel so can
->>>>>>>>>> look at
->>>>>>>>>> the whole series
->>>>>>>>>> there. I know someone is bound to complain for both the
->>>>>>>>>> case
->>>>>>>>>> when everyone is
->>>>>>>>>> copied on everything for getting too much email, and
->>>>>>>>>> also
->>>>>>>>>> for
->>>>>>>>>> this other case.
->>>>>>>>>> So please be flexible.
->>>>>>>>>>
->>>>>>>>>> Description:
->>>>>>>>>>
->>>>>>>>>> All drivers which use the TTM pool allocator end up
->>>>>>>>>> requesting
->>>>>>>>>> large order
->>>>>>>>>> allocations when allocating large buffers. Those can be
->>>>>>>>>> slow
->>>>>>>>>> due memory pressure
->>>>>>>>>> and so add latency to buffer creation. But there is
->>>>>>>>>> often
->>>>>>>>>> also
->>>>>>>>>> a size limit
->>>>>>>>>> above which contiguous blocks do not bring any
->>>>>>>>>> performance
->>>>>>>>>> benefits. This series
->>>>>>>>>> allows drivers to say when it is okay for the TTM to
->>>>>>>>>> try a
->>>>>>>>>> bit
->>>>>>>>>> less hard.
->>>>>>>>>>
->>>>>>>>>> We do this by allowing drivers to specify this cut off
->>>>>>>>>> point
->>>>>>>>>> when creating the
->>>>>>>>>> TTM device and pools. Allocations above this size will
->>>>>>>>>> skip
->>>>>>>>>> direct reclaim so
->>>>>>>>>> under memory pressure worst case latency will improve.
->>>>>>>>>> Background reclaim is
->>>>>>>>>> still kicked off and both before and after the memory
->>>>>>>>>> pressure
->>>>>>>>>> all the TTM pool
->>>>>>>>>> buckets remain to be used as they are today.
->>>>>>>>>>
->>>>>>>>>> This is especially interesting if someone has
->>>>>>>>>> configured
->>>>>>>>>> MAX_PAGE_ORDER to
->>>>>>>>>> higher than the default. And even with the default,
->>>>>>>>>> with
->>>>>>>>>> amdgpu
->>>>>>>>>> for example,
->>>>>>>>>> the last patch in the series makes use of the new
->>>>>>>>>> feature
->>>>>>>>>> by
->>>>>>>>>> telling TTM that
->>>>>>>>>> above 2MiB we do not expect performance benefits. Which
->>>>>>>>>> makes
->>>>>>>>>> TTM not try direct
->>>>>>>>>> reclaim for the top bucket (4MiB).
->>>>>>>>>>
->>>>>>>>>> End result is TTM drivers become a tiny bit nicer mm
->>>>>>>>>> citizens
->>>>>>>>>> and users benefit
->>>>>>>>>> from better worst case buffer creation latencies. As a
->>>>>>>>>> side
->>>>>>>>>> benefit we get rid
->>>>>>>>>> of two instances of those often very unreadable
->>>>>>>>>> mutliple
->>>>>>>>>> nameless booleans
->>>>>>>>>> function signatures.
->>>>>>>>>>
->>>>>>>>>> If this sounds interesting and gets merge the invidual
->>>>>>>>>> drivers
->>>>>>>>>> can follow up
->>>>>>>>>> with patches configuring their thresholds.
->>>>>>>>>>
->>>>>>>>>> v2:
->>>>>>>>>>      * Christian suggested to pass in the new data by
->>>>>>>>>> changing the
->>>>>>>>>> function signatures.
->>>>>>>>>>
->>>>>>>>>> v3:
->>>>>>>>>>      * Moved ttm pool helpers into new
->>>>>>>>>> ttm_pool_internal.h.
->>>>>>>>>> (Christian)
->>>>>>>>>
->>>>>>>>> Patch #3 is Acked-by: Christian König
->>>>>>>>> <christian.koenig@amd.com>.
->>>>>>>>>
->>>>>>>>> The rest is Reviewed-by: Christian König
->>>>>>>>> <christian.koenig@amd.com>
->>>>>>>>
->>>>>>>> Thank you!
->>>>>>>>
->>>>>>>> So I think now I need acks to merge via drm-misc for all
->>>>>>>> the
->>>>>>>> drivers which have their own trees. Which seems to be just
->>>>>>>> xe.
->>>>>>>
->>>>>>> I think you should ping the XE guys for their opinion, but
->>>>>>> since
->>>>>>> there shouldn't be any functional change for them you can
->>>>>>> probably go
->>>>>>> ahead and merge the patches to drm-misc-next when there is no
->>>>>>> reply
->>>>>>> in time.
->>>>>>
->>>>>> I will try to do a review tonight. One thing that comes up
->>>>>> though,
->>>>>> is
->>>>>> the change to ttm_device_init() where you add pool_flags. I had
->>>>>> another
->>>>>> patch series a number of months ago that added a struct with
->>>>>> flags
->>>>>> there instead to select the return value given when OOM. Now
->>>>>> that
->>>>>> we're
->>>>>> adding an argument, should we try to use a struct instead so
->>>>>> that
->>>>>> we
->>>>>> can use it for more that pool behavior?
->>>>>>
->>>>>>
->>>>>> I'll be able to find a pointer to that series later today.
->>>>>
->>>>> Found it:
->>>>> https://lore.kernel.org/dri-devel/20241002122422.287276-1- 
->>>>> thomas.hellstrom@linux.intel.com/
->>>>>
->>>>> Glad to see in that thread it isn't just me permanently slowed
->>>>> down
->>>>> by
->>>>> "false, false" and similar. :)
->>>>>
->>>>> I considered using a struct too and I guess there wasn't too much
->>>>> of
->>>>> a
->>>>> sway that I went with flags. I thought not to overcomplicate with
->>>>> the
->>>>> on
->>>>> stack struct which is mostly not needed for something so low
->>>>> level,
->>>>> and
->>>>> to stick with the old school C visual patterns.
->>>>>
->>>>> Since you only needed a single boolean in your series I suppose
->>>>> you
->>>>> could just follow up on my series if you find it acceptable. Or I
->>>>> can
->>>>> go
->>>>> with yours, no problem either.
->>>>
->>>> It seems yours has the most momentum ATM. I can follow up on yours.
->>>> It
->>>> would be great if we could perhaps change the naming of
->>>> "pool_flags" to
->>>> something more generic.
->>>
->>> Do you have a name in mind? For ttm_device_init pool_flags made sense
->>> to
->>> signify they relate only to the poll.
->>
->> Well, what I had in mind would have been "flags" or
->> "device_init_flags".
->>
->> Really one could change this once flags starts to have other meanings
->> as well, like the return value change I was proposing.
->> But the reason I was suggesting to do this now is to avoid yet another
->> added parameter to ttm_device_init, since obtaining an ack from all TTM
->> driver maintainers is typically time-consuming if at all possible.
->>
->> When adding functionality to allocation functions, for example the use
->> of the ttm_allocation_ctx has proven easier to use since it's easily
->> extendible typically without changes to drivers.
-> 
-> I understood from your previous reply you were okay with flags.
-> 
-> If I rename pool_flags to allocation_flags would that work for you?
+T24gVGh1LCAyMDI1LTEwLTA5IGF0IDEzOjU2ICswMjAwLCBBbmdlbG9HaW9hY2NoaW5vIERlbCBS
+ZWdubyB3cm90ZToNCj4gDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBs
+aW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBz
+ZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+IA0KPiANCj4gSWwgMjcvMDgvMjUgMTM6MzcsIEphc29u
+LUpIIExpbiBoYSBzY3JpdHRvOg0KPiA+IFNpbmNlIHNoaWZ0X3BhIHdpbGwgYmUgc3RvcmVkIGlu
+IHRoZSBjbWRxX21ib3hfcHJpdiBzdHJ1Y3R1cmUNCj4gPiB3aXRoaW4NCj4gPiBjbWRxX3BrdCwg
+YWxsIHNoaWZ0X3BhIHBhcmFtZXRlcnMgaW4gQ01EUSBoZWxwZXIgQVBJcyBjYW4gYmUNCj4gPiBy
+ZW1vdmVkLg0KPiA+IA0KPiA+IFJlbW92ZSB0aGUgc2hpZnRfcGEgcGFyYW1ldGVycyBmcm9tIGNt
+ZHFfcGt0X2p1bXAoKSwNCj4gPiBjbWRxX3BrdF9qdW1wX2FicygpLA0KPiA+IGFuZCBjbWRxX3Br
+dF9qdW1wX3JlbCgpLg0KPiA+IA0KPiA+IEZpeGVzOiBhZGUxNzY1MzQxMTIgKCJzb2M6IG1lZGlh
+dGVrOiBjbWRxOiBBZGQgcGFyYW1ldGVyIHNoaWZ0X3BhDQo+ID4gdG8gY21kcV9wa3RfanVtcCgp
+IikNCj4gDQo+IERyb3AgdGhvc2UgZml4ZXMgdGFncywgdGhleSdyZSBub3QgcG9pbnRpbmcgdG8g
+YW55IHVwc3RyZWFtIGNvbW1pdCwNCj4gYW5kIHRoZW4sIHRob3NlDQo+IGFyZSBub3QgZml4ZXMg
+cGVyLXNlLCBhcyB5b3UgYXJlIHBlcmZvcm1pbmcgbWlncmF0aW9uLCBub3QgZml4aW5nDQo+IGFu
+eXRoaW5nLg0KDQpPSywgSSdsbCBkcm9wIHRoaXMgZml4ZXMgdGFnLg0KDQpSZWdhcmRzLA0KSmFz
+b24tSkggTGluDQoNCj4gDQo+IENoZWVycywNCj4gQW5nZWxvDQoNCg==
 
-P.S. Or if you want to carry on with struct that is fine by me. I am not 
-a huge fan of a syntax like:
+--__=_Part_Boundary_001_516175195.640457546
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-  	err = ttm_device_init(&xe->ttm, &xe_ttm_funcs, xe->drm.dev,
-  			      xe->drm.anon_inode->i_mapping,
-			      xe->drm.vma_offset_manager,
-			      (struct ttm_device_init_flags){});
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1RodSwmIzMyOzIwMjUtMTAtMDkmIzMyO2F0
+JiMzMjsxMzo1NiYjMzI7KzAyMDAsJiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
+Z25vJiMzMjt3cm90ZToNCiZndDsmIzMyOw0KJmd0OyYjMzI7RXh0ZXJuYWwmIzMyO2VtYWlsJiMz
+Mjs6JiMzMjtQbGVhc2UmIzMyO2RvJiMzMjtub3QmIzMyO2NsaWNrJiMzMjtsaW5rcyYjMzI7b3Im
+IzMyO29wZW4mIzMyO2F0dGFjaG1lbnRzJiMzMjt1bnRpbA0KJmd0OyYjMzI7eW91JiMzMjtoYXZl
+JiMzMjt2ZXJpZmllZCYjMzI7dGhlJiMzMjtzZW5kZXImIzMyO29yJiMzMjt0aGUmIzMyO2NvbnRl
+bnQuDQomZ3Q7JiMzMjsNCiZndDsmIzMyOw0KJmd0OyYjMzI7SWwmIzMyOzI3LzA4LzI1JiMzMjsx
+MzozNywmIzMyO0phc29uLUpIJiMzMjtMaW4mIzMyO2hhJiMzMjtzY3JpdHRvOg0KJmd0OyYjMzI7
+Jmd0OyYjMzI7U2luY2UmIzMyO3NoaWZ0X3BhJiMzMjt3aWxsJiMzMjtiZSYjMzI7c3RvcmVkJiMz
+MjtpbiYjMzI7dGhlJiMzMjtjbWRxX21ib3hfcHJpdiYjMzI7c3RydWN0dXJlDQomZ3Q7JiMzMjsm
+Z3Q7JiMzMjt3aXRoaW4NCiZndDsmIzMyOyZndDsmIzMyO2NtZHFfcGt0LCYjMzI7YWxsJiMzMjtz
+aGlmdF9wYSYjMzI7cGFyYW1ldGVycyYjMzI7aW4mIzMyO0NNRFEmIzMyO2hlbHBlciYjMzI7QVBJ
+cyYjMzI7Y2FuJiMzMjtiZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7cmVtb3ZlZC4NCiZndDsmIzMyOyZn
+dDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7UmVtb3ZlJiMzMjt0aGUmIzMyO3NoaWZ0X3BhJiMz
+MjtwYXJhbWV0ZXJzJiMzMjtmcm9tJiMzMjtjbWRxX3BrdF9qdW1wKCksDQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjtjbWRxX3BrdF9qdW1wX2FicygpLA0KJmd0OyYjMzI7Jmd0OyYjMzI7YW5kJiMzMjtjbWRx
+X3BrdF9qdW1wX3JlbCgpLg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtG
+aXhlczomIzMyO2FkZTE3NjUzNDExMiYjMzI7KCZxdW90O3NvYzomIzMyO21lZGlhdGVrOiYjMzI7
+Y21kcTomIzMyO0FkZCYjMzI7cGFyYW1ldGVyJiMzMjtzaGlmdF9wYQ0KJmd0OyYjMzI7Jmd0OyYj
+MzI7dG8mIzMyO2NtZHFfcGt0X2p1bXAoKSZxdW90OykNCiZndDsmIzMyOw0KJmd0OyYjMzI7RHJv
+cCYjMzI7dGhvc2UmIzMyO2ZpeGVzJiMzMjt0YWdzLCYjMzI7dGhleSYjMzk7cmUmIzMyO25vdCYj
+MzI7cG9pbnRpbmcmIzMyO3RvJiMzMjthbnkmIzMyO3Vwc3RyZWFtJiMzMjtjb21taXQsDQomZ3Q7
+JiMzMjthbmQmIzMyO3RoZW4sJiMzMjt0aG9zZQ0KJmd0OyYjMzI7YXJlJiMzMjtub3QmIzMyO2Zp
+eGVzJiMzMjtwZXItc2UsJiMzMjthcyYjMzI7eW91JiMzMjthcmUmIzMyO3BlcmZvcm1pbmcmIzMy
+O21pZ3JhdGlvbiwmIzMyO25vdCYjMzI7Zml4aW5nDQomZ3Q7JiMzMjthbnl0aGluZy4NCg0KT0ss
+JiMzMjtJJiMzOTtsbCYjMzI7ZHJvcCYjMzI7dGhpcyYjMzI7Zml4ZXMmIzMyO3RhZy4NCg0KUmVn
+YXJkcywNCkphc29uLUpIJiMzMjtMaW4NCg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtDaGVlcnMsDQom
+Z3Q7JiMzMjtBbmdlbG8NCg0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwhLS10eXBlOnRl
+eHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkg
+Tm90aWNlDQogKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQg
+aW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkg
+YmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpl
+eGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5k
+ZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4g
+QW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5p
+bmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRz
+KSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBt
+YXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9m
+IHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMg
+ZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAo
+YnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9m
+IA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0
+ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFu
+eSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
-Since I don't find it very readable. But as my flags approach is also 
-not perfect I have no strong feelings either way.
-
-Regards,
-
-Tvrtko
+--__=_Part_Boundary_001_516175195.640457546--
 
