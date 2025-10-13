@@ -2,93 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378A7BD3254
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 15:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77ECBD3295
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 15:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 505A710E103;
-	Mon, 13 Oct 2025 13:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACB810E0F2;
+	Mon, 13 Oct 2025 13:18:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MQGCz8Bq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PJZJL7W9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F17D10E103
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 13:12:33 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-36a448c8aa2so36274421fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 06:12:33 -0700 (PDT)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B6910E0F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 13:18:32 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id
+ 4fb4d7f45d1cf-6364eb29e74so7438532a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 06:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1760361152; x=1760965952; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760361511; x=1760966311; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cx8c00vvcYciQmbGZm3+AuToOvX/AiPHnZpUc62RD4E=;
- b=MQGCz8Bqqokn5VAQ43artIGNGgp8blsg/9eVZG83qlqED0hu+cvtB5Pm5xJt46+Tcn
- qGUc5VrmJUWszfDeL2EtIl3Ndg5EkKAnxyLN8gaFnWvM3O/tmlCpEUS4sko5tLYErA3x
- nHvjDVRpyjpO1K5l2q+tBPa5B4yvaYz8D+tKiG+XgchjHVxKTVSZptjgaIiWt2nb09gn
- Im3ehsW2a4hn7D/uiGkzDXrny8awMjWGKA1gg16ID8Rhjz7snXyXhn1DrUq3wkxTk3N5
- EHjd7QyVaibGOvSg4ANaexoSQgGoAkpoyLnGWwOcZ0HbDkBVsUCQebRMT4vgb56iCPvA
- oLog==
+ bh=W9AiQH+p3Zc9JwwBJl7QXYeZboD0M4kQBWEkieM2TAA=;
+ b=PJZJL7W9afTQl46MAuZQXbEZTNvYgGgD1JX9BIXeGlAOow0/uNztlAXOIhwYgNt3Ez
+ Qru3nWHwuLh9Nw0D0cELxJg0usccVE77KeReKP3xLgHctLb4sVxTz4A07NbQMf5hQfnI
+ 1RF4WdG++Eshymxq0/B/lkAchP+MkTMYeGvmSROXGrTxYypXHy4vIRmyFrK2KC2xIK8Q
+ SciUI3MO9SNZrLrjY+r8LJjWmGV7iiMZL0WKojr7z4Dl5+sxWmWBVhSeT34kaAbYRkl4
+ v96WJ+c1Z51enhEbblpRTHEwfqJ0OvKZSWWAEE5Mt27M5321b891NrKAYmgmJf866rXa
+ cC+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760361152; x=1760965952;
+ d=1e100.net; s=20230601; t=1760361511; x=1760966311;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cx8c00vvcYciQmbGZm3+AuToOvX/AiPHnZpUc62RD4E=;
- b=Y4/18LAlB2YvjGPyltLwAuGuqLLEi5uod00M0wESpYzQmXMQ966LB91XxLpev61p9g
- nzaHHUBhelS861Tm5S2jirrC3NiFNYCirlJzZXOJYkM/omN+nySHFxk0tkAdNn1Uz0WV
- z/2/UcxLOZATiSXjtyOJMAmaekVCjH7sV05vlG9LJMPYINk2Ggyzb7RBhYOWmG3BcOnB
- rjD6f4PD+G/dQPX8E9gFnLtuG70sVdViSMxn0GA/NdvbEf2iYz7JrIw6YTRHsJX/Fzj4
- BmKP3NY9vDcbCqcCfdqP+KwEQPge6CO+tJtE7NcKqDPH73/+TgG7RM7exeRjlcglhIl3
- v6+Q==
+ bh=W9AiQH+p3Zc9JwwBJl7QXYeZboD0M4kQBWEkieM2TAA=;
+ b=kgnrRva8460Y+YJAiwP4hctM62YTSPsJcm+lSbyw4/A1olR/9n2+MhcAlCYQFCEj3G
+ fkG31TCgStH0vl/RuQvZev88wbQwBRtH4YMRNfobLm7Go/GKf4KlkWHUpcBh1MYZOI8W
+ uw5dmPLGivAhP5EvutFdQkDxHqSUZnLPqPHzaZvc4lUl/kxW/B33zU1cwfjqZw2GfykK
+ h8mDfwS5uWhnPS8nc0bM1fYRp2ci0/CFJiIa5I+1eQlrbpfqu8JThGMJOwlwtSpS7YNF
+ jxLO6TrGiNWy2DJrohx5Cpz0zGFOBb0EsIdB0+dVPYAi2fsMAEQiHLH/vzNXrXEfX6/7
+ XhWA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUR34j08ZfGR/zNktsi4Gf4wt0f8arMcl4Lb+ak6G3zyuFVdiLbRBsiwZVRifyChllb5Vfkkp7r+UA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXk79tpAa0YDNC/hG0yKKcg//2R5fMSbhL7uPCHQk4SJb9qvsB
- JHQrC3Aw+wHMCmytIb2lOAy/TBD5Nu42rpm6k738/3TFlfTcJYVieBLl17OLsQDQB7jguflN8a4
- jk5lUharBKUZ6XGSzdCRa4PEUV5NhY3ZIKcmOQV4kFQ==
-X-Gm-Gg: ASbGncsntpZRzDBfoTAMT+zcW2xEh54V7HQKDNOXI5tpVjOKlLG6IvvJXpGGr/jOtWH
- 67XvJjzNZG28WIC5z8u4BZILRDBzTp3frhuZlb8Eq2Lnb8nwteQKSAQfRoQb/x6tk8Dm1yrNm23
- KxGYhr05ZHpP4Rws5x0e/EU5aOftFxtq2Y72OT4/kFRhrYebf+W2aB+ktABxS7QnQKmPosqzE47
- qkhsH99nfzq4MgqqQ4e4U4Ydj0rDPciSlZ4O+B0
-X-Google-Smtp-Source: AGHT+IFy7QQZzDisxgLU7RQiHqmGLbp9GU/ko5TeFOP01cdLTHtzWG4syZZ8PgjrdKymxne7+Wg23WBWjWeGpiwOdDo=
-X-Received: by 2002:a05:651c:4394:20b0:376:45a3:27c4 with SMTP id
- 38308e7fff4ca-37645a32d2dmr19705401fa.5.1760361151675; Mon, 13 Oct 2025
- 06:12:31 -0700 (PDT)
+ AJvYcCXk4KMIdozoJcYmdafG6miA0IbEX3gkGBBurYftqmbFbyf0fMzwi1uWy9xe/5tzkN3uRzZS54G3k4U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTKUBfx3hUbLqERFlET47eWeD9qmDFl5hJWO8Tl7qyY6+CCjdd
+ 7gPtJFGCPxxVOixTBxYGSUbl9J57NPcyHtHEtucc0twWUfU3DQrhJ6lg5WhfS3BHjC34dqvuriM
+ 2aiZX/0QwhP01EG+3908JGaJdqaFVvLM=
+X-Gm-Gg: ASbGncvic5ySLCJFlYFM6BFo95Dj7FnCqD2lin2yC+xMMGoXYk3a/X+nclApF7QatTX
+ BsyKdzYKdOyfv5bRGuNhtVw1dLYohwEL2ruWzYRuQ57NJbg/vgw3cvCw3yN/78nZ3eeirEHs4gb
+ 6OJbNNYo+XK4OFJ2nZrlb0RKwGo827iYCDG9XnK59LexfSppdfKF+X93LSZLlvNqafjQhJ8FwG4
+ It/lM52kZYRCubFJ0MwXUZOAo8N2oaoGnVp
+X-Google-Smtp-Source: AGHT+IHv7bID+xbm7RowzwKtepEJM2QOtT7nCXsATO274uCHhG9AaqRttSiuceRtheBHXIXQGcJxOUqKR8B8nZHeuYE=
+X-Received: by 2002:a05:6402:3554:b0:639:fb11:9935 with SMTP id
+ 4fb4d7f45d1cf-639fb119b08mr13930852a12.4.1760361510947; Mon, 13 Oct 2025
+ 06:18:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-2-clamor95@gmail.com>
-In-Reply-To: <20251008073046.23231-2-clamor95@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 Oct 2025 15:12:20 +0200
-X-Gm-Features: AS18NWB0Tr61DfHtPSZqpJT6vjMUO75ud5f5_b3M4zNOdVsqYQjTLusmQxbBsw4
-Message-ID: <CACRpkda3o55N2m=H+RA2p0r598KBLv6bbbin76Uu5Sy44qCLig@mail.gmail.com>
-Subject: Re: [PATCH v4 01/24] pinctrl: tegra20: register csus_mux clock
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+References: <20251001135914.13754-1-caojunjie650@gmail.com>
+ <20251001135914.13754-3-caojunjie650@gmail.com>
+ <cwgn24f6tnmytd4omr2tul4e5jjin3ijji3ff3qkumqm2xe3t3@ntayu3m5kai3>
+ <CAK6c68jBwykcWZm3ckm3nwab-X9Are4rD-eauE4rXA2+XvuX1w@mail.gmail.com>
+ <9cafccd5-35d4-46c5-aa57-1b0b8ec116e8@oss.qualcomm.com>
+ <CAK6c68iV=n3BvMMa30FuehbMs7-U01s0saZnsYwPVoiyw0VTrg@mail.gmail.com>
+ <icj24ghckurcunjormsfhhscng4wfcxiyadl2z5xduitxxqqmp@iws3pssew5dx>
+In-Reply-To: <icj24ghckurcunjormsfhhscng4wfcxiyadl2z5xduitxxqqmp@iws3pssew5dx>
+From: Junjie Cao <caojunjie650@gmail.com>
+Date: Mon, 13 Oct 2025 21:17:04 +0800
+X-Gm-Features: AS18NWACwn3Ejqy7Cy6CMtpi1wwkfKvIy2-Q1E725iHTCiZTeN8KHYUSRZ_-JDg
+Message-ID: <CAK6c68hZq2o9YXxzd2dv5AXw5-UfKv_58MoUrQfGyfPiONArEg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/msm/dsi: support DSC configurations with
+ slice_per_pkt > 1
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
- Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Antonino Maniscalco <antomani103@gmail.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Eugene Lepshy <fekz115@gmail.com>,
+ Jun Nie <jun.nie@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,19 +106,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 8, 2025 at 9:31=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmail.com=
-> wrote:
-
-> Add csus_mux for further use as the csus clock parent, similar to how the
-> cdev1 and cdev2 muxes are utilized. Additionally, constify the cdev paren=
-t
-> name lists to resolve checkpatch warnings.
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=B4=
+10=E6=9C=8813=E6=97=A5=E5=91=A8=E4=B8=80 20:31=E5=86=99=E9=81=93=EF=BC=9A
+> On Mon, Oct 13, 2025 at 07:04:43PM +0800, Junjie Cao wrote:
+> > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=
+=B9=B410=E6=9C=8813=E6=97=A5=E5=91=A8=E4=B8=80 17:39=E5=86=99=E9=81=93=EF=
+=BC=9A
+> > > On 13/10/2025 04:52, =E6=9B=B9=E4=BF=8A=E6=9D=B0 wrote:
+> > > >  >Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com
+> > > > <mailto:dmitry.baryshkov@oss.qualcomm.com>> =E4=BA=8E2025=E5=B9=B41=
+0=E6=9C=882=E6=97=A5=E5=91=A8=E5=9B=9B 10:04=E5=86=99=E9=81=93=EF=BC=9A
+> > > >  >On Wed, Oct 01, 2025 at 09:59:13PM +0800, Junjie Cao wrote:
+> > > >  >> From: Jun Nie <jun.nie@linaro.org <mailto:jun.nie@linaro.org>>
+> > > >  >>
+> > > >  >> Some panels support multiple slice to be sent in a single DSC
+> > > > packet. And
+> > > >  >> this feature is a must for specific panels, such as JDI LPM026M=
+648C.
+> > > > Add a
+> > > >  >> dsc_slice_per_pkt member into struct mipi_dsi_device and suppor=
+t the
+> > > >  >> feature in msm mdss driver.
+> > > >  >>
+> > > >  >> Co-developed-by: Jonathan Marek <jonathan@marek.ca
+> > > > <mailto:jonathan@marek.ca>>
+> > > >  >> Signed-off-by: Jonathan Marek <jonathan@marek.ca
+> > > > <mailto:jonathan@marek.ca>>
+> > > >  >> Signed-off-by: Jun Nie <jun.nie@linaro.org <mailto:jun.nie@lina=
+ro.org>>
+> > > >  >> Signed-off-by: Junjie Cao <caojunjie650@gmail.com
+> > > > <mailto:caojunjie650@gmail.com>>
+> > > >  >> ---
+> > > >  >>  drivers/gpu/drm/msm/dsi/dsi_host.c | 25 ++++++++++------------=
+---
+> > > >  >>  include/drm/drm_mipi_dsi.h         |  2 ++
+> > > >  >>  2 files changed, 12 insertions(+), 15 deletions(-)
+> > > >  >
+> > > >  >Please extract the generic part, so that it can be merged through=
+ a
+> > > >  >generic tree.
+> > > >  >
+> > > >
+> > > > Sorry, I don't get it.  The generic part, generic tree? Do you mean
+> > > > the drm tree? `slice_per_pkt >=3D 2` is seen on the panels of these
+> > > > tablets that are equipped with qcom chips. I don't know if these
+> > > > panels are used on other platforms, and if it is necessary to do it
+> > > > in drm.
+> > >
+> > > There are two changes here:
+> > > - MIPI DSI header change
+> > > - msm DSI driver
+> > >
+> > > I've asked to split it to those two commits so that he change for
+> > > drm_mipi_dsi.h is more obvious for reviewers and so that it can be
+> > > merged through a drm-misc tree (or through drm-msm tree provided it g=
+ets
+> > > a necessary ack).
+> > >
+> >
+> > Thanks for your clear explanation.
+> >
+> > I don't mind to add the field separately. But should I submit it
+> > with the panel driver together? Otherwise, this field is unused
+> > for a while.
+> >
+> > However, as you mentioned, this is not a part of standard, neither
+> > mipi dsi nor VESA DSC. Recently, only Qualcomm devices require it
+> > to calculate parameters, then we use them to program registers. Why
+> > don't we parse the field from devicetree?
 >
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Because the value is uniquelly identified by the panel's compat string.
+>
 
-This patch looks like it can be applied independently from the rest,
-can I get a review from Thierry or someone else at nVidia so I
-can just apply it?
+Yes, it is panel specified.
+But can we set it for every panel like
 
-Yours,
-Linus Walleij
+&mdss_dsi0 {
+    qcom,mdss-dsc-slice-per-pkt =3D <2>;
+
+    status =3D "okay";
+
+    panel: panel@0 {
+        compatible =3D "foo,bar";
+        reg =3D <0>;
+    };
+};
+
+or moving the property to panel node? We access it from child node.
+
+> --
+> With best wishes
+> Dmitry
