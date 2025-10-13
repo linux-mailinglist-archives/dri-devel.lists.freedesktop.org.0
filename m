@@ -2,147 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE87BD5D73
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 21:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CC6BD5DFD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 21:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24E8E10E4D1;
-	Mon, 13 Oct 2025 19:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07E4210E4EF;
+	Mon, 13 Oct 2025 19:05:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="P52z39tP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hGBqkNcb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11010064.outbound.protection.outlook.com [52.101.69.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2173F10E4CF
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 19:02:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C4210E4E5;
+ Mon, 13 Oct 2025 19:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760382351; x=1791918351;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=c2VntTJ1TtuaCS2xiIj5IvQZU0l/zbfsAb4MGz9PM+I=;
+ b=hGBqkNcbHRgLttcxvLCPnyEBxOdU9lxIiSWoxf7tRDF/QdfQf3KXKtVb
+ 9gpzcI0QLGwb3fjnU0MRr1X/ge81fT27OJydPjkkCVOVCXxUgPF23CrFs
+ TeUYdFkjncp5UxzDjYiRs9Okw+u+3xvMGF6xCjzi2k12Uk+/shKRrHdWr
+ 0vHJvChjLmDIpZnDInqUWYWV4KFDcXdeWCGnqNySDQ73eI3u7jw8gcaRD
+ GVbu5/pipIN7CirxNLCDxMOGeLmCeGR3KIvcTFww4VtKVoXb9c7wc6jUC
+ /XFC8Yc+uZRXLT6p9UnUyUqcd8e//jdGEekOQf4DXKE2JuxcT9oN7Zyff w==;
+X-CSE-ConnectionGUID: kl9/9GoQS2C5DRm7lxdjgA==
+X-CSE-MsgGUID: IHGH3CQ5RqOs94UlEZxeqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62424108"
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; d="scan'208";a="62424108"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2025 12:05:48 -0700
+X-CSE-ConnectionGUID: jfxecflmRh6LzxiufQUgjQ==
+X-CSE-MsgGUID: yU41R+NGTHaCFqVN/pCg9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; d="scan'208";a="185927023"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2025 12:05:43 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 13 Oct 2025 12:05:44 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 13 Oct 2025 12:05:44 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.11) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 13 Oct 2025 12:05:44 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YEgdRIBQzK8gdBBKSo2xQXcc+Qp1YNwxmIHVt//lhyOYpXTmjJ0WmzzBWdWBjgc6hsUhEvrvzfjCRVlrsA+sAuas3YGEXT3677HlZMgFI0Ntlt168F+O7PGsbghwNktT3jrVgWlOYVz8YV6odta4/0GgZCprVci4PNN+2CQJN4P2VFW5CY3Hf0ZeeWxDerz4JeOso8eMr5YcvZjHmVF0ZQYtr6K7/Rn9Mm1aTy68reDNRWiySxYgqMg2YdJg3kSavneOluUQeEBejyKqD4+M+KbGYq0CAL1cptZW3/lcGRPLS1dtH2aVrHwnc18JSpctHRzYlc3ddtqkI+KeAgjoYg==
+ b=IJzGAZ/ZPejnKOe07+ECNLxW6sAwzpeYc0gRztedYz9+9IVRk4xLFt+yRornz4pXfODR++OQIHSIUpgkCzYExCLXCN5TrAU+/jCxSsubdQ762xCa249Ms/5w5zjSEaS3DDLWAsjT7VCmh59MxdWf5MYmTM2cGEY24XJZ3xjF+v9H7p1IlleNzXOjsjRYWGvh3i9Ennyoi2kpkknkiMDb/kuL8ET2LjxMxoY7dzMRLpQP0c033r5pwadc8sIPadDaDClQSTS6mDekVl+6gWJ2AHEJAlElU/NOxTyBNxWcexd9mMVGFZ29izt/j2JZd5nGvVOU6RM9zJKwUGjqQlsQCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a34kh5T2mozgkg1W/uOOaZMOq3WaD5G0JAlPZK03qxM=;
- b=Ve0024qb4lWM8U7GbYYZKuel3oPpCg3Z9C9zxO6KZxgh+Uaqjb7CRvUO4gSWNZuPgFxrvG7gU6qj/CY0QZEIClEmpdbaG54/NrLJwCqpqbqAJUmi4RjD9JvujJ2IMHrAifq2vs0apu8mK17IiuSnwqVJVtgoCJKxdQwvaLWQX5L4zMaKsua21QcsixXtT5nShN2HDR6nDabP6KIheJegwmKSA7Fkwu+HN4Iuu/XcaWI/FROVR0WU1X3mfvTUejdWJGEHIXDqrtlfLWc4Xu1Fzu5Y+osQaYH7YbfHS1olXr4iIH6nhQ7Nx793RrEXyngGUJbFQMGKzukm1TsrL/0ozw==
+ bh=N0e060gdpASoFlj4rF2Bfp/UMr5vReWTyUxO7QZm2Is=;
+ b=aY0omBcv2WFm2LQrnfh0hArGSxb3KOrE76IpsF2/v24NSPYuCQuLAyteK5GqA0Nc4841nKZvqwH5ZmuIr0nkAexR7FnT5jYT1kb66UJGhvhNBRKeoE2084jtvheuIT58RABdfeIB3erP+fr6koH4Zh/NhIGox27GknhGiSBP+xJe3LWkt+ZGNbWauFZ9xlpEcaYSDJaNEhzHDdTvmvi3JfiTl4hp9ep4B0CKDEy/ReniPGTjtMYoSMxzt5nuayqMtpSWRgNj0wFsRc1HEfH8m3y7B1uX5IYOvRhwZFzU9uJybZEkgQBIAIVshyyFMW3Dq+Wltotm4+b+btJZ1QxoEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a34kh5T2mozgkg1W/uOOaZMOq3WaD5G0JAlPZK03qxM=;
- b=P52z39tP2IO0On0f4K/Qbaqji48wdeyevt5V+XP6ZzLlGXME+k+noNy5qf0EDj3lGnHxDu9R4mFx6GQtAff3HfLdJX2cpFeSu1XQ7GwsO34d6701LjJF5vnDhyFIgGTnaSKzHYZBEmNkk30HHHtaDqx1/KHQpB8LWZgjZBqTBIvoKb2vzH0v7P0/XIrml+5Lq54Hr4Yfu4efi9JMD1z7tn4qvwkrZBUZPmO25eAtyBDOlSt0QgVw90a3SOs0JRuKP5GtEcYcY8sal4dG+OXiF9McZhMwxHHG2iw9MqDnzwbu5e5IALyJwjsrILxJ7zKhZnjDWdIYlKLNUvKz2OzMVw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by GVXPR04MB9758.eurprd04.prod.outlook.com (2603:10a6:150:110::12)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by SA0PR11MB4736.namprd11.prod.outlook.com (2603:10b6:806:9f::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 19:02:44 +0000
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 19:02:43 +0000
-Date: Mon, 13 Oct 2025 15:02:34 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Liu Ying <victor.liu@nxp.com>,
- Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH 26/39] drm/bridge: imx: Add NXP i.MX95 pixel interleaver
- support
-Message-ID: <aO1MygVhvQRtrO47@lizhi-Precision-Tower-5810>
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-27-marek.vasut@mailbox.org>
-Content-Type: text/plain; charset=us-ascii
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Mon, 13 Oct
+ 2025 19:05:42 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 19:05:42 +0000
+Date: Mon, 13 Oct 2025 15:05:38 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Marlon Henrique Sanches <marlonsanches@estudante.ufscar.br>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Simona Vetter <simona@ffwll.ch>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/gem: fix typo in comment (I915_EXEC_NO_RELOC)
+Message-ID: <aO1NgjjpgUmUoVAn@intel.com>
+References: <20251013183123.438573-1-marlonsanches@estudante.ufscar.br>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20251011170213.128907-27-marek.vasut@mailbox.org>
-X-ClientProxiedBy: BYAPR06CA0034.namprd06.prod.outlook.com
- (2603:10b6:a03:d4::47) To AS4PR04MB9621.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ff::22)
+In-Reply-To: <20251013183123.438573-1-marlonsanches@estudante.ufscar.br>
+X-ClientProxiedBy: SJ0PR13CA0196.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::21) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|GVXPR04MB9758:EE_
-X-MS-Office365-Filtering-Correlation-Id: b04240b7-33c2-4d15-08e6-08de0a8b16d3
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|SA0PR11MB4736:EE_
+X-MS-Office365-Filtering-Correlation-Id: 182b935d-d4cb-4453-b8e3-08de0a8b8149
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|19092799006|52116014|376014|7416014|1800799024|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Tkm7vEtljbtwh0U5bpp/pTdV5zzqOJSbVT42MQ3Ekf0HMMxmGOyKUFUfH0Oy?=
- =?us-ascii?Q?IupDmhbF5czWR+M1STLtIBldHnn22cbraxgMIAMYEB6Emdy+nE4mfMw+e2Yr?=
- =?us-ascii?Q?HdknhG1P74FNnUHiZ9zC796MegpWyKtiN8Ba4br8UMQ2r5Vw+NYw0GTvUL+b?=
- =?us-ascii?Q?nLmEyj4TBxvfzlgg1x8nZi6fa2Vch6W61+csCY+VGfZCp65csnJ3k2nYsP1z?=
- =?us-ascii?Q?pNxH+d4RSgrqfkcvOLXC6SGBZC/tUsl2foTzWOlB+CKjeemcZbeHfY8QR0fd?=
- =?us-ascii?Q?c8GPkp8VeACl9PiAA6JHX/0TRmAV2zVV1cd6vASqt1gj1ZQ7VaTQV24qlwLT?=
- =?us-ascii?Q?r22kynNKE7RZBoJBn9zB4/gxidOct16L98eQNGhg2rU6k8ALWRSigetShcPe?=
- =?us-ascii?Q?4OlggOEkiknYHQ1wNCbBIWDFiTNJBUDN8xolS9ON1vC2c5YEY0VR2+YgqtuV?=
- =?us-ascii?Q?RVf/na2DYcXuRwpwJhMiZ3+GEAp6BquSCMDy1pyrGG7dpvBiHU0PZTdRTzRg?=
- =?us-ascii?Q?pEo4s2BTj4eXHzoaQRjIIIlKHOVsv6reh64V1Tx3eWD5lwbgxk6QlO/Qcigj?=
- =?us-ascii?Q?9iFVHJBXVxAAFx5htSbOFNzFlPwdOgfpVZzTHsDO/htjCSgZDJGh+wigg0Yv?=
- =?us-ascii?Q?xl+Xj3dSJzv9F72sC1sVz32rdVkeqrLFVR8aBpm+8OYkxys23I9myKAtFPTU?=
- =?us-ascii?Q?QwG9d4NbZmll6JGD/fxkm7HtQbiAoGtNLyqXz9/AXyUWNRENqSn9lrjMAbaS?=
- =?us-ascii?Q?lMpG0UoCaYyg4njeLQ24a4C8TaTauD11QTHjjl1eQPe4vnSV8LEDtp9m7oQ8?=
- =?us-ascii?Q?xI2lT/zYTSM4eob+EwB3svt1QuLxEdO+ga5FY2cnwGHkV+Aor/oloIQXfLtg?=
- =?us-ascii?Q?mwIVCsqmXiXPqj0M62hvPRQ08mjTzzDUfPjpx0baBcrAAxFqML64Sde7Ncrg?=
- =?us-ascii?Q?3huCPZXWCXMIhOVS/x92UG/iSYEp92FV+4njJ3FuBpApwJxQYxI5fgGFg1hG?=
- =?us-ascii?Q?5VRh075NJHp+ZfLkNUTsMa+u9PlQ1Wu/3x0dezPQrWfO0pLzqN/IUmqdBl6T?=
- =?us-ascii?Q?2quCCmKeMxLLZ8NCewAB2Lk61xnIk4BuisQ+VTbp6AFkv+E28Qgr7wh4lgLY?=
- =?us-ascii?Q?r/RBtCWUrxaH1XEOzwI4/kCpGRWf8ovNLmBTPTE4aNfzOI1pMA+r20gM3fe0?=
- =?us-ascii?Q?/66tVgKA6qCx/bdFA56PzSQufx7HCUOl+yIjIxnA+unN6drOv9yozHVUYcHF?=
- =?us-ascii?Q?q6b5iC9hgEInP2ZlUqm7247Q8lDpRBMbfgzCMLZeq3kaz2xHGNrgWX+zuNii?=
- =?us-ascii?Q?76FyewAfws9O1BQxbYJ+neu/4+0XytIWJsDA8y8d5aOcLQDPTe61MDG1UPtW?=
- =?us-ascii?Q?2JZVs2u/MFg98hd242unE/hPTieq5B1/qu+gpJbQ1xcMhpc4JnXLHuZXCO7/?=
- =?us-ascii?Q?wpGj8S6Cx45Ykn2IXYx9EBlRkDAenZqJgZrfXU5yh4FcGVEQbUaccitjuZoO?=
- =?us-ascii?Q?jKCyK4Ll3czpwfMZ35b65MctXl++ydGDzMZm?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?S+0ClRUdRZfptCaQSGnf9gGW7piRmRusvrPzEAvSH3UePTC3k56NlJFkdn88?=
+ =?us-ascii?Q?d6m3LUoEFssIFEdM8rE71735ZccAQSmejt5iWnme3kmpAePy+LdPnnQ6VXUq?=
+ =?us-ascii?Q?wjowXxblOtYhS4VtqjKzsTjGr0mG8p0IYCnOsEm/vVW9ZHUTbvVl6Thwrylf?=
+ =?us-ascii?Q?WvdZSTA+FoygdI5K5QxPMsmYn+XLd/E/4np+AXo8ZMbVJNFyAW5NiZEdjein?=
+ =?us-ascii?Q?FkJk9BScptEySmiNEpklv9fUfIflFYWw334imejvWW5DE2pR840oUgdy3mYu?=
+ =?us-ascii?Q?3kVLBdpVc5xQZFENJ7m+Fbw2f2jcHZNqu0Fhsitu3N20F2Pt9aHteVwUkVHs?=
+ =?us-ascii?Q?RkxQai1u7dzgfo2xIIvShIPSziutLEOpCKI6mMsrCZHaHzfWPvenuIJ5wdu/?=
+ =?us-ascii?Q?GvxFpFM3ObM96a8ZXGiEYUT4YxmXsltuV3wNz9cG9i0B0njvORaOXco8AKf4?=
+ =?us-ascii?Q?vfn8AXyLSgd2w3kZJEGr0dGpNL+3WVmIKg9TLzDuOjplk631X/6yXQWYUl4G?=
+ =?us-ascii?Q?XDaXtUezX8XDL7YadnHCw53O5j+Mu0GBjHoR1xdK8PCbzkJ1HmvPYiCsF2dT?=
+ =?us-ascii?Q?nTy/YuAvHK3GaLowRzNjWyN8Ij0OP3IAEA0A3e7wKnBeeOCxVBabiwoeDXjZ?=
+ =?us-ascii?Q?j02pFHGZVEU248oL9oyww2tw+Z9i5AXljdkCZt7OFeMizhC14kDLN5Gd3wcG?=
+ =?us-ascii?Q?JzlqJUiZeGVUqL/9LK3aUihT9Qe4UvdR0F0rkSANBW209LPrszBuczvvta7q?=
+ =?us-ascii?Q?tPoE/zUoTjo9p10B6toxYQP+FUQ4i37bwpzN3NgIgE5OOM9AGs25Y0e6TSJ5?=
+ =?us-ascii?Q?e1dfvICRhMDi7+gWXpiwByMKzoWwkdF/CBMoMOrm/khEVIXeGhBs745m3nsi?=
+ =?us-ascii?Q?PKqwswgNqVWAvBUbS4k3PXvzCtknbG58eSy1UGnSFVdBsT1ef8Dah1M+0EUH?=
+ =?us-ascii?Q?lPUVda5uGS/Wp8LQP8cacS0v516PhuH4g1R69NohplIh86A1UVae5YZEhChj?=
+ =?us-ascii?Q?/TM7vd6JKp3LING64b12j67Bu5HqFKH4G4DfrcZnlgwpNCvQJfA2w8ibzBnO?=
+ =?us-ascii?Q?A/uMfdt2FG9CgN04MsauCPmQKDQadbv2XgzNgTbWRv91Ef3RGO6xlUjATF7f?=
+ =?us-ascii?Q?Y86vP9/Kj6k8kCuD08n+tXvPoZOnyNVgKseft5d8sVArGPU6lE/TUy05pYDz?=
+ =?us-ascii?Q?BDjkbhBg7jLf/fDdety5Mq7rEBqY9J3cVAHcYrw6q76vbHiR/vPtK8SOl6NX?=
+ =?us-ascii?Q?BrA1mZrYZ2XRBN1xrEgrMAU8RCA5U07edwdQAvIwuNU0YCV8wWWuYHR9wkf8?=
+ =?us-ascii?Q?WaYWg4ft/MkIdmfPGRryY+oYtLNgjrywfPVqRsXHay5Ix9GrncXrbcFQixkF?=
+ =?us-ascii?Q?oarQyF//+Edl2VVxhaauda4V/HJ+4HS/7qxyhOI2ljsG9wIjoq6tjQ7RthW8?=
+ =?us-ascii?Q?i7uTYRJE3HBF/GEFU+6HYALzM0FdW29l?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(19092799006)(52116014)(376014)(7416014)(1800799024)(366016)(7053199007)(38350700014);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VEemF9uyDbWl+1hj7r28a52K1eWinQ3spswM/7oGX4P1CKVjGHw4N46iFW82?=
- =?us-ascii?Q?3z23dVVQvkKxuqO5ZuqioWScucHor68n8A+4stho3eYBY2p81Ve71bh/FDqC?=
- =?us-ascii?Q?jhlMHYkOdDKPihRtVFMNuaBkSBcgJms+PDqsyIGCUVPJ2BSG5VqiPAmMZCRU?=
- =?us-ascii?Q?WoYXaPggxIxSXm23IbTUnzYToL/lgwj4bkW8e6LPw32SvICWcVf9LlY32WYy?=
- =?us-ascii?Q?r8P74ovefvG/tLZeW66uaLsYwWDPh16UqtjLY2kwtOnEMHlASei1PZzYIt3H?=
- =?us-ascii?Q?D/XKd0t2TSrjqcmKOkkZkeaNVuwEDVKwxnF6rd1xslmAwrjFQcSbM6g96PGo?=
- =?us-ascii?Q?uBnJ9XD3iduLyfH1nRbjUzFstpAl0oLYZTzq8AHYZrEqO6ofCsb91CL/aIT6?=
- =?us-ascii?Q?NLjwX0PIR7bW92+3a0pnBvoirTjemU9rNdFLM99KurEa3jAV8ITFvyQoYwn6?=
- =?us-ascii?Q?7fGfBwPm/ce4E5eDrkUIHRjpjCZZU6+9QNv96Ji4BT26kBl7XNkeUKdFjzPf?=
- =?us-ascii?Q?JkhoBX/oO9g0+PaxMcE1G/B7ivBVqD6R3swtAz7Cxyf8cPhaycp7DnDuNtl0?=
- =?us-ascii?Q?pHZXPyc7WT5dG5SBAywT+eVC7neXmsxuJiQSVMMH1sYLq0ZVWMEPxj7/Y7iw?=
- =?us-ascii?Q?bQHxDlBLqOVuAgiyQ5u5VrLZ3W0VdnHfza0GWAES0RY0QBMF2hZlnsOwpvfx?=
- =?us-ascii?Q?xWWb/NSjuJfIZc8+qdMQ2zq1TnukEkR/cG11GIyDU4sXWP2n7WOh86WDKIIQ?=
- =?us-ascii?Q?Sym58tblife24JbS/Fr2KB3/FmvkiYYCrIJR/wzsKYJnZNo8xKuyAftHnQoy?=
- =?us-ascii?Q?pbHAtTU+M1laro1EX5h8QQyroGXRAKUZmlOEAcR3x5cmE4JQdRTqqK8V1s9b?=
- =?us-ascii?Q?WNYd3jhemm4ekh07c8iPSvk5bgQvMZNP/mJJVjWeRUCmgo/ibR+9f6TeNhpT?=
- =?us-ascii?Q?EFO/0FPl0W4YdHM2IFXirL7lS0oT7ufP7pb/OiD+5BSakKpNEE8XPdPaNa58?=
- =?us-ascii?Q?WRoKBEY/eX4Mz/vzrk2qj2ezdluarubU11yezLZdKXqvucYWZSQkNPLjHGP0?=
- =?us-ascii?Q?tX9hNgCfI8845R4cJRSlH80I/NqE2Q3/VLEf+oVFulwRtrijT5FAIlMJgNaA?=
- =?us-ascii?Q?ohxewb2w8i+zax3OGZrGpb0UNNX2w58a750JQN8qDtGYWJUjxELZoQleWaUl?=
- =?us-ascii?Q?QD+/cMPDy/sDQrE8RuO/NWj9DzyVm0o1t7SG/uLECiRXWdu6ApvlalvQUow7?=
- =?us-ascii?Q?teW3KF8H4MfMZ+FQPbWkkHoPiht7459ISo0QYyIF64RevH5eHgPVeS5OkKNc?=
- =?us-ascii?Q?gXtNkqzvHctq8sqVpyqE+eYiwj6MGIOfjvQAKvLLhUQ9xcVpRZcPzL8E43xy?=
- =?us-ascii?Q?SSNTNRPXcDuusT9Urj/qFgecFr4OfzVWtuVQmMUpr3bgNIpLd4bjrYwaDHme?=
- =?us-ascii?Q?CEzWhPRQpG8llMJFrnZJ2oRn72zp5s1YWnogINPIAPvc+1Wu6y+tlARF/nUw?=
- =?us-ascii?Q?2HswE/EryRPoG28ZCKtGn2cuyXMdwWd1/+KgeKNr5g1/8eICr2EvWedH23FS?=
- =?us-ascii?Q?kMOQwnrTqzMdX0LTgsM=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b04240b7-33c2-4d15-08e6-08de0a8b16d3
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sCaryIcNd8zaN6twQpPLWhaYHutVxpIX34skgWXHccfoa0Yw4EY4q5vitg+7?=
+ =?us-ascii?Q?aGG++hd5L6RahB1iDPjOhep7/WpCCMmz58gu2ZlnsyWpYWndX7lQImy9zDn1?=
+ =?us-ascii?Q?+eZZQqy3XL4kxbTA9U+9r+sAb2UHikB8VmTTTk73jZJ9eXGdCNZ3Bn/PH3J7?=
+ =?us-ascii?Q?tyTZzBnJi1Hn1PJZFBTF96x8COkuNRh1Puv5xD+WA7Y1bSIPCBJdH4i2PGCQ?=
+ =?us-ascii?Q?yLK7l+FSvG2bL/tKuEUo9r02W4Ubf6eJvxDS1Cqe/Dbyb+z/pUlX+CUzmeGN?=
+ =?us-ascii?Q?FS9aA8u8X+0cnJKjniYuqNopMKhSZGZUQfS5vxTVZ9+rIhxuekTJhphStzH0?=
+ =?us-ascii?Q?XBUSZj3l0Z3FhLjPI8kA7XNVfJxXYUIC9Zv1xmhRFOJRvGknb1fB4vqyHhKm?=
+ =?us-ascii?Q?kTy8Nxg3K5XAmOORR2XXNn+wk/Kj/3mga3jHjeb8Nuzn8SiWe6rNFBLxPEfn?=
+ =?us-ascii?Q?SxuevNexX3wCaJFOI5PLu3yZ3Q9P3f+EGBesSBPWuw9Q0CxYhF9gA51jkY5+?=
+ =?us-ascii?Q?fgdSPKMbDUUKGErK6SCU3DT+dx7fOc8GLpMLGPPDrx6upwT3sJQTuroKCKW/?=
+ =?us-ascii?Q?WShziWWgLSHu4CaFLknHIHfY7bNYYjSw7DlTnJMLoQtyCJ3BHvJwSPg8UjsH?=
+ =?us-ascii?Q?GKhMdsy1NL5VjlXkK+4zqXCRWO27RFhNlfyD+eQmV+3WXk6d1s6AEHwJ/ZiY?=
+ =?us-ascii?Q?hb/Xn9NIRgi+pcKJS9IXjg72g3cWxgd33bZsY/uOql67eYCuWehPv3oUIam6?=
+ =?us-ascii?Q?QCdsd61UdFhjCWF6O353OIdxApwAhQaeY7w84HMgtjhDI1ss9ytBUvU1XdD4?=
+ =?us-ascii?Q?DKsSaVnv0BcpEL0Z9b3TgtKpde2dOTQ4sL8FXSbSQ5rlSaNN9atxMLKwBNoJ?=
+ =?us-ascii?Q?s7vL04M1WFXIqNr1KCU9fT/ff68bGdoN48tmv+GSkZAGIXkhJDPIYmUDo4Np?=
+ =?us-ascii?Q?TJonnBeCz1BrNBICkP13D/tWzs7DJiz9tA27IbwNoQ7M1WO6GOmf1V5YAxYo?=
+ =?us-ascii?Q?ylnNOvPE63gljC2UJHZe6d1I1rf9gILYlX+cAiOoUuZdlh11rHf8pGsIKYNU?=
+ =?us-ascii?Q?4xx3IWg3lJ7wIvQn1l+wFv4mIDQQ7buPHvdIo9wWZuQ9r6ZmiLURiLdMOUcw?=
+ =?us-ascii?Q?Zgzi6iRkArbXwe6KIQROLOZO9wr5E6/+dVYDyt7ygsSlyVW/dxCWTZNrK8hT?=
+ =?us-ascii?Q?2FDZSM1nMZcgXxSFMgT+ZtDHwycyZ/vIwrJBkdZ9yARRRn47K3cAvEVo/mb4?=
+ =?us-ascii?Q?hGBZdPi4C8CeCf5W1Ef0l0+2ecmlzypk3jonRtawUYEHHP9ukfbe7HdrBEts?=
+ =?us-ascii?Q?DaHc7kNzH+9DySc1ByRXkYIaku/zStdlb+Woi90Ls5xcfsVE5TOE3Ipc06/+?=
+ =?us-ascii?Q?C/ELSHtXmC9rrLMdj8EpyABJFymoidOfn/vnTF4F+20U3TrpNznp8yljwd5O?=
+ =?us-ascii?Q?CYNHK8AOUmHfDGEtR8RcFR1ebDloQ4IHIkr8JfMwJhhN7oFhUsIpYElWg5gN?=
+ =?us-ascii?Q?KXJaVG4wKKWEPeUOC3EQm2AgNOPeCeJbzbddhE/2Z4pG9wMLXais5Tf7d+06?=
+ =?us-ascii?Q?nw/ys6vYq5L1fK98d5EgFkWOSSYG3uGHObsZmwLzl6nyvoBi4YQ5NFjOHZEl?=
+ =?us-ascii?Q?Nw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 182b935d-d4cb-4453-b8e3-08de0a8b8149
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 19:02:43.6585 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 19:05:42.1350 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xc+ljKnpnO0WhsDnj1hBtIzBNMIKYSqFLPOcuN4+O01/ymLwVzKKU6z3tgsx52n/Kn5nRV3MdyQImyuDmvSgCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB9758
+X-MS-Exchange-CrossTenant-UserPrincipalName: PtRf6caJf4qmuaPdNbEFDNnQEBxIIMYzi2EZPDHHXHxCyBOI/GyFsaJbQOuyKM82P40DXdqhdiPtXQ/0H6+Lgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4736
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,308 +178,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 06:51:41PM +0200, Marek Vasut wrote:
-> From: Liu Ying <victor.liu@nxp.com>
->
-> Add NXP i.MX95 pixel interleaver support.
->
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+On Mon, Oct 13, 2025 at 03:31:23PM -0300, Marlon Henrique Sanches wrote:
+> The comment referenced the flag name incorrectly as 'I915_EXEC_NORELOC'
+> (missing underscore). This patch corrects the spelling in the comment
+> only; there is no functional change.
+> 
+> Signed-off-by: Marlon Henrique Sanches <marlonsanches@estudante.ufscar.br>
+
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+pushing soon to drm-intel-gt-next
+
+Obrigado!
+
 > ---
-> Cc: Abel Vesa <abelvesa@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Liu Ying <victor.liu@nxp.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-clk@vger.kernel.org
-> ---
->  drivers/gpu/drm/bridge/imx/Kconfig            |   9 +
->  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
->  .../drm/bridge/imx/imx95-pixel-interleaver.c  | 217 ++++++++++++++++++
->  3 files changed, 227 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx95-pixel-interleaver.c
->
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 9a480c6abb856..3e1b1d825d7bf 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -88,4 +88,13 @@ config DRM_IMX93_MIPI_DSI
->  	  Choose this to enable MIPI DSI controller found in Freescale i.MX93
->  	  processor.
->
-> +config DRM_IMX95_PIXEL_INTERLEAVER
-> +	tristate "NXP i.MX95 pixel interleaver"
-> +	depends on OF && MFD_SYSCON && COMMON_CLK
-> +	select DRM_KMS_HELPER
-> +	select REGMAP_MMIO
-> +	help
-> +	  Choose this to enable pixel interleaver found in NXP i.MX95
-> +	  processors.
-> +
->  endif # ARCH_MXC || COMPILE_TEST
-> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-> index dd5d485848066..583054c70f002 100644
-> --- a/drivers/gpu/drm/bridge/imx/Makefile
-> +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> @@ -8,3 +8,4 @@ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
->  obj-$(CONFIG_DRM_IMX93_MIPI_DSI) += imx93-mipi-dsi.o
-> +obj-$(CONFIG_DRM_IMX95_PIXEL_INTERLEAVER) += imx95-pixel-interleaver.o
-> diff --git a/drivers/gpu/drm/bridge/imx/imx95-pixel-interleaver.c b/drivers/gpu/drm/bridge/imx/imx95-pixel-interleaver.c
-> new file mode 100644
-> index 0000000000000..e6d96e68db895
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/imx/imx95-pixel-interleaver.c
-> @@ -0,0 +1,217 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +/*
-> + * Copyright 2023 NXP
-
-2025?
-
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/bits.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_bridge.h>
-> +
-> +#define PIXEL_INTERLEAVER_CTRL	0x4
-> +#define  DISP_IN_SEL		BIT(1)
-> +#define  MODE			BIT(0)
-> +
-> +#define CTRL			0x0
-> +#define  VSYNC_POLARITY		BIT(10)
-> +#define  HSYNC_POLARITY		BIT(9)
-> +
-> +#define SWRST			0x20
-> +#define  SW_RST			BIT(1)
-> +
-> +#define IE			0x30
-
-Register name is too short. add prefix for it.
-
-> +
-> +#define DRIVER_NAME		"imx95-pixel-interleaver"
-
-Only use once, needn't it.
-
-> +
-> +struct imx95_pixel_interleaver_bridge {
-> +	struct drm_bridge bridge;
-> +	struct drm_bridge *next_bridge;
-> +	struct device *dev;
-> +	void __iomem *regs;
-> +	struct regmap *regmap;
-> +	struct clk *clk_bus;
-> +};
-> +
-> +static void
-> +imx95_pixel_interleaver_bridge_sw_reset(struct imx95_pixel_interleaver_bridge *pi)
-> +{
-> +	clk_prepare_enable(pi->clk_bus);
-
-need check ret value.
-
-> +
-> +	writel(SW_RST, pi->regs + SWRST);
-> +	usleep_range(10, 20);
-> +	writel(0, pi->regs + SWRST);
-> +
-> +	clk_disable_unprepare(pi->clk_bus);
-> +}
-> +
-> +static int
-> +imx95_pixel_interleaver_bridge_attach(struct drm_bridge *bridge,
-> +					     struct drm_encoder *encoder,
-> +					     enum drm_bridge_attach_flags flags)
-> +{
-> +	struct imx95_pixel_interleaver_bridge *pi = bridge->driver_private;
-> +
-> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> +		dev_err(pi->dev, "do not support creating a drm_connector\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return drm_bridge_attach(encoder, pi->next_bridge, bridge,
-> +				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +}
-> +
-> +static void
-> +imx95_pixel_interleaver_bridge_mode_set(struct drm_bridge *bridge,
-> +					       const struct drm_display_mode *mode,
-> +					       const struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct imx95_pixel_interleaver_bridge *pi = bridge->driver_private;
-> +
-> +	imx95_pixel_interleaver_bridge_sw_reset(pi);
-> +
-> +	clk_prepare_enable(pi->clk_bus);
-> +
-> +	/* HSYNC and VSYNC are active low. Data Enable is active high */
-> +	writel(HSYNC_POLARITY | VSYNC_POLARITY, pi->regs + CTRL);
-> +
-> +	/* Disable interrupts */
-> +	writel(0, pi->regs + IE);
-> +
-> +	clk_disable_unprepare(pi->clk_bus);
-> +}
-> +
-> +static void
-> +imx95_pixel_interleaver_bridge_enable(struct drm_bridge *bridge)
-> +{
-> +	struct imx95_pixel_interleaver_bridge *pi = bridge->driver_private;
-> +
-> +	regmap_write(pi->regmap, PIXEL_INTERLEAVER_CTRL, 0);
-
-Look like it can use standard reset interface
-
-Frank
-> +}
-> +
-> +static u32 *
-> +imx95_pixel_interleaver_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +							 struct drm_bridge_state *bridge_state,
-> +							 struct drm_crtc_state *crtc_state,
-> +							 struct drm_connector_state *conn_state,
-> +							 u32 output_fmt,
-> +							 unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +
-> +	if (output_fmt != MEDIA_BUS_FMT_RGB888_1X24)
-> +		return NULL;
-> +
-> +	*num_input_fmts = 1;
-> +
-> +	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static const struct drm_bridge_funcs imx95_pixel_interleaver_bridge_funcs = {
-> +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset		= drm_atomic_helper_bridge_reset,
-> +	.attach			= imx95_pixel_interleaver_bridge_attach,
-> +	.mode_set		= imx95_pixel_interleaver_bridge_mode_set,
-> +	.enable			= imx95_pixel_interleaver_bridge_enable,
-> +	.atomic_get_input_bus_fmts =
-> +				imx95_pixel_interleaver_bridge_atomic_get_input_bus_fmts,
-> +};
-> +
-> +static int imx95_pixel_interleaver_bridge_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *remote, *remote_port, *np = dev->of_node;
-> +	struct imx95_pixel_interleaver_bridge *pi;
-> +
-> +	pi = devm_drm_bridge_alloc(dev, struct imx95_pixel_interleaver_bridge, bridge,
-> +				   &imx95_pixel_interleaver_bridge_funcs);
-> +	if (IS_ERR(pi))
-> +		return PTR_ERR(pi);
-> +
-> +	pi->dev = dev;
-> +	platform_set_drvdata(pdev, pi);
-> +
-> +	pi->regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(pi->regs))
-> +		return PTR_ERR(pi->regs);
-> +
-> +	pi->regmap = syscon_regmap_lookup_by_phandle(np, "fsl,syscon");
-> +	if (IS_ERR(pi->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(pi->regmap), "failed to get regmap\n");
-> +
-> +	pi->clk_bus = devm_clk_get(dev, NULL);
-> +	if (IS_ERR(pi->clk_bus))
-> +		return dev_err_probe(dev, PTR_ERR(pi->clk_bus), "failed to get clock\n");
-> +
-> +	pi->bridge.driver_private = pi;
-> +	pi->bridge.of_node = np;
-> +
-> +	remote = of_graph_get_remote_node(np, 1, 0);
-> +	if (!remote)
-> +		return dev_err_probe(dev, -EINVAL, "no remote node for port@1 endpoint\n");
-> +
-> +	remote_port = of_graph_get_port_by_id(remote, 0);
-> +	of_node_put(remote);
-> +	if (!remote_port)
-> +		return dev_err_probe(dev, -EINVAL, "no remote port\n");
-> +
-> +	pi->next_bridge = of_drm_find_bridge(remote_port);
-> +	of_node_put(remote_port);
-> +	if (!pi->next_bridge) {
-> +		dev_err(dev, "failed to find next bridge for port@1 endpoint\n");
-> +		return -EPROBE_DEFER;
-> +	}
-> +
-> +	imx95_pixel_interleaver_bridge_sw_reset(pi);
-> +
-> +	drm_bridge_add(&pi->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static void imx95_pixel_interleaver_bridge_remove(struct platform_device *pdev)
-> +{
-> +	struct imx95_pixel_interleaver_bridge *pi = platform_get_drvdata(pdev);
-> +
-> +	drm_bridge_remove(&pi->bridge);
-> +}
-> +
-> +static const struct of_device_id imx95_pixel_interleaver_bridge_dt_ids[] = {
-> +	{ .compatible = "fsl,imx95-pixel-interleaver", },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, imx95_pixel_interleaver_bridge_dt_ids);
-> +
-> +static struct platform_driver imx95_pixel_interleaver_bridge_driver = {
-> +	.probe	= imx95_pixel_interleaver_bridge_probe,
-> +	.remove	= imx95_pixel_interleaver_bridge_remove,
-> +	.driver	= {
-> +		.of_match_table = imx95_pixel_interleaver_bridge_dt_ids,
-> +		.name = DRIVER_NAME,
-> +	},
-> +};
-> +
-> +module_platform_driver(imx95_pixel_interleaver_bridge_driver);
-> +
-> +MODULE_DESCRIPTION("i.MX95 display pixel interleaver bridge driver");
-> +MODULE_AUTHOR("NXP Semiconductor");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:" DRIVER_NAME);
-
-Drop it, see
-https://lore.kernel.org/imx/daf6fb72-5849-49f7-b17a-818944eb9f1e@kernel.org/
-
-> --
-> 2.51.0
->
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 39c7c32e1e74..7a0dee4111cb 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -142,7 +142,7 @@ enum {
+>   * we want to leave the object where it is and for all the existing relocations
+>   * to match. If the object is given a new address, or if userspace thinks the
+>   * object is elsewhere, we have to parse all the relocation entries and update
+> - * the addresses. Userspace can set the I915_EXEC_NORELOC flag to hint that
+> + * the addresses. Userspace can set the I915_EXEC_NO_RELOC flag to hint that
+>   * all the target addresses in all of its objects match the value in the
+>   * relocation entries and that they all match the presumed offsets given by the
+>   * list of execbuffer objects. Using this knowledge, we know that if we haven't
+> -- 
+> 2.34.1
+> 
