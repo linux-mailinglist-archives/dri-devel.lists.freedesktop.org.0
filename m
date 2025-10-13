@@ -2,147 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8D0BD5599
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 19:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959CEBD5596
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 19:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B81210E499;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E52410E39E;
 	Mon, 13 Oct 2025 17:06:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="RQvsbm9l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZoFoewFQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011012.outbound.protection.outlook.com [52.101.70.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09FAE10E39E
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE8810E39E
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 17:06:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760375165; x=1791911165;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=7fZDM8vGagUByx/l2wZoO782G0y0W3xukf29mrT+TrA=;
+ b=ZoFoewFQdj1vW9RfGA/Hwlp+TYzf6Xsugg4W9UTKS58zrdDLYjxHEISE
+ J/xUoeVkSb2RjHNT3tomVb7CjumIYwEN1qO3nWg1qV1mU7BedZwno5amE
+ yBrYDpJs/qryxIAqeDF5VTQrncFJ5j//UQ8SgdkJ3tsK6rMhfKhRMdDvT
+ H6qfbFEpLhG4WQxsTlOyE14+M9ry4oL8lHbIqD6U0182rB6956cC4v3d7
+ 33bM9sv2z+DXAs2V0KGI0qAehbA8TdSuSogA+6yZGxgeS9hKFQRZ7z0KR
+ sDDKBi8FTa72xI5XjH1fB6OsaAsuAZ2gDb08I4t1ViKbkV4rrC3BxCRPp A==;
+X-CSE-ConnectionGUID: qtBkSWc7RVC6wH1tilbjow==
+X-CSE-MsgGUID: hCmAJjZrTkOyGcY4rXjAmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62674598"
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; d="scan'208";a="62674598"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2025 10:06:04 -0700
+X-CSE-ConnectionGUID: Nw8lDUv4RjS59r57YSWNVA==
+X-CSE-MsgGUID: 97V7inSGQdWOBFYOvqNalw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; d="scan'208";a="180888742"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2025 10:06:04 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 13 Oct 2025 10:06:03 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 13 Oct 2025 10:06:03 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.54) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 13 Oct 2025 10:06:03 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CwHiWuwJVS2etjKmSTcnTHtJjGHosKtghgIbrlNTNcLLtO1z6spc/LXeG3DEsvlekNKYzBr/7vjVmbp1qnYs3riM3u/E6wSkA/PgERoCZjN2XpmOI8/hstQQexpeKn4O4Y7oD12+2a89LZQv5qX1egLhOIvBF2E9pADgp2ULVb7MIV4lBgI/OMFhYGIoe1D7+GoeNz0vcdNxlsqqXzXYWSJVmfBCoy938htDkhDXa4zo3alSBnmkguOAjgw5u99kSqoq9XRAWm5sBlgPLfeGVAbBo3jqEkGgAuQ8bdJBKaR/AnLLO0YDsJrcy3yUoZw4EMW/CuLoAaEn5VvvF5ynDA==
+ b=pXwgf+TWC/QBEsuO6V1az1C4SnlDvg9uEPyDvIyjD4GS8i/eGBC0AfsPP0RU26f36/FyQm6ozHkhniKwnfr8JNWeaPz/D14orCnN+waOUVv0SLC9AfSRdgUAp1fmd7Fvj0BCw5DefByO/W30E4WAaKD2gydB166CJw84tjzEKh9o0VUQYPYp9NETP4l65gVLJE8SPEgaZSzUfu9ul8yE9mQ/6Eix2wCAY6u8flwE6R+yP9/GBUdzdzwgNMe6HLbet+FKgW6lNriL8yK2whi4qEKmxiDu1r3Wa/qMHAzQu3ztGuKGgtQ19LdbKq96L3YuGR5+8aQDf3kgugwIObmhVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ygf9JTPodTZ5YUnmkVxjIKHm5lwK+9auDCnz68qc7Kw=;
- b=yQQE/yvDdquhy4YmFYoC83n6JMlfAQAhd5bZL85TH97466OmX6xH3hXZX/PcoV+tqEriYUnAM81bGYQNM9ZC6TqFUMjJQzgsynd6XDK0bOHKvr0lSrxDhLnBWcbvIQ7vL5xPfrs7Qrh3dmaEVRI2Qs1vwsGtqBii8jv4gHWZlS884bq023q+JnV9j7fQuTkIeutb/XSKN0jiigdwMxva6VT9B0PsvljREpQVVgoYfJ7at4WCr/omBFWtml9eOExbAVQfUWwJ9PCCMnUPvOiLBA8dK2K1/Sk5gEKyNHIc83bBR0leGZeqlEf6PHBOgrOOO9lxY6MxhGQlephvEK6CSw==
+ bh=Zvpne6Cz2E0BZ69/Xth1qJLFBn9knKoJ101WGnRW1FM=;
+ b=axwyznfjk2WdtjDeyLSIxovLYv34GyXyEJDvmao6ZXUh05CPiANfXYKZArtNYpqaKpZEG4YkTq6jOC5wbzqxuAS3MvSkjFPUafkx7dG923u3kibl0uhaUTg7i2B0MWpgdU/85maT+tnecBk4LMb+zvKRZ85VsRIxhYiKA35Q0UXTzQkc2o6udaZfgtHiJzH+oLmHyfTccSPM6RUQG3hjkyF9qqsrNXLJSyMAnuB4yuuGv/2ua7mCSQCHWSzsNk7by+IsgBL01p80fmRjSDOebZ+q9l1WseIkhHxwiLoZWprt87hYieqnJIDPEhMX269GG6xTI/RFDxVOd2OzDKdbTw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ygf9JTPodTZ5YUnmkVxjIKHm5lwK+9auDCnz68qc7Kw=;
- b=RQvsbm9lWohMx8vl1d0tTMa7y6TJs/dtGp/ZRVF9k2GAA/MWb3f/Z/2v0OVqjH60Ngt7QrWrsRucjzT8G1A8gyvxLaeioDPXQgPxyVNEcT2vxT5SOvwEkwUtZQWJphupDZqBU3FeyNYHtjoE1DevuS2Q0fp3qHQTkUsrap3OmVJz0RvTD2//HBCm+AFwSD0VuqbBhOWITGNWkBOt6FBMzbaiNN5TYVN7h/F/+XuWzcHOQ8aSAu30EugKSFosIxknL1n4KFKbBS6Yr1tzkWfk5mxB6OridYPrm6bFzPb4HVHC9fkmaL4LJyNxCKUQOCLnDDxxbgp+ZL+3Uw+ZrdQn1Q==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by VI0PR04MB10590.eurprd04.prod.outlook.com (2603:10a6:800:264::9)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
+ by IA1PR11MB6539.namprd11.prod.outlook.com (2603:10b6:208:3a1::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 17:06:01 +0000
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 2025 17:06:00 +0000
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::53c9:f6c2:ffa5:3cb5]) by BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::53c9:f6c2:ffa5:3cb5%5]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
  17:06:00 +0000
-Date: Mon, 13 Oct 2025 13:05:51 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
- Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH 08/39] drm/imx: dc: de: Pass struct
- dc_de_subdev_match_data via OF match data
-Message-ID: <aO0xb8jkahZiSV2a@lizhi-Precision-Tower-5810>
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-9-marek.vasut@mailbox.org>
-Content-Type: text/plain; charset=us-ascii
+Date: Mon, 13 Oct 2025 10:05:56 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+CC: <phasta@kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <kernel-dev@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Rob Clark
+ <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, "Danilo
+ Krummrich" <dakr@kernel.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, <stable@vger.kernel.org>
+Subject: Re: [PATCH] drm/sched: Fix potential double free in
+ drm_sched_job_add_resv_dependencies
+Message-ID: <aO0xdLWYdPOKE9r2@lstrano-desk.jf.intel.com>
+References: <20251003092642.37065-1-tvrtko.ursulin@igalia.com>
+ <6c150c95531b3d401b1dceec8d328a6d77b6849d.camel@mailbox.org>
+ <fa1cf2f6-a82d-46f4-b1ec-b07e678cad76@igalia.com>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <20251011170213.128907-9-marek.vasut@mailbox.org>
-X-ClientProxiedBy: SJ0PR13CA0192.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::17) To AS4PR04MB9621.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ff::22)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fa1cf2f6-a82d-46f4-b1ec-b07e678cad76@igalia.com>
+X-ClientProxiedBy: MW4PR04CA0069.namprd04.prod.outlook.com
+ (2603:10b6:303:6b::14) To BL3PR11MB6508.namprd11.prod.outlook.com
+ (2603:10b6:208:38f::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|VI0PR04MB10590:EE_
-X-MS-Office365-Filtering-Correlation-Id: eae8e9b9-4c9c-4f7d-18cf-08de0a7ac8dc
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|IA1PR11MB6539:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc30c71b-508d-42b0-f327-08de0a7ac8b7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|19092799006|7416014|376014|52116014|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?6Id13xfHxzsFdZN98ijRICBny2dTkXZ9pSR/431NZ0RtgRK8kWZuO/Bd44GO?=
- =?us-ascii?Q?JFTdz50aKGgyweubiiFrsqv7wlbrbRXE/+m13QqKR9WI0IPG3yZzXC2lYINu?=
- =?us-ascii?Q?i8Sl8qfNerLnSpRmrT8pRmlZ6Ej4gk3q76paG73+PxvGC3/U9r4ILPDfENm2?=
- =?us-ascii?Q?jlq+fbZDXM/U4560LXjNVsVMCDekWzRZJ1iCnZv3f22v48wbFq1j6h4wXCPz?=
- =?us-ascii?Q?Ce1Ospov/40jfkndVrCjRh+SV0RI6AZ8bs8MN7UCwhVIUy5lFB+xpuDYh5Rb?=
- =?us-ascii?Q?ZJ0vc5v+KildStIoGp48d5edFfvSYllsiD2b05ghAtj8ECni94qHGDWfT7og?=
- =?us-ascii?Q?S03XwkqmWU1nKvpFTgwId4nDB6UN+0p1kyFc5YN9hPQG59QztvcLc9b/vft6?=
- =?us-ascii?Q?ddSz01WI6ecoNcS2YHhx0ps1y6wqDPmNuR1BQ4lb9aoWYMSPUl6i0ubB3ZPu?=
- =?us-ascii?Q?fWaCbMcZMqv/dOaV+DDQiS5Urf+b7YztYkM80dfm5f4W4VSOVtSDj7+kQn2q?=
- =?us-ascii?Q?5ErIjlpCc7HkWs93BmSliQG3HOtEOKjRzlA+dvBBTx0yZhldO4GYghO2Ey1T?=
- =?us-ascii?Q?HXHUBooEEU5SccHaiA9oxj9BKGWr1ZBKKFbqKfBFtfIcFZ/W5r79E1xWMVV0?=
- =?us-ascii?Q?ma7nMDbmC2drv5DLjXT6x6uHTznIvlCLX1XRYP1WqKJmfcRnoRYimUTQjoKz?=
- =?us-ascii?Q?LcZRbbeR4PzXyL298rOKDdrbr9ayB1W1TGuRgmiN7+KvhTFYJnzLQTj/tUlK?=
- =?us-ascii?Q?8hwib4Iz+VAjVIMyKAgKPq4xaj/e9SeFuWrNjJr5ftHBsli0O52FjwwPNhhu?=
- =?us-ascii?Q?UgInrtMC8SQtWRyge118PPzVHx8s9QbZn3pTv3rFk50Cb9Ia+2qiujne4iOH?=
- =?us-ascii?Q?ug4fWuCEff8KqiohIHLkNTnLZOYb5y9kBxROhT8etFq8C/r94j/ojk8mUR3p?=
- =?us-ascii?Q?EPs8/DYFWexgYHu7crSypqjZR1ZRI6q3+mfdPN8YkNFHu4AfPzYnQxW2Da2P?=
- =?us-ascii?Q?PvKheFnZmlZHDLvJmyA+I8qw3ikmJTyB0QZX39e3NagVzLGrB1EOw5c7lkho?=
- =?us-ascii?Q?FhDxqqGAHe4w7zCkRrlUqJTD/iaXrPsejSmRv7Z4DM2Gijy1bPg+O9YiahoE?=
- =?us-ascii?Q?Y1sJC8NW3VVrwez1sSDrCevJb5797WZGaNs+85m59zztkNFUuVzjJEZlBC8G?=
- =?us-ascii?Q?N0rnMSwRssHHV9/CaUiFxaBEP3JeX8XXo34nkDQjRsNva2nv5NvqraxD0Phl?=
- =?us-ascii?Q?jQrkkSP5NAo9a9gin79wMNPjfGpFE/VRyh3K9y7pYP2nGAbEElqG89qXsG1+?=
- =?us-ascii?Q?5Xt3/K2RGchgV5QHPmme8NvXr0zJ2pNSC3wRu+NNDYzHyI9q65sU2ndrwcxE?=
- =?us-ascii?Q?r6Bqj8paouE6tJ4koOJuY3n4wJZMRiqxnbOIqHMo2vnWcTojj6l1IuJ7jsNv?=
- =?us-ascii?Q?/efsuAu4c9tnsSqXxBt4G9r4Yo9XfQGEX1YzqotD1JzO2/FcfEOngCcVzQka?=
- =?us-ascii?Q?X0zGtPU3Kmv0AcgkXgtlmSMRC92foU1/X6rl?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?ZPL+pDz+PpnnhhyKL9szZuQzhF5ddkve6yVXmWg0KnogtPNhjVVLw7Ekqh?=
+ =?iso-8859-1?Q?9q8f4YRA/FLvrDjyK9Wx/wpBtjV2//r7FTXM/fEqIxXES6a132JoT7vnZc?=
+ =?iso-8859-1?Q?Pjox7H1upi5iKBLsdTwh9fw1NMrE6XW7UF+lcHygQm/8Pj5drTgC1+v/Y6?=
+ =?iso-8859-1?Q?K9INVEvZ6S+FVwDH3zkSwN84iKXZjQeptZbkcDT8bkjwThFCokqJvJ56Q7?=
+ =?iso-8859-1?Q?vkLWtJJebcxfGd88VkVtSt4nlVngTC3sfa6K7s2DwV2JvELi2xW+Qk2JE1?=
+ =?iso-8859-1?Q?oDntViJDV5iNLL1/usmKmIMps1ctdRFgQn6tmEQ2LxUNUY7yQnYUa02kxk?=
+ =?iso-8859-1?Q?1AuCSe26fRV0vhN6UV0GkJd/KviVfMqRCRYrVKy/a7g770De+WQA5U1AZB?=
+ =?iso-8859-1?Q?q3SpnMcyanOaE1kMtTI/Vdxj2MoFBNpGUZKrHNv7I5U54BXwdWllCTwuWL?=
+ =?iso-8859-1?Q?lSj8bNIejO5Mt8B5VCGjvPQpC+F4HmKr55LsFAdH1ZJCMGv5YaKQF8X99Y?=
+ =?iso-8859-1?Q?axXjyzU/hTRi5n3aU91n01I5IkZeAx90vSJN2/y3BFQzTInAn7NBWZiR4N?=
+ =?iso-8859-1?Q?dyw1GW+MubpgL6fvca+Fc0IdE8HXyXsyw35+ODWwBW41BKZagOZW49GmKq?=
+ =?iso-8859-1?Q?FG8ENtrwIUIvvnEo/3jErH6a+Y+IsMxDl+665T/YKFeJn3gUeiRu9ducQB?=
+ =?iso-8859-1?Q?VSEz75kFU8/l0DykNcnlGTzyISWT+PsMR60gbuOJR4Vkwflc/7uErLqPPO?=
+ =?iso-8859-1?Q?lsBZTEUrUkFwhY8OUVDi+iyO1Cks8SK+tlf+KSZkcpqGQisf/04/QcrYVS?=
+ =?iso-8859-1?Q?z/YIIJ40KNAV5cs+/aNfKi+Zb5TYjkOXSj7t/LravnU9yDOAqBmDgh1bc4?=
+ =?iso-8859-1?Q?CR7E1FKtOl24hNnZ+MJB+dbCbJKFWEqzUIV3Q4isq9lCSxXiSz5clUWa9H?=
+ =?iso-8859-1?Q?saPfPM2JEpy1FNHjRz8Y6GDlFa2/YGQUWSuNio5ptNFFqlua2Rai/yEWzF?=
+ =?iso-8859-1?Q?ld7QwJXBQZBeNNP3npOR3H23o9xJww4ahLo2uFTlp819yDe15d0Yiizu/m?=
+ =?iso-8859-1?Q?dbjNM6iZOSJIixCDbhxbMdtCtmwu5sfDWyVAO7vwfy+U/YQdBr0KXOsJTb?=
+ =?iso-8859-1?Q?FKB0o29Vrkckcv2O7iTVrJOvGNr8YaQBAmQCdmr/HRW9UOvy/fF4IIM+qH?=
+ =?iso-8859-1?Q?epQgbRKp4/9bUC1HJ4UA9ORZjDtm2GDPayHwLYwcKEWZgdBKvy7HpwmuPP?=
+ =?iso-8859-1?Q?0pBijSkCz9A5srpXsEUP/38wgjFnopUjIZJtitdQFpfAjfYObzecboSbYN?=
+ =?iso-8859-1?Q?hwmTS0+AgnfVt+Wuu7d7IYQy5hqIYymIDKPwzAIE1/fM/a74iGjJJ3RW9u?=
+ =?iso-8859-1?Q?ABvPFAitaNmNfzABP0bMYmOvHtatbr27tRW10rqMg76Iwe7wk8+oGrtuhy?=
+ =?iso-8859-1?Q?ZCpUHDuSdSeXXRt/q5UG6dbMmU2VCvhLfAg9aiinqeSdhAdz9LHm9/Iex/?=
+ =?iso-8859-1?Q?DZ6NNy1vdwNhkz5rTeWWIZmFv4ylv+oiJX1bAq2SxrRQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS4PR04MB9621.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(376014)(52116014)(7053199007)(38350700014);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BL3PR11MB6508.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fc28F31/nnEOXlA4Eb0R2wLM8KtmjziLTleWcRYPV/68ozLMGJllhIonTUtg?=
- =?us-ascii?Q?dW/U5VC8fJP3iet0fmY8LJYlbLFeoJaAIksyJWWqBi0GNOlpkryAiIbNYtVr?=
- =?us-ascii?Q?eFeXctWCUQ5lVsaAO6Jy/vrIhe4noouBRQ3HebZDCWo0LkloDUze6W6JmPsw?=
- =?us-ascii?Q?44PHn4hkvL4zpjCzNoiJpXkKfi66EbN1Z6GvZ+kCY3aJb4sEJIaIN1hDxtL0?=
- =?us-ascii?Q?fOnXaYmDnDrDa6rUQIeZIyM1z/ncoThdvpbTENthlvtDfV8GpnTjTdt385n/?=
- =?us-ascii?Q?HULjKOHshzZMU3sYi+gin/q4ieiihLrw+/vCoZMeYfpeDxHd7TDTLsUBWZBd?=
- =?us-ascii?Q?JVqjCKKONtmSkAR1QWN2TRe8zJakVt9zPeC0uDgHXlQcA+VU6QUvTBsCOjxd?=
- =?us-ascii?Q?lKg8NkqcrNuE5Cd9xgTP796cpGRJcKSYssJpGdlGQHvQMqkZpyv9iS5ROKN1?=
- =?us-ascii?Q?/GkOobbXWhd72jIrmzDnxt4VtVjNcNbQofQM6otbuVnmxXo/fwVoI397Svcm?=
- =?us-ascii?Q?QpYb/ztxiCtdbhJVmzLCkiYGCCHF8rFgK1flAtkKyYJrbTHLuiUfWuPVFyiH?=
- =?us-ascii?Q?eEfpuWvCX/+Rt+ZII9csEjqQy7WTxtswNm0CoXw8Tz60PIg9DLVJFMr4W6pi?=
- =?us-ascii?Q?ZeXIOWa5uRWtifJG3O7M7h3CVAZluZhddAn1BkegO+FBgICpQMt/o8KlONXQ?=
- =?us-ascii?Q?g3LbbA8rwuG9JwFkS6A3ScgTtW/pSJXlycYHkv9DpkJWNfqSuuj6l8Z2G8yx?=
- =?us-ascii?Q?tRdVGbAX41WZ+zeYvt4XvjfIoPkt/r9QxSvugeh83AjK2ZjfSuq2mEwyH17t?=
- =?us-ascii?Q?DL5Kt6+vWt9mxnpXAf6VGxRAkNJ9Kjd7vzQMewJZi4F3l+abdHtpbdb0hm3a?=
- =?us-ascii?Q?zCjdR/MADBrOrsr06ZKMbTLeWOoiHTOmW4MyMQWAkXkRhrNoOyePcJ+1oZca?=
- =?us-ascii?Q?Ni4qv1rAYIvP8I+3QVo+jhGEMvr+holULx0ghPTIcLJArgNiQe/2h25XAla6?=
- =?us-ascii?Q?5YEmk6Cd8ma1MzcG1W+D2+pj1G+CVEavxSy+1t58K3DtCegxvqMtdkY7S+D3?=
- =?us-ascii?Q?/fpQFRe9ikS96+n3ed/TYnH6CExAvob/1k0DGuqCG06L/QvCmZgUGBLbE9xM?=
- =?us-ascii?Q?hJf9XPLf3rRGOwVD8zia+tR0Dpz9mV/HUhWTpSHb7kz4+xDItjnRjpAtagXF?=
- =?us-ascii?Q?VF63gGRy+inR7201irp2ZrYiCzDOkjKNB4wUfNWjG9CcnqEJzaJJQtcK9WdN?=
- =?us-ascii?Q?PByVhE6bFGS/1OEW7R7Jqk+JKIzytqQrZ4Mzl7wf2YTidC3zb3VoU6UQ7/44?=
- =?us-ascii?Q?8bfdCYG/coCxVLfLMlcHXWEo/I5kERTwscGuNoMVg5QmGBWdzQ4kBOJpLAk7?=
- =?us-ascii?Q?UL66b0c6RbM72FCK7mQwLgLZTC1cWw/llaTaGe2B+hmoCE+DzGf5Kw7utlXl?=
- =?us-ascii?Q?szlSaOJLsqCi16dwB/LMrd0Lta4kfDxNyLgNMpyntYfx3WxuRHU4LFWEd+Xy?=
- =?us-ascii?Q?sBgbQCFGeYfMR4mHmXEfffbwcKqnS6Ax5tlmWqMCnvV/eENiz18qvPv4pcak?=
- =?us-ascii?Q?lxOgaotOzy4ulYLOQa8=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eae8e9b9-4c9c-4f7d-18cf-08de0a7ac8dc
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?XxCUt9cRn/Jr7535JwFhqOVn9qWiJzPpoqkkJhabrHMJmkAGzsU3t4AJgz?=
+ =?iso-8859-1?Q?TNlKC00RLa1EofF3ZArK/14F++BjDj+rqOCXicd3XQxE1133LkVkf0jI0G?=
+ =?iso-8859-1?Q?V4eyGYMeQCNN5qibYOTNPNSectEnP88kEKpQI+97elg10+aDDHQVJo/oZx?=
+ =?iso-8859-1?Q?4D/42Cpf3M+0lJ0uM90uadcLE9pJSFQbpdBi1oQi1zQ/KxaOFP20ZFLRtq?=
+ =?iso-8859-1?Q?HIrdo1rB9d5zImwy78G0JjDHkj03C4nsTnTv0gycUK4gVjKuYQHynyGDt3?=
+ =?iso-8859-1?Q?76LXHox2JR7hudiyWrUmgH08ZTpyUsPfF9Hnuk08JSJfK679b8rxxgTxl9?=
+ =?iso-8859-1?Q?FB1/i0J6kZd0Vrnuo+WwUNs1kOV7fZ4bB7IDaCgx0nc5mbT4m9N9R8Mf0h?=
+ =?iso-8859-1?Q?sdMMXa51TxNwakNz3Govo7YYRzgTpQGSdsBmuH1kWcpQ8Gd5MwmlYuCBlJ?=
+ =?iso-8859-1?Q?LFwkbwGwuT1icv2HEu658cGwcsSUthQgdD0O7ZEpK8I7HtN4CzxNpzyNZ1?=
+ =?iso-8859-1?Q?5JrEHown+TN2hz4kazF5oEWwcQrkVEk7S7Yz/tgYQ/Npid/7bXtOlK0gEk?=
+ =?iso-8859-1?Q?5w3HlUVjHWYPMts+7dhEy/JNiHhWMSL6sQXRxWJ0aIkRbhaX4sBuggDiPc?=
+ =?iso-8859-1?Q?LgIByCswtZGneqNHdvKB9AxVfXI1eIux62NZCOO0ox7TfKuwjLJkUPvfX+?=
+ =?iso-8859-1?Q?2IXBB/yeuWw3N3PVcncMmVKVkRH8pjyeDqCTzZWowgcKzuKzSLUiDWFc7V?=
+ =?iso-8859-1?Q?/Oyw+1mcV0ApsCCzh//M/s5VVzPOBso5Y5qf5De2mPocI1H3NW4hqaUQyZ?=
+ =?iso-8859-1?Q?YdgZiigr8NO7wHZo4R0VieU550mR/oStf+NtJSKROXcg2NqQV3+XMKdJ2c?=
+ =?iso-8859-1?Q?KqDEO5Lixj0Zf3pW7jXDan35mstc+9Gc3AqXg3r6ZylGdkkMePnBGBU3Ae?=
+ =?iso-8859-1?Q?otKYjJWSUs3XxdkIM8Vu8geXShYE7qe0voRXrrAfaWD1J9VT0kcUY4NAbY?=
+ =?iso-8859-1?Q?utotonaqCcmUbk+1VCT43GMp5XpUN7uB7aw/pjG5trayvG6ewfm45oFX/Z?=
+ =?iso-8859-1?Q?MXZgcv/fY8M57uL22ZjlmNs1UJL44j8Wa6+6Vmfqwgs/Tt/y4SUY5SDsaS?=
+ =?iso-8859-1?Q?MKQHF4/GwsKzPPbnzXOROF4V8bstXGAbKumKjXR4Bt1klm9nl8BjVmx/HZ?=
+ =?iso-8859-1?Q?AH8yT5AggC0cUAG8APV9wRgaq8hV3PBV/vReZWGIFTlGzZ9WOga0ki7Muh?=
+ =?iso-8859-1?Q?fLjLlqO5OXP9h3cGAzfvvPnRuQKfVA9Dkeght0FaJc55RqYNRecAEYN/MZ?=
+ =?iso-8859-1?Q?MB/hyjk/h+7YbikN63kdfS+DYWqfXGIwK8GLvGHBkW8ewxswWp6Q8/JvLK?=
+ =?iso-8859-1?Q?2ng+0uZ1I1ZYYF92G9u1gEzDQjasW+0KcWKH2XVTibaLU/5AyXvC1umyrd?=
+ =?iso-8859-1?Q?uBaM+qQvlZ6GIMc+/wPWxmgiuUxo97QsN6iuw4uEj6HE8hZ3KxyDqiMGVy?=
+ =?iso-8859-1?Q?hIPDFJIonVZNsVT/jW3WUgodBy9eXWLDngCbJ9ScSI2805Txh0xJItrKkD?=
+ =?iso-8859-1?Q?NHlwIZ4oO0/9hPl/6wErh/6fkX7Y74zD+pnzWZmBIaIKwg6OlyggX0itq9?=
+ =?iso-8859-1?Q?8CQN7Kd+ykqUl+9BwzAFVkYtaTdItrXOqlkYI9cg70Ms2RhRD67kEFyQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc30c71b-508d-42b0-f327-08de0a7ac8b7
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 17:06:00.8650 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 17:06:00.4818 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kGL0fM3XHj7fMe610U9oRpGjqLwaOJXyF2c1KoxmFQh8Ty2FFA/lYGS4gtxGPzQUTsNnjw5ukiZsv2X4s5xkyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10590
+X-MS-Exchange-CrossTenant-UserPrincipalName: cmClO61zZwTOmVYO7mYnwlo+iBXG2dIwrLS+nFywFgcQz9LhFl1vLP8WMkQ6biL6zkDJj8Qof7r5Spondy0FIA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6539
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,58 +187,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 06:51:23PM +0200, Marek Vasut wrote:
-> Introduce struct dc_de_subdev_match_data which describes the differences
-> between i.MX8QXP and i.MX95, which in this case is one register offset
-> and address space offsets, and pass it as OF match data into the driver,
-> so the driver can use the match data to correctly access Display Engine
-> polarity control register on each SoC. This is a preparatory patch for
-> i.MX95 addition. No functional change.
->
-> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
-> ---
-> Cc: Abel Vesa <abelvesa@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Liu Ying <victor.liu@nxp.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-clk@vger.kernel.org
-> ---
->  drivers/gpu/drm/imx/dc/dc-de.c | 44 +++++++++++++++++++++++-----------
->  drivers/gpu/drm/imx/dc/dc-de.h |  1 +
->  2 files changed, 31 insertions(+), 14 deletions(-)
->
-...
+On Mon, Oct 13, 2025 at 06:01:49PM +0100, Tvrtko Ursulin wrote:
+> 
+> On 13/10/2025 15:39, Philipp Stanner wrote:
+> > On Fri, 2025-10-03 at 10:26 +0100, Tvrtko Ursulin wrote:
+> > > Drm_sched_job_add_dependency() consumes the fence reference both on
+> > 
+> > s/D/d
+> 
+> I cannot find the source right now but I am 99% sure someone pulled it on me
+> in the past and educated me sentences should always start with a capital
+> letter, even when it is not a proper word. Because in the past I was always
+> doing the same as you suggest. I don't mind TBH.
 
-> diff --git a/drivers/gpu/drm/imx/dc/dc-de.h b/drivers/gpu/drm/imx/dc/dc-de.h
-> index 1ac70b4f6276f..e054ad88190e1 100644
-> --- a/drivers/gpu/drm/imx/dc/dc-de.h
-> +++ b/drivers/gpu/drm/imx/dc/dc-de.h
-> @@ -42,6 +42,7 @@ struct dc_de {
->  	int irq_shdload;
->  	int irq_framecomplete;
->  	int irq_seqcomplete;
-> +	unsigned int reg_polarityctrl;
+Drm_sched_job_add_dependency breaks grep / searches, so I'm with Philipp s/D/d
 
-suggest add pointer to dc_de_subdev_match_data, in case need more in future
-and avoid copy data again.
+Matt
 
-Frank
-
->  };
->
->  /* Domain Blend Unit */
-> --
-> 2.51.0
->
+> > > success and failure, so in the latter case the dma_fence_put() on the
+> > > error path (xarray failed to expand) is a double free.
+> > > 
+> > > Interestingly this bug appears to have been present ever since
+> > > ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code back
+> > > then looked like this:
+> > > 
+> > > drm_sched_job_add_implicit_dependencies():
+> > > ...
+> > >         for (i = 0; i < fence_count; i++) {
+> > >                 ret = drm_sched_job_add_dependency(job, fences[i]);
+> > >                 if (ret)
+> > >                         break;
+> > >         }
+> > > 
+> > >         for (; i < fence_count; i++)
+> > >                 dma_fence_put(fences[i]);
+> > > 
+> > > Which means for the failing 'i' the dma_fence_put was already a double
+> > > free. Possibly there were no users at that time, or the test cases were
+> > > insufficient to hit it.
+> > > 
+> > > The bug was then only noticed and fixed after
+> > > 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
+> > > landed, with its fixup of
+> > > 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
+> > > 
+> > > At that point it was a slightly different flavour of a double free, which
+> > > 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+> > > noticed and attempted to fix.
+> > > 
+> > > But it only moved the double free from happening inside the
+> > > drm_sched_job_add_dependency(), when releasing the reference not yet
+> > > obtained, to the caller, when releasing the reference already released by
+> > > the former in the failure case.
+> > 
+> > That's certainly interesting, but is there a specific reason why you
+> > include all of that?
+> 
+> Yes, because bug was attempted to be fixed two times already. So it is IMO
+> worth having a write up on the history.
+> > The code is as is, and AFAICS it's just a bug stemming from original
+> > bugs present and then refactorings happening.
+> > 
+> > I would at least remove the old 'implicit_dependencies' function from
+> > the commit message. It's just confusing and makes one look for that in
+> > the current code or patch.It does say "back then" and it references the
+> > commit so shouldn't be
+> confusing.
+> 
+> The discussion is long for an additional reason that Fixes: targets not the
+> original commit which did not get this right, but the last change which
+> tried to fix it but did not. It sounded more logical to continue the chain
+> on fixes but dunno. Could replace it with the original one just as well.
+> > > As such it is not easy to identify the right target for the fixes tag so
+> > > lets keep it simple and just continue the chain.
+> > > 
+> > > We also drop the misleading comment about additional reference, since it
+> > > is not additional but the only one from the point of view of dependency
+> > > tracking.
+> > 
+> > 
+> > IMO that comment is nonsense. It's useless, too, because I can *see*
+> > that a reference is being taken there, but not *why*.
+> > 
+> > Argh, these comments. See also my commit 72ebc18b34993
+> > 
+> > 
+> > Anyways. Removing it is fine, but adding a better comment is better.
+> > See below.
+> > 
+> > > 
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+> > > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > 
+> > Is there an error report that could be included here with a Closes:
+> > tag?No, it did not come from any such system. Could perhaps put a link
+> > to
+> the report as Reference:
+> https://lore.kernel.org/dri-devel/aNFbXq8OeYl3QSdm@stanley.mountain/
+> 
+> ?
+> 
+> > > Cc: Christian König <christian.koenig@amd.com>
+> > > Cc: Rob Clark <robdclark@chromium.org>
+> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Philipp Stanner <phasta@kernel.org>
+> > > Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Cc: <stable@vger.kernel.org> # v5.16+
+> > > ---
+> > >   drivers/gpu/drm/scheduler/sched_main.c | 14 +++++---------
+> > >   1 file changed, 5 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index 46119aacb809..aff34240f230 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -960,20 +960,16 @@ int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
+> > >   {
+> > >   	struct dma_resv_iter cursor;
+> > >   	struct dma_fence *fence;
+> > > -	int ret;
+> > > +	int ret = 0;
+> > >   	dma_resv_assert_held(resv);
+> > >   	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
+> > > -		/* Make sure to grab an additional ref on the added fence */
+> > > -		dma_fence_get(fence);
+> > > -		ret = drm_sched_job_add_dependency(job, fence);
+> > > -		if (ret) {
+> > > -			dma_fence_put(fence);
+> > > -			return ret;
+> > > -		}
+> > > +		ret = drm_sched_job_add_dependency(job, dma_fence_get(fence));
+> > 
+> > You still take a reference as before, but there is no comment anymore.
+> > Can you add one explaining why a new reference is taken here?
+> > 
+> > I guess it will be something like "This needs a new reference for the
+> > job", since you cannot rely on the one from resv.
+> 
+> I was mulling it over but then thought the kerneldoc for
+> drm_sched_job_add_dependency() is good enough since it explains the function
+> always consumes the reference and dma_resv_for_each_fence() does not hold
+> one over the iteration. I can add it.
+> 
+> > 
+> > > +		if (ret)
+> > > +			break;
+> > >   	}
+> > > -	return 0;
+> > > +	return ret;
+> > 
+> > 
+> > That's an unnecessarily enlargement of the git diff because of style,
+> > isn't it? Better keep the diff minimal here for git blame.
+> 
+> Given the relative size of the diff versus the function itself it did not
+> look like a big deal to reduce to one return statement while touching it,
+> but I can keep two returns just as well, no problem.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
