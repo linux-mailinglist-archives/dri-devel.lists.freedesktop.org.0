@@ -2,80 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3998BBD2F23
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394F5BD2F2F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 14:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E88C610E11A;
-	Mon, 13 Oct 2025 12:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6816E10E233;
+	Mon, 13 Oct 2025 12:21:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="C8UgZi6J";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="roVeR1Tl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
  [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACCF410E11A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:20:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26DF210E233
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 12:21:28 +0000 (UTC)
 Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-46e34052bb7so50087715e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:20:18 -0700 (PDT)
+ 5b1f17b1804b1-46e3cdc1a6aso30245485e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760358017; x=1760962817;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760358087; x=1760962887;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=nwPBtVzaWo36hivYjisnYZie4hF0IMzUbnAFNXBWzL4=;
- b=C8UgZi6JVD3tux3XNc2lo+xsqVJ29z2awE3pOEZBW5/FCurw3SHL9ONG3PTo5ovIsK
- 1XKe2s7tiwmKhFuaRhsc1cQqusA40uHAcCoeaaDYKEUcxBehcsRorllvMwD1Sf1wBCkJ
- kfv7MAzOOkglGPAtvKuvrZf/XtuH1+6MRsHg0PORbNh4y+iDBfFo4g9ODubScsxBw4tc
- NHoFSlxdn8ugOt64WB98ejhQxcMiKvsCvSKmaybyp8aLwOb8QpluwrEcFoECeLE5dLmh
- bJ3Ygzt6wtFXdnwypwPCggwOLKxMVFYlVQxqHjCkZdcLTvf7OJtFsgXm0npJ/tW/oBsS
- x0mw==
+ bh=3ABCeOI0Ueeiv4CUdV7HP2uy/+8hpV76uJWq4TqSIBQ=;
+ b=roVeR1Tl/zjpBrLCC9rrfdgXalQW+VBPMhHOWowTgH6ijPGr7ZYDFQ6eKyuu26720q
+ 5toaS3y6EQbhf1qT2YOVc8sLfSDYpOuyVhzjjV/8lGhq/wKckDY6XmII/x9/Cs+h5U5n
+ xoykv4C1/RE07vB9VCc7+uE0uCx4UaYS3oyg/nKT2/UWyw1Bd7/HVb8hsT5coUWEkoBh
+ vq6pEmwZVMkyZeaRMCVdvUw8OMk+9MHAVoJEVOUZBmHT4ivA6fSdJSPVRu3l5T+Tg0Y8
+ D2SskpFWN/fGuHCMWURR1Pb0BOH2HOrsRc7AIz/fb974TSobW9NTW9O+fZ+3Kr4KtxgN
+ QrZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760358017; x=1760962817;
+ d=1e100.net; s=20230601; t=1760358087; x=1760962887;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nwPBtVzaWo36hivYjisnYZie4hF0IMzUbnAFNXBWzL4=;
- b=GdNI2B5urS9GmqBlbS+TsxvPZ4RfbQbo4RY7XH8hXgpP1LfXOe2cz5ovLLB5FP59hO
- y3EWbcjGmom+YJAaKGFFoLTxbgedwD+SEgsidIh+ruH45TMmO9GTH9alDyuy0WcldYwi
- FyvMPBdkVnlzYMXdxeQ35EAVyMoPBcQpb8P0ukcUQOMOVQ9FGgh5jp+Ol556Anhe79Z4
- LWJzAHmkfdks7HbWvwfiGoSJTgwLFkEV8Drldm7yibryWDKlXAYVk2w+GyDHiLd6PHYI
- NmoL+IBaVNfF/UxLMT+9U59/fs/sbPXxg+ZvfhpnW3U0ppZL4ZtMfwKyXWIG1uvS0i5E
- l6VQ==
-X-Gm-Message-State: AOJu0Yz7yFsbz9npCUfX/zd3eUf04+in8wqL7VpsdtQ6+pq/lBRh2wNb
- yBKJQJPTGE4eWi/1Hce9r/k9T8aV2l3shYpkJM6leqsDkKgJ0HHePIrVnZBz/Gzsh4s=
-X-Gm-Gg: ASbGncvOFYraPI2RWy8q8zxW5U/Jc8WuJ5DEe8lzxenZFIvFHN2RNWQHlK5UHCJ6f64
- vDis9Ng6dr3pc9gsnvHTZ0dzUk3Ev55z5UrRCyL6DPaC71RqMmyznRpLfIygDzTqleM3PN10v4Y
- YVwEKmagIFeTIU1N8Wsrw7YxEKQp2YM1dROVnrOQV/n1wdOveJrO8B91VrvzFcviKAefXlkTPAa
- 2OZgtNPN1fAfJRNEzU7vQJtOymNRyVR/Z0WmhgvjNTgpX0cp1OOWryc8Vej7oF8ET0kMLfXgEO2
- zw+6Q4czW+tYtfIwOLoyVq5KOoZDhAdbIOX46C/aahR5PpgUKw6h7SPiGdGO6cNG6qjgqAxkdwW
- 4gg4sRS4ua/fePLDpfYAxWLuwvMyY02lkFqtvA3OVlS9s48/mJRi5Hw==
-X-Google-Smtp-Source: AGHT+IGX/AgrL3dHZjIFyO0yIQjVQ8JpLbWaakeo7HGCj7Fhm8sEdEMMwy8fhLNldeBaV5STGHOaFQ==
-X-Received: by 2002:a05:600c:46cf:b0:46e:35a0:3587 with SMTP id
- 5b1f17b1804b1-46fa9b02cebmr136926125e9.27.1760358016616; 
- Mon, 13 Oct 2025 05:20:16 -0700 (PDT)
+ bh=3ABCeOI0Ueeiv4CUdV7HP2uy/+8hpV76uJWq4TqSIBQ=;
+ b=BJJYIZypUJuQ3aYnYJPXSj86tiqDxjqRnuVveYt/6cRYEevEuB4hFR7Xaf+acIKYgC
+ kU4WijcxZUM0meBCeTI6Nb/bWFuCFHL8lpuJFPk1Klqd7FBjC08ZOHBV0uyRHD89EUP6
+ /1To4nEFaRttuJ2Em/sK56J5meCR8WXaYyEeh4C41kpqRLnpXSdNu2B8NYvMIYIyuC/s
+ VrCCHTspcwc+1Dn/2vfEf4mpq1mD4BtZVefJYDjITOpwKSz2ojmvBt47OIn9fJVuqRrG
+ iGvaxjEb0OjplDKsuZnKLSivqpvDqiDUo25TC98XGnhldOJt3q/xbuzRrTVLShZcdOOf
+ AWJA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXE3f7khOBjc8qTg0/pFNYWEaVp/9bsW+fbb6uvo3nFm+pPZbDyuS0p/IDl58IKzqYrbSmvn/Lp5vQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0FchT3Gfs/mByOmVZqVDlcMMwxr37Rvm3q2RdNZBFzlO7Jp4v
+ XQFHmuG6tma7ZckII6gMygcwptDNArlW3IC8nTR6VX7NBojtbPJl4Mstj1wZedr4pj0=
+X-Gm-Gg: ASbGncsy/G2ColZVq1d5Ka/WxwpyxEFsuKnz5qw/D7cZOl+QdN1QF9FINW5ckFVHQxm
+ rS6BFQBlacobrDi7x1UN0/ZWxH9Ii5lR7ZIMQE2BRxwvRtpI8ZwlKBp7cUttTfKG4jgMddosBoX
+ QxVIEO5s8znbvgJgH66TTDAtkdln8CbEVEciw3LYFuZRq9haMvJlFcZKsq7UWz4gBNcnXkuby8P
+ xFoTXM3ZLFEEamjHs1R3uuGdICbQv4N0XcgtErGobvQZVtJSI2ochaL6YMj+Duk25embMX1KVCG
+ w1S2++sOmu3EjxNezEwc73YvZwc2gy5SoC0SQy9W8v8ZeW3RnJBOcjan2GwkC0j/rd9Ik2IvODT
+ j5i/YLejNUITZwKVAE4BSgcCJqbspMcPzTSkOefU3AUkzZUABk/qBIg==
+X-Google-Smtp-Source: AGHT+IGZu4vLoKcsEs0prOUdg2NRu/m5YMAG/vLWkjgsWlICHV6YrbIFcE3Ys3pz0mcx8tQ8BIpSgw==
+X-Received: by 2002:a05:600c:609b:b0:45d:dbf0:4831 with SMTP id
+ 5b1f17b1804b1-46fa9e39456mr143776135e9.0.1760358086690; 
+ Mon, 13 Oct 2025 05:21:26 -0700 (PDT)
 Received: from [192.168.0.101] ([84.66.36.92])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb497aea6sm184960825e9.4.2025.10.13.05.20.15
+ 5b1f17b1804b1-46fb483bcf9sm188213965e9.6.2025.10.13.05.21.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Oct 2025 05:20:16 -0700 (PDT)
-Message-ID: <1490c292-c244-4dd9-80a6-3fecd0ffb422@ursulin.net>
-Date: Mon, 13 Oct 2025 13:20:15 +0100
+ Mon, 13 Oct 2025 05:21:26 -0700 (PDT)
+Message-ID: <24affb5a-af97-4d1e-abdf-aaa061bdce4b@ursulin.net>
+Date: Mon, 13 Oct 2025 13:21:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Mandate usage of drm_sched_job_cleanup()
-To: Philipp Stanner <phasta@kernel.org>,
+Subject: Re: [PATCH] drm/sched: Fix potential double free in
+ drm_sched_job_add_resv_dependencies
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Dan Carpenter <dan.carpenter@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250926123630.200920-2-phasta@kernel.org>
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ stable@vger.kernel.org
+References: <20251003092642.37065-1-tvrtko.ursulin@igalia.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250926123630.200920-2-phasta@kernel.org>
+In-Reply-To: <20251003092642.37065-1-tvrtko.ursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,62 +99,101 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 26/09/2025 13:36, Philipp Stanner wrote:
-> drm_sched_job_cleanup()'s documentation so far uses relatively soft
-> language, only "recommending" usage of the function. To avoid memory
-> leaks and, potentiall, other bugs, however, the function has to be used.
-> 
-> Demand usage of the function explicitly.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 46119aacb809..0a9df9e61963 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1030,7 +1030,7 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
->    *
->    * Cleans up the resources allocated with drm_sched_job_init().
->    *
-> - * Drivers should call this from their error unwind code if @job is aborted
-> + * Drivers need to call this from their error unwind code if @job is aborted
-
-Should is indeed wrong. I think it could be better to go with "shall" or 
-"must" though. Since those two are more standard language for this.
-
->    * before drm_sched_job_arm() is called.
->    *
->    * drm_sched_job_arm() is a point of no return since it initializes the fences
-> @@ -1038,7 +1038,7 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
->    * submit it with drm_sched_entity_push_job() and cannot simply abort it by
->    * calling drm_sched_job_cleanup().
->    *
-> - * This function should be called in the &drm_sched_backend_ops.free_job callback.
-> + * This function must be called in the &drm_sched_backend_ops.free_job callback.
->    */
->   void drm_sched_job_cleanup(struct drm_sched_job *job)
->   {
-
-Hm, having read the thread so far the situation seems not so easy to 
-untangle.
-
-On one hand I see Matt's point that free_job callback is a bit 
-misleadingly named and that there isn't anything really requiring 
-drm_sched_job_cleanup() to be called exactly from there. Free_job 
-semantics seem to be "job is done, *scheduler* is done with it".
-
-Drm_sched_job_cleanup() already says it has to be called after the point 
-of no return (arm) so it could be left at drivers discretion (de facto 
-state today) to choose how and when to do it.
-
-What I did not get is what is actually the perceived problem with 
-letting this stay? (Ie. "should" indicating it is recommended, but not a 
-must/shall.)
+A gentle ping - any takers to double check my analysis and review the below?
 
 Regards,
 
 Tvrtko
+
+On 03/10/2025 10:26, Tvrtko Ursulin wrote:
+> Drm_sched_job_add_dependency() consumes the fence reference both on
+> success and failure, so in the latter case the dma_fence_put() on the
+> error path (xarray failed to expand) is a double free.
+> 
+> Interestingly this bug appears to have been present ever since
+> ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code back
+> then looked like this:
+> 
+> drm_sched_job_add_implicit_dependencies():
+> ...
+>         for (i = 0; i < fence_count; i++) {
+>                 ret = drm_sched_job_add_dependency(job, fences[i]);
+>                 if (ret)
+>                         break;
+>         }
+> 
+>         for (; i < fence_count; i++)
+>                 dma_fence_put(fences[i]);
+> 
+> Which means for the failing 'i' the dma_fence_put was already a double
+> free. Possibly there were no users at that time, or the test cases were
+> insufficient to hit it.
+> 
+> The bug was then only noticed and fixed after
+> 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
+> landed, with its fixup of
+> 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
+> 
+> At that point it was a slightly different flavour of a double free, which
+> 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+> noticed and attempted to fix.
+> 
+> But it only moved the double free from happening inside the
+> drm_sched_job_add_dependency(), when releasing the reference not yet
+> obtained, to the caller, when releasing the reference already released by
+> the former in the failure case.
+> 
+> As such it is not easy to identify the right target for the fixes tag so
+> lets keep it simple and just continue the chain.
+> 
+> We also drop the misleading comment about additional reference, since it
+> is not additional but the only one from the point of view of dependency
+> tracking.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.16+
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 14 +++++---------
+>   1 file changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 46119aacb809..aff34240f230 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -960,20 +960,16 @@ int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
+>   {
+>   	struct dma_resv_iter cursor;
+>   	struct dma_fence *fence;
+> -	int ret;
+> +	int ret = 0;
+>   
+>   	dma_resv_assert_held(resv);
+>   
+>   	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
+> -		/* Make sure to grab an additional ref on the added fence */
+> -		dma_fence_get(fence);
+> -		ret = drm_sched_job_add_dependency(job, fence);
+> -		if (ret) {
+> -			dma_fence_put(fence);
+> -			return ret;
+> -		}
+> +		ret = drm_sched_job_add_dependency(job, dma_fence_get(fence));
+> +		if (ret)
+> +			break;
+>   	}
+> -	return 0;
+> +	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_add_resv_dependencies);
+>   
 
