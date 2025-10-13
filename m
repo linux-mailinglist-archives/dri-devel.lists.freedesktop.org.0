@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0CABD18B5
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF9FBD18B6
 	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 07:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407C210E37E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7D0410E37F;
 	Mon, 13 Oct 2025 05:56:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b3HoC8KM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tphc5Twj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E75610E379
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:56:21 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-b457d93c155so615541866b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 22:56:21 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9EB10E37A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 05:56:22 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-b3f5e0e2bf7so709566566b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Oct 2025 22:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760334980; x=1760939780; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760334981; x=1760939781; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0+a5/f/Fx6IMBMc0auLZUB4h0ES81R10KOuZfrxfUU8=;
- b=b3HoC8KMP7EeQw8OmKOUnGQ+1uzl44kFYcfuPGFx3hozwD9daeIUj5x1RFNbrhGhI5
- f6RZiOs/Trf5Z6HR8SdT2UJ1io5zS140MaHcKd2K8rHn8ZHa3CGavBhlKmnTsy/4RJJu
- EXUuvsIKU8X+K6c16dIMxR5nha6y4tV7rW2aj8LSWk33PYVTxPL/dkp4A7mQKwY6MBDf
- 05fYwGQR1NhcAyM0cGxU75tEv3aDig4/WFOgKF+WL6/D6KH1HwZ6/yhnmeUkeBnhfog1
- TcAmjamOA5wwCOU/C+puV72K6DVzO8w/uMXzezED1en9U4cpVVcy+h2DE5qw5kgUVtn7
- iLmw==
+ bh=Fab5qCv2aotV3Fj8kDbJUnYTD33aHY7VjmYq2cPYjic=;
+ b=Tphc5Twj8YpGUmsxfthfFN49gMWLEcCbgVbeuk3DdUo7eHaQL5FT3BITQMa5hkVE7m
+ lgPYlqwkn4z3wPwfvf7Zp7g8S1o/4zSNx74xeEFGZqm3yzJ7e6YSijS/ViOHJ5T+T/Bb
+ qYybMOM4qbKT8J+rqRloTzvhobu4eQUh+fTUXtXbIX0o1ac4+nCRHfpuFMuaqKZ3TDa+
+ SkbHoCUjT85UNK5gwW8J2ve99+nr+2rBZnMFjzYn8FGXKh2QSpHM0KhBglu9ZpWPCq9G
+ TL57PWYkDZbhz6fwM7w65eB3UShvdMTotURXj8bYVn8A5CMxFePCvC9AcTmM1Lp0bWVK
+ fVvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760334980; x=1760939780;
+ d=1e100.net; s=20230601; t=1760334981; x=1760939781;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0+a5/f/Fx6IMBMc0auLZUB4h0ES81R10KOuZfrxfUU8=;
- b=VbJ+VBvtReKMgYbwm5P3iTm+Pun197FlOuqADWB2jtLpW1Pw+jmaGSxsr6D1U+WJ7T
- xGT//MtfQRWQEO7NVH5ogiWi5jlK4NG9aSQTpNo+jFxfBcXXqj8c9U/vuQd5otQgBxn9
- 3QyBaLGREFn9VIwXgMD9Pm1ZIDYP6IGhQZ/EB+jLx2P+vgFTRA8QAxMzrYAp+f5wi9op
- FSikmIpps0JDlbRI68vJve1MxoyjWH42tWwnv1p4c5C4mRk4r+BMeZxDGmoynUEA3s6r
- 8sKnlCDf3Bk22mt4X1thVbf9B2t2cDlaOZnC+nOYGIqBLjXCYNTe6ELnZP+BoNlL2Ijb
- LSbA==
-X-Gm-Message-State: AOJu0Yxn5DCIshnX/2pUZ7MA7OfTPY5lK2JMdz5QI2SS17QWhS/ytr2D
- e2a++Kb8SkhLon3HqnWQoKrCLOc1lJRxVizdGMfxUniFOB2KbtG+Cqop
-X-Gm-Gg: ASbGnctv6uBDYlyQEaPZKUIWz5o8PdKTGDDjXViZZApwrg3DsWb8oYvRIVe3VEHYSdM
- D6wNBy/8S/spNNEiANvf0ydu+blw0t4q/jAs3g6pxhp9fHYUzLDM4EA6PP7vghg5Ec/KjKPbpNi
- M4rueY3PuVD0j2JdVGGSSM2wXCQALTZr3rQQjYuTvjmC0mZ3PTO8r/vMkCjzbdLG8QP5oeNmB5U
- 8EALMuvty1bwMw59NbLaAG7w9gkKPZta30aNBbLWIZOUD9cNbszoDeW+E/U2ZAmKu4etY6X4koZ
- JKCQc4s1Xw4VBUMDXLIUXeBjCb1VZ4vHFHVHuGpBQNhDwLB4Nkl/HzVMmMELIue0rtaMNdqBiTG
- WboydOisUhMD77v50SE9YD1sd5KDmSEinAfvR2Uav97w=
-X-Google-Smtp-Source: AGHT+IHn6OVFq3+AsRTRv8Xh/omMJt1RsmRRGjDow+0vFNYsqUIkRvU051xfXIY6tzcAIT30syi1jA==
-X-Received: by 2002:a17:906:c113:b0:b29:e717:f0b0 with SMTP id
- a640c23a62f3a-b50ac4d3497mr2144906166b.59.1760334979537; 
- Sun, 12 Oct 2025 22:56:19 -0700 (PDT)
+ bh=Fab5qCv2aotV3Fj8kDbJUnYTD33aHY7VjmYq2cPYjic=;
+ b=lZC/LavSaJ7hRj/kPivFFsg10+TLEl+81z6u3QIA5qtwwbayjkVxJIU8oTp8jgZD1N
+ h75X+3gKnPB9JLM6z9IzAjPbory47ocTMhrSeTrxyKZ9aUcaT13f0vCmk7pzd0YiRvLA
+ J8HjxhjS0EkGR5jgpfQM8Q1F8gzz940+VXLvEe6XesZSsv0xOibbrNhCeRwqCScyJLzW
+ JQVj4L1RZrUkiWklcu0HV3zRutBr7G8dk1Ory3bW+MShrIG6elLUGibjmY/xmLrpZTdb
+ S+dU+8QA4EXONJsBdKLWN0UJDy1HSAe1CNjZAK5kF+ptxg8A53ViyDYJW3u2YmUFAKmT
+ f2RA==
+X-Gm-Message-State: AOJu0YxtQtgOOotkb6Xg+G5PkXhbCaJBVv8AxKS4ST/DMYovlKpNsOXV
+ JJN6nBaTZ5GIR2sBpXQxXP4WK6sGBlFOEWheUsXYBNGVKFGSKvEaQDSP
+X-Gm-Gg: ASbGncvzATc17UnflGYuyT1gFvd0F0cqwIUGW7Ncmo8S6Lc5YbzEBhZ8Xf+syK+LuCh
+ TzmmdySGO0rxttARqtYTCzYWhnpJnIYCHCnOw9EAmP2ET6B+dGG16x7k314Rzy57MGJvy7IcBGj
+ V+tW+X45qswgPZ4adCceeZiV22C6J7Sw8DznT+QC1AZfXcn5tSIqhuGm1cPrJGIsdeQ82b+CP/a
+ VkxBl5uwFG9sOoDzqJi2a34r0Qpk+F9wiH7iGr5mqhX1x6Jgp0sFx0cxE35a7BVizWQklUCUVfA
+ iuSxcFedIXaH+4jkoCqVqiYul7xL3YAvb9xXblgsOEhEkhE84TewQR61PvZHoocvHLdOaAE6Lmo
+ y7JBM/TXmWN0dbxsF2Qq7sa4QKdmyTHF8CQRH+35d6tw=
+X-Google-Smtp-Source: AGHT+IHhPKhxcXUlwbbGNWfoJzODtqnzgGMFW3d0c2n5rlC5WbdXeHwstRcFJWpz05yxLA2YLIemVw==
+X-Received: by 2002:a17:907:d06:b0:b0d:416e:2892 with SMTP id
+ a640c23a62f3a-b50abaacf16mr2035054366b.32.1760334980674; 
+ Sun, 12 Oct 2025 22:56:20 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b55d63c9a3csm860912566b.23.2025.10.12.22.56.18
+ a640c23a62f3a-b55d63c9a3csm860912566b.23.2025.10.12.22.56.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Oct 2025 22:56:19 -0700 (PDT)
+ Sun, 12 Oct 2025 22:56:20 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -73,14 +73,15 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v3 6/7] dt-bindings: display: panel: document Samsung
- LTL106HL02 MIPI DSI panel
-Date: Mon, 13 Oct 2025 08:55:41 +0300
-Message-ID: <20251013055543.43185-7-clamor95@gmail.com>
+Subject: [PATCH v3 7/7] gpu/drm: panel: add Samsung LTL106HL02 MIPI DSI panel
+ driver
+Date: Mon, 13 Oct 2025 08:55:42 +0300
+Message-ID: <20251013055543.43185-8-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251013055543.43185-1-clamor95@gmail.com>
 References: <20251013055543.43185-1-clamor95@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,28 +98,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Samsung LTL106HL02 is a simple DSI which requires only a power supply and
-an optional reset gpio.
+From: Anton Bambura <jenneron@protonmail.com>
 
+LTL106HL02 is a color active matrix TFT (Thin Film Transistor) liquid
+crystal display (LCD) that uses amorphous silicon TFT as switching
+devices. This model is composed of a TFT LCD panel, a driver circuit and a
+backlight unit. The resolution of a 10.6" contains 1920 x 1080 pixels and
+can display up to 16,8M color with wide viewing angle.
+
+Signed-off-by: Jonas Schwöbel <jonasschwoebel@yahoo.de>
+Signed-off-by: Anton Bambura <jenneron@protonmail.com>
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/Kconfig                 |  13 ++
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-samsung-ltl106hl02.c  | 179 ++++++++++++++++++
+ 3 files changed, 193 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index f9f1e76a810c..01ac0af0e299 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -52,6 +52,8 @@ properties:
-       - panasonic,vvx10f004b00
-         # Panasonic 10" WUXGA TFT LCD panel
-       - panasonic,vvx10f034n00
-+        # Samsung ltl106hl02 10.6" Full HD TFT LCD panel
-+      - samsung,ltl106hl02-001
-         # Samsung s6e3fa7 1080x2220 based AMS559NK06 AMOLED panel
-       - samsung,s6e3fa7-ams559nk06
-         # Samsung s6e3fc2x01 1080x2340 AMOLED panel
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 1f660ba065a1..2433a2931f63 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -781,6 +781,19 @@ config DRM_PANEL_SAMSUNG_LD9040
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	select VIDEOMODE_HELPERS
+ 
++config DRM_PANEL_SAMSUNG_LTL106HL02
++	tristate "Samsung LTL106HL02 panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	select VIDEOMODE_HELPERS
++	help
++	  Say Y here if you want to enable support for the Samsung LTL106HL02
++	  panel driver which is used in Microsoft Surface 2.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called panel-samsung-ltl106hl02.
++
+ config DRM_PANEL_SAMSUNG_S6E3FA7
+ 	tristate "Samsung S6E3FA7 panel driver"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index 9281221183ac..a87ae98362bd 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -76,6 +76,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_AMS639RQ08) += panel-samsung-ams639rq08.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20) += panel-samsung-atna33xc20.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_DB7430) += panel-samsung-db7430.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
++obj-$(CONFIG_DRM_PANEL_SAMSUNG_LTL106HL02) += panel-samsung-ltl106hl02.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D27A1) += panel-samsung-s6d27a1.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0) += panel-samsung-s6d7aa0.o
+diff --git a/drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c b/drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
+new file mode 100644
+index 000000000000..1618841b7caa
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
+@@ -0,0 +1,179 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/array_size.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/property.h>
++#include <linux/regulator/consumer.h>
++
++#include <video/mipi_display.h>
++
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_probe_helper.h>
++
++struct samsung_ltl106hl02 {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++
++	struct regulator *supply;
++	struct gpio_desc *reset_gpio;
++};
++
++static inline struct samsung_ltl106hl02 *to_samsung_ltl106hl02(struct drm_panel *panel)
++{
++	return container_of(panel, struct samsung_ltl106hl02, panel);
++}
++
++static void samsung_ltl106hl02_reset(struct samsung_ltl106hl02 *ctx)
++{
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(10000, 11000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(2000, 3000);
++}
++
++static int samsung_ltl106hl02_prepare(struct drm_panel *panel)
++{
++	struct samsung_ltl106hl02 *ctx = to_samsung_ltl106hl02(panel);
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	ret = regulator_enable(ctx->supply);
++	if (ret < 0) {
++		dev_err(dev, "failed to enable power supply %d\n", ret);
++		return ret;
++	}
++
++	if (ctx->reset_gpio)
++		samsung_ltl106hl02_reset(ctx);
++
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 70);
++
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 5);
++
++	return dsi_ctx.accum_err;
++}
++
++static int samsung_ltl106hl02_unprepare(struct drm_panel *panel)
++{
++	struct samsung_ltl106hl02 *ctx = to_samsung_ltl106hl02(panel);
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
++
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 50);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 150);
++
++	if (ctx->reset_gpio)
++		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++
++	regulator_disable(ctx->supply);
++
++	return 0;
++}
++
++static const struct drm_display_mode samsung_ltl106hl02_mode = {
++	.clock = (1920 + 32 + 32 + 64) * (1080 + 6 + 3 + 22) * 60 / 1000,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 32,
++	.hsync_end = 1920 + 32 + 32,
++	.htotal = 1920 + 32 + 32 + 64,
++	.vdisplay = 1080,
++	.vsync_start = 1080 + 6,
++	.vsync_end = 1080 + 6 + 3,
++	.vtotal = 1080 + 6 + 3 + 22,
++	.width_mm = 235,
++	.height_mm = 132,
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++};
++
++static int samsung_ltl106hl02_get_modes(struct drm_panel *panel,
++					struct drm_connector *connector)
++{
++	return drm_connector_helper_get_modes_fixed(connector, &samsung_ltl106hl02_mode);
++}
++
++static const struct drm_panel_funcs samsung_ltl106hl02_panel_funcs = {
++	.prepare = samsung_ltl106hl02_prepare,
++	.unprepare = samsung_ltl106hl02_unprepare,
++	.get_modes = samsung_ltl106hl02_get_modes,
++};
++
++static int samsung_ltl106hl02_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct samsung_ltl106hl02 *ctx;
++	int ret;
++
++	ctx = devm_drm_panel_alloc(dev, struct samsung_ltl106hl02, panel,
++				   &samsung_ltl106hl02_panel_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
++
++	ctx->supply = devm_regulator_get(dev, "power");
++	if (IS_ERR(ctx->supply))
++		return dev_err_probe(dev, PTR_ERR(ctx->supply),
++				     "Failed to get power regulator\n");
++
++	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(ctx->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
++				     "Failed to get reset-gpios\n");
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_LPM;
++
++	ret = drm_panel_of_backlight(&ctx->panel);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get backlight\n");
++
++	drm_panel_add(&ctx->panel);
++
++	ret = devm_mipi_dsi_attach(dev, dsi);
++	if (ret < 0) {
++		drm_panel_remove(&ctx->panel);
++		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
++	}
++
++	return 0;
++}
++
++static void samsung_ltl106hl02_remove(struct mipi_dsi_device *dsi)
++{
++	struct samsung_ltl106hl02 *ctx = mipi_dsi_get_drvdata(dsi);
++
++	drm_panel_remove(&ctx->panel);
++}
++
++static const struct of_device_id samsung_ltl106hl02_of_match[] = {
++	{ .compatible = "samsung,ltl106hl02-001" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, samsung_ltl106hl02_of_match);
++
++static struct mipi_dsi_driver samsung_ltl106hl02_driver = {
++	.driver = {
++		.name = "panel-samsung-ltl106hl02",
++		.of_match_table = samsung_ltl106hl02_of_match,
++	},
++	.probe = samsung_ltl106hl02_probe,
++	.remove = samsung_ltl106hl02_remove,
++};
++module_mipi_dsi_driver(samsung_ltl106hl02_driver);
++
++MODULE_AUTHOR("Anton Bambura <jenneron@protonmail.com>");
++MODULE_DESCRIPTION("DRM driver for Samsung LTL106HL02 video mode DSI panel");
++MODULE_LICENSE("GPL");
 -- 
 2.48.1
 
