@@ -2,150 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784CEBD1C55
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 09:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854D1BD1C82
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Oct 2025 09:29:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4178910E3DA;
-	Mon, 13 Oct 2025 07:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5540610E3D9;
+	Mon, 13 Oct 2025 07:29:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PxUXaKuG";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wks/i2YZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012034.outbound.protection.outlook.com [52.101.53.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D9D10E3D7;
- Mon, 13 Oct 2025 07:23:56 +0000 (UTC)
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010033.outbound.protection.outlook.com [52.101.61.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7CB10E3D8;
+ Mon, 13 Oct 2025 07:28:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XthXewa5Mb4BNHlPP2u8zoJp7B4dPTCBHWm7sfSLwcsh4//zEooYh1B2OUTo0CWTMnAHhTn41OeRwvryB8AcKywr63hDlCf0E0ov/JlTaA1lCCjXSRU13bFFU/yhQT0B0spnO1IkXGIP7UX4exaYCX6o0RRRZigXJ3X5bEJHYiXf5/jN9A6Sv0BA2WzAVu27tj7YkufjNcC82TWddH4yFTccPa/lUDwSs9D8fy/shAdA+X4ObgOFBtT+mYui0SSpSxcWTwd2QFu4euHucofS2MneL0jc1ZMRd37YhS6v9xwAyJQgE6TgQadPK0+2OYla5Uujb4jwrpaFWIVt3+If2Q==
+ b=Nur5BJerzXJNksEwTTlb0Lr00V+9fHKajjSy7Tp25toXTioOBun6EfFhDgpXVKFHqRvKpn5dUG4I/WcMzKx4J6jZUTt/Ch9n9cHcxXZZBE0Izvklci4L88tbkNscIl1v9GaBX+EC1hIv1k/ERRKkgJnm2TPoFjc80POb0Er8CR20gx4sp3oYn9Eo2T6L1Rr184sa0p2A4GA1FKAiNi/n6glpHPW2LYz58jZcjk5vNG/4OKckgEYlWd7onHsuK9jrGhxsjP9yEc8cD7+at8Bruo8nJpwzkhYaEynW6ri7xn7Ygphv7FG4VZsTu2NYr0XEV84hGZo+oNa08Y9xh/eVrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eqdvYXc6MpCVlwQ9wHgT0/dRf5ieVGsoDy1m8NtqMgg=;
- b=vRsE/lcIhbEQT+mN34mgpQIzwc3KC2DatzhBPd4+lVYoK5fH+avmh7w+iw7NakhihaXHthaG/X9mbhlL/qeskrJoymWiDmaJkm83w2PROGS8jUhkqr5z3ELyjVLSz/6HWsl+26mmggX0djaMStwNzw17eIcynEKQYIuvGUzBWzSCew2GYXTXQ+26lDRBgP58i9NRV3SU/PTzHb1WU8WuXRwEydoeJsE6o9Y/iMtH0Yl1bqwBupMUnRnByNNLku66oKbjFBt1m6/VZEUXyYkQu52ZoT5IjnSOuZvQ8q4e3HMdiLRZIdjWSUegzdh7YqwQ0H7jOs/+7V1zs1UbBIuwYA==
+ bh=7t0/ghDLOdwjVaQJybLYZy56tfNj5ERhCpxI0+IUt/g=;
+ b=gJ3V2jjXi0v7yr5nmzyQMHwZwUUeJWdMdAMubL6RSX9rFuuGPGRp1cgm7uZWbCkgbvw5kpmnDfQ8/OBhBe445tIcCF2IXFFeQ9NRLmCo1DtpvVIc4QPvjqd+7QUz0HQsV79eSTD0nqgKf0BMp/2y9QEZVjLdqqLPv7PVW5ubHS20sPvXVnbA7RXJl3V64yWaW/su1iiOAr9aRhzLDYimwUnFfAX7z3rEB6+giyTwzykYat7aPHVhGxH1exDysH+3ZUKpDooRHazhqBxf+k41uWtU3OClM8ReyfuCSiYl/vMTU3y4rtAU0wU0+dzrjRMtgRJwGuEgICymFaS3OE+SAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eqdvYXc6MpCVlwQ9wHgT0/dRf5ieVGsoDy1m8NtqMgg=;
- b=PxUXaKuGpvPulKlSNBbRBaIh34CeXAtgyQfH0Bt2N8nuzVYeTnasuNDoZRZztdYW06jCsXBbnfaPopAQ3yjLfxJtzHOJ3nuHMygGVyW2bzumSfif+gKXkmev5zltm/t7U6yKwZ3AGbAW5H6SmyX+s/svvItnV3+Pe4iTOXe7CVA=
-Received: from DS0PR12MB7804.namprd12.prod.outlook.com (2603:10b6:8:142::5) by
- SA0PR12MB7002.namprd12.prod.outlook.com (2603:10b6:806:2c0::18) with
+ bh=7t0/ghDLOdwjVaQJybLYZy56tfNj5ERhCpxI0+IUt/g=;
+ b=wks/i2YZYH6jwphogcEkFsfttuHUS0eoa437Csyo7ypRQcxFWuBd4SuQIkhIS3woT0gzJUg6djAUTzAaxRP++tFLx+Ts50raVdg3tuGyCTQXwjlJcBmF7JNrYvhJW68tydXoDs0CHfEghXiq/ScdVShPTgIcf7R7h880W6q+M+g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 07:23:53 +0000
-Received: from DS0PR12MB7804.namprd12.prod.outlook.com
- ([fe80::e71b:4ec9:237f:24ea]) by DS0PR12MB7804.namprd12.prod.outlook.com
- ([fe80::e71b:4ec9:237f:24ea%5]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 07:23:53 +0000
-From: "Lazar, Lijo" <Lijo.Lazar@amd.com>
-To: "Lazar, Lijo" <Lijo.Lazar@amd.com>, "Zhang, Jesse(Jie)"
- <Jesse.Zhang@amd.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "Yang, Philip" <Philip.Yang@amd.com>
-Subject: RE: [PATCH] drm/ttm: Add NULL check in ttm_resource_manager_usage
-Thread-Topic: [PATCH] drm/ttm: Add NULL check in ttm_resource_manager_usage
-Thread-Index: AQHcO+SLFAIsRElsD0GxxdHIaHUhKLS/fagwgAAWZgCAABQrwIAABE3w
-Date: Mon, 13 Oct 2025 07:23:53 +0000
-Message-ID: <DS0PR12MB7804DA51F5FBEF49C82E4E3897EAA@DS0PR12MB7804.namprd12.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Mon, 13 Oct
+ 2025 07:28:54 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 07:28:54 +0000
+Message-ID: <d2001388-bf0d-452d-b8ec-da45f557dd2b@amd.com>
+Date: Mon, 13 Oct 2025 09:28:46 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: Add NULL check in ttm_resource_manager_usage
+To: "Lazar, Lijo" <Lijo.Lazar@amd.com>,
+ "Zhang, Jesse(Jie)" <Jesse.Zhang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Yang, Philip" <Philip.Yang@amd.com>
 References: <20251013015550.1317222-1-Jesse.Zhang@amd.com>
  <DS0PR12MB780437771222808EBEB675D797EAA@DS0PR12MB7804.namprd12.prod.outlook.com>
  <DM4PR12MB515282926AA157011BF319C5E3EAA@DM4PR12MB5152.namprd12.prod.outlook.com>
  <DS0PR12MB780447BC946BAB3EBD54B7CC97EAA@DS0PR12MB7804.namprd12.prod.outlook.com>
-In-Reply-To: <DS0PR12MB780447BC946BAB3EBD54B7CC97EAA@DS0PR12MB7804.namprd12.prod.outlook.com>
-Accept-Language: en-US
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=True;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2025-10-13T07:22:47.0000000Z;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open
- Source; MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=3;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR12MB7804:EE_|SA0PR12MB7002:EE_
-x-ms-office365-filtering-correlation-id: 9316d976-6702-4cc2-2804-08de0a297687
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7053199007|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?u1VHSthjphIJTTCmIPyRHAoALmAtkNeFtCbErDBQIghx2JSxuYYqnO6k+w8c?=
- =?us-ascii?Q?r/tWvxH7fekIfnh+feyJA/Vo6NZTf4m+HTGBCD2UZ2vwMpdUqEccIlzi+/WC?=
- =?us-ascii?Q?OoaZNDuy9KM2NIdnpP8B752UVv7iaEHtPAF1jCRaVOpaw0/sYo/W3j0VX5e0?=
- =?us-ascii?Q?cEn/b9n2yex6Sbo25sHYKUZL6W72Z0jET761rfewMEgDda7Kj9Ypz91kQCBc?=
- =?us-ascii?Q?uMAYs+EWg0aO6OUXm/TgCP1J47qhLm3+hUOmqC4m9XHtHIasJjMnB49UysDs?=
- =?us-ascii?Q?gDNdNyc6/Oj81nZYI1A7A8lhHS//P8ufwBTTMmJmYc5aDsysWiqjUXDH+m/y?=
- =?us-ascii?Q?lYLiocsSiKphambcS0nci6uZ9qYnVHLsbtenDP4ln4/IoOo2/M/CDtRgaPV3?=
- =?us-ascii?Q?X1pokRghjmdJps7zJthY6UkWJZrEgHcZLYzSy8WXN7UNb48/6Kpgp+EFZWNq?=
- =?us-ascii?Q?gNkyfIimjnZb6K5DtPW99cWHTO92kmEin//5eouu4DA1rGqD8QHVYXPNw5Ue?=
- =?us-ascii?Q?TvH15RmUmcbPuLBTwxOLl37lzq4q9H9quWrkkAhk3zqS/1pD30i7io8yzmYd?=
- =?us-ascii?Q?3BJUi0SmSg75hvo+UQAYRpJ6FrzvoH+EbY/GPrWylHOEr2wvhTE1WczIh+zV?=
- =?us-ascii?Q?GQHOdTl3pLzc09xdMHfVQj6ajWOB08M3gw4Lc5QVW98y7rNuSddFQPWMRdpX?=
- =?us-ascii?Q?CftqxbvqJ6OxRaI7CX5RBXxH23z0Zj1baOPBU6szs197hdycshLSKXRYdZtL?=
- =?us-ascii?Q?ARL0QV8gMSM5g/f4n3thLXYNF+pEue5Jj7Repf6XMb5pwGTSDQr0PQ8yNzVB?=
- =?us-ascii?Q?7cV11dR23Id5sBr2pMU1aqdEdk4QuqHvHAmgw+5EN/QmbccH3kYLwYru2F/e?=
- =?us-ascii?Q?CY688wFYdbJtPBIDI8xVSQWoIraV+lPFvGyC1EEDDY9v8qptUiSfLPEVToMo?=
- =?us-ascii?Q?LAYru7UfKcisSZtNIr2UtoM3ABufAYsbj7C1stVBvxyGhaubDMzRXgAFUEs5?=
- =?us-ascii?Q?AOeK2RVcHynMaRPCZukucP0CvRiHxYdtqCxwMYV5qJLUcr++6t5GwhyHvdXU?=
- =?us-ascii?Q?WfTpKXVcs+HGaGWB4foLncDHRoFgy5eZ73pmWLRIaaPgzdKs+jou8+9zS9Uk?=
- =?us-ascii?Q?2GTV2saxpVyeiiiteX4PccPnte4S8ZnrQeqQivBrIfOTPy7w/fZeTSJV4zCq?=
- =?us-ascii?Q?/uPbjFOJJ71ILl6sln6nyU7EnCUH9BIiKbvh+s9FrU1Yc6bZTIkmnbsWtOcM?=
- =?us-ascii?Q?qQ+xCDz/13IPZQOZqMCDvOmir1erJ+z+sz5c3n9kUnAGr+YyR6cZSYfd1HD4?=
- =?us-ascii?Q?evTOdN2Sq0RKxOwuif8QUwne0ET+Y67ZZCK86VzgNQoGd7mR8/UmURwa8sbP?=
- =?us-ascii?Q?w+sYVJpij0I0kFMjv/MNn2C7hznJR1NKjFHk9aqqCaB9McwVfshTvgnqq9Ku?=
- =?us-ascii?Q?z5xE93WWTuj897OBdExWDguCw7EaayDoLjlEKZ89tNlplEY29G7CP25izbu2?=
- =?us-ascii?Q?sq3gHL3Wt7+jIW+1Y1MCnGN7yp22WPY4rUyc?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7804.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7053199007)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?UOOihxFe0BphbDyPhINsBK/na44NjlZkHXZp7DCEqETfRaxaXyW7YfUID8Ty?=
- =?us-ascii?Q?dThq5S5yxsdFuvfBmA94eTW/o1fiGWE0EyPcOYMqjalxc1QpxFGC0XW4i3M8?=
- =?us-ascii?Q?Ph01sNYGIz2CaH6BozyXTnJCRJjvX2ddz11mgfTZXopb4hKW0thsrBQs/64Y?=
- =?us-ascii?Q?hK/wQWjaLaOtg2egbSNSQ4kb22uZ4JDZeFFXchfxJpngx5Aftaa2DTPu39pw?=
- =?us-ascii?Q?maN7ZAPcSPis7Gklynu2MsYYbFsAnuMWH8w+HkejNrG+oQAc/G8+LD57XHDj?=
- =?us-ascii?Q?zzDZGwNqdFTxgOl/eqH96bUzX53q7dBZ0tmxH2rI1Mz88VIZE1aNL5qdZjli?=
- =?us-ascii?Q?UH7RFjaYH3vVQT76wBumpRHhavojZLSohvO0sLb3VXxTBsgFrYdj48R5aNx3?=
- =?us-ascii?Q?pQ/M+xhwEqxQNRInmrJCiUDlJ7+ZrN6GuvunPi40RLorUUvB7mHj/p0BeXuP?=
- =?us-ascii?Q?u0m2QVtz1O3HMbowjoTYLgJ19T2UXR70WanuqwbODCBoajwIVgBjssRQc8IH?=
- =?us-ascii?Q?aEoA4OALHzy6ZYZHCb9TtPgfbMfVMW6V8sdeP6Rrq26KGccu204JKMnQ4x6I?=
- =?us-ascii?Q?Hn2ZTed08Rcc1RrCZyUuDzfnGlgtCZJgACJRXTY23vyUE07izYza286kpcb1?=
- =?us-ascii?Q?Ay0q+gVfHaEvSHazXWPmQBWwCiqeisxjbe+i22hIU53GnFDPXBEbTKccWvgz?=
- =?us-ascii?Q?IIyrSWOFLo+orpqYNE0WLKlIRvGbmp3k1bjFVOlcLUf3IwQbaG25pSr0K/tK?=
- =?us-ascii?Q?n7jc3rEGoAgSaE+XdZ8+iwXntf+7B16lHNwphdF3cuoWcr3ayhSoPlOt96BL?=
- =?us-ascii?Q?lUzvUPJmG2O+w8CFFUdnGqtexUsEkD2YDgx69pO+NUCyLFEqZYD6ePhTB+B0?=
- =?us-ascii?Q?umzR6Gz/76/ZbhW5RaeZcFEfQLx/zPUY7gfZAbfIlHEJpBggumZUDOTPCoxq?=
- =?us-ascii?Q?0sgAkMQBAwPwMUpMJloiGYB8zhEr61SFiihFAefp43LJYU68nJdkM5jAPkh5?=
- =?us-ascii?Q?kMR4EJmB0TsvJ4f1ozGoIJ+rzz6TBS/liXenVicWbdcl3PSOF8f4Pg34oIdO?=
- =?us-ascii?Q?q1Y1TZzl39QvMh51Mt1uN3rCIb/pR5M9RUHwV60hpTT59blrObHCRYyTC5/d?=
- =?us-ascii?Q?pnX+lhTJp26kQkdaqB1Kx7dxxqV3C9+fW0dFrOjBU233juzl005ddOb9ze5J?=
- =?us-ascii?Q?45jJxqk6zWbuZadzVe55Jby/e5VL7lFkCv6b1rw15w0LbcKTqw6/8zoQvEMX?=
- =?us-ascii?Q?E8PJEmeyQmQNyjr5wRx8Qe4Fp4sBh+tJT0SUcayy3BJ8Bdd2fP47reQHnf30?=
- =?us-ascii?Q?prJe3gmxHw17MVs29kbr84cuO7oO/PGN+JBlxYodDEKgo4sA19ufKsDYuCv7?=
- =?us-ascii?Q?/IPDJgMkFTuqg0khXZhT8Nj+WH+E4vXIxFI9+mguzRiDm9kLW3aGCkDBB/wb?=
- =?us-ascii?Q?3Ei93YqaRvblUYbFWVZluCB67HiTKwDT2JMapqbf9PWNGl2rDlvr7ptNXFXF?=
- =?us-ascii?Q?9mLdTY3FWJITMa4/C9cu50pX8L3dROD3bZ96iAmaafCkiCMXWaz8xnyzo92M?=
- =?us-ascii?Q?2vMJh9grOl/G7rcN0l8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <DS0PR12MB780447BC946BAB3EBD54B7CC97EAA@DS0PR12MB7804.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0575.namprd03.prod.outlook.com
+ (2603:10b6:408:10d::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4202:EE_
+X-MS-Office365-Filtering-Correlation-Id: 439c2182-4e09-4576-d18f-08de0a2a29a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M051cXAwUFpTaGpIZkdTdG1TUkNNaU1ZaVQ3ZWZxT3QvSXFwelVlKzdaSzNJ?=
+ =?utf-8?B?dlZNbjE5VGc0OTQyOGkweXRjclZUSGRxeTdKdkZaQ2VNMDhJSXZJMHlodmNF?=
+ =?utf-8?B?WCtKRTBMVDQrZ05oMURIenJLLzZFczBKYXF6bFZ1aEkzWWtJbzdZaGZTdXB1?=
+ =?utf-8?B?SVZFanVCcGV3TjN0YjJabit4SVpTNHo5b1Q0WWpRdm1QbldWcGJjVThZNyt3?=
+ =?utf-8?B?Y1prb2VqaVp3VEo5aGlzdllzZE5sRGZoeGpqdVBIQlZnUmdHbkFPdEVENmRE?=
+ =?utf-8?B?SEp0Z1BWZWtJL3JsUkZScHFibFhuRzJZYVBOZEQvRXBIcTJOdVRSQmx0YUww?=
+ =?utf-8?B?b0VBU0JWb0szOTZIRHR4OWpyN0FkWDlobCtpWit2Tm43dk9XUEh5M3czS3k5?=
+ =?utf-8?B?bGJrd2k5TXZYT2t6RUxoYmJFMWFYdHJ1dXl4NjJ5Z0NlZVRFVzViSFp5alQ0?=
+ =?utf-8?B?aHZkcENlZnNiSWFIWXB0Qy9reUh4em5hV3RtN0p3WW1MOStLcDY5VmZESUlC?=
+ =?utf-8?B?WjMwL3AxdjcxQU9GRGlyRVlNZTVpYW1jL0pmZjFaclpiRjllV3ArS2hjU2Zm?=
+ =?utf-8?B?N1Q5dWJLQ1ZJM0h1UXArS0ZzRmVTZ0p6TmVPaUVBNWVQalF0cS9wblV2eFBk?=
+ =?utf-8?B?M1NQZjNXT3RTZ0J1MW50OWlNK05mVjEwS2xGeStxRHo5RzRKa0xlZHlOdHkr?=
+ =?utf-8?B?aWtNSEtRaFA5Zlcvbm1VWVN3dFJ6ZTNFUVhvZFVua2NhcmlCRnV6ZFN1VS9l?=
+ =?utf-8?B?czlTbmhuYU9KQUlJYWV1LzI5T0lGSU5QbmxZL0NBSUFiTXB5U01SNzg4Y2hV?=
+ =?utf-8?B?SkJNY1VJVzhhaUxvOEdwWXBmRlBITlVIRm43ZE5MMnhsVjdHU1N3ckdLV1pz?=
+ =?utf-8?B?NGFGUUNraFpiSG5xdVJXQ3oxWUxUREJMMWVoTE1lV1VKUlR5L2tQV3c2c3RK?=
+ =?utf-8?B?K1B1Y0d6RU1kVDY5R1d3K2JoSjRTNjdhMDZwcHcrcEN1cFJmOTNKZnA3L0Y3?=
+ =?utf-8?B?WXlPcHRIU3JlQ1JmMHB0bm9CSzhMOWlxRWRLTVFKMWpma3ZqUEh5ckxUdXFJ?=
+ =?utf-8?B?SU9MRVoyU01ueTNUN1ZpbzA0Y2QwU2Rqb1Q0WkRCcGhrMERtL0Nnakozb2Y3?=
+ =?utf-8?B?dHNsYXpkVTk0OVRTL0UzUk1YOFU1T1hRM3hweW9kL25hUVJIZGlReHF6M0h4?=
+ =?utf-8?B?c3hadjhZSW5nSUMxU0F2eEhveVlMY0pUbDJMV2crZmRkajIzNGVCK0kyQUw2?=
+ =?utf-8?B?MzBDKzU2NThtL25vT21CRDNPOW9abWdnMk85SWNiSVlvMk9PVmNSOXpKMUdV?=
+ =?utf-8?B?QTE1NVEveTBsUEJWV1RjWVJjaGVSbFNYUGxUaDRYL2pxUlByYUZrSjI5NlNW?=
+ =?utf-8?B?eENZZ25ZalEzMWpNMUVaYXF3andDanB5Z0JTcElnV3JCc3RsTWxTVjhCNFQy?=
+ =?utf-8?B?QkRqWnBocmxsWHU0VnBoSFA5aGhwQXpiSE52Skp3cnNrRUhCMy9jZkFESDFa?=
+ =?utf-8?B?RTNpY3ZEenZwOEU3L3ZtZGNrYStBbG80eU14dU0yczZlemJNVERMME1xd0or?=
+ =?utf-8?B?QU1nbENyZ1F3Wi9NZXAzV0JJMmEyUld3UUptYmtMSExNNlEvbGpnbjRrV3d6?=
+ =?utf-8?B?NExDMnkzWVdDZUg1WWJQSUd1ZElKSjBndWhuS1dFZ2c2NktuY3gzWThxeFdz?=
+ =?utf-8?B?SU1YVENWakgzRzNCTVhSRW1XNFRMSkxTeFk4ODVYeTVCQkhtZ1NKTGhwWEU1?=
+ =?utf-8?B?QmFqczRTTVhWc00wN0ZBRmk2eElXd0ZqTThiejR5M25kbmhEdzlRaFVzdnNB?=
+ =?utf-8?B?M3hnV3BNdlZ6YzBjZ3ZBTFZlOW9UVTRnVkVTTXNucCs1SHdBdzNRT1JtN1JR?=
+ =?utf-8?B?dUhJWldjaGtJSHV4TE9tZ2tjM3ZPU2R1dWVFVk5FejNheWZGUURNSzhkSGNu?=
+ =?utf-8?Q?YyeyXbD7OSYo4kRqEAI14vCm4/aCPg6y?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjIycGRONkVhdWtnY0d2NG14M1RLTS9wVjByaTB0Ymp1QjgrN252THNxWi9r?=
+ =?utf-8?B?RjRMb2pQSjI2L3hNQWJkS2Nqd3pWSDFFek9jYWs3NW8yOUpzRkM5SnlDL0NQ?=
+ =?utf-8?B?eFhSQ00ya1ZvdzR3eWJndWp0QkhnbDFwVWJmdHo3eGFUMld5RU1tODZRTit1?=
+ =?utf-8?B?bTdUM0loNE4vR1lDSlRFVHFDZzFNR0JhVzZMbk4wbkZPL0dMS0gvWVZ5RlpX?=
+ =?utf-8?B?RXkzWHpHUERMWTVwM2wvenhWMjV1QlRRR3BQM01qVytLckIyVC93b01DMzVm?=
+ =?utf-8?B?ZDhPVjR3ZDh0cVRmMjJMZldoeHJzazczeTE4N0NlRHF1b0NUVG5FWm0wMEdm?=
+ =?utf-8?B?SUI0akp1MXZieC8yc1pLRTRNYlBBSEpDRE4xRDk1QzMwVkRPZDhQM2hYbTNz?=
+ =?utf-8?B?OVkrOHdDMDdpM3p5OHRxV2w4cVpkSURjV0V0UU0wTlhqeVY4T0tySWcyM3U1?=
+ =?utf-8?B?Rm9XRC8ycVRPbGlibDd5VVFRSWRhbFkyM1dEZ1ZrTVRGUjM0d3FvWkVvWk1T?=
+ =?utf-8?B?SHRmMUEzWlAreFp4c0NacDhrdHFpUjQ2eDRuSkFjVWs2czVSUUxuSkcwVDRD?=
+ =?utf-8?B?RFE1TWZrQ1U3Y0xRdmhJWEJIRG0vbUtxK0IwWlRkOGtRUEZramR1czRyV3dO?=
+ =?utf-8?B?TTlaTjhUMjQvQng1ZDVYUDR1VGZjQmVRaGNyTS9VODkzdGpFMmlhL2JURzg1?=
+ =?utf-8?B?d21vZ0NDbWFWNnNDOTRpU2VENkpoR2RGYjduQmhzemU2azFUK2NhQ1luQ3pm?=
+ =?utf-8?B?ODAzVGVOdjBZT2duM3lpdVoyNnRMc0o2M21meEJHejRCbEkwWUk1emw3SlVl?=
+ =?utf-8?B?QTBjK3AwUmFiMm1ISHVJQzRTM3d1MnJoY1JjRm12aENVV21BMXV6MVZDUkxx?=
+ =?utf-8?B?dHhoUnR1YmJ3R0tuNWhFWnZWeEJOeGUycFcvNXJWTzZQZVFUUzJyTXBGM1g4?=
+ =?utf-8?B?V2IrcENGeHgrWUZBQThYajQxZjBOMWs2Q1hRS01PUEtXY3hrTGV0ZllzYXBy?=
+ =?utf-8?B?ZXlhd1pnRUI4ZlpPeWFoelVoako5bGJMNUhNeHZRa012dEpNcmIzd0V0QlJL?=
+ =?utf-8?B?UDJUcVE4US8yOS9ZSVdnMHlrSUFDbnIrQ0tzRUlOREhtczFQcVFpU0k0T0w2?=
+ =?utf-8?B?OVdMQmNCb2tWblp0NlNiUlJtL2JZYndUUWN5UzhKOGhjZXZZeDlQSzhvQ1dm?=
+ =?utf-8?B?d0J1dElpNnJBL0dZWjU0N2NLV3QzMHVqMEdhMkdVekJmeURIQmFIT2oxVldI?=
+ =?utf-8?B?Z1NOTGlpY2xuYXdqRUFZRFpSYTduYWl6cC9kcEVoRG1ycFk4L09VL1o2bVpJ?=
+ =?utf-8?B?UXFyemJ1UGE4Zm1Wa0FsWlBSTmtEN1RJZXQyYityR3RqSExNZmlXNmQrSlpa?=
+ =?utf-8?B?b09tRnl3eUVsL01uRGF4ak03UmJ3NjdLWnBjQ0ZpSWFGbk50dERBcHFyY2pL?=
+ =?utf-8?B?a0NRNktWVjNKdlEvZ3JpRUJkelU0bGk3M2FJYmEySlc5UEE0YzlqdTNaMGVv?=
+ =?utf-8?B?Nk85bDR1em9GOHo3dHRpbDRoQXJzY1lXQnIrZ3JDaTlTR0MvV2UxakVWb2RZ?=
+ =?utf-8?B?V1lBTy9QdXhaS1V2R1Q2L1dmdk5tcklPK0xHT0liTjdWWThBMnY0VnVuZ094?=
+ =?utf-8?B?SUgvSnV1TUE4eDE3RnNDeDJhOXg4N2xBa203N2ZUU0RqZmJSU2JrUU1YK05G?=
+ =?utf-8?B?OUFITlo5VGp1UTFlcFExeWZUdzBxU1U0SnVDeDFacFNTR0UrZkUvTzJ1K1Jv?=
+ =?utf-8?B?REhkcEUvUklIMVZZNVpOU21IN1J6aDZBTlZDWnFOOTVIWUxmS1J5bXkxQ29j?=
+ =?utf-8?B?OFozcWw4amlxWWdJeWQ3M2NFbHVaMnRKSDRzcEl1blFMVE93RjBtZXpLaEVm?=
+ =?utf-8?B?bGsxQ3hVMGR1V2JneThWTmJ4bUJpcU9xaWpUaml0ekMzT29CQW5Ya3R5UkVV?=
+ =?utf-8?B?ejFLSEFoQU9uT2svVUtrUFJYTTZVeWJTUGZoTk0wNkppMENTb1Q4cnYyd3hU?=
+ =?utf-8?B?ZkVpbVBQM0ZCVXF6OEpTcTJ6N3gyVU1JY01LM2Rod3RuSlRuYjB3NXc1aUJY?=
+ =?utf-8?B?U1ViRUpFZG80VzhtUzdqMi85b0lRaVNmTkpmZUkrWnBEYkJueHJhWlVrSEo0?=
+ =?utf-8?Q?1gIHQQPyM33D/Fya96Cpk0PYP?=
 X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 439c2182-4e09-4576-d18f-08de0a2a29a9
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7804.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9316d976-6702-4cc2-2804-08de0a297687
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2025 07:23:53.1328 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7ClXikAv57Exd/3ir7dwxZeiCv9k7KD573rhdWGFlYJxkS8VEmD7p3Ecn61EJRgL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7002
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 07:28:53.9161 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 310DasXqrM0REktX04QVXwjwKgyZ5fdxLjKLB8a7kyQmFd6N5F5opq8ouIOY5riT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,32 +168,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
-
->-----Original Message-----
->From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Lazar,
->Lijo
->Sent: Monday, October 13, 2025 12:39 PM
->To: Zhang, Jesse(Jie) <Jesse.Zhang@amd.com>; amd-
->gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
-><Christian.Koenig@amd.com>; Yang, Philip <Philip.Yang@amd.com>
->Subject: RE: [PATCH] drm/ttm: Add NULL check in
->ttm_resource_manager_usage
->
->[AMD Official Use Only - AMD Internal Distribution Only]
->
->>-----Original Message-----
->>From: Zhang, Jesse(Jie) <Jesse.Zhang@amd.com>
->>Sent: Monday, October 13, 2025 11:25 AM
->>To: Lazar, Lijo <Lijo.Lazar@amd.com>; amd-gfx@lists.freedesktop.org;
->>dri- devel@lists.freedesktop.org
->>Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
->><Christian.Koenig@amd.com>; Yang, Philip <Philip.Yang@amd.com>
->>Subject: RE: [PATCH] drm/ttm: Add NULL check in
->>ttm_resource_manager_usage
+On 13.10.25 09:09, Lazar, Lijo wrote:
+> [AMD Official Use Only - AMD Internal Distribution Only]
+> 
+>> -----Original Message-----
+>> From: Zhang, Jesse(Jie) <Jesse.Zhang@amd.com>
+>> Sent: Monday, October 13, 2025 11:25 AM
+>> To: Lazar, Lijo <Lijo.Lazar@amd.com>; amd-gfx@lists.freedesktop.org; dri-
+>> devel@lists.freedesktop.org
+>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+>> <Christian.Koenig@amd.com>; Yang, Philip <Philip.Yang@amd.com>
+>> Subject: RE: [PATCH] drm/ttm: Add NULL check in
+>> ttm_resource_manager_usage
 >>
->>[AMD Official Use Only - AMD Internal Distribution Only]
+>> [AMD Official Use Only - AMD Internal Distribution Only]
 >>
 >>> -----Original Message-----
 >>> From: Lazar, Lijo <Lijo.Lazar@amd.com>
@@ -202,109 +197,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 >>>
 >>> [AMD Official Use Only - AMD Internal Distribution Only]
 >>>
->>> The specific issue of trace with amdgpu_mem_info_vram_used_show
->>> should be fixed with this one - "drm/amdgpu: hide VRAM sysfs
->>> attributes on GPUs without VRAM"
->>Thanks @Lazar, Lijo,  maybe we still can use this patch to fix  this
->>crash when calling  AMDGPU_CS and  query AMDGPU_INFO_VRAM_USAGE.
->>or add check like the previous patch.
+>>> The specific issue of trace with amdgpu_mem_info_vram_used_show should
+>>> be fixed with this one - "drm/amdgpu: hide VRAM sysfs attributes on
+>>> GPUs without VRAM"
+>> Thanks @Lazar, Lijo,  maybe we still can use this patch to fix  this crash when
+>> calling  AMDGPU_CS and  query AMDGPU_INFO_VRAM_USAGE.
+>> or add check like the previous patch.
 >>
->[lijo]
->
->Agree, there are indeed multiple places of ttm_resource_manager_usage call=
-.
->You may follow the same check as in the hide VRAM patch -
->ttm_resource_manager_used - in case ttm doesn't take this change.
->
+> [lijo]
+> 
+> Agree, there are indeed multiple places of ttm_resource_manager_usage call. You may follow the same check as in the hide VRAM patch - ttm_resource_manager_used - in case ttm doesn't take this change.
 
-On a second look,
+Yeah, agree.
 
-struct amdgpu_vram_mgr {
-        struct ttm_resource_manager manager;
+When the VRAM manager isn't initialized we shouldn't be calling any of its functions in the first place.
 
-Hence this won't work for something like this -
+Maybe it is a good idea to add something like "if (WARN_ON_ONCE(!man)) return 0;" to prevent the crashes and only get a nice warning into the system log.
 
-        case AMDGPU_INFO_VRAM_USAGE:
-                ui64 =3D ttm_resource_manager_usage(&adev->mman.vram_mgr.ma=
-nager);
+Regards,
+Christian.
 
-Thanks,
-Lijo
-
->Thanks,
->Lijo
->
->>Regards
->>Jesse
+> 
+> Thanks,
+> Lijo
+> 
+>> Regards
+>> Jesse
 >>
->>[  911.954646] BUG: kernel NULL pointer dereference, address:
->>00000000000008f8 [  911.962437]
->>#PF: supervisor write access in kernel mode [  912.007045] RIP:
->>0010:_raw_spin_lock+0x1e/0x40  [  912.105151]
->>amdttm_resource_manager_usage+0x1f/0x40
+>> [  911.954646] BUG: kernel NULL pointer dereference, address:
+>> 00000000000008f8 [  911.962437]
+>> #PF: supervisor write access in kernel mode [  912.007045] RIP:
+>> 0010:_raw_spin_lock+0x1e/0x40  [  912.105151]
+>> amdttm_resource_manager_usage+0x1f/0x40
 >> [amdttm] [  912.111579]  amdgpu_cs_parser_bos.isra.0+0x543/0x800
->>[amdgpu]
+>> [amdgpu]
 >>
 >>>
 >>> Thanks,
 >>> Lijo
->>> >-----Original Message-----
->>> >From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
->>> >Jesse.Zhang
->>> >Sent: Monday, October 13, 2025 7:25 AM
->>> >To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->>> >Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig,
->>> >Christian <Christian.Koenig@amd.com>; Zhang, Jesse(Jie)
->>> ><Jesse.Zhang@amd.com>; Yang, Philip <Philip.Yang@amd.com>; Zhang,
->>> >Jesse(Jie) <Jesse.Zhang@amd.com>
->>> >Subject: [PATCH] drm/ttm: Add NULL check in
->>> >ttm_resource_manager_usage
->>> >
->>> >Add a NULL pointer check in ttm_resource_manager_usage() to prevent
->>> >kernel NULL pointer dereferences when the function is called with an
->>> >uninitialized resource manager.
->>> >
->>> >This fixes a kernel OOPS observed on APU devices where the VRAM
->>> >resource manager is not fully initialized, but various sysfs and
->>> >debug interfaces still attempt to query VRAM usage statistics.
->>> >
->>> >The crash backtrace showed:
->>> >    BUG: kernel NULL pointer dereference, address: 00000000000008f8
->>> >    Call Trace:
->>> >     amdttm_resource_manager_usage+0x1f/0x40 [amdttm]
->>> >     amdgpu_mem_info_vram_used_show+0x1e/0x40 [amdgpu]
->>> >     dev_attr_show+0x1d/0x40
->>> >     kernfs_seq_show+0x27/0x30
->>> >
->>> >By returning 0 for NULL managers, we allow callers to safely query
->>> >usage information even when the underlying resource manager is not
->>> >available, which is the expected behavior for devices without
->>> >dedicated VRAM like
+>>>> -----Original Message-----
+>>>> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
+>>>> Jesse.Zhang
+>>>> Sent: Monday, October 13, 2025 7:25 AM
+>>>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+>>>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+>>>> <Christian.Koenig@amd.com>; Zhang, Jesse(Jie) <Jesse.Zhang@amd.com>;
+>>>> Yang, Philip <Philip.Yang@amd.com>; Zhang, Jesse(Jie)
+>>>> <Jesse.Zhang@amd.com>
+>>>> Subject: [PATCH] drm/ttm: Add NULL check in
+>>>> ttm_resource_manager_usage
+>>>>
+>>>> Add a NULL pointer check in ttm_resource_manager_usage() to prevent
+>>>> kernel NULL pointer dereferences when the function is called with an
+>>>> uninitialized resource manager.
+>>>>
+>>>> This fixes a kernel OOPS observed on APU devices where the VRAM
+>>>> resource manager is not fully initialized, but various sysfs and
+>>>> debug interfaces still attempt to query VRAM usage statistics.
+>>>>
+>>>> The crash backtrace showed:
+>>>>    BUG: kernel NULL pointer dereference, address: 00000000000008f8
+>>>>    Call Trace:
+>>>>     amdttm_resource_manager_usage+0x1f/0x40 [amdttm]
+>>>>     amdgpu_mem_info_vram_used_show+0x1e/0x40 [amdgpu]
+>>>>     dev_attr_show+0x1d/0x40
+>>>>     kernfs_seq_show+0x27/0x30
+>>>>
+>>>> By returning 0 for NULL managers, we allow callers to safely query
+>>>> usage information even when the underlying resource manager is not
+>>>> available, which is the expected behavior for devices without
+>>>> dedicated VRAM like
 >>> APUs.
->>> >
->>> >Suggested-by: Philip Yang <Philip.Yang@amd.com>
->>> >Signed-off-by: Jesse Zhang <jesse.zhang@amd.com>
->>> >---
->>> > drivers/gpu/drm/ttm/ttm_resource.c | 3 +++
->>> > 1 file changed, 3 insertions(+)
->>> >
->>> >diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
->>> >b/drivers/gpu/drm/ttm/ttm_resource.c
->>> >index e2c82ad07eb4..e4d45f75e40a 100644
->>> >--- a/drivers/gpu/drm/ttm/ttm_resource.c
->>> >+++ b/drivers/gpu/drm/ttm/ttm_resource.c
->>> >@@ -587,6 +587,9 @@ uint64_t ttm_resource_manager_usage(struct
->>> >ttm_resource_manager *man)  {
->>> >       uint64_t usage;
->>> >
->>> >+      if (!man)
->>> >+              return 0;
->>> >+
->>> >       spin_lock(&man->bdev->lru_lock);
->>> >       usage =3D man->usage;
->>> >       spin_unlock(&man->bdev->lru_lock);
->>> >--
->>> >2.49.0
+>>>>
+>>>> Suggested-by: Philip Yang <Philip.Yang@amd.com>
+>>>> Signed-off-by: Jesse Zhang <jesse.zhang@amd.com>
+>>>> ---
+>>>> drivers/gpu/drm/ttm/ttm_resource.c | 3 +++
+>>>> 1 file changed, 3 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c
+>>>> b/drivers/gpu/drm/ttm/ttm_resource.c
+>>>> index e2c82ad07eb4..e4d45f75e40a 100644
+>>>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>>>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>>>> @@ -587,6 +587,9 @@ uint64_t ttm_resource_manager_usage(struct
+>>>> ttm_resource_manager *man)  {
+>>>>       uint64_t usage;
+>>>>
+>>>> +      if (!man)
+>>>> +              return 0;
+>>>> +
+>>>>       spin_lock(&man->bdev->lru_lock);
+>>>>       usage = man->usage;
+>>>>       spin_unlock(&man->bdev->lru_lock);
+>>>> --
+>>>> 2.49.0
 >>>
 >>
+> 
 
