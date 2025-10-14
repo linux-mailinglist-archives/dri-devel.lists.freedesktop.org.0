@@ -2,125 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A683BD84A1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 10:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC78EBD84B6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 10:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76E9710E57E;
-	Tue, 14 Oct 2025 08:53:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 271DC10E57F;
+	Tue, 14 Oct 2025 08:54:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kTIbnxel";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SOSdCEFN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B2410E57E
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:53:36 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87Hgb018094
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:53:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- yu6GxXvjzVdp0jD9TyFSB0cQTPVuV4yy/C3ICodMY8c=; b=kTIbnxelhGa2sVP3
- boJK3HyeqmX/0HOgmXYWMij4nlauwxuwRmcj0aAOZC4nC4JsZAFPBu3yvdYA6Gjl
- aJPSbjTRO5XYviCOe3d/StKOp4eBS4kFaxp8IpxTRPa9EkjQhRE97dB3bco2DMyy
- ExLDNvHIFyeDsenozVaaiXx8hbeOVQkVIE+06H8xn0QlAnPwUFvtvhDDXpzbJJUQ
- RES2xTPr6phcaIik9jHxJXDZ694LxbumoYb98FK4U+Y6oFD4smz72AGvwcXiFbD2
- WD+GJ8WUBOOrW0qJQc2Wn1Tv9xMjgxPvsZtyrVRg2G5DU5HoODBTW92jlmzk1aSw
- ffoEog==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qferyt6f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:53:35 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-85bb4e88394so207575485a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 01:53:35 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A889810E57F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760432069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NAy88YMnGtIP/uqwpz5GQHTqHQIlvLAglo0Pv+LXXqc=;
+ b=SOSdCEFN3QajJOqwlvggNPfUIlnd8j9fknf8OMRbDdIQpUrQBXEXwL0ZE4Ad0AhaBHkdYO
+ RRbaOcf8xfSaA9XPbBSWIAY39OLIbr7XmqVrunqQi+CslHz7fqf6ss2rCQleQRX/x43wOV
+ W02+D2cVtdwqrfWHqVz2YAUa2AmaLyE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-185-62DyzaVHM0e756IlHWceTw-1; Tue, 14 Oct 2025 04:54:28 -0400
+X-MC-Unique: 62DyzaVHM0e756IlHWceTw-1
+X-Mimecast-MFC-AGG-ID: 62DyzaVHM0e756IlHWceTw_1760432067
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-426ce339084so3752393f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 01:54:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760432014; x=1761036814;
+ d=1e100.net; s=20230601; t=1760432067; x=1761036867;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yu6GxXvjzVdp0jD9TyFSB0cQTPVuV4yy/C3ICodMY8c=;
- b=Jgf2DGNtZw2Zr2501bYlNZyZVFdQDtQT+HZcEtaAIcXSkueGLkGyPQcb/DnXiL2Jzt
- mnIky1mUBKjtaTht+rEML5Idnw3He1/YNMdLpXCK7n6eJLXMwy3oAVVHpzicUJAU7mCp
- M0iHrEJiM+eAdrw/8gCbmqEkYHHNf2o4Dkc+JrDRVf3ykdtL7ZRLKSKIZp4pZbgAt8Yq
- Bi6Eue0o4j/NsGW3ComhP5odw3dBpDhjvOqxjnL1ijU4dowWv/V2J6f8Tu/UuvCDP4Qr
- uPL/gC84q7GLZV7FtNiYFBFAqZSRYLYngM16TP7tY17tgkpOQ8jzfUeozienD9yhaTTQ
- FCFA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUlKqT9QNKFwaWQ94060p9cz6w71HNl0iX+Jw66zDUYNDYQt8B9FQi/GI0H/bR1+CRWVbyqzwWO1PA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdMHxuG64QtlcOqAqbN7mg1yaUCVj70lL2Dn+8hpg0e7W4XR54
- ZmrV5wfn8qcTZbXfuVkN9MAqdf44SPLz5lVF0mK+2rYAnqbQJTbDmGsphZumHS56OTm5NnTVsFX
- IdfbYvSrLfxDO7W73qhtAirpG1CUdO/y495KwZ5Q723gsFEG00VpF7VC9UwTAcbQQ8o253S0=
-X-Gm-Gg: ASbGncvcA28TwiGNp9/65B2kU3yoZb9YRHsH0QK9q96zDmdqXXXfr+7nlVp52zZL/Nd
- fS2+kIbsCqQnoysMrUbmtnOwHb5Rm7w8OKM0rVMhbDMGWONfs1ayRSUHd/JyXhSPybv+Ld+McGN
- W8JtFYUdiRCVF+MvZMzQZHfrm3jNyM1I9wL5tMsIbZmmf6v5pvGdDezUJLMyH9E4kJyX5fKKmCv
- 3sqci+ngr6XkB6op8+DnnvzMGpV5jtKUUIQzCbYVJfxhQ8extUdASR6ZZGSinYAyIGg2KrVksBh
- LD09Oc4u/Pq3aAsTy3fyRG8zmVrjmtUcEZpqoYpkO9Fuy0NRwoK1qutOJa0c0xuc1WS5G6nE36q
- OIwhvQpEmzo50OUAs/zbF9w==
-X-Received: by 2002:a05:620a:372c:b0:86b:12e2:28d1 with SMTP id
- af79cd13be357-88352d954aemr2148348585a.7.1760432014513; 
- Tue, 14 Oct 2025 01:53:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGm4ixM4YDDyNB4X3gy92GuzgILUxOgPYXhz9lsuSEFNcMwwXiOp3PYD1SDSeDU0RrlNXPctQ==
-X-Received: by 2002:a05:620a:372c:b0:86b:12e2:28d1 with SMTP id
- af79cd13be357-88352d954aemr2148348085a.7.1760432014042; 
- Tue, 14 Oct 2025 01:53:34 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b55d8c12b4csm1136163866b.56.2025.10.14.01.53.30
+ bh=NAy88YMnGtIP/uqwpz5GQHTqHQIlvLAglo0Pv+LXXqc=;
+ b=LAKD9meE6ox6KqY4byzYMTpBjwzxXFNZo53Pv3ku77r9GbflCi/LC2O5Se7HNXELoa
+ nGaidzekcIc7wsY5hrtvESj54oGGOgCvUDR3pXsNNDhu5YqLuf2k73RurEjN0SIAAdbX
+ ayKkRb3lxef4AG+ygQHni9tGcmzU77q8oHkcBSTU7/LtQw0/CzMmWGXBrUanlL+AX70l
+ Yye3QUmNp98sZoI6VRgW6hdDGsD1pPz4Rm7cskGSPYJ6PbpYA44Qw1qeP6IjOJwrDE//
+ ZKUyNc9MJWi0TKP4i+/YyI8sYkN36YtvqAiFjxz4iODwuMvqrs34iRzJ3WineV2IaeNC
+ +GVA==
+X-Gm-Message-State: AOJu0YzUzak0Tpi1lm1XST3FHDOBln/0broSWmPA3MKNzFlg/SMhUOjd
+ EcH0A/SIoU6VCWucmbryE/qHhw5+BbeZWkb/LwZAk4cO3iKVu2ne7GOy7c3cId+W6fEacql1mZE
+ mBJSK2ofT4Po3zpf8lsrhe7egDO0h76Qq9j9oAZyfyd6zsvI8qAeEKXM44WRQ0t0ZAx4oTw==
+X-Gm-Gg: ASbGncvfWSWGmYJDdDGqj99SU/buK9iclm8/4Ji6BTrui9KtV5UCS+he5OWBpyCXiv4
+ heHrX9vSSUWlcjOCoW/Un+e+VBu6sBQiuotPhjDtOHi20tafiPoZnph2eRoOQ1tfgP8COh66tuv
+ 3Q+F//H8qWPVLZ1Lx/AiJz9BtrsP967UnfnuExMUG8mesGillQTvmtN+OPO1wos7XhfwCwa9hNJ
+ B/AINJ4hO6pFvNjumBHnqpRgEKpsKM3A1V4mJjMHE38vIsHEZDMuee9f78cwoxai/JdXT4ISaFp
+ eQm63qSdALhcD7blfWT2+p0Q5LgBUGOReTBaPuvW0lhBZzehMDvB8nXPauCUGCBowWjt9JGzs6O
+ OgUwz
+X-Received: by 2002:a05:6000:240d:b0:425:7c3c:82cf with SMTP id
+ ffacd0b85a97d-4266e7cdc8fmr17010193f8f.11.1760432066928; 
+ Tue, 14 Oct 2025 01:54:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEsn0T1UJGNN+DMCPRU7lJk5Itt5x7z0YHqju+V9yATaC5KHWal8J0l4vDY6qI1Yqyz0I9Uyg==
+X-Received: by 2002:a05:6000:240d:b0:425:7c3c:82cf with SMTP id
+ ffacd0b85a97d-4266e7cdc8fmr17010170f8f.11.1760432066481; 
+ Tue, 14 Oct 2025 01:54:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-426ce5e833dsm22538021f8f.53.2025.10.14.01.54.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 01:53:33 -0700 (PDT)
-Message-ID: <40a9643d-01b3-434d-9163-da35c2e469b4@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 10:53:30 +0200
+ Tue, 14 Oct 2025 01:54:26 -0700 (PDT)
+Message-ID: <34466c59-cea5-4a09-9dfa-83e25dbc49eb@redhat.com>
+Date: Tue, 14 Oct 2025 10:54:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] arm64: dts: qcom: qcs8300: add Display Serial
- Interface device nodes
-To: Ayushi Makhija <quic_amakhija@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, robdclark@gmail.com, sean@poorly.run,
- marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
- robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonathan@marek.ca, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, quic_rajeevny@quicinc.com,
- quic_vproddut@quicinc.com
-References: <20251006013924.1114833-1-quic_amakhija@quicinc.com>
- <20251006013924.1114833-7-quic_amakhija@quicinc.com>
- <fsqytqhe72bgmloyzm6khoprq6bysf52ufz6oi6epos7uadyho@wg4rxs6f2xyl>
- <374098ea-23f1-4d1a-8f70-313a7e384f8d@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <374098ea-23f1-4d1a-8f70-313a7e384f8d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2] drm/ast: Blank with VGACR17 sync enable, always clear
+ VGACRB6 sync off
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ dianders@chromium.org, nbowler@draconx.ca
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+References: <20251014084743.18242-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20251014084743.18242-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: pyki8P3h5szuwU8cDaX_NnNbf_yAeJG8mrGSR58i-zw_1760432067
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=R64O2NRX c=1 sm=1 tr=0 ts=68ee0f8f cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=BM6OdSh4NsqE7HirI3EA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: DQdFPKulghF7zrwy5e6cSHsaAS6ua33U
-X-Proofpoint-ORIG-GUID: DQdFPKulghF7zrwy5e6cSHsaAS6ua33U
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX/knvSj7mAAV7
- dUkAHDLcqUavl+y2rJtdXxjXKdPLCPbOoGgMjh2rl3uCDIg/keosPauDy/5Igf6M0elw4hKFLCS
- hi1QZ614SY/RWFIBUAw3UHcn2qFp2WE2yQxFgvaY/zuy3RnJCssB/OYch1ucp1EEJ9uqp+QeCZF
- IdOhunUJKzT3g+vZ+AXIei2QC8sYdq+PIwJq/RQabcdWFleuB7KDYxGuU6fwYs4vib0nHrxnFjH
- 63Cb2UHfI6vownrWRruZU4PIzQGpSj188+2QmThO/L4cCL2q9mrE9vh+EF/EfS/es+Yv5GmlBn/
- Jg4A5MDsHBKn6KCiAEK0nDNF+uWOaoapH8DzMBH03XjelwHiEE9QMuViSPbZpsxy0TqDaCuyr4J
- BkqpaB6pGZcbM4wXfp6kkwoyqtQK2Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,33 +102,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/14/25 8:24 AM, Ayushi Makhija wrote:
-> On 10/6/2025 3:44 PM, Dmitry Baryshkov wrote:
->> On Mon, Oct 06, 2025 at 07:09:23AM +0530, Ayushi Makhija wrote:
->>> Add device tree nodes for the DSI0 controller with their corresponding
->>> PHY found on Qualcomm QCS8300 SoC.
->>>
->>> Signed-off-by: Ayushi Makhija <quic_amakhija@quicinc.com>
->>> ---
->>>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 98 ++++++++++++++++++++++++++-
->>>  1 file changed, 97 insertions(+), 1 deletion(-)
->>>
->>> +
->>> +				mdss_dsi_opp_table: opp-table {
->>> +					compatible = "operating-points-v2";
->>> +
->>> +					opp-358000000 {
->>> +						opp-hz = /bits/ 64 <358000000>;
->>> +						required-opps = <&rpmhpd_opp_svs_l1>;
->>> +					};
->>
->> Does it really support only a single freq?
->>
+On 14/10/2025 10:46, Thomas Zimmermann wrote:
+> Blank the display by disabling sync pulses with VGACR17<7>. Unblank
+> by reenabling them. This VGA setting should be supported by all Aspeed
+> hardware.
 > 
-> Hi Dmitry, yes it support only single opp frequency, I got this information from ipcat sw for monaco, similar
-> we have used for LeMans.
+> Ast currently blanks via sync-off bits in VGACRB6. Not all BMCs handle
+> VGACRB6 correctly. After disabling sync during a reboot, some BMCs do
+> not reenable it after the soft reset. The display output remains dark.
+> When the display is off during boot, some BMCs set the sync-off bits in
+> VGACRB6, so the display remains dark. Observed with  Blackbird AST2500
+> BMCs. Clearing the sync-off bits unconditionally fixes these issues.
+> 
+> Also do not modify VGASR1's SD bit for blanking, as it only disables GPU
+> access to video memory.
 
-I can attest to that, even though I'm a little surprised that's
-the case
+Thanks, it looks good to me.
 
-Konrad
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+> 
+> v2:
+> - init vgacrb6 correctly (Jocelyn)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: ce3d99c83495 ("drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers")
+> Tested-by: Nick Bowler <nbowler@draconx.ca>
+> Reported-by: Nick Bowler <nbowler@draconx.ca>
+> Closes: https://lore.kernel.org/dri-devel/wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi/
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.7+
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c | 18 ++++++++++--------
+>   drivers/gpu/drm/ast/ast_reg.h  |  1 +
+>   2 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 6b9d510c509d..9b6a7c54fbb5 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -836,22 +836,24 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+>   static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>   {
+>   	struct ast_device *ast = to_ast_device(crtc->dev);
+> +	u8 vgacr17 = 0x00;
+> +	u8 vgacrb6 = 0xff;
+>   
+> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0x00);
+> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0x00);
+> +	vgacr17 |= AST_IO_VGACR17_SYNC_ENABLE;
+> +	vgacrb6 &= ~(AST_IO_VGACRB6_VSYNC_OFF | AST_IO_VGACRB6_HSYNC_OFF);
+> +
+> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
+> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
+>   }
+>   
+>   static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>   {
+>   	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+>   	struct ast_device *ast = to_ast_device(crtc->dev);
+> -	u8 vgacrb6;
+> +	u8 vgacr17 = 0xff;
+>   
+> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
+> -
+> -	vgacrb6 = AST_IO_VGACRB6_VSYNC_OFF |
+> -		  AST_IO_VGACRB6_HSYNC_OFF;
+> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
+> +	vgacr17 &= ~AST_IO_VGACR17_SYNC_ENABLE;
+> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
+>   
+>   	/*
+>   	 * HW cursors require the underlying primary plane and CRTC to
+> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
+> index e15adaf3a80e..30578e3b07e4 100644
+> --- a/drivers/gpu/drm/ast/ast_reg.h
+> +++ b/drivers/gpu/drm/ast/ast_reg.h
+> @@ -29,6 +29,7 @@
+>   #define AST_IO_VGAGRI			(0x4E)
+>   
+>   #define AST_IO_VGACRI			(0x54)
+> +#define AST_IO_VGACR17_SYNC_ENABLE	BIT(7) /* called "Hardware reset" in docs */
+>   #define AST_IO_VGACR80_PASSWORD		(0xa8)
+>   #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
+>   #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
+
