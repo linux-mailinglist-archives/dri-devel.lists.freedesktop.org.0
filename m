@@ -2,108 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F6DBD9651
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37024BD96C8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:44:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5D510E5F4;
-	Tue, 14 Oct 2025 12:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016B410E285;
+	Tue, 14 Oct 2025 12:44:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j904v1zi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dxRmkO54";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F33410E5F2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:40:05 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-46e48d6b95fso46474585e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1760445604; x=1761050404; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1RYyzsf7oZTpApmmhnHm39MnizxtLSKAObcAdZ76I/g=;
- b=j904v1zi/Ctmb/sHWSmFDCYtvX8ohjXjofk6y4w5LqFxdgf0gZgpUQBuORfHC8ybg3
- twtPs3FgCBvVOQzp3ZsAe1OQqEVThQsj4WaX5v/j2gYP/eq5yUQVwzY4tyesngk29p3v
- bW10wx1icpY4i0bVgP8Q+OOkIF4luYX0Y8eeOXiCSJH2ZvG+/FiXAQ5/rEQFVpdb8MGG
- 0uALC6T6ga5XWItLGX6lIlYrtIpzuPo6ejEV/Yje2jmX6giVWo0vJpyN2uYQDZFSvAw/
- YYqjpbvOc6VZ+he5muQej3EeYQxzR7Ua0IDniCaGLkMHtFyG5L/2cu1FFnJElBYF98lG
- ZzWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760445604; x=1761050404;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1RYyzsf7oZTpApmmhnHm39MnizxtLSKAObcAdZ76I/g=;
- b=RNWqPUp2gdhMAO1qItHKo1XZyhnQZiZKyFpsnMPzjDdgN9omGATOTYjzjd/DBvEUGf
- 14OCOTRbG5SWngcPhhrpfStZ6DSe8Qc/as7dTaYYpI1u+bfy0Zg21Kf7dYzs36+W1Ate
- gM/j5BhsBO37svxnE9kkyyCc6qK9NYkwEpIGSRTg6UlE9etOLhup1sUmNQC16rEXHh3C
- Jycq80GyJhWsgWNexYoUGS7h4Ubb2NuXSHcLaK38AwqKpn6wNDBD+W3UQ5MeguHwy/62
- 6Sa01qdFYocWiX2IbqUevhmp538Pnry+8nJjipBY6KLp/YJWMqR22pldT5byAby0rwdb
- BWzw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX8VWqWT7FIF85T4uUkKaKiY31yWCTyA4RuejywJsLEudH9PMvYvgG2YdCNBMB/sKjWclKAYS+VA7U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHC//W66DQJTLhBV3Y2jJWSwuHufZ05hiU4uigDUQ+nVe6ED7M
- N30na0VbQ59rPTU4HhE3B92Vym9a8hSOfRCcKUWwnb2I2TeNpXLwV7ev01cM6/WESR0=
-X-Gm-Gg: ASbGncua99bhGRebfSQkps2kRhfoBA2BvX2bfLhKyvxnmTlLyXBGdGoNWKSPar1Kl5U
- DEbXJsVjTLmIh5y6lYo7Lw/yL9ydrF1f4gOEh4xczwWeMqgPZmVmdm4Wg83+hzuN4qitgKWlYx4
- AG53e8yu07tzc5hrDGnsP7YE2phVNmjwr3BwTKIpkeILpVa8oiBlkEoQL6MoxG2yUK9cJ+FP4Ib
- I0N4gr4lTnKb/jdE9oKUsA4Y6AS30NG5y/ienylhjUoBe3/gtNvZv+bOgaYmtaJXEScobrcxUVw
- 0cVQleyCWnD2TpaLHxmoJkvZ8Uy+YRb92seTEqv6//gvrHRyxIuGsLOCZ1t5VDwwu2ssmP0zCHj
- O8XkUTJJFI8Rno7nIQ/c+cR8cG8LNJOWlwc4uFqWsBH330VF3gpjgam1VaNt6ubt7
-X-Google-Smtp-Source: AGHT+IEf7Z8/P3u133rQ5LFYuWk/L8zLU2JN4M/uTzSeOh4jfJpa55YeNQBn0KZm+7kKT+tReAAC5Q==
-X-Received: by 2002:a05:600c:a402:b0:46e:4705:4958 with SMTP id
- 5b1f17b1804b1-46fa9b9a362mr150432245e9.30.1760445603208; 
- Tue, 14 Oct 2025 05:40:03 -0700 (PDT)
-Received: from hackbox.lan ([86.121.7.169]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb482b9easm245813815e9.1.2025.10.14.05.40.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 05:40:02 -0700 (PDT)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Tue, 14 Oct 2025 15:38:32 +0300
-Subject: [PATCH v2 7/7] soc: qcom: ubwc: Add configuration Glymur platform
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251014-glymur-display-v2-7-ff935e2f88c5@linaro.org>
-References: <20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org>
-In-Reply-To: <20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBB710E285;
+ Tue, 14 Oct 2025 12:44:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id BAE9762889;
+ Tue, 14 Oct 2025 12:44:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3621C4CEE7;
+ Tue, 14 Oct 2025 12:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760445841;
+ bh=/tXEkBV2iz6VIBxhFaqv+T+Om6XqiroS3jlzqMPzr7k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dxRmkO541/EHC4Q2cqeAFfz8gm88AZdpTPJSlXAulRZhX0venAuYbb/iSkyCZREtT
+ C5JGgvwTCDbvLkeOOsDEKk1h+tYXp67GJ4d2nLjbsirGWWecG9SPOon/ziGm5HL70k
+ aJ5r7SyidsW2sp/mJfdDoL1sflQE8QcI/E7NotdNBaC/SiIpuOF8OYReJGskFT9R6Y
+ xYpGfj2ndPjQCgtFq8V4KgtBnA3eYPEbzP9wnJi6b4HypRvkyY6vaKUB/3XCHUfbKi
+ i5qAWfahu1WlH5/65MQCbo2IbJY+ylmDK9NXQI1uEt5vx52js8gnIvddcVWxI+fqLh
+ hDvmXlZwdrmNQ==
+Date: Tue, 14 Oct 2025 14:43:58 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1513; i=abel.vesa@linaro.org; 
- h=from:subject:message-id;
- bh=mQsq9Lyl9Xj4ieWxCs4ifLYeBM7hE4agqANYBsIaYvs=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo7kSLNYRKifdBgcF3xKNW0WLXs4gtszg2kFZsA
- pL/BdVpBNaJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaO5EiwAKCRAbX0TJAJUV
- VvKnD/sFavrflS06oimK1daRufz4+wRv0bIIBt/XB5fqDqKLrMdYTIA7A5Fsj7R08LRp5BTAcrp
- BJm0xLXVWeimbSlBheggj6qzBsm49RkBN4ZnBmdBPhiLMmzhydaU1Je7u8JUl7SoMX/AWYqBi0a
- uesyngx3xE97NQlls+wJmmzieK/dsUGa5VBFLlqh0OSNfX7cOCAWbYCePIb6bG9pWQuEH9beBBL
- p3n/QtpliEJl2jHk25LUUD41u8jOk+CV59HQdrnZpdMjSXV36M2sZfGpmOcHESc+mYACbCaQPZt
- TUC14Oy+kID1GoFwiPSlZsDx1u1dwfpJ/qjBtlP1Wbg8izyPK0tISJDXjDpJuw4hv1pG0f+w21t
- SPRTSVVHbBTDDgFAkuHREGYJnJJtmj5R+5OrYeW5ovdMYO6bYwbw/4eARHLDEHLjJ9N4ODcwm6F
- FGDbeAzXZGGpLN6oR7ZYAE2p41SYzHOy3YvTOHXIhp2S2PxUqw3xFPiuOXWtv9hmh/D2MkUBb2O
- 55CEQyxkyQ6eTLUZeni7/5amUjQVto2+Ll2kZ5pINNLSzcJcR4SDFJvRh8mz9bqKNjtvq8W7Z0m
- KrBE/UfUAoDweX0ZAdmEiBfuJ4i2uLRPvCwxwpmr94rCTlZehiCcj/iXvvRPyEZ9bjGHVyIIwLe
- Uu9CvVduMzdmKSg==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <5cc5l2dihgdbgnwyugelwrklpaiiy5yaczqllu4bi6asvlt354@kib3flskh34g>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
+ <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+ <20250925-didactic-spiked-lobster-fefabe@penduick>
+ <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
+ <20251003-primitive-sepia-griffin-cfca55@houat>
+ <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="sfmxdzujh2ysmgjl"
+Content-Disposition: inline
+In-Reply-To: <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,43 +87,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe the Universal Bandwidth Compression (UBWC) configuration
-for the new Glymur platform.
 
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- drivers/soc/qcom/ubwc_config.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+--sfmxdzujh2ysmgjl
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+MIME-Version: 1.0
 
-diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
-index 15d373bff231d770e00fe0aee1b5a95c7b8a6305..7cca2afb68e3e9d33f3066f1deb3b9fcc01641a1 100644
---- a/drivers/soc/qcom/ubwc_config.c
-+++ b/drivers/soc/qcom/ubwc_config.c
-@@ -218,11 +218,23 @@ static const struct qcom_ubwc_cfg_data x1e80100_data = {
- 	.macrotile_mode = true,
- };
- 
-+static const struct qcom_ubwc_cfg_data glymur_data = {
-+	.ubwc_enc_version = UBWC_5_0,
-+	.ubwc_dec_version = UBWC_5_0,
-+	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
-+			UBWC_SWIZZLE_ENABLE_LVL3,
-+	.ubwc_bank_spread = true,
-+	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
-+	.highest_bank_bit = 16,
-+	.macrotile_mode = true,
-+};
-+
- static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
- 	{ .compatible = "qcom,apq8016", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,apq8026", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,apq8074", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,apq8096", .data = &msm8998_data },
-+	{ .compatible = "qcom,glymur", .data = &glymur_data},
- 	{ .compatible = "qcom,msm8226", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,msm8916", .data = &no_ubwc_data },
- 	{ .compatible = "qcom,msm8917", .data = &no_ubwc_data },
+On Fri, Oct 03, 2025 at 06:41:58PM +0300, Dmitry Baryshkov wrote:
+> On 03/10/2025 17:23, Maxime Ripard wrote:
+> > On Thu, Sep 25, 2025 at 05:55:06PM +0300, Dmitry Baryshkov wrote:
+> > > > > As we will be getting more and more features, some of the InfoFra=
+mes
+> > > > > or data packets will be 'good to have, but not required'.
+> > > >=20
+> > > > And drivers would be free to ignore those.
+> > > >=20
+> > > > > > So, no, sorry. That's still a no for me. Please stop sending th=
+at patch
+> > > > >=20
+> > > > > Oops :-)
+> > > > >=20
+> > > > > > unless we have a discussion about it and you convince me that i=
+t's
+> > > > > > actually something that we'd need.
+> > > > >=20
+> > > > > My main concern is that the drivers should not opt-out of the fea=
+tures.
+> > > > > E.g. if we start supporting ISRC packets or MPEG or NTSC VBI Info=
+Frames
+> > > > > (yes, stupid examples), it should not be required to go through a=
+ll the
+> > > > > drivers, making sure that they disable those. Instead the DRM fra=
+mework
+> > > > > should be able to make decisions like:
+> > > > >=20
+> > > > > - The driver supports SPD and the VSDB defines SPD, enable this
+> > > > >    InfoFrame (BTW, this needs to be done anyway, we should not be=
+ sending
+> > > > >    SPD if it's not defined in VSDB, if I read it correctly).
+> > > > >=20
+> > > > > - The driver hints that the pixel data has only 10 meaninful bits=
+ of
+> > > > >    data per component (e.g. out of 12 for DeepColor 36), the Sink=
+ has
+> > > > >    HF-VSDB, send HF-VSIF.
+> > > > >=20
+> > > > > - The driver has enabled 3D stereo mode, but it doesn't declare s=
+upport
+> > > > >    for HF-VSIF. Send only H14b-VSIF.
+> > > > >=20
+> > > > > Similarly (no, I don't have these on my TODO list, these are just
+> > > > > examples):
+> > > > > - The driver defines support for NTSC VBI, register a VBI device.
+> > > > >=20
+> > > > > - The driver defines support for ISRC packets, register ISRC-rela=
+ted
+> > > > >    properties.
+> > > > >=20
+> > > > > - The driver defines support for MPEG Source InfoFrame, provide a=
+ way
+> > > > >    for media players to report frame type and bit rate.
+> > > > >=20
+> > > > > - The driver provides limited support for Extended HDR DM InfoFra=
+mes,
+> > > > >    select the correct frame type according to driver capabilities.
+> > > > >=20
+> > > > > Without the 'supported' information we should change atomic_check=
+()
+> > > > > functions to set infoframe->set to false for all unsupported Info=
+Frames
+> > > > > _and_ go through all the drivers again each time we add support f=
+or a
+> > > > > feature (e.g. after adding HF-VSIF support).
+> > > >=20
+> > > >  From what you described here, I think we share a similar goal and =
+have
+> > > > somewhat similar concerns (thanks, btw, it wasn't obvious to me bef=
+ore),
+> > > > we just disagree on the trade-offs and ideal solution :)
+> > > >=20
+> > > > I agree that we need to sanity check the drivers, and I don't want =
+to go
+> > > > back to the situation we had before where drivers could just ignore
+> > > > infoframes and take the easy way out.
+> > > >=20
+> > > > It should be hard, and easy to catch during review.
+> > > >=20
+> > > > I don't think bitflag are a solution because, to me, it kind of fai=
+ls
+> > > > both.
+> > > >=20
+> > > > What if, just like the debugfs discussion, we split write_infoframe=
+ into
+> > > > write_avi_infoframe (mandatory), write_spd_infoframe (optional),
+> > > > write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) a=
+nd
+> > > > write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc=
+ > 8)
+> > > >=20
+> > > > How does that sound?
+> > >=20
+> > > I'd say, I really like the single function to be called for writing t=
+he
+> > > infoframes. It makes it much harder for drivers to misbehave or to sk=
+ip
+> > > something.
+> >=20
+> >  From a driver PoV, I believe we should still have that single function
+> > indeed. It would be drm_atomic_helper_connector_hdmi_update_infoframes's
+> > job to fan out and call the multiple callbacks, not the drivers.
+>=20
+> I like this idea, however it stops at the drm_bridge_connector abstractio=
+n.
+> The only way to handle this I can foresee is to make individual bridges
+> provide struct drm_connector_hdmi_funcs implementation (which I'm fine wi=
+th)
+> and store void *data or struct drm_bridge *hdmi_bridge somewhere inside
+> struct drm_connector_hdmi in order to let bridge drivers find their data.
 
--- 
-2.48.1
+Does it change anything? The last HDMI bridge should implement all the
+infoframes it supports. I don't think we should take care of one bridge
+with one infoframe type and some other with another?
 
+Maxime
+
+--sfmxdzujh2ysmgjl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaO5FigAKCRAnX84Zoj2+
+dsJzAYDfo6ak7CwTSlc4o7ed4CNYZ1L2YAhtwDiaUffpOTN/dXXcROoKHGgFXSFc
+pvUUc7gBf0zB/jj7BZZ+x1NVnSNKuXdhcpZfp7zgGMTrLBClgApQMqJ+ODdDvpPq
+p8TSGgZYKw==
+=gAKl
+-----END PGP SIGNATURE-----
+
+--sfmxdzujh2ysmgjl--
