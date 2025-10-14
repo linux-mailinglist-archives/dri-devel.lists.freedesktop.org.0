@@ -2,58 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C70BD7976
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 08:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8AFBD7982
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 08:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C2510E543;
-	Tue, 14 Oct 2025 06:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB1C10E546;
+	Tue, 14 Oct 2025 06:41:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mgbwXATM";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QiUNOnJw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B427010E543;
- Tue, 14 Oct 2025 06:40:45 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cm4NV4RDDz9stw;
- Tue, 14 Oct 2025 08:40:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1760424042; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ao1QYnXl0afaQE4jJtwt+ZNZZQ0pjGw7Wn9YrrZMLeU=;
- b=mgbwXATMiScfw2R1jTEnEjTXWNUJGBh7cKbsfzXHtobSWECnpPwbPRsOJlFdL+Ov3kIG2M
- Vo4iV959TlGTxcNSA96J+fkzxJl2+Zw3dK9FHT6vPFdyFw6lDfwm9Mar+mMMMXN+1aklZy
- TUZEv0MmknieiCWHA9vvUlPKHqU/fMwc4y8W+PLnR4we+kQMQbLzS2s/K0LGggy0nQUrS1
- QTxeehx27acBF3QEAS1GxGyYoBtPKo6sGlIUNgdH8Z1hKIagFd4KuAwIljxRriyPzJAiqY
- 2gHLTRgULsewLxx+3aPIh3PcRRO16e8lQyWIEnQArsDqXk1VMnyX7UxWimF/EA==
-Message-ID: <a96ee6f1fd195edfc2e0999ef6a9c212466e4ddc.camel@mailbox.org>
-Subject: Re: [PATCH 04/28] drm/sched: Implement RR via FIFO
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>
-Date: Tue, 14 Oct 2025 08:40:39 +0200
-In-Reply-To: <88775f5a-780a-4030-8750-1461fd22b501@igalia.com>
-References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-5-tvrtko.ursulin@igalia.com>
- <d5dc0f456835f86a6b67791e535f69ae72c7dff0.camel@mailbox.org>
- <88775f5a-780a-4030-8750-1461fd22b501@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D152010E545
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 06:41:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760424088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8eo0rdDzh07ckiTBotN/0G7m7UlosQASIFmbI9q9Ybw=;
+ b=QiUNOnJwusTbBsP4RTgJuZmkJoGpW7C889pryQUKpagMCG0Z2VKNOmOcnecb6F66IjXoMr
+ 8KPloS7sGBQGHqImKN64hWh8MZ7U78X6fviBWxIVrHnh00zd/+9UcLDnrvkK9SlckuI5eX
+ aqk4iQG+edjZZ3CteqAnQDA4arn9A8g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-35-fIWRr4WpOkuYa2Q_gZeuAQ-1; Tue, 14 Oct 2025 02:41:26 -0400
+X-MC-Unique: fIWRr4WpOkuYa2Q_gZeuAQ-1
+X-Mimecast-MFC-AGG-ID: fIWRr4WpOkuYa2Q_gZeuAQ_1760424086
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-426d2cd59e4so2872334f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 23:41:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760424085; x=1761028885;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8eo0rdDzh07ckiTBotN/0G7m7UlosQASIFmbI9q9Ybw=;
+ b=KTynKdbinWxcf+8y2wqSr/vrs4hsd3VEbRh7nTm/2TLIEPe1mO8dIMOqQOwfFHUKVc
+ bT/wmo7MQ5jmy520rb/+PzO2gSvM63cHdzKV54BcWQxCuxnMJxFwJdz2cyFrnlhKcl/f
+ vHiQSbNxM7uvGPOnuwh9NavEkSn36XXAfS0GKg8EyXZ6PIEyZDjBSCrR9V9tGMxRNWxv
+ lG9D91xbRjGh+NL7/ohDvCkZXa6g8MvDBlePFBsr2C3HIDarxHNgnCqtPyhwaY+yy+yK
+ I90WnOkNoDo4UgErpljgPtNiBkMUgpUraeb0qfEl8IOKUKyuw6+JE+fCyRwQmFr5sAu5
+ V/dA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVnYY517od+AEOeW+sImLvy6+ss3BWaIDH3ieUwXK2r3yAv512eQh70pr7TjW6I00oSw0mnyimAK3w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/TbiTTPD2DDt+OvSyS5mye8j2KneTTHmRO1bJF0n8WDotIxSn
+ 4KJEE2gN58Lx7YvdHiTVMk9DBhS25yjZk+irkW/y8qsEjJ+EZlSRebKkooaNcAK3v1vbZnctbRf
+ D5/BhnfUxyW2iRmntN//ejdDCVgt82rasXF3gXTZFTvoAlbrDPqcn9i1HTMLj0PthjdleYw==
+X-Gm-Gg: ASbGncspR0AsLhT9UdJ+10Zoi7npvbiD6cZc5yo1JmQvln7peU/qQTUca/bKBDTwbqF
+ DuT9HP8f0ioWNkARIvj6dzvu0ny7dHIp6dg6miN8GcpN0ZoTfGfT6t/LLEVpZDPwEhXTKh+70Zu
+ NbTT2llxs0TnAWJYBfvgETJo//MNBaaM/mF9Xvo3pQHkNrWNetOQEzQI+otBPYjrjqCJNPO53Vu
+ qcST8xE+AH472IwSPCtIT94hRi3mI+arQff1D6t0D1MMup5Vl9W00e0zKDixzPezl181xqOAKGU
+ Dt6UQX3S/nklCAhzAeEUT2mJCVnHPHo8cM/JdTRRB5+JLsSivrYxD/WmwfSq+6jhX9ApV6RoBOe
+ oI335AQYAjCd1XQ==
+X-Received: by 2002:a5d:5d86:0:b0:3eb:4e88:585 with SMTP id
+ ffacd0b85a97d-4266e8f7f58mr14331631f8f.29.1760424085626; 
+ Mon, 13 Oct 2025 23:41:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVQ04e7UfQsRRayb/A53UoKDUPQdS7WxAqx3NLzVujqatyY5Y+mwqkqiVt78YRvyiQ00wF5w==
+X-Received: by 2002:a5d:5d86:0:b0:3eb:4e88:585 with SMTP id
+ ffacd0b85a97d-4266e8f7f58mr14331606f8f.29.1760424085157; 
+ Mon, 13 Oct 2025 23:41:25 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb
+ ([2a02:810d:7e01:ef00:ff56:9b88:c93b:ed43])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46fb4982c10sm217369235e9.5.2025.10.13.23.41.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Oct 2025 23:41:24 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] rust: drm: remove unneeded handling for config DRM_LEGACY
+Date: Tue, 14 Oct 2025 08:41:20 +0200
+Message-ID: <20251014064120.263455-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-X-MBO-RS-META: i3fidhb9gb463nta41apapqt8bgf8dwt
-X-MBO-RS-ID: c51949855d8a431754c
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 67bVi0zv1H_I0xgKqUCk9dwBEtZvRwLmV4V2IiFtzsk_1760424086
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,370 +104,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2025-10-11 at 14:30 +0100, Tvrtko Ursulin wrote:
->=20
-> On 10/10/2025 11:18, Philipp Stanner wrote:
-> > On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
-> > > Round-robin being the non-default policy and unclear how much it is u=
-sed,
-> > > we can notice that it can be implemented using the FIFO data structur=
-es if
-> > > we only invent a fake submit timestamp which is monotonically increas=
-ing
-> > > inside drm_sched_rq instances.
-> > >=20
-> > > So instead of remembering which was the last entity the scheduler wor=
-ker
-> > > picked we can simply bump the picked one to the bottom of the tree, w=
-hich
-> > > ensures round-robin behaviour between all active queued jobs.
-> > >=20
-> > > If the picked job was the last from a given entity, we remember the
-> > > assigned fake timestamp and use it to re-insert the job once it re-jo=
-ins
-> > > the queue. This ensures job neither overtakes all already queued jobs=
-,
-> >=20
-> > s/job/the job
->=20
-> Done.
->=20
-> >=20
-> > > neither it goes last. Instead it keeps the position after the current=
-ly
-> > > queued jobs and before the ones which haven't yet been queued at the =
-point
-> > > the entity left the queue.
-> >=20
-> > I think I got how it works. If you want you can phrase it a bit more
-> > direct that the "last_entity" field is only needed for RR.
->=20
-> I assume you mean rq->current_entity. I chose not to mention that since=
-=20
-> it only got replaced with rq->rr_ts. So I think focusing only on the=20
-> code removal (the next paragraph) is clearer.
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-OK, fine by me.
+Since commit 94f8f319cbcb ("drm: Remove Kconfig option for legacy support
+(CONFIG_DRM_LEGACY)"), the special handling in the rust drm code for the
+config DRM_LEGACY is not needed.
 
-Thx
-P.
+Remove the drm_legacy_fields macro and simply use bindings::drm_driver
+unconditionally.
 
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ rust/kernel/drm/device.rs | 33 +--------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
 
-> > > Advantage is that we can consolidate to a single code path and remove=
- a
-> > > bunch of code. Downside is round-robin mode now needs to lock on the =
-job
-> > > pop path but that should not be visible.
-> >=20
-> > s/visible/have a measurable performance impact
-> Done.
-> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > Cc: Danilo Krummrich <dakr@kernel.org>
-> > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: Philipp Stanner <phasta@kernel.org>
-> > > ---
-> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 51 ++++++++++-=
------
-> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 | 76 +=
-+----------------------
-> > > =C2=A0=C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 16 +++--
-> > > =C2=A0=C2=A03 files changed, 51 insertions(+), 92 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/d=
-rm/scheduler/sched_entity.c
-> > > index 5a4697f636f2..4852006f2308 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> > > @@ -456,9 +456,24 @@ drm_sched_job_dependency(struct drm_sched_job *j=
-ob,
-> > > =C2=A0=C2=A0	return NULL;
-> > > =C2=A0=C2=A0}
-> > > =C2=A0=20
-> > > +static ktime_t
-> > > +drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_ent=
-ity *entity)
-> > > +{
-> > > +	ktime_t ts;
-> > > +
-> > > +	lockdep_assert_held(&entity->lock);
-> > > +	lockdep_assert_held(&rq->lock);
-> > > +
-> > > +	ts =3D ktime_add_ns(rq->rr_ts, 1);
-> > > +	entity->rr_ts =3D ts;
-> > > +	rq->rr_ts =3D ts;
-> >=20
-> > This also updates / set the time stamp. Any idea for a better function
-> > name?
->=20
-> I renamed it to drm_sched_rq_next_rr_ts() wit the rationale that there=
-=20
-> is more "prior art" for "next" in function names to change some internal=
-=20
-> state.
->=20
-> > > +
-> > > +	return ts;
-> > > +}
-> > > +
-> > > =C2=A0=C2=A0struct drm_sched_job *drm_sched_entity_pop_job(struct drm=
-_sched_entity *entity)
-> > > =C2=A0=C2=A0{
-> > > -	struct drm_sched_job *sched_job;
-> > > +	struct drm_sched_job *sched_job, *next_job;
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	sched_job =3D drm_sched_entity_queue_peek(entity);
-> > > =C2=A0=C2=A0	if (!sched_job)
-> > > @@ -491,21 +506,21 @@ struct drm_sched_job *drm_sched_entity_pop_job(=
-struct drm_sched_entity *entity)
-> > > =C2=A0=C2=A0	 * Update the entity's location in the min heap accordin=
-g to
-> > > =C2=A0=C2=A0	 * the timestamp of the next job, if any.
-> > > =C2=A0=C2=A0	 */
-> > > -	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO) {
-> > > -		struct drm_sched_job *next;
-> > > +	next_job =3D drm_sched_entity_queue_peek(entity);
-> > > +	if (next_job) {
-> > > +		struct drm_sched_rq *rq;
-> > > +		ktime_t ts;
-> > > =C2=A0=20
-> > > -		next =3D drm_sched_entity_queue_peek(entity);
-> > > -		if (next) {
-> > > -			struct drm_sched_rq *rq;
-> > > -
-> > > -			spin_lock(&entity->lock);
-> > > -			rq =3D entity->rq;
-> > > -			spin_lock(&rq->lock);
-> > > -			drm_sched_rq_update_fifo_locked(entity, rq,
-> > > -							next->submit_ts);
-> > > -			spin_unlock(&rq->lock);
-> > > -			spin_unlock(&entity->lock);
-> > > -		}
-> > > +		spin_lock(&entity->lock);
-> > > +		rq =3D entity->rq;
-> > > +		spin_lock(&rq->lock);
-> > > +		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> > > +			ts =3D next_job->submit_ts;
-> > > +		else
-> > > +			ts =3D drm_sched_rq_get_rr_ts(rq, entity);
-> > > +		drm_sched_rq_update_fifo_locked(entity, rq, ts);
-> > > +		spin_unlock(&rq->lock);
-> > > +		spin_unlock(&entity->lock);
-> > > =C2=A0=C2=A0	}
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	/* Jobs and entities might have different lifecycles. Si=
-nce we're
-> > > @@ -612,9 +627,9 @@ void drm_sched_entity_push_job(struct drm_sched_j=
-ob *sched_job)
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0		spin_lock(&rq->lock);
-> > > =C2=A0=C2=A0		drm_sched_rq_add_entity(rq, entity);
-> > > -
-> > > -		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> > > -			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
-> > > +		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR)
-> > > +			submit_ts =3D entity->rr_ts;
-> > > +		drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0		spin_unlock(&rq->lock);
-> > > =C2=A0=C2=A0		spin_unlock(&entity->lock);
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
-/scheduler/sched_main.c
-> > > index 8b8c55b25762..8e62541b439a 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -185,7 +185,6 @@ static void drm_sched_rq_init(struct drm_sched_rq=
- *rq,
-> > > =C2=A0=C2=A0	spin_lock_init(&rq->lock);
-> > > =C2=A0=C2=A0	INIT_LIST_HEAD(&rq->entities);
-> > > =C2=A0=C2=A0	rq->rb_tree_root =3D RB_ROOT_CACHED;
-> > > -	rq->current_entity =3D NULL;
-> > > =C2=A0=C2=A0	rq->sched =3D sched;
-> > > =C2=A0=C2=A0}
-> > > =C2=A0=20
-> > > @@ -231,74 +230,13 @@ void drm_sched_rq_remove_entity(struct drm_sche=
-d_rq *rq,
-> > > =C2=A0=C2=A0	atomic_dec(rq->sched->score);
-> > > =C2=A0=C2=A0	list_del_init(&entity->list);
-> > > =C2=A0=20
-> > > -	if (rq->current_entity =3D=3D entity)
-> > > -		rq->current_entity =3D NULL;
-> > > -
-> > > -	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> > > -		drm_sched_rq_remove_fifo_locked(entity, rq);
-> > > +	drm_sched_rq_remove_fifo_locked(entity, rq);
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	spin_unlock(&rq->lock);
-> > > =C2=A0=C2=A0}
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0/**
-> > > - * drm_sched_rq_select_entity_rr - Select an entity which could prov=
-ide a job to run
-> > > - *
-> > > - * @sched: the gpu scheduler
-> > > - * @rq: scheduler run queue to check.
-> > > - *
-> > > - * Try to find the next ready entity.
-> > > - *
-> > > - * Return an entity if one is found; return an error-pointer (!NULL)=
- if an
-> > > - * entity was ready, but the scheduler had insufficient credits to a=
-ccommodate
-> > > - * its job; return NULL, if no ready entity was found.
-> > > - */
-> > > -static struct drm_sched_entity *
-> > > -drm_sched_rq_select_entity_rr(struct drm_gpu_scheduler *sched,
-> > > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq)
-> > > -{
-> > > -	struct drm_sched_entity *entity;
-> > > -
-> > > -	spin_lock(&rq->lock);
-> > > -
-> > > -	entity =3D rq->current_entity;
-> > > -	if (entity) {
-> > > -		list_for_each_entry_continue(entity, &rq->entities, list) {
-> > > -			if (drm_sched_entity_is_ready(entity))
-> > > -				goto found;
-> > > -		}
-> > > -	}
-> > > -
-> > > -	list_for_each_entry(entity, &rq->entities, list) {
-> > > -		if (drm_sched_entity_is_ready(entity))
-> > > -			goto found;
-> > > -
-> > > -		if (entity =3D=3D rq->current_entity)
-> > > -			break;
-> > > -	}
-> > > -
-> > > -	spin_unlock(&rq->lock);
-> > > -
-> > > -	return NULL;
-> > > -
-> > > -found:
-> > > -	if (!drm_sched_can_queue(sched, entity)) {
-> > > -		/*
-> > > -		 * If scheduler cannot take more jobs signal the caller to not
-> > > -		 * consider lower priority queues.
-> > > -		 */
-> > > -		entity =3D ERR_PTR(-ENOSPC);
-> > > -	} else {
-> > > -		rq->current_entity =3D entity;
-> > > -		reinit_completion(&entity->entity_idle);
-> > > -	}
-> > > -
-> > > -	spin_unlock(&rq->lock);
-> > > -
-> > > -	return entity;
-> > > -}
-> > > -
-> > > -/**
-> > > - * drm_sched_rq_select_entity_fifo - Select an entity which provides=
- a job to run
-> > > + * drm_sched_rq_select_entity - Select an entity which provides a jo=
-b to run
-> > > =C2=A0=C2=A0 *
-> > > =C2=A0=C2=A0 * @sched: the gpu scheduler
-> > > =C2=A0=C2=A0 * @rq: scheduler run queue to check.
-> > > @@ -310,8 +248,8 @@ drm_sched_rq_select_entity_rr(struct drm_gpu_sche=
-duler *sched,
-> > > =C2=A0=C2=A0 * its job; return NULL, if no ready entity was found.
-> > > =C2=A0=C2=A0 */
-> > > =C2=A0=C2=A0static struct drm_sched_entity *
-> > > -drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
-> > > -				struct drm_sched_rq *rq)
-> > > +drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
-> > > +			=C2=A0=C2=A0 struct drm_sched_rq *rq)
-> > > =C2=A0=C2=A0{
-> > > =C2=A0=C2=A0	struct rb_node *rb;
-> > > =C2=A0=20
-> > > @@ -1093,15 +1031,13 @@ void drm_sched_wakeup(struct drm_gpu_schedule=
-r *sched)
-> > > =C2=A0=C2=A0static struct drm_sched_entity *
-> > > =C2=A0=C2=A0drm_sched_select_entity(struct drm_gpu_scheduler *sched)
-> > > =C2=A0=C2=A0{
-> > > -	struct drm_sched_entity *entity;
-> > > +	struct drm_sched_entity *entity =3D NULL;
-> > > =C2=A0=C2=A0	int i;
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	/* Start with the highest priority.
-> > > =C2=A0=C2=A0	 */
-> > > =C2=A0=C2=A0	for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs=
-; i++) {
-> > > -		entity =3D drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO ?
-> > > -			drm_sched_rq_select_entity_fifo(sched, sched->sched_rq[i]) :
-> > > -			drm_sched_rq_select_entity_rr(sched, sched->sched_rq[i]);
-> > > +		entity =3D drm_sched_rq_select_entity(sched, sched->sched_rq[i]);
-> > > =C2=A0=C2=A0		if (entity)
-> > > =C2=A0=C2=A0			break;
-> > > =C2=A0=C2=A0	}
-> > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.=
-h
-> > > index fb88301b3c45..8992393ed200 100644
-> > > --- a/include/drm/gpu_scheduler.h
-> > > +++ b/include/drm/gpu_scheduler.h
-> > > @@ -94,7 +94,8 @@ struct drm_sched_entity {
-> > > =C2=A0=C2=A0	 * @lock:
-> > > =C2=A0=C2=A0	 *
-> > > =C2=A0=C2=A0	 * Lock protecting the run-queue (@rq) to which this ent=
-ity belongs,
-> > > -	 * @priority and the list of schedulers (@sched_list, @num_sched_li=
-st).
-> > > +	 * @priority, the list of schedulers (@sched_list, @num_sched_list)=
- and
-> > > +	 * the @rr_ts field.
-> > > =C2=A0=C2=A0	 */
-> > > =C2=A0=C2=A0	spinlock_t			lock;
-> > > =C2=A0=20
-> > > @@ -142,6 +143,13 @@ struct drm_sched_entity {
-> > > =C2=A0=C2=A0	 */
-> > > =C2=A0=C2=A0	enum drm_sched_priority=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 priority;
-> > > =C2=A0=20
-> > > +	/**
-> > > +	 * @rr_ts:
-> > > +	 *
-> > > +	 * Fake timestamp of the last popped job from the entity.
-> > > +	 */
-> > > +	ktime_t				rr_ts;
-> > > +
-> > > =C2=A0=C2=A0	/**
-> > > =C2=A0=C2=A0	 * @job_queue: the list of jobs of this entity.
-> > > =C2=A0=C2=A0	 */
-> > > @@ -239,8 +247,8 @@ struct drm_sched_entity {
-> > > =C2=A0=C2=A0 * struct drm_sched_rq - queue of entities to be schedule=
-d.
-> > > =C2=A0=C2=A0 *
-> > > =C2=A0=C2=A0 * @sched: the scheduler to which this rq belongs to.
-> > > - * @lock: protects @entities, @rb_tree_root and @current_entity.
-> > > - * @current_entity: the entity which is to be scheduled.
-> > > + * @lock: protects @entities, @rb_tree_root and @rr_ts.
-> > > + * @rr_ts: monotonically incrementing fake timestamp for RR mode
-> >=20
-> > nit: add a full stop '.', as most other docu lines have one
->=20
-> Done.
->=20
-> Regards,
->=20
-> Tvrtko
-> > > =C2=A0=C2=A0 * @entities: list of the entities to be scheduled.
-> > > =C2=A0=C2=A0 * @rb_tree_root: root of time based priority queue of en=
-tities for FIFO scheduling
-> > > =C2=A0=C2=A0 *
-> > > @@ -253,7 +261,7 @@ struct drm_sched_rq {
-> > > =C2=A0=20
-> > > =C2=A0=C2=A0	spinlock_t			lock;
-> > > =C2=A0=C2=A0	/* Following members are protected by the @lock: */
-> > > -	struct drm_sched_entity		*current_entity;
-> > > +	ktime_t				rr_ts;
-> > > =C2=A0=C2=A0	struct list_head		entities;
-> > > =C2=A0=C2=A0	struct rb_root_cached		rb_tree_root;
-> > > =C2=A0=C2=A0};
-> >=20
->=20
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index 3ce8f62a0056..a1d92d8922a4 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -16,37 +16,6 @@
+ };
+ use core::{alloc::Layout, mem, ops::Deref, ptr, ptr::NonNull};
+ 
+-#[cfg(CONFIG_DRM_LEGACY)]
+-macro_rules! drm_legacy_fields {
+-    ( $($field:ident: $val:expr),* $(,)? ) => {
+-        bindings::drm_driver {
+-            $( $field: $val ),*,
+-            firstopen: None,
+-            preclose: None,
+-            dma_ioctl: None,
+-            dma_quiescent: None,
+-            context_dtor: None,
+-            irq_handler: None,
+-            irq_preinstall: None,
+-            irq_postinstall: None,
+-            irq_uninstall: None,
+-            get_vblank_counter: None,
+-            enable_vblank: None,
+-            disable_vblank: None,
+-            dev_priv_size: 0,
+-        }
+-    }
+-}
+-
+-#[cfg(not(CONFIG_DRM_LEGACY))]
+-macro_rules! drm_legacy_fields {
+-    ( $($field:ident: $val:expr),* $(,)? ) => {
+-        bindings::drm_driver {
+-            $( $field: $val ),*
+-        }
+-    }
+-}
+-
+ /// A typed DRM device with a specific `drm::Driver` implementation.
+ ///
+ /// The device is always reference-counted.
+@@ -61,7 +30,7 @@ pub struct Device<T: drm::Driver> {
+ }
+ 
+ impl<T: drm::Driver> Device<T> {
+-    const VTABLE: bindings::drm_driver = drm_legacy_fields! {
++    const VTABLE: bindings::drm_driver = bindings::drm_driver {
+         load: None,
+         open: Some(drm::File::<T::File>::open_callback),
+         postclose: Some(drm::File::<T::File>::postclose_callback),
+-- 
+2.51.0
 
