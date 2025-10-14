@@ -2,57 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236B8BD8D12
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 12:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4F2BD8D53
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 12:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7177B10E211;
-	Tue, 14 Oct 2025 10:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A336710E1FF;
+	Tue, 14 Oct 2025 10:57:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="uQiy0j61";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="OP6eVhU1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B95510E207;
- Tue, 14 Oct 2025 10:53:30 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmB0720Ykz9tX0;
- Tue, 14 Oct 2025 12:53:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1760439207; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GBxqcVmtpBayhDTm7JzPNfHqID20T0/7XJvsPHNbjg=;
- b=uQiy0j61FYxky4gAqQp0HzpJP8h/Z7BP3EQe1oV92IOaBZwSNn720HLDProskPuO6zNHRv
- T4rPQ80nPpRcF/FPAGxOFNGb3fChXFX0iUiso6UqYsBjO0XcKnoRvcrAXP/PP0H5WNEtFE
- KXgsGp0wR23KLSYpo++IoOBVA7iNGlgzVevrCAUB49dpYUJ8Ayop98EXKxX08Vjh/2NfG3
- j6/su+JW82HyFwm+Mu+xaCHNIQmEdRfOf967k4xcPoGVC/sleRYFpUP2XmOFbLvz56IHIe
- +fsBPrOuK3m2stybUNeJXvVZi8fPS2bJk9itHxtLYCKZsDJ17eKQglHhG0MdsA==
-Message-ID: <618a50aabddace2531375bc18fb1ca9b00297490.camel@mailbox.org>
-Subject: Re: [PATCH 11/28] drm/sched: Favour interactive clients slightly
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Date: Tue, 14 Oct 2025 12:53:23 +0200
-In-Reply-To: <20251008085359.52404-12-tvrtko.ursulin@igalia.com>
-References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-12-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F001410E205
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 10:57:02 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59EAuJws1574212;
+ Tue, 14 Oct 2025 05:56:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1760439379;
+ bh=qi1LkwkemxDwRczDTwIi3saBfj0msSIBiXSKcB0bX6s=;
+ h=From:To:CC:Subject:Date;
+ b=OP6eVhU19QVRk99rI7gpL9pp//PAAPI/cypqKUF4HbEgIS+EA8yqn9r4+GG5v9yDY
+ CV4TGLfJ1UDiIEmbQCJRzO9RMdQSbeeLfndJtFk07ptRgmjuxYiiqdwMOHr2+KDE47
+ F1Jdr7zkUZ6+jDirOHm+JV9OI7td1n70Ak9WWwes=
+Received: from DLEE212.ent.ti.com (dlee212.ent.ti.com [157.170.170.114])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59EAuIjV3750010
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 14 Oct 2025 05:56:18 -0500
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 14 Oct
+ 2025 05:56:18 -0500
+Received: from fllvem-mr08.itg.ti.com (10.64.41.88) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 14 Oct 2025 05:56:18 -0500
+Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
+ by fllvem-mr08.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59EAuIJL2927094;
+ Tue, 14 Oct 2025 05:56:18 -0500
+Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+ by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 59EAuH3v009009;
+ Tue, 14 Oct 2025 05:56:17 -0500
+From: Meghana Malladi <m-malladi@ti.com>
+To: <horms@kernel.org>, <namcao@linutronix.de>, <jacob.e.keller@intel.com>,
+ <m-malladi@ti.com>, <christian.koenig@amd.com>,
+ <sumit.semwal@linaro.org>, <sdf@fomichev.me>,
+ <john.fastabend@gmail.com>, <hawk@kernel.org>, <daniel@iogearbox.net>,
+ <ast@kernel.org>, <pabeni@redhat.com>, <kuba@kernel.org>,
+ <edumazet@google.com>, <davem@davemloft.net>, <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: [PATCH net-next v3 0/6] Add AF_XDP zero copy support
+Date: Tue, 14 Oct 2025 16:26:06 +0530
+Message-ID: <20251014105613.2808674-1-m-malladi@ti.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MBO-RS-ID: 0caad1969b19553d187
-X-MBO-RS-META: 5e5awyn4f7diiicix6e56oem8qsyff6w
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,249 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
-> GPUs do not always implement preemption and DRM scheduler definitely
-> does not support it at the front end scheduling level. This means
-> execution quanta can be quite long and is controlled by userspace,
-> consequence of which is picking the "wrong" entity to run can have a
-> larger negative effect than it would have with a virtual runtime based CP=
-U
-> scheduler.
->=20
-> Another important consideration is that rendering clients often have
-> shallow submission queues, meaning they will be entering and exiting the
-> scheduler's runnable queue often.
->=20
-> Relevant scenario here is what happens when an entity re-joins the
-> runnable queue with other entities already present. One cornerstone of th=
-e
-> virtual runtime algorithm is to let it re-join at the head and rely on th=
-e
-> virtual runtime accounting and timeslicing to sort it out.
->=20
-> However, as explained above, this may not work perfectly in the GPU world=
-.
-> Entity could always get to overtake the existing entities, or not,
-> depending on the submission order and rbtree equal key insertion
-> behaviour.
->=20
-> Allow interactive jobs to overtake entities already queued up for the
-> limited case when interactive entity is re-joining the queue after
-> being idle.
->=20
-> This gives more opportunity for the compositors to have their rendering
-> executed before the GPU hogs even if they have been configured with the
-> same scheduling priority.
->=20
-> To classify a client as interactive we look at its average job duration
-> versus the average for the whole scheduler. We can track this easily by
-> plugging into the existing job runtime tracking and applying the
-> exponential moving average window on the past submissions. Then, all othe=
-r
-> things being equal, we let the more interactive jobs go first.
+This series adds AF_XDP zero coppy support to icssg driver.
 
-OK so this patch is new. Why was it added? The cover letter says:
+Tests were performed on AM64x-EVM with xdpsock application [1].
 
-"Improved handling of interactive clients by replacing the random noise
-on tie approach with the average job duration statistics."
+A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+for 64 byte packets. 1500 byte test seems to be limited by line
+rate (1G link) so no improvement seen there in packet rate
 
-So this is based on additional research you have done in the mean time?
-Does it change behavior significantly when compared to the RFC?
+Having some issue with l2fwd as the benchmarking numbers show 0
+for 64 byte packets after forwading first batch packets and I am
+currently looking into it.
 
-The firmware scheduler bros are not affected in any case. Still, I
-think that the RFC we discussed in the past and at XDC is now quite
-more different from the actual proposal in this v1.
+AF_XDP performance using 64 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		259		462		645
+txonly		350		354		760
+l2fwd 		178		240		0
 
-I suppose it's in general good for graphics applications.. what about
-compute, doesn't that have longer jobs? Probably still good for people
-who do compute on their productive system..
+AF_XDP performance using 1500 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		82		82		82
+txonly		81		82		82
+l2fwd 		81		82		82
 
-@AMD:
-can you review / ack this?
+[1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
 
-P.
+v2: https://lore.kernel.org/all/20250901100227.1150567-1-m-malladi@ti.com/#t
 
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0drivers/gpu/drm/scheduler/sched_internal.h | 15 ++++++++++++---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 8 +++++++-
-> =C2=A0drivers/gpu/drm/scheduler/sched_rq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 14 ++++++++++++++
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +++++
-> =C2=A05 files changed, 39 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
-cheduler/sched_entity.c
-> index 58f51875547a..1715e1caec40 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -61,6 +61,7 @@ static struct drm_sched_entity_stats *drm_sched_entity_=
-stats_alloc(void)
-> =C2=A0
-> =C2=A0	kref_init(&stats->kref);
-> =C2=A0	spin_lock_init(&stats->lock);
-> +	ewma_drm_sched_avgtime_init(&stats->avg_job_us);
-> =C2=A0
-> =C2=A0	return stats;
-> =C2=A0}
-> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm=
-/scheduler/sched_internal.h
-> index c94e38acc6f2..a120efc5d763 100644
-> --- a/drivers/gpu/drm/scheduler/sched_internal.h
-> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
-> @@ -20,6 +20,7 @@
-> =C2=A0 * @runtime: time entity spent on the GPU.
-> =C2=A0 * @prev_runtime: previous @runtime used to get the runtime delta
-> =C2=A0 * @vruntime: virtual runtime as accumulated by the fair algorithm
-> + * @avg_job_us: average job duration
-> =C2=A0 */
-> =C2=A0struct drm_sched_entity_stats {
-> =C2=A0	struct kref	kref;
-> @@ -27,6 +28,8 @@ struct drm_sched_entity_stats {
-> =C2=A0	ktime_t		runtime;
-> =C2=A0	ktime_t		prev_runtime;
-> =C2=A0	u64		vruntime;
-> +
-> +	struct ewma_drm_sched_avgtime=C2=A0=C2=A0 avg_job_us;
-> =C2=A0};
-> =C2=A0
-> =C2=A0/* Used to choose between FIFO and RR job-scheduling */
-> @@ -153,20 +156,26 @@ drm_sched_entity_stats_put(struct drm_sched_entity_=
-stats *stats)
-> =C2=A0 * @job: Scheduler job to account.
-> =C2=A0 *
-> =C2=A0 * Accounts the execution time of @job to its respective entity sta=
-ts object.
-> + *
-> + * Returns job's real duration in micro seconds.
-> =C2=A0 */
-> -static inline void
-> +static inline ktime_t
-> =C2=A0drm_sched_entity_stats_job_add_gpu_time(struct drm_sched_job *job)
-> =C2=A0{
-> =C2=A0	struct drm_sched_entity_stats *stats =3D job->entity_stats;
-> =C2=A0	struct drm_sched_fence *s_fence =3D job->s_fence;
-> -	ktime_t start, end;
-> +	ktime_t start, end, duration;
-> =C2=A0
-> =C2=A0	start =3D dma_fence_timestamp(&s_fence->scheduled);
-> =C2=A0	end =3D dma_fence_timestamp(&s_fence->finished);
-> +	duration =3D ktime_sub(end, start);
-> =C2=A0
-> =C2=A0	spin_lock(&stats->lock);
-> -	stats->runtime =3D ktime_add(stats->runtime, ktime_sub(end, start));
-> +	stats->runtime =3D ktime_add(stats->runtime, duration);
-> +	ewma_drm_sched_avgtime_add(&stats->avg_job_us, ktime_to_us(duration));
-> =C2=A0	spin_unlock(&stats->lock);
-> +
-> +	return duration;
-> =C2=A0}
-> =C2=A0
-> =C2=A0#endif
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index 8d8f9c8411f5..204d99c6699f 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1000,7 +1000,12 @@ static void drm_sched_free_job_work(struct work_st=
-ruct *w)
-> =C2=A0	struct drm_sched_job *job;
-> =C2=A0
-> =C2=A0	while ((job =3D drm_sched_get_finished_job(sched))) {
-> -		drm_sched_entity_stats_job_add_gpu_time(job);
-> +		ktime_t duration =3D drm_sched_entity_stats_job_add_gpu_time(job);
-> +
-> +		/* Serialized by the worker. */
-> +		ewma_drm_sched_avgtime_add(&sched->avg_job_us,
-> +					=C2=A0=C2=A0 ktime_to_us(duration));
-> +
-> =C2=A0		sched->ops->free_job(job);
-> =C2=A0	}
-> =C2=A0
-> @@ -1158,6 +1163,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,=
- const struct drm_sched_init_
-> =C2=A0	atomic_set(&sched->_score, 0);
-> =C2=A0	atomic64_set(&sched->job_id_count, 0);
-> =C2=A0	sched->pause_submit =3D false;
-> +	ewma_drm_sched_avgtime_init(&sched->avg_job_us);
-> =C2=A0
-> =C2=A0	sched->ready =3D true;
-> =C2=A0	return 0;
-> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/sched=
-uler/sched_rq.c
-> index b868c794cc9d..02742869e75b 100644
-> --- a/drivers/gpu/drm/scheduler/sched_rq.c
-> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
-> @@ -150,6 +150,20 @@ drm_sched_entity_restore_vruntime(struct drm_sched_e=
-ntity *entity,
-> =C2=A0			 * Higher priority can go first.
-> =C2=A0			 */
-> =C2=A0			vruntime =3D -us_to_ktime(rq_prio - prio);
-> +		} else {
-> +			struct drm_gpu_scheduler *sched =3D entity->rq->sched;
-> +
-> +			/*
-> +			 * Favour entity with shorter jobs (interactivity).
-> +			 *
-> +			 * (Unlocked read is fine since it is just heuristics.)
-> +			 *
-> +			 */
-> +			if (ewma_drm_sched_avgtime_read(&stats->avg_job_us) <=3D
-> +			=C2=A0=C2=A0=C2=A0 ewma_drm_sched_avgtime_read(&sched->avg_job_us))
-> +				vruntime =3D -1;
-> +			else
-> +				vruntime =3D 1;
-> =C2=A0		}
-> =C2=A0	}
-> =C2=A0
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index bc25508a6ff6..a7e407e04ce0 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -25,11 +25,14 @@
-> =C2=A0#define _DRM_GPU_SCHEDULER_H_
-> =C2=A0
-> =C2=A0#include <drm/spsc_queue.h>
-> +#include <linux/average.h>
-> =C2=A0#include <linux/dma-fence.h>
-> =C2=A0#include <linux/completion.h>
-> =C2=A0#include <linux/xarray.h>
-> =C2=A0#include <linux/workqueue.h>
-> =C2=A0
-> +DECLARE_EWMA(drm_sched_avgtime, 6, 4);
-> +
-> =C2=A0#define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
-> =C2=A0
-> =C2=A0/**
-> @@ -581,6 +584,7 @@ struct drm_sched_backend_ops {
-> =C2=A0 * @job_id_count: used to assign unique id to the each job.
-> =C2=A0 * @submit_wq: workqueue used to queue @work_run_job and @work_free=
-_job
-> =C2=A0 * @timeout_wq: workqueue used to queue @work_tdr
-> + * @avg_job_us: Average job duration
-> =C2=A0 * @work_run_job: work which calls run_job op of each scheduler.
-> =C2=A0 * @work_free_job: work which calls free_job op of each scheduler.
-> =C2=A0 * @work_tdr: schedules a delayed call to @drm_sched_job_timedout a=
-fter the
-> @@ -612,6 +616,7 @@ struct drm_gpu_scheduler {
-> =C2=A0	atomic64_t			job_id_count;
-> =C2=A0	struct workqueue_struct		*submit_wq;
-> =C2=A0	struct workqueue_struct		*timeout_wq;
-> +	struct ewma_drm_sched_avgtime=C2=A0=C2=A0 avg_job_us;
-> =C2=A0	struct work_struct		work_run_job;
-> =C2=A0	struct work_struct		work_free_job;
-> =C2=A0	struct delayed_work		work_tdr;
+Meghana Malladi (6):
+  net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx
+    queues
+  net: ti: icssg-prueth: Add XSK pool helpers
+  net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+  net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+  net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+  net: ti: icssg-prueth: Enable zero copy in XDP features
+
+ drivers/net/ethernet/ti/icssg/icssg_common.c | 470 ++++++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 394 +++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  25 +-
+ 3 files changed, 740 insertions(+), 149 deletions(-)
+
+
+base-commit: db1b6006668623b46a3f6b3fe6b5f030e4c60a42
+-- 
+2.43.0
 
