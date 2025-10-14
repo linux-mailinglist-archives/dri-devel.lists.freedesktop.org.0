@@ -2,115 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AFCBDA3F6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F1CBDA44A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2316210E07A;
-	Tue, 14 Oct 2025 15:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5387310E63B;
+	Tue, 14 Oct 2025 15:15:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="R86WF9W0";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HvPyWdV1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76F610E643
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:11:59 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87IKB005410
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:11:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- GOaw54+GyvB4/lhEX8P2neuiKfXjGA142b/PiS9SSz0=; b=R86WF9W0f5/xtk5D
- XX2lAB6AkykZgkQm85zM3+m9mcFG4FjEeJ//ViUCRNhC2qyEfF8ueeuAxA1V0UZS
- TaickaK1ur5ol2IHuu5D5+q7IvmowU+8WnA6Nq2C6fVu1CfB4qdDGY3XnxHNeFfh
- l04MclUDm/FS+S6M/Tc9F4Q+24l/lkFZAsNsEUXnkfv3tClwIHGrZJzMb1666InS
- xbpCBEX3iHhmDJAABJeZpzmDCr8KQM33HVkL5zSp67pYpFxM9qomdXHtVxZKrJmb
- suEZUc0wYyZva9+TU6PpeZJe6rivpcEc3KC+wlaCR0f0F8cCfKqnPcNDlCVpdJhI
- I3LJ6g==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbj0yq5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:11:58 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-33428befbbaso12330710a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:11:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760454717; x=1761059517;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GOaw54+GyvB4/lhEX8P2neuiKfXjGA142b/PiS9SSz0=;
- b=H1iCwaMDgc9w6i2A2B+VjcaIIi5AQCHJRN2DjCwUrn0Y26IMhgwEyP2uxUjMIwGteN
- 0M0duLpt/x0aF4jlorMMiRu1pnWPsMrRF7P7nUk4oj/bhnEWqbxf/kmEnnST1n9HINbj
- cdZXTlCr4BAypkENXfinXNzeTOZtKWwdkggXiIARD4hvjJhpsoKUqeZ6YTNFJYuXPYr8
- MT4LIo4DhlkitHEM7pl9eTwf71AjaL9Ru5AWRE9cb0P/WETgtAK+Y1OjapSCc/Gg/e6x
- ZzAHaoSOVMz0f42gsFiFnlZEemDvgynj/yulTLbFgDMAZTaGHFjfHTfEUSTLsRoanqqS
- M9Mg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/ZyBOC3jg/RrEqjkVVIL9F5Z9EEM3muh8QR57L8qNvXc7du0M7KWT7QrhpDAzCvdEieCXg1goMOk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxExbbWYpaHp0cpGTrHHl9gjrLneM5STeh5eQsVmxVJr2ttx5pY
- +BWo9jUwXHD+a4UfpPME1pR5LLWTyVbranDLnXuMu2mwaozz+rsGAY9Jius6a9c9Srm0YKLYYnw
- Zk3xQDefGvRW0cTol633NhXHpqQX1z6X2bM9n8UOZn6MPxz/VhckUEkzrdqa7eVpw2VXxh+3ejm
- +Mx7s=
-X-Gm-Gg: ASbGncssJ6P8n0IZSU6N1rKVEG5wjgA0rSOeSEbCxXbzfX7vlznbEjWLr8qwuRQVePI
- LEsQs7CuB+LprYnhYHDb/WwzYdcrfY/hCKyf3VYRKqjZF3VUZMFaER5xfXXV5iuw8Pmc6cZgH4B
- WtLdovtUjR0Jt5q9pobgLjHxYktlfONzRl7NXsEnW95ckWlFgmkpL/fvVcMBkFljIPvxGdAjOz6
- WYDVBvuOWuh6YSnP6ePzwIa/SUxsQr1Zhywm51veCj47A6QXaemc2lAU3BE3sYjABO19EMQpeov
- 1nuumwBj3g7LJvEdpfkrK+VODT3M4aPbnia/uuG5D3GKs8X2FCyMQVRhknaYyIsVe5QZL6YtG8R
- ZKmp6EAUfNrf/Tw==
-X-Received: by 2002:a17:90b:1c0e:b0:335:2823:3686 with SMTP id
- 98e67ed59e1d1-33b510ff59bmr30318695a91.2.1760454716873; 
- Tue, 14 Oct 2025 08:11:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFtjZf3YduDUFftq8D9vl54/Qj2lBCEThZgoUnbV7KXOedRjfTSpvK6arvWPi0gwGopNWtriA==
-X-Received: by 2002:a17:90b:1c0e:b0:335:2823:3686 with SMTP id
- 98e67ed59e1d1-33b510ff59bmr30318661a91.2.1760454716278; 
- Tue, 14 Oct 2025 08:11:56 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33b61aabbe8sm16268963a91.12.2025.10.14.08.11.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 08:11:55 -0700 (PDT)
-Message-ID: <07a43d80-5158-4af8-a475-788e980a32c4@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 09:11:54 -0600
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130CB10E63B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760454922;
+ bh=Gc9gPNIGe4cVGaM7/VR1c6hckG2H84TGLOzGhxUKmtc=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=HvPyWdV1wxFBvZyKYK3CZn8nC/VkI2tIysn96BCFz5XzMqZhqLF+EJYt7bYehfEYF
+ yoK6MX1lb1DKoZuGGqne34tIlvIzbxtWvWg7ZgmL/EjLEDMr4uH4ByWdnp1fG6D+kL
+ SkqJl7/hrQVERBOne8VnHDTO/rJ60WLoqN4s4xRmW9GKRS6lDrlEPTt2R3VOFhi7RT
+ /MjiGfjUPQcPqxuiAE2GaL1wMQdU/7Q12PEJO2+BKIQCrbyHKgcv18UOk8cYCNgWK1
+ OC0djV0mm7rNaUwhdSSmq+Ucvrwkyl9b42aA0bjK8m1zowDBSVA/WzCVsmqbORV0Fo
+ F+pDy1WCE3STg==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C878F17E1292;
+ Tue, 14 Oct 2025 17:15:21 +0200 (CEST)
+Message-ID: <37c99206-4bd2-40e5-95f6-71c109bd031c@collabora.com>
+Date: Tue, 14 Oct 2025 18:15:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Remove redundant retry_count = 0 statement
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251007161148.422744-1-youssef.abdulrahman@oss.qualcomm.com>
+Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+To: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
+ Derek Foreman <derek.foreman@collabora.com>,
+ Daniel Stone <daniels@collabora.com>
+References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+ <e030bed8-58d5-4a19-b81c-45193cb900d8@collabora.com>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251007161148.422744-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <e030bed8-58d5-4a19-b81c-45193cb900d8@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX/S9tynbdYBx9
- lqwjskMZ+EuRtYQ/g8UxubKQgHi8YS36AX22BSTmieNW9NjxWvQElE016c1WG+Qd32Q5N/mVACk
- 8PK4PKPqded3L8JDFbwb565QOMUXjjBV5i3iV33pVjiMoRgOUdXnhESCUE7mI967lmgKoeB5OCx
- XBzvAz8dwE6b3ZiQyVtBcV4B3xM++0TZtQat4jDfsfqkAVHBKNdKTbLRI2JTAwEoP+Ru9kiDQEs
- 06udIzgNpinMlwxrj+eyuNtjRk6n1qwtr+vqWDxzcd8t8uks6gdLnImDNFIn2UUKrxcvA8IUdJK
- A85XcBaicerO7Si/JL91AyjyLNQo1+U+ym2ddrSu7fGJd33Yb0zlaJYdkMrNDXQY5XJlaZ62vnp
- NNB5O93CL9Cd69fi9nWvRSEXNPtUgQ==
-X-Proofpoint-ORIG-GUID: QtIsll2SejCFBQBZdEIRRUt_napN83C4
-X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68ee683e cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=mnYluDPEoM_Hn9eIMYsA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: QtIsll2SejCFBQBZdEIRRUt_napN83C4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,18 +75,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/7/2025 10:11 AM, Youssef Samir wrote:
-> From: Youssef Samir <quic_yabdulra@quicinc.com>
-> 
-> If msg_xfer() is called and the channel ring does not have enough room
-> to accommodate the whole message, the function sleeps and tries again.
-> It uses retry_count to keep track of the number of retrials done. This
-> variable is not used after the space check succeeds. So, remove the
-> retry_count = 0 statement used later in the function.
-> 
-> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+Hi,
 
-Pushed to drm-misc-next.
+On 9/3/25 10:52 PM, Cristian Ciocaltea wrote:
+> Hello Heiko,
+> 
+> On 9/3/25 9:50 PM, Cristian Ciocaltea wrote:
+>> The first patch in the series implements the CEC capability of the
+>> Synopsys DesignWare HDMI QP TX controller found in RK3588 & RK3576 Socs.
+>> This is based on the downstream code, but rewritten on top of the CEC
+>> helpers added recently to the DRM HDMI connector framework.
+>>
+>> The second patch is needed for RK3576 in order to fixup the timer base
+>> setup according to the actual reference clock rate, which differs
+>> slightly from RK3588.
+>>
+>> The following three patches setup platform data with the new information
+>> expected by the HDMI QP transmitter library, while improving the error
+>> handling in the probe path.
+>>
+>> Please note the CEC helpers were affected by a resource deallocation
+>> issue which could crash the kernel and freeze the system under certain
+>> test conditions.  This has been already fixed in v6.17-rc1 via commit
+>> 19920ab98e17 ("drm/display: hdmi-cec-helper: Fix adapter
+>> unregistration").
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>> Changes in v4:
+>> - Fixed the bisect-related issues reported by Daniel by implementing
+>>   the following operations in dw_hdmi_qp_bind():
+>>   * Disable CEC support when the related IRQ is not available
+>>   * Set ref_clk_rate to vendor default in case it was not provided by
+>>     the platform driver
+>>   * In both scenarios, also print a warning message to highlight the
+>>     need for fixing the platform driver
+>> - Simplified dw_hdmi_qp_cec_init() a bit
+>>   * Removed the now obsolete cec->irq validation test
+>>   * Removed the superfluous error checking and logging around
+>>     devm_request_threaded_irq() call (it already handles all that)
+>> - Collected R-b tags from Daniel
+>> - Rebased series onto next-20250903
+> 
+> I forgot to mention that luckily there are no conflicts with the patches
+> introducing the hw-specific bitfield operations in next-20250903, which this
+> revision is based on.
+> 
+> I verified the series still applies cleanly onto drm-misc-next, while commit
+> ad24f6e10a5f ("drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro")
+> responsible for the macro conversion can be further cherry-picked without
+> issues on top of all that.  The resulting file content of
+> drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c is identical to what's
+> expected after applying this patch set onto next-20250903.
 
--Jeff
+Could we get this merged, please? This would unblock some other patchsets
+conflicting with it.
+
+I've just checked and it applies cleanly on top of v6.18-rc1. Also seems to work
+fine, at least I haven't noticed any regressions so far.
+
+Thanks,
+Cristian
+
