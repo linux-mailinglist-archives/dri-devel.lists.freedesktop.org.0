@@ -2,91 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FB2BD7FE1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37C8BD7FF0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B475010E573;
-	Tue, 14 Oct 2025 07:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E38610E570;
+	Tue, 14 Oct 2025 07:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G0O6e+dN";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="p3eyfRP4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 139E010E570
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760427968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZuL2StPvoHqfPKlji0n6gMA9cQYlL86+raj4IYDsJ3U=;
- b=G0O6e+dNDYG8ig3Nyoa2C6YdPVlhulE6AtJcqSBcRgKBvWo6Api4yvn1A7/AJ+sWPx/zhU
- ZF5E4/tmf6HQRcezACYzjrqmEo6nWxnYSiztyOJYLa3XoyzKHF3M18I1UUzhbn+gKB+A7e
- /wynywUAI/jr3bRHvfvpTZPERh/R0wg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-45-cVdj_nypMKeYqbGrtW7hWA-1; Tue, 14 Oct 2025 03:46:07 -0400
-X-MC-Unique: cVdj_nypMKeYqbGrtW7hWA-1
-X-Mimecast-MFC-AGG-ID: cVdj_nypMKeYqbGrtW7hWA_1760427962
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-426d3ee72f5so2326363f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 00:46:03 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 574E210E576
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:48:45 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E6rmZt031289
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:48:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7lgQF7EpyJKKLU5XszH0WS1iI/dWpktDkSnmDk5Sjrk=; b=p3eyfRP4SwqteDia
+ EYafs3c0ZdEZqqEv2tOlsKKZoQeLUAa2feNSHgPCGbforTZ6o4jrM4TsRLIxC+Ot
+ HJpTLK4ON9SghxTa86ZtdcTXZx0xOupey0Hv22N/V1VZCm5caCWNVLdgf2Rmu5Cn
+ pDuq5mE4mnLzxf6Vc8uiogna37n0rIQR/6WGZOHDPXMF2MCYOFC7+L9t8mqmrsQt
+ 9AN2oWpHTS8V342BzVER8nlLWamnZqKfs+dmJ7ZSw5SVHcVoJs5PpuVoFVBdvjlA
+ Wee2hkY7E8d3TyRHnUcBonkyYsMBbfxRB481pus14u49r2OLxS2jE/z3oTcn+dx9
+ g9DJfg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qgdfyfwy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:48:44 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-7f5798303b3so26504256d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 00:48:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760427962; x=1761032762;
+ d=1e100.net; s=20230601; t=1760428123; x=1761032923;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZuL2StPvoHqfPKlji0n6gMA9cQYlL86+raj4IYDsJ3U=;
- b=HLlEjyRuRobaYihe1iy4GCURSsXRQjVGxwNnHmVoRsGEjgEc/EErFy5gzFjGpyoXp2
- StqkU0itU9UySdKm1rJ43ZwRZpvw39rRaV+soRJp/BtreITvCctL/eDpLJomTwwlIun+
- NJqR2GUnqlBea4WE61zGQIk4FRP5fPUnLryVlJrqoFHkfj7Zg4gvGdTOzlLxYd+EPY3q
- meyncXtav0XXkXCA+P6tXlMxYkCRf1TCC1VSIycvz5VSAN29I/vqrH1BCBGwiiJhL558
- D8iT46g0L5ID0iwtJ6deE8+0pgt/rHdQqrmmmU/HGOUV1tfJJGefiPWz7Okx+gYq0hel
- oqYw==
-X-Gm-Message-State: AOJu0YzI2K1Ow36zXLJD+R6VXTHOpG3nzgdl9KBcq+ZogsT8XQrVebNf
- fFzsHHUn0zCmbQkbvnKPpHJqbVGGkI0RIiox8XfJaimsp0JYOR0Biq3iJC63p/24Fia/nv0OsYt
- JeA4mFJOcfgzkeZxQgx/Hw8Qp05FdeTnkVG3sk8Zk7/MLejBs0mXTLJq2A7E1W/hZwG/ZLQ==
-X-Gm-Gg: ASbGncuCLOPOFP8gvh8Ug4FtzQSAIGvO42xo9SVrrwTLNzzXaBRNrY6nEibs7eNW4HF
- S+oduAyQlUqqg93zSILthT803qGpFgrXZypvio4UT3DY7nOL55pMY6aDBqSOdlfPRxLpfP7qS0g
- zU0G3UcGTB8FwfcLLxYbt33m0/r5LeXCDh/4m5gclVrK3mAZq1uqVw2fumTASdDIVaGL8tieIg8
- 0lQrxEOrH8ebNReM9Y3YInKDppnVNsojZgH+wjcSKxCoNFr29hgPl37qqSYxTsweagiu78DA6Sk
- uy7fz1Az60/8A7YcF/C+EtqxEVNlAyEAOS3rP/CVKlWOPMbAA7oIQiXStwLt+GdI/+VZKAdrvlz
- P+PJ/
-X-Received: by 2002:a05:6000:18a9:b0:3f7:ce62:ce17 with SMTP id
- ffacd0b85a97d-4266e7d4406mr16641436f8f.38.1760427961669; 
- Tue, 14 Oct 2025 00:46:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGNM2xo5ZLQVou/pRRKjxY8bstP/7kfFBfLgBcA4Pk8KnQSXsywIOTGa19BsGCsqd8RxGUA8g==
-X-Received: by 2002:a05:6000:18a9:b0:3f7:ce62:ce17 with SMTP id
- ffacd0b85a97d-4266e7d4406mr16641422f8f.38.1760427961280; 
- Tue, 14 Oct 2025 00:46:01 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-426ce5cf71dsm21480168f8f.29.2025.10.14.00.46.00
+ bh=7lgQF7EpyJKKLU5XszH0WS1iI/dWpktDkSnmDk5Sjrk=;
+ b=we0ry7EBql+XGEYu4wjSp01Cax0kQZ5tOjzNwNl825x8sk2nLqIgYcpdff23lHB1Ta
+ e4wOKSETeDn/v+QqE3gbwLM1A3eih1ckkoKQrKFTupmDMuZzA+5vrEa8qQELFaK0izby
+ f10cMyvoYQJCAfwRNXAzdAPEPlAWz+6WFsLRySwf+sRODmfclC5Sc1PPkmKaheimc50L
+ S7iTwJRqcoUPx3pFpXnv+KzduNEf4EhLOXxIl3McgrjMUIffSl+l+bPHtZ2TcRwdyGPs
+ Q7T/AUrVE7RGjFUny6Yqa6+pvoiZlMOwfAlTCnMsH9r4svDULxPfkhDTvdf7Q0HbEqF7
+ Xygg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUuD56jpDt75kJC+oV5JrLqEPXGAyAHsVliu0ylZHo2oYhjnOxRA5rOz/bgeCidf7dzrJ/YXYeX2G0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYgWjSzRjC+dXLV0GvhKwymNOWTJUntxRaaXk2XRiStpU95m+Z
+ fDSQWhhilyL/3G3e1DlqlZpK2uAoTD1CziKivsfT8PRr5bdF43J7oH8NZm37g/I1/ZGZclm5wZY
+ t7aZS+3L2nDeKwe/7rfYixKxN8MPn+31uv9Rd6GqT/5PuYGegzFCft+xYganpM7lB6sXdNX0=
+X-Gm-Gg: ASbGncsdre+ROuxEyCwGbFkyhvRXkBuJBWYXcIEw9yQC3E+6AnytuBM4LFtqgQ8yNOa
+ A/Y6OxEfxkD/aH1/UzR3tsOVBgabRpuuARTT3r/Rs8ESVZP7r2c8VIY1A1c6g2m60JKwqGKyKlf
+ 784dje8iX6craWkb+tloVV5z7Wg3Wyi4YkrUtRlfUvQkJ1rlFcF6gxjeenG4Ea6KsfFCotUOfvN
+ VQTpcuP7TcxQvb3f6LJc6gm3RB94571nR6/vw97zmKxkpDZ/suIVhDTkdfVTdPrgVqui17jO08D
+ skKa5IIjIC4TcYvJdEloP0DP2p2G6rYISS19Z3ZFT6cGZpaACIPwYb5fOajZmAZgWbVMoX4fsHc
+ mxLpYkGrRN7Jy2Z0v//JRJA==
+X-Received: by 2002:a05:6214:1044:b0:87b:b675:c079 with SMTP id
+ 6a1803df08f44-87bb675c186mr138835296d6.3.1760428123402; 
+ Tue, 14 Oct 2025 00:48:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGK/9FgHc+mDtU/vg1IM2MbqJ1IQXUDO73G3f7pDCJd158k+UkhB0NXrUrd+oKqvAQezTg7YA==
+X-Received: by 2002:a05:6214:1044:b0:87b:b675:c079 with SMTP id
+ 6a1803df08f44-87bb675c186mr138835176d6.3.1760428122944; 
+ Tue, 14 Oct 2025 00:48:42 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-63a52b1de3esm10425328a12.18.2025.10.14.00.48.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 00:46:00 -0700 (PDT)
-Message-ID: <9ad17cb1-3e09-4082-b52b-0b218812f114@redhat.com>
-Date: Tue, 14 Oct 2025 09:45:57 +0200
+ Tue, 14 Oct 2025 00:48:42 -0700 (PDT)
+Message-ID: <74703f5a-243f-44ae-bf74-ab5ddfb6f685@oss.qualcomm.com>
+Date: Tue, 14 Oct 2025 09:48:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Blank with VGACR17 sync enable, always clear
- VGACRB6 sync off
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- dianders@chromium.org, nbowler@draconx.ca
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
-References: <20251010080233.21771-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251010080233.21771-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: bGe1xVjLSyzwWIMqkWeBT9msKu-pBSDsWW97B9mXTr0_1760427962
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] accel/qaic: Add xbl_config image entry for AIC200
+To: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ jeff.hugo@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251007221528.561242-1-youssef.abdulrahman@oss.qualcomm.com>
+ <c3339f06-aaca-490b-997c-8b6b145c93c8@oss.qualcomm.com>
+ <148df7bd-6410-4814-94ef-0880b596f363@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <148df7bd-6410-4814-94ef-0880b596f363@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyNSBTYWx0ZWRfXwRREtZXa0XYI
+ HMNQaIRxjd9OItLDwbEyJ3ZH1TbPfu0KEOAaMDFz6xu7rlfhkLasUBdk+Koj88f/WEIShdf99RU
+ 7vG57rgGGApb8lfDHwLtD6UyaGEtp1au9+BrBicEk/NWs8k7fBQlwddR2yTH999yxeZ0TFwVuaY
+ 4lL4xIFcIfd1f/D65/Nn2d9YXpTmyzX9jo6KRRL7t2ze7mKaASy5UzK+KFA4k9gmfkQNjGM9Ozr
+ +JaM2mNJLBr9klA/6MV9X0C1LWkhjFg5PAo3Yle0eomw+IpQQnPhdMW1HfKkSFMlOtnoVvdOH4r
+ UeeD524KhNEZJ//Oir7haEjHqrmuS3knZura8hJAzWsh4TtrYygd6iJe80viGyZHjqfCLyimKh9
+ D6ZL3RBv/BRlJ37ApExEqxouiRcw7A==
+X-Proofpoint-GUID: H_uNbGzjAQ5re-YS5cvM_FN_htqQv4ww
+X-Proofpoint-ORIG-GUID: H_uNbGzjAQ5re-YS5cvM_FN_htqQv4ww
+X-Authority-Analysis: v=2.4 cv=J4ynLQnS c=1 sm=1 tr=0 ts=68ee005c cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=UH78s4YSuxq7AQNSmZkA:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510110025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,87 +129,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/10/2025 10:02, Thomas Zimmermann wrote:
-> Blank the display by disabling sync pulses with VGACR17<7>. Unblank
-> by reenabling them. This VGA setting should be supported by all Aspeed
-> hardware.
+On 10/14/25 1:47 AM, Carl Vanderlip wrote:
+> On 10/8/2025 12:49 AM, Konrad Dybcio wrote:
+>> On 10/8/25 12:15 AM, Youssef Samir wrote:
+>>> From: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+>>>
+>>> Update the Sahara image table for the AIC200 to add an entry for xbl_config image at id 38.
+>>>
+>>> Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+>>> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+>>> ---
+>>>  drivers/accel/qaic/sahara.c | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
+>>> index 3ebcc1f7ff58..04e8acb94c04 100644
+>>> --- a/drivers/accel/qaic/sahara.c
+>>> +++ b/drivers/accel/qaic/sahara.c
+>>> @@ -194,6 +194,7 @@ static const char * const aic200_image_table[] = {
+>>>  	[23] = "qcom/aic200/aop.mbn",
+>>>  	[32] = "qcom/aic200/tz.mbn",
+>>>  	[33] = "qcom/aic200/hypvm.mbn",
+>>> +	[38] = "qcom/aic200/xbl_config.elf",
+>>
+>> This is the third oneliner extending this array you sent within 24h,
+>> please get the list of required files and update this list once and
+>> for good
+>>
+>> Konrad
 > 
-> Ast currently blanks via sync-off bits in VGACRB6. Not all BMCs handle
-> VGACRB6 correctly. After disabling sync during a reboot, some BMCs do
-> not reenable it after the soft reset. The display output remains dark.
-> When the display is off during boot, some BMCs set the sync-off bits in
-> VGACRB6, so the display remains dark. Observed with Blackbird AST2500
-> BMC. Clearing the sync-off bits unconditionally fixes these issues.
+> I wish it was that easy during bring-up.
 > 
-> Also do not modify VGASR1's SD bit for blanking, as it only disables GPU
-> access to video memory.
+> These patches are being upstreamed from our internal branch and thus
+> reflect the different latencies across the sub-teams to that request.
 
-One comment below:>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: ce3d99c83495 ("drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers")
-> Tested-by: Nick Bowler <nbowler@draconx.ca>
-> Reported-by: Nick Bowler <nbowler@draconx.ca>
-> Closes: https://lore.kernel.org/dri-devel/wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi/
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.7+
-> ---
->   drivers/gpu/drm/ast/ast_mode.c | 18 ++++++++++--------
->   drivers/gpu/drm/ast/ast_reg.h  |  1 +
->   2 files changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 6b9d510c509d..fe8089266db5 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -836,22 +836,24 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
->   static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->   {
->   	struct ast_device *ast = to_ast_device(crtc->dev);
-> +	u8 vgacr17 = 0x00;
-> +	u8 vgacrb6 = 0x00;
->   
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0x00);
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0x00);
-> +	vgacr17 |= AST_IO_VGACR17_SYNC_ENABLE;
-> +	vgacrb6 &= ~(AST_IO_VGACRB6_VSYNC_OFF | AST_IO_VGACRB6_HSYNC_OFF);
-As vgacrb6 is 0, then this "&=" shouldn't do anything?
+That's upstream-first-first ;)
 
-> +
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
->   }
->   
->   static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->   {
->   	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
->   	struct ast_device *ast = to_ast_device(crtc->dev);
-> -	u8 vgacrb6;
-> +	u8 vgacr17 = 0xff;
->   
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
-> -
-> -	vgacrb6 = AST_IO_VGACRB6_VSYNC_OFF |
-> -		  AST_IO_VGACRB6_HSYNC_OFF;
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
-> +	vgacr17 &= ~AST_IO_VGACR17_SYNC_ENABLE;
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
->   
->   	/*
->   	 * HW cursors require the underlying primary plane and CRTC to
-> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-> index e15adaf3a80e..30578e3b07e4 100644
-> --- a/drivers/gpu/drm/ast/ast_reg.h
-> +++ b/drivers/gpu/drm/ast/ast_reg.h
-> @@ -29,6 +29,7 @@
->   #define AST_IO_VGAGRI			(0x4E)
->   
->   #define AST_IO_VGACRI			(0x54)
-> +#define AST_IO_VGACR17_SYNC_ENABLE	BIT(7) /* called "Hardware reset" in docs */
->   #define AST_IO_VGACR80_PASSWORD		(0xa8)
->   #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
->   #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
+I would assume there's a single list of files that get loaded, perhaps
+within the device programmer image.. Unless you're altering that on the
+fly as well?
+
+Konrad
 
