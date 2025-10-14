@@ -2,148 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995B9BD7946
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 08:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97934BD7870
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 08:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD49310E1F4;
-	Tue, 14 Oct 2025 06:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3356210E554;
+	Tue, 14 Oct 2025 06:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ownmail.net header.i=@ownmail.net header.b="feuEu4GR";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="LMmTDW13";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fwz7KjCs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 375 seconds by postgrey-1.36 at gabe;
- Tue, 14 Oct 2025 06:11:10 UTC
-Received: from flow-a5-smtp.messagingengine.com
- (flow-a5-smtp.messagingengine.com [103.168.172.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E7A10E1E9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 06:11:10 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
- by mailflow.phl.internal (Postfix) with ESMTP id 62E6C13802DE;
- Tue, 14 Oct 2025 02:04:54 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-10.internal (MEProxy); Tue, 14 Oct 2025 02:04:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
- 1760421894; x=1760429094; bh=E4Iph9Kl8wZz1HAHn20rKGPeYlZdEw1yUQf
- 1mGdkCUQ=; b=feuEu4GRf6dcErALPk+2jItHSg4i5KWiC9i417b4FIhcTbE2y2T
- +Bt4amVdnCGAM1tUKaufU8N3iC3xA2wxgMF91QjmRsfDtS8TkU58KsBcsHLC3Qe9
- 9uGqg12zMyyNWlr0tHrmSZMAjHsrqR6wDDn9puU8TZhvuKVCpBBV0N4hnJN5njSM
- BHj+IqFdfGfwsjivQNzH5S2eCArfr2wTYNfe0VVD6mjQGTf1nZkL/z9FmU6wkxeC
- XP7HcSdYhv3lxXdbaxFn3pGRdVj5H/ibkL+9weFKyTuxGadyOlFat4dNTrwfckpc
- EQEtGwZGFoj2V5Cu3Q3Qg7NpyQpILU9t7YQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760421894; x=
- 1760429094; bh=E4Iph9Kl8wZz1HAHn20rKGPeYlZdEw1yUQf1mGdkCUQ=; b=L
- MmTDW13ZQy/vvnXJJHqO2e4Nwp/4f0wIhr5NAnj31qKE+wHoQadph71IrqSc5Ib0
- lhC6eeRCRQGeEFwXVh03+zoKg7JvrvXHWp4EZblBZwrgx5uc1e3QbyqDIz2/xuRM
- x58UYYm8Gs2/BlOkdLgAp+C2Ud0eKKK7HOOKvovGP+SYaw8MNisjOrZV9Q+WOQVr
- FACIlwg4aSWFz83NZUIVVjDgZX3yrjk6q9Sx+4ahYsr/hpjT7Or3pU7QIuTtJpqV
- mwz8Vk/OvGuxNfinjrygxj11QA1kr2UinaJmSCRd7/tXGKs1xZ9lzd3VsMgSyHLG
- tetmXGjlWtEDy8ZH9tV3g==
-X-ME-Sender: <xms:_eftaCHyqV6o3FVefhsjNT8IhmMyfFHwk8jZHMhbo-HUFu5X_n6urg>
- <xme:_eftaEnN6jBrfj20h2AuPNDCuOMyqF6Plg83kg-Wm7c0-k_CfdsL7XEtnlxZx9Zc4
- vdnWYhYYsNNXJvyiFNgoRvI7Kazc6WaYj_Vgo60bnGRd5AR>
-X-ME-Received: <xmr:_eftaD6dxLXuqheOCQURHeHPfO7bW-CXtJ1AseJtZXeLq0oSGG1WRKKPAy8NkEw4I49DhwHKvB2Po8CEgxiioKrKzekCRYBLjrQ5r26_DkV4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduudeljeeiucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurheptgfgggfhvfevufgjfhffkfhrsehtjeertddttdejnecuhfhrohhmpefpvghilheu
- rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
- epudetfefhudevhedvfeeufedvffekveekgfdtfefggfekheejgefhteeihffggfelnecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
- esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepudegledpmhhouggvpehsmhht
- phhouhhtpdhrtghpthhtohephhhprgesiiihthhorhdrtghomhdprhgtphhtthhopehlih
- hnkhesvhhivhhordgtohhmpdhrtghpthhtoheprhgtuhesvhhgvghrrdhkvghrnhgvlhdr
- ohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
- gtphhtthhopehlihhnuhigqdhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
- thhtoheplhhinhhugidqmhhoughulhgvshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
- gtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
- tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
- hrtghpthhtoheplhhinhhugidqihguvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:_eftaCbgmYlvEUe7c8diYxkm08sFcYy0h1FLId3hRvl3Wygr1PpoUA>
- <xmx:_eftaO0MJ_hLSTek3S8a6e-GF_TCbTx0v6w4rpkXwlvonZGXG2N4kw>
- <xmx:_eftaNhIc-WZoUYTLfzJpLzI2fsWLLjvzv3kaEG6CxTMcM2aAlX2EQ>
- <xmx:_eftaFhY4IYteGvByEUJUmCKSZRYVweFZ66sE_nYkeHRJBJf5cUvxA>
- <xmx:BujtaI-jqBpV57I5Iv3W1WU6_3vCyGvF2hAPelzIt6ARNYBJwHSB75rK>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Oct 2025 02:04:01 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9948110E54F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 06:08:07 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-782e93932ffso4447926b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Oct 2025 23:08:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760422087; x=1761026887; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zW1ufZJxGA7CwHYy8cjMizcBwZzDzUHbkJ0ZT7bCLSQ=;
+ b=Fwz7KjCsA7dIZFvUAT/BkZcwsmsTI2tZfAoMvRFncNEBoZyP9Sj7SfVop1e9dYKxFE
+ JMbcL/Tikuz74QcgIIWp6bRxMh7ykuGzkr6cv9bml+VH5u+nuyquQm1+u3090tIdW6z7
+ eFaSi92HFubcIqyoNI0TmNQGOEEDs+uzlqjeCbOSkv+EA/Dnwhvh0g9BMW3s9Fg/6ctm
+ aqRqV5HjVX70HoNB983F8Sn2Ef+8wxVem4W+6LU9LYWUo6+Ev639Xwe5sSk72uEpsC5e
+ cPCoTubrsykaR4mn05OZ8j8ZhSmFJ8ZkaKOl3eexedQQLHvz1thmbti3v/OeIfMhfvwd
+ h6+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760422087; x=1761026887;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zW1ufZJxGA7CwHYy8cjMizcBwZzDzUHbkJ0ZT7bCLSQ=;
+ b=M3zKYyfQoqb50tYPHkJawbAwYIuUw5zHQSCsyBL52KuvYbd1KkQZzMSQYsN+QpaNeS
+ ikFusvCLn5D13JL+TnfKbCeFFKdiCDR1rgTdcUloRBd5fljG6z7Ea2G9pN33y8cVbuyx
+ lep3nBcXdwnAgJFw5wH0OsSGoG6lwwalVH8QwTjGFaEynqnpGkKfAAtB/J9gnSuNga60
+ jyInz4DEVuIKBLILVvmhV9/PJrMCpW2bGwNPXcrZCt7ueaOo6GkKxMwrEOxTKW1Gt+Wh
+ zTAYNqpShNn/BVuGi0IcIk174F8X5y4OHbfnk9/7YzOyItOaidp8Sq9ZqKz7JUre1Xg6
+ 5M7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0BzBa7PQzIcl06Wsj5K09LvfVa+6Zg3u6PS246iGehTbuitrK7GAwLqBLWH8J4sE2nhPKJZ21rXc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnGRfcO0O7xRs2/JKnmbMziU6A55ba2JlBOFaH9/Rl/06CNUuW
+ iXJyRQ+YhEdV8YCjczp2FjFcvP9cH0cyIP0x9Pqd4BAveo/v4JjuqH53
+X-Gm-Gg: ASbGncv830NcR+xlYDD+IabYw3P2QQqnpRZES1pr4hlAxm7O/TzFveAjqiOA5pI9nun
+ C17Eb4j2ztKwIkYj1F0fMhTcecSykDRhcIPAf4dsFs7mlstuiUEok5XOHRe3ffM4D9Kwf65OhLN
+ qVmhu06UVsg+ZxBoHU6fM4aRL7ud7gKABWW5I3+KgfIxJEJK7PK8BLDb0k1ccN4TUfHRSo0Z+rh
+ +aAeeKR/Hpv5/A1CA/oKGCg2Jz6ec1GiyxukQsbkJPkendUGJDZCn7RN3W8J8kaohM+p1biZieX
+ CL6EpbgNzbYz3Ibjra0Df3dAdDMOYoS8rc25erjgDozxsLu9GUQqEIt2egMp3mYtMpHAiJGxfC1
+ i1fZNbKc6fH1hEpHj5qYNAmT4uKFaNbaMacisMR2v5dfHfCvKeGPr3EcJmrfuN6UIeLY=
+X-Google-Smtp-Source: AGHT+IElNIdqfxS6ykSK4HeHqahrbzYkLyHVFJw7oBK+qw1dJALOAqreq/dRuYGm3x/XwPoi1Zdsew==
+X-Received: by 2002:a05:6a21:3299:b0:250:429b:9e75 with SMTP id
+ adf61e73a8af0-32da83e54abmr31288118637.41.1760422087049; 
+ Mon, 13 Oct 2025 23:08:07 -0700 (PDT)
+Received: from test-HP-Desktop-Pro-G3.. ([103.218.174.23])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-33b5293f4dcsm9342434a91.1.2025.10.13.23.08.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Oct 2025 23:08:06 -0700 (PDT)
+From: Sudarshan Shetty <tessolveupstream@gmail.com>
+To: tessolveupstream@gmail.com
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de
+Subject: Re: [PATCH] drm: bridge: ti-sn65dsi83: Fix LVDS output configuration
+Date: Tue, 14 Oct 2025 11:38:00 +0530
+Message-Id: <20251014060800.1913351-1-tessolveupstream@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251003091911.3269073-2-tessolveupstream@gmail.com>
+References: <20251003091911.3269073-2-tessolveupstream@gmail.com>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Byungchul Park" <byungchul@sk.com>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
- tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
- ngupta@vflare.org, linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
- yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
- netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
- corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- luto@kernel.org, sumit.semwal@linaro.org, gustavo@padovan.org,
- christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org,
- surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, anna@kernel.org, kees@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com,
- ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
- wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com,
- dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org,
- ziy@nvidia.com, yuzhao@google.com, baolin.wang@linux.alibaba.com,
- usamaarif642@gmail.com, joel.granados@kernel.org,
- richard.weiyang@gmail.com, geert+renesas@glider.be,
- tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
-In-reply-to: <20251013052354.GA75512@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>,
- <20251002081247.51255-29-byungchul@sk.com>,
- <175947451487.247319.6809470356431942803@noble.neil.brown.name>,
- <20251013052354.GA75512@system.software.com>
-Date: Tue, 14 Oct 2025 17:03:58 +1100
-Message-id: <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
-X-Mailman-Approved-At: Tue, 14 Oct 2025 06:36:55 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,138 +91,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: NeilBrown <neil@brown.name>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Oct 2025, Byungchul Park wrote:
-> On Fri, Oct 03, 2025 at 04:55:14PM +1000, NeilBrown wrote:
-> > On Thu, 02 Oct 2025, Byungchul Park wrote:
-> > > This document describes the concept and APIs of dept.
-> > >
-> > 
-> > Thanks for the documentation.  I've been trying to understand it.
-> 
-> You're welcome.  Feel free to ask me if you have any questions.
-> 
-> > > +How DEPT works
-> > > +--------------
-> > > +
-> > > +Let's take a look how DEPT works with the 1st example in the section
-> > > +'Limitation of lockdep'.
-> > > +
-> > > +   context X    context Y       context Z
-> > > +
-> > > +                mutex_lock A
-> > > +   folio_lock B
-> > > +                folio_lock B <- DEADLOCK
-> > > +                                mutex_lock A <- DEADLOCK
-> > > +                                folio_unlock B
-> > > +                folio_unlock B
-> > > +                mutex_unlock A
-> > > +                                mutex_unlock A
-> > > +
-> > > +Adding comments to describe DEPT's view in terms of wait and event:
-> > > +
-> > > +   context X    context Y       context Z
-> > > +
-> > > +                mutex_lock A
-> > > +                /* wait for A */
-> > > +   folio_lock B
-> > > +   /* wait for A */
-> > > +   /* start event A context */
-> > > +
-> > > +                folio_lock B
-> > > +                /* wait for B */ <- DEADLOCK
-> > > +                /* start event B context */
-> > > +
-> > > +                                mutex_lock A
-> > > +                                /* wait for A */ <- DEADLOCK
-> > > +                                /* start event A context */
-> > > +
-> > > +                                folio_unlock B
-> > > +                                /* event B */
-> > > +                folio_unlock B
-> > > +                /* event B */
-> > > +
-> > > +                mutex_unlock A
-> > > +                /* event A */
-> > > +                                mutex_unlock A
-> > > +                                /* event A */
-> > > +
-> > 
-> > I can't see the value of the above section.
-> > The first section with no comments is useful as it is easy to see the
-> > deadlock being investigate.  The section below is useful as it add
-> > comments to explain how DEPT sees the situation.  But the above section,
-> > with some but not all of the comments, does seem (to me) to add anything
-> > useful.
-> 
-> I just wanted to convert 'locking terms' to 'wait and event terms' by
-> one step.  However, I can remove the section you pointed out that you
-> thought was useless.
+Hi all,
 
-But it seems you did it in two steps???
-
-If you think the middle section with some but not all of the comments
-adds value (And maybe it does - maybe I just haven't seen it yet), the
-please explain what value is being added at each step.
-
-It is currently documented as:
-
- +Adding comments to describe DEPT's view in terms of wait and event:
-
-then
-
- +Adding more supplementary comments to describe DEPT's view in detail:
-
-Maybe if you said more DEPT's view so at this point so that when we see
-the supplementary comments, we can understand how they relate to DEPT's
-view.
-
-
-> 
-> > > +
-> > > +   context X    context Y       context Z
-> > > +
-> > > +                mutex_lock A
-> > > +                /* might wait for A */
-> > > +                /* start to take into account event A's context */
-> > 
-> > What do you mean precisely by "context".
-> 
-> That means one of task context, irq context, wq worker context (even
-> though it can also be considered as task context), or something.
-
-OK, that makes sense.  If you provide this definition for "context"
-before you use the term, I think that will help the reader.
-
-
-> > If the examples that follow It seems that the "context" for event A
-> > starts at "mutex lock A" when it (possibly) waits for a mutex and ends
-> > at "mutex unlock A" - which are both in the same process.  Clearly
-> > various other events that happen between these two points in the same
-> > process could be seen as the "context" for event A.
-> > 
-> > However event B starts in "context X" with "folio_lock B" and ends in
-> > "context Z" or "context Y" with "folio_unlock B".  Is that right?
-> 
-> Right.
-> 
-> > My question then is: how do you decide which, of all the event in all
-> > the processes in all the system, between the start[S] and the end[E] are
-> > considered to be part of the "context" of event A.
-> 
-> DEPT can identify the "context" of event A only *once* the event A is
-> actually executed, and builds dependencies between the event and the
-> recorded waits in the "context" of event A since [S].
-
-So a dependency is an ordered set of pairs of "context" and "wait" or
-"context" and "event".  "wait"s and "event"s are linked by some abstract
-identifier for the event (like lockdep's lock classes).
-How are the contexts abstracted. Is it just "same" or "different"
-
-I'll try reading the document again and see how much further I get.
+Gentle ping on this patch series.
+Just checking if there’s any feedback or further input needed from my side.
 
 Thanks,
-NeilBrown
+Sudarshan
