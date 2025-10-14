@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4686DBD964A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F6DBD9651
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61FEE10E5F7;
-	Tue, 14 Oct 2025 12:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5D510E5F4;
+	Tue, 14 Oct 2025 12:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U5vyzsD3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j904v1zi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C27110E5EF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:40:02 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-46e4ad36541so55301515e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:40:02 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F33410E5F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:40:05 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-46e48d6b95fso46474585e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1760445601; x=1761050401; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1760445604; x=1761050404; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=sxgfIdENtrsIjMM2UdQCTeBKGZOKjcZiEo3cUFxAXcY=;
- b=U5vyzsD3PJMtorzstyO+HwCsTr5KU9Zyii6LVPz74lY3LXzl2wtItS8ahWBuq9oqnN
- +eRVjnJlvqF8GNihJ5hcGLviQkZ6nPE4l7U0sDE7LWil0kVcaXFjv6V3ErsSy1Kl6Qi8
- hQK1s4Xi0qGIx525S1+li7L6I2FhzhYterbxxd3pYVNeIToqvM92NX4ckSVSmP8taO0W
- TWEFmQY+eSeq7zJ/A9T+QZGOeKCqkx3+puB1XGrvTrY9sdnzYYulo3C7cHBTgrTd24KG
- IwgtfhwJGSevzPtgcKlBi8XHd1rru2RgvI88+cKit9eSCUXkLFem+/naA/lgny6UTQUV
- aUXw==
+ :reply-to; bh=1RYyzsf7oZTpApmmhnHm39MnizxtLSKAObcAdZ76I/g=;
+ b=j904v1zi/Ctmb/sHWSmFDCYtvX8ohjXjofk6y4w5LqFxdgf0gZgpUQBuORfHC8ybg3
+ twtPs3FgCBvVOQzp3ZsAe1OQqEVThQsj4WaX5v/j2gYP/eq5yUQVwzY4tyesngk29p3v
+ bW10wx1icpY4i0bVgP8Q+OOkIF4luYX0Y8eeOXiCSJH2ZvG+/FiXAQ5/rEQFVpdb8MGG
+ 0uALC6T6ga5XWItLGX6lIlYrtIpzuPo6ejEV/Yje2jmX6giVWo0vJpyN2uYQDZFSvAw/
+ YYqjpbvOc6VZ+he5muQej3EeYQxzR7Ua0IDniCaGLkMHtFyG5L/2cu1FFnJElBYF98lG
+ ZzWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760445601; x=1761050401;
+ d=1e100.net; s=20230601; t=1760445604; x=1761050404;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sxgfIdENtrsIjMM2UdQCTeBKGZOKjcZiEo3cUFxAXcY=;
- b=YR02ac/GccUdJrRL3kiAm4XAKu66lys+QnqlcqzHDmRlZNI4qtOIGhdDDjQ3eXmqbe
- NnmCXQirgBOu7PczIZjWMGhLUX+b6na84fmCvA+UC0/Tq4/wA2+m3FkEJr+Qwdd6ilKK
- n5O4jbDgDkrgRJZVOuJo3tqt3GrD3a4sbcd/r3S6yJI+KoerRfuJi64RrFCvrkF9oolJ
- ANh4Mxa4vJviUfFp1DbEc3E++EkWOJWD6XCXfHRYM5nOgyE72FFvT5DTEq0lFSoAatYo
- E2vFjOrY7obrfqoJSHyHuTZL+Wqzv4B3XBRAvZzx4zFatniRrkV8Pcg4JUUO74SWqTcs
- IaZA==
+ bh=1RYyzsf7oZTpApmmhnHm39MnizxtLSKAObcAdZ76I/g=;
+ b=RNWqPUp2gdhMAO1qItHKo1XZyhnQZiZKyFpsnMPzjDdgN9omGATOTYjzjd/DBvEUGf
+ 14OCOTRbG5SWngcPhhrpfStZ6DSe8Qc/as7dTaYYpI1u+bfy0Zg21Kf7dYzs36+W1Ate
+ gM/j5BhsBO37svxnE9kkyyCc6qK9NYkwEpIGSRTg6UlE9etOLhup1sUmNQC16rEXHh3C
+ Jycq80GyJhWsgWNexYoUGS7h4Ubb2NuXSHcLaK38AwqKpn6wNDBD+W3UQ5MeguHwy/62
+ 6Sa01qdFYocWiX2IbqUevhmp538Pnry+8nJjipBY6KLp/YJWMqR22pldT5byAby0rwdb
+ BWzw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8xL3RqZUCIPrGbvAhxz4IUQsBTkiS9QgRa+IKhPUOUhzU80nba/ePm2z1lHcijwqOFANjQAlbejY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3T8OFpWaXYraYVXq846pCUBBVDKLK5XwycbuaERJ3chj2svUA
- avINknbOupCTqEsUrGbqjLxBNI2ZLrF5QCgvkXYcp4BhmURjEfXQrATkCUfx0Wb96/Y=
-X-Gm-Gg: ASbGncsqGV0Bpnyb6akIULSWXn5mRSblW0uHUmB8hJZsanXFdHxSbQZoWkNJQ9fso5G
- fQCRRMWxV7RV6S9/r5xPPh+YQFyrhwiNcasC3GJLKTU9/PDCOVr8eePfOjQl4WiHZbET4KiEy9a
- IoSZJI5CGaUeMY9diTdylve6qJfhfb+L/2zrUNlwWxSRIuRuh4xpZGCAQZaC+/mGyjkaVI9vMHR
- ENIaXHjqgouJV1K95myoS4oGUOETjBQkeAwS22gztyOaUtB9P9xrIi0/phzPCnaNDFxeIEtcovu
- r20LcXe/7zFnsuZ/myl3rmkVu79hQjziSj7qBQcURyEMKSFwJzGghGMy1OiEsRi+Qf87XoRcptL
- pwwmABXWe9g9sEILZQddbQ35OSz1DDWuh/kHPwayUL7gTqvIAmxEscQ==
-X-Google-Smtp-Source: AGHT+IH024kthWWng9VVuStRjupMvWSg7lIHOdFe/7RjnG2kPxkkxrcaV4rPLSgdMQ/hfIsogbXDew==
-X-Received: by 2002:a05:600c:c4a4:b0:46e:1d01:11dd with SMTP id
- 5b1f17b1804b1-46fa9a89444mr163805485e9.2.1760445600684; 
- Tue, 14 Oct 2025 05:40:00 -0700 (PDT)
+ AJvYcCX8VWqWT7FIF85T4uUkKaKiY31yWCTyA4RuejywJsLEudH9PMvYvgG2YdCNBMB/sKjWclKAYS+VA7U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHC//W66DQJTLhBV3Y2jJWSwuHufZ05hiU4uigDUQ+nVe6ED7M
+ N30na0VbQ59rPTU4HhE3B92Vym9a8hSOfRCcKUWwnb2I2TeNpXLwV7ev01cM6/WESR0=
+X-Gm-Gg: ASbGncua99bhGRebfSQkps2kRhfoBA2BvX2bfLhKyvxnmTlLyXBGdGoNWKSPar1Kl5U
+ DEbXJsVjTLmIh5y6lYo7Lw/yL9ydrF1f4gOEh4xczwWeMqgPZmVmdm4Wg83+hzuN4qitgKWlYx4
+ AG53e8yu07tzc5hrDGnsP7YE2phVNmjwr3BwTKIpkeILpVa8oiBlkEoQL6MoxG2yUK9cJ+FP4Ib
+ I0N4gr4lTnKb/jdE9oKUsA4Y6AS30NG5y/ienylhjUoBe3/gtNvZv+bOgaYmtaJXEScobrcxUVw
+ 0cVQleyCWnD2TpaLHxmoJkvZ8Uy+YRb92seTEqv6//gvrHRyxIuGsLOCZ1t5VDwwu2ssmP0zCHj
+ O8XkUTJJFI8Rno7nIQ/c+cR8cG8LNJOWlwc4uFqWsBH330VF3gpjgam1VaNt6ubt7
+X-Google-Smtp-Source: AGHT+IEf7Z8/P3u133rQ5LFYuWk/L8zLU2JN4M/uTzSeOh4jfJpa55YeNQBn0KZm+7kKT+tReAAC5Q==
+X-Received: by 2002:a05:600c:a402:b0:46e:4705:4958 with SMTP id
+ 5b1f17b1804b1-46fa9b9a362mr150432245e9.30.1760445603208; 
+ Tue, 14 Oct 2025 05:40:03 -0700 (PDT)
 Received: from hackbox.lan ([86.121.7.169]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb482b9easm245813815e9.1.2025.10.14.05.39.57
+ 5b1f17b1804b1-46fb482b9easm245813815e9.1.2025.10.14.05.40.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 05:39:58 -0700 (PDT)
+ Tue, 14 Oct 2025 05:40:02 -0700 (PDT)
 From: Abel Vesa <abel.vesa@linaro.org>
-Date: Tue, 14 Oct 2025 15:38:31 +0300
-Subject: [PATCH v2 6/7] drm/msm/dp: Add support for Glymur
+Date: Tue, 14 Oct 2025 15:38:32 +0300
+Subject: [PATCH v2 7/7] soc: qcom: ubwc: Add configuration Glymur platform
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251014-glymur-display-v2-6-ff935e2f88c5@linaro.org>
+Message-Id: <20251014-glymur-display-v2-7-ff935e2f88c5@linaro.org>
 References: <20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org>
 In-Reply-To: <20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -85,24 +85,23 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Konrad Dybcio <konradybcio@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>
 X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1827; i=abel.vesa@linaro.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1513; i=abel.vesa@linaro.org; 
  h=from:subject:message-id;
- bh=BDhxfQSATkvz5PZ4qM3SXapXE8VjPOJ1bFOc4+xtjJc=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo7kSIX67Zq3tsYRsWCfhopNDqKPVvETlIfD1W6
- 4ePvOkV2P2JAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaO5EiAAKCRAbX0TJAJUV
- VoSsD/9c8jG5AXRyE0vUUUPGQ7sK6F5ou4qaOoBv3ATYVnIwMEgjUdvv2gLOt2eMHIJ+gemHKSp
- gp78ksd0knDi5n+aT3m74sVTvm3NIzu8Mefer8b0KzmXvMtf/inL1CwLo3VIxgzUHzsNVl0ltEv
- SLw/G9zaj43iCqw/hgpuGOlpkONE9mktmkGKUHqDZvclAmmjxi3nzL2uDfdfL2g8Bim9P0Dr9cd
- V+iGCOogdKRPg/n/ZgViXWKAqXDX+ISYo8S7BA5yXOF/9ALDaKrbUzXZ0u8Q7VqRWO/cMhPMcHy
- JSW1TcaWQOZF8FX3H8QojPdtPcBbwUyavynx8GXuTBOtGJRJ4R0i4lR1poz0NMuZPoSxOC3wDzt
- PyEnCa1ZIE4MKbcLEj481EOBBbA++T/xyrWhlVIJCz+MEVMl0MXsaPSapnNF9oFce3alzL1EEvs
- UVqFRDYMturZ3Dw7RI1esR1vQIFdRIIKllez86KG/16sID3j6zejfjWV1uMidqxdeUWroO0jri8
- SVy/c6GBMZ0DkPsS8HpEmzu1kKHd76rQdYaTxYYzVyKjwoYz+zi3iDiGrsxdN9KXpvtBlNnN22I
- gJ1FpIS/8X4qXCu8G2ebruZHlkSBfRwkg6TmXcMjrVEMe8WgzohKzpBl1p2qKuyr8XscVb6k7hy
- nJ2w2fq0zH47GzA==
+ bh=mQsq9Lyl9Xj4ieWxCs4ifLYeBM7hE4agqANYBsIaYvs=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo7kSLNYRKifdBgcF3xKNW0WLXs4gtszg2kFZsA
+ pL/BdVpBNaJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaO5EiwAKCRAbX0TJAJUV
+ VvKnD/sFavrflS06oimK1daRufz4+wRv0bIIBt/XB5fqDqKLrMdYTIA7A5Fsj7R08LRp5BTAcrp
+ BJm0xLXVWeimbSlBheggj6qzBsm49RkBN4ZnBmdBPhiLMmzhydaU1Je7u8JUl7SoMX/AWYqBi0a
+ uesyngx3xE97NQlls+wJmmzieK/dsUGa5VBFLlqh0OSNfX7cOCAWbYCePIb6bG9pWQuEH9beBBL
+ p3n/QtpliEJl2jHk25LUUD41u8jOk+CV59HQdrnZpdMjSXV36M2sZfGpmOcHESc+mYACbCaQPZt
+ TUC14Oy+kID1GoFwiPSlZsDx1u1dwfpJ/qjBtlP1Wbg8izyPK0tISJDXjDpJuw4hv1pG0f+w21t
+ SPRTSVVHbBTDDgFAkuHREGYJnJJtmj5R+5OrYeW5ovdMYO6bYwbw/4eARHLDEHLjJ9N4ODcwm6F
+ FGDbeAzXZGGpLN6oR7ZYAE2p41SYzHOy3YvTOHXIhp2S2PxUqw3xFPiuOXWtv9hmh/D2MkUBb2O
+ 55CEQyxkyQ6eTLUZeni7/5amUjQVto2+Ll2kZ5pINNLSzcJcR4SDFJvRh8mz9bqKNjtvq8W7Z0m
+ KrBE/UfUAoDweX0ZAdmEiBfuJ4i2uLRPvCwxwpmr94rCTlZehiCcj/iXvvRPyEZ9bjGHVyIIwLe
+ Uu9CvVduMzdmKSg==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,44 +119,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Qualcomm Glymur platform comes with 4 DisplayPort controllers, which
-have a different core revision compared to all previous platforms.
+Describe the Universal Bandwidth Compression (UBWC) configuration
+for the new Glymur platform.
 
-Describe them and add the compatible.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/soc/qcom/ubwc_config.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index d87d47cc7ec3eb757ac192c411000bc50b824c59..9bd9cd5c1e03cc17598b222177b6682bbcd89f0c 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -130,6 +130,14 @@ struct msm_dp_desc {
- 	bool wide_bus_supported;
+diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
+index 15d373bff231d770e00fe0aee1b5a95c7b8a6305..7cca2afb68e3e9d33f3066f1deb3b9fcc01641a1 100644
+--- a/drivers/soc/qcom/ubwc_config.c
++++ b/drivers/soc/qcom/ubwc_config.c
+@@ -218,11 +218,23 @@ static const struct qcom_ubwc_cfg_data x1e80100_data = {
+ 	.macrotile_mode = true,
  };
  
-+static const struct msm_dp_desc msm_dp_desc_glymur[] = {
-+	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
-+	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
-+	{ .io_start = 0x0af64000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-+	{ .io_start = 0x0af6c000, .id = MSM_DP_CONTROLLER_3, .wide_bus_supported = true },
-+	{}
++static const struct qcom_ubwc_cfg_data glymur_data = {
++	.ubwc_enc_version = UBWC_5_0,
++	.ubwc_dec_version = UBWC_5_0,
++	.ubwc_swizzle = UBWC_SWIZZLE_ENABLE_LVL2 |
++			UBWC_SWIZZLE_ENABLE_LVL3,
++	.ubwc_bank_spread = true,
++	/* TODO: highest_bank_bit = 15 for LP_DDR4 */
++	.highest_bank_bit = 16,
++	.macrotile_mode = true,
 +};
 +
- static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
- 	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
- 	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true },
-@@ -187,6 +195,7 @@ static const struct msm_dp_desc msm_dp_desc_x1e80100[] = {
- };
- 
- static const struct of_device_id msm_dp_dt_match[] = {
-+	{ .compatible = "qcom,glymur-dp", .data = &msm_dp_desc_glymur },
- 	{ .compatible = "qcom,sa8775p-dp", .data = &msm_dp_desc_sa8775p },
- 	{ .compatible = "qcom,sc7180-dp", .data = &msm_dp_desc_sc7180 },
- 	{ .compatible = "qcom,sc7280-dp", .data = &msm_dp_desc_sc7280 },
+ static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
+ 	{ .compatible = "qcom,apq8016", .data = &no_ubwc_data },
+ 	{ .compatible = "qcom,apq8026", .data = &no_ubwc_data },
+ 	{ .compatible = "qcom,apq8074", .data = &no_ubwc_data },
+ 	{ .compatible = "qcom,apq8096", .data = &msm8998_data },
++	{ .compatible = "qcom,glymur", .data = &glymur_data},
+ 	{ .compatible = "qcom,msm8226", .data = &no_ubwc_data },
+ 	{ .compatible = "qcom,msm8916", .data = &no_ubwc_data },
+ 	{ .compatible = "qcom,msm8917", .data = &no_ubwc_data },
 
 -- 
 2.48.1
