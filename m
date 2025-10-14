@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D011BBD8C63
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 12:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236B8BD8D12
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 12:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD44210E21F;
-	Tue, 14 Oct 2025 10:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7177B10E211;
+	Tue, 14 Oct 2025 10:53:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jhHVLY6M";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="uQiy0j61";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 546C510E21F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 10:31:56 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id DBCE04E4108C;
- Tue, 14 Oct 2025 10:31:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id A49A2606EC;
- Tue, 14 Oct 2025 10:31:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 8630B102F2291; 
- Tue, 14 Oct 2025 12:31:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760437913; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=IurHRNwPS5bUvPhYdCwcQ9dFIG4PiztIuBV3e51dI4o=;
- b=jhHVLY6MGMT6NDtAeVatp666lR0Q3ErPybpTm/GZoCgz52fhFxeBZ88/KUFrMTy3tn7nQx
- OLS1Y0nMFLudn8RUF2CezHmKOrxoNrzt37GuMMWroWZOFA8DvMJx8528kv6PFAOjUSAuHj
- rP7u8nf0IR9tDMaWousMtO0BAZwxT+1SZ/bkG7QEgBQ3BkgmOhTovPDY+F549/aI4PI/R1
- ds3aArNw5sDGxPKxhcFdvtuWMyjVUlQtpwpEv6qpufX7RxRmd0s1A9lEYNFStkzqSfS8dn
- 0KsWwqvCN97v7SEMnmAO9DkNSYqxxVgkSdSux6tQJYqLJQU35Ow8k53fcAybrA==
-Mime-Version: 1.0
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B95510E207;
+ Tue, 14 Oct 2025 10:53:30 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmB0720Ykz9tX0;
+ Tue, 14 Oct 2025 12:53:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1760439207; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4GBxqcVmtpBayhDTm7JzPNfHqID20T0/7XJvsPHNbjg=;
+ b=uQiy0j61FYxky4gAqQp0HzpJP8h/Z7BP3EQe1oV92IOaBZwSNn720HLDProskPuO6zNHRv
+ T4rPQ80nPpRcF/FPAGxOFNGb3fChXFX0iUiso6UqYsBjO0XcKnoRvcrAXP/PP0H5WNEtFE
+ KXgsGp0wR23KLSYpo++IoOBVA7iNGlgzVevrCAUB49dpYUJ8Ayop98EXKxX08Vjh/2NfG3
+ j6/su+JW82HyFwm+Mu+xaCHNIQmEdRfOf967k4xcPoGVC/sleRYFpUP2XmOFbLvz56IHIe
+ +fsBPrOuK3m2stybUNeJXvVZi8fPS2bJk9itHxtLYCKZsDJ17eKQglHhG0MdsA==
+Message-ID: <618a50aabddace2531375bc18fb1ca9b00297490.camel@mailbox.org>
+Subject: Re: [PATCH 11/28] drm/sched: Favour interactive clients slightly
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Tue, 14 Oct 2025 12:53:23 +0200
+In-Reply-To: <20251008085359.52404-12-tvrtko.ursulin@igalia.com>
+References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
+ <20251008085359.52404-12-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 14 Oct 2025 12:31:35 +0200
-Message-Id: <DDHZ5GO9MPF0.CGYTVBI74FOZ@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Ernest Van Hoecke" <ernestvanhoecke@gmail.com>, "Anusha Srivatsa"
- <asrivats@redhat.com>, "Maxime Ripard" <mripard@kernel.org>
-Cc: "Neil Armstrong" <neil.armstrong@linaro.org>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Jessica Zhang" <quic_jesszhan@quicinc.com>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Hui
- Pu" <Hui.Pu@gehealthcare.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
- <regressions@lists.linux.dev>
-Subject: Re: [REGRESSION] drm/panel/panel-simple v6.17 WARNING regression
-X-Mailer: aerc 0.20.1
-References: <hlf4wdopapxnh4rekl5s3kvoi6egaga3lrjfbx6r223ar3txri@3ik53xw5idyh>
-In-Reply-To: <hlf4wdopapxnh4rekl5s3kvoi6egaga3lrjfbx6r223ar3txri@3ik53xw5idyh>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+X-MBO-RS-ID: 0caad1969b19553d187
+X-MBO-RS-META: 5e5awyn4f7diiicix6e56oem8qsyff6w
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,128 +65,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Ernest,
-
-thanks for your detailed analysis and report!
-
-On Tue Oct 14, 2025 at 10:13 AM CEST, Ernest Van Hoecke wrote:
-> Hello everyone,
->
-> Commit 94d50c1a2ca3 ("drm/bridge: get/put the bridge reference in drm_bri=
-dge_attach/detach()")
-> introduced a regression with the below warning dure probe with panel
-> dpi described in the device tree.
->
-> [    9.160074] ------------[ cut here ]------------
-> [    9.160092] WARNING: CPU: 0 PID: 66 at /usr/src/kernel/lib/refcount.c:=
-25 drm_bridge_attach+0x2c/0x1dc
-> [    9.160138] refcount_t: addition on 0; use-after-free.
-> [    9.160147] Modules linked in: coda_vpu(+) snd_soc_fsl_asrc snd_compre=
-ss v4l2_jpeg pwm_imx27 imx_vdoa spi_imx imx6_media(C) imx_media_common(C) v=
-ideobuf2_dma_contig etnaviv snd_soc_fsl_ssi v4l2_mem2mem imx_pcm_dma panel_=
-simple gpio_keys gpu_sched pwm_bl loop fuse ipv6 autofs4
-> [    9.160423] CPU: 0 UID: 0 PID: 66 Comm: kworker/u10:2 Tainted: G      =
-   C          6.17.0-rc5-0.0.0-devel #1 PREEMPT
-> [    9.160459] Tainted: [C]=3DCRAP
-> [    9.160476] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> [    9.160497] Workqueue: events_unbound deferred_probe_work_func
-> [    9.160535] Call trace:
-> [    9.160546]  unwind_backtrace from show_stack+0x10/0x14
-> [    9.160603]  show_stack from dump_stack_lvl+0x54/0x68
-> [    9.160637]  dump_stack_lvl from __warn+0x7c/0xd4
-> [    9.160672]  __warn from warn_slowpath_fmt+0x130/0x1c4
-> [    9.160726]  warn_slowpath_fmt from drm_bridge_attach+0x2c/0x1dc
-> [    9.160780]  drm_bridge_attach from imx_pd_bind+0x74/0xa0
-> [    9.160836]  imx_pd_bind from component_bind_all+0xfc/0x254
-> [    9.160881]  component_bind_all from imx_drm_bind+0xa8/0x154
-> [    9.160903]  imx_drm_bind from try_to_bring_up_aggregate_device+0x1f8/=
-0x2b0
-> [    9.160959]  try_to_bring_up_aggregate_device from __component_add+0x9=
-c/0x160
-> [    9.161003]  __component_add from imx_pd_probe+0xa8/0x160
-> [    9.161042]  imx_pd_probe from platform_probe+0x5c/0x90
-> [    9.161066]  platform_probe from really_probe+0xd0/0x3a4
-> [    9.161093]  really_probe from __driver_probe_device+0x8c/0x1d4
-> [    9.161144]  __driver_probe_device from driver_probe_device+0x34/0xd0
-> [    9.161195]  driver_probe_device from __device_attach_driver+0xa4/0x13=
-4
-> [    9.161248]  __device_attach_driver from bus_for_each_drv+0x90/0xe4
-> [    9.161299]  bus_for_each_drv from __device_attach+0xa4/0x1cc
-> [    9.161328]  __device_attach from bus_probe_device+0x84/0x88
-> [    9.161354]  bus_probe_device from deferred_probe_work_func+0x8c/0xcc
-> [    9.161395]  deferred_probe_work_func from process_one_work+0x158/0x2e=
-0
-> [    9.161434]  process_one_work from worker_thread+0x254/0x3fc
-> [    9.161449]  worker_thread from kthread+0x128/0x24c
-> [    9.161473]  kthread from ret_from_fork+0x14/0x28
-> [    9.161494] Exception stack(0xe0aa1fb0 to 0xe0aa1ff8)
-> [    9.161505] 1fa0:                                     00000000 0000000=
-0 00000000 00000000
-> [    9.161517] 1fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-> [    9.161529] 1fe0: 00000000 00000000 00000000 00000000 00000013 0000000=
-0
-> [    9.161539] ---[ end trace 0000000000000000 ]---
->
-> Note that this commit was added to branch 'drm-next-2025-07-30',
-> which did not contain an already mainlined fix for another regression [1]=
+On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
+> GPUs do not always implement preemption and DRM scheduler definitely
+> does not support it at the front end scheduling level. This means
+> execution quanta can be quite long and is controlled by userspace,
+> consequence of which is picking the "wrong" entity to run can have a
+> larger negative effect than it would have with a virtual runtime based CP=
+U
+> scheduler.
+>=20
+> Another important consideration is that rendering clients often have
+> shallow submission queues, meaning they will be entering and exiting the
+> scheduler's runnable queue often.
+>=20
+> Relevant scenario here is what happens when an entity re-joins the
+> runnable queue with other entities already present. One cornerstone of th=
+e
+> virtual runtime algorithm is to let it re-join at the head and rely on th=
+e
+> virtual runtime accounting and timeslicing to sort it out.
+>=20
+> However, as explained above, this may not work perfectly in the GPU world=
 .
-> Without that fix [2], this new regression is masked.
->
-> Reverting 94d50c1a2ca3 on top of
-> commit 260f6f4fda93 ("Merge tag 'drm-next-2025-07-30' of https://gitlab.f=
-reedesktop.org/drm/kernel")
-> fixes the issue. At that point, [1] was fixed in mainline, and the new
-> regression reported here was merged in. v6.17-rc1 to v6.17-rc7 are in
-> this state.
+> Entity could always get to overtake the existing entities, or not,
+> depending on the submission order and rbtree equal key insertion
+> behaviour.
+>=20
+> Allow interactive jobs to overtake entities already queued up for the
+> limited case when interactive entity is re-joining the queue after
+> being idle.
+>=20
+> This gives more opportunity for the compositors to have their rendering
+> executed before the GPU hogs even if they have been configured with the
+> same scheduling priority.
+>=20
+> To classify a client as interactive we look at its average job duration
+> versus the average for the whole scheduler. We can track this easily by
+> plugging into the existing job runtime tracking and applying the
+> exponential moving average window on the past submissions. Then, all othe=
+r
+> things being equal, we let the more interactive jobs go first.
 
-This is because the DRM_IMX has not been converted to the new
-devm_drm_bridge_alloc() [0] DRM bridge allocation API, which is now
-mandatory.
+OK so this patch is new. Why was it added? The cover letter says:
 
-I converted all the bridges, except for a few which I missed because my
-search was based on looking for drm_bridge_add() calls, and this driver
-does not call it.
+"Improved handling of interactive clients by replacing the random noise
+on tie approach with the average job duration statistics."
 
-I recently sent a series proposing to make drm_bridge_add() mandatory
-before drm_bridge_attach() in the docs and warn if that is violated [1]. If
-you apply patch 4 of that series you should see the warning.
+So this is based on additional research you have done in the mean time?
+Does it change behavior significantly when compared to the RFC?
 
-Let me have a look at the DRM_IMX driver, I'll try to send a series
-converting it to the new API within today.
+The firmware scheduler bros are not affected in any case. Still, I
+think that the RFC we discussed in the past and at XDC is now quite
+more different from the actual proposal in this v1.
 
-[0] https://elixir.bootlin.com/linux/v6.17.1/source/include/drm/drm_bridge.=
-h#L1282
-[1] https://lore.kernel.org/lkml/20251003-b4-drm-bridge-alloc-add-before-at=
-tach-v1-0-92fb40d27704@bootlin.com/#t
+I suppose it's in general good for graphics applications.. what about
+compute, doesn't that have longer jobs? Probably still good for people
+who do compute on their productive system..
 
-> However, later on, another regression seems to be introduced by
-> commit 8fa5909400f3 ("drm/bridge: get the bridge returned by drm_bridge_c=
-hain_get_first_bridge()")
-> so reverting 94d50c1a2ca3 on top of drm-misc-next does not solve
-> everything. This was tested by rebasing drm-misc-next onto (260f6f4fda93
-> plus the revert of 94d50c1a2ca3) and then bisecting.
->
-> So in v6.18-rc1, both regressions are present.
->
-> There, I get the following additional warnings:
->
-> [    9.732278] ------------[ cut here ]------------
-> [    9.732336] WARNING: CPU: 0 PID: 38 at lib/refcount.c:22 drm_bridge_ge=
-t+0x10/0x18
-> [    9.744608] refcount_t: saturated; leaking memory.
+@AMD:
+can you review / ack this?
 
-Not sure here, but it may well be another symptom of the same bug: the
-refcount was not initialized correctly, so it is found inconsistent later
-when trying to increase it. Let's fix the known issue and then we'll see.
+P.
 
-Best regards,
-Luca
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0drivers/gpu/drm/scheduler/sched_internal.h | 15 ++++++++++++---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 8 +++++++-
+> =C2=A0drivers/gpu/drm/scheduler/sched_rq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 14 ++++++++++++++
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +++++
+> =C2=A05 files changed, 39 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 58f51875547a..1715e1caec40 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -61,6 +61,7 @@ static struct drm_sched_entity_stats *drm_sched_entity_=
+stats_alloc(void)
+> =C2=A0
+> =C2=A0	kref_init(&stats->kref);
+> =C2=A0	spin_lock_init(&stats->lock);
+> +	ewma_drm_sched_avgtime_init(&stats->avg_job_us);
+> =C2=A0
+> =C2=A0	return stats;
+> =C2=A0}
+> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm=
+/scheduler/sched_internal.h
+> index c94e38acc6f2..a120efc5d763 100644
+> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> @@ -20,6 +20,7 @@
+> =C2=A0 * @runtime: time entity spent on the GPU.
+> =C2=A0 * @prev_runtime: previous @runtime used to get the runtime delta
+> =C2=A0 * @vruntime: virtual runtime as accumulated by the fair algorithm
+> + * @avg_job_us: average job duration
+> =C2=A0 */
+> =C2=A0struct drm_sched_entity_stats {
+> =C2=A0	struct kref	kref;
+> @@ -27,6 +28,8 @@ struct drm_sched_entity_stats {
+> =C2=A0	ktime_t		runtime;
+> =C2=A0	ktime_t		prev_runtime;
+> =C2=A0	u64		vruntime;
+> +
+> +	struct ewma_drm_sched_avgtime=C2=A0=C2=A0 avg_job_us;
+> =C2=A0};
+> =C2=A0
+> =C2=A0/* Used to choose between FIFO and RR job-scheduling */
+> @@ -153,20 +156,26 @@ drm_sched_entity_stats_put(struct drm_sched_entity_=
+stats *stats)
+> =C2=A0 * @job: Scheduler job to account.
+> =C2=A0 *
+> =C2=A0 * Accounts the execution time of @job to its respective entity sta=
+ts object.
+> + *
+> + * Returns job's real duration in micro seconds.
+> =C2=A0 */
+> -static inline void
+> +static inline ktime_t
+> =C2=A0drm_sched_entity_stats_job_add_gpu_time(struct drm_sched_job *job)
+> =C2=A0{
+> =C2=A0	struct drm_sched_entity_stats *stats =3D job->entity_stats;
+> =C2=A0	struct drm_sched_fence *s_fence =3D job->s_fence;
+> -	ktime_t start, end;
+> +	ktime_t start, end, duration;
+> =C2=A0
+> =C2=A0	start =3D dma_fence_timestamp(&s_fence->scheduled);
+> =C2=A0	end =3D dma_fence_timestamp(&s_fence->finished);
+> +	duration =3D ktime_sub(end, start);
+> =C2=A0
+> =C2=A0	spin_lock(&stats->lock);
+> -	stats->runtime =3D ktime_add(stats->runtime, ktime_sub(end, start));
+> +	stats->runtime =3D ktime_add(stats->runtime, duration);
+> +	ewma_drm_sched_avgtime_add(&stats->avg_job_us, ktime_to_us(duration));
+> =C2=A0	spin_unlock(&stats->lock);
+> +
+> +	return duration;
+> =C2=A0}
+> =C2=A0
+> =C2=A0#endif
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 8d8f9c8411f5..204d99c6699f 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1000,7 +1000,12 @@ static void drm_sched_free_job_work(struct work_st=
+ruct *w)
+> =C2=A0	struct drm_sched_job *job;
+> =C2=A0
+> =C2=A0	while ((job =3D drm_sched_get_finished_job(sched))) {
+> -		drm_sched_entity_stats_job_add_gpu_time(job);
+> +		ktime_t duration =3D drm_sched_entity_stats_job_add_gpu_time(job);
+> +
+> +		/* Serialized by the worker. */
+> +		ewma_drm_sched_avgtime_add(&sched->avg_job_us,
+> +					=C2=A0=C2=A0 ktime_to_us(duration));
+> +
+> =C2=A0		sched->ops->free_job(job);
+> =C2=A0	}
+> =C2=A0
+> @@ -1158,6 +1163,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,=
+ const struct drm_sched_init_
+> =C2=A0	atomic_set(&sched->_score, 0);
+> =C2=A0	atomic64_set(&sched->job_id_count, 0);
+> =C2=A0	sched->pause_submit =3D false;
+> +	ewma_drm_sched_avgtime_init(&sched->avg_job_us);
+> =C2=A0
+> =C2=A0	sched->ready =3D true;
+> =C2=A0	return 0;
+> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/sched=
+uler/sched_rq.c
+> index b868c794cc9d..02742869e75b 100644
+> --- a/drivers/gpu/drm/scheduler/sched_rq.c
+> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
+> @@ -150,6 +150,20 @@ drm_sched_entity_restore_vruntime(struct drm_sched_e=
+ntity *entity,
+> =C2=A0			 * Higher priority can go first.
+> =C2=A0			 */
+> =C2=A0			vruntime =3D -us_to_ktime(rq_prio - prio);
+> +		} else {
+> +			struct drm_gpu_scheduler *sched =3D entity->rq->sched;
+> +
+> +			/*
+> +			 * Favour entity with shorter jobs (interactivity).
+> +			 *
+> +			 * (Unlocked read is fine since it is just heuristics.)
+> +			 *
+> +			 */
+> +			if (ewma_drm_sched_avgtime_read(&stats->avg_job_us) <=3D
+> +			=C2=A0=C2=A0=C2=A0 ewma_drm_sched_avgtime_read(&sched->avg_job_us))
+> +				vruntime =3D -1;
+> +			else
+> +				vruntime =3D 1;
+> =C2=A0		}
+> =C2=A0	}
+> =C2=A0
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index bc25508a6ff6..a7e407e04ce0 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -25,11 +25,14 @@
+> =C2=A0#define _DRM_GPU_SCHEDULER_H_
+> =C2=A0
+> =C2=A0#include <drm/spsc_queue.h>
+> +#include <linux/average.h>
+> =C2=A0#include <linux/dma-fence.h>
+> =C2=A0#include <linux/completion.h>
+> =C2=A0#include <linux/xarray.h>
+> =C2=A0#include <linux/workqueue.h>
+> =C2=A0
+> +DECLARE_EWMA(drm_sched_avgtime, 6, 4);
+> +
+> =C2=A0#define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+> =C2=A0
+> =C2=A0/**
+> @@ -581,6 +584,7 @@ struct drm_sched_backend_ops {
+> =C2=A0 * @job_id_count: used to assign unique id to the each job.
+> =C2=A0 * @submit_wq: workqueue used to queue @work_run_job and @work_free=
+_job
+> =C2=A0 * @timeout_wq: workqueue used to queue @work_tdr
+> + * @avg_job_us: Average job duration
+> =C2=A0 * @work_run_job: work which calls run_job op of each scheduler.
+> =C2=A0 * @work_free_job: work which calls free_job op of each scheduler.
+> =C2=A0 * @work_tdr: schedules a delayed call to @drm_sched_job_timedout a=
+fter the
+> @@ -612,6 +616,7 @@ struct drm_gpu_scheduler {
+> =C2=A0	atomic64_t			job_id_count;
+> =C2=A0	struct workqueue_struct		*submit_wq;
+> =C2=A0	struct workqueue_struct		*timeout_wq;
+> +	struct ewma_drm_sched_avgtime=C2=A0=C2=A0 avg_job_us;
+> =C2=A0	struct work_struct		work_run_job;
+> =C2=A0	struct work_struct		work_free_job;
+> =C2=A0	struct delayed_work		work_tdr;
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
