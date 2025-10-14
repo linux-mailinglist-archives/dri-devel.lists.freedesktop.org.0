@@ -2,56 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C83FBD7126
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 04:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1278CBD735E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 05:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6FAF10E198;
-	Tue, 14 Oct 2025 02:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D569B10E129;
+	Tue, 14 Oct 2025 03:55:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="fyFGhwJW";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="hBTb01cv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A379510E04A;
- Tue, 14 Oct 2025 02:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=0W7I+dl8DSQnGqmj60m9MouHseze8cJzELVYWnnCpck=; b=fyFGhwJWKeaMWloZ6aKJi7zS1X
- 5kwXYznOeKHxCx0ieLGqPVcCGOR6SiaWWpvIGR20azRC/fXkZ/gq8iiDdbbv+cLCK/mBkyW1a+LcM
- 4p7h3zyt909nD7TPUtWzGQjseHGvhy5qSrswlJa/mA9t7JJm9KFtjhNsGe6nDd2rY0rVJ/gfiH4sX
- otNKI+yW4Aa5SWX7Y2T+frEPgBpQjBol9Xh2J3wUXMMzSt1P3sXigxiiK81aOmojoysLCwB/S8bzg
- lARTRZ1rZ83ELAsJUoLiPTXuC0pB8EVQKD13CimOergJDpR7KVC0Kc1kPWo+qd+DcyK1MkdHnmkHW
- T9/wfgJQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1v8UkB-0000000EyRP-0ns0; Tue, 14 Oct 2025 02:26:31 +0000
-Message-ID: <00e1ffa0-1576-43da-9c65-38f2d912d28e@infradead.org>
-Date: Mon, 13 Oct 2025 19:26:30 -0700
-MIME-Version: 1.0
+Received: from MRWPR03CU001.outbound.protection.outlook.com
+ (mail-francesouthazon11011014.outbound.protection.outlook.com
+ [40.107.130.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCA1D10E129
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 03:55:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NGt4uSfXCrThrOt5KDqmJ/CTVN5kPLd9JvQK7du2H2MvFKiSXQbyqiAB1KuANHocjroSObVdB5JuZ9VxgDIXye793rQ7pS9nEXPB+P3F8Sbf+U6hJzU9QB8GieBpOoRQRyKoFlX7d9pXcSCns7bwuYakvZYZ6cVNNhl4nmiVyUJwh/6aZqOhfzYxG55MC4kU2/mGBuanYDjhIgeALr98tmWhrqEKwivUQdPXhKPqgePQwXXwMFt0zhGLqqL6MOsbVvLRbCpepuzdxosXHaKyqayOSsq3Cz0SVnQFF+FCo+iAA478XBkGMvEo/+h68GVHo+xM8VhAtZU67p4ZPyR/6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=85w3OvvTFE8wa2dpTDYlqbebjbN1qOt3fEFsjt7sGa4=;
+ b=eyggfoGLKe3gzhfL2aIQ04318qQZzIWB7wpKXsGLJz1yZdzPKGk/Abts+wCebxMP2WqDnrVgn98AhIj5jAMe0+XPSt+NNRay5rKJIG6B/FLPdKWQllGqUE/Ku7m2YZXdqwUY19H04Ao5mIDGUMlh3Ad0Jca6ZTcGYvyOL5GAkxP4aUyQbqNxIaqV9HYY3YuLTEsw60EF9bbKcAiqRy0hWSbpbZCG6gIL79zRtpWgrruBAcHh28ooh8p1IkpnNG1IVtbzA5Qvk12mBXkdP13tZSkehPfkqhGjXUgCb+/5buDNi4u/7HBkg3Jw7JSxW3XJg46v/AK0S9WJ+q3g6SwSlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=85w3OvvTFE8wa2dpTDYlqbebjbN1qOt3fEFsjt7sGa4=;
+ b=hBTb01cvbuVdbsxV9o3wtxZQnDb34QLZV0IMAUjvW+YDUoWMyc05kc+WA6IUCSJ/GLFeWesrhn4C1j4Tniotwn0Azkz4jl5Jl3QrOr2Y8fPF/l3GOjT6KFiCwCEFt8H/mZsliTTg0XyCwounKwl53UYMfsF5uSY34ZXG61tPLTAyigRORKfZajeIP4U11YQx9SSR/caOUqfg2VkMuGgBEroMhLREnYTLkTh87aFVYXo51vSsd4BBAJnYcZ9qw7Wl+0IjRAGgWmvEN+O+o6DVTx9/sx6nC7UUih9KEtJx5HmpuG/CVt+gAWkIRQygLbvF10Up7LPSPdKT1K7vVaZWkw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by VI0PR04MB11867.eurprd04.prod.outlook.com (2603:10a6:800:31e::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Tue, 14 Oct
+ 2025 03:55:37 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
+ 03:55:37 +0000
+Message-ID: <239e8b99-0416-4708-9548-043d56ac88d2@nxp.com>
+Date: Tue, 14 Oct 2025 11:55:59 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/xe: xe_guc_pc.c: fix DOC underlines
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20251013182827.733781-1-rdunlap@infradead.org>
- <aO1aCNMPKTNZta4V@intel.com>
- <a9226ec9-d98b-49ea-a589-c1c2880cfbfb@infradead.org>
+Subject: Re: [PATCH RESEND v4 2/3] dt-bindings: lcdif: Expand the
+ imx6sl/imx6sll fallbacks
+To: Fabio Estevam <festevam@gmail.com>
+Cc: marex@denx.de, stefan@agner.ch, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ shawnguo@kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Ahmad Fatoum
+ <a.fatoum@pengutronix.de>, Frank Li <Frank.Li@nxp.com>
+References: <20251013205155.1187947-1-festevam@gmail.com>
+ <20251013205155.1187947-2-festevam@gmail.com>
+From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-In-Reply-To: <a9226ec9-d98b-49ea-a589-c1c2880cfbfb@infradead.org>
+In-Reply-To: <20251013205155.1187947-2-festevam@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0140.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b9::9) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB11867:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0b40c93-411d-40b4-f172-08de0ad588b9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|376014|7416014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WjZrNFJNM3dleFVjeGkvUnBIZ0xMK2xFOGJKUUg2QS9Od2tqVlB3bi9qc1Vj?=
+ =?utf-8?B?bUlSckNZUnA0Q0xaS1BaQ29pdlFnSTRUUU5VZnBsRDQyaXBEdUptZlhmblY0?=
+ =?utf-8?B?WG1YU3hqY0c2ak9hU2lFN0RGbDM2ZVVCanNDZDdmMXh0T3VlYzRXVzF0cEFL?=
+ =?utf-8?B?YzkyK2RvYWdOZlZDc21ENGdZMjM2dmRuajVkNnl0YXlwY1AvNHNySnVpYmFy?=
+ =?utf-8?B?MDdTN2hBd29EWE1ENlgxNk1JN0hFS29veG5pZVIxdU1pMnRFbHFrbVVJMy8r?=
+ =?utf-8?B?NkJhQlFhR0FpUUtteHZLVC9pNUdiaGJlZlRaN0gxejdIazdRTldCdWJQREk1?=
+ =?utf-8?B?NHYxVmR1N0hTS0NyZlpBV1cvQ3VoSDk5V1ExNFl1bE5YM0ZrWGdoSi91cTJJ?=
+ =?utf-8?B?MEt5eTlHenBWN3NKeFJFZTNxRGdUa1p4RWZSdUNyMUp3OUNraTRrUWtzbEsw?=
+ =?utf-8?B?MlJvMWxwdW1CRCtJTVNNdCtNL3dYa0tVV0FsQzVENlk0OW5iUENyQ2ZRZVlz?=
+ =?utf-8?B?aXNwbTV0ajlPVzR3akpHVDNWZnhyWkMxRDdMWk9rMTBvU2I5b3o3SmMrbG5P?=
+ =?utf-8?B?OWxYeTdiby81NWYzUDBqckNDV0dKMHhOYTdzS0RmUlBkL29HeThJcjdkTThq?=
+ =?utf-8?B?ekJhWXBZYXlYc3c0b0hHUlp0WTgyWTAxTmNma1l3dWtTRUdRMThOL25acXE0?=
+ =?utf-8?B?aHBRMktVa0ZQd2FtT0ptT0pzZGwxbHZsOWxwMlUxRG0rcHRoTDEzZ0ZldkdB?=
+ =?utf-8?B?ZXZNNjd2ZVV5aXJYYXBtSkJxZG5kakVDVG96VzZEV3JNUGZwSHlMNHRiWDd4?=
+ =?utf-8?B?R0wxLy82UlVmZDFtb1dMUVhjYWpWVk5Ndm1SUVU4cndwSmlXdzA5K25Eb0hY?=
+ =?utf-8?B?YUtvM0RRTW0zZTUxSmNnM3VSMzVGa2I5cWsxd2VSNXRJMkdNbXBOMnU4eFZU?=
+ =?utf-8?B?UHpLd2Z6MitiaUlQWGg3dG9iUGgrWFJXTTdZME5xbW5KdVBNeGwwdDhJbENs?=
+ =?utf-8?B?RmtBY3EyTEFnLzhvcGw0Vkp2NXZEQlhHcEdnQUhZaHFKY2k0Q3lOSkh5SFE3?=
+ =?utf-8?B?alZnQUkyeVNDa21CSEVBWkRXNnFMYkNQWWg4clpQd3htYTNBYmNwQU1zekg4?=
+ =?utf-8?B?WnNqaWVINmliaWJnWmNTOHBLaTZKRDZ2N2dkSGNKVUlrWnZkNHRqVkorR0tF?=
+ =?utf-8?B?V2hIKzlUU2RGUVZrakNIZDE2YktCQmUvanJlVW41TjRGSkhNU1FJN0FOVmcx?=
+ =?utf-8?B?dG5QMEY0aS9XMFczMkMreWJ2SjRPZmVQUXFoeVNTY1dta1FvK3hYWTZRMTNL?=
+ =?utf-8?B?dldhYm1XdTc5RkN5OEV0d2hsTklxczMwNis4c3g3TWlleEVvUzhPa3dKTVdP?=
+ =?utf-8?B?U0JnQzBtckhreTN0bFBkbEVEUG4vVkRVWHkyT204Mk5TK010RFVxTVlqK3Z3?=
+ =?utf-8?B?U3ZTbnpwOXlUNVc0K1NTTzhlOEVreHpoVFZPYXFPRGJGRHduT2NNbDU5ZUcw?=
+ =?utf-8?B?cVozQmcvYXB5MHhEUWV4S2d0KzNvSU92Mnp3YnlLY1lHZmdEWnE4T2EvNXRF?=
+ =?utf-8?B?MUR2aDVCeE8yUDFvbGRVUmEzQUlOSVBPSVFEaFl0dHRrdmlCeXVqbktFWmFL?=
+ =?utf-8?B?b3d4bVd5UUIvNTh1d2Y2V1BITE9JNTk0QkhUazIrZ2w2QVBIdWVyWExtTVRP?=
+ =?utf-8?B?WmgrQlVDQkt2UEtLc0wxczJWeDhjNHpwYmovRiswdTVaVHpuS2VsRDFDNWVj?=
+ =?utf-8?B?RkthY1ppcVJtdlgrTzA4NnFKUyt5RVd2M0dsVHNlcXhGSjNQcDlJZ3BDZUlQ?=
+ =?utf-8?B?RVVSdTJBWXpHRHJ2VEJnajl4NmJqU2s3NkQrR0c1QXJxTVJMcmRrMFVGT1Q5?=
+ =?utf-8?B?RnQyMFNnSnp4QXJrRzNEVEt5YjBkMkc0Y2ZYNERHeTN2RkJJaHRUVzFURmJr?=
+ =?utf-8?Q?S8sYWLpemoyuJ5KXafZ/2funPxxDhMDr?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(376014)(7416014)(1800799024)(366016)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mi9hZkxxNVN4V0ZrL09GR3Q1bDZDRVRxS2lMclVBbVdUY3l6L3B5NENUd3RW?=
+ =?utf-8?B?cER6eVhTME5mSnNmZG5ucklKTFVjM0JwS2liOW5mM0dqVWtEblFhdDJYQnpF?=
+ =?utf-8?B?V1ozNm94dUV6T3M0bVBoM2VuaHdNc2V2RnZGaUdKOGZvZSszL1dhVHdBZnhx?=
+ =?utf-8?B?ZnQ0aFprUzVsTENUS1JrS3N6bTMxNG41bHptZElmZEg4T3hyQit4cjZQMk5H?=
+ =?utf-8?B?WlVMN0pxQWkweWpYa08yVHlsUHNpeFhpZ2NmcmlyOUdsYTE2NFhMZDFYRzJO?=
+ =?utf-8?B?eTZkR0k0YnN5VmwyMDFiZFhZZjJ1T3FsR2N1NFhMd3cxZU15enJTa1dKdDhl?=
+ =?utf-8?B?OUhQdHp1dFRRejd6ckgzN295ajlvUlhYVDMrTDZmTGxWYUYvRkhlN0tYMnZ0?=
+ =?utf-8?B?MU40bkVNeTRlelAzcU1yTEdQZ0w2STNka0FqSDkreVJaTTdmQmozSUN6RHFD?=
+ =?utf-8?B?eWZtYmF5cjFBUW5XdkoycGc4eVNQblhBb3pwcXB6U2IrVmFJR0k5eEk3TkFu?=
+ =?utf-8?B?eVZyVEhMazlwbjdBdUp0Y0N4eDlTbm9vd1RaMGMzMVVTemVJM3pSbXVFaDBt?=
+ =?utf-8?B?UHcvRWwyZFJqWnRUcDVLNndOZk45NnlSODNBZ0dadUlRUkNPeTFiQy9OWi9v?=
+ =?utf-8?B?aU5IbmZab2tpVmNlMm9LaFVNVHJWUmx6eTVoRDk2NVpjUmQ4S1JwamZHUURD?=
+ =?utf-8?B?eFRDeDJZV2Z2anBuMkU1bTd5MXJPWk92RmpRUUNtSm9mNURKRE90T24waGRz?=
+ =?utf-8?B?RTZLTFA3TGZoNkxFZzFwWjVyem5mUjlRczN6K1c3TmdhVGtET1I3RWE0VVpC?=
+ =?utf-8?B?OTFxVHU5NHM2R0VJNHdPMENBWi80STc0VUpzS1pUT0Z5c2dRZWVvR2lSQngy?=
+ =?utf-8?B?TDRYdjZOcUtyVzVraWc3LzlyQUprWkZyTytoU1MrcE5UNnFRRzlnalFNMEtW?=
+ =?utf-8?B?elpJK0k2K3d2UXNwNUlreDcyQUwxQVFmdzFHcG0rSkFpandjVHNnYW9QQ0R3?=
+ =?utf-8?B?SWpwRmhoY3VBcVZhTjJXRXhJZjJaaEY1VWc5dldhT2xYd1ZIQkhEZjcxWHZa?=
+ =?utf-8?B?NFJ2R1hWeWxBVVZidzUrOGt4ZXdGc1RlRi9DOWVFdFdmc2VoRlB4YklmVVJW?=
+ =?utf-8?B?c291cFNvaTdpbTBUUmpWRzFuSThYNDlJc3laOVhzcnFYWmV4bVFUOUh4MFlw?=
+ =?utf-8?B?NUNrVTlvRVNqZDdYV28xVjJiSERoVmdXeXp1eU95NjVldllOUHBXUmdhMHNG?=
+ =?utf-8?B?OWJVQVRqK2k4NDd4cHQ3eENLbEhQWlBRNkJYcU00cjNhNzNCbmpRZlA4cHIw?=
+ =?utf-8?B?TUhwampnT0w1enFlMmJuQUlpeUxPd3JaWVhEdHhxUHJjemdXM21LbGIrWlg0?=
+ =?utf-8?B?a0JCVzJ1eWdnb2wyU0JWTFlhY0dwRUdWdnB5emNEOEV1RWtlQVJYNldnZmtt?=
+ =?utf-8?B?Q1Zvb0x4aUg1a3Fuc2FVbzBQUmhteFdzK0kzNGMyV0RoUVJOQ0d4L3RBNHZ0?=
+ =?utf-8?B?SWJaNmdnSjI3SnROZzBPM3I0czNER0RrRXlYTTlRVjZ4c3lsK0tIRk51U0c2?=
+ =?utf-8?B?QmhHeUwvcUlEZ3htRmZJQ0s1NUZNeGZGV2RLTnJoallDWGQ4L2g2OXVsc3lD?=
+ =?utf-8?B?U3poT09Fd3BQd29UZGdnc3FKSzZYR1lWN0RObDdZS3h5U2hibjc2aEcyaUlo?=
+ =?utf-8?B?Y3NDRUs4VEtobnJtVjR3SmlqQmt5ZHpNV2JoR0xIS1pRaXhaMVdRbnVGbHlt?=
+ =?utf-8?B?eFlXaTBSWjlGS2dwYkpHQWdOWS9Gc3hWaDVzY1ppZVQ3QWJ6cHNrODVnbkZT?=
+ =?utf-8?B?ZitpSlJrMHVoMXJSdUhVWk5iV09BeDBzd1dzYnlxcW1tWU55WkE1N3N3TWNw?=
+ =?utf-8?B?NWI4dy9uQXE3ZzhzRzhFbklXdmoxR2R6OW9FWlpjUVd4YmRtQ0d4bXRQZnc5?=
+ =?utf-8?B?TXdDMzRWQmxheDZHUE1hWHhZc1g5azc0WG5xd1NMb0RBMVltZmoxRkJQRzFZ?=
+ =?utf-8?B?aWswUTVXd29YK1NwUzFsZ1kwSWhLci80ajhBd3E5Rlp3S2hCNWJzMEJIdDlX?=
+ =?utf-8?B?dzRHR3lwZmJXR3laTTJsY1V4QXVYRDA4YSs3ZC9NaE9Fb3F2djQ2dmhEeE9l?=
+ =?utf-8?Q?TcyGQz2/ZiFJ5IndtiQI716ho?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0b40c93-411d-40b4-f172-08de0ad588b9
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 03:55:37.3564 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V1/PIIwFxGG3xG04vTdcc64VV8cKN5eh+hPpGnPepzonxILOPaJ4kazPBBoNsP11GKavYgAFohuI/b+GW1jaLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11867
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,146 +172,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[correction]
-
-On 10/13/25 7:08 PM, Randy Dunlap wrote:
-> Hi,
+On 10/13/2025, Fabio Estevam wrote:
+> mx6sl.dtsi and imx6sll.dtsi have the following lcdif entries:
 > 
-> On 10/13/25 12:59 PM, Rodrigo Vivi wrote:
->> On Mon, Oct 13, 2025 at 11:28:26AM -0700, Randy Dunlap wrote:
->>> Apparently a recent change in docutils has made checking of section
->>> heading levels (underline style) be more careful.
->>>
->>> There are 2 heading underline style errors reported here. Repair them by
->>> changing the underline style from Chapter (using '=') to Section (using
->>> '-') since they are used within a Chapter already (in xe_firmware.rst).
->>>
->>> """
->>> Documentation/gpu/xe/xe_firmware.rst:31: drivers/gpu/drm/xe/xe_guc_pc.c:75: ERROR: A level 2 section cannot be used here.
->>>
->>> Frequency management:
->>> =====================
->>>
->>> Established title styles: =/= =
->>>
->>> The parent of level 2 sections cannot be reached. The parser is at section level 2 but the current node has only 0 parent section(s).
->>> One reason may be a high level section used in a directive that parses its content into a base node not attached to the document
->>> (up to Docutils 0.21, these sections were silently dropped). [docutils]
->>> Documentation/gpu/xe/xe_firmware:31: ../drivers/gpu/drm/xe/xe_guc_pc.c:86: ERROR: A level 2 section cannot be used here.
->>>
->>> Render-C States:
->>> ================
->>>
->>> Established title styles: =/= =
->>>
->>> The parent of level 2 sections cannot be reached. The parser is at section level 2 but the current node has only 0 parent section(s).
->>> One reason may be a high level section used in a directive that parses its content into a base node not attached to the document
->>> (up to Docutils 0.21, these sections were silently dropped). [docutils]
->>
->> Nothing against this change, but I'd like to understand more on what has
->> actually changed. I have docutils 0.21.2 here and I cannot see this error.
->>
+> compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
 > 
-> Hm, I now have Docutils 0.22.2 and I also cannot reproduce this issue.
+> This causes dt-schema warnings as the current binding only
+> allow 'fsl,imx6sx-lcdif' as fallback.
 > 
-
-I cannot reproduce it with my patch applied!  :(
-Without the patch applied, I do see still see this.
-
->> Perhaps it was a temporary bug in docutils 0.21.0 or 0.21.1 ?
+> ['fsl,imx6sl-lcdif', 'fsl,imx28-lcdif'] is too long
+> ['fsl,imx6sll-lcdif', 'fsl,imx28-lcdif'] is too long
 > 
-> Yes, maybe.
+> The imx6sx-lcdif programming model has more advanced features, such
+> as overlay plane and the CRC32 support than the imx28-lcdif IP.
+
+Sorry for the late comment, but the LCDIF chapter in i.MX28 TRM contains
+the CRC register too, though I agree that i.MX6SX LCDIF supports overlay
+plane while i.MX28 LCDIF doesn't.
+
 > 
-> I suggest that we drop this patch.
-> Thanks for your assistance.
-I am now copying linux-doc, which I should have done to begin with.
+> Expand the imx6sl/imx6sll lcdif fallbacks to accept a less specific
+> fsl,imx28-lcdif fallback:
+> 
+> compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
 
-@linux-doc: I am seeing the above (2) docs build errors, reportedlyfrom docutils (v0.22.2).
+Looking at i.MX6SL TRM, I don't find any register to control overlay plane
+in LCDIF chapter, so I don't think i.MX6SL LCDIF supports overlay plane
+like i.MX6SX LCDIF does.  So, why not make the DT binding allow
+"compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";" instead?
 
-Rodrigo (DRM XE maintainer) cannot reproduce the docs build error.
+I'm assuming i.MX6SL LCDIF and i.MX6SLL LCDIF are exactly the same.
 
-Does anyone have any ideas about this?
-[patch copied below] [also:
-https://lore.kernel.org/dri-devel/a9226ec9-d98b-49ea-a589-c1c2880cfbfb@infradead.org/T/#m4e3005311d19eef3d24fc7a4c7129de0ff322f9c]
+> 
+> This helps keeping DT compatibility as well as using the more advanced
+> lcdif features found on imx6sl and imx6sll.
+> 
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> index ce31b873fb95..d665f3241e97 100644
+> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> @@ -23,14 +23,18 @@ properties:
+>            - fsl,imx93-lcdif
+>        - items:
+>            - enum:
+> -              - fsl,imx6sl-lcdif
+> -              - fsl,imx6sll-lcdif
+>                - fsl,imx6ul-lcdif
+>                - fsl,imx7d-lcdif
+>                - fsl,imx8mm-lcdif
+>                - fsl,imx8mn-lcdif
+>                - fsl,imx8mq-lcdif
+>            - const: fsl,imx6sx-lcdif
+> +      - items:
+> +          - enum:
+> +              - fsl,imx6sl-lcdif
+> +              - fsl,imx6sll-lcdif
+> +          - const: fsl,imx6sx-lcdif
+> +          - const: fsl,imx28-lcdif
+>        - items:
+>            - enum:
+>                - fsl,imx6sx-lcdif
 
-
-Thanks.
 
 -- 
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] drm/xe: xe_guc_pc.c: fix DOC underlines
-
-Apparently a recent change in docutils has made checking of section
-heading levels (underline style) be more careful.
-
-There are 2 heading underline style errors reported here. Repair them by
-changing the underline style from Chapter (using '=') to Section (using
-'-') since they are used within a Chapter already (in xe_firmware.rst).
-
-"""
-Documentation/gpu/xe/xe_firmware.rst:31: drivers/gpu/drm/xe/xe_guc_pc.c:75: ERROR: A level 2 section cannot be used here.
-
-Frequency management:
-=====================
-
-Established title styles: =/= =
-
-The parent of level 2 sections cannot be reached. The parser is at section level 2 but the current node has only 0 parent section(s).
-One reason may be a high level section used in a directive that parses its content into a base node not attached to the document
-(up to Docutils 0.21, these sections were silently dropped). [docutils]
-Documentation/gpu/xe/xe_firmware:31: ../drivers/gpu/drm/xe/xe_guc_pc.c:86: ERROR: A level 2 section cannot be used here.
-
-Render-C States:
-================
-
-Established title styles: =/= =
-
-The parent of level 2 sections cannot be reached. The parser is at section level 2 but the current node has only 0 parent section(s).
-One reason may be a high level section used in a directive that parses its content into a base node not attached to the document
-(up to Docutils 0.21, these sections were silently dropped). [docutils]
-"""
-
-Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Sorry for the resend. I didn't have .gitconfig present so parts of
-this didn't work as intended.
-
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-xe@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
----
- drivers/gpu/drm/xe/xe_guc_pc.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- linux-next-20251013.orig/drivers/gpu/drm/xe/xe_guc_pc.c
-+++ linux-next-20251013/drivers/gpu/drm/xe/xe_guc_pc.c
-@@ -74,8 +74,8 @@
-  * connected power conservation features in the GuC firmware. The firmware
-  * exposes a programming interface to the host for the control of SLPC.
-  *
-- * Frequency management:
-- * =====================
-+ * Frequency management
-+ * --------------------
-  *
-  * Xe driver enables SLPC with all of its defaults features and frequency
-  * selection, which varies per platform.
-@@ -85,8 +85,8 @@
-  * thus saving power. Base profile is default and ensures balanced performance
-  * for any workload.
-  *
-- * Render-C States:
-- * ================
-+ * Render-C States
-+ * ---------------
-  *
-  * Render-C states is also a GuC PC feature that is now enabled in Xe for
-  * all platforms.
+Regards,
+Liu Ying
