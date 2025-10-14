@@ -2,78 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254EEBD88EF
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 11:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DC9BD893A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 11:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC89510E0BF;
-	Tue, 14 Oct 2025 09:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6EB10E588;
+	Tue, 14 Oct 2025 09:53:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H0GOMysY";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HNOVm7Nn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E6F610E0BF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:49:43 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id
- d2e1a72fcca58-780fc3b181aso3016992b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 02:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760435383; x=1761040183; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hLJMAroOuEjEfmiC8wuRqME2tmvcm6bRHXY9lq4lfzg=;
- b=H0GOMysYhl3X9TQAbwAktmTOtfK1lLCeGVeetAGca1Fo86rNxs/E3v1mbSgxSEJGtg
- 12B5cIK4p7TqCs/xgioFOBtMK0pArmZysEF4lnDJ9TwnvHVbI8pcZhXWCIhD3adkNeQi
- AeBumJ+m26GhvWYhWwMlDR7nkqICu8tZHx1EUxPU0Tl1LR//J1TStu7NoE1hI0NolcJE
- KZgeQrtiLfATox93ZDeLIkTnHMsCUHO26ozCTCfSVK57mBsA74MYUt9KBh4+baUW7GwV
- c1zd0mj2aRjqz+xBuiT5D+irAwczVXw9NeJvpFO25xGQubxBacCgNrDoXOWD/3tw2yel
- MhAQ==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9389610E588
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:53:00 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87JPl030974
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:53:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ F0bffc/XzD9MvQE2h6D3BwBGaZfZTTXTRLHrFoBclpY=; b=HNOVm7NnkRJjzTul
+ 4m27bq5RnHkIE3pKfuThw6zYZRcYVwqQJ4GLjTZ2Vp7Km/aUk7yILUKO3HKu9+qI
+ u0cfEd2rMsLDqe2JzDWL7AVj9HtcYNfQ2VBGAQXvVckTmyn37lKPPKEfy03646At
+ 0Mc2Z4WC03US4WqVvLrAUKMLsAG8zZ/5cYEn8t9e/95ZWXFlxhi4v0gKmYUI3sD5
+ mVhFvSwg17f3htGliHI27DkfXtPkzQjWL7TO786c3ZfsHkQ0RbazZPMW2o7k6lw8
+ XILciNaxVBqsFMNLYQlvfjbMdgxQZR+xsRmAUrB0boAsouwPJUFz+zFGv5swGZC9
+ Bo604A==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qff0qynd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:53:00 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8649a8dbff8so226590085a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 02:53:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760435383; x=1761040183;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hLJMAroOuEjEfmiC8wuRqME2tmvcm6bRHXY9lq4lfzg=;
- b=iPq2oFxPe0K2WG8NbGsfMzmMw4Xi7MNMPUgy18d2Dtd1YuztETeow+NvcCCnGg3LSD
- ZITUg2lTE+YOHs9dpJ6vF6ZgqhEUBcucbWLvC4fR1OmulupFs58dR0K/WiCNi5NNx/Ra
- Tde2nfSnDatW1OePRt+t4uFq2dcO58NFXReFefNRDkm1y7Z2PNXuS8FTRXedWtZnmJ4o
- bNbGcJgUZ0T5aueWCMcONqkyNdhKU4T/Xw0L5z1LRn1mUKsryhpo/t22ZsE+AEgxbb2M
- TZhCID7Zi9MSVMAJh9Zl+9VNoDJsAl6NgQ8TR8PuyyeKa7KKzNbLyskLkuGuxX2ICntc
- PDXQ==
-X-Gm-Message-State: AOJu0Ywogk+/btk6yq/sXBbvixeMD56z4tXuK/ZjjBwTumMoSW9Cym83
- qGJVU/SZkU7eADsg54YSCoy52RVmjxu0X8hdwtCEUkL+IRUClOH8Zsr6
-X-Gm-Gg: ASbGnctEsh2lTbkHiUQT/53e5QiuYDBX8CV3RQEy/GR9ywVxRb9PHTbTRl9d4KjhkWK
- ESuUnun4j9irKSsiEzTCyi8B3rhW5pD/AAIyjb7fM/CSe9eAsgZfpeTLkcJvWRdx84BizdX5tH/
- 7Zw/KmCdIJmuZX/xlfXvTc1RaKDk0tSz7A85h5q0+CT9N6GjGziD4lG9nrn74mLN+Yd3vtU+kQr
- ym7OupJFB1lR4JKVU/Fvl0iLvvv5W/HmdKb7NHsSPmiaTgC4AtExl64TyIsr08Yl4c04bpBHc+d
- TcZsn8YbaUqi/DWles0Dvgce652VGAFDx1A+Bj6FAooCjc4Ty6KqopXydpCpz5OU68pyAHicTJJ
- uLJIBAaT8G9g5pkbrQhJwjdZA/xyRILPNV2XFJEbGlsp4Qljm
-X-Google-Smtp-Source: AGHT+IFnYsS5ZcTdUSC0sy8S/l3Mte/pJHbg/gCPohDJTseErwus40m+az1L8i+R6KD3mKSJoMA8Aw==
-X-Received: by 2002:a05:6a21:3288:b0:249:d3d:a50b with SMTP id
- adf61e73a8af0-32da8462f15mr31236051637.59.1760435382798; 
- Tue, 14 Oct 2025 02:49:42 -0700 (PDT)
-Received: from VM-0-14-ubuntu.. ([43.134.26.72])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b678df66ab0sm11465258a12.35.2025.10.14.02.49.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 02:49:42 -0700 (PDT)
-From: Junjie Cao <caojunjie650@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Junjie Cao <caojunjie650@gmail.com>, Jonathan Marek <jonathan@marek.ca>,
- Jun Nie <jun.nie@linaro.org>
-Subject: [PATCH] drm/mipi-dsi: Add dsc_slice_per_pkt field to mipi_dsi_device
-Date: Tue, 14 Oct 2025 17:49:34 +0800
-Message-ID: <20251014094934.322834-1-caojunjie650@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ d=1e100.net; s=20230601; t=1760435579; x=1761040379;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F0bffc/XzD9MvQE2h6D3BwBGaZfZTTXTRLHrFoBclpY=;
+ b=RKPCnb3wF0bQgiQw1RGSvvrIWU5gkm12OxQJUXphPEga4nZycU62OHI7q0pHfThjqN
+ NDB8Fub8LicxJ9Ge95UpZWd9G1ARliPAqyISsTxxUMyMU6IMojn+vU2Sd6sF0wgZGsDC
+ +P/xQp2kyYC1m+AzePvc9vdefbrpC3iM4uSW6dEzVmJmYLHvdcoXezckKsU4RWb3iK1R
+ Q/kgW0N+8XvOnpOtZ8j8MXLwdCXSN5cwXRNsWXBgapI+/dlBy/6qVVw1oSF7WWW85ZE7
+ 6yZmaZ0boRtK87nCIbqOeU+ItAuxsckexKnHUV3iDqy0X/W7JzcRFzlJWAV/EJk9cZXF
+ NokA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXkB09P2ho+HUlUPcL+RGdZ+PEbBiCGUbe2OBdAdAbFDlmivb6pzpB7c6sKWH28/y24HNvfVvRRrjQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzODnPrPCa5HJzL+7lvloh/kJJJI8RXbGkdrp4ik+gKrqvkGNjr
+ 3/bTgjfLK0WY9TKNroj5d57mKJsF0eh+D/7+wb0xz0UnTBD5xG8hkYPTwHlmLVWurZsj664x7WM
+ Ooo3QlLj63zUESvAS1QdNj9qQ8g2OEVIWrS+EwoJuyOI3r73tIBQPR6oODG7KhOWJGByf0/0=
+X-Gm-Gg: ASbGncuED4AEK6v9aRBXa0ON8JYHwDVyNVPu7amZ9ZDZoSaFd2NBdwznHS/1lqJVGDb
+ qAEPrKKD0oOB1hXYbkv0FnJZAM1LYu99Q9ed8S5I6R6nXn5kW8flRDxstRf01qsOPstXpEJ5pOq
+ QkgN7zcdNsA+wqvndVOI/as+2IwlN+cNvMGQTaPRawzIKDMw2dNAGqdT25xMxFOjE87xPKBAoOq
+ jbohaoyfXJlP7SxPTu8P5Qs9zOAtMvyhD+YtJX5bg+3ar4kBuHNtXD9TbVJ9U7l+k3W25Uh8h0r
+ C8dXRlJjAKz6A0J/iLaNcz/K3InYQJihaoDK8JuEEGTWvSEuR40ukA4kKUxmmG+R9N3BoyJHcWV
+ sRyXbWs1KSs2fPXllJ2o3Vg==
+X-Received: by 2002:a05:620a:7012:b0:862:bd48:923e with SMTP id
+ af79cd13be357-88352d9a2c4mr2163599185a.4.1760435578878; 
+ Tue, 14 Oct 2025 02:52:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEnUhF01Zofq6EjRpw5993//+lfD9xui8peDVWDyOkLe4ZPEIW0HfK9WyJ8gfgXNrAo6KOw/g==
+X-Received: by 2002:a05:620a:7012:b0:862:bd48:923e with SMTP id
+ af79cd13be357-88352d9a2c4mr2163596985a.4.1760435578438; 
+ Tue, 14 Oct 2025 02:52:58 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b55d65ccfe0sm1114443466b.25.2025.10.14.02.52.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Oct 2025 02:52:57 -0700 (PDT)
+Message-ID: <509e9902-2f74-484f-b5ca-e1605a221004@oss.qualcomm.com>
+Date: Tue, 14 Oct 2025 11:52:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: Enable DisplayPort on QCS615
+ Ride platform
+To: xiangxu.yin@oss.qualcomm.com, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com
+References: <20251014-add-displayport-support-to-qcs615-devicetree-v2-0-1209df74d410@oss.qualcomm.com>
+ <20251014-add-displayport-support-to-qcs615-devicetree-v2-3-1209df74d410@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251014-add-displayport-support-to-qcs615-devicetree-v2-3-1209df74d410@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX06qlBmNrE98d
+ janAn2yKQTsXt1E3raMh619YyhvafEyxoNH/Sv2LmtUxBeIka+OKiE/5WSe5Wq1WZs7rgJfWYUi
+ 2Sd/e+JpfmOSkItdc08FlgTWgNOb7tAd75iX/rmcImJkl6BsxLB/G9YLkW5h477sqvvxlJBKdAs
+ HzkEBpzfHGSjK0Y3JWsCL6SExnUAuWJ+/E4CAvTsOijVAxLExHfE+B6IGYuFyFGg65G3/aL8brB
+ r91mu6HIr2tDr0iCo2YkbnyWCTA12V71RhycwX/ZL6ttRvdHdnqmVPJHQJk8q/sniCKN4EpOC9H
+ YVBayab7qh1yVE7wiuX09zgyf/3EevXG1noWxHbKIL2bjPsNR7kmB3hpfJAsXsrcQC6d9LFEF4+
+ S7WvKN5VPcrFQxrrkG4KZuTTGtym/w==
+X-Proofpoint-GUID: tKb11H1oVJjNn3G9_-GGpqerzc0K4QTq
+X-Authority-Analysis: v=2.4 cv=PriergM3 c=1 sm=1 tr=0 ts=68ee1d7c cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=-JAsjFMKCY2WfoXnbYkA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: tKb11H1oVJjNn3G9_-GGpqerzc0K4QTq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,51 +139,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some DSI panels require multiple DSC slices to be transmitted within
-a single DSC packet. The DSI host will only correctly program its
-registers and avoid display corruption if the dsc_slice_per_pkt
-parameter is provided.
+On 10/14/25 11:42 AM, Xiangxu Yin via B4 Relay wrote:
+> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> 
+> Add DP connector node and configure MDSS DisplayPort controller for
+> QCS615 Ride platform. Include lane mapping and PHY supply settings
+> to support DP output.
+> 
+> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> ---
 
-Since dsc_slice_per_pkt is not part of the VESA DSC standard, it should
-not be added to struct drm_dsc_config. Instead, introduce a new field
-in struct mipi_dsi_device so that panel drivers can specify the required
-number of slices per packet, and DSI host drivers can retrieve it
-accordingly.
+subject: "qcom:" -> "qcom: qcs615-ride:"
 
-Originally, this change was part of a single patch that also included
-the DSI host modification. This patch splits out the mipi_dsi_device
-changes. The corresponding DSI host patch for Qualcomm MSM, along with
-a panel driver that makes use of this field, will be submitted
-separately.
+[...]
 
-Co-developed-by: Jonathan Marek <jonathan@marek.ca>
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
-Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
----
- include/drm/drm_mipi_dsi.h | 2 ++
- 1 file changed, 2 insertions(+)
+> +&mdss_dp0_out {
+> +	data-lanes = <3 2 0 1>;
+> +	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
 
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 3aba7b380..a6357e8c2 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -180,6 +180,7 @@ struct mipi_dsi_device_info {
-  * be set to the real limits of the hardware, zero is only accepted for
-  * legacy drivers
-  * @dsc: panel/bridge DSC pps payload to be sent
-+ * @dsc_slice_per_pkt: number of DSC slices to be sent in a single packet
-  */
- struct mipi_dsi_device {
- 	struct mipi_dsi_host *host;
-@@ -194,6 +195,7 @@ struct mipi_dsi_device {
- 	unsigned long hs_rate;
- 	unsigned long lp_rate;
- 	struct drm_dsc_config *dsc;
-+	unsigned int dsc_slice_per_pkt;
- };
- 
- /**
--- 
-2.51.0
+No 8100?
 
+Konrad
