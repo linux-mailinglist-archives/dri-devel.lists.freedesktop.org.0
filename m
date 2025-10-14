@@ -2,115 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E39BDBB4D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 00:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEED0BDBB80
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 00:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBC110E068;
-	Tue, 14 Oct 2025 22:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85EEB10E130;
+	Tue, 14 Oct 2025 22:59:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WzAIvDQy";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="lDEcy0Il";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xUVFUheZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 740C010E068
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:49:40 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EKROlY014658
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:49:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=KeHJEAXCDe/SdA6n+gSjbykg
- qNw7fG1eF0u1NLgvswk=; b=WzAIvDQyNOrQUS5nJgh5bUxl/d7g12Gb60Q1Y8KR
- 1YnE6+DNynkPgPwQVjvKRgaxA27LIYk9SKYSvxYG68WySEX4oHLs5G4+9fNB2oHI
- tGRo9m6HWmxX79BzEa9w+U/PKGQUqWjsipJWdQ5cToOa3Msbqmo7MsSXaYf9PO++
- PqUz6dglWhVxvn53AvgFMD3TyNcpxkmA0vXLebaBF2yFdokwYUOwcllI+JDVJHXl
- wM4mTypsme5k8nLB0IC0pt5QsERts3n5wLY4L6ntJ3nZ6pCCOKnHmdA1r45fd6S4
- 8mA1XmUAOIQXUHARvCRXIoRyc75gRXbj4lb2WABgp8DnEg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfdka90t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:49:39 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-78f6250f0cdso258167246d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:49:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760482178; x=1761086978;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KeHJEAXCDe/SdA6n+gSjbykgqNw7fG1eF0u1NLgvswk=;
- b=ZhSrBJwy609IYroUiQTcoMqeM1TVejuZ9B6z5oOIC6RGjxrWGIXs3gO5C8kOqCYY/M
- uVy/48yTLecdFp9FZEsz6EICbQ1wCZyaGW6F1DofbPcJ4YZ750WrNTK76NNOatTEjvEr
- RkK1ZjlS2Df5lutmARoKJzr5d1wH1FlQl45qejLiuelOdGmSib7pLazLaWArQ2dqLx4V
- nmlSCBqRnHyDbhK0Z7/iIT4AvbFv7FsHG/la6MpY4BDLVz4aF6TFlr2kGgfjJQI/GYgO
- 2PltAioyv5Y+kk/KrbFY/Ffm+Aq+Ss+3ZmesPrPoQNaIQwqovLGUKWDeGf0wvdNXE3cf
- q5ew==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkP0tj/i+/2M0k0EZS3FAn8gdALiQsqq9cx9KqYOo3Ac/HTjRka0EHdylSaBYqSSY0Y7Qv09QcAUc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLbbbTPByqAnKfpgXs359KZId243IuzLaWtwVV8ss5hzOVWspj
- v0EfcRU/9DjKCr7/7zM2oPJzWTGGk/KrA21IjzHuK7PYWFr/A1YeDl+uDIr4JMIm2RQXc31xYKy
- ZraECmEu2KZizjWf8Fimm7Guly/Lnd+LjDM3JoRIu72u87Btmch7akDVnlCl8kovFiSy0ejg=
-X-Gm-Gg: ASbGncvcqZHpZUVbh3X3xDQ8kMGRIQv2ukV2XUFqaCfce4TlYszrr855gaI7JnTKCjG
- 6XXltpUe7AF2sdUs6CtD6tCG1ubvE+RrGEjJIEHzdCa7L1fZP0fbt+hnsUMIaZ+8wGDfD8R7qKM
- S3cNqR//8Eon6BzWbPLJq9Y3pnUaEg+qShY9BfnFlAZGckwW39GOUIbN7qhVRx86VwlcLs9tF4s
- /w7BO+JVg3uCZGBwbAOHrB0MtZJM/ep7+WTt6z5F/Y+H2y8kv69h/ViNV0inwDbRb6xjryrd2eY
- JXyJF+c5tppLp/FRbaXlBZuyy+sv7K2m5TgvN6BQfMDilYnrOFzUNavM7tL/llSqArIDhqkhBi5
- Y6fgVpqdDo6ExG1r/IcFf2QdNGHC+R+rb0h5tPiPcunbogbTSbfSC
-X-Received: by 2002:a05:622a:6a95:b0:4e6:fdd5:9a03 with SMTP id
- d75a77b69052e-4e6fdd5aea3mr189498621cf.28.1760482178498; 
- Tue, 14 Oct 2025 15:49:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2Mw6dnNbvDWV6rvdZKEtX3VWIANo8s0KhpGW1BehetQ+uxJu8bXEGC6t0H/EOO98HvtUVlQ==
-X-Received: by 2002:a05:622a:6a95:b0:4e6:fdd5:9a03 with SMTP id
- d75a77b69052e-4e6fdd5aea3mr189498501cf.28.1760482178016; 
- Tue, 14 Oct 2025 15:49:38 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3762eb6264asm42578751fa.54.2025.10.14.15.49.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 15:49:36 -0700 (PDT)
-Date: Wed, 15 Oct 2025 01:49:33 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 03/16] drm/atomic: Add new atomic_create_state
- callback to drm_private_obj
-Message-ID: <c43t73qbgrimpuinjsjyxcit6cvjflusomjayzv62nvvvmtwuo@elo37btubnul>
-References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
- <20251014-drm-private-obj-reset-v2-3-6dd60e985e9d@kernel.org>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF2610E130
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:59:54 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmV6J1LRGz9tvJ;
+ Wed, 15 Oct 2025 00:59:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760482792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4hfowH2iHudGa0LkdrtS84kdcHbiN+9po/FhXQJzKNc=;
+ b=lDEcy0IlAKe7LED+HzIzOHqp7CRKXKALzRrQvDKmrcT+wSLI8n83tfSuSjmrDfFXpayuFZ
+ D/To6s3CvThP/7sijhPgJ0EAXtGCAvTCiKU0hr6VoOZ2EXwEd+pirxb2DYcmsWOwxuzKe7
+ v2fyfqfHItH+5h09GPlqQAPfuAxAu2azo2UqNy56zXTOW4MqPFdpitQ2Xxx4iE9aNGqlC8
+ nb8nbZLPr4IhuTRN8T7YfzqaTccW2zL4BslS3CNut000rO3wDjAN+VZeuR/mrLzeHKRzKc
+ ypTa4p2sU3wR40taTxUJFxAGHWs3Yr4evv0CtGzFYK5qYoB/fC8RKzR3INpzsw==
+Message-ID: <e93779e7-026b-4b48-9d9b-dfef3d953749@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760482790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4hfowH2iHudGa0LkdrtS84kdcHbiN+9po/FhXQJzKNc=;
+ b=xUVFUheZfugfP5J1pOCixDTQUpRLR9ZwawCcYGvcbW0pX3TvbJAVoSQR0l//+64oGR/MuC
+ blIqT6PMlEMDE32pIZjKikeZZZ6Esi+Tluf4fTwEaEqODCW8cHnbbowg5IEy5Pol3VmG/t
+ wJdllMmbnaVfbRqAKkNHWe9SxD7JNhKUw1Iq4FYbKsa0Bd/x04aPTN5wXuX/CIicFhqQY2
+ NXckdpuJlHBs606HssIwzgcfZWsjPuVfR2lY02+kbvVV2raxdD0+jRTlQzkqilhKH6y4h/
+ TS/wUVguGXKs4890cebtTyZCBWI10ZFHQBYEgCllVDjVFIe98h00NosUuw2sug==
+Date: Wed, 15 Oct 2025 00:59:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251014-drm-private-obj-reset-v2-3-6dd60e985e9d@kernel.org>
-X-Proofpoint-ORIG-GUID: ip2H9tQoJ8c0MujOE12YtGGeFldkcEE0
-X-Authority-Analysis: v=2.4 cv=MrNfKmae c=1 sm=1 tr=0 ts=68eed383 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
- a=QIP46MeQ_TAT4ufz3jAA:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-GUID: ip2H9tQoJ8c0MujOE12YtGGeFldkcEE0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX5PCNsIqWQqMZ
- nK/vZkrAUeLqstUBlTEfq8sg6lFLS4iHpzdBiyQ6RZpVsa/D5VeSHdTdPoSc0Bz88gSq1GM+Io8
- dKsn5lHFikbvmESmh7ZYBFGYrl86WpVIh1dlNiimRf+Dzo/Xzh7yRgNeN85Tc2/xnE6+T+fOZzP
- EZvKeBmGxNh8wZ6aU0c8FSzyraQvQrD2RaBlxJ/gTOhF2K00axJvk8uPXzvTQTMEJmn7IL6xOcI
- gwO5WcJFIOMjzRyc9n0OtDZ/Le47mGbqp0wsf4nFD2DUqXaFOVSeaKjkOQlQ1FXW2NKL36l1msC
- r158dS8AiLL/IMheQ7mT4rbgpou4SMLbsUSOGPkQfbqOwq8YW8sHdMw1r/1RMvgj72sAAkCcS0b
- H8yoAGjM1UzifgooxRj8LJv9YpTEAQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+To: Matt Coster <Matt.Coster@imgtec.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
+ <20251013190210.142436-2-marek.vasut+renesas@mailbox.org>
+ <d4ec2cc2-882a-4842-ad8c-42033ceb2bc7@imgtec.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <d4ec2cc2-882a-4842-ad8c-42033ceb2bc7@imgtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: ya4auwctb7mmsqbrry9umriad1d3o4wa
+X-MBO-RS-ID: 34d82dfc4b4fa9568db
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,115 +93,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 14, 2025 at 11:31:47AM +0200, Maxime Ripard wrote:
-> The drm_private_obj initialization was inconsistent with the rest of the
-> KMS objects. Indeed, it required to pass a preallocated state in
-> drm_private_obj_init(), while all the others objects would have a reset
-> callback that would be called later on to create the state.
-> 
-> However, reset really is meant to reset the hardware and software state.
-> That it creates an initial state is a side-effect that has been used in
-> all objects but drm_private_obj. This is made more complex since some
-> drm_private_obj, the DisplayPort ones in particular, need to be
-> persistent across and suspend/resume cycle, and such a cycle would call
-> drm_mode_config_reset().
+On 10/14/25 1:52 PM, Matt Coster wrote:
 
-Doesn't that mean that we need to save private objects's state in
-drm_atomic_helper_duplicate_state() and restore it in
-drm_atomic_helper_commit_duplicated_state()? Private objects don't have
-.atomic_commit() callbacks, but they can be used by other objects during
-drm_atomic_commit().
+Hello Matt,
 
-> Thus, we need to add a new callback to allocate a pristine state for a
-> given private object.
+>> +++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+>> @@ -2565,6 +2565,18 @@ gic: interrupt-controller@f1010000 {
+>>   			resets = <&cpg 408>;
+>>   		};
+>>   
+>> +		gpu: gpu@fd000000 {
+>> +			compatible = "renesas,r8a77960-gpu",
+>> +				     "img,img-gx6250",
+>> +				     "img,img-rogue";
+>> +			reg = <0 0xfd000000 0 0x40000>;
+>> +			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+>> +			clocks = <&cpg CPG_MOD 112>;
+>> +			clock-names = "core";
+>> +			power-domains = <&sysc R8A7796_PD_3DG_B>;
 > 
-> This discussion has also came up during the atomic state readout
-> discussion, so it might be introduced into the other objects later on.
+> My comments here apply to the other dts patch (P3/3) as well since the
+> integration appears to be identical between the two SoCs.
 > 
-> Until all drivers are converted to that new allocation pattern, we will
-> only call it if the passed state is NULL. This will be removed
-> eventually.
+> There are two power domains on this GPU and the SoC exposes both of
+> them; no reason to fall back to the single-domain scheme here.
 > 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_atomic.c | 20 ++++++++++++++++++--
->  include/drm/drm_atomic.h     | 13 +++++++++++++
->  2 files changed, 31 insertions(+), 2 deletions(-)
+> I know the sysc driver declares the dependency of _B on _A, but the dts
+> shouldn't rely on that, so can we have:
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index a5c5617266ae1dfe6038baeee6dfa3828c626683..36b56c71cb4e1ddc57577df724efe7d89b4fb6a9 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -793,15 +793,31 @@ int drm_atomic_private_obj_init(struct drm_device *dev,
->  	memset(obj, 0, sizeof(*obj));
->  
->  	drm_modeset_lock_init(&obj->lock);
->  
->  	obj->dev = dev;
-> -	obj->state = state;
->  	obj->funcs = funcs;
->  	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
->  
-> -	state->obj = obj;
-> +	/*
-> +	 * Not all users of drm_atomic_private_obj_init have been
-> +	 * converted to using &drm_private_obj_funcs.reset yet. For the
-> +	 * time being, let's only call reset if the passed state is
-> +	 * NULL. Otherwise, we will fallback to the previous behaviour.
+>     power-domains = <&sysc R8A7796_PD_3DG_A>, <&sysc R8A7796_PD_3DG_B>;
+>     power-domain-names = "a", "b";
 
-This comment does no longer reflect the code.
+Both SoCs fixed in V2 , which I will post in a few days , thanks !
 
-> +	 */
-> +	if (!state) {
-> +		if (obj->funcs->atomic_create_state) {
-> +			state = obj->funcs->atomic_create_state(obj);
-> +			if (IS_ERR(state))
-> +				return PTR_ERR(state);
-> +
-> +			obj->state = state;
-> +		}
-> +	} else {
-> +		obj->state = state;
-> +		state->obj = obj;
-> +	}
->  
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_private_obj_init);
->  
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 9b3fb98b1e88c38877abdcb9df4d1c9540768833..10a71c4b6afc316f07023756be4cd3ed1d1d2974 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -205,10 +205,23 @@ struct drm_private_state;
->   * added to the atomic states is expected to have an implementation of these
->   * hooks and pass a pointer to its drm_private_state_funcs struct to
->   * drm_atomic_get_private_obj_state().
->   */
->  struct drm_private_state_funcs {
-> +	/**
-> +	 * @atomic_create_state:
-> +	 *
-> +	 * Allocates a pristine, initialized, state for the private
-> +	 * object and returns it.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * A new, pristine, private state instance or an error pointer
-> +	 * on failure.
-> +	 */
-> +	struct drm_private_state *(*atomic_create_state)(struct drm_private_obj *obj);
-> +
->  	/**
->  	 * @atomic_duplicate_state:
->  	 *
->  	 * Duplicate the current state of the private object and return it. It
->  	 * is an error to call this before obj->state has been initialized.
+>> +			resets = <&cpg 112>;
 > 
-> -- 
-> 2.51.0
-> 
+> Is this a reset line? Is it a clock?
 
--- 
-With best wishes
-Dmitry
+This is a reset line. The MSTP controls both clocks and resets, but this 
+particular phandle describes reset control.
+
+> I see this pattern used throughout
+> the Renesas dts, but I'm just thinking how this will interact with the
+> powervr driver. The reset line is optional since some hardware
+> integrations manage it for us during the power-up/down sequences, which
+> appears to be the case here with the MSTP control (from my brief dig
+> through the Renesas TRM).
+
+As far as I can tell, the pvr_power.c toggles the IP reset after the IP 
+clock were already enabled, so the IP should be correctly reset. What 
+kind of problem do you expect ?
+
+> Related, see my comments on the bindings patch (P1/3) about how clocks
+> are wired up in this SoC.
+I tried to reply to that one, hopefully it makes some sense.
