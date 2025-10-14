@@ -2,91 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC78EBD84B6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 10:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4AABD85D0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 11:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271DC10E57F;
-	Tue, 14 Oct 2025 08:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1AE10E0E6;
+	Tue, 14 Oct 2025 09:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SOSdCEFN";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Khahb931";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A889810E57F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760432069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NAy88YMnGtIP/uqwpz5GQHTqHQIlvLAglo0Pv+LXXqc=;
- b=SOSdCEFN3QajJOqwlvggNPfUIlnd8j9fknf8OMRbDdIQpUrQBXEXwL0ZE4Ad0AhaBHkdYO
- RRbaOcf8xfSaA9XPbBSWIAY39OLIbr7XmqVrunqQi+CslHz7fqf6ss2rCQleQRX/x43wOV
- W02+D2cVtdwqrfWHqVz2YAUa2AmaLyE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-185-62DyzaVHM0e756IlHWceTw-1; Tue, 14 Oct 2025 04:54:28 -0400
-X-MC-Unique: 62DyzaVHM0e756IlHWceTw-1
-X-Mimecast-MFC-AGG-ID: 62DyzaVHM0e756IlHWceTw_1760432067
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-426ce339084so3752393f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 01:54:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760432067; x=1761036867;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NAy88YMnGtIP/uqwpz5GQHTqHQIlvLAglo0Pv+LXXqc=;
- b=LAKD9meE6ox6KqY4byzYMTpBjwzxXFNZo53Pv3ku77r9GbflCi/LC2O5Se7HNXELoa
- nGaidzekcIc7wsY5hrtvESj54oGGOgCvUDR3pXsNNDhu5YqLuf2k73RurEjN0SIAAdbX
- ayKkRb3lxef4AG+ygQHni9tGcmzU77q8oHkcBSTU7/LtQw0/CzMmWGXBrUanlL+AX70l
- Yye3QUmNp98sZoI6VRgW6hdDGsD1pPz4Rm7cskGSPYJ6PbpYA44Qw1qeP6IjOJwrDE//
- ZKUyNc9MJWi0TKP4i+/YyI8sYkN36YtvqAiFjxz4iODwuMvqrs34iRzJ3WineV2IaeNC
- +GVA==
-X-Gm-Message-State: AOJu0YzUzak0Tpi1lm1XST3FHDOBln/0broSWmPA3MKNzFlg/SMhUOjd
- EcH0A/SIoU6VCWucmbryE/qHhw5+BbeZWkb/LwZAk4cO3iKVu2ne7GOy7c3cId+W6fEacql1mZE
- mBJSK2ofT4Po3zpf8lsrhe7egDO0h76Qq9j9oAZyfyd6zsvI8qAeEKXM44WRQ0t0ZAx4oTw==
-X-Gm-Gg: ASbGncvfWSWGmYJDdDGqj99SU/buK9iclm8/4Ji6BTrui9KtV5UCS+he5OWBpyCXiv4
- heHrX9vSSUWlcjOCoW/Un+e+VBu6sBQiuotPhjDtOHi20tafiPoZnph2eRoOQ1tfgP8COh66tuv
- 3Q+F//H8qWPVLZ1Lx/AiJz9BtrsP967UnfnuExMUG8mesGillQTvmtN+OPO1wos7XhfwCwa9hNJ
- B/AINJ4hO6pFvNjumBHnqpRgEKpsKM3A1V4mJjMHE38vIsHEZDMuee9f78cwoxai/JdXT4ISaFp
- eQm63qSdALhcD7blfWT2+p0Q5LgBUGOReTBaPuvW0lhBZzehMDvB8nXPauCUGCBowWjt9JGzs6O
- OgUwz
-X-Received: by 2002:a05:6000:240d:b0:425:7c3c:82cf with SMTP id
- ffacd0b85a97d-4266e7cdc8fmr17010193f8f.11.1760432066928; 
- Tue, 14 Oct 2025 01:54:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEsn0T1UJGNN+DMCPRU7lJk5Itt5x7z0YHqju+V9yATaC5KHWal8J0l4vDY6qI1Yqyz0I9Uyg==
-X-Received: by 2002:a05:6000:240d:b0:425:7c3c:82cf with SMTP id
- ffacd0b85a97d-4266e7cdc8fmr17010170f8f.11.1760432066481; 
- Tue, 14 Oct 2025 01:54:26 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-426ce5e833dsm22538021f8f.53.2025.10.14.01.54.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 01:54:26 -0700 (PDT)
-Message-ID: <34466c59-cea5-4a09-9dfa-83e25dbc49eb@redhat.com>
-Date: Tue, 14 Oct 2025 10:54:23 +0200
-MIME-Version: 1.0
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11011057.outbound.protection.outlook.com [52.101.65.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECECF10E581
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:13:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HVpC0ClynQR9iIVHu0zSqdL4Wd7WTn2dBKw9YSTmmP0njmKXQGIWlnGWbMpN3FHjUmg+gSwZfl8IIJrO8+7GkezN4BXs/WuXmk+ta83ieCl3yFu1lIJVVEUhhLAUGpW2alsGo+Wpwnx1JVY8hRlUtFdXV+dgBJe9hCEV+aJ7SSP6rtCad7ReUlY5Pc3w1Us02QOupcEv9yNSwYlitTb0H2om+PI2BvXf8yqCG9wHhSbZmJLXDVQb5AoR9wROli3rjKkKHL/EQ3ntYc4tPzMXvN0exhXSoT4sdIdqn4qL0Roa1JVcRnfZuo0A5p6JYOoPzfaKbIxSb4DED6+3MPZFEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L/oML7k624R1w5E3O2oDT1WldbYjenvEtTNpfTKarlU=;
+ b=MWOWZAqkxDXaAHUiTtsayfvHTzLXwxvQmlXGo1qnPyZ9lSuh1/rXoDiA3U1fPFOyDItEvV0XXxL3/kslmEG4oOFrQIBbYGgsrZowNMP/S6YJHVM6TpztaMYiu0gZTqCjWE49Qroi/SzCUNs/t5Oa8wPrRY2CwXRmeo/8McydSnJjvUGJW1dQuOaELVxXyo3LjmmSeiqku+sgP+i8gyUez4kfBlNojQno+MXWMSRv+ydclM6lBle8zBgFCnUDZ/Q71Fm7XQoDZUu0MiyKhB6NvDYXZ/0pZ+2rwQVp7tGiUlYPXUOGfhccEDFJC32MM+5H1UYrAATR5U3sYdgzmTlkbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L/oML7k624R1w5E3O2oDT1WldbYjenvEtTNpfTKarlU=;
+ b=Khahb931QJkfYeKfU2G0g3Mz7w3n9uerXWlsTV5Fp048g7Jhi1IFXviReUHngKsGSWZXTB/aW8OtLbwA+sST622MdAFb2b3ixzN7GHpsHfntwUrdT5gcnm1MiFEvULadyr57QeshGUkW4mIb/PqrBivUoJ9mIEm1Gd6cCNYmrVJQLZBwFBW6JNQzpDDvEuqIIhKwH5GTt9vECJYs555KIONQkKuIroHEmz5tWQ569RFhPTsAUinzmWvYQChvhYEmQGxVOLV1ko1fbstl74zKf9dg8cwuWBu5u+AZvHVU7IWkOBbY8CIflZpgZUS1egUnEsgfXRbNb3gvesgxTkO82Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DU2PR04MB8615.eurprd04.prod.outlook.com (2603:10a6:10:2da::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.9; Tue, 14 Oct
+ 2025 09:13:20 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
+ 09:13:20 +0000
+Message-ID: <2a22c45e-5de4-49ee-af3e-002941a7e2d0@nxp.com>
+Date: Tue, 14 Oct 2025 17:13:44 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/ast: Blank with VGACR17 sync enable, always clear
- VGACRB6 sync off
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- dianders@chromium.org, nbowler@draconx.ca
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
-References: <20251014084743.18242-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251014084743.18242-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: pyki8P3h5szuwU8cDaX_NnNbf_yAeJG8mrGSR58i-zw_1760432067
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 00/39] Add i.MX95 DPU/DSI/LVDS support
+To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
+Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+References: <20251011170213.128907-1-marek.vasut@mailbox.org>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20251011170213.128907-1-marek.vasut@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR06CA0228.apcprd06.prod.outlook.com
+ (2603:1096:4:68::36) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8615:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6b77819-ef58-4240-ed54-08de0b01eb1e
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|19092799006|1800799024|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1ZNODlrZzFYcUNVTWtnWWhIeEFieEw1VmtNVmZlYW1tRXFJcUdISjdtSHJV?=
+ =?utf-8?B?U3JnU2JVRm9tdVVGMW03UnpxT2Q3Um9CV3JXT2pGeEVTb0ZDZEhKWmdXbXkr?=
+ =?utf-8?B?MFlvWko4T2JNMXdKZENRUVVWSWxFZm9iM2thdjRCWEdwcXBmcjZIZ0crYUF6?=
+ =?utf-8?B?KzhrMmRGRFdMM1N5dmdlK09KSDZuelZsOUI3QUJBNE8xSWxrenlhNEo0Snh0?=
+ =?utf-8?B?V0RINFJ6WnluRWhjS0d3WTQ0RFhPVG1FVkNYUnZxTUYxQ0RpQVBvMWUzSnRD?=
+ =?utf-8?B?ek5EbDdpRU9MUG5rc09PajVOa2pNc0p4VU13SC9hQ0wyTWQ1ZXlPRGxRZThh?=
+ =?utf-8?B?Tlc0YUdjUllkT1UzM3RmVDlqRzJuVEZYRlVJL3B3T05IYVVFOGYrbENMcVgx?=
+ =?utf-8?B?TXp1MlVPTmNQSDM4WFpMOHBmMEN0MkNFNHJxeXI4d2QwZG5VOFZhT3NhZXpl?=
+ =?utf-8?B?cWJFYXZKWlFhVStWTTRVb2N1UTVQSDBxQmJrZWxtN1NQRHZ6b0VqaTFlRUpX?=
+ =?utf-8?B?R2gvNVhuZ0xNSkY0dXpwWjB6YnhUYkNKTmltMDliWit6YlNNSjdUZ0NtREU5?=
+ =?utf-8?B?Z01uRklqZ2JaaHliNC8xb3h4MGhSbm1xU0Y2RUJLNjQvaXJ3SDh5OER1TTRC?=
+ =?utf-8?B?TVk5VEk3RWdyNXhYK01jelAwazV3bWE0eGhhQ2ZTYXV0ZG51M2w3Sm9NSVpE?=
+ =?utf-8?B?eVZvWGpPOEhZakc2ZjZnWjFadVlFanA0cEMzNTJHM2srN3ZZN2x5NkNsRXZG?=
+ =?utf-8?B?R0QveGRudTVpTG5zRWQzQUU4Tkd0SHd1R1ZKRnFISEowOElRTVNnV1A1QTJD?=
+ =?utf-8?B?TWhIMUx4T0hPMS9xbHpIeEVoVExuRHlhWXBTdnkzcDEyNjB3Z1YzNlBkZkJn?=
+ =?utf-8?B?VTVsTFY4RDA1L1JPdmVaaVBDZXJSWWZKenh5SUNJVDBiUy84YmxmTnFYY2Vh?=
+ =?utf-8?B?eTBid1F1cnpJcDBESXYrRUVHMFdRMG1MS1NFM0p0U1FKVGJFaGUvRkRwRVJC?=
+ =?utf-8?B?RmRCdFBhM0NLY0JSZ0s4THVzYitJKzJDTUliSndsUnRGY0YzUGtLallJYnN4?=
+ =?utf-8?B?MEFrdkI1cmhRczlIbGl6RHVPM2ZpVTlOYWZuZHZNTC81c2FlSkZQVlVKa0Jy?=
+ =?utf-8?B?cm1lQ2Fia0JhWTJBNWtiR3pRTHVpQjRJVjB1ajBRdEF4Y2VmNFJhSHZKQW5q?=
+ =?utf-8?B?Znp1OVRwNkMxVUU4M3ptckw0T3JWOXd4aXl1ck9Ka0kvbTlCczN1aUNpbTEr?=
+ =?utf-8?B?cWtTV1l4alExWCtFME92R0YzYjUvNGt6dCt5UHJVc0s4OER4blZ5L3Y1RER2?=
+ =?utf-8?B?bTVvc0tSSERmUlBNUUxSK0p1QzBWL29RMUZyY1pkb1JwU1grUVNxT0lGSzM1?=
+ =?utf-8?B?ZWtJcHhOOXVZalQ1enBWaGpPcFJiVU9Rdm5DVjRGZytsUjNSY0tiSHhDcVZM?=
+ =?utf-8?B?cXAvd0dkUmVlTk9PZHZiRjJJdXNmNzk2bE1zQ1JBeWgvUXFXUU9RY1BneDRQ?=
+ =?utf-8?B?NnhNSGFuRVh4Y0ZSM0VHdk9sdnY3cHFyVVNUc1lrNDQ1ZTloYXNPRVRQOFlX?=
+ =?utf-8?B?WmUxcHovME94cjFiQ0VYZjQ5NGpEYmRGRXZtSFZjUDltT1NUNUduOUljemF5?=
+ =?utf-8?B?ODU2eERyKzA5ZllTMUw5aUk5TEtpRlE3K2Jwb2lKYnV3MmxROUlOZXM1cVMx?=
+ =?utf-8?B?d2hLR291QUFXN0E4eEhFZFlZa0Q3b0FreHFQSEFhb2g5ZnkzNWllRk44MURr?=
+ =?utf-8?B?U244MVA5akk5TlRpbjNkdGl4VHRjRFhUNmxhVFdUbEFSbDN5WkJOSmdNbDlJ?=
+ =?utf-8?B?N3FLSGs3VXpUZTRaRDlXbkJYd1FoVEZNbjF6UitwWEl5dVNydkkzdjJQNTk5?=
+ =?utf-8?B?VW5wcE5OZGdSWkhKbFBoVk5weXF3L0dyd0I4SVdyTWJGOUh2dmNUekhPY25B?=
+ =?utf-8?B?SEtDTndrRm9OYmdRc3JrMkxVODA3eDliT01NUExxd0ppQTk5YXM1MndCb0Fr?=
+ =?utf-8?B?VzF2a2EyV2R3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(19092799006)(1800799024)(7416014)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWVlUGp0M0NVdWhBVHhxb0dmUFZtY3ZJZERNbC9ZN3ZRQUtWVHVaU01JTEN2?=
+ =?utf-8?B?dG92TENSaldBZkhtVjJibWxaM1FUVWNzV0NzQzVUUndpRkJKVlBhMDN2bFQr?=
+ =?utf-8?B?S1NqQ1RSdVJPanRlbnpOOVVTZGtmOWoycjJFUkt0QkpkZ0xkTHVvM0dKTllC?=
+ =?utf-8?B?Z3lWZ3o0T1BqQnU1bisrTDRJK1NXNnpZS25mNE9lTkhxU0xrRTNyVGVJclJi?=
+ =?utf-8?B?Rmxsb3NTcWNDTk1xMFI4aWRkZ2I3eERsQ0s3S2p4MlVzUGp3ZFNiQnUzVi8v?=
+ =?utf-8?B?TEExWmxVTWxKb3RrSEQ5NHkrdmwzVEthb0pPa1NORE1Lc1dRbHJITnNGWGZu?=
+ =?utf-8?B?RmpJTHc2OUJIcFQ4TUkxYTA1SVluaFB1d2pWcXJteUVvTSt4L2xwTkViSTJY?=
+ =?utf-8?B?NHYrSUkzanpoc2FSdUFzRk01RklMMEtUMnNSRTZrdlFXakRyYi91bmNCUHRx?=
+ =?utf-8?B?ZndOSUxxMTJGVk1iZkhnWWUvbmNCWit6NG9pQUJtVWdTY2xGMkI5T2IrL2Zy?=
+ =?utf-8?B?VTFBdDZpRVJRNytaRnVTQjVHTEowUWQ5cjNHbEZGZUx4MW9pYVRaYk11cFNa?=
+ =?utf-8?B?Q25VL0l2cHpDUW01Slhkd1RtQU5TNlQwNjAzSUpRZGJyWnk5OE5VNi82K2Fa?=
+ =?utf-8?B?RmNoOFoyMEk5RngwZlBiVTZZdC9ranhHVkpkRXlaYzBUZ1F3VHdsTkpVQWlD?=
+ =?utf-8?B?VG5WT0hRcEZEdldyMkpicFFMN1BkWld0NWhWNFVMbHQvOHllZEkzdmVyR0V6?=
+ =?utf-8?B?UGpNbkVTMHQ4Y1RpVlNuRjhJRmlKNjd2OGR3dDdmWE93QkVFeWM3TnQyNXF4?=
+ =?utf-8?B?Um5RSVU4WmM3TE5xWWJxZjdzWE9GdTl4VkEyc0tkZFVNcU4weXJYUFdZR2Rl?=
+ =?utf-8?B?U2diRXJjaVQ3eVF0SXMvQ1VZU1crSTNYNXVvS3lFQ01ab0ZUdTNld2xuOE0z?=
+ =?utf-8?B?VHVuVmw1SGtLNk9ieDQ3YWNTQmY5R2ZVWTlOMElqWThKNHFtWW9jMW8wNTYr?=
+ =?utf-8?B?VFI5T2Nxa1dKUitZMDRCeXhidDBwSkFsZ2lLT1hPazJaMEoralc2eVhsT0oy?=
+ =?utf-8?B?cjR2VzBhd1IxQlZ3Yy8zOUFmdVFOVEpEQkNmNXlHa0xWUWxvV1k3Z2xXR3pa?=
+ =?utf-8?B?TlIzcVJFWTFlZEVxc28wQVhvcHM0cWpxSmlMbjdXR3ZERG9nZ0tXZG5kQk9D?=
+ =?utf-8?B?M2JSOVpwai8zRWNsTXEwS0lZaXZadEVLQVZpeVFjL3VkcWUzWSs5VzR2am5E?=
+ =?utf-8?B?aHFPN0cwZFZNd3dKQ2srdldha1V6ejZ0REljRzhBbng4VzV5cGFZc2ZwSUQr?=
+ =?utf-8?B?aWFzM3JMWnpYeTF2ZHMrSllyWGRaTTQwQ3lUb3F3aHBOQlM4NEw5bXVaTG41?=
+ =?utf-8?B?Y0UrZlliUHl5QXc1b1E0VWFURXVLWlA4d3lKREVNRW1tNEY1MElJMzNpY0VT?=
+ =?utf-8?B?NERhTXd1MW5yd2o0ZXZHMzFvblRETFdBTFlXM3hVYXhWNjZCeWQvb1lEWGkw?=
+ =?utf-8?B?UW9VeGI5bHFTTjNrVUlwWGdPV1lHcXdqcmxoQzJMVUQ2cllTTGdvcmwzOFVS?=
+ =?utf-8?B?YjNYSE9sQ2ZtS3Z2YlBvSVhNMmtaQVZhZW8rYThUakFUSWI1K052LzZqOUFL?=
+ =?utf-8?B?SHFiMDNNaCtSYTI1Q3ptcDJUblE2dUE5R2ZaMXZuMnp3eGVtL2VXbkRwMDhW?=
+ =?utf-8?B?VUVVd3ZYNXFyNGVoNi9kSGJvMXNvbGdWbW54VzRISjRlVjRjNUJmQzVTc2VC?=
+ =?utf-8?B?dXozNElnREhNVGhKOGROUTFoaGRWWmkybnVZL0pVNktHSytDdnZZbkVRS0tu?=
+ =?utf-8?B?VHRtdEtIbm83ZmxtbHR5aEc2TEdrcEdJYkZnOGdiY1ROM2dHUlhPWEtiQUNJ?=
+ =?utf-8?B?OXZxUDhtNnRIL2l5ZHA5YmdZMEowc1ZNL0Nsb0J0ZFVuQzhYQ1hTZ0U4ZjRT?=
+ =?utf-8?B?R0pUajMyR2VpYUp4WitONW5Xc3BFVWt6SDBVYzcrRTVsWlF1L2ZMd216ZkxK?=
+ =?utf-8?B?enl0S21YN3I5VUlUcXFJV285NXVCeVJreDBkVEM4TWYybkt3RjdSbjNwdUw2?=
+ =?utf-8?B?TkJyUTVXVEFYekhuRm5GOG8vckJQeUNvYVZmVC9md1ViL2JZaytsV01PYWdv?=
+ =?utf-8?Q?tdwrPBc6KOgM0xFoavod1mQcs?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6b77819-ef58-4240-ed54-08de0b01eb1e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 09:13:20.3796 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hSYVgn67ML6qfAV+ezlY8tjxY2yQeWxmbgApqxcweAZortdU90eneJD/5JZQIZTu55xr9umGxA1DGyAodRoETA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8615
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,92 +173,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/10/2025 10:46, Thomas Zimmermann wrote:
-> Blank the display by disabling sync pulses with VGACR17<7>. Unblank
-> by reenabling them. This VGA setting should be supported by all Aspeed
-> hardware.
-> 
-> Ast currently blanks via sync-off bits in VGACRB6. Not all BMCs handle
-> VGACRB6 correctly. After disabling sync during a reboot, some BMCs do
-> not reenable it after the soft reset. The display output remains dark.
-> When the display is off during boot, some BMCs set the sync-off bits in
-> VGACRB6, so the display remains dark. Observed with  Blackbird AST2500
-> BMCs. Clearing the sync-off bits unconditionally fixes these issues.
-> 
-> Also do not modify VGASR1's SD bit for blanking, as it only disables GPU
-> access to video memory.
+On 10/11/2025, Marek Vasut wrote:
+> DPU is added into DC driver
 
-Thanks, it looks good to me.
+This has conflicts with my in-flight patch series for adding i.MX8QXP DC
+prefetch engine support(though i.MX95 SoC doesn't embed any display controller
+prefetch engine).  You probably want to take a look at it, just a heads up.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+https://lore.kernel.org/all/20250929-imx8-dc-prefetch-v3-0-c01d0608add2@nxp.com/
 
-> 
-> v2:
-> - init vgacrb6 correctly (Jocelyn)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: ce3d99c83495 ("drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers")
-> Tested-by: Nick Bowler <nbowler@draconx.ca>
-> Reported-by: Nick Bowler <nbowler@draconx.ca>
-> Closes: https://lore.kernel.org/dri-devel/wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi/
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.7+
-> ---
->   drivers/gpu/drm/ast/ast_mode.c | 18 ++++++++++--------
->   drivers/gpu/drm/ast/ast_reg.h  |  1 +
->   2 files changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 6b9d510c509d..9b6a7c54fbb5 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -836,22 +836,24 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
->   static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->   {
->   	struct ast_device *ast = to_ast_device(crtc->dev);
-> +	u8 vgacr17 = 0x00;
-> +	u8 vgacrb6 = 0xff;
->   
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0x00);
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0x00);
-> +	vgacr17 |= AST_IO_VGACR17_SYNC_ENABLE;
-> +	vgacrb6 &= ~(AST_IO_VGACRB6_VSYNC_OFF | AST_IO_VGACRB6_HSYNC_OFF);
-> +
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
->   }
->   
->   static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
->   {
->   	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
->   	struct ast_device *ast = to_ast_device(crtc->dev);
-> -	u8 vgacrb6;
-> +	u8 vgacr17 = 0xff;
->   
-> -	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
-> -
-> -	vgacrb6 = AST_IO_VGACRB6_VSYNC_OFF |
-> -		  AST_IO_VGACRB6_HSYNC_OFF;
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
-> +	vgacr17 &= ~AST_IO_VGACR17_SYNC_ENABLE;
-> +	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
->   
->   	/*
->   	 * HW cursors require the underlying primary plane and CRTC to
-> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-> index e15adaf3a80e..30578e3b07e4 100644
-> --- a/drivers/gpu/drm/ast/ast_reg.h
-> +++ b/drivers/gpu/drm/ast/ast_reg.h
-> @@ -29,6 +29,7 @@
->   #define AST_IO_VGAGRI			(0x4E)
->   
->   #define AST_IO_VGACRI			(0x54)
-> +#define AST_IO_VGACR17_SYNC_ENABLE	BIT(7) /* called "Hardware reset" in docs */
->   #define AST_IO_VGACR80_PASSWORD		(0xa8)
->   #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
->   #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
-
+-- 
+Regards,
+Liu Ying
