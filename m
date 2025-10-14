@@ -2,95 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1947DBD933D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E0DBD9A61
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 15:19:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40A9510E5D2;
-	Tue, 14 Oct 2025 12:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E589310E605;
+	Tue, 14 Oct 2025 13:19:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZRDw6qKK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="reQY645U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1812710E5D3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:03:47 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-579d7104c37so6346301e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1760443425; x=1761048225; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0NzeDm4YRr+qmfFJMboOlJS287Q0PmtLlAQtT9HyscU=;
- b=ZRDw6qKK7C7VlwC9Q7TTYfRy7BX0BDtzTxB6abVpBf4QSp8jg3y2WFdeSmc9YF/5cX
- SGnrC4Zms9dRWHsmSvlmDkqsedimYjEW9JZv+HaWt0D/FvChMfe9lKCbvmf4jiX1TeuQ
- 2uMNte1kszNfmx8Y5TDfEmmRRDsxkdshV31CmBclCXiYO93ePnWWYI76n2+PXuNE24gO
- 7jBCUvjvAtDzJ5I9R292TpmnkBedYBfufysJiFOMQ5/9ZbeZpHFo/sZiHhwnXKuOv9eg
- 9djXneGjOhClf3BK2yhzH1Vy4QZIE0fyDtdyw56Dqht6m8GGVZQngf/ltbwwQWDF83YK
- gwTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760443425; x=1761048225;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0NzeDm4YRr+qmfFJMboOlJS287Q0PmtLlAQtT9HyscU=;
- b=hnA/jC+6ODPjypNLCGlreiMyVpEngESjr4FaXRNUmh7A42YjFxoM7McAdoCA7Gj4YQ
- oaJGjykL6yJAHbfHplrT4x+tySAvzMY73jtNqr/gzDtwSAjt8/bVzbrAA9SYPgaRC3jY
- d4TZdXlI7sVFctPOCyrN5LRS6XJq78gD8PUP9hTSafnV70WoPCsFvMNNqjlB9s1Vjo4n
- OV3KqMrrvx7/PpSy0sWcPSI1BV4wfTB2aWipM+o1TdUkEdu1yQ1DO42U9/rkSjVOtj6r
- 3PKnhz2gZLlQ473iKgGqjx2vmvlrCNW2uE31fu/nAsyPA7ovlwjFdI33ljhmLZX3qm9W
- DXIw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbBao0AdW/A7xflpg06A0aepd8UXKPPHjK9gw/Bu6/81QG0Y1jlb0dLnyG7LdJrvhkO9XHRtpmdEo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzopZ5wUbJTxs9DhzuK91CXfYC9LheWqbZPU5B6qgVWCgk7pZ/C
- G1N/UtEVmfCU1P4VjgtH2wp0vXy2dsbi73aGs/1vvz6gt52fuPsyUwz2PtobuHO+DwHGqJAAkh8
- j+q1GTIfVABtbS/WwWEfwiBJBsU//VxC9Fwu+Y2sW3g==
-X-Gm-Gg: ASbGncuAK90Zy/Vad4304q7FVmQJIrNx6DkiXSQ4ecjHpQ0BLy0Ll+sSsBwNDm5OcGe
- XiaUO320JuhpO211FodpsL+hoCUEQswKW9zOVYJgzfgGWnMXSs/wMkqultNsi420NyWrR78w4nB
- +mnYPOr2hgNSId/SdrZ1se+qfQj+ZDMlEY7nXA3Z/Wnbz3yxpcmcbQPBr2/DiAHL6e64f+Prgp6
- ZwZqmlP+aS+wajqM/9X0kASG8kZ0lv2hm51BbgC
-X-Google-Smtp-Source: AGHT+IFD0BB7RH2Ep9aDetjvf52TraFr1nZFUAFZVtaRLq2brbGFG6VPJ0RQdb2vqcIUZBE6o0FGikD6X+TXoiS5UhI=
-X-Received: by 2002:a05:6512:3d10:b0:58b:26:11da with SMTP id
- 2adb3069b0e04-5906d8ef684mr6189769e87.29.1760443425099; Tue, 14 Oct 2025
- 05:03:45 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E306010E605
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 13:19:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C23276228A;
+ Tue, 14 Oct 2025 12:00:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211C9C4CEE7;
+ Tue, 14 Oct 2025 12:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760443228;
+ bh=1GoiroCWcyhR/sgmXTvYE6KraXHarOb2uQpeZ6OwHF4=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=reQY645UTXWJkNfZwMpmWXuPbF+BSjQxobpOsuOnUUi2t9Oau7084tOCCfrVTkKv2
+ JpslL2jPQ1Q0v4AcOtelq6T8Lckc8KQKh7JrZt1lDCAQxJTLtnR6Lb5ANgWq/1B/qV
+ Vf7gPCiJnPOPrbez6B+Tw7i2bR8EunIJsIY0zYUopcGzlvNVI59hTiFWE+ATREc+EG
+ rsUBEgdS9u3X6xQYD45yAJG5BvXbbgi8JCqrz1ei/8/5vjTngpHWvvH64HFxYe9VSo
+ SJittPYqFBrqO2ncvM2uqRocnsbP+YRl3DtsxKuaeqFtwOwKq0W3bDz3ey6eCth3/y
+ c0wXtgRyvKjAA==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Tue, 14 Oct 2025 11:31:49 +0200
+Subject: [PATCH v2 05/16] drm/bridge: Switch private_obj initialization to
+ atomic_create_state
 MIME-Version: 1.0
-References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-2-clamor95@gmail.com>
-In-Reply-To: <20251008073046.23231-2-clamor95@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 14 Oct 2025 14:03:32 +0200
-X-Gm-Features: AS18NWCj_bKF0VIZCo40xgE2nZcym7DwrLVXQ08YjlTg5hV9lzx6rx-fa2x4Vss
-Message-ID: <CACRpkdb74fh_eFCd0MM4RK1_KtNRugLPp2yMA20FrpHq+-o6YA@mail.gmail.com>
-Subject: Re: [PATCH v4 01/24] pinctrl: tegra20: register csus_mux clock
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
- Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251014-drm-private-obj-reset-v2-5-6dd60e985e9d@kernel.org>
+References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
+In-Reply-To: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2919; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=1GoiroCWcyhR/sgmXTvYE6KraXHarOb2uQpeZ6OwHF4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnvrF1ndefP4LObWebwzOiJ/gZ7A7vryd+VA6+eXfqWz
+ yNHJmt6x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIEUbGencZG5EK85gQBZ1b
+ ZlWi6tPfXK8Jm5IoJ7PL0KJvy6a7xzpOhSyX77xRGFe7MvGh4/xNjA2X+f5qz9m48KpQ4YHLz7T
+ rvLT3TJjWtXvfSzHhWWUeRT6hoh/EeQtLW+0X5Ty8FXY1+iYA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,17 +73,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 8, 2025 at 9:31=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmail.com=
-> wrote:
+The bridge implementation relies on a drm_private_obj, that is
+initialized by allocating and initializing a state, and then passing it
+to drm_private_obj_init.
 
-> Add csus_mux for further use as the csus clock parent, similar to how the
-> cdev1 and cdev2 muxes are utilized. Additionally, constify the cdev paren=
-t
-> name lists to resolve checkpatch warnings.
->
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Since we're gradually moving away from that pattern to the more
+established one relying on a atomic_create_state implementation, let's
+migrate this instance to the new pattern.
 
-This patch 1/24 applied to the pinctrl tree!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
 
-Yours,
-Linus Walleij
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/drm_bridge.c | 33 ++++++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 630b5e6594e0affad9ba48791207c7b403da5db8..f0db891863428ee65625a6a3ed38f63ec802595e 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -394,11 +394,27 @@ drm_bridge_atomic_destroy_priv_state(struct drm_private_obj *obj,
+ 	struct drm_bridge *bridge = drm_priv_to_bridge(obj);
+ 
+ 	bridge->funcs->atomic_destroy_state(bridge, state);
+ }
+ 
++static struct drm_private_state *
++drm_bridge_atomic_create_priv_state(struct drm_private_obj *obj)
++{
++	struct drm_bridge *bridge = drm_priv_to_bridge(obj);
++	struct drm_bridge_state *state;
++
++	state = bridge->funcs->atomic_reset(bridge);
++	if (IS_ERR(state))
++		return ERR_PTR(-ENOMEM);
++
++	__drm_atomic_helper_private_obj_create_state(obj, &state->base);
++
++	return &state->base;
++}
++
+ static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
++	.atomic_create_state = drm_bridge_atomic_create_priv_state,
+ 	.atomic_duplicate_state = drm_bridge_atomic_duplicate_priv_state,
+ 	.atomic_destroy_state = drm_bridge_atomic_destroy_priv_state,
+ };
+ 
+ static bool drm_bridge_is_atomic(struct drm_bridge *bridge)
+@@ -462,30 +478,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 		ret = bridge->funcs->attach(bridge, encoder, flags);
+ 		if (ret < 0)
+ 			goto err_reset_bridge;
+ 	}
+ 
+-	if (drm_bridge_is_atomic(bridge)) {
+-		struct drm_bridge_state *state;
+-
+-		state = bridge->funcs->atomic_reset(bridge);
+-		if (IS_ERR(state)) {
+-			ret = PTR_ERR(state);
+-			goto err_detach_bridge;
+-		}
+-
++	if (drm_bridge_is_atomic(bridge))
+ 		drm_atomic_private_obj_init(bridge->dev, &bridge->base,
+-					    &state->base,
++					    NULL,
+ 					    &drm_bridge_priv_state_funcs);
+-	}
+ 
+ 	return 0;
+ 
+-err_detach_bridge:
+-	if (bridge->funcs->detach)
+-		bridge->funcs->detach(bridge);
+-
+ err_reset_bridge:
+ 	bridge->dev = NULL;
+ 	bridge->encoder = NULL;
+ 	list_del(&bridge->chain_node);
+ 
+
+-- 
+2.51.0
+
