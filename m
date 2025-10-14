@@ -2,91 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550B3BD8FEB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 13:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82315BD9099
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 13:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B857B10E209;
-	Tue, 14 Oct 2025 11:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D8910E213;
+	Tue, 14 Oct 2025 11:31:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WtKkvUz2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MFJvYsc6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAC9510E218
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 11:25:56 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-3ee64bc6b90so3005964f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 04:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760441155; x=1761045955; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uiSHBqGlXIEAZvcjTP0Y/hDCrVSuK2ils+FnYn9ERgY=;
- b=WtKkvUz2W+AFK/FSzYZyWfQaq6d4IEonq61Rscu/+ienZBv1fl4bsfRcYZX7vI5J5o
- NxrOoU+CGw8JDV3mUKzv8mqX530tiOhDWVos2b1urDiyQdWBwyfZJTR63+fSicAftnYx
- ZCTJHgtm1eP7vNAxLJp1D2je0TePYRhmmtj2ksyr6FBRLBwlZeK3KtzIjHM4ENwN0v3n
- gdq15+dDx/ehnRlZH9FoHRwC1bC/Otv9pLDQb2R+iZxxESqBnn0DZduG+HdLXYmUVIuu
- rH1kHaoP5rqPHo8oo3dfFhkRNuOtbXTUIfmis+M802a6ZaXZft70U3yLegGiVbNQ2SPL
- fAvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760441155; x=1761045955;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uiSHBqGlXIEAZvcjTP0Y/hDCrVSuK2ils+FnYn9ERgY=;
- b=idKOGv7cn6eayaK0kZ0TqsKGhwGvt4f2DCKKHfpjHp5DhzAOQYvTJr2MNQkquNB1Ac
- OatlJVPd00pL5rO0NPZZLpQjhiQJyFFz8Ugj7QiRFa4Moh6zXBtoSOToYaWLQihjlF/E
- MEOF/gFk3rECa1+bL43GGwmXuknxUevcFwOCGf60w9+eJaMj7PTNmJAKbUxNC2Ka1juF
- b/PoCSY453pjekH4APR9q//TlsddFbDLFLTPT3uM7h2aI+qe4L2I/5jiqlmLmEemCrod
- v2+bqIGqVZF2n7g4Xtv6t+1wpwqbnETE/6ptx22wOz7rRiwENCR3/7CEhKN715b7xlny
- E+PA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX1zFrN+4YF7EpU2de8mCTjA8kRIFP1ic4hGkyCMwXP80EujRsH7hqqqp68cmxR/gENdeay/O6CDyA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpZtY/E1hB1UJszFcCZxk2Y/5AmY+TkpvysIF73aCAE+zWN8Bj
- ljrQtKnBvez1c/S2WInHK/jUWT5xmfxs1f45gmTjuxLqQHzUdkCalvHU
-X-Gm-Gg: ASbGncuf5mEURNPbUCbN0If4m9P1iu3rq8cUf80ZoHIDzQtVuka4dBXgntZikhBY99p
- HFM0sWfAy/W3X3T5ifR5BXeDeLYTyEq9WjAVsrvQmOdtPd3s2yEP9hglvQlQijw6uU49b/q61CS
- X3gDUC46SAcR6yW8zC6z59C0KEgvPU9ir8dJG+FUPHYbCx8YdSuQloWrokvuh8jljYA++JIMEMP
- T9dEdHLGa4vhNMi0OifPgdGCs/OCoUBBWw0ZcW+CMezZvH6DmVYc5LJuj9bOmImhCaUCLqfYpeT
- Cd0a7YirnonxP9lY8Z9dmzvidX1QKZ4k5VkSsUWGz8aOsyeoc4s8Lw8QhPXW8HTODTVEcc8wwlj
- zE0rD5BMdPGTwFDz0yCaz8yuZPXoQLDDqaFHtBacU0fD8yL0ww0DW0Yj1pMRda5FB4j/Z9oL5z8
- R1oVDqeWuPuQ4JS3xE5iF3ezohmRGPIAjN8XUsYvwVCzvlF4hRqdI=
-X-Google-Smtp-Source: AGHT+IEqaf50xViFqcGYgiRoMt4dwJ2xrUn7bmjBXs3Kk/pC18UdQvc3UcQNURWNwY1ZJ/f0754E/Q==
-X-Received: by 2002:a05:6000:3111:b0:3ce:9872:fd3 with SMTP id
- ffacd0b85a97d-4266e7d92eemr13663773f8f.34.1760441154531; 
- Tue, 14 Oct 2025 04:25:54 -0700 (PDT)
-Received: from ernest.hoecke-nb
- (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-426ce5e1024sm23047515f8f.42.2025.10.14.04.25.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 04:25:54 -0700 (PDT)
-Date: Tue, 14 Oct 2025 13:25:53 +0200
-From: Ernest Van Hoecke <ernestvanhoecke@gmail.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, 
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, regressions@lists.linux.dev
-Subject: Re: [REGRESSION] drm/panel/panel-simple v6.17 WARNING regression
-Message-ID: <kcunz2b2usmvadgrnnu65op5oi5ttblrc463twgxp5gqhnufav@eze53y23avel>
-References: <hlf4wdopapxnh4rekl5s3kvoi6egaga3lrjfbx6r223ar3txri@3ik53xw5idyh>
- <DDHZ5GO9MPF0.CGYTVBI74FOZ@bootlin.com>
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E934C10E213
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 11:31:17 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 757BB4E4108E;
+ Tue, 14 Oct 2025 11:31:16 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 48E46606EC;
+ Tue, 14 Oct 2025 11:31:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 16468102F2298; 
+ Tue, 14 Oct 2025 13:31:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1760441475; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=6p8WMfmPS/2ENAV2cQiuR3uNGwiPH4kh/nqLPv36UjI=;
+ b=MFJvYsc63DmUpUkpCKHQjuI/RLnMI17jrS5/jJUT8DRfNGXMIzmthheE7w4LzLqwHC3IMm
+ y7R4pOQTiMiChEj5glwZ4fHyPYaJvgdBpIiSzC20ONyWYDFRZbl82IyUUzPJ7EYns56TdV
+ xdFsFSXr25J3Rzqlob7LrEjEVqq2E/SOlv8rQo4yDJKFPFgPV3G92CcrYOhCobjJZaHzgV
+ b9TSxh8rOwq5tgkxjEndTgluNftA6FDVSGmpI50WESXJqZEN9zdayy7LvACxIrIxhHNOIj
+ k34PxeHOYjOX7Ww2NDHhXL7B1Y1DPgf5g1vBaSHuvld4DDIjVqydaF7QFsBruQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 0/2] drm/imx: parallel-display: fix drm/panel/panel-simple
+ v6.17 WARNING regression
+Date: Tue, 14 Oct 2025 13:30:50 +0200
+Message-Id: <20251014-drm-bridge-alloc-imx-ipuv3-v1-0-a1bb1dcbff50@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DDHZ5GO9MPF0.CGYTVBI74FOZ@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGo07mgC/x3MSQqAMAxA0atI1gZsnahXERfaphpwIkURine3u
+ Hx8+BECCVOALosgdHPgY09QeQZ2GfeZkF0y6ELXqlAVOtlwEnapjOt6WOTtQT6vu0QztUb7pjb
+ WG0iDU8jz88/74X0/M86X3mwAAAA=
+X-Change-ID: 20251014-drm-bridge-alloc-imx-ipuv3-9b792f659cf9
+To: Ernest Van Hoecke <ernestvanhoecke@gmail.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,43 +74,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+This series fixes the WARNING regressions reported by Ernest [0] and due to
+the missing conversion of the DRM_IMX driver to the new
+devm_drm_bridge_alloc() API.
 
-Thanks for your fast reply and all your work here.
+The second patch also adds drm_bridge_add(), which is a good practice and
+proposed to become mandatory [1].
 
-On Tue, Oct 14, 2025 at 12:31:35PM +0200, Luca Ceresoli wrote:
-> Let me have a look at the DRM_IMX driver, I'll try to send a series
-> converting it to the new API within today.
+[0] https://lore.kernel.org/all/hlf4wdopapxnh4rekl5s3kvoi6egaga3lrjfbx6r223ar3txri@3ik53xw5idyh/
+[1] https://lore.kernel.org/lkml/20251003-b4-drm-bridge-alloc-add-before-attach-v1-0-92fb40d27704@bootlin.com/
 
-I will gladly test, thanks!
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (2):
+      drm/imx: parallel-display: convert to devm_drm_bridge_alloc() API
+      drm/imx: parallel-display: add the bridge before attaching it
 
-> I recently sent a series proposing to make drm_bridge_add() mandatory
-> before drm_bridge_attach() in the docs and warn if that is violated [1]. If
-> you apply patch 4 of that series you should see the warning.
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+---
+base-commit: 48a710760e10a4f36e11233a21860796ba204b1e
+change-id: 20251014-drm-bridge-alloc-imx-ipuv3-9b792f659cf9
 
-I gave it a quick try and did not see the warning. Some printk debugging
-told me that `list_empty(&bridge->list)`, inside drm_bridge_attach, is
-returning 0. 
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-> > However, later on, another regression seems to be introduced by
-> > commit 8fa5909400f3 ("drm/bridge: get the bridge returned by drm_bridge_chain_get_first_bridge()")
-> > so reverting 94d50c1a2ca3 on top of drm-misc-next does not solve
-> > everything. This was tested by rebasing drm-misc-next onto (260f6f4fda93
-> > plus the revert of 94d50c1a2ca3) and then bisecting.
-> >
-> > So in v6.18-rc1, both regressions are present.
-> >
-> > There, I get the following additional warnings:
-> >
-> > [    9.732278] ------------[ cut here ]------------
-> > [    9.732336] WARNING: CPU: 0 PID: 38 at lib/refcount.c:22 drm_bridge_get+0x10/0x18
-> > [    9.744608] refcount_t: saturated; leaking memory.
-> 
-> Not sure here, but it may well be another symptom of the same bug: the
-> refcount was not initialized correctly, so it is found inconsistent later
-> when trying to increase it. Let's fix the known issue and then we'll see.
-
-Makes sense to me.
-
-Kind regards,
-Ernest
