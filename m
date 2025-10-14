@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFC3BD7D0F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77687BD7D12
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3587C10E551;
-	Tue, 14 Oct 2025 07:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B5410E556;
+	Tue, 14 Oct 2025 07:14:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DFDKy1+A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kntc8TOI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FF810E551;
- Tue, 14 Oct 2025 07:13:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E4F10E555;
+ Tue, 14 Oct 2025 07:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760426036; x=1791962036;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=7e3TGyZywB21Vu0/e0A9fczh8EzgWJG4tKhN9TqfLKA=;
- b=DFDKy1+An/MAdNYok/BP0QGi8DWwGcokKTMkA3O3xdnqZpOz/lwgjvm8
- 30zzxTX2d2PKkrb3dHB3whVS03viyDj9h5/tbtH4zGqao5a3J4e13MCLM
- HWn7vq4mpd/pe7Z8NLdu94rGa5qkC6p6XgDN3i+YNVy4OE7cs9ymJRPVb
- WLoWJaP9OyBL2GtIzSGEfTdI7zLT1luWxud6Am86UFtAh2SUTtyMp2fhV
- 2LHWMGSDMPefd+Bw71dRoK9F8VU0/kb3BngkIV60KA5HhXheYJdLyZyRJ
- xR1hquheq/4WyEuo3LvwHa9WIXml9jKAwfMo5HYCdpSLXxANxQBG93gS+ w==;
-X-CSE-ConnectionGUID: wFoyrntkT3iXilmc8y/tFg==
-X-CSE-MsgGUID: /IdC9nvhSGSBmTrUbMwpFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73257110"
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="73257110"
+ t=1760426038; x=1791962038;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0JM6jl1yiLYCeVf56i0ZB1p+OW7rJRhTnT302NSKmyE=;
+ b=kntc8TOI7HigU6yA9K17Sy4xI4vaMb26hdr85y/oxGeytGRi8LsmMRiX
+ AnjXhzC1zq6yveD1RdoysBxojT302DOR9OaUzVPLt+quxFQifpvwHcH5l
+ 1MgWiE4aDB8ZTckDWbwegfb0SlkUmLR0H4aQ5I4qsQOVLdAkT2AsFIhnS
+ hMUoGM4juC9+bC6azchoX6Q8LGzvF1qZtZfaxxRH3uuzictBOVSDdJweB
+ EFXlmW3w1+1Spt5DRp6aLrqGscq8hAKsBaxE+sY6OF0MsuADxNnaLyEdT
+ iGwTJjQAQBrIl2BFsN8NJgeD+ZvKbDJAEGddYapwTUrK8lJvjttdJiWSL A==;
+X-CSE-ConnectionGUID: jxOaAIrUQWik3/j2WS0FHQ==
+X-CSE-MsgGUID: 0DEK9hymRJ6L80NElQDiKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73257124"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="73257124"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2025 00:13:56 -0700
-X-CSE-ConnectionGUID: swh+auFQROW2Qr5zTdTA6w==
-X-CSE-MsgGUID: qJVGGFCERaKZudj2tCjxTA==
+ 14 Oct 2025 00:13:57 -0700
+X-CSE-ConnectionGUID: q1GUv8nSSxOJVUHiHu0lSw==
+X-CSE-MsgGUID: shLuXwAEROSLnHHL74nZTg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="181369842"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="181369852"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Oct 2025 00:13:55 -0700
@@ -45,17 +45,17 @@ From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>,
  Christian Koenig <christian.koenig@amd.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>
-Subject: [RFC 0/8] dma-buf: Add support for mapping dmabufs via interconnects
-Date: Tue, 14 Oct 2025 00:08:50 -0700
-Message-ID: <20251014071243.811884-1-vivek.kasireddy@intel.com>
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [RFC 1/8] dma-buf: Add support for map/unmap APIs for interconnects
+Date: Tue, 14 Oct 2025 00:08:51 -0700
+Message-ID: <20251014071243.811884-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251014071243.811884-1-vivek.kasireddy@intel.com>
+References: <20251014071243.811884-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -74,98 +74,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a typical dma-buf use case, a dmabuf exporter makes its buffer
-buffer available to an importer by mapping it using DMA APIs
-such as dma_map_sgtable() or dma_map_resource(). However, this
-is not desirable in some cases where the exporter and importer
-are directly connected via a physical or virtual link (or
-interconnect) and the importer can access the buffer without
-having it DMA mapped.
-
-So, to address this scenario, this patch series adds APIs to map/
-unmap dmabufs via interconnects and also provides a helper to
-identify the first common interconnect between the exporter and
-importer. Furthermore, this patch series also adds support for
-IOV interconnect in the vfio-pci driver and Intel Xe driver.
-
-The IOV interconnect is a virtual interconnect between an SRIOV
-physical function (PF) and its virtual functions (VFs). And, for
-the IOV interconnect, the addresses associated with a buffer are
-shared using an xarray (instead of an sg_table) that is populated
-with entries of type struct range. 
-
-The dma-buf patches in this series are based on ideas/suggestions
-provided by Jason Gunthorpe, Christian Koenig and Thomas Hellström.
-Note that the Xe driver patches in this series need to be rebased
-in the next version to include feedback from the previous round
-of review.
-
-Patchset overview:
-Patch 1-3: Add dma-buf APIs to map/unmap and match
-Patch 4: Add support for IOV interconnect in vfio-pci driver
-Patch 5: Add support for IOV interconnect in Xe driver
-Patch 6-8: Create and use a new dma_addr array for LMEM based
-           dmabuf BOs to store translated addresses (DPAs)
-
-This series is rebased on top of the following repo:
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v5
-
-Associated Qemu patch series:
-https://lore.kernel.org/qemu-devel/20251003234138.85820-1-vivek.kasireddy@intel.com/
-Associated vfio-pci patch series:
-https://lore.kernel.org/dri-devel/cover.1760368250.git.leon@kernel.org/
-
-This series is tested using the following method:
-- Run Qemu with the following relevant options:
-  qemu-system-x86_64 -m 4096m ....
-  -device ioh3420,id=root_port1,bus=pcie.0
-  -device x3130-upstream,id=upstream1,bus=root_port1
-  -device xio3130-downstream,id=downstream1,bus=upstream1,chassis=9
-  -device xio3130-downstream,id=downstream2,bus=upstream1,chassis=10
-  -device vfio-pci,host=0000:03:00.1,bus=downstream1
-  -device virtio-gpu,max_outputs=1,blob=true,xres=1920,yres=1080,bus=downstream2
-  -display gtk,gl=on
-  -object memory-backend-memfd,id=mem1,size=4096M
-  -machine q35,accel=kvm,memory-backend=mem1 ...
-- Run Gnome Wayland with the following options in the Guest VM:
-  # cat /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules
-  ENV{DEVNAME}=="/dev/dri/card1", TAG+="mutter-device-preferred-primary", TAG+="mutter-device-disable-kms-modifiers"
-  # XDG_SESSION_TYPE=wayland dbus-run-session -- /usr/bin/gnome-shell --wayland --no-x11 &
+For the map operation, the dma-buf core will create an xarray but
+the exporter is expected to populate it with the interconnect
+specific addresses. And, similarly for unmap, the exporter is
+expected to cleanup the individual entries of the xarray.
 
 Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>
 Cc: Christian Koenig <christian.koenig@amd.com>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-
-Vivek Kasireddy (8):
-  dma-buf: Add support for map/unmap APIs for interconnects
-  dma-buf: Add a helper to match interconnects between exporter/importer
-  dma-buf: Add support for IOV interconnect
-  vfio/pci/dmabuf: Add support for IOV interconnect
-  drm/xe/dma_buf: Add support for IOV interconnect
-  drm/xe/pf: Add a helper function to get a VF's backing object in LMEM
-  drm/xe/bo: Create new dma_addr array for dmabuf BOs associated with
-    VFs
-  drm/xe/pt: Add an additional check for dmabuf BOs while doing bind
-
- drivers/dma-buf/dma-buf.c                  | 113 +++++++++++++++-
- drivers/gpu/drm/xe/xe_bo.c                 | 148 +++++++++++++++++++--
- drivers/gpu/drm/xe/xe_bo_types.h           |  12 ++
- drivers/gpu/drm/xe/xe_dma_buf.c            |  19 ++-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |  23 ++++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |   1 +
- drivers/gpu/drm/xe/xe_pt.c                 |   8 ++
- drivers/gpu/drm/xe/xe_sriov_pf_types.h     |  19 +++
- drivers/vfio/pci/vfio_pci_dmabuf.c         | 141 +++++++++++++++++++-
- include/linux/dma-buf-interconnect.h       |  51 +++++++
- include/linux/dma-buf.h                    |  20 +++
- 11 files changed, 540 insertions(+), 15 deletions(-)
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/dma-buf/dma-buf.c            | 68 ++++++++++++++++++++++++++++
+ include/linux/dma-buf-interconnect.h | 29 ++++++++++++
+ include/linux/dma-buf.h              | 11 +++++
+ 3 files changed, 108 insertions(+)
  create mode 100644 include/linux/dma-buf-interconnect.h
 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 2bcf9ceca997..162642bd53e8 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1612,6 +1612,74 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, "DMA_BUF");
+ 
++struct dma_buf_ranges *
++dma_buf_map_interconnect(struct dma_buf_attachment *attach)
++{
++	const struct dma_buf_interconnect_ops *ic_ops;
++	struct dma_buf *dmabuf = attach->dmabuf;
++	struct dma_buf_ranges *ranges;
++	int ret;
++
++	might_sleep();
++
++	if (WARN_ON(!attach || !attach->dmabuf))
++		return ERR_PTR(-EINVAL);
++
++	if (!dma_buf_attachment_is_dynamic(attach))
++		return ERR_PTR(-EINVAL);
++
++	if (!attach->allow_ic)
++		return ERR_PTR(-EOPNOTSUPP);
++
++	dma_resv_assert_held(attach->dmabuf->resv);
++
++	ic_ops = dmabuf->ops->interconnect_ops;
++	if (!ic_ops || !ic_ops->map_interconnect)
++		return ERR_PTR(-EINVAL);
++
++	ranges = kzalloc(sizeof(*ranges), GFP_KERNEL);
++	if (!ranges)
++		return ERR_PTR(-ENOMEM);
++
++	xa_init(&ranges->ranges);
++	ret = ic_ops->map_interconnect(attach, ranges);
++	if (ret)
++		goto err_free_ranges;
++
++	return ranges;
++
++err_free_ranges:
++	xa_destroy(&ranges->ranges);
++	kfree(ranges);
++	return ERR_PTR(ret);
++}
++EXPORT_SYMBOL_NS_GPL(dma_buf_map_interconnect, "DMA_BUF");
++
++void dma_buf_unmap_interconnect(struct dma_buf_attachment *attach,
++				struct dma_buf_ranges *ranges)
++{
++	const struct dma_buf_interconnect_ops *ic_ops;
++	struct dma_buf *dmabuf = attach->dmabuf;
++
++	if (WARN_ON(!attach || !attach->dmabuf || !ranges))
++		return;
++
++	if (!attach->allow_ic)
++		return;
++
++	ic_ops = dmabuf->ops->interconnect_ops;
++	if (!ic_ops || !ic_ops->unmap_interconnect)
++		return;
++
++	dma_resv_assert_held(attach->dmabuf->resv);
++
++	ic_ops->unmap_interconnect(attach, ranges);
++
++	xa_destroy(&ranges->ranges);
++	kfree(ranges);
++}
++EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_interconnect, "DMA_BUF");
++
+ #ifdef CONFIG_DEBUG_FS
+ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ {
+diff --git a/include/linux/dma-buf-interconnect.h b/include/linux/dma-buf-interconnect.h
+new file mode 100644
+index 000000000000..17504dea9691
+--- /dev/null
++++ b/include/linux/dma-buf-interconnect.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: MIT */
++
++#ifndef __DMA_BUF_INTERCONNECT_H__
++#define __DMA_BUF_INTERCONNECT_H__
++
++#include <linux/xarray.h>
++
++struct dma_buf_attachment;
++
++struct dma_buf_ranges {
++	struct xarray ranges;
++	unsigned int nranges;
++};
++
++enum dma_buf_interconnect_type {
++	DMA_BUF_INTERCONNECT_NONE = 0,
++};
++
++struct dma_buf_interconnect {
++	enum dma_buf_interconnect_type type;
++};
++
++struct dma_buf_interconnect_ops {
++	int (*map_interconnect)(struct dma_buf_attachment *attach,
++				struct dma_buf_ranges *ranges);
++	void (*unmap_interconnect)(struct dma_buf_attachment *attach,
++				   struct dma_buf_ranges *ranges);
++};
++#endif
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index d58e329ac0e7..db91c67c00d6 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -23,6 +23,8 @@
+ #include <linux/dma-fence.h>
+ #include <linux/wait.h>
+ 
++#include <linux/dma-buf-interconnect.h>
++
+ struct device;
+ struct dma_buf;
+ struct dma_buf_attachment;
+@@ -276,6 +278,8 @@ struct dma_buf_ops {
+ 
+ 	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+ 	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
++
++	const struct dma_buf_interconnect_ops *interconnect_ops;
+ };
+ 
+ /**
+@@ -502,7 +506,9 @@ struct dma_buf_attachment {
+ 	struct device *dev;
+ 	struct list_head node;
+ 	bool peer2peer;
++	bool allow_ic;
+ 	const struct dma_buf_attach_ops *importer_ops;
++	struct dma_buf_interconnect interconnect;
+ 	void *importer_priv;
+ 	void *priv;
+ };
+@@ -589,6 +595,11 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *,
+ 					enum dma_data_direction);
+ void dma_buf_unmap_attachment(struct dma_buf_attachment *, struct sg_table *,
+ 				enum dma_data_direction);
++
++struct dma_buf_ranges *dma_buf_map_interconnect(struct dma_buf_attachment *);
++void dma_buf_unmap_interconnect(struct dma_buf_attachment *,
++				struct dma_buf_ranges *);
++
+ void dma_buf_move_notify(struct dma_buf *dma_buf);
+ int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+ 			     enum dma_data_direction dir);
 -- 
 2.50.1
 
