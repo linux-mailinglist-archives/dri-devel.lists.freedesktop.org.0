@@ -2,114 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09450BDA339
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4D0BDA34B
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 436C210E631;
-	Tue, 14 Oct 2025 15:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F98910E63C;
+	Tue, 14 Oct 2025 15:03:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oPO0HSwl";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="P+NgjKVv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F11C10E631
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:02:37 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87GiF008981
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:02:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- zY9fYZt0VHzzLu4AS37iClxJrmCgwWUGWEX6cCe7rKY=; b=oPO0HSwlaPRSxDP5
- 9gQ5lCgTqPbigDCOKFpbGW7IfXH/QUvDPE23IuFgkPxIjOpjt8wwrxPvFeGbkYO8
- JF9wYP092lj2g4XV3eAfFG6uxcN5oUckj6RWmzqxQCpZ55HL+OtfKK1h+hy6CHNv
- xjmmJNxXlSXE569/D53qJkSWSGADSjlHlVtaHftpnFCRiD1aXnZS4TwYLll53/sx
- meK580HN+3muQi3pcwQoBF+rc8Zbtp+3vOd9lu4aAqKYz0VHwo3PqZ1uipzJfCb8
- UAS0pwDUEaHcSnouRSRZ/xq8xJmQ9rvRBliywzU5mt1i31QALg62wukZ6UBQQ46y
- 2R458w==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfm5gxtu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:02:37 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-26983c4d708so76175465ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:02:36 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B7F10E635
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:03:57 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3ee130237a8so4333297f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760454236; x=1761059036;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KvLif0xXP5NnZk/gZt7mDLBmevCZybOrgLCvCymTSWA=;
+ b=P+NgjKVv0jv5ACJpwXYkGD9jf0eMPj+XUtv476WSdJ1YMV60xrsMuGyuUagX2kLcKo
+ 1AyN0brZWj4tQMcJ1xev9TgNcTOp5XKys4v1HEaAEWVKdE8/WF7QAan42Y/tOXWU7PwG
+ 73pjDmotFY3JG1bJL+TbWOJQQ5DBBo7cc2BjZzr6f+LFlfXm6ZUB0kRCTLYrwGZfLxFw
+ AXS63QF7hFh3vgSBOuJfBgRMAYZ66NdeaIIPq05Sx8pexMajQOaK+nZm7R/eOuaGezan
+ xccb9w1jN/kUbWlYBQp2d5bd0zZyNS2CuKFJUUhb5aNVzPF6D5xBM0d8thdabIdcVjsH
+ TG8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760454156; x=1761058956;
+ d=1e100.net; s=20230601; t=1760454236; x=1761059036;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zY9fYZt0VHzzLu4AS37iClxJrmCgwWUGWEX6cCe7rKY=;
- b=VpqzXKZTD9uWyHzSll+OgHCmB1DIb/47V+dwWt58TrbJ9mHFw4c45/dA2BDCMWEra/
- 4lsa1rQAsf8xvdjdjLFQ/+msqS01z7/UXP0edXcVxr3kpqZ5weKTg/rINfgBbLPQVMGq
- yOQpZdvFC+nBpkF5QmhHrFXcMBfj/XlqcknPE/s/XGiZ2kmvurTMKLvqE4fhb23YzgDy
- tEvplNb+M4fI3+vMW2TxSOqeI6WCzwkTPRE0u1Y9g7oOl+c6gGmC+3KZv34f+0zHBXF4
- uIyyxQegK611s1pxBKscTgu/B9Y+rTjFcIohKX0YR9QheIUKrHRM5CsdNdzyFfwcYynU
- m2UA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUD1i+VFzRNuNd2Ze3Wd4gjrTK4GeldSXy97Z1DUbyYsSl0LCzx31cm3TiBkzBmn5pW9jWWHJ/MenQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9WCMDBo1AGX8PZtruE5NTjY8G46x6xcFoV1rZainJPurW626y
- Slwxe7RlGuUb/ewV3Mn3cGObkCegIW6pxMLjpr19zNn44OO9v5Kk+yA9I8mPgH16a3SwYl1N2qF
- qSkbwjG4/BRKcj0jWD4m2SRsrdQikgJN1N+TmVIiAA0N2I3S5vE6Jge3mY28O495NRMj6X0I=
-X-Gm-Gg: ASbGncvRZYhTeSWBESrXYjr8/HYae/sLZjTeHlIKXx7d3FAMQUOiKgsU+03vAEJH+Vb
- UkJhQOHpTQBIL6e4nxzGGHvahBOL6zv84x4hDcVMiFRc/9AekbZKflEPfjeoXt3wSp3HvQWvjKl
- uWEiED4OFPWm1dnfZx0rRckEJozEJyAXf0TmBzR8be21ZsAv1/9A1xHvdhjt42G/G3tXFTuGV0E
- Cdjx1/ClP5ycSG2uL3sxatoLnOZR/QNCfDJ20hV/Rbstibw8ylmVjkSBeAD0TSmxBiEcFqDZrFe
- kFy0pTpCeS6qP1Vxq0UYAXdXUQK/vcvza83R3nRtRvH/3SZb+4TUXjrUi6dLE9Pq/Qe42i5GXrT
- +NpakLFHForNSwg==
-X-Received: by 2002:a17:902:f541:b0:27e:ef27:1e52 with SMTP id
- d9443c01a7336-290273448d4mr384789705ad.35.1760454155515; 
- Tue, 14 Oct 2025 08:02:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9fnX8gHGoW+trOGmD9OTA9Gjrx3jZSKjxxhVH8q5E9QFBXHcFfn09p6MjggvvVBUtsjf3rg==
-X-Received: by 2002:a17:902:f541:b0:27e:ef27:1e52 with SMTP id
- d9443c01a7336-290273448d4mr384788905ad.35.1760454154788; 
- Tue, 14 Oct 2025 08:02:34 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ bh=KvLif0xXP5NnZk/gZt7mDLBmevCZybOrgLCvCymTSWA=;
+ b=E1VVARspfL7Zae8LHJctDE+9OEB4aEtRiMerMJTIzVZO/e2rgqlHojEMYa6/Ujnrj7
+ pHrtbl4hN14PKle1m29S9QczR4T+8WeAyoGCxT3eSiO6c27GZ48tWl+P+1oDwQwYIw5q
+ +OcgNWieCU9T97me2L5bVUaSaXTrXI4xgL2jt5QRBOrBrAtVO7XM5Kr93H5kJJWopnj8
+ 1m7xED5fnrzzjATwigcX9MRwb99TiGdPLmSkoU0PHMRza7O1P+/S0KVGHUUS6yhAEwQO
+ mZBtusD1N3C6zds6hN1YtxWkIGohoKaS0qHlp3UzwqGRe26Vhynt4i6T/GX6OIy+soXx
+ 2Nvg==
+X-Gm-Message-State: AOJu0YxIvqLS/qagO0s1/mohAPAYs/un58r10aJVm5FlISQC//v6r0p0
+ w+w0zYNkPuw/0Q/XXCQgTz0IuCjG5z2zf6yeMbbixOaNjoxTWNT8MRYMf6gy069PscQ=
+X-Gm-Gg: ASbGncuFhfIjNz/lgfP3LKGhQ0B1cKmpm9zW7+hTR3aPsD2yjJ78q0sBreGeRuPKhiv
+ ThpudJdlKdy8SOH2VsuuPjyBuIdgjDVdEGYv6VX+Ja+5AZb9h3rSGa1VZU9Y/GhC0OYDPkF3GYq
+ 1RhY847KWgMBmmkPDhQLMNEPnRI/+dMa+MOMlCCOPUi0fKcJsYT0MK9jkUfosCZE0HOky1arj+f
+ kE2VfHEgyLJ4SUBaf8WBReSP+eKFJp+byPOpQTNomCqRCIK6O+rMkF9JmvHpMw75HmtBvMUOtBp
+ sUx/Q9YDe1wRCcnbPU+Sv3mtzQ2wVSMNAus9ladmyUuAuSYQr18J4zwwyCKgc6V+eSN6AH9BZ8B
+ RptF5FVT72ZLt3S+B1iNlZOU6GduEnCGcSMQhdtdvTFvikhSa1Qw0Bm3bntqU5esf4s0=
+X-Google-Smtp-Source: AGHT+IEbGgBHynNzMEpqQZCy22mrVyYPNVZNNhtZAJURBbvEYkVoKSFha08SyV1BB8PWrTBOC2JRpQ==
+X-Received: by 2002:a05:6000:24ca:b0:3e5:47a9:1c7f with SMTP id
+ ffacd0b85a97d-4266e7df708mr16101225f8f.47.1760454235744; 
+ Tue, 14 Oct 2025 08:03:55 -0700 (PDT)
+Received: from [192.168.0.101] ([90.242.12.242])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29034e1cbadsm167062495ad.33.2025.10.14.08.02.33
+ ffacd0b85a97d-426ce5cf6b4sm24185121f8f.25.2025.10.14.08.03.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 08:02:34 -0700 (PDT)
-Message-ID: <17ae8bd5-6153-4388-b2f1-2cb2e2b9ae72@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 09:02:31 -0600
+ Tue, 14 Oct 2025 08:03:55 -0700 (PDT)
+Message-ID: <601678b2-8ebf-47f7-a1b9-077468dd8fc9@ursulin.net>
+Date: Tue, 14 Oct 2025 16:03:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix race condition when mapping dmabuf
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- "Wludzik, Jozef" <jozef.wludzik@intel.com>
-References: <20251014071725.3047287-1-karol.wachowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251014071725.3047287-1-karol.wachowski@linux.intel.com>
+Subject: Re: [PATCH 02/15] dma-buf: rework stub fence initialisation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+ <20251013143502.1655-3-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251013143502.1655-3-christian.koenig@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: uSN1Bgn5OJMexNZ_nJWidlLtGsBekjcV
-X-Proofpoint-ORIG-GUID: uSN1Bgn5OJMexNZ_nJWidlLtGsBekjcV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMCBTYWx0ZWRfX/QUGSa2oN+lj
- dIrussEJQYvIk2huMi7NMpcEYatBXJK8/XWZoU446hPrwNg2GZ84DmVoz5N6P5JXJDRjAapnhSU
- SC9UX1JCSCuFcXwpIBiR7/PJ8FVPAGDHROr2//qPdlv5kGdAwfp/fqM45oVOLQDK3tj6/I9uu+P
- zqdxWTnVokfkkO4UDfeMooJDkX6eRmmIhMlGNBRUNW3/33jgJ5F1u+I5boUhyvGpSCpohnW3Q6L
- es8rgYTjfC+rFpuVHbL5btIzYVO0N9Znrrvzmk3oItL+CTvmcZyVJ7UckRM1U6PonpA4xoV1iAN
- WCyCs0xCT7S3Bj0rJKP54JgszxgSGQ3rPn88QCsQjoK0GAihPuqq6qYnR20TVKv04Fi2KIUHCTu
- yPRDjvJDfWWp9tGmv9D/FgUniWXsxA==
-X-Authority-Analysis: v=2.4 cv=V71wEOni c=1 sm=1 tr=0 ts=68ee660d cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=FUbW5QVwp-ViQwghRQoA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
- impostorscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110020
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,15 +91,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/14/2025 1:17 AM, Karol Wachowski wrote:
-> From: "Wludzik, Jozef" <jozef.wludzik@intel.com>
-> 
-> Fix a race that can occur when multiple jobs submit the same dmabuf.
-> This could cause the sg_table to be mapped twice, leading to undefined
-> behavior.
-> 
-> Fixes: e0c0891cd63b ("accel/ivpu: Rework bind/unbind of imported buffers")
-> Signed-off-by: Wludzik, Jozef <jozef.wludzik@intel.com>
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+On 13/10/2025 14:48, Christian König wrote:
+> Instead of doing this on the first call of the function just initialize
+> the stub fence during kernel load.
+> 
+> This has the clear advantage of lower overhead and also doesn't rely on
+> the ops to not be NULL any more.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-fence.c | 32 +++++++++++++++-----------------
+>   1 file changed, 15 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index f0539c73ed57..51ee13d005bc 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -121,29 +121,27 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
+>   	.get_timeline_name = dma_fence_stub_get_name,
+>   };
+>   
+> +static int __init dma_fence_init_stub(void)
+> +{
+> +	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
+> +		       &dma_fence_stub_lock, 0, 0);
+> +
+> +	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> +		&dma_fence_stub.flags);
+> +
+> +	dma_fence_signal_locked(&dma_fence_stub);
+> +	return 0;
+> +}
+> +subsys_initcall(dma_fence_init_stub);
+> +
+>   /**
+>    * dma_fence_get_stub - return a signaled fence
+>    *
+> - * Return a stub fence which is already signaled. The fence's
+> - * timestamp corresponds to the first time after boot this
+> - * function is called.
+> + * Return a stub fence which is already signaled. The fence's timestamp
+> + * corresponds to the initialisation time of the linux kernel.
+
+We sure hope it's Linux kernel and not some imposter! :D (Ie. you can 
+drop linux if you want.)
+
+>    */
+>   struct dma_fence *dma_fence_get_stub(void)
+>   {
+> -	spin_lock(&dma_fence_stub_lock);
+> -	if (!dma_fence_stub.ops) {
+> -		dma_fence_init(&dma_fence_stub,
+> -			       &dma_fence_stub_ops,
+> -			       &dma_fence_stub_lock,
+> -			       0, 0);
+> -
+> -		set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> -			&dma_fence_stub.flags);
+> -
+> -		dma_fence_signal_locked(&dma_fence_stub);
+> -	}
+> -	spin_unlock(&dma_fence_stub_lock);
+> -
+>   	return dma_fence_get(&dma_fence_stub);
+>   }
+>   EXPORT_SYMBOL(dma_fence_get_stub);
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
+
