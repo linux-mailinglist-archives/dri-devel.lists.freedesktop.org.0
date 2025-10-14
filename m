@@ -2,115 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A377BDAF27
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 20:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C6ABDB1DA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 21:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2C910E679;
-	Tue, 14 Oct 2025 18:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBFD10E013;
+	Tue, 14 Oct 2025 19:50:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jlul6K7r";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WFhYfeFz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9415E10E679
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 18:31:59 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EG9KCi017772
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 18:31:59 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6097C10E238
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 19:50:25 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EFGrj3005484
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 19:50:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- S0juoXgHF0YKeslMGNakmRLxGpZ7d+nHIP0t0vVpCcg=; b=jlul6K7rGWmoJNjY
- 37wtxqjCpoGtpku8hm03KxwGM3bdFVOzmtbTGDIe13y2YHy8ufhgTvrkjJGe52/x
- /b1FFOkB//Kdd58DArOjPhqLD/2nCEnhCNpgWOT3NHoO2yyH46VEEbPT1sN6ncX9
- f2HCzWnaU/Jr1BjcWG5D8dhPpEjuDpUCMoTJI5qfOGwORq5KGYYvFwe7h79ubufG
- LCYkW9zyBYwP5ekgK9TdTtOyCGS1d1/VDoOm2m3c4ZFl86oep0hTWS/spumcmnlI
- 8lJxV/HNdfZpgGh/uSpg4SB8Z0n4ioy/UWnSyc01GI5dmB7U7McuMfgDNuOiE49r
- 6TVysw==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49rw1adx44-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=hoXaxxAh8HM/NnL2U+whNfVg
+ Ynbh9JZ3GGYiHNKdMQw=; b=WFhYfeFzTO9webJ7RVqkMZsclTvhFb+CfHvDOT/R
+ GATWvzYy0L23twFn/CAaFdL8QwkfRZ77CZIoeiYSX6d3rTn2zn4naA/mWoLCb7N8
+ z2RX3Dw/WocYxrfhlwbERqirPMwpAXQ8XyIMVQZ8Ic/e+eDDOn/T2b9sUqbTsZnI
+ XHSroKWxZF7KHU3ijsYrOdRHrM2iICLGpUlxPhQg3KiREcQJaRIKpelWOrP4q7+Q
+ NzfjAhgIb76nPJBp0XADW2qgTJe1XMVSJHP3+LE3+k53yKOuNf6xztMfHTOeKRVw
+ fNc+nd75ZRMTWLdUoLtTSOYUfw6wWz0G/O0nuARhTEXW3A==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbj1tsp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 18:31:58 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-782063922ceso8166760b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 11:31:58 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 19:50:24 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-883feb13e83so3286809085a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:50:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760466718; x=1761071518;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S0juoXgHF0YKeslMGNakmRLxGpZ7d+nHIP0t0vVpCcg=;
- b=LIBgpGKSYuFPnlk1Io6w7bZ4bDiRv325Cp9w58+9/K1JFQtTRzQIrqAhVTtrL1NZtH
- OztB8CL4RWjOyDwlpQTJYzhOovJWCJqivPkDJW1bIlPmKC9gTwBzqjY1Cg6HghJjMD9e
- 7A/s0ajmLhcE5TmY7ngmtx4t3Mo5z59wI5Xk8732Zi8QlomX6sSWPLY13vZKfwZd1oFK
- UiqnnHwURJH28j6uxIWsAAH/H0abPZIRj9/eMzrCTtnvvLqch+lkCE8G7Hpa17k4A3m7
- jutslhlcHfdWVeoG0vVsoBdG5Re9Ea6uGnrTQ0TXgmQ2KMnfBMN1zft8dxfnrZfb0GQm
- ygmQ==
+ d=1e100.net; s=20230601; t=1760471423; x=1761076223;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hoXaxxAh8HM/NnL2U+whNfVgYnbh9JZ3GGYiHNKdMQw=;
+ b=MgR0z6xN/RHHMJcQjjTXfnbvkSvpXYah1Fju5++sOoB9M3OK2vNBxH/4pQA8IfIaHs
+ Wb+loYxdotEB5SAhgmLYVzJbWP0PA2zDchMdMgNWhgKLGCNy6SigbSP9AoJn5jN/tnPf
+ BQtNX+kaw5OlA+qKEVdynbwlWEPrzG6sjXShoIKEG/sROGDlaeKvRxHIALMhDMaCVVYK
+ 3YMPnSL93VZA80bT9AC2Uz8xN2rybkFScuz3IcZakBAdiUjje/sSQWa3TwgLyhzPe8Bh
+ SEdWGjwCDfnrMUhcIgaNpB+gm7VUTlkU0NSSoDkNujzVe9l9pp1rfeJi877XjW8rMZQq
+ 235g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUlsDjdSOiCQ95dPOuqb45RX/hipsFza+OaXOIZLX+oDpk9GIUcj9zYUNiHJ1fJWYELS+S4+zKpPuc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzczkW6HAcuTBvztACdBypA6NJ6lGkywTxWnCiOcMQn9GFBKHVc
- PKsqokSfFYC5wMKLLiCJGrOzxHM1lPoQx3VqPlvufyNIa9b0p/e4LG/OvhXUwqhKbwL553wX/uE
- 5PNwG05rF2vx0ZNUBg87HcguuN4M7RDwR65ac8mKgdoKWNknfg7+ff7UoV4e3S4NARqdUQVg=
-X-Gm-Gg: ASbGncvs8kiqMft8h8NgKplktd8/IcZBJJmfDO1PGYdnGaXVAyDInQh3JSgi10f3C41
- rsm/Lo7DZsUk3Gp+Hmp5BFjGdmdfNfwKHrN4kpC3h1WGLlb8E7qbTMPPhzEwRBo0MusR3DK2sUQ
- cl1CdGBng+Tu34pakZt1mcZPSAX9Zy3PjHYFkV01265gRA1wCH5TXeyUE+f91+Dne5I3lck/MWx
- fA5i15asnb6eCCBZUVGRTsjaUF7CAfoxWax6csJkniyvN/f+TN4Y/NSvmajQEA2PX0z0XhddG8A
- t3+NUA9Y5meLvOCVFMk7TU5Ed8mkcZD73bz5TvTaJTDvhKzrwomPS9tp31o0H/UdlnoC7gUoZDB
- pKuDbV4gdezx9Rg==
-X-Received: by 2002:a05:6a20:3950:b0:250:9175:96e3 with SMTP id
- adf61e73a8af0-32da839f016mr33483838637.30.1760466717935; 
- Tue, 14 Oct 2025 11:31:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbBMDL+uw1tU0wlDGx+rVeL6nf9dS8iXtPJzRB++xc7b4k2Dblg7aRiYug20pk9SN7UMUf8w==
-X-Received: by 2002:a05:6a20:3950:b0:250:9175:96e3 with SMTP id
- adf61e73a8af0-32da839f016mr33483817637.30.1760466717519; 
- Tue, 14 Oct 2025 11:31:57 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ AJvYcCU8H3RigwHRE4Jj9Z9JzLnLUtRby7KaTJdj72nvMBMY8IhqnYpcfEaJZxLFsMvjDar4u2wH5CD+VOU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7JzL8zNVWviDbwZNZRykshAFQWisBeJydKJXu8gmiQlMBSpQ1
+ yw92JINgHqW4U52YCYQiBdXc9NyeRnj2V9OwHEH87G31aChru54BwKL2lxrWnwOTIBvXN3CVneZ
+ MkzImufGPUqIRy5npEbnPGhV80f2XS3SKCHeEZ1/J/dQH1OJAZkib97xWYq1smhTTyFDmQQI=
+X-Gm-Gg: ASbGncu1ZEQDq5e8b1zJUAM1j8/stpqgImk6C/SPOB5QcoNQkdzSZ/mShcZTy3ELZ+C
+ Zrh4Tn/YSkdAa+QKoVgStJ1tn6TBrsj0LYILHVYUZmc9Aerux7k70g9I2XQXGCwVealsINQgUF+
+ 4HBT3yXvgI+zzZulg4pd4Z04VAsghY0Of9tdZ10tRNTQKIMZKBWrRdvn8zBkf3GmuZ10vJ0kbR4
+ dPoJrJEJfxuBWPvHjl6QjvTwcqVH3JUlfpWBRQ8OjjUV15d7LKad9snOK0BHej51suJgCmvHq1q
+ 1ZfpCmIUBk2B85nh70pu990Ng39uRPNCrdM5lawWVqmfVeK65haFprZ85N8GR0jOzkMym+A0YfH
+ bKjjeztg7dP9naYKlWBYGGaEehdcg748QV8cZbzyCwkD73ox1STe1
+X-Received: by 2002:a05:622a:148f:b0:4e7:1eb9:6075 with SMTP id
+ d75a77b69052e-4e71eb9639fmr134514341cf.24.1760471423483; 
+ Tue, 14 Oct 2025 12:50:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5E8/aPEwYwGIvty7HBIiP6izQb7EW36jmKnfvDtGc+uFowF5L0vJTo44+JikizgOXq93qFA==
+X-Received: by 2002:a05:622a:148f:b0:4e7:1eb9:6075 with SMTP id
+ d75a77b69052e-4e71eb9639fmr134513931cf.24.1760471422969; 
+ Tue, 14 Oct 2025 12:50:22 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7992b63e05csm15830781b3a.22.2025.10.14.11.31.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 11:31:57 -0700 (PDT)
-Message-ID: <830edf8e-8cbc-41ee-874d-5ecb6450e182@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 12:31:55 -0600
+ 2adb3069b0e04-590881e4e09sm5522722e87.23.2025.10.14.12.50.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Oct 2025 12:50:22 -0700 (PDT)
+Date: Tue, 14 Oct 2025 22:50:20 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] soc: qcom: ubwc: Add configuration Glymur platform
+Message-ID: <f4yvyh4yg4mjuukxdee3pdxcslucj2k2icqc4d6qfzzmctlffn@gxtzhgapvnv7>
+References: <20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org>
+ <20251014-glymur-display-v2-7-ff935e2f88c5@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/qaic: Use check_add_overflow in sahara for 64b
- types
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251014170927.3908383-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251014170927.3908383-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=K88v3iWI c=1 sm=1 tr=0 ts=68ee971e cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=GWqr9FCoMw_Da9qovAsA:9 a=QEXdDO2ut3YA:10
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: U_5SY7ou7KfRqrtUxiRM4HbqnWH0SRnc
-X-Proofpoint-ORIG-GUID: U_5SY7ou7KfRqrtUxiRM4HbqnWH0SRnc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAzNSBTYWx0ZWRfX0AYYAKQea0wz
- GxcB74gnQDNGt0pwxv6a20yhuoPwOE+XMeIwRkugWriKVe2z0DWXGCs7X+chxLMKjg0AqHWRqZQ
- +luRk7gQQa8YFL1Qej1CoIbKPav2zQX2K7MiUyTb4o4CWo2yP51gMwCVcKrhadFF9/KwUZgNTlh
- kLy557f45buXk+QyndyQK7Y5tWfz1C5HPnLjYvcj793zz7F1n8y6+HuzkIP6o4p3FXWuPy3NrPF
- 2E3KCPT6wxWf+Wdi47qeVrioqzPJOP+YFoFmCTEOam9No2w+qBTOTS96ZU6zoewFjy9pmHtocHk
- 3gDZOOpzhmT19uKlvPZbolri71nHLh2u3kjjPsYyP/gH+x4LOCQUsuYUkJ5mxWzVX+3BCUK7UTm
- W1m6aeoqNEr35QD8aVa1hDSJv1udtA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251014-glymur-display-v2-7-ff935e2f88c5@linaro.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX1+Tddo28zl1g
+ LsO3ZemV2XQ0t5Yq5OQOvvQFkU+tvCxg0fOdz2/aVx/cFlM9t8wOSzLX2/u8lftY2IVFKHARoyp
+ s5swpL2OEMicaBKUB14RRRYI16xvAzqidEKgQHRbXtydK9/Ct7Dowpk4w7JPFamMxHbFslsiqnV
+ Bj0hOY3a53qK4BB3sjXGF7aYlIKDvP3EaVcXA/bqKRX9kBXb+A+SpBPx9Lc+nX49gEjS3ajN+CC
+ xNaM/H53PSHtE4Up0paeyvLS0fxmq1bYtgAqxFrRQXa0OuufjAwZcY+dDqohgQeZUWXIvO8ntQE
+ Raytmjz3r2nA2ybv32RrQEuys1/HPaAE30Tor0fPs4VcgLoI6FipNoqqINFfzVJkeQxJBgTZu+k
+ iLlc5ByWIEl9DG9hHo3k0knczM2WYA==
+X-Proofpoint-ORIG-GUID: JXn1zilaufGcZjxzNVmZiqaoDmwvd_QE
+X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68eea980 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=rYq5acLp8HI6pBODZ1gA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: JXn1zilaufGcZjxzNVmZiqaoDmwvd_QE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
+ definitions=2025-10-14_04,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- adultscore=0 clxscore=1015 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130035
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,30 +139,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/14/2025 11:09 AM, Youssef Samir wrote:
-> From: Zack McKevitt <zmckevit@qti.qualcomm.com>
+On Tue, Oct 14, 2025 at 03:38:32PM +0300, Abel Vesa wrote:
+> Describe the Universal Bandwidth Compression (UBWC) configuration
+> for the new Glymur platform.
 > 
-> Use check_add_overflow instead of size_add in sahara when
-> 64b types are being added to ensure compatibility with 32b
-> systems. The size_add function parameters are of size_t, so
-> 64b data types may be truncated when cast to size_t on 32b
-> systems. When using check_add_overflow, no type casts are made,
-> making it a more portable option.
-> 
-> Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
-> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-
-I think you are missing two reviewed-by tags from v1.
-
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 > ---
-> Changes in V2:
-> - Use explicit casts with check_*_overflow() calls
-> - Replace min() with min_t()
-Fixing typecast warnings with explicit casts seems good, but min->min_t 
-seems outside of scope. It doesn't match with the commit text, and I 
-don't see a good way to include it without making this patch look like 
-it should be split into two. Thus, lets do the typecast fixes for the 
-min usage as a follow up.
+>  drivers/soc/qcom/ubwc_config.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
 
--Jeff
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
+
+-- 
+With best wishes
+Dmitry
