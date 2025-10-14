@@ -2,144 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D262ABDBA27
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 00:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B741CBDBA87
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 00:35:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12ED010E245;
-	Tue, 14 Oct 2025 22:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D51810E060;
+	Tue, 14 Oct 2025 22:35:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FDSFyP+G";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="h4qna4p7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011024.outbound.protection.outlook.com
- [40.93.194.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA1B610E245
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:23:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uy2SnrmKkqc5bqAsTtMeduQWLhpK0kMT4vPod2ktEUZ7SwJnylwAthQ6GMKW8IwMCMtly5TTORBHaOYkB+csGRUD7KAAxyiAow9Y6elWSaP2L65A9N0W2bSsHlCCScPB8Q3EyBkOsoEfaWWHQdSjtDAzN+/KEdTA1xBOzhjOp+ps9rWhCAHi9MCqP6RnwFhkaD2RFb/Iq0Z3P2kAXt8Ko3IbGPXptL4GeVRniOjAT6yuIN3E+A0fD1sgBWsRtOXy6hRX+4Vd6rtoOv9EIfEUcHDVSS0KMT5W0qYjuxlIOQpNw6iC4xm8GZNCShtdB5lg3ZZ9xXtZIK1CE0Nc6jcd1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rBdXOxougaUa8TSUH7QBIlhtDeYYMIIQ4qZucwAAJS0=;
- b=FH85WqoUU2lZDS+PlxkUepQe9bG6MrkBMgqIoC0vZnzH3d1/nIZEJMtNbogG0fsJ8GqKVnTcN3AdgJjmenvxlDPlEszWBZ0xrS7s1P/GCoCB9zAcSS0DCKiN4TlYI/wh0zgJM3SwsaGPJ8J1bbTVRMhM8t7t+lk3WTj4MN6Mrf5Do3CdCQz0rlv0jGZvuHxNy43Eio02nZJ1ywY9jAOLwD6rAYFlXuBp4G4nVyqD+bBlhAFz4P9MRi2L6PYNAnngYncDarnjWKUn0xsDjhqe9P7ksCRjKM7+3/oXYxgHJRGw1jFQBdEqBHDJTFYEWKPNpdKTtuR4DKrTl4Jz0mFObA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rBdXOxougaUa8TSUH7QBIlhtDeYYMIIQ4qZucwAAJS0=;
- b=FDSFyP+GTyy9V7jRML/ewsQRIC4UyFY2GML/8QgncaDKGKzAkqe23cmg+2CEJVFVh7npY1sAup4x3wktX9KvZpHSSUvygccsaubS404rGdnhtGzncMCU8MqIcspNSHi9n2vjUkAjmrb9AwTBiNt766TMLE40RRFHGPBkuhtM8ko=
-Received: from MN2PR18CA0014.namprd18.prod.outlook.com (2603:10b6:208:23c::19)
- by BN7PPFA42F4F89B.namprd12.prod.outlook.com
- (2603:10b6:40f:fc02::6dd) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Tue, 14 Oct
- 2025 22:23:06 +0000
-Received: from BL6PEPF0001AB73.namprd02.prod.outlook.com
- (2603:10b6:208:23c:cafe::7a) by MN2PR18CA0014.outlook.office365.com
- (2603:10b6:208:23c::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.13 via Frontend Transport; Tue,
- 14 Oct 2025 22:23:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB73.mail.protection.outlook.com (10.167.242.166) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.7 via Frontend Transport; Tue, 14 Oct 2025 22:23:06 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Tue, 14 Oct
- 2025 15:23:04 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 14 Oct
- 2025 17:23:04 -0500
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 14 Oct 2025 15:23:04 -0700
-Message-ID: <0d03768b-60ae-0f65-c92f-9d9ec584710c@amd.com>
-Date: Tue, 14 Oct 2025 15:23:03 -0700
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D936B10E060
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:35:54 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EKRK8J000785
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:35:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ pAchcL5TC5LbBHq3agrHPlQT9VzsE9lDZOq2eG6E55c=; b=h4qna4p7itb4daGx
+ xQLC5WBad0xAoI9IgyrYQ7wmzhiEzCjcJNaDQXttlIZ8LRDwfZAevat9qdbncS4t
+ 45rpsHl1q9SnPDJKqAt/SUdj+cJ986b4a/5RDGiZIFgFoteRBOWc8jCIcj2+PES1
+ cNkrfRAZJzecv1QrD0rpm4iOOF6KTw6ieP0eiCgL8XsE5QD02R6y9HsPmvEZ3f0l
+ JRH9M0HzrV0vKFLhQkpY7FsTe/wfYJdlOoNodWfpS9j/ok6Y+QwFauF7vGDFZ13R
+ soWvZ2xyctvttsw9an4gt16ReqbSu9CpZOWXnKViw2lfuExkxHsnPi8sDkNQEHB6
+ 9qF/PA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qff0t7m5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 22:35:54 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8574e8993cbso1233281285a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:35:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760481353; x=1761086153;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pAchcL5TC5LbBHq3agrHPlQT9VzsE9lDZOq2eG6E55c=;
+ b=W7qzeLYKWmeTBv63HKrr0Bq/TB8odgLuxpEsd8YWqNH5ozcFZhmscxrT7mlmHhrWq8
+ nbza9khhYaduWC+yf/1rOMpqhWG27OmGdRQxHzKNp/347arsae8ZRlJV2G8sLBQtuBLf
+ XUb3EPrUkOSYx7y5Ba4oaZtM6u4sI0EFuenRyMG76JrtFVMln43AA5+KwP4V3YsAhqLq
+ NhtVPq8D/iiGQvXtaXURcFHDFTi3OJAZHvHIwGXYVWcmmO4wiXtwiZG2litCCeAgQxxI
+ TcBgkfVE4i5YBGoEzSVKUYDFgBM/3lC/3xIwXl0dh5p7e6H8XsGtn3sy3RS9pX4nKC18
+ NyDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW31+z0TyPaQ6llLhepDhxRjPq4uSC7JYkMtF8NjOKPRPglBd9umn7U2k7mg58/SVG66k8mxmeGCH4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNx0qYiKHy2hJXWOwY5D2ZQBWmCF7Z14E2cxCzgn58o+W/v9fb
+ J/Br2bTkgOgE1AR6T3PT6yl4+VYetqkd+e8Ui288NuaLTxIk1mDPEwJYOpDAtK3RUQOFgJK+shF
+ ndX7ZQMw3CkYvtYK3O47VdYnmWkKRyIASeknTAltJhOY1Aw+6m2Bre4Y1g62mTNZjK3dbags=
+X-Gm-Gg: ASbGncvGJfFVsQLu/SBr0ekOTdcKmxcHrk3Ijy2fE8GuQaUcy6n5afrFDTOiG/ycKJm
+ Or0vbXJKZSqtQBjkm61njjBWFpkVMDfrIZ/0m0ZVf/KvjYin4YZa9zyXveNO65QiR9eCJcoq/Sm
+ gaxiAldE36CMbzmmSRGI7Fp4j+sTwtqFGq/1ZFYlRHtpMlONYanRI7VfB+q9pdqfXXcI0YOpGNV
+ 3gro+p1TrPxCwxRfcI0N+wTUqjgo3Mpwx4N1I6I9huqKwiAtJ4zqhqRyd12dQT+mB/GCkSh8q0+
+ fOu5hb/jQRn0lMIuLoxei6+/YFhd2795OqSzAbN6OwGJa305VgtLMyY1FazrumVbWC97SfcqXFB
+ DCmIhj3+RNnVsKBTa/cjTGqUm2qjW4kAmcwBuPmK+JF4Awv8k157j
+X-Received: by 2002:a05:620a:1a82:b0:864:c4b9:da16 with SMTP id
+ af79cd13be357-883570ce5e8mr3995522485a.73.1760481353144; 
+ Tue, 14 Oct 2025 15:35:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGg3R+WhZNU3zN7K1TCOTqZWG3wcFOUoC1PkhWReIK96m9zDJw8r7qvxd4DQ0rvgcMg8Frt9A==
+X-Received: by 2002:a05:620a:1a82:b0:864:c4b9:da16 with SMTP id
+ af79cd13be357-883570ce5e8mr3995520185a.73.1760481352666; 
+ Tue, 14 Oct 2025 15:35:52 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-591c990f5b4sm130549e87.9.2025.10.14.15.35.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Oct 2025 15:35:50 -0700 (PDT)
+Date: Wed, 15 Oct 2025 01:35:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Imre Deak <imre.deak@intel.com>
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 05/16] drm/dp_mst: Switch private_obj initialization to
+ reset
+Message-ID: <hzj77xgrwfcsv5zsuknazt3kgdctvtho7wgagu5bonq2nfwb2l@rubsf75usj46>
+References: <20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org>
+ <20251008-drm-private-obj-reset-v1-5-805ab43ae65a@kernel.org>
+ <aOZv88NgbjmT49N1@intel.com> <aOaQLx-7EpsHRwkH@ideak-desk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V1] accel/amdxdna: Support getting last hardware error
-Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
-References: <20251014170130.601390-1-lizhi.hou@amd.com>
- <2d8cbb22-db99-4af0-bb36-940772880229@amd.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <2d8cbb22-db99-4af0-bb36-940772880229@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB73:EE_|BN7PPFA42F4F89B:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03dfceff-8e1e-4ebb-9b92-08de0b703f6a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TWlXOFlLSFAxY3YzdWh4M0Q2Q0pFYWhYNmR4RFdDUm51QlZjOVhNWVdRdWth?=
- =?utf-8?B?RkcwU1pLcGVJa3pkbkFSbEp3NlZvSG1jRUVlRHBHTzh2dmg1cVRxalBXU1FD?=
- =?utf-8?B?SXI4MkJHWFN0Z0hieWVNNHFDWEVEQzJxN3ZmeHlHRUpjM0tPVngyaHpJTUh2?=
- =?utf-8?B?SXRqRytEdFhnanVFRkNtOFFQZk92dkVXUk9lRXBhZEZoZEZnRllxMXNDSS9p?=
- =?utf-8?B?YkFXMUcvZllOdG1pbmpZOGYzakwvekIxb1RKdG01TmVXTDM3S1RqM00vWFgv?=
- =?utf-8?B?cFN6VEt6bm1RbFlLQ2hkUTZoK3lqaCtvMlRWWTkxak42bXJMSnZoNXphQmdO?=
- =?utf-8?B?ajI4Uy9kdmZic2l2UGdHYmxPbHFwRXZWU29vUWVJVVRPZUU0OUlJaUlrOVVK?=
- =?utf-8?B?V3pzOWlkWW00OEVkT3g1cWlaMHlIVkdlY1ZuYkFWT3huVWxydDEyN0lyTitk?=
- =?utf-8?B?citCY2orWFRNeFhQdTV6aWJFUEMvRGM0SjdvdllOemMwenVWUFh4MTZLQWpQ?=
- =?utf-8?B?ZEY0MG5CYVFCRzNaK2kybzhRayt0ZFVRdVVncjJReDhXV2JoVVgva2tnR2ZP?=
- =?utf-8?B?bFNyMlJpNjhSejBqTUhRanZvNmYwUGZvVGlxSW5YMGdqcmRJUXNpVG1UeEtI?=
- =?utf-8?B?ZUQ5dGp1RmluL0Q5TzBHWE1TdUwwVVAvNlRvVGE1V3hTYXpkZXRiOWtkRUZE?=
- =?utf-8?B?SWJPQmNOejNpSjBQUFJZYU1VSHRoeFl0a1NlVGpYR3RQZDlac3lCMUJGSzJi?=
- =?utf-8?B?ZXVqZUdxTHdNQ1drM2lMa2pDN0tidVFpdGdnb2JFUjZIT09rZ0NsNVc3UFJi?=
- =?utf-8?B?NmhJVGVQOFFrYjFhTHVxVTZ5Vi9HYXhjVmJtSjY1emx5V2xrNG5Kejhac2FM?=
- =?utf-8?B?YVBjV2d2dnAyK2ZYSXI2VnRnTmtVS1diWHlqWGVPSDQzcExiWGVnNzI3VmVL?=
- =?utf-8?B?T2ZTQ3RKMGdjVGg5MEQvcDJzUVlzaGlVNklFa2ltRG1sWVRtMFRVYXRoRVlR?=
- =?utf-8?B?bWRzMEdyM1RGZE5aRnNVNzdKS2VkeDkxcVI5NjhRRHRXY2J0WEhOM2drZHVK?=
- =?utf-8?B?YWRhaVFaT1EzWGdNUy9MTmwwUEVBbmtvTmdEOG9Fc3dwcW1FOUsyeFFINjlI?=
- =?utf-8?B?dDJqcFZJR3ZsdGlKYjdySGtBNTFKWHA4WDV6amhLeHllU3RHQ2M1b3oybk1X?=
- =?utf-8?B?RnJRQ21xLzE5Y1RGdlVlb0VUSkVtWFc1ZWJabWsyTWFLU2I4bGNISHZmZ3FO?=
- =?utf-8?B?R3l2K1ZLTWRvcWhuMmZPcnd6aWlreFc4TU43K2pyWjAxVURIeWtyUitPWmJq?=
- =?utf-8?B?MzlNNnkyMHozeUJ6bEVHcy9sU1J1ODRxMGdYWkRZVWZ3OXFOeXhPWnl6VnMv?=
- =?utf-8?B?eVFTTXJzZnorQlQxNVprNXM4cWhZQWFoS1o0cGlEaHlPZ3ZwVmlIODc4UDBX?=
- =?utf-8?B?dngyenZZa3BGVTU4Uy9RNkJhV2pFdkQvWWQ1eVQ5WTluV1NmOU00UEI0bm5X?=
- =?utf-8?B?bHlxeWhva0pTQjVFSDRBTElLVENyTzE2MUQyUHJBNGp3U0t5Z3hTdHJ0L2Uv?=
- =?utf-8?B?MmVtSVMxZWxZU1NCeW9iWVk3bmRUaVpjdW4rM2Rrcm9sSUFtWXA3VFp0ODA0?=
- =?utf-8?B?ZDdmQmYrNkU0a2VPL2RPWEtWczdQSTVUWDIzb3gxMFZmSVFhYnBUSjRUNjd0?=
- =?utf-8?B?Sm00SDRlcEdWYTU0WlhoUXZ5Qm94bnk1bHhMcUxpK1ZwSlRDMDB4S3Ivb29P?=
- =?utf-8?B?YXdhYklXazRMRDArMVdibGRyZkdnV25uU3BLbis0OUNtbVZXZG9mU3EwZEQ0?=
- =?utf-8?B?NlZkOW1vYmpZNEZrc2lHeHlRZWYvUVFYT2FWME1sVWxiMHowSWl2Rm55cXY3?=
- =?utf-8?B?UEdVZUxDWENjK05VcnljQVN6UGYySHJDa24ySUY3NlZkSFhPUzkwbkMyOEdI?=
- =?utf-8?B?SnZCRkZram1pL0xZNDBCVXRYTDJqUW03TStabVRGSFBIdmJiRWk1SWhoU2dw?=
- =?utf-8?B?Y01EN3ZiQjlUNVRTZXI3WFladU9HUHlqQ0Q1OEx6M0REYnhoeFJlQUd6QTln?=
- =?utf-8?B?eHNXT21Qc1dKK1NsSSthNUYzVENuakt4eHdESHBZUzIwVFIwUHFPL09hdjhl?=
- =?utf-8?Q?VGGQ=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 22:23:06.0940 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03dfceff-8e1e-4ebb-9b92-08de0b703f6a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB73.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPFA42F4F89B
+In-Reply-To: <aOaQLx-7EpsHRwkH@ideak-desk>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX2YucsnIfNcMK
+ o0SE3O9GR2cWj3dyrxlN4LrU+DpYAtus9DKkPo/+PH/uJwDE1eWMQUNIXj7OZWjoGVAsemtzxyW
+ qe7p5NqxjDO+wkX/VBu+iDdceohESAgsd7xCUBUlzF/dIUeNEFO5L4jSMNH51/awrIiopeMA56J
+ RgQkPk/Ss8iWcNjYzT0dmnTphUlDAMKIF2EMOhJrKX1Q34sQWoU0e3/QaEGkIRvjL1rPEfuN5tH
+ 1+/8Vab5QnukkUUj6zUFa8t7/jVdlE/cxcBA573wdmVggZ3Th2v/v9KevsUDdMsDJQZBcFC8lrY
+ QhqepEmCOtA6IG7vha3YsAEMtGk/QSZQ+VY8qz2DA==
+X-Proofpoint-GUID: dcdTTQIFqmQBXhLEXEIDI6PjhFAJtz84
+X-Authority-Analysis: v=2.4 cv=PriergM3 c=1 sm=1 tr=0 ts=68eed04a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
+ a=xkrmkk9xm9al6zzcAa0A:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: dcdTTQIFqmQBXhLEXEIDI6PjhFAJtz84
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-14_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,350 +130,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Oct 08, 2025 at 07:24:15PM +0300, Imre Deak wrote:
+> On Wed, Oct 08, 2025 at 05:06:43PM +0300, Ville Syrj�l� wrote:
+> > On Wed, Oct 08, 2025 at 02:04:03PM +0200, Maxime Ripard wrote:
+> > > The DP MST implementation relies on a drm_private_obj, that is
+> > > initialized by allocating and initializing a state, and then passing it
+> > > to drm_private_obj_init.
+> > > 
+> > > Since we're gradually moving away from that pattern to the more
+> > > established one relying on a reset implementation, let's migrate this
+> > > instance to the new pattern.
+> > > 
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 39 ++++++++++++++++++---------
+> > >  1 file changed, 26 insertions(+), 13 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > index 64e5c176d5cce9df9314f77a0b4c97662c30c070..255fbdcea9f0b6376d15439e3da1dc02be472a20 100644
+> > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > @@ -5181,10 +5181,34 @@ static void drm_dp_mst_destroy_state(struct drm_private_obj *obj,
+> > >  
+> > >  	kfree(mst_state->commit_deps);
+> > >  	kfree(mst_state);
+> > >  }
+> > >  
+> > > +static void drm_dp_mst_reset(struct drm_private_obj *obj)
+> > > +{
+> > > +	struct drm_dp_mst_topology_mgr *mgr =
+> > > +		to_dp_mst_topology_mgr(obj);
+> > > +	struct drm_dp_mst_topology_state *mst_state;
+> > > +
+> > > +	if (obj->state) {
+> > > +		drm_dp_mst_destroy_state(obj, obj->state);
+> > > +		obj->state = NULL;
+> > 
+> > I'm not a big fan of this "free+reallocate without any way to handle
+> > failures" pattern.
+> > 
+> > Currently i915 does not do any of this, and so there are no unhandled
+> > points of failure. But the mst and tunneling changes here force it
+> > on i915 as well.
+> > 
+> > I think for the common things it would be nicer to just implement
+> > the reset as just that "a reset of the current state", and leave
+> > the "let's play fast and loose with kmalloc() failures" to the
+> > drivers that want it.
+> > 
+> > That said I haven't even thought through whether this mst and
+> > tunneling state reset might have some undesired side effects
+> > since we previously did none of it. I suspect it should be fine,
+> > but at least the mst code does some questionable things with
+> > the state so not 100% sure.
+> > 
+> > Imre, do you recall if we might somehow depend on preserving
+> > the state across drm_mode_config_reset()?
+> 
+> Yes, the stream payload info in the MST state and the stream BW info in
+> the tunnel state is computed for the active streams (i.e. CRTCs) before
+> suspend and this info is reused after resume. These active streams must
+> be restored to their pre-suspend state after resume, which will need the
+> above payload/BW info.
+> 
+> The restore should happen without recomputing the state for CRTCs, so
+> the payload/BW info should be also preserved across suspend/resume.
+> 
+> crtc/plane/connector objects which have the reset semantic added now in
+> this patch for private objects do preserve their state across
+> suspend/resume, see drm_atomic_helper_duplicate_state() and
+> drm_atomic_helper_commit_duplicated_state().
 
-On 10/14/25 15:05, Mario Limonciello wrote:
->
->
-> On 10/14/2025 12:01 PM, Lizhi Hou wrote:
->> Add new parameter DRM_AMDXDNA_HW_LAST_ASYNC_ERR to get array IOCTL. When
->> hardware reports an error, the driver save the error information and
->> timestamp. This new get array parameter retrieves the last error.
->>
->> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->> ---
->>   drivers/accel/amdxdna/aie2_error.c      | 91 ++++++++++++++++++++-----
->>   drivers/accel/amdxdna/aie2_pci.c        |  3 +
->>   drivers/accel/amdxdna/aie2_pci.h        |  5 +-
->>   drivers/accel/amdxdna/amdxdna_error.h   | 59 ++++++++++++++++
->>   drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 +-
->>   include/uapi/drm/amdxdna_accel.h        | 13 ++++
->>   6 files changed, 155 insertions(+), 19 deletions(-)
->>   create mode 100644 drivers/accel/amdxdna/amdxdna_error.h
->>
->> diff --git a/drivers/accel/amdxdna/aie2_error.c 
->> b/drivers/accel/amdxdna/aie2_error.c
->> index 5ee905632a39..976f5f0ea308 100644
->> --- a/drivers/accel/amdxdna/aie2_error.c
->> +++ b/drivers/accel/amdxdna/aie2_error.c
->> @@ -13,6 +13,7 @@
->>     #include "aie2_msg_priv.h"
->>   #include "aie2_pci.h"
->> +#include "amdxdna_error.h"
->>   #include "amdxdna_mailbox.h"
->>   #include "amdxdna_pci_drv.h"
->>   @@ -46,6 +47,7 @@ enum aie_module_type {
->>       AIE_MEM_MOD = 0,
->>       AIE_CORE_MOD,
->>       AIE_PL_MOD,
->> +    AIE_UNKNOWN_MOD,
->>   };
->>     enum aie_error_category {
->> @@ -143,6 +145,27 @@ static const struct aie_event_category 
->> aie_ml_shim_tile_event_cat[] = {
->>       EVENT_CATEGORY(74U, AIE_ERROR_LOCK),
->>   };
->>   +static const enum amdxdna_error_num aie_cat_err_num_map[] = {
->> +    [AIE_ERROR_SATURATION] = AMDXDNA_ERROR_NUM_AIE_SATURATION,
->> +    [AIE_ERROR_FP] = AMDXDNA_ERROR_NUM_AIE_FP,
->> +    [AIE_ERROR_STREAM] = AMDXDNA_ERROR_NUM_AIE_STREAM,
->> +    [AIE_ERROR_ACCESS] = AMDXDNA_ERROR_NUM_AIE_ACCESS,
->> +    [AIE_ERROR_BUS] = AMDXDNA_ERROR_NUM_AIE_BUS,
->> +    [AIE_ERROR_INSTRUCTION] = AMDXDNA_ERROR_NUM_AIE_INSTRUCTION,
->> +    [AIE_ERROR_ECC] = AMDXDNA_ERROR_NUM_AIE_ECC,
->> +    [AIE_ERROR_LOCK] = AMDXDNA_ERROR_NUM_AIE_LOCK,
->> +    [AIE_ERROR_DMA] = AMDXDNA_ERROR_NUM_AIE_DMA,
->> +    [AIE_ERROR_MEM_PARITY] = AMDXDNA_ERROR_NUM_AIE_MEM_PARITY,
->> +    [AIE_ERROR_UNKNOWN] = AMDXDNA_ERROR_NUM_UNKNOWN,
->> +};
->
-> I think it would be good to add:
->
-> static_assert(ARRAY_SIZE(aie_cat_err_num_map) == AIE_ERROR_UNKNOWN);
->
->> +
->> +static const enum amdxdna_error_module aie_err_mod_map[] = {
->> +    [AIE_MEM_MOD] = AMDXDNA_ERROR_MODULE_AIE_MEMORY,
->> +    [AIE_CORE_MOD] = AMDXDNA_ERROR_MODULE_AIE_CORE,
->> +    [AIE_PL_MOD] = AMDXDNA_ERROR_MODULE_AIE_PL,
->> +    [AIE_UNKNOWN_MOD] = AMDXDNA_ERROR_MODULE_UNKNOWN,
->> +};
->
-> Same thing here for a static assert.
+Doesn't this mean that we should implement handling of private objects
+in those functions too? E.g. we track resource allocation in the private
+object. It should also be restored to exactly the same state as it was
+before suspend.
 
-Sure, I will add assert for both arrays.
 
-Thanks,
-
-Lizhi
-
->
->> +
->>   static enum aie_error_category
->>   aie_get_error_category(u8 row, u8 event_id, enum aie_module_type 
->> mod_type)
->>   {
->> @@ -176,12 +199,40 @@ aie_get_error_category(u8 row, u8 event_id, 
->> enum aie_module_type mod_type)
->>           if (event_id != lut[i].event_id)
->>               continue;
->>   +        if (lut[i].category > AIE_ERROR_UNKNOWN)
->> +            return AIE_ERROR_UNKNOWN;
->> +
->>           return lut[i].category;
->>       }
->>         return AIE_ERROR_UNKNOWN;
->>   }
->>   +static void aie2_update_last_async_error(struct amdxdna_dev_hdl 
->> *ndev, void *err_info, u32 num_err)
->> +{
->> +    struct aie_error *errs = err_info;
->> +    enum amdxdna_error_module err_mod;
->> +    enum aie_error_category aie_err;
->> +    enum amdxdna_error_num err_num;
->> +    struct aie_error *last_err;
->> +
->> +    last_err = &errs[num_err - 1];
->> +    if (last_err->mod_type >= AIE_UNKNOWN_MOD) {
->> +        err_num = aie_cat_err_num_map[AIE_ERROR_UNKNOWN];
->> +        err_mod = aie_err_mod_map[AIE_UNKNOWN_MOD];
->> +    } else {
->> +        aie_err = aie_get_error_category(last_err->row,
->> +                         last_err->event_id,
->> +                         last_err->mod_type);
->> +        err_num = aie_cat_err_num_map[aie_err];
->> +        err_mod = aie_err_mod_map[last_err->mod_type];
->> +    }
->> +
->> +    ndev->last_async_err.err_code = AMDXDNA_ERROR_ENCODE(err_num, 
->> err_mod);
->> +    ndev->last_async_err.ts_us = ktime_to_us(ktime_get_real());
->> +    ndev->last_async_err.ex_err_code = 
->> AMDXDNA_EXTRA_ERR_ENCODE(last_err->row, last_err->col);
->> +}
->> +
->>   static u32 aie2_error_backtrack(struct amdxdna_dev_hdl *ndev, void 
->> *err_info, u32 num_err)
->>   {
->>       struct aie_error *errs = err_info;
->> @@ -264,29 +315,14 @@ static void aie2_error_worker(struct 
->> work_struct *err_work)
->>       }
->>         mutex_lock(&xdna->dev_lock);
->> +    aie2_update_last_async_error(e->ndev, info->payload, 
->> info->err_cnt);
->> +
->>       /* Re-sent this event to firmware */
->>       if (aie2_error_event_send(e))
->>           XDNA_WARN(xdna, "Unable to register async event");
->>       mutex_unlock(&xdna->dev_lock);
->>   }
->>   -int aie2_error_async_events_send(struct amdxdna_dev_hdl *ndev)
->> -{
->> -    struct amdxdna_dev *xdna = ndev->xdna;
->> -    struct async_event *e;
->> -    int i, ret;
->> -
->> -    drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
->> -    for (i = 0; i < ndev->async_events->event_cnt; i++) {
->> -        e = &ndev->async_events->event[i];
->> -        ret = aie2_error_event_send(e);
->> -        if (ret)
->> -            return ret;
->> -    }
->> -
->> -    return 0;
->> -}
->> -
->>   void aie2_error_async_events_free(struct amdxdna_dev_hdl *ndev)
->>   {
->>       struct amdxdna_dev *xdna = ndev->xdna;
->> @@ -341,6 +377,10 @@ int aie2_error_async_events_alloc(struct 
->> amdxdna_dev_hdl *ndev)
->>           e->size = ASYNC_BUF_SIZE;
->>           e->resp.status = MAX_AIE2_STATUS_CODE;
->>           INIT_WORK(&e->work, aie2_error_worker);
->> +
->> +        ret = aie2_error_event_send(e);
->> +        if (ret)
->> +            goto free_wq;
->>       }
->>         ndev->async_events = events;
->> @@ -349,6 +389,8 @@ int aie2_error_async_events_alloc(struct 
->> amdxdna_dev_hdl *ndev)
->>            events->event_cnt, events->size);
->>       return 0;
->>   +free_wq:
->> +    destroy_workqueue(events->wq);
->>   free_buf:
->>       dma_free_noncoherent(xdna->ddev.dev, events->size, events->buf,
->>                    events->addr, DMA_FROM_DEVICE);
->> @@ -356,3 +398,18 @@ int aie2_error_async_events_alloc(struct 
->> amdxdna_dev_hdl *ndev)
->>       kfree(events);
->>       return ret;
->>   }
->> +
->> +int aie2_get_array_async_error(struct amdxdna_dev_hdl *ndev, struct 
->> amdxdna_drm_get_array *args)
->> +{
->> +    struct amdxdna_dev *xdna = ndev->xdna;
->> +
->> +    drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
->> +
->> +    args->num_element = 1;
->> +    args->element_size = sizeof(ndev->last_async_err);
->> +    if (copy_to_user(u64_to_user_ptr(args->buffer),
->> +             &ndev->last_async_err, args->element_size))
->> +        return -EFAULT;
->> +
->> +    return 0;
->> +}
->> diff --git a/drivers/accel/amdxdna/aie2_pci.c 
->> b/drivers/accel/amdxdna/aie2_pci.c
->> index 8a66f276100e..cfca4e456b61 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.c
->> +++ b/drivers/accel/amdxdna/aie2_pci.c
->> @@ -924,6 +924,9 @@ static int aie2_get_array(struct amdxdna_client 
->> *client,
->>       case DRM_AMDXDNA_HW_CONTEXT_ALL:
->>           ret = aie2_query_ctx_status_array(client, args);
->>           break;
->> +    case DRM_AMDXDNA_HW_LAST_ASYNC_ERR:
->> +        ret = aie2_get_array_async_error(xdna->dev_handle, args);
->> +        break;
->>       default:
->>           XDNA_ERR(xdna, "Not supported request parameter %u", 
->> args->param);
->>           ret = -EOPNOTSUPP;
->> diff --git a/drivers/accel/amdxdna/aie2_pci.h 
->> b/drivers/accel/amdxdna/aie2_pci.h
->> index 289a23ecd5f1..34bc35479f42 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.h
->> +++ b/drivers/accel/amdxdna/aie2_pci.h
->> @@ -190,6 +190,8 @@ struct amdxdna_dev_hdl {
->>         enum aie2_dev_status        dev_status;
->>       u32                hwctx_num;
->> +
->> +    struct amdxdna_async_error    last_async_err;
->>   };
->>     #define DEFINE_BAR_OFFSET(reg_name, bar, reg_addr) \
->> @@ -253,8 +255,9 @@ void aie2_psp_stop(struct psp_device *psp);
->>   /* aie2_error.c */
->>   int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev);
->>   void aie2_error_async_events_free(struct amdxdna_dev_hdl *ndev);
->> -int aie2_error_async_events_send(struct amdxdna_dev_hdl *ndev);
->>   int aie2_error_async_msg_thread(void *data);
->> +int aie2_get_array_async_error(struct amdxdna_dev_hdl *ndev,
->> +                   struct amdxdna_drm_get_array *args);
->>     /* aie2_message.c */
->>   int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev);
->> diff --git a/drivers/accel/amdxdna/amdxdna_error.h 
->> b/drivers/accel/amdxdna/amdxdna_error.h
->> new file mode 100644
->> index 000000000000..c51de86ec12b
->> --- /dev/null
->> +++ b/drivers/accel/amdxdna/amdxdna_error.h
->> @@ -0,0 +1,59 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Copyright (C) 2025, Advanced Micro Devices, Inc.
->> + */
->> +
->> +#ifndef _AMDXDNA_ERROR_H_
->> +#define _AMDXDNA_ERROR_H_
->> +
->> +#include <linux/bitfield.h>
->> +#include <linux/bits.h>
->> +
->> +#define AMDXDNA_ERR_DRV_AIE        4
->> +#define AMDXDNA_ERR_SEV_CRITICAL    3
->> +#define AMDXDNA_ERR_CLASS_AIE        2
->> +
->> +#define AMDXDNA_ERR_NUM_MASK        GENMASK_U64(15, 0)
->> +#define AMDXDNA_ERR_DRV_MASK        GENMASK_U64(23, 16)
->> +#define AMDXDNA_ERR_SEV_MASK        GENMASK_U64(31, 24)
->> +#define AMDXDNA_ERR_MOD_MASK        GENMASK_U64(39, 32)
->> +#define AMDXDNA_ERR_CLASS_MASK        GENMASK_U64(47, 40)
->> +
->> +enum amdxdna_error_num {
->> +    AMDXDNA_ERROR_NUM_AIE_SATURATION = 3,
->> +    AMDXDNA_ERROR_NUM_AIE_FP,
->> +    AMDXDNA_ERROR_NUM_AIE_STREAM,
->> +    AMDXDNA_ERROR_NUM_AIE_ACCESS,
->> +    AMDXDNA_ERROR_NUM_AIE_BUS,
->> +    AMDXDNA_ERROR_NUM_AIE_INSTRUCTION,
->> +    AMDXDNA_ERROR_NUM_AIE_ECC,
->> +    AMDXDNA_ERROR_NUM_AIE_LOCK,
->> +    AMDXDNA_ERROR_NUM_AIE_DMA,
->> +    AMDXDNA_ERROR_NUM_AIE_MEM_PARITY,
->> +    AMDXDNA_ERROR_NUM_UNKNOWN = 15,
->> +};
->> +
->> +enum amdxdna_error_module {
->> +    AMDXDNA_ERROR_MODULE_AIE_CORE = 3,
->> +    AMDXDNA_ERROR_MODULE_AIE_MEMORY,
->> +    AMDXDNA_ERROR_MODULE_AIE_SHIM,
->> +    AMDXDNA_ERROR_MODULE_AIE_NOC,
->> +    AMDXDNA_ERROR_MODULE_AIE_PL,
->> +    AMDXDNA_ERROR_MODULE_UNKNOWN = 8,
->> +};
->> +
->> +#define AMDXDNA_ERROR_ENCODE(err_num, err_mod)                \
->> +    (FIELD_PREP(AMDXDNA_ERR_NUM_MASK, err_num) |            \
->> +     FIELD_PREP_CONST(AMDXDNA_ERR_DRV_MASK, AMDXDNA_ERR_DRV_AIE) |    \
->> +     FIELD_PREP_CONST(AMDXDNA_ERR_SEV_MASK, 
->> AMDXDNA_ERR_SEV_CRITICAL) | \
->> +     FIELD_PREP(AMDXDNA_ERR_MOD_MASK, err_mod) |            \
->> +     FIELD_PREP_CONST(AMDXDNA_ERR_CLASS_MASK, AMDXDNA_ERR_CLASS_AIE))
->> +
->> +#define AMDXDNA_EXTRA_ERR_COL_MASK    GENMASK_U64(7, 0)
->> +#define AMDXDNA_EXTRA_ERR_ROW_MASK    GENMASK_U64(15, 8)
->> +
->> +#define AMDXDNA_EXTRA_ERR_ENCODE(row, col)                \
->> +    (FIELD_PREP(AMDXDNA_EXTRA_ERR_COL_MASK, col) |            \
->> +     FIELD_PREP(AMDXDNA_EXTRA_ERR_ROW_MASK, row))
->> +
->> +#endif /* _AMDXDNA_ERROR_H_ */
->> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c 
->> b/drivers/accel/amdxdna/amdxdna_pci_drv.c
->> index aa04452310e5..696fdac8ad3c 100644
->> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
->> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
->> @@ -27,9 +27,10 @@ MODULE_FIRMWARE("amdnpu/17f0_20/npu.sbin");
->>   /*
->>    * 0.0: Initial version
->>    * 0.1: Support getting all hardware contexts by 
->> DRM_IOCTL_AMDXDNA_GET_ARRAY
->> + * 0.2: Support getting last error hardware error
->>    */
->>   #define AMDXDNA_DRIVER_MAJOR        0
->> -#define AMDXDNA_DRIVER_MINOR        1
->> +#define AMDXDNA_DRIVER_MINOR        2
->>     /*
->>    * Bind the driver base on (vendor_id, device_id) pair and later 
->> use the
->> diff --git a/include/uapi/drm/amdxdna_accel.h 
->> b/include/uapi/drm/amdxdna_accel.h
->> index a1fb9785db77..c7eec9ceb2ae 100644
->> --- a/include/uapi/drm/amdxdna_accel.h
->> +++ b/include/uapi/drm/amdxdna_accel.h
->> @@ -523,7 +523,20 @@ struct amdxdna_drm_hwctx_entry {
->>       __u32 pad;
->>   };
->>   +/**
->> + * struct amdxdna_async_error - XDNA async error structure
->> + */
->> +struct amdxdna_async_error {
->> +    /** @err_code: Error code. */
->> +    __u64 err_code;
->> +    /** @ts_us: Timestamp. */
->> +    __u64 ts_us;
->> +    /** @ex_err_code: Extra error code */
->> +    __u64 ex_err_code;
->> +};
->> +
->>   #define DRM_AMDXDNA_HW_CONTEXT_ALL    0
->> +#define DRM_AMDXDNA_HW_LAST_ASYNC_ERR    2
->>     /**
->>    * struct amdxdna_drm_get_array - Get information array.
->
+-- 
+With best wishes
+Dmitry
