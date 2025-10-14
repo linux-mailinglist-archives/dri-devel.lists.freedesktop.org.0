@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BFABDB28B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 22:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A829BDB290
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 22:08:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8765410E695;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6D710E696;
 	Tue, 14 Oct 2025 20:08:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="ByKHDRCN";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="V6892QhT";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="lwSNrv37";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="RGmrBKkv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from delivery.antispam.mailspamprotection.com
- (delivery.antispam.mailspamprotection.com [185.56.87.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5955610E68C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 20:08:47 +0000 (UTC)
+ (delivery.antispam.mailspamprotection.com [185.56.87.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2745110E23D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 20:08:48 +0000 (UTC)
 ARC-Seal: i=1; cv=none; a=rsa-sha256;
  d=outgoing.instance-europe-west4-c01b.prod.antispam.mailspamprotection.com;
- s=arckey; t=1760472527; 
- b=Rfpko1B5aVIt9mF+lJAkhu5227CsksIlBj4JHCrd8UizYfPSk2LI/Rpe5/YPm0bsmxacQFcrEr
- OJEjGZp6HCX7w2rOYszAfrxVq4fFnH17GwXP6wdj9J1aeTz7DhlZ+wPjbWtrzrBQvZldxHgHuy
- bAqbQ+9kxyALf0hbLT8WQa0BHflkAat/Sl6y6JAfkAVxlODGPEHb84xb+jP2lImycFOo6qkmbO
- ToihwOnA0ajpjlY2bKGHw1R5vHIaGaDCt0vnNX/H4yi5CRsEADYiA0AQIlP4B82OgMG0miaCEy
- KJYCrwYHppOtirCdsWgB2sU7Tp5R7ZK4ydsPAvjd8h1W+A==;
+ s=arckey; t=1760472528; 
+ b=cZOlX6iNg46RwnzRK+PGvDnk7TTZyMj52gQuyvjO1YPF0/og2hAsAQDtFT0NxJbkLY4zVNIIbl
+ 4GHHpyg4Tk0Exm7G0kZ4aQqOlw2cGTtCmIm++pTjsJrK2hnk7RM7ej9OudatpFjbjinHgVIau2
+ rHKaVhzsLzMtDMZyVj2Mj8/ChayFo26YkCQdTV5DeNz6qD76lYeJD/0BQxF0G3wAkmPBQBtFZN
+ LVTbIVOG/zodBc8wtjbZelnKrTmaLQcCoqOidDbqXLAsmo7boDMzgcTZOrd6vKXEg6So5MFO4T
+ IVNTPH/N4GV8ZbEbdjRWKagCteYiB5G+mxnLIR32UTXkhQ==;
 ARC-Authentication-Results: i=1;
  outgoing.instance-europe-west4-c01b.prod.antispam.mailspamprotection.com;
  smtp.remote-ip=35.214.173.214; 
@@ -35,46 +35,45 @@ ARC-Authentication-Results: i=1;
  arc=none
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
  d=outgoing.instance-europe-west4-c01b.prod.antispam.mailspamprotection.com;
- s=arckey; t=1760472527; 
- bh=47IvIiXfgXszMY+cAV0lSu8Ko5qTBff2hny8UxJ0ZUw=;
+ s=arckey; t=1760472528; 
+ bh=DRH7iMOTbuY1/iWEix7sZhqd6n/2Tw1ybJZR6DrwRcU=;
  h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
  Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
- b=tZAZu/1RagUFiSF9IYvnSZM0zHPTgdVfgmsKlEqsFCcDhi5N/rKaVvVAOa7+tn/31pW2GZzksg
- 5goUNhrblMK6PXJkEH4iTRJnFEDjIDyQDEkuIupsW0xHPb+FEf5LWmQMDbhOQh8ZTjiDYvjYQM
- qKKK5e+hXeYvDIhlyO6nUiFSJavD/zM+5VNaadRuKGdYRe85U6K6x2sacrZmD/TfhVS0TNjY/F
- ZJiEmUGtZX+Axu4++DvNbGxGPaqGnh1v6h+275PoSCIxEk/LCPRmAxPPEDsn4qsekqBkYp1CEn
- nS5nk3n7KICtzWWSdeEwhizMFMtqRiriw0439zmycOCR3g==;
+ b=lP07NRKDtNymvT/Brhkx+C3pQG2F7nX6/3a2iNcW5JVsfxAKY83CWU9IyIkFEmWlDIPKljYcYO
+ ldiu+jOQQjJMp/3Qq47S0Pimod2m+9n3dpUQfqI17WFnPUfKETuSmSft6JkN2p4rt1u1Nytp8d
+ 7BotUAb7QJbVTUy6ZJBYOWLRfi6s8NdbK+uPdfjjjm6r75e4dN4gEYWa16GLc/zZ20bOvZJOWU
+ w59yGwOSqnkD4fULMP9Jn84+MqOhSIRHShd7R1x9zesSKb9vjbhkyCAfRhjta1vsXkbYhGzTRM
+ uB8aabfbeqxW+Z3Zj55xYkL/rGo+CRao5Juvt/nvQ4WpCw==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
  :Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
  :Date:From:Reply-To:List-Unsubscribe;
- bh=bXAG6V6q0Gu2P/Y5b57UaRwcg3Y2X9SQRXNhHXSl2EQ=; b=ByKHDRCNEVawzAFrUchp0K+FBB
- XT2ReWZH7nnPcx7Q6q3C0t7qyeeZxiWhibns5DhXWsaYQRRfA6cjI5896KHr0/sWS3UzsKU6oZtr9
- TAfNkdouHqLShAp3vTzgnZWIUTICyJ+JpGvf9w4c49jPC20wh3Jak8C0/nRcOVQGNz/s=;
+ bh=kdy+0w++K99irbhKozpIsd52YcoplzuImJedZzCCHOA=; b=lwSNrv37/nCAk/Q/b0IZrn5lIh
+ 5Hci2uYLEu1pJoJEGy9O8XzrZbo0CEbArMvD2I/0b0jGxu0Lp2FVHj3oirI3a1uAfq/Mr2TQ6KE+V
+ rKEZe8+JspOsWgAEKoS4KsYrQ1AGRXS7hGc2/IS0jqXMOSWtoDoFGTgTE9WmoJNDG71s=;
 Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
  helo=esm19.siteground.biz)
  by instance-europe-west4-c01b.prod.antispam.mailspamprotection.com with
  esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <francesco@valla.it>) id 1v8lK6-00000003XHe-2laJ
- for dri-devel@lists.freedesktop.org; Tue, 14 Oct 2025 20:08:45 +0000
+ (envelope-from <francesco@valla.it>) id 1v8lK7-00000003XJw-20cg
+ for dri-devel@lists.freedesktop.org; Tue, 14 Oct 2025 20:08:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
  s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
  list-subscribe:list-post:list-owner:list-archive;
- bh=bXAG6V6q0Gu2P/Y5b57UaRwcg3Y2X9SQRXNhHXSl2EQ=; b=V6892QhTTdQhHhDDoXiGrBBAZp
- Ea7auEnQac9Xh26Q0y0bmOh78arkoMN9SpvN/RRJJM+3DAmc/SkrPvt4FkmifrObM5Yx0nwW541Xt
- wEeikr9Tderq3CY74WyoRh/LkxsrQEhW4PCLXA9fFiMb4YiR9XneEAz+2bckFQov4XNY=;
+ bh=kdy+0w++K99irbhKozpIsd52YcoplzuImJedZzCCHOA=; b=RGmrBKkvWCWAenzMbjO3HDgGK5
+ CTfPntjK5yx0X/djbDQ2g1/47OESLQiGjrNdjRkeAB+mwd2KvOZbYCPQ/XITegvdvPLVdX73qQVO2
+ ntYr5cUCf89yXjbSwdzTyxkJMyk9NC2YfRaIM/HHdjdFzIMHrPp+OIzwkUkVwrzeHKYw=;
 Received: from [87.16.13.60] (port=64127 helo=fedora.fritz.box)
  by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
  (Exim 4.98.1) (envelope-from <francesco@valla.it>)
- id 1v8lJr-00000000E00-2EEV; Tue, 14 Oct 2025 20:08:27 +0000
+ id 1v8lJs-00000000E00-22Lx; Tue, 14 Oct 2025 20:08:28 +0000
 From: Francesco Valla <francesco@valla.it>
-Date: Tue, 14 Oct 2025 22:08:13 +0200
-Subject: [PATCH v2 2/3] drm/log: avoid WARN when searching for usable
- format
+Date: Tue, 14 Oct 2025 22:08:14 +0200
+Subject: [PATCH v2 3/3] drm/panic: avoid WARN when checking format support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251014-drm_draw_conv_check-v2-2-05bef3eb06fb@valla.it>
+Message-Id: <20251014-drm_draw_conv_check-v2-3-05bef3eb06fb@valla.it>
 References: <20251014-drm_draw_conv_check-v2-0-05bef3eb06fb@valla.it>
 In-Reply-To: <20251014-drm_draw_conv_check-v2-0-05bef3eb06fb@valla.it>
 To: Jocelyn Falempe <jfalempe@redhat.com>, 
@@ -94,13 +93,13 @@ X-AntiAbuse: Sender Address Domain - valla.it
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-SGantispam-id: 05f0740fabb217e8e172d1eb87631c64
+X-SGantispam-id: 08121723c6c51556a2c9a2b4215013c9
 AntiSpam-DLS: false
 AntiSpam-DLSP: 
 AntiSpam-DLSRS: 
 AntiSpam-TS: 1.0
 CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1v8lK6-00000003XHe-2laJ-feedback@antispam.mailspamprotection.com
+CFBL-Feedback-ID: 1v8lK7-00000003XJw-20cg-feedback@antispam.mailspamprotection.com
 Authentication-Results: outgoing.instance-europe-west4-c01b.prod.antispam.mailspamprotection.com; 
  iprev=pass (214.173.214.35.bc.googleusercontent.com)
  smtp.remote-ip=35.214.173.214; 
@@ -123,27 +122,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use drm_draw_can_convert_from_xrgb8888() instead of
-drm_draw_color_from_xrgb8888() while searching for a usable color
-format. This avoids a WARN in case the first format is not usable.
+drm_draw_color_from_xrgb8888() while checking if a color format is
+usable. This avoids a WARN in case the first format is not usable.
 
 Signed-off-by: Francesco Valla <francesco@valla.it>
 ---
- drivers/gpu/drm/clients/drm_log.c | 2 +-
+ drivers/gpu/drm/drm_panic.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/clients/drm_log.c
-index d239f1e3c456397ad64007b20dde716f5d3d0881..c0150f0c3b4b395e6e2126cf0d9660c967c182ec 100644
---- a/drivers/gpu/drm/clients/drm_log.c
-+++ b/drivers/gpu/drm/clients/drm_log.c
-@@ -182,7 +182,7 @@ static u32 drm_log_find_usable_format(struct drm_plane *plane)
- 	int i;
- 
- 	for (i = 0; i < plane->format_count; i++)
--		if (drm_draw_color_from_xrgb8888(0xffffff, plane->format_types[i]) != 0)
-+		if (drm_draw_can_convert_from_xrgb8888(plane->format_types[i]))
- 			return plane->format_types[i];
- 	return DRM_FORMAT_INVALID;
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 1d6312fa142935fcf763381920ad889ca4cf4b27..4ba961e445e576d03cfb58953eead90d32b40151 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -785,7 +785,7 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
+ {
+ 	if (format->num_planes != 1)
+ 		return false;
+-	return drm_draw_color_from_xrgb8888(0xffffff, format->format) != 0;
++	return drm_draw_can_convert_from_xrgb8888(format->format);
  }
+ 
+ static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
 
 -- 
 2.51.0
