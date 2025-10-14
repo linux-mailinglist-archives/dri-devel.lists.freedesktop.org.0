@@ -2,115 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B2CBDA7F1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F99BDA80A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:54:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50A4910E64B;
-	Tue, 14 Oct 2025 15:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC0210E1BC;
+	Tue, 14 Oct 2025 15:54:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cbNAT1Cs";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="OrC9icVR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E4A10E64B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:53:27 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EF8kKt001489
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:53:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- CYMg/VTxO+QlQZq6ElScXWxM5UsYviEIpp7XWocK60M=; b=cbNAT1Cs9JKt6ZTx
- YAhuJQTmbVGmSzDwrRGLadgnOzyGVxExaRVsX0y2KIn6gUSX2p+OJFg8ox5LFWgs
- N5N3fVx8c36PUjcdy0fY6HlFqQZgOWxj2lqMatL6mnKc3GNYnRrKfwxRAUefyzPg
- hBYjQeyruMWZWYUki+nbWxxapXJ9wHutKH3LG9VpMHf7lfGNle1E3uRwJd6BbWLn
- iQlT5J7Qkqxyt67xsAHuczTyycGMActe8NSWFpm5tAUziEBeocU3ku2uRwOjUts9
- jiXgdC8IYDepAmvSBPltOSnEAzqd9T2/WxqNeiet5Dllc2BJNrYGlQKLNBJ1ZNg+
- F06tmA==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfa893yg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:53:26 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-33428befd39so22084385a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:53:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760457205; x=1761062005;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CYMg/VTxO+QlQZq6ElScXWxM5UsYviEIpp7XWocK60M=;
- b=PHwuut+3/iF9s38wGwdBK13CPtFJnHyWQcfRUWo4cstlLOsfApaoyXweZf5g444GvU
- jhIK5k5Oh6PHJweVOsRndsaAnfmdGGM80AByvSSDZjfmhEKesO67B7x2BLT+kIGn0FAr
- XtMpgiH8tLrtSsqt/G4DH5mt0OkdTXePijGw+5Re4OmUgqcQshZbeYyC+dzkZ2+cj0mP
- N6L3IQMtznmMK4XSXocKRoTzCLvAi7E+rREQPFuOMkqOcn1jqbaFGTuV95+Yi+31odWL
- 0X0IqLtVI0NwUPxHz1zAZo0m+bsG5NmDeTdU9ZOtr6HjEAqSGGvRrXaiWzn7K+OxToAc
- Wp9w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOzCx5OGaNMDuLWkoUDL42Jf/cFt4A1F+hUkxA6c+me0T/kBO6LaI1Gd6Y3LZdrGj/VoRiha4w+ko=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0a5u1wsI6wSEpzxaDzoVrpuL06aPyZXaEbzYwmi4QcxgQjz7b
- d+CJX/95osnbaG4038GTBI1nTEyKdce4BwGWx58a9xQGvoEITHO6U+ES5rKB4aKChNQeenD2Abh
- A/0HzdQ2JkP4WKLQdJo63ZGMnO6jJQlvXCFT/5Kkvz/L0z0Nm4H4GgqEleu24gdm6pum2WrA=
-X-Gm-Gg: ASbGncu9mIMFztedqNaXSIWsWhLapXOgDKlJ8H68pY8kwNWtQnTXZnvLEgeFjb4ighC
- fDydE+eZn7xcSOM7XYUnRMhoJjjVUXUMud5VjADTXtzZIqPt2la+lcJl00EpwtAAs3rUmnnxuN+
- kKxS4pj4xJXwy04IrZh1Eg5bKZBuKvP3jrAjV26xFIYMhg9tj0NwoAkSclMjn9aAnVRUrWWiMTW
- IT9nvTBbcs/Zopw8qIxJFooorKfV1/qgvCEfpOiUEgZeYD+rNj8DQWIoQKChwasHYFHzGmOaaaC
- VoYFBIL5YEM7yja1X5Bq7z9p2UmFpLKHQhOty3y9bK2rUbcYMYJBR8PrrWvsN+OuC4YPqx6t4t7
- /GPt6GV2UIgCiNQ==
-X-Received: by 2002:a17:90b:1d87:b0:329:e9da:35e9 with SMTP id
- 98e67ed59e1d1-33b51106b13mr30016850a91.2.1760457205265; 
- Tue, 14 Oct 2025 08:53:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFi0/h/KSkeL1r/bLVesMfLHrnMwBPy+wE5Y6BoyGC9WWR9jx7AjhcTjqZrx2RwfwgPGyESQ==
-X-Received: by 2002:a17:90b:1d87:b0:329:e9da:35e9 with SMTP id
- 98e67ed59e1d1-33b51106b13mr30016830a91.2.1760457204728; 
- Tue, 14 Oct 2025 08:53:24 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33b7411fcf0sm10350248a91.4.2025.10.14.08.53.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 08:53:24 -0700 (PDT)
-Message-ID: <ac804969-5901-4a9b-b6a7-c8d31c98ca41@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 09:53:21 -0600
-MIME-Version: 1.0
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013005.outbound.protection.outlook.com
+ [40.93.196.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B5D10E1BC;
+ Tue, 14 Oct 2025 15:54:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YvAsHujDRLic/20poXDFJDLobC0vYZUHm/USMon3olUpMId1PG5qayy+xEKC4v3UcjEdPjGvyTDNWicJ94dbmVaGzQ1+XFQUeOJxwXkh84DzFFJPItdjvrmBBFhIWRNoOk2ISd/jdKua7dyEjeL8UPa9u7coBR+UYbtYDy0CwhafeDGiifTmw9i2LO15YY0idapqCsVK1fY/9z2IzCerz8jDRyjB4AuLdYQGk1REdPalQSq92HhQR54Jgij6zIKgqWDZwaaQUk+WLE/dZ7Ka/dhYl6nr/1phDfIhTx+SgufyNWBNFbhnSd7D7yQ8xLtNT/2WA2H3+KqkTeU9QX3QWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/uxvSQy1/SGsWpiSwJnMiDeTXCPluY2raPAK/CR2paM=;
+ b=Wr0NkHctb+SK2qfMvNKSyDHdAn0F2Mp64nEKYbbDnVq1Rrt5kxZ3nrztkmOMGOVAynmX3Su4iqQQmvvOLAG9iur/xQDWjeffkNNe0Vjemdrf8z9qgkCW3YHZGo7Pj8tgtRU0oWSR2GWV6wQ2XzGEnWKolfPIE+U/e5oxPiTs9iQhR4Y+wZvJthur8u5YZB4OHAbqfCOE/w6Yz+lnXAgWQPXfiJ/8cMIctdKkUfDxUD9AYjSX445heWkGw/7y3Q0xe8C3HKdsZ3MFysc1h4cYuiSvDlG2ZxjiJwn3nMJ1OJF6FT4mn8lnFWWgOr/JaOHMMW5FABcaCAnOVmdnim5vRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/uxvSQy1/SGsWpiSwJnMiDeTXCPluY2raPAK/CR2paM=;
+ b=OrC9icVRiXdtqYEm5qqNv5OyvRCeEDaCqVURZSWpA61dZfDbssnsS/0hA6jBPwrb+BgtUvYFToj+aB5K6UOGFiYCyRfDRmLieVv5hKHIVANciVeNfNVxTci7szyJjQRegorplGSnvVZ2xS6Lh2gpN6S8b9RQrhXo8jXH43wvxrI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB9028.namprd12.prod.outlook.com (2603:10b6:610:123::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.10; Tue, 14 Oct
+ 2025 15:54:26 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
+ 15:54:26 +0000
+Message-ID: <c5ee86a8-3c6d-462b-b435-e25e8a925bde@amd.com>
+Date: Tue, 14 Oct 2025 17:54:22 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Use overflow check function instead of
- division
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251007174218.469867-1-youssef.abdulrahman@oss.qualcomm.com>
+Subject: Re: Independence for dma_fences!
+To: phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ tursulin@ursulin.net
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+ <15b2f86e8d6cb1df93edf73001fda2c378926016.camel@mailbox.org>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251007174218.469867-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: iPEA79lnoNJmCvZ_pK0ktezD51pAmEDC
-X-Proofpoint-ORIG-GUID: iPEA79lnoNJmCvZ_pK0ktezD51pAmEDC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxNyBTYWx0ZWRfX2TKGIJi9BV4o
- NC7MkgrU0h1GtHYLD5sk4rUg4xpMbdQw/bAGc0TbT43WAiIO8y2bTU9PB1wZKE5ZP1/nGF8KppS
- IlpQSD3d3Rvdz/GJWV3Q0tBSTuPvhrT10yRbQcb0bdenDrdul3uMyOt2vca+ETctGpQuazwkDMS
- Mor1UkMPgpYCcABW3syZX1eirWbkeZqJw4jvQboNQrh/D7vNt/8hNy7S3OmUUVUshtTTwjqrgsC
- yFnvHEkczWbR3RUn/LgKpvXal5o0Kzc3z3DDVvE7UyKIuECIcyUjFTBQG9tMlGSa/fccw2rHjk/
- C6xz99VxremArOLaiD8yCW7DyEID0iGM4ND2pHuJJPAMhWU6TOh3SyljxKzEngmH+CigX3WdHli
- FW9okXLPg7yy7yEB+F7jRwt1R9kxig==
-X-Authority-Analysis: v=2.4 cv=JLw2csKb c=1 sm=1 tr=0 ts=68ee71f6 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=5CQhQK5fGE5c9LPSzNkA:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110017
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <15b2f86e8d6cb1df93edf73001fda2c378926016.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0361.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f8::17) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9028:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ba6480f-9e44-4275-9833-08de0b39f376
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZFhubWVBeEthTDZRT0pjdlI5MkE1Qmw0KzBEQzg4TlpFNjhzbFZtbmQ1YjEr?=
+ =?utf-8?B?SjBPb3NOKzBBL3pZZE5OSG5TUnZScFIzcHVCYkFjN2t0K0tlTnJYU3JFRlBC?=
+ =?utf-8?B?QUd4cVFGUEFLRW02b1lUTWQ5ejhHM0Frek9DU2NQdHNhRFpKOFZjS25WaEhu?=
+ =?utf-8?B?U2Z5WDN0Q3pUUyt2MFJLWUl6YXkvMjlQcWJkSUh0MmZGL2JCbHlJTUo1ams1?=
+ =?utf-8?B?bVRFRG1xYXlCUE9vaStKTVNocHozR2VXbjFYZWlxL252SnpCcWFydTVuQS9j?=
+ =?utf-8?B?eTVJNERFRVNkMnU5Q29JZkZYbVNNajFaclgxOWdLMVpUNXIxa2tvcTJZTm9q?=
+ =?utf-8?B?ZEdCeGk3ZDh4ZExXWWZuVSs0SVprVkM5Q1RwNkRDYTE4enRNb2M1cmxDcHdU?=
+ =?utf-8?B?WDkyWHl6S1Rrd3pheUtsd0hDVlhLdWRIM2dXc2I4dTRpeEJWcTM5UE1JSHJr?=
+ =?utf-8?B?MGQycDFaVkRZeEFVcXNUVHJDdkd5N3Q3cmlzMDNLR1NQU3FwWFRTbkZJWldS?=
+ =?utf-8?B?VU91YVRxNm9ablMxNlFXNnRrdEpiemJQTTdqRjlhZ1VMSGhpRnJSbFBzeVMx?=
+ =?utf-8?B?OVdvUjNyKzZ4UXJzOUNYVnlubGhybXRpb2kzN3UrNG1Ld1VvNzZBZHdPUitK?=
+ =?utf-8?B?SFhEMDZlVFFBaHhMUWh2RTl6S29wK0JBSDZCNEdCUnRtOWRtN2FzQllSMWtH?=
+ =?utf-8?B?Y3B0UWJxdTcva0JMUWRZUUdjRUdFeUc0SWY0cCs2SHJObXk5KytjVSt0UlFp?=
+ =?utf-8?B?R0lIRGZ5QTA3NzhuRWIxb3ZTK1k3eEFUZU9tRnJzVHMvSkQ3SmhLdEQzY1Bm?=
+ =?utf-8?B?UVVwK1ZCL24xYUVKdDdqQW8zcHROcmlBbG5jYVA3NDE3dC9SaVFISEViN3F2?=
+ =?utf-8?B?UTBwd1YwdVQvK3pMYlRvWjc2cHl5MlNiN0p1Y0tGZmROaSs5V082ZzVwRmk4?=
+ =?utf-8?B?VzBiSFR0OFJKYkJFMXVNZ3hwQVlIbER1SGovKzlIRk83R2R2SVhLaDI2a0ZU?=
+ =?utf-8?B?NjVEVmdhRnZrYTZpb21Ybm9EUkx5eHNaMGFocWJ5VXpPcndDM0tZbTR3VHZJ?=
+ =?utf-8?B?WmV4encrNXA1V05IeUhaQ3prZ2gza2x0dko1a1VqQ3dYWXFOMDhPL0hHZ0xF?=
+ =?utf-8?B?eUNYRmI0UWJVVm4wcEE0T0xCbCt0dGJobGFPTjJOL2lacTltd1pObTdoRXVw?=
+ =?utf-8?B?c2piM0FyRTZ6WEZIZHB1NXdMSFVOR01yTlRKYm9FVVVIeWwycmI0RDdqWi9O?=
+ =?utf-8?B?Y3FTdjgwWUZOM1FVdTl0NHo0QVhsS3c5dFRSUERXR2RVdGdmVUxvbC80VmtM?=
+ =?utf-8?B?Sy90cnNwVjgzN2hPN1lldkg2L0RCTUJPSFhmR052VHhqSkxnQnJtZ2dNRUZZ?=
+ =?utf-8?B?bGlRRjZtcGlhSS9kV0xMcnVQT0V1clk2V2FlQnpSMllKL3NWbFNXUHZYVlFx?=
+ =?utf-8?B?SzhKR3RmMEN6UUxDeEpZWktlK1EvK1VOQ1hldjBEdDJ0ZTBpVlFHQjFjanht?=
+ =?utf-8?B?TDJja0RwdDh4aTJqbk1zMElNc1ZpZmJuazNrdmZtVTQrQjdWQThEUHFDdG1m?=
+ =?utf-8?B?cW9IUFNGVWhUeC9KeU1HQmpQSzQ5YmNJbWl6WHJEMG1HL0NZOW5TeWV5R09D?=
+ =?utf-8?B?OENmWVRoVml3RHBpbEJqQ3d3SlhYQ3NaLzlJVm5hSkhJSldPQUVNNER3eTNR?=
+ =?utf-8?B?MFBRT2MvZ1d1N3BwYVlPZktFeGpjZWpVRk55bG9Oc1hxOU9SbGN6bVkrb0VR?=
+ =?utf-8?B?eloyTk40TW1yMnVsQzNxa1RaTUN3OENLanVlbko0VmZGZitsKzVPQlJ2bTFT?=
+ =?utf-8?B?d3dMeGhsblMvNko2ZHIyVVZFVlNQYjk2c0pFeG1SeFZFdE9ib0w4TWpwSDV3?=
+ =?utf-8?B?c09zbmYydS8ybUd2MW9LOEFsZ2dNL1gvb0hmaGRhdWtBY2taTVozSytGUkVz?=
+ =?utf-8?Q?kNAjeJboevM42YNk4AAQtwmBVmX6tm/M?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0JIYzd5aDhEYmVjOW9pWHZHOTJ0ano1NFF2VDZVb1o4M2dNNmVINzlNNnhL?=
+ =?utf-8?B?a1NVUC9EbjN0Z3MvSTQ3cVJKWEg5a3cyMFlpTkdDWEU3ZEtLbExaYWdsUjZk?=
+ =?utf-8?B?cXFBZXBXVTY0MjdUakFsSjNKT1NUdnVCQkplclJ2VnZ3OCtoQXk4c2hsVGN2?=
+ =?utf-8?B?VHIrL0RudmR5WHBYRDFxbjlJWkJqNGhyVkdEeW9hVEZpbzhieGw0LzF1Sytm?=
+ =?utf-8?B?Zmg4eE16eXF4a05UcFRvM09ncWVUSEg5enA0QUFDZlFGVStVK3dRalNNSDBK?=
+ =?utf-8?B?YnNZSzVpbUZVNncyUVVDdlc3SC9Yb05BenN0ZVF5Ylh5dU9DMHJxZ24vYlhF?=
+ =?utf-8?B?MllHclBRMjdZRTBKQjRKSFJUQ21iMVdzZUMrYkl6cVlmSFZ4TVBsb1hJeVhm?=
+ =?utf-8?B?SmZybEJVUVFmWlVvVUc2RFVYUDBYbHB6RWxpeFQ2clRJbC9zVlF3YXQ3RjQ2?=
+ =?utf-8?B?MDZxZTdKb3FlckZ2aVN5MVlmYnZwVHNHTUYrMjd5V0R0aVV0NnVRWUcvc1Vy?=
+ =?utf-8?B?OTBRbnk1Y29Na2dzS2ZRQ1B3cU5MSFBISjJXODVFREZ5YUhsQVFxalNSemRl?=
+ =?utf-8?B?QTlMK01rMDhQek5xQzcxNXFoNE5kT1pTM1o0U1BpYkE0L3BEeEZKWmZVNHlx?=
+ =?utf-8?B?cG42c2xXVEdKRllRVE1sb3U4SmMyNlAxcm8zK0NEQTBtWU9zREpVY3k0b0Zm?=
+ =?utf-8?B?U1ZRM3RjZXBBSlhjUzZMY0k0aDk5QlFURGJMNEViUW5pL0g5ZTg3MnBCc3p2?=
+ =?utf-8?B?QVdOTmdQZUl3SVdpVnZuODBxazZBSGh0bzEybDFpVmpRL1dBSnEycVcxUkdI?=
+ =?utf-8?B?VWZrem9QRHVRa04vV1ZqVVFSdUpIcFVIdjBjb2Z3bFNwNllwb3UrVjRTeExY?=
+ =?utf-8?B?S1ErdGRmSk1haVQ4eDRicGdTS2QvUzNMczRmZDgwalBPYU9tMHkwZVUvZVZu?=
+ =?utf-8?B?cVpOVFNTRU1JZmtiRzV5SkQzdE4zaVRDNElZS25kU2tLcmxTbGZSSjhMUHo1?=
+ =?utf-8?B?U0gzQWFXclRROFg1cFl5amRrSkdTOXNPbTd6VjJTK2JUYmF1VTFPNXVyTlpK?=
+ =?utf-8?B?c1ZFOFhXb2JNRWNJdDY1NGdnajdmMGhCdlVuU21rTFA5dFN2bmFrSDlNTkNF?=
+ =?utf-8?B?dldJWWdJYlBLbmgvRGF2WkVwZnJLYjU3UklPeVlQRFJBdFpuUFB4K3MxTGxx?=
+ =?utf-8?B?MzBrcVhmelNXRDY0Zk9wdGptT2JhRVB6UXdqN1hsalZZU3diQVlxTlU1ZUlG?=
+ =?utf-8?B?UVY5S3A2bWlzV3JvU3N2QTVUMkxybTkxNDJsUVNFMENVM0EzejRwNGh2QzU5?=
+ =?utf-8?B?anJRWmpWbFY5VGJUZUtNZEtPKzVST1hNbmtRRDIyQ1NyTVAzNVlnL3hRRUFk?=
+ =?utf-8?B?bWc1OUl0cTIvQzlWRkh2amordlNZdUdpQ05iOGZZWm1qSDRacTRpV1MxN3lq?=
+ =?utf-8?B?SnpTNlBmZ2NTTjZkQzM4NkM5UTEvUnlXaXkzMGRLWmN0dkdvL1FYZFJHVzE1?=
+ =?utf-8?B?OVlLMFRVV2d0WjRjaFZvTVJMN2lRSUM3bTVOWU1XTS9vT2ZmWkVUREpYdWRY?=
+ =?utf-8?B?VzBQTUI0WGkvWEdsbkwvWllhYkRNUzVhVkVSK3N4WS9LZU9JcDVqUjJxb2Uw?=
+ =?utf-8?B?ZlVQYjNqcitpNmc2djd4U3B1dnpBQ09mL1J2S0lLcmJrZkRTNVNzNVRvRVd0?=
+ =?utf-8?B?a1AzQTJ6aEhhc28yTmx6QkNSejMzeUF4V3N6Uk5ralBrOW91VHQ5UnJHVHUr?=
+ =?utf-8?B?bWZreWljU2Z1UER0N21EdThXTUZMREtDT3dXYjhBbk5rbXlVSXE3WXBPMng2?=
+ =?utf-8?B?dURGVWFIcnR2TmJxVW5iSDF0eVovd2kxbTdTdDhNUVdLOUhnaFdJcDRJZ0wx?=
+ =?utf-8?B?TUY1NC94LytWV0FiSVIvZHY2UFdFVVZvQU5ZVmdGbWtFcE5NUGZqdVpLRTd5?=
+ =?utf-8?B?Qk1HS3NFQVVEamsrSk43aFZYOXNFK2hJMkhTck9NWUdOR2pRbUZDZWR0RU0r?=
+ =?utf-8?B?b1JkRnpub25RbWFzU3hic213bG96REhsNnJsTWVBWUVoQ0NqaVdTMDB5QXhw?=
+ =?utf-8?B?RWV0TEtZU3VYSStnc1poeUgwZEI1N3p1OVRINWRaOElYUXo1MnYrU0Z1eUgr?=
+ =?utf-8?Q?yVTSjGd8xatKYgz3r7pA/PJ8s?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ba6480f-9e44-4275-9833-08de0b39f376
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 15:54:26.2257 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gIX4M/Sq9P80Ydzo0UrCEa2wU4g3XBo7/ju/LkWvGUHIlY8ae9Fg1kY9vG047Bmq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9028
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,16 +164,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/7/2025 11:42 AM, Youssef Samir wrote:
-> From: Carl Vanderlip <quic_carlv@quicinc.com>
+On 13.10.25 16:54, Philipp Stanner wrote:
+> On Mon, 2025-10-13 at 15:48 +0200, Christian König wrote:
+>> Hi everyone,
+>>
+>> dma_fences have ever lived under the tyranny dictated by the module
+>> lifetime of their issuer, leading to crashes should anybody still holding
+>> a reference to a dma_fence when the module of the issuer was unloaded.
+>>
+>> But those days are over! The patch set following this mail finally
+>> implements a way for issuers to release their dma_fence out of this
+>> slavery and outlive the module who originally created them.
+>>
+>> Previously various approaches have been discussed, including changing the
+>> locking semantics of the dma_fence callbacks (by me) as well as using the
+>> drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
+>> from their actual users.
+>>
+>> Changing the locking semantics turned out to be much more trickier than
+>> originally thought because especially on older drivers (nouveau, radeon,
+>> but also i915) this locking semantics is actually needed for correct
+>> operation.
+>>
+>> Using the drm_scheduler as intermediate layer is still a good idea and
+>> should probably be implemented to make live simpler for some drivers, but
+>> doesn't work for all use cases. Especially TLB flush fences, preemption
+>> fences and userqueue fences don't go through the drm scheduler because it
+>> doesn't make sense for them.
+>>
+>> Tvrtko did some really nice prerequisite work by protecting the returned
+>> strings of the dma_fence_ops by RCU. This way dma_fence creators where
+>> able to just wait for an RCU grace period after fence signaling before
+>> they could be save to free those data structures.
+>>
+>> Now this patch set here goes a step further and protects the whole
+>> dma_fence_ops structure by RCU, so that after the fence signals the
+>> pointer to the dma_fence_ops is set to NULL when there is no wait nor
+>> release callback given. All functionality which use the dma_fence_ops
+>> reference are put inside an RCU critical section, except for the
+>> deprecated issuer specific wait and of course the optional release
+>> callback.
+>>
+>> Additional to the RCU changes the lock protecting the dma_fence state
+>> previously had to be allocated external. This set here now changes the
+>> functionality to make that external lock optional and allows dma_fences
+>> to use an inline lock and be self contained.
 > 
-> Division is an expensive operation. Overflow check functions exist
-> already. Use existing overflow check functions rather than dividing to
-> check for overflow.
+> Allowing for an embedded lock, is that actually necessary for the goals
+> of this series, or is it an optional change / improvement?
+
+It is kind of necessary because otherwise you can't fully determine the lifetime of the lock.
+
+The lock is used to avoid signaling a dma_fence when you modify the linked list of callbacks for example.
+
+An alternative would be to protect the lock by RCU as well instead of embedding it in the structure, but that would make things even more complicated.
+
+> If I understood you correctly at XDC you wanted to have an embedded
+> lock because it improves the memory footprint and because an external
+> lock couldn't achieve some goals about fence-signaling-order originally
+> intended. Can you elaborate on that?
+
+The embedded lock is also nice to have for the dma_fence_array, dma_fence_chain and drm_sched_fence, but that just saves a few cache lines in some use cases.
+
+The fence-signaling-order is important for drivers like radeon where the external lock is protecting multiple fences from signaling at the same time and makes sure that everything stays in order.
+
+While it is possible to change the locking semantics on such old drivers, it's probably just better to stay away from it.
+
+Regards,
+Christian.
+
 > 
-> Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+> P.
+> 
+> 
+>>
+>> The new approach is then applied to amdgpu allowing the module to be
+>> unloaded even when dma_fences issued by it are still around.
+>>
+>> Please review and comment,
+>> Christian.
+>>
+> 
 
-Pushed to drm-misc-next.
-
--Jeff
