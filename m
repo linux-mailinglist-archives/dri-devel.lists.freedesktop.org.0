@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68ABEBD7F44
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B705BD7F56
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE1E10E567;
-	Tue, 14 Oct 2025 07:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2D710E569;
+	Tue, 14 Oct 2025 07:36:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aqYgx6DC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DyIZGQ3B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33CB210E567
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:36:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7CF510E569
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760427361;
+ s=mimecast20190719; t=1760427391;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rp2yi8Bcjq1dxm5BHjQD+Bw0UYm59cbcglHsDw8XOKA=;
- b=aqYgx6DCDAcNonMQd1UK7RYR/eAMr7Ah7I8GzNEqTjwsCnC4Wp+JMlcXL8BMAxhQkeFXYt
- aUETWkOfpq3O+CNN5iZVtDJX5qfsJS7vOn7/f/6DiC9go1dl6Cht4xdR3CJ3yTSlznTvh+
- WjOQaA3vn/p5jDacDtM+WEcdIfUYrwo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1vjIWoi/164XsR7x2ZrPuJ9XjGOCw1cRW5cuBw3diZE=;
+ b=DyIZGQ3BaciLf4qde9B+41Us1tMbmliByoNhNXKYgYzzqwe8Qr9fY4oMI3o32nglDftm27
+ 49NvkYCYZIqcse8IzNoQG2VOGRTxgeAQi2tcE36ZJcj+9HWTlA6Gw54pIMZu4AKjDxcHOH
+ rJ20qccjt4R7irUWWNM52ezMv8OBzwQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-53-YGAwc9SDOkCIiDH4w4oy1A-1; Tue, 14 Oct 2025 03:35:59 -0400
-X-MC-Unique: YGAwc9SDOkCIiDH4w4oy1A-1
-X-Mimecast-MFC-AGG-ID: YGAwc9SDOkCIiDH4w4oy1A_1760427358
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-46e3a049abaso36183645e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 00:35:59 -0700 (PDT)
+ us-mta-526-ZM4PHH-hPTKfdgG9KOqIpw-1; Tue, 14 Oct 2025 03:36:30 -0400
+X-MC-Unique: ZM4PHH-hPTKfdgG9KOqIpw-1
+X-Mimecast-MFC-AGG-ID: ZM4PHH-hPTKfdgG9KOqIpw_1760427389
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-42558f501adso3757389f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 00:36:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760427358; x=1761032158;
+ d=1e100.net; s=20230601; t=1760427389; x=1761032189;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rp2yi8Bcjq1dxm5BHjQD+Bw0UYm59cbcglHsDw8XOKA=;
- b=uO6EplxUl8JBqykeAgwtuSNNcEP5FEncYrT7/2C9At2WeQiNVV32DRZKVj8msMkDfC
- PYqaeR5a791a6RS/OXLcGL1oiQxWbrsdOARGqJt9RTMhV29hcl7mVD3O5Q30tzpsePbp
- Qt9Jue4bmNHzxLDVjfHw0N/YSIEStzH4WEtXrXeOVH6iB/AjqjxZszJK+pDCp3ySZlJF
- vrf/OGQ+xBimbt37Z4A/A3ASqGHEHvYtdXATrbuIjYRQ0xiphc2Xwf3vzjKz25gbVCvz
- XSKl2CLTTO9eak+Qv7oNUYtyqORYTrE5UCN26z8BBCFJJb6k0SSgN0x9Iao3DpQ6I7Om
- BDDQ==
+ bh=1vjIWoi/164XsR7x2ZrPuJ9XjGOCw1cRW5cuBw3diZE=;
+ b=BPbOUJ3e7OmsJKmwZssOcBQ/Was1JR3eVefL4tw12ZM6uMqVdVKsqn0UqtzbdYIDCf
+ 0TJOVULzJo5vHO7QNPcMdc8HNU3sd3wQn5wr6TkZL7+bVDm8Znl46RuqJj3Oy004EhcV
+ AfKX7Y8XjSdlvOKiCrR2Nns16Rj7W27T0eTVUbpnPC1CXBbjzm5Z+8dtYL8n+dUmqbIS
+ 8KDOGur8h2QL9pEq+T7vU9ADTy9eby+ozY0gL5V51XnD4cdO4BzOG+2XIHOjQIYFIHzd
+ T9HBgYwIVES14kFDGp/Tuu+7MLflZ/9syMkONsRozYRb6WO7hozoki0BTNc98E7PJ7PE
+ qKUg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCViXdnZ/TFLz/Kk0Qv/N8luK0eXN+FKmWd2eDqaEhbFo62VE3slIan/fGuM0pvoCyTF8QY9U37XcuY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxiYekxzsKHKhdP+yO7QVHHOF++kWCFaBYJJkQpbPhKO3ErDN4B
- TQaIHWO9R82t1GVSSroRvXcZ8kEajGIM0p9GHKTHZdyU/EO9tX8eMvj74Yy6a7TI4gGJm3eVESA
- 2pE0H8gDLA01zo3n4rL+5/gX/evZPjdHkENQUApFEranl+PDVsfoAj4MDeYonujnCLDi+sA==
-X-Gm-Gg: ASbGncvGo0cSFew5NqmWtrCBr4vmmPS/R10KX9g4qg07I4Af7/j11omOaTOM9TrE8ep
- TaXv2oWeP+uqNGW6pmTE7Q03Im0GleHWesg6zFQo7EODA/RlSRDr/vX5OroyvtX6MCoVVxN+5nR
- Lt1F8bpGpnUNZUiyBhyYZBMJR1o3Skq5bhNI83CCYkEKwrtuWRgcU3yHdLbuYeI76XWJ0qy27YT
- K0tb3R1OiGHUAh0k1suRlU959HRfa7eAW6u3TSyjZAcxZYMo6qpL0ux5Nsi2dWBduzw7i9o8KGL
- 1mA+UmkPYS6UZGB31wKWyac/Q8jXCWRQoNgXEhemnMUJBJy5A0gCqfHNUEZOTG6lgbJdgl/fwFG
- c3eaZOf7ouJVnvoqLOlSuN2w=
-X-Received: by 2002:a05:600c:198f:b0:46e:38cc:d3e2 with SMTP id
- 5b1f17b1804b1-46fa9af3125mr171576545e9.22.1760427358269; 
- Tue, 14 Oct 2025 00:35:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHWYlHv6WiUrgd9vj3CbYtPVGZ9RfLX5CoNkDJzKegevpgk8U/J3XAJpcTsFc+GvZf4Vvir4A==
-X-Received: by 2002:a05:600c:198f:b0:46e:38cc:d3e2 with SMTP id
- 5b1f17b1804b1-46fa9af3125mr171576295e9.22.1760427357923; 
- Tue, 14 Oct 2025 00:35:57 -0700 (PDT)
+ AJvYcCU37dbO5JgNOs9tJPtuvsxDG8+aTKFovQPGQx/F4+fOaMUGZHOwU2hChCK4EplyJHl1MaMX61yNtWI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOIlkAv2tu7REmv7Xr3Zp7PYegTiLWEnfLoFCWVwsIs1hu1blY
+ SVyNVM5hCavn6zDTyORX/S8CzOb1PNhYyrZrBj31sVMKpwk6051bcAHmQoEmISV2CLH+PjnseR2
+ +vzl5HBRR89v5cobn4zadzO4l+R6W4RV9IulV4xinIsbk1btsLqGC/dO/c99jCpck5vvhkg==
+X-Gm-Gg: ASbGncum7eFq6E7P8z1IniuXdSM+LsEcAhUwKFgYfc8cd6xqJo1AkAQ0E0xST2dLHct
+ cG01h2DTFUrEhYmP9MgY7KtVxVFkfnO4sLe75KAIhXvCFPSXEuKttV1U7e0VGYjEllh9j+yFgmt
+ NGe7DQZrm3QXEU5rlT+YTb3awLD7mQQzNUamZFSmhQU7bVABeyX2Si6rFujIbraqCIZwgxtu5kt
+ AJh3GgNTsZIVNxZ4LQ9jeZ+EtCutvO7q9Ky/Stkt7F4dkWeMP53OYN0JCkMpeDdjDF+S8mc8cYC
+ ltHqFmXvUskzvWMQ6GWt1it8DOM/T9tnEPXOBjcGTDYB1l2iGWhbe/OAR+7JiOFuNCAhBsrVEaz
+ /HH8l9oPyIvTW4+a3JTh/l78=
+X-Received: by 2002:a05:6000:18a6:b0:425:8538:d3f6 with SMTP id
+ ffacd0b85a97d-42667177dfcmr14861352f8f.19.1760427388939; 
+ Tue, 14 Oct 2025 00:36:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHgR6EeBgIxPIYN/rDHcLYirWOSSsnc3zChf7HMTDBNzJiYe4qrbYdh+J6TafB+G4Nqz7GOTA==
+X-Received: by 2002:a05:6000:18a6:b0:425:8538:d3f6 with SMTP id
+ ffacd0b85a97d-42667177dfcmr14861334f8f.19.1760427388571; 
+ Tue, 14 Oct 2025 00:36:28 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb479c171sm224366945e9.0.2025.10.14.00.35.57
+ ffacd0b85a97d-426ce5cfe74sm21846822f8f.35.2025.10.14.00.36.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 00:35:57 -0700 (PDT)
+ Tue, 14 Oct 2025 00:36:28 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -75,15 +75,16 @@ To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
  Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: stable@vger.kernel.org
-Subject: Re: [PATCH 4/6] drm/panic: Fix kmsg text drawing rectangle
-In-Reply-To: <20251009122955.562888-5-jfalempe@redhat.com>
+Subject: Re: [PATCH 5/6] drm/panic: Fix divide by 0 if the screen width <
+ font width
+In-Reply-To: <20251009122955.562888-6-jfalempe@redhat.com>
 References: <20251009122955.562888-1-jfalempe@redhat.com>
- <20251009122955.562888-5-jfalempe@redhat.com>
-Date: Tue, 14 Oct 2025 09:35:56 +0200
-Message-ID: <87a51uq6jn.fsf@ocarina.mail-host-address-is-not-set>
+ <20251009122955.562888-6-jfalempe@redhat.com>
+Date: Tue, 14 Oct 2025 09:36:27 +0200
+Message-ID: <877bwyq6is.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VYqJxUh9Om2l6zlDZnZ93cgeuQJqP9go5eW1QlqyW94_1760427358
+X-Mimecast-MFC-PROC-ID: AD4_hfuuwf9CYmOcTvJskGYy12WNVpqPxBTR3goB76E_1760427389
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,8 +104,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-> The rectangle height was larger than the screen size. This has no
-> real impact.
+> In the unlikely case that the screen is tiny, and smaller than the
+> font width, it leads to a divide by 0:
+>
+> draw_line_with_wrap()
+> chars_per_row = sb->width / font->width = 0
+> line_wrap.len = line->len % chars_per_row;
+>
+> This will trigger a divide by 0
 >
 > Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 > ---
