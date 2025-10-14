@@ -2,80 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3841BD9370
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72F9BD94F1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:20:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD1A710E5D6;
-	Tue, 14 Oct 2025 12:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC4310E5DA;
+	Tue, 14 Oct 2025 12:20:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="pQ4BZb4F";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qatrWjrm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E1A10E5D6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:05:47 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-46e48d6b95fso46149265e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760443546; x=1761048346;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6/oH008OmOSILGStPOvECv9JZ5uFtkPz/y1ZNR7iEvs=;
- b=pQ4BZb4FM2Q3G7QA0VUnNmhNYlpaM9uWJsWzpYT0oYx7CD0OzgcAaLXtORcoDlAbgw
- Lx9l7GTlg/oufYNzCYvpRBYGzTRs3lD9+BCdOEUgGwpHzJB+9LjYZpp+ZhgUsNc+F1g9
- k2vZ0MWVlYG6N8lI1S3LclBOtdIIFQX+dgWNl2fpP2ESGAb0uT/b2P7K0HlTI9fK+Df9
- OXqexrTIppBch4s1wX0Stdwu/qVQy0zhoTHKXK46Y5lOxpFldLlARIBcWMEr/mltR63n
- plJDx2irwSXlHLZgrYU5IjodmsIjV5NSBzak9U0n2CQVccSrixy3x+++kSW7b8P40DVC
- /Xsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760443546; x=1761048346;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6/oH008OmOSILGStPOvECv9JZ5uFtkPz/y1ZNR7iEvs=;
- b=eQvy58QZUi2kLslvELRCgOntMovaNvEaMLJw2pfI2ybCWpS1eXwN76/lpgYLZXBUS/
- TUFKEEHIBRWFfPDEHIfeIhw5ZaK9quuCK5H74PVC6roS+2LlmqXyakSQHz7x62uZmRM4
- 7ASrBZx8Ohn8u25O1Cqt06YMJANbU6HVdZhkg56oTpFknq5nUa4vesiYGikevcIOtOlA
- tOIilkmCXqQLd/F8o3/zS6HLE39x5JPpt5QBvgmtCtZWoF02J/N84dFK+SjvDtahS+9d
- EkCvSlRjhgh06R6BCOslTPed7OhvuO90SiI6v7ZGNIfkiW/1dbKFMQe1k/z3G4M/WboO
- HNhw==
-X-Gm-Message-State: AOJu0Ywi5pwvm5zFkVLck6XgEeY8Ibbar51Db0Ls+A9MLl9LDiKcDEZt
- 3t+35RZuLuXJbMWaPbvhx+x/REUGn0GUC7xv8o97MfyxpMmANdbUB5Eb2FT6OvFg/yY=
-X-Gm-Gg: ASbGncu4sXX6+Wy1y3y+bZoxDfcO6FSal4kKS3RQh87flqaZJFjGLodBXv5hZxR9sNM
- ZPIShxTtRMHs0TsjWmCvy6f8cCstzqr8ZFwRFwgN7EEuje1MytDYkniVGvoXJjaoI4cJUEztMmR
- iZAke1Cuyo/Vf7eYqGJQ434aey/Nt0S8+e/x0+bnfkhwiMffjBxom1zWKJX43gr0w+j6CjcXgxn
- ChQhG/18uIjUOu2Repj4NYRozhZAUJOo7fnjgxIs2HEDd7qQQ/JbEh11qa6eg6sxYru5AWPqCIF
- jXSORnul386WsKzgb1SfNikzSj2NAUBXpoYXSFoX6xQm8aqncJiZcou+uHBywgTJVSTQNDMOThq
- 8eNTNBmyQ1sOumR84yxeSp140G+alwHUWlJI6bl8dJcBe4prK9+IyrIFG
-X-Google-Smtp-Source: AGHT+IG+ox4uHFRDU2PjORRa/c0JlDTsp8OFc8jbQP/kBh/MC7IhgPjotuh6KpbBz03C2S8qtojjLQ==
-X-Received: by 2002:a5d:5c8a:0:b0:3eb:a237:a051 with SMTP id
- ffacd0b85a97d-4267b3395acmr16245681f8f.58.1760443545906; 
- Tue, 14 Oct 2025 05:05:45 -0700 (PDT)
-Received: from [192.168.0.101] ([90.242.12.242])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-426ce582a9csm23425448f8f.12.2025.10.14.05.05.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 05:05:45 -0700 (PDT)
-Message-ID: <dfda6c38-fcd2-4d94-b9cd-c51972f40106@ursulin.net>
-Date: Tue, 14 Oct 2025 13:05:44 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41C810E220;
+ Tue, 14 Oct 2025 12:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Y7fs6WPlC2Db2BoKi7GDFxPOB1XeSHG+QnsVBtco4P0=; b=qatrWjrm1EuOU5sjNy/uCYKjau
+ hGtbj/PuK/Zc+VSYNXeUoi4FdlLWNP3n8xF3iYlOagq60BwTaGOZONF3kiuSIzAJkUDI93qSj3E4T
+ 1t10qKebQaNjeT9zIGedTSKpYSg1mWTJeiQoKqBHUcqVD854h3NqfEHo6WmgZIDrNA4gQJLMc4Z/R
+ 5OxOxlaPWPv4EzQ/ZAagGUmwmqrVide5ER+RJltm/QWt8y6QQ34hjp7Sxr2wbRQn0hEAvzAUkv5b2
+ Bmj9fyYt0+6YcSD8ra8B1aYEVpT1d4UkUYDMSkd5Vvgf9hJp0Mnktt+3FbDlmu6EXZnvYR4lQ3kiL
+ LKFVNbEQ==;
+Received: from [90.242.12.242] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1v8e19-009OYP-6x; Tue, 14 Oct 2025 14:20:39 +0200
+Message-ID: <7598e978-4ac3-4568-a339-0397e7273222@igalia.com>
+Date: Tue, 14 Oct 2025 13:20:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Mandate usage of drm_sched_job_cleanup()
-To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250926123630.200920-2-phasta@kernel.org>
- <1490c292-c244-4dd9-80a6-3fecd0ffb422@ursulin.net>
- <87f93819aed4784b3e280af38bd7b447821873f5.camel@mailbox.org>
+Subject: Re: [PATCH 11/28] drm/sched: Favour interactive clients slightly
+To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
+ <20251008085359.52404-12-tvrtko.ursulin@igalia.com>
+ <618a50aabddace2531375bc18fb1ca9b00297490.camel@mailbox.org>
 Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <87f93819aed4784b3e280af38bd7b447821873f5.camel@mailbox.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <618a50aabddace2531375bc18fb1ca9b00297490.camel@mailbox.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,91 +67,285 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 14/10/2025 12:56, Philipp Stanner wrote:
-> On Mon, 2025-10-13 at 13:20 +0100, Tvrtko Ursulin wrote:
+On 14/10/2025 11:53, Philipp Stanner wrote:
+> On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
+>> GPUs do not always implement preemption and DRM scheduler definitely
+>> does not support it at the front end scheduling level. This means
+>> execution quanta can be quite long and is controlled by userspace,
+>> consequence of which is picking the "wrong" entity to run can have a
+>> larger negative effect than it would have with a virtual runtime based CPU
+>> scheduler.
 >>
->> On 26/09/2025 13:36, Philipp Stanner wrote:
->>> drm_sched_job_cleanup()'s documentation so far uses relatively soft
->>> language, only "recommending" usage of the function. To avoid memory
->>> leaks and, potentiall, other bugs, however, the function has to be used.
->>>
->>> Demand usage of the function explicitly.
->>>
->>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 46119aacb809..0a9df9e61963 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -1030,7 +1030,7 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
->>>     *
->>>     * Cleans up the resources allocated with drm_sched_job_init().
->>>     *
->>> - * Drivers should call this from their error unwind code if @job is aborted
->>> + * Drivers need to call this from their error unwind code if @job is aborted
+>> Another important consideration is that rendering clients often have
+>> shallow submission queues, meaning they will be entering and exiting the
+>> scheduler's runnable queue often.
 >>
->> Should is indeed wrong. I think it could be better to go with "shall" or
->> "must" though. Since those two are more standard language for this.
+>> Relevant scenario here is what happens when an entity re-joins the
+>> runnable queue with other entities already present. One cornerstone of the
+>> virtual runtime algorithm is to let it re-join at the head and rely on the
+>> virtual runtime accounting and timeslicing to sort it out.
+>>
+>> However, as explained above, this may not work perfectly in the GPU world.
+>> Entity could always get to overtake the existing entities, or not,
+>> depending on the submission order and rbtree equal key insertion
+>> behaviour.
+>>
+>> Allow interactive jobs to overtake entities already queued up for the
+>> limited case when interactive entity is re-joining the queue after
+>> being idle.
+>>
+>> This gives more opportunity for the compositors to have their rendering
+>> executed before the GPU hogs even if they have been configured with the
+>> same scheduling priority.
+>>
+>> To classify a client as interactive we look at its average job duration
+>> versus the average for the whole scheduler. We can track this easily by
+>> plugging into the existing job runtime tracking and applying the
+>> exponential moving average window on the past submissions. Then, all other
+>> things being equal, we let the more interactive jobs go first.
 > 
-> "need to" is standard UK(?) English for "must to" I think.
+> OK so this patch is new. Why was it added? The cover letter says:
 > 
-> But I'm fine with "must"
-
-Yeah will is standard English and IMO understandable. I was just 
-thinking whether it would best to stick to the established "requirements 
-language". For example:
-
-https://www.nasa.gov/reference/appendix-c-how-to-write-a-good-requirement/
-
-https://argondigital.com/blog/product-management/using-the-correct-terms-shall-will-should/
-
-https://reqi.io/articles/shall-vs-should-vs-will-vs-must-whats-the-difference
-
-But I am okay with need, your call.
->>>     * before drm_sched_job_arm() is called.
->>>     *
->>>     * drm_sched_job_arm() is a point of no return since it initializes the fences
->>> @@ -1038,7 +1038,7 @@ EXPORT_SYMBOL(drm_sched_job_has_dependency);
->>>     * submit it with drm_sched_entity_push_job() and cannot simply abort it by
->>>     * calling drm_sched_job_cleanup().
->>>     *
->>> - * This function should be called in the &drm_sched_backend_ops.free_job callback.
->>> + * This function must be called in the &drm_sched_backend_ops.free_job callback.
->>>     */
->>>    void drm_sched_job_cleanup(struct drm_sched_job *job)
->>>    {
->>
->> Hm, having read the thread so far the situation seems not so easy to
->> untangle.
->>
->> On one hand I see Matt's point that free_job callback is a bit
->> misleadingly named and that there isn't anything really requiring
->> drm_sched_job_cleanup() to be called exactly from there. Free_job
->> semantics seem to be "job is done, *scheduler* is done with it".
->>
->> Drm_sched_job_cleanup() already says it has to be called after the point
->> of no return (arm) so it could be left at drivers discretion (de facto
->> state today) to choose how and when to do it.
->>
->> What I did not get is what is actually the perceived problem with
->> letting this stay? (Ie. "should" indicating it is recommended, but not a
->> must/shall.)
+> "Improved handling of interactive clients by replacing the random noise
+> on tie approach with the average job duration statistics."
 > 
-> I think the most correct formulation with our current mess would be
-> "cleanup() must be called earliest in free_job(), or later (if there is
-> a very good reason for that)."
-> 
-> Question would be how to document that.
-> 
-> I still have that big life time docu patch pending. Let me dig into how
-> I could combine that..
+> So this is based on additional research you have done in the mean time?
+> Does it change behavior significantly when compared to the RFC?
 
-Ok.
+It is a replacement patch for what used to be called "drm/sched: Break 
+submission patterns with some randomness".
+
+It is only significant for a subset of workload patterns. The ones where 
+a lightweight client runs in parallel to something heavy. Pseudo random 
+noise approach made FAIR kind of middle of the road between RR and FIFO 
+while this version makes it almost as good as RR.
+
+With random noise as tie breaker criteria:
+
+https://people.igalia.com/tursulin/drm-sched-fair/4-heavy-vs-interactive.png
+https://people.igalia.com/tursulin/drm-sched-fair/4-very-heavy-vs-interactive.png
+https://people.igalia.com/tursulin/drm-sched-fair/4-low-hog-vs-interactive.png
+
+With entity_job_avg < sched_job_avg tie breaker criteria:
+
+https://people.igalia.com/tursulin/drm-sched-fair/251008/4-heavy-vs-interactive.png
+https://people.igalia.com/tursulin/drm-sched-fair/251008/4-very-heavy-vs-interactive.png
+https://people.igalia.com/tursulin/drm-sched-fair/251008/4-low-hog-vs-interactive.png
+
+> The firmware scheduler bros are not affected in any case. Still, I
+> think that the RFC we discussed in the past and at XDC is now quite
+> more different from the actual proposal in this v1.
+
+Series as code is not that much different, just the end result with some 
+use cases gets better.
+
+If we ignore the EWMA job runtime housekeeping, it only replaced this:
+
++		} else {
++			static const int shuffle[2] = { -1, 1 };
++			static bool r = 0;
++
++			/*
++			 * For equal priority apply some randomness to break
++			 * latching caused by submission patterns.
++			 */
++			vruntime = shuffle[r];
++			r ^= 1;
+
+With this:
+
++		} else {
++			struct drm_gpu_scheduler *sched = entity->rq->sched;
++
++			/*
++			 * Favour entity with shorter jobs (interactivity).
++			 *
++			 * (Unlocked read is fine since it is just heuristics.)
++			 *
++			 */
++			if (ewma_drm_sched_avgtime_read(&stats->avg_job_us) <=
++			    ewma_drm_sched_avgtime_read(&sched->avg_job_us))
++				vruntime = -1;
++			else
++				vruntime = 1;
+> I suppose it's in general good for graphics applications.. what about
+> compute, doesn't that have longer jobs? Probably still good for people
+> who do compute on their productive system..
+Yes, should be good for everyone who runs interactive clients in 
+parallel to demanding workloads.
+
+> @AMD:
+> can you review / ack this?
+Someone other than me is bound to test it one od these days. ;)
 
 Regards,
 
 Tvrtko
+
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c   |  1 +
+>>   drivers/gpu/drm/scheduler/sched_internal.h | 15 ++++++++++++---
+>>   drivers/gpu/drm/scheduler/sched_main.c     |  8 +++++++-
+>>   drivers/gpu/drm/scheduler/sched_rq.c       | 14 ++++++++++++++
+>>   include/drm/gpu_scheduler.h                |  5 +++++
+>>   5 files changed, 39 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 58f51875547a..1715e1caec40 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -61,6 +61,7 @@ static struct drm_sched_entity_stats *drm_sched_entity_stats_alloc(void)
+>>   
+>>   	kref_init(&stats->kref);
+>>   	spin_lock_init(&stats->lock);
+>> +	ewma_drm_sched_avgtime_init(&stats->avg_job_us);
+>>   
+>>   	return stats;
+>>   }
+>> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
+>> index c94e38acc6f2..a120efc5d763 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+>> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+>> @@ -20,6 +20,7 @@
+>>    * @runtime: time entity spent on the GPU.
+>>    * @prev_runtime: previous @runtime used to get the runtime delta
+>>    * @vruntime: virtual runtime as accumulated by the fair algorithm
+>> + * @avg_job_us: average job duration
+>>    */
+>>   struct drm_sched_entity_stats {
+>>   	struct kref	kref;
+>> @@ -27,6 +28,8 @@ struct drm_sched_entity_stats {
+>>   	ktime_t		runtime;
+>>   	ktime_t		prev_runtime;
+>>   	u64		vruntime;
+>> +
+>> +	struct ewma_drm_sched_avgtime   avg_job_us;
+>>   };
+>>   
+>>   /* Used to choose between FIFO and RR job-scheduling */
+>> @@ -153,20 +156,26 @@ drm_sched_entity_stats_put(struct drm_sched_entity_stats *stats)
+>>    * @job: Scheduler job to account.
+>>    *
+>>    * Accounts the execution time of @job to its respective entity stats object.
+>> + *
+>> + * Returns job's real duration in micro seconds.
+>>    */
+>> -static inline void
+>> +static inline ktime_t
+>>   drm_sched_entity_stats_job_add_gpu_time(struct drm_sched_job *job)
+>>   {
+>>   	struct drm_sched_entity_stats *stats = job->entity_stats;
+>>   	struct drm_sched_fence *s_fence = job->s_fence;
+>> -	ktime_t start, end;
+>> +	ktime_t start, end, duration;
+>>   
+>>   	start = dma_fence_timestamp(&s_fence->scheduled);
+>>   	end = dma_fence_timestamp(&s_fence->finished);
+>> +	duration = ktime_sub(end, start);
+>>   
+>>   	spin_lock(&stats->lock);
+>> -	stats->runtime = ktime_add(stats->runtime, ktime_sub(end, start));
+>> +	stats->runtime = ktime_add(stats->runtime, duration);
+>> +	ewma_drm_sched_avgtime_add(&stats->avg_job_us, ktime_to_us(duration));
+>>   	spin_unlock(&stats->lock);
+>> +
+>> +	return duration;
+>>   }
+>>   
+>>   #endif
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 8d8f9c8411f5..204d99c6699f 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -1000,7 +1000,12 @@ static void drm_sched_free_job_work(struct work_struct *w)
+>>   	struct drm_sched_job *job;
+>>   
+>>   	while ((job = drm_sched_get_finished_job(sched))) {
+>> -		drm_sched_entity_stats_job_add_gpu_time(job);
+>> +		ktime_t duration = drm_sched_entity_stats_job_add_gpu_time(job);
+>> +
+>> +		/* Serialized by the worker. */
+>> +		ewma_drm_sched_avgtime_add(&sched->avg_job_us,
+>> +					   ktime_to_us(duration));
+>> +
+>>   		sched->ops->free_job(job);
+>>   	}
+>>   
+>> @@ -1158,6 +1163,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>>   	atomic_set(&sched->_score, 0);
+>>   	atomic64_set(&sched->job_id_count, 0);
+>>   	sched->pause_submit = false;
+>> +	ewma_drm_sched_avgtime_init(&sched->avg_job_us);
+>>   
+>>   	sched->ready = true;
+>>   	return 0;
+>> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
+>> index b868c794cc9d..02742869e75b 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_rq.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
+>> @@ -150,6 +150,20 @@ drm_sched_entity_restore_vruntime(struct drm_sched_entity *entity,
+>>   			 * Higher priority can go first.
+>>   			 */
+>>   			vruntime = -us_to_ktime(rq_prio - prio);
+>> +		} else {
+>> +			struct drm_gpu_scheduler *sched = entity->rq->sched;
+>> +
+>> +			/*
+>> +			 * Favour entity with shorter jobs (interactivity).
+>> +			 *
+>> +			 * (Unlocked read is fine since it is just heuristics.)
+>> +			 *
+>> +			 */
+>> +			if (ewma_drm_sched_avgtime_read(&stats->avg_job_us) <=
+>> +			    ewma_drm_sched_avgtime_read(&sched->avg_job_us))
+>> +				vruntime = -1;
+>> +			else
+>> +				vruntime = 1;
+>>   		}
+>>   	}
+>>   
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index bc25508a6ff6..a7e407e04ce0 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -25,11 +25,14 @@
+>>   #define _DRM_GPU_SCHEDULER_H_
+>>   
+>>   #include <drm/spsc_queue.h>
+>> +#include <linux/average.h>
+>>   #include <linux/dma-fence.h>
+>>   #include <linux/completion.h>
+>>   #include <linux/xarray.h>
+>>   #include <linux/workqueue.h>
+>>   
+>> +DECLARE_EWMA(drm_sched_avgtime, 6, 4);
+>> +
+>>   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>>   
+>>   /**
+>> @@ -581,6 +584,7 @@ struct drm_sched_backend_ops {
+>>    * @job_id_count: used to assign unique id to the each job.
+>>    * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
+>>    * @timeout_wq: workqueue used to queue @work_tdr
+>> + * @avg_job_us: Average job duration
+>>    * @work_run_job: work which calls run_job op of each scheduler.
+>>    * @work_free_job: work which calls free_job op of each scheduler.
+>>    * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
+>> @@ -612,6 +616,7 @@ struct drm_gpu_scheduler {
+>>   	atomic64_t			job_id_count;
+>>   	struct workqueue_struct		*submit_wq;
+>>   	struct workqueue_struct		*timeout_wq;
+>> +	struct ewma_drm_sched_avgtime   avg_job_us;
+>>   	struct work_struct		work_run_job;
+>>   	struct work_struct		work_free_job;
+>>   	struct delayed_work		work_tdr;
+> 
+
+
 
