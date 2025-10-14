@@ -2,80 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4D0BDA34B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E337BDA393
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 17:07:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F98910E63C;
-	Tue, 14 Oct 2025 15:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 693C210E639;
+	Tue, 14 Oct 2025 15:07:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="P+NgjKVv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q2UrfZmp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B7F10E635
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:03:57 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3ee130237a8so4333297f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:03:57 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA3910E63F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:07:12 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-46e6ba26c50so34706035e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760454236; x=1761059036;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KvLif0xXP5NnZk/gZt7mDLBmevCZybOrgLCvCymTSWA=;
- b=P+NgjKVv0jv5ACJpwXYkGD9jf0eMPj+XUtv476WSdJ1YMV60xrsMuGyuUagX2kLcKo
- 1AyN0brZWj4tQMcJ1xev9TgNcTOp5XKys4v1HEaAEWVKdE8/WF7QAan42Y/tOXWU7PwG
- 73pjDmotFY3JG1bJL+TbWOJQQ5DBBo7cc2BjZzr6f+LFlfXm6ZUB0kRCTLYrwGZfLxFw
- AXS63QF7hFh3vgSBOuJfBgRMAYZ66NdeaIIPq05Sx8pexMajQOaK+nZm7R/eOuaGezan
- xccb9w1jN/kUbWlYBQp2d5bd0zZyNS2CuKFJUUhb5aNVzPF6D5xBM0d8thdabIdcVjsH
- TG8Q==
+ d=gmail.com; s=20230601; t=1760454431; x=1761059231; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gL8ZkUM+9MNArpY6PXkMm1LfiIpSu2XTYwD3Z1PK1/M=;
+ b=Q2UrfZmp4oensPsNVEIEH3mCTVcW4q6jh1K1fx+cEM+Wbo9BJcM1w9OLWkNqKULPCi
+ jZ04wqWlIAEjvy/3P6lglVL+oFJEg5utoxb4ZaLZsTlU16dJOXxckux54G/c4qrkdnS+
+ p6eoyV90jt1rs8rVkez6O+dCY7Z81n3VHg8Oux3st2g95z54IqIjmSCREjRPiHdhQ803
+ b5EgFoXLrpiI/AN5gletf2Rm6fb+wArDJpbnyXaWgNZVrBGAO0BqeY6wp0TRVL1sQS76
+ HHGHhsfFskM7VAyFJw/ZLUvpDrsLFalWe/YoKCmH6p+g/DhxJGWBzkuvJ5LYPPNrZ4L8
+ oNbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760454236; x=1761059036;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KvLif0xXP5NnZk/gZt7mDLBmevCZybOrgLCvCymTSWA=;
- b=E1VVARspfL7Zae8LHJctDE+9OEB4aEtRiMerMJTIzVZO/e2rgqlHojEMYa6/Ujnrj7
- pHrtbl4hN14PKle1m29S9QczR4T+8WeAyoGCxT3eSiO6c27GZ48tWl+P+1oDwQwYIw5q
- +OcgNWieCU9T97me2L5bVUaSaXTrXI4xgL2jt5QRBOrBrAtVO7XM5Kr93H5kJJWopnj8
- 1m7xED5fnrzzjATwigcX9MRwb99TiGdPLmSkoU0PHMRza7O1P+/S0KVGHUUS6yhAEwQO
- mZBtusD1N3C6zds6hN1YtxWkIGohoKaS0qHlp3UzwqGRe26Vhynt4i6T/GX6OIy+soXx
- 2Nvg==
-X-Gm-Message-State: AOJu0YxIvqLS/qagO0s1/mohAPAYs/un58r10aJVm5FlISQC//v6r0p0
- w+w0zYNkPuw/0Q/XXCQgTz0IuCjG5z2zf6yeMbbixOaNjoxTWNT8MRYMf6gy069PscQ=
-X-Gm-Gg: ASbGncuFhfIjNz/lgfP3LKGhQ0B1cKmpm9zW7+hTR3aPsD2yjJ78q0sBreGeRuPKhiv
- ThpudJdlKdy8SOH2VsuuPjyBuIdgjDVdEGYv6VX+Ja+5AZb9h3rSGa1VZU9Y/GhC0OYDPkF3GYq
- 1RhY847KWgMBmmkPDhQLMNEPnRI/+dMa+MOMlCCOPUi0fKcJsYT0MK9jkUfosCZE0HOky1arj+f
- kE2VfHEgyLJ4SUBaf8WBReSP+eKFJp+byPOpQTNomCqRCIK6O+rMkF9JmvHpMw75HmtBvMUOtBp
- sUx/Q9YDe1wRCcnbPU+Sv3mtzQ2wVSMNAus9ladmyUuAuSYQr18J4zwwyCKgc6V+eSN6AH9BZ8B
- RptF5FVT72ZLt3S+B1iNlZOU6GduEnCGcSMQhdtdvTFvikhSa1Qw0Bm3bntqU5esf4s0=
-X-Google-Smtp-Source: AGHT+IEbGgBHynNzMEpqQZCy22mrVyYPNVZNNhtZAJURBbvEYkVoKSFha08SyV1BB8PWrTBOC2JRpQ==
-X-Received: by 2002:a05:6000:24ca:b0:3e5:47a9:1c7f with SMTP id
- ffacd0b85a97d-4266e7df708mr16101225f8f.47.1760454235744; 
- Tue, 14 Oct 2025 08:03:55 -0700 (PDT)
-Received: from [192.168.0.101] ([90.242.12.242])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-426ce5cf6b4sm24185121f8f.25.2025.10.14.08.03.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 08:03:55 -0700 (PDT)
-Message-ID: <601678b2-8ebf-47f7-a1b9-077468dd8fc9@ursulin.net>
-Date: Tue, 14 Oct 2025 16:03:54 +0100
+ d=1e100.net; s=20230601; t=1760454431; x=1761059231;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gL8ZkUM+9MNArpY6PXkMm1LfiIpSu2XTYwD3Z1PK1/M=;
+ b=N4PZwfaHNEseNFV7v2VBdz27511VykSo44M4TY+SkXvIANHnhGc5sB174pNs7Aj/Fa
+ 8I0+vCBUhU5YEAydmQ9Dz7QjYYVmT/54cbCz9NpSCr4jnhp7Mw4ibT9CO/d2rs/PpVaw
+ 2RTEETr9FP/K1IbMsJ9AUbBvGeUWzxwWwGAhn6bb8osPAiZWamNLcJK2HG+cgVgQwVTC
+ s1hppLEJOyGAj8NpCrrfIFTUzwZIhYCXH3kZ8Jf5z+CRvPVlxUedrtIGcSoPQfJKc6td
+ YBx8ccGywdymb3l/+0Kn0KO/garIBwhE9YZgOENY4SoPdFLwVFP5YxORtIIxbQoWAOk4
+ 473w==
+X-Gm-Message-State: AOJu0YyV5Lsud1O1xHKMxw2eEHzBpG9wqqQpbAZVUTdp0Jr4ZAUlduWS
+ kmpXLqBLxXwpYU7VUU+CAIgPUDt34xcaJL1hc14tsjeWUhG/N3+q2zKB
+X-Gm-Gg: ASbGncufqLLaH51uv2LRnr9YK7VyUqilg+COcufFIwApFeqScnlHr+wBvZqj2R2CQRP
+ z5HjKDSg6NGQUidH9m/dOG31BbKRlM8RVgHtgD4deBw+I7yK6Jf52SIA/fZZ2Zs8vDIBcLVDgdd
+ GMog2qw+eZr1MSan82/++PLi6hOx6tIGeX65/KdCjWK4dF0fpj4Rld4VvvGMKi9CazVwZUa+Kyz
+ lMFeMQcwqAyJnbkqK9Ugr4hxaYXEUYzi6qo99xxkAPnUwC6ofkcqn823UIg/BfJlSVJ1vXoTsuN
+ NkIojrXpvt40gSRfD8aU8Uknms+9YNre9iMXP3lurfsjEJuNWtYY4+rppxVVLkre0xvdzHtk/DH
+ 6Cc+kRnhqdZBXAXGxYq6mNPbSs2HieYjYKmnZA5az4iR/KCHYHhbAfEXIX+350wsh0wjAeRQje4
+ NwyQK6fq3ZFA2QRnRFl9P37Og7l9epNNqtfBJuSad7FOw=
+X-Google-Smtp-Source: AGHT+IHZ1EadWTvtDCQYwV4WQfXt5YXLqudRi4J8yoZGK9Vlf1FSkWM87gQrzG78jUIiFgj68dWGqw==
+X-Received: by 2002:a05:600c:4751:b0:46e:72df:a812 with SMTP id
+ 5b1f17b1804b1-46fa9a8641fmr200685715e9.4.1760454430587; 
+ Tue, 14 Oct 2025 08:07:10 -0700 (PDT)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net.
+ [178.79.73.218]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-426ce582a9csm24173702f8f.12.2025.10.14.08.07.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Oct 2025 08:07:10 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] MAINTAINERS: Remove myself for sun4i DRM driver
+Date: Tue, 14 Oct 2025 17:07:09 +0200
+Message-ID: <5928949.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20251014093628.564265-1-mripard@kernel.org>
+References: <20251014093628.564265-1-mripard@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/15] dma-buf: rework stub fence initialisation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20251013143502.1655-1-christian.koenig@amd.com>
- <20251013143502.1655-3-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251013143502.1655-3-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,76 +88,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
-On 13/10/2025 14:48, Christian König wrote:
-> Instead of doing this on the first call of the function just initialize
-> the stub fence during kernel load.
-> 
-> This has the clear advantage of lower overhead and also doesn't rely on
-> the ops to not be NULL any more.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+Dne torek, 14. oktober 2025 ob 11:36:28 Srednjeevropski poletni =C4=8Das je=
+ Maxime Ripard napisal(a):
+> I haven't been involved with the driver for a while. Let's reflect that.
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Thank you for all your work on it till now!
+
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
 > ---
->   drivers/dma-buf/dma-fence.c | 32 +++++++++++++++-----------------
->   1 file changed, 15 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index f0539c73ed57..51ee13d005bc 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -121,29 +121,27 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
->   	.get_timeline_name = dma_fence_stub_get_name,
->   };
->   
-> +static int __init dma_fence_init_stub(void)
-> +{
-> +	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
-> +		       &dma_fence_stub_lock, 0, 0);
-> +
-> +	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> +		&dma_fence_stub.flags);
-> +
-> +	dma_fence_signal_locked(&dma_fence_stub);
-> +	return 0;
-> +}
-> +subsys_initcall(dma_fence_init_stub);
-> +
->   /**
->    * dma_fence_get_stub - return a signaled fence
->    *
-> - * Return a stub fence which is already signaled. The fence's
-> - * timestamp corresponds to the first time after boot this
-> - * function is called.
-> + * Return a stub fence which is already signaled. The fence's timestamp
-> + * corresponds to the initialisation time of the linux kernel.
+>  MAINTAINERS | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 46126ce2f968..7875149c919e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7634,11 +7634,10 @@ T:	git https://git.kernel.org/pub/scm/linux/kerne=
+l/git/ogabbay/accel.git
+>  F:	Documentation/accel/
+>  F:	drivers/accel/
+>  F:	include/drm/drm_accel.h
+> =20
+>  DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE
+> -M:	Maxime Ripard <mripard@kernel.org>
+>  M:	Chen-Yu Tsai <wens@csie.org>
+>  R:	Jernej Skrabec <jernej.skrabec@gmail.com>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Supported
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> @@ -8248,11 +8247,10 @@ T:	git https://gitlab.freedesktop.org/drm/rust/ke=
+rnel.git
+>  F:	drivers/gpu/drm/nova/
+>  F:	drivers/gpu/nova-core/
+>  F:	rust/kernel/drm/
+> =20
+>  DRM DRIVERS FOR ALLWINNER A10
+> -M:	Maxime Ripard <mripard@kernel.org>
+>  M:	Chen-Yu Tsai <wens@csie.org>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Supported
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/allwinner*
+>=20
 
-We sure hope it's Linux kernel and not some imposter! :D (Ie. you can 
-drop linux if you want.)
 
->    */
->   struct dma_fence *dma_fence_get_stub(void)
->   {
-> -	spin_lock(&dma_fence_stub_lock);
-> -	if (!dma_fence_stub.ops) {
-> -		dma_fence_init(&dma_fence_stub,
-> -			       &dma_fence_stub_ops,
-> -			       &dma_fence_stub_lock,
-> -			       0, 0);
-> -
-> -		set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> -			&dma_fence_stub.flags);
-> -
-> -		dma_fence_signal_locked(&dma_fence_stub);
-> -	}
-> -	spin_unlock(&dma_fence_stub_lock);
-> -
->   	return dma_fence_get(&dma_fence_stub);
->   }
->   EXPORT_SYMBOL(dma_fence_get_stub);
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Regards,
-
-Tvrtko
 
