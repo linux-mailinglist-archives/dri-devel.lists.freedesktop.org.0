@@ -2,142 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D8BBDA8BE
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 18:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0CBBDAA29
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 18:36:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0C210E657;
-	Tue, 14 Oct 2025 16:02:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D8d+RoYv";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC2210E659;
+	Tue, 14 Oct 2025 16:36:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2AB10E654
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 16:02:10 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87KgT020052
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 16:02:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=RIDTlMFsrNFSupa3j2HpAaCj
- j/tHU19+vRKipgxflMY=; b=D8d+RoYv2SKec5D8jKbm7NuvfVXZqqaa/GwmQ6aE
- sUgom710S9UPY91JnZdhu3MV9uSMm7AezppNgUxr0sD0+wKthsX8t/xVCYuuO9HB
- c/ao4tPKCqAN9pH5EkcXtF2/HDyp5mUDgg10c9t/lS45bDxmoVTu6fM9j1gF/3h3
- wgZLO5bjaX3fUvnyvjtLsxeQEyGkgI1seNX8Mv/sq3Di5lY44x4IaY+IXGbpLnUn
- d05SqnZ7V9IPxRJpmkcyFgUPztYt7C3c/wh+CK0fs2c2r6YfaZg60K5bhz5GxMsd
- 0JvL1tSl/fTL7+enHjFpn3JGDeFi+43/fL3dB5L4oLLzCg==
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0c13dp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 16:02:09 +0000 (GMT)
-Received: by mail-vk1-f199.google.com with SMTP id
- 71dfb90a1353d-555a199e5dbso42702e0c.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:02:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760457728; x=1761062528;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RIDTlMFsrNFSupa3j2HpAaCjj/tHU19+vRKipgxflMY=;
- b=uK4TJQBfyZ6rYgc14+c/3yjQ+DwqsLTf775yQXyiVYFpLn9617wZnbWd9YPWNrfD+S
- RLea/NVSO0yA4wWndfLCQZgjEjZK3dXB3vZ/np2gZ0IdaGM+u2cvjcajxyIGmxaGsZoW
- 3JwvnPYDPXc9K3JxG557gGUeTMDjx7wzkkQF/+A2Z0fj5MEfoPVqOzm1E+iwN6PMRY4z
- 8HcLAC1bl1UOVCLHxzbEvycopYEcCPP73upsnm/GGFBsTUACgQaquhLV5xZAx+tYlnc0
- Er/uL1Un3nAJMruiFWWbpzU4rKJ1AFBgEGiVLnTGdckUlS1LYibE9UtA0Kgrhd4tWVXo
- FwKQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkgdDAhiDQj5C3Es2RrdD2eJ1LytyAw1nxX56q6ERYJvqh11ikdB5EJA4InFroP5JkoQIfVu1PIec=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwbAC9wJj7w2YmS2IMuAf+NCQqbWTs8jhYnPpwzSXGimT1nI8VR
- sW3RC/dL5LQQ51GaT7BN7293CZLNqnG12vA32ibxSOvNnxMNMP36YBuwqBc5/BEXQG9w2ItjZrv
- FAbjKenp/4RS4oJD5FRj1+Tj8k7I4Wqb0CgtHasYUflwkR7DSKy1lOOqhbfvx2wNm+EIsMI8=
-X-Gm-Gg: ASbGncsJjF+tJtL0jCtUwpoOTymFoiHX40LCKsWDl5hVBVkKs6NUeiNEa9fsomyz3iV
- gFXvF61YX493xLm+/F9BOGklL2lY8j2hQZVNWKMepVvTPbOIvMvh/VhphzcGPFUlGDhkCv8DEl8
- L1UZruG7UaQLbp8jP8kkDGl1HDqUE48VQec/6nElXms8zlpcjkHiabWBbRCQbHA10xapzGJlbk6
- MhzGGRQIDMdxchiQCS8UeuSuM61SCB6W5rjYbjkH53GMR8o1D3EV3EylVuLHcVKclb9imTkogmx
- QTDN/cE31bFez3xAoXUPbDydyPRPE6RDTvRSHVCKw7zoBdL4adLryg+J04YyEGF2PeURhcH26Gl
- lXC9KtJlAHkFmFlfVmACEUBVDBZvVyUp/4pY52q5kdUYMGx4nja8G
-X-Received: by 2002:a05:6122:e1db:b0:554:e726:7818 with SMTP id
- 71dfb90a1353d-554e726a88bmr2893410e0c.2.1760457727470; 
- Tue, 14 Oct 2025 09:02:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGiPVWLHJ62y1HXmozGHeu5tMGTb4MD+todBa4lunYFYoGko1Yp2FhdNfFEHzjjvK5KiwAUsg==
-X-Received: by 2002:a05:6122:e1db:b0:554:e726:7818 with SMTP id
- 71dfb90a1353d-554e726a88bmr2893311e0c.2.1760457726794; 
- Tue, 14 Oct 2025 09:02:06 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-591c8779e8dsm60095e87.10.2025.10.14.09.02.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 09:02:05 -0700 (PDT)
-Date: Tue, 14 Oct 2025 19:02:03 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-Message-ID: <ez6y7q4lgbwt7kpnlpausjpznckr3yyejrwtxm7o6qw6wlhqoj@6iypzdhfthzy>
-References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
- <20250910-furry-singing-axolotl-9aceac@houat>
- <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
- <20250925-didactic-spiked-lobster-fefabe@penduick>
- <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
- <20251003-primitive-sepia-griffin-cfca55@houat>
- <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
- <5cc5l2dihgdbgnwyugelwrklpaiiy5yaczqllu4bi6asvlt354@kib3flskh34g>
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 356E510E543
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 06:38:42 +0000 (UTC)
+X-AuditID: a67dfc5b-c45ff70000001609-23-68edefefb741
+Date: Tue, 14 Oct 2025 15:38:33 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: NeilBrown <neil@brown.name>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+ will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+ joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+ duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+ tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+ longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+ yeoreum.yun@arm.com, netdev@vger.kernel.org,
+ matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+ catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ sumit.semwal@linaro.org, gustavo@padovan.org,
+ christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+ petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+ paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+ mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+ chuck.lever@oracle.com, okorniev@redhat.com, Dai.Ngo@oracle.com,
+ tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
+ kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+ broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+ shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+ yuzhao@google.com, baolin.wang@linux.alibaba.com,
+ usamaarif642@gmail.com, joel.granados@kernel.org,
+ richard.weiyang@gmail.com, geert+renesas@glider.be,
+ tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it,
+ guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+ masahiroy@kernel.org, brauner@kernel.org,
+ thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+ andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
+Message-ID: <20251014063833.GA58074@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-29-byungchul@sk.com>
+ <175947451487.247319.6809470356431942803@noble.neil.brown.name>
+ <20251013052354.GA75512@system.software.com>
+ <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5cc5l2dihgdbgnwyugelwrklpaiiy5yaczqllu4bi6asvlt354@kib3flskh34g>
-X-Proofpoint-GUID: ZKIkSUZXOuYi4R8YrYnUxxT7j66P3CZC
-X-Proofpoint-ORIG-GUID: ZKIkSUZXOuYi4R8YrYnUxxT7j66P3CZC
-X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68ee7401 cx=c_pps
- a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=6RWEyACVIll58Qch3D4A:9
- a=CjuIK1q_8ugA:10 a=vmgOmaN-Xu0dpDh8OwbV:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfX6FfuifkCcu7Q
- qXCWY5kSZwd5sXEDUMsTZHD0D9k7fdvdqxJpWDhppKvAxd/PmOdWSkpAPCJiP+eXReHVIk0vq7/
- 5xVlxRJfDH0FYtsQmfB5bkHQZzSYHZCG8TRXBvVssbHruP0fWM+ISReUoQvZ0cObXbUXJyjmtYQ
- bXxfmwGL/B3jTpY1O0frv3dcftaI7OanKA3mN5FsWceGQYEaZ2WubIALDuPqbGVSUZEAEj2pb4V
- iQ+z4hdBSU5LuQnxgICPG7xHYzdHBti4rAM3ljrk8cDFpf+mvmsSi51o8ZJTqXj2HE51cBiAUsD
- esqNZ5PIEGHtDnYO6lx6KlGIVAOeO6MAE63QgKafrXpsRHBZZOUKOy+DRY7jvcaudO3nsL8waPZ
- 5YSWfibhVzrw9oRiSoqTmaA7FHnugQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110022
+In-Reply-To: <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbVRjGPfee+9Fm1WvF7DiMJjVzygJuhmTvovuKRm9MbDDGLZkxs8rN
+ 2qwULIwNF5NuYxuyEbCmVMogZQzW0SKlsLlOapCPIim4goMVxnAQZCJ0TRDQAQVblsX993uf
+ J+/zvCc5PK2sZDfwOkOOZDRo9CpWjuXhdVXJkUhYu2VoaTsMHm/FcL7BxUKBp4yBf5bKaTjl
+ XcUQNfs5mHtwm4NVnx9BaZ+Zhun2WQSWsQkWrFPHMdgmyzmY6nwXbi3MIKidWKFgovUMgmjp
+ IbBaggj+dMcmn+MEC3+UXKHh5nyEhW7LWRbCfecpuO9mwX7Cx0BFuRnByeoGFkorPBj6ppcp
+ GCk1U+D0vA+BkgtUrC7mNa4HS/2PFPRUj2AYd9g4WB7bCqv2TPA773Fwp9iC4fvwDQa6RwcZ
+ +L3rNAM/mO7GHnFzjALXuUkaCq7PY/ANb4aq0xcxlFWOsNDi68ZQEJ1D4L82TsE59xUGRl2r
+ DARbAwz0O4MYGu6FKAj4f8Fw43o9A029PfTudLGu6SoluipdSFxaNCPxVEmM2mcitFgTmGHF
+ xfkBVvymN1n02u5wYv5Pw5xo9xwW8zvCjNjkSBKrW6YocXh6h+ip+5pNS9ovfzNd0utyJeNr
+ Oz+Vay8W27ksb/LR5vYOZEIVLxQiGU+EVNLRe5t7xN/5/qILEc9jYSPp9O6Oy6ywiYRCD+g4
+ JwgvksbmIaoQyXlaqE0kIevCmvGMsIv8OuBCcVYIQPqdDWuZSsFKkTOBDx7qT5PusgkcZ1pI
+ IqGVKSreRQuJ5NIKH5dlgprcGrWurT4rvERar3atdRFhXEYu50fRwzufIz87QrgECbbHYm2P
+ xdr+j7Ujug4pdYbcDI1On5qizTPojqZ8npnhQbFfW/vV8sfX0GzwwzYk8Ei1ThFamdEqGU1u
+ dl5GGyI8rUpQbDsWkxTpmrwvJWPmAeNhvZTdhhJ5rFqveH3hSLpSOKjJkQ5JUpZkfORSvGyD
+ CRVtbNlv6mF2vH32iTTZy2amf7a303z35LcH/o1gx2JKkfrVQJBseWcPU+PO21vwpDg+d+HI
+ TrXKmyDLMjz1yWb1exkfFadtP1b01vwrg5fIZM3BnC8GVPdrm02pVbs+G6kPLvu3DSwN/aZw
+ vxFU12xy/v28vmOPpXGfPaeoa2+0T8pV4WytZmsSbczW/Adn3NiEsQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfe7z9N5LQ8214riRRLMaozFBZZnbyTCIH6ZXjUSJk8TEaKN3
+ tuHNtYKiMSkCgzCHpVlbaUUrjmpKFaQV7bCGgWVzDBWY2k2RQQqKgE2Ul/BWbF0W/XLyP7//
+ +eecD4fF8hnJYladdUTUZCkzFLSUSFMSC+KDwRHVWl+DBB7nNxEYGy0hcK7WSUNJfYUEHl6r
+ QdAzVoJgYtqKocgzR2DW0MrA6ORTBua8rQhMHQYMTnc+BW/rQjQMtbxBYOwN0GAezCcQtJ9G
+ YBmwMjDo2wwjPY0SmOt+QcGT8WEE9kCIgkBTMYJZUzpcqHLRMN3+AIPZ+BDBxd5uDC/rwqa7
+ 9TkC75VTNPTrb2DoCsyHv8aCNNwz/kDDSMc5Cl7X0WA75ZVApdWAoOBSLQ2mynoCnn9/YaBj
+ aIaCZyYDBTX126HHPkCgTV9Fhe8LT12PBau5gAqXlxQYrzZSMGl3MPDnpWcE7LrlYG3vkkDf
+ FQsDM70JMGfLhtaaFwx0nzESuDbyQJJsRMJEURkRHK4GSijqnKUF53knEqanDEgYrS7AQpE+
+ 3LYMB7FQ6DoqVLcN08LU2CNa8I7biPBHFS+Ut8cLHks3IxTe+YfZ8dUe6fqDYoY6V9SsSdov
+ Vf18xsYc9sQfc7fcRTpUuaQURbE89zl/1vsKlyKWJdxy3udJjmCaW8H7/ZM4omO4pfx1999U
+ KZKymLPH8X7z+HtjIbeBv//IiSJaxgHfWVPLRLScM1N8cdvO//gC/l5FgEQ05lbx/tAgFdmF
+ uTj+coiN4CguhX/y3Pw+uohbxjc1/EbpkczyUdryUdryIW1D2IFi1Fm5mUp1xrrV2nRVXpb6
+ 2OoD2Zn1KPyT9pMz5bfQaNfmZsSxSBEt84eGVXKJMlebl9mMeBYrYmRfnggj2UFl3nFRk71P
+ k5MhaptRHEsUsbKtaeJ+OXdIeURMF8XDouZ/l2KjFutQ2cUV61y/uivcKYGeNbFJ3wf2vDLn
+ 7N7Y79uk/2kfKf4s9VP/tOO2+2uTvR2/1e9NNva5BjatNMlzEnVeotmSoPnE7LtZ2VDtOKna
+ GN3YyS76duj+0vjTE0l76Xmvb32TFv208HHfiV3zE1MHf79bNlWecuDHAd0Xk9/1b9uWtrb/
+ 0FEF0aqUCauwRqt8B4xzrPqPAwAA
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Tue, 14 Oct 2025 16:36:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,108 +138,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 14, 2025 at 02:43:58PM +0200, Maxime Ripard wrote:
-> On Fri, Oct 03, 2025 at 06:41:58PM +0300, Dmitry Baryshkov wrote:
-> > On 03/10/2025 17:23, Maxime Ripard wrote:
-> > > On Thu, Sep 25, 2025 at 05:55:06PM +0300, Dmitry Baryshkov wrote:
-> > > > > > As we will be getting more and more features, some of the InfoFrames
-> > > > > > or data packets will be 'good to have, but not required'.
-> > > > > 
-> > > > > And drivers would be free to ignore those.
-> > > > > 
-> > > > > > > So, no, sorry. That's still a no for me. Please stop sending that patch
-> > > > > > 
-> > > > > > Oops :-)
-> > > > > > 
-> > > > > > > unless we have a discussion about it and you convince me that it's
-> > > > > > > actually something that we'd need.
-> > > > > > 
-> > > > > > My main concern is that the drivers should not opt-out of the features.
-> > > > > > E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFrames
-> > > > > > (yes, stupid examples), it should not be required to go through all the
-> > > > > > drivers, making sure that they disable those. Instead the DRM framework
-> > > > > > should be able to make decisions like:
-> > > > > > 
-> > > > > > - The driver supports SPD and the VSDB defines SPD, enable this
-> > > > > >    InfoFrame (BTW, this needs to be done anyway, we should not be sending
-> > > > > >    SPD if it's not defined in VSDB, if I read it correctly).
-> > > > > > 
-> > > > > > - The driver hints that the pixel data has only 10 meaninful bits of
-> > > > > >    data per component (e.g. out of 12 for DeepColor 36), the Sink has
-> > > > > >    HF-VSDB, send HF-VSIF.
-> > > > > > 
-> > > > > > - The driver has enabled 3D stereo mode, but it doesn't declare support
-> > > > > >    for HF-VSIF. Send only H14b-VSIF.
-> > > > > > 
-> > > > > > Similarly (no, I don't have these on my TODO list, these are just
-> > > > > > examples):
-> > > > > > - The driver defines support for NTSC VBI, register a VBI device.
-> > > > > > 
-> > > > > > - The driver defines support for ISRC packets, register ISRC-related
-> > > > > >    properties.
-> > > > > > 
-> > > > > > - The driver defines support for MPEG Source InfoFrame, provide a way
-> > > > > >    for media players to report frame type and bit rate.
-> > > > > > 
-> > > > > > - The driver provides limited support for Extended HDR DM InfoFrames,
-> > > > > >    select the correct frame type according to driver capabilities.
-> > > > > > 
-> > > > > > Without the 'supported' information we should change atomic_check()
-> > > > > > functions to set infoframe->set to false for all unsupported InfoFrames
-> > > > > > _and_ go through all the drivers again each time we add support for a
-> > > > > > feature (e.g. after adding HF-VSIF support).
-> > > > > 
-> > > > >  From what you described here, I think we share a similar goal and have
-> > > > > somewhat similar concerns (thanks, btw, it wasn't obvious to me before),
-> > > > > we just disagree on the trade-offs and ideal solution :)
-> > > > > 
-> > > > > I agree that we need to sanity check the drivers, and I don't want to go
-> > > > > back to the situation we had before where drivers could just ignore
-> > > > > infoframes and take the easy way out.
-> > > > > 
-> > > > > It should be hard, and easy to catch during review.
-> > > > > 
-> > > > > I don't think bitflag are a solution because, to me, it kind of fails
-> > > > > both.
-> > > > > 
-> > > > > What if, just like the debugfs discussion, we split write_infoframe into
-> > > > > write_avi_infoframe (mandatory), write_spd_infoframe (optional),
-> > > > > write_audio_infoframe (checked by drm_connector_hdmi_audio_init?) and
-> > > > > write_hdr_infoframe (checked in drmm_connector_hdmi_init if max_bpc > 8)
-> > > > > 
-> > > > > How does that sound?
-> > > > 
-> > > > I'd say, I really like the single function to be called for writing the
-> > > > infoframes. It makes it much harder for drivers to misbehave or to skip
-> > > > something.
-> > > 
-> > >  From a driver PoV, I believe we should still have that single function
-> > > indeed. It would be drm_atomic_helper_connector_hdmi_update_infoframes's
-> > > job to fan out and call the multiple callbacks, not the drivers.
-> > 
-> > I like this idea, however it stops at the drm_bridge_connector abstraction.
-> > The only way to handle this I can foresee is to make individual bridges
-> > provide struct drm_connector_hdmi_funcs implementation (which I'm fine with)
-> > and store void *data or struct drm_bridge *hdmi_bridge somewhere inside
-> > struct drm_connector_hdmi in order to let bridge drivers find their data.
+On Tue, Oct 14, 2025 at 05:03:58PM +1100, NeilBrown wrote:
+> On Mon, 13 Oct 2025, Byungchul Park wrote:
+> > On Fri, Oct 03, 2025 at 04:55:14PM +1000, NeilBrown wrote:
+> > > On Thu, 02 Oct 2025, Byungchul Park wrote:
+> > > > This document describes the concept and APIs of dept.
+> > > >
+> > >
+> > > Thanks for the documentation.  I've been trying to understand it.
+> >
+> > You're welcome.  Feel free to ask me if you have any questions.
+> >
+> > > > +How DEPT works
+> > > > +--------------
+> > > > +
+> > > > +Let's take a look how DEPT works with the 1st example in the section
+> > > > +'Limitation of lockdep'.
+> > > > +
+> > > > +   context X    context Y       context Z
+> > > > +
+> > > > +                mutex_lock A
+> > > > +   folio_lock B
+> > > > +                folio_lock B <- DEADLOCK
+> > > > +                                mutex_lock A <- DEADLOCK
+> > > > +                                folio_unlock B
+> > > > +                folio_unlock B
+> > > > +                mutex_unlock A
+> > > > +                                mutex_unlock A
+> > > > +
+> > > > +Adding comments to describe DEPT's view in terms of wait and event:
+> > > > +
+> > > > +   context X    context Y       context Z
+> > > > +
+> > > > +                mutex_lock A
+> > > > +                /* wait for A */
+> > > > +   folio_lock B
+> > > > +   /* wait for A */
+> > > > +   /* start event A context */
+> > > > +
+> > > > +                folio_lock B
+> > > > +                /* wait for B */ <- DEADLOCK
+> > > > +                /* start event B context */
+> > > > +
+> > > > +                                mutex_lock A
+> > > > +                                /* wait for A */ <- DEADLOCK
+> > > > +                                /* start event A context */
+> > > > +
+> > > > +                                folio_unlock B
+> > > > +                                /* event B */
+> > > > +                folio_unlock B
+> > > > +                /* event B */
+> > > > +
+> > > > +                mutex_unlock A
+> > > > +                /* event A */
+> > > > +                                mutex_unlock A
+> > > > +                                /* event A */
+> > > > +
+> > >
+> > > I can't see the value of the above section.
+> > > The first section with no comments is useful as it is easy to see the
+> > > deadlock being investigate.  The section below is useful as it add
+> > > comments to explain how DEPT sees the situation.  But the above section,
+> > > with some but not all of the comments, does seem (to me) to add anything
+> > > useful.
+> >
+> > I just wanted to convert 'locking terms' to 'wait and event terms' by
+> > one step.  However, I can remove the section you pointed out that you
+> > thought was useless.
 > 
-> Does it change anything? The last HDMI bridge should implement all the
-> infoframes it supports. I don't think we should take care of one bridge
-> with one infoframe type and some other with another?
+> But it seems you did it in two steps???
+> 
+> If you think the middle section with some but not all of the comments
+> adds value (And maybe it does - maybe I just haven't seen it yet), the
+> please explain what value is being added at each step.
+> 
+> It is currently documented as:
+> 
+>  +Adding comments to describe DEPT's view in terms of wait and event:
+> 
+> then
+> 
+>  +Adding more supplementary comments to describe DEPT's view in detail:
+> 
+> Maybe if you said more DEPT's view so at this point so that when we see
+> the supplementary comments, we can understand how they relate to DEPT's
+> view.
 
-Note: I wrote about the _data_. So far the connector's write_infoframe /
-clear_infoframe callbacks get drm_connector as an arg. The fact that
-there is a drm_bridge which implements a callback is hidden well inside
-drm_bridge_connector (and only it knows the bridge_hdmi pointer).
-Otherwise, the bridge, trying to implement drm_connector_hdmi_funcs has
-no way to go from drm_connector to drm_bridge.
+As you pointed out, I'd better remove the middle part so as to simplify
+it.  It doesn't give much information I also think.
 
-The only possible solution would be to introduce something like
-drm_connector_hdmi::data (either void* or drm_bridge*) and use it
-internally. But for me this looks like a bit loose abstraction. Though,
-if it looks good from your POV, I agree, it would solve enough of
-issues.
+> > > > +
+> > > > +   context X    context Y       context Z
+> > > > +
+> > > > +                mutex_lock A
+> > > > +                /* might wait for A */
+> > > > +                /* start to take into account event A's context */
+> > >
+> > > What do you mean precisely by "context".
+> >
+> > That means one of task context, irq context, wq worker context (even
+> > though it can also be considered as task context), or something.
+> 
+> OK, that makes sense.  If you provide this definition for "context"
+> before you use the term, I think that will help the reader.
 
--- 
-With best wishes
-Dmitry
+Thank you.  I will add it.
+
+> > > If the examples that follow It seems that the "context" for event A
+> > > starts at "mutex lock A" when it (possibly) waits for a mutex and ends
+> > > at "mutex unlock A" - which are both in the same process.  Clearly
+> > > various other events that happen between these two points in the same
+> > > process could be seen as the "context" for event A.
+> > >
+> > > However event B starts in "context X" with "folio_lock B" and ends in
+> > > "context Z" or "context Y" with "folio_unlock B".  Is that right?
+> >
+> > Right.
+> >
+> > > My question then is: how do you decide which, of all the event in all
+> > > the processes in all the system, between the start[S] and the end[E] are
+> > > considered to be part of the "context" of event A.
+> >
+> > DEPT can identify the "context" of event A only *once* the event A is
+> > actually executed, and builds dependencies between the event and the
+> > recorded waits in the "context" of event A since [S].
+> 
+> So a dependency is an ordered set of pairs of "context" and "wait" or
+
+I don't get what you were trying to tell here.  FWIW, DEPT focuses on
+*event* contexts and, within each event context, it tracks pairs of
+waits that appears since [S] and the interesting event that identifies
+the event context.
+
+> "context" and "event".  "wait"s and "event"s are linked by some abstract
+> identifier for the event (like lockdep's lock classes).
+
+Yeah, kind of.
+
+> How are the contexts abstracted. Is it just "same" or "different"
+
+I don't get this.  Can you explain in more detail?
+
+	Byungchul
+
+> I'll try reading the document again and see how much further I get.
+> 
+> Thanks,
+> NeilBrown
