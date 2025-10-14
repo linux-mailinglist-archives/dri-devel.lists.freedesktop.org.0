@@ -2,97 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C74EBD7F08
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2872ABD7F2F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2EB10E568;
-	Tue, 14 Oct 2025 07:33:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OilukKMS";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52A8810E566;
+	Tue, 14 Oct 2025 07:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5747510E566
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760427235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G2f+TEVmNHcIZWSH2C31Ng9eliwbtMBD5xTQThZ/PZk=;
- b=OilukKMSu42pV46NBFqbnT70tAnBSPt39yYIoREjDrDjti0kgBDOh0yIV/nOnfvaMkI0Uh
- ajmf39v7pWsGLFvz51N1b/n0KAF1fHu23RMdqf6Y4/uN25JS5dU9AieDfJV9B7EwGtce8L
- Bhuwi0MSeep25QnW19JUqRvEGOeF3IQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-TWCPhmrtP06JAujUsh4MUw-1; Tue, 14 Oct 2025 03:33:54 -0400
-X-MC-Unique: TWCPhmrtP06JAujUsh4MUw-1
-X-Mimecast-MFC-AGG-ID: TWCPhmrtP06JAujUsh4MUw_1760427233
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-46e3ef2dd66so33271355e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 00:33:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760427233; x=1761032033;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G2f+TEVmNHcIZWSH2C31Ng9eliwbtMBD5xTQThZ/PZk=;
- b=o3a+oGqglIj7eqAIdFfr6496i32s9nMdg8EuChLbDZPvr9HQUUM2vpTAQY/YM2GTEs
- fnDk2c3zWlgvehXdkJHN3Z7lxsp8ezjNJFmRNkRAtNj2NOGqKvx/AQOLHViSUuT4QRsx
- /JrtI1n9Lh4x+5JFTLmeBlR3R2qjbSPQSgqp4KXHQb5F4kTo56jtRijlOrYBknIedjFN
- ymNrnBBFtweI6Mb+FelZqhpsZsfZDQSbT0dRIcjHqABo0vb1BM3Mf2ZZIVxqUu7avpYP
- 5XJlqnnJp/sWYf1RdciYDC+YWGdIZ45WvLRDBNBqAbm0PTBe79+Y8J9d4ge7MSmDvCSU
- 5q1A==
-X-Gm-Message-State: AOJu0YzYiXzAZj+Xjx+Mx2ZZ/eOMZrZgu/eQhh0AyXgdCIusOGlsP9gm
- mbnFmDjo4UEhgbaCiZobi4QPDJNiAL8mf+nzpFURuKzz1OSY5iQel2hyyfPaEV96l/rFFd6epfA
- JfuGnNfJ53KZxwam4NhmgG2UUzeBaEgOskxcoY05aYJ0R6GBciQxfTt5ic65b9rXe+HpdpQ==
-X-Gm-Gg: ASbGncslALkZOVPcLvZ49rLHg3s05TamoClE01bYzZ4f6Eu6rFTewq3nZiozaAcbQOI
- UzuPXEzmWg8qNugwKZRwr+SsJK3Sf7E2hHKFqxGqvlr8iLysMbDXSFwC+8fp4IyOlqcsiWuS8K4
- 5t4oyIJnxrCQnwmSqjwms+ScG1s1g1gIsByqT9z8hDIRy/IfcM1notl5roIMv8WKecCClqNBY3T
- 2+btuPxvRKVF0Zn11qNMd1zj4+3HhKXd/KDHMKRxCPykSaepOhtFbD/qwIcbhnHaqYTKnBdDLdv
- ke/nFjY8ADzyruC7y3sSdWPY5DUTBLyjYXQoNMrhQ8MUwVbvtDb2ZJHucvG5OC1KNSs0OXUmd+1
- iwUTU
-X-Received: by 2002:a05:600c:1277:b0:46c:adf8:cd82 with SMTP id
- 5b1f17b1804b1-46fa2952c02mr135681145e9.3.1760427232815; 
- Tue, 14 Oct 2025 00:33:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGBeNo7ZlnJvZO+4tdhdDmG+vIUKT7nCznXOA5q9opUrokbPvd9TwG1AFWjfUcvv1KmWXVDOA==
-X-Received: by 2002:a05:600c:1277:b0:46c:adf8:cd82 with SMTP id
- 5b1f17b1804b1-46fa2952c02mr135680875e9.3.1760427232370; 
- Tue, 14 Oct 2025 00:33:52 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb489ac60sm230694605e9.16.2025.10.14.00.33.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Oct 2025 00:33:51 -0700 (PDT)
-Message-ID: <335fdb74-6d43-41e0-9774-eb57f425313d@redhat.com>
-Date: Tue, 14 Oct 2025 09:33:48 +0200
+Received: from unicom145.biz-email.net (unicom145.biz-email.net
+ [210.51.26.145])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80AF610E566
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:35:22 +0000 (UTC)
+Received: from Jtjnmail201613.home.langchao.com
+ by unicom145.biz-email.net ((D)) with ASMTP (SSL) id 202510141535171565;
+ Tue, 14 Oct 2025 15:35:17 +0800
+Received: from jtjnmailAR02.home.langchao.com (10.100.2.43) by
+ Jtjnmail201613.home.langchao.com (10.100.2.13) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Tue, 14 Oct 2025 15:35:16 +0800
+Received: from inspur.com (10.100.2.96) by jtjnmailAR02.home.langchao.com
+ (10.100.2.43) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Tue, 14 Oct 2025 15:35:16 +0800
+Received: from localhost.localdomain.com (unknown [10.94.17.151])
+ by app1 (Coremail) with SMTP id YAJkCsDwEnYz_e1o7SIXAA--.535S4;
+ Tue, 14 Oct 2025 15:35:15 +0800 (CST)
+From: Chu Guangqing <chuguangqing@inspur.com>
+To: <jani.nikula@linux.intel.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>
+CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>, Chu
+ Guangqing <chuguangqing@inspur.com>
+Subject: Re: Re: Re: [PATCH v8 1/1] [DRIVER] gpu: drm: add support for YHGCH
+ ZX1000 soc chipset
+Date: Tue, 14 Oct 2025 15:34:46 +0800
+Message-ID: <20251014073446.4549-1-chuguangqing@inspur.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <9ab159073b644c83541e4782c30ae9900b0f27d4@intel.com>
+References: <9ab159073b644c83541e4782c30ae9900b0f27d4@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/client: Remove holds_console_lock parameter from
- suspend/resume
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- christian.koenig@amd.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tursulin@ursulin.net, lyude@redhat.com, dakr@kernel.org,
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-References: <20251001143709.419736-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251001143709.419736-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: _GhNw-89BJcSa0sHQN4TwiqL7F8GMZ-7HXsDbNszh1o_1760427233
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: YAJkCsDwEnYz_e1o7SIXAA--.535S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF1rWF1UZr4fXrWfCw1Utrb_yoW8KryDpF
+ yUCFWxCrW8tw45Cwn0v3WjvFnIy39xKF10qw4UWw1UGr1qvr9rZF4kJr1UWFy8CrWDJF4j
+ v3WDXF43AF1Yk3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
+ 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r1q
+ 6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZYFZUUU
+ UU=
+X-CM-SenderInfo: 5fkxw35dqj1xlqj6x0hvsx2hhfrp/
+X-CM-DELIVERINFO: =?B?fCDn3JRRTeOiUs3aOqHZ50hzsfHKF9Ds6CbXmDm38RucXu3DYXJR7Zlh9zE0nt/Iac
+ D+KQyQoFzKlaM2ttcAX/HZpVo84+3O2tb1DiGSsiU9dN6FRurHi71v1tBU8sQDLmd7rOm4
+ S3A6ft5o25+AJuRXN3s=
+Content-Type: text/plain
+tUid: 202510141535175dddae4cc9251d1e69d8051945ee1311
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,17 +83,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/10/2025 16:37, Thomas Zimmermann wrote:
-> No caller of the client resume/suspend helpers holds the console
-> lock. The last such cases were removed from radeon in the patch
-> series at [1]. Now remove the related parameter and the TODO items.
-> 
-> v2:
-> - update placeholders for CONFIG_DRM_CLIENT=n
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://patchwork.freedesktop.org/series/151624/ # [1]
+Hi Jani,
 
-For drm_log:
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> On Sat, 11 Oct 2025, Chu Guangqing <chuguangqing@inspur.com> wrote:
+>> Hi Jani,
+>>
+>>On Mon, 29 Sep 2025, Chu Guangqing <chuguangqing@inspur.com> wrote:
+>>>> diff --git a/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
+>>>> new file mode 100644
+>>>> index 000000000000..2e222af29f69
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
+>>>> @@ -0,0 +1,134 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +
+>>>> +#include <linux/io.h>
+>>>> +
+>>>> +#include <drm/drm_atomic_helper.h>
+>>>> +#include <drm/drm_edid.h>
+>>>> +#include <drm/drm_probe_helper.h>
+>>>> +#include <drm/drm_print.h>
+>>>> +#include <drm/drm_simple_kms_helper.h>
+>>>> +
+>>>> +#include "yhgch_drm_drv.h"
+>>>> +#include "yhgch_drm_regs.h"
+>>>> +
+>>>> +static int yhgch_connector_get_modes(struct drm_connector *connector)
+>>>> +{
+>>>> +	int count;
+>>>> +	const struct drm_edid *drm_edid;
+>>>> +
+>>>> +	drm_edid = drm_edid_read(connector);
+>>>> +	if (drm_edid) {
+>>>> +		drm_edid_connector_update(connector, drm_edid);
+>>>
+>>>You're supposed to do drm_edid_connector_update() even for NULL edid to
+>>>reset it.
+>>>
+>>>BR,
+>>>Jani.
+>>>
+>>
+>> I add an else here to make the call.
+>
+>Please follow the same/similar pattern as pretty much everyone else is
+>doing:
+>
+>	drm_edid = drm_edid_read(connector);
+>	drm_edid_connector_update(connector, drm_edid);
+>
+>	if (drm_edid) {
+>		count = drm_edid_connector_add_modes(connector);
+>		drm_edid_free(drm_edid);
+>	}
+>
+>BR,
+>Jani.
+>
+
+The changes have been made; please refer to the link below.
+https://lore.kernel.org/all/20251014072421.4486-1-chuguangqing@inspur.com/
+
+>>
+>>>> +		count =  drm_edid_connector_add_modes(connector);
+>>>> +		if (count)
+>>>> +			goto out;
+>>>> +	}
+>>
+>> -       }
+>> +       } else
+>> +               drm_edid_connector_update(connector, NULL);
+>>
+>>>> +
+>>>> +	count = drm_add_modes_noedid(connector,
+>>>> +				     connector->dev->mode_config.max_width,
+>>>> +				     connector->dev->mode_config.max_height);
+>>>> +	drm_set_preferred_mode(connector, 1024, 768);
+>>>> +
+>>>> +out:
+>>>> +	drm_edid_free(drm_edid);
+>>>> +	return count;
+>>>> +}
+>>>
+>>>--
+>>>Jani Nikula, Intel
+>>>
+>>
+>> Best regards
+>>
+>> Gary
+>>
+>
+>--
+>Jani Nikula, Intel
+
+Best regards
+
+Chu Guangqing
 
