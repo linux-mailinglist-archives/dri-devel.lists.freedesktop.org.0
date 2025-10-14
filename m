@@ -2,77 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DAABD8132
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 10:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C002BD81DD
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 10:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F06D10E575;
-	Tue, 14 Oct 2025 08:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD80410E171;
+	Tue, 14 Oct 2025 08:13:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="G1DCyej+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jMtRdwIb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8C310E574;
- Tue, 14 Oct 2025 08:04:50 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id CDCC44E41084;
- Tue, 14 Oct 2025 08:04:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 9C0F6606EC;
- Tue, 14 Oct 2025 08:04:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 9C10B102F2259; 
- Tue, 14 Oct 2025 10:04:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760429086; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=GIIeOiA+EHLhetZL9C/NMdu7ddLETfZ/iyx450VmB+o=;
- b=G1DCyej+ZJvGk7EonfwQ/mncRsM+vJF2B0qZhJE7q9oiqodxvAjw7euPlQHu/geuj3TsCg
- AMJgs8a2n9HowcnEwcMtgYb802u5QwzJVq9bEOHWtc8ymnzQD46qUUeMyfqfpjNDcfzhJr
- N+p57CfH2WVTJIRvEHXgdfLN4PYQP4CXAJwTHifUQ+xdoqAvR9tY287YqZScg26NO6Jli0
- Hb+JtXsaSSY0fytpzjUy6eu5IoIJWJi5XmlOo8lVXzhey9GKUZL4fUvFqt8wWeBsLcmjRX
- KhxJLN1c4A5GHupxl8RsEatQfzPgL5pSOiPhM0AVuXLpVw53tINDJLfI20vwnw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 14 Oct 2025 10:04:23 +0200
-Message-Id: <DDHW0RB42KJW.3T5APFG3ORAOO@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Maxime Ripard" <mripard@kernel.org>
-Cc: "Harry Wentland" <harry.wentland@amd.com>, "Leo Li"
- <sunpeng.li@amd.com>, "Rodrigo Siqueira" <siqueira@igalia.com>, "Alex
- Deucher" <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Liviu Dudau" <liviu.dudau@arm.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Paul
- Cercueil" <paul@crapouillou.net>, "Rob Clark"
- <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica Zhang"
- <jessica.zhang@oss.qualcomm.com>, "Sean Paul" <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Thierry Reding"
- <thierry.reding@gmail.com>, "Mikko Perttunen" <mperttunen@nvidia.com>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Dave Stevenson"
- <dave.stevenson@raspberrypi.com>, =?utf-8?q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, "Raspberry Pi Kernel Maintenance"
- <kernel-list@raspberrypi.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-mips@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 1/2] drm/atomic: pass drm_device pointer to
- drm_atomic_private_obj_fini()
-X-Mailer: aerc 0.20.1
-References: <20251013-drm-bridge-atomic-vs-remove-private_obj-v1-0-1fc2e58102e0@bootlin.com>
- <20251013-drm-bridge-atomic-vs-remove-private_obj-v1-1-1fc2e58102e0@bootlin.com>
- <lunecs4wjujws7rczn4lmrjhbqfljbwzwrrw4yst5v2xgh3dip@hwz5kt5fzkw5>
-In-Reply-To: <lunecs4wjujws7rczn4lmrjhbqfljbwzwrrw4yst5v2xgh3dip@hwz5kt5fzkw5>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2613510E171
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:13:20 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-46e2e6a708fso30079355e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 01:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1760429599; x=1761034399; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=77ONa64qN0g6cheWy5Vrvof/4mmnbDRUL6LLOyJY7B4=;
+ b=jMtRdwIbFY8tNsn6Fy0DnJCiWPWlRk7Tlw6CwCxHNq91MWxqmF5t9s/hpZmmyz59dw
+ D6cn8soEMqnltM/AhkuOn8H47yTi9nbH8Zkb4Nr/AGpgOy3AkzzBpV4oAxI3t/ySOcru
+ 3SYlq567DFH3qtZJawfZbNG2+NkEIAnt4nC8gLuutyj3k4gwqg1dht+2ldukuBeMjZ6L
+ wsFmizX0qBgQmvTZCUfcK9DgFZkGFDKW2e8+6RUOzVHhR7uhqW+R1fUKMd27iGXuw+NE
+ WAMlXIshZci/LekOnU/V5uPm8KGrC/yQpNBOPEO0m5UnGS1qJ0rPlUjij1sF68rWSm6v
+ gZvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760429599; x=1761034399;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=77ONa64qN0g6cheWy5Vrvof/4mmnbDRUL6LLOyJY7B4=;
+ b=ebos8xE6+P6epd0vs+BRJkB58waEeP43hdSEzj/DFvftBxFjszxp2BVH7T26Z4JESB
+ Zd6xeIeqT3xOUHkqRoRtwPEAJm7eKZx1SGsnXCvOCsZSbqVyh2J/6THCnbfoCjlsyMsb
+ 9970WcXNfWNElUFNleSP8nR1yxeO/5EZcoL+2GPVUGpt8eCaJxuabyRrMtWrEsdEbXI0
+ STIcJeyC48jBYWjAY7yjoT0AC+/5HBN1g8IdLDOHi7hkQjL6Kf/IrEOF2SmDzdAHIp1m
+ yte6QS8SOeyO9uz9kx8idsCI7tgv5P6fmTG/MGUdQni1sV5/4H+3wW2dU92gtPjY5zOx
+ x+og==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyzQtNkyWFw6Pm2mJZzb/YP6fcKu1Q5AIWtVBYt8bTe5EsjfrOi3Be21I/Oi3MbaX+8aUZj/6xDLw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywSBsPMoMsJkilppgb8zjCPT67gpBQyq1s3cYS0hLAMmzP/jzl
+ U581c/WhbMlOXu+4SAdFdVQNZjUoUl9It85CoAej8bYWRKpxptHVurGu0Mp5njyVag0=
+X-Gm-Gg: ASbGncvrzL2I1LhWOGiCI00TwqRjmQZ5mkC8bSN7b/+ql2YwHvSDdLNJuGELjFT/Yhk
+ W1LMpFJOMpF80U9w722yRXWM0JyPh7Ad3QG4PtmWbX2qlo63c/KcmMpHgyVvx6mzcxmm1VdvfpG
+ it2PwmeY96BU/tsJGZLynTOZo4iHwkd1pnlot3tnQKHUjq7XlGmz4KlaxSnjcyJAo1xBmwRfoCC
+ BH2G8BjQaLyVrfZv8sJVf4ug9MhWyZgReQhBZAF2wz6GFIpGULKFvihXqaIsQ+vNyx8dTeuuV4B
+ ajV5KkNFCDfYOhwKjAsJhkFYogjFWBipOou0G/HqdCIqpC10XRwFOle5gxehPpcXHaqp/zTnRIn
+ 22a1Tau+3WR24URncixHDueBRoSF/j9yiZjKn7oCDQJFB6mRa9wr6hOhbDjlJ7Q==
+X-Google-Smtp-Source: AGHT+IFbab0I6IbunJxw9DMnNGmlNTMAcT5O1ylJxmLdoG5nQ5JswxZUKVkCCcAgGghuYeWd5vIj3w==
+X-Received: by 2002:a05:600c:46d1:b0:46e:45fd:946e with SMTP id
+ 5b1f17b1804b1-46fa9b078e2mr170662745e9.31.1760429599330; 
+ Tue, 14 Oct 2025 01:13:19 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-46fb49c3eeasm225967545e9.14.2025.10.14.01.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Oct 2025 01:13:18 -0700 (PDT)
+Date: Tue, 14 Oct 2025 11:13:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: Andy Yan <andy.yan@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/bridge: synopsys: Fix an error return in
+ dw_dp_video_need_vsc_sdp()
+Message-ID: <aO4GGyJLCZEwFYL4@stanley.mountain>
+References: <aLaPyJrFsSFuqC1R@stanley.mountain>
+ <5f9e8942.7fec.1990997b4de.Coremail.andyshrk@163.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f9e8942.7fec.1990997b4de.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,32 +100,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Tue, Sep 02, 2025 at 04:42:41PM +0800, Andy Yan wrote:
+> 
+> Hello Dan,
+> 
+> At 2025-09-02 14:33:44, "Dan Carpenter" <dan.carpenter@linaro.org> wrote:
+> >This dw_dp_video_need_vsc_sdp() function is type bool so returning
+> >-EINVAL means returning true.  Return false instead.
+> >
+> >Fixes: 86eecc3a9c2e ("drm/bridge: synopsys: Add DW DPTX Controller support library")
+> >Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> 
+> Reviewed-by: Andy Yan <andyshrk@163.com>
+> 
 
-On Tue Oct 14, 2025 at 9:44 AM CEST, Maxime Ripard wrote:
->> --- a/include/drm/drm_atomic.h
->> +++ b/include/drm/drm_atomic.h
->> @@ -672,7 +672,8 @@ void drm_atomic_private_obj_init(struct drm_device *=
-dev,
->>  				 struct drm_private_obj *obj,
->>  				 struct drm_private_state *state,
->>  				 const struct drm_private_state_funcs *funcs);
->> -void drm_atomic_private_obj_fini(struct drm_private_obj *obj);
->> +void drm_atomic_private_obj_fini(struct drm_device *dev,
->> +				 struct drm_private_obj *obj);
->
-> It's redundant with
->
-> https://lore.kernel.org/dri-devel/20251008-drm-private-obj-reset-v1-1-805=
-ab43ae65a@kernel.org/
+Ping?
 
-What a timing! Thanks for the pointer, I hadn't noticed that series. It
-looks useful for my work, I'm definitely reviewing and testing it very
-soon.
+regards,
+dan carpenter
 
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> 
+> >---
+> > drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> >diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> >index 9bbfe8da3de0..33be4eae2b20 100644
+> >--- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> >+++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+> >@@ -1149,7 +1149,7 @@ static bool dw_dp_video_need_vsc_sdp(struct dw_dp *dp)
+> > 
+> > 	state = dw_dp_get_bridge_state(dp);
+> > 	if (!state)
+> >-		return -EINVAL;
+> >+		return false;
+> > 
+> > 	if (!link->vsc_sdp_supported)
+> > 		return false;
+> >-- 
+> >2.47.2
