@@ -2,58 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C74BD8A55
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 12:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FEFBD92B6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:00:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DEA10E5A4;
-	Tue, 14 Oct 2025 10:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C4910E5C4;
+	Tue, 14 Oct 2025 12:00:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LFMcu1Tq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tQID+6ZS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374BB10E1F7;
- Tue, 14 Oct 2025 10:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=t1Uc1z0liRPGu1KVSRthVjwb4/TTpIzyWHFfQytpwXo=; b=LFMcu1TqSTQ5tsHRF71MVyvSnk
- sNZGxxW0n/O4tNR/ACwgk9+1RPhCrWZLEaVU0gc9ju7+iPqDKgQeI6WKx9w+C18E8sUpZsUQoVQGP
- Uvfcx8tSuI3tM0gvdy6lkTSU9CTBhAcTo80DobrB9lGYEONYSwFss/K9+UxPhJjCunEFQzBiS2kxG
- ptsy8FI9B/fXq46JoWpQoLG/84Du7L7wBXXpBcSuPj+Ol5JGwqMvonOo3NCxM6RL+5YaAviocP+bN
- CnnDK3iQEw35qzEnxZVAS/HuJN1YjuX7PLuVYAzv8fnmgL+F5xAaJm2ej7KWejVX5lQNUXG7Ada6j
- oQa2icWA==;
-Received: from [90.242.12.242] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1v8btF-009LiU-3B; Tue, 14 Oct 2025 12:04:21 +0200
-Message-ID: <4c78fab2-ecf2-45fe-81a5-1ae4e0717d38@igalia.com>
-Date: Tue, 14 Oct 2025 11:04:20 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A239D10E5C4;
+ Tue, 14 Oct 2025 12:00:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 1C50C61E4A;
+ Tue, 14 Oct 2025 12:00:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40740C4AF09;
+ Tue, 14 Oct 2025 12:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760443213;
+ bh=5iz0ou1+ASol84VTatvtY3jJi59Y+CsQjq0q+Affpks=;
+ h=From:Subject:Date:To:Cc:From;
+ b=tQID+6ZSv4o5ypmvlhPLFxtSJjMLTUxsXr9ncY/wEA9MMnA1Pqb1g3kuKLc5+fxbH
+ NmWGtNGK5GgCOHswHA1GRxLuzlznSyQmXUOLCkQsB+BOkvT8XLPbvdITXxL0n6SHaK
+ vX6LCtZXC4wh5EXjm4KmTTxAfblhcTGBgPODtjOog1X1f67A4YluXao9kCdg1Azr9E
+ CFEtmuJgkn6g1XbdwqW3FACLTbGiTpF1w+EQHV5njwuhHdIQbuMsXdIlgll13HVg+x
+ CpJJvbGP3vhfAno0juCIyyqB6aDauCRu+TSwvVlw631OAkRRne8N2/X14AL8MnQ5j4
+ +877oxOao0nRg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2 00/16] drm/atomic: Allocate drm_private_state through a
+ callback
+Date: Tue, 14 Oct 2025 11:31:44 +0200
+Message-Id: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/28] drm/sched: Consolidate entity run queue management
-To: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-6-tvrtko.ursulin@igalia.com>
- <762e3469df06787205af88e068d72f60dfaebda4.camel@mailbox.org>
- <fcec969c-5e25-4b81-891d-843ad569d04b@igalia.com>
- <50244c8f2c2dd4488288dabfbda6641389bd07aa.camel@mailbox.org>
- <cf661524-9207-4c52-a056-683b7f1a0ea6@igalia.com>
- <9177786c039cafc5b26bc5b076b98d82b068fb54.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <9177786c039cafc5b26bc5b076b98d82b068fb54.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNTQ6CMBBGr0Jm7Zi2ghBX3sOwGGSE8aclU9JoC
+ He3cgGX7yXf+xaIrMIRTsUCykmiBJ/B7Qq4juQHRukzgzOussY02OsLJ5VEM2Po7qgceUZiy64
+ urXE1Qd5Oyjd5b91Lm3mUOAf9bDfJ/uy/YrJosDEVdeWB+FjR+cHq+bkPOkC7rusXQU5wM7sAA
+ AA=
+X-Change-ID: 20251008-drm-private-obj-reset-ae1e2741027a
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ amd-gfx@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>, 
+ Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ kernel-list@raspberrypi.com
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3537; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=5iz0ou1+ASol84VTatvtY3jJi59Y+CsQjq0q+Affpks=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnvrC0fZTrft2CdttlkwucWjiln3TU5dk3LYmtUZttV5
+ L3ac/3JjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCR8PmM9ZmV/2d5F94qvDbl
+ dfOHVr0LBXabs2U3vbmUyHK4dj1jz8oVL+V/fUji3/TsHx9zclRDDWOtRK28jvjyQz/t19lOijq
+ sv3CzUPWGgplMrUZJ3zR29Hcf+N883VSE+5n0pv2+/bw3A3YCAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,392 +96,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 14/10/2025 09:52, Philipp Stanner wrote:
-> On Tue, 2025-10-14 at 08:26 +0100, Tvrtko Ursulin wrote:
->>
->> On 14/10/2025 07:53, Philipp Stanner wrote:
->>> On Sat, 2025-10-11 at 15:19 +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 10/10/2025 11:49, Philipp Stanner wrote:
->>>>> On Wed, 2025-10-08 at 09:53 +0100, Tvrtko Ursulin wrote:
->>>>>> Move the code dealing with entities entering and exiting run queues to
->>>>>> helpers to logically separate it from jobs entering and exiting entities.
->>>>>>
->>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>>>> ---
->>>>>>     drivers/gpu/drm/scheduler/sched_entity.c   | 64 ++-------------
->>>>>>     drivers/gpu/drm/scheduler/sched_internal.h |  8 +-
->>>>>>     drivers/gpu/drm/scheduler/sched_main.c     | 95 +++++++++++++++++++---
->>>>>>     3 files changed, 91 insertions(+), 76 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> index 4852006f2308..7a0a52ba87bf 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> @@ -456,24 +456,9 @@ drm_sched_job_dependency(struct drm_sched_job *job,
->>>>>>     	return NULL;
->>>>>>     }
->>>>>>     
->>>>>> -static ktime_t
->>>>>> -drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_entity *entity)
->>>>>> -{
->>>>>> -	ktime_t ts;
->>>>>> -
->>>>>> -	lockdep_assert_held(&entity->lock);
->>>>>> -	lockdep_assert_held(&rq->lock);
->>>>>> -
->>>>>> -	ts = ktime_add_ns(rq->rr_ts, 1);
->>>>>> -	entity->rr_ts = ts;
->>>>>> -	rq->rr_ts = ts;
->>>>>> -
->>>>>> -	return ts;
->>>>>> -}
->>>>>> -
->>>>>>     struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>>>>>     {
->>>>>> -	struct drm_sched_job *sched_job, *next_job;
->>>>>> +	struct drm_sched_job *sched_job;
->>>>>
->>>>> `next_job` has been added in a previous job. Have you tried whether
->>>>> patch-order can be reversed?
->>>>>
->>>>> Just asking; I don't want to cause unnecessary work here
->>>>
->>>> You are correct that there would be some knock on effect on a few other
->>>> patches in the series but it is definitely doable. Because for certain
->>>> argument can be made it would be logical to have it like that. Both this
->>>> patch and "drm/sched: Move run queue related code into a separate file"
->>>> would be then moved ahead of "drm/sched: Implement RR via FIFO". If you
->>>> prefer it like that I can reshuffle no problem.
->>>
->>> I mean, it seems to make the overall git diff smaller, which is nice?
->>>
->>> If you don't see a significant reason against it, I'd say it's a good
->>> idea.
->>
->> Okay deal. It isn't anything significant, just re-ordering patches with
->> compile testing patches to ensure every step still builds.
+This series started from my work on the hardware state readout[1], and
+was suggested by Dmitry[2].
 
-Completed locally.
+This series deal with the fact that drm_private_obj (and thus bridges)
+are not initialized using the same pattern than any other object. This
+series solves that inconsistency by aligning it to what we're doing for
+all the other objects.
 
->>>>>>     
->>>>>>     	sched_job = drm_sched_entity_queue_peek(entity);
->>>>>>     	if (!sched_job)
->>>>>> @@ -502,26 +487,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>>>>>     
->>>>>>     	spsc_queue_pop(&entity->job_queue);
->>>>>>     
->>>>>> -	/*
->>>>>> -	 * Update the entity's location in the min heap according to
->>>>>> -	 * the timestamp of the next job, if any.
->>>>>> -	 */
->>>>>> -	next_job = drm_sched_entity_queue_peek(entity);
->>>>>> -	if (next_job) {
->>>>>> -		struct drm_sched_rq *rq;
->>>>>> -		ktime_t ts;
->>>>>> -
->>>>>> -		spin_lock(&entity->lock);
->>>>>> -		rq = entity->rq;
->>>>>> -		spin_lock(&rq->lock);
->>>>>> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->>>>>> -			ts = next_job->submit_ts;
->>>>>> -		else
->>>>>> -			ts = drm_sched_rq_get_rr_ts(rq, entity);
->>>>>> -		drm_sched_rq_update_fifo_locked(entity, rq, ts);
->>>>>> -		spin_unlock(&rq->lock);
->>>>>> -		spin_unlock(&entity->lock);
->>>>>> -	}
->>>>>> +	drm_sched_rq_pop_entity(entity);
->>>>>>     
->>>>>>     	/* Jobs and entities might have different lifecycles. Since we're
->>>>>>     	 * removing the job from the entities queue, set the jobs entity pointer
->>>>>> @@ -611,30 +577,10 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>>>>>     	/* first job wakes up scheduler */
->>>>>>     	if (first) {
->>>>>>     		struct drm_gpu_scheduler *sched;
->>>>>> -		struct drm_sched_rq *rq;
->>>>>>     
->>>>>> -		/* Add the entity to the run queue */
->>>>>> -		spin_lock(&entity->lock);
->>>>>> -		if (entity->stopped) {
->>>>>> -			spin_unlock(&entity->lock);
->>>>>> -
->>>>>> -			DRM_ERROR("Trying to push to a killed entity\n");
->>>>>> -			return;
->>>>>> -		}
->>>>>> -
->>>>>> -		rq = entity->rq;
->>>>>> -		sched = rq->sched;
->>>>>> -
->>>>>> -		spin_lock(&rq->lock);
->>>>>> -		drm_sched_rq_add_entity(rq, entity);
->>>>>> -		if (drm_sched_policy == DRM_SCHED_POLICY_RR)
->>>>>> -			submit_ts = entity->rr_ts;
->>>>>> -		drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
->>>>>> -
->>>>>> -		spin_unlock(&rq->lock);
->>>>>> -		spin_unlock(&entity->lock);
->>>>>> -
->>>>>> -		drm_sched_wakeup(sched);
->>>>>> +		sched = drm_sched_rq_add_entity(entity, submit_ts);
->>>>>> +		if (sched)
->>>>>> +			drm_sched_wakeup(sched);
->>>>>>     	}
->>>>>>     }
->>>>>>     EXPORT_SYMBOL(drm_sched_entity_push_job);
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
->>>>>> index 7ea5a6736f98..8269c5392a82 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_internal.h
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
->>>>>> @@ -12,13 +12,11 @@ extern int drm_sched_policy;
->>>>>>     
->>>>>>     void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
->>>>>>     
->>>>>> -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
->>>>>> -			     struct drm_sched_entity *entity);
->>>>>> +struct drm_gpu_scheduler *
->>>>>> +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts);
->>>>>>     void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
->>>>>>     				struct drm_sched_entity *entity);
->>>>>> -
->>>>>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>>>>> -				     struct drm_sched_rq *rq, ktime_t ts);
->>>>>> +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity);
->>>>>>     
->>>>>>     void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
->>>>>>     struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity);
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> index 8e62541b439a..e5d02c28665c 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> @@ -151,9 +151,9 @@ static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
->>>>>>     	}
->>>>>>     }
->>>>>>     
->>>>>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>>>>> -				     struct drm_sched_rq *rq,
->>>>>> -				     ktime_t ts)
->>>>>> +static void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>>>>> +					    struct drm_sched_rq *rq,
->>>>>> +					    ktime_t ts)
->>>>>>     {
->>>>>>     	/*
->>>>>>     	 * Both locks need to be grabbed, one to protect from entity->rq change
->>>>>> @@ -191,22 +191,45 @@ static void drm_sched_rq_init(struct drm_sched_rq *rq,
->>>>>>     /**
->>>>>>      * drm_sched_rq_add_entity - add an entity
->>>>>>      *
->>>>>> - * @rq: scheduler run queue
->>>>>>      * @entity: scheduler entity
->>>>>> + * @ts: submission timestamp
->>>>>>      *
->>>>>>      * Adds a scheduler entity to the run queue.
->>>>>> + *
->>>>>> + * Returns a DRM scheduler pre-selected to handle this entity.
->>>>>>      */
->>>>>> -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
->>>>>> -			     struct drm_sched_entity *entity)
->>>>>> +struct drm_gpu_scheduler *
->>>>>> +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts)
->>>>>>     {
->>>>>
->>>>> I'm not sure if it's a good idea to have the scheduler returned from
->>>>> that function. That doesn't make a whole lot of sense semantically.
->>>>>
->>>>> At the very least the function's docstring, maybe even its name, should
->>>>> be adjusted to detail why this makes sense. The commit message, too.
->>>>> It's not trivially understood.
->>>>>
->>>>> I think I get why it's being done, but writing it down black on white
->>>>> gives us something to grasp.
->>>>>
->>>>> Sth like "adds an entity to a runqueue, selects to appropriate
->>>>> scheduler and returns it for the purpose of XYZ"
->>>>
->>>> Yeah. Remeber your unlocked rq access slide and the discussion around it?
->>>
->>> Sure. Is that related, though? The slide was about many readers being
->>> totally unlocked. The current drm_sched_entity_push_job() locks readers
->>> correctly if I'm not mistaken.
->>>
->>>>
->>>> Currently we have this:
->>>>
->>>> drm_sched_entity_push_job()
->>>> {
->>>> ...
->>>> 		spin_lock(&entity->lock);
->>>> ...
->>>> 		rq = entity->rq;
->>>> 		sched = rq->sched;
->>>> ...
->>>> 		spin_unlock(&rq->lock);
->>>> 		spin_unlock(&entity->lock);
->>>>
->>>> 		drm_sched_wakeup(sched);
->>>>
->>>> Ie. we know entity->rq and rq->sched are guaranteed to be stable and
->>>> present at this point because job is already in the queue and
->>>> drm_sched_entity_select_rq() guarantees that.
->>>>
->>>> In this patch I moved all this block into drm_sched_rq_add_entity() but
->>>> I wanted to leave drm_sched_wakeup() outside. Because I thought it is
->>>> not the job of the run queue handling, and semantically the logic was
->>>> "only once added to the entity we know the rq and scheduler for
->>>> certain". That would open the door for future improvements and late
->>>> rq/scheduler selection.
->>>>
->>>> But now I think it is premature and it would be better I simply move the
->>>> wakekup inside drm_sched_rq_add_entity() together with all the rest.
->>>>
->>>> Does that sound like a plan for now?
->>>
->>> Hmmm. What I'm wondering most about if it really is a good idea to have
->>> drm_sched_wakeup() in rq_add_entity().
->>>
->>> Do you think that makes semantically more sense than just reading:
->>>
->>> drm_sched_entity_push_job()
->>> {
->>>      foo
->>>      bar
->>>      more_foo
->>>
->>>      /* New job was added. Right time to wake up scheduler. */
->>>      drm_sched_wakeup();
->>
->> Problem here always is you need a sched pointer so question is simply
->> how and where to get it.
->>
->>> I think both can make sense, but the above / current version seems to
->>> make more sense to me.
->>
->> Current as in this patch or current as in the upstream codebase?
->>
->> In all cases the knowledge it is safe to use sched after unlocking is
->> implicit.
->>
->> I see only two options:
->>
->> current)
->>
->> drm_sched_entity_push_job()
->> {
->> ...
->> 	spin_unlock(&rq->lock);
->> 	spin_unlock(&entity->lock);
->>
->> 	drm_sched_wakeup(sched);
->>
->> a)
->>
->> drm_sched_entity_push_job()
->> {
->> ...
->> 	sched = drm_sched_rq_add_entity(entity, submit_ts);
->> 	if (sched)
->> 		drm_sched_wakeup(sched);
->>
->> b)
->>
->> drm_sched_rq_add_entity()
->> {
->> ...
->> 	spin_unlock(&rq->lock);
->> 	spin_unlock(&entity->lock);
->>
->> 	drm_sched_wakeup(sched);
->>
->>
->> drm_sched_entity_push_job()
->> {
->> ...
->> 	drm_sched_rq_add_entity(entity, submit_ts);
->>
->>
->> b) is the same as today, a) perhaps a bit premature. Which do you prefer?
-> 
-> Alright, I looked through everything now.
-> 
-> The thing is just that I believe that it's a semantically confusing and
-> unclean concept of having drm_sched_rq_add_entity() return a scheduler
-> – except for when the entity is stopped. Then "there is no scheduler"
-> actually means "there is a scheduler, but that entity is stopped"
-> 
-> In an ideal world:
-> 
-> a) drm_sched_entity_push_job() wakes up the scheduler (as in your code,
-> and as in the current mainline code) and
-> 
-> b) drm_sched_entity_push_job() is the one who checks whether the entity
-> is stopped. rq_add_entity() should just, well, add an entity to a
-> runqueue.
-> 
-> Option b) then would need locks again and could race. So that's not so
-> cool.
-> 
-> Possible solutions I can see is:
-> 
-> 1. Have drm_sched_rq_add_entity() return an ERR_PTR instead of NULL.
+This was tested on a TI SK-AM62, with three bridges.
 
-Maybe I am misunderstanding the idea, but what would be the benefit of 
-this option?
+Let me know what you think,
+Maxime
 
-To clarify, I have:
+1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
+2: https://lore.kernel.org/dri-devel/zvqtehg66dbrrdmik6ylo2kdk74umfzo5hbfkizwsb352nlyqv@jgouvmbfwa4x/
 
-drm_sched_rq_add_entity()
-{
-...
-	if (entity->stopped) {
-...
-		return NULL;
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Switch to a new hook instead of reset since some drm_private_objs want
+  to persist across suspends
+- Drop the call to drm_private_obj_funcs.reset in
+  drm_mode_config_reset()
+- Link to v1: https://lore.kernel.org/r/20251008-drm-private-obj-reset-v1-0-805ab43ae65a@kernel.org
 
-drm_sched_entity_push_job()
-{
-...
-		sched = drm_sched_rq_add_entity(entity);
-		if (sched)
-			drm_sched_wakeup(sched);
+---
+Maxime Ripard (16):
+      drm/atomic: Add dev pointer to drm_private_obj
+      drm/atomic: Make drm_atomic_private_obj_init fallible
+      drm/atomic: Add new atomic_create_state callback to drm_private_obj
+      drm/atomic-helper: Add private_obj atomic_create_state helper
+      drm/bridge: Switch private_obj initialization to atomic_create_state
+      drm/dp_mst: Switch private_obj initialization to atomic_create_state
+      drm/dp_tunnel: Switch private_obj initialization to atomic_create_state
+      drm/amdgpu: Switch private_obj initialization to atomic_create_state
+      drm/arm: komeda: Switch private_obj initialization to atomic_create_state
+      drm/ingenic: Switch private_obj initialization to atomic_create_state
+      drm/msm: mdp5: Switch private_obj initialization to atomic_create_state
+      drm/msm: dpu1: Switch private_obj initialization to atomic_create_state
+      drm/omapdrm: Switch private_obj initialization to atomic_create_state
+      drm/tegra: Switch private_obj initialization to atomic_create_state
+      drm/vc4: Switch private_obj initialization to atomic_create_state
+      drm/atomic: Remove state argument to drm_atomic_private_obj_init
 
-And you propose:
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  51 ++---
+ .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   2 +
+ .../drm/arm/display/komeda/komeda_private_obj.c    | 208 ++++++++++++++-------
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |  36 ++--
+ drivers/gpu/drm/display/drm_dp_tunnel.c            |  25 ++-
+ drivers/gpu/drm/drm_atomic.c                       |  24 ++-
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  22 +++
+ drivers/gpu/drm/drm_bridge.c                       |  32 ++--
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  28 +--
+ drivers/gpu/drm/ingenic/ingenic-ipu.c              |  28 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  41 ++--
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  40 ++--
+ drivers/gpu/drm/omapdrm/omap_drv.c                 |  22 ++-
+ drivers/gpu/drm/tegra/hub.c                        |  22 ++-
+ drivers/gpu/drm/vc4/vc4_kms.c                      |  67 ++++---
+ include/drm/drm_atomic.h                           |  25 ++-
+ include/drm/drm_atomic_state_helper.h              |   3 +
+ 17 files changed, 444 insertions(+), 232 deletions(-)
+---
+base-commit: aa1c2b073ad23847dd2e7bdc7d30009f34ed7f59
+change-id: 20251008-drm-private-obj-reset-ae1e2741027a
 
-drm_sched_rq_add_entity()
-{
-...
-	if (entity->stopped) {
-...
-		return ERR_PTR(-ESOMETHING);
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
-drm_sched_entity_push_job()
-{
-...
-		sched = drm_sched_rq_add_entity(entity);
-		if (!IS_ERR(sched))
-			drm_sched_wakeup(sched);
-
-
-?
-
-> 2. Rename rq_add_entity()
-
-You mean to something signify it is also doing the wakeup? Or simply 
-drm_sched_rq_add_first_entity()?
-
-> 3. Potentially leave it as is? I guess that doesn't work for your rq-
-> simplification?
-
-Leave drm_sched_wakeup in push job? Yeah that doesn't work for moving 
-the rq handling into own helpers.
-  > Option 1 would almost be my preference. What do you think?
-
-Lets see if I understand the option 1. I am fine with that one as 
-described, and also with option 2.
-
-Regards,
-
-Tvrtko
