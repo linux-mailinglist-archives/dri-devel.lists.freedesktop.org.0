@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC259BD7D22
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0B4BD7D23
 	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:14:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 510D010E562;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D9810E55B;
 	Tue, 14 Oct 2025 07:14:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K79XS+vb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Vwzsc9nc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8259710E556;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A15F710E558;
  Tue, 14 Oct 2025 07:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1760426039; x=1791962039;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yIboQlk5tTaUI55jQ3YOqfrmnwFIGE4cxawB+2dEVu4=;
- b=K79XS+vbLtWz6lSaLKPZyueRZVwkshw1k8MEkAwOC4yAkJpvLtNVDJUT
- v7OXDEYOL/yP8Q+hrmXAeLMxH1fjCFJ7sfgSuPQDLns77qMAW+4Utghb4
- lry5lRlQY5X8cs17xiufbbWJNznF8LPquSuA9tFx/vHSS9AqvJIGpsQ2/
- 8uLFLstDZdbxjWtbdYlBe0WWyp2SwxvqN5+N4AAVHgzOFULMwzkMVj3BL
- 54/WxOQ0z46XbFm+CbwQzx3M5rb6743zUVYzcV51RcjwdzOjcnjSQcuYb
- b9nXjt+b1FWNMd6XXJiUPKqMpTyqVIdSx3U2I+jZ0bIvPW5+Ms3cFSjsE w==;
-X-CSE-ConnectionGUID: ZVtgDrSoRzeZ3jakKI601w==
-X-CSE-MsgGUID: dC+sL3DnRxu4ZlJuPUmbpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73257139"
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="73257139"
+ bh=564ThLf/UCzV5nHA0gyyvac/BSQi8sYIEH/FTx2//WU=;
+ b=Vwzsc9ncnE4E9FoC50FGZgwyGECTSLpMyXmEGE1pGo9aTW9QzN6YcDhA
+ F1Ia/V7ic58/34MclO1bKLKgGVundohpePMPockCRbMGHWgUt9pzxoGXJ
+ Cp1Vx/WiQl20KN0axUIOVg7SW+5irlCZjm6egTp81gfpjKF4kIgT62ME6
+ LjmQ2SnRr7FDJa1gIZ7i23tAr7DuYSbkPT25Lu6my3CqP/LYW4K92ybUj
+ B0carZeSzi/FXWSpyWZ7lII407NkyQpaGxQzfbEZQRABF3Gfy9NgKiprO
+ BBtad7NASkb8paLj1F67ZV4vzXFDcDzOlisuJeE1u/AaY1FW2Wm9Re/KD w==;
+X-CSE-ConnectionGUID: AlwgbrfpSG6awSpS7lgFng==
+X-CSE-MsgGUID: oLzvr+dvRqW9GyZPcsmJ1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73257141"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="73257141"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Oct 2025 00:13:57 -0700
-X-CSE-ConnectionGUID: Qj9972weSA2T1fz3qDmX2A==
-X-CSE-MsgGUID: HUAh1kp1Sk2NRbxj6t2KWw==
+X-CSE-ConnectionGUID: VKBx21v8R2ySyBUJQz07OA==
+X-CSE-MsgGUID: O+Cn5x74Qz6uPFhnvFLCtQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="181369866"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; d="scan'208";a="181369869"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2025 00:13:57 -0700
+ 14 Oct 2025 00:13:58 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Jason Gunthorpe <jgg@nvidia.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: [RFC 5/8] drm/xe/dma_buf: Add support for IOV interconnect
-Date: Tue, 14 Oct 2025 00:08:55 -0700
-Message-ID: <20251014071243.811884-6-vivek.kasireddy@intel.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [RFC 6/8] drm/xe/pf: Add a helper function to get a VF's backing
+ object in LMEM
+Date: Tue, 14 Oct 2025 00:08:56 -0700
+Message-ID: <20251014071243.811884-7-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251014071243.811884-1-vivek.kasireddy@intel.com>
 References: <20251014071243.811884-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,60 +69,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide an op for supports_interconnects() to indicate to the
-dma-buf core and to the exporter that Xe supports interconnects.
-Note that Xe would support IOV interconnect only if the buffer
-is located in LMEM region.
+To properly import a dmabuf that is associated with a VF (or that
+originates in a Guest VM that includes a VF), we need to know where
+in LMEM the VF's allocated regions exist. Therefore, introduce a
+new helper to return the object that backs the VF's regions in LMEM.
 
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>
+v2:
+- Make the helper return the LMEM object instead of the start address
+
+v3:
+- Move the declaration of the helper under other lmem helpers (Michal)
+
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/gpu/drm/xe/xe_dma_buf.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 23 ++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |  1 +
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
-index a7d67725c3ee..2d63dd86a249 100644
---- a/drivers/gpu/drm/xe/xe_dma_buf.c
-+++ b/drivers/gpu/drm/xe/xe_dma_buf.c
-@@ -13,6 +13,7 @@
- #include <drm/drm_prime.h>
- #include <drm/ttm/ttm_tt.h>
- 
-+#include "regs/xe_bars.h"
- #include "tests/xe_test.h"
- #include "xe_bo.h"
- #include "xe_device.h"
-@@ -274,9 +275,25 @@ static void xe_dma_buf_move_notify(struct dma_buf_attachment *attach)
- 	XE_WARN_ON(xe_bo_evict(bo, exec));
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+index 6344b5205c08..1bfcd35cc8ef 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+@@ -1535,6 +1535,29 @@ u64 xe_gt_sriov_pf_config_get_lmem(struct xe_gt *gt, unsigned int vfid)
+ 	return size;
  }
  
-+static bool
-+xe_dma_buf_supports_interconnects(struct dma_buf_attachment *attach,
-+				  const struct dma_buf_interconnect_match *exp,
-+				  unsigned int exp_ics)
++/**
++ * xe_gt_sriov_pf_config_get_lmem_obj - Get VF's LMEM BO.
++ * @gt: the &xe_gt
++ * @vfid: the VF identifier
++ *
++ * This function can only be called on PF.
++ *
++ * Return: BO that is backing VF's quota in LMEM.
++ */
++struct xe_bo *xe_gt_sriov_pf_config_get_lmem_obj(struct xe_gt *gt,
++						 unsigned int vfid)
 +{
-+	struct pci_dev *pdev = to_pci_dev(attach->dev);
-+	unsigned int bar = LMEM_BAR;
-+	const struct dma_buf_interconnect_match supports_ics[] = {
-+		CREATE_IOV_INTERCONNECT(pdev, bar),
-+	};
++	struct xe_gt_sriov_config *config;
++	struct xe_bo *lmem_obj;
 +
-+	return dma_buf_match_interconnects(attach, exp, exp_ics, supports_ics,
-+					   ARRAY_SIZE(supports_ics));
++	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
++	config = pf_pick_vf_config(gt, vfid);
++	lmem_obj = config->lmem_obj;
++	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
++
++	return lmem_obj;
 +}
 +
- static const struct dma_buf_attach_ops xe_dma_buf_attach_ops = {
- 	.allow_peer2peer = true,
--	.move_notify = xe_dma_buf_move_notify
-+	.move_notify = xe_dma_buf_move_notify,
-+	.supports_interconnects = xe_dma_buf_supports_interconnects,
- };
+ /**
+  * xe_gt_sriov_pf_config_set_lmem - Provision VF with LMEM.
+  * @gt: the &xe_gt (can't be media)
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+index 513e6512a575..bbc5c238cbf6 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+@@ -36,6 +36,7 @@ int xe_gt_sriov_pf_config_set_lmem(struct xe_gt *gt, unsigned int vfid, u64 size
+ int xe_gt_sriov_pf_config_set_fair_lmem(struct xe_gt *gt, unsigned int vfid, unsigned int num_vfs);
+ int xe_gt_sriov_pf_config_bulk_set_lmem(struct xe_gt *gt, unsigned int vfid, unsigned int num_vfs,
+ 					u64 size);
++struct xe_bo *xe_gt_sriov_pf_config_get_lmem_obj(struct xe_gt *gt, unsigned int vfid);
  
- #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
+ u32 xe_gt_sriov_pf_config_get_exec_quantum(struct xe_gt *gt, unsigned int vfid);
+ int xe_gt_sriov_pf_config_set_exec_quantum(struct xe_gt *gt, unsigned int vfid, u32 exec_quantum);
 -- 
 2.50.1
 
