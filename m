@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E60EBDB28A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 22:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF18ABDB293
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 22:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7623610E23D;
-	Tue, 14 Oct 2025 20:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4CEC10E69B;
+	Tue, 14 Oct 2025 20:08:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="INjpYtMy";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="d9ONREMb";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="XRXBBait";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="mtfEx+AW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from delivery.antispam.mailspamprotection.com
- (delivery.antispam.mailspamprotection.com [185.56.87.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D129E10E23D
+ (delivery.antispam.mailspamprotection.com [185.56.87.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D4C10E23E
  for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 20:08:46 +0000 (UTC)
 ARC-Seal: i=1; cv=none; a=rsa-sha256;
- d=outgoing.instance-europe-west4-61nr.prod.antispam.mailspamprotection.com;
+ d=outgoing.instance-europe-west4-77p9.prod.antispam.mailspamprotection.com;
  s=arckey; t=1760472526; 
- b=sEpjG/tLBdD6Lm1Ql/UxhsQJkPHGBHMMIxo6+/f8JUA5r/M0aejbTav2FzbD8aY89OH2fklbRF
- VUj97+P9QTWPaiEx9h5gBVTIYt/AcoTOpHqRnL6vKxSuuuuwYUHylcc4hUtwDMw4c2yhxRenhz
- eeXNtyN9qlU3UlZ64yNqVKtU2NKVWgk7RctbwC3srhYxy0JQV+fmScTNvNADXLlKEE6FJZfzAw
- kIOAD1ndVlkGGOp7yQb3/LnWeeq63u2242aWnWhXiJkk6AGlCiWLFr7ZSz7S1IhCso6itc9WDn
- 1I5uGR5LiGtvTrCKnrkypHD7SM6V0n0BjKX29+swmn8EZQ==;
+ b=VsIPpkEVszBN5uJBo1pSLg/+v9x2EuVSARMkiAMbUgSQFeBPIKZ0Dmhe0a2AvV+Jm5ebLNqbHz
+ QbfaClSlon/TU6FLXrKofK7xhnXY092LLmhbdNlFmOezO7q060LfvS63TOoTbY3JhcGmWlcGkg
+ uOoDh4heUvIfThIk5L5ehCsopBjfnFhUcdP4Qcf3b0VFUn+TCw9QgDHZRYvm8wHiNrrO/X4bII
+ QzFiXnHzE5Zn6l8zoBCnK2bRi5Is6FImXvetXrAtsMKiQu31YTlBleFdm1ZSHlilQDTsulquf1
+ TUb4NAZBx6ZV/PrN5DWnSF3QYgTHtQSyesmj3x/1Ewg1lw==;
 ARC-Authentication-Results: i=1;
- outgoing.instance-europe-west4-61nr.prod.antispam.mailspamprotection.com;
+ outgoing.instance-europe-west4-77p9.prod.antispam.mailspamprotection.com;
  smtp.remote-ip=35.214.173.214; 
  iprev=pass (214.173.214.35.bc.googleusercontent.com)
  smtp.remote-ip=35.214.173.214; 
@@ -34,51 +34,48 @@ ARC-Authentication-Results: i=1;
  dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
  arc=none
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
- d=outgoing.instance-europe-west4-61nr.prod.antispam.mailspamprotection.com;
+ d=outgoing.instance-europe-west4-77p9.prod.antispam.mailspamprotection.com;
  s=arckey; t=1760472526; 
- bh=wqPHiJhR6p7x9nFQSEE5+mrpd2a3R2rTv1YQaUqHyUA=;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:
- Subject:From:DKIM-Signature:DKIM-Signature;
- b=OHTG5/9nRU+59R6bcIwMHwKmUPIUJUfcXqHr9C30v7nKaxU5C8oO25GF5XpI7NIV3TgZ15OJnq
- 8wuUiiTJsLhZlOxK0V3kdByNa5l0RotZd6NwqulpdK229CID/MdnrAVPSHkgyBPVFb7vhcyF3q
- 6qeLNS1SUCGgaIjjVPh9CHm9JmGpT7/vj6483RvYyD3tMyKC+/glK4f3CqBAWvLkrh3rbUKjGe
- GL3zVdeccCGjt/2yttItamlmnhYTj6wc9IafOmdElImYR2Hh5Ky9t04NcKoLrqvJtuzBeMsjpE
- YUMYRzusRCrR34rJUvh9ca+2nYZ3i7+ws00mnv7AWWMMKA==;
+ bh=+5BTWhpo8xFj/7SCEKOUmnd3xUn/bC/gIZT0lglYOj4=;
+ h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
+ b=b8KOuskEZcG78QH/OW3bOlB4WwulDMfnE/2rDkLLLfF4q33ywHcdZgiBBM8serywEM6n39tOyz
+ uDVwJBmee0BKe5KGVL6H9l/pU0FCjvvxoTc9PKxvDxs4jrZpdL5vTY/qT42OPXkypK5mX7Xf0h
+ +ThOWTgDcmcN5fJPh0QBBlpv44PGWnpWbF/Ngday4db82aY66yDLa67EP+Okge0hOrLs3LkM8a
+ j+9FpUTwZaTu9lApEFK4ebjVOimLkH6PThWjSTavWG+hcvxF9+rtXgsY4qWjWrzoynzrI/+40h
+ BDv5rZJX+UuoByBLFtW4G8BniuztafmR3lLA2t3MaDEJEg==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
- :Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:
- Subject:From:Reply-To:List-Unsubscribe;
- bh=JTxuc9xqEIIWcfhoNtl0F+NmY63FucuPml9QbGzMvxs=; b=INjpYtMyEgYxjVmq2/v+pMh/fo
- WL4PVHwjfk74o1OJy4eCiZAc/XwXwptiGJyNEoLhVHdolBLCjhvlp9it1ttguKv8W0HZkuxDL2mvR
- b1nXREMMafrh4BQwQzFTqzcRO97N665zyTCQosp8UcGOWPNYLbHznDovuD9aPs/tgPF0=;
+ :Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
+ :Date:From:Reply-To:List-Unsubscribe;
+ bh=HBceqnriX2pNnf/J/de0sHN1Yjm6AqD5B1qKy0hJKpA=; b=XRXBBaityTO9i9dXWE1Mx/Jyhu
+ 78VqjGMYoKVJ9m+GoNGWS4aMW0o3eM2+mfjEe24AsF6/ZJUtG32+684DsgsSf6N5cMgMqlDmgMH0t
+ inYaAUo2J2qlJcAqAWyMqIVLBpBcQuUktcEt8IDTBRrWsh57AsEX7q8Bw1rLCjVOtd4Q=;
 Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
  helo=esm19.siteground.biz)
- by instance-europe-west4-61nr.prod.antispam.mailspamprotection.com with
+ by instance-europe-west4-77p9.prod.antispam.mailspamprotection.com with
  esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <francesco@valla.it>) id 1v8lK5-00000002yXm-0L1O
- for dri-devel@lists.freedesktop.org; Tue, 14 Oct 2025 20:08:43 +0000
+ (envelope-from <francesco@valla.it>) id 1v8lK5-00000000idp-2qWC
+ for dri-devel@lists.freedesktop.org; Tue, 14 Oct 2025 20:08:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
- s=default; h=Cc:To:Date:Subject:From:list-help:list-unsubscribe:
+ s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
  list-subscribe:list-post:list-owner:list-archive;
- bh=JTxuc9xqEIIWcfhoNtl0F+NmY63FucuPml9QbGzMvxs=; b=d9ONREMbyDM4DunZUIbgMEEZhA
- h3ElDn4xVE8R4w7trzFIm7ofUr1Tka7w2TlqtDMxNSjL24wU52xzN0q7VBiPP0W9aER/dUG/i5fkk
- VHMLMeTDjpUirAjO/5Ex2HL3ZZZ1EOOkL+3g2rLO40FCy17pSFtaFIrFBftA+JzIwYV4=;
+ bh=HBceqnriX2pNnf/J/de0sHN1Yjm6AqD5B1qKy0hJKpA=; b=mtfEx+AWlTgtZYJAewjC2/MU9a
+ 325ma9wmCvTP4adpo3kaJVWrF2cviKekHd6v0eYy4nB2WBjS+FrTcWKHXiymchFCyGcplWwGObcPe
+ /2g0/sH0DK7ZLoAiiM23a0jijSDJ9dZgpDocaBEIfOuF915QJxfIlT8y6lvVyrJ8teJ4=;
 Received: from [87.16.13.60] (port=64127 helo=fedora.fritz.box)
  by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
  (Exim 4.98.1) (envelope-from <francesco@valla.it>)
- id 1v8lJp-00000000E00-2hH6; Tue, 14 Oct 2025 20:08:25 +0000
+ id 1v8lJq-00000000E00-2SM1; Tue, 14 Oct 2025 20:08:26 +0000
 From: Francesco Valla <francesco@valla.it>
-Subject: [PATCH v2 0/3] drm/draw: add check API to avoid spurious WARN
-Date: Tue, 14 Oct 2025 22:08:11 +0200
-Message-Id: <20251014-drm_draw_conv_check-v2-0-05bef3eb06fb@valla.it>
+Date: Tue, 14 Oct 2025 22:08:12 +0200
+Subject: [PATCH v2 1/3] drm/draw: add drm_draw_can_convert_from_xrgb8888
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKut7mgC/23NQQ7CIBCF4as0sxYDVKp15T1MQxCmdmKlBhrUN
- NxdbOLO5f+S+WaBiIEwwrFaIGCiSJMvITcV2MH4KzJypUFyqQTnNXPhrl0wT20nn7Qd0N5Ya23
- NFceLU3sol4+APb1W9dyVHijOU3ivT5L4rj9P/fWSYLygB7Fzbd3IvjklM45mSzN0OecP8/2NL
- rUAAAA=
-X-Change-ID: 20251003-drm_draw_conv_check-9cc3050ebd57
+Message-Id: <20251014-drm_draw_conv_check-v2-1-05bef3eb06fb@valla.it>
+References: <20251014-drm_draw_conv_check-v2-0-05bef3eb06fb@valla.it>
+In-Reply-To: <20251014-drm_draw_conv_check-v2-0-05bef3eb06fb@valla.it>
 To: Jocelyn Falempe <jfalempe@redhat.com>, 
  Javier Martinez Canillas <javierm@redhat.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -96,14 +93,14 @@ X-AntiAbuse: Sender Address Domain - valla.it
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-SGantispam-id: 95739f7b890fbe220b83582fc541cd56
+X-SGantispam-id: 61044a556555b3aabef716d73dbb9058
 AntiSpam-DLS: false
 AntiSpam-DLSP: 
 AntiSpam-DLSRS: 
 AntiSpam-TS: 1.0
 CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1v8lK5-00000002yXm-0L1O-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-61nr.prod.antispam.mailspamprotection.com; 
+CFBL-Feedback-ID: 1v8lK5-00000000idp-2qWC-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-77p9.prod.antispam.mailspamprotection.com; 
  iprev=pass (214.173.214.35.bc.googleusercontent.com)
  smtp.remote-ip=35.214.173.214; 
  auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
@@ -124,52 +121,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using the DRM draw support, the only way to check if a color can be
-converted from XRGB8888 to a target format is currently to attempt an
-actual conversion using drm_draw_color_from_xrgb8888(). This function
-however will print a WARN the first time a conversion cannot be
-performed, leading to two potential issues:
-
- - a WARN is emitted without a real reason if the caller is only
-   attempting a conversion to check if a format can be supported (which
-   is the case for two of the current user of this API);
- - a failing call following the first one is not emitting a WARN, but a
-   "valid" color value (0x00000000) is returned nevertheless.
-
-The first issue was observed while using drm_log on a Beagleplay, which
-lists AR12 as the first format for its HDMI modesets.
-
-The target of this patch set is to improve this situation; the first
-patch introduces a new API devoted only to check if a conversion from
-XRGB8888 to the specified format can be performed, while the other two
-substitute drm_draw_color_from_xrgb8888() with this new API in the
-current users (drm_panic and drm_log) where relevant.
+Add drm_draw_can_convert_from_xrgb8888() function that can be used to
+determine if a XRGB8888 color can be converted to the specified format.
 
 Signed-off-by: Francesco Valla <francesco@valla.it>
 ---
-Changes in v2:
-- Moved to dedicated switch cases in separate functions instead of
-  single one inside common function.
-- Fix copy-paste error in commit message.
-
-Link to v1: https://lore.kernel.org/r/20251005-drm_draw_conv_check-v1-0-9c814d9362f6@valla.it
-
----
-Francesco Valla (3):
-      drm/draw: add drm_draw_can_convert_from_xrgb8888
-      drm/log: avoid WARN when searching for usable format
-      drm/panic: avoid WARN when checking format support
-
- drivers/gpu/drm/clients/drm_log.c   |  2 +-
  drivers/gpu/drm/drm_draw.c          | 29 +++++++++++++++++++++++++++++
  drivers/gpu/drm/drm_draw_internal.h |  2 ++
- drivers/gpu/drm/drm_panic.c         |  2 +-
- 4 files changed, 33 insertions(+), 2 deletions(-)
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20251003-drm_draw_conv_check-9cc3050ebd57
+ 2 files changed, 31 insertions(+)
 
-Best regards,
+diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
+index 9dc0408fbbeadbe8282a2d6b210e0bfb0672967f..ccdd6b16e73fc01d58f45759cf3824be7aac155b 100644
+--- a/drivers/gpu/drm/drm_draw.c
++++ b/drivers/gpu/drm/drm_draw.c
+@@ -15,6 +15,35 @@
+ #include "drm_draw_internal.h"
+ #include "drm_format_internal.h"
+ 
++/**
++ * drm_draw_can_convert_from_xrgb8888 - check if xrgb8888 can be converted to the desired format
++ * @format: format
++ *
++ * Returns:
++ * True if XRGB8888 can be converted to the specified format, false otherwise.
++ */
++bool drm_draw_can_convert_from_xrgb8888(u32 format)
++{
++	switch (format) {
++	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_RGBA5551:
++	case DRM_FORMAT_XRGB1555:
++	case DRM_FORMAT_ARGB1555:
++	case DRM_FORMAT_RGB888:
++	case DRM_FORMAT_XRGB8888:
++	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_XBGR8888:
++	case DRM_FORMAT_ABGR8888:
++	case DRM_FORMAT_XRGB2101010:
++	case DRM_FORMAT_ARGB2101010:
++	case DRM_FORMAT_ABGR2101010:
++		return true;
++	default:
++		return false;
++	}
++}
++EXPORT_SYMBOL(drm_draw_can_convert_from_xrgb8888);
++
+ /**
+  * drm_draw_color_from_xrgb8888 - convert one pixel from xrgb8888 to the desired format
+  * @color: input color, in xrgb8888 format
+diff --git a/drivers/gpu/drm/drm_draw_internal.h b/drivers/gpu/drm/drm_draw_internal.h
+index f121ee7339dc11537f677c833f0ee94fe0e799cd..2ab4cb341df94fc4173dd6f5e7a512bdcfa5e55c 100644
+--- a/drivers/gpu/drm/drm_draw_internal.h
++++ b/drivers/gpu/drm/drm_draw_internal.h
+@@ -24,6 +24,8 @@ static inline const u8 *drm_draw_get_char_bitmap(const struct font_desc *font,
+ 	return font->data + (c * font->height) * font_pitch;
+ }
+ 
++bool drm_draw_can_convert_from_xrgb8888(u32 format);
++
+ u32 drm_draw_color_from_xrgb8888(u32 color, u32 format);
+ 
+ void drm_draw_blit16(struct iosys_map *dmap, unsigned int dpitch,
+
 -- 
-Francesco Valla <francesco@valla.it>
+2.51.0
 
