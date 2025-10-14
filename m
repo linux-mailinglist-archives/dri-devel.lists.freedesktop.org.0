@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282E1BD92DA
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F6CBD92E6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5275710E5CF;
-	Tue, 14 Oct 2025 12:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABF510E5D4;
+	Tue, 14 Oct 2025 12:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hODl7Rop";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fS+VbDCl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BDF610E5CF;
- Tue, 14 Oct 2025 12:00:46 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADBA10E5D1;
+ Tue, 14 Oct 2025 12:00:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0B8F961E4A;
- Tue, 14 Oct 2025 12:00:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CDFCC4CEFE;
- Tue, 14 Oct 2025 12:00:45 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A2F4E43603;
+ Tue, 14 Oct 2025 12:00:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29059C4CEFE;
+ Tue, 14 Oct 2025 12:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760443245;
- bh=muR8akMYIBsJHxWXSGrYJ0fpHlj2lMjBV6pX18Dssto=;
+ s=k20201202; t=1760443248;
+ bh=jAIW3dBL6UYMjB0mOSoCqB+njMs2MEvG8K+bjNkUqX4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hODl7RopVSuYFVJL2sbvmlOw6dRuUzMmuqBhmJS2H8JFF9zSC1KMWrRR4YyXgu7oI
- qVx7J+hZxwiKFgAZxq3/hVBZN9G2MxkKG1WkzIcanJgWFZLv/3V0ZZEgIDQEAABUI1
- 6k6jahcVRlhP4cQJMMJl0FmNU+iZSqCi/DUweWeSZTNqMCE82zV+GnrsfcZ/HmHmjb
- YwGIt7JJWj4hUceRzArl8WiT/GYH2Ch2idpapJbnSXo4WUybnBcpsYUSv2R2edaniB
- OLAQrgfDDMfPjCENo2i+ZRXo7pGPVUeuzXZSaRmULfpSPrboncTUB3n4cVRFF8Soys
- viYIjHN7VDVug==
+ b=fS+VbDCllR8PL3z+RrWO/4Xqs5SLYrKDf62ZkV3q0llNEMyBaIOMffpIHxbpLSzp+
+ /8m3ggQt+gDcsxJ2VP1QMXhWXKRm3VfKwaW3q1+ai6iDy4cy37QjpI4YHc9zfe+mDx
+ 6tej2bR/iQKVE73hL9VYQo0o/04f8BUI4z05uXvirSg0BVERyNNuGXufKWTF/Hy35d
+ qkUtJqvfT21p8aIrB62qa+wJW0+SF6rhR1mHm4NRdoOdi2LtyWq9eYIKLHd8EaVV7q
+ pRBqWKSkJVWEKLEhcV9td4lGGjFolOvJvXPowm8wsv47e7UvadmbypO/Zj2VK2j2z2
+ OWT3dU31Uyl3w==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 14 Oct 2025 11:31:55 +0200
-Subject: [PATCH v2 11/16] drm/msm: mdp5: Switch private_obj initialization
+Date: Tue, 14 Oct 2025 11:31:56 +0200
+Subject: [PATCH v2 12/16] drm/msm: dpu1: Switch private_obj initialization
  to atomic_create_state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251014-drm-private-obj-reset-v2-11-6dd60e985e9d@kernel.org>
+Message-Id: <20251014-drm-private-obj-reset-v2-12-6dd60e985e9d@kernel.org>
 References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
 In-Reply-To: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>, 
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3578; i=mripard@kernel.org;
- h=from:subject:message-id; bh=muR8akMYIBsJHxWXSGrYJ0fpHlj2lMjBV6pX18Dssto=;
- b=kA0DAAkTJ1/OGaI9vnYByyZiAGjuO0ijdNBxMH9YHc6vQGlbS7gX6EPAOxcDevfBhxstAIhUr
- oiVBAATCQAdFiEE5BxWy6eHo3pAP6n4J1/OGaI9vnYFAmjuO0gACgkQJ1/OGaI9vnacMQF/QMzq
- kTd1YPXQjp6fpoDv6eJit32OrH0k07VtsUYpCV24FnxmQmvCdNTKk0TYXR9ZAYCOZvJFtlxJRIn
- GTvXrZ+2VAXzMVj7PAIRlD/NWzIY3L1Dv/ynIvZwq8GAcR0rzX/Y=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3469; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=jAIW3dBL6UYMjB0mOSoCqB+njMs2MEvG8K+bjNkUqX4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnvrD3ubWFyEA2J5vh3mDes+Nue8sX2pb8sd+lwrd/5j
+ j9f8mZ1x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIP0bGejfrxqQnLT7dnV2/
+ XSbd3hb73GJ64D3uOcyaa+XOf7gYoNx6rnlJ6uE9zHLpr9/G8G6RZ2xY/uKzoeJLxaaivm/WRxL
+ rA/P6Fy/3tO2TWx/Gpx8bf/WAqujSqNpHgWFpSbqp7W3PTAA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,7 +74,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM mdp5 driver relies on a drm_private_obj, that is initialized by
+The MSM dpu1 driver relies on a drm_private_obj, that is initialized by
 allocating and initializing a state, and then passing it to
 drm_private_obj_init.
 
@@ -83,7 +83,6 @@ established one relying on a atomic_create_state implementation, let's
 migrate this instance to the new pattern.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
 ---
 
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>
@@ -95,91 +94,91 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>
 Cc: linux-arm-msm@vger.kernel.org
 Cc: freedreno@lists.freedesktop.org
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 41 +++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 42 +++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 5b6ca8dd929e1870b7228af93da03886524f5f20..80e1a331dbf7deae4f039ddcae1e5770e882728d 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -112,41 +112,44 @@ static void mdp5_global_destroy_state(struct drm_private_obj *obj,
- 	struct mdp5_global_state *mdp5_state = to_mdp5_global_state(state);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index a306077647c317af9345eeff13082230906b5767..28a79e7836c0fb5c3f8a27ea5dda6f677e330bf1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -365,41 +365,43 @@ static void dpu_kms_global_destroy_state(struct drm_private_obj *obj,
+ 	struct dpu_global_state *dpu_state = to_dpu_global_state(state);
  
- 	kfree(mdp5_state);
+ 	kfree(dpu_state);
  }
  
 +static struct drm_private_state *
-+mdp5_global_create_state(struct drm_private_obj *obj)
++dpu_kms_global_create_state(struct drm_private_obj *obj)
 +{
 +	struct drm_device *dev = obj->dev;
 +	struct msm_drm_private *priv = dev->dev_private;
-+	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
-+	struct mdp5_global_state *mdp5_state;
++	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
++	struct dpu_global_state *dpu_state;
 +
-+	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
-+	if (!mdp5_state)
++	dpu_state = kzalloc(sizeof(*dpu_state), GFP_KERNEL);
++	if (!dpu_state)
 +		return ERR_PTR(-ENOMEM);
 +
-+	__drm_atomic_helper_private_obj_create_state(obj, &mdp5_state->base);
-+	mdp5_state->mdp5_kms = mdp5_kms;
++	__drm_atomic_helper_private_obj_create_state(obj, &dpu_state->base);
++	dpu_state->rm = &dpu_kms->rm;
 +
-+	return &mdp5_state->base;
++	return &dpu_state->base;
 +}
 +
- static void mdp5_global_print_state(struct drm_printer *p,
- 				    const struct drm_private_state *state)
+ static void dpu_kms_global_print_state(struct drm_printer *p,
+ 				       const struct drm_private_state *state)
  {
- 	struct mdp5_global_state *mdp5_state = to_mdp5_global_state(state);
+ 	const struct dpu_global_state *global_state = to_dpu_global_state(state);
  
- 	if (mdp5_state->mdp5_kms->smp)
- 		mdp5_smp_dump(mdp5_state->mdp5_kms->smp, p, mdp5_state);
+ 	dpu_rm_print_state(p, global_state);
  }
  
- static const struct drm_private_state_funcs mdp5_global_state_funcs = {
-+	.atomic_create_state = mdp5_global_create_state,
- 	.atomic_duplicate_state = mdp5_global_duplicate_state,
- 	.atomic_destroy_state = mdp5_global_destroy_state,
- 	.atomic_print_state = mdp5_global_print_state,
+ static const struct drm_private_state_funcs dpu_kms_global_state_funcs = {
++	.atomic_create_state = dpu_kms_global_create_state,
+ 	.atomic_duplicate_state = dpu_kms_global_duplicate_state,
+ 	.atomic_destroy_state = dpu_kms_global_destroy_state,
+ 	.atomic_print_state = dpu_kms_global_print_state,
  };
  
--static int mdp5_global_obj_init(struct mdp5_kms *mdp5_kms)
+-static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
 -{
--	struct mdp5_global_state *state;
+-	struct dpu_global_state *state;
 -
 -	state = kzalloc(sizeof(*state), GFP_KERNEL);
 -	if (!state)
 -		return -ENOMEM;
 -
--	state->mdp5_kms = mdp5_kms;
--
--	drm_atomic_private_obj_init(mdp5_kms->dev, &mdp5_kms->glob_state,
+-	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
 -				    &state->base,
--				    &mdp5_global_state_funcs);
+-				    &dpu_kms_global_state_funcs);
+-
+-	state->rm = &dpu_kms->rm;
+-
 -	return 0;
 -}
 -
- static void mdp5_enable_commit(struct msm_kms *kms)
+ static void dpu_kms_global_obj_fini(struct dpu_kms *dpu_kms)
  {
- 	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
- 	pm_runtime_get_sync(&mdp5_kms->pdev->dev);
+ 	drm_atomic_private_obj_fini(&dpu_kms->global_state);
  }
-@@ -711,13 +714,13 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 	u32 major, minor;
- 	int ret;
  
- 	mdp5_kms->dev = dev;
+@@ -1156,13 +1158,13 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 	dev = dpu_kms->dev;
  
--	ret = mdp5_global_obj_init(mdp5_kms);
--	if (ret)
--		goto fail;
-+	drm_atomic_private_obj_init(mdp5_kms->dev, &mdp5_kms->glob_state,
+ 	dev->mode_config.cursor_width = 512;
+ 	dev->mode_config.cursor_height = 512;
+ 
+-	rc = dpu_kms_global_obj_init(dpu_kms);
+-	if (rc)
+-		return rc;
++	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
 +				    NULL,
-+				    &mdp5_global_state_funcs);
++				    &dpu_kms_global_state_funcs);
  
- 	/* we need to set a default rate before enabling.  Set a safe
- 	 * rate first, then figure out hw revision, and then set a
- 	 * more optimal rate:
- 	 */
+ 	atomic_set(&dpu_kms->bandwidth_ref, 0);
+ 
+ 	rc = pm_runtime_resume_and_get(&dpu_kms->pdev->dev);
+ 	if (rc < 0)
 
 -- 
 2.51.0
