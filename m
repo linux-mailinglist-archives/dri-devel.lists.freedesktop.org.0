@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E4CBD909F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 13:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A06BD90B7
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 13:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6337B10E218;
-	Tue, 14 Oct 2025 11:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2830410E20C;
+	Tue, 14 Oct 2025 11:32:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Qr6AoFSx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nnBFVhMU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE03710E218
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 11:31:22 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id B99A74E4108E;
- Tue, 14 Oct 2025 11:31:21 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 8DD46606EC;
- Tue, 14 Oct 2025 11:31:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 9AD5D102F2298; 
- Tue, 14 Oct 2025 13:31:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760441480; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=51CzKYDEx2a9yVAc768Na++IHptYoF7LDAE19Kl4+7I=;
- b=Qr6AoFSxr32F6mDxxdYbBXAVT1ujiJP11N7z44icP/Q/PhLiq34zX+VKaBACkajgO2Qh52
- 3ZwUKEzfQNxycfhwM+xsCRcoF7nALRDLf91eUj1BWm8asG5Om8Cov7twUwCernFzfA4sBU
- pE8Fk4Poj1I1SlLMbSddA9snbZn0rv0sMg/kWEzmYnoAv4AyfcS1V+N5+mQHI1oUzC/AEO
- IqY3dYgeZZ/rmPLxrRLNr33Y2if9OaHrPfZq+2ThmtGwPpaJ7KANXaSxhVB42XifeODsVr
- eq8gkI7zyqYMn9OeSURX9WmtWIJJjO2qy5QG4psRL5BSYBJLqK1nK09QvWS6iQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 14 Oct 2025 13:30:52 +0200
-Subject: [PATCH 2/2] drm/imx: parallel-display: add the bridge before
- attaching it
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87ECF10E20C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 11:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760441541;
+ bh=8juqZChkhVdJOJOqCmRgkPRBnkr1y8NTqdNQbKSKwVM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nnBFVhMUh/1GaQxtOa7WgGzBInvLUnfBP0ZJ5exU29pIvQPutfuF6d55LhieayC9S
+ l7wVqv9cR+57AUhZyHQUAGTmHtMQ422yyfQGUxKKhVWVAzrBb7j9RcuzO3IVE5PLWR
+ b1Jpg72ulzl2e4LCz6NHabdLV3QrZcRhBfLq437V5Ww5+Gx2kfh0y08rUNeNx2QEb3
+ Ng/U4TIXz7za7kOR9lnK/kRAtD6MBcMIMp83Q75easNYWXalVYVvWj8KSeABQ0uyIk
+ ezJ0BGUtTbRcp7i/KvzO8BXHOD+uBPk3Zryq9vVtNLnsREVPIjWlMbc6JeQIx0RyIa
+ oHXqlalgkD+ag==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 05DF517E1292;
+ Tue, 14 Oct 2025 13:32:20 +0200 (CEST)
+Message-ID: <87489f92-7bc0-4494-8532-f8f2d220bd27@collabora.com>
+Date: Tue, 14 Oct 2025 13:32:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251014-drm-bridge-alloc-imx-ipuv3-v1-2-a1bb1dcbff50@bootlin.com>
-References: <20251014-drm-bridge-alloc-imx-ipuv3-v1-0-a1bb1dcbff50@bootlin.com>
-In-Reply-To: <20251014-drm-bridge-alloc-imx-ipuv3-v1-0-a1bb1dcbff50@bootlin.com>
-To: Ernest Van Hoecke <ernestvanhoecke@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 10/20] soc: mediatek: mtk-cmdq: Add new APIs to replace
+ cmdq_pkt_write() and cmdq_pkt_write_mask()
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>, 
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, =?UTF-8?B?Q0sgSHUgKOiDoeS/ig==?=
+ =?UTF-8?B?5YWJKQ==?= <ck.hu@mediatek.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>, "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ =?UTF-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?= <Paul-pl.Chen@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
+ <20250827114006.3310175-11-jason-jh.lin@mediatek.com>
+ <b2335fd9296bc6f3511f8139870f0c34db1be62a.camel@mediatek.com>
+ <fa46fec3f7ca25532c39e6e864ea692e19b7f5bb.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <fa46fec3f7ca25532c39e6e864ea692e19b7f5bb.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +89,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Invoking drm_bridge_add() is good practice, so add it to this driver.
+Il 13/10/25 11:50, Jason-JH Lin (林睿祥) ha scritto:
+> On Fri, 2025-09-05 at 09:41 +0000, CK Hu (胡俊光) wrote:
+>> On Wed, 2025-08-27 at 19:37 +0800, Jason-JH Lin wrote:
+>>> To support generating GCE write instructions using both pa_base and
+>>> subsys, the original cmdq_pkt_write() and cmdq_pkt_write_mask()
+>>> have
+>>> been expanded into four new APIs:
+>>> - Replaced cmdq_pkt_write() to cmdq_pkt_write_pa() and
+>>>    cmdq_pkt_write_subsys().
+>>> - Replaced cmdq_pkt_write_mask() to cmdq_pkt_write_mask_pa() and
+>>>    cmdq_pkt_write_mask_subsys().
+>>>
+>>> The original cmdq_pkt_write() and cmdq_pkt_write_mask() will be
+>>> removed
+>>> after all CMDQ users have migrated to the new APIs.
+>>>
+>>> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+>>> ---
+>>>   drivers/soc/mediatek/mtk-cmdq-helper.c | 41 +++++++++++++
+>>>   include/linux/soc/mediatek/mtk-cmdq.h  | 79
+>>> ++++++++++++++++++++++++++
+>>>   2 files changed, 120 insertions(+)
+>>>
+>>> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>> b/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>> index 41e1997cdd53..7e86299213d8 100644
+>>> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>> @@ -213,6 +213,26 @@ int cmdq_pkt_write(struct cmdq_pkt *pkt, u8
+>>> subsys, u16 offset, u32 value)
+>>>   }
+>>>   EXPORT_SYMBOL(cmdq_pkt_write);
+>>>   
+>>> +int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/,
+>>> u32 pa_base,
+>>> +		      u16 offset, u32 value)
+>>
+>> subsys is useless. Drop it.
+>>
+>>> +{
+>>> +	int err;
+>>> +
+>>> +	err = cmdq_pkt_assign(pkt, CMDQ_THR_SPR_IDX0,
+>>> CMDQ_ADDR_HIGH(pa_base));
+>>> +	if (err < 0)
+>>> +		return err;
+>>> +
+>>> +	return cmdq_pkt_write_s_value(pkt, CMDQ_THR_SPR_IDX0,
+>>> CMDQ_ADDR_LOW(offset), value);
+>>> +}
+>>> +EXPORT_SYMBOL(cmdq_pkt_write_pa);
+>>> +
+>>> +int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys, u32
+>>> pa_base /*unused*/,
+>>> +			  u16 offset, u32 value)
+>>
+>> pa_base is useless. Drop it.
+>>
+>>> +{
+>>> +	return cmdq_pkt_write(pkt, subsys, offset, value);
+>>> +}
+>>> +EXPORT_SYMBOL(cmdq_pkt_write_subsys);
+>>> +
+>>>   int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+>>>   			u16 offset, u32 value, u32 mask)
+>>>   {
+>>> @@ -230,6 +250,27 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt,
+>>> u8 subsys,
+>>>   }
+>>>   EXPORT_SYMBOL(cmdq_pkt_write_mask);
+>>>   
+>>> +int cmdq_pkt_write_mask_pa(struct cmdq_pkt *pkt, u8 subsys
+>>> /*unused*/, u32 pa_base,
+>>> +			   u16 offset, u32 value, u32 mask)
+>>
+>> subsys is useless. Drop it.
+>>
+>>> +{
+>>> +	int err;
+>>> +
+>>> +	err = cmdq_pkt_assign(pkt, CMDQ_THR_SPR_IDX0,
+>>> CMDQ_ADDR_HIGH(pa_base));
+>>> +	if (err < 0)
+>>> +		return err;
+>>> +
+>>> +	return cmdq_pkt_write_s_mask_value(pkt, CMDQ_THR_SPR_IDX0,
+>>> +					   CMDQ_ADDR_LOW(offset),
+>>> value, mask);
+>>> +}
+>>> +EXPORT_SYMBOL(cmdq_pkt_write_mask_pa);
+>>> +
+>>> +int cmdq_pkt_write_mask_subsys(struct cmdq_pkt *pkt, u8 subsys,
+>>> u32 pa_base /*unused*/,
+>>> +			       u16 offset, u32 value, u32 mask)
+>>
+>> pa_base is useless. Drop it.
+>>
+>>> +{
+>>> +	return cmdq_pkt_write_mask(pkt, subsys, offset, value,
+>>> mask);
+>>> +}
+>>> +EXPORT_SYMBOL(cmdq_pkt_write_mask_subsys);
+>>> +
+> 
+> Hi CK,
+> 
+> I'll drop the unused parameters.
+> Thanks for the reviews.
 
-Link: https://lore.kernel.org/all/DDHZ5GO9MPF0.CGYTVBI74FOZ@bootlin.com
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+It's unused, but if we want to use function pointers we do need those.
 
----
+Unless you want to use one variable for both things, which then becomes
+kind of janky and unreadable.
 
-Note: there is a proposal to make drm_bridge_add() mandatory before
-drm_bridge_attach():
-https://lore.kernel.org/lkml/20251003-b4-drm-bridge-alloc-add-before-attach-v1-3-92fb40d27704@bootlin.com/
----
- drivers/gpu/drm/imx/ipuv3/parallel-display.c | 2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
+Angelo
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-index 3d0de9c6e925978b7532b6d13caf6909cc343dd7..7fc6af7033078eef6be0672ff0d1c7bddda88ba1 100644
---- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-+++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-@@ -256,6 +256,8 @@ static int imx_pd_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, imxpd);
- 
-+	devm_drm_bridge_add(dev, &imxpd->bridge);
-+
- 	return component_add(dev, &imx_pd_ops);
- }
- 
-
--- 
-2.51.0
+> 
+> Regards,
+> Jason-JH Lin
 
