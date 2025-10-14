@@ -2,70 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08E2BD805C
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DAABD8132
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 10:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E4D10E572;
-	Tue, 14 Oct 2025 07:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F06D10E575;
+	Tue, 14 Oct 2025 08:04:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="G+rUOrf2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="G1DCyej+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4981010E572
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:55:24 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20251014075523euoutp01118705a9e7112d5a1709a4f17e239b52~uTGoe9HKH0161101611euoutp01W
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:55:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20251014075523euoutp01118705a9e7112d5a1709a4f17e239b52~uTGoe9HKH0161101611euoutp01W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1760428523;
- bh=DjNnE0OoknK6AVx8/+2pbe/xE5HGwUdWMg8IvkZJLyo=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=G+rUOrf2VbGmEo75oZTr8zkHDSf9qXNFiVP/3Geln7oDTNzZhKeAJ+8xTAeQk66wY
- YnOFNQy8N4KGw2ezBJx23mxi++aZtbo1xA3NKbRYDiojplQAcf6JadRin7gyIOf0wN
- zmcKlLsUmXtJTEmYJ6f5tGtRVxECHry28uYmwA14=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20251014075522eucas1p1ee4792f47a967cac07e306140aa77ebd~uTGoAVtc01507915079eucas1p1h;
- Tue, 14 Oct 2025 07:55:22 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20251014075521eusmtip15224e89e824cfe715eb663fc5921579f~uTGnLE7qI1606716067eusmtip1W;
- Tue, 14 Oct 2025 07:55:21 +0000 (GMT)
-Message-ID: <a321abc5-fba3-45a5-a99a-73a542fc35c9@samsung.com>
-Date: Tue, 14 Oct 2025 09:55:20 +0200
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v8 4/5] dma: contiguous: Reserve default CMA heap
-To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Jonathan Corbet <corbet@lwn.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Robin Murphy <robin.murphy@arm.com>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, Mattijs
- Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20251013-dma-buf-ecc-heap-v8-4-04ce150ea3d9@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20251014075522eucas1p1ee4792f47a967cac07e306140aa77ebd
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20251013083535eucas1p2d80c3c6a03cdbdf79a67f983b2724bea
-X-EPHeader: CA
-X-CMS-RootMailID: 20251013083535eucas1p2d80c3c6a03cdbdf79a67f983b2724bea
-References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
- <CGME20251013083535eucas1p2d80c3c6a03cdbdf79a67f983b2724bea@eucas1p2.samsung.com>
- <20251013-dma-buf-ecc-heap-v8-4-04ce150ea3d9@kernel.org>
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8C310E574;
+ Tue, 14 Oct 2025 08:04:50 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id CDCC44E41084;
+ Tue, 14 Oct 2025 08:04:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 9C0F6606EC;
+ Tue, 14 Oct 2025 08:04:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 9C10B102F2259; 
+ Tue, 14 Oct 2025 10:04:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1760429086; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=GIIeOiA+EHLhetZL9C/NMdu7ddLETfZ/iyx450VmB+o=;
+ b=G1DCyej+ZJvGk7EonfwQ/mncRsM+vJF2B0qZhJE7q9oiqodxvAjw7euPlQHu/geuj3TsCg
+ AMJgs8a2n9HowcnEwcMtgYb802u5QwzJVq9bEOHWtc8ymnzQD46qUUeMyfqfpjNDcfzhJr
+ N+p57CfH2WVTJIRvEHXgdfLN4PYQP4CXAJwTHifUQ+xdoqAvR9tY287YqZScg26NO6Jli0
+ Hb+JtXsaSSY0fytpzjUy6eu5IoIJWJi5XmlOo8lVXzhey9GKUZL4fUvFqt8wWeBsLcmjRX
+ KhxJLN1c4A5GHupxl8RsEatQfzPgL5pSOiPhM0AVuXLpVw53tINDJLfI20vwnw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Oct 2025 10:04:23 +0200
+Message-Id: <DDHW0RB42KJW.3T5APFG3ORAOO@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Maxime Ripard" <mripard@kernel.org>
+Cc: "Harry Wentland" <harry.wentland@amd.com>, "Leo Li"
+ <sunpeng.li@amd.com>, "Rodrigo Siqueira" <siqueira@igalia.com>, "Alex
+ Deucher" <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "David Airlie" <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, "Liviu Dudau" <liviu.dudau@arm.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Paul
+ Cercueil" <paul@crapouillou.net>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica Zhang"
+ <jessica.zhang@oss.qualcomm.com>, "Sean Paul" <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Thierry Reding"
+ <thierry.reding@gmail.com>, "Mikko Perttunen" <mperttunen@nvidia.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Dave Stevenson"
+ <dave.stevenson@raspberrypi.com>, =?utf-8?q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, "Raspberry Pi Kernel Maintenance"
+ <kernel-list@raspberrypi.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mips@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 1/2] drm/atomic: pass drm_device pointer to
+ drm_atomic_private_obj_fini()
+X-Mailer: aerc 0.20.1
+References: <20251013-drm-bridge-atomic-vs-remove-private_obj-v1-0-1fc2e58102e0@bootlin.com>
+ <20251013-drm-bridge-atomic-vs-remove-private_obj-v1-1-1fc2e58102e0@bootlin.com>
+ <lunecs4wjujws7rczn4lmrjhbqfljbwzwrrw4yst5v2xgh3dip@hwz5kt5fzkw5>
+In-Reply-To: <lunecs4wjujws7rczn4lmrjhbqfljbwzwrrw4yst5v2xgh3dip@hwz5kt5fzkw5>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,52 +88,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.10.2025 10:35, Maxime Ripard wrote:
-> The CMA code, in addition to the reserved-memory regions in the device
-> tree, will also register a default CMA region if the device tree doesn't
-> provide any, with its size and position coming from either the kernel
-> command-line or configuration.
->
-> Let's register that one for use to create a heap for it.
->
-> Reviewed-by: T.J. Mercier <tjmercier@google.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   kernel/dma/contiguous.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> index d67e95094749d45f43c1809c175e491a3f55b2e1..d8fd6f779f797f711b8e0fd628f868d644b8f784 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -240,17 +240,23 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
->   		selected_size = max(size_bytes, cma_early_percent_memory());
->   #endif
->   	}
->   
->   	if (selected_size && !dma_contiguous_default_area) {
-> +		int ret;
-> +
->   		pr_debug("%s: reserving %ld MiB for global area\n", __func__,
->   			 (unsigned long)selected_size / SZ_1M);
->   
->   		dma_contiguous_reserve_area(selected_size, selected_base,
->   					    selected_limit,
->   					    &dma_contiguous_default_area,
->   					    fixed);
-> +
-> +		ret = dma_heap_cma_register_heap(dma_contiguous_default_area);
-> +		if (ret)
-> +			pr_warn("Couldn't register default CMA heap.");
->   	}
->   }
->   
->   void __weak
->   dma_contiguous_early_fixup(phys_addr_t base, unsigned long size)
->
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Hi Maxime,
 
+On Tue Oct 14, 2025 at 9:44 AM CEST, Maxime Ripard wrote:
+>> --- a/include/drm/drm_atomic.h
+>> +++ b/include/drm/drm_atomic.h
+>> @@ -672,7 +672,8 @@ void drm_atomic_private_obj_init(struct drm_device *=
+dev,
+>>  				 struct drm_private_obj *obj,
+>>  				 struct drm_private_state *state,
+>>  				 const struct drm_private_state_funcs *funcs);
+>> -void drm_atomic_private_obj_fini(struct drm_private_obj *obj);
+>> +void drm_atomic_private_obj_fini(struct drm_device *dev,
+>> +				 struct drm_private_obj *obj);
+>
+> It's redundant with
+>
+> https://lore.kernel.org/dri-devel/20251008-drm-private-obj-reset-v1-1-805=
+ab43ae65a@kernel.org/
+
+What a timing! Thanks for the pointer, I hadn't noticed that series. It
+looks useful for my work, I'm definitely reviewing and testing it very
+soon.
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
