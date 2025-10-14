@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76940BDA98B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 18:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E73CBDA997
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 18:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 561E910E658;
-	Tue, 14 Oct 2025 16:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E30B10E654;
+	Tue, 14 Oct 2025 16:23:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Cd+l9F1G";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f/OFe2W1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9F0610E65A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 16:21:42 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 46E2A1A137D;
- Tue, 14 Oct 2025 16:21:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 1451E606EC;
- Tue, 14 Oct 2025 16:21:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 4102A102F226E; 
- Tue, 14 Oct 2025 18:21:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760458900; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=Q5VkFvpdG+5j0Avc9VWCGW1KAt0RMhA01Y+e3bX7gy4=;
- b=Cd+l9F1GhutWAKbJfpKFRtC+YM2PrCN0tPZ09Cx9GzjXpDfy6ubn8tnC8qJnwFUZ39jO17
- eNdzaS8m4UERRcu3lCRiWZhpqKjRxnakaD35amzU/pOtARpMVGm9te6DoTR1n0Hr7zV04Q
- J9+zJieAOM7cbRKmWRYfWcD+BQSy8lc9Ne+ShHZXv4VbSmgVH0RQ8BM+r5WVhvL8MFDGSL
- JOLWICqFEJg6btXW701gPlsRNCm5Ie8esQnC2b9ZZnOLI0iL+Lvmhr2K4BGc0PfIv9WAHs
- Qjx/EleSfJsCZ+9oKvI4SlaxyUe8QxtN4Z0gG6mSsPVLBosHHFEmreaRymxb4Q==
-Date: Tue, 14 Oct 2025 18:21:22 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Douglas Anderson
- <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bajjuri Praneeth <praneeth@ti.com>, Louis
- Chauvet <louis.chauvet@bootlin.com>, thomas.petazzoni@bootlin.com, Jyri
- Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/tilcdc: Fix removal actions in case of failed probe
-Message-ID: <20251014182122.5f63b027@kmaincent-XPS-13-7390>
-In-Reply-To: <p4u2goyadub3dfuz4empf3g7a44b2ausy4hjjkcwj7nzgeochx@xztpij2i2lao>
-References: <20251014143229.559564-1-kory.maincent@bootlin.com>
- <p4u2goyadub3dfuz4empf3g7a44b2ausy4hjjkcwj7nzgeochx@xztpij2i2lao>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA2F10E654
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 16:23:33 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-333abc4394dso820852a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 09:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760459013; x=1761063813; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YsZIPiA5yGb4JXM8bEus0ZZn2E5Sfcn6n5pdTr+Id0k=;
+ b=f/OFe2W1XhI6l3dTQhu/07fEei+LQ0Qq3DZbrsmB6RnkE+exXKybTTKDnIdoMTtJm0
+ kyJrneymeAus7gWUUz8UhVWi5xCOW6UJUWmNZHu0AU3fx+4me4Acp6XqKLjyU1mCa5DB
+ s3szvINgTNzN+TJ7l56P6tYpe3hn11dOJQMFtMNpQ8zCjHWkOJqCTcwmhFypk6Wf9S4O
+ RcN0UWf2ZZd86erAf1arw/nyNo7yfkXYKyl4wZxdR+1lgNpeT2W8Dmr15KWMfTJiHWUk
+ yIqIlvjGCgthpdcGSCoM22xHP8jEEWmVihTvJwejid1YxUHrbdeR63kMRMGHzDr1o/tr
+ n8lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760459013; x=1761063813;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YsZIPiA5yGb4JXM8bEus0ZZn2E5Sfcn6n5pdTr+Id0k=;
+ b=W8Fou6k6Kayb0LwXilzH8eQdhOoI+nZ3YN6Q8I0goknLGVoN7EOoF6H9uSkUL4fZKF
+ X8h0iDFFNLjmTkZIh4FH6ZoHblgvGctnM4/sJJcxza9nImtrfnGariP1VVxq9tVP7Gfb
+ YTsdJIv6EPqdvbiYAXSSgonpsGp0Nw4L79J8OKlx0g+r/Yt6hBrxHmQ+fvGWvANzObLB
+ qVe5+AX/kQy/MiwLdJk95VzPR7EzgKhqWc8ah/cmE5W3T6hZGtIv6X6u8/Dfdz+oCSnf
+ w4PGGC7psHkj3fa4vnxDF1a21pS8nwT4+dObeyM6vq3fySIoQqYjP65NSmOP7Dp1Ey2n
+ 1k4A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHsTdjY2Rqc61SNxFDtimoffk6Z2XT8JhLsV6SIMlyvHCM6IUjtEU37fRgg0sn9wOUVzateBKpeug=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3kcuktgnMW70HTNHeb7rLlMlZUKQ7xA2lSbdNHUosycTN+iyu
+ JZV8Ig9OebAHguayBu9YV8h1rVL0t2fQen3iREStGWhOCA3/Eh/+AGhzCBlkYyFiPF+pCOdRsxd
+ kKT1Ps7vnI8/1Zuc5SzVxv7lvMVTC1Ghj5SuW
+X-Gm-Gg: ASbGncubnOgDNatwsOsTsz3nSnHvJ94pqnynt9lEoh0dHTNGmbhIPjuiKKKPSFge2yU
+ rJOgvbLeuLTppN79InvBAkWzRwhDJlAONceUtk4VFJqpHzMhLBIuM6isYgcT/+/CA0qJrS9rpMx
+ W4ynXbcS1S+KyxDrjJr+yOjPdWZbPzq44uQDyHqTBzvICtUqQ0eGc8XGbpWL0HRzgbK3BHgzHJ1
+ JII/tcKADFnfTUVl01ZKZqG9IFkgh2R+pRX
+X-Google-Smtp-Source: AGHT+IEdajn2b986fomaG7VQzopp3X8PhckJ4ygoQggPFgzbLPEeH38f28MHs5VgfvUw2r9q3CZP0KAhby3e7vQkkZo=
+X-Received: by 2002:a17:903:2f83:b0:272:f27d:33bd with SMTP id
+ d9443c01a7336-290270f90cemr165253965ad.0.1760459013077; Tue, 14 Oct 2025
+ 09:23:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20251014142430.2470-1-christian.koenig@amd.com>
+In-Reply-To: <20251014142430.2470-1-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 14 Oct 2025 12:23:21 -0400
+X-Gm-Features: AS18NWDTyBIx3lIUL8XzF5hfmTcGKfB1CkZGlK88sYP4HqHGtlLSFVoOYbYqa88
+Message-ID: <CADnq5_Ns-1eGK6JA4E_Rq_PEORJ6mgo9-cJ5yk5ofV2V4n4JWw@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: avoid killing parent entity on child SIGKILL v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: matthew.brost@intel.com, dakr@kernel.org, phasta@kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +84,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+On Tue, Oct 14, 2025 at 11:41=E2=80=AFAM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> From: David Rosca <david.rosca@amd.com>
+>
+> The DRM scheduler tracks who last uses an entity and when that process
+> is killed blocks all further submissions to that entity.
+>
+> The problem is that we didn't tracked who initialy created an entity, so
 
-On Tue, 14 Oct 2025 17:36:47 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+initially
 
-> On Tue, Oct 14, 2025 at 04:32:28PM +0200, Kory Maincent wrote:
-> > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-> >=20
-> > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
-> > should only be called when the device has been successfully registered.
-> > Currently, these functions are called unconditionally in tilcdc_fini(),
-> > which causes warnings during probe deferral scenarios.
-> >=20
-> > [    7.972317] WARNING: CPU: 0 PID: 23 at
-> > drivers/gpu/drm/drm_atomic_state_helper.c:175
-> > drm_atomic_helper_crtc_duplicate_state+0x60/0x68 ... [    8.005820]
-> > drm_atomic_helper_crtc_duplicate_state from
-> > drm_atomic_get_crtc_state+0x68/0x108 [    8.005858]
-> > drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8=
- [
-> >  8.005885]  drm_atomic_helper_disable_all from
-> > drm_atomic_helper_shutdown+0x90/0x144 [    8.005911]
-> > drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc] [
-> > 8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilc=
-dc]
-> >=20
-> > Fix this by moving both drm_kms_helper_poll_fini() and
-> > drm_atomic_helper_shutdown() inside the priv->is_registered conditional
-> > block, ensuring they only execute after successful device registration.
-> >=20
-> > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at
-> > shutdown/remove time for misc drivers") Signed-off-by: Kory Maincent
-> > (TI.com) <kory.maincent@bootlin.com> ---
-> >  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > b/drivers/gpu/drm/tilcdc/tilcdc_drv.c index 7caec4d38ddf..2031267a3490
-> > 100644 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > @@ -172,11 +172,11 @@ static void tilcdc_fini(struct drm_device *dev)
-> >  	if (priv->crtc)
-> >  		tilcdc_crtc_shutdown(priv->crtc);
-> > =20
-> > -	if (priv->is_registered)
-> > +	if (priv->is_registered) {
-> >  		drm_dev_unregister(dev);
-> > -
-> > -	drm_kms_helper_poll_fini(dev);
-> > -	drm_atomic_helper_shutdown(dev);
-> > +		drm_kms_helper_poll_fini(dev);
-> > +		drm_atomic_helper_shutdown(dev);
-> > +	}
-> >  	tilcdc_irq_uninstall(dev);
-> >  	drm_mode_config_cleanup(dev); =20
->=20
-> I don't think that's the right fix. tilcdc_fini is pretty complex
-> because it gets called from multiple locations with various level of
-> initialisation.
->=20
-> This is done because tilcdc_init is using a bunch of deprecated
-> functions with better alternatives now, and those would make the job of
-> tilcdc_fini much easier.
->=20
-> That's what we should be focusing on.
+> when an process accidentially leaked its file descriptor to a child and
 
-I am also currently focusing on improving this driver (which has indeed some
-weird code leftover), but this work will land in drm misc next while this i=
-s a
-fix for the current implementation which fix an unwanted warning.
+accidently
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> that child got killed we killed the parents entities.
+
+that child got killed, we killed the parent's entities.
+
+>
+> Avoid that and instead initialize the entities last user on entity
+> creation.
+>
+> Signed-off-by: David Rosca <david.rosca@amd.com>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> CC: stable@vger.kernel.org
+
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4568
+
+With the above fixes,
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 5a4697f636f2..3e2f83dc3f24 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *enti=
+ty,
+>         entity->guilty =3D guilty;
+>         entity->num_sched_list =3D num_sched_list;
+>         entity->priority =3D priority;
+> +       entity->last_user =3D current->group_leader;
+>         /*
+>          * It's perfectly valid to initialize an entity without having a =
+valid
+>          * scheduler attached. It's just not valid to use the scheduler b=
+efore it
+> @@ -302,7 +303,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *=
+entity, long timeout)
+>
+>         /* For a killed process disallow further enqueueing of jobs. */
+>         last_user =3D cmpxchg(&entity->last_user, current->group_leader, =
+NULL);
+> -       if ((!last_user || last_user =3D=3D current->group_leader) &&
+> +       if (last_user =3D=3D current->group_leader &&
+>             (current->flags & PF_EXITING) && (current->exit_code =3D=3D S=
+IGKILL))
+>                 drm_sched_entity_kill(entity);
+>
+> --
+> 2.43.0
+>
