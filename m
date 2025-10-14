@@ -2,72 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2872ABD7F2F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B04BD7F1D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 09:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52A8810E566;
-	Tue, 14 Oct 2025 07:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 595EA10E565;
+	Tue, 14 Oct 2025 07:34:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iMdIXGjq";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from unicom145.biz-email.net (unicom145.biz-email.net
- [210.51.26.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80AF610E566
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:35:22 +0000 (UTC)
-Received: from Jtjnmail201613.home.langchao.com
- by unicom145.biz-email.net ((D)) with ASMTP (SSL) id 202510141535171565;
- Tue, 14 Oct 2025 15:35:17 +0800
-Received: from jtjnmailAR02.home.langchao.com (10.100.2.43) by
- Jtjnmail201613.home.langchao.com (10.100.2.13) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Tue, 14 Oct 2025 15:35:16 +0800
-Received: from inspur.com (10.100.2.96) by jtjnmailAR02.home.langchao.com
- (10.100.2.43) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Tue, 14 Oct 2025 15:35:16 +0800
-Received: from localhost.localdomain.com (unknown [10.94.17.151])
- by app1 (Coremail) with SMTP id YAJkCsDwEnYz_e1o7SIXAA--.535S4;
- Tue, 14 Oct 2025 15:35:15 +0800 (CST)
-From: Chu Guangqing <chuguangqing@inspur.com>
-To: <jani.nikula@linux.intel.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>, Chu
- Guangqing <chuguangqing@inspur.com>
-Subject: Re: Re: Re: [PATCH v8 1/1] [DRIVER] gpu: drm: add support for YHGCH
- ZX1000 soc chipset
-Date: Tue, 14 Oct 2025 15:34:46 +0800
-Message-ID: <20251014073446.4549-1-chuguangqing@inspur.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <9ab159073b644c83541e4782c30ae9900b0f27d4@intel.com>
-References: <9ab159073b644c83541e4782c30ae9900b0f27d4@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E508810E565
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 07:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760427295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vZAYJ7xq6WZ4FioBhdfbaQnlgRPAlKAdI8jcSI5iXTs=;
+ b=iMdIXGjqdcdMDoRIKCjXv4W8pnoSXZYu+OiqyLVQdbWgVIr8SIaM1OLTk1g/vZKLjsAOYm
+ JKaYFOVRx6eakAIoBQn9k7I1XEmSymfiXszJnStjMSTzWnAOSwadZQfb4nOOzODIGRQfFa
+ ztu5jaU/mrt/dYAjWbWjsSA7hHuVihA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-4SIBFbeUOl-BrErL0WQRxQ-1; Tue, 14 Oct 2025 03:34:53 -0400
+X-MC-Unique: 4SIBFbeUOl-BrErL0WQRxQ-1
+X-Mimecast-MFC-AGG-ID: 4SIBFbeUOl-BrErL0WQRxQ_1760427292
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-401dbafbcfaso3924083f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 00:34:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760427292; x=1761032092;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vZAYJ7xq6WZ4FioBhdfbaQnlgRPAlKAdI8jcSI5iXTs=;
+ b=JLpqPdCkkLR0Yu77vXCrLD3OTfhPFcVfZ7ySjW0omtBiAZcEjS8r/asXKG9LKbhREn
+ i6VLYlwIccD/mtqwK3FTewis2dF3jvy6BMecZm7KlOjsgkcO/miEr0uj/wR68mhYwxah
+ 0L2tiyiiuREF5w1u1SzfIzvlZKoM83q7TOTa5suonZFQkppDU/qBWXqdH3YauJiuOYCQ
+ wWhe/BnqvlgScB9yMqm6mJzONvlWpMbQ7qfcIJw5iTf8+QT2m93dcNGSxYHv5MAxkL8G
+ Rbt46LL2K1TpiK3jTV/S4zn0sMmav64rGGeByg8a4E27ecl74K25vaBOcNc0e11n8T1Y
+ g5Nw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVcF+lQ1orOqKMQB99VVpnZGyOcSSRA0JERSwV/aQnySC57sbpH53Tb07V3q74qYt0hoscIM8Xphuw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJpsmMf6kYFnH1paRMESeZfxUJnaWb0WsfTXy508Wx/h0sbQjp
+ naQuA+yZgmaA/4zODwcc4JVBCNY4Mcht3u1kgbOInMN8Id4wwN1i+gkR6Sy2T8nv5Xyqe9z2xk9
+ lkqdZBM2qTkM8GdgPgKK3hPjOnj28CPrJwKzXbsMBQKntVa1brrFgfdZrA7H3yz8R0pdi/A==
+X-Gm-Gg: ASbGncuxVbMBwMWOzfZERz1PCf12wVSQmzY28GgbUBx8sc9VJG760397dBgzaM6iXPc
+ jiRuvcj/3dADPUMjXz4K6+ZoMIv8yLAzYIFDNMJ0MPC7IPveLHWE4v/2ZSRA6crsjwMrM4LOYHh
+ SGng1l7YdvkQF/A5tuY0V/r2TRJxyBjZZ4Iv7RLWkkU2JicFtMS6cgf3BGyyIfAOr3/XbHXs9Sd
+ Fp610UvOHVLj8NyDsjuhQ/0Uld8qTyvRGKE2zVbQDRi2453yKxVumFj51J6mmqcVytwrHUBccJi
+ 3nZEdp+OE6DCECP9fWwHjsQxIp4+4pLf8zMZy9BrORngjOYGPDRN/hwmWD2CUP/hQcYmdd11cb3
+ mkDC+i+F1U8h23W+7loWQKkQ=
+X-Received: by 2002:a05:6000:2401:b0:3e7:46bf:f89d with SMTP id
+ ffacd0b85a97d-4266e8de2c2mr16860033f8f.44.1760427292313; 
+ Tue, 14 Oct 2025 00:34:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxNwSeqZAx1bogXJDeVtjJdr6RSvW9zsie6Xf2fYECED9RUObVAre57ulfyG8aTO0EyMtU8g==
+X-Received: by 2002:a05:6000:2401:b0:3e7:46bf:f89d with SMTP id
+ ffacd0b85a97d-4266e8de2c2mr16860020f8f.44.1760427291948; 
+ Tue, 14 Oct 2025 00:34:51 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-426ce5d015esm22720436f8f.33.2025.10.14.00.34.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Oct 2025 00:34:51 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org
+Subject: Re: [PATCH 3/6] drm/panic: Fix qr_code, ensure vmargin is positive
+In-Reply-To: <20251009122955.562888-4-jfalempe@redhat.com>
+References: <20251009122955.562888-1-jfalempe@redhat.com>
+ <20251009122955.562888-4-jfalempe@redhat.com>
+Date: Tue, 14 Oct 2025 09:34:50 +0200
+Message-ID: <87cy6qq6lh.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: YAJkCsDwEnYz_e1o7SIXAA--.535S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF1rWF1UZr4fXrWfCw1Utrb_yoW8KryDpF
- yUCFWxCrW8tw45Cwn0v3WjvFnIy39xKF10qw4UWw1UGr1qvr9rZF4kJr1UWFy8CrWDJF4j
- v3WDXF43AF1Yk3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
- 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r1q
- 6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
- IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZYFZUUU
- UU=
-X-CM-SenderInfo: 5fkxw35dqj1xlqj6x0hvsx2hhfrp/
-X-CM-DELIVERINFO: =?B?fCDn3JRRTeOiUs3aOqHZ50hzsfHKF9Ds6CbXmDm38RucXu3DYXJR7Zlh9zE0nt/Iac
- D+KQyQoFzKlaM2ttcAX/HZpVo84+3O2tb1DiGSsiU9dN6FRurHi71v1tBU8sQDLmd7rOm4
- S3A6ft5o25+AJuRXN3s=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: EfTaxS5rPQ7-jYSVdmwTO0R5IQDwTYyIJkBwAfKL8GE_1760427292
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-tUid: 202510141535175dddae4cc9251d1e69d8051945ee1311
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,101 +101,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Jocelyn Falempe <jfalempe@redhat.com> writes:
 
-> On Sat, 11 Oct 2025, Chu Guangqing <chuguangqing@inspur.com> wrote:
->> Hi Jani,
->>
->>On Mon, 29 Sep 2025, Chu Guangqing <chuguangqing@inspur.com> wrote:
->>>> diff --git a/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
->>>> new file mode 100644
->>>> index 000000000000..2e222af29f69
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
->>>> @@ -0,0 +1,134 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +
->>>> +#include <linux/io.h>
->>>> +
->>>> +#include <drm/drm_atomic_helper.h>
->>>> +#include <drm/drm_edid.h>
->>>> +#include <drm/drm_probe_helper.h>
->>>> +#include <drm/drm_print.h>
->>>> +#include <drm/drm_simple_kms_helper.h>
->>>> +
->>>> +#include "yhgch_drm_drv.h"
->>>> +#include "yhgch_drm_regs.h"
->>>> +
->>>> +static int yhgch_connector_get_modes(struct drm_connector *connector)
->>>> +{
->>>> +	int count;
->>>> +	const struct drm_edid *drm_edid;
->>>> +
->>>> +	drm_edid = drm_edid_read(connector);
->>>> +	if (drm_edid) {
->>>> +		drm_edid_connector_update(connector, drm_edid);
->>>
->>>You're supposed to do drm_edid_connector_update() even for NULL edid to
->>>reset it.
->>>
->>>BR,
->>>Jani.
->>>
->>
->> I add an else here to make the call.
+> Depending on qr_code size and screen size, the vertical margin can
+> be negative, that means there is not enough room to draw the qr_code.
 >
->Please follow the same/similar pattern as pretty much everyone else is
->doing:
+> So abort early, to avoid a segfault by trying to draw at negative
+> coordinates.
 >
->	drm_edid = drm_edid_read(connector);
->	drm_edid_connector_update(connector, drm_edid);
->
->	if (drm_edid) {
->		count = drm_edid_connector_add_modes(connector);
->		drm_edid_free(drm_edid);
->	}
->
->BR,
->Jani.
->
+> Fixes: cb5164ac43d0f ("drm/panic: Add a QR code panic screen")
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
 
-The changes have been made; please refer to the link below.
-https://lore.kernel.org/all/20251014072421.4486-1-chuguangqing@inspur.com/
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
->>
->>>> +		count =  drm_edid_connector_add_modes(connector);
->>>> +		if (count)
->>>> +			goto out;
->>>> +	}
->>
->> -       }
->> +       } else
->> +               drm_edid_connector_update(connector, NULL);
->>
->>>> +
->>>> +	count = drm_add_modes_noedid(connector,
->>>> +				     connector->dev->mode_config.max_width,
->>>> +				     connector->dev->mode_config.max_height);
->>>> +	drm_set_preferred_mode(connector, 1024, 768);
->>>> +
->>>> +out:
->>>> +	drm_edid_free(drm_edid);
->>>> +	return count;
->>>> +}
->>>
->>>--
->>>Jani Nikula, Intel
->>>
->>
->> Best regards
->>
->> Gary
->>
->
->--
->Jani Nikula, Intel
+-- 
+Best regards,
 
-Best regards
-
-Chu Guangqing
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
