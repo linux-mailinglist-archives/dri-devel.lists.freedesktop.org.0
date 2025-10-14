@@ -2,62 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AA1BD9322
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1947DBD933D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 14:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B99C110E223;
-	Tue, 14 Oct 2025 12:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A9510E5D2;
+	Tue, 14 Oct 2025 12:03:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="aiqICYOz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZRDw6qKK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C27410E223
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:02:45 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmCX207CPz9ssn;
- Tue, 14 Oct 2025 14:02:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760443362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o/k03sYntLq8Zfi4yO8/asoWJl9UlmpXJOixmGdXcyI=;
- b=aiqICYOzVOtRvf45kCUN9D3ePfh9PDjsWLq321JNC/20zo7IUdO0LnT+lmtSBjy4l0mLfL
- QBctdxgpYAdDupOqxL527XAV8FmE5GVKUQP+YgvzP7GBsu8vCQDqRTcQM4bz9mK616XeHX
- SF0kvrHLR7CntlilUs1dyeRIn3RFkey0s3aiTr9dOIQiUfawS6dVLWBMp7SJwIEiEJiY3Y
- H58vSGv9p9lYxw/qEP4TDKIKHQjWTMr2I8ZDE4J/HNWI4BH7KSStlCqLMo8n/1+fQhRkOm
- GIJUyKKh8RFSgKM3b6tftTIekpOBxU4y6EL6MGDqlbz/YmJtx5/iVvx9Q/IyvQ==
-Message-ID: <f5d51ead-eae8-430f-b8b3-1ad4b78490ae@mailbox.org>
-Date: Tue, 14 Oct 2025 14:02:37 +0200
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1812710E5D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 12:03:47 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-579d7104c37so6346301e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1760443425; x=1761048225; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0NzeDm4YRr+qmfFJMboOlJS287Q0PmtLlAQtT9HyscU=;
+ b=ZRDw6qKK7C7VlwC9Q7TTYfRy7BX0BDtzTxB6abVpBf4QSp8jg3y2WFdeSmc9YF/5cX
+ SGnrC4Zms9dRWHsmSvlmDkqsedimYjEW9JZv+HaWt0D/FvChMfe9lKCbvmf4jiX1TeuQ
+ 2uMNte1kszNfmx8Y5TDfEmmRRDsxkdshV31CmBclCXiYO93ePnWWYI76n2+PXuNE24gO
+ 7jBCUvjvAtDzJ5I9R292TpmnkBedYBfufysJiFOMQ5/9ZbeZpHFo/sZiHhwnXKuOv9eg
+ 9djXneGjOhClf3BK2yhzH1Vy4QZIE0fyDtdyw56Dqht6m8GGVZQngf/ltbwwQWDF83YK
+ gwTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760443425; x=1761048225;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0NzeDm4YRr+qmfFJMboOlJS287Q0PmtLlAQtT9HyscU=;
+ b=hnA/jC+6ODPjypNLCGlreiMyVpEngESjr4FaXRNUmh7A42YjFxoM7McAdoCA7Gj4YQ
+ oaJGjykL6yJAHbfHplrT4x+tySAvzMY73jtNqr/gzDtwSAjt8/bVzbrAA9SYPgaRC3jY
+ d4TZdXlI7sVFctPOCyrN5LRS6XJq78gD8PUP9hTSafnV70WoPCsFvMNNqjlB9s1Vjo4n
+ OV3KqMrrvx7/PpSy0sWcPSI1BV4wfTB2aWipM+o1TdUkEdu1yQ1DO42U9/rkSjVOtj6r
+ 3PKnhz2gZLlQ473iKgGqjx2vmvlrCNW2uE31fu/nAsyPA7ovlwjFdI33ljhmLZX3qm9W
+ DXIw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUbBao0AdW/A7xflpg06A0aepd8UXKPPHjK9gw/Bu6/81QG0Y1jlb0dLnyG7LdJrvhkO9XHRtpmdEo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzopZ5wUbJTxs9DhzuK91CXfYC9LheWqbZPU5B6qgVWCgk7pZ/C
+ G1N/UtEVmfCU1P4VjgtH2wp0vXy2dsbi73aGs/1vvz6gt52fuPsyUwz2PtobuHO+DwHGqJAAkh8
+ j+q1GTIfVABtbS/WwWEfwiBJBsU//VxC9Fwu+Y2sW3g==
+X-Gm-Gg: ASbGncuAK90Zy/Vad4304q7FVmQJIrNx6DkiXSQ4ecjHpQ0BLy0Ll+sSsBwNDm5OcGe
+ XiaUO320JuhpO211FodpsL+hoCUEQswKW9zOVYJgzfgGWnMXSs/wMkqultNsi420NyWrR78w4nB
+ +mnYPOr2hgNSId/SdrZ1se+qfQj+ZDMlEY7nXA3Z/Wnbz3yxpcmcbQPBr2/DiAHL6e64f+Prgp6
+ ZwZqmlP+aS+wajqM/9X0kASG8kZ0lv2hm51BbgC
+X-Google-Smtp-Source: AGHT+IFD0BB7RH2Ep9aDetjvf52TraFr1nZFUAFZVtaRLq2brbGFG6VPJ0RQdb2vqcIUZBE6o0FGikD6X+TXoiS5UhI=
+X-Received: by 2002:a05:6512:3d10:b0:58b:26:11da with SMTP id
+ 2adb3069b0e04-5906d8ef684mr6189769e87.29.1760443425099; Tue, 14 Oct 2025
+ 05:03:45 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 04/39] drm/imx: dc: Use bulk clock
-To: Frank Li <Frank.li@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
- Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-5-marek.vasut@mailbox.org>
- <aO0utF930vhlJFl8@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aO0utF930vhlJFl8@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 211e7aa255b7d3d8ef5
-X-MBO-RS-META: bkw6rpy7gkkayzw1g5i6hemzbnb81gy6
+References: <20251008073046.23231-1-clamor95@gmail.com>
+ <20251008073046.23231-2-clamor95@gmail.com>
+In-Reply-To: <20251008073046.23231-2-clamor95@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 14 Oct 2025 14:03:32 +0200
+X-Gm-Features: AS18NWCj_bKF0VIZCo40xgE2nZcym7DwrLVXQ08YjlTg5hV9lzx6rx-fa2x4Vss
+Message-ID: <CACRpkdb74fh_eFCd0MM4RK1_KtNRugLPp2yMA20FrpHq+-o6YA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/24] pinctrl: tegra20: register csus_mux clock
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+ Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,99 +106,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/13/25 6:54 PM, Frank Li wrote:
-> On Sat, Oct 11, 2025 at 06:51:19PM +0200, Marek Vasut wrote:
->> Switch to bulk clock operations, as many of the blocks present in DC
-> 
-> s/operations/API
-> 
->> use multiple clock on i.MX95. The use of bulk clock operations allows
->> the driver to seamlessly handle one or multiple clock.
->>
->> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
->> ---
->> Cc: Abel Vesa <abelvesa@kernel.org>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->> Cc: Fabio Estevam <festevam@gmail.com>
->> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Liu Ying <victor.liu@nxp.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Peng Fan <peng.fan@nxp.com>
->> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: Shawn Guo <shawnguo@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: devicetree@vger.kernel.org
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: imx@lists.linux.dev
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-clk@vger.kernel.org
->> ---
->>   drivers/gpu/drm/imx/dc/dc-drv.c | 14 ++++++++------
->>   drivers/gpu/drm/imx/dc/dc-ic.c  | 14 ++++++++------
->>   drivers/gpu/drm/imx/dc/dc-pe.c  | 12 ++++++------
->>   drivers/gpu/drm/imx/dc/dc-pe.h  |  3 ++-
->>   4 files changed, 24 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/imx/dc/dc-drv.c b/drivers/gpu/drm/imx/dc/dc-drv.c
->> index f108964bf89f4..2717c92aba6c5 100644
->> --- a/drivers/gpu/drm/imx/dc/dc-drv.c
->> +++ b/drivers/gpu/drm/imx/dc/dc-drv.c
->> @@ -31,7 +31,8 @@
->>
->>   struct dc_priv {
->>   	struct drm_device *drm;
->> -	struct clk *clk_cfg;
->> +	struct clk_bulk_data *clk_cfg;
->> +	int clk_cfg_count;
->>   };
->>
->>   DEFINE_DRM_GEM_DMA_FOPS(dc_drm_driver_fops);
->> @@ -163,10 +164,11 @@ static int dc_probe(struct platform_device *pdev)
->>   	if (!priv)
->>   		return -ENOMEM;
->>
->> -	priv->clk_cfg = devm_clk_get(&pdev->dev, NULL);
->> -	if (IS_ERR(priv->clk_cfg))
->> -		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk_cfg),
->> +	ret = devm_clk_bulk_get_all(&pdev->dev, &priv->clk_cfg);
->> +	if (ret < 0)
->> +		return dev_err_probe(&pdev->dev, ret,
->>   				     "failed to get cfg clock\n");
->> +	priv->clk_cfg_count = ret;
->>
->>   	dev_set_drvdata(&pdev->dev, priv);
->>
->> @@ -201,7 +203,7 @@ static int dc_runtime_suspend(struct device *dev)
->>   {
->>   	struct dc_priv *priv = dev_get_drvdata(dev);
->>
->> -	clk_disable_unprepare(priv->clk_cfg);
->> +	clk_bulk_disable_unprepare(priv->clk_cfg_count, priv->clk_cfg);
->>
->>   	return 0;
->>   }
->> @@ -211,7 +213,7 @@ static int dc_runtime_resume(struct device *dev)
->>   	struct dc_priv *priv = dev_get_drvdata(dev);
->>   	int ret;
->>
->> -	ret = clk_prepare_enable(priv->clk_cfg);
->> +	ret = clk_bulk_prepare_enable(priv->clk_cfg_count, priv->clk_cfg);
->>   	if (ret)
->>   		dev_err(dev, "failed to enable cfg clock: %d\n", ret);
->>
->> diff --git a/drivers/gpu/drm/imx/dc/dc-ic.c b/drivers/gpu/drm/imx/dc/dc-ic.c
->> index a270ae4030cdc..67441b349a7d2 100644
->> --- a/drivers/gpu/drm/imx/dc/dc-ic.c
->> +++ b/drivers/gpu/drm/imx/dc/dc-ic.c
->> @@ -30,7 +30,8 @@
->>
->>   struct dc_ic_data {
->>   	struct regmap		*regs;
->> -	struct clk		*clk_axi;
->> +	struct clk_bulk_data	*clk_axi;
-> 
-> I am not sure if "axi' is good name for bulk clks. Maybe use 'clks'. _axi
-> quite specific to special 'axi' clocks.
-Fixed both, thanks.
+On Wed, Oct 8, 2025 at 9:31=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmail.com=
+> wrote:
+
+> Add csus_mux for further use as the csus clock parent, similar to how the
+> cdev1 and cdev2 muxes are utilized. Additionally, constify the cdev paren=
+t
+> name lists to resolve checkpatch warnings.
+>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+
+This patch 1/24 applied to the pinctrl tree!
+
+Yours,
+Linus Walleij
