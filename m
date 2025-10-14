@@ -2,93 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D82BDAA2F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 18:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76940BDA98B
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 18:21:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FCF510E65F;
-	Tue, 14 Oct 2025 16:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561E910E658;
+	Tue, 14 Oct 2025 16:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Gp/aS5Nn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Cd+l9F1G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DDBE10E63D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 15:10:11 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-46e3e16d7fbso8961605e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 08:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1760454610; x=1761059410; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+9sQqZFGj6pjO2HmOLKtnRlFSVSp+ASbakb0jxv6v+E=;
- b=Gp/aS5Nnj9HR3qziH65vci48EKrDNvcsUy6lhrrOwYfwOu2uippVQyoYGBtFZf/BS+
- kd0aMzRtMbd1auAXQSTJb1aOwMezY0GxRBk36GLVbeGLHnJlVGh0tro2y/yfTiN6UQ2z
- YvohX2+4/nThEhiKuONstOFZDO4ZGRaAwQEHHroWNiENodmF5X7oYftKvpWy7XUR6LL/
- 2ujh+hwQ9vjflRCwhXtbbvHzIblTlkpCgrJFwDZ6slkOt+nazvJr1X5Y6VhvJbilCGN1
- qr+6v793eh1PWWtOE4q6d0EeKgQC48Gg9iQ6PaTYfbtIoq/vKhWOe9081Lut/aUWF76a
- xfTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760454610; x=1761059410;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+9sQqZFGj6pjO2HmOLKtnRlFSVSp+ASbakb0jxv6v+E=;
- b=IsYLdfixhS8cpT0b0v8wEGz9Etz3nNXCsbFkKZW78glthUUrLMPjvRPmnmG2/NM74C
- z36JaYkcAmevIRAYMj5K0/n+CcLHkZ2KuHOYNIFFMimFE+HD30f3RPnmmRAbuV6GLiew
- RaDuYdJatyeR2vHeO60JGz11w4uDJavPPCn7Q6qFodVU+LH/0E6nkNnFMOnH8lqBrhX9
- cU/+F7rm0RU/YR7LShUoPSLCM3uPjgXWiPthptKBQ8NF4KiTpHTb3i6fKO6mKCWlMesz
- N4WRABj0JoE+mLIaWMZJKuG8z7rLGvPxSJ83PNg9O6Esu+JzPMCohatXFG892li7YcNB
- goig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUCWJL1ec2Vzg/gWk6OWR3KuNibEL8YydLtj/uJhQdUY4BY3z4vLaVk0fVPZ6qhb319LbSYOdvjvUM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yycszi8qh8GerlbU/UbLlViHiCfPHHgiUq2rL5mQyxlFhqrjLFF
- 0aCmwRJqFrKYor7LKeABrffifaGh9t9D98YOq+OybxlArfBrFw3PCtNcbYeFYZyDwT4=
-X-Gm-Gg: ASbGncsmq9I3x4q+TSHGedVrjxj8N0tcQuzSZZ8C/k5V14aV3ggPqIu5DihYuG/TgO3
- gxV7zd9ZIWl4xTD9ASZY9zP5vUaADzY2JIcVVASHhhdWyM7bLt5cQOv/MFqTs6iwinUmlJitWNU
- A1tyTWYYm0Gi/VEFM+YMyLI79NHniZ/6si3TV7HsxYLlS9FrC62UTNfJErSPVzCb3uvj0NBn9rt
- Ktt3hFaPTfV8U247qfAxC0e3urOAH07WmaSlJb0Z8CbWxvjIxg7Wba0lLVCCdA5RHgaBafciogj
- tbKAX0/qXp1pwxjQotqlWknwDDQ8htgQWTi7ySMmH6iFT8PrLXeFC7icGyEM8YP+G60dt9FLSYw
- rp28aHG83RURVOdIkTefLShc=
-X-Google-Smtp-Source: AGHT+IGAXLObLFqWvdrlT8jNvhDt4TeOuL5i0Y/T3RwGkmTWxiheZJLoRR4en+J0WUHha4o/PPCBLQ==
-X-Received: by 2002:a05:600c:4e93:b0:45f:2919:5e9c with SMTP id
- 5b1f17b1804b1-46fa9a8ae60mr100424145e9.2.1760454609668; 
- Tue, 14 Oct 2025 08:10:09 -0700 (PDT)
-Received: from mordecai.tesarici.cz ([213.235.133.42])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-46fb489194dsm244369755e9.12.2025.10.14.08.10.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 08:10:09 -0700 (PDT)
-Date: Tue, 14 Oct 2025 17:10:03 +0200
-From: Petr Tesarik <ptesarik@suse.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Zhaoyang Huang <huangzhaoyang@gmail.com>, "zhaoyang.huang"
- <zhaoyang.huang@unisoc.com>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
- Mel Gorman <mgorman@techsingularity.net>, Vlastimil Babka <vbabka@suse.cz>,
- Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, steve.kang@unisoc.com
-Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
- order-0 allocation
-Message-ID: <20251014171003.57bbfd63@mordecai.tesarici.cz>
-In-Reply-To: <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
-References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
- <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
- <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
- <CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
- <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F0610E65A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 16:21:42 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 46E2A1A137D;
+ Tue, 14 Oct 2025 16:21:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 1451E606EC;
+ Tue, 14 Oct 2025 16:21:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 4102A102F226E; 
+ Tue, 14 Oct 2025 18:21:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1760458900; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=Q5VkFvpdG+5j0Avc9VWCGW1KAt0RMhA01Y+e3bX7gy4=;
+ b=Cd+l9F1GhutWAKbJfpKFRtC+YM2PrCN0tPZ09Cx9GzjXpDfy6ubn8tnC8qJnwFUZ39jO17
+ eNdzaS8m4UERRcu3lCRiWZhpqKjRxnakaD35amzU/pOtARpMVGm9te6DoTR1n0Hr7zV04Q
+ J9+zJieAOM7cbRKmWRYfWcD+BQSy8lc9Ne+ShHZXv4VbSmgVH0RQ8BM+r5WVhvL8MFDGSL
+ JOLWICqFEJg6btXW701gPlsRNCm5Ie8esQnC2b9ZZnOLI0iL+Lvmhr2K4BGc0PfIv9WAHs
+ Qjx/EleSfJsCZ+9oKvI4SlaxyUe8QxtN4Z0gG6mSsPVLBosHHFEmreaRymxb4Q==
+Date: Tue, 14 Oct 2025 18:21:22 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Douglas Anderson
+ <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Bajjuri Praneeth <praneeth@ti.com>, Louis
+ Chauvet <louis.chauvet@bootlin.com>, thomas.petazzoni@bootlin.com, Jyri
+ Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>
+Subject: Re: [PATCH] drm/tilcdc: Fix removal actions in case of failed probe
+Message-ID: <20251014182122.5f63b027@kmaincent-XPS-13-7390>
+In-Reply-To: <p4u2goyadub3dfuz4empf3g7a44b2ausy4hjjkcwj7nzgeochx@xztpij2i2lao>
+References: <20251014143229.559564-1-kory.maincent@bootlin.com>
+ <p4u2goyadub3dfuz4empf3g7a44b2ausy4hjjkcwj7nzgeochx@xztpij2i2lao>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 14 Oct 2025 16:36:49 +0000
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,54 +70,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Oct 2025 15:04:14 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Hello Maxime,
 
-> On 14.10.25 14:44, Zhaoyang Huang wrote:
-> > On Tue, Oct 14, 2025 at 7:59=E2=80=AFPM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote: =20
-> >>
-> >> On 14.10.25 10:32, zhaoyang.huang wrote: =20
-> >>> From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
-> >>>
-> >>> The size of once dma-buf allocation could be dozens MB or much more
-> >>> which introduce a loop of allocating several thousands of order-0 pag=
-es.
-> >>> Furthermore, the concurrent allocation could have dma-buf allocation =
-enter
-> >>> direct-reclaim during the loop. This commit would like to eliminate t=
-he
-> >>> above two affections by introducing alloc_pages_bulk_list in dma-buf's
-> >>> order-0 allocation. This patch is proved to be conditionally helpful
-> >>> in 18MB allocation as decreasing the time from 24604us to 6555us and =
-no
-> >>> harm when bulk allocation can't be done(fallback to single page
-> >>> allocation) =20
-> >>
-> >> Well that sounds like an absolutely horrible idea.
-> >>
-> >> See the handling of allocating only from specific order is *exactly* t=
-here to avoid the behavior of bulk allocation.
-> >>
-> >> What you seem to do with this patch here is to add on top of the behav=
-ior to avoid allocating large chunks from the buddy the behavior to allocat=
-e large chunks from the buddy because that is faster. =20
-> > emm, this patch doesn't change order-8 and order-4's allocation
-> > behaviour but just to replace the loop of order-0 allocations into
-> > once bulk allocation in the fallback way. What is your concern about
-> > this? =20
+On Tue, 14 Oct 2025 17:36:47 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> On Tue, Oct 14, 2025 at 04:32:28PM +0200, Kory Maincent wrote:
+> > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+> >=20
+> > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
+> > should only be called when the device has been successfully registered.
+> > Currently, these functions are called unconditionally in tilcdc_fini(),
+> > which causes warnings during probe deferral scenarios.
+> >=20
+> > [    7.972317] WARNING: CPU: 0 PID: 23 at
+> > drivers/gpu/drm/drm_atomic_state_helper.c:175
+> > drm_atomic_helper_crtc_duplicate_state+0x60/0x68 ... [    8.005820]
+> > drm_atomic_helper_crtc_duplicate_state from
+> > drm_atomic_get_crtc_state+0x68/0x108 [    8.005858]
+> > drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8=
+ [
+> >  8.005885]  drm_atomic_helper_disable_all from
+> > drm_atomic_helper_shutdown+0x90/0x144 [    8.005911]
+> > drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc] [
+> > 8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilc=
+dc]
+> >=20
+> > Fix this by moving both drm_kms_helper_poll_fini() and
+> > drm_atomic_helper_shutdown() inside the priv->is_registered conditional
+> > block, ensuring they only execute after successful device registration.
+> >=20
+> > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at
+> > shutdown/remove time for misc drivers") Signed-off-by: Kory Maincent
+> > (TI.com) <kory.maincent@bootlin.com> ---
+> >  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> > b/drivers/gpu/drm/tilcdc/tilcdc_drv.c index 7caec4d38ddf..2031267a3490
+> > 100644 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> > +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> > @@ -172,11 +172,11 @@ static void tilcdc_fini(struct drm_device *dev)
+> >  	if (priv->crtc)
+> >  		tilcdc_crtc_shutdown(priv->crtc);
+> > =20
+> > -	if (priv->is_registered)
+> > +	if (priv->is_registered) {
+> >  		drm_dev_unregister(dev);
+> > -
+> > -	drm_kms_helper_poll_fini(dev);
+> > -	drm_atomic_helper_shutdown(dev);
+> > +		drm_kms_helper_poll_fini(dev);
+> > +		drm_atomic_helper_shutdown(dev);
+> > +	}
+> >  	tilcdc_irq_uninstall(dev);
+> >  	drm_mode_config_cleanup(dev); =20
 >=20
-> As far as I know the bulk allocation favors splitting large pages into sm=
-aller ones instead of allocating smaller pages first. That's where the perf=
-ormance benefit comes from.
+> I don't think that's the right fix. tilcdc_fini is pretty complex
+> because it gets called from multiple locations with various level of
+> initialisation.
 >=20
-> But that is exactly what we try to avoid here by allocating only certain =
-order of pages.
+> This is done because tilcdc_init is using a bunch of deprecated
+> functions with better alternatives now, and those would make the job of
+> tilcdc_fini much easier.
+>=20
+> That's what we should be focusing on.
 
-This is a good question, actually. Yes, bulk alloc will split large
-pages if there are insufficient pages on the pcp free list. But is
-dma-buf indeed trying to avoid it, or is it merely using an inefficient
-API? And does it need the extra speed? Even if it leads to increased
-fragmentation?
+I am also currently focusing on improving this driver (which has indeed some
+weird code leftover), but this work will land in drm misc next while this i=
+s a
+fix for the current implementation which fix an unwanted warning.
 
-Petr T
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
