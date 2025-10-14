@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502EBBD763D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 07:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1D4BD7710
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Oct 2025 07:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 894B810E537;
-	Tue, 14 Oct 2025 05:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5600A10E1FB;
+	Tue, 14 Oct 2025 05:36:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="eQ5oB9Sw";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="QpX6u9Ij";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013055.outbound.protection.outlook.com
- [40.93.201.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3AF510E537
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:16:33 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012051.outbound.protection.outlook.com [52.101.53.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC85A10E1FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 05:35:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ArV+wUaIqGy2ppfX6JCUqzPq6qRrFw6mLwff0C24Wnpr9EctsDZKiUlFGdKQhbCENTAtIqn0dB2CK7dGqYrLyjxZHohWB+6NxaEgEzygb11Z32PaVdJNzz3a1JSLr/Tz+OAZvAQhBVgNPfJrD6jKGgWvSqnhqfqqTY2YoSJtoqTzVEzglK5XHRbA1NUpjrVXNqdSN/IHwzitDePaLU8EwXSYWgCjy4sLPQVxMqd99R2orThb47uN4iz2j321wUnWEordHJaXl15hczFzaGNfFLVWgRXvjuvIBHkk0W+ss9t1uKpdQIcBxDEOmuc6O91T0GWVaQOQjPFrunkT2BnxYA==
+ b=EHF5jOiDxqwMXTl+mzjL7rqe+AjP3dz8sWO0bOZGYhhvOlJf+qwVm9sii7VaDhjoQKpo7uVMaXBtafgL/qLgSHYBXn4hIh52ddSX1rpIoqJctW/fpLiKmQSUO/2YdWo4PzgAYr1GuhAzWNmnaTm/K4GIFLjbEoDpb1IA0EZf5gFGc4HN6JbKBjqP2DxN7Zu7kZv6bHyoA5QzHxck8qY1rLTa+VYBlFXtmCN2QVz0YOMU4JyDGqesgWAekiioCpAqz3tpRwgSY4iutroel56Y/z0BkCdRtqsFbb5gbYC5anrQrt0R0MrPLHIynQjep56WjXoRsNL8V2Q2VPGBxALEzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dHwQtuRgYQkZfsPSnKTIqcgvFvblW38pCCUh+jpEy9I=;
- b=AzxWEUNQAF/IKaH1WvzpKq7BVU+Sd5k0ddcIFUb4lFuAls11a6/T5U/IF594/8Zz9h51dUjj5A+gsCHlewbFIP0F3ab9OyyPfa1KAMdUfqXD1ySYBoTpSZ5XeDdZKdFUtcz5xdn1G2j2sxTmYMvUsb9/A3bqGv/wbAURghBcsCLPFJ6P4xTX1h9Y6UcNiyxg4bifyr9p+PnwrewKGGyn3R6tttztd6gBOt0AdmQAQt8jyyQiiJyVt8mzKfXSOW4+qY44+fwEEF9goc6TCzA2pHejWmWwr/SZ24jCpLYfxS/rdNTQmua+k7ce+QTFwpNxdFveZu2UgYphxUBwa2+eMw==
+ bh=0rMhVa56im73jjOEyThgXBULnBsWYGW3AleMBQbViiE=;
+ b=ieUyXNcmQHQDN4wym95FJg0eI2UR6mXiWu3N0QIPUFbtivkGhCxePj004iJp2EQExlt9qFJJRz1HsGUNGgkoWXrVHpDMXlPgqnUx4YRSgGK3HRC0fiUS+xmq80MHSsVzihZKfc/vG2fiwPZkPr8slI7iUANWapMP6XiC0cvpv507hVKb2xnA01ddN+2cjq7iv1WVplEqQgtcBtBs4UQss1uMA7Yh65/MHoF60PAAUdZzZvma5bRo6eJrqqwDoSHV27YFkpqUb4gkb/opDE+GJKRoKXSvtO9P+hEFgX2jOsjli013kEdZaeGzgoqm4Cfwg8No828bAS0Xt8nrV9cF4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dHwQtuRgYQkZfsPSnKTIqcgvFvblW38pCCUh+jpEy9I=;
- b=eQ5oB9Sw+LsUhdy4CeWN46qgr1D6f3WLNLuaZf33ppGmTmrNdeZiLm8MW9CLVJetWdaJqEvVv5qHjLPwO53lzkHi5G3TOK/Zhtu38srTprXwHPMhblVZ+TlIP9KItCjpSiWNTfUHYM0p2Z8u9p8WA8zD5HlOGFZ+rGQn07iwLiHxvXIF5Vy/1kbPbQre9R5SjxhBRBanoxVbRW0LCh4kx4W4Zax2P2gevMVcApI8kxUWFA0dshtxBbDuIZnbu/2fY9/NbdoH7XH3EXX+02soDWUd29J9XG/KhOIkOHXyV06ENLXTZFFiUD8vgRZTLfVCzBZhpyTVwOFejp9qGxHNig==
+ bh=0rMhVa56im73jjOEyThgXBULnBsWYGW3AleMBQbViiE=;
+ b=QpX6u9IjrGmJSIv0yibJ0rwvxeqlX3l6xr8IDD41tduZAYMgElMQVk63ORFA1P1E65FJmeIkr0JHDZoMi4dDePLD+eewIZs3qDqmNR2bGUaLh14Z2GXM2nhejJNaTyesnaFqUpo2La0lyhsPgiyZREydNXfT0m92Q0JJ5FoShwPnaizL7mBYmnT0zL4Eiz8AyqjmvFS+lNX76DArTdeM1Sl148cF9vzPq/qnrLPn3mAxTWV8l8libWAvihJtVKu1qWB3kI+SGbtUbOdRfj+8au5r0B9h3CqCtElNJn2rMRKUvNFnHjcJ1SrMLu0T9Iso4KRwTqckvu8YdXYC1xQlUg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- MW4PR12MB6900.namprd12.prod.outlook.com (2603:10b6:303:20e::14) with
+ PH7PR12MB5901.namprd12.prod.outlook.com (2603:10b6:510:1d5::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Tue, 14 Oct
- 2025 05:16:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Tue, 14 Oct
+ 2025 05:35:51 +0000
 Received: from DM4PR12MB6494.namprd12.prod.outlook.com
  ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
  ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
- 05:16:30 +0000
+ 05:35:50 +0000
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -69,110 +68,110 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 02/24] clk: tegra: set CSUS as vi_sensor's gate for
- Tegra20, Tegra30 and Tegra114
-Date: Tue, 14 Oct 2025 14:16:23 +0900
-Message-ID: <3368358.XrmoMso0CX@senjougahara>
-In-Reply-To: <20251008073046.23231-3-clamor95@gmail.com>
+Subject: Re: [PATCH v4 10/24] gpu: host1x: convert MIPI to use operation
+ function pointers
+Date: Tue, 14 Oct 2025 14:35:45 +0900
+Message-ID: <12287833.MucGe3eQFb@senjougahara>
+In-Reply-To: <20251008073046.23231-11-clamor95@gmail.com>
 References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-3-clamor95@gmail.com>
+ <20251008073046.23231-11-clamor95@gmail.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: SG2PR01CA0195.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::17) To DM4PR12MB6494.namprd12.prod.outlook.com
+X-ClientProxiedBy: SI1PR02CA0031.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::11) To DM4PR12MB6494.namprd12.prod.outlook.com
  (2603:10b6:8:ba::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|MW4PR12MB6900:EE_
-X-MS-Office365-Filtering-Correlation-Id: a86faf23-175f-4ffd-870f-08de0ae0d548
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|PH7PR12MB5901:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46c3d770-5392-4519-c2c6-08de0ae388e9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cmtqNzdVWGFpZ1FiUVl0Mlc0WUdnUHEwZHlOZ3Z3bTgwWFpUMjFqUG9IL2dI?=
- =?utf-8?B?UzRIUGZ2UXF2VTRZWVk2OU1GVHFKelk4aG8ybTRwaWNSSXVhNjF0bW9vbCtE?=
- =?utf-8?B?bXFKeHV6K280ek9VSmU3NVV2RThzWEhqNExVbXlMQ29RNG9abTBrOU9Uc01H?=
- =?utf-8?B?WloyaW5HQUFkZE91ZHExc2I5MnJRSHBvWVBWRUk0NHZzeVlJYlRyTmhQa1du?=
- =?utf-8?B?L2R1Znk4K1JFaXZock9HRUljd3BuVHlEaitqSnlTVTc5OXBuTWNBN3Bwcllu?=
- =?utf-8?B?UUdhMWZXdTB3OU1EdUljdy9jNFVrZ2dyMGV4SVFWbHEyQzRId3NNY3VoTUo4?=
- =?utf-8?B?a0VFaGtZeFcvOUMvbW4wbVBMTGMwTHNtTDdsclZJSFZCU1NMbTZrazBNN21V?=
- =?utf-8?B?RktrUGpoNThCMDY1NXFaWE0yZUhIY1ZodW45bG1FUHAzNWkwYWd6MDlWcG42?=
- =?utf-8?B?VTdnYmRkdEt2UEUwLzBPZHpEVmhuSkRPaGRnK0NJMmZkWkVEMWQ2UnBsbUNh?=
- =?utf-8?B?azNLYUFKM2pZb3Y1ZVUvT01pNDJicE5rM2VHWUpKU1hBQXJzaVUxSzA3Y3Qz?=
- =?utf-8?B?U3FJeDEvZzFTV29UU1EwU1pySXVDSDJzSGF4RTdUMVh5ajJzaGRhdGF5bVhP?=
- =?utf-8?B?bDFzL1ZQbWdaVlZOTjJVNEVxUmwzZDZ2U0EwdEs5TmRvUExxTXBrNE8vK1Rk?=
- =?utf-8?B?ZVhIWFhPaml3UVdtczhtNytGUXlmY3hSUnorRkk3bVBnOWtiM2JCR2Y1NVFJ?=
- =?utf-8?B?QTlkMC93T2lRdG1pNnhSZEdBWFFwMUdWUE14UkhHYjFkUWVuTXdlNUMraGRY?=
- =?utf-8?B?dWx6YnlsaG1vVWM3bmVkbDhiVlpmVGRzV1dYUDUxOGFFaDBqQVJoakNtTDY2?=
- =?utf-8?B?N1UrYW4rRDM0L3FlbUt1NHp3emw0SVptZkJWNEM2SUJHdjN2bzFmdmF3OHo3?=
- =?utf-8?B?YzNZdjNsbWE1SndQUUJndWplZ2UxNUIxaEtmdlV2L1MrZXY3UW5jM0IvVStr?=
- =?utf-8?B?TXJPTXl1Z1JIQ1p6MktiZ3cwQWNsUHBCeDZaem54VzVBMVZRYngzTUJSdmFS?=
- =?utf-8?B?TGtLcDU0UnV1aitDd1lUVGR4REVOSmFwZHFKSzk1YWNJOXpvM0hGVHFQMVRs?=
- =?utf-8?B?dXBGMFFjQ1NMVjZqdjd6amNvaVlFNzdTZlZIZmFOQWhCbWNyc1l2eFdNdzha?=
- =?utf-8?B?dWtmVE50UkM5Ui9XTkI5UFFPOTNpSGVNMkZ4VHVHQTB1WU9iQmNIZXZEQTJ1?=
- =?utf-8?B?UnBLY1B1cjdPVlpTamZ1WVBDd21wemhtZ3BsRG1NVE5kakNaZWRMeW96UVVN?=
- =?utf-8?B?dXFNZVM3TWdMZFRncWpVOUltWm1BYTlsOE9CMnk0aW5idHFxaXVVMVhvVDlJ?=
- =?utf-8?B?aE5Bc3dHNGJUazRMZ0NKS1hpTVhha3MrRFY2Um1nQW9Td3E0SVZGaC9XRUVV?=
- =?utf-8?B?MlpDMmJTd0phK3Z0OVB0MGRFTGZFQzdHR3llbnBBSnJWQ1NSZnlHYUJwa0ps?=
- =?utf-8?B?bGhzSnU4aFlPZnU2MFFOR0cxVUNQQUhUeVpnODVyakwzR0lrb0syRTYva244?=
- =?utf-8?B?S0VwOXVqK0FyQXhSaGw5R0QzaHk2cWdSbjBSa1N4UDVNR2ZGblJ0aEJYOUM1?=
- =?utf-8?B?bk5NSTNwOUY1U1pNTWNFMzkvMU93R0JLSEdraUR5cUk0dkZ6STNYaTRubTJr?=
- =?utf-8?B?L0JIWnduaGIzY0xyb0hRU1JJWWx1K1dpS09TMkZESytJTXBCcnI1SktiSHp2?=
- =?utf-8?B?RFBZU011N1hVcVFtTE0ramIzaVI2aTJyeldzWTVaV1hxblYyRDl5MStzWGFF?=
- =?utf-8?B?UVdreXpPSDFtSUZUN21YUmNGRmFsd3p3clZmb01ZOUxidVJucWRwZ0hHNHFC?=
- =?utf-8?B?R2hjV3VENlJBL3lyamVrSHJ5Mm52TFhaVjgwcFVHanI2UlIxUC9ueEtaWUp6?=
- =?utf-8?B?NDBhT2R4MlhHVEc4SkkwOFJxUVhSWW1rckZYNlI2RnZmTFh1R0FUaHJZbkYx?=
- =?utf-8?Q?ayipM16FNqd6gjlyQg3q3lAv0djEQI=3D?=
+ ARA:13230040|366016|7416014|376014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dlRQdGd5dVppN0VZY0M4bmpVam05TWtaS2F5RFpQdUEwUHRyUWFoMzh4aC91?=
+ =?utf-8?B?ZHhYSFFoWkNoaUl1VWQyWndKcjN2V2tscENhb2tyT2F6V2VYeXFQVkw3V3pW?=
+ =?utf-8?B?UVRweW9xMUNoVU5TSEZCREp6MEdsNGpHQzZHZGlFek1uZjdjaUcxTTdZOE14?=
+ =?utf-8?B?VkNRNHh2QWk5NWpaQjY0TGdWeFdIZUV0WTgyZ3JtWUVkNUlHSXlGbEloUCs5?=
+ =?utf-8?B?UVFWNGdlSENUUjlmYzd2eGNnaVk0ZlNFdWloL1oyN0tzSWxMV2lFMkFhY0Za?=
+ =?utf-8?B?Q1dYZTd6d0VkMnp2ajV1OWUxUndIQkY3ZFJIZUpqZWZsbWR3TWRNeFVmZHRU?=
+ =?utf-8?B?MC95WXlDVmZNV1NyNm1XLzdyZ1Z3M1lkeUlPYm9jOEZnSXplbmU0T01pcU9l?=
+ =?utf-8?B?U0p5M0M2WjhES2FoN095clVEN0pwOUhlSkhHZDNheXhINjhxWDBTK3FYaDBQ?=
+ =?utf-8?B?NGtEY3ZhaEx5d29mSXArWlZDL1NteFJyRUsvWkF5VmNKaW1UNm9QSVJJTTRT?=
+ =?utf-8?B?allFSzZzMXE0ajhBSjh2ZVZ4ZU94SzBYNnVzMkViT1pjVXJPM0MzOFhkMmg0?=
+ =?utf-8?B?cisyUjZqci9SWkJiM0dWemg4OU91V25rZnBwaENXWWNYazBEZ05sdkIzaFpQ?=
+ =?utf-8?B?Kyt1dFo4STUyUkY2b3NHZ2VBRGRHRzBLSFFKZFJKQjRqbTdEaWRxQjd6KzlT?=
+ =?utf-8?B?TVJmV28waDNMV1JKS3dxaXREUEZvNGwrNjQ5SkR5UXNXc05iQVZqYWZMZHhP?=
+ =?utf-8?B?WnVDdjJXdVRId1QvOEFOR2kydVpYTGhKRHZmRGp3RS95ZTJuNW44VUluZk13?=
+ =?utf-8?B?ODRpeWNjazZjMk8xb1hPRklQQXRyZzBNVnJtVmZKcHJlUmhEd1hBRC8xNjZq?=
+ =?utf-8?B?dFhSUG9XamsvRUZUVzNJcUF1RnB4UW5UZUd5bnQ2SXZub0VaZmxhaWp0Rmw0?=
+ =?utf-8?B?UXhGU1JMS1JGNVFpS2RQaXhTZ3BTS2JXWC95NGtlQmZmTFNtaUIzRC8yQnla?=
+ =?utf-8?B?dVpmaXhKd1h1djVUUUNkSTdpN3VkQnluSXVHYk5MR05kVWRCTFVPaUFRQjA2?=
+ =?utf-8?B?NzYyczh4ckZ5MlQ1OU95a1o0MWpITEptUWdYRWFIOTk4WHNSMnU2NXozZGc2?=
+ =?utf-8?B?VmRpWnJWU05EQUNvYy9hUTRNSXh4aU9CRXBNeVZaZFNXamhJVmUwblAvWXNr?=
+ =?utf-8?B?TStUL0U1VkFoS0xLTk1GRWpGWkhrekJ5QWpuZStXdDZGWTFFMElaVGJQY2E4?=
+ =?utf-8?B?WnZXcXR0NUpvT0J3bnlsZlphMkdUV1ZFMkVka09oazVCOWFSM1BwTTBDNmZh?=
+ =?utf-8?B?MndzNGNKRE5McFVadHl3c2lIV1lqYktPcXRwWW5saXVyZ2ZJa1B6UXhXSk5h?=
+ =?utf-8?B?K3ZtUkg2VnZjSEdORkkwenUwdWEyUFRsczd2N3dYNTBWeU5paDhncS80OUFE?=
+ =?utf-8?B?MHlXdThzNE4xSGNNSFpoZFFvUXF6YUQ2V3FMM0hueHVGV1h4THpoUTk3Z2tS?=
+ =?utf-8?B?Qk5WR0FEMU5DVFBtN1hSSys3RXpBd2FaQVY5Y0wvQzhraHIzQmFRK3psdlo2?=
+ =?utf-8?B?SkFXajB4cklVbzRLT2lyYkNtZlZ4MitPUzFzdjhrTFJTYWRBSXVxV0pOUSt1?=
+ =?utf-8?B?SjJ1ODVPSEViKzJhZGNEaVZDSVJlZkhMZ2Y2WEg3Y0tMTzVKa3RLODdOand6?=
+ =?utf-8?B?OEtmK3UzeVl0SDNLZDhya1RxMm5KVTdpWXNncmtUVmY2d1BIbjRFZitsaXVP?=
+ =?utf-8?B?aUtyR1U2R21TamlKMWJIalMvSnhFZXBjNUVDNUZxQkNDcmZkd1prb3RobENo?=
+ =?utf-8?B?YlY3eFhFTkV1WFNkZitSbjlWVHZmc2d5T0NwSkNWK2dnOWhTMldCVm0rZ2dU?=
+ =?utf-8?B?NndXRTBwYmZiV0Zlc3F1ZnNyRmxFcWVyVjdqdGJKemZPNlpyNklydzhqY2xa?=
+ =?utf-8?B?TTVuTVdtQnRaY0tDY3BmaFdGekhEOENSS1U1VW90RHRWVk5EbTZWd2FUQmFz?=
+ =?utf-8?Q?mosR4Rs/6pwh88LAMDMZmbfleAzl7s=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020); DIR:OUT; SFP:1101;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnd6UGJWdVVad2ZNMVJ2U1lYRFpWdnpZS3hQZnpUOGcydXNlQVNRcVRCT21B?=
- =?utf-8?B?dWdhMGU2eXRKbXkxbmtOZDNvRjlzYzFyTERmbk5wTjVWbi9SRVQ5bUt0NXhu?=
- =?utf-8?B?VzZ6MkQ0WWlkcUd1bnhxcUxmYjRPQXhpSmxCVVN1bXlXdW5Jc1VyRHVqMS93?=
- =?utf-8?B?bm1jRW9kcU1oYUdTL0kvY1krMDB5Y1AzNjRWWE0rWGJ6ZzdFb0xxcGI5VmZJ?=
- =?utf-8?B?bGtkZ28vaXVQVy83bW00YmE5UUkwOS9aZU9RWkJIaGZTT3VlZy9qYWc2R1Vi?=
- =?utf-8?B?Q3ZKRFliOG9SWGlTQmlXYnBYemlURHN5Z2RUYndPZWRodFBYQkF2NUhLL3pw?=
- =?utf-8?B?UEhIdjhPZUtybWpVLzN2N0F4dWE5OGRpRTBGblFldTF2ZDN5ZWdOYTFoNVJr?=
- =?utf-8?B?eHNBcEkrdFZwUkIrQ2NNQ081S05USXljeEZULzRMR0U5ZHB3N1ZzT2RBY1Fp?=
- =?utf-8?B?dkx3ajBpWnk4bVhzU2ZxTmlQQys2U1BwRmliV2VwbmlSWVlBYlZjeWw1NEJk?=
- =?utf-8?B?TVNoUnZGVG15aGM3MFZSTCtDM3JLb1BHSnM5OG9TbWtOaDJZUEkzNnUwTnBu?=
- =?utf-8?B?dGRvanVaMHBrY0M1Qyt2NkloVS9hb214bTRjL1BMYlRvQmQra3l1YU1YUVll?=
- =?utf-8?B?WXk4VW92blVjcVZ2KzFjMnAxdk5qYnhhaHhBbnhldkx1UU9GYVViaTlVdjY0?=
- =?utf-8?B?c1JUUXZTY1J2c0xPeC9aOWRsdjdMUUFJU1VRUVROMzlWZE8zUzhwOGpPenFz?=
- =?utf-8?B?U0ZycE9jZGgwd2hFcnhrQWxVK2xkcjhvb3RpR0tBcXZweHZZQmlDb3RFK3ZC?=
- =?utf-8?B?a3hmM25CbXZVWnBkUWRleDJZTjhQWk4vNlI1b1I2L1dDbGszOWhaSkpucHlo?=
- =?utf-8?B?VWc1L05NalBBZVBKM2pwaE5GWFN2NVFOajYxOUNqNGpkWkxGbnpSNmNWWG10?=
- =?utf-8?B?dEZ1dEN6MmtqbXRtZzVwSnJrNWRpVEZYcGxqNlFSZUk5THpXTUlDM3RtOFBz?=
- =?utf-8?B?S1Y4Z1I3aENyQmVqdCs4a3BqTFJIT1lxRU9oYmFmSWVQNG9PUHJjM1FhTzBa?=
- =?utf-8?B?ekpSWE96KzVuVnZQTDV1QndZRUhPMkZ0aHJDdDJyeDhJeWlmUnIreStqcXhZ?=
- =?utf-8?B?cnNxU3YveEc3ZGhTeXQzZzZ3ejNsaVJGanZGcVVPc3VvNTlHeVFKZGkrY1hF?=
- =?utf-8?B?NVFRTThzNk0ySjVCcitIQlhiWDl3WmFRejc1cDJWeFpnc0pMOWhFN2E3b1I1?=
- =?utf-8?B?ZkFsMEFHOHFaZmtvK3IyM05pWmZwdDRkWFl2ZWdLajczQnQ5TTZHSEhoaVZn?=
- =?utf-8?B?U05YV1Y4aTV1dFdwWjRmQVhoWjlWN3pyTjRtVHpLaDRabEczTDhUVzJyOFlK?=
- =?utf-8?B?dUhMUTF6YVQxOVRseVAvY1VRbk8vVFpPUUdqeXlqa0Z0cmR1U0ZUenNxL01k?=
- =?utf-8?B?S0dQVk5JTGFoa2dRTmtHVTVYOWZNVXRUOU5pdHY5NjBVNDQ2UU05L2gxc080?=
- =?utf-8?B?dnFBenc2eFJ3QTVsQ1lodVJSdmlyOXNzajdqUHlaZ3RKSS82Rm9YVkJJZDdD?=
- =?utf-8?B?ZG5jY3ZHSFAyOWVzd0UwNE1Sd2xwL09PcmY1aE9ORzUwYTkrbGdaUHE5ZkZz?=
- =?utf-8?B?RG8wZS9zemxIbXluamgrcXlJd0I0ZXRYMGlxZW5XWmNkNGlibmFUSEdzazA2?=
- =?utf-8?B?VU9BUnpMY3pINFFPRTVaVmt5V1RVeGJxdmkwSDR1cjFRVmVwSk5RSk81Q2VJ?=
- =?utf-8?B?L29zUHlydW1jcFo3ZHZ1VUQxK3hwbk8vUjFvOEpUNjZFSFg2d3NGS2p0WlJO?=
- =?utf-8?B?M2pOdGVJOUtpbGhobWI2aWxua0VmNlFIcnhiN05qZ1FDL3NnRTc3Qm5MbG04?=
- =?utf-8?B?T28vTVY4MzU4dEpwRHNqOU41WmdJdTh3QmRKU0o2ODBIZkc3NlF6cDhaNWla?=
- =?utf-8?B?NGhtSnRIakM4akFWV09vVEV4bHdEVnRFM1FuSk5QQjVOSDBybFpDcFZ5S0w3?=
- =?utf-8?B?K0h6SzRVUW84b2FDbFE4OHE4VWlrNHVDU3NpS01VTERvcVFCUDZVQ2ZpcTVG?=
- =?utf-8?B?dlRpd1VFb0gxRHM5Uyt3N3dwMnpqR1N2SXJ1R1EycXp3Q1VqWmo0TkZhOEpu?=
- =?utf-8?Q?G3jv0PRDl+bkKlYwbwgzGkjDr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tzl3SE5DNml3Y3c3ZUZmQkFYOG1SZDJJRUNqMFE3cHNuUnR6cDNxMnRRemtJ?=
+ =?utf-8?B?d0FMNjFHT2dEZ0tYdHcvQzZVcHJsY1hOYXQxbjYrNGtabWUzVnRBSThXQnZQ?=
+ =?utf-8?B?dExNcHM5dVNIQmcxaUtiNjRpdy9yRjJlOWwzUGxaQ05rQVdTTFhQOFptTS9E?=
+ =?utf-8?B?dzJIRDVQRzJpaTlFM0UycWFzeWVtUHlQZ3Fidkt5OHFXODFSdlNNQnNSTHg3?=
+ =?utf-8?B?OHQzK1BNY1lwTURSTXk5a2FJQ1V3WktzM3p5U2dvbElONUEwU21TODZTSDZs?=
+ =?utf-8?B?TncydmpaUFdMWTVlMUMvaUJncVdERXZPcE5tSzNaZWx2TGd5WGx3RlNhRCtk?=
+ =?utf-8?B?YW44Smx3NmVZUU5SdzVaL2NhTGVMeG5tNVhsL3pjVlRtKzN1T2pORkpwZDd2?=
+ =?utf-8?B?R3VzOFh6TmZjb3dVZUp5RWVCNGpVSSs0eE1tdW5OdEpyeUs3bFpsdzRWSTRo?=
+ =?utf-8?B?aml3dVdEN0RtQ2RaNm1CcXoyZmlMRTlPSkxtelJaTktXcE5yalJuSUk5cG1x?=
+ =?utf-8?B?K0kwanJ6b2dERFZuZVdETmJkSm1ISitFbldBSm1HdHIwRUJzNGwxUU9aSGIr?=
+ =?utf-8?B?cHNCWVBPeWh5UTNxczdIallWSHFPMGNLek03WjJJM0RNZ1poMDg1RlB3SENi?=
+ =?utf-8?B?UndJanAyV1d2L3kxY1BnK2lCWFNpMjZ4OFhoYW9TcDIzOG9sR05uK3BWbFJ4?=
+ =?utf-8?B?a3NkbmQ4ZnFwblVESllja3U2NmVoNjdYZDZaa0oycXk5cWZQVEJmTlNwVXBl?=
+ =?utf-8?B?bm44emxiVGtTcWdIWDBxOVV1Z1JZMWhrQnFOWTRHR3JVUGtRS1NpaVZpRkpB?=
+ =?utf-8?B?TWYrRjZnckVaS1NtbU5qYU5BeEtocjc2QW11bGY5SUlPWmwyZUZxVEx3Q25C?=
+ =?utf-8?B?SHRKcWVYVjVnY24rVG1PVlNBR3JIT3RvdEQrdUxzQ1U0L1UrVnNTUEJNVWlR?=
+ =?utf-8?B?azN2UXJIdmtmQUw0ekRRSGlOK25JaldDNFR5cFNtaytxMVJHcTFKSmgwNnZi?=
+ =?utf-8?B?S05xTElWN0JldmhoN2FBMEJnQnUzNXRwNGI3MDNVdTEzVzAycWtSYXZzTnNS?=
+ =?utf-8?B?blFrcjZObXRzcjc1MHJwZkFUcmZLNVpGWHVtWXlFaEpQZmJ0b0ZhYkZnN250?=
+ =?utf-8?B?eTRpQWRucVdWVzJ1ZW4yajgwUGwrNU1BeFppTk4zSGRlKzFibEZ4eTZaTGt4?=
+ =?utf-8?B?VEQvSzRrSWJId2RoL2JCNWJ4KzlodWxRNUJWK1JvMy92ek9UK3p4ZW43MThI?=
+ =?utf-8?B?UDNnUE40K2FEVXJwdjBTZFBZQXhrb05lMnhxbEU0d0lzeFFVQXFaeFZ5TEJW?=
+ =?utf-8?B?RlZoSmp6SkJOYU8zeWRuUXplUkZtOHBPNCtpdEFQNjNzVVRlR0paMHdPdUJn?=
+ =?utf-8?B?ZHNtaHNqNWZ1WlFMZngrSVhvb3RsQXJodjRrY1FDKzlUdVVBeWF5dWVrWUdv?=
+ =?utf-8?B?Smh2ZWJmK1NMUHBRQzVXYmZENXhrNHFNeFRtTFU5djdyWTNzL0JVQm1LOGFB?=
+ =?utf-8?B?WDU4WE01S3U4Vmswcy9rcVIvMFZZUUpHL1pJNVdacEZyeGIxYXVzTm5SS1px?=
+ =?utf-8?B?MjFmZXFyRzRhdWZBTXdXTEExTUlPa3VTTlVUSzBTMTVjNU5BY3RXUjhHY09Y?=
+ =?utf-8?B?Ykt6UTA4Z1drbGRNcjFRTzNhbFhhQWdHWUFFaU5oUmRIUllUMStkMUtFbGV1?=
+ =?utf-8?B?U2pZelRib2JKTXY5dE5hNStKek5zMXZBWHRhMEtGajZEcjVrRDBQdnlGTUdH?=
+ =?utf-8?B?ZmdpRk9RRDNSM1ZpTW9JMnVieCtXaDQrdTZLL1ZkREZsVXJGaytJdFBkUjVR?=
+ =?utf-8?B?R3JscDFYdURBdmI3cHNsRVJwV2JKbEJEVThGYStDbnIrdkdtMHZMWjFvREVw?=
+ =?utf-8?B?d0pYMjJBVSt1LzBZVE1oa1ZTdFdjb1Zwa3cwTXI1ZitybzBpZmhXc2hkLyto?=
+ =?utf-8?B?cTl5aUY4VElyTXoyWWhRQkhrWmNqVHJKOTA3SzJoMStOODlZNk5JK25GMjBj?=
+ =?utf-8?B?OXA0bVh1Nys2bUVPRmMxZUQxazNxVFNzSUJTK01rRXU1cUthcngrTHpOZFRk?=
+ =?utf-8?B?Y2c2OFZmcGJ1Um01RHpMZE1kWnJWQUFEbUVPRzhuMmYvR1NPNVZENGdtMlZL?=
+ =?utf-8?Q?9JCciSYGB6LeCVWc4itvO9ca5?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a86faf23-175f-4ffd-870f-08de0ae0d548
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46c3d770-5392-4519-c2c6-08de0ae388e9
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 05:16:30.4401 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 05:35:50.7772 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5YBPghOH2V1T6QFfm/phtMQsPcLU/VJnVlWUWTw3lztGrvOoAaXd5I3/UeGKv7PUqPml2QsQGsH8slfKjBRz+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6900
+X-MS-Exchange-CrossTenant-UserPrincipalName: ditvxiRait5Rtw9ckV0BP0yHEwCM7DqHyskqv/n1C7+mV8NuB857WBixupNwIglPXN5oGJ88byrMDq1BPy27jg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5901
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,145 +188,1282 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wednesday, October 8, 2025 4:30=E2=80=AFPM Svyatoslav Ryhel wrote:
-> The CSUS clock is a clock gate for the output clock signal primarily
-> sourced from the VI_SENSOR clock. This clock signal is used as an input
-> MCLK clock for cameras.
->=20
-> Unlike later Tegra SoCs, the Tegra 20 can change its CSUS parent, which i=
-s
-> why csus_mux is added in a similar way to how CDEV1 and CDEV2 are handled=
-.
+> Convert existing MIPI code to use operation function pointers, a necessar=
+y
+> step for supporting Tegra20/Tegra30 SoCs. All common MIPI configuration
+> that is SoC-independent remains in mipi.c, while all SoC-specific code is
+> moved to tegra114-mipi.c (The naming matches the first SoC generation wit=
+h
+> a dedicated calibration block). Shared structures and function calls are
+> placed into tegra-mipi-cal.h.
 >=20
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  drivers/clk/tegra/clk-tegra114.c |  7 ++++++-
->  drivers/clk/tegra/clk-tegra20.c  | 20 +++++++++++++-------
->  drivers/clk/tegra/clk-tegra30.c  |  7 ++++++-
->  3 files changed, 25 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/tegra/dsi.c             |   1 +
+>  drivers/gpu/host1x/Makefile             |   1 +
+>  drivers/gpu/host1x/mipi.c               | 525 +++---------------------
+>  drivers/gpu/host1x/tegra114-mipi.c      | 483 ++++++++++++++++++++++
+>  drivers/staging/media/tegra-video/csi.c |   1 +
+>  include/linux/host1x.h                  |  10 -
+>  include/linux/tegra-mipi-cal.h          |  57 +++
+>  7 files changed, 599 insertions(+), 479 deletions(-)
+>  create mode 100644 drivers/gpu/host1x/tegra114-mipi.c
+>  create mode 100644 include/linux/tegra-mipi-cal.h
 >=20
-> diff --git a/drivers/clk/tegra/clk-tegra114.c b/drivers/clk/tegra/clk-teg=
-ra114.c
-> index 186b0b81c1ec..00282b0d3763 100644
-> --- a/drivers/clk/tegra/clk-tegra114.c
-> +++ b/drivers/clk/tegra/clk-tegra114.c
-> @@ -691,7 +691,6 @@ static struct tegra_clk tegra114_clks[tegra_clk_max] =
-__initdata =3D {
->  	[tegra_clk_tsec] =3D { .dt_id =3D TEGRA114_CLK_TSEC, .present =3D true =
-},
->  	[tegra_clk_xusb_host] =3D { .dt_id =3D TEGRA114_CLK_XUSB_HOST, .present=
- =3D true },
->  	[tegra_clk_msenc] =3D { .dt_id =3D TEGRA114_CLK_MSENC, .present =3D tru=
-e },
-> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA114_CLK_CSUS, .present =3D true =
-},
->  	[tegra_clk_mselect] =3D { .dt_id =3D TEGRA114_CLK_MSELECT, .present =3D=
- true },
->  	[tegra_clk_tsensor] =3D { .dt_id =3D TEGRA114_CLK_TSENSOR, .present =3D=
- true },
->  	[tegra_clk_i2s3] =3D { .dt_id =3D TEGRA114_CLK_I2S3, .present =3D true =
-},
-> @@ -1047,6 +1046,12 @@ static __init void tegra114_periph_clk_init(void _=
-_iomem *clk_base,
->  					     0, 82, periph_clk_enb_refcnt);
->  	clks[TEGRA114_CLK_DSIB] =3D clk;
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index b2046f6ea515..502f0cd0ce53 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+> +#include <linux/tegra-mipi-cal.h>
 > =20
-> +	/* csus */
-> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
-> +					     clk_base, 0, TEGRA114_CLK_CSUS,
-> +					     periph_clk_enb_refcnt);
-> +	clks[TEGRA114_CLK_CSUS] =3D clk;
+>  #include <video/mipi_display.h>
+> =20
+> diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
+> index ee5286ffe08d..fead483af0b4 100644
+> --- a/drivers/gpu/host1x/Makefile
+> +++ b/drivers/gpu/host1x/Makefile
+> @@ -9,6 +9,7 @@ host1x-y =3D \
+>  	job.o \
+>  	debug.o \
+>  	mipi.o \
+> +	tegra114-mipi.o \
+>  	fence.o \
+>  	hw/host1x01.o \
+>  	hw/host1x02.o \
+> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+> index e51b43dd15a3..8d32072e2244 100644
+> --- a/drivers/gpu/host1x/mipi.c
+> +++ b/drivers/gpu/host1x/mipi.c
+> @@ -1,215 +1,65 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+>  /*
+>   * Copyright (C) 2013 NVIDIA Corporation
+> - *
+> - * Permission to use, copy, modify, distribute, and sell this software a=
+nd its
+> - * documentation for any purpose is hereby granted without fee, provided=
+ that
+> - * the above copyright notice appear in all copies and that both that co=
+pyright
+> - * notice and this permission notice appear in supporting documentation,=
+ and
+> - * that the name of the copyright holders not be used in advertising or
+> - * publicity pertaining to distribution of the software without specific=
+,
+> - * written prior permission.  The copyright holders make no representati=
+ons
+> - * about the suitability of this software for any purpose.  It is provid=
+ed "as
+> - * is" without express or implied warranty.
+> - *
+> - * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOF=
+TWARE,
+> - * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN N=
+O
+> - * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT=
+ OR
+> - * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS O=
+F USE,
+> - * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHE=
+R
+> - * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERF=
+ORMANCE
+> - * OF THIS SOFTWARE.
+> + * Copyright (C) 2025 Svyatoslav Ryhel <clamor95@gmail.com>
+>   */
+> =20
+>  #include <linux/clk.h>
+> -#include <linux/host1x.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> +#include <linux/tegra-mipi-cal.h>
+> =20
+> -#include "dev.h"
+> +/* only need to support one provider */
+> +static struct {
+> +	struct device_node *np;
+> +	const struct tegra_mipi_ops *ops;
+> +} provider;
+> =20
+> -#define MIPI_CAL_CTRL			0x00
+> -#define MIPI_CAL_CTRL_NOISE_FILTER(x)	(((x) & 0xf) << 26)
+> -#define MIPI_CAL_CTRL_PRESCALE(x)	(((x) & 0x3) << 24)
+> -#define MIPI_CAL_CTRL_CLKEN_OVR		(1 << 4)
+> -#define MIPI_CAL_CTRL_START		(1 << 0)
+> -
+> -#define MIPI_CAL_AUTOCAL_CTRL		0x01
+> -
+> -#define MIPI_CAL_STATUS			0x02
+> -#define MIPI_CAL_STATUS_DONE		(1 << 16)
+> -#define MIPI_CAL_STATUS_ACTIVE		(1 <<  0)
+> -
+> -#define MIPI_CAL_CONFIG_CSIA		0x05
+> -#define MIPI_CAL_CONFIG_CSIB		0x06
+> -#define MIPI_CAL_CONFIG_CSIC		0x07
+> -#define MIPI_CAL_CONFIG_CSID		0x08
+> -#define MIPI_CAL_CONFIG_CSIE		0x09
+> -#define MIPI_CAL_CONFIG_CSIF		0x0a
+> -#define MIPI_CAL_CONFIG_DSIA		0x0e
+> -#define MIPI_CAL_CONFIG_DSIB		0x0f
+> -#define MIPI_CAL_CONFIG_DSIC		0x10
+> -#define MIPI_CAL_CONFIG_DSID		0x11
+> -
+> -#define MIPI_CAL_CONFIG_DSIA_CLK	0x19
+> -#define MIPI_CAL_CONFIG_DSIB_CLK	0x1a
+> -#define MIPI_CAL_CONFIG_CSIAB_CLK	0x1b
+> -#define MIPI_CAL_CONFIG_DSIC_CLK	0x1c
+> -#define MIPI_CAL_CONFIG_CSICD_CLK	0x1c
+> -#define MIPI_CAL_CONFIG_DSID_CLK	0x1d
+> -#define MIPI_CAL_CONFIG_CSIE_CLK	0x1d
+> -
+> -/* for data and clock lanes */
+> -#define MIPI_CAL_CONFIG_SELECT		(1 << 21)
+> -
+> -/* for data lanes */
+> -#define MIPI_CAL_CONFIG_HSPDOS(x)	(((x) & 0x1f) << 16)
+> -#define MIPI_CAL_CONFIG_HSPUOS(x)	(((x) & 0x1f) <<  8)
+> -#define MIPI_CAL_CONFIG_TERMOS(x)	(((x) & 0x1f) <<  0)
+> -
+> -/* for clock lanes */
+> -#define MIPI_CAL_CONFIG_HSCLKPDOSD(x)	(((x) & 0x1f) <<  8)
+> -#define MIPI_CAL_CONFIG_HSCLKPUOSD(x)	(((x) & 0x1f) <<  0)
+> -
+> -#define MIPI_CAL_BIAS_PAD_CFG0		0x16
+> -#define MIPI_CAL_BIAS_PAD_PDVCLAMP	(1 << 1)
+> -#define MIPI_CAL_BIAS_PAD_E_VCLAMP_REF	(1 << 0)
+> -
+> -#define MIPI_CAL_BIAS_PAD_CFG1		0x17
+> -#define MIPI_CAL_BIAS_PAD_DRV_DN_REF(x) (((x) & 0x7) << 16)
+> -#define MIPI_CAL_BIAS_PAD_DRV_UP_REF(x) (((x) & 0x7) << 8)
+> -
+> -#define MIPI_CAL_BIAS_PAD_CFG2		0x18
+> -#define MIPI_CAL_BIAS_PAD_VCLAMP(x)	(((x) & 0x7) << 16)
+> -#define MIPI_CAL_BIAS_PAD_VAUXP(x)	(((x) & 0x7) << 4)
+> -#define MIPI_CAL_BIAS_PAD_PDVREG	(1 << 1)
+> -
+> -struct tegra_mipi_pad {
+> -	unsigned long data;
+> -	unsigned long clk;
+> -};
+> -
+> -struct tegra_mipi_soc {
+> -	bool has_clk_lane;
+> -	const struct tegra_mipi_pad *pads;
+> -	unsigned int num_pads;
+> -
+> -	bool clock_enable_override;
+> -	bool needs_vclamp_ref;
+> -
+> -	/* bias pad configuration settings */
+> -	u8 pad_drive_down_ref;
+> -	u8 pad_drive_up_ref;
+> -
+> -	u8 pad_vclamp_level;
+> -	u8 pad_vauxp_level;
+> -
+> -	/* calibration settings for data lanes */
+> -	u8 hspdos;
+> -	u8 hspuos;
+> -	u8 termos;
+> -
+> -	/* calibration settings for clock lanes */
+> -	u8 hsclkpdos;
+> -	u8 hsclkpuos;
+> -};
+> -
+> -struct tegra_mipi {
+> -	const struct tegra_mipi_soc *soc;
+> -	struct device *dev;
+> -	void __iomem *regs;
+> -	struct mutex lock;
+> -	struct clk *clk;
+> -
+> -	unsigned long usage_count;
+> -};
+> -
+> -struct tegra_mipi_device {
+> -	struct platform_device *pdev;
+> -	struct tegra_mipi *mipi;
+> -	struct device *device;
+> -	unsigned long pads;
+> -};
+> -
+> -static inline u32 tegra_mipi_readl(struct tegra_mipi *mipi,
+> -				   unsigned long offset)
+> +int tegra_mipi_enable(struct tegra_mipi_device *device)
+>  {
+> -	return readl(mipi->regs + (offset << 2));
+> -}
+> +	if (device->ops->enable)
+> +		return device->ops->enable(device);
+> =20
+> -static inline void tegra_mipi_writel(struct tegra_mipi *mipi, u32 value,
+> -				     unsigned long offset)
+> -{
+> -	writel(value, mipi->regs + (offset << 2));
+> +	return 0;
+>  }
+> +EXPORT_SYMBOL(tegra_mipi_enable);
+> =20
+> -static int tegra_mipi_power_up(struct tegra_mipi *mipi)
+> +int tegra_mipi_disable(struct tegra_mipi_device *device)
+>  {
+> -	u32 value;
+> -	int err;
+> -
+> -	err =3D clk_enable(mipi->clk);
+> -	if (err < 0)
+> -		return err;
+> -
+> -	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG0);
+> -	value &=3D ~MIPI_CAL_BIAS_PAD_PDVCLAMP;
+> -
+> -	if (mipi->soc->needs_vclamp_ref)
+> -		value |=3D MIPI_CAL_BIAS_PAD_E_VCLAMP_REF;
+> -
+> -	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG0);
+> -
+> -	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG2);
+> -	value &=3D ~MIPI_CAL_BIAS_PAD_PDVREG;
+> -	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG2);
+> -
+> -	clk_disable(mipi->clk);
+> +	if (device->ops->disable)
+> +		return device->ops->disable(device);
+> =20
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(tegra_mipi_disable);
+> =20
+> -static int tegra_mipi_power_down(struct tegra_mipi *mipi)
+> +int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
+>  {
+> -	u32 value;
+> -	int err;
+> +	if (device->ops->start_calibration)
+> +		return device->ops->start_calibration(device);
+> =20
+> -	err =3D clk_enable(mipi->clk);
+> -	if (err < 0)
+> -		return err;
+> -
+> -	/*
+> -	 * The MIPI_CAL_BIAS_PAD_PDVREG controls a voltage regulator that
+> -	 * supplies the DSI pads. This must be kept enabled until none of the
+> -	 * DSI lanes are used anymore.
+> -	 */
+> -	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG2);
+> -	value |=3D MIPI_CAL_BIAS_PAD_PDVREG;
+> -	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG2);
+> -
+> -	/*
+> -	 * MIPI_CAL_BIAS_PAD_PDVCLAMP and MIPI_CAL_BIAS_PAD_E_VCLAMP_REF
+> -	 * control a regulator that supplies current to the pre-driver logic.
+> -	 * Powering down this regulator causes DSI to fail, so it must remain
+> -	 * powered on until none of the DSI lanes are used anymore.
+> -	 */
+> -	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG0);
+> -
+> -	if (mipi->soc->needs_vclamp_ref)
+> -		value &=3D ~MIPI_CAL_BIAS_PAD_E_VCLAMP_REF;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(tegra_mipi_start_calibration);
+> =20
+> -	value |=3D MIPI_CAL_BIAS_PAD_PDVCLAMP;
+> -	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG0);
+> +int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
+> +{
+> +	if (device->ops->finish_calibration)
+> +		return device->ops->finish_calibration(device);
+> =20
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(tegra_mipi_finish_calibration);
+> =20
+>  struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+>  					     struct device_node *np)
+>  {
+> -	struct tegra_mipi_device *dev;
+> +	struct tegra_mipi_device *mipidev;
+>  	struct of_phandle_args args;
+>  	int err;
+> =20
+> @@ -219,321 +69,58 @@ struct tegra_mipi_device *tegra_mipi_request(struct=
+ device *device,
+>  	if (err < 0)
+>  		return ERR_PTR(err);
+> =20
+> -	dev =3D kzalloc(sizeof(*dev), GFP_KERNEL);
+> -	if (!dev) {
+> +	if (provider.np !=3D args.np)
+> +		return ERR_PTR(-ENODEV);
 > +
->  	/* emc mux */
->  	clk =3D clk_register_mux(NULL, "emc_mux", mux_pllmcp_clkm,
->  			       ARRAY_SIZE(mux_pllmcp_clkm),
-> diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegr=
-a20.c
-> index 2c58ce25af75..d8d5afeb6f9b 100644
-> --- a/drivers/clk/tegra/clk-tegra20.c
-> +++ b/drivers/clk/tegra/clk-tegra20.c
-> @@ -530,7 +530,6 @@ static struct tegra_clk tegra20_clks[tegra_clk_max] _=
-_initdata =3D {
->  	[tegra_clk_rtc] =3D { .dt_id =3D TEGRA20_CLK_RTC, .present =3D true },
->  	[tegra_clk_timer] =3D { .dt_id =3D TEGRA20_CLK_TIMER, .present =3D true=
- },
->  	[tegra_clk_kbc] =3D { .dt_id =3D TEGRA20_CLK_KBC, .present =3D true },
-> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA20_CLK_CSUS, .present =3D true }=
-,
->  	[tegra_clk_vcp] =3D { .dt_id =3D TEGRA20_CLK_VCP, .present =3D true },
->  	[tegra_clk_bsea] =3D { .dt_id =3D TEGRA20_CLK_BSEA, .present =3D true }=
-,
->  	[tegra_clk_bsev] =3D { .dt_id =3D TEGRA20_CLK_BSEV, .present =3D true }=
-,
-> @@ -834,6 +833,12 @@ static void __init tegra20_periph_clk_init(void)
->  				    clk_base, 0, 93, periph_clk_enb_refcnt);
->  	clks[TEGRA20_CLK_CDEV2] =3D clk;
+> +	mipidev =3D kzalloc(sizeof(*mipidev), GFP_KERNEL);
+> +	if (!mipidev) {
+>  		err =3D -ENOMEM;
+>  		goto out;
+>  	}
 > =20
-> +	/* csus */
-> +	clk =3D tegra_clk_register_periph_gate("csus", "csus_mux", 0,
-> +					     clk_base, 0, TEGRA20_CLK_CSUS,
-> +					     periph_clk_enb_refcnt);
-> +	clks[TEGRA20_CLK_CSUS] =3D clk;
+> -	dev->pdev =3D of_find_device_by_node(args.np);
+> -	if (!dev->pdev) {
+> +	mipidev->pdev =3D of_find_device_by_node(args.np);
+> +	if (!mipidev->pdev) {
+>  		err =3D -ENODEV;
+>  		goto free;
+>  	}
+> =20
+> -	dev->mipi =3D platform_get_drvdata(dev->pdev);
+> -	if (!dev->mipi) {
+> -		err =3D -EPROBE_DEFER;
+> -		goto put;
+> -	}
+> -
+>  	of_node_put(args.np);
+> =20
+> -	dev->pads =3D args.args[0];
+> -	dev->device =3D device;
+> +	mipidev->ops =3D provider.ops;
+> +	mipidev->pads =3D args.args[0];
+> =20
+> -	return dev;
+> +	return mipidev;
+> =20
+> -put:
+> -	platform_device_put(dev->pdev);
+>  free:
+> -	kfree(dev);
+> +	kfree(mipidev);
+>  out:
+>  	of_node_put(args.np);
+>  	return ERR_PTR(err);
+>  }
+>  EXPORT_SYMBOL(tegra_mipi_request);
+> =20
+> -void tegra_mipi_free(struct tegra_mipi_device *device)
+> +void tegra_mipi_free(struct tegra_mipi_device *mipidev)
+>  {
+> -	platform_device_put(device->pdev);
+> -	kfree(device);
+> +	platform_device_put(mipidev->pdev);
+> +	kfree(mipidev);
+>  }
+>  EXPORT_SYMBOL(tegra_mipi_free);
+> =20
+> -int tegra_mipi_enable(struct tegra_mipi_device *dev)
+> +static void tegra_mipi_remove_provider(void *data)
+>  {
+> -	int err =3D 0;
+> -
+> -	mutex_lock(&dev->mipi->lock);
+> -
+> -	if (dev->mipi->usage_count++ =3D=3D 0)
+> -		err =3D tegra_mipi_power_up(dev->mipi);
+> -
+> -	mutex_unlock(&dev->mipi->lock);
+> -
+> -	return err;
+> -
+> +	provider.np =3D NULL;
+> +	provider.ops =3D NULL;
+>  }
+> -EXPORT_SYMBOL(tegra_mipi_enable);
+> =20
+> -int tegra_mipi_disable(struct tegra_mipi_device *dev)
+> +int devm_tegra_mipi_add_provider(struct device *device, struct device_no=
+de *np,
+> +				 const struct tegra_mipi_ops *ops)
+>  {
+> -	int err =3D 0;
+> -
+> -	mutex_lock(&dev->mipi->lock);
+> -
+> -	if (--dev->mipi->usage_count =3D=3D 0)
+> -		err =3D tegra_mipi_power_down(dev->mipi);
+> +	if (provider.np)
+> +		return -EBUSY;
+> =20
+> -	mutex_unlock(&dev->mipi->lock);
+> +	provider.np =3D np;
+> +	provider.ops =3D ops;
+> =20
+> -	return err;
+> -
+> -}
+> -EXPORT_SYMBOL(tegra_mipi_disable);
+> -
+> -int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
+> -{
+> -	struct tegra_mipi *mipi =3D device->mipi;
+> -	void __iomem *status_reg =3D mipi->regs + (MIPI_CAL_STATUS << 2);
+> -	u32 value;
+> -	int err;
+> -
+> -	err =3D readl_relaxed_poll_timeout(status_reg, value,
+> -					 !(value & MIPI_CAL_STATUS_ACTIVE) &&
+> -					 (value & MIPI_CAL_STATUS_DONE), 50,
+> -					 250000);
+> -	mutex_unlock(&device->mipi->lock);
+> -	clk_disable(device->mipi->clk);
+> -
+> -	return err;
+> -}
+> -EXPORT_SYMBOL(tegra_mipi_finish_calibration);
+> -
+> -int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
+> -{
+> -	const struct tegra_mipi_soc *soc =3D device->mipi->soc;
+> -	unsigned int i;
+> -	u32 value;
+> -	int err;
+> -
+> -	err =3D clk_enable(device->mipi->clk);
+> -	if (err < 0)
+> -		return err;
+> -
+> -	mutex_lock(&device->mipi->lock);
+> -
+> -	value =3D MIPI_CAL_BIAS_PAD_DRV_DN_REF(soc->pad_drive_down_ref) |
+> -		MIPI_CAL_BIAS_PAD_DRV_UP_REF(soc->pad_drive_up_ref);
+> -	tegra_mipi_writel(device->mipi, value, MIPI_CAL_BIAS_PAD_CFG1);
+> -
+> -	value =3D tegra_mipi_readl(device->mipi, MIPI_CAL_BIAS_PAD_CFG2);
+> -	value &=3D ~MIPI_CAL_BIAS_PAD_VCLAMP(0x7);
+> -	value &=3D ~MIPI_CAL_BIAS_PAD_VAUXP(0x7);
+> -	value |=3D MIPI_CAL_BIAS_PAD_VCLAMP(soc->pad_vclamp_level);
+> -	value |=3D MIPI_CAL_BIAS_PAD_VAUXP(soc->pad_vauxp_level);
+> -	tegra_mipi_writel(device->mipi, value, MIPI_CAL_BIAS_PAD_CFG2);
+> -
+> -	for (i =3D 0; i < soc->num_pads; i++) {
+> -		u32 clk =3D 0, data =3D 0;
+> -
+> -		if (device->pads & BIT(i)) {
+> -			data =3D MIPI_CAL_CONFIG_SELECT |
+> -			       MIPI_CAL_CONFIG_HSPDOS(soc->hspdos) |
+> -			       MIPI_CAL_CONFIG_HSPUOS(soc->hspuos) |
+> -			       MIPI_CAL_CONFIG_TERMOS(soc->termos);
+> -			clk =3D MIPI_CAL_CONFIG_SELECT |
+> -			      MIPI_CAL_CONFIG_HSCLKPDOSD(soc->hsclkpdos) |
+> -			      MIPI_CAL_CONFIG_HSCLKPUOSD(soc->hsclkpuos);
+> -		}
+> -
+> -		tegra_mipi_writel(device->mipi, data, soc->pads[i].data);
+> -
+> -		if (soc->has_clk_lane && soc->pads[i].clk !=3D 0)
+> -			tegra_mipi_writel(device->mipi, clk, soc->pads[i].clk);
+> -	}
+> -
+> -	value =3D tegra_mipi_readl(device->mipi, MIPI_CAL_CTRL);
+> -	value &=3D ~MIPI_CAL_CTRL_NOISE_FILTER(0xf);
+> -	value &=3D ~MIPI_CAL_CTRL_PRESCALE(0x3);
+> -	value |=3D MIPI_CAL_CTRL_NOISE_FILTER(0xa);
+> -	value |=3D MIPI_CAL_CTRL_PRESCALE(0x2);
+> -
+> -	if (!soc->clock_enable_override)
+> -		value &=3D ~MIPI_CAL_CTRL_CLKEN_OVR;
+> -	else
+> -		value |=3D MIPI_CAL_CTRL_CLKEN_OVR;
+> -
+> -	tegra_mipi_writel(device->mipi, value, MIPI_CAL_CTRL);
+> -
+> -	/* clear any pending status bits */
+> -	value =3D tegra_mipi_readl(device->mipi, MIPI_CAL_STATUS);
+> -	tegra_mipi_writel(device->mipi, value, MIPI_CAL_STATUS);
+> -
+> -	value =3D tegra_mipi_readl(device->mipi, MIPI_CAL_CTRL);
+> -	value |=3D MIPI_CAL_CTRL_START;
+> -	tegra_mipi_writel(device->mipi, value, MIPI_CAL_CTRL);
+> -
+> -	/*
+> -	 * Wait for min 72uS to let calibration logic finish calibration
+> -	 * sequence codes before waiting for pads idle state to apply the
+> -	 * results.
+> -	 */
+> -	usleep_range(75, 80);
+> -
+> -	return 0;
+> -}
+> -EXPORT_SYMBOL(tegra_mipi_start_calibration);
+> -
+> -static const struct tegra_mipi_pad tegra114_mipi_pads[] =3D {
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIA },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIB },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIC },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSID },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIE },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIA },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIB },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIC },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSID },
+> -};
+> -
+> -static const struct tegra_mipi_soc tegra114_mipi_soc =3D {
+> -	.has_clk_lane =3D false,
+> -	.pads =3D tegra114_mipi_pads,
+> -	.num_pads =3D ARRAY_SIZE(tegra114_mipi_pads),
+> -	.clock_enable_override =3D true,
+> -	.needs_vclamp_ref =3D true,
+> -	.pad_drive_down_ref =3D 0x2,
+> -	.pad_drive_up_ref =3D 0x0,
+> -	.pad_vclamp_level =3D 0x0,
+> -	.pad_vauxp_level =3D 0x0,
+> -	.hspdos =3D 0x0,
+> -	.hspuos =3D 0x4,
+> -	.termos =3D 0x5,
+> -	.hsclkpdos =3D 0x0,
+> -	.hsclkpuos =3D 0x4,
+> -};
+> -
+> -static const struct tegra_mipi_pad tegra124_mipi_pads[] =3D {
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIA, .clk =3D MIPI_CAL_CONFIG_CSIAB_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIB, .clk =3D MIPI_CAL_CONFIG_CSIAB_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIC, .clk =3D MIPI_CAL_CONFIG_CSICD_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSID, .clk =3D MIPI_CAL_CONFIG_CSICD_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIE, .clk =3D MIPI_CAL_CONFIG_CSIE_CLK  },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIA, .clk =3D MIPI_CAL_CONFIG_DSIA_CLK  },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIB, .clk =3D MIPI_CAL_CONFIG_DSIB_CLK  },
+> -};
+> -
+> -static const struct tegra_mipi_soc tegra124_mipi_soc =3D {
+> -	.has_clk_lane =3D true,
+> -	.pads =3D tegra124_mipi_pads,
+> -	.num_pads =3D ARRAY_SIZE(tegra124_mipi_pads),
+> -	.clock_enable_override =3D true,
+> -	.needs_vclamp_ref =3D true,
+> -	.pad_drive_down_ref =3D 0x2,
+> -	.pad_drive_up_ref =3D 0x0,
+> -	.pad_vclamp_level =3D 0x0,
+> -	.pad_vauxp_level =3D 0x0,
+> -	.hspdos =3D 0x0,
+> -	.hspuos =3D 0x0,
+> -	.termos =3D 0x0,
+> -	.hsclkpdos =3D 0x1,
+> -	.hsclkpuos =3D 0x2,
+> -};
+> -
+> -static const struct tegra_mipi_soc tegra132_mipi_soc =3D {
+> -	.has_clk_lane =3D true,
+> -	.pads =3D tegra124_mipi_pads,
+> -	.num_pads =3D ARRAY_SIZE(tegra124_mipi_pads),
+> -	.clock_enable_override =3D false,
+> -	.needs_vclamp_ref =3D false,
+> -	.pad_drive_down_ref =3D 0x0,
+> -	.pad_drive_up_ref =3D 0x3,
+> -	.pad_vclamp_level =3D 0x0,
+> -	.pad_vauxp_level =3D 0x0,
+> -	.hspdos =3D 0x0,
+> -	.hspuos =3D 0x0,
+> -	.termos =3D 0x0,
+> -	.hsclkpdos =3D 0x3,
+> -	.hsclkpuos =3D 0x2,
+> -};
+> -
+> -static const struct tegra_mipi_pad tegra210_mipi_pads[] =3D {
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIA, .clk =3D 0 },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIB, .clk =3D 0 },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIC, .clk =3D 0 },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSID, .clk =3D 0 },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIE, .clk =3D 0 },
+> -	{ .data =3D MIPI_CAL_CONFIG_CSIF, .clk =3D 0 },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIA, .clk =3D MIPI_CAL_CONFIG_DSIA_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIB, .clk =3D MIPI_CAL_CONFIG_DSIB_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSIC, .clk =3D MIPI_CAL_CONFIG_DSIC_CLK },
+> -	{ .data =3D MIPI_CAL_CONFIG_DSID, .clk =3D MIPI_CAL_CONFIG_DSID_CLK },
+> -};
+> -
+> -static const struct tegra_mipi_soc tegra210_mipi_soc =3D {
+> -	.has_clk_lane =3D true,
+> -	.pads =3D tegra210_mipi_pads,
+> -	.num_pads =3D ARRAY_SIZE(tegra210_mipi_pads),
+> -	.clock_enable_override =3D true,
+> -	.needs_vclamp_ref =3D false,
+> -	.pad_drive_down_ref =3D 0x0,
+> -	.pad_drive_up_ref =3D 0x3,
+> -	.pad_vclamp_level =3D 0x1,
+> -	.pad_vauxp_level =3D 0x1,
+> -	.hspdos =3D 0x0,
+> -	.hspuos =3D 0x2,
+> -	.termos =3D 0x0,
+> -	.hsclkpdos =3D 0x0,
+> -	.hsclkpuos =3D 0x2,
+> -};
+> -
+> -static const struct of_device_id tegra_mipi_of_match[] =3D {
+> -	{ .compatible =3D "nvidia,tegra114-mipi", .data =3D &tegra114_mipi_soc =
+},
+> -	{ .compatible =3D "nvidia,tegra124-mipi", .data =3D &tegra124_mipi_soc =
+},
+> -	{ .compatible =3D "nvidia,tegra132-mipi", .data =3D &tegra132_mipi_soc =
+},
+> -	{ .compatible =3D "nvidia,tegra210-mipi", .data =3D &tegra210_mipi_soc =
+},
+> -	{ },
+> -};
+> -
+> -static int tegra_mipi_probe(struct platform_device *pdev)
+> -{
+> -	const struct of_device_id *match;
+> -	struct tegra_mipi *mipi;
+> -
+> -	match =3D of_match_node(tegra_mipi_of_match, pdev->dev.of_node);
+> -	if (!match)
+> -		return -ENODEV;
+> -
+> -	mipi =3D devm_kzalloc(&pdev->dev, sizeof(*mipi), GFP_KERNEL);
+> -	if (!mipi)
+> -		return -ENOMEM;
+> -
+> -	mipi->soc =3D match->data;
+> -	mipi->dev =3D &pdev->dev;
+> -
+> -	mipi->regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+> -	if (IS_ERR(mipi->regs))
+> -		return PTR_ERR(mipi->regs);
+> -
+> -	mutex_init(&mipi->lock);
+> -
+> -	mipi->clk =3D devm_clk_get_prepared(&pdev->dev, NULL);
+> -	if (IS_ERR(mipi->clk)) {
+> -		dev_err(&pdev->dev, "failed to get clock\n");
+> -		return PTR_ERR(mipi->clk);
+> -	}
+> -
+> -	platform_set_drvdata(pdev, mipi);
+> -
+> -	return 0;
+> +	return devm_add_action_or_reset(device, tegra_mipi_remove_provider, NUL=
+L);
+>  }
+> -
+> -struct platform_driver tegra_mipi_driver =3D {
+> -	.driver =3D {
+> -		.name =3D "tegra-mipi",
+> -		.of_match_table =3D tegra_mipi_of_match,
+> -	},
+> -	.probe =3D tegra_mipi_probe,
+> -};
+> +EXPORT_SYMBOL(devm_tegra_mipi_add_provider);
+> diff --git a/drivers/gpu/host1x/tegra114-mipi.c b/drivers/gpu/host1x/tegr=
+a114-mipi.c
+> new file mode 100644
+> index 000000000000..c084a09784d1
+> --- /dev/null
+> +++ b/drivers/gpu/host1x/tegra114-mipi.c
+> @@ -0,0 +1,483 @@
+> +/*
+> + * Copyright (C) 2013 NVIDIA Corporation
+> + *
+> + * Permission to use, copy, modify, distribute, and sell this software a=
+nd its
+> + * documentation for any purpose is hereby granted without fee, provided=
+ that
+> + * the above copyright notice appear in all copies and that both that co=
+pyright
+> + * notice and this permission notice appear in supporting documentation,=
+ and
+> + * that the name of the copyright holders not be used in advertising or
+> + * publicity pertaining to distribution of the software without specific=
+,
+> + * written prior permission.  The copyright holders make no representati=
+ons
+> + * about the suitability of this software for any purpose.  It is provid=
+ed "as
+> + * is" without express or implied warranty.
+> + *
+> + * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOF=
+TWARE,
+> + * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN N=
+O
+> + * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT=
+ OR
+> + * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS O=
+F USE,
+> + * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHE=
+R
+> + * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERF=
+ORMANCE
+> + * OF THIS SOFTWARE.
+> + */
 > +
->  	for (i =3D 0; i < ARRAY_SIZE(tegra_periph_clk_list); i++) {
->  		data =3D &tegra_periph_clk_list[i];
->  		clk =3D tegra_clk_register_periph_data(clk_base, data);
-> @@ -1093,14 +1098,15 @@ static struct clk *tegra20_clk_src_onecell_get(st=
-ruct of_phandle_args *clkspec,
->  	hw =3D __clk_get_hw(clk);
-> =20
->  	/*
-> -	 * Tegra20 CDEV1 and CDEV2 clocks are a bit special case, their parent
-> -	 * clock is created by the pinctrl driver. It is possible for clk user
-> -	 * to request these clocks before pinctrl driver got probed and hence
-> -	 * user will get an orphaned clock. That might be undesirable because
-> -	 * user may expect parent clock to be enabled by the child.
-> +	 * Tegra20 CDEV1, CDEV2 and CSUS clocks are a bit special case, their
-> +	 * parent clock is created by the pinctrl driver. It is possible for
-> +	 * clk user to request these clocks before pinctrl driver got probed
-> +	 * and hence user will get an orphaned clock. That might be undesirable
-> +	 * because user may expect parent clock to be enabled by the child.
->  	 */
->  	if (clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV1 ||
-> -	    clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV2) {
-> +	    clkspec->args[0] =3D=3D TEGRA20_CLK_CDEV2 ||
-> +	    clkspec->args[0] =3D=3D TEGRA20_CLK_CSUS) {
->  		parent_hw =3D clk_hw_get_parent(hw);
->  		if (!parent_hw)
->  			return ERR_PTR(-EPROBE_DEFER);
-> diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegr=
-a30.c
-> index 82a8cb9545eb..ca367184e185 100644
-> --- a/drivers/clk/tegra/clk-tegra30.c
-> +++ b/drivers/clk/tegra/clk-tegra30.c
-> @@ -779,7 +779,6 @@ static struct tegra_clk tegra30_clks[tegra_clk_max] _=
-_initdata =3D {
->  	[tegra_clk_rtc] =3D { .dt_id =3D TEGRA30_CLK_RTC, .present =3D true },
->  	[tegra_clk_timer] =3D { .dt_id =3D TEGRA30_CLK_TIMER, .present =3D true=
- },
->  	[tegra_clk_kbc] =3D { .dt_id =3D TEGRA30_CLK_KBC, .present =3D true },
-> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA30_CLK_CSUS, .present =3D true }=
-,
->  	[tegra_clk_vcp] =3D { .dt_id =3D TEGRA30_CLK_VCP, .present =3D true },
->  	[tegra_clk_bsea] =3D { .dt_id =3D TEGRA30_CLK_BSEA, .present =3D true }=
-,
->  	[tegra_clk_bsev] =3D { .dt_id =3D TEGRA30_CLK_BSEV, .present =3D true }=
-,
-> @@ -1008,6 +1007,12 @@ static void __init tegra30_periph_clk_init(void)
->  				    0, 48, periph_clk_enb_refcnt);
->  	clks[TEGRA30_CLK_DSIA] =3D clk;
-> =20
-> +	/* csus */
-> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
-> +					     clk_base, 0, TEGRA30_CLK_CSUS,
-> +					     periph_clk_enb_refcnt);
-> +	clks[TEGRA30_CLK_CSUS] =3D clk;
+> +#include <linux/clk.h>
+> +#include <linux/host1x.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/tegra-mipi-cal.h>
 > +
->  	/* pcie */
->  	clk =3D tegra_clk_register_periph_gate("pcie", "clk_m", 0, clk_base, 0,
->  				    70, periph_clk_enb_refcnt);
+> +#include "dev.h"
+> +
+> +#define MIPI_CAL_CTRL			0x00
+> +#define MIPI_CAL_CTRL_NOISE_FILTER(x)	(((x) & 0xf) << 26)
+> +#define MIPI_CAL_CTRL_PRESCALE(x)	(((x) & 0x3) << 24)
+> +#define MIPI_CAL_CTRL_CLKEN_OVR		BIT(4)
+> +#define MIPI_CAL_CTRL_START		BIT(0)
+> +
+> +#define MIPI_CAL_AUTOCAL_CTRL		0x01
+> +
+> +#define MIPI_CAL_STATUS			0x02
+> +#define MIPI_CAL_STATUS_DONE		BIT(16)
+> +#define MIPI_CAL_STATUS_ACTIVE		BIT(0)
+> +
+> +#define MIPI_CAL_CONFIG_CSIA		0x05
+> +#define MIPI_CAL_CONFIG_CSIB		0x06
+> +#define MIPI_CAL_CONFIG_CSIC		0x07
+> +#define MIPI_CAL_CONFIG_CSID		0x08
+> +#define MIPI_CAL_CONFIG_CSIE		0x09
+> +#define MIPI_CAL_CONFIG_CSIF		0x0a
+> +#define MIPI_CAL_CONFIG_DSIA		0x0e
+> +#define MIPI_CAL_CONFIG_DSIB		0x0f
+> +#define MIPI_CAL_CONFIG_DSIC		0x10
+> +#define MIPI_CAL_CONFIG_DSID		0x11
+> +
+> +#define MIPI_CAL_CONFIG_DSIA_CLK	0x19
+> +#define MIPI_CAL_CONFIG_DSIB_CLK	0x1a
+> +#define MIPI_CAL_CONFIG_CSIAB_CLK	0x1b
+> +#define MIPI_CAL_CONFIG_DSIC_CLK	0x1c
+> +#define MIPI_CAL_CONFIG_CSICD_CLK	0x1c
+> +#define MIPI_CAL_CONFIG_DSID_CLK	0x1d
+> +#define MIPI_CAL_CONFIG_CSIE_CLK	0x1d
+> +
+> +/* for data and clock lanes */
+> +#define MIPI_CAL_CONFIG_SELECT		BIT(21)
+> +
+> +/* for data lanes */
+> +#define MIPI_CAL_CONFIG_HSPDOS(x)	(((x) & 0x1f) << 16)
+> +#define MIPI_CAL_CONFIG_HSPUOS(x)	(((x) & 0x1f) <<  8)
+> +#define MIPI_CAL_CONFIG_TERMOS(x)	(((x) & 0x1f) <<  0)
+> +
+> +/* for clock lanes */
+> +#define MIPI_CAL_CONFIG_HSCLKPDOSD(x)	(((x) & 0x1f) <<  8)
+> +#define MIPI_CAL_CONFIG_HSCLKPUOSD(x)	(((x) & 0x1f) <<  0)
+> +
+> +#define MIPI_CAL_BIAS_PAD_CFG0		0x16
+> +#define MIPI_CAL_BIAS_PAD_PDVCLAMP	BIT(1)
+> +#define MIPI_CAL_BIAS_PAD_E_VCLAMP_REF	BIT(0)
+> +
+> +#define MIPI_CAL_BIAS_PAD_CFG1		0x17
+> +#define MIPI_CAL_BIAS_PAD_DRV_DN_REF(x) (((x) & 0x7) << 16)
+> +#define MIPI_CAL_BIAS_PAD_DRV_UP_REF(x) (((x) & 0x7) << 8)
+> +
+> +#define MIPI_CAL_BIAS_PAD_CFG2		0x18
+> +#define MIPI_CAL_BIAS_PAD_VCLAMP(x)	(((x) & 0x7) << 16)
+> +#define MIPI_CAL_BIAS_PAD_VAUXP(x)	(((x) & 0x7) << 4)
+> +#define MIPI_CAL_BIAS_PAD_PDVREG	BIT(1)
+> +
+> +struct tegra_mipi_pad {
+> +	unsigned long data;
+> +	unsigned long clk;
+> +};
+> +
+> +struct tegra_mipi_soc {
+> +	bool has_clk_lane;
+> +	const struct tegra_mipi_pad *pads;
+> +	unsigned int num_pads;
+> +
+> +	bool clock_enable_override;
+> +	bool needs_vclamp_ref;
+> +
+> +	/* bias pad configuration settings */
+> +	u8 pad_drive_down_ref;
+> +	u8 pad_drive_up_ref;
+> +
+> +	u8 pad_vclamp_level;
+> +	u8 pad_vauxp_level;
+> +
+> +	/* calibration settings for data lanes */
+> +	u8 hspdos;
+> +	u8 hspuos;
+> +	u8 termos;
+> +
+> +	/* calibration settings for clock lanes */
+> +	u8 hsclkpdos;
+> +	u8 hsclkpuos;
+> +};
+> +
+> +struct tegra_mipi {
+> +	const struct tegra_mipi_soc *soc;
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	struct mutex lock; /* for register access */
+> +	struct clk *clk;
+> +
+> +	unsigned long usage_count;
+> +};
+> +
+> +static inline u32 tegra_mipi_readl(struct tegra_mipi *mipi,
+> +				   unsigned long offset)
+> +{
+> +	return readl(mipi->regs + (offset << 2));
+> +}
+> +
+> +static inline void tegra_mipi_writel(struct tegra_mipi *mipi, u32 value,
+> +				     unsigned long offset)
+> +{
+> +	writel(value, mipi->regs + (offset << 2));
+> +}
+> +
+> +static int tegra114_mipi_power_up(struct tegra_mipi *mipi)
+> +{
+> +	u32 value;
+> +	int err;
+> +
+> +	err =3D clk_enable(mipi->clk);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG0);
+> +	value &=3D ~MIPI_CAL_BIAS_PAD_PDVCLAMP;
+> +
+> +	if (mipi->soc->needs_vclamp_ref)
+> +		value |=3D MIPI_CAL_BIAS_PAD_E_VCLAMP_REF;
+> +
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG0);
+> +
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG2);
+> +	value &=3D ~MIPI_CAL_BIAS_PAD_PDVREG;
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG2);
+> +
+> +	clk_disable(mipi->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra114_mipi_power_down(struct tegra_mipi *mipi)
+> +{
+> +	u32 value;
+> +	int err;
+> +
+> +	err =3D clk_enable(mipi->clk);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	/*
+> +	 * The MIPI_CAL_BIAS_PAD_PDVREG controls a voltage regulator that
+> +	 * supplies the DSI pads. This must be kept enabled until none of the
+> +	 * DSI lanes are used anymore.
+> +	 */
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG2);
+> +	value |=3D MIPI_CAL_BIAS_PAD_PDVREG;
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG2);
+> +
+> +	/*
+> +	 * MIPI_CAL_BIAS_PAD_PDVCLAMP and MIPI_CAL_BIAS_PAD_E_VCLAMP_REF
+> +	 * control a regulator that supplies current to the pre-driver logic.
+> +	 * Powering down this regulator causes DSI to fail, so it must remain
+> +	 * powered on until none of the DSI lanes are used anymore.
+> +	 */
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG0);
+> +
+> +	if (mipi->soc->needs_vclamp_ref)
+> +		value &=3D ~MIPI_CAL_BIAS_PAD_E_VCLAMP_REF;
+> +
+> +	value |=3D MIPI_CAL_BIAS_PAD_PDVCLAMP;
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tegra114_mipi_enable(struct tegra_mipi_device *mipidev)
+> +{
+> +	struct tegra_mipi *mipi =3D platform_get_drvdata(mipidev->pdev);
+> +	int err =3D 0;
+> +
+> +	mutex_lock(&mipi->lock);
+> +
+> +	if (mipi->usage_count++ =3D=3D 0)
+> +		err =3D tegra114_mipi_power_up(mipi);
+> +
+> +	mutex_unlock(&mipi->lock);
+> +
+> +	return err;
+> +}
+> +
+> +static int tegra114_mipi_disable(struct tegra_mipi_device *mipidev)
+> +{
+> +	struct tegra_mipi *mipi =3D platform_get_drvdata(mipidev->pdev);
+> +	int err =3D 0;
+> +
+> +	mutex_lock(&mipi->lock);
+> +
+> +	if (--mipi->usage_count =3D=3D 0)
+> +		err =3D tegra114_mipi_power_down(mipi);
+> +
+> +	mutex_unlock(&mipi->lock);
+> +
+> +	return err;
+> +}
+> +
+> +static int tegra114_mipi_finish_calibration(struct tegra_mipi_device *mi=
+pidev)
+> +{
+> +	struct tegra_mipi *mipi =3D platform_get_drvdata(mipidev->pdev);
+> +	void __iomem *status_reg =3D mipi->regs + (MIPI_CAL_STATUS << 2);
+> +	u32 value;
+> +	int err;
+> +
+> +	err =3D readl_relaxed_poll_timeout(status_reg, value,
+> +					 !(value & MIPI_CAL_STATUS_ACTIVE) &&
+> +					 (value & MIPI_CAL_STATUS_DONE), 50,
+> +					 250000);
+> +	mutex_unlock(&mipi->lock);
+> +	clk_disable(mipi->clk);
+> +
+> +	return err;
+> +}
+> +
+> +static int tegra114_mipi_start_calibration(struct tegra_mipi_device *mip=
+idev)
+> +{
+> +	struct tegra_mipi *mipi =3D platform_get_drvdata(mipidev->pdev);
+> +	const struct tegra_mipi_soc *soc =3D mipi->soc;
+> +	unsigned int i;
+> +	u32 value;
+> +	int err;
+> +
+> +	err =3D clk_enable(mipi->clk);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	mutex_lock(&mipi->lock);
+> +
+> +	value =3D MIPI_CAL_BIAS_PAD_DRV_DN_REF(soc->pad_drive_down_ref) |
+> +		MIPI_CAL_BIAS_PAD_DRV_UP_REF(soc->pad_drive_up_ref);
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG1);
+> +
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_BIAS_PAD_CFG2);
+> +	value &=3D ~MIPI_CAL_BIAS_PAD_VCLAMP(0x7);
+> +	value &=3D ~MIPI_CAL_BIAS_PAD_VAUXP(0x7);
+> +	value |=3D MIPI_CAL_BIAS_PAD_VCLAMP(soc->pad_vclamp_level);
+> +	value |=3D MIPI_CAL_BIAS_PAD_VAUXP(soc->pad_vauxp_level);
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_BIAS_PAD_CFG2);
+> +
+> +	for (i =3D 0; i < soc->num_pads; i++) {
+> +		u32 clk =3D 0, data =3D 0;
+> +
+> +		if (mipidev->pads & BIT(i)) {
+> +			data =3D MIPI_CAL_CONFIG_SELECT |
+> +			       MIPI_CAL_CONFIG_HSPDOS(soc->hspdos) |
+> +			       MIPI_CAL_CONFIG_HSPUOS(soc->hspuos) |
+> +			       MIPI_CAL_CONFIG_TERMOS(soc->termos);
+> +			clk =3D MIPI_CAL_CONFIG_SELECT |
+> +			      MIPI_CAL_CONFIG_HSCLKPDOSD(soc->hsclkpdos) |
+> +			      MIPI_CAL_CONFIG_HSCLKPUOSD(soc->hsclkpuos);
+> +		}
+> +
+> +		tegra_mipi_writel(mipi, data, soc->pads[i].data);
+> +
+> +		if (soc->has_clk_lane && soc->pads[i].clk !=3D 0)
+> +			tegra_mipi_writel(mipi, clk, soc->pads[i].clk);
+> +	}
+> +
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_CTRL);
+> +	value &=3D ~MIPI_CAL_CTRL_NOISE_FILTER(0xf);
+> +	value &=3D ~MIPI_CAL_CTRL_PRESCALE(0x3);
+> +	value |=3D MIPI_CAL_CTRL_NOISE_FILTER(0xa);
+> +	value |=3D MIPI_CAL_CTRL_PRESCALE(0x2);
+> +
+> +	if (!soc->clock_enable_override)
+> +		value &=3D ~MIPI_CAL_CTRL_CLKEN_OVR;
+> +	else
+> +		value |=3D MIPI_CAL_CTRL_CLKEN_OVR;
+> +
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_CTRL);
+> +
+> +	/* clear any pending status bits */
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_STATUS);
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_STATUS);
+> +
+> +	value =3D tegra_mipi_readl(mipi, MIPI_CAL_CTRL);
+> +	value |=3D MIPI_CAL_CTRL_START;
+> +	tegra_mipi_writel(mipi, value, MIPI_CAL_CTRL);
+> +
+> +	/*
+> +	 * Wait for min 72uS to let calibration logic finish calibration
+> +	 * sequence codes before waiting for pads idle state to apply the
+> +	 * results.
+> +	 */
+> +	usleep_range(75, 80);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct tegra_mipi_ops tegra114_mipi_ops =3D {
+> +	.enable =3D tegra114_mipi_enable,
+> +	.disable =3D tegra114_mipi_disable,
+> +	.start_calibration =3D tegra114_mipi_start_calibration,
+> +	.finish_calibration =3D tegra114_mipi_finish_calibration,
+> +};
+> +
+> +static const struct tegra_mipi_pad tegra114_mipi_pads[] =3D {
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIA },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIB },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIC },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSID },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIE },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIA },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIB },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIC },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSID },
+> +};
+> +
+> +static const struct tegra_mipi_soc tegra114_mipi_soc =3D {
+> +	.has_clk_lane =3D false,
+> +	.pads =3D tegra114_mipi_pads,
+> +	.num_pads =3D ARRAY_SIZE(tegra114_mipi_pads),
+> +	.clock_enable_override =3D true,
+> +	.needs_vclamp_ref =3D true,
+> +	.pad_drive_down_ref =3D 0x2,
+> +	.pad_drive_up_ref =3D 0x0,
+> +	.pad_vclamp_level =3D 0x0,
+> +	.pad_vauxp_level =3D 0x0,
+> +	.hspdos =3D 0x0,
+> +	.hspuos =3D 0x4,
+> +	.termos =3D 0x5,
+> +	.hsclkpdos =3D 0x0,
+> +	.hsclkpuos =3D 0x4,
+> +};
+> +
+> +static const struct tegra_mipi_pad tegra124_mipi_pads[] =3D {
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIA, .clk =3D MIPI_CAL_CONFIG_CSIAB_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIB, .clk =3D MIPI_CAL_CONFIG_CSIAB_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIC, .clk =3D MIPI_CAL_CONFIG_CSICD_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSID, .clk =3D MIPI_CAL_CONFIG_CSICD_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIE, .clk =3D MIPI_CAL_CONFIG_CSIE_CLK  },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIA, .clk =3D MIPI_CAL_CONFIG_DSIA_CLK  },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIB, .clk =3D MIPI_CAL_CONFIG_DSIB_CLK  },
+> +};
+> +
+> +static const struct tegra_mipi_soc tegra124_mipi_soc =3D {
+> +	.has_clk_lane =3D true,
+> +	.pads =3D tegra124_mipi_pads,
+> +	.num_pads =3D ARRAY_SIZE(tegra124_mipi_pads),
+> +	.clock_enable_override =3D true,
+> +	.needs_vclamp_ref =3D true,
+> +	.pad_drive_down_ref =3D 0x2,
+> +	.pad_drive_up_ref =3D 0x0,
+> +	.pad_vclamp_level =3D 0x0,
+> +	.pad_vauxp_level =3D 0x0,
+> +	.hspdos =3D 0x0,
+> +	.hspuos =3D 0x0,
+> +	.termos =3D 0x0,
+> +	.hsclkpdos =3D 0x1,
+> +	.hsclkpuos =3D 0x2,
+> +};
+> +
+> +static const struct tegra_mipi_soc tegra132_mipi_soc =3D {
+> +	.has_clk_lane =3D true,
+> +	.pads =3D tegra124_mipi_pads,
+> +	.num_pads =3D ARRAY_SIZE(tegra124_mipi_pads),
+> +	.clock_enable_override =3D false,
+> +	.needs_vclamp_ref =3D false,
+> +	.pad_drive_down_ref =3D 0x0,
+> +	.pad_drive_up_ref =3D 0x3,
+> +	.pad_vclamp_level =3D 0x0,
+> +	.pad_vauxp_level =3D 0x0,
+> +	.hspdos =3D 0x0,
+> +	.hspuos =3D 0x0,
+> +	.termos =3D 0x0,
+> +	.hsclkpdos =3D 0x3,
+> +	.hsclkpuos =3D 0x2,
+> +};
+> +
+> +static const struct tegra_mipi_pad tegra210_mipi_pads[] =3D {
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIA, .clk =3D 0 },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIB, .clk =3D 0 },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIC, .clk =3D 0 },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSID, .clk =3D 0 },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIE, .clk =3D 0 },
+> +	{ .data =3D MIPI_CAL_CONFIG_CSIF, .clk =3D 0 },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIA, .clk =3D MIPI_CAL_CONFIG_DSIA_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIB, .clk =3D MIPI_CAL_CONFIG_DSIB_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSIC, .clk =3D MIPI_CAL_CONFIG_DSIC_CLK },
+> +	{ .data =3D MIPI_CAL_CONFIG_DSID, .clk =3D MIPI_CAL_CONFIG_DSID_CLK },
+> +};
+> +
+> +static const struct tegra_mipi_soc tegra210_mipi_soc =3D {
+> +	.has_clk_lane =3D true,
+> +	.pads =3D tegra210_mipi_pads,
+> +	.num_pads =3D ARRAY_SIZE(tegra210_mipi_pads),
+> +	.clock_enable_override =3D true,
+> +	.needs_vclamp_ref =3D false,
+> +	.pad_drive_down_ref =3D 0x0,
+> +	.pad_drive_up_ref =3D 0x3,
+> +	.pad_vclamp_level =3D 0x1,
+> +	.pad_vauxp_level =3D 0x1,
+> +	.hspdos =3D 0x0,
+> +	.hspuos =3D 0x2,
+> +	.termos =3D 0x0,
+> +	.hsclkpdos =3D 0x0,
+> +	.hsclkpuos =3D 0x2,
+> +};
+> +
+> +static const struct of_device_id tegra_mipi_of_match[] =3D {
+> +	{ .compatible =3D "nvidia,tegra114-mipi", .data =3D &tegra114_mipi_soc =
+},
+> +	{ .compatible =3D "nvidia,tegra124-mipi", .data =3D &tegra124_mipi_soc =
+},
+> +	{ .compatible =3D "nvidia,tegra132-mipi", .data =3D &tegra132_mipi_soc =
+},
+> +	{ .compatible =3D "nvidia,tegra210-mipi", .data =3D &tegra210_mipi_soc =
+},
+> +	{ },
+> +};
+> +
+> +static int tegra_mipi_probe(struct platform_device *pdev)
+> +{
+> +	const struct of_device_id *match;
+> +	struct tegra_mipi *mipi;
+> +
+> +	match =3D of_match_node(tegra_mipi_of_match, pdev->dev.of_node);
+> +	if (!match)
+> +		return -ENODEV;
+> +
+> +	mipi =3D devm_kzalloc(&pdev->dev, sizeof(*mipi), GFP_KERNEL);
+> +	if (!mipi)
+> +		return -ENOMEM;
+> +
+> +	mipi->soc =3D match->data;
+> +	mipi->dev =3D &pdev->dev;
+> +
+> +	mipi->regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+> +	if (IS_ERR(mipi->regs))
+> +		return PTR_ERR(mipi->regs);
+> +
+> +	mutex_init(&mipi->lock);
+> +
+> +	mipi->clk =3D devm_clk_get_prepared(&pdev->dev, NULL);
+> +	if (IS_ERR(mipi->clk)) {
+> +		dev_err(&pdev->dev, "failed to get clock\n");
+> +		return PTR_ERR(mipi->clk);
+> +	}
+> +
+> +	platform_set_drvdata(pdev, mipi);
+> +
+> +	return devm_tegra_mipi_add_provider(&pdev->dev, pdev->dev.of_node,
+> +					    &tegra114_mipi_ops);
+> +}
+> +
+> +struct platform_driver tegra_mipi_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "tegra-mipi",
+> +		.of_match_table =3D tegra_mipi_of_match,
+> +	},
+> +	.probe =3D tegra_mipi_probe,
+> +};
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
+dia/tegra-video/csi.c
+> index 74c92db1032f..9e3bd6109781 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/tegra-mipi-cal.h>
+> =20
+>  #include <media/v4l2-fwnode.h>
+> =20
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index 9fa9c30a34e6..b1c6514859d3 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -453,16 +453,6 @@ void host1x_client_unregister(struct host1x_client *=
+client);
+>  int host1x_client_suspend(struct host1x_client *client);
+>  int host1x_client_resume(struct host1x_client *client);
+> =20
+> -struct tegra_mipi_device;
+> -
+> -struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> -					     struct device_node *np);
+> -void tegra_mipi_free(struct tegra_mipi_device *device);
+> -int tegra_mipi_enable(struct tegra_mipi_device *device);
+> -int tegra_mipi_disable(struct tegra_mipi_device *device);
+> -int tegra_mipi_start_calibration(struct tegra_mipi_device *device);
+> -int tegra_mipi_finish_calibration(struct tegra_mipi_device *device);
+> -
+>  /* host1x memory contexts */
+> =20
+>  struct host1x_memory_context {
+> diff --git a/include/linux/tegra-mipi-cal.h b/include/linux/tegra-mipi-ca=
+l.h
+> new file mode 100644
+> index 000000000000..2a540b50f65d
+> --- /dev/null
+> +++ b/include/linux/tegra-mipi-cal.h
+> @@ -0,0 +1,57 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __TEGRA_MIPI_CAL_H_
+> +#define __TEGRA_MIPI_CAL_H_
+> +
+> +struct tegra_mipi_device {
+> +	const struct tegra_mipi_ops *ops;
+> +	struct platform_device *pdev;
+> +	unsigned long pads;
+> +};
+> +
+> +/**
+> + * Operations for Tegra MIPI calibration device
+> + */
+> +struct tegra_mipi_ops {
+> +	/**
+> +	 * @enable:
+> +	 *
+> +	 * Enable MIPI calibration device
+> +	 */
+> +	int (*enable)(struct tegra_mipi_device *device);
+> +
+> +	/**
+> +	 * @disable:
+> +	 *
+> +	 * Disable MIPI calibration device
+> +	 */
+> +	int (*disable)(struct tegra_mipi_device *device);
+> +
+> +	/**
+> +	 * @start_calibration:
+> +	 *
+> +	 * Start MIPI calibration
+> +	 */
+> +	int (*start_calibration)(struct tegra_mipi_device *device);
+> +
+> +	/**
+> +	 * @finish_calibration:
+> +	 *
+> +	 * Finish MIPI calibration
+> +	 */
+> +	int (*finish_calibration)(struct tegra_mipi_device *device);
+> +};
+> +
+> +int devm_tegra_mipi_add_provider(struct device *device, struct device_no=
+de *np,
+> +				 const struct tegra_mipi_ops *ops);
+> +
+> +struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> +					     struct device_node *np);
+> +void tegra_mipi_free(struct tegra_mipi_device *device);
+> +
+> +int tegra_mipi_enable(struct tegra_mipi_device *device);
+> +int tegra_mipi_disable(struct tegra_mipi_device *device);
+> +int tegra_mipi_start_calibration(struct tegra_mipi_device *device);
+> +int tegra_mipi_finish_calibration(struct tegra_mipi_device *device);
+> +
+> +#endif /* __TEGRA_MIPI_CAL_H_ */
 >=20
 
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+Acked-by: Mikko Perttunen <mperttunen@nvidia.com>
 
 
 
