@@ -2,79 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FBCBE033F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 20:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABB7BE0378
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 20:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B27EA10E8B7;
-	Wed, 15 Oct 2025 18:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6422A10E8B8;
+	Wed, 15 Oct 2025 18:39:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nLdR8YRw";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="L0YA6qK/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C84B710E8B5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 18:36:05 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-77f67ba775aso9575502b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:36:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760553365; x=1761158165; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JJWMwls+LAtfP4tAZlyMoRyCGxEoib6nFV8vy2YJhYU=;
- b=nLdR8YRwFfcLGY1/eEyNbFn9UgyRw4hPXds4Tpm6SL9Wlr1/4d7s86yzMA4Q3Xtly9
- u93L6M4DIEAP3OSv2+2G+T5WlsUB37u7mmsuMUO7GVD2HBYdDDInx9yUUp9vsUr9J93D
- PQ29wRs4JNKIhVcI8CmGguOK6IVhkTmJEWtuCL8kZD9EVvSbeFsH/Sa+kH/FdjfK58Kj
- J0Ovg4PiBPmPA+nv+hIgUVkl4c1rg6IFy9bQpQAE+ei12XxIVzRLOKyMDmq0oy9hFVWp
- 64mYQ0y3Q4qz7O/pVk3+RLSDXZdMAHZ7ieaGxrh/XTtVRMUv4qw6qJcG7DOBQJp1XS5V
- Oozw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760553365; x=1761158165;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JJWMwls+LAtfP4tAZlyMoRyCGxEoib6nFV8vy2YJhYU=;
- b=E8qEdMEnQxLDyIhZiWLMh2diosscM3u0KtLxtON3KwhQyTVIYylPEEjoM0bNBg2F1L
- l4sNBySgJWl7VAyTq2qzVwh76ItwMveesA1o2kNnqEZc5Q26rcsQjGGkBzx8ZEnruz//
- Eud67rmnO6TIvkSlVEcXlw+P+geYNmzqDw88DK59GrUSl2/VsbvCJ9oKslbIgoebJDmE
- Ra6OVn16n1o+0t7uEdjrw7F2JoRbLzOfBy2amN0eNeNqFW8ih9HXI/QLzlPecBthEecO
- vutaucZ2GWx9OCMn5PmQISM7eiv78YASKoP3UyEjzbsHAFc+SAFlMyvtBMrExM297hIG
- DyPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYedBqnu8oM4fCk8cbuOyRM7+S/dlabFl8qEIJ6xizLoS/Eo7zZ+ApVx6L+bu1NkqtINuBUT/w5zM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc26lkYgfvNjOYVE3O1daJCgN6JpiUT0EUEQ4HGBhEuS5SeZL6
- /0FRK6kB1++a5MyIMkO2TvMTUyKToQyTlz/bPaJDUJjqnH+Pl5z6UAr/
-X-Gm-Gg: ASbGnctQeDNgAXSUooQMkk7cy6Z60utWIgnd1qANNM2FuLHv4ePmOie3zzVxGSjvGlL
- esoU5z74YMg1nSOrxdPLcfc4dNenQZAhi+K72JxGtlKmQaawaS//mYG+bwUoFNsOtcke6Fh3cnu
- S640XHAHEpMJj1LHvYJnPSnEFifsaNp+AfjMXTZd/4BXqCgvWSoJcK8znVxkYgA6PA17hEvBYyS
- 1gTnvRVxDrtrFqeGCo5pOGVirVxMIxvwReVWKuSmVo/oGycouUpJqrBroKR7eW38KTbBpRs7zyn
- +z/r81sUxANjXst4jkMlAPMwh2Dc2xEEvM02nUoomhNhDm2I15ZfE+639gDeUT31naa21RylYME
- iyCowlf8vBSF4qbZEa4lr/GiwRdclLd+zx0OXihj7HacvF7Esu7hADiEPJlvl1WiLnfjCVg==
-X-Google-Smtp-Source: AGHT+IFlyCa56i9R5oJazvL2hNHkiDW7KJ+UW8SY3pz99LslbXWkSaiSVgZEMdYa4bSHd+QjdapDNg==
-X-Received: by 2002:a05:6a20:3d82:b0:334:97a6:17f2 with SMTP id
- adf61e73a8af0-33497a6182bmr1030221637.14.1760553365032; 
- Wed, 15 Oct 2025 11:36:05 -0700 (PDT)
-Received: from crl-3.node2.local ([125.63.65.162])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b6a22b9c315sm298122a12.29.2025.10.15.11.36.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Oct 2025 11:36:04 -0700 (PDT)
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-To: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
- corbet@lwn.net
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Kriish Sharma <kriish.sharma2006@gmail.com>
-Subject: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block quote
- warning
-Date: Wed, 15 Oct 2025 18:34:02 +0000
-Message-Id: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F4210E8CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 18:38:57 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cn0Gk6R2wz9tcL;
+ Wed, 15 Oct 2025 20:38:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760553534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hMSfqTFOOxz3BI5gxHBbzrsmx6UX56DPc5IdGmMbF48=;
+ b=L0YA6qK/+qwqyGzdmlgNk9FFQ/Hnb30IjR7tRRMximVvgg8VhA4sTDV6Nci0YOF699BdSC
+ HDytgme2wZ2JXtAD9NWTiMd86orRY8X7a/nrqGilUlGTMrbetzClPpeW6qKoMQrB2A6hD+
+ Ucr6cRe6ObD5btBmRxX/k1fdxaXR/Ij3a/fAkQH393hfKW36BvNqG8GyD2vCikswdNPLdC
+ AjJIyxzmVw2UQ+N3ajYT0E7IYyqFOhiO1F3HXrOfSMKOo51THGMQ6iGkY0br+JrGsABUrd
+ uB/ICQVefSai09vHfMT5dHwfGsn+BHAdMV7LoXlXFucGwyFSUCDlpVi40PZvTg==
+Message-ID: <cf7ebf8a-01e5-44fb-920b-5e21c05e568a@mailbox.org>
+Date: Wed, 15 Oct 2025 20:38:47 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Document
+ GX6250 GPU in Renesas R-Car M3-W/M3-W+
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>, Adam Ford
+ <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
+ <807d4d4d-f1dd-4776-9543-2e8d997071e1@imgtec.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <807d4d4d-f1dd-4776-9543-2e8d997071e1@imgtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: bx97qrbn6yau3qh7ddkjtc6pytrq343p
+X-MBO-RS-ID: 98685ba3c8924c321a2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,30 +81,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following warning encountered when running `make htmldocs`:
+On 10/15/25 6:50 PM, Matt Coster wrote:
 
-  Documentation/userspace-api/dma-buf-heaps.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent
+Hello Matt,
 
-Added a blank line before the "Naming Convention" heading to comply with reST
+> Would you mind splitting this conditional block up? We already have a
+> constraint for 2 power-domains (see img,img-bxs-4-64), which should be
+> applied to the entire img,img-gx6250 compatible.
 
-Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
-Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
----
- Documentation/userspace-api/dma-buf-heaps.rst | 1 +
- 1 file changed, 1 insertion(+)
+I will add a patch into V3 which splits the allOf section up such, that 
+clocks and power-domains limits are limited separately. That will make 
+this addition of GX6250 easy.
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-index a0979440d2a4..c0035dc257e0 100644
---- a/Documentation/userspace-api/dma-buf-heaps.rst
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -26,6 +26,7 @@ following heaps:
-    ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
-    created following legacy naming conventions; the legacy name might be
-    ``reserved``, ``linux,cma``, or ``default-pool``.
-+
- Naming Convention
- =================
- 
--- 
-2.34.1
+> As for the clocks, for the currently supported GPUs, we have "mem" and
+> "sys" clocks that are optional at integration time, so those
+> conditionals are based on the vendor compatible strings (ti,... etc).
+> However, these older GPUs always require all three clocks, so it
+> probably makes sense to create the properties:clock{,-name}s:minItems:3
+> constraint on the img,img-gx6250 compatible as well, rather than the
+> renesas,r8... ones.
 
+OK
+
+> You shouldn't need to explicit list the power-domain descriptions at the
+> constraint level at all; if there's a build warning that they're missing
+> I guess the correct place to add them would be on the top-level
+> power-domains entry, but I don't really think they contribute anything
+> meaningful.
+The descriptions basically emulate minItems/maxItems: 2 here. I can also 
+just set minItems:2 ?
+
+I have one more question -- does GX6250 _always_ have two power domains, 
+i.e. the constrains always set minItems:2 for "img,img-gx6250" 
+"power-domains" property ?
