@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9091ABDF153
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 16:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B6BBDF160
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 16:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C824910E80B;
-	Wed, 15 Oct 2025 14:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D62B510E80C;
+	Wed, 15 Oct 2025 14:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gSbTisff";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bkfUdpQb";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="LthLcyfE";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DC1Mgh6k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5402510E80B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 14:33:25 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475F810E80F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 14:33:30 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmtqR6vYPz9tg2;
- Wed, 15 Oct 2025 16:33:23 +0200 (CEST)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmtqY0gMtz9tg3;
+ Wed, 15 Oct 2025 16:33:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760538804;
+ s=mail20150812; t=1760538809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DqcM2fuSyGmihOUlIvHn6eDwEbaGALrPcHvMpNvePW0=;
- b=gSbTisffBTBodmXUTEpBpnASa2bklfA01Ggp64mx73tdFWIhl+uQYcLo6T1RpZGsti3HlG
- TNEVXZrKCIi6pzPTJixjp6LQn5XsdAUTUCcCTQbgmaNTLxeLc9DJton/QGbb2b4e5fiV/l
- GQi/g930yV77dthWQ/QXJNGmVgzTB0Zw5AJIO1+YLox1g8i4uKCQMQsvMINm5DBx7hW6kU
- 3PwB8UP+biv8tIJpBPXO9EuLPpqPNlwBDlbH//R0suc5DLKrjIC31m9/MwYPDRC66qI8Fg
- J4ZcQ9VJXiGKFYcO3I4qmNF/G9Apunuc5awpLFSnpLXc14Y8EbNgGQ2SsZ/2Bg==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=bkfUdpQb;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
- 2001:67c:2050:b231:465::202 as permitted sender)
- smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <466d0863-be4c-4b07-ab25-bc7eae4dfc5d@mailbox.org>
+ bh=q/cjSZfGXkfMX/oq1yvyojc5xqlL+Ltp0AG5OjB5oXA=;
+ b=LthLcyfElyxrh4OtE/QaH42IDBlASpFRp34dmblnqS6N6+owvi+AGpLnnw3KCg7WNVlcPS
+ KWe90qCvVVeqotrQv4iseL6lTeG130sJDlTGg8X+pxV4jkLSB5YHUpdr82Yap7LnDuoI2o
+ CDpntdFSRYmrQ3yYGNdWjHtrUaUQgUdfBMGy1B3gAMmNqR/VpaOIlCPqBXVO5E3HGfhsFq
+ OU8l2JjKybnt7bs5r1M+TwrH8JScxN8vaefudtQnxD3iOm1riqgfzSL2952UavuJlicPEc
+ jrwyTWrpihhwMbXHFwKJagBoDNs7GKFJajQE65FpwkLZwQ7f9XqzjkJ8Ey316A==
+Message-ID: <8809b170-9cea-466a-8f73-29ff560c92da@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760538802;
+ s=mail20150812; t=1760538807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DqcM2fuSyGmihOUlIvHn6eDwEbaGALrPcHvMpNvePW0=;
- b=bkfUdpQb+Q+4rQ/guMgsF8VHhi187cBk+4/9A6hwbjCbhHFVuu9znMR7DM9HJ2+mI7BIX5
- maEueacKc6z4+MK4R3mx6uQOM48VnwWFhDbLr7TZs7XoxVZ0elsiULZu6DrQa1jDdmm0gj
- adMdHiEw8x4M+bPanBQMlKCPtznxWKxXQ/Rfd0GXOFjTwQjEbTqWeqt0Zna043TvswwudS
- 8Jwi9nQTlN0Pt+hoTwejgTK1pf8rq+c6vO2fqEjcCtyockUPRmUfNtW0kWXNnbs0rSzB9a
- r9AZjTJrTaqAij/n4ZezO9FOpftp6YEYh8951bI7mHpwGHTWIeUDD8+dVhq8QA==
-Date: Wed, 15 Oct 2025 16:16:31 +0200
+ bh=q/cjSZfGXkfMX/oq1yvyojc5xqlL+Ltp0AG5OjB5oXA=;
+ b=DC1Mgh6k6xBxK1WRjL20A9FKI4waL0OXlyTdp8kRpVzBt5DtmT/53chovN0EQX/gf4Dr6S
+ jYClvxnNmkzTxQ9NBBBVy4xwJQm3LGf7u6aYk1TvtlXzxMPW1UAfJijHyqCHlY07UNQ22J
+ cPX6w1vl9TEO1C1BCPBwERAL/rM6R+tba7Sr/RNcuQHOUdAz0RFHqto2G2ZC6pqMBz3L4x
+ kdb7QlWz6oKfisc+13bORkTkOYwt3serJaxkj3DWZcb4c//ZUI+WLfdruzrP5xIQ0+8eZn
+ zAWdnHiQDHzjBTcGDGxTtKGipqgts9c9LtguySLScyQN49gk52CmHOJq0VXPdA==
+Date: Wed, 15 Oct 2025 16:24:44 +0200
 MIME-Version: 1.0
 Subject: Re: [PATCH 1/3] dt-bindings: gpu: img, powervr-rogue: Document GX6250
  GPU in Renesas R-Car M3-W/M3-W+
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Matt Coster <Matt.Coster@imgtec.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, Adam Ford
- <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+To: Matt Coster <Matt.Coster@imgtec.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
  David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
  Alessio Belle <Alessio.Belle@imgtec.com>,
  Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
@@ -80,14 +74,14 @@ References: <20251013190210.142436-1-marek.vasut+renesas@mailbox.org>
  <c65950f5-010a-4d5d-88d9-60697eeddb46@imgtec.com>
  <f4e1897c-7073-4ab0-92b3-6f7d69382825@mailbox.org>
  <CAMuHMdVpb-0TJ4AoqjAGbdErw65193+j1-HbXCyvvwf8MT6yLQ@mail.gmail.com>
+ <b5b47ad5-b3e4-4213-84e9-9e649a250237@imgtec.com>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdVpb-0TJ4AoqjAGbdErw65193+j1-HbXCyvvwf8MT6yLQ@mail.gmail.com>
+In-Reply-To: <b5b47ad5-b3e4-4213-84e9-9e649a250237@imgtec.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: bc539553b35cbbb23c8
-X-MBO-RS-META: d439tudnh4prct6azxm19y1htthu4j9z
-X-Rspamd-Queue-Id: 4cmtqR6vYPz9tg2
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 7ttxq4j69pdefxjn89h4ju6n166yx5t5
+X-MBO-RS-ID: 5fcd48714613e0e4852
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,21 +97,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/15/25 11:10 AM, Geert Uytterhoeven wrote:
+On 10/15/25 12:52 PM, Matt Coster wrote:
 
-Hello Geert,
+Hello Matt,
 
->> I can turn the first entry into renesas,r8a7796-gpu to be consistent
->> with the legacy 7796 name for 77960.
+>>>>    - Clock ZGφ: Appears to be a core clock for the GPU (3DGE). That would
+>>>>      make it our "core" clock.
+>>>
+>>> This should be 600-700 MHz clock on M3-W , so that sounds like a GPU
+>>> core clock.
 >>
->> Geert ?
+>> Agreed.
+>>
+>>>
+>>>>    - Clock S2D1φ: Appears to be a core clock used on the AXI bus, making
+>>>>      it our "sys" clock.
+>>>
+>>> This should be 400 MHz AXI clock, but wouldn't that make it "mem" clock
+>>> ? I think this might be the clock which drives the AXI bus, used by the
+>>> GPU to access data in DRAM ?
+>>
+>> Agreed.
+>>
+>>>>    - MSTP ST112: Appears to be a whole module on/off control of some
+>>>>      description, and definitely doesn't align with the missing "mem"
+>>>>      clock.
+>>>
+>>> Maybe this is the "sys" clock, since it toggles the register interface
+>>> clock on/off ?
+>>
+>> Probably.
 > 
-> Please use "renesas,r8a7796-gpu" for R-Car M3-W, and
-> "renesas,r8a77961-gpu" for R-Car M3-W+.
+> Yes, this is probably correct. I got my AXI interfaces mixed up – we
+> have both a manager interface for accessing memory (using the mem clock)
+> and a subordinate interface to expose to our registers (using the sys
+> clock). Here's the summary table from our system integration document:
+> 
+>     +-------+-------------------------+------------------------+
+>     | Clock | Modules Clocked         | Dependencies           |
+>     +-------+-------------------------+------------------------+
+>     | mem   | SLC / AXI Manager       | Run for all operations |
+>     | sys   | SOCIF / AXI Subordinate | Run for all operations |
+>     | core  | All                     | Run for all operations |
+>     +-------+-------------------------+------------------------+
 
-Will do.
-
-[...]
+Thank you for sharing that. I will send a V2 series shortly.
 
 -- 
 Best regards,
