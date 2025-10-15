@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F72BDE8E6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 14:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D711BDE973
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:01:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B65D10E7B5;
-	Wed, 15 Oct 2025 12:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E32110E7BA;
+	Wed, 15 Oct 2025 13:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="krH1G6ZH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Mp76gLzs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05CC010E7B5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 12:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760532991; x=1792068991;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=EXCnZjdp0WFMBO5mhFg3iFzstEGAoaA3Q4oFRnS7FS0=;
- b=krH1G6ZH3wWDsdqBaOmtTMKOltNB/R2kLkQyTSy9BCKc5AKvutJrKQFf
- NHBBwht0MXmlowG48rlx7+moQWpRMSPqAQRkuQJb2rOf1XlQyiL0qZFte
- asLJ5+n1S7jIWB9cit19BBlxcgA8sddy+Wqe4cviajOOAWeyFU8SzS77a
- RLXSAbGcjEhzVFBzXVTsqYlig2nVHsCYBH6w2bPy5Ap/yX1esd7+q3KjY
- 8xH2ihVBAK5qooWa1WSD4zqaDqPOpf/VOaMHhgKgn79JGaND9mYG3rR0I
- bUshbLTKU2DC3PkzLV3pw/GageyWc6n7sVF1FUU7Cm85ZjkScUceqDamn Q==;
-X-CSE-ConnectionGUID: MCN+X8FxSOyl0CqO0BoOWw==
-X-CSE-MsgGUID: LefQcr9cQRCN1zLAgWKZuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="88173822"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; d="scan'208";a="88173822"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2025 05:56:31 -0700
-X-CSE-ConnectionGUID: r7gk0TPCTaqNrjasc3gJ5A==
-X-CSE-MsgGUID: Y5WPvCnNQBqAfIHTSZY/GQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; d="scan'208";a="182955133"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.245.102])
- ([10.245.245.102])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2025 05:56:30 -0700
-Message-ID: <fb07e25b-e965-4103-b5af-8167a15cbd2f@linux.intel.com>
-Date: Wed, 15 Oct 2025 14:54:48 +0200
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD6110E7BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760533273;
+ bh=trX4nSwoZdKPSGVCu0yf2LaKke4RTDmLsK/LRLkpQA0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Mp76gLzsoY5aAdIuglKuBoj5qK9AWXKri/yj/VGfYs18X+0ibtZVU+bCFKrvWR4Ry
+ 0C76D5jQ68Ebkg+YZvrJUWgrq31MyXWwxW9kMv3wR4oC+5q7mURtjneP7jpDdEgN5O
+ I5oJEc7CW4vWcNYbT2qQ8/QIBy/Anhtns4585RAPl+qug/RbAoswxd3DMDWcKWkHhW
+ 2mcgU6ubCtR5yJ4LQWfs+jNIKpe6IaNkWqRSceFFHHY5EJv+WliBK5p6aK/vDips0c
+ 7HmJic7PK/aqrpi0sCM8cnOrMzshjErhhS3m9POMIjUtOCsh0imCIQIygJ0RqOS1rS
+ 78+mfu8ovJoOQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 37DD017E1305;
+ Wed, 15 Oct 2025 15:01:13 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
+Subject: [PATCH v3 00/14]  drm/panfrost,
+ panthor: Cached maps and explicit flushing
+Date: Wed, 15 Oct 2025 15:00:49 +0200
+Message-ID: <20251015130103.3634560-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/xe: Allow mixed mappings for userptr
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20251010104149.72783-1-thomas.hellstrom@linux.intel.com>
- <13cf7040ec69f3e5f8ed7df4230a56db93bb6b73.camel@linux.intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <13cf7040ec69f3e5f8ed7df4230a56db93bb6b73.camel@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,114 +64,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+This series implements cached maps and explicit flushing for both panfrost
+and panthor.  To avoid code/bug duplication, the tricky guts of the cache
+flusing ioctl which walk the sg list are broken into a new common shmem
+helper which can be used by any driver.
 
-Den 2025-10-14 kl. 13:08, skrev Thomas Hellström:
-> + dri-devel.
-> 
-> From: Matthew Brost <matthew.brost@intel.com>
-> 
-> Compute kernels often issue memory copies immediately after completion.
-> If the memory being copied is an SVM pointer that was faulted into the
-> device and then bound via userptr, it is undesirable to move that
-> memory. Worse, if userptr is mixed between system and device memory,
-> the
-> bind operation may be rejected.
-> 
-> Xe already has the necessary plumbing to support userptr with mixed
-> mappings. This update modifies GPUSVM's get_pages to correctly locate
-> pages in such mixed mapping scenarios.
-> 
-> v2:
-> - Rebase (Thomas Hellström)
-> v3:
-> - Remove Fixes tag.
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> ---
->  drivers/gpu/drm/drm_gpusvm.c    | 6 ++++--
->  drivers/gpu/drm/xe/xe_userptr.c | 4 +++-
->  include/drm/drm_gpusvm.h        | 4 ++++
->  3 files changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gpusvm.c
-> b/drivers/gpu/drm/drm_gpusvm.c
-> index cb906765897e..73e550c8ff8c 100644
-> --- a/drivers/gpu/drm/drm_gpusvm.c
-> +++ b/drivers/gpu/drm/drm_gpusvm.c
-> @@ -1363,7 +1363,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> *gpusvm,
->  		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i,
-> npages);
->  		if (is_device_private_page(page) ||
->  		    is_device_coherent_page(page)) {
-> -			if (zdd != page->zone_device_data && i > 0) {
-> +			if (!ctx->allow_mixed &&
-> +			    zdd != page->zone_device_data && i > 0) {
->  				err = -EOPNOTSUPP;
->  				goto err_unmap;
->  			}
-> @@ -1399,7 +1400,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> *gpusvm,
->  		} else {
->  			dma_addr_t addr;
->  
-> -			if (is_zone_device_page(page) || pagemap) {
-> +			if (is_zone_device_page(page) ||
-> +			    (pagemap && !ctx->allow_mixed)) {
->  				err = -EOPNOTSUPP;
->  				goto err_unmap;
->  			}
-> diff --git a/drivers/gpu/drm/xe/xe_userptr.c
-> b/drivers/gpu/drm/xe/xe_userptr.c
-> index f16e92cd8090..0d9130b1958a 100644
-> --- a/drivers/gpu/drm/xe/xe_userptr.c
-> +++ b/drivers/gpu/drm/xe/xe_userptr.c
-> @@ -3,6 +3,7 @@
->   * Copyright © 2025 Intel Corporation
->   */
->  
-> +#include "xe_svm.h"
->  #include "xe_userptr.h"
->  
->  #include <linux/mm.h>
-> @@ -54,7 +55,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma
-> *uvma)
->  	struct xe_device *xe = vm->xe;
->  	struct drm_gpusvm_ctx ctx = {
->  		.read_only = xe_vma_read_only(vma),
-> -		.device_private_page_owner = NULL,
-> +		.device_private_page_owner = xe_svm_devm_owner(xe),
-> +		.allow_mixed = true,
->  	};
->  
->  	lockdep_assert_held(&vm->lock);
-> diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
-> index b92faa9a26b2..632e100e6efb 100644
-> --- a/include/drm/drm_gpusvm.h
-> +++ b/include/drm/drm_gpusvm.h
-> @@ -235,6 +235,9 @@ struct drm_gpusvm {
->   * @read_only: operating on read-only memory
->   * @devmem_possible: possible to use device memory
->   * @devmem_only: use only device memory
-> + * @allow_mixed: Allow mixed mappings in get pages. Mixing between
-> system and
-> + *               single dpagemap is supported, mixing between multiple
-> dpagemap
-> + *               is unsupported.
->   *
->   * Context that is DRM GPUSVM is operating in (i.e. user arguments).
->   */
-> @@ -246,6 +249,7 @@ struct drm_gpusvm_ctx {
->  	unsigned int read_only :1;
->  	unsigned int devmem_possible :1;
->  	unsigned int devmem_only :1;
-> +	unsigned int allow_mixed :1;
->  };
->  
->  int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
-> 
-> 
+The PanVK MR to use this lives here:
+
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
+
+Changes in v2:
+- Expose the coherency so userspace can know when it should skip cache
+  maintenance
+- Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
+  can be implemented generically
+- Revisit the semantics of the flags passed to gem_sync()
+- Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
+  let the UMD know when cache maintenance is needed on those
+
+Changes in v3:
+- New patch to fix panthor_gpu_coherency_set()
+- No other major changes, check each patch changelog for more details
+
+Boris Brezillon (7):
+  drm/panthor: Fix panthor_gpu_coherency_set()
+  drm/gem: Add a drm_gem_object_funcs::sync() and a drm_gem_sync()
+    helper
+  drm/prime: Provide default ::{begin,end}_cpu_access() implementations
+  drm/panthor: Expose the selected coherency protocol to the UMD
+  drm/panthor: Add an ioctl to query BO flags
+  drm/panfrost: Expose the selected coherency protocol to the UMD
+  drm/panfrost: Add an ioctl to query BO flags
+
+Faith Ekstrand (6):
+  drm/shmem: Add a drm_gem_shmem_sync() helper
+  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+  drm/panthor: Bump the driver version to 1.6
+  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+  drm/panfrost: Bump the driver version to 1.6
+
+Loïc Molinari (1):
+  drm/panthor: Add flag to map GEM object Write-Back Cacheable
+
+ drivers/gpu/drm/drm_gem.c                  |  10 ++
+ drivers/gpu/drm/drm_gem_shmem_helper.c     |  89 +++++++++++
+ drivers/gpu/drm/drm_prime.c                |  42 +++++
+ drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 106 ++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  23 +++
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |   2 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    |  22 ++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
+ drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
+ drivers/gpu/drm/panthor/panthor_drv.c      |  84 +++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.c      |  24 +++
+ drivers/gpu/drm/panthor/panthor_gem.h      |   3 +
+ drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c    |  18 ++-
+ include/drm/drm_gem.h                      |  45 ++++++
+ include/drm/drm_gem_shmem_helper.h         |  11 ++
+ include/drm/drm_prime.h                    |   5 +
+ include/uapi/drm/panfrost_drm.h            |  74 +++++++++
+ include/uapi/drm/panthor_drm.h             | 171 ++++++++++++++++++++-
+ 20 files changed, 736 insertions(+), 16 deletions(-)
+
+-- 
+2.51.0
 
