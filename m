@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E2ABE03CF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 20:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC726BE03C9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 20:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CAC10E8BA;
-	Wed, 15 Oct 2025 18:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7311210E8B9;
+	Wed, 15 Oct 2025 18:46:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m8igxqMe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ko7BmCIs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB3C10E3A2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:18:55 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-781997d195aso4640711b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 04:18:55 -0700 (PDT)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF8A610E787
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:37:20 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-7810289cd4bso6170892b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 04:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760527135; x=1761131935; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760528240; x=1761133040; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=W2vnTLcw57Y069vTGfiFWbSfImvEmfVAFfbmVAA9rgo=;
- b=m8igxqMenF9AwxUz2eb7luz6wFOazlecsh5MiskkgoSK8GXEfRAIDWtIX+Weu4VCs6
- bMlOZ3yHTijsjKGGZXaw2w9FFP7QJ74xzMpP3r9psXP25nFqI1rcytEud1Cb0GudIqc1
- RG0ErJ5RPI1h4tOLmVTj+HDDjNJZVGCh6xllHi8XH0T3dZkxDXHb5PVfHey0DciNqX2f
- 6xYNgww+T/EiCWD4E5ojQ1/iNO1EtFWp5oMXfH7xZx34LeN55LEr2nJiKwbNQS1P3QGn
- Usc51jRknD2sP7cTgLGTZZJNFXamwTNX//5xRCw3BgP7dIcl3VSGE1rLcxpZ3dVnx5nf
- PAKA==
+ bh=x9r7lDMOBshgk2OBbZUZFD3lZ/ikkhF8KUnZZ8JlQI0=;
+ b=Ko7BmCIsV33RdIh21Y3dvNIzqORho8GLu4edNFbo1SzQYalxbFEB82g7/hsINfT2GE
+ TigcbgLqnGvjKk7g6g3tPIpGDLozO6uVuchnMdIQU5t3MK5NtgscE9H0hGL9j2a1GXw1
+ VIRvwX63T5mqx9YuBLWt8nA7Ye228J+uGdCCeaYySxn6PhvhFjNHWw53PGcT55S2Pw4n
+ dBjpwR0uCgfD72+Zql/pQ3kD2s5luU6blVACGKFhquSyEGA6dL8u5qRCIkcsl8INw7In
+ W/TBGlBDn7c4weXX7g73TPjReRChtCKogwMZ6EEzhaKSwPQJNIZD5C9dtPTMfUP+Fw95
+ ws5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760527135; x=1761131935;
+ d=1e100.net; s=20230601; t=1760528240; x=1761133040;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=W2vnTLcw57Y069vTGfiFWbSfImvEmfVAFfbmVAA9rgo=;
- b=bGOPlp2n0qe2+Q5qc/UQCqvNO3a5vQMGoAuik0SD5PdscJ3FLJ4JQZXxL8n7vhCDT3
- fDi7TDSn8C6naUOYznYBrsYrdxhMrE4FlYmsPpM3R+lwadnUYpnvZ33T8xq+tyOWS26u
- hH5qZxes8MksTP+FOUyhskw+O2PPC6SejYG44Mt8KL5yj7p2tYrfgHJ0kuNrzper28eY
- z5PqoXONzXmC7r1sjEn42Euy7iou7kGlpmkCDSsftvdSUogDYMCn4HULx0ADrJwh7v/L
- zQ1aRo5ZXZ4ri9KSTA7SmiXecg2KZ0HZdrx/DP0kp1dG0i8U8z3HkJIXM1DV7NVxV4Qy
- Mp9g==
+ bh=x9r7lDMOBshgk2OBbZUZFD3lZ/ikkhF8KUnZZ8JlQI0=;
+ b=ZpkSD31KiCddiAGJz9ud0jI/TxTy1HlLkbvKHDcXPTFMD1Wnu6YSi5ROLamhY8seKW
+ apfZbMsRFB96UWoQqcI1Yx3EliNcDp7VHF4Spbf2KMdtsBiLCH/df0CPZVMrWgRo4qQP
+ h6/NW/RRYkBMsIyA8v+ctbhIdwo874Ub1R7f9SKkCRGf7ftWkht2adKcVo72csWefnPs
+ nf9AYysHZ3XRJl/SLrJgQsIRonm7Dm0WGZiyL/oLzv7YLbr4k9gjlWNZ6132RwW1QsG4
+ lkxPT4raFxvP1VuHLtf3NlfScv4PoO4uEh8RClNo46KR+GVZXb3gqfo62AFWrDHceISC
+ VnuA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQhwVJT90Lrv9oTufko2rjcD7Jr05tc20FxMouTet6r2Y6gOAipMo8kT3kVp/cdGbTpV205fA/SPQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxaA3b30TPehnegnV4cMwBfax/uC/9YX2wvLIVQsgQT0dQcINk
- 6h8biXsOil1MxkSwlONqC8ZaItIFvXl9H6by0jd6gBgsnfrV+JWfxTaU
-X-Gm-Gg: ASbGncvSkNUbNwtAOYSAVHGcBVWGMUj2v0TMTu3zgNv3cfRuLV3bxX+8CvZ0YmUGZWU
- hyPqR3nWyVFndKUxsBkEw3wbAzcSAH7luUX6lzWWS0Hb7R/C83nBeK/rqal2PPF9idTWM5D3ILE
- vpQsRJKMWY3z4HONEAPWCD0dGqPOctlJ5vlekx2PoYIUMHEaTrndzYNk/bA9xEZ/O26LK8ubWzJ
- 7gwKytpH8zly0cUQ1rbFTEZR+hJL3aQCpJrvQkHsI+aCP+XSWppQocw8Vs94lGX49UJ/JM7jsTL
- Jgc+gcT135juyzRow4Dlp457H5pb9EYT0wH07i3h9DKYX+iXz8d92N2n2EHgA8DThI58euwBpx1
- /ZXKedgyNulEDTapLU3WrITO1MEXk6FSJ4cW3R8109TftaoeKxUyl5FdEbA==
-X-Google-Smtp-Source: AGHT+IFxanje2UwITyO7JhKP4HwVngGwSfVPKTDvSZY8WDRIMIBK8NNPGmeF09cgQwzpalXD/vgd7A==
-X-Received: by 2002:a05:6a00:4b01:b0:77f:1550:f3c9 with SMTP id
- d2e1a72fcca58-793859f34b3mr35946413b3a.12.1760527134951; 
- Wed, 15 Oct 2025 04:18:54 -0700 (PDT)
+ AJvYcCWUy65hD9gMGGTVvBOrj2ImaFSwQoMtuPd0C2newl3L2pv4kGhE/kljBSovaSAWenDd6TfQI6BkPE4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwEssCKemaUq79SjAWNFTcVth9IArr3L2lpzUs2r4Xed3lWW72
+ CITM3PNe8GI8eUWvJn5wuZRJg1gCB0SgxNjUEfbtWGWSDrs+2pP/WQhD
+X-Gm-Gg: ASbGncuijVF2t9EXENteRJn0pOspANCy/IVJGPDYRyFYnqTmJP491ip4/AGCRy5h7ME
+ LZleFWQ9Ud4oH+t0XbwgRgmrWbZuXy8c8rbPQiLXGFywCjXA131EMUHzpGQSDQGYxMvkd2uDiLy
+ uuLQusFHFgiEmcvlV/GXwjVpq4eEVCBfJmP9ydHWVgmbvSGHVk69vHy+tQG6UimzYiSC159CrLP
+ oUXjDfn9zI8l0r9F/V1nBqXy+7VbWvyS7ushUNMIOiUDZMrC15Xxu/05oLoqFsFRB9BtYlbWp82
+ IJrQzEIwx6m/7Uk21COvLiKjIuiIWT8cgcR9cSTA7+HcRN2dZzchs/9bASoPlI9d10PHBjrIN0z
+ moyfbw2OPVtFrBYsM4xAJtxISw2gmuD8A+28oC5z320CIhIrnvVqb+JOBAA==
+X-Google-Smtp-Source: AGHT+IF/kMdSW2mdiOvPmOOpT6ZAXFjqWzHKAwJiaUVYsXOzqJQMewVct8CF0Jj3G4kE299bLT4akg==
+X-Received: by 2002:a05:6a00:a0a:b0:781:1920:d12d with SMTP id
+ d2e1a72fcca58-793858fb6dfmr34996835b3a.12.1760528240330; 
+ Wed, 15 Oct 2025 04:37:20 -0700 (PDT)
 Received: from tixy.nay.do ([2405:201:8000:a149:4670:c55c:fe13:754d])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7992d09aa20sm18322631b3a.39.2025.10.15.04.18.48
+ d2e1a72fcca58-7992d0e3f89sm18115540b3a.66.2025.10.15.04.37.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Oct 2025 04:18:54 -0700 (PDT)
+ Wed, 15 Oct 2025 04:37:20 -0700 (PDT)
 From: Ankan Biswas <spyjetfayed@gmail.com>
 To: bbrezillon@kernel.org, himal.prasad.ghimiray@intel.com, dakr@kernel.org,
  matt.coster@imgtec.com, robin.clark@oss.qualcomm.com,
@@ -72,9 +72,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
  Ankan Biswas <spyjetfayed@gmail.com>,
  Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/gpuvm: Fix kernel-doc warning for drm_gpuvm_map_req.map
-Date: Wed, 15 Oct 2025 16:47:08 +0530
-Message-ID: <20251015111828.18944-1-spyjetfayed@gmail.com>
+Subject: [PATCH v2] drm/gpuvm: Fix kernel-doc warning for drm_gpuvm_map_req.map
+Date: Wed, 15 Oct 2025 17:01:23 +0530
+Message-ID: <20251015113656.21447-1-spyjetfayed@gmail.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -94,8 +94,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel-doc for struct drm_gpuvm_map_req.map was added as 'map_ops'
-instead of 'map', leading to this warning during htmldocs build:
+The kernel-doc for struct drm_gpuvm_map_req.map was added as '@op_map'
+instead of '@map', leading to this warning during htmldocs build:
 
 WARNING: include/drm/drm_gpuvm.h:1083 struct member 'map' not described in 'drm_gpuvm_map_req'
 
@@ -103,6 +103,9 @@ Fixes: 000a45dce7ad ("drm/gpuvm: Pass map arguments through a struct")
 Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Signed-off-by: Ankan Biswas <spyjetfayed@gmail.com>
 ---
+Changes in v2:
+- typos fixed 'map_ops' -> '@op_map', 'map' -> '@map'
+
  include/drm/drm_gpuvm.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
