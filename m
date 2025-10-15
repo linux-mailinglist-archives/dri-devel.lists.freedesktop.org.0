@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF36BDEC5C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:33:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E986BDEC80
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC31910E27D;
-	Wed, 15 Oct 2025 13:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970E810E7E5;
+	Wed, 15 Oct 2025 13:39:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rz/cv0jG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g/poIZWc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0572010E27D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:33:18 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF8010E7E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:39:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A371F44503;
- Wed, 15 Oct 2025 13:33:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559D5C4CEF8;
- Wed, 15 Oct 2025 13:33:17 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 5099B601DD;
+ Wed, 15 Oct 2025 13:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57A5DC4CEF8;
+ Wed, 15 Oct 2025 13:39:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760535197;
- bh=3fz9KGNaQakjQB6EQzIxoVQtqjKXznasDpV8NOPgPuQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rz/cv0jGa6pcHdPzjjI1OM8wpBajf6uLdiwhQUjIwwa/08P9M/cr0zt05mHYbGzUK
- pap+MlEKcpQWolJ4vJYl77nEIi6aTDGVnrh2/dHbbz3AB2m0+CbqmYAeY+/43BXpAZ
- nU1X0VzsbhDXvWvb/CKzy8DN1iM2qdMPqTvgWUXtZpeACYkz/ARmZBjUtMmi47peiv
- HIbrkj584SyBB/tJYeQz/7Z2SJNMV281XhoF3xnBSGApzpfCfHsZEX+wQ2luvZxRhO
- 0qSJOTwfU95lhsoyRTxgYH8XXrdMTpt8r/jKCwtEGVd66+lDNjniYl0p3IppvQ0rca
- pdMbGAjZ42upQ==
-Date: Wed, 15 Oct 2025 08:33:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
- Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH 38/39] dt-bindings: clock: support i.MX95 Display Stream
- CSR module
-Message-ID: <20251015133315.GA3263713-robh@kernel.org>
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-39-marek.vasut@mailbox.org>
+ s=k20201202; t=1760535565;
+ bh=DLGr/JRSYdd2THyi/Qlx9WbQlHXgP2AW6QiwTenTm5Y=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=g/poIZWcz+5f2BNgIIaO4bBp1i8a7pAPu54UlecaztDH0Rr4ymt1Df9wflKJhH+RJ
+ UqWWyUs3SmAfeUTs7oC8LNxmVhO1yvBjgRZTLNiDEDS4KNxAtfWb8GaAejcage9H40
+ W9O+9CAIpNuphF9rHauSxsWrfcOPlGqBB29Rs3oG/e4KnFDzi84idG2/NkjX51l88r
+ u2XjwC9K/H55FZmdgVs+d6r9l3cPp4Ad/5s9M468PhIYHSmSUDHbgvdpnUq5pnDi2p
+ fDhl1h+S6Ntg+xT66kPsmxlN74XmsmxEJxXioO6QKTnhpgUYJRqknvTAKsl/TMEfYU
+ MD5gBLZ4iDqNA==
+Message-ID: <a45af9ee-73c4-4097-932d-de671435f5e0@kernel.org>
+Date: Wed, 15 Oct 2025 15:39:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251011170213.128907-39-marek.vasut@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/gpuvm: Fix kernel-doc warning for
+ drm_gpuvm_map_req.map
+To: Ankan Biswas <spyjetfayed@gmail.com>
+Cc: bbrezillon@kernel.org, himal.prasad.ghimiray@intel.com,
+ matt.coster@imgtec.com, robin.clark@oss.qualcomm.com,
+ matthew.brost@intel.com, aliceryhl@google.com,
+ thomas.hellstrom@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch,
+ skhan@linuxfoundation.org, khalid@kernel.org, david.hunter.linux@gmail.com,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20251015113656.21447-1-spyjetfayed@gmail.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251015113656.21447-1-spyjetfayed@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +66,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 06:51:53PM +0200, Marek Vasut wrote:
-> i.MX95 DISPLAY STREAM_CSR includes registers to control DSI PHY settings.
-> Add dt-schema for it.
+On 10/15/25 1:31 PM, Ankan Biswas wrote:
+> The kernel-doc for struct drm_gpuvm_map_req.map was added as '@op_map'
+> instead of '@map', leading to this warning during htmldocs build:
 > 
-> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
-> ---
-> Cc: Abel Vesa <abelvesa@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Liu Ying <victor.liu@nxp.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-clk@vger.kernel.org
-> ---
->  .../imx/nxp,imx95-display-stream-csr.yaml     | 41 +++++++++++++++++++
->  1 file changed, 41 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx95-display-stream-csr.yaml
+> WARNING: include/drm/drm_gpuvm.h:1083 struct member 'map' not described in 'drm_gpuvm_map_req'
 > 
-> diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx95-display-stream-csr.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx95-display-stream-csr.yaml
-> new file mode 100644
-> index 0000000000000..61153120c9378
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/nxp,imx95-display-stream-csr.yaml
-> @@ -0,0 +1,41 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/nxp,imx95-display-stream-csr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX95 Display Stream Block Control
-> +
-> +maintainers:
-> +  - Marek Vasut <marek.vasut@mailbox.org>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - nxp,imx95-display-stream-csr
-> +          - nxp,imx95-master-stream-csr
-> +          - nxp,imx95-mipi-tx-phy-csr
+> Fixes: 000a45dce7ad ("drm/gpuvm: Pass map arguments through a struct")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 
-'-csr' seems redundant.
+Please add a Closes: tag, checkpatch.pl should warn about this.
 
-> +      - const: syscon
+Thanks,
+Danilo
