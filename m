@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08F8BDE99D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EF8BDE9A3
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:01:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAD510E7C7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D7210E7C8;
 	Wed, 15 Oct 2025 13:01:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ICUiq39j";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="p1QOIc4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452A210E7C6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44C210E7BC
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760533277;
- bh=l3rG1YVAHi9OzKmMP96uQ1KRYl9IVrrHJQqzMLcRT28=;
+ s=mail; t=1760533278;
+ bh=6fiTcDrmtcfUFUMhD9UST8RpN/ZT9xdN/eKH+YnvTNU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ICUiq39jpK3l8z8GwXfocFrH0odJO5uuAo7KnWWcq46LVxVTRPnRgV46PbyFUpAaJ
- gzT8h95FLvHkvI83ZyuN4h61Xq7CaBZzP1cI/hneMvf/xnTpUgMqLV5cvgQBQhHNqR
- HxEEdFlFWbUrx0qB/EtTO59J/Ai260ZJ+PFHPEVPpH7XNc2r/j/gdcnbLI55mdJwu6
- YUOVgBXlCxem3U94QBmyy4bAkycGYK7JXN5/28jomjV7HElKKxsh1T43w86UgiRcPj
- 0gXv8j9LRHHcVS9ENouehl3IyHDbJHYQhZAIr1wHLzSaJOZhAApdD28+NN52EGvbDq
- c39yyYn3uRtLQ==
+ b=p1QOIc4v1l2+WnzOY46tkn5UvSMPHBhZckd3NOjMSZyr/G1dzXpa5xHSwBUye4GZ+
+ hTl0XtI0KTTk0N2WdBNtmcCaGsLX/zpqtxru4KAYYkRmrCROVkTIvA7DmUDDXv4C0G
+ 05b86pIRQmIhaqi881twioSrwq7pqALoUvlBW+M3YzMkNXQY+nwETey61Pm6A3skfP
+ 3nh7TPj+u8SqNSMPbNo05bmNAzStgMH9oLcXxtDrvy2JlyxF50LWB9K0D+2oTWn198
+ dKKAPzgjl3ZeHBbv2HIEpg3gw+HN54S8UGUlPkn0zD0AWaqu6jd6qeu4PHjgz06ERb
+ yMsM4+dcsV67g==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 85FF517E1418;
- Wed, 15 Oct 2025 15:01:17 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1BA3F17E14DD;
+ Wed, 15 Oct 2025 15:01:18 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -39,18 +39,15 @@ Cc: dri-devel@lists.freedesktop.org,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
- kernel@collabora.com, Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v3 08/14] drm/panthor: Add flag to map GEM object Write-Back
- Cacheable
-Date: Wed, 15 Oct 2025 15:00:57 +0200
-Message-ID: <20251015130103.3634560-9-boris.brezillon@collabora.com>
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v3 09/14] drm/panthor: Bump the driver version to 1.6
+Date: Wed, 15 Oct 2025 15:00:58 +0200
+Message-ID: <20251015130103.3634560-10-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015130103.3634560-1-boris.brezillon@collabora.com>
 References: <20251015130103.3634560-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,128 +64,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Loïc Molinari <loic.molinari@collabora.com>
+From: Faith Ekstrand <faith.ekstrand@collabora.com>
 
-Will be used by the UMD to optimize CPU accesses to buffers
-that are frequently read by the CPU, or on which the access
-pattern makes non-cacheable mappings inefficient.
-
-Mapping buffers CPU-cached implies taking care of the CPU
-cache maintenance in the UMD, unless the GPU is IO coherent.
+Bump the driver version to reflect the new cached-CPU mapping
+capability.
 
 v2:
-- Add more to the commit message
-- Tweak the doc
-- Make sure we sync the section of the BO pointing to the CS
-  syncobj before we read its seqno
+- Quickly describe what the new version exposes in the commit message
 
 v3:
-- Fix formatting/spelling issues
+- Add Steve's R-b
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c   |  7 ++++++-
- drivers/gpu/drm/panthor/panthor_gem.c   |  3 +++
- drivers/gpu/drm/panthor/panthor_sched.c | 18 ++++++++++++++++--
- include/uapi/drm/panthor_drm.h          |  9 +++++++++
- 4 files changed, 34 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panthor/panthor_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 9004d0ba0e45..d2c321404a75 100644
+index d2c321404a75..9d626ce66ad7 100644
 --- a/drivers/gpu/drm/panthor/panthor_drv.c
 +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -900,7 +900,8 @@ static int panthor_ioctl_vm_destroy(struct drm_device *ddev, void *data,
- 	return panthor_vm_pool_destroy_vm(pfile->vms, args->id);
- }
+@@ -1675,6 +1675,10 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
++ * - 1.6 - adds DRM_PANTHOR_BO_WB_MMAP flag
++ *       - adds DRM_IOCTL_PANTHOR_BO_SYNC ioctl
++ *       - adds DRM_IOCTL_PANTHOR_BO_QUERY_INFO ioctl
++ *       - adds drm_panthor_gpu_info::selected_coherency
+  */
+ static const struct drm_driver panthor_drm_driver = {
+ 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+@@ -1688,7 +1692,7 @@ static const struct drm_driver panthor_drm_driver = {
+ 	.name = "panthor",
+ 	.desc = "Panthor DRM driver",
+ 	.major = 1,
+-	.minor = 5,
++	.minor = 6,
  
--#define PANTHOR_BO_FLAGS		DRM_PANTHOR_BO_NO_MMAP
-+#define PANTHOR_BO_FLAGS		(DRM_PANTHOR_BO_NO_MMAP | \
-+					 DRM_PANTHOR_BO_WB_MMAP)
- 
- static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
- 				   struct drm_file *file)
-@@ -919,6 +920,10 @@ static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
- 		goto out_dev_exit;
- 	}
- 
-+	if ((args->flags & DRM_PANTHOR_BO_NO_MMAP) &&
-+	    (args->flags & DRM_PANTHOR_BO_WB_MMAP))
-+		return -EINVAL;
-+
- 	if (args->exclusive_vm_id) {
- 		vm = panthor_vm_pool_get_vm(pfile->vms, args->exclusive_vm_id);
- 		if (!vm) {
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 617e04134d30..a0ccc316e375 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -280,6 +280,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
- 	bo = to_panthor_bo(&shmem->base);
- 	bo->flags = flags;
- 
-+	if (flags & DRM_PANTHOR_BO_WB_MMAP)
-+		shmem->map_wc = false;
-+
- 	if (exclusive_vm) {
- 		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
- 		drm_gem_object_get(bo->exclusive_vm_root_gem);
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index f5e01cb16cfc..a17427cabf2a 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -868,8 +868,11 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
- 	struct iosys_map map;
- 	int ret;
- 
--	if (queue->syncwait.kmap)
--		return queue->syncwait.kmap + queue->syncwait.offset;
-+	if (queue->syncwait.kmap) {
-+		bo = container_of(queue->syncwait.obj,
-+				  struct panthor_gem_object, base.base);
-+		goto out_sync;
-+	}
- 
- 	bo = panthor_vm_get_bo_for_va(group->vm,
- 				      queue->syncwait.gpu_va,
-@@ -886,6 +889,17 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
- 	if (drm_WARN_ON(&ptdev->base, !queue->syncwait.kmap))
- 		goto err_put_syncwait_obj;
- 
-+out_sync:
-+	/* Make sure the CPU caches are invalidated before the seqno is read.
-+	 * drm_gem_shmem_sync() is a NOP if map_wc=false, so no need to check
-+	 * it here.
-+	 */
-+	drm_gem_shmem_sync(&bo->base, queue->syncwait.offset,
-+			   queue->syncwait.sync64 ?
-+				   sizeof(struct panthor_syncobj_64b) :
-+				   sizeof(struct panthor_syncobj_32b),
-+			   DRM_GEM_OBJECT_CPU_ACCESS | DRM_GEM_OBJECT_READ_ACCESS);
-+
- 	return queue->syncwait.kmap + queue->syncwait.offset;
- 
- err_put_syncwait_obj:
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 63ea44ab961d..dca162781bb2 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -681,6 +681,15 @@ struct drm_panthor_vm_get_state {
- enum drm_panthor_bo_flags {
- 	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
- 	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
-+
-+	/**
-+	 * @DRM_PANTHOR_BO_WB_MMAP: Force "Write-Back Cacheable" CPU mapping.
-+	 *
-+	 * CPU map the buffer object in userspace by forcing the "Write-Back
-+	 * Cacheable" cacheability attribute. The mapping otherwise uses the
-+	 * "Non-Cacheable" attribute if the GPU is not IO coherent.
-+	 */
-+	DRM_PANTHOR_BO_WB_MMAP = (1 << 1),
- };
- 
- /**
+ 	.gem_create_object = panthor_gem_create_object,
+ 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
 -- 
 2.51.0
 
