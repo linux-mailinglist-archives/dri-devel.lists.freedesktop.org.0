@@ -2,206 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE47BDFC4A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C298BDFC5C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:54:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0510210E88D;
-	Wed, 15 Oct 2025 16:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45AF910E891;
+	Wed, 15 Oct 2025 16:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="LYbUzcm8";
-	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="UmYZIYqQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y4doWy8p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE04810E88D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:53:33 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59F3wseA2443484; Wed, 15 Oct 2025 17:53:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=dk201812; bh=chlmcbBIiKgfj5PP2wv5mnNiW
- 3MWYPl3AVu/A2cYip0=; b=LYbUzcm8iVFdubDq0YTnjfWL3E26mEXDfhcaWD9cj
- vt16nkNOjVIxi07Wir5nxUhLf3ORGLntV/Ob/MruQb3wxWYUTCvKKRLW1AAOH9Q3
- C5NLvzHsAGVo0gsafGsWagCJ+vuIEJPH0xq6r1+AufB4tfvYOnxj5xFBaFLM0N/G
- F3COpwsZEELh1EfG1TXU2L/YaYfOJUD/yy/LABLTtEkNoAolaMIabxWKq751iwQZ
- uojv4mqFzCY4H8/XsxxfcPoPkziO48C5VATbBjgd6GSKHugp7kqb6yyldXINzuzZ
- YmxluYPy+JaC4CO3J4eDQChhzgtfYNDVLZLv+U73XGS0w==
-Received: from cwxp265cu009.outbound.protection.outlook.com
- (mail-ukwestazon11021126.outbound.protection.outlook.com [52.101.100.126])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 49qfarvfpy-2
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Wed, 15 Oct 2025 17:53:20 +0100 (BST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QBQ7rnciIw9n+8FqY+xej2LsuPWo9BdX4Vd/PlMBVrVrxQBfmzl8dFhEDlEQCe4u8CW0V9lcW1T+QSUQffOBs5rkKdXEK4uYWj0q0TovCrhF4SqosZ9wTpwJblk6IhuCXgDEsBFeIme+4i4XMp4nWxehbcR+lymR9futk8W8Ld1TKAml+GWC1LmlnUAYgQum7HgEvkv35nKEJQqvd0utcuRxeZ7rpAE155HGhvDxJsGjbrkD2NPYNDWfuP06f7713E81GY/a+dyGn2nP2r28RMvmEAG2ra64jh4LRokot1vsCQ+AhtFr/U4rQ89XJzu/Cy5QeSRyNsFM81risKd9GQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=chlmcbBIiKgfj5PP2wv5mnNiW3MWYPl3AVu/A2cYip0=;
- b=aWnoHj9PxuEC6K3408DfOlqeg5wJz6vqcpBuFkb1J0YHlrcRNAxmv4T2csBIwpMKNQ8wlFAtVdacPkB2bCrB9KByKa6qIvlGNF5wGtfzFhVi9KdUiKBBuqI1xUwozOCamRwQMgI2zV9DpnORiSLe8jW/mKJaNeUTCAFomc7qXH0mu5JlG4b5+L1cL4P6rbuTiWnWeZSstsVoFWznWf4vzOqi7pM1NBREGIQqLb8BMmkgefHHiNH1qEFVY3yCbiev3GbI30qKFGdcgRZmpXryCO7I81hNTeSU2kHg4Hm4vRCkFXCtsEHUFS6HOQvwfNGWCUnM1rIx4eaFdU0PeGvoLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=chlmcbBIiKgfj5PP2wv5mnNiW3MWYPl3AVu/A2cYip0=;
- b=UmYZIYqQ/5XcJyMg9oPl1RATC5jCMDnXCveoet2tM4HZIbOCTgGV6pZxEKT1MZhbvewSpdEtKQYKvPtPnNVnEDZu0jp7yHu1LjB1M8USx4YDUUVgdxbBC4OHOGzBb7TlkxZY8PACJEpfq19M9MCS9RZYFU+smCdpei+rmIpODhY=
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
- LO2P265MB2654.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:145::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.11; Wed, 15 Oct 2025 16:53:18 +0000
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15%5]) with mapi id 15.20.9228.010; Wed, 15 Oct 2025
- 16:53:17 +0000
-From: Matt Coster <Matt.Coster@imgtec.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-CC: =?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Magnus Damm <magnus.damm@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, Simona
- Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r8a77961: Add GX6250 GPU node
-Thread-Topic: [PATCH v2 3/3] arm64: dts: renesas: r8a77961: Add GX6250 GPU node
-Thread-Index: AQHcPfQ00A4XlUkelUOCPz9TJn4ifw==
-Date: Wed, 15 Oct 2025 16:53:17 +0000
-Message-ID: <c58d60e1-3666-4451-9866-2eca976c8862@imgtec.com>
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO2P265MB2654:EE_
-x-ms-office365-filtering-correlation-id: 5ec37b76-2597-4a75-2add-08de0c0b571b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|38070700021|4053099003; 
-x-microsoft-antispam-message-info: =?utf-8?B?VlVKWVhxbko3ay9udnp6R1JTdmRaRE4yWFhxUE9IYmlYRjl6UmtONXVzY3lo?=
- =?utf-8?B?V1RHQTBYNElURDJxNXdrSDhyc2ZnZUovUCsxRFcwY2J4cDBYZTJHaXkwK3Zk?=
- =?utf-8?B?QTlvN1lCWnhaZWptMUNPSmZpM1I0NW1TdytXR2ZBZnh1bzVILzdoRUZLVVgw?=
- =?utf-8?B?SThPQ1VUTXI2MEhHaERPRXAvOXZMWDFoZC8wZHVqZ0hnbzZ4VncwSG1UcEg5?=
- =?utf-8?B?Q1hxUEFhWHIyRnl1THpkUWpGR0xYaWxLVDNjZzIxNnhvQmcwOGtKMEw0eUo4?=
- =?utf-8?B?L3BuTFZrNUluS2E1RlVBb1RnZGlGTjByN2xxZnlsSXZpU25VdnhPNDk1WTIy?=
- =?utf-8?B?YUcvN3FSUUdwaWMzUE10SHpaSzI5Ti9yL1d6amJoSjQwQkVUd1FVZDZlZjlD?=
- =?utf-8?B?WWdjQTFxSGFZQ1pZbVFoVWpXSUh2U2RNS1VBSFdkS1k3S2FtSXVlUU9vdEM4?=
- =?utf-8?B?dTU1VDR5dzhueWh0bUk5SXEzQWE2Ym5PM1JxdHFWeWl1ekRqS2Y5QlZSdW5U?=
- =?utf-8?B?d2ticmx6cEkwUUpVV3o5Ny9xclNSL3hwMTRCcVUzTzc5Z0NuSXdFaXdObUFD?=
- =?utf-8?B?ODBKK1ljRUR1SXFhaDkwUXV1Q0dwTjRadHRodjJacTBGTWNYZUl6YW16YnRp?=
- =?utf-8?B?UTRneUpLR2pVTExjQTRMeHNRYVQ1VjNCWllYVFlVMXFtT1ZHMXprS01ZTFVs?=
- =?utf-8?B?RG84TERMNVFrSjlRK0RlRUNqM2NtQ0tWZUhBSWpxamljdEdYSWN1YlYxT0Q0?=
- =?utf-8?B?dCt2VFFqckdDSy9ITk1aSWhvVXVGWlZpOTFqMWkwUTJtTk91WWtJQWxXb08y?=
- =?utf-8?B?elpEclh4bzV3Q1dQdlJCNWpTVWNSakorNTNHNGFmdkRWWUxudjhFWGRwOGlS?=
- =?utf-8?B?azJLUTA3M3E4ODlaRzcxSHUxM0Y0QzA4N2dRQXZXaGdQbjFIMzllR2hzY0xN?=
- =?utf-8?B?RGpHaTBiTlM4cHFxQ0tOYzBSMGlsNytHSEJVTW04UmoyTlI2WDVxVCtQRDVt?=
- =?utf-8?B?dGc4MU5ZV0ZEalB2QXZPMUdaQWZqZXJudnZQYVp4Z1VRUUNLUUpWYUlXOHRZ?=
- =?utf-8?B?cnFGT2NKMDg2V1QycG5vbmplRm9RWHB5Z01MVXFyNkZ5Yy85bzJnQk5HQVhI?=
- =?utf-8?B?V2FteGxxOTdWdzFHNjg2RzhaOWFXczRDT25FMVBVNUg4bjVKdzUwcXFsUG5W?=
- =?utf-8?B?cUY1NVpvWTJLK0FzazRHSEhWNGhVZXJKcExEeGlvSUVhWWY2dWNpaXpzZzQ0?=
- =?utf-8?B?RVVJcGUwdGVNaHkxUVdCamFQU2t2ZGNtajVEWFBQRi91MUVIOW9Sd0dpRjU0?=
- =?utf-8?B?ZVF5QnNSOXFjOHFLRllhK3p6Vm1yUWFuajI3cXdsU2lDZWc0UUk3YkRLR1RC?=
- =?utf-8?B?U2FGWXI3RGx4RFI3NCtsRzhJS2RPOW1NNmIxQVoxY2luYm5vN2l1ZWoreWRG?=
- =?utf-8?B?SlNvOGVIK0FXRnMyMW1YRk9zdXgzWlpqL3ZlUERHeXV1NDVEQlJpTFBTZTBI?=
- =?utf-8?B?Uy81UGMzYVBaS2huYkcvNnVVL0o2U3lYTXBlRW1wY2RCeExwdHk0eHpRaUEz?=
- =?utf-8?B?Z1ZEMDVWbVBYL3lIdVVBNlhuMUdIcy91bGwyeHpXanExby9WSHYwTU8zYW5L?=
- =?utf-8?B?R21yckdwNmtlUGpIUnBYT2o5T2VJNnhNVmRLSi9DZHBQSFpKUVc4Y1ZES1Ru?=
- =?utf-8?B?LzBHV1pMaGFFSTNEVy9oS2lQMEp3Z3lBRkhHK3lOZUFjdjEvSWo0RnNKaVIx?=
- =?utf-8?B?cmNnbkpUeFFLaEhkVkU5b212ZW91dDlwZ1d2SHVsWFRNemp2ZWwwNzhwNnl6?=
- =?utf-8?B?WXJmNWVORVFNUFRaaHM5OFNHMVBKV0t6UmloNUo3VUYvNlI4YWJiTHZoTlQv?=
- =?utf-8?B?M1JtV0h2TzRqM0pDdUZLUG5TNDlQQ3gzcUZiNTN4OUErYkxZaVM0SS9MbERH?=
- =?utf-8?B?UFRpMkRwVkcrSW1BRDVZU1dqRjA5Nlc4MTBSb29QMWQ1STdjV0RUUWJscWlQ?=
- =?utf-8?B?ZVdjcnBvd0NwSEY2bGxtRW05WWZ2UW5jL3RiK3ZCTHY3MTdsMHlzTlVLR3pj?=
- =?utf-8?Q?c9zVBw?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021)(4053099003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K0FocmIwYjg5blFYREtaUFZiZkhvMTg1OWZRR0RhaVg4Ujc5V04yQ003Ykd6?=
- =?utf-8?B?TWw4bFZuemRxaURyMUpvVFI1clNQelNRTGVOWTlmbzR0TEJFbGZGT3NFd2I1?=
- =?utf-8?B?eDh0SEUvOXZnWGI4dERnajJrVFV2dVVRckgveldzdHVXODNZTWhjR0luU3M2?=
- =?utf-8?B?a1ZKM0w2TE05bSthMmJxZW9PSGZvVEVodHVjdWxrUHZ0K2o2eHVvZU9MUDh0?=
- =?utf-8?B?Tm1JdjI4QXNtT0FORVMyOHczWkdRUkwzb0VWOXRyd1FPanQwQUVNOFJSc1dk?=
- =?utf-8?B?RXpwNU9NLzYzeTdNNTJRVkR4UHdVM3JlM2hBY2gwQkNVQVVkUlU2VFFsN1dD?=
- =?utf-8?B?WjE1SkU3YkVFRVdxZGxZM3UvY2t0TkRNQkFqR01MSlN5SURsenRQNVRJUkND?=
- =?utf-8?B?L0gvOUZUcGs5bFNjdUtKbUNpS2dabmQyQ1NaaFFlaHYybWpPS2lreWY4YVpr?=
- =?utf-8?B?eXJjMnNXd1ZtS3Z2ZjRCWklkbXI2TlFhM1RIZE9lK29TWlJVN1grZlgyQlR3?=
- =?utf-8?B?M2p5M0JLQzJzUldqNUhBaUt2Z1VVbkhLT3gzNlBMZVJOQ3p6bC9saWpHL1JF?=
- =?utf-8?B?MFpvM0VSeTJyN2hhNmtOb2VsOGhEelFvOFc2a09rbHdVS0NTSzl4ZUU3bVBI?=
- =?utf-8?B?eHRVa2tNUURmQWNpWmZocGVBT3dGSXRFZXBQL0ZqOWxRV2VOeVpmNUZ3UzI0?=
- =?utf-8?B?UXRLeTdCTG9SeFJXeTRyZHV1U3pESUNkckt0QUlmY0s3SXptN1NGRktLbm1a?=
- =?utf-8?B?OWYzd1IwTHNCWTg1cGRhbk9RbWIwcHFIRitLaXVYK1kvcTgxRUV4UlhibXRs?=
- =?utf-8?B?SGlqaDVmdDRhUS8xQXN2NmptTi9wUXVKKzJINjJCbU9maXRzVGMxS1lscUhG?=
- =?utf-8?B?SG1lMmsxK05rWVhoUDJpWkxNQjBrOVE5T3E2RnhLTHd4STBYM1BFckI1ZWY3?=
- =?utf-8?B?OGtLaGZUYUliR2d5NjVqZWx5TUxCQWZ5d1Zjck0wbnp2bWFxU3J5QUs5Y0tu?=
- =?utf-8?B?WFhxc3VOWStMRzBwTzRBdk9tZGpkalg2MzFCalRJNTZ5eVZXZTlzakd4ckQw?=
- =?utf-8?B?NlVONXlQWElxTldkWHpPUWcrK0hYVzNxYmI5RVRNVlhJbFpDdVFKclA5V044?=
- =?utf-8?B?WE5LRHZNa0o0Z2V3SW9mUmVyOUs2SUpsakxzc2dQNEtsK2Z0SWJUSkRoeGY1?=
- =?utf-8?B?cm1VeWwxaDE4djBnNjRnUnAvbW8zNHdYY2lJYzg2RFJrL0dJT1k5Q2Raa0wr?=
- =?utf-8?B?VGJKTkIyVHNSRlh2S3c1bzZEOE1TdGhuZTNMcXdCbGZBeHp2RjYvNVovRE5z?=
- =?utf-8?B?Vlp5c1Joak1KNFliNzZCWXUzN2RaNDdzay81N3hFUHpxUTl5TzgrbjlESll0?=
- =?utf-8?B?OGFaUDNyUXRkQUVnaG01Y3lZU2xBeW9GODM2cnZXWlNtNTBXa09ZczVlOTBk?=
- =?utf-8?B?TVV3Tm1veHJLZU9GWjZ3ZVJpZG1iNWI5blFYaS9kNnhCYWY3NWpIWTJtM1N0?=
- =?utf-8?B?VlhjY1NRbDJkKytpZkEvbi9RSmFNN0FkOUhCWGEvSzVuMHNERGMwemtBa3B5?=
- =?utf-8?B?SjFiQlQyNU1meEw3aFNtTmplcHFjbVF2ZFZGbEpKQXJrS1VNSlR4RFJsYjVl?=
- =?utf-8?B?dnpXOFhPcTZlSFY5Z0FtQ1JxSW9sQnNYQ0lXY3V2YXJSWkZGYk5HRlBqQmc4?=
- =?utf-8?B?U0RZcTR2Z1o5SWFHNGg0dGpIUkVESU9RMTZ4d2xyQTdYaXVuRExPUExZejNJ?=
- =?utf-8?B?SzZTczJlbU16UUJES0VXci80Z0JadVJueTRsdXhFbVFKWTJvbEI4bTg1OGtS?=
- =?utf-8?B?dENrdzl0SVZHZjdpNnUrdWdRWjFKR0hqYTEyMG0xUnVkazR6ckNyN0VQLzBD?=
- =?utf-8?B?VzhTbTB4VWpSYThORERvclNEZHROWXVmMmR3dmpTOTVQb2pZSFloSDlNSXJ1?=
- =?utf-8?B?emJ0dFJWaHlwNHBwZ1BBV0lscUthNHNrQm5KZjFjaTg0cTR3cDhZR2xxWDhk?=
- =?utf-8?B?RE1vTkd3eWs0UkwwSGRBeFFta1h6NVJFUG5DblJQa3NsUTV3OE10clBxbUpQ?=
- =?utf-8?B?YTNVNDhFREdvdGpTaEpNTVVtdE43R2VLdjh6OUVTb2haZ3FtQk1pVmRHS0or?=
- =?utf-8?B?eEhaRWg3NFF3WGJLWlF5TUpDdk04YjlwVWZYemVMVGNZVzZQTFJ5RUxpTmM5?=
- =?utf-8?B?eGc9PQ==?=
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------lXyh6O8qxlljSjnh7nfVamgs"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8003A10E891
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:54:12 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FAW6sN002496
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:54:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=UMM9PuJ2lRpfyxHawkG9j4m1D9oD1iAKwRU
+ T2udZ5x0=; b=Y4doWy8pxA9wf1/0BSOrHyAf3DfePZ+8ca4jGUyoLJmiBUbp8CZ
+ 8i70Y+H9FuS0v+f3AB57ieeQCFPDGXe3CAugvqO3U11S+zkNAbpF2P9SRDvTd7fX
+ Q8cnvATEjS41o4WnAaGtdIZbWHu6hmNfgDjy1iEd+YW6yoEZx0LH7tGZg3xzSjet
+ TAaLt84jgfOZcy7Fq/51Jg6fBnZrvvWYPwlGSU6IgC7knFGIXWMiMW5SfjNB9/fi
+ Wdwwp3Bt+RVe21SBD9UBSwBn2f79LTEyqSO4X/6nRtvAnuobmsRsS/+DdwQYfhsh
+ zjGohuyuGqSdzDqUaOxCkl5m1NdY15koKHA==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfa8dajp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:54:11 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-87a0e9be970so395455756d6.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:54:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760547251; x=1761152051;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UMM9PuJ2lRpfyxHawkG9j4m1D9oD1iAKwRUT2udZ5x0=;
+ b=jcMlD4e9H18UmuRK0lO/GKRD7LD9WVxYp3treT21AnhjIO6dvmKdo5izBExoHazXWN
+ GcGZuxAxoq8078FkqRmFFNbTEzmVe0LzjrK/YtZz1KVeqGaNYJYvbkrx+4OvgFbL4RGm
+ Tq+jK8yrgKFXu/8KVws44gpedjCGXRPsvY+2b3zc9fpOngyAQ1wjT6ux/azK/YwJyFgz
+ 1itY2djQTn42iLjFmq0jV/3oghCfgM9eSf6lwt3qPXmxXAWTwNIMeu4qyELZOBMqjtq2
+ sqI6U4z8Q+9gsUuBHMIrlyW2mYPHwKhgN8XY1Tqz/14GAB9yclRD82hm8M6SglmJrKKA
+ 0VNQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVATuYuIOG7NsUliiwkGp/9ONfkIVDWtEAQuwcDBDg9JqLfyNgCX71U4OWp1oILSPdht1AT6w+l8Jk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJGdqD5BWU23dQw3YDGdKp0gITZuCzgFr6TijWO70YpetRG9b/
+ R41oI2HKH0sHPnjzQs9W80wB+XM+dZar8xVU/feEigI9MYE8ikVCgUXESmqsufnbYxAKrppntom
+ AZNqwqTXtyYiegSGYKsIuOs+7c6sLG3V7gQ+ipj0RCkEtsKTaQsTC8uR84Lz2PQtvupdiseU=
+X-Gm-Gg: ASbGncu/C61CuItVMgw2BklysWY4wut+gKUIE8e14Y+IgHFb3kUyxXr7Rss0a2TklGl
+ ye9ydEv960m6sXsNz+GCp4RTPRSzQYh+1eukFVCByu3cuhV5YS2lVTO25nN/p0AUG4iRCoa4adG
+ +byMuVSCIRH/NbtTqDVdfETWLfPZqyKPqhlfWE01t7BN6fQv4KM7lbWYmGf69c9i5QEf0urqV3w
+ AhzdT5djHEm3OMn04ufv5tuSetBwprL+Tan8MOVm9bLXwkLSQ9B+RX9nlBWkAzKivD4vZMEbnNn
+ ZjyOI2iauhkFdFauDB5K04wH9RZYpO5M61Ubl4iLwSa5Nvvpt6kheQnNKqmNE1BYx3S5ICfgnqv
+ VDJ+p
+X-Received: by 2002:ac8:5905:0:b0:4dc:5ab:6d7b with SMTP id
+ d75a77b69052e-4e6ead65026mr360871721cf.65.1760547250507; 
+ Wed, 15 Oct 2025 09:54:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFdnfbBlKzfjih9LMH5x6zwOdq1Ehq7XA62QcL8Ycn259PSie/gSkvXaQIk9+WUoeS5VTiJ6A==
+X-Received: by 2002:ac8:5905:0:b0:4dc:5ab:6d7b with SMTP id
+ d75a77b69052e-4e6ead65026mr360871411cf.65.1760547249913; 
+ Wed, 15 Oct 2025 09:54:09 -0700 (PDT)
+Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b5ccd6b9596sm270960566b.80.2025.10.15.09.54.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Oct 2025 09:54:09 -0700 (PDT)
+From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] accel/qaic: Use check_add_overflow in sahara for 64b types
+Date: Wed, 15 Oct 2025 18:54:08 +0200
+Message-ID: <20251015165408.213645-1-youssef.abdulrahman@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: imgtec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ec37b76-2597-4a75-2add-08de0c0b571b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2025 16:53:17.8355 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /ErtGospjuo/gLOFLvEXSi9kIOPCx/cOPh0Zqam0dQS7iFp8JN4amZlhxZZd0xkJwsvsBSRZQPZ0YwIaYODn1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB2654
-X-Authority-Analysis: v=2.4 cv=O+A0fR9W c=1 sm=1 tr=0 ts=68efd181 cx=c_pps
- a=A0iqGUCyZdlyWs06AcuuUw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
- a=NgoYpvdbvlAA:10 a=VkNPw1HP01LnGYTKEx00:22 a=b3CbU_ItAAAA:8 a=r_1tXGB3AAAA:8
- a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=yC-0_ovQAAAA:8 a=QyXUC8HyAAAA:8
- a=e5mUnYsNAAAA:8 a=HwmaPvt4cbKsgEULfvwA:9 a=QEXdDO2ut3YA:10
- a=G1mzZ1ZrHpr4-rqWUjoA:9 a=FfaGCDsud1wA:10 a=Rv2g8BkzVjQTVhhssdqe:22
- a=t8nPyN_e6usw4ciXM-Pk:22 a=Vxmtnl_E_bksehYqCbjh:22 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: DBNOrk7Qqw0w13bJrXNvu3zPAzTG2oUi
-X-Proofpoint-GUID: DBNOrk7Qqw0w13bJrXNvu3zPAzTG2oUi
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE1MDEyMSBTYWx0ZWRfX9CP+WpbifPWt
- SOY6LtQIwnqeXO5dO5xFuo67e4sGr/8xZ6nTf73lxef2lx6Ye+RCZmF7GZ+h3ml+ng1l1LaTpRl
- unqUd6i0oJKqrVSqzJ5BVSmR4GmaaTFG3pfJ++FzI7HBj5xcjt8lrvS7TzPgDyEFVR3PkglndFx
- FZRSUp69f/sUSAQXVa7THim3hW/vJjWhLO8mQZ/WHxvhbW4q1zBNXy9uFdEZAPQ0V76lrY9UPjk
- bdF/hSh9gILIPSVl1qXpdrqSkf77gsxjt1BLDM8IRac4h/YZsYcZjo0NGAF4Z3I/GiK8VYUaYp1
- tjW249ZVaEfTK0GvdRZZDqs1Bf7iBrwZiu69ldKCTz8BBPTu4XuClq8++XrnvS539TBH+Mkhg9x
- 0PvD6c7/Sv7pmAgcgSmogowYlsVUDw==
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: oeW8tWtwNEhp0vVrMQxjh9T-XEo0_OfB
+X-Proofpoint-ORIG-GUID: oeW8tWtwNEhp0vVrMQxjh9T-XEo0_OfB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxNyBTYWx0ZWRfXx3Z0pgWzLnG5
+ 92YLFKrO/++P/+QmWSXerxSxrlhgYmFsj3VxqSaDgOGeiseA0GbM3d1n31pvOsvpRlLAC7SfDWT
+ t6HrBt78Ky0+OxtgKaHfU5lpue2FI9W0PT4s2un+baRqL9cSZYp6NFFmoAB4KOvLpvrU85S42wd
+ IUcCpRS3Jje7ud13fP6g6gpKTXzuMxPkMgVlbuehh5i0ntQPIrG77pYhLZsY1qlpkny5TxCRYwo
+ cH1kQFZwwSOn6qC8vPkfGKQm4NPrEw6FiD0htxWxZzLK9eXZbug1R5lY3w6DXfqMSAuFsBeHOvp
+ hhyHp7f37L33/oib8jRoyBvMtXMqIHsmGgrbJ3JKMpcIEUtisVIPUJCM/cnQpuvheQ/Cr+m+SYr
+ nYMKdfkEuS/VdgOBfDxYNCKrXy52Qw==
+X-Authority-Analysis: v=2.4 cv=JLw2csKb c=1 sm=1 tr=0 ts=68efd1b3 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=HRjgDChM0F6sfIyO2f4A:9 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-15_06,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110017
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -217,124 +118,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------lXyh6O8qxlljSjnh7nfVamgs
-Content-Type: multipart/mixed; boundary="------------t5aTJQJ0wObcML2wK8ki9zY0";
- protected-headers="v1"
-From: Matt Coster <matt.coster@imgtec.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- linux-arm-kernel@lists.infradead.org
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Adam Ford <aford173@gmail.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Frank Binns <frank.binns@imgtec.com>,
- Alessio Belle <alessio.belle@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Message-ID: <c58d60e1-3666-4451-9866-2eca976c8862@imgtec.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r8a77961: Add GX6250 GPU node
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
+From: Zack McKevitt <zmckevit@qti.qualcomm.com>
 
---------------t5aTJQJ0wObcML2wK8ki9zY0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Use check_add_overflow instead of size_add in sahara when
+64b types are being added to ensure compatibility with 32b
+systems. The size_add function parameters are of size_t, so
+64b data types may be truncated when cast to size_t on 32b
+systems. When using check_add_overflow, no type casts are made,
+making it a more portable option.
 
-On 15/10/2025 16:38, Marek Vasut wrote:
-> Describe Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-> present in Renesas R-Car R8A77961 M3-W+ SoC.
->=20
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
+Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+---
+Changes in V3:
+- Remove the min() to min_t() changes
+- Link to V2: https://lore.kernel.org/all/20251014170927.3908383-1-youssef.abdulrahman@oss.qualcomm.com
 
-Same as P2/3:
+Changes in V2:
+- Use explicit casts with check_*_overflow() calls
+- Replace min() with min_t()
+- Link to V1: https://lore.kernel.org/all/20251007154853.417114-1-youssef.abdulrahman@oss.qualcomm.com
+---
+ drivers/accel/qaic/sahara.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-Acked-by: Matt Coster <matt.coster@imgtec.com>
+diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
+index 3ebcc1f7ff58..351348f06755 100644
+--- a/drivers/accel/qaic/sahara.c
++++ b/drivers/accel/qaic/sahara.c
+@@ -538,6 +538,7 @@ static void sahara_parse_dump_table(struct sahara_context *context)
+ 	struct sahara_memory_dump_meta_v1 *dump_meta;
+ 	u64 table_nents;
+ 	u64 dump_length;
++	u64 mul_bytes;
+ 	int ret;
+ 	u64 i;
+ 
+@@ -551,8 +552,9 @@ static void sahara_parse_dump_table(struct sahara_context *context)
+ 		dev_table[i].description[SAHARA_TABLE_ENTRY_STR_LEN - 1] = 0;
+ 		dev_table[i].filename[SAHARA_TABLE_ENTRY_STR_LEN - 1] = 0;
+ 
+-		dump_length = size_add(dump_length, le64_to_cpu(dev_table[i].length));
+-		if (dump_length == SIZE_MAX) {
++		if (check_add_overflow(dump_length,
++				       le64_to_cpu(dev_table[i].length),
++				       &dump_length)) {
+ 			/* Discard the dump */
+ 			sahara_send_reset(context);
+ 			return;
+@@ -568,14 +570,17 @@ static void sahara_parse_dump_table(struct sahara_context *context)
+ 			dev_table[i].filename);
+ 	}
+ 
+-	dump_length = size_add(dump_length, sizeof(*dump_meta));
+-	if (dump_length == SIZE_MAX) {
++	if (check_add_overflow(dump_length, (u64)sizeof(*dump_meta), &dump_length)) {
+ 		/* Discard the dump */
+ 		sahara_send_reset(context);
+ 		return;
+ 	}
+-	dump_length = size_add(dump_length, size_mul(sizeof(*image_out_table), table_nents));
+-	if (dump_length == SIZE_MAX) {
++	if (check_mul_overflow((u64)sizeof(*image_out_table), table_nents, &mul_bytes)) {
++		/* Discard the dump */
++		sahara_send_reset(context);
++		return;
++	}
++	if (check_add_overflow(dump_length, mul_bytes, &dump_length)) {
+ 		/* Discard the dump */
+ 		sahara_send_reset(context);
+ 		return;
+-- 
+2.43.0
 
-Cheers,
-Matt
-
-> ---
-> Cc: Adam Ford <aford173@gmail.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Frank Binns <frank.binns@imgtec.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Matt Coster <matt.coster@imgtec.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: - Add RB from Niklas
->     - Fix up power-domains =3D <&sysc R8A77961_PD_3DG_B>; for 77961
->     - Fill in all three clock and two power domains
-> ---
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boo=
-t/dts/renesas/r8a77961.dtsi
-> index 12435ad9adc04..aa7f5de61e787 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -2455,6 +2455,22 @@ gic: interrupt-controller@f1010000 {
->  			resets =3D <&cpg 408>;
->  		};
-> =20
-> +		gpu: gpu@fd000000 {
-> +			compatible =3D "renesas,r8a77961-gpu",
-> +				     "img,img-gx6250",
-> +				     "img,img-rogue";
-> +			reg =3D <0 0xfd000000 0 0x40000>;
-> +			interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_CORE R8A77961_CLK_ZG>,
-> +				 <&cpg CPG_CORE R8A77961_CLK_S2D1>,
-> +				 <&cpg CPG_MOD 112>;
-> +			clock-names =3D "core", "mem", "sys";
-> +			power-domains =3D <&sysc R8A77961_PD_3DG_A>,
-> +					<&sysc R8A77961_PD_3DG_B>;
-> +			power-domain-names =3D "a", "b";
-> +			resets =3D <&cpg 112>;
-> +		};
-> +
->  		pciec0: pcie@fe000000 {
->  			compatible =3D "renesas,pcie-r8a77961",
->  				     "renesas,pcie-rcar-gen3";
-
-
---=20
-Matt Coster
-E: matt.coster@imgtec.com
-
---------------t5aTJQJ0wObcML2wK8ki9zY0--
-
---------------lXyh6O8qxlljSjnh7nfVamgs
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaO/RfQUDAAAAAAAKCRB5vBnz2d5qsOS6
-AQC58finROGBZklurwGqPog0wnxLvu0xehR2fWzGyhqX0wEAjZ7e6d3RKb0WMlxM5K9xQHWcwGen
-APEPN1Jd4H83uwk=
-=FY90
------END PGP SIGNATURE-----
-
---------------lXyh6O8qxlljSjnh7nfVamgs--
