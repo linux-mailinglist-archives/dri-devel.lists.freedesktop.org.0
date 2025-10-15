@@ -2,116 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4DFBDF853
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26EF3BDF86B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:03:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3152010E84F;
-	Wed, 15 Oct 2025 16:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CEF10E853;
+	Wed, 15 Oct 2025 16:03:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RwB9JrAH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FUY83EDK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F318010E853
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:02:20 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FBNN0O016276
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:02:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- H199RkECw2OR7uIxDJjbVgfktA/lOVmfTufkUpWbTh4=; b=RwB9JrAHXcUK03zt
- bAaQSBg2mIoEULLZr8wm5/XAgy+71VjzkUTxm4tyu05e4YbkGcGmGoWW1eCq+CJQ
- hKSn7JvQ/XxFP5sYymg26DZcoEWP9TfMqS3ZhPo5neQS8KRXmNFMuR4ZO7ouOKf2
- jXiZ5Qo0fnJNl1ZelM1z43E8XmnBqwXqOUs4hR9a7gQj4bso9y+YeMws7jUwqqnW
- mfyi4y1AKwR5X+REj8fbReQoFIcAj5T0aDOxri4QXRUFtpRf7sDHYO7eKmSJexXy
- DQAvLze/t8NKHMI2jCTN2FxCWNuYaHe24HA+Rut4EuJf+Fng6t63dcq0mN9Kc7MJ
- 7+tpCw==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfdkd14h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:02:19 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-780fb254938so8755128b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:02:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760544138; x=1761148938;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H199RkECw2OR7uIxDJjbVgfktA/lOVmfTufkUpWbTh4=;
- b=g1D1S6xheN/646/M62Rkyl/gglk1CmYx3kI3qlbzD9KXOtn8AHnh2vxQunTtmNoVIm
- JqI520ye50J14s/3iW/JYEP8EXeTFS9u4hqSOul/Uz+c/eUEW+9GqBgTmJRwIddSgITw
- tbfGp13g0vgBD5dOnkFfsu9N3WTLB7/SThFyWKgvxcv7Isa2WOw24/dlhAS0YwIXpzUC
- fOyHRc+A5/TbfFw0rii47pInk1M4v0jJaj5/ZOjwYI70wTEEZtUlRQGft/5AUMYeMmiu
- V75tUOR9fS/uqi++rMvOP0FwhLfnX3AEOWa01bkXUl2jfb6njl9kNzjjpDHhgKknBOJ2
- eGHg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUD9DrKO4LSkbZZxhfPhHCesw+1AM9GLxzqiRvcV0v02TVT/s1CVohX4BO0oUKwdHyFud0A6f2EWNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyMHxjtA5rz0g93n+it5PRZgppIu2kvaKIhOJ68GNnJVFIPnbbo
- ZuVPQ9rsj0XJdEMPFdfw0+Q13qPP5lyxP2PP4CeyRlwgxhw6gJwkJI1HzRXDcnUnADRnKv++Uae
- JUyLd0gbJc0D8MYXYR3PdVMobPphG2qdidkTGV75yYua6Ru0bUqA1H3vx/AEP/5yes3YEMpXnaR
- dgwNM=
-X-Gm-Gg: ASbGnctFJsf4k+Gpu1dTYF5SyNkZJ+xyrbGGFOcwjPbKttLt2/3+/RpKkkN7I+wo3GI
- 3aaIAHDj+h9Tg7dTwrL+VEAJ7MTcugj69nUXgwC++TxVJ2c0j6pvrto4TGbx3IoRERo8ugQfSzp
- y8DLMkWvO+X6H/wTD54if1gZMd3EMZYTBQlYma4yxu6OoZspovRpGmBqrMu7lWZYpoTltSWDirx
- 0KFigVD0MAFTFCfBJBRgU9uq0BSq4Zn+VHsE4s70wYdPvrOEfShJrLVxKprg8BOZxw8bp956wUP
- Z+QHKn5Yc3pG7Dqa+yrCcHE8roUPwREzz7MJl9Eq3gyMCajoaQiU0uEbRutKbSOWWhEQe0DS8GT
- 9tFhYQX+esbklFl5lUwW4+h7yqks=
-X-Received: by 2002:a05:6a20:12c4:b0:262:c083:bb41 with SMTP id
- adf61e73a8af0-32da80ba052mr40371077637.3.1760544138138; 
- Wed, 15 Oct 2025 09:02:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGwbSLk+sDebSEJMslHAryCuVQL9jWNZyI4ZWGJJGMTPCmydIy2JaHIzffCLni2E/UTDZbLNw==
-X-Received: by 2002:a05:6a20:12c4:b0:262:c083:bb41 with SMTP id
- adf61e73a8af0-32da80ba052mr40370570637.3.1760544133011; 
- Wed, 15 Oct 2025 09:02:13 -0700 (PDT)
-Received: from [192.168.0.43] (ip68-107-70-201.sd.sd.cox.net. [68.107.70.201])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7992d9932edsm19069125b3a.73.2025.10.15.09.02.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Oct 2025 09:02:12 -0700 (PDT)
-Message-ID: <93ad648c-1a40-4c4d-b328-7b9b7ecbaf0a@oss.qualcomm.com>
-Date: Wed, 15 Oct 2025 09:02:10 -0700
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE0710E853
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760544216;
+ bh=si+z8fRpLLhAn9HA8aXWodGeWDbAP1JbWJuId1d8ggc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=FUY83EDKbFiBhHNYg2DUwDLzGVTFCtdq0lI0G1A4zRfdVn5T6vSEPD3aYD3cAdzFt
+ CffYsDwGYYV7hsDFAk+Fe8D163/vTAhsMC5RCIJ9sklXLJo/lRHQzgxcdPp9deIpO0
+ fFnuX/yA1IXXFg29B03uJUAi48ZxIfCqiS5M6UDf09jnzFRc71cXtJclhyqNxnW0OK
+ NwXe7CaLAbPg19D10g8Y6xgGk9iYxdjRZihS4/OtZj5V1lKow8ZhlXeAkD7yVaQmsN
+ rvw1STc5GonnO5vFmU0mesZPikFVjsLAXyLxkBBnza1EpyB1bklirXB2WWmU/TOiLI
+ 7aYC1jxZ0PatQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 78F7017E1305;
+ Wed, 15 Oct 2025 18:03:36 +0200 (CEST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
+Subject: [PATCH v4 00/14]  drm/panfrost,
+ panthor: Cached maps and explicit flushing
+Date: Wed, 15 Oct 2025 18:03:12 +0200
+Message-ID: <20251015160326.3657287-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Fix mismatched types in min()
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- jeff.hugo@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251015153715.184143-1-youssef.abdulrahman@oss.qualcomm.com>
-From: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20251015153715.184143-1-youssef.abdulrahman@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 9ul6x8fgzSJFcTKTXOdAfuoLNvtC-XiG
-X-Authority-Analysis: v=2.4 cv=MrNfKmae c=1 sm=1 tr=0 ts=68efc58c cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=5tLIbcgRqjftBxpLK6l6Jw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=xm2fmmAW1NdyyY9T3qUA:9 a=QEXdDO2ut3YA:10
- a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-GUID: 9ul6x8fgzSJFcTKTXOdAfuoLNvtC-XiG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfXwqMCTHTG1I25
- yLmFPMWSbEeEqP3I721XWFk7Ib4s6IWTs/s1QhN4Wx4GBm87xF0AKm5ugFCq6FTrkfm6giP8dOj
- /dJceRnKhmMsho/aZOF4DodoMrcQgWET38Y6Yda091+bXTUTFPsW4Qy7A+TY5KPgzBsHQJbTl0t
- xjqeSYckGoAwVs33fgt9Kb6TOqcHHnNhBBjAZOBrmn2DvSSjv2d0wloOQFGrnlJz+hY3H/maVYT
- hatbKKxAdoJikUFR57XqozWZr4GqNj702HFgm5Ie7i/TYjLtgmT+N1OqqwZcmd7D3aE+HURmOYt
- 6JRIcxH93ASn818AP1cwTNQroLIV97OXNrieUvpRHBuftq6JUXY4kUuUsQ8PaJVz+oPlBgENVJR
- PKY34hud81atBDqtACOUEJVeGEgJ4A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-15_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,14 +64,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/15/2025 8:37 AM, Youssef Samir wrote:
-> From: Zack McKevitt <zmckevit@qti.qualcomm.com>
-> 
-> Use min_t() instead of min() to resolve compiler warnings for mismatched
-> types.
-> 
-> Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
-> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-> ---
+This series implements cached maps and explicit flushing for both panfrost
+and panthor.  To avoid code/bug duplication, the tricky guts of the cache
+flushing ioctl which walk the sg list are broken into a new common shmem
+helper which can be used by any driver.
 
-Reviewed-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
+The PanVK MR to use this lives here:
+
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
+
+Changes in v2:
+- Expose the coherency so userspace can know when it should skip cache
+  maintenance
+- Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
+  can be implemented generically
+- Revisit the semantics of the flags passed to gem_sync()
+- Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
+  let the UMD know when cache maintenance is needed on those
+
+Changes in v3:
+- New patch to fix panthor_gpu_coherency_set()
+- No other major changes, check each patch changelog for more details
+
+Changes in v4:
+- Two trivial fixes, check each patch changelog for more details
+
+Boris Brezillon (7):
+  drm/panthor: Fix panthor_gpu_coherency_set()
+  drm/gem: Add a drm_gem_object_funcs::sync() and a drm_gem_sync()
+    helper
+  drm/prime: Provide default ::{begin,end}_cpu_access() implementations
+  drm/panthor: Expose the selected coherency protocol to the UMD
+  drm/panthor: Add an ioctl to query BO flags
+  drm/panfrost: Expose the selected coherency protocol to the UMD
+  drm/panfrost: Add an ioctl to query BO flags
+
+Faith Ekstrand (6):
+  drm/shmem: Add a drm_gem_shmem_sync() helper
+  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+  drm/panthor: Bump the driver version to 1.6
+  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+  drm/panfrost: Bump the driver version to 1.6
+
+Loïc Molinari (1):
+  drm/panthor: Add flag to map GEM object Write-Back Cacheable
+
+ drivers/gpu/drm/drm_gem.c                  |  10 ++
+ drivers/gpu/drm/drm_gem_shmem_helper.c     |  89 +++++++++++
+ drivers/gpu/drm/drm_prime.c                |  42 +++++
+ drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 106 ++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  23 +++
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |   2 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    |  26 +++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
+ drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
+ drivers/gpu/drm/panthor/panthor_drv.c      |  84 +++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.c      |  24 +++
+ drivers/gpu/drm/panthor/panthor_gem.h      |   3 +
+ drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c    |  18 ++-
+ include/drm/drm_gem.h                      |  45 ++++++
+ include/drm/drm_gem_shmem_helper.h         |  11 ++
+ include/drm/drm_prime.h                    |   5 +
+ include/uapi/drm/panfrost_drm.h            |  74 +++++++++
+ include/uapi/drm/panthor_drm.h             | 171 ++++++++++++++++++++-
+ 20 files changed, 738 insertions(+), 18 deletions(-)
+
+-- 
+2.51.0
+
