@@ -2,121 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F92BDBF05
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 02:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5546BBDBF5E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 03:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2122E10E6C5;
-	Wed, 15 Oct 2025 00:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6098F10E6C6;
+	Wed, 15 Oct 2025 01:12:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="drvVXABG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y0pnQNgV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097B910E6C3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:52:48 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EKRBV3015429
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:52:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=v6jgXJjjhJQgEeLigi3JtVL9
- kgOdixyq/3UnYeX/yA0=; b=drvVXABGVbv/fGc7BU2ZshHr/53UJPRKevbg5dAc
- EJkhc8WPrU3jGgxZg+z/KtLVe3c8EHmm2B20madUway+zu6VRMNC2bFFNAgEM35Q
- XO0LvL3sxnZjcSB785f2Oo8EQFGFkg4LtWBEpmYi3jewqDa8vNfMjQCwkcge+7Jy
- ZnsRxwwfLG1jObcAEAePOz8VB6fFF6JewKsrbD1+X6BelKXIecB87Cpw81rXcL40
- KpOFjvJDKpUru4VLyk3XWGoniTWDxltnsnaZN3D5U40n5QFdrhmuckgAMd4Sxb5/
- ByBlsx/ccKehueVHIaeUraHDMWaXNACleQQqDOS1iFKzdg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0c2g41-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:52:47 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-88e2656b196so94393985a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 17:52:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760489566; x=1761094366;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 204E810E6C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 01:12:22 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-57a8b00108fso1098580e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 18:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760490740; x=1761095540; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v6jgXJjjhJQgEeLigi3JtVL9kgOdixyq/3UnYeX/yA0=;
- b=CoXvoEGF5aOPYvNFLK4cvXA1snMMUst6joxb2eS3/2OvZQ0YiyVsp8uswWvYofoGqZ
- 2ZKzLBB/uG3XMw/VY3YdcSRRE1zK6477Uris0kPBfWjWCjkkUKK7bw9QScAzaS8wBKhL
- UmuZAXGlsx2aOI5ubVi3eWYz/y5zAd3S2XMEoo+eSWaXnqy1/c53vLbRWu189rTXcMqj
- iTLER+KMjDehiyOBjllYfy7A848jciljbhKcRmXIhV6CvNy+aOQwBPMGjdqHSadtAkt1
- YPCd+wnq2Rb9qnPfJjD+E0qVamnbn2Du90QKe2WdkYMu7tr54anrjVFulVulxzbGfB8Q
- Eg2Q==
+ bh=VRM97CWlsOT8ZJdTMoTW/+GjecPCqzJ3uGuQi6pJdPs=;
+ b=Y0pnQNgVq63U79lxfO8gVVYTtt0p4cjDBuXA2N9w4Zv5RSrRprBB96wp/XKizP3s1s
+ 7gJgkhMeP+qTqUY1AwuE3Xl7WG3eat3mCjA3sVDWXl5loel10T8jp2VrX//A0f2oqDfl
+ cv/yU5XppEbygNJVcHz9SkQ/TzJ5pBxfOZO7Xmx9b0SpV7poct4DKpk7HxButsCtV6Ug
+ dlOg++8NdEZAjgugetz/vjCbZ9H15/KAXE/PG1nG/Fw5G4+rfB/LmL4UJrXuXivyUs0r
+ EYtpWc5KHlvWCQElDtE2Vp33TQmFounqlKXRfn6EihjHmUaHV/3gn20yQ9PQePISDYZH
+ zy8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760490740; x=1761095540;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VRM97CWlsOT8ZJdTMoTW/+GjecPCqzJ3uGuQi6pJdPs=;
+ b=i66ezT7y/FaAtkPStOMbhOWopYl4MIrFL16l+zAECl56PwX6lAfEpK86M4lOq1Wo3H
+ G5S+1TCmLx7XEksNA/JmBCR+JbRZ8DhcGXe3dGhzsBapZYHTPcW12n+sInfd5vjASww3
+ EaXZRLMVLKLzQqycxSR7BUyLywnCCSD0ylolXVNQFUz84qGZAZtYglwrkqlG3ISX/tB8
+ G4NRFSWHNo2pNJMLZmVHKkg2Zg2msVI+IV43+hUIhvIIncaZhXIKoVfLtW0DwwDAf0ub
+ dM3ZBuLd4yQXzeosv3v88VJubfhn4e6h6mWt+dJDHJmxjD8Z55KzMrrJ2RCOioers+Hr
+ InVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU9GG2NKGD2Jj0P+eprCantoyJeV2UYTJRDZSI5OIu5W/41lWB9I2iMsIfayFgafXcSu5XCm8qnItk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdV4BRmBWQUBMHYwkJCNJZA0n4qAOX/VnpfTtN5GRe3YpR2GWW
- /Ea38oe/p0Z7shNCkRFAx+lZXaC7iM7x+bRvcSJ107uG8598HXG0ER2hoQyBAdl4msUSTA+0c06
- LZhVkVqrWyb8KnKP7Du56+E0dEfxlsrN3QG3p2EvpZdPIGETCsGUPG2lhD5dGHFlPrs1D6Zc=
-X-Gm-Gg: ASbGncsKs0hzU9c42Bj6pm2wwwXhJ59A7dy42ISoqLA/EFS9YzatQ87i1z6XsdbNINr
- neMrZVBwzn3jeXp8fex9sFZesAMjoZnzfctRqyeum/svu+PdLcHfs9DQTy2Y0r9lzXSpDPc6Lv7
- ZFfUVNuyE3M2gsCcYkpiwNYXNi8EdSJ5YGCkEmdTcKeTDGIPyT40hK08zticKsZ/d6vE+7stGwl
- aLshRlEd3f3zV0OAvNrqkfTY2DtCvUcmjl+NLvA63o5V87A86EBaNyAHj6r4ii8VQLMlC6warxW
- uLrJmmave4PiPEHVR0bdJDfxSwAXY1NfRLlS5EGkbm//oj+/NBeM/QgLn6XFc3DtWsS/+LRwunV
- rM04bwGBClDeCws1a3vxbUub7nbSYS9h3bYzL5ld5Otmr5hKyXiD3
-X-Received: by 2002:a05:622a:490:b0:4b5:781c:8841 with SMTP id
- d75a77b69052e-4e6ead46dc8mr387551161cf.42.1760489566168; 
- Tue, 14 Oct 2025 17:52:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGW7m8cRicbOVlOzwtOiVLlN+6jv4dabkaHZG6TVMI+/LbJiygclcG412ZISQ5L9/YyBrt2pg==
-X-Received: by 2002:a05:622a:490:b0:4b5:781c:8841 with SMTP id
- d75a77b69052e-4e6ead46dc8mr387550931cf.42.1760489565763; 
- Tue, 14 Oct 2025 17:52:45 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3762e7f7f7fsm44067811fa.27.2025.10.14.17.52.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 17:52:45 -0700 (PDT)
-Date: Wed, 15 Oct 2025 03:52:42 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 12/16] drm/msm: dpu1: Switch private_obj
- initialization to atomic_create_state
-Message-ID: <36y2be6lf2hthjqojovlqsonkd4borz3qh54wup2mqvgktcuca@h4ziajonssoh>
-References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
- <20251014-drm-private-obj-reset-v2-12-6dd60e985e9d@kernel.org>
+ AJvYcCWQM1xdN357C4mxFnQtWYlDXoALEHJ/6bbrvAUZZ4nuY7Szr1lBzmun4i2Q2RTc+MlIycI/y0o3TfE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsOOUkiWRNrrotbgDvVktZIzp2VTdP6YTLIK78TBnDaFdkLTHu
+ GWQRt0UUFM3bJfENxqywB/i9J8f5z1s+vhyqOwJK9OU5jcedH+tt7sxs7IL5oHGW3MHNo5iPYtj
+ SXYdOdK0WoWIuUHEtXMGOuyQM7rA6Bag=
+X-Gm-Gg: ASbGncspKD8EsG8DhbiHquHvt6ICHhzxsvE/the/E/AN4tzOFTqUs5MF/RBQkE4Qt5X
+ RTmtObWDlMX+sdAEVOeMP3QMnj9oKjEN7wB4Av9VQo7vzT9sk1Yq9m/8tfGSmK2WjCilj53ikTT
+ LMVE8iA7FONk2xqrq6AyVSRJ2Gyuk0ktfzBusMiUTRuanQQCrDNi/JyVKte8pS4C+U0soMg/mef
+ ATP0+C/rcGHcZUPF9L0jnIoLyANOX4jE0SpOQ==
+X-Google-Smtp-Source: AGHT+IH/YU1kpB0Wn/4zP9l5pqChZfQXv1sm3d4LmsjcWXKZ0Ktc3UNXw8IIJzlfWpkxIJ+KKbvjrd6UrdDNej2f8Fk=
+X-Received: by 2002:a05:6512:23e9:b0:586:15ea:53c8 with SMTP id
+ 2adb3069b0e04-591c8faf0b0mr151534e87.2.1760490739902; Tue, 14 Oct 2025
+ 18:12:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251014-drm-private-obj-reset-v2-12-6dd60e985e9d@kernel.org>
-X-Proofpoint-GUID: 0dqnfSO3WSDB7QuWKNeNBQSJYYHSbJOC
-X-Proofpoint-ORIG-GUID: 0dqnfSO3WSDB7QuWKNeNBQSJYYHSbJOC
-X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68eef05f cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=tVI0ZWmoAAAA:8 a=e5mUnYsNAAAA:8 a=MY5GpsA41Snrp9pqcaIA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=-BPWgnxRz2uhmvdm1NTO:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfXwcnevzytFyUR
- N5a5hC5jJzGX8yRM6tZjS5ng8sIgm7/yejZQgCPBIei5AyEa+lIsx7Aay6TWN8qMxyQ61bwp8ZK
- N98fUrbjiGgyUXdbvnUgxaZrXNbRrQEM/LF9SL+9h+kokBSOkWHsxZNpQ2RPIWSefMXVhqWS/eJ
- U4XgP46E0rHdQP1lhuJqefOAfy+o14l5anif/dgCs2UsHmCG1qJ95Xha3P5tVwTIrXU76DMrHmb
- yjRYHXwIB5guNLBOg/baWkP9lp9UgG4MMDn/5Dhngxep9mvsBm6r9VkzIkuGudaIdSF6zAsjoLO
- TcrungQxVwcV7MdQZ7lqgU2TteufjL0f60ANLDF6TNK6MVkar6LphVAno4lg1OGzkwbQk8JiczQ
- JD3uTNe1RDMHVqkiUn6eBQG/f107Ag==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110022
+References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
+ <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
+ <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
+ <CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
+ <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
+ <20251014171003.57bbfd63@mordecai.tesarici.cz>
+ <97da9924-9489-4d30-a858-8ee5c87bc031@amd.com>
+In-Reply-To: <97da9924-9489-4d30-a858-8ee5c87bc031@amd.com>
+From: Zhaoyang Huang <huangzhaoyang@gmail.com>
+Date: Wed, 15 Oct 2025 09:12:07 +0800
+X-Gm-Features: AS18NWDwKUa99eX_upbZCKKbzQIUyuG-r_RZ364dCpA2z_s2W1WiiM3YMGbpa3o
+Message-ID: <CAGWkznGnmb=8GgcrfDvY2REHdRZYVXZy=F3thXhK0FaSoiK7tw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
+ order-0 allocation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Suren Baghdasaryan <surenb@google.com>
+Cc: Petr Tesarik <ptesarik@suse.com>,
+ "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Mel Gorman <mgorman@techsingularity.net>,
+ Vlastimil Babka <vbabka@suse.cz>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, steve.kang@unisoc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,34 +101,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 14, 2025 at 11:31:56AM +0200, Maxime Ripard wrote:
-> The MSM dpu1 driver relies on a drm_private_obj, that is initialized by
-> allocating and initializing a state, and then passing it to
-> drm_private_obj_init.
-> 
-> Since we're gradually moving away from that pattern to the more
-> established one relying on a atomic_create_state implementation, let's
-> migrate this instance to the new pattern.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> 
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 42 +++++++++++++++++----------------
->  1 file changed, 22 insertions(+), 20 deletions(-)
-> 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-
--- 
-With best wishes
-Dmitry
+On Tue, Oct 14, 2025 at 11:52=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 14.10.25 17:10, Petr Tesarik wrote:
+> > On Tue, 14 Oct 2025 15:04:14 +0200
+> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> >
+> >> On 14.10.25 14:44, Zhaoyang Huang wrote:
+> >>> On Tue, Oct 14, 2025 at 7:59=E2=80=AFPM Christian K=C3=B6nig
+> >>> <christian.koenig@amd.com> wrote:
+> >>>>
+> >>>> On 14.10.25 10:32, zhaoyang.huang wrote:
+> >>>>> From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> >>>>>
+> >>>>> The size of once dma-buf allocation could be dozens MB or much more
+> >>>>> which introduce a loop of allocating several thousands of order-0 p=
+ages.
+> >>>>> Furthermore, the concurrent allocation could have dma-buf allocatio=
+n enter
+> >>>>> direct-reclaim during the loop. This commit would like to eliminate=
+ the
+> >>>>> above two affections by introducing alloc_pages_bulk_list in dma-bu=
+f's
+> >>>>> order-0 allocation. This patch is proved to be conditionally helpfu=
+l
+> >>>>> in 18MB allocation as decreasing the time from 24604us to 6555us an=
+d no
+> >>>>> harm when bulk allocation can't be done(fallback to single page
+> >>>>> allocation)
+> >>>>
+> >>>> Well that sounds like an absolutely horrible idea.
+> >>>>
+> >>>> See the handling of allocating only from specific order is *exactly*=
+ there to avoid the behavior of bulk allocation.
+> >>>>
+> >>>> What you seem to do with this patch here is to add on top of the beh=
+avior to avoid allocating large chunks from the buddy the behavior to alloc=
+ate large chunks from the buddy because that is faster.
+> >>> emm, this patch doesn't change order-8 and order-4's allocation
+> >>> behaviour but just to replace the loop of order-0 allocations into
+> >>> once bulk allocation in the fallback way. What is your concern about
+> >>> this?
+> >>
+> >> As far as I know the bulk allocation favors splitting large pages into=
+ smaller ones instead of allocating smaller pages first. That's where the p=
+erformance benefit comes from.
+> >>
+> >> But that is exactly what we try to avoid here by allocating only certa=
+in order of pages.
+> >
+> > This is a good question, actually. Yes, bulk alloc will split large
+> > pages if there are insufficient pages on the pcp free list. But islates=
+t
+> > dma-buf indeed trying to avoid it, or is it merely using an inefficient
+> > API? And does it need the extra speed? Even if it leads to increased
+> > fragmentation?
+>
+> DMA-buf-heaps is completly intentionally trying rather hard to avoid spli=
+tting large pages. That's why you have the distinction between HIGH_ORDER_G=
+FP and LOW_ORDER_GFP as well.
+Could you please check the alloc_pages_bulk_noprof in the patch 1/2 of
+this series. According to my understanding, it try to get the order-0
+page from pcplist firstly and then fallback to normal
+alloc_pages(order-0) as same as what current dma-buf do. That is to
+say no extra large pages splitting introduced by this commit.
+>
+> Keep in mind that this is mostly used on embedded system with only small =
+amounts of memory.
+Actually, dma-buf is the main consumer for driver's memory allocation
+in the android world(multimedia, camera, npu etc) which could use even
+half of the system RAM with dozens MB for once allocation.
+>
+> Not entering direct reclaim and instead preferring to split large pages u=
+ntil they are used up is an absolutely no-go for most use cases as far as I=
+ can see.
+Yes. This behaviour would NOT be changed under this commit.
+>
+> Could be that we need to make this behavior conditional, but somebody wou=
+ld need to come up with some really good arguments to justify the complexit=
+y.
+ok, should we use CONFIG_DMA_BUF_BULK_ALLOCATION or a variable
+controlled by sysfs interface?
+>
+> Regards,
+> Christian.
+>
+> >
+> > Petr T
+>
