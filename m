@@ -2,41 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E202DBDF5B2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 17:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9702CBDF5BB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 17:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1422F10E839;
-	Wed, 15 Oct 2025 15:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3D110E82A;
+	Wed, 15 Oct 2025 15:30:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UGlk5dxE";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5776310E831
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 15:29:23 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BBFD1655;
- Wed, 15 Oct 2025 08:29:15 -0700 (PDT)
-Received: from [10.1.31.33] (e122027.cambridge.arm.com [10.1.31.33])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F80C3F738;
- Wed, 15 Oct 2025 08:29:20 -0700 (PDT)
-Message-ID: <b32c4229-83eb-4809-85ee-b6f4f21cf8b0@arm.com>
-Date: Wed, 15 Oct 2025 16:29:18 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC6A10E829;
+ Wed, 15 Oct 2025 15:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760542223;
+ bh=iAfD1supnmTcutAfLpNBfRXCPSsq6a/c6jvRpYWxSK8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=UGlk5dxEuSjLSbtT9NmUo94HkIqMWhZRQe/oeGpEimv/hJEBjdk3BcyV5kSqV1qFa
+ H/9zyuU8p3Z7piOmEN9VOOJ30qinzDf1k2O9I6nZMNV5XyqcpGh2EQMpjNZzGItgBk
+ 29piFiyIr/XMCDqs3LYAjvVw8RsnBB3LCJfkcf3o1E2kOJWzDUkt5l41LpSccu7HL+
+ Qzs5CSAVpTtmJhJN50tT3kW2nPJb+Sdhf/90KFqUBCoqeKVrMzBU9Wy3bR3BiXg43I
+ lFIuS309BpebbEmyj2TCMc0M31FWcyEuCry6RfknT2s1FTCasFcYFaZs8kPxQhtHzO
+ KLs9wihkZOyWA==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown
+ [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 00C5417E1060;
+ Wed, 15 Oct 2025 17:30:22 +0200 (CEST)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v4 00/13] drm: Reduce page tables overhead with THP
+Date: Wed, 15 Oct 2025 17:30:04 +0200
+Message-ID: <20251015153018.43735-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/14] drm/panthor: Expose the selected coherency
- protocol to the UMD
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-References: <20251015130103.3634560-1-boris.brezillon@collabora.com>
- <20251015130103.3634560-6-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251015130103.3634560-6-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,135 +82,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/10/2025 14:00, Boris Brezillon wrote:
-> If we want to be able to skip CPU cache maintenance operations on
-> CPU-cached mappings, the UMD needs to know the kind of coherency
-> in place. Add a field to drm_panthor_gpu_info to do that. We can re-use
-> a padding field for that since this object is write-only from the
-> KMD perspective, and the UMD should just ignore it.
-> 
-> v2:
-> - New commit
-> 
-> v3:
-> - Make coherency protocol a real enum, not a bitmask
-> - Add BUILD_BUG_ON()s to make sure the values in panthor_regs.h and
->   those exposed through the uAPI match
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+It starts by implementing a map_pages handler for GEM objects to map
+pages around a faulty address in a single batch. It also checks in
+both the fault and fault-around handlers whether a faulty address is
+part of a huge page in order to attempt a PMD sized PFN insertion into
+the VMA. It then introduces a dedicated get_unmapped_area file
+operation on the DRM file descriptor for GEM objects to get the best
+virtual address alignment for the underlying shmem buffers.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 10 +++++-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
->  include/uapi/drm/panthor_drm.h           | 39 ++++++++++++++++++++++--
->  3 files changed, 46 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index c7033d82cef5..492585014e9f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -25,6 +25,12 @@
->  
->  static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
->  {
-> +	BUILD_BUG_ON(GPU_COHERENCY_NONE != DRM_PANTHOR_GPU_COHERENCY_NONE);
-> +	BUILD_BUG_ON(GPU_COHERENCY_ACE_LITE != DRM_PANTHOR_GPU_COHERENCY_ACE_LITE);
-> +	BUILD_BUG_ON(GPU_COHERENCY_ACE != DRM_PANTHOR_GPU_COHERENCY_ACE);
-> +
-> +	/* Start with no coherency, and update it if the device is flagged coherent. */
-> +	ptdev->gpu_info.selected_coherency = GPU_COHERENCY_NONE;
->  	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
->  
->  	if (!ptdev->coherent)
-> @@ -34,8 +40,10 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
->  	 * ACE protocol has never been supported for command stream frontend GPUs.
->  	 */
->  	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> -		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-> +		      GPU_COHERENCY_PROT_BIT(ACE_LITE))) {
-> +		ptdev->gpu_info.selected_coherency = GPU_COHERENCY_ACE_LITE;
->  		return 0;
-> +	}
->  
->  	drm_err(&ptdev->base, "Coherency not supported by the device");
->  	return -ENOTSUPP;
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 7f9a28e90409..a95c0b94ef58 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -49,7 +49,7 @@ struct panthor_gpu {
->  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  {
->  	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> -		  ptdev->coherent ? GPU_COHERENCY_ACE_LITE : GPU_COHERENCY_NONE);
-> +		  ptdev->gpu_info.selected_coherency);
->  }
->  
->  static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 467d365ed7ba..f0f637e0631d 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -245,6 +245,26 @@ enum drm_panthor_dev_query_type {
->  	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
->  };
->  
-> +/**
-> + * enum drm_panthor_gpu_coherency: Type of GPU coherency
-> + */
-> +enum drm_panthor_gpu_coherency {
-> +	/**
-> +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE Lite coherency.
-> +	 */
-> +	DRM_PANTHOR_GPU_COHERENCY_ACE_LITE = 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE coherency.
-> +	 */
-> +	DRM_PANTHOR_GPU_COHERENCY_ACE = 1,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GPU_COHERENCY_NONE: No coherency.
-> +	 */
-> +	DRM_PANTHOR_GPU_COHERENCY_NONE = 31,
-> +};
-> +
->  /**
->   * struct drm_panthor_gpu_info - GPU information
->   *
-> @@ -301,7 +321,16 @@ struct drm_panthor_gpu_info {
->  	 */
->  	__u32 thread_max_barrier_size;
->  
-> -	/** @coherency_features: Coherency features. */
-> +	/**
-> +	 * @coherency_features: Coherency features.
-> +	 *
-> +	 * Combination of drm_panthor_gpu_coherency flags.
-> +	 *
-> +	 * Note that this is just what the coherency protocols supported by the
-> +	 * GPU, but the actual coherency in place depends on the SoC
-> +	 * integration and is reflected by
-> +	 * drm_panthor_gpu_info::selected_coherency.
-> +	 */
->  	__u32 coherency_features;
->  
->  	/** @texture_features: Texture features. */
-> @@ -310,8 +339,12 @@ struct drm_panthor_gpu_info {
->  	/** @as_present: Bitmask encoding the number of address-space exposed by the MMU. */
->  	__u32 as_present;
->  
-> -	/** @pad0: MBZ. */
-> -	__u32 pad0;
-> +	/**
-> +	 * @select_coherency: Coherency selected for this device.
-> +	 *
-> +	 * One of drm_panthor_gpu_coherency.
-> +	 */
-> +	__u32 selected_coherency;
->  
->  	/** @shader_present: Bitmask encoding the shader cores exposed by the GPU. */
->  	__u64 shader_present;
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
+
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
+
+Loïc Molinari (13):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Implement map_pages fault-around handler
+  drm/shmem-helper: Map huge pages in fault handlers
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mount point helper
+  drm/i915: Use huge tmpfs mount point helper
+  drm/v3d: Use huge tmpfs mount point helper
+  drm/v3d: Fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mount point option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mount point option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  25 ++-
+ drivers/gpu/drm/drm_gem.c                     | 199 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 138 ++++++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  47 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  69 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  10 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |  11 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  19 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |  11 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  19 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  13 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  29 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  60 ------
+ include/drm/drm_device.h                      |  11 +
+ include/drm/drm_gem.h                         |   8 +-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ mm/shmem.c                                    |   1 +
+ 30 files changed, 456 insertions(+), 292 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
+-- 
+2.47.3
 
