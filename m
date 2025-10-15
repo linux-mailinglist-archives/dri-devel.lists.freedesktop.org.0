@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA956BE0A60
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 22:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833D6BE0ABC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 22:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB9210E8E8;
-	Wed, 15 Oct 2025 20:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B78710E00B;
+	Wed, 15 Oct 2025 20:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WkMvNiZr";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MuAGazgH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5894310E8E8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 20:36:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DB322492DE
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 20:36:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B623C19424
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 20:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760560578;
- bh=md7oGPOSa0xnbd4TtXfgOqRdp4X3wI06jm34scplTI0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=WkMvNiZrqpVASBo6Y1Jdsdj4XC1FXGpozd/+qYto2IZNCal5cyuVHZK7rxHe7TBjx
- bL0eH7NaNvXWbV9xasC5BT4SYDAUxQavXIy+kAfX4UZxSKLN2/c5dz3z81a3YbFbb4
- 1es+lzfqXEthrncO03/AbmGAy5YYkfU8vewOs7XULwsNE3laMBwu3FSerJf9Q36eXS
- bcB8NiTsS8ZdPL0KlYuUXXqx3UKCbBJrAo9hi6kCo98o/RG9J5L1ua8IrRVp09bOtL
- UePKr5Ep5kGEINjmEAovqNGlr1mEo7Hr93UqhbNB/NpBWCyr0sVxgj66o50AIe58Zh
- DJQ79hXoT9RwA==
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-b50206773adso245399166b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:36:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxjI7WDiPJ7f8frsRRDXhftoicqf7yUprsd/oGW7LAJHllFZj9rgfFeyLS/jZTRXDGVRwktEmmjEY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtOHGPnMc9OPnphPvxqWZO7qhF6IYLmal5iYXeTi/ZbcQLMxR5
- GoIhJDFtwGgauRwRK9KZDTx5QfB/PQH+vEWXkL29Irs7uL9tuSosi95rMD/2mymy86N/BvPmC1P
- SO66TdR0yucwtP9p4tgD+DPjqPhKuSw==
-X-Google-Smtp-Source: AGHT+IHanfPp1aQvqSwf2sXxxoYj2/nZjpy0k09q6j9Kw3Drf0RM9sdzWliM8DjGkucRkyyEJ6rYMj8ZjfP4jDx5X8c=
-X-Received: by 2002:a17:907:3e16:b0:b0e:83e7:f6e1 with SMTP id
- a640c23a62f3a-b60530575abmr191496666b.15.1760560577064; Wed, 15 Oct 2025
- 13:36:17 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3246910E00B;
+ Wed, 15 Oct 2025 20:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760560920;
+ bh=6NFItZksUnL4AeNLzkE9uW56mfjFXSMe3I2p1k1atTk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MuAGazgHFf5NMEd+91RF7Wbfyfomf3WrSUyB9/IZolPbvVH5lTuwAPCHd7tE6/Bq7
+ QqCVAo7pOpD5H83FsAH3RRWYz68OQPN+OeXkMVTIM6jkrZS4ylGZUoy4zi8xMfgBdW
+ cD+AO81Ijw1bO1YB494nBepz2rX7bX43B0L+WMFhLbczgk3sm91zprnGct2I7/iP0D
+ G38aiNIDYCkYwl/E2lkzLt7zE0PVuX3pGypRYRN5cqRJbG7stRBmvSZVJF9dedIGdW
+ 7mU087gqoePoUadp0Z94Elm1QCIxIMvrH+Uwil+z9n3QN0DEgbVvE/3cjWk9jflzhe
+ RfSGnUk7yuuFQ==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown
+ [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B526017E0C54;
+ Wed, 15 Oct 2025 22:41:59 +0200 (CEST)
+Message-ID: <efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
+Date: Wed, 15 Oct 2025 22:41:59 +0200
 MIME-Version: 1.0
-References: <20251015-ethos-v4-0-81025a3dcbf3@kernel.org>
- <20251015-ethos-v4-2-81025a3dcbf3@kernel.org>
- <aO/4cQ8+eLnwqFSh@lizhi-Precision-Tower-5810>
-In-Reply-To: <aO/4cQ8+eLnwqFSh@lizhi-Precision-Tower-5810>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 15 Oct 2025 15:36:05 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+L2RHgP9FaEpxzzVRybyjeNr84xgEBbU4KEyZtrz63FA@mail.gmail.com>
-X-Gm-Features: AS18NWAQqPDQMMnqBwUDObugcrZ2Q-fcA0YRercJNknG6zrODakK3RAlBsIaPZY
-Message-ID: <CAL_Jsq+L2RHgP9FaEpxzzVRybyjeNr84xgEBbU4KEyZtrz63FA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] accel: Add Arm Ethos-U NPU driver
-To: Frank Li <Frank.li@nxp.com>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
- Daniel Stone <daniel@fooishbar.org>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/13] drm/v3d: Fix builds with
+ CONFIG_TRANSPARENT_HUGEPAGE=n
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+ <20251015153018.43735-9-loic.molinari@collabora.com>
+ <20251015201737.3956f801@fedora>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <20251015201737.3956f801@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,170 +86,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 15, 2025 at 2:39=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
->
-> On Wed, Oct 15, 2025 at 12:47:40PM -0500, Rob Herring (Arm) wrote:
-> > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
-> > relatively simple interface with single command stream to describe
-> > buffers, operation settings, and network operations. It supports up to =
-8
-> > memory regions (though no h/w bounds on a region). The Ethos NPUs
-> > are designed to use an SRAM for scratch memory. Region 2 is reserved
-> > for SRAM (like the downstream driver stack and compiler). Userspace
-> > doesn't need access to the SRAM.
-> >
-> > The h/w has no MMU nor external IOMMU and is a DMA engine which can
-> > read and write anywhere in memory without h/w bounds checks. The user
-> > submitted command streams must be validated against the bounds of the
-> > GEM BOs. This is similar to the VC4 design which validates shaders.
-> >
-> > The job submit is based on the rocket driver for the Rockchip NPU
-> > utilizing the GPU scheduler. It is simpler as there's only 1 core rathe=
-r
-> > than 3.
-> >
-> > Tested on i.MX93 platform (U65) and FVP (U85) with WIP Mesa Teflon
-> > support.
-> >
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > ---
->
-> How to test this driver?
+On 15/10/2025 20:17, Boris Brezillon wrote:
+> On Wed, 15 Oct 2025 17:30:12 +0200
+> Loïc Molinari <loic.molinari@collabora.com> wrote:
+> 
+>> Don't declare "super_pages" on builds with CONFIG_TRANSPARENT_HUGEPAGE
+>> disabled to prevent build error:
+>>
+>> ERROR: modpost: "super_pages" [drivers/gpu/drm/v3d/v3d.ko] undefined!
+> 
+> I believe this is a bug introduced by the previous commit: the
+> compiler probably drops any code between the
+> IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) check and the err label
+> because IS_ENABLED() evaluates to false at compile time. So I'd squash
+> those changes in the previous commit.
 
-You need to add the DT node to i.MX93 .dts like the example, build the
-mesa ethosu branch, and then run tflite with it pointed to the mesa
-delegate.
+Right, it's been introduced in previous commit.
 
-I can send an i.MX93 dts patch after this is merged.
-
-> > v4:
-> > - Use bulk clk API
-> > - Various whitespace fixes mostly due to ethos->ethosu rename
-> > - Drop error check on dma_set_mask_and_coherent()
-> > - Drop unnecessary pm_runtime_mark_last_busy() call
-> > - Move variable declarations out of switch (a riscv/clang build failure=
-)
-> > - Use lowercase hex in all defines
-> > - Drop unused ethosu_device.coherent member
-> > - Add comments on all locks
-> >
-> ...
-> > diff --git a/drivers/accel/ethosu/ethosu_device.h b/drivers/accel/ethos=
-u/ethosu_device.h
-> > new file mode 100644
-> > index 000000000000..69d610c5c2d7
-> > --- /dev/null
-> > +++ b/drivers/accel/ethosu/ethosu_device.h
-> > @@ -0,0 +1,190 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only or MIT */
-> > +/* Copyright 2025 Arm, Ltd. */
-> > +
-> > +#ifndef __ETHOSU_DEVICE_H__
-> > +#define __ETHOSU_DEVICE_H__
-> > +
-> > +#include <linux/types.h>
-> > +
-> > +#include <drm/drm_device.h>
-> > +#include <drm/gpu_scheduler.h>
-> > +
-> > +#include <drm/ethosu_accel.h>
-> > +
-> > +struct clk;
-> > +struct gen_pool;
 >
-> Supposed should include clk.h instead declear a struct.
+>>
+>> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_drv.h | 2 ++
+>>   drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
+>>   2 files changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+>> index 99a39329bb85..481502104391 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>> @@ -564,7 +564,9 @@ extern const struct dma_fence_ops v3d_fence_ops;
+>>   struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q);
+>>   
+>>   /* v3d_gem.c */
+>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>   extern bool super_pages;
+>> +#endif
+>>   int v3d_gem_init(struct drm_device *dev);
+>>   void v3d_gem_destroy(struct drm_device *dev);
+>>   void v3d_reset_sms(struct v3d_dev *v3d);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+>> index 635ff0fabe7e..0039063eb8b2 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>> @@ -269,7 +269,9 @@ v3d_huge_mnt_init(struct v3d_dev *v3d)
+>>   	 * match our usecase.
+>>   	 */
+>>   
+>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>   	if (super_pages)
+>> +#endif
+>>   		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> 
+> Why not
+> 
+> #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>    	if (super_pages)
+>    		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> #endif
+> 
+> I guess
+> 
+> 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
+> 		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> 
+> would also do, since it's likely to rely on the same optimization the
+> previous v3d_gemfs_init() implementation was relying on, but it's
+> fragile (not sure what happens when compiled with -O0).
 
-Headers should only use a forward declaration if that's all they need.
-It keeps the struct opaque for starters.
+I'll remove the #ifdef/#endif around the super_pages declaration in 
+v3d_drv.h because it isn't necessary if super_pages is compiled out in 
+v3d_huge_mnt_init().
 
-> ...
-> > +
-> > +static int ethosu_open(struct drm_device *ddev, struct drm_file *file)
-> > +{
-> > +     int ret =3D 0;
-> > +     struct ethosu_file_priv *priv;
-> > +
-> > +     if (!try_module_get(THIS_MODULE))
-> > +             return -EINVAL;
-> > +
-> > +     priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
-> > +     if (!priv) {
-> > +             ret =3D -ENOMEM;
-> > +             goto err_put_mod;
-> > +     }
-> > +     priv->edev =3D to_ethosu_device(ddev);
-> > +
-> > +     ret =3D ethosu_job_open(priv);
-> > +     if (ret)
-> > +             goto err_free;
-> > +
-> > +     file->driver_priv =3D priv;
->
-> slice simple.
->
-> struct ethosu_file_priv __free(kfree) *priv =3D NULL;
-> ...
-> priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
+In v3d_huge_mnt_init(), I'd add the #ifdef before the ret variable 
+declaration and the #endif right after the last else so that it's clear 
+drm_notice("THP is recommended...") is called unconditionally when 
+CONFIG_TRANSPARENT_HUGEPAGE=n, whatever the optim level. What do you think?
 
-Linus has voiced his opinion that the above should not be done. It
-should be all one line *only*. But now we allow C99 declarations, so
-we can move it down. We can't get rid of the goto for module_put(), so
-it only marginally helps here.
+> 
+>>   
+>>   	if (v3d->drm.huge_mnt)
+> 
 
-> ...
->
-> file->driver_priv =3D no_free_ptr(priv);
->
->
-> > +     return 0;
-> > +
-> > +err_free:
-> > +     kfree(priv);
-> > +err_put_mod:
-> > +     module_put(THIS_MODULE);
-> > +     return ret;
-> > +}
-> > +
-> ...
-> > +
-> > +
-> > +static int ethosu_init(struct ethosu_device *ethosudev)
-> > +{
-> > +     int ret;
-> > +     u32 id, config;
-> > +
-> > +     ret =3D devm_pm_runtime_enable(ethosudev->base.dev);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ret =3D pm_runtime_resume_and_get(ethosudev->base.dev);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
-> > +     pm_runtime_use_autosuspend(ethosudev->base.dev);
-> > +
-> > +     /* If PM is disabled, we need to call ethosu_device_resume() manu=
-ally. */
-> > +     if (!IS_ENABLED(CONFIG_PM)) {
-> > +             ret =3D ethosu_device_resume(ethosudev->base.dev);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
->
-> I think it should call ethosu_device_resume() unconditional before
-> devm_pm_runtime_enable();
->
-> ethosu_device_resume();
-> pm_runtime_set_active();
-> pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
-> devm_pm_runtime_enable();
-
-Why do you think this? Does this do a get?
-
-I don't think it is good to call the resume hook on our own, but we
-have no choice with !CONFIG_PM. With CONFIG_PM, we should only use the
-pm_runtime API.
-
-Rob
