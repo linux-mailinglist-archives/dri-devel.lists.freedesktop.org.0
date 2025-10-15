@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C53BDF88F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47236BDF895
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:04:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67BBC10E85E;
-	Wed, 15 Oct 2025 16:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5864210E871;
+	Wed, 15 Oct 2025 16:04:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BgqNykrb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AaRVLc/X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A5D10E853
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E724E10E853
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1760544218;
- bh=XtB0/M9q/OmllR2oygr4YRHaZtyb2CV8tgFFQlfeIEo=;
+ bh=8mCnSS9hIFy3mPf3vQmseYu6lxx3kVow51GwE1/Zcv0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BgqNykrbOA6e48DVDwWoX9i/2DNP0reerIfTpX69CiynTcNAWZkfF+xxPQAABrd8a
- mMOacFZ8J8b//x59FXWFf0qCVuOY/jrhKOaycCQpPZw+lzO9Dm6uweNRBoUDYpzRoc
- CUfv2N+LMNORMuPhbD9Z/32UV0qq+iHyLt66VCk3YNXgmPItMTFDhbCadUetzneoc7
- CkCDd1uoRqbT+Bk4oa1Hy2pvMSSlB2OMoKKx/PSfkt8Pqp8kWATWmYWUVmVhNCQ+7F
- Bj+UdHnn7NE1QgdWaWLz4f/7SJJTSM3ntiR3yHDSGB9oIRoPWIsO8Mac9QzXAC8xUl
- xsPmfM9KXhNOg==
+ b=AaRVLc/X0+zUNwC8ip8k1ACp8bzKnI3d2FieRwieP+FFF9jCfQFIB9S4jiZNl5M8P
+ ujttYmfn8CPkKTGa8wEiVV9hhxKtThCJx79/xWIfym6DJJfDfsJoYXSjPTXOicy9+Q
+ YGoE7OMBY4NjaO7wm+R5WqKCHtyL2zHC610VSu6WyY+wNUJHB71KMBPAWdtxpY8XGk
+ s15Fpr9mIirSqwkasX4D56fuhWJPTUcBEwYeDNnK1bl+pRyxyIYOYTLarrxAlxH1OA
+ lStKXEOzBfTjmLXCbaXW/R+sn6gaQiNzwsrr5Nzx73bZ7n83QmOZAiTsqYRbLiSNqN
+ i7oNkPmCtQ0HQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9DD6417E1392;
- Wed, 15 Oct 2025 18:03:37 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 303EB17E13F9;
+ Wed, 15 Oct 2025 18:03:38 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -41,10 +41,10 @@ Cc: dri-devel@lists.freedesktop.org,
  Simona Vetter <simona@ffwll.ch>,
  Faith Ekstrand <faith.ekstrand@collabora.com>,
  Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and a
- drm_gem_sync() helper
-Date: Wed, 15 Oct 2025 18:03:14 +0200
-Message-ID: <20251015160326.3657287-3-boris.brezillon@collabora.com>
+Subject: [PATCH v4 03/14] drm/prime: Provide default ::{begin,
+ end}_cpu_access() implementations
+Date: Wed, 15 Oct 2025 18:03:15 +0200
+Message-ID: <20251015160326.3657287-4-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015160326.3657287-1-boris.brezillon@collabora.com>
 References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
@@ -65,17 +65,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare things for standardizing synchronization around CPU accesses
-of GEM buffers. This will be used to provide default
-drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and provide
-a way for drivers to add their own ioctls to synchronize CPU
-writes/reads when they can't do it directly from userland.
+Hook-up drm_gem_dmabuf_{begin,end}_cpu_access() to drm_gem_sync() so
+that drivers relying on the default prime_dmabuf_ops can still have
+a way to prepare for CPU accesses from outside the UMD.
 
 v2:
 - New commit
 
 v3:
-- No changes
+- Don't return an error on NOP syncs, and document that case in a
+  comment
 
 v4:
 - Add Steve's R-b
@@ -83,101 +82,86 @@ v4:
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/drm_gem.c | 10 +++++++++
- include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+ drivers/gpu/drm/drm_prime.c | 42 +++++++++++++++++++++++++++++++++++++
+ include/drm/drm_prime.h     |  5 +++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index a1a9c828938b..a1431e4f2404 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 43a10b4af43a..30d495c70afb 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -823,6 +823,46 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
  }
- EXPORT_SYMBOL(drm_gem_vunmap);
+ EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
  
-+int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t size,
-+		 enum drm_gem_object_access_flags access)
++int drm_gem_dmabuf_begin_cpu_access(struct dma_buf *dma_buf,
++				    enum dma_data_direction direction)
 +{
-+	if (obj->funcs->sync)
-+		return obj->funcs->sync(obj, offset, size, access);
++	struct drm_gem_object *obj = dma_buf->priv;
++	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_CPU_ACCESS;
 +
-+	return 0;
++	/* begin_cpu_access(DMA_TO_DEVICE) is a NOP, the sync will happen
++	 * in the end_cpu_access() path.
++	 */
++	if (direction == DMA_FROM_DEVICE)
++		access |= DRM_GEM_OBJECT_READ_ACCESS;
++	else if (direction == DMA_BIDIRECTIONAL)
++		access |= DRM_GEM_OBJECT_RW_ACCESS;
++	else
++		return 0;
++
++	return drm_gem_sync(obj, 0, obj->size, access);
 +}
-+EXPORT_SYMBOL(drm_gem_sync);
++EXPORT_SYMBOL(drm_gem_dmabuf_begin_cpu_access);
 +
- /**
-  * drm_gem_lock_reservations - Sets up the ww context and acquires
-  * the lock on an array of GEM objects.
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 8d48d2af2649..1c33e59ab305 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -66,6 +66,33 @@ enum drm_gem_object_status {
- 	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
++int drm_gem_dmabuf_end_cpu_access(struct dma_buf *dma_buf,
++				  enum dma_data_direction direction)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_DEV_ACCESS;
++
++	/* end_cpu_access(DMA_FROM_DEVICE) is a NOP, the sync should have
++	 * happened in the begin_cpu_access() path already.
++	 */
++	if (direction == DMA_TO_DEVICE)
++		access |= DRM_GEM_OBJECT_READ_ACCESS;
++	else if (direction == DMA_BIDIRECTIONAL)
++		access |= DRM_GEM_OBJECT_RW_ACCESS;
++	else
++		return 0;
++
++	return drm_gem_sync(obj, 0, obj->size, access);
++}
++EXPORT_SYMBOL(drm_gem_dmabuf_end_cpu_access);
++
+ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
+ 	.attach = drm_gem_map_attach,
+ 	.detach = drm_gem_map_detach,
+@@ -832,6 +872,8 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
+ 	.mmap = drm_gem_dmabuf_mmap,
+ 	.vmap = drm_gem_dmabuf_vmap,
+ 	.vunmap = drm_gem_dmabuf_vunmap,
++	.begin_cpu_access = drm_gem_dmabuf_begin_cpu_access,
++	.end_cpu_access = drm_gem_dmabuf_end_cpu_access,
  };
  
-+/**
-+ * enum drm_gem_object_status - bitmask describing GEM access types to prepare for
-+ */
-+enum drm_gem_object_access_flags {
-+	/** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access. */
-+	DRM_GEM_OBJECT_CPU_ACCESS = 0,
-+
-+	/** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device access. */
-+	DRM_GEM_OBJECT_DEV_ACCESS = BIT(0),
-+
-+	/** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the entity doing the access. */
-+	DRM_GEM_OBJECT_ACCESSOR_MASK = BIT(0),
-+
-+	/** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only accesses. */
-+	DRM_GEM_OBJECT_READ_ACCESS = BIT(1),
-+
-+	/** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only accesses. */
-+	DRM_GEM_OBJECT_WRITE_ACCESS = BIT(2),
-+
-+	/** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write accesses. */
-+	DRM_GEM_OBJECT_RW_ACCESS = DRM_GEM_OBJECT_READ_ACCESS |
-+				   DRM_GEM_OBJECT_WRITE_ACCESS,
-+
-+	/** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check the access type. */
-+	DRM_GEM_OBJECT_ACCESS_TYPE_MASK = DRM_GEM_OBJECT_RW_ACCESS,
-+};
-+
  /**
-  * struct drm_gem_object_funcs - GEM object functions
-  */
-@@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
- 	 */
- 	int (*mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma);
+diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+index f50f862f0d8b..052fba039bb6 100644
+--- a/include/drm/drm_prime.h
++++ b/include/drm/drm_prime.h
+@@ -92,6 +92,11 @@ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map);
+ int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma);
  
-+	/**
-+	 * @sync:
-+	 *
-+	 * Prepare for CPU/device access. This can involve migration of
-+	 * a buffer to the system-RAM/VRAM, or for UMA, flushing/invalidating
-+	 * the CPU caches. The range can be used to optimize the synchronization
-+	 * when possible.
-+	 *
-+	 * Returns 0 on success, -errno otherwise.
-+	 *
-+	 * This callback is optional.
-+	 */
-+	int (*sync)(struct drm_gem_object *obj, size_t offset, size_t size,
-+		    enum drm_gem_object_access_flags access);
++int drm_gem_dmabuf_begin_cpu_access(struct dma_buf *dma_buf,
++				    enum dma_data_direction direction);
++int drm_gem_dmabuf_end_cpu_access(struct dma_buf *dma_buf,
++				  enum dma_data_direction direction);
 +
- 	/**
- 	 * @evict:
- 	 *
-@@ -559,6 +601,9 @@ void drm_gem_unlock(struct drm_gem_object *obj);
- int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
- void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
- 
-+int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t size,
-+		 enum drm_gem_object_access_flags access);
-+
- int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
- 			   int count, struct drm_gem_object ***objs_out);
- struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+ struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
+ 				       struct page **pages, unsigned int nr_pages);
+ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
 -- 
 2.51.0
 
