@@ -2,61 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA61BDCABD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 08:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF957BDCD27
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 09:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F2BB10E31A;
-	Wed, 15 Oct 2025 06:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03DF910E31D;
+	Wed, 15 Oct 2025 07:07:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jFLFCfzR";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="oVKmUxp4";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="GS2h8t8v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DC010E299
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 06:17:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760509051; x=1792045051;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gg1TFXKgk0qXnlOANTmXTov5r0gU836bdDnGOK10zaw=;
- b=jFLFCfzRzyAoIcMlGMLsL/c8F0FhX+3f7mSgnc9qdPx4l/SNQ09+dFv5
- NwC6uRPXIMd60Ic9HvxHhxip2OSzUhARKJUS4hjfgmRYZXdIrB38u2z+G
- btow505rtTYTkuo9348qrMyl9B6taV5lWKtkLo6gPRFA4g86GfyT2/w6g
- dOVSrT4Q0vhU8td6bsUoeB4KkmF4uNt8Xoycc/2JsuLGbhCFkfCtFE4rW
- EQD2YCshORyKg/Cf2qHRcZgRaVPKN36ZWG0tDs0eIRtcwooFyHaT9PRch
- XmuBXNm6OkYnuk9ElSNOE2JX8+67R8ONNygdFkVOTYxk0kKIxaOmMtCHE A==;
-X-CSE-ConnectionGUID: I+OvwChpSbW4e1a/eEPGAA==
-X-CSE-MsgGUID: wVExnjiDTIWSUzSp3frpEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62567711"
-X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; d="scan'208";a="62567711"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2025 23:17:30 -0700
-X-CSE-ConnectionGUID: TLthew8rSUuVbFU5gca7sQ==
-X-CSE-MsgGUID: z19pLs1bT8mhN+voKiAqFQ==
-X-ExtLoop1: 1
-Received: from unknown (HELO [10.102.88.138]) ([10.102.88.138])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2025 23:17:28 -0700
-Message-ID: <8819283b-ffb8-4df2-9a54-dc87dfe71798@linux.intel.com>
-Date: Wed, 15 Oct 2025 08:17:26 +0200
+Received: from fhigh-b3-smtp.messagingengine.com
+ (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC12210E6F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 07:06:59 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 3976B7A0199;
+ Wed, 15 Oct 2025 03:06:58 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+ by phl-compute-05.internal (MEProxy); Wed, 15 Oct 2025 03:06:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm1; t=1760512018;
+ x=1760598418; bh=ihTX14CCnGZh2yCohCI2HJ86LjAi76UHdq/41TZfvYQ=; b=
+ oVKmUxp4m/sW/KDei9klcN0VCiSvhu+zuPESVJg+vRInkCiudaQL2mEBvZVR8xKO
+ ZC/QXJzIZNH+XImb0D1QbHxWEHOlrVEZlwDfDUePx+1ll7/Yz7Lk1LgFaQA2udAg
+ bIU9pTO2RDbYIb0deMgR+Ni61DaCLZd6gIJwR4dYxFJjCfrX5+V6oGeU2eSFL0J0
+ 5zJ7ICSFoh+STgHWuHwOr1bgBAlX0SkKgbMq/f4V8ZNFRPDBeWmylvnsjN28qAyL
+ HF03NeW02zNXAryFtEFu4Kfxxbo81ov6yPKVSieCi6uGyhMa4N0Muwkzm41YmJrg
+ M6M96Wi19r+H9CHlHGRiww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1760512018; x=
+ 1760598418; bh=ihTX14CCnGZh2yCohCI2HJ86LjAi76UHdq/41TZfvYQ=; b=G
+ S2h8t8vhkqb0qKYX1mJA2REBNk1c+upesEOyZiLAbtuSTAsRrN8Q3jwnHa8nzxVH
+ jONvVoGdH0b4rK6Q/RoYV0xt3JaV9wI2DFoZuK0naZp3fzgvJut4yu60gvutCpvk
+ P7OMCR2cCVZEwTT/ejwOCy9qB9jUYpxJeXBFtzAy6wOhhzYw68drTMcjQByqmKP5
+ 5R2aivdTkSA5RIL/pXvQhEQKQEk5nsJRan0ejaHTjJXyH+wMQ5u5FsVDB5rEeXtN
+ NHkZccpv8Ac/TupkETuPkCTuKVOQQqnfp9h8EQhJG7W9avbuhlzpCW/rfPVgVDAj
+ hb+l5BA7qytaCUbc1aPMw==
+X-ME-Sender: <xms:EUjvaLPrwtcFXyuHi8d_N4IMgFnkTvMtNBNGr7dXHWqcFRV3b1t5ag>
+ <xme:EUjvaAwBVFw1Kg8ex26yNrxNa07SNnTOgyQdPGetZLWvZZgibZXgq6tWZHs_bvaq0
+ CF_AQEfo3SaXqTuPWa_Vab2NC5aIRoesfhOs3dc1f8LHaZPjhibE6MQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvddvjeejucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+ uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+ hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+ gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhu
+ thdprhgtphhtthhopehsrhhinhhisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrh
+ gvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegurhhi
+ qdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoh
+ eprghiqhhunhdrhihusehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopegv
+ khgrnhhshhdrghhuphhtrgesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtoh
+ epjhhinhhghihirdifrghnghesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthht
+ ohepkhhumhgrrhhirdhprghllhgrvhhisehoshhsrdhquhgrlhgtohhmmhdrtghomhdprh
+ gtphhtthhopegrmhgrhhgvshhhsehqthhirdhquhgrlhgtohhmmhdrtghomhdprhgtphht
+ thhopehkphgrlhhlrghvihesqhhtihdrqhhurghltghomhhmrdgtohhm
+X-ME-Proxy: <xmx:EUjvaMSwEu2JmVjqg3D5_DHXJHB-iCalyE1Ylmnbl7m384Y_LYELyA>
+ <xmx:EUjvaDKn23nYoPFxbonnlv61eCpxN1FCFHoKX19TjW5CKSIUz8MyUQ>
+ <xmx:EUjvaCVa1IipiWVcxJIz7jd2r_Zd4liCwEtqT1w8usbGSDDDccr0Qg>
+ <xmx:EUjvaPgdvHdWzbCZPIuJzjP-puDkersyfQ4FsnP-EU0YogI48A1c9Q>
+ <xmx:EkjvaFY0SIJ5VuagyDc2ukvZ6oW3vbhm8RGuKp04iPE7yAohf0i7vqFh>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 9E045700054; Wed, 15 Oct 2025 03:06:57 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix race condition when mapping dmabuf
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com,
- lizhi.hou@amd.com, "Wludzik, Jozef" <jozef.wludzik@intel.com>
-References: <20251014071725.3047287-1-karol.wachowski@linux.intel.com>
- <17ae8bd5-6153-4388-b2f1-2cb2e2b9ae72@oss.qualcomm.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <17ae8bd5-6153-4388-b2f1-2cb2e2b9ae72@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AVCRraWH2f2c
+Date: Wed, 15 Oct 2025 09:06:37 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Kumari Pallavi" <kumari.pallavi@oss.qualcomm.com>,
+ kpallavi@qti.qualcomm.com, "Srinivas Kandagatla" <srini@kernel.org>,
+ "Amol Maheshwari" <amahesh@qti.qualcomm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ "Jingyi Wang" <jingyi.wang@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
+ ktadakam@qti.qualcomm.com
+Message-Id: <4dcbf05b-1da6-417e-8d37-2756762fed94@app.fastmail.com>
+In-Reply-To: <20251015045702.3022060-4-kumari.pallavi@oss.qualcomm.com>
+References: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
+ <20251015045702.3022060-4-kumari.pallavi@oss.qualcomm.com>
+Subject: Re: [PATCH v2 3/3] misc: fastrpc: Update dma_mask for CDSP support on
+ Kaanapali SoC
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,22 +111,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/14/2025 5:02 PM, Jeff Hugo wrote:
-> On 10/14/2025 1:17 AM, Karol Wachowski wrote:
->> From: "Wludzik, Jozef" <jozef.wludzik@intel.com>
->>
->> Fix a race that can occur when multiple jobs submit the same dmabuf.
->> This could cause the sg_table to be mapped twice, leading to undefined
->> behavior.
->>
->> Fixes: e0c0891cd63b ("accel/ivpu: Rework bind/unbind of imported
->> buffers")
->> Signed-off-by: Wludzik, Jozef <jozef.wludzik@intel.com>
->> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->
-> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com> 
+On Wed, Oct 15, 2025, at 06:57, Kumari Pallavi wrote:
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 1a5d620b23f2..f2e5e53e9067 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -267,6 +267,7 @@ struct fastrpc_session_ctx {
+> 
+>  struct fastrpc_soc_data {
+>  	u32 sid_pos;
+> +	u32 cdsp_dma_mask;
+>  };
 
-Pushed to drm-misc-next.
+I see that you add the field here, but it is not initialized
+anywhere. Did the initialization get lost in a rebase?
 
--Karol
+Also, this is not the mask but the address width,
+so maybe rename it to cdsp_dma_bits?
 
+       Arnd
