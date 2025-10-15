@@ -2,82 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD82BDE591
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 13:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30E1BDE628
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 14:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567E410E78D;
-	Wed, 15 Oct 2025 11:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D218710E79A;
+	Wed, 15 Oct 2025 12:04:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MMuosdNz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FuG2pK/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com
- [74.125.224.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B5410E784
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:57:37 +0000 (UTC)
-Received: by mail-yx1-f43.google.com with SMTP id
- 956f58d0204a3-6354a4b4871so7877421d50.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 04:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760529456; x=1761134256; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ieaWzRWGII3uqPa4WyCaS/MYjwfMUCH1mb2GlldqZ1k=;
- b=MMuosdNzHavTtoXUCb8cEmaYmcWibRcQbTp9KRfd2OYKxz3zOVrOvGavSswc7SYGHO
- 4X3GnrxKJ5KtqXESZFLcDsj4blHpjtDDr0oBehAv2WYqLk9/OuNIR/W/B7az77ZlpJcd
- l/VlJk1D+ZNWupQddqM7Zc24XmC3QrKI9Y1Bi072ZR8D9fX96veCdvAzJhLk72p6kKCB
- 1C879VqTwlGFkTg+YAOf0UnGbZH4usBH7wvjlnGO0RRiKi6H63tccT3/4l1QNIbGHl3D
- DGfmNaGr5HKZdNboyQ5B1IdsIA+WSTGmwYqPHO6cCoVsddmwOjpmYq0gEOCqeHsKzzmB
- qmpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760529456; x=1761134256;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ieaWzRWGII3uqPa4WyCaS/MYjwfMUCH1mb2GlldqZ1k=;
- b=gDEkZ/f0ofzXz2BNPqtcx39QYOhCG+efgjd4AmGRax2Np1UzT2UjyJifSIgNpsPoqk
- LzE0clv9vz9Vk1qFqfblw5BCcKnNNqCIufO9/DnUaWlM8GBsL1kZLT/Bsm3KZjVhZSom
- f4H0lQ5cs13DpoFDQviSxJWHH8CjFfX5L3m7rt0224NNlFY/9uulRrzJB+cIm5dEkk2l
- 0GV9nB8sYitBvHhRn3fEAJKoNjElKUXQlWYAS5th4YhxLzLQR8t/Tb4FmvGVlLz+1fWf
- TEb8AkDnLbsQ8wjtjn7P0nuii6MDc1CQhVNfw2gKr2GN7fB87hVajYMRcl4YH7cHYs9l
- UnhA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6XyzTditMgxeNcRkfNRBBxRoMtoSdE8lKRh3P1ALFYH5XfvDreXWliw6zjvw6R0NOY5Z3O2SqRfY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHNdaWq/GpV+67xIQtmLdCvYFxB1nrS819467VYmuZTeI90wdd
- YSmtNHqLbCaYFkp3M0z0Hs0i07ahMC9AGsfH/LUXPIW044rYz0d2gLW+lSv8XBM1QhOXtWF8OJL
- YTunQeFmPE7711dmDUgvl+37Hp24ucC8=
-X-Gm-Gg: ASbGnctlcTw+33dXzvNeiL5p1P5vpoxFslpwnXh9FAL9RQtB9P2YuWZ8N9mGa7LNV8B
- /mhLv4R8arw2zwsTNQhntzZhWFfMMXe84uzhr0qCsyzgBowQLrzjnodED3COBXFkU9wJEu8z8Ip
- WjlGSauqaZFPXEDHkcj2ADl4/ZF1okHAfzIENbW7rWu4PNeJt93vUNaJX3Xo7SfZcCLL2k5mDX+
- ILt+QS4fsSvQMb9AMKKsE3HhA==
-X-Google-Smtp-Source: AGHT+IFNe9SeQx840UU/MTW2ly7whPTiSlZ0Fatcdl+zHeGnhTcfrwo2zlexd/EV4UoupspsKkcGV6yrEL5HlrHNkQM=
-X-Received: by 2002:a53:ceca:0:b0:63c:f5a7:3ff with SMTP id
- 956f58d0204a3-63cf5a709f6mr9503871d50.67.1760529456518; Wed, 15 Oct 2025
- 04:57:36 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A9CA10E791;
+ Wed, 15 Oct 2025 12:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760529848; x=1792065848;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=774ra5ixELvYNVL72Jv0sh4TrUY6YNRZC71+fQanYm8=;
+ b=FuG2pK/eyCiSAYxn/idOstu5lO4Y41givRP9ZM7cU5frgfrVZc1K6kTL
+ qN/Th4NFaeJbPSiCGVO45CKhOhKxIi4xdWkRhnp0i/oZJOztm07GSjAgx
+ 11s/DAFhm7ZewzzTlmVxf4ICxH88qY0OU0WTd3K+2c9nfWdSmtNeaaZGf
+ kAn60qPL32Ym81VllmpFRof/2Hjyl9iZINdcohHfPs92gsLCwYkSoNqSb
+ tK0/YS4jmNEdQcciuV2IRUscxnLc8jq2wWf4CNIJSpaSuHgahpV7qHgm3
+ j7jTnNU7SD9cPUR3/TnZL70aYaWKa13Y+CAIOKkS5rLrittWEV3vUZCkx g==;
+X-CSE-ConnectionGUID: Z42zFERjSoqT59Hs4YNQKQ==
+X-CSE-MsgGUID: Fq7+43yBQem0OOhwqQll8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="88169116"
+X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; d="scan'208";a="88169116"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2025 05:04:08 -0700
+X-CSE-ConnectionGUID: 3Giz+jJWQV2ZAW87hiZ8Cg==
+X-CSE-MsgGUID: FYTT+REUS0qQPZHCz4AVPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; d="scan'208";a="182567808"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.245.73])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2025 05:04:06 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Subject: [PATCH v4] drm/gpusvm, drm/xe: Allow mixed mappings for userptr
+Date: Wed, 15 Oct 2025 14:03:20 +0200
+Message-ID: <20251015120320.176338-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <20251006-st7920-v3-0-4f89d656fa03@gmail.com>
- <20251006-st7920-v3-1-4f89d656fa03@gmail.com>
- <bf207d35-3ca9-40a2-807a-0dbb0d1504de@kernel.org>
-In-Reply-To: <bf207d35-3ca9-40a2-807a-0dbb0d1504de@kernel.org>
-From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Wed, 15 Oct 2025 13:57:25 +0200
-X-Gm-Features: AS18NWDRb-G3sUnj4rnpU7SKnuODhp_u2ZhjVPW2nZFhRMfdfCfjUZN2mnbd71w
-Message-ID: <CABdCQ=O-WSt9f_cbwUhRw1uy5a-P3-dEcJfcq8Y8thDAzVuS9g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: sitronix,
- st7920: Add DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,42 +72,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El mar, 7 oct 2025 a las 11:12, Krzysztof Kozlowski
-(<krzk@kernel.org>) escribi=C3=B3:
->
-> On 07/10/2025 02:48, Iker Pedrosa wrote:
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sitronix,st7920
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  spi-max-frequency:
-> > +    maximum: 600000
-> > +
->
-> Datasheet I found on the web clearly stats you have at least VDD and XRES=
-ET.
->
-> Your binding is still not complete (and I asked...), while it should be
-> complete (See writing bindings doc).
+From: Matthew Brost <matthew.brost@intel.com>
 
-Thanks for the information. You're correct; I'll add the two suggested
-properties, XRESET and VDD, to the binding. I'll also implement the
-XRESET handling in the driver.
+Compute kernels often issue memory copies immediately after completion.
+If the memory being copied is an SVM pointer that was faulted into the
+device and then bound via userptr, it is undesirable to move that
+memory. Worse, if userptr is mixed between system and device memory, the
+bind operation may be rejected.
 
-I missed the XRESET pin because my testing setup was working without
-it. For VDD, it's currently connected to the RPi's 5V output.
+Xe already has the necessary plumbing to support userptr with mixed
+mappings. This update modifies GPUSVM's get_pages to correctly locate
+pages in such mixed mapping scenarios.
 
-While other Sitronix display bindings in the kernel don't currently
-define a supply property (running "git grep -i supply
-Documentation/devicetree/bindings/display/sitronix*" confirmed this),
-I agree it should be included for a complete binding. I'll define it
-as a fixed-regulator in my display DT node.
+v2:
+- Rebase (Thomas Hellström)
+v3:
+- Remove Fixes tag.
+v4:
+- Break out from series since the other patch was merged.
+- Update patch subject, ensure dri-devel and Maarten are CC'd.
 
->
->
-> Best regards,
-> Krzysztof
+Cc: Maarten Lankhorst <maarten.lankhorst@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+---
+ drivers/gpu/drm/drm_gpusvm.c    | 6 ++++--
+ drivers/gpu/drm/xe/xe_userptr.c | 4 +++-
+ include/drm/drm_gpusvm.h        | 4 ++++
+ 3 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index cb906765897e..73e550c8ff8c 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1363,7 +1363,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+ 		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
+ 		if (is_device_private_page(page) ||
+ 		    is_device_coherent_page(page)) {
+-			if (zdd != page->zone_device_data && i > 0) {
++			if (!ctx->allow_mixed &&
++			    zdd != page->zone_device_data && i > 0) {
+ 				err = -EOPNOTSUPP;
+ 				goto err_unmap;
+ 			}
+@@ -1399,7 +1400,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+ 		} else {
+ 			dma_addr_t addr;
+ 
+-			if (is_zone_device_page(page) || pagemap) {
++			if (is_zone_device_page(page) ||
++			    (pagemap && !ctx->allow_mixed)) {
+ 				err = -EOPNOTSUPP;
+ 				goto err_unmap;
+ 			}
+diff --git a/drivers/gpu/drm/xe/xe_userptr.c b/drivers/gpu/drm/xe/xe_userptr.c
+index f16e92cd8090..0d9130b1958a 100644
+--- a/drivers/gpu/drm/xe/xe_userptr.c
++++ b/drivers/gpu/drm/xe/xe_userptr.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2025 Intel Corporation
+  */
+ 
++#include "xe_svm.h"
+ #include "xe_userptr.h"
+ 
+ #include <linux/mm.h>
+@@ -54,7 +55,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma)
+ 	struct xe_device *xe = vm->xe;
+ 	struct drm_gpusvm_ctx ctx = {
+ 		.read_only = xe_vma_read_only(vma),
+-		.device_private_page_owner = NULL,
++		.device_private_page_owner = xe_svm_devm_owner(xe),
++		.allow_mixed = true,
+ 	};
+ 
+ 	lockdep_assert_held(&vm->lock);
+diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
+index b92faa9a26b2..632e100e6efb 100644
+--- a/include/drm/drm_gpusvm.h
++++ b/include/drm/drm_gpusvm.h
+@@ -235,6 +235,9 @@ struct drm_gpusvm {
+  * @read_only: operating on read-only memory
+  * @devmem_possible: possible to use device memory
+  * @devmem_only: use only device memory
++ * @allow_mixed: Allow mixed mappings in get pages. Mixing between system and
++ *               single dpagemap is supported, mixing between multiple dpagemap
++ *               is unsupported.
+  *
+  * Context that is DRM GPUSVM is operating in (i.e. user arguments).
+  */
+@@ -246,6 +249,7 @@ struct drm_gpusvm_ctx {
+ 	unsigned int read_only :1;
+ 	unsigned int devmem_possible :1;
+ 	unsigned int devmem_only :1;
++	unsigned int allow_mixed :1;
+ };
+ 
+ int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
+-- 
+2.51.0
+
