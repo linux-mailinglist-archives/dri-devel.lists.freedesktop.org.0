@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77E1BDEB5A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32134BDEBD9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:24:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E3A10E184;
-	Wed, 15 Oct 2025 13:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D97110E7E4;
+	Wed, 15 Oct 2025 13:24:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tNH2wHcG";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DADEB10E184
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:18:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 955B3106F;
- Wed, 15 Oct 2025 06:18:26 -0700 (PDT)
-Received: from [10.1.31.33] (e122027.cambridge.arm.com [10.1.31.33])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 965E13F6A8;
- Wed, 15 Oct 2025 06:18:31 -0700 (PDT)
-Message-ID: <982d0fb9-a987-4b7f-ba9d-1a87b19e275f@arm.com>
-Date: Wed, 15 Oct 2025 14:18:29 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 380C910E7E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:24:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DEFA945440;
+ Wed, 15 Oct 2025 13:24:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C4B7C2BC87;
+ Wed, 15 Oct 2025 13:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760534684;
+ bh=+PQNqX6gMuYpsO5dyv6A77vO1jpZNDtI0y4dh0PlVsg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tNH2wHcGLKEopWnn6dtv3Guntm2gDqa28wUfwL7veY1feRvROo/0HdYgMSYoieIYm
+ 3rzdAECnSHKGJ/UXeqdJErE9r3dYGT7BhbpLW+FOXaVBfm/QK0qoOctjLWjZ0HqO9j
+ 7GOT1sxoQ4tHehql3ulZjEYyeKJC2LZlwakqKYeHi8IK0CkWV8dW9iUYlLlTrHG19L
+ FCbMtJiUgOhcAN+m5h0b+4l+5PNFQYpmkAIGOF4xx8wynBMhRdc8gyde0XgIsLsejY
+ yyoFXyFQDN38p8XG6KKYnhZrcODRMQ1plSTEghFIteWZHGXdVgAvqlM6w5ov+J1Ww7
+ KTuthKBgE25Ug==
+Date: Wed, 15 Oct 2025 08:24:42 -0500
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH 01/39] dt-bindings: display: imx: Document i.MX95 Display
+ Controller DomainBlend
+Message-ID: <20251015132442.GA3241958-robh@kernel.org>
+References: <20251011170213.128907-1-marek.vasut@mailbox.org>
+ <20251011170213.128907-2-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/13] drm/panfrost: Expose the selected coherency
- protocol to the UMD
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
- <20251010101147.3290604-10-boris.brezillon@collabora.com>
- <2e85c917-4e49-4cb2-ba2c-edb35907860d@arm.com>
- <20251015134159.74b42ec4@fedora>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251015134159.74b42ec4@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251011170213.128907-2-marek.vasut@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,106 +68,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/10/2025 12:41, Boris Brezillon wrote:
-> On Fri, 10 Oct 2025 15:50:58 +0100
-> Steven Price <steven.price@arm.com> wrote:
+On Sat, Oct 11, 2025 at 06:51:16PM +0200, Marek Vasut wrote:
+> i.MX95 Display Controller display engine consists of all processing
+> units that operate in a display clock domain. Document DomainBlend
+> block which is specific to i.MX95 and required to get any display
+> output on that SoC.
 > 
->> On 10/10/2025 11:11, Boris Brezillon wrote:
->>> Will be needed if we want to skip CPU cache maintenance operations when
->>> the GPU can snoop CPU caches.
->>>
->>> v2:
->>> - New commit
->>>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> ---
->>>  drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
->>>  drivers/gpu/drm/panfrost/panfrost_drv.c    |  1 +
->>>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 18 +++++++++++++++++-
->>>  drivers/gpu/drm/panfrost/panfrost_regs.h   |  2 ++
->>>  include/uapi/drm/panfrost_drm.h            |  7 +++++++
->>>  5 files changed, 28 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> index 1e73efad02a8..bd38b7ae169e 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> @@ -75,6 +75,7 @@ struct panfrost_features {
->>>  	u32 thread_max_workgroup_sz;
->>>  	u32 thread_max_barrier_sz;
->>>  	u32 coherency_features;
->>> +	u32 selected_coherency;
->>>  	u32 afbc_features;
->>>  	u32 texture_features[4];
->>>  	u32 js_features[16];
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> index 607a5b8448d0..3ffcd08f7745 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->>> @@ -94,6 +94,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->>>  		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
->>>  		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
->>>  		PANFROST_FEATURE(THREAD_TLS_ALLOC, thread_tls_alloc);
->>> +		PANFROST_FEATURE(SELECTED_COHERENCY, selected_coherency);
->>>  
->>>  	case DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP:
->>>  		ret = panfrost_ioctl_query_timestamp(pfdev, &param->value);
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
->>> index 174e190ba40f..fed323e6a307 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
->>> @@ -260,7 +260,23 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
->>>  	pfdev->features.max_threads = gpu_read(pfdev, GPU_THREAD_MAX_THREADS);
->>>  	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
->>>  	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
->>> -	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
->>> +
->>> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_COHERENCY_REG))
->>> +		pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
->>> +	else
->>> +		pfdev->features.coherency_features = COHERENCY_ACE_LITE;
->>> +
->>> +	if (!pfdev->coherent) {
->>> +		pfdev->features.selected_coherency = COHERENCY_NONE;
->>> +	} else if (pfdev->features.coherency_features & COHERENCY_ACE) {
->>> +		pfdev->features.selected_coherency = COHERENCY_ACE;
->>> +	} else if (pfdev->features.coherency_features & COHERENCY_ACE_LITE) {
->>> +		pfdev->features.selected_coherency = COHERENCY_ACE_LITE;
->>> +	} else {
->>> +		drm_WARN(pfdev->ddev, true, "No known coherency protocol supported");
->>> +		pfdev->features.selected_coherency = COHERENCY_NONE;
->>> +	}  
->>
->> Same comment as for panthor about not using bits when we can't have more
->> than one. But also here because selected_coherency is only a UAPI
->> concept, it would make sense to use the UAPI values, i.e.
->> DRM_PANFROST_GPU_COHERENCY_ACE_LITE etc rather than the private
->> COHERENCY_ACE_LITE defines.
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+> ---
+> Cc: Abel Vesa <abelvesa@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-clk@vger.kernel.org
+> ---
+>  .../display/imx/fsl,imx95-dc-domainblend.yaml | 32 +++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
 > 
-> For simplicity (we simply copy the coherency_features from the GPU reg
-> at the moment), I want the HW/uAPI values to match, so I've added
-> BUILD_BUG_ON()s. And I think I'd prefer to stick to the defs in
-> panfrost_regs.h, such that if we ever end up writing that back to
-> COHERENCY_ENABLE on newer HW, it's obvious we based the initialization
-> on those HW values.
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
+> new file mode 100644
+> index 0000000000000..703f98e3321e8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
+> @@ -0,0 +1,32 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx95-dc-domainblend.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX95 Display Controller Domain Blend Unit
+> +
+> +description: Combines two input frames to a single output frame.
+> +
+> +maintainers:
+> +  - Marek Vasut <marek.vasut@mailbox.org>
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx95-dc-domainblend
+> +
+> +  reg:
+> +    maxItems: 1
 
-Yeah, BUILD_BUG_ON works as well. It just seemed a little fragile to be
-using the 'wrong' symbol - and we're messed these symbols up before ;)
+No clocks or other resources?
 
->>
->> Although there is actually a COHERENCY_ENABLE register on some GPUs
->> (BASE_HW_FEATURE_COHERENCY_REG in the kbase driver). Looks like it was
->> probably introduced for Bifrost. But AFAIK the above checks should be ok.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    domainblend@4b6a0000 {
+> +        compatible = "fsl,imx95-dc-domainblend";
+> +        reg = <0x4b6a0000 0x10>;
+> +    };
+> -- 
+> 2.51.0
 > 
-> Yep. I didn't dare writing it back, because it's working as-is on all
-> supported HW, and I don't want to regress things. Not that I've played
-> with this COHERENCY_ENABLE reg on my amlogic board, which is coherent,
-> to fake a non-coherent setup, and it works like a charm :-).
-> 
-
-Yeah, I don't know if it's actually useful beyond testing the
-non-coherent mode, so probably not worth changing things.
-
-Thanks,
-Steve
-
