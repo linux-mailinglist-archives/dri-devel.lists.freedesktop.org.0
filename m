@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9702CBDF5BB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 17:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FD6BDF5C4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 17:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3D110E82A;
-	Wed, 15 Oct 2025 15:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC93310E82D;
+	Wed, 15 Oct 2025 15:30:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UGlk5dxE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VHdkIRj7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC6A10E829;
- Wed, 15 Oct 2025 15:30:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F1010E82C;
+ Wed, 15 Oct 2025 15:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760542223;
- bh=iAfD1supnmTcutAfLpNBfRXCPSsq6a/c6jvRpYWxSK8=;
- h=From:To:Cc:Subject:Date:From;
- b=UGlk5dxEuSjLSbtT9NmUo94HkIqMWhZRQe/oeGpEimv/hJEBjdk3BcyV5kSqV1qFa
- H/9zyuU8p3Z7piOmEN9VOOJ30qinzDf1k2O9I6nZMNV5XyqcpGh2EQMpjNZzGItgBk
- 29piFiyIr/XMCDqs3LYAjvVw8RsnBB3LCJfkcf3o1E2kOJWzDUkt5l41LpSccu7HL+
- Qzs5CSAVpTtmJhJN50tT3kW2nPJb+Sdhf/90KFqUBCoqeKVrMzBU9Wy3bR3BiXg43I
- lFIuS309BpebbEmyj2TCMc0M31FWcyEuCry6RfknT2s1FTCasFcYFaZs8kPxQhtHzO
- KLs9wihkZOyWA==
+ s=mail; t=1760542227;
+ bh=sQcBV/ZWlVLGeAwivyndjv3Kv+k/mZS823qVLbIeFmg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VHdkIRj7sg4VwSgsQanwXYtbK/UcvTe7EmUkEqqxHkXOqGzYygtHQ7zYKzTzN0BW0
+ DVlMfVVHuUVa4r3IHy86HYMx7KYMhmY6osKmaU4PMNbo+WlYSZefsYM7zb639o0aA/
+ ywmDIaSM8jVfaDD9GVr7KGmxiAMWOMnqZJI4O5IeZq7EcOlIu749ykkS7wXJ2xxBD4
+ Qb3umxLKhtjCGU/3anoP0khorYvpn7lF4YwEktiPC00IvTmS5qwmS1vf0pjGegIhmI
+ cxfqel3TgrUMeNW//bU37J3wRhpV55lJlZy1Qeq8HVTySPa4FIJHJRhrHnwvayxp17
+ yopEYsaDRwSIA==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 00C5417E1060;
- Wed, 15 Oct 2025 17:30:22 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0BD0E17E1340;
+ Wed, 15 Oct 2025 17:30:27 +0200 (CEST)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -60,10 +60,13 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v4 00/13] drm: Reduce page tables overhead with THP
-Date: Wed, 15 Oct 2025 17:30:04 +0200
-Message-ID: <20251015153018.43735-1-loic.molinari@collabora.com>
+Subject: [PATCH v4 01/13] drm/shmem-helper: Simplify page offset calculation
+ in fault handler
+Date: Wed, 15 Oct 2025 17:30:05 +0200
+Message-ID: <20251015153018.43735-2-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251015153018.43735-1-loic.molinari@collabora.com>
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -82,80 +85,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series aims to reduce the page tables overhead of DRM drivers for
-builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
-knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
-set or drivers using a dedicated huge tmpfs mount point.
+For a fault at address addr, the page offset is
+  page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT
+              = ((addr & PAGE_MASK) - vma->vm_start) >> PAGE_SHIFT
+	      = (addr - vma->vm_start) >> PAGE_SHIFT
 
-It starts by implementing a map_pages handler for GEM objects to map
-pages around a faulty address in a single batch. It also checks in
-both the fault and fault-around handlers whether a faulty address is
-part of a huge page in order to attempt a PMD sized PFN insertion into
-the VMA. It then introduces a dedicated get_unmapped_area file
-operation on the DRM file descriptor for GEM objects to get the best
-virtual address alignment for the underlying shmem buffers.
+Since the faulty logical page offset based on VMA is
+  vmf->pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
 
-The remaining commits propose shmem helpers to create and release huge
-tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
-then used to optionally enable Transparent Hugepage for Panfrost and
-Panthor.
+We can slightly simplify the calculation using
+  page_offset = vmf->pgoff - vma->vm_pgoff
 
-For Panthor on a Rock 5B, this series makes the first memcpy() to an
-entire BO object mapped in userspace about twice as fast with
-Transparent Hugepage enabled.
+Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Loïc Molinari (13):
-  drm/shmem-helper: Simplify page offset calculation in fault handler
-  drm/shmem-helper: Implement map_pages fault-around handler
-  drm/shmem-helper: Map huge pages in fault handlers
-  drm/gem: Introduce drm_gem_get_unmapped_area() fop
-  drm/gem: Add huge tmpfs mount point helper
-  drm/i915: Use huge tmpfs mount point helper
-  drm/v3d: Use huge tmpfs mount point helper
-  drm/v3d: Fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-  drm/gem: Get rid of *_with_mnt helpers
-  drm/panthor: Introduce huge tmpfs mount point option
-  drm/panthor: Improve IOMMU map/unmap debugging logs
-  drm/panfrost: Introduce huge tmpfs mount point option
-  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
-
- Documentation/gpu/drm-mm.rst                  |  25 ++-
- drivers/gpu/drm/drm_gem.c                     | 199 +++++++++++++-----
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 138 ++++++++----
- drivers/gpu/drm/i915/Makefile                 |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  47 +++--
- drivers/gpu/drm/i915/gem/i915_gemfs.c         |  69 ------
- drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
- .../gpu/drm/i915/gem/selftests/huge_pages.c   |  10 +-
- drivers/gpu/drm/i915/i915_drv.h               |   5 -
- drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
- drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
- drivers/gpu/drm/panfrost/panfrost_drv.h       |  11 +
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  19 ++
- drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
- drivers/gpu/drm/panthor/panthor_device.c      |   3 +
- drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
- drivers/gpu/drm/panthor/panthor_drv.h         |  11 +
- drivers/gpu/drm/panthor/panthor_gem.c         |  19 ++
- drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
- drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
- drivers/gpu/drm/v3d/Makefile                  |   3 +-
- drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
- drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
- drivers/gpu/drm/v3d/v3d_drv.h                 |  13 +-
- drivers/gpu/drm/v3d/v3d_gem.c                 |  29 ++-
- drivers/gpu/drm/v3d/v3d_gemfs.c               |  60 ------
- include/drm/drm_device.h                      |  11 +
- include/drm/drm_gem.h                         |   8 +-
- include/drm/drm_gem_shmem_helper.h            |   3 -
- mm/shmem.c                                    |   1 +
- 30 files changed, 456 insertions(+), 292 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
- create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
- delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
-
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index dc94a27710e5..be89be1c804c 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -577,8 +577,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	struct page *page;
+ 	pgoff_t page_offset;
+ 
+-	/* We don't use vmf->pgoff since that has the fake offset */
+-	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	/* Offset to faulty address in the VMA (without the fake offset). */
++	page_offset = vmf->pgoff - vma->vm_pgoff;
+ 
+ 	dma_resv_lock(shmem->base.resv, NULL);
+ 
 -- 
 2.47.3
 
