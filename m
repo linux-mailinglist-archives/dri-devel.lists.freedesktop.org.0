@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC937BDEE5C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 16:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F36BDEDFE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5A410E804;
-	Wed, 15 Oct 2025 14:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D90DA10E7FC;
+	Wed, 15 Oct 2025 13:58:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="etPkvPo0";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="QvzMzjo0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 319 seconds by postgrey-1.36 at gabe;
- Wed, 15 Oct 2025 14:03:27 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1B510E804
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 14:03:27 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C62E10E7FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1760537005; x=1761141805; i=natalie.vock@gmx.de;
- bh=8ee9aeFGO7Ecar5112J8Y7NqevKLfXwHmxfmTmH+umE=;
+ s=s31663417; t=1760536672; x=1761141472; i=natalie.vock@gmx.de;
+ bh=jUP3qCgF//ScbF5bFjG0nFq6Kt8z8eeKDh3pZNjxC5o=;
  h=X-UI-Sender-Class:From:Date:Subject:MIME-Version:Content-Type:
  Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
  cc:content-transfer-encoding:content-type:date:from:message-id:
  mime-version:reply-to:subject:to;
- b=etPkvPo0Qg+SM+iPvUd7qhaf9ILaxd10kV3YyFXlIt8M6XB1OpeMtZUFOJafi9rF
- IKzfskMj3seH0roymmApF/SPRl3qp1x2dL7JKVJ+95c3jPxCKyCtOo2r2il7Db5Sf
- JiNZ+oreyWIcqB6HSxzi/GBjwP3qunP6uyi8h10NXGg5PDOYHWhP6HiCqV+vi5iPX
- WNamJE2nycKE8BxYMw3W3UfjnmlHeUmL0HXhHbFLbuwkry/XKXevdwgRsuaXjKwPe
- /UgjtvDf8GFVY+3/uyz77+9ydz9rTlwDckSS5lnp9t8Fhrhm4RlRGkIr8AG8pEUFH
- rih3Cnoqg2g9oCz5Og==
+ b=QvzMzjo0L0NvJe0ykLHLJe9vLBOAKpM9ARdcn15n3cP20sbMX0GfT7eqD6z2QfGr
+ iB8C40+S4tQj5d4UjF79qrV35EAApUM1YsY4w8W1oky/nyXgNBXg57XzvgJOokiX9
+ lgjLcLGRgg9e/s8nql+p36fL9dsAaXL5baNjW4zohwAbqMqDQmVW2xeF/Cao7tnUb
+ miO8NvDlx7D9zyl0HOaadSvgXDu1DJrvllIatIEK1Trw3XJGWRrMeK8yQGITloA+f
+ AowrwvDGwlgYEqXJ+Iy2p9Dx0CcsNexJYk+7bgupvFGZIM4A/INoiR6PkIuoU3/6H
+ Pf8ahOQ5pyUKofyGiw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.0.3] ([109.91.201.165]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmlT2-1uPDg122Vi-00nqMS; Wed, 15
- Oct 2025 15:57:51 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVvPD-1uhIVp1puH-00WaKJ; Wed, 15
+ Oct 2025 15:57:52 +0200
 From: Natalie Vock <natalie.vock@gmx.de>
-Date: Wed, 15 Oct 2025 15:57:28 +0200
-Subject: [PATCH v2 1/5] cgroup/dmem: Add queries for protection values
+Date: Wed, 15 Oct 2025 15:57:29 +0200
+Subject: [PATCH v2 2/5] cgroup/dmem: Add dmem_cgroup_common_ancestor helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <20251015-dmemcg-aggressive-protect-v2-1-36644fb4e37f@gmx.de>
+Message-Id: <20251015-dmemcg-aggressive-protect-v2-2-36644fb4e37f@gmx.de>
 References: <20251015-dmemcg-aggressive-protect-v2-0-36644fb4e37f@gmx.de>
 In-Reply-To: <20251015-dmemcg-aggressive-protect-v2-0-36644fb4e37f@gmx.de>
 To: Maarten Lankhorst <dev@lankhorst.se>, 
@@ -55,82 +53,83 @@ To: Maarten Lankhorst <dev@lankhorst.se>,
  Simona Vetter <simona@ffwll.ch>
 Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Provags-ID: V03:K1:aHKk0CaAbbQIwBRXw+cNuUaWCKK7YJ1AJ9ekJlEvdsXFxu5wotI
- HHnPou6A6D2OC5WRm79Z2/jVUm4TlIZvQ8SQoOAkEUGARsfHpuC1hMqnqlwghpLfMUXhitY
- /7cUles02jmfIqwIs+Rrb3F5zsW3bfzSpAk5Ndo1iRu1y+lJpNGLyMDPaSCmeNwcnm9neaw
- QY1CF8W68/V9fNFDLzmGw==
+X-Provags-ID: V03:K1:DGGDhYKxLzy//RADh2iYfAGbJAGJAw0xtp647w7YBHjnAl4OyyQ
+ rkL1Y6mSfLWbLyDPFF/xYUTnM+olKUiTWgvlCACIHLUr4aLi8ZsRNo39Q6UCKWVtR1FjDL8
+ 1QGhGMwzmFvglH7D9susAj4Kt4WdjcY0t03wj9UTm5+Nbk8UfaqGdWxO0edyhL5rCwZxFFk
+ DizUimbz3IEbhcxN4euGg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Q8/jj92xL7o=;WZeWEohQ6h3TIWzMeFiGMBnkB0K
- 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
+UI-OutboundReport: notjunk:1;M01:P0:FFu/mgCGo2U=;PKP3eRqPWQQ+ksrbISHnbPltYyd
+ 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
+ v6Mkg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,53 +145,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Callers can use this feedback to be more aggressive in making space for
-allocations of a cgroup if they know it is protected.
-
-These are counterparts to memcg's mem_cgroup_below_{min,low}.
+This helps to find a common subtree of two resources, which is important
+when determining whether it's helpful to evict one resource in favor of
+another.
 
 Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
 =2D--
- include/linux/cgroup_dmem.h | 16 +++++++++++++++
- kernel/cgroup/dmem.c        | 48 ++++++++++++++++++++++++++++++++++++++++=
-+++++
- 2 files changed, 64 insertions(+)
+ include/linux/cgroup_dmem.h |  9 +++++++++
+ kernel/cgroup/dmem.c        | 25 +++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
 diff --git a/include/linux/cgroup_dmem.h b/include/linux/cgroup_dmem.h
-index dd4869f1d736e26847578e81377e40504bbba90f..1a88cd0c9eb00409ddd07d1f06=
-eb63d2e55e8805 100644
+index 1a88cd0c9eb00409ddd07d1f06eb63d2e55e8805..444b84f4c253aded9e4e59d051=
+e3ac34a851b9d7 100644
 =2D-- a/include/linux/cgroup_dmem.h
 +++ b/include/linux/cgroup_dmem.h
-@@ -24,6 +24,10 @@ void dmem_cgroup_uncharge(struct dmem_cgroup_pool_state=
- *pool, u64 size);
- bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limi=
-t_pool,
- 				      struct dmem_cgroup_pool_state *test_pool,
- 				      bool ignore_low, bool *ret_hit_low);
-+bool dmem_cgroup_below_min(struct dmem_cgroup_pool_state *root,
-+			   struct dmem_cgroup_pool_state *test);
-+bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *root,
-+			   struct dmem_cgroup_pool_state *test);
+@@ -28,6 +28,8 @@ bool dmem_cgroup_below_min(struct dmem_cgroup_pool_state=
+ *root,
+ 			   struct dmem_cgroup_pool_state *test);
+ bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *root,
+ 			   struct dmem_cgroup_pool_state *test);
++struct dmem_cgroup_pool_state *dmem_cgroup_common_ancestor(struct dmem_cg=
+roup_pool_state *a,
++							   struct dmem_cgroup_pool_state *b);
 =20
  void dmem_cgroup_pool_state_put(struct dmem_cgroup_pool_state *pool);
  #else
-@@ -59,6 +63,18 @@ bool dmem_cgroup_state_evict_valuable(struct dmem_cgrou=
-p_pool_state *limit_pool,
- 	return true;
+@@ -75,6 +77,13 @@ static inline bool dmem_cgroup_below_low(struct dmem_cg=
+roup_pool_state *root,
+ 	return false;
  }
 =20
-+static inline bool dmem_cgroup_below_min(struct dmem_cgroup_pool_state *r=
-oot,
-+					 struct dmem_cgroup_pool_state *test)
++static inline
++struct dmem_cgroup_pool_state *dmem_cgroup_common_ancestor(struct dmem_cg=
+roup_pool_state *a,
++							   struct dmem_cgroup_pool_state *b)
 +{
-+	return false;
-+}
-+
-+static inline bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *r=
-oot,
-+					 struct dmem_cgroup_pool_state *test)
-+{
-+	return false;
++	return NULL;
 +}
 +
  static inline void dmem_cgroup_pool_state_put(struct dmem_cgroup_pool_sta=
@@ -200,68 +189,42 @@ te *pool)
  { }
 =20
 diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 10b63433f05737cc43a87029f2306147283a77ff..ece23f77f197f1b2da3ee322ff=
-176460801907c6 100644
+index ece23f77f197f1b2da3ee322ff176460801907c6..0914fc8fd97f49d246da0344ab=
+edaf9244e8fbad 100644
 =2D-- a/kernel/cgroup/dmem.c
 +++ b/kernel/cgroup/dmem.c
-@@ -641,6 +641,54 @@ int dmem_cgroup_try_charge(struct dmem_cgroup_region =
-*region, u64 size,
+@@ -689,6 +689,31 @@ bool dmem_cgroup_below_low(struct dmem_cgroup_pool_st=
+ate *root,
  }
- EXPORT_SYMBOL_GPL(dmem_cgroup_try_charge);
+ EXPORT_SYMBOL_GPL(dmem_cgroup_below_low);
 =20
 +/**
-+ * dmem_cgroup_below_min() - Tests whether current usage is within min li=
-mit.
++ * dmem_cgroup_common_ancestor(): Find the first common ancestor of two p=
+ools.
++ * @a: First pool to find the common ancestor of.
++ * @b: First pool to find the common ancestor of.
 + *
-+ * @root: Root of the subtree to calculate protection for, or NULL to cal=
-culate global protection.
-+ * @test: The pool to test the usage/min limit of.
-+ *
-+ * Return: true if usage is below min and the cgroup is protected, false =
-otherwise.
++ * Return: The first pool that is a parent of both @a and @b, or NULL if =
+either @a or @b are NULL.
 + */
-+bool dmem_cgroup_below_min(struct dmem_cgroup_pool_state *root,
-+			   struct dmem_cgroup_pool_state *test)
++struct dmem_cgroup_pool_state *dmem_cgroup_common_ancestor(struct dmem_cg=
+roup_pool_state *a,
++							   struct dmem_cgroup_pool_state *b)
 +{
-+	if (root =3D=3D test || !pool_parent(test))
-+		return false;
++	struct dmem_cgroup_pool_state *parent;
 +
-+	if (!root) {
-+		for (root =3D test; pool_parent(root); root =3D pool_parent(root))
-+			{}
++	while (a) {
++		parent =3D b;
++		while (parent) {
++			if (a =3D=3D parent)
++				return a;
++			parent =3D pool_parent(parent);
++		}
++		a =3D pool_parent(a);
 +	}
-+
-+	dmem_cgroup_calculate_protection(root, test);
-+	return page_counter_read(&test->cnt) <=3D READ_ONCE(test->cnt.emin);
++	return NULL;
 +}
-+EXPORT_SYMBOL_GPL(dmem_cgroup_below_min);
-+
-+/**
-+ * dmem_cgroup_below_low() - Tests whether current usage is within low li=
-mit.
-+ *
-+ * @root: Root of the subtree to calculate protection for, or NULL to cal=
-culate global protection.
-+ * @test: The pool to test the usage/low limit of.
-+ *
-+ * Return: true if usage is below low and the cgroup is protected, false =
-otherwise.
-+ */
-+bool dmem_cgroup_below_low(struct dmem_cgroup_pool_state *root,
-+			   struct dmem_cgroup_pool_state *test)
-+{
-+	if (root =3D=3D test || !pool_parent(test))
-+		return false;
-+
-+	if (!root) {
-+		for (root =3D test; pool_parent(root); root =3D pool_parent(root))
-+			{}
-+	}
-+
-+	dmem_cgroup_calculate_protection(root, test);
-+	return page_counter_read(&test->cnt) <=3D READ_ONCE(test->cnt.elow);
-+}
-+EXPORT_SYMBOL_GPL(dmem_cgroup_below_low);
++EXPORT_SYMBOL_GPL(dmem_cgroup_common_ancestor);
 +
  static int dmem_cgroup_region_capacity_show(struct seq_file *sf, void *v)
  {
