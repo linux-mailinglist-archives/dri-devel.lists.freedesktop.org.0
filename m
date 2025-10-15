@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EF8BDE9A3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7468BDE9A6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59D7210E7C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C69B10E7CD;
 	Wed, 15 Oct 2025 13:01:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="p1QOIc4v";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Hvfo0te7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C44C210E7BC
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:01:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64F1410E7C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760533278;
- bh=6fiTcDrmtcfUFUMhD9UST8RpN/ZT9xdN/eKH+YnvTNU=;
+ s=mail; t=1760533279;
+ bh=uCcbLS+J/Noc5zR09uTzrIRqKJOKdeddU5Br8Z2wlvI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p1QOIc4v1l2+WnzOY46tkn5UvSMPHBhZckd3NOjMSZyr/G1dzXpa5xHSwBUye4GZ+
- hTl0XtI0KTTk0N2WdBNtmcCaGsLX/zpqtxru4KAYYkRmrCROVkTIvA7DmUDDXv4C0G
- 05b86pIRQmIhaqi881twioSrwq7pqALoUvlBW+M3YzMkNXQY+nwETey61Pm6A3skfP
- 3nh7TPj+u8SqNSMPbNo05bmNAzStgMH9oLcXxtDrvy2JlyxF50LWB9K0D+2oTWn198
- dKKAPzgjl3ZeHBbv2HIEpg3gw+HN54S8UGUlPkn0zD0AWaqu6jd6qeu4PHjgz06ERb
- yMsM4+dcsV67g==
+ b=Hvfo0te7zTeSdTQNRJvjIfai/cMfC+W7FSZnp3YzXRpFAOLVNQsQoeakZOJ/Tzogq
+ vFdpQRdNmaE3OhFqLvDHDfR1SqFlIE8YpCJcuepeAyN20G7FQVUbjKyXs2A/zinPsZ
+ lyL8biPNt+Sprt8z0vu/+lG23dQSkCK2KTj9TZScqrHmIypRbuKsC9l1aWgs5UEQ+l
+ H8LEAvnh0C51PuZktt0YsTQO2jkLShUGRS4Zmsrce1JBrTsn0SE0wSU0V5y5zZ1ck1
+ X0yYWnv/p3XGXpk+Fyg5vuzKBJJscOVygy46IxJaRKs+IKiibWvZX7s95DRJ2qck+r
+ Ob/YizhQyETSA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1BA3F17E14DD;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A047017E14FF;
  Wed, 15 Oct 2025 15:01:18 +0200 (CEST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
@@ -39,11 +39,12 @@ Cc: dri-devel@lists.freedesktop.org,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v3 09/14] drm/panthor: Bump the driver version to 1.6
-Date: Wed, 15 Oct 2025 15:00:58 +0200
-Message-ID: <20251015130103.3634560-10-boris.brezillon@collabora.com>
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
+Subject: [PATCH v3 10/14] drm/panfrost: Expose the selected coherency protocol
+ to the UMD
+Date: Wed, 15 Oct 2025 15:00:59 +0200
+Message-ID: <20251015130103.3634560-11-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015130103.3634560-1-boris.brezillon@collabora.com>
 References: <20251015130103.3634560-1-boris.brezillon@collabora.com>
@@ -64,48 +65,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
-
-Bump the driver version to reflect the new cached-CPU mapping
-capability.
+Will be needed if we want to skip CPU cache maintenance operations when
+the GPU can snoop CPU caches.
 
 v2:
-- Quickly describe what the new version exposes in the commit message
+- New commit
 
 v3:
-- Add Steve's R-b
+- Fix the coherency values (enum instead of bitmask)
 
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |  1 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    | 22 +++++++++++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   | 10 ++++++++--
+ include/uapi/drm/panfrost_drm.h            |  7 +++++++
+ 5 files changed, 38 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d2c321404a75..9d626ce66ad7 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1675,6 +1675,10 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-+ * - 1.6 - adds DRM_PANTHOR_BO_WB_MMAP flag
-+ *       - adds DRM_IOCTL_PANTHOR_BO_SYNC ioctl
-+ *       - adds DRM_IOCTL_PANTHOR_BO_QUERY_INFO ioctl
-+ *       - adds drm_panthor_gpu_info::selected_coherency
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1688,7 +1692,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.name = "panthor",
- 	.desc = "Panthor DRM driver",
- 	.major = 1,
--	.minor = 5,
-+	.minor = 6,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 1e73efad02a8..bd38b7ae169e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -75,6 +75,7 @@ struct panfrost_features {
+ 	u32 thread_max_workgroup_sz;
+ 	u32 thread_max_barrier_sz;
+ 	u32 coherency_features;
++	u32 selected_coherency;
+ 	u32 afbc_features;
+ 	u32 texture_features[4];
+ 	u32 js_features[16];
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 607a5b8448d0..3ffcd08f7745 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -94,6 +94,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+ 		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
+ 		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
+ 		PANFROST_FEATURE(THREAD_TLS_ALLOC, thread_tls_alloc);
++		PANFROST_FEATURE(SELECTED_COHERENCY, selected_coherency);
  
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+ 	case DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP:
+ 		ret = panfrost_ioctl_query_timestamp(pfdev, &param->value);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 174e190ba40f..c2a563b23fd2 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -260,7 +260,27 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+ 	pfdev->features.max_threads = gpu_read(pfdev, GPU_THREAD_MAX_THREADS);
+ 	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+ 	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
+-	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
++
++	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_COHERENCY_REG))
++		pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
++	else
++		pfdev->features.coherency_features = COHERENCY_ACE_LITE;
++
++	BUILD_BUG_ON(COHERENCY_ACE_LITE != DRM_PANFROST_GPU_COHERENCY_ACE_LITE);
++	BUILD_BUG_ON(COHERENCY_ACE != DRM_PANFROST_GPU_COHERENCY_ACE);
++	BUILD_BUG_ON(COHERENCY_NONE != DRM_PANFROST_GPU_COHERENCY_NONE);
++
++	if (!pfdev->coherent) {
++		pfdev->features.selected_coherency = COHERENCY_NONE;
++	} else if (pfdev->features.coherency_features & BIT(COHERENCY_ACE)) {
++		pfdev->features.selected_coherency = COHERENCY_ACE;
++	} else if (pfdev->features.coherency_features & BIT(COHERENCY_ACE_LITE)) {
++		pfdev->features.selected_coherency = COHERENCY_ACE_LITE;
++	} else {
++		drm_WARN(pfdev->ddev, true, "No known coherency protocol supported");
++		pfdev->features.selected_coherency = COHERENCY_NONE;
++	}
++
+ 	pfdev->features.afbc_features = gpu_read(pfdev, GPU_AFBC_FEATURES);
+ 	for (i = 0; i < 4; i++)
+ 		pfdev->features.texture_features[i] = gpu_read(pfdev, GPU_TEXTURE_FEATURES(i));
+diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+index 2b8f1617b836..ee15f6bf6e6f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_regs.h
++++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+@@ -102,9 +102,15 @@
+ #define GPU_L2_PRESENT_LO		0x120	/* (RO) Level 2 cache present bitmap, low word */
+ #define GPU_L2_PRESENT_HI		0x124	/* (RO) Level 2 cache present bitmap, high word */
+ 
++/* GPU_COHERENCY_FEATURES is a bitmask of BIT(COHERENCY_xxx) values encoding the
++ * set of supported coherency protocols. GPU_COHERENCY_ENABLE is passed a
++ * COHERENCY_xxx value.
++ */
+ #define GPU_COHERENCY_FEATURES		0x300	/* (RO) Coherency features present */
+-#define   COHERENCY_ACE_LITE		BIT(0)
+-#define   COHERENCY_ACE			BIT(1)
++#define GPU_COHERENCY_ENABLE		0x304	/* (RW) Coherency protocol selection */
++#define   COHERENCY_ACE_LITE		0
++#define   COHERENCY_ACE			1
++#define   COHERENCY_NONE		31
+ 
+ #define GPU_STACK_PRESENT_LO		0xE00   /* (RO) Core stack present bitmap, low word */
+ #define GPU_STACK_PRESENT_HI		0xE04   /* (RO) Core stack present bitmap, high word */
+diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+index e8b47c9f6976..9bd8fa401400 100644
+--- a/include/uapi/drm/panfrost_drm.h
++++ b/include/uapi/drm/panfrost_drm.h
+@@ -188,6 +188,13 @@ enum drm_panfrost_param {
+ 	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP,
+ 	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP_FREQUENCY,
+ 	DRM_PANFROST_PARAM_ALLOWED_JM_CTX_PRIORITIES,
++	DRM_PANFROST_PARAM_SELECTED_COHERENCY,
++};
++
++enum drm_panfrost_gpu_coherency {
++	DRM_PANFROST_GPU_COHERENCY_ACE_LITE = 0,
++	DRM_PANFROST_GPU_COHERENCY_ACE = 1,
++	DRM_PANFROST_GPU_COHERENCY_NONE = 31,
+ };
+ 
+ struct drm_panfrost_get_param {
 -- 
 2.51.0
 
