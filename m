@@ -2,53 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19835BDF883
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2F5BDF8E9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:08:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E12B610E874;
-	Wed, 15 Oct 2025 16:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4E610E281;
+	Wed, 15 Oct 2025 16:08:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hAsdHkaZ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="YTSBFCuf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z0S9t8sA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YTSBFCuf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z0S9t8sA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A39C10E85B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760544224;
- bh=CzlgBFxbQUDL3Dpi7YgNRa0fUjsqFADMUXdlTHuREr4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hAsdHkaZJ2aZAbCjAjj900RANtlCwjuaPFI5dtFffu1ZK9c9J9KT2CLrs8GXz5ciH
- hSuuMpJZYxjRWANLtsDlozFU/ryqsRueWM9FR4IpKdRNelNLCHOpwEpJMuk7OTwpQd
- DXX0mhsQClmaXWTCTLuKZ7ZnzV6Ktodo0weFcVTZe66KaYxsDU15+ppDZgoYRys7Ir
- giqd/02aTBjBlDPUY8c9ga3FH8jZ3xnK0la8FOyh8YUZOp/X2VVZBBS55rVXaPveTP
- yC3A5vGhGD7w0/j5r0p7hiEWWuyiGRv4rgADEgNWm40nTucWIZQpsX+xjl1hPGZyLu
- elKhAi78kbU9Q==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE4EB10E281
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:08:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 44F2A17E1400;
- Wed, 15 Oct 2025 18:03:44 +0200 (CEST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v4 14/14] drm/panfrost: Bump the driver version to 1.6
-Date: Wed, 15 Oct 2025 18:03:26 +0200
-Message-ID: <20251015160326.3657287-15-boris.brezillon@collabora.com>
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9D8F221165;
+ Wed, 15 Oct 2025 16:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760544501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=2/5SIJg2lKiYJKsot2Y2Vsd3jpOTGCpf7EYx2c3YM60=;
+ b=YTSBFCuf+LUZJjQc5K0xa3wf/xsQgV8+drXYDsL8h66AaaGzRMKc9MCDzoxIBn+UaDhsnp
+ cp0bItPTnGeLTrhdvdTdQHMgFetkviXOofF4FSVOKz6u31vOCMJS0MUfDHwJAsrehz6yuP
+ IIAchYB0D17fLZil8BEkSrtpSWYYieE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760544501;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=2/5SIJg2lKiYJKsot2Y2Vsd3jpOTGCpf7EYx2c3YM60=;
+ b=z0S9t8sAx5ziXrHUgHFiIZ9Xang3WiyLPfjFahzKPH8yMXa0nS8Boc5IINlbHB1x5IU0wD
+ rpmDNalRiDIijRCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YTSBFCuf;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=z0S9t8sA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760544501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=2/5SIJg2lKiYJKsot2Y2Vsd3jpOTGCpf7EYx2c3YM60=;
+ b=YTSBFCuf+LUZJjQc5K0xa3wf/xsQgV8+drXYDsL8h66AaaGzRMKc9MCDzoxIBn+UaDhsnp
+ cp0bItPTnGeLTrhdvdTdQHMgFetkviXOofF4FSVOKz6u31vOCMJS0MUfDHwJAsrehz6yuP
+ IIAchYB0D17fLZil8BEkSrtpSWYYieE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760544501;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=2/5SIJg2lKiYJKsot2Y2Vsd3jpOTGCpf7EYx2c3YM60=;
+ b=z0S9t8sAx5ziXrHUgHFiIZ9Xang3WiyLPfjFahzKPH8yMXa0nS8Boc5IINlbHB1x5IU0wD
+ rpmDNalRiDIijRCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 688AA13A42;
+ Wed, 15 Oct 2025 16:08:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qxVVGPXG72inaQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 15 Oct 2025 16:08:21 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: ardb@kernel.org,
+	jonathan@marek.ca,
+	javierm@redhat.com
+Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/5] efi: x86: Provide EDID from GOP device
+Date: Wed, 15 Oct 2025 17:56:29 +0200
+Message-ID: <20251015160816.525825-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251015160326.3657287-1-boris.brezillon@collabora.com>
-References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 9D8F221165
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[7];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_DN_SOME(0.00)[]; DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +113,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
+Add support for EFI_EDID_ACTIVE_PROTOCOL and EFI_EDID_DISCOVERED_PROTOCOL
+on x86. Refactor the GOP helpers for EDID support, then retrieve the EDID
+into x86 boot_params.
 
-Bump the driver version to reflect the new cached-CPU mapping
-capability.
+Later boot code copies the EDID from the boot parameters into the global
+variable edid_info. Graphics drivers, such as efidrm, can pick up the
+information from there. In the case of efidrm, it provides the EDID to
+user-space compositors, which use it for improved QoS on the display
+output. Similar functionality is already available on old VESA systems
+with vesadrm.
 
-v2:
-- Quickly describe what the new version exposes in the commit message
+Tested on x86 EFI systems.
 
-v3:
-- Add Steve's R-b
+Another patch is required to provide EDID on non-x86 systems via the
+generic EFI stub. The implementation can directly build upon this
+series.
 
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Thomas Zimmermann (5):
+  efi: Fix trailing whitespace in header file
+  efi/libstub: gop: Find GOP handle instead of GOP data
+  efi/libstub: gop: Initialize screen_info in helper function
+  efi/libstub: gop: Add support for reading EDID
+  efi/libstub: x86: Store EDID in boot_params
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 9ca08d148f56..90ed3abaab91 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -934,6 +934,9 @@ static void panfrost_debugfs_init(struct drm_minor *minor)
-  * - 1.4 - adds SET_LABEL_BO
-  * - 1.5 - adds JM_CTX_{CREATE,DESTROY} ioctls and extend SUBMIT to allow
-  *	   context creation with configurable priorities/affinity
-+ * - 1.6 - adds PANFROST_BO_MAP_WB, PANFROST_IOCTL_SYNC_BO,
-+ *	   PANFROST_IOCTL_QUERY_BO_INFO and
-+ *	   DRM_PANFROST_PARAM_SELECTED_COHERENCY
-  */
- static const struct drm_driver panfrost_drm_driver = {
- 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-@@ -946,7 +949,7 @@ static const struct drm_driver panfrost_drm_driver = {
- 	.name			= "panfrost",
- 	.desc			= "panfrost DRM",
- 	.major			= 1,
--	.minor			= 5,
-+	.minor			= 6,
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+ drivers/firmware/efi/libstub/efi-stub.c |   2 +-
+ drivers/firmware/efi/libstub/efistub.h  |  31 +++++-
+ drivers/firmware/efi/libstub/gop.c      | 137 +++++++++++++++---------
+ drivers/firmware/efi/libstub/x86-stub.c |   3 +-
+ include/linux/efi.h                     |   4 +-
+ 5 files changed, 120 insertions(+), 57 deletions(-)
+
 -- 
 2.51.0
 
