@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75931BDE622
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 14:04:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078E4BDE633
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 14:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70FD10E795;
-	Wed, 15 Oct 2025 12:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8EEB10E7A1;
+	Wed, 15 Oct 2025 12:04:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="FjT2tTY1";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="MYoewjL/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
  [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7FB10E79B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 12:04:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD91C10E79F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 12:04:31 +0000 (UTC)
 Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-85e76e886a0so728334785a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 05:04:06 -0700 (PDT)
+ af79cd13be357-88e68c0a7bfso99553585a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 05:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1760529845; x=1761134645;
+ d=fooishbar.org; s=google; t=1760529871; x=1761134671;
  darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=X3tSr4HAvbS0zz40z1XcCEFjgrGlF3qXMnfs2AVWb3Y=;
- b=FjT2tTY1likXYrsS9/NRmwLnHrYQxO4FXckVp1djxQM8DEeFO+p0ZgzkvtWcGpjU8E
- qbM63jgDQwYSTSh39qNkJeFJ+1NHOdZ8BgcDNdbhxvt0B8mu+Zd1ePHMVMeAcWblFjn6
- Hw9WlC1dcs5sOl2tI5FnGf7vUEluIYA0Pf3A+WWH+LAthphRswfYMdw2dC1vTFvIr6GE
- ZwFzCohv4BZ+xGkBrb11EhvmV8isnfyYcvimkrjcdELhca1H4XEuNnqlo9ocadv6rqC+
- ojbY7UVCMAz191V6sbILbYwEJtnLEB3ICgnssKtZ/erpMIV8UQtXxrjxOoZTygBL+3TJ
- jWAA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yIkDzOp9lOkC64phyHj+bKX1qlxxtXvg/X9w367rNpc=;
+ b=MYoewjL/vwDYq3coel9hzz+PwQ17hKdmPqn9U5l3tr4IK/YQM7nYSfkiGpjCOf6vWU
+ jBmJqWtGS9Log4iljNq0wCLe+Q6ZfRTd1m5b9YtXd4oW+pzcXjQgPPQ6Erltlg2+i0ee
+ iquKRXCXhLqf4xtXhTSYzis79paR+2gUbMdg8Qg99Fj/IPBk6qo6m1MEmuUjwgQwASIf
+ qhCAJocJx/V75IBrDE+bL4DVwQh9TUAizsT3NfMd2pb3Xl+0vsjHCCK9nj0zaWAVZGk5
+ SqRxwkuKSp5fqP6yWO9N3EOH7nhW7XUv13KP824M1dKwPX9Z6fJhh7Q/d8QDGZpXheG+
+ /7hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760529845; x=1761134645;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=X3tSr4HAvbS0zz40z1XcCEFjgrGlF3qXMnfs2AVWb3Y=;
- b=YCxqcA21x1L0+wF2I/OkxRmWgtsraaPGaFWIzKLyiAc5YoexQu55tAScvlAAUsGs4X
- ns4jUNeZ+EOfwsNOFaNMYo7BuxayG2yJZ5HSxaoTo+0sGtVkrMSHT39OE+GZRaIhb1Nu
- GhO5Sh2bE0CvPsqB87zq5nmhOstOZbrEvWTxH8mw7IYl8y5DlVs1QkTwzQgp96q0cYB+
- T6heElOBDjWOQGSjVuQOOTBZE7x5ikBXg5FwnMJX8YW3tR3FAirRKUUZE0bQnowvxc80
- VOHljZ/Nw84JYHMu++JgIj+gj7QE6u0PNSW9k0Qrdk3NWHZdZ/005s5h29lWrcE+eOzz
- ngHQ==
-X-Gm-Message-State: AOJu0YyiIbAIh4m2DfGA82Q31GJBKthVZzRcUyehaSry+zyROmC61hZV
- 2MiPASxjOx6OmmVkKb+KIqYRvczg775HkDGeY3xGsaoUchy2aPWtmIT6XfqzCA42wqZr3vqDh+f
- llv0lqyzS9aBhdX8f43GKlwiNtsl/28dLsqAlq0045w==
-X-Gm-Gg: ASbGncvChb+J3IWoZVWNXEO8Yb3rSr3TnsfFfDbYppvUplftHt4Q8phwZQeBL6DB5vM
- AJ4BeRmePTsooMiA05aAtL+F0g1E1z0RcmMHIbt6/qrIHOS7XqFEtMfY9w3FrLL8KYqMdTZToQq
- LMpfZd7fDApzLbAyl1HQixiDJrsc72w2Cz+ZxMFWSGUOYKypXWzq57tkhTnxHi3GHVvp2iw57Ba
- QAxikPg8clbOFxgZ0VSZ0kWP1+cZf6KMg==
-X-Google-Smtp-Source: AGHT+IHqCTndsaW9mNNOpEoxqpK+g671TVftkJwHJncfJRnISWrovh6jkW0GrLsJk4LzlYEdY/SfnIetRnQxqll+9N8=
-X-Received: by 2002:a05:620a:d89:b0:859:7e5d:efb0 with SMTP id
- af79cd13be357-883521dbdb5mr3978297485a.43.1760529845105; Wed, 15 Oct 2025
- 05:04:05 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1760529871; x=1761134671;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yIkDzOp9lOkC64phyHj+bKX1qlxxtXvg/X9w367rNpc=;
+ b=qCMlsIuLXXRO/Oxpd/P2W8TL9mEktretpH+qJ/Ao8XBx8AGxbjjOX9C8gm1zKcq+Jc
+ T9/Yk2x9GIOMVhH1sYxxiR3l8GqK6d06hfMgVVWG5bzvOaPYqk4msQWXmi5wggivut/P
+ 59fx0AkyzsFQjAPwXp65ES1JNyKcR3Nvvcmc0Gi1PG/jjzjp+0mZoJXm5JHYSztUgs29
+ n52dTxR+yj9BvRtK8dy56N6RgXU+GUq2iUR5lzBlHTNze2u9TNuvzyoX7WTuevjwi9M0
+ SC2wWXv3hVWUS5pZCDhbLOppPETk0zZAQxGnRQq1vhS1uUGjHBG70ngwBvkVy+cY1dMn
+ L0zg==
+X-Gm-Message-State: AOJu0YzHaNZaTmSSfAZYvWOcvOY7gL42EdO6rPu7QvV5WRTnVL7FEGfd
+ CvpffEjzcEoUL9qdfHqF7i2UuWVcgBInBOdncHU00HRHTdwNpZNjF/swc57RcDJdbFJPBQc3Quk
+ 57VOJMneC6C+7GEpJM/h/OvQ2AVuxnkNLPCvUSBYj2Q==
+X-Gm-Gg: ASbGncvFec1SC7OGOX5+HBX9Qp4f4e1QXQQ3VMsKQvD0xMq01pmcR5V1ANv+2hFZpc9
+ ahBY+gMk7zQ0vANHM6skYxhV4L1NXdjeycOZK2OQDI4yGFiE+B+wxdUU+hUu0Zdro6gFXvqG+dP
+ ZXYYi4/3TYVYMUsZHXWL7mOJhK8rUkD1jVhVkocr40A2TivzZED6VNbvUGuEHZlGtTNjWjH5Svr
+ RWlYuB5SY/sn7tvgXCxDEcpvWks9959kQ==
+X-Google-Smtp-Source: AGHT+IGsy4ghNUujV8ICs5xCd3l4JFRIFi1WBGAyKhaZaEA9CMFYjjgZCN0vS1WL/9stf48sqTR9sa0kj6mJ0PU2Rkg=
+X-Received: by 2002:a05:620a:800b:b0:85b:5fdf:69ef with SMTP id
+ af79cd13be357-883524cb7c1mr3776426285a.30.1760529870781; Wed, 15 Oct 2025
+ 05:04:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250718105407.32878-1-vignesh.raman@collabora.com>
-In-Reply-To: <20250718105407.32878-1-vignesh.raman@collabora.com>
+References: <20251013060212.14583-1-vignesh.raman@collabora.com>
+In-Reply-To: <20251013060212.14583-1-vignesh.raman@collabora.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 15 Oct 2025 13:03:53 +0100
-X-Gm-Features: AS18NWCXawAF8rrUemNB4cY6pOyINS36FA1C_QZssu58BBI9i4GnKsHpaQ9lquo
-Message-ID: <CAPj87rMRKdm4BvfD8gMmSF3jjeMK4nurzTKPOFY15V0tBr4pyw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/7] drm/ci: add new jobs, uprev IGT and mesa
+Date: Wed, 15 Oct 2025 13:04:18 +0100
+X-Gm-Features: AS18NWBrg_BqO2tS4RN_x8d2btqMDE8us2R2sNEBkP2IYKjicDOGCIjh3Jp7IkM
+Message-ID: <CAPj87rPDppYBRuQ99mh=VqrsSErGKcw-ZRY+zPuGrDj77G5k6Q@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/ci: disable broken MR check in sanity job
 To: Vignesh Raman <vignesh.raman@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com, 
  helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch, 
@@ -73,6 +74,7 @@ Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
  intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,30 +90,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi VIgnesh,
+Hi Vignesh,
 
-On Fri, 18 Jul 2025 at 11:54, Vignesh Raman <vignesh.raman@collabora.com> wrote:
-> This series introduces new jobs to drm-ci for testing the following
-> devices:
-> - rk3588-rock-5b
-> - mt8192-asurada-spherion-r0
+On Mon, 13 Oct 2025 at 07:02, Vignesh Raman <vignesh.raman@collabora.com> w=
+rote:
+> GitLab recently changed the required permissions for the
+> are-developers-allowed-to-push-to-my-MR check:
+> https://gitlab.freedesktop.org/freedesktop/ci-templates/-/issues/81
 >
-> Other updates include:
-> - Uprev IGT and updating test expectations accordingly.
-> - Adapting to recent changes in Mesa CI, such as:
->    - LAVA overlay-based firmware handling
->    - Container/job rule separation
->    - Removal of the python-artifacts job
->    - Use of the Alpine container for LAVA jobs
->    - Various other CI improvements
-> - Disabling bare-metal jobs for apq8016 and apq8096, as these devices
->   are being migrated to LAVA.
-> - Updating the runner tag for i915: cml (switching from hatch to puff)
->   to improve device availability.
-> - Adjusting parallelism in jobs (sm8350-hdk, amly) to better utilize
->   test resources.
+> Until that=E2=80=99s resolved, disable the check - it=E2=80=99s mostly ob=
+solete anyway.
+>
+> Based on https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/37782
 
-Series is:
+Thanks for fixing this.
+
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 
 Cheers,
