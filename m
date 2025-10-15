@@ -2,84 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAF6BDE7D9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 14:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F72BDE8E6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 14:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 004D610E7AB;
-	Wed, 15 Oct 2025 12:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B65D10E7B5;
+	Wed, 15 Oct 2025 12:56:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ichb2kDc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="krH1G6ZH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F31F910E7AB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 12:36:07 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-591b99cb0c4so411092e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 05:36:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760531766; x=1761136566; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mXqZCy2SyArQfSZB6+/vhy8c6RWAc9H5KTcnkJHJQFY=;
- b=Ichb2kDc9vIpuHnMmoCciYPdhTJlSkx3uKLLiYPlTK2pmsSH3iUZv3XQfschPz7098
- nLMM91rrSyhMH9Tu8nCWnXfkeeXjFirD4/FiYjpGF23b95CPYP3A0mFVoZtzRSIWyGuS
- dhAeNCw5w3iGf07V6T1lcJfk4Lo1YavYMaK+pKiECvo77MIy6/oyaqeLXW9yfK6DVhqM
- 46E/i6gup310WAlgFg8u6OMlEoHIs13cC7RRi4A6235aBxZ6PPpwuiPnMLnbJ/Afjlxj
- 8QXNutdziWJ0KwpgUx/XzkUcAzt9IhYem0m/KjuXjjr/kdVUW8lPIiPFEAS8vtj9YRO2
- 11lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760531766; x=1761136566;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mXqZCy2SyArQfSZB6+/vhy8c6RWAc9H5KTcnkJHJQFY=;
- b=GBvCnJeGnl8V17PUJ5V7UkKiCA8vCd2kqDHHu4tE1DcTy6J0DmD/MsGKhMZdb79QSD
- SnPBz4pUxBs540554jFuzI/sBfRVFwX20IBFGcmqGnRths2Yxc1YjoSFoNse8cDOQQbv
- f4Uejfv3IIXBQ6422Sw52MaIZcGSaw+aKhAt4UGBxMZUx7k4WvZfIIQ1HdxRX0bEp/Ff
- Zg2Q/h5Y/nynIDfGUwGIv1PuWVd2M+DrHCSY+ET1T3eiJHXEi+m8FGLsxgmKAdISqJuS
- RQK0L66e9gK1588RSTDpeAZ6cgGaRhStQGYDuGdVyDZtOhqBShbzJTZHuy1ozaWERl6P
- Un6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJHZl0PKPswu4FVLQFUZ6WeRsNaB122kDhLIz1in7T9jZk1yYPcdlwDASt7gR50s7WFsvMCBRh0Qc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzk1jnraPndqU+GYMddEYZelrvOeW9ocs54pgLpcAL4EvgZa0+W
- ZOpHvD0DmvqKTDS76V0riq3Il2WOuw/p9pj1aKvCdoRpK14qmSLjX4t3A9JdOSODr2+nGkjS/he
- F6VU60kmCZXxGimIUOj96w1T92YUPBpE=
-X-Gm-Gg: ASbGncs8vDhYY+D610CPegvyNoPW6Xo6zAvl5i12itmKKCCv53q8WSoHOBdJimDUkfI
- WcJ/HvclLpa0AmnWpg0LOHLpnnt7B9yqDvwn9IovR83k7qaIWn8/ZOdRaw8rrpclidlNNa0MVFa
- 91PKMqTajOKgEX9gTbmKPuyl4fB17sfmR/m6EF2u3WZE1OKwWTAPZJTrWXaF3bQ0vqpe0km4+56
- YZPTuHJbsSS7jiP8fIFagLRLx+eFe4y0s3A8BR9Em4xiKJj
-X-Google-Smtp-Source: AGHT+IHpJJ3i4VE7K63V7qp2FsxwGna5n/UOWX+WqUQGecNnl4cdq5PAcjc23PWmzxHfk1E5P7xRzKbuz8NuSN92NCQ=
-X-Received: by 2002:a05:651c:f1c:b0:36d:54b3:9f75 with SMTP id
- 38308e7fff4ca-377795d5fe4mr5645081fa.2.1760531765871; Wed, 15 Oct 2025
- 05:36:05 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05CC010E7B5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 12:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760532991; x=1792068991;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=EXCnZjdp0WFMBO5mhFg3iFzstEGAoaA3Q4oFRnS7FS0=;
+ b=krH1G6ZH3wWDsdqBaOmtTMKOltNB/R2kLkQyTSy9BCKc5AKvutJrKQFf
+ NHBBwht0MXmlowG48rlx7+moQWpRMSPqAQRkuQJb2rOf1XlQyiL0qZFte
+ asLJ5+n1S7jIWB9cit19BBlxcgA8sddy+Wqe4cviajOOAWeyFU8SzS77a
+ RLXSAbGcjEhzVFBzXVTsqYlig2nVHsCYBH6w2bPy5Ap/yX1esd7+q3KjY
+ 8xH2ihVBAK5qooWa1WSD4zqaDqPOpf/VOaMHhgKgn79JGaND9mYG3rR0I
+ bUshbLTKU2DC3PkzLV3pw/GageyWc6n7sVF1FUU7Cm85ZjkScUceqDamn Q==;
+X-CSE-ConnectionGUID: MCN+X8FxSOyl0CqO0BoOWw==
+X-CSE-MsgGUID: LefQcr9cQRCN1zLAgWKZuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="88173822"
+X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; d="scan'208";a="88173822"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2025 05:56:31 -0700
+X-CSE-ConnectionGUID: r7gk0TPCTaqNrjasc3gJ5A==
+X-CSE-MsgGUID: Y5WPvCnNQBqAfIHTSZY/GQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; d="scan'208";a="182955133"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.245.102])
+ ([10.245.245.102])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2025 05:56:30 -0700
+Message-ID: <fb07e25b-e965-4103-b5af-8167a15cbd2f@linux.intel.com>
+Date: Wed, 15 Oct 2025 14:54:48 +0200
 MIME-Version: 1.0
-References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
- <20251014083230.1181072-2-zhaoyang.huang@unisoc.com>
- <f807f3bf-a05d-4e0f-af4c-bb0167dde51c@redhat.com>
-In-Reply-To: <f807f3bf-a05d-4e0f-af4c-bb0167dde51c@redhat.com>
-From: Zhaoyang Huang <huangzhaoyang@gmail.com>
-Date: Wed, 15 Oct 2025 20:35:54 +0800
-X-Gm-Features: AS18NWBHy47J7vqNuZdMWmFiioMnHOdN9PsD8vuUcKjXC1NTUEoBMVAQrHP3CgE
-Message-ID: <CAGWkznG=DAXz5s1gAcs9=OKJC0v0KwB=FK=mKL-c1DSw3jGqfA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm: call back alloc_pages_bulk_list since it is useful
-To: David Hildenbrand <david@redhat.com>
-Cc: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Matthew Wilcox <willy@infradead.org>, Mel Gorman <mgorman@techsingularity.net>,
- Vlastimil Babka <vbabka@suse.cz>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, steve.kang@unisoc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/xe: Allow mixed mappings for userptr
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20251010104149.72783-1-thomas.hellstrom@linux.intel.com>
+ <13cf7040ec69f3e5f8ed7df4230a56db93bb6b73.camel@linux.intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <13cf7040ec69f3e5f8ed7df4230a56db93bb6b73.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,51 +71,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 15, 2025 at 8:16=E2=80=AFPM David Hildenbrand <david@redhat.com=
-> wrote:
->
-> On 14.10.25 10:32, zhaoyang.huang wrote:
-> > From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
->
-> Probably the subject should be "mm: reintroduce alloc_pages_bulk_list()"
-ok
->
-> >
-> > commit c8b979530f27 ("mm: alloc_pages_bulk_noprof: drop page_list
-> > argument") drops alloc_pages_bulk_list. This commit would like to call =
-back
-> > it since it is proved to be helpful to the drivers which allocate a bul=
-k of
-> > pages(see patch of 2 in this series ).
->
-> "Let's reintroduce it so we can us for bulk allocation in the context of
-> XXX next."
->
-> > I do notice that Matthew's comment of the time cost of iterating a list=
-.
-> > However, I also observed in our test that the extra page_array's alloca=
-tion
-> > could be more expensive than cpu iteration when direct reclaiming happe=
-ns
-> > when ram is low[1]. IMHO, could we leave the API here to have the users
-> > choose between the array or list according to their scenarios.
->
-> I'd prefer if we avoid reintroducing this interface.
->
-> How many pages are you intending to allocate? Wouldn't a smaller array
-> on the stack be sufficient?
-Actually, dma-buf is the main consumer in android which could occupy
-half of the system RAM(mainly by multimedia which passes the memory
-between GPU and display, camera driver, NPU driver etc). Dozens MB is
-quite common or maybe more. This commit is proved to be helpful in the
-scenario of camera APP cold start which allocate around 300MB memory
-in an 6GB RAM ANDROID system
-IMHO, page_list could be more efficient than page_array in memory
-perspective which is an uncertain factor than iterating the list
->
->
-> --
-> Cheers
->
-> David / dhildenb
->
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+Den 2025-10-14 kl. 13:08, skrev Thomas Hellström:
+> + dri-devel.
+> 
+> From: Matthew Brost <matthew.brost@intel.com>
+> 
+> Compute kernels often issue memory copies immediately after completion.
+> If the memory being copied is an SVM pointer that was faulted into the
+> device and then bound via userptr, it is undesirable to move that
+> memory. Worse, if userptr is mixed between system and device memory,
+> the
+> bind operation may be rejected.
+> 
+> Xe already has the necessary plumbing to support userptr with mixed
+> mappings. This update modifies GPUSVM's get_pages to correctly locate
+> pages in such mixed mapping scenarios.
+> 
+> v2:
+> - Rebase (Thomas Hellström)
+> v3:
+> - Remove Fixes tag.
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>  drivers/gpu/drm/drm_gpusvm.c    | 6 ++++--
+>  drivers/gpu/drm/xe/xe_userptr.c | 4 +++-
+>  include/drm/drm_gpusvm.h        | 4 ++++
+>  3 files changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gpusvm.c
+> b/drivers/gpu/drm/drm_gpusvm.c
+> index cb906765897e..73e550c8ff8c 100644
+> --- a/drivers/gpu/drm/drm_gpusvm.c
+> +++ b/drivers/gpu/drm/drm_gpusvm.c
+> @@ -1363,7 +1363,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
+> *gpusvm,
+>  		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i,
+> npages);
+>  		if (is_device_private_page(page) ||
+>  		    is_device_coherent_page(page)) {
+> -			if (zdd != page->zone_device_data && i > 0) {
+> +			if (!ctx->allow_mixed &&
+> +			    zdd != page->zone_device_data && i > 0) {
+>  				err = -EOPNOTSUPP;
+>  				goto err_unmap;
+>  			}
+> @@ -1399,7 +1400,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
+> *gpusvm,
+>  		} else {
+>  			dma_addr_t addr;
+>  
+> -			if (is_zone_device_page(page) || pagemap) {
+> +			if (is_zone_device_page(page) ||
+> +			    (pagemap && !ctx->allow_mixed)) {
+>  				err = -EOPNOTSUPP;
+>  				goto err_unmap;
+>  			}
+> diff --git a/drivers/gpu/drm/xe/xe_userptr.c
+> b/drivers/gpu/drm/xe/xe_userptr.c
+> index f16e92cd8090..0d9130b1958a 100644
+> --- a/drivers/gpu/drm/xe/xe_userptr.c
+> +++ b/drivers/gpu/drm/xe/xe_userptr.c
+> @@ -3,6 +3,7 @@
+>   * Copyright © 2025 Intel Corporation
+>   */
+>  
+> +#include "xe_svm.h"
+>  #include "xe_userptr.h"
+>  
+>  #include <linux/mm.h>
+> @@ -54,7 +55,8 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma
+> *uvma)
+>  	struct xe_device *xe = vm->xe;
+>  	struct drm_gpusvm_ctx ctx = {
+>  		.read_only = xe_vma_read_only(vma),
+> -		.device_private_page_owner = NULL,
+> +		.device_private_page_owner = xe_svm_devm_owner(xe),
+> +		.allow_mixed = true,
+>  	};
+>  
+>  	lockdep_assert_held(&vm->lock);
+> diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
+> index b92faa9a26b2..632e100e6efb 100644
+> --- a/include/drm/drm_gpusvm.h
+> +++ b/include/drm/drm_gpusvm.h
+> @@ -235,6 +235,9 @@ struct drm_gpusvm {
+>   * @read_only: operating on read-only memory
+>   * @devmem_possible: possible to use device memory
+>   * @devmem_only: use only device memory
+> + * @allow_mixed: Allow mixed mappings in get pages. Mixing between
+> system and
+> + *               single dpagemap is supported, mixing between multiple
+> dpagemap
+> + *               is unsupported.
+>   *
+>   * Context that is DRM GPUSVM is operating in (i.e. user arguments).
+>   */
+> @@ -246,6 +249,7 @@ struct drm_gpusvm_ctx {
+>  	unsigned int read_only :1;
+>  	unsigned int devmem_possible :1;
+>  	unsigned int devmem_only :1;
+> +	unsigned int allow_mixed :1;
+>  };
+>  
+>  int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
+> 
+> 
+
