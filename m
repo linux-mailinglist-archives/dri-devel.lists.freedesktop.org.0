@@ -2,52 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E48BDD644
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 10:28:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B9DBDD746
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 10:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9986410E6EA;
-	Wed, 15 Oct 2025 08:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19E9410E73B;
+	Wed, 15 Oct 2025 08:40:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FvLfJ/xJ";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="WFrWyntZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7788A10E6EA
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 08:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760516888;
- bh=DUUJBOVgAjUbcI8pA66M3DD2k8SXU/r4JDMSjC3z394=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FvLfJ/xJxx6wLRijUOEzPZKYFnfRPvS8dcWujwZlm1EE0BZjj9YXqI0xdky7904+c
- N3FhXaK2aCHPLv8+BcOH/wUoyfsFM4kxVtmbzbQcgM3UFej0JzPUUDQ2SNM4WgL2hZ
- bNCV6B4tvYIk8wQDGV56rSqEi8q9g/SB0ZffvP8ePDKuFbbc5A/JytuBf1BQ5ifqrO
- ZiH/XG5OGjvblENgJz/9oE6jcA4ZEV7fYsg7sceTVaHFV+X4py8caZw5JCGSSJYmJ/
- CHLhhgHDkWaiG1GOQi0baQCZaoos5xAZceVxPVCpn/1SuEmPIR/V5N5VsWm8yUp/F+
- EZv80MmWNG8vw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id F047917E1305;
- Wed, 15 Oct 2025 10:28:07 +0200 (CEST)
-Message-ID: <234053da-7f1c-4642-b410-21d24a28a936@collabora.com>
-Date: Wed, 15 Oct 2025 10:28:07 +0200
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB32E10E73B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 08:40:14 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-b3f5a6e114dso90772866b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 01:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1760517613; x=1761122413; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fDsY2VBapz+UptqvTnMcZt7pORUL703BjZYmcP5YKY0=;
+ b=WFrWyntZJDqB24JMOQxYQh9ZmNUpTWAjSERuF6fnMWQyLp9M32Gf+naIVcsRnjKePD
+ y7UKE/PztCX+M/bbLw/omOHt1E8kMTPjWd+BUXf9AlQWPpSv2psJo9dPqa3ZEfHD9/7w
+ 6WPkCqGZZNcmKwxDoC/2CHVu1sE8Gx/fSsqX6rTY7p0br162aVckol+I7lr5gOMpxPsc
+ VLYwUBcDN41sNCIxPo9d/vJDHO64abZA4LgdcrTTCZw6+MtJXOaokHb883UkuQzFoU+d
+ eFVh5Y1Zc2tYGBC7C6z6Mif1JlXEH/26sxjS1g+cXK5WiBqHb/MXtC++06lsPvwnWZXR
+ A5gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760517613; x=1761122413;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fDsY2VBapz+UptqvTnMcZt7pORUL703BjZYmcP5YKY0=;
+ b=ivs0UKtvUeqgkjPMbrieA/Y2Y16yOCL3ABuyj3ws3UhhRp51t8cVBsSxKBoOHdJ3Pe
+ JzZLtYil5GsUHtCdAkDrj5ijIC5D2q3FKTvFFwVDXkgxJ8H3GM6fU2ZNm7u1wIVvKFnh
+ 9xSQa2/7rGXn7Zwmyi6GtYVwG5QOui153ZZDfgJlCOXhCgasBU3Jjtp0vJDCpoAkL+r+
+ OzmrviXZ2Xs5QUALf8E4Jz/eEJJ/tA9lUxkqabuZ0/Q70tLY6fUBOwCl99no29oSz2gO
+ GaNu7dbcs4YoLpz7oyrHVTMJWBhe9lfbR+cqEKUTyB+yEcoyvb+hEQfWbTIub/0Ct7L/
+ GKZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW583OdNIAVxLhbCqwpQr3uQeAh/HsTaAlbkMxTq7wK/0qBtr5TF8Cur4EQtEs5xhzoTaFBEXvefuA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkjhwJ5LFW11l1VX5c5LCeyFc0g3SDWz8AgQLL4HQzKllsDjQL
+ QVjhwxMhdDEQYY4gJTicoR3rG3nCthL1/5LY3VWm+/DzIoxD5sxT02iixnlWXfpWjeY=
+X-Gm-Gg: ASbGncth3E8k5LLxBVVL6Yd85LtJzBDBRVb4gbRjpJB0DlLI6hKR2ZfEmZKbbnSBEGs
+ nfmblys3r/3lYvqHTPS6+tIDDdfzlbDzuzWg5gEc0SMkLgX/poEXboAZEj+fvpWWN8dnXNnRpDl
+ SKMQ77I0CMYPGqQTqlhDIV+GsNgRJi19tJuFsWxjhDVw4thHaBhO2JLklVTnrxYbj+/oI71vPmo
+ KAXolnj289j6/xdoPP+CT1OUrW9qXPycuHI4sSjS7bdxEIsnUUMLcQuOCafv+jSM7sY8MhEieRk
+ iPmvNjTly/hOycZFfvCKQWD0TQ6o90l6sRf59/tjmmGSbxSrMvgZCGD13KrsNzJe2cvtSpMxZXH
+ cHu2RfpG/3NJNqHDAEH0eYFoYmxubzRT5OkeaL1bMXKcQ09C/kY1u76Q7kC2nX/jufCotlQ8f+S
+ l9IB7Jv2qDF4ZGMrI9xnlsVYwdGF0B2wigLi8uyJMCxAxvXOqzdc3FM+V4rA==
+X-Google-Smtp-Source: AGHT+IELGd1QIrFF53QcX+I76rx+ZG0TLeQwEgYCUqwVFMJIjoxdZrhJJkMTqEZ8KN0QoxSWe07NSA==
+X-Received: by 2002:a17:907:e8f:b0:b44:fb0c:5c37 with SMTP id
+ a640c23a62f3a-b50ac1c480dmr1491862066b.6.1760517613246; 
+ Wed, 15 Oct 2025 01:40:13 -0700 (PDT)
+Received: from mordecai.tesarici.cz
+ (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz.
+ [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b5cba45afc5sm170229166b.37.2025.10.15.01.40.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Oct 2025 01:40:12 -0700 (PDT)
+Date: Wed, 15 Oct 2025 10:40:08 +0200
+From: Petr Tesarik <ptesarik@suse.com>
+To: Zhaoyang Huang <huangzhaoyang@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Suren Baghdasaryan <surenb@google.com>,
+ "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Mel
+ Gorman <mgorman@techsingularity.net>, Vlastimil Babka <vbabka@suse.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, steve.kang@unisoc.com
+Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
+ order-0 allocation
+Message-ID: <20251015104008.4bcd99e7@mordecai.tesarici.cz>
+In-Reply-To: <CAGWkznFG2_WGmLRmHnjV-49iTX0mrt9jxQBzZYK=K9U7eKJD0g@mail.gmail.com>
+References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
+ <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
+ <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
+ <CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
+ <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
+ <20251014171003.57bbfd63@mordecai.tesarici.cz>
+ <97da9924-9489-4d30-a858-8ee5c87bc031@amd.com>
+ <CAGWkznGnmb=8GgcrfDvY2REHdRZYVXZy=F3thXhK0FaSoiK7tw@mail.gmail.com>
+ <aO8TKQN6ifOSMRSC@casper.infradead.org>
+ <CAGWkznFG2_WGmLRmHnjV-49iTX0mrt9jxQBzZYK=K9U7eKJD0g@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 00/12] Some Panfrost fixes and improvements
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-References: <20251015000930.356073-1-adrian.larumbe@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20251015000930.356073-1-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,85 +112,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 15/10/25 02:09, Adrián Larumbe ha scritto:
-> This is v6 of https://lore.kernel.org/dri-devel/20251007150216.254250-1-adrian.larumbe@collabora.com/
-> 
-> This patch series is a collection of minor fixes and improvements I came up
-> with while working on driver related stuff.
-> 
+On Wed, 15 Oct 2025 13:52:57 +0800
+Zhaoyang Huang <huangzhaoyang@gmail.com> wrote:
 
-Whole series is
+> On Wed, Oct 15, 2025 at 11:21=E2=80=AFAM Matthew Wilcox <willy@infradead.=
+org> wrote:
+> >
+> > On Wed, Oct 15, 2025 at 09:12:07AM +0800, Zhaoyang Huang wrote: =20
+> > > > Could be that we need to make this behavior conditional, but somebo=
+dy would need to come up with some really good arguments to justify the com=
+plexity. =20
+> > > ok, should we use CONFIG_DMA_BUF_BULK_ALLOCATION or a variable
+> > > controlled by sysfs interface? =20
+> >
+> > No.  Explain what you're trying to solve, because you haven't yet. =20
+> Dma-buf works as a memory allocation backend could loop thousands of
+> times alloc_pages for allocating order-0 pages to fulfill the dozens
+> MB demand, this commit would like to replace the loop by once
+> alloc_pages_bulk. Whereas, alloc_pages_bulk_array perhaps introduces
+> extra memory allocation along with direct-reclaim which could be more
+> expensive than iterating the list. so call back the API
+> alloc_pages_bulk_list as well
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+This does not quite explain it. IIRC you mentioned allocating 18M as an
+example. The ideal outcome in that case is:
 
-> Changelog:
->   v6:
->    - Don't optimise page range walk in the event of a double MMU fault
->    - Handle some minots and minor style changes
->    - Rebase patch series onto latest drm-misc-next
->   v5:
->   - Move devfreq record keeping further down job submission function to
->   keep busy count balanced in case of an early bail-out.
->   - In MMU page fault ISR, bail out when sgt for 2MiB page is not assigned,
->   rather than when the page array is populated. Add new commit for this.
->   - Add commit with myself as a new Panfrost maintainer
-> 
->   v4:
->    - Rebased older patch series onto latest drm-misc-next
->    - Added patch for renaming JM functions to reflect their actual role
->    - Fixed treatment of error code in perfcnt when enabling sample buffer AS
-> 
->   v3:
->    - Minor convenience fixes to patches 3 and 4 in the series
->    - Move unmapping of maped range of BO to the function's error path
->    in case of BO mapping failure, also for putting BO's pages
->    - Split patch 6/8 into two: one makes sure the Job IRQ enablement mask
->    isn't recalculated at every device reset and uses the same expression
->    everywhere in the driver, and another one that breaks the enablement
->    function into two stages.
-> 
->   v2:
->    - Removed commit that provided an explicit fence cleanup function
->    - Added commit for removing unused Panfrost device structure member
->    - Refactored how optional job interrupt reenabling during reset is handled
->    - Make the way errors and successful return values are delivered from inside
->     panfrost_mmu_as_get more according to standard.
->    - Simplify unmapping of already mapped area when mapping the pages of a BO
->    - Fixing management of runtime-PM reference counts when failing HW job submission.
-> 
-> Adrián Larumbe (12):
->    drm/panfrost: Replace DRM driver allocation method with newer one
->    drm/panfrost: Handle inexistent GPU during probe
->    drm/panfrost: Handle job HW submit errors
->    drm/panfrost: Handle error when allocating AS number
->    drm/panfrost: Check sgt to know whether pages are already mapped
->    drm/panfrost: Handle page mapping failure
->    drm/panfrost: Don't rework job IRQ enable mask in the enable path
->    drm/panfrost: Make re-enabling job interrupts at device reset optional
->    drm/panfrost: Add forward declaration and types header
->    drm/panfrost: Remove unused device property
->    drm/panfrost: Rename panfrost_job functions to reflect real role
->    MAINTAINERS: Panfrost: Add Steven Price and Adrian Larumbe
-> 
->   MAINTAINERS                                   |   3 +-
->   drivers/gpu/drm/panfrost/panfrost_devfreq.c   |   4 +-
->   drivers/gpu/drm/panfrost/panfrost_device.c    |  68 +++++----
->   drivers/gpu/drm/panfrost/panfrost_device.h    |  13 +-
->   drivers/gpu/drm/panfrost/panfrost_drv.c       |  78 ++++------
->   drivers/gpu/drm/panfrost/panfrost_dump.c      |   8 +-
->   drivers/gpu/drm/panfrost/panfrost_gem.c       |   8 +-
->   .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   4 +-
->   drivers/gpu/drm/panfrost/panfrost_gpu.c       |  64 ++++----
->   drivers/gpu/drm/panfrost/panfrost_job.c       | 139 +++++++++---------
->   drivers/gpu/drm/panfrost/panfrost_job.h       |  15 +-
->   drivers/gpu/drm/panfrost/panfrost_mmu.c       | 112 +++++++++-----
->   drivers/gpu/drm/panfrost/panfrost_mmu.h       |   3 +-
->   drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  26 ++--
->   14 files changed, 301 insertions(+), 244 deletions(-)
-> 
-> 
-> base-commit: 7fb19ea1ec6aa85c75905b1fd732d50801e7fb28
-> --
-> 2.51.0
+- 16 order-8 compound pages
+- 32 order-4 compound pages
+-> total 48 calls to alloc_pages()
 
+But presumably, that's not what happens, because fragmentation makes
+(some of) those order-8 allocations fail. Since you talk about
+thousands of loop iterations, it looks like even order-4 allocation
+fail in your case. Then I agree there's not much value in trying to
+avoid further fragmentation, and after so many order-0 allocations,
+it's probably also pointless to do memory reclaim.
 
+OTOH I can see why the opposite approach is a bad idea in situations
+where fragmentation can be avoided. To make things even worse,
+alloc_pages_bulk() will rather split pages in the preferred zone than
+try allocating from the next best zone.
+
+To sum it up, Zhaoyang, can you please describe in more detail what
+happens in your scenario and what you believe should happen instead?
+
+Petr T
