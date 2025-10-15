@@ -2,107 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C298BDFC5C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0110BDFD75
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 19:27:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45AF910E891;
-	Wed, 15 Oct 2025 16:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3C310E2B1;
+	Wed, 15 Oct 2025 17:27:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y4doWy8p";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bnjuUHpi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8003A10E891
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:54:12 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FAW6sN002496
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:54:11 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAB110E2B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 17:27:10 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FHMwQk003544
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 17:27:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=UMM9PuJ2lRpfyxHawkG9j4m1D9oD1iAKwRU
- T2udZ5x0=; b=Y4doWy8pxA9wf1/0BSOrHyAf3DfePZ+8ca4jGUyoLJmiBUbp8CZ
- 8i70Y+H9FuS0v+f3AB57ieeQCFPDGXe3CAugvqO3U11S+zkNAbpF2P9SRDvTd7fX
- Q8cnvATEjS41o4WnAaGtdIZbWHu6hmNfgDjy1iEd+YW6yoEZx0LH7tGZg3xzSjet
- TAaLt84jgfOZcy7Fq/51Jg6fBnZrvvWYPwlGSU6IgC7knFGIXWMiMW5SfjNB9/fi
- Wdwwp3Bt+RVe21SBD9UBSwBn2f79LTEyqSO4X/6nRtvAnuobmsRsS/+DdwQYfhsh
- zjGohuyuGqSdzDqUaOxCkl5m1NdY15koKHA==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfa8dajp-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ KTf2fO5KRH7KVrGnVrFxPrc4+WMg+22pOx6tu+ulMNU=; b=bnjuUHpi0B+IpYSB
+ 4KpbUART/cgQfvAwCFGlhIaJ1dmqzg19pS1LFpelDnzWGsumUWILD6I8gUGgm+Sd
+ 9z1TbRRfdQfckiK9jhsM7ywTYoo9x9Xe/Nn2POjKPAGIR8SNOmAaq82C9ISZRFoJ
+ 8xBq1eRauNbjfjpBBJc7QGZmniCe6mVroXBDhEjTOVGwU+onVb3e8ugFONsSQOli
+ uQsjWN59PebIAv20oQhB894dpsaS9ErJlKNarrd9H706u9Bmyic07d5GJYYvUXed
+ qYCBK56wWWBX/N7lwrfIVoAWOam4Wkn/aYbfMO90uoO8okT1YhGfTaraKW5jkd2r
+ +wm2bA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49sua8m0c6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:54:11 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-87a0e9be970so395455756d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:54:11 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 17:27:09 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-2909a67aed4so231345ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 10:27:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760547251; x=1761152051;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UMM9PuJ2lRpfyxHawkG9j4m1D9oD1iAKwRUT2udZ5x0=;
- b=jcMlD4e9H18UmuRK0lO/GKRD7LD9WVxYp3treT21AnhjIO6dvmKdo5izBExoHazXWN
- GcGZuxAxoq8078FkqRmFFNbTEzmVe0LzjrK/YtZz1KVeqGaNYJYvbkrx+4OvgFbL4RGm
- Tq+jK8yrgKFXu/8KVws44gpedjCGXRPsvY+2b3zc9fpOngyAQ1wjT6ux/azK/YwJyFgz
- 1itY2djQTn42iLjFmq0jV/3oghCfgM9eSf6lwt3qPXmxXAWTwNIMeu4qyELZOBMqjtq2
- sqI6U4z8Q+9gsUuBHMIrlyW2mYPHwKhgN8XY1Tqz/14GAB9yclRD82hm8M6SglmJrKKA
- 0VNQ==
+ d=1e100.net; s=20230601; t=1760549228; x=1761154028;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KTf2fO5KRH7KVrGnVrFxPrc4+WMg+22pOx6tu+ulMNU=;
+ b=l3NqQkhjagqbS5YaxX5spXDn/mxv3455dXL0/CMeeT+KjRgJA5xIeojIZ/y0JNm3/q
+ 1K40PdGBzan9Zh1prZ53m2Ig8sH9uXYChMZVOnSCogHjBhplsjs8tmT2cmtYZFiZ76+n
+ mQ/0Su7Tbiay6qHLg3YTdBqWjzI84gvV69FBSzLsCWXXsDVXIbIkAbtxtQnFYXvWtIKP
+ OPd8RI56XTfNUESYzXIUaxGa3bORtZonEJfA5kkynTt3OS6W0warwsc17bpj5rypU1Pa
+ xVojl0hbheQaWoEBYWj585oaAXl9A9BXNx+/qYgbJfMUv/JeWkP3qBWjxHyDNS8VB/YD
+ Oq0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVATuYuIOG7NsUliiwkGp/9ONfkIVDWtEAQuwcDBDg9JqLfyNgCX71U4OWp1oILSPdht1AT6w+l8Jk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJGdqD5BWU23dQw3YDGdKp0gITZuCzgFr6TijWO70YpetRG9b/
- R41oI2HKH0sHPnjzQs9W80wB+XM+dZar8xVU/feEigI9MYE8ikVCgUXESmqsufnbYxAKrppntom
- AZNqwqTXtyYiegSGYKsIuOs+7c6sLG3V7gQ+ipj0RCkEtsKTaQsTC8uR84Lz2PQtvupdiseU=
-X-Gm-Gg: ASbGncu/C61CuItVMgw2BklysWY4wut+gKUIE8e14Y+IgHFb3kUyxXr7Rss0a2TklGl
- ye9ydEv960m6sXsNz+GCp4RTPRSzQYh+1eukFVCByu3cuhV5YS2lVTO25nN/p0AUG4iRCoa4adG
- +byMuVSCIRH/NbtTqDVdfETWLfPZqyKPqhlfWE01t7BN6fQv4KM7lbWYmGf69c9i5QEf0urqV3w
- AhzdT5djHEm3OMn04ufv5tuSetBwprL+Tan8MOVm9bLXwkLSQ9B+RX9nlBWkAzKivD4vZMEbnNn
- ZjyOI2iauhkFdFauDB5K04wH9RZYpO5M61Ubl4iLwSa5Nvvpt6kheQnNKqmNE1BYx3S5ICfgnqv
- VDJ+p
-X-Received: by 2002:ac8:5905:0:b0:4dc:5ab:6d7b with SMTP id
- d75a77b69052e-4e6ead65026mr360871721cf.65.1760547250507; 
- Wed, 15 Oct 2025 09:54:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFdnfbBlKzfjih9LMH5x6zwOdq1Ehq7XA62QcL8Ycn259PSie/gSkvXaQIk9+WUoeS5VTiJ6A==
-X-Received: by 2002:ac8:5905:0:b0:4dc:5ab:6d7b with SMTP id
- d75a77b69052e-4e6ead65026mr360871411cf.65.1760547249913; 
- Wed, 15 Oct 2025 09:54:09 -0700 (PDT)
-Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
+ AJvYcCUe7kZ1MjCt7gBE/YpQjP6U9DzDcNytJfHeJtDmd6Mz4zGksAJwVDBHw7xItyTM+bjYdI9axj+rG18=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywt7kPyPUlmaYxE2PlcqI2CZaRYrNvuCvtp9k06M5xh2SU8Nezr
+ gfuwWpWL2oiLTjdezZyIaFyDOFkiWqPnV0MFcANjhComFNpQ5qoIVVyeygw2gp8JPcDr6y+ULYp
+ byJHA9YsVrArTfIhy20+S8k8vALk0IyAepw8pZgK1lZoZK1EMhScWCHZTQ9IG/pZ0Pekurac=
+X-Gm-Gg: ASbGnctU2yekCVCoBtNNpsud9x4YhJNJmnYky+0TJRRRkJx3v6z5WRx6bqXwbeVtPJw
+ M/78dzL5tPXmWszdZsVwbm/Fpd6r0A4JoBFIyGfsIyM1aYCB4U9ok62l19rm7WAuhXFhtrZint5
+ uqarn+W75/hs3awYtruScjoerpfO+g71oAIdbfW34b3YDDqrwzj1oKHhUCaTFj1SRJXquBKcPT4
+ 3Vx78DJSaYW5D9SBHgUEwSuG6ek6OjbsbjDwpk9+Ot0F+ICv9hIB8CEtvqQzkQZVUrBuKsUBW8p
+ UjFpW93TVtpQDeDVx2+SavFK23HYD/FSBsQV+3a9ticpoFh91GheDNf0FgFNA5W+cH1ZvNbwjPJ
+ t0X2oEbGUMrk=
+X-Received: by 2002:a17:902:f644:b0:267:8049:7c87 with SMTP id
+ d9443c01a7336-29091b02b2emr8957485ad.14.1760549228042; 
+ Wed, 15 Oct 2025 10:27:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3tuSh0KK5oaxfpqjUBx5mED7fEp7VjVJWxeGeZUoFaEtc/KDa09QQGlqXf32X6jSlMQwlfw==
+X-Received: by 2002:a17:902:f644:b0:267:8049:7c87 with SMTP id
+ d9443c01a7336-29091b02b2emr8957225ad.14.1760549227553; 
+ Wed, 15 Oct 2025 10:27:07 -0700 (PDT)
+Received: from [10.73.85.4] (pat_11.qualcomm.com. [192.35.156.11])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b5ccd6b9596sm270960566b.80.2025.10.15.09.54.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Oct 2025 09:54:09 -0700 (PDT)
-From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+ d9443c01a7336-29099a7c255sm2042235ad.70.2025.10.15.10.27.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Oct 2025 10:27:07 -0700 (PDT)
+Message-ID: <0e034840-37d6-4492-92e9-61a9eadbf794@oss.qualcomm.com>
+Date: Wed, 15 Oct 2025 10:27:06 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] accel/qaic: Use check_add_overflow in sahara for 64b
+ types
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ jeff.hugo@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
 Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] accel/qaic: Use check_add_overflow in sahara for 64b types
-Date: Wed, 15 Oct 2025 18:54:08 +0200
-Message-ID: <20251015165408.213645-1-youssef.abdulrahman@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: oeW8tWtwNEhp0vVrMQxjh9T-XEo0_OfB
-X-Proofpoint-ORIG-GUID: oeW8tWtwNEhp0vVrMQxjh9T-XEo0_OfB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxNyBTYWx0ZWRfXx3Z0pgWzLnG5
- 92YLFKrO/++P/+QmWSXerxSxrlhgYmFsj3VxqSaDgOGeiseA0GbM3d1n31pvOsvpRlLAC7SfDWT
- t6HrBt78Ky0+OxtgKaHfU5lpue2FI9W0PT4s2un+baRqL9cSZYp6NFFmoAB4KOvLpvrU85S42wd
- IUcCpRS3Jje7ud13fP6g6gpKTXzuMxPkMgVlbuehh5i0ntQPIrG77pYhLZsY1qlpkny5TxCRYwo
- cH1kQFZwwSOn6qC8vPkfGKQm4NPrEw6FiD0htxWxZzLK9eXZbug1R5lY3w6DXfqMSAuFsBeHOvp
- hhyHp7f37L33/oib8jRoyBvMtXMqIHsmGgrbJ3JKMpcIEUtisVIPUJCM/cnQpuvheQ/Cr+m+SYr
- nYMKdfkEuS/VdgOBfDxYNCKrXy52Qw==
-X-Authority-Analysis: v=2.4 cv=JLw2csKb c=1 sm=1 tr=0 ts=68efd1b3 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=HRjgDChM0F6sfIyO2f4A:9 a=iYH6xdkBrDN1Jqds4HTS:22
+References: <20251015165408.213645-1-youssef.abdulrahman@oss.qualcomm.com>
+From: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20251015165408.213645-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: DKzKyVJYDBeTwZe5yXPlLk0owFW6IRsU
+X-Authority-Analysis: v=2.4 cv=e5MLiKp/ c=1 sm=1 tr=0 ts=68efd96d cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=GWqr9FCoMw_Da9qovAsA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDEzNCBTYWx0ZWRfX/3WnYaNim0rM
+ OyhI7f5dGe6VF0jeecfzHqootJX1YUsuf7kjjXBjonU6ObmY3SYxVze6p9Djy35/ui9jKVABgy5
+ hvF7ug6e76nCBgt5NA2PndGUXfNAHx6O3q/Os2lHBMkktE47YqpbRHS8tDb2RLPWcGX9daQOZiW
+ sRnQ+5+9Emy0O1YNzi8XLQHLy/160EuZpBHd29UjqJFcZ1mVmBLx5gr2MgG5vvXWEoOputOAK5P
+ Ry9Q1NYckrrm1BcUVbhDYwPPX7n2OtwFDF9pBAtLesXTxCmskmPiJ1P/3DQMWEX68whzWgGESxR
+ 9FOxs+cNzT0TpP7hApyk0pMz4HgkUKwPXYf8yCj9laocCJG5lFvZO0l2VgpJSdqFQw1dQ/yPkTd
+ wIm6piRXqp5ZXovafOjUt+Wz+Y+Oow==
+X-Proofpoint-ORIG-GUID: DKzKyVJYDBeTwZe5yXPlLk0owFW6IRsU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-15_06,2025-10-13_01,2025-03-28_01
+ definitions=2025-10-15_07,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110017
+ phishscore=0 suspectscore=0 spamscore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510140134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,77 +127,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack McKevitt <zmckevit@qti.qualcomm.com>
+On 10/15/2025 9:54 AM, Youssef Samir wrote:
+> From: Zack McKevitt <zmckevit@qti.qualcomm.com>
+> 
+> Use check_add_overflow instead of size_add in sahara when
+> 64b types are being added to ensure compatibility with 32b
+> systems. The size_add function parameters are of size_t, so
+> 64b data types may be truncated when cast to size_t on 32b
+> systems. When using check_add_overflow, no type casts are made,
+> making it a more portable option.
+> 
+> Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+> ---
+> Changes in V3:
+> - Remove the min() to min_t() changes
+> - Link to V2: https://lore.kernel.org/all/20251014170927.3908383-1-youssef.abdulrahman@oss.qualcomm.com
+> 
+> Changes in V2:
+> - Use explicit casts with check_*_overflow() calls
+> - Replace min() with min_t()
+> - Link to V1: https://lore.kernel.org/all/20251007154853.417114-1-youssef.abdulrahman@oss.qualcomm.com
+> ---
 
-Use check_add_overflow instead of size_add in sahara when
-64b types are being added to ensure compatibility with 32b
-systems. The size_add function parameters are of size_t, so
-64b data types may be truncated when cast to size_t on 32b
-systems. When using check_add_overflow, no type casts are made,
-making it a more portable option.
-
-Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
-Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
----
-Changes in V3:
-- Remove the min() to min_t() changes
-- Link to V2: https://lore.kernel.org/all/20251014170927.3908383-1-youssef.abdulrahman@oss.qualcomm.com
-
-Changes in V2:
-- Use explicit casts with check_*_overflow() calls
-- Replace min() with min_t()
-- Link to V1: https://lore.kernel.org/all/20251007154853.417114-1-youssef.abdulrahman@oss.qualcomm.com
----
- drivers/accel/qaic/sahara.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
-index 3ebcc1f7ff58..351348f06755 100644
---- a/drivers/accel/qaic/sahara.c
-+++ b/drivers/accel/qaic/sahara.c
-@@ -538,6 +538,7 @@ static void sahara_parse_dump_table(struct sahara_context *context)
- 	struct sahara_memory_dump_meta_v1 *dump_meta;
- 	u64 table_nents;
- 	u64 dump_length;
-+	u64 mul_bytes;
- 	int ret;
- 	u64 i;
- 
-@@ -551,8 +552,9 @@ static void sahara_parse_dump_table(struct sahara_context *context)
- 		dev_table[i].description[SAHARA_TABLE_ENTRY_STR_LEN - 1] = 0;
- 		dev_table[i].filename[SAHARA_TABLE_ENTRY_STR_LEN - 1] = 0;
- 
--		dump_length = size_add(dump_length, le64_to_cpu(dev_table[i].length));
--		if (dump_length == SIZE_MAX) {
-+		if (check_add_overflow(dump_length,
-+				       le64_to_cpu(dev_table[i].length),
-+				       &dump_length)) {
- 			/* Discard the dump */
- 			sahara_send_reset(context);
- 			return;
-@@ -568,14 +570,17 @@ static void sahara_parse_dump_table(struct sahara_context *context)
- 			dev_table[i].filename);
- 	}
- 
--	dump_length = size_add(dump_length, sizeof(*dump_meta));
--	if (dump_length == SIZE_MAX) {
-+	if (check_add_overflow(dump_length, (u64)sizeof(*dump_meta), &dump_length)) {
- 		/* Discard the dump */
- 		sahara_send_reset(context);
- 		return;
- 	}
--	dump_length = size_add(dump_length, size_mul(sizeof(*image_out_table), table_nents));
--	if (dump_length == SIZE_MAX) {
-+	if (check_mul_overflow((u64)sizeof(*image_out_table), table_nents, &mul_bytes)) {
-+		/* Discard the dump */
-+		sahara_send_reset(context);
-+		return;
-+	}
-+	if (check_add_overflow(dump_length, mul_bytes, &dump_length)) {
- 		/* Discard the dump */
- 		sahara_send_reset(context);
- 		return;
--- 
-2.43.0
-
+Reviewed-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
