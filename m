@@ -2,95 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A22BDDA8D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 11:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB70BDDB99
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 11:19:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AFEC10E3AB;
-	Wed, 15 Oct 2025 09:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCA2310E760;
+	Wed, 15 Oct 2025 09:19:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YGROxAC4";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QOJw+CNv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B293A10E3AB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:14:23 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-37777f72838so625841fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 02:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760519662; x=1761124462; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kNter1wl1oLLlJYevVTo4vpc2F0Z/0nnhZY0eR5fUuY=;
- b=YGROxAC4nWYr+chMx76kHdbDPoHwu7AnursfoE/Xz2OmqPGpb+rVT0/hV+kY1u6A3Q
- zEgPq7zj/V/vHw8JFn2VWYei7YbVxmPftU4NXuuBTITBn7bulkUSYoCfs3gBPUOFVPXD
- x4lMvnZg3ZuEokZVldz1U7FSN62WGznHnHOLHu4Os+/B8p13G/VpfJvnHsdlYXOiTTmf
- PFH61w18sqoh8zrdktoJmYJ7KT+vfnsR3XHiViqCGyua7DBGokZTn5hOuYFse3UNk3p7
- sUC5PEi82SIC6DXZdsoEVT6Jgo3JajAZPlv3O3iZT4mOUmiXEcM4eZVENXUGMbRrfVjJ
- 5/Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760519662; x=1761124462;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kNter1wl1oLLlJYevVTo4vpc2F0Z/0nnhZY0eR5fUuY=;
- b=aboBFcMh0ULnjJ1hdRDvOfjShovqdUg+lCXGaQcQOMBVhYJS8LtpyMTA1kllFyCCtK
- f8pJKPyxR+gZ8gFpAgk2F8J+AFuO/H35sdtVINdrNLc3UcoADPM5UPsIExScMV1Sv0f2
- Rxj29w33zSD4edWtnXwvaSrQqvCleyFhLVhNpT3xtLdCuJNjS7aq0hl7Pqo3tDH/nTeK
- 40C1zGcexHev9pWsXHl53R+/sQ1VZr3b4q79rVoTywlqAOt2yS/uqKDl8iUaL7wdTS8y
- QOwBa7GzBDTZMhcJrnvuI9PXcGSjkTwMMun8ciysoZ9xG2S5tlXTYx1/RI199Hpjhq5b
- RdGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUYtGQX/+C4RcpzWvLy5nrI7oq+R9HqcAgKyXjPOwqo01fQQDGSqDoAKWZuORAKIoWPE+EG4ihN0T8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5g+1wQ06Sd67IYfFMCDZOLcwF4ujgCbE3ZpEAMSHxcxnni5Dv
- q+ipGphn6gheYb9K8Md7fHQ63gc8dwPPDp9+mbA3Y/Acs2jaXtdCZnhBLhs4fLMkihPdE73Kd7C
- ka/qMx2X8fNfWPmpH1DgfvKtgfYRGf54=
-X-Gm-Gg: ASbGnctR5QvIplNNP+cwUlRiaBw/k2kCaZGAKgPRg4Sm/2/40Scpfja7yP4IX9FIl7f
- lIkbiTEF9WqPGESNWAGQOJw/3+U5QwbtjNBkye0IddguuK9IVxUaL9f3STS2tLN1tIPyw5LY5Cr
- f8Gf3HST547fheFzMKmrHDllAHC0ArCohbVES1Qc2mlXf5obbkGm5t6mqIS+h0q5QAcSUqt0aus
- Sjq54nqh2qL8g7NED4uj69F4zPoImb01XU7ew==
-X-Google-Smtp-Source: AGHT+IHIzIhf1YNCI5C8onxDXaNTHHoiFmiOUpxt66KIf78orh4sRuZHDUQFOMD42XgkZiDlsjMqDxaFdaNS5QPVDow=
-X-Received: by 2002:a05:651c:19a2:b0:371:ef15:f19e with SMTP id
- 38308e7fff4ca-37609f1b402mr41581191fa.5.1760519661576; Wed, 15 Oct 2025
- 02:14:21 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F03D510E760;
+ Wed, 15 Oct 2025 09:19:33 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59F2sEmR014780;
+ Wed, 15 Oct 2025 09:19:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ zd0Js33uT4qAQsGbVa94/D6bzrHjWGPrzmHI09kg7LA=; b=QOJw+CNvy50zjqMC
+ IgFfRdlXC5TLoszBj/q8hnGFMTt2O1tI9nzCMXlOETZkn/pjAtrOnhPwnGAnps+i
+ 3NUAT6LvtWvn4navdjmybHU9U5Zq6DG+ax0rEkH0NbyKBSgG71fk3RrU+U6xqRXI
+ +Q94On32Rk8DC7hzpwHQU1HOXUR3d8Uha0nkEKRykCCI5/b77mE486Iu7g7St+C4
+ UcsIwB0222EXyTOhg94f7pZ4DtsbmXpAgdi+aO6n3wI/25rlS0glIgSQSUBeWEDn
+ ShvkPx/51yU8IgaMJJCCAjeBtC5bbIeX9ZgvoQlS4pcZO6P6IA8oe5iOnabxDQYO
+ Tqmm3w==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbj3v4n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Oct 2025 09:19:24 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
+ [10.52.223.231])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59F9JNTp016333
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Oct 2025 09:19:23 GMT
+Received: from [10.216.55.200] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Wed, 15 Oct
+ 2025 02:19:12 -0700
+Message-ID: <4bd619e7-e9ca-44a8-9d36-10c18d7a8157@quicinc.com>
+Date: Wed, 15 Oct 2025 14:49:08 +0530
 MIME-Version: 1.0
-References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
- <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
- <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
- <CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
- <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
- <20251014171003.57bbfd63@mordecai.tesarici.cz>
- <97da9924-9489-4d30-a858-8ee5c87bc031@amd.com>
- <CAGWkznGnmb=8GgcrfDvY2REHdRZYVXZy=F3thXhK0FaSoiK7tw@mail.gmail.com>
- <aO8TKQN6ifOSMRSC@casper.infradead.org>
- <CAGWkznFG2_WGmLRmHnjV-49iTX0mrt9jxQBzZYK=K9U7eKJD0g@mail.gmail.com>
- <20251015104008.4bcd99e7@mordecai.tesarici.cz>
-In-Reply-To: <20251015104008.4bcd99e7@mordecai.tesarici.cz>
-From: Zhaoyang Huang <huangzhaoyang@gmail.com>
-Date: Wed, 15 Oct 2025 17:14:10 +0800
-X-Gm-Features: AS18NWBFNrpCd7vYazsrAzxjhFltbgGwOyCb8rBQZuWBjfGrYICxBoM7m6ifLQ8
-Message-ID: <CAGWkznEkVz8p=Gbc8JC01SLkUHdTPW126z-fsJCZhoOLDSF5vA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
- order-0 allocation
-To: Petr Tesarik <ptesarik@suse.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Suren Baghdasaryan <surenb@google.com>,
- "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, 
- Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
- Mel Gorman <mgorman@techsingularity.net>, Vlastimil Babka <vbabka@suse.cz>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, steve.kang@unisoc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Add edp reference clock for lemans
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <robin.clark@oss.qualcomm.com>, <lumag@kernel.org>,
+ <abhinav.kumar@linux.dev>, <jessica.zhang@oss.qualcomm.com>,
+ <sean@poorly.run>, <marijn.suijten@somainline.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <quic_mahap@quicinc.com>, <andersson@kernel.org>,
+ <konradybcio@kernel.org>, <mani@kernel.org>,
+ <James.Bottomley@hansenpartnership.com>, <martin.petersen@oracle.com>,
+ <vkoul@kernel.org>, <kishon@kernel.org>,
+ <cros-qcom-dts-watchers@chromium.org>, <linux-phy@lists.infradead.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+ <quic_vproddut@quicinc.com>
+References: <20251013104806.6599-1-quic_riteshk@quicinc.com>
+ <7jmk3txdrnit6zn7ufra7davmomggd3graizdu6wqonp3lljza@mfnxt2owpknq>
+From: Ritesh Kumar <quic_riteshk@quicinc.com>
+In-Reply-To: <7jmk3txdrnit6zn7ufra7davmomggd3graizdu6wqonp3lljza@mfnxt2owpknq>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX8VUjADvpBF8S
+ kMdccCGoi2LX0d3PplLf45/vynuXKc10l8JtzCzzKGlNx2Y+Bep9yX37ktbVWBMCPvpgIdQB3d1
+ vmAwlofGUcdN5HgfYyVU7CrXH+tkp19VEVKEeTWRuZGNLFOGDwJ1Jt24x0R/RE+0ZbeRX8Cn/ka
+ RERxGOc3IJJ8arYtXyWRh00F2MFDt3oK1hIB6An6JCXtUXwfPyr+JUwCaMO8MyNOetpUgVJ464u
+ Z2dHKe6fdTc2FvWHJ7vvz5QvliqUqITKrq5AoIB1+ksXq1upQ7M3FiNiu20uYWT9G3+3pX9S62h
+ uJCK5NRAUki0R4EdGnivAYTi6BAzCleg7H4WJjLif+j2tnw9aNGy2JKs6T88P2J2swL5qUHLEb9
+ pyQ9s1ZymTkjl61WWUURf8SKx6r5Lg==
+X-Proofpoint-ORIG-GUID: WkUePfu7CdqX9UE-bIRZOgucfbNQ8Sp4
+X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68ef671c cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=nQ7leC29giJESoIIZeQA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=nl4s5V0KI7Kw-pW0DWrs:22 a=pHzHmUro8NiASowvMSCR:22
+ a=xoEH_sTeL_Rfw54TyV31:22
+X-Proofpoint-GUID: WkUePfu7CdqX9UE-bIRZOgucfbNQ8Sp4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-15_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,62 +115,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 15, 2025 at 4:40=E2=80=AFPM Petr Tesarik <ptesarik@suse.com> wr=
-ote:
->
-> On Wed, 15 Oct 2025 13:52:57 +0800
-> Zhaoyang Huang <huangzhaoyang@gmail.com> wrote:
->
-> > On Wed, Oct 15, 2025 at 11:21=E2=80=AFAM Matthew Wilcox <willy@infradea=
-d.org> wrote:
-> > >
-> > > On Wed, Oct 15, 2025 at 09:12:07AM +0800, Zhaoyang Huang wrote:
-> > > > > Could be that we need to make this behavior conditional, but some=
-body would need to come up with some really good arguments to justify the c=
-omplexity.
-> > > > ok, should we use CONFIG_DMA_BUF_BULK_ALLOCATION or a variable
-> > > > controlled by sysfs interface?
-> > >
-> > > No.  Explain what you're trying to solve, because you haven't yet.
-> > Dma-buf works as a memory allocation backend could loop thousands of
-> > times alloc_pages for allocating order-0 pages to fulfill the dozens
-> > MB demand, this commit would like to replace the loop by once
-> > alloc_pages_bulk. Whereas, alloc_pages_bulk_array perhaps introduces
-> > extra memory allocation along with direct-reclaim which could be more
-> > expensive than iterating the list. so call back the API
-> > alloc_pages_bulk_list as well
->
-> This does not quite explain it. IIRC you mentioned allocating 18M as an
-> example. The ideal outcome in that case is:
->
-> - 16 order-8 compound pages
-> - 32 order-4 compound pages
-> -> total 48 calls to alloc_pages()
->
-> But presumably, that's not what happens, because fragmentation makes
-> (some of) those order-8 allocations fail. Since you talk about
-> thousands of loop iterations, it looks like even order-4 allocation
-> fail in your case. Then I agree there's not much value in trying to
-> avoid further fragmentation, and after so many order-0 allocations,
-> it's probably also pointless to do memory reclaim.
 
-Thanks for the words
+On 10/13/2025 6:04 PM, Dmitry Baryshkov wrote:
+> On Mon, Oct 13, 2025 at 04:18:03PM +0530, Ritesh Kumar wrote:
+> > On lemans chipset, edp reference clock is being voted by ufs mem phy
+> > (ufs_mem_phy: phy@1d87000). But after commit 77d2fa54a9457
+> > ("scsi: ufs: qcom : Refactor phy_power_on/off calls") edp reference
+> > clock is getting turned off, leading to below phy poweron failure on
+> > lemans edp phy.
+>
+> How does UFS turn on eDP reference clock?
+
+In lemans, GCC_EDP_REF_CLKREF_EN is voted as qref clock in ufs_mem_phy.
+
+
+ufs_mem_phy: phy@1d87000 {
+     compatible = "qcom,sa8775p-qmp-ufs-phy";
+     reg = <0x0 0x01d87000 0x0 0xe10>;
+     /*
+      * Yes, GCC_EDP_REF_CLKREF_EN is correct in qref. It
+      * enables the CXO clock to eDP *and* UFS PHY.
+      */
+     clocks = <&rpmhcc RPMH_CXO_CLK>,
+              <&gcc GCC_UFS_PHY_PHY_AUX_CLK>,
+              <&gcc GCC_EDP_REF_CLKREF_EN>;
+     clock-names = "ref", "ref_aux", "qref";
 
 >
-> OTOH I can see why the opposite approach is a bad idea in situations
-> where fragmentation can be avoided. To make things even worse,
-> alloc_pages_bulk() will rather split pages in the preferred zone than
-> try allocating from the next best zone.
-
-but the loop of alloc_pages(order-0) could also split high-order pages
-one by one on the prefered-zone, right?
-
 >
-> To sum it up, Zhaoyang, can you please describe in more detail what
-> happens in your scenario and what you believe should happen instead?
-
-My goal is as simple as eliminating the loop of alloc_pages to get
-some performance gains.
-
->
-> Petr T
