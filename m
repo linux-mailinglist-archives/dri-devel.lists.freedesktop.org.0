@@ -2,95 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB57BDD36F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 09:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2B2BDD557
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 10:16:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E13310E752;
-	Wed, 15 Oct 2025 07:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA1110E71E;
+	Wed, 15 Oct 2025 08:16:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Gsm9Bomr";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="c4tzzXhD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF50810E74A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 07:53:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760514804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0452910E71E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 08:16:48 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cmkSr3nJxz9tLJ;
+ Wed, 15 Oct 2025 10:16:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1760516204; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t+HZgDzRdpaVTxvZqJl2rTn2R8LelhY8vbHUCgBN35M=;
- b=Gsm9BomrVDUBy65/Na6kCv/CIxpyBLmZeXQCcXwdjFZ0KCbw5uXG1hklZ4O556OkIduW4E
- hOJXvpraZWv+PUOQHDMkm3rzReeTB/ICCCd7Gi6tC93DEOwbfNNyiMv5efndqYHrIMIhlB
- 86nWUyXgHDFh+msTCm1ygs7dozggJ54=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-544-rGEzEMO8OqW7wKLnKmCIxg-1; Wed, 15 Oct 2025 03:53:20 -0400
-X-MC-Unique: rGEzEMO8OqW7wKLnKmCIxg-1
-X-Mimecast-MFC-AGG-ID: rGEzEMO8OqW7wKLnKmCIxg_1760514799
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-47105bfcf15so1432665e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:53:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760514799; x=1761119599;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t+HZgDzRdpaVTxvZqJl2rTn2R8LelhY8vbHUCgBN35M=;
- b=GgoVVTkAY7BTiYkW4QCao9nGegxg3jI3uqU6bdoEZHCbfhbSP/V67gecuQFv2N1T4q
- lpu0qekjfm7euzqKfZT18pHwEPQhQYyWu4ozWbMJcVRmFmhDiYUJF8/Q/Sth4Vz+b9ln
- cJC/XdXkSY/TsLhstjP12NgJNKKS1v0oWcszQC0QkalKGGFuaJKWXWSQZ9ELmROYIHoV
- ZImeTvVFc2p2P3OKEaIUEm9CVH7sN6pbjlpB5R/IXjHDWLxN5TZs4MmmgpTwc5Wvk2/w
- +psOcxsX+RtliQ8xOtuOCuhv8xJMz+AIk6wy9otX/8HFkL4xL4a0Q8XgamZPT+nnGfzQ
- Cguw==
-X-Gm-Message-State: AOJu0YwsxqOVwD1vw7xXJc4oWkGY4fLZ4YBpQDoKKPA0R1G+9jXVkg5K
- Ul/KW1RVDcJT0EMn3Xr5Sgu2E/DBQIX2K3E02NL60u3Y2caRI7LX9Pn43+H+cAq5KnweOlaE5gr
- wn4i0ga/Zlwc+Ol/DV6gnWhMjO/beqsj0Q7cioa30ja0ow4NkpZ8QqNkLmV6Jtwvuuz10Eg==
-X-Gm-Gg: ASbGnctCf9+Q3N3Iasvr/+ExDdPe7AMH2yw/rXkIgPfl+0EbgYr4+k2qDR+FWk086u1
- ZlM/WtXlYU/ZOg4XC2QEW1/iP6Y0EAevrjCLjxiLr/sMav4nlNtJ1vRT4UawvLatNAfo8qP2YjJ
- fnj5f9RRT1+f9u+auaZNnhMEiCpqKwuvumKJjlvmYWBq9Vw6D2/z9mWm09gxrETri5a9X7heD6R
- agma4qNPpHScB9fNshb6JKDhn7Xov5p3FRh/gMx9zmy6WeHeKVaADWvKaYlEYG3toC3/cDkr0xS
- 0dTszS/gpTEudSqcIqQUz60BmBQIWdQNQyIIGr4GqbtyhzMa0Pk+hv6Kf8phgZk77q0bktSPMEq
- qPCMF
-X-Received: by 2002:a05:600c:1e28:b0:45b:47e1:ef6d with SMTP id
- 5b1f17b1804b1-46fa9b11746mr202661515e9.36.1760514799498; 
- Wed, 15 Oct 2025 00:53:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZf7d9TK63edfjPsh4LrX74Y6wRlhtOgKLsjlyk6mKGtY9U4BbM1bQ2mcLbjosAJUslcGWjg==
-X-Received: by 2002:a05:600c:1e28:b0:45b:47e1:ef6d with SMTP id
- 5b1f17b1804b1-46fa9b11746mr202661265e9.36.1760514799084; 
- Wed, 15 Oct 2025 00:53:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47101c21805sm14875785e9.10.2025.10.15.00.53.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Oct 2025 00:53:18 -0700 (PDT)
-Message-ID: <c256b8d9-ec9e-4841-9136-1198ad2d590a@redhat.com>
-Date: Wed, 15 Oct 2025 09:53:15 +0200
+ bh=QiClFHNDcw7ltMq7TV0NHul53b4tdhoGhVA4VeYlkqc=;
+ b=c4tzzXhDkz5+Rz2/HbOKHV6vtkBNuidvKsHvU+oHEyxj7jsU6TKm2aYrqS+kFBWCmgPqqa
+ NLJeVCV4TohCx1oNKeXcOqy9c17+KGMdL1YAgKJQvoFG0u0NSZE/gF873Ww+ktfSCUtrH2
+ Rew7a6ytLQMCHQpMbTN5uNUVQFS/txKpP2bFPkWJuTxBCGVikK7NPpKzI5yBbX1XuoZHW3
+ DD5ypyzbI7CChVr2yQrhZdL1CIsUuuZZspK1ustgy7278xmMd7PF1Wjs/xCN34IAS/MRrh
+ 1yyzXDPDa1qStELXJgjIXcX/A/buKn5VTZicw/qtJGjd75LEJ9tH0FDuEhyQYQ==
+Message-ID: <81b83fec1df7d87c049b75587bc3b9a2b7a026eb.camel@mailbox.org>
+Subject: Re: [PATCH v2] drm/sched: Fix potential double free in
+ drm_sched_job_add_resv_dependencies
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Dan Carpenter <dan.carpenter@linaro.org>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Rob Clark
+ <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Matthew
+ Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, stable@vger.kernel.org
+Date: Wed, 15 Oct 2025 10:16:38 +0200
+In-Reply-To: <20251013190731.63235-1-tvrtko.ursulin@igalia.com>
+References: <20251013190731.63235-1-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm/log: Add free callback
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-References: <20251009132006.45834-1-tzimmermann@suse.de>
- <20251009132006.45834-4-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251009132006.45834-4-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xchcbhk2dIyMwyED-xjeBsAXTHriAgNMiLdHvxdFrpI_1760514799
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: bf7e414f5aa4a603f21
+X-MBO-RS-META: sd7ihnhg1dypcieh78cstk8roghoahfq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,63 +66,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2025 15:16, Thomas Zimmermann wrote:
-> Free the client memory in the client free callback. Also move the
-> debugging output into the free callback: drm_client_release() puts
-> the reference on the DRM device, so pointers to the device should
-> be considered dangling afterwards.
+On Mon, 2025-10-13 at 20:07 +0100, Tvrtko Ursulin wrote:
+> When adding dependencies with drm_sched_job_add_dependency(), that
+> function consumes the fence reference both on success and failure, so in
+> the latter case the dma_fence_put() on the error path (xarray failed to
+> expand) is a double free.
+>=20
+> Interestingly this bug appears to have been present ever since
+> ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code back
+> then looked like this:
+>=20
+> drm_sched_job_add_implicit_dependencies():
+> ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < fence_count; i++) =
+{
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 ret =3D drm_sched_job_add_dependency(job, fences[i]);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 if (ret)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (; i < fence_count; i++)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 dma_fence_put(fences[i]);
+>=20
+> Which means for the failing 'i' the dma_fence_put was already a double
+> free. Possibly there were no users at that time, or the test cases were
+> insufficient to hit it.
+>=20
+> The bug was then only noticed and fixed after
+> 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_impli=
+cit_dependencies v2")
 
-Thanks, it looks good to me.
+Ah right, drm maintainer tools don't tolerate it when the word "commit"
+is missing from the SHA:
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+69e0fb8632ec (HEAD -> drm-misc-fixes) drm/sched: Fix potential double free =
+in drm_sched_job_add_resv_dependencies
+-:16: ERROR:GIT_COMMIT_ID: Please use git commit description style 'commit =
+<12+ chars of sha1> ("<title line>")' - ie: 'commit ebd5f74255b9 ("drm/sche=
+d: Add dependency tracking")'
+#16:=20
+ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code back
+
+-:35: WARNING:COMMIT_LOG_LONG_LINE: Prefer a maximum 75 chars per line (pos=
+sible unwrapped commit description?)
+#35:=20
+9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implici=
+t_dependencies v2")
+
+-:35: ERROR:GIT_COMMIT_ID: Please use git commit description style 'commit =
+<12+ chars of sha1> ("<title line>")' - ie: 'commit 9c2ba265352a ("drm/sche=
+duler: use new iterator in drm_sched_job_add_implicit_dependencies v2")'
+#35:=20
+9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implici=
+t_dependencies v2")
+
+-:37: ERROR:GIT_COMMIT_ID: Please use git commit description style 'commit =
+<12+ chars of sha1> ("<title line>")' - ie: 'commit 4eaf02d6076c ("drm/sche=
+duler: fix drm_sched_job_add_implicit_dependencies")'
+#37:=20
+4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies")=
+.
+
+-:40: ERROR:GIT_COMMIT_ID: Please use git commit description style 'commit =
+<12+ chars of sha1> ("<title line>")' - ie: 'commit 963d0b356935 ("drm/sche=
+duler: fix drm_sched_job_add_implicit_dependencies harder")'
+#40:=20
+963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies h=
+arder")
+
+
+Reiterate that in a v3 please. You could also help me out and change
+Reference (not a valid git tag afais) to Closes: as discussed before,
+then I don't have to modify your patch.
+
+
+P.
+
+
+> landed, with its fixup of
+> 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies=
+").
+>=20
+> At that point it was a slightly different flavour of a double free, which
+> 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies=
+ harder")
+> noticed and attempted to fix.
+>=20
+> But it only moved the double free from happening inside the
+> drm_sched_job_add_dependency(), when releasing the reference not yet
+> obtained, to the caller, when releasing the reference already released by
+> the former in the failure case.
+>=20
+> As such it is not easy to identify the right target for the fixes tag so
+> lets keep it simple and just continue the chain.
+>=20
+> While fixing we also improve the comment and explain the reason for takin=
+g
+> the reference and not dropping it.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_depen=
+dencies harder")
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Reference: https://lore.kernel.org/dri-devel/aNFbXq8OeYl3QSdm@stanley.mou=
+ntain/
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.16+
 > ---
->   drivers/gpu/drm/clients/drm_log.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/clients/drm_log.c
-> index 116e0ef9ae5d..470df4148e96 100644
-> --- a/drivers/gpu/drm/clients/drm_log.c
-> +++ b/drivers/gpu/drm/clients/drm_log.c
-> @@ -293,19 +293,26 @@ static void drm_log_free_scanout(struct drm_client_dev *client)
->   	}
->   }
->   
-> -static void drm_log_client_unregister(struct drm_client_dev *client)
-> +static void drm_log_client_free(struct drm_client_dev *client)
->   {
->   	struct drm_log *dlog = client_to_drm_log(client);
->   	struct drm_device *dev = client->dev;
->   
-> +	kfree(dlog);
-> +
-> +	drm_dbg(dev, "Unregistered with drm log\n");
-> +}
-> +
-> +static void drm_log_client_unregister(struct drm_client_dev *client)
-> +{
-> +	struct drm_log *dlog = client_to_drm_log(client);
-> +
->   	unregister_console(&dlog->con);
->   
->   	mutex_lock(&dlog->lock);
->   	drm_log_free_scanout(client);
->   	mutex_unlock(&dlog->lock);
->   	drm_client_release(client);
-> -	kfree(dlog);
-> -	drm_dbg(dev, "Unregistered with drm log\n");
->   }
->   
->   static int drm_log_client_hotplug(struct drm_client_dev *client)
-> @@ -339,6 +346,7 @@ static int drm_log_client_resume(struct drm_client_dev *client, bool _console_lo
->   
->   static const struct drm_client_funcs drm_log_client_funcs = {
->   	.owner		= THIS_MODULE,
-> +	.free		= drm_log_client_free,
->   	.unregister	= drm_log_client_unregister,
->   	.hotplug	= drm_log_client_hotplug,
->   	.suspend	= drm_log_client_suspend,
+> v2:
+> =C2=A0* Re-arrange commit text so discussion around sentences starting wi=
+th
+> =C2=A0=C2=A0 capital letters in all cases can be avoided.
+> =C2=A0* Keep double return for now.
+> =C2=A0* Improved comment instead of dropping it.
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 13 +++++++------
+> =C2=A01 file changed, 7 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 46119aacb809..c39f0245e3a9 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -965,13 +965,14 @@ int drm_sched_job_add_resv_dependencies(struct drm_=
+sched_job *job,
+> =C2=A0	dma_resv_assert_held(resv);
+> =C2=A0
+> =C2=A0	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
+> -		/* Make sure to grab an additional ref on the added fence */
+> -		dma_fence_get(fence);
+> -		ret =3D drm_sched_job_add_dependency(job, fence);
+> -		if (ret) {
+> -			dma_fence_put(fence);
+> +		/*
+> +		 * As drm_sched_job_add_dependency always consumes the fence
+> +		 * reference (even when it fails), and dma_resv_for_each_fence
+> +		 * is not obtaining one, we need to grab one before calling.
+> +		 */
+> +		ret =3D drm_sched_job_add_dependency(job, dma_fence_get(fence));
+> +		if (ret)
+> =C2=A0			return ret;
+> -		}
+> =C2=A0	}
+> =C2=A0	return 0;
+> =C2=A0}
 
