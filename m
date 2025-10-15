@@ -2,68 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99575BDEAEA
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77E1BDEB5A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 15:18:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8279E10E7D3;
-	Wed, 15 Oct 2025 13:13:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="m8Ob9jb/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78E3A10E184;
+	Wed, 15 Oct 2025 13:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C3410E7D3;
- Wed, 15 Oct 2025 13:13:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760533979;
- bh=CbnARJ1NcaAYMxMWl6wrepneykP7YTXb9rnB9JY3DjY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=m8Ob9jb/yqmdZN5gbXCzgVebh2Me0gTPCS7skTCvVHKVKZb+E7d3Ne+V6rwVXRlDt
- VYSG1AI2Zntyba9pSD9ieku+zAV8xZnQZKl1w135SeDH5V4jRI+7aCCI29CMlO7vgi
- EB2NhMEXtEfUYG/7m5wKCKYVi2mOj9ZciBV77NvzD2jEhcQknQBWaf5TS/Gqz67Q2G
- 6WKnH7+N7X6nLqyebw7YxBL1E6GQZIu4uWTpxiRS5TaV9n6PV6zCSts1MNZuwssU6O
- IGZzlxOQrCxo4Rfk1xY97c/4o8aeVa8stN4cxnQC+n8Zo7D1h0zeDOcmkFdwD1x9B8
- boa/A3UcsyrGg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 27C4F17E05FE;
- Wed, 15 Oct 2025 15:12:58 +0200 (CEST)
-Date: Wed, 15 Oct 2025 15:12:55 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Christopher Healy <healych@amazon.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-mm@kvack.org, kernel@collabora.com
-Subject: Re: [PATCH v3 07/10] drm/panthor: Introduce huge tmpfs mount point
- option
-Message-ID: <20251015151255.6f314a11@fedora>
-In-Reply-To: <6f1fb1a5-5d6f-4ebf-bf12-3481d360fb7f@collabora.com>
-References: <20251004093054.21388-1-loic.molinari@collabora.com>
- <20251004093054.21388-8-loic.molinari@collabora.com>
- <20251006092856.02fbfd9e@fedora>
- <6f1fb1a5-5d6f-4ebf-bf12-3481d360fb7f@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DADEB10E184
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 13:18:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 955B3106F;
+ Wed, 15 Oct 2025 06:18:26 -0700 (PDT)
+Received: from [10.1.31.33] (e122027.cambridge.arm.com [10.1.31.33])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 965E13F6A8;
+ Wed, 15 Oct 2025 06:18:31 -0700 (PDT)
+Message-ID: <982d0fb9-a987-4b7f-ba9d-1a87b19e275f@arm.com>
+Date: Wed, 15 Oct 2025 14:18:29 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/13] drm/panfrost: Expose the selected coherency
+ protocol to the UMD
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
+References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
+ <20251010101147.3290604-10-boris.brezillon@collabora.com>
+ <2e85c917-4e49-4cb2-ba2c-edb35907860d@arm.com>
+ <20251015134159.74b42ec4@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251015134159.74b42ec4@fedora>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,46 +56,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Oct 2025 15:09:31 +0200
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+On 15/10/2025 12:41, Boris Brezillon wrote:
+> On Fri, 10 Oct 2025 15:50:58 +0100
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 10/10/2025 11:11, Boris Brezillon wrote:
+>>> Will be needed if we want to skip CPU cache maintenance operations when
+>>> the GPU can snoop CPU caches.
+>>>
+>>> v2:
+>>> - New commit
+>>>
+>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+>>>  drivers/gpu/drm/panfrost/panfrost_drv.c    |  1 +
+>>>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 18 +++++++++++++++++-
+>>>  drivers/gpu/drm/panfrost/panfrost_regs.h   |  2 ++
+>>>  include/uapi/drm/panfrost_drm.h            |  7 +++++++
+>>>  5 files changed, 28 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+>>> index 1e73efad02a8..bd38b7ae169e 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+>>> @@ -75,6 +75,7 @@ struct panfrost_features {
+>>>  	u32 thread_max_workgroup_sz;
+>>>  	u32 thread_max_barrier_sz;
+>>>  	u32 coherency_features;
+>>> +	u32 selected_coherency;
+>>>  	u32 afbc_features;
+>>>  	u32 texture_features[4];
+>>>  	u32 js_features[16];
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> index 607a5b8448d0..3ffcd08f7745 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>>> @@ -94,6 +94,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+>>>  		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
+>>>  		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
+>>>  		PANFROST_FEATURE(THREAD_TLS_ALLOC, thread_tls_alloc);
+>>> +		PANFROST_FEATURE(SELECTED_COHERENCY, selected_coherency);
+>>>  
+>>>  	case DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP:
+>>>  		ret = panfrost_ioctl_query_timestamp(pfdev, &param->value);
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> index 174e190ba40f..fed323e6a307 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> @@ -260,7 +260,23 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+>>>  	pfdev->features.max_threads = gpu_read(pfdev, GPU_THREAD_MAX_THREADS);
+>>>  	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+>>>  	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
+>>> -	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
+>>> +
+>>> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_COHERENCY_REG))
+>>> +		pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
+>>> +	else
+>>> +		pfdev->features.coherency_features = COHERENCY_ACE_LITE;
+>>> +
+>>> +	if (!pfdev->coherent) {
+>>> +		pfdev->features.selected_coherency = COHERENCY_NONE;
+>>> +	} else if (pfdev->features.coherency_features & COHERENCY_ACE) {
+>>> +		pfdev->features.selected_coherency = COHERENCY_ACE;
+>>> +	} else if (pfdev->features.coherency_features & COHERENCY_ACE_LITE) {
+>>> +		pfdev->features.selected_coherency = COHERENCY_ACE_LITE;
+>>> +	} else {
+>>> +		drm_WARN(pfdev->ddev, true, "No known coherency protocol supported");
+>>> +		pfdev->features.selected_coherency = COHERENCY_NONE;
+>>> +	}  
+>>
+>> Same comment as for panthor about not using bits when we can't have more
+>> than one. But also here because selected_coherency is only a UAPI
+>> concept, it would make sense to use the UAPI values, i.e.
+>> DRM_PANFROST_GPU_COHERENCY_ACE_LITE etc rather than the private
+>> COHERENCY_ACE_LITE defines.
+> 
+> For simplicity (we simply copy the coherency_features from the GPU reg
+> at the moment), I want the HW/uAPI values to match, so I've added
+> BUILD_BUG_ON()s. And I think I'd prefer to stick to the defs in
+> panfrost_regs.h, such that if we ever end up writing that back to
+> COHERENCY_ENABLE on newer HW, it's obvious we based the initialization
+> on those HW values.
 
-> On 06/10/2025 09:28, Boris Brezillon wrote:
-> > On Sat,  4 Oct 2025 11:30:50 +0200
-> > Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
-> >  =20
-> >> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/p=
-anthor/panthor_drv.c
-> >> index fdbe89ef7f43..a2be3b904ca2 100644
-> >> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> >> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> >> @@ -1623,6 +1624,12 @@ static const struct drm_driver panthor_drm_driv=
-er =3D {
-> >>   #endif
-> >>   };
-> >>  =20
-> >> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >> +bool panthor_transparent_hugepage;
-> >> +module_param_named(transparent_hugepage, panthor_transparent_hugepage=
-, bool, 0400);
-> >> +MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount p=
-oint with Transparent Hugepage enabled (false =3D default)"); =20
-> >=20
-> > nit: I'd go for a slightly shorter name, like [panthor_]enable_thp. =20
->=20
-> For v4, in order to be consistent with the "transparent_hugepage*"=20
-> kernel parameters, I'd prefer to keep the "panthor.transparent_hugepage"=
-=20
-> (and "panfrost.transparent_hugepage") module parameter name
->=20
-> I could keep the parameter name as is and change the variable name though.
+Yeah, BUILD_BUG_ON works as well. It just seemed a little fragile to be
+using the 'wrong' symbol - and we're messed these symbols up before ;)
 
-Fair enough. Let's just keep things as they are in this version.
+>>
+>> Although there is actually a COHERENCY_ENABLE register on some GPUs
+>> (BASE_HW_FEATURE_COHERENCY_REG in the kbase driver). Looks like it was
+>> probably introduced for Bifrost. But AFAIK the above checks should be ok.
+> 
+> Yep. I didn't dare writing it back, because it's working as-is on all
+> supported HW, and I don't want to regress things. Not that I've played
+> with this COHERENCY_ENABLE reg on my amlogic board, which is coherent,
+> to fake a non-coherent setup, and it works like a charm :-).
+> 
 
->=20
-> > The patch is
-> >=20
-> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >=20
-> > regardless.
-> >  =20
+Yeah, I don't know if it's actually useful beyond testing the
+non-coherent mode, so probably not worth changing things.
+
+Thanks,
+Steve
 
