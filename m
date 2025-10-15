@@ -2,63 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44652BDF9BF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FA8BDFAC7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:33:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E84310E858;
-	Wed, 15 Oct 2025 16:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1011C892C8;
+	Wed, 15 Oct 2025 16:33:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="V1Gj3UXl";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="b5xagB8x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85FC710E858
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:18:33 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cmx8k3hfSz9spd;
- Wed, 15 Oct 2025 18:18:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760545110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+RAcB1KnTu10/U/5AH7wLJv4yw422htNmPqwtIjsMk4=;
- b=V1Gj3UXlTfbAXXf5H8fENfL7wuosE2RSQoMBoCz53MsTllEkLuoeDDji6805ZHRW/Gw2o0
- Xu+HELzQrpUOJ4rxjwCf0hYN+hyML3uTegapcoIlXOoLI25GNkOeBr85BaF976a60WtRex
- aOjTyjwPhdras7ObxUNPbMgCA/y5MfJPz+G5148y3bXilFNgAZFtArFRjUA3aq0/Sw8eGq
- xoNLrI70eJJzv70Rxl8IVKoG2unPNxQZZWlxubfp++LOdQPT/f/Wz+9U6Zq7qJwowPxn9k
- DG2C8guxzonxJujbwt0iuMaFLr19G69W9/ZMo/0Q+roji0ksHOC2+vvHviKJww==
-Message-ID: <e0507800-7e86-4fbb-95cb-e64d8cca1e49@mailbox.org>
-Date: Wed, 15 Oct 2025 18:18:25 +0200
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82684892C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:33:46 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-88ec598fa11so81109685a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1760546025; x=1761150825;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5TVB0JF51SZtYqzdiOCW6IylhkwcFhWMNKiMPXUv89E=;
+ b=b5xagB8xqjo8h/uVNmp3eO2MWbdp0Mq9jF1Cb6xzDZ6FhJewtJfMFgQSGkVMVJXV2H
+ ZKn35VxiG7aDaFdP5AX8JkEqaautdul65cgWlDpiH0j+712tbJ33INeKLOe+7K66thmk
+ lHJ2CnKjRdABcO/bVQQdMWdICwU5OqHlLeJcpx6MIm3Q08/gmMijNl/dQ/DmeVIG+di7
+ s9Uj/y+lHRms2wav2KqF6p+L1ECfy1yRLBFnqvo0LjLAAOddt9B7s0MLse9925qGoNNA
+ 3mFINCPGcLr/QWLQkXm3uzrMbIehcGX5YD4s/XXVFOyGoaJD5egj+qkufLBXJ4wuDTMP
+ qDLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760546025; x=1761150825;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5TVB0JF51SZtYqzdiOCW6IylhkwcFhWMNKiMPXUv89E=;
+ b=U5J1JAAVIQvpfrE3PUTcHA6eZYR9nhGzBYyaAubsgRl54G5KWisstgKXvBorbYlpRh
+ oYsdQaPA0RT0mIzvRTZfDOJgFxvUhuSyafv7y/PVUWgqnmN76rwOmMgmGnVBRrNrewof
+ KsReDHJrbzeTrY43tGzfmffKaDYVSA79Cp4s2Ojxgwq169afhUiLT6E/qmp+jz672pRe
+ F2aXr8QX7V12ScDHOC6nhK/y/I8wxv48ymwIsdsj00AYcsMJs8bxrydGmh7d9tVGV+p2
+ pNXDB8Dyf2QQUrXxczxOQARrNmx1nMuwHzEk5875vX4xgbEstFTx1sD3NoGJhV8pXHSW
+ kqlQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV++6ARxeDB2jPUXYiFdg2kSEgnhDOIpXlyS1L8IahdBVuqy6oGtfuwOiBth6USpdPsN87OK/l2/zM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwV6FWD/jMRad5QREZRxD+w8TNqyHGB7SMTpQehXLwQ1p9hjH/v
+ VwB40EwuXwiXvmndJ0Smq8styIqOePvv0erJ5P1w7ON/3yRjP5yWyRSMdd+O4cpLwL2J/ZUAJS4
+ sWeS5bZbVQ7O/OgxikFBV4PegXu5IHbwchpOMszdZSw==
+X-Gm-Gg: ASbGncvwmV9VtTNAXrIJlXcTu8Ve7UWznxbXZ4/cN6l9tHyeJwFmE5sAIbwA/MH1Q2P
+ DX2y49s7l9SCSXbDpHItTheIuYdo0snU8R3Rap0DH48RAM1d6dAVPt3FDcdPy1kvjTIWpF9iurw
+ 0eGc4SMUXweqiV72RAjBNxqqQiaaiGOFqDANSHmGshXzR83xw6mytZM4X0Ps5ZhL+J5EtYfvz7t
+ iNkUsbmDtFGfG4ErhNzl2A=
+X-Google-Smtp-Source: AGHT+IEWLzmTAJuFvcRpHnhLL3oSxt5DVoapSEF3DOsu9jpTcS07RnjUwC01/MbeqWj+sQer43+GACQfNyCtsVTrhDM=
+X-Received: by 2002:a05:620a:17a5:b0:827:937c:2c2e with SMTP id
+ af79cd13be357-88f11537a62mr99337985a.30.1760546025481; Wed, 15 Oct 2025
+ 09:33:45 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/39] Add i.MX95 DPU/DSI/LVDS support
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
-Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <174ec43e-4cac-4452-a77b-e2e3b8413d05@nxp.com>
- <2c4a42eb-8c49-4ba3-baa3-921ec52f730d@mailbox.org>
- <92d928cc-d9df-4c9c-8571-da39001b91a7@nxp.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <92d928cc-d9df-4c9c-8571-da39001b91a7@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 03ff7b3109451a21313
-X-MBO-RS-META: kx1epfwft5um1jo7qw14sxkpbgi5h5ht
+References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+ <20250903-rk3588-hdmi-cec-v4-2-fa25163c4b08@collabora.com>
+ <2753758.X9hSmTKtgW@diego>
+In-Reply-To: <2753758.X9hSmTKtgW@diego>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 15 Oct 2025 17:33:34 +0100
+X-Gm-Features: AS18NWCJkFE5KF2FTR_JnzlOKDLW2oUBf1S94gJ5rVRW2DgSbekEAuXHzCMSdZw
+Message-ID: <CAPj87rPqNw8BH7FCEAQONZWxTY+eUAE9DeWVTyJoTbN7mv=RfA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] drm/bridge: dw-hdmi-qp: Fixup timer base setup
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,55 +100,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/15/25 12:00 PM, Liu Ying wrote:
+On Wed, 15 Oct 2025 at 16:44, Heiko St=C3=BCbner <heiko@sntech.de> wrote:
+> Am Mittwoch, 3. September 2025, 20:51:00 Mitteleurop=C3=A4ische Sommerzei=
+t schrieb Cristian Ciocaltea:
+> > Currently the TIMER_BASE_CONFIG0 register gets initialized to a fixed
+> > value as initially found in vendor driver code supporting the RK3588
+> > SoC.  As a matter of fact the value matches the rate of the HDMI TX
+> > reference clock, which is roughly 428.57 MHz.
+> >
+> > However, on RK3576 SoC that rate is slightly lower, i.e. 396.00 MHz, an=
+d
+> > the incorrect register configuration breaks CEC functionality.
+> >
+> > Set the timer base according to the actual reference clock rate that
+> > shall be provided by the platform driver.  Otherwise fallback to the
+> > vendor default.
+> >
+> > While at it, also drop the unnecessary empty lines in
+> > dw_hdmi_qp_init_hw().
+> >
+> > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>
+> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+>
+> This _does_ look ok to me, but as that touches the main bridge, could
+> we get a 2nd set of eyes?
 
-Hi,
+Sure can.
 
->> I wanted to put this whole thing on the list first, before I start splitting it up.
->>
->> For starters, I think I can send these separately:
-> 
-> Before discussing how to split, a bigger question is that is it fine to
-> support both i.MX8qxp DC and i.MX95 DC in the same imx8_dc_drm module?
-> Separate modules look more reasonable to me, considering the fact that
-> there are quite a lot difference between the two DCs.
+Reviewed-by: Daniel Stone <daniels@collabora.com>
 
-(maybe I do not quite understand your suggestion with "separate module", 
-I assume this means entirely duplicate driver, is that correct? I 
-operate with that assumption in the text below.)
-
-This series indicates that the functional units in the DC are basically 
-identical, with the majority of changes being register base addresses of 
-the whole DC and an odd bit or register offset here and there. Most of 
-the code can be reused, as can be seen in the first half of the series.
-
-The addition of iMX95 into the iMX8QXP DC also does not seem to be 
-making the driver in any way more complicated.
-
-What would be the benefit of having duplicate driver for IP that is 
-basically identical, for i.MX95 ?
-
-[...]
-
->> - drm/imx: dc: Rename i.MX8QXP specific Link IDs
-> 
-> TBH, I'm not a big fan of adding LINK_ID_x_MXy to enum dc_link_id, since
-> the members may have the same value and it's kind of a mess considering
-> future SoCs.
-
-I am open to a better suggestion which does not involve duplicate driver.
-
->> - drm/imx: Add more RGB swizzling options
-> 
-> This one seems ok.
-
-I can send that one separately. Can you test that on MX8QXP ? I don't 
-have a board with that SoC, sorry.
-
-[...]
-
-> I kind of opt to separate modules.  Maybe, to save some code, an additional
-> module can be introduced to wrap common part as helpers, plus some callback
-> magics, like fg->dc_fg_cfg_videomode().
-Let me ask for clarification here -- by separate modules, do you mean 
-two totally separate drivers ?
+Cheers,
+Daniel
