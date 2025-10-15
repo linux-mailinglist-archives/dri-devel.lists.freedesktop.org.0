@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22341BDF55E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 17:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A607DBDF589
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 17:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A0610E2B9;
-	Wed, 15 Oct 2025 15:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1774910E2B4;
+	Wed, 15 Oct 2025 15:28:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EDAB210E2B9
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 15:25:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0325610E2B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 15:28:10 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA7D91655;
- Wed, 15 Oct 2025 08:25:46 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AEA531655;
+ Wed, 15 Oct 2025 08:28:02 -0700 (PDT)
 Received: from [10.1.31.33] (e122027.cambridge.arm.com [10.1.31.33])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4EB33F738;
- Wed, 15 Oct 2025 08:25:52 -0700 (PDT)
-Message-ID: <38617e34-49c9-400f-85a9-10f73d1ec76e@arm.com>
-Date: Wed, 15 Oct 2025 16:25:50 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BBF993F738;
+ Wed, 15 Oct 2025 08:28:08 -0700 (PDT)
+Message-ID: <7c7c2a4d-82db-4adf-9d06-6f67ec7594eb@arm.com>
+Date: Wed, 15 Oct 2025 16:28:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/14] drm/prime: Provide default
- ::{begin,end}_cpu_access() implementations
+Subject: Re: [PATCH v3 04/14] drm/shmem: Add a drm_gem_shmem_sync() helper
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -31,10 +30,10 @@ Cc: dri-devel@lists.freedesktop.org,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
 References: <20251015130103.3634560-1-boris.brezillon@collabora.com>
- <20251015130103.3634560-4-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
+ <20251015130103.3634560-5-boris.brezillon@collabora.com>
 Content-Language: en-GB
-In-Reply-To: <20251015130103.3634560-4-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20251015130103.3634560-5-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,100 +52,166 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 15/10/2025 14:00, Boris Brezillon wrote:
-> Hook-up drm_gem_dmabuf_{begin,end}_cpu_access() to drm_gem_sync() so
-> that drivers relying on the default prime_dmabuf_ops can still have
-> a way to prepare for CPU accesses from outside the UMD.
+> From: Faith Ekstrand <faith.ekstrand@collabora.com>
+> 
+> This enables syncing mapped GEM objects between the CPU and GPU via calls
+> to dma_sync_*().  It's a bit annoying as it requires walking the sg_table
+> so it's best if every driver doesn't hand-roll it.
+> 
+> When we're dealing with a dma-buf, the synchronization requests are
+> forwarded to the exporter through dma_buf_{begin,end}_cpu_access().
+> 
+> We provide a drm_gem_shmem_object_sync() for drivers that wants to
+> have this default implementation as their drm_gem_object_funcs::sync,
+> but we don't set drm_gem_shmem_funcs::sync to
+> drm_gem_shmem_object_sync() to avoid changing the behavior of drivers
+> currently relying on the default gem_shmem vtable.
 > 
 > v2:
-> - New commit
+> - s/drm_gem_shmem_sync_mmap/drm_gem_shmem_sync/
+> - Change the prototype to match drm_gem_object_funcs::sync()
+> - Add a wrapper for drm_gem_object_funcs::sync()
 > 
 > v3:
-> - Don't return an error on NOP syncs, and document that case in a
->   comment
+> - No changes
 > 
+> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/drm_prime.c | 42 +++++++++++++++++++++++++++++++++++++
->  include/drm/drm_prime.h     |  5 +++++
->  2 files changed, 47 insertions(+)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 89 ++++++++++++++++++++++++++
+>  include/drm/drm_gem_shmem_helper.h     | 11 ++++
+>  2 files changed, 100 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 43a10b4af43a..30d495c70afb 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -823,6 +823,46 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index dc94a27710e5..4094bd243cc8 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -690,6 +690,95 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
 >  }
->  EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
 >  
-> +int drm_gem_dmabuf_begin_cpu_access(struct dma_buf *dma_buf,
-> +				    enum dma_data_direction direction)
+> +/**
+> + * drm_gem_shmem_sync - Sync CPU-mapped data to/from the device
+> + * @shmem: shmem GEM object
+> + * @offset: Offset into the GEM object
+> + * @size: Size of the area to sync
+> + * @access: Flags describing the access to sync for
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_gem_shmem_sync(struct drm_gem_shmem_object *shmem, size_t offset,
+> +		       size_t size, enum drm_gem_object_access_flags access)
 > +{
-> +	struct drm_gem_object *obj = dma_buf->priv;
-> +	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_CPU_ACCESS;
+> +	bool for_dev = (access & DRM_GEM_OBJECT_ACCESSOR_MASK) == DRM_GEM_OBJECT_DEV_ACCESS;
+> +	u32 access_type = access & DRM_GEM_OBJECT_ACCESS_TYPE_MASK;
+> +	struct drm_device *dev = shmem->base.dev;
+> +	enum dma_data_direction dir;
+> +	struct sg_table *sgt;
+> +	struct scatterlist *sgl;
+> +	unsigned int count;
 > +
-> +	/* begin_cpu_access(DMA_TO_DEVICE) is a NOP, the sync will happen
-> +	 * in the end_cpu_access() path.
-> +	 */
-> +	if (direction == DMA_FROM_DEVICE)
-> +		access |= DRM_GEM_OBJECT_READ_ACCESS;
-> +	else if (direction == DMA_BIDIRECTIONAL)
-> +		access |= DRM_GEM_OBJECT_RW_ACCESS;
+> +	if (access_type == DRM_GEM_OBJECT_RW_ACCESS)
+> +		dir = DMA_BIDIRECTIONAL;
+> +	else if (access_type == DRM_GEM_OBJECT_READ_ACCESS)
+> +		dir = for_dev ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
+> +	else if (access_type == DRM_GEM_OBJECT_WRITE_ACCESS)
+> +		dir = for_dev ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
 > +	else
 > +		return 0;
 > +
-> +	return drm_gem_sync(obj, 0, obj->size, access);
-> +}
-> +EXPORT_SYMBOL(drm_gem_dmabuf_begin_cpu_access);
-> +
-> +int drm_gem_dmabuf_end_cpu_access(struct dma_buf *dma_buf,
-> +				  enum dma_data_direction direction)
-> +{
-> +	struct drm_gem_object *obj = dma_buf->priv;
-> +	enum drm_gem_object_access_flags access = DRM_GEM_OBJECT_DEV_ACCESS;
-> +
-> +	/* end_cpu_access(DMA_FROM_DEVICE) is a NOP, the sync should have
-> +	 * happened in the begin_cpu_access() path already.
-> +	 */
-> +	if (direction == DMA_TO_DEVICE)
-> +		access |= DRM_GEM_OBJECT_READ_ACCESS;
-> +	else if (direction == DMA_BIDIRECTIONAL)
-> +		access |= DRM_GEM_OBJECT_RW_ACCESS;
-> +	else
+> +	/* Don't bother if it's WC-mapped */
+> +	if (shmem->map_wc)
 > +		return 0;
 > +
-> +	return drm_gem_sync(obj, 0, obj->size, access);
-> +}
-> +EXPORT_SYMBOL(drm_gem_dmabuf_end_cpu_access);
+> +	if (size == 0)
+> +		return 0;
 > +
->  static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
->  	.attach = drm_gem_map_attach,
->  	.detach = drm_gem_map_detach,
-> @@ -832,6 +872,8 @@ static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
->  	.mmap = drm_gem_dmabuf_mmap,
->  	.vmap = drm_gem_dmabuf_vmap,
->  	.vunmap = drm_gem_dmabuf_vunmap,
-> +	.begin_cpu_access = drm_gem_dmabuf_begin_cpu_access,
-> +	.end_cpu_access = drm_gem_dmabuf_end_cpu_access,
->  };
->  
+> +	if (offset + size < offset || offset + size > shmem->base.size)
+> +		return -EINVAL;
+> +
+> +	if (drm_gem_is_imported(&shmem->base)) {
+> +		/* We can't do fine-grained syncs with dma_buf and there's no
+> +		 * easy way to guarantee that CPU caches/memory won't get
+> +		 * impacted by the buffer-wide synchronization, so let's fail
+> +		 * instead of pretending we can cope with that.
+> +		 */
+> +		if (offset != 0 || size != shmem->base.size)
+> +			return -EINVAL;
+> +
+> +		struct dma_buf *dma_buf = shmem->base.import_attach->dmabuf;
+> +
+> +		if (for_dev)
+> +			return dma_buf_end_cpu_access(dma_buf, dir);
+> +		else
+> +			return dma_buf_begin_cpu_access(dma_buf, dir);
+> +	}
+> +
+> +	sgt = drm_gem_shmem_get_pages_sgt(shmem);
+> +	if (IS_ERR(sgt))
+> +		return PTR_ERR(sgt);
+> +
+> +	for_each_sgtable_dma_sg(sgt, sgl, count) {
+> +		if (size == 0)
+> +			break;
+> +
+> +		dma_addr_t paddr = sg_dma_address(sgl);
+> +		size_t len = sg_dma_len(sgl);
+> +
+> +		if (len <= offset) {
+> +			offset -= len;
+> +			continue;
+> +		}
+> +
+> +		paddr += offset;
+> +		len -= offset;
+> +		len = min_t(size_t, len, size);
+> +		size -= len;
+> +		offset = 0;
+> +
+> +		if (for_dev)
+> +			dma_sync_single_for_device(dev->dev, paddr, len, dir);
+> +		else
+> +			dma_sync_single_for_cpu(dev->dev, paddr, len, dir);
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_sync);
+> +
 >  /**
-> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-> index f50f862f0d8b..052fba039bb6 100644
-> --- a/include/drm/drm_prime.h
-> +++ b/include/drm/drm_prime.h
-> @@ -92,6 +92,11 @@ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map);
->  int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
->  int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma);
+>   * drm_gem_shmem_print_info() - Print &drm_gem_shmem_object info for debugfs
+>   * @shmem: shmem GEM object
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 589f7bfe7506..6363e4ac9163 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -123,6 +123,8 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+>  void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  				 struct iosys_map *map);
+>  int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
+> +int drm_gem_shmem_sync(struct drm_gem_shmem_object *shmem, size_t offset,
+> +		       size_t size, enum drm_gem_object_access_flags access);
 >  
-> +int drm_gem_dmabuf_begin_cpu_access(struct dma_buf *dma_buf,
-> +				    enum dma_data_direction direction);
-> +int drm_gem_dmabuf_end_cpu_access(struct dma_buf *dma_buf,
-> +				  enum dma_data_direction direction);
+>  int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem);
+>  void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem);
+> @@ -279,6 +281,15 @@ static inline int drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct v
+>  	return drm_gem_shmem_mmap(shmem, vma);
+>  }
+>  
+> +static inline int
+> +drm_gem_shmem_object_sync(struct drm_gem_object *obj, size_t offset,
+> +			  size_t size, enum drm_gem_object_access_flags access)
+> +{
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
 > +
->  struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
->  				       struct page **pages, unsigned int nr_pages);
->  struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
+> +	return drm_gem_shmem_sync(shmem, offset, size, access);
+> +}
+> +
+>  /*
+>   * Driver ops
+>   */
 
