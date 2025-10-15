@@ -2,65 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69996BDF150
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 16:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2724BDEEEA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 16:09:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D3110E805;
-	Wed, 15 Oct 2025 14:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8AF10E7FD;
+	Wed, 15 Oct 2025 14:09:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="wN7lqxX9";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ApJoSdLY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9712010E805
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 14:33:20 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6569110E7FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 14:09:11 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmtqJ5ghsz9v66;
- Wed, 15 Oct 2025 16:33:16 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmtHR3qS6z9v5D;
+ Wed, 15 Oct 2025 16:09:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760538796;
+ s=mail20150812; t=1760537347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p+0AAq5p9n3CYb0eN2KQBzPDtI3LpH6hBvgSrfcGzKs=;
- b=wN7lqxX9ujyaZAtI3oFJQBPbEbCEMBGULGgOFLBCY8XqGfDEy4VEj5OTv3D4U7tGelWb9+
- StMm8aoZZcvrm9F7FXK+h/dd87S4E6C0WFcCWzepB33sy+b1zj6nhGPnXO82dXsPTsYosY
- Ud7bD3DHde2xmx+/bZrhYtSKMC8zU9dnKaiJDxWRPUPpBILy98OUUUa5ep2h2dF9VVcwkk
- wAX+kTD0D090Sy7/0bIEJZArrFjR9fB9m6/3c5fgSzAghzEkE9EzMcKYN34SBzaZnjFI6N
- WUAq+FAHm7mc4pGvhu15vOKy85e1gZt88Aer8pMJnVjgGGNfjhXIup6L4LHINw==
-Message-ID: <ae9d1289-c0f9-47b9-b6be-e39d170425a2@mailbox.org>
-Date: Wed, 15 Oct 2025 12:19:33 +0200
+ bh=Xe4Cg3XHk9WX/sshl/sHtnnh4SOJatS1Nt7rugFQLpk=;
+ b=ApJoSdLY1bjutb57XiLr/4vKS33N2MbZIv+lzF1Tw1O3KqYimZORZhsAxQ1BbzIgaxj5Mi
+ zPp+7ZP10rLlK+K5udsvhPAXN0avGNSL9X0PFnbvvcUgT98cKSU0Lr2+C1QfLQkeiOXns/
+ 6U+W20WlAv9r7In95ZSwJxETQqxmUiQzAqnZB9pqJr/mbcfEiv1HP2mn9oSzVhfTpqJOD0
+ 83JRyg3aO2qnNmNnmKxNXBvA4JiShfkPf2rH4WK1LGkTI1pv9k6H+lZKCxXqqh+g+UPkTi
+ 9zoYnBAV0KrxNf8z0Jv/Qpc1g6CSjFrdvPE7BhTo7Wn/MnQrIuX8yRoaKs4mvA==
+Message-ID: <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
+Date: Wed, 15 Oct 2025 16:09:03 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH 03/39] dt-bindings: display: imx: Document i.MX95 Display
- Controller processing units
-To: Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.li@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-References: <20251011170213.128907-1-marek.vasut@mailbox.org>
- <20251011170213.128907-4-marek.vasut@mailbox.org>
- <aO0tmUWA5H0J80Ov@lizhi-Precision-Tower-5810>
- <260b4db1-c02a-48a0-baf8-5e217c729824@mailbox.org>
- <e3ab9421-61a5-4ab6-8c72-6b0ab340f3a8@nxp.com>
-Content-Language: en-US
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
+ Allow panel@ subnode
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <e3ab9421-61a5-4ab6-8c72-6b0ab340f3a8@nxp.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+ <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
+ <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
+Content-Language: en-US
+In-Reply-To: <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 3bfifor4uba8rjg7sfrfhsxrmksew5w3
-X-MBO-RS-ID: f82c0904535502d82ca
+X-MBO-RS-ID: 0fb8f56894de275614b
+X-MBO-RS-META: g54wzxtnzjkakehm6fai3y4gtt1n71h4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,26 +80,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/15/25 10:59 AM, Liu Ying wrote:
+On 9/19/25 7:08 PM, Marek Vasut wrote:
 
-Hello Liu,
+Hello Tomi,
 
->>>> @@ -90,13 +102,15 @@ patternProperties:
->>>>          compatible:
->>>>            const: fsl,imx8qxp-dc-signature
->>>>
->>>> -  "^tcon@[0-9a-f]+$":
->>>> +  "^tcon(@[0-9a-f]+)?$":
+>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+>>>> "bridge" node (you can just rename the panel to bridge to test). I
+>>>> thought someone (I just can't remember who was it =) will send a patch
+>>>> for it, but I think that hasn't happened.
+>>> Do you want me to drop the bridge part from the commit message (I assume
+>>> yes) ?
 >>>
->>> why here allow no address unit tcon?
->> This might be something Liu can clarify too.
+>>> Any other change I should do before sending a V3 ?
 >>
->> TCON on iMX95 DPU does not seem to exist at all, or at least has no control registers. Hence no address.
+>> As we found out, this has been fixed in linux-next. For this, and the
+>> rest in this series:
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> i.MX95 DC hasn't got TCON so it should not be documented for i.MX95 DC.
+> Understood, thank you.
+Do you think this 4/4 can now be applied ? The rest already is.
 
-What DT node do I attach the pixel-mapper/pixel-interleaver to then ?
-
--- 
-Best regards,
-Marek Vasut
+Thank you
