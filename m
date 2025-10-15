@@ -2,115 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB21ABDBE6B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 02:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94039BDBEF6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 02:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC95510E6C4;
-	Wed, 15 Oct 2025 00:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F5710E24C;
+	Wed, 15 Oct 2025 00:52:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nMiTsaAF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CgQz0AC+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3EAC10E6C8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:17:18 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EKRDPU017039
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:17:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=GSA8IE0mdq+dAqjpVyxQIpbb
- q47ChJcfkwB+wY+12Vk=; b=nMiTsaAF9LXdEunLyt3bB6MJdhLVDmpBhutraKJ4
- FLoTH6Ua3xZNroGkylHJs2CLNW8bh25IUnzA8US6WxXcti2n/etbc8vWpDTZV8Zl
- 0q2KpXvxXbypzn3r/s2kD+sncH1uTvF5MkyJufze1w+iJFpF9QJc55/sjMFnm7QH
- w0naD/mk9egD540nRD4RaTBQ485hJGtJwqYptqexC1SLh2C1Hmi5GkYYZpg2M+qC
- JzEEyupbqxdsXjB3xt4dBsGx98Do82t8TAOFY5rbOD09asMuCF5EKJzOLsGYB9h1
- 8n2VTb3/QFKoXpOTQPsMB4FR9V1bE034IZLZDDhiiWFP+A==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbj2g9c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:17:17 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-88e2656b196so83464985a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 17:17:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760487437; x=1761092237;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B3310E24C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:51:59 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-81efcad9c90so86905746d6.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 17:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760489518; x=1761094318; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GSA8IE0mdq+dAqjpVyxQIpbbq47ChJcfkwB+wY+12Vk=;
- b=Dr4kuroeVMKHz9G2FOmGMAZVPA0tZF80fh3BOMT0/IcHuTy1248d8tG3Sqsb5JDUbl
- 92I2vzyxb2MgQ1dyQRi3AXlzmxZH6H6JKXd00Mq+6Z0wilblrjW3SbUd//uMLy79lX05
- bZprO9BedPrbYzqrGxXBPljFnpBwsTP1D7+R9Hr/CjdOBovYvCC9+QxaoOE6D13TCp/X
- gyMxidJ/7scvWyjN2qBaLrqxJceu/xeMNej05lvneAqoEfuvxgbjUQs/otMBukw9Y32g
- H3PZsEJE5ZoWNes9Z4ZNjRMJ4HApSEhvh1DKLAH7e7+JigaQY9dBhYZnLQTXbAzfhBJA
- YhWg==
+ bh=mBvarSClHqKHAsN6DYDAp5r3GXTmqULdVHqWbkOWp+I=;
+ b=CgQz0AC+NozRsL2gz/jUFyDds1t2bfmJpwQ9sAXH5LOMIFP2q1eIp+TZZRUiYQA3YU
+ eSCslSjRIIHysXBFOOO6alK8uq2pwUFSf9Njw8F6KiEFP1vav3l8e5K3FVGOFVOby6RK
+ PSPMS9A03YFsZNId1F1frwTefeTNdxQM38X8xvM1fQUx6OwFIVTMS4ObrvB5YHhZiLm2
+ z71T0XD5p2cU54uUjGj10W4TiP/fQrbF4dYIePbnmqbD4hm/BTnvHtcqfGwoSOELGwH1
+ 1RmqI1iJkepvulo6ZggaCpsFBuFomTPEdfKJB5W5Dqm2cl3+aRRH9nETBMBo1elEz+dr
+ sTPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760489518; x=1761094318;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mBvarSClHqKHAsN6DYDAp5r3GXTmqULdVHqWbkOWp+I=;
+ b=DqONMpeSzOCRR3PuX/diKmmPb7b7xVGPF2dkJIgMyrINHGRV2BaZUEU3exk0rhn2sp
+ fPMETUc/jRg6fi4V/kxfDiBJB5RxxtrYPaxsyWMVmNdithxahrBBlYlncdD7cM3wEpZa
+ VV+TVZF8G7ai/rfZk5yK6GrESrMbs+svZ0bh8LXqVGHRScqHEPSSLxQaYNYVjccYD3C/
+ fsGq5+YMl2XJzW5Kl9yOAfNDIWcT91WW2XreecEf+czczj8My3/QGqv5ayn9Q8BaDgpm
+ Dg3c3jTM0Rd3GAVNq7u9hTHYVmxaRnhqGkvtFKDUn4MajAUZsUXWXjn2WlQPl3TFiWvI
+ LE4A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfQ2WOZQr5M10Y3E2WhVmBJJuKghWjVxN1VYm28r5dJFG/y1O4kxiycOeyQmZ3aaJ1LZzncAPhUTk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3l8E/YuvV4BDGaykKphw1pvM9gf1MSMAc35XH3QyctP9jPNZc
- 5KOhJs3uk9Xgny9mNFOUO1cTcfXFZ2VRnqcXZZXCOT7ieJ6er2eZKuo90XcvskT2amA9m+guddt
- oLbRyhOH72miGUwJnqQKSqKrmg6et39Ya1z/XHcXGgb21/zBDJS5hIS335g2ZQHzuMdiv5Zo=
-X-Gm-Gg: ASbGncunJnAd2TrJcRVsLUVRtI+7V2qQYIk1cV9euwuLmJrZSdkVGlno93Yp+9RUQO6
- 1GQ/GvuGC/9BPK9AP+w7O94AqqA0D6FUnRW6Hb+ffCZjU2h4CHKSNMCSszTRGnLfs14sJUJ48v8
- 7twcR0uZMpvvd4sbaFPrExTsT9rvREMyrJtZiVfSy1HVggyqdvhZf4auN5nFwyoXUteDO1uo+XD
- J67g7yt1USejQy6LEkDLk9TIvYPWRkd/3Fzbiqq/nYge0GgHqTYB6laeAYrmqI/IfMnhEXjuMhS
- DdU/JZO2rWAoOCcXKwYq/hhJF4Jmph6+PTTuWWXx8dfY1CHPucOWLGKR64CccnIcRqHi2lqg9QA
- Yta1lVuQ9V5DI4kpYNqq+IO4R2mVBobjMioKsaWEhcW/XZtt2yzW9
-X-Received: by 2002:a05:622a:5a85:b0:4db:f72a:b816 with SMTP id
- d75a77b69052e-4e6eacd2be4mr417127191cf.22.1760487436666; 
- Tue, 14 Oct 2025 17:17:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHGmUgx4O+pVpNnyAyHvYfcG3kqfMLo5IhchaRSoTS6CeT3T5N2YBTNDnX1AJcza4n9BxrDrg==
-X-Received: by 2002:a05:622a:5a85:b0:4db:f72a:b816 with SMTP id
- d75a77b69052e-4e6eacd2be4mr417126881cf.22.1760487436190; 
- Tue, 14 Oct 2025 17:17:16 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5908856e480sm5699406e87.94.2025.10.14.17.17.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Oct 2025 17:17:14 -0700 (PDT)
-Date: Wed, 15 Oct 2025 03:17:12 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 03/16] drm/atomic: Add new atomic_create_state
- callback to drm_private_obj
-Message-ID: <tx6dccjku67hgkydr5nxgfi7gifxdij7z2e4eslacb35wz6erp@qsqkwcr5mnya>
-References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
- <20251014-drm-private-obj-reset-v2-3-6dd60e985e9d@kernel.org>
- <c43t73qbgrimpuinjsjyxcit6cvjflusomjayzv62nvvvmtwuo@elo37btubnul>
+ AJvYcCXwNG25eHFUfFVWozjAsqaFHUcLLR8Sy6UevrON6yYStlYPyOoK3sMMGUeqFEP9qjKuCEeSAoX4FJU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeUbYp+oNdkw5CgCwbztMusZSdwJhpiufPvPSW4NjM3rXGu6nt
+ GFyFBYJRMvSGVJOpSzPbS7Ql9VI26/TPVaVwigvitS1Wg+nql9n3TWdpIl0kZtdhHh63IHWQxS2
+ nNQUCc3ObEl9Dgn4alvIJkUMM4AjfAEQ=
+X-Gm-Gg: ASbGncvuzIGXCs2amyFzRkn96ie8UbAHeDPBubXI0GI33wY32Fhsc5RUsrROPabgm4W
+ 1xHSSFxuLyWBeYKRYz/0NjMEh3Qx52MpOZutOzr0h4f0rlxEhhGtuzCwM/I7PU7rfkPQDb7bRbF
+ ZReo8UEwm7dbGTBSXTfnpqNoca05xZBSCax15CUBPQ/9SIa/sL8FSAIMLT1mIf9JVQV1LtM5ZD8
+ 4CTcgrQpY/NLoztorhAZ/Au6Fh8SRpIQYE=
+X-Google-Smtp-Source: AGHT+IHzqBUoDH15dRZufHzMs4mxLsN1RycWNriUL3NGuph2SDuItJrU+4QQZOIlNYwWq94MB/Cka0WFPf8yqhLO4uw=
+X-Received: by 2002:a05:6214:e8d:b0:879:d13a:109e with SMTP id
+ 6a1803df08f44-87b2ef70547mr393256936d6.58.1760489518004; Tue, 14 Oct 2025
+ 17:51:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c43t73qbgrimpuinjsjyxcit6cvjflusomjayzv62nvvvmtwuo@elo37btubnul>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX4D0b3Pe3AL0Z
- 1St/hvmiLrdDryA79Wol8Ueu1tmXYMAb6hBw0m/7b8dFrQSJxtXgdOg76+Jr5IyMGcq8rCddYky
- 2Iagq1uuqa9hBz5Ks7RZNfoK05mFNNWSYzc2nxaqieZW4rOSzYIe2ZklxVPK84y4L6jeU61X/63
- QpuVtR+ftK+dMBY53lg4slVIzjb1jksk9D6qkm5DDQSfRcuHk1+Kaflx5mVFk+o3fRwaSBa1Nze
- /WKAwllBcw7aHawlsgClf9bEaAFuhLEyxFb7BdEUXemcXSbOySBwM7FFB+AmIjEx7roeHN8p4sD
- Iw7ZDsY9ow+zORvyFSrbGm20PyVgtun/aet8LQ6bAkYU9nR8b+t7eKKH6yip4X+nMyqVJfTP8f7
- j7OWR4gtY2htjdyflSfF1dVTbycJQw==
-X-Proofpoint-ORIG-GUID: ezDeTN8M-hT1Ou203rFxQx4cGaKVEPzE
-X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68eee80d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
- a=2abdinQX6STuU-YpCiQA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: ezDeTN8M-hT1Ou203rFxQx4cGaKVEPzE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+In-Reply-To: <20251013143502.1655-1-christian.koenig@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 15 Oct 2025 10:51:46 +1000
+X-Gm-Features: AS18NWB-XS67voA6eav_aJkSDh3djLnguC57tZG1zZwSoGbLm_nMzt4FPvSC-dk
+Message-ID: <CAPM=9twu_jrR=XnHLtR9hRaRdcLWdDndvFxdNHOQMn4-Pehd+g@mail.gmail.com>
+Subject: Re: Independence for dma_fences!
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch, 
+ tursulin@ursulin.net, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,125 +85,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 15, 2025 at 01:49:33AM +0300, Dmitry Baryshkov wrote:
-> On Tue, Oct 14, 2025 at 11:31:47AM +0200, Maxime Ripard wrote:
-> > The drm_private_obj initialization was inconsistent with the rest of the
-> > KMS objects. Indeed, it required to pass a preallocated state in
-> > drm_private_obj_init(), while all the others objects would have a reset
-> > callback that would be called later on to create the state.
-> > 
-> > However, reset really is meant to reset the hardware and software state.
-> > That it creates an initial state is a side-effect that has been used in
-> > all objects but drm_private_obj. This is made more complex since some
-> > drm_private_obj, the DisplayPort ones in particular, need to be
-> > persistent across and suspend/resume cycle, and such a cycle would call
-> > drm_mode_config_reset().
-> 
-> Doesn't that mean that we need to save private objects's state in
-> drm_atomic_helper_duplicate_state() and restore it in
-> drm_atomic_helper_commit_duplicated_state()? Private objects don't have
-> .atomic_commit() callbacks, but they can be used by other objects during
-> drm_atomic_commit().
-> 
-> > Thus, we need to add a new callback to allocate a pristine state for a
-> > given private object.
-> > 
-> > This discussion has also came up during the atomic state readout
-> > discussion, so it might be introduced into the other objects later on.
-> > 
-> > Until all drivers are converted to that new allocation pattern, we will
-> > only call it if the passed state is NULL. This will be removed
-> > eventually.
-> > 
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/gpu/drm/drm_atomic.c | 20 ++++++++++++++++++--
-> >  include/drm/drm_atomic.h     | 13 +++++++++++++
-> >  2 files changed, 31 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> > index a5c5617266ae1dfe6038baeee6dfa3828c626683..36b56c71cb4e1ddc57577df724efe7d89b4fb6a9 100644
-> > --- a/drivers/gpu/drm/drm_atomic.c
-> > +++ b/drivers/gpu/drm/drm_atomic.c
-> > @@ -793,15 +793,31 @@ int drm_atomic_private_obj_init(struct drm_device *dev,
-> >  	memset(obj, 0, sizeof(*obj));
-> >  
-> >  	drm_modeset_lock_init(&obj->lock);
-> >  
-> >  	obj->dev = dev;
-> > -	obj->state = state;
-> >  	obj->funcs = funcs;
-> >  	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
-> >  
-> > -	state->obj = obj;
-> > +	/*
-> > +	 * Not all users of drm_atomic_private_obj_init have been
-> > +	 * converted to using &drm_private_obj_funcs.reset yet. For the
-> > +	 * time being, let's only call reset if the passed state is
-> > +	 * NULL. Otherwise, we will fallback to the previous behaviour.
-> 
-> This comment does no longer reflect the code.
-> 
-> > +	 */
-> > +	if (!state) {
-> > +		if (obj->funcs->atomic_create_state) {
+On Tue, 14 Oct 2025 at 01:11, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Hi everyone,
+>
+> dma_fences have ever lived under the tyranny dictated by the module
+> lifetime of their issuer, leading to crashes should anybody still holding
+> a reference to a dma_fence when the module of the issuer was unloaded.
+>
+> But those days are over! The patch set following this mail finally
+> implements a way for issuers to release their dma_fence out of this
+> slavery and outlive the module who originally created them.
+>
+> Previously various approaches have been discussed, including changing the
+> locking semantics of the dma_fence callbacks (by me) as well as using the
+> drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
+> from their actual users.
+>
+> Changing the locking semantics turned out to be much more trickier than
+> originally thought because especially on older drivers (nouveau, radeon,
+> but also i915) this locking semantics is actually needed for correct
+> operation.
+>
+> Using the drm_scheduler as intermediate layer is still a good idea and
+> should probably be implemented to make live simpler for some drivers, but
+> doesn't work for all use cases. Especially TLB flush fences, preemption
+> fences and userqueue fences don't go through the drm scheduler because it
+> doesn't make sense for them.
+>
+> Tvrtko did some really nice prerequisite work by protecting the returned
+> strings of the dma_fence_ops by RCU. This way dma_fence creators where
+> able to just wait for an RCU grace period after fence signaling before
+> they could be save to free those data structures.
+>
+> Now this patch set here goes a step further and protects the whole
+> dma_fence_ops structure by RCU, so that after the fence signals the
+> pointer to the dma_fence_ops is set to NULL when there is no wait nor
+> release callback given. All functionality which use the dma_fence_ops
+> reference are put inside an RCU critical section, except for the
+> deprecated issuer specific wait and of course the optional release
+> callback.
+>
+> Additional to the RCU changes the lock protecting the dma_fence state
+> previously had to be allocated external. This set here now changes the
+> functionality to make that external lock optional and allows dma_fences
+> to use an inline lock and be self contained.
+>
+> The new approach is then applied to amdgpu allowing the module to be
+> unloaded even when dma_fences issued by it are still around.
 
-Shouldn't this callback be mandatory here? Otherwise we can easily end
-up with the object without a connected state, if the driver doesn't
-implement it.
+Can we add some Why? in here, like what use cases does this enable,
 
-> > +			state = obj->funcs->atomic_create_state(obj);
-> > +			if (IS_ERR(state))
-> > +				return PTR_ERR(state);
-> > +
-> > +			obj->state = state;
-> > +		}
-> > +	} else {
-> > +		obj->state = state;
-> > +		state->obj = obj;
-> > +	}
-> >  
-> >  	return 0;
-> >  }
-> >  EXPORT_SYMBOL(drm_atomic_private_obj_init);
-> >  
-> > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> > index 9b3fb98b1e88c38877abdcb9df4d1c9540768833..10a71c4b6afc316f07023756be4cd3ed1d1d2974 100644
-> > --- a/include/drm/drm_atomic.h
-> > +++ b/include/drm/drm_atomic.h
-> > @@ -205,10 +205,23 @@ struct drm_private_state;
-> >   * added to the atomic states is expected to have an implementation of these
-> >   * hooks and pass a pointer to its drm_private_state_funcs struct to
-> >   * drm_atomic_get_private_obj_state().
-> >   */
-> >  struct drm_private_state_funcs {
-> > +	/**
-> > +	 * @atomic_create_state:
-> > +	 *
-> > +	 * Allocates a pristine, initialized, state for the private
-> > +	 * object and returns it.
-> > +	 *
-> > +	 * RETURNS:
-> > +	 *
-> > +	 * A new, pristine, private state instance or an error pointer
-> > +	 * on failure.
-> > +	 */
-> > +	struct drm_private_state *(*atomic_create_state)(struct drm_private_obj *obj);
-> > +
-> >  	/**
-> >  	 * @atomic_duplicate_state:
-> >  	 *
-> >  	 * Duplicate the current state of the private object and return it. It
-> >  	 * is an error to call this before obj->state has been initialized.
-> > 
-> > -- 
-> > 2.51.0
-> > 
-> 
-> -- 
-> With best wishes
-> Dmitry
+Some more explanation about what these hanging about fences will be
+used in, like if the module is gone away, I have to assume this is for
+already signalled fences, so someone is waiting and hasn't cleaned up
+yet?
 
--- 
-With best wishes
-Dmitry
+What problem does it solve wrt module unload, what scenario is
+unloading amdgpu not possible in now, what scenario will it be able to
+unload in after?
+
+Thanks,
+
+Dave.
