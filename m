@@ -2,69 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B69EBDFD95
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 19:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14EC6BDFEDB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 19:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC4E810E89B;
-	Wed, 15 Oct 2025 17:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3230310E0CD;
+	Wed, 15 Oct 2025 17:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="O/AIKjGH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IIgC3gVB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFBEE10E89A;
- Wed, 15 Oct 2025 17:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=OHD1PbWJgOF9XOuL5HA73G273J12JtIymtajQ7fqsQ4=; b=O/AIKjGH3q2vAiI35ZMnFpDXL9
- C+s4LMohbjn1T1gowDff1QATHCAKFtMlK/vQLkE6V3EMtM4PyVK7+qNjjH8p/SMgAOrlYDh7E5JNj
- s6YHmSgHX3PZeq5i2cQTrpXa6f/EsBMgS+kaQRLCyHVc51UqP5td4HDZnJ8pJHHOP2BQCs6Kdb3dl
- hDdhTVC23HoZ8cjO9DV1mJas9/6i26NP5x/fG5klzP8VqwqGrFQpNOM+S4KcTQZO8AUi9LAwkUeyi
- W84rWDUlfmhJWd6nz90Jtg0an/C/x6jqBk720u/RVEgVMVk7m7XzfqEOkFEtR41Jp2xUsiPZ+01/Z
- FUrLjK/g==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
- Hat Linux)) id 1v95I1-00000002tYN-00lF;
- Wed, 15 Oct 2025 17:27:53 +0000
-Date: Wed, 15 Oct 2025 18:27:52 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>,
- =?utf-8?Q?Miko=C5=82aj?= Wasiak <mikolaj.wasiak@intel.com>,
- Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v4 03/13] drm/shmem-helper: Map huge pages in fault
- handlers
-Message-ID: <aO_ZmA6yoqbzTKt9@casper.infradead.org>
-References: <20251015153018.43735-1-loic.molinari@collabora.com>
- <20251015153018.43735-4-loic.molinari@collabora.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8BFA10E0CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 17:47:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 589FE49E12;
+ Wed, 15 Oct 2025 17:47:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00093C4CEF9;
+ Wed, 15 Oct 2025 17:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760550472;
+ bh=uPrrsFdE6NGU9a6DMqCtEGRYCPmpe4J9fv2Y6if0yMU=;
+ h=From:Subject:Date:To:Cc:From;
+ b=IIgC3gVBZ7jF+1XjKNm9sMbC3S/uB5R0Cov85iu58caIHyHKrGPWxThWs2slqRFJs
+ 1OGiuSZdOijwychMKYVEdCjvqBBFLqb+KBIGPrNV6ZwlBj5KGZTGfl1+HFiw1TTciR
+ JdzM9dhLznEANN8JLFT9wV9bSKB17f6gw6PXWk/vaBdpbugSZ2KNonhssxn1udz7Ur
+ A4pvJBXEtTKSz81nWeLyEtrQwfmB+7crbmv8SrRNUrdVop8pQzuOSkreSM+Fy038+2
+ B+AvFMMC8dW8705pdAB6cQ4DZ4hxR3Gu+Zvvg6VQImaMoFmswoFEwa8Cd9pYNuMMqR
+ Ls0yZizndr7Xw==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH v4 0/2] accel: Add Arm Ethos-U NPU
+Date: Wed, 15 Oct 2025 12:47:38 -0500
+Message-Id: <20251015-ethos-v4-0-81025a3dcbf3@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251015153018.43735-4-loic.molinari@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADre72gC/2XMQQ6CMBCF4auYrq1hphSsK+9hXECZQqOhpiWNh
+ nB3C4EQ4/JN5vtHFshbCuxyGJmnaIN1fRr58cB0V/UtcdukzTBDmZUgOQ2dC1yYphGKTGFAsfT
+ 78mTse+nc7ml3NgzOf5ZshPm6FhDXQgSeca1ByyrTdW3q64N8T8+T8y2bExF3dgbYGCZWISijJ
+ VZK/jOxM4XFxkRiRd1gLkpBuZE/bJqmL4jDJsoJAQAA
+X-Change-ID: 20250715-ethos-3fdd39ef6f19
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
+ Daniel Stone <daniel@fooishbar.org>, Frank Li <Frank.li@nxp.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,32 +74,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 15, 2025 at 05:30:07PM +0200, Loïc Molinari wrote:
+The Arm Ethos-U65/85 NPUs are designed for edge AI inference 
+applications[0].
 
-This looks fine, no need to resend to fix this, but if you'd written
-the previous patch slightly differently, you'd've reduced the amount of
-code you moved around in this patch, which would have made it easier to
-review.
+The driver works with Mesa Teflon. A merge request for Ethos support is 
+here[1]. The UAPI should also be compatible with the downstream (open 
+source) driver stack[2] and Vela compiler though that has not been 
+implemented.
 
-> +	/* Map a range of pages around the faulty address. */
-> +	do {
-> +		pfn = page_to_pfn(pages[start_pgoff]);
-> +		ret = vmf_insert_pfn(vma, addr, pfn);
-> +		addr += PAGE_SIZE;
-> +	} while (++start_pgoff <= end_pgoff && ret == VM_FAULT_NOPAGE);
+Testing so far has been on i.MX93 boards with Ethos-U65 and a FVP model 
+with Ethos-U85. More work is needed in mesa for handling U85 command 
+stream differences, but that doesn't affect the UABI.
 
-It looks to me like we have an opportunity to do better here by
-adding a vmf_insert_pfns() interface.  I don't think we should delay
-your patch series to add it, but let's not forget to do that; it can
-have very good performnce effects on ARM to use contptes.
+A git tree is here[3].
 
-> @@ -617,8 +645,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
-[...]
->  
-> -		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
-> +	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
-> +		ret = VM_FAULT_NOPAGE;
-> +		goto out;
->  	}
+Rob
 
-Does this actually work?
+[0] https://www.arm.com/products/silicon-ip-cpu?families=ethos%20npus
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36699/
+[2] https://gitlab.arm.com/artificial-intelligence/ethos-u/
+[3] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git ethos-v4
+
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+Changes in v4:
+- Use bulk clk API
+- Various whitespace fixes mostly due to ethos->ethosu rename
+- Drop error check on dma_set_mask_and_coherent()
+- Drop unnecessary pm_runtime_mark_last_busy() call
+- Move variable declarations out of switch (a riscv/clang build failure)
+- Use lowercase hex in all defines
+- Drop unused ethosu_device.coherent member
+- Add comments on all locks
+- Link to v3: https://lore.kernel.org/r/20250926-ethos-v3-0-6bd24373e4f5@kernel.org
+
+Changes in v3:
+- Rework and improve job submit validation                                                            
+- Rename ethos to ethosu. There was an Ethos-Nxx that's unrelated.
+- Add missing init for sched_lock mutex
+- Drop some prints to debug level          
+- Fix i.MX93 SRAM accesses (AXI config)
+- Add U85 AXI configuration and test on FVP with U85
+- Print the current cmd value on timeout                                                              
+- Link to v2: https://lore.kernel.org/r/20250811-ethos-v2-0-a219fc52a95b@kernel.org
+
+Changes in v2:
+- Rebase on v6.17-rc1 adapting to scheduler changes
+- scheduler: Drop the reset workqueue. According to the scheduler docs,
+  we don't need it since we have a single h/w queue.
+- scheduler: Rework the timeout handling to continue running if we are
+  making progress. Fixes timeouts on larger jobs.
+- Reset the NPU on resume so it's in a known state
+- Add error handling on clk_get() calls
+- Fix drm_mm splat on module unload. We were missing a put on the
+  cmdstream BO in the scheduler clean-up.
+- Fix 0-day report needing explicit bitfield.h include
+- Link to v1: https://lore.kernel.org/r/20250722-ethos-v1-0-cc1c5a0cbbfb@kernel.org
+
+---
+Rob Herring (Arm) (2):
+      dt-bindings: npu: Add Arm Ethos-U65/U85
+      accel: Add Arm Ethos-U NPU driver
+
+ .../devicetree/bindings/npu/arm,ethos.yaml         |  79 +++
+ MAINTAINERS                                        |   9 +
+ drivers/accel/Kconfig                              |   1 +
+ drivers/accel/Makefile                             |   1 +
+ drivers/accel/ethosu/Kconfig                       |  10 +
+ drivers/accel/ethosu/Makefile                      |   4 +
+ drivers/accel/ethosu/ethosu_device.h               | 190 ++++++
+ drivers/accel/ethosu/ethosu_drv.c                  | 418 ++++++++++++
+ drivers/accel/ethosu/ethosu_drv.h                  |  15 +
+ drivers/accel/ethosu/ethosu_gem.c                  | 710 +++++++++++++++++++++
+ drivers/accel/ethosu/ethosu_gem.h                  |  46 ++
+ drivers/accel/ethosu/ethosu_job.c                  | 539 ++++++++++++++++
+ drivers/accel/ethosu/ethosu_job.h                  |  41 ++
+ include/uapi/drm/ethosu_accel.h                    | 261 ++++++++
+ 14 files changed, 2324 insertions(+)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20250715-ethos-3fdd39ef6f19
+
+Best regards,
+--  
+Rob Herring (Arm) <robh@kernel.org>
+
