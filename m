@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC027BDC8EF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 06:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E71ABDC8EC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 06:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D906D10E6EC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABECD10E6E9;
 	Wed, 15 Oct 2025 04:59:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="R1cxURs/";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dRjU/WUI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E80D610E6E9
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 04:59:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF8B10E6E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 04:59:41 +0000 (UTC)
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59F2sDOx015270;
- Wed, 15 Oct 2025 04:59:35 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59F2sfQd016165;
+ Wed, 15 Oct 2025 04:59:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=KWzPPMfZZi3
- LLrVxkw/hV6wLLTGvOs/WD8pa1cwALro=; b=R1cxURs/wllfk64an/oDlm65K/v
- mI7TrD1W+3ZZ6c5xIgN4bRMpUAPLPK8gblwFzXC3deGAJvzrSMs3R4HUrr7B65vT
- l9GHaJllNv9uTsyzgxwKloXtkmcIA/a7qwm69Q8BUA9EkJFsgmGtS3etnJ1+cWUF
- T1+Qiu0uh9FeAxO6kNSA8kHn95mlvL0zofxITlAlYYH+y9lhY2LNsErJJoClcmSj
- 0aKYvpWBXe2dNzpI1UgL9HNYAKjUrYmOmxKUnxGtHYIBbONzAsExsNA6uoaS4fRa
- SrqtD0thwGOBcTKeCkugIzfQPiV16rD0i0NxM8VZvNabejWomowLve5LzwQ==
+ :mime-version:references:subject:to; s=qcppdkim1; bh=S7cxMjN07Kb
+ UzbGp0RRAY9q1RBefCfEuJyeBArzvxS8=; b=dRjU/WUI2WyKcMjnNo7ip5ikxKU
+ aTK0V4nm54Mi6QFkpcsTVhAX27BJZ0bzl1lmXeftjUuMMytbIX0+eUCTA8w/Y0bV
+ Us6kom9c0XWi1dOVjuIDmnRIo83IYXtlnwO+qLfBbtL7cS3tdzw+K9w9rgCJP6c8
+ qLB7lv2F4XI1PpnAcLLEuxvrxudZVhbBrwlyV4asOlf0qhYq0lnYXHN7DZDO9rmY
+ 0l5FSqwJixnu4z3ePxhYZWu+9G1cT3wdhnm0cWPSFX2ielFuNyitWI+JzMMLaXBM
+ qWzT3ucKgiFps6EM4tmDWKUdkqpDQR3qNEgHIxA1nIrqaBYv9Vmm41zJlnw==
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfm5k70d-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfm5k70e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Oct 2025 04:59:35 +0000 (GMT)
+ Wed, 15 Oct 2025 04:59:37 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 59F4xVj6022568; 
- Wed, 15 Oct 2025 04:59:31 GMT
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 59F4xYBE022603; 
+ Wed, 15 Oct 2025 04:59:34 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 49qgambmdm-1
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 49qgambmdt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Oct 2025 04:59:31 +0000
+ Wed, 15 Oct 2025 04:59:34 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59F4xVwA022563;
- Wed, 15 Oct 2025 04:59:31 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59F4xXg3022598;
+ Wed, 15 Oct 2025 04:59:33 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
  [10.147.243.7])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 59F4xVnw022562
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 59F4xXoB022583
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Oct 2025 04:59:31 +0000
+ Wed, 15 Oct 2025 04:59:33 +0000
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
- id 4655353B; Wed, 15 Oct 2025 10:29:30 +0530 (+0530)
+ id 4CAA953B; Wed, 15 Oct 2025 10:29:32 +0530 (+0530)
 From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
  arnd@arndb.de, gregkh@linuxfoundation.org
@@ -59,9 +59,9 @@ Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com,
  quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
  aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-Subject: [PATCH v2 1/3] misc: fastrpc: Rename phys to dma_addr for clarity
-Date: Wed, 15 Oct 2025 10:27:00 +0530
-Message-Id: <20251015045702.3022060-2-kumari.pallavi@oss.qualcomm.com>
+Subject: [PATCH v2 2/3] misc: fastrpc: Add support for new DSP IOVA formatting
+Date: Wed, 15 Oct 2025 10:27:01 +0530
+Message-Id: <20251015045702.3022060-3-kumari.pallavi@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
 References: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
@@ -73,19 +73,19 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: MuNBpB375GIFmVhIDE_PNogpS6N_7Xol
-X-Proofpoint-ORIG-GUID: MuNBpB375GIFmVhIDE_PNogpS6N_7Xol
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMCBTYWx0ZWRfX8hDxjcJ+MVJK
- oy62z6Sn4Lzgs8L0RnqOS83Ep7gjvD7vT3Mm6KVn2bX2l3MOy20dy51DhsoCWwN0AoHiOLM/ioJ
- 0ICX6LpbvHC7yIzJrYdJZfHLOAhNCpcb2ipz1G1KM8Zv/6be3dDnGk2CJA7ywdU+09BBilhKPoA
- C/Y74ib0ys3hJbTr7GM1rXOBaiYjjXrpEyNNYLREykmniUcs+2cN7Cgv1q63ySiaPTPUcmljawO
- AiNH4ruJcig1Igf6WTDAwUyiJZmauvG0mFRQZwswwSQiuSx+tkIeqRtRC+SRa0yf376RZfGpI2N
- QmkO9ezTRtXLTjoDp8cC7f9sTef3jYvz9y95FXUWFIA93YXxvQfVK70idN7EKCrfHpG2BGIp17T
- E8oJzzXQA3ieAJJSOjHPbadWj+4dRA==
-X-Authority-Analysis: v=2.4 cv=V71wEOni c=1 sm=1 tr=0 ts=68ef2a37 cx=c_pps
+X-Proofpoint-GUID: AmS4aEJRxewCP6LSt8Ju1LHgtZAoqL_O
+X-Proofpoint-ORIG-GUID: AmS4aEJRxewCP6LSt8Ju1LHgtZAoqL_O
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMCBTYWx0ZWRfX9jPjzLV7dmZh
+ NVnz9FxUidbLYImvpy+yZrwWDuCmqo8S58Z/ZEd/tWo9NDNbJ09pnExnXYUbbzhad3W6dpnnPud
+ hC3sZdqNeDMd5Q2x+43+W1jPFCQKVfNV3QF1Ot2VD4t5MlOJMU6einVZrTZirlMI33mqMLSHjng
+ C8lwfQb7p39xr67Umh2QBkf04qplczs9/YkHr/Xf3v++VmnBajsbPcBYQ9p85s4TXy1EiCRdlQF
+ iT7i9XQp6oAkj3QQSquHpkBYOmjYo7gG1HzRniBN+gIiMhSzJp8+tYI0m9s3BJ8gonahIci/Jf8
+ 9KMmIHoOkfNOmDexEksGNME/IhFBUnOevL8R21zbuZZ7rqMoF9El7xPR/8Cz/CY4iz/ClRl+mUE
+ 0ZHcMnaReIvPsNdPwgyYO7BvoYp48g==
+X-Authority-Analysis: v=2.4 cv=V71wEOni c=1 sm=1 tr=0 ts=68ef2a39 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=Ad5MQvEeN3Z1KjFj2xQA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
+ a=-4e2_yvRbxqkDXL5fRYA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-15_01,2025-10-13_01,2025-03-28_01
@@ -110,252 +110,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update all references of buf->phys and map->phys to buf->dma_addr and
-map->dma_addr to accurately represent that these fields store DMA
-addresses, not physical addresses. This change improves code clarity
-and aligns with kernel conventions for dma_addr_t usage.
+Implement the new IOVA formatting required by the DSP architecture change
+on Kaanapali SoC. Place the SID for DSP DMA transactions at bit 56 in the
+physical address. This placement is necessary for the DSPs to correctly
+identify streams and operate as intended.
+To address this, set SID position to bit 56 based on SoC-specific compatible
+string from the root node within the physical address; otherwise, default to
+legacy 32-bit placement.
+This change ensures consistent SID placement across DSPs.
 
 Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 ---
- drivers/misc/fastrpc.c | 68 +++++++++++++++++++++---------------------
- 1 file changed, 34 insertions(+), 34 deletions(-)
+ drivers/misc/fastrpc.c | 59 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 52 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 621bce7e101c..975be54a2491 100644
+index 975be54a2491..1a5d620b23f2 100644
 --- a/drivers/misc/fastrpc.c
 +++ b/drivers/misc/fastrpc.c
-@@ -194,7 +194,7 @@ struct fastrpc_buf {
- 	struct dma_buf *dmabuf;
- 	struct device *dev;
- 	void *virt;
--	u64 phys;
-+	u64 dma_addr;
- 	u64 size;
- 	/* Lock for dma buf attachments */
- 	struct mutex lock;
-@@ -217,7 +217,7 @@ struct fastrpc_map {
- 	struct dma_buf *buf;
- 	struct sg_table *table;
- 	struct dma_buf_attachment *attach;
--	u64 phys;
-+	u64 dma_addr;
- 	u64 size;
- 	void *va;
- 	u64 len;
-@@ -320,11 +320,11 @@ static void fastrpc_free_map(struct kref *ref)
+@@ -33,7 +33,6 @@
+ #define FASTRPC_ALIGN		128
+ #define FASTRPC_MAX_FDLIST	16
+ #define FASTRPC_MAX_CRCLIST	64
+-#define FASTRPC_PHYS(p)	((p) & 0xffffffff)
+ #define FASTRPC_CTX_MAX (256)
+ #define FASTRPC_INIT_HANDLE	1
+ #define FASTRPC_DSP_UTILITIES_HANDLE	2
+@@ -105,6 +104,15 @@
  
- 			perm.vmid = QCOM_SCM_VMID_HLOS;
- 			perm.perm = QCOM_SCM_PERM_RWX;
--			err = qcom_scm_assign_mem(map->phys, map->len,
-+			err = qcom_scm_assign_mem(map->dma_addr, map->len,
- 				&src_perms, &perm, 1);
- 			if (err) {
--				dev_err(map->fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d\n",
--						map->phys, map->len, err);
-+				dev_err(map->fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
-+						map->dma_addr, map->len, err);
- 				return;
- 			}
- 		}
-@@ -387,7 +387,7 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
+ #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+ 
++/* Extract smmu pa from consolidated iova */
++#define IPA_TO_DMA_ADDR(iova, sid_pos) (iova & ((1ULL << sid_pos) - 1ULL))
++/*
++ * Prepare the consolidated iova to send to dsp by prepending the sid
++ * to smmu pa at the appropriate position
++ */
++#define IOVA_FROM_SID_PA(sid, phys, sid_pos) \
++       (phys += sid << sid_pos)
++
+ struct fastrpc_phy_page {
+ 	u64 addr;		/* physical address */
+ 	u64 size;		/* size of contiguous region */
+@@ -257,6 +265,10 @@ struct fastrpc_session_ctx {
+ 	bool valid;
+ };
+ 
++struct fastrpc_soc_data {
++	u32 sid_pos;
++};
++
+ struct fastrpc_channel_ctx {
+ 	int domain_id;
+ 	int sesscount;
+@@ -278,6 +290,7 @@ struct fastrpc_channel_ctx {
+ 	bool secure;
+ 	bool unsigned_support;
+ 	u64 dma_mask;
++	const struct fastrpc_soc_data *soc_data;
+ };
+ 
+ struct fastrpc_device {
+@@ -387,7 +400,7 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
  static void fastrpc_buf_free(struct fastrpc_buf *buf)
  {
  	dma_free_coherent(buf->dev, buf->size, buf->virt,
--			  FASTRPC_PHYS(buf->phys));
-+			  FASTRPC_PHYS(buf->dma_addr));
+-			  FASTRPC_PHYS(buf->dma_addr));
++			  IPA_TO_DMA_ADDR(buf->dma_addr, buf->fl->cctx->soc_data->sid_pos));
  	kfree(buf);
  }
  
-@@ -406,12 +406,12 @@ static int __fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
- 
- 	buf->fl = fl;
- 	buf->virt = NULL;
--	buf->phys = 0;
-+	buf->dma_addr = 0;
- 	buf->size = size;
- 	buf->dev = dev;
- 	buf->raddr = 0;
- 
--	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->phys,
-+	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->dma_addr,
- 				       GFP_KERNEL);
- 	if (!buf->virt) {
- 		mutex_destroy(&buf->lock);
-@@ -437,7 +437,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
+@@ -437,8 +450,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
  	buf = *obuf;
  
  	if (fl->sctx && fl->sctx->sid)
--		buf->phys += ((u64)fl->sctx->sid << 32);
-+		buf->dma_addr += ((u64)fl->sctx->sid << 32);
- 
+-		buf->dma_addr += ((u64)fl->sctx->sid << 32);
+-
++		IOVA_FROM_SID_PA((u64)fl->sctx->sid, buf->dma_addr, fl->cctx->soc_data->sid_pos);
  	return 0;
  }
-@@ -682,7 +682,7 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
+ 
+@@ -682,7 +694,8 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
  		return -ENOMEM;
  
  	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
--			      FASTRPC_PHYS(buffer->phys), buffer->size);
-+			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
+-			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
++			      IPA_TO_DMA_ADDR(buffer->dma_addr, buffer->fl->cctx->soc_data->sid_pos),
++			      buffer->size);
  	if (ret < 0) {
  		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
  		kfree(a);
-@@ -731,7 +731,7 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
+@@ -731,7 +744,8 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
  	dma_resv_assert_held(dmabuf->resv);
  
  	return dma_mmap_coherent(buf->dev, vma, buf->virt,
--				 FASTRPC_PHYS(buf->phys), size);
-+				 FASTRPC_PHYS(buf->dma_addr), size);
+-				 FASTRPC_PHYS(buf->dma_addr), size);
++				 IPA_TO_DMA_ADDR(buf->dma_addr,
++				 buf->fl->cctx->soc_data->sid_pos), size);
  }
  
  static const struct dma_buf_ops fastrpc_dma_buf_ops = {
-@@ -783,10 +783,10 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
- 	map->table = table;
- 
- 	if (attr & FASTRPC_ATTR_SECUREMAP) {
--		map->phys = sg_phys(map->table->sgl);
-+		map->dma_addr = sg_phys(map->table->sgl);
+@@ -786,7 +800,8 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
+ 		map->dma_addr = sg_phys(map->table->sgl);
  	} else {
--		map->phys = sg_dma_address(map->table->sgl);
--		map->phys += ((u64)fl->sctx->sid << 32);
-+		map->dma_addr = sg_dma_address(map->table->sgl);
-+		map->dma_addr += ((u64)fl->sctx->sid << 32);
+ 		map->dma_addr = sg_dma_address(map->table->sgl);
+-		map->dma_addr += ((u64)fl->sctx->sid << 32);
++		IOVA_FROM_SID_PA((u64)fl->sctx->sid,
++				 map->dma_addr, fl->cctx->soc_data->sid_pos);
  	}
  	for_each_sg(map->table->sgl, sgl, map->table->nents,
  		sgl_index)
-@@ -813,10 +813,10 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
- 		dst_perms[1].vmid = fl->cctx->vmperms[0].vmid;
- 		dst_perms[1].perm = QCOM_SCM_PERM_RWX;
- 		map->attr = attr;
--		err = qcom_scm_assign_mem(map->phys, (u64)map->len, &src_perms, dst_perms, 2);
-+		err = qcom_scm_assign_mem(map->dma_addr, (u64)map->len, &src_perms, dst_perms, 2);
- 		if (err) {
--			dev_err(sess->dev, "Failed to assign memory with phys 0x%llx size 0x%llx err %d\n",
--					map->phys, map->len, err);
-+			dev_err(sess->dev, "Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
-+					map->dma_addr, map->len, err);
- 			goto map_err;
- 		}
- 	}
-@@ -1007,7 +1007,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
- 			struct vm_area_struct *vma = NULL;
+@@ -2283,6 +2298,19 @@ static int fastrpc_get_domain_id(const char *domain)
+ 	return -EINVAL;
+ }
  
- 			rpra[i].buf.pv = (u64) ctx->args[i].ptr;
--			pages[i].addr = ctx->maps[i]->phys;
-+			pages[i].addr = ctx->maps[i]->dma_addr;
++static const struct fastrpc_soc_data kaanapali_soc_data = {
++	.sid_pos = 56,
++};
++
++static const struct fastrpc_soc_data default_soc_data = {
++	.sid_pos = 32,
++};
++
++static const struct of_device_id qcom_soc_match_table[] = {
++	{ .compatible = "qcom,kaanapali", .data = &kaanapali_soc_data },
++	{ },
++};
++
+ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ {
+ 	struct device *rdev = &rpdev->dev;
+@@ -2291,6 +2319,22 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 	const char *domain;
+ 	bool secure_dsp;
+ 	unsigned int vmids[FASTRPC_MAX_VMIDS];
++	struct device_node *root;
++	const struct of_device_id *match;
++	const struct fastrpc_soc_data *soc_data = NULL;
++
++	root = of_find_node_by_path("/");
++	if (!root)
++		return -ENODEV;
++
++	match = of_match_node(qcom_soc_match_table, root);
++	of_node_put(root);
++	if (!match || !match->data) {
++		 soc_data = &default_soc_data;
++		 dev_dbg(rdev, "no compatible SoC found at root node\n");
++	} else {
++		 soc_data = match->data;
++	}
  
- 			mmap_read_lock(current->mm);
- 			vma = find_vma(current->mm, ctx->args[i].ptr);
-@@ -1034,7 +1034,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
- 				goto bail;
+ 	err = of_property_read_string(rdev->of_node, "label", &domain);
+ 	if (err) {
+@@ -2343,6 +2387,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
  
- 			rpra[i].buf.pv = args - ctx->olaps[oix].offset;
--			pages[i].addr = ctx->buf->phys -
-+			pages[i].addr = ctx->buf->dma_addr -
- 					ctx->olaps[oix].offset +
- 					(pkt_size - rlen);
- 			pages[i].addr = pages[i].addr &	PAGE_MASK;
-@@ -1066,7 +1066,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
- 		list[i].num = ctx->args[i].length ? 1 : 0;
- 		list[i].pgidx = i;
- 		if (ctx->maps[i]) {
--			pages[i].addr = ctx->maps[i]->phys;
-+			pages[i].addr = ctx->maps[i]->dma_addr;
- 			pages[i].size = ctx->maps[i]->size;
- 		}
- 		rpra[i].dma.fd = ctx->args[i].fd;
-@@ -1148,7 +1148,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
- 	msg->ctx = ctx->ctxid | fl->pd;
- 	msg->handle = handle;
- 	msg->sc = ctx->sc;
--	msg->addr = ctx->buf ? ctx->buf->phys : 0;
-+	msg->addr = ctx->buf ? ctx->buf->dma_addr : 0;
- 	msg->size = roundup(ctx->msg_sz, PAGE_SIZE);
- 	fastrpc_context_get(ctx);
+ 	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
+ 	data->secure = secure_dsp;
++	data->soc_data = soc_data;
  
-@@ -1304,13 +1304,13 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 		if (fl->cctx->vmcount) {
- 			u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
- 
--			err = qcom_scm_assign_mem(fl->cctx->remote_heap->phys,
-+			err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
- 							(u64)fl->cctx->remote_heap->size,
- 							&src_perms,
- 							fl->cctx->vmperms, fl->cctx->vmcount);
- 			if (err) {
--				dev_err(fl->sctx->dev, "Failed to assign memory with phys 0x%llx size 0x%llx err %d\n",
--					fl->cctx->remote_heap->phys, fl->cctx->remote_heap->size, err);
-+				dev_err(fl->sctx->dev, "Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
-+					fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
- 				goto err_map;
- 			}
- 			scm_done = true;
-@@ -1330,7 +1330,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 	args[1].length = inbuf.namelen;
- 	args[1].fd = -1;
- 
--	pages[0].addr = fl->cctx->remote_heap->phys;
-+	pages[0].addr = fl->cctx->remote_heap->dma_addr;
- 	pages[0].size = fl->cctx->remote_heap->size;
- 
- 	args[2].ptr = (u64)(uintptr_t) pages;
-@@ -1359,12 +1359,12 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 
- 		dst_perms.vmid = QCOM_SCM_VMID_HLOS;
- 		dst_perms.perm = QCOM_SCM_PERM_RWX;
--		err = qcom_scm_assign_mem(fl->cctx->remote_heap->phys,
-+		err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
- 						(u64)fl->cctx->remote_heap->size,
- 						&src_perms, &dst_perms, 1);
- 		if (err)
--			dev_err(fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d\n",
--				fl->cctx->remote_heap->phys, fl->cctx->remote_heap->size, err);
-+			dev_err(fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
-+				fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
- 	}
- err_map:
- 	fastrpc_buf_free(fl->cctx->remote_heap);
-@@ -1453,7 +1453,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
- 	args[2].length = inbuf.filelen;
- 	args[2].fd = init.filefd;
- 
--	pages[0].addr = imem->phys;
-+	pages[0].addr = imem->dma_addr;
- 	pages[0].size = imem->size;
- 
- 	args[3].ptr = (u64)(uintptr_t) pages;
-@@ -1911,7 +1911,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
- 	args[0].ptr = (u64) (uintptr_t) &req_msg;
- 	args[0].length = sizeof(req_msg);
- 
--	pages.addr = buf->phys;
-+	pages.addr = buf->dma_addr;
- 	pages.size = buf->size;
- 
- 	args[1].ptr = (u64) (uintptr_t) &pages;
-@@ -1939,11 +1939,11 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
- 	if (req.flags == ADSP_MMAP_REMOTE_HEAP_ADDR && fl->cctx->vmcount) {
- 		u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
- 
--		err = qcom_scm_assign_mem(buf->phys, (u64)buf->size,
-+		err = qcom_scm_assign_mem(buf->dma_addr, (u64)buf->size,
- 			&src_perms, fl->cctx->vmperms, fl->cctx->vmcount);
- 		if (err) {
--			dev_err(fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
--					buf->phys, buf->size, err);
-+			dev_err(fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d",
-+					buf->dma_addr, buf->size, err);
- 			goto err_assign;
- 		}
- 	}
-@@ -2057,7 +2057,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
- 	args[0].ptr = (u64) (uintptr_t) &req_msg;
- 	args[0].length = sizeof(req_msg);
- 
--	pages.addr = map->phys;
-+	pages.addr = map->dma_addr;
- 	pages.size = map->len;
- 
- 	args[1].ptr = (u64) (uintptr_t) &pages;
+ 	switch (domain_id) {
+ 	case ADSP_DOMAIN_ID:
 -- 
 2.34.1
 
