@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE49BDE268
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 13:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40AABDE250
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 13:00:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB6CB10E778;
-	Wed, 15 Oct 2025 11:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B542710E28E;
+	Wed, 15 Oct 2025 11:00:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ckwBPtuu";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q4EYkMC5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A05510E0A1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B78F010E28A
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1760526044;
- bh=umnj1S/CbkTjtGTeSNIiEyPKjNw+mbm9qMFK+XgArkU=;
+ bh=nR5iobbIytd1Bw/kd9hXU3bcwc9RRIOhCKypYsm2C/8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ckwBPtuuVEqkZAOibahvumGh3RqNtMVsnbfJVyhM5pR0mRWpCdf0gsZVtAgCFFL0R
- xq8PWDmZnHTibAd5yxEE6w0Rg5DmsQEQBZb+YH736Qjl/BwctR9GxZazPZFEdO7F9S
- Or8FHV/HphLnC9rV/L5qtVo+nNf4qw4m+0EN/igPpcFvblpPJilAHwaD+VnD1VI8TX
- c/II5l2qiu2BQOLIhS8GqN0xx3+T+D5bh1lhMlZHWHKXyInJRA7I7w2wp0r52m/sG3
- hsGLk+Gqi3tVZxPLQiMaPwZTZEoE5mBhwfbu5Gsc7DUWThr5qDrTzUAuwumZ10tut6
- W4V+OeUmZb1Sw==
+ b=Q4EYkMC5tTCXsaI2kXX7CwdBeluwjwJuatan1O2X9jMQ3emCOLUM94zMP9f6Jmlh7
+ 3ci2QC9kmgW+81+Dx0sTWlVrCv5A/yrSJ05LBaAcpr34dtdQbrQHQ5YDf11SElj0IU
+ PB+54aaS0MsjWXCFpVQ8AKtj80VmmkhkWClr1W9hEz9mRgg3iLS6KCNOxl9iT4DZPG
+ w/d0GgxXGU1fNkQzrqLloivT0zdBmy5Ij17OdniAG4bpi8q5gDwtXNT1TosCCVGsgY
+ tnuuJYUIcbCkDRdJXxICBoMS0AxEh6btpMuI1hjExlkdTh4WxYG6P/pT4YJ6bufkxJ
+ 0C0SfTgdMOigQ==
 Received: from reinforced.mynet (unknown
  [IPv6:2a01:4b00:be1d:c600:6089:8bab:34a0:d4c5])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: daniels)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AFAD317E1340;
- Wed, 15 Oct 2025 13:00:43 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1BB8E17E1400;
+ Wed, 15 Oct 2025 13:00:44 +0200 (CEST)
 From: Daniel Stone <daniels@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: andy.yan@rock-chips.com, hjc@rock-chips.com, heiko@sntech.de,
  cristian.ciocaltea@collabora.com, kernel@collabora.com
-Subject: [PATCH 02/13] drm/rockchip: Declare framebuffer width/height bounds
-Date: Wed, 15 Oct 2025 12:00:31 +0100
-Message-ID: <20251015110042.41273-3-daniels@collabora.com>
+Subject: [PATCH 03/13] drm/rockchip: Return error code for errors
+Date: Wed, 15 Oct 2025 12:00:32 +0100
+Message-ID: <20251015110042.41273-4-daniels@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015110042.41273-1-daniels@collabora.com>
 References: <20251015110042.41273-1-daniels@collabora.com>
@@ -60,42 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VOP2 has limitations on its input and output sizes. The clipped
-display region must be at least 4px in each dimension for both
-framebuffer source and plane destination, and the clipped source region
-must be no greater than a per-version limit.
-
-It is never valid for VOP2 to have a framebuffer which is less than four
-pixels in either dimension, so declare that as our min width/height,
-enforced by AddFB failing if the user tries. It can theoretically be
-valid to have a single large framebuffer of which only certain clipped
-regions are shown, but this is a very uncommon case. Declaring to
-userspace that the framebuffer's maximum width and height is the maximum
-source clip helps it make better decisions as to which mode to use,
-instead of trying unsupported sizes and having to fall back.
+Instead of silently disabling small planes, refuse to create them at
+all.
 
 Signed-off-by: Daniel Stone <daniels@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 4ba5444fde4f..f04fb5da1295 100644
+index f04fb5da1295..659b2565dee4 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2647,6 +2647,12 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
- 	if (IS_ERR(vop2->map))
- 		return PTR_ERR(vop2->map);
+@@ -1035,8 +1035,7 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
+ 		drm_dbg_kms(vop2->drm, "Invalid size: %dx%d->%dx%d, min size is 4x4\n",
+ 			    drm_rect_width(src) >> 16, drm_rect_height(src) >> 16,
+ 			    drm_rect_width(dest), drm_rect_height(dest));
+-		pstate->visible = false;
+-		return 0;
++		return -EINVAL;
+ 	}
  
-+	/* Set the bounds for framebuffer creation */
-+	drm->mode_config.min_width = 4;
-+	drm->mode_config.min_height = 4;
-+	drm->mode_config.max_width = vop2_data->max_input.width;
-+	drm->mode_config.max_height = vop2_data->max_input.height;
-+
- 	ret = vop2_win_init(vop2);
- 	if (ret)
- 		return ret;
+ 	if (drm_rect_width(src) >> 16 > vop2_data->max_input.width ||
 -- 
 2.51.0
 
