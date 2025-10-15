@@ -2,115 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E73BDFB6C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C922BDFB81
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 18:44:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B70710E882;
-	Wed, 15 Oct 2025 16:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C218410E883;
+	Wed, 15 Oct 2025 16:44:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IIim8Kdm";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZU5xCOqI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960C510E882
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:42:53 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FAXBM2005092
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:42:53 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B92810E883
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:44:09 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FBF9rf017026
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:44:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LEzxdlAxS/RwITda/z0WVM8kwSrYjWY6px5BqYgNLK0=; b=IIim8KdmETni9OAa
- cjwYEatr+vLcJZfGxQIHEP2CaNzzmsPsjn77Iczx+dUbLqi1Hj3QX21+ftJD77S9
- h83KFb/xE/NqyY9rU5olkJrlshhoubVBeH5FRvAlNqWTTRkc/jmq4b7FGjTIawIR
- 9y6Lf62DEYddEZoXRBPRFyrCB1oxHeP7gHDJQ+8J35eIFqhDmwjg6KfYGfiHc9dU
- L/W+cW4/d5vvTvsKlhA5NpLPmUFaFPlaRJPcyzjZGniVwnrHO+coMH2zUzrDZncy
- 69H4rf8u5QvVjOtiv/0Jco3MZkkVpC5FGWQ6YTrEw6FyVWQCkbgb9VnD8WCpAJbj
- LWuDqQ==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qgdg53jc-1
+ GzaI9a0N9LFuD1tLyfhK7VAWX8GeUCRnbgirvzK//UE=; b=ZU5xCOqIm7UnWJpH
+ A8KkT8ke06AG7uaY7U0tukIFLZfI8e7nn/T6mwcdXIa0vdVQNdN8ejw+stiPE7Ey
+ Oy5B/ZINydC+XHLMp/U/UlfAX++dAzfmteyWRPV4RRJwrfpFWaujgJWiTSJqikVD
+ XMD+fDMXVfvRZjZqQbw6zkgw2/3J8Z6pEYUbA7fnoPjlkcnmzwOVlVM22emlFAW1
+ zBLnEc8VicszwgpdduoUJElbSR3Nv9Ke6A0B0yybHSF/zHlq3h6ltNW1BJ0DJ9BY
+ HqiLyfY1n4vgJ6J2yf9nCRQBc7HNr9aEElYbCrc2U/XhrGeZUXPyvXPG936K9ek8
+ RilfhQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfdkd7tr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:42:53 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-28e538b5f23so116117435ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:42:52 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 16:44:08 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-b60968d52a1so18280776a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 09:44:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760546572; x=1761151372;
+ d=1e100.net; s=20230601; t=1760546647; x=1761151447;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LEzxdlAxS/RwITda/z0WVM8kwSrYjWY6px5BqYgNLK0=;
- b=WbO7oYG0Ooe8G5XDZBAlEgXspmFcxkqDEi+JkbjcRfJb1ye0tJ2NBEG09rFep7/SrB
- x14y+uxOa3pumWq5DUmUKxdr3jLMtRqY9LI0FQU82PlScWgBD0VV1jlX8MufmNmZEa9R
- kCA33gX+EJpDbw9W1D9lHlYekekltH5YTlial5rHHrrZRRg/9v6yOyf1Hs8XVTHCy5OL
- ozSY9JHxRfqQ6Rrlv4T9Y17FGiTzeGnDNcVMql9+jZ4UafHbRhRHwG2g5dpWMO8KronS
- /CEOmJsG7moWBxt7EwuzGfrS94oWTX3oKFztkWEHSklzwFm5+I5WOmrCW/jBM8FjpKqK
- zwUA==
+ bh=GzaI9a0N9LFuD1tLyfhK7VAWX8GeUCRnbgirvzK//UE=;
+ b=RP6QHoo3XFNIhZvJ/Bu2HRGiQVSohHoRMmLNpL2YBmxLFSpHGHUZQdO1uwG47bgcIf
+ c24lN8Vjp7LzGRVGIPoEa3OE7sAYep/2CS6HqpGdhnGGytBxhlxxRn9sK+eWN1WPrDys
+ fFF655fVl1L8MUVA18kddSryzhF3E5PWJJPazZi3ixBeqCz2o5UmeE/p88Va4lOX3Gl0
+ 89F7uaMC/S/AcLty3iVJbOXBJcLPv9FI4jPR8qP3Ph2XTGKS6GPMKrxjTD6sUXiApv9D
+ o+e1eoB8HR/2bp4Bcf3Uu3kJJ6kf+4GI8lT1eAwrJR23pCIkyziWP20CjAOgrxs/mulg
+ gIgQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWDYzCh2wNKEHklC8/7yVn697iiq6Q57nlhk2O2poKicV4rxCys2iAXoIInHReocE5jqs4BjemLV0Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEWIYH6JMEmiiakH2u+PWh1IPZV7mHOQzrp3Q63F8e7tFSuTH5
- 9CVN7fFOKV59qTmbsq5JYeUe4h2exNIqhSiZKwhu+TNi8R+NJvZa00DVAA+sDkA4kSOwy05S0So
- 4CvM7dzCQFM2DB/WgT+yBTKrWla17hcaKd99rMjWf6EqcAI9GiNoViJcJeEMlyVMwrJsfPCM=
-X-Gm-Gg: ASbGnctAplrUwHOLNZgao8gsk/yxAoVfJTnbiSyyeyN+8jbTUOB/uF8eVm/3QRFZ2Jy
- ujwZSN5QrP5gGrdOYYud+kAvnu49QPMjMCy0BQGE61NGvoMB+eIGA0/MGNT169GRNZqD/NPLx7S
- XCBxCZJjGJg3khPeckri/HS9TmtKTfxhguLNB1AZzVFwY5YMyCD08fkaMabQt96yr++C9HwwvvM
- okDbTEtlad+ULq0vwn0pL6mNL2js+UYJvVc5ClAHeTSISSqJkedvodd7Y/VyELP2bx1R/bB1u1U
- ymOWrU7cWUHx9FqektMHO1125yXvbJ3me36oufNR9kjTE/R/6gdu0QSYBO8w7ynAQxfPgUNCSiB
- +TBFlSn/X5FKZaw==
-X-Received: by 2002:a17:903:252:b0:267:a231:34d0 with SMTP id
- d9443c01a7336-290272e3d1fmr332402435ad.42.1760546572106; 
- Wed, 15 Oct 2025 09:42:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMxN/y9i71nWa9T8ob8P8XCIIJVDSqIHn+u82dVZURm7SQWjwoePzRekvvE3a4My3/jsLogw==
-X-Received: by 2002:a17:903:252:b0:267:a231:34d0 with SMTP id
- d9443c01a7336-290272e3d1fmr332402195ad.42.1760546571621; 
- Wed, 15 Oct 2025 09:42:51 -0700 (PDT)
+ AJvYcCW0hclIgcfMVPolzRfNUSLCzklvC3rMTB5oxJwx3Lmsw9+Wj6heC2PQokv443GjNUCnaZUsQ0CioyQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkYz/8mpoOewbTV2Q0sIL9KSWxYCQH9y3DYv1FJLKs+o976qP/
+ AV2NV4wly3mZeWRC1vsBHe1LPd9VaZ1o4qlWjvVZF/P3/vQ9w+LPb/Bo1mrni2ZZ1AEmlMgSdQJ
+ Tsy4YRSZbgN3YzvJnifcTJPzUGmY4cLxlGZCuI2khecu+f9Kv5TrZs7TC0uzX/mjMxupM1Lc=
+X-Gm-Gg: ASbGncvYCl8lU7D92wSc1AOM+ngmh35G5v56O8mrYYhHghUx8FMdo3UZJ/tXfNdmzpa
+ a550wfQR76NbsR2o9SOPNceGN/Le/cLQQ1n918YERlBYQ0H7q/83gpfJD7WQoRA2zf99rAYQrji
+ 5J8rzu4HbC75dUnaecst282nfbgcRmNLaffGXqYTl6OHmh81JLtyHyF8tcXpaNoQFsCf2K+nCRS
+ +FqfoN+4uJhDktoRMf3ZkWys4sUREOX1cV0ioWdbjggZ4FaShd4AwV3O8RU9jHW8Hi6d5yWHD8H
+ RwcH5hsDDBMFBlU/8YAGNW+hg5jPQmFUUBtcFMG2UZuJdowcdDbsKyhWgvqhefwBzfsE01tHkHP
+ rHF5BIoqGwLTjYw==
+X-Received: by 2002:a05:6a20:7490:b0:2e9:d6ce:e125 with SMTP id
+ adf61e73a8af0-32da80ee0aemr38623884637.5.1760546647122; 
+ Wed, 15 Oct 2025 09:44:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFToPLdatmPtsmDh1wnrXKMa1X9zL8hl4HwVmt4ke/y+HjLAJlconjC5RaXc/ql0sTr12jbDA==
+X-Received: by 2002:a05:6a20:7490:b0:2e9:d6ce:e125 with SMTP id
+ adf61e73a8af0-32da80ee0aemr38623847637.5.1760546646673; 
+ Wed, 15 Oct 2025 09:44:06 -0700 (PDT)
 Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-290993526dbsm1359975ad.40.2025.10.15.09.42.50
+ d2e1a72fcca58-7992b63e05csm19309506b3a.22.2025.10.15.09.44.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Oct 2025 09:42:51 -0700 (PDT)
-Message-ID: <caecdae6-8845-4292-b83f-7d98b17eb43f@oss.qualcomm.com>
-Date: Wed, 15 Oct 2025 10:42:49 -0600
+ Wed, 15 Oct 2025 09:44:06 -0700 (PDT)
+Message-ID: <6d77f359-1bfa-400e-8c9b-3413dcdb2e3d@oss.qualcomm.com>
+Date: Wed, 15 Oct 2025 10:44:04 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Replace user defined overflow check
+Subject: Re: [PATCH] accel/qaic: Fix mismatched types in min()
 To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
  carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
  zachary.mckevitt@oss.qualcomm.com
 Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251015152239.167226-1-youssef.abdulrahman@oss.qualcomm.com>
+References: <20251015153715.184143-1-youssef.abdulrahman@oss.qualcomm.com>
 Content-Language: en-US
 From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251015152239.167226-1-youssef.abdulrahman@oss.qualcomm.com>
+In-Reply-To: <20251015153715.184143-1-youssef.abdulrahman@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyNSBTYWx0ZWRfX11GIP6VHDTXR
- TVDobQpDbeqPdsxtXtcGTP+WvL+pqyovluwtFKoL2Ue7owPWu5Wu2RzLMlvoyEQlpmk38m3RhIj
- xpUnkPvsWMyHlwd30pFdnWj4LffWOOtJzyCLqBkqJe7oCprRK8pjKZ0wzTDcvFpq+DKsZG8+1tw
- GN1XETrVJ+ISYp9ZCmI1kwn4IxUVVYPP0iJo+UeDps3gjH6omM+2/WUfu7TI1PEi9r59O9uzdIF
- YCGw/ASLTdXdy/GeLxnulA1MBT3n+NnAgRZe5YkjEZWNjIkCqJ5qj2aG50urRhMLObsWiEO91oM
- 2DgK5AP/JiZTpAZtka5JKq1TXg45tGOFWUW6ElzOE77b7npYt9DLfPfgv2vitVw8NFUlLqDWDDa
- csLctsE3oLHlFSe90ST2UAXiQEuH0Q==
-X-Proofpoint-GUID: sNwKt5d00A-J32nX1KW6UNIThGuKtgbh
-X-Proofpoint-ORIG-GUID: sNwKt5d00A-J32nX1KW6UNIThGuKtgbh
-X-Authority-Analysis: v=2.4 cv=J4ynLQnS c=1 sm=1 tr=0 ts=68efcf0d cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-ORIG-GUID: T5qZlph_DYzgcc8Y5e_HnQzGvwu2PRi4
+X-Authority-Analysis: v=2.4 cv=MrNfKmae c=1 sm=1 tr=0 ts=68efcf58 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=mm7m7b9bRd1GpXE27EgA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22 a=TjNXssC_j7lpFel5tvFf:22
+ a=EUspDBNiAAAA:8 a=-G_G9_dvTckeGbZ_RL8A:9 a=QEXdDO2ut3YA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-GUID: T5qZlph_DYzgcc8Y5e_HnQzGvwu2PRi4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX/XJ6ISuEzXvO
+ 7JIC5zfj5seyKuVPJ6gGrJNAtB0e967U80vDnxoPPLwDGcbucvHmjPcl1FMDteIms8yyzgnY0zr
+ 7i8z7H5auT29lD+JKYCNTzSae7m2G+NncA3TRUJ+tD9lNzOAtpLD2YZOs7XKpIQ5eZsF8JFudRP
+ Zt2rGoH5diukEA1fCnsMqrFdUvKT/Lq5mUU++c6f4fvfQxpW3dscRB59X32vd6PcnRENEakQvkG
+ Its5pn2Lc83K+zo5ZmFlS7LT7r9mpwojIv95uOjsW99mApxH70NU2EZxYVdDpHIk7jYKTU8cZ6m
+ wi2NrtZh1+yokEIeUYtHpQdWyu78Y0SiryMK+1grGb8NurgMjd7nXfPPRGNyl3ZdN3/AE06aFR7
+ RC7BL1MrfjzyYPJ8D/p/yCvGXbPABA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-15_06,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- bulkscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ spamscore=0 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110025
+ definitions=main-2510110018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,13 +126,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/15/2025 9:22 AM, Youssef Samir wrote:
-> From: Sourab Bera <quic_sourbera@quicinc.com>
+On 10/15/2025 9:37 AM, Youssef Samir wrote:
+> From: Zack McKevitt <zmckevit@qti.qualcomm.com>
 > 
-> Replace the current logic to check overflow, with the kernel-provided
-> macro `check_mul_overflow` in the function __qaic_execute_bo_ioctl().
+> Use min_t() instead of min() to resolve compiler warnings for mismatched
+> types.
 > 
-> Signed-off-by: Sourab Bera <quic_sourbera@quicinc.com>
+> Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
 > Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 
 Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
