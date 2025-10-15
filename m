@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FA8BDE26B
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1D7BDE26E
 	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 13:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F004B10E296;
-	Wed, 15 Oct 2025 11:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81B7110E297;
+	Wed, 15 Oct 2025 11:00:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="J/NHKyjG";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ROX6Mr6u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5973E10E28A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:00:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDAD10E28A
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:00:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760526045;
- bh=2F7n8GrvPSvu9/I5riuRc9v1csnuDAkcVq7XV/b9tzQ=;
+ s=mail; t=1760526046;
+ bh=/qNnbpvfxH+x7P73cmYuRdFXqd+kIrZzd1+wV3INGR4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J/NHKyjGeEKg+oLEg/jSU+TF4kMM7Y0XPEGba0Is5W2QIqG/eP0MZ6GJY17Yiy6U/
- fRxIykTSZbefsErEpfHPrM2vS+eFcIlnEwuOrB+BqvzNz1uWIkj4TqwDSJOi9GIWKD
- BkSQq/TmmPviCjnXcSMdgxjqYeuylUzPm9VP2kjYlJeQpgASuLnEEZVKWHKeT9NcQ0
- CY069GnG/DyKUtta7CPWKQE6GunYI4ty+7l4cJ49NBL6pMu9GtVF5DS1KRUKssTUTE
- kUWC1pPL6eorlNyuHSUZhZ4hjpVYDDyuYr007KZYML9LmK7RyQYowUhiPXe7DAKehC
- CXQMyd0Glo1mQ==
+ b=ROX6Mr6uDcCCADo1qQWdhdc6p7d9DncgitJEGjAdBEHxGFWxAwvEyfd3ypucMwyfk
+ a2RpoDRde6K+f+qfQLiOI9zSE68ue9iIxJYJexRuU7mbcPUC7CLZTgoQb8rvGN+YdT
+ SSE53M1OZ9jVyyss6Ft6M1f9+gpCVN3/oO+mZBP1FP0IE94XV5ys8ijzDDQD5CpwNQ
+ +N1H3r3hV5qJ4ly5JLTRO2XGXccqYzts5M+VND9xf1I2pgHNUqIMMDi/oopWJTAu9U
+ uVqrAodFp+lrZn/RwDqwyEjmOd7LgLWIvrbMZ8PtmfcFAuN6NwDBizBFdecV63VFG5
+ wqhjDRjYzIIsg==
 Received: from reinforced.mynet (unknown
  [IPv6:2a01:4b00:be1d:c600:6089:8bab:34a0:d4c5])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: daniels)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AC0B617E1562;
- Wed, 15 Oct 2025 13:00:45 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 19D5217E1576;
+ Wed, 15 Oct 2025 13:00:46 +0200 (CEST)
 From: Daniel Stone <daniels@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: andy.yan@rock-chips.com, hjc@rock-chips.com, heiko@sntech.de,
  cristian.ciocaltea@collabora.com, kernel@collabora.com
-Subject: [PATCH 07/13] drm/rockchip: Switch impossible pos conditional to
- WARN_ON
-Date: Wed, 15 Oct 2025 12:00:36 +0100
-Message-ID: <20251015110042.41273-8-daniels@collabora.com>
+Subject: [PATCH 08/13] drm/rockchip: Fix eSmart test condition
+Date: Wed, 15 Oct 2025 12:00:37 +0100
+Message-ID: <20251015110042.41273-9-daniels@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015110042.41273-1-daniels@collabora.com>
 References: <20251015110042.41273-1-daniels@collabora.com>
@@ -61,57 +60,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We already clip the plane to the display bounds in atomic_check, and
-ensure that it is sufficiently sized. Instead of trying to catch this
-and adjust for it in atomic_update, just assert that atomic_check has
-done its job.
+If we want to find out if a window is eSmart or not, test for not being
+a cluster window, rather than AFBDC presence.
+
+No functional effect as only cluster windows support AFBC decode.
 
 Signed-off-by: Daniel Stone <daniels@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 28 ++++++--------------
- 1 file changed, 8 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 8c5042fb2e7e..812a46032396 100644
+index 812a46032396..f8039dc0e829 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1212,28 +1212,16 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 	src_w = drm_rect_width(src) >> 16;
- 	src_h = drm_rect_height(src) >> 16;
- 	dsp_w = drm_rect_width(dest);
--
--	if (dest->x1 + dsp_w > adjusted_mode->hdisplay) {
--		drm_dbg_kms(vop2->drm,
--			    "vp%d %s dest->x1[%d] + dsp_w[%d] exceed mode hdisplay[%d]\n",
--			    vp->id, win->data->name, dest->x1, dsp_w, adjusted_mode->hdisplay);
--		dsp_w = adjusted_mode->hdisplay - dest->x1;
--		if (dsp_w < 4)
--			dsp_w = 4;
--		src_w = dsp_w * src_w / drm_rect_width(dest);
--	}
--
- 	dsp_h = drm_rect_height(dest);
- 
--	if (dest->y1 + dsp_h > adjusted_mode->vdisplay) {
--		drm_dbg_kms(vop2->drm,
--			    "vp%d %s dest->y1[%d] + dsp_h[%d] exceed mode vdisplay[%d]\n",
--			    vp->id, win->data->name, dest->y1, dsp_h, adjusted_mode->vdisplay);
--		dsp_h = adjusted_mode->vdisplay - dest->y1;
--		if (dsp_h < 4)
--			dsp_h = 4;
--		src_h = dsp_h * src_h / drm_rect_height(dest);
--	}
-+	/* drm_atomic_helper_check_plane_state calls drm_rect_clip_scaled for
-+	 * us, which keeps our planes bounded within the CRTC active area */
-+	WARN_ON(dest->x1 + dsp_w > adjusted_mode->hdisplay);
-+	WARN_ON(dest->y1 + dsp_h > adjusted_mode->vdisplay);
-+	WARN_ON(dsp_w < 4);
-+	WARN_ON(dsp_h < 4);
-+	WARN_ON(src_w < 4);
-+	WARN_ON(src_h < 4);
- 
- 	/*
+@@ -1227,12 +1227,10 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
  	 * This is workaround solution for IC design:
+ 	 * esmart can't support scale down when src_w % 16 == 1.
+ 	 */
+-	if (!(win->data->feature & WIN_FEATURE_AFBDC)) {
+-		if (src_w > dsp_w && (src_w & 0xf) == 1) {
+-			drm_dbg_kms(vop2->drm, "vp%d %s act_w[%d] MODE 16 == 1\n",
+-				    vp->id, win->data->name, src_w);
+-			src_w -= 1;
+-		}
++	if (!vop2_cluster_window(win) && src_w > dsp_w && (src_w & 1)) {
++		drm_dbg_kms(vop2->drm, "vp%d %s act_w[%d] MODE 16 == 1\n",
++			    vp->id, win->data->name, src_w);
++		src_w -= 1;
+ 	}
+ 
+ 	if (afbc_en && src_w % 4) {
 -- 
 2.51.0
 
