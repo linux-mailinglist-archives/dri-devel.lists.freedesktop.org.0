@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EC2BDE277
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 13:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE76BDE4F2
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 13:42:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C098410E780;
-	Wed, 15 Oct 2025 11:00:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB0F210E29C;
+	Wed, 15 Oct 2025 11:42:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dHoOForb";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="g3F+1Ua+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D92E310E323
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:00:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2347210E29C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 11:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760526050;
- bh=QlTZkXzpafJjt6c0OXEhFSe+UktsdFqlCszwG0tijBg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dHoOForb2/7UtzCcmSiwyr7oFnjskbHLHDmABhJvKVKmoG4Yhp1+UdP5BX5Vz+23z
- 7rgxfGBkLnvj+pp/zS3h6MnbDoxoXMlhY249bSsUcdeZWPsQim0+MQNS+uTbMeYcBc
- //dnhXHI0C5mK8QMS5YRbQDtyExUcwdSCBTMqYoC4B1RXqX6Hz9edkyA/YqDzdaWnx
- 4jmwNvxf7qzw+z+ct6PVtHPZ18BOTrWe6BuUGu2b35xGAoyCLU6ODnAZlJtwPpPXC4
- DaprkZRCPUciUEQCIZR/uARYgHNCpOk0a970CMTa7jHvFAo3f5KPXVV7rel67Yhe8W
- EW/3m9eCsLTDw==
-Received: from reinforced.mynet (unknown
- [IPv6:2a01:4b00:be1d:c600:6089:8bab:34a0:d4c5])
+ s=mail; t=1760528522;
+ bh=D03Ujk9EBksj5J+8DGeorZYRlLQANvGkEalxPDRfdEk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=g3F+1Ua+hF8m8Z2iez/iOh/0aUv1Wd6LWtNsflWh6680FetMac1hhesOl3SP8o3rq
+ crmyjai0MvX3DdeyQguvel47xWUg0tHKzmkgnNpp3VJ35i/dIL4bBcxdOBs01OZStt
+ cNtHP+U93QxV7ARlhjZU0PWloYIUfQPf2QZRX0EklkHPQjc6lpvKPwt1Qb6ia0ogaH
+ wTOqiBSLA9RMkMXX6KZrnj4wL9RluvQ1HyudxNvfgsqtc6n8HCMOtwnUw8/769cON0
+ rIu7zu6SHwkDH56PvUIWAvcd0paMiKOAiWvnu9Wk/MHXbTrBidPEOEBtg4ia2GmEEj
+ hy7YZ8Bcews3g==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: daniels)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 04B9F17E3656;
- Wed, 15 Oct 2025 13:00:49 +0200 (CEST)
-From: Daniel Stone <daniels@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: andy.yan@rock-chips.com, hjc@rock-chips.com, heiko@sntech.de,
- cristian.ciocaltea@collabora.com
-Subject: [PATCH 13/13] drm/rockchip: Simplify format_mod_supported
-Date: Wed, 15 Oct 2025 12:00:42 +0100
-Message-ID: <20251015110042.41273-14-daniels@collabora.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251015110042.41273-1-daniels@collabora.com>
-References: <20251015110042.41273-1-daniels@collabora.com>
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 17A1E17E01F5;
+ Wed, 15 Oct 2025 13:42:02 +0200 (CEST)
+Date: Wed, 15 Oct 2025 13:41:59 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, kernel@collabora.com
+Subject: Re: [PATCH v2 09/13] drm/panfrost: Expose the selected coherency
+ protocol to the UMD
+Message-ID: <20251015134159.74b42ec4@fedora>
+In-Reply-To: <2e85c917-4e49-4cb2-ba2c-edb35907860d@arm.com>
+References: <20251010101147.3290604-1-boris.brezillon@collabora.com>
+ <20251010101147.3290604-10-boris.brezillon@collabora.com>
+ <2e85c917-4e49-4cb2-ba2c-edb35907860d@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,100 +68,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make it a little less convoluted, and just directly check if the
-combination of plane + format + modifier is supported.
+On Fri, 10 Oct 2025 15:50:58 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-Signed-off-by: Daniel Stone <daniels@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 56 ++++++++------------
- 1 file changed, 22 insertions(+), 34 deletions(-)
+> On 10/10/2025 11:11, Boris Brezillon wrote:
+> > Will be needed if we want to skip CPU cache maintenance operations when
+> > the GPU can snoop CPU caches.
+> > 
+> > v2:
+> > - New commit
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+> >  drivers/gpu/drm/panfrost/panfrost_drv.c    |  1 +
+> >  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 18 +++++++++++++++++-
+> >  drivers/gpu/drm/panfrost/panfrost_regs.h   |  2 ++
+> >  include/uapi/drm/panfrost_drm.h            |  7 +++++++
+> >  5 files changed, 28 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > index 1e73efad02a8..bd38b7ae169e 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> > @@ -75,6 +75,7 @@ struct panfrost_features {
+> >  	u32 thread_max_workgroup_sz;
+> >  	u32 thread_max_barrier_sz;
+> >  	u32 coherency_features;
+> > +	u32 selected_coherency;
+> >  	u32 afbc_features;
+> >  	u32 texture_features[4];
+> >  	u32 js_features[16];
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > index 607a5b8448d0..3ffcd08f7745 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > @@ -94,6 +94,7 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+> >  		PANFROST_FEATURE_ARRAY(JS_FEATURES, js_features, 15);
+> >  		PANFROST_FEATURE(NR_CORE_GROUPS, nr_core_groups);
+> >  		PANFROST_FEATURE(THREAD_TLS_ALLOC, thread_tls_alloc);
+> > +		PANFROST_FEATURE(SELECTED_COHERENCY, selected_coherency);
+> >  
+> >  	case DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP:
+> >  		ret = panfrost_ioctl_query_timestamp(pfdev, &param->value);
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> > index 174e190ba40f..fed323e6a307 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> > @@ -260,7 +260,23 @@ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+> >  	pfdev->features.max_threads = gpu_read(pfdev, GPU_THREAD_MAX_THREADS);
+> >  	pfdev->features.thread_max_workgroup_sz = gpu_read(pfdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+> >  	pfdev->features.thread_max_barrier_sz = gpu_read(pfdev, GPU_THREAD_MAX_BARRIER_SIZE);
+> > -	pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
+> > +
+> > +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_COHERENCY_REG))
+> > +		pfdev->features.coherency_features = gpu_read(pfdev, GPU_COHERENCY_FEATURES);
+> > +	else
+> > +		pfdev->features.coherency_features = COHERENCY_ACE_LITE;
+> > +
+> > +	if (!pfdev->coherent) {
+> > +		pfdev->features.selected_coherency = COHERENCY_NONE;
+> > +	} else if (pfdev->features.coherency_features & COHERENCY_ACE) {
+> > +		pfdev->features.selected_coherency = COHERENCY_ACE;
+> > +	} else if (pfdev->features.coherency_features & COHERENCY_ACE_LITE) {
+> > +		pfdev->features.selected_coherency = COHERENCY_ACE_LITE;
+> > +	} else {
+> > +		drm_WARN(pfdev->ddev, true, "No known coherency protocol supported");
+> > +		pfdev->features.selected_coherency = COHERENCY_NONE;
+> > +	}  
+> 
+> Same comment as for panthor about not using bits when we can't have more
+> than one. But also here because selected_coherency is only a UAPI
+> concept, it would make sense to use the UAPI values, i.e.
+> DRM_PANFROST_GPU_COHERENCY_ACE_LITE etc rather than the private
+> COHERENCY_ACE_LITE defines.
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index e2a18c303357..fb3e10172942 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -366,59 +366,47 @@ static bool is_yuv_output(u32 bus_format)
- 	}
- }
- 
--static bool rockchip_afbc(struct drm_plane *plane, u64 modifier)
--{
--	int i;
--
--	if (modifier == DRM_FORMAT_MOD_LINEAR)
--		return false;
--
--	for (i = 0 ; i < plane->modifier_count; i++)
--		if (plane->modifiers[i] == modifier)
--			return true;
--
--	return false;
--}
--
- static bool rockchip_vop2_mod_supported(struct drm_plane *plane, u32 format,
- 					u64 modifier)
- {
- 	struct vop2_win *win = to_vop2_win(plane);
- 	struct vop2 *vop2 = win->vop2;
-+	int i;
- 
-+	/* No support for implicit modifiers */
- 	if (modifier == DRM_FORMAT_MOD_INVALID)
- 		return false;
- 
--	if (vop2->version == VOP_VERSION_RK3568) {
--		if (vop2_cluster_window(win)) {
--			if (modifier == DRM_FORMAT_MOD_LINEAR) {
--				drm_dbg_kms(vop2->drm,
--					    "Cluster window only supports format with afbc\n");
--				return false;
--			}
--		}
-+	/* The cluster window on 3568 is AFBC-only */
-+	if (vop2->version == VOP_VERSION_RK3568 && vop2_cluster_window(win) &&
-+	    !drm_is_afbc(modifier)) {
-+		drm_dbg_kms(vop2->drm,
-+			    "Cluster window only supports format with afbc\n");
-+		return false;
- 	}
- 
--	if (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010) {
--		if (vop2->version == VOP_VERSION_RK3588) {
--			if (!rockchip_afbc(plane, modifier)) {
--				drm_dbg_kms(vop2->drm, "Only support 32 bpp format with afbc\n");
--				return false;
--			}
--		}
-+	/* 10bpc formats on 3588 are AFBC-only */
-+	if (vop2->version == VOP_VERSION_RK3588 && !drm_is_afbc(modifier) &&
-+	    (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010)) {
-+		drm_dbg_kms(vop2->drm, "Only support 10bpc format with afbc\n");
-+		return false;
- 	}
- 
-+	/* Linear is otherwise supported everywhere */
- 	if (modifier == DRM_FORMAT_MOD_LINEAR)
- 		return true;
- 
--	if (!rockchip_afbc(plane, modifier)) {
--		drm_dbg_kms(vop2->drm, "Unsupported format modifier 0x%llx\n",
--			    modifier);
--
-+	/* Not all format+modifier combinations are allowable */
-+	if (vop2_convert_afbc_format(format) == VOP2_AFBC_FMT_INVALID)
- 		return false;
-+
-+	/* Different windows have different format/modifier support */
-+	for (i = 0; i < plane->modifier_count; i++) {
-+		if (plane->modifiers[i] == modifier)
-+			return true;
- 	}
- 
--	return vop2_convert_afbc_format(format) >= 0;
-+	return false;
- }
- 
- /*
--- 
-2.51.0
+For simplicity (we simply copy the coherency_features from the GPU reg
+at the moment), I want the HW/uAPI values to match, so I've added
+BUILD_BUG_ON()s. And I think I'd prefer to stick to the defs in
+panfrost_regs.h, such that if we ever end up writing that back to
+COHERENCY_ENABLE on newer HW, it's obvious we based the initialization
+on those HW values.
+
+> 
+> Although there is actually a COHERENCY_ENABLE register on some GPUs
+> (BASE_HW_FEATURE_COHERENCY_REG in the kbase driver). Looks like it was
+> probably introduced for Bifrost. But AFAIK the above checks should be ok.
+
+Yep. I didn't dare writing it back, because it's working as-is on all
+supported HW, and I don't want to regress things. Not that I've played
+with this COHERENCY_ENABLE reg on my amlogic board, which is coherent,
+to fake a non-coherent setup, and it works like a charm :-).
 
