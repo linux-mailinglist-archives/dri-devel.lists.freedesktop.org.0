@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42749BDBDE3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 02:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C51BDBDE6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 02:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F17810E6B6;
-	Wed, 15 Oct 2025 00:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D25810E24D;
+	Wed, 15 Oct 2025 00:10:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="DDAjlZLW";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="EwQyILKU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBE710E6B6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:10:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1760487023; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3048310E6B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 00:10:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1760487028; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=M56dqULHHgkAGT0GksMUBTKwIPQ5ij54/e/X2AWo6u++W8LatC4rI8Z8jSSfQz4ahaq2A+8wA+aHFM5XZzX4WAs1tpQzAkSgBMpnrdIoAh3e7h2kzWMiSUOwmhgdtxfkhr1nswowonDa3JkTLxKm3ludtFxac4tfSm4nHufc4vU=
+ b=VHR5iANkZAWS53m4ibaDZFcPuP6ZdoVINHKChbt2uBOs8fnj/jGUrovrO4COgcWFZ/tOfHPSiYQ48MiqMxjt9FwH6XGHbNYLwF8IGHjTOqGTYIXvdV1HgLN1TRLxNYYnMGyLolTj9Z6vLvngHHRetewDFCACY4qCyvK+tt/9LBA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1760487023;
+ s=zohoarc; t=1760487028;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=v1IpcpKR3g0F9ydq0m+FZmd92uhepeBS1D5E7R899Oo=; 
- b=GkvTw94H+33fdUjiyEPsTWWzKWmFTVWvX0UIor2+qvz2cCCyk3HmdCykyaLI45+AuW4dUS6oaa3itmB7qKjkSzZKT1yfnqE+opynBc0mbemrxv66JvXKzce3d3fc+ElVuiRy8Gku/U+3J87SXe+l6KdozhlxG1oO9hLAl+mkJsM=
+ bh=D2k5GCAL/zxlMdl9GxDH4WOymNyRBCt7CL7k1HtDTog=; 
+ b=VUiLP8BeJ4mvx+zvmWqaOtQrKuPfA5KYIPlMlTwGOw8FokneIWXhXCXksBT7eDvstnog1A69j01pxnTgGS/VPF+2EwY62vZEC/KIudOfUS5I4lOilPQj+Ay8vMgQmvwiGVnMegi57LBN4zi2GI1Q8kz9yHCYBeFbXR6mMKZUaR0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760487023; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760487027; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=v1IpcpKR3g0F9ydq0m+FZmd92uhepeBS1D5E7R899Oo=;
- b=DDAjlZLW5nvjs51OsFTFnkoC8n+c6WILtAa43qR/RaCWD5NpwJdb4560XI5tpjmK
- Owqvgi63vz+Gc8NcGqSQKwUI4Q2fwjEtnGmGznSIubPjWHWukAroUD1fbjEpXMmcS7o
- JMwfbXTuxtlHoq12TUfmPtBwTQtFC9f/jR9qN6PU=
-Received: by mx.zohomail.com with SMTPS id 1760487021927185.1040602868145;
- Tue, 14 Oct 2025 17:10:21 -0700 (PDT)
+ bh=D2k5GCAL/zxlMdl9GxDH4WOymNyRBCt7CL7k1HtDTog=;
+ b=EwQyILKUZ8Una08uCxIMtBcySKcMSsETyHifyYdzOEi726RlPdrilOT7G78Y+YGn
+ hTghLXRhE3rYX6aIQ9QL5ZgdcIoz5/C6NBb8GyMaxg6J6Mx+ZbtA7ll3+mKndk/Ypui
+ 6Xhu3fIXxVWPDx4Eqn+iF0DoYKr/Od/DOXKZqQc0=
+Received: by mx.zohomail.com with SMTPS id 1760487025340523.3866017891327;
+ Tue, 14 Oct 2025 17:10:25 -0700 (PDT)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
@@ -47,9 +47,9 @@ Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v6 03/12] drm/panfrost: Handle job HW submit errors
-Date: Wed, 15 Oct 2025 01:09:09 +0100
-Message-ID: <20251015000930.356073-4-adrian.larumbe@collabora.com>
+Subject: [PATCH v6 04/12] drm/panfrost: Handle error when allocating AS number
+Date: Wed, 15 Oct 2025 01:09:10 +0100
+Message-ID: <20251015000930.356073-5-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015000930.356073-1-adrian.larumbe@collabora.com>
 References: <20251015000930.356073-1-adrian.larumbe@collabora.com>
@@ -71,91 +71,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid waiting for the DRM scheduler job timedout handler, and instead, let
-the DRM scheduler core signal the error fence immediately when HW job
-submission fails.
-
-That means we must also decrement the runtime-PM refcnt for the device,
-because the job will never be enqueued or inflight.
+If we reach the beginning of the LRU AS list, then return an error.
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_job.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_job.c     | 6 +++++-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c     | 5 +++--
+ drivers/gpu/drm/panfrost/panfrost_mmu.h     | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c | 8 ++++++--
+ 4 files changed, 15 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 01fcba4e0d57..0722f297d142 100644
+index 0722f297d142..d53e9db945ad 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_job.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -200,7 +200,7 @@ panfrost_enqueue_job(struct panfrost_device *pfdev, int slot,
- 	return 1;
+@@ -217,7 +217,11 @@ static int panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 		goto err_hwsubmit;
+ 	}
+ 
+-	cfg = panfrost_mmu_as_get(pfdev, job->mmu);
++	ret = panfrost_mmu_as_get(pfdev, job->mmu);
++	if (ret < 0)
++		goto err_hwsubmit;
++
++	cfg = ret;
+ 
+ 	panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 1d696eeea2fa..cf272b167feb 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -258,7 +258,7 @@ static int panfrost_mmu_cfg_init(struct panfrost_mmu *mmu,
+ 	}
  }
  
--static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
-+static int panfrost_job_hw_submit(struct panfrost_job *job, int js)
+-u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
++int panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
  {
- 	struct panfrost_device *pfdev = job->pfdev;
- 	unsigned int subslot;
-@@ -208,18 +208,19 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 	u64 jc_head = job->jc;
- 	int ret;
+ 	int as;
  
--	panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
--
- 	ret = pm_runtime_get_sync(pfdev->base.dev);
- 	if (ret < 0)
--		return;
-+		goto err_hwsubmit;
+@@ -300,7 +300,8 @@ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
+ 			if (!atomic_read(&lru_mmu->as_count))
+ 				break;
+ 		}
+-		WARN_ON(&lru_mmu->list == &pfdev->as_lru_list);
++		if (WARN_ON(&lru_mmu->list == &pfdev->as_lru_list))
++			return -EBUSY;
  
- 	if (WARN_ON(job_read(pfdev, JS_COMMAND_NEXT(js)))) {
--		return;
-+		ret = -EINVAL;
-+		goto err_hwsubmit;
+ 		list_del_init(&lru_mmu->list);
+ 		as = lru_mmu->as;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
+index 022a9a74a114..e6e6966a0cca 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
+@@ -16,7 +16,7 @@ void panfrost_mmu_fini(struct panfrost_device *pfdev);
+ void panfrost_mmu_reset(struct panfrost_device *pfdev);
+ void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev);
+ 
+-u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
++int panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
+ void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
+ 
+ struct panfrost_mmu *panfrost_mmu_ctx_get(struct panfrost_mmu *mmu);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+index 718eb44b40f8..7020c0192e18 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
++++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+@@ -130,9 +130,11 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+ 		goto err_vunmap;
  	}
  
- 	cfg = panfrost_mmu_as_get(pfdev, job->mmu);
+-	perfcnt->user = user;
++	ret = panfrost_mmu_as_get(pfdev, perfcnt->mapping->mmu);
++	if (ret < 0)
++		goto err_vunmap;
  
-+	panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
+-	as = panfrost_mmu_as_get(pfdev, perfcnt->mapping->mmu);
++	as = ret;
+ 	cfg = GPU_PERFCNT_CFG_AS(as) |
+ 	      GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_MANUAL);
+ 
+@@ -164,6 +166,8 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+ 	/* The BO ref is retained by the mapping. */
+ 	drm_gem_object_put(&bo->base);
+ 
++	perfcnt->user = user;
 +
- 	job_write(pfdev, JS_HEAD_NEXT_LO(js), lower_32_bits(jc_head));
- 	job_write(pfdev, JS_HEAD_NEXT_HI(js), upper_32_bits(jc_head));
+ 	return 0;
  
-@@ -266,6 +267,12 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 			job, js, subslot, jc_head, cfg & 0xf);
- 	}
- 	spin_unlock(&pfdev->js->job_lock);
-+
-+	return 0;
-+
-+err_hwsubmit:
-+	pm_runtime_put_autosuspend(pfdev->base.dev);
-+	return ret;
- }
- 
- static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
-@@ -388,6 +395,7 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
- 	struct panfrost_device *pfdev = job->pfdev;
- 	int slot = panfrost_job_get_slot(job);
- 	struct dma_fence *fence = NULL;
-+	int ret;
- 
- 	if (job->ctx->destroyed)
- 		return ERR_PTR(-ECANCELED);
-@@ -409,7 +417,11 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
- 		dma_fence_put(job->done_fence);
- 	job->done_fence = dma_fence_get(fence);
- 
--	panfrost_job_hw_submit(job, slot);
-+	ret = panfrost_job_hw_submit(job, slot);
-+	if (ret) {
-+		dma_fence_put(fence);
-+		return ERR_PTR(ret);
-+	}
- 
- 	return fence;
- }
+ err_vunmap:
 -- 
 2.51.0
 
