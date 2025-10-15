@@ -2,90 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5546BBDBF5E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 03:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293BCBDBFDB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Oct 2025 03:35:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6098F10E6C6;
-	Wed, 15 Oct 2025 01:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C3110E6C9;
+	Wed, 15 Oct 2025 01:35:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y0pnQNgV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WkHXfgjX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 204E810E6C6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 01:12:22 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-57a8b00108fso1098580e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 18:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760490740; x=1761095540; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VRM97CWlsOT8ZJdTMoTW/+GjecPCqzJ3uGuQi6pJdPs=;
- b=Y0pnQNgVq63U79lxfO8gVVYTtt0p4cjDBuXA2N9w4Zv5RSrRprBB96wp/XKizP3s1s
- 7gJgkhMeP+qTqUY1AwuE3Xl7WG3eat3mCjA3sVDWXl5loel10T8jp2VrX//A0f2oqDfl
- cv/yU5XppEbygNJVcHz9SkQ/TzJ5pBxfOZO7Xmx9b0SpV7poct4DKpk7HxButsCtV6Ug
- dlOg++8NdEZAjgugetz/vjCbZ9H15/KAXE/PG1nG/Fw5G4+rfB/LmL4UJrXuXivyUs0r
- EYtpWc5KHlvWCQElDtE2Vp33TQmFounqlKXRfn6EihjHmUaHV/3gn20yQ9PQePISDYZH
- zy8Q==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE9D10E6C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 01:35:20 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59EKR4EI014411
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 01:35:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ k2n5J3Jvlq5ovhLn5DGN5KkteKpvoUV0qo2PgJM6Fp0=; b=WkHXfgjXNdO/iuhp
+ iSWmUM3w50cjnd4o7FH7Yc7dq20uzSaIAHKnp766ugBFJbUpt/i+WluFzWTu4wWp
+ IcY1HybFxkhHF2Ck2kRyeljJhsliSzo/gkQe66b90M15G9LdbKmJSVU+ypnmvL7K
+ 01DcAPUvK6sSRvTnOIrZ3M2NwYI/fjUR2P7yMWXVmsohrFNApmm39hsqnGdjl+3t
+ 80PL6jhZGrbor9cqVMql3jDzipq6lT4iRFhUNOAzVDux4vW49Aj3Y990UlOOQUmy
+ AQwd/2H2aETVxO1u6lr2RBDXcc+Q4My+zdZ9bCQkRgS4uR4+zampQ/zvEN9t0STt
+ T7zupg==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49s6mwmwrj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 01:35:19 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-339ee6fe72cso2571224a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Oct 2025 18:35:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760490740; x=1761095540;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VRM97CWlsOT8ZJdTMoTW/+GjecPCqzJ3uGuQi6pJdPs=;
- b=i66ezT7y/FaAtkPStOMbhOWopYl4MIrFL16l+zAECl56PwX6lAfEpK86M4lOq1Wo3H
- G5S+1TCmLx7XEksNA/JmBCR+JbRZ8DhcGXe3dGhzsBapZYHTPcW12n+sInfd5vjASww3
- EaXZRLMVLKLzQqycxSR7BUyLywnCCSD0ylolXVNQFUz84qGZAZtYglwrkqlG3ISX/tB8
- G4NRFSWHNo2pNJMLZmVHKkg2Zg2msVI+IV43+hUIhvIIncaZhXIKoVfLtW0DwwDAf0ub
- dM3ZBuLd4yQXzeosv3v88VJubfhn4e6h6mWt+dJDHJmxjD8Z55KzMrrJ2RCOioers+Hr
- InVQ==
+ d=1e100.net; s=20230601; t=1760492119; x=1761096919;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=k2n5J3Jvlq5ovhLn5DGN5KkteKpvoUV0qo2PgJM6Fp0=;
+ b=lR1kmn7+E9prFOvVIkgAS/FncJqyHc+vUblExsn5beZo2NEvS+BaQY9+ztvQt7mfdL
+ KqNHqomR3I6Popnww6Oj8o0g1AP8LBSpxs2aC9TbA5WC0YXkrQmIl5IQC1amCmbqn1lK
+ cTUQQ9rOSqGXzSApStqFfWL3lmWyMYZtY+RfDv14sev5blLpnJ9xvwslQaOSSPhhvD4Y
+ 281JIxatutd+Gh81ThiJ/3nMj1hJOaL/Ql7uxDrmGEbHGyLLKZytOkRmWS2LYl0/Dmr1
+ vTsphxu1Zar2jVFeshkkwTbmmcfqwxNBqhcerVkVEwoYNKeaRu4etvSk/IwEios1hCBE
+ CnGw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQM1xdN357C4mxFnQtWYlDXoALEHJ/6bbrvAUZZ4nuY7Szr1lBzmun4i2Q2RTc+MlIycI/y0o3TfE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsOOUkiWRNrrotbgDvVktZIzp2VTdP6YTLIK78TBnDaFdkLTHu
- GWQRt0UUFM3bJfENxqywB/i9J8f5z1s+vhyqOwJK9OU5jcedH+tt7sxs7IL5oHGW3MHNo5iPYtj
- SXYdOdK0WoWIuUHEtXMGOuyQM7rA6Bag=
-X-Gm-Gg: ASbGncspKD8EsG8DhbiHquHvt6ICHhzxsvE/the/E/AN4tzOFTqUs5MF/RBQkE4Qt5X
- RTmtObWDlMX+sdAEVOeMP3QMnj9oKjEN7wB4Av9VQo7vzT9sk1Yq9m/8tfGSmK2WjCilj53ikTT
- LMVE8iA7FONk2xqrq6AyVSRJ2Gyuk0ktfzBusMiUTRuanQQCrDNi/JyVKte8pS4C+U0soMg/mef
- ATP0+C/rcGHcZUPF9L0jnIoLyANOX4jE0SpOQ==
-X-Google-Smtp-Source: AGHT+IH/YU1kpB0Wn/4zP9l5pqChZfQXv1sm3d4LmsjcWXKZ0Ktc3UNXw8IIJzlfWpkxIJ+KKbvjrd6UrdDNej2f8Fk=
-X-Received: by 2002:a05:6512:23e9:b0:586:15ea:53c8 with SMTP id
- 2adb3069b0e04-591c8faf0b0mr151534e87.2.1760490739902; Tue, 14 Oct 2025
- 18:12:19 -0700 (PDT)
+ AJvYcCWPhQQdKDXdikS9iw8HUUdN/bTSALqnhi64Y9ZZfHZlhX1iBC0b/VBz62PEHws1OfHjF0tP0n68fH0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9W28qHf/1kgMjbLP+bBHJIyRWvXZjIRUpvhNZa1er7kIj/Mf/
+ Y6WxUcBWqqvj1V/N5eHz31ivgyvWQ97QQ7Hp3ercdrZ4XA/o0CF3yTAE7cTBZzmZAs0W9sYbgR0
+ HM181yFOkWqdPVoAFaDLp0mYILaLBEd9hQsJlkEpZWRyvIfJmWpgnjJpOrpq5t7omc7lS4D4=
+X-Gm-Gg: ASbGncvv6rK8BtzNXVagv53ajfWGhOqq5OGb6YU3owpd5OixOfy54hIPUziuM1qRc/W
+ tPuTVzaZQvctiPCFl7rD1dFwzA6sBkfJXum4Fu200q1A0swPyTQ3qkFO83447dnYD402J1iO1Yn
+ fkMsIbzXWUThW7SyIlxWj1DHcJ2MMb2IsVyyI2uMrN/Xq3w/8bEA2YDIYheJY67dKkRmbodcO2J
+ 27UvOOcRotE23sYAsZsmSkHDWFQRaGju55vdEV/Tdv/mSxl/uFhOMhpGW5kCZQ9HrSfaORrA5rr
+ gl0tJfiLgnyf6+eaq2B34fbLgP0L5CxcdZgL5z+4IvJh2oaKKmMpSBU9RgYiFX3LYoF7yK63FUN
+ lCGRKk+R1WPLeYSFC4GPooJHofUD2pEUtagU=
+X-Received: by 2002:a17:90b:1d10:b0:32b:dfd7:e42c with SMTP id
+ 98e67ed59e1d1-33b95dfc275mr970065a91.5.1760492118740; 
+ Tue, 14 Oct 2025 18:35:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHc+CZt0xREG6/4LPwJm/Rd0O6qubFBGwHV4l8y5dMCUoHmdZH14Lg5AhY6jiw29nPPSwGWyA==
+X-Received: by 2002:a17:90b:1d10:b0:32b:dfd7:e42c with SMTP id
+ 98e67ed59e1d1-33b95dfc275mr970028a91.5.1760492118252; 
+ Tue, 14 Oct 2025 18:35:18 -0700 (PDT)
+Received: from [10.133.33.159] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b678df7e1d1sm13305597a12.40.2025.10.14.18.35.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Oct 2025 18:35:17 -0700 (PDT)
+Message-ID: <fb83f6b4-019d-4dca-86d5-87ed018153a3@oss.qualcomm.com>
+Date: Wed, 15 Oct 2025 09:35:08 +0800
 MIME-Version: 1.0
-References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
- <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
- <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
- <CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
- <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
- <20251014171003.57bbfd63@mordecai.tesarici.cz>
- <97da9924-9489-4d30-a858-8ee5c87bc031@amd.com>
-In-Reply-To: <97da9924-9489-4d30-a858-8ee5c87bc031@amd.com>
-From: Zhaoyang Huang <huangzhaoyang@gmail.com>
-Date: Wed, 15 Oct 2025 09:12:07 +0800
-X-Gm-Features: AS18NWDwKUa99eX_upbZCKKbzQIUyuG-r_RZ364dCpA2z_s2W1WiiM3YMGbpa3o
-Message-ID: <CAGWkznGnmb=8GgcrfDvY2REHdRZYVXZy=F3thXhK0FaSoiK7tw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
- order-0 allocation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Suren Baghdasaryan <surenb@google.com>
-Cc: Petr Tesarik <ptesarik@suse.com>,
- "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, 
- Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Mel Gorman <mgorman@techsingularity.net>,
- Vlastimil Babka <vbabka@suse.cz>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, steve.kang@unisoc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] arm64: dts: qcom: qcs615-ride: Enable DisplayPort
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com
+References: <20251014-add-displayport-support-to-qcs615-devicetree-v3-0-74ec96ba8144@oss.qualcomm.com>
+ <20251014-add-displayport-support-to-qcs615-devicetree-v3-3-74ec96ba8144@oss.qualcomm.com>
+ <geh3pbatv53bnk2zgyalnwvumvcsqaz6n7x6dniohsfk7r56sq@mpflfuye62ly>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <geh3pbatv53bnk2zgyalnwvumvcsqaz6n7x6dniohsfk7r56sq@mpflfuye62ly>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDA4MyBTYWx0ZWRfX/KgGtWplCHdr
+ eBsRAFMYUljllfrsfo3cMSV+iFFIoW8J1t9sRpsEOYlgbqioyahrnXmjx1+XPmWIuJcxBOvEcDQ
+ faMsnsfGdOfSRK7n2N0tSeYECUvBNW7J4WF36pEO2NrthgnI6To7IfDxEF/s7Sw4rLrteIczABL
+ F5MbC8Xmal5RGjkIcD/82AxtM3GfycRLWxjOLfoC2XoGhVImMjGvksc8hzukbaZuXvZXrVAwbbB
+ iMAQzfn90+CL4B+4eqSuSuLr3412qb3Sd6RbKH/td5AHzaPm9klxRk+PJfhITllXRA3wS1JVqVi
+ h2aVeARKqJAXfFa6LxQcXWzxBC3jlAuNV2cjbdaYMfl5d3hhcrMM2FFU2S3ktfBLTtwDoGJaZgZ
+ hYe36AHfw9ovBbvAta4rzUjrzeb8Hw==
+X-Authority-Analysis: v=2.4 cv=Fr4IPmrq c=1 sm=1 tr=0 ts=68eefa57 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=2THbcKMbQ0HsdItsycQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: 9zzThlDCQHqmaSDlTTHYLsyHWpChDx0w
+X-Proofpoint-ORIG-GUID: 9zzThlDCQHqmaSDlTTHYLsyHWpChDx0w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-15_01,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 malwarescore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130083
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,92 +138,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 14, 2025 at 11:52=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 14.10.25 17:10, Petr Tesarik wrote:
-> > On Tue, 14 Oct 2025 15:04:14 +0200
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> >
-> >> On 14.10.25 14:44, Zhaoyang Huang wrote:
-> >>> On Tue, Oct 14, 2025 at 7:59=E2=80=AFPM Christian K=C3=B6nig
-> >>> <christian.koenig@amd.com> wrote:
-> >>>>
-> >>>> On 14.10.25 10:32, zhaoyang.huang wrote:
-> >>>>> From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
-> >>>>>
-> >>>>> The size of once dma-buf allocation could be dozens MB or much more
-> >>>>> which introduce a loop of allocating several thousands of order-0 p=
-ages.
-> >>>>> Furthermore, the concurrent allocation could have dma-buf allocatio=
-n enter
-> >>>>> direct-reclaim during the loop. This commit would like to eliminate=
- the
-> >>>>> above two affections by introducing alloc_pages_bulk_list in dma-bu=
-f's
-> >>>>> order-0 allocation. This patch is proved to be conditionally helpfu=
-l
-> >>>>> in 18MB allocation as decreasing the time from 24604us to 6555us an=
-d no
-> >>>>> harm when bulk allocation can't be done(fallback to single page
-> >>>>> allocation)
-> >>>>
-> >>>> Well that sounds like an absolutely horrible idea.
-> >>>>
-> >>>> See the handling of allocating only from specific order is *exactly*=
- there to avoid the behavior of bulk allocation.
-> >>>>
-> >>>> What you seem to do with this patch here is to add on top of the beh=
-avior to avoid allocating large chunks from the buddy the behavior to alloc=
-ate large chunks from the buddy because that is faster.
-> >>> emm, this patch doesn't change order-8 and order-4's allocation
-> >>> behaviour but just to replace the loop of order-0 allocations into
-> >>> once bulk allocation in the fallback way. What is your concern about
-> >>> this?
-> >>
-> >> As far as I know the bulk allocation favors splitting large pages into=
- smaller ones instead of allocating smaller pages first. That's where the p=
-erformance benefit comes from.
-> >>
-> >> But that is exactly what we try to avoid here by allocating only certa=
-in order of pages.
-> >
-> > This is a good question, actually. Yes, bulk alloc will split large
-> > pages if there are insufficient pages on the pcp free list. But islates=
-t
-> > dma-buf indeed trying to avoid it, or is it merely using an inefficient
-> > API? And does it need the extra speed? Even if it leads to increased
-> > fragmentation?
->
-> DMA-buf-heaps is completly intentionally trying rather hard to avoid spli=
-tting large pages. That's why you have the distinction between HIGH_ORDER_G=
-FP and LOW_ORDER_GFP as well.
-Could you please check the alloc_pages_bulk_noprof in the patch 1/2 of
-this series. According to my understanding, it try to get the order-0
-page from pcplist firstly and then fallback to normal
-alloc_pages(order-0) as same as what current dma-buf do. That is to
-say no extra large pages splitting introduced by this commit.
->
-> Keep in mind that this is mostly used on embedded system with only small =
-amounts of memory.
-Actually, dma-buf is the main consumer for driver's memory allocation
-in the android world(multimedia, camera, npu etc) which could use even
-half of the system RAM with dozens MB for once allocation.
->
-> Not entering direct reclaim and instead preferring to split large pages u=
-ntil they are used up is an absolutely no-go for most use cases as far as I=
- can see.
-Yes. This behaviour would NOT be changed under this commit.
->
-> Could be that we need to make this behavior conditional, but somebody wou=
-ld need to come up with some really good arguments to justify the complexit=
-y.
-ok, should we use CONFIG_DMA_BUF_BULK_ALLOCATION or a variable
-controlled by sysfs interface?
->
-> Regards,
-> Christian.
->
-> >
-> > Petr T
->
+
+On 10/15/2025 6:16 AM, Dmitry Baryshkov wrote:
+> On Tue, Oct 14, 2025 at 07:54:56PM +0800, Xiangxu Yin via B4 Relay wrote:
+>> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>
+>> Add DP connector node and configure MDSS DisplayPort controller for
+>> QCS615 Ride platform. Include lane mapping and PHY supply settings
+> The "lane mapping" no longer applies. LGTM otherwise.
+
+
+Oh, I forgot to update the commit message. I’ll fix it in the next version.
+
+
+>> to support DP output.
+>>
+>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>> ---
+>>  arch/arm64/boot/dts/qcom/qcs615-ride.dts | 30 ++++++++++++++++++++++++++++++
+>>  1 file changed, 30 insertions(+)
+>>
