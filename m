@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EF7BE26B3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:35:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0537BE272C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D8F10E984;
-	Thu, 16 Oct 2025 09:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF2C10E986;
+	Thu, 16 Oct 2025 09:40:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Eqg+OEFL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CUS5qKMX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00DCC10E984;
- Thu, 16 Oct 2025 09:35:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 325D54613E;
- Thu, 16 Oct 2025 09:35:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB67FC4CEF9;
- Thu, 16 Oct 2025 09:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1760607301;
- bh=JWIe+sI4o3Oq1oewunL/frF8K8c+rwmVNRPd6XnFqZQ=;
- h=Subject:To:Cc:From:Date:From;
- b=Eqg+OEFL7gqO4T5SSI4fMCea1XMabLHJX/cvM/h5+EMs5xOSJNIS+Ts/jyTFgcLXj
- qPrEriPmNKx3FkXZV2Q/PXHTXX+9TJXMBRvU2Unq3f3cQ6ADOxp79jc5FDVsPNQL/4
- xYVf/VTPmWCjuW+x8w1X4yntDxPq5fSj4Cdfsr3U=
-Subject: Patch "drm/amd/display: Fix unsafe uses of kernel mode FPU" has been
- added to the 6.17-stable tree
-To: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org, ardb@kernel.org,
- austin.zheng@amd.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- harry.wentland@amd.com, jun.lei@amd.com, siqueira@igalia.com,
- sunpeng.li@amd.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 16 Oct 2025 11:34:27 +0200
-Message-ID: <2025101627-gecko-sugar-139d@gregkh>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB6B610E986
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 09:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760607620;
+ bh=fGMwze4EW9EL74icbGlhobpT5wikVa0unEplucU4aqg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=CUS5qKMXLv+emHFfqpQyBbIL99625tN7gP9oEmpetnp1c6ezEOcO/71zrE04ymKO3
+ FWs21TS96grt8bvWCT1ChW0OQGA8K0ATfhrFhlyTZnqy4r75ruXQTNufAdVOS9rZ0u
+ E7+IJsRYIdtNjdTGR/gi08AFB4m7E47Pgr0yNaMTo6uSxXQ3RGRGY39GTtQR3rPCmo
+ DOSg2Qz7XSBA4Z7KdlZlkOlIpd8VEq7ejosl5xQQ68sAJwK+0p8MZjIi5G7m+yUvUh
+ QVBNmHPztR7fqdaVMsHBb6687fVSYKUT9yTybw4KbovyRGof+qKyTpXve94UTIqjbh
+ XCgeeixfIJCmw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 151AD17E10C8;
+ Thu, 16 Oct 2025 11:40:20 +0200 (CEST)
+Date: Thu, 16 Oct 2025 11:40:16 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Faith Ekstrand <faith.ekstrand@collabora.com>,
+ kernel@collabora.com
+Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync()
+ and a drm_gem_sync() helper
+Message-ID: <20251016114016.12bb49cd@fedora>
+In-Reply-To: <f89987b9-2df8-45ab-8b53-6a210a30ce50@suse.de>
+References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
+ <20251015160326.3657287-3-boris.brezillon@collabora.com>
+ <f89987b9-2df8-45ab-8b53-6a210a30ce50@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,248 +67,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-This is a note to let you know that I've just added the patch titled
+On Thu, 16 Oct 2025 10:32:46 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-    drm/amd/display: Fix unsafe uses of kernel mode FPU
+> Hi,
+> 
+> on patches 2 to 4: sync is really begin/end access wrapped into one 
+> interface, which I find questionable. I also don't like that these 
+> patches add generic infrastructure for a single driver.
 
-to the 6.17-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+It's actually two drivers (panfrost and panthor), and the interface is
+here so other drivers relying on drm_gem_shmem don't have to hand-roll
+these things in the future.
 
-The filename of the patch is:
-     drm-amd-display-fix-unsafe-uses-of-kernel-mode-fpu.patch
-and it can be found in the queue-6.17 subdirectory.
+> 
+> My proposal is to make your own dma_buf exporter in panthor and set the 
+> begin/end_cpu_access functions as you need. Panthor already contains its 
+> own GEM export helper at [1]. If you inline drm_gem_prime_export() [2] 
+> you can set the cpu_access callbacks to panthor-specific code. The other 
+> dma-buf helpers' symbols should be exported and can be re-used. That is 
+> a lot less intrusive and should provide what you need.
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+I can of course do that in panthor, but then I'll have to duplicate
+the same logic in panfrost. Also, the whole point of making it generic
+is so that people don't forget that begin/end_cpu_access() is a thing
+they should consider (like happened to me if you look at v2 of this
+patchset), otherwise importers of their buffers might have unpleasant
+side effects because of missing flush/invalidates. This, IMHO, is a good
+reason to have it as a drm_gem_funcs::sync() callback. That, or we
+decide that the default dma_buf_ops is not a thing, and we force
+developers to think twice when they select the default hooks to pick
+for their dma_buf implementation.
 
+> 
+> I found that a hand full of other DRM drivers implement dma-buf's 
+> begin/end access callbacks. If you want a generic begin/end interface 
+> for GEM, you certainly want to get them on board. If there's something 
+> common to share, this should be done in a separate series.
 
-From ddbfac152830e38d488ff8e45ab7eaf5d72f8527 Mon Sep 17 00:00:00 2001
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 2 Oct 2025 23:00:45 +0200
-Subject: drm/amd/display: Fix unsafe uses of kernel mode FPU
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Fair enough. I'll try to convert freedreno and imagination to this new
+interface, and gather some feedback.
 
-From: Ard Biesheuvel <ardb@kernel.org>
+Regards,
 
-commit ddbfac152830e38d488ff8e45ab7eaf5d72f8527 upstream.
-
-The point of isolating code that uses kernel mode FPU in separate
-compilation units is to ensure that even implicit uses of, e.g., SIMD
-registers for spilling occur only in a context where this is permitted,
-i.e., from inside a kernel_fpu_begin/end block.
-
-This is important on arm64, which uses -mgeneral-regs-only to build all
-kernel code, with the exception of such compilation units where FP or
-SIMD registers are expected to be used. Given that the compiler may
-invent uses of FP/SIMD anywhere in such a unit, none of its code may be
-accessible from outside a kernel_fpu_begin/end block.
-
-This means that all callers into such compilation units must use the
-DC_FP start/end macros, which must not occur there themselves. For
-robustness, all functions with external linkage that reside there should
-call dc_assert_fp_enabled() to assert that the FPU context was set up
-correctly.
-
-Fix this for the DCN35, DCN351 and DCN36 implementations.
-
-Cc: Austin Zheng <austin.zheng@amd.com>
-Cc: Jun Lei <jun.lei@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <siqueira@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c             |    4 ++
- drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c             |    6 ++-
- drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c           |    4 +-
- drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c   |   16 ++++++++-
- drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c |   17 +++++++++-
- drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c   |   16 ++++++++-
- 6 files changed, 56 insertions(+), 7 deletions(-)
-
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/dcn31_fpu.c
-@@ -808,6 +808,8 @@ void dcn316_update_bw_bounding_box(struc
- 
- int dcn_get_max_non_odm_pix_rate_100hz(struct _vcs_dpi_soc_bounding_box_st *soc)
- {
-+	dc_assert_fp_enabled();
-+
- 	return soc->clock_limits[0].dispclk_mhz * 10000.0 / (1.0 + soc->dcn_downspread_percent / 100.0);
- }
- 
-@@ -815,6 +817,8 @@ int dcn_get_approx_det_segs_required_for
- 		struct _vcs_dpi_soc_bounding_box_st *soc,
- 		int pix_clk_100hz, int bpp, int seg_size_kb)
- {
-+	dc_assert_fp_enabled();
-+
- 	/* Roughly calculate required crb to hide latency. In practice there is slightly
- 	 * more buffer available for latency hiding
- 	 */
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c
-@@ -445,6 +445,8 @@ int dcn35_populate_dml_pipes_from_contex
- 	bool upscaled = false;
- 	const unsigned int max_allowed_vblank_nom = 1023;
- 
-+	dc_assert_fp_enabled();
-+
- 	dcn31_populate_dml_pipes_from_context(dc, context, pipes,
- 					      validate_mode);
- 
-@@ -498,9 +500,7 @@ int dcn35_populate_dml_pipes_from_contex
- 
- 		pipes[pipe_cnt].pipe.src.unbounded_req_mode = false;
- 
--		DC_FP_START();
- 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
--		DC_FP_END();
- 
- 		pipes[pipe_cnt].pipe.dest.vfront_porch = timing->v_front_porch;
- 		pipes[pipe_cnt].pipe.src.dcc_rate = 3;
-@@ -581,6 +581,8 @@ void dcn35_decide_zstate_support(struct
- 	unsigned int i, plane_count = 0;
- 	DC_LOGGER_INIT(dc->ctx->logger);
- 
-+	dc_assert_fp_enabled();
-+
- 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
- 		if (context->res_ctx.pipe_ctx[i].plane_state)
- 			plane_count++;
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn351/dcn351_fpu.c
-@@ -478,6 +478,8 @@ int dcn351_populate_dml_pipes_from_conte
- 	bool upscaled = false;
- 	const unsigned int max_allowed_vblank_nom = 1023;
- 
-+	dc_assert_fp_enabled();
-+
- 	dcn31_populate_dml_pipes_from_context(dc, context, pipes,
- 					      validate_mode);
- 
-@@ -531,9 +533,7 @@ int dcn351_populate_dml_pipes_from_conte
- 
- 		pipes[pipe_cnt].pipe.src.unbounded_req_mode = false;
- 
--		DC_FP_START();
- 		dcn31_zero_pipe_dcc_fraction(pipes, pipe_cnt);
--		DC_FP_END();
- 
- 		pipes[pipe_cnt].pipe.dest.vfront_porch = timing->v_front_porch;
- 		pipes[pipe_cnt].pipe.src.dcc_rate = 3;
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.c
-@@ -1760,6 +1760,20 @@ enum dc_status dcn35_patch_unknown_plane
- }
- 
- 
-+static int populate_dml_pipes_from_context_fpu(struct dc *dc,
-+					       struct dc_state *context,
-+					       display_e2e_pipe_params_st *pipes,
-+					       enum dc_validate_mode validate_mode)
-+{
-+	int ret;
-+
-+	DC_FP_START();
-+	ret = dcn35_populate_dml_pipes_from_context_fpu(dc, context, pipes, validate_mode);
-+	DC_FP_END();
-+
-+	return ret;
-+}
-+
- static struct resource_funcs dcn35_res_pool_funcs = {
- 	.destroy = dcn35_destroy_resource_pool,
- 	.link_enc_create = dcn35_link_encoder_create,
-@@ -1770,7 +1784,7 @@ static struct resource_funcs dcn35_res_p
- 	.validate_bandwidth = dcn35_validate_bandwidth,
- 	.calculate_wm_and_dlg = NULL,
- 	.update_soc_for_wm_a = dcn31_update_soc_for_wm_a,
--	.populate_dml_pipes = dcn35_populate_dml_pipes_from_context_fpu,
-+	.populate_dml_pipes = populate_dml_pipes_from_context_fpu,
- 	.acquire_free_pipe_as_secondary_dpp_pipe = dcn20_acquire_free_pipe_for_layer,
- 	.release_pipe = dcn20_release_pipe,
- 	.add_stream_to_ctx = dcn30_add_stream_to_ctx,
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn351/dcn351_resource.c
-@@ -1732,6 +1732,21 @@ static enum dc_status dcn351_validate_ba
- 	return out ? DC_OK : DC_FAIL_BANDWIDTH_VALIDATE;
- }
- 
-+static int populate_dml_pipes_from_context_fpu(struct dc *dc,
-+					       struct dc_state *context,
-+					       display_e2e_pipe_params_st *pipes,
-+					       enum dc_validate_mode validate_mode)
-+{
-+	int ret;
-+
-+	DC_FP_START();
-+	ret = dcn351_populate_dml_pipes_from_context_fpu(dc, context, pipes, validate_mode);
-+	DC_FP_END();
-+
-+	return ret;
-+
-+}
-+
- static struct resource_funcs dcn351_res_pool_funcs = {
- 	.destroy = dcn351_destroy_resource_pool,
- 	.link_enc_create = dcn35_link_encoder_create,
-@@ -1742,7 +1757,7 @@ static struct resource_funcs dcn351_res_
- 	.validate_bandwidth = dcn351_validate_bandwidth,
- 	.calculate_wm_and_dlg = NULL,
- 	.update_soc_for_wm_a = dcn31_update_soc_for_wm_a,
--	.populate_dml_pipes = dcn351_populate_dml_pipes_from_context_fpu,
-+	.populate_dml_pipes = populate_dml_pipes_from_context_fpu,
- 	.acquire_free_pipe_as_secondary_dpp_pipe = dcn20_acquire_free_pipe_for_layer,
- 	.release_pipe = dcn20_release_pipe,
- 	.add_stream_to_ctx = dcn30_add_stream_to_ctx,
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn36/dcn36_resource.c
-@@ -1734,6 +1734,20 @@ static enum dc_status dcn35_validate_ban
- }
- 
- 
-+static int populate_dml_pipes_from_context_fpu(struct dc *dc,
-+					       struct dc_state *context,
-+					       display_e2e_pipe_params_st *pipes,
-+					       enum dc_validate_mode validate_mode)
-+{
-+	int ret;
-+
-+	DC_FP_START();
-+	ret = dcn35_populate_dml_pipes_from_context_fpu(dc, context, pipes, validate_mode);
-+	DC_FP_END();
-+
-+	return ret;
-+}
-+
- static struct resource_funcs dcn36_res_pool_funcs = {
- 	.destroy = dcn36_destroy_resource_pool,
- 	.link_enc_create = dcn35_link_encoder_create,
-@@ -1744,7 +1758,7 @@ static struct resource_funcs dcn36_res_p
- 	.validate_bandwidth = dcn35_validate_bandwidth,
- 	.calculate_wm_and_dlg = NULL,
- 	.update_soc_for_wm_a = dcn31_update_soc_for_wm_a,
--	.populate_dml_pipes = dcn35_populate_dml_pipes_from_context_fpu,
-+	.populate_dml_pipes = populate_dml_pipes_from_context_fpu,
- 	.acquire_free_pipe_as_secondary_dpp_pipe = dcn20_acquire_free_pipe_for_layer,
- 	.release_pipe = dcn20_release_pipe,
- 	.add_stream_to_ctx = dcn30_add_stream_to_ctx,
-
-
-Patches currently in stable-queue which might be from ardb@kernel.org are
-
-queue-6.17/kbuild-add-.rel.-strip-pattern-for-vmlinux.patch
-queue-6.17/kbuild-restore-pattern-to-avoid-stripping-.rela.dyn-.patch
-queue-6.17/drm-amd-display-fix-unsafe-uses-of-kernel-mode-fpu.patch
+Boris
