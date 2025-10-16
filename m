@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C192BE35CE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 14:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54341BE3604
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 14:31:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E55B210E9CA;
-	Thu, 16 Oct 2025 12:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C5CF10E9D5;
+	Thu, 16 Oct 2025 12:31:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="kWSlquUL";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mhih9VdN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 377FD10E9CA
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 12:28:36 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F1B10E9CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 12:31:39 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cnS0w5vtwz9tVG;
- Thu, 16 Oct 2025 14:28:32 +0200 (CEST)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cnS4R5HG4z9v10;
+ Thu, 16 Oct 2025 14:31:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1760617712; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ t=1760617895; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jeF7R+P9lKwA0xVRJFuEYPzxNZB2FBffSFs2Uv8RH7o=;
- b=kWSlquUL3EcYsjIUaDPRVRGdP0NHIR617+NOH9x0oP3LKJGoRYoRjJVsFHliXmFGWdnlv4
- N6uYeub4HOR8IpI5b+ITdnXFXXpJ++iKEis31iy2MJ9mNnLt31IFQQPZgUJf7WsvfHRmdA
- o4qoHfcLLETYRL7/NGZ1joNZOdYfRIdzg0NrT6QElG+IbPgJ76iHZmqXQpN5LgsQkp9AMh
- hxpVz8zisG6nwfrZGG2UH00MDeuG0WwauRjOdvbdm+iwbNY+xrmyFhg/YspIlAU5VUhjNS
- H5ivAC5SZwZp4FKZjgn/nXwStF5sLTRoOUgtfuQ0f48hbIzdtWq0Aawm+J0jgQ==
-Message-ID: <035d823a40424adfc2861fe99c4eb1a2d606e923.camel@mailbox.org>
-Subject: Re: [PATCH v3] drm/sched: Fix potential double free in
- drm_sched_job_add_resv_dependencies
+ bh=RciI0yQhuUPZeo6A3yY1ep1xixpoKjHxUL45hrzYy04=;
+ b=mhih9VdNpAVACnEL4eMShtc6vrg7izN3ceS6TKgzCgcsKidiK7IBMDEhR9lyp+x1Lc/wub
+ VhHNaDAzLX20iY5L1QXRzZtud7Ta2qZonOyF1hKsvqRpAOB1cBWEx/9OJbR9o2smWjpINu
+ Anqsq70dySKPzl1K+Lhh/KxUiASsjBZDewEKwlOmppOnfa7dTzVNWxTv4alBDq6zqJ9MZn
+ 9UK8ie+OGndONehGxb+EzoFH+mIxhSeGTNjy7uniPF0GOY2E1rsM51oEj1bdzL3XxtsVn7
+ 636/FiZKxQjjo17CPBonnKfscmT5UupKQ9bc4LDNGZQx+qvR579HT6xlx5e3zg==
+Message-ID: <1a83e056df0a0096f85897b569993b0eca3892df.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: avoid killing parent entity on child SIGKILL v3
 From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Dan Carpenter <dan.carpenter@linaro.org>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Rob Clark
- <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Matthew
- Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, stable@vger.kernel.org
-Date: Thu, 16 Oct 2025 14:28:28 +0200
-In-Reply-To: <20251015084015.6273-1-tvrtko.ursulin@igalia.com>
-References: <20251015084015.6273-1-tvrtko.ursulin@igalia.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ phasta@kernel.org, alexdeucher@gmail.com, dakr@kernel.org,
+ matthew.brost@intel.com,  dri-devel@lists.freedesktop.org
+Date: Thu, 16 Oct 2025 14:31:33 +0200
+In-Reply-To: <20251015140128.1470-1-christian.koenig@amd.com>
+References: <20251015140128.1470-1-christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-ID: adecc1d7c22fbb28de3
-X-MBO-RS-META: w11redpxdjrpni3zgfm6g8hd84pwc1dj
+X-MBO-RS-ID: 50dc5d5c1c8c45d99e2
+X-MBO-RS-META: 5qjho1hzkde6d81njztdaow5fcopk3e3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,122 +65,73 @@ Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-10-15 at 09:40 +0100, Tvrtko Ursulin wrote:
-> When adding dependencies with drm_sched_job_add_dependency(), that
-> function consumes the fence reference both on success and failure, so in
-> the latter case the dma_fence_put() on the error path (xarray failed to
-> expand) is a double free.
+On Wed, 2025-10-15 at 16:01 +0200, Christian K=C3=B6nig wrote:
+> From: David Rosca <david.rosca@amd.com>
 >=20
-> Interestingly this bug appears to have been present ever since
-> commit ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the cod=
-e
-> back then looked like this:
+> The DRM scheduler tracks who last uses an entity and when that process
+> is killed blocks all further submissions to that entity.
 >=20
-> drm_sched_job_add_implicit_dependencies():
-> ...
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < fence_count; i++) =
-{
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 ret =3D drm_sched_job_add_dependency(job, fences[i]);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (ret)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> The problem is that we didn't track who initially created an entity, so
+> when a process accidently leaked its file descriptor to a child and
+> that child got killed, we killed the parent's entities.
 >=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (; i < fence_count; i++)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dma_fence_put(fences[i]);
+> Avoid that and instead initialize the entities last user on entity
+> creation. This also allows to drop the extra NULL check.
 >=20
-> Which means for the failing 'i' the dma_fence_put was already a double
-> free. Possibly there were no users at that time, or the test cases were
-> insufficient to hit it.
->=20
-> The bug was then only noticed and fixed after
-> commit 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_ad=
-d_implicit_dependencies v2")
-> landed, with its fixup of
-> commit 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_depen=
-dencies").
->=20
-> At that point it was a slightly different flavour of a double free, which
-> commit 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_depen=
-dencies harder")
-> noticed and attempted to fix.
->=20
-> But it only moved the double free from happening inside the
-> drm_sched_job_add_dependency(), when releasing the reference not yet
-> obtained, to the caller, when releasing the reference already released by
-> the former in the failure case.
->=20
-> As such it is not easy to identify the right target for the fixes tag so
-> lets keep it simple and just continue the chain.
->=20
-> While fixing we also improve the comment and explain the reason for takin=
-g
-> the reference and not dropping it.
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_depen=
-dencies harder")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/dri-devel/aNFbXq8OeYl3QSdm@stanley.mounta=
-in/
+> v2: still use cmpxchg
+> v3: improve the commit message
 
-Applied to drm-misc-fixes
+For the future, commit messages in the patche's comment body are to be
+preferred since it's common kernel style. Same applies to the patch
+version in the title, which should be in [PATCH v3].
 
-Thx
+But that's just a nit. More important:
+
+>=20
+> Signed-off-by: David Rosca <david.rosca@amd.com>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4568
+
+Should this have a Fixes: ?
+
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> CC: stable@vger.kernel.org
+
+So we want it in drm-misc-fixes, don't we?
+
+
 P.
 
-
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> Cc: "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.16+
 > ---
-> v2:
-> =C2=A0* Re-arrange commit text so discussion around sentences starting wi=
-th
-> =C2=A0=C2=A0 capital letters in all cases can be avoided.
-> =C2=A0* Keep double return for now.
-> =C2=A0* Improved comment instead of dropping it.
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
+> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
 >=20
-> v3:
-> =C2=A0* Commit SHA formatting in the commit message.
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 13 +++++++------
-> =C2=A01 file changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index 46119aacb809..c39f0245e3a9 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -965,13 +965,14 @@ int drm_sched_job_add_resv_dependencies(struct drm_=
-sched_job *job,
-> =C2=A0	dma_resv_assert_held(resv);
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 5a4697f636f2..3e2f83dc3f24 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *enti=
+ty,
+> =C2=A0	entity->guilty =3D guilty;
+> =C2=A0	entity->num_sched_list =3D num_sched_list;
+> =C2=A0	entity->priority =3D priority;
+> +	entity->last_user =3D current->group_leader;
+> =C2=A0	/*
+> =C2=A0	 * It's perfectly valid to initialize an entity without having a v=
+alid
+> =C2=A0	 * scheduler attached. It's just not valid to use the scheduler be=
+fore it
+> @@ -302,7 +303,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *=
+entity, long timeout)
 > =C2=A0
-> =C2=A0	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
-> -		/* Make sure to grab an additional ref on the added fence */
-> -		dma_fence_get(fence);
-> -		ret =3D drm_sched_job_add_dependency(job, fence);
-> -		if (ret) {
-> -			dma_fence_put(fence);
-> +		/*
-> +		 * As drm_sched_job_add_dependency always consumes the fence
-> +		 * reference (even when it fails), and dma_resv_for_each_fence
-> +		 * is not obtaining one, we need to grab one before calling.
-> +		 */
-> +		ret =3D drm_sched_job_add_dependency(job, dma_fence_get(fence));
-> +		if (ret)
-> =C2=A0			return ret;
-> -		}
-> =C2=A0	}
-> =C2=A0	return 0;
-> =C2=A0}
+> =C2=A0	/* For a killed process disallow further enqueueing of jobs. */
+> =C2=A0	last_user =3D cmpxchg(&entity->last_user, current->group_leader, N=
+ULL);
+> -	if ((!last_user || last_user =3D=3D current->group_leader) &&
+> +	if (last_user =3D=3D current->group_leader &&
+> =C2=A0	=C2=A0=C2=A0=C2=A0 (current->flags & PF_EXITING) && (current->exit=
+_code =3D=3D SIGKILL))
+> =C2=A0		drm_sched_entity_kill(entity);
+> =C2=A0
 
