@@ -2,78 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464FEBE27D4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC3BBE2801
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:50:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4E610E993;
-	Thu, 16 Oct 2025 09:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5D510E99D;
+	Thu, 16 Oct 2025 09:50:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="LY6pxnqu";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iRCKiYjV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WHHQNyn0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA1F10E993
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 09:48:05 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cnNRk5kTGz9tjH;
- Thu, 16 Oct 2025 11:48:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760608082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dDU4MHtIXNjqAS9JJD27/CnM+BvS39aAL00HB1wKmUs=;
- b=LY6pxnquYPZzf/vnpVqvwnv42pmxyX6hS/LsDWtU2B5JF97gz28NKgw1jRUUjFmYd0WhY4
- DhTdpjEhwlwi09VKAedBaCkcFWVxDpPVQBRvnyexpFgvr6thnM+qsFM/SXawGC24Snlkop
- BAlxbv5sxRJcOfBbSTOPE3I5IkN2mwUjqU7cMUagSLRmPbwbsde288GtVU5kgwWl8HpOMt
- guOm0DFxFFkYnqDc5YhclS3FSNnqn2mBeSvrLomnHRcn4bpZcLw3l6XGd3EqNTvCt/hEb/
- 4ZXRIj0BaM9G+H8AA7kE358iZM8WoKe7Dyz9W4zW7/b2OscjuPZVdG6sXIfCIA==
-Message-ID: <51ff107d-126d-4481-b94a-f614f31c7bb8@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760608080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dDU4MHtIXNjqAS9JJD27/CnM+BvS39aAL00HB1wKmUs=;
- b=iRCKiYjVaNQjr7ciL/76PHWjl/5d+opl6I8j9fSY+qFPEtSc5dnwYavGolev5MM93Ngcdu
- jI9veoq6Z/SRRV+gM+fLHysHUfIk4n6YOTzptX/Y5KOBvYVIGf9NxaiUXHF/VBNUqF8gta
- JygcaVjXZOjfL9Bz15/lXRRO2RvvdX8l2LnnxfYIjgc3KZJ6PtM5oWJKIAY3RpwBrlVJB7
- hELhC2z0tVptxe9FamxUsaGGnVtlkgWapRFm9F1p5+5PQGGCk+676DDTZJ4TEJKOh/H97j
- UhVs3Q/nD4Joq2xP7oZKdzJqq6GnWFwTGSgJupUhHQ04ka4rG1+CeIQwMtmcXQ==
-Date: Thu, 16 Oct 2025 11:47:56 +0200
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <20251015153952.185249-2-marek.vasut+renesas@mailbox.org>
- <CAMuHMdVdW+tMA1=g9D+BQV0fk0kis8FzyQgf7BpN-u=pi5eQfA@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdVdW+tMA1=g9D+BQV0fk0kis8FzyQgf7BpN-u=pi5eQfA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 6f731996ea0c40a0a5a
-X-MBO-RS-META: oz5jm67tb1wz1eczi1ucb737inbcuyn3
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C66210E998;
+ Thu, 16 Oct 2025 09:50:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2EF39603CE;
+ Thu, 16 Oct 2025 09:50:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43F4C4CEF9;
+ Thu, 16 Oct 2025 09:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760608234;
+ bh=ZzE0AG0XePJpAPUGhN5g8yuSoorR5064IBWA3TztL2U=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=WHHQNyn0B900GgpDp9T9zeR2dpEeymcDw2B6J8ScoWicqYsBWM2Io2xradE/Z18ba
+ HHmdNmZZvyEg0aWPAZZvQrkU2O/n/s3kvx2T3ifDGb7/jtWzP7keeCHRvvLyjq8K3H
+ lsIIwbHAs9BkfujtyG5RrajEzPXJZVegc5fzDKHzpqEhJsoebL/DegnQoHVWUA2A40
+ 75TsHmSIATq2Q7mGEVVe5SZ8QrzibxmWs4mhtc1xM33+NbpIF9E2NXx7ctnpNQ2hTr
+ BpjfWPn5NI7ZZ1HnIZyfwjhCY074YZ/wG5OB9X4FY5NHQfvui7bRKNYwsaizua8dFd
+ 0xt4gVE8RMtlg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 16 Oct 2025 11:50:31 +0200
+Message-Id: <DDJNJ3NHFOLV.NGWTLDU5Y7IR@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 10/28] drm/sched: Add fair scheduling policy
+Cc: <phasta@kernel.org>, "Simona Vetter" <simona.vetter@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <kernel-dev@igalia.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Matthew Brost" <matthew.brost@intel.com>,
+ "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+To: "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
+References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
+ <20251008085359.52404-11-tvrtko.ursulin@igalia.com>
+ <db78f7074cf1e83afbbf68c27b9e7b55bfb9a73b.camel@mailbox.org>
+ <eb1c157e-d99f-4e54-a669-15d4e5f78a64@igalia.com>
+ <d76c17eaab3e8dff76720cc395cdfccde029858d.camel@mailbox.org>
+ <aO5fErextiuPQcyq@phenom.ffwll.local>
+ <3f644749-8ceb-4124-98c6-84dfe198020f@igalia.com>
+ <6786d7766f363f2a24da9977b11436651ae1a731.camel@mailbox.org>
+ <8ce0c1f8-0abd-4767-a938-f1aea9fe3b48@igalia.com>
+In-Reply-To: <8ce0c1f8-0abd-4767-a938-f1aea9fe3b48@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,39 +69,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/16/25 10:22 AM, Geert Uytterhoeven wrote:
+On Thu Oct 16, 2025 at 10:42 AM CEST, Tvrtko Ursulin wrote:
+> Yes, I even said two replies ago I will add the lock. In fact, it is=20
+> write tearing which would be a problem on 32-bit architectures, not just=
+=20
+> read tearing.
+>
+> But again, it is not a lockless algorithm and nowhere I am implementing=
+=20
+> a new locking primitive. So as much as my attempt to keep it light=20
+> hearted with the warm and fuzzy feeling comment was a miss, I also think=
+=20
+> the whole long writeups afterwards about dangers of implementing own=20
+> lockelss algorithms and performance were the same.
 
-Hello Geert,
+I think what's confusing people is the following:
 
->> --- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
->> @@ -2575,6 +2575,22 @@ gic: interrupt-controller@f1010000 {
->>                          resets = <&cpg 408>;
->>                  };
->>
->> +               gpu: gpu@fd000000 {
->> +                       compatible = "renesas,r8a7796-gpu",
->> +                                    "img,img-gx6250",
->> +                                    "img,img-rogue";
->> +                       reg = <0 0xfd000000 0 0x40000>;
->> +                       interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
->> +                       clocks = <&cpg CPG_CORE R8A7796_CLK_ZG>,
->> +                                <&cpg CPG_CORE R8A7796_CLK_S2D1>,
->> +                                <&cpg CPG_MOD 112>;
->> +                       clock-names = "core", "mem", "sys";
->> +                       power-domains = <&sysc R8A7796_PD_3DG_A>,
->> +                                       <&sysc R8A7796_PD_3DG_B>;
->> +                       power-domain-names = "a", "b";
->> +                       resets = <&cpg 112>;
-> 
-> status = "disabled"; ?
+	entity->stats->vruntime; /* Unlocked read */
 
-The GPU is always present in the SoC, similar to IPMMU/GIC/DMA/VSP/... 
-which are also never disabled, do we want to disable the GPU by default 
-and enable per-board ?
+You indicate with your comment that you are accessing something the is prot=
+ected
+by a lock intentionally without the lock being held.
 
-I would argue the GPU should be enabled by default, so the GPU driver 
-can do a proper power management of the GPU. If firmware is missing, at 
-least power it off on failed probe, if nothing else.
+I think there's not much room for people to interpret this as something els=
+e
+than a lockless algorithm approach.
 
-[...]
+> So lets move on, there is no argument here.
+
+Indeed, there is no argument. But, if you say something like:
+
+"I can add the _existing_ entity->stats lock around it just as well for tho=
+se
+warm and fuzzy feelings."
+
+it may be read by people as if you don't agree that for correctness either =
+a
+lock or an atomic is required. So, people might keep arguing regardless. :)
