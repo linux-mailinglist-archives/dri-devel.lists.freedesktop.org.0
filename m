@@ -2,124 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5382EBE5587
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 22:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51F5BE55BE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 22:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B80D10E34F;
-	Thu, 16 Oct 2025 20:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F8F310E18F;
+	Thu, 16 Oct 2025 20:21:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="U6uWQEdv";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H1Wp2wMp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5906010E34F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 20:15:15 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59GDqIUf024767
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 20:15:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=9zBcpy2TVGpV6SdEbPYF0b4m
- pBJ4QckghSj4HE7U+Z0=; b=U6uWQEdvwc0Atp6F/+uCApeLSUsymXEe4pHLtXao
- i8NlEGgPilQYtDRy5RAmjrXbBMIRWy1dEEYOrvfitNOJvjF8ezUAohNAJQrIbxTT
- sGJj4JP47vIt1OZxxyPhy/baVufsqdQF9qwwPceQ0wgJOLKrL9WC+OxFPNlTW+4I
- HwnP9YgD9Yfun3o081dWWNpjw74Fa1qPOFSmckY6Qaq/wDCdgBUXJHQMmJRIjVay
- 4JvNmf0BNXza2ZsheozKSGcBwzHJIjCVqhcBIcIGL4x/34q16diC0+XQ7T5Ll9Sz
- +lpQlgRhGLI4u1Ub0a5J72PhLOIozLPkYO25V0+a4S7jIw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qff11n5q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 20:15:15 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-87c2085ff29so20986796d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 13:15:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760645705; x=1761250505;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9zBcpy2TVGpV6SdEbPYF0b4mpBJ4QckghSj4HE7U+Z0=;
- b=cRyHjOBgs85qoRMJeKpvxwZQnJ0472kGcapjNxbDjQHGDMIhYoy31yYaX201gXED/s
- wMDAgflCZVL4xdO3rAApHkvjmORbh8rooCKbIrTDP081jp3/pG7oDIm9uY7l36iKWqDr
- wITbRQZHsznocinF33Nzl+DbMrdEDwdBu/mE8rsoP15lZNdksBP3mKUUiISXJKJgcccW
- i4xWOcUsQBmlPAkmA0IxlQyNTdqUkm5CrzjfYUL6KUwAxkBLxjQstOcb+NfWwgbZOhtu
- LMhy7gGWCXfc/PzMeoTyEFirP3ubBtSzvwEV/k5phmzHoC1pS1jf3g5czZ0ODP+l+q37
- NYLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeR4v1Aq+AdPY0gPUinI1rs670ZFJ5C5V1b/qBho1yhWtxPJw5c9Iz5CpAvsMNbL0zyWyo5AyCl90=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdhpVr7DZFDndnSl12L5RjfwhiCAa5oI5JM3688RMJFFNIYFit
- asCikxOGrgsmd0pw898oY1rrrURQp48Y0lO2uD3k8Bc4An5mTGXUUUqhDCmAM8uzhl4pPjjxSda
- oA1x1upCI9QG1m0h1eYFICyH6mDKLVNIuUF6mlTprLHyBECA4fh+6a8w+wjeBhju8hD1/vXI=
-X-Gm-Gg: ASbGnctl/ongi0c48vRWX3LFpaxue/2MYpuFoxoEknbLP7T3FHCUlafq8bqcM3+jwH8
- hAQC5QzkQWMMfpGzK2N3p8Z/t0DiPR4iVOHv1CpmYa2+ay4kGkbTkm11FJWmcsfCspbqz30Jiy9
- vrzwfVzu0AF1x3hsnnTQz6vqBnlPyiqSNy/DLLescCf6q0axv7bqicKOJenaSRyH2/SeoBpxjI9
- PawSatn5orZc8aps+cUZmuQS8z25GGMf3j3Xuet7OIdDs+jIAgXokF0Bh16pdVHIeXZnNJUOr/O
- weM+Ordby9jqb5E2P8wV/hl0I/kb3IL/GRrWGIBT0jp0rNV1wnVQxURt86ykNLs1INNv+goWFYe
- sy3kjhb38c4QY3WtiB40RA/5DExDBe7Ij/M3I3bctpqLQyAiFjpv6qceq5a70ArLPk608vwnWpo
- 8fPrSRo7Ku6j8=
-X-Received: by 2002:a05:622a:1103:b0:4e8:9086:e6fc with SMTP id
- d75a77b69052e-4e89d273e19mr19028641cf.18.1760645705041; 
- Thu, 16 Oct 2025 13:15:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHe5fnMVrV7X7OK0iMbXtKG9SypwzE4pSZ+g5Jctt4v8KdtBGL8mmMoU8EYU/SoOlRUrLoUiw==
-X-Received: by 2002:a05:622a:1103:b0:4e8:9086:e6fc with SMTP id
- d75a77b69052e-4e89d273e19mr19028171cf.18.1760645704394; 
- Thu, 16 Oct 2025 13:15:04 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59088580ae2sm7280651e87.117.2025.10.16.13.15.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Oct 2025 13:15:03 -0700 (PDT)
-Date: Thu, 16 Oct 2025 23:15:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: david@ixit.cz
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E53A10E18F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 20:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760646068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1cXSfh1OwJkFuHajMO4OqXkTcp1mTaMCP9KapZOWIVo=;
+ b=H1Wp2wMp2omL3fg5GlGJJB9t2KzeTL+xNXFpnA7qOP6083YT++ltEWBcuEBycNEO773CW5
+ RDpMBj5THB1Ba7gZzGYWJAu8adExOcPtBqG+esOWJ0K+Z9MBdWdqArELjX39ZUAYnA3bvm
+ RGwVHRZE+4GrQZ0MCoivd9RHhB6yeMY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-274-gWB795RmMuWweSC23aiErQ-1; Thu,
+ 16 Oct 2025 16:21:07 -0400
+X-MC-Unique: gWB795RmMuWweSC23aiErQ-1
+X-Mimecast-MFC-AGG-ID: gWB795RmMuWweSC23aiErQ_1760646064
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4C0FB18002E4; Thu, 16 Oct 2025 20:21:04 +0000 (UTC)
+Received: from chopper.lan (unknown [10.22.80.252])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 5B23019560B0; Thu, 16 Oct 2025 20:21:00 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v3 7/8] arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
-Message-ID: <rung7om2fvwmfyihgsnn7j2b6pak7sjt2ayzy42ovugroti4jy@wt6chj662llr>
-References: <20251016-s6e3fc2x01-v3-0-ce0f3566b903@ixit.cz>
- <20251016-s6e3fc2x01-v3-7-ce0f3566b903@ixit.cz>
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>
+Subject: [PATCH] rust: drm/gem: Remove Object.dev
+Date: Thu, 16 Oct 2025 16:18:58 -0400
+Message-ID: <20251016202044.2748678-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251016-s6e3fc2x01-v3-7-ce0f3566b903@ixit.cz>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX/US9RPajbgeu
- oqMGZZq5wzn7yxhlbyEL3Gy4up0J5Z+m4O54fW3qN9BmXCjEBy5xJQmYiR5M5bUAyhkgFERIZmp
- IcQ+xsdXM8ScwD8styecxSrLiMjRpmmFc/OAToPKbBfbu29PT13Jvhut8rjfIXmmp2hcsWfrx07
- ntm8yIQNEZ12ovuEP+sKzHGOiNCwuq5sayBZSqtZ/q6dk2aylTI2q6eCKidsxVBilGkABzoTGDG
- a7hibpQ1I18Hvw/wUPqB6QJzUutjSFRmaALjV1lIOhXF/3MwFQh56LUvMxUSOHZNzThlA9Ce/PD
- T6VVvfp4mnp8hnfn/lVJDzWp3JkL+//Heg0im86WA==
-X-Proofpoint-GUID: y6RhRKYG23Vlt-Fr2f6D4S6u_q31QKtX
-X-Authority-Analysis: v=2.4 cv=PriergM3 c=1 sm=1 tr=0 ts=68f15253 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=HryFia7_YQCGBQHkU4YA:9 a=CjuIK1q_8ugA:10 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-ORIG-GUID: y6RhRKYG23Vlt-Fr2f6D4S6u_q31QKtX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-16_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- spamscore=0 suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,38 +76,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 16, 2025 at 06:17:02PM +0200, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
-> 
-> Describe panel Tearing Effect (TE) GPIO line.
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> index a8e87507d667b..b663345de0214 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> @@ -460,6 +460,7 @@ display_panel: panel@0 {
->  		vci-supply = <&panel_vci_3v3>;
->  		poc-supply = <&panel_vddi_poc_1p8>;
->  
-> +		te-gpios = <&tlmm 30 GPIO_ACTIVE_HIGH>;
+I noticed by chance that there's actually already a pointer to this in
+struct drm_gem_object. So, no use in carrying this around!
 
-Isn't it GPIO 10?
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ rust/kernel/drm/gem/mod.rs | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
->  		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
->  
->  		pinctrl-0 = <&panel_default>;
-> 
-> -- 
-> 2.51.0
-> 
-> 
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index 30c853988b942..28d929edae267 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -187,12 +187,10 @@ impl<T: IntoGEMObject> BaseObject for T {}
+ /// Invariants
+ ///
+ /// - `self.obj` is a valid instance of a `struct drm_gem_object`.
+-/// - `self.dev` is always a valid pointer to a `struct drm_device`.
+ #[repr(C)]
+ #[pin_data]
+ pub struct Object<T: DriverObject + Send + Sync> {
+     obj: Opaque<bindings::drm_gem_object>,
+-    dev: NonNull<drm::Device<T::Driver>>,
+     #[pin]
+     data: T,
+ }
+@@ -222,9 +220,6 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+             try_pin_init!(Self {
+                 obj: Opaque::new(bindings::drm_gem_object::default()),
+                 data <- T::new(dev, size),
+-                // INVARIANT: The drm subsystem guarantees that the `struct drm_device` will live
+-                // as long as the GEM object lives.
+-                dev: dev.into(),
+             }),
+             GFP_KERNEL,
+         )?;
+@@ -247,9 +242,9 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+ 
+     /// Returns the `Device` that owns this GEM object.
+     pub fn dev(&self) -> &drm::Device<T::Driver> {
+-        // SAFETY: The DRM subsystem guarantees that the `struct drm_device` will live as long as
+-        // the GEM object lives, hence the pointer must be valid.
+-        unsafe { self.dev.as_ref() }
++        // SAFETY: `struct drm_gem_object.dev` is initialized and valid for as long as the GEM
++        // object lives.
++        unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
+     }
+ 
+     fn as_raw(&self) -> *mut bindings::drm_gem_object {
 
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
 -- 
-With best wishes
-Dmitry
+2.51.0
+
