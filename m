@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC3BBE2801
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7008FBE280D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:50:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED5D510E99D;
-	Thu, 16 Oct 2025 09:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A074F10E9A0;
+	Thu, 16 Oct 2025 09:50:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WHHQNyn0";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="wTf9sNOH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C66210E998;
- Thu, 16 Oct 2025 09:50:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2EF39603CE;
- Thu, 16 Oct 2025 09:50:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43F4C4CEF9;
- Thu, 16 Oct 2025 09:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760608234;
- bh=ZzE0AG0XePJpAPUGhN5g8yuSoorR5064IBWA3TztL2U=;
- h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
- b=WHHQNyn0B900GgpDp9T9zeR2dpEeymcDw2B6J8ScoWicqYsBWM2Io2xradE/Z18ba
- HHmdNmZZvyEg0aWPAZZvQrkU2O/n/s3kvx2T3ifDGb7/jtWzP7keeCHRvvLyjq8K3H
- lsIIwbHAs9BkfujtyG5RrajEzPXJZVegc5fzDKHzpqEhJsoebL/DegnQoHVWUA2A40
- 75TsHmSIATq2Q7mGEVVe5SZ8QrzibxmWs4mhtc1xM33+NbpIF9E2NXx7ctnpNQ2hTr
- BpjfWPn5NI7ZZ1HnIZyfwjhCY074YZ/wG5OB9X4FY5NHQfvui7bRKNYwsaizua8dFd
- 0xt4gVE8RMtlg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C88BB10E9A0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 09:50:51 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-3306eb96da1so396156a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 02:50:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1760608251; x=1761213051; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1UqL1IWSrCrB8SZs0M+f9GgpD3kKZ3YvqrOYctBtGCw=;
+ b=wTf9sNOH7cMuLsAo7tTvrcQMl64wXQNjzw/v65Y4ZQve/jzfNUo2J750UA1s04X2FO
+ ZLXIvGTJkQ7c2ciLwKUKqQ5JZv6BcsS1nmb8pYysitBmLTKB2BVU6iSvTudF66eLkJkj
+ XJ9WsM0WONFb2pxGZyngBomHiQYVvT7cCRnKyQsraSvHquAMOfYC70YKj/Z8FcOK2XtX
+ 7LOptVD8/SAn2O2g1MBtNDjXyDejXzKuTXQIzfQlWFe+78hdQHHEX5VlLtkxCvRXya4u
+ UPUunC3C+OaGDVe9BbKHLguQi5N3iuXZ4zy6HPRdn48Qswihfw4hyQ8/pbK9YPk7UgU5
+ 0APA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760608251; x=1761213051;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1UqL1IWSrCrB8SZs0M+f9GgpD3kKZ3YvqrOYctBtGCw=;
+ b=e1vRnr9l8X9Eb15of31RxkqGl2sff8F2Csvw6F52wndMuPomwdala6t2XzNyCQz5qb
+ vMKt+DuEmucCQJItGBcXYL3xbBSoFSc6xBG8dYVsT/i69JZQt49N/lgc6pNaL40taj4T
+ ZZVEYribmktNyhTkEzh4+sHk713IyayT9rVCCd2AU+/EZEOunqSIE+mKE6emSeZMUO6O
+ 0F2SwfWWOqJyDTkYoMFBujdJ5R8FlPTvoKoFaP/c9zhv+vKF2ucmWBZalV4gmptDh2Hh
+ fKTIIJMlsoply6Hg42wpOgxD4YqqHBLO8WYTAl5iuj7C1B3SjWi0h/xP5Ysp+RKpe0qT
+ FwBw==
+X-Gm-Message-State: AOJu0Yyh4g++13vOmR6FofWmfX6pe3F45H7hYbq+VV48aNe+Y0/BiEdw
+ I4yW2gi7FAxHR8Ob9kCtaT37CKg4+vgHyOIv7sodGFtr3w1zIINAQvxq3q0N2/bUJXo=
+X-Gm-Gg: ASbGnctXWrO0fib/qvXY9ipU7u4i5HzBO0JpCrIH0/ti9McqVtcmt3JKPqDOuDZsVYX
+ Lw2x6CXoPRqgiNHJN+oorJYCSNjSZibaswEwhToIwTRfKYlKJoejpqXYZlpI/kyHvRgUup60on/
+ W8m62Yok2PBf/3ebOtrdMgCRlOWIJDTRbhz5kwYgSviqzUTpPJZD1MOdlVLVi7A0GV9+A6gMSC7
+ SDLnOlBtS54oAgD+tiDS2EPtZVkUjxvllUcTTg9nVwfJoyjyimHkd01FrskvAy+TjNzIHi8oHHd
+ 08YNKQ8B1yg0M0jLomAOkz3Rg1eaTa1VmF+f/aeqmR1qMJt9JzwvJLdRCXN2g2w85Wsq0Hxt6Ea
+ b7aosJr+uaXOeGuGh245iDNy4hiSMJmhYdLgMBx+PfsjzPfQMruAWGmo8yp9eIM4FKBRlrI01bi
+ YuKqsj3+4OK6sMPMkwbAZzwT2i1WW8w1KfyN5rnaXQMEv2nO6XC2dYHK1h/Q==
+X-Google-Smtp-Source: AGHT+IHds62hDOWB8Db/Nb46keQgSIaK4qyBY+XsAGxqUcA+ucqFv6LqUgHKR4GZ/2/Bst1JZdDjzw==
+X-Received: by 2002:a17:90a:e7d2:b0:32d:d408:e86 with SMTP id
+ 98e67ed59e1d1-33b511172d4mr45695437a91.7.1760608251293; 
+ Thu, 16 Oct 2025 02:50:51 -0700 (PDT)
+Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-33bb6519421sm1272402a91.1.2025.10.16.02.50.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Oct 2025 02:50:50 -0700 (PDT)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v3 0/2] drm/panel: Add Ilitek IL79900A controller and bindings
+Date: Thu, 16 Oct 2025 17:50:41 +0800
+Message-Id: <20251016095043.1694736-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Oct 2025 11:50:31 +0200
-Message-Id: <DDJNJ3NHFOLV.NGWTLDU5Y7IR@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 10/28] drm/sched: Add fair scheduling policy
-Cc: <phasta@kernel.org>, "Simona Vetter" <simona.vetter@ffwll.ch>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <kernel-dev@igalia.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Matthew Brost" <matthew.brost@intel.com>,
- "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>, "Simona
- Vetter" <simona@ffwll.ch>
-To: "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
-References: <20251008085359.52404-1-tvrtko.ursulin@igalia.com>
- <20251008085359.52404-11-tvrtko.ursulin@igalia.com>
- <db78f7074cf1e83afbbf68c27b9e7b55bfb9a73b.camel@mailbox.org>
- <eb1c157e-d99f-4e54-a669-15d4e5f78a64@igalia.com>
- <d76c17eaab3e8dff76720cc395cdfccde029858d.camel@mailbox.org>
- <aO5fErextiuPQcyq@phenom.ffwll.local>
- <3f644749-8ceb-4124-98c6-84dfe198020f@igalia.com>
- <6786d7766f363f2a24da9977b11436651ae1a731.camel@mailbox.org>
- <8ce0c1f8-0abd-4767-a938-f1aea9fe3b48@igalia.com>
-In-Reply-To: <8ce0c1f8-0abd-4767-a938-f1aea9fe3b48@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +91,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Oct 16, 2025 at 10:42 AM CEST, Tvrtko Ursulin wrote:
-> Yes, I even said two replies ago I will add the lock. In fact, it is=20
-> write tearing which would be a problem on 32-bit architectures, not just=
-=20
-> read tearing.
->
-> But again, it is not a lockless algorithm and nowhere I am implementing=
-=20
-> a new locking primitive. So as much as my attempt to keep it light=20
-> hearted with the warm and fuzzy feeling comment was a miss, I also think=
-=20
-> the whole long writeups afterwards about dangers of implementing own=20
-> lockelss algorithms and performance were the same.
+This series adds device tree bindings and a DRM panel driver for
+the Ilitek IL79900A MIPI-DSI LCD controller, which is used in the
+Tianma TL121BVMS07-00 12.1-inch panel.
 
-I think what's confusing people is the following:
+Changes in v3:
+- PATCH 1/2: Fix DT schema error for `backlight` property.
+- PATCH 2/2: Address review feedback (use mipi_dsi_msleep/_multi, move init sequence to mode, minor cleanups).
+- Link to v2: https://lore.kernel.org/all/20251010093751.2793492-1-yelangyan@huaqin.corp-partner.google.com/
 
-	entity->stats->vruntime; /* Unlocked read */
+Changes in v2:
+- PATCH 1/2: Address Rob Herring’s review comments and align with panel-common.yaml conventions.
+- PATCH 2/2: Rename driver to panel-ilitek-il79900a and align naming and structure with existing Ilitek panel drivers.
+- Link to v1: https://lore.kernel.org/all/20250930075044.1368134-1-yelangyan@huaqin.corp-partner.google.com/
 
-You indicate with your comment that you are accessing something the is prot=
-ected
-by a lock intentionally without the lock being held.
+Langyan Ye (2):
+  dt-bindings: display: panel: Add Tianma TL121BVMS07-00 panel
+  drm/panel: Add driver for Ilitek IL79900A-based panels
 
-I think there's not much room for people to interpret this as something els=
-e
-than a lockless algorithm approach.
+ .../display/panel/ilitek,il79900a.yaml        |  66 ++++
+ drivers/gpu/drm/panel/panel-ilitek-il79900a.c | 358 ++++++++++++++++++
+ 2 files changed, 424 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,il79900a.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-il79900a.c
 
-> So lets move on, there is no argument here.
+-- 
+2.34.1
 
-Indeed, there is no argument. But, if you say something like:
-
-"I can add the _existing_ entity->stats lock around it just as well for tho=
-se
-warm and fuzzy feelings."
-
-it may be read by people as if you don't agree that for correctness either =
-a
-lock or an atomic is required. So, people might keep arguing regardless. :)
