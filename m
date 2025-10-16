@@ -2,74 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D22BE5BB1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 00:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA80BE5C20
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 01:03:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B23B310E058;
-	Thu, 16 Oct 2025 22:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E9310EAB3;
+	Thu, 16 Oct 2025 23:03:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jENar7Ln";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="qsLsbK82";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1402710E058;
- Thu, 16 Oct 2025 22:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760655328; x=1792191328;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=bzS/yMy0BrNxkANc9FlKcKFLuJ+7JsOWWS3qzuCQlQ0=;
- b=jENar7LnGI47ZecvM4OEapJrLO9PkD6W5+hnHd3HxqPBjEzGbia/5aX3
- YdyMlan5+czVtfEiRPb7Iuo/APWM+eo+ZNm62vHnPxtYs8DOIi6WnN6M9
- pJrQ5+vf/LVI8+gXIymK4rX9Mwbw6ZZz+5sOrpN8sYxNZ4ZjqzfgwuMkj
- IWKgyGNcZoehfw4mMeNa1iQPZ0iELkhAxsnXveDkUMindABSb26GimeO3
- pqGlxShZiTRWNOV3UqZg9/go1w/nYJ/UXscnd+9g0alm5QqfOu3pBJ1XE
- 5B2CMOTxpcZdC4D8TvhZ+oFSE+nL+kDIU7kff78uCqssSp3ChF+L7WwyA Q==;
-X-CSE-ConnectionGUID: WnekSBZdSPm+WDvM5cFWgA==
-X-CSE-MsgGUID: fQBG9RjNS6G4reZdrsrp0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62765685"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="62765685"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2025 15:55:27 -0700
-X-CSE-ConnectionGUID: iHx+tp+aSW2XVwdgPzyg8w==
-X-CSE-MsgGUID: 12RnpPp1SkKYFOCvEPu0qg==
-X-ExtLoop1: 1
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.12])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2025 15:55:23 -0700
-Date: Fri, 17 Oct 2025 01:55:21 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Yaroslav <iam@0la.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Yaroslav Bolyukin <iam@lach.pw>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 1/2] drm/edid: parse DRM VESA dsc bpp target
-Message-ID: <aPF32XpVst5mPVz7@intel.com>
-References: <20251016001038.13611-2-iam@lach.pw>
- <20251016001038.13611-4-iam@lach.pw>
- <3abc1087618c822e5676e67a3ec2e64e506dc5ec@intel.com>
- <adb2c2bd-a38e-4a40-ba1c-dcc7ad707727@0la.ch>
- <aPFZecm3PKaCpMXi@intel.com>
- <8a45cbe8-a0ed-473c-b830-1194c30d9414@0la.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012060.outbound.protection.outlook.com
+ [40.93.195.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7684510EAB3;
+ Thu, 16 Oct 2025 23:03:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AtWBFIIVGEV1FZ/24ZTHxnX7Ni+pC4+a89Dhw9OCr6DQwUmdkvTun0qk2odeTryvDoQv+QclwR0t9iICCtX3W3pX2FnTzPIFdUB8ZbWbXrnCYdRxQql+Cg+0Ks++hdTnvLQydReBiCxUGXlT+INWpLYgb0CKeNplVAiey6d5eY1Ljd+qzz4XFrkDShZDl8JTqUEicSaK+zMoW6G8odUmOgvksgoXOAdxTuHSM5+rcF/6aRUrVX5avxF0iCtNvSrsF7Nl7dg0NTmtSP6LLqZS4J5BP4FSlclaFHkasaX2GYb6JLUFKf+Jpbl10WgJPF4BcTEnySyBSTV8jS37tisEEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QM4fQPfFX4Ijt6r1MesXJlQH5etqwA5Rsi+Ou10POMk=;
+ b=t/y7qpAa5siqPRuB1ROUvLH0pnePz9i7S2wh7pJ1OaaUmV8knbaJ3dO01n1CF83sRekLOFK2FhAWr1zt/pMbBh1B4HzT8PCv9MDCTxZHI79b9HhBnOp7nfE9orYobJo01ve2Sk7gBH82kD8IkRV3SnmArI+9f68b3Huc/yDbHGmkK6ETg5nVxxOG0v9rVXfJhtwoPAwzbKskE1/QWbfjTBVGSoqTK/bkMBdqHQD2zLhAiYZNT79a8LlkWXGYlsShVmuwwBBK8ElTroB0FdeGiRZTmKvqtsNhd549Iaqk3XPQ6ewOgNctvshfYC6mFr3yqEkNxJKGNIusdX4xx9yZkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QM4fQPfFX4Ijt6r1MesXJlQH5etqwA5Rsi+Ou10POMk=;
+ b=qsLsbK82uu9da6Cbd0TaYsMLgUAC4BFn/jmkaHCOB3RqgRQtHoQvbbDzVkMRrOmhYAhmE9j3ySvn4/Ve6I6lx53Al3HaUVOz1uG0o4kGa2Ysz9cZKf2ea4fBAwVZtEiBJz+cdoYtSmVtvIv+KdsiCHYyO77gwDzuDGZevqufBs5HUsvIcNVRreBiLLYOYmax2OrGspZRiZyKh58MLh1DVR+SizjDox6/uZu+55PXVNA/yDJ1tT3CZFWJoPVam9/Fxrrb8/HFw7FLG60xlENMvoY9sH3xH8cWpnr1Uh/vXL5xyh1VnZOkXBDikfB0JyJ0sMkMEo3rGKbiviPA9UEfqw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ IA0PR12MB8648.namprd12.prod.outlook.com (2603:10b6:208:486::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.13; Thu, 16 Oct
+ 2025 23:03:09 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
+ 23:03:09 +0000
+Date: Fri, 17 Oct 2025 10:03:04 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ dakr@kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+ Timur Tabi <ttabi@nvidia.com>, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v5 03/14] gpu: nova-core: gsp: Create wpr metadata
+Message-ID: <zwaefk62to77b5nyakeiboyj53fge3lysc3z7arp54tyyherdo@nsqhuig7bmbc>
+References: <20251013062041.1639529-1-apopple@nvidia.com>
+ <20251013062041.1639529-4-apopple@nvidia.com>
+ <DDJJ4ECCSE2I.1EUAJRU9JBGNI@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a45cbe8-a0ed-473c-b830-1194c30d9414@0la.ch>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <DDJJ4ECCSE2I.1EUAJRU9JBGNI@nvidia.com>
+X-ClientProxiedBy: SY6PR01CA0152.ausprd01.prod.outlook.com
+ (2603:10c6:10:1ba::16) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|IA0PR12MB8648:EE_
+X-MS-Office365-Filtering-Correlation-Id: 171ace57-e9c4-41f5-4bca-08de0d082c99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1tqXdbkdVbVSptskOfkIwPaKvhLy/H+O/VX4hxxfUs1Rwb+qTnd1nEpsqypo?=
+ =?us-ascii?Q?98Q1NxP5vipefgTYVjaS6nErcLj0JhVZzlLcch6/CaxOAhgsZ3aezSycFqXo?=
+ =?us-ascii?Q?1rzKdEBG49lVWUjpeuOWjs+suB0mX61oJgsgP5dGcGf+f/nWR5DOxVbi9UMn?=
+ =?us-ascii?Q?MEp+hVhoStbs4I4DmOFTF5+nXX/of7kxE726iOWQLG9Msms6jZUt8B4DqAgs?=
+ =?us-ascii?Q?M2LFbATj+d50wFXYpBpIhBmhNiqGkbBFCi1sR3OZCTbykAm/ZgYRpQvHQYnx?=
+ =?us-ascii?Q?KA+7jfMYU8brkeEsxi7kjhXQ5D/es8E1+o0VyocwhGoPgnsraItAEQnm99v3?=
+ =?us-ascii?Q?UzDwQZLm1++JCLtpIaElzbaxI5tZEbRrClSHe4SLj8GusgSuSrg0wAR5oJxN?=
+ =?us-ascii?Q?gbkD6oiQiDHprYxgk2n0mX5dupAB9ghWuca58IMlJXjX+kceAj1WG4wKUNGi?=
+ =?us-ascii?Q?pV56bEorT0K7JV+x8XoKbahg9cJPSA0CjrT7EWlsX/OTFb8CDOIOpKgi6jHZ?=
+ =?us-ascii?Q?kabYxASH6PEPazWUF5v+EGFRDKELMJXCt6ZKFCu7sjqYbooucDKKIFwOYX7P?=
+ =?us-ascii?Q?wdzjhPaSWrcjeSSX74AGdsB1jNJ1veT/DJY1UJqaVwyXUV+QWlXXZbnvk7Ha?=
+ =?us-ascii?Q?RH4/UfcPynuTKZ7cs/vCyUKpsokZXY0A4p3vfd3zlXftu3Xmqrfnz5qEpnM6?=
+ =?us-ascii?Q?KN+rWKDMtcEc/WQxGT0W+yxE5v7scUPLAWkdhaKwLruYN/0KykhmO6si5e2Y?=
+ =?us-ascii?Q?zotdrB+Ntb/lhZ06IAAkSrM+DgbuFYX4xC+eNZN+PdAVj8SwLOuYIw+Op8mf?=
+ =?us-ascii?Q?bAqWapnEMJgEgBfvP8MgI/0AzhBUmJHPV7zdALEC5uFLSr8CzF1DN/IcSwvj?=
+ =?us-ascii?Q?wLnE/x0ISTm7qFlkqtrRCJebWMDl50MAEWhsnFOhJvuOG6siOnFfPa9ZnCQW?=
+ =?us-ascii?Q?vn4dVfDK/ZuI6fnXu60PBXgfXdpJLhpVUmM1NUq6Fk37pIAbqdsMhBnINmX7?=
+ =?us-ascii?Q?cOcebut4hDbq9/6/i8irbDq3I/22Xkwt1SSB/qaYlIIDdiYOhydGCD9bleEy?=
+ =?us-ascii?Q?o/hmXeMAPsA+zvegm6MSslMHiBVbaxoWVgdxaWpxU3xI5F+XiaXFliHWLAdq?=
+ =?us-ascii?Q?Xw/vUbUXw53HFOyl+kabAKjju3CO+VnEv80Kaa3/BrlHQvyknf3LcPiUVN0I?=
+ =?us-ascii?Q?TXeBa48Afbke149cCLWXPts0mqDLFLF6ukEVVNGUK2nD4gAIuY4CaudncOMr?=
+ =?us-ascii?Q?ES26SoGGy4PBhzgl4ky35TOKjHkwdkeu6j/MlfDYpgCR4ozZ95uGVrDt5s6Z?=
+ =?us-ascii?Q?l0AHb9YF+PlvTpzTReBpDWtpcWbIabQt2wcMhJRTseJxK9fvRDqU0ZWNlBYH?=
+ =?us-ascii?Q?wsgmr0M4ApkdFd455ZQ6liAnfxi3jh1fOEsA4nzHBaz/2NyDlSBYQxKMg1YQ?=
+ =?us-ascii?Q?3W2A8WuZwu5680L107k8aZgCjv81uLUD?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qcDPW5v1OvJEVfaaTxfRGLw5CBcxwCKW4ZkGeX0WzhZdeQqRE54do4aadwJv?=
+ =?us-ascii?Q?4+M7kVOyYzKh5QK4h17l0FdzOb/XYlPFGdhNkovyK+onB8CgKrio+hIdKQs/?=
+ =?us-ascii?Q?hULgIimeeieAnBn7K2acr4Arm41Q861pDTauKhq9Tbmno/xd7tgeZYxcjBsL?=
+ =?us-ascii?Q?mfqb2nn7sOn8ogU4xaEjyhciL8ro9sDHT5MHMIuItsgs6Jbg5S9TvEpa+cJZ?=
+ =?us-ascii?Q?tcw+A7OmMwiO+bCCB/H/0m3LU4gZfRGOF0SETvYB8MsjiVtihPvGqyT+jutZ?=
+ =?us-ascii?Q?YUyOemuimSUylLvGeYJjg2DbI1XSqmAS9Tt2+t0+NNIqfEpyRmXK9syKmBHK?=
+ =?us-ascii?Q?0HVlrOT+hgKQLsIwYuQyeccfDnmn01pwF1onkW+skU5KzogpMtthWIFmHp3S?=
+ =?us-ascii?Q?5ZosfeB0gElMqD7tfLXIi8I3g4bTi5Xo0fQzLueJFiqYRAXjxZFxY3XolBXb?=
+ =?us-ascii?Q?YzZkfm6HKj1+Z+JuuKiOuM0QA8x2Sg8fGJkifWAjSNDKiD6jUGiC1TfA3hOY?=
+ =?us-ascii?Q?wEWr3eTTTZu3iti27o+79i20XnXrWb8Te1K+exGNQCNNbwZ2OMgrdKyongbI?=
+ =?us-ascii?Q?RMMT0C1qk6lxjcv3XELgDMUvExu91zparD9CAI5d+vFlluF3D6G30f9oHz0L?=
+ =?us-ascii?Q?dtJLFPycBXY6hzLAbOQMlciQm/k3uJpFmH4SF9+6H+h29OFGyXlNygbc75J2?=
+ =?us-ascii?Q?oqS1ViRlsVSt1jBLsoiLbp71EN8VsRpZ2tXTBPyanjKeFeje//B6kbzhDY99?=
+ =?us-ascii?Q?rmBXBg5xKKz29ulo4Vuj9Ze0cBXKqJ3lUFLsxj8EqD8Vio9ey2pkIbmMj4Kw?=
+ =?us-ascii?Q?Xzrz0wLQmT+g7KuIWFjLY/CqxTkRUbApzTBKaPGS9KE9RdHINsjoiU2wwtaq?=
+ =?us-ascii?Q?5yxBSW7C7Lil39i3Kmiy1F4efp7T+De3MlK+eg8AOr+GyZHepQkntY1vSZ59?=
+ =?us-ascii?Q?UBweFl+3LsYuhkokga2YcnBvxqt2hBcQxt+dRv2iJSxHAXXD/64LVwY6wSo9?=
+ =?us-ascii?Q?5axmDs09YDyN+3LbED4/k0/BMKL5UR0cTGV4MvvLMYIKi0tRlUiSc/o5a7uk?=
+ =?us-ascii?Q?fBrGA+FP0lRgqIuwSkNt8OsAy0af+z9Q/VcdYexWat4g2gHTZ9nF6gpiDL0+?=
+ =?us-ascii?Q?mVzah/BkNQPnuLVOpKCADT28oHIPTpraHrD4SmAwE1uHTGbfGbmArhIKXvs3?=
+ =?us-ascii?Q?vuHrwlvyivn0fzGwEL9OqiuwYxWojhxYkx5keBy8qux7wf7X7fC5mwM4WyK1?=
+ =?us-ascii?Q?6cZkFFua4eLW3Q9qd0M9KrSWyAkjKpYAQ+Z0SXQYLHXceY/+OMjHUfCG+lzq?=
+ =?us-ascii?Q?obqcjGV1AmyV5RcJxhXx8XUVMEuqHV0MwAqMMKfJxDUJAyqs5oFOlqE0C/xc?=
+ =?us-ascii?Q?vfPLNQGMBLKCpv/PTeWOY0cmKmyYKnBsIqHJgk/fzkYDj6So2HKjJkRjyTGv?=
+ =?us-ascii?Q?9mCJvBKRolo3AMMZDi+WT8M+2c7J1MLZNCdLXw/EqtJIV78djBXecGdno/Jp?=
+ =?us-ascii?Q?Rhy2EzsYA8FZcC/rkx3s3SAWJzyLsj7A8eR7w/xT4tH1yB7mpBMi07yqdjOk?=
+ =?us-ascii?Q?kkkd+CySBM2W6wh3qzVBLlvt5aSyk5CAUyWw+mHI?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 171ace57-e9c4-41f5-4bca-08de0d082c99
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 23:03:09.6849 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XTmKEwyNasS9XDosYJiD7U6QRm0LPHZc4PijxNYa5UR5APP4TsT2x+Sr3Z/xgGLKsCu5Fb4B61q5/ytE5kKwew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8648
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,411 +159,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 17, 2025 at 12:24:53AM +0200, Yaroslav wrote:
+On 2025-10-16 at 17:23 +1100, Alexandre Courbot <acourbot@nvidia.com> wrote...
+> On Mon Oct 13, 2025 at 3:20 PM JST, Alistair Popple wrote:
+> > The GSP requires some pieces of metadata to boot. These are passed in a
+> > struct which the GSP transfers via DMA. Create this struct and get a
+> > handle to it for future use when booting the GSP.
+> >
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> >
+> > ---
+> >
+> > Changes for v5:
+> >  - Make member visibility match the struct visibility (thanks Danilo)
+> >
+> > Changes for v3:
+> >  - Don't re-export WPR constants (thanks Alex)
+> >
+> > Changes for v2:
+> >  - Rebased on Alex's latest version
+> > ---
+> >  drivers/gpu/nova-core/fb.rs                   |  1 -
+> >  drivers/gpu/nova-core/firmware/gsp.rs         |  3 +-
+> >  drivers/gpu/nova-core/firmware/riscv.rs       |  6 +-
+> >  drivers/gpu/nova-core/gsp.rs                  |  2 +
+> >  drivers/gpu/nova-core/gsp/boot.rs             |  7 +++
+> >  drivers/gpu/nova-core/gsp/fw.rs               | 55 ++++++++++++++++++-
+> >  .../gpu/nova-core/gsp/fw/r570_144/bindings.rs |  2 +
+> >  7 files changed, 69 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
+> > index 4d6a1f452183..5580498ba2fb 100644
+> > --- a/drivers/gpu/nova-core/fb.rs
+> > +++ b/drivers/gpu/nova-core/fb.rs
+> > @@ -87,7 +87,6 @@ pub(crate) fn unregister(&self, bar: &Bar0) {
+> >  ///
+> >  /// Contains ranges of GPU memory reserved for a given purpose during the GSP boot process.
+> >  #[derive(Debug)]
+> > -#[expect(dead_code)]
+> >  pub(crate) struct FbLayout {
+> >      /// Range of the framebuffer. Starts at `0`.
+> >      pub(crate) fb: Range<u64>,
+> > diff --git a/drivers/gpu/nova-core/firmware/gsp.rs b/drivers/gpu/nova-core/firmware/gsp.rs
+> > index 3a1cf0607de7..c9ad912a3150 100644
+> > --- a/drivers/gpu/nova-core/firmware/gsp.rs
+> > +++ b/drivers/gpu/nova-core/firmware/gsp.rs
+> > @@ -131,7 +131,7 @@ pub(crate) struct GspFirmware {
+> >      /// Size in bytes of the firmware contained in [`Self::fw`].
+> >      pub size: usize,
+> >      /// Device-mapped GSP signatures matching the GPU's [`Chipset`].
+> > -    signatures: DmaObject,
+> > +    pub signatures: DmaObject,
 > 
+> This needs to be `pub(crate)` or rustc 1.78 emits a warning (I'll also
+> have to fix the surrounding ones in my own patch).
+
+Thanks, missed that one.
+
+> <snip>
+> > +impl GspFwWprMeta {
+> > +    pub(crate) fn new(gsp_firmware: &GspFirmware, fb_layout: &FbLayout) -> Self {
+> > +        Self(bindings::GspFwWprMeta {
+> > +            magic: r570_144::GSP_FW_WPR_META_MAGIC as u64,
+> > +            revision: u64::from(r570_144::GSP_FW_WPR_META_REVISION),
+> > +            sysmemAddrOfRadix3Elf: gsp_firmware.radix3_dma_handle(),
+> > +            sizeOfRadix3Elf: gsp_firmware.size as u64,
 > 
-> On 2025-10-16 22:45, Ville Syrjälä wrote:
-> > On Thu, Oct 16, 2025 at 07:11:48PM +0200, Yaroslav wrote:
-> >> On 2025-10-16 18:36, Jani Nikula wrote:
-> >>   > On Thu, 16 Oct 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
-> >>   >> As per DisplayID v2.0 Errata E9 spec "DSC pass-through timing support"
-> >>   >> VESA vendor-specific data block may contain target DSC bits per pixel
-> >>   >> fields
-> >>   >
-> >>   > Thanks for the patch.
-> >>
-> >> Thanks for the quick review! :D
-> >>
-> >>   > I think there's just too much going on in a single patch. Should
-> >>   > probably be split to several patches:
-> >>   >
-> >>   > - rename drm_parse_vesa_mso_data() to drm_parse_vesa_specific_block()
-> >>   >
-> >>   > - handle DSC pass-through parts in the above, including the macros for
-> >>   >    parsing that (but nothing about timing here yet), and adding to
-> >>   >    display_info
-> >>   >
-> >>   > - note that the above would be needed to backport mso support for 7 byte
-> >>   >    vendor blocks to stable!
-> >>
-> >> Sorry, can you elaborate? Right now stable kernel just ignores
-> >> everything going after 5th byte, so it "supports 7 byte blocks" by
-> >> ignoring them.
-> >>
-> >>   > - Add the detailed timing parsing in a separate patch
-> >>   >
-> >> I'll split the patch as requested
-> >>   >>
-> >>   >> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
-> >>   >> ---
-> >>   >>   drivers/gpu/drm/drm_displayid_internal.h |  8 ++++
-> >>   >>   drivers/gpu/drm/drm_edid.c               | 61 ++++++++++++++++--------
-> >>   >>   include/drm/drm_connector.h              |  6 +++
-> >>   >>   include/drm/drm_modes.h                  | 10 ++++
-> >>   >>   4 files changed, 64 insertions(+), 21 deletions(-)
-> >>   >>
-> >>   >> diff --git a/drivers/gpu/drm/drm_displayid_internal.h
-> >> b/drivers/gpu/drm/drm_displayid_internal.h
-> >>   >> index 957dd0619f5c..d008a98994bb 100644
-> >>   >> --- a/drivers/gpu/drm/drm_displayid_internal.h
-> >>   >> +++ b/drivers/gpu/drm/drm_displayid_internal.h
-> >>   >> @@ -97,6 +97,10 @@ struct displayid_header {
-> >>   >>   	u8 ext_count;
-> >>   >>   } __packed;
-> >>   >>
-> >>   >> +#define DISPLAYID_BLOCK_REV				GENMASK(2, 0)
-> >>   >> +#define DISPLAYID_BLOCK_PASSTHROUGH_TIMINGS_SUPPORT	BIT(3)
-> >>   >> +#define DISPLAYID_BLOCK_DESCRIPTOR_PAYLOAD_BYTES	GENMASK(6, 4)
-> >>   >
-> >>   > These two are related to the rev of struct
-> >>   > displayid_detailed_timing_block only, and should probably be defined
-> >>   > next to it.
-> >>
-> >> BLOCK_REV is handled identically for all the displayid block types
-> >> afaik, and DISPLAYID_BLOCK_DESCRIPTOR_PAYLOAD_BYTES is unrelated to the
-> >> timings block, I didn't want to spread the masks around the file, but
-> >> will do if you think that's better.
-> >>
-> >>   >> +
-> >>   >>   struct displayid_block {
-> >>   >>   	u8 tag;
-> >>   >>   	u8 rev;
-> >>   >> @@ -144,12 +148,16 @@ struct displayid_formula_timing_block {
-> >>   >>
-> >>   >>   #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
-> >>   >>   #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
-> >>   >> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
-> >>   >> +#define DISPLAYID_VESA_DSC_BPP_FRACT	GENMASK(3, 0)
-> >>   >>
-> >>   >>   struct displayid_vesa_vendor_specific_block {
-> >>   >>   	struct displayid_block base;
-> >>   >>   	u8 oui[3];
-> >>   >>   	u8 data_structure_type;
-> >>   >>   	u8 mso;
-> >>   >> +	u8 dsc_bpp_int;
-> >>   >> +	u8 dsc_bpp_fract;
-> >>   >>   } __packed;
-> >>   >>
-> >>   >>   /*
-> >>   >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> >>   >> index e2e85345aa9a..6e42e55b41f9 100644
-> >>   >> --- a/drivers/gpu/drm/drm_edid.c
-> >>   >> +++ b/drivers/gpu/drm/drm_edid.c
-> >>   >> @@ -6524,8 +6524,8 @@ static void drm_get_monitor_range(struct
-> >> drm_connector *connector,
-> >>   >>   		    info->monitor_range.min_vfreq, info->monitor_range.max_vfreq);
-> >>   >>   }
-> >>   >>
-> >>   >> -static void drm_parse_vesa_mso_data(struct drm_connector *connector,
-> >>   >> -				    const struct displayid_block *block)
-> >>   >> +static void drm_parse_vesa_specific_block(struct drm_connector
-> >> *connector,
-> >>   >> +					  const struct displayid_block *block)
-> >>   >>   {
-> >>   >>   	struct displayid_vesa_vendor_specific_block *vesa =
-> >>   >>   		(struct displayid_vesa_vendor_specific_block *)block;
-> >>   >> @@ -6541,7 +6541,7 @@ static void drm_parse_vesa_mso_data(struct
-> >> drm_connector *connector,
-> >>   >>   	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
-> >>   >>   		return;
-> >>   >>
-> >>   >> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
-> >>   >> +	if (block->num_bytes < 5) {
-> >>   >>   		drm_dbg_kms(connector->dev,
-> >>   >>   			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
-> >>   >>   			    connector->base.id, connector->name);
-> >>   >> @@ -6564,28 +6564,40 @@ static void drm_parse_vesa_mso_data(struct
-> >> drm_connector *connector,
-> >>   >>   		break;
-> >>   >>   	}
-> >>   >>
-> >>   >> -	if (!info->mso_stream_count) {
-> >>   >> -		info->mso_pixel_overlap = 0;
-> >>   >> -		return;
-> >>   >> -	}
-> >>   >> +	info->mso_pixel_overlap = 0;
-> >>   >
-> >>   > Nitpick, I kind of like having this in the else path below instead of
-> >>   > first setting it to 0 and then setting it again to something else.
-> >>   >>>
-> >>   >> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP,
-> >> vesa->mso);
-> >>   >> -	if (info->mso_pixel_overlap > 8) {
-> >>   >> -		drm_dbg_kms(connector->dev,
-> >>   >> -			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
-> >>   >> -			    connector->base.id, connector->name,
-> >>   >> -			    info->mso_pixel_overlap);
-> >>   >> -		info->mso_pixel_overlap = 8;
-> >>   >> +	if (info->mso_stream_count) {
-> >>   >> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP,
-> >> vesa->mso);
-> >>   >> +		if (info->mso_pixel_overlap > 8) {
-> >>   >> +			drm_dbg_kms(connector->dev,
-> >>   >> +				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
-> >>   >> +				    connector->base.id, connector->name,
-> >>   >> +				    info->mso_pixel_overlap);
-> >>   >> +			info->mso_pixel_overlap = 8;
-> >>   >> +		}
-> >>   >>   	}
-> >>   >>
-> >>   >>   	drm_dbg_kms(connector->dev,
-> >>   >>   		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
-> >>   >>   		    connector->base.id, connector->name,
-> >>   >>   		    info->mso_stream_count, info->mso_pixel_overlap);
-> >>   >
-> >>   > Not sure we want to debug log this unless info->mso_stream_count !=
-> >>   > 0. This is a rare feature.
-> >>   >
-> >>   > Side note, we seem to be lacking the check for
-> >>   > data_structure_type. Probably my bad. I'm not asking you to fix it, but
-> >>   > hey, if you're up for it, another patch is welcome! ;)
-> >> I see, MSO overlap/stream count shouldn't be parsed for eDP, I'll do it.
-> >> Is that what you meant by "note that the above would be needed to
-> >> backport mso support for 7 byte vendor blocks to stable!"?
-> >>   >> +
-> >>   >> +	if (block->num_bytes < 7) {
-> >>   >> +		/* DSC bpp is optional */
-> >>   >> +		return;
-> >>   >> +	}
-> >>   >> +
-> >>   >> +	info->dp_dsc_bpp = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT,
-> >> vesa->dsc_bpp_int) << 4 |
-> >>   >> +			   FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
-> >>   >> +
-> >>   >> +	drm_dbg_kms(connector->dev,
-> >>   >> +		    "[CONNECTOR:%d:%s] DSC bits per pixel %u\n",
-> >>   >> +		    connector->base.id, connector->name,
-> >>   >> +		    info->dp_dsc_bpp);
-> >>   >>   }
-> >>   >>
-> >>   >> -static void drm_update_mso(struct drm_connector *connector,
-> >>   >> -			   const struct drm_edid *drm_edid)
-> >>   >> +static void drm_update_vesa_specific_block(struct drm_connector
-> >> *connector,
-> >>   >> +					   const struct drm_edid *drm_edid)
-> >>   >>   {
-> >>   >>   	const struct displayid_block *block;
-> >>   >>   	struct displayid_iter iter;
-> >>   >> @@ -6593,7 +6605,7 @@ static void drm_update_mso(struct
-> >> drm_connector *connector,
-> >>   >>   	displayid_iter_edid_begin(drm_edid, &iter);
-> >>   >>   	displayid_iter_for_each(block, &iter) {
-> >>   >>   		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
-> >>   >> -			drm_parse_vesa_mso_data(connector, block);
-> >>   >> +			drm_parse_vesa_specific_block(connector, block);
-> >>   >>   	}
-> >>   >>   	displayid_iter_end(&iter);
-> >>   >>   }
-> >>   >> @@ -6630,6 +6642,7 @@ static void drm_reset_display_info(struct
-> >> drm_connector *connector)
-> >>   >>   	info->mso_stream_count = 0;
-> >>   >>   	info->mso_pixel_overlap = 0;
-> >>   >>   	info->max_dsc_bpp = 0;
-> >>   >> +	info->dp_dsc_bpp = 0;
-> >>   >>
-> >>   >>   	kfree(info->vics);
-> >>   >>   	info->vics = NULL;
-> >>   >> @@ -6753,7 +6766,7 @@ static void update_display_info(struct
-> >> drm_connector *connector,
-> >>   >>   	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
-> >>   >>   		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
-> >>   >>
-> >>   >> -	drm_update_mso(connector, drm_edid);
-> >>   >> +	drm_update_vesa_specific_block(connector, drm_edid);
-> >>   >>
-> >>   >>   out:
-> >>   >>   	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_NON_DESKTOP)) {
-> >>   >> @@ -6784,7 +6797,8 @@ static void update_display_info(struct
-> >> drm_connector *connector,
-> >>   >>
-> >>   >>   static struct drm_display_mode *drm_mode_displayid_detailed(struct
-> >> drm_device *dev,
-> >>   >>   							    const struct displayid_detailed_timings_1 *timings,
-> >>   >> -							    bool type_7)
-> >>   >> +							    bool type_7,
-> >>   >> +							    int rev)
-> >>   >
-> >>   > If we added struct displayid_detailed_timing_block *block parameter
-> >>   > (between dev and timings), the function could figure it all out from
-> >>   > there instead of having to pass several parameters. Dunno which is
-> >>   > cleaner. It's also not neat to pass rev as int, when it's really data
-> >>   > that has to be parsed.
-> >>
-> >> I agree, just didn't like passing both the block and struct from the
-> >> block (timings param), but it should be fine, I'll redo it.
-> >>
-> >>   >>   {
-> >>   >>   	struct drm_display_mode *mode;
-> >>   >>   	unsigned int pixel_clock = (timings->pixel_clock[0] |
-> >>   >> @@ -6805,6 +6819,10 @@ static struct drm_display_mode
-> >> *drm_mode_displayid_detailed(struct drm_device *d
-> >>   >>   	if (!mode)
-> >>   >>   		return NULL;
-> >>   >>
-> >>   >> +	if (type_7 && FIELD_GET(DISPLAYID_BLOCK_REV, rev) >= 1)
-> >>   >> +		mode->dsc_passthrough_timings_support =
-> >>   >> +			!!(rev & DISPLAYID_BLOCK_PASSTHROUGH_TIMINGS_SUPPORT);
-> >>   >
-> >>   > I wonder if it would make life easier all around if we just filled the
-> >>   > dp_dsc_bpp in the mode itself, instead of having a flag and having to
-> >>   > look it up separately?
-> >>
-> >> They are stored in the separate blocks, and vesa vendor specific block
-> >> can be located after the timings blocks, meaning to do that we need to
-> >> iterate over all the mode blocks again and parse their timings support
-> >> flag from rev again to fill this data. I don't like this either, but
-> >> seems like this is the most logical implementation.
-> >>
-> >> We also have max_dsc_bpp declared in display_mode, and it should be
-> >> related to this.
-> >>
-> >> It also won't help with the fact that it is hard to handle mode flag for
-> >> the modes created at runtime (see AMDGPU patch). I believe there should
-> >> be a fancier way to do this, but this anin't it.
-> >>
-> >> I still have troubles understanding why does this flag need to exist, as
-> >> far as I can see, every device with passthrough timings doesn't have
-> >> both modes using them and not using them, and the implementation doesn't
-> >> look good due to this fact.
-> > 
-> > This looks like it would need to be handled in the same as the
-> > "420 only" stuff. But since this doesn't use the VIC it's going to
-> > be even more annoying. Basically you'd have to store the pass-through
-> > timings in eg. display info and then check against that list whenever
-> > you have to figure out if the mode you're looking at is one of these
-> > pass through modes.
-> 
-> Except right now DRM_IOCTL_MODE_SETCRTC allows userspace to create 
-> arbitrary drm_display_mode struct value (I have no idea if that even 
-> works,
+> Very unfortunately I'm afraid we will need to replace the `as` in this
+> method with `u64::try_from` and make it return a `Result` for now.
 
-That is how it always works. The requested mode always comes straight
-from userspace, not from the kernel. Thats' why you need to do the
-lookup. And that is exactly what we do for the "420 only" stuff, and
-to figure out what VIC to put into the AVI infoframe.
-
-But those all previous cases were a bit easier since it's all based
-on the VIC/CEA modes list, so we can do the lookup against a fixed
-list. With this stuff you have to generate the list from the
-DisplayID somewhere.
-
-> but as far as I can see nothing prevents that in amdgpu driver 
-> implementation), and for that case there needs to be an exception in 
-> case if all the modes are passthru, because then passed mode should use 
-> dsc_bpp value regardless (i.e device only supports passthru)?
-> 
-> This behavior is not declared by spec, but based on my testing I can 
-> only assume that this flag is only a hint, and no hardware supports both 
-> modes with fixed dsc_bpp value and without it.
-> 
-> And with Jani Nikula's suggestion there is a matter of which dsc_bpp 
-> value to use, as with proposed move of this value to the mode itself, in 
-> theory there might be different values for the modes, even if during 
-> edid parsing only one value (from VESA vendor specific block) might appear.
-
-Adding anything to the kernel modes is pretty much pointless. The
-parsed modes are just there to be passed to userspace, and then any
-additional info you stuff in there is immediately lost. The only way
-to preserve it would be extend the uapi with new data and have it be
-routed back in by userspace. But then you get into the whole "old
-userspace might not like new stuff" issue which is why the kernel eg.
-hides the stereo 3D stuff from userspace unless userspace explicitly
-says it knows what to do with it.
-
-> 
-> It just feels too fragile and incomplete.
-> >> On VivePro2 there is a HID command to switch between display modes:
-> >> modes without dsc_bpp are grouped, and two of the of the high resolution
-> >> modes have different dsc_bpp_x16 values on them. I believe it is just
-> >> this flag is redundant, as there are no devices in the wild having set
-> >> dsc_bpp, and the flag unset, but I try to follow the spec, and here we are.
-> >>
-> >>   >> +
-> >>   >>   	/* resolution is kHz for type VII, and 10 kHz for type I */
-> >>   >>   	mode->clock = type_7 ? pixel_clock : pixel_clock * 10;
-> >>   >>   	mode->hdisplay = hactive;
-> >>   >> @@ -6846,7 +6864,7 @@ static int
-> >> add_displayid_detailed_1_modes(struct drm_connector *connector,
-> >>   >>   	for (i = 0; i < num_timings; i++) {
-> >>   >>   		struct displayid_detailed_timings_1 *timings = &det->timings[i];
-> >>   >>
-> >>   >> -		newmode = drm_mode_displayid_detailed(connector->dev, timings,
-> >> type_7);
-> >>   >> +		newmode = drm_mode_displayid_detailed(connector->dev, timings,
-> >> type_7, block->rev);
-> >>   >>   		if (!newmode)
-> >>   >>   			continue;
-> >>   >>
-> >>   >> @@ -6893,7 +6911,8 @@ static int add_displayid_formula_modes(struct
-> >> drm_connector *connector,
-> >>   >>   	struct drm_display_mode *newmode;
-> >>   >>   	int num_modes = 0;
-> >>   >>   	bool type_10 = block->tag == DATA_BLOCK_2_TYPE_10_FORMULA_TIMING;
-> >>   >> -	int timing_size = 6 + ((formula_block->base.rev & 0x70) >> 4);
-> >>   >> +	int timing_size = 6 +
-> >>   >> +		FIELD_GET(DISPLAYID_BLOCK_DESCRIPTOR_PAYLOAD_BYTES,
-> >> formula_block->base.rev);
-> >>   >
-> >>   > I think this is an unrelated change. Probably something we want, but
-> >>   > should not be in the same patch with the rest.
-> >>
-> >> I'll split the patches, would it be ok to have it in the same patchset?
-> >> Same question for mso data_structure_type.
-> >>
-> >>   >>
-> >>   >>   	/* extended blocks are not supported yet */
-> >>   >>   	if (timing_size != 6)
-> >>   >> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> >>   >> index 8f34f4b8183d..01640fcf7464 100644
-> >>   >> --- a/include/drm/drm_connector.h
-> >>   >> +++ b/include/drm/drm_connector.h
-> >>   >> @@ -837,6 +837,12 @@ struct drm_display_info {
-> >>   >>   	 */
-> >>   >>   	u32 max_dsc_bpp;
-> >>   >>
-> >>   >> +	/**
-> >>   >> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
-> >>   >> +	 * DSC bits per pixel in 6.4 fixed point format. 0 means undefined.
-> >>   >> +	 */
-> >>   >> +	u16 dp_dsc_bpp;
-> >>   >
-> >>   > It's slightly annoying that we have max_dsc_bpp which is int, and
-> >>   > dp_dsc_bpp, which is 6.4 fixed point. The drm_dp_helper.c uses _x16
-> >>   > suffix for the 6.4 bpp, so maybe do the same here, dp_dsc_bpp_x16?
-> >>
-> >> Yep, didn't notice we already have bpp value in display_info.
-> >>
-> >>   >> +
-> >>   >>   	/**
-> >>   >>   	 * @vics: Array of vics_len VICs. Internal to EDID parsing.
-> >>   >>   	 */
-> >>   >> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> >>   >> index b9bb92e4b029..312e5c03af9a 100644
-> >>   >> --- a/include/drm/drm_modes.h
-> >>   >> +++ b/include/drm/drm_modes.h
-> >>   >> @@ -417,6 +417,16 @@ struct drm_display_mode {
-> >>   >>   	 */
-> >>   >>   	enum hdmi_picture_aspect picture_aspect_ratio;
-> >>   >>
-> >>   >> +	/**
-> >>   >> +	 * @dsc_passthrough_timing_support:
-> >>   >> +	 *
-> >>   >> +	 * Indicates whether this mode timing descriptor is supported
-> >>   >> +	 * with specific target DSC bits per pixel only.
-> >>   >> +	 *
-> >>   >> +	 * VESA vendor-specific data block shall exist with the relevant
-> >>   >> +	 * DSC bits per pixel declaration when this flag is set to true.
-> >>   >> +	 */
-> >>   >> +	bool dsc_passthrough_timings_support;
-> >>   >>   };
-> >>   >>
-> >>   >>   /**
-> >>
-> >> Regards,
-> >>
-> >> Lach
-> > 
-
--- 
-Ville Syrjälä
-Intel
+And presumably most of the other `as` keywords in this function dealing with
+usize as well? Have made the change but would you mind quickly explaining
+why this is needed? Is the concern that usize might be more than 64 bits or
+something?
