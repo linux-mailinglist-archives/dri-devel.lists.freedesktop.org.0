@@ -2,62 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFB6BE4E4B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 19:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A241BBE4E78
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 19:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB7F410EA74;
-	Thu, 16 Oct 2025 17:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C49A10E30A;
+	Thu, 16 Oct 2025 17:42:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="uSAD+5cf";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="D7SZRzX8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB0210EA59
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 17:40:15 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cnZwX3zWhz9tHQ;
- Thu, 16 Oct 2025 19:40:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1760636412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZxP0Op2GOPJGCmVQfhpVi9OKM831NuQf5A5nCw+dZv4=;
- b=uSAD+5cfZSmQYp83bqgCZJ2GFHuuQhmPjHL/wN/5mHexJACIMaAVV+lt/vEBlttehdTl28
- eEGLhxwyU7vQRgALRAV8NAQEzMqaJiVtYNBbV2ib9G/rQblwYzxhZZOxWuBiUpr5yD74OG
- N/nf9nemOKlaXVUVo0kriTvuDpV/ik6jDF0IMYpBfNu4OzqHNTkcR/lSnwV+czwWXkrTxR
- T6BnyiZzrG8Xwfrv1a+RPavCsuU7dgc9HBKTfXiH5y90zKUKLtLahQ5S2j/a8ScaDBx8bB
- Srzn/G0HBPbRhDnoTJohEiB7CRI9xQu3XNqYz5kfGWHWvNc09KH0S2WkKb/YLQ==
-Message-ID: <174bdb5a-b5a8-4856-a0ac-8caaaefde136@mailbox.org>
-Date: Thu, 16 Oct 2025 19:39:58 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B1E10E30A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 17:42:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1760636557; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YZvnMhHlWMSUe7BQMT+BAMFlsK3lSpVMBYcjsF0BrPsl3pqXZui7924TL0YJ7UQwfKDAgLn7O2ns8pns0xrqTpG4mtgI0yg/buK/YysOIxXQjUKvbaz/ZA0RvcFNdkn8fPAzshFpHu89Ll8goVTjoUFjf/pDq2kuMCEfOnWSISs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1760636557;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=VAon2uw2TC2Xj8Z9HG8ujPslg9D4ck6gAgMDw8sLSv0=; 
+ b=OQHoAZ2UeW9UhucjTtOkIPXmsH02cqgm9Np/l0Uu6x8pvac7qgvDVsEjGXNRBr0PvSH7pl2nCQnMNVqG8Pz5GGOmmBt9roDzet4cn29AnOsx8hj0ovqTeVIwN1sDxUeptXs2ujtvzSSd4EduoLmjYqjaNso3fdxcOjtdsuTuus4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760636557; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=VAon2uw2TC2Xj8Z9HG8ujPslg9D4ck6gAgMDw8sLSv0=;
+ b=D7SZRzX8vLFQxOt9CdBxBhsR2ta+uctTZArVPSi1tjLNWKiZM8VaHx41WIAOwvr4
+ cEAMbEUEPWbCaKpRYh+pPmjlPP3UJluKGiMx25GCOF4Ey5x8lWsYuvkWfSMIOYITxRF
+ z/Ir+Wv2IamLRwod65nojRW830O5mWRmAHeFIH0g=
+Received: by mx.zohomail.com with SMTPS id 1760636554473967.3645907639259;
+ Thu, 16 Oct 2025 10:42:34 -0700 (PDT)
+Message-ID: <00999b29-fcf0-4855-9c1f-8d62cc2724b0@collabora.com>
+Date: Thu, 16 Oct 2025 20:42:25 +0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 07/14] drm/imx: dc: Add DPR channel support
-To: Liu Ying <victor.liu@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-References: <20251016-imx8-dc-prefetch-v4-0-dfda347cb3c5@nxp.com>
- <20251016-imx8-dc-prefetch-v4-7-dfda347cb3c5@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/virtgpu: Use vblank timer
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
+Cc: "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20251008130701.246988-1-tzimmermann@suse.de>
+ <IA0PR11MB7185D91EB0CD01FD63D21AA7F8EEA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <dd80279d-5469-42db-bfa0-7b9ee3323bc9@suse.de>
+ <IA0PR11MB71850152C033B443032AA519F8EFA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <76e2a961-1d3a-411f-9cb3-625be048f4da@suse.de>
+ <CH3PR11MB7177EED8239AEBF875AA3389F8EAA@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <8fa40ad3-b848-4cf1-8515-7dbe05bb3136@suse.de>
+ <CH3PR11MB71771983D6F3A6E567E1904AF8E8A@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <2c17fa2d-fca1-4f3b-a7b1-7c07e7d5edee@suse.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251016-imx8-dc-prefetch-v4-7-dfda347cb3c5@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <2c17fa2d-fca1-4f3b-a7b1-7c07e7d5edee@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: oisd1xzkoiz1sooehr5hspunmxjz571t
-X-MBO-RS-ID: eee63f1da7d39cab528
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,18 +82,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/16/25 8:32 AM, Liu Ying wrote:
+On 10/16/25 17:56, Thomas Zimmermann wrote:
+> Hi,
+> 
+> for some reason, Dmitry already merged this patch into drm-misc-next. I
+> therefore sent out another change to pick the correct handling of vblank
+> events depending on the plane's buffer objects. You may want to take a
+> look at [1]. Testing is welcome.
+> 
+> [1] https://lore.kernel.org/dri-devel/20251016145230.79270-1-
+> tzimmermann@suse.de/T/#u
 
-Hello Liu,
+This patch fixes a major performance problem with 3d contexts on QEMU
+that I was coincidentally investigating at the same time when you posted
+the patch. Thanks a lot for fixing the vblank issue. Will test the
+updated version.
 
-> +++ b/drivers/gpu/drm/imx/dc/Kconfig
-> @@ -1,6 +1,7 @@
->   config DRM_IMX8_DC
->   	tristate "Freescale i.MX8 Display Controller Graphics"
->   	depends on DRM && COMMON_CLK && OF && (ARCH_MXC || COMPILE_TEST)
-> +	depends on IMX_SCU
-Can the SCU dependency be made optional, or per-module, or somehow 
-abstracted out (via regmap?), so iMX95 support can be added into the 
-driver easily too ?
-
-Thank you
+-- 
+Best regards,
+Dmitry
