@@ -2,82 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F755BE4833
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 18:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1979EBE48BD
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 18:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73EBD10EA3C;
-	Thu, 16 Oct 2025 16:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1589B10EA3E;
+	Thu, 16 Oct 2025 16:21:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KKrO6Uux";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AnQdXSbp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4B510EA35
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 16:17:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7CF1B4A9D2;
- Thu, 16 Oct 2025 16:17:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 56654C116B1;
- Thu, 16 Oct 2025 16:17:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760631420;
- bh=S0WNir74N579R+w69D4wF91+c/pfRD4OlqxTVOoiYX0=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=KKrO6Uuxsk+TvShgLxzPf855uttAmdkAsJwQ5n2mbc+69uXlq3BD5aDk0mM3cVKGS
- 4OKXWCKB/0dR7spuwqtrBXr5qVxIxQSfyDfofo5JUVRPeen5fVk6+p9ojkquZu3Vpq
- pNmkhkSP0KT/cDkq0qNHQMXpeOQbH92fSHW3Iuvz1ZmWzAVBFm5auj6bPsLu53DCpx
- HrO16A3HbFDfLVnUQBSqzrXzAvCSp3hifd9Jn3lXAG0v6uOCpgZXOlMhI1tGLf851O
- OMvAAaZmV413NtsiCKi7ZCwqYjn4gYQZezNV1YIzX7HpeATgsRBEcun6JG3z/p+R73
- YSsahB2yj229Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA1BCCD183;
- Thu, 16 Oct 2025 16:17:00 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 16 Oct 2025 18:17:03 +0200
-Subject: [PATCH v3 8/8] dt-bindings: display: panel-simple-dsi: Remove
- Samsung S6E3FC2 compatible
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2341110EA3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 16:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760631712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CA7cuB52W2mQEAqgkUGyrUbyJm9rGb31mdD8XpbhOA0=;
+ b=AnQdXSbpbaqc+pJ5AFJnZd1+MTaEZTpyYBLt8EOnkDZVB1Eb8qeY27XRzoeElMREOyyqFU
+ ULmSwLwTk+m1meb1mBkYc35xQ4U6jO8z/oASHPsfsUXSm2qFCk9GpJ1V+Z2mEoeFWFiPJb
+ kH9VDsKR3AvS9iQRFryMqyjNVnpncHY=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-373-g4DxosPhOnmkg9_CPKHU0g-1; Thu, 16 Oct 2025 12:21:51 -0400
+X-MC-Unique: g4DxosPhOnmkg9_CPKHU0g-1
+X-Mimecast-MFC-AGG-ID: g4DxosPhOnmkg9_CPKHU0g_1760631711
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-78efb3e2738so30165696d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 09:21:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760631711; x=1761236511;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CA7cuB52W2mQEAqgkUGyrUbyJm9rGb31mdD8XpbhOA0=;
+ b=ZkF75EOi1DY5GEMFmfrl63LlytBRS/wPqwK/u607jXoE/akL6kVeTPBoDZEZW+Vp9S
+ /ZhyEBaS4i6qZCoqIHJXLgewAeUhAmYKehcsm5ZBNsN3cYGgA3oRArx3eFVI5QnMMwdU
+ 0vMPiDiCJDzsTLnnJpV3oXQw/wHqMS2Gzf5zQ6zS2ZH7MhZ9VAzmFHAL15MbC4VT+obo
+ ky8OJb4YVyDWeaAGWnultcdX7eoLo/sagNmcUyupSYHKvRi6Ve/GpYutdBSXhva4GdFs
+ qsFam9FmnNVdNO8lKMJUWQzRFlqFPnuDmMhEF0mXRkNT7KZ9c3fdM4cXnEI4i/rLxrSi
+ 2ngQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0NUa6GZvIPTqOnKW6biPYfO+/NZFR/w1TpmVcsIXoC8RZy3sgTsVGUE1PlVWxPj2dm936gDlWz7w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiZLCddTKufsAE5/VA65gIxE3iZzrjSpMkxZSRI2yeDI+VH/CE
+ XSafZppPDme4G6yn0FVgMPHqZeJeFeZFuj2XkxCswSZ1mCokvvC0XnO0WdPVZI8QZ/GdLsjGSPZ
+ 1J8Ok7T/8Pu4DVfQFCGPYzr2snpjnrd039SLFn7L8aXFMGuRQ5snlJ39qEm0BNlH79SsFyA==
+X-Gm-Gg: ASbGncsRhrhqkujqpWmNL0zpF9rJTZKZc8nwx1NdvuGWBm/9+jDN/kiaDjbYXXGvJlc
+ /ZpVSkYX/l5cfgPaKrLtPBYikC1kc4ngX0CKU5W+LDNBaHqSsxzLEUn7EhS9DuU5+CPPVReCX3M
+ HmrjVu7/TTSw1JvFypuryGG7lX0k7piJANgDV8qvYFq4spBbeSHAbi/RW4OjMS7x0oVvjQjiIki
+ JzxHSYVAeGaYosfwAmU7Z7vQltNe8gSk/7QM//7hxLb+EHS+N99GW+261Xblhh5fnKo+drOi77d
+ ZEztRXULbkcu5yrf5KJSm8pXxNumWCC2pfYWecByM/QhPXUHLqxNUfeqLxQoSpY11cEPTPdI2sd
+ OiIT6kCzKXvtpc7xXoiToHlyXIZH5zwE47UOXoQGpOySU4Ko+WkD+30NgDlbKGRGYRg==
+X-Received: by 2002:a05:622a:1a9f:b0:4b5:ea1f:77ec with SMTP id
+ d75a77b69052e-4e89d091468mr10559471cf.0.1760631710989; 
+ Thu, 16 Oct 2025 09:21:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF4xG1metr/rpLguKpcRm9DUmy+rwmLo2vG6JrUEiGqV+HAheQWldgSDUdPw7Kfed4P6HKKmw==
+X-Received: by 2002:a05:622a:1a9f:b0:4b5:ea1f:77ec with SMTP id
+ d75a77b69052e-4e89d091468mr10559121cf.0.1760631710594; 
+ Thu, 16 Oct 2025 09:21:50 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net.
+ [73.183.52.120]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4e885a8e10esm36941801cf.11.2025.10.16.09.21.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Oct 2025 09:21:49 -0700 (PDT)
+Date: Thu, 16 Oct 2025 12:21:47 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 0/9] phy: convert from clk round_rate() to
+ determine_rate()
+Message-ID: <aPEbm5qK8-hkV3w_@redhat.com>
+References: <20250810-phy-clk-round-rate-v2-0-9162470bb9f2@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251016-s6e3fc2x01-v3-8-ce0f3566b903@ixit.cz>
-References: <20251016-s6e3fc2x01-v3-0-ce0f3566b903@ixit.cz>
-In-Reply-To: <20251016-s6e3fc2x01-v3-0-ce0f3566b903@ixit.cz>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=4+Nx6clkhCkST//F+2BMd0nBGtyNIXUCEfb23utzTYI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo8Rp5wt2y0Xc1+GKJ2t1MY4XOuvPZTZP7bPEqj
- ByfvV+qXciJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaPEaeQAKCRBgAj/E00kg
- clAqEACCZWBWo0npnp0kidoPHG1Pd/dBw56Sdxumg+7kDxKkJfyDDdLxF/y48pxHpeBvbyINosc
- 5v3HFOzDHjiBQRQMcg/sP2rr18XF6B0U4h03JqtLbaT7F6+C9UpUz+mxNmePtIz2rvn4mzNa/Ln
- gATpba3HePKXgXnGiIvBavkGW7EsQsSjiu4x2o9NbqSdE73w3tfbyCMVpdst6iXhWJLpyfH8iX5
- vxhNnr6zMZLUKidz2R/FwC0HnYE1yFU5XtUFt7bWJYh9O8SmneXpnLPKrBTH95GJVJEmvFQgtoO
- KXWLDfk2p5ZOAvIF977zt0GHzmljRvFkdhRwhXq1qfMN+HaO9IzqyIaAV8igUB548ujoguRn2Gs
- FlcN4XDl+EqaCGYZp4WjzbKwou57szMjuvFypcXxIyrIwhOR+/HPw8b7kRH1L8Sg2+FuOeEZAq4
- fgPYxtYbEaWi/dMNvJe3Bid/uymgELyqAbBhpL1gjLwznIxqJ6RGPOOjvLUU/Uk3pPwgsx1Brm4
- Cd209RKQxjTwKL8OfnBwqd1Krts46M4FPDyZXdZmgkHFRl5XFBgDXGa4A8WY80U0nHkoOvQGV3J
- KmQ/mcJenWBqi2NgUszoRJAiPBCbQCmEDF/Yfs+StH5zzoyVn1iZ51fuPyO6eQGT1MGgFCgcdAW
- KRMl6fLfDTNCrNg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
+In-Reply-To: <20250810-phy-clk-round-rate-v2-0-9162470bb9f2@redhat.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: b3tntMMKcVmW_2ec41McCTO5mjvZaCzNR7Qf6RK18y4_1760631711
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,38 +105,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Heidelberg <david@ixit.cz>
+Hi Vinod,
 
-Samsung S6E3FC2X01 DDIC isn't Simple DSI panel.
+On Sun, Aug 10, 2025 at 06:45:28PM -0400, Brian Masney wrote:
+> The round_rate() clk ops is deprecated in the clk framework in favor
+> of the determine_rate() clk ops, so let's go ahead and convert the
+> drivers in the phy subsystem using the Coccinelle semantic patch
+> posted below. I did a few minor cosmetic cleanups of the code in a
+> few cases.
 
-This panel has three supplies, while panel-simple-dsi is limited to one.
-There is no user of this compatible, nor the compatible make sense.
-Remove it.
+I'm hoping to get this series merged so that we can remove the round_rate()
+clk op from the clk core. The clk maintainer (Stephen) mentioned this work
+in his last pull to Linus.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml | 2 --
- 1 file changed, 2 deletions(-)
+https://lore.kernel.org/linux-clk/20251007051720.11386-1-sboyd@kernel.org/
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-index 9b92a05791ccf..6c1249a224c8a 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
-@@ -56,8 +56,6 @@ properties:
-       - panasonic,vvx10f034n00
-         # Samsung s6e3fa7 1080x2220 based AMS559NK06 AMOLED panel
-       - samsung,s6e3fa7-ams559nk06
--        # Samsung s6e3fc2x01 1080x2340 AMOLED panel
--      - samsung,s6e3fc2x01
-         # Samsung sofef00 1080x2280 AMOLED panel
-       - samsung,sofef00
-         # Shangai Top Display Optoelectronics 7" TL070WSH30 1024x600 TFT LCD panel
+Thanks,
 
--- 
-2.51.0
-
+Brian
 
