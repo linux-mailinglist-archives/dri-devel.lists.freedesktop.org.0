@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62773BE14B3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 04:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26BCBE14C5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 04:35:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78BE610E920;
-	Thu, 16 Oct 2025 02:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB9910E926;
+	Thu, 16 Oct 2025 02:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E032410E920
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 02:34:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F6B10E926
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 02:35:22 +0000 (UTC)
 Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-563-2LxWUxWDPaS0KdbBhqAZRQ-1; Wed,
- 15 Oct 2025 22:34:08 -0400
-X-MC-Unique: 2LxWUxWDPaS0KdbBhqAZRQ-1
-X-Mimecast-MFC-AGG-ID: 2LxWUxWDPaS0KdbBhqAZRQ_1760582047
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-448-qoQYfMKvMq60pCV184ftqQ-1; Wed,
+ 15 Oct 2025 22:34:16 -0400
+X-MC-Unique: qoQYfMKvMq60pCV184ftqQ-1
+X-Mimecast-MFC-AGG-ID: qoQYfMKvMq60pCV184ftqQ_1760582054
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id EDB281800637; Thu, 16 Oct 2025 02:34:06 +0000 (UTC)
+ id 7686B180065F; Thu, 16 Oct 2025 02:34:14 +0000 (UTC)
 Received: from dreadlord.taild9177d.ts.net (unknown [10.67.32.64])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id AEC081800446; Thu, 16 Oct 2025 02:34:00 +0000 (UTC)
+ id 0814F1800353; Thu, 16 Oct 2025 02:34:07 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org, tj@kernel.org, christian.koenig@amd.com,
  Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
@@ -37,19 +37,19 @@ To: dri-devel@lists.freedesktop.org, tj@kernel.org, christian.koenig@amd.com,
  Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
 Cc: cgroups@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
  Waiman Long <longman@redhat.com>, simona@ffwll.ch
-Subject: [PATCH 15/16] ttm: add support for a module option to disable memcg
- integration
-Date: Thu, 16 Oct 2025 12:31:43 +1000
-Message-ID: <20251016023205.2303108-16-airlied@gmail.com>
+Subject: [PATCH 16/16] xe: create a flag to enable memcg accounting for XE as
+ well.
+Date: Thu, 16 Oct 2025 12:31:44 +1000
+Message-ID: <20251016023205.2303108-17-airlied@gmail.com>
 In-Reply-To: <20251016023205.2303108-1-airlied@gmail.com>
 References: <20251016023205.2303108-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 9l_5A2TcNK7LhsfrU7kirC7tTMTJ1mV0krRpnQhzRGU_1760582047
+X-Mimecast-MFC-PROC-ID: BSJsAbF0boSUKD3CxsGe8rBkK4joQ30pX3CtFAl6fzA_1760582054
 X-Mimecast-Originator: gmail.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,115 +65,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+From: Maarten Lankhorst <dev@lankhorst.se>
 
-This adds a kconfig and a module option to turn off ttm memcg
-integration completely.
+This adds support for memcg accounting to ttm object used by xe driver.
 
-When this is used, no object will ever end up using memcg aware
-paths.
-
-There is an existing workload that cgroup support might regress,
-the systems are setup to allocate 1GB of uncached pages at system
-startup to prime the pool, then any further users will take them
-from the pool. The current cgroup code might handle that, but
-it also may regress, so add an option to ttm to avoid using
-memcg for the pool pages.
-
-Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/Kconfig        |  7 +++++++
- drivers/gpu/drm/ttm/ttm_pool.c | 24 +++++++++++++++++++++---
- 2 files changed, 28 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_bo.c  | 16 +++++++++++-----
+ drivers/gpu/drm/xe/xe_bo.h  |  1 +
+ drivers/gpu/drm/xe/xe_lrc.c |  3 ++-
+ drivers/gpu/drm/xe/xe_oa.c  |  3 ++-
+ drivers/gpu/drm/xe/xe_pt.c  |  3 ++-
+ 5 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 7e6bc0b3a589..536789f8217e 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -239,6 +239,13 @@ config DRM_TTM_HELPER
- =09help
- =09  Helpers for ttm-based gem objects
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 95e607842474..8a511077708d 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -54,6 +54,7 @@ static const struct ttm_place sys_placement_flags =3D {
+ =09.flags =3D 0,
+ };
 =20
-+config DRM_TTM_MEMCG
-+=09bool "Enable TTM mem cgroup by default"
-+=09depends on DRM_TTM
-+=09depends on MEMCG
-+=09help
-+=09  Enable the memcg intergration by default
++/* TTM_PL_FLAG_MEMCG is not set, those placements are used for eviction */
+ static struct ttm_placement sys_placement =3D {
+ =09.num_placement =3D 1,
+ =09.placement =3D &sys_placement_flags,
+@@ -188,8 +189,8 @@ static void try_add_system(struct xe_device *xe, struct=
+ xe_bo *bo,
+=20
+ =09=09bo->placements[*c] =3D (struct ttm_place) {
+ =09=09=09.mem_type =3D XE_PL_TT,
+-=09=09=09.flags =3D (bo_flags & XE_BO_FLAG_VRAM_MASK) ?
+-=09=09=09TTM_PL_FLAG_FALLBACK : 0,
++=09=09=09.flags =3D TTM_PL_FLAG_MEMCG | ((bo_flags & XE_BO_FLAG_VRAM_MASK)=
+ ?
++=09=09=09TTM_PL_FLAG_FALLBACK : 0),
+ =09=09};
+ =09=09*c +=3D 1;
+ =09}
+@@ -1695,6 +1696,8 @@ static void xe_ttm_bo_destroy(struct ttm_buffer_objec=
+t *ttm_bo)
+=20
+ static void xe_gem_object_free(struct drm_gem_object *obj)
+ {
++=09struct xe_bo *bo =3D gem_to_xe_bo(obj);
 +
- config DRM_GEM_DMA_HELPER
- =09tristate
- =09depends on DRM
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.=
-c
-index 1e6da2cc1f06..009e7016bd4c 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -118,6 +118,24 @@ static unsigned long page_pool_size;
- MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool pe=
-r NUMA node");
- module_param(page_pool_size, ulong, 0644);
+ =09/* Our BO reference counting scheme works as follows:
+ =09 *
+ =09 * The gem object kref is typically used throughout the driver,
+@@ -1708,8 +1711,8 @@ static void xe_gem_object_free(struct drm_gem_object =
+*obj)
+ =09 * driver ttm callbacks is allowed to use the ttm_buffer_object
+ =09 * refcount directly if needed.
+ =09 */
+-=09__xe_bo_vunmap(gem_to_xe_bo(obj));
+-=09ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
++=09__xe_bo_vunmap(bo);
++=09ttm_bo_put(&bo->ttm);
+ }
 =20
-+/*
-+ * Don't use the memcg aware lru for pooled pages.
-+ *
-+ * There are use-cases where for example one application in a cgroup will =
-preallocate 1GB
-+ * of uncached pages, and immediately release them into the pool, for othe=
-r consumers
-+ * to use. This use-case could be handled with a proper cgroup hierarchy, =
-but to allow
-+ * that use case to continue to operate as-is, add a module option.
-+ *
-+ * This still stores the pages in the list_lru, it just doesn't use the me=
-mcg when
-+ * adding/removing them.
-+ */
-+#define DEFAULT_TTM_MEMCG IS_ENABLED(CONFIG_DRM_TTM_MEMCG)
-+static bool ttm_memcg =3D DEFAULT_TTM_MEMCG;
+ static void xe_gem_object_close(struct drm_gem_object *obj,
+@@ -2176,6 +2179,9 @@ struct xe_bo *xe_bo_init_locked(struct xe_device *xe,=
+ struct xe_bo *bo,
+ =09placement =3D (type =3D=3D ttm_bo_type_sg ||
+ =09=09     bo->flags & XE_BO_FLAG_DEFER_BACKING) ? &sys_placement :
+ =09=09&bo->placement;
 +
-+MODULE_PARM_DESC(ttm_memcg, "Allow using cgroups with TTM "
-+=09=09 "[default=3D" __stringify(DEFAULT_TTM_MEMCG) "])");
-+module_param(ttm_memcg, bool, 0444);
-+
- static unsigned long pool_node_limit[MAX_NUMNODES];
- static atomic_long_t allocated_pages[MAX_NUMNODES];
++=09if (bo->flags & XE_BO_FLAG_ACCOUNTED)
++=09=09ttm_bo_set_cgroup(&bo->ttm, get_obj_cgroup_from_current());
+ =09err =3D ttm_bo_init_reserved(&xe->ttm, &bo->ttm, type,
+ =09=09=09=09   placement, alignment,
+ =09=09=09=09   &ctx, NULL, resv, xe_ttm_bo_destroy);
+@@ -3149,7 +3155,7 @@ int xe_gem_create_ioctl(struct drm_device *dev, void =
+*data,
+ =09if (XE_IOCTL_DBG(xe, args->size & ~PAGE_MASK))
+ =09=09return -EINVAL;
 =20
-@@ -305,7 +323,7 @@ static void ttm_pool_type_give(struct ttm_pool_type *pt=
-, struct page *p)
+-=09bo_flags =3D 0;
++=09bo_flags =3D XE_BO_FLAG_ACCOUNTED;
+ =09if (args->flags & DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING)
+ =09=09bo_flags |=3D XE_BO_FLAG_DEFER_BACKING;
 =20
- =09INIT_LIST_HEAD(&p->lru);
- =09rcu_read_lock();
--=09list_lru_add(&pt->pages, &p->lru, nid, page_memcg_check(p));
-+=09list_lru_add(&pt->pages, &p->lru, nid, ttm_memcg ? page_memcg_check(p) =
-: NULL);
- =09rcu_read_unlock();
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index a77af42b5f9e..fc1e7d0ebf1c 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -49,6 +49,7 @@
+ #define XE_BO_FLAG_GGTT2=09=09BIT(22)
+ #define XE_BO_FLAG_GGTT3=09=09BIT(23)
+ #define XE_BO_FLAG_CPU_ADDR_MIRROR=09BIT(24)
++#define XE_BO_FLAG_ACCOUNTED=09=09BIT(25)
 =20
- =09atomic_long_add(num_pages, &allocated_pages[nid]);
-@@ -354,7 +372,7 @@ static struct page *ttm_pool_type_take(struct ttm_pool_=
-type *pt, int nid,
- =09struct page *page_out =3D NULL;
- =09int ret;
- =09struct mem_cgroup *orig_memcg =3D orig_objcg ? get_mem_cgroup_from_objc=
-g(orig_objcg) : NULL;
--=09struct mem_cgroup *memcg =3D orig_memcg;
-+=09struct mem_cgroup *memcg =3D ttm_memcg ? orig_memcg : NULL;
+ /* this one is trigger internally only */
+ #define XE_BO_FLAG_INTERNAL_TEST=09BIT(30)
+diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
+index 47e9df775072..db7707256039 100644
+--- a/drivers/gpu/drm/xe/xe_lrc.c
++++ b/drivers/gpu/drm/xe/xe_lrc.c
+@@ -1413,7 +1413,8 @@ static int xe_lrc_init(struct xe_lrc *lrc, struct xe_=
+hw_engine *hwe,
+ =09bo_flags =3D XE_BO_FLAG_VRAM_IF_DGFX(tile) | XE_BO_FLAG_GGTT |
+ =09=09   XE_BO_FLAG_GGTT_INVALIDATE;
+ =09if (vm && vm->xef) /* userspace */
+-=09=09bo_flags |=3D XE_BO_FLAG_PINNED_LATE_RESTORE;
++=09=09bo_flags |=3D XE_BO_FLAG_PINNED_LATE_RESTORE |
++=09=09=09    XE_BO_FLAG_ACCOUNTED;
 =20
- =09/*
- =09 * Attempt to get a page from the current memcg, but if it hasn't got a=
-ny in it's level,
-@@ -824,7 +842,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, stru=
-ct ttm_tt *tt,
- =09bool allow_pools;
- =09struct page *p;
- =09int r;
--=09struct obj_cgroup *objcg =3D memcg_account ? tt->objcg : NULL;
-+=09struct obj_cgroup *objcg =3D (ttm_memcg && memcg_account) ? tt->objcg :=
- NULL;
+ =09lrc->bo =3D xe_bo_create_pin_map_novm(xe, tile,
+ =09=09=09=09=09    bo_size,
+diff --git a/drivers/gpu/drm/xe/xe_oa.c b/drivers/gpu/drm/xe/xe_oa.c
+index a4894eb0d7f3..5b455397e1d8 100644
+--- a/drivers/gpu/drm/xe/xe_oa.c
++++ b/drivers/gpu/drm/xe/xe_oa.c
+@@ -885,7 +885,8 @@ static int xe_oa_alloc_oa_buffer(struct xe_oa_stream *s=
+tream, size_t size)
 =20
- =09WARN_ON(!alloc->remaining_pages || ttm_tt_is_populated(tt));
- =09WARN_ON(alloc->dma_addr && !pool->dev);
+ =09bo =3D xe_bo_create_pin_map_novm(stream->oa->xe, stream->gt->tile,
+ =09=09=09=09       size, ttm_bo_type_kernel,
+-=09=09=09=09       XE_BO_FLAG_SYSTEM | XE_BO_FLAG_GGTT, false);
++=09=09=09=09       XE_BO_FLAG_SYSTEM | XE_BO_FLAG_GGTT |
++=09=09=09=09       XE_BO_FLAG_ACCOUNTED, false);
+ =09if (IS_ERR(bo))
+ =09=09return PTR_ERR(bo);
+=20
+diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+index a1c88f9a6c76..3fc11019ffa2 100644
+--- a/drivers/gpu/drm/xe/xe_pt.c
++++ b/drivers/gpu/drm/xe/xe_pt.c
+@@ -122,7 +122,8 @@ struct xe_pt *xe_pt_create(struct xe_vm *vm, struct xe_=
+tile *tile,
+ =09=09   XE_BO_FLAG_IGNORE_MIN_PAGE_SIZE |
+ =09=09   XE_BO_FLAG_NO_RESV_EVICT | XE_BO_FLAG_PAGETABLE;
+ =09if (vm->xef) /* userspace */
+-=09=09bo_flags |=3D XE_BO_FLAG_PINNED_LATE_RESTORE;
++=09=09bo_flags |=3D XE_BO_FLAG_PINNED_LATE_RESTORE |
++=09=09=09    XE_BO_FLAG_ACCOUNTED;
+=20
+ =09pt->level =3D level;
+=20
 --=20
 2.51.0
 
