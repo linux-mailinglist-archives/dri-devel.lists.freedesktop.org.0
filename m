@@ -2,40 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00721BE448A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 17:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB54FBE461B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 17:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD8310E098;
-	Thu, 16 Oct 2025 15:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF94C10E073;
+	Thu, 16 Oct 2025 15:57:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="q0HeWPnH";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5BC6010E098
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 15:39:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E769E1688
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:38:57 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 979743F66E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:39:05 -0700 (PDT)
-Date: Thu, 16 Oct 2025 16:38:57 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH v3] drm/komeda: Convert logging in komeda_crtc.c to drm_*
- with drm_device parameter
-Message-ID: <aPERkceQmre1527U@e110455-lin.cambridge.arm.com>
-References: <20250926093008.1949131-1-rk0006818@gmail.com>
- <CAKY2RybMM5jcOzO_mknsdH+m9-T+Qe3yMhRrdpV_VE4paUrAKw@mail.gmail.com>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566C410EA2E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 15:57:40 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-471131d6121so6993525e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1760630259; x=1761235059;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0ILIfXRJsUxZXhrCDor+YP2U09ZqnXIHrajm0QpBgi4=;
+ b=q0HeWPnHv9ewOnmm65tUjzLAi7HwUi+ra50BnAW4Ai7lLvqHfC7eUBOt/wcw/Zio65
+ BIkLj6lckH2XBt95n4IBpTga93hikDMbMXH0jG6zNnUndSz3DI0V3QYYM4qTY1ZgBJ8v
+ /kLC7RPKy3Q2CPr9rWPm6M58GdvhITxmH8StIK5ly5klhMdAiO19+dwt+bGRvFPS59Bd
+ fuliJcEvnLccfze/svAkInh88gD8OweFGxst7AdyRYbHjBjh1jlV68TFqTKkNCIVr1G0
+ NwuI1iWUKOgsrShLSmGPtPjSb3Rl8mafcocksoo9Mmy4gtLP3+NNYGjLhJ7QlXlFyQpc
+ vOzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760630259; x=1761235059;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0ILIfXRJsUxZXhrCDor+YP2U09ZqnXIHrajm0QpBgi4=;
+ b=cskhOW5ci+rOJ6/qobtdWcnEcr2DrT1TgCDEcFS44EGQUJBZUgTLHfBMwrTEFCsJLV
+ gklj2HAkuWwDUwjWOwHFKVVPvGMdJ2v8tVaUu1epCscHJj5uzdDlE5BaKqaRxGJLQIWr
+ L58FjjWp4FoOoburBd387STgtdFdzwmRG+XExCFosJSbyx7uxpJJ1PtJ3dBTgzsWo1CW
+ p8tMKsssdHKpdxkhDGsFrjmhyImDH3PXcoS8liEMRgwKH+Hqltz1VUU0wHQSWs//B294
+ vKnrn84ERJZhHIyR1srvtuP5ryF1BXXqHJvfXOKgmORmVLjdHjAq37Wir0Iy1h15OV1v
+ OqwQ==
+X-Gm-Message-State: AOJu0Ywo8R7giReKnZp211gJWAbK+EW2fPzjJ/X4pfO5g9rrlZqhFhdx
+ uDf+cdL3FtFRukuNJMCSHVPr65WOiloRE1szNzo25Rp09L2t6hTUhOSvhCpWMLYJYgg=
+X-Gm-Gg: ASbGncst6Fnltbl3OAQoOeHz9qAT28wXrL79PLCLZBaOMjK1qKGRpN8Af1Qn9TrEAl8
+ NYY2vU/yU6wkWvcafWkIwrDXwgZ0GK3AiQOP+cwFozGgaqOqs/jGM2cG6L7wagBLV8MwnYdMeS2
+ oxkxKWL2i5G18Rvgji/3ZWiloEppnX6q0RxBsg8mmLqgOlcqa7hMyGP+z4l2peqxAlXzSA6zPrF
+ eLv6enB/RwGJfD5tRRZikFsz4LQeWYkEOwZPnUXIqYYVzGlEzBmMG1p0FW3nf8Ok/42NqDOwEch
+ 77aXf474wehj3RmH+XlFMRXBuX9DxLibo0T95sMwJz5XKoRvpnsfxzrZRMQr/z4xG3bYBlNvIh6
+ CJYS2R24/IboNoiP2BCoF31JlYdpT3vwL3Yca8bi3UE/NiO1FFtJQ2Vr818eDz7qi/Tvcf/V6GN
+ X2YfPPnxEX7CPpMOc=
+X-Google-Smtp-Source: AGHT+IF2VSlDCRVmqOrc7Eq0CBMtRQB5YvQerCB2FT5AEVTbohitqAFQBhhTJz8LAW2lgMNIOIuIzQ==
+X-Received: by 2002:a05:600c:37c7:b0:471:12ef:84be with SMTP id
+ 5b1f17b1804b1-47117900c2dmr3465495e9.22.1760630258280; 
+ Thu, 16 Oct 2025 08:57:38 -0700 (PDT)
+Received: from [192.168.0.101] ([90.242.12.242])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-471144b5c34sm38753535e9.10.2025.10.16.08.57.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Oct 2025 08:57:37 -0700 (PDT)
+Message-ID: <23bafbad-fcc9-4baa-9bd5-d4ea37c397f3@ursulin.net>
+Date: Thu, 16 Oct 2025 16:57:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/15] dma-buf: detach fence ops on signal
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+ <20251013143502.1655-5-christian.koenig@amd.com>
+ <d5ea9ed0-d599-4b9f-92c8-a2e711371017@ursulin.net>
+Content-Language: en-GB
+In-Reply-To: <d5ea9ed0-d599-4b9f-92c8-a2e711371017@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKY2RybMM5jcOzO_mknsdH+m9-T+Qe3yMhRrdpV_VE4paUrAKw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,195 +93,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rahul,
 
-Appologies for lack of replies, I was very busy at work and also attended XDC when you've
-sent this email.
-
-I've now pushed your patch into drm-misc-next.
-
-Best regards,
-Liviu
-
-On Fri, Oct 03, 2025 at 11:21:25PM +0530, Rahul Kumar wrote:
-> Hi Liviu,
+On 16/10/2025 09:56, Tvrtko Ursulin wrote:
 > 
-> Just following up to ask if anything more is needed from my side for
-> this patch, or if you plan to pick it up in this merge window.
+> On 13/10/2025 14:48, Christian König wrote:
+>> When neither a release nor a wait operation is specified it is possible
+>> to let the dma_fence live on independent of the module who issued it.
+>>
+>> This makes it possible to unload drivers and only wait for all their
+>> fences to signal.
 > 
-> Thanks,
-> Rahul
-> 
-> On Fri, Sep 26, 2025 at 3:00 PM Rahul Kumar <rk0006818@gmail.com> wrote:
-> >
-> > Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
-> > calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
-> > corresponding drm_err(), drm_warn(), and drm_info() helpers.
-> >
-> > The new drm_*() logging functions take a struct drm_device * as the
-> > first argument. This allows the DRM core to prefix log messages with
-> > the specific DRM device name and instance, which is essential for
-> > distinguishing logs when multiple GPUs or display controllers are present.
-> >
-> > This change aligns komeda with the DRM TODO item: "Convert logging to
-> > drm_* functions with drm_device parameter".
-> >
-> > Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> > ---
-> > Changes since v2:
-> > - Added Reviewed-by tag from Liviu Dudau
-> >
-> > Link to v1:
-> > https://lore.kernel.org/all/aJshoswGslcYQFLI@e110455-lin.cambridge.arm.com/
-> > ---
-> >  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 31 +++++++++++--------
-> >  1 file changed, 18 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> > index 2ad33559a33a..5a66948ffd24 100644
-> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> > @@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
-> >  static int
-> >  komeda_crtc_prepare(struct komeda_crtc *kcrtc)
-> >  {
-> > +       struct drm_device *drm = kcrtc->base.dev;
-> >         struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
-> >         struct komeda_pipeline *master = kcrtc->master;
-> >         struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
-> > @@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
-> >
-> >         err = mdev->funcs->change_opmode(mdev, new_mode);
-> >         if (err) {
-> > -               DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> > -                         mdev->dpmode, new_mode);
-> > +               drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> > +                       mdev->dpmode, new_mode);
-> >                 goto unlock;
-> >         }
-> >
-> > @@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
-> >         if (new_mode != KOMEDA_MODE_DUAL_DISP) {
-> >                 err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
-> >                 if (err)
-> > -                       DRM_ERROR("failed to set aclk.\n");
-> > +                       drm_err(drm, "failed to set aclk.\n");
-> >                 err = clk_prepare_enable(mdev->aclk);
-> >                 if (err)
-> > -                       DRM_ERROR("failed to enable aclk.\n");
-> > +                       drm_err(drm, "failed to enable aclk.\n");
-> >         }
-> >
-> >         err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
-> >         if (err)
-> > -               DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
-> > +               drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
-> >         err = clk_prepare_enable(master->pxlclk);
-> >         if (err)
-> > -               DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
-> > +               drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
-> >
-> >  unlock:
-> >         mutex_unlock(&mdev->lock);
-> > @@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
-> >  static int
-> >  komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
-> >  {
-> > +       struct drm_device *drm = kcrtc->base.dev;
-> >         struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
-> >         struct komeda_pipeline *master = kcrtc->master;
-> >         u32 new_mode;
-> > @@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
-> >
-> >         err = mdev->funcs->change_opmode(mdev, new_mode);
-> >         if (err) {
-> > -               DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> > -                         mdev->dpmode, new_mode);
-> > +               drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> > +                       mdev->dpmode, new_mode);
-> >                 goto unlock;
-> >         }
-> >
-> > @@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
-> >  void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
-> >                               struct komeda_events *evts)
-> >  {
-> > +       struct drm_device *drm = kcrtc->base.dev;
-> >         struct drm_crtc *crtc = &kcrtc->base;
-> >         u32 events = evts->pipes[kcrtc->master->id];
-> >
-> > @@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
-> >                 if (wb_conn)
-> >                         drm_writeback_signal_completion(&wb_conn->base, 0);
-> >                 else
-> > -                       DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
-> > +                       drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
-> >                                  drm_crtc_index(&kcrtc->base));
-> >         }
-> >         /* will handle it together with the write back support */
-> > @@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
-> >                         crtc->state->event = NULL;
-> >                         drm_crtc_send_vblank_event(crtc, event);
-> >                 } else {
-> > -                       DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
-> > +                       drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
-> >                                  drm_crtc_index(&kcrtc->base));
-> >                 }
-> >                 spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-> > @@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
-> >
-> >         /* wait the flip take affect.*/
-> >         if (wait_for_completion_timeout(flip_done, HZ) == 0) {
-> > -               DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
-> > +               drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
-> >                 if (!input_flip_done) {
-> >                         unsigned long flags;
-> >
-> > @@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
-> >  int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
-> >                            struct komeda_dev *mdev)
-> >  {
-> > +       struct drm_device *drm = &kms->base;
-> >         struct komeda_crtc *crtc;
-> >         struct komeda_pipeline *master;
-> >         char str[16];
-> > @@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
-> >                 else
-> >                         sprintf(str, "None");
-> >
-> > -               DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
-> > +               drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
-> >                          kms->n_crtcs, master->id, str);
-> >
-> >                 kms->n_crtcs++;
-> > @@ -613,6 +617,7 @@ static int komeda_attach_bridge(struct device *dev,
-> >                                 struct komeda_pipeline *pipe,
-> >                                 struct drm_encoder *encoder)
-> >  {
-> > +       struct drm_device *drm = encoder->dev;
-> >         struct drm_bridge *bridge;
-> >         int err;
-> >
-> > @@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
-> >
-> >         err = drm_bridge_attach(encoder, bridge, NULL, 0);
-> >         if (err)
-> > -               dev_err(dev, "bridge_attach() failed for pipe: %s\n",
-> > +               drm_err(drm, "bridge_attach() failed for pipe: %s\n",
-> >                         of_node_full_name(pipe->of_node));
-> >
-> >         return err;
-> > --
-> > 2.43.0
-> >
+> Have you looked at whether the requirement to not have the release and 
+> wait callbacks will exclude some drivers from being able to benefit from 
+> this?
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+I had a browse and this seems to be the situation:
+
+Custom .wait:
+  - radeon, qxl, nouveau, i915
+
+Those would therefore still be vulnerable to the unbind->unload 
+sequence. Actually not sure about qxl, but other three are PCI so in 
+theory at least. I915 at least supports unbind and unload.
+
+Custom .release:
+  - vgem, nouveau, lima, pvr, i915, usb-gadget, industrialio, etnaviv, xe
+
+Out of those there do not actually need a custom release and could 
+probably be weaned off it:
+  - usb-gadget, industrialio, etnaviv, xe
+
+(Xe would lose a debug assert and some would have their kfrees replaced 
+with kfree_rcu. Plus build time asserts added the struct dma-fence 
+remains first in the respective driver structs. It sounds feasible.)
+
+That would leave us with .release in:
+  - vgem, nouveau, lima, pvr, i915
+
+Combined list of custom .wait + .release:
+  - radeon, qxl, nouveau, i915, lima, pvr, vgem
+
+ From those the ones which support unbind and module unload would remain 
+potentially vulnerable to use after free.
+
+It doesn't sound great to only solve it partially but maybe it is a 
+reasonable next step. Where could we go from there to solve it for everyone?
+
+Regards,
+
+Tvrtko
+
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 16 ++++++++++++----
+>>   include/linux/dma-fence.h   |  4 ++--
+>>   2 files changed, 14 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 982f2b2a62c0..39f73edf3a33 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -374,6 +374,14 @@ int dma_fence_signal_timestamp_locked(struct 
+>> dma_fence *fence,
+>>                         &fence->flags)))
+>>           return -EINVAL;
+>> +    /*
+>> +     * When neither a release nor a wait operation is specified set 
+>> the ops
+>> +     * pointer to NULL to allow the fence structure to become 
+>> independent
+>> +     * who originally issued it.
+>> +     */
+>> +    if (!fence->ops->release && !fence->ops->wait)
+>> +        RCU_INIT_POINTER(fence->ops, NULL);
+>> +
+>>       /* Stash the cb_list before replacing it with the timestamp */
+>>       list_replace(&fence->cb_list, &cb_list);
+>> @@ -513,7 +521,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, 
+>> bool intr, signed long timeout)
+>>       rcu_read_lock();
+>>       ops = rcu_dereference(fence->ops);
+>>       trace_dma_fence_wait_start(fence);
+>> -    if (ops->wait) {
+>> +    if (ops && ops->wait) {
+>>           /*
+>>            * Implementing the wait ops is deprecated and not supported 
+>> for
+>>            * issuer independent fences, so it is ok to use the ops 
+>> outside
+>> @@ -578,7 +586,7 @@ void dma_fence_release(struct kref *kref)
+>>       }
+>>       ops = rcu_dereference(fence->ops);
+>> -    if (ops->release)
+>> +    if (ops && ops->release)
+>>           ops->release(fence);
+>>       else
+>>           dma_fence_free(fence);
+>> @@ -614,7 +622,7 @@ static bool __dma_fence_enable_signaling(struct 
+>> dma_fence *fence)
+>>       rcu_read_lock();
+>>       ops = rcu_dereference(fence->ops);
+>> -    if (!was_set && ops->enable_signaling) {
+>> +    if (!was_set && ops && ops->enable_signaling) {
+>>           trace_dma_fence_enable_signal(fence);
+>>           if (!ops->enable_signaling(fence)) {
+>> @@ -1000,7 +1008,7 @@ void dma_fence_set_deadline(struct dma_fence 
+>> *fence, ktime_t deadline)
+>>       rcu_read_lock();
+>>       ops = rcu_dereference(fence->ops);
+>> -    if (ops->set_deadline && !dma_fence_is_signaled(fence))
+>> +    if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
+>>           ops->set_deadline(fence, deadline);
+>>       rcu_read_unlock();
+>>   }
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 38421a0c7c5b..e1ba1d53de88 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -425,7 +425,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>       rcu_read_lock();
+>>       ops = rcu_dereference(fence->ops);
+>> -    if (ops->signaled && ops->signaled(fence)) {
+>> +    if (ops && ops->signaled && ops->signaled(fence)) {
+>>           rcu_read_unlock();
+>>           dma_fence_signal_locked(fence);
+>>           return true;
+>> @@ -461,7 +461,7 @@ dma_fence_is_signaled(struct dma_fence *fence)
+>>       rcu_read_lock();
+>>       ops = rcu_dereference(fence->ops);
+>> -    if (ops->signaled && ops->signaled(fence)) {
+>> +    if (ops && ops->signaled && ops->signaled(fence)) {
+>>           rcu_read_unlock();
+>>           dma_fence_signal(fence);
+>>           return true;
+> 
+
