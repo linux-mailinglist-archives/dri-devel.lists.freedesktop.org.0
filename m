@@ -2,67 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B815BE4A23
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 18:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840EFBE4D0A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 19:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7A310EA4D;
-	Thu, 16 Oct 2025 16:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBB010E08B;
+	Thu, 16 Oct 2025 17:18:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f97oov8f";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bMtpTj3u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7239510EA4D;
- Thu, 16 Oct 2025 16:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760632805; x=1792168805;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=prjvjz+M/7rr2btEt2k6ouVNhEZHrzAdMAghfFQAIrA=;
- b=f97oov8faKGzD4vnLbwo2fAr6e0PYQRrwpG7xA/F9D5VQQYJ2SvQe9kX
- gHBKejrUKkx5cw1mJ436UJUAilhMyFQERspuLCtPPf+DxyB6MqW/1mpHt
- Y29GhUnCRixG/G9FBCz3SXPRX+vwn4A5gV9Qfel/PJecynLKVmYrlrB9k
- oW/vYZomRk+SLOhqXb12SquWOUWavDTGoOvYqkplnfrvxy3FyTf2sZhBF
- WLpnKmFrmsqBFQ77KrithoSiKK6uoaQkMKQsWQivkHX8hEolZr25COY4b
- ntueaNGZGrskEOrkDFb6qyUIW7lW8QR//3JoxwN/JOUdpsC/OqWp+98UV w==;
-X-CSE-ConnectionGUID: iGEYIYvoQQeVJxopFZs71A==
-X-CSE-MsgGUID: GyYsde/2QLGdcWY2WqjZVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="74176729"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="74176729"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2025 09:40:05 -0700
-X-CSE-ConnectionGUID: d6aGCxqXSIuq0+rX+521og==
-X-CSE-MsgGUID: O3GEdB1FQsSNk/Pamay9jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="187781454"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.155])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2025 09:40:00 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Yaroslav Bolyukin <iam@lach.pw>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
- Bolyukin <iam@lach.pw>
-Subject: Re: [PATCH v4 2/2] drm/amd: use fixed dsc bits-per-pixel from edid
-In-Reply-To: <20251016001038.13611-6-iam@lach.pw>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251016001038.13611-2-iam@lach.pw>
- <20251016001038.13611-6-iam@lach.pw>
-Date: Thu, 16 Oct 2025 19:39:57 +0300
-Message-ID: <34407e8d423f0d00e949ba8c6b209cb88e8f5414@intel.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B66C810E08B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 17:18:49 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3ece1102998so820812f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 10:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760635128; x=1761239928; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=R61SKl0heteonfQWMBAG66A3jLT07W0AMS7C2zZswDI=;
+ b=bMtpTj3uputoRlIdFKY/6yly++Dx9Ld+KF91DCSu7zkm9CrmbLDIFpX2YKdhwR3W46
+ pXpqVtry+TELT8BdZmpHL24jv0CCU2XX1M0st8mCCzy1rC24aKxA9DDWaSORJuO30AN8
+ 6J5m0p1GEhXz8A6opSeh7cqmQKorP/k+sqrKwrzR/Z0Xp3ygs5hzM15KLeN/i+tgaL4H
+ eBYO7bPZY7pQX3/zGforxDCh9kf3Eh7Rnowv9/Uk4jyEFwUXT5UMFHRPXqrVhpSMMHuq
+ aHbBuySxnsTKkr7c3A1pN+q3j4rU1e5okmKfHMsgpEgQw0t+XeTQm9CsNiXTLB5Ye1Sw
+ IT5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760635128; x=1761239928;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R61SKl0heteonfQWMBAG66A3jLT07W0AMS7C2zZswDI=;
+ b=a8NcO4BctMNshQUSzLEGhQ2zCcfEJDaNJ24wAySK1elgZpXRRht6oIZKH3qRC1HisU
+ fybp2FTcNhVJatu1JxoI9uZrR3xtVbRvTglyCsxmGfFpzMF2GPPbAAxlOMUNwIMWmFyE
+ aLHGhvX/B3uwB7OPV/jQzxyL3knWhgKKfe2ufbMyM7JXVskjSkWxTakHBxic0mxbtq+r
+ HS7Qhp8C7BzkpM5QteRdqSdvJ1w4h2rHICbTDhWmNJsMBBQ1idCXXRr3DrHU1z9/mlXb
+ ZzGna16GpA+C6Y8BPd1xqeYovNAHwswPrVIVv5BHjyGk1aEORg+3QI0W2U891MFtIwja
+ yW6A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVD3C3cNVjlzZm4IMQ1rEf2ijXFt15CtUl2CN4/xuazNL8GW50T2qRZS0HrV8VRA/V+xVKmr6S+LOQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyir/Eyds+ycdWShW6Gxe2u5DUIvCW2npqkCOqNT+XmamNFBgsJ
+ G5dOS0VgWKAO/HDoVg35gQdCc9tR+fMqIWNaAg0zAM4yPJGZqtV+oQuV
+X-Gm-Gg: ASbGncuDph3rgEEmkZ5aiCS3JPk2/p64GiR2O1qfICeUwimNMl/uSkI2ZvheIRnvpYq
+ Tfzx2Lm/JM45AZFRho6nxxNUTisIqBCZKhC/rVey3AMxx7w/P0Gu1QNzmV78h/+4mKpFskZExRp
+ OzdniFbqO36BNerdSmxd+B3SUEajSdstQBNAl/RaVT6Bd49Q+lfoAngjBn2qHrv+R/7sj7suxjY
+ 2LQKVUj42LAoMy+siTUE2lOejTJgQ6AEO6tklg6aTUXaDNew/1lWlE9bRZLeyQq7pMXrKc+ALCX
+ 9Z7VoqniRqSXpIV7VPomGfLS5nFxcxc0iL2yXXewYbZMiKZh777yP5FO1PxOw5OosD8FouVtWHr
+ d4bVNohB2sUvH1PzX4SSQIE+7XAoktZl3ig/mEJTEjIGMfFUWtPcdVhPd+ACybe/dWhau/y1s17
+ hcS4dwfXNjCeUT1tTvTzuNoDYsXQnF9iYE
+X-Google-Smtp-Source: AGHT+IGtxy9t5BEeTVIETxG2Z41hQ7E4hmY7HEIitTLwANiVPbSqfV1FzBoCuUQpqq4aGGwjVLWXHA==
+X-Received: by 2002:a5d:5f82:0:b0:426:d54a:67e with SMTP id
+ ffacd0b85a97d-42704dc9bffmr775251f8f.44.1760635127949; 
+ Thu, 16 Oct 2025 10:18:47 -0700 (PDT)
+Received: from dell (117.red-81-33-123.dynamicip.rima-tde.net. [81.33.123.117])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4711442dbaesm39349145e9.8.2025.10.16.10.18.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Oct 2025 10:18:47 -0700 (PDT)
+From: Javier Garcia <rampxxxx@gmail.com>
+To: deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shuah@kernel.org,
+ Javier Garcia <rampxxxx@gmail.com>
+Subject: [PATCH] fbdev: vga16fb: Request memory region.
+Date: Thu, 16 Oct 2025 19:18:45 +0200
+Message-ID: <20251016171845.1397153-1-rampxxxx@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +88,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Oct 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
-> VESA vendor header from DisplayID spec may contain fixed bit per pixel
-> rate, it should be respected by drm driver
->
-> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 0d03e324d5b9..ebe5bb4eecf8 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6521,6 +6521,11 @@ static void fill_stream_properties_from_drm_display_mode(
->  
->  	stream->output_color_space = get_output_color_space(timing_out, connector_state);
->  	stream->content_type = get_output_content_type(connector_state);
-> +
-> +	/* DisplayID Type VII pass-through timings. */
-> +	if (mode_in->dsc_passthrough_timings_support && info->dp_dsc_bpp != 0) {
-> +		stream->timing.dsc_fixed_bits_per_pixel_x16 = info->dp_dsc_bpp;
-> +	}
+This patch reserve and release VGA memory region with `*_mem_region`
+fn's.
 
-If we had mode->dp_dsc_bpp_x16 directly, or something better named, this
-would be simpler. This will eventually be replicated in a bunch of
-drivers.
+This align with Documentation/drm/todo.rst
+"Request memory regions in all fbdev drivers"
 
-BR,
-Jani.
+I've tested with kernel and qemu both 32bits.
 
->  }
->  
->  static void fill_audio_info(struct audio_info *audio_info,
-> @@ -7067,6 +7072,13 @@ create_stream_for_sink(struct drm_connector *connector,
->  					&mode, preferred_mode, scale);
->  
->  			preferred_refresh = drm_mode_vrefresh(preferred_mode);
-> +
-> +			/*
-> +			 * HACK: In case of multiple supported modes, we should look at the matching mode to decide this flag.
-> +			 * But what is matching mode, how should it be decided?
-> +			 * Assuming that only preferred mode would have this flag.
-> +			 */
-> +			mode.dsc_passthrough_timings_support = preferred_mode->dsc_passthrough_timings_support;
->  		}
->  	}
->  
-> @@ -7756,7 +7768,7 @@ create_validate_stream_for_sink(struct drm_connector *connector,
->  			drm_dbg_kms(connector->dev, "%s:%d Validation failed with %d, retrying w/ YUV420\n",
->  				    __func__, __LINE__, dc_result);
->  			aconnector->force_yuv420_output = true;
-> -		}
-> +}
->  		stream = create_validate_stream_for_sink(connector, drm_mode,
->  							 dm_state, old_stream);
->  		aconnector->force_yuv422_output = false;
+Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+---
 
+When I've run the code always return -EBUSY which makes sense as
+mem is already requested,`/proc/iomem` shows `000a0000-000bffff : Video RAM area`.
+
+I've seen that `cirrusfb` has this kind of code wrapped up with `#if 0`, and I
+wonder if it makes sense to also wrap up with `#if 0`, at least , in
+that way the code gets commented about expected behavior.
+
+
+ drivers/video/fbdev/vga16fb.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+index eedab14c7d51..f506bf144a97 100644
+--- a/drivers/video/fbdev/vga16fb.c
++++ b/drivers/video/fbdev/vga16fb.c
+@@ -1319,6 +1319,11 @@ static int vga16fb_probe(struct platform_device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	if (!request_mem_region(vga16fb_fix.smem_start, vga16fb_fix.smem_len,
++				"vga16b")) {
++		dev_err(&dev->dev,"vga16b: cannot reserve video memory at 0x%lx\n",
++		       vga16fb_fix.smem_start);
++	}
+ 	printk(KERN_DEBUG "vga16fb: initializing\n");
+ 	info = framebuffer_alloc(sizeof(struct vga16fb_par), &dev->dev);
+ 
+@@ -1398,6 +1403,8 @@ static int vga16fb_probe(struct platform_device *dev)
+  err_ioremap:
+ 	framebuffer_release(info);
+  err_fb_alloc:
++	release_mem_region(vga16fb_fix.smem_start,
++		    vga16fb_fix.smem_len);
+ 	return ret;
+ }
+ 
 -- 
-Jani Nikula, Intel
+2.50.1
+
