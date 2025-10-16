@@ -2,59 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DDDBE3BBD
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 15:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7C6BE3CC0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 15:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC01610E08A;
-	Thu, 16 Oct 2025 13:36:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bnnSEeWh";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E3C10E03B;
+	Thu, 16 Oct 2025 13:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459B310E06B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 13:36:15 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 53CE0C041CD;
- Thu, 16 Oct 2025 13:35:53 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 8656A6062C;
- Thu, 16 Oct 2025 13:36:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 213E4102F22EF; 
- Thu, 16 Oct 2025 15:36:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760621771; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=8hlnduBps2CCSYzZqpb5CLnowbo1EYG2ZwR0jxQsXj8=;
- b=bnnSEeWhKYEVbruz9l2dL0xE/3Ra47wG9Ly3XxMwQsX5E0GEZzTOVG6D0eVkvCDLhZyNwO
- FvW7GTPa1KqwsikenCJTxC6ii1WYsNz/kh/NwBxWrtGhtFqqxzJ5ogrw2vXzQbSNATBjCd
- P023c0dKp9XL756GfgsPT1nIO7zo7aLZSpo790eUDblWV6C2QpefCKVo8Ax2fx8njJBba9
- P7jMq13dx/jhpWiIAEZ1x7Gk2Cr/s3PZq+aA6GAmYrwptE0fLfPPE4uCQWZ8srJx0/DmfX
- QUbX7RJtQaoRupKR9vJ1oljYDIU+iTFVcmFD0/h+F1VoGzj1EsKp1Blcvdi1Cg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Oct 2025 15:36:00 +0200
-Message-Id: <DDJSBQRQJTMZ.X1W4I5YOURPK@bootlin.com>
-To: "Naresh Kamboju" <naresh.kamboju@linaro.org>,
- <dri-devel@lists.freedesktop.org>, "open list"
- <linux-kernel@vger.kernel.org>, <lkft-triage@lists.linaro.org>, "Linux
- Regressions" <regressions@lists.linux.dev>
-Cc: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Simona Vetter"
- <simona@ffwll.ch>, "David Airlie" <airlied@gmail.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>, "Dan Carpenter"
- <dan.carpenter@linaro.org>, "Anders Roxell" <anders.roxell@linaro.org>,
- "Ben Copeland" <benjamin.copeland@linaro.org>
-Subject: Re: next-20251014: Internal error: Oops:
- drm_bridge_connector_hdmi_cec_init drmm_connector_hdmi_cec_register
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <CA+G9fYuKHp3QgPKjgFY3TfkDdh5Vf=Ae5pCW+eU41Bu=D7th2g@mail.gmail.com>
- <CA+G9fYv_mGoDzFv33v7Y5+6yz6z=xp9FJRiFUBYDapvE_rrBXA@mail.gmail.com>
-In-Reply-To: <CA+G9fYv_mGoDzFv33v7Y5+6yz6z=xp9FJRiFUBYDapvE_rrBXA@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7682310E03B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 13:48:59 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id
+ a1e0cc1a2514c-8e3d93c0626so520290241.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 06:48:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760622538; x=1761227338;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tIs3qdLP3F/YAW7YsgnmPdGp6LZDuxUynC8+HjYB7O8=;
+ b=lUHvMjnrQ8otDh6yDmknssNfwMhHoeh3EvxwZc+AbCYJjwlUq0fdiqr3aeymmOcATx
+ zCvcm9khhLTJVsFMR6C923gzsKl9s04t6z96aKAg7AB7fLHyi5DsgLtPKO48syWwQGJs
+ zoc8KSHeZBX9kHMWgCWSbEpL5VO2XNbfSHhTOCl0SGHYQ0Dp5s8EyASY7OvvYVuQzJXZ
+ /Ngbae85FIXRKERjlVmvUB8kkVmiC6FDa45FHiNa2mAQ89CiahI4XyxySnpBe2U2wfH6
+ h3v8CrZAhl8IhdAtMwygPPA+ogqcoGowDBGK1wWheyGGCshcCUG/gDHHo+myF/xIVv6K
+ YVcg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW2m58FeS3XYFOBlDXQP8eQnh7I6eYZoDr2eaw2zA4JWxqnGUEcpI0O/qKYKExxaBhJjw9vQ97X0fY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKG0TGxK6blQQUp2etSV+v/cwFt23IF33MdTquIatbz0qfKZEI
+ +zNbkYd4I/2lyWo5v6wJzOFR0YhCYXFxnlOIdFu6qB5HrDi2DQiVhrxfjeJIsliM
+X-Gm-Gg: ASbGncsidpxCuQ6lLjuQ9ybberuozbPk070GgZLxKlhz7r2IOdrGHW003BbEMdbgM85
+ o1JGTMj6AoLje3/sqRXmX9Suswnkncaf3MYmpkbJ6mUCCSlXVvRPxt6RAb0vys5rwzB5r4C8Lqt
+ DtfDnN3yFlKIqA90a+b4Pk5qwpdJ9Vcw3M97XmvBUjbOVrspnA1Z6xfZvT9INSUPcAw3DyhnG0P
+ ZaBeKitgpxado9m2afYmKK9kZSUvZwNE+3e508tCB//ALRyruY0DHDt4ynTuERkMA39uhYr5j9L
+ /qmHfXiCNZdnr1dvdQkz6vSjOulGCzTXOKNwvtDv/Li7SgPKSMADdw6xIGFwkAtG1MhK1Qobmxw
+ xjNRcoeO/EAr637UUZV2qjIofbEdye1Qrpj55IwunBcCDG5vBq2b26XkQMIbhJjFtOyMc+HpFYT
+ W/AoAvHfUgKePONp0EHihQSldabux6qQpuTkd90SWbCA==
+X-Google-Smtp-Source: AGHT+IGsu7q0cWJzOv+Ya/oI52QCOsuL/AkypAgEz80PPlIlVN+R4/PHSrNZe5STwH+jhuyCyyxxwA==
+X-Received: by 2002:a05:6102:2587:10b0:5cd:e513:384d with SMTP id
+ ada2fe7eead31-5d7ce0e57bemr1369466137.0.1760622538079; 
+ Thu, 16 Oct 2025 06:48:58 -0700 (PDT)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com.
+ [209.85.221.169]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-93106c9d280sm524120241.17.2025.10.16.06.48.57
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Oct 2025 06:48:57 -0700 (PDT)
+Received: by mail-vk1-f169.google.com with SMTP id
+ 71dfb90a1353d-5563c36f6d4so536223e0c.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 06:48:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGQlIWATD1InqemgyBWCXpkU5RJx1nVcGbY52jzrQHf0AvHgmLLGV/PxNZnBuQYsFUgUCtnvMV+Mk=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:5088:b0:5d5:f6ae:3905 with SMTP id
+ ada2fe7eead31-5d7ce7f9f8cmr1588639137.22.1760622126274; Thu, 16 Oct 2025
+ 06:42:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250912142056.2123725-1-chris.brandt@renesas.com>
+ <20250912142056.2123725-2-chris.brandt@renesas.com>
+In-Reply-To: <20250912142056.2123725-2-chris.brandt@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 16 Oct 2025 15:41:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWEjUzpu_-pukUxHBFDqw_+xjE9gy4MTKz-39bwDGCuTg@mail.gmail.com>
+X-Gm-Features: AS18NWDpgOC-c34fem89ycndlFrZkPR3jTMZt246SCjZMhsihbRFxV1WKYaC9YE
+Message-ID: <CAMuHMdWEjUzpu_-pukUxHBFDqw_+xjE9gy4MTKz-39bwDGCuTg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>, 
+ Hugo Villeneuve <hugo@hugovil.com>, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +94,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Naresh,
+Hi Chris,
 
-On Thu Oct 16, 2025 at 12:52 PM CEST, Naresh Kamboju wrote:
-> On Thu, 16 Oct 2025 at 16:14, Naresh Kamboju <naresh.kamboju@linaro.org> =
-wrote:
->>
->> While booting and loading kernel modules on dragonboard 410c board
->> with Linux next
->> kernel next-20251014 and next-20251015 the following crash noticed,
->>
->> First seen on next-20251014
->> Good: next-20251013
->> Bad:  next-20251014
->>
->> Regression Analysis:
->> - New regression? yes
->> - Reproducibility? yes
->>
->> Boot regressions: next-20251014: Internal error: Oops:
->> drm_bridge_connector_hdmi_cec_init drmm_connector_hdmi_cec_register
+On Fri, 12 Sept 2025 at 16:22, Chris Brandt <chris.brandt@renesas.com> wrote:
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
+>
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
+> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
 
-Thanks for the report.
+Thanks for your patch!
 
-This looks like the same issue reported here:
-https://lore.kernel.org/all/336fbfdd-c424-490e-b5d1-8ee84043dc80@samsung.co=
-m/
+> --- a/include/linux/clk/renesas.h
+> +++ b/include/linux/clk/renesas.h
+> @@ -33,3 +33,7 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+>  #define cpg_mssr_detach_dev    NULL
+>  #endif
+>  #endif
+> +
+> +#ifdef CONFIG_CLK_RZG2L
+> +void rzg2l_cpg_dsi_div_set_divider(int divider, int target);
+> +#endif
 
-I'm writing a fix right now, will send it today if all goes well.
+This needs a dummy for compile-testing the CONFIG_CLK_RZG2L=n case.
 
+Gr{oetje,eeting}s,
 
-> These three patches landed recently,
-> $ git log --oneline  next-20251013..next-20251014
-> drivers/gpu/drm/display/drm_bridge_connector.c
-> 2be300f9a0b6f drm/display: bridge_connector: get/put the stored bridges
+                        Geert
 
-^ This is the commit introducing the bug.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Best regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
