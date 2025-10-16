@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54341BE3604
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 14:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DCEBE3655
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 14:35:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C5CF10E9D5;
-	Thu, 16 Oct 2025 12:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F33810E9D0;
+	Thu, 16 Oct 2025 12:35:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mhih9VdN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cU31ywAt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F1B10E9CD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 12:31:39 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cnS4R5HG4z9v10;
- Thu, 16 Oct 2025 14:31:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1760617895; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RciI0yQhuUPZeo6A3yY1ep1xixpoKjHxUL45hrzYy04=;
- b=mhih9VdNpAVACnEL4eMShtc6vrg7izN3ceS6TKgzCgcsKidiK7IBMDEhR9lyp+x1Lc/wub
- VhHNaDAzLX20iY5L1QXRzZtud7Ta2qZonOyF1hKsvqRpAOB1cBWEx/9OJbR9o2smWjpINu
- Anqsq70dySKPzl1K+Lhh/KxUiASsjBZDewEKwlOmppOnfa7dTzVNWxTv4alBDq6zqJ9MZn
- 9UK8ie+OGndONehGxb+EzoFH+mIxhSeGTNjy7uniPF0GOY2E1rsM51oEj1bdzL3XxtsVn7
- 636/FiZKxQjjo17CPBonnKfscmT5UupKQ9bc4LDNGZQx+qvR579HT6xlx5e3zg==
-Message-ID: <1a83e056df0a0096f85897b569993b0eca3892df.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: avoid killing parent entity on child SIGKILL v3
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- phasta@kernel.org, alexdeucher@gmail.com, dakr@kernel.org,
- matthew.brost@intel.com,  dri-devel@lists.freedesktop.org
-Date: Thu, 16 Oct 2025 14:31:33 +0200
-In-Reply-To: <20251015140128.1470-1-christian.koenig@amd.com>
-References: <20251015140128.1470-1-christian.koenig@amd.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8AFC10E9D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 12:35:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0CFC26040F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 12:35:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF584C4CEF1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 12:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760618118;
+ bh=ev4xi92YkUrDcoVNL6uxLos7Y67B5zzgJ5jAk4NRFmA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=cU31ywAteN8XZ2PzuJZAvKfdJILTDrUSQ/kml3bI1A2vyOtbWOsL0Fpt9GbCsNp3m
+ CLyiryM4DQhHfae/yRTDbZOLZ3vD6ghQV+2g8FFTVXlO7NdskCgGru1H0eotHlWdja
+ Pu5z2ZjW4D/XxVBy6FMvYJg/dbVlt2osWef5TH3Yo74MmcSVJ9SYM19TepJNvnW87h
+ qiNfytimFYr6GV0jMPQ6Tl5rvWvR0L8XZzttF7kx/MgouC5wkAcsiAamUy1t/swHrK
+ rpQwGpfGaAb98PcmBrTcwuUF6dTAWPG9l0rtYqxtRsbcpx5nFCwF3Zgd8wg/pw8o2A
+ Kk9KUzkcQqzVg==
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-b3da3b34950so106138766b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 05:35:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVp7WomI9mcasUNpX5xh3NCtqBXF43lOBXiNumswu2W9FMsKD3AKvH3N9b4djskeMYppA9Nh9mmGrc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9deuspnFm9zrPOziVjF8eRsxGuMnsmexV2z8jPJXe8WvRi0ZK
+ iNMLtv4uK5itH+MyalQAyeFNP6Vr3LZGrmO5CmuYduqz+5fE/OFSX6t7Zz9IJBhqEntuU3rCUUh
+ u6e2Zhu/lnUIcRClds5kBnMwkD7BGtg==
+X-Google-Smtp-Source: AGHT+IF09IaTWh5hPMByGEhJhbB7ubCMKkjb0+VywtvJIMXMIb9+PKxQo3yMI16LEly4MkZbwkJSOQahzjMiqRuOFZw=
+X-Received: by 2002:a17:907:9706:b0:b39:57ab:ec18 with SMTP id
+ a640c23a62f3a-b50abfd5472mr3466409966b.45.1760618117323; Thu, 16 Oct 2025
+ 05:35:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20251015-ethos-v4-0-81025a3dcbf3@kernel.org>
+ <20251015-ethos-v4-2-81025a3dcbf3@kernel.org>
+ <aO/4cQ8+eLnwqFSh@lizhi-Precision-Tower-5810>
+ <CAL_Jsq+L2RHgP9FaEpxzzVRybyjeNr84xgEBbU4KEyZtrz63FA@mail.gmail.com>
+ <aPAL67Oct5yJv8/d@lizhi-Precision-Tower-5810>
+In-Reply-To: <aPAL67Oct5yJv8/d@lizhi-Precision-Tower-5810>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 16 Oct 2025 07:35:06 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+sEYztJKdD0t8uPwwv1uKk_tac3MqQMUgxfrRjRZmz4A@mail.gmail.com>
+X-Gm-Features: AS18NWAqGcCvN_8PgOdkGiiyBvIwDxdosaOdIF4pUQJKs-MAlM8rA_NiueiqS1k
+Message-ID: <CAL_Jsq+sEYztJKdD0t8uPwwv1uKk_tac3MqQMUgxfrRjRZmz4A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] accel: Add Arm Ethos-U NPU driver
+To: Frank Li <Frank.li@nxp.com>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
+ Daniel Stone <daniel@fooishbar.org>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: 50dc5d5c1c8c45d99e2
-X-MBO-RS-META: 5qjho1hzkde6d81njztdaow5fcopk3e3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,77 +83,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-10-15 at 16:01 +0200, Christian K=C3=B6nig wrote:
-> From: David Rosca <david.rosca@amd.com>
->=20
-> The DRM scheduler tracks who last uses an entity and when that process
-> is killed blocks all further submissions to that entity.
->=20
-> The problem is that we didn't track who initially created an entity, so
-> when a process accidently leaked its file descriptor to a child and
-> that child got killed, we killed the parent's entities.
->=20
-> Avoid that and instead initialize the entities last user on entity
-> creation. This also allows to drop the extra NULL check.
->=20
-> v2: still use cmpxchg
-> v3: improve the commit message
+On Wed, Oct 15, 2025 at 4:02=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
+>
+> On Wed, Oct 15, 2025 at 03:36:05PM -0500, Rob Herring wrote:
+> > On Wed, Oct 15, 2025 at 2:39=E2=80=AFPM Frank Li <Frank.li@nxp.com> wro=
+te:
+> > >
+> > > On Wed, Oct 15, 2025 at 12:47:40PM -0500, Rob Herring (Arm) wrote:
+> > > > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
+> > > > relatively simple interface with single command stream to describe
+> > > > buffers, operation settings, and network operations. It supports up=
+ to 8
+> > > > memory regions (though no h/w bounds on a region). The Ethos NPUs
+> > > > are designed to use an SRAM for scratch memory. Region 2 is reserve=
+d
+> > > > for SRAM (like the downstream driver stack and compiler). Userspace
+> > > > doesn't need access to the SRAM.
 
-For the future, commit messages in the patche's comment body are to be
-preferred since it's common kernel style. Same applies to the patch
-version in the title, which should be in [PATCH v3].
+> > > > +static int ethosu_init(struct ethosu_device *ethosudev)
+> > > > +{
+> > > > +     int ret;
+> > > > +     u32 id, config;
+> > > > +
+> > > > +     ret =3D devm_pm_runtime_enable(ethosudev->base.dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     ret =3D pm_runtime_resume_and_get(ethosudev->base.dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+> > > > +     pm_runtime_use_autosuspend(ethosudev->base.dev);
+> > > > +
+> > > > +     /* If PM is disabled, we need to call ethosu_device_resume() =
+manually. */
+> > > > +     if (!IS_ENABLED(CONFIG_PM)) {
+> > > > +             ret =3D ethosu_device_resume(ethosudev->base.dev);
+> > > > +             if (ret)
+> > > > +                     return ret;
+> > > > +     }
+> > >
+> > > I think it should call ethosu_device_resume() unconditional before
+> > > devm_pm_runtime_enable();
+> > >
+> > > ethosu_device_resume();
+> > > pm_runtime_set_active();
+> > > pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+> > > devm_pm_runtime_enable();
+> >
+> > Why do you think this? Does this do a get?
+> >
+> > I don't think it is good to call the resume hook on our own, but we
+> > have no choice with !CONFIG_PM. With CONFIG_PM, we should only use the
+> > pm_runtime API.
+>
+> Enable clock and do some init work at probe() is quite common. But I neve=
+r
+> seen IS_ENABLED(CONFIG_PM) check. It is quite weird and not necessary to
+> check CONFIG_PM flags. The most CONFIG_PM is enabled, so the branch !CONF=
+IG_PM
+> almost never tested.
 
-But that's just a nit. More important:
+Okay, I get what you meant.
 
->=20
-> Signed-off-by: David Rosca <david.rosca@amd.com>
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4568
+>
+> probe()
+> {
+>         devm_clk_bulk_get_all_enabled();
+>
+>         ... did some init work
+>
+>         pm_runtime_set_active();
+>         devm_pm_runtime_enable();
+>
+>         ...
+>         pm_runtime_put_autosuspend(ethosudev->base.dev);
+> }
 
-Should this have a Fixes: ?
+I think we still need a pm_runtime_get_noresume() in here since we do
+a put later on. Here's what I have now:
 
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> CC: stable@vger.kernel.org
+    ret =3D ethosu_device_resume(ethosudev->base.dev);
+    if (ret)
+        return ret;
 
-So we want it in drm-misc-fixes, don't we?
+    pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+    pm_runtime_use_autosuspend(ethosudev->base.dev);
+    ret =3D devm_pm_runtime_set_active_enabled(ethosudev->base.dev);
+    if (ret)
+        return ret;
+    pm_runtime_get_noresume(ethosudev->base.dev);
 
 
-P.
-
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
-> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
-cheduler/sched_entity.c
-> index 5a4697f636f2..3e2f83dc3f24 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *enti=
-ty,
-> =C2=A0	entity->guilty =3D guilty;
-> =C2=A0	entity->num_sched_list =3D num_sched_list;
-> =C2=A0	entity->priority =3D priority;
-> +	entity->last_user =3D current->group_leader;
-> =C2=A0	/*
-> =C2=A0	 * It's perfectly valid to initialize an entity without having a v=
-alid
-> =C2=A0	 * scheduler attached. It's just not valid to use the scheduler be=
-fore it
-> @@ -302,7 +303,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *=
-entity, long timeout)
-> =C2=A0
-> =C2=A0	/* For a killed process disallow further enqueueing of jobs. */
-> =C2=A0	last_user =3D cmpxchg(&entity->last_user, current->group_leader, N=
-ULL);
-> -	if ((!last_user || last_user =3D=3D current->group_leader) &&
-> +	if (last_user =3D=3D current->group_leader &&
-> =C2=A0	=C2=A0=C2=A0=C2=A0 (current->flags & PF_EXITING) && (current->exit=
-_code =3D=3D SIGKILL))
-> =C2=A0		drm_sched_entity_kill(entity);
-> =C2=A0
-
+Rob
