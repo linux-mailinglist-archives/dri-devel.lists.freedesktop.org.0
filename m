@@ -2,144 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A50BE1686
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 06:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2067BE19C2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 07:56:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82B010E080;
-	Thu, 16 Oct 2025 04:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5DC210E173;
+	Thu, 16 Oct 2025 05:56:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="PMipPDug";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QX6T8jHl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012037.outbound.protection.outlook.com
- [40.107.200.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 538DE10E080
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 04:10:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X9M/liqiJwoZk5d00vmFdvfSU7hbjTCmMLDgxS+AVn44GPNGODF9UNVg3dRGSdIAxV2GY2VqJ13jv402AHqapH132mMs5BZ1E/fvy07LUkpPDPPMtpUdVjAoqY6vg4AO2ruawIlltsZhXQDErkUyZW/y41flK6ait44esut/gfEcJeKXNWA6KVDxHd0bGfbPFXarVFSx0SNaqm72VMGvIzcfwgtIvyozDCwM/KUv4Ki/Vw1Spu+tm5vLQ7/n9NxvbSCbQWlxAY3c1ec2jkAR2Ej2W3MpRPXy7ndfG0xPxUr/gQqFdnCEY5fmhBACH3NJR9mK9+gw7nAYHQNJ6ibr4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tzQ4tnfmli0RcUF7968vYelvjg1xf5gzjtt5FmtxTN0=;
- b=sGks4lc2bbPlylbNLQ+fumZ64dLAVLo8RT50HJ6hmCjWQSsEBYP7f7yyQmMS1DMoPTe+yiIDqI8qAqP0q2gqftgUA6xYeZ4xx6KkSb8OWDGvfaJmtkCUrcaXYUbhyajBhtZaao1kyXKE6kE/u9rXYvdcbRpF588gQMSpFTYt1uxMAklunL5QNGhJVtmvxFK1C2xW0pb2x9TMj+JtLSxqKyB0PSrlvVIHHEZ6t5GaXrrQoUTHqKldZxdN2HwzfIxr3X41XYflnT/rHr9+k9y8B3KOZcia6gYbiMNs496Lto2u3+r/WYhCTb+nlH3OpYS7lBkJXqlE1V6SXpas2748Eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tzQ4tnfmli0RcUF7968vYelvjg1xf5gzjtt5FmtxTN0=;
- b=PMipPDugQKjH9U6e7JuO/pSKNbrtB238aHm5C8LQrrsk+aTmzTRBh2Ox7qaI98tCvyK+DYqt5OxcEvsTx2AGlJyOI9MrrHEz7rdEfb7eHbHTEQLosUr4vKPxO11ZthBWoSgLsu7TVa9/LIpbYpPiH3b/6kGGsG27m9wFmR+o6TTQulq/MZvUm6X7aNNzvKtkZpz4HCmu06hUpgK7IadPA23exlnDLNRPZL+BWEgTnB8SKzwDiQHEtO0ab0PSJveno5kflAg+QPfCK7CRj0z5pyjLkmja11c4uXjsncs61SYaim3FqDDCyz7+AC4ha5uNv5YbOFtlcYKA8GYSx4SyZQ==
-Received: from PH8PR20CA0014.namprd20.prod.outlook.com (2603:10b6:510:23c::24)
- by MN0PR12MB5906.namprd12.prod.outlook.com (2603:10b6:208:37a::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.10; Thu, 16 Oct
- 2025 04:10:09 +0000
-Received: from SN1PEPF000397AF.namprd05.prod.outlook.com
- (2603:10b6:510:23c:cafe::d0) by PH8PR20CA0014.outlook.office365.com
- (2603:10b6:510:23c::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.11 via Frontend Transport; Thu,
- 16 Oct 2025 04:10:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SN1PEPF000397AF.mail.protection.outlook.com (10.167.248.53) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.7 via Frontend Transport; Thu, 16 Oct 2025 04:10:08 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 15 Oct
- 2025 21:09:57 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 15 Oct
- 2025 21:09:56 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 15 Oct 2025 21:09:55 -0700
-Date: Wed, 15 Oct 2025 21:09:53 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Alex Williamson <alex.williamson@redhat.com>, Leon Romanovsky
- <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- <dri-devel@lists.freedesktop.org>, <iommu@lists.linux.dev>, Jens Axboe
- <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, <kvm@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-block@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-pci@vger.kernel.org>, Logan Gunthorpe
- <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "Robin
- Murphy" <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "Vivek Kasireddy" <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 8/9] vfio/pci: Enable peer-to-peer DMA transactions by
- default
-Message-ID: <aPBwEVJSzezdii1V@Asurada-Nvidia>
-References: <cover.1760368250.git.leon@kernel.org>
- <a04c44aa4625a6edfadaf9c9e2c2afb460ad1857.1760368250.git.leon@kernel.org>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A5D10E173;
+ Thu, 16 Oct 2025 05:56:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760594202;
+ bh=v28SW4C2/MMOF14xcWGZoBm6mtw65G/uoNs/VCAmapM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=QX6T8jHlaUjF0jv51uLgXQcAH7TxnY63c9Eq9eYQ1SzI7HC8icxUPRUT+OqhI3q2a
+ aNY85XuyJmUMasOXGX4UFdMBaBlsUXPRsLEkcDqYLhYXLCC87kSqkwEAZTGLVKiRJb
+ RXsiqT3UNRlkB9Txx8SCDvpvuSTsIbsL46Dc0PEWOe5iwjhpl/Mc3MRc2tphIzbg73
+ GsyPOGwRLs/KVDy6n4d58AS2lyJfGM/dCUIdWvij/K5YtOzG7UDxC2nkMq34mPuzvY
+ LXm8HjtBEZEL6kXwi2xc4qY3QLgDb9uYZIci2jO8EuCNonyr6x82jtHXk4wRc+X800
+ 5sfj3NaFXCraQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0EE9017E05FE;
+ Thu, 16 Oct 2025 07:56:41 +0200 (CEST)
+Date: Thu, 16 Oct 2025 07:56:37 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v4 08/13] drm/v3d: Fix builds with
+ CONFIG_TRANSPARENT_HUGEPAGE=n
+Message-ID: <20251016075637.3aec3465@fedora>
+In-Reply-To: <efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+ <20251015153018.43735-9-loic.molinari@collabora.com>
+ <20251015201737.3956f801@fedora>
+ <efc1d805-1613-45a9-aa15-fcc009adf27c@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <a04c44aa4625a6edfadaf9c9e2c2afb460ad1857.1760368250.git.leon@kernel.org>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397AF:EE_|MN0PR12MB5906:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0dc8bf67-cbb6-4b73-e83d-08de0c69e53f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aOPCMNXt69vGompbXz9hLA4vo9aZ8TdLP4131mGwisgZM9JQ0s7SfGcop+Km?=
- =?us-ascii?Q?Tg5BJ3EwtevNrg5gDIu9jC3/iS7Ld/qr9XoNMoVGt5dEW9UNnPTVP1labE0k?=
- =?us-ascii?Q?eQy0QHU3dsWh9ettL8EUXUIYJ+nnqrdjoAvJGJQN11ZsmsuNhVpsMEx7C6ez?=
- =?us-ascii?Q?lKVro4LjLvnvoQyrJv8Wrx2KIY8KgJwZv03KcSnbxBGr22vVrRg1rcT7swKC?=
- =?us-ascii?Q?dEJ+W1nP9PeZNd9/gblFUhuNCvpp7otniTdh2s7q6zwciioi1aDPljx1kl4n?=
- =?us-ascii?Q?S2Fs26i8xXvlUd8iVI+OUGdnRwNyQL4bMAydGMoaem3oXjyzu2jw/dDdTJmw?=
- =?us-ascii?Q?kdx9/HWjWY7KMLUNGEoCyLc1DC1T7n3XgcfXZZeRBnZ5/SFOXvumpe+nf2PH?=
- =?us-ascii?Q?+EBTL7CKRsXt4GsWP9AFlUGnTFC+t1DyHQdOn1cIFSJzhQyvm24Tj8OsR+tC?=
- =?us-ascii?Q?zHrynP6axdGREtF/9pmapYYflLZGOi+AajS0BlCWVCpsYtxYjcOdRHi/Qadj?=
- =?us-ascii?Q?/VmB2zZPprh6Eb+1GOUbjx/qfYABOIJq4ybamo7+U+WSkchwkCeHFqi4+H6/?=
- =?us-ascii?Q?Xs/PyagljB8zBTx/z+F73a4k+y/3kfGX9OppNeCDLyatuYNss/LyyLjKNKRN?=
- =?us-ascii?Q?AQzwoh4+E2v7yPhdm6nGmCBCL4kug108xRi/byv03GPj3Se27ZNf6WTbPeST?=
- =?us-ascii?Q?M3Y95nlWhlicY1WA84dXzDAAFZOoP56V3T2UrxakQa1E81QOBGyYTkUaWpbB?=
- =?us-ascii?Q?5c7J6vARdGNuZ95MGK65zgVXTngNr3/L5JO6SqNwrIMFfS3Lv7pGYVbkfFNQ?=
- =?us-ascii?Q?sdwXQ7AarYkmmD7ZwoFyDg6E6raeXLMZBBishTIMg54CIoI+w5p0oOESHQa3?=
- =?us-ascii?Q?3Euz+9uTqBG9WYTcUxmughI1yjWebiVUiFz07BgEc+1wlvZroFbtW7OS7pLi?=
- =?us-ascii?Q?54OunjQUKVCFn5x8G19okZeCP4Iwrz4lQ9asPV0M0YOVkzB5KxL6OtC8T+P3?=
- =?us-ascii?Q?DEDkuIPIQC+fHmp+5+cf5o13XM3/YWYPUUnnOuKTaJibHZ1+oiSCXxoGZRXQ?=
- =?us-ascii?Q?dEr14GYEr/mc6sTD8e2UK8ZHPnZvclhz2lTtcD7S2Si2uP58teIOc/M12UIL?=
- =?us-ascii?Q?NOfNBy5wVav7SJYS6VbJrKfNoDRl1Ec/u2WtXjyCoSf7LPMvWzuXE8EFIf/N?=
- =?us-ascii?Q?Q0Pp7KML1SNADmnH0o+6DG44ktax5X2hOwSlCfCxd4jETQn1M1C8vGGPoZC/?=
- =?us-ascii?Q?62Bsb2txx+aoSr0FNjQo9nSqUdzYDUgLfzZ6JtM6aJ0pmhSf/bZc6o8Kl6Wy?=
- =?us-ascii?Q?/8LfQfy/oGAEJDzKkHDKKA9UW8/dFcQQc7GIdyEg9XddEfXr7Z30iL+8Z6GW?=
- =?us-ascii?Q?zsIr4TpHJEO++okrgar0EmUx6DQFL99CLIBeUs9Xv43n6Wu1bmnRLhdi3XOc?=
- =?us-ascii?Q?S9hM0eF3Xt+ujsKctSZVGQ6F/aEEzZ2R9lmQtlUZ+3IEaZ1tzHVLiK6QXMWR?=
- =?us-ascii?Q?747Ni/xiClJcO8q0XeKXjpGGiDnf52zhtfuxu66bBvsvik3z8DhuPZGVcxqF?=
- =?us-ascii?Q?hAI03rVVLexi0Ff3nTI=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 04:10:08.8892 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0dc8bf67-cbb6-4b73-e83d-08de0c69e53f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000397AF.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5906
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,24 +81,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Leon,
+On Wed, 15 Oct 2025 22:41:59 +0200
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-On Mon, Oct 13, 2025 at 06:26:10PM +0300, Leon Romanovsky wrote:
-> @@ -2090,6 +2092,9 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
->  	INIT_LIST_HEAD(&vdev->dummy_resources_list);
->  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
->  	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
-> +	ret = pcim_p2pdma_init(vdev->pdev);
-> +	if (ret != -EOPNOTSUPP)
-> +		return ret;
->  	init_rwsem(&vdev->memory_lock);
->  	xa_init(&vdev->ctx);
+> On 15/10/2025 20:17, Boris Brezillon wrote:
+> > On Wed, 15 Oct 2025 17:30:12 +0200
+> > Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+> >  =20
+> >> Don't declare "super_pages" on builds with CONFIG_TRANSPARENT_HUGEPAGE
+> >> disabled to prevent build error:
+> >>
+> >> ERROR: modpost: "super_pages" [drivers/gpu/drm/v3d/v3d.ko] undefined! =
+=20
+> >=20
+> > I believe this is a bug introduced by the previous commit: the
+> > compiler probably drops any code between the
+> > IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) check and the err label
+> > because IS_ENABLED() evaluates to false at compile time. So I'd squash
+> > those changes in the previous commit. =20
+>=20
+> Right, it's been introduced in previous commit.
+>=20
+> > =20
+> >>
+> >> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> >> ---
+> >>   drivers/gpu/drm/v3d/v3d_drv.h | 2 ++
+> >>   drivers/gpu/drm/v3d/v3d_gem.c | 2 ++
+> >>   2 files changed, 4 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_d=
+rv.h
+> >> index 99a39329bb85..481502104391 100644
+> >> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> >> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> >> @@ -564,7 +564,9 @@ extern const struct dma_fence_ops v3d_fence_ops;
+> >>   struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_que=
+ue q);
+> >>  =20
+> >>   /* v3d_gem.c */
+> >> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >>   extern bool super_pages;
+> >> +#endif
+> >>   int v3d_gem_init(struct drm_device *dev);
+> >>   void v3d_gem_destroy(struct drm_device *dev);
+> >>   void v3d_reset_sms(struct v3d_dev *v3d);
+> >> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_g=
+em.c
+> >> index 635ff0fabe7e..0039063eb8b2 100644
+> >> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> >> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> >> @@ -269,7 +269,9 @@ v3d_huge_mnt_init(struct v3d_dev *v3d)
+> >>   	 * match our usecase.
+> >>   	 */
+> >>  =20
+> >> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >>   	if (super_pages)
+> >> +#endif
+> >>   		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size"); =20
+> >=20
+> > Why not
+> >=20
+> > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >    	if (super_pages)
+> >    		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> > #endif
+> >=20
+> > I guess
+> >=20
+> > 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
+> > 		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> >=20
+> > would also do, since it's likely to rely on the same optimization the
+> > previous v3d_gemfs_init() implementation was relying on, but it's
+> > fragile (not sure what happens when compiled with -O0). =20
+>=20
+> I'll remove the #ifdef/#endif around the super_pages declaration in=20
+> v3d_drv.h because it isn't necessary if super_pages is compiled out in=20
+> v3d_huge_mnt_init().
+>=20
+> In v3d_huge_mnt_init(), I'd add the #ifdef before the ret variable=20
+> declaration and the #endif right after the last else so that it's clear=20
+> drm_notice("THP is recommended...") is called unconditionally when=20
+> CONFIG_TRANSPARENT_HUGEPAGE=3Dn, whatever the optim level. What do you th=
+ink?
 
-I think this should be:
-	if (ret && ret != -EOPNOTSUPP)
-		return ret;
+First off, I'm not a huge fan of the following pattern
 
-Otherwise, init_rwsem() and xa_init() would be missed if ret==0.
+#if foo
+	if (xxxx)
+#endif
+		do_something
 
-Thanks
-Nicolin
+which also applies to
+
+#if foo
+	if (xxxx)
+		do_xxx
+	else if (yyy)
+		do_yyy
+	else
+#endif
+		do_something
+
+I'd rather have do_something duplicated in an #else section
+like that:
+
+#if foo
+	if (xxxx)
+		do_xxx
+	else if (yyy)
+		do_yyy
+	else
+		do_something
+#else
+	do_something
+#endif
+
+But I'm not even seeing what the problem is here. If you do:
+
+	int err =3D 0;
+
+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+    	if (super_pages)
+    		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+#endif
+
+	if (v3d->drm.huge_mnt)
+		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+	else if (err)
+		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n", err);
+	else
+		drm_notice(&v3d->drm,
+			   "Transparent Hugepage support is recommended for optimal performance =
+on this platform!\n");
+
+You're guaranteed that err=3D0 and v3d->drm.huge_mnt=3DNULL when
+CONFIG_TRANSPARENT_HUGEPAGE=3Dn, so the "THP recommended"
+message should be displayed unconditionally. Am I missing
+something?
