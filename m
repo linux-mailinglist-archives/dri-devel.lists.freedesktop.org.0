@@ -2,103 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB20BE3DC1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 16:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485C3BE3EA8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 16:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D47610E9FA;
-	Thu, 16 Oct 2025 14:16:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zlt+UnnN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IqrEDhAl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jHy0/mwM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+NzSJ3AG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16B410E06D;
+	Thu, 16 Oct 2025 14:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4199610E9F7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 14:16:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E11F321BF7;
- Thu, 16 Oct 2025 14:16:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1760624169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=U9HiW0csL64PGVLL/A7OOQURLF/VAC4SlrUV07GW78k=;
- b=zlt+UnnNjEH2mkLR2bIJQVAerNQS88FjcFSYm8phXM2Yf1US34K+fnW3jdIHRqW1S2+zqJ
- 5ycnExrncNv9n3bhDWq3SRx1pQ8pcDDYZJoF5wrKJ1oiXuCa0G5jJVKNAvrv9GYtoeVTtN
- Zipdxk7w/t1ezEjtzUHk0ZYHF3F0D0c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1760624169;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=U9HiW0csL64PGVLL/A7OOQURLF/VAC4SlrUV07GW78k=;
- b=IqrEDhAlVXc00Jwe24Nk+LV4HGT4u9xCG8WnEGESk8K6N9+XPGz0TFALiRdki38cjzixJ1
- okMV4MbhQhPNRlCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1760624168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=U9HiW0csL64PGVLL/A7OOQURLF/VAC4SlrUV07GW78k=;
- b=jHy0/mwMNqAY3UF07ZFfbxLNy6RdrQ/dGZuUwZiZ2FuDjBe2Zh0DxKA+8IdyF32j45bAWh
- 2ipbOGYhb1KvTSOqmY9ILRbRQUx1mmP1y8cDtJRRewrotv/MPD6G1q/4rhT8Chr2ULZ7FB
- 7XnFQn7LCLvrLn/vaGJpmQxgPU28YzQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1760624168;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=U9HiW0csL64PGVLL/A7OOQURLF/VAC4SlrUV07GW78k=;
- b=+NzSJ3AGasAl9JV7yTSWbOWZY0JdL72gdjcA93+RAPg+Ev+nuIfql6dfPETt3kZ8GmXNXa
- FbvdSYB2hHYdxqCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 63B661376E;
- Thu, 16 Oct 2025 14:16:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 4OPqFij+8GgWdAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 16 Oct 2025 14:16:08 +0000
-Date: Thu, 16 Oct 2025 16:16:07 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20251016141607.GA73919@linux.fritz.box>
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
+ [209.85.221.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28AF310E06D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 14:32:16 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id
+ 71dfb90a1353d-54aa0792200so557756e0c.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 07:32:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760625135; x=1761229935;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7OKo+B/N8OpvVSgOheqCo9k1dnTlp+LYue6K4y6i8Mc=;
+ b=DU6AuMWWpt+qaqu6uwbEb4NtzcTRJmHonOc16NUsIhWHOqYAhjiN+uyoKcDgECjuv+
+ VY3q4mw6Ex75Dzo6bkmJwgeVwjUiJyBtUE4aCEvh7c/925a7+UQDxwNY+CaO8108cVG4
+ tXGXjBbQIOnL1IDKXrLZJlBBCvBvEe+NDvkYIt/MzHhK8H/WP+St3PKKy0Nhn5G7dalI
+ llEmD8+wkNykMg/PUwFWPU3g8d92RajW7N4HAr5NpkSxbssmZV/4GPnCLUbQy2vJnCOM
+ op29ScXCt7li1cMjKfiAOZ5qYV+Mg8wL/DuUl1mFr3tIujW6KgPfHuFFRpJXlWKUX3zY
+ Hcqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVciNdt2CllIQrxPZatb2795vMMv47kGERG/hmRK+G6+4iP7EmDArmJrJ+CapwyFRNdT/B3/xuz52I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyK4UVJeuW5QGrBrRrU0OVPVin9E9X+3Wo7V1RV1TpJxNngFbbk
+ JPaksuD5Puc26bkR3r9G0JypeNWPNYNE3eiRp8iEiII690tU8UDd53sU6Yi7cUQE
+X-Gm-Gg: ASbGncsOVl1FkvUn3Ds5+Dyg31Jfu0cdlQFTLVw46LDEbhURdhZqa9YrMx1WRPIlj6+
+ Bod7DPJvcfbewEyIsnPzAfWKpFNF0/u8OIDXZF946E6FSJtbqBdWuhqVQ3Xgz0tPA/xq7T6TBG8
+ o+CFBh7NnBblKxY9rdG59vWyasOmHCXVxf4KmFOcUb43bDPO1W8NmX2Cxq2TrSa2qyg4E41eCpl
+ 4NWqZ7vFBdM0JliLSc1sVXo68DdewGR8++YTH31XZoP09A0QkBsZqVrBI2l++FtJgBRewSPPRPu
+ HD2PZOSR325utwCj53/R5uwX4D6PvPQNrhSRWeBAGclwgoMm7HCSUfLrIHIu3BldKuxIWOaCzun
+ 4shsKrtUhKwCbhQMFG+W+E3TEND9enZWxUXLDYtDVeof3jBX/HtiOUWaEKne5sq4rZSmi/8LdZW
+ wBNk+m6KxGC9WFlEchq3QuSfHU/vfPIM+DmRM0uX3uzGtT66x8
+X-Google-Smtp-Source: AGHT+IE6hN/KGPoUyINx9P6//IkZEB9otPJk9uXDb0tZb78BJdrvteJC8rkYfZv2J20pjVnjKxu5uw==
+X-Received: by 2002:a05:6122:1789:b0:54a:a251:ad48 with SMTP id
+ 71dfb90a1353d-5564ee90c0fmr241672e0c.7.1760625134793; 
+ Thu, 16 Oct 2025 07:32:14 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
+ [209.85.217.49]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-55634adad1asm1717182e0c.6.2025.10.16.07.32.13
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Oct 2025 07:32:13 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id
+ ada2fe7eead31-5d3fb34ba53so637603137.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 07:32:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWlxPjZc9CdfpH48xkZlBFEXCa725CblVZBMzIYvUkQXWCVY5D4u7tYHxCLNLIVLsaZ2/yqoTn6Xag=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:54aa:b0:5a1:3bcf:a93f with SMTP id
+ ada2fe7eead31-5d7dd555922mr220616137.4.1760625133095; Thu, 16 Oct 2025
+ 07:32:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[16];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
+ <20251015153952.185249-2-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdVdW+tMA1=g9D+BQV0fk0kis8FzyQgf7BpN-u=pi5eQfA@mail.gmail.com>
+ <51ff107d-126d-4481-b94a-f614f31c7bb8@mailbox.org>
+ <CAMuHMdW+_1NZYdXrGsNcHkuvh_ym9148BRB+d0Wbz1oZrpWCdg@mail.gmail.com>
+ <6f29d7af-a2e5-4412-9575-6368621c1178@mailbox.org>
+In-Reply-To: <6f29d7af-a2e5-4412-9575-6368621c1178@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 16 Oct 2025 16:32:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU9xSeFtLB-jUSUnJb1JHxYDXLe91GhZbT7QVGzYCXkRw@mail.gmail.com>
+X-Gm-Features: AS18NWBZ0iJCimoz06t01ILJ3nlCiaOTwnBjpX9tKhkz8DwVN2SfgQuIjQCiZ2I
+Message-ID: <CAMuHMdU9xSeFtLB-jUSUnJb1JHxYDXLe91GhZbT7QVGzYCXkRw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ linux-arm-kernel@lists.infradead.org, 
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Matt Coster <matt.coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,126 +101,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi Marek,
 
-this is the weekly PR from drm-misc-fixes.
+On Thu, 16 Oct 2025 at 16:13, Marek Vasut <marek.vasut@mailbox.org> wrote:
+> On 10/16/25 12:14 PM, Geert Uytterhoeven wrote:
+> >> which are also never disabled, do we want to disable the GPU by default
+> >> and enable per-board ?
+> >
+> > Yes please. We do the same with renesas,*-mali GPU nodes.
+> > The board may not even have graphical output.
+> > Or do you envision using the GPU for more general and headless operation?
+>
+> The GPU does have GP-GPU compute shader, so even headless system can do
+> compute on the GPU.
 
-Best regards
-Thomas
+How is this handled on other SoCs?
 
-drm-misc-fixes-2025-10-16:
-Short summary of fixes pull:
+> >> I would argue the GPU should be enabled by default, so the GPU driver
+> >> can do a proper power management of the GPU. If firmware is missing, at
+> >> least power it off on failed probe, if nothing else.
+> >
+> > The *_PD_3DG_* domains are powered down anyway when unused.
+>
+> If the driver was bound to the GPU node, then the domain would be surely
+> powered down in control of the Linux kernel driver, without depending on
+> the prior stage to leave it powered down.
+>
+> I think it is in fact better to bind the GPU driver to the GPU IP and
+> let the GPU driver power manage the GPU in a well defined manner,
+> instead of depending on the prior stage to leave the GPU in some
+> specific state ?
 
-ast:
-- Fix display output after reboot
+The domains are powered down by the rcar-sysc PM Domain driver,
+hence the system does not rely on any prior stage taking care of that.
 
-bridge:
-- lt9211: Fix version check
+Gr{oetje,eeting}s,
 
-core:
-- draw: Avoid color truncation
-- gpuvm: Avoid kernel-doc warning
-- sched: Avoid double free
-
-panthor:
-- Fix MCU suspend
-
-qaic:
-- Init bootlog in correct order
-- Treat remaining == 0 as error in find_and_map_user_pages()
-- Lock access to DBC request queue
-
-rockchip:
-- vop2: Fix destination size in atomic check
-The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
-
-  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-10-16
-
-for you to fetch changes up to 5801e65206b065b0b2af032f7f1eef222aa2fd83:
-
-  drm/sched: Fix potential double free in drm_sched_job_add_resv_dependencies (2025-10-16 14:26:05 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-ast:
-- Fix display output after reboot
-
-bridge:
-- lt9211: Fix version check
-
-core:
-- draw: Avoid color truncation
-- gpuvm: Avoid kernel-doc warning
-- sched: Avoid double free
-
-panthor:
-- Fix MCU suspend
-
-qaic:
-- Init bootlog in correct order
-- Treat remaining == 0 as error in find_and_map_user_pages()
-- Lock access to DBC request queue
-
-rockchip:
-- vop2: Fix destination size in atomic check
-
-----------------------------------------------------------------
-Alok Tiwari (1):
-      drm/rockchip: vop2: use correct destination rectangle height check
-
-Ankan Biswas (1):
-      drm/gpuvm: Fix kernel-doc warning for drm_gpuvm_map_req.map
-
-Francesco Valla (1):
-      drm/draw: fix color truncation in drm_draw_fill24
-
-Jeff Hugo (1):
-      accel/qaic: Fix bootlog initialization ordering
-
-Ketil Johnsen (1):
-      drm/panthor: Ensure MCU is disabled on suspend
-
-Marek Vasut (1):
-      drm/bridge: lt9211: Drop check for last nibble of version register
-
-Pranjal Ramajor Asha Kanojiya (1):
-      accel/qaic: Synchronize access to DBC request queue head & tail pointer
-
-Thomas Zimmermann (2):
-      Merge drm/drm-fixes into drm-misc-fixes
-      drm/ast: Blank with VGACR17 sync enable, always clear VGACRB6 sync off
-
-Tvrtko Ursulin (1):
-      drm/sched: Fix potential double free in drm_sched_job_add_resv_dependencies
-
-Youssef Samir (1):
-      accel/qaic: Treat remaining == 0 as error in find_and_map_user_pages()
-
- drivers/accel/qaic/qaic.h                    |  2 ++
- drivers/accel/qaic/qaic_control.c            |  2 +-
- drivers/accel/qaic/qaic_data.c               | 12 ++++++++++--
- drivers/accel/qaic/qaic_debugfs.c            |  5 +++--
- drivers/accel/qaic/qaic_drv.c                |  3 +++
- drivers/gpu/drm/ast/ast_mode.c               | 18 ++++++++++--------
- drivers/gpu/drm/ast/ast_reg.h                |  1 +
- drivers/gpu/drm/bridge/lontium-lt9211.c      |  3 +--
- drivers/gpu/drm/drm_draw.c                   |  2 +-
- drivers/gpu/drm/drm_draw_internal.h          |  2 +-
- drivers/gpu/drm/panthor/panthor_fw.c         |  1 +
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c |  2 +-
- drivers/gpu/drm/scheduler/sched_main.c       | 13 +++++++------
- include/drm/drm_gpuvm.h                      |  2 +-
- 14 files changed, 43 insertions(+), 25 deletions(-)
+                        Geert
 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
