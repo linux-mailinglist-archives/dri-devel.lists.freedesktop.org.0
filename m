@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A9CBE584C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 23:10:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A64BE5858
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 23:10:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD8810EA9D;
-	Thu, 16 Oct 2025 21:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9440F10EA8C;
+	Thu, 16 Oct 2025 21:10:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GLE4WBke";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZvkSEJG7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBF1E10EA96
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 21:10:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0D510EA8C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 21:10:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5DE47455F3;
- Thu, 16 Oct 2025 21:10:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC8A7C4CEF1;
- Thu, 16 Oct 2025 21:10:08 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 60E234ABA4;
+ Thu, 16 Oct 2025 21:10:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE953C4CEF1;
+ Thu, 16 Oct 2025 21:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760649009;
- bh=dIiHINW5Bj1JFH3BL4BlKw1HSHlW2rw7nfPJWBosgAQ=;
- h=From:Subject:Date:To:Cc:From;
- b=GLE4WBkewy5OvAs6L3yyOlgcdFL5cxVgDJlMZ9ApUWis+p6D5BeDj1psH4zQEZCFR
- CRtjnN5ScBO2agtN5sOzFwdIT2BFFIvlI7go+I70fHZFWXzxcGTqBfxSI3rDYW9b7S
- h2YQFuq4+9krqJu8c1H9zfROzafxhic3YeaMobTtdcsuKdqLkeAVpCb+J65PyegfnQ
- kKEPGY6m+7bqGbVm/y0FEqKr6Z96qUULLbqeNEap9K6/HlD+cahy+cMlpuj7JZeD7h
- EPUrtLYBeXqQKwtI0cnluxhItb0/paUbr6HuVkkiZACT8Js1au5J3NEOiR5jvQXaIF
- xwhLRDoN/TrSg==
+ s=k20201202; t=1760649011;
+ bh=OzZYNhfeXWS2afdATzSyTHgckQWTy81RjyXUnXpvsek=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=ZvkSEJG7W+jl46quD71qWUde1mZH8HokREc6AY7+wSrDOwX3LXkijQaMRyV2y1QUk
+ qhaDkebGGvJO2b7dLzkhY3wxDgCzxuZHbRnfGcOag/pvvmdv4XRme1qjwvoz7RYaAE
+ 3xDtHIDEFG24saDOizkm1M+DF/tl/LGMYHmmFbcUYRfWh3CIWSEArtZoYbuGxI6YGD
+ uW6J+DgylTsa4w1cKyXqiQ5TJfFh5AtWAjyChKdmpOSH6/LlktmmkglYKUXmJ/8VFH
+ tXjWq5LgeJM4EiqM6VCsI2gqv/5nwn3hZZYMurny3zqxjfksTddwvBXfeBHQTQSDAi
+ RLQ2BeQJ4PKag==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [PATCH v5 0/2] accel: Add Arm Ethos-U NPU
-Date: Thu, 16 Oct 2025 16:06:03 -0500
-Message-Id: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
+Date: Thu, 16 Oct 2025 16:06:04 -0500
+Subject: [PATCH v5 1/2] dt-bindings: npu: Add Arm Ethos-U65/U85
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADte8WgC/2XPywrCMBCF4VeRrI1kJk01rnwPcZHLxAallUSCU
- vrupuIFcXmGfD9kZJlSpMy2i5ElKjHHoa9DLRfMdaY/Eo++boYClViD4nTthsxl8F5qCm0Azer
- bS6IQb8/O/lB3F/N1SPdntsB8fRUQX4UCXHDnwCkjnLXB7k6UejqvhnRkc6Lgl20A3gwrMwg6O
- IVGq38mv0xj+2aystZ6bORaUhPUH2s+DMTnm6WpbAP1aKR3NsgfNk3TAzZ9i45AAQAA
-X-Change-ID: 20250715-ethos-3fdd39ef6f19
+Message-Id: <20251016-ethos-v5-1-ba0aece0a006@kernel.org>
+References: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
+In-Reply-To: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
@@ -74,94 +71,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Arm Ethos-U65/85 NPUs are designed for edge AI inference 
-applications[0].
+Add a binding schema for Arm Ethos-U65/U85 NPU. The Arm Ethos-U NPUs are
+designed for edge AI inference applications.
 
-The driver works with Mesa Teflon. The Ethos support was merged on 
-10/15. The UAPI should also be compatible with the downstream (open 
-source) driver stack[2] and Vela compiler though that has not been 
-implemented.
-
-Testing so far has been on i.MX93 boards with Ethos-U65 and a FVP model 
-with Ethos-U85. More work is needed in mesa for handling U85 command 
-stream differences, but that doesn't affect the UAPI.
-
-A git tree is here[3].
-
-Rob
-
-[0] https://www.arm.com/products/silicon-ip-cpu?families=ethos%20npus
-[2] https://gitlab.arm.com/artificial-intelligence/ethos-u/
-[3] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git ethos-v5
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Acked-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-Changes in v5:
-- Rework Runtime PM init in probe
-- Use __free() cleanups where possible
-- Use devm_mutex_init()
-- Handle U85 NPU_SET_WEIGHT2_BASE and NPU_SET_WEIGHT2_LENGTH
-- Link to v4: https://lore.kernel.org/r/20251015-ethos-v4-0-81025a3dcbf3@kernel.org
+ .../devicetree/bindings/npu/arm,ethos.yaml         | 79 ++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-Changes in v4:
-- Use bulk clk API
-- Various whitespace fixes mostly due to ethos->ethosu rename
-- Drop error check on dma_set_mask_and_coherent()
-- Drop unnecessary pm_runtime_mark_last_busy() call
-- Move variable declarations out of switch (a riscv/clang build failure)
-- Use lowercase hex in all defines
-- Drop unused ethosu_device.coherent member
-- Add comments on all locks
-- Link to v3: https://lore.kernel.org/r/20250926-ethos-v3-0-6bd24373e4f5@kernel.org
+diff --git a/Documentation/devicetree/bindings/npu/arm,ethos.yaml b/Documentation/devicetree/bindings/npu/arm,ethos.yaml
+new file mode 100644
+index 000000000000..716c4997f976
+--- /dev/null
++++ b/Documentation/devicetree/bindings/npu/arm,ethos.yaml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/npu/arm,ethos.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Arm Ethos U65/U85
++
++maintainers:
++  - Rob Herring <robh@kernel.org>
++
++description: >
++  The Arm Ethos-U NPUs are designed for IoT inference applications. The NPUs
++  can accelerate 8-bit and 16-bit integer quantized networks:
++
++    Transformer networks (U85 only)
++    Convolutional Neural Networks (CNN)
++    Recurrent Neural Networks (RNN)
++
++  Further documentation is available here:
++
++    U65 TRM: https://developer.arm.com/documentation/102023/
++    U85 TRM: https://developer.arm.com/documentation/102685/
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - fsl,imx93-npu
++          - const: arm,ethos-u65
++      - items:
++          - {}
++          - const: arm,ethos-u85
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: core
++      - const: apb
++
++  power-domains:
++    maxItems: 1
++
++  sram:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/imx93-clock.h>
++
++    npu@4a900000 {
++        compatible = "fsl,imx93-npu", "arm,ethos-u65";
++        reg = <0x4a900000 0x1000>;
++        interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&mlmix>;
++        clocks = <&clk IMX93_CLK_ML>, <&clk IMX93_CLK_ML_APB>;
++        clock-names = "core", "apb";
++        sram = <&sram>;
++    };
++...
 
-Changes in v3:
-- Rework and improve job submit validation                                                            
-- Rename ethos to ethosu. There was an Ethos-Nxx that's unrelated.
-- Add missing init for sched_lock mutex
-- Drop some prints to debug level          
-- Fix i.MX93 SRAM accesses (AXI config)
-- Add U85 AXI configuration and test on FVP with U85
-- Print the current cmd value on timeout                                                              
-- Link to v2: https://lore.kernel.org/r/20250811-ethos-v2-0-a219fc52a95b@kernel.org
-
-Changes in v2:
-- Rebase on v6.17-rc1 adapting to scheduler changes
-- scheduler: Drop the reset workqueue. According to the scheduler docs,
-  we don't need it since we have a single h/w queue.
-- scheduler: Rework the timeout handling to continue running if we are
-  making progress. Fixes timeouts on larger jobs.
-- Reset the NPU on resume so it's in a known state
-- Add error handling on clk_get() calls
-- Fix drm_mm splat on module unload. We were missing a put on the
-  cmdstream BO in the scheduler clean-up.
-- Fix 0-day report needing explicit bitfield.h include
-- Link to v1: https://lore.kernel.org/r/20250722-ethos-v1-0-cc1c5a0cbbfb@kernel.org
-
----
-Rob Herring (Arm) (2):
-      dt-bindings: npu: Add Arm Ethos-U65/U85
-      accel: Add Arm Ethos-U NPU driver
-
- .../devicetree/bindings/npu/arm,ethos.yaml         |  79 +++
- MAINTAINERS                                        |   9 +
- drivers/accel/Kconfig                              |   1 +
- drivers/accel/Makefile                             |   1 +
- drivers/accel/ethosu/Kconfig                       |  10 +
- drivers/accel/ethosu/Makefile                      |   4 +
- drivers/accel/ethosu/ethosu_device.h               | 195 ++++++
- drivers/accel/ethosu/ethosu_drv.c                  | 403 ++++++++++++
- drivers/accel/ethosu/ethosu_drv.h                  |  15 +
- drivers/accel/ethosu/ethosu_gem.c                  | 704 +++++++++++++++++++++
- drivers/accel/ethosu/ethosu_gem.h                  |  46 ++
- drivers/accel/ethosu/ethosu_job.c                  | 540 ++++++++++++++++
- drivers/accel/ethosu/ethosu_job.h                  |  41 ++
- include/uapi/drm/ethosu_accel.h                    | 261 ++++++++
- 14 files changed, 2309 insertions(+)
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20250715-ethos-3fdd39ef6f19
-
-Best regards,
---  
-Rob Herring (Arm) <robh@kernel.org>
+-- 
+2.51.0
 
