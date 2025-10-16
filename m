@@ -2,83 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45EDCBE12F0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 03:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAB5BE137E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 04:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCEE710E059;
-	Thu, 16 Oct 2025 01:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D95510E0C6;
+	Thu, 16 Oct 2025 02:07:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vgy3zqf/";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="PWwggfW+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
- [209.85.166.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8610010E059
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 01:45:35 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id
- ca18e2360f4ac-9298eba27c2so10372539f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Oct 2025 18:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760579134; x=1761183934; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9rwUSd8nuRKW1ZndheoOnbtiXymXGXCv7wri7PtzlnM=;
- b=Vgy3zqf/sI73qZO0IM5BV/K/Lx9NrrMF1Og2KzvOrMFL9HOPpN9bR1MhsGweW/hPr4
- Gwbup8RFJXe+Ng4wX4bjUMVjDjAvCi/8QiVdu6IyBoHn6gJpKjisJXgPMajuef9gsbfW
- mCfqOKIfZ9uPs1xRBRBQK89wg+3T7IsjUCbYxnfI7C6CVjhm7rK8Uxr0ww5O/K3YRlUM
- UXpImsYKcUAd6IrLkbmQBOvgxMVxIWYKtpjA9DMt568EIy+rtEUrg3xeG+0tK67G6m31
- sJ/4WWVI7rDa3tHf590Aw+k4CuR6djx5Hd8kJPTmkg32/mAqL8HcDgA1IdIyKMCCVhof
- 5ETw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760579134; x=1761183934;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9rwUSd8nuRKW1ZndheoOnbtiXymXGXCv7wri7PtzlnM=;
- b=aM8s9R9IY0Udx60kdHTEhzwZ45blWUPeDRrl7HAPc9f3EolyFGI7h6uEyWY9B6QZK/
- plzvRRaWv3Cjs+ym9jpPl8LWdw/ReOGfVlhPuONYdm5C+par5zMDy9Xo+wS2KBV4FtWd
- 18t/ujfLSpp21Y25ba+nr31xDexIwNM1Zn5U98Dymb3vX+uLoDOUcGgc59HdyXRSUjRj
- P1TA9Yij9KsZQI1V88v3oldjT1fQ6WdlkxRGK3NKs/crHDJ40S8uZatHMbb1E+R1+iHW
- fyVAjvvas1p6WJ+/Ey6M3USUxKaPriM93aZyEDYos4rsFxdvTH8/WItcBkph+LewcdJo
- uaYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtZYhoSW4y2I2hvrLTQk9PMeOigBiQB8QzQ42Czg2MSuujOs3ERtOZeltQLSPtcXOdRPBhA3+w3AI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+Qi8a5KRofVupAJxXf8gAKNGJXMJiobLB/IqKLbNqJAi+e+14
- wUT/u75n1rSVpokpY3TWJRCexOyQIHbIxNanaAqT44l0a5YaUdDCRsU4
-X-Gm-Gg: ASbGncv7e11aIAPxT2nIGoLdzYcjKs3WjRNxfHngLuywynbzoDC0CYMRyp0/9EmP+zs
- C3Ghk/XuVx74E458zHkFIOXfVG9FI2uHGlSPFQv2O290atmjBbjK8vfQus2q+V7WNWPyrYSNktb
- sH/DbTf9XCT/hNZCKKgdwFQyfrL4wHFozCfCJIhckuoRgDBMWt3e9LRyzntUDuZpkeF4+8dw9zh
- SNnX+F4S7JGm2iCu7wKnX6SuKd0CzmVC7phgZqJ/w5jfL1ui0FoJRzLwiIGi3YYwzhHWt6pbvMy
- HFBVwCUI9VREm/Iyg93Oa7P1VIBXDPLmEMSqUTbwKgdzYzI8DjHK4Htg3Z7EiPGEVdrRWQxbxXC
- k49SkAlsIgczfjPH+weE/GtJQCyvvsvUAX+f9g2ywHACiN9Zl7z6caX8SUiF7BT1xbdzyJg==
-X-Google-Smtp-Source: AGHT+IFp34gerWyI/eqrZfZ7861Ql4TRlIasFqKa/zgiw4czVi2L9IWSlxhtzXGcGKWZ9dJtvmyXZw==
-X-Received: by 2002:a05:6602:1645:b0:93b:da4b:d0a3 with SMTP id
- ca18e2360f4ac-93bda4bd174mr4031136539f.19.1760579134525; 
- Wed, 15 Oct 2025 18:45:34 -0700 (PDT)
-Received: from arch-box ([2607:fea8:54de:2200::ffb])
- by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-59043f842bfsm5965410173.62.2025.10.15.18.45.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Oct 2025 18:45:33 -0700 (PDT)
-Date: Wed, 15 Oct 2025 21:45:31 -0400
-From: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-To: Helge Deller <deller@gmx.de>
-Cc: Simona Vetter <simona@ffwll.ch>,
- syzbot+48b0652a95834717f190@syzkaller.appspotmail.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fbdev: Add bounds checking in bit_putcs to fix
- vmalloc-out-of-bounds
-Message-ID: <aPBOOyrV3ihF_Bpq@arch-box>
-References: <20251003073210.48501-1-albinbabuvarghese20@gmail.com>
- <b4af6e84-6555-4629-8291-fc4c2c99390b@gmx.de>
+Received: from OSPPR02CU001.outbound.protection.outlook.com
+ (mail-norwayeastazon11013034.outbound.protection.outlook.com [40.107.159.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDAAE10E0C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 02:07:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OqLYRuT9BIow+IPHqShEqq6DOuNX1GhS1ix9d3RdxpG88m54ER7gw38wDArMtDMaU99KemQamduZ15dXn3mcxD9IWwrAkaYPtp4Mfsqwa3xIJeHu8EpJW4lE4b1tsLec47Si/twJYyS+N5a25PQ6cVZLIgI5Bhor4+iPaCBJxcbmHOzCrJRrHlqAZpCwy8AVVylUd49CaLAu/+uK9nxFbsWklK8A83EVXdTerVSn/HhQUL5bV9FGGWDWXc57e2jjN6hVCcdHtxDV3TzTrOorfRt6K3Dl6Hwob7bUrme+FGHfOuZXgtsezIdNytpVmjVkllAzAQ8UegZYNqrdHhdH9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mnLDRSoEw3nq8Nihyks1MNkhSIeQvRxjQrHaIMhUqUY=;
+ b=wOGuNSJdM07gHbIsxBgF2J7RWyWj9icsUw905+vCKdfL8ACX3K/PFRiyBlBnr1zgIc9PYUXs1d3N/06rNmOJ6aXRczO/T//IE1XAAVZT5BFN3WXu1qN35AcAAnvNg4P2LX4oX+v2etOhNtnwRrcIdNxqylo7i8qJQRUp0tZozoze+4rUF86fv3aJNxZ+tUNYBz+jcoBUVMRuzbYc7qzyERZcZNLZ9GRbSxj6njKeY0FspvN5/c5SrRuyF6pP0HrezBgdArapFij6Qrw5hklUjPe6yb3xRMLq1dbNaODXhmub5sblua1s7zetViDvEyQ1xCHiLTrNNSqL7HauLy7Ydg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mnLDRSoEw3nq8Nihyks1MNkhSIeQvRxjQrHaIMhUqUY=;
+ b=PWwggfW+9SHxQ0o5d5DM+bXbQaiaeI3bwI4eLbFHif//GQA/8UO7J1Ieix/c78kEsKGRM6tuIbUfoMlOu6nwscgeXQDfnQu3qaNv3Dt5odkZB8B8yh/yaSttCyzCVlmbBAP4QhAyK13FxvrbOIe4URXr4AAKigs6wkr8YA3S99+KFIJlmDwkE6Z1VcL8lQet0sE5uhWFOaDtxw6QxwOAqpJGWjPJsOJyBMBrPSYZTi5S8YiJ9L2GqMhZ8ZhUEjP/vomfLPPlt6iVaO7hMKHLRc71b3kUDns67MVEXs9vTAcQRkdSJPHlBxWxfYeSs4pO/CNSjBxmTFzvB0qO4/hGbw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by GV2PR04MB11352.eurprd04.prod.outlook.com (2603:10a6:150:2a2::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
+ 2025 02:07:03 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
+ 02:07:03 +0000
+Message-ID: <5c5bb009-3463-4282-946f-3ae93fab11ec@nxp.com>
+Date: Thu, 16 Oct 2025 10:07:26 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/39] dt-bindings: display: imx: Document i.MX95 Display
+ Controller DomainBlend
+To: Rob Herring <robh@kernel.org>, Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+References: <20251011170213.128907-1-marek.vasut@mailbox.org>
+ <20251011170213.128907-2-marek.vasut@mailbox.org>
+ <20251015132442.GA3241958-robh@kernel.org>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20251015132442.GA3241958-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: SI2PR04CA0013.apcprd04.prod.outlook.com
+ (2603:1096:4:197::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b4af6e84-6555-4629-8291-fc4c2c99390b@gmx.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GV2PR04MB11352:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d746f79-b0a2-473b-c364-08de0c58b2c8
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|19092799006|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VHhUQzZNSHMyS1NvSUlLS2ErdVFGK21vVjFTQjlyeEZQdUYrU1JGM0JtT0JR?=
+ =?utf-8?B?TmRDeFRVMm9nUnZMRWtvd3JteUFpMktxR0dvOGcvWnlLam14alkxN0pPWXhx?=
+ =?utf-8?B?SUw0Vk1mVXg0WHRSOE9wRjd3aEZlK0tqU1RKTjgyWU5aWE8xc1RqZ0NNN3Za?=
+ =?utf-8?B?U1FVQ25mQWZ5WllzUVYzdmtGMTRlT2hCMURwT2FCbGFYSFgxYXQ0MkpKc3Z2?=
+ =?utf-8?B?VENnQngzRXhkRFM0UWQyczFsMnViaXJCODNiK0ZjaU8zaExLd2tsWG4raDBh?=
+ =?utf-8?B?OEhHV2s1cmdjRlAwNkRBalRIdk51Wkx5ZEJLbXZhVUNiTE1wZ2E1SUVmY1dQ?=
+ =?utf-8?B?Y3hNQ0w4UGVHczBWYURTcWhadVFHWlR1b2t2bVp6ZEVZZFNnOGg2cHpQcXNw?=
+ =?utf-8?B?QS8rTUJnZHdZSzVBbnNzdnpYNFpETWRvTmQrSE9aajAyTFZGUk5FVVZrM1pK?=
+ =?utf-8?B?Si9WeFZCaTUwWmk1V2FXZFJjeXBQVFhTMlNJV3FvdUZ0S20vSUVXSkhjSUsw?=
+ =?utf-8?B?YmNMNnA0Y3F5d1FiMlZTZ1VMb3dCaURxNFNieGNrU2Z4TzdmRktkNTZQZk92?=
+ =?utf-8?B?bFJCbDdFZjF2aVJOcDBRM2ZzV3BQN2NxYjJwam1NRGYvMEw1M2NxUEtUV01a?=
+ =?utf-8?B?UEw4WmsxVlpiOENqTTYyZXZiTjFQNTBnU2tlSnFGNm51S0FWeTdLMUk5Rkd2?=
+ =?utf-8?B?Qm81UEcwV3FnNk50Z2l0eVIxWGdCZHN4YmZXMGpxMlNCQ2xuMXR5S2FES3R2?=
+ =?utf-8?B?Sm1jQjZPakIyNTVjaTczZVBhbTloWE1yMGpYNjhERTkzYzV6TG5zMExMQ2Ju?=
+ =?utf-8?B?eGszRndZT3pTd3lHeWM0VEpvWmtaakhBY250NnZmNi9oRkNjd28vMzV3SVNn?=
+ =?utf-8?B?RmhOV3hDb0NrSm9wakZIcDJTc0srdkdtamthdmxDNGYzQ092U1NNT1U3Sngy?=
+ =?utf-8?B?WDBEa2FaOWQ1U1QrQllST1JrbzhSMUdYSE1XdWZORFR5bGZLa0FQcEpJTmZC?=
+ =?utf-8?B?eGEwM2kwSGxwY0Y3QnU1NXVvK2xBSzdEVEcyYzcxMlJrbFBVMlE5VlRHZWl2?=
+ =?utf-8?B?MEZlZU9pcXFGNnUyeStHTEpHTWdnMmxhM3A1TjRpQ3d1UmpaaVV2TUoycEtN?=
+ =?utf-8?B?SXZnNjBFRXRzTFcyTTdIRXhIbEtMWGlWc25xUFd0NDNpU3RVL0RqSnM0eEdL?=
+ =?utf-8?B?MFhtVndzZEpPVWVNQUpaaGRDVmhjN1lJZFZaK0FSQ3VreHZ1TXNaeHl6c1Ez?=
+ =?utf-8?B?aWliUWFLaUZJODZ6c2poRjR0QU5aOFNtVTVTb1M4OUdrVmt3L2RGYlFJSE5K?=
+ =?utf-8?B?ZXFDR3NKU3pDMnJnQVRIZnA4cVBhZjZWZmpsckxnRHlCd2tzQXFCMUFlU2lv?=
+ =?utf-8?B?RElMb29JaFNsdUJ5ZDRZMzAvc2NFU3Yxb1hDMjcweFd3Umo0cTB5c2lsZGZx?=
+ =?utf-8?B?NkFWRkpaYnh3enc4U0M1TmVodUVoSEFlSjhvaVZIRkkwV1ZlRDhQSWtuRTFn?=
+ =?utf-8?B?NHVZSTFRYVp3dldBMlloSjVRQVV3OU9aWEl2M3VEUXp2NmI0dWxRODJIZjFE?=
+ =?utf-8?B?TjloWGR3YnNOeXFod0RsbXZ2Yng1UVMzV2owYnozdTJqUmZvMWE0aFoyMWFa?=
+ =?utf-8?B?bDF5TXl2M1VoWU92TFdBdFhSdjBhNVk0QzY0dW96cUdMTHN1L1VocXZsTkk1?=
+ =?utf-8?B?YzNMaXhteTdGdHBscldzTFFWMm1pY1RaalZJMGxpMDZrcjlOSGJGcmxjbzc3?=
+ =?utf-8?B?eEpTK29pbVJtSURxOUZzbDMxR1ZSd1M0Y0FMSXE5aGR4YmRHSXJQdnNMMlkx?=
+ =?utf-8?B?TkpHU2JYa2ZkMUdwZi94VDFyTEhPTThWczJQZERlZTExSDlZR1FPTGcxVHVT?=
+ =?utf-8?B?TEcwZEtHMkhMeVgrQWRhNU5zMUZRanR0blNaMWpVcnh0WHc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWFkZUFOQ2pFMmcyU2pqOWFUU3pWamR1RnNLVnJ2SVJScTJxNlREaTVoTGhu?=
+ =?utf-8?B?YTAzd3gvaTQ5d25YeHVyakt2ODlMTGVQdFdzOTY3ZGFVMTd6d2lJUVlWdjZP?=
+ =?utf-8?B?bEV3Q0VsUjMrcTYvaU9XeHIvVmVNOGVZQnpMRkZxaVJLMkRLRkZKT2xqLzJs?=
+ =?utf-8?B?cHVUYlpSdXZ0YTdKOFZ5bUEzMDNORkg4b080a0pYeHV4bjVveXpVQ0dEcDQ4?=
+ =?utf-8?B?QWRoN0IzSVFFc2Noa09TWTl2U280dVdISkt4dnNSbXp3SVYrUDh4a1ZmTCts?=
+ =?utf-8?B?Um1ydHV6cWxpbDJ1UlBMQ2xOU2tqS1VTcER6RkZoWmcvSWNLV0NIZTlZdGgv?=
+ =?utf-8?B?WVdDZU5VMUE4M2doczhIdGpMR3c3Qk9PYXdacTgrbEhQL0J6cmxBeFZnUGIx?=
+ =?utf-8?B?YlB5TGY4M3c1NDMxT3RHYklGQjlVeFhEUTBGTVhOQk9OOUYyY251ejVPMHhr?=
+ =?utf-8?B?UTdzeG5GV05reks5Y0Vnd2tLL0dJZzU3OXk2TkZTOXNJdUpXM0taMHc0WUQ2?=
+ =?utf-8?B?Y2JRbFFlaDZvcGFhSW4zSjFtVlFnV0NnRGF3aXZlQXdVbklCQno0QWdraVJK?=
+ =?utf-8?B?NUZBVndvYjNiQk5ORDFDVU9zR1ZRM0wyNU9PaVUvSTdMaDROSXhocnJDRHdT?=
+ =?utf-8?B?dzQvK1Bqc0hDcTJRTmVQZ0lzVmFRZWVncEtWZ3U2YXpiM21CUE5BdjlDcDBE?=
+ =?utf-8?B?OWNqekRpTlhZRi9xa3AzUHYwcGdpKzd1R1RsLzJyaEJiRkFQM2NxbGZxTjdV?=
+ =?utf-8?B?bnh6b295ZWc4SGxZK0o0eHUrSkl5WTcya1E2VW0wMVVkbmkrNzB1ZnJ0VzJG?=
+ =?utf-8?B?K1NETUE4aDNDVzlwc3hVSXhGZjVsMFJETUlxNDEzL3VMNGpDc3FiOG1QQXBi?=
+ =?utf-8?B?SE9sVXNhdmN5MDAwNlRUMzZDdHA4R1hmQkdhd21LekFOQVZoQ2xjTEFIaXE5?=
+ =?utf-8?B?Q2pTamRFUGY1QlhlNWxSdUVBd0g0S0s2RkRZY3U0QktjUkpuSzRnQUpJU2xn?=
+ =?utf-8?B?dCtqNTVreTdWTlY0bVBjT2wwcGFWdGt1ODEyM21zd091WmwwR3k2VFNyejJl?=
+ =?utf-8?B?d0t6NWtBTWhCQ2FOcDBxTG5kSjExdnBwdzRjWlZ4Mk9CZXE4czYyUFdyZTdr?=
+ =?utf-8?B?VWNMVFVsbzBSZmpoOUVFTXQ1RVpiRWV5Q1dOZnJwVFN5M0dxTHk5UEVzVDhj?=
+ =?utf-8?B?RDBMT3JRMmFTeVJ4RTcvWmdNekJEMC8zUzdKYWdvdEdQVW1kbFZSWDh1Ri85?=
+ =?utf-8?B?NldIbjVIVXFmYm5YV1ZqdjZSVlN6SXQ3b3hsODdoZTNMTWhLZnp6d0R0c1BS?=
+ =?utf-8?B?d3NQQ2ZlNTduT2x5NDVJYUJxRzBSODlrOGtCQTNyMlVldzF1bFBpVUp2VDcz?=
+ =?utf-8?B?ZHNjNXJMeWozSit5SEFPZHdJSGZUNnN3dU84ZTFDbEN5TU82QVhIRFdDOFlI?=
+ =?utf-8?B?bzk0czc2ak43bFdrbDhSYm5yb1VzS0dQWGdaalZBWXhTQ1B5cnVySlNtODB6?=
+ =?utf-8?B?TnB4bGVMVEVOYnpaZXNFa3dmUitOeUp1MFYzbVBTNUZQV0tpWWJNU3hSWGto?=
+ =?utf-8?B?cUZsYjlEMVFsRWlJVjZVcUxuUDU3YWpJcHBERnd1b2NqYVZ2OWpzOVp1TWpz?=
+ =?utf-8?B?OFM1ZzdveHhrWjBKVFAzeklrY1JONm1Fa2VaS0R5ZkdISllJYjhCU2N0QjRG?=
+ =?utf-8?B?c1ExbzdRaVhmMHFoNFVsdjdUZWlIY3dHRVdqMG5NM0JJcHRVUEpYTEo2TTMy?=
+ =?utf-8?B?VlZhTFV0eCtoakJ3SFowdXE0Qk5GMlVvK0huYm9MYlVramplem9ORUlKeDBT?=
+ =?utf-8?B?NXk4VXkzek1teW1jS3NwSGRwc1pSdmJlVzNWWFFhVUZ4UHlwWU0rR3lISWVt?=
+ =?utf-8?B?WUpmK094WFh4UkFWTEl6eU4zNFNoVGIvNXlaVFVrTmdIeGYyT0hCUk1DZnl5?=
+ =?utf-8?B?YXBWaUFMM2Q1cDlrVTFDQUZNZFZCK3VwbGMzd0JyeldhV3QwM2cxelJVanBG?=
+ =?utf-8?B?dW54RlFvckwyUmdPNTBPOEU0SWVENzI4b2JVK3JBZHFpaldXYnpOSFB2RXVw?=
+ =?utf-8?B?WlRkMHR3TmZ2dmh1TnpxRGFuZ1BjYkVEeWxqRnVCenhTSXlweElkbWgrTkRj?=
+ =?utf-8?Q?xQyhnxOsR+h1hOQVD/52Qml9n?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d746f79-b0a2-473b-c364-08de0c58b2c8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 02:07:03.1922 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZEHSHG/D+OmdlA54NIQB9P1Rx94ECYEIslvZ0KrFkRAcqmCvMoaTjvF6wfFTFluQUDJMAI5jmQq6TkpsPsBJDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11352
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,101 +173,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 04, 2025 at 02:43:33AM +0200, Helge Deller wrote:
-> On 10/3/25 09:32, Albin Babu Varghese wrote:
-> > Add bounds checking to prevent writes past framebuffer boundaries when
-> > rendering text near screen edges. Return early if the Y position is off-screen
-> > and clip image height to screen boundary. Break from the rendering loop if the
-> > X position is off-screen. When clipping image width to fit the screen, update
-> > the character count to match the clipped width to prevent buffer size
-> > mismatches.
-> > 
-> > Without the character count update, bit_putcs_aligned and bit_putcs_unaligned
-> > receive mismatched parameters where the buffer is allocated for the clipped
-> > width but cnt reflects the original larger count, causing out-of-bounds writes.
-> > 
-> > Reported-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=48b0652a95834717f190
-> > Suggested-by: Helge Deller <deller@gmx.de>
-> > Tested-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
-> > Signed-off-by: Albin Babu Varghese <albinbabuvarghese20@gmail.com>
-> > ---
-> > Changes in v2:
-> > - Partially render when height exceeding screen boundaries instead of skipping
-> > - Update character count when width is clipped to prevent buffer mismatch
-> > 
-> > Link to v1:
-> > https://lore.kernel.org/all/20250927075010.119671-1-albinbabuvarghese20@gmail.com/
-> > ---
-> >   drivers/video/fbdev/core/bitblit.c | 20 ++++++++++++++++++++
-> >   1 file changed, 20 insertions(+)
+On 10/15/2025, Rob Herring wrote:
+> On Sat, Oct 11, 2025 at 06:51:16PM +0200, Marek Vasut wrote:
+>> i.MX95 Display Controller display engine consists of all processing
+>> units that operate in a display clock domain. Document DomainBlend
+>> block which is specific to i.MX95 and required to get any display
+>> output on that SoC.
+>>
+>> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+>> ---
+>> Cc: Abel Vesa <abelvesa@kernel.org>
+>> Cc: Conor Dooley <conor+dt@kernel.org>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Liu Ying <victor.liu@nxp.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Peng Fan <peng.fan@nxp.com>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Shawn Guo <shawnguo@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: devicetree@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: imx@lists.linux.dev
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-clk@vger.kernel.org
+>> ---
+>>  .../display/imx/fsl,imx95-dc-domainblend.yaml | 32 +++++++++++++++++++
+>>  1 file changed, 32 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
+>> new file mode 100644
+>> index 0000000000000..703f98e3321e8
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx95-dc-domainblend.yaml
+>> @@ -0,0 +1,32 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/imx/fsl,imx95-dc-domainblend.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Freescale i.MX95 Display Controller Domain Blend Unit
+>> +
+>> +description: Combines two input frames to a single output frame.
+
+I'd like to comment on patches in split patch serieses(to be sent if needed).
+But, since I provide the below interrupt information, anyway I take the chance
+to comment more:
+
+Add more description about the unit according to i.MX95 DC IP spec:
+The unit operates in four modes:
+- Primary mode: The primary input is used for output.
+- Secondary mode: The secondary input is used for output.
+- Blend mode: Primary and secondary inputs are blended, according to the
+              programmed blending functions.
+- SidebySide mode: Primary and secondary streams are projected side by side,
+                   i.e., primary video on the left side and secondary on the
+		   right.
+
+BTW, I confirm that two Domain Blend Units exist in i.MX95 DC while they don't
+exist in i.MX8qxp/qm DCs.  And, as you can see, this unit supports multiple
+modes, this would impact how an OS implements a display driver a lot, especially
+Blend mode and SidebySide mode.
+
+>> +
+>> +maintainers:
+>> +  - Marek Vasut <marek.vasut@mailbox.org>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: fsl,imx95-dc-domainblend
+>> +
+>> +  reg:
+>> +    maxItems: 1
 > 
-> applied.
+> No clocks or other resources?
+
+As patch 39 shows, there are 3 interrupts - domainblend{0,1}_shdload,
+domainblend{0,1}_framecomplete and domainblend{0,1}_seqcomplete.
+
 > 
-> Thanks!
-> Helge
-Thank you for merging the patch.
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    domainblend@4b6a0000 {
+>> +        compatible = "fsl,imx95-dc-domainblend";
+>> +        reg = <0x4b6a0000 0x10>;
+>> +    };
+>> -- 
+>> 2.51.0
+>>
 
-After the patch appeared in mainline, I observed that syzbot continues
-to find the same bug through different execution paths. My fix addressed
-bit_putcs, but the crashes now occur through bit_cursor and cw_putcs,
-which bypass bit_putcs entirely and go directly to sys_imageblit():
 
-Crash 1 (cursor path):
-https://syzkaller.appspot.com/text?tag=CrashReport&x=11fe95e2580000
-Call trace: hide_cursor → bit_cursor → soft_cursor → sys_imageblit
-
-Crash 2 (rotation path):
-https://syzkaller.appspot.com/text?tag=CrashReport&x=164f0b04580000
-Call trace: fbcon_modechanged → cw_putcs → sys_imageblit
-
-The original syzbot reproducer depended on character height going out of
-bounds, so I focused on bit_putcs where character images are drawn. I
-naively overlooked cursor drawing - apologies for that. That's why I
-looked at the other crash reports after the merge, because it seemed odd
-that it was still hitting the bug after the fix.
-
-I believe adding the same clipping logic in sys_imageblit() would provide
-comprehensive protection. Something like this:
-
-void sys_imageblit(struct fb_info *p, const struct fb_image *image)
-  {
- +       struct fb_image clipped;
- +       u32 width, height;
- +
-         if (!(p->flags & FBINFO_VIRTFB))
-                 fb_warn_once(p, "%s: framebuffer is not in virtual address space.\n", __func__);
- 
- -       fb_imageblit(p, image);
- +       if (!image || image->dx >= p->var.xres || image->dy >= p->var.yres)
- +               return;
- +
- +       if (image->dx + image->width > p->var.xres || image->dy + image->height > p->var.yres) {
- +               clipped = *image;
- +
- +               height = clipped.height;
- +               if (clipped.dy + height > p->var.yres)
- +                       height = p->var.yres - clipped.dy;
- +
- +               clipped.height = height;
- +
- +               width = clipped.width;
- +               if (clipped.dx + width > p->var.xres)
- +                       width = p->var.xres - clipped.dx;
- +
- +               clipped.width = width;
- +
- +               if (clipped.width == 0 || clipped.height == 0)
- +                       return;
- +
- +               fb_imageblit(p, &clipped);
- +       } else {
- +               fb_imageblit(p, image);
- +       }
-  }
- 
-I don't have any way to test this other than testing it with the existing
-reproducers. I can prepare a patch if this approach sounds reasonable.
-
-Thanks,
-Albin
+-- 
+Regards,
+Liu Ying
