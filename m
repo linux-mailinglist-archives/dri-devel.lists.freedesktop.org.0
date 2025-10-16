@@ -2,52 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9ABBE21A7
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 10:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB141BE21FA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 10:21:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 242A010E02B;
-	Thu, 16 Oct 2025 08:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6DD910E2DA;
+	Thu, 16 Oct 2025 08:21:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cO3rhnix";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="JmwB9YU3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WNXRSSLy";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JmwB9YU3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WNXRSSLy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8DB10E02B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:13:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3D0EA6039C;
- Thu, 16 Oct 2025 08:13:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F01C113D0;
- Thu, 16 Oct 2025 08:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760602408;
- bh=WAuNsz3Lr0goBMr8G5gDj7PGfMOd6vPheePoqSC6UwY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cO3rhnix1iauYg8C4tUAGwTOGpuFo1iLSN+gr9R6vB3aUnCEZgvVOPoEYP7GLyvjY
- q3yHQFIqXNSCKBI9yCbVArj1oHoJbBh26pKP53jSrs/JCYQUCJRcZ20Jx2UEXBcmyO
- 2nqtJQUzNvApPQIxTCOX93NKJEnePivU5WriQdAvEe/Ghv1IvZg8Czlw5W/dDErcjc
- QY8fGJnjVEzyAaGzDTAs9gu+BIkbVDaTpqtYYdCqJypF3fBn0HuIzv1c4uL8U32l0h
- Kfbx9IWAr/iwvdE0KVqUpvy0FhLViFKHVieio3Mri7Iv7QF6Jx7I4DvbhYlu+dI/qf
- E5q7jyiGDwhYg==
-Date: Thu, 16 Oct 2025 10:13:25 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and
- a drm_gem_sync() helper
-Message-ID: <k4qq6mcgil6ubyrarr6ptib7qckrgg6eh5y747ckycvnoyu7tf@d5aoylyi5nvz>
-References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
- <20251015160326.3657287-3-boris.brezillon@collabora.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 812DC10E2DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:21:14 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4581E21992;
+ Thu, 16 Oct 2025 08:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1760602873;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qNtRHXW1ZEHasrajMZinxSaj7H8IKNLZBLBe6Cv+2ss=;
+ b=JmwB9YU3Tegva1W3+6Ham+5n4ZniEv8INBGjWUbUXaspxEMy2MpV3XaCV0QsP1UJoHEsv3
+ FDmlMWeKnzWbCnKEpnwuvRsw2hRdibct1MwVzDpoXnueZ8Xbeerov3BZHGsGtNRoQEcj0+
+ dr6NgwgT/LWRbx29BZzVArhpxXD+9lU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1760602873;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qNtRHXW1ZEHasrajMZinxSaj7H8IKNLZBLBe6Cv+2ss=;
+ b=WNXRSSLyPc/yXBDwlGIvD4YO96X6kcVYsRXs1UVazRWKY11L9KM4JIp7lZO4qtqtpu/b6O
+ Gq7o/pj8lBNnFdDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1760602873;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qNtRHXW1ZEHasrajMZinxSaj7H8IKNLZBLBe6Cv+2ss=;
+ b=JmwB9YU3Tegva1W3+6Ham+5n4ZniEv8INBGjWUbUXaspxEMy2MpV3XaCV0QsP1UJoHEsv3
+ FDmlMWeKnzWbCnKEpnwuvRsw2hRdibct1MwVzDpoXnueZ8Xbeerov3BZHGsGtNRoQEcj0+
+ dr6NgwgT/LWRbx29BZzVArhpxXD+9lU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1760602873;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qNtRHXW1ZEHasrajMZinxSaj7H8IKNLZBLBe6Cv+2ss=;
+ b=WNXRSSLyPc/yXBDwlGIvD4YO96X6kcVYsRXs1UVazRWKY11L9KM4JIp7lZO4qtqtpu/b6O
+ Gq7o/pj8lBNnFdDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8700C1376E;
+ Thu, 16 Oct 2025 08:21:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id w9vCHPiq8GipDwAAD6G6ig
+ (envelope-from <pvorel@suse.cz>); Thu, 16 Oct 2025 08:21:12 +0000
+Date: Thu, 16 Oct 2025 10:21:10 +0200
+From: Petr Vorel <pvorel@suse.cz>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas =?iso-8859-2?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH] mei: intel_lb_mei_interface.h: mark struct member with
+ kernel-doc
+Message-ID: <20251016082110.GA256560@pevik>
+References: <20251016035942.1148176-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="kw7g67ynzgrerwoj"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251015160326.3657287-3-boris.brezillon@collabora.com>
+In-Reply-To: <20251016035942.1148176-1-rdunlap@infradead.org>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.50 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_RHS_NOT_FQDN(0.50)[];
+ HAS_REPLYTO(0.30)[pvorel@suse.cz];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MISSING_XM_UA(0.00)[];
+ TO_DN_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,intel.com,linux.intel.com,ursulin.net,gmail.com,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:replyto];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -3.50
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,129 +121,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Petr Vorel <pvorel@suse.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---kw7g67ynzgrerwoj
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and
- a drm_gem_sync() helper
-MIME-Version: 1.0
-
 Hi,
 
-On Wed, Oct 15, 2025 at 06:03:14PM +0200, Boris Brezillon wrote:
-> Prepare things for standardizing synchronization around CPU accesses
-> of GEM buffers. This will be used to provide default
-> drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and provide
-> a way for drivers to add their own ioctls to synchronize CPU
-> writes/reads when they can't do it directly from userland.
->=20
-> v2:
-> - New commit
->=20
-> v3:
-> - No changes
->=20
-> v4:
-> - Add Steve's R-b
->=20
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> ---
->  drivers/gpu/drm/drm_gem.c | 10 +++++++++
->  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++++++++
->  2 files changed, 55 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index a1a9c828938b..a1431e4f2404 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object *obj, st=
-ruct iosys_map *map)
->  }
->  EXPORT_SYMBOL(drm_gem_vunmap);
-> =20
-> +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t size,
-> +		 enum drm_gem_object_access_flags access)
-> +{
-> +	if (obj->funcs->sync)
-> +		return obj->funcs->sync(obj, offset, size, access);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_gem_sync);
-> +
->  /**
->   * drm_gem_lock_reservations - Sets up the ww context and acquires
->   * the lock on an array of GEM objects.
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 8d48d2af2649..1c33e59ab305 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -66,6 +66,33 @@ enum drm_gem_object_status {
->  	DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
->  };
-> =20
-> +/**
-> + * enum drm_gem_object_status - bitmask describing GEM access types to p=
-repare for
+...
+> Use correct kernel-doc notation to prevent 3 kernel-doc warnings.
+> @push_payload is a struct member here, not a function, so use '@'
+> and ':' in its description.
 
-Treating an enum as a bitmask is a bit weird to me. I'd say either have
-a bitmask with BIT(enum values), or no enum at all.
+>  struct intel_lb_component_ops {
+>  	/**
+> -	 * push_payload - Sends a payload to the authentication firmware
+> +	 * @push_payload: Sends a payload to the authentication firmware
 
-> + */
-> +enum drm_gem_object_access_flags {
-> +	/** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access. */
-> +	DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
-> +
-> +	/** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device access. */
-> +	DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
-> +
-> +	/** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the entity doing =
-the access. */
-> +	DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
+Obviously correct.
 
-Do we really want to have to variants with the same discriminant? If so,
-we should document why it's something we want.
+Reviewed-by: Petr Vorel <pvorel@suse.cz>
 
-> +	/** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only accesses. */
-> +	DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
-> +
-> +	/** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only accesses. */
-> +	DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
-> +
-> +	/** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write accesses. */
-> +	DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCESS |
-> +				   DRM_GEM_OBJECT_WRITE_ACCESS,
-> +
-> +	/** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check the access typ=
-e. */
-> +	DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW_ACCESS,
+Kind regards,
+Petr
 
-Same thing.
-
-Or is it that you encode both the direction and access type, and have a
-mask to isolate each?
-
-If so, we should really move it out from an enum into defines, or treat each
-separately like dma_sync_does.
-
-Maxime
-
---kw7g67ynzgrerwoj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaPCpIQAKCRAnX84Zoj2+
-dj+bAYDejYdrMHgYJELiPlTcx/aGa+mEoSRxRo4mbH5EYy5m40gVeLaFbxIhyfhJ
-loi9TeMBgLcuwHDKpu2077uycxWDApD05qaY4XBHo9bBuSOFL8keNfFgVVsaEPGA
-RymLLE1+Ew==
-=ZnLC
------END PGP SIGNATURE-----
-
---kw7g67ynzgrerwoj--
+>  	 * @dev: Device struct corresponding to the mei device
+>  	 * @type: Payload type (see &enum intel_lb_type)
+>  	 * @flags: Payload flags bitmap (e.g. %INTEL_LB_FLAGS_IS_PERSISTENT)
