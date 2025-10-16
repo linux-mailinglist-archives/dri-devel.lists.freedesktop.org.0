@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41553BE4146
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 17:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28273BE4167
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 17:02:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C40110EA07;
-	Thu, 16 Oct 2025 15:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE4B10EA21;
+	Thu, 16 Oct 2025 15:02:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="o0E9lduN";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="KHGo8NYe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010051.outbound.protection.outlook.com [52.101.46.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5996710EA04;
- Thu, 16 Oct 2025 15:02:23 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012027.outbound.protection.outlook.com [52.101.53.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEB910EA02;
+ Thu, 16 Oct 2025 15:02:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K9DeLQtgDd9cJ3SOJ+x9DymOdvI0Vs8YrVR1bgkbL+vEc4XhWKs8miBDOA4Ru81dOAA/eJDv0X6Ovkd325k2KU3sQBibfNv6YDS/IsF32lvfgp2p5A9nCP/ldpafwiazPDNwJ/UyKTQyaxeATM+DTNZENMOaTB7wuPAIc5XYfH8P1K2XRiqqr6/N1u/XQqz1EsykHTq3WOP0fn7368urN++ApEqpMxzLQypxmzERUKrsDRLSZxxxqugG1wRanBNBpupEqYZTHYDg9oPP5mrxEY/p6lUYAeL6aQoHaIRyMmNJ5azwp4bRa99yXxwwf4BYIuGZD48hg6Z3CWNxJdOIUQ==
+ b=Re/gcK7+KedRJfvQ0y7N8CLJa5a1aQdkTGTuctn8qKUS37MRLsW6s57T8NEGyw06AUSOQXAkK5yZgRwaQJTYz34aQdPOtTV24tk5eUfJHSaLCcAeV35xuHQcvJ2+RVr2FkXvNIUrEKWmyOa9p4udT92+UOrGLWHNRXfHm/YE/DDeYQoLjvEwSoXpS5dsaoLkCEMx+mtY+g/O0zoewDpGnvgoGMya2HQjrBFdLL5ood0HaBOa8cZbJwfVK3ogniu0PtDRcgNvwO6P6RCI8HLUxKNyqOBfTDh0B8+MEmS3dBBkjAw/YcWW8ho5dfMwrYKfQyMB9vpOQmVgIsclyhnw2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w9zHQ2p0LH/skIJv4HO48CdpfTs7HPz1SrOK+/OqErE=;
- b=yOy1x3FCAt/br8jB4Kri3U+vwrB2eYKLAz0jxt4KahqzkdVPmd/7jH/g7HG2+uJR53D+0SaJiRW5TeA4vmCImZZ2dlopjiNdGz8Cklk7FTiOpMtL4+Q+bHPQT7hJHcn+9lGj2tK+MkspqZFj/DatYTNBohsQ9CEKSivDM8fYHwMZ2vL6YwrXk9wmDkgVWjn4qw4BppTvQBZ47FRUEZFSFFrDsmgbSxfxZWKudEr+HFBXwpAooOzUXnD4mXBR9BJ4mF5Y69wOZPhnL1ZuEELxRC+Rl0OJd9fvJT2sfwcuW5631+VXTF56f1Ag04T1PMr8nnK8684v5uLiCIhUXvLBGw==
+ bh=cwe+dIK5Pcgh90I58kjFySD2eZyBAH3kwiso7QikAHI=;
+ b=yE5w0oLw1/3celfPjzTdCdFIvm5GKloyT/Xlng+oAfjUDxOPoaBCicFTJ6S0ySgiJje+Il5HRfj+iik/OgMNzOZKH6CwSkGrC66YClGbztalUC1dlmZZ5nsr+2IL+U80oHk3Cyhl+S3gi2u54XGtpjp69z60HAgtdayZXvS6jsYDXx14kKHcfdKsLTLk3SfizjhWgX+8y6uHSFhHg3cehnZ5Ws2XCWgDNVgvCwWg5EVB+i768SSB366y8q3HAjpxOGD13RTio/9TkHt7cbDtC3TgQ0fwzO23lF3jG06vibN1V9hCZ9l4klB4YdbXwaF51RDKYKDP0wBUTdNAtaXSWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w9zHQ2p0LH/skIJv4HO48CdpfTs7HPz1SrOK+/OqErE=;
- b=o0E9lduNqp/405PozYu5OVdD3XWd0N5jIkyHOfh0Acdu5j0tI9moitrxs7EKLr9rOUpumpslZL/uEtBIFdo7I/IZp4kmo58uX0z0alqFXFlTsaGQ4U7tYunHJXcgqCJXvcn/qhpssVs+z/PZjkx2/ReqVL5M/tjDxo30tadRU9wdlrclEHsJsQBrrwG0pMA2uhqq0r2XcYile10Czt/RDvbcP+heVC+QO0Q1GKdzZuYEB3dJnpalNkhBjvr+yPkdIzY34qDKe9Om8ojfawejFt8n3XAjyIOv85eRP+7q7mIsBAuXP0R+we7gIHGDwlaoFKJOyp7PTupkMQyGJqMkuA==
+ bh=cwe+dIK5Pcgh90I58kjFySD2eZyBAH3kwiso7QikAHI=;
+ b=KHGo8NYe1wjbLKs9SXLWWQmPfzFVMon2gwNBiq+sX2iPx+qrbyVgmRMroR2hB9/UT9+rmljlFIRmgCJRHnK4v1cwUYXp8TuPrGI5nasG7nglGLMt7gtCs7qUquxYg0TCKtNTcL+F7nI6tTeQOuem5tDvf7gx7KpcQWog8YlxwYCZm32gFbyXez8j5Tka1jvtsxDBh6K1+E4aaloQ0Hzg0KzJzknbOlUS2rwcDX1sP2L5DJRxBX1r+sxyQ0Jprg3EznD1A362atW5ui2Tn/YYVnvuz7nQInt/cGmmwN/nUUh9hAEdek3JcTWsapn7aR8P3TPlwz+F4aaBhxy6WZULww==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by BL3PR12MB6380.namprd12.prod.outlook.com (2603:10b6:208:38d::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Thu, 16 Oct
- 2025 15:02:16 +0000
+ 2025 15:02:20 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9228.010; Thu, 16 Oct 2025
- 15:02:16 +0000
+ 15:02:20 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, dakr@kernel.org, acourbot@nvidia.com
@@ -59,87 +59,90 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  Elle Rhumsaa <elle@weathered-steel.dev>, Yury Norov <yury.norov@gmail.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  nouveau@lists.freedesktop.org
-Subject: [PATCH v7 0/4] bitfield initial refactor within nova-core
-Date: Thu, 16 Oct 2025 11:02:00 -0400
-Message-Id: <20251016150204.1189641-1-joelagnelf@nvidia.com>
+Subject: [PATCH v7 1/4] gpu: nova-core: register: use field type for Into
+ implementation
+Date: Thu, 16 Oct 2025 11:02:01 -0400
+Message-Id: <20251016150204.1189641-2-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251016150204.1189641-1-joelagnelf@nvidia.com>
+References: <20251016150204.1189641-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0585.namprd03.prod.outlook.com
- (2603:10b6:408:10d::20) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1P223CA0017.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::22) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|BL3PR12MB6380:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24689026-f704-4ccd-0cd3-08de0cc4fedd
+X-MS-Office365-Filtering-Correlation-Id: 080ea939-cdfa-4970-fbe7-08de0cc50142
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0/Tf9m1S0Ee77WWe/Tsr1Fl/SVacJjIwIhdXC+SsVdTm7x5ZlZslw80Exdul?=
- =?us-ascii?Q?3ezVgEh0oI7y8azF6SDCqddWASADEc5amhc2FTjHO6UsItXatO+NwLPcagQ7?=
- =?us-ascii?Q?dBRqYx6JPeaniMKCeQmbXZmM8+F5mYtX98OzCd22S4nal9uoobgwFGeD3FI6?=
- =?us-ascii?Q?lgM99Uf8D0avx/abtXLxtSnfGd4bGB/gSPXQ9fLc1zUyVGO6QVQXai2Bb6oy?=
- =?us-ascii?Q?Eb6CBVbFJ3xercVJCqGkduQ+kCpTL2HQlBz158TGSD3JbdtqPG/irguGYNCy?=
- =?us-ascii?Q?BldCkR6PqWJ0bQ+Cr8aGfj1LijJoEfdGSMQGK8/reJsfxFscx+fHk7sLGWVZ?=
- =?us-ascii?Q?ECkg/Bz9vz5Pxch01S9CTRTwrhUCeZRb7qII6shtFjjyPgZPJho1/kyJvIZ6?=
- =?us-ascii?Q?pgoKzDGHLDnTC0DnkZ+q3F4b+bZ7jaN53WSsjh1Fqa99iAoOIiyJS6tjLoX6?=
- =?us-ascii?Q?UKHMbU0ube1CKIRYZ/t0qcP+AcaHJ1T77uihjQ6wp4vc0L4dJNl8avcME6iG?=
- =?us-ascii?Q?W1sjRo7ZbL613eGGWtuaKroq6JppuoxJ3jb/cxpPHtwxQujTLpakNQlinviH?=
- =?us-ascii?Q?ntwwOQ6uyjRNPtSMQ58kWSDi1f0peLnkWvzrVNFDNyrk9QkwYKck/8kmteF6?=
- =?us-ascii?Q?rh9BUs2Fth9MBrXdxMzonjdYca3LuXUiU5YFhlGF+vMWrSFvwDEPtD0B0zqN?=
- =?us-ascii?Q?U531lyXC077jl6gOpjJ1sR32RTtl71dO3ZQz9D7ydYlm6c1/sql54KJIPKyU?=
- =?us-ascii?Q?pStsKRndmo7LYRZ/+ZUeFDSIyPtNmW851TROkEbQJteoFd2Roby5XIzSm/eQ?=
- =?us-ascii?Q?tH+6ELsT2ZGE8psM/jfQfQyMerttdP7fIKi5l7OxZTLILO7yy8TVPVV8dU/I?=
- =?us-ascii?Q?QsUWq7yWqNRIIsMWWkbOhAzol8uRLotisjfZwFK3tem2RgcZiYElfpplDMH+?=
- =?us-ascii?Q?4GoTobUE229pG3Tmg5LtLsBsmwBFiEfKWgIQyPPcAxlBI49zkBCuXcuyZZeG?=
- =?us-ascii?Q?wlO7VBHmwYdfqmAdv+N0iRlnARnzkZ7cUeCg/0ueXxNGz0byZ26Qsye9CVoH?=
- =?us-ascii?Q?u3cPGH9IbeUKQcgQnJEsLpdJtp/PRVqEJzzIQGjBsddLEdbxYp9BRIuCJ8SK?=
- =?us-ascii?Q?PLSO6we3FwxaUiiq4NEchFVZHcY1yNDtThce2/8jw3PthAfTjAbIuLXGs1bj?=
- =?us-ascii?Q?mzsc54H6HbZgIOttYp+4F7u+z53gu8Ztryo4GYiBwMOa/lquv6gDnM2NMgOW?=
- =?us-ascii?Q?JmHlzRlS621ic3fQcEefTLS7f0I3nlVkZXcMXwt+qipmMAnnyksXNJh9RGo2?=
- =?us-ascii?Q?W+WEWLHpdjp8HLW6dQIEhJLEW50P0nO6jm8/DTmWhIP1oV1f76pz2k8rDQhN?=
- =?us-ascii?Q?cddB70KJvJfLV74vPk7YOn2LPyFPl2QWfAFi7zn3tTdirj7nqS48pJPvR/I6?=
- =?us-ascii?Q?NjU7iz2/VJhZnpX1Ak3IA+RgMvb9Fe3Z?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FSeAGnVzg/dLsw8L98r1J+6bLxb19ydCCnddFIlNwuHcbaAfjkVf12g37WPo?=
+ =?us-ascii?Q?xGMMCgD2c2FphHfqf2xQ2cOJvzCZ6/oNejKXMh5Pzv1Z5McJulM1EjjncvsK?=
+ =?us-ascii?Q?dw2//mz0vcpIBEvWMKc/ZGEGacaMYKKnilRtRscuVL1CeXzrN4pvkLCaUd08?=
+ =?us-ascii?Q?0XJGM8LLV6EbaL2PEzUjsWU3M9BPYZ4bJheMrkvMYeFRtjxOait+GZVGBmmq?=
+ =?us-ascii?Q?32jRdScXbKIZl10Yw8EwdjKC5daZA31wF7a30HGG3kKv6WKwLLKxD9uklAR7?=
+ =?us-ascii?Q?R+MvJ/vkYKoRs9xOt95kotzFkJQIOkX10rnSPYNlrmAX1j3rZwwlVQVsq9ip?=
+ =?us-ascii?Q?VB23EXZmTq3JjsFcSI1L+P5nRC0YCqcHNGb3tWn13ZGHXVLqwlnaPwz6bdPt?=
+ =?us-ascii?Q?LXT7OTWEyTeOSpNUFGHTrhm5Fw0mT2PZ9UrokZ8HLHWsf6xM99PKKIzQRJwZ?=
+ =?us-ascii?Q?k5JtQDxzJNLKDbgCzsHku0xQoDJslw/FCWX6GBebUtBsyrdZsY0ltBiocwN+?=
+ =?us-ascii?Q?/DTWS/HYFFwObFT4qmxRT1HdieOBXUs36nB9o7gg7094GW5GjtnJD5PxDVGa?=
+ =?us-ascii?Q?qnr3buYx7rX1yBTg7ititCiR4jin6bmr2DXLLMFrQ9RcPI9Pu1lhkGSrVToA?=
+ =?us-ascii?Q?7XhsLxI8adJr321RQ6AHpp5AvnjHA1AWjwYtmAOXAOzLLDMnCy10u//pZ8iB?=
+ =?us-ascii?Q?ZvOi/Vsw6D1I5OV1IUVv/3J/y6XZNmFo7IA3i3OnUrbbXQ6iUTygSnYD+gUM?=
+ =?us-ascii?Q?0vbaC1kCbNRYdcj/WNDg21ZoWe18fv+9N+3z0S4hldnYu9iukrwTEOFzC4jw?=
+ =?us-ascii?Q?Hmlnon/AjI93lR8hDjqPeRmzyJlA7cxTJ2KH4Z4AKZvNE88NiV3I82wATnGd?=
+ =?us-ascii?Q?HcpKMOA5fzLQ+du4Gt5961YDwAi1fiFEs2pZE4wuFaG1qD8udEK1JrOgtqPK?=
+ =?us-ascii?Q?KC9vj7K1m/nLSwk1ivoGSrENnSB4AU6KeNQtDRa03nYzhl6eU7iT2/yIb+nb?=
+ =?us-ascii?Q?7FD8dyJmR/0PUrB5JMs7stYIPhcdu/U7it7kw6IXEQeSG3iv03/3kPrE9y2B?=
+ =?us-ascii?Q?dusNvsqtc134XjPE+9kt1xeJDuVRoIGW+8RSDepN5ZKupmvAbIKpUCx9E4aW?=
+ =?us-ascii?Q?KDqv5WUvCmQPshqxtduDhPEYzTFfN02Q87/s5nIzSf68a3M/aYrsoEW1dsvN?=
+ =?us-ascii?Q?mYaVZzprbbcOnQ8iqZ/1swefgB6pjRrtt0WlxMhyvmpz+xKvNYFV95D2tR8j?=
+ =?us-ascii?Q?QFgZ+UbDWALrRT56mfOhg0k4CFTAa7LeKbjjIRifMh7s1d0y18z7421syiud?=
+ =?us-ascii?Q?bH6ZwPh2TmdSAy/18l+xkSSIrCDM6kSUxDOC/OwAEcCatRmTO/UJSgUlpCAE?=
+ =?us-ascii?Q?DHetFBuXhbyGPdpFf4DnDjrp+fbCriDt5CvcWa/+5ltqad1JR6EQGJa7HfFZ?=
+ =?us-ascii?Q?NkBlY8gePn12HNM9bMLoW6BptVimBuTf?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YTEBTIXGFw7Qa8CvIac3uCClaTQzXHtk0/gjZECgwk2uhEmfK9BoQBQoRsYj?=
- =?us-ascii?Q?DJzVlQXs2pdPSs8byHSTZjpqMAqrzdJXr+EGuWYcpdNmG6KDQ+b7uUjkZ8mr?=
- =?us-ascii?Q?MzpEV3NSDA0lALqdgVO8/Sd5G/eMjafJrjMA55AokeGVJ44N3s8Js0GZu5fl?=
- =?us-ascii?Q?dSI9HJ4OcbFqeXObr8D0H7IxsPX2AzLjNsPXzKhWGBRMnElcZ04+xK5WHrdU?=
- =?us-ascii?Q?i5kEcidhaXX0Iqc8EB3iKH+eh8mZb1blYkdO9h6aIfjXbSoWC94m7pxeTxAJ?=
- =?us-ascii?Q?cac5FN+BL8Rh1Bb7FY1E3Cm4OzqM8wmBhlxF8gNCbPiF3FTQyDExJiEjnqC9?=
- =?us-ascii?Q?Wn/W3emqigeZaPl+GiZxhkVkkhhn1SXjqUbcdpZhUs6801WmlKdI9hCFTUvj?=
- =?us-ascii?Q?FkPBUAOHEH9JNSTStJQAm7VioQUL56lApMbMWaprgeAB3tyDI5FCNcPwYfgd?=
- =?us-ascii?Q?lspwIfYac58e/HaGxCwrJ8GJAmCtokzjPoUJRlndjuxVqQ3xHUpyHIwoHlVZ?=
- =?us-ascii?Q?MFF7l1G2lcEVP9x7m3kuezI3HVdbEYbfN2ZVh05QZP9S65ul9jrxw+MVQCdp?=
- =?us-ascii?Q?7ADADJ/qfS0jl73G92kIK1Ham4cEdCaFcXuIYrRM7mJFmz8reBaEp5g4Y4j3?=
- =?us-ascii?Q?QauE28QWwXosLCo45VHys0tDwTdeL8sP/ptL3aCTmfAaqQzECEi9CiRm00PV?=
- =?us-ascii?Q?G5p5xd5FUKG5Q0HrNSsq4grpggHLl5GLiKQMBL4R12GokVq+gUYoA2Jlr3sy?=
- =?us-ascii?Q?7In3937qPiICPGXb5IdAEdqjnkUMkjIi+Nro+Q8aVBKeg+qjkDm1wSHrOQ7h?=
- =?us-ascii?Q?BVT9FsPJzaE6rv43nOLLFUGfn6fsOTyYYzadQjhpmszyzMlhHrLnpcWqPn33?=
- =?us-ascii?Q?KRBxA6WM9QIMYxDvBSb2reZDcj0hETnY4+IJC8snEMUUXlD0+kQ5Nc6lY8e0?=
- =?us-ascii?Q?x2pd1pRv0p+eXXhlalpKZNr+N2aPV0Z3tOWNiSUJystoInp0obL4/kAPHPip?=
- =?us-ascii?Q?mS+NQ/Ya4mx3NXjvXj0rAKiIYrGHa4itN59w0nSBMyrya1X1db2d9fu5ysuP?=
- =?us-ascii?Q?8z7pDm4e8CwWym6jkuOhVedVy2Akx1lWcK9eSFw4RmghyK0Teat9a4CMHwo+?=
- =?us-ascii?Q?02KUuBDiJsmif/FkGZYUv9EObv03RgFtUtfbMcEz8vKASd3mSV6i4IUamqP7?=
- =?us-ascii?Q?5J9x5f58w15es9U2zMPx9tmntux1z+QfhjKk2gdyspqJjAkj5Qbu6s0E0E8T?=
- =?us-ascii?Q?rcxvBS3C0Vrd/N2L2pBYy/m+meALLUdQRRqFLhIEKIOdb7kfO2UOtIoFqzaQ?=
- =?us-ascii?Q?ZbqZPm5kH0xYD3e9Yg9dWbDmbf8l/ngEffEqnCXn2HSgRAr+Tv6qynSdL4ie?=
- =?us-ascii?Q?7QSZ7Jg9K77CQPc1qXh9DctCBlbLnWUHaqb8vw+Xk6p78WN9BANyZnBdIYvl?=
- =?us-ascii?Q?nBr7x2t+/1e5uWE5aT04kVTjAXJMt8fyO9Nr9moUBWyEysxe0iYi1zYUAYX3?=
- =?us-ascii?Q?VU+lrKSP/54Th0Nb/ZVioHoFgjayxb/38XlsneTDHyiIcrzvvU/DhMpok5XH?=
- =?us-ascii?Q?41x3N8zkyMEjgLsSjvhhet0sk560rVX4HlpWQQRL?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QCDIx0CbVte2hBCFcHNl1aMnM6htzJ5QCyIFEZ4Alw471Ml1fnGhVeoGT3ys?=
+ =?us-ascii?Q?HnmneHE+EG+X6MlaPoq50cavwMrXKBA+4Ctbtzwm2NA4CglmcT8yuuRPspbu?=
+ =?us-ascii?Q?jds4qBDhbU7uMlKmTSMG7RGlbQJWU4qJUIZoKwbb/7Pa2OrYBR2sGuie5x8G?=
+ =?us-ascii?Q?qoUkwyZ/yO3e3N8C15lrSRqBCzvRDJGi/v5uweYVW2QqC+YX2UZb/v/zv0n6?=
+ =?us-ascii?Q?BRG6M/9MU7rc2l1WJUi/A0YNT01XU7H7XKabMELsRvul2q6rddF9jdvpnMgA?=
+ =?us-ascii?Q?gnPxX3+Wb0b21DCsEWTT3Me4jQQwFkbMyfFItbCxpEamuecCREyCT3agOWYS?=
+ =?us-ascii?Q?gimASIIwUdEJhXxyOLla2aD0syLTqvZIDPODv1tNm3pUSbGgQNbQIfTCbp4Q?=
+ =?us-ascii?Q?Bnb2eDgm1wsAdMrjBIhUXKhi1QBKIPaktQluwqID2BDJBjZ0ybQYt9CpUR0m?=
+ =?us-ascii?Q?GVFdQJ3tJFrrrztNX1hy7QHO3iPeOLclQozPA/om/CvlGK807aDKk+EDbA3Y?=
+ =?us-ascii?Q?M76RQJBJxxC5bVK8TrqYxVboU4by+AoRwu4hq0lIqw60xwOxhN/a3ri5d+FK?=
+ =?us-ascii?Q?w9vKZVITR2719sAdTIpo7XaZ1FnhR3sAW/c4ZcFDysDhmecfOJGIF9e03Jv+?=
+ =?us-ascii?Q?6Ob2loQe3IC51jA71GZju2RiRH4pL+3/ycEGflF0QnFsZL3YgSMe+89ofvpJ?=
+ =?us-ascii?Q?vpWdzRwiQVa54YY0azJRNXAP5wZpJ5wRmpqR1sFDYceHgl30W1E9pRisGUbe?=
+ =?us-ascii?Q?abUq0g52m/7JhdBOZF1/D4cSzVYbSYmUE2OTkSQvwm8uykjudRKRP4k7in3E?=
+ =?us-ascii?Q?To5Lqtk9IBAo7kKUzYvg5fPWNTtH6us2YnhD/qghzriDJ5z9EKratA9Awxrw?=
+ =?us-ascii?Q?RiPdD6S3PU9t9isrKFE/Imt4WzQhgXYjWGNoK/HfECPRq4dkO8nZoFgnCUiK?=
+ =?us-ascii?Q?aGXD730uSu4qFQE76NzxdtU11reql3sB1dSFGxyoCCqMoPwrptvu+7rFd1+/?=
+ =?us-ascii?Q?kEjWvHhf9F6W3BsWIV+8hRDVl8Q6rMErtPO2Cm+efCJcO7qEfAOcWmilDQpP?=
+ =?us-ascii?Q?nV/80FTua90coh6fCvj3BI8/e4OAlm2mki3hl2J4LbNin+Ydhu3Ad+VW3eye?=
+ =?us-ascii?Q?swjuDRYMBZDAywJMUSmO/jRvu6SYjX8mBFtBVyYyxfria4Kc6JQI2GdSh4Af?=
+ =?us-ascii?Q?OIQPFr8d2IEfBago4vnIGtOF5Ts6sK13iTXidbqxGLZwIy1N4HESXV2wd5C2?=
+ =?us-ascii?Q?ttDi17StKMKGgwFBC9SVcICY2VUo0GSJqJmjIkgfZrEOG8Y9EWNLH2cHVZB5?=
+ =?us-ascii?Q?pWqiVI58O55GWY3FsQfmOGrgBZUdAKJBA2aVZvsczCWHEjuvysSUyeL35yhB?=
+ =?us-ascii?Q?SJ/R0LbTaduBNpgvkIcnTGvp6r2lJ89O2oYYs519n2JkfWnPkhy0U7MIRoXX?=
+ =?us-ascii?Q?KHE+v/p4gEX2i8gFCArcWosuWgD+1mxdth2vrcqIlosShciIBuZXddrbLxAx?=
+ =?us-ascii?Q?qMJwd9rHrd9RX3HMl9qOXEEh4Y20U6dlaRqOXyw9G+M1jUSpKAT1fHsTDHzL?=
+ =?us-ascii?Q?KaBL41+rPQd2uyrlbJu9BgcJB2fvqMY88lUw18zJ?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24689026-f704-4ccd-0cd3-08de0cc4fedd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 080ea939-cdfa-4970-fbe7-08de0cc50142
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 15:02:16.4385 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 15:02:20.3834 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mdpmp/jhbrzOQWXKz5/jrVf70efPgMvdyQrWoyxYldpiYU06Cz8Zg1lmyqeLwrKchjcZ/y5mIRdK+JYa/11lpg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: RWw4whjDuWLXBKiZygOvZfKM3GeF5WschcBOjBG6NciZp55MzSDyL5PHho6HA+Et0Ib1oyp7oDpxbG1IpUUFjw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6380
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,33 +159,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These patches implement the initial refactoring and few improvements to the
-register and bitfield macros. Rebased on drm-rust-next.
+From: Alexandre Courbot <acourbot@nvidia.com>
 
-Main difference from the previous series [1] is dropped the moving out of
-nova-core pending BoundedInt changes:
-https://lore.kernel.org/all/20251003154748.1687160-1-joelagnelf@nvidia.com/
-Other than that, added tags, resolved conflict with kernel::fmt changes and
-rebased on drm-rust-next.
+The getter method of a field works with the field type, but its setter
+expects the type of the register. This leads to an asymmetry in the
+From/Into implementations required for a field with a dedicated type.
+For instance, a field declared as
 
-Alexandre Courbot (1):
-  gpu: nova-core: register: use field type for Into implementation
+    pub struct ControlReg(u32) {
+        3:0 mode as u8 ?=> Mode;
+        ...
+    }
 
-Joel Fernandes (3):
-  gpu: nova-core: bitfield: Move bitfield-specific code from register!
-    into new macro
-  gpu: nova-core: bitfield: Add support for different storage widths
-  gpu: nova-core: bitfield: Add support for custom visiblity
+currently requires the following implementations:
 
- drivers/gpu/nova-core/bitfield.rs    | 333 +++++++++++++++++++++++++++
- drivers/gpu/nova-core/falcon.rs      |  38 ++-
- drivers/gpu/nova-core/nova_core.rs   |   3 +
- drivers/gpu/nova-core/regs/macros.rs | 259 +--------------------
- 4 files changed, 373 insertions(+), 260 deletions(-)
- create mode 100644 drivers/gpu/nova-core/bitfield.rs
+    impl TryFrom<u8> for Mode {
+      ...
+    }
 
+    impl From<Mode> for u32 {
+      ...
+    }
 
-base-commit: 1d5cffebd930d61588c32198f85fbe541ab97b8f
+Change this so the `From<Mode>` now needs to be implemented for `u8`,
+i.e. the primitive type of the field. This is more consistent, and will
+become a requirement once we start using the TryFrom/Into derive macros
+to implement these automatically.
+
+Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+ drivers/gpu/nova-core/falcon.rs      | 38 ++++++++++++++++++++--------
+ drivers/gpu/nova-core/regs/macros.rs | 10 ++++----
+ 2 files changed, 32 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+index 37e6298195e4..3f505b870601 100644
+--- a/drivers/gpu/nova-core/falcon.rs
++++ b/drivers/gpu/nova-core/falcon.rs
+@@ -22,11 +22,11 @@
+ pub(crate) mod sec2;
+ 
+ // TODO[FPRI]: Replace with `ToPrimitive`.
+-macro_rules! impl_from_enum_to_u32 {
++macro_rules! impl_from_enum_to_u8 {
+     ($enum_type:ty) => {
+-        impl From<$enum_type> for u32 {
++        impl From<$enum_type> for u8 {
+             fn from(value: $enum_type) -> Self {
+-                value as u32
++                value as u8
+             }
+         }
+     };
+@@ -46,7 +46,7 @@ pub(crate) enum FalconCoreRev {
+     Rev6 = 6,
+     Rev7 = 7,
+ }
+-impl_from_enum_to_u32!(FalconCoreRev);
++impl_from_enum_to_u8!(FalconCoreRev);
+ 
+ // TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconCoreRev {
+@@ -81,7 +81,7 @@ pub(crate) enum FalconCoreRevSubversion {
+     Subversion2 = 2,
+     Subversion3 = 3,
+ }
+-impl_from_enum_to_u32!(FalconCoreRevSubversion);
++impl_from_enum_to_u8!(FalconCoreRevSubversion);
+ 
+ // TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconCoreRevSubversion {
+@@ -125,7 +125,7 @@ pub(crate) enum FalconSecurityModel {
+     /// Also known as High-Secure, Privilege Level 3 or PL3.
+     Heavy = 3,
+ }
+-impl_from_enum_to_u32!(FalconSecurityModel);
++impl_from_enum_to_u8!(FalconSecurityModel);
+ 
+ // TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconSecurityModel {
+@@ -157,7 +157,7 @@ pub(crate) enum FalconModSelAlgo {
+     #[default]
+     Rsa3k = 1,
+ }
+-impl_from_enum_to_u32!(FalconModSelAlgo);
++impl_from_enum_to_u8!(FalconModSelAlgo);
+ 
+ // TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconModSelAlgo {
+@@ -179,7 +179,7 @@ pub(crate) enum DmaTrfCmdSize {
+     #[default]
+     Size256B = 0x6,
+ }
+-impl_from_enum_to_u32!(DmaTrfCmdSize);
++impl_from_enum_to_u8!(DmaTrfCmdSize);
+ 
+ // TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for DmaTrfCmdSize {
+@@ -202,7 +202,6 @@ pub(crate) enum PeregrineCoreSelect {
+     /// RISC-V core is active.
+     Riscv = 1,
+ }
+-impl_from_enum_to_u32!(PeregrineCoreSelect);
+ 
+ impl From<bool> for PeregrineCoreSelect {
+     fn from(value: bool) -> Self {
+@@ -213,6 +212,15 @@ fn from(value: bool) -> Self {
+     }
+ }
+ 
++impl From<PeregrineCoreSelect> for bool {
++    fn from(value: PeregrineCoreSelect) -> Self {
++        match value {
++            PeregrineCoreSelect::Falcon => false,
++            PeregrineCoreSelect::Riscv => true,
++        }
++    }
++}
++
+ /// Different types of memory present in a falcon core.
+ #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+ pub(crate) enum FalconMem {
+@@ -236,7 +244,7 @@ pub(crate) enum FalconFbifTarget {
+     /// Non-coherent system memory (System DRAM).
+     NoncoherentSysmem = 2,
+ }
+-impl_from_enum_to_u32!(FalconFbifTarget);
++impl_from_enum_to_u8!(FalconFbifTarget);
+ 
+ // TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconFbifTarget {
+@@ -263,7 +271,6 @@ pub(crate) enum FalconFbifMemType {
+     /// Physical memory addresses.
+     Physical = 1,
+ }
+-impl_from_enum_to_u32!(FalconFbifMemType);
+ 
+ /// Conversion from a single-bit register field.
+ impl From<bool> for FalconFbifMemType {
+@@ -275,6 +282,15 @@ fn from(value: bool) -> Self {
+     }
+ }
+ 
++impl From<FalconFbifMemType> for bool {
++    fn from(value: FalconFbifMemType) -> Self {
++        match value {
++            FalconFbifMemType::Virtual => false,
++            FalconFbifMemType::Physical => true,
++        }
++    }
++}
++
+ /// Type used to represent the `PFALCON` registers address base for a given falcon engine.
+ pub(crate) struct PFalconBase(());
+ 
+diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
+index 8058e1696df9..1c54a4533822 100644
+--- a/drivers/gpu/nova-core/regs/macros.rs
++++ b/drivers/gpu/nova-core/regs/macros.rs
+@@ -482,7 +482,7 @@ impl $name {
+         register!(
+             @leaf_accessor $name $hi:$lo $field
+             { |f| <$into_type>::from(if f != 0 { true } else { false }) }
+-            $into_type => $into_type $(, $comment)?;
++            bool $into_type => $into_type $(, $comment)?;
+         );
+     };
+ 
+@@ -499,7 +499,7 @@ impl $name {
+             $(, $comment:literal)?;
+     ) => {
+         register!(@leaf_accessor $name $hi:$lo $field
+-            { |f| <$try_into_type>::try_from(f as $type) } $try_into_type =>
++            { |f| <$try_into_type>::try_from(f as $type) } $type $try_into_type =>
+             ::core::result::Result<
+                 $try_into_type,
+                 <$try_into_type as ::core::convert::TryFrom<$type>>::Error
+@@ -513,7 +513,7 @@ impl $name {
+             $(, $comment:literal)?;
+     ) => {
+         register!(@leaf_accessor $name $hi:$lo $field
+-            { |f| <$into_type>::from(f as $type) } $into_type => $into_type $(, $comment)?;);
++            { |f| <$into_type>::from(f as $type) } $type $into_type => $into_type $(, $comment)?;);
+     };
+ 
+     // Shortcut for non-boolean fields defined without the `=>` or `?=>` syntax.
+@@ -527,7 +527,7 @@ impl $name {
+     // Generates the accessor methods for a single field.
+     (
+         @leaf_accessor $name:ident $hi:tt:$lo:tt $field:ident
+-            { $process:expr } $to_type:ty => $res_type:ty $(, $comment:literal)?;
++            { $process:expr } $prim_type:tt $to_type:ty => $res_type:ty $(, $comment:literal)?;
+     ) => {
+         ::kernel::macros::paste!(
+         const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<u8> = $lo..=$hi;
+@@ -559,7 +559,7 @@ pub(crate) fn $field(self) -> $res_type {
+         pub(crate) fn [<set_ $field>](mut self, value: $to_type) -> Self {
+             const MASK: u32 = $name::[<$field:upper _MASK>];
+             const SHIFT: u32 = $name::[<$field:upper _SHIFT>];
+-            let value = (u32::from(value) << SHIFT) & MASK;
++            let value = (u32::from($prim_type::from(value)) << SHIFT) & MASK;
+             self.0 = (self.0 & !MASK) | value;
+ 
+             self
 -- 
 2.34.1
 
