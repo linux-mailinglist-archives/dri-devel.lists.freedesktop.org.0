@@ -2,56 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0537BE272C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464FEBE27D4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 11:48:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF2C10E986;
-	Thu, 16 Oct 2025 09:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4E610E993;
+	Thu, 16 Oct 2025 09:48:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CUS5qKMX";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="LY6pxnqu";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iRCKiYjV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB6B610E986
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 09:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760607620;
- bh=fGMwze4EW9EL74icbGlhobpT5wikVa0unEplucU4aqg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CUS5qKMXLv+emHFfqpQyBbIL99625tN7gP9oEmpetnp1c6ezEOcO/71zrE04ymKO3
- FWs21TS96grt8bvWCT1ChW0OQGA8K0ATfhrFhlyTZnqy4r75ruXQTNufAdVOS9rZ0u
- E7+IJsRYIdtNjdTGR/gi08AFB4m7E47Pgr0yNaMTo6uSxXQ3RGRGY39GTtQR3rPCmo
- DOSg2Qz7XSBA4Z7KdlZlkOlIpd8VEq7ejosl5xQQ68sAJwK+0p8MZjIi5G7m+yUvUh
- QVBNmHPztR7fqdaVMsHBb6687fVSYKUT9yTybw4KbovyRGof+qKyTpXve94UTIqjbh
- XCgeeixfIJCmw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA1F10E993
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 09:48:05 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 151AD17E10C8;
- Thu, 16 Oct 2025 11:40:20 +0200 (CEST)
-Date: Thu, 16 Oct 2025 11:40:16 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Faith Ekstrand <faith.ekstrand@collabora.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync()
- and a drm_gem_sync() helper
-Message-ID: <20251016114016.12bb49cd@fedora>
-In-Reply-To: <f89987b9-2df8-45ab-8b53-6a210a30ce50@suse.de>
-References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
- <20251015160326.3657287-3-boris.brezillon@collabora.com>
- <f89987b9-2df8-45ab-8b53-6a210a30ce50@suse.de>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cnNRk5kTGz9tjH;
+ Thu, 16 Oct 2025 11:48:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760608082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dDU4MHtIXNjqAS9JJD27/CnM+BvS39aAL00HB1wKmUs=;
+ b=LY6pxnquYPZzf/vnpVqvwnv42pmxyX6hS/LsDWtU2B5JF97gz28NKgw1jRUUjFmYd0WhY4
+ DhTdpjEhwlwi09VKAedBaCkcFWVxDpPVQBRvnyexpFgvr6thnM+qsFM/SXawGC24Snlkop
+ BAlxbv5sxRJcOfBbSTOPE3I5IkN2mwUjqU7cMUagSLRmPbwbsde288GtVU5kgwWl8HpOMt
+ guOm0DFxFFkYnqDc5YhclS3FSNnqn2mBeSvrLomnHRcn4bpZcLw3l6XGd3EqNTvCt/hEb/
+ 4ZXRIj0BaM9G+H8AA7kE358iZM8WoKe7Dyz9W4zW7/b2OscjuPZVdG6sXIfCIA==
+Message-ID: <51ff107d-126d-4481-b94a-f614f31c7bb8@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760608080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dDU4MHtIXNjqAS9JJD27/CnM+BvS39aAL00HB1wKmUs=;
+ b=iRCKiYjVaNQjr7ciL/76PHWjl/5d+opl6I8j9fSY+qFPEtSc5dnwYavGolev5MM93Ngcdu
+ jI9veoq6Z/SRRV+gM+fLHysHUfIk4n6YOTzptX/Y5KOBvYVIGf9NxaiUXHF/VBNUqF8gta
+ JygcaVjXZOjfL9Bz15/lXRRO2RvvdX8l2LnnxfYIjgc3KZJ6PtM5oWJKIAY3RpwBrlVJB7
+ hELhC2z0tVptxe9FamxUsaGGnVtlkgWapRFm9F1p5+5PQGGCk+676DDTZJ4TEJKOh/H97j
+ UhVs3Q/nD4Joq2xP7oZKdzJqq6GnWFwTGSgJupUhHQ04ka4rG1+CeIQwMtmcXQ==
+Date: Thu, 16 Oct 2025 11:47:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: r8a77960: Add GX6250 GPU node
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
+ <20251015153952.185249-2-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdVdW+tMA1=g9D+BQV0fk0kis8FzyQgf7BpN-u=pi5eQfA@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdVdW+tMA1=g9D+BQV0fk0kis8FzyQgf7BpN-u=pi5eQfA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 6f731996ea0c40a0a5a
+X-MBO-RS-META: oz5jm67tb1wz1eczi1ucb737inbcuyn3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 10/16/25 10:22 AM, Geert Uytterhoeven wrote:
 
-On Thu, 16 Oct 2025 10:32:46 +0200
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+Hello Geert,
 
-> Hi,
+>> --- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+>> @@ -2575,6 +2575,22 @@ gic: interrupt-controller@f1010000 {
+>>                          resets = <&cpg 408>;
+>>                  };
+>>
+>> +               gpu: gpu@fd000000 {
+>> +                       compatible = "renesas,r8a7796-gpu",
+>> +                                    "img,img-gx6250",
+>> +                                    "img,img-rogue";
+>> +                       reg = <0 0xfd000000 0 0x40000>;
+>> +                       interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       clocks = <&cpg CPG_CORE R8A7796_CLK_ZG>,
+>> +                                <&cpg CPG_CORE R8A7796_CLK_S2D1>,
+>> +                                <&cpg CPG_MOD 112>;
+>> +                       clock-names = "core", "mem", "sys";
+>> +                       power-domains = <&sysc R8A7796_PD_3DG_A>,
+>> +                                       <&sysc R8A7796_PD_3DG_B>;
+>> +                       power-domain-names = "a", "b";
+>> +                       resets = <&cpg 112>;
 > 
-> on patches 2 to 4: sync is really begin/end access wrapped into one 
-> interface, which I find questionable. I also don't like that these 
-> patches add generic infrastructure for a single driver.
+> status = "disabled"; ?
 
-It's actually two drivers (panfrost and panthor), and the interface is
-here so other drivers relying on drm_gem_shmem don't have to hand-roll
-these things in the future.
+The GPU is always present in the SoC, similar to IPMMU/GIC/DMA/VSP/... 
+which are also never disabled, do we want to disable the GPU by default 
+and enable per-board ?
 
-> 
-> My proposal is to make your own dma_buf exporter in panthor and set the 
-> begin/end_cpu_access functions as you need. Panthor already contains its 
-> own GEM export helper at [1]. If you inline drm_gem_prime_export() [2] 
-> you can set the cpu_access callbacks to panthor-specific code. The other 
-> dma-buf helpers' symbols should be exported and can be re-used. That is 
-> a lot less intrusive and should provide what you need.
+I would argue the GPU should be enabled by default, so the GPU driver 
+can do a proper power management of the GPU. If firmware is missing, at 
+least power it off on failed probe, if nothing else.
 
-I can of course do that in panthor, but then I'll have to duplicate
-the same logic in panfrost. Also, the whole point of making it generic
-is so that people don't forget that begin/end_cpu_access() is a thing
-they should consider (like happened to me if you look at v2 of this
-patchset), otherwise importers of their buffers might have unpleasant
-side effects because of missing flush/invalidates. This, IMHO, is a good
-reason to have it as a drm_gem_funcs::sync() callback. That, or we
-decide that the default dma_buf_ops is not a thing, and we force
-developers to think twice when they select the default hooks to pick
-for their dma_buf implementation.
-
-> 
-> I found that a hand full of other DRM drivers implement dma-buf's 
-> begin/end access callbacks. If you want a generic begin/end interface 
-> for GEM, you certainly want to get them on board. If there's something 
-> common to share, this should be done in a separate series.
-
-Fair enough. I'll try to convert freedreno and imagination to this new
-interface, and gather some feedback.
-
-Regards,
-
-Boris
+[...]
