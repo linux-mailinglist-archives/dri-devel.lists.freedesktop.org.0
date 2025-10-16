@@ -2,69 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF604BE5876
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 23:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A2FBE587F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 23:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D08EE10EAA7;
-	Thu, 16 Oct 2025 21:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F053A10E382;
+	Thu, 16 Oct 2025 21:10:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K2Qs0jbq";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FpcgP808";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F8910EAA6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 21:10:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B2210EA8F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 21:10:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760649037;
+ s=mimecast20190719; t=1760649042;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ndxGIWx/ZNHEkFTFx03hLRsmSb6lYoWq21ZuRayGVk=;
- b=K2Qs0jbq154uoCWUw4nZlBMiCahkm52+i/TvKk9npr2NKUSDhxV4lhTAO0DhfpTaWXEyeq
- 5apd1MBHmyPZmx2Z8uCi32yKzR6mYhYxVN+nSxdbLJIJtT3BvbuyWwvx6Z5mGPN5DTOZpk
- RV3Brm84lNlUnKpwOLC81oifvm6zpVM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ bh=RFGYI2GY+pZyjlwMees9S7niC3kaCabOLOovFrN+Si8=;
+ b=FpcgP808Zzl2jC5+uH5O8Lk6w+ZBxsLlvaBEQ51YxO9pN4H0P+Te25+DnnsJwyX14Ntl69
+ pHw/B4yjA1U47RjM9NJyWqi3v56DbBpKB9PPEf91s+1xzrJZLjPt5UVlU458l7nUMyQkun
+ F8LcRJlwS3HSVR648x5KJqVYzlCw63s=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-534-Mnb5-NH5OpK46Iw89vDsDw-1; Thu,
- 16 Oct 2025 17:10:32 -0400
-X-MC-Unique: Mnb5-NH5OpK46Iw89vDsDw-1
-X-Mimecast-MFC-AGG-ID: Mnb5-NH5OpK46Iw89vDsDw_1760649028
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-664-BvqlooD8PCyHmVkNPNnZ4Q-1; Thu,
+ 16 Oct 2025 17:10:36 -0400
+X-MC-Unique: BvqlooD8PCyHmVkNPNnZ4Q-1
+X-Mimecast-MFC-AGG-ID: BvqlooD8PCyHmVkNPNnZ4Q_1760649034
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 5D1A118001E9; Thu, 16 Oct 2025 21:10:28 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 13F5E180122A; Thu, 16 Oct 2025 21:10:34 +0000 (UTC)
 Received: from chopper.lan (unknown [10.22.80.252])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id E9E68300019F; Thu, 16 Oct 2025 21:10:24 +0000 (UTC)
+ id 3206E300019F; Thu, 16 Oct 2025 21:10:31 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Alice Ryhl <aliceryhl@google.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
  Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
  Gary Guo <gary@garyguo.net>,
  =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Asahi Lina <lina+kernel@asahilina.net>,
+ Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>,
  Shankari Anand <shankari.ak0208@gmail.com>,
- linux-kernel@vger.kernel.org (open list),
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v4 4/9] rust: drm: gem: Add raw_dma_resv() function
-Date: Thu, 16 Oct 2025 17:08:17 -0400
-Message-ID: <20251016210955.2813186-5-lyude@redhat.com>
+ nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GPUS [RUST]),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v4 5/9] rust: gem: Introduce DriverObject::Args
+Date: Thu, 16 Oct 2025 17:08:18 -0400
+Message-ID: <20251016210955.2813186-6-lyude@redhat.com>
 In-Reply-To: <20251016210955.2813186-1-lyude@redhat.com>
 References: <20251016210955.2813186-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -85,39 +80,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For retrieving a pointer to the struct dma_resv for a given GEM object. We
-also introduce it in a new trait, BaseObjectPrivate, which we automatically
-implement for all gem objects and don't expose to users outside of the
-crate.
+This is an associated type that may be used in order to specify a data-type
+to pass to gem objects when construction them, allowing for drivers to more
+easily initialize their private-data for gem objects.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+---
+V3:
+* s/BaseDriverObject/DriverObject/
+V4:
+* Fix leftover reference to BaseObjectDriver in rustdoc for
+  DriverObject::Args
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/gem/mod.rs | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/nova/gem.rs |  5 +++--
+ rust/kernel/drm/gem/mod.rs  | 13 ++++++++++---
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
+index 2760ba4f3450b..173077eeb2def 100644
+--- a/drivers/gpu/drm/nova/gem.rs
++++ b/drivers/gpu/drm/nova/gem.rs
+@@ -18,8 +18,9 @@ pub(crate) struct NovaObject {}
+ 
+ impl gem::DriverObject for NovaObject {
+     type Driver = NovaDriver;
++    type Args = ();
+ 
+-    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, Error> {
++    fn new(_dev: &NovaDevice, _size: usize, _args: Self::Args) -> impl PinInit<Self, Error> {
+         try_pin_init!(NovaObject {})
+     }
+ }
+@@ -33,7 +34,7 @@ pub(crate) fn new(dev: &NovaDevice, size: usize) -> Result<ARef<gem::Object<Self
+             return Err(EINVAL);
+         }
+ 
+-        gem::Object::new(dev, aligned_size)
++        gem::Object::new(dev, aligned_size, ())
+     }
+ 
+     /// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
 diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index 981fbb931e952..760fcd61da0b7 100644
+index 760fcd61da0b7..f271c9176bca5 100644
 --- a/rust/kernel/drm/gem/mod.rs
 +++ b/rust/kernel/drm/gem/mod.rs
-@@ -199,6 +199,18 @@ fn create_mmap_offset(&self) -> Result<u64> {
+@@ -64,8 +64,15 @@ pub trait DriverObject: Sync + Send + Sized {
+     /// Parent `Driver` for this object.
+     type Driver: drm::Driver;
  
- impl<T: IntoGEMObject> BaseObject for T {}
++    /// The data type to use for passing arguments to [`DriverObject::new`].
++    type Args;
++
+     /// Create a new driver data object for a GEM object of a given size.
+-    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl PinInit<Self, Error>;
++    fn new(
++        dev: &drm::Device<Self::Driver>,
++        size: usize,
++        args: Self::Args,
++    ) -> impl PinInit<Self, Error>;
  
-+/// Crate-private base operations shared by all GEM object classes.
-+#[expect(unused)]
-+pub(crate) trait BaseObjectPrivate: IntoGEMObject {
-+    /// Return a pointer to this object's dma_resv.
-+    fn raw_dma_resv(&self) -> *mut bindings::dma_resv {
-+        // SAFETY: `as_gem_obj()` always returns a valid pointer to the base DRM gem object
-+        unsafe { (*self.as_raw()).resv }
-+    }
-+}
-+
-+impl<T: IntoGEMObject> BaseObjectPrivate for T {}
-+
- /// A base GEM object.
- ///
- /// Invariants
+     /// Open a new handle to an existing object, associated with a File.
+     fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: &DriverFile<Self>) -> Result {
+@@ -246,11 +253,11 @@ impl<T: DriverObject> Object<T> {
+     };
+ 
+     /// Create a new GEM object.
+-    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
++    pub fn new(dev: &drm::Device<T::Driver>, size: usize, args: T::Args) -> Result<ARef<Self>> {
+         let obj: Pin<KBox<Self>> = KBox::pin_init(
+             try_pin_init!(Self {
+                 obj: Opaque::new(bindings::drm_gem_object::default()),
+-                data <- T::new(dev, size),
++                data <- T::new(dev, size, args),
+                 // INVARIANT: The drm subsystem guarantees that the `struct drm_device` will live
+                 // as long as the GEM object lives.
+                 dev: dev.into(),
 -- 
 2.51.0
 
