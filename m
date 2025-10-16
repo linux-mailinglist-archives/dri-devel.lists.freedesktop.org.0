@@ -2,86 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D748BE2210
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 10:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197A1BE2256
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 10:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6FC210E2DD;
-	Thu, 16 Oct 2025 08:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF5510E270;
+	Thu, 16 Oct 2025 08:29:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YnmQVCPg";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
- [209.85.221.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A170F10E2DD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:23:20 +0000 (UTC)
-Received: by mail-vk1-f175.google.com with SMTP id
- 71dfb90a1353d-54bc08ef45dso316417e0c.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 01:23:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760602999; x=1761207799;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xR7pvs4sY0VZXb71oeLpqLl5nfCodgR8zUuBqvOj1Tc=;
- b=M9L7xLfZxCJWRo/jF3yuUmwHe0irj+mhthEN61O5ZdpcQi+USQ6lL+ZlJwu1vwwZve
- 26m0c24IHG66tX4ApoooDbFcn5CP+FHAExm1GHhZUyaa3CZwsTkztjKp0AestcVQIfyN
- Ejlr6gNpJrHQUXvsaEAv36MV2fbNbd6WaZ0xFnIrVzpdsEJRMZh18wUs8SjiGBUD6bNu
- vizAYFLI9he7ZVVB1AmfyEn/J2BXT8dB9TOp0m3RyNKbIJoMCL0ga43LP7ivdOXQPS2H
- ZRPio8FBro2IKCCl60Xq18IiGzGTV+ZtL9fetyB5XWYGh67X9g5UxJq/mTGdJaZjeyYv
- b1Ag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPRDRIAL68Ywy45LM7WSZDDpIF2uBIjdiKUC+F3NHcmMIaFiZhaZhiDEwE/AvJnJdb2bT/QEMyQKU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPM00fJv9GPLgG2j8XpSXd09f5xh/Q5ivOBNDd4pjppaiEB7Vd
- wzMTxTTDU5rAKBoVn2BJbItcwJRMZIdeFCvfKJzLtgZU3mr2ciyjRB+DunN69wGq
-X-Gm-Gg: ASbGnctLOzWReyX0uEWyg9IU2ihETCRbpcMiFVYIH+m4902avwPkrfNzr10W8NjIzI7
- z1K9zrbYKpj47XEx/5a6Sx54W3e7sRV/3rc6Eul6syoE88lJDu3GzS6fJ97hZXQMucW7z+rfs67
- nMWwmU1Ac2Jm92IKerWLpKW2DrG14yBgrCDC4GmdvmkwChblfho0t+Wygt2wPqBj5nnk/lsj9DD
- Et9fPf99Y9gungAROCfRx/HPPnW0+aJphhetbnN0B45EFeZYIbOEFk358I8yB9/oMG2YQ9flcsb
- pwq1tU2wRsHYukfbB2LA5rpfiqLjtqSLAlSrKq+7ywaYaXAdR2AQeqUtdNek2rmWZ8Jb31U7gIE
- 0xnNPXEjll/3MJF6vq85GTQ6Zdq0x+HjYGujMPxlNAtsyLnU6eB4yuxDYRq8i9NVjzM9caJ57ax
- esFy3/pSLxaQHbDeISj0k/S+S0H3EVZXIckoEqobeq566lX1wLYMEPJNlt7e4=
-X-Google-Smtp-Source: AGHT+IGmQReQYp2RHxg8wDHTugcPaHCMCZ1jVL9UWH+ooE32AfeF0Uro79NpuLu0G6BcXIH3rGtSLA==
-X-Received: by 2002:a05:6122:c84:b0:54c:3fe6:6281 with SMTP id
- 71dfb90a1353d-554b8aadf06mr12175106e0c.6.1760602999327; 
- Thu, 16 Oct 2025 01:23:19 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
- [209.85.217.48]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-554f37d2ea8sm4256605e0c.4.2025.10.16.01.23.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Oct 2025 01:23:18 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id
- ada2fe7eead31-5ce093debf6so362535137.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 01:23:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/h3Okg1vuxYHx7nd7Fw0ArYUwtdg5/XdzgNRljqovgCKqLuynG61qL2iAs7egmBDM85qAPXZZQQc=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:32c1:b0:52d:110:a920 with SMTP id
- ada2fe7eead31-5d5e2394649mr12437643137.33.1760602998488; Thu, 16 Oct 2025
- 01:23:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251015153952.185249-1-marek.vasut+renesas@mailbox.org>
- <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251015153952.185249-3-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 16 Oct 2025 10:23:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUfssQFZj4Mj0T4KpXDzDXBC6MecnauD5wp2_2OLdt=ZA@mail.gmail.com>
-X-Gm-Features: AS18NWDv5MDbI0Q-YaerQHTTLK54INzbJu8pMvADwEhMtSUs8ivJgVETlU0r9ws
-Message-ID: <CAMuHMdUfssQFZj4Mj0T4KpXDzDXBC6MecnauD5wp2_2OLdt=ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r8a77961: Add GX6250 GPU node
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C7C10E270
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 08:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760603364; x=1792139364;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=NRqMCO2UD2ZElId4/sDDauUesnj09RgQKU3DA85pH7U=;
+ b=YnmQVCPg0TZu5QsQzi0yA/QRzjYTBNgg95i+s6WORwOo76od/w0xeQhx
+ tvi3xBa8LlcsICcwcj5w+yuj6JzfNv1CaGumaQRJNY+f7BT+YmQvahBJJ
+ NHn5zljbPjkjXWEWLI6mOPXsYzosdH0UXbQYr7TYfDwaqjzMr7AhjFfaF
+ slt4rLvg41rN0vMMoJisPtoB6jdMTdAzl6+CMHsnb4Y2ZNqvDARliOVYM
+ aGuJTVjnvoYMHEj34Q2JtZdDg4C08f7rXWh1vzrWeDE1QtvwsWTj9sgG4
+ XvyAMF3npbgalSZXQSJ4PAGCz5+cp3K9y5ubPw98BeFE8ilE4dYIwugbe g==;
+X-CSE-ConnectionGUID: BP6ZuXzHSl+PK9AcapyiBQ==
+X-CSE-MsgGUID: q9yo1dkaT9S6BFt0kRJ+fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="66439707"
+X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; d="scan'208";a="66439707"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2025 01:29:23 -0700
+X-CSE-ConnectionGUID: m0sBl1kLTqOn+kmk8/YFNg==
+X-CSE-MsgGUID: hmBJhFAFSheM3NYWWDHmJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; d="scan'208";a="182072902"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+ by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2025 01:29:20 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1v9JML-0004bH-2v;
+ Thu, 16 Oct 2025 08:29:17 +0000
+Date: Thu, 16 Oct 2025 16:29:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, nd@arm.com,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Matt Coster <matt.coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>, 
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via
+ PWR_CONTROL
+Message-ID: <202510161626.f3OG4u62-lkp@intel.com>
+References: <20251014094337.1009601-7-karunika.choo@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251014094337.1009601-7-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,65 +77,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi Karunika,
 
-On Wed, 15 Oct 2025 at 17:40, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Describe Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-> present in Renesas R-Car R8A77961 M3-W+ SoC.
->
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+kernel test robot noticed the following build warnings:
 
-> V2: - Add RB from Niklas
->     - Fix up power-domains =3D <&sysc R8A77961_PD_3DG_B>; for 77961
->     - Fill in all three clock and two power domains
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc1 next-20251015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks for the update!
+url:    https://github.com/intel-lab-lkp/linux/commits/Karunika-Choo/drm-panthor-Factor-out-GPU_ID-register-read-into-separate-function/20251014-174729
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251014094337.1009601-7-karunika.choo%40arm.com
+patch subject: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via PWR_CONTROL
+config: arm-randconfig-r132-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161626.f3OG4u62-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161626.f3OG4u62-lkp@intel.com/reproduce)
 
-> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> @@ -2455,6 +2455,22 @@ gic: interrupt-controller@f1010000 {
->                         resets =3D <&cpg 408>;
->                 };
->
-> +               gpu: gpu@fd000000 {
-> +                       compatible =3D "renesas,r8a77961-gpu",
-> +                                    "img,img-gx6250",
-> +                                    "img,img-rogue";
-> +                       reg =3D <0 0xfd000000 0 0x40000>;
-> +                       interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks =3D <&cpg CPG_CORE R8A77961_CLK_ZG>,
-> +                                <&cpg CPG_CORE R8A77961_CLK_S2D1>,
-> +                                <&cpg CPG_MOD 112>;
-> +                       clock-names =3D "core", "mem", "sys";
-> +                       power-domains =3D <&sysc R8A77961_PD_3DG_A>,
-> +                                       <&sysc R8A77961_PD_3DG_B>;
-> +                       power-domain-names =3D "a", "b";
-> +                       resets =3D <&cpg 112>;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510161626.f3OG4u62-lkp@intel.com/
 
-status =3D "disabled"; ?
+All warnings (new ones prefixed by >>):
 
-> +               };
-> +
->                 pciec0: pcie@fe000000 {
->                         compatible =3D "renesas,pcie-r8a77961",
->                                      "renesas,pcie-rcar-gen3";
+>> drivers/gpu/drm/panthor/panthor_pwr.c:153:13: warning: shift count >= width of type [-Wshift-count-overflow]
+     152 |         ret = gpu_read64_poll_timeout(ptdev, pwrtrans_reg, val,
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     153 |                                       !(PWR_ALL_CORES_MASK & val), 100,
+         |                                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     154 |                                       timeout_us);
+         |                                       ~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_pwr.c:26:29: note: expanded from macro 'PWR_ALL_CORES_MASK'
+      26 | #define PWR_ALL_CORES_MASK              GENMASK(63, 0)
+         |                                         ^
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^
+   include/linux/bits.h:49:20: note: expanded from macro 'GENMASK_TYPE'
+      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+         |                           ^
+   drivers/gpu/drm/panthor/panthor_device.h:533:37: note: expanded from macro 'gpu_read64_poll_timeout'
+     533 |         read_poll_timeout(gpu_read64, val, cond, delay_us, timeout_us, false,   \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     534 |                           dev, reg)
+         |                           ~~~~~~~~~
+   include/linux/iopoll.h:145:36: note: expanded from macro 'read_poll_timeout'
+     145 |         poll_timeout_us((val) = op(args), cond, sleep_us, timeout_us, sleep_before_read)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iopoll.h:49:7: note: expanded from macro 'poll_timeout_us'
+      49 |                 if (cond) { \
+         |                     ^~~~
+   drivers/gpu/drm/panthor/panthor_pwr.c:260:13: warning: shift count >= width of type [-Wshift-count-overflow]
+     259 |         ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val,
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     260 |                                       !(PWR_STATUS_RETRACT_PENDING & val), 0,
+         |                                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     261 |                                       PWR_RETRACT_TIMEOUT_US);
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_regs.h:249:40: note: expanded from macro 'PWR_STATUS_RETRACT_PENDING'
+     249 | #define   PWR_STATUS_RETRACT_PENDING                    BIT(43)
+         |                                                         ^
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^
+   drivers/gpu/drm/panthor/panthor_device.h:533:37: note: expanded from macro 'gpu_read64_poll_timeout'
+     533 |         read_poll_timeout(gpu_read64, val, cond, delay_us, timeout_us, false,   \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     534 |                           dev, reg)
+         |                           ~~~~~~~~~
+   include/linux/iopoll.h:145:36: note: expanded from macro 'read_poll_timeout'
+     145 |         poll_timeout_us((val) = op(args), cond, sleep_us, timeout_us, sleep_before_read)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iopoll.h:49:7: note: expanded from macro 'poll_timeout_us'
+      49 |                 if (cond) { \
+         |                     ^~~~
+   2 warnings generated.
 
-The rest LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
+vim +153 drivers/gpu/drm/panthor/panthor_pwr.c
 
-                        Geert
+   144	
+   145	static int panthor_pwr_domain_wait_transition(struct panthor_device *ptdev, u32 domain,
+   146						      u32 timeout_us)
+   147	{
+   148		u32 pwrtrans_reg = get_domain_pwrtrans_reg(domain);
+   149		u64 val;
+   150		int ret = 0;
+   151	
+   152		ret = gpu_read64_poll_timeout(ptdev, pwrtrans_reg, val,
+ > 153					      !(PWR_ALL_CORES_MASK & val), 100,
+   154					      timeout_us);
+   155		if (ret) {
+   156			drm_err(&ptdev->base, "%s domain power in transition, pwrtrans(0x%llx)",
+   157				get_domain_name(domain), val);
+   158			return ret;
+   159		}
+   160	
+   161		return 0;
+   162	}
+   163	
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
