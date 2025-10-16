@@ -2,89 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38575BE3FEA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 16:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6877BE4044
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Oct 2025 16:52:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62EEA10E9FC;
-	Thu, 16 Oct 2025 14:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C9D10EA00;
+	Thu, 16 Oct 2025 14:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GibI3dyY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="G9rb/QvQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9QhVvHPe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G9rb/QvQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9QhVvHPe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC4F10E304
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 14:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760626108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U03eGbs4wjj3PFtRG+pRSc+mdF22jPXyW9jnySqsUVw=;
- b=GibI3dyYFu1LMcoRFCk97vhuTB8D2JXWGa0HFO7rpim3MRAgF5DP8XePQjZuFwqBH4CxBX
- Bdhx66DO1yHo56M6Yp3iQ+MR6OSY0eMi1/oHrOvviYWSihyD1eWSLL3cqmwDM/Uz1Rs6AC
- v1FYz7IMuu6mcr0H5yuRaYccgAXYfMQ=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-356-usYdYUz1NIGe9Pf3-xMUww-1; Thu, 16 Oct 2025 10:48:25 -0400
-X-MC-Unique: usYdYUz1NIGe9Pf3-xMUww-1
-X-Mimecast-MFC-AGG-ID: usYdYUz1NIGe9Pf3-xMUww_1760626104
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-76e2e60221fso1534164b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 07:48:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760626104; x=1761230904;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U03eGbs4wjj3PFtRG+pRSc+mdF22jPXyW9jnySqsUVw=;
- b=TvwPClq6AbXfop5xW8RGcSC2xKdxjNhjuRh1Hs2WC0askEPphr+G6zNtwNkhACgpaJ
- +xHuTJ+3bWWGABLz9BZzkO/4ay6KLyeOS6aOXmOM1Z4QcCzrRdbyUJO31Se/EIa4ngVp
- FD9bp6P8wXWRmOOPmz0kjvZBu366XS9j5EiLnjHw7cyuSJI/hEAcqGKrfjOXEi1yLHep
- DfCL8gZVbCZajOA8IKJUKOo0+CJAHaKy/UlQcXMEKho2ml94ERnTBqa2/Yj6urKJMMXA
- yAYdIFFQxbQEMKktoCYua11hJ0snrUdeVPpGp4lckgZfcrEMybBvrdnMB5lmY2ldjIqM
- cyUw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYzuEzI2xkDv/kwQgRItQfzUn+ptNp8jRk+hwPi4pXOL6HOfnQqjovzeiGC/Bmh9zCvNtyDxKsiGw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzgmBhC17Dtb2nJM0nTpYVCJq6yLZHcU86m0ZwOdftEsMeouAek
- ZE648IadZcuDznCC/KtnIkBmVkfpNvza804ZZFtC095kJqil6u39RyqV8pEPDDUkVQJLCxx6+ks
- i3yhciHKLuTeFpnhQQ4qcxzDqQbl/SNJpIdf0u96QDb0OcFfeoOnyYsHVz3so/f20CaFKLQ==
-X-Gm-Gg: ASbGncsEUw2C3wxaebad0H/693/eDVTaxwED7XLzIzSBcRKWywrk5MlroYDOnVqMC4k
- pW8cbJ9bIKIXITBoTrhqZsfONwwKOAHRFX89sTe5XaadffrEnF25WaaP5h9sc6VF+LfHEXXMFhf
- aefuoZxZvgKWFGbnCSYg4752W0+1Rsa/PF7bbbe6jkB2HplFe6+fkio14zYXVKn++IvRaerhHWI
- B6BfNPtQKBD2JEXI4o5qPQ4OJgz89lUt68rL6RVoaN/i3coH44QgmaYaFJkYCwi/vwuvQiInsWl
- 519aMn7C5/PJPFpgB/4v5SJwVOB1g55hANHl78QMZMKNawXBkjWdINGJMaKEVDrFxXHgng==
-X-Received: by 2002:a05:6a00:1a94:b0:781:18b2:36aa with SMTP id
- d2e1a72fcca58-7a220a5700fmr415388b3a.4.1760626104093; 
- Thu, 16 Oct 2025 07:48:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGQ44ZW5qtLmpXABJdEGtyVfV9M7TtOdFyJpQ/vxnPLRjHGV4Uly8iyTm+ovbwyTlxsS9SKw==
-X-Received: by 2002:a05:6a00:1a94:b0:781:18b2:36aa with SMTP id
- d2e1a72fcca58-7a220a5700fmr415341b3a.4.1760626103649; 
- Thu, 16 Oct 2025 07:48:23 -0700 (PDT)
-Received: from zeus ([2405:6580:83a0:7600:6e93:a15a:9134:ae1f])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7992d09671asm22675521b3a.47.2025.10.16.07.48.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Oct 2025 07:48:23 -0700 (PDT)
-Date: Thu, 16 Oct 2025 23:48:19 +0900
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-To: zack.rusin@broadcom.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, jfalempe@redhat.com, ian.forbes@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-misc-next v3 0/1] add drm_panic_support for vmwgfx-stdu
-Message-ID: <aPEFs0kYfXGZUHCA@zeus>
-References: <20250919032936.2267240-1-ryasuoka@redhat.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C47710E9FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Oct 2025 14:52:35 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1DA601F8AA;
+ Thu, 16 Oct 2025 14:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760626354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=leLfPfyhj2vgyhlchDjgg+pci9qdA8IThxOXI8+lpDc=;
+ b=G9rb/QvQNgMzI1IsGeyBeGciTPWoxug/LAov4nf4wtgpP6SYeZRXiyLToOi/Du0L1FcHoE
+ aYaKL6N+KUeJa1URN5i+ID1KcOYS56nEoYwaOdlLjO2UOrYxLhEcaOeWbJEBP3KNg9IDYS
+ pTUgskVEYgNp6PwxlGSz2UgPgCLvmNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760626354;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=leLfPfyhj2vgyhlchDjgg+pci9qdA8IThxOXI8+lpDc=;
+ b=9QhVvHPekdNjbnr+Vjbf3e8vBkn+qR5Gxol1Dc7r18kcZQaAe+g9u99p9nxNleBka3Enp+
+ rkLz0dkMajQanjDA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="G9rb/QvQ";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9QhVvHPe
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760626354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=leLfPfyhj2vgyhlchDjgg+pci9qdA8IThxOXI8+lpDc=;
+ b=G9rb/QvQNgMzI1IsGeyBeGciTPWoxug/LAov4nf4wtgpP6SYeZRXiyLToOi/Du0L1FcHoE
+ aYaKL6N+KUeJa1URN5i+ID1KcOYS56nEoYwaOdlLjO2UOrYxLhEcaOeWbJEBP3KNg9IDYS
+ pTUgskVEYgNp6PwxlGSz2UgPgCLvmNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760626354;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=leLfPfyhj2vgyhlchDjgg+pci9qdA8IThxOXI8+lpDc=;
+ b=9QhVvHPekdNjbnr+Vjbf3e8vBkn+qR5Gxol1Dc7r18kcZQaAe+g9u99p9nxNleBka3Enp+
+ rkLz0dkMajQanjDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D26BA1376E;
+ Thu, 16 Oct 2025 14:52:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id aGnjMbEG8WhIGQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 16 Oct 2025 14:52:33 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
+ kraxel@redhat.com, airlied@redhat.com, vivek.kasireddy@intel.com
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
+ resource
+Date: Thu, 16 Oct 2025 16:48:33 +0200
+Message-ID: <20251016145230.79270-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-In-Reply-To: <20250919032936.2267240-1-ryasuoka@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: p4rCjfytxFj-kgjlxDV8o1NQaGi5ce-JEJmcslk15cI_1760626104
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1DA601F8AA
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; RCPT_COUNT_SEVEN(0.00)[8];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,79 +113,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 19, 2025 at 12:29:29PM +0900, Ryosuke Yasuoka wrote:
-> Add drm_panic support for stdu in vmwgfx. This patch was tested in a VM
-> with VMSVGA on Virtual Box.
-> 
-> Based on the feedback for v2 patch, I've made the following updates in
-> my v3 patch.
-> - Use MEMREMAP_WB | MEMREMAP_DEC flags for memremap
-> - Use vmw_priv->initial_height and initial_width for sb and VRAM
-> - Move all panic related functions to the vmwgfx_kms.c file
-> - Ensure if the current display unit is 0 in get_scanout_buffer()
-> 
-> I did not apply all of Ian's feedback in this v3 patch for the reasons
-> outlined below.
-> 
-> > 1. You can call `vmw_kms_write_svga` directly in `panic_flush`. There
-> > is no need to mark the buffer as dirty or send any commands.
-> 
-> In my test environment (VirtualBox), the panic screen appears unstably 
-> without dirty command's submission. Without it, the screen sometimes
-> appears immediately as expected, and at other times, there's a delay
-> of 15 to 20 seconds. I've also observed that it sometimes only appears
-> after switching between the VirtualBox console window and other windows.
-> 
-> With command submission, we can stably get a panic screen. Even if it
-> fails, we may get the panic screen ultimately. Therefore, I think we
-> should retain vmw_kms_panic_do_bo_dirty() to submit commands.
-> 
-> > 2. The format should be hardcoded to RGB565 to minimize the risk of
-> > overrunning VRAM. Adjust the pitch accordingly to 2x width.
-> 
-> While it's possible to output the panic screen with RGB565 by adjusting
-> pitch and width, and BPP on the (virtual) hardware side, this approach
-> causes debugfs to fail. It appears that the BPP must be reset after the
-> panic screen is displayed, and there is no way to wait for the screen
-> to be fully displayed within the drm_panic handler code.
-> 
-> In my test environment, as VRAM has enough space even when using
-> XRGB8888 (32 bits), I think the risk of overruning VRAM is low. So I've
-> kept the default format and CPP size.
-> 
-> v1:
-> https://lore.kernel.org/all/20250901083701.32365-1-ryasuoka@redhat.com/
-> 
-> v2:
-> https://lore.kernel.org/all/20250908141152.221291-2-ryasuoka@redhat.com/
-> - Map a scanout_buffer to VRAM in .get_scanout_buffer
-> - And then write to VRAM directly using fifo in legacy mode to avoid
-> allocations or command submissions.
-> 
-> 
-> Ryosuke Yasuoka (1):
->   drm/vmwgfx: add drm_panic support for stdu mode
-> 
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  |   4 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 165 +++++++++++++++++++++++++++
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   2 +
->  3 files changed, 171 insertions(+)
-> 
-> 
-> base-commit: d41c79838c47bc822534cd53628fe5e0f8ad2424
-> -- 
-> 2.51.0
+For each plane, store the buffer object's host backing in the state
+of the plane's respective CRTC. The host synchronizes output of buffer
+objects with a host resource to its own refresh cycle; thus avoiding
+tearing. During the CRTC's atomic flush, ignore the vblank timer if
+any of the CRTC's plane's buffer object has a host resource. Instead
+send the vblank event immdiatelly. Avoids corner cases where a vblank
+event happens too late for the next frame to be page flipped in time.
 
-Hi all,
+The host synchronizes a plane's output to the host repaint cycle if
+the plane's buffer object has an associated host resource. An atomic
+commit blocks until the host cycle completes and then arms the vblank
+event. The guest compositor is thereby synchronized to the host's
+output rate.
 
-This is a gentle reminder for this v3 patch.
-I would appreciate any feedback when you have a chance.
+To avoid delays, send out the vblank event immediately instead of
+just arming it. Otherwise the event might be too late to page flip
+the compositor's next frame.
 
-Ian, your feedback on v1 and v2 were very helpful. I would appreciate it
-if you could take another look when you have a moment.
+The vblank timer is still active and fires in regular intervals
+according to the guest display refresh. This rate limits clients
+that only wait for the next vblank to occur, such as fbcon. These
+clients would otherwise produce a very high number of frames per
+second.
 
-Any comments are welcome.
+For commits without host resource, the vblank timer rate-limits the
+guest output by generating vblank events at the guest display refresh
+rate as before.
 
-Thank you
-Ryosuke
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+There was a discussion about interference between vblank timers and
+the host repaint cycle at [1]. This patch address a possible corner
+case were the timing gets bad.
+
+[1] https://lore.kernel.org/dri-devel/IA0PR11MB7185D91EB0CD01FD63D21AA7F8EEA@IA0PR11MB7185.namprd11.prod.outlook.com/
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c | 72 ++++++++++++++++++++++--
+ drivers/gpu/drm/virtio/virtgpu_drv.h     | 15 +++++
+ drivers/gpu/drm/virtio/virtgpu_plane.c   | 16 +++++-
+ 3 files changed, 98 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index e972d9b015a9..43df1fa7d629 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -49,14 +49,76 @@
+ #define drm_connector_to_virtio_gpu_output(x) \
+ 	container_of(x, struct virtio_gpu_output, conn)
+ 
++static void virtio_gpu_crtc_state_destroy(struct virtio_gpu_crtc_state *vgcrtc_state)
++{
++	__drm_atomic_helper_crtc_destroy_state(&vgcrtc_state->base);
++
++	kfree(vgcrtc_state);
++}
++
++static bool virtio_gpu_crtc_state_send_event_on_flush(struct virtio_gpu_crtc_state *vgcrtc_state)
++{
++	struct drm_crtc_state *crtc_state = &vgcrtc_state->base;
++
++	/*
++	 * The CRTC's output is vsync'ed if at least one plane's output is
++	 * sync'ed to the host refresh.
++	 */
++	return vgcrtc_state->send_event_on_flush & crtc_state->plane_mask;
++}
++
++static void virtio_gpu_crtc_reset(struct drm_crtc *crtc)
++{
++	struct virtio_gpu_crtc_state *vgcrtc_state;
++
++	if (crtc->state)
++		virtio_gpu_crtc_state_destroy(to_virtio_gpu_crtc_state(crtc->state));
++
++	vgcrtc_state = kzalloc(sizeof(*vgcrtc_state), GFP_KERNEL);
++	if (vgcrtc_state) {
++		vgcrtc_state->send_event_on_flush = 0ul;
++		__drm_atomic_helper_crtc_reset(crtc, &vgcrtc_state->base);
++	} else {
++		__drm_atomic_helper_crtc_reset(crtc, NULL);
++	}
++}
++
++static struct drm_crtc_state *virtio_gpu_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
++{
++	struct drm_device *dev = crtc->dev;
++	struct drm_crtc_state *crtc_state = crtc->state;
++	struct virtio_gpu_crtc_state *new_vgcrtc_state;
++	struct virtio_gpu_crtc_state *vgcrtc_state;
++
++	if (drm_WARN_ON(dev, !crtc_state))
++		return NULL;
++
++	new_vgcrtc_state = kzalloc(sizeof(*new_vgcrtc_state), GFP_KERNEL);
++	if (!new_vgcrtc_state)
++		return NULL;
++
++	vgcrtc_state = to_virtio_gpu_crtc_state(crtc_state);
++
++	__drm_atomic_helper_crtc_duplicate_state(crtc, &new_vgcrtc_state->base);
++	vgcrtc_state->send_event_on_flush = vgcrtc_state->send_event_on_flush;
++
++	return &new_vgcrtc_state->base;
++}
++
++static void virtio_gpu_crtc_atomic_destroy_state(struct drm_crtc *crtc,
++						 struct drm_crtc_state *crtc_state)
++{
++	virtio_gpu_crtc_state_destroy(to_virtio_gpu_crtc_state(crtc_state));
++}
++
+ static const struct drm_crtc_funcs virtio_gpu_crtc_funcs = {
+ 	.set_config             = drm_atomic_helper_set_config,
+ 	.destroy                = drm_crtc_cleanup,
+ 
+ 	.page_flip              = drm_atomic_helper_page_flip,
+-	.reset                  = drm_atomic_helper_crtc_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+-	.atomic_destroy_state   = drm_atomic_helper_crtc_destroy_state,
++	.reset                  = virtio_gpu_crtc_reset,
++	.atomic_duplicate_state = virtio_gpu_crtc_atomic_duplicate_state,
++	.atomic_destroy_state   = virtio_gpu_crtc_atomic_destroy_state,
+ 	DRM_CRTC_VBLANK_TIMER_FUNCS,
+ };
+ 
+@@ -129,7 +191,9 @@ static void virtio_gpu_crtc_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct drm_device *dev = crtc->dev;
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++	struct virtio_gpu_crtc_state *vgcrtc_state = to_virtio_gpu_crtc_state(crtc_state);
+ 	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
++	bool send_event_on_flush = virtio_gpu_crtc_state_send_event_on_flush(vgcrtc_state);
+ 	struct drm_pending_vblank_event *event;
+ 
+ 	/*
+@@ -147,7 +211,7 @@ static void virtio_gpu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	crtc_state->event = NULL;
+ 
+ 	if (event) {
+-		if (drm_crtc_vblank_get(crtc) == 0)
++		if (!send_event_on_flush && drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index f17660a71a3e..671fc3b61bc6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -195,6 +195,21 @@ struct virtio_gpu_framebuffer {
+ #define to_virtio_gpu_framebuffer(x) \
+ 	container_of(x, struct virtio_gpu_framebuffer, base)
+ 
++struct virtio_gpu_crtc_state {
++	struct drm_crtc_state base;
++
++	/*
++	 * Send vblank event immediately from atomic_flush. Set from each
++	 * plane's atomic check and depends on the buffer object. Buffers
++	 * with host backing are vsync'd already and should send immediately;
++	 * others should wait for the VBLANK timer.
++	 */
++	u32 send_event_on_flush;
++};
++
++#define to_virtio_gpu_crtc_state(x) \
++	container_of(x, struct virtio_gpu_crtc_state, base)
++
+ struct virtio_gpu_plane_state {
+ 	struct drm_plane_state base;
+ 	struct virtio_gpu_fence *fence;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 29e4b458ae57..d04721c5d505 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -104,7 +104,8 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
+ 										 plane);
+ 	bool is_cursor = plane->type == DRM_PLANE_TYPE_CURSOR;
+ 	struct drm_crtc_state *crtc_state;
+-	int ret;
++	struct virtio_gpu_crtc_state *vgcrtc_state;
++	int ret, i;
+ 
+ 	if (!new_plane_state->fb || WARN_ON(!new_plane_state->crtc))
+ 		return 0;
+@@ -126,6 +127,19 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
+ 						  DRM_PLANE_NO_SCALING,
+ 						  DRM_PLANE_NO_SCALING,
+ 						  is_cursor, true);
++
++	vgcrtc_state = to_virtio_gpu_crtc_state(crtc_state);
++	vgcrtc_state->send_event_on_flush &= ~drm_plane_mask(plane);
++
++	for (i = 0; i < new_plane_state->fb->format->num_planes; ++i) {
++		struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(new_plane_state->fb->obj[i]);
++
++		if (bo->host3d_blob || bo->guest_blob) {
++			vgcrtc_state->send_event_on_flush |= drm_plane_mask(plane);
++			break; /* only need to find one */
++		}
++	}
++
+ 	return ret;
+ }
+ 
+-- 
+2.51.0
 
