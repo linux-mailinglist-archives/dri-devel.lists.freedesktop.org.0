@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBB8BEA921
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F07DBEA92D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD7D10EC8C;
-	Fri, 17 Oct 2025 16:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5074810EC8D;
+	Fri, 17 Oct 2025 16:16:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="M46xBQ0C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iB7QTdM5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37EA910EC8A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:15:52 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id D99481A1488;
- Fri, 17 Oct 2025 16:15:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id ACFD5606DB;
- Fri, 17 Oct 2025 16:15:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id D28D6102F2326; 
- Fri, 17 Oct 2025 18:15:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760717749; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=sF/nhZKtfysMmP54ubTvP/iQM/X0HdA/QjQ50RURtXU=;
- b=M46xBQ0Cqed1BxM8oRLaViX5BJmNwme4wCTVE3XLHaIthNEs1xOI9NUK2vbzoOH7BuM8R5
- nsBbnKQeNI+nzcMvpn1Edr9J1xO/GRH3Do1/i4GcT/26LlZ8586uanLUm5bEF2MfUUTlfU
- 9ImBuVky8gIH10sRHhfa8x4VOSFvPIK1utx3o7qDQHe3lqrGFW2ZRRmEKjlCyCGmeV43ue
- XiWM8rmhPZPo4kJXicKAJn6jJu6TSSKIEa7ilj873CaKNd3hAH2GE5bViC2nA5MlZZENXV
- OYpzxusqHgaUwcR53AtrcRCe7I/KSl7qB7cOKGb+Ond2lz5q49PtMrm6EZvMCA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 17 Oct 2025 18:15:06 +0200
-Subject: [PATCH v2 3/3] drm/display: bridge_connector: get/put the panel_bridge
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 772DD10EC8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:16:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760717770; x=1792253770;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=HAk5XarQfseeqeP7zVYEUF8QINQ4zYPsmcKTZ1AN/VI=;
+ b=iB7QTdM509sfwgkFsOgC7prkCvVYnq8ZR+gsKNqgmkRtYF1WDkvqyaoN
+ SjYcvoWg0sNZViameMSbGlceCFEzqwKiLZAmJ2YXoRMq42YNlwSD6Q+eB
+ hMQ6Tot6YZzbRhX9caOHZz5Dm5YnW8ru4A4WOx0uEZGatRsayhsZTH+8h
+ E9CZgrY3nN1Jn3wR/f5p/poVw2w90tZ7BfPlrCB9e3lGWD62FtlWh7A7e
+ Pxks+HOGxDm4DocxMEgV/hCIE2qlzWCoXZAf18IB31ml3e3zY0dIpGr3L
+ 0T5CtLdi0cigzUnNmTvWF7U5rXhkWX+CvuHlW3tY5HwbGrbphsokSCuz+ Q==;
+X-CSE-ConnectionGUID: MTU1K+6SSja4EDl/OYbx3g==
+X-CSE-MsgGUID: +gf+lvqyRd60JfVLv5htng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="62978110"
+X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; d="scan'208";a="62978110"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2025 09:15:53 -0700
+X-CSE-ConnectionGUID: zrBRjgAaQuOVNryk6/wZVA==
+X-CSE-MsgGUID: XToEUZ7rRImx/pOoImC1/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; d="scan'208";a="182712153"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.129])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2025 09:15:50 -0700
+Date: Fri, 17 Oct 2025 19:15:47 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/sysfb: Fix a NULL vs IS_ERR() bug
+Message-ID: <aPJrs7_u8KcalNsC@intel.com>
+References: <aPJo1W5Dl4rmGX_P@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-3-667abf6d47c0@bootlin.com>
-References: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
-In-Reply-To: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>, 
- Naresh Kamboju <naresh.kamboju@linaro.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aPJo1W5Dl4rmGX_P@stanley.mountain>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +77,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel_bridge pointer is taken inside the loop and used after the
-loop. Being a local variable, use a cleanup action to ensure it is put on
-return.
+On Fri, Oct 17, 2025 at 07:03:33PM +0300, Dan Carpenter wrote:
+> The drm_atomic_get_crtc_state() function never returns NULL, it returns
+> error pointers.  Update the error checking to match.
+> 
+> Fixes: cb71de092553 ("drm/sysfb: Lookup blit function during atomic check")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> index 8517c490e815..d2c4d8f3d4d0 100644
+> --- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> +++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> @@ -259,7 +259,7 @@ int drm_sysfb_plane_helper_begin_fb_access(struct drm_plane *plane,
+>  	ret = -EINVAL;
+>  
+>  	crtc_state = drm_atomic_get_crtc_state(plane_state->state, plane_state->crtc);
 
-Based on the code structure the panel_bridge pointer might be assigned
-during multiple loop iterations. Even though this is probably not possible
-in the practice, ensure there is no reference leak by putting the reference
-to the old value before overwriting with the new value.
+Looking at where this gets called, that should be
+drm_atomic_get_new_crtc_state(). Either that or the
+code is more seriously borked.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+I'll send out a patch that warns about invalid use of 
+*_get_state()...
 
----
-
-This patch was added in v2:
-- taking the panel_bridge specific code from the original (buggy) patch,
-  and split it for clarity from the larger patch covering stored bridge
-  pointers
-- comapred to the original code, added drm_bridge_put() for extra safety
-  even though likely not necessary
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 95ccf86527129edaa6fcc75c6202985e73c46da8..a2d30cf9e06df44b89456b5aba8198ee1e5d5601 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -652,7 +652,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	struct drm_bridge_connector *bridge_connector;
- 	struct drm_connector *connector;
- 	struct i2c_adapter *ddc = NULL;
--	struct drm_bridge *panel_bridge = NULL;
-+	struct drm_bridge *panel_bridge __free(drm_bridge_put) = NULL;
- 	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
- 	unsigned int max_bpc = 8;
- 	bool support_hdcp = false;
-@@ -787,8 +787,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 		if (bridge->ddc)
- 			ddc = bridge->ddc;
- 
--		if (drm_bridge_is_panel(bridge))
--			panel_bridge = bridge;
-+		if (drm_bridge_is_panel(bridge)) {
-+			drm_bridge_put(panel_bridge);
-+			panel_bridge = drm_bridge_get(bridge);
-+		}
- 
- 		if (bridge->support_hdcp)
- 			support_hdcp = true;
+> -	if (drm_WARN_ON_ONCE(dev, !crtc_state))
+> +	if (drm_WARN_ON_ONCE(dev, IS_ERR(crtc_state)))
+>  		goto err_drm_gem_end_shadow_fb_access;
+>  	sysfb_crtc_state = to_drm_sysfb_crtc_state(crtc_state);
+>  
+> -- 
+> 2.51.0
 
 -- 
-2.51.0
-
+Ville Syrjälä
+Intel
