@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BD9BEABF9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79247BEAC59
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328B010EC9C;
-	Fri, 17 Oct 2025 16:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9463C10ECA3;
+	Fri, 17 Oct 2025 16:35:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ism7NYWG";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BtOkqvX7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 154D210EC8F;
- Fri, 17 Oct 2025 16:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760718817; x=1792254817;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ui3y0a2ikJBNEcNMXotQOlDBaeZZzJRmW162cLoqCDs=;
- b=Ism7NYWGejFcT91ATvP9leEF6vW4C6u3bhvuGsezWG4CiyTk/p5f11+t
- UjGQ9cQTY8/+9XMXrKoFnfoQgjeWpu2TyifLReskQrJT9EcnsTf1+EfpT
- +lglrsxHu5liw8Svx4VZKOup8v956ORGrvaKY0t1ZC/w4ZD+r14IY18uF
- yzfqz97ewS8c6JcUWwSvI+A5lCAllYyeZARu0A7F5cFFYPyhThR5iuTyq
- lEX2HILfZ89uuirsZWeAJ/84mTKpOiIQM5AidhjFV8tGwkBz68tR6moOV
- qh3s8e/rb4/R7YtMHKDiqRZ6cxl8YKUwmKJLYclOIbbu6PrOFuUwIif7O Q==;
-X-CSE-ConnectionGUID: P3ao/xVpRUONtdqXuvpIjQ==
-X-CSE-MsgGUID: hgPjI0KIT/KC1G7JwKtYVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73218791"
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; d="scan'208";a="73218791"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2025 09:33:37 -0700
-X-CSE-ConnectionGUID: 5sPa9gnfTIu2LHBhFsMQ9w==
-X-CSE-MsgGUID: XG6GDVXPSaSeGO9lh49Zaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; d="scan'208";a="183260739"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.129])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2025 09:33:34 -0700
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH 2/2] drm/atomic: WARN about invalid drm_foo_get_state() usage
-Date: Fri, 17 Oct 2025 19:33:27 +0300
-Message-ID: <20251017163327.9074-2-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20251017163327.9074-1-ville.syrjala@linux.intel.com>
-References: <20251017163327.9074-1-ville.syrjala@linux.intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60EA310EC88
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760718909;
+ bh=m4n8KlJ9ZvdgC6ZXvYXyuYACea8cfYiGk2EFxV0MhCQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BtOkqvX73ysXYWRElrlYes2fe16UerGoduY6uiuPivJPdf135fVoIJLhaC9PDRomh
+ e1Dpw5W1ULTfd/z9rufBTTCQgjuQUfFWf+DcziID1NtBTy+8rwksFA78KwzipNXIBn
+ IahKBtWqsbTWHGxDYPyFAy50jOmQBy9q8L+lgLbfo24fnVJwZ/ETLfR0ht6yPLGN3s
+ 3xJeC8/zK2alaI3J3Y5oIbRbH3U1UYX/REJs27mYmbHwcE2FTX7BE6ejN+PU8ToaK6
+ iwgFeg9nBVnpCWxE8mUy025edYNPopchYw/OnuDAG+uC3oAnXT5araWznmoqQU1WUX
+ 3mqtT9FrWCmBQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6A72217E0125;
+ Fri, 17 Oct 2025 18:35:09 +0200 (CEST)
+Date: Fri, 17 Oct 2025 18:35:05 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Faith Ekstrand <faith@gfxstrand.net>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, kernel@collabora.com, Matt Coster
+ <Matt.Coster@imgtec.com>
+Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync()
+ and a drm_gem_sync() helper
+Message-ID: <20251017183505.063a831a@fedora>
+In-Reply-To: <CAOFGe96n+XZC_Hu7NBahA8Zw206FYXmJMC_hKfbZ2cqu453oWA@mail.gmail.com>
+References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
+ <20251015160326.3657287-3-boris.brezillon@collabora.com>
+ <CAOFGe96trw17pWKv4-Bbh9bvCz8ANTwAcL-croQQw24800fLbQ@mail.gmail.com>
+ <CAOFGe96pKQhuhUCzVizUndgQL80+GsS-YiiRcMiO=eHBnYAHxg@mail.gmail.com>
+ <20251017172657.2690bbca@fedora>
+ <CAOFGe97gKbek59Mri-+Fb4gLLkt2vJC-szc110fCYvcfRtE8iw@mail.gmail.com>
+ <20251017175008.3ac142c7@fedora>
+ <CAOFGe96n+XZC_Hu7NBahA8Zw206FYXmJMC_hKfbZ2cqu453oWA@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,94 +73,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Fri, 17 Oct 2025 11:57:08 -0400
+Faith Ekstrand <faith@gfxstrand.net> wrote:
 
-drm_{crtc,plane,connector,private_obj}_get_state() must not
-be called after the atomic check phase. At that point the commit
-has been carved in stone and no new objects must be introduced
-into it. WARN if anyone attempts to violate this rule.
+> On Fri, Oct 17, 2025 at 11:50=E2=80=AFAM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > +Matt for my comment on PVR having the same issue.
+> >
+> > On Fri, 17 Oct 2025 11:35:54 -0400
+> > Faith Ekstrand <faith@gfxstrand.net> wrote:
+> > =20
+> > > On Fri, Oct 17, 2025 at 11:27=E2=80=AFAM Boris Brezillon
+> > > <boris.brezillon@collabora.com> wrote: =20
+> > > >
+> > > > On Fri, 17 Oct 2025 10:40:46 -0400
+> > > > Faith Ekstrand <faith@gfxstrand.net> wrote:
+> > > > =20
+> > > > > On Fri, Oct 17, 2025 at 10:32=E2=80=AFAM Faith Ekstrand <faith@gf=
+xstrand.net> wrote: =20
+> > > > > >
+> > > > > > On Wed, Oct 15, 2025 at 12:04=E2=80=AFPM Boris Brezillon
+> > > > > > <boris.brezillon@collabora.com> wrote: =20
+> > > > > > >
+> > > > > > > Prepare things for standardizing synchronization around CPU a=
+ccesses
+> > > > > > > of GEM buffers. This will be used to provide default
+> > > > > > > drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and =
+provide
+> > > > > > > a way for drivers to add their own ioctls to synchronize CPU
+> > > > > > > writes/reads when they can't do it directly from userland.
+> > > > > > >
+> > > > > > > v2:
+> > > > > > > - New commit
+> > > > > > >
+> > > > > > > v3:
+> > > > > > > - No changes
+> > > > > > >
+> > > > > > > v4:
+> > > > > > > - Add Steve's R-b
+> > > > > > >
+> > > > > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > > > > Reviewed-by: Steven Price <steven.price@arm.com>
+> > > > > > > ---
+> > > > > > >  drivers/gpu/drm/drm_gem.c | 10 +++++++++
+> > > > > > >  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++=
+++++++++++
+> > > > > > >  2 files changed, 55 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_=
+gem.c
+> > > > > > > index a1a9c828938b..a1431e4f2404 100644
+> > > > > > > --- a/drivers/gpu/drm/drm_gem.c
+> > > > > > > +++ b/drivers/gpu/drm/drm_gem.c
+> > > > > > > @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_obj=
+ect *obj, struct iosys_map *map)
+> > > > > > >  }
+> > > > > > >  EXPORT_SYMBOL(drm_gem_vunmap);
+> > > > > > >
+> > > > > > > +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, =
+size_t size,
+> > > > > > > +                enum drm_gem_object_access_flags access)
+> > > > > > > +{
+> > > > > > > +       if (obj->funcs->sync)
+> > > > > > > +               return obj->funcs->sync(obj, offset, size, ac=
+cess);
+> > > > > > > +
+> > > > > > > +       return 0;
+> > > > > > > +}
+> > > > > > > +EXPORT_SYMBOL(drm_gem_sync);
+> > > > > > > +
+> > > > > > >  /**
+> > > > > > >   * drm_gem_lock_reservations - Sets up the ww context and ac=
+quires
+> > > > > > >   * the lock on an array of GEM objects.
+> > > > > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > > > > > > index 8d48d2af2649..1c33e59ab305 100644
+> > > > > > > --- a/include/drm/drm_gem.h
+> > > > > > > +++ b/include/drm/drm_gem.h
+> > > > > > > @@ -66,6 +66,33 @@ enum drm_gem_object_status {
+> > > > > > >         DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
+> > > > > > >  };
+> > > > > > >
+> > > > > > > +/**
+> > > > > > > + * enum drm_gem_object_status - bitmask describing GEM acces=
+s types to prepare for
+> > > > > > > + */
+> > > > > > > +enum drm_gem_object_access_flags {
+> > > > > > > +       /** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU acc=
+ess. */
+> > > > > > > +       DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
+> > > > > > > +
+> > > > > > > +       /** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device =
+access. */
+> > > > > > > +       DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
+> > > > > > > +
+> > > > > > > +       /** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check=
+ the entity doing the access. */
+> > > > > > > +       DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
+> > > > > > > +
+> > > > > > > +       /** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-onl=
+y accesses. */
+> > > > > > > +       DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
+> > > > > > > +
+> > > > > > > +       /** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-o=
+nly accesses. */
+> > > > > > > +       DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
+> > > > > > > +
+> > > > > > > +       /** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/wri=
+te accesses. */
+> > > > > > > +       DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCE=
+SS |
+> > > > > > > +                                  DRM_GEM_OBJECT_WRITE_ACCES=
+S,
+> > > > > > > +
+> > > > > > > +       /** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to ch=
+eck the access type. */
+> > > > > > > +       DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW=
+_ACCESS,
+> > > > > > > +};
+> > > > > > > +
+> > > > > > >  /**
+> > > > > > >   * struct drm_gem_object_funcs - GEM object functions
+> > > > > > >   */
+> > > > > > > @@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
+> > > > > > >          */
+> > > > > > >         int (*mmap)(struct drm_gem_object *obj, struct vm_are=
+a_struct *vma);
+> > > > > > >
+> > > > > > > +       /**
+> > > > > > > +        * @sync:
+> > > > > > > +        *
+> > > > > > > +        * Prepare for CPU/device access. This can involve mi=
+gration of
+> > > > > > > +        * a buffer to the system-RAM/VRAM, or for UMA, flush=
+ing/invalidating
+> > > > > > > +        * the CPU caches. The range can be used to optimize =
+the synchronization
+> > > > > > > +        * when possible. =20
+> > > > > >
+> > > > > > This has gone in a very different direction from the version I =
+sent
+> > > > > > out and the added generality makes me really nervous. The idea =
+of sync
+> > > > > > involving migration and that the range is a mere hint are antit=
+hetical
+> > > > > > with Vulkan. It's a very GLish design that assumes that a BO is
+> > > > > > exclusively used by one of the CPU or the GPU at the same time.=
+ This
+> > > > > > simply isn't the case in modern APIs. Older DRM uAPIs (as well =
+as
+> > > > > > dma-buf itself) are littered with such ioctls and we're in the =
+process
+> > > > > > of deleting them all. =20
+> > > > >
+> > > > > And yes, I realize I sent this on the patch for the hook which you
+> > > > > intended to plumb through to dma-buf. However, I also saw it being
+> > > > > propagated to an ioctl and I didn't know where else to put it tha=
+t had
+> > > > > the relevant details.
+> > > > >
+> > > > > ~Faith
+> > > > > =20
+> > > > > > If the BO needs to be migrated in order to be accessed from the=
+ CPU,
+> > > > > > that needs to happen on map, not on some sort of begin/end. Or =
+better
+> > > > > > yet, just disallow mapping such buffers. Once the client has a =
+map,
+> > > > > > they are free to access from the CPU while stuff is running on =
+the
+> > > > > > GPU. They have to be careful, of course, not to cause data race=
+s, but
+> > > > > > accessing the same BO from the CPU and GPU or even the same ran=
+ge is
+> > > > > > totally okay if you aren't racing.
+> > > > > >
+> > > > > > As a corollary, just don't map PRIME buffers.
+> > > > > >
+> > > > > > And the range really shouldn't be just a hint. With Vulkan, cli=
+ents
+> > > > > > are regularly sub-allocating from larger memory objects. If the=
+y ask
+> > > > > > to flush 64B and end up flushing 64M, that's pretty bad.
+> > > > > >
+> > > > > > All we need is something which lets us trap through to the kern=
+el for
+> > > > > > CPU cache management. That's all we need and that's really all =
+it
+> > > > > > should do. =20
+> > > >
+> > > > Okay, so there's actually a problem with that I think, because we c=
+an't
+> > > > know how the buffer we export will be used. It can be imported by t=
+he
+> > > > same driver, and we're all good, but it can also be imported by a
+> > > > different driver, which decides to vmap or allow mmap() on it, and =
+then
+> > > > we have to implement the dma_buf CPU sync hooks. Unless we decide t=
+hat
+> > > > all exported buffers should be write-combine only? This is the very
+> > > > reason I started hooking things up on the dma_buf side, because we'=
+re
+> > > > not in control of who the importer of our buffers is. =20
+> > >
+> > > Exported buffers should be WC-only. We could try to get creative but
+> > > the moment we let the lack of coherency leak to other processes,
+> > > potentially to other drivers, we're in a world of hurt. Even with the
+> > > dma-buf begin/end hooks, if it's imported into a driver that does
+> > > Vulkan, those hooks don't make sense and we're screwed. =20
+> >
+> > Well, yeah, the 'entire-buf' granularity is a problem, indeed, =20
+>=20
+> If all that's being done is cache flushing, it's kind of okay. It's a
+> big hammer but it's okay. However, if the driver is doing literally
+> anything else in begin/end, it's all a lie the moment you allow that
+> buffer to be mapped in Vulkan. The client may be reading from the CPU
+> for GPU download in one subrange, writing from the CPU for GPU upload
+> in another subrange, and reading/writing from the GPU in another
+> subrange all at the same time. That's totally incompatible with the
+> dma-buf begin/end model.
+>=20
+> > and
+> > there's no way around it with the current dma-buf API, which is why I
+> > prevented external bufs from being mapped (AKA not host-visible in
+> > Vulkan's term). But I really thought imported buffers coming from
+> > panthor should be mapped cached. =20
+>=20
+> Yeah. So we could potentially allow WB maps if the client requests an
+> export via OPAQUE_FD since we know a priori that such a buffer will
+> only ever be re-imported into panfrost/panvk. However, I really don't
+> think that's a common enough case to be worth optimizing just yet.
+>=20
+> > > And, yes, I
+> > > know panvk is the only Vulkan implementation you're going to see on a
+> > > system with an Arm GPU, but thinking about things in the general case
+> > > across all of DRM, exporting non-coherent memory in 2025 is just
+> > > cursed. =20
+> >
+> > Hm, okay. If that's the way to go, then we should enforce
+> >
+> >         !WB_MMAP || !PRIVATE
+> >
+> > in panthor, and fail the export of a WB_MMAP buffer in panfrost (we
+> > don't have a way to know that a buffer is private there). =20
+>=20
+> Yeah, I'm a fan of that for now.
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_atomic.c | 8 ++++++++
- include/drm/drm_atomic.h     | 8 ++++++++
- 2 files changed, 16 insertions(+)
+Might also require more changes when the GPU is IO-coherent, because
+IO-coherency is a per-device thing on Arm. Right now we forcibly map
+things WB even if the user didn't ask for it when the GPU is coherent,
+but the importer might not be IO-coherent. I think it's fine in Panthor
+because we can properly define the shareability/cachebility attributes,
+but on older Mali gens, I remember hitting some issues. For instance, we
+had issues when mapping things uncached on some IO-coherent amlogic
+integration of the G52. I've managed to disable coherency on my VIM3
+with a few hacks (switching to the new page table format was one of
+them, but I'm not sure what I did is portable to older gens that only
+support the old page table format), but I'd have to make sure this can
+be done on a per mapping basis. Steve probably knows more about that.
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 5d31b20e67ab..e05820b18832 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -200,6 +200,8 @@ void drm_atomic_state_default_clear(struct drm_atomic_state *state)
- 
- 	drm_dbg_atomic(dev, "Clearing atomic state %p\n", state);
- 
-+	state->checked = false;
-+
- 	for (i = 0; i < state->num_connector; i++) {
- 		struct drm_connector *connector = state->connectors[i].ptr;
- 
-@@ -348,6 +350,7 @@ drm_atomic_get_crtc_state(struct drm_atomic_state *state,
- 	struct drm_crtc_state *crtc_state;
- 
- 	WARN_ON(!state->acquire_ctx);
-+	drm_WARN_ON(state->dev, state->checked);
- 
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (crtc_state)
-@@ -528,6 +531,7 @@ drm_atomic_get_plane_state(struct drm_atomic_state *state,
- 	struct drm_plane_state *plane_state;
- 
- 	WARN_ON(!state->acquire_ctx);
-+	drm_WARN_ON(state->dev, state->checked);
- 
- 	/* the legacy pointers should never be set */
- 	WARN_ON(plane->fb);
-@@ -837,6 +841,7 @@ drm_atomic_get_private_obj_state(struct drm_atomic_state *state,
- 	struct drm_private_state *obj_state;
- 
- 	WARN_ON(!state->acquire_ctx);
-+	drm_WARN_ON(state->dev, state->checked);
- 
- 	obj_state = drm_atomic_get_new_private_obj_state(state, obj);
- 	if (obj_state)
-@@ -1131,6 +1136,7 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 	struct drm_connector_state *connector_state;
- 
- 	WARN_ON(!state->acquire_ctx);
-+	drm_WARN_ON(state->dev, state->checked);
- 
- 	ret = drm_modeset_lock(&config->connection_mutex, state->acquire_ctx);
- 	if (ret)
-@@ -1543,6 +1549,8 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
- 		     requested_crtc, affected_crtc);
- 	}
- 
-+	state->checked = true;
-+
- 	return 0;
- }
- EXPORT_SYMBOL(drm_atomic_check_only);
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 155e82f87e4d..2e433d44658d 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -523,6 +523,14 @@ struct drm_atomic_state {
- 	 */
- 	bool duplicated : 1;
- 
-+	/**
-+	 * @checked:
-+	 *
-+	 * Indicates the state has been checked and thus must no longer
-+	 * be mutated. For internal use only, do not consult from drivers.
-+	 */
-+	bool checked : 1;
-+
- 	/**
- 	 * @planes:
- 	 *
--- 
-2.49.1
-
+TLDR; maybe we should focus on Panthor first, so we don't block this MR
+on some changes breaking old HW in Panfrost.
