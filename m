@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52510BEAA22
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930B1BEAB0C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0DA10EA51;
-	Fri, 17 Oct 2025 16:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C5E10EC76;
+	Fri, 17 Oct 2025 16:28:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LjJoAxXp";
+	dkim=pass (2048-bit key; secure) header.d=lach.pw header.i=@lach.pw header.b="Gfk5dmlR";
+	dkim=permerror (0-bit key) header.d=lach.pw header.i=@lach.pw header.b="5M09VXGp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D4310EA51
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:21:42 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 6D6B24E41146;
- Fri, 17 Oct 2025 16:21:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 439F4606DB;
- Fri, 17 Oct 2025 16:21:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 01A30102F2326; 
- Fri, 17 Oct 2025 18:21:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760718100; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=M92WI+PGFdvoEo5x/+VF/yQMrWADVhb1nigV4QXWseo=;
- b=LjJoAxXpFtx6zaAAFyn0jnPHV3jwcS75RTNQnQL3aSoDj+iA6M0I9VAo4P4cX9+vv6t2mX
- sGRWUlywn6/2wGFoIxFhaU2SJ2Up7Sw+t0yF9IsNRkbmOsKKHqkXydQDPtuQT2lzbzrJUW
- LLur9aDt+drjnUsk28si/PDdwcMHgJO0mQ9ekTEq00L2TlD2iRUZg1HiJ91lyrJNwpo4v0
- zUoEB/Kfhh8MdhzzgCSWiwGKNcF8EboAAk29M9jQCljnY4BwiGwd/36r/F38tVM8Hn33aj
- VQ9/1jeFuf/XHTBgVIhAycea1PnNZGDOu/cg/HUwfsVc23iqgSwG6u8rOWTRhg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Oct 2025 18:21:35 +0200
-Message-Id: <DDKQH2MIHZ2S.2MPJCNHXMIT4U@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Naresh Kamboju"
- <naresh.kamboju@linaro.org>, <dri-devel@lists.freedesktop.org>, "open list"
- <linux-kernel@vger.kernel.org>, <lkft-triage@lists.linaro.org>, "Linux
- Regressions" <regressions@lists.linux.dev>
-Cc: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Simona Vetter"
- <simona@ffwll.ch>, "David Airlie" <airlied@gmail.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>, "Dan Carpenter"
- <dan.carpenter@linaro.org>, "Anders Roxell" <anders.roxell@linaro.org>,
- "Ben Copeland" <benjamin.copeland@linaro.org>
-Subject: Re: next-20251014: Internal error: Oops:
- drm_bridge_connector_hdmi_cec_init drmm_connector_hdmi_cec_register
-X-Mailer: aerc 0.20.1
-References: <CA+G9fYuKHp3QgPKjgFY3TfkDdh5Vf=Ae5pCW+eU41Bu=D7th2g@mail.gmail.com>
- <CA+G9fYv_mGoDzFv33v7Y5+6yz6z=xp9FJRiFUBYDapvE_rrBXA@mail.gmail.com>
- <DDJSBQRQJTMZ.X1W4I5YOURPK@bootlin.com>
-In-Reply-To: <DDJSBQRQJTMZ.X1W4I5YOURPK@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 399D210EC79;
+ Fri, 17 Oct 2025 16:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=lach.pw; c=relaxed/relaxed;
+ h=Message-ID:Date:Subject:To:From; t=1760718477; bh=TISoBNwEXTy+2dwSC0N2Ya5
+ Q1DPGHIdmijcD806QkPc=; b=Gfk5dmlR2UvzChTy9lgkesT5yQfzvJf/nYFNUMdE3M5DVMr1cT
+ 0y0JAdLq4H46eQN0UfO8SYBsrY3XvUDef+hAHWpoAv13jPMQmkdgxrn/nzUYH870+GRNMzcnmXD
+ H42s2SfexpchXRA8Fpnx7OpLJWrwFd84GHDxx8RxWAOi6qOuqo1XZoJe6fqgU+pefkFwOM/T6oT
+ 6oFWFzN+GrOJXEyQRcEAmeswDqMjpHIjyAb4wkKpDCTgkBHLpjuXO1sg6ukJ87hoy2wnIfwdqhM
+ Ucd4kBq+jsZtwmu0kX7cwaKHF6iliPX06hPP2qyF4asPaOhEQza+H9L1h8v/IOX14PQ==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=lach.pw; c=relaxed/relaxed;
+ h=Message-ID:Date:Subject:To:From; t=1760718477; bh=TISoBNwEXTy+2dwSC0N2Ya5
+ Q1DPGHIdmijcD806QkPc=; b=5M09VXGp4u3s0GzWxgdA1v4amtDjSXrUBgBNoieyfkVTD6WP4U
+ 8XYLPECocfu/xHk9NuauGXloB6iOiGCMZRDw==;
+From: Yaroslav Bolyukin <iam@lach.pw>
+To: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Lach <iam@lach.pw>
+Subject: [PATCH v5 0/7] DisplayID DSC passthrough timing support
+Date: Fri, 17 Oct 2025 18:27:29 +0200
+Message-ID: <20251017162736.45368-1-iam@lach.pw>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,45 +61,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+From: Lach <iam@lach.pw>
 
-On Thu Oct 16, 2025 at 3:36 PM CEST, Luca Ceresoli wrote:
-> Hello Naresh,
->
-> On Thu Oct 16, 2025 at 12:52 PM CEST, Naresh Kamboju wrote:
->> On Thu, 16 Oct 2025 at 16:14, Naresh Kamboju <naresh.kamboju@linaro.org>=
- wrote:
->>>
->>> While booting and loading kernel modules on dragonboard 410c board
->>> with Linux next
->>> kernel next-20251014 and next-20251015 the following crash noticed,
->>>
->>> First seen on next-20251014
->>> Good: next-20251013
->>> Bad:  next-20251014
->>>
->>> Regression Analysis:
->>> - New regression? yes
->>> - Reproducibility? yes
->>>
->>> Boot regressions: next-20251014: Internal error: Oops:
->>> drm_bridge_connector_hdmi_cec_init drmm_connector_hdmi_cec_register
->
-> Thanks for the report.
->
-> This looks like the same issue reported here:
-> https://lore.kernel.org/all/336fbfdd-c424-490e-b5d1-8ee84043dc80@samsung.=
-com/
->
-> I'm writing a fix right now, will send it today if all goes well.
+VESA DisplayID spec allows the device to force its DSC bits per pixel
+value.
 
-Here's the fixed version:
-https://lore.kernel.org/lkml/20251017-drm-bridge-alloc-getput-bridge-connec=
-tor-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/
+For example, the HTC Vive Pro 2 VR headset uses this value in
+high-resolution modes (3680x1836@90-120, 4896x2448@90-120), and when the
+kernel doesn't respect this parameter, garbage is displayed on the HMD
+instead.
 
-Luca
+Me and other users have successfully tested the old (v3) version of this
+patch (which was applying DSC BPP value unconditionally, thus incorrect:
+https://lkml.org/lkml/2023/2/26/116) on Vive Pro 2 and
+Bigscreen Beyond VR headsets, and have been using it daily, it is known
+to work and doesn't seem to break anything else since 2022.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Previously, I didn't have enough dedication to get it merged, I hope
+this time I will manage to get it to v6.19 :D
+
+Regarding driver support - I have looked at amdgpu and Nvidia's
+open-gpu-kernel-modules, and both seem to have some indication for this
+value; however, in Linux, it is unused in both.
+
+First patch implements parsing of DSC BPP values and display mode VII
+timings flag which mandates that the DSC BPP value should actually be
+used for this display mode.
+
+The second patch implements handling of this value for AMDGPU driver.
+
+The only thing that I don't like in the current implementation, is how
+the value of `dsc_passthrough_timings_support` flag is propagated from
+the connector display modes to the mode created in `DRM_IOCTL_MODE_SETCRTC`
+handler (which is used for VR display initialization in Monado and
+StreamVR), it feels like this flag should be initialized by the kernel
+itself, but as far as I can see there is no correct way to do this, as
+the timing constraints calculation belongs to the individual drivers.
+
+Another problem with how this flag is set, is that there is no hard
+connection between modes creaded in `SETCRTC` and the modes actually
+defined by connector, so I implement an assumption that this flag should
+be the same between choosen mode and the preferred display mode. Given
+that previously due to the missing support for this flag displays
+were only showing garbage, I believe this assumption won't break
+anything.
+
+Both of those downsides are due to the fact my understanding of DRM
+subsystem is not that high. If another implementation would be proposed
+by AMDGPU maintainers - I will gladly implement it here.
+
+v4->v5:
+ * The patch was split into multiple
+ * Disabled MSO parsing for eDP displays
+ * Disabled MSO logs if not used
+ * Passing of type VII timings block data
+ * Minor codestyle changes: lines moved around, naming
+v3->v4:
+ * This patch now parses timings support flag on type VII block, instead
+   of applying it unconditionally. Previously I didn't understand the
+   spec properly.
+ * Now it also is not being applied for non-supported and/or non-VII
+   blocks in amdgpu driver.
+
+Regards,
+
+Lach
+
+Yaroslav Bolyukin (7):
+  drm/edid: rename VESA block parsing functions to more generic name
+  drm/edid: prepare for VESA vendor-specific data block extension
+  drm/edid: MSO should only be used for non-eDP displays
+  drm/edid: parse DSC DPP passthru support flag for mode VII timings
+  drm/edid: for consistency, use mask everywhere for block rev parsing
+  drm/edid: parse DRM VESA dsc bpp target
+  drm/amd: use fixed dsc bits-per-pixel from edid
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  12 +++
+ drivers/gpu/drm/drm_displayid_internal.h      |  11 ++
+ drivers/gpu/drm/drm_edid.c                    | 101 +++++++++++-------
+ include/drm/drm_connector.h                   |   6 ++
+ include/drm/drm_modes.h                       |  10 ++
+ 5 files changed, 103 insertions(+), 37 deletions(-)
+
+-- 
+2.51.0
