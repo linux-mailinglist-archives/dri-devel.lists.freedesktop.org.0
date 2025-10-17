@@ -2,72 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EBCBE8306
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 12:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35454BE844D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 13:14:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F36E10E00C;
-	Fri, 17 Oct 2025 10:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966F810EBB4;
+	Fri, 17 Oct 2025 11:14:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="fiYzf6Qp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eU2BVoOr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7055710E00C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 10:58:45 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59HAwOol252484;
- Fri, 17 Oct 2025 05:58:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1760698704;
- bh=KTD192e+GHwuTmB/AOyJZZkgH94hw9SU/1NoyZZJevE=;
- h=Date:Subject:From:To:CC:References:In-Reply-To;
- b=fiYzf6QpiDzcdgAB4Yzy6YXrIRbHZzqmWBTidch/tF3LHnuU94Is7ZNWwiZJidBHe
- x7CV6vKCWnOh5j/QHRDyCohtWK1PgdlpKQtIhaK4NNvhq4hFt6J5WhfcjHcN5G/IRX
- r0cLchne4HJyiezJ4yG5oH1CJb6bZYQkCwcuiXTw=
-Received: from DLEE205.ent.ti.com (dlee205.ent.ti.com [157.170.170.85])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59HAwOVW2358912
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 17 Oct 2025 05:58:24 -0500
-Received: from DLEE214.ent.ti.com (157.170.170.117) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 17 Oct
- 2025 05:58:23 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE214.ent.ti.com
- (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 17 Oct 2025 05:58:23 -0500
-Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59HAwF6J1183031;
- Fri, 17 Oct 2025 05:58:16 -0500
-Message-ID: <8ace674c-9d57-4500-b155-caa662903774@ti.com>
-Date: Fri, 17 Oct 2025 16:28:15 +0530
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8CBD10EBB4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 11:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760699653;
+ bh=U+CUPK51azpHTasLB6WKdKZQN9xhE3NxrpSauxRepKQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=eU2BVoOrcptS4wpUdg2EfbT+qNqrKduv/6c1Kc45gXarH1ja5MYoI99AuKEdoaQAN
+ iARRKI5tnJciiH8l1wzJ0ge65y6pUSIgDKqEkYnPdBPrhvj7m4L6hHQuL2Q2Mifn36
+ 6QJy5kBlYEI+qOl+bRa5Do4rYYTM5qRWTMisfWFJ3pc8gFopxMsmxTqBOCNs6xhOO7
+ i21HABvh4Gj1LULv+PuXJ3GHmCVZqENMeDST11TRM0qvvGUUkf8ksewOul6Z4MueT0
+ ddeOg4Ku964C/r1WFalLKXwUJ0tTBHiX25syAgDjhWd1JEpNoCzZ5xcRslwmrCgi82
+ C2biY5yP2rBkw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DB62217E0DB7;
+ Fri, 17 Oct 2025 13:14:12 +0200 (CEST)
+Date: Fri, 17 Oct 2025 13:14:08 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Akash Goel <akash.goel@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>
+Cc: liviu.dudau@arm.com, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH] drm/panthor: Fix kernel panic on partial unmap of a GPU
+ VA region
+Message-ID: <20251017131408.52cd2e81@fedora>
+In-Reply-To: <20251017102922.670084-1-akash.goel@arm.com>
+References: <20251017102922.670084-1-akash.goel@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for DSC
-From: Harikrishna shenoy <h-shenoy@ti.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <sjakhade@cadence.com>, <yamonkar@cadence.com>,
- <lumag@kernel.org>, <dianders@chromium.org>, <jani.nikula@intel.com>,
- <luca.ceresoli@bootlin.com>, <andy.yan@rock-chips.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <u-kumar1@ti.com>,
- <s-jain1@ti.com>, <tomi.valkeinen@ideasonboard.com>
-References: <20250915103041.3891448-1-h-shenoy@ti.com>
- <20250915103041.3891448-2-h-shenoy@ti.com>
- <20250918-dandelion-guan-of-storm-fa2051@kuoka>
- <d2367789-6b54-4fc2-bb7c-609c0fe084d3@ti.com>
-Content-Language: en-US
-In-Reply-To: <d2367789-6b54-4fc2-bb7c-609c0fe084d3@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,154 +65,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
++Adrian
 
+On Fri, 17 Oct 2025 11:29:22 +0100
+Akash Goel <akash.goel@arm.com> wrote:
 
-On 22/09/25 13:11, Harikrishna Shenoy wrote:
+> This commit address a kernel panic issue that can happen if Userspace
+> tries to partially unmap a GPU virtual region (aka drm_gpuva).
+> The VM_BIND interface allows partial unmapping of a BO.
 > 
+> Panthor driver pre-allocates memory for the new drm_gpuva structures
+> that would be needed for the map/unmap operation, done using drm_gpuvm
+> layer. It expected that only one new drm_gpuva would be needed on umap
+> but a partial unmap can require 2 new drm_gpuva and that's why it
+> ended up doing a NULL pointer dereference causing a kernel panic.
 > 
-> On 9/18/25 07:00, Krzysztof Kozlowski wrote:
->> On Mon, Sep 15, 2025 at 04:00:40PM +0530, Harikrishna Shenoy wrote:
->>> From: Swapnil Jakhade<sjakhade@cadence.com>
->>>
->>> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
->>> DPI/DP bridge.
->>>
->>> Signed-off-by: Swapnil Jakhade<sjakhade@cadence.com>
->>> Signed-off-by: Harikrishna Shenoy<h-shenoy@ti.com>
->>> ---
->>>   .../display/bridge/cdns,mhdp8546.yaml         | 24 ++++++++++++-------
->>>   1 file changed, 15 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->>> index c2b369456e4e..2a05a7d5847f 100644
->>> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->>> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->>> @@ -27,13 +27,12 @@ properties:
->>>             Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
->>>         - description:
->>>             Register block of mhdptx sapb registers.
->>> +      - description:
->>> +          Register block for mhdptx DSC encoder registers.
->>>   
->>>     reg-names:
->>> -    minItems: 1
->>> -    items:
->>> -      - const: mhdptx
->>> -      - const: j721e-intg
->>> -      - const: mhdptx-sapb
->>> +    description:
->>> +      Names corresponding to entries in the reg property.
->> No, top-level should have broadest constraints. In your case it is
->> min/maxItems.
->>
->> Description is completely redundant. Wasn't here before, so why adding
->> it?
->>
-> Noted, will remove description and add minItems:1.
->>>   
->>>     clocks:
->>>       maxItems: 1
->>> @@ -100,18 +99,25 @@ allOf:
->>>         properties:
->>>           reg:
->>>             minItems: 2
->>> -          maxItems: 3
->>> +          maxItems: 4
->>>           reg-names:
->>>             minItems: 2
->>> -          maxItems: 3
->>> +          items:
->>> +            - const: mhdptx
->>> +            - const: j721e-intg
->>> +            - const: mhdptx-sapb
->>> +            - const: dsc
->>>       else:
->>>         properties:
->>>           reg:
->>>             minItems: 1
->>> -          maxItems: 2
->>> +          maxItems: 3
->>>           reg-names:
->>>             minItems: 1
->>> -          maxItems: 2
->>> +          items:
->>> +            - const: mhdptx
->>> +            - const: mhdptx-sapb
->> This is wrong. Previously CDNS variant had two items means it had
->> "j721e-intg". Now it's something else.
->>
->> First, this is an ABI break.
->>
->> Second, there is no explanation at all for it in the commit msg! Looks
->> like random change.
->>
->> Read carefully writing-bindings doc.
->>
->> Best regards,
->> Krzysztof
->>
+> Following dump was seen when partial unmap was exercised.
+>  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
+>  Mem abort info:
+>    ESR = 0x0000000096000046
+>    EC = 0x25: DABT (current EL), IL = 32 bits
+>    SET = 0, FnV = 0
+>    EA = 0, S1PTW = 0
+>    FSC = 0x06: level 2 translation fault
+>  Data abort info:
+>    ISV = 0, ISS = 0x00000046, ISS2 = 0x00000000
+>    CM = 0, WnR = 1, TnD = 0, TagAccess = 0
+>    GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+>  user pgtable: 4k pages, 48-bit VAs, pgdp=000000088a863000
+>  [000000000000078] pgd=080000088a842003, p4d=080000088a842003, pud=0800000884bf5003, pmd=0000000000000000
+>  Internal error: Oops: 0000000096000046 [#1] PREEMPT SMP
+>  <snip>
+>  pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>  pc : panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
+>  lr : panthor_gpuva_sm_step_remap+0x6c/0x330 [panthor]
+>  sp : ffff800085d43970
+>  x29: ffff800085d43970 x28: ffff00080363e440 x27: ffff0008090c6000
+>  x26: 0000000000000030 x25: ffff800085d439f8 x24: ffff00080d402000
+>  x23: ffff800085d43b60 x22: ffff800085d439e0 x21: ffff00080abdb180
+>  x20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000010
+>  x17: 6e656c202c303030 x16: 3666666666646466 x15: 393d61766f69202c
+>  x14: 312d3d7361203a70 x13: 303030323d6e656c x12: ffff80008324bf58
+>  x11: 0000000000000003 x10: 0000000000000002 x9 : ffff8000801a6a9c
+>  x8 : ffff00080360b300 x7 : 0000000000000000 x6 : 000000088aa35fc7
+>  x5 : fff1000080000000 x4 : ffff8000842ddd30 x3 : 0000000000000001
+>  x2 : 0000000100000000 x1 : 0000000000000001 x0 : 0000000000000078
+>  Call trace:
+>   panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
+>   op_remap_cb.isra.22+0x50/0x80
+>   __drm_gpuvm_sm_unmap+0x10c/0x1c8
+>   drm_gpuvm_sm_unmap+0x40/0x60
+>   panthor_vm_exec_op+0xb4/0x3d0 [panthor]
+>   panthor_vm_bind_exec_sync_op+0x154/0x278 [panthor]
+>   panthor_ioctl_vm_bind+0x160/0x4a0 [panthor]
+>   drm_ioctl_kernel+0xbc/0x138
+>   drm_ioctl+0x240/0x500
+>   __arm64_sys_ioctl+0xb0/0xf8
+>   invoke_syscall+0x4c/0x110
+>   el0_svc_common.constprop.1+0x98/0xf8
+>   do_el0_svc+0x24/0x38
+>   el0_svc+0x40/0xf8
+>   el0t_64_sync_handler+0xa0/0xc8
+>   el0t_64_sync+0x174/0x178
 > 
-> Hi Krzysztof,
-> 
-> 
-> Keeping this patch series aside, The existing binding-docs clearly have 
-> a bug.
-> 
-> Since even for cadence specific compatible "cdns,mhdp8546" it 
-> compulsorily expects "j721e-intg" register space
-> 
-> which is NOT part of the cadence IP block mhdp8546 and hence not 
-> applicable to "cdns,mhdp8546".
-> 
-> This was also discussed here [1] and can also be referred in this TRM 
-> section [2],
-> 
-> which clearly show that "j721e-intg" is part of TI wrapper IP block and 
-> should be
-> 
-> applicable to "ti,j721e-mhdp8546" compatible.
-> 
-> Yes agreed it breaks the ABI but it also fixes a bug and I don't see any 
-> one using only "cdns,mhdp8546" yet.
-> 
-> so I am thinking it's more appropriate to fix this as a separate patch 
-> independent of this series.
-> 
-> Kindly let me know if I should submit a separate patch to fix this bug 
-> or I should just ignore this bug.
-> 
-> Depending on your suggestion, if it's agreed upon to send the bug fix 
-> patch first, I will send out an independent
-> 
-> bug fix to remove "j721e-intg" for compatible "cdns,mhdp8546" and then 
-> rebase the series for adding DSC reg blocks
-> 
-> on top of bug fix.
-> 
-> [1]: https://lore.kernel.org/all/20250903220312.GA2903503- 
-> robh@kernel.org/ <https://lore.kernel.org/all/20250903220312.GA2903503- 
-> robh@kernel.org/>
-> [2]: Link to TRM ZIP:https://www.ti.com/lit/zip/spruil1 <https:// 
-> www.ti.com/lit/zip/spruil1>
-> Table 2-1. MAIN Domain Memory Map
-> DSS_EDP0_V2A_CORE_VP_REGS_APB are EDP core register identified by name 
-> mhdptx in DT.
-> DSS_EDP0_INTG_CFG_VP identified by j721e-intg in DT.
-> 
-> Section 12.6.6.16.4: EDP_CFG Registers
-> 
-> Driver use: TI j721e Cadence MHDP8546 DP wrapper(drivers/gpu/drm/bridge/ 
-> cadence/cdns-mhdp8546-j721e.c)
-> 
-> 
-> Regards.
+> Signed-off-by: Akash Goel <akash.goel@arm.com>
 
-Hi Krzysztof,
+Adrian had the exact same fix, and I suggested he delays the submission
+so we can fix partial unmap is used in the same patchset (when THP is
+used, we might have to insert an intermediate PT level when a huge
+page mapping is split, and the io-pagtable code doesn't cover that
+anymore). Oh well, sorry about that Adrian.
 
-Could you please let us know your thoughts on above, will re-spin it 
-accordingly.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Regards.
-
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 6dec4354e378..7870e7dbaa5d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1175,10 +1175,14 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
+>  		break;
+>  
+>  	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
+> -		/* Partial unmaps might trigger a remap with either a prev or a next VA,
+> -		 * but not both.
+> +		/* Two VMAs can be needed for an unmap, as an unmap can happen
+> +		 * in the middle of a drm_gpuva, requiring a remap with both
+> +		 * prev & next VA. Or an unmap can span more than one drm_gpuva
+> +		 * where the first and last ones are covered partially, requring
+> +		 * a remap for the first with a prev VA and remap for the last
+> +		 * with a next VA.
+>  		 */
+> -		vma_count = 1;
+> +		vma_count = 2;
+>  		break;
+>  
+>  	default:
 
