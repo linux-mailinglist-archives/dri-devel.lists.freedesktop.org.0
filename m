@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6658BEB6BD
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 22:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9794CBEB6C9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 22:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C774C10E199;
-	Fri, 17 Oct 2025 20:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE95B10E19B;
+	Fri, 17 Oct 2025 20:00:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X0F7mGFP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RKly9WRE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C4A10E199
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 20:00:28 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-36c0b946cb5so17720791fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:00:28 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F7910E19E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 20:00:42 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-3612c38b902so21586801fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760731226; x=1761336026; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760731241; x=1761336041; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=W7XqOWl1cfsF52QRqm2uO00zKVuXynKW/bvPOkip0X0=;
- b=X0F7mGFP7zPjkhlwbBApWtDGT7/E3xrZciX0EMIfpteCIKuxd7MZhemAhHVu8Dg5cs
- h1ggOJPmrP2rK7asfvpF88Svynpt+cAewwVffDsOPEnLT+7wFvYXolQu1dfa9CaD6Y6m
- AeaZYlmaQhiD8NM7nCgM4BPNihzsIgsPDzNE5igm5kNF/rT+RFWFDTcW6txwrcv3wcso
- zkXTC9ylu+ohn264RnB1sjMyXbwER3HfJ4/XpRNBsunz0CoEOAT5YWyB6FRTRGHbgMel
- j4MRvRojWeDOPhdPcekpNW27parAECaWmUD6wYkQguK2YnXHfaVlS0GOtJpJMfJKAiNF
- bPHw==
+ :reply-to; bh=xQNJSxr8t/BdOOWVzHAAqI48NQwvfIqpyN0Al86/+Ik=;
+ b=RKly9WRE4crDbwveIPtEztjCL4cZLObPRTnn7ki2ydoPYh3BD7kyh1kCfdiQaIIiN7
+ 7JIvGmq9zxSlVznPpngLDCE/3BsiNWpdpwzDZuHRMaictaSMwSnEhbusOEJuauT5tql5
+ V18YaNNn/aJOqU6usBm3e2AOaQ9xpbjBAqCqRBBjDDgzQK/WDWVpMbUPgk7iXI5msfGI
+ VMGgrZt/xwcIQ0XE+bRmvwGhwaF2tu0qWUAInXOoiPPdN49Mq7AYX1EYK/QKyo1xeY6I
+ uywhLZlpfuCc6Iyq92mZ9yXLhAXGOORzXWWpQuLx5QxQOdRJ8IpaXzgkfV1L1dok2gz8
+ d7Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760731226; x=1761336026;
+ d=1e100.net; s=20230601; t=1760731241; x=1761336041;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=W7XqOWl1cfsF52QRqm2uO00zKVuXynKW/bvPOkip0X0=;
- b=uhGv6uofDde1l/PA/eJelbGJfgyuVHVuq024wP8aZx7VC99pMO0z5aTNh8yKHrFnJc
- eeQzmpqj4R0sQoltXI5UYpd8rbjhKY0yUSN/mBuJigV59Vo3Lv+CiGu2guPSJ6YwhAZk
- 1A+2LbCzn/CgxajhtMLSjbWBgP++sMd5a1AwYkyuKdCBTI5MY6w5tXOWggJ230W5yAjG
- pSYkdMTmIfhfLscMVLB0MmlCpc/nMmL0AXJl/MkfVcj/RD+sa6+RzpWClJ9mBF+Gb81l
- TNgYtZq3NSg6GPzBbt5FXIkEBiapwC4Nnmrm4ax5RDanfywxbEkE3ohyHS14YezWZYKr
- F+ug==
+ bh=xQNJSxr8t/BdOOWVzHAAqI48NQwvfIqpyN0Al86/+Ik=;
+ b=IQ4KyvpvVWqj78ORMDqysnw/SzZQtAzZoGsgPQRDDQRbcV9F0Z7rINcJwcnryYcP2h
+ b3Qe2xcQPS0+o9UnpsuvTQK9tIF27tShb9E6N75trncA2TLIC5ifyLQfTRKcKKMi+s4K
+ lPlQfEYg38mZXZ71S6zCWW0BQ5cDh+ajSmqNeNC7+oqLRFBP7Kgaz5NtuDmMS5f1USrE
+ cLQRtL+G0Rlm/ZWVHqjN9eB9hX3ZPSjo3hCiVDDg2u35gNw+IzBkqtpEAxobJJn4xLgs
+ 5K2vcK0AOCdlkzoykjLafSl9r8HFVKGATfOzMAeGEXPr5CQHtB6f9K6YKEGIkAfL/418
+ JFbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2SFwkb4a6JGz5kyXwSJm2/yDZgn17RrZWsVFh5KCPajO1eafFO2w5BDtfgbRE8R0TbuUpugK00Nc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXQrQXNyzaPUTbID6VeoNnHfIAujzuXASNuxRdPVZ+c2Xmz0Ri
- 5xr5B61zJqsWwUu/IMA81Jvc5/bqlvczsM3ko2z4ejW7Cn0rXuHivkhB
-X-Gm-Gg: ASbGncui0eriSy5gzFW10Ja5yyaUIHxd3Un22Qoix5UB24gci372dk0B//SQa2XUHSf
- OKLmsmJ9aI+QrGN4gjZ5I9q5P6hJNzdu3cA7L8QM42q79TEseWP/VyO2KlnjI87cP+NKPUIQnl8
- U56YTQgIiKNynm63C3wVXo80XcGKI/jdrff+i9pxTYpc7lPhP7rI0+BoUl/mEIWUJfttrj6w5kc
- 7Iv2RwhpcBH7rW9RwTxDtAqMDTSd2bjAKxqvHCwPz42vS3o29Sk5AYXZPdqcO2A7CCKmLuIFNUo
- 4UKpmuKzg4X4v6rRE8gyGx94uG+XNxNEVqFgLFqOp/mlfu+fRsN2olPUFEiXKrH0bAfLkBo5AuW
- yFtN4DFWADTfmJDVB+QYb9Tbw6xIoNk+mdlI1txuVyOtFY3RAp2LJ3gUCvwdYbPc+2b93GVCYhh
- Nwr5ul9csXRmrpE/hyIuOwdqapvji6SH5uRk14Rg01V1buTWJ02FQ=
-X-Google-Smtp-Source: AGHT+IFrm/3xtNQT3MBQMvkncf7kZPyKKqAIptXvvBOXIh8nfNhykS0BMD1amwffzbPJvG3jZUH5AQ==
-X-Received: by 2002:a2e:bc11:0:b0:36e:f1ae:d4bc with SMTP id
- 38308e7fff4ca-37797888c0cmr16609961fa.14.1760731226308; 
- Fri, 17 Oct 2025 13:00:26 -0700 (PDT)
+ AJvYcCVrgjekNlYk3RiHYozh7TydRF1kPAdgMNaMJrSbbE1LFC58RuLTy8s/C54jgQy6H9gMyaISgw41cxo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqKXx9rIBAzs6OlFQIimcR/zg4jW2sM99hV4Uey5Mx08XMygI2
+ cwUiGas7zwOOHS6L00YnBjM8r1fec6mlekN0AtsPY8WIbq1aMnKnALUi
+X-Gm-Gg: ASbGnctQKODkXb3rxMSNdjXirWLXh7z+HP9c7BFYTrN6ZFtcakvw6ZPyHBUpjh27frb
+ a4pZJVXmset6K2a9ZsKFtC1tuXpS0FsvPD9s+MrHA+TIMeNQARA2A7OSFghxvo4J/olZDD2qF4R
+ 21p0uLWn0YYwsBHhalj2KgzrhC38W7j4oiL2PEMoE7b95HdDnL0hoOtzP4K56A6Julet/K/ZhPV
+ Z5iWYwoisJmpaz98x3wX0BhbXlbpcCHSKeIKx23ZLMa510NHPHXTyvND8XccHQa7MK1uEfGgaoF
+ +bKh/Qz3kTmt8lmTiobm6ZalRiWIIR1Phb1qVxJBtel1k20CgjILahacjL+VKnd/GN5AAMi+C+Z
+ BaIw8Fs5kTmnEqzB7E1EtdCmgmfJMuSxVp4vAoKvRKaK8KFU4uahU5N1cONtBRf6IvQH1blP8A/
+ 4kJwrOXYULAwK2EoSpmG6t7Yvw9RrJE57LtjWXma/tRfx/VpDBkm8fHH4SqZ9N2g==
+X-Google-Smtp-Source: AGHT+IGNU4fQjBz2jSA6DBrpEqZEn5tDNBRAgHPtQC9tAm1M2lku7pLWWHwNUw5re71jbQvu9jXrmA==
+X-Received: by 2002:a2e:bd03:0:b0:333:e590:1bc9 with SMTP id
+ 38308e7fff4ca-37797a0e735mr14647271fa.24.1760731240714; 
+ Fri, 17 Oct 2025 13:00:40 -0700 (PDT)
 Received: from [192.168.1.244] (public-nat-13.vpngate.v4.open.ad.jp.
  [219.100.37.245]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-377a921d99bsm1580861fa.22.2025.10.17.13.00.10
+ 38308e7fff4ca-377a921d99bsm1580861fa.22.2025.10.17.13.00.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 13:00:26 -0700 (PDT)
+ Fri, 17 Oct 2025 13:00:40 -0700 (PDT)
 From: Vladimir Lypak <vladimir.lypak@gmail.com>
-Date: Fri, 17 Oct 2025 19:58:36 +0000
-Subject: [PATCH 2/6] drm/msm/dpu: Propagate error from
- dpu_assign_plane_resources
+Date: Fri, 17 Oct 2025 19:58:37 +0000
+Subject: [PATCH 3/6] drm/msm/dpu: Disable scaling for unsupported scaler types
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251017-b4-dpu-fixes-v1-2-40ce5993eeb6@gmail.com>
+Message-Id: <20251017-b4-dpu-fixes-v1-3-40ce5993eeb6@gmail.com>
 References: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
 In-Reply-To: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -102,48 +101,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dpu_plane_virtual_assign_resources function might fail if there is
-no suitable SSPP(s) for the plane. This leaves sspp field in plane
-state uninitialized and later leads to NULL dereference during commit:
+Scaling is not implemented for some type of scalers (QSEED2 and RGB) but
+it was unintentionally re-enabled with change below. The remaining
+condition in dpu_plane_atomic_check_pipe is not enough because it only
+checks for length of scaler block (which is present). This patch adds a
+additional check for setup_scaler operation.
 
-Call trace:
- _dpu_crtc_blend_setup+0x194/0x620 [msm] (P)
- dpu_crtc_atomic_begin+0xe4/0x240 [msm]
- drm_atomic_helper_commit_planes+0x88/0x358
- msm_atomic_commit_tail+0x1b4/0x8b8 [msm]
- commit_tail+0xa8/0x1b0
- drm_atomic_helper_commit+0x180/0x1a0
- drm_atomic_commit+0x94/0xe0
- drm_mode_atomic_ioctl+0xa88/0xd60
- drm_ioctl_kernel+0xc4/0x138
- drm_ioctl+0x364/0x4f0
- __arm64_sys_ioctl+0xac/0x108
- invoke_syscall.constprop.0+0x48/0x100
- el0_svc_common.constprop.0+0x40/0xe8
- do_el0_svc+0x24/0x38
- el0_svc+0x30/0xe0
- el0t_64_sync_handler+0xa0/0xe8
- el0t_64_sync+0x198/0x1a0
-
-Fixes: 3ed12a3664b3 ("drm/msm/dpu: allow sharing SSPP between planes")
+Fixes: 8f15005783b8 ("drm/msm/dpu: move scaling limitations out of the hw_catalog")
 Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 ---
  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index f54cf0faa1c7c8c00eb68b8b45ca2fc776f7f62f..d198a65a2c5fef5fbdebc9c383a4b08bc71b8bf3 100644
+index d198a65a2c5fef5fbdebc9c383a4b08bc71b8bf3..6effe0fa4837284a1f038e4907c4c91d239aeb8b 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1278,7 +1278,7 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
- 							     state, plane_state,
- 							     prev_adjacent_plane_state);
- 		if (ret)
--			break;
-+			return ret;
- 
- 		prev_adjacent_plane_state = plane_state;
- 	}
+@@ -740,7 +740,7 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+ 	 * We already have verified scaling against platform limitations.
+ 	 * Now check if the SSPP supports scaling at all.
+ 	 */
+-	if (!sblk->scaler_blk.len &&
++	if (!(sblk->scaler_blk.len && pipe->sspp->ops.setup_scaler) &&
+ 	    ((drm_rect_width(&new_plane_state->src) >> 16 !=
+ 	      drm_rect_width(&new_plane_state->dst)) ||
+ 	     (drm_rect_height(&new_plane_state->src) >> 16 !=
 
 -- 
 2.51.0
