@@ -2,80 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D406ABEA6D8
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F90BEADE5
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB7710EA44;
-	Fri, 17 Oct 2025 16:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5574310EC8F;
+	Fri, 17 Oct 2025 16:50:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uXVGXAIC";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="eyYDDBza";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C00E010EA44
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:03:39 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-471075c0a18so21838605e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 09:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1760717018; x=1761321818; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7ppRljhpZ7sAECJRgv3z2Edioee6aFFS5l0XZiKbfH4=;
- b=uXVGXAICQEJs1Wx/a/uwznazzwDNZsTcLE6T05hHLGWMuT/KdxEgd5N+rBzd3PVS3+
- LxIEyNUvjDZn/7fduFXlTCeJ7DtMCn9T4VdwT9CSahj9BIG1FyiiOlAWdIcoxmvrY389
- ZX/AQgo5CIKXI/Z+I6GJkQfrK3e8CeKiMppTqSbKov5HgiTF1wyjiv/k9ieZAeUwjfRi
- Ti4DQJ4LhDu/nDHcF3CvU/6QUTV3aI2VhJPcq+9dvEdZommLgxpKblAkrD7i4OzCuSAw
- ykJRuswABjDkrb9+yIo/p0OUJe3BZAFEwiw5LHrEiLVx8vf75UprMUDoVIJGpzEA0MFH
- TK4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760717018; x=1761321818;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7ppRljhpZ7sAECJRgv3z2Edioee6aFFS5l0XZiKbfH4=;
- b=PBxQKb4RdtCzU4wkECRLPoIxAyDHkLoD+f9zhqovMBcC0LZySqZpHllLCAGQgp1daU
- KLcmzm5kFS4KHQ7QQkP3VKoberv4ekSVeqiIinv1ixDUxXzTxYey/Hm9b4uF51OR7ADB
- a2dIYej+7WG9+Uk+lH1rAGmfZ/Vo7dxQL9O1qGnv86Sptt5eku18G066GuqttO65viha
- 9RJRLOUbg123EuEVe0ErhERVNG2saOqatQzPn1xxP4cWToqUYKqLU+2M4paADCgKYB7V
- muDvjErncazECwCMw3F0UQSNHcUtbXRkwkTYrDs3OFOvnkkC/CPrXa8yLSMZOG6FfZJh
- iirg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXvzrAAZwws9akJJq4nn09Hh/cigGOS2cJ7p9o6NZkWLS5B7ukeJr3Q8+VZORn5hZjLAH2A5yOYeJk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2xmpEb6e8PWqIpL88vk+hOE6k8eccvh4/eT77QBz3c2RDyzGH
- lAfSBofwKf6b/CcDZzHlWkMJ/B6Gz6JdQXGS6x2zv7/Xps0AC4M1E5vibsa1a7ov4N0=
-X-Gm-Gg: ASbGncvSm6chAI1EYwAgmbt9Fg4PW7BvxTvlj1EfGFDeEiKdnHSdw9GEDOIaJGUKeXB
- JHU8rbQZ0oGiFHjPZ2PcrrEqoCVNVye28GhEdiuSGXhvnPsyLJIMTxiiwwIRovG3kz27YX/7Rpq
- cFOPr6Le5vIZqtympB9JmD+LTFcNaiSHBKCepAYVV3ZRnA8W9uugHVUpBVg5zf2EoPuDiYAPuyi
- pXd8eOiZ8jUH95FIxM5M7u8kUacR5QbQOCqiAHvjHPLD6lZjoiwu2jS8r3qjTMcnF3A8g9cLv7Z
- O2FSNvJFTn9RCRN5B2ciClNb4dnSDdinzKvxeInlEFWzTJS7HijAbxs1iRD/kaqgvJcYnf+oEr7
- a7jHwewApDBwaJ9SF28j8FOE3cjXNPTISlyzlXQuY3eqX7EFvRxaM9Sd2hmLt3Q1lVK2LH3+Yhh
- rZkMK6pfYDwhkJS/9utYOLAp5R9gI=
-X-Google-Smtp-Source: AGHT+IEvEE+Kq6kgGCQVfufhYDGLF1UwGNj+vy55Ir4PUIuACrWwdwcv4BS7vhmELR8Tp9IGWl6shQ==
-X-Received: by 2002:a05:600c:5296:b0:46e:1b89:77f1 with SMTP id
- 5b1f17b1804b1-47117879898mr31462585e9.9.1760717017876; 
- Fri, 17 Oct 2025 09:03:37 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-4270665efdcsm5017211f8f.29.2025.10.17.09.03.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 09:03:37 -0700 (PDT)
-Date: Fri, 17 Oct 2025 19:03:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/sysfb: Fix a NULL vs IS_ERR() bug
-Message-ID: <aPJo1W5Dl4rmGX_P@stanley.mountain>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A64710EC8F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:50:46 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cp9mz25xwz9tJG;
+ Fri, 17 Oct 2025 18:50:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760719843;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KKALYDlBuq3AApm7hJUER0vvZlNv/1hPEVn7ARgUxR4=;
+ b=eyYDDBzaOLfNdca2I7KQdT7e1NK2NXZIZWRlguf6SJej6B3274WlX3ZqqSl9TQ9NfnXzZk
+ Pb7rR3iY1xOHKd1YsBZPleTaH7i5VwHRX/hwXHoygO2Uw13PIaOmiWcP3NzaZZqFsCoJNR
+ 7CzPI/jIEEBOM6EJW3QfRZb+x4pWNlqXpzzZNVPlrmRBGAdr8NZJ7KLL3hAcoBFbcu+cZC
+ zcTMsaRupUE4lrEZwZPSfG6id4vATlg/djF3w76VmcjMCA7efgt5IfGwOF0V8rjF/zyVfV
+ YBpveuObA970laZ4iSSs7vCrqQHj93OZNBsIRS1wsm0BquPOrUCiX8tf6oLZJQ==
+Message-ID: <96850d24-8b38-4437-bbde-2b4aede3fdae@mailbox.org>
+Date: Fri, 17 Oct 2025 16:55:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Subject: Re: [PATCH 25/39] dt-bindings: display: bridge: Document NXP i.MX95
+ pixel interleaver support
+To: Frank Li <Frank.li@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+References: <20251011170213.128907-1-marek.vasut@mailbox.org>
+ <20251011170213.128907-26-marek.vasut@mailbox.org>
+ <aO1LkIAfErQhQ58j@lizhi-Precision-Tower-5810>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <aO1LkIAfErQhQ58j@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 63emeuje8d1fpppi7rferinsd6qqt4yc
+X-MBO-RS-ID: 7c53f1497155dd64e06
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +74,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_crtc_state() function never returns NULL, it returns
-error pointers.  Update the error checking to match.
+On 10/13/25 8:57 PM, Frank Li wrote:
 
-Fixes: cb71de092553 ("drm/sysfb: Lookup blit function during atomic check")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Frank,
 
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-index 8517c490e815..d2c4d8f3d4d0 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-@@ -259,7 +259,7 @@ int drm_sysfb_plane_helper_begin_fb_access(struct drm_plane *plane,
- 	ret = -EINVAL;
- 
- 	crtc_state = drm_atomic_get_crtc_state(plane_state->state, plane_state->crtc);
--	if (drm_WARN_ON_ONCE(dev, !crtc_state))
-+	if (drm_WARN_ON_ONCE(dev, IS_ERR(crtc_state)))
- 		goto err_drm_gem_end_shadow_fb_access;
- 	sysfb_crtc_state = to_drm_sysfb_crtc_state(crtc_state);
- 
--- 
-2.51.0
+>> +  fsl,syscon:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description: |
+>> +      A phandle which points to Control and Status Registers (CSR) module.
+> 
+> Need justify why not standard interface such as clock, phy, reset ...
 
+Because this is neither clock, nor reset nor anything else. This is 
+really only a remote register which controls the pixel interleaving. 
+Therefore, syscon.
+
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+> 
+> video-interfaces.yaml?
+No, because none of the properties in video-interfaces.yaml are 
+applicable to this port as far as I can tell.
+
+The rest is fixed, thanks !
