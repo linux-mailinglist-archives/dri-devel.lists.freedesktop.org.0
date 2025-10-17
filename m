@@ -2,38 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2A2BE8A4D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 14:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A79BE8A68
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 14:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF2A10E16B;
-	Fri, 17 Oct 2025 12:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4085310EBDC;
+	Fri, 17 Oct 2025 12:48:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e9Cg2/Z+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C317510E16B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:48:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 617941595;
- Fri, 17 Oct 2025 05:48:02 -0700 (PDT)
-Received: from [10.57.36.104] (unknown [10.57.36.104])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F14E93F59E;
- Fri, 17 Oct 2025 05:48:07 -0700 (PDT)
-Message-ID: <74dae302-946b-4f33-9630-18c26f175914@arm.com>
-Date: Fri, 17 Oct 2025 13:48:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix kernel panic on partial unmap of a GPU
- VA region
-To: Akash Goel <akash.goel@arm.com>, boris.brezillon@collabora.com,
- liviu.dudau@arm.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524D510EBD6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760705322;
+ bh=kDaVrEzKW5ETqG3fnMDoa8K6NyEjGGtb51+iYd+scC0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=e9Cg2/Z+cSnMziUBxtz5WyqhBxfXJJplXCc32KtMQ9BxgVmJ45IlPTBF26z28TP9L
+ +hhC/lFQ7XHsZHvpe4JoZp06Y9npG9ES6trHUDhMZ8d0tBvD8t97tnZm5o7Q/rCNwm
+ 84tw8PL9qWpykj8ic/M1urFEIyNB+5WaBIc3YCWTBsMIovSRCPJXMq+88AYNwDxNCA
+ 7YWtc4G3/HsqMWzovWJdu1T3c4KlrXLNRCclOwrf1k8OujM8YPxUdRJNqgLPhR2ZxH
+ XSr5CFzQgriiGNIWsbgeIjy1LQ4L2Ar9Lf8729J9HdN5lX20YZdrdVoqE4na5ewmec
+ DCAJ+QntQQ4Tg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 48E4F17E055D;
+ Fri, 17 Oct 2025 14:48:42 +0200 (CEST)
+Date: Fri, 17 Oct 2025 14:48:36 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Akash Goel <akash.goel@arm.com>, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH] drm/panthor: Fix kernel panic on partial unmap of a GPU
+ VA region
+Message-ID: <20251017144836.2746973b@fedora>
+In-Reply-To: <aPI2_bQKC8HxV4Bt@e110455-lin.cambridge.arm.com>
 References: <20251017102922.670084-1-akash.goel@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251017102922.670084-1-akash.goel@arm.com>
-Content-Type: text/plain; charset=UTF-8
+ <aPI2_bQKC8HxV4Bt@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,102 +65,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/10/2025 11:29, Akash Goel wrote:
-> This commit address a kernel panic issue that can happen if Userspace
-> tries to partially unmap a GPU virtual region (aka drm_gpuva).
-> The VM_BIND interface allows partial unmapping of a BO.
+On Fri, 17 Oct 2025 13:30:53 +0100
+Liviu Dudau <liviu.dudau@arm.com> wrote:
+
+> On Fri, Oct 17, 2025 at 11:29:22AM +0100, Akash Goel wrote:
+> > This commit address a kernel panic issue that can happen if Userspace
+> > tries to partially unmap a GPU virtual region (aka drm_gpuva).
+> > The VM_BIND interface allows partial unmapping of a BO.
+> > 
+> > Panthor driver pre-allocates memory for the new drm_gpuva structures
+> > that would be needed for the map/unmap operation, done using drm_gpuvm
+> > layer. It expected that only one new drm_gpuva would be needed on umap
+> > but a partial unmap can require 2 new drm_gpuva and that's why it
+> > ended up doing a NULL pointer dereference causing a kernel panic.
+> > 
+> > Following dump was seen when partial unmap was exercised.
+> >  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
+> >  Mem abort info:
+> >    ESR = 0x0000000096000046
+> >    EC = 0x25: DABT (current EL), IL = 32 bits
+> >    SET = 0, FnV = 0
+> >    EA = 0, S1PTW = 0
+> >    FSC = 0x06: level 2 translation fault
+> >  Data abort info:
+> >    ISV = 0, ISS = 0x00000046, ISS2 = 0x00000000
+> >    CM = 0, WnR = 1, TnD = 0, TagAccess = 0
+> >    GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> >  user pgtable: 4k pages, 48-bit VAs, pgdp=000000088a863000
+> >  [000000000000078] pgd=080000088a842003, p4d=080000088a842003, pud=0800000884bf5003, pmd=0000000000000000
+> >  Internal error: Oops: 0000000096000046 [#1] PREEMPT SMP
+> >  <snip>
+> >  pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> >  pc : panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
+> >  lr : panthor_gpuva_sm_step_remap+0x6c/0x330 [panthor]
+> >  sp : ffff800085d43970
+> >  x29: ffff800085d43970 x28: ffff00080363e440 x27: ffff0008090c6000
+> >  x26: 0000000000000030 x25: ffff800085d439f8 x24: ffff00080d402000
+> >  x23: ffff800085d43b60 x22: ffff800085d439e0 x21: ffff00080abdb180
+> >  x20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000010
+> >  x17: 6e656c202c303030 x16: 3666666666646466 x15: 393d61766f69202c
+> >  x14: 312d3d7361203a70 x13: 303030323d6e656c x12: ffff80008324bf58
+> >  x11: 0000000000000003 x10: 0000000000000002 x9 : ffff8000801a6a9c
+> >  x8 : ffff00080360b300 x7 : 0000000000000000 x6 : 000000088aa35fc7
+> >  x5 : fff1000080000000 x4 : ffff8000842ddd30 x3 : 0000000000000001
+> >  x2 : 0000000100000000 x1 : 0000000000000001 x0 : 0000000000000078
+> >  Call trace:
+> >   panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
+> >   op_remap_cb.isra.22+0x50/0x80
+> >   __drm_gpuvm_sm_unmap+0x10c/0x1c8
+> >   drm_gpuvm_sm_unmap+0x40/0x60
+> >   panthor_vm_exec_op+0xb4/0x3d0 [panthor]
+> >   panthor_vm_bind_exec_sync_op+0x154/0x278 [panthor]
+> >   panthor_ioctl_vm_bind+0x160/0x4a0 [panthor]
+> >   drm_ioctl_kernel+0xbc/0x138
+> >   drm_ioctl+0x240/0x500
+> >   __arm64_sys_ioctl+0xb0/0xf8
+> >   invoke_syscall+0x4c/0x110
+> >   el0_svc_common.constprop.1+0x98/0xf8
+> >   do_el0_svc+0x24/0x38
+> >   el0_svc+0x40/0xf8
+> >   el0t_64_sync_handler+0xa0/0xc8
+> >   el0t_64_sync+0x174/0x178
+> > 
+> > Signed-off-by: Akash Goel <akash.goel@arm.com>  
 > 
-> Panthor driver pre-allocates memory for the new drm_gpuva structures
-> that would be needed for the map/unmap operation, done using drm_gpuvm
-> layer. It expected that only one new drm_gpuva would be needed on umap
-> but a partial unmap can require 2 new drm_gpuva and that's why it
-> ended up doing a NULL pointer dereference causing a kernel panic.
+> Do we need a Fixes tag here?
+
+We definitely want a Fixes tag, yep. Thanks for spotting that.
+
 > 
-> Following dump was seen when partial unmap was exercised.
->  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
->  Mem abort info:
->    ESR = 0x0000000096000046
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->    FSC = 0x06: level 2 translation fault
->  Data abort info:
->    ISV = 0, ISS = 0x00000046, ISS2 = 0x00000000
->    CM = 0, WnR = 1, TnD = 0, TagAccess = 0
->    GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=000000088a863000
->  [000000000000078] pgd=080000088a842003, p4d=080000088a842003, pud=0800000884bf5003, pmd=0000000000000000
->  Internal error: Oops: 0000000096000046 [#1] PREEMPT SMP
->  <snip>
->  pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->  pc : panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
->  lr : panthor_gpuva_sm_step_remap+0x6c/0x330 [panthor]
->  sp : ffff800085d43970
->  x29: ffff800085d43970 x28: ffff00080363e440 x27: ffff0008090c6000
->  x26: 0000000000000030 x25: ffff800085d439f8 x24: ffff00080d402000
->  x23: ffff800085d43b60 x22: ffff800085d439e0 x21: ffff00080abdb180
->  x20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000010
->  x17: 6e656c202c303030 x16: 3666666666646466 x15: 393d61766f69202c
->  x14: 312d3d7361203a70 x13: 303030323d6e656c x12: ffff80008324bf58
->  x11: 0000000000000003 x10: 0000000000000002 x9 : ffff8000801a6a9c
->  x8 : ffff00080360b300 x7 : 0000000000000000 x6 : 000000088aa35fc7
->  x5 : fff1000080000000 x4 : ffff8000842ddd30 x3 : 0000000000000001
->  x2 : 0000000100000000 x1 : 0000000000000001 x0 : 0000000000000078
->  Call trace:
->   panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
->   op_remap_cb.isra.22+0x50/0x80
->   __drm_gpuvm_sm_unmap+0x10c/0x1c8
->   drm_gpuvm_sm_unmap+0x40/0x60
->   panthor_vm_exec_op+0xb4/0x3d0 [panthor]
->   panthor_vm_bind_exec_sync_op+0x154/0x278 [panthor]
->   panthor_ioctl_vm_bind+0x160/0x4a0 [panthor]
->   drm_ioctl_kernel+0xbc/0x138
->   drm_ioctl+0x240/0x500
->   __arm64_sys_ioctl+0xb0/0xf8
->   invoke_syscall+0x4c/0x110
->   el0_svc_common.constprop.1+0x98/0xf8
->   do_el0_svc+0x24/0x38
->   el0_svc+0x40/0xf8
->   el0t_64_sync_handler+0xa0/0xc8
->   el0t_64_sync+0x174/0x178
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 > 
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
-
-We also want a fixes line:
-
-Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-I'll push this to drm-misc-fixes.
-
-Thanks,
-Steve
-
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+> Best regards,
+> Liviu
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 6dec4354e378..7870e7dbaa5d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1175,10 +1175,14 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
->  		break;
->  
->  	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
-> -		/* Partial unmaps might trigger a remap with either a prev or a next VA,
-> -		 * but not both.
-> +		/* Two VMAs can be needed for an unmap, as an unmap can happen
-> +		 * in the middle of a drm_gpuva, requiring a remap with both
-> +		 * prev & next VA. Or an unmap can span more than one drm_gpuva
-> +		 * where the first and last ones are covered partially, requring
-> +		 * a remap for the first with a prev VA and remap for the last
-> +		 * with a next VA.
->  		 */
-> -		vma_count = 1;
-> +		vma_count = 2;
->  		break;
->  
->  	default:
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++++---
+> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 6dec4354e378..7870e7dbaa5d 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -1175,10 +1175,14 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
+> >  		break;
+> >  
+> >  	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
+> > -		/* Partial unmaps might trigger a remap with either a prev or a next VA,
+> > -		 * but not both.
+> > +		/* Two VMAs can be needed for an unmap, as an unmap can happen
+> > +		 * in the middle of a drm_gpuva, requiring a remap with both
+> > +		 * prev & next VA. Or an unmap can span more than one drm_gpuva
+> > +		 * where the first and last ones are covered partially, requring
+> > +		 * a remap for the first with a prev VA and remap for the last
+> > +		 * with a next VA.
+> >  		 */
+> > -		vma_count = 1;
+> > +		vma_count = 2;
+> >  		break;
+> >  
+> >  	default:
+> > -- 
+> > 2.25.1
+> >   
+> 
 
