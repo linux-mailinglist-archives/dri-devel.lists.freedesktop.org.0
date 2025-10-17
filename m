@@ -2,151 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E98CBE97DB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9945EBE984D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:10:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E743E10EC49;
-	Fri, 17 Oct 2025 15:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73EB410EC4A;
+	Fri, 17 Oct 2025 15:10:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hrtjGFOu";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Ppg9/JHo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E531010EC49
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760713679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=J9X1BIc43NGsZkRZORFu1zjHPZ7Rg9eKPpWeWjUt83E=;
- b=hrtjGFOuHwEmmnV2YlryD25CoAqQYySY9/jQV7YWorw2Cmv+N8Fat3UiFJ0tCjf6+1PZ82
- FkHvaDK5/YhjEI5sJuknXpMWZr6U4ZRhbMGG6GtYAxAQ39IsRJjMEz1Zjmsd8/kR4H4eY9
- TdPvCmdEF6b0/fhcCGLJ8VGPTUtBOVo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-8aScDzN8ODmyC5AQuDDT-Q-1; Fri, 17 Oct 2025 11:07:58 -0400
-X-MC-Unique: 8aScDzN8ODmyC5AQuDDT-Q-1
-X-Mimecast-MFC-AGG-ID: 8aScDzN8ODmyC5AQuDDT-Q_1760713676
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-47113dcc1e0so13742015e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 08:07:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760713676; x=1761318476;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J9X1BIc43NGsZkRZORFu1zjHPZ7Rg9eKPpWeWjUt83E=;
- b=khRV3OWzgzAMddhiuCLr2G9ai1oCnkJTANRy4pPpcNcbuGXtlN2oferNWSojQ62gPv
- VaM49MZClxCWB0sCORGZ4UdpC0fde/IpPB8IPc9YDQIfNdLhUydSgzyRxpLtk+lcaL/U
- +HFOgv1ckMF5Ls+LBPLcOXcmoIj/md8YAFmNhjAFrlHeZyVVEPs3+kuGUZNdm7GMDjBZ
- ZTgEc3e4usyCqtHc318H6/KRnLiiaM0i8dViTa6LwrL6Pr1naJGP2G2A+F9RxGxgE9ka
- goYroLEeZRm2/UAU+6GDPFw/wUr6ZfqX5sx5BIt0wF07aaCIAvPtHpa3ihvDgMsPX8mW
- EDNw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWZQZ/A5Dyvl995n1LWJYq4LxVEH+HtcXUlX60I3cIRhvqMjbtxIQw+74lj5/lHKmLT1j3b8/GgUgE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZ7K1F6oUZIq0Rbjj7INzLbIkqKNZRYvPDcEFR5ZjeOok4woKL
- zQdn4k+ejxxxY03XIxbtLhnhHHnrO+tw4A4LaibmJKfvWTqNwHVvGLYf5OtXX13iiKIZfEWaX29
- u9sYdjGjTJ7NfZu0qmV3dh3F5RZ7jONl/oQ9JWK6yUGpHVAXVhWSkx3xshhRZVdoXoeufEw==
-X-Gm-Gg: ASbGncuh9sHybChcirxZs5hLEnAzjoPWPVaqYwNWE+DB9Vn1SHmgnbzvJrNQ9JOiyQu
- veZ/fqoPZPJ2atpzh/SbF3TF8SbYF+Gd0TxTunMR8qi6dH3W5zQ3IxzcDHMzcdgXoypWmEt5jNW
- eH5dgnc1o2+M445zjSMkPjYXASJj/rwiSxwwh0adJjO89OhPfpPNpSFZs5BOyG4fHfBhWhRDrwM
- 1rrtolG0lOvW/KX/Xlwy0lUL4Qn0R71//YeyeRkElJIfhxcvzMbK1/3Cdoyx0yHTAvCgmb+1jwm
- wjqxD2Rle3dAijAwsKh8Xiv/++aAzn33HvpdvKTTv48cEBAU9wF6JyFbSbCqUrmgG8wc3Tzxni9
- hCMCd4iWIQdOQXrCX5AeN27pf5hbx2nI4z6mEMSb4+2m6R4tKQ9l84fTILMZNu4K+4IpXgJ0+rt
- FicDHwS5ogcS9+5UjRFv4NW8EsHaw=
-X-Received: by 2002:a05:600c:818f:b0:46f:b42e:e361 with SMTP id
- 5b1f17b1804b1-47117931c89mr25044865e9.41.1760713675704; 
- Fri, 17 Oct 2025 08:07:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEeV20qcvkEmPA1bp02PI7vEzOGbT0hRxWJer5oIgjdZd36IQslHVl6fowxmxv1EbzRsULEwQ==
-X-Received: by 2002:a05:600c:818f:b0:46f:b42e:e361 with SMTP id
- 5b1f17b1804b1-47117931c89mr25044545e9.41.1760713675293; 
- Fri, 17 Oct 2025 08:07:55 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f0c:c200:fa4a:c4ff:1b32:21ce?
- (p200300d82f0cc200fa4ac4ff1b3221ce.dip0.t-ipconnect.de.
- [2003:d8:2f0c:c200:fa4a:c4ff:1b32:21ce])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47114428dbfsm85439735e9.5.2025.10.17.08.07.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Oct 2025 08:07:54 -0700 (PDT)
-Message-ID: <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
-Date: Fri, 17 Oct 2025 17:07:53 +0200
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11011038.outbound.protection.outlook.com [52.101.65.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A754F10EC4A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:10:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jboEJhDVqZ3OIdoAgajojWnABSDuyCIUWZZbWFaTOmip5NAV4qqczLV3SF0jxEWwruE178F15nPp7okvij+kuC6L+rGwU8NtbEefW6k74OLSwgIC2RWcihPQW9Fnk2HtxduHKQFPJJFS7N5RtOFGM7dhomHN0E1TAWhx0QWSLF/0QSlZPJnmVaMeY3Ln2pv1fduW0HbwxvlMlE7jKlROP2ezRqRdvQOxKn3PSrlsJejRqtwlOg3+5L0vxhmWwcA7XkkIlghP8eEc46ufifnJVlzV4ulWnyhf1aAzPX6hVZuCBf/n6tW7DDdPfAt1HXr9v6OFchQ45PFqw+EGZWAMIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hB4sUAKGwxFEIta3DvzyiGmmC9cW9nn+XnOkns/Y750=;
+ b=CuE3EWV0zHILwuy/8ZOtsC1kVnv4kgIcS11N3r92r2BPxVddYG93lZVmS75mTBxkffOaHlae7f3x0pzHzgCCubKhZO+2N5V3P4njM4hXLmlyFHT6hOFu9R5dNYsChBs0nr+6v+q/4mgpmeNT1vxPtLjMBrD+Jg+q0ASzXG16ebdAQXnSVrK4PkA4IvZd+Q2s7ODCvdV7phZa+tk4qaXOlIUeRfo9S3XKQmb0Ad8Ypl4h5p8lbZovmBdn7wV+nOXS3CNoXSzoqVd7NYPjCq/v6vqLH05j7TaMEfMkiRg6vB5tOgd4KORj0o+hplvvrH3282NiqrhWL10uz8kVMOfVTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hB4sUAKGwxFEIta3DvzyiGmmC9cW9nn+XnOkns/Y750=;
+ b=Ppg9/JHoem3OglbuFDlbl4OfzFakXz6Ogvskyjo3zu5L828FY7AQpxFaMu2bPU1ufCFvHvXKMUc05q8X4WSRGFIbG91jvSYKbWqKgCh8l0hha4HWlVJgVy0zxegZXbjGTunJdIptphzXhl8Z/tQ9u6mndBhYvC3XL4+XVk8DHtgRvpJQaFFctFy+TspRTYEDGg+AIMZtKNNWhH3KgSJdmeLJvZmduMcywFc6icOMgHFPGh6IviOcaR35XH4OwUeNYlPDqYd2kZupIj9lJTNEgZWmf08/zvO4Iw7EdnJpFIIrtfSZ9GYuI7DVK+4zwLGXO/kKCWT1Fw/FJt9gl8bXaw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
+ by PA1PR04MB11455.eurprd04.prod.outlook.com (2603:10a6:102:4f0::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Fri, 17 Oct
+ 2025 15:10:29 +0000
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9228.010; Fri, 17 Oct 2025
+ 15:10:29 +0000
+Date: Fri, 17 Oct 2025 11:10:20 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH] drm/imx: Add more RGB swizzling options
+Message-ID: <aPJcXLcvX15A0HtA@lizhi-Precision-Tower-5810>
+References: <20251017144626.66918-1-marek.vasut@mailbox.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251017144626.66918-1-marek.vasut@mailbox.org>
+X-ClientProxiedBy: PH7P220CA0030.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:326::6) To PAXSPRMB0053.eurprd04.prod.outlook.com
+ (2603:10a6:102:23f::21)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: KVM/s390x regression
-To: Christian Borntraeger <borntraeger@linux.ibm.com>, balbirs@nvidia.com
-Cc: Liam.Howlett@oracle.com, airlied@gmail.com, akpm@linux-foundation.org,
- apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
- byungchul@sk.com, dakr@kernel.org, dev.jain@arm.com,
- dri-devel@lists.freedesktop.org, francois.dugast@intel.com,
- gourry@gourry.net, joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, lorenzo.stoakes@oracle.com, lyude@redhat.com,
- matthew.brost@intel.com, mpenttil@redhat.com, npache@redhat.com,
- osalvador@suse.de, rakie.kim@sk.com, rcampbell@nvidia.com,
- ryan.roberts@arm.com, simona@ffwll.ch, ying.huang@linux.alibaba.com,
- ziy@nvidia.com, kvm@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-next@vger.kernel.org
-References: <20251001065707.920170-4-balbirs@nvidia.com>
- <20251017144924.10034-1-borntraeger@linux.ibm.com>
- <9beff9d6-47c7-4a65-b320-43efd1e12687@redhat.com>
- <c67386be-5278-411d-97e7-43fc34bf7c98@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <c67386be-5278-411d-97e7-43fc34bf7c98@linux.ibm.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: K5hc4BL3Pjp4znSTLDM1PXo9twg1w0vC8LClHPtWKfQ_1760713676
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|PA1PR04MB11455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f823f69-df52-4887-8dea-08de0d8f4eec
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|52116014|1800799024|19092799006|7416014|376014|366016|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HP31/kC/6r/lvazIgPEPgykDNBpaYArUcjyy+dPny/jaVaovVBYOdHfihJRw?=
+ =?us-ascii?Q?nKM6RAqKuk0ATDfwMeXLk3rF78/6wwGuphJR3ayDSs/G+oTnxq1x31eMttTd?=
+ =?us-ascii?Q?ov2yv8y8LHdahxGia7kNWzBbkLHoA0pTyZNWsrRsVVJRgxuHDz5aNK2SGlKt?=
+ =?us-ascii?Q?jDUH/Mw1BYpkmCdKI3yBZlitHiU6yrGCOcDkYA3g2GjBOTUHkwEbqlZ1r5ii?=
+ =?us-ascii?Q?Ztbe3nAD4z96I3sTb0M8yCZYcmCtYMHzWIRrnsM7ekE1DvgHmZFcPJ/d7vzX?=
+ =?us-ascii?Q?NHvpV9ToXVnHJRyuLFPWUZSIfIyLqzfucA7R2HYEGazkATCqoKjF798SLwUf?=
+ =?us-ascii?Q?M30fyWd0CX6RGDzXrSdOrglA1EyAANYOhMrQwXf0qMA3HbGmKOnnwEKqYPVP?=
+ =?us-ascii?Q?M8ZctiiybEKC/lDNx2Unonv/StxRuK+zqo4HDr1dUkv7HiTtc22gAQv0sZdb?=
+ =?us-ascii?Q?ZZFv7LVxdlqOXy9K46OHha1V/yIF1bmBD/8iNIDRQc7I0c0K/kbwqtSAMyFp?=
+ =?us-ascii?Q?bjpvXINE6ddp+9lkcBmSEtVkzOMcMWwow8kdxVwMjhV68WyXf4XjJLFE2LUz?=
+ =?us-ascii?Q?queopmOtfZ/k3savBIIByWJF2guAX/tdNUqGoWQ08Yzp+geM7+/ghp6Bq4sL?=
+ =?us-ascii?Q?IOgw16WLCYvuNY5ED71g16UDB9AyFA0HLk9nHYgCghB2qdQ8/caDqpIN7lIi?=
+ =?us-ascii?Q?TD+z1B7LCu6+LZHFQkPK+z+DaEBoMFtI3VdNIu+HrQMbpVJrSmRD/ZADfW5k?=
+ =?us-ascii?Q?7RzH8zhaN7jiqs0OxPX5rRazlMxDjxyO4h+wEodbdYanHMykyp6gTTka4e9w?=
+ =?us-ascii?Q?WGNpv8Zvl7UnG9TEUsvnHvW+h5hMo1Cc0L53iKcnjZxPcVcMTRDxk2J5gS2P?=
+ =?us-ascii?Q?JO7cNvQtKNLQsOS7K0RfgipGr6jwsGVHPsD2z8hkNLHqe4UDJmhPJVZ0WKCp?=
+ =?us-ascii?Q?e3cNAzovTYgdgHLmkZwlAja/ugEisl3HkdUMltPOhGwqfiF2k3pkcVVTbAA5?=
+ =?us-ascii?Q?15rXYhKt3hT5gVF3zsUolZ+ywK8e5Err6cX3KDN4joRPyKkLo3oCvYpjw8Tb?=
+ =?us-ascii?Q?p7i3NVnhkFDctFHFsmRenLZeEbpFmOBKgGkbjKpVljOSRmUKiFPxEHn+Sslx?=
+ =?us-ascii?Q?MUqQ0FCQuDHKguGWTs/zSYQHvyw8Zjb0hxNvmjMRf3BaMTxt8EIp80g/BYXE?=
+ =?us-ascii?Q?hbLioOKYlQ9D6ZzFm19ZObCQU94fpVdKAXDCYGyGO+LxUMwFociMg/3WeH5A?=
+ =?us-ascii?Q?zZ9r55kJafls6tY5A9jAtQATBMHjUMU1EsMGPkL7G+uTWdlxiUKQa1DK6LYc?=
+ =?us-ascii?Q?/G6+lg9HqFKcRwp5NFUcYZC+j05dyiRoT+0LpCBvAadQ2JJ+tgIXAOyW1NCe?=
+ =?us-ascii?Q?t0ywpU3DqO4Nm/LnwcW77fLyrXu9QVSPJ36v/U8Jxg1OaIzzw6TZ+wzJ4xQ+?=
+ =?us-ascii?Q?m/JZGryBYOG/eogDpA/k50ymmFLp/fj984QdL6Pn3CdVjqr8T1x4KbNRkGOW?=
+ =?us-ascii?Q?CXYZd9ai+SIeZmYVQ/qmTv/1DLlB5QgkV+qc?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXSPRMB0053.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(52116014)(1800799024)(19092799006)(7416014)(376014)(366016)(7053199007)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MrDR5kHO75z5AWMBROkxaLXep7S2ZTDiU6wDavlaE9Y88UID2fgLAQdcY5PV?=
+ =?us-ascii?Q?xIRexCp7PzNXdqJMjNL+TrlzkU9S2+Z5mLuqbWJLQ+8Tt8biGyMeiju6ixFO?=
+ =?us-ascii?Q?W7QBHsZ8X7zg4RNUihCZ3CzKUgOK3/Ni4+ulG5UR/ZKijX9jrrHMKvifLQ64?=
+ =?us-ascii?Q?3s7Py/dwiE+9kS0Y8wg/F81KxduAirI8FFqsnEmZcy2R3YoAE8SEOEpL+e0x?=
+ =?us-ascii?Q?AUoVPh2FgN0QfR05FeP6hVdQ2LYwP10GVBlG+yAve6/SzF0NYJuVeIWPru1q?=
+ =?us-ascii?Q?JfgqERHlzoNU4XFbdIU9/lKActBREY3NQWNtTsGURa/j8hNCnxoU0eXZDMFu?=
+ =?us-ascii?Q?9NoeVRdjrmzfKUkESWhBxc7nPTD94APJquTzdbWQ81Jmd6a/Zhh3dGPGNbQ4?=
+ =?us-ascii?Q?DceC1JxfOuq/l0m4JLB/DVM9l+ma3QiBjIf5z3n2ZEzMhoyvTPKurRjXC4kG?=
+ =?us-ascii?Q?LtuFp+AjopoeuVtNB46GKcNj3J+UXS2YXA/M9OPCD4e1JMg6Qk/DTKvtr5wN?=
+ =?us-ascii?Q?mFHWZlbV05kBuId4l4ulzjfIs2yt9qpSnFAOBCNJgmkdqfoHZIH6liFt5kLx?=
+ =?us-ascii?Q?ZgodPV6EwpwlkLSFKic6tu9o31m8h4CQFwJVQBcSjJ+L/Pt/WB26/YHVBZDp?=
+ =?us-ascii?Q?1Yg/FvZzKW3VlMMHEKceSm1+4z/DHI1Lrqmouno5RAPflktXO00SN5VEWFok?=
+ =?us-ascii?Q?aoqXKrmrU6UUes+zhx93xVeDukjSajRBFppO9ggEgKKoXnphS38Ghi+A5qeJ?=
+ =?us-ascii?Q?duNJ9nc2xSjR3/zAne4vzDW9GGIr81slQ0nxZJjNF7qfQ3SgQjPqgLxiBJxf?=
+ =?us-ascii?Q?csNYEuVCvFpm5EwJw5z6QQS1kDb4hzgNPJFyw2tHLRgEqdPsSu6oXUGs7QTy?=
+ =?us-ascii?Q?8xC2E7HpZvfaiIjcJbuQikpUvvaVlZwr7AKpZ0i1eVkkMFJPuVDPs8f221H1?=
+ =?us-ascii?Q?sbzfZYWTzfbWHTGoopIUbuRCAjpI7g/i7x5Baz3LuB/rLCblLNFdhu3SClUu?=
+ =?us-ascii?Q?j7wTAl+1B85Li/4jtTKeWlsLdfuBu6HquidfPk1WDpXrctlnCvaqYUKAgwfq?=
+ =?us-ascii?Q?wLMdXW2XjiCgJbnhSi8bbHWXRM7oCYTNHWIVV1zpQpyO2KP4ETz9h6/EHgjA?=
+ =?us-ascii?Q?NzD91eUsOCbvbezfg3nPsJ6cV5trvo7F5RM77BdQ1hAAv+/E+nWZ76K3IwlM?=
+ =?us-ascii?Q?n7MYtlQ8QqBEDgnCHCsEOibwV0lRDZZ6gG5+LNqspko4lfiUzNf6apaJTCiF?=
+ =?us-ascii?Q?H3wVK3tnXG2hMFsHIuLw38bxrFEJuGHUdKJd1Hm+puZxjv02AtHcsZP37Yz2?=
+ =?us-ascii?Q?J6A2Q3T0EqKI9bdB/WoreL0GaNdTbb7+8XLymv8XZ+7hROgYDlBCMQIyzgEb?=
+ =?us-ascii?Q?GzIfZkKZ5q06qEhFw+Cxob2cyGDfsQRaF/nBQOojG2gF+eCuFrk2fXH5iKbI?=
+ =?us-ascii?Q?taC6TfakgsTfFaRcDB9Ak+0g/qqT6stpd5DGrdDb/bAsppNvhgBFANI/DId+?=
+ =?us-ascii?Q?zDbad1OEf3f8k91ZuucSYUMOVifYA8UiQ5l+o6icFsM3Fo15OijLLYHlNgqY?=
+ =?us-ascii?Q?PDjsW1eCqY+uaxcCEFe0upGsmPDI2BM4OhzkikS5?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f823f69-df52-4887-8dea-08de0d8f4eec
+X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 15:10:29.0504 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Stgnvy/sfcAFzP2asXCQgW25K3/4D4nAeFymfafym14kAwvabRcJdszyylF61psms7bFCSosyyo1X/GxHi/29w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11455
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,49 +156,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.10.25 17:01, Christian Borntraeger wrote:
-> Am 17.10.25 um 16:54 schrieb David Hildenbrand:
->> On 17.10.25 16:49, Christian Borntraeger wrote:
->>> This patch triggers a regression for s390x kvm as qemu guests can no longer start
->>>
->>> error: kvm run failed Cannot allocate memory
->>> PSW=mask 0000000180000000 addr 000000007fd00600
->>> R00=0000000000000000 R01=0000000000000000 R02=0000000000000000 R03=0000000000000000
->>> R04=0000000000000000 R05=0000000000000000 R06=0000000000000000 R07=0000000000000000
->>> R08=0000000000000000 R09=0000000000000000 R10=0000000000000000 R11=0000000000000000
->>> R12=0000000000000000 R13=0000000000000000 R14=0000000000000000 R15=0000000000000000
->>> C00=00000000000000e0 C01=0000000000000000 C02=0000000000000000 C03=0000000000000000
->>> C04=0000000000000000 C05=0000000000000000 C06=0000000000000000 C07=0000000000000000
->>> C08=0000000000000000 C09=0000000000000000 C10=0000000000000000 C11=0000000000000000
->>> C12=0000000000000000 C13=0000000000000000 C14=00000000c2000000 C15=0000000000000000
->>>
->>> KVM on s390x does not use THP so far, will investigate. Does anyone have a quick idea?
->>
->> Only when running KVM guests and apart from that everything else seems to be fine?
-> 
-> We have other weirdness in linux-next but in different areas. Could that somehow be
-> related to use disabling THP for the kvm address space?
+On Fri, Oct 17, 2025 at 04:45:38PM +0200, Marek Vasut wrote:
+> Add additional buffer format swizzling options beyond XR24, the
+> hardware is capable of sampling other formats, fill them in.
+>
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+> ---
+> Cc: Abel Vesa <abelvesa@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-clk@vger.kernel.org
+> ---
+> Liu, please test on MX8qxp , I do not have that hardware.
+> ---
+>  drivers/gpu/drm/imx/dc/dc-fu.c    | 40 +++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/imx/dc/dc-plane.c |  8 +++++++
+>  2 files changed, 48 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/imx/dc/dc-fu.c b/drivers/gpu/drm/imx/dc/dc-fu.c
+> index 1d8f74babef8a..397af0e9b0236 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-fu.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-fu.c
+> @@ -65,6 +65,46 @@ static const struct dc_fu_pixel_format pixel_formats[] = {
+>  		DRM_FORMAT_XRGB8888,
+>  		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
+>  		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_ARGB8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
+> +		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(24),
+> +	}, {
+> +		DRM_FORMAT_ABGR8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
+> +		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(24),
+> +	}, {
+> +		DRM_FORMAT_XBGR8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
+> +		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_RGBA8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
+> +		R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_RGBX8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
+> +		R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_BGRA8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
+> +		R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_BGRX8888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
+> +		R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_RGB888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
+> +		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_BGR888,
+> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
+> +		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
+> +	}, {
+> +		DRM_FORMAT_RGB565,
+> +		R_BITS(5)   | G_BITS(6)   | B_BITS(5)   | A_BITS(0),
+> +		R_SHIFT(11) | G_SHIFT(5)  | B_SHIFT(0)  | A_SHIFT(0),
+>  	},
+>  };
+>
+> diff --git a/drivers/gpu/drm/imx/dc/dc-plane.c b/drivers/gpu/drm/imx/dc/dc-plane.c
+> index e40d5d66c5c1f..68d32b76fab95 100644
+> --- a/drivers/gpu/drm/imx/dc/dc-plane.c
+> +++ b/drivers/gpu/drm/imx/dc/dc-plane.c
+> @@ -33,6 +33,14 @@ do {									\
+>
+>  static const uint32_t dc_plane_formats[] = {
+>  	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_ABGR8888,
+> +	DRM_FORMAT_XBGR8888,
+> +	DRM_FORMAT_RGBA8888,
+> +	DRM_FORMAT_RGBX8888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_BGRX8888,
+> +	DRM_FORMAT_RGB565,
 
-Not sure ... it's a bit weird. I mean, when KVM disables THPs we 
-essentially just remap everything to be mapped by PTEs. So there 
-shouldn't be any PMDs in that whole process.
+Is it posssible sort by name?
 
-Remapping a file THP (shmem) implies zapping the THP completely.
-
-
-I assume in your kernel config has CONFIG_ZONE_DEVICE and 
-CONFIG_ARCH_ENABLE_THP_MIGRATION set, right?
-
-I'd rule out copy_huge_pmd(), zap_huge_pmd() a well.
-
-
-What happens if you revert the change in mm/pgtable-generic.c?
-
-
-But the whole -ENOMEM error is a weird symptom.
-
--- 
-Cheers
-
-David / dhildenb
-
+Frank
+>  };
+>
+>  static const struct drm_plane_funcs dc_plane_funcs = {
+> --
+> 2.51.0
+>
