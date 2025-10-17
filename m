@@ -2,173 +2,195 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1285BE6854
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 08:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9963BE685A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 08:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BAB10EB10;
-	Fri, 17 Oct 2025 06:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B30510EB12;
+	Fri, 17 Oct 2025 06:03:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="djcvk0ze";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mVtBCL6i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCC510EB10
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:03:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B7410EB12
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:03:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760681011; x=1792217011;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=2cWGYylb0Z71ZHfBpVHcWQCXRaHTd0DXfk683ExQJcQ=;
- b=djcvk0zem9uOTp+qw+w51LW1YEJpUIFH0FublrKoxkCDAZGXZRNptqyB
- jw+zEX6QAwhq8k9UXIy8M05iEF5RlLDTLAMkhQZsrFeeONVSWau18f6ge
- 15GuW5CsJRvplpSV7lc50nFXCqGtvjJUOhyoBF1XOoQtb1f6Av8PXE8pg
- ITP98mGuwG/Nzf5REpBne2RpxWvbNWt1qRqiAG7nUDx37+cQdvG/68qzi
- gWfJ00MxjYE+HttRX5ue8D6ZfHDuWw3nFZGkhxg/osE6phWNv4LJcqD73
- vvz4cTuOchKbxM92c4Yy1NDJu7hZdj6A3NHgXpRM0EFh0676/Pxy3coLp g==;
-X-CSE-ConnectionGUID: 60M5suGQRyW+6LgzY8rtww==
-X-CSE-MsgGUID: xY7Oztk3TQuk9eUJMDLTNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62096513"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="62096513"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2025 23:03:31 -0700
-X-CSE-ConnectionGUID: LZG5wxfmTN6eERn4gvmM3w==
-X-CSE-MsgGUID: SV2EQFV3QJS1tzdraMM/XQ==
+ t=1760681028; x=1792217028;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=oAILJzg7rIIUGhyOSmE8k0EqyIMdRbgJBpjsELR+T4M=;
+ b=mVtBCL6it2aUWLX/EmaawSIZV6yGqvqXy8aR5nNJq3l+IaisSY1noAu/
+ zh8UwWpVPr2OtyO6tOR+JkfhgYr9I1QcOFL+mXvuLW+B7VoYGmbm8PRsF
+ gerk04XSpbL6qdVxn19oWULHJQJimClkENod/6Jkow+4AoNT5TozT3MHc
+ ZMbsbQIN/KQNEcP67mlabed4L+jD6SnA0l+DfkI39S60Pl0XfXC102aHo
+ HqCExpqUX+2hNdjYLCjrZ1qlLCmVNXmZ1OE8z7yv6vm2PPYHy55tAkFZY
+ pOpYknJXREIDe0I2AkpiM4hMPxGcDzJsuyDzj0ePxecFvabasJO3h+5iW w==;
+X-CSE-ConnectionGUID: j0S+5VwrQiOQk8zuB6pJ9w==
+X-CSE-MsgGUID: S7r0Lm85RYiSQtxvtyQNFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62789762"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="62789762"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2025 23:03:47 -0700
+X-CSE-ConnectionGUID: IGE5JSPESeWtcWwwK1/GLg==
+X-CSE-MsgGUID: 0nk9zf75S6yipORN+BTdIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="183129527"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2025 23:03:31 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; d="scan'208";a="182586115"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2025 23:03:46 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 16 Oct 2025 23:03:30 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.2562.27; Thu, 16 Oct 2025 23:03:45 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 16 Oct 2025 23:03:30 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.41) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Thu, 16 Oct 2025 23:03:45 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.26) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 16 Oct 2025 23:03:29 -0700
+ 15.2.2562.27; Thu, 16 Oct 2025 23:03:45 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eV/QNwXGrBLFV0ljH2UMcukhFdKZmsMfps6Re8kRwMDKpdOgpuGt97Q50ZBB2GCX5eiKoTnp08RfSnqAaH5dJucFv5bhxsFF8EnWly88+zf61W+2ww2tDZAGVOs5RYMWDs4gGV9cQeQXxssnnlE4OXSlGiIumjN/EkZMT5tSLv87eW8riMZqOmczSCjhcly6LxcuwmXVW6zgWgjrCdVR8ustOgp2XBq6tSif8u95tqTHHVWARPG+FAhIScMGyf41m1ll6IU/x+xWTK64ckvXY5lIPQkykDJ0SzxAfRYDTBWrovOp87AY1ca5aWx4W67dlxeMqOHHzYMxy33fZKdxBA==
+ b=dEe01IlCqSfPsHuK40s7I1gAmm4Lo/xHgxEah2wrtZ5PZxh7Ebxq/U9lfl1HWWjW8Am7CosgI14ciJ4fgLRgZ0DcstC6V7Had4ZqftWkhnut+xj7z2s/kav7n0pZQ0/pi4+71ZDjMvPZbFWW2M+qpqTtFRjdFLELAAHKVtMX9Nzae8Ppl7xK6qJbKsW+2j4UjPcKbLNsfD4AsMJYNFVZWw6A8FKBYpyg8wkgswf2bp+22YNLOCuAAYb2bI7ItgSra9wz2R3O1rzIefj1i45xSbYq91s4TQw0krezw+0NDmyd1E/UhmXDTpARr3L/yoAcTrqX0bm2rWfZOOhhBTTz9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4UA7FFOepRbdSle/FnI6s2FirWqIuw4LhFxHOM8cgR4=;
- b=CKOOiUIQEHvpBsXHSElztgZkz0IJeIKvBEObfbTgf9O1dJGo8dh9ISNtnXa9D/AbjjkzGkkjFH2hHC/PNmHIXWsyvjKDFKc4qLlTRQv8rcEcMr0trMTvaeOzFlaN0r22o9PHMqaJlTD6AtzkpuDLBYdR3l5JntemEJlXgs+RN8UEnxB6MrVlqCrPRdt0RvFakRF11fZAOb35hNgRf3vl9XobhPsglHw7F4I7WlbTQIbBFRE/weFR5un83IRLgiwgwOH9JNVm6DY+F5533Yr72Bc0sT45+LFHtkSlASmZcYcWuRALcyg6b6aa9YvD8ojoXPStIPqCApg+BKzoAKkNBA==
+ bh=7ytxet56ZinnD04VuTyTlio1x0hv3InhQVk5iLFGaiU=;
+ b=lxZ+F8NuqSguI/+weRkkMXak+WsA/UNfskuiw6gybB7Rhh36WfXcVAYoJihYS3o6X/DyQpsirMic00YmiGOi8pnjSvm/QcY7qgBuV4e8IaTpsw6NSEhiVXBAAwWda9IrpV3eBoTmXYQy++GknlFUUOnRI6OAVG+C8zC74lU8wHOe6CBmgo4vxP+yX0IvTNutPhwTmE8kVI8b9PLIwqOhgHOYo99eMiK+nsCUKlUkboFxlJu+jmb0Gj96i+TmKJV6dUfvJpAej+5QC4U0B1/gl2cdA74k1aRNzLSKgFFm2JT4Bp5og2Q8nn7rWNh9Y0Ia+fyfXIFg9xeKheAjxQhing==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by MW4PR11MB7102.namprd11.prod.outlook.com (2603:10b6:303:22b::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
- 2025 06:03:26 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9228.012; Fri, 17 Oct 2025
- 06:03:26 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "dmitry.osipenko@collabora.com"
- <dmitry.osipenko@collabora.com>, "gurchetansingh@chromium.org"
- <gurchetansingh@chromium.org>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "airlied@redhat.com" <airlied@redhat.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
-Subject: RE: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
- resource
-Thread-Topic: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the
- host resource
-Thread-Index: AQHcPqyOICgcQp9euUCaQTY4FsET/rTFt30w
-Date: Fri, 17 Oct 2025 06:03:26 +0000
-Message-ID: <IA0PR11MB7185A7BA7B8CEAC46CBC0922F8F6A@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20251016145230.79270-1-tzimmermann@suse.de>
-In-Reply-To: <20251016145230.79270-1-tzimmermann@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|MW4PR11MB7102:EE_
-x-ms-office365-filtering-correlation-id: ca4f8b02-4058-473b-26f9-08de0d42e358
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info: =?us-ascii?Q?pV0o8e28m4YzR6RZO9rd7qOEp5E91pzhwZLusOktJbVDvECa+nMx1IBxrYIC?=
- =?us-ascii?Q?oU/ydl2hJBdK6xxs4bxFAfokmxnz0KdG2qsbgCn/g5AD6t5PXeAnh/DHV7yq?=
- =?us-ascii?Q?fzvL5afzjgSkYbnp1+fbH28JHicg2nyR6fQSf8FE8i+Tp99SFsEDn8JuuBY0?=
- =?us-ascii?Q?o3YVF/C36UcFYBjFmF4GO31x3gFkcKnI1S1nKIAkuFYA5e8mvrlhuutDWKha?=
- =?us-ascii?Q?nhx49+Spy4cnIxAtH2JYq5PwQs7VH4undSMVPEwZx8fawrx8YFJ6q0rjaR5D?=
- =?us-ascii?Q?rGWp43nSN0cx2G3XC8RiW6c+R1RG87Q8BVOmbGcqaszPACOTDrZKwwTGhKLX?=
- =?us-ascii?Q?sweRUG3HRGDwemV66oYtrZkQZaXHf/fLceWHZiRKhBJfiE0Q8CDmOSTCfEBQ?=
- =?us-ascii?Q?+rFqbFTdwDH1HNCvl1DAdLRSOozhseL2u1PRwSDjfGIt/13eCxn37RcdQv71?=
- =?us-ascii?Q?KvTdh+C1pRV5nBa9lBQixX/uwfL9HfENwX9Q9+Nt7+96Cz+N/QWryljRofHr?=
- =?us-ascii?Q?sX75VTxEGnowTAqc76w4d+4Jr3HI0lBVHOurdpzMhGv3iis7O9RS5Fx8GpNJ?=
- =?us-ascii?Q?A+wZ7k8pEmmmS57MVUugvyxXDc9WG+8QWNLVmwCfm3X+mSPez2lHhcNHY79c?=
- =?us-ascii?Q?vce0dyuFxxqhyeXQ6ppnj5VRY3p708u6t/l13pVzqNhLE4i38jn8wWp9xZsZ?=
- =?us-ascii?Q?MxNTTf2iURDLIo9A6CbsYWUnAkdebhouGILns9xKtGXW+aEGmu47XJcjT8iq?=
- =?us-ascii?Q?QDv3F16az/MV1rz8sWJkr1tDxelK9Ie9IEzQwEugPiiGUEwDFupcXgmyvWr9?=
- =?us-ascii?Q?d6V/8hZUl86GBaUHlGn7U829JwIZKbbANnkqjfczoD5y5JyicA2qhS0X4I8Z?=
- =?us-ascii?Q?gIsQtc6rxjHbGPqxf7qrJXtOZCiCxbalH41kamQc2W0TH7N+Ebm5ljO8V982?=
- =?us-ascii?Q?OO2o/9GsPfXfs0Rf3I7+SANXLd+LNCXiiGc/Z6aq7EIZS2I4Q2g6IXPxY8I/?=
- =?us-ascii?Q?ddK3h4QMMG0CDBmCJNuZCptYdIo++cqvYl5bt19qiteGJfzfz51sUgEdJa/W?=
- =?us-ascii?Q?iOU6Fxu2TOCqG7BeJNpn7iGyfanHKRCvUa8Irz90SQlz/gmnJsC4cocv+djk?=
- =?us-ascii?Q?5QPg/BpoAetRugOhR2BUiHUWz5o1kc2QsE00e/+ifrd5HhZbyopCZXLYgcZl?=
- =?us-ascii?Q?rYu7S45i380ZX27UpWU/CnTOEGNKZGRK7/V+v6/34XgYaFpitpiU9IZAbzbd?=
- =?us-ascii?Q?TLoa2A+u8UnmbBLlBlDj7zMlqT5abNKYSvFEtwCabsoLFeOgzuZ6CfX9/5wU?=
- =?us-ascii?Q?1614QLoY+Thl167TPnzgG81sbp8OthXed68ZUsGXT1QzTbh1vpwCRZN5F3s4?=
- =?us-ascii?Q?UT+0Eeqd7KJAyPGVew3ig8xIloycg4MC1e7W7dIT5s1pCtH/4VIFABtL20wr?=
- =?us-ascii?Q?g6ev2irT5Lh9LUXHL1+MQCH1l4At8kou48wwlrIDf/NoPeHMWnaITOSJ5WDE?=
- =?us-ascii?Q?rYtf3CZVTS9S7u0HMSnufuFia2qt0O9uw/RD?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(38070700021); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oDTquqcFBhPyKl1H7xV9fo8gkplZ0r/RiUV+/1Avf4qXTPnydeGXP6M9SC/o?=
- =?us-ascii?Q?HApELyYkhV+B9qe/W5LJPcEeqJF4M5o9Qs/fujBU5gIuDXNUVGWyFMDvukEY?=
- =?us-ascii?Q?nNB6q+cnNf51qQvgfqzl9bEgHkk5mQ6bUcQbigQNtNyu8lCUjzVPnU9iq/Wp?=
- =?us-ascii?Q?x9T+oFXmTiELY6yuUSpLjVspDimxDVktOPcnv4aJOI099wLzMlRTK/ZmsBaP?=
- =?us-ascii?Q?d5sSdqstV1giqp8oByIE3o5rQ0qnGNpR5vKkFPvn4PNyIaZfPNc42Te1gFSN?=
- =?us-ascii?Q?mKTIfb6fq4asQTjFZJOWVrm73ajS6lOZ0/kSojDSr9aSYge8oPe01LLfp7zj?=
- =?us-ascii?Q?oGKFfi4YaJOeQHuIhEGHZJEB5mkebBqFju+Kg9azuclUeyvysvf8kGZXSPMq?=
- =?us-ascii?Q?l/yaxNfwaVswBgbPpXjWWBEl7y9UQ83PvbxYMuQenwajZFMMx7sZfTK8KwCx?=
- =?us-ascii?Q?oh6N3TYtCmhxElf+oB/aI7UCGHJ8fyLvxrfh838BfSmwMMoQUOlBLueimWxX?=
- =?us-ascii?Q?WOHafLcK/Y2OHSLyBuu3xH6AS9PLZ9ISl0ZLqyCmiDRz6S/SA4jrWKERCf2S?=
- =?us-ascii?Q?LtxLhOsxapjNN5LYqM3qIH6q2pfjMEYg8xdFm4aIPPO0+laxjl5xZbSXwRm2?=
- =?us-ascii?Q?8mHqNIbdArRxJEVTYJA9bSMOMA5t5jWfxyq0lheHBydw3RvXJONHisq9mkjl?=
- =?us-ascii?Q?W227WqI5PSmdtYm7v3EoQUQZOEvjq0DJ2JS7L+j9GOqfi74b/jSb8VOfYSxS?=
- =?us-ascii?Q?tBesHoZmKAeuSPByfYAdd66NtrNYaRiu7NjmsOsPIY2avj/TQ6UQ5R5FmdZn?=
- =?us-ascii?Q?qr9kC85JxqsFCiFF8i16LDtu5H5sQdLXRIgDrJOabCRVOfM2Yjko2wuj3K2V?=
- =?us-ascii?Q?Vk4VcVE7wW2IZ7XMJ6pabpswMGi+82+A6sUD92HZxM8YaUGwKTJxth9ohvpU?=
- =?us-ascii?Q?J34jqsUo7JMtQaT8JJi5657eZYz4AicCL9nL19Th5MvuIK8aTGWpoVD/jUbD?=
- =?us-ascii?Q?z3ODesIMsUNIqBzoXkGoydFpFgFqRZ0HHaGVD5sSyQCldKhIxZcF7AE/Mkkn?=
- =?us-ascii?Q?V9APCGXRKEgOzpuSzLKSygB2Ma3uJbAUmBmce1W6b1p5N9lJawMCX8oYgCc0?=
- =?us-ascii?Q?crl72UOiG71jByqi9t1kdGZlNTZ8TQYNWky4BdupR7w+3g9zLrwM+wvyBNZs?=
- =?us-ascii?Q?lufraM9AqQd2MwexBa6BQ5+8zWPpmpaRwui1l3wFlmMN6//vv0NhtqOw1IQe?=
- =?us-ascii?Q?fKJmUyEl/vjT2uegJArsq8KOipYkcUen/gjgsy6d8JJKFmnVy9EcbS9gYVXc?=
- =?us-ascii?Q?br9IrJopwFpdPoV9hKxJsA2rVRnqfH+bRVL9760tDP0vPnmAhYTTBxxCrBjh?=
- =?us-ascii?Q?kg/0xfzFHkA7Chn/uZPwzCSfNRb/nzugmfFAhWGiddmowj89gEXQvsgIr7np?=
- =?us-ascii?Q?gHbrr85De56sXZB/wpKUDgNmEQ377aEskCdSPzeT3+kH4y1RJIU8XqxSJNjA?=
- =?us-ascii?Q?iEKwF05V7sXvhuBlTrbe7daVThVTmP/1yP53EGFntpEBIATrmi+qGktRyT0p?=
- =?us-ascii?Q?6LzGiwKl9Qu01evsAHwlPKBIjERe6A3w9DFxp6RA?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by IA4PR11MB9033.namprd11.prod.outlook.com (2603:10b6:208:566::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Fri, 17 Oct
+ 2025 06:03:42 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9228.009; Fri, 17 Oct 2025
+ 06:03:42 +0000
+Date: Thu, 16 Oct 2025 23:03:39 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Oded Gabbay
+ <ogabbay@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Robin Murphy <robin.murphy@arm.com>, Steven Price
+ <steven.price@arm.com>, Daniel Stone <daniel@fooishbar.org>, Frank Li
+ <Frank.li@nxp.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v5 2/2] accel: Add Arm Ethos-U NPU driver
+Message-ID: <aPHcO8sqjnxvRukn@lstrano-desk.jf.intel.com>
+References: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
+ <20251016-ethos-v5-2-ba0aece0a006@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251016-ethos-v5-2-ba0aece0a006@kernel.org>
+X-ClientProxiedBy: MW4PR03CA0208.namprd03.prod.outlook.com
+ (2603:10b6:303:b8::33) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA4PR11MB9033:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73ff4389-b83a-45fa-9885-08de0d42ecc7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MFN6R1djT25GektESTFGL1ZVVEFBSE9SZmduUGlLSzhMRXBibGhiclFtZWwv?=
+ =?utf-8?B?WUdjcS8waWIwVEd5UGRoZ3I2ZkR5TlVyc1AwRStRU0lxNi9NRkJ5RFY2T2Jz?=
+ =?utf-8?B?bjBHaXJuQmtZRk5OdURkMDJwYjFLSkkrK1R5WUNmV0tDZnlRMmlwV2Ntd3BR?=
+ =?utf-8?B?a01BQ3NJTkpORkdSOEVjZVo1MlNvWURDdlM4Nk14MFdDYjBwQnQ2T0xWTGhC?=
+ =?utf-8?B?dXZtNTdaeSt4djN3YlRPUzBOVTd3cjVUQ1FhRDJqU2lGd2R2TThNVWhtYWh6?=
+ =?utf-8?B?YU9Db3F2ZkJDYUYxSDUwVG9DQVNNdjlQbjZqc0lpS0w1UXZDeEw5ZFo0SDFt?=
+ =?utf-8?B?N0swcUhQVHpHTWtHcjMxbHZUREd5VDAyZEQ2cWI0TFNUZnNTT2s4Z20reHZN?=
+ =?utf-8?B?WXZPNEV6ekRZYUVaeFdnWmh1SEhxeXQ1WVJLdHY3ZjdMOTFmdk5iYndOWjdD?=
+ =?utf-8?B?b1FqNjV2cUFiZ0dVTGNXcERVK1NDZHhITHZFT3loeUhDdmdrSG8weUxzMW1P?=
+ =?utf-8?B?d2JCMklrNVBSRkxXbm5ZV01vUmZrWlg5SEVET0xKZURtNUVIZGx3RSs5Qllt?=
+ =?utf-8?B?aThRRUp4WnZoSTZyYm5WNUZ2dWRua1l3d2dVKyswSGtGSjU5QmI4TmM1a211?=
+ =?utf-8?B?TjJERE42NFdiNkU2TVorTjUya2FCNVg1bnJOYmc1NmJybW40VGxUdWhZaVVM?=
+ =?utf-8?B?dWJSc0xHek1ITGFQM2dsSzVjOEFtWEVWRjlEcHNicUN3NkxFT3ZQK3IrcGJs?=
+ =?utf-8?B?YWpMWE5WQTdCbGExNDRUOXVSWTFidnlydWdaYzM1TDM4ZnpWTTlxTnE4eUlB?=
+ =?utf-8?B?cTBKZlVMZHQ3V2plUldFZ084Nmg1TUlVck0rVzdMWmlkcTRsYjVPS0ovdUhI?=
+ =?utf-8?B?ejNHS3FDYWg2TDBHWmNjQkVNa3ZtRnQrT2pqTm4yeVJyckJlNG5YYmxxTXhQ?=
+ =?utf-8?B?b2NZVU8yQXNiZFhLWGhEdVZWTDYrZnhOYzRuT3RaTUl1VzFXUVA3clA2aFY1?=
+ =?utf-8?B?VUJoM0F1TEl3QkxBdzZpOHV4UXB2eXExMDl1cG9jV2ptMjFTbnN0Y3llVTVv?=
+ =?utf-8?B?bHh4cktaaHBIK0dyQlhqOWJCWVdZbWllZStIUW0vZUE1RlI5a3FzQVl5c1Yz?=
+ =?utf-8?B?NmpXbmI5QlQxVXpLQS9jdk1EMmJqVDZnaXhoRHRRVkh2aVBtbXhzdmVzVyty?=
+ =?utf-8?B?SUFIZVdFN21LZXY3THVUSjdmYTJFbEdsZ1ljbk9meHkvY2R4L0wvQi81QnJZ?=
+ =?utf-8?B?WUpIMDZJV1k0cmxydmdsVFJ5TGJqVWhaTDhnZGFZUnRhcTR6c0NBVnA4Z2lw?=
+ =?utf-8?B?L2wwTkNKL0tCaW9HUWZFTDBUeU9hd2hINEpTRGQ1WlZUMWljY3N1V2pIc3FN?=
+ =?utf-8?B?MnB2VzFBcWs4QVpFTmNDSkJxTkE2akk4ekNpaFAvbWtPeldYczZvNnRMano4?=
+ =?utf-8?B?WXl0NU9WTzQ1TCtVcngxUzlDMktPTnJ0KzY1YWZQRi8zTkhnUU5zZWJmUzlY?=
+ =?utf-8?B?Y0QrUi9GeGxSbFFQb0dhdFBGUi9BUEY3RUZReDJXR3N2Q3B3emRxeEJIMDZK?=
+ =?utf-8?B?SDN1anhCakJxUXNDVzd0amZrc3A5YlFCektmN2ErZk1LVFV0U0RlV2VGOWpC?=
+ =?utf-8?B?OXpZOFRBRm1qTzFJaHdPejV0eVMwLytQOWdKYnhoeC9lRWoyQUtnNGpBa2hW?=
+ =?utf-8?B?YWpiRnBxTnNWdm5KdmdDWTRXV1JQSDY4TU5HdXFrYW1EYWlrUWdZaGI1TVZH?=
+ =?utf-8?B?bGdwMG82cDFkZTdBTmQ2YWlCL2pYazJjcTVaMVNKVklOd2VuZEtCUjZmb2gx?=
+ =?utf-8?B?RUgxSXpqWlp5L3FleHR5UklLbGJiWW8rdmVIVDZZUEZvT2N4aGxXUlVjMFcr?=
+ =?utf-8?B?TzNxUGRCMXFaNzNrUFJKd3lHMksyZ0VySTlDMzQ3Y3dRQmc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHNhYjFZQXhIcjZMMEE2Njk1RHFCYmFvM2pCR0dlRFJkZCtJRk5IMkJ0N1Fs?=
+ =?utf-8?B?enNabHdHbUp6WGpGekdodHFpTUkzZXdsUHZyeWN1cytHRUxhZWFWL0FNMWJD?=
+ =?utf-8?B?bTJCdnpiV29sU0o5RFFqeExMK2ZtZTN4YjBTa3pOcGFjU0VDZUx4WFlKNTdP?=
+ =?utf-8?B?bjh0NmxvcmZiLzduaEtySGYxd2FlVldjdTRoSjViQmgwallxandZVDA0VGoy?=
+ =?utf-8?B?OWgxS2hycWRzeHlpZWRmeHBxbzl1VXB2QnN4VFVLeVBSNXBUUzg4REcwTmpF?=
+ =?utf-8?B?WVhUVmsvSmg3cTNYdTh6TnhPUmQyZU5FSFdUZFZUcjZBUnU5U0FOeC9CZDFD?=
+ =?utf-8?B?M0tWS3VTSjdzZ1NIaGNSc1dYSnRkWFVHenA0WWV1SnV4ajZBdmNLbGQ4NnNE?=
+ =?utf-8?B?RWhjYlc1SGxLZkdxQkVYZjM3OHhHU3p2VHp1c002cERsekIvZGlxWEkxWFk5?=
+ =?utf-8?B?Y24vc1lDbGtkS2dDcDJ4Z2dlSkRiem53VVRWZ0l4QUJQS1JkVXRFMTNkM04x?=
+ =?utf-8?B?VHJhN2Z3QlVPNm5Sb2RzcWYvbEljY3VvTTFsOG1hb3RrZ3ZLZVVSdG9ldmFs?=
+ =?utf-8?B?UFFtMlFyQ0o5MTNzTUdiLzdnZEhmTTduRDhUWjJWa2xkS044WEpNeVFDTDRL?=
+ =?utf-8?B?VVdacHdiMXArZVhJMFdpc3FtL3BGdnAzY2x0MFYrZS9PSjlTNFpqa2poSVNy?=
+ =?utf-8?B?WnNXRjlFNmVyU1RxT1QxVEFJR2dGNEdPakVudG9wZlRKWUh6dXFVUjZYN0RR?=
+ =?utf-8?B?OUh2a2lNUXhhNnJOaEthRmlLaGo1ZFlOOU01NFhZWDZBck9Yd1lyV2JNL2xO?=
+ =?utf-8?B?RnRub1l0VWhmMG1aRk5RS1lscVdKSmxwTEFSZ1MyUklGOWRXV1ArZjdIaml3?=
+ =?utf-8?B?RXZET2ZNanRYQ3JvMkhpL0JBT3d2bERYMWRpOXVOUHFENHNXcWFlTXd6ektk?=
+ =?utf-8?B?NDFwSWtrdFhLMzl6WUVDLy9HN0VFMVZ0YWl6K1RSRi9Ed2dvaWttS1R0MExh?=
+ =?utf-8?B?OXQyWXp5My9NK3pKbFhYaWVTZEQzd0MrSkJubmpNUlF0LzJHQ0hMaW1oUWRR?=
+ =?utf-8?B?VmZVK2xKNFplcXJrVStSOWNMcWpocHhPYzFMSWZ4WjhKajFmZmxtU1FLR0lD?=
+ =?utf-8?B?TjZ5cEdHRG9LTzBEQk1kc09JQXN6Qm1xejdwRTdMeDdUVDN2VUIyUXFiSFVi?=
+ =?utf-8?B?d2IraFZTdVBVbW1RclRPRlo4TXhlRnJtR2l5RktGMWlCQ0hkTUtFSUUzaWlZ?=
+ =?utf-8?B?VXpXb0ltQUFpWGk0cVF5QlhSYXhjTXBFcTBXYlMyS3RsMDh5WDZ6SEhaTmUy?=
+ =?utf-8?B?L0FtS2FoN1FOM0JhTFUxVDRkZmVEbmRKTWFIZ2UwaHVnTGgvZ00vN3ZsSWl6?=
+ =?utf-8?B?V2crcktvZkwvTFZ2UlpKMkpheEhXR1llRkswaWcrOEZibTMwenp2d2pNdWk3?=
+ =?utf-8?B?c0Z0cHVsbEMzQ25TTjNDd2liaUhPdjMzYkQrUWc4RTFZbG5CNWI0WHhXWmZZ?=
+ =?utf-8?B?NFB4RlZQQTZEVGIvSklRZUdpa09kWThPQ3pqTHZjZ2VuYkQzVmw1Y1A3MnhW?=
+ =?utf-8?B?UWVLSGJOYmlCRzI3VytZanVGS3RoeWIvdk52UEdwcE54L0RMTU5HN1pDR2V0?=
+ =?utf-8?B?R0lpSVRQWHlGTlRYa2cxMVVRNWZrU3hXTmEwOS9nZ3JWcU1BYkllMTNrMzNQ?=
+ =?utf-8?B?WTk5MndoR3dTK1U4VitRZU9tWHJGc2owOTVac0UydGdQanNLWGZBVkprZHpW?=
+ =?utf-8?B?UFFBQW50L1BkaTdMdm9oNmJaWHVvSmJxY3M5L0hNM3FSK1hHbnBPVVE4bzk4?=
+ =?utf-8?B?OGRlN1RLN2tkTXV2SlVaVHE3YUVQTGdEcmdsZHFmUmRvdlFhamZsQ3V3QUR2?=
+ =?utf-8?B?Q05panZISFBucDJnS3pCdCtvYWx0SkdDMEdHN2lmTGVKRGpqdnNmZkRuYkhk?=
+ =?utf-8?B?TVRoMGFSeXV3czhDTEM5VDNFZDFqYi9kVlBpYmF6OGVhdU9SRnZwTVJveEph?=
+ =?utf-8?B?bERuWFpvMkxZbzdrQzZSQ1JHQmJkYzRVdVJaOG5qMDE5MWtaVnVyWHpxZjZ0?=
+ =?utf-8?B?Wlh2WXlzZkNHRkk5Nks5V0xaWU5FMThZM1JSMFFHMy9uYmNKby90U1lhdC8x?=
+ =?utf-8?B?TlJRODZyNTc4eHJicGh0QkI2M2tKWTFzZ042NEJBWDhaSEJ4cUFmL01LNDNr?=
+ =?utf-8?B?VXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73ff4389-b83a-45fa-9885-08de0d42ecc7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca4f8b02-4058-473b-26f9-08de0d42e358
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2025 06:03:26.5914 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zdW7hnIZk9/SHjF8XQxe7wkMKeaireluzqjAbeX1c0hOAKvcdAtIdjrniCj0XW0Yua88Uz5xF4cpAJfSQoauZe6UuYXYuCCFV7cO/b1a7c0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7102
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 06:03:42.7120 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9yuOXHkeglCX6HYeH+oXKdf32AVkjFdWySQZBlXMR/xMCR4euej8gdH3gk3kycxpGN6NtJK/nQ6OrlXEn9GJaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9033
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -185,295 +207,2431 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-> Subject: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the hos=
-t
-> resource
->=20
-> For each plane, store the buffer object's host backing in the state
-> of the plane's respective CRTC. The host synchronizes output of buffer
-> objects with a host resource to its own refresh cycle; thus avoiding
-> tearing. During the CRTC's atomic flush, ignore the vblank timer if
-> any of the CRTC's plane's buffer object has a host resource. Instead
-> send the vblank event immdiatelly. Avoids corner cases where a vblank
-> event happens too late for the next frame to be page flipped in time.
->=20
-> The host synchronizes a plane's output to the host repaint cycle if
-> the plane's buffer object has an associated host resource. An atomic
-> commit blocks until the host cycle completes and then arms the vblank
-> event. The guest compositor is thereby synchronized to the host's
-> output rate.
->=20
-> To avoid delays, send out the vblank event immediately instead of
-> just arming it. Otherwise the event might be too late to page flip
-> the compositor's next frame.
->=20
-> The vblank timer is still active and fires in regular intervals
-> according to the guest display refresh. This rate limits clients
-> that only wait for the next vblank to occur, such as fbcon. These
-> clients would otherwise produce a very high number of frames per
-> second.
->=20
-> For commits without host resource, the vblank timer rate-limits the
-> guest output by generating vblank events at the guest display refresh
-> rate as before.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Thu, Oct 16, 2025 at 04:06:05PM -0500, Rob Herring (Arm) wrote:
+> Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
+> relatively simple interface with single command stream to describe
+> buffers, operation settings, and network operations. It supports up to 8
+> memory regions (though no h/w bounds on a region). The Ethos NPUs
+> are designed to use an SRAM for scratch memory. Region 2 is reserved
+> for SRAM (like the downstream driver stack and compiler). Userspace
+> doesn't need access to the SRAM.
+> 
+> The h/w has no MMU nor external IOMMU and is a DMA engine which can
+> read and write anywhere in memory without h/w bounds checks. The user
+> submitted command streams must be validated against the bounds of the
+> GEM BOs. This is similar to the VC4 design which validates shaders.
+> 
+> The job submit is based on the rocket driver for the Rockchip NPU
+> utilizing the GPU scheduler. It is simpler as there's only 1 core rather
+> than 3.
+> 
+> Tested on i.MX93 platform (U65) and FVP (U85) with Mesa Teflon
+> support.
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
-> There was a discussion about interference between vblank timers and
-> the host repaint cycle at [1]. This patch address a possible corner
-> case were the timing gets bad.
->=20
-> [1] https://lore.kernel.org/dri-
-> devel/IA0PR11MB7185D91EB0CD01FD63D21AA7F8EEA@IA0PR11MB7185.na
-> mprd11.prod.outlook.com/
+> v5:
+> - Rework Runtime PM init in probe
+> - Use __free() cleanups where possible
+> - Use devm_mutex_init()
+> - Handle U85 NPU_SET_WEIGHT2_BASE and NPU_SET_WEIGHT2_LENGTH
+> 
+> v4:
+> - Use bulk clk API
+> - Various whitespace fixes mostly due to ethos->ethosu rename
+> - Drop error check on dma_set_mask_and_coherent()
+> - Drop unnecessary pm_runtime_mark_last_busy() call
+> - Move variable declarations out of switch (a riscv/clang build failure)
+> - Use lowercase hex in all defines
+> - Drop unused ethosu_device.coherent member
+> - Add comments on all locks
+> 
+> v3:
+>  - Rework and improve job submit validation
+>  - Rename ethos to ethosu. There was an Ethos-Nxx that's unrelated.
+>  - Add missing init for sched_lock mutex
+>  - Drop some prints to debug level
+>  - Fix i.MX93 SRAM accesses (AXI config)
+>  - Add U85 AXI configuration
+>  - Print the current cmd value on timeout
+> 
+> v2:
+>  - Rebase on v6.17-rc1 adapting to scheduler changes
+>  - scheduler: Drop the reset workqueue. According to the scheduler docs,
+>    we don't need it since we have a single h/w queue.
+>  - scheduler: Rework the timeout handling to continue running if we are
+>    making progress.
+>  - Reset the NPU on resume so it's in a known state
+>  - Add error handling on clk_get() calls
+>  - Fix drm_mm splat on module unload. We were missing a put on the
+>    cmdstream BO in the scheduler clean-up.
+>  - Fix 0-day report needing explicit bitfield.h include
 > ---
->  drivers/gpu/drm/virtio/virtgpu_display.c | 72 ++++++++++++++++++++++--
->  drivers/gpu/drm/virtio/virtgpu_drv.h     | 15 +++++
->  drivers/gpu/drm/virtio/virtgpu_plane.c   | 16 +++++-
->  3 files changed, 98 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c
-> b/drivers/gpu/drm/virtio/virtgpu_display.c
-> index e972d9b015a9..43df1fa7d629 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-> @@ -49,14 +49,76 @@
->  #define drm_connector_to_virtio_gpu_output(x) \
->  	container_of(x, struct virtio_gpu_output, conn)
->=20
-> +static void virtio_gpu_crtc_state_destroy(struct virtio_gpu_crtc_state
-> *vgcrtc_state)
-> +{
-> +	__drm_atomic_helper_crtc_destroy_state(&vgcrtc_state->base);
+>  MAINTAINERS                          |   9 +
+>  drivers/accel/Kconfig                |   1 +
+>  drivers/accel/Makefile               |   1 +
+>  drivers/accel/ethosu/Kconfig         |  10 +
+>  drivers/accel/ethosu/Makefile        |   4 +
+>  drivers/accel/ethosu/ethosu_device.h | 195 ++++++++++
+>  drivers/accel/ethosu/ethosu_drv.c    | 403 ++++++++++++++++++++
+>  drivers/accel/ethosu/ethosu_drv.h    |  15 +
+>  drivers/accel/ethosu/ethosu_gem.c    | 704 +++++++++++++++++++++++++++++++++++
+>  drivers/accel/ethosu/ethosu_gem.h    |  46 +++
+>  drivers/accel/ethosu/ethosu_job.c    | 540 +++++++++++++++++++++++++++
+>  drivers/accel/ethosu/ethosu_job.h    |  41 ++
+>  include/uapi/drm/ethosu_accel.h      | 261 +++++++++++++
+>  13 files changed, 2230 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 46126ce2f968..9b4642830b51 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2017,6 +2017,15 @@ F:	arch/arm64/include/asm/arch_timer.h
+>  F:	drivers/clocksource/arm_arch_timer.c
+>  F:	drivers/clocksource/arm_arch_timer_mmio.c
+>  
+> +ARM ETHOS-U NPU DRIVER
+> +M:	Rob Herring (Arm) <robh@kernel.org>
+> +M:	Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Supported
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	drivers/accel/ethosu/
+> +F:	include/uapi/drm/ethosu_accel.h
 > +
-> +	kfree(vgcrtc_state);
-> +}
+>  ARM GENERIC INTERRUPT CONTROLLER DRIVERS
+>  M:	Marc Zyngier <maz@kernel.org>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> index bb01cebc42bf..bdf48ccafcf2 100644
+> --- a/drivers/accel/Kconfig
+> +++ b/drivers/accel/Kconfig
+> @@ -25,6 +25,7 @@ menuconfig DRM_ACCEL
+>  	  and debugfs).
+>  
+>  source "drivers/accel/amdxdna/Kconfig"
+> +source "drivers/accel/ethosu/Kconfig"
+>  source "drivers/accel/habanalabs/Kconfig"
+>  source "drivers/accel/ivpu/Kconfig"
+>  source "drivers/accel/qaic/Kconfig"
+> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> index ffc3fa588666..1d3a7251b950 100644
+> --- a/drivers/accel/Makefile
+> +++ b/drivers/accel/Makefile
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+>  obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+= amdxdna/
+> +obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
+>  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+>  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+>  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+> diff --git a/drivers/accel/ethosu/Kconfig b/drivers/accel/ethosu/Kconfig
+> new file mode 100644
+> index 000000000000..bd762c2c21ce
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/Kconfig
+> @@ -0,0 +1,10 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 > +
-> +static bool virtio_gpu_crtc_state_send_event_on_flush(struct
-> virtio_gpu_crtc_state *vgcrtc_state)
-> +{
-> +	struct drm_crtc_state *crtc_state =3D &vgcrtc_state->base;
+> +config DRM_ACCEL_ARM_ETHOSU
+> +	tristate "Arm Ethos-U65/U85 NPU"
+> +	depends on HAS_IOMEM
+> +	depends on DRM_ACCEL
+> +	select DRM_GEM_DMA_HELPER
+> +	select DRM_SCHED
+> +	help
+> +	  Enables driver for Arm Ethos-U65/U85 NPUs
+> diff --git a/drivers/accel/ethosu/Makefile b/drivers/accel/ethosu/Makefile
+> new file mode 100644
+> index 000000000000..17db5a600416
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 > +
-> +	/*
-> +	 * The CRTC's output is vsync'ed if at least one plane's output is
-> +	 * sync'ed to the host refresh.
-> +	 */
-> +	return vgcrtc_state->send_event_on_flush & crtc_state->plane_mask;
-> +}
+> +obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU) := ethosu.o
+> +ethosu-y += ethosu_drv.o ethosu_gem.o ethosu_job.o
+> diff --git a/drivers/accel/ethosu/ethosu_device.h b/drivers/accel/ethosu/ethosu_device.h
+> new file mode 100644
+> index 000000000000..b5e1509b403d
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_device.h
+> @@ -0,0 +1,195 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only or MIT */
+> +/* Copyright 2025 Arm, Ltd. */
 > +
-> +static void virtio_gpu_crtc_reset(struct drm_crtc *crtc)
-> +{
-> +	struct virtio_gpu_crtc_state *vgcrtc_state;
+> +#ifndef __ETHOSU_DEVICE_H__
+> +#define __ETHOSU_DEVICE_H__
 > +
-> +	if (crtc->state)
-> +		virtio_gpu_crtc_state_destroy(to_virtio_gpu_crtc_state(crtc-
-> >state));
+> +#include <linux/types.h>
 > +
-> +	vgcrtc_state =3D kzalloc(sizeof(*vgcrtc_state), GFP_KERNEL);
-> +	if (vgcrtc_state) {
-> +		vgcrtc_state->send_event_on_flush =3D 0ul;
-> +		__drm_atomic_helper_crtc_reset(crtc, &vgcrtc_state->base);
-> +	} else {
-> +		__drm_atomic_helper_crtc_reset(crtc, NULL);
-> +	}
-> +}
+> +#include <drm/drm_device.h>
+> +#include <drm/gpu_scheduler.h>
 > +
-> +static struct drm_crtc_state *virtio_gpu_crtc_atomic_duplicate_state(str=
-uct
-> drm_crtc *crtc)
-> +{
-> +	struct drm_device *dev =3D crtc->dev;
-> +	struct drm_crtc_state *crtc_state =3D crtc->state;
-> +	struct virtio_gpu_crtc_state *new_vgcrtc_state;
-> +	struct virtio_gpu_crtc_state *vgcrtc_state;
+> +#include <drm/ethosu_accel.h>
 > +
-> +	if (drm_WARN_ON(dev, !crtc_state))
-> +		return NULL;
+> +struct clk;
+> +struct gen_pool;
 > +
-> +	new_vgcrtc_state =3D kzalloc(sizeof(*new_vgcrtc_state), GFP_KERNEL);
-> +	if (!new_vgcrtc_state)
-> +		return NULL;
+> +#define NPU_REG_ID		0x0000
+> +#define NPU_REG_STATUS		0x0004
+> +#define NPU_REG_CMD		0x0008
+> +#define NPU_REG_RESET		0x000c
+> +#define NPU_REG_QBASE		0x0010
+> +#define NPU_REG_QBASE_HI	0x0014
+> +#define NPU_REG_QREAD		0x0018
+> +#define NPU_REG_QCONFIG		0x001c
+> +#define NPU_REG_QSIZE		0x0020
+> +#define NPU_REG_PROT		0x0024
+> +#define NPU_REG_CONFIG		0x0028
+> +#define NPU_REG_REGIONCFG	0x003c
+> +#define NPU_REG_AXILIMIT0	0x0040		// U65
+> +#define NPU_REG_AXILIMIT1	0x0044		// U65
+> +#define NPU_REG_AXILIMIT2	0x0048		// U65
+> +#define NPU_REG_AXILIMIT3	0x004c		// U65
+> +#define NPU_REG_MEM_ATTR0	0x0040		// U85
+> +#define NPU_REG_MEM_ATTR1	0x0044		// U85
+> +#define NPU_REG_MEM_ATTR2	0x0048		// U85
+> +#define NPU_REG_MEM_ATTR3	0x004c		// U85
+> +#define NPU_REG_AXI_SRAM	0x0050		// U85
+> +#define NPU_REG_AXI_EXT		0x0054		// U85
 > +
-> +	vgcrtc_state =3D to_virtio_gpu_crtc_state(crtc_state);
+> +#define NPU_REG_BASEP(x)	(0x0080 + (x) * 8)
+> +#define NPU_REG_BASEP_HI(x)	(0x0084 + (x) * 8)
+> +#define NPU_BASEP_REGION_MAX	8
 > +
-> +	__drm_atomic_helper_crtc_duplicate_state(crtc, &new_vgcrtc_state-
-> >base);
-> +	vgcrtc_state->send_event_on_flush =3D vgcrtc_state-
-> >send_event_on_flush;
+> +#define ID_ARCH_MAJOR_MASK	GENMASK(31, 28)
+> +#define ID_ARCH_MINOR_MASK	GENMASK(27, 20)
+> +#define ID_ARCH_PATCH_MASK	GENMASK(19, 16)
+> +#define ID_VER_MAJOR_MASK	GENMASK(11, 8)
+> +#define ID_VER_MINOR_MASK	GENMASK(7, 4)
 > +
-> +	return &new_vgcrtc_state->base;
-> +}
+> +#define CONFIG_MACS_PER_CC_MASK	GENMASK(3, 0)
+> +#define CONFIG_CMD_STREAM_VER_MASK	GENMASK(7, 4)
 > +
-> +static void virtio_gpu_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-> +						 struct drm_crtc_state *crtc_state)
-> +{
-> +	virtio_gpu_crtc_state_destroy(to_virtio_gpu_crtc_state(crtc_state));
-> +}
+> +#define STATUS_STATE_RUNNING	BIT(0)
+> +#define STATUS_IRQ_RAISED	BIT(1)
+> +#define STATUS_BUS_STATUS	BIT(2)
+> +#define STATUS_RESET_STATUS	BIT(3)
+> +#define STATUS_CMD_PARSE_ERR	BIT(4)
+> +#define STATUS_CMD_END_REACHED	BIT(5)
 > +
->  static const struct drm_crtc_funcs virtio_gpu_crtc_funcs =3D {
->  	.set_config             =3D drm_atomic_helper_set_config,
->  	.destroy                =3D drm_crtc_cleanup,
->=20
->  	.page_flip              =3D drm_atomic_helper_page_flip,
-> -	.reset                  =3D drm_atomic_helper_crtc_reset,
-> -	.atomic_duplicate_state =3D drm_atomic_helper_crtc_duplicate_state,
-> -	.atomic_destroy_state   =3D drm_atomic_helper_crtc_destroy_state,
-> +	.reset                  =3D virtio_gpu_crtc_reset,
-> +	.atomic_duplicate_state =3D virtio_gpu_crtc_atomic_duplicate_state,
-> +	.atomic_destroy_state   =3D virtio_gpu_crtc_atomic_destroy_state,
->  	DRM_CRTC_VBLANK_TIMER_FUNCS,
->  };
->=20
-> @@ -129,7 +191,9 @@ static void virtio_gpu_crtc_atomic_flush(struct
-> drm_crtc *crtc,
->  {
->  	struct drm_device *dev =3D crtc->dev;
->  	struct drm_crtc_state *crtc_state =3D
-> drm_atomic_get_new_crtc_state(state, crtc);
-> +	struct virtio_gpu_crtc_state *vgcrtc_state =3D
-> to_virtio_gpu_crtc_state(crtc_state);
->  	struct virtio_gpu_output *output =3D
-> drm_crtc_to_virtio_gpu_output(crtc);
-> +	bool send_event_on_flush =3D
-> virtio_gpu_crtc_state_send_event_on_flush(vgcrtc_state);
->  	struct drm_pending_vblank_event *event;
->=20
->  	/*
-> @@ -147,7 +211,7 @@ static void virtio_gpu_crtc_atomic_flush(struct
-> drm_crtc *crtc,
->  	crtc_state->event =3D NULL;
->=20
->  	if (event) {
-> -		if (drm_crtc_vblank_get(crtc) =3D=3D 0)
-> +		if (!send_event_on_flush && drm_crtc_vblank_get(crtc) =3D=3D 0)
->  			drm_crtc_arm_vblank_event(crtc, event);
->  		else
->  			drm_crtc_send_vblank_event(crtc, event);
-As suspected, before applying this patch, the frame rate was halved:
-root@localhost:/weston_upstream/weston# ./build/clients/weston-simple-egl -=
-o &
-Using config: r8g8b8a0
-has EGL_EXT_buffer_age and EGL_EXT_swap_buffers_with_damage
-has EGL_EXT_surface_compression
-150 frames in 5 seconds: 30.000000 fps
-149 frames in 5 seconds: 29.799999 fps
-152 frames in 5 seconds: 30.400000 fps
-
-And, after applying this patch:
-root@localhost:/weston_upstream/weston# ./build/clients/weston-simple-egl -=
-o &
-Using config: r8g8b8a0
-has EGL_EXT_buffer_age and EGL_EXT_swap_buffers_with_damage
-has EGL_EXT_surface_compression
-277 frames in 5 seconds: 55.400002 fps
-273 frames in 5 seconds: 54.599998 fps
-298 frames in 5 seconds: 59.599998 fps
-284 frames in 5 seconds: 56.799999 fps
-287 frames in 5 seconds: 57.400002 fps
-272 frames in 5 seconds: 54.400002 fps
-289 frames in 5 seconds: 57.799999 fps
-287 frames in 5 seconds: 57.400002 fps
-289 frames in 5 seconds: 57.799999 fps
-272 frames in 5 seconds: 54.400002 fps
-266 frames in 5 seconds: 53.200001 fps
-261 frames in 5 seconds: 52.200001 fps
-277 frames in 5 seconds: 55.400002 fps
-256 frames in 5 seconds: 51.200001 fps
-179 frames in 5 seconds: 35.799999 fps
-169 frames in 5 seconds: 33.799999 fps
-178 frames in 5 seconds: 35.599998 fps
-211 frames in 5 seconds: 42.200001 fps
-255 frames in 5 seconds: 51.000000 fps
-
-As you can see, the frame rate/performance improves but it occasionally
-drops into the 30s and 40s, which is a bit concerning because if I revert
-this patch and a036f5fceedb ("drm/virtgpu: Use vblank timer") and test
-again, I do not see this drop.
-
-This suggests that the vblank event is still delayed in some other corner
-cases, which might be challenging to figure out.
-
-Tested by running Gnome Wayland after launching Qemu with following
-(relevant) parameters:
-qemu-system-x86_64 -m 4096m -enable-kvm .........
--device vfio-pci,host=3D0000:03:00.1
--device virtio-gpu,max_outputs=3D1,xres=3D1920,yres=3D1080,blob=3Dtrue
--display gtk,gl=3Don
--object memory-backend-memfd,id=3Dmem1,size=3D4096M
--machine q35,accel=3Dkvm,memory-backend=3Dmem1
-
-Thanks,
-Vivek
-
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> index f17660a71a3e..671fc3b61bc6 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -195,6 +195,21 @@ struct virtio_gpu_framebuffer {
->  #define to_virtio_gpu_framebuffer(x) \
->  	container_of(x, struct virtio_gpu_framebuffer, base)
->=20
-> +struct virtio_gpu_crtc_state {
-> +	struct drm_crtc_state base;
+> +#define CMD_CLEAR_IRQ		BIT(1)
+> +#define CMD_TRANSITION_TO_RUN	BIT(0)
 > +
-> +	/*
-> +	 * Send vblank event immediately from atomic_flush. Set from each
-> +	 * plane's atomic check and depends on the buffer object. Buffers
-> +	 * with host backing are vsync'd already and should send immediately;
-> +	 * others should wait for the VBLANK timer.
-> +	 */
-> +	u32 send_event_on_flush;
+> +#define RESET_PENDING_CSL	BIT(1)
+> +#define RESET_PENDING_CPL	BIT(0)
+> +
+> +#define PROT_ACTIVE_CSL		BIT(1)
+> +
+> +enum ethosu_cmds {
+> +	NPU_OP_CONV = 0x2,
+> +	NPU_OP_DEPTHWISE = 0x3,
+> +	NPU_OP_POOL = 0x5,
+> +	NPU_OP_ELEMENTWISE = 0x6,
+> +	NPU_OP_RESIZE = 0x7,	// U85 only
+> +	NPU_OP_DMA_START = 0x10,
+> +	NPU_SET_IFM_PAD_TOP = 0x100,
+> +	NPU_SET_IFM_PAD_LEFT = 0x101,
+> +	NPU_SET_IFM_PAD_RIGHT = 0x102,
+> +	NPU_SET_IFM_PAD_BOTTOM = 0x103,
+> +	NPU_SET_IFM_DEPTH_M1 = 0x104,
+> +	NPU_SET_IFM_PRECISION = 0x105,
+> +	NPU_SET_IFM_BROADCAST = 0x108,
+> +	NPU_SET_IFM_WIDTH0_M1 = 0x10a,
+> +	NPU_SET_IFM_HEIGHT0_M1 = 0x10b,
+> +	NPU_SET_IFM_HEIGHT1_M1 = 0x10c,
+> +	NPU_SET_IFM_REGION = 0x10f,
+> +	NPU_SET_OFM_WIDTH_M1 = 0x111,
+> +	NPU_SET_OFM_HEIGHT_M1 = 0x112,
+> +	NPU_SET_OFM_DEPTH_M1 = 0x113,
+> +	NPU_SET_OFM_PRECISION = 0x114,
+> +	NPU_SET_OFM_WIDTH0_M1 = 0x11a,
+> +	NPU_SET_OFM_HEIGHT0_M1 = 0x11b,
+> +	NPU_SET_OFM_HEIGHT1_M1 = 0x11c,
+> +	NPU_SET_OFM_REGION = 0x11f,
+> +	NPU_SET_KERNEL_WIDTH_M1 = 0x120,
+> +	NPU_SET_KERNEL_HEIGHT_M1 = 0x121,
+> +	NPU_SET_KERNEL_STRIDE = 0x122,
+> +	NPU_SET_WEIGHT_REGION = 0x128,
+> +	NPU_SET_SCALE_REGION = 0x129,
+> +	NPU_SET_DMA0_SRC_REGION = 0x130,
+> +	NPU_SET_DMA0_DST_REGION = 0x131,
+> +	NPU_SET_DMA0_SIZE0 = 0x132,
+> +	NPU_SET_DMA0_SIZE1 = 0x133,
+> +	NPU_SET_IFM2_BROADCAST = 0x180,
+> +	NPU_SET_IFM2_PRECISION = 0x185,
+> +	NPU_SET_IFM2_WIDTH0_M1 = 0x18a,
+> +	NPU_SET_IFM2_HEIGHT0_M1 = 0x18b,
+> +	NPU_SET_IFM2_HEIGHT1_M1 = 0x18c,
+> +	NPU_SET_IFM2_REGION = 0x18f,
+> +	NPU_SET_IFM_BASE0 = 0x4000,
+> +	NPU_SET_IFM_BASE1 = 0x4001,
+> +	NPU_SET_IFM_BASE2 = 0x4002,
+> +	NPU_SET_IFM_BASE3 = 0x4003,
+> +	NPU_SET_IFM_STRIDE_X = 0x4004,
+> +	NPU_SET_IFM_STRIDE_Y = 0x4005,
+> +	NPU_SET_IFM_STRIDE_C = 0x4006,
+> +	NPU_SET_OFM_BASE0 = 0x4010,
+> +	NPU_SET_OFM_BASE1 = 0x4011,
+> +	NPU_SET_OFM_BASE2 = 0x4012,
+> +	NPU_SET_OFM_BASE3 = 0x4013,
+> +	NPU_SET_OFM_STRIDE_X = 0x4014,
+> +	NPU_SET_OFM_STRIDE_Y = 0x4015,
+> +	NPU_SET_OFM_STRIDE_C = 0x4016,
+> +	NPU_SET_WEIGHT_BASE = 0x4020,
+> +	NPU_SET_WEIGHT_LENGTH = 0x4021,
+> +	NPU_SET_SCALE_BASE = 0x4022,
+> +	NPU_SET_SCALE_LENGTH = 0x4023,
+> +	NPU_SET_DMA0_SRC = 0x4030,
+> +	NPU_SET_DMA0_DST = 0x4031,
+> +	NPU_SET_DMA0_LEN = 0x4032,
+> +	NPU_SET_DMA0_SRC_STRIDE0 = 0x4033,
+> +	NPU_SET_DMA0_SRC_STRIDE1 = 0x4034,
+> +	NPU_SET_DMA0_DST_STRIDE0 = 0x4035,
+> +	NPU_SET_DMA0_DST_STRIDE1 = 0x4036,
+> +	NPU_SET_IFM2_BASE0 = 0x4080,
+> +	NPU_SET_IFM2_BASE1 = 0x4081,
+> +	NPU_SET_IFM2_BASE2 = 0x4082,
+> +	NPU_SET_IFM2_BASE3 = 0x4083,
+> +	NPU_SET_IFM2_STRIDE_X = 0x4084,
+> +	NPU_SET_IFM2_STRIDE_Y = 0x4085,
+> +	NPU_SET_IFM2_STRIDE_C = 0x4086,
+> +	NPU_SET_WEIGHT1_BASE = 0x4090,
+> +	NPU_SET_WEIGHT1_LENGTH = 0x4091,
+> +	NPU_SET_SCALE1_BASE = 0x4092,
+> +	NPU_SET_WEIGHT2_BASE = 0x4092,
+> +	NPU_SET_SCALE1_LENGTH = 0x4093,
+> +	NPU_SET_WEIGHT2_LENGTH = 0x4093,
+> +	NPU_SET_WEIGHT3_BASE = 0x4094,
+> +	NPU_SET_WEIGHT3_LENGTH = 0x4095,
 > +};
 > +
-> +#define to_virtio_gpu_crtc_state(x) \
-> +	container_of(x, struct virtio_gpu_crtc_state, base)
+> +#define ETHOSU_SRAM_REGION	2	/* Matching Vela compiler */
 > +
->  struct virtio_gpu_plane_state {
->  	struct drm_plane_state base;
->  	struct virtio_gpu_fence *fence;
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> index 29e4b458ae57..d04721c5d505 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> @@ -104,7 +104,8 @@ static int virtio_gpu_plane_atomic_check(struct
-> drm_plane *plane,
->=20
-> plane);
->  	bool is_cursor =3D plane->type =3D=3D DRM_PLANE_TYPE_CURSOR;
->  	struct drm_crtc_state *crtc_state;
-> -	int ret;
-> +	struct virtio_gpu_crtc_state *vgcrtc_state;
-> +	int ret, i;
->=20
->  	if (!new_plane_state->fb || WARN_ON(!new_plane_state->crtc))
->  		return 0;
-> @@ -126,6 +127,19 @@ static int virtio_gpu_plane_atomic_check(struct
-> drm_plane *plane,
->  						  DRM_PLANE_NO_SCALING,
->  						  DRM_PLANE_NO_SCALING,
->  						  is_cursor, true);
+> +/**
+> + * struct ethosu_device - Ethosu device
+> + */
+> +struct ethosu_device {
+> +	/** @base: Base drm_device. */
+> +	struct drm_device base;
 > +
-> +	vgcrtc_state =3D to_virtio_gpu_crtc_state(crtc_state);
-> +	vgcrtc_state->send_event_on_flush &=3D ~drm_plane_mask(plane);
+> +	/** @iomem: CPU mapping of the registers. */
+> +	void __iomem *regs;
 > +
-> +	for (i =3D 0; i < new_plane_state->fb->format->num_planes; ++i) {
-> +		struct virtio_gpu_object *bo =3D
-> gem_to_virtio_gpu_obj(new_plane_state->fb->obj[i]);
+> +	void __iomem *sram;
+> +	struct gen_pool *srampool;
+> +	dma_addr_t sramphys;
 > +
-> +		if (bo->host3d_blob || bo->guest_blob) {
-> +			vgcrtc_state->send_event_on_flush |=3D
-> drm_plane_mask(plane);
-> +			break; /* only need to find one */
+> +	struct clk_bulk_data *clks;
+> +	int num_clks;
+> +	int irq;
+> +
+> +	struct drm_ethosu_npu_info npu_info;
+> +
+> +	struct ethosu_job *in_flight_job;
+> +	/* For in_flight_job and ethosu_job_hw_submit() */
+> +	struct mutex job_lock;
+> +
+> +	/* For dma_fence */
+> +	spinlock_t fence_lock;
+> +
+> +	struct drm_gpu_scheduler sched;
+> +	/* For ethosu_job_do_push() */
+> +	struct mutex sched_lock;
+> +	u64 fence_context;
+> +	u64 emit_seqno;
+> +};
+> +
+> +#define to_ethosu_device(drm_dev) \
+> +	((struct ethosu_device *)container_of(drm_dev, struct ethosu_device, base))
+> +
+> +static inline bool ethosu_is_u65(const struct ethosu_device *ethosudev)
+> +{
+> +	return FIELD_GET(ID_ARCH_MAJOR_MASK, ethosudev->npu_info.id) == 1;
+> +}
+> +
+> +#endif
+> diff --git a/drivers/accel/ethosu/ethosu_drv.c b/drivers/accel/ethosu/ethosu_drv.c
+> new file mode 100644
+> index 000000000000..e05a69bf5574
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_drv.c
+> @@ -0,0 +1,403 @@
+> +// SPDX-License-Identifier: GPL-2.0-only or MIT
+> +// Copyright (C) 2025 Arm, Ltd.
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_ioctl.h>
+> +#include <drm/drm_utils.h>
+> +#include <drm/drm_gem.h>
+> +#include <drm/drm_accel.h>
+> +#include <drm/ethosu_accel.h>
+> +
+> +#include "ethosu_drv.h"
+> +#include "ethosu_device.h"
+> +#include "ethosu_gem.h"
+> +#include "ethosu_job.h"
+> +
+> +static int ethosu_ioctl_dev_query(struct drm_device *ddev, void *data,
+> +				  struct drm_file *file)
+> +{
+> +	struct ethosu_device *ethosudev = to_ethosu_device(ddev);
+> +	struct drm_ethosu_dev_query *args = data;
+> +
+> +	if (!args->pointer) {
+> +		switch (args->type) {
+> +		case DRM_ETHOSU_DEV_QUERY_NPU_INFO:
+> +			args->size = sizeof(ethosudev->npu_info);
+> +			return 0;
+> +		default:
+> +			return -EINVAL;
 > +		}
 > +	}
 > +
->  	return ret;
->  }
->=20
-> --
-> 2.51.0
+> +	switch (args->type) {
+> +	case DRM_ETHOSU_DEV_QUERY_NPU_INFO:
+> +		if (args->size < offsetofend(struct drm_ethosu_npu_info, sram_size))
+> +			return -EINVAL;
+> +		return copy_struct_to_user(u64_to_user_ptr(args->pointer),
+> +					   args->size,
+> +					   &ethosudev->npu_info,
+> +					   sizeof(ethosudev->npu_info), NULL);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +#define ETHOSU_BO_FLAGS		DRM_ETHOSU_BO_NO_MMAP
+> +
+> +static int ethosu_ioctl_bo_create(struct drm_device *ddev, void *data,
+> +				  struct drm_file *file)
+> +{
+> +	struct drm_ethosu_bo_create *args = data;
+> +	int cookie, ret;
+> +
+> +	if (!drm_dev_enter(ddev, &cookie))
+> +		return -ENODEV;
+> +
+> +	if (!args->size || (args->flags & ~ETHOSU_BO_FLAGS)) {
+> +		ret = -EINVAL;
+> +		goto out_dev_exit;
+> +	}
+> +
+> +	ret = ethosu_gem_create_with_handle(file, ddev, &args->size,
+> +					    args->flags, &args->handle);
+> +
+> +out_dev_exit:
+> +	drm_dev_exit(cookie);
+> +	return ret;
+> +}
+> +
+> +static int ethosu_ioctl_bo_wait(struct drm_device *ddev, void *data,
+> +				struct drm_file *file)
+> +{
+> +	struct drm_ethosu_bo_wait *args = data;
+> +	int cookie, ret;
+> +	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
+> +
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+> +	if (!drm_dev_enter(ddev, &cookie))
+> +		return -ENODEV;
+> +
+> +	ret = drm_gem_dma_resv_wait(file, args->handle, true, timeout);
+> +
+> +	drm_dev_exit(cookie);
+> +	return ret;
+> +}
+> +
+> +static int ethosu_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data,
+> +				       struct drm_file *file)
+> +{
+> +	struct drm_ethosu_bo_mmap_offset *args = data;
+> +	struct drm_gem_object *obj;
+> +
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+> +	obj = drm_gem_object_lookup(file, args->handle);
+> +	if (!obj)
+> +		return -ENOENT;
+> +
+> +	args->offset = drm_vma_node_offset_addr(&obj->vma_node);
+> +	drm_gem_object_put(obj);
+> +	return 0;
+> +}
+> +
+> +static int ethosu_ioctl_cmdstream_bo_create(struct drm_device *ddev, void *data,
+> +					    struct drm_file *file)
+> +{
+> +	struct drm_ethosu_cmdstream_bo_create *args = data;
+> +	int cookie, ret;
+> +
+> +	if (!drm_dev_enter(ddev, &cookie))
+> +		return -ENODEV;
+> +
+> +	if (!args->size || !args->data || args->pad || args->flags) {
+> +		ret = -EINVAL;
+> +		goto out_dev_exit;
+> +	}
+> +
+> +	args->flags |= DRM_ETHOSU_BO_NO_MMAP;
+> +
+> +	ret = ethosu_gem_cmdstream_create(file, ddev, args->size, args->data,
+> +					  args->flags, &args->handle);
+> +
+> +out_dev_exit:
+> +	drm_dev_exit(cookie);
+> +	return ret;
+> +}
+> +
+> +static int ethosu_open(struct drm_device *ddev, struct drm_file *file)
+> +{
+> +	int ret = 0;
+> +
+> +	if (!try_module_get(THIS_MODULE))
+> +		return -EINVAL;
+> +
+> +	struct ethosu_file_priv __free(kfree) *priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> +	if (!priv) {
+> +		ret = -ENOMEM;
+> +		goto err_put_mod;
+> +	}
+> +	priv->edev = to_ethosu_device(ddev);
+> +
+> +	ret = ethosu_job_open(priv);
+> +	if (ret)
+> +		goto err_put_mod;
+> +
+> +	file->driver_priv = no_free_ptr(priv);
+> +	return 0;
+> +
+> +err_put_mod:
+> +	module_put(THIS_MODULE);
+> +	return ret;
+> +}
+> +
+> +static void ethosu_postclose(struct drm_device *ddev, struct drm_file *file)
+> +{
+> +	ethosu_job_close(file->driver_priv);
+> +	kfree(file->driver_priv);
+> +	module_put(THIS_MODULE);
+> +}
+> +
+> +static const struct drm_ioctl_desc ethosu_drm_driver_ioctls[] = {
+> +#define ETHOSU_IOCTL(n, func, flags) \
+> +	DRM_IOCTL_DEF_DRV(ETHOSU_##n, ethosu_ioctl_##func, flags)
+> +
+> +	ETHOSU_IOCTL(DEV_QUERY, dev_query, 0),
+> +	ETHOSU_IOCTL(BO_CREATE, bo_create, 0),
+> +	ETHOSU_IOCTL(BO_WAIT, bo_wait, 0),
+> +	ETHOSU_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset, 0),
+> +	ETHOSU_IOCTL(CMDSTREAM_BO_CREATE, cmdstream_bo_create, 0),
+> +	ETHOSU_IOCTL(SUBMIT, submit, 0),
+> +};
+> +
+> +DEFINE_DRM_ACCEL_FOPS(ethosu_drm_driver_fops);
+> +
+> +/*
+> + * Ethosu driver version:
+> + * - 1.0 - initial interface
+> + */
+> +static const struct drm_driver ethosu_drm_driver = {
+> +	.driver_features = DRIVER_COMPUTE_ACCEL | DRIVER_GEM,
+> +	.open = ethosu_open,
+> +	.postclose = ethosu_postclose,
+> +	.ioctls = ethosu_drm_driver_ioctls,
+> +	.num_ioctls = ARRAY_SIZE(ethosu_drm_driver_ioctls),
+> +	.fops = &ethosu_drm_driver_fops,
+> +	.name = "ethosu",
+> +	.desc = "Arm Ethos-U Accel driver",
+> +	.major = 1,
+> +	.minor = 0,
+> +
+> +	.gem_create_object = ethosu_gem_create_object,
+> +};
+> +
+> +#define U65_DRAM_AXI_LIMIT_CFG	0x1f3f0002
+> +#define U65_SRAM_AXI_LIMIT_CFG	0x1f3f00b0
+> +#define U85_AXI_EXT_CFG		0x00021f3f
+> +#define U85_AXI_SRAM_CFG	0x00021f3f
+> +#define U85_MEM_ATTR0_CFG	0x00000000
+> +#define U85_MEM_ATTR2_CFG	0x000000b7
+> +
+> +static int ethosu_reset(struct ethosu_device *ethosudev)
+> +{
+> +	int ret;
+> +	u32 reg;
+> +
+> +	writel_relaxed(RESET_PENDING_CSL, ethosudev->regs + NPU_REG_RESET);
+> +	ret = readl_poll_timeout(ethosudev->regs + NPU_REG_STATUS, reg,
+> +				 !FIELD_GET(STATUS_RESET_STATUS, reg),
+> +				 USEC_PER_MSEC, USEC_PER_SEC);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!FIELD_GET(PROT_ACTIVE_CSL, readl_relaxed(ethosudev->regs + NPU_REG_PROT))) {
+> +		dev_warn(ethosudev->base.dev, "Could not reset to non-secure mode (PROT = %x)\n",
+> +			 readl_relaxed(ethosudev->regs + NPU_REG_PROT));
+> +	}
+> +
+> +	/*
+> +	 * Assign region 2 (SRAM) to AXI M0 (AXILIMIT0),
+> +	 * everything else to AXI M1 (AXILIMIT2)
+> +	 */
+> +	writel_relaxed(0x0000aa8a, ethosudev->regs + NPU_REG_REGIONCFG);
+> +	if (ethosu_is_u65(ethosudev)) {
+> +		writel_relaxed(U65_SRAM_AXI_LIMIT_CFG, ethosudev->regs + NPU_REG_AXILIMIT0);
+> +		writel_relaxed(U65_DRAM_AXI_LIMIT_CFG, ethosudev->regs + NPU_REG_AXILIMIT2);
+> +	} else {
+> +		writel_relaxed(U85_AXI_SRAM_CFG, ethosudev->regs + NPU_REG_AXI_SRAM);
+> +		writel_relaxed(U85_AXI_EXT_CFG, ethosudev->regs + NPU_REG_AXI_EXT);
+> +		writel_relaxed(U85_MEM_ATTR0_CFG, ethosudev->regs + NPU_REG_MEM_ATTR0);	// SRAM
+> +		writel_relaxed(U85_MEM_ATTR2_CFG, ethosudev->regs + NPU_REG_MEM_ATTR2);	// DRAM
+> +	}
+> +
+> +	if (ethosudev->sram)
+> +		memset_io(ethosudev->sram, 0, ethosudev->npu_info.sram_size);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ethosu_device_resume(struct device *dev)
+> +{
+> +	struct ethosu_device *ethosudev = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = clk_bulk_prepare_enable(ethosudev->num_clks, ethosudev->clks);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ethosu_reset(ethosudev);
+> +	if (!ret)
+> +		return 0;
+> +
+> +	clk_bulk_disable_unprepare(ethosudev->num_clks, ethosudev->clks);
+> +	return ret;
+> +}
+> +
+> +static int ethosu_device_suspend(struct device *dev)
+> +{
+> +	struct ethosu_device *ethosudev = dev_get_drvdata(dev);
+> +
+> +	clk_bulk_disable_unprepare(ethosudev->num_clks, ethosudev->clks);
+> +	return 0;
+> +}
+> +
+> +static int ethosu_sram_init(struct ethosu_device *ethosudev)
+> +{
+> +	ethosudev->npu_info.sram_size = 0;
+> +
+> +	ethosudev->srampool = of_gen_pool_get(ethosudev->base.dev->of_node, "sram", 0);
+> +	if (!ethosudev->srampool)
+> +		return 0;
+> +
+> +	ethosudev->npu_info.sram_size = gen_pool_size(ethosudev->srampool);
+> +
+> +	ethosudev->sram = (void __iomem *)gen_pool_dma_alloc(ethosudev->srampool,
+> +							     ethosudev->npu_info.sram_size,
+> +							     &ethosudev->sramphys);
+> +	if (!ethosudev->sram) {
+> +		dev_err(ethosudev->base.dev, "failed to allocate from SRAM pool\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ethosu_init(struct ethosu_device *ethosudev)
+> +{
+> +	int ret;
+> +	u32 id, config;
+> +
+> +	ret = ethosu_device_resume(ethosudev->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+> +	pm_runtime_use_autosuspend(ethosudev->base.dev);
+> +	ret = devm_pm_runtime_set_active_enabled(ethosudev->base.dev);
+> +	if (ret)
+> +		return ret;
+> +	pm_runtime_get_noresume(ethosudev->base.dev);
+> +
+> +	ethosudev->npu_info.id = id = readl_relaxed(ethosudev->regs + NPU_REG_ID);
+> +	ethosudev->npu_info.config = config = readl_relaxed(ethosudev->regs + NPU_REG_CONFIG);
+> +
+> +	ethosu_sram_init(ethosudev);
+> +
+> +	dev_info(ethosudev->base.dev,
+> +		 "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+> +		 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+> +		 FIELD_GET(ID_ARCH_MINOR_MASK, id),
+> +		 FIELD_GET(ID_ARCH_PATCH_MASK, id),
+> +		 FIELD_GET(ID_VER_MAJOR_MASK, id),
+> +		 FIELD_GET(ID_VER_MINOR_MASK, id),
+> +		 FIELD_GET(CONFIG_CMD_STREAM_VER_MASK, config),
+> +		 1 << FIELD_GET(CONFIG_MACS_PER_CC_MASK, config),
+> +		 ethosudev->npu_info.sram_size / 1024);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ethosu_probe(struct platform_device *pdev)
+> +{
+> +	int ret;
+> +	struct ethosu_device *ethosudev;
+> +
+> +	ethosudev = devm_drm_dev_alloc(&pdev->dev, &ethosu_drm_driver,
+> +				       struct ethosu_device, base);
+> +	if (IS_ERR(ethosudev))
+> +		return -ENOMEM;
+> +	platform_set_drvdata(pdev, ethosudev);
+> +
+> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
+> +
+> +	ethosudev->regs = devm_platform_ioremap_resource(pdev, 0);
+> +
+> +	ethosudev->num_clks = devm_clk_bulk_get_all(&pdev->dev, &ethosudev->clks);
+> +	if (ethosudev->num_clks < 0)
+> +		return ethosudev->num_clks;
+> +
+> +	ret = ethosu_job_init(ethosudev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ethosu_init(ethosudev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = drm_dev_register(&ethosudev->base, 0);
+> +	if (ret)
+> +		pm_runtime_dont_use_autosuspend(ethosudev->base.dev);
+> +
+> +	pm_runtime_put_autosuspend(ethosudev->base.dev);
+> +	return ret;
+> +}
+> +
+> +static void ethosu_remove(struct platform_device *pdev)
+> +{
+> +	struct ethosu_device *ethosudev = dev_get_drvdata(&pdev->dev);
+> +
+> +	drm_dev_unregister(&ethosudev->base);
+> +	ethosu_job_fini(ethosudev);
+> +	if (ethosudev->sram)
+> +		gen_pool_free(ethosudev->srampool, (unsigned long)ethosudev->sram,
+> +			      ethosudev->npu_info.sram_size);
+> +}
+> +
+> +static const struct of_device_id dt_match[] = {
+> +	{ .compatible = "arm,ethos-u65" },
+> +	{ .compatible = "arm,ethos-u85" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, dt_match);
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(ethosu_pm_ops,
+> +				 ethosu_device_suspend,
+> +				 ethosu_device_resume,
+> +				 NULL);
+> +
+> +static struct platform_driver ethosu_driver = {
+> +	.probe = ethosu_probe,
+> +	.remove = ethosu_remove,
+> +	.driver = {
+> +		.name = "ethosu",
+> +		.pm = pm_ptr(&ethosu_pm_ops),
+> +		.of_match_table = dt_match,
+> +	},
+> +};
+> +module_platform_driver(ethosu_driver);
+> +
+> +MODULE_AUTHOR("Rob Herring <robh@kernel.org>");
+> +MODULE_DESCRIPTION("Arm Ethos-U Accel Driver");
+> +MODULE_LICENSE("Dual MIT/GPL");
+> diff --git a/drivers/accel/ethosu/ethosu_drv.h b/drivers/accel/ethosu/ethosu_drv.h
+> new file mode 100644
+> index 000000000000..9e21dfe94184
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_drv.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
+> +/* Copyright 2025 Arm, Ltd. */
+> +#ifndef __ETHOSU_DRV_H__
+> +#define __ETHOSU_DRV_H__
+> +
+> +#include <drm/gpu_scheduler.h>
+> +
+> +struct ethosu_device;
+> +
+> +struct ethosu_file_priv {
+> +	struct ethosu_device *edev;
+> +	struct drm_sched_entity sched_entity;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/accel/ethosu/ethosu_gem.c b/drivers/accel/ethosu/ethosu_gem.c
+> new file mode 100644
+> index 000000000000..473b5f5d7514
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_gem.c
+> @@ -0,0 +1,704 @@
+> +// SPDX-License-Identifier: GPL-2.0-only or MIT
+> +/* Copyright 2025 Arm, Ltd. */
+> +
+> +#include <linux/err.h>
+> +#include <linux/slab.h>
+> +
+> +#include <drm/ethosu_accel.h>
+> +
+> +#include "ethosu_device.h"
+> +#include "ethosu_gem.h"
+> +
+> +static void ethosu_gem_free_object(struct drm_gem_object *obj)
+> +{
+> +	struct ethosu_gem_object *bo = to_ethosu_bo(obj);
+> +
+> +	kfree(bo->info);
+> +	drm_gem_free_mmap_offset(&bo->base.base);
+> +	drm_gem_dma_free(&bo->base);
+> +}
+> +
+> +static int ethosu_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+> +{
+> +	struct ethosu_gem_object *bo = to_ethosu_bo(obj);
+> +
+> +	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
+> +	if (bo->flags & DRM_ETHOSU_BO_NO_MMAP)
+> +		return -EINVAL;
+> +
+> +	return drm_gem_dma_object_mmap(obj, vma);
+> +}
+> +
+> +static const struct drm_gem_object_funcs ethosu_gem_funcs = {
+> +	.free = ethosu_gem_free_object,
+> +	.print_info = drm_gem_dma_object_print_info,
+> +	.get_sg_table = drm_gem_dma_object_get_sg_table,
+> +	.vmap = drm_gem_dma_object_vmap,
+> +	.mmap = ethosu_gem_mmap,
+> +	.vm_ops = &drm_gem_dma_vm_ops,
+> +};
+> +
+> +/**
+> + * ethosu_gem_create_object - Implementation of driver->gem_create_object.
+> + * @ddev: DRM device
+> + * @size: Size in bytes of the memory the object will reference
+> + *
+> + * This lets the GEM helpers allocate object structs for us, and keep
+> + * our BO stats correct.
+> + */
+> +struct drm_gem_object *ethosu_gem_create_object(struct drm_device *ddev, size_t size)
+> +{
+> +	struct ethosu_gem_object *obj;
+> +
+> +	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+> +	if (!obj)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	obj->base.base.funcs = &ethosu_gem_funcs;
+> +	return &obj->base.base;
+> +}
+> +
+> +/**
+> + * ethosu_gem_create_with_handle() - Create a GEM object and attach it to a handle.
+> + * @file: DRM file.
+> + * @ddev: DRM device.
+> + * @size: Size of the GEM object to allocate.
+> + * @flags: Combination of drm_ethosu_bo_flags flags.
+> + * @handle: Pointer holding the handle pointing to the new GEM object.
+> + *
+> + * Return: Zero on success
+> + */
+> +int ethosu_gem_create_with_handle(struct drm_file *file,
+> +				  struct drm_device *ddev,
+> +				  u64 *size, u32 flags, u32 *handle)
+> +{
+> +	struct drm_gem_dma_object *mem;
+> +	struct ethosu_gem_object *bo;
+> +	int ret;
+> +
+> +	mem = drm_gem_dma_create(ddev, *size);
+> +	if (IS_ERR(mem))
+> +		return PTR_ERR(mem);
+> +
+> +	bo = to_ethosu_bo(&mem->base);
+> +	bo->flags = flags;
+> +
+> +	/*
+> +	 * Allocate an id of idr table where the obj is registered
+> +	 * and handle has the id what user can see.
+> +	 */
+> +	ret = drm_gem_handle_create(file, &mem->base, handle);
+> +	if (!ret)
+> +		*size = bo->base.base.size;
+> +
+> +	/* drop reference from allocate - handle holds it now. */
+> +	drm_gem_object_put(&mem->base);
+> +
+> +	return ret;
+> +}
+> +
+> +struct dma {
+> +	s8 region;
+> +	u64 len;
+> +	u64 offset;
+> +	s64 stride[2];
+> +};
+> +
+> +struct dma_state {
+> +	u16 size0;
+> +	u16 size1;
+> +	s8 mode;
+> +	struct dma src;
+> +	struct dma dst;
+> +};
+> +
+> +struct buffer {
+> +	u64 base;
+> +	u32 length;
+> +	s8 region;
+> +};
+> +
+> +struct feat_matrix {
+> +	u64 base[4];
+> +	s64 stride_x;
+> +	s64 stride_y;
+> +	s64 stride_c;
+> +	s8 region;
+> +	u8 broadcast;
+> +	u16 stride_kernel;
+> +	u16 precision;
+> +	u16 depth;
+> +	u16 width;
+> +	u16 width0;
+> +	u16 height[3];
+> +	u8 pad_top;
+> +	u8 pad_left;
+> +	u8 pad_bottom;
+> +	u8 pad_right;
+> +};
+> +
+> +struct cmd_state {
+> +	struct dma_state dma;
+> +	struct buffer scale[2];
+> +	struct buffer weight[4];
+> +	struct feat_matrix ofm;
+> +	struct feat_matrix ifm;
+> +	struct feat_matrix ifm2;
+> +};
+> +
+> +static void cmd_state_init(struct cmd_state *st)
+> +{
+> +	/* Initialize to all 1s to detect missing setup */
+> +	memset(st, 0xff, sizeof(*st));
+> +}
+> +
+> +static u64 cmd_to_addr(u32 *cmd)
+> +{
+> +	return ((u64)((cmd[0] & 0xff0000) << 16)) | cmd[1];
+> +}
+> +
+> +static u64 dma_length(struct ethosu_validated_cmdstream_info *info,
+> +		      struct dma_state *dma_st, struct dma *dma)
+> +{
+> +	s8 mode = dma_st->mode;
+> +	u64 len = dma->len;
+> +
+> +	if (mode >= 1) {
+> +		len += dma->stride[0];
+> +		len *= dma_st->size0;
+> +	}
+> +	if (mode == 2) {
+> +		len += dma->stride[1];
+> +		len *= dma_st->size1;
+> +	}
+> +	if (dma->region >= 0)
+> +		info->region_size[dma->region] = max(info->region_size[dma->region],
+> +						     len + dma->offset);
+> +
+> +	return len;
+> +}
+> +
+> +static u64 feat_matrix_length(struct ethosu_validated_cmdstream_info *info,
+> +			      struct feat_matrix *fm,
+> +			      u32 x, u32 y, u32 c)
+> +{
+> +	u32 element_size, storage = fm->precision >> 14;
+> +	int tile = 0;
+> +	u64 addr;
+> +
+> +	if (fm->region < 0)
+> +		return U64_MAX;
+> +
+> +	switch (storage) {
+> +	case 0:
+> +		if (x >= fm->width0 + 1) {
+> +			x -= fm->width0 + 1;
+> +			tile += 1;
+> +		}
+> +		if (y >= fm->height[tile] + 1) {
+> +			y -= fm->height[tile] + 1;
+> +			tile += 2;
+> +		}
+> +		break;
+> +	case 1:
+> +		if (y >= fm->height[1] + 1) {
+> +			y -= fm->height[1] + 1;
+> +			tile = 2;
+> +		} else if (y >= fm->height[0] + 1) {
+> +			y -= fm->height[0] + 1;
+> +			tile = 1;
+> +		}
+> +		break;
+> +	}
+> +	if (fm->base[tile] == U64_MAX)
+> +		return U64_MAX;
+> +
+> +	addr = fm->base[tile] + y * fm->stride_y;
+> +
+> +	switch ((fm->precision >> 6) & 0x3) { // format
+> +	case 0: //nhwc:
+> +		addr += x * fm->stride_x + c;
+> +		break;
+> +	case 1: //nhcwb16:
+> +		element_size = BIT((fm->precision >> 1) & 0x3);
+> +
+> +		addr += (c / 16) * fm->stride_c + (16 * x + (c & 0xf)) * element_size;
+> +		break;
+> +	}
+> +
+> +	info->region_size[fm->region] = max(info->region_size[fm->region], addr + 1);
+> +
+> +	return addr;
+> +}
+> +
+> +static int calc_sizes(struct drm_device *ddev,
+> +		      struct ethosu_validated_cmdstream_info *info,
+> +		      u16 op, struct cmd_state *st,
+> +		      bool ifm, bool ifm2, bool weight, bool scale)
+> +{
+> +	u64 len;
+> +
+> +	if (ifm) {
+> +		if (st->ifm.stride_kernel == U16_MAX)
+> +			return -EINVAL;
+> +		u32 stride_y = ((st->ifm.stride_kernel >> 8) & 0x2) +
+> +			((st->ifm.stride_kernel >> 1) & 0x1) + 1;
+> +		u32 stride_x = ((st->ifm.stride_kernel >> 5) & 0x2) +
+> +			(st->ifm.stride_kernel & 0x1) + 1;
+> +		u32 ifm_height = st->ofm.height[2] * stride_y +
+> +			st->ifm.height[2] - (st->ifm.pad_top + st->ifm.pad_bottom);
+> +		u32 ifm_width  = st->ofm.width * stride_x +
+> +			st->ifm.width - (st->ifm.pad_left + st->ifm.pad_right);
+> +
+> +		len = feat_matrix_length(info, &st->ifm, ifm_width,
+> +					 ifm_height, st->ifm.depth);
+> +		dev_dbg(ddev->dev, "op %d: IFM:%d:0x%llx-0x%llx\n",
+> +			op, st->ifm.region, st->ifm.base[0], len);
+> +		if (len == U64_MAX)
+> +			return -EINVAL;
+> +	}
+> +
+> +	if (ifm2) {
+> +		len = feat_matrix_length(info, &st->ifm2, st->ifm.depth,
+> +					 0, st->ofm.depth);
+> +		dev_dbg(ddev->dev, "op %d: IFM2:%d:0x%llx-0x%llx\n",
+> +			op, st->ifm2.region, st->ifm2.base[0], len);
+> +		if (len == U64_MAX)
+> +			return -EINVAL;
+> +	}
+> +
+> +	if (weight) {
+> +		dev_dbg(ddev->dev, "op %d: W:%d:0x%llx-0x%llx\n",
+> +			op, st->weight[0].region, st->weight[0].base,
+> +			st->weight[0].base + st->weight[0].length - 1);
+> +		if (st->weight[0].region < 0 || st->weight[0].base == U64_MAX ||
+> +		    st->weight[0].length == U32_MAX)
+> +			return -EINVAL;
+> +		info->region_size[st->weight[0].region] =
+> +			max(info->region_size[st->weight[0].region],
+> +			    st->weight[0].base + st->weight[0].length);
+> +	}
+> +
+> +	if (scale) {
+> +		dev_dbg(ddev->dev, "op %d: S:%d:0x%llx-0x%llx\n",
+> +			op, st->scale[0].region, st->scale[0].base,
+> +			st->scale[0].base + st->scale[0].length - 1);
+> +		if (st->scale[0].region < 0 || st->scale[0].base == U64_MAX ||
+> +		    st->scale[0].length == U32_MAX)
+> +			return -EINVAL;
+> +		info->region_size[st->scale[0].region] =
+> +			max(info->region_size[st->scale[0].region],
+> +			    st->scale[0].base + st->scale[0].length);
+> +	}
+> +
+> +	len = feat_matrix_length(info, &st->ofm, st->ofm.width,
+> +				 st->ofm.height[2], st->ofm.depth);
+> +	dev_dbg(ddev->dev, "op %d: OFM:%d:0x%llx-0x%llx\n",
+> +		op, st->ofm.region, st->ofm.base[0], len);
+> +	if (len == U64_MAX)
+> +		return -EINVAL;
+> +	info->output_region[st->ofm.region] = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static int calc_sizes_elemwise(struct drm_device *ddev,
+> +			       struct ethosu_validated_cmdstream_info *info,
+> +			       u16 op, struct cmd_state *st,
+> +			       bool ifm, bool ifm2)
+> +{
+> +	u32 height, width, depth;
+> +	u64 len;
+> +
+> +	if (ifm) {
+> +		height = st->ifm.broadcast & 0x1 ? 0 : st->ofm.height[2];
+> +		width = st->ifm.broadcast & 0x2 ? 0 : st->ofm.width;
+> +		depth = st->ifm.broadcast & 0x4 ? 0 : st->ofm.depth;
+> +
+> +		len = feat_matrix_length(info, &st->ifm, width,
+> +					 height, depth);
+> +		dev_dbg(ddev->dev, "op %d: IFM:%d:0x%llx-0x%llx\n",
+> +			op, st->ifm.region, st->ifm.base[0], len);
+> +		if (len == U64_MAX)
+> +			return -EINVAL;
+> +	}
+> +
+> +	if (ifm2) {
+> +		height = st->ifm2.broadcast & 0x1 ? 0 : st->ofm.height[2];
+> +		width = st->ifm2.broadcast & 0x2 ? 0 : st->ofm.width;
+> +		depth = st->ifm2.broadcast & 0x4 ? 0 : st->ofm.depth;
+> +
+> +		len = feat_matrix_length(info, &st->ifm2, width,
+> +					 height, depth);
+> +		dev_dbg(ddev->dev, "op %d: IFM2:%d:0x%llx-0x%llx\n",
+> +			op, st->ifm2.region, st->ifm2.base[0], len);
+> +		if (len == U64_MAX)
+> +			return -EINVAL;
+> +	}
+> +
+> +	len = feat_matrix_length(info, &st->ofm, st->ofm.width,
+> +				 st->ofm.height[2], st->ofm.depth);
+> +	dev_dbg(ddev->dev, "op %d: OFM:%d:0x%llx-0x%llx\n",
+> +		op, st->ofm.region, st->ofm.base[0], len);
+> +	if (len == U64_MAX)
+> +		return -EINVAL;
+> +	info->output_region[st->ofm.region] = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ethosu_gem_cmdstream_copy_and_validate(struct drm_device *ddev,
+> +						  u32 __user *ucmds,
+> +						  struct ethosu_gem_object *bo,
+> +						  u32 size)
+> +{
+> +	struct ethosu_validated_cmdstream_info __free(kfree) *info = kzalloc(sizeof(*info), GFP_KERNEL);
+> +	struct ethosu_device *edev = to_ethosu_device(ddev);
+> +	u32 *bocmds = bo->base.vaddr;
+> +	struct cmd_state st;
+> +	int i, ret;
+> +
+> +	if (!info)
+> +		return -ENOMEM;
+> +	info->cmd_size = size;
+> +
+> +	cmd_state_init(&st);
+> +
+> +	for (i = 0; i < size / 4; i++) {
+> +		bool use_ifm, use_ifm2, use_scale;
+> +		u64 dstlen, srclen;
+> +		u16 cmd, param;
+> +		u32 cmds[2];
+> +		u64 addr;
+> +
+> +		if (get_user(cmds[0], ucmds++))
+> +			return -EFAULT;
+> +
+> +		bocmds[i] = cmds[0];
+> +
+> +		cmd = cmds[0];
+> +		param = cmds[0] >> 16;
+> +
+> +		if (cmd & 0x4000) {
+> +			if (get_user(cmds[1], ucmds++))
+> +				return -EFAULT;
+> +
+> +			i++;
+> +			bocmds[i] = cmds[1];
+> +			addr = cmd_to_addr(cmds);
+> +		}
+> +
+> +		switch (cmd) {
+> +		case NPU_OP_DMA_START:
+> +			srclen = dma_length(info, &st.dma, &st.dma.src);
+> +			dstlen = dma_length(info, &st.dma, &st.dma.dst);
+> +
+> +			if (st.dma.dst.region >= 0)
+> +				info->output_region[st.dma.dst.region] = true;
+> +			dev_dbg(ddev->dev, "cmd: DMA SRC:%d:0x%llx+0x%llx DST:%d:0x%llx+0x%llx\n",
+> +				st.dma.src.region, st.dma.src.offset, srclen,
+> +				st.dma.dst.region, st.dma.dst.offset, dstlen);
+> +			break;
+> +		case NPU_OP_CONV:
+> +		case NPU_OP_DEPTHWISE:
+> +			use_ifm2 = param & 0x1;  // weights_ifm2
+> +			use_scale = !(st.ofm.precision & 0x100);
+> +			ret = calc_sizes(ddev, info, cmd, &st, true, use_ifm2,
+> +					 !use_ifm2, use_scale);
+> +			if (ret)
+> +				return ret;
+> +			break;
+> +		case NPU_OP_POOL:
+> +			use_ifm = param != 0x4;  // pooling mode
+> +			use_scale = !(st.ofm.precision & 0x100);
+> +			ret = calc_sizes(ddev, info, cmd, &st, use_ifm, false,
+> +					 false, use_scale);
+> +			if (ret)
+> +				return ret;
+> +			break;
+> +		case NPU_OP_ELEMENTWISE:
+> +			use_ifm2 = !((st.ifm2.broadcast == 8) || (param == 5) ||
+> +				(param == 6) || (param == 7) || (param == 0x24));
+> +			use_ifm = st.ifm.broadcast != 8;
+> +			ret = calc_sizes_elemwise(ddev, info, cmd, &st, use_ifm, use_ifm2);
+> +			if (ret)
+> +				return ret;
+> +			break;
+> +		case NPU_OP_RESIZE: // U85 only
+> +			WARN_ON(1); // TODO
+> +			break;
+> +		case NPU_SET_KERNEL_WIDTH_M1:
+> +			st.ifm.width = param;
+> +			break;
+> +		case NPU_SET_KERNEL_HEIGHT_M1:
+> +			st.ifm.height[2] = param;
+> +			break;
+> +		case NPU_SET_KERNEL_STRIDE:
+> +			st.ifm.stride_kernel = param;
+> +			break;
+> +		case NPU_SET_IFM_PAD_TOP:
+> +			st.ifm.pad_top = param & 0x7f;
+> +			break;
+> +		case NPU_SET_IFM_PAD_LEFT:
+> +			st.ifm.pad_left = param & 0x7f;
+> +			break;
+> +		case NPU_SET_IFM_PAD_RIGHT:
+> +			st.ifm.pad_right = param & 0xff;
+> +			break;
+> +		case NPU_SET_IFM_PAD_BOTTOM:
+> +			st.ifm.pad_bottom = param & 0xff;
+> +			break;
+> +		case NPU_SET_IFM_DEPTH_M1:
+> +			st.ifm.depth = param;
+> +			break;
+> +		case NPU_SET_IFM_PRECISION:
+> +			st.ifm.precision = param;
+> +			break;
+> +		case NPU_SET_IFM_BROADCAST:
+> +			st.ifm.broadcast = param;
+> +			break;
+> +		case NPU_SET_IFM_REGION:
+> +			st.ifm.region = param & 0x7f;
+> +			break;
+> +		case NPU_SET_IFM_WIDTH0_M1:
+> +			st.ifm.width0 = param;
+> +			break;
+> +		case NPU_SET_IFM_HEIGHT0_M1:
+> +			st.ifm.height[0] = param;
+> +			break;
+> +		case NPU_SET_IFM_HEIGHT1_M1:
+> +			st.ifm.height[1] = param;
+> +			break;
+> +		case NPU_SET_IFM_BASE0:
+> +		case NPU_SET_IFM_BASE1:
+> +		case NPU_SET_IFM_BASE2:
+> +		case NPU_SET_IFM_BASE3:
+> +			st.ifm.base[cmd & 0x3] = addr;
+> +			break;
+> +		case NPU_SET_IFM_STRIDE_X:
+> +			st.ifm.stride_x = addr;
+> +			break;
+> +		case NPU_SET_IFM_STRIDE_Y:
+> +			st.ifm.stride_y = addr;
+> +			break;
+> +		case NPU_SET_IFM_STRIDE_C:
+> +			st.ifm.stride_c = addr;
+> +			break;
+> +
+> +		case NPU_SET_OFM_WIDTH_M1:
+> +			st.ofm.width = param;
+> +			break;
+> +		case NPU_SET_OFM_HEIGHT_M1:
+> +			st.ofm.height[2] = param;
+> +			break;
+> +		case NPU_SET_OFM_DEPTH_M1:
+> +			st.ofm.depth = param;
+> +			break;
+> +		case NPU_SET_OFM_PRECISION:
+> +			st.ofm.precision = param;
+> +			break;
+> +		case NPU_SET_OFM_REGION:
+> +			st.ofm.region = param & 0x7;
+> +			break;
+> +		case NPU_SET_OFM_WIDTH0_M1:
+> +			st.ofm.width0 = param;
+> +			break;
+> +		case NPU_SET_OFM_HEIGHT0_M1:
+> +			st.ofm.height[0] = param;
+> +			break;
+> +		case NPU_SET_OFM_HEIGHT1_M1:
+> +			st.ofm.height[1] = param;
+> +			break;
+> +		case NPU_SET_OFM_BASE0:
+> +		case NPU_SET_OFM_BASE1:
+> +		case NPU_SET_OFM_BASE2:
+> +		case NPU_SET_OFM_BASE3:
+> +			st.ofm.base[cmd & 0x3] = addr;
+> +			break;
+> +		case NPU_SET_OFM_STRIDE_X:
+> +			st.ofm.stride_x = addr;
+> +			break;
+> +		case NPU_SET_OFM_STRIDE_Y:
+> +			st.ofm.stride_y = addr;
+> +			break;
+> +		case NPU_SET_OFM_STRIDE_C:
+> +			st.ofm.stride_c = addr;
+> +			break;
+> +
+> +		case NPU_SET_IFM2_BROADCAST:
+> +			st.ifm2.broadcast = param;
+> +			break;
+> +		case NPU_SET_IFM2_PRECISION:
+> +			st.ifm2.precision = param;
+> +			break;
+> +		case NPU_SET_IFM2_REGION:
+> +			st.ifm2.region = param & 0x7;
+> +			break;
+> +		case NPU_SET_IFM2_WIDTH0_M1:
+> +			st.ifm2.width0 = param;
+> +			break;
+> +		case NPU_SET_IFM2_HEIGHT0_M1:
+> +			st.ifm2.height[0] = param;
+> +			break;
+> +		case NPU_SET_IFM2_HEIGHT1_M1:
+> +			st.ifm2.height[1] = param;
+> +			break;
+> +		case NPU_SET_IFM2_BASE0:
+> +		case NPU_SET_IFM2_BASE1:
+> +		case NPU_SET_IFM2_BASE2:
+> +		case NPU_SET_IFM2_BASE3:
+> +			st.ifm2.base[cmd & 0x3] = addr;
+> +			break;
+> +		case NPU_SET_IFM2_STRIDE_X:
+> +			st.ifm2.stride_x = addr;
+> +			break;
+> +		case NPU_SET_IFM2_STRIDE_Y:
+> +			st.ifm2.stride_y = addr;
+> +			break;
+> +		case NPU_SET_IFM2_STRIDE_C:
+> +			st.ifm2.stride_c = addr;
+> +			break;
+> +
+> +		case NPU_SET_WEIGHT_REGION:
+> +			st.weight[0].region = param & 0x7;
+> +			break;
+> +		case NPU_SET_SCALE_REGION:
+> +			st.scale[0].region = param & 0x7;
+> +			break;
+> +		case NPU_SET_WEIGHT_BASE:
+> +			st.weight[0].base = addr;
+> +			break;
+> +		case NPU_SET_WEIGHT_LENGTH:
+> +			st.weight[0].length = cmds[1];
+> +			break;
+> +		case NPU_SET_SCALE_BASE:
+> +			st.scale[0].base = addr;
+> +			break;
+> +		case NPU_SET_SCALE_LENGTH:
+> +			st.scale[0].length = cmds[1];
+> +			break;
+> +		case NPU_SET_WEIGHT1_BASE:
+> +			st.weight[1].base = addr;
+> +			break;
+> +		case NPU_SET_WEIGHT1_LENGTH:
+> +			st.weight[1].length = cmds[1];
+> +			break;
+> +		case NPU_SET_SCALE1_BASE: // NPU_SET_WEIGHT2_BASE (U85)
+> +			if (ethosu_is_u65(edev))
+> +				st.scale[1].base = addr;
+> +			else
+> +				st.weight[2].base = addr;
+> +			break;
+> +		case NPU_SET_SCALE1_LENGTH: // NPU_SET_WEIGHT2_LENGTH (U85)
+> +			if (ethosu_is_u65(edev))
+> +				st.scale[1].length = cmds[1];
+> +			else
+> +				st.weight[1].length = cmds[1];
+> +			break;
+> +		case NPU_SET_WEIGHT3_BASE:
+> +			st.weight[3].base = addr;
+> +			break;
+> +		case NPU_SET_WEIGHT3_LENGTH:
+> +			st.weight[3].length = cmds[1];
+> +			break;
+> +
+> +		case NPU_SET_DMA0_SRC_REGION:
+> +			if (param & 0x100)
+> +				st.dma.src.region = -1;
+> +			else
+> +				st.dma.src.region = param & 0x7;
+> +			st.dma.mode = (param >> 9) & 0x3;
+> +			break;
+> +		case NPU_SET_DMA0_DST_REGION:
+> +			if (param & 0x100)
+> +				st.dma.dst.region = -1;
+> +			else
+> +				st.dma.dst.region = param & 0x7;
+> +			break;
+> +		case NPU_SET_DMA0_SIZE0:
+> +			st.dma.size0 = param;
+> +			break;
+> +		case NPU_SET_DMA0_SIZE1:
+> +			st.dma.size1 = param;
+> +			break;
+> +		case NPU_SET_DMA0_SRC_STRIDE0:
+> +			st.dma.src.stride[0] = ((s64)addr << 24) >> 24;
+> +			break;
+> +		case NPU_SET_DMA0_SRC_STRIDE1:
+> +			st.dma.src.stride[1] = ((s64)addr << 24) >> 24;
+> +			break;
+> +		case NPU_SET_DMA0_DST_STRIDE0:
+> +			st.dma.dst.stride[0] = ((s64)addr << 24) >> 24;
+> +			break;
+> +		case NPU_SET_DMA0_DST_STRIDE1:
+> +			st.dma.dst.stride[1] = ((s64)addr << 24) >> 24;
+> +			break;
+> +		case NPU_SET_DMA0_SRC:
+> +			st.dma.src.offset = addr;
+> +			break;
+> +		case NPU_SET_DMA0_DST:
+> +			st.dma.dst.offset = addr;
+> +			break;
+> +		case NPU_SET_DMA0_LEN:
+> +			st.dma.src.len = st.dma.dst.len = addr;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < NPU_BASEP_REGION_MAX; i++) {
+> +		if (!info->region_size[i])
+> +			continue;
+> +		dev_dbg(ddev->dev, "region %d max size: 0x%llx\n",
+> +			i, info->region_size[i]);
+> +	}
+> +
+> +	bo->info = no_free_ptr(info);
+> +	return 0;
+> +}
+> +
+> +/**
+> + * ethosu_gem_cmdstream_create() - Create a GEM object and attach it to a handle.
+> + * @file: DRM file.
+> + * @ddev: DRM device.
+> + * @exclusive_vm: Exclusive VM. Not NULL if the GEM object can't be shared.
+> + * @size: Size of the GEM object to allocate.
+> + * @flags: Combination of drm_ethosu_bo_flags flags.
+> + * @handle: Pointer holding the handle pointing to the new GEM object.
+> + *
+> + * Return: Zero on success
+> + */
+> +int ethosu_gem_cmdstream_create(struct drm_file *file,
+> +				struct drm_device *ddev,
+> +				u32 size, u64 data, u32 flags, u32 *handle)
+> +{
+> +	int ret;
+> +	struct drm_gem_dma_object *mem;
+> +	struct ethosu_gem_object *bo;
+> +
+> +	mem = drm_gem_dma_create(ddev, size);
+> +	if (IS_ERR(mem))
+> +		return PTR_ERR(mem);
+> +
+> +	bo = to_ethosu_bo(&mem->base);
+> +	bo->flags = flags;
+> +
+> +	ret = ethosu_gem_cmdstream_copy_and_validate(ddev,
+> +						     (void __user *)(uintptr_t)data,
+> +						     bo, size);
+> +	if (ret)
+> +		goto fail;
+> +
+> +	/*
+> +	 * Allocate an id of idr table where the obj is registered
+> +	 * and handle has the id what user can see.
+> +	 */
+> +	ret = drm_gem_handle_create(file, &mem->base, handle);
+> +
+> +fail:
+> +	/* drop reference from allocate - handle holds it now. */
+> +	drm_gem_object_put(&mem->base);
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/accel/ethosu/ethosu_gem.h b/drivers/accel/ethosu/ethosu_gem.h
+> new file mode 100644
+> index 000000000000..3922895a60fb
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_gem.h
+> @@ -0,0 +1,46 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2025 Arm, Ltd. */
+> +
+> +#ifndef __ETHOSU_GEM_H__
+> +#define __ETHOSU_GEM_H__
+> +
+> +#include "ethosu_device.h"
+> +#include <drm/drm_gem_dma_helper.h>
+> +
+> +struct ethosu_validated_cmdstream_info {
+> +	u32 cmd_size;
+> +	u64 region_size[NPU_BASEP_REGION_MAX];
+> +	bool output_region[NPU_BASEP_REGION_MAX];
+> +};
+> +
+> +/**
+> + * struct ethosu_gem_object - Driver specific GEM object.
+> + */
+> +struct ethosu_gem_object {
+> +	/** @base: Inherit from drm_gem_shmem_object. */
+> +	struct drm_gem_dma_object base;
+> +
+> +	struct ethosu_validated_cmdstream_info *info;
+> +
+> +	/** @flags: Combination of drm_ethosu_bo_flags flags. */
+> +	u32 flags;
+> +};
+> +
+> +static inline
+> +struct ethosu_gem_object *to_ethosu_bo(struct drm_gem_object *obj)
+> +{
+> +	return container_of(to_drm_gem_dma_obj(obj), struct ethosu_gem_object, base);
+> +}
+> +
+> +struct drm_gem_object *ethosu_gem_create_object(struct drm_device *ddev,
+> +						size_t size);
+> +
+> +int ethosu_gem_create_with_handle(struct drm_file *file,
+> +				  struct drm_device *ddev,
+> +				  u64 *size, u32 flags, uint32_t *handle);
+> +
+> +int ethosu_gem_cmdstream_create(struct drm_file *file,
+> +				struct drm_device *ddev,
+> +				u32 size, u64 data, u32 flags, u32 *handle);
+> +
+> +#endif /* __ETHOSU_GEM_H__ */
+> diff --git a/drivers/accel/ethosu/ethosu_job.c b/drivers/accel/ethosu/ethosu_job.c
+> new file mode 100644
+> index 000000000000..767de7999a2c
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_job.c
+> @@ -0,0 +1,540 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+> +/* Copyright 2025 Arm, Ltd. */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_gem.h>
+> +#include <drm/drm_gem_dma_helper.h>
+> +#include <drm/ethosu_accel.h>
+> +
+> +#include "ethosu_device.h"
+> +#include "ethosu_drv.h"
+> +#include "ethosu_gem.h"
+> +#include "ethosu_job.h"
+> +
+> +#define JOB_TIMEOUT_MS 500
+> +
+> +static struct ethosu_job *to_ethosu_job(struct drm_sched_job *sched_job)
+> +{
+> +	return container_of(sched_job, struct ethosu_job, base);
+> +}
+> +
+> +static const char *ethosu_fence_get_driver_name(struct dma_fence *fence)
+> +{
+> +	return "ethosu";
+> +}
+> +
+> +static const char *ethosu_fence_get_timeline_name(struct dma_fence *fence)
+> +{
+> +	return "ethosu-npu";
+> +}
+> +
+> +static const struct dma_fence_ops ethosu_fence_ops = {
+> +	.get_driver_name = ethosu_fence_get_driver_name,
+> +	.get_timeline_name = ethosu_fence_get_timeline_name,
+> +};
+> +
+> +static struct dma_fence *ethosu_fence_create(struct ethosu_device *dev)
+> +{
+> +	struct dma_fence *fence;
+> +
+> +	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
+> +	if (!fence)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	dma_fence_init(fence, &ethosu_fence_ops, &dev->fence_lock,
+> +		       dev->fence_context, ++dev->emit_seqno);
+> +
+> +	return fence;
+> +}
+> +
+> +static void ethosu_job_hw_submit(struct ethosu_device *dev, struct ethosu_job *job)
+> +{
+> +	struct drm_gem_dma_object *cmd_bo = to_drm_gem_dma_obj(job->cmd_bo);
+> +	struct ethosu_validated_cmdstream_info *cmd_info = to_ethosu_bo(job->cmd_bo)->info;
+> +
+> +	for (int i = 0; i < job->region_cnt; i++) {
+> +		struct drm_gem_dma_object *bo;
+> +		int region = job->region_bo_num[i];
+> +
+> +		bo = to_drm_gem_dma_obj(job->region_bo[i]);
+> +		writel_relaxed(lower_32_bits(bo->dma_addr), dev->regs + NPU_REG_BASEP(region));
+> +		writel_relaxed(upper_32_bits(bo->dma_addr), dev->regs + NPU_REG_BASEP_HI(region));
+> +		dev_dbg(dev->base.dev, "Region %d base addr = %pad\n", region, &bo->dma_addr);
+> +	}
+> +
+> +	if (job->sram_size) {
+> +		writel_relaxed(lower_32_bits(dev->sramphys),
+> +			       dev->regs + NPU_REG_BASEP(ETHOSU_SRAM_REGION));
+> +		writel_relaxed(upper_32_bits(dev->sramphys),
+> +			       dev->regs + NPU_REG_BASEP_HI(ETHOSU_SRAM_REGION));
+> +		dev_dbg(dev->base.dev, "Region %d base addr = %pad (SRAM)\n",
+> +			ETHOSU_SRAM_REGION, &dev->sramphys);
+> +	}
+> +
+> +	writel_relaxed(lower_32_bits(cmd_bo->dma_addr), dev->regs + NPU_REG_QBASE);
+> +	writel_relaxed(upper_32_bits(cmd_bo->dma_addr), dev->regs + NPU_REG_QBASE_HI);
+> +	writel_relaxed(cmd_info->cmd_size, dev->regs + NPU_REG_QSIZE);
+> +
+> +	writel(CMD_TRANSITION_TO_RUN, dev->regs + NPU_REG_CMD);
+> +
+> +	dev_dbg(dev->base.dev,
+> +		"Submitted cmd at %pad to core\n", &cmd_bo->dma_addr);
+> +}
+> +
+> +static int ethosu_acquire_object_fences(struct ethosu_job *job)
+> +{
+> +	int i, ret;
+> +	struct drm_gem_object **bos = job->region_bo;
+> +	struct ethosu_validated_cmdstream_info *info = to_ethosu_bo(job->cmd_bo)->info;
+> +
+> +	for (i = 0; i < job->region_cnt; i++) {
+> +		bool is_write;
+> +
+> +		if (!bos[i])
+> +			break;
+> +
+> +		ret = dma_resv_reserve_fences(bos[i]->resv, 1);
+> +		if (ret)
+> +			return ret;
+> +
+> +		is_write = info->output_region[job->region_bo_num[i]];
+> +		ret = drm_sched_job_add_implicit_dependencies(&job->base, bos[i],
+> +							      is_write);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void ethosu_attach_object_fences(struct ethosu_job *job)
+> +{
+> +	int i;
+> +	struct dma_fence *fence = job->inference_done_fence;
+> +	struct drm_gem_object **bos = job->region_bo;
+> +	struct ethosu_validated_cmdstream_info *info = to_ethosu_bo(job->cmd_bo)->info;
+> +
+> +	for (i = 0; i < job->region_cnt; i++)
+> +		if (info->output_region[job->region_bo_num[i]])
+> +			dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
+> +}
+> +
+> +static int ethosu_job_do_push(struct ethosu_job *job)
+> +{
+> +	struct ethosu_device *dev = job->dev;
+> +	int ret;
+> +
+> +	guard(mutex)(&dev->sched_lock);
 
+You have a problem with reclaim and DMA fence signaling here—it's a very
+easy mistake to make.
+
+First, to catch this type of bug, taint dev->sched_lock with reclaim. We
+do this frequently in Xe; here’s an example [1].
+
+[1] https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/xe/xe_migrate.c#L453 
+
+> +
+> +	drm_sched_job_arm(&job->base);
+
+^^^ this is the start of the dma-fence signaling path (reclaim).
+
+> +
+> +	job->inference_done_fence = dma_fence_get(&job->base.s_fence->finished);
+> +
+> +	ret = ethosu_acquire_object_fences(job);
+
+
+^^^ You're allocating memory here, which can break DMA fence signaling and
+violate reclaim rules.
+
+This allocation should be moved outside of dev->sched_lock and placed
+before drm_sched_job_arm.
+
+It's a very subtle bug, but nonetheless a bug.
+
+Matt
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	kref_get(&job->refcount); /* put by scheduler job completion */
+> +
+> +	drm_sched_entity_push_job(&job->base);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ethosu_job_push(struct ethosu_job *job)
+> +{
+> +	struct ww_acquire_ctx acquire_ctx;
+> +	int ret;
+> +
+> +	ret = drm_gem_lock_reservations(job->region_bo, job->region_cnt, &acquire_ctx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ethosu_job_do_push(job);
+> +	if (!ret)
+> +		ethosu_attach_object_fences(job);
+> +
+> +	drm_gem_unlock_reservations(job->region_bo, job->region_cnt, &acquire_ctx);
+> +	return ret;
+> +}
+> +
+> +static void ethosu_job_cleanup(struct kref *ref)
+> +{
+> +	struct ethosu_job *job = container_of(ref, struct ethosu_job,
+> +						refcount);
+> +	unsigned int i;
+> +
+> +	dma_fence_put(job->done_fence);
+> +	dma_fence_put(job->inference_done_fence);
+> +
+> +	for (i = 0; i < job->region_cnt; i++)
+> +		drm_gem_object_put(job->region_bo[i]);
+> +
+> +	drm_gem_object_put(job->cmd_bo);
+> +
+> +	kfree(job);
+> +}
+> +
+> +static void ethosu_job_put(struct ethosu_job *job)
+> +{
+> +	kref_put(&job->refcount, ethosu_job_cleanup);
+> +}
+> +
+> +static void ethosu_job_free(struct drm_sched_job *sched_job)
+> +{
+> +	struct ethosu_job *job = to_ethosu_job(sched_job);
+> +
+> +	drm_sched_job_cleanup(sched_job);
+> +	ethosu_job_put(job);
+> +}
+> +
+> +static struct dma_fence *ethosu_job_run(struct drm_sched_job *sched_job)
+> +{
+> +	struct ethosu_job *job = to_ethosu_job(sched_job);
+> +	struct ethosu_device *dev = job->dev;
+> +	struct dma_fence *fence = NULL;
+> +	int ret;
+> +
+> +	if (unlikely(job->base.s_fence->finished.error))
+> +		return NULL;
+> +
+> +	fence = ethosu_fence_create(dev);
+> +	if (IS_ERR(fence))
+> +		return fence;
+> +
+> +	if (job->done_fence)
+> +		dma_fence_put(job->done_fence);
+> +	job->done_fence = dma_fence_get(fence);
+> +
+> +	ret = pm_runtime_get_sync(dev->base.dev);
+> +	if (ret < 0)
+> +		return fence;
+> +
+> +	scoped_guard(mutex, &dev->job_lock) {
+> +		dev->in_flight_job = job;
+> +		ethosu_job_hw_submit(dev, job);
+> +	}
+> +
+> +	return fence;
+> +}
+> +
+> +static void ethosu_job_handle_irq(struct ethosu_device *dev)
+> +{
+> +	u32 status = readl_relaxed(dev->regs + NPU_REG_STATUS);
+> +
+> +	if (status & (STATUS_BUS_STATUS | STATUS_CMD_PARSE_ERR)) {
+> +		dev_err(dev->base.dev, "Error IRQ - %x\n", status);
+> +		drm_sched_fault(&dev->sched);
+> +		return;
+> +	}
+> +
+> +	scoped_guard(mutex, &dev->job_lock) {
+> +		if (dev->in_flight_job) {
+> +			dma_fence_signal(dev->in_flight_job->done_fence);
+> +			pm_runtime_put_autosuspend(dev->base.dev);
+> +			dev->in_flight_job = NULL;
+> +		}
+> +	}
+> +}
+> +
+> +static irqreturn_t ethosu_job_irq_handler_thread(int irq, void *data)
+> +{
+> +	struct ethosu_device *dev = data;
+> +
+> +	ethosu_job_handle_irq(dev);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t ethosu_job_irq_handler(int irq, void *data)
+> +{
+> +	struct ethosu_device *dev = data;
+> +	u32 status = readl_relaxed(dev->regs + NPU_REG_STATUS);
+> +
+> +	if (!(status & STATUS_IRQ_RAISED))
+> +		return IRQ_NONE;
+> +
+> +	writel_relaxed(CMD_CLEAR_IRQ, dev->regs + NPU_REG_CMD);
+> +	return IRQ_WAKE_THREAD;
+> +}
+> +
+> +static enum drm_gpu_sched_stat ethosu_job_timedout(struct drm_sched_job *bad)
+> +{
+> +	struct ethosu_job *job = to_ethosu_job(bad);
+> +	struct ethosu_device *dev = job->dev;
+> +	bool running;
+> +	u32 *bocmds = to_drm_gem_dma_obj(job->cmd_bo)->vaddr;
+> +	u32 cmdaddr;
+> +
+> +	cmdaddr = readl_relaxed(dev->regs + NPU_REG_QREAD);
+> +	running = FIELD_GET(STATUS_STATE_RUNNING, readl_relaxed(dev->regs + NPU_REG_STATUS));
+> +
+> +	if (running) {
+> +		int ret;
+> +		u32 reg;
+> +
+> +		ret = readl_relaxed_poll_timeout(dev->regs + NPU_REG_QREAD,
+> +						 reg,
+> +						 reg != cmdaddr,
+> +						 USEC_PER_MSEC, 100 * USEC_PER_MSEC);
+> +
+> +		/* If still running and progress is being made, just return */
+> +		if (!ret)
+> +			return DRM_GPU_SCHED_STAT_NO_HANG;
+> +	}
+> +
+> +	dev_err(dev->base.dev, "NPU sched timed out: NPU %s, cmdstream offset 0x%x: 0x%x\n",
+> +		running ? "running" : "stopped",
+> +		cmdaddr, bocmds[cmdaddr / 4]);
+> +
+> +	drm_sched_stop(&dev->sched, bad);
+> +
+> +	/*
+> +	 * Remaining interrupts have been handled, but we might still have
+> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
+> +	 * manually calling pm_runtime_put_noidle().
+> +	 */
+> +	scoped_guard(mutex, &dev->job_lock) {
+> +		if (dev->in_flight_job)
+> +			pm_runtime_put_noidle(dev->base.dev);
+> +
+> +		dev->in_flight_job = NULL;
+> +	}
+> +
+> +	/* Proceed with reset now. */
+> +	pm_runtime_force_suspend(dev->base.dev);
+> +	pm_runtime_force_resume(dev->base.dev);
+> +
+> +	/* Restart the scheduler */
+> +	drm_sched_start(&dev->sched, 0);
+> +
+> +	return DRM_GPU_SCHED_STAT_RESET;
+> +}
+> +
+> +static const struct drm_sched_backend_ops ethosu_sched_ops = {
+> +	.run_job = ethosu_job_run,
+> +	.timedout_job = ethosu_job_timedout,
+> +	.free_job = ethosu_job_free
+> +};
+> +
+> +int ethosu_job_init(struct ethosu_device *edev)
+> +{
+> +	struct device *dev = edev->base.dev;
+> +	struct drm_sched_init_args args = {
+> +		.ops = &ethosu_sched_ops,
+> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+> +		.credit_limit = 1,
+> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> +		.name = dev_name(dev),
+> +		.dev = dev,
+> +	};
+> +	int ret;
+> +
+> +	spin_lock_init(&edev->fence_lock);
+> +	ret = devm_mutex_init(dev, &edev->job_lock);
+> +	if (ret)
+> +		return ret;
+> +	ret = devm_mutex_init(dev, &edev->sched_lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	edev->irq = platform_get_irq(to_platform_device(dev), 0);
+> +	if (edev->irq < 0)
+> +		return edev->irq;
+> +
+> +	ret = devm_request_threaded_irq(dev, edev->irq,
+> +					ethosu_job_irq_handler,
+> +					ethosu_job_irq_handler_thread,
+> +					IRQF_SHARED, KBUILD_MODNAME,
+> +					edev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to request irq\n");
+> +		return ret;
+> +	}
+> +
+> +	edev->fence_context = dma_fence_context_alloc(1);
+> +
+> +	ret = drm_sched_init(&edev->sched, &args);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to create scheduler: %d\n", ret);
+> +		goto err_sched;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_sched:
+> +	drm_sched_fini(&edev->sched);
+> +	return ret;
+> +}
+> +
+> +void ethosu_job_fini(struct ethosu_device *dev)
+> +{
+> +	drm_sched_fini(&dev->sched);
+> +}
+> +
+> +int ethosu_job_open(struct ethosu_file_priv *ethosu_priv)
+> +{
+> +	struct ethosu_device *dev = ethosu_priv->edev;
+> +	struct drm_gpu_scheduler *sched = &dev->sched;
+> +	int ret;
+> +
+> +	ret = drm_sched_entity_init(&ethosu_priv->sched_entity,
+> +				    DRM_SCHED_PRIORITY_NORMAL,
+> +				    &sched, 1, NULL);
+> +	return WARN_ON(ret);
+> +}
+> +
+> +void ethosu_job_close(struct ethosu_file_priv *ethosu_priv)
+> +{
+> +	struct drm_sched_entity *entity = &ethosu_priv->sched_entity;
+> +
+> +	drm_sched_entity_destroy(entity);
+> +}
+> +
+> +int ethosu_job_is_idle(struct ethosu_device *dev)
+> +{
+> +	/* If there are any jobs in this HW queue, we're not idle */
+> +	if (atomic_read(&dev->sched.credit_count))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static int ethosu_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
+> +				   struct drm_ethosu_job *job)
+> +{
+> +	struct ethosu_device *edev = to_ethosu_device(dev);
+> +	struct ethosu_file_priv *file_priv = file->driver_priv;
+> +	struct ethosu_job *ejob = NULL;
+> +	struct ethosu_validated_cmdstream_info *cmd_info;
+> +	int ret = 0;
+> +
+> +	/* BO region 2 is reserved if SRAM is used */
+> +	if (job->region_bo_handles[ETHOSU_SRAM_REGION] && job->sram_size)
+> +		return -EINVAL;
+> +
+> +	if (edev->npu_info.sram_size < job->sram_size)
+> +		return -EINVAL;
+> +
+> +	ejob = kzalloc(sizeof(*ejob), GFP_KERNEL);
+> +	if (!ejob)
+> +		return -ENOMEM;
+> +
+> +	kref_init(&ejob->refcount);
+> +
+> +	ejob->dev = edev;
+> +	ejob->sram_size = job->sram_size;
+> +
+> +	ret = drm_sched_job_init(&ejob->base,
+> +				 &file_priv->sched_entity,
+> +				 1, NULL, file->client_id);
+> +	if (ret)
+> +		goto out_put_job;
+> +
+> +	ejob->cmd_bo = drm_gem_object_lookup(file, job->cmd_bo);
+> +	if (!ejob->cmd_bo) {
+> +		ret = -ENOENT;
+> +		goto out_cleanup_job;
+> +	}
+> +	cmd_info = to_ethosu_bo(ejob->cmd_bo)->info;
+> +	if (!cmd_info) {
+> +		ret = -EINVAL;
+> +		goto out_cleanup_job;
+> +	}
+> +
+> +	for (int i = 0; i < NPU_BASEP_REGION_MAX; i++) {
+> +		struct drm_gem_object *gem;
+> +
+> +		/* Can only omit a BO handle if the region is not used or used for SRAM */
+> +		if (!job->region_bo_handles[i] &&
+> +		    (!cmd_info->region_size[i] || (i == ETHOSU_SRAM_REGION && job->sram_size)))
+> +			continue;
+> +
+> +		if (job->region_bo_handles[i] && !cmd_info->region_size[i]) {
+> +			dev_err(dev->dev,
+> +				"Cmdstream BO handle %d set for unused region %d\n",
+> +				job->region_bo_handles[i], i);
+> +			ret = -EINVAL;
+> +			goto out_cleanup_job;
+> +		}
+> +
+> +		gem = drm_gem_object_lookup(file, job->region_bo_handles[i]);
+> +		if (!gem) {
+> +			dev_err(dev->dev,
+> +				"Invalid BO handle %d for region %d\n",
+> +				job->region_bo_handles[i], i);
+> +			ret = -ENOENT;
+> +			goto out_cleanup_job;
+> +		}
+> +
+> +		ejob->region_bo[ejob->region_cnt] = gem;
+> +		ejob->region_bo_num[ejob->region_cnt] = i;
+> +		ejob->region_cnt++;
+> +
+> +		if (to_ethosu_bo(gem)->info) {
+> +			dev_err(dev->dev,
+> +				"Cmdstream BO handle %d used for region %d\n",
+> +				job->region_bo_handles[i], i);
+> +			ret = -EINVAL;
+> +			goto out_cleanup_job;
+> +		}
+> +
+> +		/* Verify the command stream doesn't have accesses outside the BO */
+> +		if (cmd_info->region_size[i] > gem->size) {
+> +			dev_err(dev->dev,
+> +				"cmd stream region %d size greater than BO size (%llu > %zu)\n",
+> +				i, cmd_info->region_size[i], gem->size);
+> +			ret = -EOVERFLOW;
+> +			goto out_cleanup_job;
+> +		}
+> +	}
+> +	ret = ethosu_job_push(ejob);
+> +
+> +out_cleanup_job:
+> +	if (ret)
+> +		drm_sched_job_cleanup(&ejob->base);
+> +out_put_job:
+> +	ethosu_job_put(ejob);
+> +
+> +	return ret;
+> +}
+> +
+> +int ethosu_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *file)
+> +{
+> +	struct drm_ethosu_submit *args = data;
+> +	int ret = 0;
+> +	unsigned int i = 0;
+> +
+> +	if (args->pad) {
+> +		drm_dbg(dev, "Reserved field in drm_ethosu_submit struct should be 0.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	struct drm_ethosu_job __free(kvfree) *jobs =
+> +		kvmalloc_array(args->job_count, sizeof(*jobs), GFP_KERNEL);
+> +	if (!jobs)
+> +		return -ENOMEM;
+> +
+> +	if (copy_from_user(jobs,
+> +			   (void __user *)(uintptr_t)args->jobs,
+> +			   args->job_count * sizeof(*jobs))) {
+> +		drm_dbg(dev, "Failed to copy incoming job array\n");
+> +		return -EFAULT;
+> +	}
+> +
+> +	for (i = 0; i < args->job_count; i++) {
+> +		ret = ethosu_ioctl_submit_job(dev, file, &jobs[i]);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/accel/ethosu/ethosu_job.h b/drivers/accel/ethosu/ethosu_job.h
+> new file mode 100644
+> index 000000000000..80358fcbdad7
+> --- /dev/null
+> +++ b/drivers/accel/ethosu/ethosu_job.h
+> @@ -0,0 +1,41 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
+> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+> +/* Copyright 2025 Arm, Ltd. */
+> +
+> +#ifndef __ETHOSU_JOB_H__
+> +#define __ETHOSU_JOB_H__
+> +
+> +#include <linux/kref.h>
+> +#include <drm/gpu_scheduler.h>
+> +
+> +struct ethosu_device;
+> +struct ethosu_file_priv;
+> +
+> +struct ethosu_job {
+> +	struct drm_sched_job base;
+> +	struct ethosu_device *dev;
+> +
+> +	struct drm_gem_object *cmd_bo;
+> +	struct drm_gem_object *region_bo[NPU_BASEP_REGION_MAX];
+> +	u8 region_bo_num[NPU_BASEP_REGION_MAX];
+> +	u8 region_cnt;
+> +	u32 sram_size;
+> +
+> +	/* Fence to be signaled by drm-sched once its done with the job */
+> +	struct dma_fence *inference_done_fence;
+> +
+> +	/* Fence to be signaled by IRQ handler when the job is complete. */
+> +	struct dma_fence *done_fence;
+> +
+> +	struct kref refcount;
+> +};
+> +
+> +int ethosu_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *file);
+> +
+> +int ethosu_job_init(struct ethosu_device *dev);
+> +void ethosu_job_fini(struct ethosu_device *dev);
+> +int ethosu_job_open(struct ethosu_file_priv *ethosu_priv);
+> +void ethosu_job_close(struct ethosu_file_priv *ethosu_priv);
+> +int ethosu_job_is_idle(struct ethosu_device *dev);
+> +
+> +#endif
+> diff --git a/include/uapi/drm/ethosu_accel.h b/include/uapi/drm/ethosu_accel.h
+> new file mode 100644
+> index 000000000000..af78bb4686d7
+> --- /dev/null
+> +++ b/include/uapi/drm/ethosu_accel.h
+> @@ -0,0 +1,261 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/* Copyright (C) 2025 Arm, Ltd. */
+> +#ifndef _ETHOSU_DRM_H_
+> +#define _ETHOSU_DRM_H_
+> +
+> +#include "drm.h"
+> +
+> +#if defined(__cplusplus)
+> +extern "C" {
+> +#endif
+> +
+> +/**
+> + * DOC: IOCTL IDs
+> + *
+> + * enum drm_ethosu_ioctl_id - IOCTL IDs
+> + *
+> + * Place new ioctls at the end, don't re-order, don't replace or remove entries.
+> + *
+> + * These IDs are not meant to be used directly. Use the DRM_IOCTL_ETHOSU_xxx
+> + * definitions instead.
+> + */
+> +enum drm_ethosu_ioctl_id {
+> +	/** @DRM_ETHOSU_DEV_QUERY: Query device information. */
+> +	DRM_ETHOSU_DEV_QUERY = 0,
+> +
+> +	/** @DRM_ETHOSU_BO_CREATE: Create a buffer object. */
+> +	DRM_ETHOSU_BO_CREATE,
+> +
+> +	/** @DRM_ETHOSU_BO_WAIT: Wait on a buffer object's fence. */
+> +	DRM_ETHOSU_BO_WAIT,
+> +
+> +	/**
+> +	 * @DRM_ETHOSU_BO_MMAP_OFFSET: Get the file offset to pass to
+> +	 * mmap to map a GEM object.
+> +	 */
+> +	DRM_ETHOSU_BO_MMAP_OFFSET,
+> +
+> +	/**
+> +	 * @DRM_ETHOSU_CMDSTREAM_BO_CREATE: Create a command stream buffer
+> +	 * object.
+> +	 */
+> +	DRM_ETHOSU_CMDSTREAM_BO_CREATE,
+> +
+> +	/** @DRM_ETHOSU_SUBMIT: Submit a job and BOs to run. */
+> +	DRM_ETHOSU_SUBMIT,
+> +};
+> +
+> +/**
+> + * DOC: IOCTL arguments
+> + */
+> +
+> +/**
+> + * enum drm_ethosu_dev_query_type - Query type
+> + *
+> + * Place new types at the end, don't re-order, don't remove or replace.
+> + */
+> +enum drm_ethosu_dev_query_type {
+> +	/** @DRM_ETHOSU_DEV_QUERY_NPU_INFO: Query NPU information. */
+> +	DRM_ETHOSU_DEV_QUERY_NPU_INFO = 0,
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_gpu_info - NPU information
+> + *
+> + * Structure grouping all queryable information relating to the NPU.
+> + */
+> +struct drm_ethosu_npu_info {
+> +	/** @id : NPU ID. */
+> +	__u32 id;
+> +#define DRM_ETHOSU_ARCH_MAJOR(x)			((x) >> 28)
+> +#define DRM_ETHOSU_ARCH_MINOR(x)			(((x) >> 20) & 0xff)
+> +#define DRM_ETHOSU_ARCH_PATCH(x)			(((x) >> 16) & 0xf)
+> +#define DRM_ETHOSU_PRODUCT_MAJOR(x)		(((x) >> 12) & 0xf)
+> +#define DRM_ETHOSU_VERSION_MAJOR(x)		(((x) >> 8) & 0xf)
+> +#define DRM_ETHOSU_VERSION_MINOR(x)		(((x) >> 4) & 0xff)
+> +#define DRM_ETHOSU_VERSION_STATUS(x)		((x) & 0xf)
+> +
+> +	/** @gpu_rev: GPU revision. */
+> +	__u32 config;
+> +
+> +	__u32 sram_size;
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_dev_query - Arguments passed to DRM_ETHOSU_IOCTL_DEV_QUERY
+> + */
+> +struct drm_ethosu_dev_query {
+> +	/** @type: the query type (see drm_ethosu_dev_query_type). */
+> +	__u32 type;
+> +
+> +	/**
+> +	 * @size: size of the type being queried.
+> +	 *
+> +	 * If pointer is NULL, size is updated by the driver to provide the
+> +	 * output structure size. If pointer is not NULL, the driver will
+> +	 * only copy min(size, actual_structure_size) bytes to the pointer,
+> +	 * and update the size accordingly. This allows us to extend query
+> +	 * types without breaking userspace.
+> +	 */
+> +	__u32 size;
+> +
+> +	/**
+> +	 * @pointer: user pointer to a query type struct.
+> +	 *
+> +	 * Pointer can be NULL, in which case, nothing is copied, but the
+> +	 * actual structure size is returned. If not NULL, it must point to
+> +	 * a location that's large enough to hold size bytes.
+> +	 */
+> +	__u64 pointer;
+> +};
+> +
+> +/**
+> + * enum drm_ethosu_bo_flags - Buffer object flags, passed at creation time.
+> + */
+> +enum drm_ethosu_bo_flags {
+> +	/**
+> +	 * @DRM_ETHOSU_BO_NO_MMAP: The buffer object will never be CPU-mapped
+> +	 * in userspace.
+> +	 */
+> +	DRM_ETHOSU_BO_NO_MMAP = (1 << 0),
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_bo_create - Arguments passed to DRM_IOCTL_ETHOSU_BO_CREATE.
+> + */
+> +struct drm_ethosu_bo_create {
+> +	/**
+> +	 * @size: Requested size for the object
+> +	 *
+> +	 * The (page-aligned) allocated size for the object will be returned.
+> +	 */
+> +	__u64 size;
+> +
+> +	/**
+> +	 * @flags: Flags. Must be a combination of drm_ethosu_bo_flags flags.
+> +	 */
+> +	__u32 flags;
+> +
+> +	/**
+> +	 * @handle: Returned handle for the object.
+> +	 *
+> +	 * Object handles are nonzero.
+> +	 */
+> +	__u32 handle;
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_bo_mmap_offset - Arguments passed to DRM_IOCTL_ETHOSU_BO_MMAP_OFFSET.
+> + */
+> +struct drm_ethosu_bo_mmap_offset {
+> +	/** @handle: Handle of the object we want an mmap offset for. */
+> +	__u32 handle;
+> +
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +
+> +	/** @offset: The fake offset to use for subsequent mmap calls. */
+> +	__u64 offset;
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_wait_bo - ioctl argument for waiting for
+> + * completion of the last DRM_ETHOSU_SUBMIT on a BO.
+> + *
+> + * This is useful for cases where multiple processes might be
+> + * rendering to a BO and you want to wait for all rendering to be
+> + * completed.
+> + */
+> +struct drm_ethosu_bo_wait {
+> +	__u32 handle;
+> +	__u32 pad;
+> +	__s64 timeout_ns;	/* absolute */
+> +};
+> +
+> +struct drm_ethosu_cmdstream_bo_create {
+> +	/* Size of the data argument. */
+> +	__u32 size;
+> +
+> +	/* Flags, currently must be 0. */
+> +	__u32 flags;
+> +
+> +	/* Pointer to the data. */
+> +	__u64 data;
+> +
+> +	/** Returned GEM handle for the BO. */
+> +	__u32 handle;
+> +
+> +	/* Pad, must be 0. */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_job - A job to be run on the NPU
+> + *
+> + * The kernel will schedule the execution of this job taking into account its
+> + * dependencies with other jobs. All tasks in the same job will be executed
+> + * sequentially on the same core, to benefit from memory residency in SRAM.
+> + */
+> +struct drm_ethosu_job {
+> +	/** Input: BO handle for cmdstream. */
+> +	__u32 cmd_bo;
+> +
+> +	/** Input: Amount of SRAM to use. */
+> +	__u32 sram_size;
+> +
+> +#define ETHOSU_MAX_REGIONS	8
+> +	/** Input: Array of BO handles for each region. */
+> +	__u32 region_bo_handles[ETHOSU_MAX_REGIONS];
+> +};
+> +
+> +/**
+> + * struct drm_ethosu_submit - ioctl argument for submitting commands to the NPU.
+> + *
+> + * The kernel will schedule the execution of these jobs in dependency order.
+> + */
+> +struct drm_ethosu_submit {
+> +	/** Input: Pointer to an array of struct drm_ethosu_job. */
+> +	__u64 jobs;
+> +
+> +	/** Input: Number of jobs passed in. */
+> +	__u32 job_count;
+> +
+> +	/** Reserved, must be zero. */
+> +	__u32 pad;
+> +};
+> +
+> +/**
+> + * DRM_IOCTL_ETHOSU() - Build a ethosu IOCTL number
+> + * @__access: Access type. Must be R, W or RW.
+> + * @__id: One of the DRM_ETHOSU_xxx id.
+> + * @__type: Suffix of the type being passed to the IOCTL.
+> + *
+> + * Don't use this macro directly, use the DRM_IOCTL_ETHOSU_xxx
+> + * values instead.
+> + *
+> + * Return: An IOCTL number to be passed to ioctl() from userspace.
+> + */
+> +#define DRM_IOCTL_ETHOSU(__access, __id, __type) \
+> +	DRM_IO ## __access(DRM_COMMAND_BASE + DRM_ETHOSU_ ## __id, \
+> +			   struct drm_ethosu_ ## __type)
+> +
+> +enum {
+> +	DRM_IOCTL_ETHOSU_DEV_QUERY =
+> +		DRM_IOCTL_ETHOSU(WR, DEV_QUERY, dev_query),
+> +	DRM_IOCTL_ETHOSU_BO_CREATE =
+> +		DRM_IOCTL_ETHOSU(WR, BO_CREATE, bo_create),
+> +	DRM_IOCTL_ETHOSU_BO_WAIT =
+> +		DRM_IOCTL_ETHOSU(WR, BO_WAIT, bo_wait),
+> +	DRM_IOCTL_ETHOSU_BO_MMAP_OFFSET =
+> +		DRM_IOCTL_ETHOSU(WR, BO_MMAP_OFFSET, bo_mmap_offset),
+> +	DRM_IOCTL_ETHOSU_CMDSTREAM_BO_CREATE =
+> +		DRM_IOCTL_ETHOSU(WR, CMDSTREAM_BO_CREATE, cmdstream_bo_create),
+> +	DRM_IOCTL_ETHOSU_SUBMIT =
+> +		DRM_IOCTL_ETHOSU(WR, SUBMIT, submit),
+> +};
+> +
+> +#if defined(__cplusplus)
+> +}
+> +#endif
+> +
+> +#endif /* _ETHOSU_DRM_H_ */
+> 
+> -- 
+> 2.51.0
+> 
