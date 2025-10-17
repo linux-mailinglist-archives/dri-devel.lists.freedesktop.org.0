@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BE1BE913E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08875BE935F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 16:33:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B1610EBF7;
-	Fri, 17 Oct 2025 13:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C10E210EC42;
+	Fri, 17 Oct 2025 14:33:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="FTw4HJw4";
+	dkim=pass (2048-bit key; unprotected) header.d=gfxstrand-net.20230601.gappssmtp.com header.i=@gfxstrand-net.20230601.gappssmtp.com header.b="fKwyg7Xy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A5910EBF7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:59:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1760709545; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Xae0FVMbW3sMmxmGsP1octkSPzfKEgrBYJV9rDV2jtLoKitHdAMlBDl7WJPokYHFzNY7I63t6gwZN7P8Oypc5I6XCxArdUNf0qhZRvhRchHcgfAHNRPti8D3sFjUdNRyhpT/t62bhQMz+fmpAFhaND89BpPc/WeFvQmtZ/250fI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1760709545;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=2Aw0643bwnpFCNzA2uGjynq5F3Y1ouAnEMF+y3C+3ak=; 
- b=kiHl969JnRyuwBfK8LgS/s/wAX2bxxWZ8Bw2A2lUW94SLZL65brcmaFZQwIo1xYbjFdWSTHMwQ2fQjIJutQxI4b7RhF4CN37Yf23S9cSUR5CdHct6NIrANwe5iW5Oa/GHHZkvXaaespBtQimpmg1YcC8FL+SrYNr7KFLrZk4Qbs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1760709545; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=2Aw0643bwnpFCNzA2uGjynq5F3Y1ouAnEMF+y3C+3ak=;
- b=FTw4HJw4KdWdWOsWJxVQHN43OdAPBSeKv6icjqw1zj4Wkr8fA/iGh0uUHKRFSwy0
- 5AUE/mSN3a4EBQhykPjsaBWebRRvdnEdXenz5g/cyKlorlVyGDwhNobPv/B8eQ3Depg
- sthA0lRc1IsFy++i7IowiZ2fdaXCLHrco3Ci5tXc=
-Received: by mx.zohomail.com with SMTPS id 1760709542786408.15819526386144;
- Fri, 17 Oct 2025 06:59:02 -0700 (PDT)
-Message-ID: <afc6ba14-cd95-49b9-89f5-e90fd19c8927@collabora.com>
-Date: Fri, 17 Oct 2025 16:58:55 +0300
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EAF210EC42
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 14:33:06 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-28e7cd6dbc0so24057715ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 07:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gfxstrand-net.20230601.gappssmtp.com; s=20230601; t=1760711586; x=1761316386;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W2Nr786zhxlmvY/x0JO+gbNQDCCCASPcyb/5bd0X6kI=;
+ b=fKwyg7Xy1PtggSpA5Hy+BM4QoWB8M+FKalNGJimsU6P6ImhH26OfotUA2FX2Is7QEe
+ yCLxOG99vjNvX6+pBgwhnO2gKvyzj8VdUjsMhchQUUtT5B6txjIsoIocHaCN3boAXKy6
+ /R7MjMDRBc9h+k5vdxa9YUlgMiVqve29a/R4JYDoiFp3EmPgZG7oDMbYritc2OnRWlSf
+ gueGLZtnIez6xzALwy8E1ffl3DTGd68l34vQJyWccDdb8koOOxMraLXJC4uK6lqbnLom
+ MNzxERL2pmAJ1Qexx1J2gosbibvBGsKieHJ7HJNwIBitcx0z19BTo0fN05jP02Lze5dN
+ ZfSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760711586; x=1761316386;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W2Nr786zhxlmvY/x0JO+gbNQDCCCASPcyb/5bd0X6kI=;
+ b=V4UBEcFsH6FO3GHzcw2z0EccVZSiPKOXMP4N/+e5mjtsxPNDz7t1i5JNq0m++sSuuj
+ +/0T/IQq4FqgEc8qtt/i19s0Xvm5chtdgy1Z5r69R3eBOaJGIAyJyVoiyIaHDBdzvVfp
+ kQ9wy1KCuJDbfeyYovteu7JD0N5CL15jlHlTq1EhNRO+wQ/wv4+Ge1g7Qd5tRkjXXQje
+ UnElr0Ipwae7LkOM/yroUKsN4wWrm/I6ssr643KXl/XQTrJpqshosofg/tUzN5Yjjev1
+ PREE7x/lpIYcCrzCYWlSSueAoeQB2pkEv4gIWq58mBamsR+TJuBhL+QYnOU4Fk65AZ7N
+ GbrA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWle6lENflHvMuCwHLRnKSk9QW0DmWZyarBOCXvmh2q9s5Uj79CdYtmkeHk8dmDnecUgszLV6zwstE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwYfvCgfdk4dThdiHFw3IliTpBslWv3GAeP75EPpkjKRCJV01k
+ RPjIfQeu9GF7NeuRr3z08NGEF0hRVqbIpNd+U/UYJhStuJYrowJF6FnQ1bPxnktz1udA4JsaaCm
+ AqcN3oSs4UBOO3vwdyqRxLHJ9hTFYespse3auiIrJxA==
+X-Gm-Gg: ASbGnctatPka4EtJJKyjmoUWCIDSNVjOOh7n+4Gaq1TAd62MQp1XoBqbdqCas0UbpdA
+ dRqXX9q4R7fgXUyqF0GkjfBWa9v6dYnhIRpC/QXrV7zUV+Saro7CRPQePRLvDjR3RneAkvEMwJG
+ RP+Bo3sf90C4hwt+KX+zmB/txWqCvo7TZsgRjflAIluZcqVSJo3BX/emDILrzs/PLtHstC+/jG8
+ 2d5dNx5c0VmOZAivebUpoO1SIAToOsZ+mT7eQE0T7Jjk2tMp5jlsbPFJrnlxeYONsBviQGIlINc
+ xDZ1fNk=
+X-Google-Smtp-Source: AGHT+IH+mIYXbC2jYxrIMo/eLZEPL3Q1l2b0mu0ulGobGlaTtrWJAUE7VyXRMOAqBcBvcYhCIzWo2mDEiV0Oz7TGpl8=
+X-Received: by 2002:a17:902:d4c4:b0:269:9ae5:26af with SMTP id
+ d9443c01a7336-290c9d1b4d0mr50219075ad.13.1760711585681; Fri, 17 Oct 2025
+ 07:33:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
- resource
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "airlied@redhat.com" <airlied@redhat.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
-References: <20251016145230.79270-1-tzimmermann@suse.de>
- <IA0PR11MB7185A7BA7B8CEAC46CBC0922F8F6A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <21851b98-06ee-4e2c-8570-70e8a4fe5d86@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <21851b98-06ee-4e2c-8570-70e8a4fe5d86@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
+ <20251015160326.3657287-3-boris.brezillon@collabora.com>
+In-Reply-To: <20251015160326.3657287-3-boris.brezillon@collabora.com>
+From: Faith Ekstrand <faith@gfxstrand.net>
+Date: Fri, 17 Oct 2025 10:32:53 -0400
+X-Gm-Features: AS18NWAki7SVHg1rtuG0gWfE1rLJ3eILwz-at_pcmXliFBWuI-SMbQrZ33k2KHk
+Message-ID: <CAOFGe96trw17pWKv4-Bbh9bvCz8ANTwAcL-croQQw24800fLbQ@mail.gmail.com>
+Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and
+ a drm_gem_sync() helper
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,100 +92,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Oct 15, 2025 at 12:04=E2=80=AFPM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> Prepare things for standardizing synchronization around CPU accesses
+> of GEM buffers. This will be used to provide default
+> drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and provide
+> a way for drivers to add their own ioctls to synchronize CPU
+> writes/reads when they can't do it directly from userland.
+>
+> v2:
+> - New commit
+>
+> v3:
+> - No changes
+>
+> v4:
+> - Add Steve's R-b
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c | 10 +++++++++
+>  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 55 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index a1a9c828938b..a1431e4f2404 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object *obj, st=
+ruct iosys_map *map)
+>  }
+>  EXPORT_SYMBOL(drm_gem_vunmap);
+>
+> +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t size,
+> +                enum drm_gem_object_access_flags access)
+> +{
+> +       if (obj->funcs->sync)
+> +               return obj->funcs->sync(obj, offset, size, access);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(drm_gem_sync);
+> +
+>  /**
+>   * drm_gem_lock_reservations - Sets up the ww context and acquires
+>   * the lock on an array of GEM objects.
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 8d48d2af2649..1c33e59ab305 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -66,6 +66,33 @@ enum drm_gem_object_status {
+>         DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
+>  };
+>
+> +/**
+> + * enum drm_gem_object_status - bitmask describing GEM access types to p=
+repare for
+> + */
+> +enum drm_gem_object_access_flags {
+> +       /** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access. */
+> +       DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
+> +
+> +       /** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device access. */
+> +       DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
+> +
+> +       /** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the entity =
+doing the access. */
+> +       DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
+> +
+> +       /** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only accesses. =
+*/
+> +       DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
+> +
+> +       /** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only accesses=
+. */
+> +       DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
+> +
+> +       /** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write accesses.=
+ */
+> +       DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCESS |
+> +                                  DRM_GEM_OBJECT_WRITE_ACCESS,
+> +
+> +       /** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check the acce=
+ss type. */
+> +       DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW_ACCESS,
+> +};
+> +
+>  /**
+>   * struct drm_gem_object_funcs - GEM object functions
+>   */
+> @@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
+>          */
+>         int (*mmap)(struct drm_gem_object *obj, struct vm_area_struct *vm=
+a);
+>
+> +       /**
+> +        * @sync:
+> +        *
+> +        * Prepare for CPU/device access. This can involve migration of
+> +        * a buffer to the system-RAM/VRAM, or for UMA, flushing/invalida=
+ting
+> +        * the CPU caches. The range can be used to optimize the synchron=
+ization
+> +        * when possible.
 
-On 10/17/25 10:38, Thomas Zimmermann wrote:
-...
-> There's little difference between the current event handling and the one
-> where no vblanks have been set up. I suspect that the vblank timer
-> callback interferes with the locking in atomic_flush. That would also
-> explain why the fps drop at no clear pattern.
-> 
-> Could you please test the attached patch? It enables/disables the vblank
-> timer depending on the buffer resources; as you suggested before.  Does
-> this make a difference?
+This has gone in a very different direction from the version I sent
+out and the added generality makes me really nervous. The idea of sync
+involving migration and that the range is a mere hint are antithetical
+with Vulkan. It's a very GLish design that assumes that a BO is
+exclusively used by one of the CPU or the GPU at the same time. This
+simply isn't the case in modern APIs. Older DRM uAPIs (as well as
+dma-buf itself) are littered with such ioctls and we're in the process
+of deleting them all.
 
-The attached patch doesn't work, please see the trace below.
+If the BO needs to be migrated in order to be accessed from the CPU,
+that needs to happen on map, not on some sort of begin/end. Or better
+yet, just disallow mapping such buffers. Once the client has a map,
+they are free to access from the CPU while stuff is running on the
+GPU. They have to be careful, of course, not to cause data races, but
+accessing the same BO from the CPU and GPU or even the same range is
+totally okay if you aren't racing.
 
-@Vivek Please clarify whether you only see frames drop with your
-multi-gpu guest-blob setup or with a usual virgl too. I haven't noticed
-problem with frames pacing for virgl and nctx modes yesterday, will
-check again.
+As a corollary, just don't map PRIME buffers.
 
-[   11.456513] ------------[ cut here ]------------
-[   11.460050] driver forgot to call drm_crtc_vblank_off()
-[   11.461253] WARNING: CPU: 12 PID: 445 at
-drivers/gpu/drm/drm_atomic_helper.c:1279
-drm_atomic_helper_commit_modeset_disables+0x6c6/0x6d0
-[   11.461824] Modules linked in:
-[   11.461989] CPU: 12 UID: 0 PID: 445 Comm: Xorg Not tainted
-6.17.0-rc6-01184-ga95b3b198869 #174 PREEMPT(voluntary)
-[   11.462638] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
-[   11.463214] RIP:
-0010:drm_atomic_helper_commit_modeset_disables+0x6c6/0x6d0
-[   11.463574] Code: 32 53 02 01 e8 4b d1 33 ff 0f 0b 48 8b 43 08 e9 ae
-fb ff ff 48 c7 c7 30 9f c7 83 89 45 c8 c6 05 e8 31 53 02 01 e8 2a d1 33
-ff <0f> 0b 8b 45 c8 eb 9c 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90
-[   11.464613] RSP: 0018:ffffc90001007960 EFLAGS: 00010286
-[   11.464906] RAX: 0000000000000000 RBX: ffff88810b24ff80 RCX:
-0000000000000000
-[   11.465301] RDX: 0000000000000002 RSI: 0000000000000001 RDI:
-00000000ffffffff
-[   11.465706] RBP: ffffc900010079a8 R08: 0000000000000000 R09:
-ffffc90001007790
-[   11.466104] R10: 0000000000000001 R11: 6620726576697264 R12:
-0000000000000000
-[   11.466495] R13: ffff888103920040 R14: 0000000000000000 R15:
-0000000000000000
-[   11.467043] FS:  00007f8d2868dec0(0000) GS:ffff8888d66f7000(0000)
-knlGS:0000000000000000
-[   11.467415] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   11.467688] CR2: 00007f8d285b1000 CR3: 000000010109a000 CR4:
-0000000000750ef0
-[   11.468023] PKRU: 55555554
-[   11.468165] Call Trace:
-[   11.468286]  <TASK>
-[   11.468405]  drm_atomic_helper_commit_tail+0x1e/0x70
-[   11.468635]  commit_tail+0x112/0x180
-[   11.468798]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.469027]  drm_atomic_helper_commit+0x126/0x150
-[   11.469244]  drm_atomic_commit+0xaa/0xe0
-[   11.469432]  ? __pfx___drm_printfn_info+0x10/0x10
-[   11.469651]  drm_atomic_helper_dirtyfb+0x1eb/0x2f0
-[   11.469873]  drm_mode_dirtyfb_ioctl+0xfd/0x1c0
-[   11.470078]  ? __pfx_drm_mode_dirtyfb_ioctl+0x10/0x10
-[   11.470318]  drm_ioctl_kernel+0xa3/0x100
-[   11.470497]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.470719]  drm_ioctl+0x2be/0x570
-[   11.470877]  ? __pfx_drm_mode_dirtyfb_ioctl+0x10/0x10
-[   11.471105]  ? do_syscall_64+0x1e7/0x1f0
-[   11.471302]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.471529]  ? __mark_inode_dirty+0xc5/0x340
-[   11.471735]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.471968]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.472199]  __x64_sys_ioctl+0x9a/0xf0
-[   11.472377]  x64_sys_call+0x1009/0x1d80
-[   11.472565]  do_syscall_64+0x6e/0x1f0
-[   11.472731]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.472946]  ? __handle_mm_fault+0x92d/0xfa0
-[   11.473157]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.473381]  ? debug_smp_processor_id+0x17/0x20
-[   11.473596]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.473813]  ? count_memcg_events+0x93/0x230
-[   11.474014]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.474242]  ? debug_smp_processor_id+0x17/0x20
-[   11.474446]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.474669]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.474885]  ? irqentry_exit_to_user_mode+0x18c/0x190
-[   11.475111]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.475338]  ? irqentry_exit+0x3b/0x50
-[   11.475515]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   11.475730]  ? exc_page_fault+0x86/0x180
-[   11.475918]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[   11.476130] RIP: 0033:0x7f8d2891674d
+And the range really shouldn't be just a hint. With Vulkan, clients
+are regularly sub-allocating from larger memory objects. If they ask
+to flush 64B and end up flushing 64M, that's pretty bad.
 
+All we need is something which lets us trap through to the kernel for
+CPU cache management. That's all we need and that's really all it
+should do.
 
--- 
-Best regards,
-Dmitry
+~Faith
+
+> +        *
+> +        * Returns 0 on success, -errno otherwise.
+> +        *
+> +        * This callback is optional.
+> +        */
+> +       int (*sync)(struct drm_gem_object *obj, size_t offset, size_t siz=
+e,
+> +                   enum drm_gem_object_access_flags access);
+> +
+>         /**
+>          * @evict:
+>          *
+> @@ -559,6 +601,9 @@ void drm_gem_unlock(struct drm_gem_object *obj);
+>  int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
+>  void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+>
+> +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t size,
+> +                enum drm_gem_object_access_flags access);
+> +
+>  int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handle=
+s,
+>                            int count, struct drm_gem_object ***objs_out);
+>  struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 =
+handle);
+> --
+> 2.51.0
+>
