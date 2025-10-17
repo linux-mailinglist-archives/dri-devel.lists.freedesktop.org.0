@@ -2,151 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2A4BE9A4B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEA8BE9B26
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE58910EC57;
-	Fri, 17 Oct 2025 15:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E02510EC59;
+	Fri, 17 Oct 2025 15:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xcSfxPPC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8X/LtTH4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xcSfxPPC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8X/LtTH4";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="cHPiCTe3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 441F710EC57
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:18:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B817A1FF15;
- Fri, 17 Oct 2025 15:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1760714287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T3GLww76RJcsd2GjX3gg3/FMhdYzc0pTJwH6K/kNPXY=;
- b=xcSfxPPCNp1TboryKAwOsxL7amZ4DE3ooNWWGwGmSRi6QXff7lfOzu2/fMvajzPRBssgCM
- DO2w9O39uhMWldaDsH1L/Cfg9zCA4uo+u4RCSKXv5Cw+1ETeVuJqirIWQpMS1chMmmWHet
- QokKLgjKJgc5CF6DYdq8LmVWwI+RXtw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1760714287;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T3GLww76RJcsd2GjX3gg3/FMhdYzc0pTJwH6K/kNPXY=;
- b=8X/LtTH4djdAVrPyuc9fminwuQWQRNqlvrxfEsEdnv4TFrkHxocfqGsAHZD373TQ2xpQBy
- Kl7aJnBffxynU4Bg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xcSfxPPC;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="8X/LtTH4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1760714287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T3GLww76RJcsd2GjX3gg3/FMhdYzc0pTJwH6K/kNPXY=;
- b=xcSfxPPCNp1TboryKAwOsxL7amZ4DE3ooNWWGwGmSRi6QXff7lfOzu2/fMvajzPRBssgCM
- DO2w9O39uhMWldaDsH1L/Cfg9zCA4uo+u4RCSKXv5Cw+1ETeVuJqirIWQpMS1chMmmWHet
- QokKLgjKJgc5CF6DYdq8LmVWwI+RXtw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1760714287;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T3GLww76RJcsd2GjX3gg3/FMhdYzc0pTJwH6K/kNPXY=;
- b=8X/LtTH4djdAVrPyuc9fminwuQWQRNqlvrxfEsEdnv4TFrkHxocfqGsAHZD373TQ2xpQBy
- Kl7aJnBffxynU4Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0253313A71;
- Fri, 17 Oct 2025 15:18:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id w3EIOi5e8mgsCgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 17 Oct 2025 15:18:06 +0000
-Message-ID: <53982a5b-c3ac-4977-83cb-5b4e6d240f75@suse.de>
-Date: Fri, 17 Oct 2025 17:18:05 +0200
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC6D110EC59
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:21:11 +0000 (UTC)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59H94tnC023481;
+ Fri, 17 Oct 2025 15:21:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=pp1; bh=N/iODX
+ MaEcdTtcfpLTo1WY7S5SoeD9xRtvc0dSPWt2I=; b=cHPiCTe3BB4zSirLfoyQkh
+ bhWoMbMoLkFIwZwnSxvgdXVkyrAGHx2Uv9SVViKiPOP30Fy329vXSWgKyF8eF8ag
+ 8JPtdTxrd1uRu3krH5PA6mOMKC0+cb8mV69TztevYu5PFKrT1Bfh470xlHHHZoOV
+ xBoapRMsWilp6NtCIXvMCpkP+YV3Czpn99sGU54GCzDTmYYIiLGSARv8SgxO7WUn
+ I7EHAZQJmvS4nSFzaxUCqdpxKIYFxUueTNuWsYvKN0kPfcPqtRBMKmzr0rtz0+jT
+ cfHoBZ8vH58uDBfZ7rKO3jwOYMktQvhLuOwNGpP6y46eeZZ2wfhoOBSWObyOE8nw
+ ==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49tfxpw02d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Oct 2025 15:21:00 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59HFE3Ti030823;
+ Fri, 17 Oct 2025 15:20:59 GMT
+Received: from ppma22.wdc07v.mail.ibm.com
+ (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49tfxpw02b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Oct 2025 15:20:59 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59HF1Dih003613;
+ Fri, 17 Oct 2025 15:20:59 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49r1xye332-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Oct 2025 15:20:58 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 59HFKvAx19005772
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Oct 2025 15:20:57 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EA2012004B;
+ Fri, 17 Oct 2025 15:20:56 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B922020040;
+ Fri, 17 Oct 2025 15:20:55 +0000 (GMT)
+Received: from [9.111.36.47] (unknown [9.111.36.47])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 17 Oct 2025 15:20:55 +0000 (GMT)
+Message-ID: <74272098-cfb7-424b-a55e-55e94f04524e@linux.ibm.com>
+Date: Fri, 17 Oct 2025 17:20:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/imx: Add more RGB swizzling options
-To: Frank Li <Frank.li@nxp.com>, Marek Vasut <marek.vasut@mailbox.org>
-Cc: dri-devel@lists.freedesktop.org, Abel Vesa <abelvesa@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
- Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-References: <20251017144626.66918-1-marek.vasut@mailbox.org>
- <aPJcXLcvX15A0HtA@lizhi-Precision-Tower-5810>
+Subject: Re: linux-next: KVM/s390x regression
+To: David Hildenbrand <david@redhat.com>, balbirs@nvidia.com
+Cc: Liam.Howlett@oracle.com, airlied@gmail.com, akpm@linux-foundation.org,
+ apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
+ byungchul@sk.com, dakr@kernel.org, dev.jain@arm.com,
+ dri-devel@lists.freedesktop.org, francois.dugast@intel.com,
+ gourry@gourry.net, joshua.hahnjy@gmail.com,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, matthew.brost@intel.com,
+ mpenttil@redhat.com, npache@redhat.com, osalvador@suse.de,
+ rakie.kim@sk.com, rcampbell@nvidia.com, ryan.roberts@arm.com,
+ simona@ffwll.ch, ying.huang@linux.alibaba.com, ziy@nvidia.com,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-next@vger.kernel.org
+References: <20251001065707.920170-4-balbirs@nvidia.com>
+ <20251017144924.10034-1-borntraeger@linux.ibm.com>
+ <9beff9d6-47c7-4a65-b320-43efd1e12687@redhat.com>
+ <c67386be-5278-411d-97e7-43fc34bf7c98@linux.ibm.com>
+ <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aPJcXLcvX15A0HtA@lizhi-Precision-Tower-5810>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: B817A1FF15
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- URIBL_BLOCKED(0.00)[infradead.org:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,linux.dev:email,pengutronix.de:email,suse.de:dkim,suse.de:mid,suse.de:email,nxp.com:email,mailbox.org:email,lists.freedesktop.org:email,ideasonboard.com:email];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[18];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,gmail.com,ideasonboard.com,nxp.com,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TAGGED_RCPT(0.00)[dt]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,
- imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.01
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: DcfLWxOGbv9bYKiDoMpZ6va0xN-YJXnG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE1MDEyNSBTYWx0ZWRfXxU8GH3q1YuZ0
+ c8BgXMsDBFk4hHBo0vPh+QUbB0ubWIN3+kWBj/+COUXkJBKtLbfQoiwRBWeXdw/GkNP3E7O3mnG
+ MjRp5R24at9SzmEtPfe8IaV0KYWgCseqOjVH3PD7I13IA4rLOMlm3dx8nFFSgJpwHIkLZUs4nKz
+ UfkyFGF4BnRXztDDU3rymsyOUnTHW6xNzyK0jzzDgSQ7kgEy3/tJTx8mSdDPl/rACGztbSsGGg9
+ 7UVhoK3OxQzkhpE3LFEex92y4kPkzFXVMcS2uw1HRLIkPJExq2bgk65n9hXFGTvym2/wGd/VPyf
+ SS/JwNJAYEl0F7B/ztPHDmw4XKNN05Ngz/7j+W8s0WveeTQn+7Oh19xOyvxl7gnbRpbkiGIRStK
+ u8sdlROg1EfmKkjNfCANEDX13yoRYw==
+X-Authority-Analysis: v=2.4 cv=R+wO2NRX c=1 sm=1 tr=0 ts=68f25edc cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=czJfVngKFEUMndguRe4A:9 a=QEXdDO2ut3YA:10 a=nl4s5V0KI7Kw-pW0DWrs:22
+ a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
+X-Proofpoint-ORIG-GUID: HxlDaZqVRm6WsCaN2EWRamDscKrmDVZz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-17_05,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510150125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,129 +128,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 17.10.25 um 17:10 schrieb Frank Li:
-> On Fri, Oct 17, 2025 at 04:45:38PM +0200, Marek Vasut wrote:
->> Add additional buffer format swizzling options beyond XR24, the
->> hardware is capable of sampling other formats, fill them in.
->>
->> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
->> ---
->> Cc: Abel Vesa <abelvesa@kernel.org>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->> Cc: Fabio Estevam <festevam@gmail.com>
->> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Liu Ying <victor.liu@nxp.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Peng Fan <peng.fan@nxp.com>
->> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: Shawn Guo <shawnguo@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: devicetree@vger.kernel.org
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: imx@lists.linux.dev
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-clk@vger.kernel.org
->> ---
->> Liu, please test on MX8qxp , I do not have that hardware.
->> ---
->>   drivers/gpu/drm/imx/dc/dc-fu.c    | 40 +++++++++++++++++++++++++++++++
->>   drivers/gpu/drm/imx/dc/dc-plane.c |  8 +++++++
->>   2 files changed, 48 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/imx/dc/dc-fu.c b/drivers/gpu/drm/imx/dc/dc-fu.c
->> index 1d8f74babef8a..397af0e9b0236 100644
->> --- a/drivers/gpu/drm/imx/dc/dc-fu.c
->> +++ b/drivers/gpu/drm/imx/dc/dc-fu.c
->> @@ -65,6 +65,46 @@ static const struct dc_fu_pixel_format pixel_formats[] = {
->>   		DRM_FORMAT_XRGB8888,
->>   		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
->>   		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_ARGB8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
->> +		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(24),
->> +	}, {
->> +		DRM_FORMAT_ABGR8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
->> +		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(24),
->> +	}, {
->> +		DRM_FORMAT_XBGR8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
->> +		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_RGBA8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
->> +		R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_RGBX8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
->> +		R_SHIFT(24) | G_SHIFT(16) | B_SHIFT(8)  | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_BGRA8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(8),
->> +		R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_BGRX8888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
->> +		R_SHIFT(8)  | G_SHIFT(16) | B_SHIFT(24) | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_RGB888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
->> +		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_BGR888,
->> +		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
->> +		R_SHIFT(0)  | G_SHIFT(8)  | B_SHIFT(16) | A_SHIFT(0),
->> +	}, {
->> +		DRM_FORMAT_RGB565,
->> +		R_BITS(5)   | G_BITS(6)   | B_BITS(5)   | A_BITS(0),
->> +		R_SHIFT(11) | G_SHIFT(5)  | B_SHIFT(0)  | A_SHIFT(0),
->>   	},
->>   };
->>
->> diff --git a/drivers/gpu/drm/imx/dc/dc-plane.c b/drivers/gpu/drm/imx/dc/dc-plane.c
->> index e40d5d66c5c1f..68d32b76fab95 100644
->> --- a/drivers/gpu/drm/imx/dc/dc-plane.c
->> +++ b/drivers/gpu/drm/imx/dc/dc-plane.c
->> @@ -33,6 +33,14 @@ do {									\
->>
->>   static const uint32_t dc_plane_formats[] = {
->>   	DRM_FORMAT_XRGB8888,
->> +	DRM_FORMAT_ARGB8888,
->> +	DRM_FORMAT_ABGR8888,
->> +	DRM_FORMAT_XBGR8888,
->> +	DRM_FORMAT_RGBA8888,
->> +	DRM_FORMAT_RGBX8888,
->> +	DRM_FORMAT_BGRA8888,
->> +	DRM_FORMAT_BGRX8888,
->> +	DRM_FORMAT_RGB565,
-> Is it posssible sort by name?
 
-The plane-format arrays are (roughly) sorted by hardware preference.
-
-Best regards
-Thomas
-
->
-> Frank
->>   };
+Am 17.10.25 um 17:07 schrieb David Hildenbrand:
+> On 17.10.25 17:01, Christian Borntraeger wrote:
+>> Am 17.10.25 um 16:54 schrieb David Hildenbrand:
+>>> On 17.10.25 16:49, Christian Borntraeger wrote:
+>>>> This patch triggers a regression for s390x kvm as qemu guests can no longer start
+>>>>
+>>>> error: kvm run failed Cannot allocate memory
+>>>> PSW=mask 0000000180000000 addr 000000007fd00600
+>>>> R00=0000000000000000 R01=0000000000000000 R02=0000000000000000 R03=0000000000000000
+>>>> R04=0000000000000000 R05=0000000000000000 R06=0000000000000000 R07=0000000000000000
+>>>> R08=0000000000000000 R09=0000000000000000 R10=0000000000000000 R11=0000000000000000
+>>>> R12=0000000000000000 R13=0000000000000000 R14=0000000000000000 R15=0000000000000000
+>>>> C00=00000000000000e0 C01=0000000000000000 C02=0000000000000000 C03=0000000000000000
+>>>> C04=0000000000000000 C05=0000000000000000 C06=0000000000000000 C07=0000000000000000
+>>>> C08=0000000000000000 C09=0000000000000000 C10=0000000000000000 C11=0000000000000000
+>>>> C12=0000000000000000 C13=0000000000000000 C14=00000000c2000000 C15=0000000000000000
+>>>>
+>>>> KVM on s390x does not use THP so far, will investigate. Does anyone have a quick idea?
+>>>
+>>> Only when running KVM guests and apart from that everything else seems to be fine?
 >>
->>   static const struct drm_plane_funcs dc_plane_funcs = {
->> --
->> 2.51.0
->>
+>> We have other weirdness in linux-next but in different areas. Could that somehow be
+>> related to use disabling THP for the kvm address space?
+> 
+> Not sure ... it's a bit weird. I mean, when KVM disables THPs we essentially just remap everything to be mapped by PTEs. So there shouldn't be any PMDs in that whole process.
+> 
+> Remapping a file THP (shmem) implies zapping the THP completely.
+> 
+> 
+> I assume in your kernel config has CONFIG_ZONE_DEVICE and CONFIG_ARCH_ENABLE_THP_MIGRATION set, right?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+yes.
+
+> 
+> I'd rule out copy_huge_pmd(), zap_huge_pmd() a well.
+> 
+> 
+> What happens if you revert the change in mm/pgtable-generic.c?
+
+That partial revert seems to fix the issue
+diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+index 0c847cdf4fd3..567e2d084071 100644
+--- a/mm/pgtable-generic.c
++++ b/mm/pgtable-generic.c
+@@ -290,7 +290,7 @@ pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
+  
+         if (pmdvalp)
+                 *pmdvalp = pmdval;
+-       if (unlikely(pmd_none(pmdval) || !pmd_present(pmdval)))
++       if (unlikely(pmd_none(pmdval) || is_pmd_migration_entry(pmdval)))
+                 goto nomap;
+         if (unlikely(pmd_trans_huge(pmdval)))
+                 goto nomap;
+
+
+
 
 
