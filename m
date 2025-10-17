@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2CABE9FC0
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897EABEA07D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:40:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0591310EC62;
-	Fri, 17 Oct 2025 15:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4396110EC68;
+	Fri, 17 Oct 2025 15:40:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="glaN3tjI";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="iVr+wcSN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="M2vdZSh1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0633210EC62
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:37:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AFF6A45997;
- Fri, 17 Oct 2025 15:37:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517C7C4CEE7;
- Fri, 17 Oct 2025 15:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760715468;
- bh=fMtsEtk+yymjMrBDxyIo4cPm8zug+9QHbs06gVATPdw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=glaN3tjI9nSulUo1uDQTr6u/p7SSb0kvNXzx2Zp6DuspOMCnukW5J3S0lElQsi5ps
- NU7SnkAchBwn0irmQoYZSIpWoSv+3TbtNt64vMYO481yMyvMPzcpQx5t3VMgHBTJen
- yhmZRIYfVW59jRSrc/uakK1ie2xa6NeGwPCM2lcZV0luckrXKLeKBnLy5oZLoxMgeE
- nE8tsoajMLfPXrjbX5CC85UtPw+EVov/SnbBeW9yDHk1AvKLpY1AgL8tuGWDaqTD7R
- 9dIbQtOT1pb+aP2DhguS+sCRD1Zm5OVChREj1YubPcGAhuLirGmqnHkQktgznRurqh
- J3MzLTnTQS+bw==
-Date: Fri, 17 Oct 2025 10:37:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C7910EC68
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:40:50 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cp8DJ5PL7z9stY;
+ Fri, 17 Oct 2025 17:40:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760715648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0w+B/tCledBrlOq6HIpAHqdVg2SY76LtseeOT2jub/4=;
+ b=iVr+wcSNqhY0cAOxIloMmCqxI1pOJ6NLEZ4Ekr1cbwb00IZPv19HJPsVM1jGoQ1Xq/36eb
+ kyEYsc+tvacqMl2tVv4e6rE55SEuEL1yhF3zZZ7nsNEjA+c8m6XHEFXZWl60KJYhVKfZsh
+ Z50hgV2EyM3V4h3s7nzlqiYWbBd0k3mUmLwfB03j50uikADnf/1ux40m1Q/OKoRzhh7cbW
+ 6j0eVPY3vbs/F12cYiHxpwz7706+76/RToU7NXXiqtQF8IGUBUs8I1V4domUB+DsKgjvzf
+ KERWlYXYUr8ovm3WpO580jWATqGlONbZomso9AiENEJXUuoJfj8RIMLkinpKxw==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=M2vdZSh1;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
+ 2001:67c:2050:b231:465::1 as permitted sender)
+ smtp.mailfrom=marek.vasut@mailbox.org
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1760715646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0w+B/tCledBrlOq6HIpAHqdVg2SY76LtseeOT2jub/4=;
+ b=M2vdZSh1ah2zIbwb5jDUsDqLWG3Jj8lJ30k26oXZWEqPg0TCRJnst1D3GrdBFpgCd0plds
+ 8a7rghvolSpA2X2nLu6XEv/GDyMHGt/l+0OSvLjOeLT0gsfrEE1S7E4sJHtqmT2CTYd13t
+ qSAlTGKLl2/85Te8WeNTr4hJ4JDLGj/6RQpEVmV48BN1hRccpiZemMGkiuNipSmrKxhT4o
+ Tc6vT+NvfEzG9wIxu2oNrvcpzONVm0Ova/fcseLkPaeT70YEcEAmCNWwZIexXAVZ99O5/e
+ xQph+CDk4t+aHxmuFr1IRP+G7VFeo5i9Sfry1clEYYvktMXPBWlPb2dp/GC+HA==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>, Abel Vesa <abelvesa@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Frank Li <Frank.li@nxp.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 2/2] accel: Add Arm Ethos-U NPU driver
-Message-ID: <20251017153746.GA1579747-robh@kernel.org>
-References: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
- <20251016-ethos-v5-2-ba0aece0a006@kernel.org>
- <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Subject: [PATCH] drm/bridge: fsl-ldb: Parse register offsets from DT
+Date: Fri, 17 Oct 2025 17:39:33 +0200
+Message-ID: <20251017154029.105099-1-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
+X-MBO-RS-ID: 03a1ed152bce17d94f4
+X-MBO-RS-META: pccptyfowt41qqwww3cqkzb3ibd7zxtd
+X-Rspamd-Queue-Id: 4cp8DJ5PL7z9stY
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,81 +86,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 16, 2025 at 11:25:34PM -0700, Matthew Brost wrote:
-> On Thu, Oct 16, 2025 at 04:06:05PM -0500, Rob Herring (Arm) wrote:
-> > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
-> > relatively simple interface with single command stream to describe
-> > buffers, operation settings, and network operations. It supports up to 8
-> > memory regions (though no h/w bounds on a region). The Ethos NPUs
-> > are designed to use an SRAM for scratch memory. Region 2 is reserved
-> > for SRAM (like the downstream driver stack and compiler). Userspace
-> > doesn't need access to the SRAM.
+The DT binding for this bridge describe register offsets for the LDB,
+parse the register offsets from DT instead of hard-coding them in the
+driver. No functional change.
 
-Thanks for the review.
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+---
+Cc: Abel Vesa <abelvesa@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-clk@vger.kernel.org
+---
+ drivers/gpu/drm/bridge/fsl-ldb.c | 42 ++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 16 deletions(-)
 
-[...]
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 5c3cf37200bce..c54caea0b63fc 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -61,24 +61,16 @@ enum fsl_ldb_devtype {
+ };
+ 
+ struct fsl_ldb_devdata {
+-	u32 ldb_ctrl;
+-	u32 lvds_ctrl;
+ 	bool lvds_en_bit;
+ 	bool single_ctrl_reg;
+ };
+ 
+ static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
+ 	[IMX6SX_LDB] = {
+-		.ldb_ctrl = 0x18,
+ 		.single_ctrl_reg = true,
+ 	},
+-	[IMX8MP_LDB] = {
+-		.ldb_ctrl = 0x5c,
+-		.lvds_ctrl = 0x128,
+-	},
++	[IMX8MP_LDB] = { },
+ 	[IMX93_LDB] = {
+-		.ldb_ctrl = 0x20,
+-		.lvds_ctrl = 0x24,
+ 		.lvds_en_bit = true,
+ 	},
+ };
+@@ -90,6 +82,8 @@ struct fsl_ldb {
+ 	struct clk *clk;
+ 	struct regmap *regmap;
+ 	const struct fsl_ldb_devdata *devdata;
++	u32 ldb_ctrl;
++	u32 lvds_ctrl;
+ 	bool ch0_enabled;
+ 	bool ch1_enabled;
+ };
+@@ -204,7 +198,7 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 		reg |=	(fsl_ldb->ch0_enabled ? LDB_CTRL_DI0_VSYNC_POLARITY : 0) |
+ 			(fsl_ldb->ch1_enabled ? LDB_CTRL_DI1_VSYNC_POLARITY : 0);
+ 
+-	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
++	regmap_write(fsl_ldb->regmap, fsl_ldb->ldb_ctrl, reg);
+ 
+ 	if (fsl_ldb->devdata->single_ctrl_reg)
+ 		return;
+@@ -212,7 +206,7 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 	/* Program LVDS_CTRL */
+ 	reg = LVDS_CTRL_CC_ADJ(2) | LVDS_CTRL_PRE_EMPH_EN |
+ 	      LVDS_CTRL_PRE_EMPH_ADJ(3) | LVDS_CTRL_VBG_EN;
+-	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
++	regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl, reg);
+ 
+ 	/* Wait for VBG to stabilize. */
+ 	usleep_range(15, 20);
+@@ -220,7 +214,7 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 	reg |=	(fsl_ldb->ch0_enabled ? LVDS_CTRL_CH0_EN : 0) |
+ 		(fsl_ldb->ch1_enabled ? LVDS_CTRL_CH1_EN : 0);
+ 
+-	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
++	regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl, reg);
+ }
+ 
+ static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
+@@ -231,12 +225,12 @@ static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
+ 	/* Stop channel(s). */
+ 	if (fsl_ldb->devdata->lvds_en_bit)
+ 		/* Set LVDS_CTRL_LVDS_EN bit to disable. */
+-		regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl,
++		regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl,
+ 			     LVDS_CTRL_LVDS_EN);
+ 	else
+ 		if (!fsl_ldb->devdata->single_ctrl_reg)
+-			regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, 0);
+-	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, 0);
++			regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl, 0);
++	regmap_write(fsl_ldb->regmap, fsl_ldb->ldb_ctrl, 0);
+ 
+ 	clk_disable_unprepare(fsl_ldb->clk);
+ }
+@@ -296,7 +290,7 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+ 	struct device_node *remote1, *remote2;
+ 	struct drm_panel *panel;
+ 	struct fsl_ldb *fsl_ldb;
+-	int dual_link;
++	int dual_link, idx, ret;
+ 
+ 	fsl_ldb = devm_drm_bridge_alloc(dev, struct fsl_ldb, bridge, &funcs);
+ 	if (IS_ERR(fsl_ldb))
+@@ -309,6 +303,22 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+ 	fsl_ldb->dev = &pdev->dev;
+ 	fsl_ldb->bridge.of_node = dev->of_node;
+ 
++	idx = of_property_match_string(dev->of_node, "reg-names", "ldb");
++	if (idx < 0)
++		return idx;
++
++	ret = of_property_read_u32_index(dev->of_node, "reg", 2 * idx, &fsl_ldb->ldb_ctrl);
++	if (ret)
++		return ret;
++
++	idx = of_property_match_string(dev->of_node, "reg-names", "lvds");
++	if (idx < 0)
++		return idx;
++
++	ret = of_property_read_u32_index(dev->of_node, "reg", 2 * idx, &fsl_ldb->lvds_ctrl);
++	if (ret)
++		return ret;
++
+ 	fsl_ldb->clk = devm_clk_get(dev, "ldb");
+ 	if (IS_ERR(fsl_ldb->clk))
+ 		return PTR_ERR(fsl_ldb->clk);
+-- 
+2.51.0
 
-> > +static struct dma_fence *ethosu_job_run(struct drm_sched_job *sched_job)
-> > +{
-> > +	struct ethosu_job *job = to_ethosu_job(sched_job);
-> > +	struct ethosu_device *dev = job->dev;
-> > +	struct dma_fence *fence = NULL;
-> > +	int ret;
-> > +
-> > +	if (unlikely(job->base.s_fence->finished.error))
-> > +		return NULL;
-> > +
-> > +	fence = ethosu_fence_create(dev);
-> 
-> Another reclaim issue: ethosu_fence_create allocates memory using
-> GFP_KERNEL. Since we're already in the DMA fence signaling path
-> (reclaim), this can lead to a deadlock.
-> 
-> Without too much thought, you likely want to move this allocation to
-> ethosu_job_do_push, but before taking dev->sched_lock or calling
-> drm_sched_job_arm.
-> 
-> We really should fix the DRM scheduler work queue to be tainted with
-> reclaim. If I recall correctly, we'd need to update the work queue
-> layer. Let me look into that—I've seen this type of bug several times,
-> and lockdep should be able to catch it.
-
-Likely the rocket driver suffers from the same issues...
-
-> 
-> > +	if (IS_ERR(fence))
-> > +		return fence;
-> > +
-> > +	if (job->done_fence)
-> > +		dma_fence_put(job->done_fence);
-> > +	job->done_fence = dma_fence_get(fence);
-> > +
-> > +	ret = pm_runtime_get_sync(dev->base.dev);
-> 
-> I haven't looked at your PM design, but this generally looks quite
-> dangerous with respect to reclaim. For example, if your PM resume paths
-> allocate memory or take locks that allocate memory underneath, you're
-> likely to run into issues.
-> 
-> A better approach would be to attach a PM reference to your job upon
-> creation and release it upon job destruction. That would be safer and
-> save you headaches in the long run.
-
-Our PM is nothing more than clock enable/disable and register init. 
-
-If the runtime PM API doesn't work and needs special driver wrappers, 
-then I'm inclined to just not use it and manage clocks directly (as 
-that's all it is doing).
-
-> 
-> This is what we do in Xe [1] [2].
-> 
-> Also, in general, this driver has been reviewed (RB’d), but it's not
-> great that I spotted numerous issues within just five minutes. I suggest
-> taking a step back and thoroughly evaluating everything this driver is
-> doing.
-
-Well, if it is hard to get simple drivers right, then it's a problem 
-with the subsystem APIs IMO.
-
-Rob
