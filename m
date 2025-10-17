@@ -2,62 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79247BEAC59
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A44BEAD16
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:43:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9463C10ECA3;
-	Fri, 17 Oct 2025 16:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572DB10E175;
+	Fri, 17 Oct 2025 16:43:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BtOkqvX7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jqNze8U5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60EA310EC88
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760718909;
- bh=m4n8KlJ9ZvdgC6ZXvYXyuYACea8cfYiGk2EFxV0MhCQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BtOkqvX73ysXYWRElrlYes2fe16UerGoduY6uiuPivJPdf135fVoIJLhaC9PDRomh
- e1Dpw5W1ULTfd/z9rufBTTCQgjuQUfFWf+DcziID1NtBTy+8rwksFA78KwzipNXIBn
- IahKBtWqsbTWHGxDYPyFAy50jOmQBy9q8L+lgLbfo24fnVJwZ/ETLfR0ht6yPLGN3s
- 3xJeC8/zK2alaI3J3Y5oIbRbH3U1UYX/REJs27mYmbHwcE2FTX7BE6ejN+PU8ToaK6
- iwgFeg9nBVnpCWxE8mUy025edYNPopchYw/OnuDAG+uC3oAnXT5araWznmoqQU1WUX
- 3mqtT9FrWCmBQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6A72217E0125;
- Fri, 17 Oct 2025 18:35:09 +0200 (CEST)
-Date: Fri, 17 Oct 2025 18:35:05 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Faith Ekstrand <faith@gfxstrand.net>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
- <faith.ekstrand@collabora.com>, kernel@collabora.com, Matt Coster
- <Matt.Coster@imgtec.com>
-Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync()
- and a drm_gem_sync() helper
-Message-ID: <20251017183505.063a831a@fedora>
-In-Reply-To: <CAOFGe96n+XZC_Hu7NBahA8Zw206FYXmJMC_hKfbZ2cqu453oWA@mail.gmail.com>
-References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
- <20251015160326.3657287-3-boris.brezillon@collabora.com>
- <CAOFGe96trw17pWKv4-Bbh9bvCz8ANTwAcL-croQQw24800fLbQ@mail.gmail.com>
- <CAOFGe96pKQhuhUCzVizUndgQL80+GsS-YiiRcMiO=eHBnYAHxg@mail.gmail.com>
- <20251017172657.2690bbca@fedora>
- <CAOFGe97gKbek59Mri-+Fb4gLLkt2vJC-szc110fCYvcfRtE8iw@mail.gmail.com>
- <20251017175008.3ac142c7@fedora>
- <CAOFGe96n+XZC_Hu7NBahA8Zw206FYXmJMC_hKfbZ2cqu453oWA@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899C510E175
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:43:03 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-42701aa714aso1312021f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 09:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1760719382; x=1761324182; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=G6gCBpn1xaSdsDN3kuu/6RChT6cW/pr078XU7axphUc=;
+ b=jqNze8U5gIDLIVBU9OkjwvGzhFxRf3pWMa6SYOw0tsfp+Uh1ei8Ipjb4VWk5tzQ0ES
+ oMsAgsGXH0ipcFqR3CD6rTcRf3b0PhINbM6juW+8deJcfpNzXjtA/g1OxpLjScS5Iumf
+ JpT1RbhsmpvgNT0MLLWX4/mqj7sWxednLkoOGmlt+g9QpsJCV7j27ribgwIigMl9lWuW
+ PQ8ZBViQBbdz9z/arkF1U+yGud612QaXTUTdaJcRk7lOtkDTqVW01j9sU9Wx0AnpjHdY
+ tKAQtVtCWObrN+O+Izrn0yj+t/qXBxrj2hkXyerZ4YZqN46DPkaZRMn9tkneGlEMT5FB
+ 5QRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760719382; x=1761324182;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G6gCBpn1xaSdsDN3kuu/6RChT6cW/pr078XU7axphUc=;
+ b=QZBlnJMmHF1M4iKb8s3qHIhcXejoX9V9tJFvsjjLsXnvkrUpnCSAtPBGQqtnt7jTDM
+ 1kF98fmtRXYciFDwwQzj/MOOHmsQGTdzZTSL6Ip0xorG1MmzbCfJ++BpFiI3wdt3R0J0
+ sH4D2BUOz1D3Nt1MFYuPGhdDzTH2+iZaBZjc4oXS0Gf/2bq/KL9Wt4fMQ/0NQxwaicK1
+ tZwNt7qFk377ehI5fhcLPAs0pIWPS7riwdv1HWuNyMjzWDIF4+7TpOMVw58iuCZUTaCR
+ TM12RObsriCB5fiwSTbtqKgfHeHJIPns89ObwMW+o56pEy+zO1O7i5PnUfBos7qSB2B/
+ mgDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUOTlNHgKT7dHuhd+KliC66yQF4vA1jt6C4edl+KWi44qoIkR4S9GY/s65ajN8sQAEw9FZLEwftses=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxB/kbWFZqDBLD+F/1+vyH+CbYZRiHrL/EyS6K4iD4ID29ecKBS
+ gjUlaGoODMZfiMgdCWiQu7lAKJKYpFWoAZdcskSF7rf1/oUBnWmml/dPEKJZdXHn7nc=
+X-Gm-Gg: ASbGncupJTzyft0/5bb1ervdQfTY3s5pZywudHOzLDXcPfZ7yNEaCj99dq9fvpj0JYc
+ EiFnMJS2wCWc7xrM6JP9lmQ7s08BoJbx3t/hhPw0PiiIiD53OFJIrUwJVYcMcB1Sc/xGg/s6vXw
+ stMB4G+eIPkup1nOSldrq0XuvOaIYid9n4jcY1wcvJN/NXZgeh6Ua22LhxD775RtHWoEpcSQdKN
+ p7aNcDODYbJP7UUpMcuFDpCrf6WVZduVs6Ofsz+lgXKeNX+j722/O+Sumq62DAdWbuskpsbIWtI
+ vNMnt7nPbzXFQtsS53OoYLCWGfva29+37nJeXRmD7cU7YhnFB4bGN7N2hmPlk+uJSEKr0KMgcmz
+ 8chhCga4ZgUaLR17LxdHzvaIv9Sr5L1c9iTax5L89B4Xoy45sDoZ/2a31Ro7RyY9294DwWS9QJd
+ nlcEpuyefC8NowxU47
+X-Google-Smtp-Source: AGHT+IGMBA0qJ4gxpjjM3xG9IuatY3oWeNvAk3ViyCHo+q3HrYjHTp52+8ZLn0SPVSWIlQ60ex3wqw==
+X-Received: by 2002:a5d:5d08:0:b0:427:a34:648c with SMTP id
+ ffacd0b85a97d-4270a34652cmr1088821f8f.58.1760719381734; 
+ Fri, 17 Oct 2025 09:43:01 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-427f00ce06bsm76237f8f.45.2025.10.17.09.43.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Oct 2025 09:43:01 -0700 (PDT)
+Date: Fri, 17 Oct 2025 19:42:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/sysfb: Fix a NULL vs IS_ERR() bug
+Message-ID: <aPJyEMWmWpWkcQvE@stanley.mountain>
+References: <aPJo1W5Dl4rmGX_P@stanley.mountain>
+ <aPJrs7_u8KcalNsC@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aPJrs7_u8KcalNsC@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,265 +97,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Oct 2025 11:57:08 -0400
-Faith Ekstrand <faith@gfxstrand.net> wrote:
+On Fri, Oct 17, 2025 at 07:15:47PM +0300, Ville Syrjälä wrote:
+> On Fri, Oct 17, 2025 at 07:03:33PM +0300, Dan Carpenter wrote:
+> > The drm_atomic_get_crtc_state() function never returns NULL, it returns
+> > error pointers.  Update the error checking to match.
+> > 
+> > Fixes: cb71de092553 ("drm/sysfb: Lookup blit function during atomic check")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> > index 8517c490e815..d2c4d8f3d4d0 100644
+> > --- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> > +++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> > @@ -259,7 +259,7 @@ int drm_sysfb_plane_helper_begin_fb_access(struct drm_plane *plane,
+> >  	ret = -EINVAL;
+> >  
+> >  	crtc_state = drm_atomic_get_crtc_state(plane_state->state, plane_state->crtc);
+> 
+> Looking at where this gets called, that should be
+> drm_atomic_get_new_crtc_state(). Either that or the
+> code is more seriously borked.
+> 
 
-> On Fri, Oct 17, 2025 at 11:50=E2=80=AFAM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > +Matt for my comment on PVR having the same issue.
-> >
-> > On Fri, 17 Oct 2025 11:35:54 -0400
-> > Faith Ekstrand <faith@gfxstrand.net> wrote:
-> > =20
-> > > On Fri, Oct 17, 2025 at 11:27=E2=80=AFAM Boris Brezillon
-> > > <boris.brezillon@collabora.com> wrote: =20
-> > > >
-> > > > On Fri, 17 Oct 2025 10:40:46 -0400
-> > > > Faith Ekstrand <faith@gfxstrand.net> wrote:
-> > > > =20
-> > > > > On Fri, Oct 17, 2025 at 10:32=E2=80=AFAM Faith Ekstrand <faith@gf=
-xstrand.net> wrote: =20
-> > > > > >
-> > > > > > On Wed, Oct 15, 2025 at 12:04=E2=80=AFPM Boris Brezillon
-> > > > > > <boris.brezillon@collabora.com> wrote: =20
-> > > > > > >
-> > > > > > > Prepare things for standardizing synchronization around CPU a=
-ccesses
-> > > > > > > of GEM buffers. This will be used to provide default
-> > > > > > > drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and =
-provide
-> > > > > > > a way for drivers to add their own ioctls to synchronize CPU
-> > > > > > > writes/reads when they can't do it directly from userland.
-> > > > > > >
-> > > > > > > v2:
-> > > > > > > - New commit
-> > > > > > >
-> > > > > > > v3:
-> > > > > > > - No changes
-> > > > > > >
-> > > > > > > v4:
-> > > > > > > - Add Steve's R-b
-> > > > > > >
-> > > > > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > > > > Reviewed-by: Steven Price <steven.price@arm.com>
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/drm_gem.c | 10 +++++++++
-> > > > > > >  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++=
-++++++++++
-> > > > > > >  2 files changed, 55 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_=
-gem.c
-> > > > > > > index a1a9c828938b..a1431e4f2404 100644
-> > > > > > > --- a/drivers/gpu/drm/drm_gem.c
-> > > > > > > +++ b/drivers/gpu/drm/drm_gem.c
-> > > > > > > @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_obj=
-ect *obj, struct iosys_map *map)
-> > > > > > >  }
-> > > > > > >  EXPORT_SYMBOL(drm_gem_vunmap);
-> > > > > > >
-> > > > > > > +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, =
-size_t size,
-> > > > > > > +                enum drm_gem_object_access_flags access)
-> > > > > > > +{
-> > > > > > > +       if (obj->funcs->sync)
-> > > > > > > +               return obj->funcs->sync(obj, offset, size, ac=
-cess);
-> > > > > > > +
-> > > > > > > +       return 0;
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL(drm_gem_sync);
-> > > > > > > +
-> > > > > > >  /**
-> > > > > > >   * drm_gem_lock_reservations - Sets up the ww context and ac=
-quires
-> > > > > > >   * the lock on an array of GEM objects.
-> > > > > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > > > > > > index 8d48d2af2649..1c33e59ab305 100644
-> > > > > > > --- a/include/drm/drm_gem.h
-> > > > > > > +++ b/include/drm/drm_gem.h
-> > > > > > > @@ -66,6 +66,33 @@ enum drm_gem_object_status {
-> > > > > > >         DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
-> > > > > > >  };
-> > > > > > >
-> > > > > > > +/**
-> > > > > > > + * enum drm_gem_object_status - bitmask describing GEM acces=
-s types to prepare for
-> > > > > > > + */
-> > > > > > > +enum drm_gem_object_access_flags {
-> > > > > > > +       /** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU acc=
-ess. */
-> > > > > > > +       DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
-> > > > > > > +
-> > > > > > > +       /** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device =
-access. */
-> > > > > > > +       DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
-> > > > > > > +
-> > > > > > > +       /** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check=
- the entity doing the access. */
-> > > > > > > +       DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
-> > > > > > > +
-> > > > > > > +       /** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-onl=
-y accesses. */
-> > > > > > > +       DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
-> > > > > > > +
-> > > > > > > +       /** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-o=
-nly accesses. */
-> > > > > > > +       DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
-> > > > > > > +
-> > > > > > > +       /** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/wri=
-te accesses. */
-> > > > > > > +       DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCE=
-SS |
-> > > > > > > +                                  DRM_GEM_OBJECT_WRITE_ACCES=
-S,
-> > > > > > > +
-> > > > > > > +       /** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to ch=
-eck the access type. */
-> > > > > > > +       DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW=
-_ACCESS,
-> > > > > > > +};
-> > > > > > > +
-> > > > > > >  /**
-> > > > > > >   * struct drm_gem_object_funcs - GEM object functions
-> > > > > > >   */
-> > > > > > > @@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
-> > > > > > >          */
-> > > > > > >         int (*mmap)(struct drm_gem_object *obj, struct vm_are=
-a_struct *vma);
-> > > > > > >
-> > > > > > > +       /**
-> > > > > > > +        * @sync:
-> > > > > > > +        *
-> > > > > > > +        * Prepare for CPU/device access. This can involve mi=
-gration of
-> > > > > > > +        * a buffer to the system-RAM/VRAM, or for UMA, flush=
-ing/invalidating
-> > > > > > > +        * the CPU caches. The range can be used to optimize =
-the synchronization
-> > > > > > > +        * when possible. =20
-> > > > > >
-> > > > > > This has gone in a very different direction from the version I =
-sent
-> > > > > > out and the added generality makes me really nervous. The idea =
-of sync
-> > > > > > involving migration and that the range is a mere hint are antit=
-hetical
-> > > > > > with Vulkan. It's a very GLish design that assumes that a BO is
-> > > > > > exclusively used by one of the CPU or the GPU at the same time.=
- This
-> > > > > > simply isn't the case in modern APIs. Older DRM uAPIs (as well =
-as
-> > > > > > dma-buf itself) are littered with such ioctls and we're in the =
-process
-> > > > > > of deleting them all. =20
-> > > > >
-> > > > > And yes, I realize I sent this on the patch for the hook which you
-> > > > > intended to plumb through to dma-buf. However, I also saw it being
-> > > > > propagated to an ioctl and I didn't know where else to put it tha=
-t had
-> > > > > the relevant details.
-> > > > >
-> > > > > ~Faith
-> > > > > =20
-> > > > > > If the BO needs to be migrated in order to be accessed from the=
- CPU,
-> > > > > > that needs to happen on map, not on some sort of begin/end. Or =
-better
-> > > > > > yet, just disallow mapping such buffers. Once the client has a =
-map,
-> > > > > > they are free to access from the CPU while stuff is running on =
-the
-> > > > > > GPU. They have to be careful, of course, not to cause data race=
-s, but
-> > > > > > accessing the same BO from the CPU and GPU or even the same ran=
-ge is
-> > > > > > totally okay if you aren't racing.
-> > > > > >
-> > > > > > As a corollary, just don't map PRIME buffers.
-> > > > > >
-> > > > > > And the range really shouldn't be just a hint. With Vulkan, cli=
-ents
-> > > > > > are regularly sub-allocating from larger memory objects. If the=
-y ask
-> > > > > > to flush 64B and end up flushing 64M, that's pretty bad.
-> > > > > >
-> > > > > > All we need is something which lets us trap through to the kern=
-el for
-> > > > > > CPU cache management. That's all we need and that's really all =
-it
-> > > > > > should do. =20
-> > > >
-> > > > Okay, so there's actually a problem with that I think, because we c=
-an't
-> > > > know how the buffer we export will be used. It can be imported by t=
-he
-> > > > same driver, and we're all good, but it can also be imported by a
-> > > > different driver, which decides to vmap or allow mmap() on it, and =
-then
-> > > > we have to implement the dma_buf CPU sync hooks. Unless we decide t=
-hat
-> > > > all exported buffers should be write-combine only? This is the very
-> > > > reason I started hooking things up on the dma_buf side, because we'=
-re
-> > > > not in control of who the importer of our buffers is. =20
-> > >
-> > > Exported buffers should be WC-only. We could try to get creative but
-> > > the moment we let the lack of coherency leak to other processes,
-> > > potentially to other drivers, we're in a world of hurt. Even with the
-> > > dma-buf begin/end hooks, if it's imported into a driver that does
-> > > Vulkan, those hooks don't make sense and we're screwed. =20
-> >
-> > Well, yeah, the 'entire-buf' granularity is a problem, indeed, =20
->=20
-> If all that's being done is cache flushing, it's kind of okay. It's a
-> big hammer but it's okay. However, if the driver is doing literally
-> anything else in begin/end, it's all a lie the moment you allow that
-> buffer to be mapped in Vulkan. The client may be reading from the CPU
-> for GPU download in one subrange, writing from the CPU for GPU upload
-> in another subrange, and reading/writing from the GPU in another
-> subrange all at the same time. That's totally incompatible with the
-> dma-buf begin/end model.
->=20
-> > and
-> > there's no way around it with the current dma-buf API, which is why I
-> > prevented external bufs from being mapped (AKA not host-visible in
-> > Vulkan's term). But I really thought imported buffers coming from
-> > panthor should be mapped cached. =20
->=20
-> Yeah. So we could potentially allow WB maps if the client requests an
-> export via OPAQUE_FD since we know a priori that such a buffer will
-> only ever be re-imported into panfrost/panvk. However, I really don't
-> think that's a common enough case to be worth optimizing just yet.
->=20
-> > > And, yes, I
-> > > know panvk is the only Vulkan implementation you're going to see on a
-> > > system with an Arm GPU, but thinking about things in the general case
-> > > across all of DRM, exporting non-coherent memory in 2025 is just
-> > > cursed. =20
-> >
-> > Hm, okay. If that's the way to go, then we should enforce
-> >
-> >         !WB_MMAP || !PRIVATE
-> >
-> > in panthor, and fail the export of a WB_MMAP buffer in panfrost (we
-> > don't have a way to know that a buffer is private there). =20
->=20
-> Yeah, I'm a fan of that for now.
+I can't comment on that.  Let's drop this patch and instead (probably
+I guess?) change it to drm_atomic_get_new_crtc_state().
 
-Might also require more changes when the GPU is IO-coherent, because
-IO-coherency is a per-device thing on Arm. Right now we forcibly map
-things WB even if the user didn't ask for it when the GPU is coherent,
-but the importer might not be IO-coherent. I think it's fine in Panthor
-because we can properly define the shareability/cachebility attributes,
-but on older Mali gens, I remember hitting some issues. For instance, we
-had issues when mapping things uncached on some IO-coherent amlogic
-integration of the G52. I've managed to disable coherency on my VIM3
-with a few hacks (switching to the new page table format was one of
-them, but I'm not sure what I did is portable to older gens that only
-support the old page table format), but I'd have to make sure this can
-be done on a per mapping basis. Steve probably knows more about that.
+regards,
+dan carpenter
 
-TLDR; maybe we should focus on Panthor first, so we don't block this MR
-on some changes breaking old HW in Panfrost.
