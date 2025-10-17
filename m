@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121F8BE8ED4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776AFBE8EEF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F4010EC26;
-	Fri, 17 Oct 2025 13:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B123610EC27;
+	Fri, 17 Oct 2025 13:37:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="SP49e7sf";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iERp3+El";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD0210EC14;
- Fri, 17 Oct 2025 13:36:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E0110EC15;
+ Fri, 17 Oct 2025 13:37:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,26 +22,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=icb7i+7ku9WJXiXCeMGwCIdD78osrj3YeQeaOuYIqAg=; b=SP49e7sf6qHmxIScLmWlOQNka9
- IzsRuQ/AgBLAMhEHw//XunggwGPdPoTmai4trAD90TT0m8VIda3SO5M28zRA+NxUv+7XLwjCpQuQ9
- 8WuI9K/eaeqpveN/qcVPAo7+imcraqKQV4/Wqla2o1vM0XMIefO1ILk0+q09nxgFmA13elWIYShQw
- Olc364v9YSHb2Ez3tZH6h+rS+s+HKzEmQ8dz8WQHVR4QrBA+MFJS88mNdDBrcGh8ctIaekv6r4RnX
- W5NwuEAkGtullU7WGXTCP6oheOTCYlQagUy8FChIZYNaBBkS3T5Iw701DWIVc3aqt/r3enR37E0yA
- tBSBerIg==;
+ bh=HVonpoUsYbadxkvAO5hfwtC17ZnChfmwR0R1kuR+14k=; b=iERp3+ElXIb9srDq9im+uk4TRv
+ wnYSihN/Oy25tLYMEuf3tQQkFUqTjhGvYVfFuLNGTP+mzYv+kJ9Y4dI13dRQlJaJzHh0qQThNa2IL
+ Dc43v8adNzRpbzoLjjhWA6RI1TlrjESOiodtj/UNuXjyQwCyncGAi0Rr1K5xsJdjIPNd2Zn/ZsKpZ
+ GMpRPQR9uZJEfoKMySDpjZNuI/zk6iRjRI9ZL7O1mqMJmDOvXWJ1P7IXF6xX4+8wezpB91qOEDvZP
+ KT8dliOIDkfo8ZNWxOI4lBinIWATEh0hN6yyH5xsXkGdiHHRliGst2g+JEfQvGgy8+yPJbmScT75d
+ lTaoc3Tw==;
 Received: from [90.242.12.242] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1v9kdd-00B3vi-0y; Fri, 17 Oct 2025 15:36:57 +0200
+ id 1v9kdd-00B3vx-PH; Fri, 17 Oct 2025 15:36:57 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>
-Subject: [PATCH v2 14/27] accel/amdxdna: Remove drm_sched_init_args->num_rqs
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>
+Subject: [PATCH v2 15/27] accel/rocket: Remove drm_sched_init_args->num_rqs
  usage
-Date: Fri, 17 Oct 2025 14:36:31 +0100
-Message-ID: <20251017133644.44747-15-tvrtko.ursulin@igalia.com>
+Date: Fri, 17 Oct 2025 14:36:32 +0100
+Message-ID: <20251017133644.44747-16-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
 References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
@@ -65,25 +64,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Min Ma <mamin506@gmail.com>
-Cc: Lizhi Hou <lizhi.hou@amd.com>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 Cc: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/amdxdna/aie2_ctx.c | 1 -
+ drivers/accel/rocket/rocket_job.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-index ab4d66f1325d..e95e10556b00 100644
---- a/drivers/accel/amdxdna/aie2_ctx.c
-+++ b/drivers/accel/amdxdna/aie2_ctx.c
-@@ -528,7 +528,6 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
- 	struct amdxdna_dev *xdna = client->xdna;
- 	const struct drm_sched_init_args args = {
- 		.ops = &sched_ops,
+diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+index acd606160dc9..6ff81cff81af 100644
+--- a/drivers/accel/rocket/rocket_job.c
++++ b/drivers/accel/rocket/rocket_job.c
+@@ -437,7 +437,6 @@ int rocket_job_init(struct rocket_core *core)
+ {
+ 	struct drm_sched_init_args args = {
+ 		.ops = &rocket_sched_ops,
 -		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = HWCTX_MAX_CMDS,
- 		.timeout = msecs_to_jiffies(HWCTX_MAX_TIMEOUT),
- 		.name = "amdxdna_js",
+ 		.credit_limit = 1,
+ 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+ 		.name = dev_name(core->dev),
 -- 
 2.48.0
 
