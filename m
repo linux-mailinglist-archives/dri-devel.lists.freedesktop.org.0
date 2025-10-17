@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CC7BECA82
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 10:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C41BBECA76
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 10:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCCF110E3A8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067F110E39C;
 	Sat, 18 Oct 2025 08:39:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o4k3XMRM";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yqxmbqhU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 089BE10EC3B;
- Fri, 17 Oct 2025 13:49:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECCD10EC3F;
+ Fri, 17 Oct 2025 13:49:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DFCE14B431;
- Fri, 17 Oct 2025 13:49:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C2BC4CEFE;
- Fri, 17 Oct 2025 13:49:23 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 85ADF440F3;
+ Fri, 17 Oct 2025 13:49:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C9BDC4CEFE;
+ Fri, 17 Oct 2025 13:49:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1760708964;
- bh=bOsqCp8TMdOOxRouPL0v40Hpip8fec6qVLcR2bbUelE=;
+ s=korg; t=1760708968;
+ bh=AXLQbIpyqBEyGxGkGpyjpB8PhkgTtFqjbG86wloeB2M=;
  h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=o4k3XMRMySS2bKlqoV5SYd19Rsib6i/gvPhcFvbMlaAzI0b8Ur4SEdnbSg0TTymYk
- 7bZujYKA9rw/H+XOS7UeBCG5/fHRAoMaVtstXu7OxOiugdHb8sdEdHOr3Yzdf61Qxg
- eAoznRU3mkFGJ+bSUXEP0+1exj0r0qj4oT+FGlvo=
-Subject: Patch "minmax: relax check to allow comparison between unsigned
- arguments and signed constants" has been added to the 5.10-stable tree
-To: David.Laight@ACULAB.COM, Jason@zx2c4.com,
-	adilger.kernel@dilger.ca, agk@redhat.com, airlied@linux.ie,
-	akpm@linux-foundation.org, alexander.deucher@amd.com,
-	alexandre.torgue@st.com, amd-gfx@lists.freedesktop.org,
-	andriy.shevchenko@linux.intel.com, anton.ivanov@cambridgegreys.com,
-	artur.paszkiewicz@intel.com, bp@alien8.de, brian.starkey@arm.com,
-	bvanassche@acm.org, chao@kernel.org, christian.koenig@amd.com,
-	clm@fb.com, coreteam@netfilter.org, daniel@ffwll.ch,
-	dave.hansen@linux.intel.com, davem@davemloft.net,
-	david.laight@aculab.com, dm-devel@redhat.com,
-	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
-	dsterba@suse.com, dushistov@mail.ru, evan.quan@amd.com,
-	farbere@amazon.com, fery@cypress.com,
+ b=yqxmbqhU7Dn2HCy1bkSgzeLXKO4ric/nqqoNtScWtY2TiedRGdgf80qDK/YCbLrvW
+ IfY1WEOiCiL8yfo5PoNzofMqcGQu/GZcXm7b3J/KOIjhfnMNX5k26xlfcaQlJ9I/ot
+ aMXMN7ghK0WAjsQI71lH1wvqQb4ZGI2z8dhWEx6c=
+Subject: Patch "minmax: make generic MIN() and MAX() macros available
+ everywhere" has been added to the 5.10-stable tree
+To: David.Laight@ACULAB.COM, David.Laight@aculab.com,
+	Jason@zx2c4.com, adilger.kernel@dilger.ca, agk@redhat.com,
+	airlied@linux.ie, akpm@linux-foundation.org,
+	alexander.deucher@amd.com, alexandre.torgue@st.com,
+	amd-gfx@lists.freedesktop.org, andriy.shevchenko@linux.intel.com,
+	anton.ivanov@cambridgegreys.com, artur.paszkiewicz@intel.com,
+	bp@alien8.de, brian.starkey@arm.com, bvanassche@acm.org,
+	chao@kernel.org, christian.koenig@amd.com, clm@fb.com,
+	coreteam@netfilter.org, daniel@ffwll.ch, dave.hansen@linux.intel.com,
+	davem@davemloft.net, dm-devel@redhat.com, dmitry.torokhov@gmail.com,
+	dri-devel@lists.freedesktop.org, dsterba@suse.com, dushistov@mail.ru,
+	evan.quan@amd.com, farbere@amazon.com, fery@cypress.com,
 	freedreno@lists.freedesktop.org, fw@strlen.de,
 	gregkh@linuxfoundation.org, harry.wentland@amd.com,
-	hch@infradead.org, hdegoede@redhat.com, herve.codina@bootlin.com,
-	hpa@zytor.com, intel-linux-scu@intel.com, jack@suse.com,
-	james.morse@arm.com, james.qian.wang@arm.com, jdelvare@suse.com,
-	jdike@addtoit.com, jejb@linux.ibm.com, jm@freedesktop.org,
-	aloy@redhat.com, joabreu@synopsys.com, josef@toxicpanda.com,
-	kadlec@netfilter.org, kbusch@kernel.org, keescook@chromium.org,
-	kuba@kernel.org, kuznet@ms2.inr.ac.ru,
-	linux-arm-kernel@lists.infradead.org, linux-erofs@lists.ozlabs.org,
-	linux-mm@kvack.org, linux-staging@lists.linux.dev,
+	hdegoede@redhat.com, herve.codina@bootlin.com, hpa@zytor.com,
+	intel-linux-scu@intel.com, jack@suse.com, james.morse@arm.com,
+	james.qian.wang@arm.com, jdelvare@suse.com, jdike@addtoit.com,
+	jejb@linux.ibm.com, jmaloy@redhat.com, jo@freedesktop.org,
+	abreu@synopsys.com, josef@toxicpanda.com, kadlec@netfilter.org,
+	kbusch@kernel.org, keescook@chromium.org, kuba@kernel.org,
+	kuznet@ms2.inr.ac.ru, linux-arm-kernel@lists.infradead.org,
+	linux-erofs@lists.ozlabs.org, linux-mm@kvack.org,
+	linux-staging@lists.linux.dev,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-um@lists.infradead.org, linux@armlinux.org.uk,
 	linux@rasmusvillemoes.dk, linux@roeck-us.net, liviu.dudau@arm.com,
-	luc.vanoostenryck@gmail.com, luto@kernel.org,
-	maarten.lankhorst@linux.intel.com, malattia@linux.it,
-	martin.petersen@oracle.com, mchehab@kernel.org,
+	lorenzo.stoakes@oracle.com, luc.vanoostenryck@gmail.com,
+	luto@kernel.org, maarten.lankhorst@linux.intel.com,
+	malattia@linux.it, martin.petersen@oracle.com, mchehab@kernel.org,
 	mcoquelin.stm32@gmail.com, mgross@linux.intel.com,
 	mihail.atanassov@arm.com, minchan@kernel.org, mingo@redhat.com,
 	mripard@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
@@ -66,7 +65,7 @@ To: David.Laight@ACULAB.COM, Jason@zx2c4.com,
 	peterz@infradead.org, pmladek@suse.com, qiuxu.zhuo@intel.com,
 	rajur@chelsio.com, richard@nod.at, robdclark@gmail.com,
 	rostedt@goodmis.org, rric@kernel.org, ruanjinjie@huawei.com,
-	sakari.ailus@linux.intel.c, om@freedesktop.org, sashal@kernel.org,
+	sakari.ailus@linu, x.intel.com@freedesktop.org, sashal@kernel.org,
 	sean@poorly.run, sergey.senozhatsky@gmail.com, snitzer@redhat.com,
 	sunpeng.li@amd.com, tglx@linutronix.de,
 	tipc-discussion@lists.sourceforge.net, tony.luck@intel.com,
@@ -76,8 +75,8 @@ To: David.Laight@ACULAB.COM, Jason@zx2c4.com,
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
 Date: Fri, 17 Oct 2025 15:48:31 +0200
-In-Reply-To: <20251017090519.46992-13-farbere@amazon.com>
-Message-ID: <2025101731-bulldog-eastcoast-8e47@gregkh>
+In-Reply-To: <20251017090519.46992-17-farbere@amazon.com>
+Message-ID: <2025101731-gong-handrail-375e@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -102,98 +101,364 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    minmax: relax check to allow comparison between unsigned arguments and signed constants
+    minmax: make generic MIN() and MAX() macros available everywhere
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     minmax-relax-check-to-allow-comparison-between-unsigned-arguments-and-signed-constants.patch
+     minmax-make-generic-min-and-max-macros-available-everywhere.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From prvs=378230090=farbere@amazon.com Fri Oct 17 11:09:53 2025
+From prvs=378230090=farbere@amazon.com Fri Oct 17 11:10:56 2025
 From: Eliav Farber <farbere@amazon.com>
-Date: Fri, 17 Oct 2025 09:05:04 +0000
-Subject: minmax: relax check to allow comparison between unsigned arguments and signed constants
+Date: Fri, 17 Oct 2025 09:05:08 +0000
+Subject: minmax: make generic MIN() and MAX() macros available everywhere
 To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>, <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>, <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>, <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>, <evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>, <mihail.atanassov@arm.com>, <brian.starkey@arm.com>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>, <jdelvare@suse.com>, <linux@roeck-us.net>, <fery@cypress.com>, <dmitry.torokhov@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>, <dm-devel@redhat.com>, <rajur@chelsio
  .com>, <davem@davemloft.net>, <kuba@kernel.org>, <peppe.cavallaro@st.com>, <alexandre.torgue@st.com>, <joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>, <intel-linux-scu@intel.com>, <artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>, <dsterba@suse.com>, <xiang@kernel.org>, <chao@kernel.org>, <jack@suse.com>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <dushistov@mail.ru>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>, <sergey.senozhatsky@gmail.com>, <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>, <kuznet@ms2.inr.ac.ru>, <yoshfuji@linux-ipv6.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>, <willy@infradead.org>, <farbere@amazon.com>,
   <sashal@kernel.org>, <ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>, <Jason@zx2c4.com>, <keescook@chromium.org>, <kbusch@kernel.org>, <nathan@kernel.org>, <bvanassche@acm.org>, <ndesaulniers@google.com>, <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>, <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>, <tipc-discussion@
  lists.sourceforge.net>
-Cc: Christoph Hellwig <hch@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>
-Message-ID: <20251017090519.46992-13-farbere@amazon.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, David Laight <David.Laight@aculab.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Message-ID: <20251017090519.46992-17-farbere@amazon.com>
 
-From: David Laight <David.Laight@ACULAB.COM>
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit 867046cc7027703f60a46339ffde91a1970f2901 ]
+[ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
 
-Allow (for example) min(unsigned_var, 20).
+This just standardizes the use of MIN() and MAX() macros, with the very
+traditional semantics.  The goal is to use these for C constant
+expressions and for top-level / static initializers, and so be able to
+simplify the min()/max() macros.
 
-The opposite min(signed_var, 20u) is still errored.
+These macro names were used by various kernel code - they are very
+traditional, after all - and all such users have been fixed up, with a
+few different approaches:
 
-Since a comparison between signed and unsigned never makes the unsigned
-value negative it is only necessary to adjust the __types_ok() test.
+ - trivial duplicated macro definitions have been removed
 
-Link: https://lkml.kernel.org/r/633b64e2f39e46bb8234809c5595b8c7@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+   Note that 'trivial' here means that it's obviously kernel code that
+   already included all the major kernel headers, and thus gets the new
+   generic MIN/MAX macros automatically.
+
+ - non-trivial duplicated macro definitions are guarded with #ifndef
+
+   This is the "yes, they define their own versions, but no, the include
+   situation is not entirely obvious, and maybe they don't get the
+   generic version automatically" case.
+
+ - strange use case #1
+
+   A couple of drivers decided that the way they want to describe their
+   versioning is with
+
+	#define MAJ 1
+	#define MIN 2
+	#define DRV_VERSION __stringify(MAJ) "." __stringify(MIN)
+
+   which adds zero value and I just did my Alexander the Great
+   impersonation, and rewrote that pointless Gordian knot as
+
+	#define DRV_VERSION "1.2"
+
+   instead.
+
+ - strange use case #2
+
+   A couple of drivers thought that it's a good idea to have a random
+   'MIN' or 'MAX' define for a value or index into a table, rather than
+   the traditional macro that takes arguments.
+
+   These values were re-written as C enum's instead. The new
+   function-line macros only expand when followed by an open
+   parenthesis, and thus don't clash with enum use.
+
+Happily, there weren't really all that many of these cases, and a lot of
+users already had the pattern of using '#ifndef' guarding (or in one
+case just using '#undef MIN') before defining their own private version
+that does the same thing. I left such cases alone.
+
+Cc: David Laight <David.Laight@aculab.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/linux/minmax.h |   24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ arch/um/drivers/mconsole_user.c                                       |    2 
+ drivers/edac/skx_common.h                                             |    1 
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c                   |    2 
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h                    |   14 ++++-
+ drivers/gpu/drm/radeon/evergreen_cs.c                                 |    2 
+ drivers/hwmon/adt7475.c                                               |   24 +++++-----
+ drivers/media/dvb-frontends/stv0367_priv.h                            |    3 +
+ drivers/net/fjes/fjes_main.c                                          |    4 -
+ drivers/nfc/pn544/i2c.c                                               |    2 
+ drivers/platform/x86/sony-laptop.c                                    |    1 
+ drivers/scsi/isci/init.c                                              |    6 --
+ drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h |    5 --
+ include/linux/minmax.h                                                |    2 
+ kernel/trace/preemptirq_delay_test.c                                  |    2 
+ lib/btree.c                                                           |    1 
+ lib/decompress_unlzma.c                                               |    2 
+ lib/zstd/zstd_internal.h                                              |    2 
+ mm/zsmalloc.c                                                         |    1 
+ 18 files changed, 37 insertions(+), 39 deletions(-)
 
+--- a/arch/um/drivers/mconsole_user.c
++++ b/arch/um/drivers/mconsole_user.c
+@@ -71,7 +71,9 @@ static struct mconsole_command *mconsole
+ 	return NULL;
+ }
+ 
++#ifndef MIN
+ #define MIN(a,b) ((a)<(b) ? (a):(b))
++#endif
+ 
+ #define STRINGX(x) #x
+ #define STRING(x) STRINGX(x)
+--- a/drivers/edac/skx_common.h
++++ b/drivers/edac/skx_common.h
+@@ -36,7 +36,6 @@
+ #define I10NM_NUM_CHANNELS	2
+ #define I10NM_NUM_DIMMS		2
+ 
+-#define MAX(a, b)	((a) > (b) ? (a) : (b))
+ #define NUM_IMC		MAX(SKX_NUM_IMC, I10NM_NUM_IMC)
+ #define NUM_CHANNELS	MAX(SKX_NUM_CHANNELS, I10NM_NUM_CHANNELS)
+ #define NUM_DIMMS	MAX(SKX_NUM_DIMMS, I10NM_NUM_DIMMS)
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_ddc.c
+@@ -25,7 +25,9 @@
+ 
+ #include "hdcp.h"
+ 
++#ifndef MIN
+ #define MIN(a, b) ((a) < (b) ? (a) : (b))
++#endif
+ #define HDCP_I2C_ADDR 0x3a	/* 0x74 >> 1*/
+ #define KSV_READ_SIZE 0xf	/* 0x6803b - 0x6802c */
+ #define HDCP_MAX_AUX_TRANSACTION_SIZE 16
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
+@@ -22,12 +22,18 @@
+  */
+ #include <asm/div64.h>
+ 
+-#define SHIFT_AMOUNT 16 /* We multiply all original integers with 2^SHIFT_AMOUNT to get the fInt representation */
++enum ppevvmath_constants {
++	/* We multiply all original integers with 2^SHIFT_AMOUNT to get the fInt representation */
++	SHIFT_AMOUNT	= 16,
+ 
+-#define PRECISION 5 /* Change this value to change the number of decimal places in the final output - 5 is a good default */
++	/* Change this value to change the number of decimal places in the final output - 5 is a good default */
++	PRECISION	=  5,
+ 
+-#define SHIFTED_2 (2 << SHIFT_AMOUNT)
+-#define MAX (1 << (SHIFT_AMOUNT - 1)) - 1 /* 32767 - Might change in the future */
++	SHIFTED_2	= (2 << SHIFT_AMOUNT),
++
++	/* 32767 - Might change in the future */
++	MAX		= (1 << (SHIFT_AMOUNT - 1)) - 1,
++};
+ 
+ /* -------------------------------------------------------------------------------
+  * NEW TYPE - fINT
+--- a/drivers/gpu/drm/radeon/evergreen_cs.c
++++ b/drivers/gpu/drm/radeon/evergreen_cs.c
+@@ -32,8 +32,10 @@
+ #include "evergreen_reg_safe.h"
+ #include "cayman_reg_safe.h"
+ 
++#ifndef MIN
+ #define MAX(a,b)                   (((a)>(b))?(a):(b))
+ #define MIN(a,b)                   (((a)<(b))?(a):(b))
++#endif
+ 
+ #define REG_SAFE_BM_SIZE ARRAY_SIZE(evergreen_reg_safe_bm)
+ 
+--- a/drivers/hwmon/adt7475.c
++++ b/drivers/hwmon/adt7475.c
+@@ -23,23 +23,23 @@
+ #include <linux/util_macros.h>
+ 
+ /* Indexes for the sysfs hooks */
+-
+-#define INPUT		0
+-#define MIN		1
+-#define MAX		2
+-#define CONTROL		3
+-#define OFFSET		3
+-#define AUTOMIN		4
+-#define THERM		5
+-#define HYSTERSIS	6
+-
++enum adt_sysfs_id {
++	INPUT		= 0,
++	MIN		= 1,
++	MAX		= 2,
++	CONTROL		= 3,
++	OFFSET		= 3,	// Dup
++	AUTOMIN		= 4,
++	THERM		= 5,
++	HYSTERSIS	= 6,
+ /*
+  * These are unique identifiers for the sysfs functions - unlike the
+  * numbers above, these are not also indexes into an array
+  */
++	ALARM		= 9,
++	FAULT		= 10,
++};
+ 
+-#define ALARM		9
+-#define FAULT		10
+ 
+ /* 7475 Common Registers */
+ 
+--- a/drivers/media/dvb-frontends/stv0367_priv.h
++++ b/drivers/media/dvb-frontends/stv0367_priv.h
+@@ -25,8 +25,11 @@
+ #endif
+ 
+ /* MACRO definitions */
++#ifndef MIN
+ #define MAX(X, Y) ((X) >= (Y) ? (X) : (Y))
+ #define MIN(X, Y) ((X) <= (Y) ? (X) : (Y))
++#endif
++
+ #define INRANGE(X, Y, Z) \
+ 	((((X) <= (Y)) && ((Y) <= (Z))) || \
+ 	(((Z) <= (Y)) && ((Y) <= (X))) ? 1 : 0)
+--- a/drivers/net/fjes/fjes_main.c
++++ b/drivers/net/fjes/fjes_main.c
+@@ -14,9 +14,7 @@
+ #include "fjes.h"
+ #include "fjes_trace.h"
+ 
+-#define MAJ 1
+-#define MIN 2
+-#define DRV_VERSION __stringify(MAJ) "." __stringify(MIN)
++#define DRV_VERSION "1.2"
+ #define DRV_NAME	"fjes"
+ char fjes_driver_name[] = DRV_NAME;
+ char fjes_driver_version[] = DRV_VERSION;
+--- a/drivers/nfc/pn544/i2c.c
++++ b/drivers/nfc/pn544/i2c.c
+@@ -126,8 +126,6 @@ struct pn544_i2c_fw_secure_blob {
+ #define PN544_FW_CMD_RESULT_COMMAND_REJECTED 0xE0
+ #define PN544_FW_CMD_RESULT_CHUNK_ERROR 0xE6
+ 
+-#define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
+-
+ #define PN544_FW_WRITE_BUFFER_MAX_LEN 0x9f7
+ #define PN544_FW_I2C_MAX_PAYLOAD PN544_HCI_I2C_LLC_MAX_SIZE
+ #define PN544_FW_I2C_WRITE_FRAME_HEADER_LEN 8
+--- a/drivers/platform/x86/sony-laptop.c
++++ b/drivers/platform/x86/sony-laptop.c
+@@ -757,7 +757,6 @@ static union acpi_object *__call_snc_met
+ 	return result;
+ }
+ 
+-#define MIN(a, b)	(a > b ? b : a)
+ static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
+ 		void *buffer, size_t buflen)
+ {
+--- a/drivers/scsi/isci/init.c
++++ b/drivers/scsi/isci/init.c
+@@ -65,11 +65,7 @@
+ #include "task.h"
+ #include "probe_roms.h"
+ 
+-#define MAJ 1
+-#define MIN 2
+-#define BUILD 0
+-#define DRV_VERSION __stringify(MAJ) "." __stringify(MIN) "." \
+-	__stringify(BUILD)
++#define DRV_VERSION "1.2.0"
+ 
+ MODULE_VERSION(DRV_VERSION);
+ 
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
+@@ -31,11 +31,6 @@
+ /* A => B */
+ #define IMPLIES(a, b)        (!(a) || (b))
+ 
+-/* for preprocessor and array sizing use MIN and MAX
+-   otherwise use min and max */
+-#define MAX(a, b)            (((a) > (b)) ? (a) : (b))
+-#define MIN(a, b)            (((a) < (b)) ? (a) : (b))
+-
+ #define ROUND_DIV(a, b)      (((b) != 0) ? ((a) + ((b) >> 1)) / (b) : 0)
+ #define CEIL_DIV(a, b)       (((b) != 0) ? ((a) + (b) - 1) / (b) : 0)
+ #define CEIL_MUL(a, b)       (CEIL_DIV(a, b) * (b))
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -10,13 +10,18 @@
- /*
-  * min()/max()/clamp() macros must accomplish three things:
-  *
-- * - avoid multiple evaluations of the arguments (so side-effects like
-+ * - Avoid multiple evaluations of the arguments (so side-effects like
-  *   "x++" happen only once) when non-constant.
-- * - perform signed v unsigned type-checking (to generate compile
-- *   errors instead of nasty runtime surprises).
-- * - retain result as a constant expressions when called with only
-+ * - Retain result as a constant expressions when called with only
-  *   constant expressions (to avoid tripping VLA warnings in stack
-  *   allocation usage).
-+ * - Perform signed v unsigned type-checking (to generate compile
-+ *   errors instead of nasty runtime surprises).
-+ * - Unsigned char/short are always promoted to signed int and can be
-+ *   compared against signed or unsigned arguments.
-+ * - Unsigned arguments can be compared against non-negative signed constants.
-+ * - Comparison of a signed argument against an unsigned constant fails
-+ *   even if the constant is below __INT_MAX__ and could be cast to int.
+@@ -277,6 +277,8 @@ static inline bool in_range32(u32 val, u
+  * Use these carefully: no type checking, and uses the arguments
+  * multiple times. Use for obvious constants only.
   */
- #define __typecheck(x, y) \
- 	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-@@ -26,9 +31,14 @@
- 	__builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),	\
- 		is_signed_type(typeof(x)), 0)
++#define MIN(a,b) __cmp(min,a,b)
++#define MAX(a,b) __cmp(max,a,b)
+ #define MIN_T(type,a,b) __cmp(min,(type)(a),(type)(b))
+ #define MAX_T(type,a,b) __cmp(max,(type)(a),(type)(b))
  
--#define __types_ok(x, y) 			\
--	(__is_signed(x) == __is_signed(y) ||	\
--		__is_signed((x) + 0) == __is_signed((y) + 0))
-+/* True for a non-negative signed int constant */
-+#define __is_noneg_int(x)	\
-+	(__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
-+
-+#define __types_ok(x, y) 					\
-+	(__is_signed(x) == __is_signed(y) ||			\
-+		__is_signed((x) + 0) == __is_signed((y) + 0) ||	\
-+		__is_noneg_int(x) || __is_noneg_int(y))
+--- a/kernel/trace/preemptirq_delay_test.c
++++ b/kernel/trace/preemptirq_delay_test.c
+@@ -31,8 +31,6 @@ MODULE_PARM_DESC(burst_size, "The size o
  
- #define __cmp_op_min <
- #define __cmp_op_max >
+ static struct completion done;
+ 
+-#define MIN(x, y) ((x) < (y) ? (x) : (y))
+-
+ static void busy_wait(ulong time)
+ {
+ 	u64 start, end;
+--- a/lib/btree.c
++++ b/lib/btree.c
+@@ -43,7 +43,6 @@
+ #include <linux/slab.h>
+ #include <linux/module.h>
+ 
+-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+ #define NODESIZE MAX(L1_CACHE_BYTES, 128)
+ 
+ struct btree_geo {
+--- a/lib/decompress_unlzma.c
++++ b/lib/decompress_unlzma.c
+@@ -37,7 +37,9 @@
+ 
+ #include <linux/decompress/mm.h>
+ 
++#ifndef MIN
+ #define	MIN(a, b) (((a) < (b)) ? (a) : (b))
++#endif
+ 
+ static long long INIT read_int(unsigned char *ptr, int size)
+ {
+--- a/lib/zstd/zstd_internal.h
++++ b/lib/zstd/zstd_internal.h
+@@ -36,8 +36,6 @@
+ /*-*************************************
+ *  shared macros
+ ***************************************/
+-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+ #define CHECK_F(f)                       \
+ 	{                                \
+ 		size_t const errcod = f; \
+--- a/mm/zsmalloc.c
++++ b/mm/zsmalloc.c
+@@ -126,7 +126,6 @@
+ #define ISOLATED_BITS	3
+ #define MAGIC_VAL_BITS	8
+ 
+-#define MAX(a, b) ((a) >= (b) ? (a) : (b))
+ /* ZS_MIN_ALLOC_SIZE must be multiple of ZS_ALIGN */
+ #define ZS_MIN_ALLOC_SIZE \
+ 	MAX(32, (ZS_MAX_PAGES_PER_ZSPAGE << PAGE_SHIFT >> OBJ_INDEX_BITS))
 
 
 Patches currently in stable-queue which might be from farbere@amazon.com are
