@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92946BEB6A4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 21:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629AABEB6B1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 22:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E007810E156;
-	Fri, 17 Oct 2025 19:59:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974D310E19A;
+	Fri, 17 Oct 2025 20:00:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Kvx++sdD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P7OIb2pL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1647F10E156
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 19:59:54 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-37777912136so21746461fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:59:53 -0700 (PDT)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D8E10E19A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 20:00:11 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-371e4858f74so27128631fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760731192; x=1761335992; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RIqKgNRkxn9BJzDsJeVCalVx/LpbceEHRRNoVPWW+1U=;
- b=Kvx++sdDkFRmApQUtn+grz/wJWkS4pvcFJaQGhTV1ytK74BLyI0SI85VpxHkQUCHg7
- KT4UDMBjeknPhHT9b3hQl4MLo5nYwVq8/1M3Gqc5rp6YYeA6RuyYVPeD40GO8x7Dp6N7
- wCeo2gvnFBJWk7ca37+LXVWcI4GArtXqnhyDpeID1q/LDuoWQjQlE/kY0dHAP8o0UWYM
- C8amIi3fJ5byaOVw+R6vW4JGlXLSDikgV1blW5oml0+0uIP8Lstu5pTvrfm0mmFbMsLD
- UqFvuCTeEv3BNdp+H+0B+2cs6BE2BgtZCfqutDcGA14H8h38qDOkt+2zPoFMWXjcUdtS
- meJw==
+ d=gmail.com; s=20230601; t=1760731209; x=1761336009; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=FW9/6WAzhrFRAj+VvpEcKL8n1ZBRl0dJtQSc+UHoxRY=;
+ b=P7OIb2pLqHkcMmeUW7DJEGNHb4XpxaA4orSVFZ5K6UUlUwDH+jDOXa5bImnxWH2l9H
+ uyOhMcpHJx1I1YSb0yp6tNsYGBhAgFfqmypa0ikqe30r5BoJZMyCOdb/+B55NCB2zBUV
+ YwkCY9CD+qvzt0Rti0UjI2JsEg1EAlk4PwjcEkOQWAgYI6hyYPY93CGJc376OT5HgjAT
+ zk7lv2gtvzOvNBvQdpxFOkToGRsPK3NojJZTkUekfDXZhv8a7en6L5xPrZt5JxDUUn7E
+ 8tCMG/ja/EHihrujwq/7NgpRpfiIzqgP2fxypNjiJQVh2d/tuKoBYV40DI5FhrSYs2mx
+ eoKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760731192; x=1761335992;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RIqKgNRkxn9BJzDsJeVCalVx/LpbceEHRRNoVPWW+1U=;
- b=YHdeXnmxj4aEZ/gk8IPcoDGQE9Jc6ZuCzCQcSkReXprXUQ8f+fuAWysKErH5wmio1q
- /rzyF3bOkLovlvcDBG/Gbt3BEN0mqxsKlz0EsUMwdyRlYjWpdmlI8Fo8hMdNAeYuGb9Q
- 13Nu2n6ItifdYj8dEzLsJV6a1YENVX5eW8uTnLZTeZzVDEeS1DfkcOtWmXmK6m2jZs/J
- RD4p9sbpKxjpED4OW/prkd9KaQBGtsWqQpKeftxTPfr8ds91TRtGaR/ELlT7yVcYAwj/
- r5ZCcL/IawOixUCIh1ZCar4OdUB5j1F5VjYzPZYLEhUeC4qdju3onTL5jXJGXcV/TyzT
- Wt5g==
+ d=1e100.net; s=20230601; t=1760731209; x=1761336009;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FW9/6WAzhrFRAj+VvpEcKL8n1ZBRl0dJtQSc+UHoxRY=;
+ b=fvmbh4atazlV7QK0xBRvTpTfPGD4JNYiJwDlQ5QQO59DPQbvd6iCHCbkGNgOwZcNYh
+ lAqma9rF2a33mR5ASaBso/fl4SPy4UC+bqCjGEXxdP4GIvVxGhfeR8QsXJjkmXEemtJj
+ JgrG9e45LS261UgyTliugaOBvbMwC7ijigmevgldyrQPkNY0BjuGufwnT2qKXBs9yXgN
+ noGxHjBwl1oFvtnfp0nSQSnWSsCsDKHucQS+ynrzOpCHfdLQTGq9TjWCI937uL8xeGuc
+ yunaXLzJhb1kWweFhKiHINi/fYl4yIlawWWLeqRJPCGSECUjpilPxVOS7YeIgbztCYib
+ EIXg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVYd4ux1VOKaVweFxBVietMl3/7UKR8ZcDAVL9k1+Yg21IHwpIpUrdVlWCZ4iSUx1HZMUXFKnrR5lQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRSDs5EhbO7nOG2Kurtq8FnS9WxJhC0UaPEUDlHGTGPzu4WlGR
- ELnduypaAdTUEFVWcKFVZIM1oaZwqVxUOdFk46q5FLLKdHeLN1o7nts5
-X-Gm-Gg: ASbGncsxlxlwm2QzksdqCn3kCtEdKkvgNrgvB/+PgxTIlCd+pOjigmo8bCOzDkYDx+z
- f21bZArc4VA0ObQ2bMSCleUrTlFmQg4iMUXgRd35JgeOkptESzLM3HQn1L5OUPELZ7chjShYkrq
- K7sRtF3dIaneS0yNYShb9qSpJXcG0K0racGBJuY1b4gFGgVAY7X7xrcA/frUm2xT3XxhG6xus2S
- gAnTumRu4KVCTok1Lkgzr4JeiJJLtcKZxEEtiybueUeP3kkwLUvFrWoAsYUlqvociHC+I/W7Tbn
- SIFu6wpv36eZDvU/rgdIg/dgm3jNlD+t4fOiyfyaYVGokIvmXfZDhVKfsepcbk3c3g3AEAcf7RE
- W/FPq2h07D6SW6J+TTnc6FiddSpkEXJMlcqk+elbqsrA3gLgo6GRHGZk5J/e1k7K+ms/u/4l32P
- h6244E7yrgkwc9ewF5WDr8NxpaeudaWbZDRv534bHlNv2ihy6jlt6mhnNAniHTkQ==
-X-Google-Smtp-Source: AGHT+IHzKo3kQw6iuMExqSQ6fFZYvK2nL63bBWgR7byM2mBCBlbduwkLkF6/MliA8xn5+NautTf/5Q==
-X-Received: by 2002:a2e:ab89:0:b0:335:40e6:d054 with SMTP id
- 38308e7fff4ca-37797a8ec26mr16180021fa.43.1760731191742; 
- Fri, 17 Oct 2025 12:59:51 -0700 (PDT)
+ AJvYcCVNnurjl/+DCmZ9XddUCyKGloqLfeEuj1zTLSQFpWvLrA7MA0qHJaTDyfHt6OvQxK16SXnPjYFD6lM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzdhW5P3g2cLjQAGXuiUfhfPoBA0b0WUo/ejeSp55SzXBpPdgP
+ OSRL2ztK2MB54EiKr/cMC6rpJTY+fiytTCfW2qtacCl3MGVFr5K1P6eF
+X-Gm-Gg: ASbGncuJ65Y1ObWjnu1JtzQu1lKV+M3P8I/f2lSvhZMeQOde8RO+JN2/Bj0VdK1GBqj
+ cRCYVrgi3/FPD25fqtMT36Pm/26DUoxzEQq9KDn5es3PbXXtoHLTPMil/gKDEFJRK5DnVzdtXTi
+ n0eLbNjMZo2m9wiKfEcEnB6X3ZE41dNRRzbWK+IKJCS/8rHGLwjYL19EY7RnWHkL3IDBNG+LP6+
+ YIj8Mlrs8cwmzrUR91UKfPL8q8NNHcqtbbqW4AOi7EfeKVFVKvnBT2fcZxVFIhOFp5V4NBngyg6
+ fmafvn48E8YtuydH2gaKv5YHYgsj/Byzk8pC4FIoVKdVFq3Cj8AwSATy5QyYPlIdPBiApS2CcPf
+ nnLWjfG5DW2LVejgGAcf6AJiUVXmbnfGCwi5/urpm5S1FDgcqeeAB94mGRGwK4L+7oP9OafLLIp
+ ruZw2Q2zE74qK7WJiBEWRU2KUZGwlfgOtLrWAP/9gi0f7xBeS0raoLmW9xLnl39Q==
+X-Google-Smtp-Source: AGHT+IEQgaJHNjNCzev2AElmYZvm0Ji4cjMgDetLxA+1NUJ+RNTYtKrBYXG44qqxgaS1GwNzvFxAkw==
+X-Received: by 2002:a05:651c:4353:20b0:377:991f:c1bc with SMTP id
+ 38308e7fff4ca-377991fc573mr13307731fa.5.1760731209147; 
+ Fri, 17 Oct 2025 13:00:09 -0700 (PDT)
 Received: from [192.168.1.244] (public-nat-13.vpngate.v4.open.ad.jp.
  [219.100.37.245]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-377a921d99bsm1580861fa.22.2025.10.17.12.59.30
+ 38308e7fff4ca-377a921d99bsm1580861fa.22.2025.10.17.12.59.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 12:59:51 -0700 (PDT)
+ Fri, 17 Oct 2025 13:00:08 -0700 (PDT)
 From: Vladimir Lypak <vladimir.lypak@gmail.com>
-Subject: [PATCH 0/6] drm/msm/dpu: Fixes for virtual planes and 1.x features
-Date: Fri, 17 Oct 2025 19:58:34 +0000
-Message-Id: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
+Date: Fri, 17 Oct 2025 19:58:35 +0000
+Subject: [PATCH 1/6] drm/msm/dpu: Fix allocation of RGB SSPPs without scaling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOuf8mgC/x3LQQqAIBBA0avIrBvQ0JKuEi1Kp5qNiVIE4t2Tl
- o/PL5ApMWWYRIFED2e+QoPqBLhzDQch+2boZW+UVANuGn28ceeXMjqrR6ctSTIe2hIT/aEd81L
- rB2Zs+NleAAAA
-X-Change-ID: 20251016-b4-dpu-fixes-c847c48e0e5d
+Message-Id: <20251017-b4-dpu-fixes-v1-1-40ce5993eeb6@gmail.com>
+References: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
+In-Reply-To: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
  Dmitry Baryshkov <lumag@kernel.org>, 
  Abhinav Kumar <abhinav.kumar@linux.dev>, 
@@ -103,28 +101,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series fix some issues found during testing on MDSS v1.16.
+Due to condition in dpu_rm_reserve_sspp, RGB SSPPs are only tried when
+scaling is requested, which prevents those SSPPs from being reserved if
+we don't need scaling at all. Instead we should check if YUV support is
+requested, since scaling on RGB SSPPs is optional and is not implemented
+in driver yet.
 
+Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
 Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 ---
-Vladimir Lypak (6):
-      drm/msm/dpu: Fix allocation of RGB SSPPs without scaling
-      drm/msm/dpu: Propagate error from dpu_assign_plane_resources
-      drm/msm/dpu: Disable scaling for unsupported scaler types
-      drm/msm/dpu: Fix pixel extension sub-sampling
-      drm/msm/dpu: Require linear modifier for writeback framebuffers
-      drm/msm/dpu: Disable broken YUV on QSEED2 hardware
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 14 ++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c  |  3 +++
- 4 files changed, 14 insertions(+), 9 deletions(-)
----
-base-commit: 6f3b6e91f7201e248d83232538db14d30100e9c7
-change-id: 20251016-b4-dpu-fixes-c847c48e0e5d
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index 2c77c74fac0fda649da8ce19b7b3c6cb32b9535c..d9c3b0a1d0914a47f86ac9a854fbcede021e73cb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -842,7 +842,7 @@ struct dpu_hw_sspp *dpu_rm_reserve_sspp(struct dpu_rm *rm,
+ 
+ 	if (!reqs->scale && !reqs->yuv)
+ 		hw_sspp = dpu_rm_try_sspp(rm, global_state, crtc, reqs, SSPP_TYPE_DMA);
+-	if (!hw_sspp && reqs->scale)
++	if (!hw_sspp && !reqs->yuv)
+ 		hw_sspp = dpu_rm_try_sspp(rm, global_state, crtc, reqs, SSPP_TYPE_RGB);
+ 	if (!hw_sspp)
+ 		hw_sspp = dpu_rm_try_sspp(rm, global_state, crtc, reqs, SSPP_TYPE_VIG);
 
-Best regards,
 -- 
-Vladimir Lypak <vladimir.lypak@gmail.com>
+2.51.0
 
