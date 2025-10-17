@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA92BEAB2F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25218BEAB17
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD8610EC94;
-	Fri, 17 Oct 2025 16:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E10B10EC79;
+	Fri, 17 Oct 2025 16:28:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=lach.pw header.i=@lach.pw header.b="BZAmcj42";
-	dkim=permerror (0-bit key) header.d=lach.pw header.i=@lach.pw header.b="7tnaCM6o";
+	dkim=pass (2048-bit key; secure) header.d=lach.pw header.i=@lach.pw header.b="SdZ8/Tg6";
+	dkim=permerror (0-bit key) header.d=lach.pw header.i=@lach.pw header.b="pwafDzmi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAA810EC85;
- Fri, 17 Oct 2025 16:28:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B1110EC79;
+ Fri, 17 Oct 2025 16:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=lach.pw; c=relaxed/relaxed;
- h=Message-ID:Date:Subject:To:From; t=1760718482; bh=G0cUjhPXLsNiRSzg25M5MDh
- tPLRayvef22yIVqM4pgw=; b=BZAmcj42Tx4KgCUm7gwuhiu23+4lWTXljxM1DgM5pw0lUo1shr
- bjUuMdS5qphyFhTX5yv4heg1KbfxDnAgaGg6W50ALBuvtS4/E81Fu0LFYmWpvJbIDrkHf0qvRtl
- KkJUq52WvtFp9HXDG8u/WGM06P1yavQjyalNZvqWlTvxGgXmRRhzgqlDINnCE5UciHKIwGDbifc
- EEt4U5tF9R/vrZsPCeCYb+xfw8Bj02isOXPJzUwCPXuAFLuXklN7o9MN7S8RjAolzlQsEzktJ+g
- q5fCLpajAB67CwXhXY1UdOpf2xFONTp3as+dBGn2ZRD2RuaXuAJkCWHfCVZMNO1Cjdg==;
+ h=Message-ID:Date:Subject:To:From; t=1760718484; bh=tkZaVmRUXdPAjuJv58gTfdS
+ fvXH8Wk5tCy/l7rSz2E4=; b=SdZ8/Tg6ZhrAMckZVyASP1JREdO7KvYPiSNbVktIDgwkryrAhb
+ ks7Ex/wcg5RbW/seWTgMf6sxwN/g+NgdQ39UtVn0tE8k7TLVlAYBZOA/nEWSRRM3vchc/9S3afQ
+ CE7WFG9ID258nHZKQFDyoGWrnposCZpb0xDqIrxAvvfOUqgHHyH13IPmkbdmze3l/+FNhl9+nVJ
+ EKRSqOxZWctPm5BsdsQxRuPIwe2bJZA90t2U+WghfGXI3C1DW5psbwPXCkkP2dT/m8By6mDgIGg
+ C1a9J1+KUHBG3zKKX5LUNHw9w8DgXs9w+Ca4K6ilGyCaudw9Pp5ZEOk9+OAlbRpn3YQ==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=lach.pw; c=relaxed/relaxed;
- h=Message-ID:Date:Subject:To:From; t=1760718482; bh=G0cUjhPXLsNiRSzg25M5MDh
- tPLRayvef22yIVqM4pgw=; b=7tnaCM6oVQtil/Mg0gF5n7TynT9nM1uOFUikgWxSpjww/vsIHr
- ux0+oXF2ALeUBjyvUXnwNF3JkdiE+mzUdsDA==;
+ h=Message-ID:Date:Subject:To:From; t=1760718484; bh=tkZaVmRUXdPAjuJv58gTfdS
+ fvXH8Wk5tCy/l7rSz2E4=; b=pwafDzmip/JEI2Frv5sDrI2Jrclax1j2N8a9zBdLUYSDopSNoD
+ +AVcbiYg31S5N0vO9Xto9x/J3ag+6WUWNQBQ==;
 From: Yaroslav Bolyukin <iam@lach.pw>
 To: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -40,10 +40,9 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Yaroslav Bolyukin <iam@lach.pw>
-Subject: [PATCH v5 2/7] drm/edid: prepare for VESA vendor-specific data block
- extension
-Date: Fri, 17 Oct 2025 18:27:31 +0200
-Message-ID: <20251017162736.45368-3-iam@lach.pw>
+Subject: [PATCH v5 3/7] drm/edid: MSO should only be used for non-eDP displays
+Date: Fri, 17 Oct 2025 18:27:32 +0200
+Message-ID: <20251017162736.45368-4-iam@lach.pw>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251017162736.45368-1-iam@lach.pw>
 References: <20251017162736.45368-1-iam@lach.pw>
@@ -64,63 +63,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current VESA vendor-specific block parsing expects real block size to be
-the same as the defined struct size, use real offsets in conditionals
-instead to add struct fields in future commits.
+As per DisplayID v2.1a spec:
+If Offset 06h[2:0] is programmed to 001b (External DisplayPort), this field shallbe cleared to 00b (Not supported).
 
+Ref: https://lore.kernel.org/lkml/3abc1087618c822e5676e67a3ec2e64e506dc5ec@intel.com/
 Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
- drivers/gpu/drm/drm_edid.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_displayid_internal.h |  4 +++
+ drivers/gpu/drm/drm_edid.c               | 36 +++++++++++++++---------
+ 2 files changed, 27 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
+index 957dd0619f5c..cf02647b41b4 100644
+--- a/drivers/gpu/drm/drm_displayid_internal.h
++++ b/drivers/gpu/drm/drm_displayid_internal.h
+@@ -142,9 +142,13 @@ struct displayid_formula_timing_block {
+ 	struct displayid_formula_timings_9 timings[];
+ } __packed;
+ 
++#define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
+ #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+ #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+ 
++#define DISPLAYID_VESA_DP_TYPE_EDP	0
++#define DISPLAYID_VESA_DP_TYPE_DP	1
++
+ struct displayid_vesa_vendor_specific_block {
+ 	struct displayid_block base;
+ 	u8 oui[3];
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 4fcde52291ce..725ae5f9d160 100644
+index 725ae5f9d160..13df2854617c 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -6541,7 +6541,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
- 	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
+@@ -6530,6 +6530,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+ 	struct displayid_vesa_vendor_specific_block *vesa =
+ 		(struct displayid_vesa_vendor_specific_block *)block;
+ 	struct drm_display_info *info = &connector->display_info;
++	int dp_type;
+ 
+ 	if (block->num_bytes < 3) {
+ 		drm_dbg_kms(connector->dev,
+@@ -6548,20 +6549,29 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
  		return;
+ 	}
  
--	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
-+	if (block->num_bytes < 5) {
- 		drm_dbg_kms(connector->dev,
- 			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
+-	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
+-	default:
+-		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
++	dp_type = FIELD_GET(DISPLAYID_VESA_DP_TYPE, vesa->data_structure_type);
++	if (dp_type > 1) {
++		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved dp type value\n",
  			    connector->base.id, connector->name);
-@@ -6564,24 +6564,20 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
- 		break;
- 	}
- 
--	if (!info->mso_stream_count) {
--		info->mso_pixel_overlap = 0;
--		return;
--	}
--
--	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
--	if (info->mso_pixel_overlap > 8) {
-+	if (info->mso_stream_count) {
-+		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
-+		if (info->mso_pixel_overlap > 8) {
-+			drm_dbg_kms(connector->dev,
-+				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
-+				    connector->base.id, connector->name,
-+				    info->mso_pixel_overlap);
-+			info->mso_pixel_overlap = 8;
+-		fallthrough;
+-	case 0:
+-		info->mso_stream_count = 0;
+-		break;
+-	case 1:
+-		info->mso_stream_count = 2; /* 2 or 4 links */
+-		break;
+-	case 2:
+-		info->mso_stream_count = 4; /* 4 links */
+-		break;
++	}
++
++	/* MSO is not supported for eDP */
++	if (dp_type != DISPLAYID_VESA_DP_TYPE_EDP) {
++		switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
++		default:
++			drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
++				    connector->base.id, connector->name);
++			fallthrough;
++		case 0:
++			info->mso_stream_count = 0;
++			break;
++		case 1:
++			info->mso_stream_count = 2; /* 2 or 4 links */
++			break;
++		case 2:
++			info->mso_stream_count = 4; /* 4 links */
++			break;
 +		}
- 		drm_dbg_kms(connector->dev,
--			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
-+			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
- 			    connector->base.id, connector->name,
--			    info->mso_pixel_overlap);
--		info->mso_pixel_overlap = 8;
-+			    info->mso_stream_count, info->mso_pixel_overlap);
  	}
--
--	drm_dbg_kms(connector->dev,
--		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
--		    connector->base.id, connector->name,
--		    info->mso_stream_count, info->mso_pixel_overlap);
- }
  
- static void drm_update_vesa_specific_block(struct drm_connector *connector,
+ 	if (info->mso_stream_count) {
 -- 
 2.51.0
