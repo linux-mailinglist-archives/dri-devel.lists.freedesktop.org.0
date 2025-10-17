@@ -2,86 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A44BEAD16
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B824BEAFC7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 19:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 572DB10E175;
-	Fri, 17 Oct 2025 16:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F253410ECBC;
+	Fri, 17 Oct 2025 17:08:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jqNze8U5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CfReh0RU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899C510E175
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:43:03 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-42701aa714aso1312021f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 09:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1760719382; x=1761324182; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=G6gCBpn1xaSdsDN3kuu/6RChT6cW/pr078XU7axphUc=;
- b=jqNze8U5gIDLIVBU9OkjwvGzhFxRf3pWMa6SYOw0tsfp+Uh1ei8Ipjb4VWk5tzQ0ES
- oMsAgsGXH0ipcFqR3CD6rTcRf3b0PhINbM6juW+8deJcfpNzXjtA/g1OxpLjScS5Iumf
- JpT1RbhsmpvgNT0MLLWX4/mqj7sWxednLkoOGmlt+g9QpsJCV7j27ribgwIigMl9lWuW
- PQ8ZBViQBbdz9z/arkF1U+yGud612QaXTUTdaJcRk7lOtkDTqVW01j9sU9Wx0AnpjHdY
- tKAQtVtCWObrN+O+Izrn0yj+t/qXBxrj2hkXyerZ4YZqN46DPkaZRMn9tkneGlEMT5FB
- 5QRQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBC9110ECB9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 17:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1760720881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z24I92BnG9R28uKM3ytM2okJi6Ci8baUDtE0rgRavFw=;
+ b=CfReh0RU0e2l+JZa/+EyyRGL7RGrqBPwkpwwzYSU+C4Ob6YORnpROwYPZ64AciqHvp2nrN
+ Q2cN/PuqUp5vULKDL7LFvoWRFFE1AZp2EAA32HzTHsc+Qzqhkk6wL/0Yv6fLghCGl7yGlS
+ KkF4tLQECC8RZMd2rYsral5+vbL+/cE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-668-LIFdyIsPPhiJR2wzh-TS6w-1; Fri, 17 Oct 2025 13:08:00 -0400
+X-MC-Unique: LIFdyIsPPhiJR2wzh-TS6w-1
+X-Mimecast-MFC-AGG-ID: LIFdyIsPPhiJR2wzh-TS6w_1760720879
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-471001b980eso15323555e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 10:08:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760719382; x=1761324182;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G6gCBpn1xaSdsDN3kuu/6RChT6cW/pr078XU7axphUc=;
- b=QZBlnJMmHF1M4iKb8s3qHIhcXejoX9V9tJFvsjjLsXnvkrUpnCSAtPBGQqtnt7jTDM
- 1kF98fmtRXYciFDwwQzj/MOOHmsQGTdzZTSL6Ip0xorG1MmzbCfJ++BpFiI3wdt3R0J0
- sH4D2BUOz1D3Nt1MFYuPGhdDzTH2+iZaBZjc4oXS0Gf/2bq/KL9Wt4fMQ/0NQxwaicK1
- tZwNt7qFk377ehI5fhcLPAs0pIWPS7riwdv1HWuNyMjzWDIF4+7TpOMVw58iuCZUTaCR
- TM12RObsriCB5fiwSTbtqKgfHeHJIPns89ObwMW+o56pEy+zO1O7i5PnUfBos7qSB2B/
- mgDg==
+ d=1e100.net; s=20230601; t=1760720879; x=1761325679;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Z24I92BnG9R28uKM3ytM2okJi6Ci8baUDtE0rgRavFw=;
+ b=iCQmfKpjBhSEeujP6yqqQwfGAKU71yS5C5gOubpIHMGmbp0v0V98geCWqsFzzlxvD5
+ Pue9tKgosVTk9kbO+bug5D40HArLUfVGgkGOie2gmnYH6SwTsZcD8cYkGwc8o8+u6ryl
+ YGI9ytWPIH4H5bRUwROJJTF7rJT3IgAP4jAa3mGUcfC++sTDemMasbDoLk8ercnVic5d
+ evrJP6OeVdrHswj7OQ55bA4c0jj2qdHPTY6ESl4gtOALChyi0+7HCh8p2NJTuMIxFWM2
+ 0nB9u3qv4zvNYkMMOmQDnTs9YxDQbCt6M3I9u4yK/gGlUqA9t08vnxwH7CocaewsEL4W
+ CmtA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOTlNHgKT7dHuhd+KliC66yQF4vA1jt6C4edl+KWi44qoIkR4S9GY/s65ajN8sQAEw9FZLEwftses=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxB/kbWFZqDBLD+F/1+vyH+CbYZRiHrL/EyS6K4iD4ID29ecKBS
- gjUlaGoODMZfiMgdCWiQu7lAKJKYpFWoAZdcskSF7rf1/oUBnWmml/dPEKJZdXHn7nc=
-X-Gm-Gg: ASbGncupJTzyft0/5bb1ervdQfTY3s5pZywudHOzLDXcPfZ7yNEaCj99dq9fvpj0JYc
- EiFnMJS2wCWc7xrM6JP9lmQ7s08BoJbx3t/hhPw0PiiIiD53OFJIrUwJVYcMcB1Sc/xGg/s6vXw
- stMB4G+eIPkup1nOSldrq0XuvOaIYid9n4jcY1wcvJN/NXZgeh6Ua22LhxD775RtHWoEpcSQdKN
- p7aNcDODYbJP7UUpMcuFDpCrf6WVZduVs6Ofsz+lgXKeNX+j722/O+Sumq62DAdWbuskpsbIWtI
- vNMnt7nPbzXFQtsS53OoYLCWGfva29+37nJeXRmD7cU7YhnFB4bGN7N2hmPlk+uJSEKr0KMgcmz
- 8chhCga4ZgUaLR17LxdHzvaIv9Sr5L1c9iTax5L89B4Xoy45sDoZ/2a31Ro7RyY9294DwWS9QJd
- nlcEpuyefC8NowxU47
-X-Google-Smtp-Source: AGHT+IGMBA0qJ4gxpjjM3xG9IuatY3oWeNvAk3ViyCHo+q3HrYjHTp52+8ZLn0SPVSWIlQ60ex3wqw==
-X-Received: by 2002:a5d:5d08:0:b0:427:a34:648c with SMTP id
- ffacd0b85a97d-4270a34652cmr1088821f8f.58.1760719381734; 
- Fri, 17 Oct 2025 09:43:01 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-427f00ce06bsm76237f8f.45.2025.10.17.09.43.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 09:43:01 -0700 (PDT)
-Date: Fri, 17 Oct 2025 19:42:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/sysfb: Fix a NULL vs IS_ERR() bug
-Message-ID: <aPJyEMWmWpWkcQvE@stanley.mountain>
-References: <aPJo1W5Dl4rmGX_P@stanley.mountain>
- <aPJrs7_u8KcalNsC@intel.com>
+ AJvYcCUZU7xKEXFwGmWsEKIJvi4XjZ0Tq1Nrm+pj6S8AHAT4gz86WYQTarlwwh6XF7/mIUJvng59brkjPns=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxn1e2iXL/3MC5ACdFHybOhUQaUz+6ELT419SCASpXS7OYHAxBX
+ XqeVeTF2T1znx5bAJcyADUjB92U7L9qSMJJaj2qiAIXgth8PPXhSXomj43w3IAZ6nxo1KG9cL+w
+ u4SdogRx1hsgPwtj3L3h8LhelDRpBHxFKxJNDbMSyaokZ0OtAkhk7Oa8PME5KpaneE5NiCQ==
+X-Gm-Gg: ASbGncv8L1MApKYMJYk9OLqXb/HGg9xcLdtHPwSf8LNGWRvKOgHSvNGqcvIgC2DCK9w
+ 2OXZ0NbzacR/pcU+cx8vG8175UbJ3kTowuQUTt5m831V/keQ7ozaemfFD4G811O+GpjbtbiefoA
+ XGtnozqbt5ur5bHTlW3Sd5VAexLTg/9x3/1HN6cYRmldTYt07JDyUImm+EXDQEDgH8kD8Kz5EeQ
+ bG3n49XioLoUlNqyqqNNQLVJPw0QhnUG6YgJw36bHthjBMEHAZRQoAhlXFJwobQX2YDvmuP0Nw/
+ 2bhXMnHaFQEYoiQFjX2aKtLs84wZvBtGhb8hsCIP+TGTLlvyFP+3lfX1g1JLEFlLZH63nxzgDKU
+ zc52SwiLymq6shKq5QJUt1tcJhoJ6ZOKnr9b2AUiAIdN16YBoODo92tDU5iQIS4+wazhLsbk46d
+ Lcb05dbpkNX3yeeB1sH2yZcsyc6aE=
+X-Received: by 2002:a05:600c:8b8c:b0:46e:4287:a85e with SMTP id
+ 5b1f17b1804b1-471178a4af1mr32117435e9.13.1760720879237; 
+ Fri, 17 Oct 2025 10:07:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE0wYIRs5BvgxV0rKkXoRn76PeLh5TeG9Gq12PJQFOLbCPpMAp+gPbGh/AVsOgKNhG3Gab2NQ==
+X-Received: by 2002:a05:600c:8b8c:b0:46e:4287:a85e with SMTP id
+ 5b1f17b1804b1-471178a4af1mr32117185e9.13.1760720878815; 
+ Fri, 17 Oct 2025 10:07:58 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f0c:c200:fa4a:c4ff:1b32:21ce?
+ (p200300d82f0cc200fa4ac4ff1b3221ce.dip0.t-ipconnect.de.
+ [2003:d8:2f0c:c200:fa4a:c4ff:1b32:21ce])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-471144239bdsm123442385e9.3.2025.10.17.10.07.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Oct 2025 10:07:58 -0700 (PDT)
+Message-ID: <84349344-b127-41f6-99f1-10f907c2bd07@redhat.com>
+Date: Fri, 17 Oct 2025 19:07:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aPJrs7_u8KcalNsC@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: KVM/s390x regression
+To: Christian Borntraeger <borntraeger@linux.ibm.com>, balbirs@nvidia.com
+Cc: Liam.Howlett@oracle.com, airlied@gmail.com, akpm@linux-foundation.org,
+ apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
+ byungchul@sk.com, dakr@kernel.org, dev.jain@arm.com,
+ dri-devel@lists.freedesktop.org, francois.dugast@intel.com,
+ gourry@gourry.net, joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, lorenzo.stoakes@oracle.com, lyude@redhat.com,
+ matthew.brost@intel.com, mpenttil@redhat.com, npache@redhat.com,
+ osalvador@suse.de, rakie.kim@sk.com, rcampbell@nvidia.com,
+ ryan.roberts@arm.com, simona@ffwll.ch, ying.huang@linux.alibaba.com,
+ ziy@nvidia.com, kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-next@vger.kernel.org
+References: <20251001065707.920170-4-balbirs@nvidia.com>
+ <20251017144924.10034-1-borntraeger@linux.ibm.com>
+ <9beff9d6-47c7-4a65-b320-43efd1e12687@redhat.com>
+ <c67386be-5278-411d-97e7-43fc34bf7c98@linux.ibm.com>
+ <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
+ <74272098-cfb7-424b-a55e-55e94f04524e@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <74272098-cfb7-424b-a55e-55e94f04524e@linux.ibm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Po6TGnYwxVtGRidC20yyeSGLKnyQRlScMscJVcjVIjs_1760720879
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,34 +164,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 17, 2025 at 07:15:47PM +0300, Ville Syrjälä wrote:
-> On Fri, Oct 17, 2025 at 07:03:33PM +0300, Dan Carpenter wrote:
-> > The drm_atomic_get_crtc_state() function never returns NULL, it returns
-> > error pointers.  Update the error checking to match.
-> > 
-> > Fixes: cb71de092553 ("drm/sysfb: Lookup blit function during atomic check")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > ---
-> >  drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-> > index 8517c490e815..d2c4d8f3d4d0 100644
-> > --- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-> > +++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-> > @@ -259,7 +259,7 @@ int drm_sysfb_plane_helper_begin_fb_access(struct drm_plane *plane,
-> >  	ret = -EINVAL;
-> >  
-> >  	crtc_state = drm_atomic_get_crtc_state(plane_state->state, plane_state->crtc);
+On 17.10.25 17:20, Christian Borntraeger wrote:
 > 
-> Looking at where this gets called, that should be
-> drm_atomic_get_new_crtc_state(). Either that or the
-> code is more seriously borked.
 > 
+> Am 17.10.25 um 17:07 schrieb David Hildenbrand:
+>> On 17.10.25 17:01, Christian Borntraeger wrote:
+>>> Am 17.10.25 um 16:54 schrieb David Hildenbrand:
+>>>> On 17.10.25 16:49, Christian Borntraeger wrote:
+>>>>> This patch triggers a regression for s390x kvm as qemu guests can no longer start
+>>>>>
+>>>>> error: kvm run failed Cannot allocate memory
+>>>>> PSW=mask 0000000180000000 addr 000000007fd00600
+>>>>> R00=0000000000000000 R01=0000000000000000 R02=0000000000000000 R03=0000000000000000
+>>>>> R04=0000000000000000 R05=0000000000000000 R06=0000000000000000 R07=0000000000000000
+>>>>> R08=0000000000000000 R09=0000000000000000 R10=0000000000000000 R11=0000000000000000
+>>>>> R12=0000000000000000 R13=0000000000000000 R14=0000000000000000 R15=0000000000000000
+>>>>> C00=00000000000000e0 C01=0000000000000000 C02=0000000000000000 C03=0000000000000000
+>>>>> C04=0000000000000000 C05=0000000000000000 C06=0000000000000000 C07=0000000000000000
+>>>>> C08=0000000000000000 C09=0000000000000000 C10=0000000000000000 C11=0000000000000000
+>>>>> C12=0000000000000000 C13=0000000000000000 C14=00000000c2000000 C15=0000000000000000
+>>>>>
+>>>>> KVM on s390x does not use THP so far, will investigate. Does anyone have a quick idea?
+>>>>
+>>>> Only when running KVM guests and apart from that everything else seems to be fine?
+>>>
+>>> We have other weirdness in linux-next but in different areas. Could that somehow be
+>>> related to use disabling THP for the kvm address space?
+>>
+>> Not sure ... it's a bit weird. I mean, when KVM disables THPs we essentially just remap everything to be mapped by PTEs. So there shouldn't be any PMDs in that whole process.
+>>
+>> Remapping a file THP (shmem) implies zapping the THP completely.
+>>
+>>
+>> I assume in your kernel config has CONFIG_ZONE_DEVICE and CONFIG_ARCH_ENABLE_THP_MIGRATION set, right?
+> 
+> yes.
+> 
+>>
+>> I'd rule out copy_huge_pmd(), zap_huge_pmd() a well.
+>>
+>>
+>> What happens if you revert the change in mm/pgtable-generic.c?
+> 
+> That partial revert seems to fix the issue
+> diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+> index 0c847cdf4fd3..567e2d084071 100644
+> --- a/mm/pgtable-generic.c
+> +++ b/mm/pgtable-generic.c
+> @@ -290,7 +290,7 @@ pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
+>    
+>           if (pmdvalp)
+>                   *pmdvalp = pmdval;
+> -       if (unlikely(pmd_none(pmdval) || !pmd_present(pmdval)))
+> +       if (unlikely(pmd_none(pmdval) || is_pmd_migration_entry(pmdval)))
 
-I can't comment on that.  Let's drop this patch and instead (probably
-I guess?) change it to drm_atomic_get_new_crtc_state().
+Okay, but that means that effectively we stumble over a PMD entry that 
+is not a migration entry but still non-present.
 
-regards,
-dan carpenter
+And I would expect that it's a page table, because otherwise the change
+wouldn't make a difference.
+
+And the weird thing is that this only triggers sometimes, because if
+it would always trigger nothing would ever work.
+
+Is there some weird scenario where s390x might set a left page table 
+mapped in a PMD to non-present?
+
+Staring at the definition of pmd_present() on s390x it's really just
+
+	return (pmd_val(pmd) & _SEGMENT_ENTRY_PRESENT) != 0;
+
+
+Maybe this is happening in the gmap code only and not actually in the 
+core-mm code?
+
+-- 
+Cheers
+
+David / dhildenb
 
