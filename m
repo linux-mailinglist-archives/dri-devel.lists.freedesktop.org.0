@@ -2,89 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76E2BEB671
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 21:46:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92946BEB6A4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 21:59:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA9810E197;
-	Fri, 17 Oct 2025 19:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E007810E156;
+	Fri, 17 Oct 2025 19:59:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zKjxrFQp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Kvx++sdD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DB610E195
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 19:46:48 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-32ec69d22b2so2182070a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:46:48 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1647F10E156
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 19:59:54 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-37777912136so21746461fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1760730408; x=1761335208;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=xS2W6P9O/5R7omuKwloPAtjlYNdoghzDYUggMIQ8atg=;
- b=zKjxrFQpMNHWcSRHo87dXrGeeJ8Cj3SI/2zDMM6E79Sd4uUN8RLt2joVE0jrrSu7HA
- fZYKaIBFl65seJb0+EYBrZ7nloyRgjQ/jAHXlBXjlAIsadPTvnBDV1J3NMtRKvWee+UR
- 0XvJ5SSGZlZmPVuWUh9zMx11m7TYWYsY3g+pYb/UpGaoB0HdFzJugXd748//6G9/znmF
- OudgSXuKIyRQHypHj+YXh3zcsTqHY5eT6mzc+JvMk1EEis3Xm/D/JuqHtoRA38EA7PgW
- 5Cn0h/4BFHME4e2rJOOKZX9HfvUAalEFHb3E4MANy65jjSC78wzJ+WjDNHNOQZEjaAUi
- u7aw==
+ d=gmail.com; s=20230601; t=1760731192; x=1761335992; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RIqKgNRkxn9BJzDsJeVCalVx/LpbceEHRRNoVPWW+1U=;
+ b=Kvx++sdDkFRmApQUtn+grz/wJWkS4pvcFJaQGhTV1ytK74BLyI0SI85VpxHkQUCHg7
+ KT4UDMBjeknPhHT9b3hQl4MLo5nYwVq8/1M3Gqc5rp6YYeA6RuyYVPeD40GO8x7Dp6N7
+ wCeo2gvnFBJWk7ca37+LXVWcI4GArtXqnhyDpeID1q/LDuoWQjQlE/kY0dHAP8o0UWYM
+ C8amIi3fJ5byaOVw+R6vW4JGlXLSDikgV1blW5oml0+0uIP8Lstu5pTvrfm0mmFbMsLD
+ UqFvuCTeEv3BNdp+H+0B+2cs6BE2BgtZCfqutDcGA14H8h38qDOkt+2zPoFMWXjcUdtS
+ meJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760730408; x=1761335208;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xS2W6P9O/5R7omuKwloPAtjlYNdoghzDYUggMIQ8atg=;
- b=Oh18pfeCi9hYR/85/WBuNOx6S728HZ1MWYYt3/G5n6XcfYAIAChxNE/608qu4VIqv9
- qT0K/MSkjUF25/0C/w75CgLzL0qtf74H/Lu8bKhWpnTlVW6GveJ+4RcC3e5Bmj5P427d
- vF4WYYWKN78fJKV2/t3vWNJw+vid6/OnCusr8V+2gO0Khr9jdT8Bm4YzrB30ZU0yiebk
- OGscic+Xm1+FiG9gP3tm7q6l+IKkTYYpJrtAxKJep1RXamNSR7svLEFRWcXgHYTBddFE
- T/74hRP8f2OqwQd8EX5QL+4LgM+ZHx48P5Ns1zQiFQLH4a5VO9xRbGdFj9wsyws8DQG5
- OH6Q==
+ d=1e100.net; s=20230601; t=1760731192; x=1761335992;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RIqKgNRkxn9BJzDsJeVCalVx/LpbceEHRRNoVPWW+1U=;
+ b=YHdeXnmxj4aEZ/gk8IPcoDGQE9Jc6ZuCzCQcSkReXprXUQ8f+fuAWysKErH5wmio1q
+ /rzyF3bOkLovlvcDBG/Gbt3BEN0mqxsKlz0EsUMwdyRlYjWpdmlI8Fo8hMdNAeYuGb9Q
+ 13Nu2n6ItifdYj8dEzLsJV6a1YENVX5eW8uTnLZTeZzVDEeS1DfkcOtWmXmK6m2jZs/J
+ RD4p9sbpKxjpED4OW/prkd9KaQBGtsWqQpKeftxTPfr8ds91TRtGaR/ELlT7yVcYAwj/
+ r5ZCcL/IawOixUCIh1ZCar4OdUB5j1F5VjYzPZYLEhUeC4qdju3onTL5jXJGXcV/TyzT
+ Wt5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkN1eqoXqh0GGxp8Z4697dvOEdvshJWLBHYHJBzpQ6lPmFpxmovj7EVI3YongM6WQ4e1UUFp3iDWQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyM3DHdvo1iOuDvTp8PgTupQKahuwz0FP/NKI/cYNc94tFJlAZj
- fjSXsdcre4BOMraK//4HfhmCfhK4vQsYBXrU7qRq0Gnbn6x9PJ/o5zE7FjX6fIRA/n+BFs4xQhn
- DQHgFHiZKc6EWsA==
-X-Google-Smtp-Source: AGHT+IG197iQnjLRwxm4Jsr79MNCmECX5CThjh1rAaLaU6FbEdeCp16Ft8ibFhXM75nEK5W0bGciB8r1G/DnEA==
-X-Received: from pjbqd7.prod.google.com ([2002:a17:90b:3cc7:b0:32d:69b3:b7b0])
- (user=ryanneph job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2d8f:b0:339:d1f0:c751 with SMTP id
- 98e67ed59e1d1-33bcf8fa5b4mr5593940a91.27.1760730408212; 
- Fri, 17 Oct 2025 12:46:48 -0700 (PDT)
-Date: Fri, 17 Oct 2025 12:46:26 -0700
-In-Reply-To: <20251017-rn-cfi-v1-0-bf66e6ad4fcd@google.com>
-Mime-Version: 1.0
-References: <20251017-rn-cfi-v1-0-bf66e6ad4fcd@google.com>
-X-Developer-Key: i=ryanneph@google.com; a=openpgp;
- fpr=10046FDF459A0F9DD68C9C04313B8636EEDD116A
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2508; i=ryanneph@google.com;
- h=from:subject:message-id; bh=N2xCTkyeUBvL1UCxXbUEbTbI7HxLvTjzO83pqQw4Ffo=;
- b=owEBbQKS/ZANAwAKATE7hjbu3RFqAcsmYgBo8p0gYtAv+VXf0NjAMtfz+GBELlf52U7mq1Lal
- cyMybzMyaeJAjMEAAEKAB0WIQQQBG/fRZoPndaMnAQxO4Y27t0RagUCaPKdIAAKCRAxO4Y27t0R
- algQEACVzGzvQW0Y+/Tn76eydGWkFLIWx7CLY8LPicenn3OBnTMHbIJ+EkrButmJDC+dQrZ3p6T
- EwneLQwW3cpJNbD6NewOWPKf6sww9snnB7CGzWs4kzDgiExl3FL8qsGqNZLUYxjvoP86QoZTtd3
- zjGLmLOKcsGl0APYHQC27Fs1qJ38KiPJZ9Wp4pmcTy6BoCt7RfgYxTTlBt66T43cYWFVpwUk4ct
- csijQX9LfnLchMYLg1GZy1LskiXp93QOihNL61MOo5d2zWUGzd7yZl/BU6AwrsAuF8Am0vtW+Lq
- g17aZy74mynAvNlMJI8HLyEW2KYLR/2q9n278tGuq3hXJBMKOzKMlKv0/oaF5PnJzsq1Au3Cy1W
- KWqOEm0UzR6D37kGpxVuO0T4qKC6kPoEKC66mK6RNvC/l1yJz1WTAxCGsZdy/ScZ/MExnAMFRbE
- S+HqQ4Wwk5X9sXFtkcodxR0iPOk9derf048wY4UfL0GME0nNvSkv+GOxFFtDHoujZR7H2eCilmK
- wbX12StzHyMbtvNRY8c+SuONOHJx3Ga333k2a9xjbnlslIwnp4xzuHrg5Da8kJCrs9xsHUrOtph
- ERma71qJICY9Dvjwc3QKjLuSJXO7nBOezN536Ha2e8NZ/nHgcJOnM9f7hnQY6HuFzQehpopUh6q
- sx2oMk6mZMsRvpw==
-X-Mailer: b4 0.14.2
-Message-ID: <20251017-rn-cfi-v1-2-bf66e6ad4fcd@google.com>
-Subject: [PATCH 2/2] drm/xe/configfs: fix clang warnings for missing parameter
- name
-From: Ryan Neph <ryanneph@google.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, 
- "=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Ryan Neph <ryanneph@google.com>
+ AJvYcCVYd4ux1VOKaVweFxBVietMl3/7UKR8ZcDAVL9k1+Yg21IHwpIpUrdVlWCZ4iSUx1HZMUXFKnrR5lQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRSDs5EhbO7nOG2Kurtq8FnS9WxJhC0UaPEUDlHGTGPzu4WlGR
+ ELnduypaAdTUEFVWcKFVZIM1oaZwqVxUOdFk46q5FLLKdHeLN1o7nts5
+X-Gm-Gg: ASbGncsxlxlwm2QzksdqCn3kCtEdKkvgNrgvB/+PgxTIlCd+pOjigmo8bCOzDkYDx+z
+ f21bZArc4VA0ObQ2bMSCleUrTlFmQg4iMUXgRd35JgeOkptESzLM3HQn1L5OUPELZ7chjShYkrq
+ K7sRtF3dIaneS0yNYShb9qSpJXcG0K0racGBJuY1b4gFGgVAY7X7xrcA/frUm2xT3XxhG6xus2S
+ gAnTumRu4KVCTok1Lkgzr4JeiJJLtcKZxEEtiybueUeP3kkwLUvFrWoAsYUlqvociHC+I/W7Tbn
+ SIFu6wpv36eZDvU/rgdIg/dgm3jNlD+t4fOiyfyaYVGokIvmXfZDhVKfsepcbk3c3g3AEAcf7RE
+ W/FPq2h07D6SW6J+TTnc6FiddSpkEXJMlcqk+elbqsrA3gLgo6GRHGZk5J/e1k7K+ms/u/4l32P
+ h6244E7yrgkwc9ewF5WDr8NxpaeudaWbZDRv534bHlNv2ihy6jlt6mhnNAniHTkQ==
+X-Google-Smtp-Source: AGHT+IHzKo3kQw6iuMExqSQ6fFZYvK2nL63bBWgR7byM2mBCBlbduwkLkF6/MliA8xn5+NautTf/5Q==
+X-Received: by 2002:a2e:ab89:0:b0:335:40e6:d054 with SMTP id
+ 38308e7fff4ca-37797a8ec26mr16180021fa.43.1760731191742; 
+ Fri, 17 Oct 2025 12:59:51 -0700 (PDT)
+Received: from [192.168.1.244] (public-nat-13.vpngate.v4.open.ad.jp.
+ [219.100.37.245]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-377a921d99bsm1580861fa.22.2025.10.17.12.59.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Oct 2025 12:59:51 -0700 (PDT)
+From: Vladimir Lypak <vladimir.lypak@gmail.com>
+Subject: [PATCH 0/6] drm/msm/dpu: Fixes for virtual planes and 1.x features
+Date: Fri, 17 Oct 2025 19:58:34 +0000
+Message-Id: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOuf8mgC/x3LQQqAIBBA0avIrBvQ0JKuEi1Kp5qNiVIE4t2Tl
+ o/PL5ApMWWYRIFED2e+QoPqBLhzDQch+2boZW+UVANuGn28ceeXMjqrR6ctSTIe2hIT/aEd81L
+ rB2Zs+NleAAAA
+X-Change-ID: 20251016-b4-dpu-fixes-c847c48e0e5d
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Kalyan Thota <quic_kalyant@quicinc.com>, 
+ Vinod Polimera <quic_vpolimer@quicinc.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Vladimir Lypak <vladimir.lypak@gmail.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,47 +103,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes warning from clang-17 that look like:
+This patch series fix some issues found during testing on MDSS v1.16.
 
-drivers/gpu/drm/xe/xe_configfs.h:35:97: error: omitting the parameter name in a function definition is a C2x extension [-Werror,-Wc2x-extensions]
-   35 | static inline u32 xe_configfs_get_ctx_restore_post_bb(struct pci_dev *pdev, enum xe_engine_class,
-
-Signed-off-by: Ryan Neph <ryanneph@google.com>
+Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 ---
- drivers/gpu/drm/xe/xe_configfs.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Vladimir Lypak (6):
+      drm/msm/dpu: Fix allocation of RGB SSPPs without scaling
+      drm/msm/dpu: Propagate error from dpu_assign_plane_resources
+      drm/msm/dpu: Disable scaling for unsupported scaler types
+      drm/msm/dpu: Fix pixel extension sub-sampling
+      drm/msm/dpu: Require linear modifier for writeback framebuffers
+      drm/msm/dpu: Disable broken YUV on QSEED2 hardware
 
-diff --git a/drivers/gpu/drm/xe/xe_configfs.h b/drivers/gpu/drm/xe/xe_configfs.h
-index fed57be0b90e146d57d966bab0e55e1723513997..a0d614b37efd54b89390f04a238aef1a8d4df4e2 100644
---- a/drivers/gpu/drm/xe/xe_configfs.h
-+++ b/drivers/gpu/drm/xe/xe_configfs.h
-@@ -21,9 +21,9 @@ bool xe_configfs_primary_gt_allowed(struct pci_dev *pdev);
- bool xe_configfs_media_gt_allowed(struct pci_dev *pdev);
- u64 xe_configfs_get_engines_allowed(struct pci_dev *pdev);
- bool xe_configfs_get_psmi_enabled(struct pci_dev *pdev);
--u32 xe_configfs_get_ctx_restore_mid_bb(struct pci_dev *pdev, enum xe_engine_class,
-+u32 xe_configfs_get_ctx_restore_mid_bb(struct pci_dev *pdev, enum xe_engine_class class,
- 				       const u32 **cs);
--u32 xe_configfs_get_ctx_restore_post_bb(struct pci_dev *pdev, enum xe_engine_class,
-+u32 xe_configfs_get_ctx_restore_post_bb(struct pci_dev *pdev, enum xe_engine_class class,
- 					const u32 **cs);
- #ifdef CONFIG_PCI_IOV
- unsigned int xe_configfs_get_max_vfs(struct pci_dev *pdev);
-@@ -37,9 +37,11 @@ static inline bool xe_configfs_primary_gt_allowed(struct pci_dev *pdev) { return
- static inline bool xe_configfs_media_gt_allowed(struct pci_dev *pdev) { return true; }
- static inline u64 xe_configfs_get_engines_allowed(struct pci_dev *pdev) { return U64_MAX; }
- static inline bool xe_configfs_get_psmi_enabled(struct pci_dev *pdev) { return false; }
--static inline u32 xe_configfs_get_ctx_restore_mid_bb(struct pci_dev *pdev, enum xe_engine_class,
-+static inline u32 xe_configfs_get_ctx_restore_mid_bb(struct pci_dev *pdev,
-+						     enum xe_engine_class class,
- 						     const u32 **cs) { return 0; }
--static inline u32 xe_configfs_get_ctx_restore_post_bb(struct pci_dev *pdev, enum xe_engine_class,
-+static inline u32 xe_configfs_get_ctx_restore_post_bb(struct pci_dev *pdev,
-+						      enum xe_engine_class class,
- 						      const u32 **cs) { return 0; }
- static inline unsigned int xe_configfs_get_max_vfs(struct pci_dev *pdev) { return UINT_MAX; }
- #endif
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 14 ++++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c  |  3 +++
+ 4 files changed, 14 insertions(+), 9 deletions(-)
+---
+base-commit: 6f3b6e91f7201e248d83232538db14d30100e9c7
+change-id: 20251016-b4-dpu-fixes-c847c48e0e5d
 
+Best regards,
 -- 
-2.51.0.858.gf9c4a03a3a-goog
+Vladimir Lypak <vladimir.lypak@gmail.com>
 
