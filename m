@@ -2,60 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36844BEA308
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D73EBEA4CA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:55:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC9010EC69;
-	Fri, 17 Oct 2025 15:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354DF10EC6B;
+	Fri, 17 Oct 2025 15:55:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dPkZM/Re";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Bt8CgtC3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02DF10EC69
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760716212;
- bh=dHih5tugPFDzUiymeOf9bgFF9S6ntDdx0jsg78dVKZQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dPkZM/Reh9wJLHFL2LLR+bEhmjM7kNXPGfRQNpjA1/pZuYsCX1fsxftR0pNJz6PAx
- sdoP9fvHBm4ZIEP4VkmHMqV5ZT/0zdKm4FGB1QoKBGy8gsbkWv4w9TZVkmg0Q7jdlC
- N+h6wjHkhIesqn7GbHmgGZLlnaE3HEBMSNN/A+QE789ugB63DE+mAQnxpaevYYwiR+
- U9mgdgCg0tbcwAq7Cf719w/jmOTcmo+UZ6yMCptOQ/KI73cpKx+L3lGvQdfuzuwu8H
- ShAXz0l5yxYQXrGJxpgJXtvkUaPVEMU/SdUBXo4n8t6s4JzorQ9XKtodXe1ZecTbyK
- Ci+Fi4wXbVL6w==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D671E17E04DA;
- Fri, 17 Oct 2025 17:50:11 +0200 (CEST)
-Date: Fri, 17 Oct 2025 17:50:08 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Faith Ekstrand <faith@gfxstrand.net>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
- <faith.ekstrand@collabora.com>, kernel@collabora.com, Matt Coster
- <Matt.Coster@imgtec.com>
-Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync()
- and a drm_gem_sync() helper
-Message-ID: <20251017175008.3ac142c7@fedora>
-In-Reply-To: <CAOFGe97gKbek59Mri-+Fb4gLLkt2vJC-szc110fCYvcfRtE8iw@mail.gmail.com>
-References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
- <20251015160326.3657287-3-boris.brezillon@collabora.com>
- <CAOFGe96trw17pWKv4-Bbh9bvCz8ANTwAcL-croQQw24800fLbQ@mail.gmail.com>
- <CAOFGe96pKQhuhUCzVizUndgQL80+GsS-YiiRcMiO=eHBnYAHxg@mail.gmail.com>
- <20251017172657.2690bbca@fedora>
- <CAOFGe97gKbek59Mri-+Fb4gLLkt2vJC-szc110fCYvcfRtE8iw@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010008.outbound.protection.outlook.com [52.101.61.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 766D610EC6B;
+ Fri, 17 Oct 2025 15:55:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EIBQjeayllpp58VKAVWz7LV2cSAPZRIhlZndxq9GGvbI/2LzO/L8Qwuvf/yeQnQMHvgNDmdAf9e6bS/23yBATBHutNLxLnf1/KIfglbBGG0EtSmr2gFV4zDLeSnwMLbKV/bz1mDomhn5AALG2DnX/id1mHC/HK21//GIsxwtib5VsdP19fJ/P7JNKZ4gQo2QOvUU2bw+hghKR8UqWXsQLfLRlAbjdUc1rRsUd/F5GGsiIxwbI2qgyYbGoz9M1rswZZ/qbpaisJIAmGOq8hMkY1g0W9Dgc5JTsUQYaCemCu9Kj+icyq098UKLg2XDkJRPzR1ABE5qa0wB9MKEOSNeiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kwq4XXJhRgtL3qKSl7+4NLcQKm5yiV29T17rfrg/sSY=;
+ b=P9QzolBv13cd4oJq/8xUPEPGOxmBEIvOAwc7EQwby4dMKzi+MgwUyWfSFehfaluTOaETMZxftjr/2dJ5FqF62s8bGHLQ1YC6kwBcJMsvHoTKQDYrNAArgXEf2j/BkMxdV6lthKvSIH7uaK4ukvcrVuO5Wv5UVsVlatOy2ls4OwZpIfL0je4vECjgbkE+fXw/3ydV49QpkBtUo22lXkNPvFXKe1ZvaFAsWy/gVlYScXwSWNG/yVRK+VWqiDVG44fHcF1ZF+CbUtQnStkuRXeVFZrcsY4fHj4ERCKuChYVUgY6ChrV+90RnSwtje+nhHMC9InB8cLg4l0B08L/g8MV3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kwq4XXJhRgtL3qKSl7+4NLcQKm5yiV29T17rfrg/sSY=;
+ b=Bt8CgtC3zjkxZ95q313xkRjWeT97ZY8Ktk+Zafv05bocz8A0K9rZbUIVvf1ezJ0p+M3CyxyI7lFgSed9FXYs1uz9kwcDMdrmpcDLIp53sAtsY8RldT5796zbenNixzcD0OHG5rUS2IFNUVvovJxaGO17xRAZsnaQBeTOoZgfybw=
+Received: from PH7PR17CA0011.namprd17.prod.outlook.com (2603:10b6:510:324::20)
+ by MW4PR12MB6828.namprd12.prod.outlook.com (2603:10b6:303:209::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
+ 2025 15:55:31 +0000
+Received: from SN1PEPF000397AE.namprd05.prod.outlook.com
+ (2603:10b6:510:324:cafe::35) by PH7PR17CA0011.outlook.office365.com
+ (2603:10b6:510:324::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.13 via Frontend Transport; Fri,
+ 17 Oct 2025 15:55:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SN1PEPF000397AE.mail.protection.outlook.com (10.167.248.52) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9228.7 via Frontend Transport; Fri, 17 Oct 2025 15:55:28 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 17 Oct
+ 2025 08:55:27 -0700
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Fri, 17 Oct 2025 08:55:27 -0700
+Message-ID: <809cd6b6-5333-0006-0a0a-69a5dafcecb8@amd.com>
+Date: Fri, 17 Oct 2025 08:55:22 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 14/27] accel/amdxdna: Remove
+ drm_sched_init_args->num_rqs usage
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <kernel-dev@igalia.com>, Min Ma <mamin506@gmail.com>, Oded Gabbay
+ <ogabbay@kernel.org>
+References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
+ <20251017133644.44747-15-tvrtko.ursulin@igalia.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20251017133644.44747-15-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397AE:EE_|MW4PR12MB6828:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16e8c156-0199-4e43-1adf-08de0d95982d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|376014|82310400026|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MmI5cERWcFZqSlFVeTB0SjVpR2ZUM3lDWVBSSjZmSDFGUVZYa3lEU3h1d1BE?=
+ =?utf-8?B?MVBBdjJySTBhNEUyYlNkQ3ZsVlhnaHE4Y1BHazZBZy9IQmMzN0RkNzhJOGxG?=
+ =?utf-8?B?cTF4ZUpMUmNDeGt5RGkzd3d1WS9mK2RnZi90NTFobTFDQTFtcnhPMkR2dWZK?=
+ =?utf-8?B?MmpKS0RLL0pSWDNqUWJLVzI5dEtIODA4eGdVUnFiMU02QW5RTFJFSWZ0S0d3?=
+ =?utf-8?B?VHhKdC84TFZOMjdLUllBc05zVGV4M2tYTjl3ckY2VDlPVG5HTVYzbGlIMFE4?=
+ =?utf-8?B?YWg1VEdSRGswdldDdUFKVXdMdUhGRTdxaHNkUEhESXNSNkFrVHlxMWRjdThn?=
+ =?utf-8?B?ejk3WE9GMlZsNnpwT3NJSGEwcnlOc3BHK1E1SDhQT2lPQUk3MUR0a1VFV1BO?=
+ =?utf-8?B?KzFIeXRtNG8zVzNtYnE3dlhGV2hkSHhxZlJIbUpHNmIwaWxiSHh4RWxqUVF3?=
+ =?utf-8?B?bE55b01vVDVYQWhSbmpmTFJwV1ppSVNTdDEzSk9wdkJRWGo4bHprbDVYMnFl?=
+ =?utf-8?B?UEtYZngvbzE1Z3BiUENxMk55WjhKdkxNUUZtWUUwL2lFaGN2TG9HUVZnZmNx?=
+ =?utf-8?B?TVNqT2dyOVprQTNvMzFhOTdieE9xNjAxRWQ4aHJVZkJONjQ1cHV2TzRGYTNm?=
+ =?utf-8?B?U2JvUlFDcWdxNlpnQ0VTTzVnRmFWSmI1Vmh1NFV4bk5pekVPeit1MGwwU1Zl?=
+ =?utf-8?B?VWhBSjdWWEs5TmpJMW1rVzFhZDJTSC90aGtZSTAwc1VDV3pZd0RyYXhkSUY3?=
+ =?utf-8?B?bTQvcU5OYXhnRlh5VEtlYnorclErUEtQditmbFd6L3dSeGJUMzB3Zzd3dU5D?=
+ =?utf-8?B?OTJ2TGcvTVo3TzZOdXI4dmZEZ1RPWHdENE5Oc1hVcDRHR01Ec2FkZEwyZVZO?=
+ =?utf-8?B?S2xFNGJYK0hoRmdaWk9GTERLWWpUMjVMUXNUaDRlcFEvY21lR0JlTHhUcFg4?=
+ =?utf-8?B?RHl6MytWRHd0YmNTNUhhWXhzdzFOaTJaODFaczl4NkRLK0tHTFZJUS9QSllJ?=
+ =?utf-8?B?WWlIZnU0d2dHOGVndVFTYjBhQldsYVZFVW1kK2kxUnZqOXpBVlF0WmpxQnhL?=
+ =?utf-8?B?d1FDck5CSUNYWkM3clJYUC9oSXZFdnhudzU2ZEtYMndHcjlOU1ErQ2MwQkVt?=
+ =?utf-8?B?NmxOdmVzZTBObnQyMUR3Skt4YzREdzYxa3dZZ0F0WkcrTE56TDk1SGIzaWs4?=
+ =?utf-8?B?QWRvOFRnQUVMUi84a2tTYm11NW1LUG5jeTBSRGwydkZOL0FYN1hEN29pS3BQ?=
+ =?utf-8?B?NExDMDl6QURxenZ6SldMa2hWS0Fzb1JJR0dYaStYd1dDM3BEWG83ZzNwVS9C?=
+ =?utf-8?B?aklnOFc4WmNCazdnUlNFT1ZabWtycVNRN0pKYTh1NUNxZ1EzR01WM1VCRDdj?=
+ =?utf-8?B?ZytLNTdWMGZuNXhsK1JCQmVBTVI3UGRVMFZ0OXppcElUWExXY2Mvc3FtZkF3?=
+ =?utf-8?B?TU9mRGRnVy9OY2lGMEpZQlZnRXJkYi9aQkU3Qzc1SUphWDRkb0R0ckR0TU50?=
+ =?utf-8?B?UmloVUtBVzVENlpOaGcxaWEySzdaRDUvd0dsTHI1dXBRNnRhbjBlSjhvS2NT?=
+ =?utf-8?B?ZHVpUXhQR0VSRFZHYzJvRTBDQk0xVW1IR0xPSkp4RmIxQXZXd0NtV0NWVU1o?=
+ =?utf-8?B?V2M2RWF6czA2Q1pYQVpqREtSS3A4eUNESXBtQ0lMSGpmY1BSaGVFVU5DaTVv?=
+ =?utf-8?B?eGs2QTVFWi9Zd1ZEclNlWHRaRE50Q2lqWk1lcmtMWGtzWngrT0oxTUVjN2hn?=
+ =?utf-8?B?NTlZVlIveWhPUXIrYjg5Y1FWSTZGbTgyZTZyckVwYWcwYjBGWnAvK2F5MlZj?=
+ =?utf-8?B?VmwrcjdLRHhuVUYybDBHMG5aMUt2c2RSZFd4TExBeGRRYkdrM1lQRW1kZXFZ?=
+ =?utf-8?B?ZFIvZUNLMEd6czRUZ1d2NmppT0h5Nm90S2RReFJUVzZOR2kwWE1kTnN0WDFZ?=
+ =?utf-8?B?VTFDOGlkcWJuSWRkRWlhTEZsa1JYUjkwbVBUUzE3QWwzVytNSmlEMFZ2Vjh1?=
+ =?utf-8?B?TWV2N0FoK1dZSVk5bFZmVDJqQnMxc0JBT3pzcS9TWXNDYlM0WjAyVkR3Slhy?=
+ =?utf-8?B?WnpKRSt1S0h3bTlUSWQ1RE9WeC9WaUFsaXVNc2QzaVMxeURubnh3MEhWUGsv?=
+ =?utf-8?Q?iZYw=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 15:55:28.6886 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16e8c156-0199-4e43-1adf-08de0d95982d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000397AE.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6828
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,210 +149,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Matt for my comment on PVR having the same issue.
 
-On Fri, 17 Oct 2025 11:35:54 -0400
-Faith Ekstrand <faith@gfxstrand.net> wrote:
-
-> On Fri, Oct 17, 2025 at 11:27=E2=80=AFAM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > On Fri, 17 Oct 2025 10:40:46 -0400
-> > Faith Ekstrand <faith@gfxstrand.net> wrote:
-> > =20
-> > > On Fri, Oct 17, 2025 at 10:32=E2=80=AFAM Faith Ekstrand <faith@gfxstr=
-and.net> wrote: =20
-> > > >
-> > > > On Wed, Oct 15, 2025 at 12:04=E2=80=AFPM Boris Brezillon
-> > > > <boris.brezillon@collabora.com> wrote: =20
-> > > > >
-> > > > > Prepare things for standardizing synchronization around CPU acces=
-ses
-> > > > > of GEM buffers. This will be used to provide default
-> > > > > drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and prov=
-ide
-> > > > > a way for drivers to add their own ioctls to synchronize CPU
-> > > > > writes/reads when they can't do it directly from userland.
-> > > > >
-> > > > > v2:
-> > > > > - New commit
-> > > > >
-> > > > > v3:
-> > > > > - No changes
-> > > > >
-> > > > > v4:
-> > > > > - Add Steve's R-b
-> > > > >
-> > > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > > Reviewed-by: Steven Price <steven.price@arm.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_gem.c | 10 +++++++++
-> > > > >  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++=
-++++++
-> > > > >  2 files changed, 55 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > > > > index a1a9c828938b..a1431e4f2404 100644
-> > > > > --- a/drivers/gpu/drm/drm_gem.c
-> > > > > +++ b/drivers/gpu/drm/drm_gem.c
-> > > > > @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object =
-*obj, struct iosys_map *map)
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(drm_gem_vunmap);
-> > > > >
-> > > > > +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size=
-_t size,
-> > > > > +                enum drm_gem_object_access_flags access)
-> > > > > +{
-> > > > > +       if (obj->funcs->sync)
-> > > > > +               return obj->funcs->sync(obj, offset, size, access=
-);
-> > > > > +
-> > > > > +       return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(drm_gem_sync);
-> > > > > +
-> > > > >  /**
-> > > > >   * drm_gem_lock_reservations - Sets up the ww context and acquir=
-es
-> > > > >   * the lock on an array of GEM objects.
-> > > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > > > > index 8d48d2af2649..1c33e59ab305 100644
-> > > > > --- a/include/drm/drm_gem.h
-> > > > > +++ b/include/drm/drm_gem.h
-> > > > > @@ -66,6 +66,33 @@ enum drm_gem_object_status {
-> > > > >         DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
-> > > > >  };
-> > > > >
-> > > > > +/**
-> > > > > + * enum drm_gem_object_status - bitmask describing GEM access ty=
-pes to prepare for
-> > > > > + */
-> > > > > +enum drm_gem_object_access_flags {
-> > > > > +       /** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access.=
- */
-> > > > > +       DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
-> > > > > +
-> > > > > +       /** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device acce=
-ss. */
-> > > > > +       DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
-> > > > > +
-> > > > > +       /** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the=
- entity doing the access. */
-> > > > > +       DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
-> > > > > +
-> > > > > +       /** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only ac=
-cesses. */
-> > > > > +       DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
-> > > > > +
-> > > > > +       /** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only =
-accesses. */
-> > > > > +       DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
-> > > > > +
-> > > > > +       /** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write a=
-ccesses. */
-> > > > > +       DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCESS |
-> > > > > +                                  DRM_GEM_OBJECT_WRITE_ACCESS,
-> > > > > +
-> > > > > +       /** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check =
-the access type. */
-> > > > > +       DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW_ACC=
-ESS,
-> > > > > +};
-> > > > > +
-> > > > >  /**
-> > > > >   * struct drm_gem_object_funcs - GEM object functions
-> > > > >   */
-> > > > > @@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
-> > > > >          */
-> > > > >         int (*mmap)(struct drm_gem_object *obj, struct vm_area_st=
-ruct *vma);
-> > > > >
-> > > > > +       /**
-> > > > > +        * @sync:
-> > > > > +        *
-> > > > > +        * Prepare for CPU/device access. This can involve migrat=
-ion of
-> > > > > +        * a buffer to the system-RAM/VRAM, or for UMA, flushing/=
-invalidating
-> > > > > +        * the CPU caches. The range can be used to optimize the =
-synchronization
-> > > > > +        * when possible. =20
-> > > >
-> > > > This has gone in a very different direction from the version I sent
-> > > > out and the added generality makes me really nervous. The idea of s=
-ync
-> > > > involving migration and that the range is a mere hint are antitheti=
-cal
-> > > > with Vulkan. It's a very GLish design that assumes that a BO is
-> > > > exclusively used by one of the CPU or the GPU at the same time. This
-> > > > simply isn't the case in modern APIs. Older DRM uAPIs (as well as
-> > > > dma-buf itself) are littered with such ioctls and we're in the proc=
-ess
-> > > > of deleting them all. =20
-> > >
-> > > And yes, I realize I sent this on the patch for the hook which you
-> > > intended to plumb through to dma-buf. However, I also saw it being
-> > > propagated to an ioctl and I didn't know where else to put it that had
-> > > the relevant details.
-> > >
-> > > ~Faith
-> > > =20
-> > > > If the BO needs to be migrated in order to be accessed from the CPU,
-> > > > that needs to happen on map, not on some sort of begin/end. Or bett=
-er
-> > > > yet, just disallow mapping such buffers. Once the client has a map,
-> > > > they are free to access from the CPU while stuff is running on the
-> > > > GPU. They have to be careful, of course, not to cause data races, b=
-ut
-> > > > accessing the same BO from the CPU and GPU or even the same range is
-> > > > totally okay if you aren't racing.
-> > > >
-> > > > As a corollary, just don't map PRIME buffers.
-> > > >
-> > > > And the range really shouldn't be just a hint. With Vulkan, clients
-> > > > are regularly sub-allocating from larger memory objects. If they ask
-> > > > to flush 64B and end up flushing 64M, that's pretty bad.
-> > > >
-> > > > All we need is something which lets us trap through to the kernel f=
-or
-> > > > CPU cache management. That's all we need and that's really all it
-> > > > should do. =20
-> >
-> > Okay, so there's actually a problem with that I think, because we can't
-> > know how the buffer we export will be used. It can be imported by the
-> > same driver, and we're all good, but it can also be imported by a
-> > different driver, which decides to vmap or allow mmap() on it, and then
-> > we have to implement the dma_buf CPU sync hooks. Unless we decide that
-> > all exported buffers should be write-combine only? This is the very
-> > reason I started hooking things up on the dma_buf side, because we're
-> > not in control of who the importer of our buffers is. =20
->=20
-> Exported buffers should be WC-only. We could try to get creative but
-> the moment we let the lack of coherency leak to other processes,
-> potentially to other drivers, we're in a world of hurt. Even with the
-> dma-buf begin/end hooks, if it's imported into a driver that does
-> Vulkan, those hooks don't make sense and we're screwed.
-
-Well, yeah, the 'entire-buf' granularity is a problem, indeed, and
-there's no way around it with the current dma-buf API, which is why I
-prevented external bufs from being mapped (AKA not host-visible in
-Vulkan's term). But I really thought imported buffers coming from
-panthor should be mapped cached.
-
-> And, yes, I
-> know panvk is the only Vulkan implementation you're going to see on a
-> system with an Arm GPU, but thinking about things in the general case
-> across all of DRM, exporting non-coherent memory in 2025 is just
-> cursed.
-
-Hm, okay. If that's the way to go, then we should enforce
-
-	!WB_MMAP || !PRIVATE
-
-in panthor, and fail the export of a WB_MMAP buffer in panfrost (we
-don't have a way to know that a buffer is private there).
-
-I'll go and revisit the patchset to do that. I guess PVR needs fixing
-too, because I haven't seen anything to prevent `CACHED + EXPORTABLE`
-there.
+On 10/17/25 06:36, Tvrtko Ursulin wrote:
+> Remove member no longer used by the scheduler core.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Min Ma <mamin506@gmail.com>
+> Cc: Lizhi Hou <lizhi.hou@amd.com>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> ---
+>   drivers/accel/amdxdna/aie2_ctx.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+> index ab4d66f1325d..e95e10556b00 100644
+> --- a/drivers/accel/amdxdna/aie2_ctx.c
+> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+> @@ -528,7 +528,6 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+>   	struct amdxdna_dev *xdna = client->xdna;
+>   	const struct drm_sched_init_args args = {
+>   		.ops = &sched_ops,
+> -		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>   		.credit_limit = HWCTX_MAX_CMDS,
+>   		.timeout = msecs_to_jiffies(HWCTX_MAX_TIMEOUT),
+>   		.name = "amdxdna_js",
