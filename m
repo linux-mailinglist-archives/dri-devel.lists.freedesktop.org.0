@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5C1BEA91E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBB8BEA921
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E3610EC89;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD7D10EC8C;
 	Fri, 17 Oct 2025 16:15:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="1fHduYnJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="M46xBQ0C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D04F010EC89
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:15:49 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37EA910EC8A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:15:52 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 4B5B1C041FC;
- Fri, 17 Oct 2025 16:15:29 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id D99481A1488;
+ Fri, 17 Oct 2025 16:15:50 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 9881E606DB;
- Fri, 17 Oct 2025 16:15:48 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id ACFD5606DB;
+ Fri, 17 Oct 2025 16:15:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 252E6102F2361; 
- Fri, 17 Oct 2025 18:15:44 +0200 (CEST)
+ with ESMTPSA id D28D6102F2326; 
+ Fri, 17 Oct 2025 18:15:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760717747; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1760717749; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=TcoDsORlor4mmaUdW6zET3q7u/9c8G/+kpyV7LHDxM8=;
- b=1fHduYnJ4bACBS4Bsxt2cTDAt0BI41fTKq800HE5xPlbrJmMa1ei/RlsVgpBu9iXT9HFN/
- VtPa64oHRtWkDqZ936Ee6Ai+v5U4KE44VLBPtPfgt2iHQu1V0a5TGdxuJZxrWpGmioNxi9
- Yo1o2Hd4rzhx+RoxczPYHkrXMoZz5f4m0RxR02T1W1adrdjrh+tjBeJPX+iq4/5yxL1qmP
- wMJDHsXak1OIyc/kmXXSYZGQr7mWiEt3UxsY4CGhXGlzJFHi0HX4BboPFz0CGSvgRFpaFq
- XsxczabVC9u9m0uCPAcDVOB5mFXNJ/mEkAUuizUrX7/fVd+S/h8Ul0YVYz6z/Q==
+ bh=sF/nhZKtfysMmP54ubTvP/iQM/X0HdA/QjQ50RURtXU=;
+ b=M46xBQ0Cqed1BxM8oRLaViX5BJmNwme4wCTVE3XLHaIthNEs1xOI9NUK2vbzoOH7BuM8R5
+ nsBbnKQeNI+nzcMvpn1Edr9J1xO/GRH3Do1/i4GcT/26LlZ8586uanLUm5bEF2MfUUTlfU
+ 9ImBuVky8gIH10sRHhfa8x4VOSFvPIK1utx3o7qDQHe3lqrGFW2ZRRmEKjlCyCGmeV43ue
+ XiWM8rmhPZPo4kJXicKAJn6jJu6TSSKIEa7ilj873CaKNd3hAH2GE5bViC2nA5MlZZENXV
+ OYpzxusqHgaUwcR53AtrcRCe7I/KSl7qB7cOKGb+Ond2lz5q49PtMrm6EZvMCA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 17 Oct 2025 18:15:05 +0200
-Subject: [PATCH v2 2/3] drm/display: bridge_connector: get/put the stored
- bridges
+Date: Fri, 17 Oct 2025 18:15:06 +0200
+Subject: [PATCH v2 3/3] drm/display: bridge_connector: get/put the panel_bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-2-667abf6d47c0@bootlin.com>
+Message-Id: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-3-667abf6d47c0@bootlin.com>
 References: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
 In-Reply-To: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>, 
@@ -74,145 +73,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_bridge_connector_init() takes eight pointers to various bridges, some
-of which can be identical, and stores them in pointers inside struct
-drm_bridge_connector. Get a reference to each of the taken bridges and put
-it on cleanup.
+The panel_bridge pointer is taken inside the loop and used after the
+loop. Being a local variable, use a cleanup action to ensure it is put on
+return.
 
-Achieve this by adding a drmm cleanup callback whic puts all the non-NULL
-bridges. Using drmm ensures the cleanup happens on drm_device teardown,
-whichever is the return value of this function.
-
-Four of these pointers (edid, hpd, detect and modes) can be written
-multiple times (up to once per loop iterations), in order to eventually
-store the last matching bridge. So when one of those pointers is
-overwritten, we need to put the reference that we got during the previous
-assignment. Add a drm_bridge_put() before writing them to handle this.
+Based on the code structure the panel_bridge pointer might be assigned
+during multiple loop iterations. Even though this is probably not possible
+in the practice, ensure there is no reference leak by putting the reference
+to the old value before overwriting with the new value.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
 This patch was added in v2:
-- it is a rewrite of the original (buggy) patch, but simpler after
-  realizing thanks to drmm we don't need the temporary pointers as the
-  stored pointers will be put just before deallocating
-- compared to the original patch, moved the panel_bridge changes to a
-  separate patch for clarity
+- taking the panel_bridge specific code from the original (buggy) patch,
+  and split it for clarity from the larger patch covering stored bridge
+  pointers
+- comapred to the original code, added drm_bridge_put() for extra safety
+  even though likely not necessary
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 52 +++++++++++++++++++-------
- 1 file changed, 39 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index a5bdd6c1064399ece6b19560f145b877c9e0680e..95ccf86527129edaa6fcc75c6202985e73c46da8 100644
+index 95ccf86527129edaa6fcc75c6202985e73c46da8..a2d30cf9e06df44b89456b5aba8198ee1e5d5601 100644
 --- a/drivers/gpu/drm/display/drm_bridge_connector.c
 +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -618,6 +618,20 @@ static const struct drm_connector_hdmi_cec_funcs drm_bridge_connector_hdmi_cec_f
-  * Bridge Connector Initialisation
-  */
+@@ -652,7 +652,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	struct drm_bridge_connector *bridge_connector;
+ 	struct drm_connector *connector;
+ 	struct i2c_adapter *ddc = NULL;
+-	struct drm_bridge *panel_bridge = NULL;
++	struct drm_bridge *panel_bridge __free(drm_bridge_put) = NULL;
+ 	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
+ 	unsigned int max_bpc = 8;
+ 	bool support_hdcp = false;
+@@ -787,8 +787,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 		if (bridge->ddc)
+ 			ddc = bridge->ddc;
  
-+static void drm_bridge_connector_put_bridges(struct drm_device *dev, void *data)
-+{
-+	struct drm_bridge_connector *bridge_connector = (struct drm_bridge_connector *)data;
-+
-+	drm_bridge_put(bridge_connector->bridge_edid);
-+	drm_bridge_put(bridge_connector->bridge_hpd);
-+	drm_bridge_put(bridge_connector->bridge_detect);
-+	drm_bridge_put(bridge_connector->bridge_modes);
-+	drm_bridge_put(bridge_connector->bridge_hdmi);
-+	drm_bridge_put(bridge_connector->bridge_hdmi_audio);
-+	drm_bridge_put(bridge_connector->bridge_dp_audio);
-+	drm_bridge_put(bridge_connector->bridge_hdmi_cec);
-+}
-+
- /**
-  * drm_bridge_connector_init - Initialise a connector for a chain of bridges
-  * @drm: the DRM device
-@@ -649,6 +663,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	if (!bridge_connector)
- 		return ERR_PTR(-ENOMEM);
- 
-+	ret = drmm_add_action(drm, drm_bridge_connector_put_bridges, bridge_connector);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
- 	bridge_connector->encoder = encoder;
- 
- 	/*
-@@ -672,14 +690,22 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 		if (!bridge->ycbcr_420_allowed)
- 			connector->ycbcr_420_allowed = false;
- 
--		if (bridge->ops & DRM_BRIDGE_OP_EDID)
--			bridge_connector->bridge_edid = bridge;
--		if (bridge->ops & DRM_BRIDGE_OP_HPD)
--			bridge_connector->bridge_hpd = bridge;
--		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
--			bridge_connector->bridge_detect = bridge;
--		if (bridge->ops & DRM_BRIDGE_OP_MODES)
--			bridge_connector->bridge_modes = bridge;
-+		if (bridge->ops & DRM_BRIDGE_OP_EDID) {
-+			drm_bridge_put(bridge_connector->bridge_edid);
-+			bridge_connector->bridge_edid = drm_bridge_get(bridge);
+-		if (drm_bridge_is_panel(bridge))
+-			panel_bridge = bridge;
++		if (drm_bridge_is_panel(bridge)) {
++			drm_bridge_put(panel_bridge);
++			panel_bridge = drm_bridge_get(bridge);
 +		}
-+		if (bridge->ops & DRM_BRIDGE_OP_HPD) {
-+			drm_bridge_put(bridge_connector->bridge_hpd);
-+			bridge_connector->bridge_hpd = drm_bridge_get(bridge);
-+		}
-+		if (bridge->ops & DRM_BRIDGE_OP_DETECT) {
-+			drm_bridge_put(bridge_connector->bridge_detect);
-+			bridge_connector->bridge_detect = drm_bridge_get(bridge);
-+		}
-+		if (bridge->ops & DRM_BRIDGE_OP_MODES) {
-+			drm_bridge_put(bridge_connector->bridge_modes);
-+			bridge_connector->bridge_modes = drm_bridge_get(bridge);
-+		}
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI) {
- 			if (bridge_connector->bridge_hdmi)
- 				return ERR_PTR(-EBUSY);
-@@ -687,7 +713,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			    !bridge->funcs->hdmi_clear_infoframe)
- 				return ERR_PTR(-EINVAL);
  
--			bridge_connector->bridge_hdmi = bridge;
-+			bridge_connector->bridge_hdmi = drm_bridge_get(bridge);
- 
- 			if (bridge->supported_formats)
- 				supported_formats = bridge->supported_formats;
-@@ -710,7 +736,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			    !bridge->funcs->hdmi_audio_shutdown)
- 				return ERR_PTR(-EINVAL);
- 
--			bridge_connector->bridge_hdmi_audio = bridge;
-+			bridge_connector->bridge_hdmi_audio = drm_bridge_get(bridge);
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_DP_AUDIO) {
-@@ -728,21 +754,21 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			    !bridge->funcs->dp_audio_shutdown)
- 				return ERR_PTR(-EINVAL);
- 
--			bridge_connector->bridge_dp_audio = bridge;
-+			bridge_connector->bridge_dp_audio = drm_bridge_get(bridge);
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI_CEC_NOTIFIER) {
- 			if (bridge_connector->bridge_hdmi_cec)
- 				return ERR_PTR(-EBUSY);
- 
--			bridge_connector->bridge_hdmi_cec = bridge;
-+			bridge_connector->bridge_hdmi_cec = drm_bridge_get(bridge);
- 		}
- 
- 		if (bridge->ops & DRM_BRIDGE_OP_HDMI_CEC_ADAPTER) {
- 			if (bridge_connector->bridge_hdmi_cec)
- 				return ERR_PTR(-EBUSY);
- 
--			bridge_connector->bridge_hdmi_cec = bridge;
-+			bridge_connector->bridge_hdmi_cec = drm_bridge_get(bridge);
- 
- 			if (!bridge->funcs->hdmi_cec_enable ||
- 			    !bridge->funcs->hdmi_cec_log_addr ||
+ 		if (bridge->support_hdcp)
+ 			support_hdcp = true;
 
 -- 
 2.51.0
