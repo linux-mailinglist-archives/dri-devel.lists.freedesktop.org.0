@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF0ABEB668
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 21:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B56BEB66C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 21:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F91610E0CB;
-	Fri, 17 Oct 2025 19:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C603B10E195;
+	Fri, 17 Oct 2025 19:46:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="rqnJxrJO";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="WOjYS/I2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com
- [209.85.214.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8615A10E0CB
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 19:46:43 +0000 (UTC)
-Received: by mail-pl1-f201.google.com with SMTP id
- d9443c01a7336-26985173d8eso52516635ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:46:43 -0700 (PDT)
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
+ [209.85.216.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A823B10E191
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 19:46:46 +0000 (UTC)
+Received: by mail-pj1-f74.google.com with SMTP id
+ 98e67ed59e1d1-33428befc5bso3139471a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1760730403; x=1761335203;
+ d=google.com; s=20230601; t=1760730406; x=1761335206;
  darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Dr1peWODOMoc8e855aSUXPXrT+Ugw1OVqmj9XmlYyVI=;
- b=rqnJxrJOK4DlsvdQVCXMufb5+PVjzgA+rkailPbC55P5wvR5gmPtKVf1u4M1HxiuuV
- qY/jN8Zn13wFu3ADkMRLr459i0h9ZgMEtJyp2vV+sAzgmjaiEM9dOLR8MrEmfzIVFlWP
- xVkl7e8kEOHoNrooexppc9l5jGw7w7fQEWbsyhsnO1IopvAkTxvxW5c2vo9uKGmwSwiR
- vNmmEPjZnOI5F3QvAILV6ZxRgA/asewD7w/SihbRWj+dcFCRFVINTZQH92EJHxij9IcW
- Bcum2H9psGm99Jq5/u/zt9EcQZbNevIECsan26cHnFx1wWA3rghBIQBxBD0W4G9c20N5
- hB6w==
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mBvryYOqD8HNerZ7bT9XbtcCmI6RO+oIJ+KFZE+bBA4=;
+ b=WOjYS/I27wLhVa5IeQT3pvYC2ax9j+8WdKkIhXlmkP9RZJyBPNLPc0jbtag0/q7+/M
+ RJGxxn9VD1SrDJxQOaXqXfxPzss9YEfFxK3hiZyCMnuxjlwzCmF1oa4VRdr1ylBLu4MP
+ 0YxVPZ9s+0dGgUDfXP8N8pCrJhIP6IIZeQjHswlJ7uIgmq9dZRDzk7jIlg1tnFC3DBtx
+ T39RR22T7VH10y+GMSsGexLRmYey5FYK+GCL2IqxY8FK4eyzwfwAoBiT82nBub8Qayv6
+ dKCVFOD/EK4pHMNaWAfyRzSZg+dhjqVgfLDKib2JA4CRs7DzxDUwTSHGHIr/vucSGJ0B
+ ROSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760730403; x=1761335203;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Dr1peWODOMoc8e855aSUXPXrT+Ugw1OVqmj9XmlYyVI=;
- b=w9hRDJhq46KAXbtBcoFSLTRkA9eOhE5YLBWBQMR8Ls1RFGCu9YqPuhRMqS895zYd6b
- BR5NO17DmUS5vWkVX44aH12XhWNxZCgGwN9lJt+H3t0+J8T3c3zOwH7eiPhjhIUee6el
- DUbbuS2XBU1wVt6xbmjahKZirWyPrP92T/5l+o2Jcu2J3l61S57/Gkx/9sN22tDISwZm
- 25PNL1ScRlIAl34LjA8n2JwGx2IhOysx9QKDV98BgdtE8IHUWFxJQ1AffSz2FfXj70E+
- tMpj6LGjmG6LdM/yBiBYKAMcxDdr3Lz+UFDXj9Xc358kNyEpX8FdfxjaXNBWfIugU7Yt
- skEA==
+ d=1e100.net; s=20230601; t=1760730406; x=1761335206;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mBvryYOqD8HNerZ7bT9XbtcCmI6RO+oIJ+KFZE+bBA4=;
+ b=tC92wfmnhA3mlZylq6yuqtqRnK0zXSmDBTpyoas6ZEV8q9tIgGV5DcsMIqVLhk6E1L
+ cqn6dDKvqcN73rAVvLIOfoLz7zy+bbJzKIGMYYTbvUDPBav97yHUA7Hr+C8BnIVqOZGW
+ MIRk0+CrzCwnxj91f5LgQF7Dv65hcB3v/TvA1VKSnP9RWDkFBpNUVe4phXFz67u1PtAD
+ 1ubvdh5U9kmiNWDhmyZE2QgrO6O+6C8YoZ10IpZzQ0mPpehQgtqkBGJ7SDQ3VAu5Ezf1
+ CBdIyztGVh5bhdm2Q3coz0Abk1Nhl+tTvK6wdhqoCEWqpw/2d5Dl8W3SwRGJEtHgc05o
+ p+8A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvJlaema+FrSCJS+FzdBmzhSnBvTyGOcEGFvWbsGONQTRz3jpyJJXOC1bnfS7nZNPsx62sIBxyX+g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQJ1/Qn8ko2XfBJz2LSTksGvnZX9W+PjfUrzS8U5YFYDUmah2R
- MR82j/J1f2t0S8YI0Buli8IgFutR55VJreb5LQYkwls+AnFHMJ5ojobHrK54JGiaAk3lLi5plCU
- 2l0mS9LUlLaa5iA==
-X-Google-Smtp-Source: AGHT+IExkJdqxSTmqRHCAPkkBEWF7DmMNdK/cXIXB1TxfYVWkHSdnq0w2r1Nf0jxWEZZoJ+dJW25oyMZL+zAGQ==
-X-Received: from plbkc13.prod.google.com ([2002:a17:903:33cd:b0:28e:cc8d:f602])
+ AJvYcCVk0bNWcwVws8y+4QVpopASlDtt3oeX/DpLHhN176oJB+6krO02WRziedTTRbxFBIr8z6geYy8RvTg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypwzKcJ5ccz/vLoZ5yUztQJx0/CjobPKymAvtlSrZFK7nkKCrd
+ u3nc+s5YxfZyHDJU7udqO66fqP9c/+IsOtSubx4Gu0tlPby8sVvSvuf37pf8lckjboDBVncjb+l
+ zIH7J3Bf54fqLEg==
+X-Google-Smtp-Source: AGHT+IHN5eE13thJaI4fJ62+yx8L8caLrQZjEIDPSPo5zSxYP+/52L85re73l0Onz4VuNANtIFfO6E2sXmQ60w==
+X-Received: from pjbpt2.prod.google.com ([2002:a17:90b:3d02:b0:329:e84e:1c50])
  (user=ryanneph job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:1a0e:b0:270:ea84:324a with SMTP id
- d9443c01a7336-290ca121a70mr48156875ad.38.1760730403026; 
- Fri, 17 Oct 2025 12:46:43 -0700 (PDT)
-Date: Fri, 17 Oct 2025 12:46:24 -0700
+ 2002:a17:90b:4cce:b0:32e:dd8c:dd18 with SMTP id
+ 98e67ed59e1d1-33bcf8f7617mr6720411a91.17.1760730406165; 
+ Fri, 17 Oct 2025 12:46:46 -0700 (PDT)
+Date: Fri, 17 Oct 2025 12:46:25 -0700
+In-Reply-To: <20251017-rn-cfi-v1-0-bf66e6ad4fcd@google.com>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIABCd8mgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDAwNj3aI83eS0TN3EJEPTVMPExBSL5DQloOKCotS0zAqwQdGxtbUADsM
- iOVgAAAA=
-X-Change-Id: 20251003-rn-cfi-ab15e1aad8cf
+References: <20251017-rn-cfi-v1-0-bf66e6ad4fcd@google.com>
 X-Developer-Key: i=ryanneph@google.com; a=openpgp;
  fpr=10046FDF459A0F9DD68C9C04313B8636EEDD116A
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1387; i=ryanneph@google.com;
- h=from:subject:message-id; bh=0lGFfw/2rf8/pcHffzruy9bUg8j6oeCW7DHy7uEqSdg=;
- b=owEBbQKS/ZANAwAKATE7hjbu3RFqAcsmYgBo8p0gDNuv9pMSbS2bie0+GmDQnijYBxb0HESYR
- cLqzNb0rguJAjMEAAEKAB0WIQQQBG/fRZoPndaMnAQxO4Y27t0RagUCaPKdIAAKCRAxO4Y27t0R
- amZUD/45eQI7wnxvyYucDnV7SMk/y5jQYVb4lTHv9uuEvN4hJ2YNDW4IyWM1RgKsbRHuMjZod0s
- XHOklACc9yBaaHWN5uuR3AVpbbtpkiJeqzJpBPJzOqT5efN6Mo0ALnMBwgt2cbRjt9586g+aBi3
- 0gM9g15KqJOFhyDYN6vf4mPK986tng67UE3ubiMMpqkJ/S2HDgN9Ughug8Ms5mzzfVHjcGDGd8R
- 3aubzlnndsqufRJ/tfWinHS1Jfmu774sgTAORCSHdb03KThfZ6LLR/DLP/OgWe19fyItCUOI7k5
- 0TAO5/Q1jG2aCU6QgG5aCxT2WJ1+ncbvTo0S6+acuXAY1ULNQTy77fKbrMBZTO2gr0r2wcgUmvv
- kuPtgLIEJ3niOyqC7PGj+o5Q/GvfvAngTh+T2Dr9fmDueRn1GFculkbCshI74Z9tZYeYW2Z1BXq
- v0lf8mddPYwOUiSHTyripylBPWtPfsmJ+9zTJUsBWne42kJWw6BOhgQoEKcPU0ExDlAFmjlJ9+B
- ZVg0QSCyqsl+OOzQfnzks6GQD/ETjAvo9Lvy3ZhvyS2K+d2pL4SUFbkV2pYbsdyA6OxHKHyjKGI
- TCGjccULNvQHIC9heCgo7LHO5WDYmyEG0wQn7IKfCVm9YLrFdXrTP4p8aVqKhk4bucQCGMp77j1
- RG37sdr+m3gaF5Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6906; i=ryanneph@google.com;
+ h=from:subject:message-id; bh=qYpzqLmT1kBqv90VharwV3lAsHtlLcSxlgG4fMUnBxQ=;
+ b=owEBbQKS/ZANAwAKATE7hjbu3RFqAcsmYgBo8p0gsz8PKqAmdqM63Z99gXzQLW4CKPBnQ8A4B
+ u4NrgJnkkCJAjMEAAEKAB0WIQQQBG/fRZoPndaMnAQxO4Y27t0RagUCaPKdIAAKCRAxO4Y27t0R
+ asG9EACQ3Cpqge5fN+XA3VeDnHw2yu6AXwrxk+ijaZL+odai1bEifl4rGds5D4BxzhwYMzsxdEH
+ orvNXnlF0L5X/p0XqWD2ax57Bq6kmSGJMBdAd9G78SfcEyBq/i2oLg7iHPZmnv4FP1LduS8j1uk
+ l01R1tjriMmgVd1aGHtaYHRNl+4CcbGTRV07j8SV+mCorca44HtKv+u08pHpfovJOoirAmiqhIo
+ KtcQr6FYXbedqzywvkufZucdTQU1nlqx6jhjkinJTYQgz1TZtLvYO7yxLoTjnjucMDcEIyVZT3P
+ rDFFzVoo7qm4Qi35xiE9v6Csi41GD3WxVxcXbBxxBbvC2Ll/CSQELXjALDG5dtmsnZlG1t5oNyA
+ cxz/NnG7UjqllOyZJv8x9dbVgnvBHcE8m01131o8sGmqWkXjl1XYhfbVDKCBVhVkTYk1vOVOUcp
+ OEtnve1anbsKaECjb8QRm13vGXVBQT7RTgJ6KFg+/J35GCW6PlzSPu0IqmFlg66+hF/fBGxMyB1
+ fU2lImGaG1w652ZDfTyK27U3+Mt/o+a6LrW4+Pta5BKw4Nisp9hXGhOF+fwFqcLIeuBCpDsAAEY
+ tBl67PlKnTCZoEEP0SI1qFfdxbHeCHEUJWUP2ClVblpmUVooylpFcJa3+9C4BEagJNeS0nNtHsT
+ MBZrq0by2cewCkg==
 X-Mailer: b4 0.14.2
-Message-ID: <20251017-rn-cfi-v1-0-bf66e6ad4fcd@google.com>
-Subject: [PATCH 0/2] Fix additional sysfs node access CFI violations
+Message-ID: <20251017-rn-cfi-v1-1-bf66e6ad4fcd@google.com>
+Subject: [PATCH 1/2] drm/xe/sysfs: Fix additional sysfs node access CFI
+ violations
 From: Ryan Neph <ryanneph@google.com>
 To: Lucas De Marchi <lucas.demarchi@intel.com>, 
  "=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
@@ -101,38 +100,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There was a patch earlier to fix CFI violations upon sysfs file access,
-stemming from Xe's invalid usage of device pointers instead of kobject
-pointers in those sysfs file access handlers.
+Sysfs attribute store/show handlers expect the first passed parameter to
+be of type 'struct kobject *', but Xe unintentionally abuses the fact
+that a pointer to 'struct device' can decay to a kobject pointer (its
+first member).
 
-When CFI was disabled, it made no functional difference, because the
-`struct device *` decays to a `struct kobject *` (its first member).
+When CFI is enabled in the kernel, this is detected, resulting in an
+intentional kernel crash when accessing the corresponding sysfs nodes.
 
-However, with CFI enabled this is detected and the kernel is
-intentionally crashed.
-
-The earlier patch missed a few instances of this invalid use of `struct
-device *` pointers, and a few more have been added to Xe since.
-
-This series cleans up all remaining instances, and fixes an unrelated
-compiler warning issued by clang, noticed while testing.
+This patch fixes the access handlers to take a kobject pointer instead
+of device pointer, similarly to the earlier cleanup in
+<https://lore.kernel.org/r/20250422171852.85558-1-jeevaka.badrappan@intel.com>
+that missed some instances. Some others were added since with the same
+issue.
 
 Signed-off-by: Ryan Neph <ryanneph@google.com>
 ---
-Ryan Neph (2):
-      drm/xe/sysfs: Fix additional sysfs node access CFI violations
-      drm/xe/configfs: fix clang warnings for missing parameter name
-
- drivers/gpu/drm/xe/xe_configfs.h           | 10 ++++++----
  drivers/gpu/drm/xe/xe_gt_ccs_mode.c        | 24 ++++++++++++------------
  drivers/gpu/drm/xe/xe_survivability_mode.c | 15 ++++++++-------
  drivers/gpu/drm/xe/xe_vram_freq.c          | 20 ++++++++++----------
- 4 files changed, 36 insertions(+), 33 deletions(-)
----
-base-commit: ee74634683e4b3e526a4b014b0358796e97c7ce3
-change-id: 20251003-rn-cfi-ab15e1aad8cf
+ 3 files changed, 30 insertions(+), 29 deletions(-)
 
-Best regards,
+diff --git a/drivers/gpu/drm/xe/xe_gt_ccs_mode.c b/drivers/gpu/drm/xe/xe_gt_ccs_mode.c
+index 50fffc9ebf62a1d0a051bbfd8698d4ec6de4d93e..6e7dc0c317f058e284203fc31dfed51f75e392ef 100644
+--- a/drivers/gpu/drm/xe/xe_gt_ccs_mode.c
++++ b/drivers/gpu/drm/xe/xe_gt_ccs_mode.c
+@@ -89,30 +89,30 @@ void xe_gt_apply_ccs_mode(struct xe_gt *gt)
+ }
+ 
+ static ssize_t
+-num_cslices_show(struct device *kdev,
+-		 struct device_attribute *attr, char *buf)
++num_cslices_show(struct kobject *kobj,
++		 struct kobj_attribute *attr, char *buf)
+ {
+-	struct xe_gt *gt = kobj_to_gt(&kdev->kobj);
++	struct xe_gt *gt = kobj_to_gt(kobj);
+ 
+ 	return sysfs_emit(buf, "%u\n", hweight32(CCS_MASK(gt)));
+ }
+ 
+-static DEVICE_ATTR_RO(num_cslices);
++static struct kobj_attribute attr_num_cslices = __ATTR_RO(num_cslices);
+ 
+ static ssize_t
+-ccs_mode_show(struct device *kdev,
+-	      struct device_attribute *attr, char *buf)
++ccs_mode_show(struct kobject *kobj,
++	      struct kobj_attribute *attr, char *buf)
+ {
+-	struct xe_gt *gt = kobj_to_gt(&kdev->kobj);
++	struct xe_gt *gt = kobj_to_gt(kobj);
+ 
+ 	return sysfs_emit(buf, "%u\n", gt->ccs_mode);
+ }
+ 
+ static ssize_t
+-ccs_mode_store(struct device *kdev, struct device_attribute *attr,
++ccs_mode_store(struct kobject *kobj, struct kobj_attribute *attr,
+ 	       const char *buff, size_t count)
+ {
+-	struct xe_gt *gt = kobj_to_gt(&kdev->kobj);
++	struct xe_gt *gt = kobj_to_gt(kobj);
+ 	struct xe_device *xe = gt_to_xe(gt);
+ 	u32 num_engines, num_slices;
+ 	int ret;
+@@ -158,11 +158,11 @@ ccs_mode_store(struct device *kdev, struct device_attribute *attr,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR_RW(ccs_mode);
++static struct kobj_attribute attr_ccs_mode = __ATTR_RW(ccs_mode);
+ 
+ static const struct attribute *gt_ccs_mode_attrs[] = {
+-	&dev_attr_ccs_mode.attr,
+-	&dev_attr_num_cslices.attr,
++	&attr_ccs_mode.attr,
++	&attr_num_cslices.attr,
+ 	NULL,
+ };
+ 
+diff --git a/drivers/gpu/drm/xe/xe_survivability_mode.c b/drivers/gpu/drm/xe/xe_survivability_mode.c
+index 1662bfddd4bc9c530644c185eb929f0613eb8e30..8bfad28d269440deb6a18a95b91eccc61be1b50e 100644
+--- a/drivers/gpu/drm/xe/xe_survivability_mode.c
++++ b/drivers/gpu/drm/xe/xe_survivability_mode.c
+@@ -150,11 +150,11 @@ static int check_boot_failure(struct xe_device *xe)
+ 		survivability->boot_status == CRITICAL_FAILURE;
+ }
+ 
+-static ssize_t survivability_mode_show(struct device *dev,
+-				       struct device_attribute *attr, char *buff)
++static ssize_t survivability_mode_show(struct kobject *kobj,
++				       struct kobj_attribute *attr, char *buff)
+ {
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-	struct xe_device *xe = pdev_to_xe_device(pdev);
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct xe_device *xe = pdev_to_xe_device(to_pci_dev(dev));
+ 	struct xe_survivability *survivability = &xe->survivability;
+ 	struct xe_survivability_info *info = survivability->info;
+ 	int index = 0, count = 0;
+@@ -174,7 +174,8 @@ static ssize_t survivability_mode_show(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR_ADMIN_RO(survivability_mode);
++static struct kobj_attribute attr_survivability_mode =
++	__ATTR_RO_MODE(survivability_mode, 0400);
+ 
+ static void xe_survivability_mode_fini(void *arg)
+ {
+@@ -182,7 +183,7 @@ static void xe_survivability_mode_fini(void *arg)
+ 	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+ 	struct device *dev = &pdev->dev;
+ 
+-	sysfs_remove_file(&dev->kobj, &dev_attr_survivability_mode.attr);
++	sysfs_remove_file(&dev->kobj, &attr_survivability_mode.attr);
+ }
+ 
+ static int create_survivability_sysfs(struct pci_dev *pdev)
+@@ -192,7 +193,7 @@ static int create_survivability_sysfs(struct pci_dev *pdev)
+ 	int ret;
+ 
+ 	/* create survivability mode sysfs */
+-	ret = sysfs_create_file(&dev->kobj, &dev_attr_survivability_mode.attr);
++	ret = sysfs_create_file(&dev->kobj, &attr_survivability_mode.attr);
+ 	if (ret) {
+ 		dev_warn(dev, "Failed to create survivability sysfs files\n");
+ 		return ret;
+diff --git a/drivers/gpu/drm/xe/xe_vram_freq.c b/drivers/gpu/drm/xe/xe_vram_freq.c
+index 17bc84da4cdcc9da22f44b99f63f2393ad85371a..7c1ce2602f70abd3a00c03982b25a69bacc24a25 100644
+--- a/drivers/gpu/drm/xe/xe_vram_freq.c
++++ b/drivers/gpu/drm/xe/xe_vram_freq.c
+@@ -25,15 +25,15 @@
+  *					configuration.
+  */
+ 
+-static struct xe_tile *dev_to_tile(struct device *dev)
++static struct xe_tile *kobj_parent_to_tile(struct kobject *kobj)
+ {
+-	return kobj_to_tile(dev->kobj.parent);
++	return kobj_to_tile(kobj->parent);
+ }
+ 
+-static ssize_t max_freq_show(struct device *dev, struct device_attribute *attr,
++static ssize_t max_freq_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 			     char *buf)
+ {
+-	struct xe_tile *tile = dev_to_tile(dev);
++	struct xe_tile *tile = kobj_parent_to_tile(kobj);
+ 	u32 val = 0, mbox;
+ 	int err;
+ 
+@@ -50,12 +50,12 @@ static ssize_t max_freq_show(struct device *dev, struct device_attribute *attr,
+ 
+ 	return sysfs_emit(buf, "%u\n", val);
+ }
+-static DEVICE_ATTR_RO(max_freq);
++static struct kobj_attribute attr_max_freq = __ATTR_RO(max_freq);
+ 
+-static ssize_t min_freq_show(struct device *dev, struct device_attribute *attr,
++static ssize_t min_freq_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 			     char *buf)
+ {
+-	struct xe_tile *tile = dev_to_tile(dev);
++	struct xe_tile *tile = kobj_parent_to_tile(kobj);
+ 	u32 val = 0, mbox;
+ 	int err;
+ 
+@@ -72,11 +72,11 @@ static ssize_t min_freq_show(struct device *dev, struct device_attribute *attr,
+ 
+ 	return sysfs_emit(buf, "%u\n", val);
+ }
+-static DEVICE_ATTR_RO(min_freq);
++static struct kobj_attribute attr_min_freq = __ATTR_RO(min_freq);
+ 
+ static struct attribute *freq_attrs[] = {
+-	&dev_attr_max_freq.attr,
+-	&dev_attr_min_freq.attr,
++	&attr_max_freq.attr,
++	&attr_min_freq.attr,
+ 	NULL
+ };
+ 
+
 -- 
-Ryan Neph <ryanneph@google.com>
+2.51.0.858.gf9c4a03a3a-goog
 
