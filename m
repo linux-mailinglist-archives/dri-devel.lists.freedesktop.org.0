@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040F0BE7CDF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 11:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B684BE7E08
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 11:46:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C25910EB8D;
-	Fri, 17 Oct 2025 09:37:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="WKl+k/D5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA7610EB97;
+	Fri, 17 Oct 2025 09:46:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A7E110EB8D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 09:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=8ilA4sxFLlSdabkUDG5fdxMV+kXtCGg+zOCuqv9nCa8=; b=W
- Kl+k/D5Nrq480aVg9oxFP9BbuRSYBSHnBHEOsx3foPzxC8oVBXeyXIum96VLOoaF
- z4/2amwjRKWj6VeCykMerC7EmVFvcDmnLfEQ9cMcxFLR3rwRJxLQE0bpkKceKNEE
- OYnYXZwItLEB5NdN1ndlqP8efE5LHc9jw2z8paQhAg=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-143 (Coremail) ; Fri, 17 Oct 2025 17:36:54 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Fri, 17 Oct 2025 17:36:54 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Maud Spierings" <maud_spierings@murena.io>
-Cc: Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- andy.yan@rock-chips.com, devicetree@vger.kernel.org,
- dmitry.baryshkov@oss.qualcomm.com, dri-devel@lists.freedesktop.org,
- heiko@sntech.de, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- knaerzche@gmail.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
- tzimmermann@suse.de
-Subject: Re:Re: [PATCH v8 2/2] MAINTAINERS: Add entry for Innosilicon hdmi
- bridge library
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <392dc6d7-a0e5-4f9e-85c4-8d811777a697@murena.io>
-References: <20251016083843.76675-3-andyshrk@163.com>
- <040d8fe8-da2f-4aa5-a2c3-1aec0cf2e8f0@murena.io>
- <671fc19.84e3.199f162a66c.Coremail.andyshrk@163.com>
- <392dc6d7-a0e5-4f9e-85c4-8d811777a697@murena.io>
-X-NTES-SC: AL_Qu2dAvqSvEAq4iORbOkfmUgWjuw/WsG1v/Ul1YBSP556jC/r8zkjQUF9DEnN7/uOLACpsBq9WjdwxuR2UoVeWLsLrfo3WJ3P97zyaC3eKzuLkg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 69C0510E041
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 09:46:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0CED71595;
+ Fri, 17 Oct 2025 02:46:46 -0700 (PDT)
+Received: from [10.57.36.33] (unknown [10.57.36.33])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACB043F66E;
+ Fri, 17 Oct 2025 02:46:51 -0700 (PDT)
+Message-ID: <1849523e-fff1-40e3-9d96-ae389cca6078@arm.com>
+Date: Fri, 17 Oct 2025 11:46:49 +0200
 MIME-Version: 1.0
-Message-ID: <7d14fa88.9099.199f187848a.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jygvCgDXP0Q2DvJoKNINAA--.5781W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEAbpXmjyCm9rcgACsF
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Fix UAF race between device unplug and FW
+ event processing
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251008105322.4077661-1-ketil.johnsen@arm.com>
+ <20251009114531.0e85fa21@fedora>
+Content-Language: en-US
+From: Ketil Johnsen <ketil.johnsen@arm.com>
+In-Reply-To: <20251009114531.0e85fa21@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,45 +52,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF1ZO+8jAoK5ZyoIDIwMjUtMTAtMTcgMTc6MTk6MjHvvIwiTWF1ZCBTcGllcmluZ3MiIDxt
-YXVkX3NwaWVyaW5nc0BtdXJlbmEuaW8+IOWGmemBk++8mgo+SGkgQW5keSwKPgo+T24gMTAvMTcv
-MjUgMTA6NTYsIEFuZHkgWWFuIHdyb3RlOgo+Pgo+PiBIZWxsbyBNYXVk77yMCj4+Cj4+IEF0IDIw
-MjUtMTAtMTcgMTU6NTg6MjIsICJNYXVkIFNwaWVyaW5ncyIgPG1hdWRfc3BpZXJpbmdzQG11cmVu
-YS5pbz4gd3JvdGU6Cj4+PiBIaSBBbmR5LAo+Pj4KPj4+PiBGcm9tOiBBbmR5IFlhbiA8YW5keS55
-YW5Acm9jay1jaGlwcy5jb20+Cj4+Pj4KPj4+PiBBZGQgZW50cnkgZm9yIElubm9zaWxpY29uIGhk
-bWkgYnJpZGdlIGxpYnJhcnkKPj4+Pgo+Pj4+IFNpZ25lZC1vZmYtYnk6IEFuZHkgWWFuIDxhbmR5
-LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4+PiAtLS0KPj4+Pgo+Pj4+IChubyBjaGFuZ2VzIHNpbmNl
-IHYxKQo+Pj4+Cj4+Pj4gICBNQUlOVEFJTkVSUyB8IDggKysrKysrKysKPj4+PiAgIDEgZmlsZSBj
-aGFuZ2VkLCA4IGluc2VydGlvbnMoKykKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVS
-UyBiL01BSU5UQUlORVJTCj4+Pj4gaW5kZXggZjlmOTg1YzdkNzQ3OS4uMGFkY2ZiMWMyNjRhMSAx
-MDA2NDQKPj4+PiAtLS0gYS9NQUlOVEFJTkVSUwo+Pj4+ICsrKyBiL01BSU5UQUlORVJTCj4+Pj4g
-QEAgLTEyMjk5LDYgKzEyMjk5LDE0IEBAIE06CVNhbXVlbCBIb2xsYW5kIDxzYW11ZWxAc2hvbGxh
-bmQub3JnPgo+Pj4+ICAgUzoJTWFpbnRhaW5lZAo+Pj4+ICAgRjoJZHJpdmVycy9wb3dlci9zdXBw
-bHkvaXA1eHh4X3Bvd2VyLmMKPj4+PiAgIAo+Pj4+ICtJTk5PU0lMSUNPTiBIRE1JIEJSSURHRSBE
-UklWRVIKPj4+PiArTToJQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+Pj4+ICtM
-OglkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+Pj4gK1M6CU1haW50YWluZWQKPj4+
-PiArVDoJZ2l0IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vbWlzYy9rZXJuZWwu
-Z2l0Cj4+Pj4gK0Y6CWRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW5uby1oZG1pLmMKPj4+PiArRjoJ
-aW5jbHVkZS9kcm0vYnJpZGdlL2lubm9faGRtaS5oCj4+Pj4gKwo+Pj4+ICAgSU5PVElGWQo+Pj4+
-ICAgTToJSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPj4+PiAgIFI6CUFtaXIgR29sZHN0ZWluIDxh
-bWlyNzNpbEBnbWFpbC5jb20+Cj4+Pj4gLS0gCj4+Pj4gMi40My4wCj4+PiBJIGJlbGlldmUgdGhp
-cyBwYXRjaCBzaG91bGQgYmUgc3F1YXNoZWQgaW50byB0aGUgcGF0Y2ggdGhhdCBhY3R1YWxseQo+
-Pj4gY3JlYXRlcyB0aGUgZmlsZXMgbGlzdGVkIGluIHRoZSBNQUlOVEFJTkVSUyBlbnRyeSwgbGlr
-ZSBJIGRvIGhlcmUgWzFdLgo+Pj4gQ2hlY2twYXRjaCBzaG91bGQgYmUgY29tcGxhaW5pbmcgYWJv
-dXQgcGF0Y2ggWzEvMl0gaWYgSSdtIG5vdCBtaXN0YWtlbiwKPj4+IHdoZW4geW91IHJ1biBgYjQg
-cHJlcCAtLWNoZWNrYC4KPj4gV2UgdGFsa2VkIGFib3V0IHNvbWV0aGluZyBzaW1pbGFyIGhlcmVb
-Ml3vvJoKPj4gTWF4aW1lIGJlbGlldmVzIHRoZXkgc2hvdWxkIGJlIHNlcGFyYXRlIHBhdGNoZXMs
-Cj4+IEFuZCBJJ3ZlIHNlZW4gbWFueSBtZXJnZWQgY29tbWl0cyBpbiB0aGUga2VybmVsIGFyZSBh
-bHNvIGhhbmRsZSBNQUlOVEFJTkVSUyBlbnRyeSBhcyBzZXBhcmF0ZSBwYXRjaGVzCj4+Cj4+Cj4+
-IFsyXWh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzN5Z3FuajRpZGV5N3U0
-bTdsdGx2N3BuZmhra3ZjZXBtcGZkaWpkc3pjdGFlb3BxM2t5QHF0ZWczM2NvbWpsMy8KPgo+SXQg
-c2VlbXMgdGhlcmUgYXJlIGluZGVlZCBvcGluaW9ucyBhYm91dCB0aGlzIFszXSwgZ3Vlc3Mgd2hh
-dGV2ZXIgdGhlIAo+YWN0dWFsIG1haW50YWluZXIgd2FudHMgaXMgd2hhdCB3aWxsIGhhcHBlbiwg
-c29ycnkgdG8gZGlzdHVyYi4KCkl0J3Mgb2theSwgSSBkb24ndCBoYXZlIGEgc3Ryb25nIHByZWZl
-cmVuY2UgZm9yIGVpdGhlciBhcHByb2FjaC4gSXQgdWx0aW1hdGVseSBkZXBlbmRzIG9uIHRoZSBt
-YWludGFpbmVyJ3MgZGVjaXNpb24KCj4KPgo+V291bGQgYmUgbmljZSB0byBnZXQgc29tZSBjZW50
-cmFsIGd1aWRlbGluZSBhYm91dCBob3cgaXQgc2hvdWxkIGJlLgo+Cj4KPlszXSAKPmh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2FsbC81MWI3MjAwMy1lOWE1LTRmMzQtYWQwOC0yNDlmYzI0YjMwNDFA
-a2VybmVsLm9yZy8KPgo+Pgo+Pj4gTGluazoKPj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2Fs
-bC8yMDI1MTAwOS1tYXgyNTAxNC12NC0xLTZhZGIyYTBhYTM1ZkBnb2NvbnRyb2xsLmNvbS8KPj4+
-IFsxXQo+Pj4KPj4+IEtpbmQgcmVnYXJkcywKPj4+IE1hdWQK
+On 09/10/2025 11:45, Boris Brezillon wrote:
+> On Wed,  8 Oct 2025 12:53:20 +0200
+> Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+> 
+>> The function panthor_fw_unplug() will free the FW memory sections.
+>> The problem is that there could still be pending FW events which are yet
+>> not handled at this point. process_fw_events_work() can in this case try
+>> to access said freed memory.
+>>
+>> The fix is to stop FW event processing after IRQs are disabled but before
+>> the FW memory is freed.
+>>
+>> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+>> ---
+>>   drivers/gpu/drm/panthor/panthor_fw.c    |  3 +++
+>>   drivers/gpu/drm/panthor/panthor_sched.c | 12 ++++++++++++
+>>   drivers/gpu/drm/panthor/panthor_sched.h |  1 +
+>>   3 files changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+>> index 9bf06e55eaee..4f393c5cd26f 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+>> @@ -1172,6 +1172,9 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>>   		panthor_fw_stop(ptdev);
+>>   	}
+>>   
+>> +	/* Any pending FW event processing must stop before we free FW memory */
+>> +	panthor_sched_stop_fw_events(ptdev);
+>> +
+>>   	list_for_each_entry(section, &ptdev->fw->sections, node)
+>>   		panthor_kernel_bo_destroy(section->mem);
+>>   
+>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+>> index 0cc9055f4ee5..d150c8d99432 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>> @@ -1794,6 +1794,18 @@ void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events)
+>>   	sched_queue_work(ptdev->scheduler, fw_events);
+>>   }
+>>   
+>> +/**
+>> + * panthor_sched_stop_fw_events() - Stop processing FW events.
+>> + */
+>> +void panthor_sched_stop_fw_events(struct panthor_device *ptdev)
+>> +{
+>> +	if (!ptdev->scheduler)
+>> +		return;
+>> +
+>> +	atomic_set(&ptdev->scheduler->fw_events, 0);
+>> +	cancel_work_sync(&ptdev->scheduler->fw_events_work);
+>> +}
+> 
+> Hm, I'd rather have this called from sched_unplug() and then have an
+> extra check in panthor_sched_report_fw_events() to bail out if the
+> scheduler component is no longer functional. This way this helper stays
+> private to panthor_sched.c.
+
+A heads up on this from me:
+
+I found a new race in the driver, somewhat similar to this one, as I was 
+trying your suggested approach here. Simply put, panthor_device_unplug() 
+calls drm_dev_unplug() at a time where there could be a running 
+panthor_device_suspend(). This causes the suspend routine to skip a lot 
+of work, for instance skip sync with running IRQ handlers, and boom, IRQ 
+handlers will access a powered off GPU.
+
+I will (most likely) push a v2 with both races fixed, as they both 
+relate to interrupt processing while GPU is off.
+
+> 
+>> +
+>>   static const char *fence_get_driver_name(struct dma_fence *fence)
+>>   {
+>>   	return "panthor";
+>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+>> index f4a475aa34c0..4393599ed330 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_sched.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+>> @@ -51,6 +51,7 @@ void panthor_sched_resume(struct panthor_device *ptdev);
+>>   
+>>   void panthor_sched_report_mmu_fault(struct panthor_device *ptdev);
+>>   void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events);
+>> +void panthor_sched_stop_fw_events(struct panthor_device *ptdev);
+>>   
+>>   void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile);
+>>   
+> 
+
