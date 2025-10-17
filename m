@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0850BEAB32
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA92BEAB2F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D3210E178;
-	Fri, 17 Oct 2025 16:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD8610EC94;
+	Fri, 17 Oct 2025 16:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=lach.pw header.i=@lach.pw header.b="Zsy8CkoL";
-	dkim=permerror (0-bit key) header.d=lach.pw header.i=@lach.pw header.b="/wCOTQlk";
+	dkim=pass (2048-bit key; secure) header.d=lach.pw header.i=@lach.pw header.b="BZAmcj42";
+	dkim=permerror (0-bit key) header.d=lach.pw header.i=@lach.pw header.b="7tnaCM6o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1FA010EC95;
- Fri, 17 Oct 2025 16:28:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAA810EC85;
+ Fri, 17 Oct 2025 16:28:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=lach.pw; c=relaxed/relaxed;
- h=Message-ID:Date:Subject:To:From; t=1760718480; bh=FySvhxgkGPeEce3SsSP+zgs
- Qe5XpsgsiK22GvDAXT0k=; b=Zsy8CkoLpRzeAbXtMsK6wQjVizDFWmG3thi/0CONQLus7t9j5U
- JThsjA9WaEZeoVWq1xKeEGOVhDV+EP834vWlBnPDDMeASDoQGcFPUPmFZsW5Ot+cfz5UJ4xgBGT
- iBXETSCf3duhdBMqmjT17cNKBHv/KuycDTBSiDBOyHirN2hOIGs4jAm5m15D817PI00wBEAGQHP
- 80Ol+PaCpbh6ewQbXZpJdXWk+72G8mwmcPh1j3x9ks46pR3pLC065KNb2q8uWdKgH2KWCQDm4RP
- +S3/DM+hmsrnXm2JJQlCaNCl8AE43Px6Qo/x4XGSFHXyQIqSWJASjeNInD8FKrMOtuw==;
+ h=Message-ID:Date:Subject:To:From; t=1760718482; bh=G0cUjhPXLsNiRSzg25M5MDh
+ tPLRayvef22yIVqM4pgw=; b=BZAmcj42Tx4KgCUm7gwuhiu23+4lWTXljxM1DgM5pw0lUo1shr
+ bjUuMdS5qphyFhTX5yv4heg1KbfxDnAgaGg6W50ALBuvtS4/E81Fu0LFYmWpvJbIDrkHf0qvRtl
+ KkJUq52WvtFp9HXDG8u/WGM06P1yavQjyalNZvqWlTvxGgXmRRhzgqlDINnCE5UciHKIwGDbifc
+ EEt4U5tF9R/vrZsPCeCYb+xfw8Bj02isOXPJzUwCPXuAFLuXklN7o9MN7S8RjAolzlQsEzktJ+g
+ q5fCLpajAB67CwXhXY1UdOpf2xFONTp3as+dBGn2ZRD2RuaXuAJkCWHfCVZMNO1Cjdg==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=lach.pw; c=relaxed/relaxed;
- h=Message-ID:Date:Subject:To:From; t=1760718480; bh=FySvhxgkGPeEce3SsSP+zgs
- Qe5XpsgsiK22GvDAXT0k=; b=/wCOTQlktcCTumqs5csZjjrMi5y+59YiUCTusdRmhNkAAAb09t
- eGt75Fe5zYX/qe1hgFPI4uSLjhXSU+2ddmDQ==;
+ h=Message-ID:Date:Subject:To:From; t=1760718482; bh=G0cUjhPXLsNiRSzg25M5MDh
+ tPLRayvef22yIVqM4pgw=; b=7tnaCM6oVQtil/Mg0gF5n7TynT9nM1uOFUikgWxSpjww/vsIHr
+ ux0+oXF2ALeUBjyvUXnwNF3JkdiE+mzUdsDA==;
 From: Yaroslav Bolyukin <iam@lach.pw>
 To: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -40,10 +40,10 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Yaroslav Bolyukin <iam@lach.pw>
-Subject: [PATCH v5 1/7] drm/edid: rename VESA block parsing functions to more
- generic name
-Date: Fri, 17 Oct 2025 18:27:30 +0200
-Message-ID: <20251017162736.45368-2-iam@lach.pw>
+Subject: [PATCH v5 2/7] drm/edid: prepare for VESA vendor-specific data block
+ extension
+Date: Fri, 17 Oct 2025 18:27:31 +0200
+Message-ID: <20251017162736.45368-3-iam@lach.pw>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251017162736.45368-1-iam@lach.pw>
 References: <20251017162736.45368-1-iam@lach.pw>
@@ -64,57 +64,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Those functions would also parse DSC Bits Per Pixel value in the future
-commits.
+Current VESA vendor-specific block parsing expects real block size to be
+the same as the defined struct size, use real offsets in conditionals
+instead to add struct fields in future commits.
 
 Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 ---
- drivers/gpu/drm/drm_edid.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index e2e85345aa9a..4fcde52291ce 100644
+index 4fcde52291ce..725ae5f9d160 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -6524,8 +6524,8 @@ static void drm_get_monitor_range(struct drm_connector *connector,
- 		    info->monitor_range.min_vfreq, info->monitor_range.max_vfreq);
- }
+@@ -6541,7 +6541,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+ 	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
+ 		return;
  
--static void drm_parse_vesa_mso_data(struct drm_connector *connector,
--				    const struct displayid_block *block)
-+static void drm_parse_vesa_specific_block(struct drm_connector *connector,
-+					  const struct displayid_block *block)
- {
- 	struct displayid_vesa_vendor_specific_block *vesa =
- 		(struct displayid_vesa_vendor_specific_block *)block;
-@@ -6584,8 +6584,8 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
- 		    info->mso_stream_count, info->mso_pixel_overlap);
- }
- 
--static void drm_update_mso(struct drm_connector *connector,
--			   const struct drm_edid *drm_edid)
-+static void drm_update_vesa_specific_block(struct drm_connector *connector,
-+					   const struct drm_edid *drm_edid)
- {
- 	const struct displayid_block *block;
- 	struct displayid_iter iter;
-@@ -6593,7 +6593,7 @@ static void drm_update_mso(struct drm_connector *connector,
- 	displayid_iter_edid_begin(drm_edid, &iter);
- 	displayid_iter_for_each(block, &iter) {
- 		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
--			drm_parse_vesa_mso_data(connector, block);
-+			drm_parse_vesa_specific_block(connector, block);
+-	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
++	if (block->num_bytes < 5) {
+ 		drm_dbg_kms(connector->dev,
+ 			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
+ 			    connector->base.id, connector->name);
+@@ -6564,24 +6564,20 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+ 		break;
  	}
- 	displayid_iter_end(&iter);
+ 
+-	if (!info->mso_stream_count) {
+-		info->mso_pixel_overlap = 0;
+-		return;
+-	}
+-
+-	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+-	if (info->mso_pixel_overlap > 8) {
++	if (info->mso_stream_count) {
++		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
++		if (info->mso_pixel_overlap > 8) {
++			drm_dbg_kms(connector->dev,
++				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
++				    connector->base.id, connector->name,
++				    info->mso_pixel_overlap);
++			info->mso_pixel_overlap = 8;
++		}
+ 		drm_dbg_kms(connector->dev,
+-			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
++			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
+ 			    connector->base.id, connector->name,
+-			    info->mso_pixel_overlap);
+-		info->mso_pixel_overlap = 8;
++			    info->mso_stream_count, info->mso_pixel_overlap);
+ 	}
+-
+-	drm_dbg_kms(connector->dev,
+-		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
+-		    connector->base.id, connector->name,
+-		    info->mso_stream_count, info->mso_pixel_overlap);
  }
-@@ -6753,7 +6753,7 @@ static void update_display_info(struct drm_connector *connector,
- 	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
- 		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
  
--	drm_update_mso(connector, drm_edid);
-+	drm_update_vesa_specific_block(connector, drm_edid);
- 
- out:
- 	if (drm_edid_has_internal_quirk(connector, EDID_QUIRK_NON_DESKTOP)) {
+ static void drm_update_vesa_specific_block(struct drm_connector *connector,
 -- 
 2.51.0
