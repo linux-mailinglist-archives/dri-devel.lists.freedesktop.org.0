@@ -2,102 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBE4BE8CD5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0662EBE8CF6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7A2410EBEB;
-	Fri, 17 Oct 2025 13:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4231D10EBE9;
+	Fri, 17 Oct 2025 13:22:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HlVMS3Ja";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="aFXYlQFF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D3310EBEB
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:21:40 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-b48d8deaef9so372429466b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:21:40 -0700 (PDT)
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A4010EBE9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:22:37 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-46fa88b5760so6551735e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1760707299; x=1761312099; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xEsKJoTinruIUsm0dpCz/6W6OuXaFFaRpbudO/5KEks=;
- b=HlVMS3Jav12rUDNmuo3P78dpKERVFwD9/GIUMSIvkGYruNo2o99zuAfApnyCzQhCo0
- YE866P9OdoIyhCv5mVGbij1sdORAJ1UgS6coORqzf2zpWwUr4pBV27ev31Jl78f0V6GN
- l3K2OYASv21tQGViPxvZyfBFVo/IdsyRgz1fI=
+ d=google.com; s=20230601; t=1760707356; x=1761312156;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GnaDsn7nll18ow1kOpNbSLp5i6GMNaHfVFAbzbbvH9I=;
+ b=aFXYlQFFGoHNkmDDhZsPurh0wsMP2YOLJGRix/z0c3qotqYDjWuoz5jhIn73oBrFA1
+ HbVWubv/I/PNjKbBUyhTT/kJh8gDLmA8+Vn0YUTy8virn23kVTZkV7CWYOwzHbeX66ta
+ zKgAVrdXNBTX7Xo2zRcQ+p+v+OcdaRjtj7KKknchVoB45TY51Ole4/wG+15SSGNGPN+/
+ ymTT0buKeR4cALUBdwk9gKhizv9jaB8npHioe59dj1EAUbzcP5jPM13c62/ErHNZQDY6
+ 4LFbNDUJEorctfvyVDdYfwA9iMRjP1CxplECiFYWUNo44QgEZOVoWHZ4nKLhYZC/Ug79
+ oMEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760707299; x=1761312099;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xEsKJoTinruIUsm0dpCz/6W6OuXaFFaRpbudO/5KEks=;
- b=JSaqLWWy/ev0s9brlvpK5ZdHqb+QgBPaIf16qEvVqFhVusQUOvT+e4AWt3DBJ9aVu/
- XKJxDtt8l+MLePwLDoU7Y9ESlmATNUX/3zBWC9Mo6lXtUbPwRu89qVGshwbpcJji51Se
- ElhWebjp0eSd43EW1pG82NEnjKpxhostJec4S6eyPEy30UnuVZevp2g5w7QQj732waGc
- 0XLD/Dvu8Xx8VdSCE5JM1d0tNDidQi4dDJMP1fvheWdmQ49sB1Ac5pykTRE1zDX7h4c8
- lCOCWH/rVwnTdt3OBX2W5PzsR6bEpaM5GgZGnv2rE1UalJDL+QkWce41MqDEKhrrxJ4j
- ceJQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgaCHnKBFDFngGKN9Np98Ln0YLJEFu1uPpMY+h/MItjGIhky3LQXOyE+NxLM1E86eTPHT8Y2COo+o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxmlJ625+fifR5A1bnYcFGGN5lNGliW8UfKQuogasSCkNTvs3RD
- 4LPuOQxfRiJknDxjp7/CipH8OiYVj2Z+DwGR7F30msiN2358nVJtgnrCqc2xhcljrz0=
-X-Gm-Gg: ASbGncvX+ORpw6zEKcbXC9iznwZgTZUHIBrmXGaQy7O9q8VEBKTfRNgT6WcfyPLYPJh
- /SRCI69wOKKvT27X+bp02oFA8VgfQ6FBOLGbwArNI7q+nbT8xQ1/yS7nzCCf9tv2XpMuOEIRkNv
- r/4E+8kN/smijO6ecHJF67MxdZ2EGAnsVpL5kp2kmVL+RUW/f9ArLGt+PlYeW/bCgkl7fWvtE3Z
- TfxxbEyggPztxb10zYLEyPGtHkTvy5RxmRtQ7IxlN/beUWq1Sk6Vd8uLuOOPAchRpEsgDcqUcBQ
- 6iI3pByegNWJVFnxHRWKqoHdeUsJ8E5pkPS68y+bAq02mGx+K2Wg+qEWkqKBRrV3YZ21F+RSjqC
- fYUgJonnnIdjYyDUllrzr+tm5kkXySIXEceX/mqekzkqjS0yk7lF4eAOv2I+lnH5miuhchTXaKm
- 2w6GwT/KfNA+nmGWsQDuZmfA==
-X-Google-Smtp-Source: AGHT+IGym7DoxL5l3AN/IUAohqUuqSKOXLtkCATQpizikNGk/PDRDgFAt2MuZJOWyfIwPWNuMWrhbw==
-X-Received: by 2002:a17:907:3e85:b0:b3e:8252:cd54 with SMTP id
- a640c23a62f3a-b647395033fmr440615966b.32.1760707298775; 
- Fri, 17 Oct 2025 06:21:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b5cba06c187sm794912066b.31.2025.10.17.06.21.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 06:21:37 -0700 (PDT)
-Date: Fri, 17 Oct 2025 15:21:36 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/29] drm/atomic_helper: Compare actual and readout
- states once the commit is done
-Message-ID: <aPJC4CisqouIX-Wi@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-13-14ad5315da3f@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902-drm-state-readout-v1-13-14ad5315da3f@kernel.org>
-X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
+ d=1e100.net; s=20230601; t=1760707356; x=1761312156;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GnaDsn7nll18ow1kOpNbSLp5i6GMNaHfVFAbzbbvH9I=;
+ b=DXH2hfitu+Q1A9yR8VI8AD4sUjg50oWWWRcXTpz3tkHxcw+nQBlh8OmkmEym9rLL86
+ ne970AqjGorpnXrCROcJ1APMz0V+9INPjh4rJQmx/IRFbJErP60NWtB/8c+uj0cIn/eN
+ V2UsofaQq5uGOf6ZFOaedKw1RNUr38a5IM7bXTCiMAGYko4eTndxebRnzZKpqLRYA4AF
+ WzexE40ON5B8TtV+Gt2rsWkQUoiKV8edcfz1UNB4gRa9Qo92Wq+68nvPv72YvOpwA+cd
+ XXgYxEMOb0k0hajzGbyFwPKEMbu20JIG2jCj8QlTdYd4nAlGAiyIBEO74KiXnv0CZFbj
+ L3Wg==
+X-Gm-Message-State: AOJu0YzQEgbD212wPUjC7uO5ZsA8VWq9XPA9aHmbzlWF1wn4Z6p1Had5
+ Uo8MVSOCZ3CbuID5Sh2djeNRGFWfY+blIEbbOZwOR6gcAcSxIbPW+uzSNagKdkZnpO5GrX/InaG
+ RW6LUH9An0zkceuO0dQ==
+X-Google-Smtp-Source: AGHT+IHm/rxQFjzIKD/ix4PvuHjEf9V7l7jdvLwUpstW+PdTOJzmLn/jF0s/g0PNGf6xGAdUynTKR0RdRZTpdF0=
+X-Received: from wmna4.prod.google.com ([2002:a05:600c:684:b0:46e:45f4:a00b])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1e1f:b0:471:d2f:799a with SMTP id
+ 5b1f17b1804b1-47117877791mr24693975e9.16.1760707355934; 
+ Fri, 17 Oct 2025 06:22:35 -0700 (PDT)
+Date: Fri, 17 Oct 2025 13:22:34 +0000
+In-Reply-To: <20251016210955.2813186-3-lyude@redhat.com>
+Mime-Version: 1.0
+References: <20251016210955.2813186-1-lyude@redhat.com>
+ <20251016210955.2813186-3-lyude@redhat.com>
+Message-ID: <aPJDGqsRFzuARlgP@google.com>
+Subject: Re: [PATCH v4 2/9] rust/drm: Add gem::impl_aref_for_gem_obj!
+From: Alice Ryhl <aliceryhl@google.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ Daniel Almeida <daniel.almeida@collabora.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,329 +88,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 10:32:41AM +0200, Maxime Ripard wrote:
-> The new atomic state readout infrastructure can be hard to test because
-> getting access to every firmware variation is hard, but also because
-> most firmware setup will be pretty basic and won't test a wide range of
-> features. Noticing whether it was sucessful or not is also not very
-> convenient.
+On Thu, Oct 16, 2025 at 05:08:15PM -0400, Lyude Paul wrote:
+> In the future we're going to be introducing more GEM object types in rust
+> then just gem::Object<T>. Since all types of GEM objects have refcounting,
+> let's introduce a macro that we can use in the gem crate in order to copy
+> this boilerplate implementation for each type: impl_aref_for_gem_obj!().
 > 
-> In order to make it easier, we can however provide some infrastructure
-> to read out a new state every time a non-blocking commit is made, and
-> compare the readout one with the committed one. And since we do this
-> only on non-blocking commits, the time penalty doesn't matter.
-> 
-> To do so, we introduce a new hook for every state, atomic_compare_state,
-> that takes two state instances and is supposed to return whether they
-> are identical or not.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c | 113 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_atomic.h            |  14 +++++
->  include/drm/drm_bridge.h            |  14 +++++
->  include/drm/drm_connector.h         |  14 +++++
->  include/drm/drm_crtc.h              |  14 +++++
->  include/drm/drm_plane.h             |  14 +++++
->  6 files changed, 183 insertions(+)
+>  rust/kernel/drm/gem/mod.rs | 53 +++++++++++++++++++++++++++-----------
+>  1 file changed, 38 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 14d9bc282ca570964e494936090898b2dc6bee31..aa8f52b5d5a5e6146a6472eebaf02e675c35ccd2 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -428,10 +428,120 @@ void drm_atomic_helper_readout_state(struct drm_device *dev)
->  	drm_atomic_helper_install_readout_state(state);
->  	drm_atomic_state_put(state);
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_readout_state);
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index 20c2769a8c9d6..981fbb931e952 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -15,6 +15,43 @@
+>  };
+>  use core::{ops::Deref, ptr::NonNull};
 >  
-> +static bool drm_atomic_helper_readout_compare(struct drm_atomic_state *committed_state)
-> +{
-> +	struct drm_device *dev = committed_state->dev;
-> +	struct drm_printer p = drm_err_printer(dev, NULL);
-> +	struct drm_private_state *new_obj_state;
-> +	struct drm_private_obj *obj;
-> +	struct drm_plane_state *new_plane_state;
-> +	struct drm_plane *plane;
-> +	struct drm_crtc_state *new_crtc_state;
-> +	struct drm_crtc *crtc;
-> +	struct drm_connector_state *new_conn_state;
-> +	struct drm_connector *conn;
-> +	struct drm_atomic_state *readout_state;
-> +	unsigned int i;
-> +	bool identical = true;
+> +/// A macro for implementing [`AlwaysRefCounted`] for any GEM object type.
+> +///
+> +/// Since all GEM objects use the same refcounting scheme.
+> +macro_rules! impl_aref_for_gem_obj {
+> +    (
+> +        impl $( <$( $tparam_id:ident ),+> )? for $type:ty
+> +        $(
+> +            where
+> +                $( $bind_param:path : $bind_trait:path ),+
+> +        )?
+> +    ) => {
+> +        // SAFETY: All gem objects are refcounted
+> +        unsafe impl $( <$( $tparam_id ),+> )? crate::types::AlwaysRefCounted for $type
+> +        $(
+> +            where
+> +                $( $bind_param : $bind_trait ),+
+> +        )?
+> +        {
+> +            fn inc_ref(&self) {
+> +                // SAFETY: The existence of a shared reference guarantees that the refcount is
+> +                // non-zero.
+> +                unsafe { bindings::drm_gem_object_get(self.as_raw()) };
+> +            }
 > +
-> +	readout_state = drm_atomic_build_readout_state(dev);
-> +	if (WARN_ON(IS_ERR(readout_state)))
-> +		return false;
+> +            unsafe fn dec_ref(obj: core::ptr::NonNull<Self>) {
+> +                // SAFETY: `obj` is a valid pointer to an `Object<T>`.
+> +                let obj = unsafe { obj.as_ref() };
 > +
-> +	for_each_new_plane_in_state(committed_state, plane, new_plane_state, i) {
-> +		const struct drm_plane_funcs *plane_funcs =
-> +			plane->funcs;
-> +		struct drm_plane_state *readout_plane_state;
-> +
-> +		readout_plane_state = drm_atomic_get_old_plane_state(readout_state, plane);
-> +		if (!readout_plane_state) {
-> +			identical = false;
-> +			continue;
-> +		}
-> +
-> +		if (!plane_funcs->atomic_compare_state)
-> +			continue;
-> +
-> +		if (!plane_funcs->atomic_compare_state(plane, &p, new_plane_state, readout_plane_state)) {
-> +			drm_warn(dev, "[PLANE:%d:%s] Committed and Readout PLANE state don't match\n",
-> +				 plane->base.id, plane->name);
-> +			identical = false;
-> +			continue;
-> +		}
-> +	}
-> +
-> +	for_each_new_crtc_in_state(committed_state, crtc, new_crtc_state, i) {
-> +		const struct drm_crtc_funcs *crtc_funcs = crtc->funcs;
-> +		struct drm_crtc_state *readout_crtc_state;
-> +
-> +		readout_crtc_state = drm_atomic_get_old_crtc_state(readout_state, crtc);
-> +		if (!readout_crtc_state) {
-> +			identical = false;
-> +			continue;
-> +		}
-> +
-> +		if (!crtc_funcs->atomic_compare_state)
-> +			continue;
-> +
-> +		if (!crtc_funcs->atomic_compare_state(crtc, &p, new_crtc_state, readout_crtc_state)) {
-> +			drm_warn(dev, "[CRTC:%d:%s] Committed and Readout CRTC state don't match\n",
-> +				 crtc->base.id, crtc->name);
-> +			identical = false;
-> +			continue;
-> +		}
-> +	}
-> +
-> +	for_each_new_connector_in_state(committed_state, conn, new_conn_state, i) {
-> +		const struct drm_connector_funcs *conn_funcs =
-> +			conn->funcs;
-> +		struct drm_connector_state *readout_conn_state;
-> +
-> +		readout_conn_state = drm_atomic_get_old_connector_state(readout_state, conn);
-> +		if (!readout_conn_state) {
-> +			identical = false;
-> +			continue;
-> +		}
-> +
-> +		if (!conn_funcs->atomic_compare_state)
-> +			continue;
-> +
-> +		if (!conn_funcs->atomic_compare_state(conn, &p, new_conn_state, readout_conn_state)) {
-> +			drm_warn(dev, "[CONNECTOR:%d:%s] Committed and Readout connector state don't match\n",
-> +				 conn->base.id, conn->name);
-> +			identical = false;
-> +			continue;
-> +		}
-> +	}
-> +
-> +	for_each_new_private_obj_in_state(committed_state, obj, new_obj_state, i) {
-> +		const struct drm_private_state_funcs *obj_funcs = obj->funcs;
-> +		struct drm_private_state *readout_obj_state;
-> +
-> +		readout_obj_state = drm_atomic_get_old_private_obj_state(readout_state, obj);
-> +		if (!readout_obj_state) {
-> +			identical = false;
-> +			continue;
-> +		}
-> +
-> +		if (!obj_funcs->atomic_compare_state)
-> +			continue;
-> +
-> +		if (!obj_funcs->atomic_compare_state(obj, &p, new_obj_state, readout_obj_state)) {
-> +			drm_warn(dev, "Committed and Readout private object state don't match\n");
-> +			identical = false;
-> +			continue;
-> +		}
-> +	}
-> +
-> +	drm_atomic_state_put(readout_state);
-> +
-> +	return identical;
+> +                // SAFETY: The safety requirements guarantee that the refcount is non-zero.
+> +                unsafe { bindings::drm_gem_object_put(obj.as_raw()) };
+
+I would prefer to move the call to `.as_raw()` to the `let obj` line so
+that the reference more clearly expires before the call to
+`drm_gem_object_put()`. The reference must not exist during the call to
+`drm_gem_object_put()`.
+
+> +            }
+> +        }
+> +    };
 > +}
 > +
->  /**
->   * DOC: overview
->   *
->   * This helper library provides implementations of check and commit functions on
->   * top of the CRTC modeset helper callbacks and the plane helper callbacks. It
-> @@ -2382,10 +2492,13 @@ static void commit_tail(struct drm_atomic_state *state, bool nonblock)
->  						 (unsigned long)commit_time_ms,
->  						 new_self_refresh_mask);
->  
->  	drm_atomic_helper_commit_cleanup_done(state);
->  
-> +	if (!nonblock)
-> +		drm_atomic_helper_readout_compare(state);
-> +
->  	drm_atomic_state_put(state);
->  }
->  
->  static void commit_work(struct work_struct *work)
->  {
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index f13f926d21047e42bb9ac692c2dd4b88f2ebd91c..d75a9c7e23adf7fa264df766b47526f75e9cc753 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -226,10 +226,24 @@ struct drm_private_state_funcs {
->  	 * Frees the private object state created with @atomic_duplicate_state.
->  	 */
->  	void (*atomic_destroy_state)(struct drm_private_obj *obj,
->  				     struct drm_private_state *state);
->  
-> +	/**
-> +	 * @atomic_compare_state
-> +	 *
-> +	 * Compares two &struct drm_private_state instances.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * True if the states are identical, false otherwise.
-> +	 */
-> +	bool (*atomic_compare_state)(struct drm_private_obj *obj,
-> +				     struct drm_printer *p,
-> +				     struct drm_private_state *a,
-> +				     struct drm_private_state *b);
-> +
->  	/**
->  	 * @atomic_print_state:
->  	 *
->  	 * If driver subclasses &struct drm_private_state, it should implement
->  	 * this optional hook for printing additional driver specific state.
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 15b63053f01869786831936ba28b7efc1e55e2e8..5ea63b51a4dd4cb00468afcf7d126c774f63ade0 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -511,10 +511,24 @@ struct drm_bridge_funcs {
->  	int (*atomic_readout_state)(struct drm_bridge *bridge,
->  				    struct drm_bridge_state *bridge_state,
->  				    struct drm_crtc_state *crtc_state,
->  				    struct drm_connector_state *conn_state);
->  
-> +	/**
-> +	 * @atomic_compare_state
-> +	 *
-> +	 * Compares two &struct drm_bridge_state instances.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * True if the states are identical, false otherwise.
-> +	 */
-> +	bool (*atomic_compare_state)(struct drm_bridge *bridge,
-> +				     struct drm_printer *p,
-> +				     struct drm_bridge_state *a,
-> +				     struct drm_bridge_state *b);
-> +
->  	/**
->  	 * @atomic_duplicate_state:
->  	 *
->  	 * Duplicate the current bridge state object (which is guaranteed to be
->  	 * non-NULL).
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index f68bd9627c085c6d2463b847aaa245ccc651f27b..dc2c77b04df9010cbfb2028de8ef8c747003c489 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1534,10 +1534,24 @@ struct drm_connector_funcs {
->  	 * This callback is mandatory for atomic drivers.
->  	 */
->  	void (*atomic_destroy_state)(struct drm_connector *connector,
->  				     struct drm_connector_state *state);
->  
+> +pub(crate) use impl_aref_for_gem_obj;
 
-Both these callbacks for connector/crtc/plane need to be moved into the
-respective _helper_funcs structs, because they're not uapi stuff.
-priv/bridge funcs do not have this split, because they're not uapi visible
-objects.
--Sima
+The usual way to export macros outside the current file is:
 
-> +	/**
-> +	 * @atomic_compare_state
-> +	 *
-> +	 * Compares two &struct drm_connector_state instances.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * True if the states are identical, false otherwise.
-> +	 */
-> +	bool (*atomic_compare_state)(struct drm_connector *connector,
-> +				     struct drm_printer *p,
-> +				     struct drm_connector_state *a,
-> +				     struct drm_connector_state *b);
-> +
->  	/**
->  	 * @atomic_set_property:
->  	 *
->  	 * Decode a driver-private property value and store the decoded value
->  	 * into the passed-in state structure. Since the atomic core decodes all
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index 11e3299cfad1572c6e507918c7cceae7a28ba4cf..21c20ecdda40f3d155d3c140e06b3801270f5262 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -676,10 +676,24 @@ struct drm_crtc_funcs {
->  	 * This callback is mandatory for atomic drivers.
->  	 */
->  	void (*atomic_destroy_state)(struct drm_crtc *crtc,
->  				     struct drm_crtc_state *state);
->  
-> +	/**
-> +	 * @atomic_compare_state
-> +	 *
-> +	 * Compares two &struct drm_crtc_state instances.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * True if the states are identical, false otherwise.
-> +	 */
-> +	bool (*atomic_compare_state)(struct drm_crtc *crtc,
-> +				     struct drm_printer *p,
-> +				     struct drm_crtc_state *a,
-> +				     struct drm_crtc_state *b);
-> +
->  	/**
->  	 * @atomic_set_property:
->  	 *
->  	 * Decode a driver-private property value and store the decoded value
->  	 * into the passed-in state structure. Since the atomic core decodes all
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 691a267c857a228f674ef02a63fb6d1ff9e379a8..c24c10ccc8e8f2ba23e77e279aef61ae86e320c7 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -449,10 +449,24 @@ struct drm_plane_funcs {
->  	 * This callback is mandatory for atomic drivers.
->  	 */
->  	void (*atomic_destroy_state)(struct drm_plane *plane,
->  				     struct drm_plane_state *state);
->  
-> +	/**
-> +	 * @atomic_compare_state
-> +	 *
-> +	 * Compares two &struct drm_plane_state instances.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * True if the states are identical, false otherwise.
-> +	 */
-> +	bool (*atomic_compare_state)(struct drm_plane *plane,
-> +				     struct drm_printer *p,
-> +				     struct drm_plane_state *a,
-> +				     struct drm_plane_state *b);
-> +
->  	/**
->  	 * @atomic_set_property:
->  	 *
->  	 * Decode a driver-private property value and store the decoded value
->  	 * into the passed-in state structure. Since the atomic core decodes all
-> 
-> -- 
-> 2.50.1
-> 
+1. Annotated with #[macro_export]
+2. Export with `pub use impl_aref_for_gem_obj`
 
--- 
-Simona Vetter
-Software Engineer
-http://blog.ffwll.ch
+Alice
