@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CA8BE8975
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 14:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2A2BE8A4D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 14:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3347D10E113;
-	Fri, 17 Oct 2025 12:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF2A10E16B;
+	Fri, 17 Oct 2025 12:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1EE9810E113
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:30:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C317510E16B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 12:48:10 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AEA7E1596
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 05:30:49 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5C9CB3F59E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 05:30:57 -0700 (PDT)
-Date: Fri, 17 Oct 2025 13:30:53 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Akash Goel <akash.goel@arm.com>
-Cc: boris.brezillon@collabora.com, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 617941595;
+ Fri, 17 Oct 2025 05:48:02 -0700 (PDT)
+Received: from [10.57.36.104] (unknown [10.57.36.104])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F14E93F59E;
+ Fri, 17 Oct 2025 05:48:07 -0700 (PDT)
+Message-ID: <74dae302-946b-4f33-9630-18c26f175914@arm.com>
+Date: Fri, 17 Oct 2025 13:48:05 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/panthor: Fix kernel panic on partial unmap of a GPU
  VA region
-Message-ID: <aPI2_bQKC8HxV4Bt@e110455-lin.cambridge.arm.com>
+To: Akash Goel <akash.goel@arm.com>, boris.brezillon@collabora.com,
+ liviu.dudau@arm.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
 References: <20251017102922.670084-1-akash.goel@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
 In-Reply-To: <20251017102922.670084-1-akash.goel@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,7 +50,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 17, 2025 at 11:29:22AM +0100, Akash Goel wrote:
+On 17/10/2025 11:29, Akash Goel wrote:
 > This commit address a kernel panic issue that can happen if Userspace
 > tries to partially unmap a GPU virtual region (aka drm_gpuva).
 > The VM_BIND interface allows partial unmapping of a BO.
@@ -111,12 +111,16 @@ On Fri, Oct 17, 2025 at 11:29:22AM +0100, Akash Goel wrote:
 > 
 > Signed-off-by: Akash Goel <akash.goel@arm.com>
 
-Do we need a Fixes tag here?
+We also want a fixes line:
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
 
-Best regards,
-Liviu
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+I'll push this to drm-misc-fixes.
+
+Thanks,
+Steve
 
 > ---
 >  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++++---
@@ -144,16 +148,4 @@ Liviu
 >  		break;
 >  
 >  	default:
-> -- 
-> 2.25.1
-> 
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
