@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEE9BE8C95
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBE4BE8CD5
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:21:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5CB210EBEA;
-	Fri, 17 Oct 2025 13:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A2410EBEB;
+	Fri, 17 Oct 2025 13:21:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eOI6bmux";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HlVMS3Ja";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D13610EBE9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:19:28 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-63c3c7d3d53so513077a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:19:28 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68D3310EBEB
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:21:40 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b48d8deaef9so372429466b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1760707167; x=1761311967; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1760707299; x=1761312099; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CjGy9FZ+rKEjrnntHU4EtXwsShUyCILycOc13M5bggE=;
- b=eOI6bmuxEcb98b6SOgskPuDHYdXDGkHpBZJ4hbOSVe+PHl0eYS+ygFnaSUrxxWWue4
- p2uauXMzppHOpQM0S3F2/7NdcjVjdpgPbz8UVbtNhHZlTz1+g2dtVVbE2EzWRKRCB7CY
- ugi7NOZcJnNOfpRuNp66WN7ZLB2MlNLYwOCbY=
+ bh=xEsKJoTinruIUsm0dpCz/6W6OuXaFFaRpbudO/5KEks=;
+ b=HlVMS3Jav12rUDNmuo3P78dpKERVFwD9/GIUMSIvkGYruNo2o99zuAfApnyCzQhCo0
+ YE866P9OdoIyhCv5mVGbij1sdORAJ1UgS6coORqzf2zpWwUr4pBV27ev31Jl78f0V6GN
+ l3K2OYASv21tQGViPxvZyfBFVo/IdsyRgz1fI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760707167; x=1761311967;
+ d=1e100.net; s=20230601; t=1760707299; x=1761312099;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CjGy9FZ+rKEjrnntHU4EtXwsShUyCILycOc13M5bggE=;
- b=DA0P25jEG9ou7rLZ5LCfFy0QCRKr8DGkFCPvexlm8fUOyL0NwdnRk/Fcn7b7M5zGT9
- EQ90SaVvwUAjH5x0P3hW1qlvkqQUeAbwf1hhkvGSZwdBIjTYERIDsdHH+XMndgePtTOK
- tPbowhFtZg3gHWn8NkAbV128peqEJgFst80/SsHvtzf7FDzWo7QnSPoIFj+pT2VH2v+w
- BTCR5MdDUSTh+rxjzknxR/AqBfuomjDCtn80a+fcXaCJcB9F7Qb02Ig5zPb7UFOZ/Mn0
- JJwKPKai762dFrU64K7BkXBSMtAk+k4gnXRY3Oco08YWOUyLnMnTIe2TNKRQpWHvtmsn
- wiJQ==
+ bh=xEsKJoTinruIUsm0dpCz/6W6OuXaFFaRpbudO/5KEks=;
+ b=JSaqLWWy/ev0s9brlvpK5ZdHqb+QgBPaIf16qEvVqFhVusQUOvT+e4AWt3DBJ9aVu/
+ XKJxDtt8l+MLePwLDoU7Y9ESlmATNUX/3zBWC9Mo6lXtUbPwRu89qVGshwbpcJji51Se
+ ElhWebjp0eSd43EW1pG82NEnjKpxhostJec4S6eyPEy30UnuVZevp2g5w7QQj732waGc
+ 0XLD/Dvu8Xx8VdSCE5JM1d0tNDidQi4dDJMP1fvheWdmQ49sB1Ac5pykTRE1zDX7h4c8
+ lCOCWH/rVwnTdt3OBX2W5PzsR6bEpaM5GgZGnv2rE1UalJDL+QkWce41MqDEKhrrxJ4j
+ ceJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFSGYnLG6crn1YxrwwJG30CZjnbTtJmkbz0WwGVZfBnJIAnj/ZN0WUlHqBnBcr2NQSqVf4I1EAF18=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxH+HVIKnE9w5DN0w3EkIC3ci10W5mjM/rXVjw6w9wNSwtlG3zk
- VBilGwxsn6aFP9GP6cHY31u4DzT7RuUxS8U/3G8SBmvs8Ro4wVH2B+6CNwG8e8TQw50=
-X-Gm-Gg: ASbGncsUr/7peixuge9w7eRk6CCQevyqbGtVIP7vyEOfDclg7TyFdH8v6lmEX6CxJW1
- iB1H8ggCC4wC9QCt8RNO9wAz2PfJAcIbLd+4EuFQbc3b/XdtRZ4Sv4A3C8sgXiDDURjWOllIgm/
- dsNDJVYFRsmCh265dEtF3bDT6g2Wx3dYfPbSuAgk2Z6jtaEbU1d3Q0b+q24iIn1Kn+ouAkkKlzU
- WH7ieG5Ixjh90Af8iGJRKRhhJnc8GzCrWVx374OmVZWwIHr0KRDLHGlimGL1eZ8UvlmPVuEJQPM
- p4fZleWFOH4aJltLpabOdpr8UO6TzDysNAwzKXV5rWvsovZ9ZIDIzlVVU4W9te7HQAaG7H0uX2m
- KcpyK4WCi7YdBBTRE9AiwNqui0Yo75Y/x5lgV/4ECwH2DBF3nWotpR4HD6LlxsItcohaK3mhrwg
- s9ARL0M9HgGJAuVNJPS4nsRQ==
-X-Google-Smtp-Source: AGHT+IF7xNCCKtq8yrDup53uFHw15lFv/JcHO9zr7mifpvlVmxJCIL5ZwW7/XX61lvzCkalWE2LFdg==
-X-Received: by 2002:a17:907:74e:b0:b04:67f3:890f with SMTP id
- a640c23a62f3a-b6475e09c31mr453693466b.33.1760707166624; 
- Fri, 17 Oct 2025 06:19:26 -0700 (PDT)
+ AJvYcCWgaCHnKBFDFngGKN9Np98Ln0YLJEFu1uPpMY+h/MItjGIhky3LQXOyE+NxLM1E86eTPHT8Y2COo+o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmlJ625+fifR5A1bnYcFGGN5lNGliW8UfKQuogasSCkNTvs3RD
+ 4LPuOQxfRiJknDxjp7/CipH8OiYVj2Z+DwGR7F30msiN2358nVJtgnrCqc2xhcljrz0=
+X-Gm-Gg: ASbGncvX+ORpw6zEKcbXC9iznwZgTZUHIBrmXGaQy7O9q8VEBKTfRNgT6WcfyPLYPJh
+ /SRCI69wOKKvT27X+bp02oFA8VgfQ6FBOLGbwArNI7q+nbT8xQ1/yS7nzCCf9tv2XpMuOEIRkNv
+ r/4E+8kN/smijO6ecHJF67MxdZ2EGAnsVpL5kp2kmVL+RUW/f9ArLGt+PlYeW/bCgkl7fWvtE3Z
+ TfxxbEyggPztxb10zYLEyPGtHkTvy5RxmRtQ7IxlN/beUWq1Sk6Vd8uLuOOPAchRpEsgDcqUcBQ
+ 6iI3pByegNWJVFnxHRWKqoHdeUsJ8E5pkPS68y+bAq02mGx+K2Wg+qEWkqKBRrV3YZ21F+RSjqC
+ fYUgJonnnIdjYyDUllrzr+tm5kkXySIXEceX/mqekzkqjS0yk7lF4eAOv2I+lnH5miuhchTXaKm
+ 2w6GwT/KfNA+nmGWsQDuZmfA==
+X-Google-Smtp-Source: AGHT+IGym7DoxL5l3AN/IUAohqUuqSKOXLtkCATQpizikNGk/PDRDgFAt2MuZJOWyfIwPWNuMWrhbw==
+X-Received: by 2002:a17:907:3e85:b0:b3e:8252:cd54 with SMTP id
+ a640c23a62f3a-b647395033fmr440615966b.32.1760707298775; 
+ Fri, 17 Oct 2025 06:21:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b5cb9e7a23dsm818970666b.23.2025.10.17.06.19.25
+ a640c23a62f3a-b5cba06c187sm794912066b.31.2025.10.17.06.21.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 06:19:25 -0700 (PDT)
-Date: Fri, 17 Oct 2025 15:19:23 +0200
+ Fri, 17 Oct 2025 06:21:37 -0700 (PDT)
+Date: Fri, 17 Oct 2025 15:21:36 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -74,8 +74,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 16/29] drm/encoder: Create get_current_crtc hook
-Message-ID: <aPJCW7MfmuxwkL59@phenom.ffwll.local>
+Subject: Re: [PATCH 13/29] drm/atomic_helper: Compare actual and readout
+ states once the commit is done
+Message-ID: <aPJC4CisqouIX-Wi@phenom.ffwll.local>
 Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -91,11 +92,11 @@ Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-16-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-13-14ad5315da3f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902-drm-state-readout-v1-16-14ad5315da3f@kernel.org>
+In-Reply-To: <20250902-drm-state-readout-v1-13-14ad5315da3f@kernel.org>
 X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -112,77 +113,323 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 10:32:44AM +0200, Maxime Ripard wrote:
-> In order for drivers to implement drm_connectors atomic_state_readout
-> hooks, they need to query the hardware and lookup the CRTC to set
-> drm_connector_state.crtc.
+On Tue, Sep 02, 2025 at 10:32:41AM +0200, Maxime Ripard wrote:
+> The new atomic state readout infrastructure can be hard to test because
+> getting access to every firmware variation is hard, but also because
+> most firmware setup will be pretty basic and won't test a wide range of
+> features. Noticing whether it was sucessful or not is also not very
+> convenient.
 > 
-> It should be easy enough for drivers that are tightly integrated from
-> the CRTC to the connectors, but if the driver uses bridges, there's no
-> coupling between the CRTC and encoder, and the bridge driver.
+> In order to make it easier, we can however provide some infrastructure
+> to read out a new state every time a non-blocking commit is made, and
+> compare the readout one with the committed one. And since we do this
+> only on non-blocking commits, the time penalty doesn't matter.
 > 
-> The only thing the bridge has access to is the encoder, but the
-> relationship between a CRTC and an encoder isn't a fixed mapping at the
-> framework level, and thus the bridge can't deduce which CRTC is feeding
-> its encoder.
-> 
-> Thus, let's create a new hook for encoders to implement to return the
-> CRTC they are currently connected to.
+> To do so, we introduce a new hook for every state, atomic_compare_state,
+> that takes two state instances and is supposed to return whether they
+> are identical or not.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  include/drm/drm_encoder.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  drivers/gpu/drm/drm_atomic_helper.c | 113 ++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_atomic.h            |  14 +++++
+>  include/drm/drm_bridge.h            |  14 +++++
+>  include/drm/drm_connector.h         |  14 +++++
+>  include/drm/drm_crtc.h              |  14 +++++
+>  include/drm/drm_plane.h             |  14 +++++
+>  6 files changed, 183 insertions(+)
 > 
-> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> index 977a9381c8ba943b4d3e021635ea14856df8a17d..7abb5e35ac950c941b56fc311a52789bbc427df6 100644
-> --- a/include/drm/drm_encoder.h
-> +++ b/include/drm/drm_encoder.h
-> @@ -86,10 +86,23 @@ struct drm_encoder_funcs {
->  	 * @debugfs_init:
->  	 *
->  	 * Allows encoders to create encoder-specific debugfs files.
->  	 */
->  	void (*debugfs_init)(struct drm_encoder *encoder, struct dentry *root);
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 14d9bc282ca570964e494936090898b2dc6bee31..aa8f52b5d5a5e6146a6472eebaf02e675c35ccd2 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -428,10 +428,120 @@ void drm_atomic_helper_readout_state(struct drm_device *dev)
+>  	drm_atomic_helper_install_readout_state(state);
+>  	drm_atomic_state_put(state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_readout_state);
+>  
+> +static bool drm_atomic_helper_readout_compare(struct drm_atomic_state *committed_state)
+> +{
+> +	struct drm_device *dev = committed_state->dev;
+> +	struct drm_printer p = drm_err_printer(dev, NULL);
+> +	struct drm_private_state *new_obj_state;
+> +	struct drm_private_obj *obj;
+> +	struct drm_plane_state *new_plane_state;
+> +	struct drm_plane *plane;
+> +	struct drm_crtc_state *new_crtc_state;
+> +	struct drm_crtc *crtc;
+> +	struct drm_connector_state *new_conn_state;
+> +	struct drm_connector *conn;
+> +	struct drm_atomic_state *readout_state;
+> +	unsigned int i;
+> +	bool identical = true;
 > +
+> +	readout_state = drm_atomic_build_readout_state(dev);
+> +	if (WARN_ON(IS_ERR(readout_state)))
+> +		return false;
+> +
+> +	for_each_new_plane_in_state(committed_state, plane, new_plane_state, i) {
+> +		const struct drm_plane_funcs *plane_funcs =
+> +			plane->funcs;
+> +		struct drm_plane_state *readout_plane_state;
+> +
+> +		readout_plane_state = drm_atomic_get_old_plane_state(readout_state, plane);
+> +		if (!readout_plane_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!plane_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!plane_funcs->atomic_compare_state(plane, &p, new_plane_state, readout_plane_state)) {
+> +			drm_warn(dev, "[PLANE:%d:%s] Committed and Readout PLANE state don't match\n",
+> +				 plane->base.id, plane->name);
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	for_each_new_crtc_in_state(committed_state, crtc, new_crtc_state, i) {
+> +		const struct drm_crtc_funcs *crtc_funcs = crtc->funcs;
+> +		struct drm_crtc_state *readout_crtc_state;
+> +
+> +		readout_crtc_state = drm_atomic_get_old_crtc_state(readout_state, crtc);
+> +		if (!readout_crtc_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!crtc_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!crtc_funcs->atomic_compare_state(crtc, &p, new_crtc_state, readout_crtc_state)) {
+> +			drm_warn(dev, "[CRTC:%d:%s] Committed and Readout CRTC state don't match\n",
+> +				 crtc->base.id, crtc->name);
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	for_each_new_connector_in_state(committed_state, conn, new_conn_state, i) {
+> +		const struct drm_connector_funcs *conn_funcs =
+> +			conn->funcs;
+> +		struct drm_connector_state *readout_conn_state;
+> +
+> +		readout_conn_state = drm_atomic_get_old_connector_state(readout_state, conn);
+> +		if (!readout_conn_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!conn_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!conn_funcs->atomic_compare_state(conn, &p, new_conn_state, readout_conn_state)) {
+> +			drm_warn(dev, "[CONNECTOR:%d:%s] Committed and Readout connector state don't match\n",
+> +				 conn->base.id, conn->name);
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	for_each_new_private_obj_in_state(committed_state, obj, new_obj_state, i) {
+> +		const struct drm_private_state_funcs *obj_funcs = obj->funcs;
+> +		struct drm_private_state *readout_obj_state;
+> +
+> +		readout_obj_state = drm_atomic_get_old_private_obj_state(readout_state, obj);
+> +		if (!readout_obj_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!obj_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!obj_funcs->atomic_compare_state(obj, &p, new_obj_state, readout_obj_state)) {
+> +			drm_warn(dev, "Committed and Readout private object state don't match\n");
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	drm_atomic_state_put(readout_state);
+> +
+> +	return identical;
+> +}
+> +
+>  /**
+>   * DOC: overview
+>   *
+>   * This helper library provides implementations of check and commit functions on
+>   * top of the CRTC modeset helper callbacks and the plane helper callbacks. It
+> @@ -2382,10 +2492,13 @@ static void commit_tail(struct drm_atomic_state *state, bool nonblock)
+>  						 (unsigned long)commit_time_ms,
+>  						 new_self_refresh_mask);
+>  
+>  	drm_atomic_helper_commit_cleanup_done(state);
+>  
+> +	if (!nonblock)
+> +		drm_atomic_helper_readout_compare(state);
+> +
+>  	drm_atomic_state_put(state);
+>  }
+>  
+>  static void commit_work(struct work_struct *work)
+>  {
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index f13f926d21047e42bb9ac692c2dd4b88f2ebd91c..d75a9c7e23adf7fa264df766b47526f75e9cc753 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -226,10 +226,24 @@ struct drm_private_state_funcs {
+>  	 * Frees the private object state created with @atomic_duplicate_state.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_private_obj *obj,
+>  				     struct drm_private_state *state);
+>  
 > +	/**
-> +	 * @get_current_crtc:
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_private_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_private_obj *obj,
+> +				     struct drm_printer *p,
+> +				     struct drm_private_state *a,
+> +				     struct drm_private_state *b);
+> +
+>  	/**
+>  	 * @atomic_print_state:
+>  	 *
+>  	 * If driver subclasses &struct drm_private_state, it should implement
+>  	 * this optional hook for printing additional driver specific state.
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 15b63053f01869786831936ba28b7efc1e55e2e8..5ea63b51a4dd4cb00468afcf7d126c774f63ade0 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -511,10 +511,24 @@ struct drm_bridge_funcs {
+>  	int (*atomic_readout_state)(struct drm_bridge *bridge,
+>  				    struct drm_bridge_state *bridge_state,
+>  				    struct drm_crtc_state *crtc_state,
+>  				    struct drm_connector_state *conn_state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_bridge_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_bridge *bridge,
+> +				     struct drm_printer *p,
+> +				     struct drm_bridge_state *a,
+> +				     struct drm_bridge_state *b);
+> +
+>  	/**
+>  	 * @atomic_duplicate_state:
+>  	 *
+>  	 * Duplicate the current bridge state object (which is guaranteed to be
+>  	 * non-NULL).
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index f68bd9627c085c6d2463b847aaa245ccc651f27b..dc2c77b04df9010cbfb2028de8ef8c747003c489 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1534,10 +1534,24 @@ struct drm_connector_funcs {
+>  	 * This callback is mandatory for atomic drivers.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_connector *connector,
+>  				     struct drm_connector_state *state);
+>  
 
-Bit a bikeshed, but crossed my mind reading this: I think some kind of
-prefix for all the state-readout/comparison related stuff and maybe even
-putting all the new helpers into a new c/h files would be good. That way
-we have a nice place for a DOC: section and people have a better chance of
-understanding what they can ignore. Might still be good to put a standard
-one-sentence explainer here that this is part of the state
-readout/fastboot support and maybe link to the main helper function for
-that.
-
-For the prefix I'm lacking good ideas, but maybe asro for atomic state
-readout? It's at least unique (to my knowledge), unlike all the other
-shorthands I could come up with (like atomic fast boot and afb). Spelling
-it out is way too long unfortunately.
-
-Oh also, since this is part of the optional helpers it should be in
-drm_encoder_helper_funcs, only uabi interfaces should be put into these
-here. This also applies to all the other hooks.
+Both these callbacks for connector/crtc/plane need to be moved into the
+respective _helper_funcs structs, because they're not uapi stuff.
+priv/bridge funcs do not have this split, because they're not uapi visible
+objects.
 -Sima
 
-
+> +	/**
+> +	 * @atomic_compare_state
 > +	 *
-> +	 * This optional hook is used during initialization to read out
-> +	 * the initial state by connectors that support atomic state
-> +	 * hardware readout.
+> +	 * Compares two &struct drm_connector_state instances.
 > +	 *
-> +	 * Returns:
+> +	 * RETURNS:
 > +	 *
-> +	 * The CRTC currently associated with the encoder if enabled, NULL otherwise.
+> +	 * True if the states are identical, false otherwise.
 > +	 */
-> +	struct drm_crtc *(*get_current_crtc)(struct drm_encoder *encoder);
->  };
+> +	bool (*atomic_compare_state)(struct drm_connector *connector,
+> +				     struct drm_printer *p,
+> +				     struct drm_connector_state *a,
+> +				     struct drm_connector_state *b);
+> +
+>  	/**
+>  	 * @atomic_set_property:
+>  	 *
+>  	 * Decode a driver-private property value and store the decoded value
+>  	 * into the passed-in state structure. Since the atomic core decodes all
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 11e3299cfad1572c6e507918c7cceae7a28ba4cf..21c20ecdda40f3d155d3c140e06b3801270f5262 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -676,10 +676,24 @@ struct drm_crtc_funcs {
+>  	 * This callback is mandatory for atomic drivers.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_crtc *crtc,
+>  				     struct drm_crtc_state *state);
 >  
->  /**
->   * struct drm_encoder - central DRM encoder structure
->   * @dev: parent DRM device
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_crtc_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_crtc *crtc,
+> +				     struct drm_printer *p,
+> +				     struct drm_crtc_state *a,
+> +				     struct drm_crtc_state *b);
+> +
+>  	/**
+>  	 * @atomic_set_property:
+>  	 *
+>  	 * Decode a driver-private property value and store the decoded value
+>  	 * into the passed-in state structure. Since the atomic core decodes all
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 691a267c857a228f674ef02a63fb6d1ff9e379a8..c24c10ccc8e8f2ba23e77e279aef61ae86e320c7 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -449,10 +449,24 @@ struct drm_plane_funcs {
+>  	 * This callback is mandatory for atomic drivers.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_plane *plane,
+>  				     struct drm_plane_state *state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_plane_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_plane *plane,
+> +				     struct drm_printer *p,
+> +				     struct drm_plane_state *a,
+> +				     struct drm_plane_state *b);
+> +
+>  	/**
+>  	 * @atomic_set_property:
+>  	 *
+>  	 * Decode a driver-private property value and store the decoded value
+>  	 * into the passed-in state structure. Since the atomic core decodes all
 > 
 > -- 
 > 2.50.1
