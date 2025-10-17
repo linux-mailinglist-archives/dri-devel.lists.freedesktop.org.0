@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC73BE8ED7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D607BE8ECB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0922310EC28;
-	Fri, 17 Oct 2025 13:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497BC10EC24;
+	Fri, 17 Oct 2025 13:37:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aVNmpB6X";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Wza8+oQB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5004410EC21;
- Fri, 17 Oct 2025 13:37:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A56810EC1D;
+ Fri, 17 Oct 2025 13:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=dbqQu8Jeq0gdB+++zlIlSVUYGnheV8/t7bM4Mmyh41Q=; b=aVNmpB6XIC6LNTAWnOkcHh0jpb
- ITDHR164r6hDrrESEZEpgmMeHUhPHshH0pKhEKdVJtbAOhzQortlYe3Ck0/bFG+2+hsQssGmCyv+1
- R0/qOxyb7SRDjoUwbMnjB4V2osmpWYyam4IxlpUOnNBjCHHNFFWqT+03eTe9uNTIvNBFnnps6iSxJ
- SEzZVnf/+GcfKsSViMSNDrRQ012OrgwYb2yVrNrYZI43ZI8BHwgO8Kqfql2vkXAPVlIKYHP/kURBS
- D+65uNY5C1UODQnADCgD86uXW/4I0Cz7eQ5edYGJ/PHqq/atrfC0c6TI94KlHll/BuvyN3ateJOor
- PFIdW5tg==;
+ bh=DJtB5KdqWSBifkD54pBDxfP+tJlfpZuiFAXlyzQHUxQ=; b=Wza8+oQBefNJzHRPC2vuxxM/0u
+ UV6DT8PxYpS6/zJjgUAWnZ7iBoJoVYuhejliVaXLtNK52eiB9jC7AgyUwtPu9eUjfy4muLsWhHeWH
+ 6z3Jpv+DMmasy2j19/vVL0H1zyEjA50A8yP9ENCdE5c+cp7q6iGyPacNetERrUsNrAh6+hN2m1X1o
+ gZPVpubYC8Hxecn8otoXiiLV3fNaQp2XdpUYOAyWmY7y9u2vHvxEoiQxNp9RlGET/0GSN6E+XAjjl
+ PFRs3a7DwEEiLc26VxV3yY5jv7CeW9c8HS4lBf/OWxgEXdiXx4DzWk4VvvL3/02v2nqtJWuboKzxF
+ 25mE7Pug==;
 Received: from [90.242.12.242] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1v9kdj-00B3y2-J5; Fri, 17 Oct 2025 15:37:03 +0200
+ id 1v9kdk-00B3yN-AO; Fri, 17 Oct 2025 15:37:04 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
-Subject: [PATCH v2 23/27] drm/panthor: Remove drm_sched_init_args->num_rqs
- usage
-Date: Fri, 17 Oct 2025 14:36:40 +0100
-Message-ID: <20251017133644.44747-24-tvrtko.ursulin@igalia.com>
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: [PATCH v2 24/27] drm/sched: Remove drm_sched_init_args->num_rqs usage
+Date: Fri, 17 Oct 2025 14:36:41 +0100
+Message-ID: <20251017133644.44747-25-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
 References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +66,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
 Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c   | 1 -
- drivers/gpu/drm/panthor/panthor_sched.c | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 6dec4354e378..048a61d9fad6 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -2327,7 +2327,6 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
- 	const struct drm_sched_init_args sched_args = {
- 		.ops = &panthor_vm_bind_ops,
- 		.submit_wq = ptdev->mmu->vm.wq,
--		.num_rqs = 1,
- 		.credit_limit = 1,
- 		/* Bind operations are synchronous for now, no timeout needed. */
- 		.timeout = MAX_SCHEDULE_TIMEOUT,
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index f5e01cb16cfc..5b95868169ac 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -3318,7 +3318,6 @@ group_create_queue(struct panthor_group *group,
- 	struct drm_sched_init_args sched_args = {
- 		.ops = &panthor_queue_sched_ops,
- 		.submit_wq = group->ptdev->scheduler->wq,
--		.num_rqs = 1,
- 		/*
- 		 * The credit limit argument tells us the total number of
- 		 * instructions across all CS slots in the ringbuffer, with
+diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+index 8e9ae7d980eb..14403a762335 100644
+--- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
++++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+@@ -290,7 +290,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
+ {
+ 	struct drm_sched_init_args args = {
+ 		.ops		= &drm_mock_scheduler_ops,
+-		.num_rqs	= DRM_SCHED_PRIORITY_COUNT,
+ 		.credit_limit	= U32_MAX,
+ 		.hang_limit	= 1,
+ 		.timeout	= timeout,
 -- 
 2.48.0
 
