@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93724BE8C3F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEE9BE8C95
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4794010EBE5;
-	Fri, 17 Oct 2025 13:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5CB210EBEA;
+	Fri, 17 Oct 2025 13:19:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="doJgGRPR";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eOI6bmux";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5B010EBE5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:12:36 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-b07d4d24d09so316259166b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:12:36 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D13610EBE9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:19:28 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-63c3c7d3d53so513077a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 06:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1760706755; x=1761311555; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1760707167; x=1761311967; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R8drcKWNAi+zMP2KK5ndN4M8ywLJ52BdkCEh7QRMWbE=;
- b=doJgGRPRN1OZZLsf3SSYe4MOfSDVrXABivq/jDt5e002l0IvvzeEfyVZx9e8el85tE
- HRXWIb8/CQZ6J9lpW6Vj5AiS1+sXXSDr57duQEr4pPJQV7+x6LlT5qpWaKeDVtuEmU0/
- GPpPPfZTHCyGM0M91TKibNOKAWSmWwU5W+qEc=
+ bh=CjGy9FZ+rKEjrnntHU4EtXwsShUyCILycOc13M5bggE=;
+ b=eOI6bmuxEcb98b6SOgskPuDHYdXDGkHpBZJ4hbOSVe+PHl0eYS+ygFnaSUrxxWWue4
+ p2uauXMzppHOpQM0S3F2/7NdcjVjdpgPbz8UVbtNhHZlTz1+g2dtVVbE2EzWRKRCB7CY
+ ugi7NOZcJnNOfpRuNp66WN7ZLB2MlNLYwOCbY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760706755; x=1761311555;
+ d=1e100.net; s=20230601; t=1760707167; x=1761311967;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R8drcKWNAi+zMP2KK5ndN4M8ywLJ52BdkCEh7QRMWbE=;
- b=Po2xxn2gSwG/6pPWYpkgFiWveViIeRPxoxtKgIwJN485Bucu9p4KHY6mGrUGbtBGLm
- EjxXTSudVUdvB2PpyqLOuMb/IArbjHkgg0M0Fgqw8u0UB7/pCxhsVefF1j0SmFwyLOW9
- 2fgb5MO4I6Edc8OzCuNl0f5EyUdGRuJgmb5gZHAyYc58uldSuVW+htbyNMtWhxu/Q3jh
- Wm8nlZc3ZfhvE7rH+k+Nuc6my7OOxCcKeITdKWHTCeLJnUyqQ0WYn3aqKMqOL3KftVOs
- Y8SYbRsDOxlyjGGDUcNoM9lReVfKxDXwJuI1iC7sR4QmTMl5ujr2KDuqkKT72rN8gGEF
- qGXQ==
+ bh=CjGy9FZ+rKEjrnntHU4EtXwsShUyCILycOc13M5bggE=;
+ b=DA0P25jEG9ou7rLZ5LCfFy0QCRKr8DGkFCPvexlm8fUOyL0NwdnRk/Fcn7b7M5zGT9
+ EQ90SaVvwUAjH5x0P3hW1qlvkqQUeAbwf1hhkvGSZwdBIjTYERIDsdHH+XMndgePtTOK
+ tPbowhFtZg3gHWn8NkAbV128peqEJgFst80/SsHvtzf7FDzWo7QnSPoIFj+pT2VH2v+w
+ BTCR5MdDUSTh+rxjzknxR/AqBfuomjDCtn80a+fcXaCJcB9F7Qb02Ig5zPb7UFOZ/Mn0
+ JJwKPKai762dFrU64K7BkXBSMtAk+k4gnXRY3Oco08YWOUyLnMnTIe2TNKRQpWHvtmsn
+ wiJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVseaaV6dhFV8v0m1RE1ncn+/71VyzRg1W+mhclr6adbUQqcUN9ca7ub82KF944+1lw9NKM89p2uo0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwU+cWzRGL05qgPZcctXRk4cKeRncrk/qT/F7AgU3SJmjUJAkF
- HsClxrVeO+r/ZDAHj4ceXRm3CFeIgleldJqobesXCVUwZPxgXffvdFlxn+gZugmxmoU=
-X-Gm-Gg: ASbGnctUYickPRdEny0zgr2fHu76I8CQbtNH4BHeTL3PN2PRa16pxcvtBrcCfuAXiIS
- kKrrpxn3DT+kgoVUcC2kk4Zbf6aVBL3jnnVKMYFI9AL+xoYSazyiFw/xK2lvun6ev7RXRZiAJKH
- oDJjfTmb1tH0aDVhbM9WmKa+oQxHXJjjVsQlkZWZsvVdKmp/PKvMZP4V3Z+TY9SzE/GcO/zETWo
- OD2iTeR8Mk2kg1XBx0UlP9BXMBZ0V/zicr4dOS7BwQJ2bCiunuwZC3Ch6YjocpGtDkVl1dV36Sz
- zVR3/wFArBRyx+ucNc9XbovunsYZPB2Nn/1YUIUqAxlN/gX5qZR51WqI0f+20Vb+qERuFj3lAaW
- JkyBApuMind4fXgrUfVZwx2LpHVVGRy8ADui/vZ3KAKshu0wI3669fADhtjGBTw7XK6QsaDtVtG
- VsM26ouhDZ2P2QPM/fJ2EMjo9OURbzc7z5
-X-Google-Smtp-Source: AGHT+IEMtwbVyTQnnInJbTsw7KR4oYloKA7FU2ZIGPqsvz+QRaG+CGdXd8qcNMVx7WoYarGXqRzumQ==
-X-Received: by 2002:a17:906:b04:b0:b64:97ef:a636 with SMTP id
- a640c23a62f3a-b6497efa657mr264996066b.31.1760706754548; 
- Fri, 17 Oct 2025 06:12:34 -0700 (PDT)
+ AJvYcCUFSGYnLG6crn1YxrwwJG30CZjnbTtJmkbz0WwGVZfBnJIAnj/ZN0WUlHqBnBcr2NQSqVf4I1EAF18=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxH+HVIKnE9w5DN0w3EkIC3ci10W5mjM/rXVjw6w9wNSwtlG3zk
+ VBilGwxsn6aFP9GP6cHY31u4DzT7RuUxS8U/3G8SBmvs8Ro4wVH2B+6CNwG8e8TQw50=
+X-Gm-Gg: ASbGncsUr/7peixuge9w7eRk6CCQevyqbGtVIP7vyEOfDclg7TyFdH8v6lmEX6CxJW1
+ iB1H8ggCC4wC9QCt8RNO9wAz2PfJAcIbLd+4EuFQbc3b/XdtRZ4Sv4A3C8sgXiDDURjWOllIgm/
+ dsNDJVYFRsmCh265dEtF3bDT6g2Wx3dYfPbSuAgk2Z6jtaEbU1d3Q0b+q24iIn1Kn+ouAkkKlzU
+ WH7ieG5Ixjh90Af8iGJRKRhhJnc8GzCrWVx374OmVZWwIHr0KRDLHGlimGL1eZ8UvlmPVuEJQPM
+ p4fZleWFOH4aJltLpabOdpr8UO6TzDysNAwzKXV5rWvsovZ9ZIDIzlVVU4W9te7HQAaG7H0uX2m
+ KcpyK4WCi7YdBBTRE9AiwNqui0Yo75Y/x5lgV/4ECwH2DBF3nWotpR4HD6LlxsItcohaK3mhrwg
+ s9ARL0M9HgGJAuVNJPS4nsRQ==
+X-Google-Smtp-Source: AGHT+IF7xNCCKtq8yrDup53uFHw15lFv/JcHO9zr7mifpvlVmxJCIL5ZwW7/XX61lvzCkalWE2LFdg==
+X-Received: by 2002:a17:907:74e:b0:b04:67f3:890f with SMTP id
+ a640c23a62f3a-b6475e09c31mr453693466b.33.1760707166624; 
+ Fri, 17 Oct 2025 06:19:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b5cba45ad2fsm818093466b.35.2025.10.17.06.12.32
+ a640c23a62f3a-b5cb9e7a23dsm818970666b.23.2025.10.17.06.19.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Oct 2025 06:12:33 -0700 (PDT)
-Date: Fri, 17 Oct 2025 15:12:31 +0200
+ Fri, 17 Oct 2025 06:19:25 -0700 (PDT)
+Date: Fri, 17 Oct 2025 15:19:23 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -75,10 +74,9 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/29] drm/atomic: Add atomic_state_readout infrastructure
-Message-ID: <aPJAvzROMCnFwRJc@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Maxime Ripard <mripard@kernel.org>,
+Subject: Re: [PATCH 16/29] drm/encoder: Create get_current_crtc hook
+Message-ID: <aPJCW7MfmuxwkL59@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -93,14 +91,11 @@ Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-10-14ad5315da3f@kernel.org>
- <zvqtehg66dbrrdmik6ylo2kdk74umfzo5hbfkizwsb352nlyqv@jgouvmbfwa4x>
- <20250923-rigorous-tamarin-of-cookies-2f1a25@penduick>
- <hd7gjmsbxjfaffxaxvnafzlq6rf625nxqfmcrllnndl6yigtaq@o6vaotpu55by>
+ <20250902-drm-state-readout-v1-16-14ad5315da3f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <hd7gjmsbxjfaffxaxvnafzlq6rf625nxqfmcrllnndl6yigtaq@o6vaotpu55by>
+In-Reply-To: <20250902-drm-state-readout-v1-16-14ad5315da3f@kernel.org>
 X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,62 +112,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 01:30:43PM +0300, Dmitry Baryshkov wrote:
-> On Tue, Sep 23, 2025 at 11:45:49AM +0200, Maxime Ripard wrote:
-> > On Mon, Sep 15, 2025 at 09:40:57PM +0300, Dmitry Baryshkov wrote:
-> > > On Tue, Sep 02, 2025 at 10:32:38AM +0200, Maxime Ripard wrote:
-> > > > In order to enable drivers to fill their initial state from the hardware
-> > > > state, we need to provide an alternative atomic_reset helper.
-> > > > 
-> > > > This helper relies on each state having its own atomic_state_readout()
-> > > > hooks. Each component will thus be able to fill the initial state based
-> > > > on what they can figure out from the hardware.
-> > > > 
-> > > > It also allocates a dummy drm_atomic_state to glue the whole thing
-> > > > together so atomic_state_readout implementations can still figure out
-> > > > the state of other related entities.
-> > > > 
-> > > > Link: https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com/
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_atomic_helper.c | 382 ++++++++++++++++++++++++++++++++++++
-> > > >  drivers/gpu/drm/drm_mode_config.c   |   1 +
-> > > >  include/drm/drm_atomic_helper.h     |   1 +
-> > > >  include/drm/drm_bridge.h            |  21 ++
-> > > >  include/drm/drm_connector.h         |  26 +++
-> > > >  include/drm/drm_crtc.h              |  19 ++
-> > > >  include/drm/drm_plane.h             |  27 +++
-> > > >  7 files changed, 477 insertions(+)
-> > > > 
-> > > > +	drm_for_each_encoder(encoder, dev) {
-> > > > +		struct drm_connector_state *enc_conn_state;
-> > > > +		struct drm_crtc_state *enc_crtc_state;
-> > > > +		struct drm_bridge *bridge;
-> > > > +
-> > > > +		/*
-> > > > +		 * It works a bit differently for bridges. Because they are
-> > > > +		 * using a drm_private_state, and because
-> > > > +		 * drm_atomic_private_obj_init() asks for its initial state when
-> > > > +		 * initializing, instead of doing it later on through a reset
-> > > > +		 * call like the other entities, we can't have reset xor
-> > > > +		 * readout.
-> > > 
-> > > Would it make sense to unify the way the bridges / priv_obj handle the
-> > > state with the rest of the object types?
-> > 
-> > I would be all for it, but I think this is pretty much the same
-> > conversation we had in my recent bridge improvement series. Aren't
-> > bridges not assumed to have atomic support and thus we can't really do
-> > something better here?
-> > 
-> > Or should we move all bridges to be atomic?
+On Tue, Sep 02, 2025 at 10:32:44AM +0200, Maxime Ripard wrote:
+> In order for drivers to implement drm_connectors atomic_state_readout
+> hooks, they need to query the hardware and lookup the CRTC to set
+> drm_connector_state.crtc.
 > 
-> I think I had something smaller on my mind: make drm_private_obj /
-> drm_bride provide the initial state during the reset call, like all
-> other entities.
+> It should be easy enough for drivers that are tightly integrated from
+> the CRTC to the connectors, but if the driver uses bridges, there's no
+> coupling between the CRTC and encoder, and the bridge driver.
+> 
+> The only thing the bridge has access to is the encoder, but the
+> relationship between a CRTC and an encoder isn't a fixed mapping at the
+> framework level, and thus the bridge can't deduce which CRTC is feeding
+> its encoder.
+> 
+> Thus, let's create a new hook for encoders to implement to return the
+> CRTC they are currently connected to.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  include/drm/drm_encoder.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+> index 977a9381c8ba943b4d3e021635ea14856df8a17d..7abb5e35ac950c941b56fc311a52789bbc427df6 100644
+> --- a/include/drm/drm_encoder.h
+> +++ b/include/drm/drm_encoder.h
+> @@ -86,10 +86,23 @@ struct drm_encoder_funcs {
+>  	 * @debugfs_init:
+>  	 *
+>  	 * Allows encoders to create encoder-specific debugfs files.
+>  	 */
+>  	void (*debugfs_init)(struct drm_encoder *encoder, struct dentry *root);
+> +
+> +	/**
+> +	 * @get_current_crtc:
 
-Yeah something like that crossed my mind too.
+Bit a bikeshed, but crossed my mind reading this: I think some kind of
+prefix for all the state-readout/comparison related stuff and maybe even
+putting all the new helpers into a new c/h files would be good. That way
+we have a nice place for a DOC: section and people have a better chance of
+understanding what they can ignore. Might still be good to put a standard
+one-sentence explainer here that this is part of the state
+readout/fastboot support and maybe link to the main helper function for
+that.
+
+For the prefix I'm lacking good ideas, but maybe asro for atomic state
+readout? It's at least unique (to my knowledge), unlike all the other
+shorthands I could come up with (like atomic fast boot and afb). Spelling
+it out is way too long unfortunately.
+
+Oh also, since this is part of the optional helpers it should be in
+drm_encoder_helper_funcs, only uabi interfaces should be put into these
+here. This also applies to all the other hooks.
 -Sima
+
+
+> +	 *
+> +	 * This optional hook is used during initialization to read out
+> +	 * the initial state by connectors that support atomic state
+> +	 * hardware readout.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * The CRTC currently associated with the encoder if enabled, NULL otherwise.
+> +	 */
+> +	struct drm_crtc *(*get_current_crtc)(struct drm_encoder *encoder);
+>  };
+>  
+>  /**
+>   * struct drm_encoder - central DRM encoder structure
+>   * @dev: parent DRM device
+> 
+> -- 
+> 2.50.1
+> 
+
 -- 
 Simona Vetter
 Software Engineer
