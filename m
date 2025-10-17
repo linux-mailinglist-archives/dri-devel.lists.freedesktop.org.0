@@ -2,117 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEA8BE9B26
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C14C8BE9CFF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E02510EC59;
-	Fri, 17 Oct 2025 15:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121D410EC44;
+	Fri, 17 Oct 2025 15:27:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="cHPiCTe3";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gENBdBcc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC6D110EC59
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:21:11 +0000 (UTC)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59H94tnC023481;
- Fri, 17 Oct 2025 15:21:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=pp1; bh=N/iODX
- MaEcdTtcfpLTo1WY7S5SoeD9xRtvc0dSPWt2I=; b=cHPiCTe3BB4zSirLfoyQkh
- bhWoMbMoLkFIwZwnSxvgdXVkyrAGHx2Uv9SVViKiPOP30Fy329vXSWgKyF8eF8ag
- 8JPtdTxrd1uRu3krH5PA6mOMKC0+cb8mV69TztevYu5PFKrT1Bfh470xlHHHZoOV
- xBoapRMsWilp6NtCIXvMCpkP+YV3Czpn99sGU54GCzDTmYYIiLGSARv8SgxO7WUn
- I7EHAZQJmvS4nSFzaxUCqdpxKIYFxUueTNuWsYvKN0kPfcPqtRBMKmzr0rtz0+jT
- cfHoBZ8vH58uDBfZ7rKO3jwOYMktQvhLuOwNGpP6y46eeZZ2wfhoOBSWObyOE8nw
- ==
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49tfxpw02d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Oct 2025 15:21:00 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
- by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59HFE3Ti030823;
- Fri, 17 Oct 2025 15:20:59 GMT
-Received: from ppma22.wdc07v.mail.ibm.com
- (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49tfxpw02b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Oct 2025 15:20:59 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
- by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59HF1Dih003613;
- Fri, 17 Oct 2025 15:20:59 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49r1xye332-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Oct 2025 15:20:58 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 59HFKvAx19005772
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Oct 2025 15:20:57 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA2012004B;
- Fri, 17 Oct 2025 15:20:56 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B922020040;
- Fri, 17 Oct 2025 15:20:55 +0000 (GMT)
-Received: from [9.111.36.47] (unknown [9.111.36.47])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 17 Oct 2025 15:20:55 +0000 (GMT)
-Message-ID: <74272098-cfb7-424b-a55e-55e94f04524e@linux.ibm.com>
-Date: Fri, 17 Oct 2025 17:20:55 +0200
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 853D510EC44
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760714824;
+ bh=B3tPYOdx8TRfHo8b8rCsJoa3qANwUWEDrTSZm9oGExc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gENBdBcc68raOrYf1dojUpr4dxueHjCZrddNVMfbwmPTbF6P+VjQB+02L2I+LsZnv
+ G6NEPcl/qGqtRJ4zWqi+3xSd5eOWNL4cFtvbKj2OnU8UMKr045BQy/A0j6Emb+lgHE
+ 4tmVH+RGRJ3vzInRG1puz1wq1UXLRKRhXAcus4gvGeISLVTUz2XusttZwUwg4bl3Bi
+ NkQSULAwtgkeQNuBJOFVRVTQfUPVBRLT0FFnbNlhAsTbcLC4UMYjn/h0I3ulPdGPKW
+ ql6H1XYlfsCnfjs5/EliNxmPX6sGuoIU53uJrktr+EKs8d8GUNkhQC+kJnYBaHV2ri
+ UXAeRTN7AAknw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id AE14917E02B0;
+ Fri, 17 Oct 2025 17:27:03 +0200 (CEST)
+Date: Fri, 17 Oct 2025 17:26:57 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Faith Ekstrand <faith@gfxstrand.net>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, kernel@collabora.com
+Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync()
+ and a drm_gem_sync() helper
+Message-ID: <20251017172657.2690bbca@fedora>
+In-Reply-To: <CAOFGe96pKQhuhUCzVizUndgQL80+GsS-YiiRcMiO=eHBnYAHxg@mail.gmail.com>
+References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
+ <20251015160326.3657287-3-boris.brezillon@collabora.com>
+ <CAOFGe96trw17pWKv4-Bbh9bvCz8ANTwAcL-croQQw24800fLbQ@mail.gmail.com>
+ <CAOFGe96pKQhuhUCzVizUndgQL80+GsS-YiiRcMiO=eHBnYAHxg@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: KVM/s390x regression
-To: David Hildenbrand <david@redhat.com>, balbirs@nvidia.com
-Cc: Liam.Howlett@oracle.com, airlied@gmail.com, akpm@linux-foundation.org,
- apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
- byungchul@sk.com, dakr@kernel.org, dev.jain@arm.com,
- dri-devel@lists.freedesktop.org, francois.dugast@intel.com,
- gourry@gourry.net, joshua.hahnjy@gmail.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, matthew.brost@intel.com,
- mpenttil@redhat.com, npache@redhat.com, osalvador@suse.de,
- rakie.kim@sk.com, rcampbell@nvidia.com, ryan.roberts@arm.com,
- simona@ffwll.ch, ying.huang@linux.alibaba.com, ziy@nvidia.com,
- kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-next@vger.kernel.org
-References: <20251001065707.920170-4-balbirs@nvidia.com>
- <20251017144924.10034-1-borntraeger@linux.ibm.com>
- <9beff9d6-47c7-4a65-b320-43efd1e12687@redhat.com>
- <c67386be-5278-411d-97e7-43fc34bf7c98@linux.ibm.com>
- <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DcfLWxOGbv9bYKiDoMpZ6va0xN-YJXnG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE1MDEyNSBTYWx0ZWRfXxU8GH3q1YuZ0
- c8BgXMsDBFk4hHBo0vPh+QUbB0ubWIN3+kWBj/+COUXkJBKtLbfQoiwRBWeXdw/GkNP3E7O3mnG
- MjRp5R24at9SzmEtPfe8IaV0KYWgCseqOjVH3PD7I13IA4rLOMlm3dx8nFFSgJpwHIkLZUs4nKz
- UfkyFGF4BnRXztDDU3rymsyOUnTHW6xNzyK0jzzDgSQ7kgEy3/tJTx8mSdDPl/rACGztbSsGGg9
- 7UVhoK3OxQzkhpE3LFEex92y4kPkzFXVMcS2uw1HRLIkPJExq2bgk65n9hXFGTvym2/wGd/VPyf
- SS/JwNJAYEl0F7B/ztPHDmw4XKNN05Ngz/7j+W8s0WveeTQn+7Oh19xOyvxl7gnbRpbkiGIRStK
- u8sdlROg1EfmKkjNfCANEDX13yoRYw==
-X-Authority-Analysis: v=2.4 cv=R+wO2NRX c=1 sm=1 tr=0 ts=68f25edc cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=czJfVngKFEUMndguRe4A:9 a=QEXdDO2ut3YA:10 a=nl4s5V0KI7Kw-pW0DWrs:22
- a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
-X-Proofpoint-ORIG-GUID: HxlDaZqVRm6WsCaN2EWRamDscKrmDVZz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-17_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 spamscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510150125
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,63 +68,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 17 Oct 2025 10:40:46 -0400
+Faith Ekstrand <faith@gfxstrand.net> wrote:
 
+> On Fri, Oct 17, 2025 at 10:32=E2=80=AFAM Faith Ekstrand <faith@gfxstrand.=
+net> wrote:
+> >
+> > On Wed, Oct 15, 2025 at 12:04=E2=80=AFPM Boris Brezillon
+> > <boris.brezillon@collabora.com> wrote: =20
+> > >
+> > > Prepare things for standardizing synchronization around CPU accesses
+> > > of GEM buffers. This will be used to provide default
+> > > drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and provide
+> > > a way for drivers to add their own ioctls to synchronize CPU
+> > > writes/reads when they can't do it directly from userland.
+> > >
+> > > v2:
+> > > - New commit
+> > >
+> > > v3:
+> > > - No changes
+> > >
+> > > v4:
+> > > - Add Steve's R-b
+> > >
+> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Reviewed-by: Steven Price <steven.price@arm.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_gem.c | 10 +++++++++
+> > >  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++++++=
+++
+> > >  2 files changed, 55 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > > index a1a9c828938b..a1431e4f2404 100644
+> > > --- a/drivers/gpu/drm/drm_gem.c
+> > > +++ b/drivers/gpu/drm/drm_gem.c
+> > > @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object *obj=
+, struct iosys_map *map)
+> > >  }
+> > >  EXPORT_SYMBOL(drm_gem_vunmap);
+> > >
+> > > +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t s=
+ize,
+> > > +                enum drm_gem_object_access_flags access)
+> > > +{
+> > > +       if (obj->funcs->sync)
+> > > +               return obj->funcs->sync(obj, offset, size, access);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_gem_sync);
+> > > +
+> > >  /**
+> > >   * drm_gem_lock_reservations - Sets up the ww context and acquires
+> > >   * the lock on an array of GEM objects.
+> > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > > index 8d48d2af2649..1c33e59ab305 100644
+> > > --- a/include/drm/drm_gem.h
+> > > +++ b/include/drm/drm_gem.h
+> > > @@ -66,6 +66,33 @@ enum drm_gem_object_status {
+> > >         DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
+> > >  };
+> > >
+> > > +/**
+> > > + * enum drm_gem_object_status - bitmask describing GEM access types =
+to prepare for
+> > > + */
+> > > +enum drm_gem_object_access_flags {
+> > > +       /** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access. */
+> > > +       DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
+> > > +
+> > > +       /** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device access. =
+*/
+> > > +       DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
+> > > +
+> > > +       /** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the ent=
+ity doing the access. */
+> > > +       DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
+> > > +
+> > > +       /** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only access=
+es. */
+> > > +       DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
+> > > +
+> > > +       /** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only acce=
+sses. */
+> > > +       DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
+> > > +
+> > > +       /** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write acces=
+ses. */
+> > > +       DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCESS |
+> > > +                                  DRM_GEM_OBJECT_WRITE_ACCESS,
+> > > +
+> > > +       /** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check the =
+access type. */
+> > > +       DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW_ACCESS,
+> > > +};
+> > > +
+> > >  /**
+> > >   * struct drm_gem_object_funcs - GEM object functions
+> > >   */
+> > > @@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
+> > >          */
+> > >         int (*mmap)(struct drm_gem_object *obj, struct vm_area_struct=
+ *vma);
+> > >
+> > > +       /**
+> > > +        * @sync:
+> > > +        *
+> > > +        * Prepare for CPU/device access. This can involve migration =
+of
+> > > +        * a buffer to the system-RAM/VRAM, or for UMA, flushing/inva=
+lidating
+> > > +        * the CPU caches. The range can be used to optimize the sync=
+hronization
+> > > +        * when possible. =20
+> >
+> > This has gone in a very different direction from the version I sent
+> > out and the added generality makes me really nervous. The idea of sync
+> > involving migration and that the range is a mere hint are antithetical
+> > with Vulkan. It's a very GLish design that assumes that a BO is
+> > exclusively used by one of the CPU or the GPU at the same time. This
+> > simply isn't the case in modern APIs. Older DRM uAPIs (as well as
+> > dma-buf itself) are littered with such ioctls and we're in the process
+> > of deleting them all. =20
+>=20
+> And yes, I realize I sent this on the patch for the hook which you
+> intended to plumb through to dma-buf. However, I also saw it being
+> propagated to an ioctl and I didn't know where else to put it that had
+> the relevant details.
+>=20
+> ~Faith
+>=20
+> > If the BO needs to be migrated in order to be accessed from the CPU,
+> > that needs to happen on map, not on some sort of begin/end. Or better
+> > yet, just disallow mapping such buffers. Once the client has a map,
+> > they are free to access from the CPU while stuff is running on the
+> > GPU. They have to be careful, of course, not to cause data races, but
+> > accessing the same BO from the CPU and GPU or even the same range is
+> > totally okay if you aren't racing.
+> >
+> > As a corollary, just don't map PRIME buffers.
+> >
+> > And the range really shouldn't be just a hint. With Vulkan, clients
+> > are regularly sub-allocating from larger memory objects. If they ask
+> > to flush 64B and end up flushing 64M, that's pretty bad.
+> >
+> > All we need is something which lets us trap through to the kernel for
+> > CPU cache management. That's all we need and that's really all it
+> > should do.
 
-Am 17.10.25 um 17:07 schrieb David Hildenbrand:
-> On 17.10.25 17:01, Christian Borntraeger wrote:
->> Am 17.10.25 um 16:54 schrieb David Hildenbrand:
->>> On 17.10.25 16:49, Christian Borntraeger wrote:
->>>> This patch triggers a regression for s390x kvm as qemu guests can no longer start
->>>>
->>>> error: kvm run failed Cannot allocate memory
->>>> PSW=mask 0000000180000000 addr 000000007fd00600
->>>> R00=0000000000000000 R01=0000000000000000 R02=0000000000000000 R03=0000000000000000
->>>> R04=0000000000000000 R05=0000000000000000 R06=0000000000000000 R07=0000000000000000
->>>> R08=0000000000000000 R09=0000000000000000 R10=0000000000000000 R11=0000000000000000
->>>> R12=0000000000000000 R13=0000000000000000 R14=0000000000000000 R15=0000000000000000
->>>> C00=00000000000000e0 C01=0000000000000000 C02=0000000000000000 C03=0000000000000000
->>>> C04=0000000000000000 C05=0000000000000000 C06=0000000000000000 C07=0000000000000000
->>>> C08=0000000000000000 C09=0000000000000000 C10=0000000000000000 C11=0000000000000000
->>>> C12=0000000000000000 C13=0000000000000000 C14=00000000c2000000 C15=0000000000000000
->>>>
->>>> KVM on s390x does not use THP so far, will investigate. Does anyone have a quick idea?
->>>
->>> Only when running KVM guests and apart from that everything else seems to be fine?
->>
->> We have other weirdness in linux-next but in different areas. Could that somehow be
->> related to use disabling THP for the kvm address space?
-> 
-> Not sure ... it's a bit weird. I mean, when KVM disables THPs we essentially just remap everything to be mapped by PTEs. So there shouldn't be any PMDs in that whole process.
-> 
-> Remapping a file THP (shmem) implies zapping the THP completely.
-> 
-> 
-> I assume in your kernel config has CONFIG_ZONE_DEVICE and CONFIG_ARCH_ENABLE_THP_MIGRATION set, right?
-
-yes.
-
-> 
-> I'd rule out copy_huge_pmd(), zap_huge_pmd() a well.
-> 
-> 
-> What happens if you revert the change in mm/pgtable-generic.c?
-
-That partial revert seems to fix the issue
-diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-index 0c847cdf4fd3..567e2d084071 100644
---- a/mm/pgtable-generic.c
-+++ b/mm/pgtable-generic.c
-@@ -290,7 +290,7 @@ pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
-  
-         if (pmdvalp)
-                 *pmdvalp = pmdval;
--       if (unlikely(pmd_none(pmdval) || !pmd_present(pmdval)))
-+       if (unlikely(pmd_none(pmdval) || is_pmd_migration_entry(pmdval)))
-                 goto nomap;
-         if (unlikely(pmd_trans_huge(pmdval)))
-                 goto nomap;
-
-
-
-
-
+Okay, so there's actually a problem with that I think, because we can't
+know how the buffer we export will be used. It can be imported by the
+same driver, and we're all good, but it can also be imported by a
+different driver, which decides to vmap or allow mmap() on it, and then
+we have to implement the dma_buf CPU sync hooks. Unless we decide that
+all exported buffers should be write-combine only? This is the very
+reason I started hooking things up on the dma_buf side, because we're
+not in control of who the importer of our buffers is.
