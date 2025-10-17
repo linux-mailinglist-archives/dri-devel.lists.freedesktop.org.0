@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D560BECA07
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 10:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E8DBECA3D
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 10:39:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6AB10E0AA;
-	Sat, 18 Oct 2025 08:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEBF10E372;
+	Sat, 18 Oct 2025 08:38:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="s1HAWYm8";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="j40xlnNq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com
- (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E299B10EB84;
- Fri, 17 Oct 2025 09:05:56 +0000 (UTC)
+Received: from pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com
+ (pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com
+ [52.42.203.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E00C10EB84;
+ Fri, 17 Oct 2025 09:06:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1760691956; x=1792227956;
+ t=1760691972; x=1792227972;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kFRk/YEfanxcwxn3T4iYIqsiSiWmkv1ShCNggWcZo/w=;
- b=s1HAWYm8I1N4ICn7/Cn8dTMvTLRptHlhNbFlooWKUlPVpK/E2qyH9K1e
- 3dbzywcilJl0Uj8gf0Jb7b9flygwjWfgX/obtg7haNs8771A0pcx/7cFU
- B5+N/EET5gUq1LhQzbEbhuXl+kc7mVV0+CRIquVNHIHIPT6fRaJHxnfGl
- aJ1h/WJEe/BPjtDGCwZonOHO79Kjn3j06GaCV1aWu90AO6X7+DSx65ZR9
- vHV+DWahLpPe2XJ7eqSAbmDR4onhP9ywasfGBABSodnRTIbpcsraTDWFT
- +M0ydA3Wz2ONHKMquGxv7v8tjiuELiS9m2pwzzBw1Cmlnpz7QU6tnmELF g==;
-X-CSE-ConnectionGUID: g1N8QoQgRQCaY8mzNwfB7Q==
-X-CSE-MsgGUID: Dy3w6h37Qy6jVFCyBPD43g==
+ bh=LUfhSEtyrzlTvFjtMARdG8e1ebgK9JT+esac/DH/XMI=;
+ b=j40xlnNqiZF4YGP9xI7yXh1U46qPj7tY/Qtz+bGvYP8a7y0upjUSdvcW
+ /1w4bMMYIbXVK3Eyl++jeO0UXACSMxS1mzb4AyKoeHgCVr9lVywuUs8l3
+ u19OCgLzVk7SRxY8gIt4kOWHojSdx0AXDto9YChkz3qTYpQaz9MS/taL4
+ rb1Egi8muWueEOmHlRQDiU8mm4KTezJDi0+1pLG3vgRWnkW+ADlJHR9v/
+ 2mQtoyd7H3dBd9VFuvrLaXpteN9mp8dq5OY9dwIqXDa4bxknAzu9LV837
+ Blxof+fAet8y6PGmZqqJDH/rDJIjtQIfNx06QcdcDroZw0GVMJyAdh5Dr w==;
+X-CSE-ConnectionGUID: enesJP57TPGNCxKTMYzCNQ==
+X-CSE-MsgGUID: Ip79uzQWRJCjVSqut+I56A==
 X-IronPort-AV: E=Sophos;i="6.19,236,1754956800"; 
-   d="scan'208";a="4861231"
+   d="scan'208";a="5064204"
 Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO
  smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
- by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 09:05:54 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.234:9202]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.38.191:2525]
+ by internal-pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 09:06:10 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:20862]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.18.50:2525]
  with esmtp (Farcaster)
- id 2c66efd6-03ee-4637-aae4-79e21b5138df; Fri, 17 Oct 2025 09:05:54 +0000 (UTC)
-X-Farcaster-Flow-ID: 2c66efd6-03ee-4637-aae4-79e21b5138df
+ id 8166205d-ccd0-42f5-b377-b6e5ff420d67; Fri, 17 Oct 2025 09:06:09 +0000 (UTC)
+X-Farcaster-Flow-ID: 8166205d-ccd0-42f5-b377-b6e5ff420d67
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 17 Oct 2025 09:05:54 +0000
+ Fri, 17 Oct 2025 09:06:09 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 17 Oct 2025
- 09:05:38 +0000
+ 09:05:54 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
  <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>,
@@ -98,15 +99,10 @@ To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
  <linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>,
  <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
  <tipc-discussion@lists.sourceforge.net>
-CC: Arnd Bergmann <arnd@arndb.de>, Dan Williams <dan.j.williams@intel.com>,
- Eric Dumazet <edumazet@google.com>, Isabella Basso <isabbasso@riseup.net>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Sander Vanheule <sander@svanheule.net>, Vlastimil Babka <vbabka@suse.cz>,
- Yury Norov <yury.norov@gmail.com>
-Subject: [PATCH v2 01/27 5.10.y] overflow,
- tracing: Define the is_signed_type() macro once
-Date: Fri, 17 Oct 2025 09:04:53 +0000
-Message-ID: <20251017090519.46992-2-farbere@amazon.com>
+CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCH v2 02/27 5.10.y] btrfs: remove duplicated in_range() macro
+Date: Fri, 17 Oct 2025 09:04:54 +0000
+Message-ID: <20251017090519.46992-3-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251017090519.46992-1-farbere@amazon.com>
 References: <20251017090519.46992-1-farbere@amazon.com>
@@ -132,90 +128,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bart Van Assche <bvanassche@acm.org>
+From: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
-[ Upstream commit 92d23c6e94157739b997cacce151586a0d07bb8a ]
+[ Upstream commit cea628008fc8c6c9c7b53902f6659e040f33c790 ]
 
-There are two definitions of the is_signed_type() macro: one in
-<linux/overflow.h> and a second definition in <linux/trace_events.h>.
+The in_range() macro is defined twice in btrfs' source, once in ctree.h
+and once in misc.h.
 
-As suggested by Linus Torvalds, move the definition of the
-is_signed_type() macro into the <linux/compiler.h> header file. Change
-the definition of the is_signed_type() macro to make sure that it does
-not trigger any sparse warnings with future versions of sparse for
-bitwise types. See also:
-https://lore.kernel.org/all/CAHk-=whjH6p+qzwUdx5SOVVHjS3WvzJQr6mDUwhEyTf6pJWzaQ@mail.gmail.com/
-https://lore.kernel.org/all/CAHk-=wjQGnVfb4jehFR0XyZikdQvCZouE96xR_nnf5kqaM5qqQ@mail.gmail.com/
+Remove the definition in ctree.h and include misc.h in the files depending
+on it.
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Isabella Basso <isabbasso@riseup.net>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Sander Vanheule <sander@svanheule.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Yury Norov <yury.norov@gmail.com>
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20220826162116.1050972-3-bvanassche@acm.org
+Signed-off-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Signed-off-by: David Sterba <dsterba@suse.com>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- include/linux/compiler.h     | 6 ++++++
- include/linux/overflow.h     | 1 -
- include/linux/trace_events.h | 2 --
- 3 files changed, 6 insertions(+), 3 deletions(-)
+ fs/btrfs/ctree.h     | 2 --
+ fs/btrfs/extent_io.c | 1 +
+ fs/btrfs/file-item.c | 1 +
+ fs/btrfs/raid56.c    | 1 +
+ 4 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-index bbd74420fa21..004a030d5ad2 100644
---- a/include/linux/compiler.h
-+++ b/include/linux/compiler.h
-@@ -245,6 +245,12 @@ static inline void *offset_to_ptr(const int *off)
- /* &a[0] degrades to a pointer: a different type from an array */
- #define __must_be_array(a)	BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+diff --git a/fs/btrfs/ctree.h b/fs/btrfs/ctree.h
+index d9d6a57acafe..a9926fb10c49 100644
+--- a/fs/btrfs/ctree.h
++++ b/fs/btrfs/ctree.h
+@@ -3597,8 +3597,6 @@ static inline int btrfs_defrag_cancelled(struct btrfs_fs_info *fs_info)
+ 	return signal_pending(current);
+ }
  
-+/*
-+ * Whether 'type' is a signed type or an unsigned type. Supports scalar types,
-+ * bool and also pointer types.
-+ */
-+#define is_signed_type(type) (((type)(-1)) < (__force type)1)
-+
- /*
-  * This is needed in functions which generate the stack canary, see
-  * arch/x86/kernel/smpboot.c::start_secondary() for an example.
-diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-index 73bc67ec2136..e6bf14f462e9 100644
---- a/include/linux/overflow.h
-+++ b/include/linux/overflow.h
-@@ -29,7 +29,6 @@
-  * https://mail-index.netbsd.org/tech-misc/2007/02/05/0000.html -
-  * credit to Christian Biere.
-  */
--#define is_signed_type(type)       (((type)(-1)) < (type)1)
- #define __type_half_max(type) ((type)1 << (8*sizeof(type) - 1 - is_signed_type(type)))
- #define type_max(T) ((T)((__type_half_max(T) - 1) + __type_half_max(T)))
- #define type_min(T) ((T)((T)-type_max(T)-(T)1))
-diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
-index 5af2acb9fb7d..0c8c3cf36f96 100644
---- a/include/linux/trace_events.h
-+++ b/include/linux/trace_events.h
-@@ -700,8 +700,6 @@ extern int trace_add_event_call(struct trace_event_call *call);
- extern int trace_remove_event_call(struct trace_event_call *call);
- extern int trace_event_get_offsets(struct trace_event_call *call);
- 
--#define is_signed_type(type)	(((type)(-1)) < (type)1)
+-#define in_range(b, first, len) ((b) >= (first) && (b) < (first) + (len))
 -
- int ftrace_set_clr_event(struct trace_array *tr, char *buf, int set);
- int trace_set_clr_event(const char *system, const char *event, int set);
- int trace_array_set_clr_event(struct trace_array *tr, const char *system,
+ /* Sanity test specific functions */
+ #ifdef CONFIG_BTRFS_FS_RUN_SANITY_TESTS
+ void btrfs_test_destroy_inode(struct inode *inode);
+diff --git a/fs/btrfs/extent_io.c b/fs/btrfs/extent_io.c
+index 8498994ef5c6..489d370ddd60 100644
+--- a/fs/btrfs/extent_io.c
++++ b/fs/btrfs/extent_io.c
+@@ -13,6 +13,7 @@
+ #include <linux/pagevec.h>
+ #include <linux/prefetch.h>
+ #include <linux/cleancache.h>
++#include "misc.h"
+ #include "extent_io.h"
+ #include "extent-io-tree.h"
+ #include "extent_map.h"
+diff --git a/fs/btrfs/file-item.c b/fs/btrfs/file-item.c
+index cbea4f572155..6e46da3ee433 100644
+--- a/fs/btrfs/file-item.c
++++ b/fs/btrfs/file-item.c
+@@ -9,6 +9,7 @@
+ #include <linux/highmem.h>
+ #include <linux/sched/mm.h>
+ #include <crypto/hash.h>
++#include "misc.h"
+ #include "ctree.h"
+ #include "disk-io.h"
+ #include "transaction.h"
+diff --git a/fs/btrfs/raid56.c b/fs/btrfs/raid56.c
+index 9678d7fa4dcc..ed3e40a4a3cb 100644
+--- a/fs/btrfs/raid56.c
++++ b/fs/btrfs/raid56.c
+@@ -13,6 +13,7 @@
+ #include <linux/list_sort.h>
+ #include <linux/raid/xor.h>
+ #include <linux/mm.h>
++#include "misc.h"
+ #include "ctree.h"
+ #include "disk-io.h"
+ #include "volumes.h"
 -- 
 2.47.3
 
