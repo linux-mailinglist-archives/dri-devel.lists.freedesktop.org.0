@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35454BE844D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 13:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167B0BE850B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 13:26:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 966F810EBB4;
-	Fri, 17 Oct 2025 11:14:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499C010EBB8;
+	Fri, 17 Oct 2025 11:26:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="eU2BVoOr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JAKGPXcp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8CBD10EBB4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 11:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760699653;
- bh=U+CUPK51azpHTasLB6WKdKZQN9xhE3NxrpSauxRepKQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eU2BVoOrcptS4wpUdg2EfbT+qNqrKduv/6c1Kc45gXarH1ja5MYoI99AuKEdoaQAN
- iARRKI5tnJciiH8l1wzJ0ge65y6pUSIgDKqEkYnPdBPrhvj7m4L6hHQuL2Q2Mifn36
- 6QJy5kBlYEI+qOl+bRa5Do4rYYTM5qRWTMisfWFJ3pc8gFopxMsmxTqBOCNs6xhOO7
- i21HABvh4Gj1LULv+PuXJ3GHmCVZqENMeDST11TRM0qvvGUUkf8ksewOul6Z4MueT0
- ddeOg4Ku964C/r1WFalLKXwUJ0tTBHiX25syAgDjhWd1JEpNoCzZ5xcRslwmrCgi82
- C2biY5yP2rBkw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DB62217E0DB7;
- Fri, 17 Oct 2025 13:14:12 +0200 (CEST)
-Date: Fri, 17 Oct 2025 13:14:08 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Akash Goel <akash.goel@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>
-Cc: liviu.dudau@arm.com, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-Subject: Re: [PATCH] drm/panthor: Fix kernel panic on partial unmap of a GPU
- VA region
-Message-ID: <20251017131408.52cd2e81@fedora>
-In-Reply-To: <20251017102922.670084-1-akash.goel@arm.com>
-References: <20251017102922.670084-1-akash.goel@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0A210EBB8;
+ Fri, 17 Oct 2025 11:26:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DF78D446E1;
+ Fri, 17 Oct 2025 11:26:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C915CC4CEE7;
+ Fri, 17 Oct 2025 11:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760700382;
+ bh=pPzUuwGvogXsvvUv9K+pic8Th4sHIWdVh+uLPnCifM8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JAKGPXcpTbpaITsnF/iMnIYPT2LZAdmUxVKIXGQd1fL00dJ5T8wqO3rem4CutDXMT
+ dzZK3xWiBflJxgLAqsUtE3nWKIHQ5q2KILVbaGwDURTZi/MCBTBTSkM5FWZPOXI2GV
+ 9cPSkc7Yp7XZJYbhSSyZNvc/TRmoFs51k001AYgJS9b2yoT7FG32tstUxsm4MV9eWw
+ dsXzdEBZJ7T4YR688CmgstmYgO79Lo63SbHTmgUlnLwA6+kFr0Bkpkc1yecVR2fNuN
+ tIhw/QEvp50XhnBNLzMbTgs0Ir4ebXR1HHbws7LcVIq+9KHMA9YDM84JWUl1421WZ9
+ 2T2mz56TkGY+A==
+From: Philipp Stanner <phasta@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2] drm/sched: Add warning for removing hack in
+ drm_sched_fini()
+Date: Fri, 17 Oct 2025 13:25:44 +0200
+Message-ID: <20251017112543.177674-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,103 +63,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Adrian
+The assembled developers agreed at the X.Org Developers Conference 2025
+that the hack added for amdgpu in drm_sched_fini() shall be removed. It
+shouldn't be needed by amdgpu anymore.
 
-On Fri, 17 Oct 2025 11:29:22 +0100
-Akash Goel <akash.goel@arm.com> wrote:
+As it's unclear whether all drivers really follow the life time rule of
+entities having to be torn down before their scheduler, it is reasonable
+to warn for a while before removing the hack.
 
-> This commit address a kernel panic issue that can happen if Userspace
-> tries to partially unmap a GPU virtual region (aka drm_gpuva).
-> The VM_BIND interface allows partial unmapping of a BO.
-> 
-> Panthor driver pre-allocates memory for the new drm_gpuva structures
-> that would be needed for the map/unmap operation, done using drm_gpuvm
-> layer. It expected that only one new drm_gpuva would be needed on umap
-> but a partial unmap can require 2 new drm_gpuva and that's why it
-> ended up doing a NULL pointer dereference causing a kernel panic.
-> 
-> Following dump was seen when partial unmap was exercised.
->  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000078
->  Mem abort info:
->    ESR = 0x0000000096000046
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->    FSC = 0x06: level 2 translation fault
->  Data abort info:
->    ISV = 0, ISS = 0x00000046, ISS2 = 0x00000000
->    CM = 0, WnR = 1, TnD = 0, TagAccess = 0
->    GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=000000088a863000
->  [000000000000078] pgd=080000088a842003, p4d=080000088a842003, pud=0800000884bf5003, pmd=0000000000000000
->  Internal error: Oops: 0000000096000046 [#1] PREEMPT SMP
->  <snip>
->  pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->  pc : panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
->  lr : panthor_gpuva_sm_step_remap+0x6c/0x330 [panthor]
->  sp : ffff800085d43970
->  x29: ffff800085d43970 x28: ffff00080363e440 x27: ffff0008090c6000
->  x26: 0000000000000030 x25: ffff800085d439f8 x24: ffff00080d402000
->  x23: ffff800085d43b60 x22: ffff800085d439e0 x21: ffff00080abdb180
->  x20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000010
->  x17: 6e656c202c303030 x16: 3666666666646466 x15: 393d61766f69202c
->  x14: 312d3d7361203a70 x13: 303030323d6e656c x12: ffff80008324bf58
->  x11: 0000000000000003 x10: 0000000000000002 x9 : ffff8000801a6a9c
->  x8 : ffff00080360b300 x7 : 0000000000000000 x6 : 000000088aa35fc7
->  x5 : fff1000080000000 x4 : ffff8000842ddd30 x3 : 0000000000000001
->  x2 : 0000000100000000 x1 : 0000000000000001 x0 : 0000000000000078
->  Call trace:
->   panthor_gpuva_sm_step_remap+0xe4/0x330 [panthor]
->   op_remap_cb.isra.22+0x50/0x80
->   __drm_gpuvm_sm_unmap+0x10c/0x1c8
->   drm_gpuvm_sm_unmap+0x40/0x60
->   panthor_vm_exec_op+0xb4/0x3d0 [panthor]
->   panthor_vm_bind_exec_sync_op+0x154/0x278 [panthor]
->   panthor_ioctl_vm_bind+0x160/0x4a0 [panthor]
->   drm_ioctl_kernel+0xbc/0x138
->   drm_ioctl+0x240/0x500
->   __arm64_sys_ioctl+0xb0/0xf8
->   invoke_syscall+0x4c/0x110
->   el0_svc_common.constprop.1+0x98/0xf8
->   do_el0_svc+0x24/0x38
->   el0_svc+0x40/0xf8
->   el0t_64_sync_handler+0xa0/0xc8
->   el0t_64_sync+0x174/0x178
-> 
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
+Add a warning in drm_sched_fini() that fires if an entity is still
+active.
 
-Adrian had the exact same fix, and I suggested he delays the submission
-so we can fix partial unmap is used in the same patchset (when THP is
-used, we might have to insert an intermediate PT level when a huge
-page mapping is split, and the io-pagtable code doesn't cover that
-anymore). Oh well, sorry about that Adrian.
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+Changes in v2:
+  - Fix broken brackets.
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 6dec4354e378..7870e7dbaa5d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1175,10 +1175,14 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
->  		break;
->  
->  	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
-> -		/* Partial unmaps might trigger a remap with either a prev or a next VA,
-> -		 * but not both.
-> +		/* Two VMAs can be needed for an unmap, as an unmap can happen
-> +		 * in the middle of a drm_gpuva, requiring a remap with both
-> +		 * prev & next VA. Or an unmap can span more than one drm_gpuva
-> +		 * where the first and last ones are covered partially, requring
-> +		 * a remap for the first with a prev VA and remap for the last
-> +		 * with a next VA.
->  		 */
-> -		vma_count = 1;
-> +		vma_count = 2;
->  		break;
->  
->  	default:
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 46119aacb809..87ea373f266e 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1419,7 +1419,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 		struct drm_sched_rq *rq = sched->sched_rq[i];
+ 
+ 		spin_lock(&rq->lock);
+-		list_for_each_entry(s_entity, &rq->entities, list)
++		list_for_each_entry(s_entity, &rq->entities, list) {
+ 			/*
+ 			 * Prevents reinsertion and marks job_queue as idle,
+ 			 * it will be removed from the rq in drm_sched_entity_fini()
+@@ -1441,7 +1441,10 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 			 * drivers that keep entities alive for longer than
+ 			 * the scheduler.
+ 			 */
++			if (!s_entity->stopped)
++				dev_warn(sched->dev, "Tearing down scheduler with active entities!\n");
+ 			s_entity->stopped = true;
++		}
+ 		spin_unlock(&rq->lock);
+ 		kfree(sched->sched_rq[i]);
+ 	}
+-- 
+2.49.0
 
