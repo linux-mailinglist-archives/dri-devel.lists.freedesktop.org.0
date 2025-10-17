@@ -2,173 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E75BE6F6B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 09:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EAEBE6FC8
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 09:45:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 251F710EB36;
-	Fri, 17 Oct 2025 07:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7E510EB37;
+	Fri, 17 Oct 2025 07:45:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="okKHZJgr";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="emCtYV2r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rSZnOvWl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="emCtYV2r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rSZnOvWl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010019.outbound.protection.outlook.com
- [40.93.198.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE1D110EB34;
- Fri, 17 Oct 2025 07:38:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xRheAvMgf30yNrrBOFQMeGHZmai4uGzbYGDWBmbr+FN862luc1+trzgm8XYWPuOH1BLnPrO9Wddg8kJ3xYSzsNyoFC9xwVH4dgEg0hzWiPu019SLpkRm3iDLrldbywXkLCFbq2YcGyMn0HfARIijAepNc0KK84eQ4tUpcvunWDVWqEa5P8AIoYQTQS+4ivZTa8clX78L1qxK3O/rbkfl++8abxlDb4rg5i61L6b/B4y1vBWxHJQgs/Q5vOtvLsjLH+or7DE9iJHUtV0cDNIqv6nSvJBLdu76caU4lAfJqjikKQOpjlvOTMvSumgqhTPFkILVCPiYx53DVaVG2u0Xgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x2cx84eQ6cYNAv/gcg+7SNLGoHkhJsQakZiuHQ2UC7U=;
- b=bIMCQ7dEjUHFjv6rA0y7UBrdFW/ec0a8tJEc87m/sp6edRQ8dJNXImUvISf+Zna9B6OVSFYp2bG8SndMFPfixsrMpHovZGhBQY7tS0T4CkHd716S+OY+AhOB1DYNwJEey7UgArf/FYg4usiAunEfhhp5TsRKKQG3nC6jU5BIjwsVeyA7SAT/ea29w+u+p+uEqc23ZUQoBMSsFwm2ALptTvWvc/340rbB+eWBkwAjPiJ2xh2wkBtLDUc8PUZWAZU/OKTKAnfhg+UUOpAGrPPkK/TICY9DCYGx4d8opPQuVwbsCp7/SneMzitFNpu9oz5uROKLFyn/Kx01YFQFW/nSjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x2cx84eQ6cYNAv/gcg+7SNLGoHkhJsQakZiuHQ2UC7U=;
- b=okKHZJgrEPsWQHRIYcKrzL1pr/s3mC7iLn/K68NHHNAlZyEEUspdNRRnBVqhWBHDeBExIvzKo5dRD7BpFavegJvQ150D8quSGBcF2D/5Fbko4k6i4QwUA4ZuqC8240Y60yCSH+zbrG0QuYk20SvwXdK638pdaG2mwwNNc8Ae4pT+VuW0ArgVI+vLOlrHja8h3qZeTVsBxq47pz3E+YGT8LfbjcDfPdEaeOb3XBPSeL11xW7BO+WhTukbF13cUXwnSrk53MSpDdpK2qcwu+SoNlHEH37ryXuxVcau58cCNemf6Bo2y3wsZH6PbvwiB8AyJuV+7UjkKnBkQE9HeFtBsQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MW4PR12MB7311.namprd12.prod.outlook.com (2603:10b6:303:227::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
- 2025 07:38:33 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9228.010; Fri, 17 Oct 2025
- 07:38:33 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Oct 2025 16:38:29 +0900
-Message-Id: <DDKFCK1FGMBJ.1SZESNKE2GZPK@nvidia.com>
-Subject: Re: [PATCH v5 04/14] gpu: nova-core: Add a slice-buffer (sbuffer)
- datastructure
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
- <miguel.ojeda.sandonis@gmail.com>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, "Lyude Paul" <lyude@redhat.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251013062041.1639529-1-apopple@nvidia.com>
- <20251013062041.1639529-5-apopple@nvidia.com>
- <DDJJ4P7ED3LJ.6YD2M62RB5VY@nvidia.com>
- <CANiq72kpgPT8=-UPj8Bez_ui=MTVauCPg7CabDau=jxOB8qdow@mail.gmail.com>
- <kddcagu44v2a3lbxvid6wppm26wkx6ippxwa4nkaqppci5unna@oguriptlzthn>
-In-Reply-To: <kddcagu44v2a3lbxvid6wppm26wkx6ippxwa4nkaqppci5unna@oguriptlzthn>
-X-ClientProxiedBy: TYCP286CA0082.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::6) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25C0E10EB37
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 07:45:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7B1A51FD6D;
+ Fri, 17 Oct 2025 07:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760687105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z7z+6Rva6qEu6P4DiQFx1RV9ZjLaO7H2OATZ97Ien5c=;
+ b=emCtYV2rnDQUvPBnVBzb73Yi2Sv/JIXNCgDWT2Kij+TtDY0HaLwU6LAN4AXm0rJTIXvDuK
+ 9KoHly7+WGz+wlVDLKMB0KwlxtxzKqLQTzV1GJMQmUN6bXrFjLHmNN3T6Q5GpK9A3UdgVk
+ Eie8wipfQL5aP9ajG7R9hcEICZhH6WA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760687105;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z7z+6Rva6qEu6P4DiQFx1RV9ZjLaO7H2OATZ97Ien5c=;
+ b=rSZnOvWlznQFOVGrOeBRfOw8rMbuSW3vqkFrATe9MxbawtpUkNckYJgQtdAmF7uhIaM3dt
+ tKjo235iVmM2ULBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1760687105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z7z+6Rva6qEu6P4DiQFx1RV9ZjLaO7H2OATZ97Ien5c=;
+ b=emCtYV2rnDQUvPBnVBzb73Yi2Sv/JIXNCgDWT2Kij+TtDY0HaLwU6LAN4AXm0rJTIXvDuK
+ 9KoHly7+WGz+wlVDLKMB0KwlxtxzKqLQTzV1GJMQmUN6bXrFjLHmNN3T6Q5GpK9A3UdgVk
+ Eie8wipfQL5aP9ajG7R9hcEICZhH6WA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1760687105;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z7z+6Rva6qEu6P4DiQFx1RV9ZjLaO7H2OATZ97Ien5c=;
+ b=rSZnOvWlznQFOVGrOeBRfOw8rMbuSW3vqkFrATe9MxbawtpUkNckYJgQtdAmF7uhIaM3dt
+ tKjo235iVmM2ULBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DB33136C6;
+ Fri, 17 Oct 2025 07:45:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OTcMBgH08WhKSAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Oct 2025 07:45:05 +0000
+Message-ID: <8cb49212-99e7-4eae-ab8c-a95f3c81854d@suse.de>
+Date: Fri, 17 Oct 2025 09:45:04 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MW4PR12MB7311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 054c8e82-4567-4445-653e-08de0d502c49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|1800799024|366016|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUpsSmhtSjdQdjBXMXU0eHJBYVVRYTNucnUrN2U1WGNYdU9QU0tON016TzdO?=
- =?utf-8?B?SkV2dkVqcEltZ0xCZTNSQUVhZHRuZkh1WWFUMy9FZXdoalFSRUxSOTJWaGNw?=
- =?utf-8?B?WERIUC9ickxuUlRWK2FJV0o5WDVmQ2R1WDU1QmZ3a3FnWHMwNTFUZzdGMDdJ?=
- =?utf-8?B?ZC8xMHpqQ1ZRSU4wVUN4N1BYaEZxOW42eXcvQTlPTHZUaDZQSm5SL3hYR2dY?=
- =?utf-8?B?ZGh4L0dxV0VJbjJYOWMvUTlxenptd1ZjZW5JelJBWWwzYXRxYzVlWlEwc1ZF?=
- =?utf-8?B?eWFudVBQaDAzTTA4NXlXdzREbDdHa04zVi9keWlkTXJxcmVzWnJsOFhvV2x5?=
- =?utf-8?B?Mk9YbzlpSW9aQTFtTS9CcDhqWG1DZHVnV3NVeVcwYlQrUU9yeVNaL2FGdGtR?=
- =?utf-8?B?Wk5GVlBOUWdqL2tMTDVueUZOdkh2VnlMQWFEdG5ndDVXeUd5cFhWRlhNVG90?=
- =?utf-8?B?dE1BbW9ZaEJXaDM0QVRHSHVXaCs0bW1GaEpDdUsxWUFzU21CZlZITHNlb0RX?=
- =?utf-8?B?TWI4SjNwZUZvS0tIWEhsNHFKcEtMWHRvS1lYbVo3MENreXBFL1FvUGozcU1S?=
- =?utf-8?B?VFRHc2s2aEh2RkM2Z2ZJTlJTUS81Yk5YRHA3eVRkUk92ejlJL0RVbmROVFBr?=
- =?utf-8?B?UGdUOWdnZkc3ZXh0ZFE1eVlZSC9OTmdUeFN0OUhlRzQzMWFGdzlIeWFDRVhI?=
- =?utf-8?B?YnZvVXhjdTR4SHNqWEhXMHg0L2RJREZ0K3hiUFNZdzR5NkN1SlJBUGg3WXh3?=
- =?utf-8?B?bXR6L014M0M5Q1oySlViVFlkNjliYzZkTGNzalhJSXR5L2cxcCs3QjROd3Nh?=
- =?utf-8?B?dktBcWp4L3pqaDlBdTB1dThUays2UlpUZDRtb05jRmc4YVFldVgwbnpBeVdC?=
- =?utf-8?B?YVBSci9pM3FMdTFzdzBxSFVnc21nYXV4UndwejZSRjlGZkdIemtFcVJMZE5M?=
- =?utf-8?B?OGhyelNRYUVJSUZLOEpHNlBGQWd3U0MwSm5mZjJtNzVEY2VjMno3cDdOaHNm?=
- =?utf-8?B?Z3VOLzA1YW1LRHpCTVVnWFhZRWR2QndBS3NTL2FISW1pM0FZQytQUFQ2eXZl?=
- =?utf-8?B?UGVTL0xTODlCYVl3NkNRZXZaRTRTeTJGN1RjWGJhRktpazhDLytXWGF6bERu?=
- =?utf-8?B?dG5SNTVYTDJOT0hCbDY1S1plVjUxNHczYTZzYTRaMmZSM3RpNEtBTFgrVW53?=
- =?utf-8?B?b1kwS0ZVNUlBOWo2Sko0aFpaVW5VSysweHlRc2RydDZ1K2IyQzFQV3dyWjF3?=
- =?utf-8?B?WkhYYkxWakp1YWc0dW4xcFV1bzlvOUg5bE51SEd0dGkvVTRvdXMxZUtKQ0tC?=
- =?utf-8?B?RDhFM0FZZ0g1UDhrZ3UySjZYMHZzUlY3OThVUndwQlhKeDVrdHduVnJJNHpw?=
- =?utf-8?B?cmVQZllyN2ZKejd4TmZqT3BRdWNNenk4Sml5TDBFVGpnelBaS1NhVzY5S0Fa?=
- =?utf-8?B?Z2x4TFhXZHk0VFNqOEIvR0tVVDR4RXBPRmxIVkR0VjZid2J1SlJoTjBsMitV?=
- =?utf-8?B?eGR0YXRFOEVCdkV3NlNldVkvWlZuMkFTUXhZNGZzczZWTkNPa3hnQjVIZlBR?=
- =?utf-8?B?MUIwOEVld2ZJdWtSNkVQQlMzZEtNVmdlYXd2RmVhZ2RrUHVSOUhmMjZqSFlM?=
- =?utf-8?B?TnJHSXlYYjZTKzZVdFpyWFdZYlY0aDRFVVBseDBvQ2JMTXhTakV0akNCQ05m?=
- =?utf-8?B?bDVYYWJNU0E2NXdORzRZSkxVblJSYmZ0TjRISUdQVktkTXFBNXMwMXUzZWdS?=
- =?utf-8?B?aDBJVWU3TVBwcUdMU2RzUFJxclBta2NuaXIvcEMrWTNER2JZZU03QlJTcy9m?=
- =?utf-8?B?RlhrMmIrbVRTbWRsdGVtcWdpYm9sM3V0dXQ4c1N6d3VEb2lpdEV6ZTFBaHhH?=
- =?utf-8?B?TjBkaU9FYStaWVhwUmM3OUxkZFJhazAweXVVYWQ0VTNoWVl6UnIwb2RTOXBw?=
- =?utf-8?Q?/vEx8M/opG6VLhKQRdZHCXBqDGOpdZxS?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXpNeDg2cEhjRFplcmlrcWRqNFRMb2E1L0pzbDV5c2pZVWplaHdkSEVqTit4?=
- =?utf-8?B?T1RoRElMYWxtc3R5aVFLUklLcXFPYVJ4TU8xUVZFR0ZLb0g3c0R3S29uMjRV?=
- =?utf-8?B?RGFIQUhDUE44TmJjNFV4bVpRaExNaWwzZXp4cXBta3NyYVZuMVVPZlpXVHZR?=
- =?utf-8?B?WGVVU0MwSXBLT3lscXArdld3TTUxWDMwaWFzL0d1cWk1YWRSb2dSMUpvTk90?=
- =?utf-8?B?Vy9IK3VUbkRnclhQWTFWbEJ6aVprVkNCTkFKak9EblVWUFgrQU5kTnB2WkNZ?=
- =?utf-8?B?eUQrLzZPYmx6VzNyOEswZjJlTEdyQWk4OXRKNVpmQ3kwYzYzeGtwaXpVSTdo?=
- =?utf-8?B?NGEvOXdheVN4bjVuV1ppbFdJZTh6eGNkTHpTMXhOZGI1QXR3OWJhUDBLZEdU?=
- =?utf-8?B?b0kyVHpxNGd4aFd3cXV0NmNrTTN6dUkvNDZNWDZWbmhiTk90eGtNV2xnZG1p?=
- =?utf-8?B?RWxtZzVQU3N5UU9wN29tYyt0S0ZFVXNFVERaMDB5Um9jTit4ejNmbHp6NFVG?=
- =?utf-8?B?cWNHZ0tWVEVPdElxTFNVTnB4czliYXArcS9yMjBlQTVXdUh3eTZTVU9CaVNr?=
- =?utf-8?B?TzlQaVRhbThIcThwdDZyQmthN1pJY3RlY09qL29IRGswMFR3RWwwRkEzVVd3?=
- =?utf-8?B?ZEdkNG5wcndtUk12ZytSOGFlTlhDcjFuUWlXNFVFZXUydUZweXpITmx0eXcz?=
- =?utf-8?B?OFVqR2lHZ1lqMUpvQUlLeGhsOTVxQ3BwbjRPZ29WNmx5b0MxaXFKS0ZMWWd3?=
- =?utf-8?B?T1hid05VVFJkbzFlOWJmcWVJcE1OenllUC9BRGEwZVkxQVpVc1pJQUpVKzR6?=
- =?utf-8?B?SzY2Vmt4c2NHekNsUzhDK2VjdnRUb3JLNjRnUEEvd0JVelJaZWdWN1BwUkkx?=
- =?utf-8?B?L2ZyKzU1K3hzWFNEcUc0L0ExRW02dFMyYUppeDEvRDh5dTZocmlIWDdraDM3?=
- =?utf-8?B?U29tQzQrNUdnZnJFLzNERW5HbjNYQm9DL2hTcFZGanhidGxSajd1ZGExWU43?=
- =?utf-8?B?N0tNa0czdHJ3YXg4M0VSOWlscVArS2FCS3BBc0RsNUFNdEpwVnJMWTFyQjl2?=
- =?utf-8?B?aE5GdEp1TDV6OWttRERoTWpPNXlFbCsxVkxCN0w3aFhtNGhYZGUxSWQrdnJ3?=
- =?utf-8?B?OEJXbUJCaDA0Zk51YUhoaGxsNzBIaFc4T2xRa0duakpEakt3NnE3LzZiQzZ1?=
- =?utf-8?B?T21pa0ZhOXl1Y0NZTUlkODBIbElnWEpEemNGem54V05NZ1ViZlQ1UzhtT0pX?=
- =?utf-8?B?aXd4TEF6UE5ab1IxMW51dHBYZnJJbHRZc2dkZll6bWwzbVJlTFZzY3J0cG04?=
- =?utf-8?B?a2xwZnJXclZISkdCajBiR29lZ2VvbjNXRElodjNWUU1UYnl1VzRSdnhzYzVV?=
- =?utf-8?B?L2lMWHB3MS8ybFFlN3FXeEFMc3VDa2xsdEE5T2dielcyaFU2Nnd1endiNlRQ?=
- =?utf-8?B?SWhnV2x6N1A2L2VjcC80QUlXSEY3KzRBelh2aE5nR21SSnRLWXMyVWNOY0dF?=
- =?utf-8?B?U2E4TGlOaVJiSlBKZ0IzUUIvd1JDZloxbWpZNnl3TGtvZTZ1Z1VMYitZOUtC?=
- =?utf-8?B?L05xN2k2K21jMFJOajZ3V1k4VUlHaXRxck5lTjVuMlJvcy9USG5RVC9aU0tU?=
- =?utf-8?B?MDZxVmhsYzl6NTRzV0pGUUdsUlEzeWJlOGxrQVhDc3g2d0pLdm5Yc1IxbCtr?=
- =?utf-8?B?cll4SWE2MjV5TThYSmIvOTJESEQ3RGdWOENaYVQyQmJLNmh2VUNJOGJ5MGU4?=
- =?utf-8?B?NU9aaGR3emoxZXlyYWt6bHBLZnE4b2ZHMm9LTDJxUmE4NGZXYXFvbEJudCtV?=
- =?utf-8?B?enJCaU10cFdjMHNlQ3I4SEtSMXdkMENtV0JVQTRKUkVxNk1sZGdYY0JoQ1Ar?=
- =?utf-8?B?b2tNZWQyS1MyS3lMckoveVRjSk5HdVI5N0x5SHl0Y3JVMXcxUnN1OWlLNHd0?=
- =?utf-8?B?T25VUnFXQUVWY0ZFWGRIb3RsTE1nckNLQnoyeThoMVI0RktlSGFXeG4rRmVz?=
- =?utf-8?B?Q2Q0YUtwVVRxeE1lK0JIMHFFc1dhSVN0ZGxCTUh3RmNVL0Rud2g5d2t2L3h0?=
- =?utf-8?B?Z2hndTd1aGt0WG4zOUFFNkhlSi9kVEhrdTBaTnU0UXh5QVo0eHVxNEJkVU1j?=
- =?utf-8?B?OEdaTGJlQkNlMG9RU21mNHdTazJVeHlvQlBYVkRRckthbFlocXRSOGdiNW9t?=
- =?utf-8?Q?yMbRo0VdD9wx9pxPeUbEQ7KHK7ZsEReaQyqg21EfXdjk?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 054c8e82-4567-4445-653e-08de0d502c49
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 07:38:32.8598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0rNlbSlHwFLr91slGhIgDjPIVClUXvxP7dX/zFfjBxaEGuI+xosqUmFrhA+8EY2HuClZrChq4wa5lgSMIZlIRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7311
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iosys_map: Make dst a const in iosys_map_memcpy_to()
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ "open list:RUST:Keyword:b(?i:rust)b" <rust-for-linux@vger.kernel.org>
+References: <20251016202455.2750217-1-lyude@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251016202455.2750217-1-lyude@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ TAGGED_RCPT(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[14];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
+ TO_DN_SOME(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
+ MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,41 +147,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Oct 17, 2025 at 1:45 PM JST, Alistair Popple wrote:
-> On 2025-10-17 at 06:18 +1100, Miguel Ojeda <miguel.ojeda.sandonis@gmail.c=
-om> wrote...
->> On Thu, Oct 16, 2025 at 8:23=E2=80=AFAM Alexandre Courbot <acourbot@nvid=
-ia.com> wrote:
->> >
->> > On Mon Oct 13, 2025 at 3:20 PM JST, Alistair Popple wrote:
->> > >
->> > > +/// # Example:
->> > > +///
->> > > +/// ```
->> > > +/// let mut buf1 =3D [0u8; 5];
->> > > +/// let mut buf2 =3D [0u8; 5];
->> > > +/// let mut sbuffer =3D SBufferIter::new_writer([&buf1, &buf2]);
->> > > +///
->> > > +/// let data =3D b"hello";
->> > > +/// let result =3D sbuffer.write_all(data);
->> > > +/// ```
->> >
->> > This example doesn't build - there are several things wrong with it. I=
-t
->> > is also missing statements to confirm and show the expected result. He=
-re
->> > is a fixed and slightly improved version:
+Hi
+
+Am 16.10.25 um 22:24 schrieb Lyude Paul:
+> A drive-by fix I discovered when writing up bindings for iosys_mem for
+> rust: while iosys_map_memcpy_to() does modify the memory pointed to by the
+> iosys_map, it doesn't modify the actual iosys_map struct at all.
 >
-> Argh, you're right. I cut and pasted then edited the wrong thing from my =
-test
-> build. How are you building these? The `rustdoc` target seems to ignore N=
-ova (or
-> I'm doing something wrong).
+> As such, let's add a const qualifier to this function.
 
-Indeed, rustdoc doesn't consider anything outside of the kernel crate
-for now, although this is scheduled to change so we need to be ready for
-it.
+As far as I'm concerned, the non-const is intentional. Because it's the 
+destination, so expect it to be written. Thus passing arguments that are 
+already const is most likely an error. And because I'd like to keep the 
+option of doing something more complicated within iosys_map (e.g., some 
+temp memory for handling I/O) and const might get in the way.
 
-For now, I just copy/paste the test code into some function elsewhere
-and try to build. ^_^;
+Best regads
+Thomas
+
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>   include/linux/iosys-map.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+> index 3e85afe794c0a..0ececbba04b3a 100644
+> --- a/include/linux/iosys-map.h
+> +++ b/include/linux/iosys-map.h
+> @@ -278,7 +278,7 @@ static inline void iosys_map_clear(struct iosys_map *map)
+>    * system memory. Depending on the buffer's location, the helper picks the
+>    * correct method of accessing the memory.
+>    */
+> -static inline void iosys_map_memcpy_to(struct iosys_map *dst, size_t dst_offset,
+> +static inline void iosys_map_memcpy_to(const struct iosys_map *dst, size_t dst_offset,
+>   				       const void *src, size_t len)
+>   {
+>   	if (dst->is_iomem)
+>
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
