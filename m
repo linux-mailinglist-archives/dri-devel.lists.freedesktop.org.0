@@ -2,84 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508A5BE9F4E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2CABE9FC0
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 17:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BDE10EC67;
-	Fri, 17 Oct 2025 15:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0591310EC62;
+	Fri, 17 Oct 2025 15:37:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gfxstrand-net.20230601.gappssmtp.com header.i=@gfxstrand-net.20230601.gappssmtp.com header.b="oPuhAyuh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="glaN3tjI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1AF10EC67
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:36:06 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-b4fb8d3a2dbso1509432a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 08:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gfxstrand-net.20230601.gappssmtp.com; s=20230601; t=1760715366; x=1761320166;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lNNps7LHvYcqgOTqAuIAafISammvoyIL1aW3lsi7QBo=;
- b=oPuhAyuh/wWJCvrPLgFTBEchX1MT6jb1H9lxYlYT9OrWa2QeDSWS4sz2jx6ZGA5dpH
- 9WhBEONyPUpuCFJhzB1oXCA1wIcD1Ymb+G43q7FGwnsrd5yqFMkfHRlLaOs3HBgBN5Dg
- Fejos28Z6mHODh5BT8pQxLjX9L4JgmPGz+yraiqLWUhIyCQToDG3Z1Bq83LZpyyvT26n
- h3FVkULdEfUq4Is6At9Wjqy2s0OI5VVN4EoNzz8udIq/Mr7GfDcorMhraiv2yrkmT2IX
- U+sLZIlGBj88DhSEyWbI4KBaxi6S9kXRcrttwDzhVx+cLTjvjq6MglGlqTktTgT9g+uS
- +2Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760715366; x=1761320166;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lNNps7LHvYcqgOTqAuIAafISammvoyIL1aW3lsi7QBo=;
- b=a1lDExA6mIBOhDpiuspz4E5NjssjiUNTazWRa0F3rmeWTjnWLa3BD83Ut6c2UZSqox
- UdXgaSBWHUVLOA465vlJD+PZZA89omlH6CFvY2+IpfV+MzhvKIWik4KaVfOOn0qjGY4+
- X+1ufQ+oxMZHiNtfxL/losB7VXFVlSHl74diphqjD/BJ/zcJTh0O+lIILgrNuC0j8t/V
- Kc2SlvwSJz5G7SvXz3PKmATu3UVhDCY3cNnG1g6k2MHmuDLWdsZAtYsSE9JSeCEMhwjo
- 2oDAFrkqVime55rDzGvd+3Sato25BJODRApkDNSfA+EW9eEsD4yBSXPNumbmIe8W5y+V
- lqhg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/GkvwGp/F8hSl2yO9hlAJihFpYR9ef3s45dkP35liEelSNQB/rP5dvlzkmjp9kANlST6so17VnCA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwrFAIWtd3espJtzvmLL81e37xOaE26BK6kziDUW9jOTjeIN2/E
- hk3HHquHC2/bCu5ygYgHoX42H0bh6dOrPuQ704iUEJUERlj8JbvaudTULGonaS02sKD4ogZ4r6Q
- 2Vsb+OkYZMLWPr8PXV5Y1BPLGCv73kRriLrvKWqtoZA==
-X-Gm-Gg: ASbGncuRju7uQTIpOoqognS1a1ZkUtUJBc1gGKKxc1kqtFK1A50sVqWUTwA0IpnxKQg
- rZw5vBFYSMFRrDkSnLfKmBxHFfoq2WwL3kmwHe0Z5V2LO3trgR53RKTfbDNWb/unPWWCV0j0TLp
- 50tBAnnllrDk4e5a8xjVvoGSQKhCG1wxJPxQLZIHWv2F1lljQv8RCUvtlyfSBhq3CBPMVKL8YC0
- qRpLKMFe4+WWNSQ7NxTLCEBK8sg++LLW+GCgV3wGc62/8BEDw1nz77eKyyoLBZOfFAyvIzDVL9u
- xAP3DUQ=
-X-Google-Smtp-Source: AGHT+IF5fRK7gSpX1E8PmphQrhcHweHjC/jfxLE9iAgygua2DgngHxxymrviODfxo+aSD0Xs/JI+atNNhFV7KEtw5v8=
-X-Received: by 2002:a17:903:b8b:b0:24c:ed95:2725 with SMTP id
- d9443c01a7336-290c9c89badmr43794985ad.4.1760715365531; Fri, 17 Oct 2025
- 08:36:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
- <20251015160326.3657287-3-boris.brezillon@collabora.com>
- <CAOFGe96trw17pWKv4-Bbh9bvCz8ANTwAcL-croQQw24800fLbQ@mail.gmail.com>
- <CAOFGe96pKQhuhUCzVizUndgQL80+GsS-YiiRcMiO=eHBnYAHxg@mail.gmail.com>
- <20251017172657.2690bbca@fedora>
-In-Reply-To: <20251017172657.2690bbca@fedora>
-From: Faith Ekstrand <faith@gfxstrand.net>
-Date: Fri, 17 Oct 2025 11:35:54 -0400
-X-Gm-Features: AS18NWBDNTLZehAdcwmM0e_VQwBHIQ5w3E8-1s7OHBKO4mObWFQ0aGmTRb1vvFE
-Message-ID: <CAOFGe97gKbek59Mri-+Fb4gLLkt2vJC-szc110fCYvcfRtE8iw@mail.gmail.com>
-Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and
- a drm_gem_sync() helper
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org, 
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0633210EC62
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 15:37:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id AFF6A45997;
+ Fri, 17 Oct 2025 15:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517C7C4CEE7;
+ Fri, 17 Oct 2025 15:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760715468;
+ bh=fMtsEtk+yymjMrBDxyIo4cPm8zug+9QHbs06gVATPdw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=glaN3tjI9nSulUo1uDQTr6u/p7SSb0kvNXzx2Zp6DuspOMCnukW5J3S0lElQsi5ps
+ NU7SnkAchBwn0irmQoYZSIpWoSv+3TbtNt64vMYO481yMyvMPzcpQx5t3VMgHBTJen
+ yhmZRIYfVW59jRSrc/uakK1ie2xa6NeGwPCM2lcZV0luckrXKLeKBnLy5oZLoxMgeE
+ nE8tsoajMLfPXrjbX5CC85UtPw+EVov/SnbBeW9yDHk1AvKLpY1AgL8tuGWDaqTD7R
+ 9dIbQtOT1pb+aP2DhguS+sCRD1Zm5OVChREj1YubPcGAhuLirGmqnHkQktgznRurqh
+ J3MzLTnTQS+bw==
+Date: Fri, 17 Oct 2025 10:37:46 -0500
+From: Rob Herring <robh@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>,
+ Daniel Stone <daniel@fooishbar.org>, Frank Li <Frank.li@nxp.com>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 2/2] accel: Add Arm Ethos-U NPU driver
+Message-ID: <20251017153746.GA1579747-robh@kernel.org>
+References: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
+ <20251016-ethos-v5-2-ba0aece0a006@kernel.org>
+ <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,183 +72,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 17, 2025 at 11:27=E2=80=AFAM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
->
-> On Fri, 17 Oct 2025 10:40:46 -0400
-> Faith Ekstrand <faith@gfxstrand.net> wrote:
->
-> > On Fri, Oct 17, 2025 at 10:32=E2=80=AFAM Faith Ekstrand <faith@gfxstran=
-d.net> wrote:
-> > >
-> > > On Wed, Oct 15, 2025 at 12:04=E2=80=AFPM Boris Brezillon
-> > > <boris.brezillon@collabora.com> wrote:
-> > > >
-> > > > Prepare things for standardizing synchronization around CPU accesse=
-s
-> > > > of GEM buffers. This will be used to provide default
-> > > > drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and provid=
-e
-> > > > a way for drivers to add their own ioctls to synchronize CPU
-> > > > writes/reads when they can't do it directly from userland.
-> > > >
-> > > > v2:
-> > > > - New commit
-> > > >
-> > > > v3:
-> > > > - No changes
-> > > >
-> > > > v4:
-> > > > - Add Steve's R-b
-> > > >
-> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > Reviewed-by: Steven Price <steven.price@arm.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_gem.c | 10 +++++++++
-> > > >  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++++=
-++++
-> > > >  2 files changed, 55 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > > > index a1a9c828938b..a1431e4f2404 100644
-> > > > --- a/drivers/gpu/drm/drm_gem.c
-> > > > +++ b/drivers/gpu/drm/drm_gem.c
-> > > > @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object *o=
-bj, struct iosys_map *map)
-> > > >  }
-> > > >  EXPORT_SYMBOL(drm_gem_vunmap);
-> > > >
-> > > > +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t=
- size,
-> > > > +                enum drm_gem_object_access_flags access)
-> > > > +{
-> > > > +       if (obj->funcs->sync)
-> > > > +               return obj->funcs->sync(obj, offset, size, access);
-> > > > +
-> > > > +       return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL(drm_gem_sync);
-> > > > +
-> > > >  /**
-> > > >   * drm_gem_lock_reservations - Sets up the ww context and acquires
-> > > >   * the lock on an array of GEM objects.
-> > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > > > index 8d48d2af2649..1c33e59ab305 100644
-> > > > --- a/include/drm/drm_gem.h
-> > > > +++ b/include/drm/drm_gem.h
-> > > > @@ -66,6 +66,33 @@ enum drm_gem_object_status {
-> > > >         DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * enum drm_gem_object_status - bitmask describing GEM access type=
-s to prepare for
-> > > > + */
-> > > > +enum drm_gem_object_access_flags {
-> > > > +       /** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access. *=
-/
-> > > > +       DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
-> > > > +
-> > > > +       /** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device access=
-. */
-> > > > +       DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
-> > > > +
-> > > > +       /** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the e=
-ntity doing the access. */
-> > > > +       DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),
-> > > > +
-> > > > +       /** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only acce=
-sses. */
-> > > > +       DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
-> > > > +
-> > > > +       /** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only ac=
-cesses. */
-> > > > +       DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
-> > > > +
-> > > > +       /** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write acc=
-esses. */
-> > > > +       DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCESS |
-> > > > +                                  DRM_GEM_OBJECT_WRITE_ACCESS,
-> > > > +
-> > > > +       /** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check th=
-e access type. */
-> > > > +       DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW_ACCES=
-S,
-> > > > +};
-> > > > +
-> > > >  /**
-> > > >   * struct drm_gem_object_funcs - GEM object functions
-> > > >   */
-> > > > @@ -191,6 +218,21 @@ struct drm_gem_object_funcs {
-> > > >          */
-> > > >         int (*mmap)(struct drm_gem_object *obj, struct vm_area_stru=
-ct *vma);
-> > > >
-> > > > +       /**
-> > > > +        * @sync:
-> > > > +        *
-> > > > +        * Prepare for CPU/device access. This can involve migratio=
-n of
-> > > > +        * a buffer to the system-RAM/VRAM, or for UMA, flushing/in=
-validating
-> > > > +        * the CPU caches. The range can be used to optimize the sy=
-nchronization
-> > > > +        * when possible.
-> > >
-> > > This has gone in a very different direction from the version I sent
-> > > out and the added generality makes me really nervous. The idea of syn=
-c
-> > > involving migration and that the range is a mere hint are antithetica=
-l
-> > > with Vulkan. It's a very GLish design that assumes that a BO is
-> > > exclusively used by one of the CPU or the GPU at the same time. This
-> > > simply isn't the case in modern APIs. Older DRM uAPIs (as well as
-> > > dma-buf itself) are littered with such ioctls and we're in the proces=
-s
-> > > of deleting them all.
-> >
-> > And yes, I realize I sent this on the patch for the hook which you
-> > intended to plumb through to dma-buf. However, I also saw it being
-> > propagated to an ioctl and I didn't know where else to put it that had
-> > the relevant details.
-> >
-> > ~Faith
-> >
-> > > If the BO needs to be migrated in order to be accessed from the CPU,
-> > > that needs to happen on map, not on some sort of begin/end. Or better
-> > > yet, just disallow mapping such buffers. Once the client has a map,
-> > > they are free to access from the CPU while stuff is running on the
-> > > GPU. They have to be careful, of course, not to cause data races, but
-> > > accessing the same BO from the CPU and GPU or even the same range is
-> > > totally okay if you aren't racing.
-> > >
-> > > As a corollary, just don't map PRIME buffers.
-> > >
-> > > And the range really shouldn't be just a hint. With Vulkan, clients
-> > > are regularly sub-allocating from larger memory objects. If they ask
-> > > to flush 64B and end up flushing 64M, that's pretty bad.
-> > >
-> > > All we need is something which lets us trap through to the kernel for
-> > > CPU cache management. That's all we need and that's really all it
-> > > should do.
->
-> Okay, so there's actually a problem with that I think, because we can't
-> know how the buffer we export will be used. It can be imported by the
-> same driver, and we're all good, but it can also be imported by a
-> different driver, which decides to vmap or allow mmap() on it, and then
-> we have to implement the dma_buf CPU sync hooks. Unless we decide that
-> all exported buffers should be write-combine only? This is the very
-> reason I started hooking things up on the dma_buf side, because we're
-> not in control of who the importer of our buffers is.
+On Thu, Oct 16, 2025 at 11:25:34PM -0700, Matthew Brost wrote:
+> On Thu, Oct 16, 2025 at 04:06:05PM -0500, Rob Herring (Arm) wrote:
+> > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
+> > relatively simple interface with single command stream to describe
+> > buffers, operation settings, and network operations. It supports up to 8
+> > memory regions (though no h/w bounds on a region). The Ethos NPUs
+> > are designed to use an SRAM for scratch memory. Region 2 is reserved
+> > for SRAM (like the downstream driver stack and compiler). Userspace
+> > doesn't need access to the SRAM.
 
-Exported buffers should be WC-only. We could try to get creative but
-the moment we let the lack of coherency leak to other processes,
-potentially to other drivers, we're in a world of hurt. Even with the
-dma-buf begin/end hooks, if it's imported into a driver that does
-Vulkan, those hooks don't make sense and we're screwed. And, yes, I
-know panvk is the only Vulkan implementation you're going to see on a
-system with an Arm GPU, but thinking about things in the general case
-across all of DRM, exporting non-coherent memory in 2025 is just
-cursed.
+Thanks for the review.
 
-~Faith
+[...]
+
+> > +static struct dma_fence *ethosu_job_run(struct drm_sched_job *sched_job)
+> > +{
+> > +	struct ethosu_job *job = to_ethosu_job(sched_job);
+> > +	struct ethosu_device *dev = job->dev;
+> > +	struct dma_fence *fence = NULL;
+> > +	int ret;
+> > +
+> > +	if (unlikely(job->base.s_fence->finished.error))
+> > +		return NULL;
+> > +
+> > +	fence = ethosu_fence_create(dev);
+> 
+> Another reclaim issue: ethosu_fence_create allocates memory using
+> GFP_KERNEL. Since we're already in the DMA fence signaling path
+> (reclaim), this can lead to a deadlock.
+> 
+> Without too much thought, you likely want to move this allocation to
+> ethosu_job_do_push, but before taking dev->sched_lock or calling
+> drm_sched_job_arm.
+> 
+> We really should fix the DRM scheduler work queue to be tainted with
+> reclaim. If I recall correctly, we'd need to update the work queue
+> layer. Let me look into that—I've seen this type of bug several times,
+> and lockdep should be able to catch it.
+
+Likely the rocket driver suffers from the same issues...
+
+> 
+> > +	if (IS_ERR(fence))
+> > +		return fence;
+> > +
+> > +	if (job->done_fence)
+> > +		dma_fence_put(job->done_fence);
+> > +	job->done_fence = dma_fence_get(fence);
+> > +
+> > +	ret = pm_runtime_get_sync(dev->base.dev);
+> 
+> I haven't looked at your PM design, but this generally looks quite
+> dangerous with respect to reclaim. For example, if your PM resume paths
+> allocate memory or take locks that allocate memory underneath, you're
+> likely to run into issues.
+> 
+> A better approach would be to attach a PM reference to your job upon
+> creation and release it upon job destruction. That would be safer and
+> save you headaches in the long run.
+
+Our PM is nothing more than clock enable/disable and register init. 
+
+If the runtime PM API doesn't work and needs special driver wrappers, 
+then I'm inclined to just not use it and manage clocks directly (as 
+that's all it is doing).
+
+> 
+> This is what we do in Xe [1] [2].
+> 
+> Also, in general, this driver has been reviewed (RB’d), but it's not
+> great that I spotted numerous issues within just five minutes. I suggest
+> taking a step back and thoroughly evaluating everything this driver is
+> doing.
+
+Well, if it is hard to get simple drivers right, then it's a problem 
+with the subsystem APIs IMO.
+
+Rob
