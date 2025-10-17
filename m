@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3A0BE8FC7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25638BE8FCA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 15:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1BC10EC33;
-	Fri, 17 Oct 2025 13:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59AF010EC36;
+	Fri, 17 Oct 2025 13:47:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VjkzgWyN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MgP3WEzH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6C810EC33
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:47:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCDF410EC36
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 13:47:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0156744805;
+ by sea.source.kernel.org (Postfix) with ESMTP id B537E4B3FD;
+ Fri, 17 Oct 2025 13:47:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55AA1C4CEFE;
  Fri, 17 Oct 2025 13:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C0FC4CEF9;
- Fri, 17 Oct 2025 13:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760708871;
- bh=KKelnfCVSkqGfD/vx5rJBlReymKdSnPUEgmqAjBvnWQ=;
- h=From:To:Cc:Subject:Date:From;
- b=VjkzgWyN7WvWpRW4x8oP8VL3Ug4dDalsjXbaCr7N+ZNXWeybQuMzO64xxwITP0iPE
- O2tDxVLF+k1kf6X04+DUnehUVHkXf9J1iLK9WlCpSGYqWx5CLpMHYmkxwO41VeA9W2
- SEPSbwIiSW9VfFJ7UCxVwCDGECYoAfeveSk/IiBKUg23Xs2RNC3OZPYVgw1ZBMDrgz
- xfS2yRFxC/HvVcwUJsiTpvbRR+tkhLoaqhoExkrsUqxb4IQ/bENOwTVFGNKveMXwz2
- I2GlDim2ywJ7hqkxNBoqAVhkn7Ycn7VlSWpRQkTbdD3F3Mi+xPMabdUBFBmBCm4so2
- ZCGBv+1kN32ZA==
+ s=k20201202; t=1760708874;
+ bh=vrRFEKTK4AWiLuQSasLbMw065+46eQtPuGvNJqTLrH4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=MgP3WEzH4xzjfD6A6/bW0TBNZZNnElvkbi1wUWqZ12I36MqZyEv/PJVoBsBNuZH/7
+ WlLvZgFOdDrpj0Ck0ql7eSo1Mj9JDHTnFvT5q3rHiMJt1sij5uxRAOILDaQKd5PI92
+ x78WkVedghK5peiINGn5Hw+ps6c6cplNXiyaT+Xz9ZtJf93/dmkKnjkvxlSpO7EaIX
+ tV3YLDte3ZSdrNepHn+D7fr5M6gL4DKG83FpGZkiw6VCF7C5duPZD6zQNhV6qVjFJ4
+ ED6fHIBBZVbwWQtC3kr9kPQD+rdJwNkG2G+qFVHTYg7mBGaV2doQg7xwIc8j7dopeB
+ FkVzV32lxWT6w==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
@@ -38,11 +38,14 @@ To: Matthew Brost <matthew.brost@intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH 1/3] drm/sched: Remove out of place resubmit docu
-Date: Fri, 17 Oct 2025 15:47:01 +0200
-Message-ID: <20251017134716.187723-2-phasta@kernel.org>
+Subject: [PATCH 2/3] drm/sched: Add TODO file with first entry
+Date: Fri, 17 Oct 2025 15:47:02 +0200
+Message-ID: <20251017134716.187723-3-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251017134716.187723-2-phasta@kernel.org>
+References: <20251017134716.187723-2-phasta@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,44 +62,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The documentation for drm_sched_backend_ops.run_job() details that that
-callback can be invoked multiple times by the deprecated function
-drm_sched_resubmit_jobs(). It also contains an unresolved TODO.
+Add a drm_sched TODO file with open tasks, contact info, difficulty
+level and a job description.
 
-It is not useful to document side effects of a different, deprecated
-function in the docu of run_job(): Existing users won't re-evaluate
-their usage  of the deprecated function by reading the non-deprecated
-one, and new users must not use the deprecated function in the first
-place.
-
-Remove the out of place documentation.
+Add the missing successor of drm_sched_resubmit_jobs() as a first task.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- include/drm/gpu_scheduler.h | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/scheduler/TODO | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 drivers/gpu/drm/scheduler/TODO
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index fb88301b3c45..9c629bbc0684 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -429,16 +429,6 @@ struct drm_sched_backend_ops {
- 	 *
- 	 * @sched_job: the job to run
- 	 *
--	 * The deprecated drm_sched_resubmit_jobs() (called by &struct
--	 * drm_sched_backend_ops.timedout_job) can invoke this again with the
--	 * same parameters. Using this is discouraged because it violates
--	 * dma_fence rules, notably dma_fence_init() has to be called on
--	 * already initialized fences for a second time. Moreover, this is
--	 * dangerous because attempts to allocate memory might deadlock with
--	 * memory management code waiting for the reset to complete.
--	 *
--	 * TODO: Document what drivers should do / use instead.
--	 *
- 	 * This method is called in a workqueue context - either from the
- 	 * submit_wq the driver passed through drm_sched_init(), or, if the
- 	 * driver passed NULL, a separate, ordered workqueue the scheduler
+diff --git a/drivers/gpu/drm/scheduler/TODO b/drivers/gpu/drm/scheduler/TODO
+new file mode 100644
+index 000000000000..6a06e2858dd6
+--- /dev/null
++++ b/drivers/gpu/drm/scheduler/TODO
+@@ -0,0 +1,27 @@
++=== drm_sched TODO list ===
++
++* GPU job resubmits
++  - Difficulty: hard
++  - Contact:
++    - Christian König <ckoenig.leichtzumerken@gmail.com>
++    - Philipp Stanner <phasta@kernel.org>
++  - Description:
++    drm_sched_resubmit_jobs() is deprecated. Main reason being that it leads to
++    reinitializing dma_fences. See that function's docu for details. The better
++    approach for valid resubmissions by amdgpu and Xe is (apparently) to figure
++    out which job (and, through association: which entity) caused the hang. Then,
++    the job's buffer data, together with all other jobs' buffer data currently
++    in the same hardware ring, must be invalidated. This can for example be done
++    by overwriting it.
++    amdgpu currently determines which jobs are in the ring and need to be
++    overwritten by keeping copies of the job. Xe obtains that information by
++    directly accessing drm_sched's pending_list.
++  - Tasks:
++	1. implement scheduler functionality through which
++	   the driver can obtain the information which *broken* jobs are currently in
++	   the hardware ring.
++	2. Such infrastructure would then typically be used in
++	   drm_sched_backend_ops.timedout_job(). Document that.
++	3. Port a driver as first user.
++	3. Document the new alternative in the docu of deprecated
++	   drm_sched_resubmit_jobs().
 -- 
 2.49.0
 
