@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50239BECA79
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 10:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FEFBECA2E
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 10:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59DBA10E3A0;
-	Sat, 18 Oct 2025 08:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 050AB10E37A;
+	Sat, 18 Oct 2025 08:38:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="UFWgrw6u";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="F8GSJZP8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com
- (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com
- [35.155.198.111])
- by gabe.freedesktop.org (Postfix) with ESMTP id C381010EB86;
- Fri, 17 Oct 2025 09:08:31 +0000 (UTC)
+Received: from pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com
+ (pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.77.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D19CD10EB84;
+ Fri, 17 Oct 2025 09:08:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
- t=1760692111; x=1792228111;
+ t=1760692131; x=1792228131;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UnBmV/SkhIg5SgTRTNSUlBFA6sgQ2eBqJGsC4N+ceR0=;
- b=UFWgrw6uIKZzYjEJ7sZgSidt7aOH+ZvLdl4u1RgRqG6w+pXyKQToUzNw
- 2sfXRf82XUX3580Cwi67oZdG9u88V/4vZAHGEbUjcqw+6vIA3hUFBVYNx
- bU6NDCK5pi58gVOYIyizKUviUNhXQk6b2KmieIm0uhNIednnkgM4NE0v3
- qoWF9ct/JKS94OW9pj1AW/RIj8H6R20XQ/V9YZk0yxdBwt++h5/vhVCzU
- wnHDxQo/9BAwk/pUHH1b1pLBNtSImL/qNx7haLkUsxt1zPpC5m01y4Cuo
- zAcGr5lmHl7nkvRbVRFsNgw/PEhDaoJOs/H7O4svcj2CnO96ey5gG9cme A==;
-X-CSE-ConnectionGUID: WCpaR4cdS9OdN2hKjiDnYQ==
-X-CSE-MsgGUID: N/lOrbq4SWaAdwkuRlI2qg==
+ bh=QbgnO9UxPmlnTs9ErmugBQ9uOmZYt7P0wc2omnh3GaU=;
+ b=F8GSJZP8GS/lEI6ZhY2RD8eIl0CCouKmHWZSSyYREfStvS1eefrRHDBl
+ 7efpuyVk6/JLw7DrCL5n0zHA1pRNr6Gw/Q3G/bqhnvQp4Wf8qZJzsPejJ
+ /O3BFu2aUXn/UWzrx+CrpnjSVKLwxY8tNxqfAsmZKTl7yyjdsBfjy70do
+ 09LwGx1rAMjNzEnG3D3vn94PYC4w9r2y8b60BEml5T3fUUZr/EKosWgKC
+ /yNkcIBBFVBZ0iIouMmoRB55BGZESQuuHPaw5dOaNSkxA960SoCV0XKW2
+ cUitlDvekSxAqNJF272TolSuSNNtNm1G/Ylqp3ZjMtDBTxOM1W2BFGOAr g==;
+X-CSE-ConnectionGUID: ZdAxfbz5TG+RqPtGsn1SBA==
+X-CSE-MsgGUID: tDa4CAofRd+ioN4B3vss4g==
 X-IronPort-AV: E=Sophos;i="6.19,236,1754956800"; 
-   d="scan'208";a="4956861"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO
- smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
- by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 09:08:25 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:29079]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.58.51:2525]
+   d="scan'208";a="5070242"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO
+ smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+ by internal-pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 09:08:49 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:10855]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.17.61:2525]
  with esmtp (Farcaster)
- id 2bc32977-123f-4a3f-bfc0-1f8a878e3279; Fri, 17 Oct 2025 09:08:25 +0000 (UTC)
-X-Farcaster-Flow-ID: 2bc32977-123f-4a3f-bfc0-1f8a878e3279
+ id a1004d97-508f-41ad-a58d-cc3229a1bacf; Fri, 17 Oct 2025 09:08:49 +0000 (UTC)
+X-Farcaster-Flow-ID: a1004d97-508f-41ad-a58d-cc3229a1bacf
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 17 Oct 2025 09:08:24 +0000
+ Fri, 17 Oct 2025 09:08:39 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 17 Oct 2025
- 09:08:09 +0000
+ 09:08:24 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
  <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>,
@@ -101,10 +100,10 @@ To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
  <tipc-discussion@lists.sourceforge.net>
 CC: Christoph Hellwig <hch@infradead.org>, Linus Torvalds
  <torvalds@linux-foundation.org>
-Subject: [PATCH v2 09/27 5.10.y] minmax: allow min()/max()/clamp() if the
- arguments have the same signedness.
-Date: Fri, 17 Oct 2025 09:05:01 +0000
-Message-ID: <20251017090519.46992-10-farbere@amazon.com>
+Subject: [PATCH v2 10/27 5.10.y] minmax: fix indentation of __cmp_once() and
+ __clamp_once()
+Date: Fri, 17 Oct 2025 09:05:02 +0000
+Message-ID: <20251017090519.46992-11-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251017090519.46992-1-farbere@amazon.com>
 References: <20251017090519.46992-1-farbere@amazon.com>
@@ -132,23 +131,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Laight <David.Laight@ACULAB.COM>
 
-[ Upstream commit d03eba99f5bf7cbc6e2fdde3b6fa36954ad58e09 ]
+[ Upstream commit f4b84b2ff851f01d0fac619eadef47eb41648534 ]
 
-The type-check in min()/max() is there to stop unexpected results if a
-negative value gets converted to a large unsigned value.  However it also
-rejects 'unsigned int' v 'unsigned long' compares which are common and
-never problematc.
+Remove the extra indentation and align continuation markers.
 
-Replace the 'same type' check with a 'same signedness' check.
-
-The new test isn't itself a compile time error, so use static_assert() to
-report the error and give a meaningful error message.
-
-Due to the way builtin_choose_expr() works detecting the error in the
-'non-constant' side (where static_assert() can be used) also detects
-errors when the arguments are constant.
-
-Link: https://lkml.kernel.org/r/fe7e6c542e094bfca655abcd323c1c98@AcuMS.aculab.com
+Link: https://lkml.kernel.org/r/bed41317a05c498ea0209eafbcab45a5@AcuMS.aculab.com
 Signed-off-by: David Laight <david.laight@aculab.com>
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Christoph Hellwig <hch@infradead.org>
@@ -158,144 +145,57 @@ Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- include/linux/minmax.h | 60 ++++++++++++++++++++++--------------------
- 1 file changed, 32 insertions(+), 28 deletions(-)
+ include/linux/minmax.h | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2a197f54fe05..8718fd71a793 100644
+index 8718fd71a793..c0e738eacefa 100644
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -12,9 +12,8 @@
-  *
-  * - avoid multiple evaluations of the arguments (so side-effects like
-  *   "x++" happen only once) when non-constant.
-- * - perform strict type-checking (to generate warnings instead of
-- *   nasty runtime surprises). See the "unnecessary" pointer comparison
-- *   in __typecheck().
-+ * - perform signed v unsigned type-checking (to generate compile
-+ *   errors instead of nasty runtime surprises).
-  * - retain result as a constant expressions when called with only
-  *   constant expressions (to avoid tripping VLA warnings in stack
-  *   allocation usage).
-@@ -22,23 +21,30 @@
- #define __typecheck(x, y) \
- 	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+@@ -35,11 +35,11 @@
+ #define __cmp(op, x, y)	((x) __cmp_op_##op (y) ? (x) : (y))
  
--#define __no_side_effects(x, y) \
--		(__is_constexpr(x) && __is_constexpr(y))
-+/* is_signed_type() isn't a constexpr for pointer types */
-+#define __is_signed(x) 								\
-+	__builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),	\
-+		is_signed_type(typeof(x)), 0)
+ #define __cmp_once(op, x, y, unique_x, unique_y) ({	\
+-		typeof(x) unique_x = (x);		\
+-		typeof(y) unique_y = (y);		\
+-		static_assert(__types_ok(x, y),		\
+-			#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
+-		__cmp(op, unique_x, unique_y); })
++	typeof(x) unique_x = (x);			\
++	typeof(y) unique_y = (y);			\
++	static_assert(__types_ok(x, y),			\
++		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
++	__cmp(op, unique_x, unique_y); })
  
--#define __safe_cmp(x, y) \
--		(__typecheck(x, y) && __no_side_effects(x, y))
-+#define __types_ok(x, y) \
-+	(__is_signed(x) == __is_signed(y))
- 
--#define __cmp(x, y, op)	((x) op (y) ? (x) : (y))
-+#define __cmp_op_min <
-+#define __cmp_op_max >
- 
--#define __cmp_once(x, y, unique_x, unique_y, op) ({	\
-+#define __cmp(op, x, y)	((x) __cmp_op_##op (y) ? (x) : (y))
-+
-+#define __cmp_once(op, x, y, unique_x, unique_y) ({	\
- 		typeof(x) unique_x = (x);		\
- 		typeof(y) unique_y = (y);		\
--		__cmp(unique_x, unique_y, op); })
-+		static_assert(__types_ok(x, y),		\
-+			#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
-+		__cmp(op, unique_x, unique_y); })
- 
--#define __careful_cmp(x, y, op) \
--	__builtin_choose_expr(__safe_cmp(x, y), \
--		__cmp(x, y, op), \
--		__cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-+#define __careful_cmp(op, x, y)					\
-+	__builtin_choose_expr(__is_constexpr((x) - (y)),	\
-+		__cmp(op, x, y),				\
-+		__cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
- 
+ #define __careful_cmp(op, x, y)					\
+ 	__builtin_choose_expr(__is_constexpr((x) - (y)),	\
+@@ -49,16 +49,16 @@
  #define __clamp(val, lo, hi)	\
  	((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
-@@ -47,17 +53,15 @@
- 		typeof(val) unique_val = (val);				\
- 		typeof(lo) unique_lo = (lo);				\
- 		typeof(hi) unique_hi = (hi);				\
-+		static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
-+				(lo) <= (hi), true),					\
-+			"clamp() low limit " #lo " greater than high limit " #hi);	\
-+		static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
-+		static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
- 		__clamp(unique_val, unique_lo, unique_hi); })
  
--#define __clamp_input_check(lo, hi)					\
--        (BUILD_BUG_ON_ZERO(__builtin_choose_expr(			\
--                __is_constexpr((lo) > (hi)), (lo) > (hi), false)))
--
+-#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({	\
+-		typeof(val) unique_val = (val);				\
+-		typeof(lo) unique_lo = (lo);				\
+-		typeof(hi) unique_hi = (hi);				\
+-		static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
+-				(lo) <= (hi), true),					\
+-			"clamp() low limit " #lo " greater than high limit " #hi);	\
+-		static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
+-		static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
+-		__clamp(unique_val, unique_lo, unique_hi); })
++#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({		\
++	typeof(val) unique_val = (val);						\
++	typeof(lo) unique_lo = (lo);						\
++	typeof(hi) unique_hi = (hi);						\
++	static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
++			(lo) <= (hi), true),					\
++		"clamp() low limit " #lo " greater than high limit " #hi);	\
++	static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
++	static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
++	__clamp(unique_val, unique_lo, unique_hi); })
+ 
  #define __careful_clamp(val, lo, hi) ({					\
--	__clamp_input_check(lo, hi) +					\
--	__builtin_choose_expr(__typecheck(val, lo) && __typecheck(val, hi) && \
--			      __typecheck(hi, lo) && __is_constexpr(val) && \
--			      __is_constexpr(lo) && __is_constexpr(hi),	\
-+	__builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),	\
- 		__clamp(val, lo, hi),					\
- 		__clamp_once(val, lo, hi, __UNIQUE_ID(__val),		\
- 			     __UNIQUE_ID(__lo), __UNIQUE_ID(__hi))); })
-@@ -67,14 +71,14 @@
-  * @x: first value
-  * @y: second value
-  */
--#define min(x, y)	__careful_cmp(x, y, <)
-+#define min(x, y)	__careful_cmp(min, x, y)
- 
- /**
-  * max - return maximum of two values of the same or compatible types
-  * @x: first value
-  * @y: second value
-  */
--#define max(x, y)	__careful_cmp(x, y, >)
-+#define max(x, y)	__careful_cmp(max, x, y)
- 
- /**
-  * umin - return minimum of two non-negative values
-@@ -83,7 +87,7 @@
-  * @y: second value
-  */
- #define umin(x, y)	\
--	__careful_cmp((x) + 0u + 0ul + 0ull, (y) + 0u + 0ul + 0ull, <)
-+	__careful_cmp(min, (x) + 0u + 0ul + 0ull, (y) + 0u + 0ul + 0ull)
- 
- /**
-  * umax - return maximum of two non-negative values
-@@ -91,7 +95,7 @@
-  * @y: second value
-  */
- #define umax(x, y)	\
--	__careful_cmp((x) + 0u + 0ul + 0ull, (y) + 0u + 0ul + 0ull, >)
-+	__careful_cmp(max, (x) + 0u + 0ul + 0ull, (y) + 0u + 0ul + 0ull)
- 
- /**
-  * min3 - return minimum of three values
-@@ -143,7 +147,7 @@
-  * @x: first value
-  * @y: second value
-  */
--#define min_t(type, x, y)	__careful_cmp((type)(x), (type)(y), <)
-+#define min_t(type, x, y)	__careful_cmp(min, (type)(x), (type)(y))
- 
- /**
-  * max_t - return maximum of two values, using the specified type
-@@ -151,7 +155,7 @@
-  * @x: first value
-  * @y: second value
-  */
--#define max_t(type, x, y)	__careful_cmp((type)(x), (type)(y), >)
-+#define max_t(type, x, y)	__careful_cmp(max, (type)(x), (type)(y))
- 
- /*
-  * Do not check the array parameter using __must_be_array().
+ 	__builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),	\
 -- 
 2.47.3
 
