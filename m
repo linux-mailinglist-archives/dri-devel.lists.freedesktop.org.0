@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828D6BEAA0A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52510BEAA22
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 18:21:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E86310EC8E;
-	Fri, 17 Oct 2025 16:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0DA10EA51;
+	Fri, 17 Oct 2025 16:21:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CGLM6GZt";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LjJoAxXp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7182910EA51
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:21:08 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D4310EA51
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 16:21:42 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 34AAD1A1483;
- Fri, 17 Oct 2025 16:21:07 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 6D6B24E41146;
+ Fri, 17 Oct 2025 16:21:41 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0AD6C606DB;
- Fri, 17 Oct 2025 16:21:07 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 439F4606DB;
+ Fri, 17 Oct 2025 16:21:41 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 88B26102F235B; 
- Fri, 17 Oct 2025 18:21:00 +0200 (CEST)
+ with ESMTPSA id 01A30102F2326; 
+ Fri, 17 Oct 2025 18:21:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760718066; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1760718100; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=VxSK+5XE+aga45YMvC6DqmYr627wtrotg/fT7O4kNCs=;
- b=CGLM6GZtZgZ5vFMGBYMm/23ATANOo4N/p/yY2cTfm+uB8ChTqNB13NUCZgq+/IrIvHCNzq
- 1Y6oDW02x71ZsYPihEVU0mWK5zjE43/BL13GfAj1/nf+LXxtMJ5RVfrzLmCYRJIzhfwdYw
- gwDBwfV7RsqS7jZWKVSZp4qRt4TbaBjzcdJwiQ/W2xnY3tn51zI/QAli+svjtG4klSKtDf
- VHf7ujHh+vzP/0yfkUIJJ1URcboqs18E8TgtwKkwd8FT5yMrb18C+XDLVCMlg6wm6W9jLB
- toz3822oDi9DHnOGMf8d8m7nlBl0dtYc8P5AKUGui9oufHEvHPpDdviCd2XmIg==
+ bh=M92WI+PGFdvoEo5x/+VF/yQMrWADVhb1nigV4QXWseo=;
+ b=LjJoAxXpFtx6zaAAFyn0jnPHV3jwcS75RTNQnQL3aSoDj+iA6M0I9VAo4P4cX9+vv6t2mX
+ sGRWUlywn6/2wGFoIxFhaU2SJ2Up7Sw+t0yF9IsNRkbmOsKKHqkXydQDPtuQT2lzbzrJUW
+ LLur9aDt+drjnUsk28si/PDdwcMHgJO0mQ9ekTEq00L2TlD2iRUZg1HiJ91lyrJNwpo4v0
+ zUoEB/Kfhh8MdhzzgCSWiwGKNcF8EboAAk29M9jQCljnY4BwiGwd/36r/F38tVM8Hn33aj
+ VQ9/1jeFuf/XHTBgVIhAycea1PnNZGDOu/cg/HUwfsVc23iqgSwG6u8rOWTRhg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Oct 2025 18:20:59 +0200
-Message-Id: <DDKQGM8BPW8T.3PTC93J4GHUR5@bootlin.com>
-Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
- bridges
+Date: Fri, 17 Oct 2025 18:21:35 +0200
+Message-Id: <DDKQH2MIHZ2S.2MPJCNHXMIT4U@bootlin.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Marek Szyprowski"
- <m.szyprowski@samsung.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Naresh Kamboju"
+ <naresh.kamboju@linaro.org>, <dri-devel@lists.freedesktop.org>, "open list"
+ <linux-kernel@vger.kernel.org>, <lkft-triage@lists.linaro.org>, "Linux
+ Regressions" <regressions@lists.linux.dev>
+Cc: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "David Airlie" <airlied@gmail.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>, "Dan Carpenter"
+ <dan.carpenter@linaro.org>, "Anders Roxell" <anders.roxell@linaro.org>,
+ "Ben Copeland" <benjamin.copeland@linaro.org>
+Subject: Re: next-20251014: Internal error: Oops:
+ drm_bridge_connector_hdmi_cec_init drmm_connector_hdmi_cec_register
 X-Mailer: aerc 0.20.1
-References: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
- <CGME20251015082254eucas1p23fc961e7a49f4a29ca7a18d3e2817f86@eucas1p2.samsung.com>
- <336fbfdd-c424-490e-b5d1-8ee84043dc80@samsung.com>
- <DDJ623AGI83R.ESC0V9XXWXFN@bootlin.com>
-In-Reply-To: <DDJ623AGI83R.ESC0V9XXWXFN@bootlin.com>
+References: <CA+G9fYuKHp3QgPKjgFY3TfkDdh5Vf=Ae5pCW+eU41Bu=D7th2g@mail.gmail.com>
+ <CA+G9fYv_mGoDzFv33v7Y5+6yz6z=xp9FJRiFUBYDapvE_rrBXA@mail.gmail.com>
+ <DDJSBQRQJTMZ.X1W4I5YOURPK@bootlin.com>
+In-Reply-To: <DDJSBQRQJTMZ.X1W4I5YOURPK@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,74 +73,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello,
 
-On Wed Oct 15, 2025 at 10:08 PM CEST, Luca Ceresoli wrote:
-> Hello Marek,
+On Thu Oct 16, 2025 at 3:36 PM CEST, Luca Ceresoli wrote:
+> Hello Naresh,
 >
-> On Wed Oct 15, 2025 at 10:22 AM CEST, Marek Szyprowski wrote:
->> Hi Luca,
->>
->> On 26.09.2025 16:59, Luca Ceresoli wrote:
->>> drm_bridge_connector_init() takes eight pointers to various bridges, so=
-me
->>> of which can be identical, and stores them in pointers inside struct
->>> drm_bridge_connector. Get a reference to each of the taken bridges and =
-put
->>> it on cleanup.
+> On Thu Oct 16, 2025 at 12:52 PM CEST, Naresh Kamboju wrote:
+>> On Thu, 16 Oct 2025 at 16:14, Naresh Kamboju <naresh.kamboju@linaro.org>=
+ wrote:
 >>>
->>> This is tricky because the pointers are currently stored directly in th=
-e
->>> drm_bridge_connector in the loop, but there is no nice and clean way to=
- put
->>> those pointers on error return paths. To overcome this, store all point=
-ers
->>> in temporary local variables with a cleanup action, and only on success
->>> copy them into struct drm_bridge_connector (getting another ref while
->>> copying).
+>>> While booting and loading kernel modules on dragonboard 410c board
+>>> with Linux next
+>>> kernel next-20251014 and next-20251015 the following crash noticed,
 >>>
->>> Additionally four of these pointers (edid, hpd, detect and modes) can b=
-e
->>> written in multiple loop iterations, in order to eventually store the l=
-ast
->>> matching bridge. However, when one of those pointers is overwritten, we
->>> need to put the reference that we got during the previous assignment. A=
-dd a
->>> drm_bridge_put() before writing them to handle this.
+>>> First seen on next-20251014
+>>> Good: next-20251013
+>>> Bad:  next-20251014
 >>>
->>> Finally, there is also a function-local panel_bridge pointer taken insi=
-de
->>> the loop and used after the loop. Use a cleanup action as well to ensur=
-e it
->>> is put on return.
+>>> Regression Analysis:
+>>> - New regression? yes
+>>> - Reproducibility? yes
 >>>
->>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->>
->> This patch landed recently in linux-next as commit 2be300f9a0b6
->> ("drm/display: bridge_connector: get/put the stored bridges"). In my
->> tests I found that it causes the following NULL pointer dereference on
->> DragonBoard410c (arch/arm64/boot/dts/qcom/apq8016-sbc.dts):
-
-...
-
-> Thanks for testing and reporting.
+>>> Boot regressions: next-20251014: Internal error: Oops:
+>>> drm_bridge_connector_hdmi_cec_init drmm_connector_hdmi_cec_register
 >
-> I'm afraid I have no hardware where the same bug can be reproduced, but b=
-y
-> code inspection the root cause is clear given the call chain:
+> Thanks for the report.
 >
->   drm_bridge_connector_init() [1]
->    -> drmm_connector_hdmi_cec_register() [2]
->        -> funcs->init() =3D drm_bridge_connector_hdmi_cec_init() [3]
+> This looks like the same issue reported here:
+> https://lore.kernel.org/all/336fbfdd-c424-490e-b5d1-8ee84043dc80@samsung.=
+com/
 >
-> [1] used to set bridge_connector->bridge_hdmi_cec before calling [2], now
-> it does it afterwards. But [3] expects it to be set already.
->
-> I have overlooked this when writing the patch. My apologies.
+> I'm writing a fix right now, will send it today if all goes well.
 
-...
-
-> I'm looking at how to properly fix this bug ASAP.
-
-Here it is:
+Here's the fixed version:
 https://lore.kernel.org/lkml/20251017-drm-bridge-alloc-getput-bridge-connec=
 tor-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/
 
