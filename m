@@ -2,153 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B824BEAFC7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 19:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0DABEAFEB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Oct 2025 19:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F253410ECBC;
-	Fri, 17 Oct 2025 17:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 646A810ECA4;
+	Fri, 17 Oct 2025 17:09:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CfReh0RU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oHgOEreW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBC9110ECB9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 17:08:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1760720881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Z24I92BnG9R28uKM3ytM2okJi6Ci8baUDtE0rgRavFw=;
- b=CfReh0RU0e2l+JZa/+EyyRGL7RGrqBPwkpwwzYSU+C4Ob6YORnpROwYPZ64AciqHvp2nrN
- Q2cN/PuqUp5vULKDL7LFvoWRFFE1AZp2EAA32HzTHsc+Qzqhkk6wL/0Yv6fLghCGl7yGlS
- KkF4tLQECC8RZMd2rYsral5+vbL+/cE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-LIFdyIsPPhiJR2wzh-TS6w-1; Fri, 17 Oct 2025 13:08:00 -0400
-X-MC-Unique: LIFdyIsPPhiJR2wzh-TS6w-1
-X-Mimecast-MFC-AGG-ID: LIFdyIsPPhiJR2wzh-TS6w_1760720879
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-471001b980eso15323555e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 10:08:00 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80CEE10ECA4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 17:09:01 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59HFQJOP022181
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 17:09:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=T/pxneW0GGPQT6fV2Oc8q6
+ PoK83hK+J2n9XaZIObRAU=; b=oHgOEreWy24QFTZlUVBlwmW5OvR3dOWoGq6HKh
+ 293zIN+SJWqTOH2lWYOMklnmI6WCEXhlDc4cjn45WBhMx0woO6FPQfROKrNkbg+H
+ HybTX3igTgms2DN/c3pXqKh/KG6TKjDevjYChtsF7fkI/rxgvcJWsDOMhL0Wk0iZ
+ JZbENgUGB0W3YE1JgD4r1hGsqWm+q7PBMDfL5HdY/UjZTucmMsIwC27n8WeAmpwb
+ vrtHMW4JMknXEsJSD0rMIBdUkllJp957fKMTan4oiBA3HHnzGW9KUbS4l88BmE0g
+ DRI3Tlh9T5q141HcMgY+FyTUJ0Lk4m3EZyLNmTyRJUyFTXVw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49rtrtj2gw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 17:09:00 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-26985173d8eso47724415ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Oct 2025 10:09:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760720879; x=1761325679;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1760720939; x=1761325739;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Z24I92BnG9R28uKM3ytM2okJi6Ci8baUDtE0rgRavFw=;
- b=iCQmfKpjBhSEeujP6yqqQwfGAKU71yS5C5gOubpIHMGmbp0v0V98geCWqsFzzlxvD5
- Pue9tKgosVTk9kbO+bug5D40HArLUfVGgkGOie2gmnYH6SwTsZcD8cYkGwc8o8+u6ryl
- YGI9ytWPIH4H5bRUwROJJTF7rJT3IgAP4jAa3mGUcfC++sTDemMasbDoLk8ercnVic5d
- evrJP6OeVdrHswj7OQ55bA4c0jj2qdHPTY6ESl4gtOALChyi0+7HCh8p2NJTuMIxFWM2
- 0nB9u3qv4zvNYkMMOmQDnTs9YxDQbCt6M3I9u4yK/gGlUqA9t08vnxwH7CocaewsEL4W
- CmtA==
+ bh=T/pxneW0GGPQT6fV2Oc8q6PoK83hK+J2n9XaZIObRAU=;
+ b=DrUCiqH67kZkduvWLccYWe5RiHFWqgxlxx6wBM6iEME4Oh1UohpdpAInd08kaVbTul
+ 84cIHjW1+68X+kEVox/iZeUOL8yCE6nZy/TMKbG4qkU6A52k49KpdbFWxqZvDbrg/q+s
+ A3sbD1ahm/Xvt4Hf8regWM0Vilao05IXFI/nSmyk5AqrdnkB9TSD062DG62wj2hrbBSN
+ bmcXdt9KQzz5iDQJ+rk4u+wR1ztGn/RGLpW/GjS/4XodFDuDEU9k05SWP5eI4lFWgEhQ
+ 3pOeaRIpZGbpHo2Fd5cpbWnVuaiYmIgJfb9vce9AzPg3sUE1o/5fKzva6on+Fw5U5tt7
+ zRvw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZU7xKEXFwGmWsEKIJvi4XjZ0Tq1Nrm+pj6S8AHAT4gz86WYQTarlwwh6XF7/mIUJvng59brkjPns=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxn1e2iXL/3MC5ACdFHybOhUQaUz+6ELT419SCASpXS7OYHAxBX
- XqeVeTF2T1znx5bAJcyADUjB92U7L9qSMJJaj2qiAIXgth8PPXhSXomj43w3IAZ6nxo1KG9cL+w
- u4SdogRx1hsgPwtj3L3h8LhelDRpBHxFKxJNDbMSyaokZ0OtAkhk7Oa8PME5KpaneE5NiCQ==
-X-Gm-Gg: ASbGncv8L1MApKYMJYk9OLqXb/HGg9xcLdtHPwSf8LNGWRvKOgHSvNGqcvIgC2DCK9w
- 2OXZ0NbzacR/pcU+cx8vG8175UbJ3kTowuQUTt5m831V/keQ7ozaemfFD4G811O+GpjbtbiefoA
- XGtnozqbt5ur5bHTlW3Sd5VAexLTg/9x3/1HN6cYRmldTYt07JDyUImm+EXDQEDgH8kD8Kz5EeQ
- bG3n49XioLoUlNqyqqNNQLVJPw0QhnUG6YgJw36bHthjBMEHAZRQoAhlXFJwobQX2YDvmuP0Nw/
- 2bhXMnHaFQEYoiQFjX2aKtLs84wZvBtGhb8hsCIP+TGTLlvyFP+3lfX1g1JLEFlLZH63nxzgDKU
- zc52SwiLymq6shKq5QJUt1tcJhoJ6ZOKnr9b2AUiAIdN16YBoODo92tDU5iQIS4+wazhLsbk46d
- Lcb05dbpkNX3yeeB1sH2yZcsyc6aE=
-X-Received: by 2002:a05:600c:8b8c:b0:46e:4287:a85e with SMTP id
- 5b1f17b1804b1-471178a4af1mr32117435e9.13.1760720879237; 
- Fri, 17 Oct 2025 10:07:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE0wYIRs5BvgxV0rKkXoRn76PeLh5TeG9Gq12PJQFOLbCPpMAp+gPbGh/AVsOgKNhG3Gab2NQ==
-X-Received: by 2002:a05:600c:8b8c:b0:46e:4287:a85e with SMTP id
- 5b1f17b1804b1-471178a4af1mr32117185e9.13.1760720878815; 
- Fri, 17 Oct 2025 10:07:58 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f0c:c200:fa4a:c4ff:1b32:21ce?
- (p200300d82f0cc200fa4ac4ff1b3221ce.dip0.t-ipconnect.de.
- [2003:d8:2f0c:c200:fa4a:c4ff:1b32:21ce])
+ AJvYcCXN5vYpwGCviJ+kbvS2D26ConV0nzmhQ2n76jYLx3fO80dA0jNKkRH5l6UhAtUDgVLHhXsHDxMFE1s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+ffKeHrs5SssUNsk/gPDaUjMk/QBEwfjPoQFSr0QPxqCtCS4C
+ +F6J7Oj5hPg3pDKvpmz8njUCuxq5vxp5ZW0chs1n5T+Ls1psdWQATLbVMgA3GNxzJwoKz1SKzCC
+ 86I9EU/tGsXVH9B6aM6B4wv/+P8Y4pYA3x2lu9B2zGVETwCbtfyjCvO3f1p7XEjI+9uo4zsc=
+X-Gm-Gg: ASbGncv0r3pEwqwamkoXIKsUoMY6N90tn0Jlvyx3NU/4JYDLQcq/HLHeCtlIQdkadPD
+ CsoOBDcuDcRBULTZqmDoLv7DbHAx8NdeoYUkM8UJipWkDca1lfY5TmJyBxfhXg3ff3slc8gE5aq
+ Q56xJiDnWnU9MRbN48WimdKvqqanwNOoRe4ms/NJc7384Qmn5npEmFxXUrnlgSXqclxNCb8EoR5
+ gZ2YBgKCkkO0lpZuXr9XjQOhUh36R7guWkxAjOSIfYxA+KuEgflMRdASDhEr+oh928s0s5IC6wx
+ tuQUvAHat0VXbxdKVhU57X1D16vxfkbd4Pjb6R9iNVnWR/L7vuy8urFA1KUWRdLj1wyVB3UGUXG
+ 1YlOcPkwZUeRE1CbgUZMrEM8=
+X-Received: by 2002:a17:902:d4c4:b0:26e:7468:8a99 with SMTP id
+ d9443c01a7336-290ca121e99mr59640505ad.36.1760720939115; 
+ Fri, 17 Oct 2025 10:08:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG+KFNhG5PcZbke3N7Al16y0Yp79mNDUlOZzFtifVQr0J9r+kCgoWT/WU7gFhlnqZFx5kLQEw==
+X-Received: by 2002:a17:902:d4c4:b0:26e:7468:8a99 with SMTP id
+ d9443c01a7336-290ca121e99mr59639625ad.36.1760720938250; 
+ Fri, 17 Oct 2025 10:08:58 -0700 (PDT)
+Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-471144239bdsm123442385e9.3.2025.10.17.10.07.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Oct 2025 10:07:58 -0700 (PDT)
-Message-ID: <84349344-b127-41f6-99f1-10f907c2bd07@redhat.com>
-Date: Fri, 17 Oct 2025 19:07:56 +0200
+ d9443c01a7336-292471febc6sm173625ad.86.2025.10.17.10.08.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Oct 2025 10:08:57 -0700 (PDT)
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Subject: [PATCH 0/6] Support for Adreno 612 GPU - Respin
+Date: Fri, 17 Oct 2025 22:38:28 +0530
+Message-Id: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: KVM/s390x regression
-To: Christian Borntraeger <borntraeger@linux.ibm.com>, balbirs@nvidia.com
-Cc: Liam.Howlett@oracle.com, airlied@gmail.com, akpm@linux-foundation.org,
- apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
- byungchul@sk.com, dakr@kernel.org, dev.jain@arm.com,
- dri-devel@lists.freedesktop.org, francois.dugast@intel.com,
- gourry@gourry.net, joshua.hahnjy@gmail.com, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, lorenzo.stoakes@oracle.com, lyude@redhat.com,
- matthew.brost@intel.com, mpenttil@redhat.com, npache@redhat.com,
- osalvador@suse.de, rakie.kim@sk.com, rcampbell@nvidia.com,
- ryan.roberts@arm.com, simona@ffwll.ch, ying.huang@linux.alibaba.com,
- ziy@nvidia.com, kvm@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-next@vger.kernel.org
-References: <20251001065707.920170-4-balbirs@nvidia.com>
- <20251017144924.10034-1-borntraeger@linux.ibm.com>
- <9beff9d6-47c7-4a65-b320-43efd1e12687@redhat.com>
- <c67386be-5278-411d-97e7-43fc34bf7c98@linux.ibm.com>
- <8c778cd0-5608-4852-9840-4d98828d7b33@redhat.com>
- <74272098-cfb7-424b-a55e-55e94f04524e@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <74272098-cfb7-424b-a55e-55e94f04524e@linux.ibm.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Po6TGnYwxVtGRidC20yyeSGLKnyQRlScMscJVcjVIjs_1760720879
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAx48mgC/yWMQQqDMBBFrxJm3SlJaES9SnFhktHOwqgZlYJ49
+ 4a6+rwP750glJkEWnVCpoOF51TAPBSET59GQo6FwWrrjDYO1yBVGVk4oUWKL+d1JN80NRRnyTT
+ w9997dzdnWveS3e4TfC+EYZ4m3lp1VE9TYw4Guuv6AffKjguMAAAA
+X-Change-ID: 20251015-qcs615-spin-2-ed45b0deb998
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Jie Zhang <quic_jiezh@quicinc.com>, Qingqing Zhou <quic_qqzhou@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760720932; l=3877;
+ i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
+ bh=TBtnh6miwgQv8qy4YxihSPZwnvBgSc+1qmJKsqgsLRw=;
+ b=4vlqn1FI+5GLuRp7hEPEMU6tpBGe/cYZpbh7e15CysO9nwiTDdXKs7XfOcCbNDUQ9lpt5zfyz
+ vOTIQvH0kErDs3BQI8ITy1aMbf68szIQY7oWYSlrtjxsDwvqSv8bPxn
+X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Proofpoint-ORIG-GUID: saLPbso8IoeFwuza4XbuZRq5vqf18TkS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAyMiBTYWx0ZWRfX8+3jpeX7ozNg
+ LHqlfADUMfLq55DX1Sp+Cs6mKNmftI/1SUJtDzzEi80/ACuRn/1hO3usuuIKOB/S4aXW/gWdg62
+ Rs/YVkHLkXRTYso+f4TYU7gUyEbldCXiwuakBMx1STxEQlLYtlf7d99y70rTxdkMepqG6DE7t4K
+ ANw4pv3Srpl2c7pZ+7pO5+mqT2MVB/G/ktjCEbzxT7quWdf4ppm7TRi5PhP0+Bev3t/Oonx2CKL
+ u3nRQcL/V9wmk9lcJvq7ZrOEywGyS81E++8hBm11emPAdjm4Pbz0dJJ35jc9tKJALMPC31pMyNA
+ QFhG5n4yHzB1eAz/KCMgpv3SJzCJeJF4nvpf+sQ9bkTE2kij3iHa4RTt4ejkMrVIPLjEDwFseHu
+ 6obG23l9DJ4SYfECm2ny1b5pTAglDQ==
+X-Authority-Analysis: v=2.4 cv=SfD6t/Ru c=1 sm=1 tr=0 ts=68f2782c cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=tVI0ZWmoAAAA:8
+ a=pGLkceISAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8 a=vemyJuc05ARF21wryp8A:9
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=TjNXssC_j7lpFel5tvFf:22
+ a=-BPWgnxRz2uhmvdm1NTO:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: saLPbso8IoeFwuza4XbuZRq5vqf18TkS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-17_06,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,82 +145,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.10.25 17:20, Christian Borntraeger wrote:
-> 
-> 
-> Am 17.10.25 um 17:07 schrieb David Hildenbrand:
->> On 17.10.25 17:01, Christian Borntraeger wrote:
->>> Am 17.10.25 um 16:54 schrieb David Hildenbrand:
->>>> On 17.10.25 16:49, Christian Borntraeger wrote:
->>>>> This patch triggers a regression for s390x kvm as qemu guests can no longer start
->>>>>
->>>>> error: kvm run failed Cannot allocate memory
->>>>> PSW=mask 0000000180000000 addr 000000007fd00600
->>>>> R00=0000000000000000 R01=0000000000000000 R02=0000000000000000 R03=0000000000000000
->>>>> R04=0000000000000000 R05=0000000000000000 R06=0000000000000000 R07=0000000000000000
->>>>> R08=0000000000000000 R09=0000000000000000 R10=0000000000000000 R11=0000000000000000
->>>>> R12=0000000000000000 R13=0000000000000000 R14=0000000000000000 R15=0000000000000000
->>>>> C00=00000000000000e0 C01=0000000000000000 C02=0000000000000000 C03=0000000000000000
->>>>> C04=0000000000000000 C05=0000000000000000 C06=0000000000000000 C07=0000000000000000
->>>>> C08=0000000000000000 C09=0000000000000000 C10=0000000000000000 C11=0000000000000000
->>>>> C12=0000000000000000 C13=0000000000000000 C14=00000000c2000000 C15=0000000000000000
->>>>>
->>>>> KVM on s390x does not use THP so far, will investigate. Does anyone have a quick idea?
->>>>
->>>> Only when running KVM guests and apart from that everything else seems to be fine?
->>>
->>> We have other weirdness in linux-next but in different areas. Could that somehow be
->>> related to use disabling THP for the kvm address space?
->>
->> Not sure ... it's a bit weird. I mean, when KVM disables THPs we essentially just remap everything to be mapped by PTEs. So there shouldn't be any PMDs in that whole process.
->>
->> Remapping a file THP (shmem) implies zapping the THP completely.
->>
->>
->> I assume in your kernel config has CONFIG_ZONE_DEVICE and CONFIG_ARCH_ENABLE_THP_MIGRATION set, right?
-> 
-> yes.
-> 
->>
->> I'd rule out copy_huge_pmd(), zap_huge_pmd() a well.
->>
->>
->> What happens if you revert the change in mm/pgtable-generic.c?
-> 
-> That partial revert seems to fix the issue
-> diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-> index 0c847cdf4fd3..567e2d084071 100644
-> --- a/mm/pgtable-generic.c
-> +++ b/mm/pgtable-generic.c
-> @@ -290,7 +290,7 @@ pte_t *___pte_offset_map(pmd_t *pmd, unsigned long addr, pmd_t *pmdvalp)
->    
->           if (pmdvalp)
->                   *pmdvalp = pmdval;
-> -       if (unlikely(pmd_none(pmdval) || !pmd_present(pmdval)))
-> +       if (unlikely(pmd_none(pmdval) || is_pmd_migration_entry(pmdval)))
+This is a respin of an old series [1] that aimed to add support for
+Adreno 612 GPU found in SM6150/QCS615 chipsets. In this version, we
+have consolidated the previously separate series for DT and driver
+support, along with some significant rework.
 
-Okay, but that means that effectively we stumble over a PMD entry that 
-is not a migration entry but still non-present.
+Regarding A612 GPU, it falls under ADRENO_6XX_GEN1 family and is a cut
+down version of A615 GPU. A612 has a new IP called Reduced Graphics
+Management Unit or RGMU, a small state machine which helps to toggle
+GX GDSC (connected to CX rail) to implement the IFPC feature. Unlike a
+full-fledged GMU, the RGMU does not support features such as clock
+control, resource voting via RPMh, HFI etc. Therefore, we require linux
+clock driver support similar to gmu-wrapper implementations to control
+gpu core clock and GX GDSC.
 
-And I would expect that it's a page table, because otherwise the change
-wouldn't make a difference.
+In this series, the description of RGMU hardware in devicetree is more
+complete than in previous version. However, the RGMU core is not
+initialized from the driver as there is currently no need for it. We do
+perform a dummy load of RGMU firmware (now available in linux-firmware)
+to ensure that enabling RGMU core in the future won't break backward
+compatibility for users.
 
-And the weird thing is that this only triggers sometimes, because if
-it would always trigger nothing would ever work.
+Due to significant changes compared to the old series, all R-b tags have
+been dropped. Please review with fresh eyes.
 
-Is there some weird scenario where s390x might set a left page table 
-mapped in a PMD to non-present?
+Last 3 patches are for Bjorn and the rest are for Rob Clark for pick up.
 
-Staring at the definition of pmd_present() on s390x it's really just
+[1] Driver: https://lore.kernel.org/lkml/20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com/
+    Devicetree: https://lore.kernel.org/lkml/fu4rayftf3i4arf6l6bzqyzsctomglhpiniljkeuj74ftvzlpo@vklca2giwjlw/
 
-	return (pmd_val(pmd) & _SEGMENT_ENTRY_PRESENT) != 0;
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+To: Sean Paul <sean@poorly.run>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Dmitry Baryshkov <lumag@kernel.org>
+To: Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
 
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+---
+Akhil P Oommen (2):
+      dt-bindings: display/msm: gpu: Document A612 GPU
+      dt-bindings: display/msm/gmu: Document A612 RGMU
 
-Maybe this is happening in the gmap code only and not actually in the 
-core-mm code?
+Jie Zhang (3):
+      drm/msm/a6xx: Add support for Adreno 612
+      arm64: dts: qcom: qcs615: Add gpu and rgmu nodes
+      arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
 
+Qingqing Zhou (1):
+      arm64: dts: qcom: qcs615: add the GPU SMMU node
+
+ .../devicetree/bindings/display/msm/gmu.yaml       |  98 +++++++++++---
+ .../devicetree/bindings/display/msm/gpu.yaml       |  31 ++++-
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts           |   8 ++
+ arch/arm64/boot/dts/qcom/sm6150.dtsi               | 139 ++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  16 +++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  87 ++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 143 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |   3 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   1 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  16 ++-
+ 11 files changed, 511 insertions(+), 32 deletions(-)
+---
+base-commit: cb6649f6217c0331b885cf787f1d175963e2a1d2
+change-id: 20251015-qcs615-spin-2-ed45b0deb998
+
+Best regards,
 -- 
-Cheers
-
-David / dhildenb
+Akhil P Oommen <akhilpo@oss.qualcomm.com>
 
