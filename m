@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C1EBED8C2
+	by mail.lfdr.de (Postfix) with ESMTPS id 9498BBED8C1
 	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD4F510E0D8;
-	Sat, 18 Oct 2025 19:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3AD510E13C;
+	Sat, 18 Oct 2025 19:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MAF8qiyv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EVpHCgCg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9389310E0D8
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:16:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D33A110E13C
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:16:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 794D14885A;
+ by sea.source.kernel.org (Postfix) with ESMTP id B657B43782;
+ Sat, 18 Oct 2025 19:16:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEDEC4CEF8;
  Sat, 18 Oct 2025 19:16:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 671B4C116D0;
- Sat, 18 Oct 2025 19:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760815010;
- bh=xy9KhFtMrJL0pHddpVZl1kgvFuS3w9PeKpCdtFzbvlc=;
+ s=k20201202; t=1760815015;
+ bh=9LhvWou7G5dVbTmjrsdy5e0TkJCQPliP776plHYC17E=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=MAF8qiyvOOp7PaCVz62rkatdSUnjmtTaDht+rVIZp2nz5f0I1J/X8j6DGXD3JhuS3
- 8AAk/nSnc4GsqBPr47HRzNSbV/BIlNHuPhf9MmU88ZXNsLQ8nBHmlm9s1cTA6Kf8uI
- UxCy6hNAl1N7Mu2VVSXPr+xi8630AbPCNWZxlhgk/2gAtjdLdLVFoTRalGCapra/5J
- ueb6fgodvNKonlI49tTjO/yeODdb3hiu0IDFRWnn5wgjrgkqlTYgBOLBOaaCbkkHe5
- AADCB3HZgyuBOXnLstEgqamC+2A9z2BpqUom57Jqu2GKYzk98rap0R31ouFburJ1WS
- RCEZ+5jvUzQVg==
+ b=EVpHCgCglUuSzWWBOy6UM2ApQN/yiszXbiLJPH1PfAqCfAQU9WxzoSDSdSC2WD//S
+ ttDP5vD8u+Y3tAHzLkaFkoQxfwc2ybunv9EB+U4XLNR6SHUcAH7k85vaBGqdNn2/xk
+ jGVuZxJ97D5SbZua0nXLKpxpSWcN3Q8l0mlHFOSs6Cwdc+tKXEa4mjyZHHqMle5cRq
+ eGNMqFQGp7mOwsOdOxbhGxdy1nkAW6b4VyxGTQtSo4+erkrrblkg1fdd8iOOqIb3AL
+ UuvDApgK2frAl2zRXIa7Swn6Bzhn3YBrpk5QcuIVN6vC7wvCLsb0R+JXlhOTRtKBcK
+ mAWcYbdKzf/Lg==
 From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 18 Oct 2025 15:16:24 -0400
-Subject: [RESEND PATCH v18 03/16] rust_binder: use `kernel::fmt`
+Date: Sat, 18 Oct 2025 15:16:25 -0400
+Subject: [RESEND PATCH v18 04/16] rust_binder: use `core::ffi::CStr` method
+ names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-cstr-core-v18-3-9378a54385f8@gmail.com>
+Message-Id: <20251018-cstr-core-v18-4-9378a54385f8@gmail.com>
 References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 In-Reply-To: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -74,13 +75,13 @@ Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
  llvm@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=1195;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=1838;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=872/2/9eITdb9tB+ajd4McXNzNIKi7XLnXFm8ifjokI=;
+ bh=CzY30Cbw7NH9BCqW+7Dm4yyfJiEmTcSRj3QBxiZsJWU=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QENfku/AC1lpGBbf8FzC/fbLAnFquJtwb8rlTAkzyEbW5sDKgV8/QSES2q+QdvmRTiEG8sP7vEu
- nLaNzwzcjngo=
+ QGKnwLKVQOVzkv6XWwoUcKi5zayaleBer7N1SbPSdgP4G1dPmmKelZJcZlDvRAxk+fUPfLSjD7W
+ vdhR6W6wsugw=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,8 +101,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tamir Duberstein <tamird@gmail.com>
 
-Reduce coupling to implementation details of the formatting machinery by
-avoiding direct use for `core`'s formatting traits and macros.
+Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
+avoiding methods that only exist on the latter.
 
 This backslid in commit eafedbc7c050 ("rust_binder: add Rust Binder
 driver").
@@ -109,32 +110,31 @@ driver").
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- drivers/android/binder/error.rs | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/android/binder/stats.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/android/binder/error.rs b/drivers/android/binder/error.rs
-index 9921827267d0..b24497cfa292 100644
---- a/drivers/android/binder/error.rs
-+++ b/drivers/android/binder/error.rs
-@@ -2,6 +2,7 @@
- 
- // Copyright (C) 2025 Google LLC.
- 
-+use kernel::fmt;
- use kernel::prelude::*;
- 
- use crate::defs::*;
-@@ -76,8 +77,8 @@ fn from(_: kernel::alloc::AllocError) -> Self {
+diff --git a/drivers/android/binder/stats.rs b/drivers/android/binder/stats.rs
+index a83ec111d2cb..10c43679d5c3 100644
+--- a/drivers/android/binder/stats.rs
++++ b/drivers/android/binder/stats.rs
+@@ -72,7 +72,7 @@ pub(super) fn command_string(i: usize) -> &'static str {
+         // SAFETY: Accessing `binder_command_strings` is always safe.
+         let c_str_ptr = unsafe { binder_command_strings[i] };
+         // SAFETY: The `binder_command_strings` array only contains nul-terminated strings.
+-        let bytes = unsafe { CStr::from_char_ptr(c_str_ptr) }.as_bytes();
++        let bytes = unsafe { CStr::from_char_ptr(c_str_ptr) }.to_bytes();
+         // SAFETY: The `binder_command_strings` array only contains strings with ascii-chars.
+         unsafe { from_utf8_unchecked(bytes) }
      }
- }
- 
--impl core::fmt::Debug for BinderError {
--    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-+impl fmt::Debug for BinderError {
-+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-         match self.reply {
-             BR_FAILED_REPLY => match self.source.as_ref() {
-                 Some(source) => f
+@@ -81,7 +81,7 @@ pub(super) fn return_string(i: usize) -> &'static str {
+         // SAFETY: Accessing `binder_return_strings` is always safe.
+         let c_str_ptr = unsafe { binder_return_strings[i] };
+         // SAFETY: The `binder_command_strings` array only contains nul-terminated strings.
+-        let bytes = unsafe { CStr::from_char_ptr(c_str_ptr) }.as_bytes();
++        let bytes = unsafe { CStr::from_char_ptr(c_str_ptr) }.to_bytes();
+         // SAFETY: The `binder_command_strings` array only contains strings with ascii-chars.
+         unsafe { from_utf8_unchecked(bytes) }
+     }
 
 -- 
 2.51.1
