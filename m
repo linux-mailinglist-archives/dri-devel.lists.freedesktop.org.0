@@ -2,66 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C658BED3DB
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 18:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415ECBED517
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:24:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4704A10E011;
-	Sat, 18 Oct 2025 16:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0E710E035;
+	Sat, 18 Oct 2025 17:24:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="s83iLfSa";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="jmY8Z3z4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XSYF+3Uu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B55310E011
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 16:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1760804899; bh=0OzDc+By/bFksmmCMxVheGoFOunMoCI71J/KeTxiwtA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s83iLfSaXKvkg+bVi2vG3QP9uvXKHyX4C1eS9WghigaVYnK+w1X9RbxRMT05cM9pl
- A+gkApAV2ChJiSNd2XqwXys77hkt/t19gYRbezFlz15u3++PnnKwDvabg9dv8sfbiJ
- nX/4LHany8nR1uwVB03tqJOEof0oC0mn7+hqqekzBvMjgXNBitNFTE2zYwkzaSzZUD
- 4ER4FptehWmaL3FHlYB/ctoEGPyWRKlb6Yc2Bp0h703p/r3UCFVR4bJ7jzRKprNRwU
- EwowQ9IIJxTZv3XYlhwENNuvI1FbVT9f3k/NyuuaQOAdE5P6JL5xB+eMh9O9hNUN2X
- q1/6hWuEKhxig==
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 2214DFB03;
- Sat, 18 Oct 2025 18:28:19 +0200 (CEST)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AZk3bJmjdtKo; Sat, 18 Oct 2025 18:28:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1760804894; bh=0OzDc+By/bFksmmCMxVheGoFOunMoCI71J/KeTxiwtA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jmY8Z3z4b43snQ8KCXQCTxrjCcqARedazhAXDTeBvcpO3bPJ47GltqnjE+Sct2/5o
- qfEKEyZyXUaS0mpL9+R4KM9CZ3sOTLAWW/mEOvC6vJ2KJctdiC7Ydkzp/TO4/T8gkf
- TjBrkLzOHETiDgGaHdmbxV7Ps6WSlEsKWvdbIR+6OBcir53YKxtvKuA/GZd/4NPgle
- Sl+ROxL2euD5R5+NPTvm3OYhHBS6QiDvQfp+FWbE9PnI5mYVGEkBrxLSrcw+UqsQmU
- GF8n5rfs6hL6j12BK7MmZRbLV8rjiiDn8zWhRSUfme5tkTobl+W0yZUVIFIY2r4QkW
- kZHRHAKKadA+Q==
-Date: Sat, 18 Oct 2025 18:28:11 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: federico@izzo.pro
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- nicola@corna.info, David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT DRM
- property
-Message-ID: <aPPAG_5OOm26QvFv@quark2.heme.sigxcpu.org>
-References: <20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D7C10E035
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:24:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C9758604E5;
+ Sat, 18 Oct 2025 17:24:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2775DC4CEF8;
+ Sat, 18 Oct 2025 17:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760808270;
+ bh=KsqONM8Uey1/4uUZWdJNiRLzHIhnk7XWl6ndenefG6w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=XSYF+3UuVGb5fC+GZqdsaXHIFMw8IoNjc00ILmTEVTlKjL13L9ajPYzyRR7Z/RO6j
+ lZtKin5Y35BhdK61OG+Ocopac8tCG63/nsRgNNGMYkWGnueE24MajSbhKFbCrsOdeb
+ 1Bq66BBabq647Be3sT1XgKmA20sprHZFfRxMfakzH3sIi7Wd3tzQRwzkSvUrpeTwfg
+ 996vz6u9rmuvtL4oyY5TmPrJREOujYPlcrxhmZHvlKWzcWylj6ETyxkKzfyuxgjo8p
+ AoNq52J4JnI2LO+qy+fjMCLo1oYze2evLWSRLWyq3JMcgdVEFN8fvWtrJ4v7afTZME
+ 733ZpybuREb4Q==
+Message-ID: <14213195-29fa-48d9-8fc4-ccdc9b6f7ecc@kernel.org>
+Date: Sat, 18 Oct 2025 19:24:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] misc: fastrpc: Add support for new DSP IOVA
+ formatting
+To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
+ kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
+ arnd@arndb.de, gregkh@linuxfoundation.org
+Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ ktadakam@qti.qualcomm.com
+References: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
+ <20251015045702.3022060-3-kumari.pallavi@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251015045702.3022060-3-kumari.pallavi@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,392 +109,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Sat, Oct 18, 2025 at 03:18:29PM +0200, Federico Amedeo Izzo via B4 Relay wrote:
-> From: Federico Amedeo Izzo <federico@izzo.pro>
-> 
-> This patch adds support for DSPP GC block in DPU driver for Qualcomm SoCs.
-> The driver exposes the GAMMA_LUT DRM property, which is needed to enable
-> night light and basic screen color calibration.
-> 
-> I used LineageOS downstream kernel as a reference and found the LUT
-> format by trial-and-error on OnePlus 6.
-> 
-> Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
-> (msm8953-mainline 6.12/main).
-> 
-> Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
-> Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
-> ---
-> DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
-> DPU for CRTC. This is needed in userspace to enable features like Night
-> Light or basic color calibration.
-> 
-> I wrote this driver to enable Night Light on OnePlus 6, and after the
-> driver was working I found out it applies to the 29 different Qualcomm SoCs
-> that use the DPU display engine, including X1E for laptops.
-> 
-> I used the LineageOS downstream kernel as reference and found the correct 
-> LUT format by trial-and-error on OnePlus 6.
-> 
-> This was my first Linux driver and it's been a great learning
-> experience.
-> 
-> The patch was reviewed by postmarketOS contributors here: 
-> https://gitlab.com/sdm845-mainline/linux/-/merge_requests/137
-> During review the patch was tested successfully on hamoa (X1E).
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       | 90 ++++++++++++++++++++++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     |  3 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 56 ++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 26 ++++++++
->  6 files changed, 169 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 4b970a59deaf..f2c97c4ef0af 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -812,12 +812,44 @@ static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
->  	cfg->b.b = CONVERT_S3_15(ctm->matrix[8]);
->  }
->  
-> +static void _dpu_crtc_get_gc_lut(struct drm_crtc_state *state,
-> +		struct dpu_hw_gc_lut *gc_lut)
-> +{
-> +	struct drm_color_lut *lut;
-> +	int i;
-> +	u32 val_even, val_odd;
-> +
-> +	memset(gc_lut, 0, sizeof(struct dpu_hw_gc_lut));
-> +
-> +	lut = (struct drm_color_lut *)state->gamma_lut->data;
-> +
-> +	if (!lut)
-> +		return;
-> +
-> +	/* Pack 1024 10-bit entries in 512 32-bit registers */
-> +	for (i = 0; i < PGC_TBL_LEN; i++) {
-> +		val_even = drm_color_lut_extract(lut[i * 2].green, 10);
-> +		val_odd = drm_color_lut_extract(lut[i * 2 + 1].green, 10);
-> +		gc_lut->c0[i] = val_even | (val_odd << 16);
-> +		val_even = drm_color_lut_extract(lut[i * 2].blue, 10);
-> +		val_odd = drm_color_lut_extract(lut[i * 2 + 1].blue, 10);
-> +		gc_lut->c1[i] = val_even | (val_odd << 16);
-> +		val_even = drm_color_lut_extract(lut[i * 2].red, 10);
-> +		val_odd = drm_color_lut_extract(lut[i * 2 + 1].red, 10);
-> +		gc_lut->c2[i] = val_even | (val_odd << 16);
-> +	}
-> +
-> +	/* Disable 8-bit rounding mode */
-> +	gc_lut->flags = 0;
-> +}
-> +
->  static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+On 15/10/2025 06:57, Kumari Pallavi wrote:
+>  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
 >  {
->  	struct drm_crtc_state *state = crtc->state;
->  	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->  	struct dpu_crtc_mixer *mixer = cstate->mixers;
->  	struct dpu_hw_pcc_cfg cfg;
-> +	struct dpu_hw_gc_lut *gc_lut;
->  	struct dpu_hw_ctl *ctl;
->  	struct dpu_hw_dspp *dspp;
->  	int i;
-> @@ -830,19 +862,40 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
->  		ctl = mixer[i].lm_ctl;
->  		dspp = mixer[i].hw_dspp;
->  
-> -		if (!dspp || !dspp->ops.setup_pcc)
-> +		if (!dspp)
->  			continue;
->  
-> -		if (!state->ctm) {
-> -			dspp->ops.setup_pcc(dspp, NULL);
-> -		} else {
-> -			_dpu_crtc_get_pcc_coeff(state, &cfg);
-> -			dspp->ops.setup_pcc(dspp, &cfg);
-> +		if (dspp->ops.setup_pcc) {
-> +			if (!state->ctm) {
-> +				dspp->ops.setup_pcc(dspp, NULL);
-> +			} else {
-> +				_dpu_crtc_get_pcc_coeff(state, &cfg);
-> +				dspp->ops.setup_pcc(dspp, &cfg);
-> +			}
+>  	struct device *rdev = &rpdev->dev;
+> @@ -2291,6 +2319,22 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	const char *domain;
+>  	bool secure_dsp;
+>  	unsigned int vmids[FASTRPC_MAX_VMIDS];
+> +	struct device_node *root;
+> +	const struct of_device_id *match;
+> +	const struct fastrpc_soc_data *soc_data = NULL;
 > +
-> +			/* stage config flush mask */
-> +			ctl->ops.update_pending_flush_dspp(ctl,
-> +				mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
->  		}
->  
-> -		/* stage config flush mask */
-> -		ctl->ops.update_pending_flush_dspp(ctl,
-> -			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
-> +		if (dspp->ops.setup_gc) {
-> +			if (!state->gamma_lut) {
-> +				dspp->ops.setup_gc(dspp, NULL);
-> +			} else {
-> +				gc_lut = kzalloc(sizeof(*gc_lut), GFP_KERNEL);
-> +				if (!gc_lut) {
-> +					DRM_ERROR("failed to allocate gc_lut\n");
-> +					continue;
-> +				}
-> +				_dpu_crtc_get_gc_lut(state, gc_lut);
-> +				dspp->ops.setup_gc(dspp, gc_lut);
-> +				kfree(gc_lut);
-> +			}
+> +	root = of_find_node_by_path("/");
+> +	if (!root)
+> +		return -ENODEV;
 > +
-> +			/* stage config flush mask */
-> +			ctl->ops.update_pending_flush_dspp(ctl,
-> +				mixer[i].hw_dspp->idx, DPU_DSPP_GC);
-> +		}
->  	}
->  }
->  
-> @@ -1340,7 +1393,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
->  	 *
->  	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
->  	 *
-> -	 * Add dspps to the reservation requirements if ctm is requested
-> +	 * Add dspps to the reservation requirements if ctm or gamma_lut are requested
->  	 *
->  	 * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
->  	 * enabled. This is because in cases where CWB is enabled, num_intf will
-> @@ -1359,7 +1412,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
->  	else
->  		topology.num_lm = 1;
->  
-> -	if (crtc_state->ctm)
-> +	if (crtc_state->ctm || crtc_state->gamma_lut)
->  		topology.num_dspp = topology.num_lm;
->  
->  	return topology;
-> @@ -1471,7 +1524,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
->  
->  	/* don't reallocate resources if only ACTIVE has beeen changed */
-> -	if (crtc_state->mode_changed || crtc_state->connectors_changed) {
-> +	if (crtc_state->mode_changed || crtc_state->connectors_changed ||
-> +		crtc_state->color_mgmt_changed) {
->  		rc = dpu_crtc_assign_resources(crtc, crtc_state);
->  		if (rc < 0)
->  			return rc;
-> @@ -1831,8 +1885,16 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->  
->  	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
->  
-> -	if (dpu_kms->catalog->dspp_count)
-> -		drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-> +	if (dpu_kms->catalog->dspp_count) {
-> +		const struct dpu_dspp_cfg *dspp = &dpu_kms->catalog->dspp[0];
-> +
-> +		if (dspp->sblk->gc.base) {
-> +			drm_mode_crtc_set_gamma_size(crtc, DPU_GAMMA_LUT_SIZE);
-> +			drm_crtc_enable_color_mgmt(crtc, 0, true, DPU_GAMMA_LUT_SIZE);
-> +		} else {
-> +			drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-> +		}
-> +	}
->  
->  	/* save user friendly CRTC name for later */
->  	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 6641455c4ec6..8a4b9fc3ac84 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -382,11 +382,15 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
->  static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
->  	.pcc = {.name = "pcc", .base = 0x1700,
->  		.len = 0x90, .version = 0x10007},
-> +	.gc = {.name = "gc", .base = 0x17c0,
-> +		.len = 0x90, .version = 0x10007},
->  };
->  
->  static const struct dpu_dspp_sub_blks sdm845_dspp_sblk = {
->  	.pcc = {.name = "pcc", .base = 0x1700,
->  		.len = 0x90, .version = 0x40000},
-> +	.gc = {.name = "gc", .base = 0x17c0,
-> +		.len = 0x90, .version = 0x40000},
->  };
->  
->  static const struct dpu_dspp_sub_blks sm8750_dspp_sblk = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index f0768f54e9b3..3ea67c1cf5c0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -77,9 +77,11 @@ enum {
->  /**
->   * DSPP sub-blocks
->   * @DPU_DSPP_PCC             Panel color correction block
-> + * @DPU_DSPP_GC              Gamma correction block
->   */
->  enum {
->  	DPU_DSPP_PCC = 0x1,
-> +	DPU_DSPP_GC,
->  	DPU_DSPP_MAX
->  };
->  
-> @@ -314,9 +316,11 @@ struct dpu_lm_sub_blks {
->  /**
->   * struct dpu_dspp_sub_blks: Information of DSPP block
->   * @pcc: pixel color correction block
-> + * @gc: gamma correction block
->   */
->  struct dpu_dspp_sub_blks {
->  	struct dpu_pp_blk pcc;
-> +	struct dpu_pp_blk gc;
->  };
->  
->  struct dpu_pingpong_sub_blks {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index ac834db2e4c1..36a497f1d6c1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -399,6 +399,9 @@ static void dpu_hw_ctl_update_pending_flush_dspp_sub_blocks(
->  	case DPU_DSPP_PCC:
->  		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(4);
->  		break;
-> +	case DPU_DSPP_GC:
-> +		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(5);
-> +		break;
->  	default:
->  		return;
->  	}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> index 54b20faa0b69..7bf572379890 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> @@ -24,6 +24,18 @@
->  #define PCC_BLUE_G_OFF 0x24
->  #define PCC_BLUE_B_OFF 0x30
->  
-> +/* DSPP_GC */
-> +#define GC_EN BIT(0)
-> +#define GC_DIS 0
-> +#define GC_8B_ROUND_EN BIT(1)
-> +#define GC_LUT_SWAP_OFF 0x1c
-> +#define GC_C0_OFF 0x4
-> +#define GC_C1_OFF 0xC
-> +#define GC_C2_OFF 0x14
-> +#define GC_C0_INDEX_OFF 0x8
-> +#define GC_C1_INDEX_OFF 0x10
-> +#define GC_C2_INDEX_OFF 0x18
-> +
->  static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
->  		struct dpu_hw_pcc_cfg *cfg)
->  {
-> @@ -63,6 +75,48 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
->  	DPU_REG_WRITE(&ctx->hw, base, PCC_EN);
->  }
->  
-> +static void dpu_setup_dspp_gc(struct dpu_hw_dspp *ctx,
-> +		struct dpu_hw_gc_lut *gc_lut)
-> +{
-> +	int i = 0;
-> +	u32 base, reg;
-> +
-> +	if (!ctx) {
-> +		DRM_ERROR("invalid ctx %pK\n", ctx);
-> +		return;
-> +	}
-> +
-> +	base = ctx->cap->sblk->gc.base;
-> +
-> +	if (!base) {
-> +		DRM_ERROR("invalid ctx %pK gc base 0x%x\n", ctx, base);
-> +		return;
-> +	}
-> +
-> +	if (!gc_lut) {
-> +		DRM_DEBUG_DRIVER("disable gc feature\n");
-> +		DPU_REG_WRITE(&ctx->hw, base, GC_DIS);
-> +		return;
-> +	}
-> +
-> +	reg = 0;
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_C0_INDEX_OFF, reg);
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_C1_INDEX_OFF, reg);
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_C2_INDEX_OFF, reg);
-> +
-> +	for (i = 0; i < PGC_TBL_LEN; i++) {
-> +		DPU_REG_WRITE(&ctx->hw, base + GC_C0_OFF, gc_lut->c0[i]);
-> +		DPU_REG_WRITE(&ctx->hw, base + GC_C1_OFF, gc_lut->c1[i]);
-> +		DPU_REG_WRITE(&ctx->hw, base + GC_C2_OFF, gc_lut->c2[i]);
-> +	}
-> +
-> +	reg = BIT(0);
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_LUT_SWAP_OFF, reg);
-> +
-> +	reg = GC_EN | ((gc_lut->flags & PGC_8B_ROUND) ? GC_8B_ROUND_EN : 0);
-> +	DPU_REG_WRITE(&ctx->hw, base, reg);
-> +}
-> +
->  /**
->   * dpu_hw_dspp_init() - Initializes the DSPP hw driver object.
->   * should be called once before accessing every DSPP.
-> @@ -92,6 +146,8 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
->  	c->cap = cfg;
->  	if (c->cap->sblk->pcc.base)
->  		c->ops.setup_pcc = dpu_setup_dspp_pcc;
-> +	if (c->cap->sblk->gc.base)
-> +		c->ops.setup_gc = dpu_setup_dspp_gc;
->  
->  	return c;
->  }
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> index 45c26cd49fa3..d608f84e9434 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> @@ -33,6 +33,25 @@ struct dpu_hw_pcc_cfg {
->  	struct dpu_hw_pcc_coeff b;
->  };
->  
-> +#define DPU_GAMMA_LUT_SIZE 1024
-> +#define PGC_TBL_LEN 512
-> +#define PGC_8B_ROUND (1 << 0)
-> +
-> +/**
-> + * struct dpu_hw_gc_lut - gc lut feature structure
-> + * @flags: flags for the feature values can be:
-> + *         - PGC_8B_ROUND
-> + * @c0: color0 component lut
-> + * @c1: color1 component lut
-> + * @c2: color2 component lut
-> + */
-> +struct dpu_hw_gc_lut {
-> +	__u64 flags;
-> +	__u32 c0[PGC_TBL_LEN];
-> +	__u32 c1[PGC_TBL_LEN];
-> +	__u32 c2[PGC_TBL_LEN];
-> +};
-> +
->  /**
->   * struct dpu_hw_dspp_ops - interface to the dspp hardware driver functions
->   * Caller must call the init function to get the dspp context for each dspp
-> @@ -46,6 +65,13 @@ struct dpu_hw_dspp_ops {
->  	 */
->  	void (*setup_pcc)(struct dpu_hw_dspp *ctx, struct dpu_hw_pcc_cfg *cfg);
->  
-> +	/**
-> +	 * setup_gc - setup dspp gc
-> +	 * @ctx: Pointer to dspp context
-> +	 * @gc_lut: Pointer to lut content
-> +	 */
-> +	void (*setup_gc)(struct dpu_hw_dspp *ctx, struct dpu_hw_gc_lut *gc_lut);
-> +
->  };
->  
->  /**
-> 
-> ---
-> base-commit: 2433b84761658ef123ae683508bc461b07c5b0f0
-> change-id: 20251017-dpu-add-dspp-gc-driver-c5d1c08be770
+> +	match = of_match_node(qcom_soc_match_table, root);
 
-Tested-by: Guido Günther <agx@sigxcpu.org> # on sdm845-shift-axolotl
+This is really odd way of doing things. You want to check machine, not
+some node. Use proper API for that.
 
-> 
-> Best regards,
-> -- 
-> Federico Amedeo Izzo <federico@izzo.pro>
-> 
-> 
+OTOH, I don't understand why you are checking machine in the first
+place. If your device is different, then please follow writing bindings
+- it explains exactly this case here.
+
+> +	of_node_put(root);
+> +	if (!match || !match->data) {
+> +		 soc_data = &default_soc_data;
+> +		 dev_dbg(rdev, "no compatible SoC found at root node\n");
+> +	} else {
+> +		 soc_data = match->data;
+> +	}
+>  
+
+
+Best regards,
+Krzysztof
