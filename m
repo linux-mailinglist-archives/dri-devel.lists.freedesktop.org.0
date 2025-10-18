@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696DFBECFC1
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 14:46:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACBBBECFD0
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 14:49:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30C310E1E4;
-	Sat, 18 Oct 2025 12:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09A2B10E1E5;
+	Sat, 18 Oct 2025 12:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EAVdIMSC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QPg4OU6x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2578E10E1E4
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 12:46:53 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-426ed6f4db5so2189207f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 05:46:53 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9B810E1E5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 12:49:30 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-46e6a689bd0so27453835e9.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 05:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760791611; x=1761396411; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760791769; x=1761396569; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=IwINcystRjoGvSWPk32ya6bCmX4nJsdTWZ/ZarypZXM=;
- b=EAVdIMSCrLBOTX3rPykAddgALLwTc89k70mFOz0qU6ORLkUWLTtV7WvXvjeZs+wSnM
- 8b8xs4ki28ncu8ENlmpI4azDV5ZMx/xDFCvPDkfI9MwYOBytxgcBwlPgFXYyYp2ca9Rg
- +TlIQRhgwOfmw/TrwyFvDyVU+pqDKmKnP9Ev+0gmQ3Z1Jpmz5fLYsD/MZjmXgNrbOcqx
- Qjrkya9DlwKgO1IGgnER5kGRSaaWOW3i0odiZo72/yukxQmdaqKoJM4E/3fHFwpOdXTA
- t+QpHkeyfxYFKySpGvKBRo+MCm6MnL0lZr3Vi3IiFOksaBiVXq3I5vX6zDf120fIxjyi
- OkYQ==
+ bh=BVsHNru5NLHi/zbAVLbblzv/GOgnRaHcf6YnsrPJO/0=;
+ b=QPg4OU6xwecXzoQzR6dubxSKWO6QI8j4SnoBa5P7HZjlvnuEY45v1i6G3x/kTUWDLu
+ deQNd7UztDvP/X5qUZrKjaNEYqIl9SZfPFEpNF99c/483zJETGokMhOKa5e+91mOcKQk
+ caou9x6TuuGSaU5XWaC3dvMkWLRHVRLYAQdAFSLIn0z9D+ctevF7VQYWTMuTyfZWYylf
+ +QsQdfYbF2wtKLhFhsXgGDSoXYaWMd1II+WRx/dvztj5UwqtLhUr8olBr4J8RzokPW3Q
+ jPI4vIcJo/emylyIEkywt1lumRBaAry9zVr7rn5MPBhwN4Rb2ZFQpgNZOlWIhkZu41hT
+ 3oNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760791611; x=1761396411;
+ d=1e100.net; s=20230601; t=1760791769; x=1761396569;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IwINcystRjoGvSWPk32ya6bCmX4nJsdTWZ/ZarypZXM=;
- b=hoJKi6nDYoTsH9vuZPWCa+36zMOTl6LJ9brbehPx3xFYp2FUuvSfIbAuZiLuzhDbq+
- qQoJfdkr7yNfF2cSu44vfZOcjICWlajEcm2t4m/IBGBVapkgTlevwAn7sjmjg3nwdtDl
- V4Rknq70JRzdlUqiWvcVHiC5fgX5aFzCqT/rWFTmRx/8OurFKGfSmB/R1SvnnlZjKhY7
- /k367SO9/OeTVkYZlm//PjBkG+NWRVfsnOb0gop4PJh2kgwmmQSC6cRVAviHbC4hp6A0
- 84j7SZmhUiK8k/6wfJEdPSguvhsRqg7+oMvhS4gqjcx+0FJvAywfCXAnwn+8MXNrEk/d
- D6Bg==
+ bh=BVsHNru5NLHi/zbAVLbblzv/GOgnRaHcf6YnsrPJO/0=;
+ b=ujxy11+2jApAovBmTxjN3QalQw+t4DGoJfAuStUiWlwGQsu4FxLXwXBvOjdTLA9n/g
+ EHt2oc7ULTOMrmAS5MBkTwA0pRlTS1/wNdtCsgdYvQnQAwufm52DJcn3rIgkQ1Eqn+H0
+ GfFFhYJENMlHc9T6BZAe1qoeV/I9LayI2+r91/YZbpdytd/ojd4uWFji9Ls6bIXyjJJe
+ 0K+ja+x9V3izQexjUFmKVxJrZLU7GlM2MPArR24h45dfDnlgzFrlxTvUwvVlut6VSecO
+ 1AtcNkS8GHQqH033RFbTWufJ/rzLzxfMfVke2pc1M8SV2/9S+mi+AkbsrDPyncf8XvZ3
+ ORbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV475Wn6LMkXAWJ39N360hb6BFqSXg/9ynAnAcgC3A7+AMKOAFUJ0JUbA7BJR+gENrDGh66FCpUYII=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHU7KhvdTfVhPY8PQWDbuLtgjYArtH6HhY4s2W4CZ5d3yULnQF
- kk6Naa5SxLkXn25uZ2y3yKicouuEFFW1mBxsmt3CRQMsWMqlk2LhFLUF
-X-Gm-Gg: ASbGncuBnU60ROYnobsgZWdiSkuciI/T/eaLyrEUQouQsyUdgQ2ElJQu7hlU2gj6yjh
- DyPWnQwh8uxwaCZtetbdDZjs3fM13hA5zALT3k60Uyj85fgU0QvYs+C6yDB88d8Di5KehqHgzqa
- 8RSkqJXouzubeHKZNF2I/DZ4Rz4HLmwmmkXltB/WZpsr+OLY2FxSvqy/sY+e7ZeX7IVNraQ8M2/
- fiGObMadzNU8gw5tSBNSP+lGSNOByc7/xEcUmHgZFrbCzrhbzT/kY5J+ook8392Wb2E6CFUHtwS
- AjyjZtGsVBlSc99gOCLFpRW0OiyxjVfydk3p9AT4mx/ED64pcOuHMLWPdniHF3tSyFYmFHtM49O
- p/p4ytjqsrdEN80yEvfqGcdzTdDz8TnieXCx5TyCYtqvoYOnZEUCkBFKJ0+pAiYg/U3jYSj7tVj
- ovJMunddREBRimFXxhzLIJ6r6qb9pD0XaVIK1FpItMfpGZ9I0Dgh0QQyjKQ1c=
-X-Google-Smtp-Source: AGHT+IF5RJYLSmA+oH07tnmvmsNyWmRsGcHhrDvL8wpjhULq8NfGc4GpnDL/KGS4NnlMtDmLKBwXmw==
-X-Received: by 2002:a05:6000:4586:b0:425:6fb5:2add with SMTP id
- ffacd0b85a97d-426fb7bba0dmr5569895f8f.19.1760791611546; 
- Sat, 18 Oct 2025 05:46:51 -0700 (PDT)
+ AJvYcCWX2N0dWMeS8Pzcv4wNjAOrIBpQaKsMn/1E5yUJabQRmL/ioYqhFwj/TcSaSqXWe6NSxjxBLLnxfO4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzS88FiicwzAcAEv/LfBzRdtqFzCDfrnyAna6shGDHirfh1q2Kl
+ xIjm0XoMPP6gmWcjXnohfnNc7PKJ/FwMM3T+pl6GyS87DbOTLInPArqf
+X-Gm-Gg: ASbGncuJJfpAS3Guc02FFYGyGtNKZDwSP5CmYVYCpCxhQhPOLugI1xpbTG/BYot/GWE
+ dmM35w9i/jfgmCj1qNPZwwV4g/guirdB5D9KzszZrfJocEM9/j3rEytXoE/DVr0g+cd5g3r54ZX
+ OXWC5PP2lR9cgKnhh98F8kaaga7ZzFLoz5CkR+ImeljhLm0Ll+OrjUdRYlo677F6AiNPq7j0Gfn
+ qY+pkXhPqzJ0geKPGai3kuL0ZMEeB9jRlKwDiiqz0eGUPPomhlGEOXlC9+TOSiSAkeuZGB/aYLe
+ SoCpYnNxJ376yOB0C+r+AzJ3kbfm5NRl5mcV7bPhfDRx7eL8WKxPXOBh0SISLqx9Q9gTJFvSuuO
+ Fk0qUhjlbVyZjql/ADXL/+MkGmZvE3+licSWNgGzx4hc4K1vZ3zeEgJALTsfuQHG2xxqnLVZo3H
+ ULlYYspMVZl09/UdJUe0Jhv7CrQdXq4dDdnrn/1GY2Jj54GnJqaiBQN5YGgAk=
+X-Google-Smtp-Source: AGHT+IHLLrG5j4m2n4PoPbuVmHZ69tvqUkFHujUfl3v7biPGdGGV8XmptNv3G0R/8+E6s3OfCTAULQ==
+X-Received: by 2002:a05:600c:5026:b0:470:bcc4:b07c with SMTP id
+ 5b1f17b1804b1-47117925d38mr58012555e9.37.1760791768501; 
+ Sat, 18 Oct 2025 05:49:28 -0700 (PDT)
 Received: from ?IPV6:2001:861:3385:e20:2acd:89a8:83d9:4be5?
  ([2001:861:3385:e20:2acd:89a8:83d9:4be5])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-427f00b9f71sm4781988f8f.37.2025.10.18.05.46.50
+ 5b1f17b1804b1-4710ca4931csm75020945e9.0.2025.10.18.05.49.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Oct 2025 05:46:51 -0700 (PDT)
-Message-ID: <a822d284-f2a2-40f8-987a-6e2f70a22fcf@gmail.com>
-Date: Sat, 18 Oct 2025 14:46:50 +0200
+ Sat, 18 Oct 2025 05:49:28 -0700 (PDT)
+Message-ID: <f3904ae1-bf1b-455f-b5ba-5d625b76222f@gmail.com>
+Date: Sat, 18 Oct 2025 14:49:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/bridge: add warning for bridges attached without
- being added
+Subject: Re: [PATCH 0/4] drm/bridge: enforce drm_bridge_add() before
+ drm_bridge_attach()
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Alain Volmat <alain.volmat@foss.st.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -83,10 +83,9 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-0-92fb40d27704@bootlin.com>
- <20251003-b4-drm-bridge-alloc-add-before-attach-v1-4-92fb40d27704@bootlin.com>
 Content-Language: en-US, fr
 From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
-In-Reply-To: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-4-92fb40d27704@bootlin.com>
+In-Reply-To: <20251003-b4-drm-bridge-alloc-add-before-attach-v1-0-92fb40d27704@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,23 +106,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 03/10/2025 à 10:59, Luca Ceresoli a écrit :
-> DRM bridges must be added before they are attached. Add a warning to catch
-> violations.
+> This small series enforces that DRM bridges must be added before they are
+> attached as discussed in [1].
 > 
-> The warning is based on the bridge not being part of any list, so it will
-> trigger if the bridge is being attached without ever having been added.
+> This is part of the work towards removal of bridges from a still existing
+> DRM pipeline without use-after-free. The grand plan was discussed in [0].
+> Here's the work breakdown (➜ marks the current series):
 > 
-> It won't catch cases of bridges attached after having been added and then
-> removed, because in that case the bridge will be in
-> bridge_lingering_list. However such a case is both more demanding to detect
-> and less likely to happen, so it can be left unchecked, at least for now.
+>   1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+>      (based on devm_drm_bridge_alloc() [0])
+>      A. ✔ add new alloc API and refcounting (v6.16)
+>      B. ✔ convert all bridge drivers to new API (v6.17)
+>      C. ✔ kunit tests (v6.17)
+>      D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+>           and warn on old allocation pattern (v6.17)
+>      E. ➜ add get/put on drm_bridge accessors
+>         1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
+>              (drm-misc-next)
+>         2. ✔ drm_bridge_get_prev_bridge() (drm-misc-next)
+>         3. ✔ drm_bridge_get_next_bridge() (drm-misc-next)
+>         4. ✔ drm_for_each_bridge_in_chain() (drm-misc-next)
+>         5. ✔ drm_bridge_connector_init (drm-misc-next)
+>         6. … protect encoder bridge chain with a mutex
+>         7. of_drm_find_bridge
+>         8. drm_of_find_panel_or_bridge, *_of_get_bridge
+>         9. ➜ enforce drm_bridge_add before drm_bridge_attach
+>      F. ✔ debugfs improvements
+>         1. ✔ add top-level 'bridges' file (v6.16)
+>         2. ✔ show refcount and list removed bridges (drm-misc-next)
+>   2. … handle gracefully atomic updates during bridge removal
+>   3. … DSI host-device driver interaction
+>   4. ✔ removing the need for the "always-disconnected" connector
+>   5. finish the hotplug bridge work, moving code to the core and potentially
+>      removing the hotplug-bridge itself (this needs to be clarified as
+>      points 1-3 are developed)
 > 
-> Link: https://lore.kernel.org/all/20250709-sophisticated-loon-of-rain-6ccdd8@houat/
+> Series layout:
+>   - patches 1-2: add missing drm_bridge_add() to the 2 drivers known for not
+>                  calling it
+>   - patch 3: document that drm_bridge_add() is required before attach
+>   - patch 4: add a warning in drm_bridge_attach() is drm_bridge_add() was
+>              not called
+> 
+> The added warning might reveal more non-compliant drivers, in that case
+> they will be fixed as they are found.
+> 
+> [0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+> [1] https://lore.kernel.org/all/20250709-sophisticated-loon-of-rain-6ccdd8@houat/
+> 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > ---
+> Luca Ceresoli (4):
+>        drm/sti: hda: add bridge before attaching
+>        drm/sti: hdmi: add bridge before attaching
+>        drm/bridge: document that adding a bridge is mandatory before attach
+>        drm/bridge: add warning for bridges attached without being added
+> 
+>   drivers/gpu/drm/drm_bridge.c   | 6 ++++++
+>   drivers/gpu/drm/sti/sti_hda.c  | 5 +++++
+>   drivers/gpu/drm/sti/sti_hdmi.c | 2 ++
+>   3 files changed, 13 insertions(+)
+> ---
+> base-commit: 0f2efbe6d8305b91c9b2c92ebaf8c24a614bc305
+> change-id: 20251003-b4-drm-bridge-alloc-add-before-attach-ef312c0b8a8c
+> 
 
-Reviewed-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+If drm-misc maintainers agree I can merge the whole series.
 
-Best regards,
-Raphaël>
+Regards,
+Raphaël> Best regards,
 
