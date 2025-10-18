@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A15BEC43E
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 04:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C32BEC445
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 04:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8686610E1E1;
-	Sat, 18 Oct 2025 02:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723E810E317;
+	Sat, 18 Oct 2025 02:02:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MG8XqxBb";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kmKPl6GO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A15AC10E1E1
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 02:02:07 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E5F210E2B8
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 02:02:10 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 8E6444E4115A;
- Sat, 18 Oct 2025 02:02:06 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 1288C1A14AB;
+ Sat, 18 Oct 2025 02:02:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 62B3960701;
- Sat, 18 Oct 2025 02:02:06 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id DCF4A60701;
+ Sat, 18 Oct 2025 02:02:08 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 18902102F2374; 
- Sat, 18 Oct 2025 04:02:02 +0200 (CEST)
+ with ESMTPSA id EA8A8102F236C; 
+ Sat, 18 Oct 2025 04:02:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1760752925; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1760752927; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=mUC/vEkoGcXyZ75OJMbMdVS3GQepVe8NXgqtCKnbu8s=;
- b=MG8XqxBbhtzHtKE3Rbi7qq92o7l6lKRDN39PwNMFxjRFESoMQCz/GOwFG4qv19c7P+IwHA
- XkWTJnC8noJ3S0A1E/bodsAjDj86Dmf9NQMnvchss2eSyuRWTK82mPgtWcy7ZDaShYI91V
- MYJ66O/RWQf2rJHCOWH2EwYRAhJVv12rU6mrSn+ltWBkzSfs3Kn3fb+gqj0MmxURzBc84z
- u1etgs0UmQETn6oJbh9QfNWAS4REcKi39vgw0SSloJr0huj50o9BnbwByb62f3T2iPOTCb
- KJi4fMM02ZJ8J5IkrJNtK2uNkhP6+4vVCkHqK+XeqDoFRSFMtmR4Mkz0e4mUmw==
+ bh=pJyOUxsJdvV2xhwBg531OEd5ACjsjyJphAUTsaQMRVg=;
+ b=kmKPl6GO27HANwd9eQD3Eg9BzNVt86qcxYZUItjYx09hqZLcKX+xNrOMbsRff1awt3rQAj
+ xbtUL+sJP3+wCEpcQma9M3I/pXoNe/koRbqXyyCfIa5Zz4CDvXgJ5FjdUj7gQOzOgEuqjM
+ JvFJd0jmgwqg8MXLZU7KvivJekcc4bS7Oska+wUZ57eUvsdkcG1It9Lcxh5hHcVZ4zPaeB
+ AjTZiluRVP8zM1YBQQk1g01Ou9xru8T5YaQZe/y9wRmCeW/1R47Xx50KbVaTplK9V3slG1
+ fDw4Iahv3QWCphM6ACUbf3EnMrlPUG0AH2cBjN7bX5a7pQrOGZgc/DyfFm2Bfg==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Sat, 18 Oct 2025 04:01:08 +0200
-Subject: [PATCH 08/22] drm/vkms: Introduce configfs for plane color range
+Date: Sat, 18 Oct 2025 04:01:09 +0200
+Subject: [PATCH 09/22] drm/vkms: Introduce config for plane format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-vkms-all-config-v1-8-a7760755d92d@bootlin.com>
+Message-Id: <20251018-vkms-all-config-v1-9-a7760755d92d@bootlin.com>
 References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
 In-Reply-To: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -53,21 +53,21 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5887;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8463;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=/b9xPd8YaiacLRDm2YN6LLTzKy1Exvm8U/k97YcQ6S4=;
- b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBo8vT9Q5gxuxkfUXK1xhgoVTs0uZ/MGBCv8tX0c
- La3ktFmyiOJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaPL0/QAKCRAgrS7GWxAs
- 4gVxD/9clV2LbSo3hSWwXpfE0TS9smFi5xG4lS7M/QE9lwhC7YW8vy+T3PMJvZIS1QB67u2eSl2
- KcIzxdqN3qPl25/Fz+5eVy2HApKpEF3LoO4gnbeAO6j6gAWAWT0aXkVhDdhFivhyz/1880iFKnR
- CHavexbpc3lW9gGV6ag2zOFPcDLUzy/8nYeLh202t4DuFv/dYJCLoadZvxCsC9s1bGjVeiA+sos
- ggO0TK5czcfH5oCfy18NgwFwygV8FNLXSGboPqZHbLSoup8VjfN8vytcUxvJf5yck3V08BxSbO2
- Qhafposo9X2PecE0FKwgsBihC33UeplYyFbEUhRoHw25Tn/h9GSD3s4LWcQl4oUEl8sLEvMXwrf
- jgEsorWE+9MGMuS4iJBHHbDUX4WxxLdYBLOyebk34rssS1l4UjaM9vLzknwCbQx2Wvl4+gNBTyz
- VF0Qd5UB4v4AnZyCPR+51PSEHuE8nWURE13AgPWbvMJoVPxn+drXSMEciTWfNaGhiGh0QZLC5rQ
- yQ0OVKqYK4WGYFJWPcD+C2L03ngpd6Di+bMs2WJe/5A5vQq3piE8zUcFQekMyS6+83Iw85upI5A
- 6rOsd5upPxYCvtDnxuCXp0+54FaL80mhc+SKjRsen28Os4b3CfeCCSycAARNsDrQk1pqTHOCadZ
- p0SZ3ha6w3XdqFA==
+ bh=x5UcdtPSeHv8EtJLCVPWtV+JLqf6qMO+6bUS9mui3fo=;
+ b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBo8vT+7l0GfVXF6pn9pHryMPiulJanIItnFuOE6
+ lyNG7wd2q+JAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaPL0/gAKCRAgrS7GWxAs
+ 4lOXD/41He5uDPKRAmSQvYtlzDvsul4GV+SQ9rEIIuWF9y57MgBa9fIgpSC4+NRs3lg5pWRCI4Y
+ yMy3MDudup45Glz2O4zHGSW+FmtjV8d30Agl/nFTNOVOyh2ZjMV9ltk+vzd3rd9qOt09VDFx11B
+ wITIohPzANtV49prJbIsXmZLPM6tLeoPYXBCWiaFzVwzEyw6Aj74RBDNDzE2hXX1MkYFE+/jvvo
+ /LoTzqTDsxxy+BPKlxsWVFt1kWox0Ot9Irur2xRScH/nlnXP4L9hB/YtHJwxsGlsTKWsTdNtaoY
+ Ufw73BHwXYakyeUM76sGEuWlsAfi518xrxz/8Gy9hmHpERbLLPQv4Q+3C/oqAbfJ6REXcJGiSeV
+ j2zA5vqI0SPmfnYSaopTr+4Hb2p3MmInr68Hk1Vm5BFgjUVX5s8ACVQLkB/gVQ/n6NfV4QhsmtE
+ XvgDTDzkKfpgKdHmB+j3iQ2YXM5c62FO8aAkbxpr/q0V4QTUoHi5lEvV/xuL+C94DRx1y9J4Kdi
+ TfqsENWNKhFfFAWw9LhQBsbxoBs9th6UQy7dm3Bg+nlgfPw5YsNR2L1dXfXgVMcEkHy6UvyRwmH
+ xteXj3gpA8b4Y09hHtRlcRi6vYV7pIh+vwMNcjGVKlDubBu5v7jIs6pYEmCOjzpFwNPiHNBtOtU
+ 76Rli0mhCJfhOfg==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
@@ -86,164 +86,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To allows the userspace to test many hardware configuration, introduce a
-new interface to configure the available color ranges per planes. VKMS
-supports multiple color ranges, so the userspace can choose any
-combination.
-
-The supported color ranges are configured by writing a color range bitmask
-to the file `supported_color_ranges` and the default color range is
-chosen by writing a color encoding bitmask to `default_color_range`.
+VKMS driver supports all the pixel formats for planes, but for testing it
+can be useful to only advertise few of them. This new configuration
+interface will allow configuring the pixel format per planes.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/gpu/vkms.rst           |  7 ++-
- drivers/gpu/drm/vkms/vkms_configfs.c | 93 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 99 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_config.c | 99 ++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_config.h | 49 +++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c  | 39 +--------------
+ 3 files changed, 150 insertions(+), 37 deletions(-)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 4ff75b53a386..979f8a545498 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -87,7 +87,7 @@ Start by creating one or more planes::
+diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+index 8f00ca21ed6e..0b975a0d47aa 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.c
++++ b/drivers/gpu/drm/vkms/vkms_config.c
+@@ -8,6 +8,42 @@
  
-   sudo mkdir /config/vkms/my-vkms/planes/plane0
+ #include "vkms_config.h"
  
--Planes have 5 configurable attribute:
-+Planes have 7 configurable attribute:
++static const u32 vkms_supported_plane_formats[] = {
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_RGBA8888,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_BGR888,
++	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_XBGR16161616,
++	DRM_FORMAT_ARGB16161616,
++	DRM_FORMAT_ABGR16161616,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_BGR565,
++	DRM_FORMAT_NV12,
++	DRM_FORMAT_NV16,
++	DRM_FORMAT_NV24,
++	DRM_FORMAT_NV21,
++	DRM_FORMAT_NV61,
++	DRM_FORMAT_NV42,
++	DRM_FORMAT_YUV420,
++	DRM_FORMAT_YUV422,
++	DRM_FORMAT_YUV444,
++	DRM_FORMAT_YVU420,
++	DRM_FORMAT_YVU422,
++	DRM_FORMAT_YVU444,
++	DRM_FORMAT_P010,
++	DRM_FORMAT_P012,
++	DRM_FORMAT_P016,
++	DRM_FORMAT_R1,
++	DRM_FORMAT_R2,
++	DRM_FORMAT_R4,
++	DRM_FORMAT_R8,
++};
++
+ struct vkms_config *vkms_config_create(const char *dev_name)
+ {
+ 	struct vkms_config *config;
+@@ -435,6 +471,11 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
+ 	if (!plane_cfg)
+ 		return ERR_PTR(-ENOMEM);
  
- - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
-   exposed by the "type" property of a plane)
-@@ -101,6 +101,11 @@ Planes have 5 configurable attribute:
-   by the COLOR_ENCODING property of a plane)
- - default_color_encoding: Default color encoding presented to the userspace, same
-   values as supported_color_encoding
-+- supported_color_range: Available color range for a plane, as a bitmask:
-+  0x1 DRM_COLOR_YCBCR_LIMITED_RANGE, 0x2 DRM_COLOR_YCBCR_FULL_RANGE (same values as
-+  those exposed by the COLOR_RANGE property of a plane)
-+- default_color_range: Default color range presented to the userspace, same
-+  values as supported_color_range
- 
- Continue by creating one or more CRTCs::
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index a4e0e054cf2d..0b280c73b0cc 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -412,6 +412,95 @@ static ssize_t plane_default_rotation_store(struct config_item *item,
- 	return count;
++	if (vkms_config_plane_add_all_formats(plane_cfg)) {
++		kfree(plane_cfg);
++		return ERR_PTR(-ENOMEM);
++	}
++
+ 	plane_cfg->config = config;
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
+ 	vkms_config_plane_set_name(plane_cfg, NULL);
+@@ -563,6 +604,64 @@ static struct vkms_config_plane *vkms_config_crtc_get_plane(const struct vkms_co
+ 	return NULL;
  }
  
-+static ssize_t plane_supported_color_range_show(struct config_item *item, char *page)
++int __must_check vkms_config_plane_add_all_formats(struct vkms_config_plane *plane_cfg)
 +{
-+	struct vkms_configfs_plane *plane;
-+	unsigned int supported_color_range;
++	u32 *ret = krealloc_array(plane_cfg->supported_formats,
++				  ARRAY_SIZE(vkms_supported_plane_formats),
++				  sizeof(uint32_t), GFP_KERNEL);
++	if (!ret)
++		return -ENOMEM;
++	plane_cfg->supported_formats = ret;
 +
-+	plane = plane_item_to_vkms_configfs_plane(item);
++	memcpy(plane_cfg->supported_formats, vkms_supported_plane_formats,
++	       sizeof(vkms_supported_plane_formats));
++	plane_cfg->supported_formats_count = ARRAY_SIZE(vkms_supported_plane_formats);
++	return 0;
++}
 +
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		supported_color_range = vkms_config_plane_get_supported_color_range(plane->config);
++int __must_check vkms_config_plane_add_format(struct vkms_config_plane *plane_cfg, u32 drm_format)
++{
++	bool found = false;
++
++	for (int i = 0; i < ARRAY_SIZE(vkms_supported_plane_formats); i++) {
++		if (vkms_supported_plane_formats[i] == drm_format)
++			found = true;
 +	}
 +
-+	return sprintf(page, "%u", supported_color_range);
-+}
-+
-+static ssize_t plane_supported_color_range_store(struct config_item *item,
-+						 const char *page, size_t count)
-+{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	int ret, val = 0;
-+
-+	ret = kstrtouint(page, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
++	if (!found)
 +		return -EINVAL;
-+	/* Should at least provide one color range */
-+	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) == 0)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		/* Ensures that the default rotation is included in supported rotation */
-+		if (plane->dev->enabled ||
-+		    (val & vkms_config_plane_get_default_color_range(plane->config)) !=
-+		     vkms_config_plane_get_default_color_range(plane->config))
-+			return -EINVAL;
-+		vkms_config_plane_set_supported_color_range(plane->config, val);
++	for (unsigned int i = 0; i < plane_cfg->supported_formats_count; i++) {
++		if (plane_cfg->supported_formats[i] == drm_format)
++			return 0;
 +	}
++	u32 *new_ptr = krealloc_array(plane_cfg->supported_formats,
++				      plane_cfg->supported_formats_count + 1,
++				      sizeof(*plane_cfg->supported_formats), GFP_KERNEL);
++	if (!new_ptr)
++		return -ENOMEM;
 +
-+	return count;
++	plane_cfg->supported_formats = new_ptr;
++	plane_cfg->supported_formats[plane_cfg->supported_formats_count] = drm_format;
++	plane_cfg->supported_formats_count++;
++
++	return 0;
 +}
 +
-+static ssize_t plane_default_color_range_show(struct config_item *item, char *page)
++void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plane_cfg)
 +{
-+	struct vkms_configfs_plane *plane;
-+	unsigned int default_color_range;
-+
-+	plane = plane_item_to_vkms_configfs_plane(item);
-+
-+	scoped_guard(mutex, &plane->dev->lock)
-+		default_color_range = vkms_config_plane_get_default_color_range(plane->config);
-+
-+	return sprintf(page, "%u", default_color_range);
++	plane_cfg->supported_formats_count = 0;
 +}
 +
-+static ssize_t plane_default_color_range_store(struct config_item *item,
-+					       const char *page, size_t count)
++void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg, u32 drm_format)
 +{
-+	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
-+	int ret, val = 0;
-+
-+	ret = kstrtouint(page, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Should be a supported value */
-+	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
-+		return -EINVAL;
-+	/* Should at least provide one color range */
-+	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) == 0)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &plane->dev->lock) {
-+		/* Ensures that the default rotation is included in supported rotation */
-+		if (plane->dev->enabled ||
-+		    (val & vkms_config_plane_get_supported_color_range(plane->config)) !=
-+		     val)
-+			return -EINVAL;
-+		vkms_config_plane_set_default_color_range(plane->config, val);
++	for (unsigned int i = 0; i < plane_cfg->supported_formats_count; i++) {
++		if (plane_cfg->supported_formats[i] == drm_format) {
++			plane_cfg->supported_formats[i] = plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
++			plane_cfg->supported_formats_count--;
++		}
 +	}
-+
-+	return count;
 +}
 +
- static ssize_t plane_supported_color_encoding_show(struct config_item *item, char *page)
+ struct vkms_config_plane *vkms_config_crtc_primary_plane(const struct vkms_config *config,
+ 							 struct vkms_config_crtc *crtc_cfg)
  {
- 	struct vkms_configfs_plane *plane;
-@@ -513,6 +602,8 @@ static ssize_t plane_default_color_encoding_store(struct config_item *item,
- CONFIGFS_ATTR(plane_, type);
- CONFIGFS_ATTR(plane_, supported_rotations);
- CONFIGFS_ATTR(plane_, default_rotation);
-+CONFIGFS_ATTR(plane_, supported_color_range);
-+CONFIGFS_ATTR(plane_, default_color_range);
- CONFIGFS_ATTR(plane_, supported_color_encoding);
- CONFIGFS_ATTR(plane_, default_color_encoding);
+diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+index 8127e12f00dc..0b7067508e5f 100644
+--- a/drivers/gpu/drm/vkms/vkms_config.h
++++ b/drivers/gpu/drm/vkms/vkms_config.h
+@@ -62,6 +62,8 @@ struct vkms_config_plane {
+ 	unsigned int supported_color_encoding;
+ 	enum drm_color_range default_color_range;
+ 	unsigned int supported_color_range;
++	u32 *supported_formats;
++	unsigned int supported_formats_count;
+ 	struct xarray possible_crtcs;
  
-@@ -520,6 +611,8 @@ static struct configfs_attribute *plane_item_attrs[] = {
- 	&plane_attr_type,
- 	&plane_attr_supported_rotations,
- 	&plane_attr_default_rotation,
-+	&plane_attr_supported_color_range,
-+	&plane_attr_default_color_range,
- 	&plane_attr_supported_color_encoding,
- 	&plane_attr_default_color_encoding,
- 	NULL,
+ 	/* Internal usage */
+@@ -404,6 +406,53 @@ vkms_config_plane_set_supported_color_range(struct vkms_config_plane *plane_cfg,
+ 	plane_cfg->supported_color_range = supported_color_range;
+ }
+ 
++static inline u32 *
++vkms_config_plane_get_supported_formats(struct vkms_config_plane *plane_cfg)
++{
++	return plane_cfg->supported_formats;
++}
++
++static inline unsigned int
++vkms_config_plane_get_supported_formats_count(struct vkms_config_plane *plane_cfg)
++{
++	return plane_cfg->supported_formats_count;
++}
++
++/** vkms_config_plane_add_format - Add a format to the list of supported format of a plane
++ *
++ * The passed drm_format can already be present in the list. This may fail if the allocation of a
++ * bigger array fails.
++ *
++ * @plane_cfg: Plane to add the format to
++ * @drm_format: Format to add to this plane
++ *
++ * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if the format is not supported
++ * by VKMS
++ */
++int __must_check vkms_config_plane_add_format(struct vkms_config_plane *plane_cfg, u32 drm_format);
++
++/**
++ * vkms_config_plane_add_all_formats - Helper to quickly add all the supported formats
++ * @plane_cfg: Plane to add the formats to
++ *
++ * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if the format is not supported
++ * by VKMS
++ */
++int __must_check vkms_config_plane_add_all_formats(struct vkms_config_plane *plane_cfg);
++
++/**
++ * vkms_config_plane_remove_format - Remove a specific format from a plane
++ * @plane_cfg: Plane to remove the format to
++ * @drm_format: Format to remove
++ */
++void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg, u32 drm_format);
++
++/**
++ * vkms_config_plane_remove_all_formats - Remove all formast from a plane
++ * @plane_cfg: Plane to remove the formats from
++ */
++void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plane_cfg);
++
+ /**
+  * vkms_config_plane_set_name() - Set the plane name
+  * @plane_cfg: Plane to set the name to
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index ab719da2ca0b..0414865915d8 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -14,42 +14,6 @@
+ #include "vkms_formats.h"
+ #include "vkms_config.h"
+ 
+-static const u32 vkms_formats[] = {
+-	DRM_FORMAT_ARGB8888,
+-	DRM_FORMAT_ABGR8888,
+-	DRM_FORMAT_BGRA8888,
+-	DRM_FORMAT_RGBA8888,
+-	DRM_FORMAT_XRGB8888,
+-	DRM_FORMAT_XBGR8888,
+-	DRM_FORMAT_RGB888,
+-	DRM_FORMAT_BGR888,
+-	DRM_FORMAT_XRGB16161616,
+-	DRM_FORMAT_XBGR16161616,
+-	DRM_FORMAT_ARGB16161616,
+-	DRM_FORMAT_ABGR16161616,
+-	DRM_FORMAT_RGB565,
+-	DRM_FORMAT_BGR565,
+-	DRM_FORMAT_NV12,
+-	DRM_FORMAT_NV16,
+-	DRM_FORMAT_NV24,
+-	DRM_FORMAT_NV21,
+-	DRM_FORMAT_NV61,
+-	DRM_FORMAT_NV42,
+-	DRM_FORMAT_YUV420,
+-	DRM_FORMAT_YUV422,
+-	DRM_FORMAT_YUV444,
+-	DRM_FORMAT_YVU420,
+-	DRM_FORMAT_YVU422,
+-	DRM_FORMAT_YVU444,
+-	DRM_FORMAT_P010,
+-	DRM_FORMAT_P012,
+-	DRM_FORMAT_P016,
+-	DRM_FORMAT_R1,
+-	DRM_FORMAT_R2,
+-	DRM_FORMAT_R4,
+-	DRM_FORMAT_R8,
+-};
+-
+ static struct drm_plane_state *
+ vkms_plane_duplicate_state(struct drm_plane *plane)
+ {
+@@ -226,7 +190,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 
+ 	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
+ 					   &vkms_plane_funcs,
+-					   vkms_formats, ARRAY_SIZE(vkms_formats),
++					   vkms_config_plane_get_supported_formats(config),
++					   vkms_config_plane_get_supported_formats_count(config),
+ 					   NULL, vkms_config_plane_get_type(config),
+ 					   vkms_config_plane_get_name(config));
+ 	if (IS_ERR(plane))
 
 -- 
 2.51.0
