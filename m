@@ -2,94 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F135BED19B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 16:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6596BED29F
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 17:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A7210E063;
-	Sat, 18 Oct 2025 14:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED2389E3F;
+	Sat, 18 Oct 2025 15:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="UB1um/PY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xx4SEYAI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A48A110E063
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 14:32:39 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-781da6c1a37so34272457b3.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 07:32:39 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 224E489C83
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 15:33:25 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-58affa66f2bso3583248e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 08:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1760797959;
- x=1761402759; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u33yGeffbuYdlvlzL4H50ccSYsAIsX3t6iP87kPjVYE=;
- b=UB1um/PY28UFZ6nAnbTNtCOxbBPZzBLv7Q2doaok/f6Fv/850ac5Xj2b13plkVvPE7
- vQkbTSP9ofwFejPRTpf71+JiidB0POisqVM3SkQD15KjDvFSwYrRb+LKXzV1fEk7Cwbg
- s0wi3ljqvW6uiIn2h9N5g/IC2ZnV7ADS4T1izS1T1e52KxND8g+ersLGBoqzWHhk+Jr5
- efyaaml7CEkQ830LZ52k8aVDoelMomW2OUejAcTd+GKRtFA8TYRRkqIwQ8uW27Jyr3t0
- CljY+NG12P8NOqURxDTsZa7as/si/UKlHubOeMLk0908oFqyNwtGmt0pi8V4dEeQ+7X6
- 1KKg==
+ d=gmail.com; s=20230601; t=1760801603; x=1761406403; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=JI8wqflBoJeSVeIoguEa5qYxvXUp8LZtN2UpxTSv8wU=;
+ b=Xx4SEYAIPA5+8eHc+uPdLXmNA4jdno+aU/ETe1FidnqyACRPMmiJB5Dc8PaEHVYkt8
+ G3XBwv1a0RKBZYqTdrCBjJak8YzwWkd5KMYMGRiZ9Sq9fPa/+BpwXcLB5uRbf3UbTBGy
+ TNVirNgywMeCJfDSBYlloJpErjqHlGmLacxMbnqI2zXKximu0DHff5NuCjzsznz0jvoe
+ T91WlNAXS6CPYYir3L/PfweR16m69BYHJAdh4QTVT7i/6C8EOZiIO+sjFLnCkXaOuN92
+ gefbnktCr84J3U0bBzTa7XP1uNPeJNipEiMjmdh/qwnLW1kvltS3X82GSFe+2duEEQfy
+ b7Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760797959; x=1761402759;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1760801603; x=1761406403;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=u33yGeffbuYdlvlzL4H50ccSYsAIsX3t6iP87kPjVYE=;
- b=CxjY/2pO7TepnlamMPFTKXpanv4I5c2bZcshT1ukN4CW/p1BAzPMY8pCOun1kRsi/z
- fiZqnMEpLsMmmTLceIxBArXoSARH6qlAj/0Y7sulATQU88ql+mmHaGdvzS1m7yjf0kpC
- R2HGMXvwkP3eYTBe+CHxLQkouZf4y7+Ra8QZ32DDMcfU9LfJV8LXAWpLdpnShtaIFCRI
- gM/i3Z0I4zndx6B8f6bl3TNQ+tOChs4qKmIbwNqA2Hv9/+YFcwIj5HJKbdUS79QncmpZ
- ADu3QXHamjyLJWyaMDgd2CINxilpOR7Qm6lr6/75XqR7W9Y9cbUl0cmCpJ02TLME9CKl
- nHKw==
+ bh=JI8wqflBoJeSVeIoguEa5qYxvXUp8LZtN2UpxTSv8wU=;
+ b=OD9o7+rGNH38SnIQUUrWI1Jj8dFxH/JOEYVf7ok6gf/ouR3x0c2tmC/Kr4jCWukTyM
+ 87/pK5yubkOlIyjayWNdjlXubzX4A2fNnS5Bb8loOE9I0CNfkkVz/0bwgzIqAePLcZWP
+ gzy3j40b7D5rsfH06KCK4T1YoVVlH19Jg62kDO9R4zGU04KSTb+yKHAW2tWYhku7Z54A
+ yy83twSBW9gNNm0/BvkUF5q/fdVoRmVTbeH9w0JgoOBhV1VUZtWTWNSlnedjbRZVnDhg
+ LCr2vcJ9h21BpTa19nJXb6XxN2On5TTIcfbBssbbLa4f4OogWFjaj7CI9cuVk38hDNbv
+ 3EaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXSCt8YSqQ3n/NddSJFoZAi8zfsoz3JtdVCHCUDkT0uZ2Q2Wrg+4Mj6eVfo+vDHDap1Ev4eqZWwkgU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw06/Es7WZmNMOSHqUtTk+5sx4fQVofbBMSZGU94OhroCkPpC98
- cck4HWufSVylkPkTEP1cku40Ad7PLGvvtgp8KJi6KifYIkFNf/eWi1K+2zAGotPt1fxW2zbzSDd
- qThi3OV4=
-X-Gm-Gg: ASbGnctgUGCUWRekvJ8qjh5AfSpuKFcriJP2VBkIkmqNjFN9v+DPP4NPL/JH5f958oH
- z2h6PdvP8vAzoYceWo3WWVZPoYeusGH43wRBTQlETNFYUTrebwpIqHmiPmFRifXSU1qaxvl+lxJ
- ePvDufLGeQImHgcNEziU/i3bSBfzuRIcyM1J1rJXfC5sXINmIZ/xwkdV8F8O2FxvPRiqAdRJZOY
- yKHVPReEbGgzdGg2isu/YrzgFWxZpUeVHw7fz5YBjfzLwRWdhq3Cq852PdIrIahLzEW/DHkzMlT
- prwLCwnOhs8pn9amEHaS9B6rehmBKyQFILsIqx2p3OQ9NA6d6UFgvcdmCG/eFEWCV/1493YrAnu
- sao/14QfV2XOB6ykBGrb7kxt6ZgfvmjMTNIw1eOaPgUobJd/LfZJ7a+dPB9YC+YpEDx6DyB9+eS
- Iw1xs/yRmzV+8+5LNMphhhjEebVurmQSD/LUC16nxxBPLnWBYw9z9abQ==
-X-Google-Smtp-Source: AGHT+IHqpxJpvJHbMmBMjpm5MDymeGNElbA8P7g6HliUamCufRZUtpQf0+68jFzTiy9B5HcTvsjj2w==
-X-Received: by 2002:a05:690c:6891:b0:781:64f:2b33 with SMTP id
- 00721157ae682-7836d396a66mr66199277b3.69.1760797958956; 
- Sat, 18 Oct 2025 07:32:38 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
- [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-784674d3e57sm7057047b3.34.2025.10.18.07.32.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Oct 2025 07:32:37 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-784826b775aso5042487b3.2
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 07:32:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtvCv/GI+Fk+SldqELtyekO2kueoqBaW1Mc2IqYBl6f7W6UzNMGae/guaGVO7V5a1rzgOziPglM1o=@lists.freedesktop.org
-X-Received: by 2002:a05:690e:1401:b0:63e:2001:96e0 with SMTP id
- 956f58d0204a3-63e20019897mr4605587d50.32.1760797957548; Sat, 18 Oct 2025
- 07:32:37 -0700 (PDT)
+ AJvYcCXRf70TF7T6KBqWgfljGjoMI8EtsIL0yj6TINA4s/iylmK+ZP9Wll0PQRBq3DnTDPR/OdvyB4/PZgM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3cdR0hqYH6+Duc35m8nq+7qFvR/lhWpQ+aNzJO73ypNc68pEV
+ D/pAZpH4K7lMuK9SwTfutbkvtOhEIOOcHz/dzzICXaGZFIjIOMCQJzTm
+X-Gm-Gg: ASbGnctj38wF8KdhgnHJmAsgLjdHVTv794roq9xJTq352k3mT+O7eK3IiexVexh4OF8
+ gsWTAs3X213CZ2aR6B0Deg7H9+0gptjcRUtHfK6Ap6fOR+TYrhIqKMWlBtbx/fGXEScCxztVv42
+ 3915dNuEp7wn4+5myzG57IuOx3PmiSyygZirqo73SM1g2/VOp8xqzkbUt8rAitSxHXgMcK+nnu2
+ mECQJqbjLsInMeslZwyFoO5wncL3dfr/bgK9KXKFPYdbBFQ+EZ/ncLoRiq1wSlbm2Z7/mb7gPZD
+ bG2bOCtmJrFr9MFqF3UnAitZIll/UMLbxg3gJxW9x+ygjotn7ZoIWXq2eX0WbJnylmsZaL7OqgT
+ c1pqI3lIiUu2nlxGDJbngXTwspcK6WskSDhyWzpoUZHCoTZO5Nilyg8Wc7nsl/zMwnckZs7OIGY
+ y2hgA8GIEauBEkA9wBGb3VeKIJTdc9pmJafTuMGbG0WR2qegwbXjSX/hcXiNAwUGiN
+X-Google-Smtp-Source: AGHT+IHNJGLhJHT1HKOGPxf4DSdDJIV4Mlmc7c1/MsjKbF5l/T+nMmFrzXfeEG2XR7zYb9PwANEW8w==
+X-Received: by 2002:a05:6512:1154:b0:591:c379:69d0 with SMTP id
+ 2adb3069b0e04-591d850d2e6mr2429125e87.5.1760801602965; 
+ Sat, 18 Oct 2025 08:33:22 -0700 (PDT)
+Received: from localhost (public-nat-13.vpngate.v4.open.ad.jp.
+ [219.100.37.245]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-591def272d0sm836014e87.108.2025.10.18.08.33.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Oct 2025 08:33:22 -0700 (PDT)
+From: Vladimir Lypak <vladimir.lypak@gmail.com>
+Date: Sat, 18 Oct 2025 14:33:43 +0000
+Subject: [PATCH 6/6] drm/msm/dpu: Disable broken YUV on QSEED2 hardware
 MIME-Version: 1.0
-References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
- <20251017133644.44747-16-tvrtko.ursulin@igalia.com>
-In-Reply-To: <20251017133644.44747-16-tvrtko.ursulin@igalia.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sat, 18 Oct 2025 16:32:26 +0200
-X-Gmail-Original-Message-ID: <CAAObsKDY1zs9R2HwnO6ESP7585rEzhBiTQr8eZFDtTCsbcQx4A@mail.gmail.com>
-X-Gm-Features: AS18NWCAB_kOwXa5sb329LHfQOFfSyknwHwT7YO9iNYjXbmCM8gGwoS9osAfhMw
-Message-ID: <CAAObsKDY1zs9R2HwnO6ESP7585rEzhBiTQr8eZFDtTCsbcQx4A@mail.gmail.com>
-Subject: Re: [PATCH v2 15/27] accel/rocket: Remove drm_sched_init_args->num_rqs
- usage
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- kernel-dev@igalia.com, Oded Gabbay <ogabbay@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251018-b4-dpu-fixes-v1-6-1852278064d0@gmail.com>
+References: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
+In-Reply-To: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Kalyan Thota <quic_kalyant@quicinc.com>, 
+ Vinod Polimera <quic_vpolimer@quicinc.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Vladimir Lypak <vladimir.lypak@gmail.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,38 +101,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 17, 2025 at 3:36=E2=80=AFPM Tvrtko Ursulin
-<tvrtko.ursulin@igalia.com> wrote:
->
-> Remove member no longer used by the scheduler core.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> ---
->  drivers/accel/rocket/rocket_job.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/roc=
-ket_job.c
-> index acd606160dc9..6ff81cff81af 100644
-> --- a/drivers/accel/rocket/rocket_job.c
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -437,7 +437,6 @@ int rocket_job_init(struct rocket_core *core)
->  {
->         struct drm_sched_init_args args =3D {
->                 .ops =3D &rocket_sched_ops,
-> -               .num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
->                 .credit_limit =3D 1,
->                 .timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
->                 .name =3D dev_name(core->dev),
-> --
-> 2.48.0
+YUV formats on this hardware needs scaling for chroma planes. However it
+is not implemented for QSEED2 which breaks display pipeline if YUV format
+is used (causing partial and corrupted output with PPDONE timeouts).
+This patch temporarily disables YUV by switching affected sub-block to
+RGB only format list.
 
-Thanks, Tvrtko.
+Fixes: daf9a92daeb8 ("drm/msm/dpu: Add support for MSM8996")
+Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 6641455c4ec6a2d082644f1488ea5f5605ccc208..9f8d1bba9139a7e09ee321cf1b6f30f96890918f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -267,8 +267,8 @@ static const u32 wb2_formats_rgb_yuv[] = {
+ 		.base = 0x200, .len = 0xa0,}, \
+ 	.csc_blk = {.name = "csc", \
+ 		.base = 0x320, .len = 0x100,}, \
+-	.format_list = plane_formats_yuv, \
+-	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
++	.format_list = plane_formats, \
++	.num_formats = ARRAY_SIZE(plane_formats), \
+ 	.rotation_cfg = NULL, \
+ 	}
+ 
 
-Regards,
+-- 
+2.51.0
 
-Tomeu
