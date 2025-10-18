@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415ECBED517
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2A2BED523
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:25:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0E710E035;
-	Sat, 18 Oct 2025 17:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 708A210E11F;
+	Sat, 18 Oct 2025 17:25:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XSYF+3Uu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ipRY9stZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D7C10E035
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:24:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACCE710E11F
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:25:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C9758604E5;
- Sat, 18 Oct 2025 17:24:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2775DC4CEF8;
- Sat, 18 Oct 2025 17:24:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 2B8736116F;
+ Sat, 18 Oct 2025 17:25:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AABC4CEF8;
+ Sat, 18 Oct 2025 17:25:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760808270;
- bh=KsqONM8Uey1/4uUZWdJNiRLzHIhnk7XWl6ndenefG6w=;
+ s=k20201202; t=1760808317;
+ bh=z4vHxpxpkWuFoCTs1dQ2MdWCCtzI/93rJt9ff62jGQU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=XSYF+3UuVGb5fC+GZqdsaXHIFMw8IoNjc00ILmTEVTlKjL13L9ajPYzyRR7Z/RO6j
- lZtKin5Y35BhdK61OG+Ocopac8tCG63/nsRgNNGMYkWGnueE24MajSbhKFbCrsOdeb
- 1Bq66BBabq647Be3sT1XgKmA20sprHZFfRxMfakzH3sIi7Wd3tzQRwzkSvUrpeTwfg
- 996vz6u9rmuvtL4oyY5TmPrJREOujYPlcrxhmZHvlKWzcWylj6ETyxkKzfyuxgjo8p
- AoNq52J4JnI2LO+qy+fjMCLo1oYze2evLWSRLWyq3JMcgdVEFN8fvWtrJ4v7afTZME
- 733ZpybuREb4Q==
-Message-ID: <14213195-29fa-48d9-8fc4-ccdc9b6f7ecc@kernel.org>
-Date: Sat, 18 Oct 2025 19:24:25 +0200
+ b=ipRY9stZ583DOxdeJHYmLVS8ctRKeDHhDAphCZUlzpjn01CdkQFne0Qbbf9HcNeRv
+ AP+OAd40c92zS2O4xfIh+I3+U8J4THo50nCXwnoDla79iIUHPGicGFSQiTEyj2+22O
+ h3xr/SR/Kwt8xjR3UHi32kmltWYB2PwXAkVsDC+35cKQuE6SKPa1TMAnIkVjjMWwBb
+ SV1CB0MkzvTgEvB7f2rtiY/1n8p0zQSNvjNX3KaqQsYkzNDD7kevaT+PYcbw16GFCE
+ t/M5A1/qSKz9ul18R0HDTq3DkJZrTY+rxAHOhoKxoVCFiAsTepX6DKPUrD9P+YiFoe
+ Pb+JeyUto8KDg==
+Message-ID: <911ae16a-1cfb-4efb-a19b-3094f2db4ceb@kernel.org>
+Date: Sat, 18 Oct 2025 19:25:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/3] misc: fastrpc: Add support for new DSP IOVA
  formatting
 To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
- kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org
+ Srinivas Kandagatla <srini@kernel.org>, kpallavi@qti.qualcomm.com,
+ amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org
 Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
  linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
  dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -46,6 +46,8 @@ Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
  ktadakam@qti.qualcomm.com
 References: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
  <20251015045702.3022060-3-kumari.pallavi@oss.qualcomm.com>
+ <75433294-4c47-4f4f-9de2-ee29af01f021@kernel.org>
+ <9e59d1dc-5805-4cd2-9a65-f3f0f45526d0@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251015045702.3022060-3-kumari.pallavi@oss.qualcomm.com>
+In-Reply-To: <9e59d1dc-5805-4cd2-9a65-f3f0f45526d0@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,40 +111,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/10/2025 06:57, Kumari Pallavi wrote:
->  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  {
->  	struct device *rdev = &rpdev->dev;
-> @@ -2291,6 +2319,22 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	const char *domain;
->  	bool secure_dsp;
->  	unsigned int vmids[FASTRPC_MAX_VMIDS];
-> +	struct device_node *root;
-> +	const struct of_device_id *match;
-> +	const struct fastrpc_soc_data *soc_data = NULL;
-> +
-> +	root = of_find_node_by_path("/");
-> +	if (!root)
-> +		return -ENODEV;
-> +
-> +	match = of_match_node(qcom_soc_match_table, root);
-
-This is really odd way of doing things. You want to check machine, not
-some node. Use proper API for that.
-
-OTOH, I don't understand why you are checking machine in the first
-place. If your device is different, then please follow writing bindings
-- it explains exactly this case here.
-
-> +	of_node_put(root);
-> +	if (!match || !match->data) {
-> +		 soc_data = &default_soc_data;
-> +		 dev_dbg(rdev, "no compatible SoC found at root node\n");
-> +	} else {
-> +		 soc_data = match->data;
-> +	}
->  
-
+On 15/10/2025 12:47, Kumari Pallavi wrote:
+>>   /**
+>>    * of_machine_is_compatible - Test root of device tree for a given
+>> compatible value
+>>
+>> ------------------------>cut<-----------------
+>>
+> 
+> Ack.
+No. Read carefully other comments.
 
 Best regards,
 Krzysztof
