@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2A2BED523
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8150BED547
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:28:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708A210E11F;
-	Sat, 18 Oct 2025 17:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C38E10E08D;
+	Sat, 18 Oct 2025 17:28:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ipRY9stZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XLMRLUsT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACCE710E11F
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:25:18 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7369A10E08D
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:28:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2B8736116F;
- Sat, 18 Oct 2025 17:25:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AABC4CEF8;
- Sat, 18 Oct 2025 17:25:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 17EB141936;
+ Sat, 18 Oct 2025 17:28:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC80C4CEF8;
+ Sat, 18 Oct 2025 17:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760808317;
- bh=z4vHxpxpkWuFoCTs1dQ2MdWCCtzI/93rJt9ff62jGQU=;
+ s=k20201202; t=1760808499;
+ bh=nkpL8KCY8Mv4kdqNPyJVilkHUZSdiEwxv2jGzWqeGx4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ipRY9stZ583DOxdeJHYmLVS8ctRKeDHhDAphCZUlzpjn01CdkQFne0Qbbf9HcNeRv
- AP+OAd40c92zS2O4xfIh+I3+U8J4THo50nCXwnoDla79iIUHPGicGFSQiTEyj2+22O
- h3xr/SR/Kwt8xjR3UHi32kmltWYB2PwXAkVsDC+35cKQuE6SKPa1TMAnIkVjjMWwBb
- SV1CB0MkzvTgEvB7f2rtiY/1n8p0zQSNvjNX3KaqQsYkzNDD7kevaT+PYcbw16GFCE
- t/M5A1/qSKz9ul18R0HDTq3DkJZrTY+rxAHOhoKxoVCFiAsTepX6DKPUrD9P+YiFoe
- Pb+JeyUto8KDg==
-Message-ID: <911ae16a-1cfb-4efb-a19b-3094f2db4ceb@kernel.org>
-Date: Sat, 18 Oct 2025 19:25:12 +0200
+ b=XLMRLUsTZ25haHEOiq3fj+rwzViXij4qUl4GZuEHvA2ZRIcLI6AUIhbA3QmBZP73B
+ skj9XCWXM7Dd77iUR/QVlzM2Mo0x0LeUdsBDComWdt3NBg5Fxmh4MLeV36j7CQKNVL
+ m3mMKH22qvXKelhmdPh75q8T2uB8g1eFfSDaN9ZaXpwJT3EJd/U4Tnh9IgGOD+8+3A
+ oeU83mRJ7T1dRjc0+Al0yRFHI5FqiWThJmlshgwZmkLGq30KhgdL/zJCaxV2VU+Dwn
+ TlxOe+PmWediUZbxK7+WRWQd7e3Ldp0mttozai6MfnO1hBArlQj3ZgNOcHiLUDpHjI
+ DHwoXbsXbCHqQ==
+Message-ID: <a77ee843-4c7f-4c7b-820d-2d9486887b7e@kernel.org>
+Date: Sat, 18 Oct 2025 19:28:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: Add support for new DSP IOVA
- formatting
-To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, kpallavi@qti.qualcomm.com,
- amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- ktadakam@qti.qualcomm.com
-References: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
- <20251015045702.3022060-3-kumari.pallavi@oss.qualcomm.com>
- <75433294-4c47-4f4f-9de2-ee29af01f021@kernel.org>
- <9e59d1dc-5805-4cd2-9a65-f3f0f45526d0@oss.qualcomm.com>
+Subject: Re: [PATCH 2/2] arm64: defconfig: Enable ILITEK ILI21X & ILI25X
+ family of touch sensors
+To: Swamil Jain <s-jain1@ti.com>, nm@ti.com, tomi.valkeinen@ideasonboard.com, 
+ robh@kernel.org, jyri.sarha@iki.fi, aradhya.bhatia@linux.dev,
+ airlied@gmail.com, conor+dt@kernel.org, h-shenoy@ti.com, kristo@kernel.org,
+ krzk+dt@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ simona@ffwll.ch, tzimmermann@suse.de
+Cc: devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251017115325.1942591-1-s-jain1@ti.com>
+ <20251017115325.1942591-3-s-jain1@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <9e59d1dc-5805-4cd2-9a65-f3f0f45526d0@oss.qualcomm.com>
+In-Reply-To: <20251017115325.1942591-3-s-jain1@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,16 +109,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/10/2025 12:47, Kumari Pallavi wrote:
->>   /**
->>    * of_machine_is_compatible - Test root of device tree for a given
->> compatible value
->>
->> ------------------------>cut<-----------------
->>
+On 17/10/2025 13:53, Swamil Jain wrote:
+> Microtips Technology USA's LVDS Panel MF-101HIEBCAF0[1] uses
+> ILITEK 2511 capacitative touch sensor to provide touch features on the
+> display. This panel is used with TI's AM62-SK EVMs.
 > 
-> Ack.
-No. Read carefully other comments.
+> Enable ILITEK ILI21X touch sensors.
+> 
+> [1]: https://www.ti.com/tool/SK-LCD1
+> 
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
