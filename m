@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0459DBED8E8
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CCCBED8F2
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37B9D10E1DA;
-	Sat, 18 Oct 2025 19:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D116F10E1E2;
+	Sat, 18 Oct 2025 19:17:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qKx+V4mv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C0fdIGiX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C6910E1DA
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:17:27 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A3A10E1DD
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:17:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3A59941A41;
+ by tor.source.kernel.org (Postfix) with ESMTP id 8CE9D611AD;
+ Sat, 18 Oct 2025 19:17:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 579C5C16AAE;
  Sat, 18 Oct 2025 19:17:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1540BC113D0;
- Sat, 18 Oct 2025 19:17:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760815047;
- bh=pXxOJ/NLtDaH83zqjND6FIXR4v5/73dcrcdTYNg4j1U=;
+ s=k20201202; t=1760815052;
+ bh=9juD2re7DWE7O8nJl0lrYDN5UrR09N9/s9yGrWP5DGM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=qKx+V4mv9A2FXm2lcL0ZwJREuJkNpo5CrrE5zYCtt8J59hof8FvxjFiBPiISRXkb8
- qMcRcDAq2hn7fn8dkS9czsTsfSh45A8jdDA4hpUBuntJ3i3Jstul/b5hsQry3+NfGf
- nizE6lz3lUlmxgH8WeAnfQc73fqqZbWdW1Nkats2rSAwGMLZg6/QoTDM+IJJ3SLBJY
- ZnLty0z+wRwO11TIFOC0J+pKnTpGZlw9o2MLX02Rjjuiq7uEcE6JqrXK2pGJpQDyET
- jIuMJYTexD5od0WpD2vEnnzVNRRnwdPImG/Gp8LGq2Vkt/Cm0wrf/JilJblg6q0BLw
- iqZAkiAJFP1SQ==
+ b=C0fdIGiXnl6qIebTUwvFtbcdka1UB0QhIJqAtbfttoSdLgL9kiMoku2+sDGUCNSGd
+ sBkqKEY8XgQApQ9L4TqGvWsTLRHGByG8ZgCZMcmMa63MBuZwYuv3cNw+WuwEYELWzB
+ d44278S08gcsJnhADbPK868vAN+WbeDvfqEzAYxnXGYI5KaiIeOwoN3L0SgRVRmkfx
+ X7H3Sk2YlCpU1WE1jen0VkGoPvvbHQ29NuWn5I9izcWMDPB9h38QzE9+UY8X0SHNTc
+ ND5byOs3qIZEaYXGqCbYghVlrUsPmm6LEGWClQCYlvL5CWl5fNe+iimuEelLbUIUFg
+ iMMLIdf3UrCug==
 From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 18 Oct 2025 15:16:31 -0400
-Subject: [RESEND PATCH v18 10/16] rust: opp: use `CStr::as_char_ptr`
+Date: Sat, 18 Oct 2025 15:16:32 -0400
+Subject: [RESEND PATCH v18 11/16] rust: opp: fix broken rustdoc link
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-cstr-core-v18-10-9378a54385f8@gmail.com>
+Message-Id: <20251018-cstr-core-v18-11-9378a54385f8@gmail.com>
 References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 In-Reply-To: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -74,13 +74,13 @@ Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
  llvm@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=1431;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=760;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=W0kd+lIKrES9E6f3i/NvYS4ZToF7HAzoNGFG8gcpmao=;
+ bh=tThvb3NWkM3msr/ABoCM1JnbhTAqdV/nFrTXflsMRkU=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QEaKoEKQMRH8v0Qk2meRSTqql6NHJPYZKph+ocMbSdhqrmQbq3JnhhyFgPsXl5Vy80wy+DRjezA
- 6ZmzYy/GqBgI=
+ QPqF/mm9xNU7+TBmT1XlcmtJzse6LYSkUbnpcCK4weGSJVuR/nhZk/QSMwFd0BfjfApI5KXNqgQ
+ 3X4sYkgg0KAc=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,44 +100,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tamir Duberstein <tamird@gmail.com>
 
-Replace the use of `as_ptr` which works through `<CStr as
-Deref<Target=&[u8]>::deref()` in preparation for replacing
-`kernel::str::CStr` with `core::ffi::CStr` as the latter does not
-implement `Deref<Target=&[u8]>`.
+Correct the spelling of "CString" to make the link work.
 
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/opp.rs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ rust/kernel/opp.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rust/kernel/opp.rs b/rust/kernel/opp.rs
-index 2c763fa9276d..9d6c58178a6f 100644
+index 9d6c58178a6f..523a333553bd 100644
 --- a/rust/kernel/opp.rs
 +++ b/rust/kernel/opp.rs
-@@ -13,7 +13,7 @@
-     cpumask::{Cpumask, CpumaskVar},
-     device::Device,
-     error::{code::*, from_err_ptr, from_result, to_result, Result, VTABLE_DEFAULT_ERROR},
--    ffi::c_ulong,
-+    ffi::{c_char, c_ulong},
-     prelude::*,
-     str::CString,
-     sync::aref::{ARef, AlwaysRefCounted},
-@@ -88,12 +88,12 @@ fn drop(&mut self) {
+@@ -87,7 +87,7 @@ fn drop(&mut self) {
+ 
  use macros::vtable;
  
- /// Creates a null-terminated slice of pointers to [`Cstring`]s.
--fn to_c_str_array(names: &[CString]) -> Result<KVec<*const u8>> {
-+fn to_c_str_array(names: &[CString]) -> Result<KVec<*const c_char>> {
+-/// Creates a null-terminated slice of pointers to [`Cstring`]s.
++/// Creates a null-terminated slice of pointers to [`CString`]s.
+ fn to_c_str_array(names: &[CString]) -> Result<KVec<*const c_char>> {
      // Allocated a null-terminated vector of pointers.
      let mut list = KVec::with_capacity(names.len() + 1, GFP_KERNEL)?;
- 
-     for name in names.iter() {
--        list.push(name.as_ptr().cast(), GFP_KERNEL)?;
-+        list.push(name.as_char_ptr(), GFP_KERNEL)?;
-     }
- 
-     list.push(ptr::null(), GFP_KERNEL)?;
 
 -- 
 2.51.1
